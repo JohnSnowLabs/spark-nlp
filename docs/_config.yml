@@ -36,10 +36,10 @@ timezone: # see https://en.wikipedia.org/wiki/List_of_tz_database_time_zones for
 ##############################
 author:
   type      : # "person" (default), "organization"
-  name      : 
+  name      :
   url       :
   avatar    : # path or url of avatar image (square)
-  bio       : 
+  bio       :
   email     :
   facebook  : # "user_name" the last part of your profile url, e.g. https://www.facebook.com/user_name
   twitter   : # "user_name" the last part of your profile url, e.g. https://twitter.com/user_name
@@ -85,14 +85,14 @@ toc:
 ## => Markdown Enhancements
 ##############################
 ## Mathjax
-mathjax: true # false (default), true
-mathjax_autoNumber: true # false (default), true
+mathjax: false # false (default), true
+mathjax_autoNumber: false # false (default), true
 
 ## Mermaid
-mermaid: true # false (default), true
+mermaid: false # false (default), true
 
 ## Chart
-chart: true # false (default), true
+chart: false # false (default), true
 
 
 ## => Paginate
@@ -157,7 +157,7 @@ pageview:
     app_class : # LeanCloud App class
 
 
-## => Search 
+## => Search
 ##############################
 search:
   provider: false # "default" (default), false, "google", "custom"
@@ -206,11 +206,11 @@ defaults:
   ## docs
   - scope:
       path: "en"
-    values:    
+    values:
       layout: article
       nav_key: docs
       aside:
-        toc: true  
+        toc: true
       license: false
       demomenu: false
       show_edit_on_github: true
@@ -218,7 +218,7 @@ defaults:
       header:
         theme: light
         background: "#ecf0f1"
-      # lightbox: true    
+      # lightbox: true
 ## => Plugins
 ##############################
 plugins:

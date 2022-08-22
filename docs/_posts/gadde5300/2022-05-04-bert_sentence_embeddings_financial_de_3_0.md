@@ -1,6 +1,6 @@
 ---
 layout: model
-title: German Financial Sentence Embeddings (Bert)
+title: German Financial Bert Sentence Embeddings
 author: John Snow Labs
 name: bert_sentence_embeddings_financial
 date: 2022-05-04
@@ -10,6 +10,7 @@ language: de
 edition: Spark NLP 3.4.2
 spark_version: 3.0
 supported: true
+recommended: true
 article_header:
   type: cover
 use_language_switcher: "Python-Scala-Java"
@@ -17,7 +18,7 @@ use_language_switcher: "Python-Scala-Java"
 
 ## Description
 
-Financial Pretrained BERT Embeddings model, uploaded to Hugging Face, adapted and imported into Spark NLP. `fabianrausch/german-financial-statements-bert` is a German model orginally trained by `fabianrausch`.
+Financial Pretrained BERT Embeddings model, uploaded to Hugging Face, adapted and imported into Spark NLP. `german-financial-statements-bert` is a German model orginally trained by `fabianrausch`.
 
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>

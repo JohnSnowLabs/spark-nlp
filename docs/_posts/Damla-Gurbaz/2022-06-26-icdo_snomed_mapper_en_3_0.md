@@ -11,7 +11,7 @@ edition: Spark NLP for Healthcare 3.5.3
 spark_version: 3.0
 supported: true
 article_header:
-  type: cover
+type: cover
 use_language_switcher: "Python-Scala-Java"
 ---
 
@@ -37,33 +37,33 @@ This pretrained model maps ICDO codes to corresponding SNOMED codes.
 
 ```python
 documentAssembler = DocumentAssembler()\
-      .setInputCol("text")\
-      .setOutputCol("ner_chunk")
+.setInputCol("text")\
+.setOutputCol("ner_chunk")
 
 sbert_embedder = BertSentenceEmbeddings\
-     .pretrained("sbiobert_base_cased_mli", "en", "clinical/models")\
-     .setInputCols(["ner_chunk"])\
-     .setOutputCol("sbert_embeddings")
- 
+.pretrained("sbiobert_base_cased_mli", "en", "clinical/models")\
+.setInputCols(["ner_chunk"])\
+.setOutputCol("sbert_embeddings")
+
 icdo_resolver = SentenceEntityResolverModel\
-     .pretrained("sbiobertresolve_icdo_augmented", "en", "clinical/models")\
-     .setInputCols(["ner_chunk", "sbert_embeddings"]) \
-     .setOutputCol("icdo_code")\
-     .setDistanceFunction("EUCLIDEAN")
+.pretrained("sbiobertresolve_icdo_augmented", "en", "clinical/models")\
+.setInputCols(["ner_chunk", "sbert_embeddings"]) \
+.setOutputCol("icdo_code")\
+.setDistanceFunction("EUCLIDEAN")
 
 chunkerMapper = ChunkMapperModel\
-      .pretrained("icdo_snomed_mapper", "en", "clinical/models")\
-      .setInputCols(["icdo_code"])\
-      .setOutputCol("snomed_mappings")\
-      .setRels(["snomed_code"])
+.pretrained("icdo_snomed_mapper", "en", "clinical/models")\
+.setInputCols(["icdo_code"])\
+.setOutputCol("snomed_mappings")\
+.setRels(["snomed_code"])
 
 
 pipeline = Pipeline(stages = [
-                      documentAssembler,
-                      sbert_embedder,
-                      icdo_resolver,
-                      chunkerMapper
-                      ])
+documentAssembler,
+sbert_embedder,
+icdo_resolver,
+chunkerMapper
+])
 
 model = pipeline.fit(spark.createDataFrame([[""]]).toDF("text"))
 
@@ -73,37 +73,45 @@ result = light_pipeline.fullAnnotate("Hepatocellular Carcinoma")
 ```
 ```scala
 val documentAssembler = new DocumentAssembler()
-       .setInputCol("text")
-       .setOutputCol("ner_chunk")
+.setInputCol("text")
+.setOutputCol("ner_chunk")
 
- val sbert_embedder = BertSentenceEmbeddings
-       .pretrained("sbiobert_base_cased_mli", "en", "clinical/models")
-       .setInputCols("ner_chunk")
-       .setOutputCol("sbert_embeddings")
+val sbert_embedder = BertSentenceEmbeddings
+.pretrained("sbiobert_base_cased_mli", "en", "clinical/models")
+.setInputCols("ner_chunk")
+.setOutputCol("sbert_embeddings")
 
- val icdo_resolver = SentenceEntityResolverModel
-       .pretrained("sbiobertresolve_icdo_augmented", "en", "clinical/models")
-       .setInputCols(Array("ner_chunk", "sbert_embeddings"))
-       .setOutputCol("icdo_code")
-       .setDistanceFunction("EUCLIDEAN")
+val icdo_resolver = SentenceEntityResolverModel
+.pretrained("sbiobertresolve_icdo_augmented", "en", "clinical/models")
+.setInputCols(Array("ner_chunk", "sbert_embeddings"))
+.setOutputCol("icdo_code")
+.setDistanceFunction("EUCLIDEAN")
 
- val chunkerMapper = ChunkMapperModel
-       .pretrained("icdo_snomed_mapper", "en", "clinical/models")
-       .setInputCols("icdo_code")
-       .setOutputCol("snomed_mappings")
-       .setRels(Array("snomed_code"))
+val chunkerMapper = ChunkMapperModel
+.pretrained("icdo_snomed_mapper", "en", "clinical/models")
+.setInputCols("icdo_code")
+.setOutputCol("snomed_mappings")
+.setRels(Array("snomed_code"))
 
- val pipeline = new Pipeline(stages = Array(
-                                documentAssembler,
-                                sbert_embedder,
-                                icdo_resolver,
-                                chunkerMapper
-                                ))
- 
- val data = Seq("Hepatocellular Carcinoma").toDS.toDF("text")
+val pipeline = new Pipeline(stages = Array(
+documentAssembler,
+sbert_embedder,
+icdo_resolver,
+chunkerMapper
+))
 
- val result= pipeline.fit(data).transform(data)
+val data = Seq("Hepatocellular Carcinoma").toDS.toDF("text")
+
+val result= pipeline.fit(data).transform(data)
 ```
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("en.icdo_to_snomed").predict("""Hepatocellular Carcinoma""")
+```
+
 </div>
 
 ## Results

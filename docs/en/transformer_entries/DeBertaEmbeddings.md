@@ -242,7 +242,7 @@ val pipelineModel = pipeline.fit(trainingData)
 {%- endcapture -%}
 
 {%- capture python_api_link -%}
-[DeBertaEmbeddings](https://nlp.johnsnowlabs.com/api/python/reference/autosummary/sparknlp.annotator.DeBertaEmbeddings.html)
+[DeBertaEmbeddings](/api/python/reference/autosummary/sparknlp/annotator/embeddings/deberta_embeddings/index.html#sparknlp.annotator.embeddings.deberta_embeddings.DeBertaEmbeddings)
 {%- endcapture -%}
 
 {%- capture source_link -%}

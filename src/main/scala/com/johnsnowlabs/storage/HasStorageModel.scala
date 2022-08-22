@@ -18,7 +18,7 @@ package com.johnsnowlabs.storage
 
 import org.apache.spark.sql.SparkSession
 
-trait HasStorageModel extends HasStorageReader with HasExcludableStorage {
+trait HasStorageModel extends HasStorageReader with HasStorageOptions {
 
   protected val databases: Array[Database.Name]
 

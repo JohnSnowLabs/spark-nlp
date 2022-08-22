@@ -18,6 +18,8 @@ package com.johnsnowlabs.storage
 
 import com.johnsnowlabs.nlp.util.LruMap
 
+import scala.collection.mutable
+
 trait StorageReader[A] extends HasConnection {
 
   protected val caseSensitiveIndex: Boolean
@@ -58,6 +60,24 @@ trait StorageReader[A] extends HasConnection {
 
   def clear(): Unit = {
     lru.clear()
+  }
+
+  def exportStorageToMap(): Map[BytesKey, Array[Byte]] = {
+
+    val iterator = connection.getDb.newIterator()
+    val data = mutable.Map[BytesKey, Array[Byte]]()
+
+    iterator.seek("".getBytes())
+    while (iterator.isValid) {
+      val currentKey = iterator.key()
+      val currentValue = iterator.value()
+      data(new BytesKey(currentKey)) = currentValue
+      iterator.next()
+    }
+
+    iterator.close()
+
+    data.toMap
   }
 
 }

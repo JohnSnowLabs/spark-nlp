@@ -132,8 +132,7 @@ ner_df = nlu.load('en.ner.nerdl_conll_deberta_large').predict(text, output_level
 ```bash
 Test:
 
-     precision    recall  f1-score   support
-
+       label  precision    recall  f1-score   support
        B-LOC       0.94      0.93      0.93      1668
        I-ORG       0.88      0.94      0.91       835
       I-MISC       0.72      0.74      0.73       216
@@ -142,15 +141,13 @@ Test:
       B-MISC       0.84      0.83      0.83       702
        B-ORG       0.90      0.93      0.91      1661
        B-PER       0.98      0.97      0.97      1617
-
-   micro avg       0.92      0.93      0.93      8112
-weighted avg       0.92      0.93      0.93      8112
+   micro-avg       0.92      0.93      0.93      8112
+weighted-avg       0.92      0.93      0.93      8112
 
 
 Dev:
                                                                                 
-              precision    recall  f1-score   support
-
+       label  precision    recall  f1-score   support
        B-LOC       0.96      0.97      0.97      1837
        I-ORG       0.93      0.95      0.94       751
       I-MISC       0.91      0.82      0.86       346
@@ -159,7 +156,6 @@ Dev:
       B-MISC       0.94      0.89      0.92       922
        B-ORG       0.93      0.95      0.94      1341
        B-PER       0.98      0.99      0.98      1842
-
-   micro avg       0.96      0.96      0.96      8603
-weighted avg       0.96      0.96      0.96      8603
+   micro-avg       0.96      0.96      0.96      8603
+weighted-avg       0.96      0.96      0.96      8603
 ```

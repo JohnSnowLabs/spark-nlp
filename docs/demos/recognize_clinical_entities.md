@@ -38,7 +38,7 @@ data:
               src: /assets/images/Detect_diagnosis_and_procedures.svg
           image2: 
               src: /assets/images/Detect_diagnosis_and_procedures_f.svg
-          excerpt: Automatically identify diagnoses and procedures in clinical documents using the pretrained Spark NLP clinical model <b>ner_clinical.</b>
+          excerpt: Automatically identify diagnoses and procedures in clinical documents using the pretrained Spark NLP clinical models.
           actions:
           - text: Live Demo
             type: normal
@@ -256,4 +256,46 @@ data:
           - text: Colab Netbook
             type: blue_btn
             url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/NER_SUPPLEMENT_CLINICAL.ipynb
+        - title: Detect professions and occupations in Spanish
+          id: detect_professions_occupations_Spanish_texts 
+          image: 
+              src: /assets/images/Classify-documents.svg
+          image2: 
+              src: /assets/images/Classify-documents-w.svg
+          excerpt: Automatically identify professions and occupations entities in Spanish texts using our pretrained Spark NLP for Healthcare model. 
+          actions:
+          - text: Live Demo
+            type: normal
+            url: https://demo.johnsnowlabs.com/healthcare/NER_PROFESSIONS_ES/ 
+          - text: Colab Netbook
+            type: blue_btn
+            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/NER_PROFESSIONS_ES.ipynb
+        - title: Detect mentions of general medical terms (coarse) 
+          id: detect_mentions_general_medical_terms_coarse
+          image: 
+              src: /assets/images/Detect_mentions_of_general_medical_terms.svg
+          image2: 
+              src: /assets/images/Detect_mentions_of_general_medical_terms_f.svg
+          excerpt: Extract general medical terms in text like body parts, cells, genes, symptoms, etc in text.
+          actions:
+          - text: Live Demo
+            type: normal
+            url: https://demo.johnsnowlabs.com/healthcare/NER_MEDMENTIONS_COARSE/
+          - text: Colab Netbook
+            type: blue_btn
+            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/NER_MEDMENTIONS_COARSE.ipynb
+        - title: Detecting Clinical Entities with JSL
+          id: detecting_clinical_entities_jsl
+          image: 
+              src: /assets/images/Detect_Clinical_Entities_with_JSL.svg
+          image2: 
+              src: /assets/images/Detect_Clinical_Entities_with_JSL_f.svg
+          excerpt: Automatically detects more than 77 clinical entities using our NER deep learning model.
+          actions:
+          - text: Live Demo
+            type: normal
+            url: https://demo.johnsnowlabs.com/healthcare/NER_JSL/
+          - text: Colab Netbook
+            type: blue_btn
+            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/NER_JSL.ipynb
 ---

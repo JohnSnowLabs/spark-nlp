@@ -109,7 +109,7 @@ result.select("label.result").show(false)
 {%- endcapture -%}
 
 {%- capture python_api_link -%}
-[XlnetForSequenceClassification](https://nlp.johnsnowlabs.com/api/python/reference/autosummary/sparknlp.annotator.XlnetForSequenceClassification.html)
+[XlnetForSequenceClassification](/api/python/reference/autosummary/sparknlp/annotator/classifier_dl/xlnet_for_sequence_classification/index.html#sparknlp.annotator.classifier_dl.xlnet_for_sequence_classification.XlnetForSequenceClassification)
 {%- endcapture -%}
 
 {%- capture source_link -%}

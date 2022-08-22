@@ -193,25 +193,25 @@ class TokenizerModel(override val uid: String)
     */
   def getCaseSensitiveExceptions(value: Boolean): Boolean = $(caseSensitiveExceptions)
 
-  /** Set the minimum allowed legth for each token
+  /** Set the minimum allowed length for each token
     *
     * @group setParam
     */
   def setMinLength(value: Int): this.type = set(minLength, value)
 
-  /** Set the minimum allowed legth for each token
+  /** Set the minimum allowed length for each token
     *
     * @group getParam
     */
   def getMinLength(value: Int): Int = $(minLength)
 
-  /** Set the maximum allowed legth for each token
+  /** Set the maximum allowed length for each token
     *
     * @group setParam
     */
   def setMaxLength(value: Int): this.type = set(maxLength, value)
 
-  /** Set the maximum allowed legth for each token
+  /** Set the maximum allowed length for each token
     *
     * @group getParam
     */

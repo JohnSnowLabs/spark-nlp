@@ -1,10 +1,11 @@
+sphinx
 numpydoc
 pydata-sphinx-theme
 sphinx-copybutton
 Sphinx-Substitution-Extensions
 sphinx-prompt
 sphinx-toggleprompt
+sphinx-autoapi
 numpy
-pyspark==3.0.2
+pyspark==3.3.0
 Jinja2>=3
--e ..

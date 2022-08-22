@@ -11,47 +11,57 @@ edition: Spark NLP for Healthcare 3.1.2
 spark_version: 2.4
 supported: true
 article_header:
-  type: cover
+type: cover
 use_language_switcher: "Python-Scala-Java"
 ---
 
+
 ## Description
+
 
 The deep neural network architecture for assertion status detection in Spark NLP is based on a BiLSTM framework, and is a modified version of the architecture proposed by Fancellu et.al. (Fancellu, Lopez, and Webber 2016). Its goal is to classify the assertions made on given medical concepts as being present, absent, or possible in the patient, conditionally present in the patient under certain circumstances, hypothetically present in the patient at some future point, and mentioned in the patient report but associated with someone- else (Uzuner et al. 2011). Apart from what we released in other assertion models, an in-house annotations on a curated dataset (6K clinical notes) is used to augment the base assertion dataset (2010 i2b2/VA).
 
+
 ## Predicted Entities
 
+
 `present`, `absent`, `possible`, `planned`, `someoneelse`, `past`
+
 
 {:.btn-box}
 [Live Demo](https://demo.johnsnowlabs.com/healthcare/ASSERTION/){:.button.button-orange}
 [Open in Colab](https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/2.Clinical_Assertion_Model.ipynb){:.button.button-orange.button-orange-trans.co.button-icon}
 [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/assertion_jsl_large_en_3.1.2_2.4_1627156678782.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
 
+
 ## How to use
+
+
+
 
 
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
+
 ```python
 ...
 word_embeddings = WordEmbeddingsModel.pretrained("embeddings_clinical", "en", "clinical/models")\
-  .setInputCols(["sentence", "token"])\
-  .setOutputCol("embeddings")
+.setInputCols(["sentence", "token"])\
+.setOutputCol("embeddings")
 
 clinical_ner = MedicalNerModel.pretrained("ner_clinical", "en", "clinical/models") \
-  .setInputCols(["sentence", "token", "embeddings"]) \
-  .setOutputCol("ner")
+.setInputCols(["sentence", "token", "embeddings"]) \
+.setOutputCol("ner")
 
 ner_converter = NerConverter() \
-  .setInputCols(["sentence", "token", "ner"]) \
-  .setOutputCol("ner_chunk")
+.setInputCols(["sentence", "token", "ner"]) \
+.setOutputCol("ner_chunk")
 
 clinical_assertion = AssertionDLModel.pretrained("assertion_jsl_large", "en", "clinical/models") \
-    .setInputCols(["sentence", "ner_chunk", "embeddings"]) \
-    .setOutputCol("assertion")
-    
+.setInputCols(["sentence", "ner_chunk", "embeddings"]) \
+.setOutputCol("assertion")
+
 nlpPipeline = Pipeline(stages=[documentAssembler, sentenceDetector, tokenizer, word_embeddings, clinical_ner, ner_converter, clinical_assertion])
 model = nlpPipeline.fit(spark.createDataFrame([[""]]).toDF("text"))
 
@@ -60,32 +70,44 @@ result = model.transform(spark.createDataFrame([["The patient is a 21-day-old Ca
 ```scala
 ...
 val word_embeddings = WordEmbeddingsModel.pretrained("embeddings_clinical", "en", "clinical/models")
-  .setInputCols(Array("sentence", "token"))
-  .setOutputCol("embeddings")
+.setInputCols(Array("sentence", "token"))
+.setOutputCol("embeddings")
 
 val clinical_ner = MedicalNerModel.pretrained("ner_clinical", "en", "clinical/models")
-  .setInputCols(Array("sentence", "token", "embeddings")) 
-  .setOutputCol("ner")
+.setInputCols(Array("sentence", "token", "embeddings")) 
+.setOutputCol("ner")
 
-val nerConverter = NerConverter()
-  .setInputCols(Array("sentence", "token", "ner"))
-  .setOutputCol("ner_chunk")
+val nerConverter = new NerConverter()
+.setInputCols(Array("sentence", "token", "ner"))
+.setOutputCol("ner_chunk")
 
 val clinical_assertion = AssertionDLModel.pretrained("assertion_jsl_large", "en", "clinical/models")
-    .setInputCols(Array("sentence", "ner_chunk", "embeddings"))
-    .setOutputCol("assertion")
+.setInputCols(Array("sentence", "ner_chunk", "embeddings"))
+.setOutputCol("assertion")
 
 val pipeline = new Pipeline().setStages(Array(documentAssembler, sentenceDetector, tokenizer, word_embeddings, clinical_ner, ner_converter, clinical_assertion))
 
-val data = Seq("The patient is a 21-day-old Caucasian male here for 2 days of congestion - mom has been suctioning yellow discharge from the patient's nares, plus she has noticed some mild problems with his breathing while feeding (but negative for any perioral cyanosis or retractions). One day ago, mom also noticed a tactile temperature and gave the patient Tylenol. Baby also has had some decreased p.o. intake. His normal breast-feeding is down from 20 minutes q.2h. to 5 to 10 minutes secondary to his respiratory congestion. He sleeps well, but has been more tired and has been fussy over the past 2 days. The parents noticed no improvement with albuterol treatments given in the ER. His urine output has also decreased; normally he has 8 to 10 wet and 5 dirty diapers per 24 hours, now he has down to 4 wet diapers per 24 hours. Mom denies any diarrhea. His bowel movements are yellow colored and soft in nature.").toDF("text")
+val data = Seq("The patient is a 21-day-old Caucasian male here for 2 days of congestion - mom has been suctioning yellow discharge from the patient's nares, plus she has noticed some mild problems with his breathing while feeding (but negative for any perioral cyanosis or retractions). One day ago, mom also noticed a tactile temperature and gave the patient Tylenol. Baby also has had some decreased p.o. intake. His normal breast-feeding is down from 20 minutes q.2h. to 5 to 10 minutes secondary to his respiratory congestion. He sleeps well, but has been more tired and has been fussy over the past 2 days. The parents noticed no improvement with albuterol treatments given in the ER. His urine output has also decreased; normally he has 8 to 10 wet and 5 dirty diapers per 24 hours, now he has down to 4 wet diapers per 24 hours. Mom denies any diarrhea. His bowel movements are yellow colored and soft in nature.").toDS.toDF("text")
+
 val result = pipeline.fit(data).transform(data)
 ```
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("en.assert.jsl_large").predict("""The patient is a 21-day-old Caucasian male here for 2 days of congestion - mom has been suctioning yellow discharge from the patient's nares, plus she has noticed some mild problems with his breathing while feeding (but negative for any perioral cyanosis or retractions). One day ago, mom also noticed a tactile temperature and gave the patient Tylenol. Baby also has had some decreased p.o. intake. His normal breast-feeding is down from 20 minutes q.2h. to 5 to 10 minutes secondary to his respiratory congestion. He sleeps well, but has been more tired and has been fussy over the past 2 days. The parents noticed no improvement with albuterol treatments given in the ER. His urine output has also decreased; normally he has 8 to 10 wet and 5 dirty diapers per 24 hours, now he has down to 4 wet diapers per 24 hours. Mom denies any diarrhea. His bowel movements are yellow colored and soft in nature.""")
+```
+
 </div>
+
 
 ## Results
 
+
 ```bash
 The output is a dataframe with a sentence per row and an `assertion` column containing all of the assertion labels in the sentence. The assertion column also contains assertion character indices, and other metadata. To get only the entity chunks and assertion labels, without the metadata, select `ner_chunk.result` and `assertion.result` from your output dataframe.
+
 
 +-----------------------------------------+-----+---+----------------------------+-------+-----------+
 |chunk                                    |begin|end|ner_label                   |sent_id|assertion  |
@@ -113,8 +135,10 @@ The output is a dataframe with a sentence per row and an `assertion` column cont
 +-----------------------------------------+-----+---+----------------------------+-------+-----------+
 ```
 
+
 {:.model-param}
 ## Model Information
+
 
 {:.table-model}
 |---|---|
@@ -126,21 +150,27 @@ The output is a dataframe with a sentence per row and an `assertion` column cont
 |Output Labels:|[assertion]|
 |Language:|en|
 
+
 ## Data Source
+
 
 Trained on 2010 i2b2/VA challenge on concepts, assertions, and relations in clinical text with ‘embeddings_clinical’. https://portal.dbmi.hms.harvard.edu/projects/n2c2-nlp/
 
+
 ## Benchmarking
 
+
 ```bash
-|   | label           | prec  | rec   | f1    |
-|--:|----------------:|------:|------:|------:|
-| 0 | absent           | 0.957 | 0.949 | 0.953 |
-| 1 | someoneelse      | 0.958 | 0.936 | 0.947 |
-| 2 | planned          | 0.766 | 0.657 | 0.707 |
-| 3 | possible         | 0.852 | 0.884 | 0.868 |
-| 4 | past             | 0.894 | 0.890 | 0.892 |
-| 5 | present          | 0.902 | 0.917 | 0.910 |
-| 6 | Macro-average    | 0.888 | 0.872 | 0.880 |
-| 7 | Micro-average    | 0.908 | 0.908 | 0.908 |
+label          prec   rec    f1   
+absent         0.957  0.949  0.953
+someoneelse    0.958  0.936  0.947
+planned        0.766  0.657  0.707
+possible       0.852  0.884  0.868
+past           0.894  0.890  0.892
+present        0.902  0.917  0.910
+Macro-average  0.888  0.872  0.880
+Micro-average  0.908  0.908  0.908
 ```
+<!--stackedit_data:
+eyJoaXN0b3J5IjpbNjg2Mjc5ODE5XX0=
+-->

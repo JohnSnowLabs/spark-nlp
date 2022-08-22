@@ -20,7 +20,7 @@ CHUNK
 {%- endcapture -%}
 
 {%- capture model_python_api_link -%}
-[TextMatcherModel](https://nlp.johnsnowlabs.com/api/python/reference/autosummary/sparknlp.annotator.TextMatcherModel.html)
+[TextMatcherModel](/api/python/reference/autosummary/sparknlp/annotator/matcher/text_matcher/index.html#sparknlp.annotator.matcher.text_matcher.TextMatcherModel)
 {%- endcapture -%}
 
 {%- capture model_source_link -%}
@@ -141,7 +141,7 @@ results.selectExpr("explode(entity) as result").show(false)
 {%- endcapture -%}
 
 {%- capture approach_python_api_link -%}
-[TextMatcher](https://nlp.johnsnowlabs.com/api/python/reference/autosummary/sparknlp.annotator.TextMatcher.html)
+[TextMatcher](/api/python/reference/autosummary/sparknlp/annotator/matcher/text_matcher/index.html#sparknlp.annotator.matcher.text_matcher.TextMatcher)
 {%- endcapture -%}
 
 {%- capture approach_source_link -%}

@@ -27,8 +27,9 @@ class Gpt2Tokenizer(
     vocab: Map[String, Int],
     specialTokens: SpecialTokens,
     padWithSentenceTokens: Boolean = true,
-    prependString: String = "")
-    extends BpeTokenizer(merges, vocab, specialTokens, padWithSentenceTokens) {
+    prependString: String = "",
+    addPrefixSpace: Boolean = false)
+    extends BpeTokenizer(merges, vocab, specialTokens, padWithSentenceTokens, addPrefixSpace) {
 
   /** Mapping for bytes to a different set of unicode characters (especially white spaces). This
     * improved model performance for gpt-2

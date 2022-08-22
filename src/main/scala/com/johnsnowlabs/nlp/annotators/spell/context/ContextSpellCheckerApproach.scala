@@ -639,9 +639,9 @@ class ContextSpellCheckerApproach(override val uid: String)
    *
    * */
   private def createTransducer(vocab: List[String]) = {
-    import scala.collection.JavaConversions._
+    import scala.collection.JavaConverters._
     new TransducerBuilder()
-      .dictionary(vocab.sorted, true)
+      .dictionary(vocab.sorted.asJava, true)
       .algorithm(Algorithm.TRANSPOSITION)
       .defaultMaxDistance(getOrDefault(wordMaxDistance))
       .includeDistance(true)

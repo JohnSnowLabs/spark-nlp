@@ -1,28 +1,28 @@
 ---
 layout: model
-title: Unknown language [en,vi] XlmRoBertaForQuestionAnswering (from aicryptogroup)
+title: English XlmRoBertaForQuestionAnswering (from aicryptogroup)
 author: John Snow Labs
 name: xlm_roberta_qa_distill_xlm_mrc
 date: 2022-06-23
 tags: [en, vi, open_source, question_answering, xlmroberta, xx]
 task: Question Answering
-language: xx
+language: en
 edition: Spark NLP 4.0.0
 spark_version: 3.0
 supported: true
 article_header:
-  type: cover
+type: cover
 use_language_switcher: "Python-Scala-Java"
 ---
 
 ## Description
 
-Pretrained Question Answering model, adapted from Hugging Face and curated to provide scalability and production-readiness using Spark NLP. `distill-xlm-mrc` is a Unknown language [en,vi] model originally trained by `aicryptogroup`.
+Pretrained Question Answering model, adapted from Hugging Face and curated to provide scalability and production-readiness using Spark NLP. `distill-xlm-mrc` is a multilingual model originally trained by `aicryptogroup`.
 
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>
 <button class="button button-orange" disabled>Open in Colab</button>
-[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/xlm_roberta_qa_distill_xlm_mrc_xx_4.0.0_3.0_1655987250264.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
+[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/xlm_roberta_qa_distill_xlm_mrc_en_4.0.0_3.0_1655987250264.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
 
 ## How to use
 
@@ -31,18 +31,18 @@ Pretrained Question Answering model, adapted from Hugging Face and curated to pr
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
 ```python
-document_assembler = MultiDocumentAssembler() \ 
-    .setInputCols(["question", "context"]) \
-    .setOutputCols(["document_question", "document_context"])
+document_assembler = MultiDocumentAssembler() \
+.setInputCols(["question", "context"]) \
+.setOutputCols(["document_question", "document_context"])
 
-spanClassifier = XlmRoBertaForQuestionAnswering.pretrained("xlm_roberta_qa_distill_xlm_mrc","xx") \
-    .setInputCols(["document_question", "document_context"]) \
-    .setOutputCol("answer") \
-    .setCaseSensitive(True)
+spanClassifier = XlmRoBertaForQuestionAnswering.pretrained("xlm_roberta_qa_distill_xlm_mrc","en") \
+.setInputCols(["document_question", "document_context"]) \
+.setOutputCol("answer") \
+.setCaseSensitive(True)
 
 pipeline = Pipeline().setStages([
-    document_assembler,
-    spanClassifier
+document_assembler,
+spanClassifier
 ])
 
 example = spark.createDataFrame([["What's my name?", "My name is Clara and I live in Berkeley."]]).toDF("question", "context")
@@ -51,25 +51,33 @@ result = pipeline.fit(example).transform(example)
 ```
 ```scala
 val document = new MultiDocumentAssembler()
-  .setInputCols(Array("question", "context")) 
-  .setOutputCols(Array("document_question", "document_context"))
+.setInputCols(Array("question", "context"))
+.setOutputCols(Array("document_question", "document_context"))
 
 val spanClassifier = XlmRoBertaForQuestionAnswering
-  .pretrained("xlm_roberta_qa_distill_xlm_mrc","xx")
-  .setInputCols(Array("document_question", "document_context"))
-  .setOutputCol("answer")
-  .setCaseSensitive(true)
-  .setMaxSentenceLength(512)
+.pretrained("xlm_roberta_qa_distill_xlm_mrc","en")
+.setInputCols(Array("document_question", "document_context"))
+.setOutputCol("answer")
+.setCaseSensitive(true)
+.setMaxSentenceLength(512)
 
 val pipeline = new Pipeline().setStages(Array(document, spanClassifier))
 
 val example = Seq(
-  ("Where was John Lenon born?", "John Lenon was born in London and lived in Paris. My name is Sarah and I live in London."),
-  ("What's my name?", "My name is Clara and I live in Berkeley."))
-  .toDF("question", "context")
+("Where was John Lenon born?", "John Lenon was born in London and lived in Paris. My name is Sarah and I live in London."),
+("What's my name?", "My name is Clara and I live in Berkeley."))
+.toDF("question", "context")
 
 val result = pipeline.fit(example).transform(example)
 ```
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("en.answer_question.xlm_roberta.distilled").predict("""What's my name?|||"My name is Clara and I live in Berkeley.""")
+```
+
 </div>
 
 {:.model-param}
@@ -83,7 +91,7 @@ val result = pipeline.fit(example).transform(example)
 |Edition:|Official|
 |Input Labels:|[question, context]|
 |Output Labels:|[answer]|
-|Language:|xx|
+|Language:|en|
 |Size:|151.4 MB|
 |Case sensitive:|true|
 |Max sentence length:|512|
@@ -91,3 +99,4 @@ val result = pipeline.fit(example).transform(example)
 ## References
 
 - https://huggingface.co/aicryptogroup/distill-xlm-mrc
+

@@ -11,7 +11,7 @@ edition: Spark NLP 3.4.2
 spark_version: 3.0
 supported: true
 article_header:
-  type: cover
+type: cover
 use_language_switcher: "Python-Scala-Java"
 ---
 
@@ -36,14 +36,22 @@ This embeddings component was trained on PubMed abstracts all along with citatio
 {% include programmingLanguageSelectScalaPythonNLU.html %}
 ```python
 embeddings = BertEmbeddings.pretrained("bert_biolink_base", "en")\
-       .setInputCols(["sentence", "token"])\
-       .setOutputCol("embeddings")
+.setInputCols(["sentence", "token"])\
+.setOutputCol("embeddings")
 ```
 ```scala
 val embeddings = BertEmbeddings.pretrained("bert_biolink_base", "en")
-       .setInputCols(Array("sentence", "token"))
-       .setOutputCol("embeddings")
+.setInputCols(Array("sentence", "token"))
+.setOutputCol("embeddings")
 ```
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("en.embed.e").predict("""Put your text here.""")
+```
+
 </div>
 
 {:.model-param}
@@ -66,12 +74,12 @@ val embeddings = BertEmbeddings.pretrained("bert_biolink_base", "en")
 
 [https://pubmed.ncbi.nlm.nih.gov/](https://pubmed.ncbi.nlm.nih.gov/)
 
- ```
+```
 @InProceedings{yasunaga2022linkbert,
-   author =  {Michihiro Yasunaga and Jure Leskovec and Percy Liang},
-   title =   {LinkBERT: Pretraining Language Models with Document Links},
-   year =    {2022},  
-   booktitle = {Association for Computational Linguistics (ACL)},  
+author =  {Michihiro Yasunaga and Jure Leskovec and Percy Liang},
+title =   {LinkBERT: Pretraining Language Models with Document Links},
+year =    {2022},  
+booktitle = {Association for Computational Linguistics (ACL)},  
 }
 ```
 
@@ -80,8 +88,8 @@ val embeddings = BertEmbeddings.pretrained("bert_biolink_base", "en")
 ```bash
 Scores for several benchmark datasets :
 
- - BLURB : 83.39
- - PubMedQA : 70.2
- - BioASQ : 91.4
- - MedQA-USMLE : 40.0
+- BLURB : 83.39
+- PubMedQA : 70.2
+- BioASQ : 91.4
+- MedQA-USMLE : 40.0
 ```

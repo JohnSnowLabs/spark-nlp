@@ -11,15 +11,15 @@ edition: Spark NLP 3.0.0
 spark_version: 3.0
 supported: true
 article_header:
-  type: cover
+type: cover
 use_language_switcher: "Python-Scala-Java"
 ---
 
 ## Description
 
 [WordSegmenterModel-WSM](https://en.wikipedia.org/wiki/Text_segmentation) is based on maximum entropy probability model to detect word boundaries in Japanese text.
-            Japanese text is written without white space between the words, and a computer-based application cannot know a priori which sequence of ideograms form a word.
-            In many natural language processing tasks such as part-of-speech (POS) and named entity recognition (NER) require word segmentation as a initial step.
+Japanese text is written without white space between the words, and a computer-based application cannot know a priori which sequence of ideograms form a word.
+In many natural language processing tasks such as part-of-speech (POS) and named entity recognition (NER) require word segmentation as a initial step.
 
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>
@@ -44,8 +44,8 @@ result = ws_model.transform(example)
 ```scala
 
 val word_segmenter = WordSegmenterModel.pretrained("wordseg_gsd_ud", "ja")
-        .setInputCols(Array("sentence"))
-        .setOutputCol("token")
+.setInputCols(Array("sentence"))
+.setOutputCol("token")
 val pipeline = new Pipeline().setStages(Array(document_assembler, word_segmenter))
 val data = Seq("ジョンスノーラボからこんにちは！ ").toDF("text")
 val result = pipeline.fit(data).transform(data)
@@ -59,7 +59,7 @@ import nlu
 text = [""ジョンスノーラボからこんにちは！ ""]
 token_df = nlu.load('ja.segment_words').predict(text)
 token_df
-    
+
 ```
 </div>
 

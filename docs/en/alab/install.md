@@ -56,6 +56,11 @@ Visit the [product page on AWS Marketplace](https://aws.amazon.com/marketplace/p
 
 <div class="cell cell--12 cell--lg-6 cell--sm-12"><div class="video-item">{%- include extensions/youtube.html id='ebaewU4BcQA' -%}<div class="video-descr">Deploy Annotation Lab via AWS Marketplace</div></div></div>
 
+## Deploy on the Azure Marketplace
+
+Visit the [product page on Azure Marketplace](https://azuremarketplace.microsoft.com/en-us/marketplace/apps/johnsnowlabsinc1646051154808.annotation_lab?tab=Overview) and follow the instructions on the video below to subscribe and deploy. 
+
+<div class="cell cell--12 cell--lg-6 cell--sm-12"><div class="video-item">{%- include extensions/youtube.html id='e6aB3z5tB0k' -%}<div class="video-descr">Deploy Annotation Lab via Azure Marketplace</div></div></div>
 
 ## Deploy on AirGap environment 
 

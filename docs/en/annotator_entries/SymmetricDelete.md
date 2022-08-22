@@ -107,7 +107,7 @@ result.select("spell.result").show(false)
 {%- endcapture -%}
 
 {%- capture model_python_api_link -%}
-[SymmetricDeleteModel](https://nlp.johnsnowlabs.com/api/python/reference/autosummary/sparknlp.annotator.SymmetricDeleteModel.html)
+[SymmetricDeleteModel](/api/python/reference/autosummary/sparknlp/annotator/spell_check/symmetric_delete/index.html#sparknlp.annotator.spell_check.symmetric_delete.SymmetricDeleteModel)
 {%- endcapture -%}
 
 {%- capture model_source_link -%}
@@ -218,7 +218,7 @@ val pipelineModel = pipeline.fit(trainingData)
 {%- endcapture -%}
 
 {%- capture approach_python_api_link -%}
-[SymmetricDeleteApproach](https://nlp.johnsnowlabs.com/api/python/reference/autosummary/sparknlp.annotator.SymmetricDeleteApproach.html)
+[SymmetricDeleteApproach](/api/python/reference/autosummary/sparknlp/annotator/spell_check/symmetric_delete/index.html#sparknlp.annotator.spell_check.symmetric_delete.SymmetricDeleteApproach)
 {%- endcapture -%}
 
 {%- capture approach_source_link -%}

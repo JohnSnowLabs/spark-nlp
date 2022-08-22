@@ -24,12 +24,23 @@ import scala.collection.mutable.ListBuffer
 
 /** A BPE Tokenizer based on GPT2's tokenization scheme. The tokenization can then be used for
   * models based on this scheme (e.g. GPT2, roBERTa, DeBERTa) TODO: truncation assumed?
+  * @param merges
+  *   Map of tokens that are mergeable
+  * @param vocab
+  *   Map of tokens to encoded representation
+  * @param specialTokens
+  *   Collection of special tokens
+  * @param padWithSentenceTokens
+  *   Whether to pad the sentence with sentence tokens at the start and end
+  * @param addPrefixSpace
+  *   Whether to add a space to the first word of a sentence
   */
 private[nlp] abstract class BpeTokenizer(
     val merges: Map[(String, String), Int],
     val vocab: Map[String, Int],
     val specialTokens: SpecialTokens,
-    var padWithSentenceTokens: Boolean) {
+    val padWithSentenceTokens: Boolean,
+    val addPrefixSpace: Boolean) {
 
   protected val bpeRanks: Map[(String, String), Int] = {
     merges
@@ -98,10 +109,7 @@ private[nlp] abstract class BpeTokenizer(
     word
   }
 
-  protected def getTokenPieces(
-      indToken: IndexedToken,
-      word: Array[String],
-      processedToken: String): Array[TokenPiece] = {
+  protected def getTokenPieces(indToken: IndexedToken, word: Array[String]): Array[TokenPiece] = {
     var currentIndex = indToken.begin
     val wordIndexes = word.map((subWord: String) => {
       val startIndex = currentIndex
@@ -112,13 +120,17 @@ private[nlp] abstract class BpeTokenizer(
       .zip(wordIndexes)
       .map { case (subWord: String, indexes: (Int, Int)) =>
         val isWordStart = indToken.begin == indexes._1
+        val isDocumentStart = indToken.begin == 0
         var processedSubWord = subWord
-        processedSubWord = prependForPieceId match {
-          case None => processedSubWord
-          case Some(prepend) =>
-            if (isWordStart && subWord.indexOf(prepend) < 0) prepend + processedSubWord
-            else processedSubWord
-        }
+        processedSubWord = if (isDocumentStart && !addPrefixSpace) {
+          processedSubWord
+        } else
+          prependForPieceId match {
+            case None => processedSubWord
+            case Some(prepend) =>
+              if (isWordStart && subWord.indexOf(prepend) < 0) prepend + processedSubWord
+              else processedSubWord
+          }
         processedSubWord = appendForPieceId match {
           case None => processedSubWord
           case Some(append) =>
@@ -129,7 +141,7 @@ private[nlp] abstract class BpeTokenizer(
         // Set unknown id if not found
         val subWordId: Int = vocab.getOrElse(processedSubWord, specialTokens.unk.id)
 
-        TokenPiece(subWord, processedToken, subWordId, isWordStart, indexes._1, indexes._2)
+        TokenPiece(subWord, indToken.token.trim(), subWordId, isWordStart, indexes._1, indexes._2)
 
       }
     result
@@ -156,7 +168,7 @@ private[nlp] abstract class BpeTokenizer(
       else
         word = performMerges(word, pairs)
 
-      getTokenPieces(indToken, word, processedToken)
+      getTokenPieces(indToken, word)
     } catch {
       case _: java.util.NoSuchElementException =>
         Array(
@@ -299,6 +311,7 @@ object BpeTokenizer {
       merges: Map[(String, String), Int],
       vocab: Map[String, Int],
       padWithSentenceTokens: Boolean = false,
+      addPrefixSpace: Boolean = false,
       specialTokens: Option[SpecialTokens] = None): BpeTokenizer = {
     val availableModels = Array("roberta", "xlm", "gpt2")
     require(
@@ -312,9 +325,21 @@ object BpeTokenizer {
 
     modelType match {
       case "roberta" =>
-        new RobertaTokenizer(merges, vocab, modelSpecialTokens, padWithSentenceTokens)
-      case "xlm" => new XlmTokenizer(merges, vocab, modelSpecialTokens, padWithSentenceTokens)
-      case "gpt2" => new Gpt2Tokenizer(merges, vocab, modelSpecialTokens, padWithSentenceTokens)
+        new RobertaTokenizer(
+          merges,
+          vocab,
+          modelSpecialTokens,
+          padWithSentenceTokens,
+          addPrefixSpace = addPrefixSpace)
+      case "xlm" =>
+        new XlmTokenizer(merges, vocab, modelSpecialTokens, padWithSentenceTokens)
+      case "gpt2" =>
+        new Gpt2Tokenizer(
+          merges,
+          vocab,
+          modelSpecialTokens,
+          padWithSentenceTokens,
+          addPrefixSpace = addPrefixSpace)
 
     }
   }

@@ -1,0 +1,670 @@
+
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+
+    <title>sparknlp_jsl.annotator.tf_graph_builder &#8212; Spark NLP 4.0.0 documentation</title>
+<script>
+  document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+  document.documentElement.dataset.theme = localStorage.getItem("theme") || "light"
+</script>
+
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../../../../static/styles/theme.css?digest=92025949c220c2e29695" rel="stylesheet">
+<link href="../../../../../static/styles/pydata-sphinx-theme.css?digest=92025949c220c2e29695" rel="stylesheet">
+
+
+  <link rel="stylesheet"
+    href="../../../../../static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../../../../../static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../../../../../static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+    <link rel="stylesheet" type="text/css" href="../../../../../static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../../../../../static/graphviz.css" />
+    <link rel="stylesheet" type="text/css" href="../../../../../static/css/custom.css" />
+
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../../../../static/scripts/pydata-sphinx-theme.js?digest=92025949c220c2e29695">
+
+    <script data-url_root="../../../../../" id="documentation_options" src="../../../../../static/documentation_options.js"></script>
+    <script src="../../../../../static/jquery.js"></script>
+    <script src="../../../../../static/underscore.js"></script>
+    <script src="../../../../../static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="../../../../../static/doctools.js"></script>
+    <script src="../../../../../static/toggleprompt.js"></script>
+    <link rel="shortcut icon" href="../../../../../static/fav.ico"/>
+    <link rel="index" title="Index" href="../../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../../search.html" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="docsearch:language" content="en">
+  </head>
+  
+  
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="180" data-default-mode="">
+    <div class="bd-header-announcement container-fluid" id="banner">
+      
+
+    </div>
+
+    
+    <nav class="bd-header navbar navbar-light navbar-expand-lg bg-light fixed-top bd-navbar" id="navbar-main"><div class="bd-header__inner container-xl">
+
+  <div id="navbar-start">
+    
+    
+  
+
+
+<a class="navbar-brand logo" href="../../../../../index.html">
+  
+  
+  
+  
+    <img src="../../../../../static/logo.png" class="logo__image only-light" alt="Logo image">
+    <img src="../../../../../static/logo.png" class="logo__image only-dark" alt="Logo image">
+  
+  
+</a>
+    
+  </div>
+
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar-collapsible" aria-controls="navbar-collapsible" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="fas fa-bars"></span>
+  </button>
+
+  
+  <div id="navbar-collapsible" class="col-lg-9 collapse navbar-collapse">
+    <div id="navbar-center" class="mr-auto">
+      
+      <div class="navbar-center-item">
+        <ul id="navbar-main-elements" class="navbar-nav">
+    <li class="toctree-l1 nav-item">
+ <a class="reference internal nav-link" href="../../../../../getting_started/index.html">
+  Getting Started
+ </a>
+</li>
+
+<li class="toctree-l1 nav-item">
+ <a class="reference internal nav-link" href="../../../../index.html">
+  API Reference
+ </a>
+</li>
+
+    
+</ul>
+      </div>
+      
+    </div>
+
+    <div id="navbar-end">
+      
+      <div class="navbar-end-item">
+        <span id="theme-switch" class="btn btn-sm btn-outline-primary navbar-btn rounded-circle">
+    <a class="theme-switch" data-mode="light"><i class="fas fa-sun"></i></a>
+    <a class="theme-switch" data-mode="dark"><i class="far fa-moon"></i></a>
+    <a class="theme-switch" data-mode="auto"><i class="fas fa-adjust"></i></a>
+</span>
+      </div>
+      
+      <div class="navbar-end-item">
+        <ul id="navbar-icon-links" class="navbar-nav" aria-label="Icon Links">
+      </ul>
+      </div>
+      
+    </div>
+  </div>
+</div>
+    </nav>
+    
+
+    <div class="bd-container container-xl">
+      <div class="bd-container__inner row">
+          
+
+<!-- Only show if we have sidebars configured, else just a small margin  -->
+<div class="bd-sidebar-primary col-12 col-md-3 bd-sidebar">
+  <div class="sidebar-start-items"><form class="bd-search d-flex align-items-center" action="../../../../../search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search the docs ..." aria-label="Search the docs ..." autocomplete="off" >
+</form><nav class="bd-links" id="bd-docs-nav" aria-label="Main navigation">
+  <div class="bd-toc-item active">
+    
+  </div>
+</nav>
+  </div>
+  <div class="sidebar-end-items">
+  </div>
+</div>
+
+
+          
+
+
+<div class="bd-sidebar-secondary d-none d-xl-block col-xl-2 bd-toc">
+  
+    
+    <div class="toc-item">
+      
+<div class="tocsection onthispage mt-5 pt-1 pb-3">
+    <i class="fas fa-list"></i> On this page
+</div>
+
+<nav id="bd-toc-nav">
+    <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#module-contents">
+   Module Contents
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#classes">
+     Classes
+    </a>
+    <ul class="nav section-nav flex-column">
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.tf_graph_builder.MedicalGraphBuilderModel">
+       MedicalGraphBuilderModel
+      </a>
+     </li>
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.tf_graph_builder.TFGraphBuilder">
+       TFGraphBuilder
+      </a>
+      <ul class="nav section-nav flex-column">
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.tf_graph_builder.TFGraphBuilder.setHiddenAct">
+         setHiddenAct
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.tf_graph_builder.TFGraphBuilder.getHiddenAct">
+         getHiddenAct
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.tf_graph_builder.TFGraphBuilder.setHiddenActL2">
+         setHiddenActL2
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.tf_graph_builder.TFGraphBuilder.getHiddenActL2">
+         getHiddenActL2
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.tf_graph_builder.TFGraphBuilder.setHiddenWeightsL2">
+         setHiddenWeightsL2
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.tf_graph_builder.TFGraphBuilder.getHiddenWeightsL2">
+         getHiddenWeightsL2
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.tf_graph_builder.TFGraphBuilder.setBatchNorm">
+         setBatchNorm
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.tf_graph_builder.TFGraphBuilder.getBatchNorm">
+         getBatchNorm
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.tf_graph_builder.TFGraphBuilder.setIsMedical">
+         setIsMedical
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.tf_graph_builder.TFGraphBuilder.getIsMedical">
+         getIsMedical
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.tf_graph_builder.TFGraphBuilder.setHiddenLayers">
+         setHiddenLayers
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.tf_graph_builder.TFGraphBuilder.getHiddenLayers">
+         getHiddenLayers
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.tf_graph_builder.TFGraphBuilder.setMaxSequenceLength">
+         setMaxSequenceLength
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.tf_graph_builder.TFGraphBuilder.getMaxSequenceLength">
+         getMaxSequenceLength
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.tf_graph_builder.TFGraphBuilder.setHiddenUnitsNumber">
+         setHiddenUnitsNumber
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.tf_graph_builder.TFGraphBuilder.getHiddenUnitsNumber">
+         getHiddenUnitsNumber
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.tf_graph_builder.TFGraphBuilder.setModelName">
+         setModelName
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.tf_graph_builder.TFGraphBuilder.getModelName">
+         getModelName
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.tf_graph_builder.TFGraphBuilder.setLabelColumn">
+         setLabelColumn
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.tf_graph_builder.TFGraphBuilder.getLabelColumn">
+         getLabelColumn
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.tf_graph_builder.TFGraphBuilder.setInputCols">
+         setInputCols
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.tf_graph_builder.TFGraphBuilder.getInputCols">
+         getInputCols
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.tf_graph_builder.TFGraphBuilder.setGraphFolder">
+         setGraphFolder
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.tf_graph_builder.TFGraphBuilder.getGraphFolder">
+         getGraphFolder
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.tf_graph_builder.TFGraphBuilder.setGraphFile">
+         setGraphFile
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.tf_graph_builder.TFGraphBuilder.getGraphFile">
+         getGraphFile
+        </a>
+       </li>
+      </ul>
+     </li>
+    </ul>
+   </li>
+  </ul>
+ </li>
+</ul>
+
+</nav>
+    </div>
+    
+    <div class="toc-item">
+      
+    </div>
+    
+  
+</div>
+
+
+          
+          
+          <div class="bd-content col-12 col-md-9 col-xl-7">
+              
+              <article class="bd-article" role="main">
+                
+  <section id="module-sparknlp_jsl.annotator.tf_graph_builder">
+<span id="sparknlp-jsl-annotator-tf-graph-builder"></span><h1><a class="reference internal" href="#module-sparknlp_jsl.annotator.tf_graph_builder" title="sparknlp_jsl.annotator.tf_graph_builder"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp_jsl.annotator.tf_graph_builder</span></code></a><a class="headerlink" href="#module-sparknlp_jsl.annotator.tf_graph_builder" title="Permalink to this heading">#</a></h1>
+<section id="module-contents">
+<h2>Module Contents<a class="headerlink" href="#module-contents" title="Permalink to this heading">#</a></h2>
+<section id="classes">
+<h3>Classes<a class="headerlink" href="#classes" title="Permalink to this heading">#</a></h3>
+<table class="autosummary longtable table autosummary">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp_jsl.annotator.tf_graph_builder.MedicalGraphBuilderModel" title="sparknlp_jsl.annotator.tf_graph_builder.MedicalGraphBuilderModel"><code class="xref py py-obj docutils literal notranslate"><span class="pre">MedicalGraphBuilderModel</span></code></a></p></td>
+<td><p>Abstract class for models that are fitted by estimators.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#sparknlp_jsl.annotator.tf_graph_builder.TFGraphBuilder" title="sparknlp_jsl.annotator.tf_graph_builder.TFGraphBuilder"><code class="xref py py-obj docutils literal notranslate"><span class="pre">TFGraphBuilder</span></code></a></p></td>
+<td><p>Abstract class for estimators that fit models to data.</p></td>
+</tr>
+</tbody>
+</table>
+<dl class="py class">
+<dt class="sig sig-object py" id="sparknlp_jsl.annotator.tf_graph_builder.MedicalGraphBuilderModel">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">MedicalGraphBuilderModel</span></span><a class="reference internal" href="../../../../../modules/sparknlp_jsl/annotator/tf_graph_builder.html#MedicalGraphBuilderModel"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.tf_graph_builder.MedicalGraphBuilderModel" title="Permalink to this definition">#</a></dt>
+<dd><p>Abstract class for models that are fitted by estimators.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 1.4.0.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="sparknlp_jsl.annotator.tf_graph_builder.TFGraphBuilder">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">TFGraphBuilder</span></span><a class="reference internal" href="../../../../../modules/sparknlp_jsl/annotator/tf_graph_builder.html#TFGraphBuilder"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.tf_graph_builder.TFGraphBuilder" title="Permalink to this definition">#</a></dt>
+<dd><p>Abstract class for estimators that fit models to data.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 1.3.0.</span></p>
+</div>
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp_jsl.annotator.tf_graph_builder.TFGraphBuilder.setHiddenAct">
+<span class="sig-name descname"><span class="pre">setHiddenAct</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../modules/sparknlp_jsl/annotator/tf_graph_builder.html#TFGraphBuilder.setHiddenAct"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.tf_graph_builder.TFGraphBuilder.setHiddenAct" title="Permalink to this definition">#</a></dt>
+<dd><p>Activation function for hidden layers, used in RelationExtractionApproach.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>value</strong><span class="classifier">string</span></dt><dd><p>Activation function for hidden layers, used in RelationExtractionApproach.
+Possible value are: relu, sigmoid, tanh, linear</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp_jsl.annotator.tf_graph_builder.TFGraphBuilder.getHiddenAct">
+<span class="sig-name descname"><span class="pre">getHiddenAct</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../../../../modules/sparknlp_jsl/annotator/tf_graph_builder.html#TFGraphBuilder.getHiddenAct"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.tf_graph_builder.TFGraphBuilder.getHiddenAct" title="Permalink to this definition">#</a></dt>
+<dd><p>Activation function for hidden layers, used in RelationExtractionApproach.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp_jsl.annotator.tf_graph_builder.TFGraphBuilder.setHiddenActL2">
+<span class="sig-name descname"><span class="pre">setHiddenActL2</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../modules/sparknlp_jsl/annotator/tf_graph_builder.html#TFGraphBuilder.setHiddenActL2"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.tf_graph_builder.TFGraphBuilder.setHiddenActL2" title="Permalink to this definition">#</a></dt>
+<dd><p>L2 regularization of hidden layer weights, used in RelationExtractionApproach</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>value</strong><span class="classifier">boolean</span></dt><dd><p>L2 regularization of hidden layer activations, used in RelationExtractionApproach</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp_jsl.annotator.tf_graph_builder.TFGraphBuilder.getHiddenActL2">
+<span class="sig-name descname"><span class="pre">getHiddenActL2</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../../../../modules/sparknlp_jsl/annotator/tf_graph_builder.html#TFGraphBuilder.getHiddenActL2"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.tf_graph_builder.TFGraphBuilder.getHiddenActL2" title="Permalink to this definition">#</a></dt>
+<dd><p>L2 regularization of hidden layer activations, used in RelationExtractionApproach</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp_jsl.annotator.tf_graph_builder.TFGraphBuilder.setHiddenWeightsL2">
+<span class="sig-name descname"><span class="pre">setHiddenWeightsL2</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../modules/sparknlp_jsl/annotator/tf_graph_builder.html#TFGraphBuilder.setHiddenWeightsL2"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.tf_graph_builder.TFGraphBuilder.setHiddenWeightsL2" title="Permalink to this definition">#</a></dt>
+<dd><p>L2 regularization of hidden layer weights, used in RelationExtractionApproach</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>value</strong><span class="classifier">boolean</span></dt><dd><p>L2 regularization of hidden layer weights, used in RelationExtractionApproach</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp_jsl.annotator.tf_graph_builder.TFGraphBuilder.getHiddenWeightsL2">
+<span class="sig-name descname"><span class="pre">getHiddenWeightsL2</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../../../../modules/sparknlp_jsl/annotator/tf_graph_builder.html#TFGraphBuilder.getHiddenWeightsL2"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.tf_graph_builder.TFGraphBuilder.getHiddenWeightsL2" title="Permalink to this definition">#</a></dt>
+<dd><p>L2 regularization of hidden layer weights, used in RelationExtractionApproach</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp_jsl.annotator.tf_graph_builder.TFGraphBuilder.setBatchNorm">
+<span class="sig-name descname"><span class="pre">setBatchNorm</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../modules/sparknlp_jsl/annotator/tf_graph_builder.html#TFGraphBuilder.setBatchNorm"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.tf_graph_builder.TFGraphBuilder.setBatchNorm" title="Permalink to this definition">#</a></dt>
+<dd><p>Batch normalization, used in RelationExtractionApproach.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>value</strong><span class="classifier">boolean</span></dt><dd><p>Batch normalization for RelationExtractionApproach</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp_jsl.annotator.tf_graph_builder.TFGraphBuilder.getBatchNorm">
+<span class="sig-name descname"><span class="pre">getBatchNorm</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../../../../modules/sparknlp_jsl/annotator/tf_graph_builder.html#TFGraphBuilder.getBatchNorm"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.tf_graph_builder.TFGraphBuilder.getBatchNorm" title="Permalink to this definition">#</a></dt>
+<dd><p>Batch normalization, used in RelationExtractionApproach.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp_jsl.annotator.tf_graph_builder.TFGraphBuilder.setIsMedical">
+<span class="sig-name descname"><span class="pre">setIsMedical</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../modules/sparknlp_jsl/annotator/tf_graph_builder.html#TFGraphBuilder.setIsMedical"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.tf_graph_builder.TFGraphBuilder.setIsMedical" title="Permalink to this definition">#</a></dt>
+<dd><p>Medical model, used in MedicalNerAprroach and NerDLApproach.
+Parameters
+———-
+value : boolean</p>
+<blockquote>
+<div><p>Where medical model or not (default is True)</p>
+</div></blockquote>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp_jsl.annotator.tf_graph_builder.TFGraphBuilder.getIsMedical">
+<span class="sig-name descname"><span class="pre">getIsMedical</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../../../../modules/sparknlp_jsl/annotator/tf_graph_builder.html#TFGraphBuilder.getIsMedical"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.tf_graph_builder.TFGraphBuilder.getIsMedical" title="Permalink to this definition">#</a></dt>
+<dd><p>Medical model, used in MedicalNerAprroach and NerDLApproach.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp_jsl.annotator.tf_graph_builder.TFGraphBuilder.setHiddenLayers">
+<span class="sig-name descname"><span class="pre">setHiddenLayers</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../modules/sparknlp_jsl/annotator/tf_graph_builder.html#TFGraphBuilder.setHiddenLayers"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.tf_graph_builder.TFGraphBuilder.setHiddenLayers" title="Permalink to this definition">#</a></dt>
+<dd><p>A list of hidden layer sizes for RelationExtractionApproach</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>*value</strong><span class="classifier">int</span></dt><dd><p>A list of hidden layer sizes for RelationExtractionApproach</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp_jsl.annotator.tf_graph_builder.TFGraphBuilder.getHiddenLayers">
+<span class="sig-name descname"><span class="pre">getHiddenLayers</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../../../../modules/sparknlp_jsl/annotator/tf_graph_builder.html#TFGraphBuilder.getHiddenLayers"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.tf_graph_builder.TFGraphBuilder.getHiddenLayers" title="Permalink to this definition">#</a></dt>
+<dd><p>Gets the list of hiudden layer sizes for RelationExtractionApproach.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp_jsl.annotator.tf_graph_builder.TFGraphBuilder.setMaxSequenceLength">
+<span class="sig-name descname"><span class="pre">setMaxSequenceLength</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../modules/sparknlp_jsl/annotator/tf_graph_builder.html#TFGraphBuilder.setMaxSequenceLength"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.tf_graph_builder.TFGraphBuilder.setMaxSequenceLength" title="Permalink to this definition">#</a></dt>
+<dd><p>Sets the maximum sequence length for AssertionDLApproach</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>value</strong><span class="classifier">int</span></dt><dd><p>Maximum sequence length for AssertionDLApproach</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp_jsl.annotator.tf_graph_builder.TFGraphBuilder.getMaxSequenceLength">
+<span class="sig-name descname"><span class="pre">getMaxSequenceLength</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../../../../modules/sparknlp_jsl/annotator/tf_graph_builder.html#TFGraphBuilder.getMaxSequenceLength"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.tf_graph_builder.TFGraphBuilder.getMaxSequenceLength" title="Permalink to this definition">#</a></dt>
+<dd><p>Gets the maximum sequence length for AssertionDLApproach.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp_jsl.annotator.tf_graph_builder.TFGraphBuilder.setHiddenUnitsNumber">
+<span class="sig-name descname"><span class="pre">setHiddenUnitsNumber</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../modules/sparknlp_jsl/annotator/tf_graph_builder.html#TFGraphBuilder.setHiddenUnitsNumber"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.tf_graph_builder.TFGraphBuilder.setHiddenUnitsNumber" title="Permalink to this definition">#</a></dt>
+<dd><p>Sets the number of hidden units for AssertionDLApproach and MedicalNerApproach</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>value</strong><span class="classifier">int</span></dt><dd><p>Number of hidden units for AssertionDLApproach and MedicalNerApproach</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp_jsl.annotator.tf_graph_builder.TFGraphBuilder.getHiddenUnitsNumber">
+<span class="sig-name descname"><span class="pre">getHiddenUnitsNumber</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../../../../modules/sparknlp_jsl/annotator/tf_graph_builder.html#TFGraphBuilder.getHiddenUnitsNumber"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.tf_graph_builder.TFGraphBuilder.getHiddenUnitsNumber" title="Permalink to this definition">#</a></dt>
+<dd><p>Gets the number of hidden units for AssertionDLApproach and MedicalNerApproach.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp_jsl.annotator.tf_graph_builder.TFGraphBuilder.setModelName">
+<span class="sig-name descname"><span class="pre">setModelName</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../modules/sparknlp_jsl/annotator/tf_graph_builder.html#TFGraphBuilder.setModelName"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.tf_graph_builder.TFGraphBuilder.setModelName" title="Permalink to this definition">#</a></dt>
+<dd><p>Sets the model name</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>value</strong><span class="classifier">str</span></dt><dd><p>Model name</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp_jsl.annotator.tf_graph_builder.TFGraphBuilder.getModelName">
+<span class="sig-name descname"><span class="pre">getModelName</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../../../../modules/sparknlp_jsl/annotator/tf_graph_builder.html#TFGraphBuilder.getModelName"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.tf_graph_builder.TFGraphBuilder.getModelName" title="Permalink to this definition">#</a></dt>
+<dd><p>Gets the name of the model.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp_jsl.annotator.tf_graph_builder.TFGraphBuilder.setLabelColumn">
+<span class="sig-name descname"><span class="pre">setLabelColumn</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../modules/sparknlp_jsl/annotator/tf_graph_builder.html#TFGraphBuilder.setLabelColumn"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.tf_graph_builder.TFGraphBuilder.setLabelColumn" title="Permalink to this definition">#</a></dt>
+<dd><p>Sets the name of the column for data labels.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>value</strong><span class="classifier">str</span></dt><dd><p>Column for data labels</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp_jsl.annotator.tf_graph_builder.TFGraphBuilder.getLabelColumn">
+<span class="sig-name descname"><span class="pre">getLabelColumn</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../../../../modules/sparknlp_jsl/annotator/tf_graph_builder.html#TFGraphBuilder.getLabelColumn"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.tf_graph_builder.TFGraphBuilder.getLabelColumn" title="Permalink to this definition">#</a></dt>
+<dd><p>Gets the name of the label column.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp_jsl.annotator.tf_graph_builder.TFGraphBuilder.setInputCols">
+<span class="sig-name descname"><span class="pre">setInputCols</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../modules/sparknlp_jsl/annotator/tf_graph_builder.html#TFGraphBuilder.setInputCols"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.tf_graph_builder.TFGraphBuilder.setInputCols" title="Permalink to this definition">#</a></dt>
+<dd><p>Sets column names of input annotations.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>*value</strong><span class="classifier">str</span></dt><dd><p>Input columns for the annotator</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp_jsl.annotator.tf_graph_builder.TFGraphBuilder.getInputCols">
+<span class="sig-name descname"><span class="pre">getInputCols</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../../../../modules/sparknlp_jsl/annotator/tf_graph_builder.html#TFGraphBuilder.getInputCols"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.tf_graph_builder.TFGraphBuilder.getInputCols" title="Permalink to this definition">#</a></dt>
+<dd><p>Gets current column names of input annotations.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp_jsl.annotator.tf_graph_builder.TFGraphBuilder.setGraphFolder">
+<span class="sig-name descname"><span class="pre">setGraphFolder</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../modules/sparknlp_jsl/annotator/tf_graph_builder.html#TFGraphBuilder.setGraphFolder"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.tf_graph_builder.TFGraphBuilder.setGraphFolder" title="Permalink to this definition">#</a></dt>
+<dd><p>Sets folder path that contain external graph files.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>value</strong><span class="classifier">srt</span></dt><dd><p>Folder path that contain external graph files.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp_jsl.annotator.tf_graph_builder.TFGraphBuilder.getGraphFolder">
+<span class="sig-name descname"><span class="pre">getGraphFolder</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../../../../modules/sparknlp_jsl/annotator/tf_graph_builder.html#TFGraphBuilder.getGraphFolder"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.tf_graph_builder.TFGraphBuilder.getGraphFolder" title="Permalink to this definition">#</a></dt>
+<dd><p>Gets the graph folder.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp_jsl.annotator.tf_graph_builder.TFGraphBuilder.setGraphFile">
+<span class="sig-name descname"><span class="pre">setGraphFile</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../modules/sparknlp_jsl/annotator/tf_graph_builder.html#TFGraphBuilder.setGraphFile"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.tf_graph_builder.TFGraphBuilder.setGraphFile" title="Permalink to this definition">#</a></dt>
+<dd><p>Sets the graph file name.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>value</strong><span class="classifier">srt</span></dt><dd><p>Greaph file name. If set to “auto”, then the graph builder will use the model specific default graph
+file name.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp_jsl.annotator.tf_graph_builder.TFGraphBuilder.getGraphFile">
+<span class="sig-name descname"><span class="pre">getGraphFile</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../../../../modules/sparknlp_jsl/annotator/tf_graph_builder.html#TFGraphBuilder.getGraphFile"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.tf_graph_builder.TFGraphBuilder.getGraphFile" title="Permalink to this definition">#</a></dt>
+<dd><p>Gets the graph file name.</p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+</section>
+</section>
+
+
+              </article>
+              
+
+              
+              <footer class="bd-footer-article">
+                  <!-- Previous / next buttons -->
+<div class='prev-next-area'>
+</div>
+              </footer>
+              
+          </div>
+          
+      </div>
+    </div>
+
+  
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../../../../../static/scripts/pydata-sphinx-theme.js?digest=92025949c220c2e29695"></script>
+
+<footer class="bd-footer"><div class="bd-footer__inner container">
+  
+  <div class="footer-item">
+    <p class="copyright">
+    &copy; Copyright 2022, John Snow Labs.<br>
+</p>
+  </div>
+  
+  <div class="footer-item">
+    <p class="sphinx-version">
+Created using <a href="http://sphinx-doc.org/">Sphinx</a> 5.1.1.<br>
+</p>
+  </div>
+  
+</div>
+</footer>
+  </body>
+</html>

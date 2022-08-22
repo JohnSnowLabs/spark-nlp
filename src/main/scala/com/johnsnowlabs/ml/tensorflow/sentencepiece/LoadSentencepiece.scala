@@ -36,7 +36,8 @@ object LoadSentencepiece {
 
   lazy val sentencepiecePaths: Option[String] =
     if (SystemUtils.IS_OS_MAC || SystemUtils.IS_OS_MAC_OSX) {
-      val libWithExtension = lib + ".dylib"
+      val libWithArch = if (SystemUtils.OS_ARCH == "aarch64") lib + "_m1" else lib
+      val libWithExtension = libWithArch + ".dylib"
       Some(resourcePath("mac", libWithExtension))
     } else if (SystemUtils.IS_OS_WINDOWS) {
       val libWithExtension = lib + ".so"

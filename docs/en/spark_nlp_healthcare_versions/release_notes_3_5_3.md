@@ -306,7 +306,7 @@ For all Spark NLP for healthcare models, please check: [Models Hub Page](https:/
     </li>
 </ul>
 
-<ul class="pagination pagination_big">
+<ul class="pagination owl-carousel pagination_big">
     <li class="active"><a href="release_notes_3_5_3">3.5.3</a></li>
     <li><a href="release_notes_3_5_2">3.5.2</a></li>
     <li><a href="release_notes_3_5_1">3.5.1</a></li>

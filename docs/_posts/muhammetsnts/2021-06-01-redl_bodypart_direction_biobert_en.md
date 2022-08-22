@@ -11,154 +11,177 @@ edition: Spark NLP for Healthcare 3.0.3
 spark_version: 3.0
 supported: true
 article_header:
-  type: cover
+type: cover
 use_language_switcher: "Python-Scala-Java"
 ---
 
+
 ## Description
+
 
 Relation extraction between body parts entities like `Internal_organ_or_component`, `External_body_part_or_region` etc. and direction entities like `upper`, `lower` in clinical texts. `1` : Shows the body part and direction entity are related, `0` : Shows the body part and direction entity are not related.
 
+
 ## Predicted Entities
 
+
 `0`, `1`
+
 
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>
 [Open in Colab](https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/10.1.Clinical_Relation_Extraction_BodyParts_Models.ipynb){:.button.button-orange.button-orange-trans.co.button-icon}
 [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/redl_bodypart_direction_biobert_en_3.0.3_3.0_1622564511730.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
 
+
 ## How to use
+
+
+
 
 
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
+
 ```python
 ...
 documenter = DocumentAssembler()\
-    .setInputCol("text")\
-    .setOutputCol("document")
+.setInputCol("text")\
+.setOutputCol("document")
 
 sentencer = SentenceDetector()\
-    .setInputCols(["document"])\
-    .setOutputCol("sentences")
+.setInputCols(["document"])\
+.setOutputCol("sentences")
 
 tokenizer = sparknlp.annotators.Tokenizer()\
-    .setInputCols(["sentences"])\
-    .setOutputCol("tokens")
+.setInputCols(["sentences"])\
+.setOutputCol("tokens")
 
 pos_tagger = PerceptronModel()\
-    .pretrained("pos_clinical", "en", "clinical/models") \
-    .setInputCols(["sentences", "tokens"])\
-    .setOutputCol("pos_tags")
+.pretrained("pos_clinical", "en", "clinical/models") \
+.setInputCols(["sentences", "tokens"])\
+.setOutputCol("pos_tags")
 
 words_embedder = WordEmbeddingsModel() \
-    .pretrained("embeddings_clinical", "en", "clinical/models") \
-    .setInputCols(["sentences", "tokens"]) \
-    .setOutputCol("embeddings")
+.pretrained("embeddings_clinical", "en", "clinical/models") \
+.setInputCols(["sentences", "tokens"]) \
+.setOutputCol("embeddings")
 
 ner_tagger = MedicalNerModel.pretrained("ner_jsl_greedy", "en", "clinical/models")\
-    .setInputCols("sentences", "tokens", "embeddings")\
-    .setOutputCol("ner_tags") 
+.setInputCols("sentences", "tokens", "embeddings")\
+.setOutputCol("ner_tags") 
 
 ner_converter = NerConverter() \
-    .setInputCols(["sentences", "tokens", "ner_tags"]) \
-    .setOutputCol("ner_chunks")
+.setInputCols(["sentences", "tokens", "ner_tags"]) \
+.setOutputCol("ner_chunks")
 
 dependency_parser = DependencyParserModel() \
-    .pretrained("dependency_conllu", "en") \
-    .setInputCols(["sentences", "pos_tags", "tokens"]) \
-    .setOutputCol("dependencies")
+.pretrained("dependency_conllu", "en") \
+.setInputCols(["sentences", "pos_tags", "tokens"]) \
+.setOutputCol("dependencies")
 
 # Set a filter on pairs of named entities which will be treated as relation candidates
 re_ner_chunk_filter = RENerChunksFilter() \
-    .setInputCols(["ner_chunks", "dependencies"])\
-    .setMaxSyntacticDistance(10)\
-    .setOutputCol("re_ner_chunks")\
-    .setRelationPairs(['direction-external_body_part_or_region', 
-                       'external_body_part_or_region-direction',
-                       'direction-internal_organ_or_component',
-                       'internal_organ_or_component-direction'
-                      ])
+.setInputCols(["ner_chunks", "dependencies"])\
+.setMaxSyntacticDistance(10)\
+.setOutputCol("re_ner_chunks")\
+.setRelationPairs(['direction-external_body_part_or_region', 
+'external_body_part_or_region-direction',
+'direction-internal_organ_or_component',
+'internal_organ_or_component-direction'
+])
 
 # The dataset this model is trained to is sentence-wise. 
 # This model can also be trained on document-level relations - in which case, while predicting, use "document" instead of "sentence" as input.
 re_model = RelationExtractionDLModel()\
-    .pretrained('redl_bodypart_direction_biobert', 'en', "clinical/models") \
-    .setPredictionThreshold(0.5)\
-    .setInputCols(["re_ner_chunks", "sentences"]) \
-    .setOutputCol("relations")
+.pretrained('redl_bodypart_direction_biobert', 'en', "clinical/models") \
+.setPredictionThreshold(0.5)\
+.setInputCols(["re_ner_chunks", "sentences"]) \
+.setOutputCol("relations")
 
 pipeline = Pipeline(stages=[documenter, sentencer, tokenizer, pos_tagger, words_embedder, ner_tagger, ner_converter, dependency_parser, re_ner_chunk_filter, re_model])
 
 text ="MRI demonstrated infarction in the upper brain stem , left cerebellum and  right basil ganglia"
+
 p_model = pipeline.fit(spark.createDataFrame([[text]]).toDF("text"))
+
 result = p_model.transform(data)
 ```
 ```scala
 ...
-val documenter = DocumentAssembler() 
-    .setInputCol("text") 
-    .setOutputCol("document")
+val documenter = new DocumentAssembler() 
+.setInputCol("text") 
+.setOutputCol("document")
 
-val sentencer = SentenceDetector()
-    .setInputCols("document")
-    .setOutputCol("sentences")
+val sentencer = new SentenceDetector()
+.setInputCols("document")
+.setOutputCol("sentences")
 
-val tokenizer = sparknlp.annotators.Tokenizer()
-    .setInputCols("sentences")
-    .setOutputCol("tokens")
+val tokenizer = new Tokenizer()
+.setInputCols("sentences")
+.setOutputCol("tokens")
 
 val pos_tagger = PerceptronModel()
-    .pretrained("pos_clinical", "en", "clinical/models") 
-    .setInputCols(Array("sentences", "tokens"))
-    .setOutputCol("pos_tags")
+.pretrained("pos_clinical", "en", "clinical/models") 
+.setInputCols(Array("sentences", "tokens"))
+.setOutputCol("pos_tags")
 
 val words_embedder = WordEmbeddingsModel()
-    .pretrained("embeddings_clinical", "en", "clinical/models")
-    .setInputCols(Array("sentences", "tokens"))
-    .setOutputCol("embeddings")
+.pretrained("embeddings_clinical", "en", "clinical/models")
+.setInputCols(Array("sentences", "tokens"))
+.setOutputCol("embeddings")
 
 val ner_tagger = MedicalNerModel.pretrained("ner_jsl_greedy", "en", "clinical/models")
-    .setInputCols(Array("sentences", "tokens", "embeddings"))
-    .setOutputCol("ner_tags") 
+.setInputCols(Array("sentences", "tokens", "embeddings"))
+.setOutputCol("ner_tags") 
 
-val ner_converter = NerConverter()
-    .setInputCols(Array("sentences", "tokens", "ner_tags"))
-    .setOutputCol("ner_chunks")
+val ner_converter = new NerConverter()
+.setInputCols(Array("sentences", "tokens", "ner_tags"))
+.setOutputCol("ner_chunks")
 
 val dependency_parser = DependencyParserModel()
-    .pretrained("dependency_conllu", "en")
-    .setInputCols(Array("sentences", "pos_tags", "tokens"))
-    .setOutputCol("dependencies")
+.pretrained("dependency_conllu", "en")
+.setInputCols(Array("sentences", "pos_tags", "tokens"))
+.setOutputCol("dependencies")
 
 // Set a filter on pairs of named entities which will be treated as relation candidates
 val re_ner_chunk_filter = RENerChunksFilter()
-    .setInputCols(Array("ner_chunks", "dependencies"))
-    .setMaxSyntacticDistance(10)
-    .setOutputCol("re_ner_chunks")
-    .setRelationPairs(Array('direction-external_body_part_or_region', 
-                    'external_body_part_or_region-direction',
-                    'direction-internal_organ_or_component',
-                    'internal_organ_or_component-direction'))
+.setInputCols(Array("ner_chunks", "dependencies"))
+.setMaxSyntacticDistance(10)
+.setOutputCol("re_ner_chunks")
+.setRelationPairs(Array('direction-external_body_part_or_region', 
+'external_body_part_or_region-direction',
+'direction-internal_organ_or_component',
+'internal_organ_or_component-direction'))
 
 // The dataset this model is trained to is sentence-wise. 
 // This model can also be trained on document-level relations - in which case, while predicting, use "document" instead of "sentence" as input.
 val re_model = RelationExtractionDLModel()
-    .pretrained("redl_bodypart_direction_biobert", "en", "clinical/models")
-    .setPredictionThreshold(0.5)
-    .setInputCols(Array("re_ner_chunks", "sentences"))
-    .setOutputCol("relations")
-    
+.pretrained("redl_bodypart_direction_biobert", "en", "clinical/models")
+.setPredictionThreshold(0.5)
+.setInputCols(Array("re_ner_chunks", "sentences"))
+.setOutputCol("relations")
+
 val pipeline = new Pipeline().setStages(Array(documenter, sentencer, tokenizer, pos_tagger, words_embedder, ner_tagger, ner_converter, dependency_parser, re_ner_chunk_filter, re_model))
 
-val data = Seq("MRI demonstrated infarction in the upper brain stem , left cerebellum and  right basil ganglia").toDF("text")
+val data = Seq("MRI demonstrated infarction in the upper brain stem , left cerebellum and  right basil ganglia").toDS.toDF("text")
+
 val result = pipeline.fit(data).transform(data)
 ```
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("en.relation").predict("""MRI demonstrated infarction in the upper brain stem , left cerebellum and  right basil ganglia""")
+```
+
 </div>
 
+
 ## Results
+
 
 ```bash
 | index | relations | entity1                     | entity1_begin | entity1_end | chunk1     | entity2                     | entity2_end | entity2_end | chunk2        | confidence |
@@ -174,8 +197,10 @@ val result = pipeline.fit(data).transform(data)
 | 8     | 1         | Direction                   | 75            | 79          | right      | Internal_organ_or_component | 81          | 93          | basil ganglia | 1.0        |
 ```
 
+
 {:.model-param}
 ## Model Information
+
 
 {:.table-model}
 |---|---|
@@ -186,15 +211,22 @@ val result = pipeline.fit(data).transform(data)
 |Language:|en|
 |Case sensitive:|true|
 
+
 ## Data Source
+
 
 Trained on an internal dataset.
 
+
 ## Benchmarking
+
 
 ```bash
 Relation           Recall Precision        F1   Support
 0                   0.856     0.873     0.865       153
 1                   0.986     0.984     0.985      1347
-Avg.                0.921     0.929     0.925
+Avg.                0.921     0.929     0.925         -
 ```
+<!--stackedit_data:
+eyJoaXN0b3J5IjpbNzU4NTAzODNdfQ==
+-->

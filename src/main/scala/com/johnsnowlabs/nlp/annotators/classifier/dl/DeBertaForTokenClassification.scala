@@ -43,7 +43,7 @@ import java.io.File
   *   .setInputCols("token", "document")
   *   .setOutputCol("label")
   * }}}
-  * The default model is `"deberta_xsmall_token_classifier_conll03"`, if no name is provided.
+  * The default model is `"deberta_v3_xsmall_token_classifier_conll03"`, if no name is provided.
   *
   * For available pretrained models please see the
   * [[https://nlp.johnsnowlabs.com/models?task=Named+Entity+Recognition Models Hub]].
@@ -293,7 +293,7 @@ class DeBertaForTokenClassification(override val uid: String)
 trait ReadablePretrainedDeBertaForTokenModel
     extends ParamsAndFeaturesReadable[DeBertaForTokenClassification]
     with HasPretrained[DeBertaForTokenClassification] {
-  override val defaultModelName: Some[String] = Some("deberta_xsmall_token_classifier_conll03")
+  override val defaultModelName: Some[String] = Some("deberta_v3_xsmall_token_classifier_conll03")
 
   /** Java compliant-overrides */
   override def pretrained(): DeBertaForTokenClassification = super.pretrained()

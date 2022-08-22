@@ -120,7 +120,7 @@ result.selectExpr("explode(sentence) as sentences").show(false)
 {%- endcapture -%}
 
 {%- capture python_api_link -%}
-[SentenceDetector](https://nlp.johnsnowlabs.com/api/python/reference/autosummary/sparknlp.annotator.SentenceDetector.html)
+[SentenceDetector](/api/python/reference/autosummary/sparknlp/annotator/sentence/sentence_detector/index.html#sparknlp.annotator.sentence.sentence_detector.SentenceDetector)
 {%- endcapture -%}
 
 {%- capture source_link -%}

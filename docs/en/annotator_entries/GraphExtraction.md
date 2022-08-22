@@ -188,7 +188,7 @@ result.select("graph").show(false)
 {%- endcapture -%}
 
 {%- capture python_api_link -%}
-[GraphExtraction](https://nlp.johnsnowlabs.com/api/python/reference/autosummary/sparknlp.annotator.GraphExtraction.html)
+[GraphExtraction](/api/python/reference/autosummary/sparknlp/annotator/graph_extraction/index.html#sparknlp.annotator.graph_extraction.GraphExtraction)
 {%- endcapture -%}
 
 {%- capture source_link -%}

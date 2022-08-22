@@ -17,9 +17,9 @@
 package com.johnsnowlabs.ml.tensorflow
 
 import com.johnsnowlabs.ml.tensorflow.sign.{ModelSignatureConstants, ModelSignatureManager}
-import com.johnsnowlabs.nlp.ActivationFunction
 import com.johnsnowlabs.nlp.annotators.common._
 import com.johnsnowlabs.nlp.annotators.tokenizer.bpe.BpeTokenizer
+import com.johnsnowlabs.nlp.{ActivationFunction, Annotation}
 import org.tensorflow.ndarray.buffer.IntDataBuffer
 
 import scala.collection.JavaConverters._
@@ -68,15 +68,42 @@ class TensorflowRoBertaClassification(
             val content = if (caseSensitive) token.token else token.token.toLowerCase()
             val sentenceBegin = token.begin
             val sentenceEnd = token.end
-            val sentenceInedx = tokenIndex.sentenceIndex
+            val sentenceIndex = tokenIndex.sentenceIndex
             val result =
-              bpeTokenizer.tokenize(Sentence(content, sentenceBegin, sentenceEnd, sentenceInedx))
+              bpeTokenizer.tokenize(Sentence(content, sentenceBegin, sentenceEnd, sentenceIndex))
             if (result.nonEmpty) result.head else IndexedToken("")
         }
       val wordpieceTokens =
         bertTokens.flatMap(token => bpeTokenizer.encode(token)).take(maxSeqLength)
       WordpieceTokenizedSentence(wordpieceTokens)
     }
+  }
+
+  def tokenizeDocument(
+      docs: Seq[Annotation],
+      maxSeqLength: Int,
+      caseSensitive: Boolean): Seq[WordpieceTokenizedSentence] = {
+    // we need the original form of the token
+    // let's lowercase if needed right before the encoding
+    val bpeTokenizer = BpeTokenizer.forModel("roberta", merges, vocabulary)
+    val sentences = docs.map { s => Sentence(s.result, s.begin, s.end, 0) }
+
+    sentences.map { sentence =>
+      val content = if (caseSensitive) sentence.content else sentence.content.toLowerCase()
+      val sentenceBegin = sentence.start
+      val sentenceEnd = sentence.end
+      val sentenceIndex = sentence.index
+
+      // TODO: we should implement dedicated the tokenize and tokenizeSubText methods for full a sentence rather than token by token
+      val indexedTokens =
+        bpeTokenizer.tokenize(Sentence(content, sentenceBegin, sentenceEnd, sentenceIndex))
+
+      val wordpieceTokens =
+        indexedTokens.flatMap(token => bpeTokenizer.encode(token)).take(maxSeqLength)
+
+      WordpieceTokenizedSentence(wordpieceTokens)
+    }
+
   }
 
   def tag(batch: Seq[Array[Int]]): Seq[Array[Array[Float]]] = {
@@ -199,6 +226,69 @@ class TensorflowRoBertaClassification(
         .toArray
 
     batchScores
+  }
+
+  def tagSpan(batch: Seq[Array[Int]]): (Array[Array[Float]], Array[Array[Float]]) = {
+    val tensors = new TensorResources()
+
+    val maxSentenceLength = batch.map(encodedSentence => encodedSentence.length).max
+    val batchLength = batch.length
+
+    val tokenBuffers: IntDataBuffer = tensors.createIntBuffer(batchLength * maxSentenceLength)
+    val maskBuffers: IntDataBuffer = tensors.createIntBuffer(batchLength * maxSentenceLength)
+
+    // [nb of encoded sentences , maxSentenceLength]
+    val shape = Array(batch.length.toLong, maxSentenceLength)
+
+    batch.zipWithIndex
+      .foreach { case (sentence, idx) =>
+        val offset = idx * maxSentenceLength
+        tokenBuffers.offset(offset).write(sentence)
+        maskBuffers
+          .offset(offset)
+          .write(sentence.map(x => if (x == sentencePadTokenId) 0 else 1))
+      }
+
+    val session = tensorflowWrapper.getTFSessionWithSignature(
+      configProtoBytes = configProtoBytes,
+      savedSignatures = signatures,
+      initAllTables = false)
+    val runner = session.runner
+
+    val tokenTensors = tensors.createIntBufferTensor(shape, tokenBuffers)
+    val maskTensors = tensors.createIntBufferTensor(shape, maskBuffers)
+
+    runner
+      .feed(
+        _tfRoBertaSignatures
+          .getOrElse(ModelSignatureConstants.InputIds.key, "missing_input_id_key"),
+        tokenTensors)
+      .feed(
+        _tfRoBertaSignatures
+          .getOrElse(ModelSignatureConstants.AttentionMask.key, "missing_input_mask_key"),
+        maskTensors)
+      .fetch(_tfRoBertaSignatures
+        .getOrElse(ModelSignatureConstants.EndLogitsOutput.key, "missing_end_logits_key"))
+      .fetch(_tfRoBertaSignatures
+        .getOrElse(ModelSignatureConstants.StartLogitsOutput.key, "missing_start_logits_key"))
+
+    val outs = runner.run().asScala
+    val endLogits = TensorResources.extractFloats(outs.head)
+    val startLogits = TensorResources.extractFloats(outs.last)
+
+    outs.foreach(_.close())
+    tensors.clearSession(outs)
+    tensors.clearTensors()
+
+    val endDim = endLogits.length / batchLength
+    val endScores: Array[Array[Float]] =
+      endLogits.grouped(endDim).map(scores => calculateSoftmax(scores)).toArray
+
+    val startDim = startLogits.length / batchLength
+    val startScores: Array[Array[Float]] =
+      startLogits.grouped(startDim).map(scores => calculateSoftmax(scores)).toArray
+
+    (startScores, endScores)
   }
 
   def findIndexedToken(

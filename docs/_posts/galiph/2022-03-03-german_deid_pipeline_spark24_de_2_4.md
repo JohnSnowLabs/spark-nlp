@@ -4,7 +4,7 @@ title: Clinical Deidentification
 author: John Snow Labs
 name: german_deid_pipeline_spark24
 date: 2022-03-03
-tags: [licensed, de, deidentification, pipeline]
+tags: [licensed, de, deidentification, pipeline, clinical]
 task: Pipeline Public
 language: de
 edition: Spark NLP for Healthcare 3.4.1
@@ -21,7 +21,7 @@ This pipeline can be used to deidentify PHI information from **German** medical 
 
 {:.btn-box}
 [Live Demo](https://demo.johnsnowlabs.com/healthcare/DEID_PHI_TEXT_DE/){:.button.button-orange}
-[Open in Colab](https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/DEID_PHI_TEXT.ipynb){:.button.button-orange.button-orange-trans.co.button-icon}
+[Open in Colab](https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/4.1.Clinical_Deidentification_in_German.ipynb){:.button.button-orange.button-orange-trans.co.button-icon}
 [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/german_deid_pipeline_spark24_de_3.4.1_2.4_1646330797926.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
 
 ## How to use
@@ -30,6 +30,7 @@ This pipeline can be used to deidentify PHI information from **German** medical 
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
+
 ```python
 from sparknlp.pretrained import PretrainedPipeline
 
@@ -47,7 +48,8 @@ Lizenznummer: B072RRE2I55
 Adresse : St.Johann-Straße 13 19300
 """
 
-result = deid_pipe.annotate(sample)
+result = deid_pipeline.annotate(sample)
+
 print("\n".join(result['masked']))
 print("\n".join(result['masked_with_chars']))
 print("\n".join(result['masked_fixed_length_chars']))
@@ -69,7 +71,7 @@ SSN : 13110587M565
 Lizenznummer: B072RRE2I55
 Adresse : St.Johann-Straße 13 19300"
 
-val result = deid_pipe.annotate(sample)
+val result = deid_pipeline.annotate(sample)
 ```
 </div>
 
@@ -150,3 +152,7 @@ Adresse : Klingelhöferring 31206
 - ChunkMergeModel
 - DeIdentificationModel
 - Finisher
+<!--stackedit_data:
+eyJoaXN0b3J5IjpbNzgzNzYxNzc5LC04NDc4MTk4NjIsLTEzMT
+MxOTQ5NDhdfQ==
+-->

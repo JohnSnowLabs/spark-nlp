@@ -11,6 +11,7 @@ const ModelItem = ({
   edition,
   date,
   supported,
+  recommended,
   deprecated,
   highlight,
 }) => {
@@ -35,6 +36,7 @@ const ModelItem = ({
     <div className="cell cell--12 cell--md-6 cell--lg-4">
       <div className="model-item">
         {label}
+        {recommended && <span class="fa fa-star model-item__recommended"></span>}
         <div className="model-item__header">
           <a href={url} className="model-item__title">
             {addNamingConventions(title)}

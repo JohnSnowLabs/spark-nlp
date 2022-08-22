@@ -11,7 +11,7 @@ language: xx
 edition: Spark NLP 3.0.0
 spark_version: 3.0
 article_header:
-  type: cover
+type: cover
 use_language_switcher: "Python-Scala-Java"
 ---
 
@@ -40,13 +40,13 @@ Note: This model only works on Linux and macOS operating systems and is not comp
 {% include programmingLanguageSelectScalaPythonNLU.html %}
 ```python
 embeddings = UniversalSentenceEncoder.pretrained("tfhub_use_multi", "xx") \
-      .setInputCols("document") \
-      .setOutputCol("sentence_embeddings")
+.setInputCols("document") \
+.setOutputCol("sentence_embeddings")
 ```
 ```scala
 val embeddings = UniversalSentenceEncoder.pretrained("tfhub_use_multi", "xx")
-      .setInputCols("document")
-      .setOutputCol("sentence_embeddings")
+.setInputCols("document")
+.setOutputCol("sentence_embeddings")
 ```
 
 {:.nlu-block}
@@ -90,7 +90,7 @@ STSBenchmark                       | dev    | test  |
 Correlation coefficient of Pearson | 0.829  | 0.809 |
 
 
- - For semantic similarity retrieval, we evaluate the model on [Quora and AskUbuntu retrieval task.](https://arxiv.org/abs/1811.08008). Results are shown below:
+- For semantic similarity retrieval, we evaluate the model on [Quora and AskUbuntu retrieval task.](https://arxiv.org/abs/1811.08008). Results are shown below:
 
 
 Dataset                | Quora | AskUbuntu | Average |
@@ -98,7 +98,7 @@ Dataset                | Quora | AskUbuntu | Average |
 Mean Average Precision  | 89.2  | 39.9      | 64.6    |
 
 
- - For the translation pair retrieval, we evaluate the model on the United Nation Parallel Corpus. Results are shown below:
+- For the translation pair retrieval, we evaluate the model on the United Nation Parallel Corpus. Results are shown below:
 
 Language Pair  | en-es  | en-fr | en-ru | en-zh |
 ---------------|--------|-------|-------|-------|

@@ -11,7 +11,7 @@ edition: Spark NLP for Healthcare 3.1.0
 spark_version: 2.4
 supported: true
 article_header:
-  type: cover
+type: cover
 use_language_switcher: "Python-Scala-Java"
 ---
 
@@ -40,13 +40,21 @@ import com.johnsnowlabs.nlp.pretrained.PretrainedPipeline
 val pipeline = new PretrainedPipeline("mesh_umls_mapping","en","clinical/models")
 val result = pipeline.annotate("C028491 D019326 C579867")
 ```
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("en.resolve.mesh.umls").predict("""C028491 D019326 C579867""")
+```
+
 </div>
 
 ## Results
 
 ```bash
 {'mesh': ['C028491', 'D019326', 'C579867'],
- 'umls': ['C0970275', 'C0886627', 'C3696376']}
+'umls': ['C0970275', 'C0886627', 'C3696376']}
 
 Note:
 

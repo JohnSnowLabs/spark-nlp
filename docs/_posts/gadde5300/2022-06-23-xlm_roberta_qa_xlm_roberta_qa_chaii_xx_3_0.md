@@ -1,6 +1,6 @@
 ---
 layout: model
-title: Unknown language [en,hi,ta] XlmRoBertaForQuestionAnswering (from gokulkarthik)
+title: Multilingual XlmRoBertaForQuestionAnswering (from gokulkarthik)
 author: John Snow Labs
 name: xlm_roberta_qa_xlm_roberta_qa_chaii
 date: 2022-06-23
@@ -11,13 +11,13 @@ edition: Spark NLP 4.0.0
 spark_version: 3.0
 supported: true
 article_header:
-  type: cover
+type: cover
 use_language_switcher: "Python-Scala-Java"
 ---
 
 ## Description
 
-Pretrained Question Answering model, adapted from Hugging Face and curated to provide scalability and production-readiness using Spark NLP. `xlm-roberta-qa-chaii` is a Unknown language [en,hi,ta] model originally trained by `gokulkarthik`.
+Pretrained Question Answering model, adapted from Hugging Face and curated to provide scalability and production-readiness using Spark NLP. `xlm-roberta-qa-chaii` is a multilingual model originally trained by `gokulkarthik`.
 
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>
@@ -32,17 +32,17 @@ Pretrained Question Answering model, adapted from Hugging Face and curated to pr
 {% include programmingLanguageSelectScalaPythonNLU.html %}
 ```python
 document_assembler = MultiDocumentAssembler() \ 
-    .setInputCols(["question", "context"]) \
-    .setOutputCols(["document_question", "document_context"])
+.setInputCols(["question", "context"]) \
+.setOutputCols(["document_question", "document_context"])
 
 spanClassifier = XlmRoBertaForQuestionAnswering.pretrained("xlm_roberta_qa_xlm_roberta_qa_chaii","xx") \
-    .setInputCols(["document_question", "document_context"]) \
-    .setOutputCol("answer") \
-    .setCaseSensitive(True)
+.setInputCols(["document_question", "document_context"]) \
+.setOutputCol("answer") \
+.setCaseSensitive(True)
 
 pipeline = Pipeline().setStages([
-    document_assembler,
-    spanClassifier
+document_assembler,
+spanClassifier
 ])
 
 example = spark.createDataFrame([["What's my name?", "My name is Clara and I live in Berkeley."]]).toDF("question", "context")
@@ -51,25 +51,33 @@ result = pipeline.fit(example).transform(example)
 ```
 ```scala
 val document = new MultiDocumentAssembler()
-  .setInputCols(Array("question", "context")) 
-  .setOutputCols(Array("document_question", "document_context"))
+.setInputCols(Array("question", "context")) 
+.setOutputCols(Array("document_question", "document_context"))
 
 val spanClassifier = XlmRoBertaForQuestionAnswering
-  .pretrained("xlm_roberta_qa_xlm_roberta_qa_chaii","xx")
-  .setInputCols(Array("document_question", "document_context"))
-  .setOutputCol("answer")
-  .setCaseSensitive(true)
-  .setMaxSentenceLength(512)
+.pretrained("xlm_roberta_qa_xlm_roberta_qa_chaii","xx")
+.setInputCols(Array("document_question", "document_context"))
+.setOutputCol("answer")
+.setCaseSensitive(true)
+.setMaxSentenceLength(512)
 
 val pipeline = new Pipeline().setStages(Array(document, spanClassifier))
 
 val example = Seq(
-  ("Where was John Lenon born?", "John Lenon was born in London and lived in Paris. My name is Sarah and I live in London."),
-  ("What's my name?", "My name is Clara and I live in Berkeley."))
-  .toDF("question", "context")
+("Where was John Lenon born?", "John Lenon was born in London and lived in Paris. My name is Sarah and I live in London."),
+("What's my name?", "My name is Clara and I live in Berkeley."))
+.toDF("question", "context")
 
 val result = pipeline.fit(example).transform(example)
 ```
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("xx.answer_question.chaii.xlm_roberta").predict("""What's my name?|||"My name is Clara and I live in Berkeley.""")
+```
+
 </div>
 
 {:.model-param}

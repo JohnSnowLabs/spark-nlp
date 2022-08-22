@@ -2,17 +2,17 @@ import Dependencies._
 import Resolvers.m2Resolvers
 import sbtassembly.MergeStrategy
 
-name := getPackageName(is_spark23, is_spark24, is_spark32, is_gpu)
+name := getPackageName(is_m1, is_gpu)
 
 organization := "com.johnsnowlabs.nlp"
 
-version := "3.4.4"
+version := "4.0.2"
 
 (ThisBuild / scalaVersion) := scalaVer
 
 (ThisBuild / scalacOptions) += "-target:jvm-1.8"
 
-scalacOptions ++= Seq("-unchecked", "-feature", "-language:implicitConversions")
+scalacOptions ++= Seq("-unchecked", "-feature", "-deprecation", "-language:implicitConversions")
 
 (Compile / doc / scalacOptions) ++= Seq(
   "-groups",
@@ -139,14 +139,15 @@ lazy val utilDependencies = Seq(
   liblevenshtein
     exclude ("com.google.guava", "guava")
     exclude ("org.apache.commons", "commons-lang3"),
-  greex,
-  json4s)
+  greex)
 
 lazy val typedDependencyParserDependencies = Seq(junit)
 
 val tensorflowDependencies: Seq[sbt.ModuleID] =
   if (is_gpu.equals("true"))
     Seq(tensorflowGPU)
+  else if (is_m1.equals("true"))
+    Seq(tensorflowM1)
   else
     Seq(tensorflowCPU)
 
@@ -217,8 +218,8 @@ inConfig(SlowTest)(Defaults.testTasks)
 (Test / publishArtifact) := true
 
 /** Copies the assembled jar to the pyspark/lib dir * */
-lazy val copyAssembledJar = taskKey[Unit]("Copy assembled jar to pyspark/lib")
-lazy val copyAssembledJarForPyPi = taskKey[Unit]("Copy assembled jar to pyspark/sparknlp/lib")
+lazy val copyAssembledJar = taskKey[Unit]("Copy assembled jar to python/lib")
+lazy val copyAssembledJarForPyPi = taskKey[Unit]("Copy assembled jar to python/sparknlp/lib")
 
 copyAssembledJar := {
   val jarFilePath = (assembly / assemblyOutputPath).value

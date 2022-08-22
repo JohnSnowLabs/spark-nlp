@@ -11,81 +11,95 @@ edition: Spark NLP for Healthcare 3.5.1
 spark_version: 3.0
 supported: true
 article_header:
-  type: cover
+type: cover
 use_language_switcher: "Python-Scala-Java"
 ---
 
+
 ## Description
 
-This model maps extracted clinical entities to ICD-10-CM codes using `sbiobert_base_cased_mli` sentence bert embeddings. In this model, synonyms having low cosine similarity to unnormalized terms are dropped. It returns the official resolution text within the brackets and also provides billable and HCC information of the codes in `all_k_aux_labels` parameter in the metadata. This column can be divided to get further details: `billable status` || `hcc status` || `hcc score`. For example, if `all_k_aux_labels` is like `1||1||19` which means the `billable status` is 1, `hcc status` is 1, and `hcc score` is 19.
+
+This model maps extracted clinical entities to ICD-10-CM codes using `sbiobert_base_cased_mli` sentence bert embeddings. In this model, synonyms having low cosine similarity to unnormalized terms are dropped. It returns the official resolution text within the brackets and also provides billable and HCC information of the codes in `all_k_aux_labels` parameter in the metadata. This column can be divided to get further details: `billable status || hcc status || hcc score`. For example, if `all_k_aux_labels` is like `1||1||19` which means the `billable status` is 1, `hcc status` is 1, and `hcc score` is 19.
+
 
 ## Predicted Entities
 
+
 `ICD10 Codes`, `billable status`, `hcc status`, `hcc score`
+
 
 {:.btn-box}
 [Live Demo](https://demo.johnsnowlabs.com/healthcare/ER_ICD10_CM/){:.button.button-orange}
-[Open in Colab](https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/3.Clinical_Entity_Resolvers.ipynb){:.button.button-orange.button-orange-trans.co.button-icon}
+[Open in Colab](https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/ER_ICD10_CM.ipynb){:.button.button-orange.button-orange-trans.co.button-icon}
 [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/sbiobertresolve_icd10cm_slim_billable_hcc_en_3.5.1_3.0_1652294908790.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
+
 
 ## How to use
 
 
-
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
+
 ```python
 document_assembler = DocumentAssembler()\
-    .setInputCol("text")\
-    .setOutputCol("document")
+.setInputCol("text")\
+.setOutputCol("document")
+
 
 sentenceDetectorDL = SentenceDetectorDLModel.pretrained("sentence_detector_dl_healthcare", "en", "clinical/models")\
-    .setInputCols(["document"])\
-    .setOutputCol("sentence")
+.setInputCols(["document"])\
+.setOutputCol("sentence")
+
 
 tokenizer = Tokenizer()\
-    .setInputCols(["sentence"])\
-    .setOutputCol("token")
+.setInputCols(["sentence"])\
+.setOutputCol("token")
+
 
 word_embeddings = WordEmbeddingsModel.pretrained("embeddings_clinical", "en", "clinical/models")\
-    .setInputCols(["sentence", "token"])\
-    .setOutputCol("word_embeddings")
+.setInputCols(["sentence", "token"])\
+.setOutputCol("word_embeddings")
+
 
 ner = MedicalNerModel.pretrained("ner_clinical", "en", "clinical/models")\
-    .setInputCols(["sentence", "token", "word_embeddings"])\
-    .setOutputCol("ner")\
+.setInputCols(["sentence", "token", "word_embeddings"])\
+.setOutputCol("ner")\
+
 
 ner_converter = NerConverterInternal()\
-    .setInputCols(["sentence", "token", "ner"])\
-    .setOutputCol("ner_chunk")\
-    .setWhiteList(["PROBLEM"])
+.setInputCols(["sentence", "token", "ner"])\
+.setOutputCol("ner_chunk")\
+.setWhiteList(["PROBLEM"])
+
 
 c2doc = Chunk2Doc()\
-    .setInputCols("ner_chunk")\
-    .setOutputCol("ner_chunk_doc") 
+.setInputCols("ner_chunk")\
+.setOutputCol("ner_chunk_doc") 
+
 
 sbert_embedder = BertSentenceEmbeddings.pretrained("sbiobert_base_cased_mli", "en", "clinical/models")\
-    .setInputCols(["ner_chunk_doc"])\
-    .setOutputCol("sentence_embeddings")\
-    .setCaseSensitive(False)
-    
+.setInputCols(["ner_chunk_doc"])\
+.setOutputCol("sentence_embeddings")\
+.setCaseSensitive(False)
+
 icd_resolver = SentenceEntityResolverModel.pretrained("sbiobertresolve_icd10cm_slim_billable_hcc", "en", "clinical/models") \
-    .setInputCols(["ner_chunk", "sentence_embeddings"]) \
-    .setOutputCol("icd_code")\
-    .setDistanceFunction("EUCLIDEAN")
-    
+.setInputCols(["ner_chunk", "sentence_embeddings"]) \
+.setOutputCol("icd_code")\
+.setDistanceFunction("EUCLIDEAN")
+
 resolver_pipeline = Pipeline(
-    stages = [
-        document_assembler,
-        sentenceDetectorDL,
-        tokenizer,
-        word_embeddings,
-        ner,
-        ner_converter,
-        c2doc,
-        sbert_embedder,
-        icd_resolver
-  ])
+stages = [
+document_assembler,
+sentenceDetectorDL,
+tokenizer,
+word_embeddings,
+ner,
+ner_converter,
+c2doc,
+sbert_embedder,
+icd_resolver
+])
+
 
 model = resolver_pipeline.fit(spark.createDataFrame([[""]]).toDF("text"))
 
@@ -95,62 +109,82 @@ result = model.transform(data)
 ```
 ```scala
 val document_assembler = new DocumentAssembler()
-      .setInputCol("text")
-      .setOutputCol("document")
+.setInputCol("text")
+.setOutputCol("document")
+
 
 val sentenceDetectorDL = SentenceDetectorDLModel.pretrained("sentence_detector_dl_healthcare", "en", "clinical/models")
-      .setInputCols("document")
-      .setOutputCol("sentence")
+.setInputCols("document")
+.setOutputCol("sentence")
+
 
 val tokenizer = new Tokenizer()
-      .setInputCols("sentence")
-      .setOutputCol("token")
+.setInputCols("sentence")
+.setOutputCol("token")
+
 
 val word_embeddings = WordEmbeddingsModel.pretrained("embeddings_clinical", "en", "clinical/models")
-      .setInputCols(Array("sentence", "token"))
-      .setOutputCol("word_embeddings")
+.setInputCols(Array("sentence", "token"))
+.setOutputCol("word_embeddings")
+
 
 val ner = MedicalNerModel.pretrained("ner_clinical", "en", "clinical/models")
-      .setInputCols(Array("sentence", "token", "word_embeddings"))
-      .setOutputCol("ner")
+.setInputCols(Array("sentence", "token", "word_embeddings"))
+.setOutputCol("ner")
+
 
 val ner_converter = new NerConverterInternal()
-      .setInputCols(Array("sentence", "token", "ner"))
-      .setOutputCol("ner_chunk")
-      .setWhiteList(Array("PROBLEM"))
+.setInputCols(Array("sentence", "token", "ner"))
+.setOutputCol("ner_chunk")
+.setWhiteList(Array("PROBLEM"))
+
 
 val c2doc = new Chunk2Doc()
-      .setInputCols("ner_chunk")
-      .setOutputCol("ner_chunk_doc") 
+.setInputCols("ner_chunk")
+.setOutputCol("ner_chunk_doc") 
+
 
 val sbert_embedder = BertSentenceEmbeddings.pretrained("sbiobert_base_cased_mli", "en", "clinical/models")
-      .setInputCols("ner_chunk_doc")
-      .setOutputCol("sentence_embeddings")
-      .setCaseSensitive(False)
-    
+.setInputCols("ner_chunk_doc")
+.setOutputCol("sentence_embeddings")
+.setCaseSensitive(False)
+
 val resolver = SentenceEntityResolverModel.pretrained("sbiobertresolve_icd10cm_slim_billable_hcc", "en", "clinical/models")
-      .setInputCols(Array("ner_chunk", "sentence_embeddings"))
-      .setOutputCol("icd_code")
-      .setDistanceFunction("EUCLIDEAN")
-    
+.setInputCols(Array("ner_chunk", "sentence_embeddings"))
+.setOutputCol("icd_code")
+.setDistanceFunction("EUCLIDEAN")
+
+
 
 val resolver_pipeline = new PipelineModel().setStages(Array(document_assembler, 
-                                                            sentenceDetectorDL, 
-                                                            tokenizer, 
-                                                            word_embeddings, 
-                                                            ner, 
-                                                            ner_converter,  
-                                                            c2doc, 
-                                                            sbert_embedder, 
-                                                            resolver))
+sentenceDetectorDL, 
+tokenizer, 
+word_embeddings, 
+ner, 
+ner_converter,  
+c2doc, 
+sbert_embedder, 
+resolver))
+
 
 val data = Seq("A 28-year-old female with a history of gestational diabetes mellitus diagnosed eight years prior to presentation and subsequent type two diabetes mellitus (T2DM), one prior episode of HTG-induced pancreatitis three years prior to presentation, associated with acute hepatitis and obesity , presented with a one-week history of polyuria, polydipsia, poor appetite, and vomiting. Two weeks prior to presentation, she was treated with a five-day course of amoxicillin for a respiratory tract infection.").toDS.toDF("text")
 
+
 val results = resolver_pipeline.fit(data).transform(data)
 ```
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("en.resolve.icd10cm.slim_billable_hcc").predict("""A 28-year-old female with a history of gestational diabetes mellitus diagnosed eight years prior to presentation and subsequent type two diabetes mellitus (T2DM), one prior episode of HTG-induced pancreatitis three years prior to presentation, associated with acute hepatitis and obesity , presented with a one-week history of polyuria, polydipsia, poor appetite, and vomiting. Two weeks prior to presentation, she was treated with a five-day course of amoxicillin for a respiratory tract infection.""")
+```
+
 </div>
 
+
 ## Results
+
 
 ```bash
 +-------------------------------------+-------+--------+-------------------------------------------------------------------+--------------------------------------------------+-------------------------------------------------------+
@@ -169,10 +203,13 @@ val results = resolver_pipeline.fit(data).transform(data)
 |        a respiratory tract infection|PROBLEM|   J06.9|upper respiratory tract infection [Acute upper respiratory infec...|J06.9:::T17.9:::T17:::J04.10:::J22:::J98.8:::J9...| 1||0||0:::0||0||0:::0||0||0:::1||0||0:::1||0||0:::1...|
 +-------------------------------------+-------+--------+----------------------------------------------------------------------------------------------------+--------------------------------------------------+-------------------------------------------------------+
 
+
 ```
+
 
 {:.model-param}
 ## Model Information
+
 
 {:.table-model}
 |---|---|
@@ -185,3 +222,7 @@ val results = resolver_pipeline.fit(data).transform(data)
 |Language:|en|
 |Size:|846.6 MB|
 |Case sensitive:|false|
+<!--stackedit_data:
+eyJoaXN0b3J5IjpbLTE1Nzk5NzQxNTcsLTE0MjY2MTg4OTNdfQ
+==
+-->

@@ -138,7 +138,7 @@ result.selectExpr("explode(translation.result) as result").show(false)
 {%- endcapture -%}
 
 {%- capture python_api_link -%}
-[MarianTransformer](https://nlp.johnsnowlabs.com/api/python/reference/autosummary/sparknlp.annotator.MarianTransformer.html)
+[MarianTransformer](/api/python/reference/autosummary/sparknlp/annotator/seq2seq/marian_transformer/index.html#sparknlp.annotator.seq2seq.marian_transformer.MarianTransformer)
 {%- endcapture -%}
 
 {%- capture source_link -%}

@@ -12,7 +12,7 @@ spark_version: 3.0
 supported: true
 recommended: true
 article_header:
-  type: cover
+type: cover
 use_language_switcher: "Python-Scala-Java"
 ---
 
@@ -33,17 +33,17 @@ Pretrained RoBERTa Embeddings model for Spanish Language, trained within the Ber
 {% include programmingLanguageSelectScalaPythonNLU.html %}
 ```python
 documentAssembler = DocumentAssembler() \
-    .setInputCol("text") \
-    .setOutputCol("document")
+.setInputCol("text") \
+.setOutputCol("document")
 
 tokenizer = Tokenizer() \
-    .setInputCols("document") \
-    .setOutputCol("token")
-  
+.setInputCols("document") \
+.setOutputCol("token")
+
 embeddings = RoBertaEmbeddings.pretrained("roberta_embeddings_bertin_roberta_base_spanish","es") \
-    .setInputCols(["document", "token"]) \
-    .setOutputCol("embeddings")
-    
+.setInputCols(["document", "token"]) \
+.setOutputCol("embeddings")
+
 pipeline = Pipeline(stages=[documentAssembler, tokenizer, embeddings])
 
 data = spark.createDataFrame([["Me encanta chispa nlp"]]).toDF("text")
@@ -52,16 +52,16 @@ result = pipeline.fit(data).transform(data)
 ```
 ```scala
 val documentAssembler = new DocumentAssembler() 
-      .setInputCol("text") 
-      .setOutputCol("document")
- 
+.setInputCol("text") 
+.setOutputCol("document")
+
 val tokenizer = new Tokenizer() 
-    .setInputCols(Array("document"))
-    .setOutputCol("token")
+.setInputCols(Array("document"))
+.setOutputCol("token")
 
 val embeddings = RoBertaEmbeddings.pretrained("roberta_embeddings_bertin_roberta_base_spanish","es") 
-    .setInputCols(Array("document", "token")) 
-    .setOutputCol("embeddings")
+.setInputCols(Array("document", "token")) 
+.setOutputCol("embeddings")
 
 val pipeline = new Pipeline().setStages(Array(documentAssembler, tokenizer, embeddings))
 
@@ -69,6 +69,14 @@ val data = Seq("Me encanta chispa nlp").toDF("text")
 
 val result = pipeline.fit(data).transform(data)
 ```
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("es.embed.bertin_roberta_base_spanish").predict("""Me encanta chispa nlp""")
+```
+
 </div>
 
 {:.model-param}

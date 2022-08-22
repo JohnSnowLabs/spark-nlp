@@ -150,7 +150,7 @@ result.select("ner.result").show(false)
 {%- endcapture -%}
 
 {%- capture model_python_api_link -%}
-[NerCrfModel](https://nlp.johnsnowlabs.com/api/python/reference/autosummary/sparknlp.annotator.NerCrfModel.html)
+[NerCrfModel](/api/python/reference/autosummary/sparknlp/annotator/ner/ner_crf/index.html#sparknlp.annotator.ner.ner_crf.NerCrfModel)
 {%- endcapture -%}
 
 {%- capture model_source_link -%}
@@ -276,7 +276,7 @@ val pipelineModel = pipeline.fit(trainingData)
 {%- endcapture -%}
 
 {%- capture approach_python_api_link -%}
-[NerCrfApproach](https://nlp.johnsnowlabs.com/api/python/reference/autosummary/sparknlp.annotator.NerCrfApproach.html)
+[NerCrfApproach](/api/python/reference/autosummary/sparknlp/annotator/ner/ner_crf/index.html#sparknlp.annotator.ner.ner_crf.NerCrfApproach)
 {%- endcapture -%}
 
 {%- capture approach_source_link -%}

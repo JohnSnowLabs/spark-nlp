@@ -62,23 +62,26 @@ private[ml] class SentencepieceEncoder(
 
     val text = sentence.content.take(maxLength)
     var start = 0
-    var end = text.length
+    var end = 0
     val normalizedDelimiterId = delimiterId + pieceIdOffset
 
-    val sentContent = if (caseSensitive) sentence.content else sentence.content.toLowerCase()
+    val sentContent = if (caseSensitive) text else text.toLowerCase()
     val wordPieces = spp.getSppModel.encodeAsPieces(sentContent).toArray.map(x => x.toString)
     val encodedIds = spp.getSppModel.encodeAsIds(sentContent)
+    val delimiterPiece = spp.getSppModel.idToPiece(normalizedDelimiterId)
     val pieceIds = encodedIds.map(x => x + pieceIdOffset)
     wordPieces.zip(pieceIds).filter(id => id._2 != normalizedDelimiterId).map { piece =>
-      val tokenPiece = TokenPiece(
-        piece._1,
-        sentContent,
-        piece._2,
-        start == 0,
-        sentence.start + start,
-        sentence.end)
-      start = end
-      end = text.length
+      val cleanToken = piece._1.replace(delimiterPiece, "")
+      end = end + cleanToken.length - 1
+      val tokenPiece =
+        TokenPiece(
+          piece._1,
+          cleanToken,
+          piece._2,
+          piece._1.startsWith(delimiterPiece),
+          start,
+          end)
+      start = end + 1
       tokenPiece
     }
   }

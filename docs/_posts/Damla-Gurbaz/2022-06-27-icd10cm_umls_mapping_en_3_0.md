@@ -11,7 +11,7 @@ edition: Spark NLP for Healthcare 3.5.3
 spark_version: 3.0
 supported: true
 article_header:
-  type: cover
+type: cover
 use_language_switcher: "Python-Scala-Java"
 ---
 
@@ -44,6 +44,14 @@ val pipeline = new PretrainedPipeline("icd10cm_umls_mapping", "en", "clinical/mo
 
 val result = pipeline.fullAnnotate(Array("M8950", "R822", "R0901"))
 ```
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("en.resolve.icd10cm.umls").predict("""Put your text here.""")
+```
+
 </div>
 
 ## Results

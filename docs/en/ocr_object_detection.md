@@ -155,10 +155,10 @@ It's based on CRAFT network architecture.
 {:.table-model-big}
 | Param name | Type | Default | Description |
 | --- | --- | --- | --- |
-| scoreThreshold | float | 0.9 | Score threshold for output regions.|
-| sizeThreshold | int | 5 | Size threshold for detected text |
-| textThreshold | float | 0.4f | Text threshold |
-| linkThreshold | float | 0.4f | Link threshold |
+| scoreThreshold | float | 0.9 | Score threshold for output regions. Regions with an area below the threshold won't be returned.|
+| sizeThreshold | int | 5 | Threshold for the area of the detected regions. |
+| textThreshold | float | 0.4f | Threshold for the score of a region potentially containing text. The region score represents the probability that a given pixel is the center of the character. Higher values for this threshold will result in that only regions for which the confidence of containing text is high will be returned.|
+| linkThreshold | float | 0.4f | Threshold for the the link(affinity) score. The link score represents the space allowed between adjacent characters to be considered as a single word. |
 | width | integer | 0 | Scale width to this value, if 0 use original width |
 | height | integer | 0 | Scale height to this value, if 0 use original height |
 
@@ -289,9 +289,9 @@ Currently, it's available only on Python side.
 | Param name | Type | Default | Description |
 | --- | --- | --- | --- |
 | scoreThreshold | float | 0.7 | Score threshold for output regions.|
-| sizeThreshold | int | 10 | Threshold for height of the detected regions. |
-| textThreshold | float | 0.4f | Threshold for the region(text) score. The region score represents the probability that the given pixel is the center of the character. |
-| linkThreshold | float | 0.4f | Threshold for the the link(affinity) score. The link score represents the center probability of the space between adjacent characters. |
+| sizeThreshold | int | 10 | Threshold for height of the detected regions. Regions with a height below the threshold won't be returned.|
+| textThreshold | float | 0.4f | Threshold for the score of a region potentially containing text. The region score represents the probability that a given pixel is the center of the character. Higher values for this threshold will result in that only regions for which the confidence of containing text is high will be returned.|
+| linkThreshold | float | 0.4f | Threshold for the the link(affinity) score. The link score represents the space allowed between adjacent characters to be considered as a single word. |
 | width | integer | 1280 | Width of the desired input image. Image will be resized to this width. |
 | withRefiner | boolean | false | Enable to run refiner net as postprocessing step. |
 

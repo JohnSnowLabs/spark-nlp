@@ -1,6 +1,6 @@
 ---
 layout: model
-title: English RoBERTa Embeddings (from saibo)
+title: English Legal RoBERTa Embeddings (Base, Cased)
 author: John Snow Labs
 name: roberta_embeddings_legal_roberta_base
 date: 2022-04-14
@@ -11,13 +11,13 @@ edition: Spark NLP 3.4.2
 spark_version: 3.0
 supported: true
 article_header:
-  type: cover
+type: cover
 use_language_switcher: "Python-Scala-Java"
 ---
 
 ## Description
 
-Pretrained RoBERTa Embeddings model, uploaded to Hugging Face, adapted and imported into Spark NLP. `legal-roberta-base` is a English model orginally trained by `saibo`.
+Pretrained Legal RoBERTa Embeddings model, uploaded to Hugging Face, adapted and imported into Spark NLP. `legal-roberta-base` is a English model orginally trained by `saibo`.
 
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>
@@ -32,17 +32,17 @@ Pretrained RoBERTa Embeddings model, uploaded to Hugging Face, adapted and impor
 {% include programmingLanguageSelectScalaPythonNLU.html %}
 ```python
 documentAssembler = DocumentAssembler() \
-    .setInputCol("text") \
-    .setOutputCol("document")
+.setInputCol("text") \
+.setOutputCol("document")
 
 tokenizer = Tokenizer() \
-    .setInputCols("document") \
-    .setOutputCol("token")
-  
+.setInputCols("document") \
+.setOutputCol("token")
+
 embeddings = RoBertaEmbeddings.pretrained("roberta_embeddings_legal_roberta_base","en") \
-    .setInputCols(["document", "token"]) \
-    .setOutputCol("embeddings")
-    
+.setInputCols(["document", "token"]) \
+.setOutputCol("embeddings")
+
 pipeline = Pipeline(stages=[documentAssembler, tokenizer, embeddings])
 
 data = spark.createDataFrame([["I love Spark NLP"]]).toDF("text")
@@ -51,16 +51,16 @@ result = pipeline.fit(data).transform(data)
 ```
 ```scala
 val documentAssembler = new DocumentAssembler() 
-      .setInputCol("text") 
-      .setOutputCol("document")
- 
+.setInputCol("text") 
+.setOutputCol("document")
+
 val tokenizer = new Tokenizer() 
-    .setInputCols(Array("document"))
-    .setOutputCol("token")
+.setInputCols(Array("document"))
+.setOutputCol("token")
 
 val embeddings = RoBertaEmbeddings.pretrained("roberta_embeddings_legal_roberta_base","en") 
-    .setInputCols(Array("document", "token")) 
-    .setOutputCol("embeddings")
+.setInputCols(Array("document", "token")) 
+.setOutputCol("embeddings")
 
 val pipeline = new Pipeline().setStages(Array(documentAssembler, tokenizer, embeddings))
 
@@ -68,6 +68,14 @@ val data = Seq("I love Spark NLP").toDF("text")
 
 val result = pipeline.fit(data).transform(data)
 ```
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("en.embed.legal_roberta_base").predict("""I love Spark NLP""")
+```
+
 </div>
 
 {:.model-param}

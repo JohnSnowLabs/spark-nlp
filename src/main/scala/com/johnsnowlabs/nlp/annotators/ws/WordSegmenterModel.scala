@@ -179,7 +179,7 @@ class WordSegmenterModel(override val uid: String)
   }
 
   private def getWordIndexesByMatchedGroups(tagsSentence: String): List[List[RegexTagsInfo]] = {
-    val regexPattern = s"($LEFT_BOUNDARY)($MIDDLE*)*($RIGHT_BOUNDARY+)".r
+    val regexPattern = s"($LEFT_BOUNDARY)($MIDDLE*)*($RIGHT_BOUNDARY)".r
     regexPattern
       .findAllMatchIn(tagsSentence)
       .map(matchedResult => {
@@ -200,6 +200,7 @@ class WordSegmenterModel(override val uid: String)
       wordIndexesByMatchedGroups: List[List[RegexTagsInfo]],
       taggedSentence: TaggedSentence,
       sentenceIndex: Int): Seq[Annotation] = {
+
     val singleTaggedWords =
       getSingleIndexedTaggedWords(wordIndexesByMatchedGroups, taggedSentence)
     val multipleTaggedWords = getMultipleTaggedWords(wordIndexesByMatchedGroups, taggedSentence)

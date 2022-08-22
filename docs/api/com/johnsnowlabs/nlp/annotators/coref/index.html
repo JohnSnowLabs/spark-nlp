@@ -1,0 +1,654 @@
+<!DOCTYPE html >
+<html>
+        <head>
+          <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+          <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+          <title>Spark NLP 4.0.2 ScalaDoc  - com.johnsnowlabs.nlp.annotators.coref</title>
+          <meta name="description" content="Spark NLP 4.0.2 ScalaDoc - com.johnsnowlabs.nlp.annotators.coref" />
+          <meta name="keywords" content="Spark NLP 4.0.2 ScalaDoc com.johnsnowlabs.nlp.annotators.coref" />
+          <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+          
+      
+      <link href="../../../../../lib/index.css" media="screen" type="text/css" rel="stylesheet" />
+      <link href="../../../../../lib/template.css" media="screen" type="text/css" rel="stylesheet" />
+      <link href="../../../../../lib/diagrams.css" media="screen" type="text/css" rel="stylesheet" id="diagrams-css" />
+      <script type="text/javascript" src="../../../../../lib/jquery.min.js"></script>
+      <script type="text/javascript" src="../../../../../lib/jquery.panzoom.min.js"></script>
+      <script type="text/javascript" src="../../../../../lib/jquery.mousewheel.min.js"></script>
+      <script type="text/javascript" src="../../../../../lib/index.js"></script>
+      <script type="text/javascript" src="../../../../../index.js"></script>
+      <script type="text/javascript" src="../../../../../lib/scheduler.js"></script>
+      <script type="text/javascript" src="../../../../../lib/template.js"></script>
+      
+      <script type="text/javascript">
+        /* this variable can be used by the JS to determine the path to the root document */
+        var toRoot = '../../../../../';
+      </script>
+    
+        </head>
+        <body>
+      <div id="search">
+        <span id="doc-title">Spark NLP 4.0.2 ScalaDoc<span id="doc-version"></span></span>
+        <span class="close-results"><span class="left">&lt;</span> Back</span>
+        <div id="textfilter">
+          <span class="input">
+            <input autocapitalize="none" placeholder="Search" id="index-input" type="text" accesskey="/" />
+            <i class="clear material-icons"></i>
+            <i id="search-icon" class="material-icons"></i>
+          </span>
+        </div>
+    </div>
+      <div id="search-results">
+        <div id="search-progress">
+          <div id="progress-fill"></div>
+        </div>
+        <div id="results-content">
+          <div id="entity-results"></div>
+          <div id="member-results"></div>
+        </div>
+      </div>
+      <div id="content-scroll-container" style="-webkit-overflow-scrolling: touch;">
+        <div id="content-container" style="-webkit-overflow-scrolling: touch;">
+          <div id="subpackage-spacer">
+            <div id="packages">
+              <h1>Packages</h1>
+              <ul>
+                <li name="_root_.root" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="_root_"></a><a id="root:_root_"></a>
+      <span class="permalink">
+      <a href="../../../../../index.html" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">package</span>
+      </span>
+      <span class="symbol">
+        <a title="" href="../../../../../index.html"><span class="name">root</span></a>
+      </span>
+      
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="../../../../../index.html" class="extype" name="_root_">root</a></dd></dl></div>
+    </li><li name="_root_.com" visbl="pub" class="indented1 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="com"></a><a id="com:com"></a>
+      <span class="permalink">
+      <a href="../../../../../com/index.html" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">package</span>
+      </span>
+      <span class="symbol">
+        <a title="" href="../../../../index.html"><span class="name">com</span></a>
+      </span>
+      
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="../../../../../index.html" class="extype" name="_root_">root</a></dd></dl></div>
+    </li><li name="com.johnsnowlabs" visbl="pub" class="indented2 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="johnsnowlabs"></a><a id="johnsnowlabs:johnsnowlabs"></a>
+      <span class="permalink">
+      <a href="../../../../../com/johnsnowlabs/index.html" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">package</span>
+      </span>
+      <span class="symbol">
+        <a title="" href="../../../index.html"><span class="name">johnsnowlabs</span></a>
+      </span>
+      
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="../../../../index.html" class="extype" name="com">com</a></dd></dl></div>
+    </li><li name="com.johnsnowlabs.nlp" visbl="pub" class="indented3 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="nlp"></a><a id="nlp:nlp"></a>
+      <span class="permalink">
+      <a href="../../../../../com/johnsnowlabs/nlp/index.html" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">package</span>
+      </span>
+      <span class="symbol">
+        <a title="" href="../../index.html"><span class="name">nlp</span></a>
+      </span>
+      
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="../../../index.html" class="extype" name="com.johnsnowlabs">johnsnowlabs</a></dd></dl></div>
+    </li><li name="com.johnsnowlabs.nlp.annotators" visbl="pub" class="indented4 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="annotators"></a><a id="annotators:annotators"></a>
+      <span class="permalink">
+      <a href="../../../../../com/johnsnowlabs/nlp/annotators/index.html" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">package</span>
+      </span>
+      <span class="symbol">
+        <a title="" href="../index.html"><span class="name">annotators</span></a>
+      </span>
+      
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="../../index.html" class="extype" name="com.johnsnowlabs.nlp">nlp</a></dd></dl></div>
+    </li><li name="com.johnsnowlabs.nlp.annotators.btm" visbl="pub" class="indented5 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="btm"></a><a id="btm:btm"></a>
+      <span class="permalink">
+      <a href="../../../../../com/johnsnowlabs/nlp/annotators/btm/index.html" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">package</span>
+      </span>
+      <span class="symbol">
+        <a title="" href="../btm/index.html"><span class="name">btm</span></a>
+      </span>
+      
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="../index.html" class="extype" name="com.johnsnowlabs.nlp.annotators">annotators</a></dd></dl></div>
+    </li><li name="com.johnsnowlabs.nlp.annotators.classifier" visbl="pub" class="indented5 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="classifier"></a><a id="classifier:classifier"></a>
+      <span class="permalink">
+      <a href="../../../../../com/johnsnowlabs/nlp/annotators/classifier/index.html" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">package</span>
+      </span>
+      <span class="symbol">
+        <a title="" href="../classifier/index.html"><span class="name">classifier</span></a>
+      </span>
+      
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="../index.html" class="extype" name="com.johnsnowlabs.nlp.annotators">annotators</a></dd></dl></div>
+    </li><li name="com.johnsnowlabs.nlp.annotators.common" visbl="pub" class="indented5 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="common"></a><a id="common:common"></a>
+      <span class="permalink">
+      <a href="../../../../../com/johnsnowlabs/nlp/annotators/common/index.html" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">package</span>
+      </span>
+      <span class="symbol">
+        <a title="" href="../common/index.html"><span class="name">common</span></a>
+      </span>
+      
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="../index.html" class="extype" name="com.johnsnowlabs.nlp.annotators">annotators</a></dd></dl></div>
+    </li><li name="com.johnsnowlabs.nlp.annotators.coref" visbl="pub" class="indented5 current" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="coref"></a><a id="coref:coref"></a>
+      <span class="permalink">
+      <a href="../../../../../com/johnsnowlabs/nlp/annotators/coref/index.html" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">package</span>
+      </span>
+      <span class="symbol">
+        <span class="name">coref</span>
+      </span>
+      
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="../index.html" class="extype" name="com.johnsnowlabs.nlp.annotators">annotators</a></dd></dl></div>
+    </li><li class="current-entities indented5">
+                        <span class="separator"></span>
+                        <a class="trait" href="ReadSpanBertCorefTensorflowModel.html" title=""></a>
+                        <a href="ReadSpanBertCorefTensorflowModel.html" title="">ReadSpanBertCorefTensorflowModel</a>
+                      </li><li class="current-entities indented5">
+                        <span class="separator"></span>
+                        <a class="trait" href="ReadablePretrainedSpanBertCorefModel.html" title=""></a>
+                        <a href="ReadablePretrainedSpanBertCorefModel.html" title="">ReadablePretrainedSpanBertCorefModel</a>
+                      </li><li class="current-entities indented5">
+                        <a class="object" href="SpanBertCorefModel$.html" title="This is the companion object of SpanBertCorefModel."></a>
+                        <a class="class" href="SpanBertCorefModel.html" title="A coreference resolution model based on SpanBert"></a>
+                        <a href="SpanBertCorefModel.html" title="A coreference resolution model based on SpanBert">SpanBertCorefModel</a>
+                      </li><li name="com.johnsnowlabs.nlp.annotators.er" visbl="pub" class="indented5 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="er"></a><a id="er:er"></a>
+      <span class="permalink">
+      <a href="../../../../../com/johnsnowlabs/nlp/annotators/er/index.html" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">package</span>
+      </span>
+      <span class="symbol">
+        <a title="" href="../er/index.html"><span class="name">er</span></a>
+      </span>
+      
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="../index.html" class="extype" name="com.johnsnowlabs.nlp.annotators">annotators</a></dd></dl></div>
+    </li><li name="com.johnsnowlabs.nlp.annotators.keyword" visbl="pub" class="indented5 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="keyword"></a><a id="keyword:keyword"></a>
+      <span class="permalink">
+      <a href="../../../../../com/johnsnowlabs/nlp/annotators/keyword/index.html" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">package</span>
+      </span>
+      <span class="symbol">
+        <a title="" href="../keyword/index.html"><span class="name">keyword</span></a>
+      </span>
+      
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="../index.html" class="extype" name="com.johnsnowlabs.nlp.annotators">annotators</a></dd></dl></div>
+    </li><li name="com.johnsnowlabs.nlp.annotators.ld" visbl="pub" class="indented5 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="ld"></a><a id="ld:ld"></a>
+      <span class="permalink">
+      <a href="../../../../../com/johnsnowlabs/nlp/annotators/ld/index.html" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">package</span>
+      </span>
+      <span class="symbol">
+        <a title="" href="../ld/index.html"><span class="name">ld</span></a>
+      </span>
+      
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="../index.html" class="extype" name="com.johnsnowlabs.nlp.annotators">annotators</a></dd></dl></div>
+    </li><li name="com.johnsnowlabs.nlp.annotators.ner" visbl="pub" class="indented5 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="ner"></a><a id="ner:ner"></a>
+      <span class="permalink">
+      <a href="../../../../../com/johnsnowlabs/nlp/annotators/ner/index.html" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">package</span>
+      </span>
+      <span class="symbol">
+        <a title="" href="../ner/index.html"><span class="name">ner</span></a>
+      </span>
+      
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="../index.html" class="extype" name="com.johnsnowlabs.nlp.annotators">annotators</a></dd></dl></div>
+    </li><li name="com.johnsnowlabs.nlp.annotators.param" visbl="pub" class="indented5 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="param"></a><a id="param:param"></a>
+      <span class="permalink">
+      <a href="../../../../../com/johnsnowlabs/nlp/annotators/param/index.html" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">package</span>
+      </span>
+      <span class="symbol">
+        <a title="" href="../param/index.html"><span class="name">param</span></a>
+      </span>
+      
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="../index.html" class="extype" name="com.johnsnowlabs.nlp.annotators">annotators</a></dd></dl></div>
+    </li><li name="com.johnsnowlabs.nlp.annotators.parser" visbl="pub" class="indented5 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="parser"></a><a id="parser:parser"></a>
+      <span class="permalink">
+      <a href="../../../../../com/johnsnowlabs/nlp/annotators/parser/index.html" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">package</span>
+      </span>
+      <span class="symbol">
+        <a title="" href="../parser/index.html"><span class="name">parser</span></a>
+      </span>
+      
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="../index.html" class="extype" name="com.johnsnowlabs.nlp.annotators">annotators</a></dd></dl></div>
+    </li><li name="com.johnsnowlabs.nlp.annotators.pos" visbl="pub" class="indented5 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="pos"></a><a id="pos:pos"></a>
+      <span class="permalink">
+      <a href="../../../../../com/johnsnowlabs/nlp/annotators/pos/index.html" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">package</span>
+      </span>
+      <span class="symbol">
+        <a title="" href="../pos/index.html"><span class="name">pos</span></a>
+      </span>
+      
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="../index.html" class="extype" name="com.johnsnowlabs.nlp.annotators">annotators</a></dd></dl></div>
+    </li><li name="com.johnsnowlabs.nlp.annotators.sbd" visbl="pub" class="indented5 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="sbd"></a><a id="sbd:sbd"></a>
+      <span class="permalink">
+      <a href="../../../../../com/johnsnowlabs/nlp/annotators/sbd/index.html" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">package</span>
+      </span>
+      <span class="symbol">
+        <a title="" href="../sbd/index.html"><span class="name">sbd</span></a>
+      </span>
+      
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="../index.html" class="extype" name="com.johnsnowlabs.nlp.annotators">annotators</a></dd></dl></div>
+    </li><li name="com.johnsnowlabs.nlp.annotators.sda" visbl="pub" class="indented5 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="sda"></a><a id="sda:sda"></a>
+      <span class="permalink">
+      <a href="../../../../../com/johnsnowlabs/nlp/annotators/sda/index.html" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">package</span>
+      </span>
+      <span class="symbol">
+        <a title="" href="../sda/index.html"><span class="name">sda</span></a>
+      </span>
+      
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="../index.html" class="extype" name="com.johnsnowlabs.nlp.annotators">annotators</a></dd></dl></div>
+    </li><li name="com.johnsnowlabs.nlp.annotators.sentence_detector_dl" visbl="pub" class="indented5 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="sentence_detector_dl"></a><a id="sentence_detector_dl:sentence_detector_dl"></a>
+      <span class="permalink">
+      <a href="../../../../../com/johnsnowlabs/nlp/annotators/sentence_detector_dl/index.html" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">package</span>
+      </span>
+      <span class="symbol">
+        <a title="" href="../sentence_detector_dl/index.html"><span class="name">sentence_detector_dl</span></a>
+      </span>
+      
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="../index.html" class="extype" name="com.johnsnowlabs.nlp.annotators">annotators</a></dd></dl></div>
+    </li><li name="com.johnsnowlabs.nlp.annotators.seq2seq" visbl="pub" class="indented5 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="seq2seq"></a><a id="seq2seq:seq2seq"></a>
+      <span class="permalink">
+      <a href="../../../../../com/johnsnowlabs/nlp/annotators/seq2seq/index.html" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">package</span>
+      </span>
+      <span class="symbol">
+        <a title="" href="../seq2seq/index.html"><span class="name">seq2seq</span></a>
+      </span>
+      
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="../index.html" class="extype" name="com.johnsnowlabs.nlp.annotators">annotators</a></dd></dl></div>
+    </li><li name="com.johnsnowlabs.nlp.annotators.spell" visbl="pub" class="indented5 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="spell"></a><a id="spell:spell"></a>
+      <span class="permalink">
+      <a href="../../../../../com/johnsnowlabs/nlp/annotators/spell/index.html" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">package</span>
+      </span>
+      <span class="symbol">
+        <a title="" href="../spell/index.html"><span class="name">spell</span></a>
+      </span>
+      
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="../index.html" class="extype" name="com.johnsnowlabs.nlp.annotators">annotators</a></dd></dl></div>
+    </li><li name="com.johnsnowlabs.nlp.annotators.tokenizer" visbl="pub" class="indented5 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="tokenizer"></a><a id="tokenizer:tokenizer"></a>
+      <span class="permalink">
+      <a href="../../../../../com/johnsnowlabs/nlp/annotators/tokenizer/index.html" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">package</span>
+      </span>
+      <span class="symbol">
+        <a title="" href="../tokenizer/index.html"><span class="name">tokenizer</span></a>
+      </span>
+      
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="../index.html" class="extype" name="com.johnsnowlabs.nlp.annotators">annotators</a></dd></dl></div>
+    </li><li name="com.johnsnowlabs.nlp.annotators.ws" visbl="pub" class="indented5 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="ws"></a><a id="ws:ws"></a>
+      <span class="permalink">
+      <a href="../../../../../com/johnsnowlabs/nlp/annotators/ws/index.html" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">package</span>
+      </span>
+      <span class="symbol">
+        <a title="" href="../ws/index.html"><span class="name">ws</span></a>
+      </span>
+      
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="../index.html" class="extype" name="com.johnsnowlabs.nlp.annotators">annotators</a></dd></dl></div>
+    </li>
+              </ul>
+            </div>
+          </div>
+          <div id="content">
+            <body class="package value">
+      <div id="definition">
+        <div class="big-circle package">p</div>
+        <p id="owner"><a href="../../../../index.html" class="extype" name="com">com</a>.<a href="../../../index.html" class="extype" name="com.johnsnowlabs">johnsnowlabs</a>.<a href="../../index.html" class="extype" name="com.johnsnowlabs.nlp">nlp</a>.<a href="../index.html" class="extype" name="com.johnsnowlabs.nlp.annotators">annotators</a></p>
+        <h1>coref<span class="permalink">
+      <a href="../../../../../com/johnsnowlabs/nlp/annotators/coref/index.html" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span></h1>
+        
+      </div>
+
+      <h4 id="signature" class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">package</span>
+      </span>
+      <span class="symbol">
+        <span class="name">coref</span>
+      </span>
+      </h4>
+
+      
+          <div id="comment" class="fullcommenttop"></div>
+        
+
+      <div id="mbrsel">
+        <div class="toggle"></div>
+        <div id="memberfilter">
+          <i class="material-icons arrow"></i>
+          <span class="input">
+            <input id="mbrsel-input" placeholder="Filter all members" type="text" accesskey="/" />
+          </span>
+          <i class="clear material-icons"></i>
+        </div>
+        <div id="filterby">
+          <div id="order">
+            <span class="filtertype">Ordering</span>
+            <ol>
+              
+              <li class="alpha in"><span>Alphabetic</span></li>
+              
+            </ol>
+          </div>
+          
+          <div id="visbl">
+              <span class="filtertype">Visibility</span>
+              <ol><li class="public in"><span>Public</span></li><li class="all out"><span>All</span></li></ol>
+            </div>
+        </div>
+      </div>
+
+      <div id="template">
+        <div id="allMembers">
+        
+
+        <div id="types" class="types members">
+              <h3>Type Members</h3>
+              <ol><li name="com.johnsnowlabs.nlp.annotators.coref.ReadSpanBertCorefTensorflowModel" visbl="pub" class="indented0 " data-isabs="true" fullComment="no" group="Ungrouped">
+      <a id="ReadSpanBertCorefTensorflowModelextendsReadTensorflowModel"></a><a id="ReadSpanBertCorefTensorflowModel:ReadSpanBertCorefTensorflowModel"></a>
+      <span class="permalink">
+      <a href="../../../../../com/johnsnowlabs/nlp/annotators/coref/ReadSpanBertCorefTensorflowModel.html" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">trait</span>
+      </span>
+      <span class="symbol">
+        <a title="" href="ReadSpanBertCorefTensorflowModel.html"><span class="name">ReadSpanBertCorefTensorflowModel</span></a><span class="result"> extends <a href="../../../ml/tensorflow/ReadTensorflowModel.html" class="extype" name="com.johnsnowlabs.ml.tensorflow.ReadTensorflowModel">ReadTensorflowModel</a></span>
+      </span>
+      
+      
+    </li><li name="com.johnsnowlabs.nlp.annotators.coref.ReadablePretrainedSpanBertCorefModel" visbl="pub" class="indented0 " data-isabs="true" fullComment="no" group="Ungrouped">
+      <a id="ReadablePretrainedSpanBertCorefModelextendsParamsAndFeaturesReadable[com.johnsnowlabs.nlp.annotators.coref.SpanBertCorefModel]withHasPretrained[com.johnsnowlabs.nlp.annotators.coref.SpanBertCorefModel]"></a><a id="ReadablePretrainedSpanBertCorefModel:ReadablePretrainedSpanBertCorefModel"></a>
+      <span class="permalink">
+      <a href="../../../../../com/johnsnowlabs/nlp/annotators/coref/ReadablePretrainedSpanBertCorefModel.html" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">trait</span>
+      </span>
+      <span class="symbol">
+        <a title="" href="ReadablePretrainedSpanBertCorefModel.html"><span class="name">ReadablePretrainedSpanBertCorefModel</span></a><span class="result"> extends <a href="../../ParamsAndFeaturesReadable.html" class="extype" name="com.johnsnowlabs.nlp.ParamsAndFeaturesReadable">ParamsAndFeaturesReadable</a>[<a href="SpanBertCorefModel.html" class="extype" name="com.johnsnowlabs.nlp.annotators.coref.SpanBertCorefModel">SpanBertCorefModel</a>] with <a href="../../HasPretrained.html" class="extype" name="com.johnsnowlabs.nlp.HasPretrained">HasPretrained</a>[<a href="SpanBertCorefModel.html" class="extype" name="com.johnsnowlabs.nlp.annotators.coref.SpanBertCorefModel">SpanBertCorefModel</a>]</span>
+      </span>
+      
+      
+    </li><li name="com.johnsnowlabs.nlp.annotators.coref.SpanBertCorefModel" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="SpanBertCorefModelextendsAnnotatorModel[com.johnsnowlabs.nlp.annotators.coref.SpanBertCorefModel]withHasSimpleAnnotate[com.johnsnowlabs.nlp.annotators.coref.SpanBertCorefModel]withWriteTensorflowModelwithHasEmbeddingsPropertieswithHasStorageRefwithHasCaseSensitiveProperties"></a><a id="SpanBertCorefModel:SpanBertCorefModel"></a>
+      <span class="permalink">
+      <a href="../../../../../com/johnsnowlabs/nlp/annotators/coref/SpanBertCorefModel.html" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">class</span>
+      </span>
+      <span class="symbol">
+        <a title="A coreference resolution model based on SpanBert" href="SpanBertCorefModel.html"><span class="name">SpanBertCorefModel</span></a><span class="result"> extends <a href="../../AnnotatorModel.html" class="extype" name="com.johnsnowlabs.nlp.AnnotatorModel">AnnotatorModel</a>[<a href="SpanBertCorefModel.html" class="extype" name="com.johnsnowlabs.nlp.annotators.coref.SpanBertCorefModel">SpanBertCorefModel</a>] with <a href="../../HasSimpleAnnotate.html" class="extype" name="com.johnsnowlabs.nlp.HasSimpleAnnotate">HasSimpleAnnotate</a>[<a href="SpanBertCorefModel.html" class="extype" name="com.johnsnowlabs.nlp.annotators.coref.SpanBertCorefModel">SpanBertCorefModel</a>] with <a href="../../../ml/tensorflow/WriteTensorflowModel.html" class="extype" name="com.johnsnowlabs.ml.tensorflow.WriteTensorflowModel">WriteTensorflowModel</a> with <a href="../../embeddings/HasEmbeddingsProperties.html" class="extype" name="com.johnsnowlabs.nlp.embeddings.HasEmbeddingsProperties">HasEmbeddingsProperties</a> with <a href="../../../storage/HasStorageRef.html" class="extype" name="com.johnsnowlabs.storage.HasStorageRef">HasStorageRef</a> with <a href="../../HasCaseSensitiveProperties.html" class="extype" name="com.johnsnowlabs.nlp.HasCaseSensitiveProperties">HasCaseSensitiveProperties</a></span>
+      </span>
+      
+      <p class="shortcomment cmt">A coreference resolution model based on SpanBert</p><div class="fullcomment"><div class="comment cmt"><p>A coreference resolution model based on SpanBert</p><p>A coreference resolution model identifies expressions which refer to the same entity in a
+text. For example, given a sentence &quot;John told Mary he would like to borrow a book from her.&quot;
+the model will link &quot;he&quot; to &quot;John&quot; and &quot;her&quot; to &quot;Mary&quot;.</p><p>This model is based on SpanBert, which is fine-tuned on the OntoNotes 5.0 data set.</p><p>Pretrained models can be loaded with <code>pretrained</code> of the companion object:</p><pre><span class="kw">val</span> dependencyParserApproach = SpanBertCorefModel.pretrained()
+  .setInputCols(<span class="lit">"sentence"</span>, <span class="lit">"token"</span>)
+  .setOutputCol(<span class="lit">"corefs"</span>)</pre><p>The default model is <code>&quot;spanbert_base_coref&quot;</code>, if no name is provided. For available pretrained
+models please see the <a href="https://nlp.johnsnowlabs.com/models" target="_blank">Models Hub</a>.</p><p><b>Sources:</b></p><ul><li><a href="https://github.com/mandarjoshi90/coref" target="_blank">https://github.com/mandarjoshi90/coref</a></li></ul><h4>Example</h4><pre><span class="kw">import</span> spark.implicits._
+<span class="kw">import</span> com.johnsnowlabs.nlp.base.DocumentAssembler
+<span class="kw">import</span> com.johnsnowlabs.nlp.annotators.Tokenizer
+<span class="kw">import</span> com.johnsnowlabs.nlp.annotators.sbd.pragmatic.SentenceDetector
+<span class="kw">import</span> com.johnsnowlabs.nlp.annotators.coref.SpanBertCorefModel*
+<span class="kw">import</span> org.apache.spark.ml.Pipeline
+
+<span class="kw">val</span> documentAssembler = <span class="kw">new</span> DocumentAssembler()
+  .setInputCol(<span class="lit">"text"</span>)
+  .setOutputCol(<span class="lit">"document"</span>)
+
+<span class="kw">val</span> sentence = <span class="kw">new</span> SentenceDetector()
+  .setInputCols(<span class="lit">"document"</span>)
+  .setOutputCol(<span class="lit">"sentence"</span>)
+
+<span class="kw">val</span> tokenizer = <span class="kw">new</span> Tokenizer()
+  .setInputCols(<span class="lit">"sentence"</span>)
+  .setOutputCol(<span class="lit">"token"</span>)
+
+<span class="kw">val</span> corefResolution = SpanBertCorefModel.pretrained()
+  .setInputCols(<span class="lit">"sentence"</span>, <span class="lit">"token"</span>)
+  .setOutputCol(<span class="lit">"corefs"</span>)
+
+<span class="kw">val</span> pipeline = <span class="kw">new</span> Pipeline().setStages(<span class="std">Array</span>(
+  documentAssembler,
+  sentence,
+  tokenizer,
+  corefResolution
+))
+
+<span class="kw">val</span> data = <span class="std">Seq</span>(
+  <span class="lit">"John told Mary he would like to borrow a book from her."</span>
+).toDF(<span class="lit">"text"</span>)
+
+<span class="kw">val</span> result = pipeline.fit(data).transform(data)
+
+result.selectExpr(<span class="lit">""</span>explode(corefs) AS coref<span class="lit">""</span>)
+  .selectExpr(<span class="lit">"coref.result as token"</span>, <span class="lit">"coref.metadata"</span>).show(truncate = <span class="kw">false</span>)
++-----+------------------------------------------------------------------------------------+
+|token|metadata                                                                            |
++-----+------------------------------------------------------------------------------------+
+|John |{head.sentence -&gt; -<span class="num">1</span>, head -&gt; ROOT, head.begin -&gt; -<span class="num">1</span>, head.end -&gt; -<span class="num">1</span>, sentence -&gt; <span class="num">0</span>}|
+|he   |{head.sentence -&gt; <span class="num">0</span>, head -&gt; John, head.begin -&gt; <span class="num">0</span>, head.end -&gt; <span class="num">3</span>, sentence -&gt; <span class="num">0</span>}   |
+|Mary |{head.sentence -&gt; -<span class="num">1</span>, head -&gt; ROOT, head.begin -&gt; -<span class="num">1</span>, head.end -&gt; -<span class="num">1</span>, sentence -&gt; <span class="num">0</span>}|
+|her  |{head.sentence -&gt; <span class="num">0</span>, head -&gt; Mary, head.begin -&gt; <span class="num">10</span>, head.end -&gt; <span class="num">13</span>, sentence -&gt; <span class="num">0</span>} |
++-----+------------------------------------------------------------------------------------+</pre></div></div>
+    </li></ol>
+            </div>
+
+        
+
+        <div class="values members">
+              <h3>Value Members</h3>
+              <ol>
+                <li name="com.johnsnowlabs.nlp.annotators.coref.SpanBertCorefModel" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="SpanBertCorefModel"></a><a id="SpanBertCorefModel:SpanBertCorefModel"></a>
+      <span class="permalink">
+      <a href="../../../../../com/johnsnowlabs/nlp/annotators/coref/SpanBertCorefModel$.html" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">object</span>
+      </span>
+      <span class="symbol">
+        <a title="This is the companion object of SpanBertCorefModel." href="SpanBertCorefModel$.html"><span class="name">SpanBertCorefModel</span></a><span class="result"> extends <a href="ReadablePretrainedSpanBertCorefModel.html" class="extype" name="com.johnsnowlabs.nlp.annotators.coref.ReadablePretrainedSpanBertCorefModel">ReadablePretrainedSpanBertCorefModel</a> with <a href="ReadSpanBertCorefTensorflowModel.html" class="extype" name="com.johnsnowlabs.nlp.annotators.coref.ReadSpanBertCorefTensorflowModel">ReadSpanBertCorefTensorflowModel</a> with <span class="extype" name="scala.Serializable">Serializable</span></span>
+      </span>
+      
+      <p class="shortcomment cmt">This is the companion object of <a href="SpanBertCorefModel.html" class="extype" name="com.johnsnowlabs.nlp.annotators.coref.SpanBertCorefModel">SpanBertCorefModel</a>.</p><div class="fullcomment"><div class="comment cmt"><p>This is the companion object of <a href="SpanBertCorefModel.html" class="extype" name="com.johnsnowlabs.nlp.annotators.coref.SpanBertCorefModel">SpanBertCorefModel</a>. Please refer to that class for the
+documentation.
+</p></div></div>
+    </li>
+              </ol>
+            </div>
+
+        
+
+        
+        </div>
+
+        <div id="inheritedMembers">
+        
+        
+        </div>
+
+        <div id="groupedMembers">
+        <div class="group" name="Ungrouped">
+              <h3>Ungrouped</h3>
+              
+            </div>
+        </div>
+
+      </div>
+
+      <div id="tooltip"></div>
+
+      <div id="footer">  </div>
+    </body>
+          </div>
+        </div>
+      </div>
+    </body>
+      </html>

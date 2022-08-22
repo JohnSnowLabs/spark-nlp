@@ -11,7 +11,7 @@ edition: Spark NLP for Healthcare 3.0.4
 spark_version: 3.0
 supported: true
 article_header:
-  type: cover
+type: cover
 use_language_switcher: "Python-Scala-Java"
 ---
 
@@ -40,17 +40,17 @@ Predicts Snomed Codes and their normalized definition for each chunk.
 ```python
 ...
 chunk2doc = Chunk2Doc().setInputCols("ner_chunk").setOutputCol("ner_chunk_doc")
- 
+
 sbert_embedder = BertSentenceEmbeddings\
-     .pretrained("sbiobert_base_cased_mli","en","clinical/models")\
-     .setInputCols(["ner_chunk_doc"])\
-     .setOutputCol("sbert_embeddings")
- 
+.pretrained("sbiobert_base_cased_mli","en","clinical/models")\
+.setInputCols(["ner_chunk_doc"])\
+.setOutputCol("sbert_embeddings")
+
 snomed_aux_int_resolver = SentenceEntityResolverModel\
-     .pretrained("sbiobertresolve_snomed_auxConcepts_int","en", "clinical/models") \
-     .setInputCols(["ner_chunk", "sbert_embeddings"]) \
-     .setOutputCol("resolution")\
-     .setDistanceFunction("EUCLIDEAN")
+.pretrained("sbiobertresolve_snomed_auxConcepts_int","en", "clinical/models") \
+.setInputCols(["ner_chunk", "sbert_embeddings"]) \
+.setOutputCol("resolution")\
+.setDistanceFunction("EUCLIDEAN")
 
 nlpPipeline = Pipeline(stages=[document_assembler, sentence_detector, tokenizer, word_embeddings, clinical_ner, ner_converter, chunk2doc, sbert_embedder, snomed_aux_int_resolver])
 
@@ -61,17 +61,17 @@ results = nlpPipeline.fit(data).transform(data)
 ```scala
 ...
 val chunk2doc = Chunk2Doc().setInputCols("ner_chunk").setOutputCol("ner_chunk_doc")
- 
+
 val sbert_embedder = BertSentenceEmbeddings
-     .pretrained("sbiobert_base_cased_mli","en","clinical/models")
-     .setInputCols(Array("ner_chunk_doc"))
-     .setOutputCol("sbert_embeddings")
- 
+.pretrained("sbiobert_base_cased_mli","en","clinical/models")
+.setInputCols(Array("ner_chunk_doc"))
+.setOutputCol("sbert_embeddings")
+
 val snomed_aux_int_resolver = SentenceEntityResolverModel
-     .pretrained("sbiobertresolve_snomed_auxConcepts_int","en", "clinical/models")
-     .setInputCols(Array("ner_chunk", "sbert_embeddings"))
-     .setOutputCol("resolution")
-     .setDistanceFunction("EUCLIDEAN")
+.pretrained("sbiobertresolve_snomed_auxConcepts_int","en", "clinical/models")
+.setInputCols(Array("ner_chunk", "sbert_embeddings"))
+.setOutputCol("resolution")
+.setDistanceFunction("EUCLIDEAN")
 
 val pipeline = new Pipeline().setStages(Array(document_assembler, sentence_detector, tokenizer, word_embeddings, clinical_ner, ner_converter, chunk2doc, sbert_embedder, snomed_aux_int_resolver))
 
@@ -79,6 +79,14 @@ val data = Seq("This is an 82 - year-old male with a history of prior tobacco us
 
 val result = pipeline.fit(data).transform(data)
 ```
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("en.resolve.snomed.aux_concepts_int").predict("""This is an 82 - year-old male with a history of prior tobacco use , hypertension , chronic renal insufficiency , COPD , gastritis , and TIA who initially presented to Braintree with a non-ST elevation MI and Guaiac positive stools , transferred to St . Margaret\'s Center for Women & Infants for cardiac catheterization with PTCA to mid LAD lesion complicated by hypotension and bradycardia requiring Atropine , IV fluids and transient dopamine possibly secondary to vagal reaction , subsequently transferred to CCU for close monitoring , hemodynamically stable at the time of admission to the CCU .""")
+```
+
 </div>
 
 ## Results

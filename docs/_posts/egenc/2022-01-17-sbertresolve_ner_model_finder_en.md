@@ -1,6 +1,6 @@
 ---
 layout: model
-title: NER Model Finder with Sentence Entity Resolvers (sbert_jsl_medium_uncased)
+title: NER Model Finder with Sentence Entity Resolvers (SBert, Medium, Uncased)
 author: John Snow Labs
 name: sbertresolve_ner_model_finder
 date: 2022-01-17

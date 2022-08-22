@@ -84,9 +84,6 @@ class TensorflowXlmRoberta(
   private val SentencePadTokenId = 1
   private val SentencePieceDelimiterId = spp.getSppModel.pieceToId("▁")
 
-  private val encoder =
-    new SentencepieceEncoder(spp, caseSensitive, SentencePieceDelimiterId, pieceIdOffset = 1)
-
   def prepareBatchInputs(
       sentences: Seq[(WordpieceTokenizedSentence, Int)],
       maxSequenceLength: Int): Seq[Array[Int]] = {
@@ -323,11 +320,13 @@ class TensorflowXlmRoberta(
   def tokenizeWithAlignment(
       sentences: Seq[TokenizedSentence],
       maxSeqLength: Int): Seq[WordpieceTokenizedSentence] = {
+    val encoder =
+      new SentencepieceEncoder(spp, caseSensitive, SentencePieceDelimiterId, pieceIdOffset = 1)
 
     val sentenceTokenPieces = sentences.map { s =>
-      val shrinkedSentence = s.indexedTokens.take(maxSeqLength - 2)
+      val trimmedSentence = s.indexedTokens.take(maxSeqLength - 2)
       val wordpieceTokens =
-        shrinkedSentence.flatMap(token => encoder.encode(token)).take(maxSeqLength)
+        trimmedSentence.flatMap(token => encoder.encode(token)).take(maxSeqLength)
       WordpieceTokenizedSentence(wordpieceTokens)
     }
     sentenceTokenPieces
@@ -336,6 +335,8 @@ class TensorflowXlmRoberta(
   def tokenizeSentence(
       sentences: Seq[Sentence],
       maxSeqLength: Int): Seq[WordpieceTokenizedSentence] = {
+    val encoder =
+      new SentencepieceEncoder(spp, caseSensitive, SentencePieceDelimiterId, pieceIdOffset = 1)
 
     val sentenceTokenPieces = sentences.map { s =>
       val wordpieceTokens = encoder.encodeSentence(s, maxLength = maxSeqLength).take(maxSeqLength)

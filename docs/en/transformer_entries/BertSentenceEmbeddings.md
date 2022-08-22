@@ -52,7 +52,7 @@ SENTENCE_EMBEDDINGS
 {%- endcapture -%}
 
 {%- capture python_api_link -%}
-[BertSentenceEmbeddings](https://nlp.johnsnowlabs.com/api/python/reference/autosummary/sparknlp.annotator.BertSentenceEmbeddings.html)
+[BertSentenceEmbeddings](/api/python/reference/autosummary/sparknlp/annotator/embeddings/bert_sentence_embeddings/index.html#sparknlp.annotator.embeddings.bert_sentence_embeddings.BertSentenceEmbeddings)
 {%- endcapture -%}
 
 {%- capture source_link -%}

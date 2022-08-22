@@ -11,7 +11,7 @@ edition: Spark NLP 3.2.0
 spark_version: 3.0
 supported: true
 article_header:
-  type: cover
+type: cover
 use_language_switcher: "Python-Scala-Java"
 ---
 
@@ -36,24 +36,24 @@ This model was imported from Hugging Face to carry out Name Entity Recognition w
 {% include programmingLanguageSelectScalaPythonNLU.html %}
 ```python
 document_assembler = DocumentAssembler()\
-    .setInputCol('text')\
-    .setOutputCol('document')
+.setInputCol('text')\
+.setOutputCol('document')
 
 sentence_detector = SentenceDetector() \
-    .setInputCols(['document'])\
-    .setOutputCol('sentence')
+.setInputCols(['document'])\
+.setOutputCol('sentence')
 
 tokenizer = Tokenizer()\
-    .setInputCols(['sentence']) \
-    .setOutputCol('token')
+.setInputCols(['sentence']) \
+.setOutputCol('token')
 
 tokenClassifier_loaded = BertForTokenClassification.pretrained("bert_token_classifier_hi_en_ner","hi")\
-  .setInputCols(["sentence",'token'])\
-  .setOutputCol("ner")
+.setInputCols(["sentence",'token'])\
+.setOutputCol("ner")
 
 ner_converter = NerConverter()\
-        .setInputCols(["sentence","token","ner"])\
-        .setOutputCol("ner_chunk")
+.setInputCols(["sentence","token","ner"])\
+.setOutputCol("ner_chunk")
 
 nlp_pipeline = Pipeline(stages=[document_assembler, sentence_detector, tokenizer, tokenClassifier_loaded, ner_converter])
 
@@ -63,24 +63,24 @@ result = pipeline_model.transform(spark.createDataFrame([["""रिलायं�
 ```
 ```scala
 val document_assembler = DocumentAssembler() 
-    .setInputCol("text") 
-    .setOutputCol("document")
+.setInputCol("text") 
+.setOutputCol("document")
 
 val sentence_detector  = SentenceDetector()
-    .setInputCols("document")
-    .setOutputCol("sentence")
+.setInputCols("document")
+.setOutputCol("sentence")
 
 val tokenizer = Tokenizer()
-    .setInputCols("sentence") 
-    .setOutputCol("token")
+.setInputCols("sentence") 
+.setOutputCol("token")
 
 val tokenClassifier_loaded  = BertForTokenClassification.pretrained("bert_token_classifier_hi_en_ner","hi")
-  .setInputCols("sentence","token")
-  .setOutputCol("ner")
+.setInputCols("sentence","token")
+.setOutputCol("ner")
 
 val ner_converter = NerConverter()
-   .setInputCols("sentence","token","ner")
-    .setOutputCol("ner_chunk")
+.setInputCols("sentence","token","ner")
+.setOutputCol("ner_chunk")
 
 val nlp_pipeline = new Pipeline().setStages(Array(document_assembler, sentence_detector, tokenizer, tokenClassifier_loaded, ner_converter))
 
@@ -88,6 +88,14 @@ val data = Seq("""रिलायंस इंडस्ट्रीज़ लि
 
 val result = pipeline.fit(data).transform(data)
 ```
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("hi.ner.bert").predict("""रिलायंस इंडस्ट्रीज़ लिमिटेड (Reliance Industries Limited) एक भारतीय संगुटिका नियंत्रक कंपनी है, जिसका मुख्यालय मुंबई, महाराष्ट्र (Maharashtra) में स्थित है।रतन नवल टाटा (28 दिसंबर 1937, को मुम्बई (Mumbai), में जन्मे) टाटा समुह के वर्तमान अध्यक्ष, जो भारत की सबसे बड़ी व्यापारिक समूह है, जिसकी स्थापना जमशेदजी टाटा ने की और उनके परिवार की पीढियों ने इसका विस्तार किया और इसे दृढ़ बनाया।""")
+```
+
 </div>
 
 ## Results

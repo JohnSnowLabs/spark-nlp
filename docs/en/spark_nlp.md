@@ -3,7 +3,7 @@ layout: docs
 title: Spark NLP
 permalink: /docs/en/spark-nlp
 key: docs-spark_nlp
-modify_date: "2021-03-20"
+modify_date: "2022-06-17"
 header: true
 seotitle:
 show_nav: true
@@ -20,10 +20,18 @@ sidebar:
 Spark NLP is built on top of **Apache Spark 3.x**. For using Spark NLP you need:
 
 {:.list3}
-* Java 8
-* Apache Spark 3.1.x (or 3.0.x, or 2.4.x, or 2.3.x)
+- Java 8 and 11
+- Apache Spark 3.3.x, 3.2.x, 3.1.x, 3.0.x
 
-It is recommended to have basic knowledge of the framework and a working environment before using Spark NLP. 
+**GPU (optional):**
+
+Spark NLP 4.0.2 is built with TensorFlow 2.7.1 and the following NVIDIA® software are only required for GPU support:
+
+- NVIDIA® GPU drivers version 450.80.02 or higher
+- CUDA® Toolkit 11.2
+- cuDNN SDK 8.1.0
+
+It is recommended to have basic knowledge of the framework and a working environment before using Spark NLP.
 Please refer to Spark [documentation](http://spark.apache.org/docs/latest/index.html) to get started with Spark.
 
 </div><div class="right-box" markdown="1">
@@ -35,7 +43,7 @@ Install Spark NLP in
 * [Scala and Java](https://nlp.johnsnowlabs.com/docs/en/install#scala-and-java)
 * [Databricks](https://nlp.johnsnowlabs.com/docs/en/install#databricks-support)
 * [EMR](https://nlp.johnsnowlabs.com/docs/en/install#emr-support)
-    
+
 </div></div>
 
 <div class="block-wrapper"><div class="block-box" markdown="1">

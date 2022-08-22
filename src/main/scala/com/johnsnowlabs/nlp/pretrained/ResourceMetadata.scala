@@ -16,9 +16,7 @@
 
 package com.johnsnowlabs.nlp.pretrained
 
-import com.johnsnowlabs.nlp.pretrained.ResourceType.ResourceType
 import com.johnsnowlabs.util.{JsonParser, Version}
-import org.json4s.ext.EnumNameSerializer
 import org.json4s.jackson.Serialization
 import org.json4s.jackson.Serialization.write
 import org.json4s.{Formats, NoTypeHints}
@@ -35,7 +33,7 @@ case class ResourceMetadata(
     readyToUse: Boolean,
     time: Timestamp,
     isZipped: Boolean = false,
-    category: Option[ResourceType] = Some(ResourceType.NOT_DEFINED),
+    category: Option[String] = Some(ResourceType.NOT_DEFINED.toString),
     checksum: String = "",
     annotator: Option[String] = None)
     extends Ordered[ResourceMetadata] {
@@ -94,8 +92,8 @@ case class ResourceMetadata(
 }
 
 object ResourceMetadata {
-  implicit val formats: Formats =
-    Serialization.formats(NoTypeHints) + new EnumNameSerializer(ResourceType)
+
+  implicit val formats: Formats = Serialization.formats(NoTypeHints)
 
   def toJson(meta: ResourceMetadata): String = {
     write(meta)

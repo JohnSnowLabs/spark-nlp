@@ -15,25 +15,35 @@ article_header:
 use_language_switcher: "Python-Scala-Java"
 ---
 
+
 ## Description
+
 
 NER model that detects professions and occupations in Spanish texts. Trained with the `embeddings_scielowiki_300d` embeddings, and the same `WordEmbeddingsModel` is needed in the pipeline.
 
+
 ## Predicted Entities
 
+
 `ACTIVIDAD`, `PROFESION`, `SITUACION_LABORAL`
+
 
 {:.btn-box}
 [Live Demo](https://demo.johnsnowlabs.com/healthcare/NER_PROFESSIONS_ES/){:.button.button-orange}
 [Open in Colab](https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/1.Clinical_Named_Entity_Recognition_Model.ipynb){:.button.button-orange.button-orange-trans.co.button-icon}
 [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/meddroprof_scielowiki_es_3.1.3_3.0_1627328955264.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
 
+
 ## How to use
+
+
+
 
 
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
+
 ```python
 document_assembler = DocumentAssembler()\
         .setInputCol('text')\
@@ -58,6 +68,7 @@ clinical_ner = MedicalNerModel.pretrained("meddroprof_scielowiki", "es", "clinic
 ner_converter = NerConverter() \
     .setInputCols(['document', 'token', 'ner']) \
     .setOutputCol('ner_chunk')
+
 pipeline = Pipeline(stages=[
     document_assembler, 
     sentence,
@@ -68,18 +79,19 @@ pipeline = Pipeline(stages=[
 ])
 
 example = spark.createDataFrame(pd.DataFrame({'text': ["""La paciente es la mayor de 2 hermanos, tiene un hermano de 13 años estudiando 1o ESO. Sus padres son ambos ATS , trabajan en diferentes centros de salud estudiando 1o ESO"""]}))
+
 result = pipeline.fit(example).transform(example)
 ```
 ```scala
-val document_assembler = DocumentAssembler()
+val document_assembler = new DocumentAssembler()
         .setInputCol('text')
         .setOutputCol('document')
 
-val sentence = SentenceDetector() 
+val sentence = new SentenceDetector() 
     .setInputCols(["document"]) 
     .setOutputCol("sentence")
 
-val tokenizer = Tokenizer() 
+val tokenizer = new Tokenizer() 
     .setInputCols(["sentence"]) 
     .setOutputCol("token")
 
@@ -91,16 +103,21 @@ val clinical_ner = MedicalNerModel.pretrained("meddroprof_scielowiki", "es", "cl
         .setInputCols(["sentence", "token", "embeddings"])
         .setOutputCol("ner")
 
-val ner_converter = NerConverter() 
+val ner_converter = new NerConverter() 
     .setInputCols(['document', 'token', 'ner']) 
     .setOutputCol('ner_chunk')
 
 val pipeline = new Pipeline().setStages(Array(document_assembler, sentence, tokenizer, embedings_stage, clinical_ner, ner_converter))
-val result = pipeline.fit(Seq.empty["La paciente es la mayor de 2 hermanos, tiene un hermano de 13 años estudiando 1o ESO. Sus padres son ambos ATS , trabajan en diferentes centros de salud estudiando 1o ESO"].toDS.toDF("text")).transform(data)
+
+val data = Seq("""La paciente es la mayor de 2 hermanos, tiene un hermano de 13 años estudiando 1o ESO. Sus padres son ambos ATS , trabajan en diferentes centros de salud estudiando 1o ESO""").toDS.toDF("text")
+
+val result = pipeline.fit(data).transform(data)
 ```
 </div>
 
+
 ## Results
+
 
 ```bash
 +--------------------+----------+-------------------+
@@ -143,8 +160,10 @@ val result = pipeline.fit(Seq.empty["La paciente es la mayor de 2 hermanos, tien
 +--------------------+----------+-------------------+
 ```
 
+
 {:.model-param}
 ## Model Information
+
 
 {:.table-model}
 |---|---|
@@ -157,13 +176,18 @@ val result = pipeline.fit(Seq.empty["La paciente es la mayor de 2 hermanos, tien
 |Language:|es|
 |Dependencies:|embeddings_scielowiki_300d|
 
+
 ## Data Source
+
 
 The model was trained with the [MEDDOPROF](https://temu.bsc.es/meddoprof/data/) data set:
 
+
 > The MEDDOPROF corpus is a collection of 1844 clinical cases from over 20 different specialties annotated with professions and employment statuses. The corpus was annotated by a team composed of linguists and clinical experts following specially prepared annotation guidelines, after several cycles of quality control and annotation consistency analysis before annotating the entire dataset. Figure 1 shows a screenshot of a sample manual annotation generated using the brat annotation tool.
 
+
 Reference:
+
 
 ```
 @article{meddoprof,
@@ -175,19 +199,23 @@ volume = {67},
 }
 ```
 
+
 ## Benchmarking
 
+
 ```bash
-|                     | precision | recall | f1-score | support |
-|---------------------|-----------|--------|----------|---------|
-| B-ACTIVIDAD         | 0.82      | 0.36   | 0.50     | 25      |
-| B-PROFESION         | 0.87      | 0.75   | 0.81     | 634     |
-| B-SITUACION_LABORAL | 0.79      | 0.67   | 0.72     | 310     |
-| I-ACTIVIDAD         | 0.86      | 0.43   | 0.57     | 58      |
-| I-PROFESION         | 0.87      | 0.80   | 0.83     | 944     |
-| I-SITUACION_LABORAL | 0.74      | 0.71   | 0.73     | 407     |
-| O                   | 1.00      | 1.00   | 1.00     | 139880  |
-| accuracy            |           |        | 0.99     | 142258  |
-| macro avg           | 0.85      | 0.67   | 0.74     | 142258  |
-| weighted avg        | 0.99      | 0.99   | 0.99     | 142258  |
+label               precision recall f1-score support
+B-ACTIVIDAD         0.82      0.36   0.50     25     
+B-PROFESION         0.87      0.75   0.81     634    
+B-SITUACION_LABORAL 0.79      0.67   0.72     310    
+I-ACTIVIDAD         0.86      0.43   0.57     58     
+I-PROFESION         0.87      0.80   0.83     944    
+I-SITUACION_LABORAL 0.74      0.71   0.73     407    
+O                   1.00      1.00   1.00     139880 
+accuracy            -         -      0.99     142258 
+macro-avg           0.85      0.67   0.74     142258 
+weighted-avg        0.99      0.99   0.99     142258 
 ```
+<!--stackedit_data:
+eyJoaXN0b3J5IjpbLTI4NDIwMTM0NF19
+-->

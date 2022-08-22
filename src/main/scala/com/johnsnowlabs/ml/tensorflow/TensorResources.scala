@@ -36,6 +36,12 @@ class TensorResources {
       case float: Float =>
         TFloat32.scalarOf(float)
 
+      case int: Int =>
+        TInt32.scalarOf(int)
+
+      case boolean: Boolean =>
+        TBool.scalarOf(boolean)
+
       case str: String =>
         TString.scalarOf(str)
 
@@ -89,6 +95,12 @@ class TensorResources {
     result
   }
 
+  def createBooleanBufferTensor(shape: Array[Long], buf: BooleanDataBuffer): Tensor = {
+    val result = TBool.tensorOf(Shape.of(shape: _*), buf)
+    tensors.append(result)
+    result
+  }
+
   def clearTensors(): Unit = {
     for (tensor <- tensors) {
       tensor.close()
@@ -111,6 +123,10 @@ class TensorResources {
 
   def createFloatBuffer(dim: Int): FloatDataBuffer = {
     DataBuffers.ofFloats(dim)
+  }
+
+  def createBooleanBuffer(dim: Int): BooleanDataBuffer = {
+    DataBuffers.ofBooleans(dim)
   }
 }
 

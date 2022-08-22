@@ -18,6 +18,7 @@ package com.johnsnowlabs.nlp.pretrained
 
 import com.johnsnowlabs.nlp.annotators._
 import com.johnsnowlabs.nlp.annotators.classifier.dl._
+import com.johnsnowlabs.nlp.annotators.coref.SpanBertCorefModel
 import com.johnsnowlabs.nlp.annotators.er.EntityRulerModel
 import com.johnsnowlabs.nlp.annotators.ld.dl.LanguageDetectorDL
 import com.johnsnowlabs.nlp.annotators.ner.crf.NerCrfModel
@@ -90,9 +91,7 @@ object ResourceDownloader {
   private val cache = mutable.Map[ResourceRequest, PipelineStage]()
 
   lazy val sparkVersion: Version = {
-    val spark_version =
-      if (ResourceHelper.spark.version.startsWith("2.3")) "2.4.4"
-      else ResourceHelper.spark.version
+    val spark_version = ResourceHelper.spark.version
     Version.parse(spark_version)
   }
 
@@ -613,31 +612,41 @@ object PythonResourceDownloader {
     "DistilBertEmbeddings" -> DistilBertEmbeddings,
     "RoBertaEmbeddings" -> RoBertaEmbeddings,
     "XlmRoBertaEmbeddings" -> XlmRoBertaEmbeddings,
-    "BertForTokenClassification" -> BertForTokenClassification,
-    "DistilBertForTokenClassification" -> DistilBertForTokenClassification,
     "LongformerEmbeddings" -> LongformerEmbeddings,
     "RoBertaSentenceEmbeddings" -> RoBertaSentenceEmbeddings,
     "XlmRoBertaSentenceEmbeddings" -> XlmRoBertaSentenceEmbeddings,
+    "AlbertForTokenClassification" -> AlbertForTokenClassification,
+    "BertForTokenClassification" -> BertForTokenClassification,
+    "DeBertaForTokenClassification" -> DeBertaForTokenClassification,
+    "DistilBertForTokenClassification" -> DistilBertForTokenClassification,
+    "LongformerForTokenClassification" -> LongformerForTokenClassification,
     "RoBertaForTokenClassification" -> RoBertaForTokenClassification,
     "XlmRoBertaForTokenClassification" -> XlmRoBertaForTokenClassification,
-    "AlbertForTokenClassification" -> AlbertForTokenClassification,
     "XlnetForTokenClassification" -> XlnetForTokenClassification,
-    "LongformerForTokenClassification" -> LongformerForTokenClassification,
+    "AlbertForSequenceClassification" -> AlbertForSequenceClassification,
     "BertForSequenceClassification" -> BertForSequenceClassification,
-    "EntityRulerModel" -> EntityRulerModel,
-    "Doc2VecModel" -> Doc2VecModel,
+    "DeBertaForSequenceClassification" -> DeBertaForSequenceClassification,
     "DistilBertForSequenceClassification" -> DistilBertForSequenceClassification,
+    "LongformerForSequenceClassification" -> LongformerForSequenceClassification,
     "RoBertaForSequenceClassification" -> RoBertaForSequenceClassification,
     "XlmRoBertaForSequenceClassification" -> XlmRoBertaForSequenceClassification,
-    "LongformerForSequenceClassification" -> LongformerForSequenceClassification,
-    "AlbertForSequenceClassification" -> AlbertForSequenceClassification,
     "XlnetForSequenceClassification" -> XlnetForSequenceClassification,
     "GPT2Transformer" -> GPT2Transformer,
+    "EntityRulerModel" -> EntityRulerModel,
+    "Doc2VecModel" -> Doc2VecModel,
     "Word2VecModel" -> Word2VecModel,
     "DeBertaEmbeddings" -> DeBertaEmbeddings,
     "DeBertaForSequenceClassification" -> DeBertaForSequenceClassification,
     "DeBertaForTokenClassification" -> DeBertaForTokenClassification,
-    "CamemBertEmbeddings" -> CamemBertEmbeddings)
+    "CamemBertEmbeddings" -> CamemBertEmbeddings,
+    "AlbertForQuestionAnswering" -> AlbertForQuestionAnswering,
+    "BertForQuestionAnswering" -> BertForQuestionAnswering,
+    "DeBertaForQuestionAnswering" -> DeBertaForQuestionAnswering,
+    "DistilBertForQuestionAnswering" -> DistilBertForQuestionAnswering,
+    "LongformerForQuestionAnswering" -> LongformerForQuestionAnswering,
+    "RoBertaForQuestionAnswering" -> RoBertaForQuestionAnswering,
+    "XlmRoBertaForQuestionAnswering" -> XlmRoBertaForQuestionAnswering,
+    "SpanBertCorefModel" -> SpanBertCorefModel)
 
   def downloadModel(
       readerStr: String,

@@ -11,7 +11,7 @@ edition: Spark NLP 3.3.4
 spark_version: 3.0
 supported: true
 article_header:
-  type: cover
+type: cover
 use_language_switcher: "Python-Scala-Java"
 ---
 
@@ -45,42 +45,52 @@ import com.johnsnowlabs.nlp.pretrained.PretrainedPipeline
 val pipeline = new PretrainedPipeline("check_spelling_dl", lang = "en")
 val result = pipeline.annotate("During the summer we have the hottest ueather. I have a black ueather jacket, so nice.I intrduce you to my sister, she is called ueather.")
 ```
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("en.spell").predict("""
+During the summer we have the hottest ueather. I have a black ueather jacket, so nice.I intrduce you to my sister, she is called ueather.
+""")
+```
+
 </div>
 
 ## Results
 
 ```bash
 ('During', 'During'),
- ('the', 'the'),
- ('summer', 'summer'),
- ('we', 'we'),
- ('have', 'have'),
- ('the', 'the'),
- ('hottest', 'hottest'),
- ('ueather', 'weather'),
- ('.', '.'),
- ('I', 'I'),
- ('have', 'have'),
- ('a', 'a'),
- ('black', 'black'),
- ('ueather', 'leather'),
- ('jacket', 'jacket'),
- (',', ','),
- ('so', 'so'),
- ('nice', 'nice'),
- ('.', '.'),
- ('I', 'I'),
- ('intrduce', 'introduce'),
- ('you', 'you'),
- ('to', 'to'),
- ('my', 'my'),
- ('sister', 'sister'),
- (',', ','),
- ('she', 'she'),
- ('is', 'is'),
- ('called', 'called'),
- ('ueather', 'Heather'),
- ('.', '.')
+('the', 'the'),
+('summer', 'summer'),
+('we', 'we'),
+('have', 'have'),
+('the', 'the'),
+('hottest', 'hottest'),
+('ueather', 'weather'),
+('.', '.'),
+('I', 'I'),
+('have', 'have'),
+('a', 'a'),
+('black', 'black'),
+('ueather', 'leather'),
+('jacket', 'jacket'),
+(',', ','),
+('so', 'so'),
+('nice', 'nice'),
+('.', '.'),
+('I', 'I'),
+('intrduce', 'introduce'),
+('you', 'you'),
+('to', 'to'),
+('my', 'my'),
+('sister', 'sister'),
+(',', ','),
+('she', 'she'),
+('is', 'is'),
+('called', 'called'),
+('ueather', 'Heather'),
+('.', '.')
 ```
 
 {:.model-param}

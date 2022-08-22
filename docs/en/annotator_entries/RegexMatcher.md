@@ -20,7 +20,7 @@ CHUNK
 {%- endcapture -%}
 
 {%- capture model_python_api_link -%}
-[RegexMatcherModel](https://nlp.johnsnowlabs.com/api/python/reference/autosummary/sparknlp.annotator.RegexMatcherModel.html)
+[RegexMatcherModel](/api/python/reference/autosummary/sparknlp/annotator/matcher/regex_matcher/index.html#sparknlp.annotator.matcher.regex_matcher.RegexMatcherModel)
 {%- endcapture -%}
 
 {%- capture model_source_link -%}
@@ -131,7 +131,7 @@ results.selectExpr("explode(regex) as result").show(false)
 {%- endcapture -%}
 
 {%- capture approach_python_api_link -%}
-[RegexMatcher](https://nlp.johnsnowlabs.com/api/python/reference/autosummary/sparknlp.annotator.RegexMatcher.html)
+[RegexMatcher](/api/python/reference/autosummary/sparknlp/annotator/matcher/regex_matcher/index.html#sparknlp.annotator.matcher.regex_matcher.RegexMatcher)
 {%- endcapture -%}
 
 {%- capture approach_source_link -%}

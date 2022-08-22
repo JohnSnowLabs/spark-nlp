@@ -22,3 +22,28 @@
     });
   });
 })();
+
+$(document).ready(function () {
+
+  /* Versions Pagination*/
+  $('.pagination_big').owlCarousel({
+      margin:10,
+      nav:true,
+      dots:false,
+      responsive:{
+          0:{
+              items:3
+          },
+          400:{
+              items:4
+          },
+          500:{
+              items:6
+          },
+          1600:{
+              items:11
+          }
+      }
+  });
+});
+

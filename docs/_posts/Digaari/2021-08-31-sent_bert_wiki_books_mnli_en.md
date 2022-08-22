@@ -11,7 +11,7 @@ edition: Spark NLP 3.2.0
 spark_version: 3.0
 supported: true
 article_header:
-  type: cover
+type: cover
 use_language_switcher: "Python-Scala-Java"
 ---
 
@@ -36,15 +36,15 @@ This model is fine-tuned on the MNLI and is recommended for use in natural langu
 {% include programmingLanguageSelectScalaPythonNLU.html %}
 ```python
 sent_embeddings = BertSentenceEmbeddings.pretrained("sent_bert_wiki_books_mnli", "en") \
-      .setInputCols("sentence") \
-      .setOutputCol("bert_sentence")
+.setInputCols("sentence") \
+.setOutputCol("bert_sentence")
 
 nlp_pipeline = Pipeline(stages=[document_assembler, sentence_detector, sent_embeddings ])
 ```
 ```scala
 val sent_embeddings = BertSentenceEmbeddings.pretrained("sent_bert_wiki_books_mnli", "en")
-      .setInputCols("sentence")
-      .setOutputCol("bert_sentence")
+.setInputCols("sentence")
+.setOutputCol("bert_sentence")
 
 val pipeline = new Pipeline().setStages(Array(document_assembler, sentence_detector, sent_embeddings ))
 ```

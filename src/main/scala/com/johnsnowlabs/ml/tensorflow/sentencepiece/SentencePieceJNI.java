@@ -22,7 +22,13 @@ class SentencePieceJNI {
 
     static {
         try {
-            System.load(NativeLibLoader.createTempFileFromResource("/sentencepiece/" + System.mapLibraryName("sentencepiece_jni")));
+            String libName = "sentencepiece_jni";
+            String platform = System.getProperty("os.name").toLowerCase();
+            boolean isMacOs = platform.contains("os x") || platform.contains("darwin");
+            if (isMacOs && System.getProperty("os.arch").equals("aarch64")) {
+                libName += "_m1";
+            }
+            System.load(NativeLibLoader.createTempFileFromResource("/sentencepiece/" + System.mapLibraryName(libName)));
         } catch (IOException e) {
             throw new UnsatisfiedLinkError(e.getMessage());
         }

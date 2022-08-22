@@ -40,6 +40,14 @@ import com.johnsnowlabs.nlp.pretrained.PretrainedPipeline
 val pipeline = new PretrainedPipeline("rxnorm_mesh_mapping","en","clinical/models")
 val result = pipeline.annotate("1191 6809 47613")
 ```
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("en.resolve.rxnorm.mesh").predict("""1191 6809 47613""")
+```
+
 </div>
 
 ## Results

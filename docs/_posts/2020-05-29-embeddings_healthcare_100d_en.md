@@ -13,7 +13,7 @@ spark_version: 2.4
 tags: [clinical,embeddings,en]
 supported: true
 article_header:
-   type: cover
+type: cover
 use_language_switcher: "Python-Scala-Java"
 ---
 
@@ -31,7 +31,7 @@ Word Embeddings lookup annotator that maps tokens to vectors.
 ## How to use 
 <div class="tabs-box" markdown="1">
 
-{% include programmingLanguageSelectScalaPython.html %}
+{% include programmingLanguageSelectScalaPythonNLU.html %}
 
 ```python
 model = WordEmbeddingsModel.pretrained("embeddings_healthcare_100d","en","clinical/models")\
@@ -44,6 +44,14 @@ val model = WordEmbeddingsModel.pretrained("embeddings_healthcare_100d","en","cl
 	.setInputCols("document","token")
 	.setOutputCol("word_embeddings")
 ```
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("en.embed.glove.healthcare_100d").predict("""Put your text here.""")
+```
+
 </div>
 
 {:.h2_title}

@@ -1,0 +1,864 @@
+
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+
+    <title>sparknlp_jsl.annotator.assertion.assertionDL &#8212; Spark NLP 4.0.0 documentation</title>
+<script>
+  document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+  document.documentElement.dataset.theme = localStorage.getItem("theme") || "light"
+</script>
+
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../../../../../static/styles/theme.css?digest=92025949c220c2e29695" rel="stylesheet">
+<link href="../../../../../../static/styles/pydata-sphinx-theme.css?digest=92025949c220c2e29695" rel="stylesheet">
+
+
+  <link rel="stylesheet"
+    href="../../../../../../static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../../../../../../static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../../../../../../static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+    <link rel="stylesheet" type="text/css" href="../../../../../../static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../../../../../../static/graphviz.css" />
+    <link rel="stylesheet" type="text/css" href="../../../../../../static/css/custom.css" />
+
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../../../../../static/scripts/pydata-sphinx-theme.js?digest=92025949c220c2e29695">
+
+    <script data-url_root="../../../../../../" id="documentation_options" src="../../../../../../static/documentation_options.js"></script>
+    <script src="../../../../../../static/jquery.js"></script>
+    <script src="../../../../../../static/underscore.js"></script>
+    <script src="../../../../../../static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="../../../../../../static/doctools.js"></script>
+    <script src="../../../../../../static/toggleprompt.js"></script>
+    <link rel="shortcut icon" href="../../../../../../static/fav.ico"/>
+    <link rel="index" title="Index" href="../../../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../../../search.html" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="docsearch:language" content="en">
+  </head>
+  
+  
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="180" data-default-mode="">
+    <div class="bd-header-announcement container-fluid" id="banner">
+      
+
+    </div>
+
+    
+    <nav class="bd-header navbar navbar-light navbar-expand-lg bg-light fixed-top bd-navbar" id="navbar-main"><div class="bd-header__inner container-xl">
+
+  <div id="navbar-start">
+    
+    
+  
+
+
+<a class="navbar-brand logo" href="../../../../../../index.html">
+  
+  
+  
+  
+    <img src="../../../../../../static/logo.png" class="logo__image only-light" alt="Logo image">
+    <img src="../../../../../../static/logo.png" class="logo__image only-dark" alt="Logo image">
+  
+  
+</a>
+    
+  </div>
+
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar-collapsible" aria-controls="navbar-collapsible" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="fas fa-bars"></span>
+  </button>
+
+  
+  <div id="navbar-collapsible" class="col-lg-9 collapse navbar-collapse">
+    <div id="navbar-center" class="mr-auto">
+      
+      <div class="navbar-center-item">
+        <ul id="navbar-main-elements" class="navbar-nav">
+    <li class="toctree-l1 nav-item">
+ <a class="reference internal nav-link" href="../../../../../../getting_started/index.html">
+  Getting Started
+ </a>
+</li>
+
+<li class="toctree-l1 nav-item">
+ <a class="reference internal nav-link" href="../../../../../index.html">
+  API Reference
+ </a>
+</li>
+
+    
+</ul>
+      </div>
+      
+    </div>
+
+    <div id="navbar-end">
+      
+      <div class="navbar-end-item">
+        <span id="theme-switch" class="btn btn-sm btn-outline-primary navbar-btn rounded-circle">
+    <a class="theme-switch" data-mode="light"><i class="fas fa-sun"></i></a>
+    <a class="theme-switch" data-mode="dark"><i class="far fa-moon"></i></a>
+    <a class="theme-switch" data-mode="auto"><i class="fas fa-adjust"></i></a>
+</span>
+      </div>
+      
+      <div class="navbar-end-item">
+        <ul id="navbar-icon-links" class="navbar-nav" aria-label="Icon Links">
+      </ul>
+      </div>
+      
+    </div>
+  </div>
+</div>
+    </nav>
+    
+
+    <div class="bd-container container-xl">
+      <div class="bd-container__inner row">
+          
+
+<!-- Only show if we have sidebars configured, else just a small margin  -->
+<div class="bd-sidebar-primary col-12 col-md-3 bd-sidebar">
+  <div class="sidebar-start-items"><form class="bd-search d-flex align-items-center" action="../../../../../../search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search the docs ..." aria-label="Search the docs ..." autocomplete="off" >
+</form><nav class="bd-links" id="bd-docs-nav" aria-label="Main navigation">
+  <div class="bd-toc-item active">
+    
+  </div>
+</nav>
+  </div>
+  <div class="sidebar-end-items">
+  </div>
+</div>
+
+
+          
+
+
+<div class="bd-sidebar-secondary d-none d-xl-block col-xl-2 bd-toc">
+  
+    
+    <div class="toc-item">
+      
+<div class="tocsection onthispage mt-5 pt-1 pb-3">
+    <i class="fas fa-list"></i> On this page
+</div>
+
+<nav id="bd-toc-nav">
+    <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#module-contents">
+   Module Contents
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#classes">
+     Classes
+    </a>
+    <ul class="nav section-nav flex-column">
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.assertion.assertionDL.AssertionDLApproach">
+       AssertionDLApproach
+      </a>
+      <ul class="nav section-nav flex-column">
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.assertion.assertionDL.AssertionDLApproach.setGraphFolder">
+         setGraphFolder
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.assertion.assertionDL.AssertionDLApproach.setGraphFile">
+         setGraphFile
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.assertion.assertionDL.AssertionDLApproach.setConfigProtoBytes">
+         setConfigProtoBytes
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.assertion.assertionDL.AssertionDLApproach.setLabelCol">
+         setLabelCol
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.assertion.assertionDL.AssertionDLApproach.setStartCol">
+         setStartCol
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.assertion.assertionDL.AssertionDLApproach.setEndCol">
+         setEndCol
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.assertion.assertionDL.AssertionDLApproach.setBatchSize">
+         setBatchSize
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.assertion.assertionDL.AssertionDLApproach.setEpochs">
+         setEpochs
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.assertion.assertionDL.AssertionDLApproach.setLearningRate">
+         setLearningRate
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.assertion.assertionDL.AssertionDLApproach.setDropout">
+         setDropout
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.assertion.assertionDL.AssertionDLApproach.setMaxSentLen">
+         setMaxSentLen
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.assertion.assertionDL.AssertionDLApproach.setValidationSplit">
+         setValidationSplit
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.assertion.assertionDL.AssertionDLApproach.setEvaluationLogExtended">
+         setEvaluationLogExtended
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.assertion.assertionDL.AssertionDLApproach.setTestDataset">
+         setTestDataset
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.assertion.assertionDL.AssertionDLApproach.setIncludeConfidence">
+         setIncludeConfidence
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.assertion.assertionDL.AssertionDLApproach.setEnableOutputLogs">
+         setEnableOutputLogs
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.assertion.assertionDL.AssertionDLApproach.setOutputLogsPath">
+         setOutputLogsPath
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.assertion.assertionDL.AssertionDLApproach.setVerbose">
+         setVerbose
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.assertion.assertionDL.AssertionDLApproach.setScopeWindow">
+         setScopeWindow
+        </a>
+       </li>
+      </ul>
+     </li>
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.assertion.assertionDL.AssertionDLModel">
+       AssertionDLModel
+      </a>
+      <ul class="nav section-nav flex-column">
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.assertion.assertionDL.AssertionDLModel.setIncludeConfidence">
+         setIncludeConfidence
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.assertion.assertionDL.AssertionDLModel.setScopeWindow">
+         setScopeWindow
+        </a>
+       </li>
+      </ul>
+     </li>
+    </ul>
+   </li>
+  </ul>
+ </li>
+</ul>
+
+</nav>
+    </div>
+    
+    <div class="toc-item">
+      
+    </div>
+    
+  
+</div>
+
+
+          
+          
+          <div class="bd-content col-12 col-md-9 col-xl-7">
+              
+              <article class="bd-article" role="main">
+                
+  <section id="module-sparknlp_jsl.annotator.assertion.assertionDL">
+<span id="sparknlp-jsl-annotator-assertion-assertiondl"></span><h1><a class="reference internal" href="#module-sparknlp_jsl.annotator.assertion.assertionDL" title="sparknlp_jsl.annotator.assertion.assertionDL"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp_jsl.annotator.assertion.assertionDL</span></code></a><a class="headerlink" href="#module-sparknlp_jsl.annotator.assertion.assertionDL" title="Permalink to this heading">#</a></h1>
+<section id="module-contents">
+<h2>Module Contents<a class="headerlink" href="#module-contents" title="Permalink to this heading">#</a></h2>
+<section id="classes">
+<h3>Classes<a class="headerlink" href="#classes" title="Permalink to this heading">#</a></h3>
+<table class="autosummary longtable table autosummary">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp_jsl.annotator.assertion.assertionDL.AssertionDLApproach" title="sparknlp_jsl.annotator.assertion.assertionDL.AssertionDLApproach"><code class="xref py py-obj docutils literal notranslate"><span class="pre">AssertionDLApproach</span></code></a></p></td>
+<td><p>Train a Assertion Model algorithm using deep learning.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#sparknlp_jsl.annotator.assertion.assertionDL.AssertionDLModel" title="sparknlp_jsl.annotator.assertion.assertionDL.AssertionDLModel"><code class="xref py py-obj docutils literal notranslate"><span class="pre">AssertionDLModel</span></code></a></p></td>
+<td><p>AssertionDL is a deep Learning based approach used to extract Assertion Status</p></td>
+</tr>
+</tbody>
+</table>
+<dl class="py class">
+<dt class="sig sig-object py" id="sparknlp_jsl.annotator.assertion.assertionDL.AssertionDLApproach">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">AssertionDLApproach</span></span><a class="reference internal" href="../../../../../../modules/sparknlp_jsl/annotator/assertion/assertionDL.html#AssertionDLApproach"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.assertion.assertionDL.AssertionDLApproach" title="Permalink to this definition">#</a></dt>
+<dd><p>Train a Assertion Model algorithm using deep learning.
+from extracted entities and text. AssertionLogRegModel requires DOCUMENT, CHUNK and WORD_EMBEDDINGS type
+annotator inputs, which can be obtained by e.g a</p>
+<p>The training data should have annotations columns of type <code class="docutils literal notranslate"><span class="pre">DOCUMENT</span></code>, <code class="docutils literal notranslate"><span class="pre">CHUNK</span></code>, <code class="docutils literal notranslate"><span class="pre">WORD_EMBEDDINGS</span></code>, the <code class="docutils literal notranslate"><span class="pre">label</span></code> column
+(The assertion status that you want to predict), the <code class="docutils literal notranslate"><span class="pre">start</span></code> (the start index for the term that has the assertion status),
+the <code class="docutils literal notranslate"><span class="pre">end</span></code> column (the end index for the term that has the assertion status).This model use a deep learning to predict the entity.</p>
+<table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Input Annotation types</p></th>
+<th class="head"><p>Output Annotation type</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">DOCUMENT,</span> <span class="pre">CHUNK,</span> <span class="pre">WORD_EMBEDDINGS</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">ASSERTION</span></code></p></td>
+</tr>
+</tbody>
+</table>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>label</strong></dt><dd><p>Column with one label per document. Example of possible values: “present”, “absent”, “hypothetical”, “conditional”, “associated_with_other_person”, etc.</p>
+</dd>
+<dt><strong>startCol</strong></dt><dd><p>Column that contains the token number for the start of the target</p>
+</dd>
+<dt><strong>endCol</strong></dt><dd><p>olumn that contains the token number for the end of the target</p>
+</dd>
+<dt><strong>batchSize</strong></dt><dd><p>Size for each batch in the optimization process</p>
+</dd>
+<dt><strong>epochs</strong></dt><dd><p>Number of epochs for the optimization process</p>
+</dd>
+<dt><strong>learningRate</strong></dt><dd><p>Learning rate for the optimization process</p>
+</dd>
+<dt><strong>dropout</strong></dt><dd><p>dropout”, “Dropout at the output of each layer</p>
+</dd>
+<dt><strong>maxSentLen</strong></dt><dd><p>Max length for an input sentence.</p>
+</dd>
+<dt><strong>graphFolder</strong></dt><dd><p>Folder path that contain external graph files</p>
+</dd>
+<dt><strong>graphFile</strong></dt><dd><p>Graph file name to use</p>
+</dd>
+<dt><strong>configProtoBytes</strong></dt><dd><p>ConfigProto from tensorflow, serialized into byte array. Get with config_proto.SerializeToString()</p>
+</dd>
+<dt><strong>validationSplit</strong></dt><dd><p>Choose the proportion of training dataset to be validated against the model on each Epoch. The value should be between 0.0 and 1.0 and by default it is 0.0 and off.</p>
+</dd>
+<dt><strong>evaluationLogExtended</strong></dt><dd><p>Select if you want to have mode eval.</p>
+</dd>
+<dt><strong>testDataset</strong></dt><dd><p>Path to test dataset. If set used to calculate statistic on it during training.</p>
+</dd>
+<dt><strong>includeConfidence</strong></dt><dd><p>whether to include confidence scores in annotation metadata</p>
+</dd>
+<dt><strong>enableOutputLogs</strong></dt><dd><p>whether or not to output logs</p>
+</dd>
+<dt><strong>outputLogsPath</strong></dt><dd><p>Folder path to save training logs</p>
+</dd>
+<dt><strong>verbose</strong></dt><dd><p>Level of verbosity during training</p>
+</dd>
+<dt><strong>scopeWindow</strong></dt><dd><p>The scope window of the assertion expression</p>
+</dd>
+<dt><strong>Examples</strong></dt><dd></dd>
+<dt><strong>——–</strong></dt><dd></dd>
+<dt><strong>&gt;&gt;&gt; import sparknlp</strong></dt><dd></dd>
+<dt><strong>&gt;&gt;&gt; from sparknlp.base import *</strong></dt><dd></dd>
+<dt><strong>&gt;&gt;&gt; from sparknlp.annotator import *</strong></dt><dd></dd>
+<dt><strong>&gt;&gt;&gt; from sparknlp_jsl.annotator import *</strong></dt><dd></dd>
+<dt><strong>&gt;&gt;&gt; from sparknlp.training import *</strong></dt><dd></dd>
+<dt><strong>&gt;&gt;&gt; from pyspark.ml import Pipeline</strong></dt><dd></dd>
+<dt><a href="#id1"><span class="problematic" id="id2">**</span></a>&gt;&gt;&gt; document_assembler = DocumentAssembler() **</dt><dd></dd>
+<dt><a href="#id3"><span class="problematic" id="id4">**</span></a>…    .setInputCol(“text”) **</dt><dd></dd>
+<dt><strong>…    .setOutputCol(“document”)</strong></dt><dd></dd>
+<dt><a href="#id5"><span class="problematic" id="id6">**</span></a>&gt;&gt;&gt; sentence_detector = SentenceDetector() **</dt><dd></dd>
+<dt><a href="#id7"><span class="problematic" id="id8">**</span></a>…    .setInputCol(“document”) **</dt><dd></dd>
+<dt><strong>…    .setOutputCol(“sentence”)</strong></dt><dd></dd>
+<dt><a href="#id9"><span class="problematic" id="id10">**</span></a>&gt;&gt;&gt; tokenizer = Tokenizer() **</dt><dd></dd>
+<dt><a href="#id11"><span class="problematic" id="id12">**</span></a>…    .setInputCols([“sentence”]) **</dt><dd></dd>
+<dt><strong>…    .setOutputCol(“token”)</strong></dt><dd></dd>
+<dt><a href="#id13"><span class="problematic" id="id14">**</span></a>&gt;&gt;&gt; embeddings = WordEmbeddingsModel.pretrained(“embeddings_clinical”, “en”, “clinical/models”) **</dt><dd></dd>
+<dt><a href="#id15"><span class="problematic" id="id16">**</span></a>…    .setInputCols([“sentence”, “token”]) **</dt><dd></dd>
+<dt><a href="#id17"><span class="problematic" id="id18">**</span></a>…    .setOutputCol(“word_embeddings”) **</dt><dd></dd>
+<dt><strong>…    .setCaseSensitive(False)</strong></dt><dd></dd>
+<dt><a href="#id19"><span class="problematic" id="id20">**</span></a>&gt;&gt;&gt; chunk = Chunker() **</dt><dd></dd>
+<dt><a href="#id21"><span class="problematic" id="id22">**</span></a>…    .setInputCols([sentence]) **</dt><dd></dd>
+<dt><a href="#id23"><span class="problematic" id="id24">**</span></a>…    .setChunkCol(“chunk”) **</dt><dd></dd>
+<dt><strong>…    .setOutputCol(“chunk”)</strong></dt><dd></dd>
+<dt><a href="#id25"><span class="problematic" id="id26">**</span></a>&gt;&gt;&gt; assertion = AssertionDLApproach() **</dt><dd></dd>
+<dt><a href="#id27"><span class="problematic" id="id28">**</span></a>…    .setLabelCol(“label”) **</dt><dd></dd>
+<dt><a href="#id29"><span class="problematic" id="id30">**</span></a>…    .setInputCols([“document”, “chunk”, “word_embeddings”]) **</dt><dd></dd>
+<dt><a href="#id31"><span class="problematic" id="id32">**</span></a>…    .setOutputCol(“assertion”) **</dt><dd></dd>
+<dt><a href="#id33"><span class="problematic" id="id34">**</span></a>…    .setOutputCol(“assertion”) **</dt><dd></dd>
+<dt><a href="#id35"><span class="problematic" id="id36">**</span></a>…    .setBatchSize(128) **</dt><dd></dd>
+<dt><a href="#id37"><span class="problematic" id="id38">**</span></a>…    .setDropout(0.012) **</dt><dd></dd>
+<dt><a href="#id39"><span class="problematic" id="id40">**</span></a>…    .setLearningRate(0.015) **</dt><dd></dd>
+<dt><a href="#id41"><span class="problematic" id="id42">**</span></a>…    .setEpochs(1) **</dt><dd></dd>
+<dt><a href="#id43"><span class="problematic" id="id44">**</span></a>…    .setStartCol(“start”) **</dt><dd></dd>
+<dt><a href="#id45"><span class="problematic" id="id46">**</span></a>…    .setScopeWindow([3, 4]) **</dt><dd></dd>
+<dt><a href="#id47"><span class="problematic" id="id48">**</span></a>…    .setEndCol(“end”) **</dt><dd></dd>
+<dt><strong>…    .setMaxSentLen(250)</strong></dt><dd></dd>
+<dt><strong>&gt;&gt;&gt; assertionPipeline = Pipeline(stages=[</strong></dt><dd></dd>
+<dt><strong>…    document_assembler,</strong></dt><dd></dd>
+<dt><strong>…    sentence_detector,</strong></dt><dd></dd>
+<dt><strong>…    tokenizer,</strong></dt><dd></dd>
+<dt><strong>…    embeddings,</strong></dt><dd></dd>
+<dt><strong>…    chunk,</strong></dt><dd></dd>
+<dt><strong>…    assertion])</strong></dt><dd></dd>
+<dt><strong>&gt;&gt;&gt; assertionModel = assertionPipeline.fit(dataset)</strong></dt><dd></dd>
+</dl>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp_jsl.annotator.assertion.assertionDL.AssertionDLApproach.setGraphFolder">
+<span class="sig-name descname"><span class="pre">setGraphFolder</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">p</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../modules/sparknlp_jsl/annotator/assertion/assertionDL.html#AssertionDLApproach.setGraphFolder"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.assertion.assertionDL.AssertionDLApproach.setGraphFolder" title="Permalink to this definition">#</a></dt>
+<dd><p>Sets folder path that contain external graph files.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>p</strong><span class="classifier">srt</span></dt><dd><p>Folder path that contain external graph files.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp_jsl.annotator.assertion.assertionDL.AssertionDLApproach.setGraphFile">
+<span class="sig-name descname"><span class="pre">setGraphFile</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../modules/sparknlp_jsl/annotator/assertion/assertionDL.html#AssertionDLApproach.setGraphFile"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.assertion.assertionDL.AssertionDLApproach.setGraphFile" title="Permalink to this definition">#</a></dt>
+<dd><p>Sets path that contains the external graph file. When specified, the provided file will be used, and no graph search will happen.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>value</strong><span class="classifier">str</span></dt><dd><p>Path that contains the external graph file. When specified, the provided file will be used, and no graph search will happen.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp_jsl.annotator.assertion.assertionDL.AssertionDLApproach.setConfigProtoBytes">
+<span class="sig-name descname"><span class="pre">setConfigProtoBytes</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">b</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../modules/sparknlp_jsl/annotator/assertion/assertionDL.html#AssertionDLApproach.setConfigProtoBytes"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.assertion.assertionDL.AssertionDLApproach.setConfigProtoBytes" title="Permalink to this definition">#</a></dt>
+<dd><p>Sets  ConfigProto from tensorflow, serialized into byte array. Get with config_proto.SerializeToString()`.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>b</strong><span class="classifier">bytes</span></dt><dd><p>ConfigProto from tensorflow, serialized into byte array. Get with config_proto.SerializeToString()</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp_jsl.annotator.assertion.assertionDL.AssertionDLApproach.setLabelCol">
+<span class="sig-name descname"><span class="pre">setLabelCol</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">label</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../modules/sparknlp_jsl/annotator/assertion/assertionDL.html#AssertionDLApproach.setLabelCol"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.assertion.assertionDL.AssertionDLApproach.setLabelCol" title="Permalink to this definition">#</a></dt>
+<dd><p>Set a column with one label per document. Example of possible values: “present”, “absent”, “hypothetical”, “conditional”, “associated_with_other_person”, etc.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>label</strong><span class="classifier">str</span></dt><dd><p>label. Column with one label per document. Example of possible values: “present”, “absent”, “hypothetical”, “conditional”, “associated_with_other_person”, etc.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp_jsl.annotator.assertion.assertionDL.AssertionDLApproach.setStartCol">
+<span class="sig-name descname"><span class="pre">setStartCol</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">s</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../modules/sparknlp_jsl/annotator/assertion/assertionDL.html#AssertionDLApproach.setStartCol"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.assertion.assertionDL.AssertionDLApproach.setStartCol" title="Permalink to this definition">#</a></dt>
+<dd><p>Set a column that contains the token number for the start of the target</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>s</strong><span class="classifier">str</span></dt><dd><p>Column that contains the token number for the start of the target</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp_jsl.annotator.assertion.assertionDL.AssertionDLApproach.setEndCol">
+<span class="sig-name descname"><span class="pre">setEndCol</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">e</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../modules/sparknlp_jsl/annotator/assertion/assertionDL.html#AssertionDLApproach.setEndCol"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.assertion.assertionDL.AssertionDLApproach.setEndCol" title="Permalink to this definition">#</a></dt>
+<dd><p>Set column that contains the token number for the end of the target.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>row</strong><span class="classifier">str</span></dt><dd><p>Column that contains the token number for the end of the target</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp_jsl.annotator.assertion.assertionDL.AssertionDLApproach.setBatchSize">
+<span class="sig-name descname"><span class="pre">setBatchSize</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">size</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../modules/sparknlp_jsl/annotator/assertion/assertionDL.html#AssertionDLApproach.setBatchSize"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.assertion.assertionDL.AssertionDLApproach.setBatchSize" title="Permalink to this definition">#</a></dt>
+<dd><p>Set Size for each batch in the optimization process.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>size</strong><span class="classifier">int</span></dt><dd><p>Size for each batch in the optimization process</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp_jsl.annotator.assertion.assertionDL.AssertionDLApproach.setEpochs">
+<span class="sig-name descname"><span class="pre">setEpochs</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">number</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../modules/sparknlp_jsl/annotator/assertion/assertionDL.html#AssertionDLApproach.setEpochs"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.assertion.assertionDL.AssertionDLApproach.setEpochs" title="Permalink to this definition">#</a></dt>
+<dd><p>Sets number of epochs for the optimization process</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>number</strong><span class="classifier">int</span></dt><dd><p>Number of epochs for the optimization process</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp_jsl.annotator.assertion.assertionDL.AssertionDLApproach.setLearningRate">
+<span class="sig-name descname"><span class="pre">setLearningRate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">lamda</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../modules/sparknlp_jsl/annotator/assertion/assertionDL.html#AssertionDLApproach.setLearningRate"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.assertion.assertionDL.AssertionDLApproach.setLearningRate" title="Permalink to this definition">#</a></dt>
+<dd><p>Set a learning rate for the optimization process</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>lamda</strong><span class="classifier">float</span></dt><dd><p>Learning rate for the optimization process.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><dl class="simple">
+<dt>Annotation</dt><dd><p>The new Annotation.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp_jsl.annotator.assertion.assertionDL.AssertionDLApproach.setDropout">
+<span class="sig-name descname"><span class="pre">setDropout</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">rate</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../modules/sparknlp_jsl/annotator/assertion/assertionDL.html#AssertionDLApproach.setDropout"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.assertion.assertionDL.AssertionDLApproach.setDropout" title="Permalink to this definition">#</a></dt>
+<dd><p>Set a dropout at the output of each layer</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>rate</strong><span class="classifier">float</span></dt><dd><p>Dropout at the output of each layer</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp_jsl.annotator.assertion.assertionDL.AssertionDLApproach.setMaxSentLen">
+<span class="sig-name descname"><span class="pre">setMaxSentLen</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">length</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../modules/sparknlp_jsl/annotator/assertion/assertionDL.html#AssertionDLApproach.setMaxSentLen"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.assertion.assertionDL.AssertionDLApproach.setMaxSentLen" title="Permalink to this definition">#</a></dt>
+<dd><p>Set the max length for an input sentence.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>length</strong><span class="classifier">int</span></dt><dd><p>Max length for an input sentence.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp_jsl.annotator.assertion.assertionDL.AssertionDLApproach.setValidationSplit">
+<span class="sig-name descname"><span class="pre">setValidationSplit</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">v</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../modules/sparknlp_jsl/annotator/assertion/assertionDL.html#AssertionDLApproach.setValidationSplit"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.assertion.assertionDL.AssertionDLApproach.setValidationSplit" title="Permalink to this definition">#</a></dt>
+<dd><dl class="simple">
+<dt>Set Choose the proportion of training dataset to be validated against the model on each Epoch.</dt><dd><p>The value should be between 0.0 and 1.0 and by default it is 0.0 and off.</p>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>v</strong><span class="classifier">float</span></dt><dd><p>Choose the proportion of training dataset to be validated against the model on each Epoch.
+The value should be between 0.0 and 1.0 and by default it is 0.0 and off.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp_jsl.annotator.assertion.assertionDL.AssertionDLApproach.setEvaluationLogExtended">
+<span class="sig-name descname"><span class="pre">setEvaluationLogExtended</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">v</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../modules/sparknlp_jsl/annotator/assertion/assertionDL.html#AssertionDLApproach.setEvaluationLogExtended"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.assertion.assertionDL.AssertionDLApproach.setEvaluationLogExtended" title="Permalink to this definition">#</a></dt>
+<dd><p>Creates a Annotation from a Spark <cite>Row</cite>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>v</strong><span class="classifier">bool</span></dt><dd><p>Evaluation log extended.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp_jsl.annotator.assertion.assertionDL.AssertionDLApproach.setTestDataset">
+<span class="sig-name descname"><span class="pre">setTestDataset</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">read_as</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">ReadAs.SPARK</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">options</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../modules/sparknlp_jsl/annotator/assertion/assertionDL.html#AssertionDLApproach.setTestDataset"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.assertion.assertionDL.AssertionDLApproach.setTestDataset" title="Permalink to this definition">#</a></dt>
+<dd><p>Sets path to test dataset. If set used to calculate statistic on it during training.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>path</strong><span class="classifier">srt</span></dt><dd><p>Path to test dataset. If set used to calculate statistic on it during training.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp_jsl.annotator.assertion.assertionDL.AssertionDLApproach.setIncludeConfidence">
+<span class="sig-name descname"><span class="pre">setIncludeConfidence</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../modules/sparknlp_jsl/annotator/assertion/assertionDL.html#AssertionDLApproach.setIncludeConfidence"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.assertion.assertionDL.AssertionDLApproach.setIncludeConfidence" title="Permalink to this definition">#</a></dt>
+<dd><p>Sets if you waht to include confidence scores in annotation metadata.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>p</strong><span class="classifier">bool</span></dt><dd></dd>
+<dt><strong>Value that selects if you want to use confidence scores in annotation metadata</strong></dt><dd></dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp_jsl.annotator.assertion.assertionDL.AssertionDLApproach.setEnableOutputLogs">
+<span class="sig-name descname"><span class="pre">setEnableOutputLogs</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../modules/sparknlp_jsl/annotator/assertion/assertionDL.html#AssertionDLApproach.setEnableOutputLogs"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.assertion.assertionDL.AssertionDLApproach.setEnableOutputLogs" title="Permalink to this definition">#</a></dt>
+<dd><p>Sets if you enable to output to annotators log folder.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>value</strong><span class="classifier">srt</span></dt><dd><p>Folder path that contain external graph files.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp_jsl.annotator.assertion.assertionDL.AssertionDLApproach.setOutputLogsPath">
+<span class="sig-name descname"><span class="pre">setOutputLogsPath</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../modules/sparknlp_jsl/annotator/assertion/assertionDL.html#AssertionDLApproach.setOutputLogsPath"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.assertion.assertionDL.AssertionDLApproach.setOutputLogsPath" title="Permalink to this definition">#</a></dt>
+<dd><p>Sets folder path that contain external graph files.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>value</strong><span class="classifier">srt</span></dt><dd><p>Folder path that contain external graph files.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp_jsl.annotator.assertion.assertionDL.AssertionDLApproach.setVerbose">
+<span class="sig-name descname"><span class="pre">setVerbose</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../modules/sparknlp_jsl/annotator/assertion/assertionDL.html#AssertionDLApproach.setVerbose"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.assertion.assertionDL.AssertionDLApproach.setVerbose" title="Permalink to this definition">#</a></dt>
+<dd><p>Sets level of verbosity during training.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>value</strong><span class="classifier">int</span></dt><dd><p>Level of verbosity during training.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp_jsl.annotator.assertion.assertionDL.AssertionDLApproach.setScopeWindow">
+<span class="sig-name descname"><span class="pre">setScopeWindow</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../modules/sparknlp_jsl/annotator/assertion/assertionDL.html#AssertionDLApproach.setScopeWindow"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.assertion.assertionDL.AssertionDLApproach.setScopeWindow" title="Permalink to this definition">#</a></dt>
+<dd><p>Sets the scope of the window of the assertion expression</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>value</strong><span class="classifier">[int, int]</span></dt><dd><p>Left and right offset if the scope window. Offsets must be non-negative values</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="sparknlp_jsl.annotator.assertion.assertionDL.AssertionDLModel">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">AssertionDLModel</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">classname</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'com.johnsnowlabs.nlp.annotators.assertion.dl.AssertionDLModel'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">java_model</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../modules/sparknlp_jsl/annotator/assertion/assertionDL.html#AssertionDLModel"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.assertion.assertionDL.AssertionDLModel" title="Permalink to this definition">#</a></dt>
+<dd><p>AssertionDL is a deep Learning based approach used to extract Assertion Status
+from extracted entities and text. AssertionDLModel requires DOCUMENT, CHUNK and WORD_EMBEDDINGS type
+annotator inputs, which can be obtained by e.g a</p>
+<table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Input Annotation types</p></th>
+<th class="head"><p>Output Annotation type</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">DOCUMENT,</span> <span class="pre">CHUNK,</span> <span class="pre">WORD_EMBEDDINGS</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">ASSERTION</span></code></p></td>
+</tr>
+</tbody>
+</table>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>maxSentLen</strong></dt><dd><p>Max length for an input sentence.</p>
+</dd>
+<dt><strong>targetNerLabels</strong></dt><dd><p>List of NER labels to mark as target for assertion, must match NER output.</p>
+</dd>
+<dt><strong>configProtoBytes</strong></dt><dd><p>ConfigProto from tensorflow, serialized into byte array.</p>
+</dd>
+<dt><strong>classes</strong></dt><dd><p>Tags used to trained this AssertionDLModel</p>
+</dd>
+<dt><strong>scopeWindow</strong></dt><dd><p>The scope window of the assertion expression</p>
+</dd>
+<dt><strong>Examples</strong></dt><dd></dd>
+<dt><strong>——–</strong></dt><dd></dd>
+<dt><strong>&gt;&gt;&gt; import sparknlp</strong></dt><dd></dd>
+<dt><strong>&gt;&gt;&gt; from sparknlp.base import *</strong></dt><dd></dd>
+<dt><strong>&gt;&gt;&gt; from sparknlp.common import *</strong></dt><dd></dd>
+<dt><strong>&gt;&gt;&gt; from sparknlp.annotator import *</strong></dt><dd></dd>
+<dt><strong>&gt;&gt;&gt; from sparknlp.training import *</strong></dt><dd></dd>
+<dt><strong>&gt;&gt;&gt; import sparknlp_jsl</strong></dt><dd></dd>
+<dt><strong>&gt;&gt;&gt; from sparknlp_jsl.base import *</strong></dt><dd></dd>
+<dt><strong>&gt;&gt;&gt; from sparknlp_jsl.annotator import *</strong></dt><dd></dd>
+<dt><strong>&gt;&gt;&gt; from pyspark.ml import Pipeline</strong></dt><dd></dd>
+<dt><strong>&gt;&gt;&gt; data = spark.createDataFrame([[“Patient with severe fever and sore throat”],[“Patient shows no stomach pain”],[“She was maintained on an epidural and PCA for pain control.”]]).toDF(“text”)</strong></dt><dd></dd>
+<dt><strong>&gt;&gt;&gt; documentAssembler = DocumentAssembler().setInputCol(“text”).setOutputCol(“document”)</strong></dt><dd></dd>
+<dt><strong>&gt;&gt;&gt; sentenceDetector = SentenceDetector().setInputCols([“document”]).setOutputCol(“sentence”)</strong></dt><dd></dd>
+<dt><strong>&gt;&gt;&gt; tokenizer = Tokenizer().setInputCols([“sentence”]).setOutputCol(“token”)</strong></dt><dd></dd>
+<dt><a href="#id49"><span class="problematic" id="id50">**</span></a>&gt;&gt;&gt; embeddings = WordEmbeddingsModel.pretrained(“embeddings_clinical”, “en”, “clinical/models”) **</dt><dd></dd>
+<dt><strong>…  .setOutputCol(“embeddings”)</strong></dt><dd></dd>
+<dt><a href="#id51"><span class="problematic" id="id52">**</span></a>&gt;&gt;&gt; nerModel = MedicalNerModel.pretrained(“ner_clinical”, “en”, “clinical/models”) **</dt><dd></dd>
+<dt><strong>…  .setInputCols([“sentence”, “token”, “embeddings”]).setOutputCol(“ner”)</strong></dt><dd></dd>
+<dt><strong>&gt;&gt;&gt; nerConverter = NerConverter().setInputCols([“sentence”, “token”, “ner”]).setOutputCol(“ner_chunk”)</strong></dt><dd></dd>
+<dt><a href="#id53"><span class="problematic" id="id54">**</span></a>&gt;&gt;&gt; clinicalAssertion = AssertionDLModel.pretrained(“assertion_dl”, “en”, “clinical/models”) **</dt><dd></dd>
+<dt><a href="#id55"><span class="problematic" id="id56">**</span></a>…  .setInputCols([“sentence”, “ner_chunk”, “embeddings”]) **</dt><dd></dd>
+<dt><strong>…  .setOutputCol(“assertion”)</strong></dt><dd></dd>
+<dt><strong>&gt;&gt;&gt; assertionPipeline = Pipeline(stages=[</strong></dt><dd></dd>
+<dt><strong>…  documentAssembler,</strong></dt><dd></dd>
+<dt><strong>…  sentenceDetector,</strong></dt><dd></dd>
+<dt><strong>…  tokenizer,</strong></dt><dd></dd>
+<dt><strong>…  embeddings,</strong></dt><dd></dd>
+<dt><strong>…  nerModel,</strong></dt><dd></dd>
+<dt><strong>…  nerConverter,</strong></dt><dd></dd>
+<dt><strong>…  clinicalAssertion</strong></dt><dd></dd>
+<dt><strong>… ])</strong></dt><dd></dd>
+<dt><strong>&gt;&gt;&gt; assertionModel = assertionPipeline.fit(data)</strong></dt><dd></dd>
+<dt><strong>&gt;&gt;&gt; result = assertionModel.transform(data)</strong></dt><dd></dd>
+<dt><strong>&gt;&gt;&gt; result.selectExpr(“ner_chunk.result as ner”, “assertion.result”).show(3, truncate=False)</strong></dt><dd></dd>
+<dt><strong>+——————————–+——————————–+</strong></dt><dd></dd>
+<dt><strong>|ner                             |result                          |</strong></dt><dd></dd>
+<dt><strong>+——————————–+——————————–+</strong></dt><dd></dd>
+<dt><strong>|[severe fever, sore throat]     |[present, present]              |</strong></dt><dd></dd>
+<dt><strong>|[stomach pain]                  |[absent]                        |</strong></dt><dd></dd>
+<dt><strong>|[an epidural, PCA, pain control]|[present, present, hypothetical]|</strong></dt><dd></dd>
+<dt><strong>+——————————–+——————————–+</strong></dt><dd></dd>
+</dl>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp_jsl.annotator.assertion.assertionDL.AssertionDLModel.setIncludeConfidence">
+<span class="sig-name descname"><span class="pre">setIncludeConfidence</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../modules/sparknlp_jsl/annotator/assertion/assertionDL.html#AssertionDLModel.setIncludeConfidence"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.assertion.assertionDL.AssertionDLModel.setIncludeConfidence" title="Permalink to this definition">#</a></dt>
+<dd><p>Sets if you waht to include confidence scores in annotation metadata.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>p</strong><span class="classifier">bool</span></dt><dd></dd>
+<dt><strong>Value that selects if you want to use confidence scores in annotation metadata</strong></dt><dd></dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp_jsl.annotator.assertion.assertionDL.AssertionDLModel.setScopeWindow">
+<span class="sig-name descname"><span class="pre">setScopeWindow</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../modules/sparknlp_jsl/annotator/assertion/assertionDL.html#AssertionDLModel.setScopeWindow"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.assertion.assertionDL.AssertionDLModel.setScopeWindow" title="Permalink to this definition">#</a></dt>
+<dd><p>Sets the scope of the window of the assertion expression</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>value</strong><span class="classifier">[int, int]</span></dt><dd><p>Left and right offset if the scope window. Offsets must be non-negative values</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+</section>
+</section>
+
+
+              </article>
+              
+
+              
+              <footer class="bd-footer-article">
+                  <!-- Previous / next buttons -->
+<div class='prev-next-area'>
+</div>
+              </footer>
+              
+          </div>
+          
+      </div>
+    </div>
+
+  
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../../../../../../static/scripts/pydata-sphinx-theme.js?digest=92025949c220c2e29695"></script>
+
+<footer class="bd-footer"><div class="bd-footer__inner container">
+  
+  <div class="footer-item">
+    <p class="copyright">
+    &copy; Copyright 2022, John Snow Labs.<br>
+</p>
+  </div>
+  
+  <div class="footer-item">
+    <p class="sphinx-version">
+Created using <a href="http://sphinx-doc.org/">Sphinx</a> 5.1.1.<br>
+</p>
+  </div>
+  
+</div>
+</footer>
+  </body>
+</html>

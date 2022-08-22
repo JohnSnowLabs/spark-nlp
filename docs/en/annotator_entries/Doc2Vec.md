@@ -133,7 +133,7 @@ result.selectExpr("explode(finished_embeddings) as result").show(1, 80)
 {%- endcapture -%}
 
 {%- capture model_python_api_link -%}
-[Doc2VecModel](https://nlp.johnsnowlabs.com/api/python/reference/autosummary/sparknlp.annotator.Doc2VecModel.html)
+[Doc2VecModel](/api/python/reference/autosummary/sparknlp/annotator/embeddings/doc2vec/index.html#sparknlp.annotator.embeddings.doc2vec.Doc2VecModel)
 {%- endcapture -%}
 
 {%- capture model_source_link -%}
@@ -238,7 +238,7 @@ val pipelineModel = pipeline.fit(dataset)
 {%- endcapture -%}
 
 {%- capture approach_python_api_link -%}
-[Doc2VecApproach](https://nlp.johnsnowlabs.com/api/python/reference/autosummary/sparknlp.annotator.Doc2VecApproach.html)
+[Doc2VecApproach](/api/python/reference/autosummary/sparknlp/annotator/embeddings/doc2vec/index.html#sparknlp.annotator.embeddings.doc2vec.Doc2VecApproach)
 {%- endcapture -%}
 
 {%- capture approach_source_link -%}

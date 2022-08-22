@@ -51,13 +51,7 @@ object CloudTestResources {
     new ResourceMetadata("name", Some("en"), None, None, false, new Timestamp(1))
 
   val name_de = new ResourceMetadata("name", Some("de"), None, None, true, new Timestamp(1))
-  val name_en_251_23 = new ResourceMetadata(
-    "name",
-    Some("en"),
-    Some(Version(2, 5, 1)),
-    Some(Version(2, 3)),
-    true,
-    new Timestamp(1))
+
   val name_en_300_30 = new ResourceMetadata(
     "name",
     Some("en"),
@@ -65,6 +59,7 @@ object CloudTestResources {
     Some(Version(3, 0)),
     true,
     new Timestamp(1))
+
   val bert_tiny_en_300_30 = new ResourceMetadata(
     "small_bert_L2_128",
     Some("en"),
@@ -72,7 +67,8 @@ object CloudTestResources {
     Some(Version(3, 0)),
     true,
     new Timestamp(1))
-  val all = List(
+
+  val all: List[ResourceMetadata] = List(
     name_en_123_345_new,
     name_en_12_34_old,
     name_en_old,

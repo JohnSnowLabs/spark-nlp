@@ -29,6 +29,7 @@ import org.apache.spark.sql.{Dataset, SparkSession}
 import org.slf4j.LoggerFactory
 
 import java.util
+import scala.collection.JavaConverters._
 
 /** Implements a deep-learning based Noisy Channel Model Spell Algorithm. Correction candidates
   * are extracted combining context information and word information.
@@ -267,7 +268,7 @@ class ContextSpellCheckerModel(override val uid: String)
 
   /** @group setParam */
   def setWeights(w: util.HashMap[String, util.HashMap[String, Double]]): this.type = {
-    import scala.collection.JavaConverters._
+
     val ws = w.asScala.mapValues(_.asScala.mapValues(_.toFloat).toMap).toMap
     set(weights, ws)
   }
@@ -514,9 +515,9 @@ class ContextSpellCheckerModel(override val uid: String)
       label: String,
       maxDist: Int,
       limit: Int = 2) = {
-    import scala.collection.JavaConversions._
     transducer
       .transduce(token, maxDist)
+      .asScala
       .map { cand =>
         // if weights are available, we use them
         val weight = weights.get
@@ -531,11 +532,14 @@ class ContextSpellCheckerModel(override val uid: String)
   }
 
   def getVocabCandidates(token: String, maxDist: Int) = {
-    import scala.collection.JavaConversions._
     val trans = $$(transducer).transducer
     // we use all case information as it comes
     val plainCandidates =
-      trans.transduce(token, maxDist).toList.map(c => (c.term, c.term, c.distance.toFloat))
+      trans
+        .transduce(token, maxDist)
+        .asScala
+        .toList
+        .map(c => (c.term, c.term, c.distance.toFloat))
 
     // We evaluate some case variations
     val tryUpperCase = getOrDefault(caseStrategy) == CandidateStrategy.ALL_UPPER_CASE ||
@@ -548,11 +552,13 @@ class ContextSpellCheckerModel(override val uid: String)
     val caseCandidates = if (token.isUpperCase && tryUpperCase) {
       trans
         .transduce(token.toLowerCase)
+        .asScala
         .toList
         .map(c => (c.term.toUpperCase, c.term, c.distance.toFloat))
     } else if (token.isFirstLetterCapitalized && tryFirstCapitalized) {
       trans
         .transduce(token.toLowerCase)
+        .asScala
         .toList
         .map(c => (c.term.capitalizeFirstLetter, c.term, c.distance.toFloat))
     } else Seq.empty

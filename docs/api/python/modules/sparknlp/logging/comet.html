@@ -1,17 +1,21 @@
 
 <!DOCTYPE html>
 
-<html>
+<html lang="en">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>sparknlp.logging.comet &#8212; Spark NLP 3.4.4 documentation</title>
-    
-  <!-- Loaded before other Sphinx assets -->
-  <link href="../../../static/styles/theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
-<link href="../../../static/styles/pydata-sphinx-theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
+    <title>sparknlp.logging.comet &#8212; Spark NLP 4.0.2 documentation</title>
+<script>
+  document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+  document.documentElement.dataset.theme = localStorage.getItem("theme") || "light"
+</script>
 
-    
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../../static/styles/theme.css?digest=92025949c220c2e29695" rel="stylesheet">
+<link href="../../../static/styles/pydata-sphinx-theme.css?digest=92025949c220c2e29695" rel="stylesheet">
+
+
   <link rel="stylesheet"
     href="../../../static/vendor/fontawesome/5.13.0/css/all.min.css">
   <link rel="preload" as="font" type="font/woff2" crossorigin
@@ -20,47 +24,56 @@
     href="../../../static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
 
     <link rel="stylesheet" type="text/css" href="../../../static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../../../static/graphviz.css" />
     <link rel="stylesheet" type="text/css" href="../../../static/css/custom.css" />
-    
+
   <!-- Pre-loaded scripts that we'll load fully later -->
-  <link rel="preload" as="script" href="../../../static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf">
+  <link rel="preload" as="script" href="../../../static/scripts/pydata-sphinx-theme.js?digest=92025949c220c2e29695">
 
     <script data-url_root="../../../" id="documentation_options" src="../../../static/documentation_options.js"></script>
     <script src="../../../static/jquery.js"></script>
     <script src="../../../static/underscore.js"></script>
+    <script src="../../../static/_sphinx_javascript_frameworks_compat.js"></script>
     <script src="../../../static/doctools.js"></script>
     <script src="../../../static/toggleprompt.js"></script>
     <link rel="shortcut icon" href="../../../static/fav.ico"/>
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="docsearch:language" content="None">
-    
-
-    <!-- Google Analytics -->
-    
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="docsearch:language" content="en">
   </head>
-  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="60">
-    
-    <div class="container-fluid" id="banner"></div>
+  
+  
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="180" data-default-mode="">
+    <div class="bd-header-announcement container-fluid" id="banner">
+      
+
+    </div>
 
     
-    <nav class="navbar navbar-light navbar-expand-lg bg-light fixed-top bd-navbar" id="navbar-main"><div class="container-xl">
+    <nav class="bd-header navbar navbar-light navbar-expand-lg bg-light fixed-top bd-navbar" id="navbar-main"><div class="bd-header__inner container-xl">
 
   <div id="navbar-start">
     
     
+  
 
-<a class="navbar-brand" href="../../../index.html">
-  <img src="../../../static/logo.png" class="logo" alt="logo">
+
+<a class="navbar-brand logo" href="../../../index.html">
+  
+  
+  
+  
+    <img src="../../../static/logo.png" class="logo__image only-light" alt="Logo image">
+    <img src="../../../static/logo.png" class="logo__image only-dark" alt="Logo image">
+  
+  
 </a>
-
-
     
   </div>
 
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar-collapsible" aria-controls="navbar-collapsible" aria-expanded="false" aria-label="Toggle navigation">
-    <span class="navbar-toggler-icon"></span>
+    <span class="fas fa-bars"></span>
   </button>
 
   
@@ -102,6 +115,14 @@
     <div id="navbar-end">
       
       <div class="navbar-end-item">
+        <span id="theme-switch" class="btn btn-sm btn-outline-primary navbar-btn rounded-circle">
+    <a class="theme-switch" data-mode="light"><i class="fas fa-sun"></i></a>
+    <a class="theme-switch" data-mode="dark"><i class="far fa-moon"></i></a>
+    <a class="theme-switch" data-mode="auto"><i class="fas fa-adjust"></i></a>
+</span>
+      </div>
+      
+      <div class="navbar-end-item">
         <ul id="navbar-icon-links" class="navbar-nav" aria-label="Icon Links">
       </ul>
       </div>
@@ -112,13 +133,13 @@
     </nav>
     
 
-    <div class="container-xl">
-      <div class="row">
+    <div class="bd-container container-xl">
+      <div class="bd-container__inner row">
           
-            
-            <!-- Only show if we have sidebars configured, else just a small margin  -->
-            <div class="col-12 col-md-3 bd-sidebar">
-              <div class="sidebar-start-items"><form class="bd-search d-flex align-items-center" action="../../../search.html" method="get">
+
+<!-- Only show if we have sidebars configured, else just a small margin  -->
+<div class="bd-sidebar-primary col-12 col-md-3 bd-sidebar">
+  <div class="sidebar-start-items"><form class="bd-search d-flex align-items-center" action="../../../search.html" method="get">
   <i class="icon fas fa-search"></i>
   <input type="search" class="form-control" name="q" id="search-input" placeholder="Search the docs ..." aria-label="Search the docs ..." autocomplete="off" >
 </form><nav class="bd-links" id="bd-docs-nav" aria-label="Main navigation">
@@ -126,26 +147,25 @@
     
   </div>
 </nav>
-              </div>
-              <div class="sidebar-end-items">
-              </div>
-            </div>
-            
-          
+  </div>
+  <div class="sidebar-end-items">
+  </div>
+</div>
+
 
           
-          <div class="d-none d-xl-block col-xl-2 bd-toc">
-            
-          </div>
-          
+
+
+<div class="bd-sidebar-secondary d-none d-xl-block col-xl-2 bd-toc">
+  
+</div>
+
 
           
           
-            
-          
-          <main class="col-12 col-md-9 col-xl-7 py-md-5 pl-md-5 pr-md-4 bd-content" role="main">
+          <div class="bd-content col-12 col-md-9 col-xl-7">
               
-              <div>
+              <article class="bd-article" role="main">
                 
   <h1>Source code for sparknlp.logging.comet</h1><div class="highlight"><pre>
 <span></span><span class="c1">#  Copyright 2017-2022 John Snow Labs</span>
@@ -168,7 +188,7 @@
     <span class="kn">import</span> <span class="nn">comet_ml</span>
 <span class="k">except</span> <span class="ne">AttributeError</span><span class="p">:</span>
     <span class="c1"># Python 3.6</span>
-    <span class="n">comet_ml</span> <span class="o">=</span> <span class="kc">None</span>
+<div class="viewcode-block" id="comet_ml"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/logging/comet/index.html#sparknlp.logging.comet.comet_ml">[docs]</a>    <span class="n">comet_ml</span> <span class="o">=</span> <span class="kc">None</span></div>
 <span class="k">except</span> <span class="ne">ModuleNotFoundError</span><span class="p">:</span>
     <span class="c1"># Python 3.7+</span>
     <span class="n">comet_ml</span> <span class="o">=</span> <span class="kc">None</span>
@@ -178,7 +198,7 @@
 <span class="kn">import</span> <span class="nn">os</span>
 
 
-<div class="viewcode-block" id="CometLogger"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp.logging.comet.CometLogger.html#sparknlp.logging.comet.CometLogger">[docs]</a><span class="k">class</span> <span class="nc">CometLogger</span><span class="p">:</span>
+<div class="viewcode-block" id="CometLogger"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/logging/comet/index.html#sparknlp.logging.comet.CometLogger">[docs]</a><span class="k">class</span> <span class="nc">CometLogger</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;Logger class for Comet integration</span>
 
 <span class="sd">    `Comet &lt;https://www.comet.ml/&gt;`__ is a meta machine learning platform</span>
@@ -339,7 +359,7 @@
                 <span class="o">**</span><span class="n">experiment_kwargs</span><span class="p">,</span>
             <span class="p">)</span>
 
-<div class="viewcode-block" id="CometLogger.log_pipeline_parameters"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp.logging.comet.CometLogger.html#sparknlp.logging.comet.CometLogger.log_pipeline_parameters">[docs]</a>    <span class="k">def</span> <span class="nf">log_pipeline_parameters</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pipeline</span><span class="p">,</span> <span class="n">stages</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<div class="viewcode-block" id="CometLogger.log_pipeline_parameters"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/logging/comet/index.html#sparknlp.logging.comet.CometLogger.log_pipeline_parameters">[docs]</a>    <span class="k">def</span> <span class="nf">log_pipeline_parameters</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pipeline</span><span class="p">,</span> <span class="n">stages</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Iterates over the different stages in a pyspark PipelineModel object</span>
 <span class="sd">        and logs the parameters to Comet.</span>
 
@@ -369,7 +389,7 @@
             <span class="k">for</span> <span class="n">param</span><span class="p">,</span> <span class="n">param_value</span> <span class="ow">in</span> <span class="n">params</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">experiment</span><span class="o">.</span><span class="n">log_parameter</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">stage</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">-</span><span class="si">{</span><span class="n">param</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">param_value</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="CometLogger.log_visualization"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp.logging.comet.CometLogger.html#sparknlp.logging.comet.CometLogger.log_visualization">[docs]</a>    <span class="k">def</span> <span class="nf">log_visualization</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">html</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;viz.html&quot;</span><span class="p">):</span>
+<div class="viewcode-block" id="CometLogger.log_visualization"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/logging/comet/index.html#sparknlp.logging.comet.CometLogger.log_visualization">[docs]</a>    <span class="k">def</span> <span class="nf">log_visualization</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">html</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;viz.html&quot;</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Uploads a NER visualization from Spark NLP Display to comet.</span>
 
 <span class="sd">        Parameters</span>
@@ -398,7 +418,7 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">log_asset_data</span><span class="p">(</span><span class="n">html</span><span class="p">,</span> <span class="n">name</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="CometLogger.log_metrics"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp.logging.comet.CometLogger.html#sparknlp.logging.comet.CometLogger.log_metrics">[docs]</a>    <span class="k">def</span> <span class="nf">log_metrics</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">metrics</span><span class="p">,</span> <span class="n">step</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">epoch</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">prefix</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<div class="viewcode-block" id="CometLogger.log_metrics"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/logging/comet/index.html#sparknlp.logging.comet.CometLogger.log_metrics">[docs]</a>    <span class="k">def</span> <span class="nf">log_metrics</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">metrics</span><span class="p">,</span> <span class="n">step</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">epoch</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">prefix</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Submits logs of an evaluation metrics.</span>
 
 <span class="sd">        Parameters</span>
@@ -441,7 +461,7 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">experiment</span><span class="o">.</span><span class="n">log_metrics</span><span class="p">(</span><span class="n">metrics</span><span class="p">,</span> <span class="n">step</span><span class="o">=</span><span class="n">step</span><span class="p">,</span> <span class="n">epoch</span><span class="o">=</span><span class="n">epoch</span><span class="p">,</span> <span class="n">prefix</span><span class="o">=</span><span class="n">prefix</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="CometLogger.log_parameters"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp.logging.comet.CometLogger.html#sparknlp.logging.comet.CometLogger.log_parameters">[docs]</a>    <span class="k">def</span> <span class="nf">log_parameters</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">parameters</span><span class="p">,</span> <span class="n">step</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<div class="viewcode-block" id="CometLogger.log_parameters"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/logging/comet/index.html#sparknlp.logging.comet.CometLogger.log_parameters">[docs]</a>    <span class="k">def</span> <span class="nf">log_parameters</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">parameters</span><span class="p">,</span> <span class="n">step</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Logs a dictionary (or dictionary-like object) of multiple parameters.</span>
 
 <span class="sd">        Parameters</span>
@@ -453,7 +473,7 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">experiment</span><span class="o">.</span><span class="n">log_parameters</span><span class="p">(</span><span class="n">parameters</span><span class="p">,</span> <span class="n">step</span><span class="o">=</span><span class="n">step</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="CometLogger.log_completed_run"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp.logging.comet.CometLogger.html#sparknlp.logging.comet.CometLogger.log_completed_run">[docs]</a>    <span class="k">def</span> <span class="nf">log_completed_run</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">log_file_path</span><span class="p">):</span>
+<div class="viewcode-block" id="CometLogger.log_completed_run"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/logging/comet/index.html#sparknlp.logging.comet.CometLogger.log_completed_run">[docs]</a>    <span class="k">def</span> <span class="nf">log_completed_run</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">log_file_path</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Submit logs of training metrics after a run has completed.</span>
 
 <span class="sd">        Parameters</span>
@@ -467,7 +487,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">_parse_log_entry</span><span class="p">(</span><span class="n">stats</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">experiment</span><span class="o">.</span><span class="n">log_other</span><span class="p">(</span><span class="s2">&quot;log_file_path&quot;</span><span class="p">,</span> <span class="n">log_file_path</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="CometLogger.log_asset"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp.logging.comet.CometLogger.html#sparknlp.logging.comet.CometLogger.log_asset">[docs]</a>    <span class="k">def</span> <span class="nf">log_asset</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">asset_path</span><span class="p">,</span> <span class="n">metadata</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">step</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<div class="viewcode-block" id="CometLogger.log_asset"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/logging/comet/index.html#sparknlp.logging.comet.CometLogger.log_asset">[docs]</a>    <span class="k">def</span> <span class="nf">log_asset</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">asset_path</span><span class="p">,</span> <span class="n">metadata</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">step</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Uploads an asset to comet.</span>
 
 <span class="sd">        Parameters</span>
@@ -482,7 +502,7 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">experiment</span><span class="o">.</span><span class="n">log_asset</span><span class="p">(</span><span class="n">asset_path</span><span class="p">,</span> <span class="n">metadata</span><span class="o">=</span><span class="n">metadata</span><span class="p">,</span> <span class="n">step</span><span class="o">=</span><span class="n">step</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="CometLogger.log_asset_data"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp.logging.comet.CometLogger.html#sparknlp.logging.comet.CometLogger.log_asset_data">[docs]</a>    <span class="k">def</span> <span class="nf">log_asset_data</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">asset</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">overwrite</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">metadata</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">step</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<div class="viewcode-block" id="CometLogger.log_asset_data"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/logging/comet/index.html#sparknlp.logging.comet.CometLogger.log_asset_data">[docs]</a>    <span class="k">def</span> <span class="nf">log_asset_data</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">asset</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">overwrite</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">metadata</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">step</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Uploads the data given to comet (str, binary, or JSON).</span>
 
 <span class="sd">        Parameters</span>
@@ -501,10 +521,10 @@
 <span class="sd">            Used to associate a specific step, by default None, by default None</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">experiment</span><span class="o">.</span><span class="n">log_asset_data</span><span class="p">(</span>
-            <span class="n">asset</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">overwrite</span><span class="o">=</span><span class="n">overwrite</span><span class="p">,</span> <span class="n">metadata</span><span class="o">=</span><span class="n">metadata</span><span class="p">,</span> <span class="n">step</span><span class="o">=</span><span class="n">step</span>
-        <span class="p">)</span></div>
+            <span class="n">asset</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">overwrite</span><span class="o">=</span><span class="n">overwrite</span><span class="p">,</span> <span class="n">metadata</span><span class="o">=</span><span class="n">metadata</span><span class="p">,</span> <span class="n">step</span><span class="o">=</span><span class="n">step</span></div>
+        <span class="p">)</span>
 
-<div class="viewcode-block" id="CometLogger.monitor"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp.logging.comet.CometLogger.html#sparknlp.logging.comet.CometLogger.monitor">[docs]</a>    <span class="k">def</span> <span class="nf">monitor</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">logdir</span><span class="p">,</span> <span class="n">model</span><span class="p">,</span> <span class="n">interval</span><span class="o">=</span><span class="mi">10</span><span class="p">):</span>
+<div class="viewcode-block" id="CometLogger.monitor"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/logging/comet/index.html#sparknlp.logging.comet.CometLogger.monitor">[docs]</a>    <span class="k">def</span> <span class="nf">monitor</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">logdir</span><span class="p">,</span> <span class="n">model</span><span class="p">,</span> <span class="n">interval</span><span class="o">=</span><span class="mi">10</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Monitors the training of the model and submits logs to comet, given</span>
 <span class="sd">        by an interval.</span>
 
@@ -607,7 +627,7 @@
                 <span class="n">metrics</span><span class="p">,</span> <span class="n">epoch</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_parse_run_metrics</span><span class="p">(</span><span class="n">parts</span><span class="p">)</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">log_metrics</span><span class="p">(</span><span class="n">metrics</span><span class="p">,</span> <span class="n">step</span><span class="o">=</span><span class="nb">int</span><span class="p">(</span><span class="n">epoch</span><span class="p">),</span> <span class="n">epoch</span><span class="o">=</span><span class="nb">int</span><span class="p">(</span><span class="n">epoch</span><span class="p">))</span>
 
-<div class="viewcode-block" id="CometLogger.end"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp.logging.comet.CometLogger.html#sparknlp.logging.comet.CometLogger.end">[docs]</a>    <span class="k">def</span> <span class="nf">end</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="CometLogger.end"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/logging/comet/index.html#sparknlp.logging.comet.CometLogger.end">[docs]</a>    <span class="k">def</span> <span class="nf">end</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Ends the experiment and the logger. Submits all outstanding logs to</span>
 <span class="sd">        comet.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -617,37 +637,41 @@
             <span class="bp">self</span><span class="o">.</span><span class="n">thread</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">timeout</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_monitor_thread_timeout</span><span class="p">)</span></div></div>
 </pre></div>
 
-              </div>
+              </article>
               
+
               
-              <!-- Previous / next buttons -->
+              <footer class="bd-footer-article">
+                  <!-- Previous / next buttons -->
 <div class='prev-next-area'>
 </div>
+              </footer>
               
-          </main>
+          </div>
           
-
       </div>
     </div>
+
+  
   
   <!-- Scripts loaded after <body> so the DOM is not blocked -->
-  <script src="../../../static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf"></script>
-<footer class="footer mt-5 mt-md-0">
-  <div class="container">
-    
-    <div class="footer-item">
-      <p class="copyright">
-    &copy; Copyright 2021, John Snow Labs.<br>
+  <script src="../../../static/scripts/pydata-sphinx-theme.js?digest=92025949c220c2e29695"></script>
+
+<footer class="bd-footer"><div class="bd-footer__inner container">
+  
+  <div class="footer-item">
+    <p class="copyright">
+    &copy; Copyright 2022, John Snow Labs.<br>
 </p>
-    </div>
-    
-    <div class="footer-item">
-      <p class="sphinx-version">
-Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.5.0.<br>
-</p>
-    </div>
-    
   </div>
+  
+  <div class="footer-item">
+    <p class="sphinx-version">
+Created using <a href="http://sphinx-doc.org/">Sphinx</a> 5.0.2.<br>
+</p>
+  </div>
+  
+</div>
 </footer>
   </body>
 </html>

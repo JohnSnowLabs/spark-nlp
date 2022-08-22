@@ -100,7 +100,7 @@ val pipelineModel = pipeline.fit(dataset)
 {%- endcapture -%}
 
 {%- capture python_api_link -%}
-[Doc2VecApproach](https://nlp.johnsnowlabs.com/api/python/reference/autosummary/sparknlp.annotator.Doc2VecApproach.html)
+[Doc2VecApproach](/api/python/reference/autosummary/sparknlp/annotator/embeddings/doc2vec/index.html#sparknlp.annotator.embeddings.doc2vec.Doc2VecApproach)
 {%- endcapture -%}
 
 {%- capture source_link -%}

@@ -151,7 +151,7 @@ result.selectExpr("explode(chunk_embeddings) as result")
 {%- endcapture -%}
 
 {%- capture python_api_link -%}
-[ChunkEmbeddings](https://nlp.johnsnowlabs.com/api/python/reference/autosummary/sparknlp.annotator.ChunkEmbeddings.html)
+[ChunkEmbeddings](/api/python/reference/autosummary/sparknlp/annotator/embeddings/chunk_embeddings/index.html#sparknlp.annotator.embeddings.chunk_embeddings.ChunkEmbeddings)
 {%- endcapture -%}
 
 {%- capture source_link -%}

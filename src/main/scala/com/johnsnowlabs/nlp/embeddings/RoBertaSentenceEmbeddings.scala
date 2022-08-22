@@ -306,9 +306,9 @@ class RoBertaSentenceEmbeddings(override val uid: String)
       val content = if ($(caseSensitive)) s.content else s.content.toLowerCase()
       val sentenceBegin = s.start
       val sentenceEnd = s.end
-      val sentenceInedx = s.index
+      val sentenceIndex = s.index
       val tokens =
-        bpeTokenizer.tokenize(Sentence(content, sentenceBegin, sentenceEnd, sentenceInedx))
+        bpeTokenizer.tokenize(Sentence(content, sentenceBegin, sentenceEnd, sentenceIndex))
       val wordpieceTokens =
         tokens.flatMap(token => bpeTokenizer.encode(token)).take($(maxSentenceLength))
       WordpieceTokenizedSentence(wordpieceTokens)

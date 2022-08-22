@@ -1,6 +1,6 @@
 ---
 layout: model
-title: English BertForQuestionAnswering model (from mrm8488)
+title: Multilingual BertForQuestionAnswering model (from mrm8488)
 author: John Snow Labs
 name: bert_qa_bert_multi_cased_finedtuned_xquad_tydiqa_goldp
 date: 2022-06-03
@@ -11,13 +11,13 @@ edition: Spark NLP 4.0.0
 spark_version: 3.0
 supported: true
 article_header:
-  type: cover
+type: cover
 use_language_switcher: "Python-Scala-Java"
 ---
 
 ## Description
 
-Pretrained Question Answering model, adapted from Hugging Face and curated to provide scalability and production-readiness using Spark NLP. `bert-multi-cased-finedtuned-xquad-tydiqa-goldp` is a English model orginally trained by `mrm8488`.
+Pretrained Question Answering model, adapted from Hugging Face and curated to provide scalability and production-readiness using Spark NLP. `bert-multi-cased-finedtuned-xquad-tydiqa-goldp` is a Multilingual model orginally trained by `mrm8488`.
 
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>
@@ -70,6 +70,14 @@ val example = Seq(
 
 val result = pipeline.fit(example).transform(example)
 ```
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("xx.answer_question.xquad_tydiqa.bert.cased").predict("""What's my name?|||"My name is Clara and I live in Berkeley.""")
+```
+
 </div>
 
 {:.model-param}

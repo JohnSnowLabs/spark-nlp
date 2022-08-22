@@ -19,12 +19,12 @@ sys.path.insert(0, os.path.abspath("../"))
 # -- Project information -----------------------------------------------------
 
 project = "Spark NLP"
-copyright = "2021, John Snow Labs"
+copyright = "2022, John Snow Labs"
 author = "John Snow Labs"
 
 # The full version, including alpha/beta/rc tags
-release = "3.4.4"
-pyspark_version = "3.0.3"
+release = "4.0.2"
+pyspark_version = "3.2.1"
 
 # -- General configuration ---------------------------------------------------
 
@@ -34,13 +34,15 @@ pyspark_version = "3.0.3"
 extensions = [
     "sphinx.ext.viewcode",
     "sphinx.ext.autosectionlabel",
-    "sphinx.ext.autosummary",
+    # "sphinx.ext.autosummary",
     "numpydoc",  # handle NumPy documentation formatted docstrings.
     "sphinx-prompt",
     "sphinx_toggleprompt",
     # "sphinx_copybutton", # TODO
     "sphinx_substitution_extensions",
     "sphinx.ext.intersphinx",
+    "sphinx.ext.autodoc",
+    "autoapi.extension",
 ]
 
 intersphinx_mapping = {
@@ -48,7 +50,7 @@ intersphinx_mapping = {
 }
 
 # Add any paths that contain templates here, relative to this directory.
-templates_path = ["_templates"]
+# templates_path = ["_templates"]
 
 # List of patterns, relative to source directory, that match files and
 # directories to ignore when looking for source files.
@@ -60,6 +62,8 @@ exclude_patterns = ["_build", "Thumbs.db", ".DS_Store"]
 # of the sidebar.
 html_logo = "_static/logo.png"
 html_favicon = "_static/fav.ico"
+
+suppress_warnings = ["toc.excluded"]
 
 # -- Options for HTML output -------------------------------------------------
 
@@ -78,10 +82,26 @@ html_css_files = [
 # -- Options for autodoc --------------------------------------------------
 
 # Look at the first line of the docstring for function and method signatures.
-autodoc_docstring_signature = True
-autosummary_generate = True
+autodoc_docstring_signature = False
+autosummary_generate = False
 numpydoc_show_class_members = False  # Or add Method section in doc strings? https://stackoverflow.com/questions/65198998/sphinx-warning-autosummary-stub-file-not-found-for-the-methods-of-the-class-c
 # autoclass_content = "both"  # use __init__ as doc as well
+
+autoapi_options = [
+    "members",
+    "show-module-summary",
+]
+autoapi_type = "python"
+autoapi_dirs = ["../sparknlp"]
+autoapi_root = "reference/_autosummary"
+autoapi_template_dir = "_templates/_autoapi"
+autoapi_add_toctree_entry = False
+# autoapi_member_order = "groupwise"
+autoapi_keep_files = True
+# autoapi_generate_api_docs = False
+# autoapi_python_use_implicit_namespaces = True
+
+add_module_names = False
 
 # -- More Configurations -----------------------------------------------------
 

@@ -207,7 +207,12 @@ class EntityRulerModel(override val uid: String)
             } else None
           }
 
-          val filteredMatches = filterOverlappingMatches(resultMatches)
+          val intervals =
+            resultMatches.map(resultMatch => List(resultMatch._2, resultMatch._3)).toList
+          val mergedIntervals = EntityRulerUtil.mergeIntervals(intervals)
+          val filteredMatches =
+            resultMatches.filter(x => mergedIntervals.contains(List(x._2, x._3)))
+
           if (filteredMatches.nonEmpty) Some(filteredMatches) else None
         } else None
       }
@@ -215,20 +220,6 @@ class EntityRulerModel(override val uid: String)
       .sortBy(_._2)
 
     matchesByEntity.map(matches => (IndexedToken(matches._1, matches._2, matches._3), matches._4))
-  }
-
-  private def filterOverlappingMatches(
-      matches: Seq[(String, Int, Int, String)]): Seq[(String, Int, Int, String)] = {
-
-    val groupByBegin = matches.groupBy(_._2).filter(_._2.length > 1)
-    val groupByEnd = matches.groupBy(_._3).filter(_._2.length > 1)
-
-    val overlappingBegin =
-      groupByBegin.flatMap(ngram => ngram._2.sortBy(_._1.length)).dropRight(1)
-    val overlappingEnd = groupByEnd.flatMap(ngram => ngram._2.sortBy(_._1.length)).dropRight(1)
-    val overlappingMatches = (overlappingBegin ++ overlappingEnd).toSeq.distinct
-
-    matches diff overlappingMatches
   }
 
   private def annotateEntitiesFromPatterns(

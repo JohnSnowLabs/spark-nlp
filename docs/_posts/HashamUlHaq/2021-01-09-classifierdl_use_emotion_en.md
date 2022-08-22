@@ -8,10 +8,10 @@ task: Text Classification
 language: en
 edition: Spark NLP 2.7.1
 spark_version: 2.4
-tags: [open_source, en, classifier]
+tags: [open_source, en, classifier, emotion]
 supported: true
 article_header:
-  type: cover
+type: cover
 use_language_switcher: "Python-Scala-Java"
 ---
 
@@ -34,33 +34,53 @@ Automatically identify Joy, Surprise, Fear, Sadness emotions in Tweets.
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
+
 ```python
 document_assembler = DocumentAssembler()\
-  .setInputCol("text")\
-  .setOutputCol("document")
+    .setInputCol("text")\
+    .setOutputCol("document")
+
 use = UniversalSentenceEncoder.pretrained('tfhub_use', lang="en") \
-  .setInputCols(["document"])\
-  .setOutputCol("sentence_embeddings")
-document_classifier = ClassifierDLModel.pretrained('classifierdl_use_emotion', 'en') \
-  .setInputCols(["document", "sentence_embeddings"]) \
-  .setOutputCol("class")
-nlpPipeline = Pipeline(stages=[document_assembler, use, document_classifier])
-light_pipeline = LightPipeline(nlp_pipeline.fit(spark.createDataFrame([['']]).toDF("text")))
-annotations = light_pipeline.fullAnnotate('@Mira I just saw you on live t.v!!')
+    .setInputCols(["document"])\
+    .setOutputCol("sentence_embeddings")
+
+classifier = ClassifierDLModel.pretrained('classifierdl_use_emotion', 'en') \
+    .setInputCols(["document", "sentence_embeddings"]) \
+    .setOutputCol("sentiment")
+
+nlpPipeline = Pipeline(stages=[document_assembler, 
+                               use, 
+                               classifier])
+
+data = spark.createDataFrame([["@Mira I just saw you on live t.v!!"],
+                              ["Just home from group celebration - dinner at Trattoria Gianni, then Hershey Felder's performance - AMAZING!!"],
+                              ["Nooooo! My dad turned off the internet so I can't listen to band music!"],
+                              ["My soul has just been pierced by the most evil look from @rickosborneorg. A mini panic attack and chill in bones followed soon after."]]).toDF("text")
+
+result = nlpPipeline.fit(data).transform(data)
 ```
 ```scala
-val documentAssembler = DocumentAssembler()
-  .setInputCol("text")
-  .setOutputCol("document")
-val use = UniversalSentenceEncoder.pretrained(lang="en")
-  .setInputCols(Array("document"))
-  .setOutputCol("sentence_embeddings")
-val document_classifier = ClassifierDLModel.pretrained("classifierdl_use_emotion", "en")
-  .setInputCols(Array("document", "sentence_embeddings"))
-  .setOutputCol("class")
-val pipeline = new Pipeline().setStages(Array(documentAssembler, use, document_classifier))
+val documentAssembler = new DocumentAssembler()
+    .setInputCol("text")
+    .setOutputCol("document")
 
-val data = Seq("@Mira I just saw you on live t.v!!").toDF("text")
+val use = UniversalSentenceEncoder.pretrained('tfhub_use', "en")
+    .setInputCols(Array("document"))
+    .setOutputCol("sentence_embeddings")
+
+val classifier = ClassifierDLModel.pretrained("classifierdl_use_emotion", "en")
+    .setInputCols(Array("document", "sentence_embeddings"))
+    .setOutputCol("sentiment")
+
+val pipeline = new Pipeline().setStages(Array(documentAssembler, 
+                                              use, 
+                                              classifier))
+
+val data = Seq(Array("@Mira I just saw you on live t.v!!",
+                     "Just home from group celebration - dinner at Trattoria Gianni, then Hershey Felder's performance - AMAZING!!",
+                     "Nooooo! My dad turned off the internet so I can't listen to band music!",
+                     "My soul has just been pierced by the most evil look from @rickosborneorg. A mini panic attack and chill in bones followed soon after.")).toDS.toDF("text")
+
 val result = pipeline.fit(data).transform(data)
 ```
 
@@ -78,12 +98,14 @@ emotion_df[["document", "emotion"]]
 ## Results
 
 ```bash
-+------------------------------------------------------------------------------------------------+------------+
-|document                                                                                        |class       |
-+------------------------------------------------------------------------------------------------+------------+
-|@Mira I just saw you on live t.v!!                                                              | joy        |
-+------------------------------------------------------------------------------------------------+------------+
-
++-------------------------------------------------------------------------------------------------------------------------------------+---------+
+|document                                                                                                                             |sentiment|
++-------------------------------------------------------------------------------------------------------------------------------------+---------+
+|@Mira I just saw you on live t.v!!                                                                                                   |surprise |
+|Just home from group celebration - dinner at Trattoria Gianni, then Hershey Felder's performance - AMAZING!!                         |joy      |
+|Nooooo! My dad turned off the internet so I can't listen to band music!                                                              |sadness  |
+|My soul has just been pierced by the most evil look from @rickosborneorg. A mini panic attack and chill in bones followed soon after.|fear     |
++-------------------------------------------------------------------------------------------------------------------------------------+---------+
 ```
 
 {:.model-param}
@@ -107,12 +129,12 @@ This model is trained on multiple datasets inlcuding youtube comments, twitter a
 ## Benchmarking
 
 ```bash
-        fear       0.78      0.67      0.72      2253
-         joy       0.71      0.68      0.69      3000
-     sadness       0.69      0.73      0.71      3075
-    surprise       0.67      0.73      0.70      3067
-
-    accuracy                           0.71     11395
-   macro avg       0.71      0.70      0.71     11395
-weighted avg       0.71      0.71      0.71     11395
+label           tp      fp      fn      support
+fear            0.78    0.67    0.72     2253
+joy             0.71    0.68    0.69     3000
+sadness         0.69    0.73    0.71     3075
+surprise        0.67    0.73    0.70     3067
+accuracy        -       -       0.71    11395
+macro-avg       0.71    0.70    0.71    11395
+weighted-avg    0.71    0.71    0.71    11395
 ```

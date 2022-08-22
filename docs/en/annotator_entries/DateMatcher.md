@@ -114,7 +114,7 @@ result.selectExpr("date").show(false)
 {%- endcapture -%}
 
 {%- capture python_api_link -%}
-[DateMatcher](https://nlp.johnsnowlabs.com/api/python/reference/autosummary/sparknlp.annotator.DateMatcher.html)
+[DateMatcher](/api/python/reference/autosummary/sparknlp/annotator/matcher/date_matcher/index.html#sparknlp.annotator.matcher.date_matcher.DateMatcher)
 {%- endcapture -%}
 
 {%- capture source_link -%}

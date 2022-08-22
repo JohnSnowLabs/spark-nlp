@@ -15,36 +15,48 @@ article_header:
 use_language_switcher: "Python-Scala-Java"
 ---
 
+
 ## Description
+
 
 This pretrained pipeline is built on the top of [re_bodypart_directions](https://nlp.johnsnowlabs.com/2021/01/18/re_bodypart_directions_en.html) model.
 
+
 {:.btn-box}
-<button class="button button-orange" disabled>Live Demo</button>
-<button class="button button-orange" disabled>Open in Colab</button>
+[Live Demo](https://demo.johnsnowlabs.com/healthcare/RE_BODYPART_ENT/){:.button.button-orange.button-orange-trans.arr.button-icon}
+[Open in Colab](https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/10.1.Clinical_Relation_Extraction_BodyParts_Models.ipynb){:.button.button-orange.button-orange-trans.arr.button-icon}
 [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/re_bodypart_directions_pipeline_en_3.4.1_3.0_1648732927504.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
+
 
 ## How to use
 
 
 
+
+
+
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
+
 ```python
+from sparknlp.pretrained import PretrainedPipeline
+
 pipeline = PretrainedPipeline("re_bodypart_directions_pipeline", "en", "clinical/models")
 
-
-pipeline.annotate("MRI demonstrated infarction in the upper brain stem , left cerebellum and  right basil ganglia")
+pipeline.fullAnnotate("MRI demonstrated infarction in the upper brain stem , left cerebellum and  right basil ganglia")
 ```
 ```scala
+import com.johnsnowlabs.nlp.pretrained.PretrainedPipeline
+
 val pipeline = new PretrainedPipeline("re_bodypart_directions_pipeline", "en", "clinical/models")
 
-
-pipeline.annotate("MRI demonstrated infarction in the upper brain stem , left cerebellum and  right basil ganglia")
+pipeline.fullAnnotate("MRI demonstrated infarction in the upper brain stem , left cerebellum and  right basil ganglia")
 ```
 </div>
 
+
 ## Results
+
 
 ```bash
 | index | relations | entity1                     | entity1_begin | entity1_end | chunk1     | entity2                     | entity2_end | entity2_end | chunk2        | confidence |
@@ -60,8 +72,10 @@ pipeline.annotate("MRI demonstrated infarction in the upper brain stem , left ce
 | 8     | 1         | Direction                   | 75            | 79          | right      | Internal_organ_or_component | 81          | 93          | basil ganglia | 1.0        |
 ```
 
+
 {:.model-param}
 ## Model Information
+
 
 {:.table-model}
 |---|---|
@@ -73,7 +87,9 @@ pipeline.annotate("MRI demonstrated infarction in the upper brain stem , left ce
 |Language:|en|
 |Size:|1.7 GB|
 
+
 ## Included Models
+
 
 - DocumentAssembler
 - SentenceDetector
@@ -84,3 +100,7 @@ pipeline.annotate("MRI demonstrated infarction in the upper brain stem , left ce
 - NerConverter
 - DependencyParserModel
 - RelationExtractionModel
+<!--stackedit_data:
+eyJoaXN0b3J5IjpbMTQ2NDM0MTAzNCw1MTk4OTU0NTQsLTc3Mz
+c0MzYyXX0=
+-->

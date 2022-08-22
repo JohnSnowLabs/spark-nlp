@@ -176,7 +176,7 @@ result.selectExpr("cleanTokens.result").show(false)
 {%- endcapture -%}
 
 {%- capture python_api_link -%}
-[StopWordsCleaner](https://nlp.johnsnowlabs.com/api/python/reference/autosummary/sparknlp.annotator.StopWordsCleaner.html)
+[StopWordsCleaner](/api/python/reference/autosummary/sparknlp/annotator/stop_words_cleaner/index.html#sparknlp.annotator.stop_words_cleaner.StopWordsCleaner)
 {%- endcapture -%}
 
 {%- capture source_link -%}

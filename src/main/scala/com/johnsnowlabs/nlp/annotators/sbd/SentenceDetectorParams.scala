@@ -16,7 +16,7 @@
 
 package com.johnsnowlabs.nlp.annotators.sbd
 
-import org.apache.spark.ml.param.{BooleanParam, IntParam, Params, StringArrayParam}
+import org.apache.spark.ml.param.{BooleanParam, IntParam, Param, Params, StringArrayParam}
 
 import scala.collection.mutable.ArrayBuffer
 
@@ -93,13 +93,26 @@ trait SentenceDetectorParams extends Params {
   val maxLength =
     new IntParam(this, "maxLength", "Set the maximum allowed length for each sentence")
 
+  /** How to return matched custom bounds (Default: `none`). Will have no effect if no custom
+    * bounds are used. Possible values are:
+    *
+    *   - "none" - Will not return the matched bound
+    *   - "prepend" - Prepends a sentence break to the match
+    *   - "append" - Appends a sentence break to the match
+    *
+    * @group param
+    */
+  val customBoundsStrategy: Param[String] =
+    new Param[String](this, "customBoundsStrategy", "How to return matched custom bounds")
+
   setDefault(
     useAbbrevations -> true,
     detectLists -> true,
     useCustomBoundsOnly -> false,
     explodeSentences -> false,
     customBounds -> Array.empty[String],
-    minLength -> 0)
+    minLength -> 0,
+    customBoundsStrategy -> "none")
 
   /** Custom sentence separator text
     * @group setParam
@@ -122,6 +135,30 @@ trait SentenceDetectorParams extends Params {
     * @group getParam
     */
   def getUseCustomBoundsOnly: Boolean = $(useCustomBoundsOnly)
+
+  /** Sets how to return matched custom bounds (Default: `none`). Will have no effect if no custom
+    * bounds are used. Possible values are:
+    *
+    *   - "none" - Will not return the matched bound
+    *   - "prepend" - Prepends a sentence break to the match
+    *   - "append" - Appends a sentence break to the match
+    *
+    * @group setParam
+    */
+  def setCustomBoundsStrategy(value: String): this.type = {
+    val possibleValues = Array("none", "prepend", "append")
+    require(
+      possibleValues.contains(value),
+      s"$value is not a valid strategy for custom bounds. " +
+        s"Possible Values: (${possibleValues.mkString(", ")}).")
+
+    set(customBoundsStrategy, value)
+  }
+
+  /** Gets how to return matched custom bounds (Default: `none`).
+    * @group getParam
+    */
+  def getCustomBoundsStrategy: String = $(customBoundsStrategy)
 
   /** Whether to consider abbreviation strategies for better accuracy but slower performance.
     * Defaults to true.

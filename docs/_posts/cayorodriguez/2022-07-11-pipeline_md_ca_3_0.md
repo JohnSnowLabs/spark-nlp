@@ -10,6 +10,7 @@ language: ca
 edition: Spark NLP 3.4.4
 spark_version: 3.0
 supported: false
+recommended: true
 article_header:
   type: cover
 use_language_switcher: "Python-Scala-Java"
@@ -21,7 +22,7 @@ Model for Catalan language processing based on models by Barcelona SuperComputin
 
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>
-<button class="button button-orange" disabled>Open in Colab</button>
+[Open in Colab](https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Public/1.SparkNLP_Basics.ipynb){:.button.button-orange.button-orange-trans.arr.button-icon}
 [Download](https://s3.amazonaws.com/community.johnsnowlabs.com/cayorodriguez/pipeline_md_ca_3.4.4_3.0_1657533114488.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
 
 ## How to use
@@ -31,9 +32,9 @@ Model for Catalan language processing based on models by Barcelona SuperComputin
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
 ```python
-pipeline = PretrainedPipeline("pipeline_md", lang = "ca")
+pipeline = PretrainedPipeline("pipeline_md", "ca", "@cayorodriguez")
 
-result = pipeline.annotate("El català ja es a SparkNLP.")
+result = pipeline.annotate("El català ja és a SparkNLP.")
 ```
 
 </div>
@@ -41,18 +42,18 @@ result = pipeline.annotate("El català ja es a SparkNLP.")
 ## Results
 
 ```bash
-{'chunk': ['El català ja', 'SparkNLP', 'es'],
+{'chunk': ['El català ja', 'SparkNLP', 'és'],
  'entities': ['SparkNLP'],
- 'lemma': ['el', 'català', 'ja', 'es', 'a', 'sparknlp', '.'],
+ 'lemma': ['el', 'català', 'ja', 'ser', 'a', 'sparknlp', '.'],
  'document': ['El català ja es a SparkNLP.'],
- 'pos': ['DET', 'NOUN', 'ADV', 'PRON', 'ADP', 'PROPN', 'PUNCT'],
- 'sentence_embeddings': ['El català ja es a SparkNLP.'],
+ 'pos': ['DET', 'NOUN', 'ADV', 'AUX', 'ADP', 'PROPN', 'PUNCT'],
+ 'sentence_embeddings': ['El català ja és a SparkNLP.'],
  'cleanTokens': ['català', 'SparkNLP', '.'],
- 'token': ['El', 'català', 'ja', 'es', 'a', 'SparkNLP', '.'],
+ 'token': ['El', 'català', 'ja', 'és', 'a', 'SparkNLP', '.'],
  'ner': ['O', 'O', 'O', 'O', 'O', 'B-ORG', 'O'],
- 'embeddings': ['El', 'català', 'ja', 'es', 'a', 'SparkNLP', '.'],
- 'form': ['el', 'català', 'ja', 'es', 'a', 'sparknlp', '.'],
- 'sentence': ['El català ja es a SparkNLP.']}
+ 'embeddings': ['El', 'català', 'ja', 'és', 'a', 'SparkNLP', '.'],
+ 'form': ['el', 'català', 'ja', 'és', 'a', 'sparknlp', '.'],
+ 'sentence': ['El català ja és a SparkNLP.']}
 ```
 
 {:.model-param}

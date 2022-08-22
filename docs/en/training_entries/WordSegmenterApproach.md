@@ -105,7 +105,7 @@ val pipelineModel = pipeline.fit(trainingDataSet)
 {%- endcapture -%}
 
 {%- capture python_api_link -%}
-[WordSegmenterApproach](https://nlp.johnsnowlabs.com/api/python/reference/autosummary/sparknlp.annotator.WordSegmenterApproach.html)
+[WordSegmenterApproach](/api/python/reference/autosummary/sparknlp/annotator/ws/word_segmenter/index.html#sparknlp.annotator.ws.word_segmenter.WordSegmenterApproach)
 {%- endcapture -%}
 
 {%- capture source_link -%}

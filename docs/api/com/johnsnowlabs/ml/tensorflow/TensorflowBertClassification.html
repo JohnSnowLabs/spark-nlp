@@ -3,9 +3,9 @@
         <head>
           <meta http-equiv="X-UA-Compatible" content="IE=edge" />
           <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-          <title>Spark NLP 3.4.4 ScalaDoc  - com.johnsnowlabs.ml.tensorflow.TensorflowBertClassification</title>
-          <meta name="description" content="Spark NLP 3.4.4 ScalaDoc - com.johnsnowlabs.ml.tensorflow.TensorflowBertClassification" />
-          <meta name="keywords" content="Spark NLP 3.4.4 ScalaDoc com.johnsnowlabs.ml.tensorflow.TensorflowBertClassification" />
+          <title>Spark NLP 4.0.2 ScalaDoc  - com.johnsnowlabs.ml.tensorflow.TensorflowBertClassification</title>
+          <meta name="description" content="Spark NLP 4.0.2 ScalaDoc - com.johnsnowlabs.ml.tensorflow.TensorflowBertClassification" />
+          <meta name="keywords" content="Spark NLP 4.0.2 ScalaDoc com.johnsnowlabs.ml.tensorflow.TensorflowBertClassification" />
           <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
           
       
@@ -28,7 +28,7 @@
         </head>
         <body>
       <div id="search">
-        <span id="doc-title">Spark NLP 3.4.4 ScalaDoc<span id="doc-version"></span></span>
+        <span id="doc-title">Spark NLP 4.0.2 ScalaDoc<span id="doc-version"></span></span>
         <span class="close-results"><span class="left">&lt;</span> Back</span>
         <div id="textfilter">
           <span class="input">
@@ -199,6 +199,10 @@
                         <a href="Logging.html" title="">Logging</a>
                       </li><li class="current-entities indented4">
                         <span class="separator"></span>
+                        <a class="object" href="MergeTokenStrategy$.html" title=""></a>
+                        <a href="MergeTokenStrategy$.html" title="">MergeTokenStrategy</a>
+                      </li><li class="current-entities indented4">
+                        <span class="separator"></span>
                         <a class="class" href="ModelSignature.html" title=""></a>
                         <a href="ModelSignature.html" title="">ModelSignature</a>
                       </li><li class="current-entities indented4">
@@ -305,6 +309,10 @@
                         <span class="separator"></span>
                         <a class="class" href="TensorflowSentiment.html" title=""></a>
                         <a href="TensorflowSentiment.html" title="">TensorflowSentiment</a>
+                      </li><li class="current-entities indented4">
+                        <span class="separator"></span>
+                        <a class="class" href="TensorflowSpanBertCoref.html" title=""></a>
+                        <a href="TensorflowSpanBertCoref.html" title="">TensorflowSpanBertCoref</a>
                       </li><li class="current-entities indented4">
                         <span class="separator"></span>
                         <a class="class" href="TensorflowSpell.html" title=""></a>
@@ -567,7 +575,7 @@
         <span class="name">calculateSoftmax</span><span class="params">(<span name="scores">scores: <span class="extype" name="scala.Array">Array</span>[<span class="extype" name="scala.Float">Float</span>]</span>)</span><span class="result">: <span class="extype" name="scala.Array">Array</span>[<span class="extype" name="scala.Float">Float</span>]</span>
       </span>
       
-      <p class="shortcomment cmt">Calcuate softmax from retruned logits</p><div class="fullcomment"><div class="comment cmt"><p>Calcuate softmax from retruned logits</p></div><dl class="paramcmts block"><dt class="param">scores</dt><dd class="cmt"><p>
+      <p class="shortcomment cmt">Calculate softmax from returned logits</p><div class="fullcomment"><div class="comment cmt"><p>Calculate softmax from returned logits</p></div><dl class="paramcmts block"><dt class="param">scores</dt><dd class="cmt"><p>
   logits output from output layer</p></dd></dl><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="TensorflowForClassification.html" class="extype" name="com.johnsnowlabs.ml.tensorflow.TensorflowForClassification">TensorflowForClassification</a></dd></dl></div>
     </li><li name="scala.AnyRef#clone" visbl="prt" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="clone():Object"></a><a id="clone():AnyRef"></a>
@@ -641,6 +649,22 @@
       </span>
       
       <p class="shortcomment cmt">Encode the input sequence to indexes IDs adding padding where necessary</p><div class="fullcomment"><div class="comment cmt"><p>Encode the input sequence to indexes IDs adding padding where necessary</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="TensorflowForClassification.html" class="extype" name="com.johnsnowlabs.ml.tensorflow.TensorflowForClassification">TensorflowForClassification</a></dd></dl></div>
+    </li><li name="com.johnsnowlabs.ml.tensorflow.TensorflowForClassification#encodeSequence" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="encodeSequence(seq1:Seq[com.johnsnowlabs.nlp.annotators.common.WordpieceTokenizedSentence],seq2:Seq[com.johnsnowlabs.nlp.annotators.common.WordpieceTokenizedSentence],maxSequenceLength:Int):Seq[Array[Int]]"></a><a id="encodeSequence(Seq[WordpieceTokenizedSentence],Seq[WordpieceTokenizedSentence],Int):Seq[Array[Int]]"></a>
+      <span class="permalink">
+      <a href="../../../../com/johnsnowlabs/ml/tensorflow/TensorflowBertClassification.html#encodeSequence(seq1:Seq[com.johnsnowlabs.nlp.annotators.common.WordpieceTokenizedSentence],seq2:Seq[com.johnsnowlabs.nlp.annotators.common.WordpieceTokenizedSentence],maxSequenceLength:Int):Seq[Array[Int]]" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">encodeSequence</span><span class="params">(<span name="seq1">seq1: <span class="extype" name="scala.Seq">Seq</span>[<a href="../../nlp/annotators/common/WordpieceTokenizedSentence.html" class="extype" name="com.johnsnowlabs.nlp.annotators.common.WordpieceTokenizedSentence">WordpieceTokenizedSentence</a>]</span>, <span name="seq2">seq2: <span class="extype" name="scala.Seq">Seq</span>[<a href="../../nlp/annotators/common/WordpieceTokenizedSentence.html" class="extype" name="com.johnsnowlabs.nlp.annotators.common.WordpieceTokenizedSentence">WordpieceTokenizedSentence</a>]</span>, <span name="maxSequenceLength">maxSequenceLength: <span class="extype" name="scala.Int">Int</span></span>)</span><span class="result">: <span class="extype" name="scala.Seq">Seq</span>[<span class="extype" name="scala.Array">Array</span>[<span class="extype" name="scala.Int">Int</span>]]</span>
+      </span>
+      
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="TensorflowForClassification.html" class="extype" name="com.johnsnowlabs.ml.tensorflow.TensorflowForClassification">TensorflowForClassification</a></dd></dl></div>
     </li><li name="scala.AnyRef#eq" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="eq(x$1:AnyRef):Boolean"></a><a id="eq(AnyRef):Boolean"></a>
       <span class="permalink">
@@ -851,6 +875,22 @@
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="TensorflowForClassification.html" class="extype" name="com.johnsnowlabs.ml.tensorflow.TensorflowForClassification">TensorflowForClassification</a></dd></dl></div>
+    </li><li name="com.johnsnowlabs.ml.tensorflow.TensorflowForClassification#predictSpan" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="predictSpan(documents:Seq[com.johnsnowlabs.nlp.Annotation],maxSentenceLength:Int,caseSensitive:Boolean,mergeTokenStrategy:String):Seq[com.johnsnowlabs.nlp.Annotation]"></a><a id="predictSpan(Seq[Annotation],Int,Boolean,String):Seq[Annotation]"></a>
+      <span class="permalink">
+      <a href="../../../../com/johnsnowlabs/ml/tensorflow/TensorflowBertClassification.html#predictSpan(documents:Seq[com.johnsnowlabs.nlp.Annotation],maxSentenceLength:Int,caseSensitive:Boolean,mergeTokenStrategy:String):Seq[com.johnsnowlabs.nlp.Annotation]" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">predictSpan</span><span class="params">(<span name="documents">documents: <span class="extype" name="scala.Seq">Seq</span>[<a href="../../nlp/Annotation.html" class="extype" name="com.johnsnowlabs.nlp.Annotation">Annotation</a>]</span>, <span name="maxSentenceLength">maxSentenceLength: <span class="extype" name="scala.Int">Int</span></span>, <span name="caseSensitive">caseSensitive: <span class="extype" name="scala.Boolean">Boolean</span></span>, <span name="mergeTokenStrategy">mergeTokenStrategy: <span class="extype" name="scala.Predef.String">String</span> = <span class="symbol"><span class="name"><a href="MergeTokenStrategy$.html">MergeTokenStrategy.vocab</a></span></span></span>)</span><span class="result">: <span class="extype" name="scala.Seq">Seq</span>[<a href="../../nlp/Annotation.html" class="extype" name="com.johnsnowlabs.nlp.Annotation">Annotation</a>]</span>
+      </span>
+      
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="TensorflowForClassification.html" class="extype" name="com.johnsnowlabs.ml.tensorflow.TensorflowForClassification">TensorflowForClassification</a></dd></dl></div>
     </li><li name="com.johnsnowlabs.ml.tensorflow.TensorflowForClassification#scoresToLabelForSequenceClassifier" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="scoresToLabelForSequenceClassifier(tags:Map[String,Int],scores:Array[Float]):String"></a><a id="scoresToLabelForSequenceClassifier(Map[String,Int],Array[Float]):String"></a>
       <span class="permalink">
@@ -963,6 +1003,22 @@
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="" class="extype" name="com.johnsnowlabs.ml.tensorflow.TensorflowBertClassification">TensorflowBertClassification</a> → <a href="TensorflowForClassification.html" class="extype" name="com.johnsnowlabs.ml.tensorflow.TensorflowForClassification">TensorflowForClassification</a></dd></dl></div>
+    </li><li name="com.johnsnowlabs.ml.tensorflow.TensorflowBertClassification#tagSpan" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="tagSpan(batch:Seq[Array[Int]]):(Array[Array[Float]],Array[Array[Float]])"></a><a id="tagSpan(Seq[Array[Int]]):(Array[Array[Float]],Array[Array[Float]])"></a>
+      <span class="permalink">
+      <a href="../../../../com/johnsnowlabs/ml/tensorflow/TensorflowBertClassification.html#tagSpan(batch:Seq[Array[Int]]):(Array[Array[Float]],Array[Array[Float]])" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">tagSpan</span><span class="params">(<span name="batch">batch: <span class="extype" name="scala.Seq">Seq</span>[<span class="extype" name="scala.Array">Array</span>[<span class="extype" name="scala.Int">Int</span>]]</span>)</span><span class="result">: (<span class="extype" name="scala.Array">Array</span>[<span class="extype" name="scala.Array">Array</span>[<span class="extype" name="scala.Float">Float</span>]], <span class="extype" name="scala.Array">Array</span>[<span class="extype" name="scala.Array">Array</span>[<span class="extype" name="scala.Float">Float</span>]])</span>
+      </span>
+      
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="" class="extype" name="com.johnsnowlabs.ml.tensorflow.TensorflowBertClassification">TensorflowBertClassification</a> → <a href="TensorflowForClassification.html" class="extype" name="com.johnsnowlabs.ml.tensorflow.TensorflowForClassification">TensorflowForClassification</a></dd></dl></div>
     </li><li name="com.johnsnowlabs.ml.tensorflow.TensorflowBertClassification#tensorflowWrapper" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
       <a id="tensorflowWrapper:com.johnsnowlabs.ml.tensorflow.TensorflowWrapper"></a><a id="tensorflowWrapper:TensorflowWrapper"></a>
       <span class="permalink">
@@ -995,6 +1051,22 @@
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef → Any</dd></dl></div>
+    </li><li name="com.johnsnowlabs.ml.tensorflow.TensorflowBertClassification#tokenizeDocument" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="tokenizeDocument(docs:Seq[com.johnsnowlabs.nlp.Annotation],maxSeqLength:Int,caseSensitive:Boolean):Seq[com.johnsnowlabs.nlp.annotators.common.WordpieceTokenizedSentence]"></a><a id="tokenizeDocument(Seq[Annotation],Int,Boolean):Seq[WordpieceTokenizedSentence]"></a>
+      <span class="permalink">
+      <a href="../../../../com/johnsnowlabs/ml/tensorflow/TensorflowBertClassification.html#tokenizeDocument(docs:Seq[com.johnsnowlabs.nlp.Annotation],maxSeqLength:Int,caseSensitive:Boolean):Seq[com.johnsnowlabs.nlp.annotators.common.WordpieceTokenizedSentence]" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">tokenizeDocument</span><span class="params">(<span name="docs">docs: <span class="extype" name="scala.Seq">Seq</span>[<a href="../../nlp/Annotation.html" class="extype" name="com.johnsnowlabs.nlp.Annotation">Annotation</a>]</span>, <span name="maxSeqLength">maxSeqLength: <span class="extype" name="scala.Int">Int</span></span>, <span name="caseSensitive">caseSensitive: <span class="extype" name="scala.Boolean">Boolean</span></span>)</span><span class="result">: <span class="extype" name="scala.Seq">Seq</span>[<a href="../../nlp/annotators/common/WordpieceTokenizedSentence.html" class="extype" name="com.johnsnowlabs.nlp.annotators.common.WordpieceTokenizedSentence">WordpieceTokenizedSentence</a>]</span>
+      </span>
+      
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="" class="extype" name="com.johnsnowlabs.ml.tensorflow.TensorflowBertClassification">TensorflowBertClassification</a> → <a href="TensorflowForClassification.html" class="extype" name="com.johnsnowlabs.ml.tensorflow.TensorflowForClassification">TensorflowForClassification</a></dd></dl></div>
     </li><li name="com.johnsnowlabs.ml.tensorflow.TensorflowBertClassification#tokenizeWithAlignment" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="tokenizeWithAlignment(sentences:Seq[com.johnsnowlabs.nlp.annotators.common.TokenizedSentence],maxSeqLength:Int,caseSensitive:Boolean):Seq[com.johnsnowlabs.nlp.annotators.common.WordpieceTokenizedSentence]"></a><a id="tokenizeWithAlignment(Seq[TokenizedSentence],Int,Boolean):Seq[WordpieceTokenizedSentence]"></a>
       <span class="permalink">

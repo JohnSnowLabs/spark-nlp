@@ -33,7 +33,7 @@ This model classifies if a text is ADE-related (``True``) or not (``False``).
 To classify your text if it is ADE-related, you can use this model as part of an nlp pipeline with the following stages: DocumentAssembler, SentenceDetector, Tokenizer, BertEmbeddings (``biobert_pubmed_base_cased``), SentenceEmbeddings, ClassifierDLModel.
 
 <div class="tabs-box" markdown="1">
-{% include programmingLanguageSelectScalaPython.html %}
+{% include programmingLanguageSelectScalaPythonNLU.html %}
 
 
 ```python
@@ -71,6 +71,14 @@ val pipeline = new Pipeline().setStages(Array(document_assembler, tokenizer, emb
 val data = Seq("I feel a bit drowsy & have a little blurred vision after taking an insulin").toDF("text")
 val result = pipeline.fit(data).transform(data)
 ```
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("en.classify.ade.biobert").predict("""I feel a bit drowsy & have a little blurred vision after taking an insulin""")
+```
+
 </div>
 
 {:.h2_title}

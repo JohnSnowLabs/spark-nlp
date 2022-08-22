@@ -1,4 +1,102 @@
 ========
+4.0.2
+========
+----------------
+New Features
+----------------
+
+* SentenceDetector now comes with a new parameter `customBoundsStrategy` for returning custom bounds https://github.com/JohnSnowLabs/spark-nlp/pull/10567
+
+----------------
+Bug Fixes
+----------------
+
+* Fix bug that attempts to create spark session on executors when using GraphExtraction https://github.com/JohnSnowLabs/spark-nlp/pull/9905
+
+========
+4.0.1
+========
+----------------
+New Features
+----------------
+* Full support for Apache Spark & PySpark 3.3.0
+* Add Apache Spark 3.3.0 to Google Colab and Kaggle setup scripts
+* New `-g` option for Google Colab and Kaggle setup on GPU device to upgrade `libcudnn8` to 8.1.0 to solve the issue on GPU
+* Support for Databricks Runtime 11.0
+
+----------------
+Bug Fixes
+----------------
+
+* Fix the error caused by PySpark 3.3.0 in CoNLL, CoNLLU, POS, and PubTator annotators as training helpers
+* Fix and re-upload Dependency and Type Dependency parser pre-trained models
+* Update pre-trained pipelines with issues on PySpark 3.2 and 3.3
+
+========
+4.0.0
+========
+----------------
+New Features & Enhancements
+----------------
+* **NEW:** Introducing **AlbertForQuestionAnswering** annotator in Spark NLP 🚀. `AlbertForQuestionAnswering` can load `ALBERT` Models with a span classification head on top for extractive question-answering tasks like SQuAD (a linear layer on top of the hidden-states output to compute span start logits and span end logits). This annotator is compatible with all the models trained/fine-tuned by using `AlbertForQuestionAnswering` for **PyTorch** or `TFAlbertForQuestionAnswering` for **TensorFlow** models in HuggingFace 🤗
+* **NEW:** Introducing **BertForQuestionAnswering** annotator in Spark NLP 🚀. `BertForQuestionAnswering` can load `BERT` & `ELECTRA` Models with a span classification head on top for extractive question-answering tasks like SQuAD (a linear layer on top of the hidden-states output to compute span start logits and span end logits). This annotator is compatible with all the models trained/fine-tuned by using `BertForQuestionAnswering` and `ElectraForQuestionAnswering` for **PyTorch** or `TFBertForQuestionAnswering` and `TFElectraForQuestionAnswering` for **TensorFlow** models in HuggingFace 🤗
+* **NEW:** Introducing **DeBertaForQuestionAnswering** annotator in Spark NLP 🚀. `DeBertaForQuestionAnswering` can load `DeBERTa` v2&v3 Models with a span classification head on top for extractive question-answering tasks like SQuAD (a linear layer on top of the hidden-states output to compute span start logits and span end logits). This annotator is compatible with all the models trained/fine-tuned by using `DebertaV2ForQuestionAnswering` for **PyTorch** or `TFDebertaV2ForQuestionAnswering` for **TensorFlow** models in HuggingFace 🤗
+* **NEW:** Introducing **DistilBertForQuestionAnswering** annotator in Spark NLP 🚀. `DistilBertForQuestionAnswering` can load `DistilBERT` Models with a span classification head on top for extractive question-answering tasks like SQuAD (a linear layer on top of the hidden-states output to compute span start logits and span end logits). This annotator is compatible with all the models trained/fine-tuned by using `DistilBertForQuestionAnswering` for **PyTorch** or `TFDistilBertForQuestionAnswering` for **TensorFlow** models in HuggingFace 🤗
+* **NEW:** Introducing **LongformerForQuestionAnswering** annotator in Spark NLP 🚀. `LongformerForQuestionAnswering` can load `Longformer` Models with a span classification head on top for extractive question-answering tasks like SQuAD (a linear layer on top of the hidden-states output to compute span start logits and span end logits). This annotator is compatible with all the models trained/fine-tuned by using `LongformerForQuestionAnswering` for **PyTorch** or `TFLongformerForQuestionAnswering` for **TensorFlow** models in HuggingFace 🤗
+* **NEW:** Introducing **RoBertaForQuestionAnswering** annotator in Spark NLP 🚀. `RoBertaForQuestionAnswering` can load `RoBERTa` Models with a span classification head on top for extractive question-answering tasks like SQuAD (a linear layer on top of the hidden-states output to compute span start logits and span end logits). This annotator is compatible with all the models trained/fine-tuned by using `RobertaForQuestionAnswering` for **PyTorch** or `TFRobertaForQuestionAnswering` for **TensorFlow** models in HuggingFace 🤗
+* **NEW:** Introducing **XlmRoBertaForQuestionAnswering** annotator in Spark NLP 🚀. `XlmRoBertaForQuestionAnswering` can load `XLM-RoBERTa` Models with a span classification head on top for extractive question-answering tasks like SQuAD (a linear layer on top of the hidden-states output to compute span start logits and span end logits). This annotator is compatible with all the models trained/fine-tuned by using `XLMRobertaForQuestionAnswering` for **PyTorch** or `TFXLMRobertaForQuestionAnswering` for **TensorFlow** models in HuggingFace 🤗
+* **NEW:** Introducing **MultiDocumentAssembler** annotator where multiple inputs require to be converted to DOCUMENT such as in XXXForQuestionAnswering annotators
+* Optimizing batch processing for transformer-based Word Embeddings on a GPU device. These optimizations result in performance improvements from +50% to +700% (more details in Benchmarks section)
+* **NEW:** Introducing **SpanBertCorefModel** annotator for Coreference Resolution on BERT and SpanBERT models based on [BERT for Coreference Resolution: Baselines and Analysis](https://arxiv.org/abs/1908.09091) paper. An implementation of a SpanBert based coreference resolution model.
+* Support for 2 inputs in LightPipeline for with MultiDocumentAssembler
+* Migrate T5Transformer to TensorFlow v2 architecture with re-uploading all the existing models
+* Official support for Apple silicon M1 on macOS devices. From Spark NLP 4.0.0 you can use `spark-nlp-m1` package that supports Apple silicon M1 on your macOS machine
+* Official support for Apache Spark and PySpark 3.2.x on Scala 2.12. Spark NLP by default is shipped for Spark 3.2.x and supports Spark/PySpark 3.0.x and 3.1.x in additions
+* Unifying all supported Apache Spark pacakges on Maven into `spark-nlp` for CPU, `spark-nlp-gpu` for GPU, and `spark-nlp-m1` for new Apple silicon M1 on macOS. The need for Apache Spark specific package like `spark-nlp-spark32` has been removed.
+* Adding a new param to sparknlp.start() function in Python and Scala for Apple silicon M1 on macOS (`m1=True`)
+* Update Colab, Kaggle, and SageMaker scripts
+* Add new default NerDL graph for xsmall DeBERTa embeddings model (384 dimensions)
+* Adding annotateJava method to PretrainedPipeline class in Java to facilitate the use of LightPipelines
+* Allow change of case sensitivity. Currently, user cannot set setCaseSensitive param. This allows users to change this value if the model was saved/uploaded with the wrong case sensitivity parameter. (BERT, ALBERT, DistilBERT, RoBERTa, DeBERTa, XLM-RoBERTa, and Longformer for XXXForSequenceClassitication and XXXForTokenClassification.
+* Keep accuracy in ClassifierDL and SentimentDL during the training between 0.0 and 1.0
+* Preserve the original form of the token in BPE Tokenizer used in RoBERTa annotators (used in embeddings, sequence and token classification)
+* Refactor the entire Python module in Spark NLP to make the development and maintenance easier
+* Refactor unit tests in Python and migrate to pytest
+* Welcoming 6x new Databricks runtimes to our Spark NLP family:
+  * Databricks 10.4 LTS
+  * Databricks 10.4 LTS ML
+  * Databricks 10.4 LTS ML GPU
+  * Databricks 10.5
+  * Databricks 10.5 ML
+  * Databricks 10.5 ML GPU
+* Welcoming a new EMR 6.x series to our Spark NLP family:
+  * EMR 6.6.0 (Apache Spark 3.2.0 / Hadoop 3.2.1)
+* Upgrade TensorFlow to 2.7.1 and start supporing Apple silicon M1
+* Upgrade RocksDB with new enhancements and support for Apple silicon M1
+* Upgrade SentencePiece tokenizer TF ops to 2.7.1
+* Upgrade SentencePiece JNI to v0.1.96 and provide support for Apple silicon M1 on macOS support
+* Upgrade to Scala 2.12.15
+
+----------------
+Bug Fixes
+----------------
+* Fix the default pre-trained model for DeBertaForTokenClassification in Scala and Python
+* Remove a requirement in DocumentNormalizer that consecutive stage processing can produce empty text annotations without breaking the pipeline
+* Fix WordSegmenterModel outputing wrong order of tokens. The regex that groups the tagging format was refactored to preserve the order of segmented outputs (tokens)
+* Fix encoding sentences not respecting the max sequence length given by a user in XlmRobertaSentenceEmbeddings
+* Fix encoding sentences by using SentencePiece to calculate the correct tokens indexing
+* Fix SentencePiece serialization issue when XlmRoBertaEmbeddings and XlmRoBertaSentenceEmbeddings annotators are used from a Fat JAR on GPU
+* Remove non-existing parameters from DocumentAssembler in Python
+
+----------------
+Backward Compatibility
+----------------
+* Deprecate support for Spark/PySpark 2.3, Spark/PySpark 2.4, and Scala 2.11 https://github.com/JohnSnowLabs/spark-nlp/pull/8319
+* The start() functions in Python and Scala will no longer have `spark23`, `spark24`, and `spark32` parameters. The default `sparknlp.start()` works on PySpark 3.0.x, 3.1.x, and 3.2.x without the need of any Spark related flags
+* Some models/pipelines which were trained or saved by using Spark and PySpark 2.3/2.4 will no longer work on Spark NLP 4.0.0
+* Remove json4s-ext dependency to allow the support for all Apache Spark major releases in one build
+
+========
 3.4.4
 ========
 ----------------

@@ -201,22 +201,22 @@ article_header:
                   <div class="highlight-box">
     {% highlight bash %}
     # Install Spark NLP from PyPI
-    $ pip install spark-nlp==3.4.4 pyspark==3.1.2
+    $ pip install spark-nlp==4.0.2 pyspark==3.2.1
 
     # Install Spark NLP from Anaconda/Conda
     $ conda install -c johnsnowlabs spark-nlp
 
     # Load Spark NLP with Spark Shell
-    $ spark-shell --packages com.johnsnowlabs.nlp:spark-nlp_2.12:3.4.4
+    $ spark-shell --packages com.johnsnowlabs.nlp:spark-nlp_2.12:4.0.2
 
     # Load Spark NLP with PySpark
-    $ pyspark --packages com.johnsnowlabs.nlp:spark-nlp_2.12:3.4.4
+    $ pyspark --packages com.johnsnowlabs.nlp:spark-nlp_2.12:4.0.2
 
     # Load Spark NLP with Spark Submit
-    $ spark-submit --packages com.johnsnowlabs.nlp:spark-nlp_2.12:3.4.4
+    $ spark-submit --packages com.johnsnowlabs.nlp:spark-nlp_2.12:4.0.2
 
     # Load Spark NLP as an external Fat JAR
-    $ spark-shell --jars spark-nlp-assembly-3.4.4.jar
+    $ spark-shell --jars spark-nlp-assembly-4.0.2.jar
     {% endhighlight %}
                     </div>
                 </div>
@@ -235,7 +235,8 @@ article_header:
                   <h2 class="h2_title grey">Transformers at Scale</h2>
                   <div class="transformer-descr">
                     <b>Spark NLP</b> is the only open-source NLP library in <b>production</b> that offers state-of-the-art transformers such as
-                    <b>BERT</b>, <b>ALBERT</b>, <b>ELECTRA</b>, <b>XLNet</b>, <b>DistilBERT</b>, <b>RoBERTa</b>, <b>XLM-RoBERTa</b>, <b>Longformer</b>, <b>ELMO</b>, <b>Universal Sentence Encoder</b>, <b>Google T5</b>, <b>MarianMT</b>, and <b>OpenAI GPT2</b> not only to <b>Python</b>, and <b>R</b>
+                    <b>BERT</b>, <b>CamemBERT</b>, <b>ALBERT</b>, <b>ELECTRA</b>, <b>XLNet</b>, <b>DistilBERT</b>, <b>RoBERTa</b>, <b>DeBERTa</b>,
+                    <b>XLM-RoBERTa</b>, <b>Longformer</b>, <b>ELMO</b>, <b>Universal Sentence Encoder</b>, <b>Google T5</b>, <b>MarianMT</b>, and <b>OpenAI GPT2</b> not only to <b>Python</b>, and <b>R</b>
                     but also to <b>JVM</b> ecosystem (<b>Java</b>, <b>Scala</b>, and <b>Kotlin</b>) at <b>scale</b> by extending <b>Apache Spark</b> natively
                   </div>
                 </div>
@@ -296,6 +297,7 @@ article_header:
                     <li><strong>Part-of-speech</strong> tagging</li>
                     <li>Sentence Detector (DL models)</li>
                     <li><strong>Dependency</strong> parsing</li>
+                    <li><strong>SpanBERT</strong> Coreference Resolution</li>
                     <li><strong>Sentiment</strong> Detection (ML models)</li>
                     <li><strong>Spell</strong> Checker (ML & DL models)</li>
                     <li>Doc2Vec Embeddings (<strong>Word2Vec</strong>)</li>
@@ -333,12 +335,13 @@ article_header:
                     <li>XLM-RoBERTa for <strong>Token & Sequence Classification</strong></li>
                     <li>XLNet for <strong>Token & Sequence Classification</strong></li>
                     <li>Longformer for <strong>Token & Sequence Classification</strong></li>
+                    <li>Transformer-based <strong>Question Answering</strong></li>
                     <li><strong>Named entity</strong> recognition (DL model)</li>
                     <li>Easy <strong>TensorFlow</strong> integration</li>
                     <li><strong>GPU</strong> Support</li>
                     <li>Full integration with <strong>Spark ML</strong> functions</li>
-                    <li><strong>3200+</strong> pre-trained <strong>models </strong> in <strong>200+ languages! </strong>
-                    <li><strong>1700+</strong> pre-trained <strong>pipelines </strong> in <strong>200+ languages! </strong>
+                    <li><strong>4400+</strong> pre-trained <strong>models </strong> in <strong>200+ languages! </strong>
+                    <li><strong>1800+</strong> pre-trained <strong>pipelines </strong> in <strong>200+ languages! </strong>
                   </ul>
                 </div>
 {% highlight python %}
@@ -378,7 +381,7 @@ article_header:
               <div class="cell cell--12 cell--lg-5">
                 <div class="benchmark-top">
                   <h2 class="h2_title grey">Benchmark</h2>
-                  <div class="benchmark-descr">Spark NLP 3.x obtained the best performing academic peer-reviewed results</div>
+                  <div class="benchmark-descr">Spark NLP 4.x obtained the best performing academic peer-reviewed results</div>
                 </div>
                 <div class="benchmark-inner">
                   <h4 class="h4_title blue">Training NER</h4>
@@ -388,9 +391,9 @@ article_header:
                     <li>Achieve high accuracy with a <strong>few lines of codes</strong></li>
                     <li>Blazing fast training</li>
                     <li>Use <strong>CPU</strong> or <strong>GPU</strong></li>
-                    <li>80+ Pretrained Embeddings including <strong>GloVe</strong>, <strong>Word2Vec</strong>,
+                    <li>700+ Pretrained Embeddings including <strong>GloVe</strong>, <strong>Word2Vec</strong>,
                     <strong>BERT</strong>, <strong>DistilBERT</strong>, <strong>CamemBERT</strong>, <strong>RoBERTa</strong>, <strong>DeBERTa</strong>, <strong>XLM-RoBERTa</strong>, <strong>Longformer</strong>, <strong>ELMO</strong>, <strong>ELECTRA</strong>, <strong>ALBERT</strong>, <strong>XLNet</strong>, <strong>BioBERT</strong>, etc.  </li>
-                    <li>Multi-lingual NER models in <strong>Arabic, Bengali, Chinese, Danish, Dutch, English, Finnish, French, German, Hebrew, Italian, Japanese, Korean, Norwegian, Persian, Polish, Portuguese, Russian, Spanish, Swedish, and Urdu</strong></li>
+                    <li>Multi-lingual NER models in <strong>Arabic, Bengali, Chinese, Danish, Dutch, English, Finnish, French, German, Hebrew, Italian, Japanese, Korean, Norwegian, Persian, Polish, Portuguese, Russian, Spanish, Swedish, Urdu, and many more!</strong></li>
                   </ul>
                 </div>
               </div>
@@ -408,6 +411,12 @@ article_header:
                             <th>CONLL ‘03</th>
                         </thead>
                         <tbody>
+                          <tr>
+                            <td><strong>Spark NLP v4</strong></td>
+                            <td>2022</td>
+                            <td>Python/Scala/Java/R</td>
+                            <td><strong>93 (test F1) <br> 96 (dev F1)</strong></td>
+                          </tr>
                           <tr>
                             <td><strong>Spark NLP v3</strong></td>
                             <td>2021</td>
@@ -463,7 +472,7 @@ article_header:
                           <td>spaCy RoBERTa</td>
                           <td>2020<br></td>
                           <td>Python</td>
-                          <td>89.7 (dev F1)</td>
+                          <td>89.8 (dev F1)</td>
                         </tr>
                         <tr>
                           <td>Stanza (StanfordNLP)</td>

@@ -11,7 +11,7 @@ spark_version: 2.4
 tags: [stopwords, es]
 supported: true
 article_header:
-  type: cover
+type: cover
 use_language_switcher: "Python-Scala-Java"
 ---
 
@@ -34,8 +34,8 @@ This model removes 'stop words' from text. Stop words are words so common that t
 ```python
 ...
 stop_words = StopWordsCleaner.pretrained("stopwords_es", "es") \
-        .setInputCols(["token"]) \
-        .setOutputCol("cleanTokens")
+.setInputCols(["token"]) \
+.setOutputCol("cleanTokens")
 nlp_pipeline = Pipeline(stages=[document_assembler, tokenizer, stop_words])
 light_pipeline = LightPipeline(nlp_pipeline.fit(spark.createDataFrame([['']]).toDF("text")))
 results = light_pipeline.fullAnnotate("Además de ser el rey del norte, John Snow es un médico inglés y líder en el desarrollo de la anestesia y la higiene médica.")
@@ -44,8 +44,8 @@ results = light_pipeline.fullAnnotate("Además de ser el rey del norte, John Sno
 ```scala
 ...
 val stopWords = StopWordsCleaner.pretrained("stopwords_es", "es")
-        .setInputCols(Array("token"))
-        .setOutputCol("cleanTokens")
+.setInputCols(Array("token"))
+.setOutputCol("cleanTokens")
 val pipeline = new Pipeline().setStages(Array(document_assembler, tokenizer, stopWords))
 val data = Seq("Además de ser el rey del norte, John Snow es un médico inglés y líder en el desarrollo de la anestesia y la higiene médica.").toDF("text")
 val result = pipeline.fit(data).transform(data)

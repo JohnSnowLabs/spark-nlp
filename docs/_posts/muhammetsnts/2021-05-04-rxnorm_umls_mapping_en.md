@@ -11,7 +11,7 @@ edition: Spark NLP for Healthcare 3.0.2
 spark_version: 3.0
 supported: true
 article_header:
-  type: cover
+type: cover
 use_language_switcher: "Python-Scala-Java"
 ---
 
@@ -40,13 +40,21 @@ import com.johnsnowlabs.nlp.pretrained.PretrainedPipeline
 val pipeline = new PretrainedPipeline( "rxnorm_umls_mapping","en","clinical/models")
 val result = pipeline.annotate("1161611 315677 343663")
 ```
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("en.resolve.rxnorm.umls").predict("""1161611 315677 343663""")
+```
+
 </div>
 
 ## Results
 
 ```bash
 {'rxnorm': ['1161611', '315677', '343663'],
- 'umls': ['C3215948', 'C0984912', 'C1146501']}
+'umls': ['C3215948', 'C0984912', 'C1146501']}
 
 
 Note:

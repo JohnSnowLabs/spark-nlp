@@ -1,18 +1,22 @@
 
 <!DOCTYPE html>
 
-<html>
+<html lang="en">
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
-    <title>Annotators &#8212; Spark NLP 3.4.4 documentation</title>
-    
+    <title>Annotators &#8212; Spark NLP 4.0.2 documentation</title>
+<script>
+  document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+  document.documentElement.dataset.theme = localStorage.getItem("theme") || "light"
+</script>
+
   <!-- Loaded before other Sphinx assets -->
-  <link href="../static/styles/theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
-<link href="../static/styles/pydata-sphinx-theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
+  <link href="../static/styles/theme.css?digest=92025949c220c2e29695" rel="stylesheet">
+<link href="../static/styles/pydata-sphinx-theme.css?digest=92025949c220c2e29695" rel="stylesheet">
 
-    
+
   <link rel="stylesheet"
     href="../static/vendor/fontawesome/5.13.0/css/all.min.css">
   <link rel="preload" as="font" type="font/woff2" crossorigin
@@ -21,14 +25,16 @@
     href="../static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
 
     <link rel="stylesheet" type="text/css" href="../static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../static/graphviz.css" />
     <link rel="stylesheet" type="text/css" href="../static/css/custom.css" />
-    
+
   <!-- Pre-loaded scripts that we'll load fully later -->
-  <link rel="preload" as="script" href="../static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf">
+  <link rel="preload" as="script" href="../static/scripts/pydata-sphinx-theme.js?digest=92025949c220c2e29695">
 
     <script data-url_root="../" id="documentation_options" src="../static/documentation_options.js"></script>
     <script src="../static/jquery.js"></script>
     <script src="../static/underscore.js"></script>
+    <script src="../static/_sphinx_javascript_frameworks_compat.js"></script>
     <script src="../static/doctools.js"></script>
     <script src="../static/toggleprompt.js"></script>
     <link rel="shortcut icon" href="../static/fav.ico"/>
@@ -36,34 +42,41 @@
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="Setting up your own pipeline" href="custom_pipelines.html" />
     <link rel="prev" title="Annotation" href="annotation.html" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="docsearch:language" content="None">
-    
-
-    <!-- Google Analytics -->
-    
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="docsearch:language" content="en">
   </head>
-  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="60">
-    
-    <div class="container-fluid" id="banner"></div>
+  
+  
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="180" data-default-mode="">
+    <div class="bd-header-announcement container-fluid" id="banner">
+      
+
+    </div>
 
     
-    <nav class="navbar navbar-light navbar-expand-lg bg-light fixed-top bd-navbar" id="navbar-main"><div class="container-xl">
+    <nav class="bd-header navbar navbar-light navbar-expand-lg bg-light fixed-top bd-navbar" id="navbar-main"><div class="bd-header__inner container-xl">
 
   <div id="navbar-start">
     
     
+  
 
-<a class="navbar-brand" href="../index.html">
-  <img src="../static/logo.png" class="logo" alt="logo">
+
+<a class="navbar-brand logo" href="../index.html">
+  
+  
+  
+  
+    <img src="../static/logo.png" class="logo__image only-light" alt="Logo image">
+    <img src="../static/logo.png" class="logo__image only-dark" alt="Logo image">
+  
+  
 </a>
-
-
     
   </div>
 
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar-collapsible" aria-controls="navbar-collapsible" aria-expanded="false" aria-label="Toggle navigation">
-    <span class="navbar-toggler-icon"></span>
+    <span class="fas fa-bars"></span>
   </button>
 
   
@@ -105,6 +118,14 @@
     <div id="navbar-end">
       
       <div class="navbar-end-item">
+        <span id="theme-switch" class="btn btn-sm btn-outline-primary navbar-btn rounded-circle">
+    <a class="theme-switch" data-mode="light"><i class="fas fa-sun"></i></a>
+    <a class="theme-switch" data-mode="dark"><i class="far fa-moon"></i></a>
+    <a class="theme-switch" data-mode="auto"><i class="fas fa-adjust"></i></a>
+</span>
+      </div>
+      
+      <div class="navbar-end-item">
         <ul id="navbar-icon-links" class="navbar-nav" aria-label="Icon Links">
       </ul>
       </div>
@@ -115,13 +136,13 @@
     </nav>
     
 
-    <div class="container-xl">
-      <div class="row">
+    <div class="bd-container container-xl">
+      <div class="bd-container__inner row">
           
-            
-            <!-- Only show if we have sidebars configured, else just a small margin  -->
-            <div class="col-12 col-md-3 bd-sidebar">
-              <div class="sidebar-start-items"><form class="bd-search d-flex align-items-center" action="../search.html" method="get">
+
+<!-- Only show if we have sidebars configured, else just a small margin  -->
+<div class="bd-sidebar-primary col-12 col-md-3 bd-sidebar">
+  <div class="sidebar-start-items"><form class="bd-search d-flex align-items-center" action="../search.html" method="get">
   <i class="icon fas fa-search"></i>
   <input type="search" class="form-control" name="q" id="search-input" placeholder="Search the docs ..." aria-label="Search the docs ..." autocomplete="off" >
 </form><nav class="bd-links" id="bd-docs-nav" aria-label="Main navigation">
@@ -166,19 +187,20 @@
 
   </div>
 </nav>
-              </div>
-              <div class="sidebar-end-items">
-              </div>
-            </div>
-            
-          
+  </div>
+  <div class="sidebar-end-items">
+  </div>
+</div>
+
 
           
-          <div class="d-none d-xl-block col-xl-2 bd-toc">
-            
-              
-              <div class="toc-item">
-                
+
+
+<div class="bd-sidebar-secondary d-none d-xl-block col-xl-2 bd-toc">
+  
+    
+    <div class="toc-item">
+      
 <div class="tocsection onthispage mt-5 pt-1 pb-3">
     <i class="fas fa-list"></i> On this page
 </div>
@@ -220,30 +242,28 @@
 </ul>
 
 </nav>
-              </div>
-              
-              <div class="toc-item">
-                
-              </div>
-              
-            
-          </div>
-          
+    </div>
+    
+    <div class="toc-item">
+      
+    </div>
+    
+  
+</div>
+
 
           
           
-            
-          
-          <main class="col-12 col-md-9 col-xl-7 py-md-5 pl-md-5 pr-md-4 bd-content" role="main">
+          <div class="bd-content col-12 col-md-9 col-xl-7">
               
-              <div>
+              <article class="bd-article" role="main">
                 
   <section id="annotators">
-<h1>Annotators<a class="headerlink" href="#annotators" title="Permalink to this headline">#</a></h1>
+<h1>Annotators<a class="headerlink" href="#annotators" title="Permalink to this heading">#</a></h1>
 <p>Annotators are the spearhead of NLP functions in Spark NLP. Let’s take the <code class="docutils literal notranslate"><span class="pre">ClassifierDL</span></code>
 Annotators as an example. There are two forms of annotators:</p>
 <section id="annotator-approaches">
-<h2>Annotator Approaches<a class="headerlink" href="#annotator-approaches" title="Permalink to this headline">#</a></h2>
+<h2>Annotator Approaches<a class="headerlink" href="#annotator-approaches" title="Permalink to this heading">#</a></h2>
 <p>Annotator Approaches are those who represent a Spark ML Estimator and require a training stage.
 They have a function called <code class="docutils literal notranslate"><span class="pre">fit(data)</span></code> which trains a model based on some data. They produce the
 second type of annotator which is an annotator model or transformer.</p>
@@ -272,7 +292,7 @@ This was a terrible movie! The acting was bad really bad!,1
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">smallCorpus</span> <span class="o">=</span> <span class="n">spark</span><span class="o">.</span><span class="n">read</span><span class="o">.</span><span class="n">option</span><span class="p">(</span><span class="s2">&quot;header&quot;</span><span class="p">,</span><span class="s2">&quot;True&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">csv</span><span class="p">(</span><span class="s2">&quot;src/test/resources/classifier/sentiment.csv&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
-<p>Then we declare the <a class="reference internal" href="../reference/autosummary/sparknlp.annotator.ClassifierDLApproach.html#sparknlp.annotator.ClassifierDLApproach" title="sparknlp.annotator.ClassifierDLApproach"><code class="xref py py-class docutils literal notranslate"><span class="pre">sparknlp.annotator.ClassifierDLApproach</span></code></a> that is going to be trained in the pipeline. Note that in this case,
+<p>Then we declare the <a class="reference internal" href="../reference/autosummary/sparknlp/annotator/classifier_dl/classifier_dl/index.html#sparknlp.annotator.classifier_dl.classifier_dl.ClassifierDLApproach" title="sparknlp.annotator.classifier_dl.classifier_dl.ClassifierDLApproach"><code class="xref py py-class docutils literal notranslate"><span class="pre">ClassifierDLApproach</span></code></a> that is going to be trained in the pipeline. Note that in this case,
 the Annotator also requires a label column, set with <code class="docutils literal notranslate"><span class="pre">setLabelColumn(&quot;label&quot;)</span></code>, to classify the text.</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">docClassifier</span> <span class="o">=</span> <span class="n">ClassifierDLApproach</span><span class="p">()</span> \
 <span class="gp">... </span>    <span class="o">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s2">&quot;sentence_embeddings&quot;</span><span class="p">])</span> \
@@ -296,7 +316,7 @@ the Annotator also requires a label column, set with <code class="docutils liter
 <p>The result is a <code class="docutils literal notranslate"><span class="pre">PipelineModel</span></code> that can be used with <code class="docutils literal notranslate"><span class="pre">transform(data)</span></code> to classify sentiment.</p>
 </section>
 <section id="annotator-models">
-<h2>Annotator Models<a class="headerlink" href="#annotator-models" title="Permalink to this headline">#</a></h2>
+<h2>Annotator Models<a class="headerlink" href="#annotator-models" title="Permalink to this heading">#</a></h2>
 <p>Annotator Models are Spark models or transformers, meaning they have a <code class="docutils literal notranslate"><span class="pre">transform(data)</span></code> function.
 This function takes as input a dataframe to which it adds a new column containing the result of the
 current annotation. All transformers are additive, meaning they append to current data, never replace
@@ -306,7 +326,7 @@ be automatically executed in the defined order and will transform the data accor
 is turned into a <code class="docutils literal notranslate"><span class="pre">PipelineModel</span></code> after the <code class="docutils literal notranslate"><span class="pre">fit()</span></code> stage. The Pipeline can be saved to disk and re-loaded
 at any time.</p>
 <section id="note">
-<h3>Note<a class="headerlink" href="#note" title="Permalink to this headline">#</a></h3>
+<h3>Note<a class="headerlink" href="#note" title="Permalink to this heading">#</a></h3>
 <p>The <code class="docutils literal notranslate"><span class="pre">Model</span></code> suffix is explicitly stated when the annotator is the result of a training process.
 Some annotators, such as <code class="docutils literal notranslate"><span class="pre">Tokenizer</span></code> are transformers, but do not contain the word Model since
 they are not
@@ -328,7 +348,7 @@ trained annotators.</p>
 <span class="gp">... </span>   <span class="o">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s2">&quot;sentence_embeddings&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
-<p>Here we use a pretrained <a class="reference internal" href="../reference/autosummary/sparknlp.annotator.ClassifierDLModel.html#sparknlp.annotator.ClassifierDLModel" title="sparknlp.annotator.ClassifierDLModel"><code class="xref py py-class docutils literal notranslate"><span class="pre">sparknlp.annotator.ClassifierDLModel</span></code></a>. Your trained approach from the previous example could
+<p>Here we use a pretrained <a class="reference internal" href="../reference/autosummary/sparknlp/annotator/classifier_dl/classifier_dl/index.html#sparknlp.annotator.classifier_dl.classifier_dl.ClassifierDLModel" title="sparknlp.annotator.classifier_dl.classifier_dl.ClassifierDLModel"><code class="xref py py-class docutils literal notranslate"><span class="pre">ClassifierDLModel</span></code></a>. Your trained approach from the previous example could
 also be inserted.</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">sarcasmDL</span> <span class="o">=</span> <span class="n">ClassifierDLModel</span><span class="o">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s2">&quot;classifierdl_use_sarcasm&quot;</span><span class="p">)</span> \
 <span class="gp">... </span>    <span class="o">.</span><span class="n">setInputCols</span><span class="p">(</span><span class="s2">&quot;sentence_embeddings&quot;</span><span class="p">)</span> \
@@ -361,7 +381,7 @@ also be inserted.</p>
 </section>
 </section>
 <section id="pretrained-models">
-<h2>Pretrained Models<a class="headerlink" href="#pretrained-models" title="Permalink to this headline">#</a></h2>
+<h2>Pretrained Models<a class="headerlink" href="#pretrained-models" title="Permalink to this heading">#</a></h2>
 <p>Model annotators have a <code class="docutils literal notranslate"><span class="pre">pretrained()</span></code> on it’s static object, to retrieve the public pre-trained
 version of a model.</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">sparknlp</span>
@@ -376,7 +396,7 @@ Sometimes we offer more than one model, in which case, you may have to use name,
 location to download them.</p>
 </section>
 <section id="common-functions">
-<h2>Common Functions<a class="headerlink" href="#common-functions" title="Permalink to this headline">#</a></h2>
+<h2>Common Functions<a class="headerlink" href="#common-functions" title="Permalink to this heading">#</a></h2>
 <ul class="simple">
 <li><dl class="simple">
 <dt><code class="docutils literal notranslate"><span class="pre">setInputCols(column_names)</span></code></dt><dd><p>Takes a list of column names of annotations required by this
@@ -395,57 +415,61 @@ generated by the current annotator.</p>
 </ul>
 </section>
 <section id="available-annotators">
-<h2>Available Annotators<a class="headerlink" href="#available-annotators" title="Permalink to this headline">#</a></h2>
-<p>For all available Annotators refer to the full API reference <a class="reference internal" href="../reference/autosummary/sparknlp.annotator.html#module-sparknlp.annotator" title="sparknlp.annotator"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.annotator</span></code></a>.</p>
+<h2>Available Annotators<a class="headerlink" href="#available-annotators" title="Permalink to this heading">#</a></h2>
+<p>For all available Annotators refer to the full API reference <a class="reference internal" href="../reference/autosummary/sparknlp/annotator/index.html#module-sparknlp.annotator" title="sparknlp.annotator"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.annotator</span></code></a>.</p>
 </section>
 </section>
 
 
-              </div>
+              </article>
               
+
               
-              <!-- Previous / next buttons -->
+              <footer class="bd-footer-article">
+                  <!-- Previous / next buttons -->
 <div class='prev-next-area'>
-    <a class='left-prev' id="prev-link" href="annotation.html" title="previous page">
-        <i class="fas fa-angle-left"></i>
-        <div class="prev-next-info">
-            <p class="prev-next-subtitle">previous</p>
-            <p class="prev-next-title">Annotation</p>
-        </div>
-    </a>
-    <a class='right-next' id="next-link" href="custom_pipelines.html" title="next page">
-    <div class="prev-next-info">
-        <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">Setting up your own pipeline</p>
-    </div>
-    <i class="fas fa-angle-right"></i>
-    </a>
+  <a class='left-prev' id="prev-link" href="annotation.html" title="previous page">
+      <i class="fas fa-angle-left"></i>
+      <div class="prev-next-info">
+          <p class="prev-next-subtitle">previous</p>
+          <p class="prev-next-title">Annotation</p>
+      </div>
+  </a>
+  <a class='right-next' id="next-link" href="custom_pipelines.html" title="next page">
+  <div class="prev-next-info">
+      <p class="prev-next-subtitle">next</p>
+      <p class="prev-next-title">Setting up your own pipeline</p>
+  </div>
+  <i class="fas fa-angle-right"></i>
+  </a>
 </div>
+              </footer>
               
-          </main>
+          </div>
           
-
       </div>
     </div>
+
+  
   
   <!-- Scripts loaded after <body> so the DOM is not blocked -->
-  <script src="../static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf"></script>
-<footer class="footer mt-5 mt-md-0">
-  <div class="container">
-    
-    <div class="footer-item">
-      <p class="copyright">
-    &copy; Copyright 2021, John Snow Labs.<br>
+  <script src="../static/scripts/pydata-sphinx-theme.js?digest=92025949c220c2e29695"></script>
+
+<footer class="bd-footer"><div class="bd-footer__inner container">
+  
+  <div class="footer-item">
+    <p class="copyright">
+    &copy; Copyright 2022, John Snow Labs.<br>
 </p>
-    </div>
-    
-    <div class="footer-item">
-      <p class="sphinx-version">
-Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.5.0.<br>
-</p>
-    </div>
-    
   </div>
+  
+  <div class="footer-item">
+    <p class="sphinx-version">
+Created using <a href="http://sphinx-doc.org/">Sphinx</a> 5.0.2.<br>
+</p>
+  </div>
+  
+</div>
 </footer>
   </body>
 </html>

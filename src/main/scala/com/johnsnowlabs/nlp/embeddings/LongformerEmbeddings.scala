@@ -283,7 +283,7 @@ class LongformerEmbeddings(override val uid: String)
     this
   }
 
-  setDefault(dimension -> 768, batchSize -> 8, maxSentenceLength -> 1024, caseSensitive -> true)
+  setDefault(dimension -> 768, batchSize -> 4, maxSentenceLength -> 1024, caseSensitive -> true)
 
   def tokenizeWithAlignment(tokens: Seq[TokenizedSentence]): Seq[WordpieceTokenizedSentence] = {
 
@@ -301,9 +301,9 @@ class LongformerEmbeddings(override val uid: String)
             val content = if ($(caseSensitive)) token.token else token.token.toLowerCase()
             val sentenceBegin = token.begin
             val sentenceEnd = token.end
-            val sentenceInedx = tokenIndex.sentenceIndex
+            val sentenceIndex = tokenIndex.sentenceIndex
             val result =
-              bpeTokenizer.tokenize(Sentence(content, sentenceBegin, sentenceEnd, sentenceInedx))
+              bpeTokenizer.tokenize(Sentence(content, sentenceBegin, sentenceEnd, sentenceIndex))
             if (result.nonEmpty) result.head else IndexedToken("")
         }
       val wordpieceTokens =
@@ -322,25 +322,38 @@ class LongformerEmbeddings(override val uid: String)
     *   relationship
     */
   override def batchAnnotate(batchedAnnotations: Seq[Array[Annotation]]): Seq[Seq[Annotation]] = {
-    val batchedTokenizedSentences: Array[Array[TokenizedSentence]] = batchedAnnotations
-      .map(annotations => TokenizedWithSentence.unpack(annotations).toArray)
-      .toArray
+    // Unpack annotations and zip each sentence to the index or the row it belongs to
+    val sentencesWithRow = batchedAnnotations.zipWithIndex
+      .flatMap { case (annotations, i) =>
+        TokenizedWithSentence.unpack(annotations).toArray.map(x => (x, i))
+      }
 
-    /*Return empty if the real tokens are empty*/
-    if (batchedTokenizedSentences.nonEmpty) batchedTokenizedSentences.map(tokenizedSentences => {
-      val tokenized = tokenizeWithAlignment(tokenizedSentences)
+    // Tokenize sentences
+    val tokenizedSentences = tokenizeWithAlignment(sentencesWithRow.map(_._1))
 
-      val withEmbeddings = getModelIfNotSet.predict(
-        tokenized,
-        tokenizedSentences,
-        $(batchSize),
-        $(maxSentenceLength),
-        $(caseSensitive))
-      WordpieceEmbeddingsSentence.pack(withEmbeddings)
+    // Process all sentences
+    val sentenceWordEmbeddings = getModelIfNotSet.predict(
+      tokenizedSentences,
+      sentencesWithRow.map(_._1),
+      $(batchSize),
+      $(maxSentenceLength),
+      $(caseSensitive))
+
+    // Group resulting annotations by rows. If there are not sentences in a given row, return empty sequence
+    batchedAnnotations.indices.map(rowIndex => {
+      val rowEmbeddings = sentenceWordEmbeddings
+        // zip each annotation with its corresponding row index
+        .zip(sentencesWithRow)
+        // select the sentences belonging to the current row
+        .filter(_._2._2 == rowIndex)
+        // leave the annotation only
+        .map(_._1)
+
+      if (rowEmbeddings.nonEmpty)
+        WordpieceEmbeddingsSentence.pack(rowEmbeddings)
+      else
+        Seq.empty[Annotation]
     })
-    else {
-      Seq(Seq.empty[Annotation])
-    }
   }
 
   override protected def afterAnnotate(dataset: DataFrame): DataFrame = {

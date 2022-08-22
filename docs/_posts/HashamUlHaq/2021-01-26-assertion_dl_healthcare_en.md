@@ -8,10 +8,10 @@ task: Assertion Status
 language: en
 edition: Spark NLP for Healthcare 2.7.2
 spark_version: 2.4
-tags: [assertion, en, licensed, clinical]
+tags: [assertion, en, licensed, clinical, healthcare]
 supported: true
 article_header:
-  type: cover
+type: cover
 use_language_switcher: "Python-Scala-Java"
 ---
 
@@ -34,35 +34,36 @@ Assign assertion status to clinical entities extracted by NER based on their con
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
+
 ```python
 documentAssembler = DocumentAssembler()\
-  .setInputCol("text")\
-  .setOutputCol("document")
+    .setInputCol("text")\
+    .setOutputCol("document")
 
 sentenceDetector = SentenceDetector()\
-  .setInputCols(["document"])\
-  .setOutputCol("sentence")
+    .setInputCols(["document"])\
+    .setOutputCol("sentence")
 
 tokenizer = Tokenizer()\
-  .setInputCols(["sentence"])\
-  .setOutputCol("token")
+    .setInputCols(["sentence"])\
+    .setOutputCol("token")
 
 word_embeddings = WordEmbeddingsModel.pretrained("embeddings_healthcare_100d", "en", "clinical/models")\
-  .setInputCols(["sentence", "token"])\
-  .setOutputCol("embeddings")
+    .setInputCols(["sentence", "token"])\
+    .setOutputCol("embeddings")
 
-clinical_ner = NerDLModel.pretrained("ner_healthcare", "en", "clinical/models") \
-  .setInputCols(["sentence", "token", "embeddings"]) \
-  .setOutputCol("ner")
+clinical_ner = MedicalNerModel.pretrained("ner_healthcare", "en", "clinical/models") \
+    .setInputCols(["sentence", "token", "embeddings"]) \
+    .setOutputCol("ner")
 
 ner_converter = NerConverter() \
-  .setInputCols(["sentence", "token", "ner"]) \
-  .setOutputCol("ner_chunk")
+    .setInputCols(["sentence", "token", "ner"]) \
+    .setOutputCol("ner_chunk")
 
 clinical_assertion = AssertionDLModel.pretrained("assertion_dl_healthcare", "en", "clinical/models") \
     .setInputCols(["sentence", "ner_chunk", "embeddings"]) \
     .setOutputCol("assertion")
-    
+
 nlpPipeline = Pipeline(stages=[
     documentAssembler, 
     sentenceDetector,
@@ -73,11 +74,57 @@ nlpPipeline = Pipeline(stages=[
     clinical_assertion
     ])
 
-data = spark.createDataFrame([["The human KCNJ9 (Kir 3.3, GIRK3) is a member of the G-protein-activated inwardly rectifying potassium (GIRK) channel family.', 'Here we describe the genomicorganization of the KCNJ9 locus on chromosome 1q21-23 as a candidate gene forType II diabetes mellitus in the Pima Indian population.', 'The gene spansapproximately 7.6 kb and contains one noncoding and two coding exons separated byapproximately 2.2 and approximately 2.6 kb introns, respectively.', 'We identified14 single nucleotide polymorphisms (SNPs), including one that predicts aVal366Ala substitution, and an 8 base-pair', '(bp) insertion/deletion.', 'Ourexpression studies revealed the presence of the transcript in various humantissues including pancreas, and two major insulin-responsive tissues: fat andskeletal muscle.', 'The characterization of the KCNJ9 gene should facilitate furtherstudies on the function of the KCNJ9 protein and allow evaluation of thepotential role of the locus in Type II diabetes."]]).toDF("text")
+data = spark.createDataFrame([["""Patient with severe fever and sore throat. He shows no stomach pain and he maintained on an epidural and PCA for pain control. He also became short of breath with climbing a flight of stairs. After CT, lung tumor located at the right lower lobe. Father with Alzheimer."""]]).toDF("text")
 
-model = nlpPipeline.fit(data)
+result = nlpPipeline.fit(data).transform(data)
+```
+```scala
+val documentAssembler = new DocumentAssembler()
+    .setInputCol("text")
+    .setOutputCol("document")
 
-result = model.transform(data)
+val sentenceDetector = new SentenceDetector()
+    .setInputCols("document") 
+    .setOutputCol("sentence") 
+
+val tokenizer = new Tokenizer()
+    .setInputCols("sentence")
+    .setOutputCol("token")
+
+val word_embeddings = WordEmbeddingsModel.pretrained("embeddings_healthcare_100d", "en", "clinical/models")
+    .setInputCols(Array("sentence", "token"))
+    .setOutputCol("embeddings")
+
+clinical_ner = MedicalNerModel.pretrained("ner_healthcare", "en", "clinical/models") 
+    .setInputCols(Array("sentence", "token", "embeddings")) 
+    .setOutputCol("ner")
+
+val ner_converter = new NerConverter()
+    .setInputCols(Array("sentence","token","ner"))
+    .setOutputCol("ner_chunk")
+
+val clinical_assertion = AssertionDLModel.pretrained("assertion_dl_healthcare","en", "clinical/models") 
+    .setInputCols(Array("sentence", "ner_chunk", "embeddings")) 
+    .setOutputCol("assertion")
+
+val pipeline =  new Pipeline().setStages(Array(documentAssembler, 
+                                               sentenceDetector, 
+                                               tokenizer, 
+                                               word_embeddings, 
+                                               clinical_ner, 
+                                               ner_converter, 
+                                               clinical_assertion))
+
+val data = Seq("Patient with severe fever and sore throat. He shows no stomach pain and he maintained on an epidural and PCA for pain control. He also became short of breath with climbing a flight of stairs. After CT, lung tumor located at the right lower lobe. Father with Alzheimer.").toDF("text")
+
+val result = pipeline.fit(data).transform(data)
+```
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("en.assert.healthcare").predict("""Patient with severe fever and sore throat. He shows no stomach pain and he maintained on an epidural and PCA for pain control. He also became short of breath with climbing a flight of stairs. After CT, lung tumor located at the right lower lobe. Father with Alzheimer.""")
 ```
 
 </div>
@@ -85,27 +132,20 @@ result = model.transform(data)
 ## Results
 
 ```bash
-+--------------------+---------+---------+
-|               chunk|ner_label|assertion|
-+--------------------+---------+---------+
-|                 Kir|     TEST|  present|
-|               GIRK3|     TEST|  present|
-|  chromosome 1q21-23|TREATMENT|  present|
-|a candidate gene ...|  PROBLEM| possible|
-|        coding exons|     TEST|   absent|
-|     byapproximately|     TEST|  present|
-|             introns|     TEST|   absent|
-|single nucleotide...|  PROBLEM|  present|
-|aVal366Ala substi...|TREATMENT|  present|
-|      an 8 base-pair|  PROBLEM|  present|
-|                 bp)|     TEST|  present|
-|Ourexpression stu...|     TEST|  present|
-|The characterizat...|     TEST|  present|
-|      furtherstudies|TREATMENT|  present|
-|       KCNJ9 protein|     TEST|  present|
-|          evaluation|     TEST|  present|
-+--------------------+---------+---------+
-
++---------------+---------+----------------------------+
+|chunk          |ner_label|assertion                   |
++---------------+---------+----------------------------+
+|severe fever   |PROBLEM  |present                     |
+|sore throat    |PROBLEM  |present                     |
+|stomach pain   |PROBLEM  |absent                      |
+|an epidural    |TREATMENT|present                     |
+|PCA            |TREATMENT|present                     |
+|pain control   |TREATMENT|present                     |
+|short of breath|PROBLEM  |conditional                 |
+|CT             |TEST     |present                     |
+|lung tumor     |PROBLEM  |present                     |
+|Alzheimer      |PROBLEM  |associated_with_someone_else|
++---------------+---------+----------------------------+
 ```
 
 {:.model-param}
@@ -128,15 +168,13 @@ Trained on i2b2 assertion data
 ## Benchmarking
 
 ```bash
-|    | label                        |    tp |   fp |   fn |     prec |      rec |       f1 |
-|---:|:-----------------------------|------:|-----:|-----:|---------:|---------:|---------:|
-|  0 | absent                       |   726 |   86 |   98 | 0.894089 | 0.881068 | 0.887531 |
-|  1 | present                      |  2544 |  232 |  119 | 0.916427 | 0.955314 | 0.935466 |
-|  2 | conditional                  |    18 |   13 |   37 | 0.580645 | 0.327273 | 0.418605 |
-|  3 | associated_with_someone_else |    40 |    5 |    9 | 0.888889 | 0.816327 | 0.851064 |
-|  4 | hypothetical                 |   132 |   13 |   26 | 0.910345 | 0.835443 | 0.871287 |
-|  5 | possible                     |    96 |   45 |  105 | 0.680851 | 0.477612 | 0.561404 |
-|  6 | Macro-average                | 3556  | 394  |  394 | 0.811874 | 0.715506 | 0.76065  |
-|  7 | Micro-average                | 3556  | 394  |  394 | 0.900253 | 0.900253 | 0.900253 |
-
+label                            tp    fp    fn      prec       rec        f1
+absent                          726    86    98  0.894089  0.881068  0.887531
+present                        2544   232   119  0.916427  0.955314  0.935466
+conditional                      18    13    37  0.580645  0.327273  0.418605
+associated_with_someone_else     40     5     9  0.888889  0.816327  0.851064
+hypothetical                    132    13    26  0.910345  0.835443  0.871287
+possible                         96    45   105  0.680851  0.477612  0.561404
+Macro-average                  3556   394   394  0.811874  0.715506  0.76065 
+Micro-average                  3556   394   394  0.900253  0.900253  0.900253
 ```

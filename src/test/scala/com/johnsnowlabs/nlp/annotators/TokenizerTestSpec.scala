@@ -676,11 +676,11 @@ class TokenizerTestSpec extends AnyFlatSpec with TokenizerBehaviors {
     val pipeline = new Pipeline().setStages(Array(documentAssembler, tokenizer))
 
     /** Run first to cache for more consistent results */
-    var result: Array[Row] = pipeline.fit(data).transform(data).select("token.result").collect()
+    val result: Array[Row] = pipeline.fit(data).transform(data).select("token.result").collect()
 
     val tokens = result
       .foldLeft(ArrayBuffer.empty[String]) { (arr: ArrayBuffer[String], i: Row) =>
-        val Row(tokens: mutable.WrappedArray[String]) = i
+        val Row(tokens: mutable.WrappedArray[String] @unchecked) = i
         arr ++= tokens.map(_.replaceAll("\\W", "")).filter(_.nonEmpty)
       }
       .toArray

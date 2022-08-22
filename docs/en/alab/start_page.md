@@ -31,6 +31,17 @@ The list of visible projects can be filtered based on group name, or using the s
 
 <img class="image image--xl" src="/assets/images/annotation_lab/1.6.0/project_group.png" style="width:100%; align:center; box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);"/>
 
+## Project Cloning and Backup
+In previous versions, it was possible to Import/Export Tasks only from a Project. Apart from the Tasks other components like Project Configuration, Tags, etc. could not be easily exported/imported. Since release 3.2.0, it is possible to perform the import/export of an entire Project. All project-related items (tasks, project configuration, project members, task assignments) can be imported/exported. 
+
+<img class="image image--xl" src="/assets/images/annotation_lab/anno_backup_clone.gif" style="width:100%; align:center; box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);"/>
+
+In addition, users can clone an existing project as well.
+
+<img class="image image--xl" src="/assets/images/annotation_lab/anno_clone.png" style="width:100%; align:center; box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);"/>
+
+
+
 
 
 

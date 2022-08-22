@@ -126,6 +126,16 @@ class TensorflowWrapper(var variables: Variables, var graph: Array[Byte]) extend
 
       // create the session and load the variables
       val session = new Session(g, ConfigProto.parseFrom(config))
+
+      /** a workaround to fix the issue with '''asset_path_initializer''' suggested at
+        * https://github.com/tensorflow/java/issues/434 until we export models natively and not
+        * just the GraphDef
+        */
+      try {
+        session.initialize()
+      } catch {
+        case _: Exception => println("detect asset_path_initializer")
+      }
       TensorflowWrapper
         .processInitAllTableOp(
           initAllTables,
@@ -200,6 +210,7 @@ class TensorflowWrapper(var variables: Variables, var graph: Array[Byte]) extend
       file: String,
       configProtoBytes: Option[Array[Byte]] = None,
       savedSignatures: Option[Map[String, String]] = None): Unit = {
+
     val t = new TensorResources()
     val _tfSignatures: Map[String, String] =
       savedSignatures.getOrElse(ModelSignatureManager.apply())
@@ -318,6 +329,16 @@ object TensorflowWrapper {
   private def unpackWithoutBundle(folder: String) = {
     val graph = readGraph(Paths.get(folder, SavedModelPB).toString)
     val session = new Session(graph, ConfigProto.parseFrom(TFSessionConfig))
+
+    /** a workaround to fix the issue with '''asset_path_initializer''' suggested at
+      * https://github.com/tensorflow/java/issues/434 until we export models natively and not just
+      * the GraphDef
+      */
+    try {
+      session.initialize()
+    } catch {
+      case _: Exception => println("detect asset_path_initializer")
+    }
     val varPath = Paths.get(folder, VariablesPathValue)
     val idxPath = Paths.get(folder, VariablesIdxValue)
     (graph, session, varPath, idxPath)
