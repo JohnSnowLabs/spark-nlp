@@ -565,7 +565,6 @@ object ResourceHelper {
 
           Option(files.toArray)
         }
-
       }
       case "dbfs" if path.startsWith("dbfs:") =>
         Option(new File(path.replace("dbfs:", "/dbfs/")).listFiles())
@@ -574,6 +573,22 @@ object ResourceHelper {
 
     val files = filesPath.getOrElse(throw new FileNotFoundException(s"folder: $path not found"))
     files.toList
+  }
+
+  def getFileFromPath(pathToFile: String): File = {
+    val fileSystem = OutputHelper.getFileSystem
+    val filePath = fileSystem.getScheme match {
+      case "hdfs" => {
+        if (pathToFile.startsWith("file:")) {
+          Option(new File(pathToFile.replace("file:", "")))
+        } else Option(new File(pathToFile))
+      }
+      case "dbfs" if pathToFile.startsWith("dbfs:") =>
+        Option(new File(pathToFile.replace("dbfs:", "/dbfs/")))
+      case _ => Option(new File(pathToFile))
+    }
+
+    filePath.getOrElse(throw new FileNotFoundException(s"file: $pathToFile not found"))
   }
 
   def validFile(path: String): Boolean = {

@@ -23,8 +23,6 @@ import org.apache.spark.ml.Pipeline
 import org.apache.spark.sql.DataFrame
 import org.scalatest.flatspec.AnyFlatSpec
 
-import java.io.File
-
 class ImageAssemblerTest extends AnyFlatSpec {
 
   val imagesPath = "src/test/resources/image/"
