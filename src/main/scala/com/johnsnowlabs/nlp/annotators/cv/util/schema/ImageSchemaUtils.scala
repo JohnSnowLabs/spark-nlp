@@ -14,26 +14,19 @@
  * limitations under the License.
  */
 
-package com.johnsnowlabs.nlp
+package com.johnsnowlabs.nlp.annotators.cv.util.schema
 
-object AnnotatorType {
-  val DOCUMENT = "document"
-  val IMAGE = "image"
-  val TOKEN = "token"
-  val WORDPIECE = "wordpiece"
-  val WORD_EMBEDDINGS = "word_embeddings"
-  val SENTENCE_EMBEDDINGS = "sentence_embeddings"
-  val CATEGORY = "category"
-  val DATE = "date"
-  val ENTITY = "entity"
-  val SENTIMENT = "sentiment"
-  val POS = "pos"
-  val CHUNK = "chunk"
-  val NAMED_ENTITY = "named_entity"
-  val NEGEX = "negex"
-  val DEPENDENCY = "dependency"
-  val LABELED_DEPENDENCY = "labeled_dependency"
-  val LANGUAGE = "language"
-  val NODE = "node"
-  val DUMMY = "dummy"
+import org.apache.spark.ml.image.ImageSchema._
+import org.apache.spark.sql.types._
+
+private[nlp] object ImageSchemaUtils {
+
+  def isImage(dataType: StructField): Boolean = {
+    isImage(dataType.dataType)
+  }
+
+  def isImage(dataType: DataType): Boolean = {
+    DataType.equalsStructurally(dataType, columnSchema, ignoreNullability = true)
+  }
+
 }
