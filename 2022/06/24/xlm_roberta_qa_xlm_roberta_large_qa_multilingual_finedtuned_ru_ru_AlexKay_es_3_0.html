@@ -420,7 +420,7 @@
 
 <p class="btn-box"><button class="button button-orange" disabled="">Live Demo</button>
 <button class="button button-orange" disabled="">Open in Colab</button>
-<a href="https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/xlm_roberta_qa_xlm_roberta_large_qa_multilingual_finedtuned_ru_ru_AlexKay_es_4.0.0_3.0_1656060003348.zip" class="button button-orange button-orange-trans arr button-icon">Download</a></p>
+<a href="https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/xlm_roberta_qa_xlm_roberta_large_qa_multilingual_finedtuned_ru_ru_AlexKay_ru_4.0.0_3.0_1656060003348.zip" class="button button-orange button-orange-trans arr button-icon">Download</a></p>
 
 <h2 id="how-to-use">How to use</h2>
 
@@ -428,11 +428,11 @@
   <div class="top_tab_li">   
     <button class="tab-li code-selector-active python-button">Python</button><button class="tab-li code-selector-un-active scala-button">Scala</button><button class="tab-li code-selector-un-active nlu-button">NLU</button>
 </div>
-  <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">document_assembler</span> <span class="o">=</span> <span class="n">MultiDocumentAssembler</span><span class="p">()</span> \ 
+  <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">document_assembler</span> <span class="o">=</span> <span class="n">MultiDocumentAssembler</span><span class="p">()</span> \
 <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"question"</span><span class="p">,</span> <span class="s">"context"</span><span class="p">])</span> \
 <span class="p">.</span><span class="n">setOutputCols</span><span class="p">([</span><span class="s">"document_question"</span><span class="p">,</span> <span class="s">"document_context"</span><span class="p">])</span>
 
-<span class="n">spanClassifier</span> <span class="o">=</span> <span class="n">XlmRoBertaForQuestionAnswering</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"xlm_roberta_qa_xlm_roberta_large_qa_multilingual_finedtuned_ru_ru_AlexKay"</span><span class="p">,</span><span class="s">"es"</span><span class="p">)</span> \
+<span class="n">spanClassifier</span> <span class="o">=</span> <span class="n">XlmRoBertaForQuestionAnswering</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"xlm_roberta_qa_xlm_roberta_large_qa_multilingual_finedtuned_ru_ru_AlexKay"</span><span class="p">,</span><span class="s">"ru"</span><span class="p">)</span> \
 <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"document_question"</span><span class="p">,</span> <span class="s">"document_context"</span><span class="p">])</span> \
 <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"answer"</span><span class="p">)</span> \
 <span class="p">.</span><span class="n">setCaseSensitive</span><span class="p">(</span><span class="bp">True</span><span class="p">)</span>
@@ -451,7 +451,7 @@
 <span class="o">.</span><span class="py">setOutputCols</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="s">"document_question"</span><span class="o">,</span> <span class="s">"document_context"</span><span class="o">))</span>
 
 <span class="k">val</span> <span class="nv">spanClassifier</span> <span class="k">=</span> <span class="nv">XlmRoBertaForQuestionAnswering</span>
-<span class="o">.</span><span class="py">pretrained</span><span class="o">(</span><span class="s">"xlm_roberta_qa_xlm_roberta_large_qa_multilingual_finedtuned_ru_ru_AlexKay"</span><span class="o">,</span><span class="s">"es"</span><span class="o">)</span>
+<span class="o">.</span><span class="py">pretrained</span><span class="o">(</span><span class="s">"xlm_roberta_qa_xlm_roberta_large_qa_multilingual_finedtuned_ru_ru_AlexKay"</span><span class="o">,</span><span class="s">"ru"</span><span class="o">)</span>
 <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="s">"document_question"</span><span class="o">,</span> <span class="s">"document_context"</span><span class="o">))</span>
 <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"answer"</span><span class="o">)</span>
 <span class="o">.</span><span class="py">setCaseSensitive</span><span class="o">(</span><span class="kc">true</span><span class="o">)</span>
@@ -468,7 +468,7 @@
 </code></pre></div>  </div>
 
   <div class="language-python nlu-block highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">nlu</span>
-<span class="n">nlu</span><span class="p">.</span><span class="n">load</span><span class="p">(</span><span class="s">"es.answer_question.xlm_roberta.multilingual_large"</span><span class="p">).</span><span class="n">predict</span><span class="p">(</span><span class="s">"""What's my name?|||"My name is Clara and I live in Berkeley."""</span><span class="p">)</span>
+<span class="n">nlu</span><span class="p">.</span><span class="n">load</span><span class="p">(</span><span class="s">"ru.answer_question.xlm_roberta.multilingual_large"</span><span class="p">).</span><span class="n">predict</span><span class="p">(</span><span class="s">"""What's my name?|||"My name is Clara and I live in Berkeley."""</span><span class="p">)</span>
 </code></pre></div>  </div>
 
 </div>
@@ -503,7 +503,7 @@
     </tr>
     <tr>
       <td>Language:</td>
-      <td>es</td>
+      <td>ru</td>
     </tr>
     <tr>
       <td>Size:</td>
@@ -525,6 +525,7 @@
 <ul>
   <li>https://huggingface.co/AlexKay/xlm-roberta-large-qa-multilingual-finedtuned-ru</li>
 </ul>
+
 </div><div class="d-print-none"><footer class="article__footer"><meta itemprop="dateModified" content="2022-06-24T00:00:00+00:00"><!-- start custom article footer snippet -->
 
 <!-- end custom article footer snippet --></footer>
