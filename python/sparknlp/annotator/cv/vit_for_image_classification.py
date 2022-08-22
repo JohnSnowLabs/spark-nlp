@@ -20,7 +20,87 @@ from sparknlp.common import *
 class ViTForImageClassification(AnnotatorModel,
                                 HasBatchedAnnotateImage,
                                 HasImageFeatureProperties):
-    
+    """Vision Transformer (ViT) for image classification.
+
+    ViT is a transformer based alternative to the convolutional neural networks usually
+    used for image recognition tasks.
+
+    Pretrained models can be loaded with ``pretrained`` of the companion object:
+
+    .. code-block:: python
+
+        imageClassifier = ViTForImageClassification.pretrained() \\
+            .setInputCols(["image_assembler"]) \\
+            .setOutputCol("class")
+
+
+    The default model is ``"image_classifier_vit_base_patch16_224"``, if no name is
+    provided.
+
+    For available pretrained models please see the
+    `Models Hub <https://nlp.johnsnowlabs.com/models?task=Image+Classification>`__.
+
+    Models from the HuggingFace 🤗 Transformers library are also compatible with Spark
+    NLP 🚀. The Spark NLP Workshop example shows how to import them
+    https://github.com/JohnSnowLabs/spark-nlp/discussions/5669 and to see more extended
+    examples, see
+    `ViTImageClassificationTestSpec <https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/cv/ViTImageClassificationTestSpec.scala>`__.
+
+    **Paper Abstract:**
+
+    *While the Transformer architecture has become the de-facto standard for natural
+    language processing tasks, its applications to computer vision remain limited. In
+    vision, attention is either applied in conjunction with convolutional networks, or
+    used to replace certain components of convolutional networks while keeping their
+    overall structure in place. We show that this reliance on CNNs is not necessary and
+    a pure transformer applied directly to sequences of image patches can perform very
+    well on image classification tasks. When pre-trained on large amounts of data and
+    transferred to multiple mid-sized or small image recognition benchmarks (ImageNet,
+    CIFAR-100, VTAB, etc.), Vision Transformer (ViT) attains excellent results compared
+    to state-of-the-art convolutional networks while requiring substantially fewer
+    computational resources to train.*
+
+
+    ====================== ======================
+    Input Annotation types Output Annotation type
+    ====================== ======================
+    ``IMAGE``              ``CATEGORY``
+    ====================== ======================
+
+    References
+    ----------
+
+    `An Image is Worth 16x16 Words: Transformers for Image Recognition at Scale
+    <https://arxiv.org/abs/2010.11929>`__
+
+
+    Parameters
+    ----------
+
+    configProtoBytes
+        ConfigProto from tensorflow, serialized into byte array.
+
+    Examples
+    --------
+    >>> import sparknlp
+    >>> from sparknlp.base import *
+    >>> from sparknlp.annotator import *
+    >>> from pyspark.ml import Pipeline
+    >>> imageDF: DataFrame = spark.read \\
+    ...     .format("image") \\
+    ...     .option("dropInvalid", value = True) \\
+    ...     .load("src/test/resources/image/")
+    >>> imageAssembler = ImageAssembler() \\
+    ...     .setInputCol("image") \\
+    ...     .setOutputCol("image_assembler")
+    >>> imageClassifier = ViTForImageClassification \\
+    ...     .pretrained() \\
+    ...     .setInputCols(["image_assembler"]) \\
+    ...     .setOutputCol("class")
+    >>> pipeline = Pipeline().setStages([imageAssembler, imageClassifier])
+    >>> pipelineDF = pipeline.fit(imageDF).transform(imageDF)
+
+    """
     name = "ViTForImageClassification"
 
     configProtoBytes = Param(Params._dummy(),

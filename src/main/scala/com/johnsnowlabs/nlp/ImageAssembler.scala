@@ -26,7 +26,41 @@ import org.apache.spark.sql.functions.udf
 import org.apache.spark.sql.types._
 import org.apache.spark.sql.{DataFrame, Dataset}
 
-/** @param uid
+/** Prepares images read by Spark into a format that is processable by Spark NLP. This component
+  * is needed to process images.
+  *
+  * ==Example==
+  * {{{
+  * import com.johnsnowlabs.nlp.ImageAssembler
+  * import org.apache.spark.ml.Pipeline
+  *
+  * val imageDF: DataFrame = spark.read
+  *   .format("image")
+  *   .option("dropInvalid", value = true)
+  *   .load("src/test/resources/image/")
+  *
+  * val imageAssembler = new ImageAssembler()
+  *   .setInputCol("image")
+  *   .setOutputCol("image_assembler")
+  *
+  * val pipeline = new Pipeline().setStages(Array(imageAssembler))
+  * val pipelineDF = pipeline.fit(imageDF).transform(imageDF)
+  * pipelineDF.printSchema()
+  * root
+  *  |-- image_assembler: array (nullable = true)
+  *  |    |-- element: struct (containsNull = true)
+  *  |    |    |-- annotatorType: string (nullable = true)
+  *  |    |    |-- origin: string (nullable = true)
+  *  |    |    |-- height: integer (nullable = false)
+  *  |    |    |-- width: integer (nullable = false)
+  *  |    |    |-- nChannels: integer (nullable = false)
+  *  |    |    |-- mode: integer (nullable = false)
+  *  |    |    |-- result: binary (nullable = true)
+  *  |    |    |-- metadata: map (nullable = true)
+  *  |    |    |    |-- key: string
+  *  |    |    |    |-- value: string (valueContainsNull = true)
+  * }}}
+  * @param uid
   *   required uid for storing annotator to disk
   * @groupname anno Annotator types
   * @groupdesc anno

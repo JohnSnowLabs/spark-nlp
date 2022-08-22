@@ -37,6 +37,88 @@ import org.json4s.jackson.JsonMethods._
 import java.io.File
 import scala.io.Source
 
+/** Vision Transformer (ViT) for image classification.
+  *
+  * ViT is a transformer based alternative to the convolutional neural networks usually used for
+  * image recognition tasks.
+  *
+  * Pretrained models can be loaded with `pretrained` of the companion object:
+  * {{{
+  * val imageClassifier = ViTForImageClassification.pretrained()
+  *   .setInputCols("image_assembler")
+  *   .setOutputCol("class")
+  * }}}
+  * The default model is `"image_classifier_vit_base_patch16_224"`, if no name is provided.
+  *
+  * For available pretrained models please see the
+  * [[https://nlp.johnsnowlabs.com/models?task=Image+Classification Models Hub]].
+  *
+  * Models from the HuggingFace 🤗 Transformers library are also compatible with Spark NLP 🚀. The
+  * Spark NLP Workshop example shows how to import them
+  * [[https://github.com/JohnSnowLabs/spark-nlp/discussions/5669]] and to see more extended
+  * examples, see
+  * [[https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/cv/ViTImageClassificationTestSpec.scala ViTImageClassificationTestSpec]].
+  *
+  * '''References:'''
+  *
+  * [[https://arxiv.org/abs/2010.11929 An Image is Worth 16x16 Words: Transformers for Image Recognition at Scale]]
+  *
+  * '''Paper Abstract:'''
+  *
+  * ''While the Transformer architecture has become the de-facto standard for natural language
+  * processing tasks, its applications to computer vision remain limited. In vision, attention is
+  * either applied in conjunction with convolutional networks, or used to replace certain
+  * components of convolutional networks while keeping their overall structure in place. We show
+  * that this reliance on CNNs is not necessary and a pure transformer applied directly to
+  * sequences of image patches can perform very well on image classification tasks. When
+  * pre-trained on large amounts of data and transferred to multiple mid-sized or small image
+  * recognition benchmarks (ImageNet, CIFAR-100, VTAB, etc.), Vision Transformer (ViT) attains
+  * excellent results compared to state-of-the-art convolutional networks while requiring
+  * substantially fewer computational resources to train.''
+  *
+  * ==Example==
+  * {{{
+  * import com.johnsnowlabs.nlp.annotator._
+  * import com.johnsnowlabs.nlp.ImageAssembler
+  * import org.apache.spark.ml.Pipeline
+  *
+  * val imageDF: DataFrame = spark.read
+  *   .format("image")
+  *   .option("dropInvalid", value = true)
+  *   .load("src/test/resources/image/")
+  *
+  * val imageAssembler = new ImageAssembler()
+  *   .setInputCol("image")
+  *   .setOutputCol("image_assembler")
+  *
+  * val imageClassifier = ViTForImageClassification
+  *   .pretrained()
+  *   .setInputCols("image_assembler")
+  *   .setOutputCol("class")
+  *
+  * val pipeline = new Pipeline().setStages(Array(imageAssembler, imageClassifier))
+  * val pipelineDF = pipeline.fit(imageDF).transform(imageDF)
+  * }}}
+  *
+  * @param uid
+  *   required uid for storing annotator to disk
+  * @groupname anno Annotator types
+  * @groupdesc anno
+  *   Required input and expected output annotator types
+  * @groupname Ungrouped Members
+  * @groupname param Parameters
+  * @groupname setParam Parameter setters
+  * @groupname getParam Parameter getters
+  * @groupname Ungrouped Members
+  * @groupprio param  1
+  * @groupprio anno  2
+  * @groupprio Ungrouped 3
+  * @groupprio setParam  4
+  * @groupprio getParam  5
+  * @groupdesc param
+  *   A list of (hyper-)parameter keys this annotator can take. Users can set and get the
+  *   parameter values through setters and getters, respectively.
+  */
 class ViTForImageClassification(override val uid: String)
     extends AnnotatorModel[ViTForImageClassification]
     with HasBatchedAnnotateImage[ViTForImageClassification]
