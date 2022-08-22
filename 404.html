@@ -425,8 +425,8 @@
     j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
     })(window,document,'script','dataLayer','GTM-59JLR64');</script>
-<!-- End Google Tag Manager --><title>Deidentification Pipeline- Spark NLP Model</title><meta name="description" content="DescriptionThis is a Pretrained Pipeline aimed to deidentify legal and financial documents to be compliant with data privacy regulations as GDPR and CCPA. Si...">
-<link rel="canonical" href="/2022/08/18/legpipe_deid_en_3_2.html"><link rel="alternate" type="application/rss+xml" title="Spark NLP" href="/feed.xml"><!-- start favicons snippet, use https://realfavicongenerator.net/ -->
+<!-- End Google Tag Manager --><title>Legal Zero-shot Relation Extraction- Spark NLP Model</title><meta name="description" content="DescriptionThis is a Zero-shot Relation Extraction Model, meaning that it does not require any training data, just few examples of of the relations types you...">
+<link rel="canonical" href="/2022/08/22/legre_zero_shot_en_3_2.html"><link rel="alternate" type="application/rss+xml" title="Spark NLP" href="/feed.xml"><!-- start favicons snippet, use https://realfavicongenerator.net/ -->
 <!---->
 <!-- <link rel="apple-touch-icon" sizes="180x180" href="/fav.ico"> -->
 
@@ -822,37 +822,45 @@
 
 <!-- end custom main top snippet --><article><script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script><div class="article__header"><div class="header-author"><div class="article__info clearfix"><div class="left-col">
             <a class="edit-on-github-btn" target="_blank" rel="alternate"
-               href="https://github.com/johnsnowlabs/spark-nlp/tree/master/docs/_posts/josejuanmartinez/2022-08-18-legpipe_deid_en_3_2.md">
+               href="https://github.com/johnsnowlabs/spark-nlp/tree/master/docs/_posts/josejuanmartinez/2022-08-22-legre_zero_shot_en_3_2.md">
               <span class="fab fa-github"></span>
               <span class="edit-on-github-label">Edit on GitHub</span>
             </a>
-        </div><ul class="right-col menu"><li><i class="far fa-user"></i> <span>John Snow Labs</span></li><li><i class="far fa-calendar-alt"></i> <span>Aug 18, 2022</span>
-            </li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2022-08-18T00:00:00+00:00"></div><header class="main-docs"><h1>Deidentification Pipeline</h1></header></div><meta itemprop="headline" content="Deidentification Pipeline"><div class="article__info tags_box clearfix"><ul class="left-col menu"><li>en</li><li>legal</li><li>deid</li><li>deidentification</li><li>licensed</li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2022-08-18T00:00:00+00:00">
-    <meta itemprop="keywords" content="en,legal,deid,deidentification,licensed"><div class="js-article-content"><div class="model-wrap"><div class="layout--article"><!-- start custom article top snippet -->
+        </div><ul class="right-col menu"><li><i class="far fa-user"></i> <span>John Snow Labs</span></li><li><i class="far fa-calendar-alt"></i> <span>Aug 22, 2022</span>
+            </li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2022-08-22T00:00:00+00:00"></div><header class="main-docs"><h1>Legal Zero-shot Relation Extraction</h1></header></div><meta itemprop="headline" content="Legal Zero-shot Relation Extraction"><div class="article__info tags_box clearfix"><ul class="left-col menu"><li>en</li><li>legal</li><li>re</li><li>zero</li><li>shot</li><li>zero_shot</li><li>licensed</li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2022-08-22T00:00:00+00:00">
+    <meta itemprop="keywords" content="en,legal,re,zero,shot,zero_shot,licensed"><div class="js-article-content"><div class="model-wrap"><div class="layout--article"><!-- start custom article top snippet -->
 
 <!-- end custom article top snippet --><div class="article__content" itemprop="articleBody"><h2 id="description">Description</h2>
 
-<p>This is a Pretrained Pipeline aimed to deidentify legal and financial documents to be compliant with data privacy regulations as GDPR and CCPA. Since the models used in this pipeline are statistical, make sure you use this model in a human-in-the-loop process to guarantee a 100% accuracy.</p>
+<p>This is a Zero-shot Relation Extraction Model, meaning that it does not require any training data, just few examples of of the relations types you are looking for, to output a proper result.</p>
 
-<p>You can carry out both masking and obfuscation with this pipeline, on the following entities:</p>
+<p>Make sure you keep the proper syntax of the relations you want to extract. For example:</p>
+
+<p>Before Spark NLP 4.0</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>re_model.setRelationalCategories({
+    "GRANTS_TO": [" grants "],
+    "GRANTS": [" grants "]
+})
+</code></pre></div></div>
+
+<p>After Spark NLP 4.0</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>re_model.setRelationalCategories({
+    "GRANTS_TO": ["{OBLIGATION_SUBJECT} grants {OBLIGATION_INDIRECT_OBJECT}"],
+    "GRANTS": ["{OBLIGATION_SUBJECT} grants {OBLIGATION_ACTION}"]
+})
+</code></pre></div></div>
+
 <ul>
-  <li>Company names</li>
-  <li>People’s names</li>
-  <li>Poeple’s titles</li>
-  <li>Addresses</li>
-  <li>Contact information (email, phone numbers…)</li>
-  <li>Dates</li>
-  <li>Document types</li>
-  <li>etc</li>
+  <li>The keys of the dictionary are the name of the relations (<code class="language-plaintext highlighter-rouge">GRANTS_TO</code>, <code class="language-plaintext highlighter-rouge">GRANTS</code>)</li>
+  <li>The values are list of sentences with similar examples of the relation</li>
+  <li>The values in brackets are the NER labels extracted by an NER component before</li>
 </ul>
 
 <h2 id="predicted-entities">Predicted Entities</h2>
 
-<p><code class="language-plaintext highlighter-rouge">EFFDATE</code>, <code class="language-plaintext highlighter-rouge">PARTY</code>, <code class="language-plaintext highlighter-rouge">PHONE</code>, <code class="language-plaintext highlighter-rouge">EMAIL</code>, <code class="language-plaintext highlighter-rouge">SIGNING_PERSON</code>, <code class="language-plaintext highlighter-rouge">SIGNING_TITLE</code>, <code class="language-plaintext highlighter-rouge">DOC</code>, <code class="language-plaintext highlighter-rouge">STREET</code>, <code class="language-plaintext highlighter-rouge">CITY</code>, <code class="language-plaintext highlighter-rouge">STATE</code>, <code class="language-plaintext highlighter-rouge">ZIP</code>, <code class="language-plaintext highlighter-rouge">ALIAS</code></p>
-
-<p class="btn-box"><a href="https://demo.johnsnowlabs.com/legal/DEID_LEGAL/" class="button button-orange">Live Demo</a>
+<p class="btn-box"><button class="button button-orange" disabled="">Live Demo</button>
 <button class="button button-orange" disabled="">Open in Colab</button>
-<a href="https://s3.amazonaws.com/auxdata.johnsnowlabs.com/legal/models/legpipe_deid_en_1.0.0_3.2_1660839594078.zip" class="button button-orange button-orange-trans arr button-icon">Download</a></p>
+<a href="https://s3.amazonaws.com/auxdata.johnsnowlabs.com/legal/models/legre_zero_shot_en_1.0.0_3.2_1661181212397.zip" class="button button-orange button-orange-trans arr button-icon">Download</a></p>
 
 <h2 id="how-to-use">How to use</h2>
 
@@ -860,116 +868,77 @@
   <div class="top_tab_li">   
     <button class="tab-li code-selector-active python-button">Python</button><button class="tab-li code-selector-un-active scala-button">Scala</button><button class="tab-li code-selector-un-active nlu-button">NLU</button>
 </div>
-  <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">sparknlp.pretrained</span> <span class="kn">import</span> <span class="n">PretrainedPipeline</span>
+  <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">documentAssembler</span> <span class="o">=</span> <span class="n">DocumentAssembler</span><span class="p">()</span>\
+  <span class="p">.</span><span class="n">setInputCol</span><span class="p">(</span><span class="s">"text"</span><span class="p">)</span>\
+  <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"document"</span><span class="p">)</span>
 
-<span class="n">deid_pipeline</span> <span class="o">=</span> <span class="n">PretrainedPipeline</span><span class="p">(</span><span class="s">"legpipe_deid"</span><span class="p">,</span> <span class="s">"en"</span><span class="p">,</span> <span class="s">"legal/models"</span><span class="p">)</span>
+<span class="n">sparktokenizer</span> <span class="o">=</span> <span class="n">Tokenizer</span><span class="p">()</span>\
+  <span class="p">.</span><span class="n">setInputCols</span><span class="p">(</span><span class="s">"document"</span><span class="p">)</span>\
+  <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"token"</span><span class="p">)</span>
 
-<span class="n">sample_2</span> <span class="o">=</span> <span class="s">"""Pizza Fusion Holdings, Inc. Franchise Agreement This Franchise Agreement (the "Agreement") is entered into as of the Agreement Date shown on the cover page between Pizza Fusion Holding, Inc., a Florida corporation, and the individual or legal entity identified on the cover page.
+<span class="n">tokenClassifier</span> <span class="o">=</span> <span class="n">FinanceBertForTokenClassifier</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">'legner_obligations'</span><span class="p">,</span><span class="s">'en'</span><span class="p">,</span> <span class="s">'legal/models'</span><span class="p">)</span>\
+  <span class="p">.</span><span class="n">setInputCols</span><span class="p">(</span><span class="s">"token"</span><span class="p">,</span> <span class="s">"document"</span><span class="p">)</span>\
+  <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"ner"</span><span class="p">)</span>\
+  <span class="p">.</span><span class="n">setCaseSensitive</span><span class="p">(</span><span class="bp">True</span><span class="p">)</span>
 
-Source: PF HOSPITALITY GROUP INC., 9/23/2015
+<span class="n">ner_converter</span> <span class="o">=</span> <span class="n">NerConverter</span><span class="p">()</span>\
+    <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"document"</span><span class="p">,</span> <span class="s">"token"</span><span class="p">,</span> <span class="s">"ner"</span><span class="p">])</span>\
+    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"ner_chunk"</span><span class="p">)</span>
 
+<span class="n">re_model</span> <span class="o">=</span> <span class="n">ZeroShotRelationExtractionModel</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"legre_zero_shot"</span><span class="p">,</span> <span class="s">"en"</span><span class="p">,</span> <span class="s">"legal/models"</span><span class="p">)</span>\
+    <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"ner_chunk"</span><span class="p">,</span> <span class="s">"sentence"</span><span class="p">])</span> \
+    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"relations"</span><span class="p">)</span>
 
-1. RIGHTS GRANTED 1.1. Grant of Franchise. 1.1.1 We grant you the right, and you accept the obligation, to use the Proprietary Marks and the System to operate one Restaurant (the "Franchised Business") at the Premises, in accordance with the terms of this Agreement. 
+<span class="c1"># Remember it's 2 curly brackets instead of one if you are using Spark NLP &lt; 4.0
+</span><span class="n">re_model</span><span class="p">.</span><span class="n">setRelationalCategories</span><span class="p">({</span>
+    <span class="s">"GRANTS_TO"</span><span class="p">:</span> <span class="p">[</span><span class="s">"{OBLIGATION_SUBJECT} grants {OBLIGATION_INDIRECT_OBJECT}"</span><span class="p">],</span>
+    <span class="s">"GRANTS"</span><span class="p">:</span> <span class="p">[</span><span class="s">"{OBLIGATION_SUBJECT} grants {OBLIGATION_ACTION}"</span><span class="p">]</span>
+<span class="p">})</span>
 
-Source: PF HOSPITALITY GROUP INC., 9/23/2015
+<span class="n">pipeline</span> <span class="o">=</span> <span class="n">sparknlp</span><span class="p">.</span><span class="n">base</span><span class="p">.</span><span class="n">Pipeline</span><span class="p">()</span> \
+    <span class="p">.</span><span class="n">setStages</span><span class="p">([</span><span class="n">document_assembler</span><span class="p">,</span>  
+                <span class="n">sparktokenizer</span><span class="p">,</span>
+                <span class="n">tokenClassifier</span><span class="p">,</span> 
+                <span class="n">ner_converter</span><span class="p">,</span>
+                <span class="n">re_model</span>
+               <span class="p">])</span>
+               
+<span class="c1"># create Spark DF
+</span>
+<span class="n">sample_text</span> <span class="o">=</span> <span class="s">"""Fox grants to Licensee a limited, exclusive right and license"""</span>
 
+<span class="n">data</span> <span class="o">=</span> <span class="n">spark</span><span class="p">.</span><span class="n">createDataFrame</span><span class="p">([[</span><span class="n">sample_text</span><span class="p">]]).</span><span class="n">toDF</span><span class="p">(</span><span class="s">"text"</span><span class="p">)</span>
+<span class="n">model</span> <span class="o">=</span> <span class="n">pipeline</span><span class="p">.</span><span class="n">fit</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+<span class="n">results</span> <span class="o">=</span> <span class="n">model</span><span class="p">.</span><span class="n">transform</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
 
-1.3. Our Limitations and Our Reserved Rights. The rights granted to you under this Agreement are not exclusive.sed Business.
+<span class="c1"># ner output
+</span><span class="n">results</span><span class="p">.</span><span class="n">selectExpr</span><span class="p">(</span><span class="s">"explode(ner_chunk) as ner"</span><span class="p">).</span><span class="n">show</span><span class="p">(</span><span class="n">truncate</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
 
-Source: PF HOSPITALITY GROUP INC., 9/23/2015
+<span class="c1"># relations output
+</span><span class="n">results</span><span class="p">.</span><span class="n">selectExpr</span><span class="p">(</span><span class="s">"explode(relations) as relation"</span><span class="p">).</span><span class="n">show</span><span class="p">(</span><span class="n">truncate</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
 
-"""</span>
-
-<span class="n">result</span> <span class="o">=</span> <span class="n">deid_pipeline</span><span class="p">.</span><span class="n">annotate</span><span class="p">(</span><span class="n">sample_2</span><span class="p">)</span>
-<span class="k">print</span><span class="p">(</span><span class="s">"</span><span class="se">\n</span><span class="s">Masked with entity labels"</span><span class="p">)</span>
-<span class="k">print</span><span class="p">(</span><span class="s">"-"</span><span class="o">*</span><span class="mi">30</span><span class="p">)</span>
-<span class="k">print</span><span class="p">(</span><span class="s">"</span><span class="se">\n</span><span class="s">"</span><span class="p">.</span><span class="n">join</span><span class="p">(</span><span class="n">result</span><span class="p">[</span><span class="s">'deidentified'</span><span class="p">]))</span>
-<span class="k">print</span><span class="p">(</span><span class="s">"</span><span class="se">\n</span><span class="s">Masked with chars"</span><span class="p">)</span>
-<span class="k">print</span><span class="p">(</span><span class="s">"-"</span><span class="o">*</span><span class="mi">30</span><span class="p">)</span>
-<span class="k">print</span><span class="p">(</span><span class="s">"</span><span class="se">\n</span><span class="s">"</span><span class="p">.</span><span class="n">join</span><span class="p">(</span><span class="n">result</span><span class="p">[</span><span class="s">'masked_with_chars'</span><span class="p">]))</span>
-<span class="k">print</span><span class="p">(</span><span class="s">"</span><span class="se">\n</span><span class="s">Masked with fixed length chars"</span><span class="p">)</span>
-<span class="k">print</span><span class="p">(</span><span class="s">"-"</span><span class="o">*</span><span class="mi">30</span><span class="p">)</span>
-<span class="k">print</span><span class="p">(</span><span class="s">"</span><span class="se">\n</span><span class="s">"</span><span class="p">.</span><span class="n">join</span><span class="p">(</span><span class="n">result</span><span class="p">[</span><span class="s">'masked_fixed_length_chars'</span><span class="p">]))</span>
-<span class="k">print</span><span class="p">(</span><span class="s">"</span><span class="se">\n</span><span class="s">Obfuscated"</span><span class="p">)</span>
-<span class="k">print</span><span class="p">(</span><span class="s">"-"</span><span class="o">*</span><span class="mi">30</span><span class="p">)</span>
-<span class="k">print</span><span class="p">(</span><span class="s">"</span><span class="se">\n</span><span class="s">"</span><span class="p">.</span><span class="n">join</span><span class="p">(</span><span class="n">result</span><span class="p">[</span><span class="s">'obfuscated'</span><span class="p">]))</span>
 </code></pre></div>  </div>
 
 </div>
 
 <h2 id="results">Results</h2>
 
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Masked with entity labels
-<span class="nt">------------------------------</span>
-&lt;PARTY&gt;. &lt;DOC&gt; This &lt;DOC&gt; <span class="o">(</span>the &lt;ALIAS&gt;<span class="o">)</span> is entered into as of the Agreement Date shown on the cover page between &lt;PARTY&gt; a Florida corporation, and the individual or legal entity identified on the cover page.
-Source: &lt;PARTY&gt;., &lt;EFFDATE&gt;
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>+----------------------------------------------------------------------------------------------------------------------------+
+|ner                                                                                                                         |
++----------------------------------------------------------------------------------------------------------------------------+
+|[chunk, 0, 2, Fox, <span class="o">[</span>entity -&gt; OBLIGATION_SUBJECT, sentence -&gt; 0, chunk -&gt; 0, confidence -&gt; 0.6905101], <span class="o">[]]</span>                  |
+|[chunk, 4, 9, grants, <span class="o">[</span>entity -&gt; OBLIGATION_ACTION, sentence -&gt; 0, chunk -&gt; 1, confidence -&gt; 0.7512371], <span class="o">[]]</span>                |
+|[chunk, 14, 21, Licensee, <span class="o">[</span>entity -&gt; OBLIGATION_INDIRECT_OBJECT, sentence -&gt; 0, chunk -&gt; 2, confidence -&gt; 0.8294538], <span class="o">[]]</span>   |
+|[chunk, 23, 31, a limited, <span class="o">[</span>entity -&gt; OBLIGATION, sentence -&gt; 0, chunk -&gt; 3, confidence -&gt; 0.7429814], <span class="o">[]]</span>                  |
+|[chunk, 34, 60, exclusive right and license, <span class="o">[</span>entity -&gt; OBLIGATION, sentence -&gt; 0, chunk -&gt; 4, confidence -&gt; 0.9236847], <span class="o">[]]</span>|
++----------------------------------------------------------------------------------------------------------------------------+
 
-
-1.
-&lt;PARTY&gt; 1.1.
-&lt;PARTY&gt;.
-1.1.1 We grant you the right, and you accept the obligation, to use the &lt;PARTY&gt; and the System to operate one Restaurant <span class="o">(</span>the &lt;ALIAS&gt;<span class="o">)</span> at the Premises, <span class="k">in </span>accordance with the terms of this Agreement.
-Source: &lt;PARTY&gt;., &lt;EFFDATE&gt;
-
-
-1.3.
-Our &lt;PARTY&gt; and &lt;PARTY&gt;.
-The rights granted to you under this Agreement are not exclusive.sed Business.
-Source: &lt;PARTY&gt;., &lt;EFFDATE&gt;
-
-Masked with chars
-<span class="nt">------------------------------</span>
-<span class="o">[</span><span class="k">************************</span><span class="o">]</span><span class="nb">.</span> <span class="o">[</span><span class="k">*****************</span><span class="o">]</span> This <span class="o">[</span><span class="k">*****************</span><span class="o">]</span> <span class="o">(</span>the <span class="o">[</span><span class="k">*********</span><span class="o">])</span> is entered into as of the Agreement Date shown on the cover page between <span class="o">[</span><span class="k">*************************</span><span class="o">]</span> a Florida corporation, and the individual or legal entity identified on the cover page.
-Source: <span class="o">[</span><span class="k">**********************</span><span class="o">]</span>., <span class="o">[</span><span class="k">*******</span><span class="o">]</span>
-
-
-1.
-<span class="o">[</span><span class="k">************</span><span class="o">]</span> 1.1.
-<span class="o">[</span><span class="k">****************</span><span class="o">]</span><span class="nb">.</span>
-1.1.1 We grant you the right, and you accept the obligation, to use the <span class="o">[</span><span class="k">***************</span><span class="o">]</span> and the System to operate one Restaurant <span class="o">(</span>the <span class="o">[</span><span class="k">*******************</span><span class="o">])</span> at the Premises, <span class="k">in </span>accordance with the terms of this Agreement.
-Source: <span class="o">[</span><span class="k">**********************</span><span class="o">]</span>., <span class="o">[</span><span class="k">*******</span><span class="o">]</span>
-
-
-1.3.
-Our <span class="o">[</span><span class="k">*********</span><span class="o">]</span> and <span class="o">[</span><span class="k">*****************</span><span class="o">]</span><span class="nb">.</span>
-The rights granted to you under this Agreement are not exclusive.sed Business.
-Source: <span class="o">[</span><span class="k">**********************</span><span class="o">]</span>., <span class="o">[</span><span class="k">*******</span><span class="o">]</span>
-
-Masked with fixed length chars
-<span class="nt">------------------------------</span>
-<span class="k">****</span><span class="nb">.</span> <span class="k">****</span> This <span class="k">****</span> <span class="o">(</span>the <span class="k">****</span><span class="o">)</span> is entered into as of the Agreement Date shown on the cover page between <span class="k">****</span> a Florida corporation, and the individual or legal entity identified on the cover page.
-Source: <span class="k">****</span>., <span class="k">****</span>
-
-
-1.
-<span class="k">****</span> 1.1.
-<span class="k">****</span><span class="nb">.</span>
-1.1.1 We grant you the right, and you accept the obligation, to use the <span class="k">****</span> and the System to operate one Restaurant <span class="o">(</span>the <span class="k">****</span><span class="o">)</span> at the Premises, <span class="k">in </span>accordance with the terms of this Agreement.
-Source: <span class="k">****</span>., <span class="k">****</span>
-
-
-1.3.
-Our <span class="k">****</span> and <span class="k">****</span><span class="nb">.</span>
-The rights granted to you under this Agreement are not exclusive.sed Business.
-Source: <span class="k">****</span>., <span class="k">****</span>
-
-Obfuscated
-<span class="nt">------------------------------</span>
-SESA CO.. Estate Document This Estate Document <span class="o">(</span>the <span class="o">(</span>the <span class="s2">"Contract"</span><span class="o">))</span> is entered into as of the Agreement Date shown on the cover page between Clarus llc. a Florida corporation, and the individual or legal entity identified on the cover page.
-Source: SESA CO.., 11/7/2016
-
-
-1.
-SESA CO. 1.1.
-Clarus llc..
-1.1.1 We grant you the right, and you accept the obligation, to use the John Snow Labs Inc and the System to operate one Restaurant <span class="o">(</span>the <span class="o">(</span>the<span class="s2">" Agreement"</span><span class="o">))</span> at the Premises, <span class="k">in </span>accordance with the terms of this Agreement.
-Source: SESA CO.., 11/7/2016
-
-
-1.3.
-Our MGT Trust Company, LLC. and John Snow Labs Inc.
-The rights granted to you under this Agreement are not exclusive.sed Business.
-Source: SESA CO.., 11/7/2016
++-------------+
+|relation     |
++-------------+
+|[category, 0, 91, GRANTS, <span class="o">[</span>entity1_begin -&gt; 0, relation -&gt; GRANTS, hypothesis -&gt; Fox grants grants, confidence -&gt; 0.7592092, nli_prediction -&gt; entail, entity1 -&gt; OBLIGATION_SUBJECT, syntactic_distance -&gt; undefined, chunk2 -&gt; grants, entity2_end -&gt; 9, entity1_end -&gt; 2, entity2_begin -&gt; 4, entity2 -&gt; OBLIGATION_ACTION, chunk1 -&gt; Fox, sentence -&gt; 0], <span class="o">[]]</span>                       |
+|[category, 92, 185, GRANTS_TO, <span class="o">[</span>entity1_begin -&gt; 0, relation -&gt; GRANTS_TO, hypothesis -&gt; Fox grants Licensee, confidence -&gt; 0.9822127, nli_prediction -&gt; entail, entity1 -&gt; OBLIGATION_SUBJECT, syntactic_distance -&gt; undefined, chunk2 -&gt; Licensee, entity2_end -&gt; 21, entity1_end -&gt; 2, entity2_begin -&gt; 14, entity2 -&gt; OBLIGATION_INDIRECT_OBJECT, chunk1 -&gt; Fox, sentence -&gt; 0], <span class="o">[]]</span>|
++-------------+
 </code></pre></div></div>
 
 <h2 class="model-param" id="model-information">Model Information</h2>
@@ -978,11 +947,11 @@ Source: SESA CO.., 11/7/2016
   <tbody>
     <tr>
       <td>Model Name:</td>
-      <td>legpipe_deid</td>
+      <td>legre_zero_shot</td>
     </tr>
     <tr>
       <td>Type:</td>
-      <td>pipeline</td>
+      <td>legal</td>
     </tr>
     <tr>
       <td>Compatibility:</td>
@@ -1002,43 +971,19 @@ Source: SESA CO.., 11/7/2016
     </tr>
     <tr>
       <td>Size:</td>
-      <td>944.1 MB</td>
+      <td>406.4 MB</td>
+    </tr>
+    <tr>
+      <td>Case sensitive:</td>
+      <td>true</td>
     </tr>
   </tbody>
 </table>
 
 <h2 id="references">References</h2>
 
-<p>In-house annotations on legal and financial documents, Ontonotes, Conll 2003, Finsec conll, Cuad dataset, 10k filings</p>
-
-<h2 id="included-models">Included Models</h2>
-
-<ul>
-  <li>DocumentAssembler</li>
-  <li>SentenceDetectorDLModel</li>
-  <li>TokenizerModel</li>
-  <li>RoBertaEmbeddings</li>
-  <li>BertEmbeddings</li>
-  <li>LegalNerModel</li>
-  <li>NerConverter</li>
-  <li>LegalNerModel</li>
-  <li>NerConverter</li>
-  <li>LegalNerModel</li>
-  <li>NerConverterInternalModel</li>
-  <li>LegalNerModel</li>
-  <li>NerConverterInternalModel</li>
-  <li>ContextualParserModel</li>
-  <li>ContextualParserModel</li>
-  <li>RegexMatcherModel</li>
-  <li>RegexMatcherModel</li>
-  <li>ChunkMergeModel</li>
-  <li>DeIdentificationModel</li>
-  <li>DeIdentificationModel</li>
-  <li>DeIdentificationModel</li>
-  <li>DeIdentificationModel</li>
-  <li>Finisher</li>
-</ul>
-</div><div class="d-print-none"><footer class="article__footer"><meta itemprop="dateModified" content="2022-08-18T00:00:00+00:00"><!-- start custom article footer snippet -->
+<p>Bert Base (cased) trained on the GLUE MNLI dataset.</p>
+</div><div class="d-print-none"><footer class="article__footer"><meta itemprop="dateModified" content="2022-08-22T00:00:00+00:00"><!-- start custom article footer snippet -->
 
 <!-- end custom article footer snippet --></footer>
 
@@ -1163,7 +1108,7 @@ hr.code-selector-underlie {
 
 }
 
-</style><div class="article__section-navigator clearfix"><div class="previous nav_link"><span>PREVIOUS</span><a href="/2022/08/18/legmapper_edgar_irs_en_3_2.html">Mapping Companies IRS to Edgar Database</a></div></div></div>
+</style><div class="article__section-navigator clearfix"><div class="previous nav_link"><span>PREVIOUS</span><a href="/2022/08/22/legner_obligations_en_3_2.html">Legal NER Obligations on Agreements</a></div></div></div>
 
 </div>
 </div>

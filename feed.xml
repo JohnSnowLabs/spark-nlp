@@ -1,5 +1,495 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.9.0">Jekyll</generator><link href="/feed.xml" rel="self" type="application/atom+xml" /><link href="/" rel="alternate" type="text/html" /><updated>2022-08-22T14:39:17+00:00</updated><id>/feed.xml</id><title type="html">Spark NLP</title><subtitle>High Performance NLP with Apache Spark
-</subtitle><author><name>{&quot;type&quot;=&gt;nil, &quot;name&quot;=&gt;nil, &quot;url&quot;=&gt;nil, &quot;avatar&quot;=&gt;nil, &quot;bio&quot;=&gt;nil, &quot;email&quot;=&gt;nil, &quot;facebook&quot;=&gt;nil, &quot;twitter&quot;=&gt;nil, &quot;weibo&quot;=&gt;nil, &quot;googleplus&quot;=&gt;nil, &quot;telegram&quot;=&gt;nil, &quot;medium&quot;=&gt;nil, &quot;zhihu&quot;=&gt;nil, &quot;douban&quot;=&gt;nil, &quot;linkedin&quot;=&gt;nil, &quot;github&quot;=&gt;nil, &quot;npm&quot;=&gt;nil}</name></author><entry><title type="html">Mapping Company Names to Edgar Database</title><link href="/2022/08/18/finmapper_edgar_companyname_en_3_2.html" rel="alternate" type="text/html" title="Mapping Company Names to Edgar Database" /><published>2022-08-18T00:00:00+00:00</published><updated>2022-08-18T00:00:00+00:00</updated><id>/2022/08/18/finmapper_edgar_companyname_en_3_2</id><content type="html" xml:base="/2022/08/18/finmapper_edgar_companyname_en_3_2.html">&lt;h2 id=&quot;description&quot;&gt;Description&lt;/h2&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.9.0">Jekyll</generator><link href="/feed.xml" rel="self" type="application/atom+xml" /><link href="/" rel="alternate" type="text/html" /><updated>2022-08-22T17:15:42+00:00</updated><id>/feed.xml</id><title type="html">Spark NLP</title><subtitle>High Performance NLP with Apache Spark
+</subtitle><author><name>{&quot;type&quot;=&gt;nil, &quot;name&quot;=&gt;nil, &quot;url&quot;=&gt;nil, &quot;avatar&quot;=&gt;nil, &quot;bio&quot;=&gt;nil, &quot;email&quot;=&gt;nil, &quot;facebook&quot;=&gt;nil, &quot;twitter&quot;=&gt;nil, &quot;weibo&quot;=&gt;nil, &quot;googleplus&quot;=&gt;nil, &quot;telegram&quot;=&gt;nil, &quot;medium&quot;=&gt;nil, &quot;zhihu&quot;=&gt;nil, &quot;douban&quot;=&gt;nil, &quot;linkedin&quot;=&gt;nil, &quot;github&quot;=&gt;nil, &quot;npm&quot;=&gt;nil}</name></author><entry><title type="html">Financial Zero-shot Relation Extraction</title><link href="/2022/08/22/finre_zero_shot_en_3_2.html" rel="alternate" type="text/html" title="Financial Zero-shot Relation Extraction" /><published>2022-08-22T00:00:00+00:00</published><updated>2022-08-22T00:00:00+00:00</updated><id>/2022/08/22/finre_zero_shot_en_3_2</id><content type="html" xml:base="/2022/08/22/finre_zero_shot_en_3_2.html">&lt;h2 id=&quot;description&quot;&gt;Description&lt;/h2&gt;
+
+&lt;p&gt;This is a Zero-shot Relation Extraction Model, meaning that it does not require any training data, just few examples of of the relations types you are looking for, to output a proper result.&lt;/p&gt;
+
+&lt;p&gt;Make sure you keep the proper syntax of the relations you want to extract. For example:&lt;/p&gt;
+
+&lt;p&gt;Before Spark NLP 4.0&lt;/p&gt;
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;re_model.setRelationalCategories({
+    &quot;DECREASE&quot;: [&quot; decrease &quot;, &quot; decrease &quot;,
+    &quot;INCREASE&quot;: [&quot; increase &quot;, &quot; increase &quot;]
+})
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;After Spark NLP 4.0&lt;/p&gt;
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;re_model.setRelationalCategories({
+    &quot;DECREASE&quot;: [&quot;{PROFIT_DECLINE} decrease {AMOUNT}&quot;, &quot;{PROFIT_DECLINE}} decrease {PERCENTAGE}&quot;,
+    &quot;INCREASE&quot;: [&quot;{PROFIT_INCREASE} increase {AMOUNT}&quot;, &quot;{PROFIT_INCREASE}} increase {PERCENTAGE}&quot;]
+})
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;The keys of the dictionary are the name of the relations (&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;DECREASE&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;INCREASE&lt;/code&gt;)&lt;/li&gt;
+  &lt;li&gt;The values are list of sentences with similar examples of the relation&lt;/li&gt;
+  &lt;li&gt;The values in brackets are the NER labels extracted by an NER component before&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;predicted-entities&quot;&gt;Predicted Entities&lt;/h2&gt;
+
+&lt;p class=&quot;btn-box&quot;&gt;&lt;button class=&quot;button button-orange&quot; disabled=&quot;&quot;&gt;Live Demo&lt;/button&gt;
+&lt;button class=&quot;button button-orange&quot; disabled=&quot;&quot;&gt;Open in Colab&lt;/button&gt;
+&lt;a href=&quot;https://s3.amazonaws.com/auxdata.johnsnowlabs.com/finance/models/finre_zero_shot_en_1.0.0_3.2_1661179057628.zip&quot; class=&quot;button button-orange button-orange-trans arr button-icon&quot;&gt;Download&lt;/a&gt;&lt;/p&gt;
+
+&lt;h2 id=&quot;how-to-use&quot;&gt;How to use&lt;/h2&gt;
+
+&lt;div class=&quot;tabs-box&quot;&gt;
+  &lt;div class=&quot;top_tab_li&quot;&gt;   
+    &lt;button class=&quot;tab-li code-selector-active python-button&quot;&gt;Python&lt;/button&gt;&lt;button class=&quot;tab-li code-selector-un-active scala-button&quot;&gt;Scala&lt;/button&gt;&lt;button class=&quot;tab-li code-selector-un-active nlu-button&quot;&gt;NLU&lt;/button&gt;
+&lt;/div&gt;
+  &lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;document_assembler&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;DocumentAssembler&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;\
+    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setInputCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;text&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;\
+    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;document&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+
+&lt;span class=&quot;n&quot;&gt;sentence_detector&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;SentenceDetectorDLModel&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;pretrained&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;sentence_detector_dl&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;xx&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;\
+    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setInputCols&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;([&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;document&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;])&lt;/span&gt;\
+    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;sentence&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+
+&lt;span class=&quot;n&quot;&gt;tokenizer&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Tokenizer&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;\
+    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setInputCols&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;([&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;sentence&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;])&lt;/span&gt;\
+    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;token&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+
+&lt;span class=&quot;n&quot;&gt;embeddings&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;BertEmbeddings&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;pretrained&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;bert_embeddings_sec_bert_base&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;en&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; \
+  &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setInputCols&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;sentence&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;token&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; \
+  &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;embeddings&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;\
+  &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setMaxSentenceLength&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;512&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+
+&lt;span class=&quot;n&quot;&gt;ner_model&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;FinanceNerModel&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;pretrained&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;finner_10k&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;en&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;finance/models&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;\
+    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setInputCols&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;([&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;sentence&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;token&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;embeddings&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;])&lt;/span&gt;\
+    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;ner&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;\
+
+&lt;span class=&quot;n&quot;&gt;ner_converter&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;NerConverter&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;\
+    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setInputCols&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;([&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;sentence&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;token&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;ner&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;])&lt;/span&gt;\
+    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;ner_chunk&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+
+&lt;span class=&quot;n&quot;&gt;re_model&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;ZeroShotRelationExtractionModel&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;pretrained&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;finre_zero_shot&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;en&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;finance/models&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;\
+    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setInputCols&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;([&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;ner_chunk&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;sentence&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;])&lt;/span&gt; \
+    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;relations&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+
+&lt;span class=&quot;c1&quot;&gt;# Remember it's 2 curly brackets instead of one if you are using Spark NLP &amp;lt; 4.0
+&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;re_model&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setRelationalCategories&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;({&lt;/span&gt;
+    &lt;span class=&quot;s&quot;&gt;&quot;DECREASE&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;{PROFIT_DECLINE} decrease {AMOUNT}&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;{PROFIT_DECLINE} decrease {PERCENTAGE}&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;],&lt;/span&gt;
+    &lt;span class=&quot;s&quot;&gt;&quot;INCREASE&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;{PROFIT_INCREASE} increase {AMOUNT}&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;{PROFIT_INCREASE} increase {PERCENTAGE}&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;})&lt;/span&gt;
+
+&lt;span class=&quot;n&quot;&gt;pipeline&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;sparknlp&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;base&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Pipeline&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; \
+    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setStages&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;([&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;document_assembler&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;  
+                &lt;span class=&quot;n&quot;&gt;sentence_detector&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+                &lt;span class=&quot;n&quot;&gt;tokenizer&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; 
+                &lt;span class=&quot;n&quot;&gt;embeddings&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+                &lt;span class=&quot;n&quot;&gt;ner_model&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+                &lt;span class=&quot;n&quot;&gt;ner_converter&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+                &lt;span class=&quot;n&quot;&gt;re_model&lt;/span&gt;
+               &lt;span class=&quot;p&quot;&gt;])&lt;/span&gt;
+               
+&lt;span class=&quot;n&quot;&gt;sample_text&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;&quot;&quot;License fees revenue decreased 40 %, or $ 0.5 million to $ 0.7 million for the year ended December 31, 2020 
+compared to $ 1.2 million for the year ended December 31, 2019. Services revenue increased 4 %, or $ 1.1 million, to $ 25.6 million 
+for the year ended December 31, 2020 from $ 24.5 million for the year ended December 31, 2019.
+Costs of revenue, excluding depreciation and amortization increased by $ 0.1 million, or 2 %, to $ 8.8 million for the year ended December 31, 2020 
+from $ 8.7 million for the year ended December 31, 2019. The increase was primarily related to increase in internal staff costs of $ 1.1 million as 
+we increased delivery staff and work performed on internal projects, partially offset by a decrease in third party consultant costs of $ 0.6 million 
+as these were converted to internal staff or terminated. Also, a decrease in travel costs of $ 0.4 million due to travel restrictions caused by the global pandemic. 
+As a percentage of revenue, cost of revenue, excluding depreciation and amortization was 34 % for each of the years ended December 31, 2020 and 2019. 
+Sales and marketing expenses decreased 20 %, or $ 1.5 million, to $ 6.0 million for the year ended December 31, 2020 from $ 7.5 million for the year ended December 31, 2019&quot;
+&quot;&quot;&quot;&lt;/span&gt;
+
+&lt;span class=&quot;n&quot;&gt;data&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;spark&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;createDataFrame&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;([[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;sample_text&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]]).&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;toDF&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;text&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;model&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;pipeline&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;fit&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;data&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;results&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;model&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;transform&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;data&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+
+&lt;span class=&quot;c1&quot;&gt;# ner output
+&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;results&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;selectExpr&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;explode(ner_chunk) as ner&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;).&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;show&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;truncate&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;bp&quot;&gt;False&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+
+&lt;span class=&quot;c1&quot;&gt;# relations output
+&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;results&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;selectExpr&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;explode(relations) as relation&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;).&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;show&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;truncate&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;bp&quot;&gt;False&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;  &lt;/div&gt;
+
+&lt;/div&gt;
+
+&lt;h2 id=&quot;results&quot;&gt;Results&lt;/h2&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;+--------------------------------------------------------------------------------------------------------------------------+
+|ner                                                                                                                       |
++--------------------------------------------------------------------------------------------------------------------------+
+|[chunk, 0, 19, License fees revenue, &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;entity -&amp;gt; PROFIT_DECLINE, sentence -&amp;gt; 0, chunk -&amp;gt; 0, confidence -&amp;gt; 0.41060004], &lt;span class=&quot;o&quot;&gt;[]]&lt;/span&gt; |
+|[chunk, 31, 32, 40, &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;entity -&amp;gt; PERCENTAGE, sentence -&amp;gt; 0, chunk -&amp;gt; 1, confidence -&amp;gt; 0.9995], &lt;span class=&quot;o&quot;&gt;[]]&lt;/span&gt;                          |
+|[chunk, 40, 40, &lt;span class=&quot;nv&quot;&gt;$,&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;entity -&amp;gt; CURRENCY, sentence -&amp;gt; 0, chunk -&amp;gt; 2, confidence -&amp;gt; 0.9995], &lt;span class=&quot;o&quot;&gt;[]]&lt;/span&gt;                             |
+|[chunk, 42, 52, 0.5 million, &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;entity -&amp;gt; AMOUNT, sentence -&amp;gt; 0, chunk -&amp;gt; 3, confidence -&amp;gt; 0.99995], &lt;span class=&quot;o&quot;&gt;[]]&lt;/span&gt;                    |
+|[chunk, 57, 57, &lt;span class=&quot;nv&quot;&gt;$,&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;entity -&amp;gt; CURRENCY, sentence -&amp;gt; 0, chunk -&amp;gt; 4, confidence -&amp;gt; 0.9998], &lt;span class=&quot;o&quot;&gt;[]]&lt;/span&gt;                             |
+|[chunk, 59, 69, 0.7 million, &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;entity -&amp;gt; AMOUNT, sentence -&amp;gt; 0, chunk -&amp;gt; 5, confidence -&amp;gt; 0.99985003], &lt;span class=&quot;o&quot;&gt;[]]&lt;/span&gt;                 |
+|[chunk, 90, 106, December 31, 2020, &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;entity -&amp;gt; FISCAL_YEAR, sentence -&amp;gt; 0, chunk -&amp;gt; 6, confidence -&amp;gt; 0.977525], &lt;span class=&quot;o&quot;&gt;[]]&lt;/span&gt;       |
+|[chunk, 121, 121, &lt;span class=&quot;nv&quot;&gt;$,&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;entity -&amp;gt; CURRENCY, sentence -&amp;gt; 0, chunk -&amp;gt; 7, confidence -&amp;gt; 0.9996], &lt;span class=&quot;o&quot;&gt;[]]&lt;/span&gt;                           |
+|[chunk, 123, 133, 1.2 million, &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;entity -&amp;gt; AMOUNT, sentence -&amp;gt; 0, chunk -&amp;gt; 8, confidence -&amp;gt; 0.99975], &lt;span class=&quot;o&quot;&gt;[]]&lt;/span&gt;                  |
+|[chunk, 154, 170, December 31, 2019, &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;entity -&amp;gt; FISCAL_YEAR, sentence -&amp;gt; 0, chunk -&amp;gt; 9, confidence -&amp;gt; 0.96227497], &lt;span class=&quot;o&quot;&gt;[]]&lt;/span&gt;    |
+|[chunk, 173, 188, Services revenue, &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;entity -&amp;gt; PROFIT_INCREASE, sentence -&amp;gt; 1, chunk -&amp;gt; 10, confidence -&amp;gt; 0.57490003], &lt;span class=&quot;o&quot;&gt;[]]&lt;/span&gt;|
+|[chunk, 200, 200, 4, &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;entity -&amp;gt; PERCENTAGE, sentence -&amp;gt; 1, chunk -&amp;gt; 11, confidence -&amp;gt; 0.9997], &lt;span class=&quot;o&quot;&gt;[]]&lt;/span&gt;                        |
+|[chunk, 208, 208, &lt;span class=&quot;nv&quot;&gt;$,&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;entity -&amp;gt; CURRENCY, sentence -&amp;gt; 1, chunk -&amp;gt; 12, confidence -&amp;gt; 0.999], &lt;span class=&quot;o&quot;&gt;[]]&lt;/span&gt;                           |
+|[chunk, 210, 220, 1.1 million, &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;entity -&amp;gt; AMOUNT, sentence -&amp;gt; 1, chunk -&amp;gt; 13, confidence -&amp;gt; 0.99995], &lt;span class=&quot;o&quot;&gt;[]]&lt;/span&gt;                 |
+|[chunk, 226, 226, &lt;span class=&quot;nv&quot;&gt;$,&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;entity -&amp;gt; CURRENCY, sentence -&amp;gt; 1, chunk -&amp;gt; 14, confidence -&amp;gt; 0.9982], &lt;span class=&quot;o&quot;&gt;[]]&lt;/span&gt;                          |
+|[chunk, 228, 239, 25.6 million, &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;entity -&amp;gt; AMOUNT, sentence -&amp;gt; 1, chunk -&amp;gt; 15, confidence -&amp;gt; 0.99975], &lt;span class=&quot;o&quot;&gt;[]]&lt;/span&gt;                |
+|[chunk, 261, 277, December 31, 2020, &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;entity -&amp;gt; FISCAL_YEAR, sentence -&amp;gt; 1, chunk -&amp;gt; 16, confidence -&amp;gt; 0.97915], &lt;span class=&quot;o&quot;&gt;[]]&lt;/span&gt;      |
+|[chunk, 284, 284, &lt;span class=&quot;nv&quot;&gt;$,&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;entity -&amp;gt; CURRENCY, sentence -&amp;gt; 1, chunk -&amp;gt; 17, confidence -&amp;gt; 0.9991], &lt;span class=&quot;o&quot;&gt;[]]&lt;/span&gt;                          |
+|[chunk, 286, 297, 24.5 million, &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;entity -&amp;gt; AMOUNT, sentence -&amp;gt; 1, chunk -&amp;gt; 18, confidence -&amp;gt; 0.99965], &lt;span class=&quot;o&quot;&gt;[]]&lt;/span&gt;                |
+|[chunk, 318, 334, December 31, 2019, &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;entity -&amp;gt; FISCAL_YEAR, sentence -&amp;gt; 1, chunk -&amp;gt; 19, confidence -&amp;gt; 0.9588], &lt;span class=&quot;o&quot;&gt;[]]&lt;/span&gt;       |
++--------------------------------------------------------------------------------------------------------------------------+
+
++--------+
+|relation                                                                                                                                                 +--------+
+|[category, 0, 217, DECREASE, &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;entity1_begin -&amp;gt; 0, relation -&amp;gt; DECREASE, hypothesis -&amp;gt; License fees revenue decrease 40, confidence -&amp;gt; 0.9931541, nli_prediction -&amp;gt; entail, entity1 -&amp;gt; PROFIT_DECLINE, syntactic_distance -&amp;gt; undefined, chunk2 -&amp;gt; 40, entity2_end -&amp;gt; 32, entity1_end -&amp;gt; 19, entity2_begin -&amp;gt; 31, entity2 -&amp;gt; PERCENTAGE, chunk1 -&amp;gt; License fees revenue, sentence -&amp;gt; 0], &lt;span class=&quot;o&quot;&gt;[]]&lt;/span&gt;                  |
+|[category, 672, 898, DECREASE, &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;entity1_begin -&amp;gt; 0, relation -&amp;gt; DECREASE, hypothesis -&amp;gt; License fees revenue decrease 1.2 million, confidence -&amp;gt; 0.7394818, nli_prediction -&amp;gt; entail, entity1 -&amp;gt; PROFIT_DECLINE, syntactic_distance -&amp;gt; undefined, chunk2 -&amp;gt; 1.2 million, entity2_end -&amp;gt; 133, entity1_end -&amp;gt; 19, entity2_begin -&amp;gt; 123, entity2 -&amp;gt; AMOUNT, chunk1 -&amp;gt; License fees revenue, sentence -&amp;gt; 0], &lt;span class=&quot;o&quot;&gt;[]]&lt;/span&gt;|
+|[category, 445, 671, DECREASE, &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;entity1_begin -&amp;gt; 0, relation -&amp;gt; DECREASE, hypothesis -&amp;gt; License fees revenue decrease 0.7 million, confidence -&amp;gt; 0.99002415, nli_prediction -&amp;gt; entail, entity1 -&amp;gt; PROFIT_DECLINE, syntactic_distance -&amp;gt; undefined, chunk2 -&amp;gt; 0.7 million, entity2_end -&amp;gt; 69, entity1_end -&amp;gt; 19, entity2_begin -&amp;gt; 59, entity2 -&amp;gt; AMOUNT, chunk1 -&amp;gt; License fees revenue, sentence -&amp;gt; 0], &lt;span class=&quot;o&quot;&gt;[]]&lt;/span&gt; |
+|[category, 218, 444, DECREASE, &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;entity1_begin -&amp;gt; 0, relation -&amp;gt; DECREASE, hypothesis -&amp;gt; License fees revenue decrease 0.5 million, confidence -&amp;gt; 0.99084955, nli_prediction -&amp;gt; entail, entity1 -&amp;gt; PROFIT_DECLINE, syntactic_distance -&amp;gt; undefined, chunk2 -&amp;gt; 0.5 million, entity2_end -&amp;gt; 52, entity1_end -&amp;gt; 19, entity2_begin -&amp;gt; 42, entity2 -&amp;gt; AMOUNT, chunk1 -&amp;gt; License fees revenue, sentence -&amp;gt; 0], &lt;span class=&quot;o&quot;&gt;[]]&lt;/span&gt; |
++--------+
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h2 class=&quot;model-param&quot; id=&quot;model-information&quot;&gt;Model Information&lt;/h2&gt;
+
+&lt;table class=&quot;table-model&quot;&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Model Name:&lt;/td&gt;
+      &lt;td&gt;finre_zero_shot&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Type:&lt;/td&gt;
+      &lt;td&gt;finance&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Compatibility:&lt;/td&gt;
+      &lt;td&gt;Spark NLP for Finance 1.0.0+&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;License:&lt;/td&gt;
+      &lt;td&gt;Licensed&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Edition:&lt;/td&gt;
+      &lt;td&gt;Official&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Language:&lt;/td&gt;
+      &lt;td&gt;en&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Size:&lt;/td&gt;
+      &lt;td&gt;406.4 MB&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Case sensitive:&lt;/td&gt;
+      &lt;td&gt;true&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;h2 id=&quot;references&quot;&gt;References&lt;/h2&gt;
+
+&lt;p&gt;Bert Base (cased) trained on the GLUE MNLI dataset.&lt;/p&gt;</content><author><name>John Snow Labs</name></author><category term="en" /><category term="finance" /><category term="re" /><category term="zero" /><category term="shot" /><category term="zero_shot" /><category term="licensed" /><summary type="html">Description This is a Zero-shot Relation Extraction Model, meaning that it does not require any training data, just few examples of of the relations types you are looking for, to output a proper result. Make sure you keep the proper syntax of the relations you want to extract. For example: Before Spark NLP 4.0 re_model.setRelationalCategories({ &quot;DECREASE&quot;: [&quot; decrease &quot;, &quot; decrease &quot;, &quot;INCREASE&quot;: [&quot; increase &quot;, &quot; increase &quot;] }) After Spark NLP 4.0 re_model.setRelationalCategories({ &quot;DECREASE&quot;: [&quot;{PROFIT_DECLINE} decrease {AMOUNT}&quot;, &quot;{PROFIT_DECLINE}} decrease {PERCENTAGE}&quot;, &quot;INCREASE&quot;: [&quot;{PROFIT_INCREASE} increase {AMOUNT}&quot;, &quot;{PROFIT_INCREASE}} increase {PERCENTAGE}&quot;] }) The keys of the dictionary are the name of the relations (DECREASE, INCREASE) The values are list of sentences with similar examples of the relation The values in brackets are the NER labels extracted by an NER component before Predicted Entities Live Demo Open in Colab Download How to use PythonScalaNLU document_assembler = DocumentAssembler()\ .setInputCol(&quot;text&quot;)\ .setOutputCol(&quot;document&quot;) sentence_detector = SentenceDetectorDLModel.pretrained(&quot;sentence_detector_dl&quot;,&quot;xx&quot;)\ .setInputCols([&quot;document&quot;])\ .setOutputCol(&quot;sentence&quot;) tokenizer = Tokenizer()\ .setInputCols([&quot;sentence&quot;])\ .setOutputCol(&quot;token&quot;) embeddings = BertEmbeddings.pretrained(&quot;bert_embeddings_sec_bert_base&quot;, &quot;en&quot;) \ .setInputCols(&quot;sentence&quot;, &quot;token&quot;) \ .setOutputCol(&quot;embeddings&quot;)\ .setMaxSentenceLength(512) ner_model = FinanceNerModel.pretrained(&quot;finner_10k&quot;, &quot;en&quot;, &quot;finance/models&quot;)\ .setInputCols([&quot;sentence&quot;, &quot;token&quot;, &quot;embeddings&quot;])\ .setOutputCol(&quot;ner&quot;)\ ner_converter = NerConverter()\ .setInputCols([&quot;sentence&quot;, &quot;token&quot;, &quot;ner&quot;])\ .setOutputCol(&quot;ner_chunk&quot;) re_model = ZeroShotRelationExtractionModel.pretrained(&quot;finre_zero_shot&quot;, &quot;en&quot;, &quot;finance/models&quot;)\ .setInputCols([&quot;ner_chunk&quot;, &quot;sentence&quot;]) \ .setOutputCol(&quot;relations&quot;) # Remember it's 2 curly brackets instead of one if you are using Spark NLP &amp;lt; 4.0 re_model.setRelationalCategories({ &quot;DECREASE&quot;: [&quot;{PROFIT_DECLINE} decrease {AMOUNT}&quot;, &quot;{PROFIT_DECLINE} decrease {PERCENTAGE}&quot;], &quot;INCREASE&quot;: [&quot;{PROFIT_INCREASE} increase {AMOUNT}&quot;, &quot;{PROFIT_INCREASE} increase {PERCENTAGE}&quot;] }) pipeline = sparknlp.base.Pipeline() \ .setStages([document_assembler, sentence_detector, tokenizer, embeddings, ner_model, ner_converter, re_model ]) sample_text = &quot;&quot;&quot;License fees revenue decreased 40 %, or $ 0.5 million to $ 0.7 million for the year ended December 31, 2020 compared to $ 1.2 million for the year ended December 31, 2019. Services revenue increased 4 %, or $ 1.1 million, to $ 25.6 million for the year ended December 31, 2020 from $ 24.5 million for the year ended December 31, 2019. Costs of revenue, excluding depreciation and amortization increased by $ 0.1 million, or 2 %, to $ 8.8 million for the year ended December 31, 2020 from $ 8.7 million for the year ended December 31, 2019. The increase was primarily related to increase in internal staff costs of $ 1.1 million as we increased delivery staff and work performed on internal projects, partially offset by a decrease in third party consultant costs of $ 0.6 million as these were converted to internal staff or terminated. Also, a decrease in travel costs of $ 0.4 million due to travel restrictions caused by the global pandemic. As a percentage of revenue, cost of revenue, excluding depreciation and amortization was 34 % for each of the years ended December 31, 2020 and 2019. Sales and marketing expenses decreased 20 %, or $ 1.5 million, to $ 6.0 million for the year ended December 31, 2020 from $ 7.5 million for the year ended December 31, 2019&quot; &quot;&quot;&quot; data = spark.createDataFrame([[sample_text]]).toDF(&quot;text&quot;) model = pipeline.fit(data) results = model.transform(data) # ner output results.selectExpr(&quot;explode(ner_chunk) as ner&quot;).show(truncate=False) # relations output results.selectExpr(&quot;explode(relations) as relation&quot;).show(truncate=False) Results +--------------------------------------------------------------------------------------------------------------------------+ |ner | +--------------------------------------------------------------------------------------------------------------------------+ |[chunk, 0, 19, License fees revenue, [entity -&amp;gt; PROFIT_DECLINE, sentence -&amp;gt; 0, chunk -&amp;gt; 0, confidence -&amp;gt; 0.41060004], []] | |[chunk, 31, 32, 40, [entity -&amp;gt; PERCENTAGE, sentence -&amp;gt; 0, chunk -&amp;gt; 1, confidence -&amp;gt; 0.9995], []] | |[chunk, 40, 40, $, [entity -&amp;gt; CURRENCY, sentence -&amp;gt; 0, chunk -&amp;gt; 2, confidence -&amp;gt; 0.9995], []] | |[chunk, 42, 52, 0.5 million, [entity -&amp;gt; AMOUNT, sentence -&amp;gt; 0, chunk -&amp;gt; 3, confidence -&amp;gt; 0.99995], []] | |[chunk, 57, 57, $, [entity -&amp;gt; CURRENCY, sentence -&amp;gt; 0, chunk -&amp;gt; 4, confidence -&amp;gt; 0.9998], []] | |[chunk, 59, 69, 0.7 million, [entity -&amp;gt; AMOUNT, sentence -&amp;gt; 0, chunk -&amp;gt; 5, confidence -&amp;gt; 0.99985003], []] | |[chunk, 90, 106, December 31, 2020, [entity -&amp;gt; FISCAL_YEAR, sentence -&amp;gt; 0, chunk -&amp;gt; 6, confidence -&amp;gt; 0.977525], []] | |[chunk, 121, 121, $, [entity -&amp;gt; CURRENCY, sentence -&amp;gt; 0, chunk -&amp;gt; 7, confidence -&amp;gt; 0.9996], []] | |[chunk, 123, 133, 1.2 million, [entity -&amp;gt; AMOUNT, sentence -&amp;gt; 0, chunk -&amp;gt; 8, confidence -&amp;gt; 0.99975], []] | |[chunk, 154, 170, December 31, 2019, [entity -&amp;gt; FISCAL_YEAR, sentence -&amp;gt; 0, chunk -&amp;gt; 9, confidence -&amp;gt; 0.96227497], []] | |[chunk, 173, 188, Services revenue, [entity -&amp;gt; PROFIT_INCREASE, sentence -&amp;gt; 1, chunk -&amp;gt; 10, confidence -&amp;gt; 0.57490003], []]| |[chunk, 200, 200, 4, [entity -&amp;gt; PERCENTAGE, sentence -&amp;gt; 1, chunk -&amp;gt; 11, confidence -&amp;gt; 0.9997], []] | |[chunk, 208, 208, $, [entity -&amp;gt; CURRENCY, sentence -&amp;gt; 1, chunk -&amp;gt; 12, confidence -&amp;gt; 0.999], []] | |[chunk, 210, 220, 1.1 million, [entity -&amp;gt; AMOUNT, sentence -&amp;gt; 1, chunk -&amp;gt; 13, confidence -&amp;gt; 0.99995], []] | |[chunk, 226, 226, $, [entity -&amp;gt; CURRENCY, sentence -&amp;gt; 1, chunk -&amp;gt; 14, confidence -&amp;gt; 0.9982], []] | |[chunk, 228, 239, 25.6 million, [entity -&amp;gt; AMOUNT, sentence -&amp;gt; 1, chunk -&amp;gt; 15, confidence -&amp;gt; 0.99975], []] | |[chunk, 261, 277, December 31, 2020, [entity -&amp;gt; FISCAL_YEAR, sentence -&amp;gt; 1, chunk -&amp;gt; 16, confidence -&amp;gt; 0.97915], []] | |[chunk, 284, 284, $, [entity -&amp;gt; CURRENCY, sentence -&amp;gt; 1, chunk -&amp;gt; 17, confidence -&amp;gt; 0.9991], []] | |[chunk, 286, 297, 24.5 million, [entity -&amp;gt; AMOUNT, sentence -&amp;gt; 1, chunk -&amp;gt; 18, confidence -&amp;gt; 0.99965], []] | |[chunk, 318, 334, December 31, 2019, [entity -&amp;gt; FISCAL_YEAR, sentence -&amp;gt; 1, chunk -&amp;gt; 19, confidence -&amp;gt; 0.9588], []] | +--------------------------------------------------------------------------------------------------------------------------+ +--------+ |relation +--------+ |[category, 0, 217, DECREASE, [entity1_begin -&amp;gt; 0, relation -&amp;gt; DECREASE, hypothesis -&amp;gt; License fees revenue decrease 40, confidence -&amp;gt; 0.9931541, nli_prediction -&amp;gt; entail, entity1 -&amp;gt; PROFIT_DECLINE, syntactic_distance -&amp;gt; undefined, chunk2 -&amp;gt; 40, entity2_end -&amp;gt; 32, entity1_end -&amp;gt; 19, entity2_begin -&amp;gt; 31, entity2 -&amp;gt; PERCENTAGE, chunk1 -&amp;gt; License fees revenue, sentence -&amp;gt; 0], []] | |[category, 672, 898, DECREASE, [entity1_begin -&amp;gt; 0, relation -&amp;gt; DECREASE, hypothesis -&amp;gt; License fees revenue decrease 1.2 million, confidence -&amp;gt; 0.7394818, nli_prediction -&amp;gt; entail, entity1 -&amp;gt; PROFIT_DECLINE, syntactic_distance -&amp;gt; undefined, chunk2 -&amp;gt; 1.2 million, entity2_end -&amp;gt; 133, entity1_end -&amp;gt; 19, entity2_begin -&amp;gt; 123, entity2 -&amp;gt; AMOUNT, chunk1 -&amp;gt; License fees revenue, sentence -&amp;gt; 0], []]| |[category, 445, 671, DECREASE, [entity1_begin -&amp;gt; 0, relation -&amp;gt; DECREASE, hypothesis -&amp;gt; License fees revenue decrease 0.7 million, confidence -&amp;gt; 0.99002415, nli_prediction -&amp;gt; entail, entity1 -&amp;gt; PROFIT_DECLINE, syntactic_distance -&amp;gt; undefined, chunk2 -&amp;gt; 0.7 million, entity2_end -&amp;gt; 69, entity1_end -&amp;gt; 19, entity2_begin -&amp;gt; 59, entity2 -&amp;gt; AMOUNT, chunk1 -&amp;gt; License fees revenue, sentence -&amp;gt; 0], []] | |[category, 218, 444, DECREASE, [entity1_begin -&amp;gt; 0, relation -&amp;gt; DECREASE, hypothesis -&amp;gt; License fees revenue decrease 0.5 million, confidence -&amp;gt; 0.99084955, nli_prediction -&amp;gt; entail, entity1 -&amp;gt; PROFIT_DECLINE, syntactic_distance -&amp;gt; undefined, chunk2 -&amp;gt; 0.5 million, entity2_end -&amp;gt; 52, entity1_end -&amp;gt; 19, entity2_begin -&amp;gt; 42, entity2 -&amp;gt; AMOUNT, chunk1 -&amp;gt; License fees revenue, sentence -&amp;gt; 0], []] | +--------+ Model Information Model Name: finre_zero_shot Type: finance Compatibility: Spark NLP for Finance 1.0.0+ License: Licensed Edition: Official Language: en Size: 406.4 MB Case sensitive: true References Bert Base (cased) trained on the GLUE MNLI dataset.</summary></entry><entry><title type="html">Legal NER Obligations on Agreements</title><link href="/2022/08/22/legner_obligations_en_3_2.html" rel="alternate" type="text/html" title="Legal NER Obligations on Agreements" /><published>2022-08-22T00:00:00+00:00</published><updated>2022-08-22T00:00:00+00:00</updated><id>/2022/08/22/legner_obligations_en_3_2</id><content type="html" xml:base="/2022/08/22/legner_obligations_en_3_2.html">&lt;h2 id=&quot;description&quot;&gt;Description&lt;/h2&gt;
+
+&lt;p&gt;This Name Entity Recognition model is aimed to extract what the different parties of an agreement commit to do. We call it “obligations”, but could also be called “commitments” or “agreemeents”.&lt;/p&gt;
+
+&lt;p&gt;This model extracts the subject (who commits to doing what), the action (the verb - will provide, shall sign…) and the object (what subject will provide, what subject shall sign, etc). Also, if the recipient of the obligation is a third party (a subject will provide to the Company X …), then that third party (Company X) will be extracted as an indirect object.&lt;/p&gt;
+
+&lt;p&gt;This model also has a Relation Extraction model which can be used to connect the entities together.&lt;/p&gt;
+
+&lt;p&gt;The object is usually very diverse (will provide with technology? documents? people? items? etc) and often times, very long clauses. For that, we include a more advanced way to extract objects, using Automatic Question Generation (what will [subject] [action]? Example - What will the Company provide?) and Question Answering (using that question and a context, we retrieve the answer from the text). Please, check the Question Answering notebook in the Spark NLP Workshop for more information about this approach.&lt;/p&gt;
+
+&lt;h2 id=&quot;predicted-entities&quot;&gt;Predicted Entities&lt;/h2&gt;
+
+&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;OBLIGATION_SUBJECT&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;OBLIGATION_ACTION&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;OBLIGATION&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;OBLIGATION_INDIRECT_OBJECT&lt;/code&gt;&lt;/p&gt;
+
+&lt;p class=&quot;btn-box&quot;&gt;&lt;button class=&quot;button button-orange&quot; disabled=&quot;&quot;&gt;Live Demo&lt;/button&gt;
+&lt;button class=&quot;button button-orange&quot; disabled=&quot;&quot;&gt;Open in Colab&lt;/button&gt;
+&lt;a href=&quot;https://s3.amazonaws.com/auxdata.johnsnowlabs.com/legal/models/legner_obligations_en_1.0.0_3.2_1661182145726.zip&quot; class=&quot;button button-orange button-orange-trans arr button-icon&quot;&gt;Download&lt;/a&gt;&lt;/p&gt;
+
+&lt;h2 id=&quot;how-to-use&quot;&gt;How to use&lt;/h2&gt;
+
+&lt;div class=&quot;tabs-box&quot;&gt;
+  &lt;div class=&quot;top_tab_li&quot;&gt;   
+    &lt;button class=&quot;tab-li code-selector-active python-button&quot;&gt;Python&lt;/button&gt;&lt;button class=&quot;tab-li code-selector-un-active scala-button&quot;&gt;Scala&lt;/button&gt;&lt;button class=&quot;tab-li code-selector-un-active nlu-button&quot;&gt;NLU&lt;/button&gt;
+&lt;/div&gt;
+  &lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kn&quot;&gt;from&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;sparknlp.base&lt;/span&gt; &lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;
+&lt;span class=&quot;kn&quot;&gt;from&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;sparknlp.annotator&lt;/span&gt; &lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;
+&lt;span class=&quot;kn&quot;&gt;from&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;pyspark.ml&lt;/span&gt; &lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Pipeline&lt;/span&gt;
+&lt;span class=&quot;kn&quot;&gt;from&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;sparknlp_jsl.annotator&lt;/span&gt; &lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;
+
+&lt;span class=&quot;n&quot;&gt;documentAssembler&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;DocumentAssembler&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;\
+  &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setInputCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;text&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;\
+  &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;document&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+
+&lt;span class=&quot;n&quot;&gt;sparktokenizer&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Tokenizer&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;\
+  &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setInputCols&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;document&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;\
+  &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;token&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+
+
+&lt;span class=&quot;n&quot;&gt;tokenClassifier&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;LegalBertForTokenClassification&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;pretrained&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;legner_obligations&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;en&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;legal/models&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;\
+  &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setInputCols&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;token&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;document&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;\
+  &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;label&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;\
+  &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setCaseSensitive&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;bp&quot;&gt;True&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+  
+&lt;span class=&quot;n&quot;&gt;pipeline&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;  &lt;span class=&quot;n&quot;&gt;Pipeline&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;stages&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;
+  &lt;span class=&quot;n&quot;&gt;documentAssembler&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+  &lt;span class=&quot;n&quot;&gt;sparktokenizer&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+  &lt;span class=&quot;n&quot;&gt;tokenClassifier&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+
+&lt;span class=&quot;n&quot;&gt;p_model&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;pipeline&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;fit&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;spark&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;createDataFrame&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;pd&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;DataFrame&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;({&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'text'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;''&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]})))&lt;/span&gt;
+
+&lt;span class=&quot;n&quot;&gt;text&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;&quot;&quot;The Buyer shall use such materials and supplies only in accordance with the present agreement&quot;&quot;&quot;&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;res&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;p_model&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;transform&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;spark&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;createDataFrame&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;([[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;text&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]]).&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;toDF&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;text&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt;
+
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;  &lt;/div&gt;
+
+&lt;/div&gt;
+
+&lt;h2 id=&quot;results&quot;&gt;Results&lt;/h2&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;+----------+--------------------+
+|     token|           ner_label|
++----------+--------------------+
+|       The|                   O|
+|     Buyer|B-OBLIGATION_SUBJECT|
+|     shall| B-OBLIGATION_ACTION|
+|       use| I-OBLIGATION_ACTION|
+|      such|        B-OBLIGATION|
+| materials|        I-OBLIGATION|
+|       and|        I-OBLIGATION|
+|  supplies|        I-OBLIGATION|
+|      only|        I-OBLIGATION|
+|        &lt;span class=&quot;k&quot;&gt;in&lt;/span&gt;|        I-OBLIGATION|
+|accordance|        I-OBLIGATION|
+|      with|        I-OBLIGATION|
+|       the|        I-OBLIGATION|
+|   present|        I-OBLIGATION|
+| agreement|        I-OBLIGATION|
++----------+--------------------+
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h2 class=&quot;model-param&quot; id=&quot;model-information&quot;&gt;Model Information&lt;/h2&gt;
+
+&lt;table class=&quot;table-model&quot;&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Model Name:&lt;/td&gt;
+      &lt;td&gt;legner_obligations&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Type:&lt;/td&gt;
+      &lt;td&gt;legal&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Compatibility:&lt;/td&gt;
+      &lt;td&gt;Spark NLP for Legal 1.0.0+&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;License:&lt;/td&gt;
+      &lt;td&gt;Licensed&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Edition:&lt;/td&gt;
+      &lt;td&gt;Official&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Input Labels:&lt;/td&gt;
+      &lt;td&gt;[sentence, token]&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Output Labels:&lt;/td&gt;
+      &lt;td&gt;[ner]&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Language:&lt;/td&gt;
+      &lt;td&gt;en&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Size:&lt;/td&gt;
+      &lt;td&gt;412.2 MB&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Case sensitive:&lt;/td&gt;
+      &lt;td&gt;true&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Max sentence length:&lt;/td&gt;
+      &lt;td&gt;128&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;h2 id=&quot;references&quot;&gt;References&lt;/h2&gt;
+
+&lt;p&gt;In-house annotated documents on CUAD dataset&lt;/p&gt;
+
+&lt;h2 id=&quot;benchmarking&quot;&gt;Benchmarking&lt;/h2&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;                              precision    recall  f1-score   support
+
+                B-OBLIGATION       0.61      0.44      0.51        93
+         B-OBLIGATION_ACTION       0.88      0.89      0.89        85
+B-OBLIGATION_INDIRECT_OBJECT       0.69      0.71      0.70        34
+        B-OBLIGATION_SUBJECT       0.80      0.87      0.84        87
+                I-OBLIGATION       0.72      0.77      0.75      1251
+         I-OBLIGATION_ACTION       0.80      0.79      0.79       167
+        I-OBLIGATION_SUBJECT       0.75      0.43      0.55        14
+                           O       0.87      0.84      0.85      2395
+
+                    accuracy                           0.81      4126
+                   macro avg       0.76      0.72      0.73      4126
+                weighted avg       0.81      0.81      0.81      4126
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;</content><author><name>John Snow Labs</name></author><category term="en" /><category term="legal" /><category term="ner" /><category term="obligations" /><category term="agreements" /><category term="licensed" /><summary type="html">Description This Name Entity Recognition model is aimed to extract what the different parties of an agreement commit to do. We call it “obligations”, but could also be called “commitments” or “agreemeents”. This model extracts the subject (who commits to doing what), the action (the verb - will provide, shall sign…) and the object (what subject will provide, what subject shall sign, etc). Also, if the recipient of the obligation is a third party (a subject will provide to the Company X …), then that third party (Company X) will be extracted as an indirect object. This model also has a Relation Extraction model which can be used to connect the entities together. The object is usually very diverse (will provide with technology? documents? people? items? etc) and often times, very long clauses. For that, we include a more advanced way to extract objects, using Automatic Question Generation (what will [subject] [action]? Example - What will the Company provide?) and Question Answering (using that question and a context, we retrieve the answer from the text). Please, check the Question Answering notebook in the Spark NLP Workshop for more information about this approach. Predicted Entities OBLIGATION_SUBJECT, OBLIGATION_ACTION, OBLIGATION, OBLIGATION_INDIRECT_OBJECT Live Demo Open in Colab Download How to use PythonScalaNLU from sparknlp.base import * from sparknlp.annotator import * from pyspark.ml import Pipeline from sparknlp_jsl.annotator import * documentAssembler = DocumentAssembler()\ .setInputCol(&quot;text&quot;)\ .setOutputCol(&quot;document&quot;) sparktokenizer = Tokenizer()\ .setInputCols(&quot;document&quot;)\ .setOutputCol(&quot;token&quot;) tokenClassifier = LegalBertForTokenClassification.pretrained(&quot;legner_obligations&quot;, &quot;en&quot;, &quot;legal/models&quot;)\ .setInputCols(&quot;token&quot;, &quot;document&quot;)\ .setOutputCol(&quot;label&quot;)\ .setCaseSensitive(True) pipeline = Pipeline(stages=[ documentAssembler, sparktokenizer, tokenClassifier ] ) p_model = pipeline.fit(spark.createDataFrame(pd.DataFrame({'text': ['']}))) text = &quot;&quot;&quot;The Buyer shall use such materials and supplies only in accordance with the present agreement&quot;&quot;&quot; res = p_model.transform(spark.createDataFrame([[text]]).toDF(&quot;text&quot;)) Results +----------+--------------------+ | token| ner_label| +----------+--------------------+ | The| O| | Buyer|B-OBLIGATION_SUBJECT| | shall| B-OBLIGATION_ACTION| | use| I-OBLIGATION_ACTION| | such| B-OBLIGATION| | materials| I-OBLIGATION| | and| I-OBLIGATION| | supplies| I-OBLIGATION| | only| I-OBLIGATION| | in| I-OBLIGATION| |accordance| I-OBLIGATION| | with| I-OBLIGATION| | the| I-OBLIGATION| | present| I-OBLIGATION| | agreement| I-OBLIGATION| +----------+--------------------+ Model Information Model Name: legner_obligations Type: legal Compatibility: Spark NLP for Legal 1.0.0+ License: Licensed Edition: Official Input Labels: [sentence, token] Output Labels: [ner] Language: en Size: 412.2 MB Case sensitive: true Max sentence length: 128 References In-house annotated documents on CUAD dataset Benchmarking precision recall f1-score support B-OBLIGATION 0.61 0.44 0.51 93 B-OBLIGATION_ACTION 0.88 0.89 0.89 85 B-OBLIGATION_INDIRECT_OBJECT 0.69 0.71 0.70 34 B-OBLIGATION_SUBJECT 0.80 0.87 0.84 87 I-OBLIGATION 0.72 0.77 0.75 1251 I-OBLIGATION_ACTION 0.80 0.79 0.79 167 I-OBLIGATION_SUBJECT 0.75 0.43 0.55 14 O 0.87 0.84 0.85 2395 accuracy 0.81 4126 macro avg 0.76 0.72 0.73 4126 weighted avg 0.81 0.81 0.81 4126</summary></entry><entry><title type="html">Legal Zero-shot Relation Extraction</title><link href="/2022/08/22/legre_zero_shot_en_3_2.html" rel="alternate" type="text/html" title="Legal Zero-shot Relation Extraction" /><published>2022-08-22T00:00:00+00:00</published><updated>2022-08-22T00:00:00+00:00</updated><id>/2022/08/22/legre_zero_shot_en_3_2</id><content type="html" xml:base="/2022/08/22/legre_zero_shot_en_3_2.html">&lt;h2 id=&quot;description&quot;&gt;Description&lt;/h2&gt;
+
+&lt;p&gt;This is a Zero-shot Relation Extraction Model, meaning that it does not require any training data, just few examples of of the relations types you are looking for, to output a proper result.&lt;/p&gt;
+
+&lt;p&gt;Make sure you keep the proper syntax of the relations you want to extract. For example:&lt;/p&gt;
+
+&lt;p&gt;Before Spark NLP 4.0&lt;/p&gt;
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;re_model.setRelationalCategories({
+    &quot;GRANTS_TO&quot;: [&quot; grants &quot;],
+    &quot;GRANTS&quot;: [&quot; grants &quot;]
+})
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;After Spark NLP 4.0&lt;/p&gt;
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;re_model.setRelationalCategories({
+    &quot;GRANTS_TO&quot;: [&quot;{OBLIGATION_SUBJECT} grants {OBLIGATION_INDIRECT_OBJECT}&quot;],
+    &quot;GRANTS&quot;: [&quot;{OBLIGATION_SUBJECT} grants {OBLIGATION_ACTION}&quot;]
+})
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;The keys of the dictionary are the name of the relations (&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;GRANTS_TO&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;GRANTS&lt;/code&gt;)&lt;/li&gt;
+  &lt;li&gt;The values are list of sentences with similar examples of the relation&lt;/li&gt;
+  &lt;li&gt;The values in brackets are the NER labels extracted by an NER component before&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;predicted-entities&quot;&gt;Predicted Entities&lt;/h2&gt;
+
+&lt;p class=&quot;btn-box&quot;&gt;&lt;button class=&quot;button button-orange&quot; disabled=&quot;&quot;&gt;Live Demo&lt;/button&gt;
+&lt;button class=&quot;button button-orange&quot; disabled=&quot;&quot;&gt;Open in Colab&lt;/button&gt;
+&lt;a href=&quot;https://s3.amazonaws.com/auxdata.johnsnowlabs.com/legal/models/legre_zero_shot_en_1.0.0_3.2_1661181212397.zip&quot; class=&quot;button button-orange button-orange-trans arr button-icon&quot;&gt;Download&lt;/a&gt;&lt;/p&gt;
+
+&lt;h2 id=&quot;how-to-use&quot;&gt;How to use&lt;/h2&gt;
+
+&lt;div class=&quot;tabs-box&quot;&gt;
+  &lt;div class=&quot;top_tab_li&quot;&gt;   
+    &lt;button class=&quot;tab-li code-selector-active python-button&quot;&gt;Python&lt;/button&gt;&lt;button class=&quot;tab-li code-selector-un-active scala-button&quot;&gt;Scala&lt;/button&gt;&lt;button class=&quot;tab-li code-selector-un-active nlu-button&quot;&gt;NLU&lt;/button&gt;
+&lt;/div&gt;
+  &lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;documentAssembler&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;DocumentAssembler&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;\
+  &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setInputCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;text&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;\
+  &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;document&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+
+&lt;span class=&quot;n&quot;&gt;sparktokenizer&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Tokenizer&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;\
+  &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setInputCols&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;document&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;\
+  &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;token&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+
+&lt;span class=&quot;n&quot;&gt;tokenClassifier&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;FinanceBertForTokenClassifier&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;pretrained&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'legner_obligations'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'en'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;'legal/models'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;\
+  &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setInputCols&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;token&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;document&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;\
+  &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;ner&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;\
+  &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setCaseSensitive&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;bp&quot;&gt;True&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+
+&lt;span class=&quot;n&quot;&gt;ner_converter&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;NerConverter&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;\
+    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setInputCols&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;([&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;document&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;token&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;ner&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;])&lt;/span&gt;\
+    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;ner_chunk&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+
+&lt;span class=&quot;n&quot;&gt;re_model&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;ZeroShotRelationExtractionModel&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;pretrained&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;legre_zero_shot&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;en&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;legal/models&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;\
+    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setInputCols&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;([&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;ner_chunk&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;sentence&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;])&lt;/span&gt; \
+    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;relations&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+
+&lt;span class=&quot;c1&quot;&gt;# Remember it's 2 curly brackets instead of one if you are using Spark NLP &amp;lt; 4.0
+&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;re_model&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setRelationalCategories&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;({&lt;/span&gt;
+    &lt;span class=&quot;s&quot;&gt;&quot;GRANTS_TO&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;{OBLIGATION_SUBJECT} grants {OBLIGATION_INDIRECT_OBJECT}&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;],&lt;/span&gt;
+    &lt;span class=&quot;s&quot;&gt;&quot;GRANTS&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;{OBLIGATION_SUBJECT} grants {OBLIGATION_ACTION}&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;})&lt;/span&gt;
+
+&lt;span class=&quot;n&quot;&gt;pipeline&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;sparknlp&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;base&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Pipeline&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; \
+    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setStages&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;([&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;document_assembler&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;  
+                &lt;span class=&quot;n&quot;&gt;sparktokenizer&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+                &lt;span class=&quot;n&quot;&gt;tokenClassifier&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; 
+                &lt;span class=&quot;n&quot;&gt;ner_converter&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+                &lt;span class=&quot;n&quot;&gt;re_model&lt;/span&gt;
+               &lt;span class=&quot;p&quot;&gt;])&lt;/span&gt;
+               
+&lt;span class=&quot;c1&quot;&gt;# create Spark DF
+&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;sample_text&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;&quot;&quot;Fox grants to Licensee a limited, exclusive right and license&quot;&quot;&quot;&lt;/span&gt;
+
+&lt;span class=&quot;n&quot;&gt;data&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;spark&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;createDataFrame&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;([[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;sample_text&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]]).&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;toDF&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;text&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;model&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;pipeline&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;fit&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;data&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;results&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;model&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;transform&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;data&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+
+&lt;span class=&quot;c1&quot;&gt;# ner output
+&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;results&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;selectExpr&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;explode(ner_chunk) as ner&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;).&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;show&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;truncate&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;bp&quot;&gt;False&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+
+&lt;span class=&quot;c1&quot;&gt;# relations output
+&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;results&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;selectExpr&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;explode(relations) as relation&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;).&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;show&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;truncate&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;bp&quot;&gt;False&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;  &lt;/div&gt;
+
+&lt;/div&gt;
+
+&lt;h2 id=&quot;results&quot;&gt;Results&lt;/h2&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;+----------------------------------------------------------------------------------------------------------------------------+
+|ner                                                                                                                         |
++----------------------------------------------------------------------------------------------------------------------------+
+|[chunk, 0, 2, Fox, &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;entity -&amp;gt; OBLIGATION_SUBJECT, sentence -&amp;gt; 0, chunk -&amp;gt; 0, confidence -&amp;gt; 0.6905101], &lt;span class=&quot;o&quot;&gt;[]]&lt;/span&gt;                  |
+|[chunk, 4, 9, grants, &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;entity -&amp;gt; OBLIGATION_ACTION, sentence -&amp;gt; 0, chunk -&amp;gt; 1, confidence -&amp;gt; 0.7512371], &lt;span class=&quot;o&quot;&gt;[]]&lt;/span&gt;                |
+|[chunk, 14, 21, Licensee, &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;entity -&amp;gt; OBLIGATION_INDIRECT_OBJECT, sentence -&amp;gt; 0, chunk -&amp;gt; 2, confidence -&amp;gt; 0.8294538], &lt;span class=&quot;o&quot;&gt;[]]&lt;/span&gt;   |
+|[chunk, 23, 31, a limited, &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;entity -&amp;gt; OBLIGATION, sentence -&amp;gt; 0, chunk -&amp;gt; 3, confidence -&amp;gt; 0.7429814], &lt;span class=&quot;o&quot;&gt;[]]&lt;/span&gt;                  |
+|[chunk, 34, 60, exclusive right and license, &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;entity -&amp;gt; OBLIGATION, sentence -&amp;gt; 0, chunk -&amp;gt; 4, confidence -&amp;gt; 0.9236847], &lt;span class=&quot;o&quot;&gt;[]]&lt;/span&gt;|
++----------------------------------------------------------------------------------------------------------------------------+
+
++-------------+
+|relation     |
++-------------+
+|[category, 0, 91, GRANTS, &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;entity1_begin -&amp;gt; 0, relation -&amp;gt; GRANTS, hypothesis -&amp;gt; Fox grants grants, confidence -&amp;gt; 0.7592092, nli_prediction -&amp;gt; entail, entity1 -&amp;gt; OBLIGATION_SUBJECT, syntactic_distance -&amp;gt; undefined, chunk2 -&amp;gt; grants, entity2_end -&amp;gt; 9, entity1_end -&amp;gt; 2, entity2_begin -&amp;gt; 4, entity2 -&amp;gt; OBLIGATION_ACTION, chunk1 -&amp;gt; Fox, sentence -&amp;gt; 0], &lt;span class=&quot;o&quot;&gt;[]]&lt;/span&gt;                       |
+|[category, 92, 185, GRANTS_TO, &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;entity1_begin -&amp;gt; 0, relation -&amp;gt; GRANTS_TO, hypothesis -&amp;gt; Fox grants Licensee, confidence -&amp;gt; 0.9822127, nli_prediction -&amp;gt; entail, entity1 -&amp;gt; OBLIGATION_SUBJECT, syntactic_distance -&amp;gt; undefined, chunk2 -&amp;gt; Licensee, entity2_end -&amp;gt; 21, entity1_end -&amp;gt; 2, entity2_begin -&amp;gt; 14, entity2 -&amp;gt; OBLIGATION_INDIRECT_OBJECT, chunk1 -&amp;gt; Fox, sentence -&amp;gt; 0], &lt;span class=&quot;o&quot;&gt;[]]&lt;/span&gt;|
++-------------+
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h2 class=&quot;model-param&quot; id=&quot;model-information&quot;&gt;Model Information&lt;/h2&gt;
+
+&lt;table class=&quot;table-model&quot;&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Model Name:&lt;/td&gt;
+      &lt;td&gt;legre_zero_shot&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Type:&lt;/td&gt;
+      &lt;td&gt;legal&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Compatibility:&lt;/td&gt;
+      &lt;td&gt;Spark NLP for Legal 1.0.0+&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;License:&lt;/td&gt;
+      &lt;td&gt;Licensed&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Edition:&lt;/td&gt;
+      &lt;td&gt;Official&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Language:&lt;/td&gt;
+      &lt;td&gt;en&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Size:&lt;/td&gt;
+      &lt;td&gt;406.4 MB&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Case sensitive:&lt;/td&gt;
+      &lt;td&gt;true&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;h2 id=&quot;references&quot;&gt;References&lt;/h2&gt;
+
+&lt;p&gt;Bert Base (cased) trained on the GLUE MNLI dataset.&lt;/p&gt;</content><author><name>John Snow Labs</name></author><category term="en" /><category term="legal" /><category term="re" /><category term="zero" /><category term="shot" /><category term="zero_shot" /><category term="licensed" /><summary type="html">Description This is a Zero-shot Relation Extraction Model, meaning that it does not require any training data, just few examples of of the relations types you are looking for, to output a proper result. Make sure you keep the proper syntax of the relations you want to extract. For example: Before Spark NLP 4.0 re_model.setRelationalCategories({ &quot;GRANTS_TO&quot;: [&quot; grants &quot;], &quot;GRANTS&quot;: [&quot; grants &quot;] }) After Spark NLP 4.0 re_model.setRelationalCategories({ &quot;GRANTS_TO&quot;: [&quot;{OBLIGATION_SUBJECT} grants {OBLIGATION_INDIRECT_OBJECT}&quot;], &quot;GRANTS&quot;: [&quot;{OBLIGATION_SUBJECT} grants {OBLIGATION_ACTION}&quot;] }) The keys of the dictionary are the name of the relations (GRANTS_TO, GRANTS) The values are list of sentences with similar examples of the relation The values in brackets are the NER labels extracted by an NER component before Predicted Entities Live Demo Open in Colab Download How to use PythonScalaNLU documentAssembler = DocumentAssembler()\ .setInputCol(&quot;text&quot;)\ .setOutputCol(&quot;document&quot;) sparktokenizer = Tokenizer()\ .setInputCols(&quot;document&quot;)\ .setOutputCol(&quot;token&quot;) tokenClassifier = FinanceBertForTokenClassifier.pretrained('legner_obligations','en', 'legal/models')\ .setInputCols(&quot;token&quot;, &quot;document&quot;)\ .setOutputCol(&quot;ner&quot;)\ .setCaseSensitive(True) ner_converter = NerConverter()\ .setInputCols([&quot;document&quot;, &quot;token&quot;, &quot;ner&quot;])\ .setOutputCol(&quot;ner_chunk&quot;) re_model = ZeroShotRelationExtractionModel.pretrained(&quot;legre_zero_shot&quot;, &quot;en&quot;, &quot;legal/models&quot;)\ .setInputCols([&quot;ner_chunk&quot;, &quot;sentence&quot;]) \ .setOutputCol(&quot;relations&quot;) # Remember it's 2 curly brackets instead of one if you are using Spark NLP &amp;lt; 4.0 re_model.setRelationalCategories({ &quot;GRANTS_TO&quot;: [&quot;{OBLIGATION_SUBJECT} grants {OBLIGATION_INDIRECT_OBJECT}&quot;], &quot;GRANTS&quot;: [&quot;{OBLIGATION_SUBJECT} grants {OBLIGATION_ACTION}&quot;] }) pipeline = sparknlp.base.Pipeline() \ .setStages([document_assembler, sparktokenizer, tokenClassifier, ner_converter, re_model ]) # create Spark DF sample_text = &quot;&quot;&quot;Fox grants to Licensee a limited, exclusive right and license&quot;&quot;&quot; data = spark.createDataFrame([[sample_text]]).toDF(&quot;text&quot;) model = pipeline.fit(data) results = model.transform(data) # ner output results.selectExpr(&quot;explode(ner_chunk) as ner&quot;).show(truncate=False) # relations output results.selectExpr(&quot;explode(relations) as relation&quot;).show(truncate=False) Results +----------------------------------------------------------------------------------------------------------------------------+ |ner | +----------------------------------------------------------------------------------------------------------------------------+ |[chunk, 0, 2, Fox, [entity -&amp;gt; OBLIGATION_SUBJECT, sentence -&amp;gt; 0, chunk -&amp;gt; 0, confidence -&amp;gt; 0.6905101], []] | |[chunk, 4, 9, grants, [entity -&amp;gt; OBLIGATION_ACTION, sentence -&amp;gt; 0, chunk -&amp;gt; 1, confidence -&amp;gt; 0.7512371], []] | |[chunk, 14, 21, Licensee, [entity -&amp;gt; OBLIGATION_INDIRECT_OBJECT, sentence -&amp;gt; 0, chunk -&amp;gt; 2, confidence -&amp;gt; 0.8294538], []] | |[chunk, 23, 31, a limited, [entity -&amp;gt; OBLIGATION, sentence -&amp;gt; 0, chunk -&amp;gt; 3, confidence -&amp;gt; 0.7429814], []] | |[chunk, 34, 60, exclusive right and license, [entity -&amp;gt; OBLIGATION, sentence -&amp;gt; 0, chunk -&amp;gt; 4, confidence -&amp;gt; 0.9236847], []]| +----------------------------------------------------------------------------------------------------------------------------+ +-------------+ |relation | +-------------+ |[category, 0, 91, GRANTS, [entity1_begin -&amp;gt; 0, relation -&amp;gt; GRANTS, hypothesis -&amp;gt; Fox grants grants, confidence -&amp;gt; 0.7592092, nli_prediction -&amp;gt; entail, entity1 -&amp;gt; OBLIGATION_SUBJECT, syntactic_distance -&amp;gt; undefined, chunk2 -&amp;gt; grants, entity2_end -&amp;gt; 9, entity1_end -&amp;gt; 2, entity2_begin -&amp;gt; 4, entity2 -&amp;gt; OBLIGATION_ACTION, chunk1 -&amp;gt; Fox, sentence -&amp;gt; 0], []] | |[category, 92, 185, GRANTS_TO, [entity1_begin -&amp;gt; 0, relation -&amp;gt; GRANTS_TO, hypothesis -&amp;gt; Fox grants Licensee, confidence -&amp;gt; 0.9822127, nli_prediction -&amp;gt; entail, entity1 -&amp;gt; OBLIGATION_SUBJECT, syntactic_distance -&amp;gt; undefined, chunk2 -&amp;gt; Licensee, entity2_end -&amp;gt; 21, entity1_end -&amp;gt; 2, entity2_begin -&amp;gt; 14, entity2 -&amp;gt; OBLIGATION_INDIRECT_OBJECT, chunk1 -&amp;gt; Fox, sentence -&amp;gt; 0], []]| +-------------+ Model Information Model Name: legre_zero_shot Type: legal Compatibility: Spark NLP for Legal 1.0.0+ License: Licensed Edition: Official Language: en Size: 406.4 MB Case sensitive: true References Bert Base (cased) trained on the GLUE MNLI dataset.</summary></entry><entry><title type="html">Mapping Company Names to Edgar Database</title><link href="/2022/08/18/finmapper_edgar_companyname_en_3_2.html" rel="alternate" type="text/html" title="Mapping Company Names to Edgar Database" /><published>2022-08-18T00:00:00+00:00</published><updated>2022-08-18T00:00:00+00:00</updated><id>/2022/08/18/finmapper_edgar_companyname_en_3_2</id><content type="html" xml:base="/2022/08/18/finmapper_edgar_companyname_en_3_2.html">&lt;h2 id=&quot;description&quot;&gt;Description&lt;/h2&gt;
 
 &lt;p&gt;This Chunk Mapper model allows you to, given a detected Organization with any NER model, augment it with information available in the SEC Edgar database. Some of the fields included in this Chunk Mapper are:&lt;/p&gt;
 &lt;ul&gt;
@@ -1133,460 +1623,4 @@ Source: SESA CO.., 11/7/2016
   &lt;li&gt;DeIdentificationModel&lt;/li&gt;
   &lt;li&gt;DeIdentificationModel&lt;/li&gt;
   &lt;li&gt;Finisher&lt;/li&gt;
-&lt;/ul&gt;</content><author><name>John Snow Labs</name></author><category term="en" /><category term="legal" /><category term="deid" /><category term="deidentification" /><category term="licensed" /><summary type="html">Description This is a Pretrained Pipeline aimed to deidentify legal and financial documents to be compliant with data privacy regulations as GDPR and CCPA. Since the models used in this pipeline are statistical, make sure you use this model in a human-in-the-loop process to guarantee a 100% accuracy. You can carry out both masking and obfuscation with this pipeline, on the following entities: Company names People’s names Poeple’s titles Addresses Contact information (email, phone numbers…) Dates Document types etc Predicted Entities EFFDATE, PARTY, PHONE, EMAIL, SIGNING_PERSON, SIGNING_TITLE, DOC, STREET, CITY, STATE, ZIP, ALIAS Live Demo Open in Colab Download How to use PythonScalaNLU from sparknlp.pretrained import PretrainedPipeline deid_pipeline = PretrainedPipeline(&quot;legpipe_deid&quot;, &quot;en&quot;, &quot;legal/models&quot;) sample_2 = &quot;&quot;&quot;Pizza Fusion Holdings, Inc. Franchise Agreement This Franchise Agreement (the &quot;Agreement&quot;) is entered into as of the Agreement Date shown on the cover page between Pizza Fusion Holding, Inc., a Florida corporation, and the individual or legal entity identified on the cover page. Source: PF HOSPITALITY GROUP INC., 9/23/2015 1. RIGHTS GRANTED 1.1. Grant of Franchise. 1.1.1 We grant you the right, and you accept the obligation, to use the Proprietary Marks and the System to operate one Restaurant (the &quot;Franchised Business&quot;) at the Premises, in accordance with the terms of this Agreement. Source: PF HOSPITALITY GROUP INC., 9/23/2015 1.3. Our Limitations and Our Reserved Rights. The rights granted to you under this Agreement are not exclusive.sed Business. Source: PF HOSPITALITY GROUP INC., 9/23/2015 &quot;&quot;&quot; result = deid_pipeline.annotate(sample_2) print(&quot;\nMasked with entity labels&quot;) print(&quot;-&quot;*30) print(&quot;\n&quot;.join(result['deidentified'])) print(&quot;\nMasked with chars&quot;) print(&quot;-&quot;*30) print(&quot;\n&quot;.join(result['masked_with_chars'])) print(&quot;\nMasked with fixed length chars&quot;) print(&quot;-&quot;*30) print(&quot;\n&quot;.join(result['masked_fixed_length_chars'])) print(&quot;\nObfuscated&quot;) print(&quot;-&quot;*30) print(&quot;\n&quot;.join(result['obfuscated'])) Results Masked with entity labels ------------------------------ &amp;lt;PARTY&amp;gt;. &amp;lt;DOC&amp;gt; This &amp;lt;DOC&amp;gt; (the &amp;lt;ALIAS&amp;gt;) is entered into as of the Agreement Date shown on the cover page between &amp;lt;PARTY&amp;gt; a Florida corporation, and the individual or legal entity identified on the cover page. Source: &amp;lt;PARTY&amp;gt;., &amp;lt;EFFDATE&amp;gt; 1. &amp;lt;PARTY&amp;gt; 1.1. &amp;lt;PARTY&amp;gt;. 1.1.1 We grant you the right, and you accept the obligation, to use the &amp;lt;PARTY&amp;gt; and the System to operate one Restaurant (the &amp;lt;ALIAS&amp;gt;) at the Premises, in accordance with the terms of this Agreement. Source: &amp;lt;PARTY&amp;gt;., &amp;lt;EFFDATE&amp;gt; 1.3. Our &amp;lt;PARTY&amp;gt; and &amp;lt;PARTY&amp;gt;. The rights granted to you under this Agreement are not exclusive.sed Business. Source: &amp;lt;PARTY&amp;gt;., &amp;lt;EFFDATE&amp;gt; Masked with chars ------------------------------ [************************]. [*****************] This [*****************] (the [*********]) is entered into as of the Agreement Date shown on the cover page between [*************************] a Florida corporation, and the individual or legal entity identified on the cover page. Source: [**********************]., [*******] 1. [************] 1.1. [****************]. 1.1.1 We grant you the right, and you accept the obligation, to use the [***************] and the System to operate one Restaurant (the [*******************]) at the Premises, in accordance with the terms of this Agreement. Source: [**********************]., [*******] 1.3. Our [*********] and [*****************]. The rights granted to you under this Agreement are not exclusive.sed Business. Source: [**********************]., [*******] Masked with fixed length chars ------------------------------ ****. **** This **** (the ****) is entered into as of the Agreement Date shown on the cover page between **** a Florida corporation, and the individual or legal entity identified on the cover page. Source: ****., **** 1. **** 1.1. ****. 1.1.1 We grant you the right, and you accept the obligation, to use the **** and the System to operate one Restaurant (the ****) at the Premises, in accordance with the terms of this Agreement. Source: ****., **** 1.3. Our **** and ****. The rights granted to you under this Agreement are not exclusive.sed Business. Source: ****., **** Obfuscated ------------------------------ SESA CO.. Estate Document This Estate Document (the (the &quot;Contract&quot;)) is entered into as of the Agreement Date shown on the cover page between Clarus llc. a Florida corporation, and the individual or legal entity identified on the cover page. Source: SESA CO.., 11/7/2016 1. SESA CO. 1.1. Clarus llc.. 1.1.1 We grant you the right, and you accept the obligation, to use the John Snow Labs Inc and the System to operate one Restaurant (the (the&quot; Agreement&quot;)) at the Premises, in accordance with the terms of this Agreement. Source: SESA CO.., 11/7/2016 1.3. Our MGT Trust Company, LLC. and John Snow Labs Inc. The rights granted to you under this Agreement are not exclusive.sed Business. Source: SESA CO.., 11/7/2016 Model Information Model Name: legpipe_deid Type: pipeline Compatibility: Spark NLP for Legal 1.0.0+ License: Licensed Edition: Official Language: en Size: 944.1 MB References In-house annotations on legal and financial documents, Ontonotes, Conll 2003, Finsec conll, Cuad dataset, 10k filings Included Models DocumentAssembler SentenceDetectorDLModel TokenizerModel RoBertaEmbeddings BertEmbeddings LegalNerModel NerConverter LegalNerModel NerConverter LegalNerModel NerConverterInternalModel LegalNerModel NerConverterInternalModel ContextualParserModel ContextualParserModel RegexMatcherModel RegexMatcherModel ChunkMergeModel DeIdentificationModel DeIdentificationModel DeIdentificationModel DeIdentificationModel Finisher</summary></entry><entry><title type="html">Identify Competing Organizations</title><link href="/2022/08/17/finassertion_competitors_en_3_2.html" rel="alternate" type="text/html" title="Identify Competing Organizations" /><published>2022-08-17T00:00:00+00:00</published><updated>2022-08-17T00:00:00+00:00</updated><id>/2022/08/17/finassertion_competitors_en_3_2</id><content type="html" xml:base="/2022/08/17/finassertion_competitors_en_3_2.html">&lt;h2 id=&quot;description&quot;&gt;Description&lt;/h2&gt;
-
-&lt;p&gt;This models allows you to identify ORG and PRODUCTS mentioned in the text to be from a competitor. By default, if nothing is mentioned, it returns &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;NO_COMPETITOR&lt;/code&gt;.&lt;/p&gt;
-
-&lt;h2 id=&quot;predicted-entities&quot;&gt;Predicted Entities&lt;/h2&gt;
-
-&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;NO_COMPETITOR&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;COMPETITOR&lt;/code&gt;&lt;/p&gt;
-
-&lt;p class=&quot;btn-box&quot;&gt;&lt;a href=&quot;https://demo.johnsnowlabs.com/finance/ASSERTIONDL_COMPETITORS/&quot; class=&quot;button button-orange&quot;&gt;Live Demo&lt;/a&gt;
-&lt;button class=&quot;button button-orange&quot; disabled=&quot;&quot;&gt;Open in Colab&lt;/button&gt;
-&lt;a href=&quot;https://s3.amazonaws.com/auxdata.johnsnowlabs.com/finance/models/finassertion_competitors_en_1.0.0_3.2_1660735220316.zip&quot; class=&quot;button button-orange button-orange-trans arr button-icon&quot;&gt;Download&lt;/a&gt;&lt;/p&gt;
-
-&lt;h2 id=&quot;how-to-use&quot;&gt;How to use&lt;/h2&gt;
-
-&lt;div class=&quot;tabs-box&quot;&gt;
-  &lt;div class=&quot;top_tab_li&quot;&gt;   
-    &lt;button class=&quot;tab-li code-selector-active python-button&quot;&gt;Python&lt;/button&gt;&lt;button class=&quot;tab-li code-selector-un-active scala-button&quot;&gt;Scala&lt;/button&gt;&lt;button class=&quot;tab-li code-selector-un-active nlu-button&quot;&gt;NLU&lt;/button&gt;
-&lt;/div&gt;
-  &lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c1&quot;&gt;# Annotator that transforms a text column from dataframe into an Annotation ready for NLP
-&lt;/span&gt;
-&lt;span class=&quot;kn&quot;&gt;from&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;sparknlp_jsl.annotator&lt;/span&gt; &lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;
-
-&lt;span class=&quot;n&quot;&gt;documentAssembler&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;DocumentAssembler&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;\
-    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setInputCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;text&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;\
-    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;document&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-
-&lt;span class=&quot;c1&quot;&gt;# Sentence Detector annotator, processes various sentences per line
-&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;sentenceDetector&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;SentenceDetector&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;\
-    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setInputCols&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;([&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;document&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;])&lt;/span&gt;\
-    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;sentence&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-
-&lt;span class=&quot;c1&quot;&gt;# Tokenizer splits words in a relevant format for NLP
-&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;tokenizer&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Tokenizer&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;\
-    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setInputCols&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;([&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;sentence&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;])&lt;/span&gt;\
-    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;token&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-
-&lt;span class=&quot;n&quot;&gt;embeddings&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;BertEmbeddings&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;pretrained&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;bert_embeddings_sec_bert_base&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;en&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; \
-    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setInputCols&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;([&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;sentence&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;token&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;])&lt;/span&gt; \
-    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;embeddings&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-
-&lt;span class=&quot;n&quot;&gt;ner_model_org&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;FinanceNerModel&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;().&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;pretrained&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;finner_orgs_prods_alias&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;en&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;finance/models&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;\
-    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setInputCols&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;([&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;sentence&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;token&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;embeddings&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;])&lt;/span&gt;\
-    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;ner&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-
-&lt;span class=&quot;n&quot;&gt;ner_converter&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;NerConverterInternal&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; \
-    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setInputCols&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;([&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;sentence&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;token&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;ner&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;])&lt;/span&gt; \
-    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;ner_chunk&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;\
-    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setWhiteList&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;([&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'ORG'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;'PRODUCT'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;])&lt;/span&gt;
-
-&lt;span class=&quot;n&quot;&gt;assertion&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;AssertionDLModel&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;pretrained&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;finassertion_competitors&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;en&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;finance/models&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;\
-    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setInputCols&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;([&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;sentence&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;ner_chunk&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;embeddings&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;])&lt;/span&gt; \
-    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;assertion&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-    
-&lt;span class=&quot;n&quot;&gt;nlpPipeline&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Pipeline&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;stages&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;documentAssembler&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; 
-    &lt;span class=&quot;n&quot;&gt;sentenceDetector&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;tokenizer&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;embeddings&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;ner_model_org&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;ner_converter&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;assertion&lt;/span&gt;
-    &lt;span class=&quot;p&quot;&gt;])&lt;/span&gt;
-
-&lt;span class=&quot;n&quot;&gt;text&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;Our competitors include the following by general category: legacy antivirus product providers, such as McAfee LLC and Broadcom Inc.&quot;&lt;/span&gt;
-
-&lt;span class=&quot;n&quot;&gt;data&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;spark&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;createDataFrame&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;([[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;text&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]]).&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;toDF&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;text&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-
-&lt;span class=&quot;n&quot;&gt;model&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;nlpPipeline&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;fit&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;data&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-
-&lt;span class=&quot;n&quot;&gt;model&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;transform&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;spark&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;createDataFrame&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;([[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;text&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]]).&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;toDF&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;text&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)).&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;select&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;F&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;explode&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;F&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;arrays_zip&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'ner_chunk.result'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;'assertion.result'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)).&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;alias&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'result'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)).&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;show&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;truncate&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;bp&quot;&gt;False&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;  &lt;/div&gt;
-
-&lt;/div&gt;
-
-&lt;h2 id=&quot;results&quot;&gt;Results&lt;/h2&gt;
-
-&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;+--------------------------+
-|result                    |
-+--------------------------+
-|[McAfee LLC, COMPETITOR]  |
-|[Broadcom Inc, COMPETITOR]|
-+--------------------------+
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;h2 class=&quot;model-param&quot; id=&quot;model-information&quot;&gt;Model Information&lt;/h2&gt;
-
-&lt;table class=&quot;table-model&quot;&gt;
-  &lt;tbody&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Model Name:&lt;/td&gt;
-      &lt;td&gt;finassertion_competitors&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Type:&lt;/td&gt;
-      &lt;td&gt;finance&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Compatibility:&lt;/td&gt;
-      &lt;td&gt;Spark NLP for Finance 1.0.0+&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;License:&lt;/td&gt;
-      &lt;td&gt;Licensed&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Edition:&lt;/td&gt;
-      &lt;td&gt;Official&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Input Labels:&lt;/td&gt;
-      &lt;td&gt;[document, doc_chunk, embeddings]&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Output Labels:&lt;/td&gt;
-      &lt;td&gt;[assertion]&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Language:&lt;/td&gt;
-      &lt;td&gt;en&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Size:&lt;/td&gt;
-      &lt;td&gt;2.2 MB&lt;/td&gt;
-    &lt;/tr&gt;
-  &lt;/tbody&gt;
-&lt;/table&gt;
-
-&lt;h2 id=&quot;references&quot;&gt;References&lt;/h2&gt;
-
-&lt;p&gt;In-house annotations from 10K Filings&lt;/p&gt;
-
-&lt;h2 id=&quot;benchmarking&quot;&gt;Benchmarking&lt;/h2&gt;
-
-&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;label	 tp	 fp	 fn	 prec	 rec	 f1
-NO_COMPETITOR	 158	 0	 1	 1.0	 0.9937107	 0.9968454
-COMPETITOR	 25	 1	 0	 0.96153843	 1.0	 0.98039216
-tp: 183 fp: 1 fn: 1 labels: 2
-Macro-average	 prec: 0.9807692, rec: 0.9968554, f1: 0.9887469
-Micro-average	 prec: 0.9945652, rec: 0.9945652, f1: 0.9945652
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;</content><author><name>John Snow Labs</name></author><category term="en" /><category term="finance" /><category term="assertion" /><category term="status" /><category term="competitors" /><category term="licensed" /><summary type="html">Description This models allows you to identify ORG and PRODUCTS mentioned in the text to be from a competitor. By default, if nothing is mentioned, it returns NO_COMPETITOR. Predicted Entities NO_COMPETITOR, COMPETITOR Live Demo Open in Colab Download How to use PythonScalaNLU # Annotator that transforms a text column from dataframe into an Annotation ready for NLP from sparknlp_jsl.annotator import * documentAssembler = DocumentAssembler()\ .setInputCol(&quot;text&quot;)\ .setOutputCol(&quot;document&quot;) # Sentence Detector annotator, processes various sentences per line sentenceDetector = SentenceDetector()\ .setInputCols([&quot;document&quot;])\ .setOutputCol(&quot;sentence&quot;) # Tokenizer splits words in a relevant format for NLP tokenizer = Tokenizer()\ .setInputCols([&quot;sentence&quot;])\ .setOutputCol(&quot;token&quot;) embeddings = BertEmbeddings.pretrained(&quot;bert_embeddings_sec_bert_base&quot;,&quot;en&quot;) \ .setInputCols([&quot;sentence&quot;, &quot;token&quot;]) \ .setOutputCol(&quot;embeddings&quot;) ner_model_org = FinanceNerModel().pretrained(&quot;finner_orgs_prods_alias&quot;, &quot;en&quot;, &quot;finance/models&quot;)\ .setInputCols([&quot;sentence&quot;, &quot;token&quot;, &quot;embeddings&quot;])\ .setOutputCol(&quot;ner&quot;) ner_converter = NerConverterInternal() \ .setInputCols([&quot;sentence&quot;, &quot;token&quot;, &quot;ner&quot;]) \ .setOutputCol(&quot;ner_chunk&quot;)\ .setWhiteList(['ORG', 'PRODUCT']) assertion = AssertionDLModel.pretrained(&quot;finassertion_competitors&quot;, &quot;en&quot;, &quot;finance/models&quot;)\ .setInputCols([&quot;sentence&quot;, &quot;ner_chunk&quot;, &quot;embeddings&quot;]) \ .setOutputCol(&quot;assertion&quot;) nlpPipeline = Pipeline(stages=[ documentAssembler, sentenceDetector, tokenizer, embeddings, ner_model_org, ner_converter, assertion ]) text = &quot;Our competitors include the following by general category: legacy antivirus product providers, such as McAfee LLC and Broadcom Inc.&quot; data = spark.createDataFrame([[text]]).toDF(&quot;text&quot;) model = nlpPipeline.fit(data) model.transform(spark.createDataFrame([[text]]).toDF(&quot;text&quot;)).select(F.explode(F.arrays_zip('ner_chunk.result', 'assertion.result')).alias('result')).show(truncate=False) Results +--------------------------+ |result | +--------------------------+ |[McAfee LLC, COMPETITOR] | |[Broadcom Inc, COMPETITOR]| +--------------------------+ Model Information Model Name: finassertion_competitors Type: finance Compatibility: Spark NLP for Finance 1.0.0+ License: Licensed Edition: Official Input Labels: [document, doc_chunk, embeddings] Output Labels: [assertion] Language: en Size: 2.2 MB References In-house annotations from 10K Filings Benchmarking label tp fp fn prec rec f1 NO_COMPETITOR 158 0 1 1.0 0.9937107 0.9968454 COMPETITOR 25 1 0 0.96153843 1.0 0.98039216 tp: 183 fp: 1 fn: 1 labels: 2 Macro-average prec: 0.9807692, rec: 0.9968554, f1: 0.9887469 Micro-average prec: 0.9945652, rec: 0.9945652, f1: 0.9945652</summary></entry><entry><title type="html">Financial 10K Filings NER</title><link href="/2022/08/17/finner_10k_summary_en_3_2.html" rel="alternate" type="text/html" title="Financial 10K Filings NER" /><published>2022-08-17T00:00:00+00:00</published><updated>2022-08-17T00:00:00+00:00</updated><id>/2022/08/17/finner_10k_summary_en_3_2</id><content type="html" xml:base="/2022/08/17/finner_10k_summary_en_3_2.html">&lt;h2 id=&quot;description&quot;&gt;Description&lt;/h2&gt;
-
-&lt;p&gt;This Financial NER Model is aimed to process the first summary page of 10K filings and extract the information about the Company submitting the filing, trading data, address / phones, CFN, IRS, etc.&lt;/p&gt;
-
-&lt;h2 id=&quot;predicted-entities&quot;&gt;Predicted Entities&lt;/h2&gt;
-
-&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;ADDRESS&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;CFN&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;FISCAL_YEAR&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;IRS&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;ORG&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;PHONE&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;STATE&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;STOCK_EXCHANGE&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;TICKER&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;TITLE_CLASS&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;TITLE_CLASS_VALUE&lt;/code&gt;&lt;/p&gt;
-
-&lt;p class=&quot;btn-box&quot;&gt;&lt;a href=&quot;https://demo.johnsnowlabs.com/finance/FINNER_SEC10K_FIRSTPAGE/&quot; class=&quot;button button-orange&quot;&gt;Live Demo&lt;/a&gt;
-&lt;button class=&quot;button button-orange&quot; disabled=&quot;&quot;&gt;Open in Colab&lt;/button&gt;
-&lt;a href=&quot;https://s3.amazonaws.com/auxdata.johnsnowlabs.com/finance/models/finner_10k_summary_en_1.0.0_3.2_1660732829888.zip&quot; class=&quot;button button-orange button-orange-trans arr button-icon&quot;&gt;Download&lt;/a&gt;&lt;/p&gt;
-
-&lt;h2 id=&quot;how-to-use&quot;&gt;How to use&lt;/h2&gt;
-
-&lt;div class=&quot;tabs-box&quot;&gt;
-  &lt;div class=&quot;top_tab_li&quot;&gt;   
-    &lt;button class=&quot;tab-li code-selector-active python-button&quot;&gt;Python&lt;/button&gt;&lt;button class=&quot;tab-li code-selector-un-active scala-button&quot;&gt;Scala&lt;/button&gt;&lt;button class=&quot;tab-li code-selector-un-active nlu-button&quot;&gt;NLU&lt;/button&gt;
-&lt;/div&gt;
-  &lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;document_assembler&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;DocumentAssembler&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;\
-    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setInputCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;text&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;\
-    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;document&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-
-&lt;span class=&quot;n&quot;&gt;sentence_detector&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;SentenceDetector&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; \
-    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setInputCols&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;([&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;document&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;])&lt;/span&gt; \
-    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;sentence&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; \
-    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setCustomBounds&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;([&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\n\n&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;])&lt;/span&gt;
-
-&lt;span class=&quot;n&quot;&gt;tokenizer&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Tokenizer&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;\
-    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setInputCols&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;([&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;sentence&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;])&lt;/span&gt;\
-    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;token&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-
-&lt;span class=&quot;n&quot;&gt;embeddings&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;BertEmbeddings&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;pretrained&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;bert_embeddings_finbert_pretrain_yiyanghkust&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;en&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;\
-    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setInputCols&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;([&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;sentence&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;token&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;])&lt;/span&gt;\
-    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;embeddings&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;\
-    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setCaseSensitive&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;bp&quot;&gt;True&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;\
-    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setMaxSentenceLength&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;512&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-
-&lt;span class=&quot;n&quot;&gt;ner_model&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;FinanceNerModel&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;pretrained&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;finner_10k_summary&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;en&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;finance/models&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;\
-    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setInputCols&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;([&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;sentence&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;token&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;embeddings&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;])&lt;/span&gt;\
-    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;ner&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;\
-
-&lt;span class=&quot;n&quot;&gt;ner_converter&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;NerConverter&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;\
-    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setInputCols&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;([&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;sentence&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;token&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;ner&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;])&lt;/span&gt;\
-    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;ner_chunk&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-
-&lt;span class=&quot;n&quot;&gt;pipeline&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Pipeline&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;stages&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;document_assembler&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;sentence_detector&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;tokenizer&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;embeddings&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;ner_model&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;ner_converter&lt;/span&gt;   
-    &lt;span class=&quot;p&quot;&gt;])&lt;/span&gt;
-
-&lt;span class=&quot;n&quot;&gt;model&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;pipeline&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;fit&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;spark&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;createDataFrame&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;([[&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]]).&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;toDF&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;text&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt;
-
-&lt;span class=&quot;n&quot;&gt;data&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;spark&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;createDataFrame&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;([[&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;&quot;&quot;ANNUAL REPORT PURSUANT TO SECTION 13 OR 15(d) OF THE SECURITIES AND EXCHANGE ACT OF 1934
-For the annual period ended January 31, 2021
-or
-TRANSITION REPORT PURSUANT TO SECTION 13 OR 15(d) OF THE SECURITIES EXCHANGE ACT OF 1934
-For the transition period from________to_______
-Commission File Number: 001-38856
-PAGERDUTY, INC.
-(Exact name of registrant as specified in its charter)
-Delaware
-27-2793871
-(State or other jurisdiction of
-incorporation or organization)
-(I.R.S. Employer
-Identification Number)
-600 Townsend St., Suite 200, San Francisco, CA 94103
-(844) 800-3889
-(Address, including zip code, and telephone number, including area code, of registrant’s principal executive offices)
-Securities registered pursuant to Section 12(b) of the Act:
-Title of each class
-Trading symbol(s)
-Name of each exchange on which registered
-Common Stock, $0.000005 par value,
-PD
-New York Stock Exchange&quot;&quot;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]]).&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;toDF&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;text&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-
-&lt;span class=&quot;n&quot;&gt;result&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;model&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;transform&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;data&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-
-&lt;span class=&quot;n&quot;&gt;result&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;select&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;F&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;explode&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;F&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;arrays_zip&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'ner_chunk.result'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;'ner_chunk.metadata'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)).&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;alias&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;cols&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt; \
-               &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;select&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;F&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;expr&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;cols['0']&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;).&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;alias&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;ticker&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;),&lt;/span&gt;
-                       &lt;span class=&quot;n&quot;&gt;F&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;expr&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;cols['1']['entity']&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;).&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;alias&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;label&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)).&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;show&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;50&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;truncate&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;bp&quot;&gt;False&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;  &lt;/div&gt;
-
-&lt;/div&gt;
-
-&lt;h2 id=&quot;results&quot;&gt;Results&lt;/h2&gt;
-
-&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;+----------------------------------------------+-----------------+
-|ticker                                        |label            |
-+----------------------------------------------+-----------------+
-|January 31, 2021                              |FISCAL_YEAR      |
-|001-38856                                     |CFN              |
-|PAGERDUTY, INC                                |ORG              |
-|Delaware                                      |STATE            |
-|27-2793871                                    |IRS              |
-|600 Townsend St., Suite 200, San Francisco, CA|ADDRESS          |
-|&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;844&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; 800-3889                                |PHONE            |
-|Common Stock                                  |TITLE_CLASS      |
-|&lt;span class=&quot;nv&quot;&gt;$0&lt;/span&gt;.000005                                     |TITLE_CLASS_VALUE|
-|PD                                            |TICKER           |
-|New York Stock Exchange                       |STOCK_EXCHANGE   |
-+----------------------------------------------+-----------------+
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;h2 class=&quot;model-param&quot; id=&quot;model-information&quot;&gt;Model Information&lt;/h2&gt;
-
-&lt;table class=&quot;table-model&quot;&gt;
-  &lt;tbody&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Model Name:&lt;/td&gt;
-      &lt;td&gt;finner_10k_summary&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Type:&lt;/td&gt;
-      &lt;td&gt;finance&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Compatibility:&lt;/td&gt;
-      &lt;td&gt;Spark NLP for Finance 1.0.0+&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;License:&lt;/td&gt;
-      &lt;td&gt;Licensed&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Edition:&lt;/td&gt;
-      &lt;td&gt;Official&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Input Labels:&lt;/td&gt;
-      &lt;td&gt;[sentence, token, embeddings]&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Output Labels:&lt;/td&gt;
-      &lt;td&gt;[ner]&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Language:&lt;/td&gt;
-      &lt;td&gt;en&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Size:&lt;/td&gt;
-      &lt;td&gt;1.1 MB&lt;/td&gt;
-    &lt;/tr&gt;
-  &lt;/tbody&gt;
-&lt;/table&gt;
-
-&lt;h2 id=&quot;references&quot;&gt;References&lt;/h2&gt;
-
-&lt;p&gt;Manual annotations on 10-K Filings&lt;/p&gt;
-
-&lt;h2 id=&quot;benchmarking&quot;&gt;Benchmarking&lt;/h2&gt;
-
-&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;                      precision    recall  f1-score   support
-
-      B-TITLE_CLASS       1.00      1.00      1.00        15
-      I-TITLE_CLASS       1.00      1.00      1.00        21
-              B-ORG       0.84      0.66      0.74        62
-              I-ORG       0.88      0.76      0.82        93
-   B-STOCK_EXCHANGE       0.86      0.86      0.86        14
-   I-STOCK_EXCHANGE       0.98      0.98      0.98        50
-            B-PHONE       0.95      0.87      0.91        23
-            I-PHONE       0.95      1.00      0.98        60
-            B-STATE       0.89      0.85      0.87        20
-              B-IRS       1.00      0.88      0.93        16
-          B-ADDRESS       0.94      0.83      0.88        18
-          I-ADDRESS       0.92      0.97      0.94       144
-           B-TICKER       0.86      0.92      0.89        13
-      B-FISCAL_YEAR       0.96      0.88      0.92        50
-      I-FISCAL_YEAR       0.93      0.92      0.92       125
-B-TITLE_CLASS_VALUE       1.00      0.93      0.97        15
-              B-CFN       0.92      1.00      0.96        12
-
-          micro avg       0.93      0.89      0.91       751
-          macro avg       0.84      0.81      0.82       751
-       weighted avg       0.92      0.89      0.91       751
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;</content><author><name>John Snow Labs</name></author><category term="en" /><category term="finance" /><category term="ner" /><category term="annual" /><category term="reports" /><category term="10k" /><category term="filings" /><category term="licensed" /><summary type="html">Description This Financial NER Model is aimed to process the first summary page of 10K filings and extract the information about the Company submitting the filing, trading data, address / phones, CFN, IRS, etc. Predicted Entities ADDRESS, CFN, FISCAL_YEAR, IRS, ORG, PHONE, STATE, STOCK_EXCHANGE, TICKER, TITLE_CLASS, TITLE_CLASS_VALUE Live Demo Open in Colab Download How to use PythonScalaNLU document_assembler = DocumentAssembler()\ .setInputCol(&quot;text&quot;)\ .setOutputCol(&quot;document&quot;) sentence_detector = SentenceDetector() \ .setInputCols([&quot;document&quot;]) \ .setOutputCol(&quot;sentence&quot;) \ .setCustomBounds([&quot;\n\n&quot;]) tokenizer = Tokenizer()\ .setInputCols([&quot;sentence&quot;])\ .setOutputCol(&quot;token&quot;) embeddings = BertEmbeddings.pretrained(&quot;bert_embeddings_finbert_pretrain_yiyanghkust&quot;,&quot;en&quot;)\ .setInputCols([&quot;sentence&quot;, &quot;token&quot;])\ .setOutputCol(&quot;embeddings&quot;)\ .setCaseSensitive(True)\ .setMaxSentenceLength(512) ner_model = FinanceNerModel.pretrained(&quot;finner_10k_summary&quot;,&quot;en&quot;,&quot;finance/models&quot;)\ .setInputCols([&quot;sentence&quot;, &quot;token&quot;, &quot;embeddings&quot;])\ .setOutputCol(&quot;ner&quot;)\ ner_converter = NerConverter()\ .setInputCols([&quot;sentence&quot;, &quot;token&quot;, &quot;ner&quot;])\ .setOutputCol(&quot;ner_chunk&quot;) pipeline = Pipeline(stages=[ document_assembler, sentence_detector, tokenizer, embeddings, ner_model, ner_converter ]) model = pipeline.fit(spark.createDataFrame([[&quot;&quot;]]).toDF(&quot;text&quot;)) data = spark.createDataFrame([[&quot;&quot;&quot;ANNUAL REPORT PURSUANT TO SECTION 13 OR 15(d) OF THE SECURITIES AND EXCHANGE ACT OF 1934 For the annual period ended January 31, 2021 or TRANSITION REPORT PURSUANT TO SECTION 13 OR 15(d) OF THE SECURITIES EXCHANGE ACT OF 1934 For the transition period from________to_______ Commission File Number: 001-38856 PAGERDUTY, INC. (Exact name of registrant as specified in its charter) Delaware 27-2793871 (State or other jurisdiction of incorporation or organization) (I.R.S. Employer Identification Number) 600 Townsend St., Suite 200, San Francisco, CA 94103 (844) 800-3889 (Address, including zip code, and telephone number, including area code, of registrant’s principal executive offices) Securities registered pursuant to Section 12(b) of the Act: Title of each class Trading symbol(s) Name of each exchange on which registered Common Stock, $0.000005 par value, PD New York Stock Exchange&quot;&quot;&quot;]]).toDF(&quot;text&quot;) result = model.transform(data) result.select(F.explode(F.arrays_zip('ner_chunk.result', 'ner_chunk.metadata')).alias(&quot;cols&quot;)) \ .select(F.expr(&quot;cols['0']&quot;).alias(&quot;ticker&quot;), F.expr(&quot;cols['1']['entity']&quot;).alias(&quot;label&quot;)).show(50, truncate = False) Results +----------------------------------------------+-----------------+ |ticker |label | +----------------------------------------------+-----------------+ |January 31, 2021 |FISCAL_YEAR | |001-38856 |CFN | |PAGERDUTY, INC |ORG | |Delaware |STATE | |27-2793871 |IRS | |600 Townsend St., Suite 200, San Francisco, CA|ADDRESS | |(844) 800-3889 |PHONE | |Common Stock |TITLE_CLASS | |$0.000005 |TITLE_CLASS_VALUE| |PD |TICKER | |New York Stock Exchange |STOCK_EXCHANGE | +----------------------------------------------+-----------------+ Model Information Model Name: finner_10k_summary Type: finance Compatibility: Spark NLP for Finance 1.0.0+ License: Licensed Edition: Official Input Labels: [sentence, token, embeddings] Output Labels: [ner] Language: en Size: 1.1 MB References Manual annotations on 10-K Filings Benchmarking precision recall f1-score support B-TITLE_CLASS 1.00 1.00 1.00 15 I-TITLE_CLASS 1.00 1.00 1.00 21 B-ORG 0.84 0.66 0.74 62 I-ORG 0.88 0.76 0.82 93 B-STOCK_EXCHANGE 0.86 0.86 0.86 14 I-STOCK_EXCHANGE 0.98 0.98 0.98 50 B-PHONE 0.95 0.87 0.91 23 I-PHONE 0.95 1.00 0.98 60 B-STATE 0.89 0.85 0.87 20 B-IRS 1.00 0.88 0.93 16 B-ADDRESS 0.94 0.83 0.88 18 I-ADDRESS 0.92 0.97 0.94 144 B-TICKER 0.86 0.92 0.89 13 B-FISCAL_YEAR 0.96 0.88 0.92 50 I-FISCAL_YEAR 0.93 0.92 0.92 125 B-TITLE_CLASS_VALUE 1.00 0.93 0.97 15 B-CFN 0.92 1.00 0.96 12 micro avg 0.93 0.89 0.91 751 macro avg 0.84 0.81 0.82 751 weighted avg 0.92 0.89 0.91 751</summary></entry><entry><title type="html">Financial ORG, PRODUCT and ALIAS NER</title><link href="/2022/08/17/finner_orgs_prods_alias_en_3_2.html" rel="alternate" type="text/html" title="Financial ORG, PRODUCT and ALIAS NER" /><published>2022-08-17T00:00:00+00:00</published><updated>2022-08-17T00:00:00+00:00</updated><id>/2022/08/17/finner_orgs_prods_alias_en_3_2</id><content type="html" xml:base="/2022/08/17/finner_orgs_prods_alias_en_3_2.html">&lt;h2 id=&quot;description&quot;&gt;Description&lt;/h2&gt;
-
-&lt;p&gt;This is a large Named Entity Recognition model, trained with a subset of generic conLL, financial and legal conll, ontonotes and several in-house corpora, to detect Organizations, Products and Aliases of Companies.&lt;/p&gt;
-
-&lt;h2 id=&quot;predicted-entities&quot;&gt;Predicted Entities&lt;/h2&gt;
-
-&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;ORG&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;PROD&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;ALIAS&lt;/code&gt;&lt;/p&gt;
-
-&lt;p class=&quot;btn-box&quot;&gt;&lt;a href=&quot;https://demo.johnsnowlabs.com/finance/FINNER_ORGPROD&quot; class=&quot;button button-orange&quot;&gt;Live Demo&lt;/a&gt;
-&lt;button class=&quot;button button-orange&quot; disabled=&quot;&quot;&gt;Open in Colab&lt;/button&gt;
-&lt;a href=&quot;https://s3.amazonaws.com/auxdata.johnsnowlabs.com/finance/models/finner_orgs_prods_alias_en_1.0.0_3.2_1660733832114.zip&quot; class=&quot;button button-orange button-orange-trans arr button-icon&quot;&gt;Download&lt;/a&gt;&lt;/p&gt;
-
-&lt;h2 id=&quot;how-to-use&quot;&gt;How to use&lt;/h2&gt;
-
-&lt;div class=&quot;tabs-box&quot;&gt;
-  &lt;div class=&quot;top_tab_li&quot;&gt;   
-    &lt;button class=&quot;tab-li code-selector-active python-button&quot;&gt;Python&lt;/button&gt;&lt;button class=&quot;tab-li code-selector-un-active scala-button&quot;&gt;Scala&lt;/button&gt;&lt;button class=&quot;tab-li code-selector-un-active nlu-button&quot;&gt;NLU&lt;/button&gt;
-&lt;/div&gt;
-  &lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;documentAssembler&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;DocumentAssembler&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;\
-        &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setInputCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;text&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;\
-        &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;document&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-        
-&lt;span class=&quot;n&quot;&gt;sentenceDetector&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;SentenceDetectorDLModel&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;pretrained&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;sentence_detector_dl&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;xx&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;\
-        &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setInputCols&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;([&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;document&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;])&lt;/span&gt;\
-        &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;sentence&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-
-&lt;span class=&quot;n&quot;&gt;tokenizer&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Tokenizer&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;\
-        &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setInputCols&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;([&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;sentence&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;])&lt;/span&gt;\
-        &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;token&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-
-&lt;span class=&quot;n&quot;&gt;embeddings&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;BertEmbeddings&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;pretrained&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;bert_embeddings_sec_bert_base&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;en&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; \
-        &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setInputCols&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;([&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;sentence&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;token&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;])&lt;/span&gt; \
-        &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;embeddings&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-
-&lt;span class=&quot;n&quot;&gt;ner_model&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;FinanceNerModel&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;().&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;pretrained&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;finner_orgs_prods_alias&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;en&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;finance/models&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;\
-        &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setInputCols&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;([&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;sentence&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;token&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;embeddings&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;])&lt;/span&gt;\
-        &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;ner&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-
-&lt;span class=&quot;n&quot;&gt;ner_converter&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;NerConverter&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;\
-        &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setInputCols&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;([&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;sentence&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;token&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;ner&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;])&lt;/span&gt;\
-        &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;ner_chunk&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-
-&lt;span class=&quot;n&quot;&gt;nlpPipeline&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Pipeline&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;stages&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;
-        &lt;span class=&quot;n&quot;&gt;documentAssembler&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-        &lt;span class=&quot;n&quot;&gt;sentenceDetector&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-        &lt;span class=&quot;n&quot;&gt;tokenizer&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-        &lt;span class=&quot;n&quot;&gt;embeddings&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-        &lt;span class=&quot;n&quot;&gt;ner_model&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-        &lt;span class=&quot;n&quot;&gt;ner_converter&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;])&lt;/span&gt;
-
-&lt;span class=&quot;n&quot;&gt;empty_data&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;spark&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;createDataFrame&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;([[&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]]).&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;toDF&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;text&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-
-&lt;span class=&quot;n&quot;&gt;model&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;nlpPipeline&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;fit&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;empty_data&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-
-&lt;span class=&quot;n&quot;&gt;text&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;&quot;&quot;In 2020, we acquired certain assets of Spell Security Private Limited (also known as &quot;Spell Security&quot;). More specifically, their Compliance product - Policy Compliance (PC)&quot;).&quot;&quot;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;
-
-&lt;span class=&quot;n&quot;&gt;res&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;model&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;transform&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;spark&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;createDataFrame&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;([&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;text&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]).&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;toDF&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;text&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt;
-&lt;span class=&quot;n&quot;&gt;res&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;select&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;F&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;explode&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;F&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;arrays_zip&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;res&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;ner_chunk&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;result&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;res&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;ner_chunk&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;metadata&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)).&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;alias&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;cols&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt; \
-      &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;select&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;F&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;expr&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;cols['0']&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;).&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;alias&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;chunk&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;),&lt;/span&gt;
-              &lt;span class=&quot;n&quot;&gt;F&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;expr&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;cols['1']['entity']&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;).&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;alias&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;ner_label&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;),&lt;/span&gt;
-              &lt;span class=&quot;n&quot;&gt;F&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;expr&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;cols['1']['confidence']&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;).&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;alias&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;confidence&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)).&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;show&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;truncate&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;bp&quot;&gt;False&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;  &lt;/div&gt;
-
-&lt;/div&gt;
-
-&lt;h2 id=&quot;results&quot;&gt;Results&lt;/h2&gt;
-
-&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;+------------------------------+---------+----------+
-|chunk                         |ner_label|confidence|
-+------------------------------+---------+----------+
-|Spell Security Private Limited|ORG      |0.8475    |
-|Spell Security                |ALIAS    |0.8871    |
-|Policy Compliance             |PRODUCT  |0.7991    |
-+------------------------------+---------+----------+
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;h2 class=&quot;model-param&quot; id=&quot;model-information&quot;&gt;Model Information&lt;/h2&gt;
-
-&lt;table class=&quot;table-model&quot;&gt;
-  &lt;tbody&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Model Name:&lt;/td&gt;
-      &lt;td&gt;finner_orgs_prods_alias&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Type:&lt;/td&gt;
-      &lt;td&gt;finance&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Compatibility:&lt;/td&gt;
-      &lt;td&gt;Spark NLP for Finance 1.0.0+&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;License:&lt;/td&gt;
-      &lt;td&gt;Licensed&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Edition:&lt;/td&gt;
-      &lt;td&gt;Official&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Input Labels:&lt;/td&gt;
-      &lt;td&gt;[sentence, token, embeddings]&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Output Labels:&lt;/td&gt;
-      &lt;td&gt;[ner]&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Language:&lt;/td&gt;
-      &lt;td&gt;en&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Size:&lt;/td&gt;
-      &lt;td&gt;16.7 MB&lt;/td&gt;
-    &lt;/tr&gt;
-  &lt;/tbody&gt;
-&lt;/table&gt;
-
-&lt;h2 id=&quot;references&quot;&gt;References&lt;/h2&gt;
-
-&lt;p&gt;ConLL-2003, FinSec ConLL, a subset of Ontonotes, In-house corpora&lt;/p&gt;
-
-&lt;h2 id=&quot;benchmarking&quot;&gt;Benchmarking&lt;/h2&gt;
-
-&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;Total &lt;span class=&quot;nb&quot;&gt;test &lt;/span&gt;loss: 143.3721	Avg &lt;span class=&quot;nb&quot;&gt;test &lt;/span&gt;loss: 2.1723
-label	 tp	 fp	 fn	 prec	 rec	 f1
-I-ORG	 12853	 2621	 2685	 0.8306191	 0.82719785	 0.828905
-B-PRODUCT	 2306	 697	 932	 0.76789874	 0.712168	 0.7389841
-I-ALIAS	 14	 6	 13	 0.7	 0.5185185	 0.59574467
-B-ORG	 8967	 2078	 2311	 0.81186056	 0.79508775	 0.80338657
-I-PRODUCT	 2336	 803	 1091	 0.74418604	 0.68164575	 0.7115443
-B-ALIAS	 76	 14	 22	 0.84444445	 0.7755102	 0.80851066
-tp: 26552 fp: 6219 fn: 7054 labels: 6
-Macro-average	 prec: 0.78316814, rec: 0.7183547, f1: 0.7493626
-Micro-average	 prec: 0.8102285, rec: 0.790097, f1: 0.80003613
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;</content><author><name>John Snow Labs</name></author><category term="en" /><category term="finance" /><category term="ner" /><category term="licensed" /><summary type="html">Description This is a large Named Entity Recognition model, trained with a subset of generic conLL, financial and legal conll, ontonotes and several in-house corpora, to detect Organizations, Products and Aliases of Companies. Predicted Entities ORG, PROD, ALIAS Live Demo Open in Colab Download How to use PythonScalaNLU documentAssembler = DocumentAssembler()\ .setInputCol(&quot;text&quot;)\ .setOutputCol(&quot;document&quot;) sentenceDetector = SentenceDetectorDLModel.pretrained(&quot;sentence_detector_dl&quot;,&quot;xx&quot;)\ .setInputCols([&quot;document&quot;])\ .setOutputCol(&quot;sentence&quot;) tokenizer = Tokenizer()\ .setInputCols([&quot;sentence&quot;])\ .setOutputCol(&quot;token&quot;) embeddings = BertEmbeddings.pretrained(&quot;bert_embeddings_sec_bert_base&quot;,&quot;en&quot;) \ .setInputCols([&quot;sentence&quot;, &quot;token&quot;]) \ .setOutputCol(&quot;embeddings&quot;) ner_model = FinanceNerModel().pretrained(&quot;finner_orgs_prods_alias&quot;,&quot;en&quot;,&quot;finance/models&quot;)\ .setInputCols([&quot;sentence&quot;, &quot;token&quot;, &quot;embeddings&quot;])\ .setOutputCol(&quot;ner&quot;) ner_converter = NerConverter()\ .setInputCols([&quot;sentence&quot;,&quot;token&quot;,&quot;ner&quot;])\ .setOutputCol(&quot;ner_chunk&quot;) nlpPipeline = Pipeline(stages=[ documentAssembler, sentenceDetector, tokenizer, embeddings, ner_model, ner_converter]) empty_data = spark.createDataFrame([[&quot;&quot;]]).toDF(&quot;text&quot;) model = nlpPipeline.fit(empty_data) text = [&quot;&quot;&quot;In 2020, we acquired certain assets of Spell Security Private Limited (also known as &quot;Spell Security&quot;). More specifically, their Compliance product - Policy Compliance (PC)&quot;).&quot;&quot;&quot;] res = model.transform(spark.createDataFrame([text]).toDF(&quot;text&quot;)) res.select(F.explode(F.arrays_zip(res.ner_chunk.result, res.ner_chunk.metadata)).alias(&quot;cols&quot;)) \ .select(F.expr(&quot;cols['0']&quot;).alias(&quot;chunk&quot;), F.expr(&quot;cols['1']['entity']&quot;).alias(&quot;ner_label&quot;), F.expr(&quot;cols['1']['confidence']&quot;).alias(&quot;confidence&quot;)).show(truncate=False) Results +------------------------------+---------+----------+ |chunk |ner_label|confidence| +------------------------------+---------+----------+ |Spell Security Private Limited|ORG |0.8475 | |Spell Security |ALIAS |0.8871 | |Policy Compliance |PRODUCT |0.7991 | +------------------------------+---------+----------+ Model Information Model Name: finner_orgs_prods_alias Type: finance Compatibility: Spark NLP for Finance 1.0.0+ License: Licensed Edition: Official Input Labels: [sentence, token, embeddings] Output Labels: [ner] Language: en Size: 16.7 MB References ConLL-2003, FinSec ConLL, a subset of Ontonotes, In-house corpora Benchmarking Total test loss: 143.3721 Avg test loss: 2.1723 label tp fp fn prec rec f1 I-ORG 12853 2621 2685 0.8306191 0.82719785 0.828905 B-PRODUCT 2306 697 932 0.76789874 0.712168 0.7389841 I-ALIAS 14 6 13 0.7 0.5185185 0.59574467 B-ORG 8967 2078 2311 0.81186056 0.79508775 0.80338657 I-PRODUCT 2336 803 1091 0.74418604 0.68164575 0.7115443 B-ALIAS 76 14 22 0.84444445 0.7755102 0.80851066 tp: 26552 fp: 6219 fn: 7054 labels: 6 Macro-average prec: 0.78316814, rec: 0.7183547, f1: 0.7493626 Micro-average prec: 0.8102285, rec: 0.790097, f1: 0.80003613</summary></entry></feed>
+&lt;/ul&gt;</content><author><name>John Snow Labs</name></author><category term="en" /><category term="legal" /><category term="deid" /><category term="deidentification" /><category term="licensed" /><summary type="html">Description This is a Pretrained Pipeline aimed to deidentify legal and financial documents to be compliant with data privacy regulations as GDPR and CCPA. Since the models used in this pipeline are statistical, make sure you use this model in a human-in-the-loop process to guarantee a 100% accuracy. You can carry out both masking and obfuscation with this pipeline, on the following entities: Company names People’s names Poeple’s titles Addresses Contact information (email, phone numbers…) Dates Document types etc Predicted Entities EFFDATE, PARTY, PHONE, EMAIL, SIGNING_PERSON, SIGNING_TITLE, DOC, STREET, CITY, STATE, ZIP, ALIAS Live Demo Open in Colab Download How to use PythonScalaNLU from sparknlp.pretrained import PretrainedPipeline deid_pipeline = PretrainedPipeline(&quot;legpipe_deid&quot;, &quot;en&quot;, &quot;legal/models&quot;) sample_2 = &quot;&quot;&quot;Pizza Fusion Holdings, Inc. Franchise Agreement This Franchise Agreement (the &quot;Agreement&quot;) is entered into as of the Agreement Date shown on the cover page between Pizza Fusion Holding, Inc., a Florida corporation, and the individual or legal entity identified on the cover page. Source: PF HOSPITALITY GROUP INC., 9/23/2015 1. RIGHTS GRANTED 1.1. Grant of Franchise. 1.1.1 We grant you the right, and you accept the obligation, to use the Proprietary Marks and the System to operate one Restaurant (the &quot;Franchised Business&quot;) at the Premises, in accordance with the terms of this Agreement. Source: PF HOSPITALITY GROUP INC., 9/23/2015 1.3. Our Limitations and Our Reserved Rights. The rights granted to you under this Agreement are not exclusive.sed Business. Source: PF HOSPITALITY GROUP INC., 9/23/2015 &quot;&quot;&quot; result = deid_pipeline.annotate(sample_2) print(&quot;\nMasked with entity labels&quot;) print(&quot;-&quot;*30) print(&quot;\n&quot;.join(result['deidentified'])) print(&quot;\nMasked with chars&quot;) print(&quot;-&quot;*30) print(&quot;\n&quot;.join(result['masked_with_chars'])) print(&quot;\nMasked with fixed length chars&quot;) print(&quot;-&quot;*30) print(&quot;\n&quot;.join(result['masked_fixed_length_chars'])) print(&quot;\nObfuscated&quot;) print(&quot;-&quot;*30) print(&quot;\n&quot;.join(result['obfuscated'])) Results Masked with entity labels ------------------------------ &amp;lt;PARTY&amp;gt;. &amp;lt;DOC&amp;gt; This &amp;lt;DOC&amp;gt; (the &amp;lt;ALIAS&amp;gt;) is entered into as of the Agreement Date shown on the cover page between &amp;lt;PARTY&amp;gt; a Florida corporation, and the individual or legal entity identified on the cover page. Source: &amp;lt;PARTY&amp;gt;., &amp;lt;EFFDATE&amp;gt; 1. &amp;lt;PARTY&amp;gt; 1.1. &amp;lt;PARTY&amp;gt;. 1.1.1 We grant you the right, and you accept the obligation, to use the &amp;lt;PARTY&amp;gt; and the System to operate one Restaurant (the &amp;lt;ALIAS&amp;gt;) at the Premises, in accordance with the terms of this Agreement. Source: &amp;lt;PARTY&amp;gt;., &amp;lt;EFFDATE&amp;gt; 1.3. Our &amp;lt;PARTY&amp;gt; and &amp;lt;PARTY&amp;gt;. The rights granted to you under this Agreement are not exclusive.sed Business. Source: &amp;lt;PARTY&amp;gt;., &amp;lt;EFFDATE&amp;gt; Masked with chars ------------------------------ [************************]. [*****************] This [*****************] (the [*********]) is entered into as of the Agreement Date shown on the cover page between [*************************] a Florida corporation, and the individual or legal entity identified on the cover page. Source: [**********************]., [*******] 1. [************] 1.1. [****************]. 1.1.1 We grant you the right, and you accept the obligation, to use the [***************] and the System to operate one Restaurant (the [*******************]) at the Premises, in accordance with the terms of this Agreement. Source: [**********************]., [*******] 1.3. Our [*********] and [*****************]. The rights granted to you under this Agreement are not exclusive.sed Business. Source: [**********************]., [*******] Masked with fixed length chars ------------------------------ ****. **** This **** (the ****) is entered into as of the Agreement Date shown on the cover page between **** a Florida corporation, and the individual or legal entity identified on the cover page. Source: ****., **** 1. **** 1.1. ****. 1.1.1 We grant you the right, and you accept the obligation, to use the **** and the System to operate one Restaurant (the ****) at the Premises, in accordance with the terms of this Agreement. Source: ****., **** 1.3. Our **** and ****. The rights granted to you under this Agreement are not exclusive.sed Business. Source: ****., **** Obfuscated ------------------------------ SESA CO.. Estate Document This Estate Document (the (the &quot;Contract&quot;)) is entered into as of the Agreement Date shown on the cover page between Clarus llc. a Florida corporation, and the individual or legal entity identified on the cover page. Source: SESA CO.., 11/7/2016 1. SESA CO. 1.1. Clarus llc.. 1.1.1 We grant you the right, and you accept the obligation, to use the John Snow Labs Inc and the System to operate one Restaurant (the (the&quot; Agreement&quot;)) at the Premises, in accordance with the terms of this Agreement. Source: SESA CO.., 11/7/2016 1.3. Our MGT Trust Company, LLC. and John Snow Labs Inc. The rights granted to you under this Agreement are not exclusive.sed Business. Source: SESA CO.., 11/7/2016 Model Information Model Name: legpipe_deid Type: pipeline Compatibility: Spark NLP for Legal 1.0.0+ License: Licensed Edition: Official Language: en Size: 944.1 MB References In-house annotations on legal and financial documents, Ontonotes, Conll 2003, Finsec conll, Cuad dataset, 10k filings Included Models DocumentAssembler SentenceDetectorDLModel TokenizerModel RoBertaEmbeddings BertEmbeddings LegalNerModel NerConverter LegalNerModel NerConverter LegalNerModel NerConverterInternalModel LegalNerModel NerConverterInternalModel ContextualParserModel ContextualParserModel RegexMatcherModel RegexMatcherModel ChunkMergeModel DeIdentificationModel DeIdentificationModel DeIdentificationModel DeIdentificationModel Finisher</summary></entry></feed>
