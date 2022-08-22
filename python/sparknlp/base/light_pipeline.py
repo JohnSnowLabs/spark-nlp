@@ -15,6 +15,7 @@
 
 from sparknlp.annotation import Annotation
 import sparknlp.internal as _internal
+from sparknlp.annotation_image import AnnotationImage
 
 
 class LightPipeline:
@@ -67,14 +68,30 @@ class LightPipeline:
     def _annotation_from_java(java_annotations):
         annotations = []
         for annotation in java_annotations:
-            annotations.append(Annotation(annotation.annotatorType(),
-                                          annotation.begin(),
-                                          annotation.end(),
-                                          annotation.result(),
-                                          annotation.metadata(),
-                                          annotation.embeddings
-                                          )
-                               )
+
+            index = annotation.toString().index("(")
+            annotation_type = annotation.toString()[:index]
+
+            if annotation_type == "AnnotationImage":
+                annotations.append(
+                    AnnotationImage(annotation.annotatorType(),
+                                    annotation.origin(),
+                                    annotation.height(),
+                                    annotation.width(),
+                                    annotation.nChannels(),
+                                    annotation.mode(),
+                                    list(annotation.result()),
+                                    annotation.metadata())
+                )
+            else:
+                annotations.append(
+                    Annotation(annotation.annotatorType(),
+                               annotation.begin(),
+                               annotation.end(),
+                               annotation.result(),
+                               annotation.metadata(),
+                               annotation.embeddings)
+                )
         return annotations
 
     def fullAnnotate(self, target, optional_target=""):
@@ -117,23 +134,52 @@ class LightPipeline:
             if type(target) is str:
                 target = [target]
 
-            for row in self._lightPipeline.fullAnnotateJava(target):
-                kas = {}
-                for atype, annotations in row.items():
-                    kas[atype] = self._annotation_from_java(annotations)
-                result.append(kas)
+            for annotations_result in self._lightPipeline.fullAnnotateJava(target):
+                result.append(self.buildStages(annotations_result))
 
         else:
             if type(target) is list or type(optional_target) is list:
                 raise TypeError("target and optional_target for annotation must be 'str'")
 
             full_annotations = self._lightPipeline.fullAnnotateJava(target, optional_target)
-            kas = {}
-            for atype, annotations in full_annotations.items():
-                kas[atype] = self._annotation_from_java(annotations)
-            result.append(kas)
+            stages = {}
+            for annotator_type, annotations in full_annotations.items():
+                stages[annotator_type] = self._annotation_from_java(annotations)
+            result.append(stages)
 
         return result
+
+    def fullAnnotateImage(self, image_file_path):
+        """Annotates the data provided into `Annotation` type results.
+
+        The data should be either a list or a str.
+
+        Parameters
+        ----------
+        image_file_path : list or str
+            Source path of image, list of images or directory
+
+        Returns
+        -------
+        List[AnnotationImage]
+            The result of the annotation
+        """
+
+        if type(image_file_path) is str or type(image_file_path) is list:
+            result = []
+
+            for image_result in self._lightPipeline.fullAnnotateImageJava(image_file_path):
+                result.append(self.buildStages(image_result))
+
+            return result
+        else:
+            raise TypeError("target for annotation may be 'str' or 'list'")
+
+    def buildStages(self, annotations_result):
+        stages = {}
+        for annotator_type, annotations in annotations_result.items():
+            stages[annotator_type] = self._annotation_from_java(annotations)
+        return stages
 
     def annotate(self, target, optional_target=""):
         """Annotates the data provided, extracting the results.

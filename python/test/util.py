@@ -17,9 +17,10 @@ import os
 
 
 class SparkSessionForTest:
+    jars_path = "lib/sparknlp.jar"
     spark = SparkSession.builder \
         .master("local[*]") \
-        .config("spark.jars", 'lib/sparknlp.jar') \
+        .config("spark.jars", jars_path) \
         .config("spark.driver.memory", "12G") \
         .config("spark.driver.maxResultSize", "2G") \
         .config("spark.serializer", "org.apache.spark.serializer.KryoSerializer") \
@@ -29,11 +30,12 @@ class SparkSessionForTest:
 
 
 class SparkContextForTest:
+    parquet_file = "file:///" + os.getcwd() + "/../src/test/resources/sentiment.parquet"
     spark = SparkSessionForTest.spark
     data = spark. \
         read \
-        .parquet("file:///" + os.getcwd() + "/../src/test/resources/sentiment.parquet") \
+        .parquet(parquet_file) \
         .limit(100)
     data.cache()
     data.count()
-
+    
