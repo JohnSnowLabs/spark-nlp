@@ -87,9 +87,10 @@ re_model = ZeroShotRelationExtractionModel.pretrained("finre_zero_shot", "en", "
     .setInputCols(["ner_chunk", "sentence"]) \
     .setOutputCol("relations")
 
+# Remember it's 2 curly brackets instead of one if you are using Spark NLP < 4.0
 re_model.setRelationalCategories({
-    "DECREASE": ["{{PROFIT_DECLINE}} decrease {{AMOUNT}}", "{{PROFIT_DECLINE}} decrease {{PERCENTAGE}}"],
-    "INCREASE": ["{{PROFIT_INCREASE}} increase {{AMOUNT}}", "{{PROFIT_INCREASE}} increase {{PERCENTAGE}}"] # In Spark NLP>4.0, use single brackets {PROFIT_DECLINE} decrease {AMOUNT}
+    "DECREASE": ["{PROFIT_DECLINE} decrease {AMOUNT}", "{PROFIT_DECLINE} decrease {PERCENTAGE}"],
+    "INCREASE": ["{PROFIT_INCREASE} increase {AMOUNT}", "{PROFIT_INCREASE} increase {PERCENTAGE}"]
 })
 
 pipeline = sparknlp.base.Pipeline() \
