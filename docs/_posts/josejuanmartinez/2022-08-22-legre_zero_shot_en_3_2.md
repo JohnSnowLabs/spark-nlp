@@ -24,21 +24,21 @@ Make sure you keep the proper syntax of the relations you want to extract. For e
 Before Spark NLP 4.0
 ```
 re_model.setRelationalCategories({
-    "DECREASE": ["{{PROFIT_DECLINE}} decrease {{AMOUNT}}", "{{PROFIT_DECLINE}} decrease {{PERCENTAGE}}",
-    "INCREASE": ["{{PROFIT_INCREASE}} increase {{AMOUNT}}", "{{PROFIT_INCREASE}} increase {{PERCENTAGE}}"]
+    "GRANTS_TO": ["{{OBLIGATION_SUBJECT}} grants {{OBLIGATION_INDIRECT_OBJECT}}"],
+    "GRANTS": ["{{OBLIGATION_SUBJECT}} grants {{OBLIGATION_ACTION}}"]
 })
 ```
 
 After Spark NLP 4.0
 ```
 re_model.setRelationalCategories({
-    "DECREASE": ["{PROFIT_DECLINE} decrease {AMOUNT}", "{PROFIT_DECLINE}} decrease {PERCENTAGE}",
-    "INCREASE": ["{PROFIT_INCREASE} increase {AMOUNT}", "{PROFIT_INCREASE}} increase {PERCENTAGE}"]
+    "GRANTS_TO": ["{OBLIGATION_SUBJECT} grants {OBLIGATION_INDIRECT_OBJECT}"],
+    "GRANTS": ["{OBLIGATION_SUBJECT} grants {OBLIGATION_ACTION}"]
 })
 ```
 
 
-- The keys of the dictionary are the name of the relations (`DECREASE`, `INCREASE`)
+- The keys of the dictionary are the name of the relations (`GRANTS_TO`, `GRANTS`)
 - The values are list of sentences with similar examples of the relation
 - The values in brackets are the NER labels extracted by an NER component before
 
