@@ -13,7 +13,6 @@
 #  limitations under the License.
 """Contains classes for the SentenceDetector."""
 
-
 from sparknlp.common import *
 
 
@@ -35,6 +34,11 @@ class SentenceDetectorParams:
                                 "useCustomBoundsOnly",
                                 "Only utilize custom bounds in sentence detection",
                                 typeConverter=TypeConverters.toBoolean)
+
+    customBoundsStrategy = Param(Params._dummy(),
+                                 "customBoundsStrategy",
+                                 "How to return matched custom bounds",
+                                 typeConverter=TypeConverters.toString)
 
     explodeSentences = Param(Params._dummy(),
                              "explodeSentences",
@@ -106,6 +110,15 @@ class SentenceDetector(AnnotatorModel, SentenceDetectorParams):
         characters used to explicitly mark sentence bounds, by default []
     useCustomBoundsOnly
         Only utilize custom bounds in sentence detection, by default False
+    customBoundsStrategy
+        Sets how to return matched custom bounds, by default "none".
+
+        Will have no effect if no custom bounds are used.
+        Possible values are:
+
+        - "none" - Will not return the matched bound
+        - "prepend" - Prepends a sentence break to the match
+        - "append" - Appends a sentence break to the match
     explodeSentences
         whether to explode each sentence into a different row, for better
         parallelization, by default False
@@ -165,6 +178,23 @@ class SentenceDetector(AnnotatorModel, SentenceDetectorParams):
             Characters used to explicitly mark sentence bounds
         """
         return self._set(customBounds=value)
+
+    def setCustomBoundsStrategy(self, value):
+        """Sets how to return matched custom bounds, by default "none".
+
+        Will have no effect if no custom bounds are used.
+        Possible values are:
+
+        - "none" - Will not return the matched bound
+        - "prepend" - Prepends a sentence break to the match
+        - "append" - Appends a sentence break to the match
+
+        Parameters
+        ----------
+        value : str
+            Strategy to use
+        """
+        return self._set(customBoundsStrategy=value)
 
     def setUseAbbreviations(self, value):
         """Sets whether to apply abbreviations at sentence detection, by default
@@ -249,8 +279,8 @@ class SentenceDetector(AnnotatorModel, SentenceDetectorParams):
             detectLists=True,
             useCustomBoundsOnly=False,
             customBounds=[],
+            customBoundsStrategy="none",
             explodeSentences=False,
             minLength=0,
             maxLength=99999
         )
-

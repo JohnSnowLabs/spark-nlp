@@ -7,7 +7,7 @@ date: 2022-06-29
 tags: [pipeline, dependency_parsing, untyped_dependency_parsing, typed_dependency_parsing, laballed_depdency_parsing, unlaballed_depdency_parsing, en, open_source]
 task: Dependency Parser
 language: en
-edition: Spark NLP 3.4.4
+edition: Spark NLP 4.0.0
 spark_version: 3.0
 supported: true
 article_header:
@@ -24,7 +24,7 @@ Dependency parsing is the task of extracting a dependency parse of a sentence th
 {:.btn-box}
 [Live Demo](https://demo.johnsnowlabs.com/public/GRAMMAR_EN/){:.button.button-orange}
 [Open in Colab](https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/GRAMMAR_EN.ipynb){:.button.button-orange.button-orange-trans.co.button-icon}
-[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/dependency_parse_en_3.0.0_3.0_1616864258046.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
+[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/dependency_parse_en_4.0.0_3.0_1656456276940.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
 
 ## How to use
 
@@ -74,7 +74,7 @@ nlu.load("dep.typed").predict("Dependencies represents relationships betweens wo
 |---|---|
 |Model Name:|dependency_parse|
 |Type:|pipeline|
-|Compatibility:|Spark NLP 3.4.4+|
+|Compatibility:|Spark NLP 4.0.0+|
 |License:|Open Source|
 |Edition:|Official|
 |Language:|en|

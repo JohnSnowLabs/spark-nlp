@@ -11,7 +11,7 @@ spark_version: 2.4
 tags: [language_detection, open_source, pipeline, xx]
 supported: true
 article_header:
-  type: cover
+type: cover
 use_language_switcher: "Python-Scala-Java"
 ---
 
@@ -27,7 +27,7 @@ This pipeline can detect the following languages:
 `Bulgarian`, `Czech`, `Danish`, `German`, `Greek`, `English`, `Estonian`, `Finnish`, `French`, `Hungarian`, `Italian`, `Lithuanian`, `Latvian`, `Dutch`, `Polish`, `Portuguese`, `Romanian`, `Slovak`, `Slovenian`, `Spanish`, `Swedish`.
 
 {:.btn-box}
-<button class="button button-orange" disabled>Live Demo</button>
+[Live Demo](https://demo.johnsnowlabs.com/public/LANGUAGE_DETECTOR/){:.button.button-orange.button-orange-trans.co.button-icon}
 [Open in Colab](https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/jupyter/annotation/english/language-detection/Language_Detection_and_Indentification.ipynb){:.button.button-orange.button-orange-trans.co.button-icon}
 [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/detect_language_21_xx_2.7.0_2.4_1607181080664.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
 
@@ -68,7 +68,7 @@ lang_df
 
 ```bash
 {'document': ['French author who helped pioneer the science-fiction genre.'],
- 'language': ['en']}
+'language': ['en']}
 ```
 
 {:.model-param}
@@ -84,6 +84,6 @@ lang_df
 
 ## Included Models
 
- - DocumentAssembler
- - SentenceDetectorDLModel
- - LanguageDetectorDL
+- DocumentAssembler
+- SentenceDetectorDLModel
+- LanguageDetectorDL

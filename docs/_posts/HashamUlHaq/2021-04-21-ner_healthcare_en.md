@@ -11,7 +11,7 @@ edition: Spark NLP for Healthcare 3.0.0
 spark_version: 3.0
 supported: true
 article_header:
-  type: cover
+type: cover
 use_language_switcher: "Python-Scala-Java"
 ---
 
@@ -47,12 +47,12 @@ Pretrained named entity recognition deep learning model for healthcare. Includes
 ```python
 ...
 word_embeddings = WordEmbeddingsModel.pretrained("embeddings_healthcare", "en", "clinical/models")\
-  .setInputCols(["sentence", "token"])\
-  .setOutputCol("embeddings")
+.setInputCols(["sentence", "token"])\
+.setOutputCol("embeddings")
 
 clinical_ner = NerDLModel.pretrained("ner_healthcare", "en", "clinical/models") \
-  .setInputCols(["sentence", "token", "embeddings"]) \
-  .setOutputCol("ner")
+.setInputCols(["sentence", "token", "embeddings"]) \
+.setOutputCol("ner")
 ...
 nlpPipeline = Pipeline(stages=[document_assembler, sentence_detector, tokenizer, word_embeddings, clinical_ner, ner_converter])
 
@@ -63,12 +63,12 @@ results = model.transform(data)
 ```scala
 ...
 val word_embeddings = WordEmbeddingsModel.pretrained("embeddings_healthcare", "en", "clinical/models")
-  .setInputCols(Array("sentence", "token"))
-  .setOutputCol("embeddings")
+.setInputCols(Array("sentence", "token"))
+.setOutputCol("embeddings")
 
 val ner = NerDLModel.pretrained("ner_healthcare", "en", "clinical/models") 
-  .setInputCols(Array("sentence", "token", "embeddings"))
-  .setOutputCol("ner")
+.setInputCols(Array("sentence", "token", "embeddings"))
+.setOutputCol("ner")
 ...
 val pipeline = new Pipeline().setStages(Array(document_assembler, sentence_detector, tokenizer, word_embeddings, ner, ner_converter))
 
@@ -78,6 +78,14 @@ val result = pipeline.fit(data).transform(data)
 
 
 ```
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("en.med_ner.healthcare").predict("""A 28-year-old female with a history of gestational diabetes mellitus diagnosed eight years prior to presentation and subsequent type two diabetes mellitus ( T2DM ), one prior episode of HTG-induced pancreatitis three years prior to presentation , associated with an acute hepatitis , and obesity with a body mass index ( BMI ) of 33.5 kg/m2 , presented with a one-week history of polyuria , polydipsia , poor appetite , and vomiting . Two weeks prior to presentation , she was treated with a five-day course of amoxicillin for a respiratory tract infection . She was on metformin , glipizide , and dapagliflozin for T2DM and atorvastatin and gemfibrozil for HTG .""")
+```
+
 </div>
 
 

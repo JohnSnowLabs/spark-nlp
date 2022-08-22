@@ -11,7 +11,7 @@ edition: Spark NLP for Healthcare 3.5.3
 spark_version: 3.0
 supported: true
 article_header:
-  type: cover
+type: cover
 use_language_switcher: "Python-Scala-Java"
 ---
 
@@ -39,32 +39,32 @@ It extracts relevant entities from clinical trial abstracts. It uses a simplifie
 
 ```python
 documentAssembler = DocumentAssembler()\
-        .setInputCol("text")\
-        .setOutputCol("document")
-        
+.setInputCol("text")\
+.setOutputCol("document")
+
 sentenceDetector = SentenceDetectorDLModel.pretrained("sentence_detector_dl_healthcare", "en", "clinical/models")\
-        .setInputCols(["document"])\
-        .setOutputCol("sentence")
+.setInputCols(["document"])\
+.setOutputCol("sentence")
 
 tokenizer = Tokenizer()\
-        .setInputCols(["sentence"])\
-        .setOutputCol("token")
+.setInputCols(["sentence"])\
+.setOutputCol("token")
 
 tokenClassifier = MedicalBertForTokenClassifier.pretrained("bert_token_classifier_ner_clinical_trials_abstracts", "en", "clinical/models")\
-       .setInputCols("token", "sentence")\
-       .setOutputCol("ner")\
-       .setCaseSensitive(True)
+.setInputCols("token", "sentence")\
+.setOutputCol("ner")\
+.setCaseSensitive(True)
 
 ner_converter = NerConverter()\
-       .setInputCols(["sentence","token","ner"])\
-       .setOutputCol("ner_chunk")
+.setInputCols(["sentence","token","ner"])\
+.setOutputCol("ner_chunk")
 
 nlpPipeline = Pipeline(stages=[
-        documentAssembler,
-        sentenceDetector,
-        tokenizer,
-        tokenClassifier,
-        ner_converter])
+documentAssembler,
+sentenceDetector,
+tokenizer,
+tokenClassifier,
+ner_converter])
 
 text = ["This open-label, parallel-group, two-arm, pilot study compared the beta-cell protective effect of adding insulin glargine (GLA) vs. NPH insulin to ongoing metformin. Overall, 28 insulin-naive type 2 diabetes subjects (mean +/- SD age, 61.5 +/- 6.7 years; BMI, 30.7 +/- 4.3 kg/m(2)) treated with metformin and sulfonylurea were randomized to add once-daily GLA or NPH at bedtime."]
 
@@ -74,25 +74,25 @@ results = nlpPipeline.fit(data).transform(data)
 ```
 ```scala
 val documentAssembler = new DocumentAssembler()
-        .setInputCol("text")
-        .setOutputCol("document")
+.setInputCol("text")
+.setOutputCol("document")
 
 val sentenceDetector = SentenceDetectorDLModel.pretrained("sentence_detector_dl_healthcare", "en", "clinical/models")
-        .setInputCols("document")
-        .setOutputCol("sentence")
+.setInputCols("document")
+.setOutputCol("sentence")
 
 val tokenizer = new Tokenizer()
-        .setInputCols("sentence")
-        .setOutputCol("token")
+.setInputCols("sentence")
+.setOutputCol("token")
 
 val tokenClassifier = MedicalBertForTokenClassifier.pretrained("bert_token_classifier_ner_clinical_trials_abstracts", "en", "clinical/models")
-        .setInputCols(Array("token", "sentence"))
-        .setOutputCol("ner")
-        .setCaseSensitive(True)
-       
+.setInputCols(Array("token", "sentence"))
+.setOutputCol("ner")
+.setCaseSensitive(True)
+
 val. ner_converter = new NerConverter()
-  	.setInputCols(Array("sentence","token","ner"))
-  	.setOutputCol("ner_chunk")
+	.setInputCols(Array("sentence","token","ner"))
+	.setOutputCol("ner_chunk")
 
 val pipeline = new Pipeline().setStages(Array(documentAssembler, sentenceDetector, tokenizer, tokenClassifier, ner_converter))
 
@@ -102,6 +102,14 @@ val data = Seq(text).toDF("text")
 
 val results = pipeline.fit(data).transform(data)
 ```
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("en.med_ner.clinical_trials_abstracts").predict("""This open-label, parallel-group, two-arm, pilot study compared the beta-cell protective effect of adding insulin glargine (GLA) vs. NPH insulin to ongoing metformin. Overall, 28 insulin-naive type 2 diabetes subjects (mean +/- SD age, 61.5 +/- 6.7 years; BMI, 30.7 +/- 4.3 kg/m(2)) treated with metformin and sulfonylurea were randomized to add once-daily GLA or NPH at bedtime.""")
+```
+
 </div>
 
 ## Results
@@ -154,49 +162,49 @@ val results = pipeline.fit(data).transform(data)
 ## Benchmarking
 
 ```bash
-               label  precision    recall  f1-score   support
-               B-Age       0.93      0.88      0.90        16
-   B-AllocationRatio       1.00      1.00      1.00         7
-            B-Author       0.98      1.00      0.99       702
- B-BioAndMedicalUnit       0.96      0.97      0.96       723
-B-CTAnalysisApproach       1.00      1.00      1.00         5
-          B-CTDesign       0.93      0.95      0.94       384
-        B-Confidence       0.91      0.95      0.93       184
-           B-Country       0.88      0.91      0.90       115
-B-DisorderOrSyndrome       0.92      0.96      0.94       393
-         B-DoseValue       0.97      0.98      0.97       117
-              B-Drug       0.97      0.98      0.97      3944
-          B-DrugTime       0.92      0.90      0.91       202
-          B-Duration       0.90      0.88      0.89       100
-           B-Journal       1.00      1.00      1.00       131
-    B-NumberPatients       0.94      0.98      0.96       165
-              B-PMID       1.00      1.00      1.00       239
-            B-PValue       0.86      0.89      0.88       132
-B-PercentagePatients       0.93      0.97      0.95       105
-   B-PublicationYear       1.00      0.98      0.99        57
-         B-TimePoint       0.78      0.87      0.82       306
-             B-Value       0.89      0.87      0.88       407
-               I-Age       1.00      0.45      0.62        22
-   I-AllocationRatio       1.00      1.00      1.00        14
-            I-Author       0.99      0.98      0.99       590
- I-BioAndMedicalUnit       0.97      0.99      0.98       344
-I-CTAnalysisApproach       0.90      1.00      0.95        18
-          I-CTDesign       0.84      0.89      0.87       183
-        I-Confidence       0.92      0.98      0.95       753
-           I-Country       0.00      0.00      0.00        10
-I-DisorderOrSyndrome       0.99      0.98      0.99       600
-         I-DoseValue       0.99      0.98      0.98       164
-              I-Drug       0.90      0.89      0.90       393
-          I-DrugTime       0.96      0.80      0.88       192
-          I-Duration       0.90      0.84      0.87       165
-           I-Journal       0.98      0.99      0.99       238
-    I-NumberPatients       1.00      0.95      0.98        22
-            I-PValue       0.96      0.99      0.98       612
-I-PercentagePatients       0.99      1.00      1.00       130
-         I-TimePoint       0.81      0.78      0.79       282
-             I-Value       0.93      0.96      0.95       787
-                   O       0.99      0.98      0.98     24184
-            accuracy          -         -      0.97     38137
-           macro-avg       0.92      0.91      0.91     38137
-        weighted-avg       0.97      0.97      0.97     38137
+label 				 precision    recall  f1-score   support
+B-Age       			0.93      0.88      0.90        16
+B-AllocationRatio       1.00      1.00      1.00         7
+B-Author       			0.98      1.00      0.99       702
+B-BioAndMedicalUnit     0.96      0.97      0.96       723
+B-CTAnalysisApproach    1.00      1.00      1.00         5
+B-CTDesign       		0.93      0.95      0.94       384
+B-Confidence       		0.91      0.95      0.93       184
+B-Country       		0.88      0.91      0.90       115
+B-DisorderOrSyndrome   	0.92      0.96      0.94       393
+B-DoseValue       		0.97      0.98      0.97       117
+B-Drug       			0.97      0.98      0.97      3944
+B-DrugTime      		0.92      0.90      0.91       202
+B-Duration      		0.90      0.88      0.89       100
+B-Journal       		1.00      1.00      1.00       131
+B-NumberPatients       	0.94      0.98      0.96       165
+B-PMID       			1.00      1.00      1.00       239
+B-PValue       			0.86      0.89      0.88       132
+B-PercentagePatients	0.93      0.97      0.95       105
+B-PublicationYear       1.00      0.98      0.99        57
+B-TimePoint       		0.78      0.87      0.82       306
+B-Value       			0.89      0.87      0.88       407
+I-Age       			1.00      0.45      0.62        22
+I-AllocationRatio       1.00      1.00      1.00        14
+I-Author       			0.99      0.98      0.99       590
+I-BioAndMedicalUnit		0.97      0.99      0.98       344
+I-CTAnalysisApproach	0.90      1.00      0.95        18
+I-CTDesign       		0.84      0.89      0.87       183
+I-Confidence       		0.92      0.98      0.95       753
+I-Country       		0.00      0.00      0.00        10
+I-DisorderOrSyndrome	0.99      0.98      0.99       600
+I-DoseValue				0.99      0.98      0.98       164
+I-Drug					0.90      0.89      0.90       393
+I-DrugTime				0.96      0.80      0.88       192
+I-Duration				0.90      0.84      0.87       165
+I-Journal       		0.98      0.99      0.99       238
+I-NumberPatients        1.00      0.95      0.98        22
+I-PValue       			0.96      0.99      0.98       612
+I-PercentagePatients	0.99      1.00      1.00       130
+I-TimePoint       		0.81      0.78      0.79       282
+I-Value       			0.93      0.96      0.95       787
+O       				0.99      0.98      0.98     24184
+accuracy          		-         -      	0.97     38137
+macro-avg       		0.92      0.91      0.91     38137
+weighted-avg       		0.97      0.97      0.97     38137
 ```

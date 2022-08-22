@@ -11,7 +11,7 @@ edition: Spark NLP for Healthcare 3.5.3
 spark_version: 3.0
 supported: true
 article_header:
-  type: cover
+type: cover
 use_language_switcher: "Python-Scala-Java"
 ---
 
@@ -36,26 +36,27 @@ It extracts relevant entities from clinical trial abstracts. It uses a simplifie
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
+
 ```python
 documentAssembler = DocumentAssembler()\
-        .setInputCol("text")\
-        .setOutputCol("document")
-        
+    .setInputCol("text")\
+    .setOutputCol("document")
+
 sentenceDetector = SentenceDetectorDLModel.pretrained("sentence_detector_dl_healthcare", "en", "clinical/models")\
-        .setInputCols(["document"])\
-        .setOutputCol("sentence")
+    .setInputCols(["document"])\
+    .setOutputCol("sentence")
 
 tokenizer = Tokenizer()\
-        .setInputCols(["sentence"])\
-        .setOutputCol("token")
+    .setInputCols(["sentence"])\
+    .setOutputCol("token")
 
 embeddings = WordEmbeddingsModel.pretrained("embeddings_clinical" ,"en", "clinical/models")\
-        .setInputCols(["sentence","token"])\
-        .setOutputCol("embeddings")
+    .setInputCols(["sentence","token"])\
+    .setOutputCol("embeddings")
 
 clinical_ner = MedicalNerModel.pretrained("ner_clinical_trials_abstracts", "en", "clinical/models")\
-        .setInputCols(["sentence","token", "embeddings"])\
-        .setOutputCol("ner")
+    .setInputCols(["sentence","token", "embeddings"])\
+    .setOutputCol("ner")
 
 nlpPipeline = Pipeline(stages=[
         documentAssembler,
@@ -72,24 +73,24 @@ results = nlpPipeline.fit(data).transform(data)
 ```
 ```scala
 val documentAssembler = new DocumentAssembler()
-        .setInputCol("text")
-        .setOutputCol("document")
+.setInputCol("text")
+.setOutputCol("document")
 
 val sentenceDetector = SentenceDetectorDLModel.pretrained("sentence_detector_dl_healthcare", "en", "clinical/models")
-        .setInputCols("document")
-        .setOutputCol("sentence")
+.setInputCols("document")
+.setOutputCol("sentence")
 
 val tokenizer = new Tokenizer()
-        .setInputCols("sentence")
-        .setOutputCol("token")
+.setInputCols("sentence")
+.setOutputCol("token")
 
 val embeddings = WordEmbeddingsModel.pretrained("embeddings_clinical", "en", "clinical/models")
-        .setInputCols(Array("sentence", "token"))
-        .setOutputCol("embeddings")
+.setInputCols(Array("sentence", "token"))
+.setOutputCol("embeddings")
 
 val clinical_ner = MedicalNerModel.pretrained("ner_clinical_trials_abstracts", "en", "clinical/models")
-        .setInputCols(Array("sentence","token","embeddings"))
-        .setOutputCol("ner")
+.setInputCols(Array("sentence","token","embeddings"))
+.setOutputCol("ner")
 
 val pipeline = new Pipeline().setStages(Array(documentAssembler, sentenceDetector, tokenizer, embeddings, clinical_ner))
 
@@ -99,6 +100,14 @@ val data = Seq(text).toDF("text")
 
 val results = pipeline.fit(data).transform(data)
 ```
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("en.ner.clinical_trials_abstracts").predict("""A one-year, randomised, multicentre trial comparing insulin glargine with NPH insulin in combination with oral agents in patients with type 2 diabetes. In a multicentre, open, randomised study, 570 patients with Type 2 diabetes, aged 34 - 80 years, were treated for 52 weeks with insulin glargine or NPH insulin given once daily at bedtime.""")
+```
+
 </div>
 
 ## Results
@@ -195,30 +204,30 @@ val results = pipeline.fit(data).transform(data)
 ## Benchmarking
 
 ```bash
-             label  precision    recall  f1-score   support
-               Age       0.88      0.61      0.72        38
-   AllocationRatio       1.00      1.00      1.00        24
-            Author       0.93      0.92      0.92       789
- BioAndMedicalUnit       0.95      0.94      0.95       785
-CTAnalysisApproach       1.00      0.87      0.93        23
-          CTDesign       0.91      0.95      0.93       410
-        Confidence       0.95      0.95      0.95       899
-           Country       0.94      0.86      0.90       123
-DisorderOrSyndrome       0.99      0.98      0.99       568
-         DoseValue       0.96      0.97      0.97       263
-              Drug       0.96      0.95      0.96      1290
-          DrugTime       0.97      0.85      0.91       377
-          Duration       0.89      0.86      0.88       271
-           Journal       0.95      0.93      0.94       175
-    NumberPatients       0.95      0.94      0.94       173
-                 O       0.98      0.98      0.98     21613
-              PMID       1.00      1.00      1.00        55
-            PValue       0.97      0.99      0.98       654
-PercentagePatients       0.92      0.92      0.92       235
-   PublicationYear       0.86      0.96      0.91        57
-         TimePoint       0.85      0.75      0.80       514
-             Value       0.94      0.94      0.94      1195
-          accuracy          -         -      0.97     30531
-         macro-avg       0.94      0.91      0.93     30531
-      weighted-avg       0.97      0.97      0.97     30531
+label           precision    recall  f1-score   support
+Age                 0.88      0.61      0.72        38
+AllocationRatio     1.00      1.00      1.00        24
+Author              0.93      0.92      0.92       789
+BioAndMedicalUnit   0.95      0.94      0.95       785
+CTAnalysisApproach  1.00      0.87      0.93        23
+CTDesign            0.91      0.95      0.93       410
+Confidence          0.95      0.95      0.95       899
+Country             0.94      0.86      0.90       123
+DisorderOrSyndrome  0.99      0.98      0.99       568
+DoseValue           0.96      0.97      0.97       263
+Drug                0.96      0.95      0.96      1290
+DrugTime            0.97      0.85      0.91       377
+Duration            0.89      0.86      0.88       271
+Journal             0.95      0.93      0.94       175
+NumberPatients      0.95      0.94      0.94       173
+O                   0.98      0.98      0.98     21613
+PMID                1.00      1.00      1.00        55
+PValue              0.97      0.99      0.98       654
+PercentagePatients  0.92      0.92      0.92       235
+PublicationYear     0.86      0.96      0.91        57
+TimePoint           0.85      0.75      0.80       514
+Value               0.94      0.94      0.94      1195
+accuracy            -         -         0.97     30531
+macro-avg           0.94      0.91      0.93     30531
+weighted-avg        0.97      0.97      0.97     30531
 ```

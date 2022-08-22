@@ -11,7 +11,7 @@ spark_version: 2.4
 tags: [licensed, clinical, en, relation_extraction]
 supported: true
 article_header:
-  type: cover
+type: cover
 use_language_switcher: "Python-Scala-Java"
 ---
 
@@ -32,9 +32,9 @@ Detect interactions between chemicals and proteins using BERT model by classifyi
 
 In the table below, `redl_chemprot_biobert` RE model, its labels, optimal NER model, and meaningful relation pairs are illustrated.
 
-  |        RE MODEL       |                             RE MODEL LABES                            |       NER MODEL       | RE PAIRS                  |
- |:---------------------:|:---------------------------------------------------------------------:|:---------------------:|---------------------------|
- | redl_chemprot_biobert | CPR:1, CPR:2, CPR:3, CPR:4, CPR:5, CPR:6, CPR:7, CPR:8, CPR:9, CPR:10 | ner_chemprot_clinical | [“No need to set pairs.”] |
+|        RE MODEL       |                             RE MODEL LABES                            |       NER MODEL       | RE PAIRS                  |
+|:---------------------:|:---------------------------------------------------------------------:|:---------------------:|---------------------------|
+| redl_chemprot_biobert | CPR:1, CPR:2, CPR:3, CPR:4, CPR:5, CPR:6, CPR:7, CPR:8, CPR:9, CPR:10 | ner_chemprot_clinical | [“No need to set pairs.”] |
 
 
 <div class="tabs-box" markdown="1">
@@ -43,54 +43,54 @@ In the table below, `redl_chemprot_biobert` RE model, its labels, optimal NER mo
 ```python
 ...
 documenter = DocumentAssembler()\
-    .setInputCol("text")\
-    .setOutputCol("document")
+.setInputCol("text")\
+.setOutputCol("document")
 
 sentencer = SentenceDetector()\
-    .setInputCols(["document"])\
-    .setOutputCol("sentences")
+.setInputCols(["document"])\
+.setOutputCol("sentences")
 
 tokenizer = sparknlp.annotators.Tokenizer()\
-    .setInputCols(["sentences"])\
-    .setOutputCol("tokens")
+.setInputCols(["sentences"])\
+.setOutputCol("tokens")
 
 pos_tagger = PerceptronModel()\
-    .pretrained("pos_clinical", "en", "clinical/models") \
-    .setInputCols(["sentences", "tokens"])\
-    .setOutputCol("pos_tags")
+.pretrained("pos_clinical", "en", "clinical/models") \
+.setInputCols(["sentences", "tokens"])\
+.setOutputCol("pos_tags")
 
 words_embedder = WordEmbeddingsModel() \
-    .pretrained("embeddings_clinical", "en", "clinical/models") \
-    .setInputCols(["sentences", "tokens"]) \
-    .setOutputCol("embeddings")
+.pretrained("embeddings_clinical", "en", "clinical/models") \
+.setInputCols(["sentences", "tokens"]) \
+.setOutputCol("embeddings")
 
 ner_tagger = MedicalNerModel.pretrained("ner_chemprot_clinical", "en", "clinical/models")\
-    .setInputCols("sentences", "tokens", "embeddings")\
-    .setOutputCol("ner_tags") )
+.setInputCols("sentences", "tokens", "embeddings")\
+.setOutputCol("ner_tags") )
 
 ner_converter = NerConverter() \
-    .setInputCols(["sentences", "tokens", "ner_tags"]) \
-    .setOutputCol("ner_chunks")
+.setInputCols(["sentences", "tokens", "ner_tags"]) \
+.setOutputCol("ner_chunks")
 
 dependency_parser = DependencyParserModel() \
-    .pretrained("dependency_conllu", "en") \
-    .setInputCols(["sentences", "pos_tags", "tokens"]) \
-    .setOutputCol("dependencies")
+.pretrained("dependency_conllu", "en") \
+.setInputCols(["sentences", "pos_tags", "tokens"]) \
+.setOutputCol("dependencies")
 
 # Set a filter on pairs of named entities which will be treated as relation candidates
 re_ner_chunk_filter = RENerChunksFilter() \
-    .setInputCols(["ner_chunks", "dependencies"])\
-    .setMaxSyntacticDistance(10)\
-    .setOutputCol("re_ner_chunks")
-    #.setRelationPairs(['SYMPTOM-EXTERNAL_BODY_PART_OR_REGION'])
+.setInputCols(["ner_chunks", "dependencies"])\
+.setMaxSyntacticDistance(10)\
+.setOutputCol("re_ner_chunks")
+#.setRelationPairs(['SYMPTOM-EXTERNAL_BODY_PART_OR_REGION'])
 
 # The dataset this model is trained to is sentence-wise. 
 # This model can also be trained on document-level relations - in which case, while predicting, use "document" instead of "sentence" as input.
 re_model = RelationExtractionDLModel()\
-    .pretrained('redl_chemprot_biobert', 'en', "clinical/models") \
-    .setPredictionThreshold(0.5)\
-    .setInputCols(["re_ner_chunks", "sentences"]) \
-    .setOutputCol("relations")
+.pretrained('redl_chemprot_biobert', 'en', "clinical/models") \
+.setPredictionThreshold(0.5)\
+.setInputCols(["re_ner_chunks", "sentences"]) \
+.setOutputCol("relations")
 
 pipeline = Pipeline(stages=[documenter, sentencer, tokenizer, pos_tagger, words_embedder, ner_tagger, ner_converter, dependency_parser, re_ner_chunk_filter, re_model])
 
@@ -103,60 +103,68 @@ result = p_model.transform(data)
 ```scala
 ...
 val documenter = DocumentAssembler() 
-    .setInputCol("text") 
-    .setOutputCol("document")
+.setInputCol("text") 
+.setOutputCol("document")
 
 val sentencer = SentenceDetector()
-    .setInputCols("document")
-    .setOutputCol("sentences")
+.setInputCols("document")
+.setOutputCol("sentences")
 
 val tokenizer = sparknlp.annotators.Tokenizer()
-    .setInputCols("sentences")
-    .setOutputCol("tokens")
+.setInputCols("sentences")
+.setOutputCol("tokens")
 
 val pos_tagger = PerceptronModel()
-    .pretrained("pos_clinical", "en", "clinical/models") 
-    .setInputCols(Array("sentences", "tokens"))
-    .setOutputCol("pos_tags")
+.pretrained("pos_clinical", "en", "clinical/models") 
+.setInputCols(Array("sentences", "tokens"))
+.setOutputCol("pos_tags")
 
 val words_embedder = WordEmbeddingsModel()
-    .pretrained("embeddings_clinical", "en", "clinical/models")
-    .setInputCols(Array("sentences", "tokens"))
-    .setOutputCol("embeddings")
+.pretrained("embeddings_clinical", "en", "clinical/models")
+.setInputCols(Array("sentences", "tokens"))
+.setOutputCol("embeddings")
 
 val ner_tagger = MedicalNerModel.pretrained("ner_chemprot_clinical", "en", "clinical/models")
-    .setInputCols(Array("sentences", "tokens", "embeddings"))
-    .setOutputCol("ner_tags") 
+.setInputCols(Array("sentences", "tokens", "embeddings"))
+.setOutputCol("ner_tags") 
 
 val ner_converter = NerConverter()
-    .setInputCols(Array("sentences", "tokens", "ner_tags"))
-    .setOutputCol("ner_chunks")
+.setInputCols(Array("sentences", "tokens", "ner_tags"))
+.setOutputCol("ner_chunks")
 
 val dependency_parser = DependencyParserModel()
-    .pretrained("dependency_conllu", "en")
-    .setInputCols(Array("sentences", "pos_tags", "tokens"))
-    .setOutputCol("dependencies")
+.pretrained("dependency_conllu", "en")
+.setInputCols(Array("sentences", "pos_tags", "tokens"))
+.setOutputCol("dependencies")
 
 // Set a filter on pairs of named entities which will be treated as relation candidates
 val re_ner_chunk_filter = RENerChunksFilter()
-    .setInputCols(Array("ner_chunks", "dependencies"))
-    .setMaxSyntacticDistance(10)
-    .setOutputCol("re_ner_chunks")
-    // .setRelationPairs(Array("SYMPTOM-EXTERNAL_BODY_PART_OR_REGION"))
+.setInputCols(Array("ner_chunks", "dependencies"))
+.setMaxSyntacticDistance(10)
+.setOutputCol("re_ner_chunks")
+// .setRelationPairs(Array("SYMPTOM-EXTERNAL_BODY_PART_OR_REGION"))
 
 // The dataset this model is trained to is sentence-wise. 
 // This model can also be trained on document-level relations - in which case, while predicting, use "document" instead of "sentence" as input.
 val re_model = RelationExtractionDLModel()
-    .pretrained("redl_chemprot_biobert", "en", "clinical/models")
-    .setPredictionThreshold(0.5)
-    .setInputCols(Array("re_ner_chunks", "sentences"))
-    .setOutputCol("relations")
+.pretrained("redl_chemprot_biobert", "en", "clinical/models")
+.setPredictionThreshold(0.5)
+.setInputCols(Array("re_ner_chunks", "sentences"))
+.setOutputCol("relations")
 
 val pipeline = new Pipeline().setStages(Array(documenter, sentencer, tokenizer, pos_tagger, words_embedder, ner_tagger, ner_converter, dependency_parser, re_ner_chunk_filter, re_model))
 
 val data = Seq("In this study, we examined the effects of mitiglinide on various cloned K(ATP) channels (Kir6.2/SUR1, Kir6.2/SUR2A, and Kir6.2/SUR2B) reconstituted in COS-1 cells, and compared them to another meglitinide-related compound, nateglinide. Patch-clamp analysis using inside-out recording configuration showed that mitiglinide inhibits the Kir6.2/SUR1 channel currents in a dose-dependent manner (IC50 value, 100 nM) but does not significantly inhibit either Kir6.2/SUR2A or Kir6.2/SUR2B channel currents even at high doses (more than 10 microM). Nateglinide inhibits Kir6.2/SUR1 and Kir6.2/SUR2B channels at 100 nM, and inhibits Kir6.2/SUR2A channels at high concentrations (1 microM). Binding experiments on mitiglinide, nateglinide, and repaglinide to SUR1 expressed in COS-1 cells revealed that they inhibit the binding of [3H]glibenclamide to SUR1 (IC50 values: mitiglinide, 280 nM; nateglinide, 8 microM; repaglinide, 1.6 microM), suggesting that they all share a glibenclamide binding site. The insulin responses to glucose, mitiglinide, tolbutamide, and glibenclamide in MIN6 cells after chronic mitiglinide, nateglinide, or repaglinide treatment were comparable to those after chronic tolbutamide and glibenclamide treatment. These results indicate that, similar to the sulfonylureas, mitiglinide is highly specific to the Kir6.2/SUR1 complex, i.e., the pancreatic beta-cell K(ATP) channel, and suggest that mitiglinide may be a clinically useful anti-diabetic drug.").toDF("text")
 val result = pipeline.fit(data).transform(data)
 ```
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("en.relation.chemprot").predict("""In this study, we examined the effects of mitiglinide on various cloned K(ATP) channels (Kir6.2/SUR1, Kir6.2/SUR2A, and Kir6.2/SUR2B) reconstituted in COS-1 cells, and compared them to another meglitinide-related compound, nateglinide. Patch-clamp analysis using inside-out recording configuration showed that mitiglinide inhibits the Kir6.2/SUR1 channel currents in a dose-dependent manner (IC50 value, 100 nM) but does not significantly inhibit either Kir6.2/SUR2A or Kir6.2/SUR2B channel currents even at high doses (more than 10 microM). Nateglinide inhibits Kir6.2/SUR1 and Kir6.2/SUR2B channels at 100 nM, and inhibits Kir6.2/SUR2A channels at high concentrations (1 microM). Binding experiments on mitiglinide, nateglinide, and repaglinide to SUR1 expressed in COS-1 cells revealed that they inhibit the binding of [3H]glibenclamide to SUR1 (IC50 values: mitiglinide, 280 nM; nateglinide, 8 microM; repaglinide, 1.6 microM), suggesting that they all share a glibenclamide binding site. The insulin responses to glucose, mitiglinide, tolbutamide, and glibenclamide in MIN6 cells after chronic mitiglinide, nateglinide, or repaglinide treatment were comparable to those after chronic tolbutamide and glibenclamide treatment. These results indicate that, similar to the sulfonylureas, mitiglinide is highly specific to the Kir6.2/SUR1 complex, i.e., the pancreatic beta-cell K(ATP) channel, and suggest that mitiglinide may be a clinically useful anti-diabetic drug.""")
+```
+
 </div>
 
 ## Results

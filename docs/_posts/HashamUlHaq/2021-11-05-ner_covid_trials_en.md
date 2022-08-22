@@ -11,7 +11,7 @@ edition: Spark NLP for Healthcare 3.3.2
 spark_version: 3.0
 supported: true
 article_header:
-  type: cover
+type: cover
 use_language_switcher: "Python-Scala-Java"
 ---
 
@@ -47,12 +47,12 @@ Pretrained named entity recognition deep learning model for extracting covid-rel
 ```python
 ...
 embeddings_clinical = WordEmbeddingsModel.pretrained('embeddings_clinical', 'en', 'clinical/models') \
-    .setInputCols(['sentence', 'token']) \
-    .setOutputCol('embeddings')
+.setInputCols(['sentence', 'token']) \
+.setOutputCol('embeddings')
 
 clinical_ner = MedicalNerModel.pretrained("ner_covid_trials", "en", "clinical/models") \
-  .setInputCols(["sentence", "token", "embeddings"]) \
-  .setOutputCol("ner")
+.setInputCols(["sentence", "token", "embeddings"]) \
+.setOutputCol("ner")
 ...
 nlpPipeline = Pipeline(stages=[document_assembler, sentence_detector, tokenizer, embeddings_clinical,  clinical_ner, ner_converter])
 
@@ -63,12 +63,12 @@ results = model.transform(spark.createDataFrame([["In December 2019 , a group of
 ```scala
 ...
 val embeddings_clinical = WordEmbeddingsModel.pretrained("embeddings_clinical", "en", "clinical/models")
-   .setInputCols(["sentence", "token"])
-   .setOutputCol("embeddings")
+.setInputCols(["sentence", "token"])
+.setOutputCol("embeddings")
 
 val ner = MedicalNerModel.pretrained("ner_covid_trials", "en", "clinical/models") 
-  .setInputCols("sentence", "token", "embeddings")
-  .setOutputCol("ner")
+.setInputCols("sentence", "token", "embeddings")
+.setOutputCol("ner")
 ...
 val pipeline = new Pipeline().setStages(Array(document_assembler, sentence_detector, tokenizer, embeddings_clinical, ner, ner_converter))
 
@@ -76,6 +76,14 @@ val data = Seq("""In December 2019 , a group of patients with the acute respirat
 
 val result = pipeline.fit(data).transform(data)
 ```
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("en.med_ner.covid_trials").predict("""In December 2019 , a group of patients with the acute respiratory disease was detected in Wuhan , Hubei Province of China . A month later , a new beta-coronavirus was identified as the cause of the 2019 coronavirus infection . SARS-CoV-2 is a coronavirus that belongs to the group of β-coronaviruses of the subgenus Coronaviridae . The SARS-CoV-2 is the third known zoonotic coronavirus disease after severe acute respiratory syndrome ( SARS ) and Middle Eastern respiratory syndrome ( MERS ). The diagnosis of SARS-CoV-2 recommended by the WHO , CDC is the collection of a sample from the upper respiratory tract ( nasal and oropharyngeal exudate ) or from the lower respiratory tract such as expectoration of endotracheal aspirate and bronchioloalveolar lavage and its analysis using the test of real-time polymerase chain reaction ( qRT-PCR ).""")
+```
+
 </div>
 
 

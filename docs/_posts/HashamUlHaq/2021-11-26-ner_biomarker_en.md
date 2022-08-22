@@ -11,7 +11,7 @@ edition: Spark NLP for Healthcare 3.3.3
 spark_version: 3.0
 supported: true
 article_header:
-  type: cover
+type: cover
 use_language_switcher: "Python-Scala-Java"
 ---
 
@@ -47,12 +47,12 @@ This model is trained to extract biomarkers, therapies, oncological, and other g
 ```python
 ...
 embeddings_clinical = WordEmbeddingsModel.pretrained('embeddings_clinical', 'en', 'clinical/models') \
-    .setInputCols(['sentence', 'token']) \
-    .setOutputCol('embeddings')
+.setInputCols(['sentence', 'token']) \
+.setOutputCol('embeddings')
 
 clinical_ner = MedicalNerModel.pretrained("ner_biomarker", "en", "clinical/models") \
-  .setInputCols(["sentence", "token", "embeddings"]) \
-  .setOutputCol("ner")
+.setInputCols(["sentence", "token", "embeddings"]) \
+.setOutputCol("ner")
 ...
 nlpPipeline = Pipeline(stages=[document_assembler, sentence_detector, tokenizer, embeddings_clinical,  clinical_ner, ner_converter])
 
@@ -65,12 +65,12 @@ results = model.transform(spark.createDataFrame([["Here , we report the first ca
 ```scala
 ...
 val embeddings_clinical = WordEmbeddingsModel.pretrained("embeddings_clinical", "en", "clinical/models")
-   .setInputCols(["sentence", "token"])
-   .setOutputCol("embeddings")
+.setInputCols(["sentence", "token"])
+.setOutputCol("embeddings")
 
 val ner = MedicalNerModel.pretrained("ner_biomarker", "en", "clinical/models") 
-  .setInputCols("sentence", "token", "embeddings")
-  .setOutputCol("ner")
+.setInputCols("sentence", "token", "embeddings")
+.setOutputCol("ner")
 ...
 val pipeline = new Pipeline().setStages(Array(document_assembler, sentence_detector, tokenizer, embeddings_clinical, ner, ner_converter))
 
@@ -78,6 +78,14 @@ val data = Seq("""Here , we report the first case of an intraductal tubulopapill
 
 val result = pipeline.fit(data).transform(data)
 ```
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("en.med_ner.biomarker").predict("""Here , we report the first case of an intraductal tubulopapillary neoplasm of the pancreas with clear cell morphology . Immunohistochemistry revealed positivity for Pan-CK , CK7 , CK8/18 , MUC1 , MUC6 , carbonic anhydrase IX , CD10 , EMA , β-catenin and e-cadherin """)
+```
+
 </div>
 
 

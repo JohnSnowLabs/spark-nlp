@@ -11,7 +11,7 @@ spark_version: 2.4
 tags: [open_source, embeddings, en]
 supported: true
 article_header:
-  type: cover
+type: cover
 use_language_switcher: "Python-Scala-Java"
 ---
 
@@ -32,8 +32,8 @@ BERT-large-uncased model, pretrained on a corpus of messages from Twitter about 
 ```python
 ...
 embeddings = BertEmbeddings.pretrained("covidbert_large_uncased", "en") \
-      .setInputCols("sentence", "token") \
-      .setOutputCol("embeddings")
+.setInputCols("sentence", "token") \
+.setOutputCol("embeddings")
 nlp_pipeline = Pipeline(stages=[document_assembler, sentence_detector, tokenizer, embeddings])
 pipeline_model = nlp_pipeline.fit(spark.createDataFrame([[""]]).toDF("text"))
 result = pipeline_model.transform(spark.createDataFrame([['I love NLP']], ["text"]))
@@ -42,8 +42,8 @@ result = pipeline_model.transform(spark.createDataFrame([['I love NLP']], ["text
 ```scala
 ...
 val embeddings = BertEmbeddings.pretrained("covidbert_large_uncased", "en")
-      .setInputCols("sentence", "token")
-      .setOutputCol("embeddings")
+.setInputCols("sentence", "token")
+.setOutputCol("embeddings")
 val pipeline = new Pipeline().setStages(Array(document_assembler, sentence_detector, tokenizer, embeddings))
 val data = Seq("I love NLP").toDF("text")
 val result = pipeline.fit(data).transform(data)
@@ -65,9 +65,9 @@ embeddings_df
 ```bash
 	en_embed_covidbert_large_uncased_embeddings	      token
 	
-      [-1.934066891670227, 0.620597779750824, 0.0967... 	I
-      [-0.5530431866645813, 1.1948248147964478, -0.0... 	love
-      [0.255395770072937, 0.5808677077293396, 0.3073... 	NLP
+[-1.934066891670227, 0.620597779750824, 0.0967... 	I
+[-0.5530431866645813, 1.1948248147964478, -0.0... 	love
+[0.255395770072937, 0.5808677077293396, 0.3073... 	NLP
 ```
 
 {:.model-param}

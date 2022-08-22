@@ -11,7 +11,7 @@ spark_version: 2.4
 tags: [open_source, en, pipeline]
 supported: true
 article_header:
-  type: cover
+type: cover
 use_language_switcher: "Python-Scala-Java"
 ---
 
@@ -87,9 +87,9 @@ ner_df[["entities", "entities_class"]]
 
 ## Included Models
 
- - DocumentAssembler
- - SentenceDetectorDLModel
- - Tokenizer
- - BertEmbeddings
- - NerDLModel
- - NerConverter
+- DocumentAssembler
+- SentenceDetectorDLModel
+- Tokenizer
+- BertEmbeddings
+- NerDLModel
+- NerConverter

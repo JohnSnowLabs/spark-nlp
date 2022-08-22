@@ -11,7 +11,7 @@ spark_version: 2.4
 tags: [open_source, embeddings, en]
 supported: true
 article_header:
-  type: cover
+type: cover
 use_language_switcher: "Python-Scala-Java"
 ---
 
@@ -32,8 +32,8 @@ This model contains a deep bidirectional transformer trained on Wikipedia and th
 ```python
 ...
 embeddings = BertEmbeddings.pretrained("bert_large_uncased", "en") \
-      .setInputCols("sentence", "token") \
-      .setOutputCol("embeddings")
+.setInputCols("sentence", "token") \
+.setOutputCol("embeddings")
 nlp_pipeline = Pipeline(stages=[document_assembler, sentence_detector, tokenizer, embeddings])
 pipeline_model = nlp_pipeline.fit(spark.createDataFrame([[""]]).toDF("text"))
 result = pipeline_model.transform(spark.createDataFrame([['I love NLP']], ["text"]))
@@ -42,8 +42,8 @@ result = pipeline_model.transform(spark.createDataFrame([['I love NLP']], ["text
 ```scala
 ...
 val embeddings = BertEmbeddings.pretrained("bert_large_uncased", "en")
-      .setInputCols("sentence", "token")
-      .setOutputCol("embeddings")
+.setInputCols("sentence", "token")
+.setOutputCol("embeddings")
 val pipeline = new Pipeline().setStages(Array(document_assembler, sentence_detector, tokenizer, embeddings))
 val data = Seq("I love NLP").toDF("text")
 val result = pipeline.fit(data).transform(data)

@@ -1,6 +1,6 @@
 ---
 layout: model
-title: Bangla Bert Embeddings (from sagorsarker)
+title: Bangla Bert Embeddings
 author: John Snow Labs
 name: bert_embeddings_bangla_bert_base
 date: 2022-04-11
@@ -10,8 +10,9 @@ language: bn
 edition: Spark NLP 3.4.2
 spark_version: 3.0
 supported: true
+recommended: true
 article_header:
-  type: cover
+type: cover
 use_language_switcher: "Python-Scala-Java"
 ---
 
@@ -32,17 +33,17 @@ Pretrained Bert Embeddings model, uploaded to Hugging Face, adapted and imported
 {% include programmingLanguageSelectScalaPythonNLU.html %}
 ```python
 documentAssembler = DocumentAssembler() \
-    .setInputCol("text") \
-    .setOutputCol("document")
+.setInputCol("text") \
+.setOutputCol("document")
 
 tokenizer = Tokenizer() \
-    .setInputCols("document") \
-    .setOutputCol("token")
-  
+.setInputCols("document") \
+.setOutputCol("token")
+
 embeddings = BertEmbeddings.pretrained("bert_embeddings_bangla_bert_base","bn") \
-    .setInputCols(["document", "token"]) \
-    .setOutputCol("embeddings")
-    
+.setInputCols(["document", "token"]) \
+.setOutputCol("embeddings")
+
 pipeline = Pipeline(stages=[documentAssembler, tokenizer, embeddings])
 
 data = spark.createDataFrame([["আমি স্পার্ক এনএলপি ভালোবাসি"]]).toDF("text")
@@ -51,16 +52,16 @@ result = pipeline.fit(data).transform(data)
 ```
 ```scala
 val documentAssembler = new DocumentAssembler() 
-      .setInputCol("text") 
-      .setOutputCol("document")
- 
+.setInputCol("text") 
+.setOutputCol("document")
+
 val tokenizer = new Tokenizer() 
-    .setInputCols(Array("document"))
-    .setOutputCol("token")
+.setInputCols(Array("document"))
+.setOutputCol("token")
 
 val embeddings = BertEmbeddings.pretrained("bert_embeddings_bangla_bert_base","bn") 
-    .setInputCols(Array("document", "token")) 
-    .setOutputCol("embeddings")
+.setInputCols(Array("document", "token")) 
+.setOutputCol("embeddings")
 
 val pipeline = new Pipeline().setStages(Array(documentAssembler, tokenizer, embeddings))
 
@@ -68,6 +69,14 @@ val data = Seq("আমি স্পার্ক এনএলপি ভালো�
 
 val result = pipeline.fit(data).transform(data)
 ```
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("bn.embed.bangala_bert").predict("""আমি স্পার্ক এনএলপি ভালোবাসি""")
+```
+
 </div>
 
 {:.model-param}

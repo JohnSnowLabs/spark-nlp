@@ -18,7 +18,7 @@ use_language_switcher: "Python-Scala-Java"
 
 ## Description
 
-This pipeline is trained with `w2v_cc_300d` portuguese embeddings and can be used to deidentify PHI information from medical texts in Spanish. The PHI information will be masked and obfuscated in the resulting text. The pipeline can mask, fake or obfuscate the following entities: `AGE`, `DATE`, `PROFESSION`, `EMAIL`, `ID`, `COUNTRY`, `STREET`, `DOCTOR`, `HOSPITAL`, `PATIENT`, `URL`, `IP`, `ORGANIZATION`, `PHONE`, `ZIP`, `ACCOUNT`, `SSN`, `PLATE`, `SEX` and `IPADDR`
+This pipeline is trained with `w2v_cc_300d` portuguese embeddings and can be used to deidentify PHI information from medical texts in Portuguese. The PHI information will be masked and obfuscated in the resulting text. The pipeline can mask, fake or obfuscate the following entities: `AGE`, `DATE`, `PROFESSION`, `EMAIL`, `ID`, `COUNTRY`, `STREET`, `DOCTOR`, `HOSPITAL`, `PATIENT`, `URL`, `IP`, `ORGANIZATION`, `PHONE`, `ZIP`, `ACCOUNT`, `SSN`, `PLATE`, `SEX` and `IPADDR`
 
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>

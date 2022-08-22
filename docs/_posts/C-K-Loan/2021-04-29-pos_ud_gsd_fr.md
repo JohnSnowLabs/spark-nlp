@@ -11,7 +11,7 @@ language: fr
 edition: Spark NLP 3.0.0
 spark_version: 3.0
 article_header:
-  type: cover
+type: cover
 use_language_switcher: "Python-Scala-Java"
 ---
 
@@ -52,21 +52,21 @@ A [Part of Speech](https://en.wikipedia.org/wiki/Part_of_speech) classifier pred
 {% include programmingLanguageSelectScalaPythonNLU.html %}
 ```python
 document_assembler = DocumentAssembler() \
-  .setInputCol("text") \
-  .setOutputCol("document")
+.setInputCol("text") \
+.setOutputCol("document")
 
 sentence_detector = SentenceDetector() \
-  .setInputCols(["document"]) \
-  .setOutputCol("sentence")
+.setInputCols(["document"]) \
+.setOutputCol("sentence")
 
 pos = PerceptronModel.pretrained("pos_ud_gsd", "fr") \
-  .setInputCols(["document", "token"]) \
-  .setOutputCol("pos")
+.setInputCols(["document", "token"]) \
+.setOutputCol("pos")
 
 pipeline = Pipeline(stages=[
-  document_assembler,
-  sentence_detector,
-  posTagger
+document_assembler,
+sentence_detector,
+posTagger
 ])
 
 example = spark.createDataFrame([['Bonjour de John Snow Labs!']], ["text"])
@@ -75,16 +75,16 @@ result = pipeline.fit(example).transform(example)
 ```
 ```scala
 val document_assembler = DocumentAssembler()
-        .setInputCol("text")
-        .setOutputCol("document")
+.setInputCol("text")
+.setOutputCol("document")
 
 val sentence_detector = SentenceDetector()
-        .setInputCols(["document"])
+.setInputCols(["document"])
 .setOutputCol("sentence")
 
 val pos = PerceptronModel.pretrained("pos_ud_gsd", "fr")
-        .setInputCols(Array("document", "token"))
-        .setOutputCol("pos")
+.setInputCols(Array("document", "token"))
+.setOutputCol("pos")
 
 val pipeline = new Pipeline().setStages(Array(document_assembler, sentence_detector, pos))
 
@@ -104,7 +104,7 @@ pos_df = nlu.load('pos_ud_gsd').predict(text)
 ## Results
 
 ```bash
-  token_result pos_result
+token_result pos_result
 0      Bonjour       INTJ
 1           de        ADP
 2         John      PROPN

@@ -11,7 +11,7 @@ edition: Spark NLP for Healthcare 3.2.0
 spark_version: 2.4
 supported: true
 article_header:
-  type: cover
+type: cover
 use_language_switcher: "Python-Scala-Java"
 ---
 
@@ -58,8 +58,8 @@ tokenizer = Tokenizer()\
 		.setOutputCol("token")
 	
 embeddings = BertEmbeddings.pretrained('biobert_pubmed_base_cased') \
-    .setInputCols(['sentence', 'token']) \
-    .setOutputCol('embeddings')
+.setInputCols(['sentence', 'token']) \
+.setOutputCol('embeddings')
 
 jsl_ner = MedicalNerModel.pretrained("ner_jsl_greedy_biobert", "en", "clinical/models") \
 		.setInputCols(["sentence", "token", "embeddings"]) \
@@ -98,9 +98,9 @@ val tokenizer = new Tokenizer()
 		.setOutputCol("token")
 	
 val embeddings = BertEmbeddings.pretrained('biobert_pubmed_base_cased')
-    .setInputCols(Array('sentence', 'token'))
-    .setOutputCol('embeddings')
-  
+.setInputCols(Array('sentence', 'token'))
+.setOutputCol('embeddings')
+
 val jsl_ner = MedicalNerModel.pretrained("ner_jsl_greedy_biobert", "en", "clinical/models")
 		.setInputCols(Array("sentence", "token", "embeddings"))
 		.setOutputCol("jsl_ner")
@@ -108,7 +108,7 @@ val jsl_ner = MedicalNerModel.pretrained("ner_jsl_greedy_biobert", "en", "clinic
 val jsl_ner_converter = new NerConverter()
 		.setInputCols(Array("sentence", "token", "jsl_ner"))
 		.setOutputCol("ner_chunk")
- 
+
 val jsl_ner_pipeline = new Pipeline().setStages(Array(
 					documentAssembler, 
 					sentenceDetector, 
@@ -122,6 +122,14 @@ val data = Seq("""The patient is a 21-day-old Caucasian male here for 2 days of 
 
 val result = jsl_ner_pipeline.fit(data).transform(data)
 ```
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("en.med_ner.jsl_greedy_biobert").predict("""The patient is a 21-day-old Caucasian male here for 2 days of congestion - mom has been suctioning yellow discharge from the patient's nares, plus she has noticed some mild problems with his breathing while feeding (but negative for any perioral cyanosis or retractions). One day ago, mom also noticed a tactile temperature and gave the patient Tylenol. Baby also has had some decreased p.o. intake. His normal breast-feeding is down from 20 minutes q.2h. to 5 to 10 minutes secondary to his respiratory congestion. He sleeps well, but has been more tired and has been fussy over the past 2 days. The parents noticed no improvement with albuterol treatments given in the ER. His urine output has also decreased; normally he has 8 to 10 wet and 5 dirty diapers per 24 hours, now he has down to 4 wet diapers per 24 hours. Mom denies any diarrhea. His bowel movements are yellow colored and soft in nature.""")
+```
+
 </div>
 
 

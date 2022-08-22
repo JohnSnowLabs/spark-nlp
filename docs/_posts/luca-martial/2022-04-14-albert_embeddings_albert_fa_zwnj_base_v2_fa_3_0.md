@@ -1,6 +1,6 @@
 ---
 layout: model
-title: Persian ALBERT Embeddings (from HooshvareLab)
+title: Persian (Farsi) ALBERT Embeddings
 author: John Snow Labs
 name: albert_embeddings_albert_fa_zwnj_base_v2
 date: 2022-04-14
@@ -10,8 +10,9 @@ language: fa
 edition: Spark NLP 3.4.2
 spark_version: 3.0
 supported: true
+recommended: true
 article_header:
-  type: cover
+type: cover
 use_language_switcher: "Python-Scala-Java"
 ---
 
@@ -32,17 +33,17 @@ Pretrained ALBERT Embeddings model, uploaded to Hugging Face, adapted and import
 {% include programmingLanguageSelectScalaPythonNLU.html %}
 ```python
 documentAssembler = DocumentAssembler() \
-    .setInputCol("text") \
-    .setOutputCol("document")
+.setInputCol("text") \
+.setOutputCol("document")
 
 tokenizer = Tokenizer() \
-    .setInputCols("document") \
-    .setOutputCol("token")
-  
+.setInputCols("document") \
+.setOutputCol("token")
+
 embeddings = AlbertEmbeddings.pretrained("albert_embeddings_albert_fa_zwnj_base_v2","fa") \
-    .setInputCols(["document", "token"]) \
-    .setOutputCol("embeddings")
-    
+.setInputCols(["document", "token"]) \
+.setOutputCol("embeddings")
+
 pipeline = Pipeline(stages=[documentAssembler, tokenizer, embeddings])
 
 data = spark.createDataFrame([["من عاشق جرقه NLP هستم"]]).toDF("text")
@@ -51,16 +52,16 @@ result = pipeline.fit(data).transform(data)
 ```
 ```scala
 val documentAssembler = new DocumentAssembler() 
-      .setInputCol("text") 
-      .setOutputCol("document")
- 
+.setInputCol("text") 
+.setOutputCol("document")
+
 val tokenizer = new Tokenizer() 
-    .setInputCols(Array("document"))
-    .setOutputCol("token")
+.setInputCols(Array("document"))
+.setOutputCol("token")
 
 val embeddings = AlbertEmbeddings.pretrained("albert_embeddings_albert_fa_zwnj_base_v2","fa") 
-    .setInputCols(Array("document", "token")) 
-    .setOutputCol("embeddings")
+.setInputCols(Array("document", "token")) 
+.setOutputCol("embeddings")
 
 val pipeline = new Pipeline().setStages(Array(documentAssembler, tokenizer, embeddings))
 
@@ -68,6 +69,14 @@ val data = Seq("من عاشق جرقه NLP هستم").toDF("text")
 
 val result = pipeline.fit(data).transform(data)
 ```
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("fa.embed.albert_fa_zwnj_base_v2").predict("""من عاشق جرقه NLP هستم""")
+```
+
 </div>
 
 {:.model-param}

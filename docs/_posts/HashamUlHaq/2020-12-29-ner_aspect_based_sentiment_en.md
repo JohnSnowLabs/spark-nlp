@@ -11,7 +11,7 @@ spark_version: 2.4
 tags: [sentiment, open_source, en, ner]
 supported: true
 article_header:
-  type: cover
+type: cover
 use_language_switcher: "Python-Scala-Java"
 ---
 
@@ -37,11 +37,11 @@ Use as part of an nlp pipeline with the following stages: DocumentAssembler, Sen
 ```python
 ...
 word_embeddings = WordEmbeddingsModel.pretrained("glove_6B_300", "xx")\
-    .setInputCols(["document", "token"])\
-    .setOutputCol("embeddings")
+.setInputCols(["document", "token"])\
+.setOutputCol("embeddings")
 ner_model = NerDLModel.pretrained("ner_aspect_based_sentiment")\
-    .setInputCols(["document", "token", "embeddings"])\
-    .setOutputCol("ner")
+.setInputCols(["document", "token", "embeddings"])\
+.setOutputCol("ner")
 ...
 nlp_pipeline = Pipeline(stages=[document_assembler, sentence_detector, tokenizer, word_embeddings, ner_model, ner_converter])
 model = nlp_pipeline.fit(spark.createDataFrame([[""]]).toDF("text"))
@@ -50,11 +50,11 @@ results = model.transform(spark.createDataFrame([["Came for lunch my sister. We 
 ```scala
 ...
 val word_embeddings = WordEmbeddingsModel.pretrained("glove_6B_300", "xx")
-    .setInputCols(Array("document", "token"))
-    .setOutputCol("embeddings")
+.setInputCols(Array("document", "token"))
+.setOutputCol("embeddings")
 val ner_model = NerDLModel.pretrained("ner_aspect_based_sentiment")
-    .setInputCols(Array("document", "token", "embeddings"))
-    .setOutputCol("ner")
+.setInputCols(Array("document", "token", "embeddings"))
+.setOutputCol("ner")
 ...
 val pipeline = new Pipeline().setStages(Array(document_assembler, sentence_detector, tokenizer, word_embeddings, ner_model, ner_converter))
 val data = Seq("Came for lunch my sister. We loved our Thai-style main which amazing with lots of flavours very impressive for vegetarian. But the service was below average and the chips were too terrible to finish.").toDF("text")

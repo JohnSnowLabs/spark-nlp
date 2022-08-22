@@ -11,7 +11,7 @@ edition: Spark NLP 3.3.4
 spark_version: 3.0
 supported: true
 article_header:
-  type: cover
+type: cover
 use_language_switcher: "Python-Scala-Java"
 ---
 
@@ -52,18 +52,26 @@ val annotation = pipeline.transform(testData)
 
 annotation.show()
 ```
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("en.match.chunks").predict("""David visited the restaurant yesterday with his family. He also visited and the day before, but at that time he was alone. David again visited today with his colleagues. He and his friends really liked the food and hoped to visit again tomorrow.""")
+```
+
 </div>
 
 ## Results
 
 ```bash
 ['the restaurant yesterday',
- 'family',
- 'the day',
- 'that time',
- 'today',
- 'the food',
- 'tomorrow']
+'family',
+'the day',
+'that time',
+'today',
+'the food',
+'tomorrow']
 ```
 
 {:.model-param}

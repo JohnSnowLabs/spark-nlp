@@ -1,0 +1,438 @@
+
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+
+    <title>sparknlp_jsl.annotator.re.relation_ner_chunk_filter &#8212; Spark NLP 4.0.0 documentation</title>
+<script>
+  document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+  document.documentElement.dataset.theme = localStorage.getItem("theme") || "light"
+</script>
+
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../../../../../static/styles/theme.css?digest=92025949c220c2e29695" rel="stylesheet">
+<link href="../../../../../../static/styles/pydata-sphinx-theme.css?digest=92025949c220c2e29695" rel="stylesheet">
+
+
+  <link rel="stylesheet"
+    href="../../../../../../static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../../../../../../static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../../../../../../static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+    <link rel="stylesheet" type="text/css" href="../../../../../../static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../../../../../../static/graphviz.css" />
+    <link rel="stylesheet" type="text/css" href="../../../../../../static/css/custom.css" />
+
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../../../../../static/scripts/pydata-sphinx-theme.js?digest=92025949c220c2e29695">
+
+    <script data-url_root="../../../../../../" id="documentation_options" src="../../../../../../static/documentation_options.js"></script>
+    <script src="../../../../../../static/jquery.js"></script>
+    <script src="../../../../../../static/underscore.js"></script>
+    <script src="../../../../../../static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="../../../../../../static/doctools.js"></script>
+    <script src="../../../../../../static/toggleprompt.js"></script>
+    <link rel="shortcut icon" href="../../../../../../static/fav.ico"/>
+    <link rel="index" title="Index" href="../../../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../../../search.html" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="docsearch:language" content="en">
+  </head>
+  
+  
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="180" data-default-mode="">
+    <div class="bd-header-announcement container-fluid" id="banner">
+      
+
+    </div>
+
+    
+    <nav class="bd-header navbar navbar-light navbar-expand-lg bg-light fixed-top bd-navbar" id="navbar-main"><div class="bd-header__inner container-xl">
+
+  <div id="navbar-start">
+    
+    
+  
+
+
+<a class="navbar-brand logo" href="../../../../../../index.html">
+  
+  
+  
+  
+    <img src="../../../../../../static/logo.png" class="logo__image only-light" alt="Logo image">
+    <img src="../../../../../../static/logo.png" class="logo__image only-dark" alt="Logo image">
+  
+  
+</a>
+    
+  </div>
+
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar-collapsible" aria-controls="navbar-collapsible" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="fas fa-bars"></span>
+  </button>
+
+  
+  <div id="navbar-collapsible" class="col-lg-9 collapse navbar-collapse">
+    <div id="navbar-center" class="mr-auto">
+      
+      <div class="navbar-center-item">
+        <ul id="navbar-main-elements" class="navbar-nav">
+    <li class="toctree-l1 nav-item">
+ <a class="reference internal nav-link" href="../../../../../../getting_started/index.html">
+  Getting Started
+ </a>
+</li>
+
+<li class="toctree-l1 nav-item">
+ <a class="reference internal nav-link" href="../../../../../index.html">
+  API Reference
+ </a>
+</li>
+
+    
+</ul>
+      </div>
+      
+    </div>
+
+    <div id="navbar-end">
+      
+      <div class="navbar-end-item">
+        <span id="theme-switch" class="btn btn-sm btn-outline-primary navbar-btn rounded-circle">
+    <a class="theme-switch" data-mode="light"><i class="fas fa-sun"></i></a>
+    <a class="theme-switch" data-mode="dark"><i class="far fa-moon"></i></a>
+    <a class="theme-switch" data-mode="auto"><i class="fas fa-adjust"></i></a>
+</span>
+      </div>
+      
+      <div class="navbar-end-item">
+        <ul id="navbar-icon-links" class="navbar-nav" aria-label="Icon Links">
+      </ul>
+      </div>
+      
+    </div>
+  </div>
+</div>
+    </nav>
+    
+
+    <div class="bd-container container-xl">
+      <div class="bd-container__inner row">
+          
+
+<!-- Only show if we have sidebars configured, else just a small margin  -->
+<div class="bd-sidebar-primary col-12 col-md-3 bd-sidebar">
+  <div class="sidebar-start-items"><form class="bd-search d-flex align-items-center" action="../../../../../../search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search the docs ..." aria-label="Search the docs ..." autocomplete="off" >
+</form><nav class="bd-links" id="bd-docs-nav" aria-label="Main navigation">
+  <div class="bd-toc-item active">
+    
+  </div>
+</nav>
+  </div>
+  <div class="sidebar-end-items">
+  </div>
+</div>
+
+
+          
+
+
+<div class="bd-sidebar-secondary d-none d-xl-block col-xl-2 bd-toc">
+  
+    
+    <div class="toc-item">
+      
+<div class="tocsection onthispage mt-5 pt-1 pb-3">
+    <i class="fas fa-list"></i> On this page
+</div>
+
+<nav id="bd-toc-nav">
+    <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#module-contents">
+   Module Contents
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#classes">
+     Classes
+    </a>
+    <ul class="nav section-nav flex-column">
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.re.relation_ner_chunk_filter.RENerChunksFilter">
+       RENerChunksFilter
+      </a>
+      <ul class="nav section-nav flex-column">
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.re.relation_ner_chunk_filter.RENerChunksFilter.setMaxSyntacticDistance">
+         setMaxSyntacticDistance
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.re.relation_ner_chunk_filter.RENerChunksFilter.setDocLevelRelations">
+         setDocLevelRelations
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.re.relation_ner_chunk_filter.RENerChunksFilter.setRelationPairs">
+         setRelationPairs
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.re.relation_ner_chunk_filter.RENerChunksFilter.setRelationPairsCaseSensitive">
+         setRelationPairsCaseSensitive
+        </a>
+       </li>
+      </ul>
+     </li>
+    </ul>
+   </li>
+  </ul>
+ </li>
+</ul>
+
+</nav>
+    </div>
+    
+    <div class="toc-item">
+      
+    </div>
+    
+  
+</div>
+
+
+          
+          
+          <div class="bd-content col-12 col-md-9 col-xl-7">
+              
+              <article class="bd-article" role="main">
+                
+  <section id="module-sparknlp_jsl.annotator.re.relation_ner_chunk_filter">
+<span id="sparknlp-jsl-annotator-re-relation-ner-chunk-filter"></span><h1><a class="reference internal" href="#module-sparknlp_jsl.annotator.re.relation_ner_chunk_filter" title="sparknlp_jsl.annotator.re.relation_ner_chunk_filter"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp_jsl.annotator.re.relation_ner_chunk_filter</span></code></a><a class="headerlink" href="#module-sparknlp_jsl.annotator.re.relation_ner_chunk_filter" title="Permalink to this heading">#</a></h1>
+<section id="module-contents">
+<h2>Module Contents<a class="headerlink" href="#module-contents" title="Permalink to this heading">#</a></h2>
+<section id="classes">
+<h3>Classes<a class="headerlink" href="#classes" title="Permalink to this heading">#</a></h3>
+<table class="autosummary longtable table autosummary">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp_jsl.annotator.re.relation_ner_chunk_filter.RENerChunksFilter" title="sparknlp_jsl.annotator.re.relation_ner_chunk_filter.RENerChunksFilter"><code class="xref py py-obj docutils literal notranslate"><span class="pre">RENerChunksFilter</span></code></a></p></td>
+<td><p>Filters and outputs combinations of relations between extracted entities, for further processing.</p></td>
+</tr>
+</tbody>
+</table>
+<dl class="py class">
+<dt class="sig sig-object py" id="sparknlp_jsl.annotator.re.relation_ner_chunk_filter.RENerChunksFilter">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">RENerChunksFilter</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">classname</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'com.johnsnowlabs.nlp.annotators.re.RENerChunksFilter'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">java_model</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../modules/sparknlp_jsl/annotator/re/relation_ner_chunk_filter.html#RENerChunksFilter"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.re.relation_ner_chunk_filter.RENerChunksFilter" title="Permalink to this definition">#</a></dt>
+<dd><p>Filters and outputs combinations of relations between extracted entities, for further processing.
+This annotator is especially useful to create inputs for the RelationExtractionDLModel.</p>
+<table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Input Annotation types</p></th>
+<th class="head"><p>Output Annotation type</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">CHUNK,DEPENDENCY</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">CHUNK</span></code></p></td>
+</tr>
+</tbody>
+</table>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>relationPairs</strong></dt><dd><p>List of valid relations to encode</p>
+</dd>
+<dt><strong>relationPairsCaseSensitive</strong></dt><dd><p>Determines whether relation pairs are case sensitive</p>
+</dd>
+<dt><strong>maxSyntacticDistance</strong></dt><dd><p>Maximum syntactic distance between a pair of named entities to consider them as a relation</p>
+</dd>
+<dt><strong>docLevelRelations</strong></dt><dd><p>Include relations between entities from different sentences (Default: False)</p>
+</dd>
+</dl>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">documenter</span> <span class="o">=</span> <span class="n">DocumentAssembler</span><span class="p">()</span>\
+<span class="gp">... </span>  <span class="o">.</span><span class="n">setInputCol</span><span class="p">(</span><span class="s2">&quot;text&quot;</span><span class="p">)</span>\
+<span class="gp">... </span>  <span class="o">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s2">&quot;document&quot;</span><span class="p">)</span>
+<span class="gp">...</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">sentencer</span> <span class="o">=</span> <span class="n">SentenceDetector</span><span class="p">()</span>\
+<span class="gp">... </span>  <span class="o">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s2">&quot;document&quot;</span><span class="p">])</span>\
+<span class="gp">... </span>  <span class="o">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s2">&quot;sentences&quot;</span><span class="p">)</span>
+<span class="gp">...</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">tokenizer</span> <span class="o">=</span> <span class="n">Tokenizer</span><span class="p">()</span>\
+<span class="gp">... </span>  <span class="o">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s2">&quot;sentences&quot;</span><span class="p">])</span>\
+<span class="gp">... </span>  <span class="o">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s2">&quot;tokens&quot;</span><span class="p">)</span>
+<span class="gp">...</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">words_embedder</span> <span class="o">=</span> <span class="n">WordEmbeddingsModel</span><span class="o">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s2">&quot;embeddings_clinical&quot;</span><span class="p">,</span> <span class="s2">&quot;en&quot;</span><span class="p">,</span> <span class="s2">&quot;clinical/models&quot;</span><span class="p">)</span>\
+<span class="gp">... </span>  <span class="o">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s2">&quot;sentences&quot;</span><span class="p">,</span> <span class="s2">&quot;tokens&quot;</span><span class="p">])</span>\
+<span class="gp">... </span>  <span class="o">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s2">&quot;embeddings&quot;</span><span class="p">)</span>
+<span class="gp">...</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">pos_tagger</span> <span class="o">=</span> <span class="n">PerceptronModel</span><span class="o">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s2">&quot;pos_clinical&quot;</span><span class="p">,</span> <span class="s2">&quot;en&quot;</span><span class="p">,</span> <span class="s2">&quot;clinical/models&quot;</span><span class="p">)</span>\
+<span class="gp">... </span>  <span class="o">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s2">&quot;sentences&quot;</span><span class="p">,</span> <span class="s2">&quot;tokens&quot;</span><span class="p">])</span>\
+<span class="gp">... </span>  <span class="o">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s2">&quot;pos_tags&quot;</span><span class="p">)</span>
+<span class="gp">...</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">dependency_parser</span> <span class="o">=</span> <span class="n">DependencyParserModel</span><span class="o">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s2">&quot;dependency_conllu&quot;</span><span class="p">,</span> <span class="s2">&quot;en&quot;</span><span class="p">)</span>\
+<span class="gp">... </span>  <span class="o">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s2">&quot;sentences&quot;</span><span class="p">,</span> <span class="s2">&quot;pos_tags&quot;</span><span class="p">,</span> <span class="s2">&quot;tokens&quot;</span><span class="p">])</span>\
+<span class="gp">... </span>  <span class="o">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s2">&quot;dependencies&quot;</span><span class="p">)</span>
+<span class="gp">...</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">clinical_ner_tagger</span> <span class="o">=</span> <span class="n">MedicalNerModel</span><span class="o">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s2">&quot;jsl_ner_wip_greedy_clinical&quot;</span><span class="p">,</span><span class="s2">&quot;en&quot;</span><span class="p">,</span><span class="s2">&quot;clinical/models&quot;</span><span class="p">)</span>\
+<span class="gp">... </span>  <span class="o">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s2">&quot;sentences&quot;</span><span class="p">,</span> <span class="s2">&quot;tokens&quot;</span><span class="p">,</span> <span class="s2">&quot;embeddings&quot;</span><span class="p">])</span>\
+<span class="gp">... </span>  <span class="o">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s2">&quot;ner_tags&quot;</span><span class="p">)</span>
+<span class="gp">...</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ner_chunker</span> <span class="o">=</span> <span class="n">NerConverter</span><span class="p">()</span>\
+<span class="gp">... </span>  <span class="o">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s2">&quot;sentences&quot;</span><span class="p">,</span> <span class="s2">&quot;tokens&quot;</span><span class="p">,</span> <span class="s2">&quot;ner_tags&quot;</span><span class="p">])</span>\
+<span class="gp">... </span>  <span class="o">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s2">&quot;ner_chunks&quot;</span><span class="p">)</span>
+<span class="gp">...</span>
+<span class="gp">... </span><span class="c1"># Define the relation pairs and the filter</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">relationPairs</span> <span class="o">=</span> <span class="p">[</span>
+<span class="gp">... </span>  <span class="s2">&quot;direction-external_body_part_or_region&quot;</span><span class="p">,</span>
+<span class="gp">... </span>  <span class="s2">&quot;external_body_part_or_region-direction&quot;</span><span class="p">,</span>
+<span class="gp">... </span>  <span class="s2">&quot;direction-internal_organ_or_component&quot;</span><span class="p">,</span>
+<span class="gp">... </span>  <span class="s2">&quot;internal_organ_or_component-direction&quot;</span>
+<span class="gp">... </span><span class="p">]</span>
+<span class="gp">...</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">re_ner_chunk_filter</span> <span class="o">=</span> <span class="n">RENerChunksFilter</span><span class="p">()</span>\
+<span class="gp">... </span>  <span class="o">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s2">&quot;ner_chunks&quot;</span><span class="p">,</span> <span class="s2">&quot;dependencies&quot;</span><span class="p">])</span>\
+<span class="gp">... </span>  <span class="o">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s2">&quot;re_ner_chunks&quot;</span><span class="p">)</span>\
+<span class="gp">... </span>  <span class="o">.</span><span class="n">setMaxSyntacticDistance</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>\
+<span class="gp">... </span>  <span class="o">.</span><span class="n">setRelationPairs</span><span class="p">([</span><span class="s2">&quot;internal_organ_or_component-direction&quot;</span><span class="p">])</span>
+<span class="gp">...</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">trained_pipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">(</span><span class="n">stages</span><span class="o">=</span><span class="p">[</span>
+<span class="gp">... </span>  <span class="n">documenter</span><span class="p">,</span>
+<span class="gp">... </span>  <span class="n">sentencer</span><span class="p">,</span>
+<span class="gp">... </span>  <span class="n">tokenizer</span><span class="p">,</span>
+<span class="gp">... </span>  <span class="n">words_embedder</span><span class="p">,</span>
+<span class="gp">... </span>  <span class="n">pos_tagger</span><span class="p">,</span>
+<span class="gp">... </span>  <span class="n">clinical_ner_tagger</span><span class="p">,</span>
+<span class="gp">... </span>  <span class="n">ner_chunker</span><span class="p">,</span>
+<span class="gp">... </span>  <span class="n">dependency_parser</span><span class="p">,</span>
+<span class="gp">... </span>  <span class="n">re_ner_chunk_filter</span>
+<span class="gp">... </span><span class="p">])</span>
+<span class="gp">...</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">data</span> <span class="o">=</span> <span class="n">spark</span><span class="o">.</span><span class="n">cre</span><span class="o">&gt;&gt;&gt;</span><span class="n">DataFrame</span><span class="p">([[</span><span class="s2">&quot;MRI demonstrated infarction in the upper brain stem , left cerebellum and  right basil ganglia&quot;</span><span class="p">]])</span><span class="o">.</span><span class="n">toDF</span><span class="p">(</span><span class="s2">&quot;text&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">result</span> <span class="o">=</span> <span class="n">trained_pipeline</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">data</span><span class="p">)</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+<span class="gp">...</span>
+<span class="gp">... </span><span class="c1"># Show results</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">result</span><span class="o">.</span><span class="n">selectExpr</span><span class="p">(</span><span class="s2">&quot;explode(re_ner_chunks) as re_chunks&quot;</span><span class="p">)</span>     <span class="o">...</span>   <span class="o">.</span><span class="n">selectExpr</span><span class="p">(</span><span class="s2">&quot;re_chunks.begin&quot;</span><span class="p">,</span> <span class="s2">&quot;re_chunks.result&quot;</span><span class="p">,</span> <span class="s2">&quot;re_chunks.metadata.entity&quot;</span><span class="p">,</span> <span class="s2">&quot;re_chunks.metadata.paired_to&quot;</span><span class="p">)</span>     <span class="o">...</span>   <span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span> <span class="n">truncate</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="go">+-----+-------------+---------------------------+---------+</span>
+<span class="go">|begin|result       |entity                     |paired_to|</span>
+<span class="go">+-----+-------------+---------------------------+---------+</span>
+<span class="go">|35   |upper        |Direction                  |41       |</span>
+<span class="go">|41   |brain stem   |Internal_organ_or_component|35       |</span>
+<span class="go">|35   |upper        |Direction                  |59       |</span>
+<span class="go">|59   |cerebellum   |Internal_organ_or_component|35       |</span>
+<span class="go">|35   |upper        |Direction                  |81       |</span>
+<span class="go">|81   |basil ganglia|Internal_organ_or_component|35       |</span>
+<span class="go">+-----+-------------+---------------------------+---------+</span>
+<span class="go">+---------------------------------------------------------+</span>
+</pre></div>
+</div>
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp_jsl.annotator.re.relation_ner_chunk_filter.RENerChunksFilter.setMaxSyntacticDistance">
+<span class="sig-name descname"><span class="pre">setMaxSyntacticDistance</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">distance</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../modules/sparknlp_jsl/annotator/re/relation_ner_chunk_filter.html#RENerChunksFilter.setMaxSyntacticDistance"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.re.relation_ner_chunk_filter.RENerChunksFilter.setMaxSyntacticDistance" title="Permalink to this definition">#</a></dt>
+<dd><p>Sets maximum syntactic distance between a pair of named entities to consider them as a relation”</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>distance</strong><span class="classifier">int</span></dt><dd><p>Maximum syntactic distance between a pair of named entities to consider them as a relation</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp_jsl.annotator.re.relation_ner_chunk_filter.RENerChunksFilter.setDocLevelRelations">
+<span class="sig-name descname"><span class="pre">setDocLevelRelations</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">docLevelRelations</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../modules/sparknlp_jsl/annotator/re/relation_ner_chunk_filter.html#RENerChunksFilter.setDocLevelRelations"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.re.relation_ner_chunk_filter.RENerChunksFilter.setDocLevelRelations" title="Permalink to this definition">#</a></dt>
+<dd><p>Sets whether to include relations between entities from different sentences</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>docLevelRelations</strong><span class="classifier">bool</span></dt><dd><p>Whether to include relations between entities from different sentences</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp_jsl.annotator.re.relation_ner_chunk_filter.RENerChunksFilter.setRelationPairs">
+<span class="sig-name descname"><span class="pre">setRelationPairs</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pairs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../modules/sparknlp_jsl/annotator/re/relation_ner_chunk_filter.html#RENerChunksFilter.setRelationPairs"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.re.relation_ner_chunk_filter.RENerChunksFilter.setRelationPairs" title="Permalink to this definition">#</a></dt>
+<dd><p>Sets list of dash-separated pairs of named entities</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>pairs</strong><span class="classifier">str</span></dt><dd><p>List of dash-separated pairs of named entities</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp_jsl.annotator.re.relation_ner_chunk_filter.RENerChunksFilter.setRelationPairsCaseSensitive">
+<span class="sig-name descname"><span class="pre">setRelationPairsCaseSensitive</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../modules/sparknlp_jsl/annotator/re/relation_ner_chunk_filter.html#RENerChunksFilter.setRelationPairsCaseSensitive"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.re.relation_ner_chunk_filter.RENerChunksFilter.setRelationPairsCaseSensitive" title="Permalink to this definition">#</a></dt>
+<dd><p>Sets the case sensitivity of relation pairs
+Parameters
+———-
+value : boolean</p>
+<blockquote>
+<div><p>whether relation pairs are case sensitive</p>
+</div></blockquote>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+</section>
+</section>
+
+
+              </article>
+              
+
+              
+              <footer class="bd-footer-article">
+                  <!-- Previous / next buttons -->
+<div class='prev-next-area'>
+</div>
+              </footer>
+              
+          </div>
+          
+      </div>
+    </div>
+
+  
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../../../../../../static/scripts/pydata-sphinx-theme.js?digest=92025949c220c2e29695"></script>
+
+<footer class="bd-footer"><div class="bd-footer__inner container">
+  
+  <div class="footer-item">
+    <p class="copyright">
+    &copy; Copyright 2022, John Snow Labs.<br>
+</p>
+  </div>
+  
+  <div class="footer-item">
+    <p class="sphinx-version">
+Created using <a href="http://sphinx-doc.org/">Sphinx</a> 5.1.1.<br>
+</p>
+  </div>
+  
+</div>
+</footer>
+  </body>
+</html>

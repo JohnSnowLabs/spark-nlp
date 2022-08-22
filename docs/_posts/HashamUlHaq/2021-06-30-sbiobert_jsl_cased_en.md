@@ -11,7 +11,7 @@ edition: Spark NLP for Healthcare 3.1.0
 spark_version: 2.4
 supported: true
 article_header:
-  type: cover
+type: cover
 use_language_switcher: "Python-Scala-Java"
 ---
 
@@ -43,10 +43,18 @@ sbiobert_embeddings = BertSentenceEmbeddings.pretrained("sbiobert_jsl_cased","en
 ```
 ```scala
 val sbiobert_embeddings = BertSentenceEmbeddings
-        .pretrained("sbiobert_jsl_cased","en","clinical/models")
-        .setInputCols(Array("sentence"))
-        .setOutputCol("sbert_embeddings")
+.pretrained("sbiobert_jsl_cased","en","clinical/models")
+.setInputCols(Array("sentence"))
+.setOutputCol("sbert_embeddings")
 ```
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("en.embed_sentence.biobert.jsl_cased").predict("""Put your text here.""")
+```
+
 </div>
 
 

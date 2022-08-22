@@ -3,9 +3,9 @@
         <head>
           <meta http-equiv="X-UA-Compatible" content="IE=edge" />
           <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-          <title>Spark NLP 4.0.0 ScalaDoc  - com.johnsnowlabs.nlp.annotators.re.ZeroShotRelationExtractionModel</title>
-          <meta name="description" content="Spark NLP 4.0.0 ScalaDoc - com.johnsnowlabs.nlp.annotators.re.ZeroShotRelationExtractionModel" />
-          <meta name="keywords" content="Spark NLP 4.0.0 ScalaDoc com.johnsnowlabs.nlp.annotators.re.ZeroShotRelationExtractionModel" />
+          <title>Spark NLP 4.0.2 ScalaDoc  - com.johnsnowlabs.nlp.annotators.re.ZeroShotRelationExtractionModel</title>
+          <meta name="description" content="Spark NLP 4.0.2 ScalaDoc - com.johnsnowlabs.nlp.annotators.re.ZeroShotRelationExtractionModel" />
+          <meta name="keywords" content="Spark NLP 4.0.2 ScalaDoc com.johnsnowlabs.nlp.annotators.re.ZeroShotRelationExtractionModel" />
           <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
           
       
@@ -28,7 +28,7 @@
         </head>
         <body>
       <div id="search">
-        <span id="doc-title">Spark NLP 4.0.0 ScalaDoc<span id="doc-version"></span></span>
+        <span id="doc-title">Spark NLP 4.0.2 ScalaDoc<span id="doc-version"></span></span>
         <span class="close-results"><span class="left">&lt;</span> Back</span>
         <div id="textfilter">
           <span class="input">
@@ -2132,9 +2132,9 @@ into the model and averaging all the probabilities for the entire document inste
       
       <p class="shortcomment cmt">Minimal confidence score to encode a relation (Default: 0.5f)</p>
     </li><li name="com.johnsnowlabs.nlp.annotators.re.ZeroShotRelationExtractionModel#relationalCategories" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="param">
-      <a id="relationalCategories:com.johnsnowlabs.nlp.param.RelationalCategories"></a><a id="relationalCategories:RelationalCategories"></a>
+      <a id="relationalCategories:com.johnsnowlabs.nlp.serialization.MapFeature[String,Array[String]]"></a><a id="relationalCategories:MapFeature[String,Array[String]]"></a>
       <span class="permalink">
-      <a href="../../../../../com/johnsnowlabs/nlp/annotators/re/ZeroShotRelationExtractionModel.html#relationalCategories:com.johnsnowlabs.nlp.param.RelationalCategories" title="Permalink">
+      <a href="../../../../../com/johnsnowlabs/nlp/annotators/re/ZeroShotRelationExtractionModel.html#relationalCategories:com.johnsnowlabs.nlp.serialization.MapFeature[String,Array[String]]" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -2143,7 +2143,7 @@ into the model and averaging all the probabilities for the entire document inste
         <span class="kind">var</span>
       </span>
       <span class="symbol">
-        <span class="name">relationalCategories</span><span class="result">: <a href="../../param/RelationalCategories.html" class="extype" name="com.johnsnowlabs.nlp.param.RelationalCategories">RelationalCategories</a></span>
+        <span class="name">relationalCategories</span><span class="result">: <span class="extype" name="com.johnsnowlabs.nlp.serialization.MapFeature">MapFeature</span>[<span class="extype" name="scala.Predef.String">String</span>, <span class="extype" name="scala.Array">Array</span>[<span class="extype" name="scala.Predef.String">String</span>]]</span>
       </span>
       
       <p class="shortcomment cmt">List of definitions of relational categories</p>
@@ -2657,9 +2657,9 @@ into the model and averaging all the probabilities for the entire document inste
       
       <p class="shortcomment cmt">Set the minimal confidence score to encode a relation (Default: 0.5f)</p>
     </li><li name="com.johnsnowlabs.nlp.annotators.re.ZeroShotRelationExtractionModel#setRelationalCategories" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="setParam">
-      <a id="setRelationalCategories(categories:scala.collection.immutable.Map[String,Array[String]]):ZeroShotRelationExtractionModel.this.type"></a><a id="setRelationalCategories(Map[String,Array[String]]):ZeroShotRelationExtractionModel.this.type"></a>
+      <a id="setRelationalCategories(categories:java.util.HashMap[String,java.util.List[String]]):ZeroShotRelationExtractionModel.this.type"></a><a id="setRelationalCategories(HashMap[String,List[String]]):ZeroShotRelationExtractionModel.this.type"></a>
       <span class="permalink">
-      <a href="../../../../../com/johnsnowlabs/nlp/annotators/re/ZeroShotRelationExtractionModel.html#setRelationalCategories(categories:scala.collection.immutable.Map[String,Array[String]]):ZeroShotRelationExtractionModel.this.type" title="Permalink">
+      <a href="../../../../../com/johnsnowlabs/nlp/annotators/re/ZeroShotRelationExtractionModel.html#setRelationalCategories(categories:java.util.HashMap[String,java.util.List[String]]):ZeroShotRelationExtractionModel.this.type" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -2668,7 +2668,23 @@ into the model and averaging all the probabilities for the entire document inste
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">setRelationalCategories</span><span class="params">(<span name="categories">categories: <span class="extype" name="scala.collection.immutable.Map">Map</span>[<span class="extype" name="scala.Predef.String">String</span>, <span class="extype" name="scala.Array">Array</span>[<span class="extype" name="scala.Predef.String">String</span>]]</span>)</span><span class="result">: <a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.re.ZeroShotRelationExtractionModel">ZeroShotRelationExtractionModel</a>.this.type</span>
+        <span class="name">setRelationalCategories</span><span class="params">(<span name="categories">categories: <span class="extype" name="java.util.HashMap">HashMap</span>[<span class="extype" name="scala.Predef.String">String</span>, <span class="extype" name="java.util.List">List</span>[<span class="extype" name="scala.Predef.String">String</span>]]</span>)</span><span class="result">: <a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.re.ZeroShotRelationExtractionModel">ZeroShotRelationExtractionModel</a>.this.type</span>
+      </span>
+      
+      <p class="shortcomment cmt"> Set definitions of relational categories</p>
+    </li><li name="com.johnsnowlabs.nlp.annotators.re.ZeroShotRelationExtractionModel#setRelationalCategories" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="setParam">
+      <a id="setRelationalCategories(categories:Map[String,Array[String]]):ZeroShotRelationExtractionModel.this.type"></a><a id="setRelationalCategories(Map[String,Array[String]]):ZeroShotRelationExtractionModel.this.type"></a>
+      <span class="permalink">
+      <a href="../../../../../com/johnsnowlabs/nlp/annotators/re/ZeroShotRelationExtractionModel.html#setRelationalCategories(categories:Map[String,Array[String]]):ZeroShotRelationExtractionModel.this.type" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">setRelationalCategories</span><span class="params">(<span name="categories">categories: <span class="extype" name="scala.Predef.Map">Map</span>[<span class="extype" name="scala.Predef.String">String</span>, <span class="extype" name="scala.Array">Array</span>[<span class="extype" name="scala.Predef.String">String</span>]]</span>)</span><span class="result">: <a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.re.ZeroShotRelationExtractionModel">ZeroShotRelationExtractionModel</a>.this.type</span>
       </span>
       
       <p class="shortcomment cmt"> Set definitions of relational categories</p>

@@ -1,6 +1,6 @@
 ---
 layout: model
-title: English Named Entity Recognition (from Jean-Baptiste)
+title: English Named Entity Recognition (Large, ConLL)
 author: John Snow Labs
 name: roberta_ner_roberta_large_ner_english
 date: 2022-05-03
@@ -10,8 +10,9 @@ language: en
 edition: Spark NLP 3.4.2
 spark_version: 3.0
 supported: true
+recommended: true
 article_header:
-  type: cover
+type: cover
 use_language_switcher: "Python-Scala-Java"
 ---
 
@@ -36,20 +37,20 @@ Pretrained Named Entity Recognition model, uploaded to Hugging Face, adapted and
 {% include programmingLanguageSelectScalaPythonNLU.html %}
 ```python
 documentAssembler = DocumentAssembler() \
-    .setInputCol("text") \
-    .setOutputCol("document")
+.setInputCol("text") \
+.setOutputCol("document")
 
 sentenceDetector = SentenceDetectorDLModel.pretrained("sentence_detector_dl", "xx")\
-       .setInputCols(["document"])\
-       .setOutputCol("sentence")
+.setInputCols(["document"])\
+.setOutputCol("sentence")
 
 tokenizer = Tokenizer() \
-    .setInputCols("sentence") \
-    .setOutputCol("token")
+.setInputCols("sentence") \
+.setOutputCol("token")
 
 tokenClassifier = RoBertaForTokenClassification.pretrained("roberta_ner_roberta_large_ner_english","en") \
-    .setInputCols(["sentence", "token"]) \
-    .setOutputCol("ner")
+.setInputCols(["sentence", "token"]) \
+.setOutputCol("ner")
 
 pipeline = Pipeline(stages=[documentAssembler, sentenceDetector, tokenizer, tokenClassifier])
 
@@ -59,20 +60,20 @@ result = pipeline.fit(data).transform(data)
 ```
 ```scala
 val documentAssembler = new DocumentAssembler() 
-      .setInputCol("text") 
-      .setOutputCol("document")
+.setInputCol("text") 
+.setOutputCol("document")
 
 val sentenceDetector = SentenceDetectorDLModel.pretrained("sentence_detector_dl", "xx")
-       .setInputCols(Array("document"))
-       .setOutputCol("sentence")
+.setInputCols(Array("document"))
+.setOutputCol("sentence")
 
 val tokenizer = new Tokenizer() 
-    .setInputCols(Array("sentence"))
-    .setOutputCol("token")
+.setInputCols(Array("sentence"))
+.setOutputCol("token")
 
 val tokenClassifier = RoBertaForTokenClassification.pretrained("roberta_ner_roberta_large_ner_english","en") 
-    .setInputCols(Array("sentence", "token")) 
-    .setOutputCol("ner")
+.setInputCols(Array("sentence", "token")) 
+.setOutputCol("ner")
 
 val pipeline = new Pipeline().setStages(Array(documentAssembler,sentenceDetector, tokenizer, tokenClassifier))
 
@@ -80,6 +81,14 @@ val data = Seq("I love Spark NLP").toDF("text")
 
 val result = pipeline.fit(data).transform(data)
 ```
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("en.ner.roberta_large_ner_english").predict("""I love Spark NLP""")
+```
+
 </div>
 
 {:.model-param}

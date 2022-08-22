@@ -11,7 +11,7 @@ spark_version: 2.4
 tags: [bn, ner, open_source]
 supported: true
 article_header:
-  type: cover
+type: cover
 use_language_switcher: "Python-Scala-Java"
 ---
 
@@ -39,11 +39,11 @@ This model uses the pre-trained `glove_840B_300` embeddings model from `WordEmbe
 ```python
 ...
 embeddings = WordEmbeddingsModel.pretrained("glove_840B_300", "xx")\
-          .setInputCols("document", "token") \
-          .setOutputCol("embeddings")
+.setInputCols("document", "token") \
+.setOutputCol("embeddings")
 ner = NerDLModel.pretrained("ner_jifs_glove_840B_300d", "bn") \
-        .setInputCols(["document", "token", "embeddings"]) \
-        .setOutputCol("ner")
+.setInputCols(["document", "token", "embeddings"]) \
+.setOutputCol("ner")
 pipeline = Pipeline(stages=[document_assembler, sentence_detector, tokenizer, embeddings, ner])
 example = spark.createDataFrame([["৯০ এর দশকের শুরুর দিকে বৃহৎ আকারে মার্কিন যুক্তরাষ্ট্রে এর প্রয়োগের প্রক্রিয়া শুরু হয়'"]], ["text"])
 result = pipeline.fit(example).transform(example)
@@ -52,11 +52,11 @@ result = pipeline.fit(example).transform(example)
 ```scala
 ...
 val embeddings = WordEmbeddingsModel.pretrained("glove_840B_300", "xx")
-        .setInputCols(Array("document", "token"))
-        .setOutputCol("embeddings")
+.setInputCols(Array("document", "token"))
+.setOutputCol("embeddings")
 val ner = NerDLModel.pretrained("ner_jifs_glove_840B_300d", "bn")
-        .setInputCols(Array("document", "token", "embeddings"))
-        .setOutputCol("ner")
+.setInputCols(Array("document", "token", "embeddings"))
+.setOutputCol("ner")
 val pipeline = new Pipeline().setStages(Array(document_assembler, sentence_detector, tokenizer, embeddings, ner))
 val data = Seq("৯০ এর দশকের শুরুর দিকে বৃহৎ আকারে মার্কিন যুক্তরাষ্ট্রে এর প্রয়োগের প্রক্রিয়া শুরু হয়").toDF("text")
 val result = pipeline.fit(data).transform(data)

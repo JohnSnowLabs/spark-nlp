@@ -11,7 +11,7 @@ edition: Spark NLP for Healthcare 3.1.0
 spark_version: 2.4
 supported: true
 article_header:
-  type: cover
+type: cover
 use_language_switcher: "Python-Scala-Java"
 ---
 
@@ -40,13 +40,21 @@ import com.johnsnowlabs.nlp.pretrained.PretrainedPipeline
 val pipeline = new PretrainedPipeline("icd10cm_umls_mapping","en","clinical/models")
 val result = pipeline.annotate("M89.50 R82.2 R09.01")
 ```
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("en.resolve.icd10cm.umls").predict("""M89.50 R82.2 R09.01""")
+```
+
 </div>
 
 ## Results
 
 ```bash
 {'icd10cm': ['M89.50', 'R82.2', 'R09.01'],
- 'umls': ['C4721411', 'C0159076', 'C0004044']}
+'umls': ['C4721411', 'C0159076', 'C0004044']}
 ```
 
 {:.model-param}

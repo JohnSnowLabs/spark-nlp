@@ -11,7 +11,7 @@ edition: Spark NLP 3.4.4
 spark_version: 3.0
 supported: true
 article_header:
-  type: cover
+type: cover
 use_language_switcher: "Python-Scala-Java"
 ---
 
@@ -37,14 +37,22 @@ For further information or requests, please go to [Camembert Website](https://ca
 {% include programmingLanguageSelectScalaPythonNLU.html %}
 ```python
 embeddings = CamemBertEmbeddings.pretrained("camembert_base_ccnet", "fr") \
-      .setInputCols("sentence", "token") \
-      .setOutputCol("embeddings")
+.setInputCols("sentence", "token") \
+.setOutputCol("embeddings")
 ```
 ```scala
 val embeddings = CamemBertEmbeddings.pretrained("camembert_base_ccnet", "fr")
-      .setInputCols("sentence", "token")
-      .setOutputCol("embeddings")
+.setInputCols("sentence", "token")
+.setOutputCol("embeddings")
 ```
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("fr.embed.camembert_base_ccnet").predict("""Put your text here.""")
+```
+
 </div>
 
 {:.model-param}

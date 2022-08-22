@@ -18,14 +18,23 @@ package com.johnsnowlabs.nlp.annotators
 
 import com.johnsnowlabs.nlp.Annotation
 import com.johnsnowlabs.nlp.annotators.parser.dep.DependencyParserModel
-import com.johnsnowlabs.nlp.annotators.parser.typdep.TypedDependencyParserModel
-import com.johnsnowlabs.nlp.annotators.pos.perceptron.PerceptronModel
+import com.johnsnowlabs.nlp.annotators.parser.dep.GreedyTransition.DependencyMaker
+import com.johnsnowlabs.nlp.annotators.parser.typdep.{
+  DependencyPipe,
+  Options,
+  TypedDependencyParserModel
+}
+import com.johnsnowlabs.nlp.annotators.pos.perceptron.{AveragedPerceptron, PerceptronModel}
 
 object PretrainedAnnotations {
 
-  def getPos(
+  def getPosOutput(
       annotations: Seq[Annotation],
-      posModelCoordinates: Array[String]): Seq[Annotation] = {
+      perceptronModel: PerceptronModel): Seq[Annotation] = {
+    perceptronModel.annotate(annotations)
+  }
+
+  def getPretrainedPos(posModelCoordinates: Array[String]): PerceptronModel = {
     val pretrainedPosModel = posModelCoordinates.length match {
       case 2 =>
         PerceptronModel.pretrained(name = posModelCoordinates.head, lang = posModelCoordinates(1))
@@ -36,15 +45,16 @@ object PretrainedAnnotations {
           remoteLoc = posModelCoordinates(2))
       case _ => PerceptronModel.pretrained()
     }
-    val averagePerceptron = pretrainedPosModel.model.getOrDefault
+
+    val averagePerceptron: AveragedPerceptron = pretrainedPosModel.model.getOrDefault
     val posTagger = new PerceptronModel().setModel(averagePerceptron)
-    posTagger.annotate(annotations)
+
+    posTagger
   }
 
   def getDependencyParser(
-      annotations: Seq[Annotation],
-      dependencyParserModelCoordinates: Array[String]): Seq[Annotation] = {
-    val dependencyMaker = dependencyParserModelCoordinates.length match {
+      dependencyParserModelCoordinates: Array[String]): DependencyParserModel = {
+    val dependencyParserModel = dependencyParserModelCoordinates.length match {
       case 2 =>
         DependencyParserModel.pretrained(
           name = dependencyParserModelCoordinates.head,
@@ -56,15 +66,22 @@ object PretrainedAnnotations {
           remoteLoc = dependencyParserModelCoordinates(2))
       case _ => DependencyParserModel.pretrained()
     }
-    val dependencyParser =
-      new DependencyParserModel().setPerceptron(dependencyMaker.perceptron.getOrDefault)
-    val dependencyParserAnnotations = dependencyParser.annotate(annotations)
+
+    val dependencyMaker: DependencyMaker = dependencyParserModel.perceptron.getOrDefault
+    val dependencyParser = new DependencyParserModel().setPerceptron(dependencyMaker)
+
+    dependencyParser
+  }
+
+  def getDependencyParserOutput(
+      annotations: Seq[Annotation],
+      dependencyParserModel: DependencyParserModel): Seq[Annotation] = {
+    val dependencyParserAnnotations = dependencyParserModel.annotate(annotations)
     dependencyParserAnnotations
   }
 
   def getTypedDependencyParser(
-      annotations: Seq[Annotation],
-      typedDependencyParserModelCoordinates: Array[String]): Seq[Annotation] = {
+      typedDependencyParserModelCoordinates: Array[String]): TypedDependencyParserModel = {
     val pretrainedModel = typedDependencyParserModelCoordinates.length match {
       case 2 =>
         TypedDependencyParserModel.pretrained(
@@ -77,12 +94,20 @@ object PretrainedAnnotations {
           remoteLoc = typedDependencyParserModelCoordinates(2))
       case _ => TypedDependencyParserModel.pretrained()
     }
-    val dependencyPipe = pretrainedModel.trainDependencyPipe.getOrDefault
-    val trainOptions = pretrainedModel.trainOptions.getOrDefault
+
+    val dependencyPipe: DependencyPipe = pretrainedModel.trainDependencyPipe.getOrDefault
+    val trainOptions: Options = pretrainedModel.trainOptions.getOrDefault
     val typedDependencyParser = new TypedDependencyParserModel()
       .setDependencyPipe(dependencyPipe)
       .setOptions(trainOptions)
       .setConllFormat("2009")
+
+    typedDependencyParser
+  }
+
+  def getTypedDependencyParserOutput(
+      annotations: Seq[Annotation],
+      typedDependencyParser: TypedDependencyParserModel): Seq[Annotation] = {
     typedDependencyParser.annotate(annotations)
   }
 

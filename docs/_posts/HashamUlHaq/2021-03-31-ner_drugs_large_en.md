@@ -11,7 +11,7 @@ edition: Spark NLP for Healthcare 3.0.0
 spark_version: 3.0
 supported: true
 article_header:
-  type: cover
+type: cover
 use_language_switcher: "Python-Scala-Java"
 ---
 
@@ -36,29 +36,29 @@ Pretrained named entity recognition deep learning model for Drugs. The model com
 {% include programmingLanguageSelectScalaPythonNLU.html %}
 ```python
 documentAssembler = DocumentAssembler()\
-  .setInputCol("text")\
-  .setOutputCol("document")
+.setInputCol("text")\
+.setOutputCol("document")
 
 sentenceDetector = SentenceDetector()\
-  .setInputCols(["document"])\
-  .setOutputCol("sentence")
+.setInputCols(["document"])\
+.setOutputCol("sentence")
 
 tokenizer = Tokenizer()\
-  .setInputCols(["sentence"])\
-  .setOutputCol("token")
+.setInputCols(["sentence"])\
+.setOutputCol("token")
 
 # Clinical word embeddings trained on PubMED dataset
 word_embeddings = WordEmbeddingsModel.pretrained("embeddings_clinical", "en", "clinical/models")\
-  .setInputCols(["sentence", "token"])\
-  .setOutputCol("embeddings")
+.setInputCols(["sentence", "token"])\
+.setOutputCol("embeddings")
 
 clinical_ner = MedicalNerModel.pretrained("ner_drugs_large", "en", "clinical/models") \
-  .setInputCols(["sentence", "token", "embeddings"]) \
-  .setOutputCol("ner")
+.setInputCols(["sentence", "token", "embeddings"]) \
+.setOutputCol("ner")
 
 ner_converter = NerConverter() \
-  .setInputCols(["sentence", "token", "ner"]) \
-  .setOutputCol("ner_chunk")
+.setInputCols(["sentence", "token", "ner"]) \
+.setOutputCol("ner_chunk")
 
 nlpPipeline = Pipeline(stages=[document_assembler, sentence_detector, tokenizer, word_embeddings, clinical_ner, ner_converter])
 
@@ -68,35 +68,43 @@ results = model.transform(data)
 ```
 ```scala
 val documentAssembler = DocumentAssembler()
-  .setInputCol("text")
-  .setOutputCol("document")
+.setInputCol("text")
+.setOutputCol("document")
 
 val sentenceDetector = SentenceDetector()
-  .setInputCols(["document"])
-  .setOutputCol("sentence")
+.setInputCols(["document"])
+.setOutputCol("sentence")
 
 val tokenizer = Tokenizer()
-  .setInputCols(["sentence"])
-  .setOutputCol("token")
+.setInputCols(["sentence"])
+.setOutputCol("token")
 
 # Clinical word embeddings trained on PubMED dataset
 val word_embeddings = WordEmbeddingsModel.pretrained("embeddings_clinical", "en", "clinical/models")
-  .setInputCols(["sentence", "token"])
-  .setOutputCol("embeddings")
-  
+.setInputCols(["sentence", "token"])
+.setOutputCol("embeddings")
+
 val ner = MedicalNerModel.pretrained("ner_drugs_large", "en", "clinical/models")
-  .setInputCols("sentence", "token", "embeddings") 
-  .setOutputCol("ner")
+.setInputCols("sentence", "token", "embeddings") 
+.setOutputCol("ner")
 
 val ner_converter = NerConverter()
-  .setInputCols(["sentence", "token", "ner"])
-  .setOutputCol("ner_chunk")
+.setInputCols(["sentence", "token", "ner"])
+.setOutputCol("ner_chunk")
 
 val pipeline = new Pipeline().setStages(Array(document_assembler, sentence_detector, tokenizer, word_embeddings, ner, ner_converter))
 
 val data = Seq("The patient is a 40-year-old white male who presents with a chief complaint of "chest pain". The patient is diabetic and has a prior history of coronary artery disease. The patient presents today stating that his chest pain started yesterday evening and has been somewhat intermittent. He has been advised Aspirin 81 milligrams QDay. Humulin N. insulin 50 units in a.m. HCTZ 50 mg QDay. Nitroglycerin 1/150 sublingually PRN chest pain.").toDF("text")
 val result = pipeline.fit(data).transform(data)
 ```
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("en.med_ner.drugs.large").predict(""". The patient is diabetic and has a prior history of coronary artery disease. The patient presents today stating that his chest pain started yesterday evening and has been somewhat intermittent. He has been advised Aspirin 81 milligrams QDay. Humulin N. insulin 50 units in a.m. HCTZ 50 mg QDay. Nitroglycerin 1/150 sublingually PRN chest pain.""")
+```
+
 </div>
 
 ## Results

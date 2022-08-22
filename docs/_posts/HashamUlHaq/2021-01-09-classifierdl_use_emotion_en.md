@@ -11,7 +11,7 @@ spark_version: 2.4
 tags: [open_source, en, classifier]
 supported: true
 article_header:
-  type: cover
+type: cover
 use_language_switcher: "Python-Scala-Java"
 ---
 
@@ -36,28 +36,28 @@ Automatically identify Joy, Surprise, Fear, Sadness emotions in Tweets.
 {% include programmingLanguageSelectScalaPythonNLU.html %}
 ```python
 document_assembler = DocumentAssembler()\
-  .setInputCol("text")\
-  .setOutputCol("document")
+.setInputCol("text")\
+.setOutputCol("document")
 use = UniversalSentenceEncoder.pretrained('tfhub_use', lang="en") \
-  .setInputCols(["document"])\
-  .setOutputCol("sentence_embeddings")
+.setInputCols(["document"])\
+.setOutputCol("sentence_embeddings")
 document_classifier = ClassifierDLModel.pretrained('classifierdl_use_emotion', 'en') \
-  .setInputCols(["document", "sentence_embeddings"]) \
-  .setOutputCol("class")
+.setInputCols(["document", "sentence_embeddings"]) \
+.setOutputCol("class")
 nlpPipeline = Pipeline(stages=[document_assembler, use, document_classifier])
 light_pipeline = LightPipeline(nlp_pipeline.fit(spark.createDataFrame([['']]).toDF("text")))
 annotations = light_pipeline.fullAnnotate('@Mira I just saw you on live t.v!!')
 ```
 ```scala
 val documentAssembler = DocumentAssembler()
-  .setInputCol("text")
-  .setOutputCol("document")
+.setInputCol("text")
+.setOutputCol("document")
 val use = UniversalSentenceEncoder.pretrained(lang="en")
-  .setInputCols(Array("document"))
-  .setOutputCol("sentence_embeddings")
+.setInputCols(Array("document"))
+.setOutputCol("sentence_embeddings")
 val document_classifier = ClassifierDLModel.pretrained("classifierdl_use_emotion", "en")
-  .setInputCols(Array("document", "sentence_embeddings"))
-  .setOutputCol("class")
+.setInputCols(Array("document", "sentence_embeddings"))
+.setOutputCol("class")
 val pipeline = new Pipeline().setStages(Array(documentAssembler, use, document_classifier))
 
 val data = Seq("@Mira I just saw you on live t.v!!").toDF("text")
@@ -107,12 +107,12 @@ This model is trained on multiple datasets inlcuding youtube comments, twitter a
 ## Benchmarking
 
 ```bash
-        fear       0.78      0.67      0.72      2253
-         joy       0.71      0.68      0.69      3000
-     sadness       0.69      0.73      0.71      3075
-    surprise       0.67      0.73      0.70      3067
+fear       0.78      0.67      0.72      2253
+joy       0.71      0.68      0.69      3000
+sadness       0.69      0.73      0.71      3075
+surprise       0.67      0.73      0.70      3067
 
-    accuracy                           0.71     11395
-   macro avg       0.71      0.70      0.71     11395
+accuracy                           0.71     11395
+macro avg       0.71      0.70      0.71     11395
 weighted avg       0.71      0.71      0.71     11395
 ```
