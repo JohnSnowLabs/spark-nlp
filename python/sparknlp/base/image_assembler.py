@@ -11,7 +11,7 @@
 #  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
-"""Contains classes for the DocumentAssembler."""
+"""Contains classes for the ImageAssembler."""
 
 from pyspark import keyword_only
 from pyspark.ml.param import TypeConverters, Params, Param
@@ -19,16 +19,8 @@ from sparknlp.internal import AnnotatorTransformer
 
 
 class ImageAssembler(AnnotatorTransformer):
-    """Prepares image into a format that is processable by Spark NLP.
-
-    This is the entry point for every Spark NLP pipeline. The
-    `DocumentAssembler` can read either a ``String`` column or an
-    ``Array[String]``. Additionally, :meth:`.setCleanupMode` can be used to
-    pre-process the text (Default: ``disabled``). For possible options please
-    refer the parameters section.
-
-    For more extended examples on document pre-processing see the
-    `Spark NLP Workshop <https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Public/2.Text_Preprocessing_with_SparkNLP_Annotators_Transformers.ipynb>`__.
+    """Prepares images read by Spark into a format that is processable by Spark NLP.
+    This component is needed to process images.
 
     ====================== ======================
     Input Annotation types Output Annotation type
