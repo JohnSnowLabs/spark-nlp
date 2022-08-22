@@ -17,10 +17,10 @@
 package com.johnsnowlabs.ml.tensorflow
 
 import com.johnsnowlabs.ml.tensorflow.sign.{ModelSignatureConstants, ModelSignatureManager}
+import com.johnsnowlabs.nlp.annotators.cv.feature_extractor.Preprocessor
 import com.johnsnowlabs.nlp.annotators.cv.util.io.ImageIOUtils
 import com.johnsnowlabs.nlp.annotators.cv.util.transform.ImageResizeUtils
-import com.johnsnowlabs.nlp.{AnnotationImage, _}
-import com.johnsnowlabs.nlp.annotators.cv.feature_extractor.Preprocessor
+import com.johnsnowlabs.nlp._
 
 import scala.collection.JavaConverters._
 
@@ -28,6 +28,10 @@ class TensorflowViTClassifier(
     val tensorflowWrapper: TensorflowWrapper,
     configProtoBytes: Option[Array[Byte]] = None,
     tags: Map[String, BigInt],
+    imageMean: Array[Double],
+    imageStd: Array[Double],
+    resample: Int,
+    size: Int,
     signatures: Option[Map[String, String]] = None)
     extends Serializable {
 
@@ -35,18 +39,20 @@ class TensorflowViTClassifier(
     signatures.getOrElse(ModelSignatureManager.apply())
 
   private def sessionWarmup(): Unit = {
-    val content = Array[Byte](50, 2, 20, 1, 56, 110, 50, 2, 20, 1, 56, 110, 50, 2, 20, 1, 56, 110)
+    val image =
+      ImageIOUtils.loadImage(getClass.getResourceAsStream("/image/ox.JPEG"))
+    val bytes = ImageIOUtils.bufferedImageToByte(image)
     val preprocessor =
       Preprocessor(
-        do_normalize = false,
-        do_resize = false,
-        "",
-        Array(0.5d, 0.5d, 0.5d),
-        Array(0.5d, 0.5d, 0.5d),
-        2,
-        2)
+        do_normalize = true,
+        do_resize = true,
+        "ViTFeatureExtractor",
+        imageMean,
+        imageStd,
+        resample,
+        size)
     val images =
-      Array(AnnotationImage("image", "test.jpeg", 2, 2, 3, 1, content, Map("image" -> "0")))
+      Array(AnnotationImage("image", "ox.JPEG", 265, 360, 3, 16, bytes, Map("image" -> "0")))
     val encoded = encode(images, preprocessor)
     tag(encoded)
   }
@@ -121,7 +127,6 @@ class TensorflowViTClassifier(
         val logits = tag(encoded, activation)
 
         batch.zip(logits).map { case (image, score) =>
-//          val scores = score.transpose.map(_.sum / logits.length)
           val label =
             tags.find(_._2 == score.zipWithIndex.maxBy(_._1)._2).map(_._1).getOrElse("NA")
 

@@ -18,6 +18,7 @@ package com.johnsnowlabs.nlp.annotators.sbd.pragmatic
 
 import com.johnsnowlabs.nlp.annotators.common.{Sentence, SentenceSplit}
 import com.johnsnowlabs.nlp.annotators.sbd.SentenceDetectorParams
+import com.johnsnowlabs.nlp.util.regex.TransformStrategy
 import com.johnsnowlabs.nlp.{Annotation, AnnotatorModel, HasSimpleAnnotate}
 import org.apache.spark.ml.util.{DefaultParamsReadable, Identifiable}
 import org.apache.spark.sql.{DataFrame, Dataset}
@@ -137,11 +138,25 @@ class SentenceDetector(override val uid: String)
   override val inputAnnotatorTypes: Array[AnnotatorType] = Array(DOCUMENT)
 
   lazy val model: PragmaticMethod =
-    if ($(customBounds).nonEmpty && $(useCustomBoundsOnly))
-      new CustomPragmaticMethod($(customBounds))
-    else if ($(customBounds).nonEmpty)
-      new MixedPragmaticMethod($(useAbbrevations), $(detectLists), $(customBounds))
-    else
+    if ($(customBounds).nonEmpty) {
+      val transformStrategy = $(customBoundsStrategy) match {
+        case "none" => TransformStrategy.REPLACE_ALL_WITH_SYMBOL
+        case "prepend" => TransformStrategy.PREPEND_WITH_SYMBOL
+        case "append" => TransformStrategy.APPEND_WITH_SYMBOL
+        case _ =>
+          throw new IllegalArgumentException(
+            s"${$(customBoundsStrategy)} is not a valid strategy for custom bounds. " +
+              s"Possible Values: (none, prepend, append).")
+      }
+
+      if ($(useCustomBoundsOnly)) new CustomPragmaticMethod($(customBounds), transformStrategy)
+      else
+        new MixedPragmaticMethod(
+          $(useAbbrevations),
+          $(detectLists),
+          $(customBounds),
+          transformStrategy)
+    } else
       new DefaultPragmaticMethod($(useAbbrevations), $(detectLists))
 
   def tag(document: String): Array[Sentence] = {

@@ -49,8 +49,10 @@ sparknlp:
       - title:  Experiment Tracking
         url:    /docs/en/mlflow
       - title:  Serving Spark NLP&#58 MLFlow on Databricks
-        url:    /docs/en/serving_spark_nlp_via_api_databricks_mlflow    
-      - title:  GPU vs CPU benchmarks
+        url:    /docs/en/serving_spark_nlp_via_api_databricks_mlflow
+      - title:  Hardware Acceleration
+        url:    /docs/en/hardware_acceleration
+      - title:  GPU vs CPU Training
         url:    /docs/en/CPUvsGPUbenchmark
       - title:  Helpers
         url:    /docs/en/auxiliary
@@ -80,7 +82,7 @@ annotation-lab:
         url:    /docs/en/alab/import
       - title:  Tasks
         url:    /docs/en/alab/tasks
-      - title:  Annotation 
+      - title:  Annotation
         url:    /docs/en/alab/annotation
       - title:  NLP Models Hub
         url:    /docs/en/alab/models_hub
@@ -93,7 +95,7 @@ annotation-lab:
       - title:  Annotation Settings
         url:    /docs/en/alab/settings
       - title:  Annotation Customizations
-        url:    /docs/en/alab/annotation_screen_customization        
+        url:    /docs/en/alab/annotation_screen_customization
       - title:  Analytics
         url:    /docs/en/alab/analytics
       - title:  Annotation Export

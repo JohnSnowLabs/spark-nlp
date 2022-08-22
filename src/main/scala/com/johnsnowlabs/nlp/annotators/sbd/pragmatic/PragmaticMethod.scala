@@ -19,7 +19,10 @@ package com.johnsnowlabs.nlp.annotators.sbd.pragmatic
 import com.johnsnowlabs.nlp.annotators.common.Sentence
 import com.johnsnowlabs.nlp.util.regex.MatchStrategy.MATCH_ALL
 import com.johnsnowlabs.nlp.util.regex.RuleFactory
-import com.johnsnowlabs.nlp.util.regex.TransformStrategy.REPLACE_ALL_WITH_SYMBOL
+import com.johnsnowlabs.nlp.util.regex.TransformStrategy.{
+  REPLACE_ALL_WITH_SYMBOL,
+  TransformStrategy
+}
 
 protected trait PragmaticMethod {
   def extractBounds(content: String): Array[Sentence]
@@ -29,12 +32,14 @@ protected trait PragmaticMethod {
   * This approach extracts sentence bounds by first formatting the data with [[RuleSymbols]] and
   * then extracting bounds with a strong RegexBased rule application
   */
-class CustomPragmaticMethod(customBounds: Array[String])
+class CustomPragmaticMethod(
+    customBounds: Array[String],
+    transformStrategy: TransformStrategy = REPLACE_ALL_WITH_SYMBOL)
     extends PragmaticMethod
     with Serializable {
   override def extractBounds(content: String): Array[Sentence] = {
 
-    val customBoundsFactory = new RuleFactory(MATCH_ALL, REPLACE_ALL_WITH_SYMBOL)
+    val customBoundsFactory = new RuleFactory(MATCH_ALL, transformStrategy)
     customBounds.foreach(bound => customBoundsFactory.addRule(bound.r, s"split bound: $bound"))
 
     val symbolyzedData = new PragmaticContentFormatter(content)
@@ -74,10 +79,11 @@ class DefaultPragmaticMethod(useAbbreviations: Boolean = false, detectLists: Boo
 class MixedPragmaticMethod(
     useAbbreviations: Boolean = false,
     detectLists: Boolean = true,
-    customBounds: Array[String])
+    customBounds: Array[String],
+    transformStrategy: TransformStrategy = REPLACE_ALL_WITH_SYMBOL)
     extends PragmaticMethod
     with Serializable {
-  val customBoundsFactory = new RuleFactory(MATCH_ALL, REPLACE_ALL_WITH_SYMBOL)
+  val customBoundsFactory = new RuleFactory(MATCH_ALL, transformStrategy)
   customBounds.foreach(bound => customBoundsFactory.addRule(bound.r, s"split bound: $bound"))
 
   /** this is a hardcoded order of operations considered to go from those most specific

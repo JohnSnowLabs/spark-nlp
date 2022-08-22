@@ -204,7 +204,13 @@ class ViTForImageClassification(override val uid: String)
   def getModelIfNotSet: TensorflowViTClassifier = _model.get.value
 
   /** @group setParam */
-  def setModelIfNotSet(spark: SparkSession, tensorflow: TensorflowWrapper): this.type = {
+  def setModelIfNotSet(
+      spark: SparkSession,
+      tensorflow: TensorflowWrapper,
+      imageMean: Array[Double],
+      imageStd: Array[Double],
+      resample: Int,
+      size: Int): this.type = {
     if (_model.isEmpty) {
 
       _model = Some(
@@ -213,6 +219,10 @@ class ViTForImageClassification(override val uid: String)
             tensorflow,
             configProtoBytes = getConfigProtoBytes,
             tags = $$(labels),
+            imageMean = imageMean,
+            imageStd = imageStd,
+            resample = resample,
+            size = size,
             signatures = getSignatures)))
     }
     this
@@ -316,7 +326,13 @@ trait ReadViTForImageTensorflowModel extends ReadTensorflowModel {
       spark: SparkSession): Unit = {
 
     val tf = readTensorflowModel(path, spark, "_image_classification_tf", initAllTables = false)
-    instance.setModelIfNotSet(spark, tf)
+    instance.setModelIfNotSet(
+      spark,
+      tf,
+      instance.getImageMean,
+      instance.getImageStd,
+      instance.getResample,
+      instance.getSize)
   }
 
   addReader(readTensorflow)
@@ -363,7 +379,13 @@ trait ReadViTForImageTensorflowModel extends ReadTensorflowModel {
     new ViTForImageClassification()
       .setLabels(labelJsonMap)
       .setSignatures(_signatures)
-      .setModelIfNotSet(spark, wrapper)
+      .setModelIfNotSet(
+        spark,
+        wrapper,
+        preprocessorConfig.image_mean,
+        preprocessorConfig.image_std,
+        preprocessorConfig.resample,
+        preprocessorConfig.size)
       .setDoNormalize(preprocessorConfig.do_normalize)
       .setDoResize(preprocessorConfig.do_resize)
       .setFeatureExtractorType(preprocessorConfig.feature_extractor_type)
