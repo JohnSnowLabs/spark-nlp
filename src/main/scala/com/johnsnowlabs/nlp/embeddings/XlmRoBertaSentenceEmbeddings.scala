@@ -47,7 +47,8 @@ import java.io.File
   * [[https://nlp.johnsnowlabs.com/models?task=Embeddings Models Hub]].
   *
   * To see which models are compatible and how to import them see
-  * [[https://github.com/JohnSnowLabs/spark-nlp/discussions/5669]]. and the
+  * [[https://github.com/JohnSnowLabs/spark-nlp/discussions/5669]] and to see more extended
+  * examples, see
   * [[https://github.com/JohnSnowLabs/spark-nlp/tree/master/src/test/scala/com/johnsnowlabs/nlp/embeddings/XlmRoBertaSentenceEmbeddingsTestSpec.scala XlmRoBertaSentenceEmbeddingsTestSpec]].
   *
   * '''Paper Abstract:'''
