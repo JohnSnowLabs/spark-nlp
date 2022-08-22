@@ -59,7 +59,7 @@ data:
             url: https://demo.johnsnowlabs.com/ocr/FOUNDATIONONE_REPORT_PARSING/
           - text: Colab Netbook
             type: blue_btn
-            url:   
+            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/ocr/FOUNDATIONONE_REPORT_PARSING.ipynb 
         - title: Recognize entities in scanned PDFs
           id: recognize_entities_in_scanned_pdfs
           image: 

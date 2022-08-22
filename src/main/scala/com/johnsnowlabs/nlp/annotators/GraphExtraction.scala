@@ -17,18 +17,19 @@
 package com.johnsnowlabs.nlp.annotators
 
 import com.johnsnowlabs.nlp.AnnotatorType._
+import com.johnsnowlabs.nlp._
 import com.johnsnowlabs.nlp.annotators.common.LabeledDependency.DependencyInfo
 import com.johnsnowlabs.nlp.annotators.common.{LabeledDependency, NerTagged}
 import com.johnsnowlabs.nlp.annotators.ner.NerTagsEncoding
+import com.johnsnowlabs.nlp.annotators.parser.dep.DependencyParserModel
+import com.johnsnowlabs.nlp.annotators.parser.typdep.TypedDependencyParserModel
+import com.johnsnowlabs.nlp.annotators.pos.perceptron.PerceptronModel
 import com.johnsnowlabs.nlp.util.GraphBuilder
-import com.johnsnowlabs.nlp.{Annotation, AnnotatorModel, AnnotatorType, HasSimpleAnnotate}
 import org.apache.spark.ml.PipelineModel
 import org.apache.spark.ml.param.{BooleanParam, IntParam, Param, StringArrayParam}
 import org.apache.spark.ml.util.Identifiable
 import org.apache.spark.sql.functions.array
 import org.apache.spark.sql.{DataFrame, Dataset}
-
-import scala.collection.immutable.Map
 
 /** Extracts a dependency graph between entities.
   *
@@ -340,6 +341,11 @@ class GraphExtraction(override val uid: String)
     (result.head, result.last)
   }.distinct
 
+  private var pretrainedPos: Option[PerceptronModel] = None
+  private var pretrainedDependencyParser: Option[DependencyParserModel] = None
+  private var pretrainedTypedDependencyParser: Option[TypedDependencyParserModel] =
+    None
+
   override def _transform(
       dataset: Dataset[_],
       recursivePipeline: Option[PipelineModel]): DataFrame = {
@@ -364,6 +370,18 @@ class GraphExtraction(override val uid: String)
         wrapColumnMetadata(dfAnnotate(array(inputCols.map(c => dataset.col(c)): _*))))
       processedDataset
     }
+  }
+
+  override def beforeAnnotate(dataset: Dataset[_]): Dataset[_] = {
+
+    if ($(mergeEntities)) {
+      pretrainedPos = Some(PretrainedAnnotations.getPretrainedPos($(posModel)))
+      pretrainedDependencyParser = Some(
+        PretrainedAnnotations.getDependencyParser($(dependencyParserModel)))
+      pretrainedTypedDependencyParser = Some(TypedDependencyParserModel.pretrained())
+    }
+
+    dataset
   }
 
   /** takes a document and annotations and produces new annotations of this annotator's annotation
@@ -404,17 +422,15 @@ class GraphExtraction(override val uid: String)
       .map(annotationBySentence => annotationBySentence._2)
 
     val graphPaths = annotationsBySentence.flatMap { sentenceAnnotations =>
-      val annotations =
-        if ($(mergeEntities)) getPretrainedAnnotations(sentenceAnnotations)
-        else getEntityAnnotations(sentenceAnnotations)
-      val tokens = annotations.filter(_.annotatorType == AnnotatorType.TOKEN)
-      val nerEntities = annotations.filter(annotation =>
+      val annotationsWithDependencies = getAnnotationsWithDependencies(sentenceAnnotations)
+      val tokens = annotationsWithDependencies.filter(_.annotatorType == AnnotatorType.TOKEN)
+      val nerEntities = annotationsWithDependencies.filter(annotation =>
         annotation.annotatorType == TOKEN && annotation.metadata("entity") != "O")
 
       if (nerEntities.isEmpty) {
         Seq(Annotation(NODE, 0, 0, "", Map()))
       } else {
-        val dependencyData = LabeledDependency.unpackHeadAndRelation(annotations)
+        val dependencyData = LabeledDependency.unpackHeadAndRelation(annotationsWithDependencies)
         val annotationsInfo = AnnotationsInfo(tokens, nerEntities, dependencyData)
 
         val graph = new GraphBuilder(dependencyData.length + 1)
@@ -434,19 +450,35 @@ class GraphExtraction(override val uid: String)
 
   }
 
+  private def getAnnotationsWithDependencies(
+      sentenceAnnotations: Seq[Annotation]): Seq[Annotation] = {
+    if ($(mergeEntities)) {
+      getPretrainedAnnotations(sentenceAnnotations)
+    } else {
+      getEntityAnnotations(sentenceAnnotations)
+    }
+  }
+
   private def getPretrainedAnnotations(annotationsToProcess: Seq[Annotation]): Seq[Annotation] = {
+
     val relatedAnnotatedTokens = mergeRelatedTokens(annotationsToProcess)
     val sentence = annotationsToProcess.filter(_.annotatorType == AnnotatorType.DOCUMENT)
+
     val posInput = sentence ++ relatedAnnotatedTokens
-    val posAnnotations = PretrainedAnnotations.getPos(posInput, $(posModel))
+    val posAnnotations = PretrainedAnnotations.getPosOutput(posInput, pretrainedPos.get)
+
     val dependencyParserInput = sentence ++ relatedAnnotatedTokens ++ posAnnotations
     val dependencyParserAnnotations =
-      PretrainedAnnotations.getDependencyParser(dependencyParserInput, $(dependencyParserModel))
+      PretrainedAnnotations.getDependencyParserOutput(
+        dependencyParserInput,
+        pretrainedDependencyParser.get)
+
     val typedDependencyParserInput =
       relatedAnnotatedTokens ++ posAnnotations ++ dependencyParserAnnotations
-    val typedDependencyParserAnnotations = PretrainedAnnotations.getTypedDependencyParser(
+    val typedDependencyParserAnnotations = PretrainedAnnotations.getTypedDependencyParserOutput(
       typedDependencyParserInput,
-      $(typedDependencyParserModel))
+      pretrainedTypedDependencyParser.get)
+
     relatedAnnotatedTokens ++ dependencyParserAnnotations ++ typedDependencyParserAnnotations
   }
 

@@ -32,18 +32,17 @@ data:
           - text: Colab Netbook
             type: blue_btn
             url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/NER_TUMOR.ipynb  
-        - title: Map oncology terminology to ICD-O taxonomy
-          hide: yes
-          id: icdo_coding
+        - title: Resolve Oncology terminology using the ICD-O taxonomy
+          id: resolve_oncology_terminology_using_icdo_taxonomy
           image: 
-              src: /assets/images/Detect_diagnosis_and_procedures.svg
+              src: /assets/images/Resolve_Oncology_terminology.svg
           image2: 
-              src: /assets/images/Detect_diagnosis_and_procedures_f.svg
-          excerpt: Automatically detect the tumor in your healthcare records and link it to the corresponding ICDO code using Spark NLP for Healthcare out of the box.
+              src: /assets/images/Resolve_Oncology_terminology_f.svg
+          excerpt: This model maps oncology terminology to ICD-O codes using Entity Resolvers.
           actions:
           - text: Live Demo
             type: normal
-            url: https://demo.johnsnowlabs.com/healthcare/ER_ICDO
+            url: https://demo.johnsnowlabs.com/healthcare/ER_ICDO/
           - text: Colab Netbook
             type: blue_btn
             url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/ER_ICDO.ipynb
@@ -60,5 +59,5 @@ data:
             url: https://demo.johnsnowlabs.com/healthcare/NER_BIOMARKER/
           - text: Colab Netbook
             type: blue_btn
-            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/NER_BIOMARKER.ipynb
+            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/NER_BIOMARKER.ipynb        
 ---

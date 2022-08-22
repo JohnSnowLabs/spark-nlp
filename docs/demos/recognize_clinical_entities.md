@@ -256,4 +256,32 @@ data:
           - text: Colab Netbook
             type: blue_btn
             url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/NER_SUPPLEMENT_CLINICAL.ipynb
+        - title: Detect professions and occupations in Spanish
+          id: detect_professions_occupations_Spanish_texts 
+          image: 
+              src: /assets/images/Classify-documents.svg
+          image2: 
+              src: /assets/images/Classify-documents-w.svg
+          excerpt: Automatically identify professions and occupations entities in Spanish texts using our pretrained Spark NLP for Healthcare model. 
+          actions:
+          - text: Live Demo
+            type: normal
+            url: https://demo.johnsnowlabs.com/healthcare/NER_PROFESSIONS_ES/ 
+          - text: Colab Netbook
+            type: blue_btn
+            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/NER_PROFESSIONS_ES.ipynb
+        - title: Detect mentions of general medical terms (coarse) 
+          id: detect_mentions_general_medical_terms_coarse
+          image: 
+              src: /assets/images/Detect_mentions_of_general_medical_terms.svg
+          image2: 
+              src: /assets/images/Detect_mentions_of_general_medical_terms_f.svg
+          excerpt: Extract general medical terms in text like body parts, cells, genes, symptoms, etc in text.
+          actions:
+          - text: Live Demo
+            type: normal
+            url: https://demo.johnsnowlabs.com/healthcare/NER_MEDMENTIONS_COARSE/
+          - text: Colab Netbook
+            type: blue_btn
+            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/NER_MEDMENTIONS_COARSE.ipynb
 ---

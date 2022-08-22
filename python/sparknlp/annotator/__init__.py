@@ -41,6 +41,7 @@ from sparknlp.annotator.stemmer import *
 from sparknlp.annotator.stop_words_cleaner import *
 from sparknlp.annotator.coref import *
 from sparknlp.annotator.tf_ner_dl_graph_builder import *
+from sparknlp.annotator.cv import *
 
 if sys.version_info[0] == 2:
     raise ImportError(
@@ -81,3 +82,4 @@ seq2seq = sys.modules[__name__]
 ws = sys.modules[__name__]
 er = sys.modules[__name__]
 coref = sys.modules[__name__]
+cv = sys.modules[__name__]
