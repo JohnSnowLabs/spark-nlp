@@ -102,4 +102,18 @@ data:
           - text: Colab Netbook
             type: blue_btn
             url: 
+        - title: Named Entity Recognition on Financial Annual Reports
+          id: named_entity_recognition_financial_annual_reports        
+          image: 
+              src: /assets/images/Named_Entity_Recognition_on_Financial_Annual_Reports.svg
+          image2: 
+              src: /assets/images/Named_Entity_Recognition_on_Financial_Annual_Reports_f.svg
+          excerpt: This demo showcases how you can apply NER models to extract financial entities from annual reports, as Expenses, Loses, Profit declines or increases, etc.
+          actions:
+          - text: Live Demo
+            type: normal
+            url: https://demo.johnsnowlabs.com/finance/FINNER_FINANCIAL_10K/
+          - text: Colab Netbook
+            type: blue_btn
+            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/1.Clinical_Named_Entity_Recognition_Model.ipynb
 ---

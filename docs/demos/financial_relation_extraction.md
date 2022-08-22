@@ -31,5 +31,19 @@ data:
             url: https://demo.johnsnowlabs.com/finance/FINRE_ALIAS/
           - text: Colab Netbook
             type: blue_btn
-            url:                 
+            url: 
+        - title: Extract Acquisition and Subsidiary Relationships  
+          id: extract_acquisition_subsidiary_relationships  
+          image: 
+              src: /assets/images/Extract_Acquisition_and_Subsidiary_Relationships.svg
+          image2: 
+              src: /assets/images/Extract_Acquisition_and_Subsidiary_Relationships_f.svg
+          excerpt: This demo shows how to extract Acquisition and Subsidiary relations from ORG (Companies), ALIAS (Aliases of companies in an agreement) and PRODUCT (Products).
+          actions:
+          - text: Live Demo
+            type: normal
+            url: https://demo.johnsnowlabs.com/finance/FINRE_ACQUISITIONS/
+          - text: Colab Netbook
+            type: blue_btn
+            url: https://nlp.johnsnowlabs.com/             
 ---
