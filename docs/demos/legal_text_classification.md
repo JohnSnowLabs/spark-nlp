@@ -18,7 +18,7 @@ data:
           activemenu: legal_text_classification
       source: yes
       source: 
-        - title: Legal Clauses Classification 
+        - title: Classify 275 types of clauses (Binary - clause detected or not)
           id: legal_clauses_classification    
           image: 
               src: /assets/images/Legal_Clauses_Classification.svg
@@ -32,4 +32,18 @@ data:
           - text: Colab Netbook
             type: blue_btn
             url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/CLASSIFICATION_EN_TREC.ipynb
+        - title: Classify 15 types of clauses (Multilabel)  
+          id: classify_texts_15_types_legal_clauses     
+          image: 
+              src: /assets/images/Classify_texts_into_15_types_of_legal_clauses.svg
+          image2: 
+              src: /assets/images/Classify_texts_into_15_types_of_legal_clauses_f.svg
+          excerpt: Using Multilabel Document Classification, where several classes can be assigned to a text, this demo will analyse and provide the best class or classes given an input text. This demo can be used to detect relevant clauses in a legal text.
+          actions:
+          - text: Live Demo
+            type: normal
+            url: https://demo.johnsnowlabs.com/finance/LEGMULTICLF_LEDGAR/
+          - text: Colab Netbook
+            type: blue_btn
+            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/CLASSIFICATION_MULTILABEL_TOXIC.ipynb
 ---
