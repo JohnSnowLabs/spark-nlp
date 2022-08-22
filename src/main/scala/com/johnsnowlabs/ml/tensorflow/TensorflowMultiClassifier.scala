@@ -182,7 +182,7 @@ class TensorflowMultiClassifier(
     }
 
     if (enableOutputLogs) {
-      OutputHelper.exportLogFileToS3()
+      OutputHelper.exportLogFile(outputLogsPath)
     }
   }
 

@@ -179,7 +179,7 @@ class TensorflowSentenceDetectorDL(
     logMessage(f"Training completed.", uuid)
 
     if (outputLogsPath.isDefined) {
-      OutputHelper.exportLogFileToS3()
+      OutputHelper.exportLogFile(outputLogsPath.get)
     }
   }
 
