@@ -2,8 +2,6 @@ import React from 'react';
 import Radio from '../Radio/Radio';
 import RadioGroup from '../RadioGroup';
 import SidebarSelect from './SidebarSelect';
-import Radio from '../Radio/Radio';
-import RadioGroup from '../RadioGroup';
 import styles from './Sidebar.module.css';
 import { SEARCH_ORIGIN, toSearchString } from '../common';
 import AutoCompleteCombobox from '../AutoCompleteCombobox/AutoCompleteCombobox';
