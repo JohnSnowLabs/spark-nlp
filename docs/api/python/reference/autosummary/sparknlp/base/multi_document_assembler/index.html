@@ -4,9 +4,9 @@
 <html lang="en">
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
 
-    <title>sparknlp.base.multi_document_assembler &#8212; Spark NLP 4.0.2 documentation</title>
+    <title>sparknlp.base.multi_document_assembler &#8212; Spark NLP 4.1.0 documentation</title>
 <script>
   document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
   document.documentElement.dataset.theme = localStorage.getItem("theme") || "light"
@@ -145,117 +145,7 @@
   <input type="search" class="form-control" name="q" id="search-input" placeholder="Search the docs ..." aria-label="Search the docs ..." autocomplete="off" >
 </form><nav class="bd-links" id="bd-docs-nav" aria-label="Main navigation">
   <div class="bd-toc-item active">
-    <ul class="current nav bd-sidenav">
- <li class="toctree-l1">
-  <a class="reference internal" href="../chunk2_doc/index.html">
-   <code class="xref py py-mod docutils literal notranslate">
-    <span class="pre">
-     sparknlp.base.chunk2_doc
-    </span>
-   </code>
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="../doc2_chunk/index.html">
-   <code class="xref py py-mod docutils literal notranslate">
-    <span class="pre">
-     sparknlp.base.doc2_chunk
-    </span>
-   </code>
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="../document_assembler/index.html">
-   <code class="xref py py-mod docutils literal notranslate">
-    <span class="pre">
-     sparknlp.base.document_assembler
-    </span>
-   </code>
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="../embeddings_finisher/index.html">
-   <code class="xref py py-mod docutils literal notranslate">
-    <span class="pre">
-     sparknlp.base.embeddings_finisher
-    </span>
-   </code>
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="../finisher/index.html">
-   <code class="xref py py-mod docutils literal notranslate">
-    <span class="pre">
-     sparknlp.base.finisher
-    </span>
-   </code>
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="../graph_finisher/index.html">
-   <code class="xref py py-mod docutils literal notranslate">
-    <span class="pre">
-     sparknlp.base.graph_finisher
-    </span>
-   </code>
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="../has_recursive_fit/index.html">
-   <code class="xref py py-mod docutils literal notranslate">
-    <span class="pre">
-     sparknlp.base.has_recursive_fit
-    </span>
-   </code>
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="../has_recursive_transform/index.html">
-   <code class="xref py py-mod docutils literal notranslate">
-    <span class="pre">
-     sparknlp.base.has_recursive_transform
-    </span>
-   </code>
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="../light_pipeline/index.html">
-   <code class="xref py py-mod docutils literal notranslate">
-    <span class="pre">
-     sparknlp.base.light_pipeline
-    </span>
-   </code>
-  </a>
- </li>
- <li class="toctree-l1 current active">
-  <a class="current reference internal" href="#">
-   <code class="xref py py-mod docutils literal notranslate">
-    <span class="pre">
-     sparknlp.base.multi_document_assembler
-    </span>
-   </code>
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="../recursive_pipeline/index.html">
-   <code class="xref py py-mod docutils literal notranslate">
-    <span class="pre">
-     sparknlp.base.recursive_pipeline
-    </span>
-   </code>
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="../token_assembler/index.html">
-   <code class="xref py py-mod docutils literal notranslate">
-    <span class="pre">
-     sparknlp.base.token_assembler
-    </span>
-   </code>
-  </a>
- </li>
-</ul>
-
+    
   </div>
 </nav>
   </div>
@@ -293,46 +183,6 @@
        MultiDocumentAssembler
       </a>
       <ul class="nav section-nav flex-column">
-       <li class="toc-h5 nav-item toc-entry">
-        <a class="reference internal nav-link" href="#sparknlp.base.multi_document_assembler.MultiDocumentAssembler.inputCols">
-         inputCols
-        </a>
-       </li>
-       <li class="toc-h5 nav-item toc-entry">
-        <a class="reference internal nav-link" href="#sparknlp.base.multi_document_assembler.MultiDocumentAssembler.outputCols">
-         outputCols
-        </a>
-       </li>
-       <li class="toc-h5 nav-item toc-entry">
-        <a class="reference internal nav-link" href="#sparknlp.base.multi_document_assembler.MultiDocumentAssembler.idCol">
-         idCol
-        </a>
-       </li>
-       <li class="toc-h5 nav-item toc-entry">
-        <a class="reference internal nav-link" href="#sparknlp.base.multi_document_assembler.MultiDocumentAssembler.metadataCol">
-         metadataCol
-        </a>
-       </li>
-       <li class="toc-h5 nav-item toc-entry">
-        <a class="reference internal nav-link" href="#sparknlp.base.multi_document_assembler.MultiDocumentAssembler.calculationsCol">
-         calculationsCol
-        </a>
-       </li>
-       <li class="toc-h5 nav-item toc-entry">
-        <a class="reference internal nav-link" href="#sparknlp.base.multi_document_assembler.MultiDocumentAssembler.cleanupMode">
-         cleanupMode
-        </a>
-       </li>
-       <li class="toc-h5 nav-item toc-entry">
-        <a class="reference internal nav-link" href="#sparknlp.base.multi_document_assembler.MultiDocumentAssembler.name">
-         name
-        </a>
-       </li>
-       <li class="toc-h5 nav-item toc-entry">
-        <a class="reference internal nav-link" href="#sparknlp.base.multi_document_assembler.MultiDocumentAssembler.setParams">
-         setParams
-        </a>
-       </li>
        <li class="toc-h5 nav-item toc-entry">
         <a class="reference internal nav-link" href="#sparknlp.base.multi_document_assembler.MultiDocumentAssembler.setInputCols">
          setInputCols
@@ -468,49 +318,9 @@ Possible values: <code class="docutils literal notranslate"><span class="pre">di
 <span class="go">|    |    |    |-- element: float (containsNull = False)</span>
 </pre></div>
 </div>
-<dl class="py attribute">
-<dt class="sig sig-object py" id="sparknlp.base.multi_document_assembler.MultiDocumentAssembler.inputCols">
-<span class="sig-name descname"><span class="pre">inputCols</span></span><a class="reference internal" href="../../../../../modules/sparknlp/base/multi_document_assembler.html#MultiDocumentAssembler.inputCols"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.base.multi_document_assembler.MultiDocumentAssembler.inputCols" title="Permalink to this definition">#</a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="sparknlp.base.multi_document_assembler.MultiDocumentAssembler.outputCols">
-<span class="sig-name descname"><span class="pre">outputCols</span></span><a class="reference internal" href="../../../../../modules/sparknlp/base/multi_document_assembler.html#MultiDocumentAssembler.outputCols"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.base.multi_document_assembler.MultiDocumentAssembler.outputCols" title="Permalink to this definition">#</a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="sparknlp.base.multi_document_assembler.MultiDocumentAssembler.idCol">
-<span class="sig-name descname"><span class="pre">idCol</span></span><a class="reference internal" href="../../../../../modules/sparknlp/base/multi_document_assembler.html#MultiDocumentAssembler.idCol"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.base.multi_document_assembler.MultiDocumentAssembler.idCol" title="Permalink to this definition">#</a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="sparknlp.base.multi_document_assembler.MultiDocumentAssembler.metadataCol">
-<span class="sig-name descname"><span class="pre">metadataCol</span></span><a class="reference internal" href="../../../../../modules/sparknlp/base/multi_document_assembler.html#MultiDocumentAssembler.metadataCol"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.base.multi_document_assembler.MultiDocumentAssembler.metadataCol" title="Permalink to this definition">#</a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="sparknlp.base.multi_document_assembler.MultiDocumentAssembler.calculationsCol">
-<span class="sig-name descname"><span class="pre">calculationsCol</span></span><a class="reference internal" href="../../../../../modules/sparknlp/base/multi_document_assembler.html#MultiDocumentAssembler.calculationsCol"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.base.multi_document_assembler.MultiDocumentAssembler.calculationsCol" title="Permalink to this definition">#</a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="sparknlp.base.multi_document_assembler.MultiDocumentAssembler.cleanupMode">
-<span class="sig-name descname"><span class="pre">cleanupMode</span></span><a class="reference internal" href="../../../../../modules/sparknlp/base/multi_document_assembler.html#MultiDocumentAssembler.cleanupMode"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.base.multi_document_assembler.MultiDocumentAssembler.cleanupMode" title="Permalink to this definition">#</a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="sparknlp.base.multi_document_assembler.MultiDocumentAssembler.name">
-<span class="sig-name descname"><span class="pre">name</span></span><em class="property"><span class="w"> </span><span class="pre">=</span> <span class="pre">MultiDocumentAssembler</span></em><a class="reference internal" href="../../../../../modules/sparknlp/base/multi_document_assembler.html#MultiDocumentAssembler.name"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.base.multi_document_assembler.MultiDocumentAssembler.name" title="Permalink to this definition">#</a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="sparknlp.base.multi_document_assembler.MultiDocumentAssembler.setParams">
-<span class="sig-name descname"><span class="pre">setParams</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../modules/sparknlp/base/multi_document_assembler.html#MultiDocumentAssembler.setParams"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.base.multi_document_assembler.MultiDocumentAssembler.setParams" title="Permalink to this definition">#</a></dt>
-<dd></dd></dl>
-
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp.base.multi_document_assembler.MultiDocumentAssembler.setInputCols">
-<span class="sig-name descname"><span class="pre">setInputCols</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../modules/sparknlp/base/multi_document_assembler.html#MultiDocumentAssembler.setInputCols"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.base.multi_document_assembler.MultiDocumentAssembler.setInputCols" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">setInputCols</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../modules/sparknlp/base/multi_document_assembler.html#MultiDocumentAssembler.setInputCols"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.base.multi_document_assembler.MultiDocumentAssembler.setInputCols" title="Permalink to this definition">#</a></dt>
 <dd><p>Sets column names of input annotations.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -524,7 +334,7 @@ Possible values: <code class="docutils literal notranslate"><span class="pre">di
 
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp.base.multi_document_assembler.MultiDocumentAssembler.setOutputCols">
-<span class="sig-name descname"><span class="pre">setOutputCols</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../modules/sparknlp/base/multi_document_assembler.html#MultiDocumentAssembler.setOutputCols"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.base.multi_document_assembler.MultiDocumentAssembler.setOutputCols" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">setOutputCols</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../modules/sparknlp/base/multi_document_assembler.html#MultiDocumentAssembler.setOutputCols"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.base.multi_document_assembler.MultiDocumentAssembler.setOutputCols" title="Permalink to this definition">#</a></dt>
 <dd><p>Sets column names of output annotations.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -538,7 +348,7 @@ Possible values: <code class="docutils literal notranslate"><span class="pre">di
 
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp.base.multi_document_assembler.MultiDocumentAssembler.setIdCol">
-<span class="sig-name descname"><span class="pre">setIdCol</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../modules/sparknlp/base/multi_document_assembler.html#MultiDocumentAssembler.setIdCol"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.base.multi_document_assembler.MultiDocumentAssembler.setIdCol" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">setIdCol</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../modules/sparknlp/base/multi_document_assembler.html#MultiDocumentAssembler.setIdCol"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.base.multi_document_assembler.MultiDocumentAssembler.setIdCol" title="Permalink to this definition">#</a></dt>
 <dd><p>Sets name of string type column for row id.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -552,7 +362,7 @@ Possible values: <code class="docutils literal notranslate"><span class="pre">di
 
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp.base.multi_document_assembler.MultiDocumentAssembler.setMetadataCol">
-<span class="sig-name descname"><span class="pre">setMetadataCol</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../modules/sparknlp/base/multi_document_assembler.html#MultiDocumentAssembler.setMetadataCol"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.base.multi_document_assembler.MultiDocumentAssembler.setMetadataCol" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">setMetadataCol</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../modules/sparknlp/base/multi_document_assembler.html#MultiDocumentAssembler.setMetadataCol"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.base.multi_document_assembler.MultiDocumentAssembler.setMetadataCol" title="Permalink to this definition">#</a></dt>
 <dd><p>Sets name for Map type column with metadata information.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -566,7 +376,7 @@ Possible values: <code class="docutils literal notranslate"><span class="pre">di
 
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp.base.multi_document_assembler.MultiDocumentAssembler.setCleanupMode">
-<span class="sig-name descname"><span class="pre">setCleanupMode</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../modules/sparknlp/base/multi_document_assembler.html#MultiDocumentAssembler.setCleanupMode"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.base.multi_document_assembler.MultiDocumentAssembler.setCleanupMode" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">setCleanupMode</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../modules/sparknlp/base/multi_document_assembler.html#MultiDocumentAssembler.setCleanupMode"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.base.multi_document_assembler.MultiDocumentAssembler.setCleanupMode" title="Permalink to this definition">#</a></dt>
 <dd><p>Sets how to cleanup the document, by default disabled.
 Possible values: <code class="docutils literal notranslate"><span class="pre">disabled,</span> <span class="pre">inplace,</span> <span class="pre">inplace_full,</span> <span class="pre">shrink,</span> <span class="pre">shrink_full,</span>
 <span class="pre">each,</span> <span class="pre">each_full,</span> <span class="pre">delete_full</span></code></p>
@@ -617,7 +427,7 @@ Possible values: <code class="docutils literal notranslate"><span class="pre">di
   
   <div class="footer-item">
     <p class="sphinx-version">
-Created using <a href="http://sphinx-doc.org/">Sphinx</a> 5.0.2.<br>
+Created using <a href="http://sphinx-doc.org/">Sphinx</a> 5.1.1.<br>
 </p>
   </div>
   

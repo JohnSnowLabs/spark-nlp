@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>sparknlp.base.light_pipeline &#8212; Spark NLP 4.0.2 documentation</title>
+    <title>sparknlp.base.light_pipeline &#8212; Spark NLP 4.1.0 documentation</title>
 <script>
   document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
   document.documentElement.dataset.theme = localStorage.getItem("theme") || "light"
@@ -185,6 +185,7 @@
 
 <span class="kn">from</span> <span class="nn">sparknlp.annotation</span> <span class="kn">import</span> <span class="n">Annotation</span>
 <span class="kn">import</span> <span class="nn">sparknlp.internal</span> <span class="k">as</span> <span class="nn">_internal</span>
+<span class="kn">from</span> <span class="nn">sparknlp.annotation_image</span> <span class="kn">import</span> <span class="n">AnnotationImage</span>
 
 
 <div class="viewcode-block" id="LightPipeline"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/base/light_pipeline/index.html#sparknlp.base.light_pipeline.LightPipeline">[docs]</a><span class="k">class</span> <span class="nc">LightPipeline</span><span class="p">:</span>
@@ -237,14 +238,30 @@
     <span class="k">def</span> <span class="nf">_annotation_from_java</span><span class="p">(</span><span class="n">java_annotations</span><span class="p">):</span>
         <span class="n">annotations</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="k">for</span> <span class="n">annotation</span> <span class="ow">in</span> <span class="n">java_annotations</span><span class="p">:</span>
-            <span class="n">annotations</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">Annotation</span><span class="p">(</span><span class="n">annotation</span><span class="o">.</span><span class="n">annotatorType</span><span class="p">(),</span>
-                                          <span class="n">annotation</span><span class="o">.</span><span class="n">begin</span><span class="p">(),</span>
-                                          <span class="n">annotation</span><span class="o">.</span><span class="n">end</span><span class="p">(),</span>
-                                          <span class="n">annotation</span><span class="o">.</span><span class="n">result</span><span class="p">(),</span>
-                                          <span class="n">annotation</span><span class="o">.</span><span class="n">metadata</span><span class="p">(),</span>
-                                          <span class="n">annotation</span><span class="o">.</span><span class="n">embeddings</span>
-                                          <span class="p">)</span>
-                               <span class="p">)</span>
+
+            <span class="n">index</span> <span class="o">=</span> <span class="n">annotation</span><span class="o">.</span><span class="n">toString</span><span class="p">()</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="s2">&quot;(&quot;</span><span class="p">)</span>
+            <span class="n">annotation_type</span> <span class="o">=</span> <span class="n">annotation</span><span class="o">.</span><span class="n">toString</span><span class="p">()[:</span><span class="n">index</span><span class="p">]</span>
+
+            <span class="k">if</span> <span class="n">annotation_type</span> <span class="o">==</span> <span class="s2">&quot;AnnotationImage&quot;</span><span class="p">:</span>
+                <span class="n">annotations</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+                    <span class="n">AnnotationImage</span><span class="p">(</span><span class="n">annotation</span><span class="o">.</span><span class="n">annotatorType</span><span class="p">(),</span>
+                                    <span class="n">annotation</span><span class="o">.</span><span class="n">origin</span><span class="p">(),</span>
+                                    <span class="n">annotation</span><span class="o">.</span><span class="n">height</span><span class="p">(),</span>
+                                    <span class="n">annotation</span><span class="o">.</span><span class="n">width</span><span class="p">(),</span>
+                                    <span class="n">annotation</span><span class="o">.</span><span class="n">nChannels</span><span class="p">(),</span>
+                                    <span class="n">annotation</span><span class="o">.</span><span class="n">mode</span><span class="p">(),</span>
+                                    <span class="nb">list</span><span class="p">(</span><span class="n">annotation</span><span class="o">.</span><span class="n">result</span><span class="p">()),</span>
+                                    <span class="n">annotation</span><span class="o">.</span><span class="n">metadata</span><span class="p">())</span>
+                <span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">annotations</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+                    <span class="n">Annotation</span><span class="p">(</span><span class="n">annotation</span><span class="o">.</span><span class="n">annotatorType</span><span class="p">(),</span>
+                               <span class="n">annotation</span><span class="o">.</span><span class="n">begin</span><span class="p">(),</span>
+                               <span class="n">annotation</span><span class="o">.</span><span class="n">end</span><span class="p">(),</span>
+                               <span class="n">annotation</span><span class="o">.</span><span class="n">result</span><span class="p">(),</span>
+                               <span class="n">annotation</span><span class="o">.</span><span class="n">metadata</span><span class="p">(),</span>
+                               <span class="n">annotation</span><span class="o">.</span><span class="n">embeddings</span><span class="p">)</span>
+                <span class="p">)</span>
         <span class="k">return</span> <span class="n">annotations</span>
 
 <div class="viewcode-block" id="LightPipeline.fullAnnotate"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/base/light_pipeline/index.html#sparknlp.base.light_pipeline.LightPipeline.fullAnnotate">[docs]</a>    <span class="k">def</span> <span class="nf">fullAnnotate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">target</span><span class="p">,</span> <span class="n">optional_target</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">):</span>
@@ -287,23 +304,54 @@
             <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">target</span><span class="p">)</span> <span class="ow">is</span> <span class="nb">str</span><span class="p">:</span>
                 <span class="n">target</span> <span class="o">=</span> <span class="p">[</span><span class="n">target</span><span class="p">]</span>
 
-            <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_lightPipeline</span><span class="o">.</span><span class="n">fullAnnotateJava</span><span class="p">(</span><span class="n">target</span><span class="p">):</span>
-                <span class="n">kas</span> <span class="o">=</span> <span class="p">{}</span>
-                <span class="k">for</span> <span class="n">atype</span><span class="p">,</span> <span class="n">annotations</span> <span class="ow">in</span> <span class="n">row</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
-                    <span class="n">kas</span><span class="p">[</span><span class="n">atype</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_annotation_from_java</span><span class="p">(</span><span class="n">annotations</span><span class="p">)</span>
-                <span class="n">result</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">kas</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">annotations_result</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_lightPipeline</span><span class="o">.</span><span class="n">fullAnnotateJava</span><span class="p">(</span><span class="n">target</span><span class="p">):</span>
+                <span class="n">result</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">buildStages</span><span class="p">(</span><span class="n">annotations_result</span><span class="p">))</span>
 
         <span class="k">else</span><span class="p">:</span>
             <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">target</span><span class="p">)</span> <span class="ow">is</span> <span class="nb">list</span> <span class="ow">or</span> <span class="nb">type</span><span class="p">(</span><span class="n">optional_target</span><span class="p">)</span> <span class="ow">is</span> <span class="nb">list</span><span class="p">:</span>
                 <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;target and optional_target for annotation must be &#39;str&#39;&quot;</span><span class="p">)</span>
 
             <span class="n">full_annotations</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_lightPipeline</span><span class="o">.</span><span class="n">fullAnnotateJava</span><span class="p">(</span><span class="n">target</span><span class="p">,</span> <span class="n">optional_target</span><span class="p">)</span>
-            <span class="n">kas</span> <span class="o">=</span> <span class="p">{}</span>
-            <span class="k">for</span> <span class="n">atype</span><span class="p">,</span> <span class="n">annotations</span> <span class="ow">in</span> <span class="n">full_annotations</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
-                <span class="n">kas</span><span class="p">[</span><span class="n">atype</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_annotation_from_java</span><span class="p">(</span><span class="n">annotations</span><span class="p">)</span>
-            <span class="n">result</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">kas</span><span class="p">)</span>
+            <span class="n">stages</span> <span class="o">=</span> <span class="p">{}</span>
+            <span class="k">for</span> <span class="n">annotator_type</span><span class="p">,</span> <span class="n">annotations</span> <span class="ow">in</span> <span class="n">full_annotations</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+                <span class="n">stages</span><span class="p">[</span><span class="n">annotator_type</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_annotation_from_java</span><span class="p">(</span><span class="n">annotations</span><span class="p">)</span>
+            <span class="n">result</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">stages</span><span class="p">)</span>
 
         <span class="k">return</span> <span class="n">result</span></div>
+
+<div class="viewcode-block" id="LightPipeline.fullAnnotateImage"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/base/light_pipeline/index.html#sparknlp.base.light_pipeline.LightPipeline.fullAnnotateImage">[docs]</a>    <span class="k">def</span> <span class="nf">fullAnnotateImage</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">path_to_image</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Annotates the data provided into `Annotation` type results.</span>
+
+<span class="sd">        The data should be either a list or a str.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        path_to_image : list or str</span>
+<span class="sd">            Source path of image, list of paths to images</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        List[AnnotationImage]</span>
+<span class="sd">            The result of the annotation</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">path_to_image</span><span class="p">)</span> <span class="ow">is</span> <span class="nb">str</span><span class="p">:</span>
+            <span class="n">path_to_image</span> <span class="o">=</span> <span class="p">[</span><span class="n">path_to_image</span><span class="p">]</span>
+
+        <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">path_to_image</span><span class="p">)</span> <span class="ow">is</span> <span class="nb">list</span><span class="p">:</span>
+            <span class="n">result</span> <span class="o">=</span> <span class="p">[]</span>
+
+            <span class="k">for</span> <span class="n">image_result</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_lightPipeline</span><span class="o">.</span><span class="n">fullAnnotateImageJava</span><span class="p">(</span><span class="n">path_to_image</span><span class="p">):</span>
+                <span class="n">result</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">buildStages</span><span class="p">(</span><span class="n">image_result</span><span class="p">))</span>
+
+            <span class="k">return</span> <span class="n">result</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;target for annotation may be &#39;str&#39; or &#39;list&#39;&quot;</span><span class="p">)</span></div>
+
+    <span class="k">def</span> <span class="nf">buildStages</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">annotations_result</span><span class="p">):</span>
+        <span class="n">stages</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">for</span> <span class="n">annotator_type</span><span class="p">,</span> <span class="n">annotations</span> <span class="ow">in</span> <span class="n">annotations_result</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="n">stages</span><span class="p">[</span><span class="n">annotator_type</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_annotation_from_java</span><span class="p">(</span><span class="n">annotations</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">stages</span>
 
 <div class="viewcode-block" id="LightPipeline.annotate"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/base/light_pipeline/index.html#sparknlp.base.light_pipeline.LightPipeline.annotate">[docs]</a>    <span class="k">def</span> <span class="nf">annotate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">target</span><span class="p">,</span> <span class="n">optional_target</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Annotates the data provided, extracting the results.</span>
@@ -424,7 +472,7 @@
   
   <div class="footer-item">
     <p class="sphinx-version">
-Created using <a href="http://sphinx-doc.org/">Sphinx</a> 5.0.2.<br>
+Created using <a href="http://sphinx-doc.org/">Sphinx</a> 5.1.1.<br>
 </p>
   </div>
   

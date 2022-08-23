@@ -4,9 +4,9 @@
 <html lang="en">
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
 
-    <title>sparknlp.pretrained.resource_downloader &#8212; Spark NLP 4.0.2 documentation</title>
+    <title>sparknlp.pretrained.resource_downloader &#8212; Spark NLP 4.1.0 documentation</title>
 <script>
   document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
   document.documentElement.dataset.theme = localStorage.getItem("theme") || "light"
@@ -191,75 +191,9 @@
     
     <div class="toc-item">
       
-<div class="tocsection onthispage mt-5 pt-1 pb-3">
-    <i class="fas fa-list"></i> On this page
-</div>
 
 <nav id="bd-toc-nav">
-    <ul class="visible nav section-nav flex-column">
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#module-contents">
-   Module Contents
-  </a>
-  <ul class="nav section-nav flex-column">
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#classes">
-     Classes
-    </a>
-    <ul class="nav section-nav flex-column">
-     <li class="toc-h4 nav-item toc-entry">
-      <a class="reference internal nav-link" href="#sparknlp.pretrained.resource_downloader.ResourceDownloader">
-       ResourceDownloader
-      </a>
-      <ul class="nav section-nav flex-column">
-       <li class="toc-h5 nav-item toc-entry">
-        <a class="reference internal nav-link" href="#sparknlp.pretrained.resource_downloader.ResourceDownloader.downloadModel">
-         downloadModel
-        </a>
-       </li>
-       <li class="toc-h5 nav-item toc-entry">
-        <a class="reference internal nav-link" href="#sparknlp.pretrained.resource_downloader.ResourceDownloader.downloadModelDirectly">
-         downloadModelDirectly
-        </a>
-       </li>
-       <li class="toc-h5 nav-item toc-entry">
-        <a class="reference internal nav-link" href="#sparknlp.pretrained.resource_downloader.ResourceDownloader.downloadPipeline">
-         downloadPipeline
-        </a>
-       </li>
-       <li class="toc-h5 nav-item toc-entry">
-        <a class="reference internal nav-link" href="#sparknlp.pretrained.resource_downloader.ResourceDownloader.clearCache">
-         clearCache
-        </a>
-       </li>
-       <li class="toc-h5 nav-item toc-entry">
-        <a class="reference internal nav-link" href="#sparknlp.pretrained.resource_downloader.ResourceDownloader.showPublicModels">
-         showPublicModels
-        </a>
-       </li>
-       <li class="toc-h5 nav-item toc-entry">
-        <a class="reference internal nav-link" href="#sparknlp.pretrained.resource_downloader.ResourceDownloader.showPublicPipelines">
-         showPublicPipelines
-        </a>
-       </li>
-       <li class="toc-h5 nav-item toc-entry">
-        <a class="reference internal nav-link" href="#sparknlp.pretrained.resource_downloader.ResourceDownloader.showUnCategorizedResources">
-         showUnCategorizedResources
-        </a>
-       </li>
-       <li class="toc-h5 nav-item toc-entry">
-        <a class="reference internal nav-link" href="#sparknlp.pretrained.resource_downloader.ResourceDownloader.showAvailableAnnotators">
-         showAvailableAnnotators
-        </a>
-       </li>
-      </ul>
-     </li>
-    </ul>
-   </li>
-  </ul>
- </li>
-</ul>
-
+    
 </nav>
     </div>
     
@@ -280,64 +214,6 @@
   <section id="module-sparknlp.pretrained.resource_downloader">
 <span id="sparknlp-pretrained-resource-downloader"></span><h1><a class="reference internal" href="#module-sparknlp.pretrained.resource_downloader" title="sparknlp.pretrained.resource_downloader"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.pretrained.resource_downloader</span></code></a><a class="headerlink" href="#module-sparknlp.pretrained.resource_downloader" title="Permalink to this heading">#</a></h1>
 <p>Contains classes for the ResourceDownloader.</p>
-<section id="module-contents">
-<h2>Module Contents<a class="headerlink" href="#module-contents" title="Permalink to this heading">#</a></h2>
-<section id="classes">
-<h3>Classes<a class="headerlink" href="#classes" title="Permalink to this heading">#</a></h3>
-<table class="autosummary longtable table autosummary">
-<tbody>
-<tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp.pretrained.resource_downloader.ResourceDownloader" title="sparknlp.pretrained.resource_downloader.ResourceDownloader"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ResourceDownloader</span></code></a></p></td>
-<td><p></p></td>
-</tr>
-</tbody>
-</table>
-<dl class="py class">
-<dt class="sig sig-object py" id="sparknlp.pretrained.resource_downloader.ResourceDownloader">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">ResourceDownloader</span></span><a class="reference internal" href="../../../../../modules/sparknlp/pretrained/resource_downloader.html#ResourceDownloader"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.pretrained.resource_downloader.ResourceDownloader" title="Permalink to this definition">#</a></dt>
-<dd><dl class="py method">
-<dt class="sig sig-object py" id="sparknlp.pretrained.resource_downloader.ResourceDownloader.downloadModel">
-<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">downloadModel</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">reader</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">language</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">remote_loc</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">j_dwn</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'PythonResourceDownloader'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../modules/sparknlp/pretrained/resource_downloader.html#ResourceDownloader.downloadModel"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.pretrained.resource_downloader.ResourceDownloader.downloadModel" title="Permalink to this definition">#</a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="sparknlp.pretrained.resource_downloader.ResourceDownloader.downloadModelDirectly">
-<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">downloadModelDirectly</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">remote_loc</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'public/models'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../modules/sparknlp/pretrained/resource_downloader.html#ResourceDownloader.downloadModelDirectly"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.pretrained.resource_downloader.ResourceDownloader.downloadModelDirectly" title="Permalink to this definition">#</a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="sparknlp.pretrained.resource_downloader.ResourceDownloader.downloadPipeline">
-<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">downloadPipeline</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">language</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">remote_loc</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../modules/sparknlp/pretrained/resource_downloader.html#ResourceDownloader.downloadPipeline"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.pretrained.resource_downloader.ResourceDownloader.downloadPipeline" title="Permalink to this definition">#</a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="sparknlp.pretrained.resource_downloader.ResourceDownloader.clearCache">
-<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">clearCache</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">language</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">remote_loc</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../modules/sparknlp/pretrained/resource_downloader.html#ResourceDownloader.clearCache"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.pretrained.resource_downloader.ResourceDownloader.clearCache" title="Permalink to this definition">#</a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="sparknlp.pretrained.resource_downloader.ResourceDownloader.showPublicModels">
-<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">showPublicModels</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">annotator</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lang</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">version</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../modules/sparknlp/pretrained/resource_downloader.html#ResourceDownloader.showPublicModels"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.pretrained.resource_downloader.ResourceDownloader.showPublicModels" title="Permalink to this definition">#</a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="sparknlp.pretrained.resource_downloader.ResourceDownloader.showPublicPipelines">
-<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">showPublicPipelines</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">lang</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">version</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../modules/sparknlp/pretrained/resource_downloader.html#ResourceDownloader.showPublicPipelines"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.pretrained.resource_downloader.ResourceDownloader.showPublicPipelines" title="Permalink to this definition">#</a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="sparknlp.pretrained.resource_downloader.ResourceDownloader.showUnCategorizedResources">
-<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">showUnCategorizedResources</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../../../../modules/sparknlp/pretrained/resource_downloader.html#ResourceDownloader.showUnCategorizedResources"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.pretrained.resource_downloader.ResourceDownloader.showUnCategorizedResources" title="Permalink to this definition">#</a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="sparknlp.pretrained.resource_downloader.ResourceDownloader.showAvailableAnnotators">
-<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">showAvailableAnnotators</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../../../../modules/sparknlp/pretrained/resource_downloader.html#ResourceDownloader.showAvailableAnnotators"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.pretrained.resource_downloader.ResourceDownloader.showAvailableAnnotators" title="Permalink to this definition">#</a></dt>
-<dd></dd></dl>
-
-</dd></dl>
-
-</section>
-</section>
 </section>
 
 
@@ -371,7 +247,7 @@
   
   <div class="footer-item">
     <p class="sphinx-version">
-Created using <a href="http://sphinx-doc.org/">Sphinx</a> 5.0.2.<br>
+Created using <a href="http://sphinx-doc.org/">Sphinx</a> 5.1.1.<br>
 </p>
   </div>
   
