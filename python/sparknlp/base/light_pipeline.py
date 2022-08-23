@@ -157,7 +157,7 @@ class LightPipeline:
         Parameters
         ----------
         path_to_image : list or str
-            Source path of image, list of images or directory
+            Source path of image, list of paths to images
 
         Returns
         -------

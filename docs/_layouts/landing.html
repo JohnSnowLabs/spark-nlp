@@ -322,6 +322,7 @@ article_header:
                     <li>Neural <strong>Machine Translation</strong> (MarianMT)</li>
                     <li><strong>Text-To-Text</strong> Transfer Transformer <strong>(Google T5)</strong></li>
                     <li><strong>Generative Pre-trained</strong> Transformer 2 <strong>(OpenAI GPT-2)</strong></li>
+                    <li>Vision Transformer (ViT) <strong>Image Classification</strong></li>
                     <li>Unsupervised <strong>keywords extraction</strong></li>
                     <li>Language <strong>Detection</strong> & <strong>Identification</strong> (up to 375 languages)</li>
                     <li>Multi-class Text <strong>Classification</strong> (DL model)</li>
@@ -340,13 +341,11 @@ article_header:
                     <li>Easy <strong>TensorFlow</strong> integration</li>
                     <li><strong>GPU</strong> Support</li>
                     <li>Full integration with <strong>Spark ML</strong> functions</li>
-                    <li><strong>4400+</strong> pre-trained <strong>models </strong> in <strong>200+ languages! </strong>
-                    <li><strong>1800+</strong> pre-trained <strong>pipelines </strong> in <strong>200+ languages! </strong>
+                    <li><strong>6100+</strong> pre-trained <strong>models </strong> in <strong>200+ languages! </strong>
+                    <li><strong>1840+</strong> pre-trained <strong>pipelines </strong> in <strong>200+ languages! </strong>
                   </ul>
                 </div>
 {% highlight python %}
-    from sparknlp.base import *
-    from sparknlp.annotator import *
     from sparknlp.pretrained import PretrainedPipeline
     import sparknlp
 
@@ -357,7 +356,8 @@ article_header:
     pipeline = PretrainedPipeline('explain_document_dl', lang='en')
 
     # Annotate your testing dataset
-    result = pipeline.annotate("The Mona Lisa is a 16th century oil painting created by Leonardo. It's held at the Louvre in Paris.")
+    text = "The Mona Lisa is a 16th century oil painting created by Leonardo. It's held at the Louvre in Paris."
+    result = pipeline.annotate(text)
 
     # What's in the pipeline
     list(result.keys())
