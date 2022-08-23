@@ -4,9 +4,9 @@
 <html lang="en">
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
 
-    <title>sparknlp.logging.comet &#8212; Spark NLP 4.0.2 documentation</title>
+    <title>sparknlp.logging.comet &#8212; Spark NLP 4.1.0 documentation</title>
 <script>
   document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
   document.documentElement.dataset.theme = localStorage.getItem("theme") || "light"
@@ -188,17 +188,7 @@
     <a class="reference internal nav-link" href="#classes">
      Classes
     </a>
-   </li>
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#attributes">
-     Attributes
-    </a>
     <ul class="nav section-nav flex-column">
-     <li class="toc-h4 nav-item toc-entry">
-      <a class="reference internal nav-link" href="#sparknlp.logging.comet.comet_ml">
-       comet_ml
-      </a>
-     </li>
      <li class="toc-h4 nav-item toc-entry">
       <a class="reference internal nav-link" href="#sparknlp.logging.comet.CometLogger">
        CometLogger
@@ -288,21 +278,6 @@
 </tr>
 </tbody>
 </table>
-</section>
-<section id="attributes">
-<h3>Attributes<a class="headerlink" href="#attributes" title="Permalink to this heading">#</a></h3>
-<table class="autosummary longtable table autosummary">
-<tbody>
-<tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp.logging.comet.comet_ml" title="sparknlp.logging.comet.comet_ml"><code class="xref py py-obj docutils literal notranslate"><span class="pre">comet_ml</span></code></a></p></td>
-<td><p></p></td>
-</tr>
-</tbody>
-</table>
-<dl class="py data">
-<dt class="sig sig-object py" id="sparknlp.logging.comet.comet_ml">
-<span class="sig-name descname"><span class="pre">comet_ml</span></span><a class="reference internal" href="../../../../../modules/sparknlp/logging/comet.html#comet_ml"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.logging.comet.comet_ml" title="Permalink to this definition">#</a></dt>
-<dd></dd></dl>
-
 <dl class="py class">
 <dt class="sig sig-object py" id="sparknlp.logging.comet.CometLogger">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">CometLogger</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">workspace</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">project_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">comet_mode</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">experiment_id</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tags</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">experiment_kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../modules/sparknlp/logging/comet.html#CometLogger"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.logging.comet.CometLogger" title="Permalink to this definition">#</a></dt>
@@ -395,7 +370,7 @@ interface with</p>
 </dl>
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp.logging.comet.CometLogger.log_pipeline_parameters">
-<span class="sig-name descname"><span class="pre">log_pipeline_parameters</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pipeline</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">stages</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../modules/sparknlp/logging/comet.html#CometLogger.log_pipeline_parameters"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.logging.comet.CometLogger.log_pipeline_parameters" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">log_pipeline_parameters</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pipeline</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">stages</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../modules/sparknlp/logging/comet.html#CometLogger.log_pipeline_parameters"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.logging.comet.CometLogger.log_pipeline_parameters" title="Permalink to this definition">#</a></dt>
 <dd><p>Iterates over the different stages in a pyspark PipelineModel object
 and logs the parameters to Comet.</p>
 <dl class="field-list simple">
@@ -418,7 +393,7 @@ fitted to a dataframe.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp.logging.comet.CometLogger.log_visualization">
-<span class="sig-name descname"><span class="pre">log_visualization</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">html</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'viz.html'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../modules/sparknlp/logging/comet.html#CometLogger.log_visualization"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.logging.comet.CometLogger.log_visualization" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">log_visualization</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">html</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'viz.html'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../modules/sparknlp/logging/comet.html#CometLogger.log_visualization"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.logging.comet.CometLogger.log_visualization" title="Permalink to this definition">#</a></dt>
 <dd><p>Uploads a NER visualization from Spark NLP Display to comet.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -450,7 +425,7 @@ and converted by a <a class="reference internal" href="../../annotator/ner/ner_c
 
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp.logging.comet.CometLogger.log_metrics">
-<span class="sig-name descname"><span class="pre">log_metrics</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">metrics</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">step</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">epoch</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">prefix</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../modules/sparknlp/logging/comet.html#CometLogger.log_metrics"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.logging.comet.CometLogger.log_metrics" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">log_metrics</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">metrics</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">step</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">epoch</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">prefix</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../modules/sparknlp/logging/comet.html#CometLogger.log_metrics"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.logging.comet.CometLogger.log_metrics" title="Permalink to this definition">#</a></dt>
 <dd><p>Submits logs of an evaluation metrics.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -497,7 +472,7 @@ metrics directly with</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp.logging.comet.CometLogger.log_parameters">
-<span class="sig-name descname"><span class="pre">log_parameters</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">parameters</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">step</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../modules/sparknlp/logging/comet.html#CometLogger.log_parameters"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.logging.comet.CometLogger.log_parameters" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">log_parameters</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">parameters</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">step</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../modules/sparknlp/logging/comet.html#CometLogger.log_parameters"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.logging.comet.CometLogger.log_parameters" title="Permalink to this definition">#</a></dt>
 <dd><p>Logs a dictionary (or dictionary-like object) of multiple parameters.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -513,7 +488,7 @@ metrics directly with</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp.logging.comet.CometLogger.log_completed_run">
-<span class="sig-name descname"><span class="pre">log_completed_run</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">log_file_path</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../modules/sparknlp/logging/comet.html#CometLogger.log_completed_run"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.logging.comet.CometLogger.log_completed_run" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">log_completed_run</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">log_file_path</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../modules/sparknlp/logging/comet.html#CometLogger.log_completed_run"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.logging.comet.CometLogger.log_completed_run" title="Permalink to this definition">#</a></dt>
 <dd><p>Submit logs of training metrics after a run has completed.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -527,7 +502,7 @@ metrics directly with</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp.logging.comet.CometLogger.log_asset">
-<span class="sig-name descname"><span class="pre">log_asset</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">asset_path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">metadata</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">step</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../modules/sparknlp/logging/comet.html#CometLogger.log_asset"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.logging.comet.CometLogger.log_asset" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">log_asset</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">asset_path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">metadata</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">step</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../modules/sparknlp/logging/comet.html#CometLogger.log_asset"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.logging.comet.CometLogger.log_asset" title="Permalink to this definition">#</a></dt>
 <dd><p>Uploads an asset to comet.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -546,7 +521,7 @@ JSON-encodable dict, by default None</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp.logging.comet.CometLogger.log_asset_data">
-<span class="sig-name descname"><span class="pre">log_asset_data</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">asset</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">overwrite</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">metadata</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">step</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../modules/sparknlp/logging/comet.html#CometLogger.log_asset_data"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.logging.comet.CometLogger.log_asset_data" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">log_asset_data</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">asset</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">overwrite</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">metadata</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">step</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../modules/sparknlp/logging/comet.html#CometLogger.log_asset_data"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.logging.comet.CometLogger.log_asset_data" title="Permalink to this definition">#</a></dt>
 <dd><p>Uploads the data given to comet (str, binary, or JSON).</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -570,7 +545,7 @@ Must be a JSON-encodable dict, by default None</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp.logging.comet.CometLogger.monitor">
-<span class="sig-name descname"><span class="pre">monitor</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">logdir</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">model</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">interval</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">10</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../modules/sparknlp/logging/comet.html#CometLogger.monitor"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.logging.comet.CometLogger.monitor" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">monitor</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">logdir</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">model</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">interval</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">10</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../modules/sparknlp/logging/comet.html#CometLogger.monitor"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.logging.comet.CometLogger.monitor" title="Permalink to this definition">#</a></dt>
 <dd><p>Monitors the training of the model and submits logs to comet, given
 by an interval.</p>
 <p>To log a Spark NLP annotator, it will need an “outputLogPath” parameter, as the
@@ -593,7 +568,7 @@ at the end with <a class="reference internal" href="#sparknlp.logging.comet.Come
 
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp.logging.comet.CometLogger.end">
-<span class="sig-name descname"><span class="pre">end</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../modules/sparknlp/logging/comet.html#CometLogger.end"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.logging.comet.CometLogger.end" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">end</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../../../../modules/sparknlp/logging/comet.html#CometLogger.end"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.logging.comet.CometLogger.end" title="Permalink to this definition">#</a></dt>
 <dd><p>Ends the experiment and the logger. Submits all outstanding logs to
 comet.</p>
 </dd></dl>
@@ -635,7 +610,7 @@ comet.</p>
   
   <div class="footer-item">
     <p class="sphinx-version">
-Created using <a href="http://sphinx-doc.org/">Sphinx</a> 5.0.2.<br>
+Created using <a href="http://sphinx-doc.org/">Sphinx</a> 5.1.1.<br>
 </p>
   </div>
   

@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>sparknlp.annotator.ld_dl.language_detector_dl &#8212; Spark NLP 4.0.2 documentation</title>
+    <title>sparknlp.annotator.ld_dl.language_detector_dl &#8212; Spark NLP 4.1.0 documentation</title>
 <script>
   document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
   document.documentElement.dataset.theme = localStorage.getItem("theme") || "light"
@@ -265,7 +265,7 @@
 <span class="sd">    |[de]  |</span>
 <span class="sd">    +------+</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-<div class="viewcode-block" id="LanguageDetectorDL.name"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/ld_dl/language_detector_dl/index.html#sparknlp.annotator.ld_dl.language_detector_dl.LanguageDetectorDL.name">[docs]</a>    <span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;LanguageDetectorDL&quot;</span></div>
+    <span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;LanguageDetectorDL&quot;</span>
 
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">classname</span><span class="o">=</span><span class="s2">&quot;com.johnsnowlabs.nlp.annotators.ld.dl.LanguageDetectorDL&quot;</span><span class="p">,</span> <span class="n">java_model</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="nb">super</span><span class="p">(</span><span class="n">LanguageDetectorDL</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
@@ -278,25 +278,25 @@
             <span class="n">coalesceSentences</span><span class="o">=</span><span class="kc">True</span>
         <span class="p">)</span>
 
-<div class="viewcode-block" id="LanguageDetectorDL.configProtoBytes"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/ld_dl/language_detector_dl/index.html#sparknlp.annotator.ld_dl.language_detector_dl.LanguageDetectorDL.configProtoBytes">[docs]</a>    <span class="n">configProtoBytes</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;configProtoBytes&quot;</span><span class="p">,</span>
+    <span class="n">configProtoBytes</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;configProtoBytes&quot;</span><span class="p">,</span>
                              <span class="s2">&quot;ConfigProto from tensorflow, serialized into byte array. Get with config_proto.SerializeToString()&quot;</span><span class="p">,</span>
-                             <span class="n">TypeConverters</span><span class="o">.</span><span class="n">toListInt</span><span class="p">)</span></div>
+                             <span class="n">TypeConverters</span><span class="o">.</span><span class="n">toListInt</span><span class="p">)</span>
 
-<div class="viewcode-block" id="LanguageDetectorDL.threshold"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/ld_dl/language_detector_dl/index.html#sparknlp.annotator.ld_dl.language_detector_dl.LanguageDetectorDL.threshold">[docs]</a>    <span class="n">threshold</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;threshold&quot;</span><span class="p">,</span>
+    <span class="n">threshold</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;threshold&quot;</span><span class="p">,</span>
                       <span class="s2">&quot;The minimum threshold for the final result otheriwse it will be either neutral or the value set in thresholdLabel.&quot;</span><span class="p">,</span>
-                      <span class="n">TypeConverters</span><span class="o">.</span><span class="n">toFloat</span><span class="p">)</span></div>
+                      <span class="n">TypeConverters</span><span class="o">.</span><span class="n">toFloat</span><span class="p">)</span>
 
-<div class="viewcode-block" id="LanguageDetectorDL.thresholdLabel"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/ld_dl/language_detector_dl/index.html#sparknlp.annotator.ld_dl.language_detector_dl.LanguageDetectorDL.thresholdLabel">[docs]</a>    <span class="n">thresholdLabel</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;thresholdLabel&quot;</span><span class="p">,</span>
+    <span class="n">thresholdLabel</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;thresholdLabel&quot;</span><span class="p">,</span>
                            <span class="s2">&quot;In case the score is less than threshold, what should be the label. Default is neutral.&quot;</span><span class="p">,</span>
-                           <span class="n">TypeConverters</span><span class="o">.</span><span class="n">toString</span><span class="p">)</span></div>
+                           <span class="n">TypeConverters</span><span class="o">.</span><span class="n">toString</span><span class="p">)</span>
 
-<div class="viewcode-block" id="LanguageDetectorDL.coalesceSentences"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/ld_dl/language_detector_dl/index.html#sparknlp.annotator.ld_dl.language_detector_dl.LanguageDetectorDL.coalesceSentences">[docs]</a>    <span class="n">coalesceSentences</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;coalesceSentences&quot;</span><span class="p">,</span>
+    <span class="n">coalesceSentences</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;coalesceSentences&quot;</span><span class="p">,</span>
                               <span class="s2">&quot;If sets to true the output of all sentences will be averaged to one output instead of one output per sentence. Default to false.&quot;</span><span class="p">,</span>
-                              <span class="n">TypeConverters</span><span class="o">.</span><span class="n">toBoolean</span><span class="p">)</span></div>
+                              <span class="n">TypeConverters</span><span class="o">.</span><span class="n">toBoolean</span><span class="p">)</span>
 
-<div class="viewcode-block" id="LanguageDetectorDL.languages"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/ld_dl/language_detector_dl/index.html#sparknlp.annotator.ld_dl.language_detector_dl.LanguageDetectorDL.languages">[docs]</a>    <span class="n">languages</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;languages&quot;</span><span class="p">,</span>
+    <span class="n">languages</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;languages&quot;</span><span class="p">,</span>
                       <span class="s2">&quot;get the languages used to trained the model&quot;</span><span class="p">,</span>
-                      <span class="n">TypeConverters</span><span class="o">.</span><span class="n">toListString</span><span class="p">)</span></div>
+                      <span class="n">TypeConverters</span><span class="o">.</span><span class="n">toListString</span><span class="p">)</span>
 
 <div class="viewcode-block" id="LanguageDetectorDL.setConfigProtoBytes"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/ld_dl/language_detector_dl/index.html#sparknlp.annotator.ld_dl.language_detector_dl.LanguageDetectorDL.setConfigProtoBytes">[docs]</a>    <span class="k">def</span> <span class="nf">setConfigProtoBytes</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Sets configProto from tensorflow, serialized into byte array.</span>
@@ -396,7 +396,7 @@
   
   <div class="footer-item">
     <p class="sphinx-version">
-Created using <a href="http://sphinx-doc.org/">Sphinx</a> 5.0.2.<br>
+Created using <a href="http://sphinx-doc.org/">Sphinx</a> 5.1.1.<br>
 </p>
   </div>
   

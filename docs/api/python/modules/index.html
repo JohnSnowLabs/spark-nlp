@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Overview: module code &#8212; Spark NLP 4.0.2 documentation</title>
+    <title>Overview: module code &#8212; Spark NLP 4.1.0 documentation</title>
 <script>
   document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
   document.documentElement.dataset.theme = localStorage.getItem("theme") || "light"
@@ -170,8 +170,8 @@
   <h1>All modules for which code is available</h1>
 <ul><li><a href="sparknlp.html">sparknlp</a></li>
 <ul><li><a href="sparknlp/annotation.html">sparknlp.annotation</a></li>
-<li><a href="sparknlp/annotator.html">sparknlp.annotator</a></li>
-<ul><li><a href="sparknlp/annotator/chunker.html">sparknlp.annotator.chunker</a></li>
+<li><a href="sparknlp/annotation_image.html">sparknlp.annotation_image</a></li>
+<li><a href="sparknlp/annotator/chunker.html">sparknlp.annotator.chunker</a></li>
 <li><a href="sparknlp/annotator/classifier_dl/albert_for_question_answering.html">sparknlp.annotator.classifier_dl.albert_for_question_answering</a></li>
 <li><a href="sparknlp/annotator/classifier_dl/albert_for_sequence_classification.html">sparknlp.annotator.classifier_dl.albert_for_sequence_classification</a></li>
 <li><a href="sparknlp/annotator/classifier_dl/albert_for_token_classification.html">sparknlp.annotator.classifier_dl.albert_for_token_classification</a></li>
@@ -198,6 +198,7 @@
 <li><a href="sparknlp/annotator/classifier_dl/xlnet_for_sequence_classification.html">sparknlp.annotator.classifier_dl.xlnet_for_sequence_classification</a></li>
 <li><a href="sparknlp/annotator/classifier_dl/xlnet_for_token_classification.html">sparknlp.annotator.classifier_dl.xlnet_for_token_classification</a></li>
 <li><a href="sparknlp/annotator/coref/spanbert_coref.html">sparknlp.annotator.coref.spanbert_coref</a></li>
+<li><a href="sparknlp/annotator/cv/vit_for_image_classification.html">sparknlp.annotator.cv.vit_for_image_classification</a></li>
 <li><a href="sparknlp/annotator/dependency/dependency_parser.html">sparknlp.annotator.dependency.dependency_parser</a></li>
 <li><a href="sparknlp/annotator/dependency/typed_dependency_parser.html">sparknlp.annotator.dependency.typed_dependency_parser</a></li>
 <li><a href="sparknlp/annotator/document_normalizer.html">sparknlp.annotator.document_normalizer</a></li>
@@ -251,13 +252,14 @@
 <li><a href="sparknlp/annotator/spell_check/symmetric_delete.html">sparknlp.annotator.spell_check.symmetric_delete</a></li>
 <li><a href="sparknlp/annotator/stemmer.html">sparknlp.annotator.stemmer</a></li>
 <li><a href="sparknlp/annotator/stop_words_cleaner.html">sparknlp.annotator.stop_words_cleaner</a></li>
+<li><a href="sparknlp/annotator/tf_ner_dl_graph_builder.html">sparknlp.annotator.tf_ner_dl_graph_builder</a></li>
 <li><a href="sparknlp/annotator/token/chunk_tokenizer.html">sparknlp.annotator.token.chunk_tokenizer</a></li>
 <li><a href="sparknlp/annotator/token/recursive_tokenizer.html">sparknlp.annotator.token.recursive_tokenizer</a></li>
 <li><a href="sparknlp/annotator/token/regex_tokenizer.html">sparknlp.annotator.token.regex_tokenizer</a></li>
 <li><a href="sparknlp/annotator/token/token2_chunk.html">sparknlp.annotator.token.token2_chunk</a></li>
 <li><a href="sparknlp/annotator/token/tokenizer.html">sparknlp.annotator.token.tokenizer</a></li>
 <li><a href="sparknlp/annotator/ws/word_segmenter.html">sparknlp.annotator.ws.word_segmenter</a></li>
-</ul><li><a href="sparknlp/base/chunk2_doc.html">sparknlp.base.chunk2_doc</a></li>
+<li><a href="sparknlp/base/chunk2_doc.html">sparknlp.base.chunk2_doc</a></li>
 <li><a href="sparknlp/base/doc2_chunk.html">sparknlp.base.doc2_chunk</a></li>
 <li><a href="sparknlp/base/document_assembler.html">sparknlp.base.document_assembler</a></li>
 <li><a href="sparknlp/base/embeddings_finisher.html">sparknlp.base.embeddings_finisher</a></li>
@@ -265,6 +267,7 @@
 <li><a href="sparknlp/base/graph_finisher.html">sparknlp.base.graph_finisher</a></li>
 <li><a href="sparknlp/base/has_recursive_fit.html">sparknlp.base.has_recursive_fit</a></li>
 <li><a href="sparknlp/base/has_recursive_transform.html">sparknlp.base.has_recursive_transform</a></li>
+<li><a href="sparknlp/base/image_assembler.html">sparknlp.base.image_assembler</a></li>
 <li><a href="sparknlp/base/light_pipeline.html">sparknlp.base.light_pipeline</a></li>
 <li><a href="sparknlp/base/multi_document_assembler.html">sparknlp.base.multi_document_assembler</a></li>
 <li><a href="sparknlp/base/recursive_pipeline.html">sparknlp.base.recursive_pipeline</a></li>
@@ -272,11 +275,9 @@
 <li><a href="sparknlp/common/annotator_approach.html">sparknlp.common.annotator_approach</a></li>
 <li><a href="sparknlp/common/annotator_model.html">sparknlp.common.annotator_model</a></li>
 <li><a href="sparknlp/common/annotator_properties.html">sparknlp.common.annotator_properties</a></li>
-<li><a href="sparknlp/common/coverage_result.html">sparknlp.common.coverage_result</a></li>
 <li><a href="sparknlp/common/properties.html">sparknlp.common.properties</a></li>
 <li><a href="sparknlp/common/read_as.html">sparknlp.common.read_as</a></li>
 <li><a href="sparknlp/common/recursive_annotator_approach.html">sparknlp.common.recursive_annotator_approach</a></li>
-<li><a href="sparknlp/common/storage.html">sparknlp.common.storage</a></li>
 <li><a href="sparknlp/common/utils.html">sparknlp.common.utils</a></li>
 <li><a href="sparknlp/functions.html">sparknlp.functions</a></li>
 <li><a href="sparknlp/internal/annotator_java_ml.html">sparknlp.internal.annotator_java_ml</a></li>
@@ -286,13 +287,18 @@
 <li><a href="sparknlp/internal/recursive.html">sparknlp.internal.recursive</a></li>
 <li><a href="sparknlp/logging/comet.html">sparknlp.logging.comet</a></li>
 <li><a href="sparknlp/pretrained/pretrained_pipeline.html">sparknlp.pretrained.pretrained_pipeline</a></li>
-<li><a href="sparknlp/pretrained/resource_downloader.html">sparknlp.pretrained.resource_downloader</a></li>
-<li><a href="sparknlp/pretrained/utils.html">sparknlp.pretrained.utils</a></li>
+<li><a href="sparknlp/training/_tf_graph_builders/graph_builders.html">sparknlp.training._tf_graph_builders.graph_builders</a></li>
+<li><a href="sparknlp/training/_tf_graph_builders/tf2contrib/core_rnn_cell.html">sparknlp.training._tf_graph_builders.tf2contrib.core_rnn_cell</a></li>
+<li><a href="sparknlp/training/_tf_graph_builders/tf2contrib/fused_rnn_cell.html">sparknlp.training._tf_graph_builders.tf2contrib.fused_rnn_cell</a></li>
+<li><a href="sparknlp/training/_tf_graph_builders/tf2contrib/gru_ops.html">sparknlp.training._tf_graph_builders.tf2contrib.gru_ops</a></li>
+<li><a href="sparknlp/training/_tf_graph_builders/tf2contrib/lstm_ops.html">sparknlp.training._tf_graph_builders.tf2contrib.lstm_ops</a></li>
+<li><a href="sparknlp/training/_tf_graph_builders/tf2contrib/rnn.html">sparknlp.training._tf_graph_builders.tf2contrib.rnn</a></li>
+<li><a href="sparknlp/training/_tf_graph_builders/tf2contrib/rnn_cell.html">sparknlp.training._tf_graph_builders.tf2contrib.rnn_cell</a></li>
+<li><a href="sparknlp/training/_tf_graph_builders_1x/graph_builders.html">sparknlp.training._tf_graph_builders_1x.graph_builders</a></li>
 <li><a href="sparknlp/training/conll.html">sparknlp.training.conll</a></li>
 <li><a href="sparknlp/training/conllu.html">sparknlp.training.conllu</a></li>
 <li><a href="sparknlp/training/pos.html">sparknlp.training.pos</a></li>
 <li><a href="sparknlp/training/pub_tator.html">sparknlp.training.pub_tator</a></li>
-<li><a href="sparknlp/util.html">sparknlp.util</a></li>
 </ul></ul>
 
               </article>
@@ -325,7 +331,7 @@
   
   <div class="footer-item">
     <p class="sphinx-version">
-Created using <a href="http://sphinx-doc.org/">Sphinx</a> 5.0.2.<br>
+Created using <a href="http://sphinx-doc.org/">Sphinx</a> 5.1.1.<br>
 </p>
   </div>
   

@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>sparknlp.annotator.n_gram_generator &#8212; Spark NLP 4.0.2 documentation</title>
+    <title>sparknlp.annotator.n_gram_generator &#8212; Spark NLP 4.1.0 documentation</title>
 <script>
   document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
   document.documentElement.dataset.theme = localStorage.getItem("theme") || "light"
@@ -252,7 +252,7 @@
 <span class="sd">    +------------------------------------------------------------+</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-<div class="viewcode-block" id="NGramGenerator.name"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/annotator/n_gram_generator/index.html#sparknlp.annotator.n_gram_generator.NGramGenerator.name">[docs]</a>    <span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;NGramGenerator&quot;</span></div>
+    <span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;NGramGenerator&quot;</span>
 
     <span class="nd">@keyword_only</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
@@ -262,12 +262,12 @@
             <span class="n">enableCumulative</span><span class="o">=</span><span class="kc">False</span>
         <span class="p">)</span>
 
-<div class="viewcode-block" id="NGramGenerator.n"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/annotator/n_gram_generator/index.html#sparknlp.annotator.n_gram_generator.NGramGenerator.n">[docs]</a>    <span class="n">n</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;n&quot;</span><span class="p">,</span> <span class="s2">&quot;number elements per n-gram (&gt;=1)&quot;</span><span class="p">,</span> <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toInt</span><span class="p">)</span></div>
-<div class="viewcode-block" id="NGramGenerator.enableCumulative"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/annotator/n_gram_generator/index.html#sparknlp.annotator.n_gram_generator.NGramGenerator.enableCumulative">[docs]</a>    <span class="n">enableCumulative</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;enableCumulative&quot;</span><span class="p">,</span> <span class="s2">&quot;whether to calculate just the actual n-grams &quot;</span> <span class="o">+</span>
-                             <span class="s2">&quot;or all n-grams from 1 through n&quot;</span><span class="p">,</span> <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toBoolean</span><span class="p">)</span></div>
+    <span class="n">n</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;n&quot;</span><span class="p">,</span> <span class="s2">&quot;number elements per n-gram (&gt;=1)&quot;</span><span class="p">,</span> <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toInt</span><span class="p">)</span>
+    <span class="n">enableCumulative</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;enableCumulative&quot;</span><span class="p">,</span> <span class="s2">&quot;whether to calculate just the actual n-grams &quot;</span> <span class="o">+</span>
+                             <span class="s2">&quot;or all n-grams from 1 through n&quot;</span><span class="p">,</span> <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toBoolean</span><span class="p">)</span>
 
-<div class="viewcode-block" id="NGramGenerator.delimiter"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/annotator/n_gram_generator/index.html#sparknlp.annotator.n_gram_generator.NGramGenerator.delimiter">[docs]</a>    <span class="n">delimiter</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;delimiter&quot;</span><span class="p">,</span> <span class="s2">&quot;String to use to join the tokens &quot;</span><span class="p">,</span>
-                      <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toString</span><span class="p">)</span></div>
+    <span class="n">delimiter</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;delimiter&quot;</span><span class="p">,</span> <span class="s2">&quot;String to use to join the tokens &quot;</span><span class="p">,</span>
+                      <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toString</span><span class="p">)</span>
 
 <div class="viewcode-block" id="NGramGenerator.setN"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/annotator/n_gram_generator/index.html#sparknlp.annotator.n_gram_generator.NGramGenerator.setN">[docs]</a>    <span class="k">def</span> <span class="nf">setN</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Sets number elements per n-gram (&gt;=1), by default 2.</span>
@@ -338,7 +338,7 @@
   
   <div class="footer-item">
     <p class="sphinx-version">
-Created using <a href="http://sphinx-doc.org/">Sphinx</a> 5.0.2.<br>
+Created using <a href="http://sphinx-doc.org/">Sphinx</a> 5.1.1.<br>
 </p>
   </div>
   
