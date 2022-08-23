@@ -1,7 +1,7 @@
 import classNames from 'classnames';
 import { useCombobox, useMultipleSelection } from 'downshift';
 import React, { useState, useEffect } from 'react';
-import debounce from 'lodash.debounce';
+import useDebounce from '../useDebounce';
 import styles from './AutoComplete.module.css';
 
 const AutoCompleteCombobox = ({
@@ -27,33 +27,25 @@ const AutoCompleteCombobox = ({
     },
   });
 
+  const debouncedInput = useDebounce(inputValue, 350);
   useEffect(() => {
-    if (inputValue) {
-      const fetchItems = (input, selectedItem) => {
-        autoComplete(input)
-          .then((f) => {
-            if (f.ok) {
-              return f.json();
-            }
-          })
-          .then((result) => {
-            setItems(
-              result.data.filter(
-                (item) => !selectedItems.includes(item) && item !== selectedItem
-              )
-            );
-          })
-          .finally(() => setLoadingMessage(''));
-      };
-
+    if (debouncedInput) {
       setLoadingMessage('Loading ...');
-      const findItemsButChill = debounce(fetchItems, 350);
-      findItemsButChill(inputValue);
+      autoComplete(debouncedInput)
+        .then((f) => {
+          if (f.ok) {
+            return f.json();
+          }
+        })
+        .then((result) => {
+          setItems(result.data.filter((item) => !selectedItems.includes(item)));
+        })
+        .finally(() => setLoadingMessage(''));
     } else {
       setItems([]);
       setLoadingMessage('Start typing ...');
     }
-  }, [inputValue, selectedItems]);
+  }, [debouncedInput]);
 
   const {
     isOpen,
