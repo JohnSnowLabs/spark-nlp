@@ -84,7 +84,7 @@ val result = pipeline.fit(data).transform(data)
 |License:|Open Source|
 |Edition:|Official|
 |Input Labels:|[document, token]|
-|Output Labels:|[ner]|
+|Output Labels:|[class]|
 |Language:|en|
 |Size:|249.7 MB|
 |Case sensitive:|true|
