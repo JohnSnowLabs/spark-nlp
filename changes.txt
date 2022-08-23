@@ -1,2 +1,2 @@
-docs/_posts/josejuanmartinez/2022-08-22-legre_zero_shot_en_3_2.md
-docs/_posts/josejuanmartinez/2022-08-22-legre_zero_shot_en_3_2.md
+docs/_posts/josejuanmartinez/2022-08-22-finre_zero_shot_en_3_2.md
+docs/_posts/josejuanmartinez/2022-08-22-finre_zero_shot_en_3_2.md
