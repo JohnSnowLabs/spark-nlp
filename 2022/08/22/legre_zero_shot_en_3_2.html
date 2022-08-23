@@ -420,14 +420,6 @@
 
 <p>Make sure you keep the proper syntax of the relations you want to extract. For example:</p>
 
-<p>Before Spark NLP 4.0</p>
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>re_model.setRelationalCategories({
-    "GRANTS_TO": [" grants "],
-    "GRANTS": [" grants "]
-})
-</code></pre></div></div>
-
-<p>After Spark NLP 4.0</p>
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>re_model.setRelationalCategories({
     "GRANTS_TO": ["{OBLIGATION_SUBJECT} grants {OBLIGATION_INDIRECT_OBJECT}"],
     "GRANTS": ["{OBLIGATION_SUBJECT} grants {OBLIGATION_ACTION}"]
@@ -460,7 +452,7 @@
   <span class="p">.</span><span class="n">setInputCols</span><span class="p">(</span><span class="s">"document"</span><span class="p">)</span>\
   <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"token"</span><span class="p">)</span>
 
-<span class="n">tokenClassifier</span> <span class="o">=</span> <span class="n">FinanceBertForTokenClassifier</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">'legner_obligations'</span><span class="p">,</span><span class="s">'en'</span><span class="p">,</span> <span class="s">'legal/models'</span><span class="p">)</span>\
+<span class="n">tokenClassifier</span> <span class="o">=</span> <span class="n">LegalBertForTokenClassifier</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">'legner_obligations'</span><span class="p">,</span><span class="s">'en'</span><span class="p">,</span> <span class="s">'legal/models'</span><span class="p">)</span>\
   <span class="p">.</span><span class="n">setInputCols</span><span class="p">(</span><span class="s">"token"</span><span class="p">,</span> <span class="s">"document"</span><span class="p">)</span>\
   <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"ner"</span><span class="p">)</span>\
   <span class="p">.</span><span class="n">setCaseSensitive</span><span class="p">(</span><span class="bp">True</span><span class="p">)</span>

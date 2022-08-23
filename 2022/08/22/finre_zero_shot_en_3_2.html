@@ -420,14 +420,6 @@
 
 <p>Make sure you keep the proper syntax of the relations you want to extract. For example:</p>
 
-<p>Before Spark NLP 4.0</p>
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>re_model.setRelationalCategories({
-    "DECREASE": [" decrease ", " decrease ",
-    "INCREASE": [" increase ", " increase "]
-})
-</code></pre></div></div>
-
-<p>After Spark NLP 4.0</p>
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>re_model.setRelationalCategories({
     "DECREASE": ["{PROFIT_DECLINE} decrease {AMOUNT}", "{PROFIT_DECLINE}} decrease {PERCENTAGE}",
     "INCREASE": ["{PROFIT_INCREASE} increase {AMOUNT}", "{PROFIT_INCREASE}} increase {PERCENTAGE}"]
