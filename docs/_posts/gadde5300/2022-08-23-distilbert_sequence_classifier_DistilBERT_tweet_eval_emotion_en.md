@@ -44,10 +44,10 @@ tokenizer = Tokenizer() \
     .setOutputCol("token")
 
 sequenceClassifier_loaded = DistilBertForSequenceClassification.pretrained("distilbert_sequence_classifier_DistilBERT_tweet_eval_emotion","en") \
-    .setInputCols(["sentence", "token"]) \
+    .setInputCols(["document", "token"]) \
     .setOutputCol("class")
 
-pipeline = Pipeline(stages=[documentAssembler, tokenizer,sequenceClassifier_loaded])
+pipeline = Pipeline(stages=[documentAssembler, tokenizer, sequenceClassifier_loaded])
 
 data = spark.createDataFrame([["PUT YOUR STRING HERE"]]).toDF("text")
 
