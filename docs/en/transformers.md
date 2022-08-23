@@ -5,7 +5,7 @@ seotitle: Spark NLP
 title: Transformers
 permalink: /docs/en/transformers
 key: docs-transformers
-modify_date: "2022-05-05"
+modify_date: "2022-08-23"
 use_language_switcher: "Python-Scala-Java"
 show_nav: true
 sidebar:
@@ -82,6 +82,7 @@ XlmRoBertaForQuestionAnswering  |   |✅  |  [TFXLMRobertaForQuestionAnswering](
 T5Transformer |   |  ❌ |
 MarianTransformer|   | ❌  |
 OpenAI GPT2|   | ❌  |
+Vision Transformer (ViT)| ❎  | ❎ | [TFViTForImageClassification](https://huggingface.co/docs/transformers/model_doc/vit#transformers.TFViTForImageClassification)
 
 ### Example Notebooks
 

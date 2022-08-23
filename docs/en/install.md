@@ -5,7 +5,7 @@ seotitle: Spark NLP
 title: Installation
 permalink: /docs/en/install
 key: docs-install
-modify_date: "2022-06-17"
+modify_date: "2022-08-23"
 show_nav: true
 sidebar:
     nav: sparknlp
@@ -68,7 +68,7 @@ If you need to manually start SparkSession because you have other configurations
 ```python
 spark = SparkSession.builder \
     .appName("Spark NLP")\
-    .master("local[4]")\
+    .master("local[*]")\
     .config("spark.driver.memory","16G")\
     .config("spark.driver.maxResultSize", "0") \
     .config("spark.kryoserializer.buffer.max", "2000M")\
@@ -120,7 +120,7 @@ spark = SparkSession.builder \
 <dependency>
     <groupId>com.johnsnowlabs.nlp</groupId>
     <artifactId>spark-nlp-aarch64_2.12</artifactId>
-    <version>4.0.2</version>
+    <version>4.1.0</version>
 </dependency>
 ```
 
@@ -151,7 +151,7 @@ libraryDependencies += "com.johnsnowlabs.nlp" %% "spark-nlp-m1" % "4.1.0"
 
 ```scala
 // https://mvnrepository.com/artifact/com.johnsnowlabs.nlp/spark-nlp-aarch64
-libraryDependencies += "com.johnsnowlabs.nlp" %% "spark-nlp-aarch64" % "4.0.2"
+libraryDependencies += "com.johnsnowlabs.nlp" %% "spark-nlp-aarch64" % "4.1.0"
 ```
 
 Maven Central: [https://mvnrepository.com/artifact/com.johnsnowlabs.nlp](https://mvnrepository.com/artifact/com.johnsnowlabs.nlp)
@@ -247,7 +247,6 @@ recent system with an environment of at least that will be needed.
 Check the [Python section](#python) and the [Scala And Java section](#scala-and-java) on
 to install Spark NLP for your system.
 
-
 ### Starting Spark NLP
 
 Spark NLP needs to be started with the `aarch64` flag set to `true`:
@@ -301,7 +300,6 @@ Run the following code in Kaggle Kernel and start using spark-nlp right away.
 ```
 
 [Spark NLP quick start on Kaggle Kernel](https://www.kaggle.com/mozzie/spark-nlp-named-entity-recognition) is a live demo on Kaggle Kernel that performs named entity recognitions by using Spark NLP pretrained pipeline.
-
 
 ## Databricks Support
 
@@ -360,7 +358,7 @@ NOTE: Spark NLP 4.0.x is based on TensorFlow 2.7.x which is compatible with CUDA
 
 4. Now you can attach your notebook to the cluster and use Spark NLP!
 
-NOTE: Databrick's runtimes support different Apache Spark major releases. Please make sure you choose the correct Spark NLP Maven pacakge name for your runtime from our [Pacakges Chetsheet](https://github.com/JohnSnowLabs/spark-nlp#packages-cheatsheet)
+NOTE: Databrick's runtimes support different Apache Spark major releases. Please make sure you choose the correct Spark NLP Maven pacakge name (Maven Coordinate) for your runtime from our [Pacakges Chetsheet](https://github.com/JohnSnowLabs/spark-nlp#packages-cheatsheet)
 
 #### Databricks Notebooks
 
@@ -699,7 +697,6 @@ Either create a conda env for python 3.6, install *pyspark==3.2.1 spark-nlp nump
 <img class="image image--xl" src="/assets/images/installation/90127243-2925cd00-dd65-11ea-9b20-ba3353473a98.jpg" style="width:100%; align:center; box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);"/>
 
 <img class="image image--xl" src="/assets/images/installation/90126972-c03e5500-dd64-11ea-8285-e4f76aa9e543.jpg" style="width:100%; align:center; box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);"/>
-
 
 ## Offline
 

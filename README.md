@@ -17,10 +17,10 @@
 </p>
 
 Spark NLP is a state-of-the-art Natural Language Processing library built on top of Apache Spark. It provides **simple**, **performant** & **accurate** NLP annotations for machine learning pipelines that **scale** easily in a distributed environment.
-Spark NLP comes with **6000+** pretrained **pipelines** and **models** in more than **200+** languages.
-It also offers tasks such as **Tokenization**, **Word Segmentation**, **Part-of-Speech Tagging**, Word and Sentence **Embeddings**, **Named Entity Recognition**, **Dependency Parsing**, **Spell Checking**, **Text Classification**, **Sentiment Analysis**, **Token Classification**, **Machine Translation** (+180 languages), **Summarization** & **Question Answering**, **Text Generation**, and many more [NLP tasks](#features).
+Spark NLP comes with **8000+** pretrained **pipelines** and **models** in more than **200+** languages.
+It also offers tasks such as **Tokenization**, **Word Segmentation**, **Part-of-Speech Tagging**, Word and Sentence **Embeddings**, **Named Entity Recognition**, **Dependency Parsing**, **Spell Checking**, **Text Classification**, **Sentiment Analysis**, **Token Classification**, **Machine Translation** (+180 languages), **Summarization** & **Question Answering**, **Text Generation**, **Image Classification**, and many more [NLP tasks](#features).
 
-**Spark NLP** is the only open-source NLP library in **production** that offers state-of-the-art transformers such as **BERT**, **CamemBERT**, **ALBERT**, **ELECTRA**, **XLNet**, **DistilBERT**, **RoBERTa**, **DeBERTa**, **XLM-RoBERTa**, **Longformer**, **ELMO**, **Universal Sentence Encoder**, **Google T5**, **MarianMT**, and **GPT2** not only to **Python** and **R**, but also to **JVM** ecosystem (**Java**, **Scala**, and **Kotlin**) at **scale** by extending **Apache Spark** natively.
+**Spark NLP** is the only open-source NLP library in **production** that offers state-of-the-art transformers such as **BERT**, **CamemBERT**, **ALBERT**, **ELECTRA**, **XLNet**, **DistilBERT**, **RoBERTa**, **DeBERTa**, **XLM-RoBERTa**, **Longformer**, **ELMO**, **Universal Sentence Encoder**, **Google T5**, **MarianMT**, **GPT2**, and **Vision Transformers (ViT)** not only to **Python** and **R**, but also to **JVM** ecosystem (**Java**, **Scala**, and **Kotlin**) at **scale** by extending **Apache Spark** natively.
 
 ## Project's website
 
@@ -131,12 +131,13 @@ Take a look at our official Spark NLP page: [http://nlp.johnsnowlabs.com/](http:
 - Neural Machine Translation (MarianMT)
 - Text-To-Text Transfer Transformer (Google T5)
 - Generative Pre-trained Transformer 2 (OpenAI GPT2)
+- Vision Transformer (ViT)
 - Named entity recognition (Deep learning)
 - Easy TensorFlow integration
 - GPU Support
 - Full integration with Spark ML functions
-- +4400+ pre-trained models in +200 languages!
-- +1800 pre-trained pipelines in +200 languages!
+- +6100+ pre-trained models in +200 languages!
+- +1840 pre-trained pipelines in +200 languages!
 - Multi-lingual NER models: Arabic, Bengali, Chinese, Danish, Dutch, English, Finnish, French, German, Hebrew, Italian, Japanese, Korean, Norwegian, Persian, Polish, Portuguese, Russian, Spanish, Swedish, Urdu, and more.
 
 ## Requirements
@@ -213,6 +214,7 @@ Spark NLP *4.1.0* has been built on top of Apache Spark 3.2 while fully supports
 
 | Spark NLP | Apache Spark 2.3.x | Apache Spark 2.4.x | Apache Spark 3.0.x | Apache Spark 3.1.x | Apache Spark 3.2.x | Apache Spark 3.3.x |
 |-----------|--------------------|--------------------|--------------------|--------------------|--------------------|--------------------|
+| 4.1.x     | NO                 | NO                 | YES                | YES                | YES                | YES                |
 | 4.0.x     | NO                 | NO                 | YES                | YES                | YES                | YES                |
 | 3.4.x     | YES                | YES                | YES                | YES                | Partially          | N/A                |
 | 3.3.x     | YES                | YES                | YES                | YES                | NO                 | NO                 |
@@ -229,6 +231,7 @@ Find out more about `Spark NLP` versions from our [release notes](https://github
 
 | Spark NLP | Python 3.6 | Python 3.7 | Python 3.8 | Python 3.9 | Scala 2.11 | Scala 2.12 |
 |-----------|------------|------------|------------|------------|------------|------------|
+| 4.1.x     | YES        | YES        | YES        | YES        | NO         | YES        |
 | 4.0.x     | YES        | YES        | YES        | YES        | NO         | YES        |
 | 3.4.x     | YES        | YES        | YES        | YES        | YES        | YES        |
 | 3.3.x     | YES        | YES        | YES        | NO         | YES        | YES        |
@@ -296,10 +299,10 @@ NOTE: The EMR 6.1.0 and 6.1.1 are not supported.
 
 This is a cheatsheet for corresponding Spark NLP Maven package to Apache Spark / PySpark major version:
 
-| Apache Spark     | Spark NLP on CPU   | Spark NLP on GPU           | Spark NLP on M1           |
-|------------------|--------------------|----------------------------|---------------------------|
-| 3.0/3.1/3.2/3.3  | `spark-nlp`        | `spark-nlp-gpu`            | `spark-nlp-m1`            |
-| Start Function   | `sparknlp.start()` | `sparknlp.start(gpu=True)` | `sparknlp.start(m1=True)` |
+| Apache Spark     | Spark NLP on CPU   | Spark NLP on GPU           | Spark NLP on AArch64 (linux)   | Spark NLP on M1           |
+|------------------|--------------------|----------------------------|--------------------------------|---------------------------|
+| 3.0/3.1/3.2/3.3  | `spark-nlp`        | `spark-nlp-gpu`            | `spark-nlp-aarch64`            | `spark-nlp-m1`            |
+| Start Function   | `sparknlp.start()` | `sparknlp.start(gpu=True)` | `sparknlp.start(aarch64=True)` | `sparknlp.start(m1=True)` |
 
 ## Spark Packages
 
@@ -333,6 +336,19 @@ spark-submit --packages com.johnsnowlabs.nlp:spark-nlp-gpu_2.12:4.1.0
 ```
 
 The `spark-nlp-gpu` has been published to the [Maven Repository](https://mvnrepository.com/artifact/com.johnsnowlabs.nlp/spark-nlp-gpu).
+
+```sh
+# AArch64
+
+spark-shell --packages com.johnsnowlabs.nlp:spark-nlp-aarch64_2.12:4.1.0
+
+pyspark --packages com.johnsnowlabs.nlp:spark-nlp-aarch64_2.12:4.1.0
+
+spark-submit --packages com.johnsnowlabs.nlp:spark-nlp-aarch64_2.12:4.1.0
+
+```
+
+The `spark-nlp-aarch64` has been published to the [Maven Repository](https://mvnrepository.com/artifact/com.johnsnowlabs.nlp/spark-nlp-aarch64).
 
 ```sh
 # M1
@@ -384,7 +400,18 @@ Spark NLP supports Scala 2.12.15 if you are using Apache Spark 3.0.x, 3.1.x, 3.2
 </dependency>
 ```
 
-**spark-nlp-gpu:**
+**spark-nlp-aarch64:**
+
+```xml
+<!-- https://mvnrepository.com/artifact/com.johnsnowlabs.nlp/spark-nlp-aarch64 -->
+<dependency>
+    <groupId>com.johnsnowlabs.nlp</groupId>
+    <artifactId>spark-nlp-aarch64_2.12</artifactId>
+    <version>4.1.0</version>
+</dependency>
+```
+
+**spark-nlp-m1:**
 
 ```xml
 <!-- https://mvnrepository.com/artifact/com.johnsnowlabs.nlp/spark-nlp-m1 -->
@@ -409,6 +436,13 @@ libraryDependencies += "com.johnsnowlabs.nlp" %% "spark-nlp" % "4.1.0"
 ```sbtshell
 // https://mvnrepository.com/artifact/com.johnsnowlabs.nlp/spark-nlp-gpu
 libraryDependencies += "com.johnsnowlabs.nlp" %% "spark-nlp-gpu" % "4.1.0"
+```
+
+**spark-nlp-aarch64:**
+
+```sbtshell
+// https://mvnrepository.com/artifact/com.johnsnowlabs.nlp/spark-nlp-aarch64
+libraryDependencies += "com.johnsnowlabs.nlp" %% "spark-nlp-aarch64" % "4.1.0"
 ```
 
 **spark-nlp-m1:**
@@ -652,7 +686,7 @@ This script comes with the two options to define `pyspark` and `spark-nlp` versi
 
 4. Now you can attach your notebook to the cluster and use Spark NLP!
 
-NOTE: Please make sure you choose the correct Spark NLP Maven package name (cpu or gpu) for your runtimes from our [Packages Cheatsheet](https://github.com/JohnSnowLabs/spark-nlp#packages-cheatsheet)
+NOTE: Databrick's runtimes support different Apache Spark major releases. Please make sure you choose the correct Spark NLP Maven pacakge name (Maven Coordinate) for your runtime from our [Pacakges Chetsheet](https://github.com/JohnSnowLabs/spark-nlp#packages-cheatsheet)
 
 ## EMR Cluster
 
