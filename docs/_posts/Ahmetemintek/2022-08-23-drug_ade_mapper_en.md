@@ -130,14 +130,14 @@ val result= pipeline.fit(data).transform(data)
 ## Results
 
 ```bash
-+----------------+--------------+-------------------------------------------------------------------------------------------+
-|ner_chunk       |mapping_result|all_relations                                                                              |
-+----------------+--------------+-------------------------------------------------------------------------------------------+
-|1000 mg fish oil|Dizziness     |Myocardial infarction:::Nausea                                                             |
-|multivitamins   |Erythema      |Acne:::Dry skin:::Skin burning sensation:::Inappropriate schedule of product administration|
-|zopiclone       |Vomiting      |Malaise:::Drug interaction:::Asthenia:::Hyponatraemia                                      |
-|ambrisentan     |Dyspnoea      |Therapy interrupted:::Death:::Dizziness:::Drug ineffective                                 |
-+----------------+--------------+-------------------------------------------------------------------------------------------+
++----------------+------------+-------------------------------------------------------------------------------------------+
+|ner_chunk       |ade_mappings|all_relations                                                                              |
++----------------+------------+-------------------------------------------------------------------------------------------+
+|1000 mg fish oil|Dizziness   |Myocardial infarction:::Nausea                                                             |
+|multivitamins   |Erythema    |Acne:::Dry skin:::Skin burning sensation:::Inappropriate schedule of product administration|
+|zopiclone       |Vomiting    |Malaise:::Drug interaction:::Asthenia:::Hyponatraemia                                      |
+|ambrisentan     |Dyspnoea    |Therapy interrupted:::Death:::Dizziness:::Drug ineffective                                 |
++----------------+------------+-------------------------------------------------------------------------------------------+
 ```
 
 {:.model-param}
