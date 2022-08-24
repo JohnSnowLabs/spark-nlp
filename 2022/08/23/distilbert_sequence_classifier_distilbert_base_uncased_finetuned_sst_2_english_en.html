@@ -9,8 +9,8 @@
     j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
     })(window,document,'script','dataLayer','GTM-59JLR64');</script>
-<!-- End Google Tag Manager --><title>Legal Zero-shot Relation Extraction- Spark NLP Model</title><meta name="description" content="DescriptionThis is a Zero-shot Relation Extraction Model, meaning that it does not require any training data, just few examples of of the relations types you...">
-<link rel="canonical" href="/2022/08/22/legre_zero_shot_en_3_2.html"><link rel="alternate" type="application/rss+xml" title="Spark NLP" href="/feed.xml"><!-- start favicons snippet, use https://realfavicongenerator.net/ -->
+<!-- End Google Tag Manager --><title>English DistilBertForSequenceClassification Base Uncased model- Spark NLP Model</title><meta name="description" content="DescriptionPretrained DistilBertForSequenceClassification model, adapted from Hugging Face and curated to provide scalability and production-readiness using ...">
+<link rel="canonical" href="/2022/08/23/distilbert_sequence_classifier_distilbert_base_uncased_finetuned_sst_2_english_en.html"><link rel="alternate" type="application/rss+xml" title="Spark NLP" href="/feed.xml"><!-- start favicons snippet, use https://realfavicongenerator.net/ -->
 <!---->
 <!-- <link rel="apple-touch-icon" sizes="180x180" href="/fav.ico"> -->
 
@@ -406,37 +406,25 @@
 
 <!-- end custom main top snippet --><article><script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script><div class="article__header"><div class="header-author"><div class="article__info clearfix"><div class="left-col">
             <a class="edit-on-github-btn" target="_blank" rel="alternate"
-               href="https://github.com/johnsnowlabs/spark-nlp/tree/master/docs/_posts/josejuanmartinez/2022-08-22-legre_zero_shot_en_3_2.md">
+               href="https://github.com/johnsnowlabs/spark-nlp/tree/master/docs/_posts/gadde5300/2022-08-23-distilbert_sequence_classifier_distilbert_base_uncased_finetuned_sst_2_english_en.md">
               <span class="fab fa-github"></span>
               <span class="edit-on-github-label">Edit on GitHub</span>
             </a>
-        </div><ul class="right-col menu"><li><i class="far fa-user"></i> <span>John Snow Labs</span></li><li><i class="far fa-calendar-alt"></i> <span>Aug 22, 2022</span>
-            </li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2022-08-22T00:00:00+00:00"></div><header class="main-docs"><h1>Legal Zero-shot Relation Extraction</h1></header></div><meta itemprop="headline" content="Legal Zero-shot Relation Extraction"><div class="article__info tags_box clearfix"><ul class="left-col menu"><li>en</li><li>legal</li><li>re</li><li>zero</li><li>shot</li><li>zero_shot</li><li>licensed</li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2022-08-22T00:00:00+00:00">
-    <meta itemprop="keywords" content="en,legal,re,zero,shot,zero_shot,licensed"><div class="js-article-content"><div class="model-wrap"><div class="layout--article"><!-- start custom article top snippet -->
+        </div><ul class="right-col menu"><li><i class="far fa-user"></i> <span>John Snow Labs</span></li><li><i class="far fa-calendar-alt"></i> <span>Aug 23, 2022</span>
+            </li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2022-08-23T00:00:00+00:00"></div><header class="main-docs"><h1>English DistilBertForSequenceClassification Base Uncased model</h1></header></div><meta itemprop="headline" content="English DistilBertForSequenceClassification Base Uncased model"><div class="article__info tags_box clearfix"><ul class="left-col menu"><li>distilbert</li><li>sequence_classification</li><li>open_source</li><li>en</li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2022-08-23T00:00:00+00:00">
+    <meta itemprop="keywords" content="distilbert,sequence_classification,open_source,en"><div class="js-article-content"><div class="model-wrap"><div class="layout--article"><!-- start custom article top snippet -->
 
 <!-- end custom article top snippet --><div class="article__content" itemprop="articleBody"><h2 id="description">Description</h2>
 
-<p>This is a Zero-shot Relation Extraction Model, meaning that it does not require any training data, just few examples of of the relations types you are looking for, to output a proper result.</p>
-
-<p>Make sure you keep the proper syntax of the relations you want to extract. For example:</p>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>re_model.setRelationalCategories({
-    "GRANTS_TO": ["{OBLIGATION_SUBJECT} grants {OBLIGATION_INDIRECT_OBJECT}"],
-    "GRANTS": ["{OBLIGATION_SUBJECT} grants {OBLIGATION_ACTION}"]
-})
-</code></pre></div></div>
-
-<ul>
-  <li>The keys of the dictionary are the name of the relations (<code class="language-plaintext highlighter-rouge">GRANTS_TO</code>, <code class="language-plaintext highlighter-rouge">GRANTS</code>)</li>
-  <li>The values are list of sentences with similar examples of the relation</li>
-  <li>The values in brackets are the NER labels extracted by an NER component before</li>
-</ul>
+<p>Pretrained DistilBertForSequenceClassification model, adapted from Hugging Face and curated to provide scalability and production-readiness using Spark NLP. <code class="language-plaintext highlighter-rouge">distilbert-base-uncased-finetuned-sst-2-english</code> is a English model originally trained by HuggingFace.</p>
 
 <h2 id="predicted-entities">Predicted Entities</h2>
 
+<p><code class="language-plaintext highlighter-rouge">POSITIVE</code>, <code class="language-plaintext highlighter-rouge">NEGATIVE</code></p>
+
 <p class="btn-box"><button class="button button-orange" disabled="">Live Demo</button>
 <button class="button button-orange" disabled="">Open in Colab</button>
-<a href="https://s3.amazonaws.com/auxdata.johnsnowlabs.com/legal/models/legre_zero_shot_en_1.0.0_3.2_1661181212397.zip" class="button button-orange button-orange-trans arr button-icon">Download</a></p>
+<a href="https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/distilbert_sequence_classifier_distilbert_base_uncased_finetuned_sst_2_english_en_4.1.0_3.0_1661277744844.zip" class="button button-orange button-orange-trans arr button-icon">Download</a></p>
 
 <h2 id="how-to-use">How to use</h2>
 
@@ -444,78 +432,43 @@
   <div class="top_tab_li">   
     <button class="tab-li code-selector-active python-button">Python</button><button class="tab-li code-selector-un-active scala-button">Scala</button><button class="tab-li code-selector-un-active nlu-button">NLU</button>
 </div>
-  <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">documentAssembler</span> <span class="o">=</span> <span class="n">DocumentAssembler</span><span class="p">()</span>\
-  <span class="p">.</span><span class="n">setInputCol</span><span class="p">(</span><span class="s">"text"</span><span class="p">)</span>\
-  <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"document"</span><span class="p">)</span>
+  <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">documentAssembler</span> <span class="o">=</span> <span class="n">DocumentAssembler</span><span class="p">()</span> \
+        <span class="p">.</span><span class="n">setInputCol</span><span class="p">(</span><span class="s">"text"</span><span class="p">)</span> \
+        <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"document"</span><span class="p">)</span>
 
-<span class="n">sparktokenizer</span> <span class="o">=</span> <span class="n">Tokenizer</span><span class="p">()</span>\
-  <span class="p">.</span><span class="n">setInputCols</span><span class="p">(</span><span class="s">"document"</span><span class="p">)</span>\
-  <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"token"</span><span class="p">)</span>
+<span class="n">tokenizer</span> <span class="o">=</span> <span class="n">Tokenizer</span><span class="p">()</span> \
+    <span class="p">.</span><span class="n">setInputCols</span><span class="p">(</span><span class="s">"document"</span><span class="p">)</span> \
+    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"token"</span><span class="p">)</span>
 
-<span class="n">tokenClassifier</span> <span class="o">=</span> <span class="n">LegalBertForTokenClassifier</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">'legner_obligations'</span><span class="p">,</span><span class="s">'en'</span><span class="p">,</span> <span class="s">'legal/models'</span><span class="p">)</span>\
-  <span class="p">.</span><span class="n">setInputCols</span><span class="p">(</span><span class="s">"token"</span><span class="p">,</span> <span class="s">"document"</span><span class="p">)</span>\
-  <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"ner"</span><span class="p">)</span>\
-  <span class="p">.</span><span class="n">setCaseSensitive</span><span class="p">(</span><span class="bp">True</span><span class="p">)</span>
+<span class="n">sequenceClassifier_loaded</span> <span class="o">=</span> <span class="n">DistilBertForSequenceClassification</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"distilbert_sequence_classifier_distilbert_base_uncased_finetuned_sst_2_english"</span><span class="p">,</span><span class="s">"en"</span><span class="p">)</span> \
+    <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"document"</span><span class="p">,</span> <span class="s">"token"</span><span class="p">])</span> \
+    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"class"</span><span class="p">)</span>
 
-<span class="n">ner_converter</span> <span class="o">=</span> <span class="n">NerConverter</span><span class="p">()</span>\
-    <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"document"</span><span class="p">,</span> <span class="s">"token"</span><span class="p">,</span> <span class="s">"ner"</span><span class="p">])</span>\
-    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"ner_chunk"</span><span class="p">)</span>
+<span class="n">pipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">(</span><span class="n">stages</span><span class="o">=</span><span class="p">[</span><span class="n">documentAssembler</span><span class="p">,</span> <span class="n">tokenizer</span><span class="p">,</span><span class="n">sequenceClassifier_loaded</span><span class="p">])</span>
 
-<span class="n">re_model</span> <span class="o">=</span> <span class="n">ZeroShotRelationExtractionModel</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"legre_zero_shot"</span><span class="p">,</span> <span class="s">"en"</span><span class="p">,</span> <span class="s">"legal/models"</span><span class="p">)</span>\
-    <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"ner_chunk"</span><span class="p">,</span> <span class="s">"sentence"</span><span class="p">])</span> \
-    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"relations"</span><span class="p">)</span>
+<span class="n">data</span> <span class="o">=</span> <span class="n">spark</span><span class="p">.</span><span class="n">createDataFrame</span><span class="p">([[</span><span class="s">"PUT YOUR STRING HERE"</span><span class="p">]]).</span><span class="n">toDF</span><span class="p">(</span><span class="s">"text"</span><span class="p">)</span>
 
-<span class="c1"># Remember it's 2 curly brackets instead of one if you are using Spark NLP &lt; 4.0
-</span><span class="n">re_model</span><span class="p">.</span><span class="n">setRelationalCategories</span><span class="p">({</span>
-    <span class="s">"GRANTS_TO"</span><span class="p">:</span> <span class="p">[</span><span class="s">"{OBLIGATION_SUBJECT} grants {OBLIGATION_INDIRECT_OBJECT}"</span><span class="p">],</span>
-    <span class="s">"GRANTS"</span><span class="p">:</span> <span class="p">[</span><span class="s">"{OBLIGATION_SUBJECT} grants {OBLIGATION_ACTION}"</span><span class="p">]</span>
-<span class="p">})</span>
-
-<span class="n">pipeline</span> <span class="o">=</span> <span class="n">sparknlp</span><span class="p">.</span><span class="n">base</span><span class="p">.</span><span class="n">Pipeline</span><span class="p">()</span> \
-    <span class="p">.</span><span class="n">setStages</span><span class="p">([</span><span class="n">document_assembler</span><span class="p">,</span>  
-                <span class="n">sparktokenizer</span><span class="p">,</span>
-                <span class="n">tokenClassifier</span><span class="p">,</span> 
-                <span class="n">ner_converter</span><span class="p">,</span>
-                <span class="n">re_model</span>
-               <span class="p">])</span>
-               
-<span class="c1"># create Spark DF
-</span>
-<span class="n">sample_text</span> <span class="o">=</span> <span class="s">"""Fox grants to Licensee a limited, exclusive right and license"""</span>
-
-<span class="n">data</span> <span class="o">=</span> <span class="n">spark</span><span class="p">.</span><span class="n">createDataFrame</span><span class="p">([[</span><span class="n">sample_text</span><span class="p">]]).</span><span class="n">toDF</span><span class="p">(</span><span class="s">"text"</span><span class="p">)</span>
-<span class="n">model</span> <span class="o">=</span> <span class="n">pipeline</span><span class="p">.</span><span class="n">fit</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
-<span class="n">results</span> <span class="o">=</span> <span class="n">model</span><span class="p">.</span><span class="n">transform</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
-
-<span class="c1"># ner output
-</span><span class="n">results</span><span class="p">.</span><span class="n">selectExpr</span><span class="p">(</span><span class="s">"explode(ner_chunk) as ner"</span><span class="p">).</span><span class="n">show</span><span class="p">(</span><span class="n">truncate</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
-
-<span class="c1"># relations output
-</span><span class="n">results</span><span class="p">.</span><span class="n">selectExpr</span><span class="p">(</span><span class="s">"explode(relations) as relation"</span><span class="p">).</span><span class="n">show</span><span class="p">(</span><span class="n">truncate</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
-
+<span class="n">result</span> <span class="o">=</span> <span class="n">pipeline</span><span class="p">.</span><span class="n">fit</span><span class="p">(</span><span class="n">data</span><span class="p">).</span><span class="n">transform</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
 </code></pre></div>  </div>
+  <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">val</span> <span class="nv">documentAssembler</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">DocumentAssembler</span><span class="o">()</span> 
+          <span class="o">.</span><span class="py">setInputCol</span><span class="o">(</span><span class="s">"text"</span><span class="o">)</span> 
+          <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"document"</span><span class="o">)</span>
 
+<span class="k">val</span> <span class="nv">tokenizer</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">Tokenizer</span><span class="o">()</span> 
+    <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="s">"document"</span><span class="o">))</span>
+    <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"token"</span><span class="o">)</span>
+
+<span class="k">val</span> <span class="nv">sequenceClassifier_loaded</span> <span class="k">=</span> <span class="nv">DistilBertForSequenceClassification</span><span class="o">.</span><span class="py">pretrained</span><span class="o">(</span><span class="s">"distilbert_sequence_classifier_distilbert_base_uncased_finetuned_sst_2_english"</span><span class="o">,</span><span class="s">"en"</span><span class="o">)</span> 
+    <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="s">"document"</span><span class="o">,</span> <span class="s">"token"</span><span class="o">))</span> 
+    <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"class"</span><span class="o">)</span>
+
+<span class="k">val</span> <span class="nv">pipeline</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">Pipeline</span><span class="o">().</span><span class="py">setStages</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="n">documentAssembler</span><span class="o">,</span> <span class="n">tokenizer</span><span class="o">,</span><span class="n">sequenceClassifier_loaded</span><span class="o">))</span>
+
+<span class="k">val</span> <span class="nv">data</span> <span class="k">=</span> <span class="nc">Seq</span><span class="o">(</span><span class="s">"PUT YOUR STRING HERE"</span><span class="o">).</span><span class="py">toDF</span><span class="o">(</span><span class="s">"text"</span><span class="o">)</span>
+
+<span class="k">val</span> <span class="nv">result</span> <span class="k">=</span> <span class="nv">pipeline</span><span class="o">.</span><span class="py">fit</span><span class="o">(</span><span class="n">data</span><span class="o">).</span><span class="py">transform</span><span class="o">(</span><span class="n">data</span><span class="o">)</span>
+</code></pre></div>  </div>
 </div>
-
-<h2 id="results">Results</h2>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>+----------------------------------------------------------------------------------------------------------------------------+
-|ner                                                                                                                         |
-+----------------------------------------------------------------------------------------------------------------------------+
-|[chunk, 0, 2, Fox, <span class="o">[</span>entity -&gt; OBLIGATION_SUBJECT, sentence -&gt; 0, chunk -&gt; 0, confidence -&gt; 0.6905101], <span class="o">[]]</span>                  |
-|[chunk, 4, 9, grants, <span class="o">[</span>entity -&gt; OBLIGATION_ACTION, sentence -&gt; 0, chunk -&gt; 1, confidence -&gt; 0.7512371], <span class="o">[]]</span>                |
-|[chunk, 14, 21, Licensee, <span class="o">[</span>entity -&gt; OBLIGATION_INDIRECT_OBJECT, sentence -&gt; 0, chunk -&gt; 2, confidence -&gt; 0.8294538], <span class="o">[]]</span>   |
-|[chunk, 23, 31, a limited, <span class="o">[</span>entity -&gt; OBLIGATION, sentence -&gt; 0, chunk -&gt; 3, confidence -&gt; 0.7429814], <span class="o">[]]</span>                  |
-|[chunk, 34, 60, exclusive right and license, <span class="o">[</span>entity -&gt; OBLIGATION, sentence -&gt; 0, chunk -&gt; 4, confidence -&gt; 0.9236847], <span class="o">[]]</span>|
-+----------------------------------------------------------------------------------------------------------------------------+
-
-+-------------+
-|relation     |
-+-------------+
-|[category, 0, 91, GRANTS, <span class="o">[</span>entity1_begin -&gt; 0, relation -&gt; GRANTS, hypothesis -&gt; Fox grants grants, confidence -&gt; 0.7592092, nli_prediction -&gt; entail, entity1 -&gt; OBLIGATION_SUBJECT, syntactic_distance -&gt; undefined, chunk2 -&gt; grants, entity2_end -&gt; 9, entity1_end -&gt; 2, entity2_begin -&gt; 4, entity2 -&gt; OBLIGATION_ACTION, chunk1 -&gt; Fox, sentence -&gt; 0], <span class="o">[]]</span>                       |
-|[category, 92, 185, GRANTS_TO, <span class="o">[</span>entity1_begin -&gt; 0, relation -&gt; GRANTS_TO, hypothesis -&gt; Fox grants Licensee, confidence -&gt; 0.9822127, nli_prediction -&gt; entail, entity1 -&gt; OBLIGATION_SUBJECT, syntactic_distance -&gt; undefined, chunk2 -&gt; Licensee, entity2_end -&gt; 21, entity1_end -&gt; 2, entity2_begin -&gt; 14, entity2 -&gt; OBLIGATION_INDIRECT_OBJECT, chunk1 -&gt; Fox, sentence -&gt; 0], <span class="o">[]]</span>|
-+-------------+
-</code></pre></div></div>
 
 <h2 class="model-param" id="model-information">Model Information</h2>
 
@@ -523,23 +476,27 @@
   <tbody>
     <tr>
       <td>Model Name:</td>
-      <td>legre_zero_shot</td>
-    </tr>
-    <tr>
-      <td>Type:</td>
-      <td>legal</td>
+      <td>distilbert_sequence_classifier_distilbert_base_uncased_finetuned_sst_2_english</td>
     </tr>
     <tr>
       <td>Compatibility:</td>
-      <td>Spark NLP for Legal 1.0.0+</td>
+      <td>Spark NLP 4.1.0+</td>
     </tr>
     <tr>
       <td>License:</td>
-      <td>Licensed</td>
+      <td>Open Source</td>
     </tr>
     <tr>
       <td>Edition:</td>
       <td>Official</td>
+    </tr>
+    <tr>
+      <td>Input Labels:</td>
+      <td>[document, token]</td>
+    </tr>
+    <tr>
+      <td>Output Labels:</td>
+      <td>[ner]</td>
     </tr>
     <tr>
       <td>Language:</td>
@@ -547,19 +504,28 @@
     </tr>
     <tr>
       <td>Size:</td>
-      <td>406.4 MB</td>
+      <td>249.7 MB</td>
     </tr>
     <tr>
       <td>Case sensitive:</td>
-      <td>true</td>
+      <td>false</td>
+    </tr>
+    <tr>
+      <td>Max sentence length:</td>
+      <td>128</td>
     </tr>
   </tbody>
 </table>
 
 <h2 id="references">References</h2>
 
-<p>Bert Base (cased) trained on the GLUE MNLI dataset.</p>
-</div><div class="d-print-none"><footer class="article__footer"><meta itemprop="dateModified" content="2022-08-22T00:00:00+00:00"><!-- start custom article footer snippet -->
+<ul>
+  <li>https://huggingface.co/distilbert-base-uncased-finetuned-sst-2-english</li>
+  <li>https://paperswithcode.com/sota?task=Text+Classification&amp;dataset=glue</li>
+  <li>https://colab.research.google.com/gist/ageron/fb2f64fb145b4bc7c49efc97e5f114d3/biasmap.ipynb</li>
+  <li>https://twitter.com/aureliengeron</li>
+</ul>
+</div><div class="d-print-none"><footer class="article__footer"><meta itemprop="dateModified" content="2022-08-23T00:00:00+00:00"><!-- start custom article footer snippet -->
 
 <!-- end custom article footer snippet --></footer>
 
@@ -684,7 +650,7 @@ hr.code-selector-underlie {
 
 }
 
-</style><div class="article__section-navigator clearfix"><div class="previous nav_link"><span>PREVIOUS</span><a href="/2022/08/22/legner_obligations_en_3_2.html">Legal NER Obligations on Agreements</a></div><div class="next nav_link"><span>NEXT</span><a href="/2022/08/23/distilbert_sequence_classifier_DistilBERT_tweet_eval_emotion_en.html">English DistilBertForSequenceClassification Cased model (from philschmid)</a></div></div></div>
+</style><div class="article__section-navigator clearfix"><div class="previous nav_link"><span>PREVIOUS</span><a href="/2022/08/23/distilbert_sequence_classifier_distilbert_base_uncased_finetuned_emotion_en_tweets_en.html">English DistilBertForSequenceClassification Base Uncased model (from suvrobaner)</a></div><div class="next nav_link"><span>NEXT</span><a href="/2022/08/23/distilbert_sequence_classifier_distilbert_base_uncased_go_emotions_student_en.html">English DistilBertForSequenceClassification Base Uncased model (from joeddav)</a></div></div></div>
 
 </div>
 </div>
