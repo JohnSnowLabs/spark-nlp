@@ -16,12 +16,11 @@
 
 package com.johnsnowlabs.util
 
-import java.io.{File, FileNotFoundException}
-
-import com.johnsnowlabs.nlp.SparkAccessor
 import com.johnsnowlabs.nlp.util.io.{ExternalResource, ReadAs, ResourceHelper}
+import com.johnsnowlabs.tags.FastTest
 import org.scalatest.flatspec.AnyFlatSpec
-import com.johnsnowlabs.tags.{FastTest, SlowTest}
+
+import java.io.{File, FileNotFoundException}
 
 class ResourceHelperTestSpec extends AnyFlatSpec {
 
@@ -112,22 +111,21 @@ class ResourceHelperTestSpec extends AnyFlatSpec {
     assert(isValid)
   }
 
-  it should "raise FileNotFound exception when an invalid file name is used" taggedAs FastTest in {
+  it should "return false when an invalid file name is used" taggedAs FastTest in {
     val rightFilePath =
       "src/test/resources/parser/unlabeled/dependency_treebank/invalid_file_name.dp"
 
-    assertThrows[FileNotFoundException] {
-      ResourceHelper.validFile(rightFilePath)
-    }
+    val isValid = ResourceHelper.validFile(rightFilePath)
 
+    assert(!isValid)
   }
 
   it should "raise FileNotFound exception when an invalid directory path is used" taggedAs FastTest in {
     val rightFilePath = "wrong/path//wsj_0001.dp"
 
-    assertThrows[FileNotFoundException] {
-      ResourceHelper.validFile(rightFilePath)
-    }
+    val isValid = ResourceHelper.validFile(rightFilePath)
+
+    assert(!isValid)
 
   }
 
@@ -145,6 +143,12 @@ class ResourceHelperTestSpec extends AnyFlatSpec {
       content.foreach(c => actualContent = actualContent ++ Array(c)))
 
     assert(expectedContent sameElements actualContent)
+  }
+
+  it should "list files" in {
+    val files = ResourceHelper.listLocalFiles("src/test/resources/image")
+
+    assert(files.nonEmpty)
   }
 
 }

@@ -60,6 +60,9 @@ class TensorResources {
       case tridimArray: Array[Array[Array[Float]]] =>
         TFloat32.tensorOf(StdArrays.ndCopyOf(tridimArray))
 
+      case quaddimArray: Array[Array[Array[Array[Float]]]] =>
+        TFloat32.tensorOf(StdArrays.ndCopyOf(quaddimArray))
+
       case array: Array[Int] =>
         TInt32.tensorOf(StdArrays.ndCopyOf(array))
 

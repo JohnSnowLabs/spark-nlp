@@ -62,7 +62,7 @@ import java.io.File
   * and the
   * [[https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/seq2seq/T5TestSpec.scala T5TestSpec]].
   *
-  * '''Sources:'''
+  * '''References:'''
   *   - [[https://ai.googleblog.com/2020/02/exploring-transfer-learning-with-t5.html Exploring Transfer Learning with T5: the Text-To-Text Transfer Transformer]]
   *   - [[https://arxiv.org/abs/1910.10683 Exploring the Limits of Transfer Learning with a Unified Text-to-Text Transformer]]
   *   - [[https://github.com/google-research/text-to-text-transfer-transformer]]

@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>sparknlp.annotator.dependency.dependency_parser &#8212; Spark NLP 4.0.2 documentation</title>
+    <title>sparknlp.annotator.dependency.dependency_parser &#8212; Spark NLP 4.1.0 documentation</title>
 <script>
   document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
   document.documentElement.dataset.theme = localStorage.getItem("theme") || "light"
@@ -264,20 +264,20 @@
 <span class="sd">    --------</span>
 <span class="sd">    TypedDependencyParserApproach : to extract labels for the dependencies</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-<div class="viewcode-block" id="DependencyParserApproach.dependencyTreeBank"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/dependency/dependency_parser/index.html#sparknlp.annotator.dependency.dependency_parser.DependencyParserApproach.dependencyTreeBank">[docs]</a>    <span class="n">dependencyTreeBank</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
+    <span class="n">dependencyTreeBank</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
                                <span class="s2">&quot;dependencyTreeBank&quot;</span><span class="p">,</span>
                                <span class="s2">&quot;Dependency treebank source files&quot;</span><span class="p">,</span>
-                               <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">identity</span><span class="p">)</span></div>
+                               <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">identity</span><span class="p">)</span>
 
-<div class="viewcode-block" id="DependencyParserApproach.conllU"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/dependency/dependency_parser/index.html#sparknlp.annotator.dependency.dependency_parser.DependencyParserApproach.conllU">[docs]</a>    <span class="n">conllU</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
+    <span class="n">conllU</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
                    <span class="s2">&quot;conllU&quot;</span><span class="p">,</span>
                    <span class="s2">&quot;Universal Dependencies source files&quot;</span><span class="p">,</span>
-                   <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">identity</span><span class="p">)</span></div>
+                   <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">identity</span><span class="p">)</span>
 
-<div class="viewcode-block" id="DependencyParserApproach.numberOfIterations"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/dependency/dependency_parser/index.html#sparknlp.annotator.dependency.dependency_parser.DependencyParserApproach.numberOfIterations">[docs]</a>    <span class="n">numberOfIterations</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
+    <span class="n">numberOfIterations</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
                                <span class="s2">&quot;numberOfIterations&quot;</span><span class="p">,</span>
                                <span class="s2">&quot;Number of iterations in training, converges to better accuracy&quot;</span><span class="p">,</span>
-                               <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toInt</span><span class="p">)</span></div>
+                               <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toInt</span><span class="p">)</span>
 
     <span class="nd">@keyword_only</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
@@ -418,12 +418,12 @@
 <span class="sd">    --------</span>
 <span class="sd">    TypedDependencyParserMdoel : to extract labels for the dependencies</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-<div class="viewcode-block" id="DependencyParserModel.name"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/dependency/dependency_parser/index.html#sparknlp.annotator.dependency.dependency_parser.DependencyParserModel.name">[docs]</a>    <span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;DependencyParserModel&quot;</span></div>
+    <span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;DependencyParserModel&quot;</span>
 
-<div class="viewcode-block" id="DependencyParserModel.perceptron"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/dependency/dependency_parser/index.html#sparknlp.annotator.dependency.dependency_parser.DependencyParserModel.perceptron">[docs]</a>    <span class="n">perceptron</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
+    <span class="n">perceptron</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
                        <span class="s2">&quot;perceptron&quot;</span><span class="p">,</span>
                        <span class="s2">&quot;Dependency parsing perceptron features&quot;</span><span class="p">,</span>
-                       <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">identity</span><span class="p">)</span></div>
+                       <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">identity</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">classname</span><span class="o">=</span><span class="s2">&quot;com.johnsnowlabs.nlp.annotators.parser.dep.DependencyParserModel&quot;</span><span class="p">,</span> <span class="n">java_model</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="nb">super</span><span class="p">(</span><span class="n">DependencyParserModel</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
@@ -485,7 +485,7 @@
   
   <div class="footer-item">
     <p class="sphinx-version">
-Created using <a href="http://sphinx-doc.org/">Sphinx</a> 5.0.2.<br>
+Created using <a href="http://sphinx-doc.org/">Sphinx</a> 5.1.1.<br>
 </p>
   </div>
   

@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>sparknlp &#8212; Spark NLP 4.0.2 documentation</title>
+    <title>sparknlp &#8212; Spark NLP 4.1.0 documentation</title>
 <script>
   document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
   document.documentElement.dataset.theme = localStorage.getItem("theme") || "light"
@@ -225,13 +225,15 @@
 <span class="n">sys</span><span class="o">.</span><span class="n">modules</span><span class="p">[</span><span class="s1">&#39;com.johnsnowlabs.nlp.annotators.ws&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">annotator</span>
 <span class="n">sys</span><span class="o">.</span><span class="n">modules</span><span class="p">[</span><span class="s1">&#39;com.johnsnowlabs.nlp.annotators.er&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">annotator</span>
 <span class="n">sys</span><span class="o">.</span><span class="n">modules</span><span class="p">[</span><span class="s1">&#39;com.johnsnowlabs.nlp.annotators.coref&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">annotator</span>
+<span class="n">sys</span><span class="o">.</span><span class="n">modules</span><span class="p">[</span><span class="s1">&#39;com.johnsnowlabs.nlp.annotators.cv&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">annotator</span>
 
-<div class="viewcode-block" id="annotators"><a class="viewcode-back" href="../reference/autosummary/sparknlp/index.html#sparknlp.annotators">[docs]</a><span class="n">annotators</span> <span class="o">=</span> <span class="n">annotator</span></div>
-<div class="viewcode-block" id="embeddings"><a class="viewcode-back" href="../reference/autosummary/sparknlp/index.html#sparknlp.embeddings">[docs]</a><span class="n">embeddings</span> <span class="o">=</span> <span class="n">annotator</span></div>
+<span class="n">annotators</span> <span class="o">=</span> <span class="n">annotator</span>
+<span class="n">embeddings</span> <span class="o">=</span> <span class="n">annotator</span>
 
 
 <div class="viewcode-block" id="start"><a class="viewcode-back" href="../reference/autosummary/sparknlp/index.html#sparknlp.start">[docs]</a><span class="k">def</span> <span class="nf">start</span><span class="p">(</span><span class="n">gpu</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
           <span class="n">m1</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+          <span class="n">aarch64</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
           <span class="n">memory</span><span class="o">=</span><span class="s2">&quot;16G&quot;</span><span class="p">,</span>
           <span class="n">cache_folder</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span>
           <span class="n">log_folder</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span>
@@ -260,6 +262,8 @@
 <span class="sd">        Whether to enable GPU acceleration (must be set up correctly), by default False</span>
 <span class="sd">    m1 : bool, optional</span>
 <span class="sd">        Whether to enable M1 support for macOS</span>
+<span class="sd">    aarch64 : bool, optional</span>
+<span class="sd">        Whether to enable Linux Aarch64 support</span>
 <span class="sd">    memory : str, optional</span>
 <span class="sd">        How much memory to allocate for the Spark driver, by default &quot;16G&quot;</span>
 <span class="sd">    cache_folder : str, optional</span>
@@ -284,7 +288,7 @@
 <span class="sd">        The initiated Spark session.</span>
 
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">current_version</span> <span class="o">=</span> <span class="s2">&quot;4.0.2&quot;</span>
+    <span class="n">current_version</span> <span class="o">=</span> <span class="s2">&quot;4.1.0&quot;</span>
 
     <span class="k">class</span> <span class="nc">SparkNLPConfig</span><span class="p">:</span>
 
@@ -297,6 +301,8 @@
             <span class="bp">self</span><span class="o">.</span><span class="n">maven_gpu_spark3</span> <span class="o">=</span> <span class="s2">&quot;com.johnsnowlabs.nlp:spark-nlp-gpu_2.12:</span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">current_version</span><span class="p">)</span>
             <span class="c1"># Spark NLP on M1</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">maven_m1</span> <span class="o">=</span> <span class="s2">&quot;com.johnsnowlabs.nlp:spark-nlp-m1_2.12:</span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">current_version</span><span class="p">)</span>
+            <span class="c1"># Spark NLP on Linux Aarch64</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">maven_aarch64</span> <span class="o">=</span> <span class="s2">&quot;com.johnsnowlabs.nlp:spark-nlp-aarch64_2.12:</span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">current_version</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">start_without_realtime_output</span><span class="p">():</span>
         <span class="n">builder</span> <span class="o">=</span> <span class="n">SparkSession</span><span class="o">.</span><span class="n">builder</span> \
@@ -309,6 +315,8 @@
 
         <span class="k">if</span> <span class="n">m1</span><span class="p">:</span>
             <span class="n">builder</span><span class="o">.</span><span class="n">config</span><span class="p">(</span><span class="s2">&quot;spark.jars.packages&quot;</span><span class="p">,</span> <span class="n">spark_nlp_config</span><span class="o">.</span><span class="n">maven_m1</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">aarch64</span><span class="p">:</span>
+            <span class="n">builder</span><span class="o">.</span><span class="n">config</span><span class="p">(</span><span class="s2">&quot;spark.jars.packages&quot;</span><span class="p">,</span> <span class="n">spark_nlp_config</span><span class="o">.</span><span class="n">maven_aarch64</span><span class="p">)</span>
         <span class="k">elif</span> <span class="n">gpu</span><span class="p">:</span>
             <span class="n">builder</span><span class="o">.</span><span class="n">config</span><span class="p">(</span><span class="s2">&quot;spark.jars.packages&quot;</span><span class="p">,</span> <span class="n">spark_nlp_config</span><span class="o">.</span><span class="n">maven_gpu_spark3</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
@@ -338,6 +346,8 @@
 
                 <span class="k">if</span> <span class="n">m1</span><span class="p">:</span>
                     <span class="n">spark_conf</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="s2">&quot;spark.jars.packages&quot;</span><span class="p">,</span> <span class="n">spark_nlp_config</span><span class="o">.</span><span class="n">maven_m1</span><span class="p">)</span>
+                <span class="k">elif</span> <span class="n">aarch64</span><span class="p">:</span>
+                    <span class="n">spark_conf</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="s2">&quot;spark.jars.packages&quot;</span><span class="p">,</span> <span class="n">spark_nlp_config</span><span class="o">.</span><span class="n">maven_aarch64</span><span class="p">)</span>
                 <span class="k">elif</span> <span class="n">gpu</span><span class="p">:</span>
                     <span class="n">spark_conf</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="s2">&quot;spark.jars.packages&quot;</span><span class="p">,</span> <span class="n">spark_nlp_config</span><span class="o">.</span><span class="n">maven_gpu_spark3</span><span class="p">)</span>
                 <span class="k">else</span><span class="p">:</span>
@@ -423,7 +433,7 @@
 <span class="sd">    str</span>
 <span class="sd">        The current Spark NLP version.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">return</span> <span class="s1">&#39;4.0.2&#39;</span></div>
+    <span class="k">return</span> <span class="s1">&#39;4.1.0&#39;</span></div>
 </pre></div>
 
               </article>
@@ -456,7 +466,7 @@
   
   <div class="footer-item">
     <p class="sphinx-version">
-Created using <a href="http://sphinx-doc.org/">Sphinx</a> 5.0.2.<br>
+Created using <a href="http://sphinx-doc.org/">Sphinx</a> 5.1.1.<br>
 </p>
   </div>
   
