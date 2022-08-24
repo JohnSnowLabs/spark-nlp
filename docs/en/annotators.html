@@ -667,6 +667,11 @@ in the DataFrames.</li>
         <td>Opensource</td>
       </tr>
       <tr>
+        <td><a href="#imageassembler">ImageAssembler</a></td>
+        <td>Prepares images read by Spark into a format that is processable by Spark NLP.</td>
+        <td>Opensource</td>
+      </tr>
+      <tr>
         <td><a href="#languagedetectordl">LanguageDetectorDL</a></td>
         <td>Language Identification and Detection by using CNN and RNN architectures in TensorFlow.</td>
         <td>Opensource</td>
@@ -994,6 +999,11 @@ in the DataFrames.</li>
       <tr>
         <td><a href="./transformers#universalsentenceencoder">UniversalSentenceEncoder</a></td>
         <td>The Universal Sentence Encoder encodes text into high dimensional vectors that can be used for text classification, semantic similarity, clustering and other natural language tasks.</td>
+        <td>Opensource</td>
+      </tr>
+      <tr>
+        <td><a href="./transformers#vitforimageclassification">ViTForImageClassification</a></td>
+        <td>Vision Transformer (ViT) for image classification.</td>
         <td>Opensource</td>
       </tr>
       <tr>
@@ -3925,6 +3935,98 @@ automatically. The specific models can also be set with <code class="language-pl
 <span class="o">+-----------------------------------------------------+-----------------------------------------------------------------------+</span>
 <span class="o">|</span><span class="nc">You</span> <span class="n">and</span> <span class="nc">John</span> <span class="n">prefer</span> <span class="n">the</span> <span class="n">morning</span> <span class="n">flight</span> <span class="n">through</span> <span class="nc">Denver</span><span class="o">|[[(</span><span class="kt">prefer</span>,<span class="kt">nsubj</span>,<span class="kt">morning</span><span class="o">)</span>, <span class="o">(</span><span class="kt">morning</span>,<span class="kt">flat</span>,<span class="kt">flight</span><span class="o">)</span>, <span class="o">(</span><span class="kt">flight</span>,<span class="kt">flat</span>,<span class="kt">Denver</span><span class="o">)]]|</span>
 <span class="o">+-----------------------------------------------------+-----------------------------------------------------------------------+</span>
+</code></pre></div>      </div>
+
+    </div>
+
+</details>
+
+</div>
+
+<div class="h3-box model-content">
+
+  <h2 id="imageassembler">ImageAssembler</h2>
+
+  <p>Prepares images read by Spark into a format that is processable by Spark NLP. This component
+is needed to process images.</p>
+
+  <p><strong>Input Annotator Types:</strong> <code class="language-plaintext highlighter-rouge">NONE</code></p>
+
+  <p><strong>Output Annotator Type:</strong> <code class="language-plaintext highlighter-rouge">IMAGE</code></p>
+
+  <table>
+    <tbody>
+      <tr>
+        <td><strong>Python API:</strong> <a href="/api/python/reference/autosummary/sparknlp/base/image_assembler/index.html#sparknlp.base.image_assembler.ImageAssembler">ImageAssembler</a></td>
+        <td><strong>Scala API:</strong> <a href="/api/com/johnsnowlabs/nlp/ImageAssembler">ImageAssembler</a></td>
+        <td><strong>Source:</strong> <a href="https://github.com/JohnSnowLabs/spark-nlp/tree/master/src/main/scala/com/johnsnowlabs/nlp/ImageAssembler.scala">ImageAssembler</a></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <details>
+
+<summary class="button"><b>Show Example</b></summary>
+
+<div class="tabs-box">
+
+      <div class="top_tab_li">   
+    <button class="tab-li code-selector-active python-button">Python</button><button class="tab-li code-selector-un-active scala-button">Scala</button>
+</div>
+
+      <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">sparknlp</span>
+<span class="kn">from</span> <span class="nn">sparknlp.base</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">pyspark.ml</span> <span class="kn">import</span> <span class="n">Pipeline</span>
+
+<span class="n">data</span> <span class="o">=</span> <span class="n">spark</span><span class="p">.</span><span class="n">read</span><span class="p">.</span><span class="nb">format</span><span class="p">(</span><span class="s">"image"</span><span class="p">).</span><span class="n">load</span><span class="p">(</span><span class="s">"./tmp/images/"</span><span class="p">).</span><span class="n">toDF</span><span class="p">(</span><span class="s">"image"</span><span class="p">)</span>
+<span class="n">imageAssembler</span> <span class="o">=</span> <span class="n">ImageAssembler</span><span class="p">().</span><span class="n">setInputCol</span><span class="p">(</span><span class="s">"image"</span><span class="p">).</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"image_assembler"</span><span class="p">)</span>
+
+<span class="n">result</span> <span class="o">=</span> <span class="n">imageAssembler</span><span class="p">.</span><span class="n">transform</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+<span class="n">result</span><span class="p">.</span><span class="n">select</span><span class="p">(</span><span class="s">"image_assembler"</span><span class="p">).</span><span class="n">show</span><span class="p">()</span>
+<span class="n">result</span><span class="p">.</span><span class="n">select</span><span class="p">(</span><span class="s">"image_assembler"</span><span class="p">).</span><span class="n">printSchema</span><span class="p">()</span>
+<span class="n">root</span>
+  <span class="o">|--</span> <span class="n">image_assembler</span><span class="p">:</span> <span class="n">array</span> <span class="p">(</span><span class="n">nullable</span> <span class="o">=</span> <span class="n">true</span><span class="p">)</span>
+  <span class="o">|</span>    <span class="o">|--</span> <span class="n">element</span><span class="p">:</span> <span class="n">struct</span> <span class="p">(</span><span class="n">containsNull</span> <span class="o">=</span> <span class="n">true</span><span class="p">)</span>
+  <span class="o">|</span>    <span class="o">|</span>    <span class="o">|--</span> <span class="n">annotatorType</span><span class="p">:</span> <span class="n">string</span> <span class="p">(</span><span class="n">nullable</span> <span class="o">=</span> <span class="n">true</span><span class="p">)</span>
+  <span class="o">|</span>    <span class="o">|</span>    <span class="o">|--</span> <span class="n">origin</span><span class="p">:</span> <span class="n">string</span> <span class="p">(</span><span class="n">nullable</span> <span class="o">=</span> <span class="n">true</span><span class="p">)</span>
+  <span class="o">|</span>    <span class="o">|</span>    <span class="o">|--</span> <span class="n">height</span><span class="p">:</span> <span class="n">integer</span> <span class="p">(</span><span class="n">nullable</span> <span class="o">=</span> <span class="n">true</span><span class="p">)</span>
+  <span class="o">|</span>    <span class="o">|</span>    <span class="o">|--</span> <span class="n">width</span><span class="p">:</span> <span class="n">integer</span> <span class="p">(</span><span class="n">nullable</span> <span class="o">=</span> <span class="n">true</span><span class="p">)</span>
+  <span class="o">|</span>    <span class="o">|</span>    <span class="o">|--</span> <span class="n">nChannels</span><span class="p">:</span> <span class="n">integer</span> <span class="p">(</span><span class="n">nullable</span> <span class="o">=</span> <span class="n">true</span><span class="p">)</span>
+  <span class="o">|</span>    <span class="o">|</span>    <span class="o">|--</span> <span class="n">mode</span><span class="p">:</span> <span class="n">integer</span> <span class="p">(</span><span class="n">nullable</span> <span class="o">=</span> <span class="n">true</span><span class="p">)</span>
+  <span class="o">|</span>    <span class="o">|</span>    <span class="o">|--</span> <span class="n">result</span><span class="p">:</span> <span class="n">binary</span> <span class="p">(</span><span class="n">nullable</span> <span class="o">=</span> <span class="n">true</span><span class="p">)</span>
+  <span class="o">|</span>    <span class="o">|</span>    <span class="o">|--</span> <span class="n">metadata</span><span class="p">:</span> <span class="nb">map</span> <span class="p">(</span><span class="n">nullable</span> <span class="o">=</span> <span class="n">true</span><span class="p">)</span>
+  <span class="o">|</span>    <span class="o">|</span>    <span class="o">|</span>    <span class="o">|--</span> <span class="n">key</span><span class="p">:</span> <span class="n">string</span>
+  <span class="o">|</span>    <span class="o">|</span>    <span class="o">|</span>    <span class="o">|--</span> <span class="n">value</span><span class="p">:</span> <span class="n">string</span> <span class="p">(</span><span class="n">valueContainsNull</span> <span class="o">=</span> <span class="n">true</span><span class="p">)</span>
+</code></pre></div>      </div>
+
+      <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="nn">com.johnsnowlabs.nlp.ImageAssembler</span>
+<span class="k">import</span> <span class="nn">org.apache.spark.ml.Pipeline</span>
+
+<span class="k">val</span> <span class="nv">imageDF</span><span class="k">:</span> <span class="kt">DataFrame</span> <span class="o">=</span> <span class="nv">spark</span><span class="o">.</span><span class="py">read</span>
+  <span class="o">.</span><span class="py">format</span><span class="o">(</span><span class="s">"image"</span><span class="o">)</span>
+  <span class="o">.</span><span class="py">option</span><span class="o">(</span><span class="s">"dropInvalid"</span><span class="o">,</span> <span class="n">value</span> <span class="k">=</span> <span class="kc">true</span><span class="o">)</span>
+  <span class="o">.</span><span class="py">load</span><span class="o">(</span><span class="s">"src/test/resources/image/"</span><span class="o">)</span>
+
+<span class="k">val</span> <span class="nv">imageAssembler</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">ImageAssembler</span><span class="o">()</span>
+  <span class="o">.</span><span class="py">setInputCol</span><span class="o">(</span><span class="s">"image"</span><span class="o">)</span>
+  <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"image_assembler"</span><span class="o">)</span>
+
+<span class="k">val</span> <span class="nv">pipeline</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">Pipeline</span><span class="o">().</span><span class="py">setStages</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="n">imageAssembler</span><span class="o">))</span>
+<span class="k">val</span> <span class="nv">pipelineDF</span> <span class="k">=</span> <span class="nv">pipeline</span><span class="o">.</span><span class="py">fit</span><span class="o">(</span><span class="n">imageDF</span><span class="o">).</span><span class="py">transform</span><span class="o">(</span><span class="n">imageDF</span><span class="o">)</span>
+<span class="nv">pipelineDF</span><span class="o">.</span><span class="py">printSchema</span><span class="o">()</span>
+<span class="n">root</span>
+ <span class="o">|--</span> <span class="n">image_assembler</span><span class="k">:</span> <span class="kt">array</span> <span class="o">(</span><span class="kt">nullable</span> <span class="o">=</span> <span class="kt">true</span><span class="o">)</span>
+ <span class="o">|</span>    <span class="o">|--</span> <span class="n">element</span><span class="k">:</span> <span class="kt">struct</span> <span class="o">(</span><span class="kt">containsNull</span> <span class="o">=</span> <span class="kt">true</span><span class="o">)</span>
+ <span class="o">|</span>    <span class="o">|</span>    <span class="o">|--</span> <span class="n">annotatorType</span><span class="k">:</span> <span class="kt">string</span> <span class="o">(</span><span class="kt">nullable</span> <span class="o">=</span> <span class="kt">true</span><span class="o">)</span>
+ <span class="o">|</span>    <span class="o">|</span>    <span class="o">|--</span> <span class="n">origin</span><span class="k">:</span> <span class="kt">string</span> <span class="o">(</span><span class="kt">nullable</span> <span class="o">=</span> <span class="kt">true</span><span class="o">)</span>
+ <span class="o">|</span>    <span class="o">|</span>    <span class="o">|--</span> <span class="n">height</span><span class="k">:</span> <span class="kt">integer</span> <span class="o">(</span><span class="kt">nullable</span> <span class="o">=</span> <span class="kt">false</span><span class="o">)</span>
+ <span class="o">|</span>    <span class="o">|</span>    <span class="o">|--</span> <span class="n">width</span><span class="k">:</span> <span class="kt">integer</span> <span class="o">(</span><span class="kt">nullable</span> <span class="o">=</span> <span class="kt">false</span><span class="o">)</span>
+ <span class="o">|</span>    <span class="o">|</span>    <span class="o">|--</span> <span class="n">nChannels</span><span class="k">:</span> <span class="kt">integer</span> <span class="o">(</span><span class="kt">nullable</span> <span class="o">=</span> <span class="kt">false</span><span class="o">)</span>
+ <span class="o">|</span>    <span class="o">|</span>    <span class="o">|--</span> <span class="n">mode</span><span class="k">:</span> <span class="kt">integer</span> <span class="o">(</span><span class="kt">nullable</span> <span class="o">=</span> <span class="kt">false</span><span class="o">)</span>
+ <span class="o">|</span>    <span class="o">|</span>    <span class="o">|--</span> <span class="n">result</span><span class="k">:</span> <span class="kt">binary</span> <span class="o">(</span><span class="kt">nullable</span> <span class="o">=</span> <span class="kt">true</span><span class="o">)</span>
+ <span class="o">|</span>    <span class="o">|</span>    <span class="o">|--</span> <span class="n">metadata</span><span class="k">:</span> <span class="kt">map</span> <span class="o">(</span><span class="kt">nullable</span> <span class="o">=</span> <span class="kt">true</span><span class="o">)</span>
+ <span class="o">|</span>    <span class="o">|</span>    <span class="o">|</span>    <span class="o">|--</span> <span class="n">key</span><span class="k">:</span> <span class="kt">string</span>
+ <span class="o">|</span>    <span class="o">|</span>    <span class="o">|</span>    <span class="o">|--</span> <span class="n">value</span><span class="k">:</span> <span class="kt">string</span> <span class="o">(</span><span class="kt">valueContainsNull</span> <span class="o">=</span> <span class="kt">true</span><span class="o">)</span>
 </code></pre></div>      </div>
 
     </div>

@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>sparknlp.annotator.er.entity_ruler &#8212; Spark NLP 4.0.2 documentation</title>
+    <title>sparknlp.annotator.er.entity_ruler &#8212; Spark NLP 4.1.0 documentation</title>
 <script>
   document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
   document.documentElement.dataset.theme = localStorage.getItem("theme") || "light"
@@ -293,27 +293,27 @@
 <span class="sd">    |[chunk, 29, 38, Winterfell, [entity -&gt; LOCATION, sentence -&gt; 0], []]|</span>
 <span class="sd">    +--------------------------------------------------------------------+</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-<div class="viewcode-block" id="EntityRulerApproach.name"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/er/entity_ruler/index.html#sparknlp.annotator.er.entity_ruler.EntityRulerApproach.name">[docs]</a>    <span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;EntityRulerApproach&quot;</span></div>
+    <span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;EntityRulerApproach&quot;</span>
 
-<div class="viewcode-block" id="EntityRulerApproach.patternsResource"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/er/entity_ruler/index.html#sparknlp.annotator.er.entity_ruler.EntityRulerApproach.patternsResource">[docs]</a>    <span class="n">patternsResource</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
+    <span class="n">patternsResource</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
                              <span class="s2">&quot;patternsResource&quot;</span><span class="p">,</span>
                              <span class="s2">&quot;Resource in JSON or CSV format to map entities to patterns&quot;</span><span class="p">,</span>
-                             <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">identity</span><span class="p">)</span></div>
+                             <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">identity</span><span class="p">)</span>
 
-<div class="viewcode-block" id="EntityRulerApproach.enablePatternRegex"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/er/entity_ruler/index.html#sparknlp.annotator.er.entity_ruler.EntityRulerApproach.enablePatternRegex">[docs]</a>    <span class="n">enablePatternRegex</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
+    <span class="n">enablePatternRegex</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
                                <span class="s2">&quot;enablePatternRegex&quot;</span><span class="p">,</span>
                                <span class="s2">&quot;Enables regex pattern match&quot;</span><span class="p">,</span>
-                               <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toBoolean</span><span class="p">)</span></div>
+                               <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toBoolean</span><span class="p">)</span>
 
-<div class="viewcode-block" id="EntityRulerApproach.useStorage"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/er/entity_ruler/index.html#sparknlp.annotator.er.entity_ruler.EntityRulerApproach.useStorage">[docs]</a>    <span class="n">useStorage</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
+    <span class="n">useStorage</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
                        <span class="s2">&quot;useStorage&quot;</span><span class="p">,</span>
                        <span class="s2">&quot;Whether to use RocksDB storage to serialize patterns&quot;</span><span class="p">,</span>
-                       <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toBoolean</span><span class="p">)</span></div>
+                       <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toBoolean</span><span class="p">)</span>
 
-<div class="viewcode-block" id="EntityRulerApproach.sentenceMatch"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/er/entity_ruler/index.html#sparknlp.annotator.er.entity_ruler.EntityRulerApproach.sentenceMatch">[docs]</a>    <span class="n">sentenceMatch</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
+    <span class="n">sentenceMatch</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
                           <span class="s2">&quot;sentenceMatch&quot;</span><span class="p">,</span>
                           <span class="s2">&quot;Whether to find match at sentence level. True: sentence level. False: token level&quot;</span><span class="p">,</span>
-                          <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toBoolean</span><span class="p">)</span></div>
+                          <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toBoolean</span><span class="p">)</span>
 
     <span class="nd">@keyword_only</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
@@ -377,8 +377,8 @@
 <span class="sd">    ``DOCUMENT, TOKEN``    ``CHUNK``</span>
 <span class="sd">    ====================== ======================</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-<div class="viewcode-block" id="EntityRulerModel.name"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/er/entity_ruler/index.html#sparknlp.annotator.er.entity_ruler.EntityRulerModel.name">[docs]</a>    <span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;EntityRulerModel&quot;</span></div>
-<div class="viewcode-block" id="EntityRulerModel.database"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/er/entity_ruler/index.html#sparknlp.annotator.er.entity_ruler.EntityRulerModel.database">[docs]</a>    <span class="n">database</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;ENTITY_PATTERNS&#39;</span><span class="p">]</span></div>
+    <span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;EntityRulerModel&quot;</span>
+    <span class="n">database</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;ENTITY_PATTERNS&#39;</span><span class="p">]</span>
 
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">classname</span><span class="o">=</span><span class="s2">&quot;com.johnsnowlabs.nlp.annotators.er.EntityRulerModel&quot;</span><span class="p">,</span> <span class="n">java_model</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="nb">super</span><span class="p">(</span><span class="n">EntityRulerModel</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
@@ -387,13 +387,13 @@
         <span class="p">)</span>
 
     <span class="nd">@staticmethod</span>
-<div class="viewcode-block" id="EntityRulerModel.pretrained"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/er/entity_ruler/index.html#sparknlp.annotator.er.entity_ruler.EntityRulerModel.pretrained">[docs]</a>    <span class="k">def</span> <span class="nf">pretrained</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">lang</span><span class="o">=</span><span class="s2">&quot;en&quot;</span><span class="p">,</span> <span class="n">remote_loc</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">pretrained</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">lang</span><span class="o">=</span><span class="s2">&quot;en&quot;</span><span class="p">,</span> <span class="n">remote_loc</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="kn">from</span> <span class="nn">sparknlp.pretrained</span> <span class="kn">import</span> <span class="n">ResourceDownloader</span>
-        <span class="k">return</span> <span class="n">ResourceDownloader</span><span class="o">.</span><span class="n">downloadModel</span><span class="p">(</span><span class="n">EntityRulerModel</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">lang</span><span class="p">,</span> <span class="n">remote_loc</span><span class="p">)</span></div>
+        <span class="k">return</span> <span class="n">ResourceDownloader</span><span class="o">.</span><span class="n">downloadModel</span><span class="p">(</span><span class="n">EntityRulerModel</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">lang</span><span class="p">,</span> <span class="n">remote_loc</span><span class="p">)</span>
 
     <span class="nd">@staticmethod</span>
-<div class="viewcode-block" id="EntityRulerModel.loadStorage"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/er/entity_ruler/index.html#sparknlp.annotator.er.entity_ruler.EntityRulerModel.loadStorage">[docs]</a>    <span class="k">def</span> <span class="nf">loadStorage</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">spark</span><span class="p">,</span> <span class="n">storage_ref</span><span class="p">):</span>
-        <span class="n">HasStorageModel</span><span class="o">.</span><span class="n">loadStorages</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">spark</span><span class="p">,</span> <span class="n">storage_ref</span><span class="p">,</span> <span class="n">EntityRulerModel</span><span class="o">.</span><span class="n">databases</span><span class="p">)</span></div></div>
+    <span class="k">def</span> <span class="nf">loadStorage</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">spark</span><span class="p">,</span> <span class="n">storage_ref</span><span class="p">):</span>
+        <span class="n">HasStorageModel</span><span class="o">.</span><span class="n">loadStorages</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">spark</span><span class="p">,</span> <span class="n">storage_ref</span><span class="p">,</span> <span class="n">EntityRulerModel</span><span class="o">.</span><span class="n">databases</span><span class="p">)</span></div>
 
 </pre></div>
 
@@ -427,7 +427,7 @@
   
   <div class="footer-item">
     <p class="sphinx-version">
-Created using <a href="http://sphinx-doc.org/">Sphinx</a> 5.0.2.<br>
+Created using <a href="http://sphinx-doc.org/">Sphinx</a> 5.1.1.<br>
 </p>
   </div>
   

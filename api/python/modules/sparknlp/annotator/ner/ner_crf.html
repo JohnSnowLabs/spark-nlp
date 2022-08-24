@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>sparknlp.annotator.ner.ner_crf &#8212; Spark NLP 4.0.2 documentation</title>
+    <title>sparknlp.annotator.ner.ner_crf &#8212; Spark NLP 4.1.0 documentation</title>
 <script>
   document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
   document.documentElement.dataset.theme = localStorage.getItem("theme") || "light"
@@ -300,22 +300,22 @@
 <span class="sd">    NerConverter : to further process the results</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-<div class="viewcode-block" id="NerCrfApproach.l2"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/ner/ner_crf/index.html#sparknlp.annotator.ner.ner_crf.NerCrfApproach.l2">[docs]</a>    <span class="n">l2</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;l2&quot;</span><span class="p">,</span> <span class="s2">&quot;L2 regularization coefficient&quot;</span><span class="p">,</span> <span class="n">TypeConverters</span><span class="o">.</span><span class="n">toFloat</span><span class="p">)</span></div>
+    <span class="n">l2</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;l2&quot;</span><span class="p">,</span> <span class="s2">&quot;L2 regularization coefficient&quot;</span><span class="p">,</span> <span class="n">TypeConverters</span><span class="o">.</span><span class="n">toFloat</span><span class="p">)</span>
 
-<div class="viewcode-block" id="NerCrfApproach.c0"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/ner/ner_crf/index.html#sparknlp.annotator.ner.ner_crf.NerCrfApproach.c0">[docs]</a>    <span class="n">c0</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;c0&quot;</span><span class="p">,</span> <span class="s2">&quot;c0 params defining decay speed for gradient&quot;</span><span class="p">,</span> <span class="n">TypeConverters</span><span class="o">.</span><span class="n">toInt</span><span class="p">)</span></div>
+    <span class="n">c0</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;c0&quot;</span><span class="p">,</span> <span class="s2">&quot;c0 params defining decay speed for gradient&quot;</span><span class="p">,</span> <span class="n">TypeConverters</span><span class="o">.</span><span class="n">toInt</span><span class="p">)</span>
 
-<div class="viewcode-block" id="NerCrfApproach.lossEps"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/ner/ner_crf/index.html#sparknlp.annotator.ner.ner_crf.NerCrfApproach.lossEps">[docs]</a>    <span class="n">lossEps</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;lossEps&quot;</span><span class="p">,</span> <span class="s2">&quot;If Epoch relative improvement less than eps then training is stopped&quot;</span><span class="p">,</span>
-                    <span class="n">TypeConverters</span><span class="o">.</span><span class="n">toFloat</span><span class="p">)</span></div>
+    <span class="n">lossEps</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;lossEps&quot;</span><span class="p">,</span> <span class="s2">&quot;If Epoch relative improvement less than eps then training is stopped&quot;</span><span class="p">,</span>
+                    <span class="n">TypeConverters</span><span class="o">.</span><span class="n">toFloat</span><span class="p">)</span>
 
-<div class="viewcode-block" id="NerCrfApproach.minW"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/ner/ner_crf/index.html#sparknlp.annotator.ner.ner_crf.NerCrfApproach.minW">[docs]</a>    <span class="n">minW</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;minW&quot;</span><span class="p">,</span> <span class="s2">&quot;Features with less weights then this param value will be filtered&quot;</span><span class="p">,</span>
-                 <span class="n">TypeConverters</span><span class="o">.</span><span class="n">toFloat</span><span class="p">)</span></div>
+    <span class="n">minW</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;minW&quot;</span><span class="p">,</span> <span class="s2">&quot;Features with less weights then this param value will be filtered&quot;</span><span class="p">,</span>
+                 <span class="n">TypeConverters</span><span class="o">.</span><span class="n">toFloat</span><span class="p">)</span>
 
-<div class="viewcode-block" id="NerCrfApproach.includeConfidence"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/ner/ner_crf/index.html#sparknlp.annotator.ner.ner_crf.NerCrfApproach.includeConfidence">[docs]</a>    <span class="n">includeConfidence</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;includeConfidence&quot;</span><span class="p">,</span>
+    <span class="n">includeConfidence</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;includeConfidence&quot;</span><span class="p">,</span>
                               <span class="s2">&quot;external features is a delimited text. needs &#39;delimiter&#39; in options&quot;</span><span class="p">,</span>
-                              <span class="n">TypeConverters</span><span class="o">.</span><span class="n">toBoolean</span><span class="p">)</span></div>
+                              <span class="n">TypeConverters</span><span class="o">.</span><span class="n">toBoolean</span><span class="p">)</span>
 
-<div class="viewcode-block" id="NerCrfApproach.externalFeatures"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/ner/ner_crf/index.html#sparknlp.annotator.ner.ner_crf.NerCrfApproach.externalFeatures">[docs]</a>    <span class="n">externalFeatures</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;externalFeatures&quot;</span><span class="p">,</span> <span class="s2">&quot;Additional dictionaries paths to use as a features&quot;</span><span class="p">,</span>
-                             <span class="n">TypeConverters</span><span class="o">.</span><span class="n">identity</span><span class="p">)</span></div>
+    <span class="n">externalFeatures</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;externalFeatures&quot;</span><span class="p">,</span> <span class="s2">&quot;Additional dictionaries paths to use as a features&quot;</span><span class="p">,</span>
+                             <span class="n">TypeConverters</span><span class="o">.</span><span class="n">identity</span><span class="p">)</span>
 
 <div class="viewcode-block" id="NerCrfApproach.setL2"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/ner/ner_crf/index.html#sparknlp.annotator.ner.ner_crf.NerCrfApproach.setL2">[docs]</a>    <span class="k">def</span> <span class="nf">setL2</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">l2value</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Sets L2 regularization coefficient, by default 1.0.</span>
@@ -500,11 +500,11 @@
 <span class="sd">    NerDLModel : for a deep learning based approach</span>
 <span class="sd">    NerConverter : to further process the results</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-<div class="viewcode-block" id="NerCrfModel.name"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/ner/ner_crf/index.html#sparknlp.annotator.ner.ner_crf.NerCrfModel.name">[docs]</a>    <span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;NerCrfModel&quot;</span></div>
+    <span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;NerCrfModel&quot;</span>
 
-<div class="viewcode-block" id="NerCrfModel.includeConfidence"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/ner/ner_crf/index.html#sparknlp.annotator.ner.ner_crf.NerCrfModel.includeConfidence">[docs]</a>    <span class="n">includeConfidence</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;includeConfidence&quot;</span><span class="p">,</span>
+    <span class="n">includeConfidence</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;includeConfidence&quot;</span><span class="p">,</span>
                               <span class="s2">&quot;external features is a delimited text. needs &#39;delimiter&#39; in options&quot;</span><span class="p">,</span>
-                              <span class="n">TypeConverters</span><span class="o">.</span><span class="n">toBoolean</span><span class="p">)</span></div>
+                              <span class="n">TypeConverters</span><span class="o">.</span><span class="n">toBoolean</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">classname</span><span class="o">=</span><span class="s2">&quot;com.johnsnowlabs.nlp.annotators.ner.crf.NerCrfModel&quot;</span><span class="p">,</span> <span class="n">java_model</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="nb">super</span><span class="p">(</span><span class="n">NerCrfModel</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
@@ -577,7 +577,7 @@
   
   <div class="footer-item">
     <p class="sphinx-version">
-Created using <a href="http://sphinx-doc.org/">Sphinx</a> 5.0.2.<br>
+Created using <a href="http://sphinx-doc.org/">Sphinx</a> 5.1.1.<br>
 </p>
   </div>
   

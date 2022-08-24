@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>sparknlp.annotator.classifier_dl.albert_for_question_answering &#8212; Spark NLP 4.0.2 documentation</title>
+    <title>sparknlp.annotator.classifier_dl.albert_for_question_answering &#8212; Spark NLP 4.1.0 documentation</title>
 <script>
   document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
   document.documentElement.dataset.theme = localStorage.getItem("theme") || "light"
@@ -254,23 +254,23 @@
 <span class="sd">    |[Clara]             |</span>
 <span class="sd">    +--------------------+</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-<div class="viewcode-block" id="AlbertForQuestionAnswering.name"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/classifier_dl/albert_for_question_answering/index.html#sparknlp.annotator.classifier_dl.albert_for_question_answering.AlbertForQuestionAnswering.name">[docs]</a>    <span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;AlbertForQuestionAnswering&quot;</span></div>
+    <span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;AlbertForQuestionAnswering&quot;</span>
 
-<div class="viewcode-block" id="AlbertForQuestionAnswering.maxSentenceLength"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/classifier_dl/albert_for_question_answering/index.html#sparknlp.annotator.classifier_dl.albert_for_question_answering.AlbertForQuestionAnswering.maxSentenceLength">[docs]</a>    <span class="n">maxSentenceLength</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
+    <span class="n">maxSentenceLength</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
                               <span class="s2">&quot;maxSentenceLength&quot;</span><span class="p">,</span>
                               <span class="s2">&quot;Max sentence length to process&quot;</span><span class="p">,</span>
-                              <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toInt</span><span class="p">)</span></div>
+                              <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toInt</span><span class="p">)</span>
 
-<div class="viewcode-block" id="AlbertForQuestionAnswering.configProtoBytes"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/classifier_dl/albert_for_question_answering/index.html#sparknlp.annotator.classifier_dl.albert_for_question_answering.AlbertForQuestionAnswering.configProtoBytes">[docs]</a>    <span class="n">configProtoBytes</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
+    <span class="n">configProtoBytes</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
                              <span class="s2">&quot;configProtoBytes&quot;</span><span class="p">,</span>
                              <span class="s2">&quot;ConfigProto from tensorflow, serialized into byte array. Get with &quot;</span>
                              <span class="s2">&quot;config_proto.SerializeToString()&quot;</span><span class="p">,</span>
-                             <span class="n">TypeConverters</span><span class="o">.</span><span class="n">toListInt</span><span class="p">)</span></div>
+                             <span class="n">TypeConverters</span><span class="o">.</span><span class="n">toListInt</span><span class="p">)</span>
 
-<div class="viewcode-block" id="AlbertForQuestionAnswering.coalesceSentences"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/classifier_dl/albert_for_question_answering/index.html#sparknlp.annotator.classifier_dl.albert_for_question_answering.AlbertForQuestionAnswering.coalesceSentences">[docs]</a>    <span class="n">coalesceSentences</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;coalesceSentences&quot;</span><span class="p">,</span>
+    <span class="n">coalesceSentences</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;coalesceSentences&quot;</span><span class="p">,</span>
                               <span class="s2">&quot;Instead of 1 class per sentence (if inputCols is &#39;&#39;&#39;sentence&#39;&#39;&#39;) output 1 class per &quot;</span>
                               <span class="s2">&quot;document by averaging probabilities in all sentences.&quot;</span><span class="p">,</span>
-                              <span class="n">TypeConverters</span><span class="o">.</span><span class="n">toBoolean</span><span class="p">)</span></div>
+                              <span class="n">TypeConverters</span><span class="o">.</span><span class="n">toBoolean</span><span class="p">)</span>
 
 <div class="viewcode-block" id="AlbertForQuestionAnswering.setConfigProtoBytes"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/classifier_dl/albert_for_question_answering/index.html#sparknlp.annotator.classifier_dl.albert_for_question_answering.AlbertForQuestionAnswering.setConfigProtoBytes">[docs]</a>    <span class="k">def</span> <span class="nf">setConfigProtoBytes</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Sets configProto from tensorflow, serialized into byte array.</span>
@@ -379,7 +379,7 @@
   
   <div class="footer-item">
     <p class="sphinx-version">
-Created using <a href="http://sphinx-doc.org/">Sphinx</a> 5.0.2.<br>
+Created using <a href="http://sphinx-doc.org/">Sphinx</a> 5.1.1.<br>
 </p>
   </div>
   

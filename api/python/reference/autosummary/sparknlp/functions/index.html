@@ -4,9 +4,9 @@
 <html lang="en">
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
 
-    <title>sparknlp.functions &#8212; Spark NLP 4.0.2 documentation</title>
+    <title>sparknlp.functions &#8212; Spark NLP 4.1.0 documentation</title>
 <script>
   document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
   document.documentElement.dataset.theme = localStorage.getItem("theme") || "light"
@@ -245,25 +245,25 @@
 <h3>Functions<a class="headerlink" href="#functions" title="Permalink to this heading">#</a></h3>
 <table class="autosummary longtable table autosummary">
 <tbody>
-<tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp.functions.map_annotations" title="sparknlp.functions.map_annotations"><code class="xref py py-obj docutils literal notranslate"><span class="pre">map_annotations</span></code></a>(f, output_type: pyspark.sql.types.DataType)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp.functions.map_annotations" title="sparknlp.functions.map_annotations"><code class="xref py py-obj docutils literal notranslate"><span class="pre">map_annotations</span></code></a>(f, output_type)</p></td>
 <td><p>Creates a Spark UDF to map over an Annotator's results.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#sparknlp.functions.map_annotations_array" title="sparknlp.functions.map_annotations_array"><code class="xref py py-obj docutils literal notranslate"><span class="pre">map_annotations_array</span></code></a>(f, output_type: pyspark.sql.types.DataType)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#sparknlp.functions.map_annotations_array" title="sparknlp.functions.map_annotations_array"><code class="xref py py-obj docutils literal notranslate"><span class="pre">map_annotations_array</span></code></a>(f, output_type)</p></td>
 <td><p>Creates a Spark UDF to map over an Annotator's array results.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp.functions.map_annotations_strict" title="sparknlp.functions.map_annotations_strict"><code class="xref py py-obj docutils literal notranslate"><span class="pre">map_annotations_strict</span></code></a>(f)</p></td>
 <td><p>Creates a Spark UDF to map over an Annotator's results, for which the</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#sparknlp.functions.map_annotations_col" title="sparknlp.functions.map_annotations_col"><code class="xref py py-obj docutils literal notranslate"><span class="pre">map_annotations_col</span></code></a>(dataframe: pyspark.sql.DataFrame, f, column: str, output_column: str, annotatyon_type: str, output_type: pyspark.sql.types.DataType = Annotation.arrayType())</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#sparknlp.functions.map_annotations_col" title="sparknlp.functions.map_annotations_col"><code class="xref py py-obj docutils literal notranslate"><span class="pre">map_annotations_col</span></code></a>(dataframe, f, column, ...[, ...])</p></td>
 <td><p>Creates a Spark UDF to map over a column of Annotation results.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp.functions.map_annotations_cols" title="sparknlp.functions.map_annotations_cols"><code class="xref py py-obj docutils literal notranslate"><span class="pre">map_annotations_cols</span></code></a>(dataframe: pyspark.sql.DataFrame, f, columns: list, output_column: str, annotatyon_type: str, output_type: pyspark.sql.types.DataType = Annotation.arrayType())</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp.functions.map_annotations_cols" title="sparknlp.functions.map_annotations_cols"><code class="xref py py-obj docutils literal notranslate"><span class="pre">map_annotations_cols</span></code></a>(dataframe, f, columns, ...[, ...])</p></td>
 <td><p>Creates a Spark UDF to map over multiple columns of Annotation results.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#sparknlp.functions.filter_by_annotations_col" title="sparknlp.functions.filter_by_annotations_col"><code class="xref py py-obj docutils literal notranslate"><span class="pre">filter_by_annotations_col</span></code></a>(dataframe, f, column)</p></td>
 <td><p>Applies a filter over a column of Annotations.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp.functions.explode_annotations_col" title="sparknlp.functions.explode_annotations_col"><code class="xref py py-obj docutils literal notranslate"><span class="pre">explode_annotations_col</span></code></a>(dataframe: pyspark.sql.DataFrame, column, output_column)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp.functions.explode_annotations_col" title="sparknlp.functions.explode_annotations_col"><code class="xref py py-obj docutils literal notranslate"><span class="pre">explode_annotations_col</span></code></a>(dataframe, column, output_column)</p></td>
 <td><p>Explodes an Annotation column, putting each result onto a separate row.</p></td>
 </tr>
 </tbody>
@@ -640,7 +640,7 @@ return type is explicitly defined as a <cite>Annotation.dataType()</cite>.</p>
   
   <div class="footer-item">
     <p class="sphinx-version">
-Created using <a href="http://sphinx-doc.org/">Sphinx</a> 5.0.2.<br>
+Created using <a href="http://sphinx-doc.org/">Sphinx</a> 5.1.1.<br>
 </p>
   </div>
   

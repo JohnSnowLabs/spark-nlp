@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>sparknlp.annotator.matcher.date_matcher &#8212; Spark NLP 4.0.2 documentation</title>
+    <title>sparknlp.annotator.matcher.date_matcher &#8212; Spark NLP 4.1.0 documentation</title>
 <script>
   document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
   document.documentElement.dataset.theme = localStorage.getItem("theme") || "light"
@@ -189,53 +189,53 @@
 <div class="viewcode-block" id="DateMatcherUtils"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/matcher/date_matcher/index.html#sparknlp.annotator.matcher.date_matcher.DateMatcherUtils">[docs]</a><span class="k">class</span> <span class="nc">DateMatcherUtils</span><span class="p">(</span><span class="n">Params</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Base class for DateMatcher Annotators</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-<div class="viewcode-block" id="DateMatcherUtils.inputFormats"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/matcher/date_matcher/index.html#sparknlp.annotator.matcher.date_matcher.DateMatcherUtils.inputFormats">[docs]</a>    <span class="n">inputFormats</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
+    <span class="n">inputFormats</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
                          <span class="s2">&quot;inputFormats&quot;</span><span class="p">,</span>
                          <span class="s2">&quot;input formats list of patterns to match&quot;</span><span class="p">,</span>
-                         <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toListString</span><span class="p">)</span></div>
+                         <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toListString</span><span class="p">)</span>
 
-<div class="viewcode-block" id="DateMatcherUtils.outputFormat"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/matcher/date_matcher/index.html#sparknlp.annotator.matcher.date_matcher.DateMatcherUtils.outputFormat">[docs]</a>    <span class="n">outputFormat</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
+    <span class="n">outputFormat</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
                          <span class="s2">&quot;outputFormat&quot;</span><span class="p">,</span>
                          <span class="s2">&quot;desired output format for dates extracted&quot;</span><span class="p">,</span>
-                         <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toString</span><span class="p">)</span></div>
+                         <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toString</span><span class="p">)</span>
 
-<div class="viewcode-block" id="DateMatcherUtils.readMonthFirst"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/matcher/date_matcher/index.html#sparknlp.annotator.matcher.date_matcher.DateMatcherUtils.readMonthFirst">[docs]</a>    <span class="n">readMonthFirst</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
+    <span class="n">readMonthFirst</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
                            <span class="s2">&quot;readMonthFirst&quot;</span><span class="p">,</span>
                            <span class="s2">&quot;Whether to parse july 07/05/2015 or as 05/07/2015&quot;</span><span class="p">,</span>
-                           <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toBoolean</span></div>
+                           <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toBoolean</span>
                            <span class="p">)</span>
 
-<div class="viewcode-block" id="DateMatcherUtils.defaultDayWhenMissing"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/matcher/date_matcher/index.html#sparknlp.annotator.matcher.date_matcher.DateMatcherUtils.defaultDayWhenMissing">[docs]</a>    <span class="n">defaultDayWhenMissing</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
+    <span class="n">defaultDayWhenMissing</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
                                   <span class="s2">&quot;defaultDayWhenMissing&quot;</span><span class="p">,</span>
                                   <span class="s2">&quot;which day to set when it is missing from parsed input&quot;</span><span class="p">,</span>
-                                  <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toInt</span></div>
+                                  <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toInt</span>
                                   <span class="p">)</span>
 
-<div class="viewcode-block" id="DateMatcherUtils.anchorDateYear"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/matcher/date_matcher/index.html#sparknlp.annotator.matcher.date_matcher.DateMatcherUtils.anchorDateYear">[docs]</a>    <span class="n">anchorDateYear</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
+    <span class="n">anchorDateYear</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
                            <span class="s2">&quot;anchorDateYear&quot;</span><span class="p">,</span>
                            <span class="s2">&quot;Add an anchor year for the relative dates such as a day after tomorrow. If not set it &quot;</span>
                            <span class="s2">&quot;will use the current year. Example: 2021&quot;</span><span class="p">,</span>
-                           <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toInt</span></div>
+                           <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toInt</span>
                            <span class="p">)</span>
 
-<div class="viewcode-block" id="DateMatcherUtils.anchorDateMonth"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/matcher/date_matcher/index.html#sparknlp.annotator.matcher.date_matcher.DateMatcherUtils.anchorDateMonth">[docs]</a>    <span class="n">anchorDateMonth</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
+    <span class="n">anchorDateMonth</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
                             <span class="s2">&quot;anchorDateMonth&quot;</span><span class="p">,</span>
                             <span class="s2">&quot;Add an anchor month for the relative dates such as a day after tomorrow. If not set it &quot;</span>
                             <span class="s2">&quot;will use the current month. Example: 1 which means January&quot;</span><span class="p">,</span>
-                            <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toInt</span></div>
+                            <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toInt</span>
                             <span class="p">)</span>
 
-<div class="viewcode-block" id="DateMatcherUtils.anchorDateDay"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/matcher/date_matcher/index.html#sparknlp.annotator.matcher.date_matcher.DateMatcherUtils.anchorDateDay">[docs]</a>    <span class="n">anchorDateDay</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
+    <span class="n">anchorDateDay</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
                           <span class="s2">&quot;anchorDateDay&quot;</span><span class="p">,</span>
                           <span class="s2">&quot;Add an anchor day of the day for the relative dates such as a day after tomorrow. If not &quot;</span>
                           <span class="s2">&quot;set it will use the current day. Example: 11&quot;</span><span class="p">,</span>
-                          <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toInt</span></div>
+                          <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toInt</span>
                           <span class="p">)</span>
 
-<div class="viewcode-block" id="DateMatcherUtils.sourceLanguage"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/matcher/date_matcher/index.html#sparknlp.annotator.matcher.date_matcher.DateMatcherUtils.sourceLanguage">[docs]</a>    <span class="n">sourceLanguage</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
+    <span class="n">sourceLanguage</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
                            <span class="s2">&quot;sourceLanguage&quot;</span><span class="p">,</span>
                            <span class="s2">&quot;source language for explicit translation&quot;</span><span class="p">,</span>
-                           <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toString</span><span class="p">)</span></div>
+                           <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toString</span><span class="p">)</span>
 
 <div class="viewcode-block" id="DateMatcherUtils.setInputFormats"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/matcher/date_matcher/index.html#sparknlp.annotator.matcher.date_matcher.DateMatcherUtils.setInputFormats">[docs]</a>    <span class="k">def</span> <span class="nf">setInputFormats</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Sets input formats patterns to match in the documents.</span>
@@ -313,8 +313,8 @@
         <span class="n">normalizedMonth</span> <span class="o">=</span> <span class="n">value</span> <span class="o">-</span> <span class="mi">1</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">anchorDateMonth</span><span class="o">=</span><span class="n">normalizedMonth</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="DateMatcherUtils.setSourceLanguage"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/matcher/date_matcher/index.html#sparknlp.annotator.matcher.date_matcher.DateMatcherUtils.setSourceLanguage">[docs]</a>    <span class="k">def</span> <span class="nf">setSourceLanguage</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">sourceLanguage</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
+    <span class="k">def</span> <span class="nf">setSourceLanguage</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">sourceLanguage</span><span class="o">=</span><span class="n">value</span><span class="p">)</span>
 
 <div class="viewcode-block" id="DateMatcherUtils.setAnchorDateDay"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/matcher/date_matcher/index.html#sparknlp.annotator.matcher.date_matcher.DateMatcherUtils.setAnchorDateDay">[docs]</a>    <span class="k">def</span> <span class="nf">setAnchorDateDay</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Sets an anchor day of the day for the relative dates such as a day</span>
@@ -419,7 +419,7 @@
 <span class="sd">    MultiDateMatcher : for matching multiple dates in a document</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-<div class="viewcode-block" id="DateMatcher.name"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/matcher/date_matcher/index.html#sparknlp.annotator.matcher.date_matcher.DateMatcher.name">[docs]</a>    <span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;DateMatcher&quot;</span></div>
+    <span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;DateMatcher&quot;</span>
 
     <span class="nd">@keyword_only</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
@@ -466,7 +466,7 @@
   
   <div class="footer-item">
     <p class="sphinx-version">
-Created using <a href="http://sphinx-doc.org/">Sphinx</a> 5.0.2.<br>
+Created using <a href="http://sphinx-doc.org/">Sphinx</a> 5.1.1.<br>
 </p>
   </div>
   
