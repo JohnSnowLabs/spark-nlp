@@ -9,8 +9,8 @@
     j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
     })(window,document,'script','dataLayer','GTM-59JLR64');</script>
-<!-- End Google Tag Manager --><title>English DistilBertForSequenceClassification Cased model (from bgoel4132)- Spark NLP Model</title><meta name="description" content="DescriptionPretrained DistilBertForSequenceClassification model, adapted from Hugging Face and curated to provide scalability and production-readiness using ...">
-<link rel="canonical" href="/2022/08/23/distilbert_sequence_classifier_tweet_disaster_classifier_en.html"><link rel="alternate" type="application/rss+xml" title="Spark NLP" href="/feed.xml"><!-- start favicons snippet, use https://realfavicongenerator.net/ -->
+<!-- End Google Tag Manager --><title>Legal Relation Extraction (Whereas)- Spark NLP Model</title><meta name="description" content="DescriptionThis is a Relation Extraction model to infer relations between elements in WHEREAS clauses, more specifically the SUBJECT, the ACTION and the OBJE...">
+<link rel="canonical" href="/2022/08/24/legre_whereas_en.html"><link rel="alternate" type="application/rss+xml" title="Spark NLP" href="/feed.xml"><!-- start favicons snippet, use https://realfavicongenerator.net/ -->
 <!---->
 <!-- <link rel="apple-touch-icon" sizes="180x180" href="/fav.ico"> -->
 
@@ -406,25 +406,27 @@
 
 <!-- end custom main top snippet --><article><script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script><div class="article__header"><div class="header-author"><div class="article__info clearfix"><div class="left-col">
             <a class="edit-on-github-btn" target="_blank" rel="alternate"
-               href="https://github.com/johnsnowlabs/spark-nlp/tree/master/docs/_posts/gadde5300/2022-08-23-distilbert_sequence_classifier_tweet_disaster_classifier_en.md">
+               href="https://github.com/johnsnowlabs/spark-nlp/tree/master/docs/_posts/josejuanmartinez/2022-08-24-legre_whereas_en.md">
               <span class="fab fa-github"></span>
               <span class="edit-on-github-label">Edit on GitHub</span>
             </a>
-        </div><ul class="right-col menu"><li><i class="far fa-user"></i> <span>John Snow Labs</span></li><li><i class="far fa-calendar-alt"></i> <span>Aug 23, 2022</span>
-            </li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2022-08-23T00:00:00+00:00"></div><header class="main-docs"><h1>English DistilBertForSequenceClassification Cased model (from bgoel4132)</h1></header></div><meta itemprop="headline" content="English DistilBertForSequenceClassification Cased model (from bgoel4132)"><div class="article__info tags_box clearfix"><ul class="left-col menu"><li>distilbert</li><li>sequence_classification</li><li>open_source</li><li>en</li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2022-08-23T00:00:00+00:00">
-    <meta itemprop="keywords" content="distilbert,sequence_classification,open_source,en"><div class="js-article-content"><div class="model-wrap"><div class="layout--article"><!-- start custom article top snippet -->
+        </div><ul class="right-col menu"><li><i class="far fa-user"></i> <span>John Snow Labs</span></li><li><i class="far fa-calendar-alt"></i> <span>Aug 24, 2022</span>
+            </li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2022-08-24T00:00:00+00:00"></div><header class="main-docs"><h1>Legal Relation Extraction (Whereas)</h1></header></div><meta itemprop="headline" content="Legal Relation Extraction (Whereas)"><div class="article__info tags_box clearfix"><ul class="left-col menu"><li>en</li><li>legal</li><li>re</li><li>relations</li><li>licensed</li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2022-08-24T00:00:00+00:00">
+    <meta itemprop="keywords" content="en,legal,re,relations,licensed"><div class="js-article-content"><div class="model-wrap"><div class="layout--article"><!-- start custom article top snippet -->
 
 <!-- end custom article top snippet --><div class="article__content" itemprop="articleBody"><h2 id="description">Description</h2>
 
-<p>Pretrained DistilBertForSequenceClassification model, adapted from Hugging Face and curated to provide scalability and production-readiness using Spark NLP. <code class="language-plaintext highlighter-rouge">tweet-disaster-classifier</code> is a English model originally trained by <code class="language-plaintext highlighter-rouge">bgoel4132</code>.</p>
+<p>This is a Relation Extraction model to infer relations between elements in WHEREAS clauses, more specifically the SUBJECT, the ACTION and the OBJECT. There are two relations possible: <code class="language-plaintext highlighter-rouge">has_subject</code> and <code class="language-plaintext highlighter-rouge">has_object</code>.</p>
+
+<p>You can also use <code class="language-plaintext highlighter-rouge">legpipe_whereas</code> which includes this model and its NER and also depedency parsing, to carry out chunk extraction using grammatical features (the dependency tree).</p>
 
 <h2 id="predicted-entities">Predicted Entities</h2>
 
-<p><code class="language-plaintext highlighter-rouge">cyclone</code>, <code class="language-plaintext highlighter-rouge">earthquake</code>, <code class="language-plaintext highlighter-rouge">medical</code>, <code class="language-plaintext highlighter-rouge">hurricane</code>, <code class="language-plaintext highlighter-rouge">fire</code>, <code class="language-plaintext highlighter-rouge">typhoon</code>, <code class="language-plaintext highlighter-rouge">flood</code>, <code class="language-plaintext highlighter-rouge">pollution</code>, <code class="language-plaintext highlighter-rouge">accident</code>, <code class="language-plaintext highlighter-rouge">tornado</code>, <code class="language-plaintext highlighter-rouge">volcano</code>, <code class="language-plaintext highlighter-rouge">explosion</code>, <code class="language-plaintext highlighter-rouge">other</code></p>
+<p><code class="language-plaintext highlighter-rouge">has_subject</code>, <code class="language-plaintext highlighter-rouge">has_object</code></p>
 
 <p class="btn-box"><button class="button button-orange" disabled="">Live Demo</button>
 <button class="button button-orange" disabled="">Open in Colab</button>
-<a href="https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/distilbert_sequence_classifier_tweet_disaster_classifier_en_4.1.0_3.0_1661277986376.zip" class="button button-orange button-orange-trans arr button-icon">Download</a></p>
+<a href="https://s3.amazonaws.com/auxdata.johnsnowlabs.com/legal/models/legre_whereas_en_1.0.0_3.2_1661341573628.zip" class="button button-orange button-orange-trans arr button-icon">Download</a></p>
 
 <h2 id="how-to-use">How to use</h2>
 
@@ -432,43 +434,59 @@
   <div class="top_tab_li">   
     <button class="tab-li code-selector-active python-button">Python</button><button class="tab-li code-selector-un-active scala-button">Scala</button><button class="tab-li code-selector-un-active nlu-button">NLU</button>
 </div>
-  <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">documentAssembler</span> <span class="o">=</span> <span class="n">DocumentAssembler</span><span class="p">()</span> \
-        <span class="p">.</span><span class="n">setInputCol</span><span class="p">(</span><span class="s">"text"</span><span class="p">)</span> \
-        <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"document"</span><span class="p">)</span>
+  <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">documentAssembler</span> <span class="o">=</span> <span class="n">DocumentAssembler</span><span class="p">()</span>\
+  <span class="p">.</span><span class="n">setInputCol</span><span class="p">(</span><span class="s">"text"</span><span class="p">)</span>\
+  <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"document"</span><span class="p">)</span>
 
-<span class="n">tokenizer</span> <span class="o">=</span> <span class="n">Tokenizer</span><span class="p">()</span> \
-    <span class="p">.</span><span class="n">setInputCols</span><span class="p">(</span><span class="s">"document"</span><span class="p">)</span> \
-    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"token"</span><span class="p">)</span>
+<span class="n">tokenizer</span> <span class="o">=</span> <span class="n">Tokenizer</span><span class="p">()</span>\
+  <span class="p">.</span><span class="n">setInputCols</span><span class="p">(</span><span class="s">"document"</span><span class="p">)</span>\
+  <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"token"</span><span class="p">)</span>
 
-<span class="n">sequenceClassifier_loaded</span> <span class="o">=</span> <span class="n">DistilBertForSequenceClassification</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"distilbert_sequence_classifier_tweet_disaster_classifier"</span><span class="p">,</span><span class="s">"en"</span><span class="p">)</span> \
+<span class="n">embeddings</span> <span class="o">=</span> <span class="n">RoBertaEmbeddings</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"roberta_embeddings_legal_roberta_base"</span><span class="p">,</span><span class="s">"en"</span><span class="p">)</span> \
     <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"document"</span><span class="p">,</span> <span class="s">"token"</span><span class="p">])</span> \
-    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"class"</span><span class="p">)</span>
+    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"embeddings"</span><span class="p">)</span>
 
-<span class="n">pipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">(</span><span class="n">stages</span><span class="o">=</span><span class="p">[</span><span class="n">documentAssembler</span><span class="p">,</span> <span class="n">tokenizer</span><span class="p">,</span><span class="n">sequenceClassifier_loaded</span><span class="p">])</span>
+<span class="n">ner_model</span> <span class="o">=</span> <span class="n">LegalNerModel</span><span class="p">().</span><span class="n">pretrained</span><span class="p">(</span><span class="s">'legner_whereas'</span><span class="p">,</span> <span class="s">'en'</span><span class="p">,</span> <span class="s">'legal/models'</span><span class="p">)</span>\
+        <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"document"</span><span class="p">,</span> <span class="s">"token"</span><span class="p">,</span> <span class="s">"embeddings"</span><span class="p">])</span>\
+        <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"ner"</span><span class="p">)</span>
 
-<span class="n">data</span> <span class="o">=</span> <span class="n">spark</span><span class="p">.</span><span class="n">createDataFrame</span><span class="p">([[</span><span class="s">"PUT YOUR STRING HERE"</span><span class="p">]]).</span><span class="n">toDF</span><span class="p">(</span><span class="s">"text"</span><span class="p">)</span>
+<span class="n">ner_converter</span> <span class="o">=</span> <span class="n">NerConverter</span><span class="p">()</span>\
+        <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"document"</span><span class="p">,</span><span class="s">"token"</span><span class="p">,</span><span class="s">"ner"</span><span class="p">])</span>\
+        <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"ner_chunk"</span><span class="p">)</span>
 
-<span class="n">result</span> <span class="o">=</span> <span class="n">pipeline</span><span class="p">.</span><span class="n">fit</span><span class="p">(</span><span class="n">data</span><span class="p">).</span><span class="n">transform</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+<span class="n">reDL</span> <span class="o">=</span> <span class="n">RelationExtractionDLModel</span><span class="p">()</span>\
+    <span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"legre_whereas"</span><span class="p">,</span> <span class="s">"en"</span><span class="p">,</span> <span class="s">"legal/models"</span><span class="p">)</span>\
+    <span class="p">.</span><span class="n">setPredictionThreshold</span><span class="p">(</span><span class="mf">0.5</span><span class="p">)</span>\
+    <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"ner_chunk"</span><span class="p">,</span> <span class="s">"document"</span><span class="p">])</span>\
+    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"relations"</span><span class="p">)</span>
+    
+<span class="n">pipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">(</span><span class="n">stages</span><span class="o">=</span><span class="p">[</span>
+    <span class="n">documentAssembler</span><span class="p">,</span>
+    <span class="n">tokenizer</span><span class="p">,</span>
+    <span class="n">embeddings</span><span class="p">,</span>
+    <span class="n">ner_model</span><span class="p">,</span>
+    <span class="n">ner_converter</span><span class="p">,</span>
+    <span class="n">reDL</span>
+<span class="p">])</span>
+
+<span class="n">text</span> <span class="o">=</span> <span class="s">"""
+WHEREAS VerticalNet owns and operates a series of online communities ( as defined below ) that are accessible via the world wide web , each of which is designed to be an online gathering place for businesses of a certain type or within a certain industry ;
+"""</span>
+
+<span class="n">data</span> <span class="o">=</span> <span class="n">spark</span><span class="p">.</span><span class="n">createDataFrame</span><span class="p">([[</span><span class="n">text</span><span class="p">]]).</span><span class="n">toDF</span><span class="p">(</span><span class="s">"text"</span><span class="p">)</span>
+<span class="n">model</span> <span class="o">=</span> <span class="n">pipeline</span><span class="p">.</span><span class="n">fit</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+<span class="n">res</span> <span class="o">=</span> <span class="n">pipeline</span><span class="p">.</span><span class="n">transform</span><span class="p">(</span><span class="n">text</span><span class="p">)</span>
 </code></pre></div>  </div>
-  <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">val</span> <span class="nv">documentAssembler</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">DocumentAssembler</span><span class="o">()</span> 
-          <span class="o">.</span><span class="py">setInputCol</span><span class="o">(</span><span class="s">"text"</span><span class="o">)</span> 
-          <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"document"</span><span class="o">)</span>
 
-<span class="k">val</span> <span class="nv">tokenizer</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">Tokenizer</span><span class="o">()</span> 
-    <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="s">"document"</span><span class="o">))</span>
-    <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"token"</span><span class="o">)</span>
-
-<span class="k">val</span> <span class="nv">sequenceClassifier_loaded</span> <span class="k">=</span> <span class="nv">DistilBertForSequenceClassification</span><span class="o">.</span><span class="py">pretrained</span><span class="o">(</span><span class="s">"distilbert_sequence_classifier_tweet_disaster_classifier"</span><span class="o">,</span><span class="s">"en"</span><span class="o">)</span> 
-    <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="s">"document"</span><span class="o">,</span> <span class="s">"token"</span><span class="o">))</span> 
-    <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"class"</span><span class="o">)</span>
-
-<span class="k">val</span> <span class="nv">pipeline</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">Pipeline</span><span class="o">().</span><span class="py">setStages</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="n">documentAssembler</span><span class="o">,</span> <span class="n">tokenizer</span><span class="o">,</span><span class="n">sequenceClassifier_loaded</span><span class="o">))</span>
-
-<span class="k">val</span> <span class="nv">data</span> <span class="k">=</span> <span class="nc">Seq</span><span class="o">(</span><span class="s">"PUT YOUR STRING HERE"</span><span class="o">).</span><span class="py">toDF</span><span class="o">(</span><span class="s">"text"</span><span class="o">)</span>
-
-<span class="k">val</span> <span class="nv">result</span> <span class="k">=</span> <span class="nv">pipeline</span><span class="o">.</span><span class="py">fit</span><span class="o">(</span><span class="n">data</span><span class="o">).</span><span class="py">transform</span><span class="o">(</span><span class="n">data</span><span class="o">)</span>
-</code></pre></div>  </div>
 </div>
+
+<h2 id="results">Results</h2>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>   relation         entity1 entity1_begin entity1_end      chunk1        entity2 entity2_begin entity2_end                         chunk2 confidence
+has_subject WHEREAS_SUBJECT            11          21 VerticalNet WHEREAS_ACTION            32          39                       operates  0.9982886
+has_subject WHEREAS_SUBJECT            11          21 VerticalNet WHEREAS_OBJECT            41          70 a series of online communities  0.9890683
+ has_object  WHEREAS_ACTION            32          39    operates WHEREAS_OBJECT            41          70 a series of online communities  0.7831568
+</code></pre></div></div>
 
 <h2 class="model-param" id="model-information">Model Information</h2>
 
@@ -476,27 +494,23 @@
   <tbody>
     <tr>
       <td>Model Name:</td>
-      <td>distilbert_sequence_classifier_tweet_disaster_classifier</td>
+      <td>legre_whereas</td>
+    </tr>
+    <tr>
+      <td>Type:</td>
+      <td>legal</td>
     </tr>
     <tr>
       <td>Compatibility:</td>
-      <td>Spark NLP 4.1.0+</td>
+      <td>Spark NLP for Legal 1.0.0+</td>
     </tr>
     <tr>
       <td>License:</td>
-      <td>Open Source</td>
+      <td>Licensed</td>
     </tr>
     <tr>
       <td>Edition:</td>
       <td>Official</td>
-    </tr>
-    <tr>
-      <td>Input Labels:</td>
-      <td>[document, token]</td>
-    </tr>
-    <tr>
-      <td>Output Labels:</td>
-      <td>[ner]</td>
     </tr>
     <tr>
       <td>Language:</td>
@@ -504,25 +518,28 @@
     </tr>
     <tr>
       <td>Size:</td>
-      <td>249.8 MB</td>
-    </tr>
-    <tr>
-      <td>Case sensitive:</td>
-      <td>true</td>
-    </tr>
-    <tr>
-      <td>Max sentence length:</td>
-      <td>128</td>
+      <td>409.9 MB</td>
     </tr>
   </tbody>
 </table>
 
 <h2 id="references">References</h2>
 
-<ul>
-  <li>https://huggingface.co/bgoel4132/tweet-disaster-classifier</li>
-</ul>
-</div><div class="d-print-none"><footer class="article__footer"><meta itemprop="dateModified" content="2022-08-23T00:00:00+00:00"><!-- start custom article footer snippet -->
+<p>Manual annotations on CUAD dataset</p>
+
+<h2 id="benchmarking">Benchmarking</h2>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Relation           Recall Precision        F1   Support
+
+has_object          0.946     0.981     0.964        56
+has_subject         0.952     0.988     0.969        83
+no_rel              1.000     0.970     0.985       161
+
+Avg.                0.966     0.980     0.973
+
+Weighted Avg.       0.977     0.977     0.977
+</code></pre></div></div>
+</div><div class="d-print-none"><footer class="article__footer"><meta itemprop="dateModified" content="2022-08-24T00:00:00+00:00"><!-- start custom article footer snippet -->
 
 <!-- end custom article footer snippet --></footer>
 
@@ -647,7 +664,7 @@ hr.code-selector-underlie {
 
 }
 
-</style><div class="article__section-navigator clearfix"><div class="previous nav_link"><span>PREVIOUS</span><a href="/2022/08/23/distilbert_sequence_classifier_toxic_comment_model_en.html">English DistilBertForSequenceClassification Cased model (from martin-ha)</a></div><div class="next nav_link"><span>NEXT</span><a href="/2022/08/24/legpipe_obligations_en.html">Obligations Pipeline</a></div></div></div>
+</style><div class="article__section-navigator clearfix"><div class="previous nav_link"><span>PREVIOUS</span><a href="/2022/08/24/legpipe_whereas_en.html">Whereas Pipeline</a></div></div></div>
 
 </div>
 </div>
