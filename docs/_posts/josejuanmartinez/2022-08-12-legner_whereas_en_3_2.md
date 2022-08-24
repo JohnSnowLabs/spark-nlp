@@ -21,7 +21,7 @@ This is a Legal NER Model, able to process WHEREAS clauses, to detect the SUBJEC
 
 ## Predicted Entities
 
-`PARTY`, `EFFDATE`, `DOC`, `ALIAS`
+`WHEREAS_SUBJECT`, `WHEREAS_OBJECT`, `WHEREAS_ACTION`
 
 {:.btn-box}
 [Live Demo](https://demo.johnsnowlabs.com/finance/LEGALNER_WHEREAS/){:.button.button-orange}
