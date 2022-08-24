@@ -3,9 +3,9 @@
         <head>
           <meta http-equiv="X-UA-Compatible" content="IE=edge" />
           <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-          <title>Spark NLP 4.0.2 ScalaDoc  - com.johnsnowlabs.nlp</title>
-          <meta name="description" content="Spark NLP 4.0.2 ScalaDoc - com.johnsnowlabs.nlp" />
-          <meta name="keywords" content="Spark NLP 4.0.2 ScalaDoc com.johnsnowlabs.nlp" />
+          <title>Spark NLP 4.1.0 ScalaDoc  - com.johnsnowlabs.nlp</title>
+          <meta name="description" content="Spark NLP 4.1.0 ScalaDoc - com.johnsnowlabs.nlp" />
+          <meta name="keywords" content="Spark NLP 4.1.0 ScalaDoc com.johnsnowlabs.nlp" />
           <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
           
       
@@ -28,7 +28,7 @@
         </head>
         <body>
       <div id="search">
-        <span id="doc-title">Spark NLP 4.0.2 ScalaDoc<span id="doc-version"></span></span>
+        <span id="doc-title">Spark NLP 4.1.0 ScalaDoc<span id="doc-version"></span></span>
         <span class="close-results"><span class="left">&lt;</span> Back</span>
         <div id="textfilter">
           <span class="input">
@@ -286,6 +286,10 @@
                         <a class="class" href="Annotation.html" title="represents annotator's output parts and their details"></a>
                         <a href="Annotation.html" title="represents annotator's output parts and their details">Annotation</a>
                       </li><li class="current-entities indented3">
+                        <a class="object" href="AnnotationImage$.html" title=""></a>
+                        <a class="class" href="AnnotationImage.html" title="Represents ImageAssembler's output parts and their details"></a>
+                        <a href="AnnotationImage.html" title="Represents ImageAssembler's output parts and their details">AnnotationImage</a>
+                      </li><li class="current-entities indented3">
                         <span class="separator"></span>
                         <a class="class" href="AnnotatorApproach.html" title="This class should grow once we start training on datasets and share params For now it stands as a dummy placeholder for future reference"></a>
                         <a href="AnnotatorApproach.html" title="This class should grow once we start training on datasets and share params For now it stands as a dummy placeholder for future reference">AnnotatorApproach</a>
@@ -339,6 +343,10 @@
                         <a href="HasBatchedAnnotate.html" title="">HasBatchedAnnotate</a>
                       </li><li class="current-entities indented3">
                         <span class="separator"></span>
+                        <a class="trait" href="HasBatchedAnnotateImage.html" title=""></a>
+                        <a href="HasBatchedAnnotateImage.html" title="">HasBatchedAnnotateImage</a>
+                      </li><li class="current-entities indented3">
+                        <span class="separator"></span>
                         <a class="trait" href="HasCaseSensitiveProperties.html" title=""></a>
                         <a href="HasCaseSensitiveProperties.html" title="">HasCaseSensitiveProperties</a>
                       </li><li class="current-entities indented3">
@@ -353,6 +361,10 @@
                         <span class="separator"></span>
                         <a class="trait" href="HasFeatures.html" title=""></a>
                         <a href="HasFeatures.html" title="">HasFeatures</a>
+                      </li><li class="current-entities indented3">
+                        <span class="separator"></span>
+                        <a class="trait" href="HasImageFeatureProperties.html" title="example of required parameters"></a>
+                        <a href="HasImageFeatureProperties.html" title="example of required parameters">HasImageFeatureProperties</a>
                       </li><li class="current-entities indented3">
                         <span class="separator"></span>
                         <a class="trait" href="HasInputAnnotationCols.html" title=""></a>
@@ -385,6 +397,14 @@
                         <span class="separator"></span>
                         <a class="trait" href="HasSimpleAnnotate.html" title=""></a>
                         <a href="HasSimpleAnnotate.html" title="">HasSimpleAnnotate</a>
+                      </li><li class="current-entities indented3">
+                        <span class="separator"></span>
+                        <a class="trait" href="IAnnotation.html" title=""></a>
+                        <a href="IAnnotation.html" title="">IAnnotation</a>
+                      </li><li class="current-entities indented3">
+                        <span class="separator"></span>
+                        <a class="class" href="ImageAssembler.html" title="Prepares images read by Spark into a format that is processable by Spark NLP."></a>
+                        <a href="ImageAssembler.html" title="Prepares images read by Spark into a format that is processable by Spark NLP.">ImageAssembler</a>
                       </li><li class="current-entities indented3">
                         <span class="separator"></span>
                         <a class="class" href="JavaAnnotation.html" title=""></a>
@@ -525,7 +545,7 @@
         <div id="types" class="types members">
               <h3>Type Members</h3>
               <ol><li name="com.johnsnowlabs.nlp.Annotation" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="AnnotationextendsProductwithSerializable"></a><a id="Annotation:Annotation"></a>
+      <a id="AnnotationextendsIAnnotationwithProductwithSerializable"></a><a id="Annotation:Annotation"></a>
       <span class="permalink">
       <a href="../../../com/johnsnowlabs/nlp/Annotation.html" title="Permalink">
         <i class="material-icons"></i>
@@ -536,7 +556,7 @@
         <span class="kind">case class</span>
       </span>
       <span class="symbol">
-        <a title="represents annotator's output parts and their details" href="Annotation.html"><span class="name">Annotation</span></a><span class="params">(<span name="annotatorType">annotatorType: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="begin">begin: <span class="extype" name="scala.Int">Int</span></span>, <span name="end">end: <span class="extype" name="scala.Int">Int</span></span>, <span name="result">result: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="metadata">metadata: <span class="extype" name="scala.collection.Map">Map</span>[<span class="extype" name="scala.Predef.String">String</span>, <span class="extype" name="scala.Predef.String">String</span>]</span>, <span name="embeddings">embeddings: <span class="extype" name="scala.Array">Array</span>[<span class="extype" name="scala.Float">Float</span>] = <span class="symbol">Array.emptyFloatArray</span></span>)</span><span class="result"> extends <span class="extype" name="scala.Product">Product</span> with <span class="extype" name="scala.Serializable">Serializable</span></span>
+        <a title="represents annotator's output parts and their details" href="Annotation.html"><span class="name">Annotation</span></a><span class="params">(<span name="annotatorType">annotatorType: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="begin">begin: <span class="extype" name="scala.Int">Int</span></span>, <span name="end">end: <span class="extype" name="scala.Int">Int</span></span>, <span name="result">result: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="metadata">metadata: <span class="extype" name="scala.collection.Map">Map</span>[<span class="extype" name="scala.Predef.String">String</span>, <span class="extype" name="scala.Predef.String">String</span>]</span>, <span name="embeddings">embeddings: <span class="extype" name="scala.Array">Array</span>[<span class="extype" name="scala.Float">Float</span>] = <span class="symbol">Array.emptyFloatArray</span></span>)</span><span class="result"> extends <a href="IAnnotation.html" class="extype" name="com.johnsnowlabs.nlp.IAnnotation">IAnnotation</a> with <span class="extype" name="scala.Product">Product</span> with <span class="extype" name="scala.Serializable">Serializable</span></span>
       </span>
       
       <p class="shortcomment cmt">represents annotator's output parts and their details
@@ -546,6 +566,32 @@
   the index of the first character under this annotation</p></dd><dt class="param">end</dt><dd class="cmt"><p>
   the index after the last character under this annotation</p></dd><dt class="param">metadata</dt><dd class="cmt"><p>
   associated metadata for this annotation</p></dd></dl></div>
+    </li><li name="com.johnsnowlabs.nlp.AnnotationImage" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="AnnotationImageextendsIAnnotationwithProductwithSerializable"></a><a id="AnnotationImage:AnnotationImage"></a>
+      <span class="permalink">
+      <a href="../../../com/johnsnowlabs/nlp/AnnotationImage.html" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">case class</span>
+      </span>
+      <span class="symbol">
+        <a title="Represents ImageAssembler's output parts and their details" href="AnnotationImage.html"><span class="name">AnnotationImage</span></a><span class="params">(<span name="annotatorType">annotatorType: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="origin">origin: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="height">height: <span class="extype" name="scala.Int">Int</span></span>, <span name="width">width: <span class="extype" name="scala.Int">Int</span></span>, <span name="nChannels">nChannels: <span class="extype" name="scala.Int">Int</span></span>, <span name="mode">mode: <span class="extype" name="scala.Int">Int</span></span>, <span name="result">result: <span class="extype" name="scala.Array">Array</span>[<span class="extype" name="scala.Byte">Byte</span>]</span>, <span name="metadata">metadata: <span class="extype" name="scala.collection.Map">Map</span>[<span class="extype" name="scala.Predef.String">String</span>, <span class="extype" name="scala.Predef.String">String</span>]</span>)</span><span class="result"> extends <a href="IAnnotation.html" class="extype" name="com.johnsnowlabs.nlp.IAnnotation">IAnnotation</a> with <span class="extype" name="scala.Product">Product</span> with <span class="extype" name="scala.Serializable">Serializable</span></span>
+      </span>
+      
+      <p class="shortcomment cmt">Represents <a href="ImageAssembler.html" class="extype" name="com.johnsnowlabs.nlp.ImageAssembler">ImageAssembler</a>'s output parts and their details
+</p><div class="fullcomment"><div class="comment cmt"><p>Represents <a href="ImageAssembler.html" class="extype" name="com.johnsnowlabs.nlp.ImageAssembler">ImageAssembler</a>'s output parts and their details
+</p></div><dl class="paramcmts block"><dt class="param">annotatorType</dt><dd class="cmt"><p>
+  Image annotator type</p></dd><dt class="param">origin</dt><dd class="cmt"><p>
+  The origin of the image</p></dd><dt class="param">height</dt><dd class="cmt"><p>
+  Height of the image in pixels</p></dd><dt class="param">width</dt><dd class="cmt"><p>
+  Width of the image in pixels</p></dd><dt class="param">nChannels</dt><dd class="cmt"><p>
+  Number of image channels</p></dd><dt class="param">mode</dt><dd class="cmt"><p>
+  OpenCV-compatible type</p></dd><dt class="param">result</dt><dd class="cmt"><p>
+  Result of the annotation</p></dd><dt class="param">metadata</dt><dd class="cmt"><p>
+  Metadata of the annotation</p></dd></dl></div>
     </li><li name="com.johnsnowlabs.nlp.AnnotatorApproach" visbl="pub" class="indented0 " data-isabs="true" fullComment="no" group="Ungrouped">
       <a id="AnnotatorApproach[M&lt;:org.apache.spark.ml.Model[M]]extendsEstimator[M]withHasInputAnnotationColswithHasOutputAnnotationColwithHasOutputAnnotatorTypewithDefaultParamsWritablewithCanBeLazy"></a><a id="AnnotatorApproach[M&lt;:Model[M]]:AnnotatorApproach[M]"></a>
       <span class="permalink">
@@ -940,6 +986,22 @@ finishedResult.select(<span class="lit">"text"</span>, <span class="lit">"graph_
       </span>
       
       
+    </li><li name="com.johnsnowlabs.nlp.HasBatchedAnnotateImage" visbl="pub" class="indented0 " data-isabs="true" fullComment="no" group="Ungrouped">
+      <a id="HasBatchedAnnotateImage[M&lt;:org.apache.spark.ml.Model[M]]extendsAnyRef"></a><a id="HasBatchedAnnotateImage[M&lt;:Model[M]]:HasBatchedAnnotateImage[M]"></a>
+      <span class="permalink">
+      <a href="../../../com/johnsnowlabs/nlp/HasBatchedAnnotateImage.html" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">trait</span>
+      </span>
+      <span class="symbol">
+        <a title="" href="HasBatchedAnnotateImage.html"><span class="name">HasBatchedAnnotateImage</span></a><span class="tparams">[<span name="M">M &lt;: <span class="extype" name="org.apache.spark.ml.Model">Model</span>[<span class="extype" name="com.johnsnowlabs.nlp.HasBatchedAnnotateImage.M">M</span>]</span>]</span><span class="result"> extends <span class="extype" name="scala.AnyRef">AnyRef</span></span>
+      </span>
+      
+      
     </li><li name="com.johnsnowlabs.nlp.HasCaseSensitiveProperties" visbl="pub" class="indented0 " data-isabs="true" fullComment="no" group="Ungrouped">
       <a id="HasCaseSensitivePropertiesextendsParamsAndFeaturesWritable"></a><a id="HasCaseSensitiveProperties:HasCaseSensitiveProperties"></a>
       <span class="permalink">
@@ -1004,6 +1066,38 @@ finishedResult.select(<span class="lit">"text"</span>, <span class="lit">"graph_
       </span>
       
       
+    </li><li name="com.johnsnowlabs.nlp.HasImageFeatureProperties" visbl="pub" class="indented0 " data-isabs="true" fullComment="yes" group="Ungrouped">
+      <a id="HasImageFeaturePropertiesextendsParamsAndFeaturesWritable"></a><a id="HasImageFeatureProperties:HasImageFeatureProperties"></a>
+      <span class="permalink">
+      <a href="../../../com/johnsnowlabs/nlp/HasImageFeatureProperties.html" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">trait</span>
+      </span>
+      <span class="symbol">
+        <a title="example of required parameters" href="HasImageFeatureProperties.html"><span class="name">HasImageFeatureProperties</span></a><span class="result"> extends <a href="ParamsAndFeaturesWritable.html" class="extype" name="com.johnsnowlabs.nlp.ParamsAndFeaturesWritable">ParamsAndFeaturesWritable</a></span>
+      </span>
+      
+      <p class="shortcomment cmt">example of required parameters</p><div class="fullcomment"><div class="comment cmt"><p>example of required parameters</p><pre>{
+<span class="lit">"do_normalize"</span>: <span class="kw">true</span>,
+<span class="lit">"do_resize"</span>: <span class="kw">true</span>,
+<span class="lit">"feature_extractor_type"</span>: <span class="lit">"ViTFeatureExtractor"</span>,
+<span class="lit">"image_mean"</span>: [
+<span class="num">0.5</span>,
+<span class="num">0.5</span>,
+<span class="num">0.5</span>
+],
+<span class="lit">"image_std"</span>: [
+<span class="num">0.5</span>,
+<span class="num">0.5</span>,
+<span class="num">0.5</span>
+],
+<span class="lit">"resample"</span>: <span class="num">2</span>,
+<span class="lit">"size"</span>: <span class="num">224</span>
+}</pre></div></div>
     </li><li name="com.johnsnowlabs.nlp.HasInputAnnotationCols" visbl="pub" class="indented0 " data-isabs="true" fullComment="no" group="Ungrouped">
       <a id="HasInputAnnotationColsextendsParams"></a><a id="HasInputAnnotationCols:HasInputAnnotationCols"></a>
       <span class="permalink">
@@ -1134,8 +1228,68 @@ intermediate steps trained PipelineModel's
       </span>
       
       
+    </li><li name="com.johnsnowlabs.nlp.IAnnotation" visbl="pub" class="indented0 " data-isabs="true" fullComment="no" group="Ungrouped">
+      <a id="IAnnotationextendsAnyRef"></a><a id="IAnnotation:IAnnotation"></a>
+      <span class="permalink">
+      <a href="../../../com/johnsnowlabs/nlp/IAnnotation.html" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">trait</span>
+      </span>
+      <span class="symbol">
+        <a title="" href="IAnnotation.html"><span class="name">IAnnotation</span></a><span class="result"> extends <span class="extype" name="scala.AnyRef">AnyRef</span></span>
+      </span>
+      
+      
+    </li><li name="com.johnsnowlabs.nlp.ImageAssembler" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="ImageAssemblerextendsTransformerwithDefaultParamsWritablewithHasOutputAnnotatorTypewithHasOutputAnnotationCol"></a><a id="ImageAssembler:ImageAssembler"></a>
+      <span class="permalink">
+      <a href="../../../com/johnsnowlabs/nlp/ImageAssembler.html" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">class</span>
+      </span>
+      <span class="symbol">
+        <a title="Prepares images read by Spark into a format that is processable by Spark NLP." href="ImageAssembler.html"><span class="name">ImageAssembler</span></a><span class="result"> extends <span class="extype" name="org.apache.spark.ml.Transformer">Transformer</span> with <span class="extype" name="org.apache.spark.ml.util.DefaultParamsWritable">DefaultParamsWritable</span> with <a href="HasOutputAnnotatorType.html" class="extype" name="com.johnsnowlabs.nlp.HasOutputAnnotatorType">HasOutputAnnotatorType</a> with <a href="HasOutputAnnotationCol.html" class="extype" name="com.johnsnowlabs.nlp.HasOutputAnnotationCol">HasOutputAnnotationCol</a></span>
+      </span>
+      
+      <p class="shortcomment cmt">Prepares images read by Spark into a format that is processable by Spark NLP.</p><div class="fullcomment"><div class="comment cmt"><p>Prepares images read by Spark into a format that is processable by Spark NLP. This component
+is needed to process images.</p><h4>Example</h4><pre><span class="kw">import</span> com.johnsnowlabs.nlp.ImageAssembler
+<span class="kw">import</span> org.apache.spark.ml.Pipeline
+
+<span class="kw">val</span> imageDF: DataFrame = spark.read
+  .format(<span class="lit">"image"</span>)
+  .option(<span class="lit">"dropInvalid"</span>, value = <span class="kw">true</span>)
+  .load(<span class="lit">"src/test/resources/image/"</span>)
+
+<span class="kw">val</span> imageAssembler = <span class="kw">new</span> ImageAssembler()
+  .setInputCol(<span class="lit">"image"</span>)
+  .setOutputCol(<span class="lit">"image_assembler"</span>)
+
+<span class="kw">val</span> pipeline = <span class="kw">new</span> Pipeline().setStages(<span class="std">Array</span>(imageAssembler))
+<span class="kw">val</span> pipelineDF = pipeline.fit(imageDF).transform(imageDF)
+pipelineDF.printSchema()
+root
+ |-- image_assembler: array (nullable = <span class="kw">true</span>)
+ |    |-- element: struct (containsNull = <span class="kw">true</span>)
+ |    |    |-- annotatorType: string (nullable = <span class="kw">true</span>)
+ |    |    |-- origin: string (nullable = <span class="kw">true</span>)
+ |    |    |-- height: integer (nullable = <span class="kw">false</span>)
+ |    |    |-- width: integer (nullable = <span class="kw">false</span>)
+ |    |    |-- nChannels: integer (nullable = <span class="kw">false</span>)
+ |    |    |-- mode: integer (nullable = <span class="kw">false</span>)
+ |    |    |-- result: binary (nullable = <span class="kw">true</span>)
+ |    |    |-- metadata: map (nullable = <span class="kw">true</span>)
+ |    |    |    |-- key: string
+ |    |    |    |-- value: string (valueContainsNull = <span class="kw">true</span>)</pre></div></div>
     </li><li name="com.johnsnowlabs.nlp.JavaAnnotation" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="JavaAnnotationextendsProductwithSerializable"></a><a id="JavaAnnotation:JavaAnnotation"></a>
+      <a id="JavaAnnotationextendsIAnnotationwithProductwithSerializable"></a><a id="JavaAnnotation:JavaAnnotation"></a>
       <span class="permalink">
       <a href="../../../com/johnsnowlabs/nlp/JavaAnnotation.html" title="Permalink">
         <i class="material-icons"></i>
@@ -1146,7 +1300,7 @@ intermediate steps trained PipelineModel's
         <span class="kind">case class</span>
       </span>
       <span class="symbol">
-        <a title="" href="JavaAnnotation.html"><span class="name">JavaAnnotation</span></a><span class="params">(<span name="annotatorType">annotatorType: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="begin">begin: <span class="extype" name="scala.Int">Int</span></span>, <span name="end">end: <span class="extype" name="scala.Int">Int</span></span>, <span name="result">result: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="metadata">metadata: <span class="extype" name="java.util.Map">Map</span>[<span class="extype" name="scala.Predef.String">String</span>, <span class="extype" name="scala.Predef.String">String</span>]</span>, <span name="embeddings">embeddings: <span class="extype" name="scala.Array">Array</span>[<span class="extype" name="scala.Float">Float</span>] = <span class="symbol">Array.emptyFloatArray</span></span>)</span><span class="result"> extends <span class="extype" name="scala.Product">Product</span> with <span class="extype" name="scala.Serializable">Serializable</span></span>
+        <a title="" href="JavaAnnotation.html"><span class="name">JavaAnnotation</span></a><span class="params">(<span name="annotatorType">annotatorType: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="begin">begin: <span class="extype" name="scala.Int">Int</span></span>, <span name="end">end: <span class="extype" name="scala.Int">Int</span></span>, <span name="result">result: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="metadata">metadata: <span class="extype" name="java.util.Map">Map</span>[<span class="extype" name="scala.Predef.String">String</span>, <span class="extype" name="scala.Predef.String">String</span>]</span>, <span name="embeddings">embeddings: <span class="extype" name="scala.Array">Array</span>[<span class="extype" name="scala.Float">Float</span>] = <span class="symbol">Array.emptyFloatArray</span></span>)</span><span class="result"> extends <a href="IAnnotation.html" class="extype" name="com.johnsnowlabs.nlp.IAnnotation">IAnnotation</a> with <span class="extype" name="scala.Product">Product</span> with <span class="extype" name="scala.Serializable">Serializable</span></span>
       </span>
       
       
@@ -1408,6 +1562,22 @@ result.select(<span class="lit">"cleanText"</span>).show(<span class="kw">false<
       </span>
       <span class="symbol">
         <a title="" href="Annotation$.html"><span class="name">Annotation</span></a><span class="result"> extends <span class="extype" name="scala.Serializable">Serializable</span></span>
+      </span>
+      
+      
+    </li><li name="com.johnsnowlabs.nlp.AnnotationImage" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="AnnotationImage"></a><a id="AnnotationImage:AnnotationImage"></a>
+      <span class="permalink">
+      <a href="../../../com/johnsnowlabs/nlp/AnnotationImage$.html" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">object</span>
+      </span>
+      <span class="symbol">
+        <a title="" href="AnnotationImage$.html"><span class="name">AnnotationImage</span></a><span class="result"> extends <span class="extype" name="scala.Serializable">Serializable</span></span>
       </span>
       
       

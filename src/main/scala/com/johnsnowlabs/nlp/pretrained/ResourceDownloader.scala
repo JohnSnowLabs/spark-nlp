@@ -19,6 +19,7 @@ package com.johnsnowlabs.nlp.pretrained
 import com.johnsnowlabs.nlp.annotators._
 import com.johnsnowlabs.nlp.annotators.classifier.dl._
 import com.johnsnowlabs.nlp.annotators.coref.SpanBertCorefModel
+import com.johnsnowlabs.nlp.annotators.cv.ViTForImageClassification
 import com.johnsnowlabs.nlp.annotators.er.EntityRulerModel
 import com.johnsnowlabs.nlp.annotators.ld.dl.LanguageDetectorDL
 import com.johnsnowlabs.nlp.annotators.ner.crf.NerCrfModel
@@ -37,7 +38,7 @@ import com.johnsnowlabs.nlp.annotators.spell.symmetric.SymmetricDeleteModel
 import com.johnsnowlabs.nlp.annotators.ws.WordSegmenterModel
 import com.johnsnowlabs.nlp.embeddings._
 import com.johnsnowlabs.nlp.pretrained.ResourceType.ResourceType
-import com.johnsnowlabs.nlp.util.io.ResourceHelper
+import com.johnsnowlabs.nlp.util.io.{OutputHelper, ResourceHelper}
 import com.johnsnowlabs.nlp.{DocumentAssembler, pretrained}
 import com.johnsnowlabs.util._
 import org.apache.hadoop.fs.FileSystem
@@ -75,7 +76,7 @@ trait ResourceDownloader {
 
 object ResourceDownloader {
 
-  val fileSystem: FileSystem = ConfigHelper.getFileSystem
+  val fileSystem: FileSystem = OutputHelper.getFileSystem
 
   def s3Bucket: String = ConfigLoader.getConfigStringValue(ConfigHelper.pretrainedS3BucketKey)
 
@@ -646,7 +647,8 @@ object PythonResourceDownloader {
     "LongformerForQuestionAnswering" -> LongformerForQuestionAnswering,
     "RoBertaForQuestionAnswering" -> RoBertaForQuestionAnswering,
     "XlmRoBertaForQuestionAnswering" -> XlmRoBertaForQuestionAnswering,
-    "SpanBertCorefModel" -> SpanBertCorefModel)
+    "SpanBertCorefModel" -> SpanBertCorefModel,
+    "ViTForImageClassification" -> ViTForImageClassification)
 
   def downloadModel(
       readerStr: String,

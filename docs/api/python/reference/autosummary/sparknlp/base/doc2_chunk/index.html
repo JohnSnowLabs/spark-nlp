@@ -4,9 +4,9 @@
 <html lang="en">
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
 
-    <title>sparknlp.base.doc2_chunk &#8212; Spark NLP 4.0.2 documentation</title>
+    <title>sparknlp.base.doc2_chunk &#8212; Spark NLP 4.1.0 documentation</title>
 <script>
   document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
   document.documentElement.dataset.theme = localStorage.getItem("theme") || "light"
@@ -219,19 +219,19 @@
   </a>
  </li>
  <li class="toctree-l1">
-  <a class="reference internal" href="../light_pipeline/index.html">
+  <a class="reference internal" href="../image_assembler/index.html">
    <code class="xref py py-mod docutils literal notranslate">
     <span class="pre">
-     sparknlp.base.light_pipeline
+     sparknlp.base.image_assembler
     </span>
    </code>
   </a>
  </li>
  <li class="toctree-l1">
-  <a class="reference internal" href="../multi_document_assembler/index.html">
+  <a class="reference internal" href="../light_pipeline/index.html">
    <code class="xref py py-mod docutils literal notranslate">
     <span class="pre">
-     sparknlp.base.multi_document_assembler
+     sparknlp.base.light_pipeline
     </span>
    </code>
   </a>
@@ -293,46 +293,6 @@
        Doc2Chunk
       </a>
       <ul class="nav section-nav flex-column">
-       <li class="toc-h5 nav-item toc-entry">
-        <a class="reference internal nav-link" href="#sparknlp.base.doc2_chunk.Doc2Chunk.chunkCol">
-         chunkCol
-        </a>
-       </li>
-       <li class="toc-h5 nav-item toc-entry">
-        <a class="reference internal nav-link" href="#sparknlp.base.doc2_chunk.Doc2Chunk.startCol">
-         startCol
-        </a>
-       </li>
-       <li class="toc-h5 nav-item toc-entry">
-        <a class="reference internal nav-link" href="#sparknlp.base.doc2_chunk.Doc2Chunk.startColByTokenIndex">
-         startColByTokenIndex
-        </a>
-       </li>
-       <li class="toc-h5 nav-item toc-entry">
-        <a class="reference internal nav-link" href="#sparknlp.base.doc2_chunk.Doc2Chunk.isArray">
-         isArray
-        </a>
-       </li>
-       <li class="toc-h5 nav-item toc-entry">
-        <a class="reference internal nav-link" href="#sparknlp.base.doc2_chunk.Doc2Chunk.failOnMissing">
-         failOnMissing
-        </a>
-       </li>
-       <li class="toc-h5 nav-item toc-entry">
-        <a class="reference internal nav-link" href="#sparknlp.base.doc2_chunk.Doc2Chunk.lowerCase">
-         lowerCase
-        </a>
-       </li>
-       <li class="toc-h5 nav-item toc-entry">
-        <a class="reference internal nav-link" href="#sparknlp.base.doc2_chunk.Doc2Chunk.name">
-         name
-        </a>
-       </li>
-       <li class="toc-h5 nav-item toc-entry">
-        <a class="reference internal nav-link" href="#sparknlp.base.doc2_chunk.Doc2Chunk.setParams">
-         setParams
-        </a>
-       </li>
        <li class="toc-h5 nav-item toc-entry">
         <a class="reference internal nav-link" href="#sparknlp.base.doc2_chunk.Doc2Chunk.setChunkCol">
          setChunkCol
@@ -477,49 +437,9 @@ Return empty otherwise</p>
 <span class="go">+-----------------------------------------------------------------+---------------------+</span>
 </pre></div>
 </div>
-<dl class="py attribute">
-<dt class="sig sig-object py" id="sparknlp.base.doc2_chunk.Doc2Chunk.chunkCol">
-<span class="sig-name descname"><span class="pre">chunkCol</span></span><a class="reference internal" href="../../../../../modules/sparknlp/base/doc2_chunk.html#Doc2Chunk.chunkCol"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.base.doc2_chunk.Doc2Chunk.chunkCol" title="Permalink to this definition">#</a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="sparknlp.base.doc2_chunk.Doc2Chunk.startCol">
-<span class="sig-name descname"><span class="pre">startCol</span></span><a class="reference internal" href="../../../../../modules/sparknlp/base/doc2_chunk.html#Doc2Chunk.startCol"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.base.doc2_chunk.Doc2Chunk.startCol" title="Permalink to this definition">#</a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="sparknlp.base.doc2_chunk.Doc2Chunk.startColByTokenIndex">
-<span class="sig-name descname"><span class="pre">startColByTokenIndex</span></span><a class="reference internal" href="../../../../../modules/sparknlp/base/doc2_chunk.html#Doc2Chunk.startColByTokenIndex"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.base.doc2_chunk.Doc2Chunk.startColByTokenIndex" title="Permalink to this definition">#</a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="sparknlp.base.doc2_chunk.Doc2Chunk.isArray">
-<span class="sig-name descname"><span class="pre">isArray</span></span><a class="reference internal" href="../../../../../modules/sparknlp/base/doc2_chunk.html#Doc2Chunk.isArray"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.base.doc2_chunk.Doc2Chunk.isArray" title="Permalink to this definition">#</a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="sparknlp.base.doc2_chunk.Doc2Chunk.failOnMissing">
-<span class="sig-name descname"><span class="pre">failOnMissing</span></span><a class="reference internal" href="../../../../../modules/sparknlp/base/doc2_chunk.html#Doc2Chunk.failOnMissing"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.base.doc2_chunk.Doc2Chunk.failOnMissing" title="Permalink to this definition">#</a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="sparknlp.base.doc2_chunk.Doc2Chunk.lowerCase">
-<span class="sig-name descname"><span class="pre">lowerCase</span></span><a class="reference internal" href="../../../../../modules/sparknlp/base/doc2_chunk.html#Doc2Chunk.lowerCase"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.base.doc2_chunk.Doc2Chunk.lowerCase" title="Permalink to this definition">#</a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="sparknlp.base.doc2_chunk.Doc2Chunk.name">
-<span class="sig-name descname"><span class="pre">name</span></span><em class="property"><span class="w"> </span><span class="pre">=</span> <span class="pre">Doc2Chunk</span></em><a class="reference internal" href="../../../../../modules/sparknlp/base/doc2_chunk.html#Doc2Chunk.name"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.base.doc2_chunk.Doc2Chunk.name" title="Permalink to this definition">#</a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="sparknlp.base.doc2_chunk.Doc2Chunk.setParams">
-<span class="sig-name descname"><span class="pre">setParams</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../modules/sparknlp/base/doc2_chunk.html#Doc2Chunk.setParams"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.base.doc2_chunk.Doc2Chunk.setParams" title="Permalink to this definition">#</a></dt>
-<dd></dd></dl>
-
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp.base.doc2_chunk.Doc2Chunk.setChunkCol">
-<span class="sig-name descname"><span class="pre">setChunkCol</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../modules/sparknlp/base/doc2_chunk.html#Doc2Chunk.setChunkCol"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.base.doc2_chunk.Doc2Chunk.setChunkCol" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">setChunkCol</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../modules/sparknlp/base/doc2_chunk.html#Doc2Chunk.setChunkCol"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.base.doc2_chunk.Doc2Chunk.setChunkCol" title="Permalink to this definition">#</a></dt>
 <dd><p>Sets column that contains the string. Must be part of DOCUMENT.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -533,7 +453,7 @@ Return empty otherwise</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp.base.doc2_chunk.Doc2Chunk.setIsArray">
-<span class="sig-name descname"><span class="pre">setIsArray</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../modules/sparknlp/base/doc2_chunk.html#Doc2Chunk.setIsArray"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.base.doc2_chunk.Doc2Chunk.setIsArray" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">setIsArray</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../modules/sparknlp/base/doc2_chunk.html#Doc2Chunk.setIsArray"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.base.doc2_chunk.Doc2Chunk.setIsArray" title="Permalink to this definition">#</a></dt>
 <dd><p>Sets whether the chunkCol is an array of strings.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -547,7 +467,7 @@ Return empty otherwise</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp.base.doc2_chunk.Doc2Chunk.setStartCol">
-<span class="sig-name descname"><span class="pre">setStartCol</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../modules/sparknlp/base/doc2_chunk.html#Doc2Chunk.setStartCol"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.base.doc2_chunk.Doc2Chunk.setStartCol" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">setStartCol</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../modules/sparknlp/base/doc2_chunk.html#Doc2Chunk.setStartCol"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.base.doc2_chunk.Doc2Chunk.setStartCol" title="Permalink to this definition">#</a></dt>
 <dd><p>Sets column that has a reference of where chunk begins.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -561,7 +481,7 @@ Return empty otherwise</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp.base.doc2_chunk.Doc2Chunk.setStartColByTokenIndex">
-<span class="sig-name descname"><span class="pre">setStartColByTokenIndex</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../modules/sparknlp/base/doc2_chunk.html#Doc2Chunk.setStartColByTokenIndex"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.base.doc2_chunk.Doc2Chunk.setStartColByTokenIndex" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">setStartColByTokenIndex</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../modules/sparknlp/base/doc2_chunk.html#Doc2Chunk.setStartColByTokenIndex"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.base.doc2_chunk.Doc2Chunk.setStartColByTokenIndex" title="Permalink to this definition">#</a></dt>
 <dd><p>Sets whether start column is prepended by whitespace tokens.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -575,7 +495,7 @@ Return empty otherwise</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp.base.doc2_chunk.Doc2Chunk.setFailOnMissing">
-<span class="sig-name descname"><span class="pre">setFailOnMissing</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../modules/sparknlp/base/doc2_chunk.html#Doc2Chunk.setFailOnMissing"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.base.doc2_chunk.Doc2Chunk.setFailOnMissing" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">setFailOnMissing</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../modules/sparknlp/base/doc2_chunk.html#Doc2Chunk.setFailOnMissing"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.base.doc2_chunk.Doc2Chunk.setFailOnMissing" title="Permalink to this definition">#</a></dt>
 <dd><p>Sets whether to fail the job if a chunk is not found within document.
 Return empty otherwise.</p>
 <dl class="field-list simple">
@@ -590,7 +510,7 @@ Return empty otherwise.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp.base.doc2_chunk.Doc2Chunk.setLowerCase">
-<span class="sig-name descname"><span class="pre">setLowerCase</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../modules/sparknlp/base/doc2_chunk.html#Doc2Chunk.setLowerCase"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.base.doc2_chunk.Doc2Chunk.setLowerCase" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">setLowerCase</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../modules/sparknlp/base/doc2_chunk.html#Doc2Chunk.setLowerCase"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.base.doc2_chunk.Doc2Chunk.setLowerCase" title="Permalink to this definition">#</a></dt>
 <dd><p>Sets whether to lower case for matching case.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -639,7 +559,7 @@ Return empty otherwise.</p>
   
   <div class="footer-item">
     <p class="sphinx-version">
-Created using <a href="http://sphinx-doc.org/">Sphinx</a> 5.0.2.<br>
+Created using <a href="http://sphinx-doc.org/">Sphinx</a> 5.1.1.<br>
 </p>
   </div>
   

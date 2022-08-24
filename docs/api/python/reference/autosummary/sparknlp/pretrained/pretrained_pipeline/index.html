@@ -4,9 +4,9 @@
 <html lang="en">
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
 
-    <title>sparknlp.pretrained.pretrained_pipeline &#8212; Spark NLP 4.0.2 documentation</title>
+    <title>sparknlp.pretrained.pretrained_pipeline &#8212; Spark NLP 4.1.0 documentation</title>
 <script>
   document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
   document.documentElement.dataset.theme = localStorage.getItem("theme") || "light"
@@ -213,11 +213,6 @@
       </a>
       <ul class="nav section-nav flex-column">
        <li class="toc-h5 nav-item toc-entry">
-        <a class="reference internal nav-link" href="#sparknlp.pretrained.pretrained_pipeline.PretrainedPipeline.from_disk">
-         from_disk
-        </a>
-       </li>
-       <li class="toc-h5 nav-item toc-entry">
         <a class="reference internal nav-link" href="#sparknlp.pretrained.pretrained_pipeline.PretrainedPipeline.annotate">
          annotate
         </a>
@@ -301,13 +296,8 @@ by default None</p>
 </dd>
 </dl>
 <dl class="py method">
-<dt class="sig sig-object py" id="sparknlp.pretrained.pretrained_pipeline.PretrainedPipeline.from_disk">
-<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">from_disk</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">parse_embeddings</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../modules/sparknlp/pretrained/pretrained_pipeline.html#PretrainedPipeline.from_disk"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.pretrained.pretrained_pipeline.PretrainedPipeline.from_disk" title="Permalink to this definition">#</a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
 <dt class="sig sig-object py" id="sparknlp.pretrained.pretrained_pipeline.PretrainedPipeline.annotate">
-<span class="sig-name descname"><span class="pre">annotate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">target</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">column</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../modules/sparknlp/pretrained/pretrained_pipeline.html#PretrainedPipeline.annotate"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.pretrained.pretrained_pipeline.PretrainedPipeline.annotate" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">annotate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">target</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">column</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../modules/sparknlp/pretrained/pretrained_pipeline.html#PretrainedPipeline.annotate"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.pretrained.pretrained_pipeline.PretrainedPipeline.annotate" title="Permalink to this definition">#</a></dt>
 <dd><p>Annotates the data provided, extracting the results.</p>
 <p>The data should be either a list or a str.</p>
 <dl class="field-list simple">
@@ -338,7 +328,7 @@ by default None</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp.pretrained.pretrained_pipeline.PretrainedPipeline.fullAnnotate">
-<span class="sig-name descname"><span class="pre">fullAnnotate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">target</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">column</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../modules/sparknlp/pretrained/pretrained_pipeline.html#PretrainedPipeline.fullAnnotate"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.pretrained.pretrained_pipeline.PretrainedPipeline.fullAnnotate" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">fullAnnotate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">target</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">column</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../modules/sparknlp/pretrained/pretrained_pipeline.html#PretrainedPipeline.fullAnnotate"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.pretrained.pretrained_pipeline.PretrainedPipeline.fullAnnotate" title="Permalink to this definition">#</a></dt>
 <dd><p>Annotates the data provided into <cite>Annotation</cite> type results.</p>
 <p>The data should be either a list or a str.</p>
 <dl class="field-list simple">
@@ -376,7 +366,7 @@ by default None</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp.pretrained.pretrained_pipeline.PretrainedPipeline.transform">
-<span class="sig-name descname"><span class="pre">transform</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../modules/sparknlp/pretrained/pretrained_pipeline.html#PretrainedPipeline.transform"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.pretrained.pretrained_pipeline.PretrainedPipeline.transform" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">transform</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../modules/sparknlp/pretrained/pretrained_pipeline.html#PretrainedPipeline.transform"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.pretrained.pretrained_pipeline.PretrainedPipeline.transform" title="Permalink to this definition">#</a></dt>
 <dd><p>Transforms the input dataset with Spark.</p>
 <dl class="field-list">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -431,7 +421,7 @@ by default None</p>
   
   <div class="footer-item">
     <p class="sphinx-version">
-Created using <a href="http://sphinx-doc.org/">Sphinx</a> 5.0.2.<br>
+Created using <a href="http://sphinx-doc.org/">Sphinx</a> 5.1.1.<br>
 </p>
   </div>
   

@@ -49,15 +49,13 @@ object AssertAnnotations {
           .asInstanceOf[mutable.WrappedArray[Seq[Float]]]
 
         resultSeq.zipWithIndex.map { case (token, index) =>
-          val annotatorType = annotatorTypeSeq(index)
-          val embedding = embeddings(index).toArray
           Annotation(
-            annotatorType,
+            annotatorTypeSeq(index),
             beginSeq(index),
             endSeq(index),
             token,
             metadataSeq(index),
-            embedding)
+            embeddings(index).toArray)
         }
       }
       .collect()
@@ -94,6 +92,62 @@ object AssertAnnotations {
           s"actual annotatorType $actualMetadata != expected annotatorType $expectedMetadata")
       }
     }
+  }
+
+  def getActualImageResult(
+      dataSet: Dataset[_],
+      columnName: String): Array[Seq[AnnotationImage]] = {
+    val annotatorType = columnName + ".annotatorType"
+    val origin = columnName + ".origin"
+    val height = columnName + ".height"
+    val width = columnName + ".width"
+    val nChannels = columnName + ".nChannels"
+    val mode = columnName + ".mode"
+    val result = columnName + ".result"
+    val metadata = columnName + ".metadata"
+
+    dataSet
+      .select(annotatorType, origin, height, width, nChannels, mode, result, metadata)
+      .rdd
+      .map { row =>
+        val annotatorTypeSeq: Seq[String] = row
+          .getAs[String]("annotatorType")
+          .asInstanceOf[mutable.WrappedArray[String]]
+        val originSeq: Seq[String] = row
+          .getAs[String]("origin")
+          .asInstanceOf[mutable.WrappedArray[String]]
+        val heightSeq: Seq[Int] = row
+          .getAs[Int]("height")
+          .asInstanceOf[mutable.WrappedArray[Int]]
+        val widthSeq: Seq[Int] = row
+          .getAs[Int]("width")
+          .asInstanceOf[mutable.WrappedArray[Int]]
+        val nChannelsSeq: Seq[Int] = row
+          .getAs[Int]("nChannels")
+          .asInstanceOf[mutable.WrappedArray[Int]]
+        val modeSeq: Seq[Int] = row
+          .getAs[Int]("mode")
+          .asInstanceOf[mutable.WrappedArray[Int]]
+        val resultSeq: Seq[Seq[Byte]] = row
+          .getAs[Seq[Byte]]("result")
+          .asInstanceOf[mutable.WrappedArray[Seq[Byte]]]
+        val metadataSeq: Seq[Map[String, String]] = row
+          .getAs[Map[String, String]]("metadata")
+          .asInstanceOf[mutable.WrappedArray[Map[String, String]]]
+
+        originSeq.zipWithIndex.map { case (origin, index) =>
+          AnnotationImage(
+            annotatorTypeSeq(index),
+            origin,
+            heightSeq(index),
+            widthSeq(index),
+            nChannelsSeq(index),
+            modeSeq(index),
+            resultSeq(index).asInstanceOf[Array[Byte]],
+            metadataSeq(index))
+        }
+      }
+      .collect()
   }
 
 }

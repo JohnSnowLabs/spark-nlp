@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>sparknlp.annotator.sentence.sentence_detector &#8212; Spark NLP 4.0.2 documentation</title>
+    <title>sparknlp.annotator.sentence.sentence_detector &#8212; Spark NLP 4.1.0 documentation</title>
 <script>
   document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
   document.documentElement.dataset.theme = localStorage.getItem("theme") || "light"
@@ -190,45 +190,45 @@
     <span class="sd">&quot;&quot;&quot;Base class for SentenceDetector parameters</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-<div class="viewcode-block" id="SentenceDetectorParams.useAbbreviations"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/sentence/sentence_detector/index.html#sparknlp.annotator.sentence.sentence_detector.SentenceDetectorParams.useAbbreviations">[docs]</a>    <span class="n">useAbbreviations</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
+    <span class="n">useAbbreviations</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
                              <span class="s2">&quot;useAbbreviations&quot;</span><span class="p">,</span>
                              <span class="s2">&quot;whether to apply abbreviations at sentence detection&quot;</span><span class="p">,</span>
-                             <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toBoolean</span><span class="p">)</span></div>
+                             <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toBoolean</span><span class="p">)</span>
 
-<div class="viewcode-block" id="SentenceDetectorParams.customBounds"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/sentence/sentence_detector/index.html#sparknlp.annotator.sentence.sentence_detector.SentenceDetectorParams.customBounds">[docs]</a>    <span class="n">customBounds</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
+    <span class="n">customBounds</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
                          <span class="s2">&quot;customBounds&quot;</span><span class="p">,</span>
                          <span class="s2">&quot;characters used to explicitly mark sentence bounds&quot;</span><span class="p">,</span>
-                         <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toListString</span><span class="p">)</span></div>
+                         <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toListString</span><span class="p">)</span>
 
-<div class="viewcode-block" id="SentenceDetectorParams.useCustomBoundsOnly"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/sentence/sentence_detector/index.html#sparknlp.annotator.sentence.sentence_detector.SentenceDetectorParams.useCustomBoundsOnly">[docs]</a>    <span class="n">useCustomBoundsOnly</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
+    <span class="n">useCustomBoundsOnly</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
                                 <span class="s2">&quot;useCustomBoundsOnly&quot;</span><span class="p">,</span>
                                 <span class="s2">&quot;Only utilize custom bounds in sentence detection&quot;</span><span class="p">,</span>
-                                <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toBoolean</span><span class="p">)</span></div>
+                                <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toBoolean</span><span class="p">)</span>
 
-<div class="viewcode-block" id="SentenceDetectorParams.customBoundsStrategy"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/sentence/sentence_detector/index.html#sparknlp.annotator.sentence.sentence_detector.SentenceDetectorParams.customBoundsStrategy">[docs]</a>    <span class="n">customBoundsStrategy</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
+    <span class="n">customBoundsStrategy</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
                                  <span class="s2">&quot;customBoundsStrategy&quot;</span><span class="p">,</span>
                                  <span class="s2">&quot;How to return matched custom bounds&quot;</span><span class="p">,</span>
-                                 <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toString</span><span class="p">)</span></div>
+                                 <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toString</span><span class="p">)</span>
 
-<div class="viewcode-block" id="SentenceDetectorParams.explodeSentences"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/sentence/sentence_detector/index.html#sparknlp.annotator.sentence.sentence_detector.SentenceDetectorParams.explodeSentences">[docs]</a>    <span class="n">explodeSentences</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
+    <span class="n">explodeSentences</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
                              <span class="s2">&quot;explodeSentences&quot;</span><span class="p">,</span>
                              <span class="s2">&quot;whether to explode each sentence into a different row, for better parallelization. Defaults to false.&quot;</span><span class="p">,</span>
-                             <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toBoolean</span><span class="p">)</span></div>
+                             <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toBoolean</span><span class="p">)</span>
 
-<div class="viewcode-block" id="SentenceDetectorParams.splitLength"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/sentence/sentence_detector/index.html#sparknlp.annotator.sentence.sentence_detector.SentenceDetectorParams.splitLength">[docs]</a>    <span class="n">splitLength</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
+    <span class="n">splitLength</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
                         <span class="s2">&quot;splitLength&quot;</span><span class="p">,</span>
                         <span class="s2">&quot;length at which sentences will be forcibly split.&quot;</span><span class="p">,</span>
-                        <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toInt</span><span class="p">)</span></div>
+                        <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toInt</span><span class="p">)</span>
 
-<div class="viewcode-block" id="SentenceDetectorParams.minLength"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/sentence/sentence_detector/index.html#sparknlp.annotator.sentence.sentence_detector.SentenceDetectorParams.minLength">[docs]</a>    <span class="n">minLength</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
+    <span class="n">minLength</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
                       <span class="s2">&quot;minLength&quot;</span><span class="p">,</span>
                       <span class="s2">&quot;Set the minimum allowed length for each sentence.&quot;</span><span class="p">,</span>
-                      <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toInt</span><span class="p">)</span></div>
+                      <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toInt</span><span class="p">)</span>
 
-<div class="viewcode-block" id="SentenceDetectorParams.maxLength"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/sentence/sentence_detector/index.html#sparknlp.annotator.sentence.sentence_detector.SentenceDetectorParams.maxLength">[docs]</a>    <span class="n">maxLength</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
+    <span class="n">maxLength</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
                       <span class="s2">&quot;maxLength&quot;</span><span class="p">,</span>
                       <span class="s2">&quot;Set the maximum allowed length for each sentence&quot;</span><span class="p">,</span>
-                      <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toInt</span><span class="p">)</span></div></div>
+                      <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toInt</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="SentenceDetector"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/sentence/sentence_detector/index.html#sparknlp.annotator.sentence.sentence_detector.SentenceDetector">[docs]</a><span class="k">class</span> <span class="nc">SentenceDetector</span><span class="p">(</span><span class="n">AnnotatorModel</span><span class="p">,</span> <span class="n">SentenceDetectorParams</span><span class="p">):</span>
@@ -330,13 +330,13 @@
 <span class="sd">    +------------------------------------------------------------------+</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-<div class="viewcode-block" id="SentenceDetector.name"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/sentence/sentence_detector/index.html#sparknlp.annotator.sentence.sentence_detector.SentenceDetector.name">[docs]</a>    <span class="n">name</span> <span class="o">=</span> <span class="s1">&#39;SentenceDetector&#39;</span></div>
+    <span class="n">name</span> <span class="o">=</span> <span class="s1">&#39;SentenceDetector&#39;</span>
 
     <span class="c1"># this one is exclusive to this detector</span>
-<div class="viewcode-block" id="SentenceDetector.detectLists"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/sentence/sentence_detector/index.html#sparknlp.annotator.sentence.sentence_detector.SentenceDetector.detectLists">[docs]</a>    <span class="n">detectLists</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
+    <span class="n">detectLists</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
                         <span class="s2">&quot;detectLists&quot;</span><span class="p">,</span>
                         <span class="s2">&quot;whether detect lists during sentence detection&quot;</span><span class="p">,</span>
-                        <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toBoolean</span><span class="p">)</span></div>
+                        <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toBoolean</span><span class="p">)</span>
 
 <div class="viewcode-block" id="SentenceDetector.setCustomBounds"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/sentence/sentence_detector/index.html#sparknlp.annotator.sentence.sentence_detector.SentenceDetector.setCustomBounds">[docs]</a>    <span class="k">def</span> <span class="nf">setCustomBounds</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Sets characters used to explicitly mark sentence bounds, by default</span>
@@ -486,7 +486,7 @@
   
   <div class="footer-item">
     <p class="sphinx-version">
-Created using <a href="http://sphinx-doc.org/">Sphinx</a> 5.0.2.<br>
+Created using <a href="http://sphinx-doc.org/">Sphinx</a> 5.1.1.<br>
 </p>
   </div>
   

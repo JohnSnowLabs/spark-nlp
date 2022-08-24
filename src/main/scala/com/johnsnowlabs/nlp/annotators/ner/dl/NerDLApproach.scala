@@ -23,10 +23,9 @@ import com.johnsnowlabs.nlp.AnnotatorType.{DOCUMENT, NAMED_ENTITY, TOKEN, WORD_E
 import com.johnsnowlabs.nlp.annotators.common.{NerTagged, WordpieceEmbeddingsSentence}
 import com.johnsnowlabs.nlp.annotators.ner.{ModelMetrics, NerApproach, Verbose}
 import com.johnsnowlabs.nlp.annotators.param.ExternalResourceParam
-import com.johnsnowlabs.nlp.util.io.{ExternalResource, ReadAs, ResourceHelper}
+import com.johnsnowlabs.nlp.util.io.{ExternalResource, OutputHelper, ReadAs, ResourceHelper}
 import com.johnsnowlabs.nlp.{AnnotatorApproach, AnnotatorType, ParamsAndFeaturesWritable}
 import com.johnsnowlabs.storage.HasStorageRef
-import com.johnsnowlabs.util.{ConfigHelper, ConfigLoader}
 import org.apache.commons.io.IOUtils
 import org.apache.commons.lang.SystemUtils
 import org.apache.spark.SparkFiles
@@ -574,11 +573,29 @@ class NerDLApproach(override val uid: String)
     val Array(validSplit, trainSplit) =
       train.randomSplit(Array($(validationSplit), 1.0f - $(validationSplit)))
 
-    val trainIteratorFunc = getIteratorFunc(trainSplit)
-    val validIteratorFunc = getIteratorFunc(validSplit)
-    val testIteratorFunc = getIteratorFunc(test)
+    val trainIteratorFunc = NerDLApproach.getIteratorFunc(
+      trainSplit,
+      inputColumns = getInputCols,
+      labelColumn = $(labelColumn),
+      batchSize = $(batchSize),
+      enableMemoryOptimizer = $(enableMemoryOptimizer))
 
-    val (labels, chars, embeddingsDim, dsLen) = getDataSetParams(trainIteratorFunc())
+    val validIteratorFunc = NerDLApproach.getIteratorFunc(
+      validSplit,
+      inputColumns = getInputCols,
+      labelColumn = $(labelColumn),
+      batchSize = $(batchSize),
+      enableMemoryOptimizer = $(enableMemoryOptimizer))
+
+    val testIteratorFunc = NerDLApproach.getIteratorFunc(
+      test,
+      inputColumns = getInputCols,
+      labelColumn = $(labelColumn),
+      batchSize = $(batchSize),
+      enableMemoryOptimizer = $(enableMemoryOptimizer))
+
+    val (labels, chars, embeddingsDim, dsLen) =
+      NerDLApproach.getDataSetParams(trainIteratorFunc())
 
     val settings = DatasetEncoderParams(
       labels.toList,
@@ -654,53 +671,10 @@ class NerDLApproach(override val uid: String)
     model
 
   }
-
-  def getDataSetParams(dsIt: Iterator[Array[(TextSentenceLabels, WordpieceEmbeddingsSentence)]])
-      : (mutable.Set[String], mutable.Set[Char], Int, Long) = {
-
-    val labels = scala.collection.mutable.Set[String]()
-    val chars = scala.collection.mutable.Set[Char]()
-    var embeddingsDim = 1
-    var dsLen = 0L
-
-    // try to be frugal with memory and with number of passes thru the iterator
-    for (batch <- dsIt) {
-      dsLen += batch.length
-      for (datapoint <- batch) {
-
-        for (label <- datapoint._1.labels)
-          labels += label
-
-        for (token <- datapoint._2.tokens; char <- token.token.toCharArray)
-          chars += char
-
-        if (datapoint._2.tokens.nonEmpty)
-          embeddingsDim = datapoint._2.tokens.head.embeddings.length
-      }
-    }
-
-    (labels, chars, embeddingsDim, dsLen)
-  }
-
-  def getIteratorFunc(dataset: Dataset[Row])
-      : () => Iterator[Array[(TextSentenceLabels, WordpieceEmbeddingsSentence)]] = {
-
-    if ($(enableMemoryOptimizer)) { () =>
-      NerTagged.iterateOnDataframe(dataset, getInputCols, $(labelColumn), $(batchSize))
-
-    } else {
-      val inMemory = dataset
-        .select($(labelColumn), getInputCols.toSeq: _*)
-        .collect()
-
-      () => NerTagged.iterateOnArray(inMemory, getInputCols, $(batchSize))
-
-    }
-  }
-
 }
 
 trait WithGraphResolver {
+
   def searchForSuitableGraph(
       tags: Int,
       embeddingsNDims: Int,
@@ -786,22 +760,31 @@ trait WithGraphResolver {
       val keyPrefix = localGraphPath.get.substring(("s3://" + bucketName).length + 1)
       var tmpDirectory = SparkFiles.getRootDirectory()
 
-      val awsGateway = new AWSGateway(
-        ConfigLoader.getConfigStringValue(ConfigHelper.awsExternalAccessKeyId),
-        ConfigLoader.getConfigStringValue(ConfigHelper.awsExternalSecretAccessKey),
-        ConfigLoader.getConfigStringValue(ConfigHelper.awsExternalSessionToken),
-        ConfigLoader.getConfigStringValue(ConfigHelper.awsExternalProfileName),
-        ConfigLoader.getConfigStringValue(ConfigHelper.awsExternalRegion))
-
+      val awsGateway = new AWSGateway()
       awsGateway.downloadFilesFromDirectory(bucketName, keyPrefix, new File(tmpDirectory))
 
-      tmpDirectory = tmpDirectory + "/" + keyPrefix
+      if (OutputHelper.getFileSystem.getScheme == "dbfs") {
+        tmpDirectory = s"$tmpDirectory/$keyPrefix"
+      } else tmpDirectory = s"file:/$tmpDirectory/$keyPrefix"
+
       files = ResourceHelper.listLocalFiles(tmpDirectory).map(_.getAbsolutePath)
     } else {
-      files = localGraphPath
-        .map(path =>
-          ResourceHelper.listLocalFiles(ResourceHelper.copyToLocal(path)).map(_.getAbsolutePath))
-        .getOrElse(ResourceHelper.listResourceDirectory("/ner-dl"))
+
+      if (localGraphPath.isDefined && OutputHelper
+          .getFileSystem(localGraphPath.get)
+          ._1
+          .getScheme == "dbfs") {
+        files =
+          ResourceHelper.listLocalFiles(localGraphPath.get).map(file => file.getAbsolutePath)
+      } else {
+        files = localGraphPath
+          .map(path =>
+            ResourceHelper
+              .listLocalFiles(ResourceHelper.copyToLocal(path))
+              .map(_.getAbsolutePath))
+          .getOrElse(ResourceHelper.listResourceDirectory("/ner-dl"))
+      }
+
     }
     files
   }
@@ -811,4 +794,65 @@ trait WithGraphResolver {
 /** This is the companion object of [[NerDLApproach]]. Please refer to that class for the
   * documentation.
   */
-object NerDLApproach extends DefaultParamsReadable[NerDLApproach] with WithGraphResolver
+object NerDLApproach extends DefaultParamsReadable[NerDLApproach] with WithGraphResolver {
+
+  def getIteratorFunc(
+      dataset: Dataset[Row],
+      inputColumns: Array[String],
+      labelColumn: String,
+      batchSize: Int,
+      enableMemoryOptimizer: Boolean)
+      : () => Iterator[Array[(TextSentenceLabels, WordpieceEmbeddingsSentence)]] = {
+
+    if (enableMemoryOptimizer) { () =>
+      NerTagged.iterateOnDataframe(dataset, inputColumns, labelColumn, batchSize)
+
+    } else {
+      val inMemory = dataset
+        .select(labelColumn, inputColumns.toSeq: _*)
+        .collect()
+
+      () => NerTagged.iterateOnArray(inMemory, inputColumns, batchSize)
+    }
+  }
+
+  def getDataSetParams(dsIt: Iterator[Array[(TextSentenceLabels, WordpieceEmbeddingsSentence)]])
+      : (mutable.Set[String], mutable.Set[Char], Int, Long) = {
+
+    val labels = scala.collection.mutable.Set[String]()
+    val chars = scala.collection.mutable.Set[Char]()
+    var embeddingsDim = 1
+    var dsLen = 0L
+
+    // try to be frugal with memory and with number of passes thru the iterator
+    for (batch <- dsIt) {
+      dsLen += batch.length
+      for (datapoint <- batch) {
+
+        for (label <- datapoint._1.labels)
+          labels += label
+
+        for (token <- datapoint._2.tokens; char <- token.token.toCharArray)
+          chars += char
+
+        if (datapoint._2.tokens.nonEmpty)
+          embeddingsDim = datapoint._2.tokens.head.embeddings.length
+      }
+    }
+
+    (labels, chars, embeddingsDim, dsLen)
+  }
+
+  def getGraphParams(
+      dataset: Dataset[_],
+      inputColumns: java.util.ArrayList[java.lang.String],
+      labelColumn: String): (Int, Int, Int) = {
+
+    val trainIteratorFunc =
+      getIteratorFunc(dataset.toDF(), inputColumns.toArray.map(_.toString), labelColumn, 0, false)
+
+    val (labels, chars, embeddingsDim, _) = getDataSetParams(trainIteratorFunc())
+
+    (labels.size, embeddingsDim, chars.size + 1)
+  }
+}

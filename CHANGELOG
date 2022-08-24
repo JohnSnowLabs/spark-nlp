@@ -1,4 +1,17 @@
 ========
+4.1.0
+========
+----------------
+New Features & Enhancements
+----------------
+* **NEW:** Introducing **ViTForImageClassification** annotator in Spark NLP 🚀. `ViTForImageClassification` can load Vision Transformer `ViT` Models with  an image classification head on top (a linear layer on top of the final hidden state of the [CLS] token) e.g. for ImageNet. This annotator is compatible with all the models trained/fine-tuned by using `ViTForImageClassification` for **PyTorch** or `TFViTForImageClassification` for **TensorFlow** models in HuggingFace 🤗
+* Provide support for AWS Graviton processors and ARM64 processors with architecture greater than ARMv8
+* Introducing **TFNerDLGraphBuilder** annotator. `TFNerDLGraphBuilder` can be used to automatically detect the parameters of a needed NerDL graph and generate the graph within a pipeline when the default NER graphs are not suitable for your training datasets.
+* Allow passing confidence scores from all XXXForTokenClassification annotators to NerConverter. From this release it is possible to access the confidence scores coming from the following annotators via NerConverter: AlbertForTokenClassification, BertForTokenClassification, DeBertaForTokenClassification, DistilBertForTokenClassification, LongformerForTokenClassification, RoBertaForTokenClassification, XlmRoBertaForTokenClassification, XlnetForTokenClassification, and DeBertaForTokenClassification
+* Introducing PushToHub Python class to easily push public models/pipelines to Models Hub
+* Introducing fullAnnotateImage to existing LightPipeline to support ImageAssembler and ViTForImageClassification annotators in a Spark NLP pipeline.
+
+========
 4.0.2
 ========
 ----------------

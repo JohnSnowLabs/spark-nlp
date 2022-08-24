@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>sparknlp.annotator.stop_words_cleaner &#8212; Spark NLP 4.0.2 documentation</title>
+    <title>sparknlp.annotator.stop_words_cleaner &#8212; Spark NLP 4.1.0 documentation</title>
 <script>
   document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
   document.documentElement.dataset.theme = localStorage.getItem("theme") || "light"
@@ -264,7 +264,7 @@
 <span class="sd">    +-------------------------------+</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-<div class="viewcode-block" id="StopWordsCleaner.name"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/annotator/stop_words_cleaner/index.html#sparknlp.annotator.stop_words_cleaner.StopWordsCleaner.name">[docs]</a>    <span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;StopWordsCleaner&quot;</span></div>
+    <span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;StopWordsCleaner&quot;</span>
 
     <span class="nd">@keyword_only</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">classname</span><span class="o">=</span><span class="s2">&quot;com.johnsnowlabs.nlp.annotators.StopWordsCleaner&quot;</span><span class="p">,</span> <span class="n">java_model</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
@@ -278,12 +278,12 @@
             <span class="n">locale</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_java_obj</span><span class="o">.</span><span class="n">getLocale</span><span class="p">()</span>
         <span class="p">)</span>
 
-<div class="viewcode-block" id="StopWordsCleaner.stopWords"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/annotator/stop_words_cleaner/index.html#sparknlp.annotator.stop_words_cleaner.StopWordsCleaner.stopWords">[docs]</a>    <span class="n">stopWords</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;stopWords&quot;</span><span class="p">,</span> <span class="s2">&quot;The words to be filtered out&quot;</span><span class="p">,</span>
-                      <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toListString</span><span class="p">)</span></div>
-<div class="viewcode-block" id="StopWordsCleaner.caseSensitive"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/annotator/stop_words_cleaner/index.html#sparknlp.annotator.stop_words_cleaner.StopWordsCleaner.caseSensitive">[docs]</a>    <span class="n">caseSensitive</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;caseSensitive&quot;</span><span class="p">,</span> <span class="s2">&quot;whether to do a case sensitive &quot;</span> <span class="o">+</span>
-                          <span class="s2">&quot;comparison over the stop words&quot;</span><span class="p">,</span> <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toBoolean</span><span class="p">)</span></div>
-<div class="viewcode-block" id="StopWordsCleaner.locale"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/annotator/stop_words_cleaner/index.html#sparknlp.annotator.stop_words_cleaner.StopWordsCleaner.locale">[docs]</a>    <span class="n">locale</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;locale&quot;</span><span class="p">,</span> <span class="s2">&quot;locale of the input. ignored when case sensitive &quot;</span> <span class="o">+</span>
-                   <span class="s2">&quot;is true&quot;</span><span class="p">,</span> <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toString</span><span class="p">)</span></div>
+    <span class="n">stopWords</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;stopWords&quot;</span><span class="p">,</span> <span class="s2">&quot;The words to be filtered out&quot;</span><span class="p">,</span>
+                      <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toListString</span><span class="p">)</span>
+    <span class="n">caseSensitive</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;caseSensitive&quot;</span><span class="p">,</span> <span class="s2">&quot;whether to do a case sensitive &quot;</span> <span class="o">+</span>
+                          <span class="s2">&quot;comparison over the stop words&quot;</span><span class="p">,</span> <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toBoolean</span><span class="p">)</span>
+    <span class="n">locale</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;locale&quot;</span><span class="p">,</span> <span class="s2">&quot;locale of the input. ignored when case sensitive &quot;</span> <span class="o">+</span>
+                   <span class="s2">&quot;is true&quot;</span><span class="p">,</span> <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toString</span><span class="p">)</span>
 
 <div class="viewcode-block" id="StopWordsCleaner.setStopWords"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/annotator/stop_words_cleaner/index.html#sparknlp.annotator.stop_words_cleaner.StopWordsCleaner.setStopWords">[docs]</a>    <span class="k">def</span> <span class="nf">setStopWords</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Sets the words to be filtered out, by default english stopwords from</span>
@@ -387,7 +387,7 @@
   
   <div class="footer-item">
     <p class="sphinx-version">
-Created using <a href="http://sphinx-doc.org/">Sphinx</a> 5.0.2.<br>
+Created using <a href="http://sphinx-doc.org/">Sphinx</a> 5.1.1.<br>
 </p>
   </div>
   

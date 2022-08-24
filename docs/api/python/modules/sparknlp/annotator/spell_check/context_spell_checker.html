@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>sparknlp.annotator.spell_check.context_spell_checker &#8212; Spark NLP 4.0.2 documentation</title>
+    <title>sparknlp.annotator.spell_check.context_spell_checker &#8212; Spark NLP 4.1.0 documentation</title>
 <script>
   document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
   document.documentElement.dataset.theme = localStorage.getItem("theme") || "light"
@@ -306,91 +306,91 @@
 <span class="sd">    NorvigSweetingApproach, SymmetricDeleteApproach : For alternative approaches to spell checking</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-<div class="viewcode-block" id="ContextSpellCheckerApproach.name"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/spell_check/context_spell_checker/index.html#sparknlp.annotator.spell_check.context_spell_checker.ContextSpellCheckerApproach.name">[docs]</a>    <span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;ContextSpellCheckerApproach&quot;</span></div>
+    <span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;ContextSpellCheckerApproach&quot;</span>
 
-<div class="viewcode-block" id="ContextSpellCheckerApproach.languageModelClasses"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/spell_check/context_spell_checker/index.html#sparknlp.annotator.spell_check.context_spell_checker.ContextSpellCheckerApproach.languageModelClasses">[docs]</a>    <span class="n">languageModelClasses</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
+    <span class="n">languageModelClasses</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
                                  <span class="s2">&quot;languageModelClasses&quot;</span><span class="p">,</span>
                                  <span class="s2">&quot;Number of classes to use during factorization of the softmax output in the LM.&quot;</span><span class="p">,</span>
-                                 <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toInt</span><span class="p">)</span></div>
+                                 <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toInt</span><span class="p">)</span>
 
-<div class="viewcode-block" id="ContextSpellCheckerApproach.wordMaxDistance"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/spell_check/context_spell_checker/index.html#sparknlp.annotator.spell_check.context_spell_checker.ContextSpellCheckerApproach.wordMaxDistance">[docs]</a>    <span class="n">wordMaxDistance</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
+    <span class="n">wordMaxDistance</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
                             <span class="s2">&quot;wordMaxDistance&quot;</span><span class="p">,</span>
                             <span class="s2">&quot;Maximum distance for the generated candidates for every word.&quot;</span><span class="p">,</span>
-                            <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toInt</span><span class="p">)</span></div>
+                            <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toInt</span><span class="p">)</span>
 
-<div class="viewcode-block" id="ContextSpellCheckerApproach.maxCandidates"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/spell_check/context_spell_checker/index.html#sparknlp.annotator.spell_check.context_spell_checker.ContextSpellCheckerApproach.maxCandidates">[docs]</a>    <span class="n">maxCandidates</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
+    <span class="n">maxCandidates</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
                           <span class="s2">&quot;maxCandidates&quot;</span><span class="p">,</span>
                           <span class="s2">&quot;Maximum number of candidates for every word.&quot;</span><span class="p">,</span>
-                          <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toInt</span><span class="p">)</span></div>
+                          <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toInt</span><span class="p">)</span>
 
-<div class="viewcode-block" id="ContextSpellCheckerApproach.caseStrategy"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/spell_check/context_spell_checker/index.html#sparknlp.annotator.spell_check.context_spell_checker.ContextSpellCheckerApproach.caseStrategy">[docs]</a>    <span class="n">caseStrategy</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
+    <span class="n">caseStrategy</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
                          <span class="s2">&quot;caseStrategy&quot;</span><span class="p">,</span>
                          <span class="s2">&quot;What case combinations to try when generating candidates.&quot;</span><span class="p">,</span>
-                         <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toInt</span><span class="p">)</span></div>
+                         <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toInt</span><span class="p">)</span>
 
-<div class="viewcode-block" id="ContextSpellCheckerApproach.errorThreshold"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/spell_check/context_spell_checker/index.html#sparknlp.annotator.spell_check.context_spell_checker.ContextSpellCheckerApproach.errorThreshold">[docs]</a>    <span class="n">errorThreshold</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
+    <span class="n">errorThreshold</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
                            <span class="s2">&quot;errorThreshold&quot;</span><span class="p">,</span>
                            <span class="s2">&quot;Threshold perplexity for a word to be considered as an error.&quot;</span><span class="p">,</span>
-                           <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toFloat</span><span class="p">)</span></div>
+                           <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toFloat</span><span class="p">)</span>
 
-<div class="viewcode-block" id="ContextSpellCheckerApproach.epochs"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/spell_check/context_spell_checker/index.html#sparknlp.annotator.spell_check.context_spell_checker.ContextSpellCheckerApproach.epochs">[docs]</a>    <span class="n">epochs</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
+    <span class="n">epochs</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
                    <span class="s2">&quot;epochs&quot;</span><span class="p">,</span>
                    <span class="s2">&quot;Number of epochs to train the language model.&quot;</span><span class="p">,</span>
-                   <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toInt</span><span class="p">)</span></div>
+                   <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toInt</span><span class="p">)</span>
 
-<div class="viewcode-block" id="ContextSpellCheckerApproach.batchSize"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/spell_check/context_spell_checker/index.html#sparknlp.annotator.spell_check.context_spell_checker.ContextSpellCheckerApproach.batchSize">[docs]</a>    <span class="n">batchSize</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
+    <span class="n">batchSize</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
                       <span class="s2">&quot;batchSize&quot;</span><span class="p">,</span>
                       <span class="s2">&quot;Batch size for the training in NLM.&quot;</span><span class="p">,</span>
-                      <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toInt</span><span class="p">)</span></div>
+                      <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toInt</span><span class="p">)</span>
 
-<div class="viewcode-block" id="ContextSpellCheckerApproach.initialRate"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/spell_check/context_spell_checker/index.html#sparknlp.annotator.spell_check.context_spell_checker.ContextSpellCheckerApproach.initialRate">[docs]</a>    <span class="n">initialRate</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
+    <span class="n">initialRate</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
                         <span class="s2">&quot;initialRate&quot;</span><span class="p">,</span>
                         <span class="s2">&quot;Initial learning rate for the LM.&quot;</span><span class="p">,</span>
-                        <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toFloat</span><span class="p">)</span></div>
+                        <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toFloat</span><span class="p">)</span>
 
-<div class="viewcode-block" id="ContextSpellCheckerApproach.finalRate"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/spell_check/context_spell_checker/index.html#sparknlp.annotator.spell_check.context_spell_checker.ContextSpellCheckerApproach.finalRate">[docs]</a>    <span class="n">finalRate</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
+    <span class="n">finalRate</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
                       <span class="s2">&quot;finalRate&quot;</span><span class="p">,</span>
                       <span class="s2">&quot;Final learning rate for the LM.&quot;</span><span class="p">,</span>
-                      <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toFloat</span><span class="p">)</span></div>
+                      <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toFloat</span><span class="p">)</span>
 
-<div class="viewcode-block" id="ContextSpellCheckerApproach.validationFraction"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/spell_check/context_spell_checker/index.html#sparknlp.annotator.spell_check.context_spell_checker.ContextSpellCheckerApproach.validationFraction">[docs]</a>    <span class="n">validationFraction</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
+    <span class="n">validationFraction</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
                                <span class="s2">&quot;validationFraction&quot;</span><span class="p">,</span>
                                <span class="s2">&quot;Percentage of datapoints to use for validation.&quot;</span><span class="p">,</span>
-                               <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toFloat</span><span class="p">)</span></div>
+                               <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toFloat</span><span class="p">)</span>
 
-<div class="viewcode-block" id="ContextSpellCheckerApproach.minCount"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/spell_check/context_spell_checker/index.html#sparknlp.annotator.spell_check.context_spell_checker.ContextSpellCheckerApproach.minCount">[docs]</a>    <span class="n">minCount</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
+    <span class="n">minCount</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
                      <span class="s2">&quot;minCount&quot;</span><span class="p">,</span>
                      <span class="s2">&quot;Min number of times a token should appear to be included in vocab.&quot;</span><span class="p">,</span>
-                     <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toFloat</span><span class="p">)</span></div>
+                     <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toFloat</span><span class="p">)</span>
 
-<div class="viewcode-block" id="ContextSpellCheckerApproach.compoundCount"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/spell_check/context_spell_checker/index.html#sparknlp.annotator.spell_check.context_spell_checker.ContextSpellCheckerApproach.compoundCount">[docs]</a>    <span class="n">compoundCount</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
+    <span class="n">compoundCount</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
                           <span class="s2">&quot;compoundCount&quot;</span><span class="p">,</span>
                           <span class="s2">&quot;Min number of times a compound word should appear to be included in vocab.&quot;</span><span class="p">,</span>
-                          <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toInt</span><span class="p">)</span></div>
+                          <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toInt</span><span class="p">)</span>
 
-<div class="viewcode-block" id="ContextSpellCheckerApproach.classCount"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/spell_check/context_spell_checker/index.html#sparknlp.annotator.spell_check.context_spell_checker.ContextSpellCheckerApproach.classCount">[docs]</a>    <span class="n">classCount</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
+    <span class="n">classCount</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
                        <span class="s2">&quot;classCount&quot;</span><span class="p">,</span>
                        <span class="s2">&quot;Min number of times the word need to appear in corpus to not be considered of a special class.&quot;</span><span class="p">,</span>
-                       <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toFloat</span><span class="p">)</span></div>
+                       <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toFloat</span><span class="p">)</span>
 
-<div class="viewcode-block" id="ContextSpellCheckerApproach.tradeoff"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/spell_check/context_spell_checker/index.html#sparknlp.annotator.spell_check.context_spell_checker.ContextSpellCheckerApproach.tradeoff">[docs]</a>    <span class="n">tradeoff</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
+    <span class="n">tradeoff</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
                      <span class="s2">&quot;tradeoff&quot;</span><span class="p">,</span>
                      <span class="s2">&quot;Tradeoff between the cost of a word error and a transition in the language model.&quot;</span><span class="p">,</span>
-                     <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toFloat</span><span class="p">)</span></div>
+                     <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toFloat</span><span class="p">)</span>
 
-<div class="viewcode-block" id="ContextSpellCheckerApproach.weightedDistPath"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/spell_check/context_spell_checker/index.html#sparknlp.annotator.spell_check.context_spell_checker.ContextSpellCheckerApproach.weightedDistPath">[docs]</a>    <span class="n">weightedDistPath</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
+    <span class="n">weightedDistPath</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
                              <span class="s2">&quot;weightedDistPath&quot;</span><span class="p">,</span>
                              <span class="s2">&quot;The path to the file containing the weights for the levenshtein distance.&quot;</span><span class="p">,</span>
-                             <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toString</span><span class="p">)</span></div>
+                             <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toString</span><span class="p">)</span>
 
-<div class="viewcode-block" id="ContextSpellCheckerApproach.maxWindowLen"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/spell_check/context_spell_checker/index.html#sparknlp.annotator.spell_check.context_spell_checker.ContextSpellCheckerApproach.maxWindowLen">[docs]</a>    <span class="n">maxWindowLen</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
+    <span class="n">maxWindowLen</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
                          <span class="s2">&quot;maxWindowLen&quot;</span><span class="p">,</span>
                          <span class="s2">&quot;Maximum size for the window used to remember history prior to every correction.&quot;</span><span class="p">,</span>
-                         <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toInt</span><span class="p">)</span></div>
+                         <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toInt</span><span class="p">)</span>
 
-<div class="viewcode-block" id="ContextSpellCheckerApproach.configProtoBytes"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/spell_check/context_spell_checker/index.html#sparknlp.annotator.spell_check.context_spell_checker.ContextSpellCheckerApproach.configProtoBytes">[docs]</a>    <span class="n">configProtoBytes</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;configProtoBytes&quot;</span><span class="p">,</span>
+    <span class="n">configProtoBytes</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;configProtoBytes&quot;</span><span class="p">,</span>
                              <span class="s2">&quot;ConfigProto from tensorflow, serialized into byte array. Get with config_proto.SerializeToString()&quot;</span><span class="p">,</span>
-                             <span class="n">TypeConverters</span><span class="o">.</span><span class="n">toListInt</span><span class="p">)</span></div>
+                             <span class="n">TypeConverters</span><span class="o">.</span><span class="n">toListInt</span><span class="p">)</span>
 
 <div class="viewcode-block" id="ContextSpellCheckerApproach.setLanguageModelClasses"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/spell_check/context_spell_checker/index.html#sparknlp.annotator.spell_check.context_spell_checker.ContextSpellCheckerApproach.setLanguageModelClasses">[docs]</a>    <span class="k">def</span> <span class="nf">setLanguageModelClasses</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">count</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Sets number of classes to use during factorization of the softmax</span>
@@ -737,53 +737,53 @@
 <span class="sd">    --------</span>
 <span class="sd">    NorvigSweetingModel, SymmetricDeleteModel: For alternative approaches to spell checking</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-<div class="viewcode-block" id="ContextSpellCheckerModel.name"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/spell_check/context_spell_checker/index.html#sparknlp.annotator.spell_check.context_spell_checker.ContextSpellCheckerModel.name">[docs]</a>    <span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;ContextSpellCheckerModel&quot;</span></div>
+    <span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;ContextSpellCheckerModel&quot;</span>
 
-<div class="viewcode-block" id="ContextSpellCheckerModel.wordMaxDistance"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/spell_check/context_spell_checker/index.html#sparknlp.annotator.spell_check.context_spell_checker.ContextSpellCheckerModel.wordMaxDistance">[docs]</a>    <span class="n">wordMaxDistance</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
+    <span class="n">wordMaxDistance</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
                             <span class="s2">&quot;wordMaxDistance&quot;</span><span class="p">,</span>
                             <span class="s2">&quot;Maximum distance for the generated candidates for every word.&quot;</span><span class="p">,</span>
-                            <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toInt</span><span class="p">)</span></div>
+                            <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toInt</span><span class="p">)</span>
 
-<div class="viewcode-block" id="ContextSpellCheckerModel.maxCandidates"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/spell_check/context_spell_checker/index.html#sparknlp.annotator.spell_check.context_spell_checker.ContextSpellCheckerModel.maxCandidates">[docs]</a>    <span class="n">maxCandidates</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
+    <span class="n">maxCandidates</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
                           <span class="s2">&quot;maxCandidates&quot;</span><span class="p">,</span>
                           <span class="s2">&quot;Maximum number of candidates for every word.&quot;</span><span class="p">,</span>
-                          <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toInt</span><span class="p">)</span></div>
+                          <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toInt</span><span class="p">)</span>
 
-<div class="viewcode-block" id="ContextSpellCheckerModel.caseStrategy"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/spell_check/context_spell_checker/index.html#sparknlp.annotator.spell_check.context_spell_checker.ContextSpellCheckerModel.caseStrategy">[docs]</a>    <span class="n">caseStrategy</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
+    <span class="n">caseStrategy</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
                          <span class="s2">&quot;caseStrategy&quot;</span><span class="p">,</span>
                          <span class="s2">&quot;What case combinations to try when generating candidates.&quot;</span><span class="p">,</span>
-                         <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toInt</span><span class="p">)</span></div>
+                         <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toInt</span><span class="p">)</span>
 
-<div class="viewcode-block" id="ContextSpellCheckerModel.errorThreshold"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/spell_check/context_spell_checker/index.html#sparknlp.annotator.spell_check.context_spell_checker.ContextSpellCheckerModel.errorThreshold">[docs]</a>    <span class="n">errorThreshold</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
+    <span class="n">errorThreshold</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
                            <span class="s2">&quot;errorThreshold&quot;</span><span class="p">,</span>
                            <span class="s2">&quot;Threshold perplexity for a word to be considered as an error.&quot;</span><span class="p">,</span>
-                           <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toFloat</span><span class="p">)</span></div>
+                           <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toFloat</span><span class="p">)</span>
 
-<div class="viewcode-block" id="ContextSpellCheckerModel.tradeoff"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/spell_check/context_spell_checker/index.html#sparknlp.annotator.spell_check.context_spell_checker.ContextSpellCheckerModel.tradeoff">[docs]</a>    <span class="n">tradeoff</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
+    <span class="n">tradeoff</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
                      <span class="s2">&quot;tradeoff&quot;</span><span class="p">,</span>
                      <span class="s2">&quot;Tradeoff between the cost of a word error and a transition in the language model.&quot;</span><span class="p">,</span>
-                     <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toFloat</span><span class="p">)</span></div>
+                     <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toFloat</span><span class="p">)</span>
 
-<div class="viewcode-block" id="ContextSpellCheckerModel.maxWindowLen"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/spell_check/context_spell_checker/index.html#sparknlp.annotator.spell_check.context_spell_checker.ContextSpellCheckerModel.maxWindowLen">[docs]</a>    <span class="n">maxWindowLen</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
+    <span class="n">maxWindowLen</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
                          <span class="s2">&quot;maxWindowLen&quot;</span><span class="p">,</span>
                          <span class="s2">&quot;Maximum size for the window used to remember history prior to every correction.&quot;</span><span class="p">,</span>
-                         <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toInt</span><span class="p">)</span></div>
+                         <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toInt</span><span class="p">)</span>
 
-<div class="viewcode-block" id="ContextSpellCheckerModel.gamma"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/spell_check/context_spell_checker/index.html#sparknlp.annotator.spell_check.context_spell_checker.ContextSpellCheckerModel.gamma">[docs]</a>    <span class="n">gamma</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
+    <span class="n">gamma</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
                   <span class="s2">&quot;gamma&quot;</span><span class="p">,</span>
                   <span class="s2">&quot;Controls the influence of individual word frequency in the decision.&quot;</span><span class="p">,</span>
-                  <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toFloat</span><span class="p">)</span></div>
+                  <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toFloat</span><span class="p">)</span>
 
-<div class="viewcode-block" id="ContextSpellCheckerModel.correctSymbols"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/spell_check/context_spell_checker/index.html#sparknlp.annotator.spell_check.context_spell_checker.ContextSpellCheckerModel.correctSymbols">[docs]</a>    <span class="n">correctSymbols</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;correctSymbols&quot;</span><span class="p">,</span>
+    <span class="n">correctSymbols</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;correctSymbols&quot;</span><span class="p">,</span>
                            <span class="s2">&quot;Whether to correct special symbols or skip spell checking for them&quot;</span><span class="p">,</span>
-                           <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toBoolean</span><span class="p">)</span></div>
+                           <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toBoolean</span><span class="p">)</span>
 
-<div class="viewcode-block" id="ContextSpellCheckerModel.compareLowcase"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/spell_check/context_spell_checker/index.html#sparknlp.annotator.spell_check.context_spell_checker.ContextSpellCheckerModel.compareLowcase">[docs]</a>    <span class="n">compareLowcase</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;compareLowcase&quot;</span><span class="p">,</span> <span class="s2">&quot;If true will compare tokens in low case with vocabulary&quot;</span><span class="p">,</span>
-                           <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toBoolean</span><span class="p">)</span></div>
+    <span class="n">compareLowcase</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;compareLowcase&quot;</span><span class="p">,</span> <span class="s2">&quot;If true will compare tokens in low case with vocabulary&quot;</span><span class="p">,</span>
+                           <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toBoolean</span><span class="p">)</span>
 
-<div class="viewcode-block" id="ContextSpellCheckerModel.configProtoBytes"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/spell_check/context_spell_checker/index.html#sparknlp.annotator.spell_check.context_spell_checker.ContextSpellCheckerModel.configProtoBytes">[docs]</a>    <span class="n">configProtoBytes</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;configProtoBytes&quot;</span><span class="p">,</span>
+    <span class="n">configProtoBytes</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;configProtoBytes&quot;</span><span class="p">,</span>
                              <span class="s2">&quot;ConfigProto from tensorflow, serialized into byte array. Get with config_proto.SerializeToString()&quot;</span><span class="p">,</span>
-                             <span class="n">TypeConverters</span><span class="o">.</span><span class="n">toListInt</span><span class="p">)</span></div>
+                             <span class="n">TypeConverters</span><span class="o">.</span><span class="n">toListInt</span><span class="p">)</span>
 
 <div class="viewcode-block" id="ContextSpellCheckerModel.setWordMaxDistance"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/spell_check/context_spell_checker/index.html#sparknlp.annotator.spell_check.context_spell_checker.ContextSpellCheckerModel.setWordMaxDistance">[docs]</a>    <span class="k">def</span> <span class="nf">setWordMaxDistance</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dist</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Sets maximum distance for the generated candidates for every word.</span>
@@ -1004,7 +1004,7 @@
   
   <div class="footer-item">
     <p class="sphinx-version">
-Created using <a href="http://sphinx-doc.org/">Sphinx</a> 5.0.2.<br>
+Created using <a href="http://sphinx-doc.org/">Sphinx</a> 5.1.1.<br>
 </p>
   </div>
   

@@ -3,9 +3,9 @@
         <head>
           <meta http-equiv="X-UA-Compatible" content="IE=edge" />
           <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-          <title>Spark NLP 4.0.2 ScalaDoc  - com.johnsnowlabs.nlp.LightPipeline</title>
-          <meta name="description" content="Spark NLP 4.0.2 ScalaDoc - com.johnsnowlabs.nlp.LightPipeline" />
-          <meta name="keywords" content="Spark NLP 4.0.2 ScalaDoc com.johnsnowlabs.nlp.LightPipeline" />
+          <title>Spark NLP 4.1.0 ScalaDoc  - com.johnsnowlabs.nlp.LightPipeline</title>
+          <meta name="description" content="Spark NLP 4.1.0 ScalaDoc - com.johnsnowlabs.nlp.LightPipeline" />
+          <meta name="keywords" content="Spark NLP 4.1.0 ScalaDoc com.johnsnowlabs.nlp.LightPipeline" />
           <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
           
       
@@ -28,7 +28,7 @@
         </head>
         <body>
       <div id="search">
-        <span id="doc-title">Spark NLP 4.0.2 ScalaDoc<span id="doc-version"></span></span>
+        <span id="doc-title">Spark NLP 4.1.0 ScalaDoc<span id="doc-version"></span></span>
         <span class="close-results"><span class="left">&lt;</span> Back</span>
         <div id="textfilter">
           <span class="input">
@@ -238,6 +238,10 @@
                         <a class="class" href="Annotation.html" title="represents annotator's output parts and their details"></a>
                         <a href="Annotation.html" title="represents annotator's output parts and their details">Annotation</a>
                       </li><li class="current-entities indented3">
+                        <a class="object" href="AnnotationImage$.html" title=""></a>
+                        <a class="class" href="AnnotationImage.html" title="Represents ImageAssembler's output parts and their details"></a>
+                        <a href="AnnotationImage.html" title="Represents ImageAssembler's output parts and their details">AnnotationImage</a>
+                      </li><li class="current-entities indented3">
                         <span class="separator"></span>
                         <a class="class" href="AnnotatorApproach.html" title="This class should grow once we start training on datasets and share params For now it stands as a dummy placeholder for future reference"></a>
                         <a href="AnnotatorApproach.html" title="This class should grow once we start training on datasets and share params For now it stands as a dummy placeholder for future reference">AnnotatorApproach</a>
@@ -291,6 +295,10 @@
                         <a href="HasBatchedAnnotate.html" title="">HasBatchedAnnotate</a>
                       </li><li class="current-entities indented3">
                         <span class="separator"></span>
+                        <a class="trait" href="HasBatchedAnnotateImage.html" title=""></a>
+                        <a href="HasBatchedAnnotateImage.html" title="">HasBatchedAnnotateImage</a>
+                      </li><li class="current-entities indented3">
+                        <span class="separator"></span>
                         <a class="trait" href="HasCaseSensitiveProperties.html" title=""></a>
                         <a href="HasCaseSensitiveProperties.html" title="">HasCaseSensitiveProperties</a>
                       </li><li class="current-entities indented3">
@@ -305,6 +313,10 @@
                         <span class="separator"></span>
                         <a class="trait" href="HasFeatures.html" title=""></a>
                         <a href="HasFeatures.html" title="">HasFeatures</a>
+                      </li><li class="current-entities indented3">
+                        <span class="separator"></span>
+                        <a class="trait" href="HasImageFeatureProperties.html" title="example of required parameters"></a>
+                        <a href="HasImageFeatureProperties.html" title="example of required parameters">HasImageFeatureProperties</a>
                       </li><li class="current-entities indented3">
                         <span class="separator"></span>
                         <a class="trait" href="HasInputAnnotationCols.html" title=""></a>
@@ -337,6 +349,14 @@
                         <span class="separator"></span>
                         <a class="trait" href="HasSimpleAnnotate.html" title=""></a>
                         <a href="HasSimpleAnnotate.html" title="">HasSimpleAnnotate</a>
+                      </li><li class="current-entities indented3">
+                        <span class="separator"></span>
+                        <a class="trait" href="IAnnotation.html" title=""></a>
+                        <a href="IAnnotation.html" title="">IAnnotation</a>
+                      </li><li class="current-entities indented3">
+                        <span class="separator"></span>
+                        <a class="class" href="ImageAssembler.html" title="Prepares images read by Spark into a format that is processable by Spark NLP."></a>
+                        <a href="ImageAssembler.html" title="Prepares images read by Spark into a format that is processable by Spark NLP.">ImageAssembler</a>
                       </li><li class="current-entities indented3">
                         <span class="separator"></span>
                         <a class="class" href="JavaAnnotation.html" title=""></a>
@@ -534,22 +554,6 @@
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef → Any</dd></dl></div>
     </li><li name="com.johnsnowlabs.nlp.LightPipeline#annotate" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="annotate(targets:Array[String]):Array[Map[String,Seq[String]]]"></a><a id="annotate(Array[String]):Array[Map[String,Seq[String]]]"></a>
-      <span class="permalink">
-      <a href="../../../com/johnsnowlabs/nlp/LightPipeline.html#annotate(targets:Array[String]):Array[Map[String,Seq[String]]]" title="Permalink">
-        <i class="material-icons"></i>
-      </a>
-    </span>
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">def</span>
-      </span>
-      <span class="symbol">
-        <span class="name">annotate</span><span class="params">(<span name="targets">targets: <span class="extype" name="scala.Array">Array</span>[<span class="extype" name="scala.Predef.String">String</span>]</span>)</span><span class="result">: <span class="extype" name="scala.Array">Array</span>[<span class="extype" name="scala.Predef.Map">Map</span>[<span class="extype" name="scala.Predef.String">String</span>, <span class="extype" name="scala.Seq">Seq</span>[<span class="extype" name="scala.Predef.String">String</span>]]]</span>
-      </span>
-      
-      
-    </li><li name="com.johnsnowlabs.nlp.LightPipeline#annotate" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
       <a id="annotate(target:String,optionalTarget:String):Map[String,Seq[String]]"></a><a id="annotate(String,String):Map[String,Seq[String]]"></a>
       <span class="permalink">
       <a href="../../../com/johnsnowlabs/nlp/LightPipeline.html#annotate(target:String,optionalTarget:String):Map[String,Seq[String]]" title="Permalink">
@@ -562,6 +566,22 @@
       </span>
       <span class="symbol">
         <span class="name">annotate</span><span class="params">(<span name="target">target: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="optionalTarget">optionalTarget: <span class="extype" name="scala.Predef.String">String</span> = <span class="symbol">&quot;&quot;</span></span>)</span><span class="result">: <span class="extype" name="scala.Predef.Map">Map</span>[<span class="extype" name="scala.Predef.String">String</span>, <span class="extype" name="scala.Seq">Seq</span>[<span class="extype" name="scala.Predef.String">String</span>]]</span>
+      </span>
+      
+      
+    </li><li name="com.johnsnowlabs.nlp.LightPipeline#annotate" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="annotate(targets:Array[String]):Array[Map[String,Seq[String]]]"></a><a id="annotate(Array[String]):Array[Map[String,Seq[String]]]"></a>
+      <span class="permalink">
+      <a href="../../../com/johnsnowlabs/nlp/LightPipeline.html#annotate(targets:Array[String]):Array[Map[String,Seq[String]]]" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">annotate</span><span class="params">(<span name="targets">targets: <span class="extype" name="scala.Array">Array</span>[<span class="extype" name="scala.Predef.String">String</span>]</span>)</span><span class="result">: <span class="extype" name="scala.Array">Array</span>[<span class="extype" name="scala.Predef.Map">Map</span>[<span class="extype" name="scala.Predef.String">String</span>, <span class="extype" name="scala.Seq">Seq</span>[<span class="extype" name="scala.Predef.String">String</span>]]]</span>
       </span>
       
       
@@ -708,6 +728,22 @@
               
         </dd></dl></div>
     </li><li name="com.johnsnowlabs.nlp.LightPipeline#fullAnnotate" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="fullAnnotate(target:String,optionalTarget:String):Map[String,Seq[com.johnsnowlabs.nlp.Annotation]]"></a><a id="fullAnnotate(String,String):Map[String,Seq[Annotation]]"></a>
+      <span class="permalink">
+      <a href="../../../com/johnsnowlabs/nlp/LightPipeline.html#fullAnnotate(target:String,optionalTarget:String):Map[String,Seq[com.johnsnowlabs.nlp.Annotation]]" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">fullAnnotate</span><span class="params">(<span name="target">target: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="optionalTarget">optionalTarget: <span class="extype" name="scala.Predef.String">String</span> = <span class="symbol">&quot;&quot;</span></span>)</span><span class="result">: <span class="extype" name="scala.Predef.Map">Map</span>[<span class="extype" name="scala.Predef.String">String</span>, <span class="extype" name="scala.Seq">Seq</span>[<a href="Annotation.html" class="extype" name="com.johnsnowlabs.nlp.Annotation">Annotation</a>]]</span>
+      </span>
+      
+      
+    </li><li name="com.johnsnowlabs.nlp.LightPipeline#fullAnnotate" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
       <a id="fullAnnotate(targets:Array[String]):Array[Map[String,Seq[com.johnsnowlabs.nlp.Annotation]]]"></a><a id="fullAnnotate(Array[String]):Array[Map[String,Seq[Annotation]]]"></a>
       <span class="permalink">
       <a href="../../../com/johnsnowlabs/nlp/LightPipeline.html#fullAnnotate(targets:Array[String]):Array[Map[String,Seq[com.johnsnowlabs.nlp.Annotation]]]" title="Permalink">
@@ -723,10 +759,10 @@
       </span>
       
       
-    </li><li name="com.johnsnowlabs.nlp.LightPipeline#fullAnnotate" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="fullAnnotate(target:String,optionalTarget:String,startWith:Map[String,Seq[com.johnsnowlabs.nlp.Annotation]]):Map[String,Seq[com.johnsnowlabs.nlp.Annotation]]"></a><a id="fullAnnotate(String,String,Map[String,Seq[Annotation]]):Map[String,Seq[Annotation]]"></a>
+    </li><li name="com.johnsnowlabs.nlp.LightPipeline#fullAnnotateImage" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="fullAnnotateImage(pathToImage:String):Map[String,Seq[com.johnsnowlabs.nlp.IAnnotation]]"></a><a id="fullAnnotateImage(String):Map[String,Seq[IAnnotation]]"></a>
       <span class="permalink">
-      <a href="../../../com/johnsnowlabs/nlp/LightPipeline.html#fullAnnotate(target:String,optionalTarget:String,startWith:Map[String,Seq[com.johnsnowlabs.nlp.Annotation]]):Map[String,Seq[com.johnsnowlabs.nlp.Annotation]]" title="Permalink">
+      <a href="../../../com/johnsnowlabs/nlp/LightPipeline.html#fullAnnotateImage(pathToImage:String):Map[String,Seq[com.johnsnowlabs.nlp.IAnnotation]]" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -735,7 +771,55 @@
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">fullAnnotate</span><span class="params">(<span name="target">target: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="optionalTarget">optionalTarget: <span class="extype" name="scala.Predef.String">String</span> = <span class="symbol">&quot;&quot;</span></span>, <span name="startWith">startWith: <span class="extype" name="scala.Predef.Map">Map</span>[<span class="extype" name="scala.Predef.String">String</span>, <span class="extype" name="scala.Seq">Seq</span>[<a href="Annotation.html" class="extype" name="com.johnsnowlabs.nlp.Annotation">Annotation</a>]] = <span class="symbol">Map.empty[String, Seq[Annotation]]</span></span>)</span><span class="result">: <span class="extype" name="scala.Predef.Map">Map</span>[<span class="extype" name="scala.Predef.String">String</span>, <span class="extype" name="scala.Seq">Seq</span>[<a href="Annotation.html" class="extype" name="com.johnsnowlabs.nlp.Annotation">Annotation</a>]]</span>
+        <span class="name">fullAnnotateImage</span><span class="params">(<span name="pathToImage">pathToImage: <span class="extype" name="scala.Predef.String">String</span></span>)</span><span class="result">: <span class="extype" name="scala.Predef.Map">Map</span>[<span class="extype" name="scala.Predef.String">String</span>, <span class="extype" name="scala.Seq">Seq</span>[<a href="IAnnotation.html" class="extype" name="com.johnsnowlabs.nlp.IAnnotation">IAnnotation</a>]]</span>
+      </span>
+      
+      
+    </li><li name="com.johnsnowlabs.nlp.LightPipeline#fullAnnotateImage" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="fullAnnotateImage(pathToImages:Array[String]):Array[Map[String,Seq[com.johnsnowlabs.nlp.IAnnotation]]]"></a><a id="fullAnnotateImage(Array[String]):Array[Map[String,Seq[IAnnotation]]]"></a>
+      <span class="permalink">
+      <a href="../../../com/johnsnowlabs/nlp/LightPipeline.html#fullAnnotateImage(pathToImages:Array[String]):Array[Map[String,Seq[com.johnsnowlabs.nlp.IAnnotation]]]" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">fullAnnotateImage</span><span class="params">(<span name="pathToImages">pathToImages: <span class="extype" name="scala.Array">Array</span>[<span class="extype" name="scala.Predef.String">String</span>]</span>)</span><span class="result">: <span class="extype" name="scala.Array">Array</span>[<span class="extype" name="scala.Predef.Map">Map</span>[<span class="extype" name="scala.Predef.String">String</span>, <span class="extype" name="scala.Seq">Seq</span>[<a href="IAnnotation.html" class="extype" name="com.johnsnowlabs.nlp.IAnnotation">IAnnotation</a>]]]</span>
+      </span>
+      
+      
+    </li><li name="com.johnsnowlabs.nlp.LightPipeline#fullAnnotateImageJava" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="fullAnnotateImageJava(pathToImages:java.util.ArrayList[String]):java.util.List[java.util.Map[String,java.util.List[com.johnsnowlabs.nlp.IAnnotation]]]"></a><a id="fullAnnotateImageJava(ArrayList[String]):List[Map[String,List[IAnnotation]]]"></a>
+      <span class="permalink">
+      <a href="../../../com/johnsnowlabs/nlp/LightPipeline.html#fullAnnotateImageJava(pathToImages:java.util.ArrayList[String]):java.util.List[java.util.Map[String,java.util.List[com.johnsnowlabs.nlp.IAnnotation]]]" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">fullAnnotateImageJava</span><span class="params">(<span name="pathToImages">pathToImages: <span class="extype" name="java.util.ArrayList">ArrayList</span>[<span class="extype" name="scala.Predef.String">String</span>]</span>)</span><span class="result">: <span class="extype" name="java.util.List">List</span>[<span class="extype" name="java.util.Map">Map</span>[<span class="extype" name="scala.Predef.String">String</span>, <span class="extype" name="java.util.List">List</span>[<a href="IAnnotation.html" class="extype" name="com.johnsnowlabs.nlp.IAnnotation">IAnnotation</a>]]]</span>
+      </span>
+      
+      
+    </li><li name="com.johnsnowlabs.nlp.LightPipeline#fullAnnotateImageJava" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="fullAnnotateImageJava(pathToImage:String):java.util.Map[String,java.util.List[com.johnsnowlabs.nlp.IAnnotation]]"></a><a id="fullAnnotateImageJava(String):Map[String,List[IAnnotation]]"></a>
+      <span class="permalink">
+      <a href="../../../com/johnsnowlabs/nlp/LightPipeline.html#fullAnnotateImageJava(pathToImage:String):java.util.Map[String,java.util.List[com.johnsnowlabs.nlp.IAnnotation]]" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">fullAnnotateImageJava</span><span class="params">(<span name="pathToImage">pathToImage: <span class="extype" name="scala.Predef.String">String</span></span>)</span><span class="result">: <span class="extype" name="java.util.Map">Map</span>[<span class="extype" name="scala.Predef.String">String</span>, <span class="extype" name="java.util.List">List</span>[<a href="IAnnotation.html" class="extype" name="com.johnsnowlabs.nlp.IAnnotation">IAnnotation</a>]]</span>
       </span>
       
       

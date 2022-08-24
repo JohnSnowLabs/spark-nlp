@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>sparknlp.base.embeddings_finisher &#8212; Spark NLP 4.0.2 documentation</title>
+    <title>sparknlp.base.embeddings_finisher &#8212; Spark NLP 4.1.0 documentation</title>
 <script>
   document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
   document.documentElement.dataset.theme = localStorage.getItem("theme") || "light"
@@ -285,12 +285,12 @@
 <span class="sd">    EmbeddingsFinisher : for finishing embeddings</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-<div class="viewcode-block" id="EmbeddingsFinisher.inputCols"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/base/embeddings_finisher/index.html#sparknlp.base.embeddings_finisher.EmbeddingsFinisher.inputCols">[docs]</a>    <span class="n">inputCols</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;inputCols&quot;</span><span class="p">,</span> <span class="s2">&quot;name of input annotation cols containing embeddings&quot;</span><span class="p">,</span> <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toListString</span><span class="p">)</span></div>
-<div class="viewcode-block" id="EmbeddingsFinisher.outputCols"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/base/embeddings_finisher/index.html#sparknlp.base.embeddings_finisher.EmbeddingsFinisher.outputCols">[docs]</a>    <span class="n">outputCols</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;outputCols&quot;</span><span class="p">,</span> <span class="s2">&quot;output EmbeddingsFinisher ouput cols&quot;</span><span class="p">,</span> <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toListString</span><span class="p">)</span></div>
-<div class="viewcode-block" id="EmbeddingsFinisher.cleanAnnotations"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/base/embeddings_finisher/index.html#sparknlp.base.embeddings_finisher.EmbeddingsFinisher.cleanAnnotations">[docs]</a>    <span class="n">cleanAnnotations</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;cleanAnnotations&quot;</span><span class="p">,</span> <span class="s2">&quot;whether to remove all the existing annotation columns&quot;</span><span class="p">,</span> <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toBoolean</span><span class="p">)</span></div>
-<div class="viewcode-block" id="EmbeddingsFinisher.outputAsVector"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/base/embeddings_finisher/index.html#sparknlp.base.embeddings_finisher.EmbeddingsFinisher.outputAsVector">[docs]</a>    <span class="n">outputAsVector</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;outputAsVector&quot;</span><span class="p">,</span> <span class="s2">&quot;if enabled it will output the embeddings as Vectors instead of arrays&quot;</span><span class="p">,</span> <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toBoolean</span><span class="p">)</span></div>
+    <span class="n">inputCols</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;inputCols&quot;</span><span class="p">,</span> <span class="s2">&quot;name of input annotation cols containing embeddings&quot;</span><span class="p">,</span> <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toListString</span><span class="p">)</span>
+    <span class="n">outputCols</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;outputCols&quot;</span><span class="p">,</span> <span class="s2">&quot;output EmbeddingsFinisher ouput cols&quot;</span><span class="p">,</span> <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toListString</span><span class="p">)</span>
+    <span class="n">cleanAnnotations</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;cleanAnnotations&quot;</span><span class="p">,</span> <span class="s2">&quot;whether to remove all the existing annotation columns&quot;</span><span class="p">,</span> <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toBoolean</span><span class="p">)</span>
+    <span class="n">outputAsVector</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;outputAsVector&quot;</span><span class="p">,</span> <span class="s2">&quot;if enabled it will output the embeddings as Vectors instead of arrays&quot;</span><span class="p">,</span> <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toBoolean</span><span class="p">)</span>
 
-<div class="viewcode-block" id="EmbeddingsFinisher.name"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/base/embeddings_finisher/index.html#sparknlp.base.embeddings_finisher.EmbeddingsFinisher.name">[docs]</a>    <span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;EmbeddingsFinisher&quot;</span></div>
+    <span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;EmbeddingsFinisher&quot;</span>
 
     <span class="nd">@keyword_only</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
@@ -301,9 +301,9 @@
         <span class="p">)</span>
 
     <span class="nd">@keyword_only</span>
-<div class="viewcode-block" id="EmbeddingsFinisher.setParams"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/base/embeddings_finisher/index.html#sparknlp.base.embeddings_finisher.EmbeddingsFinisher.setParams">[docs]</a>    <span class="k">def</span> <span class="nf">setParams</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">setParams</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="n">kwargs</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_input_kwargs</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
 
 <div class="viewcode-block" id="EmbeddingsFinisher.setInputCols"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/base/embeddings_finisher/index.html#sparknlp.base.embeddings_finisher.EmbeddingsFinisher.setInputCols">[docs]</a>    <span class="k">def</span> <span class="nf">setInputCols</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">value</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Sets name of input annotation columns containing embeddings.</span>
@@ -389,7 +389,7 @@
   
   <div class="footer-item">
     <p class="sphinx-version">
-Created using <a href="http://sphinx-doc.org/">Sphinx</a> 5.0.2.<br>
+Created using <a href="http://sphinx-doc.org/">Sphinx</a> 5.1.1.<br>
 </p>
   </div>
   

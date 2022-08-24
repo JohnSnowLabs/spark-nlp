@@ -3,9 +3,9 @@
         <head>
           <meta http-equiv="X-UA-Compatible" content="IE=edge" />
           <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-          <title>Spark NLP 4.0.2 ScalaDoc  - com.johnsnowlabs.nlp.annotators.coref.SpanBertCorefModel</title>
-          <meta name="description" content="Spark NLP 4.0.2 ScalaDoc - com.johnsnowlabs.nlp.annotators.coref.SpanBertCorefModel" />
-          <meta name="keywords" content="Spark NLP 4.0.2 ScalaDoc com.johnsnowlabs.nlp.annotators.coref.SpanBertCorefModel" />
+          <title>Spark NLP 4.1.0 ScalaDoc  - com.johnsnowlabs.nlp.annotators.coref.SpanBertCorefModel</title>
+          <meta name="description" content="Spark NLP 4.1.0 ScalaDoc - com.johnsnowlabs.nlp.annotators.coref.SpanBertCorefModel" />
+          <meta name="keywords" content="Spark NLP 4.1.0 ScalaDoc com.johnsnowlabs.nlp.annotators.coref.SpanBertCorefModel" />
           <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
           
       
@@ -28,7 +28,7 @@
         </head>
         <body>
       <div id="search">
-        <span id="doc-title">Spark NLP 4.0.2 ScalaDoc<span id="doc-version"></span></span>
+        <span id="doc-title">Spark NLP 4.1.0 ScalaDoc<span id="doc-version"></span></span>
         <span class="close-results"><span class="left">&lt;</span> Back</span>
         <div id="textfilter">
           <span class="input">
@@ -196,7 +196,7 @@ text. For example, given a sentence &quot;John told Mary he would like to borrow
 the model will link &quot;he&quot; to &quot;John&quot; and &quot;her&quot; to &quot;Mary&quot;.</p><p>This model is based on SpanBert, which is fine-tuned on the OntoNotes 5.0 data set.</p><p>Pretrained models can be loaded with <code>pretrained</code> of the companion object:</p><pre><span class="kw">val</span> dependencyParserApproach = SpanBertCorefModel.pretrained()
   .setInputCols(<span class="lit">"sentence"</span>, <span class="lit">"token"</span>)
   .setOutputCol(<span class="lit">"corefs"</span>)</pre><p>The default model is <code>&quot;spanbert_base_coref&quot;</code>, if no name is provided. For available pretrained
-models please see the <a href="https://nlp.johnsnowlabs.com/models" target="_blank">Models Hub</a>.</p><p><b>Sources:</b></p><ul><li><a href="https://github.com/mandarjoshi90/coref" target="_blank">https://github.com/mandarjoshi90/coref</a></li></ul><h4>Example</h4><pre><span class="kw">import</span> spark.implicits._
+models please see the <a href="https://nlp.johnsnowlabs.com/models" target="_blank">Models Hub</a>.</p><p><b>References:</b></p><ul><li><a href="https://github.com/mandarjoshi90/coref" target="_blank">https://github.com/mandarjoshi90/coref</a></li></ul><h4>Example</h4><pre><span class="kw">import</span> spark.implicits._
 <span class="kw">import</span> com.johnsnowlabs.nlp.base.DocumentAssembler
 <span class="kw">import</span> com.johnsnowlabs.nlp.annotators.Tokenizer
 <span class="kw">import</span> com.johnsnowlabs.nlp.annotators.sbd.pragmatic.SentenceDetector

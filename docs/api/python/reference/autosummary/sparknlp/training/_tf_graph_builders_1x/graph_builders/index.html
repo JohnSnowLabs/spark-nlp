@@ -1,0 +1,396 @@
+
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+
+    <title>sparknlp.training._tf_graph_builders_1x.graph_builders &#8212; Spark NLP 4.1.0 documentation</title>
+<script>
+  document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+  document.documentElement.dataset.theme = localStorage.getItem("theme") || "light"
+</script>
+
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../../../../../static/styles/theme.css?digest=92025949c220c2e29695" rel="stylesheet">
+<link href="../../../../../../static/styles/pydata-sphinx-theme.css?digest=92025949c220c2e29695" rel="stylesheet">
+
+
+  <link rel="stylesheet"
+    href="../../../../../../static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../../../../../../static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../../../../../../static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+    <link rel="stylesheet" type="text/css" href="../../../../../../static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../../../../../../static/graphviz.css" />
+    <link rel="stylesheet" type="text/css" href="../../../../../../static/css/custom.css" />
+
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../../../../../static/scripts/pydata-sphinx-theme.js?digest=92025949c220c2e29695">
+
+    <script data-url_root="../../../../../../" id="documentation_options" src="../../../../../../static/documentation_options.js"></script>
+    <script src="../../../../../../static/jquery.js"></script>
+    <script src="../../../../../../static/underscore.js"></script>
+    <script src="../../../../../../static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="../../../../../../static/doctools.js"></script>
+    <script src="../../../../../../static/toggleprompt.js"></script>
+    <link rel="shortcut icon" href="../../../../../../static/fav.ico"/>
+    <link rel="index" title="Index" href="../../../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../../../search.html" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="docsearch:language" content="en">
+  </head>
+  
+  
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="180" data-default-mode="">
+    <div class="bd-header-announcement container-fluid" id="banner">
+      
+
+    </div>
+
+    
+    <nav class="bd-header navbar navbar-light navbar-expand-lg bg-light fixed-top bd-navbar" id="navbar-main"><div class="bd-header__inner container-xl">
+
+  <div id="navbar-start">
+    
+    
+  
+
+
+<a class="navbar-brand logo" href="../../../../../../index.html">
+  
+  
+  
+  
+    <img src="../../../../../../static/logo.png" class="logo__image only-light" alt="Logo image">
+    <img src="../../../../../../static/logo.png" class="logo__image only-dark" alt="Logo image">
+  
+  
+</a>
+    
+  </div>
+
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar-collapsible" aria-controls="navbar-collapsible" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="fas fa-bars"></span>
+  </button>
+
+  
+  <div id="navbar-collapsible" class="col-lg-9 collapse navbar-collapse">
+    <div id="navbar-center" class="mr-auto">
+      
+      <div class="navbar-center-item">
+        <ul id="navbar-main-elements" class="navbar-nav">
+    <li class="toctree-l1 nav-item">
+ <a class="reference internal nav-link" href="../../../../../../getting_started/index.html">
+  Getting Started
+ </a>
+</li>
+
+<li class="toctree-l1 nav-item">
+ <a class="reference internal nav-link" href="../../../../../../user_guide/index.html">
+  User Guide
+ </a>
+</li>
+
+<li class="toctree-l1 nav-item">
+ <a class="reference internal nav-link" href="../../../../../../third_party/index.html">
+  Third Party Projects
+ </a>
+</li>
+
+<li class="toctree-l1 nav-item">
+ <a class="reference internal nav-link" href="../../../../../index.html">
+  API Reference
+ </a>
+</li>
+
+    
+</ul>
+      </div>
+      
+    </div>
+
+    <div id="navbar-end">
+      
+      <div class="navbar-end-item">
+        <span id="theme-switch" class="btn btn-sm btn-outline-primary navbar-btn rounded-circle">
+    <a class="theme-switch" data-mode="light"><i class="fas fa-sun"></i></a>
+    <a class="theme-switch" data-mode="dark"><i class="far fa-moon"></i></a>
+    <a class="theme-switch" data-mode="auto"><i class="fas fa-adjust"></i></a>
+</span>
+      </div>
+      
+      <div class="navbar-end-item">
+        <ul id="navbar-icon-links" class="navbar-nav" aria-label="Icon Links">
+      </ul>
+      </div>
+      
+    </div>
+  </div>
+</div>
+    </nav>
+    
+
+    <div class="bd-container container-xl">
+      <div class="bd-container__inner row">
+          
+
+<!-- Only show if we have sidebars configured, else just a small margin  -->
+<div class="bd-sidebar-primary col-12 col-md-3 bd-sidebar">
+  <div class="sidebar-start-items"><form class="bd-search d-flex align-items-center" action="../../../../../../search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search the docs ..." aria-label="Search the docs ..." autocomplete="off" >
+</form><nav class="bd-links" id="bd-docs-nav" aria-label="Main navigation">
+  <div class="bd-toc-item active">
+    
+  </div>
+</nav>
+  </div>
+  <div class="sidebar-end-items">
+  </div>
+</div>
+
+
+          
+
+
+<div class="bd-sidebar-secondary d-none d-xl-block col-xl-2 bd-toc">
+  
+    
+    <div class="toc-item">
+      
+<div class="tocsection onthispage mt-5 pt-1 pb-3">
+    <i class="fas fa-list"></i> On this page
+</div>
+
+<nav id="bd-toc-nav">
+    <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#module-contents">
+   Module Contents
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#classes">
+     Classes
+    </a>
+    <ul class="nav section-nav flex-column">
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#sparknlp.training._tf_graph_builders_1x.graph_builders.WrongTFVersion">
+       WrongTFVersion
+      </a>
+     </li>
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#sparknlp.training._tf_graph_builders_1x.graph_builders.TFGraphBuilder">
+       TFGraphBuilder
+      </a>
+     </li>
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#sparknlp.training._tf_graph_builders_1x.graph_builders.NerTFGraphBuilder">
+       NerTFGraphBuilder
+      </a>
+     </li>
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#sparknlp.training._tf_graph_builders_1x.graph_builders.TFGraphBuilderFactory">
+       TFGraphBuilderFactory
+      </a>
+      <ul class="nav section-nav flex-column">
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp.training._tf_graph_builders_1x.graph_builders.TFGraphBuilderFactory.get_models">
+         get_models
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp.training._tf_graph_builders_1x.graph_builders.TFGraphBuilderFactory.build">
+         build
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp.training._tf_graph_builders_1x.graph_builders.TFGraphBuilderFactory.print_model_params">
+         print_model_params
+        </a>
+       </li>
+      </ul>
+     </li>
+    </ul>
+   </li>
+  </ul>
+ </li>
+</ul>
+
+</nav>
+    </div>
+    
+    <div class="toc-item">
+      
+    </div>
+    
+  
+</div>
+
+
+          
+          
+          <div class="bd-content col-12 col-md-9 col-xl-7">
+              
+              <article class="bd-article" role="main">
+                
+  <section id="module-sparknlp.training._tf_graph_builders_1x.graph_builders">
+<span id="sparknlp-training-tf-graph-builders-1x-graph-builders"></span><h1><a class="reference internal" href="#module-sparknlp.training._tf_graph_builders_1x.graph_builders" title="sparknlp.training._tf_graph_builders_1x.graph_builders"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.training._tf_graph_builders_1x.graph_builders</span></code></a><a class="headerlink" href="#module-sparknlp.training._tf_graph_builders_1x.graph_builders" title="Permalink to this heading">#</a></h1>
+<section id="module-contents">
+<h2>Module Contents<a class="headerlink" href="#module-contents" title="Permalink to this heading">#</a></h2>
+<section id="classes">
+<h3>Classes<a class="headerlink" href="#classes" title="Permalink to this heading">#</a></h3>
+<table class="autosummary longtable table autosummary">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp.training._tf_graph_builders_1x.graph_builders.TFGraphBuilder" title="sparknlp.training._tf_graph_builders_1x.graph_builders.TFGraphBuilder"><code class="xref py py-obj docutils literal notranslate"><span class="pre">TFGraphBuilder</span></code></a></p></td>
+<td><p>Generic class to create the tensorflow graphs for 'ner_dl', 'generic_classifier', 'assertion_dl', 'relation_extraction' annotators in spark-nlp healthcare</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#sparknlp.training._tf_graph_builders_1x.graph_builders.NerTFGraphBuilder" title="sparknlp.training._tf_graph_builders_1x.graph_builders.NerTFGraphBuilder"><code class="xref py py-obj docutils literal notranslate"><span class="pre">NerTFGraphBuilder</span></code></a></p></td>
+<td><p>Class to build the the TF graphs for MedicalNerApproach.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp.training._tf_graph_builders_1x.graph_builders.TFGraphBuilderFactory" title="sparknlp.training._tf_graph_builders_1x.graph_builders.TFGraphBuilderFactory"><code class="xref py py-obj docutils literal notranslate"><span class="pre">TFGraphBuilderFactory</span></code></a></p></td>
+<td><p>Factory class to create the different tensorflow graphs for ner_dl</p></td>
+</tr>
+</tbody>
+</table>
+<dl class="py exception">
+<dt class="sig sig-object py" id="sparknlp.training._tf_graph_builders_1x.graph_builders.WrongTFVersion">
+<em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">WrongTFVersion</span></span><a class="reference internal" href="../../../../../../modules/sparknlp/training/_tf_graph_builders_1x/graph_builders.html#WrongTFVersion"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.training._tf_graph_builders_1x.graph_builders.WrongTFVersion" title="Permalink to this definition">#</a></dt>
+<dd><p>Common base class for all non-exit exceptions.</p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="sparknlp.training._tf_graph_builders_1x.graph_builders.TFGraphBuilder">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">TFGraphBuilder</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">build_params</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../modules/sparknlp/training/_tf_graph_builders_1x/graph_builders.html#TFGraphBuilder"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.training._tf_graph_builders_1x.graph_builders.TFGraphBuilder" title="Permalink to this definition">#</a></dt>
+<dd><p>Generic class to create the tensorflow graphs for ‘ner_dl’, ‘generic_classifier’, ‘assertion_dl’, ‘relation_extraction’ annotators in spark-nlp healthcare</p>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">sparknlp.training.tfgraphs</span> <span class="kn">import</span> <span class="n">tf_graph_1x</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">tf_graph_1x</span><span class="o">.</span><span class="n">get_models</span><span class="p">()</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="sparknlp.training._tf_graph_builders_1x.graph_builders.NerTFGraphBuilder">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">NerTFGraphBuilder</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">build_params</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../modules/sparknlp/training/_tf_graph_builders_1x/graph_builders.html#NerTFGraphBuilder"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.training._tf_graph_builders_1x.graph_builders.NerTFGraphBuilder" title="Permalink to this definition">#</a></dt>
+<dd><p>Class to build the the TF graphs for MedicalNerApproach.</p>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">sparknlp.training.tfgraphs</span> <span class="kn">import</span> <span class="n">tf_graph_1x</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">sparknlp.base</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">sparknlp.annotator</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">feat_size</span> <span class="o">=</span> <span class="mi">200</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">n_classes</span> <span class="o">=</span> <span class="mi">6</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">tf_graph_1x</span><span class="o">.</span><span class="n">build</span><span class="p">(</span><span class="s2">&quot;ner_dl&quot;</span><span class="p">,</span> <span class="n">build_params</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;embeddings_dim&quot;</span><span class="p">:</span> <span class="mi">200</span><span class="p">,</span> <span class="s2">&quot;nchars&quot;</span><span class="p">:</span> <span class="mi">83</span><span class="p">,</span><span class="s2">&quot;ntags&quot;</span><span class="p">:</span> <span class="mi">12</span><span class="p">},</span><span class="n">model_location</span><span class="o">=</span><span class="s2">&quot;./ner_graphs&quot;</span><span class="p">,</span><span class="n">model_filename</span><span class="o">=</span><span class="s2">&quot;auto&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">nerTagger</span> <span class="o">=</span> <span class="n">NerDLApproach</span><span class="p">()</span>    <span class="o">&gt;&gt;&gt;</span>                     <span class="o">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s2">&quot;sentence&quot;</span><span class="p">,</span> <span class="s2">&quot;token&quot;</span><span class="p">,</span> <span class="s2">&quot;embeddings&quot;</span><span class="p">])</span>    <span class="o">&gt;&gt;&gt;</span>                     <span class="o">.</span><span class="n">setLabelColumn</span><span class="p">(</span><span class="s2">&quot;label&quot;</span><span class="p">)</span>    <span class="o">&gt;&gt;&gt;</span>                     <span class="o">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s2">&quot;ner&quot;</span><span class="p">)</span>    <span class="o">&gt;&gt;&gt;</span>                     <span class="o">.</span><span class="n">setMaxEpochs</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>    <span class="o">&gt;&gt;&gt;</span>                     <span class="o">.</span><span class="n">setBatchSize</span><span class="p">(</span><span class="mi">64</span><span class="p">)</span>    <span class="o">&gt;&gt;&gt;</span>                     <span class="o">.</span><span class="n">setRandomSeed</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>    <span class="o">&gt;&gt;&gt;</span>                     <span class="o">.</span><span class="n">setVerbose</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>    <span class="o">&gt;&gt;&gt;</span>                     <span class="o">.</span><span class="n">setValidationSplit</span><span class="p">(</span><span class="mf">0.2</span><span class="p">)</span>    <span class="o">&gt;&gt;&gt;</span>                     <span class="o">.</span><span class="n">setEvaluationLogExtended</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>     <span class="o">&gt;&gt;&gt;</span>                     <span class="o">.</span><span class="n">setEnableOutputLogs</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>    <span class="o">&gt;&gt;&gt;</span>                     <span class="o">.</span><span class="n">setIncludeConfidence</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>    <span class="o">&gt;&gt;&gt;</span>                     <span class="o">.</span><span class="n">setOutputLogsPath</span><span class="p">(</span><span class="s1">&#39;ner_logs&#39;</span><span class="p">)</span>    <span class="o">&gt;&gt;&gt;</span>                     <span class="o">.</span><span class="n">setGraphFolder</span><span class="p">(</span><span class="s1">&#39;medical_ner_graphs&#39;</span><span class="p">)</span>    <span class="o">&gt;&gt;&gt;</span>                     <span class="o">.</span><span class="n">setEnableMemoryOptimizer</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="sparknlp.training._tf_graph_builders_1x.graph_builders.TFGraphBuilderFactory">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">TFGraphBuilderFactory</span></span><a class="reference internal" href="../../../../../../modules/sparknlp/training/_tf_graph_builders_1x/graph_builders.html#TFGraphBuilderFactory"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.training._tf_graph_builders_1x.graph_builders.TFGraphBuilderFactory" title="Permalink to this definition">#</a></dt>
+<dd><p>Factory class to create the different tensorflow graphs for ner_dl</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp.training._tf_graph_builders_1x.graph_builders.TFGraphBuilderFactory.get_models">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">get_models</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../modules/sparknlp/training/_tf_graph_builders_1x/graph_builders.html#TFGraphBuilderFactory.get_models"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.training._tf_graph_builders_1x.graph_builders.TFGraphBuilderFactory.get_models" title="Permalink to this definition">#</a></dt>
+<dd><p>Method that return the available tf models in  spark-nlp healthcare</p>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">sparknlp.training.tfgraphs</span> <span class="kn">import</span> <span class="n">tf_graph_1x</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">tf_graph_1x</span><span class="o">.</span><span class="n">get_models</span><span class="p">()</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp.training._tf_graph_builders_1x.graph_builders.TFGraphBuilderFactory.build">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">build</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">build_params</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">model_location</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">model_filename</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'auto'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../modules/sparknlp/training/_tf_graph_builders_1x/graph_builders.html#TFGraphBuilderFactory.build"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.training._tf_graph_builders_1x.graph_builders.TFGraphBuilderFactory.build" title="Permalink to this definition">#</a></dt>
+<dd><p>Method that create the tf graph.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>model_name: str</strong></dt><dd><p>The name of the tf model that you want to build. Model available: ner_dl</p>
+</dd>
+<dt><strong>build_params: dict</strong></dt><dd><p>Configuration params to build the tf graph for the specific model.</p>
+</dd>
+<dt><strong>model_location: str</strong></dt><dd><p>Path where the model will be saved</p>
+</dd>
+<dt><strong>model_filename: str</strong></dt><dd><p>Name of the .rb file. If you put auto the filename will be generated.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">sparknlp.training.tfgraphs</span> <span class="kn">import</span> <span class="n">tf_graph_1x</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">tf_graph_1x</span><span class="o">.</span><span class="n">build</span><span class="p">(</span><span class="s2">&quot;ner_dl&quot;</span><span class="p">,</span> <span class="n">build_params</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;embeddings_dim&quot;</span><span class="p">:</span> <span class="mi">200</span><span class="p">,</span> <span class="s2">&quot;nchars&quot;</span><span class="p">:</span> <span class="mi">83</span><span class="p">,</span><span class="s2">&quot;ntags&quot;</span><span class="p">:</span> <span class="mi">12</span><span class="p">},</span><span class="n">model_location</span><span class="o">=</span><span class="s2">&quot;./ner_graphs&quot;</span><span class="p">,</span><span class="n">model_filename</span><span class="o">=</span><span class="s2">&quot;auto&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp.training._tf_graph_builders_1x.graph_builders.TFGraphBuilderFactory.print_model_params">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">print_model_params</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model_name</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../modules/sparknlp/training/_tf_graph_builders_1x/graph_builders.html#TFGraphBuilderFactory.print_model_params"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.training._tf_graph_builders_1x.graph_builders.TFGraphBuilderFactory.print_model_params" title="Permalink to this definition">#</a></dt>
+<dd><p>Method that return the params allowed for the tf model.This method return the params with the description for every param.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>model_name: str</strong></dt><dd><p>The name of the tf model name.Model availables ner_dl,generic_classifier,assertion_dl and relation_extraction</p>
+</dd>
+</dl>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">sparknlp.training.tfgraphs</span> <span class="kn">import</span> <span class="n">tf_graph</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">tf_graph</span><span class="o">.</span><span class="n">print_model_params</span><span class="p">(</span><span class="s2">&quot;ner_dl&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+</section>
+</section>
+
+
+              </article>
+              
+
+              
+              <footer class="bd-footer-article">
+                  <!-- Previous / next buttons -->
+<div class='prev-next-area'>
+</div>
+              </footer>
+              
+          </div>
+          
+      </div>
+    </div>
+
+  
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../../../../../../static/scripts/pydata-sphinx-theme.js?digest=92025949c220c2e29695"></script>
+
+<footer class="bd-footer"><div class="bd-footer__inner container">
+  
+  <div class="footer-item">
+    <p class="copyright">
+    &copy; Copyright 2022, John Snow Labs.<br>
+</p>
+  </div>
+  
+  <div class="footer-item">
+    <p class="sphinx-version">
+Created using <a href="http://sphinx-doc.org/">Sphinx</a> 5.1.1.<br>
+</p>
+  </div>
+  
+</div>
+</footer>
+  </body>
+</html>
