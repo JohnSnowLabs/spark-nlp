@@ -305,7 +305,7 @@ This is a cheatsheet for corresponding Spark NLP Maven package to Apache Spark /
 | 3.0/3.1/3.2/3.3  | `spark-nlp`        | `spark-nlp-gpu`            | `spark-nlp-aarch64`            | `spark-nlp-m1`            |
 | Start Function   | `sparknlp.start()` | `sparknlp.start(gpu=True)` | `sparknlp.start(aarch64=True)` | `sparknlp.start(m1=True)` |
 
-NPTE: `M1` and `AArch64` are under `experimental` support. Access and support to these architectures are limited by the community and we had to build most of the dependencies by ourselves to make them compatible. We support these two architectures, however, they may not work in some enviroments.
+NOTE: `M1` and `AArch64` are under `experimental` support. Access and support to these architectures are limited by the community and we had to build most of the dependencies by ourselves to make them compatible. We support these two architectures, however, they may not work in some environments.
 
 ## Spark Packages
 
@@ -689,7 +689,7 @@ This script comes with the two options to define `pyspark` and `spark-nlp` versi
 
 4. Now you can attach your notebook to the cluster and use Spark NLP!
 
-NOTE: Databrick's runtimes support different Apache Spark major releases. Please make sure you choose the correct Spark NLP Maven pacakge name (Maven Coordinate) for your runtime from our [Pacakges Chetsheet](https://github.com/JohnSnowLabs/spark-nlp#packages-cheatsheet)
+NOTE: Databricks' runtimes support different Apache Spark major releases. Please make sure you choose the correct Spark NLP Maven package name (Maven Coordinate) for your runtime from our [Packages Cheatsheet](https://github.com/JohnSnowLabs/spark-nlp#packages-cheatsheet)
 
 ## EMR Cluster
 
