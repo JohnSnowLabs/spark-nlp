@@ -21,7 +21,7 @@ object Dependencies {
     } else if (is_m1.equals("true")) {
       "spark-nlp-m1"
     } else if (is_aarch64.equals("true")) {
-      "spark-nlp-linux-aarch64"
+      "spark-nlp-aarch64"
     } else {
       "spark-nlp"
     }
