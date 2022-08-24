@@ -136,7 +136,7 @@ Take a look at our official Spark NLP page: [http://nlp.johnsnowlabs.com/](http:
 - Easy TensorFlow integration
 - GPU Support
 - Full integration with Spark ML functions
-- +6100+ pre-trained models in +200 languages!
+- +6150+ pre-trained models in +200 languages!
 - +1840 pre-trained pipelines in +200 languages!
 - Multi-lingual NER models: Arabic, Bengali, Chinese, Danish, Dutch, English, Finnish, French, German, Hebrew, Italian, Japanese, Korean, Norwegian, Persian, Polish, Portuguese, Russian, Spanish, Swedish, Urdu, and more.
 
@@ -223,7 +223,7 @@ Spark NLP *4.1.0* has been built on top of Apache Spark 3.2 while fully supports
 | 3.0.x     | YES                | YES                | YES                | YES                | NO                 | NO                 |
 | 2.7.x     | YES                | YES                | NO                 | NO                 | NO                 | NO                 |
 
-- Starting 4.1.0 release, the default `spark-nlp` and `spark-nlp-gpu` packages are based on Scala 2.12.15 and Apache Spark 3.2 by default.
+NOTE: Starting 4.0.0 release, the default `spark-nlp` and `spark-nlp-gpu` packages are based on Scala 2.12.15 and Apache Spark 3.2 by default.
 
 Find out more about `Spark NLP` versions from our [release notes](https://github.com/JohnSnowLabs/spark-nlp/releases).
 
@@ -288,6 +288,7 @@ Spark NLP 4.1.0 has been tested and is compatible with the following EMR release
 - emr-6.4.0
 - emr-6.5.0
 - emr-6.6.0
+- emr-6.7.0
 
 Full list of [Amazon EMR 6.x releases](https://docs.aws.amazon.com/emr/latest/ReleaseGuide/emr-release-6x.html)
 
@@ -303,6 +304,8 @@ This is a cheatsheet for corresponding Spark NLP Maven package to Apache Spark /
 |------------------|--------------------|----------------------------|--------------------------------|---------------------------|
 | 3.0/3.1/3.2/3.3  | `spark-nlp`        | `spark-nlp-gpu`            | `spark-nlp-aarch64`            | `spark-nlp-m1`            |
 | Start Function   | `sparknlp.start()` | `sparknlp.start(gpu=True)` | `sparknlp.start(aarch64=True)` | `sparknlp.start(m1=True)` |
+
+NPTE: `M1` and `AArch64` are under `experimental` support. Access and support to these architectures are limited by the community and we had to build most of the dependencies by ourselves to make them compatible. We support these two architectures, however, they may not work in some enviroments.
 
 ## Spark Packages
 
