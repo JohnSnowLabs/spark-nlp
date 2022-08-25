@@ -27,7 +27,7 @@ import com.johnsnowlabs.util.JsonParser
 import org.apache.spark.ml.PipelineModel
 import org.apache.spark.ml.param.BooleanParam
 import org.apache.spark.ml.util.Identifiable
-import org.apache.spark.sql.functions.{col, collect_set, concat, lit}
+import org.apache.spark.sql.functions.{col, collect_set, concat, lit, flatten}
 import org.apache.spark.sql.types.{BooleanType, StringType, StructField, StructType}
 import org.apache.spark.sql.{DataFrame, Dataset}
 
@@ -256,12 +256,11 @@ class EntityRulerApproach(override val uid: String)
       val alphabet = EntityRulerUtil.loadAlphabet($(this.alphabet).path)
       automaton = Some(
         new AhoCorasickAutomaton(alphabet, keywordsPatterns.toArray, $(caseSensitive)))
-      automaton.get.buildMatchingMachine()
     }
 
     entityRuler
       .setRegexEntities(entities)
-      .setAutomatonIfNotSet(dataset.sparkSession, automaton)
+      .setAhoCorasickAutomaton(automaton)
 
   }
 
@@ -518,17 +517,15 @@ class EntityRulerApproach(override val uid: String)
     if (idFieldExist) {
       val patternsWithIdDataFrame =
         patternsDataFrame.withColumn("label_id", concat(col("label"), lit(","), col("id")))
-      patternsWithIdDataFrame.createOrReplaceTempView("patterns_view")
-      val sqlText =
-        s"SELECT label_id, flatten(collect_set(patterns)) AS flatten_patterns FROM patterns_view GROUP BY label_id"
-      spark.sql(sqlText)
-    } else {
-      patternsDataFrame.createOrReplaceTempView("patterns_view")
-      val sqlText =
-        s"SELECT label, flatten(collect_set(patterns)) AS flatten_patterns FROM patterns_view GROUP BY label"
-      spark.sql(sqlText)
-    }
 
+      patternsWithIdDataFrame
+        .groupBy("label_id")
+        .agg(flatten(collect_set("patterns")).as("flatten_patterns"))
+    } else {
+      patternsDataFrame
+        .groupBy("label")
+        .agg(flatten(collect_set("patterns")).as("flatten_patterns"))
+    }
   }
 
   private def storePatterns(

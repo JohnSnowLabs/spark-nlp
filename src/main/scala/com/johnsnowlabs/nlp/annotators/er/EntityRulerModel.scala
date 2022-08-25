@@ -25,7 +25,7 @@ import com.johnsnowlabs.storage._
 import org.apache.spark.broadcast.Broadcast
 import org.apache.spark.ml.param.{BooleanParam, StringArrayParam}
 import org.apache.spark.ml.util.Identifiable
-import org.apache.spark.sql.SparkSession
+import org.apache.spark.sql.{Dataset, SparkSession}
 import org.slf4j.{Logger, LoggerFactory}
 
 /** Instantiated model of the [[EntityRulerApproach]]. For usage and examples see the
@@ -79,6 +79,9 @@ class EntityRulerModel(override val uid: String)
     "sentenceMatch",
     "Whether to find match at sentence level (regex only). True: sentence level. False: token level")
 
+  private[er] val ahoCorasickAutomaton: StructFeature[Option[AhoCorasickAutomaton]] =
+    new StructFeature[Option[AhoCorasickAutomaton]](this, "AhoCorasickAutomaton")
+
   @deprecated("Enabling pattern regex now is define on each pattern", "Since 4.1.0")
   private[er] def setEnablePatternRegex(value: Boolean): this.type =
     set(enablePatternRegex, value)
@@ -92,9 +95,12 @@ class EntityRulerModel(override val uid: String)
 
   private[er] def setSentenceMatch(value: Boolean): this.type = set(sentenceMatch, value)
 
+  private[er] def setAhoCorasickAutomaton(value: Option[AhoCorasickAutomaton]): this.type =
+    set(ahoCorasickAutomaton, value)
+
   private var automatonModel: Option[Broadcast[AhoCorasickAutomaton]] = None
 
-  def setAutomatonIfNotSet(
+  def setAutomatonModelIfNotSet(
       spark: SparkSession,
       automaton: Option[AhoCorasickAutomaton]): this.type = {
     if (automatonModel.isEmpty && automaton.isDefined) {
@@ -103,7 +109,7 @@ class EntityRulerModel(override val uid: String)
     this
   }
 
-  def getAutomationModelIfNotSet: Option[AhoCorasickAutomaton] = {
+  def getAutomatonModelIfNotSet: Option[AhoCorasickAutomaton] = {
     if (automatonModel.isDefined) {
       Some(automatonModel.get.value)
     } else None
@@ -117,6 +123,11 @@ class EntityRulerModel(override val uid: String)
   val inputAnnotatorTypes: Array[String] = Array(DOCUMENT, TOKEN)
   val outputAnnotatorType: AnnotatorType = CHUNK
 
+  override def beforeAnnotate(dataset: Dataset[_]): Dataset[_] = {
+    this.setAutomatonModelIfNotSet(dataset.sparkSession, $$(ahoCorasickAutomaton))
+    dataset
+  }
+
   /** takes a document and annotations and produces new annotations of this annotator's annotation
     * type
     *
@@ -127,7 +138,7 @@ class EntityRulerModel(override val uid: String)
     *   relationship
     */
   def annotate(annotations: Seq[Annotation]): Seq[Annotation] = {
-
+    // TODO: Make TOKEN optional since it's only required when using regex match
     if ($(sentenceMatch)) {
       getAnnotationBySentence(annotations)
     } else {
@@ -137,7 +148,6 @@ class EntityRulerModel(override val uid: String)
   }
 
   private def getAnnotationByToken(annotations: Seq[Annotation]): Seq[Annotation] = {
-
     var annotatedEntitiesByRegex: Seq[Annotation] = Seq()
     var annotatedEntities: Seq[Annotation] = Seq()
 
@@ -151,21 +161,10 @@ class EntityRulerModel(override val uid: String)
     annotatedEntitiesByRegex =
       annotateEntitiesFromRegexPatterns(tokenizedWithSentences, regexPatternsReader)
 
-    val sentences = SentenceSplit.unpack(annotations)
-    if (getAutomationModelIfNotSet.isDefined) {
-
+    if (getAutomatonModelIfNotSet.isDefined) {
+      val sentences = SentenceSplit.unpack(annotations)
       annotatedEntities = sentences.flatMap { sentence =>
-        val tokensPerSentence: Seq[Annotation] = annotations.filter(annotation =>
-          annotation.annotatorType == TOKEN && annotation
-            .metadata("sentence")
-            .toInt == sentence.index)
-
-        val tokens: Map[Int, Annotation] =
-          tokensPerSentence.map(annotation => (annotation.end, annotation)).toMap
-
-        val result = getAutomationModelIfNotSet.get.searchWords(sentence, tokens)
-
-        result
+        getAutomatonModelIfNotSet.get.searchPatternsInText(sentence)
       }
     }
 
@@ -173,7 +172,6 @@ class EntityRulerModel(override val uid: String)
   }
 
   private def getAnnotationBySentence(annotations: Seq[Annotation]): Seq[Annotation] = {
-
     var annotatedEntitiesByRegex: Seq[Annotation] = Seq()
     var annotatedEntitiesByKeywords: Seq[Annotation] = Seq()
 
@@ -187,16 +185,10 @@ class EntityRulerModel(override val uid: String)
       annotatedEntitiesByRegex =
         annotateEntitiesFromRegexPatternsBySentence(sentences, patternsReader)
     }
-    if (getAutomationModelIfNotSet.isDefined) {
-      annotatedEntitiesByKeywords = sentences.flatMap { sentence =>
-        val tokensPerSentence: Seq[Annotation] = annotations.filter(annotation =>
-          annotation.annotatorType == TOKEN && annotation
-            .metadata("sentence")
-            .toInt == sentence.index)
-        val tokens: Map[Int, Annotation] =
-          tokensPerSentence.map(annotation => (annotation.end, annotation)).toMap
 
-        getAutomationModelIfNotSet.get.searchWords(sentence, tokens)
+    if (getAutomatonModelIfNotSet.isDefined) {
+      annotatedEntitiesByKeywords = sentences.flatMap { sentence =>
+        getAutomatonModelIfNotSet.get.searchPatternsInText(sentence)
       }
     }
 
