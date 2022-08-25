@@ -19,7 +19,6 @@ import com.johnsnowlabs.nlp.Annotation
 import com.johnsnowlabs.nlp.AnnotatorType.CHUNK
 import com.johnsnowlabs.nlp.annotators.common.Sentence
 
-import scala.collection.mutable
 import scala.collection.mutable.ArrayBuffer
 
 /** Aho-Corasick Algorithm: https://dl.acm.org/doi/10.1145/360825.360855 A simple, efficient
@@ -36,7 +35,6 @@ class AhoCorasickAutomaton(
     extends Serializable {
 
   alphabet = if (alphabet.contains(" ")) alphabet else alphabet + " "
-
   private val flattenEntityPatterns: Array[FlattenEntityPattern] = patterns.flatMap {
     entityPattern =>
       entityPattern.patterns.map { pattern =>
@@ -45,233 +43,153 @@ class AhoCorasickAutomaton(
       }
   }
 
-  private val MAX_STATES: Int = flattenEntityPatterns.map(value => value.keyword.length).sum + 1
-  private val MAX_EDGES: Int = alphabet.length
+  private val ALPHABET_SIZE = alphabet.length
+  private val MAX_NODES = flattenEntityPatterns.map(value => value.keyword.length).sum + 1
+
+  var nodes: Array[Option[Node]] = Array.fill(MAX_NODES)(None)
+  var nodeCount: Int = 1
+
+  class Node extends Serializable {
+
+    var parentState: Int = -1
+    var charFromParent: Option[Char] = None
+    var suffixLink: Int = -1
+    var children: Array[Int] = Array.fill(ALPHABET_SIZE)(-1)
+    var transitions: Array[Int] =
+      Array.fill(ALPHABET_SIZE)(-1) // Transition Table aka Goto function
+    var isLeaf: Boolean = false
+    var entity: String = ""
+    var id: String = ""
+  }
 
   private val edges: Map[Char, Int] = alphabet.toCharArray.zipWithIndex.map {
     case (char, index) => (char, index)
   }.toMap
-  private val output: mutable.Map[Int, Int] = mutable.Map(0 -> 0)
-  private val failureLink: mutable.Map[Int, Int] = mutable.Map(0 -> -1)
 
-  /** Transition Table aka Goto function: Using a 2D Array to represent a Trie */
-  private val transitionTable: Array[Array[Int]] =
-    Array.fill(MAX_STATES)(Array.fill(MAX_EDGES)(-1))
+  initializeTrie()
+
+  private def initializeTrie(): Unit = {
+    nodes(0) = Some(new Node())
+    nodes(0).get.suffixLink = 0
+    nodes(0).get.parentState = -1
+
+    flattenEntityPatterns.foreach(pattern => addPattern(pattern))
+  }
 
   /** First step of Aho-Corasick algorithm: Build a Finite State Automaton as a keyword trie in
     * which the nodes represent the state and the edges between nodes are labeled by characters
     * that cause the transitions between nodes. The trie is an efficient implementation of a
-    * dictionary of strings. It is also easy to implement a state machine as a lookup table where
-    * the rows represent states and the columns represent input character
+    * dictionary of strings.
     */
-  def buildMatchingMachine(): Unit = {
-    buildGoToGraph()
-    buildFailureLink()
-  }
-
-  private def buildGoToGraph(): Unit = {
-
-    var state = 1
-
-    flattenEntityPatterns.zipWithIndex.foreach { case (flattenEntityPattern, keywordIndex) =>
-      val keyword = flattenEntityPattern.keyword
-      var currentState = 0
-
-      keyword.foreach { char =>
-        val currentChar = if (caseSensitive) char else char.toLower
-        val edgeIndex = edges.getOrElse(
-          currentChar,
-          throw new UnsupportedOperationException(
-            s"Char $currentChar not found on alphabet. Please check alphabet"))
-        // Allocate a new node (create a new state) if a node for character doesn't exist.
-        if (transitionTable(currentState)(edgeIndex) == -1) {
-          transitionTable(currentState)(edgeIndex) = state
-          state = state + 1
-        }
-
-        currentState = transitionTable(currentState)(edgeIndex)
+  private def addPattern(pattern: FlattenEntityPattern): Unit = {
+    var state = 0
+    pattern.keyword.toCharArray.foreach { char =>
+      val edgeIndex = edges(char)
+      if (nodes(state).get.children(edgeIndex) == -1) {
+        nodes(nodeCount) = Some(new Node())
+        nodes(nodeCount).get.parentState = state
+        nodes(nodeCount).get.charFromParent = Some(char)
+        nodes(state).get.children(edgeIndex) = nodeCount
+        nodeCount = nodeCount + 1
       }
-
-      addCurrentKeywordInOutput(currentState, keywordIndex)
+      state = nodes(state).get.children(edgeIndex)
     }
-
-    addGoToEdgesFromZeroStatesToRoot()
-  }
-
-  private def addCurrentKeywordInOutput(state: Int, keywordIndex: Int): Unit = {
-    val bitwiseOrResult = output.getOrElse(state, 0) | 1 << keywordIndex
-    if (bitwiseOrResult > 0) {
-      output(state) = bitwiseOrResult
-    }
-  }
-
-  private def addGoToEdgesFromZeroStatesToRoot(): Unit = {
-    for (charIndex <- 0 until MAX_EDGES) {
-      if (transitionTable(0)(charIndex) == -1) {
-        transitionTable(0)(charIndex) = 0
-      }
-    }
-  }
-
-  /** Failure function is computed in BFS order */
-  private def buildFailureLink(): Unit = {
-
-    val queue: mutable.Queue[Int] = mutable.Queue()
-
-    for (edgeIndex <- 0 until MAX_EDGES) {
-      if (transitionTable(0)(edgeIndex) != 0) {
-        val nodeDepthOne = transitionTable(0)(edgeIndex)
-        failureLink(nodeDepthOne) = 0
-
-        queue.enqueue(nodeDepthOne)
-      }
-    }
-
-    while (queue.nonEmpty) {
-      val state = queue.dequeue
-      // Find failure function for all those characters for which goto function is not defined.
-      for (edgeIndex <- 0 until MAX_EDGES) {
-
-        if (transitionTable(state)(edgeIndex) != -1) {
-          val failure = findFailureState(state, edgeIndex)
-          val nextNode = transitionTable(state)(edgeIndex)
-          failureLink(nextNode) = failure
-
-          mergeSubstringToOutput(nextNode, failure)
-
-          queue.enqueue(nextNode)
-        }
-      }
-    }
-  }
-
-  private def mergeSubstringToOutput(node: Int, failure: Int): Unit = {
-    val mergedOutput = output.getOrElse(node, 0) | output.getOrElse(failure, 0)
-    if (mergedOutput > 0) {
-      output(node) = mergedOutput
-    }
-  }
-
-  private def findFailureState(state: Int, edgeIndex: Int): Int = {
-    var failure = failureLink.getOrElse(state, -1)
-    if (failure == -1) {
-      return -1
-    }
-
-    // Find the deepest node labeled by proper suffix of String from root to current state.
-    if (transitionTable(failure)(edgeIndex) == -1) {
-      failure = failureLink.getOrElse(failure, -1)
-      if (failure == -1) {
-        return -1
-      }
-    }
-    failure = transitionTable(failure)(edgeIndex)
-
-    failure
+    nodes(state).get.isLeaf = true
+    nodes(state).get.entity = pattern.entity
+    if (pattern.id.isDefined) nodes(state).get.id = pattern.id.get
   }
 
   /** Second step of Aho-Corasick algorithm: The algorithm starts at the input text’s beginning
     * and in the root state during searching for patterns. It processes the input string in a
     * single pass, and all occurrences of keywords are found, even if they overlap each other.
-    * This implementation adds tokens parameter to match only exact tokens (not substrings)
     */
-  def searchWords(sentence: Sentence, tokens: Map[Int, Annotation]): Seq[Annotation] = {
-    var currentState = 0
-    val longestMatchedTokens: ArrayBuffer[Annotation] = ArrayBuffer()
+  def searchPatternsInText(sentence: Sentence): Seq[Annotation] = {
+    var previousState = 0
+    val chunk: ArrayBuffer[(Char, Int)] = ArrayBuffer.empty
+    val chunkAnnotations: ArrayBuffer[Annotation] = ArrayBuffer.empty
 
-    sentence.content.zipWithIndex.foreach { case (char, textIndex) =>
+    sentence.content.zipWithIndex.foreach { case (char, index) =>
       val currentChar = if (caseSensitive) char else char.toLower
-      currentState = findNextState(currentState, currentChar)
-      if (currentState > 0) {
-        flattenEntityPatterns.zipWithIndex.foreach { case (flattenEntityPattern, keywordIndex) =>
-          val bitwiseAndResult = output.getOrElse(currentState, 0) & 1 << keywordIndex
-          if (bitwiseAndResult > 0) {
-            val keyword = flattenEntityPattern.keyword
-            val documentIndex = textIndex + sentence.start
-            val begin = documentIndex - keyword.length + 1
-            val candidateAnnotation = annotateTokenMatch(begin, sentence, flattenEntityPattern)
+      val state = findNextState(previousState, currentChar)
 
-            if (foundToken(tokens, documentIndex, keyword)) {
-              val overlappingTokens = longestMatchedTokens.filter(annotation =>
-                annotation.begin >= begin & annotation.end <= documentIndex)
-
-              overlappingTokens.foreach(overlappingToken =>
-                longestMatchedTokens -= overlappingToken)
-
-              if (!longestMatchedTokens.exists(annotation =>
-                  annotation.end == candidateAnnotation.end)) {
-                longestMatchedTokens.append(candidateAnnotation)
-              }
-            }
-          }
-        }
-      }
-    }
-
-    longestMatchedTokens.toList
-  }
-
-  private def foundToken(tokens: Map[Int, Annotation], key: Int, keyword: String): Boolean = {
-    val annotatedToken = tokens.get(key)
-    val token =
-      if (annotatedToken.isEmpty) ""
-      else {
-        if (caseSensitive) annotatedToken.get.result else annotatedToken.get.result.toLowerCase()
+      if (state > 0) {
+        chunk.append((char, index))
       }
 
-    val currentKeyword = if (caseSensitive) keyword else keyword.toLowerCase()
+      if (state == 0 && previousState > 0) {
+        val node = nodes(previousState).get
+        if (node.isLeaf) {
+          val chunkAnnotation = buildAnnotation(chunk, node.entity, node.id, sentence)
+          chunkAnnotations.append(chunkAnnotation)
+          chunk.clear()
+        } else chunk.clear()
+      }
 
-    if (currentKeyword.split(" ").length == 1) {
-      token == currentKeyword
-    } else {
-      currentKeyword.split(" ").contains(token)
+      previousState = state
     }
+
+    if (chunk.nonEmpty) {
+      val node = nodes(previousState).get
+      val chunkAnnotation = buildAnnotation(chunk, node.entity, node.id, sentence)
+      chunkAnnotations.append(chunkAnnotation)
+      chunk.clear()
+    }
+
+    chunkAnnotations
   }
 
-  private def findNextState(state: Int, edge: Char): Int = {
-    var currentState = state
-    val currentEdge = if (caseSensitive) edge else edge.toLower
+  private def findNextState(state: Int, char: Char): Int = {
 
     val newLine = System.getProperty("line.separator")
-    if (newLine == edge.toString) return 0
+    if (newLine == char.toString) return 0
 
-    val edgeIndex = edges.getOrElse(
-      currentEdge,
+    val edgeIndex: Int = edges.getOrElse(char, -1)
+    if (edgeIndex == -1) {
       throw new UnsupportedOperationException(
-        s"Char $currentEdge not found on alphabet. Please check alphabet"))
-
-    // If goto is not defined, use failure function
-    var nextState = transitionTable(currentState)(edgeIndex)
-    if (nextState == -1) {
-      currentState = failureLink.getOrElse(currentState, -1)
-      if (currentState == -1) {
-        return 0
-      }
-      nextState = transitionTable(currentState)(edgeIndex)
+        s"Char $char not found on alphabet. Please check alphabet")
     }
 
-    if (nextState == -1) 0 else nextState
-
+    val node = nodes(state)
+    if (node.get.transitions(edgeIndex) == -1) {
+      buildFailureLink(node.get, state, edgeIndex, char)
+    }
+    node.get.transitions(edgeIndex)
   }
 
-  private def annotateTokenMatch(
-      start: Int,
-      sentence: Sentence,
-      flattenEntityPattern: FlattenEntityPattern): Annotation = {
-    val keyword = flattenEntityPattern.keyword
-    val matchedMetadata = if (flattenEntityPattern.id.isDefined) {
-      Map("id" -> flattenEntityPattern.id.get, "entity" -> flattenEntityPattern.entity)
+  private def buildFailureLink(node: Node, state: Int, edgeIndex: Int, char: Char): Unit = {
+    if (node.children(edgeIndex) != -1) {
+      node.transitions(edgeIndex) = node.children(edgeIndex)
     } else {
-      Map("entity" -> flattenEntityPattern.entity)
+      node.transitions(edgeIndex) =
+        if (state == 0) 0 else findNextState(findSuffixLink(state), char)
     }
-    val end = start + keyword.length - 1
+  }
 
-    Annotation(
-      CHUNK,
-      start,
-      end,
-      keyword,
-      matchedMetadata ++ Map("sentence" -> sentence.index.toString))
+  private def findSuffixLink(state: Int): Int = {
+    val node = nodes(state)
+    if (node.get.suffixLink == -1) {
+      node.get.suffixLink =
+        if (node.get.parentState == 0) 0
+        else findNextState(findSuffixLink(node.get.parentState), node.get.charFromParent.get)
+    }
+    node.get.suffixLink
+  }
+
+  def buildAnnotation(
+      chunk: ArrayBuffer[(Char, Int)],
+      entity: String,
+      id: String,
+      sentence: Sentence): Annotation = {
+    val begin = chunk.head._2 + sentence.start
+    val end = chunk.last._2 + sentence.start
+    val result = chunk.map(_._1).mkString("")
+    val metadata = Map("entity" -> entity, "sentence" -> sentence.index.toString)
+
+    if (id.isEmpty) {
+      Annotation(CHUNK, begin, end, result, metadata)
+    } else {
+      Annotation(CHUNK, begin, end, result, metadata ++ Map("id" -> id))
+    }
 
   }
 
