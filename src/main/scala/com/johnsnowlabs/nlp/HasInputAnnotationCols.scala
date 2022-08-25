@@ -36,11 +36,21 @@ trait HasInputAnnotationCols extends Params {
 
   /** Overrides required annotators column if different than default */
   def setInputCols(value: Array[String]): this.type = {
-    require(
-      value.length == inputAnnotatorTypes.length,
-      s"setInputCols in ${this.uid} expecting ${inputAnnotatorTypes.length} columns. " +
-        s"Provided column amount: ${value.length}. " +
-        s"Which should be columns from the following annotators: ${inputAnnotatorTypes.mkString(", ")}")
+    if (optionalInputAnnotatorTypes.isEmpty) {
+      require(
+        value.length == inputAnnotatorTypes.length,
+        s"setInputCols in ${this.uid} expecting ${inputAnnotatorTypes.length} columns. " +
+          s"Provided column amount: ${value.length}. " +
+          s"Which should be columns from the following annotators: ${inputAnnotatorTypes.mkString(", ")} ")
+    } else {
+      val expectedColumns = inputAnnotatorTypes.length + optionalInputAnnotatorTypes.length
+      require(
+        value.length == inputAnnotatorTypes.length || value.length == expectedColumns,
+        s"setInputCols in ${this.uid} expecting at least ${inputAnnotatorTypes.length} columns. " +
+          s"Provided column amount: ${value.length}. " +
+          s"Which should be columns from at least the following annotators: ${inputAnnotatorTypes
+              .mkString(", ")} ")
+    }
     set(inputCols, value)
   }
 

@@ -65,6 +65,16 @@ class EntityRulerTest extends AnyFlatSpec with SparkSessionTest {
     assertThrows[IllegalArgumentException] {
       pipeline.fit(emptyDataSet)
     }
+
+    val entityRulerKeywords = new EntityRulerApproach()
+      .setInputCols("document")
+      .setOutputCol("entities")
+
+    val pipelineKeywords = new Pipeline().setStages(Array(documentAssembler, entityRulerKeywords))
+
+    assertThrows[IllegalArgumentException] {
+      pipelineKeywords.fit(emptyDataSet)
+    }
   }
 
   it should "raise an error when file is csv and delimiter is not set" taggedAs FastTest in {
@@ -115,7 +125,7 @@ class EntityRulerTest extends AnyFlatSpec with SparkSessionTest {
   it should "train an entity ruler model" taggedAs FastTest in {
     val textDataSet = Seq("John Snow is a good boss").toDS.toDF("text")
     val entityRuler = new EntityRulerApproach()
-      .setInputCols("document", "token")
+      .setInputCols("document")
       .setOutputCol("entities")
       .setPatternsResource("src/test/resources/entity-ruler/keywords_only.json", ReadAs.TEXT)
 
@@ -131,7 +141,7 @@ class EntityRulerTest extends AnyFlatSpec with SparkSessionTest {
     val textDataSet = Seq(text1).toDS.toDF("text")
     val externalResource =
       ExternalResource(s"$testPath/keywords_only.json", ReadAs.TEXT, Map("format" -> "json"))
-    val entityRulerPipeline = getEntityRulerPipeline(externalResource)
+    val entityRulerPipeline = getEntityRulerKeywordsPipeline(externalResource)
 
     val resultDataSet = entityRulerPipeline.transform(textDataSet)
     val actualEntities = AssertAnnotations.getActualResult(resultDataSet, "entities")
@@ -145,7 +155,7 @@ class EntityRulerTest extends AnyFlatSpec with SparkSessionTest {
       s"$testPath/keywords_with_regex_field.csv",
       ReadAs.TEXT,
       Map("format" -> "csv", "delimiter" -> "\\|"))
-    val entityRulerPipeline = getEntityRulerPipeline(externalResource)
+    val entityRulerPipeline = getEntityRulerRegexPipeline(externalResource)
 
     val resultDataSet = entityRulerPipeline.transform(textDataSet)
     val actualEntities = AssertAnnotations.getActualResult(resultDataSet, "entities")
@@ -159,7 +169,7 @@ class EntityRulerTest extends AnyFlatSpec with SparkSessionTest {
       s"$testPath/keywords_without_regex_field.csv",
       ReadAs.SPARK,
       Map("format" -> "csv", "delimiter" -> "|"))
-    val entityRulerPipeline = getEntityRulerPipeline(externalResource)
+    val entityRulerPipeline = getEntityRulerRegexPipeline(externalResource)
 
     val resultDataSet = entityRulerPipeline.transform(textDataSet)
     val actualEntities = AssertAnnotations.getActualResult(resultDataSet, "entities")
@@ -173,7 +183,7 @@ class EntityRulerTest extends AnyFlatSpec with SparkSessionTest {
       s"$testPath/keywords_with_regex_field.csv",
       ReadAs.SPARK,
       Map("format" -> "csv", "delimiter" -> "|"))
-    val entityRulerPipeline = getEntityRulerPipeline(externalResource)
+    val entityRulerPipeline = getEntityRulerRegexPipeline(externalResource)
 
     val resultDataSet = entityRulerPipeline.transform(textDataSet)
     val actualEntities = AssertAnnotations.getActualResult(resultDataSet, "entities")
@@ -185,7 +195,7 @@ class EntityRulerTest extends AnyFlatSpec with SparkSessionTest {
     val textDataSet = Seq(text1).toDS.toDF("text")
     val externalResource =
       ExternalResource(s"$testPath/keywords_only.json", ReadAs.SPARK, Map("format" -> "json"))
-    val entityRulerPipeline = getEntityRulerPipeline(externalResource)
+    val entityRulerPipeline = getEntityRulerKeywordsPipeline(externalResource)
 
     val resultDataSet = entityRulerPipeline.transform(textDataSet)
     val actualEntities = AssertAnnotations.getActualResult(resultDataSet, "entities")
@@ -197,7 +207,7 @@ class EntityRulerTest extends AnyFlatSpec with SparkSessionTest {
     val textDataSet = Seq(text1).toDS.toDF("text")
     val externalResource =
       ExternalResource(s"$testPath/keywords_with_id.jsonl", ReadAs.TEXT, Map("format" -> "jsonl"))
-    val entityRulerPipeline = getEntityRulerPipeline(externalResource)
+    val entityRulerPipeline = getEntityRulerKeywordsPipeline(externalResource)
 
     val resultDataSet = entityRulerPipeline.transform(textDataSet)
     val actualEntities = AssertAnnotations.getActualResult(resultDataSet, "entities")
@@ -212,7 +222,7 @@ class EntityRulerTest extends AnyFlatSpec with SparkSessionTest {
         s"$testPath/keywords_with_id.jsonl",
         ReadAs.SPARK,
         Map("format" -> "jsonl"))
-    val entityRulerPipeline = getEntityRulerPipeline(externalResource)
+    val entityRulerPipeline = getEntityRulerKeywordsPipeline(externalResource)
 
     val resultDataSet = entityRulerPipeline.transform(textDataSet)
     val actualEntities = AssertAnnotations.getActualResult(resultDataSet, "entities")
@@ -225,7 +235,7 @@ class EntityRulerTest extends AnyFlatSpec with SparkSessionTest {
     tokenizerWithSentence.setExceptions(Array("Eddard Stark"))
     val externalResource =
       ExternalResource(s"$testPath/keywords_regex.json", ReadAs.TEXT, Map("format" -> "json"))
-    val entityRulerPipeline = getEntityRulerPipeline(externalResource)
+    val entityRulerPipeline = getEntityRulerRegexPipeline(externalResource)
 
     val resultDataSet = entityRulerPipeline.transform(textDataSet)
     val actualEntities = AssertAnnotations.getActualResult(resultDataSet, "entities")
@@ -240,7 +250,7 @@ class EntityRulerTest extends AnyFlatSpec with SparkSessionTest {
       s"$testPath/keywords_regex_with_regex_field.csv",
       ReadAs.TEXT,
       Map("format" -> "csv", "delimiter" -> "\\|"))
-    val entityRulerPipeline = getEntityRulerPipeline(externalResource)
+    val entityRulerPipeline = getEntityRulerRegexPipeline(externalResource)
 
     val resultDataSet = entityRulerPipeline.transform(textDataSet)
     val actualEntities = AssertAnnotations.getActualResult(resultDataSet, "entities")
@@ -255,7 +265,7 @@ class EntityRulerTest extends AnyFlatSpec with SparkSessionTest {
       s"$testPath/keywords_regex_with_regex_field.csv",
       ReadAs.SPARK,
       Map("format" -> "csv", "delimiter" -> "|"))
-    val entityRulerPipeline = getEntityRulerPipeline(externalResource)
+    val entityRulerPipeline = getEntityRulerRegexPipeline(externalResource)
 
     val resultDataSet = entityRulerPipeline.transform(textDataSet)
     val actualEntities = AssertAnnotations.getActualResult(resultDataSet, "entities")
@@ -268,7 +278,7 @@ class EntityRulerTest extends AnyFlatSpec with SparkSessionTest {
     tokenizerWithSentence.setExceptions(Array("Eddard Stark"))
     val externalResource =
       ExternalResource(s"$testPath/keywords_regex.json", ReadAs.SPARK, Map("format" -> "json"))
-    val entityRulerPipeline = getEntityRulerPipeline(externalResource)
+    val entityRulerPipeline = getEntityRulerRegexPipeline(externalResource)
 
     val resultDataSet = entityRulerPipeline.transform(textDataSet)
     val actualEntities = AssertAnnotations.getActualResult(resultDataSet, "entities")
@@ -284,7 +294,7 @@ class EntityRulerTest extends AnyFlatSpec with SparkSessionTest {
         s"$testPath/keywords_regex_without_id.jsonl",
         ReadAs.TEXT,
         Map("format" -> "jsonl"))
-    val entityRulerPipeline = getEntityRulerPipeline(externalResource)
+    val entityRulerPipeline = getEntityRulerRegexPipeline(externalResource)
 
     val resultDataSet = entityRulerPipeline.transform(textDataSet)
     val actualEntities = AssertAnnotations.getActualResult(resultDataSet, "entities")
@@ -300,7 +310,7 @@ class EntityRulerTest extends AnyFlatSpec with SparkSessionTest {
         s"$testPath/keywords_regex_without_id.jsonl",
         ReadAs.SPARK,
         Map("format" -> "jsonl"))
-    val entityRulerPipeline = getEntityRulerPipeline(externalResource)
+    val entityRulerPipeline = getEntityRulerRegexPipeline(externalResource)
 
     val resultDataSet = entityRulerPipeline.transform(textDataSet)
     val actualEntities = AssertAnnotations.getActualResult(resultDataSet, "entities")
@@ -312,7 +322,7 @@ class EntityRulerTest extends AnyFlatSpec with SparkSessionTest {
     val textDataSet = Seq(text1).toDS.toDF("text")
     val externalResource =
       ExternalResource(s"$testPath/keywords_only.json", ReadAs.TEXT, Map("format" -> "json"))
-    val entityRulerPipeline = getEntityRulerPipeline(externalResource, useStorage = false)
+    val entityRulerPipeline = getEntityRulerKeywordsPipeline(externalResource, useStorage = false)
 
     val resultDataSet = entityRulerPipeline.transform(textDataSet)
     val actualEntities = AssertAnnotations.getActualResult(resultDataSet, "entities")
@@ -327,7 +337,7 @@ class EntityRulerTest extends AnyFlatSpec with SparkSessionTest {
       ReadAs.TEXT,
       Map("format" -> "csv", "delimiter" -> "\\|"))
     val entityRulerPipeline =
-      getEntityRulerPipeline(externalResource, useStorage = false)
+      getEntityRulerRegexPipeline(externalResource, useStorage = false)
 
     val resultDataSet = entityRulerPipeline.transform(textDataSet)
     val actualEntities = AssertAnnotations.getActualResult(resultDataSet, "entities")
@@ -341,7 +351,7 @@ class EntityRulerTest extends AnyFlatSpec with SparkSessionTest {
       s"$testPath/keywords_with_regex_field.csv",
       ReadAs.SPARK,
       Map("format" -> "csv", "delimiter" -> "|"))
-    val entityRulerPipeline = getEntityRulerPipeline(externalResource, useStorage = false)
+    val entityRulerPipeline = getEntityRulerRegexPipeline(externalResource, useStorage = false)
 
     val resultDataSet = entityRulerPipeline.transform(textDataSet)
     val actualEntities = AssertAnnotations.getActualResult(resultDataSet, "entities")
@@ -353,7 +363,7 @@ class EntityRulerTest extends AnyFlatSpec with SparkSessionTest {
     val textDataSet = Seq(text1).toDS.toDF("text")
     val externalResource =
       ExternalResource(s"$testPath/keywords_only.json", ReadAs.SPARK, Map("format" -> "json"))
-    val entityRulerPipeline = getEntityRulerPipeline(externalResource, useStorage = false)
+    val entityRulerPipeline = getEntityRulerKeywordsPipeline(externalResource, useStorage = false)
 
     val resultDataSet = entityRulerPipeline.transform(textDataSet)
     val actualEntities = AssertAnnotations.getActualResult(resultDataSet, "entities")
@@ -365,7 +375,7 @@ class EntityRulerTest extends AnyFlatSpec with SparkSessionTest {
     val textDataSet = Seq(text1).toDS.toDF("text")
     val externalResource =
       ExternalResource(s"$testPath/keywords_with_id.jsonl", ReadAs.TEXT, Map("format" -> "jsonl"))
-    val entityRulerPipeline = getEntityRulerPipeline(externalResource, useStorage = false)
+    val entityRulerPipeline = getEntityRulerKeywordsPipeline(externalResource, useStorage = false)
 
     val resultDataSet = entityRulerPipeline.transform(textDataSet)
     val actualEntities = AssertAnnotations.getActualResult(resultDataSet, "entities")
@@ -380,7 +390,7 @@ class EntityRulerTest extends AnyFlatSpec with SparkSessionTest {
         s"$testPath/keywords_with_id.jsonl",
         ReadAs.SPARK,
         Map("format" -> "jsonl"))
-    val entityRulerPipeline = getEntityRulerPipeline(externalResource, useStorage = false)
+    val entityRulerPipeline = getEntityRulerKeywordsPipeline(externalResource, useStorage = false)
 
     val resultDataSet = entityRulerPipeline.transform(textDataSet)
     val actualEntities = AssertAnnotations.getActualResult(resultDataSet, "entities")
@@ -392,7 +402,7 @@ class EntityRulerTest extends AnyFlatSpec with SparkSessionTest {
     val textDataSet = Seq(text2).toDS.toDF("text")
     val externalResource =
       ExternalResource(s"$testPath/keywords_regex.json", ReadAs.TEXT, Map("format" -> "json"))
-    val entityRulerPipeline = getEntityRulerPipeline(externalResource, useStorage = false)
+    val entityRulerPipeline = getEntityRulerRegexPipeline(externalResource, useStorage = false)
 
     val resultDataSet = entityRulerPipeline.transform(textDataSet)
     val actualEntities = AssertAnnotations.getActualResult(resultDataSet, "entities")
@@ -406,7 +416,7 @@ class EntityRulerTest extends AnyFlatSpec with SparkSessionTest {
       s"$testPath/keywords_regex_with_regex_field.csv",
       ReadAs.TEXT,
       Map("format" -> "csv", "delimiter" -> "\\|"))
-    val entityRulerPipeline = getEntityRulerPipeline(externalResource, useStorage = false)
+    val entityRulerPipeline = getEntityRulerRegexPipeline(externalResource, useStorage = false)
 
     val resultDataSet = entityRulerPipeline.transform(textDataSet)
     val actualEntities = AssertAnnotations.getActualResult(resultDataSet, "entities")
@@ -421,7 +431,7 @@ class EntityRulerTest extends AnyFlatSpec with SparkSessionTest {
       ReadAs.SPARK,
       Map("format" -> "csv", "delimiter" -> "|"))
     val entityRulerPipeline =
-      getEntityRulerPipeline(externalResource, useStorage = false)
+      getEntityRulerRegexPipeline(externalResource, useStorage = false)
 
     val resultDataSet = entityRulerPipeline.transform(textDataSet)
     val actualEntities = AssertAnnotations.getActualResult(resultDataSet, "entities")
@@ -433,7 +443,7 @@ class EntityRulerTest extends AnyFlatSpec with SparkSessionTest {
     val textDataSet = Seq(text2).toDS.toDF("text")
     val externalResource =
       ExternalResource(s"$testPath/keywords_regex.json", ReadAs.SPARK, Map("format" -> "json"))
-    val entityRulerPipeline = getEntityRulerPipeline(externalResource, useStorage = false)
+    val entityRulerPipeline = getEntityRulerRegexPipeline(externalResource, useStorage = false)
 
     val resultDataSet = entityRulerPipeline.transform(textDataSet)
     val actualEntities = AssertAnnotations.getActualResult(resultDataSet, "entities")
@@ -449,7 +459,7 @@ class EntityRulerTest extends AnyFlatSpec with SparkSessionTest {
         ReadAs.TEXT,
         Map("format" -> "jsonl"))
     val entityRulerPipeline =
-      getEntityRulerPipeline(externalResource, useStorage = false)
+      getEntityRulerRegexPipeline(externalResource, useStorage = false)
 
     val resultDataSet = entityRulerPipeline.transform(textDataSet)
     val actualEntities = AssertAnnotations.getActualResult(resultDataSet, "entities")
@@ -465,7 +475,7 @@ class EntityRulerTest extends AnyFlatSpec with SparkSessionTest {
         ReadAs.SPARK,
         Map("format" -> "jsonl"))
     val entityRulerPipeline =
-      getEntityRulerPipeline(externalResource, useStorage = false)
+      getEntityRulerRegexPipeline(externalResource, useStorage = false)
 
     val resultDataSet = entityRulerPipeline.transform(textDataSet)
     val actualEntities = AssertAnnotations.getActualResult(resultDataSet, "entities")
@@ -519,7 +529,7 @@ class EntityRulerTest extends AnyFlatSpec with SparkSessionTest {
     val externalResource =
       ExternalResource(s"$testPath/keywords_only.json", ReadAs.TEXT, Map("format" -> "json"))
     val entityRuler = new EntityRulerApproach()
-      .setInputCols("document", "token")
+      .setInputCols("document")
       .setOutputCol("entities")
       .setPatternsResource(
         externalResource.path,
@@ -530,7 +540,7 @@ class EntityRulerTest extends AnyFlatSpec with SparkSessionTest {
     entityRulerModel.write.overwrite().save("tmp_entity_ruler_model_storage")
     val loadedEntityRulerModel = EntityRulerModel.load("tmp_entity_ruler_model_storage")
     val entityRulerPipeline =
-      new Pipeline().setStages(Array(documentAssembler, tokenizer, loadedEntityRulerModel))
+      new Pipeline().setStages(Array(documentAssembler, loadedEntityRulerModel))
 
     val resultDataSet = entityRulerPipeline.fit(emptyDataSet).transform(textDataSet)
     val actualEntities = AssertAnnotations.getActualResult(resultDataSet, "entities")
@@ -543,7 +553,8 @@ class EntityRulerTest extends AnyFlatSpec with SparkSessionTest {
     val externalResource =
       ExternalResource(s"$testPath/keywords_only.json", ReadAs.TEXT, Map("format" -> "json"))
 
-    val entityRulerPipeline = getEntityRulerPipeline(externalResource, sentenceMatch = true)
+    val entityRulerPipeline =
+      getEntityRulerKeywordsPipeline(externalResource, sentenceMatch = true)
 
     val resultDataSet = entityRulerPipeline.transform(textDataSet)
     val actualEntities = AssertAnnotations.getActualResult(resultDataSet, "entities")
@@ -555,7 +566,8 @@ class EntityRulerTest extends AnyFlatSpec with SparkSessionTest {
     val textDataSet = Seq(text3).toDS.toDF("text")
     val externalResource =
       ExternalResource(s"$testPath/keywords_only.json", ReadAs.SPARK, Map("format" -> "json"))
-    val entityRulerPipeline = getEntityRulerPipeline(externalResource, sentenceMatch = true)
+    val entityRulerPipeline =
+      getEntityRulerKeywordsPipeline(externalResource, sentenceMatch = true)
 
     val resultDataSet = entityRulerPipeline.transform(textDataSet)
     val actualEntities = AssertAnnotations.getActualResult(resultDataSet, "entities")
@@ -568,7 +580,7 @@ class EntityRulerTest extends AnyFlatSpec with SparkSessionTest {
     val externalResource =
       ExternalResource(s"$testPath/keywords_only.json", ReadAs.TEXT, Map("format" -> "json"))
     val entityRulerPipeline =
-      getEntityRulerPipeline(externalResource, sentenceMatch = true, useStorage = false)
+      getEntityRulerKeywordsPipeline(externalResource, sentenceMatch = true, useStorage = false)
 
     val resultDataSet = entityRulerPipeline.transform(textDataSet)
     val actualEntities = AssertAnnotations.getActualResult(resultDataSet, "entities")
@@ -582,7 +594,7 @@ class EntityRulerTest extends AnyFlatSpec with SparkSessionTest {
     val externalResource =
       ExternalResource(s"$testPath/keywords_only.json", ReadAs.SPARK, Map("format" -> "json"))
     val entityRulerPipeline =
-      getEntityRulerPipeline(externalResource, sentenceMatch = true, useStorage = false)
+      getEntityRulerKeywordsPipeline(externalResource, sentenceMatch = true, useStorage = false)
 
     val resultDataSet = entityRulerPipeline.transform(textDataSet)
     val actualEntities = AssertAnnotations.getActualResult(resultDataSet, "entities")
@@ -595,7 +607,8 @@ class EntityRulerTest extends AnyFlatSpec with SparkSessionTest {
       .toDF("text")
     val externalResource =
       ExternalResource(s"$testPath/keywords_with_id.jsonl", ReadAs.TEXT, Map("format" -> "jsonl"))
-    val entityRulerPipeline = getEntityRulerPipeline(externalResource, sentenceMatch = true)
+    val entityRulerPipeline =
+      getEntityRulerKeywordsPipeline(externalResource, sentenceMatch = true)
 
     val resultDataSet = entityRulerPipeline.transform(textDataSet)
     val actualEntities = AssertAnnotations.getActualResult(resultDataSet, "entities")
@@ -610,7 +623,8 @@ class EntityRulerTest extends AnyFlatSpec with SparkSessionTest {
         s"$testPath/keywords_with_id.jsonl",
         ReadAs.SPARK,
         Map("format" -> "jsonl"))
-    val entityRulerPipeline = getEntityRulerPipeline(externalResource, sentenceMatch = true)
+    val entityRulerPipeline =
+      getEntityRulerKeywordsPipeline(externalResource, sentenceMatch = true)
 
     val resultDataSet = entityRulerPipeline.transform(textDataSet)
     val actualEntities = AssertAnnotations.getActualResult(resultDataSet, "entities")
@@ -623,7 +637,7 @@ class EntityRulerTest extends AnyFlatSpec with SparkSessionTest {
     val externalResource =
       ExternalResource(s"$testPath/keywords_with_id.jsonl", ReadAs.TEXT, Map("format" -> "jsonl"))
     val entityRulerPipeline =
-      getEntityRulerPipeline(externalResource, sentenceMatch = true, useStorage = false)
+      getEntityRulerKeywordsPipeline(externalResource, sentenceMatch = true, useStorage = false)
 
     val resultDataSet = entityRulerPipeline.transform(textDataSet)
     val actualEntities = AssertAnnotations.getActualResult(resultDataSet, "entities")
@@ -639,7 +653,7 @@ class EntityRulerTest extends AnyFlatSpec with SparkSessionTest {
         ReadAs.SPARK,
         Map("format" -> "jsonl"))
     val entityRulerPipeline =
-      getEntityRulerPipeline(externalResource, sentenceMatch = true, useStorage = false)
+      getEntityRulerKeywordsPipeline(externalResource, sentenceMatch = true, useStorage = false)
 
     val resultDataSet = entityRulerPipeline.transform(textDataSet)
     val actualEntities = AssertAnnotations.getActualResult(resultDataSet, "entities")
@@ -653,7 +667,7 @@ class EntityRulerTest extends AnyFlatSpec with SparkSessionTest {
       s"$testPath/keywords_with_regex_field.csv",
       ReadAs.TEXT,
       Map("format" -> "csv", "delimiter" -> "\\|"))
-    val entityRulerPipeline = getEntityRulerPipeline(externalResource, sentenceMatch = true)
+    val entityRulerPipeline = getEntityRulerRegexPipeline(externalResource, sentenceMatch = true)
 
     val resultDataSet = entityRulerPipeline.transform(textDataSet)
     val actualEntities = AssertAnnotations.getActualResult(resultDataSet, "entities")
@@ -667,7 +681,7 @@ class EntityRulerTest extends AnyFlatSpec with SparkSessionTest {
       s"$testPath/keywords_with_regex_field.csv",
       ReadAs.SPARK,
       Map("format" -> "csv", "delimiter" -> "|"))
-    val entityRulerPipeline = getEntityRulerPipeline(externalResource, sentenceMatch = true)
+    val entityRulerPipeline = getEntityRulerRegexPipeline(externalResource, sentenceMatch = true)
 
     val resultDataSet = entityRulerPipeline.transform(textDataSet)
     val actualEntities = AssertAnnotations.getActualResult(resultDataSet, "entities")
@@ -682,7 +696,7 @@ class EntityRulerTest extends AnyFlatSpec with SparkSessionTest {
       ReadAs.TEXT,
       Map("format" -> "csv", "delimiter" -> "\\|"))
     val entityRulerPipeline =
-      getEntityRulerPipeline(externalResource, sentenceMatch = true, useStorage = false)
+      getEntityRulerRegexPipeline(externalResource, sentenceMatch = true, useStorage = false)
 
     val resultDataSet = entityRulerPipeline.transform(textDataSet)
     val actualEntities = AssertAnnotations.getActualResult(resultDataSet, "entities")
@@ -697,7 +711,7 @@ class EntityRulerTest extends AnyFlatSpec with SparkSessionTest {
       ReadAs.SPARK,
       Map("format" -> "csv", "delimiter" -> "|"))
     val entityRulerPipeline =
-      getEntityRulerPipeline(externalResource, sentenceMatch = true, useStorage = false)
+      getEntityRulerRegexPipeline(externalResource, sentenceMatch = true, useStorage = false)
 
     val resultDataSet = entityRulerPipeline.transform(textDataSet)
     val actualEntities = AssertAnnotations.getActualResult(resultDataSet, "entities")
@@ -710,9 +724,9 @@ class EntityRulerTest extends AnyFlatSpec with SparkSessionTest {
     val externalResource =
       ExternalResource(s"$testPath/regex_only.json", ReadAs.TEXT, Map("format" -> "JSON"))
     val entityRulerPipelineWithUseStorage =
-      getEntityRulerPipeline(externalResource, sentenceMatch = true)
+      getEntityRulerRegexPipeline(externalResource, sentenceMatch = true)
     val entityRulerPipeline =
-      getEntityRulerPipeline(externalResource, sentenceMatch = true, useStorage = false)
+      getEntityRulerRegexPipeline(externalResource, sentenceMatch = true, useStorage = false)
 
     var resultDataSet = entityRulerPipelineWithUseStorage.transform(textDataSet)
     var actualEntities = AssertAnnotations.getActualResult(resultDataSet, "entities")
@@ -729,8 +743,8 @@ class EntityRulerTest extends AnyFlatSpec with SparkSessionTest {
     val textDataSet = Seq(text5).toDS.toDF("text")
     val externalResource =
       ExternalResource(s"$testPath/regex_only.json", ReadAs.TEXT, Map("format" -> "JSON"))
-    val entityRulerPipelineWithUseStorage = getEntityRulerPipeline(externalResource)
-    val entityRulerPipeline = getEntityRulerPipeline(externalResource, useStorage = false)
+    val entityRulerPipelineWithUseStorage = getEntityRulerRegexPipeline(externalResource)
+    val entityRulerPipeline = getEntityRulerRegexPipeline(externalResource, useStorage = false)
 
     var resultDataSet = entityRulerPipelineWithUseStorage.transform(textDataSet)
     var actualEntities = AssertAnnotations.getActualResult(resultDataSet, "entities")
@@ -748,9 +762,9 @@ class EntityRulerTest extends AnyFlatSpec with SparkSessionTest {
     val externalResource =
       ExternalResource(s"$testPath/regex_only.json", ReadAs.SPARK, Map("format" -> "JSON"))
     val entityRulerPipelineWithUseStorage =
-      getEntityRulerPipeline(externalResource, sentenceMatch = true)
+      getEntityRulerRegexPipeline(externalResource, sentenceMatch = true)
     val entityRulerPipeline =
-      getEntityRulerPipeline(externalResource, sentenceMatch = true, useStorage = false)
+      getEntityRulerRegexPipeline(externalResource, sentenceMatch = true, useStorage = false)
 
     var resultDataSet = entityRulerPipelineWithUseStorage.transform(textDataSet)
     var actualEntities = AssertAnnotations.getActualResult(resultDataSet, "entities")
@@ -767,8 +781,8 @@ class EntityRulerTest extends AnyFlatSpec with SparkSessionTest {
     val textDataSet = Seq(text5).toDS.toDF("text")
     val externalResource =
       ExternalResource(s"$testPath/regex_only.json", ReadAs.SPARK, Map("format" -> "JSON"))
-    val entityRulerPipelineWithUseStorage = getEntityRulerPipeline(externalResource)
-    val entityRulerPipeline = getEntityRulerPipeline(externalResource, useStorage = false)
+    val entityRulerPipelineWithUseStorage = getEntityRulerRegexPipeline(externalResource)
+    val entityRulerPipeline = getEntityRulerRegexPipeline(externalResource, useStorage = false)
 
     var resultDataSet = entityRulerPipelineWithUseStorage.transform(textDataSet)
     var actualEntities = AssertAnnotations.getActualResult(resultDataSet, "entities")
@@ -781,7 +795,7 @@ class EntityRulerTest extends AnyFlatSpec with SparkSessionTest {
     AssertAnnotations.assertFields(expectedEntitiesFromText5, actualEntities)
   }
 
-  private def getEntityRulerPipeline(
+  private def getEntityRulerRegexPipeline(
       externalResource: ExternalResource,
       sentenceMatch: Boolean = false,
       useStorage: Boolean = true): PipelineModel = {
@@ -798,6 +812,28 @@ class EntityRulerTest extends AnyFlatSpec with SparkSessionTest {
 
     val pipeline = new Pipeline().setStages(
       Array(documentAssembler, sentenceDetector, tokenizerWithSentence, entityRuler))
+    val entityRulerPipeline = pipeline.fit(emptyDataSet)
+
+    entityRulerPipeline
+  }
+
+  private def getEntityRulerKeywordsPipeline(
+      externalResource: ExternalResource,
+      sentenceMatch: Boolean = false,
+      useStorage: Boolean = true): PipelineModel = {
+
+    val entityRuler = new EntityRulerApproach()
+      .setInputCols("sentence")
+      .setOutputCol("entities")
+      .setPatternsResource(
+        externalResource.path,
+        externalResource.readAs,
+        externalResource.options)
+      .setUseStorage(useStorage)
+      .setSentenceMatch(sentenceMatch)
+
+    val pipeline =
+      new Pipeline().setStages(Array(documentAssembler, sentenceDetector, entityRuler))
     val entityRulerPipeline = pipeline.fit(emptyDataSet)
 
     entityRulerPipeline
