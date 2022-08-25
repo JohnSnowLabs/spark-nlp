@@ -23,9 +23,10 @@ import com.johnsnowlabs.nlp.{Annotation, AnnotatorModel, HasPretrained, HasSimpl
 import com.johnsnowlabs.storage.Database.{ENTITY_PATTERNS, ENTITY_REGEX_PATTERNS, Name}
 import com.johnsnowlabs.storage._
 import org.apache.spark.broadcast.Broadcast
+import org.apache.spark.ml.PipelineModel
 import org.apache.spark.ml.param.{BooleanParam, StringArrayParam}
 import org.apache.spark.ml.util.Identifiable
-import org.apache.spark.sql.{Dataset, SparkSession}
+import org.apache.spark.sql.{DataFrame, Dataset, SparkSession}
 import org.slf4j.{Logger, LoggerFactory}
 
 /** Instantiated model of the [[EntityRulerApproach]]. For usage and examples see the
@@ -59,7 +60,7 @@ class EntityRulerModel(override val uid: String)
 
   private val logger: Logger = LoggerFactory.getLogger("Credentials")
 
-  @deprecated("Enabling pattern regex now is define on each pattern", "Since 4.1.0")
+  @deprecated("Enabling pattern regex now is define on each pattern", "Since 4.2.0")
   private[er] val enablePatternRegex =
     new BooleanParam(this, "enablePatternRegex", "Enables regex pattern match")
 
@@ -82,7 +83,7 @@ class EntityRulerModel(override val uid: String)
   private[er] val ahoCorasickAutomaton: StructFeature[Option[AhoCorasickAutomaton]] =
     new StructFeature[Option[AhoCorasickAutomaton]](this, "AhoCorasickAutomaton")
 
-  @deprecated("Enabling pattern regex now is define on each pattern", "Since 4.1.0")
+  @deprecated("Enabling pattern regex now is define on each pattern", "Since 4.2.0")
   private[er] def setEnablePatternRegex(value: Boolean): this.type =
     set(enablePatternRegex, value)
 
@@ -120,8 +121,27 @@ class EntityRulerModel(override val uid: String)
   /** Annotator reference id. Used to identify elements in metadata or to refer to this annotator
     * type
     */
-  val inputAnnotatorTypes: Array[String] = Array(DOCUMENT, TOKEN)
+  val inputAnnotatorTypes: Array[String] = Array(DOCUMENT)
+  override val optionalInputAnnotatorTypes: Array[String] = Array(TOKEN)
   val outputAnnotatorType: AnnotatorType = CHUNK
+
+  override def _transform(
+      dataset: Dataset[_],
+      recursivePipeline: Option[PipelineModel]): DataFrame = {
+    if ($(regexEntities).nonEmpty) {
+      val structFields = dataset.schema.fields
+        .filter(field => field.metadata.contains("annotatorType"))
+        .filter(field => field.metadata.getString("annotatorType") == TOKEN)
+      if (structFields.isEmpty) {
+        throw new IllegalArgumentException(
+          s"Missing $TOKEN annotator. Regex patterns requires it in your pipeline")
+      } else {
+        super._transform(dataset, recursivePipeline)
+      }
+    } else {
+      super._transform(dataset, recursivePipeline)
+    }
+  }
 
   override def beforeAnnotate(dataset: Dataset[_]): Dataset[_] = {
     this.setAutomatonModelIfNotSet(dataset.sparkSession, $$(ahoCorasickAutomaton))
@@ -138,53 +158,9 @@ class EntityRulerModel(override val uid: String)
     *   relationship
     */
   def annotate(annotations: Seq[Annotation]): Seq[Annotation] = {
-    // TODO: Make TOKEN optional since it's only required when using regex match
-    if ($(sentenceMatch)) {
-      getAnnotationBySentence(annotations)
-    } else {
-      getAnnotationByToken(annotations)
-    }
-
-  }
-
-  private def getAnnotationByToken(annotations: Seq[Annotation]): Seq[Annotation] = {
-    var annotatedEntitiesByRegex: Seq[Annotation] = Seq()
-    var annotatedEntities: Seq[Annotation] = Seq()
-
-    val tokenizedWithSentences = TokenizedWithSentence.unpack(annotations)
-
-    val regexPatternsReader =
-      if ($(useStorage))
-        Some(getReader(Database.ENTITY_REGEX_PATTERNS).asInstanceOf[RegexPatternsReader])
-      else None
-
-    annotatedEntitiesByRegex =
-      annotateEntitiesFromRegexPatterns(tokenizedWithSentences, regexPatternsReader)
-
-    if (getAutomatonModelIfNotSet.isDefined) {
-      val sentences = SentenceSplit.unpack(annotations)
-      annotatedEntities = sentences.flatMap { sentence =>
-        getAutomatonModelIfNotSet.get.searchPatternsInText(sentence)
-      }
-    }
-
-    annotatedEntitiesByRegex ++ annotatedEntities
-  }
-
-  private def getAnnotationBySentence(annotations: Seq[Annotation]): Seq[Annotation] = {
-    var annotatedEntitiesByRegex: Seq[Annotation] = Seq()
     var annotatedEntitiesByKeywords: Seq[Annotation] = Seq()
-
-    val patternsReader =
-      if ($(useStorage))
-        Some(getReader(Database.ENTITY_REGEX_PATTERNS).asInstanceOf[RegexPatternsReader])
-      else None
-
     val sentences = SentenceSplit.unpack(annotations)
-    if ($(regexEntities).nonEmpty) {
-      annotatedEntitiesByRegex =
-        annotateEntitiesFromRegexPatternsBySentence(sentences, patternsReader)
-    }
+    val annotatedEntitiesByRegex = computeAnnotatedEntitiesByRegex(annotations, sentences)
 
     if (getAutomatonModelIfNotSet.isDefined) {
       annotatedEntitiesByKeywords = sentences.flatMap { sentence =>
@@ -193,6 +169,24 @@ class EntityRulerModel(override val uid: String)
     }
 
     annotatedEntitiesByRegex ++ annotatedEntitiesByKeywords
+  }
+
+  private def computeAnnotatedEntitiesByRegex(
+      annotations: Seq[Annotation],
+      sentences: Seq[Sentence]): Seq[Annotation] = {
+    if ($(regexEntities).nonEmpty) {
+      val regexPatternsReader =
+        if ($(useStorage))
+          Some(getReader(Database.ENTITY_REGEX_PATTERNS).asInstanceOf[RegexPatternsReader])
+        else None
+
+      if ($(sentenceMatch)) {
+        annotateEntitiesFromRegexPatternsBySentence(sentences, regexPatternsReader)
+      } else {
+        val tokenizedWithSentences = TokenizedWithSentence.unpack(annotations)
+        annotateEntitiesFromRegexPatterns(tokenizedWithSentences, regexPatternsReader)
+      }
+    } else Seq()
   }
 
   private def annotateEntitiesFromRegexPatterns(

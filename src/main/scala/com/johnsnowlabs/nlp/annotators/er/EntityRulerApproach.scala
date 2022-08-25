@@ -27,9 +27,9 @@ import com.johnsnowlabs.util.JsonParser
 import org.apache.spark.ml.PipelineModel
 import org.apache.spark.ml.param.BooleanParam
 import org.apache.spark.ml.util.Identifiable
-import org.apache.spark.sql.functions.{col, collect_set, concat, lit, flatten}
+import org.apache.spark.sql.functions.{col, collect_set, concat, flatten, lit}
 import org.apache.spark.sql.types.{BooleanType, StringType, StructField, StructType}
-import org.apache.spark.sql.{DataFrame, Dataset}
+import org.apache.spark.sql.{DataFrame, Dataset, SparkSession}
 
 import scala.collection.mutable
 import scala.collection.mutable.ArrayBuffer
@@ -179,7 +179,7 @@ class EntityRulerApproach(override val uid: String)
     *
     * @group param
     */
-  @deprecated("Enabling pattern regex now is define on each pattern", "Since 4.1.0")
+  @deprecated("Enabling pattern regex now is define on each pattern", "Since 4.2.0")
   val enablePatternRegex =
     new BooleanParam(this, "enablePatternRegex", "Enables regex pattern match")
 
@@ -201,7 +201,7 @@ class EntityRulerApproach(override val uid: String)
     "Alphabet resource path to plain text file with all characters in a given alphabet")
 
   /** @group setParam */
-  @deprecated("Enabling pattern regex now is define on each pattern", "4.1.0")
+  @deprecated("Enabling pattern regex now is define on each pattern", "4.2.0")
   def setEnablePatternRegex(value: Boolean): this.type = set(enablePatternRegex, value)
 
   /** @group setParam */
@@ -231,6 +231,10 @@ class EntityRulerApproach(override val uid: String)
     alphabet -> ExternalResource("english", ReadAs.TEXT, Map()))
 
   private val AVAILABLE_FORMATS = Array("JSON", "JSONL", "CSV")
+
+  override def beforeTraining(spark: SparkSession): Unit = {
+    validateParameters()
+  }
 
   override def train(
       dataset: Dataset[_],
@@ -271,6 +275,8 @@ class EntityRulerApproach(override val uid: String)
       writers: Map[Name, StorageWriter[_]],
       readOptions: Option[Map[String, String]]): Unit = {
 
+    validateParameters()
+
     if ($(useStorage)) {
       val storageWriter =
         writers(Database.ENTITY_REGEX_PATTERNS).asInstanceOf[RegexPatternsReadWriter]
@@ -280,7 +286,6 @@ class EntityRulerApproach(override val uid: String)
   }
 
   private def storePatterns(storageWriter: Option[RegexPatternsReadWriter]): Unit = {
-    validateParameters()
 
     resourceFormats match {
       case "JSON&TEXT" => storePatternsFromJson(storageWriter)
@@ -422,7 +427,6 @@ class EntityRulerApproach(override val uid: String)
       .na
       .fill(value = false, Array("regex"))
 
-    // TODO: Handle scenario where same label has true and false regex
     val groupedByPatternsDataFrame = patternsDataFrame
       .groupBy("label", "regex")
       .agg(collect_set("pattern").alias("patterns"))
@@ -581,7 +585,8 @@ class EntityRulerApproach(override val uid: String)
     *
     * @group anno
     */
-  override val inputAnnotatorTypes: Array[String] = Array(DOCUMENT, TOKEN)
+  override val inputAnnotatorTypes: Array[String] = Array(DOCUMENT)
+  override val optionalInputAnnotatorTypes: Array[String] = Array(TOKEN)
 
   /** Output annotator types: CHUNK
     *
