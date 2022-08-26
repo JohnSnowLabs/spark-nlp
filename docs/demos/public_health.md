@@ -1,10 +1,14 @@
 ---
-layout: demopage
+layout: demopagenew
 title: Spark NLP in Action
+subtitle: Run 300+ live demos and notebooks
 full_width: true
 permalink: /public_health
 key: demo
+article_header:
+  type: demo
 license: false
+mode: immersivebg
 show_edit_on_github: false
 show_date: false
 data:
@@ -29,7 +33,7 @@ data:
           - text: Live Demo
             type: normal
             url: https://demo.johnsnowlabs.com/healthcare/PUBLIC_HEALTH_AGE/
-          - text: Colab Netbook
+          - text: Colab
             type: blue_btn
             url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/PUBLIC_HEALTH_MB4SC.ipynb
         - title: Detect Adverse Drug Events in Tweet   
@@ -43,7 +47,7 @@ data:
           - text: Live Demo
             type: normal
             url: https://demo.johnsnowlabs.com/healthcare/PUBLIC_HEALTH_ADE/
-          - text: Colab Netbook
+          - text: Colab
             type: blue_btn
             url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/PUBLIC_HEALTH_MB4SC.ipynb
         - title: Classify Self-Reported Covid-19 Symptoms - Tweet 
@@ -57,7 +61,7 @@ data:
           - text: Live Demo
             type: normal
             url: https://demo.johnsnowlabs.com/healthcare/PUBLIC_HEALTH_COVID_SYMPTOMS/
-          - text: Colab Netbook
+          - text: Colab
             type: blue_btn
             url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/PUBLIC_HEALTH_MB4SC.ipynb
         - title: Classify Stance / Premise About Health Mandates in Tweets 
@@ -71,7 +75,7 @@ data:
           - text: Live Demo
             type: normal
             url: https://demo.johnsnowlabs.com/healthcare/PUBLIC_HEALTH_MANDATES/
-          - text: Colab Netbook
+          - text: Colab
             type: blue_btn
             url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/PUBLIC_HEALTH_MB4SC.ipynb
         - title: Detection of disease mentions in Spanish tweets 
@@ -85,7 +89,7 @@ data:
           - text: Live Demo
             type: normal
             url: https://demo.johnsnowlabs.com/healthcare/PUBLIC_HEALTH_NER_DISEASE_ES/
-          - text: Colab Netbook
+          - text: Colab
             type: blue_btn
             url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/PUBLIC_HEALTH_MB4TC.ipynb
         - title: Classify Stress - Tweet 
@@ -99,7 +103,7 @@ data:
           - text: Live Demo
             type: normal
             url: https://demo.johnsnowlabs.com/healthcare/PUBLIC_HEALTH_STRESS/
-          - text: Colab Netbook
+          - text: Colab
             type: blue_btn
             url: 
         - title: Self-Treatment and Drug Changes Classifier in Social Media
@@ -113,7 +117,35 @@ data:
           - text: Live Demo
             type: normal
             url: https://demo.johnsnowlabs.com/healthcare/PUBLIC_HEALTH_CHANGE_DRUG_TREATMENT/
-          - text: Colab Netbook
+          - text: Colab
+            type: blue_btn
+            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/PUBLIC_HEALTH_MB4SC.ipynb
+        - title: Classify Self Report Vaccination Status - Tweet 
+          id: classify_self_report_vaccination_status_tweet          
+          image: 
+              src: /assets/images/Classify_Self_Report_Vaccination_Status_Tweet.svg
+          image2: 
+              src: /assets/images/Classify_Self_Report_Vaccination_Status_Tweet_f.svg
+          excerpt: This model involves the identification of self-reported COVID-19 vaccination status in English tweets.
+          actions:
+          - text: Live Demo
+            type: normal
+            url: https://demo.johnsnowlabs.com/healthcare/PUBLIC_HEALTH_VACCINE_STATUS/
+          - text: Colab
+            type: blue_btn
+            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/PUBLIC_HEALTH_MB4SC.ipynb
+        - title: Classify Intimate Partner Violence - Tweet
+          id: classify_intimate_partner_violence_tweet          
+          image: 
+              src: /assets/images/Classify_Intimate_Partner_Violence_Tweet.svg
+          image2: 
+              src: /assets/images/Classify_Intimate_Partner_Violence_Tweet_f.svg
+          excerpt: This model involves the detection the potential IPV victims on social media platforms (in English tweets).
+          actions:
+          - text: Live Demo
+            type: normal
+            url: https://demo.johnsnowlabs.com/healthcare/PUBLIC_HEALTH_PARTNER_VIOLENCE/
+          - text: Colab
             type: blue_btn
             url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/PUBLIC_HEALTH_MB4SC.ipynb
 ---

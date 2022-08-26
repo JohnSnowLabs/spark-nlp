@@ -1,10 +1,14 @@
 ---
-layout: demopage
+layout: demopagenew
 title: Spark NLP in Action
+subtitle: Run 300+ live demos and notebooks
 full_width: true
 permalink: /classify_documents
 key: demo
+article_header:
+  type: demo
 license: false
+mode: immersivebg
 show_edit_on_github: false
 show_date: false
 data:
@@ -29,7 +33,7 @@ data:
           - text: Live Demo
             type: normal
             url: https://demo.johnsnowlabs.com/public/CLASSIFICATION_EN_TREC/
-          - text: Colab Netbook
+          - text: Colab
             type: blue_btn
             url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/CLASSIFICATION_EN_TREC.ipynb
         - title: Identify Fake news
@@ -43,7 +47,7 @@ data:
           - text: Live Demo
             type: normal
             url: https://demo.johnsnowlabs.com/public/CLASSIFICATION_EN_FAKENEWS/
-          - text: Colab Netbook
+          - text: Colab
             type: blue_btn
             url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/CLASSIFICATION_EN_FAKENEWS.ipynb
         - title: Detect Spam messages
@@ -57,7 +61,7 @@ data:
           - text: Live Demo
             type: normal
             url: https://demo.johnsnowlabs.com/public/CLASSIFICATION_EN_SPAM/
-          - text: Colab Netbook
+          - text: Colab
             type: blue_btn
             url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/CLASSIFICATION_EN_SPAM.ipynb
         - title: Detect toxic content in comments
@@ -71,7 +75,7 @@ data:
           - text: Live Demo
             type: normal
             url: https://demo.johnsnowlabs.com/public/CLASSIFICATION_MULTILABEL_TOXIC/
-          - text: Colab Netbook
+          - text: Colab
             type: blue_btn
             url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/CLASSIFICATION_MULTILABEL_TOXIC.ipynb
         - title: Detect sarcastic tweets
@@ -85,7 +89,7 @@ data:
           - text: Live Demo
             type: normal
             url: https://demo.johnsnowlabs.com/public/SENTIMENT_EN_SARCASM/
-          - text: Colab Netbook
+          - text: Colab
             type: blue_btn
             url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/SENTIMENT_EN_SARCASM.ipynb
         - title: Identify whether pairs of questions are semantically similar 
@@ -99,7 +103,7 @@ data:
           - text: Live Demo
             type: normal
             url: https://demo.johnsnowlabs.com/public/CLASSIFICATION_QUESTIONPAIR/
-          - text: Colab Netbook
+          - text: Colab
             type: blue_btn
             url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/CLASSIFICATION_QUESTIONPAIRS.ipynb
         - title: Identify Antisemitic Texts
@@ -113,7 +117,7 @@ data:
           - text: Live Demo
             type: normal
             url: https://demo.johnsnowlabs.com/public/CLASSIFICATION_ANTISEMITISM/
-          - text: Colab Netbook
+          - text: Colab
             type: blue_btn
             url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/BertForSequenceClassification.ipynb  
         - title: Identify Hate Speech Texts
@@ -127,7 +131,7 @@ data:
           - text: Live Demo
             type: normal
             url: https://demo.johnsnowlabs.com/public/CLASSIFICATION_HATEXPLAIN/
-          - text: Colab Netbook
+          - text: Colab
             type: blue_btn
             url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/BertForSequenceClassification.ipynb
         - title: Classify English News
@@ -141,7 +145,7 @@ data:
           - text: Live Demo
             type: normal
             url: https://demo.johnsnowlabs.com/public/CLASSIFICATION_EN_NEWS/
-          - text: Colab Netbook
+          - text: Colab
             type: blue_btn
             url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/BertForSequenceClassification.ipynb            
 ---

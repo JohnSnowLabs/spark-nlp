@@ -1,20 +1,22 @@
 ---
-layout: demopage
-title: Spark NLP in Action
+layout: demopagenew
+title: Extract Financial Relationships - Live Demos & Notebooks
+seotitle: 'Finance NLP: Extract Financial Relationships - John Snow Labs'
+subtitle: Run 300+ live demos and notebooks
 full_width: true
 permalink: /financial_relation_extraction
 key: demo
+article_header:
+  type: demo
 license: false
+mode: immersivebg
 show_edit_on_github: false
 show_date: false
 data:
   sections:  
-    - title: Spark NLP for Finance
-      excerpt: Financial Relation Extraction
-      secheader: yes
+    - secheader: yes
       secheader:
-        - title: Spark NLP for Finance
-          subtitle: Financial Relation Extraction
+        - subtitle: Extract Financial Relationships - Finance NLP Demos & Notebooks
           activemenu: financial_relation_extraction
       source: yes
       source: 
@@ -29,7 +31,21 @@ data:
           - text: Live Demo
             type: normal
             url: https://demo.johnsnowlabs.com/finance/FINRE_ALIAS/
-          - text: Colab Netbook
+          - text: Colab
             type: blue_btn
-            url:                 
+            url: 
+        - title: Extract Acquisition and Subsidiary Relationships  
+          id: extract_acquisition_subsidiary_relationships  
+          image: 
+              src: /assets/images/Extract_Acquisition_and_Subsidiary_Relationships.svg
+          image2: 
+              src: /assets/images/Extract_Acquisition_and_Subsidiary_Relationships_f.svg
+          excerpt: This demo shows how to extract Acquisition and Subsidiary relations from ORG (Companies), ALIAS (Aliases of companies in an agreement) and PRODUCT (Products).
+          actions:
+          - text: Live Demo
+            type: normal
+            url: https://demo.johnsnowlabs.com/finance/FINRE_ACQUISITIONS/
+          - text: Colab
+            type: blue_btn
+            url: https://nlp.johnsnowlabs.com/             
 ---

@@ -13,7 +13,7 @@ jQuery(document).ready(function($) {
       if (jQuery(window).width() <= 1023)
       {
         jQuery('.page__sidebar').toggleClass('open'); 
-      jQuery('.demopage-sidemenu').toggleClass('open');
+      jQuery('.demomenu').toggleClass('open');
       }
   });
   jQuery('.toc--ellipsis a').click(function(e) {
@@ -73,5 +73,29 @@ jQuery(document).ready(function(){
 
 });
 
+//Accordion demos categories
+let acc = document.getElementsByClassName("acc-top"),
+    isResizeble = false;
 
- 
+  if(!isResizeble) {
+      let accBody = document.querySelector('.acc-body li.active');
+      accBody.parentElement.style.maxHeight = accBody.parentElement.scrollHeight + 20 + "px";
+      accBody.parentElement.classList.add('open');
+      accBody.parentElement.previousElementSibling.classList.add('active');
+      isResizeble = true;
+  }
+
+for (let i = 0; i < acc.length; i++) {
+  acc[i].addEventListener("click", function() {
+    this.classList.toggle("active");
+    var panel = this.nextElementSibling;
+    if (panel.style.maxHeight) {
+      panel.style.maxHeight = null;
+      panel.classList.remove('open');
+    } else {
+      panel.style.maxHeight = panel.scrollHeight + 20 + "px";
+      panel.classList.add('open');
+    }
+  });
+}
+
