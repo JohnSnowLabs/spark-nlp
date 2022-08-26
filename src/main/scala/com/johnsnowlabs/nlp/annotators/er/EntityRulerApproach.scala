@@ -162,7 +162,7 @@ class EntityRulerApproach(override val uid: String)
 
   override val description: String = "Entity Ruler matches entities based on text patterns"
 
-  private var entities: Array[String] = Array()
+  private var entitiesForRegex: Array[String] = Array()
   private val keywordsPatterns: ArrayBuffer[EntityPattern] = ArrayBuffer()
   private var regexPatterns: Map[String, Seq[String]] = Map()
 
@@ -263,7 +263,7 @@ class EntityRulerApproach(override val uid: String)
     }
 
     entityRuler
-      .setRegexEntities(entities)
+      .setRegexEntities(entitiesForRegex)
       .setAhoCorasickAutomaton(automaton)
 
   }
@@ -376,16 +376,20 @@ class EntityRulerApproach(override val uid: String)
     val regexList: ArrayBuffer[String] = ArrayBuffer()
     val keywords: mutable.Map[String, Seq[String]] = mutable.Map()
     val regexPatterns: mutable.Map[String, Seq[String]] = mutable.Map()
+    var patternsHasRegex = false
 
-    val groupByLabel = patternsLines.groupBy(pattern => pattern.split(delimiter)(0))
+    val groupByLabel =
+      patternsLines.groupBy(pattern => EntityRulerUtil.splitString(pattern, delimiter)(0))
     groupByLabel.foreach { case (label, lines) =>
       lines.foreach { line =>
-        val columns: Array[String] = line.split(delimiter)
+        val columns: Array[String] = EntityRulerUtil.splitString(line, delimiter)
         val pattern = columns(1)
         val isRegex = if (columns.length == 2) false else EntityRulerUtil.toBoolean(columns(2))
 
-        if (isRegex) regexList.append(pattern)
-        else {
+        if (isRegex) {
+          regexList.append(pattern)
+          patternsHasRegex = true
+        } else {
           val patterns = keywords.getOrElse(label, Seq())
           keywords(label) = patterns ++ Seq(pattern)
         }
@@ -393,7 +397,11 @@ class EntityRulerApproach(override val uid: String)
 
       if (regexPatternsWriter.isEmpty) {
         regexPatterns(label) = regexList
-      } else storeRegexPattern(regexList, label, regexPatternsWriter.get)
+      }
+
+      if (patternsHasRegex && regexPatternsWriter.nonEmpty) {
+        storeRegexPattern(regexList, label, regexPatternsWriter.get)
+      }
 
       keywords.foreach { case (label, patterns) =>
         keywordsPatterns.append(EntityPattern(label, patterns))
@@ -403,7 +411,7 @@ class EntityRulerApproach(override val uid: String)
 
     if (regexPatternsWriter.isEmpty) {
       this.regexPatterns = regexPatterns.toMap
-      entities = regexPatterns.keys.toArray
+      if (patternsHasRegex) entitiesForRegex = regexPatterns.keys.toArray
     }
 
   }
@@ -551,8 +559,8 @@ class EntityRulerApproach(override val uid: String)
       entity: String,
       regexPatternsReaderWriter: RegexPatternsReadWriter): Unit = {
 
-    if (!entities.contains(entity)) {
-      entities = entities ++ Array(entity)
+    if (!entitiesForRegex.contains(entity)) {
+      entitiesForRegex = entitiesForRegex ++ Array(entity)
     }
     regexPatternsReaderWriter
       .lookup(entity)
@@ -573,10 +581,10 @@ class EntityRulerApproach(override val uid: String)
   }
 
   private def computePatterns(patterns: Seq[String], isRegex: Boolean, entity: String): Unit = {
-    if (isRegex || $(sentenceMatch)) {
+    if (isRegex) {
       regexPatterns = regexPatterns ++ Map(entity -> patterns)
-      if (!entities.contains(entity)) {
-        entities = entities ++ Array(entity)
+      if (!entitiesForRegex.contains(entity)) {
+        entitiesForRegex = entitiesForRegex ++ Array(entity)
       }
     }
   }

@@ -75,4 +75,20 @@ object EntityRulerFixture {
       Annotation(CHUNK, 73, 75, "123", Map("entity" -> "ID", "sentence" -> "1")),
       Annotation(CHUNK, 77, 79, "456", Map("entity" -> "ID", "sentence" -> "1"))))
 
+  val text6 = "The address is 123456 in Winterfell"
+  val expectedEntitiesFromText6: Array[Seq[Annotation]] = Array(
+    Seq(
+      Annotation(
+        CHUNK,
+        15,
+        20,
+        "123456",
+        Map("entity" -> "ID", "id" -> "id-regex", "sentence" -> "0")),
+      Annotation(
+        CHUNK,
+        25,
+        34,
+        "Winterfell",
+        Map("entity" -> "LOCATION", "id" -> "locations-words", "sentence" -> "0"))))
+
 }

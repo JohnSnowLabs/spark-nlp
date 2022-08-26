@@ -16,9 +16,11 @@
 
 package com.johnsnowlabs.nlp.annotators.er
 
+import com.johnsnowlabs.nlp.AssertAnnotations
 import com.johnsnowlabs.nlp.annotators.SparkSessionTest
+import com.johnsnowlabs.nlp.annotators.er.EntityRulerFixture._
+import com.johnsnowlabs.nlp.base.LightPipeline
 import com.johnsnowlabs.nlp.util.io.{ExternalResource, ReadAs}
-import com.johnsnowlabs.nlp.{Annotation, AssertAnnotations}
 import com.johnsnowlabs.tags.FastTest
 import org.apache.spark.ml.{Pipeline, PipelineModel}
 import org.scalatest.flatspec.AnyFlatSpec
@@ -26,34 +28,6 @@ import org.scalatest.flatspec.AnyFlatSpec
 class EntityRulerTest extends AnyFlatSpec with SparkSessionTest {
 
   import spark.implicits._
-
-  val text1: String = EntityRulerFixture.text1
-  val expectedEntitiesFromText1: Array[Seq[Annotation]] =
-    EntityRulerFixture.expectedEntitiesFromText1
-  val expectedEntitiesWithIdFromText1: Array[Seq[Annotation]] =
-    EntityRulerFixture.expectedEntitiesWithIdFromText1
-
-  val text2: String = EntityRulerFixture.text2
-  val expectedEntitiesFromText2: Array[Seq[Annotation]] =
-    EntityRulerFixture.expectedEntitiesFromText2
-  val expectedEntitiesWithIdFromText2: Array[Seq[Annotation]] =
-    EntityRulerFixture.expectedEntitiesWithIdFromText2
-
-  val text3: String = EntityRulerFixture.text3
-  val expectedEntitiesFromText3: Array[Seq[Annotation]] =
-    EntityRulerFixture.expectedEntitiesFromText3
-
-  val text4: String = EntityRulerFixture.text4
-  val expectedEntitiesFromText4: Array[Seq[Annotation]] =
-    EntityRulerFixture.expectedEntitiesFromText4
-  val expectedEntitiesWithIdFromText4: Array[Seq[Annotation]] =
-    EntityRulerFixture.expectedEntitiesWithIdFromText4
-
-  val text5: String = EntityRulerFixture.text5
-  val expectedEntitiesFromText5: Array[Seq[Annotation]] =
-    EntityRulerFixture.expectedEntitiesFromText5
-  val expectedEntitiesSentenceLevelFromText5: Array[Seq[Annotation]] =
-    EntityRulerFixture.expectedEntitiesSentenceLevelFromText5
 
   "Entity Ruler" should "raise an error when patterns resource is not set" taggedAs FastTest in {
     val entityRuler = new EntityRulerApproach()
@@ -168,8 +142,9 @@ class EntityRulerTest extends AnyFlatSpec with SparkSessionTest {
     val externalResource = ExternalResource(
       s"$testPath/keywords_without_regex_field.csv",
       ReadAs.SPARK,
-      Map("format" -> "csv", "delimiter" -> "|"))
-    val entityRulerPipeline = getEntityRulerRegexPipeline(externalResource)
+      Map("format" -> "csv", "delimiter" -> ","))
+    val entityRulerPipeline =
+      getEntityRulerKeywordsPipeline(externalResource, sentenceMatch = true)
 
     val resultDataSet = entityRulerPipeline.transform(textDataSet)
     val actualEntities = AssertAnnotations.getActualResult(resultDataSet, "entities")
@@ -793,6 +768,42 @@ class EntityRulerTest extends AnyFlatSpec with SparkSessionTest {
     actualEntities = AssertAnnotations.getActualResult(resultDataSet, "entities")
 
     AssertAnnotations.assertFields(expectedEntitiesFromText5, actualEntities)
+  }
+
+  it should "infer entities for keywords and regex alike" taggedAs FastTest in {
+    val textDataSet = Seq(text6).toDS.toDF("text")
+    val externalResource =
+      ExternalResource(
+        s"$testPath/keywords_regex_with_id.json",
+        ReadAs.SPARK,
+        Map("format" -> "JSON"))
+    val entityRulerPipelineWithUseStorage = getEntityRulerRegexPipeline(externalResource)
+    val entityRulerPipeline = getEntityRulerRegexPipeline(externalResource, useStorage = false)
+
+    var resultDataSet = entityRulerPipelineWithUseStorage.transform(textDataSet)
+    var actualEntities = AssertAnnotations.getActualResult(resultDataSet, "entities")
+
+    AssertAnnotations.assertFields(expectedEntitiesFromText6, actualEntities)
+
+    resultDataSet = entityRulerPipeline.transform(textDataSet)
+    actualEntities = AssertAnnotations.getActualResult(resultDataSet, "entities")
+
+    AssertAnnotations.assertFields(expectedEntitiesFromText6, actualEntities)
+  }
+
+  it should "work with LightPipeline" in {
+    val externalResource =
+      ExternalResource(s"$testPath/keywords_only.json", ReadAs.TEXT, Map("format" -> "json"))
+    val entityRulerPipeline = getEntityRulerKeywordsPipeline(externalResource, useStorage = false)
+    val lightPipeline = new LightPipeline(entityRulerPipeline)
+
+    val actualResult = lightPipeline.annotate(text1)
+
+    val expectedResult = Map(
+      "document" -> Seq(text1),
+      "sentence" -> Seq(text1),
+      "entities" -> Seq("John Snow", "Winterfell"))
+    assert(expectedResult == actualResult)
   }
 
   private def getEntityRulerRegexPipeline(

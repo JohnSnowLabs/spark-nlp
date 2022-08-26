@@ -113,7 +113,9 @@ class EntityRulerModel(override val uid: String)
   def getAutomatonModelIfNotSet: Option[AhoCorasickAutomaton] = {
     if (automatonModel.isDefined) {
       Some(automatonModel.get.value)
-    } else None
+    } else {
+      if ($$(ahoCorasickAutomaton).isDefined) $$(ahoCorasickAutomaton) else None
+    }
   }
 
   setDefault(useStorage -> false, caseSensitive -> true)
