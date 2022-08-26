@@ -63,6 +63,14 @@ object EntityRulerUtil {
     string.toBoolean
   }
 
+  def splitString(string: String, delimiter: String): Array[String] = {
+    var result = string.split(delimiter)
+    if (result.length > 3) {
+      result = string.split(s"\\$delimiter")
+    }
+    result
+  }
+
   private val symbols = """:$&(){}[]?/\\!><@=#-;,%_“.|'`"*#^+~€"""
   private val numbers = "0123456789"
   private val englishAlphabet = "abcdefghijklmnopqrstuvwxyz"
