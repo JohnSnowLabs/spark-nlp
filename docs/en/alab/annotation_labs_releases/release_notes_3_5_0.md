@@ -1,13 +1,11 @@
 ---
 layout: docs
-comment: no
 header: true
-seotitle: Release Notes | John Snow Labs
-title: Release Notes
-permalink: /docs/en/alab/release_notes
-key: docs-training
-modify_date: "2022-08-26"
-use_language_switcher:Python-Scala"
+seotitle: Annotation Lab | John Snow Labs
+title: Annotation Lab Release Notes 3.5.0
+permalink: /docs/en/alab/annotation_labs_releases/release_notes_3_5_0
+key: docs-licensed-release-notes
+modify_date: 2022-08-25
 show_nav: true
 sidebar:
     nav: annotation-lab
@@ -32,6 +30,7 @@ Here are the highlights of this release:
 - Benchmarking Information for Models Trained with Annotation Lab. With version 3.5.0 benchmarking information is available for models trained within Annotation Lab. User can go to the Available Models Tab of the Models Hub page and view the benchmarking data by clicking the small graph icon next to the model.
 - Configuration for Annotation Lab Deployment. The resources allocated to Annotation Lab deployment can be configured via the resource values in the annotationlab-updater.sh. The instruction to change the parameters are available in the instruction.md file.
 
+
 </div><div class="prev_ver h3-box" markdown="1">
 
 ## Versions
@@ -39,25 +38,25 @@ Here are the highlights of this release:
 </div>
 
 <ul class="pagination owl-carousel pagination_big">
-	<li><a href="annotation_labs_releases/release_notes_3_5_0">3.5.0</a></li>
-	<li><a href="annotation_labs_releases/release_notes_3_4_1">3.4.1</a></li>
-    <li><a href="annotation_labs_releases/release_notes_3_4_0">3.4.0</a></li>
-    <li><a href="annotation_labs_releases/release_notes_3_3_1">3.3.1</a></li>
-    <li><a href="annotation_labs_releases/release_notes_3_3_0">3.3.0</a></li>
-    <li><a href="annotation_labs_releases/release_notes_3_2_0">3.2.0</a></li>
-    <li><a href="annotation_labs_releases/release_notes_3_1_1">3.1.1</a></li>
-    <li><a href="annotation_labs_releases/release_notes_3_1_0">3.1.0</a></li>
-    <li><a href="annotation_labs_releases/release_notes_3_0_1">3.0.1</a></li>
-    <li><a href="annotation_labs_releases/release_notes_3_0_0">3.0.0</a></li>
-    <li><a href="annotation_labs_releases/release_notes_2_8_0">2.8.0</a></li>
-    <li><a href="annotation_labs_releases/release_notes_2_7_2">2.7.2</a></li>
-    <li><a href="annotation_labs_releases/release_notes_2_7_1">2.7.1</a></li>
-    <li><a href="annotation_labs_releases/release_notes_2_7_0">2.7.0</a></li>
-    <li><a href="annotation_labs_releases/release_notes_2_6_0">2.6.0</a></li>
-    <li><a href="annotation_labs_releases/release_notes_2_5_0">2.5.0</a></li>
-    <li><a href="annotation_labs_releases/release_notes_2_4_0">2.4.0</a></li>
-    <li><a href="annotation_labs_releases/release_notes_2_3_0">2.3.0</a></li>
-    <li><a href="annotation_labs_releases/release_notes_2_2_2">2.2.2</a></li>
-    <li><a href="annotation_labs_releases/release_notes_2_1_0">2.1.0</a></li>
-    <li><a href="annotation_labs_releases/release_notes_2_0_1">2.0.1</a></li>
+    <li class="active"><a href="release_notes_3_5_0">3.5.0</a></li>
+    <li><a href="release_notes_3_4_1">3.4.1</a></li>
+    <li><a href="release_notes_3_4_0">3.4.0</a></li>
+    <li><a href="release_notes_3_3_1">3.3.1</a></li>
+    <li><a href="release_notes_3_3_0">3.3.0</a></li>
+    <li><a href="release_notes_3_2_0">3.2.0</a></li>
+    <li><a href="release_notes_3_1_1">3.1.1</a></li>
+    <li><a href="release_notes_3_1_0">3.1.0</a></li>
+    <li><a href="release_notes_3_0_1">3.0.1</a></li>
+    <li><a href="release_notes_3_0_0">3.0.0</a></li>
+    <li><a href="release_notes_2_8_0">2.8.0</a></li>
+    <li><a href="release_notes_2_7_2">2.7.2</a></li>
+    <li><a href="release_notes_2_7_1">2.7.1</a></li>
+    <li><a href="release_notes_2_7_0">2.7.0</a></li>
+    <li><a href="release_notes_2_6_0">2.6.0</a></li>
+    <li><a href="release_notes_2_5_0">2.5.0</a></li>
+    <li><a href="release_notes_2_4_0">2.4.0</a></li>
+    <li><a href="release_notes_2_3_0">2.3.0</a></li>
+    <li><a href="release_notes_2_2_2">2.2.2</a></li>
+    <li><a href="release_notes_2_1_0">2.1.0</a></li>
+    <li><a href="release_notes_2_0_1">2.0.1</a></li>
 </ul>
