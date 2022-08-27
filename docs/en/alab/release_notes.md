@@ -7,7 +7,7 @@ title: Release Notes
 permalink: /docs/en/alab/release_notes
 key: docs-training
 modify_date: "2022-08-26"
-use_language_switcher:Python-Scala"
+use_language_switcher: "Python-Scala"
 show_nav: true
 sidebar:
     nav: annotation-lab
