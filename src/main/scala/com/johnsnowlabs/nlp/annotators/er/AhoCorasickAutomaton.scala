@@ -84,7 +84,11 @@ class AhoCorasickAutomaton(
   private def addPattern(pattern: FlattenEntityPattern): Unit = {
     var state = 0
     pattern.keyword.toCharArray.foreach { char =>
-      val edgeIndex = edges(char)
+      val edgeIndex = edges.getOrElse(
+        char,
+        throw new UnsupportedOperationException(
+          s"Char $char not found on alphabet. Please check alphabet"))
+
       if (nodes(state).get.children(edgeIndex) == -1) {
         nodes(nodeCount) = Some(new Node())
         nodes(nodeCount).get.parentState = state
