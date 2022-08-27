@@ -73,18 +73,28 @@ class AhoCorasickAutomatonTest extends AnyFlatSpec {
   }
 
   it should "raise error when searching a word with a character not found on alphabet" taggedAs FastTest in {
-    val englishAlphabet = "abcdefghijklmnopqrstuvwxyz"
-    val entityPatterns = Array(EntityPattern("Test", Seq("hello", "hi")))
-    val text = "Hello there"
-    val sentence = Sentence(text, 0, text.length, 0)
+    var englishAlphabet = "abcdefghijklmnopqrstuvwxyz"
+    var entityPatterns = Array(EntityPattern("Test", Seq("hello", "hi")))
+    var text = "Hello there"
+    var sentence = Sentence(text, 0, text.length, 0)
 
-    val automaton =
+    var automaton =
       new AhoCorasickAutomaton(englishAlphabet, entityPatterns, caseSensitive = true)
 
-    val errorMessage = intercept[UnsupportedOperationException] {
+    var errorMessage = intercept[UnsupportedOperationException] {
       automaton.searchPatternsInText(sentence)
     }
     assert(errorMessage.getMessage == "Char H not found on alphabet. Please check alphabet")
+
+    englishAlphabet = englishAlphabet + englishAlphabet.toUpperCase()
+    entityPatterns = Array(EntityPattern("LOC", Seq("Gondor")))
+    text = "Elendil used to live in Númenor"
+    sentence = Sentence(text, 0, text.length, 0)
+    automaton = new AhoCorasickAutomaton(englishAlphabet, entityPatterns, caseSensitive = true)
+    errorMessage = intercept[UnsupportedOperationException] {
+      automaton.searchPatternsInText(sentence)
+    }
+    assert(errorMessage.getMessage == "Char ú not found on alphabet. Please check alphabet")
   }
 
   it should "build a case sensitive matching machine" taggedAs FastTest in {
