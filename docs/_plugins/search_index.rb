@@ -475,14 +475,6 @@ Jekyll::Hooks.register :site, :post_render do |site|
     end
   end
   bulk_indexer.execute
-
-  if client
-    # Also delete models whose  name, language, edition, spark version were modified
-    client.delete_by_query index: 'models', body: {query: {bool: {must_not: {ids: {values: all_posts_id}}}}}
-  end
-
-
-
 end
 
 Jekyll::Hooks.register :site, :post_write do |site|
