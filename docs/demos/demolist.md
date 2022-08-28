@@ -3,7 +3,7 @@ layout: menulist
 title: Spark NLP in Action
 subtitle: Run 300+ live demos and notebooks
 full_width: true
-permalink: /demolist
+permalink: /demos
 key: demolist
 demomenu: true
 mode: immersivebg

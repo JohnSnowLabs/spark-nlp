@@ -2,7 +2,7 @@
 layout: demohomepage
 title: 
 full_width: true
-permalink: /demos
+permalink: /demosold
 key: demo
 article_header:
   type: demo
