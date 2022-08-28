@@ -1,2 +1,6 @@
-docs/_plugins/search_index.rb
-docs/_plugins/search_index.rb
+docs/en/alab/annotation_labs_releases/release_notes_3_4_1.md
+docs/en/alab/annotation_labs_releases/release_notes_3_5_0.md
+docs/en/alab/release_notes.md
+docs/en/alab/annotation_labs_releases/release_notes_3_4_1.md
+docs/en/alab/annotation_labs_releases/release_notes_3_5_0.md
+docs/en/alab/release_notes.md
