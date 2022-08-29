@@ -1,6 +1,6 @@
 ---
 layout: demopagenew
-title: Extract handwritten texts - Live Demos & Notebooks
+title: Extract handwritten texts - Visual NLP Demos & Notebooks
 seotitle: 'Visual NLP: Extract handwritten texts - John Snow Labs'
 full_width: true
 permalink: /extract_handwritten_texts
@@ -15,7 +15,7 @@ data:
   sections:  
     - secheader: yes
       secheader:
-        - subtitle: Extract handwritten texts - Visual NLP Demos & Notebooks
+        - subtitle: Extract handwritten texts - Live Demos & Notebooks
           activemenu: extract_handwritten_texts
       source: yes
       source: 

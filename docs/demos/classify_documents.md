@@ -1,6 +1,7 @@
 ---
 layout: demopagenew
-title: Spark NLP in Action
+title: Classify Documents - Live Demos & Notebooks
+seotitle: 'Spark NLP: Classify Documents - John Snow Labs'
 subtitle: Run 300+ live demos and notebooks
 full_width: true
 permalink: /classify_documents
@@ -13,12 +14,9 @@ show_edit_on_github: false
 show_date: false
 data:
   sections:  
-    - title: Spark NLP - English
-      excerpt: Classify Documents
-      secheader: yes
+    - secheader: yes
       secheader:
-        - title: Spark NLP - English
-          subtitle: Classify Documents
+        - subtitle: Classify Documents - Spark NLP Demos & Notebooks
           activemenu: classify_documents
       source: yes
       source: 

@@ -1,6 +1,6 @@
 ---
 layout: demopagenew
-title: Radiology - Live Demos & Notebooks
+title: Radiology - Clinical NLP Demos & Notebooks
 seotitle: 'Clinical NLP: Radiology - John Snow Labs'
 full_width: true
 permalink: /radiology
@@ -15,7 +15,7 @@ data:
   sections:  
     - secheader: yes
       secheader:
-        - subtitle: Radiology - Clinical NLP Demos & Notebooks
+        - subtitle: Radiology - Live Demos & Notebooks
           activemenu: radiology
       source: yes
       source: 

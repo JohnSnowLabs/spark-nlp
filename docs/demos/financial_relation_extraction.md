@@ -1,6 +1,6 @@
 ---
 layout: demopagenew
-title: Extract Financial Relationships - Live Demos & Notebooks
+title: Extract Financial Relationships - Finance NLP Demos & Notebooks
 seotitle: 'Finance NLP: Extract Financial Relationships - John Snow Labs'
 subtitle: Run 300+ live demos and notebooks
 full_width: true
@@ -16,7 +16,7 @@ data:
   sections:  
     - secheader: yes
       secheader:
-        - subtitle: Extract Financial Relationships - Finance NLP Demos & Notebooks
+        - subtitle: Extract Financial Relationships - Live Demos & Notebooks
           activemenu: financial_relation_extraction
       source: yes
       source: 

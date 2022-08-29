@@ -769,7 +769,7 @@ ol.list1 {
 			.col-side {
 				flex: 0 0 25%;
 				width: 25%;
-				padding: 0 25px 30px;
+				padding: 0 25px 30px;				
 				ul.acc-top {
 					margin: 0;
 					li {
@@ -779,7 +779,10 @@ ol.list1 {
 						line-height: 32px;
 						font-family: 'Montserrat', sans-serif;
 						padding: 0 0 55px;
-						position: relative;
+						position: relative;	
+						&[data-hide="hide"] {
+							display: none !important;
+						}					
 						i {
 							display: none;
 						}
@@ -797,10 +800,16 @@ ol.list1 {
 				ul {
 					list-style-type: none;
 					margin: 0 0 90px;
+					&.dn {
+						display: none;
+					}
 					li {
 						list-style-type: none;
 						padding: 0;
 						margin-top: 22px;
+						&[data-hide="hide"] {
+							display: none !important;
+						}
 						&:first-child {
 							margin: 0;
 						}
@@ -1313,6 +1322,9 @@ ol.list1 {
 				line-height: 24px;
 				color: #0099D5;
 				position: relative;
+				&[data-hide="hide"] {
+					display: none !important;
+				}
 				&:after {
 					content: '';
 					background: #c5c5c5;
@@ -1334,7 +1346,10 @@ ol.list1 {
 		}
 		ul {
 			list-style-type: none;
-			margin: 0;
+			margin: 0;	
+			&.dn {
+				display: none;
+			}		
 			&.acc-body {
 				max-height: 0;
 				overflow: hidden;
@@ -1349,6 +1364,9 @@ ol.list1 {
 			line-height: 16px;
 			position: relative;
 			margin-top: 20px;
+			&[data-hide="hide"] {
+				display: none !important;
+			}
 			&:first-child {
 				margin: 0;
 			}
@@ -1628,7 +1646,7 @@ a.btn1.small {
 .tab-item {
 	width: 322px;
 	margin: 0 13px;
-	min-height: 330px;
+	min-height: 296px;
 	border: 1px solid #C5C5C5;
 	box-shadow: 0px 5px 15px rgba(158, 222, 250, 0.25);
 	border-radius: 6px;
@@ -1636,7 +1654,7 @@ a.btn1.small {
 	position: relative;
 	margin-bottom: 20px !important;
 	z-index: 5;
-	padding: 25px 16px;
+	padding: 20px 16px;
 	&.dn {
 		display: none;
 	}	
@@ -1683,7 +1701,7 @@ a.btn1.small {
 	}
 	.tab-item-top {
 		display: flex;
-		margin-bottom: 13px;
+		margin-bottom: 27px;
 	}
 	.tab-item-title {
 		font-weight: 500;
@@ -1696,8 +1714,29 @@ a.btn1.small {
 		font-weight: 400;
 		font-size: 16px;
 		line-height: 22px;
-		margin-bottom: 30px;
+		margin-bottom: 15px;
 		color: #424242;
+  		overflow: hidden;
+		position: relative;	
+		max-height: 67px;		
+		transition: all 500ms ease;
+		.show_more {
+			position: absolute;
+			right: 0;
+			bottom: 3px;
+			padding: 0 10px;
+			text-decoration: none !important;
+			background: #fff;
+			display: none;
+		}
+		&.big-descr-close {
+			max-height: 267px;	
+		}
+		&.big-descr {		
+			.show_more {
+				display: inline-block;
+			}
+		}
 	}
 	.tab-item-inner {
 		display: flex;
@@ -1716,8 +1755,8 @@ a.btn1.small {
 	justify-content: center;
 	border-radius: 6px;
 	text-decoration: none !important;
-	padding: 10px 12px;
-	font-weight: 600;
+	padding: 13px 12px;
+	font-weight: 500;
 	font-size: 16px;
 	line-height: 19px;
 	color: #0099D5 !important;
@@ -1740,7 +1779,7 @@ a.btn1.small {
 		border: 1px solid #FF882F;
 		color: #FF882F !important;
 		&::before {
-			background: url('../../assets/images/btn2.png') center no-repeat;
+			background: url('../../assets/images/btn2.svg') center no-repeat;
 			width: 31px;
 		}
 		&:hover {
@@ -1767,10 +1806,6 @@ a.btn1.small {
 		display: inline-block;
 		background: #ECF9FF;
 		box-shadow: 0px 10px 15px rgba(0, 152, 218, 0.2);
-		-webkit-transition: all 300ms ease;
-		-moz-transition: all 300ms ease;
-		-ms-transition: all 300ms ease;
-		-o-transition: all 300ms ease;
 		transition: all 300ms ease;
 		font-weight: 500;
 		border: 1px solid #fff;
@@ -2655,6 +2690,32 @@ code {
 }
 
 @media (max-width: 1400px) {
+	.subtitle,
+	.demopage h1.subtitle {
+		font-size: 20px;
+		line-height: 26px;
+	}
+	.demopage_content .layout--landing,
+	.demomenu {
+		padding-top: 41px;
+	}
+	.full_menu .demopage-sidemenu .sidemenu .col-side {
+		ul.acc-top li {
+			font-size: 20px;
+			line-height: 26px;
+			padding: 0 0 37px;
+			&::before {
+				bottom: 19px;
+			}
+		}
+		ul li {
+			margin-top: 14px;
+			a {
+				font-size: 16px;
+				line-height: 20px;
+			}
+		}
+	}
 	.layout--page--sidebar.layout--page--aside .main {
 		max-width: 770px;
 	}
@@ -2783,23 +2844,12 @@ code {
 			flex: 0 0 50%;
 			width: 50%;
 			padding: 0 15px 30px;
-			ul.acc-top li {
-				font-size: 21px;
-				line-height: 28px;
-				padding: 0 0 37px;
-				&::before {
-					bottom: 20px;
-				}
-			}
 			ul {
 				margin: 0 0 50px;
 				li {
 					list-style-type: none;
 					padding: 0;
 					margin-top: 14px;
-					a {
-						font-size: 18px;
-					}
 				}
 			}
 		}
@@ -2915,7 +2965,7 @@ code {
 	.demopage_content .layout--landing {
 		flex: 0 0 73%;
 		width: 73%;
-		padding: 56px 0 0 30px;
+		padding: 41px 0 0 30px;
 	}
 	.tab-item {
 		width: 43%;

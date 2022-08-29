@@ -1,6 +1,6 @@
 ---
 layout: demopagenew
-title: Recognize Entities - Live Demos & Notebooks
+title: Recognize Entities - Spark NLP Demos & Notebooks
 seotitle: 'Spark NLP: Recognize Entities - John Snow Labs'
 subtitle: Run 300+ live demos and notebooks
 full_width: true
@@ -15,8 +15,8 @@ show_date: false
 data:
   sections:  
     - secheader: yes
-      secheader:
-        - subtitle: Recognize Entities - Spark NLP Demos & Notebooks
+      secheader: 
+        - subtitle: Recognize Entities - Live Demos & Notebooks
           activemenu: recognize_entitie
       source: yes
       source: 

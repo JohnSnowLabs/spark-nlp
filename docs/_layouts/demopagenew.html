@@ -59,7 +59,7 @@ full_width: true
                   </div>
 
                   {%- if child.excerpt-%}
-                  <div class="tab-description">{{ child.excerpt }}</div>
+                  <div class="tab-description"><div class="tab-description-inner">{{ child.excerpt }} <a href="#" class="show_more">(...)</a></div></div>
                   {%- endif -%}
                 </div>
 

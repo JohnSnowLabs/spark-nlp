@@ -1,6 +1,6 @@
 ---
 layout: demopagenew
-title: East Asian Languages - Live Demos & Notebooks
+title: East Asian Languages - Spark NLP Demos & Notebooks
 seotitle: 'Spark NLP: East Asian Languages - John Snow Labs'
 subtitle: Run 300+ live demos and notebooks
 full_width: true
@@ -16,7 +16,7 @@ data:
   sections:  
     - secheader: yes
       secheader:
-        - subtitle: East Asian Languages - Spark NLP Demos & Notebooks
+        - subtitle: East Asian Languages - Live Demos & Notebooks
           activemenu: east_asian_languages
       source: yes
       source: 

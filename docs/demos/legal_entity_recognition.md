@@ -1,6 +1,6 @@
 ---
 layout: demopagenew
-title: Recognize Legal Entities - Live Demos & Notebooks
+title: Recognize Legal Entities - Legal NLP Demos & Notebooks
 seotitle: 'Legal NLP: Recognize Legal Entities - John Snow Labs'
 subtitle: Run 300+ live demos and notebooks
 full_width: true
@@ -16,7 +16,7 @@ data:
   sections:  
     - secheader: yes
       secheader:
-        - subtitle: Recognize Legal Entities - Legal NLP Demos & Notebooks
+        - subtitle: Recognize Legal Entities - Live Demos & Notebooks
           activemenu: legal_entity_recognition
       source: yes
       source:

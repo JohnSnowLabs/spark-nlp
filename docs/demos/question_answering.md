@@ -1,6 +1,6 @@
 ---
 layout: demopagenew
-title: Question Answering - Live Demos & Notebooks
+title: Question Answering - Spark NLP Demos & Notebooks
 seotitle: 'Spark NLP: Question Answering - John Snow Labs'
 subtitle: Run 300+ live demos and notebooks
 full_width: true
@@ -16,7 +16,7 @@ data:
   sections:  
     - secheader: yes
       secheader:
-        - subtitle: Question Answering - Spark NLP Demos & Notebooks
+        - subtitle:Question Answering - Live Demos & Notebooks
           activemenu: question_answering
       source: yes
       source:

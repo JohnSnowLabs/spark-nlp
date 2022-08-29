@@ -1,6 +1,6 @@
 ---
 layout: demopagenew
-title: Normalization & Data Augmentation - Live Demos & Notebooks
+title: Normalization & Data Augmentation - Finance NLP Demos & Notebooks
 seotitle: 'Finance NLP: Normalization & Data Augmentation - John Snow Labs'
 subtitle: Run 300+ live demos and notebooks
 full_width: true
@@ -16,7 +16,7 @@ data:
   sections:  
     - secheader: yes
       secheader:
-        - subtitle: Normalization & Data Augmentation - Finance NLP Demos & Notebooks
+        - subtitle: Normalization & Data Augmentation - Live Demos & Notebooks
           activemenu: financial_company_normalization
       source: yes
       source: 

@@ -1,6 +1,6 @@
 ---
 layout: demopagenew
-title: Financial Sentiment Analysis - Live Demos & Notebooks
+title: Financial Sentiment Analysis - Finance NLP Demos & Notebooks
 seotitle: 'Finance NLP: Financial Sentiment Analysis - John Snow Labs'
 subtitle: Run 300+ live demos and notebooks
 full_width: true
@@ -16,7 +16,7 @@ data:
   sections:  
     - secheader: yes
       secheader:
-        - subtitle: Financial Sentiment Analysis - Finance NLP Demos & Notebooks
+        - subtitle: Financial Sentiment Analysis - Live Demos & Notebooks
           activemenu: financial_sentiment_analysis
       source: yes
       source: 

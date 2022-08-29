@@ -1,6 +1,6 @@
 ---
 layout: demopagenew
-title: Visual Document Understanding - Live Demos & Notebooks
+title: Visual Document Understanding - Visual NLP Demos & Notebooks
 seotitle: 'Visual NLP: Visual Document Understanding - John Snow Labs'
 subtitle: Run 300+ live demos and notebooks
 full_width: true
@@ -16,7 +16,7 @@ data:
   sections:  
     - secheader: yes
       secheader:
-        - subtitle: Visual Document Understanding - Visual NLP Demos & Notebooks
+        - subtitle: Visual Document Understanding - Live Demos & Notebooks
           activemenu: visual_document_understanding
       source: yes
       source: 

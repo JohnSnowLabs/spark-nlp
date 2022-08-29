@@ -1,6 +1,6 @@
 ---
 layout: demopagenew
-title: Identify & Translate Languages - Live Demos & Notebooks
+title: Identify & Translate Languages - Spark NLP Demos & Notebooks
 seotitle: 'Spark NLP: Identify & Translate Languages - John Snow Labs'
 subtitle: Run 300+ live demos and notebooks
 full_width: true
@@ -16,7 +16,7 @@ data:
   sections:  
     - secheader: yes
       secheader:
-        - subtitle: Identify & Translate Languages - Spark NLP Demos & Notebooks
+        - subtitle: Identify & Translate Languages - Live Demos & Notebooks
           activemenu: identify_translate_languages
       source: yes
       source: 

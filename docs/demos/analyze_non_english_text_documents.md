@@ -1,6 +1,6 @@
 ---
 layout: demopagenew
-title: Analyze Non-English Text & Documents - Live Demos & Notebooks
+title: Analyze Non-English Text & Documents - Visual NLP Demos & Notebooks
 seotitle: 'Visual NLP: Analyze Non-English Text & Documents - John Snow Labs'
 subtitle: Run 300+ live demos and notebooks
 full_width: true
@@ -16,7 +16,7 @@ data:
   sections:  
     - secheader: yes
       secheader:
-        - subtitle: Analyze Non-English Text & Documents - Visual NLP Demos & Notebooks
+        - subtitle: Analyze Non-English Text & Documents - Live Demos & Notebooks
           activemenu: analyze_non_english_text_documents
       source: yes
       source: 

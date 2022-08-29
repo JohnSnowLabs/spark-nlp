@@ -1,6 +1,6 @@
 ---
 layout: demopagenew
-title: Languages of India - Live Demos & Notebooks
+title: Languages of India - Spark NLP Demos & Notebooks
 seotitle: 'Spark NLP: Languages of India - John Snow Labs'
 subtitle: Run 300+ live demos and notebooks
 full_width: true
@@ -16,7 +16,7 @@ data:
   sections:  
     - secheader: yes
       secheader:
-        - subtitle: Languages of India - Spark NLP Demos & Notebooks
+        - subtitle: Languages of India - Live Demos & Notebooks
           activemenu: languages_india
       source: yes
       source: 

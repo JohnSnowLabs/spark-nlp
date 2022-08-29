@@ -1,6 +1,6 @@
 ---
 layout: demopagenew
-title: Classify Legal Texts - Live Demos & Notebooks
+title: Classify Legal Texts - Legal NLP Demos & Notebooks
 seotitle: 'Legal NLP: Classify Legal Texts - John Snow Labs'
 subtitle: Run 300+ live demos and notebooks
 full_width: true
@@ -16,7 +16,7 @@ data:
   sections:  
     - secheader: yes
       secheader:
-        - subtitle: Classify Legal Texts - Legal NLP Demos & Notebooks
+        - subtitle: Classify Legal Texts - Live Demos & Notebooks
           activemenu: legal_text_classification
       source: yes
       source: 

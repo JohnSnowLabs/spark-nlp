@@ -1,6 +1,6 @@
 ---
 layout: demopagenew
-title: Understand Financial Entities Context - Live Demos & Notebooks
+title: Understand Financial Entities Context - Finance NLP Demos & Notebooks
 seotitle: 'Finance NLP: Understand Financial Entities Context - John Snow Labs'
 subtitle: Run 300+ live demos and notebooks
 full_width: true
@@ -16,7 +16,7 @@ data:
   sections:  
     - secheader: yes
       secheader:
-        - subtitle: Understand Financial Entities Context - Finance NLP Demos & Notebooks
+        - subtitle: Understand Financial Entities Context - Live Demos & Notebooks
           activemenu: financial_assertion_status
       source: yes
       source: 

@@ -1,6 +1,6 @@
 ---
 layout: demopagenew
-title: De-Identification - Live Demos & Notebooks
+title: De-Identification - Clinical NLP Demos & Notebooks
 seotitle: 'Clinical NLP: De-Identification - John Snow Labs'
 subtitle: Run 300+ live demos and notebooks
 full_width: true
@@ -16,7 +16,7 @@ data:
   sections:  
     - secheader: yes
       secheader:
-        - subtitle: De-Identification - Clinical NLP Demos & Notebooks
+        - subtitle: De-Identification - Live Demos & Notebooks
           activemenu: deidentification
       source: yes
       source: 

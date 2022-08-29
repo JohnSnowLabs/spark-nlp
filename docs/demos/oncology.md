@@ -1,6 +1,6 @@
 ---
 layout: demopagenew
-title: Oncology - Live Demos & Notebooks
+title: Oncology - Clinical NLP Demos & Notebooks
 seotitle: 'Clinical NLP: Oncology - John Snow Labs'
 full_width: true
 permalink: /oncology
@@ -15,7 +15,7 @@ data:
   sections:  
     - secheader: yes
       secheader:
-        - subtitle: Oncology - Clinical NLP Demos & Notebooks
+        - subtitle: Oncology - Live Demos & Notebooks
           activemenu: oncology
       source: yes
       source: 

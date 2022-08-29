@@ -1,6 +1,6 @@
 ---
 layout: demopagenew
-title: Classify Financial Texts - Live Demos & Notebooks
+title: Classify Financial Texts - Finance NLP Demos & Notebooks
 seotitle: 'Finance NLP: Classify Financial Texts - John Snow Labs'
 subtitle: Run 300+ live demos and notebooks
 full_width: true
@@ -16,7 +16,7 @@ data:
   sections:  
     - secheader: yes
       secheader:
-        - subtitle: Classify Financial Texts - Finance NLP Demos & Notebooks
+        - subtitle: Classify Financial Texts - Live Demos & Notebooks
           activemenu: financial_text_classification
       source: yes
       source: 

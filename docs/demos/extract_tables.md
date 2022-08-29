@@ -1,6 +1,6 @@
 ---
 layout: demopagenew
-title: Extract Tables - Live Demos & Notebooks
+title: Extract Tables - Visual NLP Demos & Notebooks
 seotitle: 'Visual NLP: Extract Tables - John Snow Labs'
 subtitle: Run 300+ live demos and notebooks
 full_width: true
@@ -16,7 +16,7 @@ data:
   sections:  
     - secheader: yes
       secheader:
-        - subtitle: Extract Tables - Visual NLP Demos & Notebooks
+        - subtitle: Extract Tables - Live Demos & Notebooks
           activemenu: extract_tables
       source: yes
       source: 

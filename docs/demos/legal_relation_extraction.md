@@ -1,6 +1,6 @@
 ---
 layout: demopagenew
-title: Extract Legal Relationships - Live Demos & Notebooks
+title: Extract Legal Relationships - Legal NLP Demos & Notebooks
 seotitle: 'Legal NLP: Extract Legal Relationships - John Snow Labs'
 subtitle: Run 300+ live demos and notebooks
 full_width: true
@@ -16,7 +16,7 @@ data:
   sections:  
     - secheader: yes
       secheader:
-        - subtitle: Extract Legal Relationships - Legal NLP Demos & Notebooks
+        - subtitle: Extract Legal Relationships - Live Demos & Notebooks
           activemenu: legal_relation_extraction
       source: yes
       source: 

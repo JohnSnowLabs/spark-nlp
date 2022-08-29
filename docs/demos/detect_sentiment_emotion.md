@@ -1,6 +1,6 @@
 ---
 layout: demopagenew
-title: Detect Sentiment & Emotion - Live Demos & Notebooks
+title: Detect Sentiment & Emotion - Spark NLP Demos & Notebooks
 seotitle: 'Spark NLP: Detect Sentiment & Emotion - John Snow Labs'
 subtitle: Run 300+ live demos and notebooks
 full_width: true
@@ -16,7 +16,7 @@ data:
   sections:  
     - secheader: yes
       secheader:
-        - subtitle: Detect Sentiment & Emotion - Spark NLP Demos & Notebooks
+        - subtitle: Detect Sentiment & Emotion - Live Demos & Notebooks
           activemenu: detect_sentiment_emotion
       source: yes
       source: 

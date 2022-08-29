@@ -1,6 +1,6 @@
 ---
 layout: demopagenew
-title: Enhance Low-Quality Images - Live Demos & Notebooks
+title: Enhance Low-Quality Images - Visual NLP Demos & Notebooks
 seotitle: 'Visual NLP: Enhance Low-Quality Images - John Snow Labs'
 subtitle: Run 300+ live demos and notebooks
 full_width: true
@@ -16,7 +16,7 @@ data:
   sections:  
     - secheader: yes
       secheader:
-        - subtitle: Enhance Low-Quality Images - Visual NLP Demos & Notebooks
+        - subtitle: Enhance Low-Quality Images - Live Demos & Notebooks
           activemenu: enhance_low_quality_images
       source: yes
       source: 

@@ -1,6 +1,6 @@
 ---
 layout: demopagenew
-title: Extract Text from Documents - Live Demos & Notebooks
+title: Extract Text from Documents - Visual NLP Demos & Notebooks
 seotitle: 'Visual NLP: Extract Text from Documents - John Snow Labs'
 subtitle: Run 300+ live demos and notebooks
 full_width: true
@@ -16,7 +16,7 @@ data:
   sections:  
     - secheader: yes
       secheader:
-        - subtitle: Extract Text from Documents - Visual NLP Demos & Notebooks
+        - subtitle: Extract Text from Documents - Live Demos & Notebooks
           activemenu: extract_text_from_documents
       source: yes
       source: 

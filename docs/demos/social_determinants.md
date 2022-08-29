@@ -1,6 +1,6 @@
 ---
 layout: demopagenew
-title: Social Determinants - Live Demos & Notebooks
+title: Social Determinants - Clinical NLP Demos & Notebooks
 seotitle: 'Clinical NLP: Social Determinants - John Snow Labs'
 subtitle: Run 300+ live demos and notebooks
 full_width: true
@@ -16,7 +16,7 @@ data:
   sections:  
     - secheader: yes
       secheader:
-        - subtitle: Social Determinants - Clinical NLP Demos & Notebooks 
+        - subtitle: Social Determinants - Live Demos & Notebooks
           activemenu: social_determinants
       source: yes
       source: 

@@ -27,7 +27,7 @@ jQuery(document).ready(function($) {
 });
 
 /*TABS*/
-function openTabCall(cityName){
+/* function openTabCall(cityName){
   // Declare all variables
   var i, tabcontent, tablinks;
 
@@ -50,7 +50,7 @@ function openTabCall(cityName){
 function openTab(evt, cityName) {
   openTabCall(cityName);
   evt.currentTarget.className += " active";
-}
+} */
 
 /*OPen by URL*/
 $(document).ready(function () {  
@@ -62,14 +62,13 @@ $(document).ready(function () {
 });
 
 jQuery(document).ready(function(){
-	jQuery('.tab-item').click(function(event) {		
+	jQuery('.tab-item').click(function() {		
 		if (($(window).width() > 400) && ($(window).width() < 1199))
 	    {
 	    	jQuery('.tab-item').removeClass('open');
 	        jQuery(this).toggleClass('open');
 	    }
   });
-  
 
 });
 
@@ -99,3 +98,22 @@ for (let i = 0; i < acc.length; i++) {
   });
 }
 
+//Show more in demos description
+let tabDescription = document.querySelectorAll('.tab-description');
+
+tabDescription.forEach(element => {
+  let tabDescriptionInner = element.querySelector('.tab-description-inner');
+  if(element.offsetHeight < tabDescriptionInner.offsetHeight) {
+    element.classList.add('big-descr');
+  }
+});
+
+let showMore = document.querySelectorAll('.show_more');
+
+showMore.forEach(element => {
+  element.addEventListener("click", function(e) {
+    e.preventDefault();
+    this.parentElement.parentElement.classList.remove('big-descr');
+    this.parentElement.parentElement.classList.add('big-descr-close');
+  });
+});

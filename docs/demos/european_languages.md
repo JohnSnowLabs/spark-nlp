@@ -1,6 +1,6 @@
 ---
 layout: demopagenew
-title: European Languages - Live Demos & Notebooks
+title: European Languages - Spark NLP Demos & Notebooks
 seotitle: 'Spark NLP: European Languages - John Snow Labs'
 subtitle: Run 300+ live demos and notebooks
 full_width: true
@@ -16,7 +16,7 @@ data:
   sections:  
     - secheader: yes
       secheader:
-        - subtitle: European Languages - Spark NLP Demos & Notebooks
+        - subtitle: European Languages - Live Demos & Notebooks
           activemenu: european_languages
       source: yes
       source: 

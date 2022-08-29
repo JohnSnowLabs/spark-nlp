@@ -1,6 +1,6 @@
 ---
 layout: demopagenew
-title: Analyze Spelling & Grammar - Live Demos & Notebooks
+title: Analyze Spelling & Grammar - Spark NLP Demos & Notebooks
 seotitle: 'Spark NLP: Analyze Spelling & Grammar - John Snow Labs'
 subtitle: Run 300+ live demos and notebooks
 full_width: true
@@ -16,7 +16,7 @@ data:
   sections:  
     - secheader: yes
       secheader:
-        - subtitle: Analyze Spelling & Grammar - Spark NLP Demos & Notebooks
+        - subtitle: Analyze Spelling & Grammar - Live Demos & Notebooks
           activemenu: analyze_spelling_grammar
       source: yes
       source:

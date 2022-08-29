@@ -1,6 +1,6 @@
 ---
 layout: demopagenew
-title: Recognize Financial Entities - Live Demos & Notebooks
+title: Recognize Financial Entities - Finance NLP Demos & Notebooks
 seotitle: 'Finance NLP: Recognize Financial Entities - John Snow Labs'
 subtitle: Run 300+ live demos and notebooks
 full_width: true
@@ -16,7 +16,7 @@ data:
   sections:  
     - secheader: yes
       secheader:
-        - subtitle: Recognize Financial Entities - Finance NLP Demos & Notebooks
+        - subtitle: Recognize Financial Entities - Live Demos & Notebooks
           activemenu: financial_entity_recognition
       source: yes
       source:

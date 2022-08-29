@@ -1,6 +1,6 @@
 ---
 layout: demopagenew
-title: Middle Eastern Languages - Live Demos & Notebooks
+title: Middle Eastern Languages - Spark NLP Demos & Notebooks
 seotitle: 'Spark NLP: Middle Eastern Languages - John Snow Labs'
 subtitle: Run 300+ live demos and notebooks
 full_width: true
@@ -16,7 +16,7 @@ data:
   sections:  
     - secheader: yes
       secheader:
-        - subtitle: Middle Eastern Languages - Spark NLP Demos & Notebooks
+        - subtitle: Middle Eastern Languages - Live Demos & Notebooks
           activemenu: middle_eastern_languages
       source: yes
       source: 

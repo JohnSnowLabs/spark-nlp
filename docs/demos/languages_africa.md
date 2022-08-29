@@ -1,6 +1,6 @@
 ---
 layout: demopagenew
-title: African Languages - Live Demos & Notebooks
+title: African Languages - Spark NLP Demos & Notebooks
 seotitle: 'Spark NLP: African Languages - John Snow Labs'
 subtitle: Run 300+ live demos and notebooks
 full_width: true
@@ -16,7 +16,7 @@ data:
   sections:  
     - secheader: yes
       secheader:
-        - subtitle: African Languages - Spark NLP Demos & Notebooks 
+        - subtitle: African Languages - Live Demos & Notebooks
           activemenu: languages_africa
       source: yes
       source: 
