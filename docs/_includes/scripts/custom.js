@@ -61,17 +61,6 @@ $(document).ready(function () {
   }
 });
 
-jQuery(document).ready(function(){
-	jQuery('.tab-item').click(function() {		
-		if (($(window).width() > 400) && ($(window).width() < 1199))
-	    {
-	    	jQuery('.tab-item').removeClass('open');
-	        jQuery(this).toggleClass('open');
-	    }
-  });
-
-});
-
 //Accordion demos categories
 let acc = document.getElementsByClassName("acc-top"),
     isResizeble = false;

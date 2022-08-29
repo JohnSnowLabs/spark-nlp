@@ -799,14 +799,14 @@ ol.list1 {
 				}
 				ul {
 					list-style-type: none;
-					margin: 0 0 90px;
+					margin: 0 0 45px;
 					&.dn {
 						display: none;
 					}
 					li {
 						list-style-type: none;
 						padding: 0;
-						margin-top: 22px;
+						margin-top: 14px;
 						&[data-hide="hide"] {
 							display: none !important;
 						}
@@ -814,7 +814,7 @@ ol.list1 {
 							margin: 0;
 						}
 						a {
-							font-size: 20px;
+							font-size: 18px;
 							line-height: 24px;
 							font-weight: normal;
 							color: #333333 !important;
@@ -1646,7 +1646,7 @@ a.btn1.small {
 .tab-item {
 	width: 322px;
 	margin: 0 13px;
-	min-height: 296px;
+	min-height: 260px;
 	border: 1px solid #C5C5C5;
 	box-shadow: 0px 5px 15px rgba(158, 222, 250, 0.25);
 	border-radius: 6px;
@@ -1658,26 +1658,6 @@ a.btn1.small {
 	&.dn {
 		display: none;
 	}	
-	&.open {
-		.tab-item-inner {
-			background:$color-lightblue;
-			padding: 25px 15px 30px;
-			.tab-description,
-			.tab-item-title {
-				color: #fff;
-			}
-			.tab_fig_white {
-				display: inline-block;
-			}
-			.tab_fig_blue {
-				display: none;
-			}
-			.tab-description {
-				height: auto;
-				display: block;
-			}
-		}
-	}
 	.tab_fig_blue {
 		width: 46px;
 		flex: 0 0 46px;
@@ -1724,9 +1704,10 @@ a.btn1.small {
 			position: absolute;
 			right: 0;
 			bottom: 3px;
-			padding: 0 10px;
+			padding: 0 5px 0 35px;
 			text-decoration: none !important;
-			background: #fff;
+			background: rgb(255,255,255);
+			background: linear-gradient(270deg, rgba(255,255,255,1) 64%, rgba(255,255,255,0.7819328414959734) 54%, rgba(255,255,255,0) 100%);  
 			display: none;
 		}
 		&.big-descr-close {
@@ -2709,7 +2690,6 @@ code {
 			}
 		}
 		ul li {
-			margin-top: 14px;
 			a {
 				font-size: 16px;
 				line-height: 20px;
