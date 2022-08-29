@@ -93,7 +93,7 @@ val embeddings = XlmRoBertaEmbeddings.pretrained("xlm_roberta_base", "xx")
     .setOutputCol("embeddings")
 
 val ner_model = NerDLModel.pretrained("ner_wikiner_xlm_roberta_base", "xx") 
-    .setInputCols(Array("document"', "token", "embeddings"))
+    .setInputCols(Array("document", "token", "embeddings"))
     .setOutputCol("ner")
 
 val ner_converter = new NerConverter() 
