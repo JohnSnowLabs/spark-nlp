@@ -1,6 +1,2 @@
-docs/en/alab/annotation_labs_releases/release_notes_3_4_1.md
-docs/en/alab/annotation_labs_releases/release_notes_3_5_0.md
-docs/en/alab/release_notes.md
-docs/en/alab/annotation_labs_releases/release_notes_3_4_1.md
-docs/en/alab/annotation_labs_releases/release_notes_3_5_0.md
-docs/en/alab/release_notes.md
+docs/_posts/josejuanmartinez/2022-08-29-finner_headers_en.md
+docs/_posts/josejuanmartinez/2022-08-29-finner_headers_en.md
