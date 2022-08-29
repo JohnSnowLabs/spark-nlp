@@ -93,7 +93,7 @@ val embeddings = WordEmbeddingsModel.pretrained("glove_840B_300", "xx")
     .setOutputCol("embeddings")
 
 val ner_model = NerDLModel.pretrained("ner_wikiner_glove_840B_300", "xx") 
-    .setInputCols(Array("document"', "token", "embeddings"))
+    .setInputCols(Array("document", "token", "embeddings"))
     .setOutputCol("ner")
 
 val ner_converter = NerConverter() 
