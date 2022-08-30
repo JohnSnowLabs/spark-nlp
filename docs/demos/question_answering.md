@@ -16,7 +16,7 @@ data:
   sections:  
     - secheader: yes
       secheader:
-        - subtitle:Question Answering - Live Demos & Notebooks
+        - subtitle: Question Answering - Live Demos & Notebooks
           activemenu: question_answering
       source: yes
       source:
