@@ -1,20 +1,22 @@
 ---
-layout: demopage
-title: Spark NLP in Action
+layout: demopagenew
+title: Understand Financial Entities Context - Finance NLP Demos & Notebooks
+seotitle: 'Finance NLP: Understand Financial Entities Context - John Snow Labs'
+subtitle: Run 300+ live demos and notebooks
 full_width: true
 permalink: /financial_assertion_status
 key: demo
+article_header:
+  type: demo
 license: false
+mode: immersivebg
 show_edit_on_github: false
 show_date: false
 data:
   sections:  
-    - title: Spark NLP for Finance
-      excerpt: Understand Financial Entities Context
-      secheader: yes
+    - secheader: yes
       secheader:
-        - title: Spark NLP for Finance
-          subtitle: Understand Financial Entities Context
+        - subtitle: Understand Financial Entities Context - Live Demos & Notebooks
           activemenu: financial_assertion_status
       source: yes
       source: 
@@ -29,7 +31,7 @@ data:
           - text: Live Demo
             type: normal
             url: https://demo.johnsnowlabs.com/finance/ASSERTIONDL_COMPETITORS
-          - text: Colab Netbook
+          - text: Colab
             type: blue_btn
             url:                 
 ---

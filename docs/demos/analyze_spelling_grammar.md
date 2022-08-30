@@ -1,20 +1,22 @@
 ---
-layout: demopage
-title: Spark NLP in Action
+layout: demopagenew
+title: Analyze Spelling & Grammar - Spark NLP Demos & Notebooks
+seotitle: 'Spark NLP: Analyze Spelling & Grammar - John Snow Labs'
+subtitle: Run 300+ live demos and notebooks
 full_width: true
 permalink: /analyze_spelling_grammar
 key: demo
+article_header:
+  type: demo
 license: false
+mode: immersivebg
 show_edit_on_github: false
 show_date: false
 data:
   sections:  
-    - title: Spark NLP - English
-      excerpt: Analyze Spelling & Grammar 
-      secheader: yes
+    - secheader: yes
       secheader:
-        - title: Spark NLP - English
-          subtitle: Analyze Spelling & Grammar 
+        - subtitle: Analyze Spelling & Grammar - Live Demos & Notebooks
           activemenu: analyze_spelling_grammar
       source: yes
       source:
@@ -29,7 +31,7 @@ data:
           - text: Live Demo
             type: normal
             url:  https://demo.johnsnowlabs.com/public/T5_GRAMMAR/
-          - text: Colab Netbook
+          - text: Colab
             type: blue_btn
             url:  https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/T5_LINGUISTIC.ipynb    
         - title: Grammar analysis & Dependency Parsing
@@ -43,7 +45,7 @@ data:
           - text: Live Demo
             type: normal
             url: https://demo.johnsnowlabs.com/public/GRAMMAR_EN/
-          - text: Colab Netbook
+          - text: Colab
             type: blue_btn
             url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/GRAMMAR_EN.ipynb
         - title: Spell check your text documents
@@ -57,7 +59,7 @@ data:
           - text: Live Demo
             type: normal
             url: https://demo.johnsnowlabs.com/public/SPELL_CHECKER_EN
-          - text: Colab Netbook
+          - text: Colab
             type: blue_btn
             url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/SPELL_CHECKER_EN.ipynb
         - title: Detect sentences in text
@@ -71,7 +73,7 @@ data:
           - text: Live Demo
             type: normal
             url: https://demo.johnsnowlabs.com/public/SENTENCE_DETECTOR/
-          - text: Colab Netbook
+          - text: Colab
             type: blue_btn
             url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Public/9.SentenceDetectorDL.ipynb
         - title: Split and clean text
@@ -85,7 +87,7 @@ data:
           - text: Live Demo
             type: normal
             url: https://demo.johnsnowlabs.com/public/TEXT_PREPROCESSING/
-          - text: Colab Netbook
+          - text: Colab
             type: blue_btn
             url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/TEXT_PREPROCESSING.ipynb     
         - title: Linguistic transformations on texts
@@ -100,7 +102,7 @@ data:
           - text: Live Demo
             type: normal
             url: https://demo.johnsnowlabs.com/public/T5_LINGUISTIC/
-          - text: Colab Netbook
+          - text: Colab
             type: blue_btn
             url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/T5_LINGUISTIC.ipynb               
         - title:  Switch Between Active and Passive voice
@@ -114,7 +116,7 @@ data:
           - text: Live Demo
             type: normal
             url:  https://demo.johnsnowlabs.com/public/T5_ACTIVE_PASSIVE/
-          - text: Colab Netbook
+          - text: Colab
             type: blue_btn
             url:  https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/T5_LINGUISTIC.ipynb
         - title:  Switch Between Informal and Formal style
@@ -128,7 +130,7 @@ data:
           - text: Live Demo
             type: normal
             url:  https://demo.johnsnowlabs.com/public/T5_FORMAL_INFORMAL/
-          - text: Colab Netbook
+          - text: Colab
             type: blue_btn
             url:  https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/T5_LINGUISTIC.ipynb
         - title:  Evaluate Sentence Grammar
@@ -142,7 +144,7 @@ data:
           - text: Live Demo
             type: normal
             url:  https://demo.johnsnowlabs.com/public/SENTENCE_GRAMMAR/
-          - text: Colab Netbook
+          - text: Colab
             type: blue_btn
             url:  https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/T5TRANSFORMER.ipynb 
         - title:  English Typo Detector
@@ -156,7 +158,7 @@ data:
           - text: Live Demo
             type: normal
             url:  https://demo.johnsnowlabs.com/public/TYPO_DETECTOR_EN/
-          - text: Colab Netbook
+          - text: Colab
             type: blue_btn
             url:  https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/DistilBertForTokenClassification.ipynb
 ---

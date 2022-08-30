@@ -1,20 +1,22 @@
 ---
-layout: demopage
-title: Spark NLP in Action
+layout: demopagenew
+title: Recognize Legal Entities - Legal NLP Demos & Notebooks
+seotitle: 'Legal NLP: Recognize Legal Entities - John Snow Labs'
+subtitle: Run 300+ live demos and notebooks
 full_width: true
 permalink: /legal_entity_recognition
 key: demo
+article_header:
+  type: demo
 license: false
+mode: immersivebg
 show_edit_on_github: false
 show_date: false
 data:
   sections:  
-    - title: Spark NLP for Legal
-      excerpt: Legal Entity Recognition
-      secheader: yes
+    - secheader: yes
       secheader:
-        - title: Spark NLP for Legal
-          subtitle: Legal Entity Recognition
+        - subtitle: Recognize Legal Entities - Live Demos & Notebooks
           activemenu: legal_entity_recognition
       source: yes
       source:
@@ -29,7 +31,7 @@ data:
           - text: Live Demo
             type: normal
             url: https://demo.johnsnowlabs.com/legal/LEGALNER_PARTIES/
-          - text: Colab Netbook
+          - text: Colab
             type: blue_btn
             url: 
         - title: Extract Signers, Roles and Companies  
@@ -43,7 +45,7 @@ data:
           - text: Live Demo
             type: normal
             url: https://demo.johnsnowlabs.com/legal/LEGALNER_SIGNERS/
-          - text: Colab Netbook
+          - text: Colab
             type: blue_btn
             url:
         - title: Extract headers and subheaders 
@@ -57,7 +59,7 @@ data:
           - text: Live Demo
             type: normal
             url: https://demo.johnsnowlabs.com/legal/LEGALNER_HEADERS/
-          - text: Colab Netbook
+          - text: Colab
             type: blue_btn
             url: 
         - title: Extract entities in Whereas clauses 
@@ -71,7 +73,7 @@ data:
           - text: Live Demo
             type: normal
             url: https://demo.johnsnowlabs.com/legal/LEGALNER_WHEREAS/
-          - text: Colab Netbook
+          - text: Colab
             type: blue_btn
             url:
         - title: Detect legal entities in German
@@ -85,7 +87,7 @@ data:
           - text: Live Demo
             type: normal
             url: https://demo.johnsnowlabs.com/healthcare/NER_LEGAL_DE/
-          - text: Colab Netbook
+          - text: Colab
             type: blue_btn
             url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/NER_LEGAL_DE.ipynb
         - title: Detect legal entities in Portuguese
@@ -99,7 +101,7 @@ data:
           - text: Live Demo
             type: normal
             url: https://demo.johnsnowlabs.com/healthcare/NER_LEGAL_PT/
-          - text: Colab Netbook
+          - text: Colab
             type: blue_btn
             url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/NER_LEGAL_PT.ipynb
         - title: Extract Parties obligations in a Legal Agreement 
@@ -113,7 +115,7 @@ data:
           - text: Live Demo
             type: normal
             url: https://demo.johnsnowlabs.com/legal/LEGALNER_OBLIGATIONS/
-          - text: Colab Netbook
+          - text: Colab
             type: blue_btn
             url: 
         - title: Identify Companies and their aliases in legal texts
@@ -127,7 +129,7 @@ data:
           - text: Live Demo
             type: normal
             url: https://demo.johnsnowlabs.com/legal/LEGALNER_ALIAS/
-          - text: Colab Netbook
+          - text: Colab
             type: blue_btn
             url:
 ---

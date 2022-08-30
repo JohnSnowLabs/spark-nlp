@@ -1,20 +1,22 @@
 ---
-layout: demopage
-title: Spark NLP in Action
+layout: demopagenew
+title: Normalization & Data Augmentation - Finance NLP Demos & Notebooks
+seotitle: 'Finance NLP: Normalization & Data Augmentation - John Snow Labs'
+subtitle: Run 300+ live demos and notebooks
 full_width: true
 permalink: /financial_company_normalization
 key: demo
+article_header:
+  type: demo
 license: false
+mode: immersivebg
 show_edit_on_github: false
 show_date: false
 data:
   sections:  
-    - title: Spark NLP for Finance
-      excerpt: Normalize and Augment Company Names
-      secheader: yes
+    - secheader: yes
       secheader:
-        - title: Spark NLP for Finance
-          subtitle: Normalize and Augment Company Names
+        - subtitle: Normalization & Data Augmentation - Live Demos & Notebooks
           activemenu: financial_company_normalization
       source: yes
       source: 
@@ -29,7 +31,7 @@ data:
           - text: Live Demo
             type: normal
             url: https://demo.johnsnowlabs.com/finance/ER_EDGAR_CRUNCHBASE/
-          - text: Colab Netbook
+          - text: Colab
             type: blue_btn
             url:    
         - title: Augment Company Names with Public Information  
@@ -43,7 +45,7 @@ data:
           - text: Live Demo
             type: normal
             url: https://demo.johnsnowlabs.com/finance/FIN_LEG_COMPANY_AUGMENTATION 
-          - text: Colab Netbook
+          - text: Colab
             type: blue_btn
             url:              
 ---
