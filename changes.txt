@@ -1,2 +1,6 @@
-docs/_posts/maziyarpanahi/2021-11-21-distilbert_sequence_classifier_banking77_en.md
-docs/_posts/maziyarpanahi/2021-11-21-distilbert_sequence_classifier_banking77_en.md
+docs/_includes/demomenu.html
+docs/_includes/head.html
+docs/_sass/custom.scss
+docs/_includes/demomenu.html
+docs/_includes/head.html
+docs/_sass/custom.scss
