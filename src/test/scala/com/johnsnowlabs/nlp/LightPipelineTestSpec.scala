@@ -216,7 +216,7 @@ class LightPipelineTestSpec extends AnyFlatSpec {
     val lightPipeline = new LightPipeline(fixtureWithNormalizer.model)
 
     assertThrows[UnsupportedOperationException] {
-      lightPipeline.fullAnnotate(Array("1", "2", "3"), Array("1", "2", "3"))
+      lightPipeline.fullAnnotate(Array("1", "2", "3"), Array("1", "2"))
     }
   }
 
