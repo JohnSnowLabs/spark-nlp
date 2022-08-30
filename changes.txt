@@ -1,6 +1,8 @@
-docs/_includes/demomenu.html
-docs/_includes/head.html
-docs/_sass/custom.scss
-docs/_includes/demomenu.html
-docs/_includes/head.html
-docs/_sass/custom.scss
+docs/demos/demolist.md
+docs/docs.md
+docs/learnhub.md
+docs/models.md
+docs/demos/demolist.md
+docs/docs.md
+docs/learnhub.md
+docs/models.md
