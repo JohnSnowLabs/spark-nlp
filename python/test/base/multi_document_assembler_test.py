@@ -47,9 +47,9 @@ class MultiDocumentAssemblerTest(unittest.TestCase):
         output2 = result_df.select("output2.result").collect()[0]
         tokens = result_df.select("token.result").collect()[0]
 
-        assert len(output1) > 0
-        assert len(output2) > 0
-        assert len(tokens) > 0
+        self.assertGreater(len(output1), 0)
+        self.assertGreater(len(output2), 0)
+        self.assertGreater(len(tokens), 0)
 
 
 @pytest.mark.fast
@@ -89,9 +89,9 @@ class LightFullAnnotateMultiDocumentAssemblerTest(unittest.TestCase):
             ]
         }]
 
-        assert actual_result == expected_result
+        self.assertEqual(actual_result, expected_result)
 
-        actual_result2 = light_pipeline.fullAnnotate([[self.input1, self.input2], [self.input1, self.input2]])
+        actual_result2 = light_pipeline.fullAnnotate([self.input1, self.input1], [self.input2, self.input2])
         expected_result2 = [{
             "output1": [Annotation("document", 0, len(self.input1) - 1, self.input1, {}, [])],
             "output2": [Annotation("document", 0, len(self.input2) - 1, self.input2, {}, [])],
@@ -116,7 +116,7 @@ class LightFullAnnotateMultiDocumentAssemblerTest(unittest.TestCase):
             }
         ]
 
-        assert actual_result2 == expected_result2
+        self.assertEqual(actual_result2, expected_result2)
 
 
 @pytest.mark.fast
@@ -150,9 +150,9 @@ class LightAnnotateMultiDocumentAssemblerTest(unittest.TestCase):
             "token": ["This", "is", "the", "second", "input"]
         }
 
-        assert actual_result == expected_result
+        self.assertEqual(actual_result, expected_result)
 
-        actual_result2 = light_pipeline.annotate([[self.input1, self.input2], [self.input1, self.input2]])
+        actual_result2 = light_pipeline.annotate([self.input1, self.input1], [self.input2, self.input2])
         expected_result2 = [{
             "output1": [self.input1],
             "output2": [self.input2],
@@ -165,4 +165,64 @@ class LightAnnotateMultiDocumentAssemblerTest(unittest.TestCase):
             }
         ]
 
-        assert actual_result2 == expected_result2
+        self.assertEqual(actual_result2, expected_result2)
+
+
+@pytest.mark.fast
+class LightAnnotateMultiDocumentAssemblerExceptionsTest(unittest.TestCase):
+    def setUp(self):
+        self.spark = SparkSessionForTest.spark
+        self.input1 = "This is the first input"
+        self.input2 = "This is the second input"
+        self.twoInputDataSet = self.spark.createDataFrame([[self.input1, self.input2]]) \
+            .toDF("input1", "input2")
+
+    def runTest(self):
+
+        multi_document_assembler = MultiDocumentAssembler() \
+            .setInputCols("input1", "input2") \
+            .setOutputCols("output1", "output2")
+
+        tokenizer = Tokenizer() \
+            .setInputCols("output2") \
+            .setOutputCol("token")
+
+        pipeline = Pipeline().setStages([multi_document_assembler, tokenizer])
+        model = pipeline.fit(self.twoInputDataSet)
+        light_pipeline = LightPipeline(model)
+
+        self.assertRaises(TypeError,
+                          light_pipeline.annotate,
+                          123)
+
+        self.assertRaises(TypeError,
+                          light_pipeline.annotate,
+                          [[self.input1, self.input1], [self.input2, self.input2]])
+
+        self.assertRaises(TypeError,
+                          light_pipeline.annotate,
+                          [self.input1, self.input1],
+                          [[self.input2, self.input2]])
+
+        self.assertRaises(TypeError,
+                          light_pipeline.annotate,
+                          [[self.input1, self.input1]],
+                          [self.input2, self.input2])
+
+        self.assertRaises(TypeError,
+                          light_pipeline.fullAnnotate,
+                          [[self.input1, self.input1], [self.input2, self.input2]])
+
+        self.assertRaises(TypeError,
+                          light_pipeline.fullAnnotate,
+                          [self.input1, self.input1],
+                          [[self.input2, self.input2]])
+
+        self.assertRaises(TypeError,
+                          light_pipeline.fullAnnotate,
+                          [[self.input1, self.input1]],
+                          [self.input2, self.input2])
+
+        self.assertRaises(TypeError,
+                          light_pipeline.fullAnnotate,
+                          123)

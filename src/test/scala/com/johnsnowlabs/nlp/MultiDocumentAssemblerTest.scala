@@ -2,6 +2,7 @@ package com.johnsnowlabs.nlp
 
 import com.johnsnowlabs.nlp.AnnotatorType.{DOCUMENT, TOKEN}
 import com.johnsnowlabs.nlp.annotators.SparkSessionTest
+import com.johnsnowlabs.tags.FastTest
 import org.scalatest.flatspec.AnyFlatSpec
 
 class MultiDocumentAssemblerTest extends AnyFlatSpec with SparkSessionTest {
@@ -14,7 +15,7 @@ class MultiDocumentAssemblerTest extends AnyFlatSpec with SparkSessionTest {
   private val twoInputDataset = Seq((input1, input2)).toDS.toDF("input1", "input2")
   private val dataset = Seq(input1).toDS.toDF("text")
 
-  "MultiDocumentAssembler with two input cols" should "transform and output two cols" in {
+  "MultiDocumentAssembler with two input cols" should "transform and output two cols" taggedAs FastTest in {
 
     val multiDocumentAssembler = new MultiDocumentAssembler()
       .setInputCols("input1", "input2")
@@ -46,7 +47,7 @@ class MultiDocumentAssemblerTest extends AnyFlatSpec with SparkSessionTest {
     AssertAnnotations.assertFields(actualResultToken, expectedResultToken)
   }
 
-  it should "fullAnnotate with LightPipeline and output two cols" in {
+  it should "fullAnnotate with LightPipeline and output two cols" taggedAs FastTest in {
     val multiDocumentAssembler = new MultiDocumentAssembler()
       .setInputCols("input1", "input2")
       .setOutputCols("output1", "output2")
@@ -75,7 +76,7 @@ class MultiDocumentAssemblerTest extends AnyFlatSpec with SparkSessionTest {
 
   }
 
-  it should "fullAnnotate a list of inputs with LightPipeline and output of two cols" in {
+  it should "fullAnnotate a list of inputs with LightPipeline and output of two cols" taggedAs FastTest in {
     val multiDocumentAssembler = new MultiDocumentAssembler()
       .setInputCols("input1", "input2")
       .setOutputCols("output1", "output2")
@@ -87,7 +88,7 @@ class MultiDocumentAssemblerTest extends AnyFlatSpec with SparkSessionTest {
 
     val lightPipeline = new LightPipeline(pipelineModel)
     val actualResults =
-      lightPipeline.fullAnnotate(Array(Array(input1, input2), Array(input1, input2)))
+      lightPipeline.fullAnnotate(Array(input1, input1), Array(input2, input2))
 
     val expectedResults = Array(
       Map(
@@ -116,7 +117,7 @@ class MultiDocumentAssemblerTest extends AnyFlatSpec with SparkSessionTest {
     }
   }
 
-  it should "annotate with LightPipeline and output two cols" in {
+  it should "annotate with LightPipeline and output two cols" taggedAs FastTest in {
     val multiDocumentAssembler = new MultiDocumentAssembler()
       .setInputCols("input1", "input2")
       .setOutputCols("output1", "output2")
@@ -139,7 +140,7 @@ class MultiDocumentAssemblerTest extends AnyFlatSpec with SparkSessionTest {
     assert(actualResult.values.toList == expectedResult.values.toList)
   }
 
-  it should "annotate a list of inputs with LightPipeline and output two cols" in {
+  it should "annotate a list of inputs with LightPipeline and output two cols" taggedAs FastTest in {
     val multiDocumentAssembler = new MultiDocumentAssembler()
       .setInputCols("input1", "input2")
       .setOutputCols("output1", "output2")
@@ -151,7 +152,7 @@ class MultiDocumentAssemblerTest extends AnyFlatSpec with SparkSessionTest {
 
     val lightPipeline = new LightPipeline(pipelineModel)
     val actualResults =
-      lightPipeline.annotate(Array(Array(input1, input2), Array(input1, input2)))
+      lightPipeline.annotate(Array(input1, input1), Array(input2, input2))
 
     val expectedResults = Array(
       Map(
@@ -171,7 +172,7 @@ class MultiDocumentAssemblerTest extends AnyFlatSpec with SparkSessionTest {
 
   }
 
-  "MultiDocumentAssembler with one column" should "transform and output one col" in {
+  "MultiDocumentAssembler with one column" should "transform and output one col" taggedAs FastTest in {
 
     val multiDocumentAssembler = new MultiDocumentAssembler()
       .setInputCols("text")
@@ -198,7 +199,7 @@ class MultiDocumentAssemblerTest extends AnyFlatSpec with SparkSessionTest {
     AssertAnnotations.assertFields(actualResultToken, expectedResultToken)
   }
 
-  it should "fullAnnotate with LightPipeline and output one col" in {
+  it should "fullAnnotate with LightPipeline and output one col" taggedAs FastTest in {
     val multiDocumentAssembler = new MultiDocumentAssembler()
       .setInputCols("text")
       .setOutputCols("output")
@@ -223,7 +224,7 @@ class MultiDocumentAssemblerTest extends AnyFlatSpec with SparkSessionTest {
     AssertAnnotations.assertFields(expectedResult.values.toArray, actualResult.values.toArray)
   }
 
-  it should "annotate with LightPipeline and output one col" in {
+  it should "annotate with LightPipeline and output one col" taggedAs FastTest in {
     val multiDocumentAssembler = new MultiDocumentAssembler()
       .setInputCols("text")
       .setOutputCols("output")
