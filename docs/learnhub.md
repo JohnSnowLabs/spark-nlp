@@ -5,6 +5,7 @@ page:
 mode: immersivebg
 title: The NLP Learning Hub
 permalink: /learn
+show_subtitle: false
 key: videos
 license: false
 show_date: true

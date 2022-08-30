@@ -1,20 +1,22 @@
 ---
-layout: demopage
-title: Spark NLP in Action
+layout: demopagenew
+title: Recognize Financial Entities - Finance NLP Demos & Notebooks
+seotitle: 'Finance NLP: Recognize Financial Entities - John Snow Labs'
+subtitle: Run 300+ live demos and notebooks
 full_width: true
 permalink: /financial_entity_recognition
 key: demo
+article_header:
+  type: demo
 license: false
+mode: immersivebg
 show_edit_on_github: false
 show_date: false
 data:
   sections:  
-    - title: Spark NLP for Finance
-      excerpt: Financial Entity Recognition
-      secheader: yes
+    - secheader: yes
       secheader:
-        - title: Spark NLP for Finance
-          subtitle: Financial Entity Recognition
+        - subtitle: Recognize Financial Entities - Live Demos & Notebooks
           activemenu: financial_entity_recognition
       source: yes
       source:
@@ -29,7 +31,7 @@ data:
           - text: Live Demo
             type: normal
             url: https://demo.johnsnowlabs.com/finance/NER_SEC/
-          - text: Colab Netbook
+          - text: Colab
             type: blue_btn
             url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/NER_EN.ipynb
         - title: Extract Trading Symbols / Tickers
@@ -43,7 +45,7 @@ data:
           - text: Live Demo
             type: normal
             url: https://demo.johnsnowlabs.com/public/NER_TICKER/ 
-          - text: Colab Netbook
+          - text: Colab
             type: blue_btn
             url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/NER.ipynb
         - title: Extract Organizations and Products   
@@ -57,7 +59,7 @@ data:
           - text: Live Demo
             type: normal
             url: https://demo.johnsnowlabs.com/finance/FINNER_ORGPROD
-          - text: Colab Netbook
+          - text: Colab
             type: blue_btn
             url: 
         - title: Extract economic and social entities in Russian
@@ -71,7 +73,7 @@ data:
           - text: Live Demo
             type: normal
             url: https://demo.johnsnowlabs.com/finance/FIN_NER_RUSSIAN_GOV
-          - text: Colab Netbook
+          - text: Colab
             type: blue_btn
             url:
         - title: Extract public companies key data from 10-K filings
@@ -85,7 +87,7 @@ data:
           - text: Live Demo
             type: normal
             url: https://demo.johnsnowlabs.com/finance/FINNER_SEC10K_FIRSTPAGE/
-          - text: Colab Netbook
+          - text: Colab
             type: blue_btn
             url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/1.Clinical_Named_Entity_Recognition_Model.ipynb         
         - title: Identify Companies and their aliases in financial texts
@@ -99,7 +101,7 @@ data:
           - text: Live Demo
             type: normal
             url: https://demo.johnsnowlabs.com/finance/FINNER_ALIAS/
-          - text: Colab Netbook
+          - text: Colab
             type: blue_btn
             url: 
         - title: Named Entity Recognition on Financial Annual Reports
@@ -113,7 +115,7 @@ data:
           - text: Live Demo
             type: normal
             url: https://demo.johnsnowlabs.com/finance/FINNER_FINANCIAL_10K/
-          - text: Colab Netbook
+          - text: Colab
             type: blue_btn
             url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/1.Clinical_Named_Entity_Recognition_Model.ipynb
 ---

@@ -13,7 +13,7 @@ jQuery(document).ready(function($) {
       if (jQuery(window).width() <= 1023)
       {
         jQuery('.page__sidebar').toggleClass('open'); 
-      jQuery('.demopage-sidemenu').toggleClass('open');
+      jQuery('.demomenu').toggleClass('open');
       }
   });
   jQuery('.toc--ellipsis a').click(function(e) {
@@ -27,7 +27,7 @@ jQuery(document).ready(function($) {
 });
 
 /*TABS*/
-function openTabCall(cityName){
+/* function openTabCall(cityName){
   // Declare all variables
   var i, tabcontent, tablinks;
 
@@ -50,7 +50,7 @@ function openTabCall(cityName){
 function openTab(evt, cityName) {
   openTabCall(cityName);
   evt.currentTarget.className += " active";
-}
+} */
 
 /*OPen by URL*/
 $(document).ready(function () {  
@@ -61,17 +61,48 @@ $(document).ready(function () {
   }
 });
 
-jQuery(document).ready(function(){
-	jQuery('.tab-item').click(function(event) {		
-		if (($(window).width() > 400) && ($(window).width() < 1199))
-	    {
-	    	jQuery('.tab-item').removeClass('open');
-	        jQuery(this).toggleClass('open');
-	    }
-  });
-  
+//Accordion demos categories
+let acc = document.getElementsByClassName("acc-top"),
+    isResizeble = false;
 
+  if(!isResizeble) {
+      let accBody = document.querySelector('.acc-body li.active');
+      accBody.parentElement.style.maxHeight = accBody.parentElement.scrollHeight + 20 + "px";
+      accBody.parentElement.classList.add('open');
+      accBody.parentElement.previousElementSibling.classList.add('active');
+      isResizeble = true;
+  }
+
+for (let i = 0; i < acc.length; i++) {
+  acc[i].addEventListener("click", function() {
+    this.classList.toggle("active");
+    var panel = this.nextElementSibling;
+    if (panel.style.maxHeight) {
+      panel.style.maxHeight = null;
+      panel.classList.remove('open');
+    } else {
+      panel.style.maxHeight = panel.scrollHeight + 20 + "px";
+      panel.classList.add('open');
+    }
+  });
+}
+
+//Show more in demos description
+let tabDescription = document.querySelectorAll('.tab-description');
+
+tabDescription.forEach(element => {
+  let tabDescriptionInner = element.querySelector('.tab-description-inner');
+  if(element.offsetHeight < tabDescriptionInner.offsetHeight) {
+    element.classList.add('big-descr');
+  }
 });
 
+let showMore = document.querySelectorAll('.show_more');
 
- 
+showMore.forEach(element => {
+  element.addEventListener("click", function(e) {
+    e.preventDefault();
+    this.parentElement.parentElement.classList.remove('big-descr');
+    this.parentElement.parentElement.classList.add('big-descr-close');
+  });
+});

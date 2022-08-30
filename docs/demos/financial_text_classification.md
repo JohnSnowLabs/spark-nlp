@@ -1,20 +1,22 @@
 ---
-layout: demopage
-title: Spark NLP in Action
+layout: demopagenew
+title: Classify Financial Texts - Finance NLP Demos & Notebooks
+seotitle: 'Finance NLP: Classify Financial Texts - John Snow Labs'
+subtitle: Run 300+ live demos and notebooks
 full_width: true
 permalink: /financial_text_classification
 key: demo
+article_header:
+  type: demo
 license: false
+mode: immersivebg
 show_edit_on_github: false
 show_date: false
 data:
   sections:  
-    - title: Spark NLP for Finance
-      excerpt: Financial Text Classification
-      secheader: yes
+    - secheader: yes
       secheader:
-        - title: Spark NLP for Finance
-          subtitle: Financial Text Classification
+        - subtitle: Classify Financial Texts - Live Demos & Notebooks
           activemenu: financial_text_classification
       source: yes
       source: 
@@ -29,7 +31,7 @@ data:
           - text: Live Demo
             type: normal
             url: https://demo.johnsnowlabs.com/public/CLASSIFICATION_BANKING/
-          - text: Colab Netbook
+          - text: Colab
             type: blue_btn
             url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/BertForSequenceClassification.ipynb
         - title: Classify Customer Support tickets (banking)  
@@ -43,7 +45,7 @@ data:
           - text: Live Demo
             type: normal
             url: https://demo.johnsnowlabs.com/finance/COMPLAINT_CLASSIFICATION/
-          - text: Colab Netbook
+          - text: Colab
             type: blue_btn
             url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/BertForSequenceClassification.ipynb  
         - title: ESG News Classification  
@@ -57,7 +59,7 @@ data:
           - text: Live Demo
             type: normal
             url: https://demo.johnsnowlabs.com/finance/FINCLF_ESG/
-          - text: Colab Netbook
+          - text: Colab
             type: blue_btn
             url: 
         - title: Forward Looking Statements Classification 
@@ -71,7 +73,7 @@ data:
           - text: Live Demo
             type: normal
             url: https://demo.johnsnowlabs.com/finance/FINCLF_FLS/
-          - text: Colab Netbook
+          - text: Colab
             type: blue_btn
             url: https://nlp.johnsnowlabs.com/ 
 ---

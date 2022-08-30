@@ -1,20 +1,22 @@
 ---
-layout: demopage
-title: Spark NLP in Action
+layout: demopagenew
+title: Languages of India - Spark NLP Demos & Notebooks
+seotitle: 'Spark NLP: Languages of India - John Snow Labs'
+subtitle: Run 300+ live demos and notebooks
 full_width: true
 permalink: /languages_india
 key: demo
+article_header:
+  type: demo
 license: false
+mode: immersivebg
 show_edit_on_github: false
 show_date: false
 data:
   sections:  
-    - title: Spark NLP - World Languages 
-      excerpt: Languages of India 
-      secheader: yes
+    - secheader: yes
       secheader:
-        - title: Spark NLP - World Languages
-          subtitle: Languages of India 
+        - subtitle: Languages of India - Live Demos & Notebooks
           activemenu: languages_india
       source: yes
       source: 
@@ -29,7 +31,7 @@ data:
           - text: Live Demo
             type: normal
             url:  https://demo.johnsnowlabs.com/public/NER_HINDI_ENGLISH/
-          - text: Colab Netbook
+          - text: Colab
             type: blue_btn
             url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/NER_HINDI_ENGLISH.ipynb                
         - title: Recognize Entities in Bengali
@@ -43,7 +45,7 @@ data:
           - text: Live Demo
             type: normal
             url:  https://demo.johnsnowlabs.com/public/NER_BN
-          - text: Colab Netbook
+          - text: Colab
             type: blue_btn
             url:  https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/NER.ipynb
         - title: Translate text from Marathi to English
@@ -57,7 +59,7 @@ data:
           - text: Live Demo
             type: normal
             url:  https://demo.johnsnowlabs.com/public/INDIAN_TRANSLATION_MARATHI/
-          - text: Colab Netbook
+          - text: Colab
             type: blue_btn
             url: https://githubtocolab.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/TRANSLATION_PIPELINES_MODELS.ipynb  
         - title: Translate text from Punjabi to English
@@ -71,7 +73,7 @@ data:
           - text: Live Demo
             type: normal
             url:  https://demo.johnsnowlabs.com/public/INDIAN_TRANSLATION_PUNJABI/
-          - text: Colab Netbook
+          - text: Colab
             type: blue_btn
             url: https://githubtocolab.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/TRANSLATION_PIPELINES_MODELS.ipynb
         - title: Urdu news classifier 
@@ -85,7 +87,7 @@ data:
           - text: Live Demo
             type: normal
             url: https://demo.johnsnowlabs.com/public/CLASSIFICATION_UR_NEWS/
-          - text: Colab Netbook
+          - text: Colab
             type: blue_btn
             url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/CLASSIFICATION_UR_NEWS.ipynb  
         - title: Lemmatizer for Languages of India
@@ -99,7 +101,7 @@ data:
           - text: Live Demo
             type: normal
             url: https://demo.johnsnowlabs.com/public/LEMMATIZER_INDIAN/
-          - text: Colab Netbook
+          - text: Colab
             type: blue_btn
             url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Public/2.Text_Preprocessing_with_SparkNLP_Annotators_Transformers.ipynb   
 ---

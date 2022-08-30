@@ -201,22 +201,22 @@ article_header:
                   <div class="highlight-box">
     {% highlight bash %}
     # Install Spark NLP from PyPI
-    $ pip install spark-nlp==4.1.0 pyspark==3.2.1
+    $ pip install spark-nlp==4.0.2 pyspark==3.2.1
 
     # Install Spark NLP from Anaconda/Conda
     $ conda install -c johnsnowlabs spark-nlp
 
     # Load Spark NLP with Spark Shell
-    $ spark-shell --packages com.johnsnowlabs.nlp:spark-nlp_2.12:4.1.0
+    $ spark-shell --packages com.johnsnowlabs.nlp:spark-nlp_2.12:4.0.2
 
     # Load Spark NLP with PySpark
-    $ pyspark --packages com.johnsnowlabs.nlp:spark-nlp_2.12:4.1.0
+    $ pyspark --packages com.johnsnowlabs.nlp:spark-nlp_2.12:4.0.2
 
     # Load Spark NLP with Spark Submit
-    $ spark-submit --packages com.johnsnowlabs.nlp:spark-nlp_2.12:4.1.0
+    $ spark-submit --packages com.johnsnowlabs.nlp:spark-nlp_2.12:4.0.2
 
     # Load Spark NLP as an external Fat JAR
-    $ spark-shell --jars spark-nlp-assembly-4.1.0.jar
+    $ spark-shell --jars spark-nlp-assembly-4.0.2.jar
     {% endhighlight %}
                     </div>
                 </div>
@@ -322,7 +322,6 @@ article_header:
                     <li>Neural <strong>Machine Translation</strong> (MarianMT)</li>
                     <li><strong>Text-To-Text</strong> Transfer Transformer <strong>(Google T5)</strong></li>
                     <li><strong>Generative Pre-trained</strong> Transformer 2 <strong>(OpenAI GPT-2)</strong></li>
-                    <li>Vision Transformer (ViT) <strong>Image Classification</strong></li>
                     <li>Unsupervised <strong>keywords extraction</strong></li>
                     <li>Language <strong>Detection</strong> & <strong>Identification</strong> (up to 375 languages)</li>
                     <li>Multi-class Text <strong>Classification</strong> (DL model)</li>
@@ -341,11 +340,13 @@ article_header:
                     <li>Easy <strong>TensorFlow</strong> integration</li>
                     <li><strong>GPU</strong> Support</li>
                     <li>Full integration with <strong>Spark ML</strong> functions</li>
-                    <li><strong>6150+</strong> pre-trained <strong>models </strong> in <strong>200+ languages! </strong>
-                    <li><strong>1840+</strong> pre-trained <strong>pipelines </strong> in <strong>200+ languages! </strong>
+                    <li><strong>4400+</strong> pre-trained <strong>models </strong> in <strong>200+ languages! </strong>
+                    <li><strong>1800+</strong> pre-trained <strong>pipelines </strong> in <strong>200+ languages! </strong>
                   </ul>
                 </div>
 {% highlight python %}
+    from sparknlp.base import *
+    from sparknlp.annotator import *
     from sparknlp.pretrained import PretrainedPipeline
     import sparknlp
 
@@ -356,8 +357,7 @@ article_header:
     pipeline = PretrainedPipeline('explain_document_dl', lang='en')
 
     # Annotate your testing dataset
-    text = "The Mona Lisa is a 16th century oil painting created by Leonardo. It's held at the Louvre in Paris."
-    result = pipeline.annotate(text)
+    result = pipeline.annotate("The Mona Lisa is a 16th century oil painting created by Leonardo. It's held at the Louvre in Paris.")
 
     # What's in the pipeline
     list(result.keys())
