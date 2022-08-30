@@ -55,11 +55,11 @@ document = DocumentAssembler()\
   .setInputCol("text")\
   .setOutputCol("document")
 
-embeddings = BertSentenceEmbeddings.pretrained("legmulticlf_edgar", "en", "legal/models") \
+embeddings = BertSentenceEmbeddings.pretrained("sent_bert_base_uncased_legal", "en") \
       .setInputCols("document") \
       .setOutputCol("sentence_embeddings")
 
-multiClassifier = MultiClassifierDLModel.load('outputs/_models/ledgar_model_') \
+multiClassifier = MultiClassifierDLModel.pretrained("legmulticlf_edgar", "en", "legal/models") \
   .setInputCols(["document", "sentence_embeddings"]) \
   .setOutputCol("class")
 
