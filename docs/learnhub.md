@@ -4,6 +4,7 @@ page:
     aside: false      
 mode: immersivebg
 title: The NLP Learning Hub
+seotitle: John Snow Labs NLP - The Learning Hub
 permalink: /learn
 show_subtitle: false
 key: videos
