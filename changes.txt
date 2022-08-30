@@ -1,2 +1,2 @@
-docs/_posts/josejuanmartinez/2022-08-25-finner_roles_en.md
-docs/_posts/josejuanmartinez/2022-08-25-finner_roles_en.md
+docs/_posts/murat-gunay/2022-07-13-roberta_sequence_classifier_distilroberta_finetuned_banking77_en_3_0.md
+docs/_posts/murat-gunay/2022-07-13-roberta_sequence_classifier_distilroberta_finetuned_banking77_en_3_0.md
