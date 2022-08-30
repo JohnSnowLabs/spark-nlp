@@ -43,7 +43,7 @@ embeddings = UniversalSentenceEncoder.pretrained("tfhub_use", "en") \
       .setInputCols("ner_chunk") \
       .setOutputCol("sentence_embeddings")
     
-resolver = SentenceEntityResolverModel.pretrained("legel_edgar_company_name", "en", "finance/models")\
+resolver = SentenceEntityResolverModel.pretrained("legel_edgar_company_name", "en", "legal/models")\
       .setInputCols(["ner_chunk", "sentence_embeddings"]) \
       .setOutputCol("irs_code")\
       .setDistanceFunction("EUCLIDEAN")
