@@ -9,7 +9,9 @@
     j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
     })(window,document,'script','dataLayer','GTM-59JLR64');</script>
-<!-- End Google Tag Manager --><title>John Snow Labs - Spark NLP</title><meta name="description" content="The first production grade versions of the latest deep learning NLP research">
+<!-- End Google Tag Manager --><title>John Snow Labs - Spark NLP</title><meta property="og:title" content=""/>
+
+<meta name="description" content="The first production grade versions of the latest deep learning NLP research">
 <link rel="canonical" href="/"><link rel="alternate" type="application/rss+xml" title="Spark NLP" href="/feed.xml"><!-- start favicons snippet, use https://realfavicongenerator.net/ -->
 <!---->
 <!-- <link rel="apple-touch-icon" sizes="180x180" href="/fav.ico"> -->
@@ -398,7 +400,8 @@
         </a>
     </div>
   </header>
-</div><div class="page__content "><div class="article__header--overlay"><div class="hero hero--center hero--dark overlay" style="background-image:;min-height:20vh;"><div class="hero__content"><script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script><div class="article__header"><header class="main-docs"><h1>Spark NLP: <span>State of the Art Natural Language Processing</span></h1></header></div><p class="overlay__excerpt">The first production grade versions of the latest deep learning NLP research</p><ul class="menu"><li><a class="button button--active button--rounded button--xl" href="/docs/en/quickstart">Get Started</a></li><li><a class="button button--trans button--rounded button--xl" href="/demos">View Demo</a></li><li><a class="button button--trans button--rounded button--xl" href="https://github.com/johnsnowlabs/spark-nlp"><i class="fab fa-github"></i> GitHub</a></li></ul></div>
+</div><div class="page__content "><div class="article__header--overlay"><div class="hero hero--center hero--dark overlay" style="background-image:;min-height:20vh;"><div class="hero__content"><script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script><div class="article__header"><header class="main-docs have_subtitle">
+          <h1>Spark NLP: <span>State of the Art Natural Language Processing</span></h1><div class="top-subtitle mont"></div></header></div><p class="overlay__excerpt">The first production grade versions of the latest deep learning NLP research</p><ul class="menu"><li><a class="button button--active button--rounded button--xl" href="/docs/en/quickstart">Get Started</a></li><li><a class="button button--trans button--rounded button--xl" href="/demos">View Demo</a></li><li><a class="button button--trans button--rounded button--xl" href="https://github.com/johnsnowlabs/spark-nlp"><i class="fab fa-github"></i> GitHub</a></li></ul></div>
               </div>
             </div><div class="grid grid--reverse">
 
@@ -453,22 +456,22 @@
                   <div class="highlight-box">
     
 <figure class="highlight"><pre><code class="language-bash" data-lang="bash">    <span class="c"># Install Spark NLP from PyPI</span>
-    <span class="nv">$ </span>pip <span class="nb">install </span>spark-nlp<span class="o">==</span>4.1.0 <span class="nv">pyspark</span><span class="o">==</span>3.2.1
+    <span class="nv">$ </span>pip <span class="nb">install </span>spark-nlp<span class="o">==</span>4.0.2 <span class="nv">pyspark</span><span class="o">==</span>3.2.1
 
     <span class="c"># Install Spark NLP from Anaconda/Conda</span>
     <span class="nv">$ </span>conda <span class="nb">install</span> <span class="nt">-c</span> johnsnowlabs spark-nlp
 
     <span class="c"># Load Spark NLP with Spark Shell</span>
-    <span class="nv">$ </span>spark-shell <span class="nt">--packages</span> com.johnsnowlabs.nlp:spark-nlp_2.12:4.1.0
+    <span class="nv">$ </span>spark-shell <span class="nt">--packages</span> com.johnsnowlabs.nlp:spark-nlp_2.12:4.0.2
 
     <span class="c"># Load Spark NLP with PySpark</span>
-    <span class="nv">$ </span>pyspark <span class="nt">--packages</span> com.johnsnowlabs.nlp:spark-nlp_2.12:4.1.0
+    <span class="nv">$ </span>pyspark <span class="nt">--packages</span> com.johnsnowlabs.nlp:spark-nlp_2.12:4.0.2
 
     <span class="c"># Load Spark NLP with Spark Submit</span>
-    <span class="nv">$ </span>spark-submit <span class="nt">--packages</span> com.johnsnowlabs.nlp:spark-nlp_2.12:4.1.0
+    <span class="nv">$ </span>spark-submit <span class="nt">--packages</span> com.johnsnowlabs.nlp:spark-nlp_2.12:4.0.2
 
     <span class="c"># Load Spark NLP as an external Fat JAR</span>
-    <span class="nv">$ </span>spark-shell <span class="nt">--jars</span> spark-nlp-assembly-4.1.0.jar
+    <span class="nv">$ </span>spark-shell <span class="nt">--jars</span> spark-nlp-assembly-4.0.2.jar
     </code></pre></figure>
 
                     </div>
@@ -526,7 +529,6 @@
                     <li>Neural <strong>Machine Translation</strong> (MarianMT)</li>
                     <li><strong>Text-To-Text</strong> Transfer Transformer <strong>(Google T5)</strong></li>
                     <li><strong>Generative Pre-trained</strong> Transformer 2 <strong>(OpenAI GPT-2)</strong></li>
-                    <li>Vision Transformer (ViT) <strong>Image Classification</strong></li>
                     <li>Unsupervised <strong>keywords extraction</strong></li>
                     <li>Language <strong>Detection</strong> & <strong>Identification</strong> (up to 375 languages)</li>
                     <li>Multi-class Text <strong>Classification</strong> (DL model)</li>
@@ -545,12 +547,14 @@
                     <li>Easy <strong>TensorFlow</strong> integration</li>
                     <li><strong>GPU</strong> Support</li>
                     <li>Full integration with <strong>Spark ML</strong> functions</li>
-                    <li><strong>6150+</strong> pre-trained <strong>models </strong> in <strong>200+ languages! </strong>
-                    <li><strong>1840+</strong> pre-trained <strong>pipelines </strong> in <strong>200+ languages! </strong>
+                    <li><strong>4400+</strong> pre-trained <strong>models </strong> in <strong>200+ languages! </strong>
+                    <li><strong>1800+</strong> pre-trained <strong>pipelines </strong> in <strong>200+ languages! </strong>
                   </ul>
                 </div>
 
-<figure class="highlight"><pre><code class="language-python" data-lang="python">    <span class="kn">from</span> <span class="nn">sparknlp.pretrained</span> <span class="kn">import</span> <span class="n">PretrainedPipeline</span>
+<figure class="highlight"><pre><code class="language-python" data-lang="python">    <span class="kn">from</span> <span class="nn">sparknlp.base</span> <span class="kn">import</span> <span class="o">*</span>
+    <span class="kn">from</span> <span class="nn">sparknlp.annotator</span> <span class="kn">import</span> <span class="o">*</span>
+    <span class="kn">from</span> <span class="nn">sparknlp.pretrained</span> <span class="kn">import</span> <span class="n">PretrainedPipeline</span>
     <span class="kn">import</span> <span class="nn">sparknlp</span>
 
     <span class="c1"># Start Spark Session with Spark NLP
@@ -560,8 +564,7 @@
 </span>    <span class="n">pipeline</span> <span class="o">=</span> <span class="n">PretrainedPipeline</span><span class="p">(</span><span class="s">'explain_document_dl'</span><span class="p">,</span> <span class="n">lang</span><span class="o">=</span><span class="s">'en'</span><span class="p">)</span>
 
     <span class="c1"># Annotate your testing dataset
-</span>    <span class="n">text</span> <span class="o">=</span> <span class="s">"The Mona Lisa is a 16th century oil painting created by Leonardo. It's held at the Louvre in Paris."</span>
-    <span class="n">result</span> <span class="o">=</span> <span class="n">pipeline</span><span class="p">.</span><span class="n">annotate</span><span class="p">(</span><span class="n">text</span><span class="p">)</span>
+</span>    <span class="n">result</span> <span class="o">=</span> <span class="n">pipeline</span><span class="p">.</span><span class="n">annotate</span><span class="p">(</span><span class="s">"The Mona Lisa is a 16th century oil painting created by Leonardo. It's held at the Louvre in Paris."</span><span class="p">)</span>
 
     <span class="c1"># What's in the pipeline
 </span>    <span class="nb">list</span><span class="p">(</span><span class="n">result</span><span class="p">.</span><span class="n">keys</span><span class="p">())</span>
@@ -931,7 +934,7 @@ jQuery(document).ready(function($) {
       if (jQuery(window).width() <= 1023)
       {
         jQuery('.page__sidebar').toggleClass('open'); 
-      jQuery('.demopage-sidemenu').toggleClass('open');
+      jQuery('.demomenu').toggleClass('open');
       }
   });
   jQuery('.toc--ellipsis a').click(function(e) {
@@ -945,7 +948,7 @@ jQuery(document).ready(function($) {
 });
 
 /*TABS*/
-function openTabCall(cityName){
+/* function openTabCall(cityName){
   // Declare all variables
   var i, tabcontent, tablinks;
 
@@ -968,7 +971,7 @@ function openTabCall(cityName){
 function openTab(evt, cityName) {
   openTabCall(cityName);
   evt.currentTarget.className += " active";
-}
+} */
 
 /*OPen by URL*/
 $(document).ready(function () {  
@@ -979,20 +982,51 @@ $(document).ready(function () {
   }
 });
 
-jQuery(document).ready(function(){
-	jQuery('.tab-item').click(function(event) {		
-		if (($(window).width() > 400) && ($(window).width() < 1199))
-	    {
-	    	jQuery('.tab-item').removeClass('open');
-	        jQuery(this).toggleClass('open');
-	    }
-  });
-  
+//Accordion demos categories
+let acc = document.getElementsByClassName("acc-top"),
+    isResizeble = false;
 
+  if(!isResizeble) {
+      let accBody = document.querySelector('.acc-body li.active');
+      accBody.parentElement.style.maxHeight = accBody.parentElement.scrollHeight + 20 + "px";
+      accBody.parentElement.classList.add('open');
+      accBody.parentElement.previousElementSibling.classList.add('active');
+      isResizeble = true;
+  }
+
+for (let i = 0; i < acc.length; i++) {
+  acc[i].addEventListener("click", function() {
+    this.classList.toggle("active");
+    var panel = this.nextElementSibling;
+    if (panel.style.maxHeight) {
+      panel.style.maxHeight = null;
+      panel.classList.remove('open');
+    } else {
+      panel.style.maxHeight = panel.scrollHeight + 20 + "px";
+      panel.classList.add('open');
+    }
+  });
+}
+
+//Show more in demos description
+let tabDescription = document.querySelectorAll('.tab-description');
+
+tabDescription.forEach(element => {
+  let tabDescriptionInner = element.querySelector('.tab-description-inner');
+  if(element.offsetHeight < tabDescriptionInner.offsetHeight) {
+    element.classList.add('big-descr');
+  }
 });
 
+let showMore = document.querySelectorAll('.show_more');
 
- 
+showMore.forEach(element => {
+  element.addEventListener("click", function(e) {
+    e.preventDefault();
+    this.parentElement.parentElement.classList.remove('big-descr');
+    this.parentElement.parentElement.classList.add('big-descr-close');
+  });
+});
 
 </script></div></div>
     </div><script>(function() {

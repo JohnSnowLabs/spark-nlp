@@ -9,7 +9,9 @@
     j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
     })(window,document,'script','dataLayer','GTM-59JLR64');</script>
-<!-- End Google Tag Manager --><title>Turkish BertForQuestionAnswering Uncased model (from enelpi)- Spark NLP Model</title><meta name="description" content="DescriptionPretrained Question Answering model, adapted from Hugging Face and curated to provide scalability and production-readiness using Spark NLP. bert-q...">
+<!-- End Google Tag Manager --><title></title><meta property="og:title" content=""/>
+
+<meta name="description" content="DescriptionPretrained Question Answering model, adapted from Hugging Face and curated to provide scalability and production-readiness using Spark NLP. bert-q...">
 <link rel="canonical" href="/2022/07/07/bert_qa_question_answering_uncased_squadv2_tr_3_0.html"><link rel="alternate" type="application/rss+xml" title="Spark NLP" href="/feed.xml"><!-- start favicons snippet, use https://realfavicongenerator.net/ -->
 <!---->
 <!-- <link rel="apple-touch-icon" sizes="180x180" href="/fav.ico"> -->
@@ -411,7 +413,8 @@
               <span class="edit-on-github-label">Edit on GitHub</span>
             </a>
         </div><ul class="right-col menu"><li><i class="far fa-user"></i> <span>John Snow Labs</span></li><li><i class="far fa-calendar-alt"></i> <span>Jul 07, 2022</span>
-            </li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2022-07-07T00:00:00+00:00"></div><header class="main-docs"><h1>Turkish BertForQuestionAnswering Uncased model (from enelpi)</h1></header></div><meta itemprop="headline" content="Turkish BertForQuestionAnswering Uncased model (from enelpi)"><div class="article__info tags_box clearfix"><ul class="left-col menu"><li>tr</li><li>open_source</li><li>bert</li><li>question_answering</li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2022-07-07T00:00:00+00:00">
+            </li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2022-07-07T00:00:00+00:00"></div><header class="main-docs have_subtitle">
+          <h1>Turkish BertForQuestionAnswering Uncased model (from enelpi)</h1><div class="top-subtitle mont"></div></header></div><meta itemprop="headline" content="Turkish BertForQuestionAnswering Uncased model (from enelpi)"><div class="article__info tags_box clearfix"><ul class="left-col menu"><li>tr</li><li>open_source</li><li>bert</li><li>question_answering</li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2022-07-07T00:00:00+00:00">
     <meta itemprop="keywords" content="tr,open_source,bert,question_answering"><div class="js-article-content"><div class="model-wrap"><div class="layout--article"><!-- start custom article top snippet -->
 
 <!-- end custom article top snippet --><div class="article__content" itemprop="articleBody"><h2 id="description">Description</h2>
@@ -723,7 +726,7 @@ jQuery(document).ready(function($) {
       if (jQuery(window).width() <= 1023)
       {
         jQuery('.page__sidebar').toggleClass('open'); 
-      jQuery('.demopage-sidemenu').toggleClass('open');
+      jQuery('.demomenu').toggleClass('open');
       }
   });
   jQuery('.toc--ellipsis a').click(function(e) {
@@ -737,7 +740,7 @@ jQuery(document).ready(function($) {
 });
 
 /*TABS*/
-function openTabCall(cityName){
+/* function openTabCall(cityName){
   // Declare all variables
   var i, tabcontent, tablinks;
 
@@ -760,7 +763,7 @@ function openTabCall(cityName){
 function openTab(evt, cityName) {
   openTabCall(cityName);
   evt.currentTarget.className += " active";
-}
+} */
 
 /*OPen by URL*/
 $(document).ready(function () {  
@@ -771,20 +774,51 @@ $(document).ready(function () {
   }
 });
 
-jQuery(document).ready(function(){
-	jQuery('.tab-item').click(function(event) {		
-		if (($(window).width() > 400) && ($(window).width() < 1199))
-	    {
-	    	jQuery('.tab-item').removeClass('open');
-	        jQuery(this).toggleClass('open');
-	    }
-  });
-  
+//Accordion demos categories
+let acc = document.getElementsByClassName("acc-top"),
+    isResizeble = false;
 
+  if(!isResizeble) {
+      let accBody = document.querySelector('.acc-body li.active');
+      accBody.parentElement.style.maxHeight = accBody.parentElement.scrollHeight + 20 + "px";
+      accBody.parentElement.classList.add('open');
+      accBody.parentElement.previousElementSibling.classList.add('active');
+      isResizeble = true;
+  }
+
+for (let i = 0; i < acc.length; i++) {
+  acc[i].addEventListener("click", function() {
+    this.classList.toggle("active");
+    var panel = this.nextElementSibling;
+    if (panel.style.maxHeight) {
+      panel.style.maxHeight = null;
+      panel.classList.remove('open');
+    } else {
+      panel.style.maxHeight = panel.scrollHeight + 20 + "px";
+      panel.classList.add('open');
+    }
+  });
+}
+
+//Show more in demos description
+let tabDescription = document.querySelectorAll('.tab-description');
+
+tabDescription.forEach(element => {
+  let tabDescriptionInner = element.querySelector('.tab-description-inner');
+  if(element.offsetHeight < tabDescriptionInner.offsetHeight) {
+    element.classList.add('big-descr');
+  }
 });
 
+let showMore = document.querySelectorAll('.show_more');
 
- 
+showMore.forEach(element => {
+  element.addEventListener("click", function(e) {
+    e.preventDefault();
+    this.parentElement.parentElement.classList.remove('big-descr');
+    this.parentElement.parentElement.classList.add('big-descr-close');
+  });
+});
 
 </script></div></div>
     </div><script>(function() {
