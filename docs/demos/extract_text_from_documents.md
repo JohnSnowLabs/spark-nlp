@@ -1,20 +1,22 @@
 ---
-layout: demopage
-title: Spark NLP in Action
+layout: demopagenew
+title: Extract Text from Documents - Visual NLP Demos & Notebooks
+seotitle: 'Visual NLP: Extract Text from Documents - John Snow Labs'
+subtitle: Run 300+ live demos and notebooks
 full_width: true
 permalink: /extract_text_from_documents
 key: demo
+article_header:
+  type: demo
 license: false
+mode: immersivebg
 show_edit_on_github: false
 show_date: false
 data:
   sections:  
-    - title: Spark OCR 
-      excerpt: Extract Text from Documents
-      secheader: yes
+    - secheader: yes
       secheader:
-        - title: Spark OCR
-          subtitle: Extract Text from Documents
+        - subtitle: Extract Text from Documents - Live Demos & Notebooks
           activemenu: extract_text_from_documents
       source: yes
       source: 
@@ -29,7 +31,7 @@ data:
           - text: Live Demo
             type: normal
             url: https://demo.johnsnowlabs.com/ocr/PDF_TO_TEXT/
-          - text: Colab Netbook
+          - text: Colab
             type: blue_btn
             url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/ocr/PDF_TO_TEXT.ipynb
         - title: DICOM to Text
@@ -43,7 +45,7 @@ data:
           - text: Live Demo
             type: normal
             url: https://demo.johnsnowlabs.com/ocr/DICOM_TO_TEXT/
-          - text: Colab Netbook
+          - text: Colab
             type: blue_btn
             url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/ocr/DICOM_TO_TEXT.ipynb
         - title: Image to Text
@@ -57,7 +59,7 @@ data:
           - text: Live Demo
             type: normal
             url: https://demo.johnsnowlabs.com/ocr/IMAGE_TO_TEXT/
-          - text: Colab Netbook
+          - text: Colab
             type: blue_btn
             url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/ocr/IMAGE_TO_TEXT.ipynb
         - title: DOCX to Text
@@ -71,7 +73,7 @@ data:
           - text: Live Demo
             type: normal
             url: https://demo.johnsnowlabs.com/ocr/DOCX_TO_TEXT
-          - text: Colab Netbook
+          - text: Colab
             type: blue_btn
             url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/ocr/DOCX_TO_TEXT.ipynb
         - title: Extract text from Powerpoint slides
@@ -85,7 +87,7 @@ data:
           - text: Live Demo
             type: normal
             url: https://demo.johnsnowlabs.com/ocr/PPTX_TO_TEXT/
-          - text: Colab Netbook
+          - text: Colab
             type: blue_btn
             url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/ocr/PPTX_TABLE.ipynb
         

@@ -2,9 +2,12 @@
 layout: demohomepage
 title: 
 full_width: true
-permalink: /demos
+permalink: /demosold
 key: demo
+article_header:
+  type: demo
 license: false
+mode: immersivebg
 show_edit_on_github: false
 show_date: false
 data:
@@ -27,7 +30,7 @@ data:
           - text: Live Demo
             type: normal            
             url: https://demo.johnsnowlabs.com/public/NER_EN/
-          - text: Colab Netbook
+          - text: Colab
             type: blue_btn
             url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/NER_EN.ipynb
         - title: Classify documents
@@ -41,7 +44,7 @@ data:
           - text: Live Demo
             type: normal
             url: https://demo.johnsnowlabs.com/public/CLASSIFICATION_EN_TREC/
-          - text: Colab Netbook
+          - text: Colab
             type: blue_btn
             url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/CLASSIFICATION_EN_TREC.ipynb
         - title: Spell check your text documents
@@ -55,7 +58,7 @@ data:
           - text: Live Demo
             type: normal
             url: https://demo.johnsnowlabs.com/public/SPELL_CHECKER_EN
-          - text: Colab Netbook
+          - text: Colab
             type: blue_btn
             url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/SPELL_CHECKER_EN.ipynb
         - title: Detect emotions in tweets
@@ -69,7 +72,7 @@ data:
           - text: Live Demo
             type: normal
             url: https://demo.johnsnowlabs.com/public/SENTIMENT_EN_EMOTION/
-          - text: Colab Netbook
+          - text: Colab
             type: blue_btn
             url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/SENTIMENT_EN_EMOTION.ipynb
         - title: Recognize entities in scanned PDFs
@@ -83,7 +86,7 @@ data:
           - text: Live Demo
             type: normal
             url: https://demo.johnsnowlabs.com/ocr/PDF_TEXT_NER/
-          - text: Colab Netbook
+          - text: Colab
             type: blue_btn
             url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/ocr/PDF_TEXT_NER.ipynb
         - title: Detect signs and symptoms
@@ -97,7 +100,7 @@ data:
           - text: Live Demo
             type: normal
             url: https://demo.johnsnowlabs.com/healthcare/NER_SIGN_SYMP/
-          - text: Colab Netbook
+          - text: Colab
             type: blue_btn
             url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/NER_SIGN_SYMP.ipynb
         - title: Detect temporal relations for clinical events
@@ -111,7 +114,7 @@ data:
           - text: Live Demo
             type: normal
             url: https://demo.johnsnowlabs.com/healthcare/RE_CLINICAL_EVENTS/
-          - text: Colab Netbook
+          - text: Colab
             type: blue_btn
             url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/RE_CLINICAL_EVENTS.ipynb
         - title: De-identify PDF documents - HIPAA Compliance
@@ -125,7 +128,7 @@ data:
           - text: Live Demo
             type: normal
             url: https://demo.johnsnowlabs.com/ocr/DEID_PDF_HIPAA
-          - text: Colab Netbook
+          - text: Colab
             type: blue_btn
             url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/ocr/DEID_PDF.ipynb
       notebookstitle: Run Python notebooks

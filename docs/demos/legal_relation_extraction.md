@@ -1,20 +1,22 @@
 ---
-layout: demopage
-title: Spark NLP in Action
+layout: demopagenew
+title: Extract Legal Relationships - Legal NLP Demos & Notebooks
+seotitle: 'Legal NLP: Extract Legal Relationships - John Snow Labs'
+subtitle: Run 300+ live demos and notebooks
 full_width: true
 permalink: /legal_relation_extraction
 key: demo
+article_header:
+  type: demo
 license: false
+mode: immersivebg
 show_edit_on_github: false
 show_date: false
 data:
   sections:  
-    - title: Spark NLP for Legal
-      excerpt: Legal Relation Extraction
-      secheader: yes
+    - secheader: yes
       secheader:
-        - title: Spark NLP for Legal
-          subtitle: Legal Relation Extraction
+        - subtitle: Extract Legal Relationships - Live Demos & Notebooks
           activemenu: legal_relation_extraction
       source: yes
       source: 
@@ -29,7 +31,7 @@ data:
           - text: Live Demo
             type: normal
             url: https://demo.johnsnowlabs.com/legal/LEGALRE_PARTIES/
-          - text: Colab Netbook
+          - text: Colab
             type: blue_btn
             url:                 
 ---

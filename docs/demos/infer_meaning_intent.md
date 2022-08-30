@@ -1,20 +1,22 @@
 ---
-layout: demopage
-title: Spark NLP in Action
+layout: demopagenew
+title: Infer Meaning & Intent - Spark NLP Demos & Notebooks
+seotitle: 'Spark NLP: Infer Meaning & Intent - John Snow Labs'
+subtitle: Run 300+ live demos and notebooks
 full_width: true
 permalink: /infer_meaning_intent
 key: demo
+article_header:
+  type: demo
 license: false
+mode: immersivebg
 show_edit_on_github: false
 show_date: false
 data:
   sections:  
-    - title: Spark NLP - English
-      excerpt: Infer Meaning & Intent  
-      secheader: yes
+    - secheader: yes
       secheader:
-        - title: Spark NLP - English
-          subtitle: Infer Meaning & Intent  
+        - subtitle: Infer Meaning & Intent - Live Demos & Notebooks 
           activemenu: infer_meaning_intent
       source: yes
       source: 
@@ -29,7 +31,7 @@ data:
           - text: Live Demo
             type: normal
             url:  https://demo.johnsnowlabs.com/public/TEXT_SUMMARIZATION/
-          - text: Colab Netbook
+          - text: Colab
             type: blue_btn
             url:  https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/T5TRANSFORMER.ipynb
         - title:  Understand intent and actions in general commands
@@ -43,7 +45,7 @@ data:
           - text: Live Demo
             type: normal
             url:  https://demo.johnsnowlabs.com/public/NER_CLS_SNIPS
-          - text: Colab Netbook
+          - text: Colab
             type: blue_btn
             url:  https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/NER.ipynb
         - title:  Infer word meaning from context
@@ -57,7 +59,7 @@ data:
           - text: Live Demo
             type: normal
             url:  https://demo.johnsnowlabs.com/public/CONTEXTUAL_WORD_MEANING/
-          - text: Colab Netbook
+          - text: Colab
             type: blue_btn
             url:  https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/T5TRANSFORMER.ipynb
         - title:  Assess relationship between two sentences
@@ -71,7 +73,7 @@ data:
           - text: Live Demo
             type: normal
             url:  https://demo.johnsnowlabs.com/public/SENTENCE_RELATIONS/
-          - text: Colab Netbook
+          - text: Colab
             type: blue_btn
             url:  https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/T5TRANSFORMER.ipynb
         - title: Detect similar sentences
@@ -85,7 +87,7 @@ data:
           - text: Live Demo
             type: normal
             url: https://demo.johnsnowlabs.com/public/SENTENCE_SIMILARITY
-          - text: Colab Netbook
+          - text: Colab
             type: blue_btn
             url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/SENTENCE_SIMILARITY.ipynb
         - title:  Automatically answer questions
@@ -100,7 +102,7 @@ data:
           - text: Live Demo
             type: normal
             url:  https://demo.johnsnowlabs.com/public/QUESTION_ANSWERING/
-          - text: Colab Netbook
+          - text: Colab
             type: blue_btn
             url:  https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/T5TRANSFORMER.ipynb
         - title: Understand questions about Airline Traffic
@@ -114,7 +116,7 @@ data:
           - text: Live Demo
             type: normal
             url:  https://demo.johnsnowlabs.com/public/NER_CLS_ATIS
-          - text: Colab Netbook
+          - text: Colab
             type: blue_btn
             url:  https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/NER.ipynb
         - title: Extract graph entities and relations 
@@ -128,7 +130,7 @@ data:
           - text: Live Demo
             type: normal
             url:  https://demo.johnsnowlabs.com/public/GRAPH_RE/
-          - text: Colab Netbook
+          - text: Colab
             type: blue_btn
             url:  https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/Graph_RE.ipynb
         - title: SQL Query Generation 
@@ -142,7 +144,7 @@ data:
           - text: Live Demo
             type: normal
             url: https://demo.johnsnowlabs.com/public/T5_SQL/ 
-          - text: Colab Netbook
+          - text: Colab
             type: blue_btn
             url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/T5_SQL.ipynb
         - title: Text Generation with GPT-2
@@ -156,7 +158,7 @@ data:
           - text: Live Demo
             type: normal
             url: https://demo.johnsnowlabs.com/public/GPT2_TRANSFORMER/
-          - text: Colab Netbook
+          - text: Colab
             type: blue_btn
             url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Public/16.GPT2_Transformer_In_Spark_NLP.ipynb
 ---
