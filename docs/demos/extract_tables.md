@@ -1,20 +1,22 @@
 ---
-layout: demopage
-title: Spark NLP in Action
+layout: demopagenew
+title: Extract Tables - Visual NLP Demos & Notebooks
+seotitle: 'Visual NLP: Extract Tables - John Snow Labs'
+subtitle: Run 300+ live demos and notebooks
 full_width: true
 permalink: /extract_tables
 key: demo
+article_header:
+  type: demo
 license: false
+mode: immersivebg
 show_edit_on_github: false
 show_date: false
 data:
   sections:  
-    - title: Spark OCR 
-      excerpt: Extract Tables
-      secheader: yes
+    - secheader: yes
       secheader:
-        - title: Spark OCR
-          subtitle: Extract Tables
+        - subtitle: Extract Tables - Live Demos & Notebooks
           activemenu: extract_tables
       source: yes
       source: 
@@ -29,7 +31,7 @@ data:
           - text: Live Demo
             type: normal
             url: https://demo.johnsnowlabs.com/ocr/PDF_TEXT_TABLE/
-          - text: Colab Netbook
+          - text: Colab
             type: blue_btn
             url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/ocr/PDF_TEXT_TABLE.ipynb
         - title: Detect tables in scanned documents
@@ -44,7 +46,7 @@ data:
           - text: Live Demo
             type: normal
             url: https://demo.johnsnowlabs.com/ocr/TABLE_DETECTION/ 
-          - text: Colab Netbook
+          - text: Colab
             type: blue_btn
             url: https://colab.research.google.com/github/JohnSnowLabs/spark-ocr-workshop/blob/master/jupyter/SparkOcrImageTableDetection.ipynb
         - title: Detect and extract tables in scanned PDFs 
@@ -58,7 +60,7 @@ data:
           - text: Live Demo
             type: normal
             url: https://demo.johnsnowlabs.com/ocr/IMAGE_TABLE_DETECTION/
-          - text: Colab Netbook
+          - text: Colab
             type: blue_btn
             url: https://colab.research.google.com/github/JohnSnowLabs/spark-ocr-workshop/blob/master/jupyter/SparkOcrImageTableDetection.ipynb
         - title: Extract tables from Powerpoint slides 
@@ -72,7 +74,7 @@ data:
           - text: Live Demo
             type: normal
             url: https://demo.johnsnowlabs.com/ocr/PPTX_TABLE/
-          - text: Colab Netbook
+          - text: Colab
             type: blue_btn
             url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/ocr/PPTX_TABLE.ipynb
 ---

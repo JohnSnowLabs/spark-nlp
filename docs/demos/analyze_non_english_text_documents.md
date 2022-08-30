@@ -1,20 +1,22 @@
 ---
-layout: demopage
-title: Spark NLP in Action
+layout: demopagenew
+title: Analyze Non-English Text & Documents - Visual NLP Demos & Notebooks
+seotitle: 'Visual NLP: Analyze Non-English Text & Documents - John Snow Labs'
+subtitle: Run 300+ live demos and notebooks
 full_width: true
 permalink: /analyze_non_english_text_documents
 key: demo
+article_header:
+  type: demo
 license: false
+mode: immersivebg
 show_edit_on_github: false
 show_date: false
 data:
   sections:  
-    - title: Spark OCR 
-      excerpt: Analyze Non-English Text & Documents
-      secheader: yes
+    - secheader: yes
       secheader:
-        - title: Spark OCR
-          subtitle: Analyze Non-English Text & Documents
+        - subtitle: Analyze Non-English Text & Documents - Live Demos & Notebooks
           activemenu: analyze_non_english_text_documents
       source: yes
       source: 
@@ -29,7 +31,7 @@ data:
           - text: Live Demo
             type: normal
             url: https://demo.johnsnowlabs.com/ocr/PDF_TO_TEXT_MUL/
-          - text: Colab Netbook
+          - text: Colab
             type: blue_btn
             url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/ocr/PDF_TO_TEXT.ipynb
         - title: Image to Text in European Languages
@@ -43,7 +45,7 @@ data:
           - text: Live Demo
             type: normal
             url: https://demo.johnsnowlabs.com/ocr/IMAGE_TO_TEXT_MUL/
-          - text: Colab Netbook
+          - text: Colab
             type: blue_btn
             url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/ocr/IMAGE_TO_TEXT.ipynb
         - title: DOCX to Text in European Languages
@@ -57,7 +59,7 @@ data:
           - text: Live Demo
             type: normal
             url: https://demo.johnsnowlabs.com/ocr/DOCX_TO_TEXT_MUL/
-          - text: Colab Netbook
+          - text: Colab
             type: blue_btn
             url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/ocr/DOCX_TO_TEXT.ipynb
         

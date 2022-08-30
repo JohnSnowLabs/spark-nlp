@@ -1,20 +1,21 @@
 ---
-layout: demopage
-title: Oncology
+layout: demopagenew
+title: Oncology - Clinical NLP Demos & Notebooks
+seotitle: 'Clinical NLP: Oncology - John Snow Labs'
 full_width: true
 permalink: /oncology
 key: demo
+article_header:
+  type: demo
 license: false
+mode: immersivebg
 show_edit_on_github: false
 show_date: false
 data:
   sections:  
-    - title: Spark NLP for Healthcare
-      excerpt: Oncology
-      secheader: yes
+    - secheader: yes
       secheader:
-        - title: Spark NLP for Healthcare
-          subtitle: Oncology
+        - subtitle: Oncology - Live Demos & Notebooks
           activemenu: oncology
       source: yes
       source: 
@@ -29,7 +30,7 @@ data:
           - text: Live Demo
             type: normal
             url: https://demo.johnsnowlabs.com/healthcare/NER_TUMOR
-          - text: Colab Netbook
+          - text: Colab
             type: blue_btn
             url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/NER_TUMOR.ipynb  
         - title: Resolve Oncology terminology using the ICD-O taxonomy
@@ -43,7 +44,7 @@ data:
           - text: Live Demo
             type: normal
             url: https://demo.johnsnowlabs.com/healthcare/ER_ICDO/
-          - text: Colab Netbook
+          - text: Colab
             type: blue_btn
             url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/ER_ICDO.ipynb
         - title: Extract the biomarker information
@@ -57,7 +58,7 @@ data:
           - text: Live Demo
             type: normal
             url: https://demo.johnsnowlabs.com/healthcare/NER_BIOMARKER/
-          - text: Colab Netbook
+          - text: Colab
             type: blue_btn
             url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/NER_BIOMARKER.ipynb        
 ---

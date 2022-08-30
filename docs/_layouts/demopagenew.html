@@ -1,0 +1,101 @@
+---
+layout: pagenew
+header: true
+demomenu: true
+full_width: true
+---
+<!-- Do not use auto intent in this file. -->
+<div class="layout--landing">
+  {%- for _section in page.data.sections -%}
+  <div class="demopage">    
+    {%- include snippets/get-nav-url.html path=_section.background_image.src -%}
+    {%- assign _url = __return -%}
+    <section class="hero section-row" id="hero-{{ forloop.index }}">
+
+      <div class="">
+        {{ content }}
+
+        {%- if _section.secheader -%}
+
+          {%- for child in _section.secheader -%}
+          <h1 class="subtitle">{{ child.subtitle }}</h1>           
+          {%- endfor-%}
+          
+        {%- endif -%}
+
+        
+
+        <div class="grid--container main-big" id="panels">
+        {%- if _section.source -%}
+        {%- assign _size = _section.source | size  -%}
+            <div class="tab-wrapper-inner">
+            {%- for child in _section.source -%}
+            <div class="tab-item {% if child.hide %}dn{% endif %}">
+              <div class="tab-item-inner">
+                <div class="tab-item-wrapper">
+                  {%- if child.image and child.image.src -%}
+
+                  {%- if child.image.url -%}
+                  {%- include snippets/get-nav-url.html path=child.image.url -%}
+                  {%- assign _item_image_url = __return -%}
+                  {%- else -%}
+                  {%- assign _item_image_url = nil -%}
+                  {%- endif -%}
+
+                  {%- include snippets/get-nav-url.html path=child.image.src -%}                
+                  {%- assign _item_image_src = __return -%}
+
+                  <div class="tab-item-top">
+                    {%- if child.image.is_row -%}
+                      {%- endif -%}
+                      <figure class="tab_fig_blue">
+                        <img src="{{ _item_image_src }}" />
+                      </figure>
+                      {%- if child.image.is_row -%}
+                    {%- endif -%}
+                    {%- endif -%}
+
+                    <div class="tab-item-title">{{ child.title }}</div>
+                  </div>
+
+                  {%- if child.excerpt-%}
+                  <div class="tab-description"><div class="tab-description-inner">{{ child.excerpt }} <a href="#" class="show_more">(...)</a></div></div>
+                  {%- endif -%}
+                </div>
+
+                  {%- if child.actions -%}
+                  <ul class="tab-menu">
+                    {%- for _action in child.actions -%}
+                    {%- include snippets/get-nav-url.html path=_action.url -%}
+                    {%- assign _url = __return -%}
+                    {%- assign _type = _action.type | default: 'outline-info' -%}
+                    <li><a id="{{ child.id }}" class="btn button--{{ _type }} button--pill button--lg"
+                        href="{{ _url }}">{{ _action.text }}</a></li>
+                    {%- endfor -%}
+                  </ul>
+                  {%- endif -%}                
+              </div> 
+            </div>
+            {%- endfor-%}
+          </div>
+        {%- endif -%}
+
+
+        </div>
+      {%- if _section.image.full_width == true -%}
+      </div> {% comment %} end hero__content {% endcomment %}
+      {%- endif -%}
+
+      {%- if _section.image.full_width != true -%}
+  </div> {% comment %} end hero__content {% endcomment %}
+  {%- endif -%}
+
+  {%- if _section.content-%}
+  <p>{{ _section.content }}</p>
+  {%- endif -%}
+  </section>
+  {%- endfor -%}
+</div>
+</div>
+
+
