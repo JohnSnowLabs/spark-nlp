@@ -1,6 +1,7 @@
 ---
 layout: menulist
 title: Spark NLP in Action
+seotitle: John Snow Labs NLP - Demos and Notebooks
 subtitle: Run 300+ live demos and notebooks
 full_width: true
 permalink: /demos
