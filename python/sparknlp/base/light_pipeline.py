@@ -103,7 +103,7 @@ class LightPipeline:
         ----------
         target : list or str
             The data to be annotated
-        optional_target: str
+        optional_target: list or str
             Optional data to be annotated (currently used for Question Answering)
 
         Returns
@@ -132,27 +132,27 @@ class LightPipeline:
 
         if optional_target == "":
             if type(target) is str:
-                full_annotations = self._lightPipeline.fullAnnotateJava([target])
+               target = [target]
             elif type(target) is list and type(target[0]) is list:
-                full_annotations = self._lightPipeline.fullAnnotateJavaMultipleInput(target)
-            elif type(target) is list and type(target[0]) is str:
-                full_annotations = self._lightPipeline.fullAnnotateJava(target)
+                raise TypeError("target is a 1D list")
             else:
-                raise TypeError("target and optional_target for annotation must be 'str' or target must be list")
+                raise TypeError("target for annotation must be 'str' or list")
 
-            for annotations_result in full_annotations:
+            for annotations_result in self._lightPipeline.fullAnnotateJava(target):
                 result.append(self.buildStages(annotations_result))
 
         else:
-
-            if type(target) is list or type(optional_target) is list:
-                raise TypeError("target and optional_target for annotation must be 'str'")
-
-            full_annotations = self._lightPipeline.fullAnnotateJava(target, optional_target)
-            stages = {}
-            for annotator_type, annotations in full_annotations.items():
-                stages[annotator_type] = self._annotation_from_java(annotations)
-            result.append(stages)
+            if type(target) is str and type(optional_target) is str:
+                annotations_dict = self._lightPipeline.fullAnnotateJava(target, optional_target)
+                result.append(self.buildStages(annotations_dict))
+            elif type(target) is list and type(optional_target) is list:
+                if type(target[0]) is list or type(optional_target[0]) is list:
+                    raise TypeError("target and optional_target is a 1D list")
+                full_annotations = self._lightPipeline.fullAnnotateJava(target, optional_target)
+                for annotations_dict in full_annotations:
+                    result.append(self.buildStages(annotations_dict))
+            else:
+                raise TypeError("target and optional_target for annotation must be both 'str' or both lists")
 
         return result
 
@@ -199,7 +199,7 @@ class LightPipeline:
         ----------
         target : list or str
             The data to be annotated
-        optional_target: str
+        optional_target: list or str
             Optional data to be annotated (currently used for Question Answering)
 
         Returns
@@ -222,21 +222,28 @@ class LightPipeline:
             return {k: list(v) for k, v in annotations.items()}
 
         if optional_target == "":
-            if type(target) is list and type(target[0]) is list:
-                annotations = self._lightPipeline.annotateJavaMultipleInput(target)
-            else:
+            if type(target) is str:
                 annotations = self._lightPipeline.annotateJava(target)
-        else:
-            if type(target) is list or type(optional_target) is list:
-                raise TypeError("target and optional_target for annotation must be 'str'")
-            annotations = self._lightPipeline.annotateJava(target, optional_target)
+                result = reformat(annotations)
+            elif type(target) is list:
+                if type(target[0]) is list:
+                    raise TypeError("target is a 1D list")
+                annotations = self._lightPipeline.annotateJava(target)
+                result = list(map(lambda a: reformat(a), list(annotations)))
+            else:
+                raise TypeError("target for annotation must be 'str' or list")
 
-        if type(target) is str:
-            result = reformat(annotations)
-        elif type(target) is list:
-            result = list(map(lambda a: reformat(a), list(annotations)))
         else:
-            raise TypeError("target for annotation may be 'str' or 'list'")
+            if type(target) is str and type(optional_target) is str:
+                annotations = self._lightPipeline.annotateJava(target, optional_target)
+                result = reformat(annotations)
+            elif type(target) is list and type(optional_target) is list:
+                if type(target[0]) is list or type(optional_target[0]) is list:
+                    raise TypeError("target and optional_target is a 1D list")
+                annotations = self._lightPipeline.annotateJava(target, optional_target)
+                result = list(map(lambda a: reformat(a), list(annotations)))
+            else:
+                raise TypeError("target and optional_target for annotation must be both 'str' or both lists")
 
         return result
 

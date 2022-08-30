@@ -40,15 +40,21 @@ class LightPipeline(val pipelineModel: PipelineModel, parseEmbeddingsVectors: Bo
       .toArray
   }
 
-  def fullAnnotate(targets: Array[Array[String]]): Array[Map[String, Seq[Annotation]]] = {
-    targets.par.map { target =>
-      val optionalTarget = if (targets.head.length <= 1) "" else target(1)
-      fullAnnotate(target.head, optionalTarget)
-    }.toArray
-  }
-
   def fullAnnotate(target: String, optionalTarget: String = ""): Map[String, Seq[Annotation]] = {
     fullAnnotateInternal(target, optionalTarget).mapValues(_.map(_.asInstanceOf[Annotation]))
+  }
+
+  def fullAnnotate(
+      targets: Array[String],
+      optionalTargets: Array[String]): Array[Map[String, Seq[Annotation]]] = {
+
+    if (targets.length != 2 || optionalTargets.length != 2) {
+      throw new UnsupportedOperationException("Only two inputs per list is available")
+    }
+
+    (targets zip optionalTargets).par.map { case (target, optionalTarget) =>
+      fullAnnotate(target, optionalTarget)
+    }.toArray
   }
 
   def fullAnnotateImage(pathToImages: Array[String]): Array[Map[String, Seq[IAnnotation]]] = {
@@ -234,17 +240,21 @@ class LightPipeline(val pipelineModel: PipelineModel, parseEmbeddingsVectors: Bo
       .asJava
   }
 
+  def fullAnnotateJava(
+      targets: java.util.ArrayList[String],
+      optionalTargets: java.util.ArrayList[String])
+      : java.util.List[java.util.Map[String, java.util.List[JavaAnnotation]]] = {
+    (targets.asScala zip optionalTargets.asScala).par
+      .map { case (target, optionalTarget) =>
+        fullAnnotateJava(target, optionalTarget)
+      }
+      .toList
+      .asJava
+  }
+
   def fullAnnotateImageJava(
       pathToImage: String): java.util.Map[String, java.util.List[IAnnotation]] = {
     fullAnnotateImage(pathToImage).mapValues(_.asJava).asJava
-  }
-
-  def fullAnnotateJavaMultipleInput(targets: java.util.ArrayList[java.util.ArrayList[String]])
-      : java.util.List[java.util.Map[String, java.util.List[JavaAnnotation]]] = {
-    targets.asScala.par
-      .map(target => fullAnnotateJava(target.get(0), target.get(1)))
-      .toList
-      .asJava
   }
 
   def fullAnnotateImageJava(pathToImages: java.util.ArrayList[String])
@@ -264,13 +274,6 @@ class LightPipeline(val pipelineModel: PipelineModel, parseEmbeddingsVectors: Bo
       .toArray
   }
 
-  def annotate(targets: Array[Array[String]]): Array[Map[String, Seq[String]]] = {
-    targets.par.map { target =>
-      val optionalTarget = if (targets.head.length <= 1) "" else target(1)
-      annotate(target.head, optionalTarget)
-    }.toArray
-  }
-
   def annotate(target: String, optionalTarget: String = ""): Map[String, Seq[String]] = {
     fullAnnotate(target, optionalTarget).mapValues(_.map { annotation =>
       annotation.annotatorType match {
@@ -280,6 +283,19 @@ class LightPipeline(val pipelineModel: PipelineModel, parseEmbeddingsVectors: Bo
         case _ => annotation.result
       }
     })
+  }
+
+  def annotate(
+      targets: Array[String],
+      optionalTargets: Array[String]): Array[Map[String, Seq[String]]] = {
+
+    if (targets.length != 2 || optionalTargets.length != 2) {
+      throw new UnsupportedOperationException("Only two inputs per list is available")
+    }
+
+    (targets zip optionalTargets).par.map { case (target, optionalTarget) =>
+      annotate(target, optionalTarget)
+    }.toArray
   }
 
   def annotateJava(target: String): java.util.Map[String, java.util.List[String]] = {
@@ -300,11 +316,16 @@ class LightPipeline(val pipelineModel: PipelineModel, parseEmbeddingsVectors: Bo
       .asJava
   }
 
-  def annotateJavaMultipleInput(targets: java.util.ArrayList[java.util.ArrayList[String]])
+  def annotateJava(
+      targets: java.util.ArrayList[String],
+      optionalTargets: java.util.ArrayList[String])
       : java.util.List[java.util.Map[String, java.util.List[String]]] = {
-    val inputs: Array[Array[String]] =
-      targets.asScala.par.toArray.map(target => target.asScala.par.toArray)
-    annotate(inputs).map(_.mapValues(_.asJava).asJava).toList.asJava
+    (targets.asScala zip optionalTargets.asScala).par
+      .map { case (target, optionalTarget) =>
+        annotateJava(target, optionalTarget)
+      }
+      .toList
+      .asJava
   }
 
 }
