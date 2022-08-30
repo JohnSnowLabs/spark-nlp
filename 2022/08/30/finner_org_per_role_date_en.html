@@ -9,10 +9,10 @@
     j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
     })(window,document,'script','dataLayer','GTM-59JLR64');</script>
-<!-- End Google Tag Manager --><title>Financial Job Titles NER</title><meta property="og:title" content=""/>
+<!-- End Google Tag Manager --><title>Financial ORG, PER, ROLE, DATE NER</title><meta property="og:title" content=""/>
 
-<meta name="description" content="DescriptionThis is a Financial BertForTokenClassification NER model aimed to extract Job Titles / Roles of people in Companies, and was trained using Resumes...">
-<link rel="canonical" href="/2022/08/30/finner_bert_roles_en.html"><link rel="alternate" type="application/rss+xml" title="Spark NLP" href="/feed.xml"><!-- start favicons snippet, use https://realfavicongenerator.net/ -->
+<meta name="description" content="DescriptionThis is an NER model trained on SEC 10K documents, aimed to extract the following entities:  ORG  PERSON  ROLE  DATEPredicted EntitiesORG, PER, DA...">
+<link rel="canonical" href="/2022/08/30/finner_org_per_role_date_en.html"><link rel="alternate" type="application/rss+xml" title="Spark NLP" href="/feed.xml"><!-- start favicons snippet, use https://realfavicongenerator.net/ -->
 <!---->
 <!-- <link rel="apple-touch-icon" sizes="180x180" href="/fav.ico"> -->
 
@@ -408,26 +408,32 @@
 
 <!-- end custom main top snippet --><article><script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script><div class="article__header"><div class="header-author"><div class="article__info clearfix"><div class="left-col">
             <a class="edit-on-github-btn" target="_blank" rel="alternate"
-               href="https://github.com/johnsnowlabs/spark-nlp/tree/master/docs/_posts/josejuanmartinez/2022-08-30-finner_bert_roles_en.md">
+               href="https://github.com/johnsnowlabs/spark-nlp/tree/master/docs/_posts/josejuanmartinez/2022-08-30-finner_org_per_role_date_en.md">
               <span class="fab fa-github"></span>
               <span class="edit-on-github-label">Edit on GitHub</span>
             </a>
         </div><ul class="right-col menu"><li><i class="far fa-user"></i> <span>John Snow Labs</span></li><li><i class="far fa-calendar-alt"></i> <span>Aug 30, 2022</span>
             </li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2022-08-30T00:00:00+00:00"></div><header class="main-docs have_subtitle">
-          <h1>Financial Job Titles NER</h1><div class="top-subtitle mont"></div></header></div><meta itemprop="headline" content="Financial Job Titles NER"><div class="article__info tags_box clearfix"><ul class="left-col menu"><li>en</li><li>finance</li><li>ner</li><li>job</li><li>titles</li><li>jobs</li><li>roles</li><li>licensed</li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2022-08-30T00:00:00+00:00">
-    <meta itemprop="keywords" content="en,finance,ner,job,titles,jobs,roles,licensed"><div class="js-article-content"><div class="model-wrap"><div class="layout--article"><!-- start custom article top snippet -->
+          <h1>Financial ORG, PER, ROLE, DATE NER</h1><div class="top-subtitle mont"></div></header></div><meta itemprop="headline" content="Financial ORG, PER, ROLE, DATE NER"><div class="article__info tags_box clearfix"><ul class="left-col menu"><li>en</li><li>finance</li><li>ner</li><li>licensed</li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2022-08-30T00:00:00+00:00">
+    <meta itemprop="keywords" content="en,finance,ner,licensed"><div class="js-article-content"><div class="model-wrap"><div class="layout--article"><!-- start custom article top snippet -->
 
 <!-- end custom article top snippet --><div class="article__content" itemprop="articleBody"><h2 id="description">Description</h2>
 
-<p>This is a Financial BertForTokenClassification NER model aimed to extract Job Titles / Roles of people in Companies, and was trained using Resumes, Wikipedia Articles, Financial and Legal documents, annotated in-house.</p>
+<p>This is an NER model trained on SEC 10K documents, aimed to extract the following entities:</p>
+<ul>
+  <li>ORG</li>
+  <li>PERSON</li>
+  <li>ROLE</li>
+  <li>DATE</li>
+</ul>
 
 <h2 id="predicted-entities">Predicted Entities</h2>
 
-<p><code class="language-plaintext highlighter-rouge">ROLE</code></p>
+<p><code class="language-plaintext highlighter-rouge">ORG</code>, <code class="language-plaintext highlighter-rouge">PER</code>, <code class="language-plaintext highlighter-rouge">DATE</code>, <code class="language-plaintext highlighter-rouge">ROLE</code></p>
 
-<p class="btn-box"><a href="https://demo.johnsnowlabs.com/finance/FINNER_ROLES/" class="button button-orange">Live Demo</a>
+<p class="btn-box"><a href="https://demo.johnsnowlabs.com/finance/FINPIPE_ORG_PER_DATE_ROLES/" class="button button-orange">Live Demo</a>
 <button class="button button-orange" disabled="">Open in Colab</button>
-<a href="https://s3.amazonaws.com/auxdata.johnsnowlabs.com/finance/models/finner_bert_roles_en_1.0.0_3.2_1661846269918.zip" class="button button-orange button-orange-trans arr button-icon">Download</a></p>
+<a href="https://s3.amazonaws.com/auxdata.johnsnowlabs.com/finance/models/finner_org_per_role_date_en_1.0.0_3.2_1661862246514.zip" class="button button-orange button-orange-trans arr button-icon">Download</a></p>
 
 <h2 id="how-to-use">How to use</h2>
 
@@ -435,73 +441,62 @@
   <div class="top_tab_li">   
     <button class="tab-li code-selector-active python-button">Python</button><button class="tab-li code-selector-un-active scala-button">Scala</button><button class="tab-li code-selector-un-active nlu-button">NLU</button>
 </div>
-  <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">sparknlp.base</span> <span class="kn">import</span> <span class="o">*</span>
-<span class="kn">from</span> <span class="nn">sparknlp.annotator</span> <span class="kn">import</span> <span class="o">*</span>
-<span class="kn">from</span> <span class="nn">pyspark.ml</span> <span class="kn">import</span> <span class="n">Pipeline</span>
-<span class="kn">from</span> <span class="nn">sparknlp_jsl.annotator</span> <span class="kn">import</span> <span class="o">*</span>
-
-<span class="n">documentAssembler</span> <span class="o">=</span> <span class="n">DocumentAssembler</span><span class="p">()</span>\
-  <span class="p">.</span><span class="n">setInputCol</span><span class="p">(</span><span class="s">"text"</span><span class="p">)</span>\
-  <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"document"</span><span class="p">)</span>
+  <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">documentAssembler</span> <span class="o">=</span> <span class="n">DocumentAssembler</span><span class="p">()</span>\
+        <span class="p">.</span><span class="n">setInputCol</span><span class="p">(</span><span class="s">"text"</span><span class="p">)</span>\
+        <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"document"</span><span class="p">)</span>
+        
+<span class="n">sentenceDetector</span> <span class="o">=</span> <span class="n">SentenceDetectorDLModel</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"sentence_detector_dl"</span><span class="p">,</span><span class="s">"xx"</span><span class="p">)</span>\
+        <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"document"</span><span class="p">])</span>\
+        <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"sentence"</span><span class="p">)</span>
 
 <span class="n">tokenizer</span> <span class="o">=</span> <span class="n">Tokenizer</span><span class="p">()</span>\
-  <span class="p">.</span><span class="n">setInputCols</span><span class="p">(</span><span class="s">"document"</span><span class="p">)</span>\
-  <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"token"</span><span class="p">)</span>
+        <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"sentence"</span><span class="p">])</span>\
+        <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"token"</span><span class="p">)</span>
 
-<span class="n">tokenClassifier</span> <span class="o">=</span> <span class="n">FinanceBertForTokenClassification</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"finner_bert_roles"</span><span class="p">,</span> <span class="s">"en"</span><span class="p">,</span> <span class="s">"finance/models"</span><span class="p">)</span>\
-  <span class="p">.</span><span class="n">setInputCols</span><span class="p">(</span><span class="s">"token"</span><span class="p">,</span> <span class="s">"document"</span><span class="p">)</span>\
-  <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"label"</span><span class="p">)</span>\
-  <span class="p">.</span><span class="n">setCaseSensitive</span><span class="p">(</span><span class="bp">True</span><span class="p">)</span>
+<span class="n">embeddings</span> <span class="o">=</span> <span class="n">BertEmbeddings</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"bert_embeddings_sec_bert_base"</span><span class="p">,</span><span class="s">"en"</span><span class="p">)</span> \
+    <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"sentence"</span><span class="p">,</span> <span class="s">"token"</span><span class="p">])</span> \
+    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"embeddings"</span><span class="p">)</span>
 
+<span class="n">ner_model</span> <span class="o">=</span> <span class="n">FinanceNerModel</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"finner_org_people_role"</span><span class="p">,</span> <span class="s">"en"</span><span class="p">,</span> <span class="s">"finance/models"</span><span class="p">)</span>\
+        <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"sentence"</span><span class="p">,</span> <span class="s">"token"</span><span class="p">,</span> <span class="s">"embeddings"</span><span class="p">])</span>\
+        <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"ner"</span><span class="p">)</span>
+        
 <span class="n">ner_converter</span> <span class="o">=</span> <span class="n">NerConverter</span><span class="p">()</span>\
-        <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"document"</span><span class="p">,</span><span class="s">"token"</span><span class="p">,</span><span class="s">"label"</span><span class="p">])</span>\
+        <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"sentence"</span><span class="p">,</span><span class="s">"token"</span><span class="p">,</span><span class="s">"ner"</span><span class="p">])</span>\
         <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"ner_chunk"</span><span class="p">)</span>
 
-<span class="n">pipeline</span> <span class="o">=</span>  <span class="n">Pipeline</span><span class="p">(</span><span class="n">stages</span><span class="o">=</span><span class="p">[</span>
-  <span class="n">documentAssembler</span><span class="p">,</span>
-  <span class="n">tokenizer</span><span class="p">,</span>
-  <span class="n">tokenClassifier</span><span class="p">,</span>
-    <span class="n">ner_converter</span>
-    <span class="p">]</span>
-<span class="p">)</span>
+<span class="n">nlpPipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">(</span><span class="n">stages</span><span class="o">=</span><span class="p">[</span>
+        <span class="n">documentAssembler</span><span class="p">,</span>
+        <span class="n">sentenceDetector</span><span class="p">,</span>
+        <span class="n">tokenizer</span><span class="p">,</span>
+        <span class="n">embeddings</span><span class="p">,</span>
+        <span class="n">ner_model</span><span class="p">,</span>
+        <span class="n">ner_converter</span><span class="p">,</span>
+<span class="p">])</span>
 
-<span class="n">p_model</span> <span class="o">=</span> <span class="n">pipeline</span><span class="p">.</span><span class="n">fit</span><span class="p">(</span><span class="n">spark</span><span class="p">.</span><span class="n">createDataFrame</span><span class="p">(</span><span class="n">pd</span><span class="p">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s">'text'</span><span class="p">:</span> <span class="p">[</span><span class="s">''</span><span class="p">]})))</span>
+<span class="n">empty_data</span> <span class="o">=</span> <span class="n">spark</span><span class="p">.</span><span class="n">createDataFrame</span><span class="p">([[</span><span class="s">""</span><span class="p">]]).</span><span class="n">toDF</span><span class="p">(</span><span class="s">"text"</span><span class="p">)</span>
 
 <span class="n">model</span> <span class="o">=</span> <span class="n">nlpPipeline</span><span class="p">.</span><span class="n">fit</span><span class="p">(</span><span class="n">empty_data</span><span class="p">)</span>
 
-<span class="n">text</span> <span class="o">=</span> <span class="s">'Jeffrey Preston Bezos is an American entrepreneur, founder and CEO of Amazon'</span>
+<span class="n">text</span> <span class="o">=</span> <span class="p">[</span><span class="s">"""Jeffrey Preston Bezos is an American entrepreneur, founder and CEO of Amazon"""</span><span class="p">]</span>
 
-<span class="n">res</span> <span class="o">=</span> <span class="n">p_model</span><span class="p">.</span><span class="n">transform</span><span class="p">(</span><span class="n">spark</span><span class="p">.</span><span class="n">createDataFrame</span><span class="p">([[</span><span class="n">text</span><span class="p">]]).</span><span class="n">toDF</span><span class="p">(</span><span class="s">"text"</span><span class="p">))</span>
+<span class="n">result</span> <span class="o">=</span> <span class="n">pipeline</span><span class="p">.</span><span class="n">transform</span><span class="p">(</span><span class="n">spark</span><span class="p">.</span><span class="n">createDataFrame</span><span class="p">([</span><span class="n">text</span><span class="p">]).</span><span class="n">toDF</span><span class="p">(</span><span class="s">"text"</span><span class="p">))</span>
 
-<span class="n">result_df</span> <span class="o">=</span> <span class="n">res</span><span class="p">.</span><span class="n">select</span><span class="p">(</span><span class="n">F</span><span class="p">.</span><span class="n">explode</span><span class="p">(</span><span class="n">F</span><span class="p">.</span><span class="n">arrays_zip</span><span class="p">(</span><span class="n">res</span><span class="p">.</span><span class="n">token</span><span class="p">.</span><span class="n">result</span><span class="p">,</span><span class="n">res</span><span class="p">.</span><span class="n">label</span><span class="p">.</span><span class="n">result</span><span class="p">,</span> <span class="n">res</span><span class="p">.</span><span class="n">label</span><span class="p">.</span><span class="n">metadata</span><span class="p">)).</span><span class="n">alias</span><span class="p">(</span><span class="s">"cols"</span><span class="p">))</span>\
-                  <span class="p">.</span><span class="n">select</span><span class="p">(</span><span class="n">F</span><span class="p">.</span><span class="n">expr</span><span class="p">(</span><span class="s">"cols['0']"</span><span class="p">).</span><span class="n">alias</span><span class="p">(</span><span class="s">"token"</span><span class="p">),</span>
-                          <span class="n">F</span><span class="p">.</span><span class="n">expr</span><span class="p">(</span><span class="s">"cols['1']"</span><span class="p">).</span><span class="n">alias</span><span class="p">(</span><span class="s">"label"</span><span class="p">),</span>
-                          <span class="n">F</span><span class="p">.</span><span class="n">expr</span><span class="p">(</span><span class="s">"cols['2']['confidence']"</span><span class="p">).</span><span class="n">alias</span><span class="p">(</span><span class="s">"confidence"</span><span class="p">))</span>
-
-<span class="n">result_df</span><span class="p">.</span><span class="n">show</span><span class="p">(</span><span class="mi">50</span><span class="p">,</span> <span class="n">truncate</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
 </code></pre></div>  </div>
 
 </div>
 
 <h2 id="results">Results</h2>
 
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>+------------+---------+----------+
-|       token|ner_label|confidence|
-+------------+---------+----------+
-|     Jeffrey|        O|    0.9984|
-|     Preston|        O|    0.9878|
-|       Bezos|        O|    0.9939|
-|          is|        O|     0.999|
-|          an|        O|    0.9988|
-|    American|   B-ROLE|    0.8294|
-|entrepreneur|   I-ROLE|    0.9358|
-|           ,|        O|    0.9979|
-|     founder|   B-ROLE|    0.8645|
-|         and|        O|     0.857|
-|         CEO|   B-ROLE|      0.72|
-|          of|        O|     0.995|
-|      Amazon|        O|    0.9428|
-+------------+---------+----------+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>+-----+---+---------------------+------+
+|begin|end|                chunk|entity|
++-----+---+---------------------+------+
+|    0| 20|Jeffrey Preston Bezos|PERSON|
+|   37| 48|         entrepreneur|  ROLE|
+|   51| 57|              founder|  ROLE|
+|   63| 65|                  CEO|  ROLE|
+|   70| 75|               Amazon|   ORG|
++-----+---+---------------------+------+
 </code></pre></div></div>
 
 <h2 class="model-param" id="model-information">Model Information</h2>
@@ -510,7 +505,7 @@
   <tbody>
     <tr>
       <td>Model Name:</td>
-      <td>finner_bert_roles</td>
+      <td>finner_org_per_role_date</td>
     </tr>
     <tr>
       <td>Type:</td>
@@ -530,7 +525,7 @@
     </tr>
     <tr>
       <td>Input Labels:</td>
-      <td>[sentence, token]</td>
+      <td>[sentence, token, embeddings]</td>
     </tr>
     <tr>
       <td>Output Labels:</td>
@@ -542,33 +537,30 @@
     </tr>
     <tr>
       <td>Size:</td>
-      <td>402.8 MB</td>
-    </tr>
-    <tr>
-      <td>Case sensitive:</td>
-      <td>true</td>
-    </tr>
-    <tr>
-      <td>Max sentence length:</td>
-      <td>128</td>
+      <td>16.3 MB</td>
     </tr>
   </tbody>
 </table>
 
 <h2 id="references">References</h2>
 
-<p>In-house annotations on Wikidata, CUAD dataset, Financial 10-K documents and Resumes</p>
+<p>SEC 10-K filings with in-house annotations</p>
 
 <h2 id="benchmarking">Benchmarking</h2>
 
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Total <span class="nb">test </span>loss: 29.2454	Avg <span class="nb">test </span>loss: 0.5518
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Total <span class="nb">test </span>loss: 400.4720	Avg <span class="nb">test </span>loss: 4.5508
 label	 tp	 fp	 fn	 prec	 rec	 f1
-B-ROLE	 3553	 174	 262	 0.95331365	 0.9313237	 0.9421904
-I-ROLE	 4868	 250	 243	 0.9511528	 0.95245546	 0.9518037
-tp: 8421 fp: 424 fn: 505 labels: 2
-Macro-average	 prec: 0.9522332, rec: 0.9418896, f1: 0.9470331
-Micro-average	 prec: 0.9520633, rec: 0.9434237, f1: 0.94772375
-
+B-PERSON	 254	 20	 56	 0.9270073	 0.81935483	 0.86986303
+I-ORG	 1161	 133	 231	 0.8972179	 0.8340517	 0.8644826
+B-DATE	 202	 15	 14	 0.9308756	 0.9351852	 0.9330255
+I-DATE	 302	 29	 12	 0.9123867	 0.96178347	 0.93643415
+B-ROLE	 219	 21	 47	 0.9125	 0.8233083	 0.8656126
+B-ORG	 674	 92	 163	 0.87989557	 0.80525684	 0.84092325
+I-ROLE	 260	 26	 68	 0.90909094	 0.79268295	 0.8469055
+I-PERSON	 501	 34	 94	 0.9364486	 0.8420168	 0.88672566
+tp: 3573 fp: 370 fn: 685 labels: 8
+Macro-average	 prec: 0.91317785, rec: 0.851705, f1: 0.8813709
+Micro-average	 prec: 0.9061628, rec: 0.83912635, f1: 0.8713572
 </code></pre></div></div>
 </div><div class="d-print-none"><footer class="article__footer"><meta itemprop="dateModified" content="2022-08-30T00:00:00+00:00"><!-- start custom article footer snippet -->
 
@@ -695,7 +687,7 @@ hr.code-selector-underlie {
 
 }
 
-</style><div class="article__section-navigator clearfix"><div class="previous nav_link"><span>PREVIOUS</span><a href="/2022/08/30/finmulticlf_news_en.html">Financial News Multilabel Classifier</a></div><div class="next nav_link"><span>NEXT</span><a href="/2022/08/30/finner_org_per_role_date_en.html">Financial ORG, PER, ROLE, DATE NER</a></div></div></div>
+</style><div class="article__section-navigator clearfix"><div class="previous nav_link"><span>PREVIOUS</span><a href="/2022/08/30/finner_bert_roles_en.html">Financial Job Titles NER</a></div><div class="next nav_link"><span>NEXT</span><a href="/2022/08/30/legclf_bert_judgements_agent_en.html">Judgements Classifier (Agent)</a></div></div></div>
 
 </div>
 </div>
