@@ -172,6 +172,47 @@ class MultiDocumentAssemblerTest extends AnyFlatSpec with SparkSessionTest {
 
   }
 
+  it should "annotate a list of inputs with LightPipeline and output three results" taggedAs FastTest in {
+    val multiDocumentAssembler = new MultiDocumentAssembler()
+      .setInputCols("input1", "input2")
+      .setOutputCols("output1", "output2")
+
+    tokenizer.setInputCols("output2").setOutputCol("token")
+
+    val pipelineModel =
+      pipeline.setStages(Array(multiDocumentAssembler, tokenizer)).fit(twoInputDataset)
+
+    val lightPipeline = new LightPipeline(pipelineModel)
+    val actualResults =
+      lightPipeline.annotate(Array(input1, input1, input1), Array(input2, input2, input2))
+
+    val expectedResults = Array(
+      Map(
+        "output1" -> List(input1),
+        "output2" -> List(input2),
+        "token" -> List("This", "is", "the", "second", "input")),
+      Map(
+        "output1" -> List(input1),
+        "output2" -> List(input2),
+        "token" -> List("This", "is", "the", "second", "input")),
+      Map(
+        "output1" -> List(input1),
+        "output2" -> List(input2),
+        "token" -> List("This", "is", "the", "second", "input")),
+      Map(
+        "output1" -> List(input1),
+        "output2" -> List(input2),
+        "token" -> List("This", "is", "the", "second", "input"))
+    )
+
+    actualResults.zipWithIndex.foreach { case (actualResult, index) =>
+      val expectedResult = expectedResults(index)
+      assert(actualResult.keySet == expectedResult.keySet)
+      assert(actualResult.values.toList == expectedResult.values.toList)
+    }
+
+  }
+
   "MultiDocumentAssembler with one column" should "transform and output one col" taggedAs FastTest in {
 
     val multiDocumentAssembler = new MultiDocumentAssembler()
