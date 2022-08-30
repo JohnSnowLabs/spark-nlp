@@ -12,7 +12,7 @@
 <!-- End Google Tag Manager --><title></title><meta property="og:title" content=""/>
 
 <meta name="description" content="DescriptionPretrained RobertaForSequenceClassification model, adapted from Hugging Face and curated to provide scalability and production-readiness using Spa...">
-<link rel="canonical" href="/2022/07/13/roberta_sequence_classifier_distilroberta_finetuned_financial_news_sentiment_analysis_en_3_0.html"><link rel="alternate" type="application/rss+xml" title="Spark NLP" href="/feed.xml"><!-- start favicons snippet, use https://realfavicongenerator.net/ -->
+<link rel="canonical" href="/2022/07/13/roberta_sequence_classifier_distilroberta_finetuned_banking77_en_3_0.html"><link rel="alternate" type="application/rss+xml" title="Spark NLP" href="/feed.xml"><!-- start favicons snippet, use https://realfavicongenerator.net/ -->
 <!---->
 <!-- <link rel="apple-touch-icon" sizes="180x180" href="/fav.ico"> -->
 
@@ -408,7 +408,7 @@
 
 <!-- end custom main top snippet --><article><script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script><div class="article__header"><div class="header-author"><div class="article__info clearfix"><div class="left-col">
             <a class="edit-on-github-btn" target="_blank" rel="alternate"
-               href="https://github.com/johnsnowlabs/spark-nlp/tree/master/docs/_posts/murat-gunay/2022-07-13-roberta_sequence_classifier_distilroberta_finetuned_financial_news_sentiment_analysis_en_3_0.md">
+               href="https://github.com/johnsnowlabs/spark-nlp/tree/master/docs/_posts/murat-gunay/2022-07-13-roberta_sequence_classifier_distilroberta_finetuned_banking77_en_3_0.md">
               <span class="fab fa-github"></span>
               <span class="edit-on-github-label">Edit on GitHub</span>
             </a>
@@ -419,11 +419,11 @@
 
 <!-- end custom article top snippet --><div class="article__content" itemprop="articleBody"><h2 id="description">Description</h2>
 
-<p>Pretrained RobertaForSequenceClassification model, adapted from Hugging Face and curated to provide scalability and production-readiness using Spark NLP. <code class="language-plaintext highlighter-rouge">distilroberta-finetuned-financial-news-sentiment-analysis</code> is a English model originally trained by <code class="language-plaintext highlighter-rouge">mrm8488</code>.</p>
+<p>Pretrained RobertaForSequenceClassification model, adapted from Hugging Face and curated to provide scalability and production-readiness using Spark NLP. <code class="language-plaintext highlighter-rouge">distilroberta-finetuned-banking77</code> is a English model originally trained by <code class="language-plaintext highlighter-rouge">mrm8488</code>.</p>
 
 <p class="btn-box"><button class="button button-orange" disabled="">Live Demo</button>
 <button class="button button-orange" disabled="">Open in Colab</button>
-<a href="https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/roberta_sequence_classifier_distilroberta_finetuned_financial_news_sentiment_analysis_en_4.0.0_3.0_1657716075006.zip" class="button button-orange button-orange-trans arr button-icon">Download</a></p>
+<a href="https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/roberta_sequence_classifier_distilroberta_finetuned_banking77_en_4.0.0_3.0_1657716139703.zip" class="button button-orange button-orange-trans arr button-icon">Download</a></p>
 
 <h2 id="how-to-use">How to use</h2>
 
@@ -439,7 +439,7 @@
     <span class="p">.</span><span class="n">setInputCols</span><span class="p">(</span><span class="s">"document"</span><span class="p">)</span> \
     <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"token"</span><span class="p">)</span>
 
-<span class="n">classifier</span> <span class="o">=</span> <span class="n">RoBertaForSequenceClassification</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"roberta_sequence_classifier_distilroberta_finetuned_financial_news_sentiment_analysis"</span><span class="p">,</span><span class="s">"en"</span><span class="p">)</span> \
+<span class="n">classifier</span> <span class="o">=</span> <span class="n">RoBertaForSequenceClassification</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"roberta_sequence_classifier_distilroberta_finetuned_banking77"</span><span class="p">,</span><span class="s">"en"</span><span class="p">)</span> \
     <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"document"</span><span class="p">,</span> <span class="s">"token"</span><span class="p">])</span> \
     <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"class"</span><span class="p">)</span>
     
@@ -457,7 +457,7 @@
     <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="s">"document"</span><span class="o">)</span>
     <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"token"</span><span class="o">)</span>
  
-<span class="k">val</span> <span class="nv">classifer</span> <span class="k">=</span> <span class="nv">RoBertaForSequenceClassification</span><span class="o">.</span><span class="py">pretrained</span><span class="o">(</span><span class="s">"roberta_sequence_classifier_distilroberta_finetuned_financial_news_sentiment_analysis"</span><span class="o">,</span><span class="s">"en"</span><span class="o">)</span> 
+<span class="k">val</span> <span class="nv">classifer</span> <span class="k">=</span> <span class="nv">RoBertaForSequenceClassification</span><span class="o">.</span><span class="py">pretrained</span><span class="o">(</span><span class="s">"roberta_sequence_classifier_distilroberta_finetuned_banking77"</span><span class="o">,</span><span class="s">"en"</span><span class="o">)</span> 
     <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="s">"document"</span><span class="o">,</span> <span class="s">"token"</span><span class="o">))</span> 
     <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"class"</span><span class="o">)</span>
 
@@ -475,7 +475,7 @@
   <tbody>
     <tr>
       <td>Model Name:</td>
-      <td>roberta_sequence_classifier_distilroberta_finetuned_financial_news_sentiment_analysis</td>
+      <td>roberta_sequence_classifier_distilroberta_finetuned_banking77</td>
     </tr>
     <tr>
       <td>Compatibility:</td>
@@ -503,7 +503,7 @@
     </tr>
     <tr>
       <td>Size:</td>
-      <td>309.1 MB</td>
+      <td>309.3 MB</td>
     </tr>
     <tr>
       <td>Case sensitive:</td>
@@ -519,7 +519,7 @@
 <h2 id="references">References</h2>
 
 <ul>
-  <li>https://huggingface.co/mrm8488/distilroberta-finetuned-financial-news-sentiment-analysis</li>
+  <li>https://huggingface.co/mrm8488/distilroberta-finetuned-banking77</li>
 </ul>
 </div><div class="d-print-none"><footer class="article__footer"><meta itemprop="dateModified" content="2022-07-13T00:00:00+00:00"><!-- start custom article footer snippet -->
 
@@ -646,7 +646,7 @@ hr.code-selector-underlie {
 
 }
 
-</style><div class="article__section-navigator clearfix"><div class="previous nav_link"><span>PREVIOUS</span><a href="/2022/07/13/roberta_sequence_classifier_distilroberta_finetuned_banking77_en_3_0.html">English RobertaForSequenceClassification Cased model (from mrm8488)</a></div><div class="next nav_link"><span>NEXT</span><a href="/2022/07/13/roberta_sequence_classifier_distilroberta_finetuned_rotten_tomatoes_sentiment_analysis_en_3_0.html">English RobertaForSequenceClassification Cased model (from mrm8488)</a></div></div></div>
+</style><div class="article__section-navigator clearfix"><div class="previous nav_link"><span>PREVIOUS</span><a href="/2022/07/13/roberta_sequence_classifier_distilroberta_finetuned_age_news_classification_en_3_0.html">English RobertaForSequenceClassification Cased model (from mrm8488)</a></div><div class="next nav_link"><span>NEXT</span><a href="/2022/07/13/roberta_sequence_classifier_distilroberta_finetuned_financial_news_sentiment_analysis_en_3_0.html">English RobertaForSequenceClassification Cased model (from mrm8488)</a></div></div></div>
 
 </div>
 </div>

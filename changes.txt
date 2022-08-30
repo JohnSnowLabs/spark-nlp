@@ -1,2 +1,2 @@
-docs/_posts/murat-gunay/2022-07-13-roberta_sequence_classifier_distilroberta_finetuned_banking77_en_3_0.md
-docs/_posts/murat-gunay/2022-07-13-roberta_sequence_classifier_distilroberta_finetuned_banking77_en_3_0.md
+docs/_posts/maziyarpanahi/2021-11-21-distilbert_sequence_classifier_banking77_en.md
+docs/_posts/maziyarpanahi/2021-11-21-distilbert_sequence_classifier_banking77_en.md
