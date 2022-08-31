@@ -1,2 +1,2 @@
-docs/_posts/murat-gunay/2021-11-07-bert_sequence_classifier_banking77_en.md
-docs/_posts/murat-gunay/2021-11-07-bert_sequence_classifier_banking77_en.md
+docs/_sass/custom.scss
+docs/_sass/custom.scss
