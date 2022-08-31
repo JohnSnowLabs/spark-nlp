@@ -1,2 +1,2 @@
-docs/_posts/josejuanmartinez/2022-08-30-finmulticlf_news_en.md
-docs/_posts/josejuanmartinez/2022-08-30-finmulticlf_news_en.md
+docs/_posts/josejuanmartinez/2022-08-09-finner_sec_conll_en_3_2.md
+docs/_posts/josejuanmartinez/2022-08-09-finner_sec_conll_en_3_2.md
