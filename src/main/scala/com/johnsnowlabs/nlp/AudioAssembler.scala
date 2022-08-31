@@ -14,10 +14,9 @@
  * limitations under the License.
  */
 
-package com.johnsnowlabs.nlp.audio
+package com.johnsnowlabs.nlp
 
 import com.johnsnowlabs.nlp.AnnotatorType._
-import com.johnsnowlabs.nlp.{HasOutputAnnotationCol, HasOutputAnnotatorType}
 import org.apache.spark.ml.Transformer
 import org.apache.spark.ml.param.{Param, ParamMap}
 import org.apache.spark.ml.util.{DefaultParamsWritable, Identifiable}

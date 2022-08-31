@@ -14,8 +14,9 @@
  * limitations under the License.
  */
 
-package com.johnsnowlabs.nlp.audio
+package com.johnsnowlabs.nlp
 
+import com.johnsnowlabs.nlp.annotators.audio.AudioProcessors
 import org.apache.spark.sql.types._
 
 import scala.collection.Map

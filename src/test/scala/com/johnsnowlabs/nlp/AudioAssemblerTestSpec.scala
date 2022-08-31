@@ -1,6 +1,5 @@
 package com.johnsnowlabs.nlp
 
-import com.johnsnowlabs.nlp.audio.AudioAssembler
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
 import com.johnsnowlabs.tags.FastTest
 import com.sun.media.sound.WaveFileReader
