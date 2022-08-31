@@ -5,7 +5,7 @@ author: John Snow Labs
 name: finner_deid
 date: 2022-08-09
 tags: [en, finance, ner, deid, licensed]
-task: Named Entity Recognition
+task: [De-identification, Named Entity Recognition]
 language: en
 edition: Spark NLP for Finance 1.0.0
 spark_version: 3.2
