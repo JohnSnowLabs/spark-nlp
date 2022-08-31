@@ -6454,8 +6454,7 @@ a.btn1.small {
   -moz-flex-wrap: wrap;
   -ms-flex-wrap: wrap;
   -o-flex-wrap: wrap;
-  flex-wrap: wrap;
-  justify-content: space-between; }
+  flex-wrap: wrap; }
 
 .tab-item {
   width: 22.9%;

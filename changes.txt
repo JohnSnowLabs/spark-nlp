@@ -1,10 +1,2 @@
-docs/_posts/josejuanmartinez/2022-08-30-finclf_bert_banking77_en.md
-docs/_posts/josejuanmartinez/2022-08-30-finel_edgar_company_name_en.md
-docs/_posts/josejuanmartinez/2022-08-30-finel_edgar_irs_en.md
-docs/_posts/josejuanmartinez/2022-08-30-finmulticlf_news_en.md
-docs/_posts/josejuanmartinez/2022-08-30-finner_org_per_role_date_en.md
-docs/_posts/josejuanmartinez/2022-08-30-finclf_bert_banking77_en.md
-docs/_posts/josejuanmartinez/2022-08-30-finel_edgar_company_name_en.md
-docs/_posts/josejuanmartinez/2022-08-30-finel_edgar_irs_en.md
-docs/_posts/josejuanmartinez/2022-08-30-finmulticlf_news_en.md
-docs/_posts/josejuanmartinez/2022-08-30-finner_org_per_role_date_en.md
+docs/_posts/murat-gunay/2021-11-07-bert_sequence_classifier_banking77_en.md
+docs/_posts/murat-gunay/2021-11-07-bert_sequence_classifier_banking77_en.md
