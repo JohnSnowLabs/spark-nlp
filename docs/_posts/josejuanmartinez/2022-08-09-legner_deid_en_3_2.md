@@ -51,7 +51,7 @@ embeddings = RoBertaEmbeddings.pretrained("roberta_embeddings_legal_roberta_base
     .setInputCols(["sentence", "token"]) \
     .setOutputCol("embeddings")
 
-ner_model = LegalNerModel().pretrained('legner_deid' "en", "legal/models")\
+ner_model = LegalNerModel.pretrained('legner_deid' "en", "legal/models")\
         .setInputCols(["sentence", "token", "embeddings"])\
         .setOutputCol("ner")
 
