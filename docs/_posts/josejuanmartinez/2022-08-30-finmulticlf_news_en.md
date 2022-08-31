@@ -21,14 +21,14 @@ This is a Multilabel classification model trained on different news scrapped fro
 
 The available classes are:
 
-acq: Acquisition / Purchase operations
-finance: Generic financial news
-fuel: News about fuel and energy sources
-jobs: News about jobs, employment rates, etc.
-livestock: News about animales and livestock
-mineral: News about mineral as copper, gold, silver, coal, etc.
-plant: News about greens, plants, cereals, etc
-trade: Trading news
+- acq: Acquisition / Purchase operations
+- finance: Generic financial news
+- fuel: News about fuel and energy sources
+- jobs: News about jobs, employment rates, etc.
+- livestock: News about animales and livestock
+- mineral: News about mineral as copper, gold, silver, coal, etc.
+- plant: News about greens, plants, cereals, etc
+- trade: Trading news
 
 ## Predicted Entities
 
