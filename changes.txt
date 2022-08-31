@@ -1,2 +1,2 @@
-docs/_sass/custom.scss
-docs/_sass/custom.scss
+docs/_posts/josejuanmartinez/2022-08-30-legclf_bert_judgements_agent_en.md
+docs/_posts/josejuanmartinez/2022-08-30-legclf_bert_judgements_agent_en.md
