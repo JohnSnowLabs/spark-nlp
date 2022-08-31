@@ -69,7 +69,7 @@ bert_embeddings= BertEmbeddings.pretrained("bert_embeddings_sec_bert_base","en")
         .setInputCols(["sentence", "token"])\
         .setOutputCol("bert_embeddings")
 
-ner_model_org= FinanceNerModel().pretrained("finner_orgs_prods_alias", "en", "finance/models")\
+ner_model_org= FinanceNerModel.pretrained("finner_orgs_prods_alias", "en", "finance/models")\
         .setInputCols(["sentence", "token", "bert_embeddings"])\
         .setOutputCol("ner_cuad")
 

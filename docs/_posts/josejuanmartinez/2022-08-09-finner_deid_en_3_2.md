@@ -51,7 +51,7 @@ embeddings = RoBertaEmbeddings.pretrained("roberta_embeddings_legal_roberta_base
     .setInputCols(["sentence", "token"]) \
     .setOutputCol("embeddings")
 
-ner_model = FinanceNerModel().pretrained('finner_deid' "en", "finance/models")\
+ner_model = FinanceNerModel.pretrained('finner_deid' "en", "finance/models")\
         .setInputCols(["sentence", "token", "embeddings"])\
         .setOutputCol("ner")
 
