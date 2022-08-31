@@ -56,7 +56,7 @@ tokenizer = Tokenizer()\
         .setInputCols(["sentence"])\
         .setOutputCol("token")
 
-embeddings = RoBertaEmbeddings.pretrained("bert_embeddings_sec_bert_base","en") \
+embeddings = BertEmbeddings.pretrained("bert_embeddings_sec_bert_base","en") \
     .setInputCols(["sentence", "token"]) \
     .setOutputCol("embeddings")
 
