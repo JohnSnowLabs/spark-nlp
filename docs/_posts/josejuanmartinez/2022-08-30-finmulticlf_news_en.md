@@ -55,7 +55,7 @@ embeddings = UniversalSentenceEncoder.pretrained() \
     .setInputCols("document") \
     .setOutputCol("embeddings")
 
-docClassifier = LegalMultiClassification.pretrained("finclf_multilabelclassifier_news", "en" "finance/models")\
+docClassifier = MultiClassifierDLModel.pretrained("finclf_multilabelclassifier_news", "en" "finance/models")\
     .setInputCols("embeddings") \
     .setOutputCol("category")
 
