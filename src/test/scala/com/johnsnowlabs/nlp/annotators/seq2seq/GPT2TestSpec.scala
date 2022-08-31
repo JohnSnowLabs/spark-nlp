@@ -24,6 +24,40 @@ import org.apache.spark.ml.Pipeline
 import org.scalatest.flatspec.AnyFlatSpec
 
 class GPT2TestSpec extends AnyFlatSpec {
+  "gpt2" should "should handle temperature=0 correctly and not crash when predicting more than 1 element with doSample=True" taggedAs SlowTest in {
+    // Even tough the Paper states temperature in interval [0,1), using temperature=0 will result in division by 0 error.
+    // Also DoSample=True may result in infinities being generated and distFiltered.length==0 which results in exception if we don't return 0 instead internally.
+    val testData = ResourceHelper.spark
+      .createDataFrame(Seq(
+        (1, "My name is Leonardo."),
+        (2, "My name is Leonardo and I come from Rome."),
+        (3, "My name is"),
+        (4, "What is my name?"),
+        (5, "Who is Ronaldo?"),
+        (6, "Who discovered the microscope?"),
+        (7, "Where does petrol come from?"),
+        (8, "What is the difference between diesel and petrol?"),
+        (9, "Where is Sofia?"),
+        (10, "The priest is convinced that")))
+      .toDF("id", "text")
+      .repartition(1)
+    val documentAssembler = new DocumentAssembler()
+      .setInputCol("text")
+      .setOutputCol("documents")
+
+    val gpt2 = GPT2Transformer
+      .pretrained()
+      .setInputCols(Array("documents"))
+      .setMaxOutputLength(50)
+      .setDoSample(true)
+      .setTopK(50)
+      .setTemperature(0)
+      .setBatchSize(5)
+      .setNoRepeatNgramSize(3)
+      .setOutputCol("generation")
+    new Pipeline().setStages(Array(documentAssembler, gpt2)).fit(testData).transform(testData).show()
+
+  }
 
   "gpt2" should "run SparkNLP pipeline with larger batch size" taggedAs SlowTest in {
     val testData = ResourceHelper.spark
