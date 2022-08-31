@@ -455,7 +455,7 @@ trade: Trading news</p>
     <span class="p">.</span><span class="n">setInputCols</span><span class="p">(</span><span class="s">"document"</span><span class="p">)</span> \
     <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"embeddings"</span><span class="p">)</span>
 
-<span class="n">docClassifier</span> <span class="o">=</span> <span class="n">LegalMultiClassification</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"finclf_multilabelclassifier_news"</span><span class="p">,</span> <span class="s">"en"</span> <span class="s">"finance/models"</span><span class="p">)</span>\
+<span class="n">docClassifier</span> <span class="o">=</span> <span class="n">MultiClassifierDLModel</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"finclf_multilabelclassifier_news"</span><span class="p">,</span> <span class="s">"en"</span> <span class="s">"finance/models"</span><span class="p">)</span>\
     <span class="p">.</span><span class="n">setInputCols</span><span class="p">(</span><span class="s">"embeddings"</span><span class="p">)</span> \
     <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"category"</span><span class="p">)</span>
 
