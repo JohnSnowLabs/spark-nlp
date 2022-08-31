@@ -21,7 +21,7 @@ A pretrained resolver pipeline to extract medications and resolve RxNorm, UMLS, 
 
 Action/treatments are available for branded medication, and SNOMED codes are available for non-branded medication.
 
-This pipeline can be used as Lightpipeline (with `annotate/fulfullAnnotate`). You can use `medication_resolver_transform_pipeline` for Spark transform.
+This pipeline can be used as Lightpipeline (with `annotate/fullAnnotate`). You can use `medication_resolver_transform_pipeline` for Spark transform.
 
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>
@@ -37,19 +37,19 @@ This pipeline can be used as Lightpipeline (with `annotate/fulfullAnnotate`). Yo
 ```python
 from sparknlp.pretrained import PretrainedPipeline
 
-ner_medication_pipeline = PretrainedPipeline("medication_resolver_pipeline", "en", "clinical/models")
+med_resolver_pipeline = PretrainedPipeline("medication_resolver_pipeline", "en", "clinical/models")
 
 text = """The patient was prescribed Mycobutn 150 MG, Salagen 5 MG oral tablet, 
 The other patient is given Lescol 40 MG and Lidoderm 0.05 MG/MG, triazolam 0.125 MG Oral Tablet, metformin hydrochloride 1000 MG Oral Tablet"""
 
-result = ner_medication_pipeline.fullAnnotate([text])
+result = med_resolver_pipeline.fullAnnotate([text])
 ```
 ```scala
 import com.johnsnowlabs.nlp.pretrained.PretrainedPipeline
 
-val ner_medication_pipeline = new PretrainedPipeline("medication_resolver_pipeline", "en", "clinical/models")
+val med_resolver_pipeline = new PretrainedPipeline("medication_resolver_pipeline", "en", "clinical/models")
 
-val result = ner_medication_pipeline.fullAnnotate("The patient was prescribed Mycobutn 150 MG, Salagen 5 MG oral tablet, 
+val result = med_resolver_pipeline.fullAnnotate("The patient was prescribed Mycobutn 150 MG, Salagen 5 MG oral tablet, 
 The other patient is given Lescol 40 MG and Lidoderm 0.05 MG/MG, triazolam 0.125 MG Oral Tablet, metformin hydrochloride 1000 MG Oral Tablet"")
 ```
 
