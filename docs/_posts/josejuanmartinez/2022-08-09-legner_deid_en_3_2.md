@@ -5,7 +5,7 @@ author: John Snow Labs
 name: legner_deid
 date: 2022-08-09
 tags: [en, legal, ner, deid, licensed]
-task: Named Entity Recognition
+task: [De-identification, Named Entity Recognition]
 language: en
 edition: Spark NLP for Legal 1.0.0
 spark_version: 3.2
