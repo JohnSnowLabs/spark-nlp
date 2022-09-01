@@ -19,7 +19,7 @@ package com.johnsnowlabs.nlp
 import com.johnsnowlabs.nlp.AnnotatorType._
 import org.apache.spark.ml.Transformer
 import org.apache.spark.ml.param.{Param, ParamMap}
-import org.apache.spark.ml.util.{DefaultParamsWritable, Identifiable}
+import org.apache.spark.ml.util.{DefaultParamsReadable, DefaultParamsWritable, Identifiable}
 import org.apache.spark.sql.expressions.UserDefinedFunction
 import org.apache.spark.sql.functions.udf
 import org.apache.spark.sql.types._
@@ -27,6 +27,19 @@ import org.apache.spark.sql.{DataFrame, Dataset}
 
 /** Prepares audio read by Spark into a format that is processable by Spark NLP. This component is
   * needed to process audio.
+  *
+  * Input col is a single record that contains the raw content and metadata of the file.
+  *
+  * Example:
+  * {{{
+  *   // Scala
+  *   val df = spark.read.format("binaryFile")
+  *     .load("/path/to/fileDir")
+  *
+  *   // Java
+  *   Dataset<Row> df = spark.read().format("binaryFile")
+  *     .load("/path/to/fileDir");
+  * }}}
   *
   * TODO:
   *   - support various file formats
@@ -70,26 +83,38 @@ class AudioAssembler(override val uid: String)
 
   override def copy(extra: ParamMap): Transformer = defaultCopy(extra)
 
-  private[nlp] def assemble(rawAudio: Array[Byte]): Seq[AnnotationAudio] = {
+  private[nlp] def assemble(
+      audio: AudioFields,
+      metadata: Map[String, String]): Seq[AnnotationAudio] = {
 
-    Seq(AnnotationAudio(rawAudio))
+//    Seq(
+//      AnnotationAudio(
+//        annotatorType = outputAnnotatorType,
+//        path = audio.path,
+//        modificationTime = audio.modificationTime,
+//        length = audio.length,
+//        result = audio.data,
+//        metadata = metadata))
+    Seq.empty[AnnotationAudio]
+
   }
 
-  private[nlp] def dfAssemble: UserDefinedFunction = udf { (rawAudio: Array[Byte]) =>
-    assemble(rawAudio)
+  private[nlp] def dfAssemble: UserDefinedFunction = udf { (audio: AudioFields) =>
+    assemble(audio, Map("audio" -> "0"))
   }
 
   /** requirement for pipeline transformation validation. It is called on fit() */
   override final def transformSchema(schema: StructType): StructType = {
     val metadataBuilder: MetadataBuilder = new MetadataBuilder()
     metadataBuilder.putString("annotatorType", outputAnnotatorType)
-    val outputFields = schema.fields :+
-      StructField(
-        getOutputCol,
-        ArrayType(AnnotationAudio.dataType),
-        nullable = false,
-        metadataBuilder.build)
-    StructType(outputFields)
+//    val outputFields = schema.fields :+
+//      StructField(
+//        getOutputCol,
+//        ArrayType(AnnotationAudio.dataType),
+//        nullable = false,
+//        metadataBuilder.build)
+//    StructType(outputFields)
+    StructType(schema)
   }
 
   override def transform(dataset: Dataset[_]): DataFrame = {
@@ -99,17 +124,33 @@ class AudioAssembler(override val uid: String)
       dataset.schema.fields.exists(_.name == getInputCol),
       s"column $getInputCol is not presented in your DataFrame")
 
-//    TODO: Check valid file individually?
-//    require(
-//      ImageSchemaUtils.isImage(dataset.schema(getInputCol)),
-//      s"column $getInputCol doesn't have Apache Spark ImageSchema. Make sure you read your images via spark.read.format(image).load(PATH)")
+//    TODO: making sure the schema is format binaryFile
+//    TODO: if the files read by binaryFile format are not audio or not supported I am not sure we can do anything about it
+//    TODO: it will either crash during feature extraction or feeding TensorFlow model
+// https://github.com/apache/spark/blob/master/sql/core/src/main/scala/org/apache/spark/sql/execution/datasources/binaryfile/BinaryFileFormat.scala
 //
     val audioAnnotations = {
       dfAssemble(dataset($(inputCol)))
     }
-//
+
     dataset.withColumn(getOutputCol, audioAnnotations.as(getOutputCol, metadataBuilder.build))
 
   }
 
 }
+
+private[nlp] case class AudioFields(
+    path: AudioPath,
+    modificationTime: ModificationTime,
+    length: Length,
+    data: Data)
+
+private[nlp] case class AudioPath(value: String)
+private[nlp] case class ModificationTime(value: java.sql.Timestamp)
+private[nlp] case class Length(value: Long)
+private[nlp] case class Data(value: Array[Byte])
+
+/** This is the companion object of [[AudioAssembler]]. Please refer to that class for the
+  * documentation.
+  */
+object AudioAssembler extends DefaultParamsReadable[AudioAssembler]

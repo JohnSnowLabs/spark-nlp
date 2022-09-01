@@ -16,7 +16,7 @@
 
 package com.johnsnowlabs.nlp
 
-import com.johnsnowlabs.nlp.annotators.audio.AudioProcessors
+import org.apache.spark.sql.Row
 import org.apache.spark.sql.types._
 
 import scala.collection.Map
@@ -24,12 +24,18 @@ import scala.collection.Map
 /** Represents [[AudioAssembler]]'s output parts and their details. */
 case class AnnotationAudio(
     annotatorType: String,
-    result: Array[Float],
+    path: String,
+    modificationTime: java.sql.Timestamp,
+    length: Long,
+    result: Array[Byte],
     metadata: Map[String, String]) {
   override def equals(obj: Any): Boolean = {
     obj match {
       case annotation: AnnotationAudio =>
         this.annotatorType == annotation.annotatorType &&
+        this.path == annotation.path &&
+        this.modificationTime == annotation.modificationTime &&
+        this.length == annotation.length &&
         this.result.sameElements(annotation.result) &&
         this.metadata == annotation.metadata
       case _ => false
@@ -45,42 +51,37 @@ object AnnotationAudio {
   val dataType = new StructType(
     Array(
       StructField("annotatorType", StringType, nullable = true),
-      StructField("origin", StringType, nullable = false),
-      StructField("length", IntegerType, nullable = false),
-      StructField("samplingRate", IntegerType, nullable = false),
-      StructField("result", BinaryType, nullable = false),
+      StructField("path", StringType, nullable = false),
+      StructField("modificationTime", TimestampType, nullable = false),
+      StructField("length", LongType, nullable = false),
+      StructField("result", BinaryType, nullable = true),
       StructField("metadata", MapType(StringType, StringType), nullable = true)))
 
-//  val arrayType = new ArrayType(dataType, true)
+  val arrayType = new ArrayType(dataType, true)
 
-//  case class AudioFields(
-//                          origin: String,
-//                          length: Int,
-//                          sampleRate: Int,
-//                          data: Array[Float],
-//                          text: Option[String])
+  case class AudioFields(
+      path: String,
+      modificationTime: java.sql.Timestamp,
+      length: Long,
+      result: Array[Byte])
 
-//  /** TODO: needed?
-//    *
-//    * @param row
-//    *   spark row to be converted
-//    * @return
-//    *   AnnotationAudio
-//    */
-//  def apply(row: Row): AnnotationAudio = {
-//    AnnotationAudio(
-//      row.getString(0),
-//      row.getString(1),
-//      row.getInt(2),
-//      row.getInt(3),
-//      row.getInt(4),
-//      row.getInt(5),
-//      row.getSeq[Byte](6).toArray,
-//      row.getMap[String, String](7))
-//  }
-
-  def apply(rawAudio: Array[Byte]): AnnotationAudio = {
-    AudioProcessors.createAnnotationAudio(rawAudio)
+  def apply(row: Row): AnnotationAudio = {
+    AnnotationAudio(
+      row.getString(0),
+      row.getAs[Row]("struct").getString(1),
+      row.getAs[Row]("struct").getTimestamp(2),
+      row.getAs[Row]("struct").getLong(3),
+      row.getAs[Row]("struct").getSeq[Byte](4).toArray,
+      row.getMap[String, String](5))
   }
+
+  def apply(audio: AudioFields): AnnotationAudio =
+    AnnotationAudio(
+      AnnotatorType.AUDIO,
+      path = audio.path,
+      modificationTime = audio.modificationTime,
+      length = audio.length,
+      result = Array.emptyByteArray,
+      Map.empty[String, String])
 
 }
