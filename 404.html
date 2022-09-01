@@ -427,10 +427,10 @@
     j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
     })(window,document,'script','dataLayer','GTM-59JLR64');</script>
-<!-- End Google Tag Manager --><title>Named Entity Recognition Profiling (Clinical)</title><meta property="og:title" content=""/>
+<!-- End Google Tag Manager --><title>Pipeline to Resolve Medication Codes(Transform)</title><meta property="og:title" content=""/>
 
-<meta name="description" content="DescriptionThis pipeline can be used to explore all the available pretrained NER models at once. When you run this pipeline over your text, you will end up w...">
-<link rel="canonical" href="/2022/08/30/ner_profiling_clinical_en.html"><link rel="alternate" type="application/rss+xml" title="Spark NLP" href="/feed.xml"><!-- start favicons snippet, use https://realfavicongenerator.net/ -->
+<meta name="description" content="DescriptionA pretrained resolver pipeline to extract medications and resolve their adverse reactions (ADE), RxNorm, UMLS, NDC, SNOMED CT codes, and action/tr...">
+<link rel="canonical" href="/2022/09/01/medication_resolver_transform_pipeline_en.html"><link rel="alternate" type="application/rss+xml" title="Spark NLP" href="/feed.xml"><!-- start favicons snippet, use https://realfavicongenerator.net/ -->
 <!---->
 <!-- <link rel="apple-touch-icon" sizes="180x180" href="/fav.ico"> -->
 
@@ -826,25 +826,26 @@
 
 <!-- end custom main top snippet --><article><script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script><div class="article__header"><div class="header-author"><div class="article__info clearfix"><div class="left-col">
             <a class="edit-on-github-btn" target="_blank" rel="alternate"
-               href="https://github.com/johnsnowlabs/spark-nlp/tree/master/docs/_posts/muhammetsnts/2022-08-30-ner_profiling_clinical_en.md">
+               href="https://github.com/johnsnowlabs/spark-nlp/tree/master/docs/_posts/Damla-Gurbaz/2022-09-01-medication_resolver_transform_pipeline_en.md">
               <span class="fab fa-github"></span>
               <span class="edit-on-github-label">Edit on GitHub</span>
             </a>
-        </div><ul class="right-col menu"><li><i class="far fa-user"></i> <span>John Snow Labs</span></li><li><i class="far fa-calendar-alt"></i> <span>Aug 30, 2022</span>
-            </li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2022-08-30T00:00:00+00:00"></div><header class="main-docs have_subtitle">
-          <h1>Named Entity Recognition Profiling (Clinical)</h1><div class="top-subtitle mont"></div></header></div><meta itemprop="headline" content="Named Entity Recognition Profiling (Clinical)"><div class="article__info tags_box clearfix"><ul class="left-col menu"><li>en</li><li>clinical</li><li>profiling</li><li>ner_profiling</li><li>ner</li><li>licensed</li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2022-08-30T00:00:00+00:00">
-    <meta itemprop="keywords" content="en,clinical,profiling,ner_profiling,ner,licensed"><div class="js-article-content"><div class="model-wrap"><div class="layout--article"><!-- start custom article top snippet -->
+        </div><ul class="right-col menu"><li><i class="far fa-user"></i> <span>John Snow Labs</span></li><li><i class="far fa-calendar-alt"></i> <span>Sep 01, 2022</span>
+            </li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2022-09-01T00:00:00+00:00"></div><header class="main-docs have_subtitle">
+          <h1>Pipeline to Resolve Medication Codes(Transform)</h1><div class="top-subtitle mont"></div></header></div><meta itemprop="headline" content="Pipeline to Resolve Medication Codes(Transform)"><div class="article__info tags_box clearfix"><ul class="left-col menu"><li>resolver</li><li>rxnorm</li><li>ndc</li><li>snomed</li><li>umls</li><li>ade</li><li>pipeline</li><li>en</li><li>licensed</li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2022-09-01T00:00:00+00:00">
+    <meta itemprop="keywords" content="resolver,rxnorm,ndc,snomed,umls,ade,pipeline,en,licensed"><div class="js-article-content"><div class="model-wrap"><div class="layout--article"><!-- start custom article top snippet -->
 
 <!-- end custom article top snippet --><div class="article__content" itemprop="articleBody"><h2 id="description">Description</h2>
 
-<p>This pipeline can be used to explore all the available pretrained NER models at once. When you run this pipeline over your text, you will end up with the predictions coming out of each pretrained clinical NER model trained with <code class="language-plaintext highlighter-rouge">embeddings_clinical</code>. It has been updated by adding new clinical NER models and NER model outputs to the previous version.</p>
+<p>A pretrained resolver pipeline to extract medications and resolve their adverse reactions (ADE), RxNorm, UMLS, NDC, SNOMED CT codes, and action/treatments in clinical text.</p>
 
-<p>Here are the NER models that this pretrained pipeline includes: 
-<code class="language-plaintext highlighter-rouge">jsl_ner_wip_clinical</code>, <code class="language-plaintext highlighter-rouge">jsl_ner_wip_greedy_clinical</code>, <code class="language-plaintext highlighter-rouge">jsl_ner_wip_modifier_clinical</code>, <code class="language-plaintext highlighter-rouge">jsl_rd_ner_wip_greedy_clinical</code>, <code class="language-plaintext highlighter-rouge">ner_abbreviation_clinical</code>, <code class="language-plaintext highlighter-rouge">ner_ade_binary</code>, <code class="language-plaintext highlighter-rouge">ner_ade_clinical</code>, <code class="language-plaintext highlighter-rouge">ner_anatomy</code>, <code class="language-plaintext highlighter-rouge">ner_anatomy_coarse</code>, <code class="language-plaintext highlighter-rouge">ner_bacterial_species</code>, <code class="language-plaintext highlighter-rouge">ner_biomarker</code>, <code class="language-plaintext highlighter-rouge">ner_biomedical_bc2gm</code>, <code class="language-plaintext highlighter-rouge">ner_bionlp</code>, <code class="language-plaintext highlighter-rouge">ner_cancer_genetics</code>, <code class="language-plaintext highlighter-rouge">ner_cellular</code>, <code class="language-plaintext highlighter-rouge">ner_chemd_clinical</code>, <code class="language-plaintext highlighter-rouge">ner_chemicals</code>, <code class="language-plaintext highlighter-rouge">ner_chemprot_clinical</code>, <code class="language-plaintext highlighter-rouge">ner_chexpert</code>, <code class="language-plaintext highlighter-rouge">ner_clinical</code>, <code class="language-plaintext highlighter-rouge">ner_clinical_large</code>, <code class="language-plaintext highlighter-rouge">ner_clinical_trials_abstracts</code>, <code class="language-plaintext highlighter-rouge">ner_covid_trials</code>, <code class="language-plaintext highlighter-rouge">ner_deid_augmented</code>, <code class="language-plaintext highlighter-rouge">ner_deid_enriched</code>, <code class="language-plaintext highlighter-rouge">ner_deid_generic_augmented</code>, <code class="language-plaintext highlighter-rouge">ner_deid_large</code>, <code class="language-plaintext highlighter-rouge">ner_deid_sd</code>, <code class="language-plaintext highlighter-rouge">ner_deid_sd_large</code>, <code class="language-plaintext highlighter-rouge">ner_deid_subentity_augmented</code>, <code class="language-plaintext highlighter-rouge">ner_deid_subentity_augmented_i2b2</code>, <code class="language-plaintext highlighter-rouge">ner_deid_synthetic</code>, <code class="language-plaintext highlighter-rouge">ner_deidentify_dl</code>, <code class="language-plaintext highlighter-rouge">ner_diseases</code>, <code class="language-plaintext highlighter-rouge">ner_diseases_large</code>, <code class="language-plaintext highlighter-rouge">ner_drugprot_clinical</code>, <code class="language-plaintext highlighter-rouge">ner_drugs</code>, <code class="language-plaintext highlighter-rouge">ner_drugs_greedy</code>, <code class="language-plaintext highlighter-rouge">ner_drugs_large</code>, <code class="language-plaintext highlighter-rouge">ner_events_admission_clinical</code>, <code class="language-plaintext highlighter-rouge">ner_events_clinical</code>, <code class="language-plaintext highlighter-rouge">ner_genetic_variants</code>, <code class="language-plaintext highlighter-rouge">ner_human_phenotype_gene_clinical</code>, <code class="language-plaintext highlighter-rouge">ner_human_phenotype_go_clinical</code>, <code class="language-plaintext highlighter-rouge">ner_jsl</code>, <code class="language-plaintext highlighter-rouge">ner_jsl_enriched</code>, <code class="language-plaintext highlighter-rouge">ner_jsl_greedy</code>, <code class="language-plaintext highlighter-rouge">ner_jsl_slim</code>, <code class="language-plaintext highlighter-rouge">ner_living_species</code>, <code class="language-plaintext highlighter-rouge">ner_measurements_clinical</code>, <code class="language-plaintext highlighter-rouge">ner_medmentions_coarse</code>, <code class="language-plaintext highlighter-rouge">ner_nature_nero_clinical</code>, <code class="language-plaintext highlighter-rouge">ner_nihss</code>, <code class="language-plaintext highlighter-rouge">ner_pathogen</code>, <code class="language-plaintext highlighter-rouge">ner_posology</code>, <code class="language-plaintext highlighter-rouge">ner_posology_experimental</code>, <code class="language-plaintext highlighter-rouge">ner_posology_greedy</code>, <code class="language-plaintext highlighter-rouge">ner_posology_large</code>, <code class="language-plaintext highlighter-rouge">ner_posology_small</code>, <code class="language-plaintext highlighter-rouge">ner_radiology</code>, <code class="language-plaintext highlighter-rouge">ner_radiology_wip_clinical</code>, <code class="language-plaintext highlighter-rouge">ner_risk_factors</code>, <code class="language-plaintext highlighter-rouge">ner_supplement_clinical</code>, <code class="language-plaintext highlighter-rouge">nerdl_tumour_demo</code></p>
+<p>Action/treatments are available for branded medication, and SNOMED codes are available for non-branded medication.</p>
+
+<p>This pipeline can be used with Spark transform. You can use <code class="language-plaintext highlighter-rouge">medication_resolver_pipeline</code> as Lightpipeline (with <code class="language-plaintext highlighter-rouge">annotate/fullAnnotate</code>).</p>
 
 <p class="btn-box"><button class="button button-orange" disabled="">Live Demo</button>
-<a href="https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/11.2.Pretrained_NER_Profiling_Pipelines.ipynb" class="button button-orange button-orange-trans co button-icon">Open in Colab</a>
-<a href="https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/ner_profiling_clinical_en_4.0.2_3.0_1661867359272.zip" class="button button-orange button-orange-trans arr button-icon">Download</a></p>
+<button class="button button-orange" disabled="">Open in Colab</button>
+<a href="https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/medication_resolver_transform_pipeline_en_4.0.2_3.0_1662045429139.zip" class="button button-orange button-orange-trans arr button-icon">Download</a></p>
 
 <h2 id="how-to-use">How to use</h2>
 
@@ -852,52 +853,35 @@
   <div class="top_tab_li">   
     <button class="tab-li code-selector-active python-button">Python</button><button class="tab-li code-selector-un-active scala-button">Scala</button><button class="tab-li code-selector-un-active nlu-button">NLU</button>
 </div>
+
   <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">sparknlp.pretrained</span> <span class="kn">import</span> <span class="n">PretrainedPipeline</span>
 
-<span class="n">ner_profiling_pipeline</span> <span class="o">=</span> <span class="n">PretrainedPipeline</span><span class="p">(</span><span class="s">'ner_profiling_clinical'</span><span class="p">,</span> <span class="s">'en'</span><span class="p">,</span> <span class="s">'clinical/models'</span><span class="p">)</span>
+<span class="n">medication_resolver_pipeline</span> <span class="o">=</span> <span class="n">PretrainedPipeline</span><span class="p">(</span><span class="s">"medication_resolver_transform_pipeline"</span><span class="p">,</span> <span class="s">"en"</span><span class="p">,</span> <span class="s">"clinical/models"</span><span class="p">)</span>
 
-<span class="n">result</span> <span class="o">=</span> <span class="n">ner_profiling_pipeline</span><span class="p">.</span><span class="n">annotate</span><span class="p">(</span><span class="s">"""A 28-year-old female with a history of gestational diabetes mellitus diagnosed eight years prior to presentation and subsequent type two diabetes mellitus ( T2DM ), one prior episode of HTG-induced pancreatitis three years prior to presentation , associated with an acute hepatitis , and obesity with a body mass index ( BMI ) of 33.5 kg/m2 , presented with a one-week history of polyuria , polydipsia , poor appetite , and vomiting ."""</span><span class="p">)</span>
+<span class="n">text</span> <span class="o">=</span> <span class="s">"""The patient was prescribed Amlodopine Vallarta 10-320mg, Eviplera. The other patient is given Lescol 40 MG and Everolimus 1.5 mg tablet."""</span>
+
+<span class="n">data</span> <span class="o">=</span> <span class="n">spark</span><span class="p">.</span><span class="n">createDataFrame</span><span class="p">([[</span><span class="n">text</span><span class="p">]]).</span><span class="n">toDF</span><span class="p">(</span><span class="s">"text"</span><span class="p">)</span>
+
+<span class="n">result</span> <span class="o">=</span> <span class="n">medication_resolver_pipeline</span><span class="p">.</span><span class="n">transform</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
 </code></pre></div>  </div>
   <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="nn">com.johnsnowlabs.nlp.pretrained.PretrainedPipeline</span>
 
-<span class="k">val</span> <span class="nv">ner_profiling_pipeline</span> <span class="k">=</span> <span class="nc">PretrainedPipeline</span><span class="o">(</span><span class="s">"ner_profiling_clinical"</span><span class="o">,</span> <span class="s">"en"</span><span class="o">,</span> <span class="s">"clinical/models"</span><span class="o">)</span>
+<span class="k">val</span> <span class="nv">medication_resolver_pipeline</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">PretrainedPipeline</span><span class="o">(</span><span class="s">"medication_resolver_transform_pipeline"</span><span class="o">,</span> <span class="s">"en"</span><span class="o">,</span> <span class="s">"clinical/models"</span><span class="o">)</span>
 
-<span class="k">val</span> <span class="nv">result</span> <span class="k">=</span> <span class="nv">ner_profiling_pipeline</span><span class="o">.</span><span class="py">annotate</span><span class="o">(</span><span class="s">"""A 28-year-old female with a history of gestational diabetes mellitus diagnosed eight years prior to presentation and subsequent type two diabetes mellitus ( T2DM ), one prior episode of HTG-induced pancreatitis three years prior to presentation , associated with an acute hepatitis , and obesity with a body mass index ( BMI ) of 33.5 kg/m2 , presented with a one-week history of polyuria , polydipsia , poor appetite , and vomiting ."""</span><span class="o">)</span>
-</code></pre></div>  </div>
+<span class="k">val</span> <span class="nv">data</span> <span class="k">=</span> <span class="nc">Seq</span><span class="o">(</span><span class="s">"""The patient was prescribed Amlodopine Vallarta 10-320mg, Eviplera. The other patient is given Lescol 40 MG and Everolimus 1.5 mg tablet."""</span><span class="o">).</span><span class="py">toDS</span><span class="o">.</span><span class="py">toDF</span><span class="o">(</span><span class="s">"text"</span><span class="o">)</span>
 
-  <div class="language-python nlu-block highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">nlu</span>
-
-<span class="n">nlu</span><span class="p">.</span><span class="n">load</span><span class="p">(</span><span class="s">"en.med_ner.profiling_clinical"</span><span class="p">).</span><span class="n">predict</span><span class="p">(</span><span class="s">"""A 28-year-old female with a history of gestational diabetes mellitus diagnosed eight years prior to presentation and subsequent type two diabetes mellitus ( T2DM ), one prior episode of HTG-induced pancreatitis three years prior to presentation , associated with an acute hepatitis , and obesity with a body mass index ( BMI ) of 33.5 kg/m2 , presented with a one-week history of polyuria , polydipsia , poor appetite , and vomiting ."""</span><span class="p">)</span>
+<span class="k">val</span> <span class="nv">result</span> <span class="k">=</span> <span class="nv">medication_resolver_pipeline</span><span class="o">.</span><span class="py">fit</span><span class="o">(</span><span class="n">data</span><span class="o">).</span><span class="py">transform</span><span class="o">(</span><span class="n">data</span><span class="o">)</span>
 </code></pre></div>  </div>
 </div>
 
 <h2 id="results">Results</h2>
 
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">********************</span> ner_jsl Model Results <span class="k">********************</span> 
-
-<span class="o">[(</span><span class="s1">'28-year-old'</span>, <span class="s1">'Age'</span><span class="o">)</span>, <span class="o">(</span><span class="s1">'female'</span>, <span class="s1">'Gender'</span><span class="o">)</span>, <span class="o">(</span><span class="s1">'gestational diabetes mellitus'</span>, <span class="s1">'Diabetes'</span><span class="o">)</span>, <span class="o">(</span><span class="s1">'eight years prior'</span>, <span class="s1">'RelativeDate'</span><span class="o">)</span>, <span class="o">(</span><span class="s1">'subsequent'</span>, <span class="s1">'Modifier'</span><span class="o">)</span>, <span class="o">(</span><span class="s1">'type two diabetes mellitus'</span>, <span class="s1">'Diabetes'</span><span class="o">)</span>, <span class="o">(</span><span class="s1">'T2DM'</span>, <span class="s1">'Diabetes'</span><span class="o">)</span>, <span class="o">(</span><span class="s1">'HTG-induced pancreatitis'</span>, <span class="s1">'Disease_Syndrome_Disorder'</span><span class="o">)</span>, <span class="o">(</span><span class="s1">'three years prior'</span>, <span class="s1">'RelativeDate'</span><span class="o">)</span>, <span class="o">(</span><span class="s1">'acute'</span>, <span class="s1">'Modifier'</span><span class="o">)</span>, <span class="o">(</span><span class="s1">'hepatitis'</span>, <span class="s1">'Communicable_Disease'</span><span class="o">)</span>, <span class="o">(</span><span class="s1">'obesity'</span>, <span class="s1">'Obesity'</span><span class="o">)</span>, <span class="o">(</span><span class="s1">'body mass index'</span>, <span class="s1">'Symptom'</span><span class="o">)</span>, <span class="o">(</span><span class="s1">'33.5 kg/m2'</span>, <span class="s1">'Weight'</span><span class="o">)</span>, <span class="o">(</span><span class="s1">'one-week'</span>, <span class="s1">'Duration'</span><span class="o">)</span>, <span class="o">(</span><span class="s1">'polyuria'</span>, <span class="s1">'Symptom'</span><span class="o">)</span>, <span class="o">(</span><span class="s1">'polydipsia'</span>, <span class="s1">'Symptom'</span><span class="o">)</span>, <span class="o">(</span><span class="s1">'poor appetite'</span>, <span class="s1">'Symptom'</span><span class="o">)</span>, <span class="o">(</span><span class="s1">'vomiting'</span>, <span class="s1">'Symptom'</span><span class="o">)]</span>
-
-
-<span class="k">********************</span> ner_diseases_large Model Results <span class="k">********************</span> 
-
-<span class="o">[(</span><span class="s1">'gestational diabetes mellitus'</span>, <span class="s1">'Disease'</span><span class="o">)</span>, <span class="o">(</span><span class="s1">'diabetes mellitus'</span>, <span class="s1">'Disease'</span><span class="o">)</span>, <span class="o">(</span><span class="s1">'T2DM'</span>, <span class="s1">'Disease'</span><span class="o">)</span>, <span class="o">(</span><span class="s1">'pancreatitis'</span>, <span class="s1">'Disease'</span><span class="o">)</span>, <span class="o">(</span><span class="s1">'hepatitis'</span>, <span class="s1">'Disease'</span><span class="o">)</span>, <span class="o">(</span><span class="s1">'obesity'</span>, <span class="s1">'Disease'</span><span class="o">)</span>, <span class="o">(</span><span class="s1">'polyuria'</span>, <span class="s1">'Disease'</span><span class="o">)</span>, <span class="o">(</span><span class="s1">'polydipsia'</span>, <span class="s1">'Disease'</span><span class="o">)</span>, <span class="o">(</span><span class="s1">'vomiting'</span>, <span class="s1">'Disease'</span><span class="o">)]</span>
-
-
-<span class="k">********************</span> ner_radiology Model Results <span class="k">********************</span> 
-
-<span class="o">[(</span><span class="s1">'gestational diabetes mellitus'</span>, <span class="s1">'Disease_Syndrome_Disorder'</span><span class="o">)</span>, <span class="o">(</span><span class="s1">'type two diabetes mellitus'</span>, <span class="s1">'Disease_Syndrome_Disorder'</span><span class="o">)</span>, <span class="o">(</span><span class="s1">'T2DM'</span>, <span class="s1">'Disease_Syndrome_Disorder'</span><span class="o">)</span>, <span class="o">(</span><span class="s1">'HTG-induced pancreatitis'</span>, <span class="s1">'Disease_Syndrome_Disorder'</span><span class="o">)</span>, <span class="o">(</span><span class="s1">'acute hepatitis'</span>, <span class="s1">'Disease_Syndrome_Disorder'</span><span class="o">)</span>, <span class="o">(</span><span class="s1">'obesity'</span>, <span class="s1">'Disease_Syndrome_Disorder'</span><span class="o">)</span>, <span class="o">(</span><span class="s1">'body'</span>, <span class="s1">'BodyPart'</span><span class="o">)</span>, <span class="o">(</span><span class="s1">'mass index'</span>, <span class="s1">'Symptom'</span><span class="o">)</span>, <span class="o">(</span><span class="s1">'BMI'</span>, <span class="s1">'Test'</span><span class="o">)</span>, <span class="o">(</span><span class="s1">'33.5'</span>, <span class="s1">'Measurements'</span><span class="o">)</span>, <span class="o">(</span><span class="s1">'kg/m2'</span>, <span class="s1">'Units'</span><span class="o">)</span>, <span class="o">(</span><span class="s1">'polyuria'</span>, <span class="s1">'Symptom'</span><span class="o">)</span>, <span class="o">(</span><span class="s1">'polydipsia'</span>, <span class="s1">'Symptom'</span><span class="o">)</span>, <span class="o">(</span><span class="s1">'poor appetite'</span>, <span class="s1">'Symptom'</span><span class="o">)</span>, <span class="o">(</span><span class="s1">'vomiting'</span>, <span class="s1">'Symptom'</span><span class="o">)]</span>
-
-
-<span class="k">********************</span> ner_clinical Model Results <span class="k">********************</span> 
-
-<span class="o">[(</span><span class="s1">'gestational diabetes mellitus'</span>, <span class="s1">'PROBLEM'</span><span class="o">)</span>, <span class="o">(</span><span class="s1">'subsequent type two diabetes mellitus'</span>, <span class="s1">'PROBLEM'</span><span class="o">)</span>, <span class="o">(</span><span class="s1">'T2DM'</span>, <span class="s1">'PROBLEM'</span><span class="o">)</span>, <span class="o">(</span><span class="s1">'HTG-induced pancreatitis'</span>, <span class="s1">'PROBLEM'</span><span class="o">)</span>, <span class="o">(</span><span class="s1">'an acute hepatitis'</span>, <span class="s1">'PROBLEM'</span><span class="o">)</span>, <span class="o">(</span><span class="s1">'obesity'</span>, <span class="s1">'PROBLEM'</span><span class="o">)</span>, <span class="o">(</span><span class="s1">'a body mass index'</span>, <span class="s1">'PROBLEM'</span><span class="o">)</span>, <span class="o">(</span><span class="s1">'BMI'</span>, <span class="s1">'TEST'</span><span class="o">)</span>, <span class="o">(</span><span class="s1">'polyuria'</span>, <span class="s1">'PROBLEM'</span><span class="o">)</span>, <span class="o">(</span><span class="s1">'polydipsia'</span>, <span class="s1">'PROBLEM'</span><span class="o">)</span>, <span class="o">(</span><span class="s1">'poor appetite'</span>, <span class="s1">'PROBLEM'</span><span class="o">)</span>, <span class="o">(</span><span class="s1">'vomiting'</span>, <span class="s1">'PROBLEM'</span><span class="o">)]</span>
-
-
-<span class="k">********************</span> ner_medmentions_coarse Model Results <span class="k">********************</span> 
-
-<span class="o">[(</span><span class="s1">'female'</span>, <span class="s1">'Organism_Attribute'</span><span class="o">)</span>, <span class="o">(</span><span class="s1">'diabetes mellitus'</span>, <span class="s1">'Disease_or_Syndrome'</span><span class="o">)</span>, <span class="o">(</span><span class="s1">'diabetes mellitus'</span>, <span class="s1">'Disease_or_Syndrome'</span><span class="o">)</span>, <span class="o">(</span><span class="s1">'T2DM'</span>, <span class="s1">'Disease_or_Syndrome'</span><span class="o">)</span>, <span class="o">(</span><span class="s1">'HTG-induced pancreatitis'</span>, <span class="s1">'Disease_or_Syndrome'</span><span class="o">)</span>, <span class="o">(</span><span class="s1">'associated with'</span>, <span class="s1">'Qualitative_Concept'</span><span class="o">)</span>, <span class="o">(</span><span class="s1">'acute hepatitis'</span>, <span class="s1">'Disease_or_Syndrome'</span><span class="o">)</span>, <span class="o">(</span><span class="s1">'obesity'</span>, <span class="s1">'Disease_or_Syndrome'</span><span class="o">)</span>, <span class="o">(</span><span class="s1">'body mass index'</span>, <span class="s1">'Clinical_Attribute'</span><span class="o">)</span>, <span class="o">(</span><span class="s1">'BMI'</span>, <span class="s1">'Clinical_Attribute'</span><span class="o">)</span>, <span class="o">(</span><span class="s1">'polyuria'</span>, <span class="s1">'Sign_or_Symptom'</span><span class="o">)</span>, <span class="o">(</span><span class="s1">'polydipsia'</span>, <span class="s1">'Sign_or_Symptom'</span><span class="o">)</span>, <span class="o">(</span><span class="s1">'poor appetite'</span>, <span class="s1">'Sign_or_Symptom'</span><span class="o">)</span>, <span class="o">(</span><span class="s1">'vomiting'</span>, <span class="s1">'Sign_or_Symptom'</span><span class="o">)]</span>
-
-...
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>| chunk                        | ner_label   | ADE                         |   RxNorm | Action                     | Treatment                                  | UMLS     | SNOMED_CT   | NDC_Product   | NDC_Package   |
+|:-----------------------------|:------------|:----------------------------|---------:|:---------------------------|:-------------------------------------------|:---------|:------------|:--------------|:--------------|
+| Amlodopine Vallarta 10-320mg | DRUG        | Gynaecomastia               |   722131 | NONE                       | NONE                                       | C1949334 | 425838008   | 00093-7693    | 00093-7693-56 |
+| Eviplera                     | DRUG        | Anxiety                     |   217010 | Inhibitory Bone Resorption | Osteoporosis                               | C0720318 | NONE        | NONE          | NONE          |
+| Lescol 40 MG                 | DRUG        | NONE                        |   103919 | Hypocholesterolemic        | Heterozygous Familial Hypercholesterolemia | C0353573 | NONE        | 00078-0234    | 00078-0234-05 |
+| Everolimus 1.5 mg tablet     | DRUG        | Acute myocardial infarction |  2056895 | NONE                       | NONE                                       | C4723581 | NONE        | 00054-0604    | 00054-0604-21 |
 </code></pre></div></div>
 
 <h2 class="model-param" id="model-information">Model Information</h2>
@@ -906,7 +890,7 @@
   <tbody>
     <tr>
       <td>Model Name:</td>
-      <td>ner_profiling_clinical</td>
+      <td>medication_resolver_transform_pipeline</td>
     </tr>
     <tr>
       <td>Type:</td>
@@ -930,7 +914,7 @@
     </tr>
     <tr>
       <td>Size:</td>
-      <td>2.6 GB</td>
+      <td>3.1 GB</td>
     </tr>
   </tbody>
 </table>
@@ -943,136 +927,28 @@
   <li>TokenizerModel</li>
   <li>WordEmbeddingsModel</li>
   <li>MedicalNerModel</li>
-  <li>NerConverter</li>
-  <li>MedicalNerModel</li>
-  <li>NerConverter</li>
-  <li>MedicalNerModel</li>
-  <li>NerConverter</li>
-  <li>MedicalNerModel</li>
-  <li>NerConverter</li>
-  <li>MedicalNerModel</li>
-  <li>NerConverter</li>
-  <li>MedicalNerModel</li>
-  <li>NerConverter</li>
-  <li>MedicalNerModel</li>
-  <li>NerConverter</li>
-  <li>MedicalNerModel</li>
-  <li>NerConverter</li>
-  <li>MedicalNerModel</li>
-  <li>NerConverter</li>
-  <li>MedicalNerModel</li>
-  <li>NerConverter</li>
-  <li>MedicalNerModel</li>
-  <li>NerConverter</li>
-  <li>MedicalNerModel</li>
-  <li>NerConverter</li>
-  <li>MedicalNerModel</li>
-  <li>NerConverter</li>
-  <li>MedicalNerModel</li>
-  <li>NerConverter</li>
-  <li>MedicalNerModel</li>
-  <li>NerConverter</li>
-  <li>MedicalNerModel</li>
-  <li>NerConverter</li>
-  <li>MedicalNerModel</li>
-  <li>NerConverter</li>
-  <li>MedicalNerModel</li>
-  <li>NerConverter</li>
-  <li>MedicalNerModel</li>
-  <li>NerConverter</li>
-  <li>MedicalNerModel</li>
-  <li>NerConverter</li>
-  <li>MedicalNerModel</li>
-  <li>NerConverter</li>
-  <li>MedicalNerModel</li>
-  <li>NerConverter</li>
-  <li>MedicalNerModel</li>
-  <li>NerConverter</li>
-  <li>MedicalNerModel</li>
-  <li>NerConverter</li>
-  <li>MedicalNerModel</li>
-  <li>NerConverter</li>
-  <li>MedicalNerModel</li>
-  <li>NerConverter</li>
-  <li>MedicalNerModel</li>
-  <li>NerConverter</li>
-  <li>MedicalNerModel</li>
-  <li>NerConverter</li>
-  <li>MedicalNerModel</li>
-  <li>NerConverter</li>
-  <li>MedicalNerModel</li>
-  <li>NerConverter</li>
-  <li>MedicalNerModel</li>
-  <li>NerConverter</li>
-  <li>MedicalNerModel</li>
-  <li>NerConverter</li>
-  <li>MedicalNerModel</li>
-  <li>NerConverter</li>
-  <li>MedicalNerModel</li>
-  <li>NerConverter</li>
-  <li>MedicalNerModel</li>
-  <li>NerConverter</li>
-  <li>MedicalNerModel</li>
-  <li>NerConverter</li>
-  <li>MedicalNerModel</li>
-  <li>NerConverter</li>
-  <li>MedicalNerModel</li>
-  <li>NerConverter</li>
-  <li>MedicalNerModel</li>
-  <li>NerConverter</li>
-  <li>MedicalNerModel</li>
-  <li>NerConverter</li>
-  <li>MedicalNerModel</li>
-  <li>NerConverter</li>
-  <li>MedicalNerModel</li>
-  <li>NerConverter</li>
-  <li>MedicalNerModel</li>
-  <li>NerConverter</li>
-  <li>MedicalNerModel</li>
-  <li>NerConverter</li>
-  <li>MedicalNerModel</li>
-  <li>NerConverter</li>
-  <li>MedicalNerModel</li>
-  <li>NerConverter</li>
-  <li>MedicalNerModel</li>
-  <li>NerConverter</li>
-  <li>MedicalNerModel</li>
-  <li>NerConverter</li>
-  <li>MedicalNerModel</li>
-  <li>NerConverter</li>
-  <li>MedicalNerModel</li>
-  <li>NerConverter</li>
-  <li>MedicalNerModel</li>
-  <li>NerConverter</li>
-  <li>MedicalNerModel</li>
-  <li>NerConverter</li>
-  <li>MedicalNerModel</li>
-  <li>NerConverter</li>
-  <li>MedicalNerModel</li>
-  <li>NerConverter</li>
-  <li>MedicalNerModel</li>
-  <li>NerConverter</li>
-  <li>MedicalNerModel</li>
-  <li>NerConverter</li>
-  <li>MedicalNerModel</li>
-  <li>NerConverter</li>
-  <li>MedicalNerModel</li>
-  <li>NerConverter</li>
-  <li>MedicalNerModel</li>
-  <li>NerConverter</li>
-  <li>MedicalNerModel</li>
-  <li>NerConverter</li>
-  <li>MedicalNerModel</li>
-  <li>NerConverter</li>
-  <li>MedicalNerModel</li>
-  <li>NerConverter</li>
-  <li>MedicalNerModel</li>
-  <li>NerConverter</li>
-  <li>MedicalNerModel</li>
-  <li>NerConverter</li>
+  <li>NerConverterInternalModel</li>
+  <li>TextMatcherModel</li>
+  <li>ChunkMergeModel</li>
+  <li>ChunkMapperModel</li>
+  <li>ChunkMapperModel</li>
+  <li>ChunkMapperFilterer</li>
+  <li>Chunk2Doc</li>
+  <li>BertSentenceEmbeddings</li>
+  <li>SentenceEntityResolverModel</li>
+  <li>ResolverMerger</li>
+  <li>Doc2Chunk</li>
+  <li>ResolverMerger</li>
+  <li>ChunkMapperModel</li>
+  <li>ChunkMapperModel</li>
+  <li>ChunkMapperModel</li>
+  <li>Doc2Chunk</li>
+  <li>ChunkMapperModel</li>
+  <li>ChunkMapperModel</li>
+  <li>ChunkMapperModel</li>
   <li>Finisher</li>
 </ul>
-</div><div class="d-print-none"><footer class="article__footer"><meta itemprop="dateModified" content="2022-08-30T00:00:00+00:00"><!-- start custom article footer snippet -->
+</div><div class="d-print-none"><footer class="article__footer"><meta itemprop="dateModified" content="2022-09-01T00:00:00+00:00"><!-- start custom article footer snippet -->
 
 <!-- end custom article footer snippet --></footer>
 
@@ -1197,7 +1073,7 @@ hr.code-selector-underlie {
 
 }
 
-</style><div class="article__section-navigator clearfix"><div class="previous nav_link"><span>PREVIOUS</span><a href="/2022/08/30/legmulticlf_edgar_en.html">Legal Clauses Multilabel Classifier</a></div></div></div>
+</style><div class="article__section-navigator clearfix"><div class="previous nav_link"><span>PREVIOUS</span><a href="/2022/09/01/medication_resolver_pipeline_en.html">Pipeline to Resolve Medication Codes</a></div></div></div>
 
 </div>
 </div>

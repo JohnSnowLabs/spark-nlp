@@ -1,12 +1,4 @@
-docs/_posts/HashamUlHaq/2021-04-01-ner_financial_contract_en.md
-docs/_posts/josejuanmartinez/2022-04-05-re_zeroshot_biobert_en_3_0.md
-docs/_posts/maziyarpanahi/2021-07-19-ner_wikiner_glove_840B_300_xx.md
-docs/_posts/maziyarpanahi/2021-07-19-ner_wikiner_xlm_roberta_base_xx.md
-docs/_posts/maziyarpanahi/2021-07-19-ner_xtreme_glove_840B_300_xx.md
-docs/_posts/maziyarpanahi/2021-07-19-ner_xtreme_xlm_roberta_xtreme_base_xx.md
-docs/_posts/HashamUlHaq/2021-04-01-ner_financial_contract_en.md
-docs/_posts/josejuanmartinez/2022-04-05-re_zeroshot_biobert_en_3_0.md
-docs/_posts/maziyarpanahi/2021-07-19-ner_wikiner_glove_840B_300_xx.md
-docs/_posts/maziyarpanahi/2021-07-19-ner_wikiner_xlm_roberta_base_xx.md
-docs/_posts/maziyarpanahi/2021-07-19-ner_xtreme_glove_840B_300_xx.md
-docs/_posts/maziyarpanahi/2021-07-19-ner_xtreme_xlm_roberta_xtreme_base_xx.md
+docs/_posts/Damla-Gurbaz/2022-09-01-medication_resolver_pipeline_en.md
+docs/_posts/Damla-Gurbaz/2022-09-01-medication_resolver_transform_pipeline_en.md
+docs/_posts/Damla-Gurbaz/2022-09-01-medication_resolver_pipeline_en.md
+docs/_posts/Damla-Gurbaz/2022-09-01-medication_resolver_transform_pipeline_en.md
