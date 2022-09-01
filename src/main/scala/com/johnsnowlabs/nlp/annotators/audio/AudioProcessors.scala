@@ -26,11 +26,73 @@ private[nlp] object AudioProcessors {
   private final val MAGIC_WAV: Array[Byte] = "RIFF".getBytes
   private final val MAGIC_FLAC: Array[Byte] = "fLaC".getBytes
 
+  /** Processes the byte array as a WAV file.
+    *
+    * Reference: https://datafireball.com/2016/08/29/wav-deepdive-into-file-format/
+    * @param rawBytes
+    *   Raw bytes of the audio file.
+    * @return
+    *   AnnotationAudio
+    */
   def processAsWav(rawBytes: Array[Byte]): AnnotationAudio = {
     val rawStream: InputStream = new ByteArrayInputStream(rawBytes)
-    val wavStream = new WavStream(rawStream)
-    val data = wavStream.readAll()
-    ???
+    val wavFile = WavFile.readWavStream(rawStream)
+
+    val mNumFrames = wavFile.getNumFrames.toInt
+    var mSampleRate = wavFile.getSampleRate.toInt
+    val mChannels = wavFile.getNumChannels
+
+//    val totalNoOfFrames = mNumFrames
+//    val frameOffset = offsetDuration * mSampleRate
+//    var tobeReadFrames = readDurationInSeconds * mSampleRate
+
+//    if (tobeReadFrames > (totalNoOfFrames - frameOffset)) tobeReadFrames = totalNoOfFrames - frameOffset
+
+//    if (readDurationInSeconds != -1) {
+//      mNumFrames = tobeReadFrames
+//      wavFile.setNumFrames(mNumFrames)
+//    }
+
+//    this.setNoOfChannels(mChannels)
+//    this.setNoOfFrames(mNumFrames)
+//    this.setSampleRate(mSampleRate)
+//
+//
+//    if (sampleRate != -1) mSampleRate = sampleRate
+
+    // Read the magnitude values across both the channels and save them as part of
+    // multi-dimensional array
+
+    val buffer = Array.ofDim[Float](mChannels, mNumFrames)
+    var readFrameCount: Long = 0
+    val frameOffset = 0 // TODO: Might need support for this later
+    readFrameCount = wavFile.readFrames(buffer, mNumFrames, frameOffset)
+
+    if (wavFile != null) wavFile.close()
+
+    val resultBuffer: Array[Float] =
+      if (buffer.length == 1) buffer.head
+      else {
+        // TODO: multiple ways to handle multi channel. Currently only average.
+
+        buffer.foldLeft(Array.ofDim[Float](mNumFrames)) {
+          (currentArray: Array[Float], channelArray: Array[Float]) =>
+            channelArray
+              .map { value: Float => value / mChannels }
+              .zip(currentArray)
+              .map { case (a: Float, b: Float) =>
+                a + b
+              }
+        }
+      }
+
+    new AnnotationAudio(
+      annotatorType = AnnotatorType.AUDIO,
+      result = resultBuffer,
+      metadata = Map(
+        "frames" -> mNumFrames.toString,
+        "sampleRate" -> mSampleRate.toString,
+        "channels" -> mChannels.toString))
   }
 
   def processAsFlac(rawBytes: Array[Byte]): AnnotationAudio = ???
