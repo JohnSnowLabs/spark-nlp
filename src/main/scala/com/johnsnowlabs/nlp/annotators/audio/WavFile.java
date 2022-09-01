@@ -16,17 +16,13 @@
 
 package com.johnsnowlabs.nlp.annotators.audio;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
+import java.io.*;
 
 
 /**
  * This Class load and read the Wav file.
  * <p>
- * Source based on https://github.com/Semantive/waveform-android/blob/master/library/src/main/java/com/semantive/waveformandroid/waveform/soundfile/WavFile.java.
- *
+ * Source based on <a href="https://github.com/Subtitle-Synchronizer/jlibrosa/blob/master/src/main/java/com/jlibrosa/audio/wavFile/WavFile.java">jlibrosa</a>
  */
 public class WavFile {
     private enum IOState {READING, WRITING, CLOSED}
@@ -37,8 +33,6 @@ public class WavFile {
     private final static int DATA_CHUNK_ID = 0x61746164;
     private final static int RIFF_CHUNK_ID = 0x46464952;
     private final static int RIFF_TYPE_ID = 0x45564157;
-
-    private File file;                        // File that will be read from or written to
 
     public long getTotalNumFrames() {
         return totalNumFrames;
@@ -53,7 +47,7 @@ public class WavFile {
     private long numFrames;                    // Number of frames within the data section
     private long totalNumFrames;
     private FileOutputStream oStream;    // Output stream used for writting data
-    private FileInputStream iStream;        // Input stream used for reading data
+    private InputStream iStream;        // Input stream used for reading data
     private float floatScale;                // Scaling factor used for int <-> float conversion
     private float floatOffset;            // Offset factor used for int <-> float conversion
     private boolean wordAlignAdjust;        // Specify if an extra byte at the end of the data chunk is required for word alignment
@@ -66,7 +60,7 @@ public class WavFile {
     private int validBits;                    // 2 bytes unsigned, 0x0002 (2) to 0xFFFF (65,535)
 
     // Buffering
-    private byte[] buffer;                    // Local buffer used for IO
+    private final byte[] buffer;                    // Local buffer used for IO
     private int bufferPointer;                // Points to the current position in local buffer
     private int bytesRead;                    // Bytes read after last read into local buffer
     private long frameCounter;                // Current number of frames read or written
@@ -112,18 +106,17 @@ public class WavFile {
     /**
      * To open and read the Wav File.
      *
-     * @param file
      * @return
      * @throws IOException
      * @throws WavFileException
      */
-    public static WavFile openWavFile(File file) throws IOException, WavFileException {
-        // Instantiate new Wavfile and store the file reference
+    public static WavFile readWavStream(InputStream rawData) throws IOException, WavFileException {
+
+        // Instantiate new Wavfile
         WavFile wavFile = new WavFile();
-        wavFile.file = file;
 
         // Create a new file input stream for reading file data
-        wavFile.iStream = new FileInputStream(file);
+        wavFile.iStream = rawData;
 
         // Read the first 12 bytes of the file
         int bytesRead = wavFile.iStream.read(wavFile.buffer, 0, 12);
@@ -140,14 +133,15 @@ public class WavFile {
         if (riffTypeID != RIFF_TYPE_ID) throw new WavFileException("Invalid Wav Header data, incorrect riff type ID");
 
         // Check that the file size matches the number of bytes listed in header
-        if (file.length() != chunkSize + 8) {
-            throw new WavFileException("Header chunk size (" + chunkSize + ") does not match file size (" + file.length() + ")");
-        }
+        // TODO: Check this
+//        if (file.length() != chunkSize + 8) {
+//            throw new WavFileException("Header chunk size (" + chunkSize + ") does not match file size (" + file.length() + ")");
+//        }
 
         wavFile.fileSize = chunkSize;
 
         boolean foundFormat = false;
-        boolean foundData = false;
+        boolean foundData;
 
         // Search for the Format and Data Chunks
         while (true) {
@@ -205,7 +199,7 @@ public class WavFile {
                 // Check if we've found the format chunk,
                 // If not, throw an exception as we need the format information
                 // before we can read the data chunk
-                if (foundFormat == false) throw new WavFileException("Data chunk found before Format chunk");
+                if (!foundFormat) throw new WavFileException("Data chunk found before Format chunk");
 
                 // Check that the chunkSize (wav data length) is a multiple of the
                 // block align (bytes per frame)
@@ -225,7 +219,7 @@ public class WavFile {
         }
 
         // Throw an exception if no data chunk has been found
-        if (foundData == false) throw new WavFileException("Did not find a data chunk");
+        if (!foundData) throw new WavFileException("Did not find a data chunk");
 
         // Calculate the scaling factor for converting to a normalised double
         if (wavFile.validBits > 8) {
@@ -270,7 +264,6 @@ public class WavFile {
     /**
      * To Read the wav file samples per byte
      *
-     * @return
      * @throws IOException
      * @throws WavFileException
      */
@@ -287,7 +280,7 @@ public class WavFile {
 
             int v = buffer[bufferPointer];
             if (b < bytesPerSample - 1 || bytesPerSample == 1) v &= 0xFF;
-            val += v << (b * 8);
+            val += (long) v << (b * 8);
 
             bufferPointer++;
         }
