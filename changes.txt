@@ -1,2 +1,2 @@
-docs/_plugins/search_index.rb
-docs/_plugins/search_index.rb
+docs/_posts/josejuanmartinez/2022-08-18-finmapper_edgar_companyname_en_3_2.md
+docs/_posts/josejuanmartinez/2022-08-18-finmapper_edgar_companyname_en_3_2.md
