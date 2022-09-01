@@ -730,6 +730,8 @@ pipeline = Pipeline(stages=[
   tokenizer,
   lemmatizer
  ])
+
+p_model = pipeline.fit( spark.createDataFrame([[""]]).toDF("text") )
 </code></pre></div>  </div>
 
   <p>IMPORTANT: Last output column of the last component in the pipeline should be called prediction.</p>

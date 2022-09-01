@@ -1,2 +1,4 @@
-docs/_posts/josejuanmartinez/2022-08-18-legmapper_edgar_companyname_en_3_2.md
-docs/_posts/josejuanmartinez/2022-08-18-legmapper_edgar_companyname_en_3_2.md
+docs/_data/navigation.yml
+docs/en/serving_spark_nlp_via_api_databricks_mlflow.md
+docs/_data/navigation.yml
+docs/en/serving_spark_nlp_via_api_databricks_mlflow.md
