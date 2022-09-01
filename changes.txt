@@ -1,4 +1,4 @@
-docs/_posts/Damla-Gurbaz/2022-09-01-medication_resolver_pipeline_en.md
-docs/_posts/Damla-Gurbaz/2022-09-01-medication_resolver_transform_pipeline_en.md
-docs/_posts/Damla-Gurbaz/2022-09-01-medication_resolver_pipeline_en.md
-docs/_posts/Damla-Gurbaz/2022-09-01-medication_resolver_transform_pipeline_en.md
+docs/en/licensed_release_notes.md
+docs/en/licensed_version_compatibility.md
+docs/en/licensed_release_notes.md
+docs/en/licensed_version_compatibility.md
