@@ -518,28 +518,28 @@
 
 
 <span class="k">val</span> <span class="nv">tokenizer</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">Tokenizer</span><span class="o">()</span>
-    <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="s">"document"</span><span class="o">))</span>
+    <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="s">"document"</span><span class="o">)</span>
     <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"tokens"</span><span class="o">)</span>
 
 
 <span class="k">val</span> <span class="nv">sentencer</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">SentenceDetector</span><span class="o">()</span>
-    <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="s">"document"</span><span class="o">))</span>
+    <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="s">"document"</span><span class="o">)</span>
     <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"sentences"</span><span class="o">)</span>
 
 
-<span class="k">val</span> <span class="nv">words_embedder</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">WordEmbeddingsModel</span><span class="o">()</span>
+<span class="k">val</span> <span class="nv">words_embedder</span> <span class="k">=</span> <span class="nc">WordEmbeddingsModel</span><span class="o">()</span>
     <span class="o">.</span><span class="py">pretrained</span><span class="o">(</span><span class="s">"embeddings_clinical"</span><span class="o">,</span> <span class="s">"en"</span><span class="o">,</span> <span class="s">"clinical/models"</span><span class="o">)</span>
     <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="s">"sentences"</span><span class="o">,</span> <span class="s">"tokens"</span><span class="o">))</span>
     <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"embeddings"</span><span class="o">)</span>
 
 
-<span class="k">val</span> <span class="nv">pos_tagger</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">PerceptronModel</span><span class="o">()</span>
+<span class="k">val</span> <span class="nv">pos_tagger</span> <span class="k">=</span> <span class="nc">PerceptronModel</span><span class="o">()</span>
     <span class="o">.</span><span class="py">pretrained</span><span class="o">(</span><span class="s">"pos_clinical"</span><span class="o">,</span> <span class="s">"en"</span><span class="o">,</span> <span class="s">"clinical/models"</span><span class="o">)</span>
     <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="s">"sentences"</span><span class="o">,</span> <span class="s">"tokens"</span><span class="o">))</span>
     <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"pos_tags"</span><span class="o">)</span>
 
 
-<span class="k">val</span> <span class="nv">ner_tagger</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">MedicalNerModel</span><span class="o">()</span>
+<span class="k">val</span> <span class="nv">ner_tagger</span> <span class="k">=</span> <span class="nc">MedicalNerModel</span><span class="o">()</span>
     <span class="o">.</span><span class="py">pretrained</span><span class="o">(</span><span class="s">"ner_clinical"</span><span class="o">,</span> <span class="s">"en"</span><span class="o">,</span> <span class="s">"clinical/models"</span><span class="o">)</span>
     <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="s">"sentences"</span><span class="o">,</span> <span class="s">"tokens"</span><span class="o">,</span> <span class="s">"embeddings"</span><span class="o">))</span>
     <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"ner_tags"</span><span class="o">)</span>
@@ -550,7 +550,7 @@
     <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"ner_chunks"</span><span class="o">)</span>
 
 
-<span class="k">val</span> <span class="nv">dependency_parser</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">DependencyParserModel</span><span class="o">()</span>
+<span class="k">val</span> <span class="nv">dependency_parser</span> <span class="k">=</span> <span class="nc">DependencyParserModel</span><span class="o">()</span>
     <span class="o">.</span><span class="py">pretrained</span><span class="o">(</span><span class="s">"dependency_conllu"</span><span class="o">,</span> <span class="s">"en"</span><span class="o">)</span>
     <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="s">"document"</span><span class="o">,</span> <span class="s">"pos_tags"</span><span class="o">,</span> <span class="s">"tokens"</span><span class="o">))</span>
     <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"dependencies"</span><span class="o">)</span>
