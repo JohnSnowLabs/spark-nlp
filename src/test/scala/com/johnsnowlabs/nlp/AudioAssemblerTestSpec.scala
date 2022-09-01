@@ -29,7 +29,23 @@ class AudioAssemblerTestSpec extends AnyFlatSpec {
 
   def almostEqual(a: Float, b: Float, precision: Float): Boolean = Math.abs(a - b) <= precision
 
-  final val ABSOLUTE_PRECISION: Float = 1e-08.toFloat  // TODO
+  final val ABSOLUTE_PRECISION: Float = 1e-08.toFloat // TODO
+
+  "AudioAssembler" should "return audio annotation" taggedAs FastTest in {
+
+    val audioAssembler = new AudioAssembler()
+      .setInputCol("audio")
+      .setOutputCol("audio_assembler")
+
+    val resWav = audioAssembler.transform(wavDf)
+    resWav.printSchema()
+    resWav.show()
+
+    val resFlac = audioAssembler.transform(flacDf)
+    resFlac.printSchema()
+    resFlac.show()
+
+  }
 
   "AudioAssembler" should "annotate audio data correctly" taggedAs FastTest in {
 
