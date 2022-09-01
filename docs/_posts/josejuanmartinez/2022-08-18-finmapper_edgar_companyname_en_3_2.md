@@ -116,7 +116,7 @@ cm_pipeline = Pipeline(stages=[documentAssembler, chunkAssembler, CM])
 fit_cm_pipeline = cm_pipeline.fit(test_data)
 
 df = spark.createDataFrame([[first_result]]).toDF("text")
-r = fit_cm_pipeline.transform(df)
+r = fit_cm_pipeline.transform(df).collect()
 
 json_dict = dict()
 json_dict['mappings'] = []
