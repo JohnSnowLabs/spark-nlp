@@ -21,7 +21,7 @@ A pretrained resolver pipeline to extract medications and resolve ADE, RxNorm, U
 
 Action/treatments are available for branded medication, and SNOMED codes are available for non-branded medication.
 
-This pipeline can be used with Spark transform. You can use `medication_resolver_pipeline` as Lightpipeline (with `annotate/fulfullAnnotate`).
+This pipeline can be used with Spark transform. You can use `medication_resolver_pipeline` as Lightpipeline (with `annotate/fullAnnotate`).
 
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>
@@ -34,6 +34,7 @@ This pipeline can be used with Spark transform. You can use `medication_resolver
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
+
 ```python
 from sparknlp.pretrained import PretrainedPipeline
 
