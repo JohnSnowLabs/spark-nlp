@@ -17,7 +17,7 @@ use_language_switcher: "Python-Scala-Java"
 
 ## Description
 
-A pretrained resolver pipeline to extract medications and resolve ADE, RxNorm, UMLS, NDC, SNOMED CT codes, and action/treatments in clinical text.
+A pretrained resolver pipeline to extract medications and resolve their adverse reactions (ADE), RxNorm, UMLS, NDC, SNOMED CT codes, and action/treatments in clinical text.
 
 Action/treatments are available for branded medication, and SNOMED codes are available for non-branded medication.
 
