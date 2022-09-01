@@ -516,7 +516,7 @@
 <span class="n">fit_cm_pipeline</span> <span class="o">=</span> <span class="n">cm_pipeline</span><span class="p">.</span><span class="n">fit</span><span class="p">(</span><span class="n">test_data</span><span class="p">)</span>
 
 <span class="n">df</span> <span class="o">=</span> <span class="n">spark</span><span class="p">.</span><span class="n">createDataFrame</span><span class="p">([[</span><span class="n">first_result</span><span class="p">]]).</span><span class="n">toDF</span><span class="p">(</span><span class="s">"text"</span><span class="p">)</span>
-<span class="n">r</span> <span class="o">=</span> <span class="n">fit_cm_pipeline</span><span class="p">.</span><span class="n">transform</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
+<span class="n">r</span> <span class="o">=</span> <span class="n">fit_cm_pipeline</span><span class="p">.</span><span class="n">transform</span><span class="p">(</span><span class="n">df</span><span class="p">).</span><span class="n">collect</span><span class="p">()</span>
 
 <span class="n">json_dict</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
 <span class="n">json_dict</span><span class="p">[</span><span class="s">'mappings'</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
