@@ -24,18 +24,13 @@ import scala.collection.Map
 /** Represents [[AudioAssembler]]'s output parts and their details. */
 case class AnnotationAudio(
     annotatorType: String,
-    path: String,
-    modificationTime: java.sql.Timestamp,
-    length: Long,
-    result: Array[Byte],
-    metadata: Map[String, String]) {
+    result: Array[Float],
+    metadata: Map[String, String])
+    extends IAnnotation {
   override def equals(obj: Any): Boolean = {
     obj match {
       case annotation: AnnotationAudio =>
         this.annotatorType == annotation.annotatorType &&
-        this.path == annotation.path &&
-        this.modificationTime == annotation.modificationTime &&
-        this.length == annotation.length &&
         this.result.sameElements(annotation.result) &&
         this.metadata == annotation.metadata
       case _ => false
@@ -51,37 +46,21 @@ object AnnotationAudio {
   val dataType = new StructType(
     Array(
       StructField("annotatorType", StringType, nullable = true),
-      StructField("path", StringType, nullable = false),
-      StructField("modificationTime", TimestampType, nullable = false),
-      StructField("length", LongType, nullable = false),
-      StructField("result", BinaryType, nullable = true),
+      StructField("result", ArrayType(FloatType, containsNull = false), nullable = true),
       StructField("metadata", MapType(StringType, StringType), nullable = true)))
 
   val arrayType = new ArrayType(dataType, true)
 
-  case class AudioFields(
-      path: String,
-      modificationTime: java.sql.Timestamp,
-      length: Long,
-      result: Array[Byte])
+  case class AudioFields(result: Array[Float])
 
   def apply(row: Row): AnnotationAudio = {
-    AnnotationAudio(
-      row.getString(0),
-      row.getAs[Row]("struct").getString(1),
-      row.getAs[Row]("struct").getTimestamp(2),
-      row.getAs[Row]("struct").getLong(3),
-      row.getAs[Row]("struct").getSeq[Byte](4).toArray,
-      row.getMap[String, String](5))
+    AnnotationAudio(row.getString(0), row.getSeq[Float](1).toArray, row.getMap[String, String](2))
   }
 
   def apply(audio: AudioFields): AnnotationAudio =
     AnnotationAudio(
       AnnotatorType.AUDIO,
-      path = audio.path,
-      modificationTime = audio.modificationTime,
-      length = audio.length,
-      result = Array.emptyByteArray,
+      result = Array.emptyFloatArray,
       Map.empty[String, String])
 
 }
