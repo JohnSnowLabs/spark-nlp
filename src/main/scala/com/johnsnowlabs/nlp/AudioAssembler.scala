@@ -17,6 +17,7 @@
 package com.johnsnowlabs.nlp
 
 import com.johnsnowlabs.nlp.AnnotatorType._
+import com.johnsnowlabs.nlp.annotators.audio.AudioProcessors
 import org.apache.spark.ml.Transformer
 import org.apache.spark.ml.param.{Param, ParamMap}
 import org.apache.spark.ml.util.{DefaultParamsReadable, DefaultParamsWritable, Identifiable}
@@ -84,22 +85,14 @@ class AudioAssembler(override val uid: String)
   override def copy(extra: ParamMap): Transformer = defaultCopy(extra)
 
   private[nlp] def assemble(
-      audio: AudioFields,
+      audio: Array[Byte],
       metadata: Map[String, String]): Seq[AnnotationAudio] = {
 
-//    Seq(
-//      AnnotationAudio(
-//        annotatorType = outputAnnotatorType,
-//        path = audio.path,
-//        modificationTime = audio.modificationTime,
-//        length = audio.length,
-//        result = audio.data,
-//        metadata = metadata))
-    Seq.empty[AnnotationAudio]
+    Seq(AudioProcessors.byteToAnnotationAudio(audio, metadata))
 
   }
 
-  private[nlp] def dfAssemble: UserDefinedFunction = udf { (audio: AudioFields) =>
+  private[nlp] def dfAssemble: UserDefinedFunction = udf { (audio: Array[Byte]) =>
     assemble(audio, Map("audio" -> "0"))
   }
 
@@ -107,14 +100,13 @@ class AudioAssembler(override val uid: String)
   override final def transformSchema(schema: StructType): StructType = {
     val metadataBuilder: MetadataBuilder = new MetadataBuilder()
     metadataBuilder.putString("annotatorType", outputAnnotatorType)
-//    val outputFields = schema.fields :+
-//      StructField(
-//        getOutputCol,
-//        ArrayType(AnnotationAudio.dataType),
-//        nullable = false,
-//        metadataBuilder.build)
-//    StructType(outputFields)
-    StructType(schema)
+    val outputFields = schema.fields :+
+      StructField(
+        getOutputCol,
+        ArrayType(AnnotationAudio.dataType),
+        nullable = false,
+        metadataBuilder.build)
+    StructType(outputFields)
   }
 
   override def transform(dataset: Dataset[_]): DataFrame = {
@@ -139,16 +131,7 @@ class AudioAssembler(override val uid: String)
 
 }
 
-private[nlp] case class AudioFields(
-    path: AudioPath,
-    modificationTime: ModificationTime,
-    length: Length,
-    data: Data)
-
-private[nlp] case class AudioPath(value: String)
-private[nlp] case class ModificationTime(value: java.sql.Timestamp)
-private[nlp] case class Length(value: Long)
-private[nlp] case class Data(value: Array[Byte])
+private[nlp] case class AudioFields(data: Array[Float])
 
 /** This is the companion object of [[AudioAssembler]]. Please refer to that class for the
   * documentation.

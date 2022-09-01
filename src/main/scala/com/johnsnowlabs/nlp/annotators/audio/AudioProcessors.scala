@@ -97,7 +97,9 @@ private[nlp] object AudioProcessors {
 
   def processAsFlac(rawBytes: Array[Byte]): AnnotationAudio = ???
 
-  def createAnnotationAudio(rawAudio: Array[Byte]): AnnotationAudio = {
+  def byteToAnnotationAudio(
+      rawAudio: Array[Byte],
+      metadata: Map[String, String]): AnnotationAudio = {
     val magicBytes: Array[Byte] = rawAudio.slice(0, 4)
 
     if (magicBytes sameElements MAGIC_WAV)
@@ -109,7 +111,8 @@ private[nlp] object AudioProcessors {
         AnnotatorType.AUDIO,
         result = Array.emptyFloatArray,
         // TODO: Notify of error
-        metadata = Map.empty[String, String])
+        // TODO: Maybe add some extra info about size/length type etc. in the metadata
+        metadata = Map.empty[String, String] ++ metadata)
 
   }
 }
