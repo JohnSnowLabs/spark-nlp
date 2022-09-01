@@ -515,13 +515,14 @@
 <span class="n">cm_pipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">(</span><span class="n">stages</span><span class="o">=</span><span class="p">[</span><span class="n">documentAssembler</span><span class="p">,</span> <span class="n">chunkAssembler</span><span class="p">,</span> <span class="n">CM</span><span class="p">])</span>
 <span class="n">fit_cm_pipeline</span> <span class="o">=</span> <span class="n">cm_pipeline</span><span class="p">.</span><span class="n">fit</span><span class="p">(</span><span class="n">test_data</span><span class="p">)</span>
 
+<span class="n">df</span> <span class="o">=</span> <span class="n">spark</span><span class="p">.</span><span class="n">createDataFrame</span><span class="p">([[</span><span class="n">first_result</span><span class="p">]]).</span><span class="n">toDF</span><span class="p">(</span><span class="s">"text"</span><span class="p">)</span>
+<span class="n">r</span> <span class="o">=</span> <span class="n">fit_cm_pipeline</span><span class="p">.</span><span class="n">transform</span><span class="p">(</span><span class="n">df</span><span class="p">).</span><span class="n">collect</span><span class="p">()</span>
+
 <span class="n">json_dict</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
 <span class="n">json_dict</span><span class="p">[</span><span class="s">'mappings'</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
 <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="n">r</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s">'mappings'</span><span class="p">]:</span>
     <span class="n">json_dict</span><span class="p">[</span><span class="s">'mappings'</span><span class="p">].</span><span class="n">append</span><span class="p">([</span><span class="nb">str</span><span class="p">(</span><span class="n">n</span><span class="p">.</span><span class="n">annotatorType</span><span class="p">),</span> <span class="n">n</span><span class="p">.</span><span class="n">begin</span><span class="p">,</span> <span class="n">n</span><span class="p">.</span><span class="n">end</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">n</span><span class="p">.</span><span class="n">result</span><span class="p">),</span> <span class="p">{</span><span class="n">k</span><span class="p">:</span><span class="n">v</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span><span class="n">v</span> <span class="ow">in</span> <span class="n">n</span><span class="p">.</span><span class="n">metadata</span><span class="p">.</span><span class="n">items</span><span class="p">()}])</span>
 <span class="k">print</span><span class="p">(</span><span class="n">json</span><span class="p">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">json_dict</span><span class="p">))</span>
-
-
 
 </code></pre></div>  </div>
 
