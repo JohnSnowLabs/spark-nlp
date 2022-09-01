@@ -115,13 +115,14 @@ CM = ChunkMapperModel()\
 cm_pipeline = Pipeline(stages=[documentAssembler, chunkAssembler, CM])
 fit_cm_pipeline = cm_pipeline.fit(test_data)
 
+df = spark.createDataFrame([[first_result]]).toDF("text")
+r = fit_cm_pipeline.transform(df).collect()
+
 json_dict = dict()
 json_dict['mappings'] = []
 for n in r[0]['mappings']:
     json_dict['mappings'].append([str(n.annotatorType), n.begin, n.end, str(n.result), {k:v for k,v in n.metadata.items()}])
 print(json.dumps(json_dict))
-
-
 
 ```
 
