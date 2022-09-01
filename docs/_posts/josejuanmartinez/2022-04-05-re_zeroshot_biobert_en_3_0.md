@@ -123,28 +123,28 @@ val documenter = new DocumentAssembler()
 
 
 val tokenizer = new Tokenizer()
-    .setInputCols(Array("document"))
+    .setInputCols("document")
     .setOutputCol("tokens")
 
 
 val sentencer = new SentenceDetector()
-    .setInputCols(Array("document"))
+    .setInputCols("document")
     .setOutputCol("sentences")
 
 
-val words_embedder = new WordEmbeddingsModel()
+val words_embedder = WordEmbeddingsModel()
     .pretrained("embeddings_clinical", "en", "clinical/models")
     .setInputCols(Array("sentences", "tokens"))
     .setOutputCol("embeddings")
 
 
-val pos_tagger = new PerceptronModel()
+val pos_tagger = PerceptronModel()
     .pretrained("pos_clinical", "en", "clinical/models")
     .setInputCols(Array("sentences", "tokens"))
     .setOutputCol("pos_tags")
 
 
-val ner_tagger = new MedicalNerModel()
+val ner_tagger = MedicalNerModel()
     .pretrained("ner_clinical", "en", "clinical/models")
     .setInputCols(Array("sentences", "tokens", "embeddings"))
     .setOutputCol("ner_tags")
@@ -155,7 +155,7 @@ val ner_converter = new NerConverter()
     .setOutputCol("ner_chunks")
 
 
-val dependency_parser = new DependencyParserModel()
+val dependency_parser = DependencyParserModel()
     .pretrained("dependency_conllu", "en")
     .setInputCols(Array("document", "pos_tags", "tokens"))
     .setOutputCol("dependencies")
