@@ -118,4 +118,32 @@ data:
           - text: Colab
             type: blue_btn
             url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/1.Clinical_Named_Entity_Recognition_Model.ipynb
+        - title: Extract Roles, Job Positions and Titles
+          id: extract_roles_job_positions_titles         
+          image: 
+              src: /assets/images/Extract_Roles_Job_Positions_and_Titles.svg
+          image2: 
+              src: /assets/images/Extract_Roles_Job_Positions_and_Titles_f.svg
+          excerpt: This demo shows how to extract Roles, Job Positions in Resumes and People’s Titles from documents.
+          actions:
+          - text: Live Demo
+            type: normal
+            url: https://demo.johnsnowlabs.com/finance/FINNER_ROLES/
+          - text: Colab
+            type: blue_btn
+            url: 
+        - title: Extract People, Roles, Dates and Organisations
+          id: extract_people_roles_dates_organisations          
+          image: 
+              src: /assets/images/Extract_People_Roles_Dates_and_Organisations.svg
+          image2: 
+              src: /assets/images/Extract_People_Roles_Dates_and_Organisations_f.svg
+          excerpt: This model extracts People and their Roles, Organizations and Dates from financial documents.
+          actions:
+          - text: Live Demo
+            type: normal
+            url: https://demo.johnsnowlabs.com/finance/FINPIPE_ORG_PER_DATE_ROLES/
+          - text: Colab
+            type: blue_btn
+            url: 
 ---

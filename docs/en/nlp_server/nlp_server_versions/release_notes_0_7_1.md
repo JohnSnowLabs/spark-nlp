@@ -2,13 +2,13 @@
 layout: docs
 header: true
 seotitle: NLP Server | John Snow Labs
-title: Release Notes
-permalink: /docs/en/nlp_server/release_notes
-key: docs-nlp-server
-modify_date: "2022-06-17"
+title: NLP Server release notes 0.7.1
+permalink: /docs/en/nlp_server/nlp_server_versions/release_notes_0_7_1
+key: docs-release-notes
+modify_date: "2022-02-09"
 show_nav: true
 sidebar:
-  nav: nlp-server
+    nav: sparknlp
 ---
 
 ## NLP Server 0.7.1
@@ -46,6 +46,7 @@ This release focuses on solving a few bugs and improving the stability of the NL
 5. Upon cancelation of custom model uploading job exception was seen in the logs.
 6. Some few UI related issues and abnormalities during operation.
 
+
 <div class="prev_ver h3-box" markdown="1">
 
 ## Versions
@@ -62,10 +63,10 @@ This release focuses on solving a few bugs and improving the stability of the NL
 </ul>
 
 <ul class="pagination owl-carousel pagination_big">
-  <li class="active"><a href="nlp_server_versions/release_notes_0_7_1">0.7.1</a></li>
-  <li><a href="nlp_server_versions/release_notes_0_7_0">0.7.0</a></li>
-  <li><a href="nlp_server_versions/release_notes_0_6_1">0.6.1</a></li>
-  <li><a href="nlp_server_versions/release_notes_0_6_0">0.6.0</a></li>
-  <li><a href="nlp_server_versions/release_notes_0_5_0">0.5.0</a></li>
-  <li><a href="nlp_server_versions/release_notes_0_4_0">0.4.0</a></li>
+  <li class="active"><a href="release_notes_0_7_1">0.7.1</a></li>
+  <li><a href="release_notes_0_7_0">0.7.0</a></li>
+  <li><a href="release_notes_0_6_1">0.6.1</a></li>
+  <li><a href="release_notes_0_6_0">0.6.0</a></li>
+  <li><a href="release_notes_0_5_0">0.5.0</a></li>
+  <li><a href="release_notes_0_4_0">0.4.0</a></li>
 </ul>

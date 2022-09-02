@@ -47,21 +47,7 @@ data:
             url: https://demo.johnsnowlabs.com/legal/LEGALNER_SIGNERS/
           - text: Colab
             type: blue_btn
-            url:
-        - title: Extract headers and subheaders 
-          id: extract_headers_subheaders_from_legal_documents   
-          image: 
-              src: /assets/images/Extract_Headers_and_Subheaders_from_Legal_Documents.svg
-          image2: 
-              src: /assets/images/Extract_Headers_and_Subheaders_from_Legal_Documents_f.svg
-          excerpt: This model uses Name Entity Recognition to detect HEADERS and SUBHEADERS with aims to detect the different sections of a legal document.
-          actions:
-          - text: Live Demo
-            type: normal
-            url: https://demo.johnsnowlabs.com/legal/LEGALNER_HEADERS/
-          - text: Colab
-            type: blue_btn
-            url: 
+            url:        
         - title: Extract entities in Whereas clauses 
           id: extract_entities_whereas_clauses      
           image: 

@@ -76,4 +76,18 @@ data:
           - text: Colab
             type: blue_btn
             url: https://nlp.johnsnowlabs.com/ 
+        - title: Financial News Classification 
+          id: financial_news_classification        
+          image: 
+              src: /assets/images/Financial_News_Classification_new.svg
+          image2: 
+              src: /assets/images/Financial_News_Classification_new_f.svg
+          excerpt: This model classifies financial news using multilabel categories.
+          actions:
+          - text: Live Demo
+            type: normal
+            url: https://demo.johnsnowlabs.com/finance/CLASSIFICATION_MULTILABEL/
+          - text: Colab
+            type: blue_btn
+            url: 
 ---

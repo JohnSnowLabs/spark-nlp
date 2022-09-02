@@ -1,7 +1,7 @@
 ---
 layout: nlp_products
 header: true
-title: John Snow Labs NLP Documentation
+title: John Snow Labs - NLP Documentation
 seotitle: John Snow Labs - NLP Documentation
 permalink: /docs
 key: docs-nlp_products

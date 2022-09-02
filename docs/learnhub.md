@@ -3,6 +3,7 @@ layout: page
 page:
     aside: false      
 mode: immersivebg
+pagetitle: John Snow Labs NLP - The Learning Hub
 title: The NLP Learning Hub
 seotitle: John Snow Labs NLP - The Learning Hub
 permalink: /learn

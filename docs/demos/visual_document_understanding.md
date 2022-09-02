@@ -104,4 +104,18 @@ data:
           - text: Colab
             type: blue_btn
             url: https://colab.research.google.com/github/JohnSnowLabs/spark-ocr-workshop/blob/master/jupyter/FormRecognition/SparkOcrFormRecognition.ipynb
+        - title: Classify Financial Documents using SparkOCR 
+          id: classify_financial_documents_using_spark_ocr 
+          image: 
+              src: /assets/images/Classify_Financial_Documents_using_SparkOCR.svg
+          image2: 
+              src: /assets/images/Classify_Financial_Documents_using_SparkOCR_f.svg
+          excerpt: This demo shows how to classify finance documents using text and layout data with the new features offered by Spark OCR.
+          actions:
+          - text: Live Demo
+            type: normal
+            url: https://demo.johnsnowlabs.com/ocr/VISUAL_DOCUMENT_CLASSIFICATION_V3/
+          - text: Colab
+            type: blue_btn
+            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/ocr/VISUAL_DOCUMENT_CLASSIFICATION_V3.ipynb
 ---
