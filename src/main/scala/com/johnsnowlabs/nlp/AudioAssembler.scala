@@ -17,7 +17,7 @@
 package com.johnsnowlabs.nlp
 
 import com.johnsnowlabs.nlp.AnnotatorType._
-import com.johnsnowlabs.nlp.annotators.audio.AudioProcessors
+import com.johnsnowlabs.nlp.annotators.audio.util.transform.AudioProcessors
 import org.apache.spark.ml.Transformer
 import org.apache.spark.ml.param.{Param, ParamMap}
 import org.apache.spark.ml.util.{DefaultParamsReadable, DefaultParamsWritable, Identifiable}

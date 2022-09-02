@@ -14,8 +14,9 @@
  * limitations under the License.
  */
 
-package com.johnsnowlabs.nlp.annotators.audio
+package com.johnsnowlabs.nlp.annotators.audio.util.transform
 
+import com.johnsnowlabs.nlp.annotators.audio.util.io.WavFile
 import com.johnsnowlabs.nlp.{AnnotationAudio, AnnotatorType}
 
 import java.io.{ByteArrayInputStream, InputStream}

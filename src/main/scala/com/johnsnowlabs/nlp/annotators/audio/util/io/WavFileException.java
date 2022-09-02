@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.johnsnowlabs.nlp.annotators.audio;
+package com.johnsnowlabs.nlp.annotators.audio.util.io;
 
 /**
  * Custom Exception Class to handle errors occurring while loading/reading Wav file.

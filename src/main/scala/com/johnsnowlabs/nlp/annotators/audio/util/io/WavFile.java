@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.johnsnowlabs.nlp.annotators.audio;
+package com.johnsnowlabs.nlp.annotators.audio.util.io;
 
 import java.io.*;
 
