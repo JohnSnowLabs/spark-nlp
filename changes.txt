@@ -1,4 +1,6 @@
-docs/en/licensed_release_notes.md
-docs/en/licensed_version_compatibility.md
-docs/en/licensed_release_notes.md
-docs/en/licensed_version_compatibility.md
+docs/_posts/josejuanmartinez/2022-08-31-finner_sec_conll_en.md
+docs/_posts/josejuanmartinez/2022-08-31-finpipe_deid_en.md
+docs/_posts/josejuanmartinez/2022-09-02-finner_roberta_zeroshot_en.md
+docs/_posts/josejuanmartinez/2022-08-31-finner_sec_conll_en.md
+docs/_posts/josejuanmartinez/2022-08-31-finpipe_deid_en.md
+docs/_posts/josejuanmartinez/2022-09-02-finner_roberta_zeroshot_en.md
