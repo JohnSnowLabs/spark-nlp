@@ -19,6 +19,7 @@ package com.johnsnowlabs.ml.tensorflow
 import com.johnsnowlabs.ml.tensorflow.sign.{ModelSignatureConstants, ModelSignatureManager}
 import com.johnsnowlabs.nlp._
 import com.johnsnowlabs.nlp.annotators.audio.feature_extractor.Preprocessor
+import com.johnsnowlabs.nlp.annotators.audio.util.transform.AudioProcessors
 
 import scala.collection.JavaConverters._
 
@@ -65,10 +66,10 @@ class TensorflowWav2Vec2ForCTC(
         .map(scores => calculateSoftmax(scores))
         .toArray
     batchScores
-//    Array(Array.emptyFloatArray)
   }
 
   /** Calculate softmax from returned logits
+    *
     * @param scores
     *   logits output from output layer
     * @return
@@ -79,6 +80,7 @@ class TensorflowWav2Vec2ForCTC(
   }
 
   /** Calculate sigmoid from returned logits
+    *
     * @param scores
     *   logits output from output layer
     * @return
@@ -116,10 +118,20 @@ class TensorflowWav2Vec2ForCTC(
   def encode(
       annotations: Array[AnnotationAudio],
       preprocessor: Preprocessor): Array[Array[Float]] = {
-    annotations.map(x => x.result)
+
+    val maxLengthInBatch = annotations.map(x => x.result.length).max
+
+    annotations.map { annot =>
+      val normalizedAudioBatch = AudioProcessors.normalizeRawAudio(annot.result)
+      val paddedAudioBatch = AudioProcessors.padRawAudio(
+        normalizedAudioBatch,
+        maxLengthInBatch,
+        preprocessor.padding_side,
+        preprocessor.padding_value)
+      paddedAudioBatch
+    }
 
   }
 
-  def encode(logits: Array[Array[Float]]) = ???
-
+  def decode(logits: Array[Array[Float]]) = ???
 }
