@@ -20,7 +20,7 @@ import org.apache.spark.ml.Model
 import org.apache.spark.ml.param.IntParam
 import org.apache.spark.sql.Row
 
-trait HasBatchedAnnotateImage[M <: Model[M]] {
+trait HasBatchedAnnotateAudio[M <: Model[M]] {
 
   this: RawAnnotator[M] =>
 
@@ -48,7 +48,6 @@ trait HasBatchedAnnotateImage[M <: Model[M]] {
 
   def batchProcess(rows: Iterator[_]): Iterator[Row] = {
     // TODO remove the @unchecked annotation and create a type to handle different subtypes
-    // TODO make sure getAs(6) is compatible as supposed to getSeq[Byte].toArray
     rows
       .grouped(getBatchSize)
       .flatMap { case batchedRows: Seq[Row @unchecked] =>
@@ -57,15 +56,10 @@ trait HasBatchedAnnotateImage[M <: Model[M]] {
             row
               .getAs[Seq[Row]](inputCol)
               .map(r =>
-                AnnotationImage(
+                AnnotationAudio(
                   r.getString(0),
-                  r.getString(1),
-                  r.getInt(2),
-                  r.getInt(3),
-                  r.getInt(4),
-                  r.getInt(5),
-                  r.getAs(6),
-                  r.getMap[String, String](7)))
+                  r.getSeq[Float](1).toArray,
+                  r.getMap[String, String](2)))
           })
         })
         val outputAnnotations = batchAnnotate(inputAnnotations)
@@ -86,6 +80,6 @@ trait HasBatchedAnnotateImage[M <: Model[M]] {
     *   any number of annotations processed for every batch of input annotations. Not necessary
     *   one to one relationship
     */
-  def batchAnnotate(batchedAnnotations: Seq[Array[AnnotationImage]]): Seq[Seq[Annotation]]
+  def batchAnnotate(batchedAnnotations: Seq[Array[AnnotationAudio]]): Seq[Seq[Annotation]]
 
 }
