@@ -121,6 +121,12 @@
           <li data-hide="hide" {% if _section.secheader %} {% for child in _section.secheader %} {% if child.activemenu == "financial_table_understanding" %} class="active"  {% endif %} {% endfor %} {% endif %} >
             <a href="/financial_table_understanding">Understand Tables</a>
           </li>
+          <li {% if _section.secheader %} {% for child in _section.secheader %} {% if child.activemenu == "financial_visual_document_classification" %} class="active"  {% endif %} {% endfor %} {% endif %} >
+            <a href="/financial_visual_document_classification">Financial Visual Document Classification</a>
+          </li>
+          <li {% if _section.secheader %} {% for child in _section.secheader %} {% if child.activemenu == "financial_document_splitting" %} class="active"  {% endif %} {% endfor %} {% endif %} >
+            <a href="/financial_document_splitting">Financial Document Splitting</a>
+          </li>
         </ul>
         <ul class="acc-top"><li class="acc-top-item">Legal NLP<i class="fas fa-chevron-down"></i></li></ul>
         <ul class="acc-body">          

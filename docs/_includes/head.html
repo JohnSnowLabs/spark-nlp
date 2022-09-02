@@ -10,10 +10,12 @@
     })(window,document,'script','dataLayer','GTM-59JLR64');</script>
 <!-- End Google Tag Manager -->
 
+{%- include snippets/get-article-pagetitle.html article=page -%}
+{%- assign _article_pagetitle = __return -%}
+
 {%- if page.layout == "landing" -%}
 <title>John Snow Labs - Spark NLP</title>
-{%- elsif page.layout == "demopagenew" -%}
-{%- include snippets/get-article-title.html article=page -%}
+{%- elsif _pagetitle -%}
 <title>{%- if __return -%}{{ __return }}{%- endif -%}</title>
 {%- else -%}
 {%- include snippets/get-article-title.html article=page -%}

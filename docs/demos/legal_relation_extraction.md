@@ -33,5 +33,33 @@ data:
             url: https://demo.johnsnowlabs.com/legal/LEGALRE_PARTIES/
           - text: Colab
             type: blue_btn
-            url:                 
+            url:   
+        - title: Legal Zero-shot Relation Extraction  
+          id: legal_zero_shot_relation_extraction   
+          image: 
+              src: /assets/images/Legal_Zero-shot_Relation_Extraction.svg
+          image2: 
+              src: /assets/images/Legal_Zero-shot_Relation_Extraction_f.svg
+          excerpt: This demo shows how you can carry out Relation Extraction without training any model, just with some textual examples.
+          actions:
+          - text: Live Demo
+            type: normal
+            url: https://demo.johnsnowlabs.com/legal/LEGRE_ZEROSHOT/
+          - text: Colab
+            type: blue_btn
+            url:  
+        - title: Extract Syntactic Relationships in Legal sentences 
+          id: extract_syntactic_relationships_legal_sentences    
+          image: 
+              src: /assets/images/Extract_Syntactic_Relationships_in_Legal_sentences.svg
+          image2: 
+              src: /assets/images/Extract_Syntactic_Relationships_in_Legal_sentences_f.svg
+          excerpt: This demo shows how legal sentence elements can be accessed using syntactic relationships (dependency parser).
+          actions:
+          - text: Live Demo
+            type: normal
+            url: https://demo.johnsnowlabs.com/legal/LEGPIPE_RE/
+          - text: Colab
+            type: blue_btn
+            url:             
 ---
