@@ -6969,8 +6969,7 @@ code {
   list-style-type: none;
   display: flex;
   justify-content: center;
-  margin: 0;
-  display: none; }
+  margin: 0; }
   .pagination.pagination_big {
     flex-wrap: wrap;
     margin: 0 !important;

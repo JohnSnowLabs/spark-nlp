@@ -590,247 +590,28 @@
   <li>Some few UI related issues and abnormalities during operation.</li>
 </ol>
 
-<h2 id="nlp-server-070">NLP Server 0.7.0</h2>
+<div class="prev_ver h3-box">
 
-<table>
-  <thead>
-    <tr>
-      <th>Fields</th>
-      <th>Details</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>Name</td>
-      <td>NLP Server</td>
-    </tr>
-    <tr>
-      <td>Version</td>
-      <td><code class="language-plaintext highlighter-rouge">0.7.0</code></td>
-    </tr>
-    <tr>
-      <td>Type</td>
-      <td>Minor</td>
-    </tr>
-    <tr>
-      <td>Release Date</td>
-      <td>2022-06-07</td>
-    </tr>
-  </tbody>
-</table>
+  <h2 id="versions">Versions</h2>
 
-<p><br /></p>
+</div>
 
-<h3 id="overview-1">Overview</h3>
-
-<p>We are excited to release NLP Server v0.7.0! This new release comes with an exciting new feature of table extraction from various file formats.</p>
-
-<p>Table extraction feature enables extracting tabular content from the document. This extracted content is available as JSON and hence can again be processed with different spells for further predictions. The various supported files formats are documents (pdf, doc, docx), slides (ppt, pptx), and zipped content containing the mentioned formats.</p>
-
-<p>The improvements are mentioned in their respective sections below.</p>
-
-<p><br /></p>
-
-<h3 id="key-information-1">Key Information</h3>
-
-<ol>
-  <li>For smooth and optimal performance, it is recommended to use an instance with 8 core CPU, and 32GB RAM specifications.</li>
-  <li>NLP Server is available on both <a href="https://aws.amazon.com/marketplace/pp/prodview-4ohxjejvg7vwm">AWS</a> and <a href="https://azuremarketplace.microsoft.com/en-us/marketplace/apps/johnsnowlabsinc1646051154808.nlp_server">Azure</a> marketplace.</li>
-</ol>
-
-<p><br /></p>
-
-<h3 id="major-features-and-improvements">Major Features and Improvements</h3>
-
-<h4 id="support-for-table-extraction">Support for Table extraction</h4>
-
-<p>NLP Server now supports extracting tabular content from various file types. The currently supported file types are documents (pdf, doc, docx), slides (ppt, pptx), and zipped content containing any of the mentioned formats. These extracted contents are available as JSON output from both UI and API that can easily be converted to suitable Data Frames (e.g., pandas DF) for further processing. The output of the table extraction process can also be viewed in the NLP Server UI as a flat table. Currently, if multiple tables are extracted from the document, then only one of the tables selected randomly will be shown as a preview in the UI. However, upon downloading all the extracted tables are exported in separate JSON dumps combined in a single zipped file. For this version, the table extraction on PDF files is successful only if the PDF contains necessary metadata about the table content.</p>
-
-<p><br /></p>
-
-<h3 id="other-improvements">Other Improvements</h3>
-
-<ol>
-  <li>Support for over 600 new models, and over 75 new languages including ancient, dead, and extinct languages.</li>
-  <li>Transformer-based embeddings and token classifiers are powered by state-of-the-art <a href="https://camembert-model.fr/">CamemBertEmbeddings</a> and <a href="https://arxiv.org/abs/2006.03654">DeBertaForTokenClassification</a> based architectures.</li>
-  <li>Added Portuguese De-identification models, NER models for Gene detection, and RxNorm Sentence resolution model for mapping and extracting pharmaceutical actions as well as treatments.</li>
-  <li>JSON payload is now supported in the request body when using create result API.</li>
-</ol>
-
-<h2 id="nlp-server-061">NLP Server 0.6.1</h2>
-
-<table>
-  <thead>
-    <tr>
-      <th>Fields</th>
-      <th>Details</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>Name</td>
-      <td>NLP Server</td>
-    </tr>
-    <tr>
-      <td>Version</td>
-      <td><code class="language-plaintext highlighter-rouge">0.6.1</code></td>
-    </tr>
-    <tr>
-      <td>Type</td>
-      <td>Patch</td>
-    </tr>
-    <tr>
-      <td>Release Date</td>
-      <td>2022-05-06</td>
-    </tr>
-  </tbody>
-</table>
-
-<p><br /></p>
-
-<h3 id="overview-2">Overview</h3>
-
-<p>We are excited to release NLP Server v0.6.1! We are continually committed towards improving the experience for our users and making our product reliable and easy to use.</p>
-
-<p>This release focuses on improving the stability of the NLP Server and cleaning up some annoying bugs. To enhance the user experience, the product now provides interactive and informative responses to the users.</p>
-
-<p>The improvements and bug fixes are mentioned in their respective sections below.</p>
-
-<p><br /></p>
-
-<h3 id="key-information-2">Key Information</h3>
-
-<ol>
-  <li>For smooth and optimal performance, it is recommended to use an instance with 8 core CPU, and 32GB RAM specifications.</li>
-  <li>NLP Server is available on both <a href="https://aws.amazon.com/marketplace/pp/prodview-4ohxjejvg7vwm">AWS</a> and <a href="https://azuremarketplace.microsoft.com/en-us/marketplace/apps/johnsnowlabsinc1646051154808.nlp_server">Azure</a> marketplace.</li>
-</ol>
-
-<p><br /></p>
-
-<h3 id="improvements">Improvements</h3>
-
-<ol>
-  <li>Support for new models for Lemmatizers, Parts of Speech Taggers, and Word2Vec Embeddings for over 66 languages, with 20 languages being covered for the first time by NLP Server, including ancient and exotic languages like Ancient Greek, Old Russian, Old French and much more.</li>
-</ol>
-
-<p><br /></p>
-
-<h3 id="bug-fixes-1">Bug Fixes</h3>
-
-<ol>
-  <li>The prediction job runs in an infinite loop when using certain spells. Now after 3 retries it aborts the process and informs users appropriately.</li>
-  <li>Issue when running lang spell for language classification.</li>
-  <li>The prediction job runs in an infinite loop when incorrect data format is selected for a given input data.</li>
-  <li>The API request for processing spell didn’t work when format parameter was not provided. Now it uses a default value in such case.</li>
-  <li>Users were unable to login to their MYJSL account from NLP Server.</li>
-  <li>Proper response when there is issue in internet connectivity when running spell.</li>
-</ol>
-
-<h2 id="nlp-server-060">NLP Server 0.6.0</h2>
-
-<table>
-  <thead>
-    <tr>
-      <th>Fields</th>
-      <th>Details</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>Name</td>
-      <td>NLP Server</td>
-    </tr>
-    <tr>
-      <td>Version</td>
-      <td><code class="language-plaintext highlighter-rouge">0.6.0</code></td>
-    </tr>
-    <tr>
-      <td>Type</td>
-      <td>Minor</td>
-    </tr>
-    <tr>
-      <td>Release Date</td>
-      <td>2022-04-06</td>
-    </tr>
-  </tbody>
-</table>
-
-<p><br /></p>
-
-<h3 id="overview-3">Overview</h3>
-
-<p>We are excited to release NLP Server v0.6.0! This new release comes with exciting new features and improvements that extend and enhance the capabilities of the NLP Server.</p>
-
-<p>This release comes with the ability to share the models with the Annotation Lab. This will enable easy access to custom models uploaded to or trained with the Annotation Lab or to pre-trained models downloaded to Annotation Lab from the NLP Models Hub.
-As such the NLP Server becomes an easy and quick tool for testing our trained models locally on your own infrastructure with zero data sharing.</p>
-
-<p>Another important feature we have introduced is the support for Spark OCR spells. Now we can upload images, PDFs, or other documents to the NLP Server and run OCR spells on top of it. The results of the processed documents are also available for export.</p>
-
-<p>The release also includes a few improvements to the existing features and some bug fixes.</p>
-
-<p><br /></p>
-
-<h3 id="key-information-3">Key Information</h3>
-
-<ol>
-  <li>For a smooth and optimal performance, it is recommended to use an instance with 8 core CPU, and 32GB RAM specifications</li>
-  <li>NLP Server is now available on <a href="https://azuremarketplace.microsoft.com/en-us/marketplace/apps/johnsnowlabsinc1646051154808.nlp_server">Azure Marketplace</a> as well as on <a href="https://aws.amazon.com/marketplace/pp/prodview-4ohxjejvg7vwm">AWS marketplace</a>.</li>
-</ol>
-
-<p><br /></p>
-
-<h3 id="major-features-and-improvements-1">Major Features and Improvements</h3>
-
-<h4 id="support-for-custom-models-trained-with-the-annotation-lab">Support for custom models trained with the Annotation Lab</h4>
-
-<p>Models trained with the Annotation Lab are now available as “custom” spells in the NLP Server. Similarly, models manually uploaded to the Annotation Lab, or downloaded from the NLP Models Hub are also made available for use in the NLP Server. This is only supported in a docker setup at present when both tools are deployed in the same machine.</p>
-
-<h4 id="support-for-spark-ocr-spells">Support for Spark OCR spells</h4>
-
-<p>OCR spells are now supported by NLP Server in the presence of a valid OCR license. Users can upload an image, PDF, or other supported document format and run the OCR spells on it. The processed results are also available for download as a text document. It is also possible to upload multiple files at once for OCR operation. These files can be images, PDFs, word documents, or a zipped file.</p>
-
-<p><br /></p>
-
-<h3 id="other-improvements-1">Other Improvements</h3>
-
-<ol>
-  <li>Now users can chain multiple spells together to analyze the input data. The order of operation on the input data will be in the sequence of the spell chain from left to right.</li>
-  <li>NLP Server now supports more than 5000+ models in 250+ languages powered by NLU.</li>
-</ol>
-
-<p><br /></p>
-
-<h3 id="bug-fixes-2">Bug Fixes</h3>
-
-<ol>
-  <li>Not found error seen when running predictions using certain spells.</li>
-  <li>The prediction job runs in an infinite loop when using certain spells.</li>
-  <li>For input data having new line characters JSON exception was seen when processing the output from NLU.</li>
-  <li>Incorrect license information was seen in the license popup.</li>
-  <li>Spell field cleared abruptly when typing the spells.</li>
-</ol>
-
-<h2 id="nlp-server-050">NLP Server 0.5.0</h2>
-
-<h3 id="highlights">Highlights</h3>
-
-<ul>
-  <li>Support for easy license import from my.johnsnowlabs.com.</li>
-  <li>Visualize annotation results with Spark NLP Display.</li>
-  <li>Examples of results obtained using popular spells on sample texts have been added to the UI.</li>
-  <li>Performance improvement when previewing the annotations.</li>
-  <li>Support for 22 new models for 23 languages including various African and Indian languages as well as Medical Spanish models powered by NLU 3.4.1</li>
-  <li>Various bug fixes</li>
+<ul class="pagination">
+    <li>
+        <a href="release_notes_0_7_0">Version 0.7.0</a>
+    </li>
+    <li>
+        <strong>Version 0.7.1</strong>
+    </li>
 </ul>
 
-<h2 id="nlp-server-040">NLP Server 0.4.0</h2>
-
-<h3 id="highlights-1">Highlights</h3>
-
-<ul>
-  <li>This version of NLP Server offers support for licensed models and annotators. Users can now upload a Spark NLP for Healthcare license file and get access to a wide range of additional <a href="https://nlp.johnsnowlabs.com/docs/en/licensed_annotators">annotators and transformers</a>. A valid license key also gives access to more than <a href="https://nlp.johnsnowlabs.com/models?edition=Spark+NLP+for+Healthcare">400 state-of-the-art healthcare models</a>. Those can be used via easy to learn NLU spells or via API calls.</li>
-  <li>NLP Server now supports better handling of large amounts of data to quickly analyze via UI by offering support for uploading CSV files.</li>
-  <li>Support for floating licenses. Users can now take advantage of the floating license flexibility and use those inside of the NLP Server.</li>
+<ul class="pagination owl-carousel pagination_big">
+  <li class="active"><a href="nlp_server_versions/release_notes_0_7_1">0.7.1</a></li>
+  <li><a href="nlp_server_versions/release_notes_0_7_0">0.7.0</a></li>
+  <li><a href="nlp_server_versions/release_notes_0_6_1">0.6.1</a></li>
+  <li><a href="nlp_server_versions/release_notes_0_6_0">0.6.0</a></li>
+  <li><a href="nlp_server_versions/release_notes_0_5_0">0.5.0</a></li>
+  <li><a href="nlp_server_versions/release_notes_0_4_0">0.4.0</a></li>
 </ul>
 </div><div class="d-print-none"><footer class="article__footer"><span class="footer_date">Last updated
       <time itemprop="dateModified" datetime="2022-06-17T00:00:00+00:00">Jun 17, 2022</time>
