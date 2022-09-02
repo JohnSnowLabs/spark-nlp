@@ -16,13 +16,15 @@
 
 package com.johnsnowlabs.nlp.annotators.audio.util.transform
 
+import com.jlibrosa.audio.JLibrosa
 import com.johnsnowlabs.nlp.annotators.audio.util.io.WavFile
 import com.johnsnowlabs.nlp.{AnnotationAudio, AnnotatorType}
 
 import java.io.{ByteArrayInputStream, InputStream}
+import scala.collection.mutable.ArrayBuffer
 
 /** Utils to check audio files and parse audio byte arrays. */
-private[nlp] object AudioProcessors {
+private[johnsnowlabs] object AudioProcessors {
 
   private final val MAGIC_WAV: Array[Byte] = "RIFF".getBytes
   private final val MAGIC_FLAC: Array[Byte] = "fLaC".getBytes
@@ -115,5 +117,53 @@ private[nlp] object AudioProcessors {
         // TODO: Maybe add some extra info about size/length type etc. in the metadata
         metadata = Map.empty[String, String] ++ metadata)
 
+  }
+
+  def audioToFloat(audioFilePath: String, AudioDuration: Int = -1): List[Double] = {
+    val jLibrosa = new JLibrosa
+    val audioFeatureValuesList = jLibrosa.
+  }
+
+  def mean(list: Array[Float]): Float =
+    if (list.isEmpty) 0 else list.sum / list.length
+
+  def variance(xs: Array[Float]): Float = {
+    val avg = mean(xs)
+    val variance = xs.map(a => math.pow(a - avg, 2)).sum / xs.length
+    variance.toFloat
+  }
+  def normalizeRawAudio(rawAudio: Array[Float]): Array[Float] = {
+
+    val NormalizedData = ArrayBuffer[Float]()
+    val meanData = mean(rawAudio)
+    val varianceData = variance(rawAudio)
+    for (x <- rawAudio) {
+      NormalizedData += (x - meanData) / scala.math.sqrt(varianceData + 0.0000001).toFloat
+    }
+    NormalizedData.toArray
+  }
+
+  def truncateRawAudio(rawAudio: Array[Float], maxLength: Int): Array[Float] = {
+    rawAudio.slice(0, maxLength)
+  }
+
+  def padRawAudio(
+      rawAudio: Array[Float],
+      maxLength: Int,
+      paddingSide: String,
+      paddingValue: Float): Array[Float] = {
+    var tempList = rawAudio.toBuffer
+    val difference = maxLength - rawAudio.length
+    if (difference != 0) {
+      val paddedList = ArrayBuffer[Float]()
+      for (index <- 1 to difference) paddedList += paddingValue
+      if (paddingSide == "left") {
+        tempList.map(paddedList += _)
+        paddedList.toArray
+      } else {
+        paddedList.toList.map(tempList += _)
+        tempList.toArray
+      }
+    } else tempList.toArray
   }
 }
