@@ -427,10 +427,10 @@
     j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
     })(window,document,'script','dataLayer','GTM-59JLR64');</script>
-<!-- End Google Tag Manager --><title>Financial Zero-shot NER</title><meta property="og:title" content=""/>
+<!-- End Google Tag Manager --><title>Legal Zero-shot NER</title><meta property="og:title" content=""/>
 
 <meta name="description" content="DescriptionThis model is trained to carry out a Zero-Shot Named Entity Recognition (NER) approach, detecting any kind of entities with no training dataset, j...">
-<link rel="canonical" href="/2022/09/02/finner_roberta_zeroshot_en.html"><link rel="alternate" type="application/rss+xml" title="Spark NLP" href="/feed.xml"><!-- start favicons snippet, use https://realfavicongenerator.net/ -->
+<link rel="canonical" href="/2022/09/02/legner_roberta_zeroshot_en.html"><link rel="alternate" type="application/rss+xml" title="Spark NLP" href="/feed.xml"><!-- start favicons snippet, use https://realfavicongenerator.net/ -->
 <!---->
 <!-- <link rel="apple-touch-icon" sizes="180x180" href="/fav.ico"> -->
 
@@ -826,14 +826,14 @@
 
 <!-- end custom main top snippet --><article><script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script><div class="article__header"><div class="header-author"><div class="article__info clearfix"><div class="left-col">
             <a class="edit-on-github-btn" target="_blank" rel="alternate"
-               href="https://github.com/johnsnowlabs/spark-nlp/tree/master/docs/_posts/josejuanmartinez/2022-09-02-finner_roberta_zeroshot_en.md">
+               href="https://github.com/johnsnowlabs/spark-nlp/tree/master/docs/_posts/josejuanmartinez/2022-09-02-legner_roberta_zeroshot_en.md">
               <span class="fab fa-github"></span>
               <span class="edit-on-github-label">Edit on GitHub</span>
             </a>
         </div><ul class="right-col menu"><li><i class="far fa-user"></i> <span>John Snow Labs</span></li><li><i class="far fa-calendar-alt"></i> <span>Sep 02, 2022</span>
             </li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2022-09-02T00:00:00+00:00"></div><header class="main-docs have_subtitle">
-          <h1>Financial Zero-shot NER</h1><div class="top-subtitle mont"></div></header></div><meta itemprop="headline" content="Financial Zero-shot NER"><div class="article__info tags_box clearfix"><ul class="left-col menu"><li>en</li><li>finance</li><li>ner</li><li>zero</li><li>shot</li><li>zeroshot</li><li>licensed</li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2022-09-02T00:00:00+00:00">
-    <meta itemprop="keywords" content="en,finance,ner,zero,shot,zeroshot,licensed"><div class="js-article-content"><div class="model-wrap"><div class="layout--article"><!-- start custom article top snippet -->
+          <h1>Legal Zero-shot NER</h1><div class="top-subtitle mont"></div></header></div><meta itemprop="headline" content="Legal Zero-shot NER"><div class="article__info tags_box clearfix"><ul class="left-col menu"><li>en</li><li>legal</li><li>ner</li><li>zero</li><li>shot</li><li>zeroshot</li><li>licensed</li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2022-09-02T00:00:00+00:00">
+    <meta itemprop="keywords" content="en,legal,ner,zero,shot,zeroshot,licensed"><div class="js-article-content"><div class="model-wrap"><div class="layout--article"><!-- start custom article top snippet -->
 
 <!-- end custom article top snippet --><div class="article__content" itemprop="articleBody"><h2 id="description">Description</h2>
 
@@ -841,9 +841,9 @@
 
 <h2 id="predicted-entities">Predicted Entities</h2>
 
-<p class="btn-box"><a href="https://demo.johnsnowlabs.com/finance/FINNER_ZEROSHOT/" class="button button-orange">Live Demo</a>
+<p class="btn-box"><a href="https://demo.johnsnowlabs.com/legal/LEGNER_ZEROSHOT/" class="button button-orange">Live Demo</a>
 <button class="button button-orange" disabled="">Open in Colab</button>
-<a href="https://s3.amazonaws.com/auxdata.johnsnowlabs.com/finance/models/finner_roberta_zeroshot_en_1.0.0_3.2_1662113599526.zip" class="button button-orange button-orange-trans arr button-icon">Download</a></p>
+<a href="https://s3.amazonaws.com/auxdata.johnsnowlabs.com/legal/models/legner_roberta_zeroshot_en_1.0.0_3.2_1662113815288.zip" class="button button-orange button-orange-trans arr button-icon">Download</a></p>
 
 <h2 id="how-to-use">How to use</h2>
 
@@ -859,18 +859,17 @@
   <span class="p">.</span><span class="n">setInputCols</span><span class="p">(</span><span class="s">"document"</span><span class="p">)</span>\
   <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"token"</span><span class="p">)</span>
 
-<span class="n">zero_shot_ner</span> <span class="o">=</span> <span class="n">ZeroShotNerModel</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"finner_roberta_zeroshot"</span><span class="p">,</span> <span class="s">"en"</span><span class="p">,</span> <span class="s">"finance/models"</span><span class="p">)</span>\
+<span class="n">zero_shot_ner</span> <span class="o">=</span> <span class="n">ZeroShotNerModel</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"legner_roberta_zeroshot"</span><span class="p">,</span> <span class="s">"en"</span><span class="p">,</span> <span class="s">"legal/models"</span><span class="p">)</span>\
     <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"document"</span><span class="p">,</span> <span class="s">"token"</span><span class="p">])</span>\
     <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"zero_shot_ner"</span><span class="p">)</span>\
     <span class="p">.</span><span class="n">setEntityDefinitions</span><span class="p">(</span>
         <span class="p">{</span>
-            <span class="s">"DATE"</span><span class="p">:</span> <span class="p">[</span><span class="s">'When was the company acquisition?'</span><span class="p">,</span> <span class="s">'When was the company purchase agreement?'</span><span class="p">],</span>
-            <span class="s">"ORG"</span><span class="p">:</span> <span class="p">[</span><span class="s">"Which company was acquired?"</span><span class="p">],</span>
-            <span class="s">"PRODUCT"</span><span class="p">:</span> <span class="p">[</span><span class="s">"Which product?"</span><span class="p">],</span>
-            <span class="s">"PROFIT_INCREASE"</span><span class="p">:</span> <span class="p">[</span><span class="s">"How much has the gross profit increased?"</span><span class="p">],</span>
-            <span class="s">"REVENUES_DECLINED"</span><span class="p">:</span> <span class="p">[</span><span class="s">"How much has the revenues declined?"</span><span class="p">],</span>
-            <span class="s">"OPERATING_LOSS_2020"</span><span class="p">:</span> <span class="p">[</span><span class="s">"Which was the operating loss in 2020"</span><span class="p">],</span>
-            <span class="s">"OPERATING_LOSS_2019"</span><span class="p">:</span> <span class="p">[</span><span class="s">"Which was the operating loss in 2019"</span><span class="p">]</span>
+            <span class="s">"DATE"</span><span class="p">:</span> <span class="p">[</span><span class="s">'When was the company acquisition?'</span><span class="p">,</span> <span class="s">'When was the company purchase agreement?'</span><span class="p">,</span> <span class="s">"When was the agreement?"</span><span class="p">],</span>
+            <span class="s">"ORG"</span><span class="p">:</span> <span class="p">[</span><span class="s">"Which company?"</span><span class="p">],</span>
+            <span class="s">"STATE"</span><span class="p">:</span> <span class="p">[</span><span class="s">"Which state?"</span><span class="p">],</span>
+            <span class="s">"AGREEMENT"</span><span class="p">:</span> <span class="p">[</span><span class="s">"What kind of agreement?"</span><span class="p">],</span>
+            <span class="s">"LICENSE"</span><span class="p">:</span> <span class="p">[</span><span class="s">"What kind of license?"</span><span class="p">],</span>
+            <span class="s">"LICENSE_RECIPIENT"</span><span class="p">:</span> <span class="p">[</span><span class="s">"To whom the license is granted?"</span><span class="p">]</span>
         <span class="p">})</span>
 
 <span class="n">nerconverter</span> <span class="o">=</span> <span class="n">NerConverter</span><span class="p">()</span>\
@@ -887,8 +886,8 @@
 
 <span class="n">sample_text</span> <span class="o">=</span> <span class="p">[</span><span class="s">"In March 2012, as part of a longer-term strategy, the Company acquired Vertro, Inc., which owned and operated the ALOT product portfolio."</span><span class="p">,</span>
               <span class="s">"In February 2017, the Company entered into an asset purchase agreement with NetSeer, Inc."</span><span class="p">,</span>
-              <span class="s">"While our gross profit margin increased to 81.4% in 2020 from 63.1% in 2019, our revenues declined approximately 27% in 2020 as compared to 2019."</span>
-              <span class="s">"We reported an operating loss of approximately $8,048,581 million in 2020 as compared to an operating loss of approximately $7,738,193 million in 2019."</span><span class="p">]</span>
+              <span class="s">"This INTELLECTUAL PROPERTY AGREEMENT, dated as of December 31, 2018 (the 'Effective Date') is entered into by and between Armstrong Flooring, Inc., a Delaware corporation ('Seller') and AFI Licensing LLC, a Delaware company('Licensing')"</span>
+              <span class="s">"The Company hereby grants to Seller a perpetual, non- exclusive, royalty-free license"</span><span class="p">]</span>
 
 <span class="n">p_model</span> <span class="o">=</span> <span class="n">pipeline</span><span class="p">.</span><span class="n">fit</span><span class="p">(</span><span class="n">spark</span><span class="p">.</span><span class="n">createDataFrame</span><span class="p">([[</span><span class="s">""</span><span class="p">]]).</span><span class="n">toDF</span><span class="p">(</span><span class="s">"text"</span><span class="p">))</span>
 
@@ -905,19 +904,23 @@
 
 <h2 id="results">Results</h2>
 
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>+------------------+-------------------+
-|chunk             |ner_label          |
-+------------------+-------------------+
-|March 2012        |DATE               |
-|Vertro            |ORG                |
-|ALOT              |PRODUCT            |
-|February 2017     |DATE               |
-|NetSeer           |ORG                |
-|81.4%             |PROFIT_INCREASE    |
-|27%               |REVENUES_DECLINED  |
-|<span class="nv">$8</span>,048,581 million|OPERATING_LOSS_2020|
-|<span class="nv">$7</span>,738,193 million|OPERATING_LOSS_2019|
-+------------------+-------------------+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>+---------------------------------------+-----------------+
+|chunk                                  |ner_label        |
++---------------------------------------+-----------------+
+|March 2012                             |DATE             |
+|Vertro, Inc                            |ORG              |
+|February 2017                          |DATE             |
+|asset purchase agreement               |AGREEMENT        |
+|NetSeer                                |ORG              |
+|INTELLECTUAL PROPERTY AGREEMENT        |AGREEMENT        |
+|December 31, 2018                      |DATE             |
+|Armstrong Flooring                     |ORG              |
+|Delaware                               |STATE            |
+|AFI Licensing LLC                      |ORG              |
+|Delaware                               |ORG              |
+|Seller                                 |LICENSE_RECIPIENT|
+|perpetual, non- exclusive, royalty-free|LICENSE          |
++---------------------------------------+-----------------+
 </code></pre></div></div>
 
 <h2 class="model-param" id="model-information">Model Information</h2>
@@ -926,15 +929,15 @@
   <tbody>
     <tr>
       <td>Model Name:</td>
-      <td>finner_roberta_zeroshot</td>
+      <td>legner_roberta_zeroshot</td>
     </tr>
     <tr>
       <td>Type:</td>
-      <td>finance</td>
+      <td>legal</td>
     </tr>
     <tr>
       <td>Compatibility:</td>
-      <td>Spark NLP for Finance 1.0.0+</td>
+      <td>Spark NLP for Legal 1.0.0+</td>
     </tr>
     <tr>
       <td>License:</td>
@@ -973,7 +976,7 @@
 
 <h2 id="references">References</h2>
 
-<p>Financial Roberta Embeddings</p>
+<p>Legal Roberta Embeddings</p>
 </div><div class="d-print-none"><footer class="article__footer"><meta itemprop="dateModified" content="2022-09-02T00:00:00+00:00"><!-- start custom article footer snippet -->
 
 <!-- end custom article footer snippet --></footer>
@@ -1099,7 +1102,7 @@ hr.code-selector-underlie {
 
 }
 
-</style><div class="article__section-navigator clearfix"><div class="previous nav_link"><span>PREVIOUS</span><a href="/2022/09/01/medication_resolver_transform_pipeline_en.html">Pipeline to Resolve Medication Codes(Transform)</a></div></div></div>
+</style><div class="article__section-navigator clearfix"><div class="previous nav_link"><span>PREVIOUS</span><a href="/2022/09/02/finner_roberta_zeroshot_en.html">Financial Zero-shot NER</a></div></div></div>
 
 </div>
 </div>

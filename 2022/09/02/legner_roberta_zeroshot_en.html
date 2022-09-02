@@ -9,10 +9,10 @@
     j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
     })(window,document,'script','dataLayer','GTM-59JLR64');</script>
-<!-- End Google Tag Manager --><title>Deidentification Pipeline</title><meta property="og:title" content=""/>
+<!-- End Google Tag Manager --><title>Legal Zero-shot NER</title><meta property="og:title" content=""/>
 
-<meta name="description" content="DescriptionThis is a Pretrained Pipeline aimed to deidentify legal and financial documents to be compliant with data privacy regulations as GDPR and CCPA. Si...">
-<link rel="canonical" href="/2022/08/31/finpipe_deid_en.html"><link rel="alternate" type="application/rss+xml" title="Spark NLP" href="/feed.xml"><!-- start favicons snippet, use https://realfavicongenerator.net/ -->
+<meta name="description" content="DescriptionThis model is trained to carry out a Zero-Shot Named Entity Recognition (NER) approach, detecting any kind of entities with no training dataset, j...">
+<link rel="canonical" href="/2022/09/02/legner_roberta_zeroshot_en.html"><link rel="alternate" type="application/rss+xml" title="Spark NLP" href="/feed.xml"><!-- start favicons snippet, use https://realfavicongenerator.net/ -->
 <!---->
 <!-- <link rel="apple-touch-icon" sizes="180x180" href="/fav.ico"> -->
 
@@ -408,38 +408,24 @@
 
 <!-- end custom main top snippet --><article><script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script><div class="article__header"><div class="header-author"><div class="article__info clearfix"><div class="left-col">
             <a class="edit-on-github-btn" target="_blank" rel="alternate"
-               href="https://github.com/johnsnowlabs/spark-nlp/tree/master/docs/_posts/josejuanmartinez/2022-08-31-finpipe_deid_en.md">
+               href="https://github.com/johnsnowlabs/spark-nlp/tree/master/docs/_posts/josejuanmartinez/2022-09-02-legner_roberta_zeroshot_en.md">
               <span class="fab fa-github"></span>
               <span class="edit-on-github-label">Edit on GitHub</span>
             </a>
-        </div><ul class="right-col menu"><li><i class="far fa-user"></i> <span>John Snow Labs</span></li><li><i class="far fa-calendar-alt"></i> <span>Aug 31, 2022</span>
-            </li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2022-08-31T00:00:00+00:00"></div><header class="main-docs have_subtitle">
-          <h1>Deidentification Pipeline</h1><div class="top-subtitle mont"></div></header></div><meta itemprop="headline" content="Deidentification Pipeline"><div class="article__info tags_box clearfix"><ul class="left-col menu"><li>en</li><li>financial</li><li>deid</li><li>deidentification</li><li>licensed</li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2022-08-31T00:00:00+00:00">
-    <meta itemprop="keywords" content="en,financial,deid,deidentification,licensed"><div class="js-article-content"><div class="model-wrap"><div class="layout--article"><!-- start custom article top snippet -->
+        </div><ul class="right-col menu"><li><i class="far fa-user"></i> <span>John Snow Labs</span></li><li><i class="far fa-calendar-alt"></i> <span>Sep 02, 2022</span>
+            </li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2022-09-02T00:00:00+00:00"></div><header class="main-docs have_subtitle">
+          <h1>Legal Zero-shot NER</h1><div class="top-subtitle mont"></div></header></div><meta itemprop="headline" content="Legal Zero-shot NER"><div class="article__info tags_box clearfix"><ul class="left-col menu"><li>en</li><li>legal</li><li>ner</li><li>zero</li><li>shot</li><li>zeroshot</li><li>licensed</li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2022-09-02T00:00:00+00:00">
+    <meta itemprop="keywords" content="en,legal,ner,zero,shot,zeroshot,licensed"><div class="js-article-content"><div class="model-wrap"><div class="layout--article"><!-- start custom article top snippet -->
 
 <!-- end custom article top snippet --><div class="article__content" itemprop="articleBody"><h2 id="description">Description</h2>
 
-<p>This is a Pretrained Pipeline aimed to deidentify legal and financial documents to be compliant with data privacy regulations as GDPR and CCPA. Since the models used in this pipeline are statistical, make sure you use this model in a human-in-the-loop process to guarantee a 100% accuracy.</p>
-
-<p>You can carry out both masking and obfuscation with this pipeline, on the following entities:</p>
-<ul>
-  <li>Company names</li>
-  <li>People’s names</li>
-  <li>Poeple’s titles</li>
-  <li>Addresses</li>
-  <li>Contact information (email, phone numbers…)</li>
-  <li>Dates</li>
-  <li>Document types</li>
-  <li>etc</li>
-</ul>
+<p>This model is trained to carry out a Zero-Shot Named Entity Recognition (NER) approach, detecting any kind of entities with no training dataset, just tje pretrained RoBERTa embeddings (included in the model) and some examples.</p>
 
 <h2 id="predicted-entities">Predicted Entities</h2>
 
-<p><code class="language-plaintext highlighter-rouge">EFFDATE</code>, <code class="language-plaintext highlighter-rouge">PARTY</code>, <code class="language-plaintext highlighter-rouge">PHONE</code>, <code class="language-plaintext highlighter-rouge">EMAIL</code>, <code class="language-plaintext highlighter-rouge">SIGNING_PERSON</code>, <code class="language-plaintext highlighter-rouge">SIGNING_TITLE</code>, <code class="language-plaintext highlighter-rouge">DOC</code>, <code class="language-plaintext highlighter-rouge">STREET</code>, <code class="language-plaintext highlighter-rouge">CITY</code>, <code class="language-plaintext highlighter-rouge">STATE</code>, <code class="language-plaintext highlighter-rouge">ZIP</code>, <code class="language-plaintext highlighter-rouge">ALIAS</code></p>
-
-<p class="btn-box"><a href="https://demo.johnsnowlabs.com/finance/DEID_FIN/" class="button button-orange">Live Demo</a>
+<p class="btn-box"><a href="https://demo.johnsnowlabs.com/legal/LEGNER_ZEROSHOT/" class="button button-orange">Live Demo</a>
 <button class="button button-orange" disabled="">Open in Colab</button>
-<a href="https://s3.amazonaws.com/auxdata.johnsnowlabs.com/finance/models/finpipe_deid_en_1.0.0_3.2_1661969716902.zip" class="button button-orange button-orange-trans arr button-icon">Download</a></p>
+<a href="https://s3.amazonaws.com/auxdata.johnsnowlabs.com/legal/models/legner_roberta_zeroshot_en_1.0.0_3.2_1662113815288.zip" class="button button-orange button-orange-trans arr button-icon">Download</a></p>
 
 <h2 id="how-to-use">How to use</h2>
 
@@ -447,97 +433,76 @@
   <div class="top_tab_li">   
     <button class="tab-li code-selector-active python-button">Python</button><button class="tab-li code-selector-un-active scala-button">Scala</button><button class="tab-li code-selector-un-active nlu-button">NLU</button>
 </div>
-  <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">sparknlp.pretrained</span> <span class="kn">import</span> <span class="n">PretrainedPipeline</span>
+  <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">documentAssembler</span> <span class="o">=</span> <span class="n">DocumentAssembler</span><span class="p">()</span>\
+  <span class="p">.</span><span class="n">setInputCol</span><span class="p">(</span><span class="s">"text"</span><span class="p">)</span>\
+  <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"document"</span><span class="p">)</span>
 
-<span class="n">deid_pipeline</span> <span class="o">=</span> <span class="n">PretrainedPipeline</span><span class="p">(</span><span class="s">"finpipe_deid"</span><span class="p">,</span> <span class="s">"en"</span><span class="p">,</span> <span class="s">"finance/models"</span><span class="p">)</span>
+<span class="n">sparktokenizer</span> <span class="o">=</span> <span class="n">Tokenizer</span><span class="p">()</span>\
+  <span class="p">.</span><span class="n">setInputCols</span><span class="p">(</span><span class="s">"document"</span><span class="p">)</span>\
+  <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"token"</span><span class="p">)</span>
 
-<span class="n">sample</span> <span class="o">=</span> <span class="s">"""CARGILL, INCORPORATED
+<span class="n">zero_shot_ner</span> <span class="o">=</span> <span class="n">ZeroShotNerModel</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"legner_roberta_zeroshot"</span><span class="p">,</span> <span class="s">"en"</span><span class="p">,</span> <span class="s">"legal/models"</span><span class="p">)</span>\
+    <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"document"</span><span class="p">,</span> <span class="s">"token"</span><span class="p">])</span>\
+    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"zero_shot_ner"</span><span class="p">)</span>\
+    <span class="p">.</span><span class="n">setEntityDefinitions</span><span class="p">(</span>
+        <span class="p">{</span>
+            <span class="s">"DATE"</span><span class="p">:</span> <span class="p">[</span><span class="s">'When was the company acquisition?'</span><span class="p">,</span> <span class="s">'When was the company purchase agreement?'</span><span class="p">,</span> <span class="s">"When was the agreement?"</span><span class="p">],</span>
+            <span class="s">"ORG"</span><span class="p">:</span> <span class="p">[</span><span class="s">"Which company?"</span><span class="p">],</span>
+            <span class="s">"STATE"</span><span class="p">:</span> <span class="p">[</span><span class="s">"Which state?"</span><span class="p">],</span>
+            <span class="s">"AGREEMENT"</span><span class="p">:</span> <span class="p">[</span><span class="s">"What kind of agreement?"</span><span class="p">],</span>
+            <span class="s">"LICENSE"</span><span class="p">:</span> <span class="p">[</span><span class="s">"What kind of license?"</span><span class="p">],</span>
+            <span class="s">"LICENSE_RECIPIENT"</span><span class="p">:</span> <span class="p">[</span><span class="s">"To whom the license is granted?"</span><span class="p">]</span>
+        <span class="p">})</span>
 
-By:     Pirkko Suominen
+<span class="n">nerconverter</span> <span class="o">=</span> <span class="n">NerConverter</span><span class="p">()</span>\
+  <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"document"</span><span class="p">,</span> <span class="s">"token"</span><span class="p">,</span> <span class="s">"zero_shot_ner"</span><span class="p">])</span>\
+  <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"ner_chunk"</span><span class="p">)</span>
 
+<span class="n">pipeline</span> <span class="o">=</span>  <span class="n">Pipeline</span><span class="p">(</span><span class="n">stages</span><span class="o">=</span><span class="p">[</span>
+  <span class="n">documentAssembler</span><span class="p">,</span>
+  <span class="n">sparktokenizer</span><span class="p">,</span>
+  <span class="n">zero_shot_ner</span><span class="p">,</span>
+  <span class="n">nerconverter</span><span class="p">,</span>
+    <span class="p">]</span>
+<span class="p">)</span>
 
+<span class="n">sample_text</span> <span class="o">=</span> <span class="p">[</span><span class="s">"In March 2012, as part of a longer-term strategy, the Company acquired Vertro, Inc., which owned and operated the ALOT product portfolio."</span><span class="p">,</span>
+              <span class="s">"In February 2017, the Company entered into an asset purchase agreement with NetSeer, Inc."</span><span class="p">,</span>
+              <span class="s">"This INTELLECTUAL PROPERTY AGREEMENT, dated as of December 31, 2018 (the 'Effective Date') is entered into by and between Armstrong Flooring, Inc., a Delaware corporation ('Seller') and AFI Licensing LLC, a Delaware company('Licensing')"</span>
+              <span class="s">"The Company hereby grants to Seller a perpetual, non- exclusive, royalty-free license"</span><span class="p">]</span>
 
-Name: Pirkko Suominen Title: Director, Bio Technology Development,  Date:   10/19/2011
+<span class="n">p_model</span> <span class="o">=</span> <span class="n">pipeline</span><span class="p">.</span><span class="n">fit</span><span class="p">(</span><span class="n">spark</span><span class="p">.</span><span class="n">createDataFrame</span><span class="p">([[</span><span class="s">""</span><span class="p">]]).</span><span class="n">toDF</span><span class="p">(</span><span class="s">"text"</span><span class="p">))</span>
 
-BIOAMBER, SAS
+<span class="n">res</span> <span class="o">=</span> <span class="n">p_model</span><span class="p">.</span><span class="n">transform</span><span class="p">(</span><span class="n">spark</span><span class="p">.</span><span class="n">createDataFrame</span><span class="p">(</span><span class="n">sample_text</span><span class="p">,</span> <span class="n">StringType</span><span class="p">()).</span><span class="n">toDF</span><span class="p">(</span><span class="s">"text"</span><span class="p">))</span>
 
-By:     Jean-François Huc
-
-
-
-Name: Jean-François Huc  Title: President Date:   October 15, 2011
-
-email : jeanfran@gmail.com
-phone : 1808733909 
-
-"""</span>
-
-<span class="n">result</span> <span class="o">=</span> <span class="n">deid_pipeline</span><span class="p">.</span><span class="n">annotate</span><span class="p">(</span><span class="n">sample</span><span class="p">)</span>
-<span class="k">print</span><span class="p">(</span><span class="s">"</span><span class="se">\n</span><span class="s">Masked with entity labels"</span><span class="p">)</span>
-<span class="k">print</span><span class="p">(</span><span class="s">"-"</span><span class="o">*</span><span class="mi">30</span><span class="p">)</span>
-<span class="k">print</span><span class="p">(</span><span class="s">"</span><span class="se">\n</span><span class="s">"</span><span class="p">.</span><span class="n">join</span><span class="p">(</span><span class="n">result</span><span class="p">[</span><span class="s">'deidentified'</span><span class="p">]))</span>
-<span class="k">print</span><span class="p">(</span><span class="s">"</span><span class="se">\n</span><span class="s">Masked with chars"</span><span class="p">)</span>
-<span class="k">print</span><span class="p">(</span><span class="s">"-"</span><span class="o">*</span><span class="mi">30</span><span class="p">)</span>
-<span class="k">print</span><span class="p">(</span><span class="s">"</span><span class="se">\n</span><span class="s">"</span><span class="p">.</span><span class="n">join</span><span class="p">(</span><span class="n">result</span><span class="p">[</span><span class="s">'masked_with_chars'</span><span class="p">]))</span>
-<span class="k">print</span><span class="p">(</span><span class="s">"</span><span class="se">\n</span><span class="s">Masked with fixed length chars"</span><span class="p">)</span>
-<span class="k">print</span><span class="p">(</span><span class="s">"-"</span><span class="o">*</span><span class="mi">30</span><span class="p">)</span>
-<span class="k">print</span><span class="p">(</span><span class="s">"</span><span class="se">\n</span><span class="s">"</span><span class="p">.</span><span class="n">join</span><span class="p">(</span><span class="n">result</span><span class="p">[</span><span class="s">'masked_fixed_length_chars'</span><span class="p">]))</span>
-<span class="k">print</span><span class="p">(</span><span class="s">"</span><span class="se">\n</span><span class="s">Obfuscated"</span><span class="p">)</span>
-<span class="k">print</span><span class="p">(</span><span class="s">"-"</span><span class="o">*</span><span class="mi">30</span><span class="p">)</span>
-<span class="k">print</span><span class="p">(</span><span class="s">"</span><span class="se">\n</span><span class="s">"</span><span class="p">.</span><span class="n">join</span><span class="p">(</span><span class="n">result</span><span class="p">[</span><span class="s">'obfuscated'</span><span class="p">]))</span>
+<span class="n">res</span><span class="p">.</span><span class="n">select</span><span class="p">(</span><span class="n">F</span><span class="p">.</span><span class="n">explode</span><span class="p">(</span><span class="n">F</span><span class="p">.</span><span class="n">arrays_zip</span><span class="p">(</span><span class="n">res</span><span class="p">.</span><span class="n">ner_chunk</span><span class="p">.</span><span class="n">result</span><span class="p">,</span> <span class="n">res</span><span class="p">.</span><span class="n">ner_chunk</span><span class="p">.</span><span class="n">begin</span><span class="p">,</span> <span class="n">res</span><span class="p">.</span><span class="n">ner_chunk</span><span class="p">.</span><span class="n">end</span><span class="p">,</span> <span class="n">res</span><span class="p">.</span><span class="n">ner_chunk</span><span class="p">.</span><span class="n">metadata</span><span class="p">)).</span><span class="n">alias</span><span class="p">(</span><span class="s">"cols"</span><span class="p">))</span> \
+   <span class="p">.</span><span class="n">select</span><span class="p">(</span><span class="n">F</span><span class="p">.</span><span class="n">expr</span><span class="p">(</span><span class="s">"cols['0']"</span><span class="p">).</span><span class="n">alias</span><span class="p">(</span><span class="s">"chunk"</span><span class="p">),</span>
+           <span class="n">F</span><span class="p">.</span><span class="n">expr</span><span class="p">(</span><span class="s">"cols['3']['entity']"</span><span class="p">).</span><span class="n">alias</span><span class="p">(</span><span class="s">"ner_label"</span><span class="p">))</span>\
+   <span class="p">.</span><span class="nb">filter</span><span class="p">(</span><span class="s">"ner_label!='O'"</span><span class="p">)</span>\
+   <span class="p">.</span><span class="n">show</span><span class="p">(</span><span class="n">truncate</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
 </code></pre></div>  </div>
 
 </div>
 
 <h2 id="results">Results</h2>
 
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Masked with entity labels
-<span class="nt">------------------------------</span>
-&lt;PARTY&gt;, &lt;PARTY&gt;
-By:     &lt;SIGNING_PERSON&gt;
-Name: &lt;PARTY&gt;: &lt;SIGNING_TITLE&gt;,  Date:   &lt;EFFDATE&gt;
-&lt;PARTY&gt;, &lt;PARTY&gt;
-By:     &lt;SIGNING_PERSON&gt;
-Name: &lt;PARTY&gt;: &lt;SIGNING_TITLE&gt;Date:   &lt;EFFDATE&gt;
-
-email : &lt;EMAIL&gt;
-phone : &lt;PHONE&gt;
-
-Masked with chars
-<span class="nt">------------------------------</span>
-<span class="o">[</span><span class="k">*****</span><span class="o">]</span>, <span class="o">[</span><span class="k">**********</span><span class="o">]</span>
-By:     <span class="o">[</span><span class="k">*************</span><span class="o">]</span>
-Name: <span class="o">[</span><span class="k">*******************</span><span class="o">]</span>: <span class="o">[</span><span class="k">**********************************</span><span class="o">]</span>  Center,  Date:   <span class="o">[</span><span class="k">********</span><span class="o">]</span>
-<span class="o">[</span><span class="k">******</span><span class="o">]</span>, <span class="o">[</span><span class="k">*</span><span class="o">]</span>
-By:     <span class="o">[</span><span class="k">***************</span><span class="o">]</span>
-Name: <span class="o">[</span><span class="k">**********************</span><span class="o">]</span>: <span class="o">[</span><span class="k">*******</span><span class="o">]</span>Date:   <span class="o">[</span><span class="k">**************</span><span class="o">]</span>
-
-email : <span class="o">[</span><span class="k">****************</span><span class="o">]</span>
-phone : <span class="o">[</span><span class="k">********</span><span class="o">]</span>
-
-Masked with fixed length chars
-<span class="nt">------------------------------</span>
-<span class="k">****</span>, <span class="k">****</span>
-By:     <span class="k">****</span>
-Name: <span class="k">****</span>: <span class="k">****</span>,  Date:   <span class="k">****</span>
-<span class="k">****</span>, <span class="k">****</span>
-By:     <span class="k">****</span>
-Name: <span class="k">****</span>: <span class="k">****</span>Date:   <span class="k">****</span>
-
-email : <span class="k">****</span>
-phone : <span class="k">****</span>
-
-Obfuscated
-<span class="nt">------------------------------</span>
-MGT Trust Company, LLC., Clarus llc.
-By:     Benjamin Dean
-Name: John Snow Labs Inc: Sales Manager,  Date:   03/08/2025
-Clarus llc., SESA CO.
-By:     JAMES TURNER
-Name: MGT Trust Company, LLC.: Business ManagerDate:   11/7/2016
-
-email : Tyrus@google.com
-phone : 78 834 854
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>+---------------------------------------+-----------------+
+|chunk                                  |ner_label        |
++---------------------------------------+-----------------+
+|March 2012                             |DATE             |
+|Vertro, Inc                            |ORG              |
+|February 2017                          |DATE             |
+|asset purchase agreement               |AGREEMENT        |
+|NetSeer                                |ORG              |
+|INTELLECTUAL PROPERTY AGREEMENT        |AGREEMENT        |
+|December 31, 2018                      |DATE             |
+|Armstrong Flooring                     |ORG              |
+|Delaware                               |STATE            |
+|AFI Licensing LLC                      |ORG              |
+|Delaware                               |ORG              |
+|Seller                                 |LICENSE_RECIPIENT|
+|perpetual, non- exclusive, royalty-free|LICENSE          |
++---------------------------------------+-----------------+
 </code></pre></div></div>
 
 <h2 class="model-param" id="model-information">Model Information</h2>
@@ -546,15 +511,15 @@ phone : 78 834 854
   <tbody>
     <tr>
       <td>Model Name:</td>
-      <td>finpipe_deid</td>
+      <td>legner_roberta_zeroshot</td>
     </tr>
     <tr>
       <td>Type:</td>
-      <td>pipeline</td>
+      <td>legal</td>
     </tr>
     <tr>
       <td>Compatibility:</td>
-      <td>Spark NLP for Finance 1.0.0+</td>
+      <td>Spark NLP for Legal 1.0.0+</td>
     </tr>
     <tr>
       <td>License:</td>
@@ -565,48 +530,36 @@ phone : 78 834 854
       <td>Official</td>
     </tr>
     <tr>
+      <td>Input Labels:</td>
+      <td>[document_question, document_context]</td>
+    </tr>
+    <tr>
+      <td>Output Labels:</td>
+      <td>[answer]</td>
+    </tr>
+    <tr>
       <td>Language:</td>
       <td>en</td>
     </tr>
     <tr>
       <td>Size:</td>
-      <td>944.1 MB</td>
+      <td>460.2 MB</td>
+    </tr>
+    <tr>
+      <td>Case sensitive:</td>
+      <td>true</td>
+    </tr>
+    <tr>
+      <td>Max sentence length:</td>
+      <td>512</td>
     </tr>
   </tbody>
 </table>
 
 <h2 id="references">References</h2>
 
-<p>In-house annotations on legal and financial documents, Ontonotes, Conll 2003, Finsec conll, Cuad dataset, 10k filings</p>
-
-<h2 id="included-models">Included Models</h2>
-
-<ul>
-  <li>DocumentAssembler</li>
-  <li>SentenceDetectorDLModel</li>
-  <li>TokenizerModel</li>
-  <li>RoBertaEmbeddings</li>
-  <li>BertEmbeddings</li>
-  <li>FinanceNerModel</li>
-  <li>NerConverter</li>
-  <li>FinanceNerModel</li>
-  <li>NerConverter</li>
-  <li>FinanceNerModel</li>
-  <li>NerConverterInternalModel</li>
-  <li>FinanceNerModel</li>
-  <li>NerConverterInternalModel</li>
-  <li>ContextualParserModel</li>
-  <li>ContextualParserModel</li>
-  <li>RegexMatcherModel</li>
-  <li>RegexMatcherModel</li>
-  <li>ChunkMergeModel</li>
-  <li>DeIdentificationModel</li>
-  <li>DeIdentificationModel</li>
-  <li>DeIdentificationModel</li>
-  <li>DeIdentificationModel</li>
-  <li>Finisher</li>
-</ul>
-</div><div class="d-print-none"><footer class="article__footer"><meta itemprop="dateModified" content="2022-08-31T00:00:00+00:00"><!-- start custom article footer snippet -->
+<p>Legal Roberta Embeddings</p>
+</div><div class="d-print-none"><footer class="article__footer"><meta itemprop="dateModified" content="2022-09-02T00:00:00+00:00"><!-- start custom article footer snippet -->
 
 <!-- end custom article footer snippet --></footer>
 
@@ -731,7 +684,7 @@ hr.code-selector-underlie {
 
 }
 
-</style><div class="article__section-navigator clearfix"><div class="previous nav_link"><span>PREVIOUS</span><a href="/2022/08/31/finner_sec_conll_en.html">Generic NER on Financial Texts</a></div><div class="next nav_link"><span>NEXT</span><a href="/2022/08/31/legpipe_deid_en.html">Deidentification Pipeline</a></div></div></div>
+</style><div class="article__section-navigator clearfix"><div class="previous nav_link"><span>PREVIOUS</span><a href="/2022/09/02/finner_roberta_zeroshot_en.html">Financial Zero-shot NER</a></div></div></div>
 
 </div>
 </div>
