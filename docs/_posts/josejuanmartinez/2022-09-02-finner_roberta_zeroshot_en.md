@@ -1,6 +1,6 @@
 ---
 layout: model
-title: Financial Job Titles NER
+title: Financial Zero-shot NER
 author: John Snow Labs
 name: finner_roberta_zeroshot
 date: 2022-09-02
