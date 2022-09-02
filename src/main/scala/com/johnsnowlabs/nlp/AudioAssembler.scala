@@ -42,6 +42,39 @@ import org.apache.spark.sql.{DataFrame, Dataset}
   *     .load("/path/to/fileDir");
   * }}}
   *
+  * ==Example==
+  * {{{
+  * import com.johnsnowlabs.nlp.AudioAssembler
+  * import org.apache.spark.ml.Pipeline
+  *
+  * val wavPath = "src/test/resources/audio/1272-135031-0014.wav"
+  * val wavDf: DataFrame = spark.read
+  *   .format("binaryFile")
+  *   .load(wavPath)
+  *   .withColumnRenamed("content", "audio")
+  *
+  * val audioAssembler = new AudioAssembler()
+  *   .setInputCol("audio")
+  *   .setOutputCol("audio_assembler")
+  *
+  * val pipeline = new Pipeline().setStages(Array(audioAssembler))
+  * val pipelineDF = pipeline.fit(imageDF).transform(wavDf)
+  * pipelineDF.printSchema()
+  * root
+  * -- path: string (nullable = true)
+  * -- modificationTime: timestamp (nullable = true)
+  * -- length: long (nullable = true)
+  * -- audio: binary (nullable = true)
+  * -- audio_assembler: array (nullable = true)
+  *     |-- element: struct (containsNull = true)
+  *     |    |-- annotatorType: string (nullable = true)
+  *     |    |-- result: array (nullable = true)
+  *     |    |    |-- element: float (containsNull = false)
+  *     |    |-- metadata: map (nullable = true)
+  *     |    |    |-- key: string
+  *     |    |    |-- value: string (valueContainsNull = true)
+  *
+  * }}}
   * TODO:
   *   - support various file formats
   *   - output into float array
@@ -116,11 +149,10 @@ class AudioAssembler(override val uid: String)
       dataset.schema.fields.exists(_.name == getInputCol),
       s"column $getInputCol is not presented in your DataFrame")
 
-//    TODO: making sure the schema is format binaryFile
-//    TODO: if the files read by binaryFile format are not audio or not supported I am not sure we can do anything about it
-//    TODO: it will either crash during feature extraction or feeding TensorFlow model
-// https://github.com/apache/spark/blob/master/sql/core/src/main/scala/org/apache/spark/sql/execution/datasources/binaryfile/BinaryFileFormat.scala
-//
+    require(
+      dataset.schema(getInputCol).dataType == BinaryType,
+      s"""column $getInputCol is not BinaryType. Make sure you read your audio files via spark.read.format("binaryFile").load(PATH)""")
+
     val audioAnnotations = {
       dfAssemble(dataset($(inputCol)))
     }

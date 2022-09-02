@@ -41,9 +41,9 @@ class AudioAssemblerTestSpec extends AnyFlatSpec {
     resWav.printSchema()
     resWav.show()
 
-    val resFlac = audioAssembler.transform(flacDf)
-    resFlac.printSchema()
-    resFlac.show()
+//    val resFlac = audioAssembler.transform(flacDf)
+//    resFlac.printSchema()
+//    resFlac.show()
 
   }
 
