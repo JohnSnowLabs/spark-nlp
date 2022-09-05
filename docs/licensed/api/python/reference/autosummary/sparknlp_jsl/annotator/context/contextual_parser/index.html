@@ -980,6 +980,11 @@ columns the possible matches.</p>
 <span class="sig-name descname"><span class="pre">shortestContextMatch</span></span><a class="reference internal" href="../../../../../../modules/sparknlp_jsl/annotator/context/contextual_parser.html#ContextualParserApproach.shortestContextMatch"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.context.contextual_parser.ContextualParserApproach.shortestContextMatch" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
+<dl class="py attribute">
+<dt class="sig sig-object py" id="sparknlp_jsl.annotator.context.contextual_parser.ContextualParserApproach.completeContextMatch">
+<span class="sig-name descname"><span class="pre">completeContextMatch</span></span><a class="reference internal" href="../../../../../../modules/sparknlp_jsl/annotator/context/contextual_parser.html#ContextualParserApproach.completeContextMatch"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.context.contextual_parser.ContextualParserApproach.completeContextMatch" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp_jsl.annotator.context.contextual_parser.ContextualParserApproach.setJsonPath">
 <span class="sig-name descname"><span class="pre">setJsonPath</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../modules/sparknlp_jsl/annotator/context/contextual_parser.html#ContextualParserApproach.setJsonPath"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.context.contextual_parser.ContextualParserApproach.setJsonPath" title="Permalink to this definition">#</a></dt>
@@ -1062,6 +1067,20 @@ columns the possible matches.</p>
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><dl class="simple">
 <dt><strong>value</strong><span class="classifier">bool</span></dt><dd><p>When set to true, it will stop finding for matches when prefix/suffix data is found in the text.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp_jsl.annotator.context.contextual_parser.ContextualParserApproach.setCompleteContextMatch">
+<span class="sig-name descname"><span class="pre">setCompleteContextMatch</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../modules/sparknlp_jsl/annotator/context/contextual_parser.html#ContextualParserApproach.setCompleteContextMatch"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.context.contextual_parser.ContextualParserApproach.setCompleteContextMatch" title="Permalink to this definition">#</a></dt>
+<dd><p>Sets whether to do an exact match of prefix and suffix.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>value</strong><span class="classifier">bool</span></dt><dd><p>When set to true, it will make an exact match, i.e. regex with boundaries</p>
 </dd>
 </dl>
 </dd>
@@ -1300,6 +1319,11 @@ Pipeline could then be defined like this</p>
         </a>
        </li>
        <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.context.contextual_parser.ContextualParserApproach.completeContextMatch">
+         completeContextMatch
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
         <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.context.contextual_parser.ContextualParserApproach.setJsonPath">
          setJsonPath
         </a>
@@ -1327,6 +1351,11 @@ Pipeline could then be defined like this</p>
        <li class="toc-h5 nav-item toc-entry">
         <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.context.contextual_parser.ContextualParserApproach.setShortestContextMatch">
          setShortestContextMatch
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.context.contextual_parser.ContextualParserApproach.setCompleteContextMatch">
+         setCompleteContextMatch
         </a>
        </li>
       </ul>
