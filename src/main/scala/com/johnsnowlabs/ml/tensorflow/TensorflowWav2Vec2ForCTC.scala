@@ -32,11 +32,10 @@ class TensorflowWav2Vec2ForCTC(
   val _tfWav2Vec2Signatures: Map[String, String] =
     signatures.getOrElse(ModelSignatureManager.apply())
 
-  def tag(
-      batch: Array[Array[Float]],
-      activation: String = ActivationFunction.softmax): Array[Array[Float]] = {
+  def tag(batch: Array[Array[Float]], vocabSize: Int): Array[Int] = {
     val tensors = new TensorResources()
     val batchLength = batch.length
+    val maxSequenceLength = batch.map(x => x.length).max
 
     val imageTensors = tensors.createTensor(batch)
 
@@ -59,57 +58,33 @@ class TensorflowWav2Vec2ForCTC(
     tensors.clearTensors()
     imageTensors.close()
 
-    val dim = rawScores.length / batchLength
-    val batchScores: Array[Array[Float]] =
-      rawScores
-        .grouped(dim)
-        .map(scores => calculateSoftmax(scores))
-        .toArray
-    batchScores
-  }
-
-  /** Calculate softmax from returned logits
-    *
-    * @param scores
-    *   logits output from output layer
-    * @return
-    */
-  def calculateSoftmax(scores: Array[Float]): Array[Float] = {
-    val exp = scores.map(x => math.exp(x))
-    exp.map(x => x / exp.sum).map(_.toFloat)
-  }
-
-  /** Calculate sigmoid from returned logits
-    *
-    * @param scores
-    *   logits output from output layer
-    * @return
-    */
-  def calculateSigmoid(scores: Array[Float]): Array[Float] = {
-    scores.map(x => 1 / (1 + Math.exp(-x)).toFloat)
+    rawScores
+      .grouped(vocabSize)
+      .toArray
+      .map(x => x.indexOf(x.max))
   }
 
   def predict(
       audios: Array[AnnotationAudio],
       batchSize: Int,
       vocabs: Map[String, BigInt],
-      preprocessor: Preprocessor,
-      activation: String = ActivationFunction.softmax): Seq[Annotation] = {
+      preprocessor: Preprocessor): Seq[Annotation] = {
 
     audios
       .grouped(batchSize)
       .flatMap { batch =>
         val encoded = encode(batch, preprocessor)
-        val logits = tag(encoded, activation)
+        val vocabIds = tag(encoded, vocabs.toSeq.length)
+        val decoded = decode(vocabs, vocabIds, encoded.length)
 
-        batch.zip(logits).map { case (image, score) =>
-          val decodedSpeech = ""
+        batch.zip(decoded).map { case (annot, string) =>
+          val decodedSpeech = string
           Annotation(
             annotatorType = AnnotatorType.DOCUMENT,
             begin = 0,
-            end = decodedSpeech.length - 1,
+            end = string.length - 1,
             result = decodedSpeech,
-            metadata = Map("audio" -> "0"))
+            metadata = Map("audio" -> "0", "sentence" -> "0") ++ annot.metadata)
         }
 
       }
@@ -119,19 +94,41 @@ class TensorflowWav2Vec2ForCTC(
       annotations: Array[AnnotationAudio],
       preprocessor: Preprocessor): Array[Array[Float]] = {
 
-    val maxLengthInBatch = annotations.map(x => x.result.length).max
+    val readFromCsv = true
 
-    annotations.map { annot =>
-      val normalizedAudioBatch = AudioProcessors.normalizeRawAudio(annot.result)
-      val paddedAudioBatch = AudioProcessors.padRawAudio(
-        normalizedAudioBatch,
-        maxLengthInBatch,
-        preprocessor.padding_side,
-        preprocessor.padding_value)
-      paddedAudioBatch
+    if (readFromCsv) {
+      val bufferedSource =
+        scala.io.Source.fromFile("src/test/resources/audio/csv/audi_floats.csv")
+      val rows = bufferedSource
+        .getLines()
+        .map(_.split(",").head.trim.toFloat)
+        .toArray
+      bufferedSource.close
+      Array(rows, rows)
+    } else {
+      val maxLengthInBatch = annotations.map(x => x.result.length).max
+
+      // TODO: this part needs to be improved
+      annotations.map { annot =>
+        val normalizedAudioBatch = AudioProcessors.normalizeRawAudio(annot.result)
+//      val paddedAudioBatch = AudioProcessors.padRawAudio(
+//        normalizedAudioBatch,
+//        maxLengthInBatch,
+//        preprocessor.padding_side,
+//        preprocessor.padding_value)
+        normalizedAudioBatch
+      }
     }
 
   }
 
-  def decode(logits: Array[Array[Float]]) = ???
+  def decode(vocabs: Map[String, BigInt], vocabIds: Array[Int], batchSize: Int): Array[String] = {
+    // TODO: requires better space cleaning and removing repetitive tokens
+    vocabIds.grouped(vocabIds.length / batchSize).toArray.map { y =>
+      y.filter(x => x != 0)
+        .map(x => vocabs.find(y => y._2 == x).map(_._1).getOrElse(""))
+        .map(x => if (x == "|") " " else x)
+        .mkString("")
+    }
+  }
 }
