@@ -31,9 +31,9 @@ class Wav2Vec2ForCTCTestSpec extends AnyFlatSpec {
   val wavDf: DataFrame = spark.read
     .format("binaryFile")
     .load(wavPath)
-//    .repartition(4)
+    .repartition(1)
 
-  wavDf.show()
+//  wavDf.show()
 
   val audioAssembler: AudioAssembler = new AudioAssembler()
     .setInputCol("content")
@@ -43,8 +43,8 @@ class Wav2Vec2ForCTCTestSpec extends AnyFlatSpec {
 //    .pretrained()
     .loadSavedModel("/Users/maziyar/Downloads/export_wav2vec2-base-960h", ResourceHelper.spark)
     .setInputCols("audio_assembler")
-    .setOutputCol("class")
-    .setBatchSize(8)
+    .setOutputCol("text")
+    .setBatchSize(1)
 
   val pipeline: Pipeline = new Pipeline().setStages(Array(audioAssembler, speechToText))
 
@@ -52,7 +52,7 @@ class Wav2Vec2ForCTCTestSpec extends AnyFlatSpec {
 
     val pipelineDF = pipeline.fit(wavDf).transform(wavDf)
 
-    pipelineDF.show()
+    pipelineDF.select("text").show(10, false)
 
   }
 
