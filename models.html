@@ -11,8 +11,7 @@
     })(window,document,'script','dataLayer','GTM-59JLR64');</script>
 <!-- End Google Tag Manager --><title>Available Models and Pipelines</title><meta property="og:title" content="John Snow Labs NLP - The Models Hub"/>
 
-<meta name="description" content="High Performance NLP with Apache Spark
-">
+<meta name="description" content="Share and discover Spark NLP models and pipelines. Get access to 7000+ models and 2000+ pipelines right out of the box.">
 <link rel="canonical" href="/models"><link rel="alternate" type="application/rss+xml" title="Spark NLP" href="/feed.xml"><!-- start favicons snippet, use https://realfavicongenerator.net/ -->
 <!---->
 <!-- <link rel="apple-touch-icon" sizes="180x180" href="/fav.ico"> -->
@@ -529,7 +528,7 @@ function openTab(evt, cityName) {
 } */
 
 /*OPen by URL*/
-$(document).ready(function () {  
+jQuery(document).ready(function () {  
   const tabName = (window.location.hash || '').replace('#', '');
   const tab = document.getElementById(tabName || 'opensource');
   if (tab) {
@@ -538,10 +537,11 @@ $(document).ready(function () {
 });
 
 //Accordion demos categories
-let acc = document.getElementsByClassName("acc-top"),
+if(document.querySelector(".acc-top")) {
+  let acc = document.getElementsByClassName("acc-top"),
     isResizeble = false;
 
-  if(!isResizeble) {
+  if(!isResizeble && document.querySelector(".acc-top")) {
       let accBody = document.querySelector('.acc-body li.active');
       accBody.parentElement.style.maxHeight = accBody.parentElement.scrollHeight + 20 + "px";
       accBody.parentElement.classList.add('open');
@@ -562,26 +562,31 @@ for (let i = 0; i < acc.length; i++) {
     }
   });
 }
+}
+
 
 //Show more in demos description
-let tabDescription = document.querySelectorAll('.tab-description');
+if(document.querySelector('.tab-description')) {
+  let tabDescription = document.querySelectorAll('.tab-description');
 
-tabDescription.forEach(element => {
-  let tabDescriptionInner = element.querySelector('.tab-description-inner');
-  if(element.offsetHeight < tabDescriptionInner.offsetHeight) {
-    element.classList.add('big-descr');
-  }
-});
-
-let showMore = document.querySelectorAll('.show_more');
-
-showMore.forEach(element => {
-  element.addEventListener("click", function(e) {
-    e.preventDefault();
-    this.parentElement.parentElement.classList.remove('big-descr');
-    this.parentElement.parentElement.classList.add('big-descr-close');
+  tabDescription.forEach(element => {
+    let tabDescriptionInner = element.querySelector('.tab-description-inner');
+    if(element.offsetHeight < tabDescriptionInner.offsetHeight) {
+      element.classList.add('big-descr');
+    }
   });
-});
+
+  let showMore = document.querySelectorAll('.show_more');
+
+  showMore.forEach(element => {
+    element.addEventListener("click", function(e) {
+      e.preventDefault();
+      this.parentElement.parentElement.classList.remove('big-descr');
+      this.parentElement.parentElement.classList.add('big-descr-close');
+    });
+  });
+}
+
 
 </script></div>
       </div>
