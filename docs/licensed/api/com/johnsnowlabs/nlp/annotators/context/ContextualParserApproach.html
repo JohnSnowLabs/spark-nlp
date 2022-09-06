@@ -622,6 +622,22 @@ An example pipeline could then be defined like this</p><pre><span class="kw">val
                 <span class="name">@native</span><span class="args">()</span>
               
         </dd></dl></div>
+    </li><li name="com.johnsnowlabs.nlp.annotators.context.ContextualParserApproach#completeContextMatch" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="param">
+      <a id="completeContextMatch:org.apache.spark.ml.param.BooleanParam"></a><a id="completeContextMatch:BooleanParam"></a>
+      <span class="permalink">
+      <a href="../../../../../com/johnsnowlabs/nlp/annotators/context/ContextualParserApproach.html#completeContextMatch:org.apache.spark.ml.param.BooleanParam" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">completeContextMatch</span><span class="result">: <span class="extype" name="org.apache.spark.ml.param.BooleanParam">BooleanParam</span></span>
+      </span>
+      
+      <p class="shortcomment cmt">Whether to do an exact match of prefix and suffix.</p>
     </li><li name="com.johnsnowlabs.nlp.AnnotatorApproach#copy" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="copy(extra:org.apache.spark.ml.param.ParamMap):org.apache.spark.ml.Estimator[M]"></a><a id="copy(ParamMap):Estimator[ContextualParserModel]"></a>
       <span class="permalink">
@@ -1544,7 +1560,7 @@ columns the possible matches.</p>
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnnotatorApproach</dd></dl></div>
-    </li><li name="com.johnsnowlabs.nlp.annotators.context.ContextualParserApproach#optionalContextRules" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+    </li><li name="com.johnsnowlabs.nlp.annotators.context.ContextualParserApproach#optionalContextRules" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="param">
       <a id="optionalContextRules:org.apache.spark.ml.param.BooleanParam"></a><a id="optionalContextRules:BooleanParam"></a>
       <span class="permalink">
       <a href="../../../../../com/johnsnowlabs/nlp/annotators/context/ContextualParserApproach.html#optionalContextRules:org.apache.spark.ml.param.BooleanParam" title="Permalink">
@@ -1559,7 +1575,7 @@ columns the possible matches.</p>
         <span class="name">optionalContextRules</span><span class="result">: <span class="extype" name="org.apache.spark.ml.param.BooleanParam">BooleanParam</span></span>
       </span>
       
-      
+      <p class="shortcomment cmt">When set to true, it will output regex match regardless of context matches.</p>
     </li><li name="com.johnsnowlabs.nlp.HasInputAnnotationCols#optionalInputAnnotatorTypes" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="optionalInputAnnotatorTypes:Array[String]"></a>
       <span class="permalink">
@@ -1735,6 +1751,22 @@ columns the possible matches.</p>
       
       <p class="shortcomment cmt">Whether to use case sensitive when matching values (Default: false)
 </p>
+    </li><li name="com.johnsnowlabs.nlp.annotators.context.ContextualParserApproach#setCompleteContextMatch" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="param">
+      <a id="setCompleteContextMatch(value:Boolean):ContextualParserApproach.this.type"></a><a id="setCompleteContextMatch(Boolean):ContextualParserApproach.this.type"></a>
+      <span class="permalink">
+      <a href="../../../../../com/johnsnowlabs/nlp/annotators/context/ContextualParserApproach.html#setCompleteContextMatch(value:Boolean):ContextualParserApproach.this.type" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">setCompleteContextMatch</span><span class="params">(<span name="value">value: <span class="extype" name="scala.Boolean">Boolean</span></span>)</span><span class="result">: <a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.context.ContextualParserApproach">ContextualParserApproach</a>.this.type</span>
+      </span>
+      
+      <p class="shortcomment cmt">Whether to do an exact match of prefix and suffix.</p>
     </li><li name="org.apache.spark.ml.param.Params#setDefault" visbl="prt" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="setDefault(paramPairs:org.apache.spark.ml.param.ParamPair[_]*):Params.this.type"></a><a id="setDefault(ParamPair[_]*):ContextualParserApproach.this.type"></a>
       <span class="permalink">
@@ -1850,7 +1882,7 @@ the possible matches.
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>CanBeLazy</dd></dl></div>
-    </li><li name="com.johnsnowlabs.nlp.annotators.context.ContextualParserApproach#setOptionalContextRules" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+    </li><li name="com.johnsnowlabs.nlp.annotators.context.ContextualParserApproach#setOptionalContextRules" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="param">
       <a id="setOptionalContextRules(value:Boolean):ContextualParserApproach.this.type"></a><a id="setOptionalContextRules(Boolean):ContextualParserApproach.this.type"></a>
       <span class="permalink">
       <a href="../../../../../com/johnsnowlabs/nlp/annotators/context/ContextualParserApproach.html#setOptionalContextRules(value:Boolean):ContextualParserApproach.this.type" title="Permalink">
@@ -1865,7 +1897,7 @@ the possible matches.
         <span class="name">setOptionalContextRules</span><span class="params">(<span name="value">value: <span class="extype" name="scala.Boolean">Boolean</span></span>)</span><span class="result">: <a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.context.ContextualParserApproach">ContextualParserApproach</a>.this.type</span>
       </span>
       
-      
+      <p class="shortcomment cmt">When set to true, it will output regex match regardless of context matches.</p>
     </li><li name="com.johnsnowlabs.nlp.HasOutputAnnotationCol#setOutputCol" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="setOutputCol(value:String):HasOutputAnnotationCol.this.type"></a><a id="setOutputCol(String):ContextualParserApproach.this.type"></a>
       <span class="permalink">
@@ -1899,7 +1931,7 @@ the possible matches.
       
       <p class="shortcomment cmt">Whether to match both prefix and suffix to annotate the hit (Default: false)
 </p>
-    </li><li name="com.johnsnowlabs.nlp.annotators.context.ContextualParserApproach#setShortestContextMatch" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+    </li><li name="com.johnsnowlabs.nlp.annotators.context.ContextualParserApproach#setShortestContextMatch" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="param">
       <a id="setShortestContextMatch(value:Boolean):ContextualParserApproach.this.type"></a><a id="setShortestContextMatch(Boolean):ContextualParserApproach.this.type"></a>
       <span class="permalink">
       <a href="../../../../../com/johnsnowlabs/nlp/annotators/context/ContextualParserApproach.html#setShortestContextMatch(value:Boolean):ContextualParserApproach.this.type" title="Permalink">
@@ -1914,8 +1946,8 @@ the possible matches.
         <span class="name">setShortestContextMatch</span><span class="params">(<span name="value">value: <span class="extype" name="scala.Boolean">Boolean</span></span>)</span><span class="result">: <a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.context.ContextualParserApproach">ContextualParserApproach</a>.this.type</span>
       </span>
       
-      
-    </li><li name="com.johnsnowlabs.nlp.annotators.context.ContextualParserApproach#shortestContextMatch" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+      <p class="shortcomment cmt">When set to true, it will stop finding for matches when prefix/suffix data is found in the text.</p>
+    </li><li name="com.johnsnowlabs.nlp.annotators.context.ContextualParserApproach#shortestContextMatch" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="param">
       <a id="shortestContextMatch:org.apache.spark.ml.param.BooleanParam"></a><a id="shortestContextMatch:BooleanParam"></a>
       <span class="permalink">
       <a href="../../../../../com/johnsnowlabs/nlp/annotators/context/ContextualParserApproach.html#shortestContextMatch:org.apache.spark.ml.param.BooleanParam" title="Permalink">
@@ -1930,7 +1962,7 @@ the possible matches.
         <span class="name">shortestContextMatch</span><span class="result">: <span class="extype" name="org.apache.spark.ml.param.BooleanParam">BooleanParam</span></span>
       </span>
       
-      
+      <p class="shortcomment cmt">When set to true, it will stop finding for matches when prefix/suffix data is found in the text.</p>
     </li><li name="scala.AnyRef#synchronized" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="synchronized[T0](x$1:=&gt;T0):T0"></a><a id="synchronized[T0](⇒T0):T0"></a>
       <span class="permalink">

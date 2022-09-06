@@ -367,13 +367,18 @@
                                  <span class="s2">&quot;When set to true, it will stop finding for matches when prefix/suffix data is found in the text.&quot;</span><span class="p">,</span>
                                  <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toBoolean</span><span class="p">)</span></div>
 
+<div class="viewcode-block" id="ContextualParserApproach.completeContextMatch"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/context/contextual_parser/index.html#sparknlp_jsl.annotator.context.contextual_parser.ContextualParserApproach.completeContextMatch">[docs]</a>    <span class="n">completeContextMatch</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
+                                 <span class="s2">&quot;completeContextMatch&quot;</span><span class="p">,</span>
+                                 <span class="s2">&quot;Whether to do an exact match of prefix and suffix.&quot;</span><span class="p">,</span>
+                                 <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toBoolean</span><span class="p">)</span></div>
+
     <span class="nd">@keyword_only</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="nb">super</span><span class="p">(</span><span class="n">ContextualParserApproach</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
             <span class="n">classname</span><span class="o">=</span><span class="s2">&quot;com.johnsnowlabs.nlp.annotators.context.ContextualParserApproach&quot;</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_setDefault</span><span class="p">(</span><span class="n">caseSensitive</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">prefixAndSuffixMatch</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">optionalContextRules</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
-                         <span class="n">shortestContextMatch</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">jsonPath</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
-
+                         <span class="n">shortestContextMatch</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">completeContextMatch</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                         <span class="n">jsonPath</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
 
 <div class="viewcode-block" id="ContextualParserApproach.setJsonPath"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/context/contextual_parser/index.html#sparknlp_jsl.annotator.context.contextual_parser.ContextualParserApproach.setJsonPath">[docs]</a>    <span class="k">def</span> <span class="nf">setJsonPath</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Sets path to json file with rules</span>
@@ -440,6 +445,16 @@
 <span class="sd">            When set to true, it will stop finding for matches when prefix/suffix data is found in the text.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">shortestContextMatch</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="ContextualParserApproach.setCompleteContextMatch"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/context/contextual_parser/index.html#sparknlp_jsl.annotator.context.contextual_parser.ContextualParserApproach.setCompleteContextMatch">[docs]</a>    <span class="k">def</span> <span class="nf">setCompleteContextMatch</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Sets whether to do an exact match of prefix and suffix.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        value : bool</span>
+<span class="sd">            When set to true, it will make an exact match, i.e. regex with boundaries</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">completeContextMatch</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
 
     <span class="k">def</span> <span class="nf">_create_model</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">java_model</span><span class="p">):</span>
         <span class="k">return</span> <span class="n">ContextualParserModel</span><span class="p">(</span><span class="n">java_model</span><span class="o">=</span><span class="n">java_model</span><span class="p">)</span></div>
