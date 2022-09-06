@@ -20,7 +20,7 @@ import com.johnsnowlabs.nlp.annotators.audio.util.io.{JLibrosa, WavFile}
 import com.johnsnowlabs.nlp.{AnnotationAudio, AnnotatorType}
 
 import java.io.{ByteArrayInputStream, InputStream}
-import scala.collection.convert.ImplicitConversions.`collection AsScalaIterable`
+import scala.collection.JavaConverters._
 import scala.collection.mutable.ArrayBuffer
 
 /** Utils to check audio files and parse audio byte arrays. */
@@ -29,11 +29,11 @@ private[johnsnowlabs] object AudioProcessors {
   private final val MAGIC_WAV: Array[Byte] = "RIFF".getBytes
   private final val MAGIC_FLAC: Array[Byte] = "fLaC".getBytes
 
-  def loadWav(path: String): Array[Float] = {
+  def loadWav(path: String, sampleRate: Int = 16000): Array[Float] = {
     val jLibrosa = new JLibrosa
     val audioFeatureValuesList =
-      jLibrosa.loadAndReadAsList(path, 16000, -1)
-    audioFeatureValuesList.map(x => x.toString.toFloat).toArray
+      jLibrosa.loadAndReadAsList(path, sampleRate, -1)
+    audioFeatureValuesList.asScala.map(x => x.toFloat).toArray
   }
 
   /** Processes the byte array as a WAV file.
