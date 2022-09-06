@@ -9,10 +9,10 @@
     j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
     })(window,document,'script','dataLayer','GTM-59JLR64');</script>
-<!-- End Google Tag Manager --><title>Bank Complaints Classification</title><meta property="og:title" content=""/>
+<!-- End Google Tag Manager --><title>ESG Text Classification (Augmented, 26 classes)</title><meta property="og:title" content=""/>
 
-<meta name="description" content="DescriptionThis model classifies Bank-related texts into different 7 different categories, and can be used to automatically process incoming emails to customer support channels and forward them to the proper recipients.Predicted EntitiesAccounts, Credit Cards, Credit Reporting, Debt Collection, Loans, Money Transfer...">
-<link rel="canonical" href="/2022/08/09/finclf_bank_complaints_en_3_2.html"><link rel="alternate" type="application/rss+xml" title="Spark NLP" href="/feed.xml"><!-- start favicons snippet, use https://realfavicongenerator.net/ -->
+<meta name="description" content="DescriptionThis model classifies financial texts / news into 26 ESG classes which belong to three verticals: Environment, Social and Governance. This model can be use to build a ESG score board for companies.If you look for generic version, only returning Environment, Social or Governance, please look for the financ...">
+<link rel="canonical" href="/2022/08/09/finclf_augmented_esg_en_3_2.html"><link rel="alternate" type="application/rss+xml" title="Spark NLP" href="/feed.xml"><!-- start favicons snippet, use https://realfavicongenerator.net/ -->
 <!---->
 <!-- <link rel="apple-touch-icon" sizes="180x180" href="/fav.ico"> -->
 
@@ -408,26 +408,28 @@
 
 <!-- end custom main top snippet --><article><script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script><div class="article__header"><div class="header-author"><div class="article__info clearfix"><div class="left-col">
             <a class="edit-on-github-btn" target="_blank" rel="alternate"
-               href="https://github.com/johnsnowlabs/spark-nlp/tree/master/docs/_posts/josejuanmartinez/2022-08-09-finclf_bank_complaints_en_3_2.md">
+               href="https://github.com/johnsnowlabs/spark-nlp/tree/master/docs/_posts/josejuanmartinez/2022-08-09-finclf_augmented_esg_en_3_2.md">
               <span class="fab fa-github"></span>
               <span class="edit-on-github-label">Edit on GitHub</span>
             </a>
         </div><ul class="right-col menu"><li><i class="far fa-user"></i> <span>John Snow Labs</span></li><li><i class="far fa-calendar-alt"></i> <span>Aug 09, 2022</span>
             </li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2022-08-09T00:00:00+00:00"></div><header class="main-docs have_subtitle">
-          <h1>Bank Complaints Classification</h1><div class="top-subtitle mont"></div></header></div><meta itemprop="headline" content="Bank Complaints Classification"><div class="article__info tags_box clearfix"><ul class="left-col menu"><li>en</li><li>finance</li><li>bank</li><li>classification</li><li>licensed</li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2022-08-09T00:00:00+00:00">
-    <meta itemprop="keywords" content="en,finance,bank,classification,licensed"><div class="js-article-content"><div class="model-wrap"><div class="layout--article"><!-- start custom article top snippet -->
+          <h1>ESG Text Classification (Augmented, 26 classes)</h1><div class="top-subtitle mont"></div></header></div><meta itemprop="headline" content="ESG Text Classification (Augmented, 26 classes)"><div class="article__info tags_box clearfix"><ul class="left-col menu"><li>en</li><li>financial</li><li>esg</li><li>classification</li><li>licensed</li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2022-08-09T00:00:00+00:00">
+    <meta itemprop="keywords" content="en,financial,esg,classification,licensed"><div class="js-article-content"><div class="model-wrap"><div class="layout--article"><!-- start custom article top snippet -->
 
 <!-- end custom article top snippet --><div class="article__content" itemprop="articleBody"><h2 id="description">Description</h2>
 
-<p>This model classifies Bank-related texts into different 7 different categories, and can be used to automatically process incoming emails to customer support channels and forward them to the proper recipients.</p>
+<p>This model classifies financial texts / news into 26 ESG classes which belong to three verticals: Environment, Social and Governance. This model can be use to build a ESG score board for companies.</p>
+
+<p>If you look for generic version, only returning Environment, Social or Governance, please look for the finance_sequence_classifier_esg model in Models Hub.</p>
 
 <h2 id="predicted-entities">Predicted Entities</h2>
 
-<p><code class="language-plaintext highlighter-rouge">Accounts</code>, <code class="language-plaintext highlighter-rouge">Credit Cards</code>, <code class="language-plaintext highlighter-rouge">Credit Reporting</code>, <code class="language-plaintext highlighter-rouge">Debt Collection</code>, <code class="language-plaintext highlighter-rouge">Loans</code>, <code class="language-plaintext highlighter-rouge">Money Transfer and Currency</code>, <code class="language-plaintext highlighter-rouge">Mortgage</code></p>
+<p><code class="language-plaintext highlighter-rouge">Business_Ethics</code>, <code class="language-plaintext highlighter-rouge">Data_Security</code>, <code class="language-plaintext highlighter-rouge">Access_And_Affordability</code>, <code class="language-plaintext highlighter-rouge">Business_Model_Resilience</code>, <code class="language-plaintext highlighter-rouge">Competitive_Behavior</code>, <code class="language-plaintext highlighter-rouge">Critical_Incident_Risk_Management</code>, <code class="language-plaintext highlighter-rouge">Customer_Welfare</code>, <code class="language-plaintext highlighter-rouge">Director_Removal</code>, <code class="language-plaintext highlighter-rouge">Employee_Engagement_Inclusion_And_Diversity</code>, <code class="language-plaintext highlighter-rouge">Employee_Health_And_Safety</code>, <code class="language-plaintext highlighter-rouge">Human_Rights_And_Community_Relations</code>, <code class="language-plaintext highlighter-rouge">Labor_Practices</code>, <code class="language-plaintext highlighter-rouge">Management_Of_Legal_And_Regulatory_Framework</code>, <code class="language-plaintext highlighter-rouge">Physical_Impacts_Of_Climate_Change</code>, <code class="language-plaintext highlighter-rouge">Product_Quality_And_Safety</code>, <code class="language-plaintext highlighter-rouge">Product_Design_And_Lifecycle_Management</code>, <code class="language-plaintext highlighter-rouge">Selling_Practices_And_Product_Labeling</code>, <code class="language-plaintext highlighter-rouge">Supply_Chain_Management</code>, <code class="language-plaintext highlighter-rouge">Systemic_Risk_Management</code>, <code class="language-plaintext highlighter-rouge">Waste_And_Hazardous_Materials_Management</code>, <code class="language-plaintext highlighter-rouge">Water_And_Wastewater_Management</code>, <code class="language-plaintext highlighter-rouge">Air_Quality</code>, <code class="language-plaintext highlighter-rouge">Customer_Privacy</code>, <code class="language-plaintext highlighter-rouge">Ecological_Impacts</code>, <code class="language-plaintext highlighter-rouge">Energy_Management</code>, <code class="language-plaintext highlighter-rouge">GHG_Emissions</code></p>
 
-<p class="btn-box"><button class="button button-orange" disabled="">Live Demo</button>
+<p class="btn-box"><a href="https://demo.johnsnowlabs.com/finance/FINCLF_ESG/" class="button button-orange">Live Demo</a>
 <button class="button button-orange" disabled="">Open in Colab</button>
-<a href="https://s3.amazonaws.com/auxdata.johnsnowlabs.com/finance/models/finclf_bank_complaints_en_1.0.0_3.2_1660035048303.zip" class="button button-orange button-orange-trans arr button-icon">Download</a></p>
+<a href="https://s3.amazonaws.com/auxdata.johnsnowlabs.com/finance/models/finclf_augmented_esg_en_1.0.0_3.2_1660046211162.zip" class="button button-orange button-orange-trans arr button-icon">Download</a></p>
 
 <h2 id="how-to-use">How to use</h2>
 
@@ -436,36 +438,45 @@
     <button class="tab-li code-selector-active python-button">Python</button><button class="tab-li code-selector-un-active scala-button">Scala</button><button class="tab-li code-selector-un-active nlu-button">NLU</button>
 </div>
   <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">document_assembler</span> <span class="o">=</span> <span class="n">DocumentAssembler</span><span class="p">()</span> \
-    <span class="p">.</span><span class="n">setInputCol</span><span class="p">(</span><span class="s">"text"</span><span class="p">)</span> \
-    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"document"</span><span class="p">)</span>
+    <span class="p">.</span><span class="n">setInputCol</span><span class="p">(</span><span class="s">'text'</span><span class="p">)</span> \
+    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">'document'</span><span class="p">)</span>
 
-<span class="n">embeddings</span> <span class="o">=</span> <span class="n">UniversalSentenceEncoder</span><span class="p">.</span><span class="n">pretrained</span><span class="p">()</span> \
-      <span class="p">.</span><span class="n">setInputCols</span><span class="p">(</span><span class="s">"document"</span><span class="p">)</span> \
-      <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"sentence_embeddings"</span><span class="p">)</span>
+<span class="n">tokenizer</span> <span class="o">=</span> <span class="n">Tokenizer</span><span class="p">()</span> \
+    <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">'document'</span><span class="p">])</span> \
+    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">'token'</span><span class="p">)</span>
 
-<span class="n">classsifier_dl</span> <span class="o">=</span> <span class="n">ClassifierDLModel</span><span class="p">.</span><span class="n">load</span><span class="p">(</span><span class="s">"finclf_bank_complaints"</span><span class="p">,</span> <span class="s">"en"</span><span class="p">,</span> <span class="s">"finance/models"</span><span class="p">)</span>\
-      <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"sentence_embeddings"</span><span class="p">])</span>\
-      <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"label"</span><span class="p">)</span>\
+<span class="n">sequenceClassifier</span> <span class="o">=</span> <span class="n">BertForSequenceClassification</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"finclf_augmented_esg"</span><span class="p">,</span> <span class="s">"en"</span><span class="p">,</span> <span class="s">"finance/models"</span><span class="p">))</span>\
+  <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"document"</span><span class="p">,</span><span class="s">'token'</span><span class="p">])</span>\
+  <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"class"</span><span class="p">)</span>
 
-<span class="n">clf_pipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">(</span>
-    <span class="n">stages</span> <span class="o">=</span> <span class="p">[</span>
-        <span class="n">document_assembler</span><span class="p">,</span>
-        <span class="n">embeddings</span><span class="p">,</span>
-        <span class="n">classsifier_dl</span>
-    <span class="p">])</span>
-    
-<span class="n">light_pipeline</span> <span class="o">=</span> <span class="n">LightPipeline</span><span class="p">(</span><span class="n">clf_pipeline</span><span class="p">.</span><span class="n">fit</span><span class="p">(</span><span class="n">spark</span><span class="p">.</span><span class="n">createDataFrame</span><span class="p">([[</span><span class="s">''</span><span class="p">]]).</span><span class="n">toDF</span><span class="p">(</span><span class="s">"text"</span><span class="p">)))</span>
+<span class="n">pipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">(</span><span class="n">stages</span><span class="o">=</span><span class="p">[</span>
+    <span class="n">document_assembler</span><span class="p">,</span> 
+    <span class="n">tokenizer</span><span class="p">,</span>
+    <span class="n">sequenceClassifier</span>
+<span class="p">])</span>
 
-<span class="n">result</span> <span class="o">=</span> <span class="n">light_pipeline</span><span class="p">.</span><span class="n">annotate</span><span class="p">(</span><span class="s">"""Over the course of 30 days I have filed a dispute in regards to inaccurate and false information on my credit report. Ive attached a copy of my dispute mailed in certified to Equifax and they are still reporting these incorrect items. According to the fair credit ACT, section 609 ( a ) ( 1 ) ( A ) they are required by Federal Law to only report Accurate information and the have not done so. They have not provided me with any proof i.e. and original consumer contract with my signature on it proving that this is my account.Further more, I would like to make a formal complaint that Ive tried calling Equifax Over 10 times this week and every single time Ive called Ive asked for a representative in the fraud dispute department wants transfer it over there when you speak to the representative and let them know that you are looking to dispute inquiries and accounts due to fraud they immediately transfer you to their survey line essentially ending the call. I believe Equifax is training their representatives to not help consumers over the phone and performing unethical practices. Once I finally got a hold of a representative she told me that she could not help because I did not send in my Social Security card which violates my consumer rights. So Im Making a formal CFPB complaint that you will correct Equifaxs actions. Below Ive written what is also included in the files uploaded, my disputes for inaccuracies on my credit report."""</span><span class="p">)</span>
+<span class="c1"># couple of simple examples
+</span><span class="n">example</span> <span class="o">=</span> <span class="n">spark</span><span class="p">.</span><span class="n">createDataFrame</span><span class="p">([[</span><span class="s">"""The Canadian Environmental Assessment Agency (CEAA) concluded that in June 2016 the company had not made an effort
+ to protect public drinking water and was ignoring concerns raised by its own scientists about the potential levels of pollutants in the local water supply.
+  At the time, there were concerns that the company was not fully testing onsite wells for contaminants and did not use the proper methods for testing because 
+  of its test kits now manufactured in China.A preliminary report by the company in June 2016 was commissioned by the Alberta government to provide recommendations 
+  to Alberta Environment officials"""</span><span class="p">]]).</span><span class="n">toDF</span><span class="p">(</span><span class="s">"text"</span><span class="p">)</span>
 
-<span class="n">result</span><span class="p">[</span><span class="s">'label'</span><span class="p">]</span>
+<span class="n">result</span> <span class="o">=</span> <span class="n">pipeline</span><span class="p">.</span><span class="n">fit</span><span class="p">(</span><span class="n">example</span><span class="p">).</span><span class="n">transform</span><span class="p">(</span><span class="n">example</span><span class="p">)</span>
+
+<span class="c1"># result is a DataFrame
+</span><span class="n">result</span><span class="p">.</span><span class="n">select</span><span class="p">(</span><span class="s">"text"</span><span class="p">,</span> <span class="s">"class.result"</span><span class="p">).</span><span class="n">show</span><span class="p">()</span>
 </code></pre></div>  </div>
 
 </div>
 
 <h2 id="results">Results</h2>
 
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span><span class="s1">'Credit Reporting'</span><span class="o">]</span>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>+--------------------+--------------------+
+|                text|              result|
++--------------------+--------------------+
+|The Canadian Envi...|[Waste_And_Hazard...|
++--------------------+--------------------+
 </code></pre></div></div>
 
 <h2 class="model-param" id="model-information">Model Information</h2>
@@ -474,7 +485,7 @@
   <tbody>
     <tr>
       <td>Model Name:</td>
-      <td>finclf_bank_complaints</td>
+      <td>finclf_augmented_esg</td>
     </tr>
     <tr>
       <td>Compatibility:</td>
@@ -490,7 +501,7 @@
     </tr>
     <tr>
       <td>Input Labels:</td>
-      <td>[sentence_embeddings]</td>
+      <td>[document, token]</td>
     </tr>
     <tr>
       <td>Output Labels:</td>
@@ -502,31 +513,57 @@
     </tr>
     <tr>
       <td>Size:</td>
-      <td>22.4 MB</td>
+      <td>410.4 MB</td>
+    </tr>
+    <tr>
+      <td>Case sensitive:</td>
+      <td>true</td>
+    </tr>
+    <tr>
+      <td>Max sentence length:</td>
+      <td>512</td>
     </tr>
   </tbody>
 </table>
 
 <h2 id="references">References</h2>
 
-<p>https://www.consumerfinance.gov/data-research/consumer-complaints/#download-the-data</p>
+<p>In-house annotations from scrapped annual reports and tweets about ESG</p>
 
 <h2 id="benchmarking">Benchmarking</h2>
 
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>                             precision    recall  f1-score   support
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>                                              precision    recall  f1-score   support
 
-                   Accounts       0.77      0.73      0.75       490
-               Credit Cards       0.75      0.68      0.72       461
-           Credit Reporting       0.73      0.81      0.76       488
-            Debt Collection       0.72      0.72      0.72       459
-                      Loans       0.78      0.78      0.78       472
-Money Transfer and Currency       0.82      0.84      0.83       482
-                   Mortgage       0.87      0.87      0.87       488
+Business_Ethics                                   0.73      0.80      0.76        10
+Data_Security                                     1.00      0.89      0.94         9
+Access_And_Affordability                          1.00      1.00      1.00        15
+Business_Model_Resilience                         1.00      1.00      1.00        12
+Competitive_Behavior                              0.92      1.00      0.96        12
+Critical_Incident_Risk_Management                 0.92      1.00      0.96        11
+Customer_Welfare                                  0.85      1.00      0.92        11
+Director_Removal                                  0.91      1.00      0.95        10
+Employee_Engagement_Inclusion_And_Diversity       1.00      1.00      1.00        11
+Employee_Health_And_Safety                        1.00      1.00      1.00        10
+Human_Rights_And_Community_Relations              0.94      1.00      0.97        16
+Labor_Practices                                   0.71      0.53      0.61        19
+Management_Of_Legal_And_Regulatory_Framework      1.00      0.95      0.97        19
+Physical_Impacts_Of_Climate_Change                0.93      1.00      0.97        14
+Product_Quality_And_Safety                        1.00      1.00      1.00        14
+Product_Design_And_Lifecycle_Management           1.00      1.00      1.00        18
+Selling_Practices_And_Product_Labeling            1.00      1.00      1.00        17
+Supply_Chain_Management                           0.89      1.00      0.94         8
+Systemic_Risk_Management                          1.00      0.86      0.92        14
+Waste_And_Hazardous_Materials_Management          0.88      1.00      0.93        14
+Water_And_Wastewater_Management                   1.00      1.00      1.00         8
+Air_Quality                                       1.00      1.00      1.00        16
+Customer_Privacy                                  1.00      0.93      0.97        15
+Ecological_Impacts                                1.00      1.00      1.00        16
+Energy_Management                                 1.00      0.91      0.95        11
+GHG_Emissions                                     1.00      0.91      0.95        11
 
-                   accuracy                           0.78      3340
-                  macro avg       0.78      0.78      0.78      3340
-               weighted avg       0.78      0.78      0.78      3340
-
+    accuracy                                                          0.95       330
+   macro avg                                      0.95      0.95      0.95       330
+weighted avg                                      0.95      0.95      0.95       330
 </code></pre></div></div>
 </div><div class="d-print-none"><footer class="article__footer"><meta itemprop="dateModified" content="2022-08-09T00:00:00+00:00"><!-- start custom article footer snippet -->
 
@@ -653,7 +690,7 @@ hr.code-selector-underlie {
 
 }
 
-</style><div class="article__section-navigator clearfix"><div class="previous nav_link"><span>PREVIOUS</span><a href="/2022/08/09/finclf_augmented_esg_en_3_2.html">ESG Text Classification (Augmented, 26 classes)</a></div><div class="next nav_link"><span>NEXT</span><a href="/2022/08/09/finclf_distilroberta_sentiment_analysis_en_3_2.html">Financial Finbert Sentiment Analysis (DistilRoBerta)</a></div></div></div>
+</style><div class="article__section-navigator clearfix"><div class="previous nav_link"><span>PREVIOUS</span><a href="/2022/08/09/bert_sequence_classifier_depression_twitter_en_3_0.html">Depression Classifier (PHS-BERT) for Tweets</a></div><div class="next nav_link"><span>NEXT</span><a href="/2022/08/09/finclf_bank_complaints_en_3_2.html">Bank Complaints Classification</a></div></div></div>
 
 </div>
 </div>
