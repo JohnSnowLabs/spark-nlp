@@ -822,11 +822,12 @@
 <h4 id="core-improvements-and-bug-fixes">Core Improvements and Bug Fixes</h4>
 
 <ul>
+  <li>Updated HCC module (<code class="language-plaintext highlighter-rouge">from sparknlp_jsl.functions import profile</code>) with the new changes in HCC score calculation functions.</li>
   <li><code class="language-plaintext highlighter-rouge">AnnotationToolJsonReader</code>, <code class="language-plaintext highlighter-rouge">NerDLMetrics</code> and <code class="language-plaintext highlighter-rouge">StructuredDeidentification</code>: These annotators can be used on Spark 3.0 now.</li>
   <li><code class="language-plaintext highlighter-rouge">NerDLMetrics</code>:
     <ul>
       <li>Added <code class="language-plaintext highlighter-rouge">case_sensitive</code> parameter and case sensitivity issue in tokens is solved.</li>
-      <li>Added <code class="language-plaintext highlighter-rouge">drop_o</code> parameter was added to <code class="language-plaintext highlighter-rouge">computeMetricsFromDF</code> method and <code class="language-plaintext highlighter-rouge">dropO</code> parameter in <code class="language-plaintext highlighter-rouge">NerDLMetrics</code> class is <strong>deprecated</strong>.</li>
+      <li>Added <code class="language-plaintext highlighter-rouge">drop_o</code> parameter to <code class="language-plaintext highlighter-rouge">computeMetricsFromDF</code> method and <code class="language-plaintext highlighter-rouge">dropO</code> parameter in <code class="language-plaintext highlighter-rouge">NerDLMetrics</code> class is <strong>deprecated</strong>.</li>
     </ul>
   </li>
   <li><code class="language-plaintext highlighter-rouge">MedicalNerModel</code>: Inconsistent NER model results between different versions issue is solved.</li>
@@ -843,6 +844,7 @@
 
 <ul>
   <li>We have a new <a href="https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/1.6.ZeroShot_Clinical_NER.ipynb">Zero-Shot Clinical NER Notebook</a> to show how to use zero-shot NER model.</li>
+  <li>We have updated <a href="https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/3.1.Calculate_Medicare_Risk_Adjustment_Score.ipynb">Medicare Risk Adjustment Score Calculation Notebook</a> with the new changes in HCC score calculation functions.</li>
   <li>We have updated these notebooks with the new updates in NER profiling pretrained pipelines:
     <ul>
       <li><a href="https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/1.Clinical_Named_Entity_Recognition_Model.ipynb">Clinical Named Entity Recognition Model Notebook</a></li>
