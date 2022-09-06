@@ -1,2 +1,2 @@
-docs/_posts/josejuanmartinez/2022-08-16-finclf_bert_sentiment_analysis_fintone_en_3_2.md
-docs/_posts/josejuanmartinez/2022-08-16-finclf_bert_sentiment_analysis_fintone_en_3_2.md
+docs/_posts/josejuanmartinez/2022-08-09-finclf_augmented_esg_en_3_2.md
+docs/_posts/josejuanmartinez/2022-08-09-finclf_augmented_esg_en_3_2.md
