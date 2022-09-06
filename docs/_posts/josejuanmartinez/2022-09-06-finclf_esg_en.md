@@ -45,7 +45,7 @@ tokenizer = Tokenizer() \
     .setInputCols(['document']) \
     .setOutputCol('token')
 
-sequenceClassifier = BertForSequenceClassification.pretrained("finclf_esg", "en", "finance/models"))\
+sequenceClassifier = FinanceBertForSequenceClassification.pretrained("finclf_esg", "en", "finance/models"))\
   .setInputCols(["document",'token'])\
   .setOutputCol("class")
 
