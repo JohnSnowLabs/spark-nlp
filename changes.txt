@@ -1,2 +1,12 @@
-docs/_posts/josejuanmartinez/2022-08-09-finclf_sentiment_analysis_en_3_2.md
-docs/_posts/josejuanmartinez/2022-08-09-finclf_sentiment_analysis_en_3_2.md
+docs/_posts/josejuanmartinez/2022-09-06-finclf_augmented_esg_en.md
+docs/_posts/josejuanmartinez/2022-09-06-finclf_bert_fls_en.md
+docs/_posts/josejuanmartinez/2022-09-06-finclf_bert_sentiment_en.md
+docs/_posts/josejuanmartinez/2022-09-06-finclf_bert_sentiment_phrasebank_en.md
+docs/_posts/josejuanmartinez/2022-09-06-finclf_esg_en.md
+docs/_posts/josejuanmartinez/2022-09-06-finner_financial_small_en.md
+docs/_posts/josejuanmartinez/2022-09-06-finclf_augmented_esg_en.md
+docs/_posts/josejuanmartinez/2022-09-06-finclf_bert_fls_en.md
+docs/_posts/josejuanmartinez/2022-09-06-finclf_bert_sentiment_en.md
+docs/_posts/josejuanmartinez/2022-09-06-finclf_bert_sentiment_phrasebank_en.md
+docs/_posts/josejuanmartinez/2022-09-06-finclf_esg_en.md
+docs/_posts/josejuanmartinez/2022-09-06-finner_financial_small_en.md
