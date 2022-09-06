@@ -290,7 +290,7 @@ You can check [ner_profiling_clinical](https://nlp.johnsnowlabs.com/2022/08/30/n
 
 <div class="prev_ver h3-box" markdown="1">
 
-## Previos versions
+## Previous versions
 
 </div>
 <ul class="pagination">

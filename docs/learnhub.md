@@ -5,6 +5,7 @@ page:
 mode: immersivebg
 pagetitle: John Snow Labs NLP - The Learning Hub
 title: The NLP Learning Hub
+excerpt: Enhance your knowledge of NLP by accessing various learning materials prepared by domain experts. Learn about the technology, technology in action, and industry trends in the field of Natural Language Processing.
 seotitle: John Snow Labs NLP - The Learning Hub
 permalink: /learn
 show_subtitle: false
