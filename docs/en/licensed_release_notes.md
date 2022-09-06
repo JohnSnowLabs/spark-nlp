@@ -237,10 +237,11 @@ You can check [ner_profiling_clinical](https://nlp.johnsnowlabs.com/2022/08/30/n
 
 #### Core Improvements and Bug Fixes
 
++ Updated HCC module (`from sparknlp_jsl.functions import profile`) with the new changes in HCC score calculation functions.
 + `AnnotationToolJsonReader`, `NerDLMetrics` and `StructuredDeidentification`: These annotators can be used on Spark 3.0 now.
 + `NerDLMetrics`:
   - Added `case_sensitive` parameter and case sensitivity issue in tokens is solved.
-  - Added `drop_o` parameter was added to `computeMetricsFromDF` method and `dropO` parameter in `NerDLMetrics` class is **deprecated**.
+  - Added `drop_o` parameter to `computeMetricsFromDF` method and `dropO` parameter in `NerDLMetrics` class is **deprecated**.
 + `MedicalNerModel`: Inconsistent NER model results between different versions issue is solved.
 + `AssertionDLModel`: Unindexed chunks will be ignored by the `AssertionDLModel` instead of raising an exception.
 + `ContextualParserApproach`: These two issues are solved when using `ruleScope: "document"` configuration:
@@ -251,6 +252,7 @@ You can check [ner_profiling_clinical](https://nlp.johnsnowlabs.com/2022/08/30/n
 #### New and Updated Notebooks
 
 + We have a new [Zero-Shot Clinical NER Notebook](https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/1.6.ZeroShot_Clinical_NER.ipynb) to show how to use zero-shot NER model.
++ We have updated [Medicare Risk Adjustment Score Calculation Notebook](https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/3.1.Calculate_Medicare_Risk_Adjustment_Score.ipynb) with the new changes in HCC score calculation functions.
 + We have updated these notebooks with the new updates in NER profiling pretrained pipelines:
   - [Clinical Named Entity Recognition Model Notebook](https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/1.Clinical_Named_Entity_Recognition_Model.ipynb)
   - [Pretrained Clinical Pipelines Notebook](https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/11.Pretrained_Clinical_Pipelines.ipynb)
