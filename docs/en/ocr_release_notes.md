@@ -42,7 +42,7 @@ This release focuses around Visual Document Classification models, native Image 
 
 <div class="prev_ver h3-box" markdown="1">
 
-## Previos versions
+## Previous versions
 
 </div>
 
