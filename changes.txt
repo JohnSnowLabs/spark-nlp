@@ -1,4 +1,2 @@
-docs/en/licensed_release_notes.md
-docs/en/spark_nlp_healthcare_versions/release_notes_4_1_0.md
-docs/en/licensed_release_notes.md
-docs/en/spark_nlp_healthcare_versions/release_notes_4_1_0.md
+docs/_posts/murat-gunay/2022-06-30-bert_classifier_finbert_fls_en_3_0.md
+docs/_posts/murat-gunay/2022-06-30-bert_classifier_finbert_fls_en_3_0.md
