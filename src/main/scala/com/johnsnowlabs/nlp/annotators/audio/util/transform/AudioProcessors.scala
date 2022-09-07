@@ -16,13 +16,12 @@
 
 package com.johnsnowlabs.nlp.annotators.audio.util.transform
 
-import com.johnsnowlabs.nlp.annotators.audio.util.io.{JLibrosa, WavFile}
+import com.johnsnowlabs.nlp.annotators.audio.util.io.WavFile
 import com.johnsnowlabs.nlp.{AnnotationAudio, AnnotatorType}
 import com.sun.media.sound.WaveFileReader
 
 import java.io.{BufferedInputStream, ByteArrayInputStream, InputStream}
 import javax.sound.sampled.{AudioFormat, AudioSystem}
-import scala.collection.JavaConverters._
 import scala.collection.mutable.ArrayBuffer
 
 /** Utils to check audio files and parse audio byte arrays. */
@@ -30,6 +29,30 @@ private[johnsnowlabs] object AudioProcessors {
 
   private final val MAGIC_WAV: Array[Byte] = "RIFF".getBytes
   private final val MAGIC_FLAC: Array[Byte] = "fLaC".getBytes
+
+  def checkInputBinaryFile(
+      rawAudio: Array[Byte],
+      metadata: Map[String, String]): AnnotationAudio = {
+    val magicBytes: Array[Byte] = rawAudio.slice(0, 4)
+    var fileType = ""
+    require(
+      magicBytes match {
+        case MAGIC_WAV =>
+          fileType = "WAV"
+          false
+        case MAGIC_FLAC =>
+          fileType = "FLAC"
+          false
+        case _ => true
+      },
+      "The file is not WAV or FLAC types. Spark NLP only supports WAV and FLAC formats")
+
+    new AnnotationAudio(
+      AnnotatorType.AUDIO,
+      result = rawAudio,
+      metadata = Map("length" -> rawAudio.length.toString, "type" -> fileType) ++ metadata)
+
+  }
 
   /** Processes the byte array as a WAV file.
     *
@@ -61,7 +84,7 @@ private[johnsnowlabs] object AudioProcessors {
     inputStreamToByteArray(new BufferedInputStream(convertedIn))
   }
 
-  def processAsWav(rawBytes: Array[Byte]): AnnotationAudio = {
+  def processAsWav(rawBytes: Array[Byte]): Array[Float] = {
     val rawStream: InputStream = new ByteArrayInputStream(resample(rawBytes))
     val wavFile = WavFile.readWavStream(rawStream)
 
@@ -113,33 +136,24 @@ private[johnsnowlabs] object AudioProcessors {
         }
       }
 
-    new AnnotationAudio(
-      annotatorType = AnnotatorType.AUDIO,
-      result = resultBuffer,
-      metadata = Map(
-        "frames" -> mNumFrames.toString,
-        "sampleRate" -> mSampleRate.toString,
-        "channels" -> mChannels.toString))
+    resultBuffer
+    // TODO: we can return this to be added to the metadata
+//      metadata = Map(
+//        "frames" -> mNumFrames.toString,
+//        "sampleRate" -> mSampleRate.toString,
+//        "channels" -> mChannels.toString))
   }
 
-  def processAsFlac(rawBytes: Array[Byte]): AnnotationAudio = ???
+  def processAsFlac(rawBytes: Array[Byte]): Array[Float] = ???
 
-  def byteToAnnotationAudio(
-      rawAudio: Array[Byte],
-      metadata: Map[String, String]): AnnotationAudio = {
+  def loadAudioByteToFloat(rawAudio: Array[Byte], sr: Int): Array[Float] = {
     val magicBytes: Array[Byte] = rawAudio.slice(0, 4)
 
-    if (magicBytes sameElements MAGIC_WAV)
-      processAsWav(rawAudio)
-    else if (magicBytes sameElements MAGIC_FLAC)
-      processAsFlac(rawAudio)
-    else
-      new AnnotationAudio(
-        AnnotatorType.AUDIO,
-        result = Array.emptyFloatArray,
-        // TODO: Notify of error
-        // TODO: Maybe add some extra info about size/length type etc. in the metadata
-        metadata = Map.empty[String, String] ++ metadata)
+    magicBytes match {
+      case MAGIC_WAV => processAsWav(rawAudio)
+      case MAGIC_FLAC => processAsFlac(rawAudio)
+      case _ => processAsWav(rawAudio)
+    }
 
   }
 

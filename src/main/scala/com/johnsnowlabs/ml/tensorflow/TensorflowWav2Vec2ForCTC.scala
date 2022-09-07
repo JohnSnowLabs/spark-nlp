@@ -103,7 +103,8 @@ class TensorflowWav2Vec2ForCTC(
 
     // TODO: this part needs to be improved
     annotations.map { annot =>
-      val normalizedAudioBatch = AudioProcessors.normalizeRawAudio(annot.result)
+      val normalizedAudioBatch =
+        AudioProcessors.loadAudioByteToFloat(annot.result, preprocessor.sampling_rate)
 //      val paddedAudioBatch = AudioProcessors.padRawAudio(
 //        normalizedAudioBatch,
 //        maxLengthInBatch,

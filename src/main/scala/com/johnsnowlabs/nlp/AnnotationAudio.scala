@@ -24,7 +24,7 @@ import scala.collection.Map
 /** Represents [[AudioAssembler]]'s output parts and their details. */
 case class AnnotationAudio(
     annotatorType: String,
-    result: Array[Float],
+    result: Array[Byte],
     metadata: Map[String, String])
     extends IAnnotation {
   override def equals(obj: Any): Boolean = {
@@ -46,21 +46,18 @@ object AnnotationAudio {
   val dataType = new StructType(
     Array(
       StructField("annotatorType", StringType, nullable = true),
-      StructField("result", ArrayType(FloatType, containsNull = false), nullable = true),
+      StructField("result", ArrayType(ByteType, containsNull = false), nullable = true),
       StructField("metadata", MapType(StringType, StringType), nullable = true)))
 
   val arrayType = new ArrayType(dataType, true)
 
-  case class AudioFields(result: Array[Float])
+  case class AudioFields(result: Array[Byte])
 
   def apply(row: Row): AnnotationAudio = {
-    AnnotationAudio(row.getString(0), row.getSeq[Float](1).toArray, row.getMap[String, String](2))
+    AnnotationAudio(row.getString(0), row.getSeq[Byte](1).toArray, row.getMap[String, String](2))
   }
 
   def apply(audio: AudioFields): AnnotationAudio =
-    AnnotationAudio(
-      AnnotatorType.AUDIO,
-      result = Array.emptyFloatArray,
-      Map.empty[String, String])
+    AnnotationAudio(AnnotatorType.AUDIO, result = Array.emptyByteArray, Map.empty[String, String])
 
 }
