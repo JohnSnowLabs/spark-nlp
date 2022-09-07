@@ -751,13 +751,12 @@ trait WithGraphResolver {
 
     if (localGraphPath.isDefined && localGraphPath.get.startsWith("s3://")) {
 
-      val bucketName = localGraphPath.get.substring("s3://".length).split("/").head
+      val (bucketName, keyPrefix) = ResourceHelper.parseS3URI(localGraphPath.get)
 
       require(
         bucketName != "",
         "S3 bucket name is not define. Please define it with parameter setS3BucketName")
 
-      val keyPrefix = localGraphPath.get.substring(("s3://" + bucketName).length + 1)
       var tmpDirectory = SparkFiles.getRootDirectory()
 
       val awsGateway = new AWSGateway()
