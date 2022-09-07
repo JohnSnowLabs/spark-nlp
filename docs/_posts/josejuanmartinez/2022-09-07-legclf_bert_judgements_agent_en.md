@@ -17,7 +17,9 @@ use_language_switcher: "Python-Scala-Java"
 
 ## Description
 
-This is a Bert-based models to carry out Text classification on legal judgements texts, and check classify them by the type of Agent (Party) involved (it's the Court talking, the applicant, ...).
+This is a Text Classification model, aimed to identify different the different argument types in Court Decisions texts about Human Rights. This model was inspired by [this](https://arxiv.org/pdf/2208.06178.pdf) paper, which uses a different approach (Named Entity Recognition). The model classifies the claims by the type of Agent (Party) involved (it's the Court talking, the applicant, ...).
+
+The classes are listed below. Please check the [original paper](https://arxiv.org/pdf/2208.06178.pdf) for more information about them.
 
 ## Predicted Entities
 
