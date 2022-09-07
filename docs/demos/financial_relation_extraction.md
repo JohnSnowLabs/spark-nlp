@@ -20,6 +20,20 @@ data:
           activemenu: financial_relation_extraction
       source: yes
       source: 
+        - title: Financial Zero-shot Relation Extraction   
+          id: financial_zero_shot_relation_extraction   
+          image: 
+              src: /assets/images/Financial_Zero_shot_Relation_Extraction.svg
+          image2: 
+              src: /assets/images/Financial_Zero_shot_Relation_Extraction_f.svg
+          excerpt: This demo shows how you can carry out Relation Extraction without training any model, just with some textual examples.
+          actions:
+          - text: Live Demo
+            type: normal
+            url: https://demo.johnsnowlabs.com/finance/FINRE_ZEROSHOT/
+          - text: Colab
+            type: blue_btn
+            url:
         - title: Extract Relations between Organizations, Products and their Aliases  
           id: extract_relations_between_orgs_prods_aliases 
           image: 
@@ -48,18 +62,5 @@ data:
           - text: Colab
             type: blue_btn
             url: https://nlp.johnsnowlabs.com/  
-        - title: Financial Zero-shot Relation Extraction   
-          id: financial_zero_shot_relation_extraction   
-          image: 
-              src: /assets/images/Financial_Zero_shot_Relation_Extraction.svg
-          image2: 
-              src: /assets/images/Financial_Zero_shot_Relation_Extraction_f.svg
-          excerpt: This demo shows how you can carry out Relation Extraction without training any model, just with some textual examples.
-          actions:
-          - text: Live Demo
-            type: normal
-            url: https://demo.johnsnowlabs.com/finance/FINRE_ZEROSHOT/
-          - text: Colab
-            type: blue_btn
-            url:       
+               
 ---
