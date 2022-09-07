@@ -1,4 +1,10 @@
-docs/_posts/josejuanmartinez/2022-09-07-legclf_bert_judgements_agent_en.md
-docs/_posts/josejuanmartinez/2022-09-07-legclf_bert_judgements_argtype_en.md
-docs/_posts/josejuanmartinez/2022-09-07-legclf_bert_judgements_agent_en.md
-docs/_posts/josejuanmartinez/2022-09-07-legclf_bert_judgements_argtype_en.md
+docs/demos/financial_entity_recognition.md
+docs/demos/financial_relation_extraction.md
+docs/demos/financial_text_classification.md
+docs/demos/legal_entity_recognition.md
+docs/demos/legal_relation_extraction.md
+docs/demos/financial_entity_recognition.md
+docs/demos/financial_relation_extraction.md
+docs/demos/financial_text_classification.md
+docs/demos/legal_entity_recognition.md
+docs/demos/legal_relation_extraction.md
