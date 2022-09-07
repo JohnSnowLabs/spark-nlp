@@ -1,2 +1,4 @@
-docs/_posts/josejuanmartinez/2022-08-30-finclf_bert_banking77_en.md
-docs/_posts/josejuanmartinez/2022-08-30-finclf_bert_banking77_en.md
+docs/_posts/josejuanmartinez/2022-09-07-finclf_bert_banking77_en.md
+docs/_posts/josejuanmartinez/2022-09-07-finclf_bert_sentiment_phrasebank_en.md
+docs/_posts/josejuanmartinez/2022-09-07-finclf_bert_banking77_en.md
+docs/_posts/josejuanmartinez/2022-09-07-finclf_bert_sentiment_phrasebank_en.md
