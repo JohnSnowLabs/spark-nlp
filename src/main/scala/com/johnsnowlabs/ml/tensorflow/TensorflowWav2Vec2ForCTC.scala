@@ -19,9 +19,14 @@ package com.johnsnowlabs.ml.tensorflow
 import com.johnsnowlabs.ml.tensorflow.sign.{ModelSignatureConstants, ModelSignatureManager}
 import com.johnsnowlabs.nlp._
 import com.johnsnowlabs.nlp.annotators.audio.feature_extractor.Preprocessor
+import com.johnsnowlabs.nlp.annotators.audio.util.io.JLibrosa
 import com.johnsnowlabs.nlp.annotators.audio.util.transform.AudioProcessors
+import com.sun.media.sound.WaveFileReader
 
+import java.io.File
+import javax.sound.sampled.{AudioFormat, AudioSystem}
 import scala.collection.JavaConverters._
+import scala.collection.mutable.ArrayBuffer
 
 class TensorflowWav2Vec2ForCTC(
     val tensorflowWrapper: TensorflowWrapper,
@@ -94,30 +99,17 @@ class TensorflowWav2Vec2ForCTC(
       annotations: Array[AnnotationAudio],
       preprocessor: Preprocessor): Array[Array[Float]] = {
 
-    val readFromCsv = true
+    val maxLengthInBatch = annotations.map(x => x.result.length).max
 
-    if (readFromCsv) {
-      val bufferedSource =
-        scala.io.Source.fromFile("src/test/resources/audio/csv/audi_floats.csv")
-      val rows = bufferedSource
-        .getLines()
-        .map(_.split(",").head.trim.toFloat)
-        .toArray
-      bufferedSource.close
-      Array(rows, rows)
-    } else {
-      val maxLengthInBatch = annotations.map(x => x.result.length).max
-
-      // TODO: this part needs to be improved
-      annotations.map { annot =>
-        val normalizedAudioBatch = AudioProcessors.normalizeRawAudio(annot.result)
+    // TODO: this part needs to be improved
+    annotations.map { annot =>
+      val normalizedAudioBatch = AudioProcessors.normalizeRawAudio(annot.result)
 //      val paddedAudioBatch = AudioProcessors.padRawAudio(
 //        normalizedAudioBatch,
 //        maxLengthInBatch,
 //        preprocessor.padding_side,
 //        preprocessor.padding_value)
-        normalizedAudioBatch
-      }
+      normalizedAudioBatch
     }
 
   }
