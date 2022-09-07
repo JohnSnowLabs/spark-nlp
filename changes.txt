@@ -1,2 +1,2 @@
-docs/_posts/maziyarpanahi/2021-11-03-bert_sequence_classifier_finbert_en.md
-docs/_posts/maziyarpanahi/2021-11-03-bert_sequence_classifier_finbert_en.md
+docs/_posts/josejuanmartinez/2022-08-30-finclf_bert_banking77_en.md
+docs/_posts/josejuanmartinez/2022-08-30-finclf_bert_banking77_en.md

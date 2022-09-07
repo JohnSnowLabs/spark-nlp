@@ -427,10 +427,10 @@
     j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
     })(window,document,'script','dataLayer','GTM-59JLR64');</script>
-<!-- End Google Tag Manager --><title>Legal Zero-shot NER</title><meta property="og:title" content=""/>
+<!-- End Google Tag Manager --><title>Financial NER (Small)</title><meta property="og:title" content=""/>
 
-<meta name="description" content="DescriptionThis model is trained to carry out a Zero-Shot Named Entity Recognition (NER) approach, detecting any kind of entities with no training dataset, just tje pretrained RoBERTa embeddings (included in the model) and some examples.Predicted EntitiesLive DemoOpen in ColabDownloadHow to use         PythonScalaNL...">
-<link rel="canonical" href="/2022/09/02/legner_roberta_zeroshot_en.html"><link rel="alternate" type="application/rss+xml" title="Spark NLP" href="/feed.xml"><!-- start favicons snippet, use https://realfavicongenerator.net/ -->
+<meta name="description" content="DescriptionThis is a sm (small) version of a financial model, trained with more generic labels than the other versions of the model (md, lg, …) you can find in Models Hub.The aim of this model is to detect the main pieces of financial information in annual reports of companies, more specifically this model is being ...">
+<link rel="canonical" href="/2022/09/06/finner_financial_small_en.html"><link rel="alternate" type="application/rss+xml" title="Spark NLP" href="/feed.xml"><!-- start favicons snippet, use https://realfavicongenerator.net/ -->
 <!---->
 <!-- <link rel="apple-touch-icon" sizes="180x180" href="/fav.ico"> -->
 
@@ -826,24 +826,45 @@
 
 <!-- end custom main top snippet --><article><script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script><div class="article__header"><div class="header-author"><div class="article__info clearfix"><div class="left-col">
             <a class="edit-on-github-btn" target="_blank" rel="alternate"
-               href="https://github.com/johnsnowlabs/spark-nlp/tree/master/docs/_posts/josejuanmartinez/2022-09-02-legner_roberta_zeroshot_en.md">
+               href="https://github.com/johnsnowlabs/spark-nlp/tree/master/docs/_posts/josejuanmartinez/2022-09-06-finner_financial_small_en.md">
               <span class="fab fa-github"></span>
               <span class="edit-on-github-label">Edit on GitHub</span>
             </a>
-        </div><ul class="right-col menu"><li><i class="far fa-user"></i> <span>John Snow Labs</span></li><li><i class="far fa-calendar-alt"></i> <span>Sep 02, 2022</span>
-            </li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2022-09-02T00:00:00+00:00"></div><header class="main-docs have_subtitle">
-          <h1>Legal Zero-shot NER</h1><div class="top-subtitle mont"></div></header></div><meta itemprop="headline" content="Legal Zero-shot NER"><div class="article__info tags_box clearfix"><ul class="left-col menu"><li>en</li><li>legal</li><li>ner</li><li>zero</li><li>shot</li><li>zeroshot</li><li>licensed</li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2022-09-02T00:00:00+00:00">
-    <meta itemprop="keywords" content="en,legal,ner,zero,shot,zeroshot,licensed"><div class="js-article-content"><div class="model-wrap"><div class="layout--article"><!-- start custom article top snippet -->
+        </div><ul class="right-col menu"><li><i class="far fa-user"></i> <span>John Snow Labs</span></li><li><i class="far fa-calendar-alt"></i> <span>Sep 06, 2022</span>
+            </li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2022-09-06T00:00:00+00:00"></div><header class="main-docs have_subtitle">
+          <h1>Financial NER (Small)</h1><div class="top-subtitle mont"></div></header></div><meta itemprop="headline" content="Financial NER (Small)"><div class="article__info tags_box clearfix"><ul class="left-col menu"><li>en</li><li>finance</li><li>ner</li><li>annual</li><li>ports</li><li>10k</li><li>filings</li><li>licensed</li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2022-09-06T00:00:00+00:00">
+    <meta itemprop="keywords" content="en,finance,ner,annual,ports,10k,filings,licensed"><div class="js-article-content"><div class="model-wrap"><div class="layout--article"><!-- start custom article top snippet -->
 
 <!-- end custom article top snippet --><div class="article__content" itemprop="articleBody"><h2 id="description">Description</h2>
 
-<p>This model is trained to carry out a Zero-Shot Named Entity Recognition (NER) approach, detecting any kind of entities with no training dataset, just tje pretrained RoBERTa embeddings (included in the model) and some examples.</p>
+<p>This is a <code class="language-plaintext highlighter-rouge">sm</code> (small) version of a financial model, trained with more generic labels than the other versions of the model (<code class="language-plaintext highlighter-rouge">md</code>, <code class="language-plaintext highlighter-rouge">lg</code>, …) you can find in Models Hub.</p>
+
+<p>The aim of this model is to detect the main pieces of financial information in annual reports of companies, more specifically this model is being trained with 10K filings.</p>
+
+<p>The currently available entities are:</p>
+<ul>
+  <li>AMOUNT: Numeric amounts, not percentages</li>
+  <li>PERCENTAGE: Numeric amounts which are percentages</li>
+  <li>CURRENCY: The currency of the amount</li>
+  <li>FISCAL_YEAR: A date which expresses which month the fiscal exercise was closed for a specific year</li>
+  <li>DATE: Generic dates in context where either it’s not a fiscal year or it can’t be asserted as such given the context</li>
+  <li>PROFIT: Profit or also Revenue</li>
+  <li>PROFIT_INCREASE: A piece of information saying there was a profit / revenue increase in that fiscal year</li>
+  <li>PROFIT_DECLINE: A piece of information saying there was a profit / revenue decrease in that fiscal year</li>
+  <li>EXPENSE: An expense or loss</li>
+  <li>EXPENSE_INCREASE: A piece of information saying there was an expense increase in that fiscal year</li>
+  <li>EXPENSE_DECREASE: A piece of information saying there was an expense decrease in that fiscal year</li>
+</ul>
+
+<p>You can also check for the Relation Extraction model which connects these entities together</p>
 
 <h2 id="predicted-entities">Predicted Entities</h2>
 
-<p class="btn-box"><a href="https://demo.johnsnowlabs.com/legal/LEGNER_ZEROSHOT/" class="button button-orange">Live Demo</a>
+<p><code class="language-plaintext highlighter-rouge">AMOUNT</code>, <code class="language-plaintext highlighter-rouge">CURRENCY</code>, <code class="language-plaintext highlighter-rouge">DATE</code>, <code class="language-plaintext highlighter-rouge">FISCAL_YEAR</code>, <code class="language-plaintext highlighter-rouge">PERCENTAGE</code>, <code class="language-plaintext highlighter-rouge">EXPENSE</code>, <code class="language-plaintext highlighter-rouge">EXPENSE_INCREASE</code>, <code class="language-plaintext highlighter-rouge">EXPENSE_DECREASE</code>, <code class="language-plaintext highlighter-rouge">PROFIT</code>, <code class="language-plaintext highlighter-rouge">PROFIT_INCREASE</code>, <code class="language-plaintext highlighter-rouge">PROFIT_DECLINE</code></p>
+
+<p class="btn-box"><button class="button button-orange" disabled="">Live Demo</button>
 <button class="button button-orange" disabled="">Open in Colab</button>
-<a href="https://s3.amazonaws.com/auxdata.johnsnowlabs.com/legal/models/legner_roberta_zeroshot_en_1.0.0_3.2_1662113815288.zip" class="button button-orange button-orange-trans arr button-icon">Download</a></p>
+<a href="https://s3.amazonaws.com/auxdata.johnsnowlabs.com/finance/models/finner_financial_small_en_1.0.0_3.2_1662468806935.zip" class="button button-orange button-orange-trans arr button-icon">Download</a></p>
 
 <h2 id="how-to-use">How to use</h2>
 
@@ -851,76 +872,110 @@
   <div class="top_tab_li">   
     <button class="tab-li code-selector-active python-button">Python</button><button class="tab-li code-selector-un-active scala-button">Scala</button><button class="tab-li code-selector-un-active nlu-button">NLU</button>
 </div>
-  <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">documentAssembler</span> <span class="o">=</span> <span class="n">DocumentAssembler</span><span class="p">()</span>\
-  <span class="p">.</span><span class="n">setInputCol</span><span class="p">(</span><span class="s">"text"</span><span class="p">)</span>\
-  <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"document"</span><span class="p">)</span>
+  <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">document_assembler</span> <span class="o">=</span> <span class="n">DocumentAssembler</span><span class="p">()</span>\
+    <span class="p">.</span><span class="n">setInputCol</span><span class="p">(</span><span class="s">"text"</span><span class="p">)</span>\
+    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"document"</span><span class="p">)</span>
 
-<span class="n">sparktokenizer</span> <span class="o">=</span> <span class="n">Tokenizer</span><span class="p">()</span>\
-  <span class="p">.</span><span class="n">setInputCols</span><span class="p">(</span><span class="s">"document"</span><span class="p">)</span>\
-  <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"token"</span><span class="p">)</span>
+<span class="n">sentence_detector</span> <span class="o">=</span> <span class="n">SentenceDetectorDLModel</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"sentence_detector_dl"</span><span class="p">,</span><span class="s">"xx"</span><span class="p">)</span>\
+    <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"document"</span><span class="p">])</span>\
+    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"sentence"</span><span class="p">)</span>
 
-<span class="n">zero_shot_ner</span> <span class="o">=</span> <span class="n">ZeroShotNerModel</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"legner_roberta_zeroshot"</span><span class="p">,</span> <span class="s">"en"</span><span class="p">,</span> <span class="s">"legal/models"</span><span class="p">)</span>\
-    <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"document"</span><span class="p">,</span> <span class="s">"token"</span><span class="p">])</span>\
-    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"zero_shot_ner"</span><span class="p">)</span>\
-    <span class="p">.</span><span class="n">setEntityDefinitions</span><span class="p">(</span>
-        <span class="p">{</span>
-            <span class="s">"DATE"</span><span class="p">:</span> <span class="p">[</span><span class="s">'When was the company acquisition?'</span><span class="p">,</span> <span class="s">'When was the company purchase agreement?'</span><span class="p">,</span> <span class="s">"When was the agreement?"</span><span class="p">],</span>
-            <span class="s">"ORG"</span><span class="p">:</span> <span class="p">[</span><span class="s">"Which company?"</span><span class="p">],</span>
-            <span class="s">"STATE"</span><span class="p">:</span> <span class="p">[</span><span class="s">"Which state?"</span><span class="p">],</span>
-            <span class="s">"AGREEMENT"</span><span class="p">:</span> <span class="p">[</span><span class="s">"What kind of agreement?"</span><span class="p">],</span>
-            <span class="s">"LICENSE"</span><span class="p">:</span> <span class="p">[</span><span class="s">"What kind of license?"</span><span class="p">],</span>
-            <span class="s">"LICENSE_RECIPIENT"</span><span class="p">:</span> <span class="p">[</span><span class="s">"To whom the license is granted?"</span><span class="p">]</span>
-        <span class="p">})</span>
+<span class="n">tokenizer</span> <span class="o">=</span> <span class="n">Tokenizer</span><span class="p">()</span>\
+    <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"sentence"</span><span class="p">])</span>\
+    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"token"</span><span class="p">)</span>
 
-<span class="n">nerconverter</span> <span class="o">=</span> <span class="n">NerConverter</span><span class="p">()</span>\
-  <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"document"</span><span class="p">,</span> <span class="s">"token"</span><span class="p">,</span> <span class="s">"zero_shot_ner"</span><span class="p">])</span>\
-  <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"ner_chunk"</span><span class="p">)</span>
+<span class="n">embeddings</span> <span class="o">=</span> <span class="n">BertEmbeddings</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"bert_embeddings_sec_bert_base"</span><span class="p">,</span> <span class="s">"en"</span><span class="p">)</span> \
+  <span class="p">.</span><span class="n">setInputCols</span><span class="p">(</span><span class="s">"sentence"</span><span class="p">,</span> <span class="s">"token"</span><span class="p">)</span> \
+  <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"embeddings"</span><span class="p">)</span>\
+  <span class="p">.</span><span class="n">setMaxSentenceLength</span><span class="p">(</span><span class="mi">512</span><span class="p">)</span>
 
-<span class="n">pipeline</span> <span class="o">=</span>  <span class="n">Pipeline</span><span class="p">(</span><span class="n">stages</span><span class="o">=</span><span class="p">[</span>
-  <span class="n">documentAssembler</span><span class="p">,</span>
-  <span class="n">sparktokenizer</span><span class="p">,</span>
-  <span class="n">zero_shot_ner</span><span class="p">,</span>
-  <span class="n">nerconverter</span><span class="p">,</span>
-    <span class="p">]</span>
-<span class="p">)</span>
+<span class="n">ner_model</span> <span class="o">=</span> <span class="n">FinanceNerModel</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"finner_financial_wip"</span><span class="p">,</span> <span class="s">"en"</span><span class="p">,</span> <span class="s">"finance/models"</span><span class="p">)</span>\
+    <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"sentence"</span><span class="p">,</span> <span class="s">"token"</span><span class="p">,</span> <span class="s">"embeddings"</span><span class="p">])</span>\
+    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"ner"</span><span class="p">)</span>\
 
-<span class="n">sample_text</span> <span class="o">=</span> <span class="p">[</span><span class="s">"In March 2012, as part of a longer-term strategy, the Company acquired Vertro, Inc., which owned and operated the ALOT product portfolio."</span><span class="p">,</span>
-              <span class="s">"In February 2017, the Company entered into an asset purchase agreement with NetSeer, Inc."</span><span class="p">,</span>
-              <span class="s">"This INTELLECTUAL PROPERTY AGREEMENT, dated as of December 31, 2018 (the 'Effective Date') is entered into by and between Armstrong Flooring, Inc., a Delaware corporation ('Seller') and AFI Licensing LLC, a Delaware company('Licensing')"</span>
-              <span class="s">"The Company hereby grants to Seller a perpetual, non- exclusive, royalty-free license"</span><span class="p">]</span>
+<span class="n">ner_converter</span> <span class="o">=</span> <span class="n">NerConverter</span><span class="p">()</span>\
+    <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"sentence"</span><span class="p">,</span> <span class="s">"token"</span><span class="p">,</span> <span class="s">"ner"</span><span class="p">])</span>\
+    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"ner_chunk"</span><span class="p">)</span>
 
-<span class="n">p_model</span> <span class="o">=</span> <span class="n">pipeline</span><span class="p">.</span><span class="n">fit</span><span class="p">(</span><span class="n">spark</span><span class="p">.</span><span class="n">createDataFrame</span><span class="p">([[</span><span class="s">""</span><span class="p">]]).</span><span class="n">toDF</span><span class="p">(</span><span class="s">"text"</span><span class="p">))</span>
+<span class="n">pipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">(</span><span class="n">stages</span><span class="o">=</span><span class="p">[</span>
+    <span class="n">document_assembler</span><span class="p">,</span>
+    <span class="n">sentence_detector</span><span class="p">,</span>
+    <span class="n">tokenizer</span><span class="p">,</span>
+    <span class="n">embeddings</span><span class="p">,</span>
+    <span class="n">ner_model</span><span class="p">,</span>
+    <span class="n">ner_converter</span>   
+    <span class="p">])</span>
 
-<span class="n">res</span> <span class="o">=</span> <span class="n">p_model</span><span class="p">.</span><span class="n">transform</span><span class="p">(</span><span class="n">spark</span><span class="p">.</span><span class="n">createDataFrame</span><span class="p">(</span><span class="n">sample_text</span><span class="p">,</span> <span class="n">StringType</span><span class="p">()).</span><span class="n">toDF</span><span class="p">(</span><span class="s">"text"</span><span class="p">))</span>
+<span class="n">data</span> <span class="o">=</span> <span class="n">spark</span><span class="p">.</span><span class="n">createDataFrame</span><span class="p">([[</span><span class="s">"""License fees revenue decreased 40 %, or $ 0.5 million to $ 0.7 million for the year ended December 31, 2020 compared to $ 1.2 million for the year ended December 31, 2019. Services revenue increased 4 %, or $ 1.1 million, to $ 25.6 million for the year ended December 31, 2020 from $ 24.5 million for the year ended December 31, 2019.  Costs of revenue, excluding depreciation and amortization increased by $ 0.1 million, or 2 %, to $ 8.8 million for the year ended December 31, 2020 from $ 8.7 million for the year ended December 31, 2019. The increase was primarily related to increase in internal staff costs of $ 1.1 million as we increased delivery staff and work performed on internal projects, partially offset by a decrease in third party consultant costs of $ 0.6 million as these were converted to internal staff or terminated. Also, a decrease in travel costs of $ 0.4 million due to travel restrictions caused by the global pandemic. As a percentage of revenue, cost of revenue, excluding depreciation and amortization was 34 % for each of the years ended December 31, 2020 and 2019. Sales and marketing expenses decreased 20 %, or $ 1.5 million, to $ 6.0 million for the year ended December 31, 2020 from $ 7.5 million for the year ended December 31, 2019."""</span><span class="p">]]).</span><span class="n">toDF</span><span class="p">(</span><span class="s">"text"</span><span class="p">)</span>
 
-<span class="n">res</span><span class="p">.</span><span class="n">select</span><span class="p">(</span><span class="n">F</span><span class="p">.</span><span class="n">explode</span><span class="p">(</span><span class="n">F</span><span class="p">.</span><span class="n">arrays_zip</span><span class="p">(</span><span class="n">res</span><span class="p">.</span><span class="n">ner_chunk</span><span class="p">.</span><span class="n">result</span><span class="p">,</span> <span class="n">res</span><span class="p">.</span><span class="n">ner_chunk</span><span class="p">.</span><span class="n">begin</span><span class="p">,</span> <span class="n">res</span><span class="p">.</span><span class="n">ner_chunk</span><span class="p">.</span><span class="n">end</span><span class="p">,</span> <span class="n">res</span><span class="p">.</span><span class="n">ner_chunk</span><span class="p">.</span><span class="n">metadata</span><span class="p">)).</span><span class="n">alias</span><span class="p">(</span><span class="s">"cols"</span><span class="p">))</span> \
-   <span class="p">.</span><span class="n">select</span><span class="p">(</span><span class="n">F</span><span class="p">.</span><span class="n">expr</span><span class="p">(</span><span class="s">"cols['0']"</span><span class="p">).</span><span class="n">alias</span><span class="p">(</span><span class="s">"chunk"</span><span class="p">),</span>
-           <span class="n">F</span><span class="p">.</span><span class="n">expr</span><span class="p">(</span><span class="s">"cols['3']['entity']"</span><span class="p">).</span><span class="n">alias</span><span class="p">(</span><span class="s">"ner_label"</span><span class="p">))</span>\
-   <span class="p">.</span><span class="nb">filter</span><span class="p">(</span><span class="s">"ner_label!='O'"</span><span class="p">)</span>\
-   <span class="p">.</span><span class="n">show</span><span class="p">(</span><span class="n">truncate</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+<span class="n">result</span> <span class="o">=</span> <span class="n">model</span><span class="p">.</span><span class="n">transform</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+
+<span class="n">result</span><span class="p">.</span><span class="n">select</span><span class="p">(</span><span class="n">F</span><span class="p">.</span><span class="n">explode</span><span class="p">(</span><span class="n">F</span><span class="p">.</span><span class="n">arrays_zip</span><span class="p">(</span><span class="s">'ner_chunk.result'</span><span class="p">,</span> <span class="s">'ner_chunk.metadata'</span><span class="p">)).</span><span class="n">alias</span><span class="p">(</span><span class="s">"cols"</span><span class="p">))</span> \
+               <span class="p">.</span><span class="n">select</span><span class="p">(</span><span class="n">F</span><span class="p">.</span><span class="n">expr</span><span class="p">(</span><span class="s">"cols['0']"</span><span class="p">).</span><span class="n">alias</span><span class="p">(</span><span class="s">"text"</span><span class="p">),</span>
+                       <span class="n">F</span><span class="p">.</span><span class="n">expr</span><span class="p">(</span><span class="s">"cols['1']['entity']"</span><span class="p">).</span><span class="n">alias</span><span class="p">(</span><span class="s">"label"</span><span class="p">)).</span><span class="n">show</span><span class="p">(</span><span class="mi">200</span><span class="p">,</span> <span class="n">truncate</span> <span class="o">=</span> <span class="bp">False</span><span class="p">)</span>
 </code></pre></div>  </div>
 
 </div>
 
 <h2 id="results">Results</h2>
 
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>+---------------------------------------+-----------------+
-|chunk                                  |ner_label        |
-+---------------------------------------+-----------------+
-|March 2012                             |DATE             |
-|Vertro, Inc                            |ORG              |
-|February 2017                          |DATE             |
-|asset purchase agreement               |AGREEMENT        |
-|NetSeer                                |ORG              |
-|INTELLECTUAL PROPERTY AGREEMENT        |AGREEMENT        |
-|December 31, 2018                      |DATE             |
-|Armstrong Flooring                     |ORG              |
-|Delaware                               |STATE            |
-|AFI Licensing LLC                      |ORG              |
-|Delaware                               |ORG              |
-|Seller                                 |LICENSE_RECIPIENT|
-|perpetual, non- exclusive, royalty-free|LICENSE          |
-+---------------------------------------+-----------------+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>+---------------------------------------------------------+----------------+
+|text                                                     |label           |
++---------------------------------------------------------+----------------+
+|License fees revenue                                     |PROFIT_DECLINE  |
+|40                                                       |PERCENTAGE      |
+|<span class="nv">$ </span>                                                       |CURRENCY        |
+|0.5 million                                              |AMOUNT          |
+|<span class="nv">$ </span>                                                       |CURRENCY        |
+|0.7 million                                              |AMOUNT          |
+|December 31, 2020                                        |FISCAL_YEAR     |
+|<span class="nv">$ </span>                                                       |CURRENCY        |
+|1.2 million                                              |AMOUNT          |
+|December 31, 2019                                        |FISCAL_YEAR     |
+|Services revenue                                         |PROFIT_INCREASE |
+|4                                                        |PERCENTAGE      |
+|<span class="nv">$ </span>                                                       |CURRENCY        |
+|1.1 million                                              |AMOUNT          |
+|<span class="nv">$ </span>                                                       |CURRENCY        |
+|25.6 million                                             |AMOUNT          |
+|December 31, 2020                                        |FISCAL_YEAR     |
+|<span class="nv">$ </span>                                                       |CURRENCY        |
+|24.5 million                                             |AMOUNT          |
+|December 31, 2019                                        |FISCAL_YEAR     |
+|Costs of revenue, excluding depreciation and amortization|EXPENSE_INCREASE|
+|<span class="nv">$ </span>                                                       |CURRENCY        |
+|0.1 million                                              |AMOUNT          |
+|2                                                        |PERCENTAGE      |
+|<span class="nv">$ </span>                                                       |CURRENCY        |
+|8.8 million                                              |AMOUNT          |
+|December 31, 2020                                        |FISCAL_YEAR     |
+|<span class="nv">$ </span>                                                       |CURRENCY        |
+|8.7 million                                              |AMOUNT          |
+|December 31, 2019                                        |FISCAL_YEAR     |
+|internal staff costs                                     |EXPENSE_INCREASE|
+|<span class="nv">$ </span>                                                       |CURRENCY        |
+|1.1 million                                              |AMOUNT          |
+|third party consultant costs                             |EXPENSE_DECREASE|
+|<span class="nv">$ </span>                                                       |CURRENCY        |
+|0.6 million                                              |AMOUNT          |
+|travel costs                                             |EXPENSE_DECREASE|
+|<span class="nv">$ </span>                                                       |CURRENCY        |
+|0.4 million                                              |AMOUNT          |
+|cost of revenue, excluding depreciation and amortization |EXPENSE         |
+|34                                                       |PERCENTAGE      |
+|December 31, 2020                                        |FISCAL_YEAR     |
+|2019                                                     |DATE            |
+|Sales and marketing expenses                             |EXPENSE_DECREASE|
+|20                                                       |PERCENTAGE      |
+|<span class="nv">$ </span>                                                       |CURRENCY        |
+|1.5 million                                              |AMOUNT          |
+|<span class="nv">$ </span>                                                       |CURRENCY        |
+|6.0 million                                              |AMOUNT          |
+|December 31, 2020                                        |FISCAL_YEAR     |
+|<span class="nv">$ </span>                                                       |CURRENCY        |
+|7.5 million                                              |AMOUNT          |
+|December 31, 2019                                        |FISCAL_YEAR     |
++---------------------------------------------------------+----------------+
 </code></pre></div></div>
 
 <h2 class="model-param" id="model-information">Model Information</h2>
@@ -929,15 +984,15 @@
   <tbody>
     <tr>
       <td>Model Name:</td>
-      <td>legner_roberta_zeroshot</td>
+      <td>finner_financial_small</td>
     </tr>
     <tr>
       <td>Type:</td>
-      <td>legal</td>
+      <td>finance</td>
     </tr>
     <tr>
       <td>Compatibility:</td>
-      <td>Spark NLP for Legal 1.0.0+</td>
+      <td>Spark NLP for Finance 1.0.0+</td>
     </tr>
     <tr>
       <td>License:</td>
@@ -949,11 +1004,11 @@
     </tr>
     <tr>
       <td>Input Labels:</td>
-      <td>[document_question, document_context]</td>
+      <td>[sentence, token, embeddings]</td>
     </tr>
     <tr>
       <td>Output Labels:</td>
-      <td>[answer]</td>
+      <td>[ner]</td>
     </tr>
     <tr>
       <td>Language:</td>
@@ -961,23 +1016,43 @@
     </tr>
     <tr>
       <td>Size:</td>
-      <td>460.2 MB</td>
-    </tr>
-    <tr>
-      <td>Case sensitive:</td>
-      <td>true</td>
-    </tr>
-    <tr>
-      <td>Max sentence length:</td>
-      <td>512</td>
+      <td>16.5 MB</td>
     </tr>
   </tbody>
 </table>
 
 <h2 id="references">References</h2>
 
-<p>Legal Roberta Embeddings</p>
-</div><div class="d-print-none"><footer class="article__footer"><meta itemprop="dateModified" content="2022-09-02T00:00:00+00:00"><!-- start custom article footer snippet -->
+<p>Manual annotations on 10-K Filings</p>
+
+<h2 id="benchmarking">Benchmarking</h2>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>label	 tp	 fp	 fn	 prec	 rec	 f1
+I-AMOUNT	 163	 3	 1	 0.9819277	 0.99390244	 0.9878788
+B-AMOUNT	 233	 1	 0	 0.99572647	 1.0	 0.99785864
+B-DATE	 288	 8	 6	 0.972973	 0.97959185	 0.9762712
+I-DATE	 292	 8	 13	 0.97333336	 0.9573771	 0.9652893
+I-EXPENSE	 16	 10	 9	 0.61538464	 0.64	 0.62745094
+B-PROFIT_INCREASE	 17	 5	 7	 0.77272725	 0.7083333	 0.73913044
+B-EXPENSE	 9	 5	 10	 0.64285713	 0.47368422	 0.5454545
+I-PROFIT_DECLINE	 21	 4	 6	 0.84	 0.7777778	 0.8076922
+I-PROFIT	 15	 4	 14	 0.7894737	 0.51724136	 0.625
+B-CURRENCY	 232	 1	 0	 0.99570817	 1.0	 0.99784946
+I-PROFIT_INCREASE	 18	 3	 8	 0.85714287	 0.6923077	 0.7659574
+B-PROFIT	 13	 6	 14	 0.68421054	 0.4814815	 0.5652174
+B-PERCENTAGE	 59	 0	 0	 1.0	 1.0	 1.0
+I-FISCAL_YEAR	 231	 9	 1	 0.9625	 0.99568963	 0.9788135
+B-PROFIT_DECLINE	 12	 3	 2	 0.8	 0.85714287	 0.82758623
+B-EXPENSE_INCREASE	 32	 3	 9	 0.9142857	 0.7804878	 0.84210527
+B-EXPENSE_DECREASE	 23	 10	 8	 0.6969697	 0.7419355	 0.71874994
+B-FISCAL_YEAR	 77	 3	 0	 0.9625	 1.0	 0.9808917
+I-EXPENSE_DECREASE	 43	 17	 13	 0.71666664	 0.76785713	 0.7413793
+I-EXPENSE_INCREASE	 63	 6	 22	 0.9130435	 0.7411765	 0.8181819
+tp: 1857 fp: 109 fn: 143 labels: 20
+Macro-average	 prec: 0.85437155, rec: 0.8052994, f1: 0.82910997
+Micro-average	 prec: 0.9445575, rec: 0.9285, f1: 0.9364599
+</code></pre></div></div>
+</div><div class="d-print-none"><footer class="article__footer"><meta itemprop="dateModified" content="2022-09-06T00:00:00+00:00"><!-- start custom article footer snippet -->
 
 <!-- end custom article footer snippet --></footer>
 
@@ -1102,7 +1177,7 @@ hr.code-selector-underlie {
 
 }
 
-</style><div class="article__section-navigator clearfix"><div class="previous nav_link"><span>PREVIOUS</span><a href="/2022/09/02/finner_roberta_zeroshot_en.html">Financial Zero-shot NER</a></div></div></div>
+</style><div class="article__section-navigator clearfix"><div class="previous nav_link"><span>PREVIOUS</span><a href="/2022/09/06/finclf_esg_en.html">ESG Text Classification (3 classes)</a></div></div></div>
 
 </div>
 </div>

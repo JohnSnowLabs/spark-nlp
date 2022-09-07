@@ -9,10 +9,10 @@
     j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
     })(window,document,'script','dataLayer','GTM-59JLR64');</script>
-<!-- End Google Tag Manager --><title>Zero-Shot Named Entity Recognition (RoBERTa)</title><meta property="og:title" content=""/>
+<!-- End Google Tag Manager --><title>ESG Text Classification (3 classes)</title><meta property="og:title" content=""/>
 
-<meta name="description" content="DescriptionThis model is trained with Zero-Shot Named Entity Recognition (NER) approach and it can detect any kind of defined entities with no training dataset, just pretrained RoBERTa embeddings (included in the model).Predicted EntitiesLive DemoOpen in ColabDownloadHow to use         PythonScalaNLU  documentAssemb...">
-<link rel="canonical" href="/2022/08/29/zero_shot_ner_roberta_en.html"><link rel="alternate" type="application/rss+xml" title="Spark NLP" href="/feed.xml"><!-- start favicons snippet, use https://realfavicongenerator.net/ -->
+<meta name="description" content="DescriptionThis model classifies financial texts / news into three classes: Environment, Social and Governance. This model can be use to build a ESG score board for companies.If you look for an augmented version of this model, with more fine-grain verticals (Green House Emissions, Business Ethics, etc), please look ...">
+<link rel="canonical" href="/2022/09/06/finclf_esg_en.html"><link rel="alternate" type="application/rss+xml" title="Spark NLP" href="/feed.xml"><!-- start favicons snippet, use https://realfavicongenerator.net/ -->
 <!---->
 <!-- <link rel="apple-touch-icon" sizes="180x180" href="/fav.ico"> -->
 
@@ -408,24 +408,28 @@
 
 <!-- end custom main top snippet --><article><script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script><div class="article__header"><div class="header-author"><div class="article__info clearfix"><div class="left-col">
             <a class="edit-on-github-btn" target="_blank" rel="alternate"
-               href="https://github.com/johnsnowlabs/spark-nlp/tree/master/docs/_posts/muhammetsnts/2022-08-29-zero_shot_ner_roberta_en.md">
+               href="https://github.com/johnsnowlabs/spark-nlp/tree/master/docs/_posts/josejuanmartinez/2022-09-06-finclf_esg_en.md">
               <span class="fab fa-github"></span>
               <span class="edit-on-github-label">Edit on GitHub</span>
             </a>
-        </div><ul class="right-col menu"><li><i class="far fa-user"></i> <span>John Snow Labs</span></li><li><i class="far fa-calendar-alt"></i> <span>Aug 29, 2022</span>
-            </li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2022-08-29T00:00:00+00:00"></div><header class="main-docs have_subtitle">
-          <h1>Zero-Shot Named Entity Recognition (RoBERTa)</h1><div class="top-subtitle mont"></div></header></div><meta itemprop="headline" content="Zero-Shot Named Entity Recognition (RoBERTa)"><div class="article__info tags_box clearfix"><ul class="left-col menu"><li>ner</li><li>zero_shot</li><li>licensed</li><li>clinical</li><li>en</li><li>roberta</li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2022-08-29T00:00:00+00:00">
-    <meta itemprop="keywords" content="ner,zero_shot,licensed,clinical,en,roberta"><div class="js-article-content"><div class="model-wrap"><div class="layout--article"><!-- start custom article top snippet -->
+        </div><ul class="right-col menu"><li><i class="far fa-user"></i> <span>John Snow Labs</span></li><li><i class="far fa-calendar-alt"></i> <span>Sep 06, 2022</span>
+            </li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2022-09-06T00:00:00+00:00"></div><header class="main-docs have_subtitle">
+          <h1>ESG Text Classification (3 classes)</h1><div class="top-subtitle mont"></div></header></div><meta itemprop="headline" content="ESG Text Classification (3 classes)"><div class="article__info tags_box clearfix"><ul class="left-col menu"><li>en</li><li>financial</li><li>esg</li><li>classification</li><li>licensed</li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2022-09-06T00:00:00+00:00">
+    <meta itemprop="keywords" content="en,financial,esg,classification,licensed"><div class="js-article-content"><div class="model-wrap"><div class="layout--article"><!-- start custom article top snippet -->
 
 <!-- end custom article top snippet --><div class="article__content" itemprop="articleBody"><h2 id="description">Description</h2>
 
-<p>This model is trained with Zero-Shot Named Entity Recognition (NER) approach and it can detect any kind of defined entities with no training dataset, just pretrained RoBERTa embeddings (included in the model).</p>
+<p>This model classifies financial texts / news into three classes: Environment, Social and Governance. This model can be use to build a ESG score board for companies.</p>
+
+<p>If you look for an augmented version of this model, with more fine-grain verticals (Green House Emissions, Business Ethics, etc), please look for the finance_sequence_classifier_augmented_esg model in Models Hub.</p>
 
 <h2 id="predicted-entities">Predicted Entities</h2>
 
-<p class="btn-box"><button class="button button-orange" disabled="">Live Demo</button>
+<p><code class="language-plaintext highlighter-rouge">Environment</code>, <code class="language-plaintext highlighter-rouge">Social</code>, <code class="language-plaintext highlighter-rouge">Governance</code></p>
+
+<p class="btn-box"><a href="https://demo.johnsnowlabs.com/finance/FINCLF_ESG/" class="button button-orange">Live Demo</a>
 <button class="button button-orange" disabled="">Open in Colab</button>
-<a href="https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/zero_shot_ner_roberta_en_4.0.2_3.0_1661769801401.zip" class="button button-orange button-orange-trans arr button-icon">Download</a></p>
+<a href="https://s3.amazonaws.com/auxdata.johnsnowlabs.com/finance/models/finclf_esg_en_1.0.0_3.2_1662472406140.zip" class="button button-orange button-orange-trans arr button-icon">Download</a></p>
 
 <h2 id="how-to-use">How to use</h2>
 
@@ -433,127 +437,46 @@
   <div class="top_tab_li">   
     <button class="tab-li code-selector-active python-button">Python</button><button class="tab-li code-selector-un-active scala-button">Scala</button><button class="tab-li code-selector-un-active nlu-button">NLU</button>
 </div>
-  <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">documentAssembler</span> <span class="o">=</span> <span class="n">DocumentAssembler</span><span class="p">()</span> \
-    <span class="p">.</span><span class="n">setInputCol</span><span class="p">(</span><span class="s">"text"</span><span class="p">)</span> \
-    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"document"</span><span class="p">)</span>
-
-<span class="n">sentenceDetector</span> <span class="o">=</span> <span class="n">SentenceDetector</span><span class="p">()</span> \
-    <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"document"</span><span class="p">])</span> \
-    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"sentence"</span><span class="p">)</span>
+  <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">document_assembler</span> <span class="o">=</span> <span class="n">DocumentAssembler</span><span class="p">()</span> \
+    <span class="p">.</span><span class="n">setInputCol</span><span class="p">(</span><span class="s">'text'</span><span class="p">)</span> \
+    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">'document'</span><span class="p">)</span>
 
 <span class="n">tokenizer</span> <span class="o">=</span> <span class="n">Tokenizer</span><span class="p">()</span> \
-    <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"sentence"</span><span class="p">])</span> \
-    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"token"</span><span class="p">)</span>
-    
-<span class="n">zero_shot_ner</span> <span class="o">=</span> <span class="n">ZeroShotNerModel</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"zero_shot_ner_roberta"</span><span class="p">,</span> <span class="s">"en"</span><span class="p">,</span> <span class="s">"clincial/models"</span><span class="p">)</span>\
-    <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"sentence"</span><span class="p">,</span> <span class="s">"token"</span><span class="p">])</span>\
-    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"zero_shot_ner"</span><span class="p">)</span>\
-    <span class="p">.</span><span class="n">setEntityDefinitions</span><span class="p">(</span>
-        <span class="p">{</span>
-            <span class="s">"NAME"</span><span class="p">:</span> <span class="p">[</span><span class="s">"What is his name?"</span><span class="p">,</span> <span class="s">"What is my name?"</span><span class="p">,</span> <span class="s">"What is her name?"</span><span class="p">],</span>
-            <span class="s">"CITY"</span><span class="p">:</span> <span class="p">[</span><span class="s">"Which city?"</span><span class="p">,</span> <span class="s">"Which is the city?"</span><span class="p">]</span>
-        <span class="p">})</span>
+    <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">'document'</span><span class="p">])</span> \
+    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">'token'</span><span class="p">)</span>
 
-<span class="n">ner_converter</span> <span class="o">=</span> <span class="n">NerConverter</span><span class="p">()</span>\
-    <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"sentence"</span><span class="p">,</span> <span class="s">"token"</span><span class="p">,</span> <span class="s">"zero_shot_ner"</span><span class="p">])</span>\
-    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"ner_chunk"</span><span class="p">)</span>\
+<span class="n">sequenceClassifier</span> <span class="o">=</span> <span class="n">FinanceBertForSequenceClassification</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"finclf_esg"</span><span class="p">,</span> <span class="s">"en"</span><span class="p">,</span> <span class="s">"finance/models"</span><span class="p">))</span>\
+  <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"document"</span><span class="p">,</span><span class="s">'token'</span><span class="p">])</span>\
+  <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"class"</span><span class="p">)</span>
 
-<span class="n">pipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">(</span><span class="n">stages</span> <span class="o">=</span> <span class="p">[</span>
-    <span class="n">documentAssembler</span><span class="p">,</span> 
-    <span class="n">sentenceDetector</span><span class="p">,</span> 
-    <span class="n">tokenizer</span><span class="p">,</span> 
-    <span class="n">zero_shot_ner</span><span class="p">,</span> 
-    <span class="n">ner_converter</span><span class="p">])</span>
+<span class="n">pipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">(</span><span class="n">stages</span><span class="o">=</span><span class="p">[</span>
+    <span class="n">document_assembler</span><span class="p">,</span> 
+    <span class="n">tokenizer</span><span class="p">,</span>
+    <span class="n">sequenceClassifier</span>    
+<span class="p">])</span>
 
-<span class="n">zero_shot_ner_model</span> <span class="o">=</span> <span class="n">pipeline</span><span class="p">.</span><span class="n">fit</span><span class="p">(</span><span class="n">spark</span><span class="p">.</span><span class="n">createDataFrame</span><span class="p">([[</span><span class="s">""</span><span class="p">]]).</span><span class="n">toDF</span><span class="p">(</span><span class="s">"text"</span><span class="p">))</span>
+<span class="c1"># couple of simple examples
+</span><span class="n">example</span> <span class="o">=</span> <span class="n">spark</span><span class="p">.</span><span class="n">createDataFrame</span><span class="p">([[</span><span class="s">"""The Canadian Environmental Assessment Agency (CEAA) concluded that in June 2016 the company had not made an effort
+ to protect public drinking water and was ignoring concerns raised by its own scientists about the potential levels of pollutants in the local water supply.
+  At the time, there were concerns that the company was not fully testing onsite wells for contaminants and did not use the proper methods for testing because 
+  of its test kits now manufactured in China.A preliminary report by the company in June 2016 was commissioned by the Alberta government to provide recommendations 
+  to Alberta Environment officials"""</span><span class="p">]]).</span><span class="n">toDF</span><span class="p">(</span><span class="s">"text"</span><span class="p">)</span>
 
-<span class="n">data</span> <span class="o">=</span> <span class="n">spark</span><span class="p">.</span><span class="n">createDataFrame</span><span class="p">([</span><span class="s">"Hellen works in London, Paris and Berlin. My name is Clara, I live in New York and Hellen lives in Paris."</span><span class="p">,</span>
-                              <span class="s">"John is a man who works in London, London and London."</span><span class="p">],</span> <span class="n">StringType</span><span class="p">()).</span><span class="n">toDF</span><span class="p">(</span><span class="s">"text"</span><span class="p">)</span>
+<span class="n">result</span> <span class="o">=</span> <span class="n">pipeline</span><span class="p">.</span><span class="n">fit</span><span class="p">(</span><span class="n">example</span><span class="p">).</span><span class="n">transform</span><span class="p">(</span><span class="n">example</span><span class="p">)</span>
 
-<span class="n">result</span> <span class="o">=</span> <span class="n">zero_shot_ner_model</span><span class="p">.</span><span class="n">transform</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+<span class="c1"># result is a DataFrame
+</span><span class="n">result</span><span class="p">.</span><span class="n">select</span><span class="p">(</span><span class="s">"text"</span><span class="p">,</span> <span class="s">"class.result"</span><span class="p">).</span><span class="n">show</span><span class="p">()</span>
 </code></pre></div>  </div>
-  <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">val</span> <span class="nv">documentAssembler</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">DocumentAssembler</span><span class="o">()\</span>
-    <span class="o">.</span><span class="py">setInputCol</span><span class="o">(</span><span class="s">"text"</span><span class="o">)\</span>
-    <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"document"</span><span class="o">)</span>
 
-<span class="k">val</span> <span class="nv">sentenceDetector</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">SentenceDetector</span><span class="o">()</span> <span class="o">\</span>
-    <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="s">"document"</span><span class="o">))</span> <span class="o">\</span>
-    <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"sentence"</span><span class="o">)</span>
-
-<span class="k">val</span> <span class="nv">tokenizer</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">Tokenizer</span><span class="o">()</span> <span class="o">\</span>
-    <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="s">"sentence"</span><span class="o">))</span> <span class="o">\</span>
-    <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"token"</span><span class="o">)</span>
-    
-<span class="k">val</span> <span class="nv">zero_shot_ner</span> <span class="k">=</span> <span class="nv">ZeroShotNerModel</span><span class="o">.</span><span class="py">pretrained</span><span class="o">(</span><span class="s">"zero_shot_ner_roberta"</span><span class="o">,</span> <span class="s">"en"</span><span class="o">,</span> <span class="s">"clincial/models"</span><span class="o">)\</span>
-    <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="s">"sentence"</span><span class="o">,</span> <span class="s">"token"</span><span class="o">))\</span>
-    <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"zero_shot_ner"</span><span class="o">)\</span>
-    <span class="o">.</span><span class="py">setEntityDefinitions</span><span class="o">(</span><span class="nc">Map</span><span class="o">(</span>
-            <span class="s">"NAME"</span><span class="o">-&gt;</span> <span class="nc">Array</span><span class="o">(</span><span class="s">"What is his name?"</span><span class="o">,</span> <span class="s">"What is my name?"</span><span class="o">,</span> <span class="s">"What is her name?"</span><span class="o">),</span>
-            <span class="s">"CITY"</span><span class="o">-&gt;</span> <span class="nc">Array</span><span class="o">(</span><span class="s">"Which city?"</span><span class="o">,</span> <span class="s">"Which is the city?"</span><span class="o">)</span>
-    <span class="o">))</span>
-
-<span class="k">val</span> <span class="nv">ner_converter</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">NerConverter</span><span class="o">()\</span>
-    <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="s">"sentence"</span><span class="o">,</span> <span class="s">"token"</span><span class="o">,</span> <span class="s">"zero_shot_ner"</span><span class="o">))\</span>
-    <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"ner_chunk"</span><span class="o">)\</span>
-
-<span class="k">val</span> <span class="nv">pipeline</span> <span class="k">=</span> <span class="k">new</span> <span class="o">.</span><span class="py">setStages</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span>
-    <span class="n">documentAssembler</span><span class="o">,</span> 
-    <span class="n">sentenceDetector</span><span class="o">,</span> 
-    <span class="n">tokenizer</span><span class="o">,</span> 
-    <span class="n">zero_shot_ner</span><span class="o">,</span> 
-    <span class="n">ner_converter</span><span class="o">))</span>
-
-<span class="k">val</span> <span class="nv">data</span> <span class="k">=</span> <span class="nc">Seq</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="s">"Hellen works in London, Paris and Berlin. My name is Clara, I live in New York and Hellen lives in Paris."</span><span class="o">,</span>
-                                     <span class="s">"John is a man who works in London, London and London."</span><span class="o">)</span><span class="nf">toDS</span><span class="o">().</span><span class="py">toDF</span><span class="o">(</span><span class="s">"text"</span><span class="o">)</span>
-
-<span class="k">val</span> <span class="nv">result</span> <span class="k">=</span> <span class="nv">pipeline</span><span class="o">.</span><span class="py">fit</span><span class="o">(</span><span class="n">data</span><span class="o">).</span><span class="py">transform</span><span class="o">(</span><span class="n">data</span><span class="o">)</span>
-</code></pre></div>  </div>
 </div>
 
 <h2 id="results">Results</h2>
 
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>+------+---------+--------+-----+---+----------+
-| token|ner_label|sentence|begin|end|confidence|
-+------+---------+--------+-----+---+----------+
-|Hellen|   B-NAME|       0|    0|  5|0.13306311|
-| works|        O|       0|    7| 11|      null|
-|    <span class="k">in</span>|        O|       0|   13| 14|      null|
-|London|   B-CITY|       0|   16| 21| 0.4064213|
-|     ,|        O|       0|   22| 22|      null|
-| Paris|   B-CITY|       0|   24| 28|0.04597357|
-|   and|        O|       0|   30| 32|      null|
-|Berlin|   B-CITY|       0|   34| 39|0.16265489|
-|     .|        O|       0|   40| 40|      null|
-|    My|        O|       1|   42| 43|      null|
-|  name|        O|       1|   45| 48|      null|
-|    is|        O|       1|   50| 51|      null|
-| Clara|   B-NAME|       1|   53| 57| 0.9274031|
-|     ,|        O|       1|   58| 58|      null|
-|     I|        O|       1|   60| 60|      null|
-|  live|        O|       1|   62| 65|      null|
-|    <span class="k">in</span>|        O|       1|   67| 68|      null|
-|   New|   B-CITY|       1|   70| 72|0.82799006|
-|  York|   I-CITY|       1|   74| 77|0.82799006|
-|   and|        O|       1|   79| 81|      null|
-|Hellen|   B-NAME|       1|   83| 88|0.40429682|
-| lives|        O|       1|   90| 94|      null|
-|    <span class="k">in</span>|        O|       1|   96| 97|      null|
-| Paris|   B-CITY|       1|   99|103|0.49216735|
-|     .|        O|       1|  104|104|      null|
-|  John|   B-NAME|       0|    0|  3|0.14063153|
-|    is|        O|       0|    5|  6|      null|
-|     a|        O|       0|    8|  8|      null|
-|   man|        O|       0|   10| 12|      null|
-|   <span class="nb">who</span>|        O|       0|   14| 16|      null|
-| works|        O|       0|   18| 22|      null|
-|    <span class="k">in</span>|        O|       0|   24| 25|      null|
-|London|   B-CITY|       0|   27| 32|0.15521188|
-|     ,|        O|       0|   33| 33|      null|
-|London|   B-CITY|       0|   35| 40|0.12151082|
-|   and|        O|       0|   42| 44|      null|
-|London|   B-CITY|       0|   46| 51| 0.2650951|
-|     .|        O|       0|   52| 52|      null|
-+------+---------+--------+-----+---+----------+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>+--------------------+---------------+
+|                text|         result|
++--------------------+---------------+
+|The Canadian Envi...|[Environmental]|
++--------------------+---------------+
 </code></pre></div></div>
 
 <h2 class="model-param" id="model-information">Model Information</h2>
@@ -562,11 +485,15 @@
   <tbody>
     <tr>
       <td>Model Name:</td>
-      <td>zero_shot_ner_roberta</td>
+      <td>finclf_esg</td>
+    </tr>
+    <tr>
+      <td>Type:</td>
+      <td>finance</td>
     </tr>
     <tr>
       <td>Compatibility:</td>
-      <td>Spark NLP for Healthcare 4.0.2+</td>
+      <td>Spark NLP for Finance 1.0.0+</td>
     </tr>
     <tr>
       <td>License:</td>
@@ -578,11 +505,11 @@
     </tr>
     <tr>
       <td>Input Labels:</td>
-      <td>[document_question, document_context]</td>
+      <td>[document, token]</td>
     </tr>
     <tr>
       <td>Output Labels:</td>
-      <td>[answer]</td>
+      <td>[class]</td>
     </tr>
     <tr>
       <td>Language:</td>
@@ -590,7 +517,7 @@
     </tr>
     <tr>
       <td>Size:</td>
-      <td>460.2 MB</td>
+      <td>412.2 MB</td>
     </tr>
     <tr>
       <td>Case sensitive:</td>
@@ -605,8 +532,21 @@
 
 <h2 id="references">References</h2>
 
-<p>As it is a Zero-Shot NER, no training dataset is necessary.</p>
-</div><div class="d-print-none"><footer class="article__footer"><meta itemprop="dateModified" content="2022-08-29T00:00:00+00:00"><!-- start custom article footer snippet -->
+<p>In-house annotations from scrapped annual reports and tweets about ESG</p>
+
+<h2 id="benchmarking">Benchmarking</h2>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>              precision    recall  f1-score   support
+
+Environmental      0.99      0.97      0.98        97
+Social             0.95      0.96      0.95       162
+Governance         0.91      0.90      0.91        71
+
+    accuracy                           0.95       330
+   macro avg       0.95      0.94      0.95       330
+weighted avg       0.95      0.95      0.95       330
+</code></pre></div></div>
+</div><div class="d-print-none"><footer class="article__footer"><meta itemprop="dateModified" content="2022-09-06T00:00:00+00:00"><!-- start custom article footer snippet -->
 
 <!-- end custom article footer snippet --></footer>
 
@@ -731,7 +671,7 @@ hr.code-selector-underlie {
 
 }
 
-</style><div class="article__section-navigator clearfix"><div class="previous nav_link"><span>PREVIOUS</span><a href="/2022/08/29/finner_headers_en.html">Financial NER (Headers / Subheaders)</a></div><div class="next nav_link"><span>NEXT</span><a href="/2022/08/30/finel_edgar_company_name_en.html">Company Name Normalization to Edgar Database</a></div></div></div>
+</style><div class="article__section-navigator clearfix"><div class="previous nav_link"><span>PREVIOUS</span><a href="/2022/09/06/finclf_bert_sentiment_phrasebank_en.html">Financial Finbert Sentiment Analysis</a></div><div class="next nav_link"><span>NEXT</span><a href="/2022/09/06/finner_financial_small_en.html">Financial NER (Small)</a></div></div></div>
 
 </div>
 </div>
