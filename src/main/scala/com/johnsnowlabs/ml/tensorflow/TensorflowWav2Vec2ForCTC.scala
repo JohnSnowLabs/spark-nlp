@@ -19,14 +19,9 @@ package com.johnsnowlabs.ml.tensorflow
 import com.johnsnowlabs.ml.tensorflow.sign.{ModelSignatureConstants, ModelSignatureManager}
 import com.johnsnowlabs.nlp._
 import com.johnsnowlabs.nlp.annotators.audio.feature_extractor.Preprocessor
-import com.johnsnowlabs.nlp.annotators.audio.util.io.JLibrosa
 import com.johnsnowlabs.nlp.annotators.audio.util.transform.AudioProcessors
-import com.sun.media.sound.WaveFileReader
 
-import java.io.File
-import javax.sound.sampled.{AudioFormat, AudioSystem}
 import scala.collection.JavaConverters._
-import scala.collection.mutable.ArrayBuffer
 
 class TensorflowWav2Vec2ForCTC(
     val tensorflowWrapper: TensorflowWrapper,

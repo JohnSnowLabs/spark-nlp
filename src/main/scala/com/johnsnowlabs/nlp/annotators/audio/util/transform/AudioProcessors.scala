@@ -30,6 +30,13 @@ private[johnsnowlabs] object AudioProcessors {
   private final val MAGIC_WAV: Array[Byte] = "RIFF".getBytes
   private final val MAGIC_FLAC: Array[Byte] = "fLaC".getBytes
 
+  /** Check and return AnnotationAudio
+    * @param rawAudio
+    *   sequence of bytes coming from spark read binaryFile format
+    * @param metadata
+    *   customize metadata can be passed here by users
+    * @return
+    */
   def checkInputBinaryFile(
       rawAudio: Array[Byte],
       metadata: Map[String, String]): AnnotationAudio = {
@@ -54,14 +61,6 @@ private[johnsnowlabs] object AudioProcessors {
 
   }
 
-  /** Processes the byte array as a WAV file.
-    *
-    * Reference: https://datafireball.com/2016/08/29/wav-deepdive-into-file-format/
-    * @param rawBytes
-    *   Raw bytes of the audio file.
-    * @return
-    *   AnnotationAudio
-    */
   def inputStreamToByteArray(is: InputStream): Array[Byte] = {
     Iterator continually is.read takeWhile (-1 !=) map (_.toByte) toArray
   }
@@ -84,6 +83,15 @@ private[johnsnowlabs] object AudioProcessors {
     inputStreamToByteArray(new BufferedInputStream(convertedIn))
   }
 
+  /** Processes the byte array as a WAV file.
+    *
+    * Reference: https://datafireball.com/2016/08/29/wav-deepdive-into-file-format/
+    *
+    * @param rawBytes
+    *   Raw bytes of the audio file.
+    * @return
+    *   AnnotationAudio
+    */
   def processAsWav(rawBytes: Array[Byte]): Array[Float] = {
     val rawStream: InputStream = new ByteArrayInputStream(resample(rawBytes))
     val wavFile = WavFile.readWavStream(rawStream)
