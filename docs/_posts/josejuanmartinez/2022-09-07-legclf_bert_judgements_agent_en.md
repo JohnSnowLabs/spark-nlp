@@ -26,7 +26,7 @@ The classes are listed below. Please check the [original paper](https://arxiv.or
 `APPLICANT`, `COMMISSION/CHAMBER`, `ECHR`, `OTHER`, `STATE`, `THIRD_PARTIES`
 
 {:.btn-box}
-[Live Demo](https://demo.johnsnowlabs.com/public/CLASSIFICATION_BANKING/){:.button.button-orange}
+[Live Demo](https://demo.johnsnowlabs.com/finance/LEG_JUDGEMENTS_CLF/){:.button.button-orange}
 <button class="button button-orange" disabled>Open in Colab</button>
 [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/legal/models/legclf_bert_judgements_agent_en_1.0.0_3.2_1662560852536.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
 
