@@ -18,8 +18,10 @@ package com.johnsnowlabs.nlp.annotators.audio.util.transform
 
 import com.johnsnowlabs.nlp.annotators.audio.util.io.{JLibrosa, WavFile}
 import com.johnsnowlabs.nlp.{AnnotationAudio, AnnotatorType}
+import com.sun.media.sound.WaveFileReader
 
-import java.io.{ByteArrayInputStream, InputStream}
+import java.io.{BufferedInputStream, ByteArrayInputStream, InputStream}
+import javax.sound.sampled.{AudioFormat, AudioSystem}
 import scala.collection.JavaConverters._
 import scala.collection.mutable.ArrayBuffer
 
@@ -44,8 +46,26 @@ private[johnsnowlabs] object AudioProcessors {
     * @return
     *   AnnotationAudio
     */
-  def processAsWav(rawBytes: Array[Byte]): AnnotationAudio = {
-    val rawStream: InputStream = new ByteArrayInputStream(rawBytes)
+
+
+
+  def inputStreamToByteArray(is: InputStream): Array[Byte] = {
+    Iterator continually is.read takeWhile (-1 !=) map (_.toByte) toArray
+  }
+
+  def resample(bytes:Array[Byte], SampleRate:Int=16000):Array[Byte] = {
+    val reader = new WaveFileReader
+    val inputStream = new ByteArrayInputStream(bytes)
+    val audioIn = reader.getAudioInputStream(new BufferedInputStream(inputStream ))
+    val srcFormat = audioIn.getFormat
+    val dstFormat = new AudioFormat(srcFormat.getEncoding, SampleRate, srcFormat.getSampleSizeInBits, srcFormat.getChannels, srcFormat.getFrameSize, srcFormat.getFrameRate , srcFormat.isBigEndian)
+    val convertedIn = AudioSystem.getAudioInputStream(dstFormat, audioIn)
+
+    inputStreamToByteArray(new BufferedInputStream(convertedIn))
+  }
+
+  def processAsWav(rawBytes: Array[Byte] ): AnnotationAudio = {
+    val rawStream: InputStream = new ByteArrayInputStream(resample(rawBytes))
     val wavFile = WavFile.readWavStream(rawStream)
 
     val mNumFrames = wavFile.getNumFrames.toInt
