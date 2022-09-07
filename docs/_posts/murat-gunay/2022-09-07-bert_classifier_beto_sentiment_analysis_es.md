@@ -1,6 +1,6 @@
 ---
 layout: model
-title: Spanish BertForSequenceClassification Cased model (from edumunozsala)
+title: Spanish BertForSequenceClassification Cased model (from finiteautomata)
 author: John Snow Labs
 name: bert_classifier_beto_sentiment_analysis
 date: 2022-09-07
@@ -17,16 +17,16 @@ use_language_switcher: "Python-Scala-Java"
 
 ## Description
 
-Pretrained BertForSequenceClassification model, adapted from Hugging Face and curated to provide scalability and production-readiness using Spark NLP. `beto_sentiment_analysis_es` is a Spanish model originally trained by `edumunozsala`.
+Pretrained BertForSequenceClassification model, adapted from Hugging Face and curated to provide scalability and production-readiness using Spark NLP. `beto-sentiment-analysis` is a Spanish model originally trained by `finiteautomata`.
 
 ## Predicted Entities
 
-`Negativo`, `Positivo`
+`POS`, `NEG`, `NEU`
 
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>
 <button class="button button-orange" disabled>Open in Colab</button>
-[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/bert_classifier_beto_sentiment_analysis_es_4.1.0_3.0_1662511326056.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
+[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/bert_classifier_beto_sentiment_analysis_es_4.1.0_3.0_1662511285767.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
 
 ## How to use
 
@@ -92,7 +92,8 @@ val result = pipeline.fit(data).transform(data)
 
 ## References
 
-- https://huggingface.co/edumunozsala/beto_sentiment_analysis_es
-- https://users.dcc.uchile.cl/~jperez/papers/pml4dc2020.pdf
-- https://github.com/edumunozsala
-- https://paperswithcode.com/sota?task=Sentiment+Analysis&dataset=IMDb+Reviews+in+Spanish
+- https://huggingface.co/finiteautomata/beto-sentiment-analysis
+- https://github.com/pysentimiento/pysentimiento/
+- https://github.com/dccuchile/beto
+- http://tass.sepln.org/tass_data/download.php
+- https://arxiv.org/abs/2106.09462
