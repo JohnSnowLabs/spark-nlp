@@ -50,7 +50,7 @@ tokenizer = Tokenizer()\
     .setInputCols(['document'])\
     .setOutputCol("token")
 
-clf_model = MedicalBertForSequenceClassification.load("../model/bert_sequence_classifier_legal_judgements_all")\
+clf_model = LegalBertForSequenceClassification.pretrained("legclf_bert_judgements_agent", "en", "legal/models")\
     .setInputCols(['document','token'])\
     .setOutputCol("class")\
     .setCaseSensitive(True)\
