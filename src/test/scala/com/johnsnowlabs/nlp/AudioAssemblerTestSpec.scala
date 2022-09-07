@@ -3,11 +3,10 @@ package com.johnsnowlabs.nlp
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
 import com.johnsnowlabs.tags.FastTest
 import com.sun.media.sound.WaveFileReader
-import org.apache.spark.sql.{DataFrame, Row, SparkSession}
+import org.apache.spark.sql.{DataFrame, SparkSession}
 import org.scalatest.flatspec.AnyFlatSpec
 
 import java.io.File
-import java.net.URL
 import scala.io.Source
 
 class AudioAssemblerTestSpec extends AnyFlatSpec {

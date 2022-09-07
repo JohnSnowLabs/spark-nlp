@@ -16,12 +16,7 @@
 
 package com.johnsnowlabs.nlp.annotators.audio
 
-import com.johnsnowlabs.ml.tensorflow.{
-  ReadTensorflowModel,
-  TensorflowWav2Vec2ForCTC,
-  TensorflowWrapper,
-  WriteTensorflowModel
-}
+import com.johnsnowlabs.ml.tensorflow.{ReadTensorflowModel, TensorflowWav2Vec2ForCTC, TensorflowWrapper, WriteTensorflowModel}
 import com.johnsnowlabs.nlp.AnnotatorType.{AUDIO, DOCUMENT}
 import com.johnsnowlabs.nlp._
 import com.johnsnowlabs.nlp.annotators.audio.feature_extractor.Preprocessor
