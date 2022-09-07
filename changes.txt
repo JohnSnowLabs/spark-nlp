@@ -1,4 +1,2 @@
-docs/demos/demolist.md
-docs/models.md
-docs/demos/demolist.md
-docs/models.md
+docs/_posts/josejuanmartinez/2022-09-07-finvisualclf_vit_tickets_en.md
+docs/_posts/josejuanmartinez/2022-09-07-finvisualclf_vit_tickets_en.md
