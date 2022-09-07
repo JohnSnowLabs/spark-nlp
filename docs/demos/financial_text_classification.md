@@ -20,6 +20,34 @@ data:
           activemenu: financial_text_classification
       source: yes
       source: 
+        - title: ESG News Classification  
+          id: esg_news_classification       
+          image: 
+              src: /assets/images/ESG_News_Classification.svg
+          image2: 
+              src: /assets/images/ESG_News_Classification_f.svg
+          excerpt: This demo showcases ESG news classification, with 3-classes and 27-classes ESG models.
+          actions:
+          - text: Live Demo
+            type: normal
+            url: https://demo.johnsnowlabs.com/finance/FINCLF_ESG/
+          - text: Colab
+            type: blue_btn
+            url: 
+        - title: Financial News Classification 
+          id: financial_news_classification        
+          image: 
+              src: /assets/images/Financial_News_Classification_new.svg
+          image2: 
+              src: /assets/images/Financial_News_Classification_new_f.svg
+          excerpt: This model classifies financial news using multilabel categories.
+          actions:
+          - text: Live Demo
+            type: normal
+            url: https://demo.johnsnowlabs.com/finance/CLASSIFICATION_MULTILABEL/
+          - text: Colab
+            type: blue_btn
+            url:         
         - title: Identify topics about banking
           id: classify_banking_related_texts   
           image: 
@@ -47,21 +75,7 @@ data:
             url: https://demo.johnsnowlabs.com/finance/COMPLAINT_CLASSIFICATION/
           - text: Colab
             type: blue_btn
-            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/BertForSequenceClassification.ipynb  
-        - title: ESG News Classification  
-          id: esg_news_classification       
-          image: 
-              src: /assets/images/ESG_News_Classification.svg
-          image2: 
-              src: /assets/images/ESG_News_Classification_f.svg
-          excerpt: This demo showcases ESG news classification, with 3-classes and 27-classes ESG models.
-          actions:
-          - text: Live Demo
-            type: normal
-            url: https://demo.johnsnowlabs.com/finance/FINCLF_ESG/
-          - text: Colab
-            type: blue_btn
-            url: 
+            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/BertForSequenceClassification.ipynb
         - title: Forward Looking Statements Classification 
           id: forward_looking_statements_classification       
           image: 
@@ -76,18 +90,4 @@ data:
           - text: Colab
             type: blue_btn
             url: https://nlp.johnsnowlabs.com/ 
-        - title: Financial News Classification 
-          id: financial_news_classification        
-          image: 
-              src: /assets/images/Financial_News_Classification_new.svg
-          image2: 
-              src: /assets/images/Financial_News_Classification_new_f.svg
-          excerpt: This model classifies financial news using multilabel categories.
-          actions:
-          - text: Live Demo
-            type: normal
-            url: https://demo.johnsnowlabs.com/finance/CLASSIFICATION_MULTILABEL/
-          - text: Colab
-            type: blue_btn
-            url: 
 ---

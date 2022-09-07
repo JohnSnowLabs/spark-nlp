@@ -20,20 +20,6 @@ data:
           activemenu: legal_relation_extraction
       source: yes
       source: 
-        - title: Extract Relations between Parties in agreements  
-          id: extract_relations_between_parties_agreement  
-          image: 
-              src: /assets/images/Extract_Relations_between_Parties.svg
-          image2: 
-              src: /assets/images/Extract_Relations_between_Parties_f.svg
-          excerpt: This model uses Deep Learning Name Entity Recognition and a Relation Extraction models to extract the document type (DOC), the Effective Date (EFFDATE), the PARTIES in an agreement and their ALIAS (separate and collectively).
-          actions:
-          - text: Live Demo
-            type: normal
-            url: https://demo.johnsnowlabs.com/legal/LEGALRE_PARTIES/
-          - text: Colab
-            type: blue_btn
-            url:   
         - title: Legal Zero-shot Relation Extraction  
           id: legal_zero_shot_relation_extraction   
           image: 
@@ -47,7 +33,21 @@ data:
             url: https://demo.johnsnowlabs.com/legal/LEGRE_ZEROSHOT/
           - text: Colab
             type: blue_btn
-            url:  
+            url: 
+        - title: Extract Relations between Parties in agreements  
+          id: extract_relations_between_parties_agreement  
+          image: 
+              src: /assets/images/Extract_Relations_between_Parties.svg
+          image2: 
+              src: /assets/images/Extract_Relations_between_Parties_f.svg
+          excerpt: This model uses Deep Learning Name Entity Recognition and a Relation Extraction models to extract the document type (DOC), the Effective Date (EFFDATE), the PARTIES in an agreement and their ALIAS (separate and collectively).
+          actions:
+          - text: Live Demo
+            type: normal
+            url: https://demo.johnsnowlabs.com/legal/LEGALRE_PARTIES/
+          - text: Colab
+            type: blue_btn
+            url:
         - title: Extract Syntactic Relationships in Legal sentences 
           id: extract_syntactic_relationships_legal_sentences    
           image: 
