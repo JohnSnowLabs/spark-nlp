@@ -31,13 +31,6 @@ private[johnsnowlabs] object AudioProcessors {
   private final val MAGIC_WAV: Array[Byte] = "RIFF".getBytes
   private final val MAGIC_FLAC: Array[Byte] = "fLaC".getBytes
 
-  def loadWav(path: String, sampleRate: Int = 16000): Array[Float] = {
-    val jLibrosa = new JLibrosa
-    val audioFeatureValuesList =
-      jLibrosa.loadAndReadAsList(path, sampleRate, -1)
-    audioFeatureValuesList.asScala.map(x => x.toFloat).toArray
-  }
-
   /** Processes the byte array as a WAV file.
     *
     * Reference: https://datafireball.com/2016/08/29/wav-deepdive-into-file-format/
@@ -46,25 +39,29 @@ private[johnsnowlabs] object AudioProcessors {
     * @return
     *   AnnotationAudio
     */
-
-
-
   def inputStreamToByteArray(is: InputStream): Array[Byte] = {
     Iterator continually is.read takeWhile (-1 !=) map (_.toByte) toArray
   }
 
-  def resample(bytes:Array[Byte], SampleRate:Int=16000):Array[Byte] = {
+  def resample(bytes: Array[Byte], SampleRate: Int = 16000): Array[Byte] = {
     val reader = new WaveFileReader
     val inputStream = new ByteArrayInputStream(bytes)
-    val audioIn = reader.getAudioInputStream(new BufferedInputStream(inputStream ))
+    val audioIn = reader.getAudioInputStream(new BufferedInputStream(inputStream))
     val srcFormat = audioIn.getFormat
-    val dstFormat = new AudioFormat(srcFormat.getEncoding, SampleRate, srcFormat.getSampleSizeInBits, srcFormat.getChannels, srcFormat.getFrameSize, srcFormat.getFrameRate , srcFormat.isBigEndian)
+    val dstFormat = new AudioFormat(
+      srcFormat.getEncoding,
+      SampleRate,
+      srcFormat.getSampleSizeInBits,
+      srcFormat.getChannels,
+      srcFormat.getFrameSize,
+      srcFormat.getFrameRate,
+      srcFormat.isBigEndian)
     val convertedIn = AudioSystem.getAudioInputStream(dstFormat, audioIn)
 
     inputStreamToByteArray(new BufferedInputStream(convertedIn))
   }
 
-  def processAsWav(rawBytes: Array[Byte] ): AnnotationAudio = {
+  def processAsWav(rawBytes: Array[Byte]): AnnotationAudio = {
     val rawStream: InputStream = new ByteArrayInputStream(resample(rawBytes))
     val wavFile = WavFile.readWavStream(rawStream)
 
