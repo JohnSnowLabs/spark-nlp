@@ -121,7 +121,7 @@ class AudioAssembler(override val uid: String)
       audio: Array[Byte],
       metadata: Map[String, String]): Seq[AnnotationAudio] = {
 
-    Seq(AudioProcessors.byteToAnnotationAudio(audio, metadata))
+    Seq(AudioProcessors.checkInputBinaryFile(audio, metadata))
 
   }
 

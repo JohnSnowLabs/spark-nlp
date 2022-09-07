@@ -55,11 +55,7 @@ trait HasBatchedAnnotateAudio[M <: Model[M]] {
           getInputCols.flatMap(inputCol => {
             row
               .getAs[Seq[Row]](inputCol)
-              .map(r =>
-                AnnotationAudio(
-                  r.getString(0),
-                  r.getSeq[Float](1).toArray,
-                  r.getMap[String, String](2)))
+              .map(r => AnnotationAudio(r.getString(0), r.getAs(1), r.getMap[String, String](2)))
           })
         })
         val outputAnnotations = batchAnnotate(inputAnnotations)
