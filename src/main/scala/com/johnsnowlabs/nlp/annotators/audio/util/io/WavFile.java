@@ -25,7 +25,6 @@ import java.io.*;
  * Source based on <a href="https://github.com/Subtitle-Synchronizer/jlibrosa/blob/master/src/main/java/com/jlibrosa/audio/wavFile/WavFile.java">jlibrosa</a>
  */
 public class WavFile {
-    private File file;
     private enum IOState {READING, WRITING, CLOSED}
 
     private final static int BUFFER_SIZE = 4096;
@@ -48,7 +47,7 @@ public class WavFile {
     private long numFrames;                    // Number of frames within the data section
     private long totalNumFrames;
     private FileOutputStream oStream;    // Output stream used for writting data
-    private InputStream iStream;        // Input stream used for reading data
+    private  BufferedInputStream iStream;        // Input stream used for reading data
     private float floatScale;                // Scaling factor used for int <-> float conversion
     private float floatOffset;            // Offset factor used for int <-> float conversion
     private boolean wordAlignAdjust;        // Specify if an extra byte at the end of the data chunk is required for word alignment
@@ -105,10 +104,9 @@ public class WavFile {
     }
 
 
-    public static WavFile openWavFile(File file) throws IOException, WavFileException {
+    public static WavFile openWavFile(BufferedInputStream stream) throws IOException, WavFileException {
         WavFile wavFile = new WavFile();
-        wavFile.file = file;
-        wavFile.iStream = new FileInputStream(file);
+        wavFile.iStream = stream;
         int bytesRead = wavFile.iStream.read(wavFile.buffer, 0, 12);
         if (bytesRead != 12) {
             throw new WavFileException("Not enough wav file bytes for header");
@@ -120,9 +118,7 @@ public class WavFile {
                 throw new WavFileException("Invalid Wav Header data, incorrect riff chunk ID");
             } else if (riffTypeID != 1163280727L) {
                 throw new WavFileException("Invalid Wav Header data, incorrect riff type ID");
-            } else if (file.length() != chunkSize + 8L) {
-                throw new WavFileException("Header chunk size (" + chunkSize + ") does not match file size (" + file.length() + ")");
-            } else {
+            }  else {
                 wavFile.fileSize = chunkSize;
                 boolean foundFormat = false;
                 boolean foundData = false;
@@ -223,7 +219,7 @@ public class WavFile {
      * @throws IOException
      * @throws WavFileException
      */
-    public static WavFile readWavStream(InputStream rawData) throws IOException, WavFileException {
+    public static WavFile readWavStream(BufferedInputStream rawData) throws IOException, WavFileException {
 
         // Instantiate new Wavfile
         WavFile wavFile = new WavFile();

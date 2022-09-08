@@ -29,7 +29,7 @@ import org.apache.spark.sql.SparkSession
 import org.json4s._
 import org.json4s.jackson.JsonMethods._
 
-import java.io.File
+import java.io.{BufferedInputStream, File, FileInputStream, PrintWriter}
 import scala.io.Source
 
 /** Wav2Vec2 Model with a language modeling head on top for Connectionist Temporal Classification
@@ -304,3 +304,4 @@ trait ReadWav2Vec2ForAudioTensorflowModel extends ReadTensorflowModel {
 object Wav2Vec2ForCTC
     extends ReadablePretrainedWav2Vec2ForAudioModel
     with ReadWav2Vec2ForAudioTensorflowModel
+

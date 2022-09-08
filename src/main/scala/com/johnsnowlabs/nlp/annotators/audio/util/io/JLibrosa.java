@@ -16,11 +16,9 @@
 
 package com.johnsnowlabs.nlp.annotators.audio.util.io;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
+import java.io.*;
 import java.math.RoundingMode;
+import java.nio.Buffer;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 
@@ -70,7 +68,7 @@ public class JLibrosa {
      * This function is used to load the audio file and read its Numeric Magnitude
      * Feature Values.
      *
-     * @param path
+     * @param
      * @param sampleRate
      * @param readDurationInSeconds
      * @return
@@ -78,17 +76,14 @@ public class JLibrosa {
      * @throws WavFileException
      * @throws FileFormatNotSupportedException
      */
-    private float[][] readMagnitudeValuesFromFile(String path, int sampleRate, int readDurationInSeconds, int offsetDuration)
+    private float[][] readMagnitudeValuesFromFile(BufferedInputStream stream, int sampleRate, int readDurationInSeconds, int offsetDuration)
             throws IOException, WavFileException, FileFormatNotSupportedException {
 
-        if(!path.endsWith(".wav")) {
-            throw new FileFormatNotSupportedException("File format not supported. jLibrosa currently supports audio processing of only .wav files");
-        }
 
-        File sourceFile = new File(path);
-        WavFile wavFile = null;
 
-        wavFile = WavFile.openWavFile(sourceFile);
+        com.johnsnowlabs.nlp.annotators.audio.util.io.WavFile wavFile = null;
+
+        wavFile = com.johnsnowlabs.nlp.annotators.audio.util.io.WavFile.openWavFile(stream);
         int mNumFrames = (int) (wavFile.getNumFrames());
         int mSampleRate = (int) wavFile.getSampleRate();
         int mChannels = wavFile.getNumChannels();
@@ -140,7 +135,7 @@ public class JLibrosa {
      * convert the signal to mono mode by taking the average. This method reads the audio file
      * post the mentioned offset duration in seconds.
      *
-     * @param path
+     * @param stream
      * @param sampleRate
      * @param readDurationInSeconds
      * @param offsetDuration
@@ -149,9 +144,9 @@ public class JLibrosa {
      * @throws WavFileException
      * @throws FileFormatNotSupportedException
      */
-    public float[] loadAndReadWithOffset(String path, int sampleRate, int readDurationInSeconds, int offsetDuration)
+    public float[] loadAndReadWithOffset(BufferedInputStream stream, int sampleRate, int readDurationInSeconds, int offsetDuration)
             throws IOException, WavFileException, FileFormatNotSupportedException {
-        float[][] magValueArray = readMagnitudeValuesFromFile(path, sampleRate, readDurationInSeconds, offsetDuration);
+        float[][] magValueArray = readMagnitudeValuesFromFile(stream, sampleRate, readDurationInSeconds, offsetDuration);
 
         DecimalFormat df = new DecimalFormat("#.#####");
         df.setRoundingMode(RoundingMode.CEILING);
@@ -182,7 +177,7 @@ public class JLibrosa {
      * values and then takes the mean of amplitude values across all the channels and
      * convert the signal to mono mode
      *
-     * @param path
+     * @param stream
      * @param sampleRate
      * @param readDurationInSeconds
      * @return
@@ -190,10 +185,10 @@ public class JLibrosa {
      * @throws WavFileException
      * @throws FileFormatNotSupportedException
      */
-    public ArrayList<Float> loadAndReadAsListWithOffset(String path, int sampleRate, int readDurationInSeconds, int offsetDuration)
+    public ArrayList<Float> loadAndReadAsListWithOffset(BufferedInputStream stream, int sampleRate, int readDurationInSeconds, int offsetDuration)
             throws IOException, WavFileException, FileFormatNotSupportedException {
 
-        float[][] magValueArray = readMagnitudeValuesFromFile(path, sampleRate, readDurationInSeconds, offsetDuration);
+        float[][] magValueArray = readMagnitudeValuesFromFile(stream, sampleRate, readDurationInSeconds, offsetDuration);
 
         DecimalFormat df = new DecimalFormat("#.#####");
         df.setRoundingMode(RoundingMode.CEILING);
@@ -223,7 +218,7 @@ public class JLibrosa {
      * values and then takes the mean of amplitude values across all the channels and
      * convert the signal to mono mode
      *
-     * @param path
+     * @param stream
      * @param sampleRate
      * @param readDurationInSeconds
      * @return
@@ -231,10 +226,10 @@ public class JLibrosa {
      * @throws WavFileException
      * @throws FileFormatNotSupportedException
      */
-    public ArrayList<Float> loadAndReadAsList(String path, int sampleRate, int readDurationInSeconds)
+    public ArrayList<Float> loadAndReadAsList(BufferedInputStream stream, int sampleRate, int readDurationInSeconds)
             throws IOException, WavFileException, FileFormatNotSupportedException {
 
-        ArrayList<Float> meanBufferList = loadAndReadAsListWithOffset(path, sampleRate, readDurationInSeconds, 0);
+        ArrayList<Float> meanBufferList = loadAndReadAsListWithOffset(stream, sampleRate, readDurationInSeconds, 0);
         return meanBufferList;
 
     }
