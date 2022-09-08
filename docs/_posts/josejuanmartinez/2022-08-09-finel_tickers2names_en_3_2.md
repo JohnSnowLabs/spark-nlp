@@ -1,6 +1,6 @@
 ---
 layout: model
-title: Tickers -> Company Names Linking
+title: Resolve Tickers into Company Names
 author: John Snow Labs
 name: finel_tickers2names
 date: 2022-08-09
