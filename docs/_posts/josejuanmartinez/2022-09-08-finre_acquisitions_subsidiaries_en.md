@@ -106,7 +106,7 @@ re_ner_chunk_filter = RENerChunksFilter() \
     .setOutputCol("re_ner_chunk")\
     .setRelationPairs(["DATE-ORG", "DATE-ALIAS", "DATE-PRODUCT", "ORG-ORG"])
 
-re_Model = RelationExtractionDLModel.pretrained("finre_acquisitions_subsidiaries_wip", "en", "finance/models")\
+re_Model = RelationExtractionDLModel.pretrained("finre_acquisitions_subsidiaries", "en", "finance/models")\
         .setInputCols(["re_ner_chunk", "sentence"])\
         .setOutputCol("relations")\
         .setPredictionThreshold(0.5)
@@ -175,11 +175,12 @@ Manual annotations on CUAD dataset, 10K filings and Wikidata
 ```bash
 Relation           Recall Precision        F1   Support
 
-is_subsidiary_of     1.000     1.000     1.000         32
-was_acquired        0.800     1.000     0.889         35
-was_acquired_by     1.000     0.900     0.947         39
+is_subsidiary_of     0.836     0.924     0.878       146
+no_rel              0.968     0.932     0.950       684
+was_acquired        0.936     0.944     0.940       218
+was_acquired_by     0.857     0.911     0.883       168
 
-Avg.                0.933     0.967     0.945
+Avg.                0.899     0.928     0.913
 
-Weighted Avg.       0.938     0.944     0.936
+Weighted Avg.       0.931     0.931     0.930
 ```
