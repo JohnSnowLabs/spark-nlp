@@ -9,10 +9,10 @@
     j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
     })(window,document,'script','dataLayer','GTM-59JLR64');</script>
-<!-- End Google Tag Manager --><title>Mapping Company Names to Crunchbase database</title><meta property="og:title" content=""/>
+<!-- End Google Tag Manager --><title>Resolve Company Names into their Tickers</title><meta property="og:title" content=""/>
 
-<meta name="description" content="DescriptionThis model allows you to, given an extracted name of a company, get information about that company (including category / sector, country, status, initial funding, etc), as stored in Crunchbase.This model only contains information up to 2015.Predicted EntitiesLive DemoOpen in ColabDownloadHow to use       ...">
-<link rel="canonical" href="/2022/08/09/finmapper_crunchbase_companyname_en_3_2.html"><link rel="alternate" type="application/rss+xml" title="Spark NLP" href="/feed.xml"><!-- start favicons snippet, use https://realfavicongenerator.net/ -->
+<meta name="description" content="DescriptionThis is an Entity Resolution / Entity Linking model, which is able to provide Ticker / Trading Symbols using a Company Name as an input. You can use any NER which extracts Organizations / Companies / Parties to then send the output to this Entity Linking model and get the Ticker / Trading Symbol (given th...">
+<link rel="canonical" href="/2022/08/09/finel_names2tickers_en_3_2.html"><link rel="alternate" type="application/rss+xml" title="Spark NLP" href="/feed.xml"><!-- start favicons snippet, use https://realfavicongenerator.net/ -->
 <!---->
 <!-- <link rel="apple-touch-icon" sizes="180x180" href="/fav.ico"> -->
 
@@ -408,26 +408,24 @@
 
 <!-- end custom main top snippet --><article><script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script><div class="article__header"><div class="header-author"><div class="article__info clearfix"><div class="left-col">
             <a class="edit-on-github-btn" target="_blank" rel="alternate"
-               href="https://github.com/johnsnowlabs/spark-nlp/tree/master/docs/_posts/josejuanmartinez/2022-08-09-finmapper_crunchbase_companyname_en_3_2.md">
+               href="https://github.com/johnsnowlabs/spark-nlp/tree/master/docs/_posts/josejuanmartinez/2022-08-09-finel_names2tickers_en_3_2.md">
               <span class="fab fa-github"></span>
               <span class="edit-on-github-label">Edit on GitHub</span>
             </a>
         </div><ul class="right-col menu"><li><i class="far fa-user"></i> <span>John Snow Labs</span></li><li><i class="far fa-calendar-alt"></i> <span>Aug 09, 2022</span>
             </li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2022-08-09T00:00:00+00:00"></div><header class="main-docs have_subtitle">
-          <h1>Mapping Company Names to Crunchbase database</h1><div class="top-subtitle mont"></div></header></div><meta itemprop="headline" content="Mapping Company Names to Crunchbase database"><div class="article__info tags_box clearfix"><ul class="left-col menu"><li>en</li><li>finance</li><li>companies</li><li>crunchbase</li><li>data</li><li>augmentation</li><li>licensed</li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2022-08-09T00:00:00+00:00">
-    <meta itemprop="keywords" content="en,finance,companies,crunchbase,data,augmentation,licensed"><div class="js-article-content"><div class="model-wrap"><div class="layout--article"><!-- start custom article top snippet -->
+          <h1>Resolve Company Names into their Tickers</h1><div class="top-subtitle mont"></div></header></div><meta itemprop="headline" content="Resolve Company Names into their Tickers"><div class="article__info tags_box clearfix"><ul class="left-col menu"><li>en</li><li>finance</li><li>companies</li><li>tickers</li><li>nasdaq</li><li>licensed</li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2022-08-09T00:00:00+00:00">
+    <meta itemprop="keywords" content="en,finance,companies,tickers,nasdaq,licensed"><div class="js-article-content"><div class="model-wrap"><div class="layout--article"><!-- start custom article top snippet -->
 
 <!-- end custom article top snippet --><div class="article__content" itemprop="articleBody"><h2 id="description">Description</h2>
 
-<p>This model allows you to, given an extracted name of a company, get information about that company (including category / sector, country, status, initial funding, etc), as stored in Crunchbase.</p>
-
-<p>This model only contains information up to 2015.</p>
+<p>This is an Entity Resolution / Entity Linking model, which is able to provide Ticker / Trading Symbols using a Company Name as an input. You can use any NER which extracts Organizations / Companies / Parties to then send the output to this Entity Linking model and get the Ticker / Trading Symbol (given the company has one).</p>
 
 <h2 id="predicted-entities">Predicted Entities</h2>
 
-<p class="btn-box"><a href="https://demo.johnsnowlabs.com/finance/FIN_LEG_COMPANY_AUGMENTATION/" class="button button-orange">Live Demo</a>
+<p class="btn-box"><a href="https://nlp.johnsnowlabs.com/financial_company_normalization" class="button button-orange">Live Demo</a>
 <button class="button button-orange" disabled="">Open in Colab</button>
-<a href="https://s3.amazonaws.com/auxdata.johnsnowlabs.com/finance/models/finmapper_crunchbase_companyname_en_1.0.0_3.2_1660038928665.zip" class="button button-orange button-orange-trans arr button-icon">Download</a></p>
+<a href="https://s3.amazonaws.com/auxdata.johnsnowlabs.com/finance/models/finel_names2tickers_en_1.0.0_3.2_1660040016121.zip" class="button button-orange button-orange-trans arr button-icon">Download</a></p>
 
 <h2 id="how-to-use">How to use</h2>
 
@@ -435,58 +433,41 @@
   <div class="top_tab_li">   
     <button class="tab-li code-selector-active python-button">Python</button><button class="tab-li code-selector-un-active scala-button">Scala</button><button class="tab-li code-selector-un-active nlu-button">NLU</button>
 </div>
-  <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">johnsnowlabs.extensions.finance.chunk_classification.resolution</span> <span class="kn">import</span> <span class="n">ChunkMapperModel</span>
+  <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">johnsnowlabs.extensions.finance.chunk_classification.resolution</span> <span class="kn">import</span> <span class="n">SentenceEntityResolverModel</span>
 
-<span class="n">document_assembler</span> <span class="o">=</span> <span class="n">DocumentAssembler</span><span class="p">()</span>\
-      <span class="p">.</span><span class="n">setInputCol</span><span class="p">(</span><span class="s">'text'</span><span class="p">)</span>\
-      <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">'document'</span><span class="p">)</span>
+<span class="n">documentAssembler</span> <span class="o">=</span> <span class="n">DocumentAssembler</span><span class="p">()</span>\
+      <span class="p">.</span><span class="n">setInputCol</span><span class="p">(</span><span class="s">"text"</span><span class="p">)</span>\
+      <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"ner_chunk"</span><span class="p">)</span>
 
-<span class="n">tokenizer</span> <span class="o">=</span> <span class="n">Tokenizer</span><span class="p">()</span>\
-      <span class="p">.</span><span class="n">setInputCols</span><span class="p">(</span><span class="s">"document"</span><span class="p">)</span>\
-      <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"token"</span><span class="p">)</span>
+<span class="n">embeddings</span> <span class="o">=</span> <span class="n">UniversalSentenceEncoder</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"tfhub_use"</span><span class="p">,</span> <span class="s">"en"</span><span class="p">)</span> \
+      <span class="p">.</span><span class="n">setInputCols</span><span class="p">(</span><span class="s">"ner_chunk"</span><span class="p">)</span> \
+      <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"sentence_embeddings"</span><span class="p">)</span>
+    
+<span class="n">resolver</span> <span class="o">=</span> <span class="n">SentenceEntityResolverModel</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"finel_names2tickers"</span><span class="p">,</span> <span class="s">"en"</span><span class="p">,</span> <span class="s">"finance/models"</span><span class="p">)</span> \
+      <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"ner_chunk"</span><span class="p">,</span> <span class="s">"sentence_embeddings"</span><span class="p">])</span> \
+      <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"name"</span><span class="p">)</span>\
+      <span class="p">.</span><span class="n">setDistanceFunction</span><span class="p">(</span><span class="s">"EUCLIDEAN"</span><span class="p">)</span>
 
-<span class="c1"># This is a the lighter but less accurate wayto get companies. 
-# Check for much more accurate models in Models Hub / Finance.
-# =========================================================
-</span><span class="n">embeddings</span> <span class="o">=</span> <span class="n">WordEmbeddingsModel</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">'glove_100d'</span><span class="p">)</span> \
-        <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">'document'</span><span class="p">,</span> <span class="s">'token'</span><span class="p">])</span> \
-        <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">'embeddings'</span><span class="p">)</span>
+<span class="n">pipelineModel</span> <span class="o">=</span> <span class="n">PipelineModel</span><span class="p">(</span>
+      <span class="n">stages</span> <span class="o">=</span> <span class="p">[</span>
+          <span class="n">documentAssembler</span><span class="p">,</span>
+          <span class="n">embeddings</span><span class="p">,</span>
+          <span class="n">resolver</span><span class="p">])</span>
 
-<span class="n">ner_model</span> <span class="o">=</span> <span class="n">NerDLModel</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"onto_100"</span><span class="p">,</span> <span class="s">"en"</span><span class="p">)</span> \
-        <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"document"</span><span class="p">,</span> <span class="s">"token"</span><span class="p">,</span> <span class="s">"embeddings"</span><span class="p">])</span> \
-        <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"ner"</span><span class="p">)</span>
-<span class="c1"># =========================================================
-</span> 
-<span class="n">ner_converter</span> <span class="o">=</span> <span class="n">NerConverter</span><span class="p">()</span>\
-      <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"document"</span><span class="p">,</span> <span class="s">"token"</span><span class="p">,</span> <span class="s">"ner"</span><span class="p">])</span>\
-      <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"ner_chunk"</span><span class="p">)</span>\
-      <span class="p">.</span><span class="n">setWhiteList</span><span class="p">([</span><span class="s">"ORG"</span><span class="p">])</span>
+<span class="n">lp</span> <span class="o">=</span> <span class="n">LightPipeline</span><span class="p">(</span><span class="n">pipelineModel</span><span class="p">)</span>
 
-<span class="n">CM</span> <span class="o">=</span> <span class="n">ChunkMapperModel</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"finmapper_crunchbase_companyname"</span><span class="p">,</span> <span class="s">"en"</span><span class="p">,</span> <span class="s">"finance/models"</span><span class="p">)</span>\
-      <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"ner_chunk"</span><span class="p">])</span>\
-      <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"mappings"</span><span class="p">)</span>\
-      <span class="p">.</span><span class="n">setRel</span><span class="p">(</span><span class="s">'category_code'</span><span class="p">)</span>
-
-<span class="n">pipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">().</span><span class="n">setStages</span><span class="p">([</span><span class="n">document_assembler</span><span class="p">,</span>
-                                 <span class="n">tokenizer</span><span class="p">,</span> 
-                                 <span class="n">embeddings</span><span class="p">,</span>
-                                 <span class="n">ner_model</span><span class="p">,</span> 
-                                 <span class="n">ner_converter</span><span class="p">,</span> 
-                                 <span class="n">CM</span><span class="p">])</span>
-                                 
-<span class="n">text</span> <span class="o">=</span> <span class="p">[</span><span class="s">"""Tokalas is a company which operates in the biopharmaceutical sector."""</span><span class="p">]</span>
-
-<span class="n">test_data</span> <span class="o">=</span> <span class="n">spark</span><span class="p">.</span><span class="n">createDataFrame</span><span class="p">([</span><span class="n">text</span><span class="p">]).</span><span class="n">toDF</span><span class="p">(</span><span class="s">"text"</span><span class="p">)</span>
-
-<span class="n">model</span> <span class="o">=</span> <span class="n">pipeline</span><span class="p">.</span><span class="n">fit</span><span class="p">(</span><span class="n">test_data</span><span class="p">)</span>
-<span class="n">res</span><span class="o">=</span> <span class="n">model</span><span class="p">.</span><span class="n">transform</span><span class="p">(</span><span class="n">test_data</span><span class="p">)</span>
+<span class="n">lp</span><span class="p">.</span><span class="n">fullAnnotate</span><span class="p">(</span><span class="s">"apple"</span><span class="p">)</span>
 </code></pre></div>  </div>
 
 </div>
 
 <h2 id="results">Results</h2>
 
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>Row<span class="o">(</span><span class="nv">mappings</span><span class="o">=[</span>Row<span class="o">(</span><span class="nv">annotatorType</span><span class="o">=</span><span class="s1">'labeled_dependency'</span>, <span class="nv">begin</span><span class="o">=</span>0, <span class="nv">end</span><span class="o">=</span>6, <span class="nv">result</span><span class="o">=</span><span class="s1">'/company/tokalas'</span>, <span class="nv">metadata</span><span class="o">={</span><span class="s1">'sentence'</span>: <span class="s1">'0'</span>, <span class="s1">'chunk'</span>: <span class="s1">'0'</span>, <span class="s1">'entity'</span>: <span class="s1">'Tokalas'</span>, <span class="s1">'relation'</span>: <span class="s1">'permalink'</span>, <span class="s1">'all_relations'</span>: <span class="s1">''</span><span class="o">}</span>, <span class="nv">embeddings</span><span class="o">=[])</span>, Row<span class="o">(</span><span class="nv">annotatorType</span><span class="o">=</span><span class="s1">'labeled_dependency'</span>, <span class="nv">begin</span><span class="o">=</span>0, <span class="nv">end</span><span class="o">=</span>6, <span class="nv">result</span><span class="o">=</span><span class="s1">'Tokalas'</span>, <span class="nv">metadata</span><span class="o">={</span><span class="s1">'sentence'</span>: <span class="s1">'0'</span>, <span class="s1">'chunk'</span>: <span class="s1">'0'</span>, <span class="s1">'entity'</span>: <span class="s1">'Tokalas'</span>, <span class="s1">'relation'</span>: <span class="s1">'name'</span>, <span class="s1">'all_relations'</span>: <span class="s1">''</span><span class="o">}</span>, <span class="nv">embeddings</span><span class="o">=[])</span>, Row<span class="o">(</span><span class="nv">annotatorType</span><span class="o">=</span><span class="s1">'labeled_dependency'</span>, <span class="nv">begin</span><span class="o">=</span>0, <span class="nv">end</span><span class="o">=</span>6, <span class="nv">result</span><span class="o">=</span><span class="s1">''</span>, <span class="nv">metadata</span><span class="o">={</span><span class="s1">'sentence'</span>: <span class="s1">'0'</span>, <span class="s1">'chunk'</span>: <span class="s1">'0'</span>, <span class="s1">'entity'</span>: <span class="s1">'Tokalas'</span>, <span class="s1">'relation'</span>: <span class="s1">'homepage_url'</span>, <span class="s1">'all_relations'</span>: <span class="s1">''</span><span class="o">}</span>, <span class="nv">embeddings</span><span class="o">=[])</span>, Row<span class="o">(</span><span class="nv">annotatorType</span><span class="o">=</span><span class="s1">'labeled_dependency'</span>, <span class="nv">begin</span><span class="o">=</span>0, <span class="nv">end</span><span class="o">=</span>6, <span class="nv">result</span><span class="o">=</span><span class="s1">'biotech'</span>, <span class="nv">metadata</span><span class="o">={</span><span class="s1">'sentence'</span>: <span class="s1">'0'</span>, <span class="s1">'chunk'</span>: <span class="s1">'0'</span>, <span class="s1">'entity'</span>: <span class="s1">'Tokalas'</span>, <span class="s1">'relation'</span>: <span class="s1">'category_code'</span>, <span class="s1">'all_relations'</span>: <span class="s1">''</span><span class="o">}</span>, <span class="nv">embeddings</span><span class="o">=[])</span>, Row<span class="o">(</span><span class="nv">annotatorType</span><span class="o">=</span><span class="s1">'labeled_dependency'</span>, <span class="nv">begin</span><span class="o">=</span>0, <span class="nv">end</span><span class="o">=</span>6, <span class="nv">result</span><span class="o">=</span><span class="s1">'3,090,000'</span>, <span class="nv">metadata</span><span class="o">={</span><span class="s1">'sentence'</span>: <span class="s1">'0'</span>, <span class="s1">'chunk'</span>: <span class="s1">'0'</span>, <span class="s1">'entity'</span>: <span class="s1">'Tokalas'</span>, <span class="s1">'relation'</span>: <span class="s1">'funding_total_usd'</span>, <span class="s1">'all_relations'</span>: <span class="s1">''</span><span class="o">}</span>, <span class="nv">embeddings</span><span class="o">=[])</span>, Row<span class="o">(</span><span class="nv">annotatorType</span><span class="o">=</span><span class="s1">'labeled_dependency'</span>, <span class="nv">begin</span><span class="o">=</span>0, <span class="nv">end</span><span class="o">=</span>6, <span class="nv">result</span><span class="o">=</span><span class="s1">'operating'</span>, <span class="nv">metadata</span><span class="o">={</span><span class="s1">'sentence'</span>: <span class="s1">'0'</span>, <span class="s1">'chunk'</span>: <span class="s1">'0'</span>, <span class="s1">'entity'</span>: <span class="s1">'Tokalas'</span>, <span class="s1">'relation'</span>: <span class="s1">'status'</span>, <span class="s1">'all_relations'</span>: <span class="s1">''</span><span class="o">}</span>, <span class="nv">embeddings</span><span class="o">=[])</span>, Row<span class="o">(</span><span class="nv">annotatorType</span><span class="o">=</span><span class="s1">'labeled_dependency'</span>, <span class="nv">begin</span><span class="o">=</span>0, <span class="nv">end</span><span class="o">=</span>6, <span class="nv">result</span><span class="o">=</span><span class="s1">'USA'</span>, <span class="nv">metadata</span><span class="o">={</span><span class="s1">'sentence'</span>: <span class="s1">'0'</span>, <span class="s1">'chunk'</span>: <span class="s1">'0'</span>, <span class="s1">'entity'</span>: <span class="s1">'Tokalas'</span>, <span class="s1">'relation'</span>: <span class="s1">'country_code'</span>, <span class="s1">'all_relations'</span>: <span class="s1">''</span><span class="o">}</span>, <span class="nv">embeddings</span><span class="o">=[])</span>, Row<span class="o">(</span><span class="nv">annotatorType</span><span class="o">=</span><span class="s1">'labeled_dependency'</span>, <span class="nv">begin</span><span class="o">=</span>0, <span class="nv">end</span><span class="o">=</span>6, <span class="nv">result</span><span class="o">=</span><span class="s1">'CA'</span>, <span class="nv">metadata</span><span class="o">={</span><span class="s1">'sentence'</span>: <span class="s1">'0'</span>, <span class="s1">'chunk'</span>: <span class="s1">'0'</span>, <span class="s1">'entity'</span>: <span class="s1">'Tokalas'</span>, <span class="s1">'relation'</span>: <span class="s1">'state_code'</span>, <span class="s1">'all_relations'</span>: <span class="s1">''</span><span class="o">}</span>, <span class="nv">embeddings</span><span class="o">=[])</span>, Row<span class="o">(</span><span class="nv">annotatorType</span><span class="o">=</span><span class="s1">'labeled_dependency'</span>, <span class="nv">begin</span><span class="o">=</span>0, <span class="nv">end</span><span class="o">=</span>6, <span class="nv">result</span><span class="o">=</span><span class="s1">'San Diego'</span>, <span class="nv">metadata</span><span class="o">={</span><span class="s1">'sentence'</span>: <span class="s1">'0'</span>, <span class="s1">'chunk'</span>: <span class="s1">'0'</span>, <span class="s1">'entity'</span>: <span class="s1">'Tokalas'</span>, <span class="s1">'relation'</span>: <span class="s1">'region'</span>, <span class="s1">'all_relations'</span>: <span class="s1">''</span><span class="o">}</span>, <span class="nv">embeddings</span><span class="o">=[])</span>, Row<span class="o">(</span><span class="nv">annotatorType</span><span class="o">=</span><span class="s1">'labeled_dependency'</span>, <span class="nv">begin</span><span class="o">=</span>0, <span class="nv">end</span><span class="o">=</span>6, <span class="nv">result</span><span class="o">=</span><span class="s1">'DEL MAR'</span>, <span class="nv">metadata</span><span class="o">={</span><span class="s1">'sentence'</span>: <span class="s1">'0'</span>, <span class="s1">'chunk'</span>: <span class="s1">'0'</span>, <span class="s1">'entity'</span>: <span class="s1">'Tokalas'</span>, <span class="s1">'relation'</span>: <span class="s1">'city'</span>, <span class="s1">'all_relations'</span>: <span class="s1">''</span><span class="o">}</span>, <span class="nv">embeddings</span><span class="o">=[])</span>, Row<span class="o">(</span><span class="nv">annotatorType</span><span class="o">=</span><span class="s1">'labeled_dependency'</span>, <span class="nv">begin</span><span class="o">=</span>0, <span class="nv">end</span><span class="o">=</span>6, <span class="nv">result</span><span class="o">=</span><span class="s1">'1.0'</span>, <span class="nv">metadata</span><span class="o">={</span><span class="s1">'sentence'</span>: <span class="s1">'0'</span>, <span class="s1">'chunk'</span>: <span class="s1">'0'</span>, <span class="s1">'entity'</span>: <span class="s1">'Tokalas'</span>, <span class="s1">'relation'</span>: <span class="s1">'funding_rounds'</span>, <span class="s1">'all_relations'</span>: <span class="s1">''</span><span class="o">}</span>, <span class="nv">embeddings</span><span class="o">=[])</span>, Row<span class="o">(</span><span class="nv">annotatorType</span><span class="o">=</span><span class="s1">'labeled_dependency'</span>, <span class="nv">begin</span><span class="o">=</span>0, <span class="nv">end</span><span class="o">=</span>6, <span class="nv">result</span><span class="o">=</span><span class="s1">'1/1/13'</span>, <span class="nv">metadata</span><span class="o">={</span><span class="s1">'sentence'</span>: <span class="s1">'0'</span>, <span class="s1">'chunk'</span>: <span class="s1">'0'</span>, <span class="s1">'entity'</span>: <span class="s1">'Tokalas'</span>, <span class="s1">'relation'</span>: <span class="s1">'founded_at'</span>, <span class="s1">'all_relations'</span>: <span class="s1">''</span><span class="o">}</span>, <span class="nv">embeddings</span><span class="o">=[])</span>, Row<span class="o">(</span><span class="nv">annotatorType</span><span class="o">=</span><span class="s1">'labeled_dependency'</span>, <span class="nv">begin</span><span class="o">=</span>0, <span class="nv">end</span><span class="o">=</span>6, <span class="nv">result</span><span class="o">=</span><span class="s1">'2013-01'</span>, <span class="nv">metadata</span><span class="o">={</span><span class="s1">'sentence'</span>: <span class="s1">'0'</span>, <span class="s1">'chunk'</span>: <span class="s1">'0'</span>, <span class="s1">'entity'</span>: <span class="s1">'Tokalas'</span>, <span class="s1">'relation'</span>: <span class="s1">'founded_month'</span>, <span class="s1">'all_relations'</span>: <span class="s1">''</span><span class="o">}</span>, <span class="nv">embeddings</span><span class="o">=[])</span>, Row<span class="o">(</span><span class="nv">annotatorType</span><span class="o">=</span><span class="s1">'labeled_dependency'</span>, <span class="nv">begin</span><span class="o">=</span>0, <span class="nv">end</span><span class="o">=</span>6, <span class="nv">result</span><span class="o">=</span><span class="s1">'2013-Q1'</span>, <span class="nv">metadata</span><span class="o">={</span><span class="s1">'sentence'</span>: <span class="s1">'0'</span>, <span class="s1">'chunk'</span>: <span class="s1">'0'</span>, <span class="s1">'entity'</span>: <span class="s1">'Tokalas'</span>, <span class="s1">'relation'</span>: <span class="s1">'founded_quarter'</span>, <span class="s1">'all_relations'</span>: <span class="s1">''</span><span class="o">}</span>, <span class="nv">embeddings</span><span class="o">=[])</span>, Row<span class="o">(</span><span class="nv">annotatorType</span><span class="o">=</span><span class="s1">'labeled_dependency'</span>, <span class="nv">begin</span><span class="o">=</span>0, <span class="nv">end</span><span class="o">=</span>6, <span class="nv">result</span><span class="o">=</span><span class="s1">'2013.0'</span>, <span class="nv">metadata</span><span class="o">={</span><span class="s1">'sentence'</span>: <span class="s1">'0'</span>, <span class="s1">'chunk'</span>: <span class="s1">'0'</span>, <span class="s1">'entity'</span>: <span class="s1">'Tokalas'</span>, <span class="s1">'relation'</span>: <span class="s1">'founded_year'</span>, <span class="s1">'all_relations'</span>: <span class="s1">''</span><span class="o">}</span>, <span class="nv">embeddings</span><span class="o">=[])</span>, Row<span class="o">(</span><span class="nv">annotatorType</span><span class="o">=</span><span class="s1">'labeled_dependency'</span>, <span class="nv">begin</span><span class="o">=</span>0, <span class="nv">end</span><span class="o">=</span>6, <span class="nv">result</span><span class="o">=</span><span class="s1">'3/5/14'</span>, <span class="nv">metadata</span><span class="o">={</span><span class="s1">'sentence'</span>: <span class="s1">'0'</span>, <span class="s1">'chunk'</span>: <span class="s1">'0'</span>, <span class="s1">'entity'</span>: <span class="s1">'Tokalas'</span>, <span class="s1">'relation'</span>: <span class="s1">'first_funding_at'</span>, <span class="s1">'all_relations'</span>: <span class="s1">''</span><span class="o">}</span>, <span class="nv">embeddings</span><span class="o">=[])</span>, Row<span class="o">(</span><span class="nv">annotatorType</span><span class="o">=</span><span class="s1">'labeled_dependency'</span>, <span class="nv">begin</span><span class="o">=</span>0, <span class="nv">end</span><span class="o">=</span>6, <span class="nv">result</span><span class="o">=</span><span class="s1">'3/5/14'</span>, <span class="nv">metadata</span><span class="o">={</span><span class="s1">'sentence'</span>: <span class="s1">'0'</span>, <span class="s1">'chunk'</span>: <span class="s1">'0'</span>, <span class="s1">'entity'</span>: <span class="s1">'Tokalas'</span>, <span class="s1">'relation'</span>: <span class="s1">'last_funding_at'</span>, <span class="s1">'all_relations'</span>: <span class="s1">''</span><span class="o">}</span>, <span class="nv">embeddings</span><span class="o">=[])</span>, Row<span class="o">(</span><span class="nv">annotatorType</span><span class="o">=</span><span class="s1">'labeled_dependency'</span>, <span class="nv">begin</span><span class="o">=</span>0, <span class="nv">end</span><span class="o">=</span>6, <span class="nv">result</span><span class="o">=</span><span class="s1">''</span>, <span class="nv">metadata</span><span class="o">={</span><span class="s1">'sentence'</span>: <span class="s1">'0'</span>, <span class="s1">'chunk'</span>: <span class="s1">'0'</span>, <span class="s1">'entity'</span>: <span class="s1">'Tokalas'</span>, <span class="s1">'relation'</span>: <span class="s1">'last_milestone_at'</span>, <span class="s1">'all_relations'</span>: <span class="s1">''</span><span class="o">}</span>, <span class="nv">embeddings</span><span class="o">=[])])]</span>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>+--------+---------+----------------------------------------------+-------------------------+-----------------------------------+
+|   chunk|    code |                                     all_codes|             resolutions |                      all_distances|
++--------+---------+----------------------------------------------+-------------------------+-----------------------------------+
+|  apple |   Apple | <span class="o">[</span>Apple, Apple inc., Apple INC. , Apple Inc.] |[AAPL, AAPL, AAPL, AAPL] |  <span class="o">[</span>0.0000, 0.1093, 0.1093, 0.1093] |
++--------+---------+----------------------------------------------+-------------------------+-----------------------------------+
 </code></pre></div></div>
 
 <h2 class="model-param" id="model-information">Model Information</h2>
@@ -495,7 +476,7 @@
   <tbody>
     <tr>
       <td>Model Name:</td>
-      <td>finmapper_crunchbase_companyname</td>
+      <td>finel_names2tickers</td>
     </tr>
     <tr>
       <td>Type:</td>
@@ -515,11 +496,11 @@
     </tr>
     <tr>
       <td>Input Labels:</td>
-      <td>[ner_chunk]</td>
+      <td>[sentence_embeddings]</td>
     </tr>
     <tr>
       <td>Output Labels:</td>
-      <td>[mappings]</td>
+      <td>[company_ticker]</td>
     </tr>
     <tr>
       <td>Language:</td>
@@ -527,10 +508,18 @@
     </tr>
     <tr>
       <td>Size:</td>
-      <td>6.1 MB</td>
+      <td>20.3 MB</td>
+    </tr>
+    <tr>
+      <td>Case sensitive:</td>
+      <td>false</td>
     </tr>
   </tbody>
 </table>
+
+<h2 id="references">References</h2>
+
+<p>https://data.world/johnsnowlabs/list-of-companies-in-nasdaq-exchanges</p>
 </div><div class="d-print-none"><footer class="article__footer"><meta itemprop="dateModified" content="2022-08-09T00:00:00+00:00"><!-- start custom article footer snippet -->
 
 <!-- end custom article footer snippet --></footer>
@@ -656,7 +645,7 @@ hr.code-selector-underlie {
 
 }
 
-</style><div class="article__section-navigator clearfix"><div class="previous nav_link"><span>PREVIOUS</span><a href="/2022/08/09/finel_names2tickers_en_3_2.html">Resolve Company Names into their Tickers</a></div><div class="next nav_link"><span>NEXT</span><a href="/2022/08/09/finmapper_nasdaq_companyname_en_3_2.html">Augment Company Names with NASDAQ database</a></div></div></div>
+</style><div class="article__section-navigator clearfix"><div class="previous nav_link"><span>PREVIOUS</span><a href="/2022/08/09/finel_crunchbase_companynames_en_3_2.html">Crunchbase Company Names Normalization</a></div><div class="next nav_link"><span>NEXT</span><a href="/2022/08/09/finmapper_crunchbase_companyname_en_3_2.html">Mapping Company Names to Crunchbase database</a></div></div></div>
 
 </div>
 </div>

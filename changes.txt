@@ -1,2 +1,2 @@
-docs/_posts/josejuanmartinez/2022-08-09-finel_names2tickers_en_3_2.md
-docs/_posts/josejuanmartinez/2022-08-09-finel_names2tickers_en_3_2.md
+docs/_posts/josejuanmartinez/2022-08-09-finel_tickers2names_en_3_2.md
+docs/_posts/josejuanmartinez/2022-08-09-finel_tickers2names_en_3_2.md
