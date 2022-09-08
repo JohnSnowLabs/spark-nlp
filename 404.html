@@ -427,10 +427,10 @@
     j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
     })(window,document,'script','dataLayer','GTM-59JLR64');</script>
-<!-- End Google Tag Manager --><title>Judgements Classification (Argument Type)</title><meta property="og:title" content=""/>
+<!-- End Google Tag Manager --><title>Resolver Company Names to Tickers</title><meta property="og:title" content=""/>
 
-<meta name="description" content="DescriptionThis is a Text Classification model, aimed to identify different the different argument types in Court Decisions texts about Human Rights. This model was inspired by this paper, which uses a different approach (Named Entity Recognition).The classes are listed below. Please check the original paper for mor...">
-<link rel="canonical" href="/2022/09/07/legclf_bert_judgements_argtype_en.html"><link rel="alternate" type="application/rss+xml" title="Spark NLP" href="/feed.xml"><!-- start favicons snippet, use https://realfavicongenerator.net/ -->
+<meta name="description" content="DescriptionThis is an Entity Resolution / Entity Linking model, which is able to provide Ticker / Trading Symbols using a Company Name as an input. You can use any NER which extracts Organizations / Companies / Parties to then send the output to this Entity Linking model and get the Ticker / Trading Symbol (given th...">
+<link rel="canonical" href="/2022/09/08/finel_names2tickers_en.html"><link rel="alternate" type="application/rss+xml" title="Spark NLP" href="/feed.xml"><!-- start favicons snippet, use https://realfavicongenerator.net/ -->
 <!---->
 <!-- <link rel="apple-touch-icon" sizes="180x180" href="/fav.ico"> -->
 
@@ -826,39 +826,24 @@
 
 <!-- end custom main top snippet --><article><script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script><div class="article__header"><div class="header-author"><div class="article__info clearfix"><div class="left-col">
             <a class="edit-on-github-btn" target="_blank" rel="alternate"
-               href="https://github.com/johnsnowlabs/spark-nlp/tree/master/docs/_posts/josejuanmartinez/2022-09-07-legclf_bert_judgements_argtype_en.md">
+               href="https://github.com/johnsnowlabs/spark-nlp/tree/master/docs/_posts/josejuanmartinez/2022-09-08-finel_names2tickers_en.md">
               <span class="fab fa-github"></span>
               <span class="edit-on-github-label">Edit on GitHub</span>
             </a>
-        </div><ul class="right-col menu"><li><i class="far fa-user"></i> <span>John Snow Labs</span></li><li><i class="far fa-calendar-alt"></i> <span>Sep 07, 2022</span>
-            </li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2022-09-07T00:00:00+00:00"></div><header class="main-docs have_subtitle">
-          <h1>Judgements Classification (Argument Type)</h1><div class="top-subtitle mont"></div></header></div><meta itemprop="headline" content="Judgements Classification (Argument Type)"><div class="article__info tags_box clearfix"><ul class="left-col menu"><li>en</li><li>legal</li><li>judgements</li><li>argument</li><li>echr</li><li>licensed</li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2022-09-07T00:00:00+00:00">
-    <meta itemprop="keywords" content="en,legal,judgements,argument,echr,licensed"><div class="js-article-content"><div class="model-wrap"><div class="layout--article"><!-- start custom article top snippet -->
+        </div><ul class="right-col menu"><li><i class="far fa-user"></i> <span>John Snow Labs</span></li><li><i class="far fa-calendar-alt"></i> <span>Sep 08, 2022</span>
+            </li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2022-09-08T00:00:00+00:00"></div><header class="main-docs have_subtitle">
+          <h1>Resolver Company Names to Tickers</h1><div class="top-subtitle mont"></div></header></div><meta itemprop="headline" content="Resolver Company Names to Tickers"><div class="article__info tags_box clearfix"><ul class="left-col menu"><li>en</li><li>finance</li><li>companies</li><li>tickers</li><li>nasdaq</li><li>licensed</li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2022-09-08T00:00:00+00:00">
+    <meta itemprop="keywords" content="en,finance,companies,tickers,nasdaq,licensed"><div class="js-article-content"><div class="model-wrap"><div class="layout--article"><!-- start custom article top snippet -->
 
 <!-- end custom article top snippet --><div class="article__content" itemprop="articleBody"><h2 id="description">Description</h2>
 
-<p>This is a Text Classification model, aimed to identify different the different argument types in Court Decisions texts about Human Rights. This model was inspired by <a href="https://arxiv.org/pdf/2208.06178.pdf">this</a> paper, which uses a different approach (Named Entity Recognition).</p>
-
-<p>The classes are listed below. Please check the <a href="https://arxiv.org/pdf/2208.06178.pdf">original paper</a> for more information about them.</p>
-
-<ul>
-  <li>APPLICATION CASE</li>
-  <li>DECISION ECHR</li>
-  <li>LEGAL BASIS</li>
-  <li>LEGITIMATE PURPOSE</li>
-  <li>NECESSITY/PROPORTIONALITY</li>
-  <li>NON CONTESTATION</li>
-  <li>OTHER</li>
-  <li>PRECEDENTS ECHR</li>
-</ul>
+<p>This is an Entity Resolution / Entity Linking model, which is able to provide Ticker / Trading Symbols using a Company Name as an input. You can use any NER which extracts Organizations / Companies / Parties to then send the output to this Entity Linking model and get the Ticker / Trading Symbol (given the company has one).</p>
 
 <h2 id="predicted-entities">Predicted Entities</h2>
 
-<p><code class="language-plaintext highlighter-rouge">APPLICATION CASE</code>, <code class="language-plaintext highlighter-rouge">DECISION ECHR</code>, <code class="language-plaintext highlighter-rouge">LEGAL BASIS</code>, <code class="language-plaintext highlighter-rouge">LEGITIMATE PURPOSE</code>, <code class="language-plaintext highlighter-rouge">NECESSITY/PROPORTIONALITY</code>, <code class="language-plaintext highlighter-rouge">NON CONTESTATION</code>, <code class="language-plaintext highlighter-rouge">OTHER</code>, <code class="language-plaintext highlighter-rouge">PRECEDENTS ECHR</code></p>
-
-<p class="btn-box"><a href="https://demo.johnsnowlabs.com/finance/LEG_JUDGEMENTS_CLF/" class="button button-orange">Live Demo</a>
+<p class="btn-box"><a href="https://nlp.johnsnowlabs.com/financial_company_normalization" class="button button-orange">Live Demo</a>
 <button class="button button-orange" disabled="">Open in Colab</button>
-<a href="https://s3.amazonaws.com/auxdata.johnsnowlabs.com/legal/models/legclf_bert_judgements_argtype_en_1.0.0_3.2_1662562438186.zip" class="button button-orange button-orange-trans arr button-icon">Download</a></p>
+<a href="https://s3.amazonaws.com/auxdata.johnsnowlabs.com/finance/models/finel_names2tickers_en_1.0.0_3.2_1662636940877.zip" class="button button-orange button-orange-trans arr button-icon">Download</a></p>
 
 <h2 id="how-to-use">How to use</h2>
 
@@ -866,61 +851,41 @@
   <div class="top_tab_li">   
     <button class="tab-li code-selector-active python-button">Python</button><button class="tab-li code-selector-un-active scala-button">Scala</button><button class="tab-li code-selector-un-active nlu-button">NLU</button>
 </div>
-  <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">text_list</span> <span class="o">=</span> <span class="p">[</span><span class="s">"""Indeed, given that the expectation of protection of private life may be reduced on account of the public functions exercised, the Court considers that, in order to ensure a fair balancing of the interests at stake, the domestic courts, in assessing the facts submitted for their examination, ought to have taken into account the potential impact of the Prince's status as Head of State, and to have attempted, in that context, to determine the parts of the impugned article that belonged to the strictly private domain and what fell within the public sphere."""</span><span class="p">,</span>
-             <span class="s">"""Article 8 requires that the domestic authorities should strike a fair balance between the interests of the child and those of the parents, and that, in the balancing process, particular importance should be attached to the best interests of the child, which, depending on their nature and seriousness, may override those of the parents. In particular, a parent can not be entitled under Article 8 to have such measures taken as would harm the child's health and development ( see Sahin, cited above, § 66, and Sommerfeld, cited above, § 64 )."""</span><span class="p">]</span>
+  <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">johnsnowlabs.extensions.finance.chunk_classification.resolution</span> <span class="kn">import</span> <span class="n">SentenceEntityResolverModel</span>
 
+<span class="n">documentAssembler</span> <span class="o">=</span> <span class="n">DocumentAssembler</span><span class="p">()</span>\
+      <span class="p">.</span><span class="n">setInputCol</span><span class="p">(</span><span class="s">"text"</span><span class="p">)</span>\
+      <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"ner_chunk"</span><span class="p">)</span>
 
-<span class="n">text_list</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span><span class="p">.</span><span class="n">lower</span><span class="p">()</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">text_list</span><span class="p">]</span>
+<span class="n">embeddings</span> <span class="o">=</span> <span class="n">UniversalSentenceEncoder</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"tfhub_use"</span><span class="p">,</span> <span class="s">"en"</span><span class="p">)</span> \
+      <span class="p">.</span><span class="n">setInputCols</span><span class="p">(</span><span class="s">"ner_chunk"</span><span class="p">)</span> \
+      <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"sentence_embeddings"</span><span class="p">)</span>
+    
+<span class="n">resolver</span> <span class="o">=</span> <span class="n">SentenceEntityResolverModel</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"finel_names2tickers"</span><span class="p">,</span> <span class="s">"en"</span><span class="p">,</span> <span class="s">"finance/models"</span><span class="p">)</span> \
+      <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"ner_chunk"</span><span class="p">,</span> <span class="s">"sentence_embeddings"</span><span class="p">])</span> \
+      <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"name"</span><span class="p">)</span>\
+      <span class="p">.</span><span class="n">setDistanceFunction</span><span class="p">(</span><span class="s">"EUCLIDEAN"</span><span class="p">)</span>
 
-<span class="n">text_list</span>
+<span class="n">pipelineModel</span> <span class="o">=</span> <span class="n">PipelineModel</span><span class="p">(</span>
+      <span class="n">stages</span> <span class="o">=</span> <span class="p">[</span>
+          <span class="n">documentAssembler</span><span class="p">,</span>
+          <span class="n">embeddings</span><span class="p">,</span>
+          <span class="n">resolver</span><span class="p">])</span>
 
+<span class="n">lp</span> <span class="o">=</span> <span class="n">LightPipeline</span><span class="p">(</span><span class="n">pipelineModel</span><span class="p">)</span>
 
-<span class="n">document_assembler</span> <span class="o">=</span> <span class="n">DocumentAssembler</span><span class="p">()</span> \
-    <span class="p">.</span><span class="n">setInputCol</span><span class="p">(</span><span class="s">'text'</span><span class="p">)</span> \
-    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">'document'</span><span class="p">)</span>
-
-<span class="n">tokenizer</span> <span class="o">=</span> <span class="n">Tokenizer</span><span class="p">()</span>\
-    <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">'document'</span><span class="p">])</span>\
-    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"token"</span><span class="p">)</span>
-
-<span class="n">clf_model</span> <span class="o">=</span> <span class="n">LegalBertForSequenceClassification</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"legclf_bert_judgements_argtype"</span><span class="p">,</span> <span class="s">"en"</span><span class="p">,</span> <span class="s">"legal/models"</span><span class="p">)</span>\
-    <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">'document'</span><span class="p">,</span><span class="s">'token'</span><span class="p">])</span>\
-    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"class"</span><span class="p">)</span>\
-    <span class="p">.</span><span class="n">setCaseSensitive</span><span class="p">(</span><span class="bp">True</span><span class="p">)</span>\
-    <span class="p">.</span><span class="n">setMaxSentenceLength</span><span class="p">(</span><span class="mi">512</span><span class="p">)</span>
-
-<span class="n">clf_pipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">(</span><span class="n">stages</span><span class="o">=</span><span class="p">[</span>
-    <span class="n">document_assembler</span><span class="p">,</span> 
-    <span class="n">tokenizer</span><span class="p">,</span>
-    <span class="n">clf_model</span>   
-<span class="p">])</span>
-
-<span class="c1"># Generating example
-</span><span class="n">empty_df</span> <span class="o">=</span> <span class="n">spark</span><span class="p">.</span><span class="n">createDataFrame</span><span class="p">([[</span><span class="s">''</span><span class="p">]]).</span><span class="n">toDF</span><span class="p">(</span><span class="s">"text"</span><span class="p">)</span>
-
-<span class="n">model</span> <span class="o">=</span> <span class="n">clf_pipeline</span><span class="p">.</span><span class="n">fit</span><span class="p">(</span><span class="n">empty_df</span><span class="p">)</span>
-
-<span class="n">light_model</span> <span class="o">=</span> <span class="n">LightPipeline</span><span class="p">(</span><span class="n">model</span><span class="p">)</span>
-
-<span class="n">df</span> <span class="o">=</span> <span class="n">spark</span><span class="p">.</span><span class="n">createDataFrame</span><span class="p">(</span><span class="n">pd</span><span class="p">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s">"text"</span> <span class="p">:</span> <span class="n">text_list</span><span class="p">}))</span>
-
-<span class="n">result</span> <span class="o">=</span> <span class="n">model</span><span class="p">.</span><span class="n">transform</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
-
-<span class="n">result</span><span class="p">.</span><span class="n">select</span><span class="p">(</span><span class="n">F</span><span class="p">.</span><span class="n">explode</span><span class="p">(</span><span class="n">F</span><span class="p">.</span><span class="n">arrays_zip</span><span class="p">(</span><span class="s">'document.result'</span><span class="p">,</span> <span class="s">'class.result'</span><span class="p">)).</span><span class="n">alias</span><span class="p">(</span><span class="s">"cols"</span><span class="p">))</span>\
-               <span class="p">.</span><span class="n">select</span><span class="p">(</span><span class="n">F</span><span class="p">.</span><span class="n">expr</span><span class="p">(</span><span class="s">"cols['0']"</span><span class="p">).</span><span class="n">alias</span><span class="p">(</span><span class="s">"document"</span><span class="p">),</span>
-                       <span class="n">F</span><span class="p">.</span><span class="n">expr</span><span class="p">(</span><span class="s">"cols['1']"</span><span class="p">).</span><span class="n">alias</span><span class="p">(</span><span class="s">"class"</span><span class="p">)).</span><span class="n">show</span><span class="p">(</span><span class="n">truncate</span> <span class="o">=</span> <span class="mi">60</span><span class="p">)</span>
+<span class="n">lp</span><span class="p">.</span><span class="n">fullAnnotate</span><span class="p">(</span><span class="s">"apple"</span><span class="p">)</span>
 </code></pre></div>  </div>
 
 </div>
 
 <h2 id="results">Results</h2>
 
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>+------------------------------------------------------------+----------------+
-|                                                    document|           class|
-+------------------------------------------------------------+----------------+
-|indeed, given that the expectation of protection of priva...|APPLICATION CASE|
-|article 8 requires that the domestic authorities should s...| PRECEDENTS ECHR|
-+------------------------------------------------------------+----------------+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>+--------+---------+----------------------------------------------+-------------------------+-----------------------------------+
+|   chunk|    code |                                     all_codes|             resolutions |                      all_distances|
++--------+---------+----------------------------------------------+-------------------------+-----------------------------------+
+|  apple |   Apple | <span class="o">[</span>Apple, Apple inc., Apple INC. , Apple Inc.] |[AAPL, AAPL, AAPL, AAPL] |  <span class="o">[</span>0.0000, 0.1093, 0.1093, 0.1093] |
++--------+---------+----------------------------------------------+-------------------------+-----------------------------------+
 </code></pre></div></div>
 
 <h2 class="model-param" id="model-information">Model Information</h2>
@@ -929,15 +894,15 @@
   <tbody>
     <tr>
       <td>Model Name:</td>
-      <td>legclf_bert_judgements_argtype</td>
+      <td>finel_names2tickers</td>
     </tr>
     <tr>
       <td>Type:</td>
-      <td>legal</td>
+      <td>finance</td>
     </tr>
     <tr>
       <td>Compatibility:</td>
-      <td>Spark NLP for Legal 1.0.0+</td>
+      <td>Spark NLP for Finance 1.0.0+</td>
     </tr>
     <tr>
       <td>License:</td>
@@ -949,11 +914,11 @@
     </tr>
     <tr>
       <td>Input Labels:</td>
-      <td>[document, token]</td>
+      <td>[sentence_embeddings]</td>
     </tr>
     <tr>
       <td>Output Labels:</td>
-      <td>[class]</td>
+      <td>[company_ticker]</td>
     </tr>
     <tr>
       <td>Language:</td>
@@ -961,41 +926,19 @@
     </tr>
     <tr>
       <td>Size:</td>
-      <td>410.0 MB</td>
+      <td>20.3 MB</td>
     </tr>
     <tr>
       <td>Case sensitive:</td>
-      <td>true</td>
-    </tr>
-    <tr>
-      <td>Max sentence length:</td>
-      <td>512</td>
+      <td>false</td>
     </tr>
   </tbody>
 </table>
 
 <h2 id="references">References</h2>
 
-<p>Basedf on https://arxiv.org/pdf/2208.06178.pdf with in-house postprocessing</p>
-
-<h2 id="benchmarking">Benchmarking</h2>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>                            precision    recall  f1-score   support
-
-         APPLICATION CASE       0.85      0.83      0.84       983
-            DECISION ECHR       0.82      0.86      0.84       103
-              LEGAL BASIS       0.61      0.50      0.55        40
-       LEGITIMATE PURPOSE       0.94      0.88      0.91        17
-NECESSITY/PROPORTIONALITY       0.62      0.66      0.64       207
-         NON CONTESTATION       0.64      0.69      0.67        13
-                    OTHER       0.97      0.97      0.97      2557
-          PRECEDENTS ECHR       0.80      0.85      0.83       262
-
-                 accuracy                           0.91      4182
-                macro avg       0.78      0.78      0.78      4182
-             weighted avg       0.91      0.91      0.91      4182
-</code></pre></div></div>
-</div><div class="d-print-none"><footer class="article__footer"><meta itemprop="dateModified" content="2022-09-07T00:00:00+00:00"><!-- start custom article footer snippet -->
+<p>https://data.world/johnsnowlabs/list-of-companies-in-nasdaq-exchanges</p>
+</div><div class="d-print-none"><footer class="article__footer"><meta itemprop="dateModified" content="2022-09-08T00:00:00+00:00"><!-- start custom article footer snippet -->
 
 <!-- end custom article footer snippet --></footer>
 
@@ -1120,7 +1063,7 @@ hr.code-selector-underlie {
 
 }
 
-</style><div class="article__section-navigator clearfix"><div class="previous nav_link"><span>PREVIOUS</span><a href="/2022/09/07/legclf_bert_judgements_agent_en.html">Judgements Classification (agent)</a></div></div></div>
+</style><div class="article__section-navigator clearfix"><div class="previous nav_link"><span>PREVIOUS</span><a href="/2022/09/07/legclf_bert_judgements_argtype_en.html">Judgements Classification (Argument Type)</a></div></div></div>
 
 </div>
 </div>
