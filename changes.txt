@@ -1,10 +1,2 @@
-docs/demos/financial_entity_recognition.md
-docs/demos/financial_relation_extraction.md
-docs/demos/financial_text_classification.md
-docs/demos/legal_entity_recognition.md
-docs/demos/legal_relation_extraction.md
-docs/demos/financial_entity_recognition.md
-docs/demos/financial_relation_extraction.md
-docs/demos/financial_text_classification.md
-docs/demos/legal_entity_recognition.md
-docs/demos/legal_relation_extraction.md
+docs/_posts/josejuanmartinez/2022-08-09-finel_names2tickers_en_3_2.md
+docs/_posts/josejuanmartinez/2022-08-09-finel_names2tickers_en_3_2.md
