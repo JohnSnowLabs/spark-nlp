@@ -27,8 +27,8 @@ import scala.collection.mutable.ArrayBuffer
 /** Utils to check audio files and parse audio byte arrays. */
 private[johnsnowlabs] object AudioProcessors {
 
-  private final val MAGIC_WAV: Array[Byte] = "RIFF".getBytes
-  private final val MAGIC_FLAC: Array[Byte] = "fLaC".getBytes
+  private final val MAGIC_WAV: String = "RIFF"
+  private final val MAGIC_FLAC: String = "fLaC"
 
   /** Check and return AnnotationAudio
     * @param rawAudio
@@ -40,17 +40,17 @@ private[johnsnowlabs] object AudioProcessors {
   def checkInputBinaryFile(
       rawAudio: Array[Byte],
       metadata: Map[String, String]): AnnotationAudio = {
-    val magicBytes: Array[Byte] = rawAudio.slice(0, 4)
+    val magicBytes: String = new String(rawAudio.slice(0, 4))
     var fileType = ""
     require(
       magicBytes match {
         case MAGIC_WAV =>
           fileType = "WAV"
-          false
+          true
         case MAGIC_FLAC =>
           fileType = "FLAC"
-          false
-        case _ => true
+          true
+        case _ => false
       },
       "The file is not WAV or FLAC types. Spark NLP only supports WAV and FLAC formats")
 
@@ -155,7 +155,7 @@ private[johnsnowlabs] object AudioProcessors {
   def processAsFlac(rawBytes: Array[Byte]): Array[Float] = ???
 
   def loadAudioByteToFloat(rawAudio: Array[Byte], sr: Int): Array[Float] = {
-    val magicBytes: Array[Byte] = rawAudio.slice(0, 4)
+    val magicBytes: String = new String(rawAudio.slice(0, 4))
 
     magicBytes match {
       case MAGIC_WAV => processAsWav(rawAudio)
