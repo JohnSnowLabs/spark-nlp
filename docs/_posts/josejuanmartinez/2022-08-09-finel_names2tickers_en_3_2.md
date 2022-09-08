@@ -1,6 +1,6 @@
 ---
 layout: model
-title: Company Names -> Ticker Linking
+title: Resolve Company Names into their Tickers
 author: John Snow Labs
 name: finel_names2tickers
 date: 2022-08-09
