@@ -16,12 +16,13 @@
 
 package com.johnsnowlabs.nlp.annotators.audio.util.transform
 
-import com.johnsnowlabs.nlp.annotators.audio.util.io.WavFile
+import com.johnsnowlabs.nlp.annotators.audio.util.io.{JLibrosa, WavFile}
 import com.johnsnowlabs.nlp.{AnnotationAudio, AnnotatorType}
 import com.sun.media.sound.WaveFileReader
 
 import java.io.{BufferedInputStream, ByteArrayInputStream, InputStream}
 import javax.sound.sampled.{AudioFormat, AudioSystem}
+import scala.collection.convert.ImplicitConversions.`collection AsScalaIterable`
 import scala.collection.mutable.ArrayBuffer
 
 /** Utils to check audio files and parse audio byte arrays. */
@@ -65,7 +66,7 @@ private[johnsnowlabs] object AudioProcessors {
     Iterator continually is.read takeWhile (-1 !=) map (_.toByte) toArray
   }
 
-  def resample(bytes: Array[Byte], SampleRate: Int = 16000): Array[Byte] = {
+  def resample(bytes: Array[Byte], SampleRate: Int = 16000): Array[Double] = {
     val reader = new WaveFileReader
     val inputStream = new ByteArrayInputStream(bytes)
     val audioIn = reader.getAudioInputStream(new BufferedInputStream(inputStream))
@@ -80,7 +81,10 @@ private[johnsnowlabs] object AudioProcessors {
       srcFormat.isBigEndian)
     val convertedIn = AudioSystem.getAudioInputStream(dstFormat, audioIn)
 
-    inputStreamToByteArray(new BufferedInputStream(convertedIn))
+    val jlibrosa = new JLibrosa
+    val audioFeatureValuesList = jlibrosa.loadAndReadAsList(new BufferedInputStream(convertedIn), SampleRate, -1)
+    audioFeatureValuesList.map(_.toDouble).toArray
+
   }
 
   /** Processes the byte array as a WAV file.
@@ -93,8 +97,7 @@ private[johnsnowlabs] object AudioProcessors {
     *   AnnotationAudio
     */
   def processAsWav(rawBytes: Array[Byte]): Array[Float] = {
-    val rawStream: InputStream = new ByteArrayInputStream(resample(rawBytes))
-    val wavFile = WavFile.readWavStream(rawStream)
+    val wavFile = WavFile.readWavStream(new BufferedInputStream( new ByteArrayInputStream(rawBytes)))
 
     val mNumFrames = wavFile.getNumFrames.toInt
     var mSampleRate = wavFile.getSampleRate.toInt
