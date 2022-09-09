@@ -69,7 +69,7 @@ embeddings = BertEmbeddings.pretrained("bert_embeddings_sec_bert_base", "en") \
   .setOutputCol("embeddings")\
   .setMaxSentenceLength(512)
 
-ner_model = FinanceNerModel.pretrained("finner_financial_wip", "en", "finance/models")\
+ner_model = FinanceNerModel.pretrained("finner_financial_small", "en", "finance/models")\
     .setInputCols(["sentence", "token", "embeddings"])\
     .setOutputCol("ner")\
 
