@@ -17,7 +17,6 @@
 package com.johnsnowlabs.nlp
 
 import com.johnsnowlabs.nlp.AnnotatorType._
-import com.johnsnowlabs.nlp.annotators.audio.util.transform.AudioProcessors
 import org.apache.spark.ml.Transformer
 import org.apache.spark.ml.param.{Param, ParamMap}
 import org.apache.spark.ml.util.{DefaultParamsReadable, DefaultParamsWritable, Identifiable}
@@ -31,27 +30,10 @@ import org.apache.spark.sql.{DataFrame, Dataset}
   *
   * Input col is a single record that contains the raw content and metadata of the file.
   *
-  * Example:
-  * {{{
-  *   // Scala
-  *   val df = spark.read.format("binaryFile")
-  *     .load("/path/to/fileDir")
-  *
-  *   // Java
-  *   Dataset<Row> df = spark.read().format("binaryFile")
-  *     .load("/path/to/fileDir");
-  * }}}
-  *
   * ==Example==
   * {{{
   * import com.johnsnowlabs.nlp.AudioAssembler
   * import org.apache.spark.ml.Pipeline
-  *
-  * val wavPath = "src/test/resources/audio/1272-135031-0014.wav"
-  * val wavDf: DataFrame = spark.read
-  *   .format("binaryFile")
-  *   .load(wavPath)
-  *   .withColumnRenamed("content", "audio")
   *
   * val audioAssembler = new AudioAssembler()
   *   .setInputCol("audio")
@@ -61,18 +43,6 @@ import org.apache.spark.sql.{DataFrame, Dataset}
   * val pipelineDF = pipeline.fit(imageDF).transform(wavDf)
   * pipelineDF.printSchema()
   * root
-  * -- path: string (nullable = true)
-  * -- modificationTime: timestamp (nullable = true)
-  * -- length: long (nullable = true)
-  * -- audio: binary (nullable = true)
-  * -- audio_assembler: array (nullable = true)
-  *     |-- element: struct (containsNull = true)
-  *     |    |-- annotatorType: string (nullable = true)
-  *     |    |-- result: array (nullable = true)
-  *     |    |    |-- element: float (containsNull = false)
-  *     |    |-- metadata: map (nullable = true)
-  *     |    |    |-- key: string
-  *     |    |    |-- value: string (valueContainsNull = true)
   *
   * }}}
   * TODO:
@@ -92,12 +62,12 @@ class AudioAssembler(override val uid: String)
     */
   override val outputAnnotatorType: AnnotatorType = AUDIO
 
-  /** Input column of raw bytes of the audio
+  /** Input column of raw floats of the processed audio
     *
     * @group param
     */
   val inputCol: Param[String] =
-    new Param[String](this, "inputCol", "Input column of raw bytes of the audio")
+    new Param[String](this, "inputCol", "Input column of raw floats of the audio")
 
   /** Input column of raw audio
     *
@@ -118,14 +88,17 @@ class AudioAssembler(override val uid: String)
   override def copy(extra: ParamMap): Transformer = defaultCopy(extra)
 
   private[nlp] def assemble(
-      audio: Array[Byte],
+      audio: Array[Float],
       metadata: Map[String, String]): Seq[AnnotationAudio] = {
 
-    Seq(AudioProcessors.checkInputBinaryFile(audio, metadata))
-
+    Seq(
+      new AnnotationAudio(
+        AnnotatorType.AUDIO,
+        result = audio,
+        metadata = Map("length" -> audio.length.toString) ++ metadata))
   }
 
-  private[nlp] def dfAssemble: UserDefinedFunction = udf { (audio: Array[Byte]) =>
+  private[nlp] def dfAssemble: UserDefinedFunction = udf { (audio: Array[Float]) =>
     assemble(audio, Map("audio" -> "0"))
   }
 
@@ -149,9 +122,10 @@ class AudioAssembler(override val uid: String)
       dataset.schema.fields.exists(_.name == getInputCol),
       s"column $getInputCol is not presented in your DataFrame")
 
+    val inputColSchema = dataset.schema(getInputCol).dataType
     require(
-      dataset.schema(getInputCol).dataType == BinaryType,
-      s"""column $getInputCol is not BinaryType. Make sure you read your audio files via spark.read.format("binaryFile").load(PATH)""")
+      inputColSchema == ArrayType(FloatType, containsNull = false),
+      s"""column $getInputCol is not of ArrayType(FloatType) type. Instead it is $inputColSchema. Please make sure your inputCol contains Array[Float]""")
 
     val audioAnnotations = {
       dfAssemble(dataset($(inputCol)))
