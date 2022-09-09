@@ -9,10 +9,10 @@
     j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
     })(window,document,'script','dataLayer','GTM-59JLR64');</script>
-<!-- End Google Tag Manager --><title>Financial Pipeline (ORG-PER-ROLE-DATE)</title><meta property="og:title" content=""/>
+<!-- End Google Tag Manager --><title>Resolve Tickers to Company Names</title><meta property="og:title" content=""/>
 
-<meta name="description" content="DescriptionThis is a pretrained pipeline to extract Companies (ORG), People (PERSON), Job titles (ROLE) and Dates combining different pretrained NER models to improve coverage.Predicted EntitiesORG, PERSON, ROLE, DATELive DemoOpen in ColabDownloadHow to use         PythonScalaNLU  from sparknlp.pretrained import Pre...">
-<link rel="canonical" href="/2022/09/09/finpipe_org_per_role_date_en.html"><link rel="alternate" type="application/rss+xml" title="Spark NLP" href="/feed.xml"><!-- start favicons snippet, use https://realfavicongenerator.net/ -->
+<meta name="description" content="DescriptionThis is an Entity Resolution / Entity Linking model, which is able to provide Company Names given their Ticker / Trading Symbols. You can use any NER which extracts Tickersto then send the output to this Entity Linking model and get the Company Name.Predicted EntitiesLive DemoOpen in ColabDownloadHow to u...">
+<link rel="canonical" href="/2022/09/09/finel_tickers2names_en.html"><link rel="alternate" type="application/rss+xml" title="Spark NLP" href="/feed.xml"><!-- start favicons snippet, use https://realfavicongenerator.net/ -->
 <!---->
 <!-- <link rel="apple-touch-icon" sizes="180x180" href="/fav.ico"> -->
 
@@ -408,26 +408,24 @@
 
 <!-- end custom main top snippet --><article><script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script><div class="article__header"><div class="header-author"><div class="article__info clearfix"><div class="left-col">
             <a class="edit-on-github-btn" target="_blank" rel="alternate"
-               href="https://github.com/johnsnowlabs/spark-nlp/tree/master/docs/_posts/josejuanmartinez/2022-09-09-finpipe_org_per_role_date_en.md">
+               href="https://github.com/johnsnowlabs/spark-nlp/tree/master/docs/_posts/josejuanmartinez/2022-09-09-finel_tickers2names_en.md">
               <span class="fab fa-github"></span>
               <span class="edit-on-github-label">Edit on GitHub</span>
             </a>
         </div><ul class="right-col menu"><li><i class="far fa-user"></i> <span>John Snow Labs</span></li><li><i class="far fa-calendar-alt"></i> <span>Sep 09, 2022</span>
             </li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2022-09-09T00:00:00+00:00"></div><header class="main-docs have_subtitle">
-          <h1>Financial Pipeline (ORG-PER-ROLE-DATE)</h1><div class="top-subtitle mont"></div></header></div><meta itemprop="headline" content="Financial Pipeline (ORG-PER-ROLE-DATE)"><div class="article__info tags_box clearfix"><ul class="left-col menu"><li>en</li><li>financial</li><li>licensed</li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2022-09-09T00:00:00+00:00">
-    <meta itemprop="keywords" content="en,financial,licensed"><div class="js-article-content"><div class="model-wrap"><div class="layout--article"><!-- start custom article top snippet -->
+          <h1>Resolve Tickers to Company Names</h1><div class="top-subtitle mont"></div></header></div><meta itemprop="headline" content="Resolve Tickers to Company Names"><div class="article__info tags_box clearfix"><ul class="left-col menu"><li>en</li><li>finance</li><li>companies</li><li>tickers</li><li>nasdaq</li><li>licensed</li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2022-09-09T00:00:00+00:00">
+    <meta itemprop="keywords" content="en,finance,companies,tickers,nasdaq,licensed"><div class="js-article-content"><div class="model-wrap"><div class="layout--article"><!-- start custom article top snippet -->
 
 <!-- end custom article top snippet --><div class="article__content" itemprop="articleBody"><h2 id="description">Description</h2>
 
-<p>This is a pretrained pipeline to extract Companies (ORG), People (PERSON), Job titles (ROLE) and Dates combining different pretrained NER models to improve coverage.</p>
+<p>This is an Entity Resolution / Entity Linking model, which is able to provide Company Names given their Ticker / Trading Symbols. You can use any NER which extracts Tickersto then send the output to this Entity Linking model and get the Company Name.</p>
 
 <h2 id="predicted-entities">Predicted Entities</h2>
 
-<p><code class="language-plaintext highlighter-rouge">ORG</code>, <code class="language-plaintext highlighter-rouge">PERSON</code>, <code class="language-plaintext highlighter-rouge">ROLE</code>, <code class="language-plaintext highlighter-rouge">DATE</code></p>
-
-<p class="btn-box"><a href="https://demo.johnsnowlabs.com/finance/FINPIPE_ORG_PER_DATE_ROLES/" class="button button-orange">Live Demo</a>
+<p class="btn-box"><a href="https://nlp.johnsnowlabs.com/financial_company_normalization" class="button button-orange">Live Demo</a>
 <button class="button button-orange" disabled="">Open in Colab</button>
-<a href="https://s3.amazonaws.com/auxdata.johnsnowlabs.com/finance/models/finpipe_org_per_role_date_en_1.0.0_3.2_1662716423161.zip" class="button button-orange button-orange-trans arr button-icon">Download</a></p>
+<a href="https://s3.amazonaws.com/auxdata.johnsnowlabs.com/finance/models/finel_tickers2names_en_1.0.0_3.2_1662733866127.zip" class="button button-orange button-orange-trans arr button-icon">Download</a></p>
 
 <h2 id="how-to-use">How to use</h2>
 
@@ -435,31 +433,40 @@
   <div class="top_tab_li">   
     <button class="tab-li code-selector-active python-button">Python</button><button class="tab-li code-selector-un-active scala-button">Scala</button><button class="tab-li code-selector-un-active nlu-button">NLU</button>
 </div>
-  <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">sparknlp.pretrained</span> <span class="kn">import</span> <span class="n">PretrainedPipeline</span>
+  <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">documentAssembler</span> <span class="o">=</span> <span class="n">DocumentAssembler</span><span class="p">()</span>\
+      <span class="p">.</span><span class="n">setInputCol</span><span class="p">(</span><span class="s">"text"</span><span class="p">)</span>\
+      <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"ner_chunk"</span><span class="p">)</span>
 
-<span class="n">deid_pipeline</span> <span class="o">=</span> <span class="n">PretrainedPipeline</span><span class="p">(</span><span class="s">"finpipe_org_per_role_date"</span><span class="p">,</span> <span class="s">"en"</span><span class="p">,</span> <span class="s">"finance/models"</span><span class="p">)</span>
+<span class="n">embeddings</span> <span class="o">=</span> <span class="n">UniversalSentenceEncoder</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"tfhub_use"</span><span class="p">,</span> <span class="s">"en"</span><span class="p">)</span> \
+      <span class="p">.</span><span class="n">setInputCols</span><span class="p">(</span><span class="s">"ner_chunk"</span><span class="p">)</span> \
+      <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"sentence_embeddings"</span><span class="p">)</span>
+    
+<span class="n">resolver</span> <span class="o">=</span> <span class="n">SentenceEntityResolverModel</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"finel_tickers2names"</span><span class="p">,</span> <span class="s">"en"</span><span class="p">,</span> <span class="s">"finance/models </span><span class="se">\
+</span><span class="s">      .setInputCols(["</span><span class="n">ner_chunk</span><span class="s">", "</span><span class="n">sentence_embeddings</span><span class="s">"]) </span><span class="se">\
+</span><span class="s">      .setOutputCol("</span><span class="n">name</span><span class="s">")</span><span class="se">\
+</span><span class="s">      .setDistanceFunction("</span><span class="n">EUCLIDEAN</span><span class="s">")
 
-<span class="n">deid_pipeline</span><span class="p">.</span><span class="n">annotate</span><span class="p">(</span><span class="s">"John Smith works as Computer Engineer at Amazon since 2020"</span><span class="p">)</span>
+pipelineModel = PipelineModel(
+      stages = [
+          documentAssembler,
+          embeddings,
+          resolver])
 
-<span class="n">res</span> <span class="o">=</span> <span class="n">deid_pipeline</span><span class="p">.</span><span class="n">annotate</span><span class="p">(</span><span class="s">"John Smith works as Computer Engineer at Amazon since 2020"</span><span class="p">)</span>
-<span class="k">for</span> <span class="n">token</span><span class="p">,</span> <span class="n">ner</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">res</span><span class="p">[</span><span class="s">'token'</span><span class="p">],</span> <span class="n">res</span><span class="p">[</span><span class="s">'ner'</span><span class="p">]):</span>
-    <span class="k">print</span><span class="p">(</span><span class="sa">f</span><span class="s">"</span><span class="si">{</span><span class="n">token</span><span class="si">}</span><span class="s"> (</span><span class="si">{</span><span class="n">ner</span><span class="si">}</span><span class="s">)"</span><span class="p">)</span>
-</code></pre></div>  </div>
+lp = LightPipeline(pipelineModel)
+
+lp.fullAnnotate("</span><span class="n">unit</span><span class="s">")
+
+</span></code></pre></div>  </div>
 
 </div>
 
 <h2 id="results">Results</h2>
 
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>John <span class="o">(</span>B-PERSON<span class="o">)</span>
-Smith <span class="o">(</span>I-PERSON<span class="o">)</span>
-works <span class="o">(</span>O<span class="o">)</span>
-as <span class="o">(</span>O<span class="o">)</span>
-Computer <span class="o">(</span>B-ROLE<span class="o">)</span>
-Engineer <span class="o">(</span>I-ROLE<span class="o">)</span>
-at <span class="o">(</span>O<span class="o">)</span>
-Amazon <span class="o">(</span>B-ORG<span class="o">)</span>
-since <span class="o">(</span>O<span class="o">)</span>
-2020 <span class="o">(</span>B-DATE<span class="o">)</span>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>+-------+--------------------+-----------------------------------------------------------------+----------------------------------------------------------------+---------------------------+
+|  chunk|               code |                                                        all_codes|                                                    resolutions |              all_distances|
++-------+--------------------+-----------------------------------------------------------------+----------------------------------------------------------------+---------------------------+
+|  unit |   UNITI GROUP INC. | <span class="o">[</span>UNITI GROUP INC., Uniti Group INC. , Uniti Group Incorporated] |[UNITI GROUP INC., Uniti Group INC. , Uniti Group Incorporated] |  <span class="o">[</span>0.0000, 0.0000, 0.0000] |
++-------+--------------------+-----------------------------------------------------------------+----------------------------------------------------------------+---------------------------+
 </code></pre></div></div>
 
 <h2 class="model-param" id="model-information">Model Information</h2>
@@ -468,11 +475,11 @@ since <span class="o">(</span>O<span class="o">)</span>
   <tbody>
     <tr>
       <td>Model Name:</td>
-      <td>finpipe_org_per_role_date</td>
+      <td>finel_tickers2names</td>
     </tr>
     <tr>
       <td>Type:</td>
-      <td>pipeline</td>
+      <td>finance</td>
     </tr>
     <tr>
       <td>Compatibility:</td>
@@ -487,33 +494,31 @@ since <span class="o">(</span>O<span class="o">)</span>
       <td>Official</td>
     </tr>
     <tr>
+      <td>Input Labels:</td>
+      <td>[sentence_embeddings]</td>
+    </tr>
+    <tr>
+      <td>Output Labels:</td>
+      <td>[org_company_name]</td>
+    </tr>
+    <tr>
       <td>Language:</td>
       <td>en</td>
     </tr>
     <tr>
       <td>Size:</td>
-      <td>828.4 MB</td>
+      <td>8.5 MB</td>
+    </tr>
+    <tr>
+      <td>Case sensitive:</td>
+      <td>false</td>
     </tr>
   </tbody>
 </table>
 
 <h2 id="references">References</h2>
 
-<p>In-house annotations on legal and financial documents, Ontonotes, Conll 2003, Finsec conll, Cuad dataset, 10k filings</p>
-
-<h2 id="included-models">Included Models</h2>
-
-<ul>
-  <li>DocumentAssembler</li>
-  <li>SentenceDetectorDLModel</li>
-  <li>TokenizerModel</li>
-  <li>BertEmbeddings</li>
-  <li>FinanceNerModel</li>
-  <li>FinanceBertForTokenClassification</li>
-  <li>NerConverter</li>
-  <li>NerConverter</li>
-  <li>ChunkMergeModel</li>
-</ul>
+<p>https://data.world/johnsnowlabs/list-of-companies-in-nasdaq-exchanges</p>
 </div><div class="d-print-none"><footer class="article__footer"><meta itemprop="dateModified" content="2022-09-09T00:00:00+00:00"><!-- start custom article footer snippet -->
 
 <!-- end custom article footer snippet --></footer>
@@ -639,7 +644,7 @@ hr.code-selector-underlie {
 
 }
 
-</style><div class="article__section-navigator clearfix"><div class="previous nav_link"><span>PREVIOUS</span><a href="/2022/09/09/finel_tickers2names_en.html">Resolve Tickers to Company Names</a></div></div></div>
+</style><div class="article__section-navigator clearfix"><div class="previous nav_link"><span>PREVIOUS</span><a href="/2022/09/08/finre_acquisitions_subsidiaries_en.html">Acquisitions / Subsidiaries Relation Extraction</a></div><div class="next nav_link"><span>NEXT</span><a href="/2022/09/09/finpipe_org_per_role_date_en.html">Financial Pipeline (ORG-PER-ROLE-DATE)</a></div></div></div>
 
 </div>
 </div>

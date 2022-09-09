@@ -1,5 +1,106 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.9.0">Jekyll</generator><link href="/feed.xml" rel="self" type="application/atom+xml" /><link href="/" rel="alternate" type="text/html" /><updated>2022-09-09T14:32:48+00:00</updated><id>/feed.xml</id><title type="html">Spark NLP</title><subtitle>High Performance NLP with Apache Spark
-</subtitle><author><name>{&quot;type&quot;=&gt;nil, &quot;name&quot;=&gt;nil, &quot;url&quot;=&gt;nil, &quot;avatar&quot;=&gt;nil, &quot;bio&quot;=&gt;nil, &quot;email&quot;=&gt;nil, &quot;facebook&quot;=&gt;nil, &quot;twitter&quot;=&gt;nil, &quot;weibo&quot;=&gt;nil, &quot;googleplus&quot;=&gt;nil, &quot;telegram&quot;=&gt;nil, &quot;medium&quot;=&gt;nil, &quot;zhihu&quot;=&gt;nil, &quot;douban&quot;=&gt;nil, &quot;linkedin&quot;=&gt;nil, &quot;github&quot;=&gt;nil, &quot;npm&quot;=&gt;nil}</name></author><entry><title type="html">Financial Pipeline (ORG-PER-ROLE-DATE)</title><link href="/2022/09/09/finpipe_org_per_role_date_en.html" rel="alternate" type="text/html" title="Financial Pipeline (ORG-PER-ROLE-DATE)" /><published>2022-09-09T00:00:00+00:00</published><updated>2022-09-09T00:00:00+00:00</updated><id>/2022/09/09/finpipe_org_per_role_date_en</id><content type="html" xml:base="/2022/09/09/finpipe_org_per_role_date_en.html">&lt;h2 id=&quot;description&quot;&gt;Description&lt;/h2&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.9.0">Jekyll</generator><link href="/feed.xml" rel="self" type="application/atom+xml" /><link href="/" rel="alternate" type="text/html" /><updated>2022-09-09T14:34:05+00:00</updated><id>/feed.xml</id><title type="html">Spark NLP</title><subtitle>High Performance NLP with Apache Spark
+</subtitle><author><name>{&quot;type&quot;=&gt;nil, &quot;name&quot;=&gt;nil, &quot;url&quot;=&gt;nil, &quot;avatar&quot;=&gt;nil, &quot;bio&quot;=&gt;nil, &quot;email&quot;=&gt;nil, &quot;facebook&quot;=&gt;nil, &quot;twitter&quot;=&gt;nil, &quot;weibo&quot;=&gt;nil, &quot;googleplus&quot;=&gt;nil, &quot;telegram&quot;=&gt;nil, &quot;medium&quot;=&gt;nil, &quot;zhihu&quot;=&gt;nil, &quot;douban&quot;=&gt;nil, &quot;linkedin&quot;=&gt;nil, &quot;github&quot;=&gt;nil, &quot;npm&quot;=&gt;nil}</name></author><entry><title type="html">Resolve Tickers to Company Names</title><link href="/2022/09/09/finel_tickers2names_en.html" rel="alternate" type="text/html" title="Resolve Tickers to Company Names" /><published>2022-09-09T00:00:00+00:00</published><updated>2022-09-09T00:00:00+00:00</updated><id>/2022/09/09/finel_tickers2names_en</id><content type="html" xml:base="/2022/09/09/finel_tickers2names_en.html">&lt;h2 id=&quot;description&quot;&gt;Description&lt;/h2&gt;
+
+&lt;p&gt;This is an Entity Resolution / Entity Linking model, which is able to provide Company Names given their Ticker / Trading Symbols. You can use any NER which extracts Tickersto then send the output to this Entity Linking model and get the Company Name.&lt;/p&gt;
+
+&lt;h2 id=&quot;predicted-entities&quot;&gt;Predicted Entities&lt;/h2&gt;
+
+&lt;p class=&quot;btn-box&quot;&gt;&lt;a href=&quot;https://nlp.johnsnowlabs.com/financial_company_normalization&quot; class=&quot;button button-orange&quot;&gt;Live Demo&lt;/a&gt;
+&lt;button class=&quot;button button-orange&quot; disabled=&quot;&quot;&gt;Open in Colab&lt;/button&gt;
+&lt;a href=&quot;https://s3.amazonaws.com/auxdata.johnsnowlabs.com/finance/models/finel_tickers2names_en_1.0.0_3.2_1662733866127.zip&quot; class=&quot;button button-orange button-orange-trans arr button-icon&quot;&gt;Download&lt;/a&gt;&lt;/p&gt;
+
+&lt;h2 id=&quot;how-to-use&quot;&gt;How to use&lt;/h2&gt;
+
+&lt;div class=&quot;tabs-box&quot;&gt;
+  &lt;div class=&quot;top_tab_li&quot;&gt;   
+    &lt;button class=&quot;tab-li code-selector-active python-button&quot;&gt;Python&lt;/button&gt;&lt;button class=&quot;tab-li code-selector-un-active scala-button&quot;&gt;Scala&lt;/button&gt;&lt;button class=&quot;tab-li code-selector-un-active nlu-button&quot;&gt;NLU&lt;/button&gt;
+&lt;/div&gt;
+  &lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;documentAssembler&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;DocumentAssembler&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;\
+      &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setInputCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;text&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;\
+      &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;ner_chunk&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+
+&lt;span class=&quot;n&quot;&gt;embeddings&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;UniversalSentenceEncoder&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;pretrained&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;tfhub_use&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;en&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; \
+      &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setInputCols&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;ner_chunk&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; \
+      &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;sentence_embeddings&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+    
+&lt;span class=&quot;n&quot;&gt;resolver&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;SentenceEntityResolverModel&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;pretrained&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;finel_tickers2names&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;en&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;finance/models &lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\
+&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;      .setInputCols([&quot;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;ner_chunk&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;, &quot;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;sentence_embeddings&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;]) &lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\
+&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;      .setOutputCol(&quot;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;name&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;)&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\
+&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;      .setDistanceFunction(&quot;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;EUCLIDEAN&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;)
+
+pipelineModel = PipelineModel(
+      stages = [
+          documentAssembler,
+          embeddings,
+          resolver])
+
+lp = LightPipeline(pipelineModel)
+
+lp.fullAnnotate(&quot;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;unit&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;)
+
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;  &lt;/div&gt;
+
+&lt;/div&gt;
+
+&lt;h2 id=&quot;results&quot;&gt;Results&lt;/h2&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;+-------+--------------------+-----------------------------------------------------------------+----------------------------------------------------------------+---------------------------+
+|  chunk|               code |                                                        all_codes|                                                    resolutions |              all_distances|
++-------+--------------------+-----------------------------------------------------------------+----------------------------------------------------------------+---------------------------+
+|  unit |   UNITI GROUP INC. | &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;UNITI GROUP INC., Uniti Group INC. , Uniti Group Incorporated] |[UNITI GROUP INC., Uniti Group INC. , Uniti Group Incorporated] |  &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;0.0000, 0.0000, 0.0000] |
++-------+--------------------+-----------------------------------------------------------------+----------------------------------------------------------------+---------------------------+
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h2 class=&quot;model-param&quot; id=&quot;model-information&quot;&gt;Model Information&lt;/h2&gt;
+
+&lt;table class=&quot;table-model&quot;&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Model Name:&lt;/td&gt;
+      &lt;td&gt;finel_tickers2names&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Type:&lt;/td&gt;
+      &lt;td&gt;finance&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Compatibility:&lt;/td&gt;
+      &lt;td&gt;Spark NLP for Finance 1.0.0+&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;License:&lt;/td&gt;
+      &lt;td&gt;Licensed&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Edition:&lt;/td&gt;
+      &lt;td&gt;Official&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Input Labels:&lt;/td&gt;
+      &lt;td&gt;[sentence_embeddings]&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Output Labels:&lt;/td&gt;
+      &lt;td&gt;[org_company_name]&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Language:&lt;/td&gt;
+      &lt;td&gt;en&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Size:&lt;/td&gt;
+      &lt;td&gt;8.5 MB&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Case sensitive:&lt;/td&gt;
+      &lt;td&gt;false&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;h2 id=&quot;references&quot;&gt;References&lt;/h2&gt;
+
+&lt;p&gt;https://data.world/johnsnowlabs/list-of-companies-in-nasdaq-exchanges&lt;/p&gt;</content><author><name>John Snow Labs</name></author><category term="en" /><category term="finance" /><category term="companies" /><category term="tickers" /><category term="nasdaq" /><category term="licensed" /><summary type="html">Description This is an Entity Resolution / Entity Linking model, which is able to provide Company Names given their Ticker / Trading Symbols. You can use any NER which extracts Tickersto then send the output to this Entity Linking model and get the Company Name. Predicted Entities Live Demo Open in Colab Download How to use PythonScalaNLU documentAssembler = DocumentAssembler()\ .setInputCol(&quot;text&quot;)\ .setOutputCol(&quot;ner_chunk&quot;) embeddings = UniversalSentenceEncoder.pretrained(&quot;tfhub_use&quot;, &quot;en&quot;) \ .setInputCols(&quot;ner_chunk&quot;) \ .setOutputCol(&quot;sentence_embeddings&quot;) resolver = SentenceEntityResolverModel.pretrained(&quot;finel_tickers2names&quot;, &quot;en&quot;, &quot;finance/models \ .setInputCols([&quot;ner_chunk&quot;, &quot;sentence_embeddings&quot;]) \ .setOutputCol(&quot;name&quot;)\ .setDistanceFunction(&quot;EUCLIDEAN&quot;) pipelineModel = PipelineModel( stages = [ documentAssembler, embeddings, resolver]) lp = LightPipeline(pipelineModel) lp.fullAnnotate(&quot;unit&quot;) Results +-------+--------------------+-----------------------------------------------------------------+----------------------------------------------------------------+---------------------------+ | chunk| code | all_codes| resolutions | all_distances| +-------+--------------------+-----------------------------------------------------------------+----------------------------------------------------------------+---------------------------+ | unit | UNITI GROUP INC. | [UNITI GROUP INC., Uniti Group INC. , Uniti Group Incorporated] |[UNITI GROUP INC., Uniti Group INC. , Uniti Group Incorporated] | [0.0000, 0.0000, 0.0000] | +-------+--------------------+-----------------------------------------------------------------+----------------------------------------------------------------+---------------------------+ Model Information Model Name: finel_tickers2names Type: finance Compatibility: Spark NLP for Finance 1.0.0+ License: Licensed Edition: Official Input Labels: [sentence_embeddings] Output Labels: [org_company_name] Language: en Size: 8.5 MB Case sensitive: false References https://data.world/johnsnowlabs/list-of-companies-in-nasdaq-exchanges</summary></entry><entry><title type="html">Financial Pipeline (ORG-PER-ROLE-DATE)</title><link href="/2022/09/09/finpipe_org_per_role_date_en.html" rel="alternate" type="text/html" title="Financial Pipeline (ORG-PER-ROLE-DATE)" /><published>2022-09-09T00:00:00+00:00</published><updated>2022-09-09T00:00:00+00:00</updated><id>/2022/09/09/finpipe_org_per_role_date_en</id><content type="html" xml:base="/2022/09/09/finpipe_org_per_role_date_en.html">&lt;h2 id=&quot;description&quot;&gt;Description&lt;/h2&gt;
 
 &lt;p&gt;This is a pretrained pipeline to extract Companies (ORG), People (PERSON), Job titles (ROLE) and Dates combining different pretrained NER models to improve coverage.&lt;/p&gt;
 
@@ -1179,130 +1280,4 @@ GHG_Emissions                                     1.00      0.91      0.95      
     accuracy                                                          0.95       330
    macro avg                                      0.95      0.95      0.95       330
 weighted avg                                      0.95      0.95      0.95       330
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;</content><author><name>John Snow Labs</name></author><category term="en" /><category term="financial" /><category term="esg" /><category term="classification" /><category term="licensed" /><summary type="html">Description This model classifies financial texts / news into 26 ESG classes which belong to three verticals: Environment, Social and Governance. This model can be use to build a ESG score board for companies. If you look for generic version, only returning Environment, Social or Governance, please look for the finance_sequence_classifier_esg model in Models Hub. Predicted Entities Business_Ethics, Data_Security, Access_And_Affordability, Business_Model_Resilience, Competitive_Behavior, Critical_Incident_Risk_Management, Customer_Welfare, Director_Removal, Employee_Engagement_Inclusion_And_Diversity, Employee_Health_And_Safety, Human_Rights_And_Community_Relations, Labor_Practices, Management_Of_Legal_And_Regulatory_Framework, Physical_Impacts_Of_Climate_Change, Product_Quality_And_Safety, Product_Design_And_Lifecycle_Management, Selling_Practices_And_Product_Labeling, Supply_Chain_Management, Systemic_Risk_Management, Waste_And_Hazardous_Materials_Management, Water_And_Wastewater_Management, Air_Quality, Customer_Privacy, Ecological_Impacts, Energy_Management, GHG_Emissions Live Demo Open in Colab Download How to use PythonScalaNLU document_assembler = DocumentAssembler() \ .setInputCol('text') \ .setOutputCol('document') tokenizer = Tokenizer() \ .setInputCols(['document']) \ .setOutputCol('token') sequenceClassifier = FinanceBertForSequenceClassification.pretrained(&quot;finclf_augmented_esg&quot;, &quot;en&quot;, &quot;finance/models&quot;))\ .setInputCols([&quot;document&quot;,'token'])\ .setOutputCol(&quot;class&quot;) pipeline = Pipeline(stages=[ document_assembler, tokenizer, sequenceClassifier ]) # couple of simple examples example = spark.createDataFrame([[&quot;&quot;&quot;The Canadian Environmental Assessment Agency (CEAA) concluded that in June 2016 the company had not made an effort to protect public drinking water and was ignoring concerns raised by its own scientists about the potential levels of pollutants in the local water supply. At the time, there were concerns that the company was not fully testing onsite wells for contaminants and did not use the proper methods for testing because of its test kits now manufactured in China.A preliminary report by the company in June 2016 was commissioned by the Alberta government to provide recommendations to Alberta Environment officials&quot;&quot;&quot;]]).toDF(&quot;text&quot;) result = pipeline.fit(example).transform(example) # result is a DataFrame result.select(&quot;text&quot;, &quot;class.result&quot;).show() Results +--------------------+--------------------+ | text| result| +--------------------+--------------------+ |The Canadian Envi...|[Waste_And_Hazard...| +--------------------+--------------------+ Model Information Model Name: finclf_augmented_esg Type: finance Compatibility: Spark NLP for Finance 1.0.0+ License: Licensed Edition: Official Input Labels: [document, token] Output Labels: [class] Language: en Size: 410.4 MB Case sensitive: true Max sentence length: 512 References In-house annotations from scrapped annual reports and tweets about ESG Benchmarking precision recall f1-score support Business_Ethics 0.73 0.80 0.76 10 Data_Security 1.00 0.89 0.94 9 Access_And_Affordability 1.00 1.00 1.00 15 Business_Model_Resilience 1.00 1.00 1.00 12 Competitive_Behavior 0.92 1.00 0.96 12 Critical_Incident_Risk_Management 0.92 1.00 0.96 11 Customer_Welfare 0.85 1.00 0.92 11 Director_Removal 0.91 1.00 0.95 10 Employee_Engagement_Inclusion_And_Diversity 1.00 1.00 1.00 11 Employee_Health_And_Safety 1.00 1.00 1.00 10 Human_Rights_And_Community_Relations 0.94 1.00 0.97 16 Labor_Practices 0.71 0.53 0.61 19 Management_Of_Legal_And_Regulatory_Framework 1.00 0.95 0.97 19 Physical_Impacts_Of_Climate_Change 0.93 1.00 0.97 14 Product_Quality_And_Safety 1.00 1.00 1.00 14 Product_Design_And_Lifecycle_Management 1.00 1.00 1.00 18 Selling_Practices_And_Product_Labeling 1.00 1.00 1.00 17 Supply_Chain_Management 0.89 1.00 0.94 8 Systemic_Risk_Management 1.00 0.86 0.92 14 Waste_And_Hazardous_Materials_Management 0.88 1.00 0.93 14 Water_And_Wastewater_Management 1.00 1.00 1.00 8 Air_Quality 1.00 1.00 1.00 16 Customer_Privacy 1.00 0.93 0.97 15 Ecological_Impacts 1.00 1.00 1.00 16 Energy_Management 1.00 0.91 0.95 11 GHG_Emissions 1.00 0.91 0.95 11 accuracy 0.95 330 macro avg 0.95 0.95 0.95 330 weighted avg 0.95 0.95 0.95 330</summary></entry><entry><title type="html">Forward-Looking Statements Classification</title><link href="/2022/09/06/finclf_bert_fls_en.html" rel="alternate" type="text/html" title="Forward-Looking Statements Classification" /><published>2022-09-06T00:00:00+00:00</published><updated>2022-09-06T00:00:00+00:00</updated><id>/2022/09/06/finclf_bert_fls_en</id><content type="html" xml:base="/2022/09/06/finclf_bert_fls_en.html">&lt;h2 id=&quot;description&quot;&gt;Description&lt;/h2&gt;
-
-&lt;p&gt;This is a Text Classification model aimed to detect at sentence or paragraph level, if there is a Forward-looking statements (FLS).&lt;/p&gt;
-
-&lt;p&gt;FLS are beliefs and opinions about firm’s future events or results, usually present in documents as Financial Reports. Identifying forward-looking statements from corporate reports can assist investors in financial analysis.&lt;/p&gt;
-
-&lt;p&gt;This model was trained originally on 3,500 manually annotated sentences from Management Discussion and Analysis section of annual reports of Russell 3000 firms and then finetuned in house by JSL on low-performant examples.&lt;/p&gt;
-
-&lt;h2 id=&quot;predicted-entities&quot;&gt;Predicted Entities&lt;/h2&gt;
-
-&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Specific FLS&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Non-specific FLS&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Not FLS&lt;/code&gt;&lt;/p&gt;
-
-&lt;p class=&quot;btn-box&quot;&gt;&lt;a href=&quot;https://demo.johnsnowlabs.com/public/FINCLF_FLS/&quot; class=&quot;button button-orange&quot;&gt;Live Demo&lt;/a&gt;
-&lt;button class=&quot;button button-orange&quot; disabled=&quot;&quot;&gt;Open in Colab&lt;/button&gt;
-&lt;a href=&quot;https://s3.amazonaws.com/auxdata.johnsnowlabs.com/finance/models/finclf_bert_fls_en_1.0.0_3.2_1662468990598.zip&quot; class=&quot;button button-orange button-orange-trans arr button-icon&quot;&gt;Download&lt;/a&gt;&lt;/p&gt;
-
-&lt;h2 id=&quot;how-to-use&quot;&gt;How to use&lt;/h2&gt;
-
-&lt;div class=&quot;tabs-box&quot;&gt;
-  &lt;div class=&quot;top_tab_li&quot;&gt;   
-    &lt;button class=&quot;tab-li code-selector-active python-button&quot;&gt;Python&lt;/button&gt;&lt;button class=&quot;tab-li code-selector-un-active scala-button&quot;&gt;Scala&lt;/button&gt;&lt;button class=&quot;tab-li code-selector-un-active nlu-button&quot;&gt;NLU&lt;/button&gt;
-&lt;/div&gt;
-  &lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;document_assembler&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;DocumentAssembler&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; \
-    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setInputCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'text'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; \
-    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'document'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-
-&lt;span class=&quot;n&quot;&gt;tokenizer&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Tokenizer&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; \
-    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setInputCols&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;([&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'document'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;])&lt;/span&gt; \
-    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'token'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-
-&lt;span class=&quot;n&quot;&gt;sequenceClassifier&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;FinanceBertForSequenceClassification&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;pretrained&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;finclf_bert_fls&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;en&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;finance/models&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;\
-  &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setInputCols&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;([&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;document&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'token'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;])&lt;/span&gt;\
-  &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;class&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-  
-&lt;span class=&quot;n&quot;&gt;pipeline&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Pipeline&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;stages&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;document_assembler&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; 
-    &lt;span class=&quot;n&quot;&gt;tokenizer&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;sequenceClassifier&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;])&lt;/span&gt;
-
-&lt;span class=&quot;c1&quot;&gt;# couple of simple examples
-&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;example&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;spark&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;createDataFrame&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;([[&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;Global economy will increase during the next year.&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]]).&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;toDF&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;text&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-
-&lt;span class=&quot;n&quot;&gt;result&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;pipeline&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;fit&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;example&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;).&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;transform&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;example&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-
-&lt;span class=&quot;c1&quot;&gt;# result is a DataFrame
-&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;result&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;select&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;text&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;class.result&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;).&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;show&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;  &lt;/div&gt;
-
-&lt;/div&gt;
-
-&lt;h2 id=&quot;results&quot;&gt;Results&lt;/h2&gt;
-
-&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;+--------------------+--------------+
-|                text|        result|
-+--------------------+--------------+
-|Global economy wi...|[Specific FLS]|
-+--------------------+--------------+
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;h2 class=&quot;model-param&quot; id=&quot;model-information&quot;&gt;Model Information&lt;/h2&gt;
-
-&lt;table class=&quot;table-model&quot;&gt;
-  &lt;tbody&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Model Name:&lt;/td&gt;
-      &lt;td&gt;finclf_bert_fls&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Type:&lt;/td&gt;
-      &lt;td&gt;finance&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Compatibility:&lt;/td&gt;
-      &lt;td&gt;Spark NLP for Finance 1.0.0+&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;License:&lt;/td&gt;
-      &lt;td&gt;Licensed&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Edition:&lt;/td&gt;
-      &lt;td&gt;Official&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Input Labels:&lt;/td&gt;
-      &lt;td&gt;[document, token]&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Output Labels:&lt;/td&gt;
-      &lt;td&gt;[class]&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Language:&lt;/td&gt;
-      &lt;td&gt;en&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Size:&lt;/td&gt;
-      &lt;td&gt;412.2 MB&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Case sensitive:&lt;/td&gt;
-      &lt;td&gt;true&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Max sentence length:&lt;/td&gt;
-      &lt;td&gt;512&lt;/td&gt;
-    &lt;/tr&gt;
-  &lt;/tbody&gt;
-&lt;/table&gt;
-
-&lt;h2 id=&quot;references&quot;&gt;References&lt;/h2&gt;
-
-&lt;p&gt;In-house annotations on 10K financial reports and reports from Russell 3000 firms&lt;/p&gt;
-
-&lt;h2 id=&quot;benchmarking&quot;&gt;Benchmarking&lt;/h2&gt;
-
-&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;			      precision    recall  f1-score   support
-
-Specific FLS       0.96      0.93      0.94       311
-Non-specific FLS   0.91      0.94      0.92       215
-     Not FLS       0.84      0.87      0.85        70
-
-    accuracy                           0.92       596
-   macro avg       0.90      0.91      0.91       596
-weighted avg       0.93      0.92      0.92       596
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;</content><author><name>John Snow Labs</name></author><category term="en" /><category term="finance" /><category term="forward" /><category term="looking" /><category term="statements" /><category term="fls" /><category term="licensed" /><summary type="html">Description This is a Text Classification model aimed to detect at sentence or paragraph level, if there is a Forward-looking statements (FLS). FLS are beliefs and opinions about firm’s future events or results, usually present in documents as Financial Reports. Identifying forward-looking statements from corporate reports can assist investors in financial analysis. This model was trained originally on 3,500 manually annotated sentences from Management Discussion and Analysis section of annual reports of Russell 3000 firms and then finetuned in house by JSL on low-performant examples. Predicted Entities Specific FLS, Non-specific FLS, Not FLS Live Demo Open in Colab Download How to use PythonScalaNLU document_assembler = DocumentAssembler() \ .setInputCol('text') \ .setOutputCol('document') tokenizer = Tokenizer() \ .setInputCols(['document']) \ .setOutputCol('token') sequenceClassifier = FinanceBertForSequenceClassification.pretrained(&quot;finclf_bert_fls&quot;, &quot;en&quot;, &quot;finance/models&quot;)\ .setInputCols([&quot;document&quot;,'token'])\ .setOutputCol(&quot;class&quot;) pipeline = Pipeline(stages=[ document_assembler, tokenizer, sequenceClassifier ]) # couple of simple examples example = spark.createDataFrame([[&quot;Global economy will increase during the next year.&quot;]]).toDF(&quot;text&quot;) result = pipeline.fit(example).transform(example) # result is a DataFrame result.select(&quot;text&quot;, &quot;class.result&quot;).show() Results +--------------------+--------------+ | text| result| +--------------------+--------------+ |Global economy wi...|[Specific FLS]| +--------------------+--------------+ Model Information Model Name: finclf_bert_fls Type: finance Compatibility: Spark NLP for Finance 1.0.0+ License: Licensed Edition: Official Input Labels: [document, token] Output Labels: [class] Language: en Size: 412.2 MB Case sensitive: true Max sentence length: 512 References In-house annotations on 10K financial reports and reports from Russell 3000 firms Benchmarking precision recall f1-score support Specific FLS 0.96 0.93 0.94 311 Non-specific FLS 0.91 0.94 0.92 215 Not FLS 0.84 0.87 0.85 70 accuracy 0.92 596 macro avg 0.90 0.91 0.91 596 weighted avg 0.93 0.92 0.92 596</summary></entry></feed>
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;</content><author><name>John Snow Labs</name></author><category term="en" /><category term="financial" /><category term="esg" /><category term="classification" /><category term="licensed" /><summary type="html">Description This model classifies financial texts / news into 26 ESG classes which belong to three verticals: Environment, Social and Governance. This model can be use to build a ESG score board for companies. If you look for generic version, only returning Environment, Social or Governance, please look for the finance_sequence_classifier_esg model in Models Hub. Predicted Entities Business_Ethics, Data_Security, Access_And_Affordability, Business_Model_Resilience, Competitive_Behavior, Critical_Incident_Risk_Management, Customer_Welfare, Director_Removal, Employee_Engagement_Inclusion_And_Diversity, Employee_Health_And_Safety, Human_Rights_And_Community_Relations, Labor_Practices, Management_Of_Legal_And_Regulatory_Framework, Physical_Impacts_Of_Climate_Change, Product_Quality_And_Safety, Product_Design_And_Lifecycle_Management, Selling_Practices_And_Product_Labeling, Supply_Chain_Management, Systemic_Risk_Management, Waste_And_Hazardous_Materials_Management, Water_And_Wastewater_Management, Air_Quality, Customer_Privacy, Ecological_Impacts, Energy_Management, GHG_Emissions Live Demo Open in Colab Download How to use PythonScalaNLU document_assembler = DocumentAssembler() \ .setInputCol('text') \ .setOutputCol('document') tokenizer = Tokenizer() \ .setInputCols(['document']) \ .setOutputCol('token') sequenceClassifier = FinanceBertForSequenceClassification.pretrained(&quot;finclf_augmented_esg&quot;, &quot;en&quot;, &quot;finance/models&quot;))\ .setInputCols([&quot;document&quot;,'token'])\ .setOutputCol(&quot;class&quot;) pipeline = Pipeline(stages=[ document_assembler, tokenizer, sequenceClassifier ]) # couple of simple examples example = spark.createDataFrame([[&quot;&quot;&quot;The Canadian Environmental Assessment Agency (CEAA) concluded that in June 2016 the company had not made an effort to protect public drinking water and was ignoring concerns raised by its own scientists about the potential levels of pollutants in the local water supply. At the time, there were concerns that the company was not fully testing onsite wells for contaminants and did not use the proper methods for testing because of its test kits now manufactured in China.A preliminary report by the company in June 2016 was commissioned by the Alberta government to provide recommendations to Alberta Environment officials&quot;&quot;&quot;]]).toDF(&quot;text&quot;) result = pipeline.fit(example).transform(example) # result is a DataFrame result.select(&quot;text&quot;, &quot;class.result&quot;).show() Results +--------------------+--------------------+ | text| result| +--------------------+--------------------+ |The Canadian Envi...|[Waste_And_Hazard...| +--------------------+--------------------+ Model Information Model Name: finclf_augmented_esg Type: finance Compatibility: Spark NLP for Finance 1.0.0+ License: Licensed Edition: Official Input Labels: [document, token] Output Labels: [class] Language: en Size: 410.4 MB Case sensitive: true Max sentence length: 512 References In-house annotations from scrapped annual reports and tweets about ESG Benchmarking precision recall f1-score support Business_Ethics 0.73 0.80 0.76 10 Data_Security 1.00 0.89 0.94 9 Access_And_Affordability 1.00 1.00 1.00 15 Business_Model_Resilience 1.00 1.00 1.00 12 Competitive_Behavior 0.92 1.00 0.96 12 Critical_Incident_Risk_Management 0.92 1.00 0.96 11 Customer_Welfare 0.85 1.00 0.92 11 Director_Removal 0.91 1.00 0.95 10 Employee_Engagement_Inclusion_And_Diversity 1.00 1.00 1.00 11 Employee_Health_And_Safety 1.00 1.00 1.00 10 Human_Rights_And_Community_Relations 0.94 1.00 0.97 16 Labor_Practices 0.71 0.53 0.61 19 Management_Of_Legal_And_Regulatory_Framework 1.00 0.95 0.97 19 Physical_Impacts_Of_Climate_Change 0.93 1.00 0.97 14 Product_Quality_And_Safety 1.00 1.00 1.00 14 Product_Design_And_Lifecycle_Management 1.00 1.00 1.00 18 Selling_Practices_And_Product_Labeling 1.00 1.00 1.00 17 Supply_Chain_Management 0.89 1.00 0.94 8 Systemic_Risk_Management 1.00 0.86 0.92 14 Waste_And_Hazardous_Materials_Management 0.88 1.00 0.93 14 Water_And_Wastewater_Management 1.00 1.00 1.00 8 Air_Quality 1.00 1.00 1.00 16 Customer_Privacy 1.00 0.93 0.97 15 Ecological_Impacts 1.00 1.00 1.00 16 Energy_Management 1.00 0.91 0.95 11 GHG_Emissions 1.00 0.91 0.95 11 accuracy 0.95 330 macro avg 0.95 0.95 0.95 330 weighted avg 0.95 0.95 0.95 330</summary></entry></feed>
