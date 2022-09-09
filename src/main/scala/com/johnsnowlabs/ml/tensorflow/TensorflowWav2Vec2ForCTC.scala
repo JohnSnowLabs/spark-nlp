@@ -36,7 +36,7 @@ class TensorflowWav2Vec2ForCTC(
     val batchLength = batch.length
     val maxSequenceLength = batch.map(x => x.length).max
 
-    val imageTensors = tensors.createTensor(batch)
+    val audioTensors = tensors.createTensor(batch)
 
     val runner = tensorflowWrapper
       .getTFSessionWithSignature(configProtoBytes = configProtoBytes, initAllTables = false)
@@ -46,7 +46,7 @@ class TensorflowWav2Vec2ForCTC(
       .feed(
         _tfWav2Vec2Signatures
           .getOrElse(ModelSignatureConstants.AudioValuesInput.key, "missing_input_values"),
-        imageTensors)
+        audioTensors)
       .fetch(_tfWav2Vec2Signatures
         .getOrElse(ModelSignatureConstants.LogitsOutput.key, "missing_logits_key"))
 
@@ -55,7 +55,7 @@ class TensorflowWav2Vec2ForCTC(
 
     tensors.clearSession(outs)
     tensors.clearTensors()
-    imageTensors.close()
+    audioTensors.close()
 
     rawScores
       .grouped(vocabSize)
@@ -72,7 +72,7 @@ class TensorflowWav2Vec2ForCTC(
     audios
       .grouped(batchSize)
       .flatMap { batch =>
-        val encoded = batch.map(x => x.result)
+        val encoded = encode(batch, preprocessor)
         val vocabIds = tag(encoded, vocabs.toSeq.length)
         val decoded = decode(vocabs, vocabIds, encoded.length)
 
@@ -89,6 +89,24 @@ class TensorflowWav2Vec2ForCTC(
       }
   }.toSeq
 
+  def encode(
+      annotations: Array[AnnotationAudio],
+      preprocessor: Preprocessor): Array[Array[Float]] = {
+
+    val maxLengthInBatch = annotations.map(x => x.result.length).max
+
+    annotations.map { annot =>
+      val padding = Array.fill(maxLengthInBatch - annot.result.length)(preprocessor.padding_value)
+
+      preprocessor.padding_side match {
+        case "left" => padding ++ annot.result
+        case "right" => annot.result ++ padding
+        case _ => annot.result ++ padding
+      }
+
+    }
+
+  }
   def decode(vocabs: Map[String, BigInt], vocabIds: Array[Int], batchSize: Int): Array[String] = {
     // TODO: requires better space cleaning and removing repetitive tokens
     vocabIds.grouped(vocabIds.length / batchSize).toArray.map { y =>
