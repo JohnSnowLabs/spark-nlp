@@ -16,7 +16,12 @@
 
 package com.johnsnowlabs.nlp.annotators.audio
 
-import com.johnsnowlabs.ml.tensorflow.{ReadTensorflowModel, TensorflowWav2Vec2ForCTC, TensorflowWrapper, WriteTensorflowModel}
+import com.johnsnowlabs.ml.tensorflow.{
+  ReadTensorflowModel,
+  TensorflowWav2Vec2ForCTC,
+  TensorflowWrapper,
+  WriteTensorflowModel
+}
 import com.johnsnowlabs.nlp.AnnotatorType.{AUDIO, DOCUMENT}
 import com.johnsnowlabs.nlp._
 import com.johnsnowlabs.nlp.annotators.audio.feature_extractor.Preprocessor
@@ -29,7 +34,7 @@ import org.apache.spark.sql.SparkSession
 import org.json4s._
 import org.json4s.jackson.JsonMethods._
 
-import java.io.{BufferedInputStream, File, FileInputStream, PrintWriter}
+import java.io.File
 import scala.io.Source
 
 /** Wav2Vec2 Model with a language modeling head on top for Connectionist Temporal Classification
@@ -304,4 +309,3 @@ trait ReadWav2Vec2ForAudioTensorflowModel extends ReadTensorflowModel {
 object Wav2Vec2ForCTC
     extends ReadablePretrainedWav2Vec2ForAudioModel
     with ReadWav2Vec2ForAudioTensorflowModel
-

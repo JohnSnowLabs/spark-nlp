@@ -19,7 +19,6 @@ package com.johnsnowlabs.ml.tensorflow
 import com.johnsnowlabs.ml.tensorflow.sign.{ModelSignatureConstants, ModelSignatureManager}
 import com.johnsnowlabs.nlp._
 import com.johnsnowlabs.nlp.annotators.audio.feature_extractor.Preprocessor
-import com.johnsnowlabs.nlp.annotators.audio.util.transform.AudioProcessors
 
 import scala.collection.JavaConverters._
 
@@ -73,7 +72,7 @@ class TensorflowWav2Vec2ForCTC(
     audios
       .grouped(batchSize)
       .flatMap { batch =>
-        val encoded = encode(batch, preprocessor)
+        val encoded = batch.map(x => x.result)
         val vocabIds = tag(encoded, vocabs.toSeq.length)
         val decoded = decode(vocabs, vocabIds, encoded.length)
 
@@ -89,26 +88,6 @@ class TensorflowWav2Vec2ForCTC(
 
       }
   }.toSeq
-
-  def encode(
-      annotations: Array[AnnotationAudio],
-      preprocessor: Preprocessor): Array[Array[Float]] = {
-
-    val maxLengthInBatch = annotations.map(x => x.result.length).max
-
-    // TODO: this part needs to be improved
-    annotations.map { annot =>
-      val normalizedAudioBatch =
-        AudioProcessors.loadAudioByteToFloat(annot.result, preprocessor.sampling_rate)
-//      val paddedAudioBatch = AudioProcessors.padRawAudio(
-//        normalizedAudioBatch,
-//        maxLengthInBatch,
-//        preprocessor.padding_side,
-//        preprocessor.padding_value)
-      normalizedAudioBatch
-    }
-
-  }
 
   def decode(vocabs: Map[String, BigInt], vocabIds: Array[Int], batchSize: Int): Array[String] = {
     // TODO: requires better space cleaning and removing repetitive tokens
