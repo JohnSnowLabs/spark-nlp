@@ -22,7 +22,9 @@ import org.apache.spark.ml.param.{BooleanParam, Param, StringArrayParam}
 import org.apache.spark.ml.util.{DefaultParamsReadable, Identifiable}
 
 import java.nio.charset.{Charset, StandardCharsets}
+import scala.collection.mutable.ListBuffer
 import scala.util.matching.Regex
+import scala.util.matching.Regex.Match
 import scala.util.{Failure, Success, Try}
 import scala.xml.XML
 
@@ -262,7 +264,6 @@ class DocumentNormalizer(override val uid: String)
       action: String,
       patterns: Array[String],
       replacement: String): String = {
-
     action match {
       case "clean" =>
         val patternsStr: String = patterns.mkString(BREAK_STR)
@@ -271,7 +272,8 @@ class DocumentNormalizer(override val uid: String)
         val htmlXml = XML.loadString(text)
         val textareaContents = (htmlXml \\ patterns.mkString).text
         textareaContents
-      case "lookaround" => LookAroundManager.process(text, patterns, replacement)
+      case "lookaround" =>
+        LookAroundManager.process(text, patterns, replacement)
       case _ =>
         throw new Exception(
           "Unknown action parameter in DocumentNormalizer annotation." +
@@ -307,7 +309,8 @@ class DocumentNormalizer(override val uid: String)
         val htmlXml = XML.loadString(text)
         val textareaContents = htmlXml \\ patterns.mkString
         textareaContents.head.mkString
-      case "lookaround" => LookAroundManager.process(text, patterns, replacement)
+      case "lookaround" =>
+        LookAroundManager. process(text, patterns, replacement)
       case _ =>
         throw new Exception(
           "Unknown action parameter in DocumentNormalizer annotation." +
@@ -428,6 +431,14 @@ object LookAroundManager {
   val LOOKAHEAD_PATTERN = "(?="
   val LOOKBEHIND_PATTERN = "(?<="
 
+  val SEMI_COLON = "\\;"
+  val FULL_STOP = "\\.(?!\\d+)"
+  val EXCLAMATION_MARK = "\\!"
+  val QUESTION_MARK = "\\?"
+  val END_FULL_STOPS_REGEX = "\\.$"
+  val EMPTY_STR = ""
+  val OR_STR = "|"
+
   def withReplacement(text: String,
                       replacement: String,
                       m: Regex.Match,
@@ -436,16 +447,39 @@ object LookAroundManager {
   }
 
   def process(text: String, patterns: Array[String], replacement: String): String = {
-    // check if it is a lookaround pattern
     val lookaheadPattern: String = patterns.head // assuming first to be it
     require(lookaheadPattern.contains(LOOKAHEAD_PATTERN) || lookaheadPattern.contains(LOOKBEHIND_PATTERN),
       "First pattern with action lookaround must contain a lookaround symbol, i.e. (?=criteria) or (?<=criteria)")
 
+    val fullStopsTrimmed = text.replaceAll(END_FULL_STOPS_REGEX, EMPTY_STR)
+    val separators = Array(SEMI_COLON, FULL_STOP, EXCLAMATION_MARK, QUESTION_MARK)
+
+    val detectedSeps =
+      for(
+        s <- separators; if text.contains(s.replace("\\",""))
+      ) yield s.replace("\\","")
+
+    val chunks =
+      if(!detectedSeps.isEmpty)
+        fullStopsTrimmed.split(detectedSeps.mkString(OR_STR))
+      else
+        Array(fullStopsTrimmed)
+
     val lookaheadRegex: Regex = lookaheadPattern.r
 
-    lookaheadRegex.findFirstMatchIn(text) match {
-      case Some(m) => withReplacement(text, replacement, m)
-      case None => text
+    val replacedChunks = new ListBuffer[String]()
+
+    for (c <- chunks) {
+      val res = lookaheadRegex.findFirstMatchIn(c) match {
+        case Some(m) => withReplacement(c, replacement, m)
+        case _ => c
+      }
+      replacedChunks += res
     }
+
+    if(detectedSeps.length > 0)
+      replacedChunks.mkString(detectedSeps.head)
+    else
+      replacedChunks.mkString
   }
 }
