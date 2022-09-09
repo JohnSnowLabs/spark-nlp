@@ -1,4 +1,2 @@
-docs/_posts/josejuanmartinez/2022-09-08-finre_acquisitions_subsidiaries_en.md
-docs/_posts/josejuanmartinez/2022-09-09-finpipe_org_per_role_date_en.md
-docs/_posts/josejuanmartinez/2022-09-08-finre_acquisitions_subsidiaries_en.md
-docs/_posts/josejuanmartinez/2022-09-09-finpipe_org_per_role_date_en.md
+docs/_posts/josejuanmartinez/2022-09-08-finel_names2tickers_en.md
+docs/_posts/josejuanmartinez/2022-09-08-finel_names2tickers_en.md
