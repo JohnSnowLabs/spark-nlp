@@ -20,20 +20,13 @@ import com.johnsnowlabs.nlp.AudioAssembler
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
 import com.johnsnowlabs.tags.SlowTest
 import org.apache.spark.ml.Pipeline
-import org.apache.spark.sql.{DataFrame, SparkSession}
+import org.apache.spark.sql.SparkSession
 import org.scalatest.flatspec.AnyFlatSpec
 
 class Wav2Vec2ForCTCTestSpec extends AnyFlatSpec {
+
   val spark: SparkSession = ResourceHelper.spark
-
-  val wavPath = "src/test/resources/audio/wav/"
-
-  val wavDf: DataFrame = spark.read
-    .format("binaryFile")
-    .load(wavPath)
-    .repartition(1)
-
-//  wavDf.show()
+  import spark.implicits._
 
   val audioAssembler: AudioAssembler = new AudioAssembler()
     .setInputCol("content")
@@ -48,9 +41,21 @@ class Wav2Vec2ForCTCTestSpec extends AnyFlatSpec {
 
   val pipeline: Pipeline = new Pipeline().setStages(Array(audioAssembler, speechToText))
 
-  "Wav2Vec2ForCTC" should "correctly transform speech to text" taggedAs SlowTest in {
+  "Wav2Vec2ForCTC" should "correctly transform speech to text from already processed audio files" taggedAs SlowTest in {
 
-    val pipelineDF = pipeline.fit(wavDf).transform(wavDf)
+    val bufferedSource =
+      scala.io.Source.fromFile("src/test/resources/audio/csv/audi_floats.csv")
+
+    val rawFloats = bufferedSource
+      .getLines()
+      .map(_.split(",").head.trim.toFloat)
+      .toArray
+    bufferedSource.close
+
+    val rawDF = Seq(rawFloats).toDF("content")
+    rawDF.printSchema()
+
+    val pipelineDF = pipeline.fit(rawDF).transform(rawDF)
 
     pipelineDF.select("text").show(10, false)
 
