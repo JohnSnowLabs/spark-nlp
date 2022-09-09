@@ -123,8 +123,9 @@ class AudioAssembler(override val uid: String)
       s"column $getInputCol is not presented in your DataFrame")
 
     val inputColSchema = dataset.schema(getInputCol).dataType
+
     require(
-      inputColSchema == ArrayType(FloatType, containsNull = false),
+      inputColSchema == ArrayType(FloatType),
       s"""column $getInputCol is not of ArrayType(FloatType) type. Instead it is $inputColSchema. Please make sure your inputCol contains Array[Float]""")
 
     val audioAnnotations = {
