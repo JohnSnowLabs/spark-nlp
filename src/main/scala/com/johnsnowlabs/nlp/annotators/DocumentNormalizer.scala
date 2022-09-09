@@ -22,6 +22,7 @@ import org.apache.spark.ml.param.{BooleanParam, Param, StringArrayParam}
 import org.apache.spark.ml.util.{DefaultParamsReadable, Identifiable}
 
 import java.nio.charset.{Charset, StandardCharsets}
+import scala.util.matching.Regex
 import scala.util.{Failure, Success, Try}
 import scala.xml.XML
 
@@ -261,15 +262,16 @@ class DocumentNormalizer(override val uid: String)
       action: String,
       patterns: Array[String],
       replacement: String): String = {
+
     action match {
       case "clean" =>
         val patternsStr: String = patterns.mkString(BREAK_STR)
         text.replaceAll(patternsStr, replacement)
-      case "extract" => {
+      case "extract" =>
         val htmlXml = XML.loadString(text)
         val textareaContents = (htmlXml \\ patterns.mkString).text
         textareaContents
-      }
+      case "lookaround" => LookAroundManager.process(text, patterns, replacement)
       case _ =>
         throw new Exception(
           "Unknown action parameter in DocumentNormalizer annotation." +
@@ -301,11 +303,11 @@ class DocumentNormalizer(override val uid: String)
       case "clean" =>
         val patternsStr: String = patterns.mkString(BREAK_STR)
         text.replaceFirst(patternsStr, replacement)
-      case "extract" => {
+      case "extract" =>
         val htmlXml = XML.loadString(text)
         val textareaContents = htmlXml \\ patterns.mkString
         textareaContents.head.mkString
-      }
+      case "lookaround" => LookAroundManager.process(text, patterns, replacement)
       case _ =>
         throw new Exception(
           "Unknown action parameter in DocumentNormalizer annotation." +
@@ -420,3 +422,30 @@ class DocumentNormalizer(override val uid: String)
   * documentation.
   */
 object DocumentNormalizer extends DefaultParamsReadable[DocumentNormalizer]
+
+object LookAroundManager {
+
+  val LOOKAHEAD_PATTERN = "(?="
+  val LOOKBEHIND_PATTERN = "(?<="
+
+  def withReplacement(text: String,
+                      replacement: String,
+                      m: Regex.Match,
+                      groupIdx: Int = 1) = { // implicit condition of picking the
+    text.replace(m.group(groupIdx), replacement)
+  }
+
+  def process(text: String, patterns: Array[String], replacement: String): String = {
+    // check if it is a lookaround pattern
+    val lookaheadPattern: String = patterns.head // assuming first to be it
+    require(lookaheadPattern.contains(LOOKAHEAD_PATTERN) || lookaheadPattern.contains(LOOKBEHIND_PATTERN),
+      "First pattern with action lookaround must contain a lookaround symbol, i.e. (?=criteria) or (?<=criteria)")
+
+    val lookaheadRegex: Regex = lookaheadPattern.r
+
+    lookaheadRegex.findFirstMatchIn(text) match {
+      case Some(m) => withReplacement(text, replacement, m)
+      case None => text
+    }
+  }
+}

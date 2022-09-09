@@ -27,6 +27,7 @@ object SparkAccessor {
     .config("spark.driver.maxResultSize", "0")
     .config("spark.kryoserializer.buffer.max", "200M")
     .config("spark.serializer", "org.apache.spark.serializer.KryoSerializer")
+    .config("spark.driver.bindAddress", "127.0.0.1")
     .getOrCreate()
 
   val benchmarkSpark: SparkSession = SparkSession
