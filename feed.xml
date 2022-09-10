@@ -1,5 +1,147 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.9.0">Jekyll</generator><link href="/feed.xml" rel="self" type="application/atom+xml" /><link href="/" rel="alternate" type="text/html" /><updated>2022-09-09T14:42:29+00:00</updated><id>/feed.xml</id><title type="html">Spark NLP</title><subtitle>High Performance NLP with Apache Spark
-</subtitle><author><name>{&quot;type&quot;=&gt;nil, &quot;name&quot;=&gt;nil, &quot;url&quot;=&gt;nil, &quot;avatar&quot;=&gt;nil, &quot;bio&quot;=&gt;nil, &quot;email&quot;=&gt;nil, &quot;facebook&quot;=&gt;nil, &quot;twitter&quot;=&gt;nil, &quot;weibo&quot;=&gt;nil, &quot;googleplus&quot;=&gt;nil, &quot;telegram&quot;=&gt;nil, &quot;medium&quot;=&gt;nil, &quot;zhihu&quot;=&gt;nil, &quot;douban&quot;=&gt;nil, &quot;linkedin&quot;=&gt;nil, &quot;github&quot;=&gt;nil, &quot;npm&quot;=&gt;nil}</name></author><entry><title type="html">Resolve Tickers to Company Names</title><link href="/2022/09/09/finel_tickers2names_en.html" rel="alternate" type="text/html" title="Resolve Tickers to Company Names" /><published>2022-09-09T00:00:00+00:00</published><updated>2022-09-09T00:00:00+00:00</updated><id>/2022/09/09/finel_tickers2names_en</id><content type="html" xml:base="/2022/09/09/finel_tickers2names_en.html">&lt;h2 id=&quot;description&quot;&gt;Description&lt;/h2&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.9.0">Jekyll</generator><link href="/feed.xml" rel="self" type="application/atom+xml" /><link href="/" rel="alternate" type="text/html" /><updated>2022-09-09T23:25:40+00:00</updated><id>/feed.xml</id><title type="html">Spark NLP</title><subtitle>High Performance NLP with Apache Spark
+</subtitle><author><name>{&quot;type&quot;=&gt;nil, &quot;name&quot;=&gt;nil, &quot;url&quot;=&gt;nil, &quot;avatar&quot;=&gt;nil, &quot;bio&quot;=&gt;nil, &quot;email&quot;=&gt;nil, &quot;facebook&quot;=&gt;nil, &quot;twitter&quot;=&gt;nil, &quot;weibo&quot;=&gt;nil, &quot;googleplus&quot;=&gt;nil, &quot;telegram&quot;=&gt;nil, &quot;medium&quot;=&gt;nil, &quot;zhihu&quot;=&gt;nil, &quot;douban&quot;=&gt;nil, &quot;linkedin&quot;=&gt;nil, &quot;github&quot;=&gt;nil, &quot;npm&quot;=&gt;nil}</name></author><entry><title type="html">Identify Job Experiences in the Past</title><link href="/2022/09/09/finassertiondl_past_roles_en.html" rel="alternate" type="text/html" title="Identify Job Experiences in the Past" /><published>2022-09-09T00:00:00+00:00</published><updated>2022-09-09T00:00:00+00:00</updated><id>/2022/09/09/finassertiondl_past_roles_en</id><content type="html" xml:base="/2022/09/09/finassertiondl_past_roles_en.html">&lt;h2 id=&quot;description&quot;&gt;Description&lt;/h2&gt;
+
+&lt;p&gt;This model is aimed to detect if any Role, Job Title, Person, Organization, Date, etc. entity, extracted with NER, is expressed as a Past Experience.&lt;/p&gt;
+
+&lt;h2 id=&quot;predicted-entities&quot;&gt;Predicted Entities&lt;/h2&gt;
+
+&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;NO_PAST&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;PAST&lt;/code&gt;&lt;/p&gt;
+
+&lt;p class=&quot;btn-box&quot;&gt;&lt;a href=&quot;https://demo.johnsnowlabs.com/finance/ASSERTIONDL_PAST_ROLES/&quot; class=&quot;button button-orange&quot;&gt;Live Demo&lt;/a&gt;
+&lt;button class=&quot;button button-orange&quot; disabled=&quot;&quot;&gt;Open in Colab&lt;/button&gt;
+&lt;a href=&quot;https://s3.amazonaws.com/auxdata.johnsnowlabs.com/finance/models/finassertiondl_past_roles_en_1.0.0_3.2_1662762393161.zip&quot; class=&quot;button button-orange button-orange-trans arr button-icon&quot;&gt;Download&lt;/a&gt;&lt;/p&gt;
+
+&lt;h2 id=&quot;how-to-use&quot;&gt;How to use&lt;/h2&gt;
+
+&lt;div class=&quot;tabs-box&quot;&gt;
+  &lt;div class=&quot;top_tab_li&quot;&gt;   
+    &lt;button class=&quot;tab-li code-selector-active python-button&quot;&gt;Python&lt;/button&gt;&lt;button class=&quot;tab-li code-selector-un-active scala-button&quot;&gt;Scala&lt;/button&gt;&lt;button class=&quot;tab-li code-selector-un-active nlu-button&quot;&gt;NLU&lt;/button&gt;
+&lt;/div&gt;
+  &lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;documentAssembler&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;DocumentAssembler&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;\
+    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setInputCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;text&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;\
+    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;document&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+
+&lt;span class=&quot;c1&quot;&gt;# Tokenizer splits words in a relevant format for NLP
+&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;tokenizer&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Tokenizer&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;\
+    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setInputCols&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;([&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;document&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;])&lt;/span&gt;\
+    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;token&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+
+&lt;span class=&quot;n&quot;&gt;embeddings&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;BertEmbeddings&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;pretrained&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;bert_embeddings_sec_bert_base&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;en&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; \
+    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setInputCols&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;([&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;document&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;token&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;])&lt;/span&gt; \
+    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;embeddings&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+    
+&lt;span class=&quot;c1&quot;&gt;# Add as many NER as you wish here. We have added 2 as an example.
+# ===============
+&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;tokenClassifier&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;FinanceBertForTokenClassifier&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;pretrained&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;finner_bert_roles&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;en&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;finance/models&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;\
+  &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setInputCols&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;token&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;document&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;\
+  &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;label&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+
+&lt;span class=&quot;n&quot;&gt;ner&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;FinanceNerModel&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;pretrained&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;finner_org_per_role&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;en&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;finance/models&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;\
+  &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setInputCols&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;document&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;token&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;embeddings&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;\
+  &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;label2&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+
+&lt;span class=&quot;n&quot;&gt;ner_converter&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;NerConverterInternal&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; \
+    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setInputCols&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;([&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;document&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;token&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;label&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;])&lt;/span&gt; \
+    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;ner_chunk&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+
+&lt;span class=&quot;n&quot;&gt;ner_converter2&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;NerConverterInternal&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; \
+    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setInputCols&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;([&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;document&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;token&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;label2&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;])&lt;/span&gt; \
+    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;ner_chunk2&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+
+&lt;span class=&quot;n&quot;&gt;merger&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;  &lt;span class=&quot;n&quot;&gt;ChunkMergeApproach&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;\
+    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setInputCols&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;([&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;ner_chunk&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;ner_chunk2&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;])&lt;/span&gt;\
+    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;merged_chunk&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;c1&quot;&gt;# ===============
+&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;assertion&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;AssertionDLModel&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;pretrained&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;finassertiondl_past_roles&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;en&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;finance/models&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;\
+    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setInputCols&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;([&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;document&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;merged_chunk&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;embeddings&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;])&lt;/span&gt; \
+    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;assertion&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+    
+&lt;span class=&quot;n&quot;&gt;nlpPipeline&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Pipeline&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;stages&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;documentAssembler&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; 
+    &lt;span class=&quot;n&quot;&gt;tokenizer&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;embeddings&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;tokenClassifier&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;ner&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;ner_converter&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;ner_converter2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;merger&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;assertion&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;])&lt;/span&gt;
+
+&lt;span class=&quot;n&quot;&gt;empty_data&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;spark&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;createDataFrame&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;([[&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]]).&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;toDF&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;text&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+
+&lt;span class=&quot;n&quot;&gt;model&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;nlpPipeline&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;fit&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;empty_data&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;lp&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;LightPipeline&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;model&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;r&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;lp&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;fullAnnotate&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;Mrs. Charles was before Managing Director at Liberty, LC&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;  &lt;/div&gt;
+
+&lt;/div&gt;
+
+&lt;h2 id=&quot;results&quot;&gt;Results&lt;/h2&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;chunk,begin,end,entity_type,assertion
+Mrs. Charles,0,11,PERSON,PAST
+Managing Director,24,40,ROLE,PAST
+Liberty, LC,45,55,ORG,PAST
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h2 class=&quot;model-param&quot; id=&quot;model-information&quot;&gt;Model Information&lt;/h2&gt;
+
+&lt;table class=&quot;table-model&quot;&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Model Name:&lt;/td&gt;
+      &lt;td&gt;finassertiondl_past_roles&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Type:&lt;/td&gt;
+      &lt;td&gt;finance&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Compatibility:&lt;/td&gt;
+      &lt;td&gt;Spark NLP for Finance 1.0.0+&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;License:&lt;/td&gt;
+      &lt;td&gt;Licensed&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Edition:&lt;/td&gt;
+      &lt;td&gt;Official&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Input Labels:&lt;/td&gt;
+      &lt;td&gt;[document, doc_chunk, embeddings]&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Output Labels:&lt;/td&gt;
+      &lt;td&gt;[assertion]&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Language:&lt;/td&gt;
+      &lt;td&gt;en&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Size:&lt;/td&gt;
+      &lt;td&gt;2.2 MB&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;h2 id=&quot;references&quot;&gt;References&lt;/h2&gt;
+
+&lt;p&gt;In-house annotations from 10K Filings and Wikidata&lt;/p&gt;
+
+&lt;h2 id=&quot;benchmarking&quot;&gt;Benchmarking&lt;/h2&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;label	 tp	 fp	 fn	 prec	 rec	 f1
+NO_PAST	 362	 6	 13	 0.9836956	 0.96533334	 0.974428
+PAST	 196	 13	 6	 0.93779904	 0.97029704	 0.9537713
+tp: 558 fp: 19 fn: 19 labels: 2
+Macro-average	 prec: 0.96074736, rec: 0.96781516, f1: 0.96426827
+Micro-average	 prec: 0.96707106, rec: 0.96707106, f1: 0.96707106
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;</content><author><name>John Snow Labs</name></author><category term="en" /><category term="finance" /><category term="assertion" /><category term="status" /><category term="job" /><category term="experiences" /><category term="past" /><category term="licensed" /><summary type="html">Description This model is aimed to detect if any Role, Job Title, Person, Organization, Date, etc. entity, extracted with NER, is expressed as a Past Experience. Predicted Entities NO_PAST, PAST Live Demo Open in Colab Download How to use PythonScalaNLU documentAssembler = DocumentAssembler()\ .setInputCol(&quot;text&quot;)\ .setOutputCol(&quot;document&quot;) # Tokenizer splits words in a relevant format for NLP tokenizer = Tokenizer()\ .setInputCols([&quot;document&quot;])\ .setOutputCol(&quot;token&quot;) embeddings = BertEmbeddings.pretrained(&quot;bert_embeddings_sec_bert_base&quot;,&quot;en&quot;) \ .setInputCols([&quot;document&quot;, &quot;token&quot;]) \ .setOutputCol(&quot;embeddings&quot;) # Add as many NER as you wish here. We have added 2 as an example. # =============== tokenClassifier = FinanceBertForTokenClassifier.pretrained(&quot;finner_bert_roles&quot;, &quot;en&quot;, &quot;finance/models&quot;)\ .setInputCols(&quot;token&quot;, &quot;document&quot;)\ .setOutputCol(&quot;label&quot;) ner = FinanceNerModel.pretrained(&quot;finner_org_per_role&quot;, &quot;en&quot;, &quot;finance/models&quot;)\ .setInputCols(&quot;document&quot;, &quot;token&quot;, &quot;embeddings&quot;)\ .setOutputCol(&quot;label2&quot;) ner_converter = NerConverterInternal() \ .setInputCols([&quot;document&quot;, &quot;token&quot;, &quot;label&quot;]) \ .setOutputCol(&quot;ner_chunk&quot;) ner_converter2 = NerConverterInternal() \ .setInputCols([&quot;document&quot;, &quot;token&quot;, &quot;label2&quot;]) \ .setOutputCol(&quot;ner_chunk2&quot;) merger = ChunkMergeApproach()\ .setInputCols([&quot;ner_chunk&quot;, &quot;ner_chunk2&quot;])\ .setOutputCol(&quot;merged_chunk&quot;) # =============== assertion = AssertionDLModel.pretrained(&quot;finassertiondl_past_roles&quot;, &quot;en&quot;, &quot;finance/models&quot;)\ .setInputCols([&quot;document&quot;, &quot;merged_chunk&quot;, &quot;embeddings&quot;]) \ .setOutputCol(&quot;assertion&quot;) nlpPipeline = Pipeline(stages=[ documentAssembler, tokenizer, embeddings, tokenClassifier, ner, ner_converter, ner_converter2, merger, assertion ]) empty_data = spark.createDataFrame([[&quot;&quot;]]).toDF(&quot;text&quot;) model = nlpPipeline.fit(empty_data) lp = LightPipeline(model) r = lp.fullAnnotate(&quot;Mrs. Charles was before Managing Director at Liberty, LC&quot;) Results chunk,begin,end,entity_type,assertion Mrs. Charles,0,11,PERSON,PAST Managing Director,24,40,ROLE,PAST Liberty, LC,45,55,ORG,PAST Model Information Model Name: finassertiondl_past_roles Type: finance Compatibility: Spark NLP for Finance 1.0.0+ License: Licensed Edition: Official Input Labels: [document, doc_chunk, embeddings] Output Labels: [assertion] Language: en Size: 2.2 MB References In-house annotations from 10K Filings and Wikidata Benchmarking label tp fp fn prec rec f1 NO_PAST 362 6 13 0.9836956 0.96533334 0.974428 PAST 196 13 6 0.93779904 0.97029704 0.9537713 tp: 558 fp: 19 fn: 19 labels: 2 Macro-average prec: 0.96074736, rec: 0.96781516, f1: 0.96426827 Micro-average prec: 0.96707106, rec: 0.96707106, f1: 0.96707106</summary></entry><entry><title type="html">Resolve Tickers to Company Names</title><link href="/2022/09/09/finel_tickers2names_en.html" rel="alternate" type="text/html" title="Resolve Tickers to Company Names" /><published>2022-09-09T00:00:00+00:00</published><updated>2022-09-09T00:00:00+00:00</updated><id>/2022/09/09/finel_tickers2names_en</id><content type="html" xml:base="/2022/09/09/finel_tickers2names_en.html">&lt;h2 id=&quot;description&quot;&gt;Description&lt;/h2&gt;
 
 &lt;p&gt;This is an Entity Resolution / Entity Linking model, which is able to provide Company Names given their Ticker / Trading Symbols. You can use any NER which extracts Tickersto then send the output to this Entity Linking model and get the Company Name.&lt;/p&gt;
 
@@ -1129,155 +1271,4 @@ NECESSITY/PROPORTIONALITY       0.62      0.66      0.64       207
                  accuracy                           0.91      4182
                 macro avg       0.78      0.78      0.78      4182
              weighted avg       0.91      0.91      0.91      4182
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;</content><author><name>John Snow Labs</name></author><category term="en" /><category term="legal" /><category term="judgements" /><category term="argument" /><category term="echr" /><category term="licensed" /><summary type="html">Description This is a Text Classification model, aimed to identify different the different argument types in Court Decisions texts about Human Rights. This model was inspired by this paper, which uses a different approach (Named Entity Recognition). The classes are listed below. Please check the original paper for more information about them. APPLICATION CASE DECISION ECHR LEGAL BASIS LEGITIMATE PURPOSE NECESSITY/PROPORTIONALITY NON CONTESTATION OTHER PRECEDENTS ECHR Predicted Entities APPLICATION CASE, DECISION ECHR, LEGAL BASIS, LEGITIMATE PURPOSE, NECESSITY/PROPORTIONALITY, NON CONTESTATION, OTHER, PRECEDENTS ECHR Live Demo Open in Colab Download How to use PythonScalaNLU text_list = [&quot;&quot;&quot;Indeed, given that the expectation of protection of private life may be reduced on account of the public functions exercised, the Court considers that, in order to ensure a fair balancing of the interests at stake, the domestic courts, in assessing the facts submitted for their examination, ought to have taken into account the potential impact of the Prince's status as Head of State, and to have attempted, in that context, to determine the parts of the impugned article that belonged to the strictly private domain and what fell within the public sphere.&quot;&quot;&quot;, &quot;&quot;&quot;Article 8 requires that the domestic authorities should strike a fair balance between the interests of the child and those of the parents, and that, in the balancing process, particular importance should be attached to the best interests of the child, which, depending on their nature and seriousness, may override those of the parents. In particular, a parent can not be entitled under Article 8 to have such measures taken as would harm the child's health and development ( see Sahin, cited above, § 66, and Sommerfeld, cited above, § 64 ).&quot;&quot;&quot;] text_list = [x.lower() for x in text_list] text_list document_assembler = DocumentAssembler() \ .setInputCol('text') \ .setOutputCol('document') tokenizer = Tokenizer()\ .setInputCols(['document'])\ .setOutputCol(&quot;token&quot;) clf_model = LegalBertForSequenceClassification.pretrained(&quot;legclf_bert_judgements_argtype&quot;, &quot;en&quot;, &quot;legal/models&quot;)\ .setInputCols(['document','token'])\ .setOutputCol(&quot;class&quot;)\ .setCaseSensitive(True)\ .setMaxSentenceLength(512) clf_pipeline = Pipeline(stages=[ document_assembler, tokenizer, clf_model ]) # Generating example empty_df = spark.createDataFrame([['']]).toDF(&quot;text&quot;) model = clf_pipeline.fit(empty_df) light_model = LightPipeline(model) df = spark.createDataFrame(pd.DataFrame({&quot;text&quot; : text_list})) result = model.transform(df) result.select(F.explode(F.arrays_zip('document.result', 'class.result')).alias(&quot;cols&quot;))\ .select(F.expr(&quot;cols['0']&quot;).alias(&quot;document&quot;), F.expr(&quot;cols['1']&quot;).alias(&quot;class&quot;)).show(truncate = 60) Results +------------------------------------------------------------+----------------+ | document| class| +------------------------------------------------------------+----------------+ |indeed, given that the expectation of protection of priva...|APPLICATION CASE| |article 8 requires that the domestic authorities should s...| PRECEDENTS ECHR| +------------------------------------------------------------+----------------+ Model Information Model Name: legclf_bert_judgements_argtype Type: legal Compatibility: Spark NLP for Legal 1.0.0+ License: Licensed Edition: Official Input Labels: [document, token] Output Labels: [class] Language: en Size: 410.0 MB Case sensitive: true Max sentence length: 512 References Basedf on https://arxiv.org/pdf/2208.06178.pdf with in-house postprocessing Benchmarking precision recall f1-score support APPLICATION CASE 0.85 0.83 0.84 983 DECISION ECHR 0.82 0.86 0.84 103 LEGAL BASIS 0.61 0.50 0.55 40 LEGITIMATE PURPOSE 0.94 0.88 0.91 17 NECESSITY/PROPORTIONALITY 0.62 0.66 0.64 207 NON CONTESTATION 0.64 0.69 0.67 13 OTHER 0.97 0.97 0.97 2557 PRECEDENTS ECHR 0.80 0.85 0.83 262 accuracy 0.91 4182 macro avg 0.78 0.78 0.78 4182 weighted avg 0.91 0.91 0.91 4182</summary></entry><entry><title type="html">ESG Text Classification (Augmented, 26 classes)</title><link href="/2022/09/06/finclf_augmented_esg_en.html" rel="alternate" type="text/html" title="ESG Text Classification (Augmented, 26 classes)" /><published>2022-09-06T00:00:00+00:00</published><updated>2022-09-06T00:00:00+00:00</updated><id>/2022/09/06/finclf_augmented_esg_en</id><content type="html" xml:base="/2022/09/06/finclf_augmented_esg_en.html">&lt;h2 id=&quot;description&quot;&gt;Description&lt;/h2&gt;
-
-&lt;p&gt;This model classifies financial texts / news into 26 ESG classes which belong to three verticals: Environment, Social and Governance. This model can be use to build a ESG score board for companies.&lt;/p&gt;
-
-&lt;p&gt;If you look for generic version, only returning Environment, Social or Governance, please look for the finance_sequence_classifier_esg model in Models Hub.&lt;/p&gt;
-
-&lt;h2 id=&quot;predicted-entities&quot;&gt;Predicted Entities&lt;/h2&gt;
-
-&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Business_Ethics&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Data_Security&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Access_And_Affordability&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Business_Model_Resilience&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Competitive_Behavior&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Critical_Incident_Risk_Management&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Customer_Welfare&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Director_Removal&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Employee_Engagement_Inclusion_And_Diversity&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Employee_Health_And_Safety&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Human_Rights_And_Community_Relations&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Labor_Practices&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Management_Of_Legal_And_Regulatory_Framework&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Physical_Impacts_Of_Climate_Change&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Product_Quality_And_Safety&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Product_Design_And_Lifecycle_Management&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Selling_Practices_And_Product_Labeling&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Supply_Chain_Management&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Systemic_Risk_Management&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Waste_And_Hazardous_Materials_Management&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Water_And_Wastewater_Management&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Air_Quality&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Customer_Privacy&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Ecological_Impacts&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Energy_Management&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;GHG_Emissions&lt;/code&gt;&lt;/p&gt;
-
-&lt;p class=&quot;btn-box&quot;&gt;&lt;a href=&quot;https://demo.johnsnowlabs.com/finance/FINCLF_ESG/&quot; class=&quot;button button-orange&quot;&gt;Live Demo&lt;/a&gt;
-&lt;button class=&quot;button button-orange&quot; disabled=&quot;&quot;&gt;Open in Colab&lt;/button&gt;
-&lt;a href=&quot;https://s3.amazonaws.com/auxdata.johnsnowlabs.com/finance/models/finclf_augmented_esg_en_1.0.0_3.2_1662473372920.zip&quot; class=&quot;button button-orange button-orange-trans arr button-icon&quot;&gt;Download&lt;/a&gt;&lt;/p&gt;
-
-&lt;h2 id=&quot;how-to-use&quot;&gt;How to use&lt;/h2&gt;
-
-&lt;div class=&quot;tabs-box&quot;&gt;
-  &lt;div class=&quot;top_tab_li&quot;&gt;   
-    &lt;button class=&quot;tab-li code-selector-active python-button&quot;&gt;Python&lt;/button&gt;&lt;button class=&quot;tab-li code-selector-un-active scala-button&quot;&gt;Scala&lt;/button&gt;&lt;button class=&quot;tab-li code-selector-un-active nlu-button&quot;&gt;NLU&lt;/button&gt;
-&lt;/div&gt;
-  &lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;document_assembler&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;DocumentAssembler&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; \
-    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setInputCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'text'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; \
-    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'document'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-
-&lt;span class=&quot;n&quot;&gt;tokenizer&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Tokenizer&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; \
-    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setInputCols&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;([&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'document'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;])&lt;/span&gt; \
-    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'token'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-
-&lt;span class=&quot;n&quot;&gt;sequenceClassifier&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;FinanceBertForSequenceClassification&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;pretrained&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;finclf_augmented_esg&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;en&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;finance/models&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt;\
-  &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setInputCols&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;([&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;document&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'token'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;])&lt;/span&gt;\
-  &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;class&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-
-&lt;span class=&quot;n&quot;&gt;pipeline&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Pipeline&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;stages&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;document_assembler&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; 
-    &lt;span class=&quot;n&quot;&gt;tokenizer&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;sequenceClassifier&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;])&lt;/span&gt;
-
-&lt;span class=&quot;c1&quot;&gt;# couple of simple examples
-&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;example&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;spark&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;createDataFrame&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;([[&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;&quot;&quot;The Canadian Environmental Assessment Agency (CEAA) concluded that in June 2016 the company had not made an effort
- to protect public drinking water and was ignoring concerns raised by its own scientists about the potential levels of pollutants in the local water supply.
-  At the time, there were concerns that the company was not fully testing onsite wells for contaminants and did not use the proper methods for testing because 
-  of its test kits now manufactured in China.A preliminary report by the company in June 2016 was commissioned by the Alberta government to provide recommendations 
-  to Alberta Environment officials&quot;&quot;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]]).&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;toDF&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;text&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-
-&lt;span class=&quot;n&quot;&gt;result&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;pipeline&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;fit&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;example&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;).&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;transform&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;example&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-
-&lt;span class=&quot;c1&quot;&gt;# result is a DataFrame
-&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;result&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;select&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;text&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;class.result&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;).&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;show&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;  &lt;/div&gt;
-
-&lt;/div&gt;
-
-&lt;h2 id=&quot;results&quot;&gt;Results&lt;/h2&gt;
-
-&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;+--------------------+--------------------+
-|                text|              result|
-+--------------------+--------------------+
-|The Canadian Envi...|[Waste_And_Hazard...|
-+--------------------+--------------------+
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;h2 class=&quot;model-param&quot; id=&quot;model-information&quot;&gt;Model Information&lt;/h2&gt;
-
-&lt;table class=&quot;table-model&quot;&gt;
-  &lt;tbody&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Model Name:&lt;/td&gt;
-      &lt;td&gt;finclf_augmented_esg&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Type:&lt;/td&gt;
-      &lt;td&gt;finance&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Compatibility:&lt;/td&gt;
-      &lt;td&gt;Spark NLP for Finance 1.0.0+&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;License:&lt;/td&gt;
-      &lt;td&gt;Licensed&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Edition:&lt;/td&gt;
-      &lt;td&gt;Official&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Input Labels:&lt;/td&gt;
-      &lt;td&gt;[document, token]&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Output Labels:&lt;/td&gt;
-      &lt;td&gt;[class]&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Language:&lt;/td&gt;
-      &lt;td&gt;en&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Size:&lt;/td&gt;
-      &lt;td&gt;410.4 MB&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Case sensitive:&lt;/td&gt;
-      &lt;td&gt;true&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Max sentence length:&lt;/td&gt;
-      &lt;td&gt;512&lt;/td&gt;
-    &lt;/tr&gt;
-  &lt;/tbody&gt;
-&lt;/table&gt;
-
-&lt;h2 id=&quot;references&quot;&gt;References&lt;/h2&gt;
-
-&lt;p&gt;In-house annotations from scrapped annual reports and tweets about ESG&lt;/p&gt;
-
-&lt;h2 id=&quot;benchmarking&quot;&gt;Benchmarking&lt;/h2&gt;
-
-&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;                                              precision    recall  f1-score   support
-
-Business_Ethics                                   0.73      0.80      0.76        10
-Data_Security                                     1.00      0.89      0.94         9
-Access_And_Affordability                          1.00      1.00      1.00        15
-Business_Model_Resilience                         1.00      1.00      1.00        12
-Competitive_Behavior                              0.92      1.00      0.96        12
-Critical_Incident_Risk_Management                 0.92      1.00      0.96        11
-Customer_Welfare                                  0.85      1.00      0.92        11
-Director_Removal                                  0.91      1.00      0.95        10
-Employee_Engagement_Inclusion_And_Diversity       1.00      1.00      1.00        11
-Employee_Health_And_Safety                        1.00      1.00      1.00        10
-Human_Rights_And_Community_Relations              0.94      1.00      0.97        16
-Labor_Practices                                   0.71      0.53      0.61        19
-Management_Of_Legal_And_Regulatory_Framework      1.00      0.95      0.97        19
-Physical_Impacts_Of_Climate_Change                0.93      1.00      0.97        14
-Product_Quality_And_Safety                        1.00      1.00      1.00        14
-Product_Design_And_Lifecycle_Management           1.00      1.00      1.00        18
-Selling_Practices_And_Product_Labeling            1.00      1.00      1.00        17
-Supply_Chain_Management                           0.89      1.00      0.94         8
-Systemic_Risk_Management                          1.00      0.86      0.92        14
-Waste_And_Hazardous_Materials_Management          0.88      1.00      0.93        14
-Water_And_Wastewater_Management                   1.00      1.00      1.00         8
-Air_Quality                                       1.00      1.00      1.00        16
-Customer_Privacy                                  1.00      0.93      0.97        15
-Ecological_Impacts                                1.00      1.00      1.00        16
-Energy_Management                                 1.00      0.91      0.95        11
-GHG_Emissions                                     1.00      0.91      0.95        11
-
-    accuracy                                                          0.95       330
-   macro avg                                      0.95      0.95      0.95       330
-weighted avg                                      0.95      0.95      0.95       330
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;</content><author><name>John Snow Labs</name></author><category term="en" /><category term="financial" /><category term="esg" /><category term="classification" /><category term="licensed" /><summary type="html">Description This model classifies financial texts / news into 26 ESG classes which belong to three verticals: Environment, Social and Governance. This model can be use to build a ESG score board for companies. If you look for generic version, only returning Environment, Social or Governance, please look for the finance_sequence_classifier_esg model in Models Hub. Predicted Entities Business_Ethics, Data_Security, Access_And_Affordability, Business_Model_Resilience, Competitive_Behavior, Critical_Incident_Risk_Management, Customer_Welfare, Director_Removal, Employee_Engagement_Inclusion_And_Diversity, Employee_Health_And_Safety, Human_Rights_And_Community_Relations, Labor_Practices, Management_Of_Legal_And_Regulatory_Framework, Physical_Impacts_Of_Climate_Change, Product_Quality_And_Safety, Product_Design_And_Lifecycle_Management, Selling_Practices_And_Product_Labeling, Supply_Chain_Management, Systemic_Risk_Management, Waste_And_Hazardous_Materials_Management, Water_And_Wastewater_Management, Air_Quality, Customer_Privacy, Ecological_Impacts, Energy_Management, GHG_Emissions Live Demo Open in Colab Download How to use PythonScalaNLU document_assembler = DocumentAssembler() \ .setInputCol('text') \ .setOutputCol('document') tokenizer = Tokenizer() \ .setInputCols(['document']) \ .setOutputCol('token') sequenceClassifier = FinanceBertForSequenceClassification.pretrained(&quot;finclf_augmented_esg&quot;, &quot;en&quot;, &quot;finance/models&quot;))\ .setInputCols([&quot;document&quot;,'token'])\ .setOutputCol(&quot;class&quot;) pipeline = Pipeline(stages=[ document_assembler, tokenizer, sequenceClassifier ]) # couple of simple examples example = spark.createDataFrame([[&quot;&quot;&quot;The Canadian Environmental Assessment Agency (CEAA) concluded that in June 2016 the company had not made an effort to protect public drinking water and was ignoring concerns raised by its own scientists about the potential levels of pollutants in the local water supply. At the time, there were concerns that the company was not fully testing onsite wells for contaminants and did not use the proper methods for testing because of its test kits now manufactured in China.A preliminary report by the company in June 2016 was commissioned by the Alberta government to provide recommendations to Alberta Environment officials&quot;&quot;&quot;]]).toDF(&quot;text&quot;) result = pipeline.fit(example).transform(example) # result is a DataFrame result.select(&quot;text&quot;, &quot;class.result&quot;).show() Results +--------------------+--------------------+ | text| result| +--------------------+--------------------+ |The Canadian Envi...|[Waste_And_Hazard...| +--------------------+--------------------+ Model Information Model Name: finclf_augmented_esg Type: finance Compatibility: Spark NLP for Finance 1.0.0+ License: Licensed Edition: Official Input Labels: [document, token] Output Labels: [class] Language: en Size: 410.4 MB Case sensitive: true Max sentence length: 512 References In-house annotations from scrapped annual reports and tweets about ESG Benchmarking precision recall f1-score support Business_Ethics 0.73 0.80 0.76 10 Data_Security 1.00 0.89 0.94 9 Access_And_Affordability 1.00 1.00 1.00 15 Business_Model_Resilience 1.00 1.00 1.00 12 Competitive_Behavior 0.92 1.00 0.96 12 Critical_Incident_Risk_Management 0.92 1.00 0.96 11 Customer_Welfare 0.85 1.00 0.92 11 Director_Removal 0.91 1.00 0.95 10 Employee_Engagement_Inclusion_And_Diversity 1.00 1.00 1.00 11 Employee_Health_And_Safety 1.00 1.00 1.00 10 Human_Rights_And_Community_Relations 0.94 1.00 0.97 16 Labor_Practices 0.71 0.53 0.61 19 Management_Of_Legal_And_Regulatory_Framework 1.00 0.95 0.97 19 Physical_Impacts_Of_Climate_Change 0.93 1.00 0.97 14 Product_Quality_And_Safety 1.00 1.00 1.00 14 Product_Design_And_Lifecycle_Management 1.00 1.00 1.00 18 Selling_Practices_And_Product_Labeling 1.00 1.00 1.00 17 Supply_Chain_Management 0.89 1.00 0.94 8 Systemic_Risk_Management 1.00 0.86 0.92 14 Waste_And_Hazardous_Materials_Management 0.88 1.00 0.93 14 Water_And_Wastewater_Management 1.00 1.00 1.00 8 Air_Quality 1.00 1.00 1.00 16 Customer_Privacy 1.00 0.93 0.97 15 Ecological_Impacts 1.00 1.00 1.00 16 Energy_Management 1.00 0.91 0.95 11 GHG_Emissions 1.00 0.91 0.95 11 accuracy 0.95 330 macro avg 0.95 0.95 0.95 330 weighted avg 0.95 0.95 0.95 330</summary></entry></feed>
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;</content><author><name>John Snow Labs</name></author><category term="en" /><category term="legal" /><category term="judgements" /><category term="argument" /><category term="echr" /><category term="licensed" /><summary type="html">Description This is a Text Classification model, aimed to identify different the different argument types in Court Decisions texts about Human Rights. This model was inspired by this paper, which uses a different approach (Named Entity Recognition). The classes are listed below. Please check the original paper for more information about them. APPLICATION CASE DECISION ECHR LEGAL BASIS LEGITIMATE PURPOSE NECESSITY/PROPORTIONALITY NON CONTESTATION OTHER PRECEDENTS ECHR Predicted Entities APPLICATION CASE, DECISION ECHR, LEGAL BASIS, LEGITIMATE PURPOSE, NECESSITY/PROPORTIONALITY, NON CONTESTATION, OTHER, PRECEDENTS ECHR Live Demo Open in Colab Download How to use PythonScalaNLU text_list = [&quot;&quot;&quot;Indeed, given that the expectation of protection of private life may be reduced on account of the public functions exercised, the Court considers that, in order to ensure a fair balancing of the interests at stake, the domestic courts, in assessing the facts submitted for their examination, ought to have taken into account the potential impact of the Prince's status as Head of State, and to have attempted, in that context, to determine the parts of the impugned article that belonged to the strictly private domain and what fell within the public sphere.&quot;&quot;&quot;, &quot;&quot;&quot;Article 8 requires that the domestic authorities should strike a fair balance between the interests of the child and those of the parents, and that, in the balancing process, particular importance should be attached to the best interests of the child, which, depending on their nature and seriousness, may override those of the parents. In particular, a parent can not be entitled under Article 8 to have such measures taken as would harm the child's health and development ( see Sahin, cited above, § 66, and Sommerfeld, cited above, § 64 ).&quot;&quot;&quot;] text_list = [x.lower() for x in text_list] text_list document_assembler = DocumentAssembler() \ .setInputCol('text') \ .setOutputCol('document') tokenizer = Tokenizer()\ .setInputCols(['document'])\ .setOutputCol(&quot;token&quot;) clf_model = LegalBertForSequenceClassification.pretrained(&quot;legclf_bert_judgements_argtype&quot;, &quot;en&quot;, &quot;legal/models&quot;)\ .setInputCols(['document','token'])\ .setOutputCol(&quot;class&quot;)\ .setCaseSensitive(True)\ .setMaxSentenceLength(512) clf_pipeline = Pipeline(stages=[ document_assembler, tokenizer, clf_model ]) # Generating example empty_df = spark.createDataFrame([['']]).toDF(&quot;text&quot;) model = clf_pipeline.fit(empty_df) light_model = LightPipeline(model) df = spark.createDataFrame(pd.DataFrame({&quot;text&quot; : text_list})) result = model.transform(df) result.select(F.explode(F.arrays_zip('document.result', 'class.result')).alias(&quot;cols&quot;))\ .select(F.expr(&quot;cols['0']&quot;).alias(&quot;document&quot;), F.expr(&quot;cols['1']&quot;).alias(&quot;class&quot;)).show(truncate = 60) Results +------------------------------------------------------------+----------------+ | document| class| +------------------------------------------------------------+----------------+ |indeed, given that the expectation of protection of priva...|APPLICATION CASE| |article 8 requires that the domestic authorities should s...| PRECEDENTS ECHR| +------------------------------------------------------------+----------------+ Model Information Model Name: legclf_bert_judgements_argtype Type: legal Compatibility: Spark NLP for Legal 1.0.0+ License: Licensed Edition: Official Input Labels: [document, token] Output Labels: [class] Language: en Size: 410.0 MB Case sensitive: true Max sentence length: 512 References Basedf on https://arxiv.org/pdf/2208.06178.pdf with in-house postprocessing Benchmarking precision recall f1-score support APPLICATION CASE 0.85 0.83 0.84 983 DECISION ECHR 0.82 0.86 0.84 103 LEGAL BASIS 0.61 0.50 0.55 40 LEGITIMATE PURPOSE 0.94 0.88 0.91 17 NECESSITY/PROPORTIONALITY 0.62 0.66 0.64 207 NON CONTESTATION 0.64 0.69 0.67 13 OTHER 0.97 0.97 0.97 2557 PRECEDENTS ECHR 0.80 0.85 0.83 262 accuracy 0.91 4182 macro avg 0.78 0.78 0.78 4182 weighted avg 0.91 0.91 0.91 4182</summary></entry></feed>
