@@ -102,6 +102,13 @@ class AudioAssembler(override val uid: String)
     assemble(audio, Map("audio" -> "0"))
   }
 
+  private[nlp] def isArrayFloat(inputSchema: DataType): Boolean = {
+    DataType.equalsStructurally(
+      ArrayType(FloatType, containsNull = false),
+      inputSchema,
+      ignoreNullability = true)
+  }
+
   /** requirement for pipeline transformation validation. It is called on fit() */
   override final def transformSchema(schema: StructType): StructType = {
     val metadataBuilder: MetadataBuilder = new MetadataBuilder()
@@ -123,22 +130,9 @@ class AudioAssembler(override val uid: String)
       s"column $getInputCol is not presented in your DataFrame")
 
     val inputColSchema = dataset.schema(getInputCol).dataType
-
-    val dt1 = ArrayType(FloatType)
-    val dt2 = ArrayType(FloatType, containsNull = false)
-    val dt3 = ArrayType(FloatType, containsNull = true)
-
-    val inputColSchemaMatched = inputColSchema match {
-      case dt1 => true
-      case dt2 => true
-      case dt3 => true
-      case _ => false
-    }
-
     require(
-      inputColSchemaMatched,
-      s"""column $getInputCol does not contain Array of Floats. Instead it is $inputColSchema type. Please make sure your inputCol contains Array[Float].
-         |For instance: $dt1 or $dt2 or $dt3""".stripMargin)
+      isArrayFloat(inputColSchema),
+      s"""column $getInputCol does not contain Array of Floats. Instead it is $inputColSchema type. Please make sure your inputCol contains Array[Float].""".stripMargin)
 
     val audioAnnotations = {
       dfAssemble(dataset($(inputCol)))
