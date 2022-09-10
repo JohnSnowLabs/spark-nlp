@@ -1,2 +1,2 @@
-docs/_posts/josejuanmartinez/2022-09-09-finassertiondl_past_roles_en.md
-docs/_posts/josejuanmartinez/2022-09-09-finassertiondl_past_roles_en.md
+docs/_posts/josejuanmartinez/2022-08-30-finner_bert_roles_en.md
+docs/_posts/josejuanmartinez/2022-08-30-finner_bert_roles_en.md
