@@ -1,6 +1,6 @@
 ---
 layout: model
-title: Deidentification Pipeline
+title: Financial Deidentification Pipeline
 author: John Snow Labs
 name: finpipe_deid
 date: 2022-08-31
