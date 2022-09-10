@@ -124,9 +124,21 @@ class AudioAssembler(override val uid: String)
 
     val inputColSchema = dataset.schema(getInputCol).dataType
 
+    val dt1 = ArrayType(FloatType)
+    val dt2 = ArrayType(FloatType, containsNull = false)
+    val dt3 = ArrayType(FloatType, containsNull = true)
+
+    val inputColSchemaMatched = inputColSchema match {
+      case dt1 => true
+      case dt2 => true
+      case dt3 => true
+      case _ => false
+    }
+
     require(
-      inputColSchema == ArrayType(FloatType),
-      s"""column $getInputCol is not of ArrayType(FloatType) type. Instead it is $inputColSchema. Please make sure your inputCol contains Array[Float]""")
+      inputColSchemaMatched,
+      s"""column $getInputCol does not contain Array of Floats. Instead it is $inputColSchema type. Please make sure your inputCol contains Array[Float].
+         |For instance: $dt1 or $dt2 or $dt3""".stripMargin)
 
     val audioAnnotations = {
       dfAssemble(dataset($(inputCol)))
