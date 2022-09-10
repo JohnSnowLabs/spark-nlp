@@ -1,6 +1,6 @@
 ---
 layout: model
-title: Deidentification Pipeline
+title: Legal Deidentification Pipeline
 author: John Snow Labs
 name: legpipe_deid
 date: 2022-08-31
@@ -10,6 +10,7 @@ language: en
 edition: Spark NLP for Legal 1.0.0
 spark_version: 3.2
 supported: true
+recommended: true
 article_header:
   type: cover
 use_language_switcher: "Python-Scala-Java"
