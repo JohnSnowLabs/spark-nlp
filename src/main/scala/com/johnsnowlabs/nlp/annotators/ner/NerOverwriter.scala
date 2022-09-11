@@ -16,9 +16,13 @@
 
 package com.johnsnowlabs.nlp.annotators.ner
 
+import com.johnsnowlabs.nlp.serialization.MapFeature
 import com.johnsnowlabs.nlp.{Annotation, AnnotatorModel, HasSimpleAnnotate}
 import org.apache.spark.ml.param.{Param, StringArrayParam}
 import org.apache.spark.ml.util.{DefaultParamsReadable, Identifiable}
+
+import java.util
+import scala.collection.JavaConverters._
 
 /** Overwrites entities of specified strings.
   *
@@ -190,31 +194,56 @@ class NerOverwriter(override val uid: String)
     */
   def getNewResult: String = $(newResult)
 
-  setDefault(newResult -> "I-OVERWRITE")
+  val replaceWords: MapFeature[String, String] =
+    new MapFeature[String, String](this, "replaceWords")
+
+  def setReplaceWords(w: Map[String, String]): this.type = set(replaceWords, w)
+
+  // for Python access
+
+  /** @group setParam */
+  def setReplaceWords(w: util.HashMap[String, String]): this.type = {
+
+    val ws = w.asScala.toMap
+    set(replaceWords, ws)
+  }
+
+  def getReplaceWords(): Map[String, String] = {
+    if (!replaceWords.isSet) {
+      Map.empty[String, String]
+    } else {
+      $$(replaceWords)
+    }
+  }
+
+  setDefault(newResult -> "I-OVERWRITE", stopWords -> Array())
 
   override def annotate(annotations: Seq[Annotation]): Seq[Annotation] = {
 
-    var annotationsOverwritten = annotations
-
-    annotationsOverwritten.map { tokenAnnotation =>
-      val stopWordsSet = $(stopWords).toSet
-      if (stopWordsSet.contains(tokenAnnotation.metadata("word"))) {
-        Annotation(
-          outputAnnotatorType,
-          tokenAnnotation.begin,
-          tokenAnnotation.end,
-          $(newResult),
-          tokenAnnotation.metadata)
-      } else {
-        Annotation(
-          outputAnnotatorType,
-          tokenAnnotation.begin,
-          tokenAnnotation.end,
-          tokenAnnotation.result,
-          tokenAnnotation.metadata)
+    val annotationsOverwritten = annotations
+    val replace = getReplaceWords()
+    annotationsOverwritten
+      .map { tokenAnnotation =>
+        val stopWordsSet = $(stopWords).toSet
+        if (stopWordsSet.contains(tokenAnnotation.metadata("word"))) {
+          Annotation(
+            outputAnnotatorType,
+            tokenAnnotation.begin,
+            tokenAnnotation.end,
+            $(newResult),
+            tokenAnnotation.metadata)
+        } else {
+          Annotation(
+            outputAnnotatorType,
+            tokenAnnotation.begin,
+            tokenAnnotation.end,
+            tokenAnnotation.result,
+            tokenAnnotation.metadata)
+        }
       }
-
-    }
+      .map { ann =>
+        ann.copy(result = replace.getOrElse(ann.result, ann.result))
+      }
 
   }
 
