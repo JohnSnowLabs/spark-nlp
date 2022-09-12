@@ -51,7 +51,7 @@ embeddings = BertEmbeddings.pretrained("bert_embeddings_sec_bert_base","en") \
         .setInputCols(["sentence", "token"]) \
         .setOutputCol("embeddings")
 
-ner_model = FinanceNerModel().pretrained('finner_org_per_role', 'en', 'fiunance/models')\
+ner_model = FinanceNerModel().pretrained('finner_org_per_role', 'en', 'finance/models')\
         .setInputCols(["sentence", "token", "embeddings"])\
         .setOutputCol("ner")
 
@@ -59,7 +59,7 @@ ner_converter = NerConverter()\
         .setInputCols(["sentence","token","ner"])\
         .setOutputCol("ner_chunk")
 
-pos = PerceptronModel().pretrained("pos_clinical", "en", "clinical/models") \
+pos = PerceptronModel.pretrained()\
     .setInputCols(["sentence", "token"])\
     .setOutputCol("pos")
     
@@ -73,7 +73,7 @@ re_ner_chunk_filter = RENerChunksFilter()\
     .setRelationPairs(["PERSON-ROLE, ORG-ROLE, DATE-ROLE, PERSON-ORG"])\
     .setMaxSyntacticDistance(5)
 
-re_Model = RelationExtractionDLModel.pretrained("finre_work_experience", "en", "finance\models")\
+re_Model = RelationExtractionDLModel.pretrained("finre_work_experience", "en", "finance/models")\
         .setInputCols(["re_ner_chunk", "sentence"])\
         .setOutputCol("relations")\
         .setPredictionThreshold(0.5)
