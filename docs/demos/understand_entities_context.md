@@ -1,10 +1,10 @@
 ---
 layout: demopagenew
-title: Understand Financial Entities Context - Finance NLP Demos & Notebooks
-seotitle: 'Finance NLP: Understand Financial Entities Context - John Snow Labs'
+title: Understand Entities in Context - Finance NLP Demos & Notebooks
+seotitle: 'Finance NLP: Understand Entities in Context - John Snow Labs'
 subtitle: Run 300+ live demos and notebooks
 full_width: true
-permalink: /financial_assertion_status
+permalink: /understand_entities_context
 key: demo
 article_header:
   type: demo
@@ -16,8 +16,8 @@ data:
   sections:  
     - secheader: yes
       secheader:
-        - subtitle: Understand Financial Entities Context - Live Demos & Notebooks
-          activemenu: financial_assertion_status
+        - subtitle: Understand Entities in Context - Live Demos & Notebooks
+          activemenu: understand_entities_context
       source: yes
       source: 
         - title: Identify Competitors in a text   
