@@ -107,9 +107,21 @@ class TensorflowWav2Vec2ForCTC(
     }
 
   }
+
+  def removeDup(lst: List[Int]): List[Int] = {
+    lst match {
+      case head :: tail => {
+        val (duplst, remainlst) = lst.span(_ == head)
+        duplst.head :: removeDup(remainlst)
+      }
+      case Nil => List()
+    }
+  }
+
   def decode(vocabs: Map[String, BigInt], vocabIds: Array[Int], batchSize: Int): Array[String] = {
     // TODO: requires better space cleaning and removing repetitive tokens
-    vocabIds.grouped(vocabIds.length / batchSize).toArray.map { y =>
+    val uniqueVocabIds = removeDup(vocabIds.toList)
+    uniqueVocabIds.grouped(uniqueVocabIds.length / batchSize).toArray.map { y =>
       y.filter(x => x != 0)
         .map(x => vocabs.find(y => y._2 == x).map(_._1).getOrElse(""))
         .map(x => if (x == "|") " " else x)

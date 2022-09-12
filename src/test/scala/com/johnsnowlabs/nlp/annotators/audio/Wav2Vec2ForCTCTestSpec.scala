@@ -34,7 +34,9 @@ class Wav2Vec2ForCTCTestSpec extends AnyFlatSpec {
 
   val speechToText: Wav2Vec2ForCTC = Wav2Vec2ForCTC
 //    .pretrained()
-    .loadSavedModel("/Users/maziyar/Downloads/export_wav2vec2-base-960h", ResourceHelper.spark)
+    .loadSavedModel(
+      "/home/levi/IdeaProjects/spark-nlp/src/test/scala/com/johnsnowlabs/nlp/annotators/audio/export_wav2vec2-base-960h",
+      ResourceHelper.spark)
     .setInputCols("audio_assembler")
     .setOutputCol("text")
     .setBatchSize(1)
@@ -58,7 +60,7 @@ class Wav2Vec2ForCTCTestSpec extends AnyFlatSpec {
     val pipelineDF = pipeline.fit(rawDF).transform(rawDF)
 
     pipelineDF.select("text").show(10, false)
-
   }
 
 }
+
