@@ -9,11 +9,11 @@
     j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
     })(window,document,'script','dataLayer','GTM-59JLR64');</script>
-<!-- End Google Tag Manager --><title>Financial Sentiment Analysis - Finance NLP Demos & Notebooks</title><meta property="og:title" content="Finance NLP: Financial Sentiment Analysis - John Snow Labs"/>
+<!-- End Google Tag Manager --><title>Financial Document Understanding - Finance NLP Demos & Notebooks</title><meta property="og:title" content="Visual NLP: Financial Document Understanding - John Snow Labs"/>
 
 <meta name="description" content="High Performance NLP with Apache Spark
 ">
-<link rel="canonical" href="/financial_sentiment_analysis"><link rel="alternate" type="application/rss+xml" title="Spark NLP" href="/feed.xml"><!-- start favicons snippet, use https://realfavicongenerator.net/ -->
+<link rel="canonical" href="/financial_document_understanding"><link rel="alternate" type="application/rss+xml" title="Spark NLP" href="/feed.xml"><!-- start favicons snippet, use https://realfavicongenerator.net/ -->
 <!---->
 <!-- <link rel="apple-touch-icon" sizes="180x180" href="/fav.ico"> -->
 
@@ -408,7 +408,7 @@
               <div class="col-main cell cell--auto"><!-- start custom main top snippet -->
 
 <!-- end custom main top snippet --><article itemscope itemtype="http://schema.org/WebPage"><script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script><div class="article__header"><header class="main-docs have_subtitle">
-          <div class="top-title mont">Spark NLP in Action</div><div class="top-subtitle mont">Run 300+ live demos and notebooks</div></header></div><meta itemprop="headline" content="Financial Sentiment Analysis - Finance NLP Demos & Notebooks"><div class="js-article-content"><div class="demomenu">
+          <div class="top-title mont">Spark NLP in Action</div><div class="top-subtitle mont">Run 300+ live demos and notebooks</div></header></div><meta itemprop="headline" content="Financial Document Understanding - Finance NLP Demos & Notebooks"><div class="js-article-content"><div class="demomenu">
                           <div class="subtitle">Demos Categories</div><div class="demopage-sidemenu">
     <div class="sidemenu">
       <div class="col-side">
@@ -506,12 +506,15 @@
       </div>
       <div class="col-side">
         <ul class="acc-top"><li class="acc-top-item">Finance NLP<i class="fas fa-chevron-down"></i></li></ul>
-        <ul class="acc-body">          
+        <ul class="acc-body"> 
+          <li      >
+            <a href="/classify_financial_documents">Classify Financial Documents</a>
+          </li>         
           <li      >
             <a href="/financial_entity_recognition">Recognize Financial Entities</a>
           </li>
           <li      >
-            <a href="/financial_assertion_status">Understand Financial Entities Context</a>
+            <a href="/understand_entities_context">Understand Entities in Context</a>
           </li>
           <li      >
             <a href="/financial_relation_extraction">Extract Financial Relationships</a>
@@ -520,9 +523,6 @@
             <a href="/financial_company_normalization">Normalization & Data Augmentation</a>
           </li>
           <li      >
-            <a href="/financial_text_classification">Classify Financial Texts</a>
-          </li>
-          <li    class="active"     >
             <a href="/financial_sentiment_analysis">Financial Sentiment Analysis</a>
           </li>
           <li      >
@@ -531,7 +531,7 @@
           <li data-hide="hide"      >
             <a href="/financial_table_understanding">Understand Tables</a>
           </li>
-          <li      >
+          <li data-hide="hide"      >
             <a href="/financial_visual_document_classification">Financial Visual Document Classification</a>
           </li>
           <li      >
@@ -555,9 +555,6 @@
           <li      >
             <a href="/legal_text_classification">Classify Legal Texts</a>
           </li>
-          <li data-hide="hide"      >
-            <a href="/legal_sentiment_analysis">Legal Sentiment Analysis</a>
-          </li>
           <li      >
             <a href="/legal_deidentification">Legal Deidentification</a>
           </li>
@@ -577,6 +574,9 @@
           </li>
           <li      >
             <a href="/visual_document_understanding">Visual Document Understanding</a>
+          </li>
+          <li    class="active"     >
+            <a href="/financial_document_understanding">Financial Document Understanding</a>
           </li>
           <li      >
             <a href="/extract_handwritten_texts">Extract handwritten texts</a>
@@ -601,14 +601,30 @@
 
       <div class="">
         
-<h1 class="subtitle">Financial Sentiment Analysis - Live Demos & Notebooks</h1><div class="grid--container main-big" id="panels"><div class="tab-wrapper-inner"><div class="tab-item ">
+<h1 class="subtitle">Financial Document Understanding - Live Demos & Notebooks</h1><div class="grid--container main-big" id="panels"><div class="tab-wrapper-inner"><div class="tab-item ">
               <div class="tab-item-inner">
                 <div class="tab-item-wrapper"><div class="tab-item-top"><figure class="tab_fig_blue">
-                        <img src="/assets/images/Analyze_sentiment_in_financial_news.svg" />
-                      </figure><div class="tab-item-title">Analyze sentiment in financial news</div>
-                  </div><div class="tab-description"><div class="tab-description-inner">This demo shows how sentiment can be identified (neutral, positive or negative) in financial news. <a href="#" class="show_more">(...)</a></div></div></div><ul class="tab-menu"><li><a id="analyze_sentiment_financial_news" class="btn button--normal button--pill button--lg"
-                        href="https://demo.johnsnowlabs.com/public/SENTIMENT_EN_FINANCE/">Live Demo</a></li><li><a id="analyze_sentiment_financial_news" class="btn button--blue_btn button--pill button--lg"
-                        href="https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/SENTIMENT_EN_FINANCE.ipynb">Colab</a></li></ul></div> 
+                        <img src="/assets/images/Classify_Financial_Documents_using_SparkOCR.svg" />
+                      </figure><div class="tab-item-title">Classify Financial Documents</div>
+                  </div><div class="tab-description"><div class="tab-description-inner">This demo shows how to classify finance documents using text and layout data with the new features offered by Spark OCR. <a href="#" class="show_more">(...)</a></div></div></div><ul class="tab-menu"><li><a id="classify_financial_documents_using_spark_ocr" class="btn button--normal button--pill button--lg"
+                        href="https://demo.johnsnowlabs.com/ocr/VISUAL_DOCUMENT_CLASSIFICATION_V3/">Live Demo</a></li><li><a id="classify_financial_documents_using_spark_ocr" class="btn button--blue_btn button--pill button--lg"
+                        href="https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/ocr/VISUAL_DOCUMENT_CLASSIFICATION_V3.ipynb">Colab</a></li></ul></div> 
+            </div><div class="tab-item ">
+              <div class="tab-item-inner">
+                <div class="tab-item-wrapper"><div class="tab-item-top"><figure class="tab_fig_blue">
+                        <img src="/assets/images/Extract_entities_from_visual_documents.svg" />
+                      </figure><div class="tab-item-title">Extract Data from Scanned Invoices</div>
+                  </div><div class="tab-description"><div class="tab-description-inner">Detect companies, total amounts and dates in scanned invoices using out of the box Spark OCR models. <a href="#" class="show_more">(...)</a></div></div></div><ul class="tab-menu"><li><a id="extract_entities_from_visual_documents" class="btn button--normal button--pill button--lg"
+                        href="https://demo.johnsnowlabs.com/ocr/VISUAL_DOCUMENT_NER/">Live Demo</a></li><li><a id="extract_entities_from_visual_documents" class="btn button--blue_btn button--pill button--lg"
+                        href="https://colab.research.google.com/github/JohnSnowLabs/spark-ocr-workshop/blob/master/jupyter/SparkOCRVisualDocumentNer.ipynb">Colab</a></li></ul></div> 
+            </div><div class="tab-item ">
+              <div class="tab-item-inner">
+                <div class="tab-item-wrapper"><div class="tab-item-top"><figure class="tab_fig_blue">
+                        <img src="/assets/images/Detect_sentences_in_text.svg" />
+                      </figure><div class="tab-item-title">Form Recognition</div>
+                  </div><div class="tab-description"><div class="tab-description-inner">This demo shows how to perceive data in forms as key-value pairs. <a href="#" class="show_more">(...)</a></div></div></div><ul class="tab-menu"><li><a id="form_recognition" class="btn button--normal button--pill button--lg"
+                        href="https://demo.johnsnowlabs.com/ocr/FORM_RECOGNITION/">Live Demo</a></li><li><a id="form_recognition" class="btn button--blue_btn button--pill button--lg"
+                        href="https://colab.research.google.com/github/JohnSnowLabs/spark-ocr-workshop/blob/master/jupyter/FormRecognition/SparkOcrFormRecognition.ipynb">Colab</a></li></ul></div> 
             </div></div></div></div> </section></div>
 </div>
 

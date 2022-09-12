@@ -1,2 +1,14 @@
-docs/_posts/josejuanmartinez/2022-09-07-finvisualclf_vit_tickets_en.md
-docs/_posts/josejuanmartinez/2022-09-07-finvisualclf_vit_tickets_en.md
+docs/_includes/demomenu.html
+docs/demos/classify_financial_documents.md
+docs/demos/financial_document_understanding.md
+docs/demos/financial_sentiment_analysis.md
+docs/demos/legal_sentiment_analysis.md
+docs/demos/understand_entities_context.md
+docs/demos/visual_document_understanding.md
+docs/_includes/demomenu.html
+docs/demos/financial_assertion_status.md
+docs/demos/financial_document_understanding.md
+docs/demos/financial_sentiment_analysis.md
+docs/demos/financial_text_classification.md
+docs/demos/legal_sentiment_analysis.md
+docs/demos/visual_document_understanding.md
