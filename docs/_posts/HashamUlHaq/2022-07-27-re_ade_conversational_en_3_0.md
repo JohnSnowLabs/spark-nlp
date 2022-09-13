@@ -69,14 +69,14 @@ dependency_parser = sparknlp.annotators.DependencyParserModel()\
     .setOutputCol("dependencies")
 
 re_model = RelationExtractionModel()\
-    .pretrained("re_ade_conversational", "en", 'clinical/models')\
+    .pretrained("re_ade_conversational", "en", "clinical/models")\
     .setInputCols(["embeddings", "pos_tags", "ner_chunks", "dependencies"])\
     .setOutputCol("relations")\
     .setRelationPairs(["ade-drug", "drug-ade"]) # Possible relation pairs. Default: All Relations.
 
 nlp_pipeline = Pipeline(stages=[documenter, tokenizer, words_embedder, pos_tagger, ner_tagger, ner_converter, dependency_parser, re_model])
 
-light_pipeline = LightPipeline(nlp_pipeline.fit(spark.createDataFrame([['']]).toDF("text")))
+light_pipeline = LightPipeline(nlp_pipeline.fit(spark.createDataFrame([[""]]).toDF("text")))
 
 text ="""19.32 day 20 rivaroxaban diary. still residual aches and pains; only had 4 paracetamol today."""
 
@@ -109,7 +109,7 @@ val dependency_parser = DependencyParserModel()
     .setOutputCol("dependencies")
 
 val re_model = RelationExtractionModel()
-    .pretrained("re_ade_conversational", "en", 'clinical/models')
+    .pretrained("re_ade_conversational", "en", "clinical/models")
     .setInputCols(Array("embeddings", "pos_tags", "ner_chunks", "dependencies"))
     .setOutputCol("relations")
     .setMaxSyntacticDistance(3) #default: 0 
