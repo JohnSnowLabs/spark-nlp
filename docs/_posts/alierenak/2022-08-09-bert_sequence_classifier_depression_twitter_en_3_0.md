@@ -126,6 +126,6 @@ Curated from several academic and in-house datasets.
         minimum       0.97      0.98      0.97      1411 
 high-depression       0.95      0.92      0.93       595 
        accuracy        -          -       0.96      2006 
-      macro avg       0.96      0.95      0.95      2006 
-   weighted avg       0.96      0.96      0.96      2006
+      macro-avg       0.96      0.95      0.95      2006 
+   weighted-avg       0.96      0.96      0.96      2006
 ```
