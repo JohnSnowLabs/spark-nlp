@@ -2531,8 +2531,10 @@ code {
 	line-height: 18px;
 }
 
+.tabs-box-medic,
 .tabs-box {
 	padding: 20px 0;
+	.top_tab_li .tab-li-inner,
 	.top_tab_li .tab-li {
 		text-align: center;
 		min-width: 196px;
@@ -2548,7 +2550,8 @@ code {
 		box-sizing: border-box;
 		box-shadow: 0px 0px 35px rgba(0, 152, 218, 0.1);
 		&:hover,
-		&.code-selector-active {
+		&.code-selector-active,
+		&.active {
 			background:$color-lightblue;
 			color: #fff;
 			border-color:$color-lightblue;
@@ -2563,6 +2566,20 @@ code {
 	}
 	p {
 		padding-top: 15px;
+	}
+}
+
+.tabs-box-medic {
+	.top_tab_li .tab-li-inner {
+		min-width: 100px;
+	}
+}
+ 
+.tabs-box-medic-inner-second,
+.tabs-box-medic-inner {
+	display: none;
+	&.active {
+		display: block;
 	}
 }
 
