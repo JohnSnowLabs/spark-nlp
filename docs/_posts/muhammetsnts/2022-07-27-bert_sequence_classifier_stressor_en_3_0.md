@@ -24,8 +24,8 @@ This model is a [bioBERT](https://nlp.johnsnowlabs.com/2022/07/18/biobert_pubmed
 `Family_Issues`, `Financial_Problem`, `Health_Fatigue_or_Physical Pain`, `Other`, `School`, `Work`, `Social_Relationships`
 
 {:.btn-box}
-<button class="button button-orange" disabled>Live Demo</button>
-<button class="button button-orange" disabled>Open in Colab</button>
+[Live Demo](https://demo.johnsnowlabs.com/healthcare/PUBLIC_HEALTH_STRESS/){:.button.button-orange}
+[Open in Colab](https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/PUBLIC_HEALTH_MB4SC.ipynb){:.button.button-orange.button-orange-trans.co.button-icon}
 [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/bert_sequence_classifier_stressor_en_4.0.0_3.0_1658923809554.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
 
 ## How to use

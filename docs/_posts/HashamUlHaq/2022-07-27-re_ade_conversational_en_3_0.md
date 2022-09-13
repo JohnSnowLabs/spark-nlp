@@ -34,6 +34,7 @@ This model is capable of Relating Drugs and adverse reactions caused by them in 
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
+
 ```python
 documenter = sparknlp.DocumentAssembler()\
     .setInputCol("text")\
@@ -44,34 +45,34 @@ tokenizer = sparknlp.annotators.Tokenizer()\
     .setOutputCol("tokens")\
 
 words_embedder = WordEmbeddingsModel() \
-.pretrained("embeddings_clinical", "en", "clinical/models") \
-.setInputCols(["sentences", "tokens"]) \
-.setOutputCol("embeddings")
+    .pretrained("embeddings_clinical", "en", "clinical/models") \
+    .setInputCols(["sentences", "tokens"]) \
+    .setOutputCol("embeddings")
 
 ner_tagger = MedicalNerModel() \
-.pretrained("ner_ade_clinical", "en", "clinical/models") \
-.setInputCols(["sentences", "tokens", "embeddings"]) \
-.setOutputCol("ner_tags")
+    .pretrained("ner_ade_clinical", "en", "clinical/models") \
+    .setInputCols(["sentences", "tokens", "embeddings"]) \
+    .setOutputCol("ner_tags")
 
 ner_converter = NerConverter() \
-.setInputCols(["sentences", "tokens", "ner_tags"]) \
-.setOutputCol("ner_chunks")
+    .setInputCols(["sentences", "tokens", "ner_tags"]) \
+    .setOutputCol("ner_chunks")
 
 pos_tagger = PerceptronModel()\
-.pretrained("pos_clinical", "en", "clinical/models") \
-.setInputCols(["sentences", "tokens"])\
-.setOutputCol("pos_tags")
+    .pretrained("pos_clinical", "en", "clinical/models") \
+    .setInputCols(["sentences", "tokens"])\
+    .setOutputCol("pos_tags")
 
 dependency_parser = sparknlp.annotators.DependencyParserModel()\
-.pretrained("dependency_conllu", "en")\
-.setInputCols(["sentences", "pos_tags", "tokens"])\
-.setOutputCol("dependencies")
+    .pretrained("dependency_conllu", "en")\
+    .setInputCols(["sentences", "pos_tags", "tokens"])\
+    .setOutputCol("dependencies")
 
 re_model = RelationExtractionModel()\
-.pretrained("re_ade_conversational", "en", 'clinical/models')\
-.setInputCols(["embeddings", "pos_tags", "ner_chunks", "dependencies"])\
-.setOutputCol("relations")\
-.setRelationPairs(["ade-drug", "drug-ade"]) # Possible relation pairs. Default: All Relations.
+    .pretrained("re_ade_conversational", "en", 'clinical/models')\
+    .setInputCols(["embeddings", "pos_tags", "ner_chunks", "dependencies"])\
+    .setOutputCol("relations")\
+    .setRelationPairs(["ade-drug", "drug-ade"]) # Possible relation pairs. Default: All Relations.
 
 nlp_pipeline = Pipeline(stages=[documenter, tokenizer, words_embedder, pos_tagger, ner_tagger, ner_converter, dependency_parser, re_model])
 
@@ -80,42 +81,40 @@ light_pipeline = LightPipeline(nlp_pipeline.fit(spark.createDataFrame([['']]).to
 text ="""19.32 day 20 rivaroxaban diary. still residual aches and pains; only had 4 paracetamol today."""
 
 annotations = light_pipeline.fullAnnotate(text)
-
-
 ```
 ```scala
 ...
 val words_embedder = WordEmbeddingsModel()
-.pretrained("embeddings_clinical", "en", "clinical/models")
-.setInputCols(Array("sentences", "tokens"))
-.setOutputCol("embeddings")
+    .pretrained("embeddings_clinical", "en", "clinical/models")
+    .setInputCols(Array("sentences", "tokens"))
+    .setOutputCol("embeddings")
 
 val ner_tagger = NerDLModel()
-.pretrained("ner_ade_clinical", "en", "clinical/models")
-.setInputCols(Array("sentences", "tokens", "embeddings"))
-.setOutputCol("ner_tags")
+    .pretrained("ner_ade_clinical", "en", "clinical/models")
+    .setInputCols(Array("sentences", "tokens", "embeddings"))
+    .setOutputCol("ner_tags")
 
 val ner_converter = new NerConverter()
-.setInputCols(Array("sentences", "tokens", "ner_tags"))
-.setOutputCol("ner_chunks")
+    .setInputCols(Array("sentences", "tokens", "ner_tags"))
+    .setOutputCol("ner_chunks")
 
 val pos_tagger = PerceptronModel()
-.pretrained("pos_clinical", "en", "clinical/models")
-.setInputCols(Array("sentences", "tokens"))
-.setOutputCol("pos_tags")
+    .pretrained("pos_clinical", "en", "clinical/models")
+    .setInputCols(Array("sentences", "tokens"))
+    .setOutputCol("pos_tags")
 
 val dependency_parser = DependencyParserModel()
-.pretrained("dependency_conllu", "en")
-.setInputCols(Array("sentences", "pos_tags", "tokens"))
-.setOutputCol("dependencies")
+    .pretrained("dependency_conllu", "en")
+    .setInputCols(Array("sentences", "pos_tags", "tokens"))
+    .setOutputCol("dependencies")
 
 val re_model = RelationExtractionModel()
-.pretrained("re_ade_conversational", "en", 'clinical/models')
-.setInputCols(Array("embeddings", "pos_tags", "ner_chunks", "dependencies"))
-.setOutputCol("relations")
-.setMaxSyntacticDistance(3) #default: 0 
-.setPredictionThreshold(0.5) #default: 0.5 
-.setRelationPairs(Array("drug-ade", "ade-drug")) # Possible relation pairs. Default: All Relations.
+    .pretrained("re_ade_conversational", "en", 'clinical/models')
+    .setInputCols(Array("embeddings", "pos_tags", "ner_chunks", "dependencies"))
+    .setOutputCol("relations")
+    .setMaxSyntacticDistance(3) #default: 0 
+    .setPredictionThreshold(0.5) #default: 0.5 
+    .setRelationPairs(Array("drug-ade", "ade-drug")) # Possible relation pairs. Default: All Relations.
 
 val nlpPipeline = new Pipeline().setStages(Array(documenter, tokenizer, words_embedder, pos_tagger, ner_tagger, ner_chunker, dependency_parser, re_model))
 
@@ -156,12 +155,10 @@ Trained on SMM4H dataset - annotated manually. https://healthlanguageprocessing.
 ## Benchmarking
 
 ```bash
-              precision    recall  f1-score   support
-
+       label  precision    recall  f1-score   support
  not_related       0.81      0.88      0.85       528
   is_related       0.94      0.89      0.91      1019
-
-    accuracy                           0.89      1547
-   macro avg       0.87      0.89      0.88      1547
-weighted avg       0.89      0.89      0.89      1547
+    accuracy       -         -         0.89      1547
+   macro-avg       0.87      0.89      0.88      1547
+weighted-avg       0.89      0.89      0.89      1547
 ```
