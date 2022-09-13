@@ -91,11 +91,13 @@ class AudioAssembler(override val uid: String)
       audio: Array[Float],
       metadata: Map[String, String]): Seq[AnnotationAudio] = {
 
+    val audioContent = Option(audio).getOrElse(Array.emptyFloatArray)
+    val contentLength: Int = audioContent.length
     Seq(
       new AnnotationAudio(
         AnnotatorType.AUDIO,
-        result = audio,
-        metadata = Map("length" -> audio.length.toString) ++ metadata))
+        result = audioContent,
+        metadata = Map("length" -> contentLength.toString) ++ metadata))
   }
 
   private[nlp] def dfAssemble: UserDefinedFunction = udf { (audio: Array[Float]) =>
