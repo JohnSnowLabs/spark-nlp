@@ -1,10 +1,10 @@
 ---
 layout: demopagenew
-title: Classify Financial Texts - Finance NLP Demos & Notebooks
-seotitle: 'Finance NLP: Classify Financial Texts - John Snow Labs'
+title: Classify Financial Documents - Finance NLP Demos & Notebooks
+seotitle: 'Finance NLP: Classify Financial Documents - John Snow Labs'
 subtitle: Run 300+ live demos and notebooks
 full_width: true
-permalink: /financial_text_classification
+permalink: /classify_financial_documents
 key: demo
 article_header:
   type: demo
@@ -16,8 +16,8 @@ data:
   sections:  
     - secheader: yes
       secheader:
-        - subtitle: Classify Financial Texts - Live Demos & Notebooks
-          activemenu: financial_text_classification
+        - subtitle: Classify Financial Documents - Live Demos & Notebooks
+          activemenu: classify_financial_documents
       source: yes
       source: 
         - title: ESG News Classification  
@@ -90,4 +90,18 @@ data:
           - text: Colab
             type: blue_btn
             url: https://nlp.johnsnowlabs.com/ 
+        - title: Analyze sentiment in financial news
+          id: analyze_sentiment_financial_news 
+          image: 
+              src: /assets/images/Analyze_sentiment_in_financial_news.svg
+          image2: 
+              src: /assets/images/Analyze_sentiment_in_financial_news_f.svg
+          excerpt: This demo shows how sentiment can be identified (neutral, positive or negative) in financial news.
+          actions:
+          - text: Live Demo
+            type: normal
+            url: https://demo.johnsnowlabs.com/public/SENTIMENT_EN_FINANCE/
+          - text: Colab
+            type: blue_btn
+            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/SENTIMENT_EN_FINANCE.ipynb
 ---

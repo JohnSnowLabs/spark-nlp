@@ -96,12 +96,15 @@
       </div>
       <div class="col-side">
         <ul class="acc-top"><li class="acc-top-item">Finance NLP<i class="fas fa-chevron-down"></i></li></ul>
-        <ul class="acc-body">          
+        <ul class="acc-body"> 
+          <li {% if _section.secheader %} {% for child in _section.secheader %} {% if child.activemenu == "classify_financial_documents" %} class="active"  {% endif %} {% endfor %} {% endif %} >
+            <a href="/classify_financial_documents">Classify Financial Documents</a>
+          </li>         
           <li {% if _section.secheader %} {% for child in _section.secheader %} {% if child.activemenu == "financial_entity_recognition" %} class="active"  {% endif %} {% endfor %} {% endif %} >
             <a href="/financial_entity_recognition">Recognize Financial Entities</a>
           </li>
-          <li {% if _section.secheader %} {% for child in _section.secheader %} {% if child.activemenu == "financial_assertion_status" %} class="active"  {% endif %} {% endfor %} {% endif %} >
-            <a href="/financial_assertion_status">Understand Financial Entities Context</a>
+          <li {% if _section.secheader %} {% for child in _section.secheader %} {% if child.activemenu == "understand_entities_context" %} class="active"  {% endif %} {% endfor %} {% endif %} >
+            <a href="/understand_entities_context">Understand Entities in Context</a>
           </li>
           <li {% if _section.secheader %} {% for child in _section.secheader %} {% if child.activemenu == "financial_relation_extraction" %} class="active"  {% endif %} {% endfor %} {% endif %} >
             <a href="/financial_relation_extraction">Extract Financial Relationships</a>
@@ -109,19 +112,13 @@
           <li {% if _section.secheader %} {% for child in _section.secheader %} {% if child.activemenu == "financial_company_normalization" %} class="active"  {% endif %} {% endfor %} {% endif %} >
             <a href="/financial_company_normalization">Normalization & Data Augmentation</a>
           </li>
-          <li {% if _section.secheader %} {% for child in _section.secheader %} {% if child.activemenu == "financial_text_classification" %} class="active"  {% endif %} {% endfor %} {% endif %} >
-            <a href="/financial_text_classification">Classify Financial Texts</a>
-          </li>
-          <li {% if _section.secheader %} {% for child in _section.secheader %} {% if child.activemenu == "financial_sentiment_analysis" %} class="active"  {% endif %} {% endfor %} {% endif %} >
-            <a href="/financial_sentiment_analysis">Financial Sentiment Analysis</a>
-          </li>
           <li {% if _section.secheader %} {% for child in _section.secheader %} {% if child.activemenu == "financial_deidentification" %} class="active"  {% endif %} {% endfor %} {% endif %} >
             <a href="/financial_deidentification">Financial Deidentification</a>
           </li>
           <li data-hide="hide" {% if _section.secheader %} {% for child in _section.secheader %} {% if child.activemenu == "financial_table_understanding" %} class="active"  {% endif %} {% endfor %} {% endif %} >
             <a href="/financial_table_understanding">Understand Tables</a>
           </li>
-          <li {% if _section.secheader %} {% for child in _section.secheader %} {% if child.activemenu == "financial_visual_document_classification" %} class="active"  {% endif %} {% endfor %} {% endif %} >
+          <li data-hide="hide" {% if _section.secheader %} {% for child in _section.secheader %} {% if child.activemenu == "financial_visual_document_classification" %} class="active"  {% endif %} {% endfor %} {% endif %} >
             <a href="/financial_visual_document_classification">Financial Visual Document Classification</a>
           </li>
           <li {% if _section.secheader %} {% for child in _section.secheader %} {% if child.activemenu == "financial_document_splitting" %} class="active"  {% endif %} {% endfor %} {% endif %} >
@@ -145,9 +142,6 @@
           <li {% if _section.secheader %} {% for child in _section.secheader %} {% if child.activemenu == "legal_text_classification" %} class="active"  {% endif %} {% endfor %} {% endif %} >
             <a href="/legal_text_classification">Classify Legal Texts</a>
           </li>
-          <li data-hide="hide" {% if _section.secheader %} {% for child in _section.secheader %} {% if child.activemenu == "legal_sentiment_analysis" %} class="active"  {% endif %} {% endfor %} {% endif %} >
-            <a href="/legal_sentiment_analysis">Legal Sentiment Analysis</a>
-          </li>
           <li {% if _section.secheader %} {% for child in _section.secheader %} {% if child.activemenu == "legal_deidentification" %} class="active"  {% endif %} {% endfor %} {% endif %} >
             <a href="/legal_deidentification">Legal Deidentification</a>
           </li>
@@ -167,6 +161,9 @@
           </li>
           <li {% if _section.secheader %} {% for child in _section.secheader %} {% if child.activemenu == "visual_document_understanding" %} class="active"  {% endif %} {% endfor %} {% endif %} >
             <a href="/visual_document_understanding">Visual Document Understanding</a>
+          </li>
+          <li {% if _section.secheader %} {% for child in _section.secheader %} {% if child.activemenu == "financial_document_understanding" %} class="active"  {% endif %} {% endfor %} {% endif %} >
+            <a href="/financial_document_understanding">Financial Document Understanding</a>
           </li>
           <li {% if _section.secheader %} {% for child in _section.secheader %} {% if child.activemenu == "extract_handwritten_texts" %} class="active"  {% endif %} {% endfor %} {% endif %} >
             <a href="/extract_handwritten_texts">Extract handwritten texts</a>
