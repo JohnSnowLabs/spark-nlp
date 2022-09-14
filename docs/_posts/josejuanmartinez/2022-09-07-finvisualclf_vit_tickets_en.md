@@ -1,6 +1,6 @@
 ---
 layout: model
-title: Tickets Binary Classification
+title: Receipts Binary Classification
 author: John Snow Labs
 name: finvisualclf_vit_tickets
 date: 2022-09-07
@@ -10,6 +10,7 @@ language: en
 edition: Spark NLP for Finance 1.0.0
 spark_version: 3.2
 supported: true
+recommended: true
 article_header:
   type: cover
 use_language_switcher: "Python-Scala-Java"
@@ -20,7 +21,7 @@ use_language_switcher: "Python-Scala-Java"
 This is a ViT (Visual Transformer) model, which can be used to carry out Binary Classification (true or false) on pictures / photos / images. This model has been trained in-house with different corpora, including:
 - CORD
 - COCO
-- In-house annotated tickets 
+- In-house annotated receipts 
 
 You can use this model to filter out non-tickets from a folder of images or mobile pictures, and then use Spark OCR to extract information using the layout and the text features.
 
@@ -91,7 +92,7 @@ result.select("class.result").show(1, False)
 
 ## References
 
-Cord, rvl-cdip, visual-genome and an external receipt tickers dataset
+Cord, rvl-cdip, visual-genome and an external receipt dataset
 
 ## Benchmarking
 

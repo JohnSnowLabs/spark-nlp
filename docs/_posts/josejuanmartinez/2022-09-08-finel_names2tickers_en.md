@@ -35,8 +35,6 @@ This is an Entity Resolution / Entity Linking model, which is able to provide Ti
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
 ```python
-from johnsnowlabs.extensions.finance.chunk_classification.resolution import SentenceEntityResolverModel
-
 documentAssembler = DocumentAssembler()\
       .setInputCol("text")\
       .setOutputCol("ner_chunk")

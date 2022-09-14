@@ -57,7 +57,7 @@ ner_converter = NerConverter()\
         .setInputCols(["document","token","ner"])\
         .setOutputCol("ner_chunk")
 
-reDL = RelationExtractionDLModel()\
+reDL = RelationExtractionDLModel\
     .pretrained("legre_whereas", "en", "legal/models")\
     .setPredictionThreshold(0.5)\
     .setInputCols(["ner_chunk", "document"])\

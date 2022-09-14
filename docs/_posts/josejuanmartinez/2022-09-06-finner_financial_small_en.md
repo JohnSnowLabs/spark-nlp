@@ -10,6 +10,7 @@ language: en
 edition: Spark NLP for Finance 1.0.0
 spark_version: 3.2
 supported: true
+recommended: true
 article_header:
   type: cover
 use_language_switcher: "Python-Scala-Java"
@@ -69,7 +70,7 @@ embeddings = BertEmbeddings.pretrained("bert_embeddings_sec_bert_base", "en") \
   .setOutputCol("embeddings")\
   .setMaxSentenceLength(512)
 
-ner_model = FinanceNerModel.pretrained("finner_financial_wip", "en", "finance/models")\
+ner_model = FinanceNerModel.pretrained("finner_financial_small", "en", "finance/models")\
     .setInputCols(["sentence", "token", "embeddings"])\
     .setOutputCol("ner")\
 
