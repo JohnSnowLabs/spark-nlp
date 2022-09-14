@@ -310,7 +310,7 @@ class DocumentNormalizer(override val uid: String)
         val textareaContents = htmlXml \\ patterns.mkString
         textareaContents.head.mkString
       case "lookaround" =>
-        LookAroundManager. process(text, patterns, replacement)
+        LookAroundManager.process(text, patterns, replacement)
       case _ =>
         throw new Exception(
           "Unknown action parameter in DocumentNormalizer annotation." +
@@ -439,28 +439,27 @@ object LookAroundManager {
   val EMPTY_STR = ""
   val OR_STR = "|"
 
-  def withReplacement(text: String,
-                      replacement: String,
-                      m: Regex.Match,
-                      groupIdx: Int = 1) = { // implicit condition of picking the
+  def withReplacement(text: String, replacement: String, m: Regex.Match, groupIdx: Int = 1) = { // implicit condition of picking the
+    // assuming first group to be the lookaround pattern replacement
     text.replace(m.group(groupIdx), replacement)
   }
 
   def process(text: String, patterns: Array[String], replacement: String): String = {
-    val lookaheadPattern: String = patterns.head // assuming first to be it
-    require(lookaheadPattern.contains(LOOKAHEAD_PATTERN) || lookaheadPattern.contains(LOOKBEHIND_PATTERN),
+    // assuming first pattern to be a lookaround containing first group as replacement target
+    val lookaheadPattern: String = patterns.head
+    require(
+      lookaheadPattern.contains(LOOKAHEAD_PATTERN) || lookaheadPattern.contains(
+        LOOKBEHIND_PATTERN),
       "First pattern with action lookaround must contain a lookaround symbol, i.e. (?=criteria) or (?<=criteria)")
 
     val fullStopsTrimmed = text.replaceAll(END_FULL_STOPS_REGEX, EMPTY_STR)
     val separators = Array(SEMI_COLON, FULL_STOP, EXCLAMATION_MARK, QUESTION_MARK)
 
     val detectedSeps =
-      for(
-        s <- separators; if text.contains(s.replace("\\",""))
-      ) yield s.replace("\\","")
+      for (s <- separators; if text.contains(s.replace("\\", ""))) yield s.replace("\\", "")
 
     val chunks =
-      if(!detectedSeps.isEmpty)
+      if (!detectedSeps.isEmpty)
         fullStopsTrimmed.split(detectedSeps.mkString(OR_STR))
       else
         Array(fullStopsTrimmed)
@@ -477,7 +476,7 @@ object LookAroundManager {
       replacedChunks += res
     }
 
-    if(detectedSeps.length > 0)
+    if (detectedSeps.length > 0)
       replacedChunks.mkString(detectedSeps.head)
     else
       replacedChunks.mkString

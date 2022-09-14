@@ -44,9 +44,7 @@ trait DocumentNormalizerBehaviors extends AnyFlatSpec {
             (3, "11.01 mg"),
             (4, "mg 11.01"),
             (5, "14,220"),
-            (6, "Amoxiciline 4,5 mg for $10.35; Ibuprofen 5,5mg for $9.00.")
-          )
-        )
+            (6, "Amoxiciline 4,5 mg for $10.35; Ibuprofen 5,5mg for $9.00.")))
         .toDF("id", "text")
 
     val annotated =
@@ -163,7 +161,9 @@ trait DocumentNormalizerBehaviors extends AnyFlatSpec {
     val patterns = Array(".*\\d+(\\,)\\d+(?=\\s?mg).*")
     val replacement = "."
 
-    val f = runLookaroundDocNormPipeline(action, patterns, replacement)(5) // Amoxiciline 4,5 mg for $10.35; Ibuprofen 5,5mg for $9.00.
+    val f = runLookaroundDocNormPipeline(action, patterns, replacement)(
+      5
+    ) // Amoxiciline 4,5 mg for $10.35; Ibuprofen 5,5mg for $9.00.
 
     0 should equal(f.begin)
     55 should equal(f.end)
