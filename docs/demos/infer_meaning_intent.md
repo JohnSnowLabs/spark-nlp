@@ -19,21 +19,7 @@ data:
         - subtitle: Infer Meaning & Intent - Live Demos & Notebooks 
           activemenu: infer_meaning_intent
       source: yes
-      source: 
-        - title: Text summarization
-          id: summarize_text
-          image: 
-              src: /assets/images/Document_Classification.svg
-          image2: 
-              src: /assets/images/Document_Classification_f.svg
-          excerpt: Summarize text to make it shorter while retaining meaning.
-          actions:
-          - text: Live Demo
-            type: normal
-            url:  https://demo.johnsnowlabs.com/public/TEXT_SUMMARIZATION/
-          - text: Colab
-            type: blue_btn
-            url:  https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/T5TRANSFORMER.ipynb
+      source:         
         - title:  Understand intent and actions in general commands
           id: understand_intent_and_actions_in_general_commands
           image: 
@@ -146,19 +132,5 @@ data:
             url: https://demo.johnsnowlabs.com/public/T5_SQL/ 
           - text: Colab
             type: blue_btn
-            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/T5_SQL.ipynb
-        - title: Text Generation with GPT-2
-          id: text_generation_with_gpt2  
-          image: 
-              src: /assets/images/Text_Generation_gpt2.svg
-          image2: 
-              src: /assets/images/Text_Generation_gpt2_f.svg
-          excerpt: This demo shows how to generate text using GPT-2 Transformer.
-          actions:
-          - text: Live Demo
-            type: normal
-            url: https://demo.johnsnowlabs.com/public/GPT2_TRANSFORMER/
-          - text: Colab
-            type: blue_btn
-            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Public/16.GPT2_Transformer_In_Spark_NLP.ipynb
+            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/T5_SQL.ipynb        
 ---

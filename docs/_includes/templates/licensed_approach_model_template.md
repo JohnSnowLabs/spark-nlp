@@ -40,13 +40,19 @@
 
 {% include programmingLanguageSelectScalaPython.html %}
 
+<div class="tabs-box-medic-inner highlighter-rouge language-python active" markdown="1">
+
 ```python
 {{include.approach_python_example}}
 ```
 
+</div>
+<div class="tabs-box-medic-inner highlighter-rouge language-scala" markdown="1">
+
 ```scala
 {{include.approach_scala_example}}
 ```
+</div>
 
 </div>
 
@@ -91,13 +97,20 @@
 
 {% include programmingLanguageSelectScalaPython.html %}
 
+<div class="tabs-box-medic-inner highlighter-rouge language-python active" markdown="1">
+
 ```python
 {{include.model_python_example}}
 ```
 
+</div>
+<div class="tabs-box-medic-inner highlighter-rouge language-scala" markdown="1">
+
 ```scala
 {{include.model_scala_example}}
 ```
+
+</div>
 
 </div>
 

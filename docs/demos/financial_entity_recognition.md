@@ -146,4 +146,16 @@ data:
           - text: Colab
             type: blue_btn
             url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/NER_EN.ipynb
+        - title: Financial Zero-Shot Named Entity Recognition 
+          id: financial_zero_shot_named_entity_recognition  
+          image: 
+              src: /assets/images/Name_Entity_Recognition_on_Financial_Texts.svg
+          excerpt: This demo shows how you can use prompts in the form of questions, to carry our Named Entity Recognition without any pretrained dataset. You will find a table with the example questions (prompts) used for the different labels on the side menu.
+          actions:
+          - text: Live Demo
+            type: normal
+            url: https://demo.johnsnowlabs.com/finance/FINNER_ZEROSHOT/
+          - text: Colab
+            type: blue_btn
+            url: 
 ---

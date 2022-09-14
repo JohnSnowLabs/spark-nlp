@@ -61,6 +61,6 @@ data:
             url: https://demo.johnsnowlabs.com/finance/FINRE_ACQUISITIONS/
           - text: Colab
             type: blue_btn
-            url: https://nlp.johnsnowlabs.com/  
+            url:    
                
 ---
