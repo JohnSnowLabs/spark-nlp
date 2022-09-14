@@ -45,7 +45,7 @@ chunk_converter = ChunkConverter() \
     .setInputCols(["entity"]) \
     .setOutputCol("ner_chunk")
 
-assertion = fin.AssertionDLModel.load("./outputs/assertion_model")\
+assertion = fin.AssertionDLModel.pretrained("finassertion_time", "en", "finance/models")\
     .setInputCols(["sentence", "ner_chunk", "embeddings"]) \
     .setOutputCol("assertion")
     
