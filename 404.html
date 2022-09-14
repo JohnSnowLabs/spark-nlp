@@ -429,8 +429,8 @@
     })(window,document,'script','dataLayer','GTM-59JLR64');</script>
 <!-- End Google Tag Manager --><title>Temporality / Certainty Assertion Status</title><meta property="og:title" content=""/>
 
-<meta name="description" content="DescriptionThis is an Assertion Status Model aimed to detect temporality (PRESENT, PAST, FUTURE) or Certainty (POSSIBLE) in your financial documentsPredicted EntitiesPRESENT, PAST, FUTURE, POSSIBLELive DemoOpen in ColabDownloadHow to use         PythonScalaNLU  # YOUR NER HERE# ...embeddings = BertEmbeddings.pretrai...">
-<link rel="canonical" href="/2022/09/14/finassertion_time_en.html"><link rel="alternate" type="application/rss+xml" title="Spark NLP" href="/feed.xml"><!-- start favicons snippet, use https://realfavicongenerator.net/ -->
+<meta name="description" content="DescriptionThis is an Assertion Status Model aimed to detect temporality (PRESENT, PAST, FUTURE) or Certainty (POSSIBLE) in your legal documentsPredicted EntitiesPRESENT, PAST, FUTURE, POSSIBLELive DemoOpen in ColabDownloadHow to use         PythonScalaNLU  # YOUR NER HERE# ...embeddings = BertEmbeddings.pretrained(...">
+<link rel="canonical" href="/2022/09/14/legassertion_time_en.html"><link rel="alternate" type="application/rss+xml" title="Spark NLP" href="/feed.xml"><!-- start favicons snippet, use https://realfavicongenerator.net/ -->
 <!---->
 <!-- <link rel="apple-touch-icon" sizes="180x180" href="/fav.ico"> -->
 
@@ -826,26 +826,26 @@
 
 <!-- end custom main top snippet --><article><script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script><div class="article__header"><div class="header-author"><div class="article__info clearfix"><div class="left-col">
             <a class="edit-on-github-btn" target="_blank" rel="alternate"
-               href="https://github.com/johnsnowlabs/spark-nlp/tree/master/docs/_posts/josejuanmartinez/2022-09-14-finassertion_time_en.md">
+               href="https://github.com/johnsnowlabs/spark-nlp/tree/master/docs/_posts/josejuanmartinez/2022-09-14-legassertion_time_en.md">
               <span class="fab fa-github"></span>
               <span class="edit-on-github-label">Edit on GitHub</span>
             </a>
         </div><ul class="right-col menu"><li><i class="far fa-user"></i> <span>John Snow Labs</span></li><li><i class="far fa-calendar-alt"></i> <span>Sep 14, 2022</span>
             </li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2022-09-14T00:00:00+00:00"></div><header class="main-docs have_subtitle">
-          <h1>Temporality / Certainty Assertion Status</h1><div class="top-subtitle mont"></div></header></div><meta itemprop="headline" content="Temporality / Certainty Assertion Status"><div class="article__info tags_box clearfix"><ul class="left-col menu"><li>time</li><li>probability</li><li>en</li><li>licensed</li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2022-09-14T00:00:00+00:00">
-    <meta itemprop="keywords" content="time,probability,en,licensed"><div class="js-article-content"><div class="model-wrap"><div class="layout--article"><!-- start custom article top snippet -->
+          <h1>Temporality / Certainty Assertion Status</h1><div class="top-subtitle mont"></div></header></div><meta itemprop="headline" content="Temporality / Certainty Assertion Status"><div class="article__info tags_box clearfix"><ul class="left-col menu"><li>temporality</li><li>probability</li><li>en</li><li>licensed</li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2022-09-14T00:00:00+00:00">
+    <meta itemprop="keywords" content="temporality,probability,en,licensed"><div class="js-article-content"><div class="model-wrap"><div class="layout--article"><!-- start custom article top snippet -->
 
 <!-- end custom article top snippet --><div class="article__content" itemprop="articleBody"><h2 id="description">Description</h2>
 
-<p>This is an Assertion Status Model aimed to detect temporality (PRESENT, PAST, FUTURE) or Certainty (POSSIBLE) in your financial documents</p>
+<p>This is an Assertion Status Model aimed to detect temporality (PRESENT, PAST, FUTURE) or Certainty (POSSIBLE) in your legal documents</p>
 
 <h2 id="predicted-entities">Predicted Entities</h2>
 
 <p><code class="language-plaintext highlighter-rouge">PRESENT</code>, <code class="language-plaintext highlighter-rouge">PAST</code>, <code class="language-plaintext highlighter-rouge">FUTURE</code>, <code class="language-plaintext highlighter-rouge">POSSIBLE</code></p>
 
-<p class="btn-box"><a href="https://demo.johnsnowlabs.com/finance/FINASSERTION_TEMPORALITY" class="button button-orange">Live Demo</a>
+<p class="btn-box"><a href="https://demo.johnsnowlabs.com/legal/LEGASSERTION_TEMPORALITY/" class="button button-orange">Live Demo</a>
 <button class="button button-orange" disabled="">Open in Colab</button>
-<a href="https://s3.amazonaws.com/auxdata.johnsnowlabs.com/finance/models/finassertion_time_en_1.0.0_3.2_1663177258898.zip" class="button button-orange button-orange-trans arr button-icon">Download</a></p>
+<a href="https://s3.amazonaws.com/auxdata.johnsnowlabs.com/legal/models/legassertion_time_en_1.0.0_3.2_1663177509052.zip" class="button button-orange button-orange-trans arr button-icon">Download</a></p>
 
 <h2 id="how-to-use">How to use</h2>
 
@@ -863,7 +863,7 @@
     <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"entity"</span><span class="p">])</span> \
     <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"ner_chunk"</span><span class="p">)</span>
 
-<span class="n">assertion</span> <span class="o">=</span> <span class="n">fin</span><span class="p">.</span><span class="n">AssertionDLModel</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"finassertion_time"</span><span class="p">,</span> <span class="s">"en"</span><span class="p">,</span> <span class="s">"finance/models"</span><span class="p">)</span>\
+<span class="n">assertion</span> <span class="o">=</span> <span class="n">leg</span><span class="p">.</span><span class="n">AssertionDLModel</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"legassertion_time"</span><span class="p">,</span> <span class="s">"en"</span><span class="p">,</span> <span class="s">"legal/models"</span><span class="p">)</span>\
     <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"sentence"</span><span class="p">,</span> <span class="s">"ner_chunk"</span><span class="p">,</span> <span class="s">"embeddings"</span><span class="p">])</span> \
     <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"assertion"</span><span class="p">)</span>
     
@@ -882,8 +882,8 @@
 
 <span class="n">lp</span> <span class="o">=</span> <span class="n">LightPipeline</span><span class="p">(</span><span class="n">model</span><span class="p">)</span>
 
-<span class="n">texts</span> <span class="o">=</span> <span class="p">[</span><span class="s">"Atlantic Inc headquarters could possibly be relocated to Delaware by the end of next year"</span><span class="p">,</span>
-        <span class="s">"John Crawford will be hired by Atlantic Inc as CTO"</span><span class="p">]</span>
+<span class="n">texts</span> <span class="o">=</span> <span class="p">[</span><span class="s">"The subsidiaries of Atlantic Inc will participate in a merging operation"</span><span class="p">,</span>
+    <span class="s">"The Conditions and Warranties of this agreement might be modified"</span><span class="p">]</span>
 
 <span class="n">lp</span><span class="p">.</span><span class="n">annotate</span><span class="p">(</span><span class="n">texts</span><span class="p">)</span>
 </code></pre></div>  </div>
@@ -893,12 +893,10 @@
 <h2 id="results">Results</h2>
 
 <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>chunk,begin,end,entity_type,assertion
-Atlantic Inc,0,11,ORG,POSSIBLE
-Delaware,57,64,LOC,POSSIBLE
+Atlantic Inc,20,31,ORG,FUTURE
 
 chunk,begin,end,entity_type,assertion
-CTO,47,49,ROLE,FUTURE
-Atlantic Inc,31,42,ORG,FUTURE
+Conditions and Warranties,4,28,DOC,POSSIBLE
 </code></pre></div></div>
 
 <h2 class="model-param" id="model-information">Model Information</h2>
@@ -907,11 +905,11 @@ Atlantic Inc,31,42,ORG,FUTURE
   <tbody>
     <tr>
       <td>Model Name:</td>
-      <td>finassertion_time</td>
+      <td>legassertion_time</td>
     </tr>
     <tr>
       <td>Compatibility:</td>
-      <td>Spark NLP for Finance 1.0.0+</td>
+      <td>Spark NLP for Legal 1.0.0+</td>
     </tr>
     <tr>
       <td>License:</td>
@@ -1170,7 +1168,7 @@ hr.code-selector-underlie {
 
 }
 
-</style><div class="article__section-navigator clearfix"><div class="previous nav_link"><span>PREVIOUS</span><a href="/2022/09/12/finre_work_experience_en.html">Financial Relation Extraction (Work Experience)</a></div></div></div>
+</style><div class="article__section-navigator clearfix"><div class="previous nav_link"><span>PREVIOUS</span><a href="/2022/09/14/finassertion_time_en.html">Temporality / Certainty Assertion Status</a></div></div></div>
 
 </div>
 </div>
