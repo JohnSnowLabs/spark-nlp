@@ -117,5 +117,17 @@ data:
             url: https://demo.johnsnowlabs.com/healthcare/NER_LEGAL_PT/
           - text: Colab
             type: blue_btn
-            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/NER_LEGAL_PT.ipynb        
+            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/NER_LEGAL_PT.ipynb 
+        - title: Legal Zero-Shot Named Entity Recognition 
+          id: legal_zero_shot_named_entity_recognition  
+          image: 
+              src: /assets/images/Named_Entity_Recognition_Brazilian_Portuguese_Legal_Texts.svg
+          excerpt: This demo shows how you can use prompts in the form of questions, to carry our Named Entity Recognition without any pretrained dataset. You will find a table with the example questions (prompts) used for the different labels on the side menu.
+          actions:
+          - text: Live Demo
+            type: normal
+            url: https://demo.johnsnowlabs.com/legal/LEGNER_ZEROSHOT/
+          - text: Colab
+            type: blue_btn
+            url:        
 ---
