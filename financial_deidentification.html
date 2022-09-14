@@ -434,6 +434,9 @@
           <li      >
             <a href="/question_answering">Question Answering</a>
           </li>
+          <li      >
+            <a href="/summarize_paraphrase">Summarize & Paraphrase</a>
+          </li>
         </ul>
         <ul class="acc-top"><li class="free_link acc-top-item">Spark NLP: World Languages<span>Free</span><i class="fas fa-chevron-down"></i></li></ul>
         <ul class="acc-body">          
@@ -604,8 +607,8 @@
                         <img src="/assets/images/Financial_Deidentification.svg" />
                       </figure><div class="tab-item-title">Financial Deidentification</div>
                   </div><div class="tab-description"><div class="tab-description-inner">This demo shows how to deidentify / mask / obfuscate financial data to be compliant with data privacy regulations as GDPR and CCPA. <a href="#" class="show_more">(...)</a></div></div></div><ul class="tab-menu"><li><a id="financial_deidentification" class="btn button--normal button--pill button--lg"
-                        href="https://demo.johnsnowlabs.com/finance/DEID_FIN/">Live Demo</a></li><li><a id="financial_deidentification" class="btn button--blue_btn button--pill button--lg"
-                        href="https://nlp.johnsnowlabs.com/">Colab</a></li></ul></div> 
+                        href="https://demo.johnsnowlabs.com/finance/DEID_FIN/">Live Demo</a></li><li><a id="financial_deidentification" class="disable btn button--blue_btn button--pill button--lg"
+                        href="#">Colab</a></li></ul></div> 
             </div></div></div></div> </section></div>
 </div>
 
@@ -737,6 +740,18 @@ if(document.querySelector('.tab-description')) {
       e.preventDefault();
       this.parentElement.parentElement.classList.remove('big-descr');
       this.parentElement.parentElement.classList.add('big-descr-close');
+    });
+  });
+}
+
+
+//disable Colab link
+if(document.querySelector('.btn.disable')) {
+  let btnDisable = document.querySelectorAll('.btn.disable');
+
+  btnDisable.forEach(element => {
+    element.addEventListener("click", function(e) {
+      e.preventDefault();
     });
   });
 }

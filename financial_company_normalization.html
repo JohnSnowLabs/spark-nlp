@@ -434,6 +434,9 @@
           <li      >
             <a href="/question_answering">Question Answering</a>
           </li>
+          <li      >
+            <a href="/summarize_paraphrase">Summarize & Paraphrase</a>
+          </li>
         </ul>
         <ul class="acc-top"><li class="free_link acc-top-item">Spark NLP: World Languages<span>Free</span><i class="fas fa-chevron-down"></i></li></ul>
         <ul class="acc-body">          
@@ -604,16 +607,24 @@
                         <img src="/assets/images/Company_Normalization.svg" />
                       </figure><div class="tab-item-title">Company names Normalization</div>
                   </div><div class="tab-description"><div class="tab-description-inner">These models normalize versions of Company Names using Edgar and Crunchbase databases conventions. <a href="#" class="show_more">(...)</a></div></div></div><ul class="tab-menu"><li><a id="company_normalization_edgar_crunchbase_databases" class="btn button--normal button--pill button--lg"
-                        href="https://demo.johnsnowlabs.com/finance/ER_EDGAR_CRUNCHBASE/">Live Demo</a></li><li><a id="company_normalization_edgar_crunchbase_databases" class="btn button--blue_btn button--pill button--lg"
-                        href="/">Colab</a></li></ul></div> 
+                        href="https://demo.johnsnowlabs.com/finance/ER_EDGAR_CRUNCHBASE/">Live Demo</a></li><li><a id="company_normalization_edgar_crunchbase_databases" class="disable btn button--blue_btn button--pill button--lg"
+                        href="#">Colab</a></li></ul></div> 
             </div><div class="tab-item ">
               <div class="tab-item-inner">
                 <div class="tab-item-wrapper"><div class="tab-item-top"><figure class="tab_fig_blue">
                         <img src="/assets/images/Augment_Company_Names_Public_Information.svg" />
                       </figure><div class="tab-item-title">Augment Company Names with Public Information</div>
                   </div><div class="tab-description"><div class="tab-description-inner">These models aim to augment NER with information from external sources. <a href="#" class="show_more">(...)</a></div></div></div><ul class="tab-menu"><li><a id="augment_company_names_public_information" class="btn button--normal button--pill button--lg"
-                        href="https://demo.johnsnowlabs.com/finance/FIN_LEG_COMPANY_AUGMENTATION">Live Demo</a></li><li><a id="augment_company_names_public_information" class="btn button--blue_btn button--pill button--lg"
-                        href="/">Colab</a></li></ul></div> 
+                        href="https://demo.johnsnowlabs.com/finance/FIN_LEG_COMPANY_AUGMENTATION">Live Demo</a></li><li><a id="augment_company_names_public_information" class="disable btn button--blue_btn button--pill button--lg"
+                        href="#">Colab</a></li></ul></div> 
+            </div><div class="tab-item ">
+              <div class="tab-item-inner">
+                <div class="tab-item-wrapper"><div class="tab-item-top"><figure class="tab_fig_blue">
+                        <img src="/assets/images/Financial_Graph_Visualization.svg" />
+                      </figure><div class="tab-item-title">Financial Graph Visualization</div>
+                  </div><div class="tab-description"><div class="tab-description-inner">Use different models from Spark NLP for Finance, as NER, Relation Extraction, Entity Resolution and Chunk Mappers, to create your own Financial Graphs. <a href="#" class="show_more">(...)</a></div></div></div><ul class="tab-menu"><li><a id="financial_graph_visualization" class="btn button--normal button--pill button--lg"
+                        href="https://demo.johnsnowlabs.com/finance/NEO4J/">Live Demo</a></li><li><a id="financial_graph_visualization" class="disable btn button--blue_btn button--pill button--lg"
+                        href="#">Colab</a></li></ul></div> 
             </div></div></div></div> </section></div>
 </div>
 
@@ -745,6 +756,18 @@ if(document.querySelector('.tab-description')) {
       e.preventDefault();
       this.parentElement.parentElement.classList.remove('big-descr');
       this.parentElement.parentElement.classList.add('big-descr-close');
+    });
+  });
+}
+
+
+//disable Colab link
+if(document.querySelector('.btn.disable')) {
+  let btnDisable = document.querySelectorAll('.btn.disable');
+
+  btnDisable.forEach(element => {
+    element.addEventListener("click", function(e) {
+      e.preventDefault();
     });
   });
 }

@@ -711,10 +711,12 @@ For pretrained models please use AssertionDLModel and see the
 <div class="tabs-box">
 
         <div class="top_tab_li">   
-    <button class="tab-li code-selector-active python-button">Python</button><button class="tab-li code-selector-un-active scala-button">Scala</button>
+    <button data-type="python" class="tab-li tab-li-second active">Python</button><button data-type="scala" class="tab-li tab-li-second">Scala</button>
 </div>
 
-        <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">sparknlp</span>
+        <div class="tabs-box-medic-inner highlighter-rouge language-python active">
+
+          <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">sparknlp</span>
 <span class="kn">from</span> <span class="nn">sparknlp.base</span> <span class="kn">import</span> <span class="o">*</span>
 <span class="kn">from</span> <span class="nn">sparknlp.common</span> <span class="kn">import</span> <span class="o">*</span>
 <span class="kn">from</span> <span class="nn">sparknlp.annotator</span> <span class="kn">import</span> <span class="o">*</span>
@@ -760,9 +762,12 @@ For pretrained models please use AssertionDLModel and see the
 
 <span class="n">assertionModel</span> <span class="o">=</span> <span class="n">trainingPipeline</span><span class="p">.</span><span class="n">fit</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
 <span class="n">assertionResults</span> <span class="o">=</span> <span class="n">assertionModel</span><span class="p">.</span><span class="n">transform</span><span class="p">(</span><span class="n">data</span><span class="p">).</span><span class="n">cache</span><span class="p">()</span>
-</code></pre></div>        </div>
+</code></pre></div>          </div>
 
-        <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// First, pipeline stages for pre-processing the dataset (containing columns for text and label) are defined.</span>
+        </div>
+        <div class="tabs-box-medic-inner highlighter-rouge language-scala">
+
+          <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// First, pipeline stages for pre-processing the dataset (containing columns for text and label) are defined.</span>
 <span class="k">val</span> <span class="nv">document</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">DocumentAssembler</span><span class="o">()</span>
   <span class="o">.</span><span class="py">setInputCol</span><span class="o">(</span><span class="s">"text"</span><span class="o">)</span>
   <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"document"</span><span class="o">)</span>
@@ -799,7 +804,8 @@ For pretrained models please use AssertionDLModel and see the
 
 <span class="k">val</span> <span class="nv">assertionModel</span> <span class="k">=</span> <span class="nv">trainingPipeline</span><span class="o">.</span><span class="py">fit</span><span class="o">(</span><span class="n">data</span><span class="o">)</span>
 <span class="k">val</span> <span class="nv">assertionResults</span> <span class="k">=</span> <span class="nv">assertionModel</span><span class="o">.</span><span class="py">transform</span><span class="o">(</span><span class="n">data</span><span class="o">).</span><span class="py">cache</span><span class="o">()</span>
-</code></pre></div>        </div>
+</code></pre></div>          </div>
+        </div>
 
       </div>
 
@@ -840,10 +846,12 @@ Possible values include <code class="language-plaintext highlighter-rouge">“pr
 <div class="tabs-box">
 
         <div class="top_tab_li">   
-    <button class="tab-li code-selector-active python-button">Python</button><button class="tab-li code-selector-un-active scala-button">Scala</button>
+    <button data-type="python" class="tab-li tab-li-second active">Python</button><button data-type="scala" class="tab-li tab-li-second">Scala</button>
 </div>
 
-        <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">sparknlp</span>
+        <div class="tabs-box-medic-inner highlighter-rouge language-python active">
+
+          <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">sparknlp</span>
 <span class="kn">from</span> <span class="nn">sparknlp.base</span> <span class="kn">import</span> <span class="o">*</span>
 <span class="kn">from</span> <span class="nn">sparknlp.common</span> <span class="kn">import</span> <span class="o">*</span>
 <span class="kn">from</span> <span class="nn">sparknlp.annotator</span> <span class="kn">import</span> <span class="o">*</span>
@@ -893,9 +901,12 @@ Possible values include <code class="language-plaintext highlighter-rouge">“pr
 <span class="o">|</span><span class="p">[</span><span class="n">stomach</span> <span class="n">pain</span><span class="p">]</span>                  <span class="o">|</span><span class="p">[</span><span class="n">absent</span><span class="p">]</span>                        <span class="o">|</span>
 <span class="o">|</span><span class="p">[</span><span class="n">an</span> <span class="n">epidural</span><span class="p">,</span> <span class="n">PCA</span><span class="p">,</span> <span class="n">pain</span> <span class="n">control</span><span class="p">]</span><span class="o">|</span><span class="p">[</span><span class="n">present</span><span class="p">,</span> <span class="n">present</span><span class="p">,</span> <span class="n">hypothetical</span><span class="p">]</span><span class="o">|</span>
 <span class="o">+--------------------------------+--------------------------------+</span>
-</code></pre></div>        </div>
+</code></pre></div>          </div>
 
-        <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// Define pipeline stages to extract NER chunks first</span>
+        </div>
+        <div class="tabs-box-medic-inner highlighter-rouge language-scala">
+
+          <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// Define pipeline stages to extract NER chunks first</span>
 <span class="k">val</span> <span class="nv">data</span> <span class="k">=</span> <span class="nc">Seq</span><span class="o">(</span>
   <span class="s">"Patient with severe fever and sore throat"</span><span class="o">,</span>
   <span class="s">"Patient shows no stomach pain"</span><span class="o">,</span>
@@ -936,7 +947,9 @@ Possible values include <code class="language-plaintext highlighter-rouge">“pr
 <span class="o">|[</span><span class="kt">stomach</span> <span class="kt">pain</span><span class="o">]</span>                  <span class="o">|[</span><span class="kt">absent</span><span class="o">]</span>                        <span class="o">|</span>
 <span class="o">|[</span><span class="kt">an</span> <span class="kt">epidural</span>, <span class="kt">PCA</span>, <span class="kt">pain</span> <span class="kt">control</span><span class="o">]|[</span><span class="kt">present</span>, <span class="kt">present</span>, <span class="kt">hypothetical</span><span class="o">]|</span>
 <span class="o">+--------------------------------+--------------------------------+</span>
-</code></pre></div>        </div>
+</code></pre></div>          </div>
+
+        </div>
 
       </div>
 
@@ -974,7 +987,7 @@ For regex, <code class="language-plaintext highlighter-rouge">criteria</code> ha
 <div class="tabs-box">
 
       <div class="top_tab_li">   
-    <button class="tab-li code-selector-active python-button">Python</button><button class="tab-li code-selector-un-active scala-button">Scala</button>
+    <button data-type="python" class="tab-li tab-li-second active">Python</button><button data-type="scala" class="tab-li tab-li-second">Scala</button>
 </div>
 
       <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">sparknlp</span>
@@ -1113,10 +1126,12 @@ Contains all the methods for training a AssertionLogRegModel, together with trai
 <div class="tabs-box">
 
         <div class="top_tab_li">   
-    <button class="tab-li code-selector-active python-button">Python</button><button class="tab-li code-selector-un-active scala-button">Scala</button>
+    <button data-type="python" class="tab-li tab-li-second active">Python</button><button data-type="scala" class="tab-li tab-li-second">Scala</button>
 </div>
 
-        <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">sparknlp</span>
+        <div class="tabs-box-medic-inner highlighter-rouge language-python active">
+
+          <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">sparknlp</span>
 <span class="kn">from</span> <span class="nn">sparknlp.base</span> <span class="kn">import</span> <span class="o">*</span>
 <span class="kn">from</span> <span class="nn">sparknlp.common</span> <span class="kn">import</span> <span class="o">*</span>
 <span class="kn">from</span> <span class="nn">sparknlp.annotator</span> <span class="kn">import</span> <span class="o">*</span>
@@ -1167,9 +1182,12 @@ Contains all the methods for training a AssertionLogRegModel, together with trai
 <span class="p">])</span>
 
 <span class="n">assertionModel</span> <span class="o">=</span> <span class="n">assertionPipeline</span><span class="p">.</span><span class="n">fit</span><span class="p">(</span><span class="n">dataset</span><span class="p">)</span>
-</code></pre></div>        </div>
+</code></pre></div>          </div>
 
-        <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// Training with Glove Embeddings</span>
+        </div>
+        <div class="tabs-box-medic-inner highlighter-rouge language-scala">
+
+          <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// Training with Glove Embeddings</span>
 <span class="c1">// First define pipeline stages to extract embeddings and text chunks</span>
 <span class="k">val</span> <span class="nv">documentAssembler</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">DocumentAssembler</span><span class="o">()</span>
   <span class="o">.</span><span class="py">setInputCol</span><span class="o">(</span><span class="s">"text"</span><span class="o">)</span>
@@ -1211,7 +1229,8 @@ Contains all the methods for training a AssertionLogRegModel, together with trai
 <span class="o">))</span>
 
 <span class="k">val</span> <span class="nv">assertionModel</span> <span class="k">=</span> <span class="nv">assertionPipeline</span><span class="o">.</span><span class="py">fit</span><span class="o">(</span><span class="n">dataset</span><span class="o">)</span>
-</code></pre></div>        </div>
+</code></pre></div>          </div>
+        </div>
 
       </div>
 
@@ -1282,7 +1301,7 @@ array of chunk-based tokens (annotatorType TOKEN).</p>
 <div class="tabs-box">
 
       <div class="top_tab_li">   
-    <button class="tab-li code-selector-active python-button">Python</button><button class="tab-li code-selector-un-active scala-button">Scala</button>
+    <button data-type="python" class="tab-li tab-li-second active">Python</button><button data-type="scala" class="tab-li tab-li-second">Scala</button>
 </div>
 
       <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">sparknlp</span>
@@ -1396,10 +1415,12 @@ and see the <a href="https://nlp.johnsnowlabs.com/models?task=Entity+Resolution"
 <div class="tabs-box">
 
         <div class="top_tab_li">   
-    <button class="tab-li code-selector-active python-button">Python</button><button class="tab-li code-selector-un-active scala-button">Scala</button>
+    <button data-type="python" class="tab-li tab-li-second active">Python</button><button data-type="scala" class="tab-li tab-li-second">Scala</button>
 </div>
 
-        <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">sparknlp</span>
+        <div class="tabs-box-medic-inner highlighter-rouge language-python active">
+
+          <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">sparknlp</span>
 <span class="kn">from</span> <span class="nn">sparknlp.base</span> <span class="kn">import</span> <span class="o">*</span>
 <span class="kn">from</span> <span class="nn">sparknlp.common</span> <span class="kn">import</span> <span class="o">*</span>
 <span class="kn">from</span> <span class="nn">sparknlp.annotator</span> <span class="kn">import</span> <span class="o">*</span>
@@ -1458,9 +1479,12 @@ and see the <a href="https://nlp.johnsnowlabs.com/models?task=Entity+Resolution"
     <span class="p">.</span><span class="n">setPoolingStrategy</span><span class="p">(</span><span class="s">"MAX"</span><span class="p">)</span> \
     <span class="p">.</span><span class="n">setThreshold</span><span class="p">(</span><span class="mf">1e32</span><span class="p">)</span>
 <span class="n">model</span> <span class="o">=</span> <span class="n">snomedExtractor</span><span class="p">.</span><span class="n">fit</span><span class="p">(</span><span class="n">snomedData</span><span class="p">)</span>
-</code></pre></div>        </div>
+</code></pre></div>          </div>
 
-        <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// Training a SNOMED model</span>
+        </div>
+        <div class="tabs-box-medic-inner highlighter-rouge language-scala">
+
+          <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// Training a SNOMED model</span>
 <span class="c1">// Define pre-processing pipeline for training data. It needs consists of columns for the normalized training data</span>
 <span class="c1">// and their labels.</span>
 <span class="k">val</span> <span class="nv">document</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">DocumentAssembler</span><span class="o">()</span>
@@ -1510,7 +1534,8 @@ and see the <a href="https://nlp.johnsnowlabs.com/models?task=Entity+Resolution"
   <span class="o">.</span><span class="py">setPoolingStrategy</span><span class="o">(</span><span class="s">"MAX"</span><span class="o">)</span>
   <span class="o">.</span><span class="py">setThreshold</span><span class="o">(</span><span class="mi">1</span><span class="n">e32</span><span class="o">)</span>
 <span class="k">val</span> <span class="nv">model</span> <span class="k">=</span> <span class="nv">snomedExtractor</span><span class="o">.</span><span class="py">fit</span><span class="o">(</span><span class="n">snomedData</span><span class="o">)</span>
-</code></pre></div>        </div>
+</code></pre></div>          </div>
+        </div>
 
       </div>
 
@@ -1545,10 +1570,12 @@ and see the <a href="https://nlp.johnsnowlabs.com/models?task=Entity+Resolution"
 <div class="tabs-box">
 
         <div class="top_tab_li">   
-    <button class="tab-li code-selector-active python-button">Python</button><button class="tab-li code-selector-un-active scala-button">Scala</button>
+    <button data-type="python" class="tab-li tab-li-second active">Python</button><button data-type="scala" class="tab-li tab-li-second">Scala</button>
 </div>
 
-        <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">sparknlp</span>
+        <div class="tabs-box-medic-inner highlighter-rouge language-python active">
+
+          <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">sparknlp</span>
 <span class="kn">from</span> <span class="nn">sparknlp.base</span> <span class="kn">import</span> <span class="o">*</span>
 <span class="kn">from</span> <span class="nn">sparknlp.common</span> <span class="kn">import</span> <span class="o">*</span>
 <span class="kn">from</span> <span class="nn">sparknlp.annotator</span> <span class="kn">import</span> <span class="o">*</span>
@@ -1631,9 +1658,12 @@ and see the <a href="https://nlp.johnsnowlabs.com/models?task=Entity+Resolution"
 <span class="o">|</span>           <span class="n">platelets</span><span class="o">|</span> <span class="n">Increased</span> <span class="n">platelets</span><span class="o">|</span>    <span class="mf">0.5267</span><span class="o">|</span><span class="mi">6631009</span><span class="p">:::</span><span class="mf">2596800.</span><span class="p">..</span><span class="o">|</span><span class="n">Increased</span> <span class="n">platele</span><span class="p">...</span><span class="o">|</span>
 <span class="o">|</span>                <span class="n">CD38</span><span class="o">|</span>       <span class="n">Hypoviscosity</span><span class="o">|</span>    <span class="mf">0.2560</span><span class="o">|</span><span class="mi">47872005</span><span class="p">:::</span><span class="mf">370970.</span><span class="p">..</span><span class="o">|</span><span class="n">Hypoviscosity</span><span class="p">:::</span><span class="n">E</span><span class="p">...</span><span class="o">|</span>
 <span class="o">+--------------------+--------------------+----------+--------------------+--------------------+</span>
-</code></pre></div>        </div>
+</code></pre></div>          </div>
 
-        <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// Using pretrained models for SNOMED</span>
+        </div>
+        <div class="tabs-box-medic-inner highlighter-rouge language-scala">
+
+          <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// Using pretrained models for SNOMED</span>
 <span class="c1">// First the prior steps of the pipeline are defined.</span>
 <span class="c1">// Output of types TOKEN and WORD_EMBEDDINGS are needed.</span>
 <span class="k">val</span> <span class="nv">data</span> <span class="k">=</span> <span class="nc">Seq</span><span class="o">((</span><span class="s">"A 63-year-old man presents to the hospital ..."</span><span class="o">)).</span><span class="py">toDF</span><span class="o">(</span><span class="s">"text"</span><span class="o">)</span>
@@ -1709,7 +1739,9 @@ and see the <a href="https://nlp.johnsnowlabs.com/models?task=Entity+Resolution"
 <span class="c1">// |                CD38|       Hypoviscosity|    0.2560|47872005:::370970...|Hypoviscosity:::E...|</span>
 <span class="c1">// +--------------------+--------------------+----------+--------------------+--------------------+</span>
 <span class="c1">//</span>
-</code></pre></div>        </div>
+</code></pre></div>          </div>
+
+        </div>
 
       </div>
 
@@ -1745,7 +1777,7 @@ White list criteria is enabled by default. To use regex, <code class="language-p
 <div class="tabs-box">
 
       <div class="top_tab_li">   
-    <button class="tab-li code-selector-active python-button">Python</button><button class="tab-li code-selector-un-active scala-button">Scala</button>
+    <button data-type="python" class="tab-li tab-li-second active">Python</button><button data-type="scala" class="tab-li tab-li-second">Scala</button>
 </div>
 
       <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">sparknlp</span>
@@ -1902,7 +1934,7 @@ BertSentenceEmbeddings model. Available models can be found at the <a href="http
 <div class="tabs-box">
 
       <div class="top_tab_li">   
-    <button class="tab-li code-selector-active python-button">Python</button><button class="tab-li code-selector-un-active scala-button">Scala</button>
+    <button data-type="python" class="tab-li tab-li-second active">Python</button><button data-type="scala" class="tab-li tab-li-second">Scala</button>
 </div>
 
       <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">sparknlp</span>
@@ -2076,10 +2108,12 @@ Labels can be changed by setReplaceDictResource.</p>
 <div class="tabs-box">
 
         <div class="top_tab_li">   
-    <button class="tab-li code-selector-active python-button">Python</button><button class="tab-li code-selector-un-active scala-button">Scala</button>
+    <button data-type="python" class="tab-li tab-li-second active">Python</button><button data-type="scala" class="tab-li tab-li-second">Scala</button>
 </div>
 
-        <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">sparknlp</span>
+        <div class="tabs-box-medic-inner highlighter-rouge language-python active">
+
+          <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">sparknlp</span>
 <span class="kn">from</span> <span class="nn">sparknlp.base</span> <span class="kn">import</span> <span class="o">*</span>
 <span class="kn">from</span> <span class="nn">sparknlp.common</span> <span class="kn">import</span> <span class="o">*</span>
 <span class="kn">from</span> <span class="nn">sparknlp.annotator</span> <span class="kn">import</span> <span class="o">*</span>
@@ -2119,9 +2153,12 @@ Labels can be changed by setReplaceDictResource.</p>
 <span class="o">|</span><span class="mi">98</span>   <span class="o">|</span><span class="mi">107</span><span class="o">|</span><span class="n">cellulitis</span> <span class="o">|</span><span class="n">Diagnosis</span><span class="o">|</span>
 <span class="o">|</span><span class="mi">110</span>  <span class="o">|</span><span class="mi">119</span><span class="o">|</span><span class="n">pneumonias</span> <span class="o">|</span><span class="n">Diagnosis</span><span class="o">|</span>
 <span class="o">+-----+---+-----------+---------+</span>
-</code></pre></div>        </div>
+</code></pre></div>          </div>
 
-        <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// Define a pipeline with 2 different NER models with a ChunkMergeApproach at the end</span>
+        </div>
+        <div class="tabs-box-medic-inner highlighter-rouge language-scala">
+
+          <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// Define a pipeline with 2 different NER models with a ChunkMergeApproach at the end</span>
 <span class="k">val</span> <span class="nv">data</span> <span class="k">=</span> <span class="nc">Seq</span><span class="o">((</span><span class="s">"A 63-year-old man presents to the hospital ..."</span><span class="o">)).</span><span class="py">toDF</span><span class="o">(</span><span class="s">"text"</span><span class="o">)</span>
 <span class="k">val</span> <span class="nv">pipeline</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">Pipeline</span><span class="o">().</span><span class="py">setStages</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span>
   <span class="k">new</span> <span class="nc">DocumentAssembler</span><span class="o">().</span><span class="py">setInputCol</span><span class="o">(</span><span class="s">"text"</span><span class="o">).</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"document"</span><span class="o">),</span>
@@ -2152,7 +2189,8 @@ Labels can be changed by setReplaceDictResource.</p>
 <span class="o">|</span><span class="mi">98</span>   <span class="o">|</span><span class="mi">107</span><span class="o">|</span><span class="n">cellulitis</span> <span class="o">|</span><span class="nc">Diagnosis</span><span class="o">|</span>
 <span class="o">|</span><span class="mi">110</span>  <span class="o">|</span><span class="mi">119</span><span class="o">|</span><span class="n">pneumonias</span> <span class="o">|</span><span class="nc">Diagnosis</span><span class="o">|</span>
 <span class="o">+-----+---+-----------+---------+</span>
-</code></pre></div>        </div>
+</code></pre></div>          </div>
+        </div>
 
       </div>
 
@@ -2217,10 +2255,12 @@ columns the possible matches.</p>
 <div class="tabs-box">
 
         <div class="top_tab_li">   
-    <button class="tab-li code-selector-active python-button">Python</button><button class="tab-li code-selector-un-active scala-button">Scala</button>
+    <button data-type="python" class="tab-li tab-li-second active">Python</button><button data-type="scala" class="tab-li tab-li-second">Scala</button>
 </div>
 
-        <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">sparknlp</span>
+        <div class="tabs-box-medic-inner highlighter-rouge language-python active">
+
+          <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">sparknlp</span>
 <span class="kn">from</span> <span class="nn">sparknlp.base</span> <span class="kn">import</span> <span class="o">*</span>
 <span class="kn">from</span> <span class="nn">sparknlp.common</span> <span class="kn">import</span> <span class="o">*</span>
 <span class="kn">from</span> <span class="nn">sparknlp.annotator</span> <span class="kn">import</span> <span class="o">*</span>
@@ -2283,9 +2323,12 @@ columns the possible matches.</p>
 <span class="o">|</span><span class="p">{</span><span class="n">chunk</span><span class="p">,</span> <span class="mi">189</span><span class="p">,</span> <span class="mi">194</span><span class="p">,</span> <span class="n">T</span><span class="err">?</span><span class="n">N3M1</span><span class="p">,</span> <span class="p">{</span><span class="n">field</span> <span class="o">-&gt;</span> <span class="n">Stage</span><span class="p">,</span> <span class="n">normalized</span> <span class="o">-&gt;</span> <span class="p">,</span> <span class="n">confidenceValue</span> <span class="o">-&gt;</span> <span class="mf">0.13</span><span class="p">,</span> <span class="n">hits</span> <span class="o">-&gt;</span> <span class="n">regex</span><span class="p">,</span> <span class="n">sentence</span> <span class="o">-&gt;</span> <span class="mi">2</span><span class="p">},</span> <span class="p">[]}</span>   <span class="o">|</span>
 <span class="o">|</span><span class="p">{</span><span class="n">chunk</span><span class="p">,</span> <span class="mi">316</span><span class="p">,</span> <span class="mi">323</span><span class="p">,</span> <span class="n">pT1bN0M0</span><span class="p">,</span> <span class="p">{</span><span class="n">field</span> <span class="o">-&gt;</span> <span class="n">Stage</span><span class="p">,</span> <span class="n">normalized</span> <span class="o">-&gt;</span> <span class="p">,</span> <span class="n">confidenceValue</span> <span class="o">-&gt;</span> <span class="mf">0.13</span><span class="p">,</span> <span class="n">hits</span> <span class="o">-&gt;</span> <span class="n">regex</span><span class="p">,</span> <span class="n">sentence</span> <span class="o">-&gt;</span> <span class="mi">3</span><span class="p">},</span> <span class="p">[]}</span> <span class="o">|</span>
 <span class="o">+-------------------------------------------------------------------------------------------------------------------------+</span>
-</code></pre></div>        </div>
+</code></pre></div>          </div>
 
-        <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// An example JSON file `regex_token.json` can look like this:</span>
+        </div>
+        <div class="tabs-box-medic-inner highlighter-rouge language-scala">
+
+          <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// An example JSON file `regex_token.json` can look like this:</span>
 <span class="c1">//</span>
 <span class="c1">// {</span>
 <span class="c1">//    "entity": "Stage",</span>
@@ -2338,7 +2381,8 @@ columns the possible matches.</p>
 <span class="c1">// |{chunk, 316, 323, pT1bN0M0, {field -&gt; Stage, normalized -&gt; , confidenceValue -&gt; 0.13, hits -&gt; regex, sentence -&gt; 3}, []} |</span>
 <span class="c1">// +-------------------------------------------------------------------------------------------------------------------------+</span>
 <span class="c1">//</span>
-</code></pre></div>        </div>
+</code></pre></div>          </div>
+        </div>
 
       </div>
 
@@ -2420,10 +2464,12 @@ setRefFileFormat and setRefSep.</p>
 <div class="tabs-box">
 
         <div class="top_tab_li">   
-    <button class="tab-li code-selector-active python-button">Python</button><button class="tab-li code-selector-un-active scala-button">Scala</button>
+    <button data-type="python" class="tab-li tab-li-second active">Python</button><button data-type="scala" class="tab-li tab-li-second">Scala</button>
 </div>
 
-        <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">sparknlp</span>
+        <div class="tabs-box-medic-inner highlighter-rouge language-python active">
+
+          <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">sparknlp</span>
 <span class="kn">from</span> <span class="nn">sparknlp.base</span> <span class="kn">import</span> <span class="o">*</span>
 <span class="kn">from</span> <span class="nn">sparknlp.common</span> <span class="kn">import</span> <span class="o">*</span>
 <span class="kn">from</span> <span class="nn">sparknlp.annotator</span> <span class="kn">import</span> <span class="o">*</span>
@@ -2499,9 +2545,12 @@ setRefFileFormat and setRefSep.</p>
 <span class="o">+--------------------------------------------------------------------------------------------------+</span>
 <span class="o">|</span><span class="p">[</span><span class="c1"># 01010101 Date : 01/18/93 PCP : Dr. Gregory House , &lt;AGE&gt; years-old , Record date : 2079-11-14.]|
 </span><span class="o">+--------------------------------------------------------------------------------------------------+</span>
-</code></pre></div>        </div>
+</code></pre></div>          </div>
 
-        <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">val</span> <span class="nv">documentAssembler</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">DocumentAssembler</span><span class="o">()</span>
+        </div>
+        <div class="tabs-box-medic-inner highlighter-rouge language-scala">
+
+          <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">val</span> <span class="nv">documentAssembler</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">DocumentAssembler</span><span class="o">()</span>
      <span class="o">.</span><span class="py">setInputCol</span><span class="o">(</span><span class="s">"text"</span><span class="o">)</span>
      <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"document"</span><span class="o">)</span>
 
@@ -2571,7 +2620,8 @@ setRefFileFormat and setRefSep.</p>
 <span class="c1">// |[# 01010101 Date : 01/18/93 PCP : Dr. Gregory House , &lt;AGE&gt; years-old , Record date : 2079-11-14.]|</span>
 <span class="c1">// +--------------------------------------------------------------------------------------------------+</span>
 <span class="c1">//</span>
-</code></pre></div>        </div>
+</code></pre></div>          </div>
+        </div>
 
       </div>
 
@@ -2634,10 +2684,12 @@ text and their label. The result is a trained DocumentLogRegClassifierModel.</p>
 <div class="tabs-box">
 
         <div class="top_tab_li">   
-    <button class="tab-li code-selector-active python-button">Python</button><button class="tab-li code-selector-un-active scala-button">Scala</button>
+    <button data-type="python" class="tab-li tab-li-second active">Python</button><button data-type="scala" class="tab-li tab-li-second">Scala</button>
 </div>
 
-        <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">sparknlp</span>
+        <div class="tabs-box-medic-inner highlighter-rouge language-python active">
+
+          <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">sparknlp</span>
 <span class="kn">from</span> <span class="nn">sparknlp.base</span> <span class="kn">import</span> <span class="o">*</span>
 <span class="kn">from</span> <span class="nn">sparknlp.common</span> <span class="kn">import</span> <span class="o">*</span>
 <span class="kn">from</span> <span class="nn">sparknlp.annotator</span> <span class="kn">import</span> <span class="o">*</span>
@@ -2684,9 +2736,12 @@ text and their label. The result is a trained DocumentLogRegClassifierModel.</p>
 <span class="p">])</span>
 
 <span class="n">model</span> <span class="o">=</span> <span class="n">pipeline</span><span class="p">.</span><span class="n">fit</span><span class="p">(</span><span class="n">trainingData</span><span class="p">)</span>
-</code></pre></div>        </div>
+</code></pre></div>          </div>
 
-        <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// Define pipeline stages to prepare the data</span>
+        </div>
+        <div class="tabs-box-medic-inner highlighter-rouge language-scala">
+
+          <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// Define pipeline stages to prepare the data</span>
 <span class="k">val</span> <span class="nv">document_assembler</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">DocumentAssembler</span><span class="o">()</span>
   <span class="o">.</span><span class="py">setInputCol</span><span class="o">(</span><span class="s">"text"</span><span class="o">)</span>
   <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"document"</span><span class="o">)</span>
@@ -2724,7 +2779,8 @@ text and their label. The result is a trained DocumentLogRegClassifierModel.</p>
 <span class="o">))</span>
 
 <span class="k">val</span> <span class="nv">model</span> <span class="k">=</span> <span class="nv">pipeline</span><span class="o">.</span><span class="py">fit</span><span class="o">(</span><span class="n">trainingData</span><span class="o">)</span>
-</code></pre></div>        </div>
+</code></pre></div>          </div>
+        </div>
 
       </div>
 
@@ -2787,7 +2843,7 @@ Can apply lower case normalization.</p>
 <div class="tabs-box">
 
       <div class="top_tab_li">   
-    <button class="tab-li code-selector-active python-button">Python</button><button class="tab-li code-selector-un-active scala-button">Scala</button>
+    <button data-type="python" class="tab-li tab-li-second active">Python</button><button data-type="scala" class="tab-li tab-li-second">Scala</button>
 </div>
 
       <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">sparknlp</span>
@@ -2876,7 +2932,7 @@ SparkNLP annotations (if the annotation is an embedding, it takes the embedding,
 <div class="tabs-box">
 
       <div class="top_tab_li">   
-    <button class="tab-li code-selector-active python-button">Python</button><button class="tab-li code-selector-un-active scala-button">Scala</button>
+    <button data-type="python" class="tab-li tab-li-second active">Python</button><button data-type="scala" class="tab-li tab-li-second">Scala</button>
 </div>
 
       <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">features_asm</span> <span class="o">=</span> <span class="n">FeaturesAssembler</span><span class="p">()</span> \
@@ -2972,10 +3028,12 @@ Please see the Parameters section for required training parameters.</p>
 <div class="tabs-box">
 
         <div class="top_tab_li">   
-    <button class="tab-li code-selector-active python-button">Python</button><button class="tab-li code-selector-un-active scala-button">Scala</button>
+    <button data-type="python" class="tab-li tab-li-second active">Python</button><button data-type="scala" class="tab-li tab-li-second">Scala</button>
 </div>
 
-        <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">sparknlp</span>
+        <div class="tabs-box-medic-inner highlighter-rouge language-python active">
+
+          <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">sparknlp</span>
 <span class="kn">from</span> <span class="nn">sparknlp.base</span> <span class="kn">import</span> <span class="o">*</span>
 <span class="kn">from</span> <span class="nn">sparknlp.common</span> <span class="kn">import</span> <span class="o">*</span>
 <span class="kn">from</span> <span class="nn">sparknlp.annotator</span> <span class="kn">import</span> <span class="o">*</span>
@@ -3007,9 +3065,12 @@ Please see the Parameters section for required training parameters.</p>
 <span class="p">])</span>
 
 <span class="n">clf_model</span> <span class="o">=</span> <span class="n">pipeline</span><span class="p">.</span><span class="n">fit</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
-</code></pre></div>        </div>
+</code></pre></div>          </div>
 
-        <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">val</span> <span class="nv">features_asm</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">FeaturesAssembler</span><span class="o">()</span>
+        </div>
+        <div class="tabs-box-medic-inner highlighter-rouge language-scala">
+
+          <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">val</span> <span class="nv">features_asm</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">FeaturesAssembler</span><span class="o">()</span>
   <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="s">"feature_1"</span><span class="o">,</span> <span class="s">"feature_2"</span><span class="o">,</span> <span class="s">"..."</span><span class="o">,</span> <span class="s">"feature_n"</span><span class="o">))</span>
   <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"features"</span><span class="o">)</span>
 
@@ -3032,7 +3093,8 @@ Please see the Parameters section for required training parameters.</p>
 <span class="o">))</span>
 
 <span class="k">val</span> <span class="nv">clf_model</span> <span class="k">=</span> <span class="nv">pipeline</span><span class="o">.</span><span class="py">fit</span><span class="o">(</span><span class="n">data</span><span class="o">)</span>
-</code></pre></div>        </div>
+</code></pre></div>          </div>
+        </div>
 
       </div>
 
@@ -3090,7 +3152,7 @@ and <a href="/docs/en/annotators#tokenizer">Tokenizer</a> can be used to merge.<
 <div class="tabs-box">
 
       <div class="top_tab_li">   
-    <button class="tab-li code-selector-active python-button">Python</button><button class="tab-li code-selector-un-active scala-button">Scala</button>
+    <button data-type="python" class="tab-li tab-li-second active">Python</button><button data-type="scala" class="tab-li tab-li-second">Scala</button>
 </div>
 
       <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">sparknlp</span>
@@ -3214,10 +3276,12 @@ Excluding the label, this can be done with for example</p>
 <div class="tabs-box">
 
         <div class="top_tab_li">   
-    <button class="tab-li code-selector-active python-button">Python</button><button class="tab-li code-selector-un-active scala-button">Scala</button>
+    <button data-type="python" class="tab-li tab-li-second active">Python</button><button data-type="scala" class="tab-li tab-li-second">Scala</button>
 </div>
 
-        <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">sparknlp</span>
+        <div class="tabs-box-medic-inner highlighter-rouge language-python active">
+
+          <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">sparknlp</span>
 <span class="kn">from</span> <span class="nn">sparknlp.base</span> <span class="kn">import</span> <span class="o">*</span>
 <span class="kn">from</span> <span class="nn">sparknlp.annotator</span> <span class="kn">import</span> <span class="o">*</span>
 <span class="kn">from</span> <span class="nn">sparknlp_jsl.annotator</span> <span class="kn">import</span> <span class="o">*</span>
@@ -3271,9 +3335,12 @@ Excluding the label, this can be done with for example</p>
 <span class="n">trainingData</span> <span class="o">=</span> <span class="n">conll</span><span class="p">.</span><span class="n">readDataset</span><span class="p">(</span><span class="n">spark</span><span class="p">,</span> <span class="s">"src/test/resources/conll2003/eng.train"</span><span class="p">)</span>
 
 <span class="n">pipelineModel</span> <span class="o">=</span> <span class="n">pipeline</span><span class="p">.</span><span class="n">fit</span><span class="p">(</span><span class="n">trainingData</span><span class="p">)</span>
-</code></pre></div>        </div>
+</code></pre></div>          </div>
 
-        <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="nn">com.johnsnowlabs.nlp.base.DocumentAssembler</span>
+        </div>
+        <div class="tabs-box-medic-inner highlighter-rouge language-scala">
+
+          <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="nn">com.johnsnowlabs.nlp.base.DocumentAssembler</span>
 <span class="k">import</span> <span class="nn">com.johnsnowlabs.nlp.annotators.Tokenizer</span>
 <span class="k">import</span> <span class="nn">com.johnsnowlabs.nlp.annotators.sbd.pragmatic.SentenceDetector</span>
 <span class="k">import</span> <span class="nn">com.johnsnowlabs.nlp.embeddings.WordEmbeddingsModel</span>
@@ -3325,7 +3392,8 @@ Excluding the label, this can be done with for example</p>
 <span class="k">val</span> <span class="nv">trainingData</span> <span class="k">=</span> <span class="nv">conll</span><span class="o">.</span><span class="py">readDataset</span><span class="o">(</span><span class="n">spark</span><span class="o">,</span> <span class="s">"src/test/resources/conll2003/eng.train"</span><span class="o">)</span>
 
 <span class="k">val</span> <span class="nv">pipelineModel</span> <span class="k">=</span> <span class="nv">pipeline</span><span class="o">.</span><span class="py">fit</span><span class="o">(</span><span class="n">trainingData</span><span class="o">)</span>
-</code></pre></div>        </div>
+</code></pre></div>          </div>
+        </div>
 
       </div>
 
@@ -3373,10 +3441,12 @@ For example, the default model <code class="language-plaintext highlighter-rouge
 <div class="tabs-box">
 
         <div class="top_tab_li">   
-    <button class="tab-li code-selector-active python-button">Python</button><button class="tab-li code-selector-un-active scala-button">Scala</button>
+    <button data-type="python" class="tab-li tab-li-second active">Python</button><button data-type="scala" class="tab-li tab-li-second">Scala</button>
 </div>
 
-        <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">sparknlp</span>
+        <div class="tabs-box-medic-inner highlighter-rouge language-python active">
+
+          <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">sparknlp</span>
 <span class="kn">from</span> <span class="nn">sparknlp.base</span> <span class="kn">import</span> <span class="o">*</span>
 <span class="kn">from</span> <span class="nn">sparknlp.annotator</span> <span class="kn">import</span> <span class="o">*</span>
 <span class="kn">from</span> <span class="nn">pyspark.ml</span> <span class="kn">import</span> <span class="n">Pipeline</span>
@@ -3435,9 +3505,12 @@ For example, the default model <code class="language-plaintext highlighter-rouge
 <span class="n">conll_data</span> <span class="o">=</span> <span class="n">CoNLL</span><span class="p">().</span><span class="n">readDataset</span><span class="p">(</span><span class="n">spark</span><span class="p">,</span> <span class="s">'NER_NCBIconlltrain.txt'</span><span class="p">)</span>
 
 <span class="n">result</span> <span class="o">=</span> <span class="n">pipeline</span><span class="p">.</span><span class="n">fit</span><span class="p">(</span><span class="n">data</span><span class="p">).</span><span class="n">transform</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
-</code></pre></div>        </div>
+</code></pre></div>          </div>
 
-        <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="nn">spark.implicits._</span>
+        </div>
+        <div class="tabs-box-medic-inner highlighter-rouge language-scala">
+
+          <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="nn">spark.implicits._</span>
 <span class="k">import</span> <span class="nn">com.johnsnowlabs.nlp.base.DocumentAssembler</span>
 <span class="k">import</span> <span class="nn">com.johnsnowlabs.nlp.annotators.Tokenizer</span>
 <span class="k">import</span> <span class="nn">com.johnsnowlabs.nlp.annotators.sbd.pragmatic.SentenceDetector</span>
@@ -3484,7 +3557,9 @@ For example, the default model <code class="language-plaintext highlighter-rouge
 <span class="n">conll_data</span> <span class="k">=</span> <span class="nc">CoNLL</span><span class="o">().</span><span class="py">readDataset</span><span class="o">(</span><span class="n">spark</span><span class="o">,</span> <span class="ss">'NER_NCBIconlltrain</span><span class="o">.</span><span class="py">txt</span><span class="o">')</span>
 
 <span class="n">ner_model</span> <span class="k">=</span> <span class="nv">ner_pipeline</span><span class="o">.</span><span class="py">fit</span><span class="o">(</span><span class="n">conll_data</span><span class="o">)</span>
-</code></pre></div>        </div>
+</code></pre></div>          </div>
+
+        </div>
 
       </div>
 
@@ -3521,7 +3596,7 @@ between entities.</p>
 <div class="tabs-box">
 
       <div class="top_tab_li">   
-    <button class="tab-li code-selector-active python-button">Python</button><button class="tab-li code-selector-un-active scala-button">Scala</button>
+    <button data-type="python" class="tab-li tab-li-second active">Python</button><button data-type="scala" class="tab-li tab-li-second">Scala</button>
 </div>
 
       <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">sparknlp</span>
@@ -3702,7 +3777,7 @@ See also <a href="https://en.wikipedia.org/wiki/Inside%E2%80%93outside%E2%80%93b
 <div class="tabs-box">
 
       <div class="top_tab_li">   
-    <button class="tab-li code-selector-active python-button">Python</button><button class="tab-li code-selector-un-active scala-button">Scala</button>
+    <button data-type="python" class="tab-li tab-li-second active">Python</button><button data-type="scala" class="tab-li tab-li-second">Scala</button>
 </div>
 
       <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">sparknlp</span>
@@ -3810,10 +3885,12 @@ The model needs extracted CHUNKS and SENTENCE_EMBEDDINGS type input from e.g.
 <div class="tabs-box">
 
         <div class="top_tab_li">   
-    <button class="tab-li code-selector-active python-button">Python</button><button class="tab-li code-selector-un-active scala-button">Scala</button>
+    <button data-type="python" class="tab-li tab-li-second active">Python</button><button data-type="scala" class="tab-li tab-li-second">Scala</button>
 </div>
 
-        <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">sparknlp</span>
+        <div class="tabs-box-medic-inner highlighter-rouge language-python active">
+
+          <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">sparknlp</span>
 <span class="kn">from</span> <span class="nn">sparknlp.base</span> <span class="kn">import</span> <span class="o">*</span>
 <span class="kn">from</span> <span class="nn">sparknlp.common</span> <span class="kn">import</span> <span class="o">*</span>
 <span class="kn">from</span> <span class="nn">sparknlp.annotator</span> <span class="kn">import</span> <span class="o">*</span>
@@ -3880,9 +3957,12 @@ The model needs extracted CHUNKS and SENTENCE_EMBEDDINGS type input from e.g.
 <span class="o">|</span><span class="n">Donald</span> <span class="n">Trump</span>      <span class="o">|</span><span class="n">http</span><span class="p">:</span><span class="c1">#en.wikipedia.org/?curid=4848272, http:#en.wikipedia.org/?curid=31698421, http:#en.wikipedia.org/?curid=55907961   |
 </span><span class="o">|</span><span class="n">Christina</span> <span class="n">Aguilera</span><span class="o">|</span><span class="n">http</span><span class="p">:</span><span class="c1">#en.wikipedia.org/?curid=144171, http:#en.wikipedia.org/?curid=6636454                                             |
 </span><span class="o">+------------------+------------------------------------------------------------------------------------------------------------------------+</span>
-</code></pre></div>        </div>
+</code></pre></div>          </div>
 
-        <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// Extracting Person identities</span>
+        </div>
+        <div class="tabs-box-medic-inner highlighter-rouge language-scala">
+
+          <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// Extracting Person identities</span>
 <span class="c1">// First define pipeline stages that extract entities and embeddings. Entities are filtered for PER type entities.</span>
 <span class="k">val</span> <span class="nv">data</span> <span class="k">=</span> <span class="nc">Seq</span><span class="o">(</span><span class="s">"The show also had a contestant named Donald Trump who later defeated Christina Aguilera ..."</span><span class="o">)</span>
   <span class="o">.</span><span class="py">toDF</span><span class="o">(</span><span class="s">"text"</span><span class="o">)</span>
@@ -3940,7 +4020,8 @@ The model needs extracted CHUNKS and SENTENCE_EMBEDDINGS type input from e.g.
 <span class="c1">// |Christina Aguilera|http://en.wikipedia.org/?curid=144171, http://en.wikipedia.org/?curid=6636454                                           |</span>
 <span class="c1">// +------------------+------------------------------------------------------------------------------------------------------------------------+</span>
 <span class="c1">//</span>
-</code></pre></div>        </div>
+</code></pre></div>          </div>
+        </div>
 
       </div>
 
@@ -4000,7 +4081,7 @@ This annotator is especially useful to create inputs for the RelationExtractionD
 <div class="tabs-box">
 
       <div class="top_tab_li">   
-    <button class="tab-li code-selector-active python-button">Python</button><button class="tab-li code-selector-un-active scala-button">Scala</button>
+    <button data-type="python" class="tab-li tab-li-second active">Python</button><button data-type="scala" class="tab-li tab-li-second">Scala</button>
 </div>
 
       <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">sparknlp</span>
@@ -4202,7 +4283,7 @@ To see how the entities are deidentified, please refer to the example of that cl
 <div class="tabs-box">
 
       <div class="top_tab_li">   
-    <button class="tab-li code-selector-active python-button">Python</button><button class="tab-li code-selector-un-active scala-button">Scala</button>
+    <button data-type="python" class="tab-li tab-li-second active">Python</button><button data-type="scala" class="tab-li tab-li-second">Scala</button>
 </div>
 
       <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">sparknlp</span>
@@ -4299,10 +4380,12 @@ To start training, see the parameters that need to be set in the Parameters sect
 <div class="tabs-box">
 
         <div class="top_tab_li">   
-    <button class="tab-li code-selector-active python-button">Python</button><button class="tab-li code-selector-un-active scala-button">Scala</button>
+    <button data-type="python" class="tab-li tab-li-second active">Python</button><button data-type="scala" class="tab-li tab-li-second">Scala</button>
 </div>
 
-        <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">sparknlp</span>
+        <div class="tabs-box-medic-inner highlighter-rouge language-python active">
+
+          <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">sparknlp</span>
 <span class="kn">from</span> <span class="nn">sparknlp.base</span> <span class="kn">import</span> <span class="o">*</span>
 <span class="kn">from</span> <span class="nn">sparknlp.common</span> <span class="kn">import</span> <span class="o">*</span>
 <span class="kn">from</span> <span class="nn">sparknlp.annotator</span> <span class="kn">import</span> <span class="o">*</span>
@@ -4379,9 +4462,12 @@ To start training, see the parameters that need to be set in the Parameters sect
     <span class="n">finisher</span><span class="p">])</span>
 
 <span class="n">model</span> <span class="o">=</span> <span class="n">pipeline</span><span class="p">.</span><span class="n">fit</span><span class="p">(</span><span class="n">trainData</span><span class="p">)</span>
-</code></pre></div>        </div>
+</code></pre></div>          </div>
 
-        <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// Defining pipeline stages to extract entities first</span>
+        </div>
+        <div class="tabs-box-medic-inner highlighter-rouge language-scala">
+
+          <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// Defining pipeline stages to extract entities first</span>
 <span class="k">val</span> <span class="nv">documentAssembler</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">DocumentAssembler</span><span class="o">()</span>
   <span class="o">.</span><span class="py">setInputCol</span><span class="o">(</span><span class="s">"text"</span><span class="o">)</span>
   <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"document"</span><span class="o">)</span>
@@ -4450,7 +4536,8 @@ To start training, see the parameters that need to be set in the Parameters sect
     <span class="n">finisher</span><span class="o">))</span>
 
 <span class="k">val</span> <span class="nv">model</span> <span class="k">=</span> <span class="nv">pipeline</span><span class="o">.</span><span class="py">fit</span><span class="o">(</span><span class="n">trainData</span><span class="o">)</span>
-</code></pre></div>        </div>
+</code></pre></div>          </div>
+        </div>
 
       </div>
 
@@ -4485,10 +4572,12 @@ need to be defined with <code class="language-plaintext highlighter-rouge">setRe
 <div class="tabs-box">
 
         <div class="top_tab_li">   
-    <button class="tab-li code-selector-active python-button">Python</button><button class="tab-li code-selector-un-active scala-button">Scala</button>
+    <button data-type="python" class="tab-li tab-li-second active">Python</button><button data-type="scala" class="tab-li tab-li-second">Scala</button>
 </div>
 
-        <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">sparknlp</span>
+        <div class="tabs-box-medic-inner highlighter-rouge language-python active">
+
+          <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">sparknlp</span>
 <span class="kn">from</span> <span class="nn">sparknlp.base</span> <span class="kn">import</span> <span class="o">*</span>
 <span class="kn">from</span> <span class="nn">sparknlp.common</span> <span class="kn">import</span> <span class="o">*</span>
 <span class="kn">from</span> <span class="nn">sparknlp.annotator</span> <span class="kn">import</span> <span class="o">*</span>
@@ -4591,9 +4680,12 @@ need to be defined with <code class="language-plaintext highlighter-rouge">setRe
 <span class="o">|</span><span class="n">left</span>  <span class="o">|</span><span class="n">Direction</span><span class="o">|</span><span class="n">cerebellum</span>   <span class="o">|</span><span class="n">Internal_organ_or_component</span><span class="o">|</span><span class="mi">1</span>     <span class="o">|</span>
 <span class="o">|</span><span class="n">right</span> <span class="o">|</span><span class="n">Direction</span><span class="o">|</span><span class="n">basil</span> <span class="n">ganglia</span><span class="o">|</span><span class="n">Internal_organ_or_component</span><span class="o">|</span><span class="mi">1</span>     <span class="o">|</span>
 <span class="o">+------+---------+-------------+---------------------------+------+</span>
-</code></pre></div>        </div>
+</code></pre></div>          </div>
 
-        <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// Relation Extraction between body parts</span>
+        </div>
+        <div class="tabs-box-medic-inner highlighter-rouge language-scala">
+
+          <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// Relation Extraction between body parts</span>
 <span class="c1">// Define pipeline stages to extract entities</span>
 <span class="k">val</span> <span class="nv">documenter</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">DocumentAssembler</span><span class="o">()</span>
   <span class="o">.</span><span class="py">setInputCol</span><span class="o">(</span><span class="s">"text"</span><span class="o">)</span>
@@ -4675,7 +4767,9 @@ need to be defined with <code class="language-plaintext highlighter-rouge">setRe
 <span class="c1">// |right |Direction|basil ganglia|Internal_organ_or_component|1     |</span>
 <span class="c1">// +------+---------+-------------+---------------------------+------+</span>
 <span class="c1">//</span>
-</code></pre></div>        </div>
+</code></pre></div>          </div>
+
+        </div>
 
       </div>
 
@@ -4713,7 +4807,7 @@ For pretrained models please see the
 <div class="tabs-box">
 
       <div class="top_tab_li">   
-    <button class="tab-li code-selector-active python-button">Python</button><button class="tab-li code-selector-un-active scala-button">Scala</button>
+    <button data-type="python" class="tab-li tab-li-second active">Python</button><button data-type="scala" class="tab-li tab-li-second">Scala</button>
 </div>
 
       <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">sparknlp</span>
@@ -4872,10 +4966,12 @@ and see the <a href="https://nlp.johnsnowlabs.com/models?task=Entity+Resolution"
 <div class="tabs-box">
 
         <div class="top_tab_li">   
-    <button class="tab-li code-selector-active python-button">Python</button><button class="tab-li code-selector-un-active scala-button">Scala</button>
+    <button data-type="python" class="tab-li tab-li-second active">Python</button><button data-type="scala" class="tab-li tab-li-second">Scala</button>
 </div>
 
-        <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">sparknlp</span>
+        <div class="tabs-box-medic-inner highlighter-rouge language-python active">
+
+          <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">sparknlp</span>
 <span class="kn">from</span> <span class="nn">sparknlp.base</span> <span class="kn">import</span> <span class="o">*</span>
 <span class="kn">from</span> <span class="nn">sparknlp.common</span> <span class="kn">import</span> <span class="o">*</span>
 <span class="kn">from</span> <span class="nn">sparknlp.annotator</span> <span class="kn">import</span> <span class="o">*</span>
@@ -4918,9 +5014,12 @@ and see the <a href="https://nlp.johnsnowlabs.com/models?task=Entity+Resolution"
   <span class="p">.</span><span class="n">setCaseSensitive</span><span class="p">(</span><span class="bp">False</span><span class="p">)</span>
 
 <span class="n">snomedModel</span> <span class="o">=</span> <span class="n">bertExtractor</span><span class="p">.</span><span class="n">fit</span><span class="p">(</span><span class="n">snomedData</span><span class="p">)</span>
-</code></pre></div>        </div>
+</code></pre></div>          </div>
 
-        <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// Training a SNOMED resolution model using BERT sentence embeddings</span>
+        </div>
+        <div class="tabs-box-medic-inner highlighter-rouge language-scala">
+
+          <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// Training a SNOMED resolution model using BERT sentence embeddings</span>
 <span class="c1">// Define pre-processing pipeline for training data. It needs consists of columns for the normalized training data and their labels.</span>
 <span class="k">val</span> <span class="nv">documentAssembler</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">DocumentAssembler</span><span class="o">()</span>
    <span class="o">.</span><span class="py">setInputCol</span><span class="o">(</span><span class="s">"normalized_text"</span><span class="o">)</span>
@@ -4953,7 +5052,8 @@ and see the <a href="https://nlp.johnsnowlabs.com/models?task=Entity+Resolution"
   <span class="o">.</span><span class="py">setCaseSensitive</span><span class="o">(</span><span class="kc">false</span><span class="o">)</span>
 
 <span class="k">val</span> <span class="nv">snomedModel</span> <span class="k">=</span> <span class="nv">bertExtractor</span><span class="o">.</span><span class="py">fit</span><span class="o">(</span><span class="n">snomedData</span><span class="o">)</span>
-</code></pre></div>        </div>
+</code></pre></div>          </div>
+        </div>
 
       </div>
 
@@ -4990,10 +5090,12 @@ and returns the normalized entity for a particular trained ontology / curated da
 <div class="tabs-box">
 
         <div class="top_tab_li">   
-    <button class="tab-li code-selector-active python-button">Python</button><button class="tab-li code-selector-un-active scala-button">Scala</button>
+    <button data-type="python" class="tab-li tab-li-second active">Python</button><button data-type="scala" class="tab-li tab-li-second">Scala</button>
 </div>
 
-        <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">sparknlp</span>
+        <div class="tabs-box-medic-inner highlighter-rouge language-python active">
+
+          <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">sparknlp</span>
 <span class="kn">from</span> <span class="nn">sparknlp.base</span> <span class="kn">import</span> <span class="o">*</span>
 <span class="kn">from</span> <span class="nn">sparknlp.common</span> <span class="kn">import</span> <span class="o">*</span>
 <span class="kn">from</span> <span class="nn">sparknlp.annotator</span> <span class="kn">import</span> <span class="o">*</span>
@@ -5070,9 +5172,12 @@ and returns the normalized entity for a particular trained ontology / curated da
 # |         stress test|     Test|93351|    0.2795|Cardiovascular st...|93351:::94621:::9...|
 # +--------------------+---------+-----+----------+--------------------+--------------------+
 #
-</span></code></pre></div>        </div>
+</span></code></pre></div>          </div>
 
-        <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// Resolving CPT</span>
+        </div>
+        <div class="tabs-box-medic-inner highlighter-rouge language-scala">
+
+          <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// Resolving CPT</span>
 <span class="c1">// First define pipeline stages to extract entities</span>
 <span class="k">val</span> <span class="nv">documentAssembler</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">DocumentAssembler</span><span class="o">()</span>
   <span class="o">.</span><span class="py">setInputCol</span><span class="o">(</span><span class="s">"text"</span><span class="o">)</span>
@@ -5139,7 +5244,9 @@ and returns the normalized entity for a particular trained ontology / curated da
 <span class="c1">// |         stress test|     Test|93351|    0.2795|Cardiovascular st...|93351:::94621:::9...|</span>
 <span class="c1">// +--------------------+---------+-----+----------+--------------------+--------------------+</span>
 <span class="c1">//</span>
-</code></pre></div>        </div>
+</code></pre></div>          </div>
+
+        </div>
 
       </div>
 
@@ -5157,7 +5264,7 @@ and returns the normalized entity for a particular trained ontology / curated da
 
 <script>
 
-
+/* 
 jQuery(document).ready(function(){  
     $( ".scala-button" ).click(function() {
         $(this).closest( ".tabs-box" ).find(".scala-button").removeClass('code-selector-un-active').addClass( "code-selector-active" );        
@@ -5197,34 +5304,124 @@ jQuery(document).ready(function(){
         $(this).closest( ".tabs-box" ).find( ".language-python, .language-scala" ).hide();
         $(this).closest( ".tabs-box" ).find( ".nlu-block" ).show();
     });
-});
+}); */
 
-function togglePython1() {
+/* function togglePython1() {
 
     //set current button to active class and remove unactive class
     $( ".python-button" ).addClass( "code-selector-active" );
 
 
     //toggle language snippets
-    $( ".tabs-box .language-python" ).show() 
-    $( ".tabs-box .nlu-block" ).hide()
-    $( ".tabs-box .language-scala" ).hide()
+    $( ".tabs-box .language-python" ).show();
+    $( ".tabs-box .nlu-block" ).hide();
+    $( ".tabs-box .language-scala" ).hide();
 }
 
 function defer(method) { //wait until jquery ready
     if (window.jQuery) {
         method();
     } else {
-        setTimeout(function() { defer(method) }, 15);
+        setTimeout(function() { defer(method); }, 15);
     }
 }
 
 defer(function () { // load inital language
-    togglePython1()
-});
+    togglePython1();
+}); */
 
 
 
+//Second tabs
+if(document.querySelectorAll('.tab-li-second')) {
+    let tabLi = document.querySelectorAll('.tab-li-second');
+
+    tabLi.forEach(element => {
+        element.addEventListener('click', function(e) {
+            e.preventDefault();
+            let tabAttribute = element.getAttribute('data-type'),
+                tabLiInner = element.parentNode.querySelectorAll('.tab-li-second'),
+                tabBoxInner = element.parentNode.parentNode.querySelectorAll('.tabs-box-medic-inner');
+            
+            //remove active class
+            tabBoxInner.forEach(item => {
+                item.classList.remove('active');
+            });
+            tabLiInner.forEach(el => {
+                el.classList.remove('active');
+            });
+            element.classList.add('active');
+    
+            //add active class
+            switch (tabAttribute) {
+                case "python":
+                    tabBoxInner.forEach(item => {
+                        if(item.classList.contains('language-python')) {
+                            item.classList.add('active');
+                        }                    
+                    });
+                    break;
+                case "scala":
+                    tabBoxInner.forEach(item => {
+                        if(item.classList.contains('language-scala')) {
+                            item.classList.add('active');
+                        }                    
+                    });
+                  break;
+                default:              
+              }
+        });
+    });
+}
+
+//Third tabs
+if(document.querySelectorAll('.tab-li-inner')) {
+    let tabLiSecond = document.querySelectorAll('.tab-li-inner');
+
+    tabLiSecond.forEach(element => {
+        element.addEventListener('click', function(e) {
+            e.preventDefault();
+            let tabAttributeSecond = element.getAttribute('data-type'),
+                tabLiInnerSecond = element.parentNode.querySelectorAll('.tab-li-inner'),
+                tabBoxInnerSecond = element.parentNode.parentNode.querySelectorAll('.tabs-box-medic-inner-second');
+            
+            //remove active class
+            tabBoxInnerSecond.forEach(item => {
+                item.classList.remove('active');
+            });
+            tabLiInnerSecond.forEach(el => {
+                el.classList.remove('active');
+            });
+            element.classList.add('active');
+    
+            //add active class
+            switch (tabAttributeSecond) {
+                case "medical":
+                    tabBoxInnerSecond.forEach(item => {
+                        if(item.classList.contains('language-medical')) {
+                            item.classList.add('active');
+                        }                    
+                    });
+                    break;
+                case "finance":
+                    tabBoxInnerSecond.forEach(item => {
+                        if(item.classList.contains('language-finance')) {
+                            item.classList.add('active');
+                        }                    
+                    });
+                  break;
+                case "legal":
+                tabBoxInnerSecond.forEach(item => {
+                    if(item.classList.contains('language-legal')) {
+                        item.classList.add('active');
+                    }                    
+                });
+                break;
+                default:              
+              }
+        });
+    });
+}
 
 </script>
 
@@ -5467,6 +5664,18 @@ if(document.querySelector('.tab-description')) {
       e.preventDefault();
       this.parentElement.parentElement.classList.remove('big-descr');
       this.parentElement.parentElement.classList.add('big-descr-close');
+    });
+  });
+}
+
+
+//disable Colab link
+if(document.querySelector('.btn.disable')) {
+  let btnDisable = document.querySelectorAll('.btn.disable');
+
+  btnDisable.forEach(element => {
+    element.addEventListener("click", function(e) {
+      e.preventDefault();
     });
   });
 }

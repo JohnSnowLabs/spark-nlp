@@ -434,6 +434,9 @@
           <li      >
             <a href="/question_answering">Question Answering</a>
           </li>
+          <li      >
+            <a href="/summarize_paraphrase">Summarize & Paraphrase</a>
+          </li>
         </ul>
         <ul class="acc-top"><li class="free_link acc-top-item">Spark NLP: World Languages<span>Free</span><i class="fas fa-chevron-down"></i></li></ul>
         <ul class="acc-body">          
@@ -604,16 +607,16 @@
                         <img src="/assets/images/ESG_News_Classification.svg" />
                       </figure><div class="tab-item-title">ESG News Classification</div>
                   </div><div class="tab-description"><div class="tab-description-inner">This demo showcases ESG news classification, with 3-classes and 27-classes ESG models. <a href="#" class="show_more">(...)</a></div></div></div><ul class="tab-menu"><li><a id="esg_news_classification" class="btn button--normal button--pill button--lg"
-                        href="https://demo.johnsnowlabs.com/finance/FINCLF_ESG/">Live Demo</a></li><li><a id="esg_news_classification" class="btn button--blue_btn button--pill button--lg"
-                        href="/">Colab</a></li></ul></div> 
+                        href="https://demo.johnsnowlabs.com/finance/FINCLF_ESG/">Live Demo</a></li><li><a id="esg_news_classification" class="disable btn button--blue_btn button--pill button--lg"
+                        href="#">Colab</a></li></ul></div> 
             </div><div class="tab-item ">
               <div class="tab-item-inner">
                 <div class="tab-item-wrapper"><div class="tab-item-top"><figure class="tab_fig_blue">
                         <img src="/assets/images/Financial_News_Classification_new.svg" />
                       </figure><div class="tab-item-title">Financial News Classification</div>
                   </div><div class="tab-description"><div class="tab-description-inner">This model classifies financial news using multilabel categories. <a href="#" class="show_more">(...)</a></div></div></div><ul class="tab-menu"><li><a id="financial_news_classification" class="btn button--normal button--pill button--lg"
-                        href="https://demo.johnsnowlabs.com/finance/CLASSIFICATION_MULTILABEL/">Live Demo</a></li><li><a id="financial_news_classification" class="btn button--blue_btn button--pill button--lg"
-                        href="/">Colab</a></li></ul></div> 
+                        href="https://demo.johnsnowlabs.com/finance/CLASSIFICATION_MULTILABEL/">Live Demo</a></li><li><a id="financial_news_classification" class="disable btn button--blue_btn button--pill button--lg"
+                        href="#">Colab</a></li></ul></div> 
             </div><div class="tab-item ">
               <div class="tab-item-inner">
                 <div class="tab-item-wrapper"><div class="tab-item-top"><figure class="tab_fig_blue">
@@ -636,8 +639,8 @@
                         <img src="/assets/images/Forward_Looking_Statements_Classification.svg" />
                       </figure><div class="tab-item-title">Forward Looking Statements Classification</div>
                   </div><div class="tab-description"><div class="tab-description-inner">This demo shows how you can detect Forward Looking Statements in Financial Texts, as 10K filings or annual reports. <a href="#" class="show_more">(...)</a></div></div></div><ul class="tab-menu"><li><a id="forward_looking_statements_classification" class="btn button--normal button--pill button--lg"
-                        href="https://demo.johnsnowlabs.com/finance/FINCLF_FLS/">Live Demo</a></li><li><a id="forward_looking_statements_classification" class="btn button--blue_btn button--pill button--lg"
-                        href="https://nlp.johnsnowlabs.com/">Colab</a></li></ul></div> 
+                        href="https://demo.johnsnowlabs.com/finance/FINCLF_FLS/">Live Demo</a></li><li><a id="forward_looking_statements_classification" class="disable btn button--blue_btn button--pill button--lg"
+                        href="#">Colab</a></li></ul></div> 
             </div><div class="tab-item ">
               <div class="tab-item-inner">
                 <div class="tab-item-wrapper"><div class="tab-item-top"><figure class="tab_fig_blue">
@@ -777,6 +780,18 @@ if(document.querySelector('.tab-description')) {
       e.preventDefault();
       this.parentElement.parentElement.classList.remove('big-descr');
       this.parentElement.parentElement.classList.add('big-descr-close');
+    });
+  });
+}
+
+
+//disable Colab link
+if(document.querySelector('.btn.disable')) {
+  let btnDisable = document.querySelectorAll('.btn.disable');
+
+  btnDisable.forEach(element => {
+    element.addEventListener("click", function(e) {
+      e.preventDefault();
     });
   });
 }
