@@ -60,5 +60,17 @@ data:
             url: https://demo.johnsnowlabs.com/healthcare/NER_BIOMARKER/
           - text: Colab
             type: blue_btn
-            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/NER_BIOMARKER.ipynb        
+            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/NER_BIOMARKER.ipynb  
+        - title: Detect Oncological Concepts
+          id: detect_oncological_concepts   
+          image: 
+              src: /assets/images/Detect_Oncological_Concepts.svg
+          excerpt: Automatically identify oncological concepts from clinical text.
+          actions:
+          - text: Live Demo
+            type: normal
+            url: https://demo.johnsnowlabs.com/healthcare/NER_ONCOLOGY/
+          - text: Colab
+            type: blue_btn
+            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/27.Oncology_Model.ipynb
 ---
