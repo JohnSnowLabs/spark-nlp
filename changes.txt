@@ -1,2 +1,2 @@
-docs/_posts/josejuanmartinez/2022-08-30-finner_org_per_role_date_en.md
-docs/_posts/josejuanmartinez/2022-08-30-finner_org_per_role_date_en.md
+docs/_posts/josejuanmartinez/2022-09-14-finassertion_time_en.md
+docs/_posts/josejuanmartinez/2022-09-14-finassertion_time_en.md
