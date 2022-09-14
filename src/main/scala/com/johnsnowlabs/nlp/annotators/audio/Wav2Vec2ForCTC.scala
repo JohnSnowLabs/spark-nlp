@@ -147,6 +147,7 @@ class Wav2Vec2ForCTC(override val uid: String)
           new TensorflowWav2Vec2ForCTC(
             tensorflow,
             configProtoBytes = getConfigProtoBytes,
+            vocabs = $$(vocabulary),
             signatures = getSignatures)))
     }
     this
@@ -177,7 +178,6 @@ class Wav2Vec2ForCTC(override val uid: String)
         getModelIfNotSet.predict(
           audios = noneEmptyAudios,
           batchSize = $(batchSize),
-          vocabs = $$(vocabulary),
           preprocessor = Preprocessor(
             do_normalize = getDoNormalize,
             return_attention_mask = getReturnAttentionMask,
