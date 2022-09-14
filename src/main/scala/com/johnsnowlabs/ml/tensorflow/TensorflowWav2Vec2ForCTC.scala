@@ -25,12 +25,31 @@ import scala.collection.JavaConverters._
 class TensorflowWav2Vec2ForCTC(
     val tensorflowWrapper: TensorflowWrapper,
     configProtoBytes: Option[Array[Byte]] = None,
+    vocabs: Map[String, BigInt],
     signatures: Option[Map[String, String]] = None)
     extends Serializable {
 
   val _tfWav2Vec2Signatures: Map[String, String] =
     signatures.getOrElse(ModelSignatureManager.apply())
 
+  private val tokenSeparator = "|"
+  private def sessionWarmup(): Unit = {
+    val t0 = System.nanoTime()
+
+    val bufferedSource =
+      scala.io.Source.fromInputStream(getClass.getResourceAsStream("/audio/audi_floats.csv"))
+
+    val rawFloats = bufferedSource
+      .getLines()
+      .map(_.split(",").head.trim.toFloat)
+      .toArray
+    bufferedSource.close
+    tag(Array(rawFloats, rawFloats), vocabs.toSeq.length)
+    val t1 = System.nanoTime()
+    println(": " + ((t1 - t0) / 1000000000.0) + "sec")
+  }
+
+  sessionWarmup()
   def tag(batch: Array[Array[Float]], vocabSize: Int): Array[Int] = {
     val tensors = new TensorResources()
     val batchLength = batch.length
@@ -66,7 +85,6 @@ class TensorflowWav2Vec2ForCTC(
   def predict(
       audios: Array[AnnotationAudio],
       batchSize: Int,
-      vocabs: Map[String, BigInt],
       preprocessor: Preprocessor): Seq[Annotation] = {
 
     audios
@@ -108,23 +126,24 @@ class TensorflowWav2Vec2ForCTC(
 
   }
 
+  // TODO: Check for infinite recursion
   def removeDup(lst: List[Int]): List[Int] = {
     lst match {
       case head :: tail => {
-        val (duplst, remainlst) = lst.span(_ == head)
-        duplst.head :: removeDup(remainlst)
+        val (duplicateList, remainList) = lst.span(_ == head)
+        duplicateList.head :: removeDup(remainList)
       }
       case Nil => List()
     }
   }
 
   def decode(vocabs: Map[String, BigInt], vocabIds: Array[Int], batchSize: Int): Array[String] = {
-    // TODO: requires better space cleaning and removing repetitive tokens
     val uniqueVocabIds = removeDup(vocabIds.toList)
-    uniqueVocabIds.grouped(uniqueVocabIds.length / batchSize).toArray.map { y =>
-      y.filter(x => x != 0)
-        .map(x => vocabs.find(y => y._2 == x).map(_._1).getOrElse(""))
-        .map(x => if (x == "|") " " else x)
+    uniqueVocabIds.grouped(uniqueVocabIds.length / batchSize).toArray.map { tokenIds =>
+      tokenIds
+        .filter(tokenId => tokenId != 0)
+        .map(tokenId => vocabs.find(vocab => vocab._2 == tokenId).map(_._1).getOrElse(""))
+        .map(tokenId => if (tokenId == tokenSeparator) " " else tokenId)
         .mkString("")
     }
   }
