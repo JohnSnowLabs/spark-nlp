@@ -40,7 +40,7 @@
 
 {% include programmingLanguageSelectScalaPython.html %}
 
-<div class="tabs-box-medic-inner highlighter-rouge language-python active" markdown="1">
+<div class="tabs-box-medic-inner tabs-wrapper highlighter-rouge language-python active" markdown="1">
 
 {% include programmingLanguageSelectScalaPythonMFL.html %}
 
@@ -69,7 +69,7 @@
 </div>
 
 </div>
-<div class="tabs-box-medic-inner highlighter-rouge language-scala" markdown="1">
+<div class="tabs-box-medic-inner tabs-wrapper highlighter-rouge language-scala" markdown="1">
 
 {% include programmingLanguageSelectScalaPythonMFL.html %}
 
@@ -142,7 +142,7 @@
 
 {% include programmingLanguageSelectScalaPython.html %}
 
-<div class="tabs-box-medic-inner highlighter-rouge language-python active" markdown="1">
+<div class="tabs-box-medic-inner tabs-wrapper highlighter-rouge language-python active" markdown="1">
 
 {% include programmingLanguageSelectScalaPythonMFL.html %}
 
@@ -170,7 +170,7 @@
 </div>
 
 </div>
-<div class="tabs-box-medic-inner highlighter-rouge language-scala" markdown="1">
+<div class="tabs-box-medic-inner tabs-wrapper highlighter-rouge language-scala" markdown="1">
 
 {% include programmingLanguageSelectScalaPythonMFL.html %}
 

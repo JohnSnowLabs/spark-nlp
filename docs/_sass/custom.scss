@@ -2563,6 +2563,24 @@ code {
 	.highlighter-rouge {
 		padding: 10px;
 		background: #e2f5fe;
+		&.tabs-wrapper {
+			background: none;
+			padding: 15px 0 0;
+			.top_tab_li .tab-li-inner {
+				min-width: 165px;
+				font-size: 16px;
+				padding: 10px;
+				&.active,
+				&:hover {					
+					background: #3e4095;
+					border-color: #3e4095;
+				}
+			}
+		}
+		.tabs-box-medic-inner-second {
+			padding: 10px;
+			background: #e2f5fe;
+		}
 	}
 	p {
 		padding-top: 15px;
@@ -3719,6 +3737,12 @@ code {
 	}
 }
 
+@media (max-width: 530px) {
+	.tabs-box .highlighter-rouge.tabs-wrapper .top_tab_li .tab-li-inner {
+		min-width: 96px;
+	}
+}
+
 @media (max-width: 400px) {
 	.docs-wrapper .table-model-big tbody tr td {
 		padding: 15px 5px;
@@ -3734,7 +3758,7 @@ code {
 		line-height: 35px;
 	}
 	.tabs-box .top_tab_li .tab-li {
-		min-width: 100px;
+		min-width: 122px;
 		font-size: 16px;
 		line-height: 22px;
 	}
