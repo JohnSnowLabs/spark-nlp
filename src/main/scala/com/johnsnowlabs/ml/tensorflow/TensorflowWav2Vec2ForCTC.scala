@@ -34,8 +34,6 @@ class TensorflowWav2Vec2ForCTC(
 
   private val tokenSeparator = "|"
   private def sessionWarmup(): Unit = {
-    val t0 = System.nanoTime()
-
     val bufferedSource =
       scala.io.Source.fromInputStream(getClass.getResourceAsStream("/audio/audi_floats.csv"))
 
@@ -45,8 +43,6 @@ class TensorflowWav2Vec2ForCTC(
       .toArray
     bufferedSource.close
     tag(Array(rawFloats, rawFloats), vocabs.toSeq.length)
-    val t1 = System.nanoTime()
-    println(": " + ((t1 - t0) / 1000000000.0) + "sec")
   }
 
   sessionWarmup()
