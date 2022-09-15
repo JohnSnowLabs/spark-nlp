@@ -55,9 +55,10 @@ clinical_ner = MedicalNerModel.pretrained("ner_jsl", "en", "clinical/models") \
     .setInputCols(["sentence", "token", "embeddings"]) \
     .setOutputCol("ner")\
 
-ner_converter = NerConverter() \
+ner_converter = NerConverterInternal() \
     .setInputCols(["sentence", "token", "ner"]) \
-    .setOutputCol("ner_chunk")
+    .setOutputCol("ner_chunk")\
+    .setBlackList(["RelativeDate", "Gender"])
 
 clinical_assertion = AssertionDLModel.pretrained("assertion_jsl_augmented", "en", "clinical/models") \
     .setInputCols(["sentence", "ner_chunk", "embeddings"]) \
@@ -77,37 +78,39 @@ empty_data = spark.createDataFrame([[""]]).toDF("text")
 
 model = nlpPipeline.fit(empty_data)
 
-text= "The patient is here for 2 days of congestion - mom has been suctioning yellow discharge from the patient's nares, plus she has noticed some mild problems with his breathing while feeding (but negative for any perioral cyanosis or retractions). One day ago, mom also noticed a tactile temperature and gave the patient Tylenol. Baby also has had some decreased p.o. intake. His normal breast-feeding is down from 20 minutes q.2h. to 5 to 10 minutes secondary to his respiratory congestion. He sleeps well, but has been more tired and has been fussy over the past 2 days. The parents noticed no improvement with albuterol treatments given in the ER. His urine output has also decreased; normally he has 8 to 10 wet and 5 dirty diapers per 24 hours, now he has down to 4 wet diapers per 24 hours. Mom denies any diarrhea. His bowel movements are yellow colored and soft in nature."
+text = """Patient had a headache for the last 2 weeks, and appears anxious when she walks fast. No alopecia noted. She denies pain. Her father is paralyzed and it is a stressor for her. She was bullied by her boss and got antidepressant. We prescribed sleeping pills for her current insomnia"""
+
 
 result = model.transform(spark.createDataFrame([[text]]).toDF('text'))
 ```
 ```scala
-val documentAssembler = new DocumentAssembler()\
-    .setInputCol("text")\
+val documentAssembler = new DocumentAssembler()
+    .setInputCol("text")
     .setOutputCol("document")
 
-val sentenceDetector = new SentenceDetector()\
-    .setInputCols(Array("document"))\
+val sentenceDetector = new SentenceDetector()
+    .setInputCols(Array("document"))
     .setOutputCol("sentence")
 
-val tokenizer = new Tokenizer()\
-    .setInputCols(Array("sentence"))\
+val tokenizer = new Tokenizer()
+    .setInputCols(Array("sentence"))
     .setOutputCol("token")
 
-val word_embeddings = WordEmbeddingsModel.pretrained("embeddings_clinical", "en", "clinical/models")\
-    .setInputCols(Array("sentence", "token"))\
+val word_embeddings = WordEmbeddingsModel.pretrained("embeddings_clinical", "en", "clinical/models")
+    .setInputCols(Array("sentence", "token"))
     .setOutputCol("embeddings")
 
-val clinical_ner = MedicalNerModel.pretrained("ner_jsl", "en", "clinical/models") \
-    .setInputCols(Array("sentence", "token", "embeddings")) \
-    .setOutputCol("ner")\
+val clinical_ner = MedicalNerModel.pretrained("ner_jsl", "en", "clinical/models") 
+    .setInputCols(Array("sentence", "token", "embeddings")) 
+    .setOutputCol("ner")
 
-val ner_converter = new NerConverter() \
-    .setInputCols(Array("sentence", "token", "ner")) \
-    .setOutputCol("ner_chunk")
-
-val clinical_assertion = AssertionDLModel.pretrained("assertion_jsl_augmented", "en", "clinical/models") \
-    .setInputCols(Array("sentence", "ner_chunk", "embeddings")) \
+val ner_converter = new NerConverterInternal() 
+    .setInputCols(Array("sentence", "token", "ner")) 
+    .setOutputCol("ner_chunk") 
+    .setBlackList(Array("RelativeDate", "Gender"))
+    
+val clinical_assertion = AssertionDLModel.pretrained("assertion_jsl_augmented", "en", "clinical/models") 
+    .setInputCols(Array("sentence", "ner_chunk", "embeddings")) 
     .setOutputCol("assertion")
     
 val nlpPipeline = Pipeline().setStages(Array(documentAssembler, 
@@ -118,7 +121,7 @@ val nlpPipeline = Pipeline().setStages(Array(documentAssembler,
     ner_converter,
     clinical_assertion))
 
-val text= Seq("The patient is here for 2 days of congestion - mom has been suctioning yellow discharge from the patient's nares, plus she has noticed some mild problems with his breathing while feeding (but negative for any perioral cyanosis or retractions). One day ago, mom also noticed a tactile temperature and gave the patient Tylenol. Baby also has had some decreased p.o. intake. His normal breast-feeding is down from 20 minutes q.2h. to 5 to 10 minutes secondary to his respiratory congestion. He sleeps well, but has been more tired and has been fussy over the past 2 days. The parents noticed no improvement with albuterol treatments given in the ER. His urine output has also decreased; normally he has 8 to 10 wet and 5 dirty diapers per 24 hours, now he has down to 4 wet diapers per 24 hours. Mom denies any diarrhea. His bowel movements are yellow colored and soft in nature.").toDS.toDF("text")
+val text= Seq("Patient had a headache for the last 2 weeks, and appears anxious when she walks fast. No alopecia noted. She denies pain. Her father is paralyzed and it is a stressor for her. She was bullied by her boss and got antidepressant. We prescribed sleeping pills for her current insomnia").toDS.toDF("text")
 
 val result = nlpPipeline.fit(data).transform(data)
 
@@ -129,30 +132,18 @@ val result = nlpPipeline.fit(data).transform(data)
 ## Results
 
 ```bash
-+--------------------+-----+---+--------------------+-----------+-----------+
-|           ner_chunk|begin|end|           ner_label|sentence_id|  assertion|
-+--------------------+-----+---+--------------------+-----------+-----------+
-|          for 2 days|   20| 29|            Duration|          0|    Present|
-|          congestion|   34| 43|             Symptom|          0|    Present|
-|                 mom|   47| 49|              Gender|          0|     Family|
-|              yellow|   71| 76|            Modifier|          0|       Past|
-|           discharge|   78| 86|             Symptom|          0|       Past|
-|               nares|  107|111|External_body_par...|          0|     Absent|
-|                 she|  119|121|              Gender|          0|     Family|
-|                mild|  140|143|            Modifier|          0|    Present|
-|problems with his...|  145|185|             Symptom|          0|    Present|
-|   perioral cyanosis|  209|225|             Symptom|          0|     Absent|
-|         retractions|  230|240|             Symptom|          0|     Absent|
-|         One day ago|  244|254|        RelativeDate|          1|    Present|
-|                 mom|  257|259|              Gender|          1|     Family|
-|             Tylenol|  317|323|      Drug_BrandName|          1|       Past|
-|                Baby|  326|329|                 Age|          2|       Past|
-|decreased p.o. in...|  349|369|             Symptom|          2|       Past|
-|                 His|  372|374|              Gender|          3|SomeoneElse|
-|          20 minutes|  411|420|            Duration|          3|     Family|
-|                q.2h|  422|425|           Frequency|          3|     Family|
-|  to 5 to 10 minutes|  428|445|            Duration|          4|     Absent|
-+--------------------+-----+---+--------------------+-----------+-----------+
++--------------+-----+---+-------------------------+-----------+---------+
+|ner_chunk     |begin|end|ner_label                |sentence_id|assertion|
++--------------+-----+---+-------------------------+-----------+---------+
+|headache      |14   |21 |Symptom                  |0          |Past     |
+|anxious       |57   |63 |Symptom                  |0          |Possible |
+|alopecia      |89   |96 |Disease_Syndrome_Disorder|1          |Absent   |
+|pain          |116  |119|Symptom                  |2          |Absent   |
+|paralyzed     |136  |144|Symptom                  |3          |Family   |
+|antidepressant|212  |225|Drug_Ingredient          |4          |Past     |
+|sleeping pills|242  |255|Drug_Ingredient          |5          |Planned  |
+|insomnia      |273  |280|Symptom                  |5          |Present  |
++--------------+-----+---+-------------------------+-----------+---------+
 ```
 
 {:.model-param}
