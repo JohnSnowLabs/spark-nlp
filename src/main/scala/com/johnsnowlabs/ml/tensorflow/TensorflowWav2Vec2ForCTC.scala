@@ -52,8 +52,6 @@ class TensorflowWav2Vec2ForCTC(
 
   def tag(batch: Array[Array[Float]], vocabSize: Int): Array[Int] = {
     val tensors = new TensorResources()
-    val batchLength = batch.length
-    val maxSequenceLength = batch.map(x => x.length).max
 
     val audioTensors = tensors.createTensor(batch)
 
@@ -158,11 +156,10 @@ class TensorflowWav2Vec2ForCTC(
   }
 
   def decode(vocabs: Map[String, BigInt], vocabIds: Array[Int], batchSize: Int): Array[String] = {
-    val noPadIdVocab = vocabIds.filter(x => x != padVocabId)
+    val noPadIdVocab = vocabIds.filter(tokenId => tokenId != padVocabId)
     val uniqueVocabIds = removeDup(noPadIdVocab.toList)
     uniqueVocabIds.grouped(uniqueVocabIds.length / batchSize).toArray.map { tokenIds =>
       tokenIds
-        .filter(tokenId => tokenId != 0)
         .map(tokenId => vocabs.find(vocab => vocab._2 == tokenId).map(_._1).getOrElse(""))
         .map(tokenId => if (tokenId == wordDelimiterToken) " " else tokenId)
         .mkString("")
