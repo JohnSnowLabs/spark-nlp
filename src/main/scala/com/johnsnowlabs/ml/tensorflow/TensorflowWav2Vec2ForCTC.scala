@@ -34,6 +34,8 @@ class TensorflowWav2Vec2ForCTC(
     signatures.getOrElse(ModelSignatureManager.apply())
 
   private val wordDelimiterToken = "|"
+  private val padVocabId = vocabs.getOrElse("<pad>", 0)
+
   private def sessionWarmup(): Unit = {
     val bufferedSource =
       scala.io.Source.fromInputStream(getClass.getResourceAsStream("/audio/audi_floats.csv"))
@@ -47,6 +49,7 @@ class TensorflowWav2Vec2ForCTC(
   }
 
   sessionWarmup()
+
   def tag(batch: Array[Array[Float]], vocabSize: Int): Array[Int] = {
     val tensors = new TensorResources()
     val batchLength = batch.length
@@ -155,7 +158,8 @@ class TensorflowWav2Vec2ForCTC(
   }
 
   def decode(vocabs: Map[String, BigInt], vocabIds: Array[Int], batchSize: Int): Array[String] = {
-    val uniqueVocabIds = removeDup(vocabIds.toList)
+    val noPadIdVocab = vocabIds.filter(x => x != padVocabId)
+    val uniqueVocabIds = removeDup(noPadIdVocab.toList)
     uniqueVocabIds.grouped(uniqueVocabIds.length / batchSize).toArray.map { tokenIds =>
       tokenIds
         .filter(tokenId => tokenId != 0)
