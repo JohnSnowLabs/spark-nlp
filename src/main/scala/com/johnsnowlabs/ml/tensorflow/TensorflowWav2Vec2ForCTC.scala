@@ -21,6 +21,7 @@ import com.johnsnowlabs.nlp._
 import com.johnsnowlabs.nlp.annotators.audio.feature_extractor.Preprocessor
 
 import scala.collection.JavaConverters._
+import scala.collection.mutable.ArrayBuffer
 
 class TensorflowWav2Vec2ForCTC(
     val tensorflowWrapper: TensorflowWrapper,
@@ -32,7 +33,7 @@ class TensorflowWav2Vec2ForCTC(
   val _tfWav2Vec2Signatures: Map[String, String] =
     signatures.getOrElse(ModelSignatureManager.apply())
 
-  private val tokenSeparator = "|"
+  private val wordDelimiterToken = "|"
   private def sessionWarmup(): Unit = {
     val bufferedSource =
       scala.io.Source.fromInputStream(getClass.getResourceAsStream("/audio/audi_floats.csv"))
@@ -103,6 +104,7 @@ class TensorflowWav2Vec2ForCTC(
       }
   }.toSeq
 
+  // TODO: implement different padding strategies: max_length, longest, truncate
   def encode(
       annotations: Array[AnnotationAudio],
       preprocessor: Preprocessor): Array[Array[Float]] = {
@@ -110,16 +112,35 @@ class TensorflowWav2Vec2ForCTC(
     val maxLengthInBatch = annotations.map(x => x.result.length).max
 
     annotations.map { annot =>
-      val padding = Array.fill(maxLengthInBatch - annot.result.length)(preprocessor.padding_value)
+      val normalized = if (preprocessor.do_normalize) normalize(annot.result) else annot.result
+      val padding = Array.fill(maxLengthInBatch - normalized.length)(preprocessor.padding_value)
 
       preprocessor.padding_side match {
-        case "left" => padding ++ annot.result
-        case "right" => annot.result ++ padding
-        case _ => annot.result ++ padding
+        case "left" => padding ++ normalized
+        case "right" => normalized ++ padding
+        case _ => normalized ++ padding
       }
 
     }
 
+  }
+
+  def normalize(rawAudio: Array[Float]): Array[Float] = {
+    val normalizedData = ArrayBuffer[Float]()
+    val meanData = mean(rawAudio)
+    val varianceData = variance(rawAudio)
+    for (x <- rawAudio) {
+      normalizedData += (x - meanData) / scala.math.sqrt(varianceData + 0.0000001).toFloat
+    }
+    normalizedData.toArray
+  }
+
+  def mean(rawAudio: Array[Float]): Float =
+    if (rawAudio.isEmpty) 0 else rawAudio.sum / rawAudio.length
+
+  def variance(rawAudio: Array[Float]): Double = {
+    val avg = mean(rawAudio)
+    rawAudio.map(a => math.pow(a - avg, 2)).sum / rawAudio.length
   }
 
   // TODO: Check for infinite recursion
@@ -139,8 +160,9 @@ class TensorflowWav2Vec2ForCTC(
       tokenIds
         .filter(tokenId => tokenId != 0)
         .map(tokenId => vocabs.find(vocab => vocab._2 == tokenId).map(_._1).getOrElse(""))
-        .map(tokenId => if (tokenId == tokenSeparator) " " else tokenId)
+        .map(tokenId => if (tokenId == wordDelimiterToken) " " else tokenId)
         .mkString("")
     }
   }
+
 }
