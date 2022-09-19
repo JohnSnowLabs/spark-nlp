@@ -9,10 +9,10 @@
     j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
     })(window,document,'script','dataLayer','GTM-59JLR64');</script>
-<!-- End Google Tag Manager --><title>Temporality / Certainty Assertion Status</title><meta property="og:title" content=""/>
+<!-- End Google Tag Manager --><title>Legal Indemnification NER</title><meta property="og:title" content=""/>
 
-<meta name="description" content="DescriptionThis is an Assertion Status Model aimed to detect temporality (PRESENT, PAST, FUTURE) or Certainty (POSSIBLE) in your legal documentsPredicted EntitiesPRESENT, PAST, FUTURE, POSSIBLELive DemoOpen in ColabDownloadHow to use         PythonScalaNLU  # YOUR NER HERE# ...embeddings = BertEmbeddings.pretrained(...">
-<link rel="canonical" href="/2022/09/14/legassertion_time_en.html"><link rel="alternate" type="application/rss+xml" title="Spark NLP" href="/feed.xml"><!-- start favicons snippet, use https://realfavicongenerator.net/ -->
+<meta name="description" content="DescriptionThis is a Legal Named Entity Recognition Model to identify the Subject (who), Action (web), Object(the indemnification) and Indirect Object (to whom) from Indemnification clauses.Predicted EntitiesINDEMNIFICATION, INDEMNIFICATION_SUBJECT, INDEMNIFICATION_ACTION, INDEMNIFICATION_INDIRECT_OBJECTLive DemoOpe...">
+<link rel="canonical" href="/2022/09/19/legner_bert_indemnifications_en.html"><link rel="alternate" type="application/rss+xml" title="Spark NLP" href="/feed.xml"><!-- start favicons snippet, use https://realfavicongenerator.net/ -->
 <!---->
 <!-- <link rel="apple-touch-icon" sizes="180x180" href="/fav.ico"> -->
 
@@ -408,26 +408,26 @@
 
 <!-- end custom main top snippet --><article><script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script><div class="article__header"><div class="header-author"><div class="article__info clearfix"><div class="left-col">
             <a class="edit-on-github-btn" target="_blank" rel="alternate"
-               href="https://github.com/johnsnowlabs/spark-nlp/tree/master/docs/_posts/josejuanmartinez/2022-09-14-legassertion_time_en.md">
+               href="https://github.com/johnsnowlabs/spark-nlp/tree/master/docs/_posts/josejuanmartinez/2022-09-19-legner_bert_indemnifications_en.md">
               <span class="fab fa-github"></span>
               <span class="edit-on-github-label">Edit on GitHub</span>
             </a>
-        </div><ul class="right-col menu"><li><i class="far fa-user"></i> <span>John Snow Labs</span></li><li><i class="far fa-calendar-alt"></i> <span>Sep 14, 2022</span>
-            </li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2022-09-14T00:00:00+00:00"></div><header class="main-docs have_subtitle">
-          <h1>Temporality / Certainty Assertion Status</h1><div class="top-subtitle mont"></div></header></div><meta itemprop="headline" content="Temporality / Certainty Assertion Status"><div class="article__info tags_box clearfix"><ul class="left-col menu"><li>temporality</li><li>probability</li><li>en</li><li>licensed</li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2022-09-14T00:00:00+00:00">
-    <meta itemprop="keywords" content="temporality,probability,en,licensed"><div class="js-article-content"><div class="model-wrap"><div class="layout--article"><!-- start custom article top snippet -->
+        </div><ul class="right-col menu"><li><i class="far fa-user"></i> <span>John Snow Labs</span></li><li><i class="far fa-calendar-alt"></i> <span>Sep 19, 2022</span>
+            </li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2022-09-19T00:00:00+00:00"></div><header class="main-docs have_subtitle">
+          <h1>Legal Indemnification NER</h1><div class="top-subtitle mont"></div></header></div><meta itemprop="headline" content="Legal Indemnification NER"><div class="article__info tags_box clearfix"><ul class="left-col menu"><li>en</li><li>legal</li><li>ner</li><li>indemnification</li><li>licensed</li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2022-09-19T00:00:00+00:00">
+    <meta itemprop="keywords" content="en,legal,ner,indemnification,licensed"><div class="js-article-content"><div class="model-wrap"><div class="layout--article"><!-- start custom article top snippet -->
 
 <!-- end custom article top snippet --><div class="article__content" itemprop="articleBody"><h2 id="description">Description</h2>
 
-<p>This is an Assertion Status Model aimed to detect temporality (PRESENT, PAST, FUTURE) or Certainty (POSSIBLE) in your legal documents</p>
+<p>This is a Legal Named Entity Recognition Model to identify the Subject (who), Action (web), Object(the indemnification) and Indirect Object (to whom) from Indemnification clauses.</p>
 
 <h2 id="predicted-entities">Predicted Entities</h2>
 
-<p><code class="language-plaintext highlighter-rouge">PRESENT</code>, <code class="language-plaintext highlighter-rouge">PAST</code>, <code class="language-plaintext highlighter-rouge">FUTURE</code>, <code class="language-plaintext highlighter-rouge">POSSIBLE</code></p>
+<p><code class="language-plaintext highlighter-rouge">INDEMNIFICATION</code>, <code class="language-plaintext highlighter-rouge">INDEMNIFICATION_SUBJECT</code>, <code class="language-plaintext highlighter-rouge">INDEMNIFICATION_ACTION</code>, <code class="language-plaintext highlighter-rouge">INDEMNIFICATION_INDIRECT_OBJECT</code></p>
 
-<p class="btn-box"><a href="https://demo.johnsnowlabs.com/legal/LEGASSERTION_TEMPORALITY/" class="button button-orange">Live Demo</a>
+<p class="btn-box"><a href="https://demo.johnsnowlabs.com/legal/LEGALRE_INDEMNIFICATION/" class="button button-orange">Live Demo</a>
 <button class="button button-orange" disabled="">Open in Colab</button>
-<a href="https://s3.amazonaws.com/auxdata.johnsnowlabs.com/legal/models/legassertion_time_en_1.0.0_3.2_1663177509052.zip" class="button button-orange button-orange-trans arr button-icon">Download</a></p>
+<a href="https://s3.amazonaws.com/auxdata.johnsnowlabs.com/legal/models/legner_bert_indemnifications_en_1.0.0_3.2_1663605909112.zip" class="button button-orange button-orange-trans arr button-icon">Download</a></p>
 
 <h2 id="how-to-use">How to use</h2>
 
@@ -435,50 +435,72 @@
   <div class="top_tab_li">   
     <button class="tab-li code-selector-active python-button">Python</button><button class="tab-li code-selector-un-active scala-button">Scala</button><button class="tab-li code-selector-un-active nlu-button">NLU</button>
 </div>
-  <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># YOUR NER HERE
-# ...
-</span><span class="n">embeddings</span> <span class="o">=</span> <span class="n">BertEmbeddings</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"bert_embeddings_sec_bert_base"</span><span class="p">,</span><span class="s">"en"</span><span class="p">)</span> \
-    <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"sentence"</span><span class="p">,</span> <span class="s">"token"</span><span class="p">])</span> \
-    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"embeddings"</span><span class="p">)</span>
+  <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">documentAssembler</span> <span class="o">=</span> <span class="n">DocumentAssembler</span><span class="p">()</span>\
+        <span class="p">.</span><span class="n">setInputCol</span><span class="p">(</span><span class="s">"text"</span><span class="p">)</span>\
+        <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"document"</span><span class="p">)</span>
 
-<span class="n">chunk_converter</span> <span class="o">=</span> <span class="n">ChunkConverter</span><span class="p">()</span> \
-    <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"entity"</span><span class="p">])</span> \
+<span class="n">sentencizer</span> <span class="o">=</span> <span class="n">SentenceDetectorDLModel</span>\
+        <span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"sentence_detector_dl"</span><span class="p">,</span> <span class="s">"en"</span><span class="p">)</span> \
+        <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"document"</span><span class="p">])</span>\
+        <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"sentence"</span><span class="p">)</span>
+                      
+<span class="n">tokenizer</span> <span class="o">=</span> <span class="n">Tokenizer</span><span class="p">()</span>\
+        <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"sentence"</span><span class="p">])</span>\
+        <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"token"</span><span class="p">)</span>
+
+<span class="n">tokenClassifier</span> <span class="o">=</span> <span class="n">legal</span><span class="p">.</span><span class="n">BertForTokenClassification</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"legner_bert_indemnifications"</span><span class="p">,</span> <span class="s">"en"</span><span class="p">,</span> <span class="s">"legal/models"</span><span class="p">)</span>\
+  <span class="p">.</span><span class="n">setInputCols</span><span class="p">(</span><span class="s">"token"</span><span class="p">,</span> <span class="s">"sentence"</span><span class="p">)</span>\
+  <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"label"</span><span class="p">)</span>\
+  <span class="p">.</span><span class="n">setCaseSensitive</span><span class="p">(</span><span class="bp">True</span><span class="p">)</span>
+
+<span class="n">ner_converter</span> <span class="o">=</span> <span class="n">NerConverter</span><span class="p">()</span>\
+    <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"sentence"</span><span class="p">,</span><span class="s">"token"</span><span class="p">,</span><span class="s">"label"</span><span class="p">])</span>\
     <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"ner_chunk"</span><span class="p">)</span>
-
-<span class="n">assertion</span> <span class="o">=</span> <span class="n">leg</span><span class="p">.</span><span class="n">AssertionDLModel</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"legassertion_time"</span><span class="p">,</span> <span class="s">"en"</span><span class="p">,</span> <span class="s">"legal/models"</span><span class="p">)</span>\
-    <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"sentence"</span><span class="p">,</span> <span class="s">"ner_chunk"</span><span class="p">,</span> <span class="s">"embeddings"</span><span class="p">])</span> \
-    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"assertion"</span><span class="p">)</span>
     
 <span class="n">nlpPipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">(</span><span class="n">stages</span><span class="o">=</span><span class="p">[</span>
-    <span class="n">documentAssembler</span><span class="p">,</span> 
-    <span class="n">tokenizer</span><span class="p">,</span>
-    <span class="n">embeddings</span><span class="p">,</span>
-    <span class="n">ner</span><span class="p">,</span>
-    <span class="n">chunk_converter</span><span class="p">,</span>
-    <span class="n">assertion</span>
-    <span class="p">])</span>
+        <span class="n">documentAssembler</span><span class="p">,</span>
+        <span class="n">sentencizer</span><span class="p">,</span>
+        <span class="n">tokenizer</span><span class="p">,</span>
+        <span class="n">tokenClassifier</span><span class="p">,</span>
+        <span class="n">ner_converter</span>
+        <span class="p">])</span>
 
 <span class="n">empty_data</span> <span class="o">=</span> <span class="n">spark</span><span class="p">.</span><span class="n">createDataFrame</span><span class="p">([[</span><span class="s">""</span><span class="p">]]).</span><span class="n">toDF</span><span class="p">(</span><span class="s">"text"</span><span class="p">)</span>
 
 <span class="n">model</span> <span class="o">=</span> <span class="n">nlpPipeline</span><span class="p">.</span><span class="n">fit</span><span class="p">(</span><span class="n">empty_data</span><span class="p">)</span>
 
-<span class="n">lp</span> <span class="o">=</span> <span class="n">LightPipeline</span><span class="p">(</span><span class="n">model</span><span class="p">)</span>
+<span class="n">text</span><span class="o">=</span><span class="s">'''The Company shall protect and indemnify the Supplier against any damages, losses or costs whatsoever'''</span>
 
-<span class="n">texts</span> <span class="o">=</span> <span class="p">[</span><span class="s">"The subsidiaries of Atlantic Inc will participate in a merging operation"</span><span class="p">,</span>
-    <span class="s">"The Conditions and Warranties of this agreement might be modified"</span><span class="p">]</span>
-
-<span class="n">lp</span><span class="p">.</span><span class="n">annotate</span><span class="p">(</span><span class="n">texts</span><span class="p">)</span>
+<span class="n">data</span> <span class="o">=</span> <span class="n">spark</span><span class="p">.</span><span class="n">createDataFrame</span><span class="p">([[</span><span class="n">text</span><span class="p">]]).</span><span class="n">toDF</span><span class="p">(</span><span class="s">"text"</span><span class="p">)</span>
+<span class="n">model</span> <span class="o">=</span> <span class="n">nlpPipeline</span><span class="p">.</span><span class="n">fit</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+<span class="n">lmodel</span> <span class="o">=</span> <span class="n">LightPipeline</span><span class="p">(</span><span class="n">model</span><span class="p">)</span>
+<span class="n">res</span> <span class="o">=</span> <span class="n">lmodel</span><span class="p">.</span><span class="n">annotate</span><span class="p">(</span><span class="n">text</span><span class="p">)</span>
 </code></pre></div>  </div>
 
 </div>
 
 <h2 id="results">Results</h2>
 
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>chunk,begin,end,entity_type,assertion
-Atlantic Inc,20,31,ORG,FUTURE
-
-chunk,begin,end,entity_type,assertion
-Conditions and Warranties,4,28,DOC,POSSIBLE
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>+----------+---------------------------------+
+|     token|                        ner_label|
++----------+---------------------------------+
+|       The|                                O|
+|   Company|                                O|
+|     shall|         B-INDEMNIFICATION_ACTION|
+|   protect|         I-INDEMNIFICATION_ACTION|
+|       and|                                O|
+| indemnify|         B-INDEMNIFICATION_ACTION|
+|       the|                                O|
+|  Supplier|B-INDEMNIFICATION_INDIRECT_OBJECT|
+|   against|                                O|
+|       any|                                O|
+|   damages|                B-INDEMNIFICATION|
+|         ,|                                O|
+|    losses|                B-INDEMNIFICATION|
+|        or|                                O|
+|     costs|                B-INDEMNIFICATION|
+|whatsoever|                                O|
++----------+---------------------------------+
 </code></pre></div></div>
 
 <h2 class="model-param" id="model-information">Model Information</h2>
@@ -487,7 +509,7 @@ Conditions and Warranties,4,28,DOC,POSSIBLE
   <tbody>
     <tr>
       <td>Model Name:</td>
-      <td>legassertion_time</td>
+      <td>legner_bert_indemnifications</td>
     </tr>
     <tr>
       <td>Compatibility:</td>
@@ -503,11 +525,11 @@ Conditions and Warranties,4,28,DOC,POSSIBLE
     </tr>
     <tr>
       <td>Input Labels:</td>
-      <td>[document, doc_chunk, embeddings]</td>
+      <td>[sentence, token]</td>
     </tr>
     <tr>
       <td>Output Labels:</td>
-      <td>[assertion]</td>
+      <td>[ner]</td>
     </tr>
     <tr>
       <td>Language:</td>
@@ -515,27 +537,41 @@ Conditions and Warranties,4,28,DOC,POSSIBLE
     </tr>
     <tr>
       <td>Size:</td>
-      <td>2.2 MB</td>
+      <td>412.2 MB</td>
+    </tr>
+    <tr>
+      <td>Case sensitive:</td>
+      <td>true</td>
+    </tr>
+    <tr>
+      <td>Max sentence length:</td>
+      <td>128</td>
     </tr>
   </tbody>
 </table>
 
 <h2 id="references">References</h2>
 
-<p>In-house annotations on financial and legal corpora</p>
+<p>In-house annotated examples from CUAD legal dataset</p>
 
 <h2 id="benchmarking">Benchmarking</h2>
 
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>label	 tp	 fp	 fn	 prec	 rec	 f1
-PRESENT	 201	 11	 16	 0.9481132	 0.92626727	 0.937063
-POSSIBLE	 171	 3	 6	 0.98275864	 0.9661017	 0.9743589
-FUTURE	 119	 6	 4	 0.952	 0.96747965	 0.95967746
-PAST	 270	 16	 10	 0.9440559	 0.96428573	 0.9540636
-tp: 761 fp: 36 fn: 36 labels: 4
-Macro-average	 prec: 0.9567319, rec: 0.9560336, f1: 0.95638263
-Micro-average	 prec: 0.9548306, rec: 0.9548306, f1: 0.9548306
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>                                   precision    recall  f1-score   support
+
+                B-INDEMNIFICATION       0.91      0.89      0.90        36
+         B-INDEMNIFICATION_ACTION       0.92      0.71      0.80        17
+B-INDEMNIFICATION_INDIRECT_OBJECT       0.88      0.88      0.88        40
+        B-INDEMNIFICATION_SUBJECT       0.71      0.56      0.63         9
+                I-INDEMNIFICATION       0.88      0.78      0.82         9
+         I-INDEMNIFICATION_ACTION       0.81      0.87      0.84        15
+I-INDEMNIFICATION_INDIRECT_OBJECT       1.00      0.53      0.69        17
+                                O       0.97      0.91      0.94       510
+
+                         accuracy                           0.88       654
+                        macro avg       0.71      0.61      0.81       654
+                     weighted avg       0.95      0.88      0.91       654
 </code></pre></div></div>
-</div><div class="d-print-none"><footer class="article__footer"><meta itemprop="dateModified" content="2022-09-14T00:00:00+00:00"><!-- start custom article footer snippet -->
+</div><div class="d-print-none"><footer class="article__footer"><meta itemprop="dateModified" content="2022-09-19T00:00:00+00:00"><!-- start custom article footer snippet -->
 
 <!-- end custom article footer snippet --></footer>
 
@@ -750,7 +786,7 @@ hr.code-selector-underlie {
 
 }
 
-</style><div class="article__section-navigator clearfix"><div class="previous nav_link"><span>PREVIOUS</span><a href="/2022/09/14/finassertion_time_en.html">Temporality / Certainty Assertion Status</a></div><div class="next nav_link"><span>NEXT</span><a href="/2022/09/19/legner_bert_indemnifications_en.html">Legal Indemnification NER</a></div></div></div>
+</style><div class="article__section-navigator clearfix"><div class="previous nav_link"><span>PREVIOUS</span><a href="/2022/09/14/legassertion_time_en.html">Temporality / Certainty Assertion Status</a></div><div class="next nav_link"><span>NEXT</span><a href="/2022/09/19/legre_indemnifications_en.html">Legal Indemnification Relation Extraction</a></div></div></div>
 
 </div>
 </div>

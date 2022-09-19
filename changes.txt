@@ -1,4 +1,4 @@
-docs/_includes/demomenu.html
-docs/en/nlp_server/installation.md
-docs/_includes/demomenu.html
-docs/en/nlp_server/installation.md
+docs/_posts/josejuanmartinez/2022-09-19-legner_bert_indemnifications_en.md
+docs/_posts/josejuanmartinez/2022-09-19-legre_indemnifications_en.md
+docs/_posts/josejuanmartinez/2022-09-19-legner_bert_indemnifications_en.md
+docs/_posts/josejuanmartinez/2022-09-19-legre_indemnifications_en.md
