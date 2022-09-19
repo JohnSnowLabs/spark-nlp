@@ -1,16 +1,19 @@
 package com.johnsnowlabs.ml.tensorflow
 
 import com.johnsnowlabs.ml.tensorflow.sign.ModelSignatureConstants
-import com.johnsnowlabs.nlp.annotators.common.{IndexedToken, Sentence, TokenPiece, WordpieceTokenizedSentence}
+import com.johnsnowlabs.nlp.annotators.common.{IndexedToken, Sentence}
 import com.johnsnowlabs.nlp.annotators.tokenizer.wordpiece.{BasicTokenizer, WordpieceEncoder}
 import com.johnsnowlabs.nlp.{Annotation, AnnotatorType}
+import com.johnsnowlabs.util.JsonParser.formats
 import org.json4s.DefaultFormats
 import org.json4s.jackson.JsonMethods.parse
 import org.tensorflow.ndarray.buffer.IntDataBuffer
+import sun.reflect.annotation.AnnotationType
 
 import java.time.format.DateTimeFormatter
 import java.time.temporal.ChronoField
 import scala.util.Try
+import scala.collection.JavaConverters._
 
 case class TapasCellDate(day: Option[Int], month: Option[Int], year: Option[Int])
 
@@ -106,6 +109,12 @@ class TensorflowTapas(
             "six",  "seven", "eight",  "nine",  "ten", "eleven", "twelve")
       val ORDINAL_WORDS = Array("zeroth", "first", "second",  "third",  "fourth",  "fith", "sixth",
             "seventh", "eighth", "ninth", "tenth", "eleventh", "twelfth")
+
+      val AGGREGATIONS = Map(
+            0 -> "NONE",
+            1 -> "SUM",
+            2 -> "AVERAGE",
+            3 -> "COUNT")
 
       def getAllSpans(text: String, maxNgramLength: Int) = {
             var startIndices: Array[Int] = Array()
@@ -214,22 +223,20 @@ class TensorflowTapas(
       }
 
       def encodeTapasData(
-                           questionAnnotations: Seq[Annotation],
-                           tableAnnotation: Annotation,
+                           questions: Seq[String],
+                           table: Table,
                            caseSensitive: Boolean,
                            maxSentenceLength: Int): Seq[TapasInputData] = {
-
-            implicit val formats = DefaultFormats
 
             val basicTokenizer = new BasicTokenizer(caseSensitive = true, hasBeginEnd = false)
             val encoder = new WordpieceEncoder(vocabulary)
 
-            val questionInputIds = questionAnnotations.map(question => {
+            val questionInputIds = questions.map(question => {
 
                   val sentence = new Sentence(
                         start = 0,
-                        end = question.result.length,
-                        content = question.result,
+                        end = question.length,
+                        content = question,
                         index = 0)
                   val tokens = basicTokenizer.tokenize(sentence)
                   (if (caseSensitive)
@@ -239,8 +246,6 @@ class TensorflowTapas(
                     ).flatMap(token => encoder.encode(token)).map(_.pieceId)
             })
             val maxQuestionLength = questionInputIds.map(_.length).max
-
-            val table = parse(tableAnnotation.result).extract[Table]
 
             val inputIds = collection.mutable.ArrayBuffer[Int]()
             val attentionMask = collection.mutable.ArrayBuffer[Int]()
@@ -298,6 +303,7 @@ class TensorflowTapas(
 
                         cellInputIds.foreach(x => {
                               inputIds.append(x.pieceId)
+                              attentionMask.append(1)
                               segmentIds.append(1)
                               columnIds.append(colIndex + 1)
                               rowIds.append(rowIndex + 1)
@@ -387,7 +393,7 @@ class TensorflowTapas(
 
       }
 
-      def tagTapasSpan(batch: Seq[TapasInputData]): (Array[Array[Float]], Array[Array[Float]]) = {
+      def tagTapasSpan(batch: Seq[TapasInputData]): (Array[Array[Float]], Array[Int]) = {
 
             val tensors = new TensorResources()
 
@@ -405,9 +411,22 @@ class TensorflowTapas(
                           val offset = idx * maxSentenceLength
                           tokenBuffers.offset(offset).write(input.inputIds)
                           maskBuffers.offset(offset).write(input.attentionMask)
-                          segmentBuffers.offset(offset).write(
-                                input.segmentIds ++ input.rowIds++ input.columnIds  ++ input.prevLabels
-                                  ++ input.columnRanks ++ input.invertedColumnRanks ++ input.numericRelations)
+                          val segmentOffset = idx * maxSentenceLength * 7
+
+                          (0 until maxSentenceLength).foreach(pos => {
+                                val tokenTypeOffset = segmentOffset + pos * 7
+                                segmentBuffers.offset(tokenTypeOffset).write(
+                                      Array(
+                                            input.segmentIds(pos),
+                                            input.columnIds(pos),
+                                            input.rowIds(pos),
+                                            input.prevLabels(pos),
+                                            input.columnRanks(pos),
+                                            input.invertedColumnRanks(pos),
+                                            input.numericRelations(pos)
+                                      )
+                                )
+                          })
               }
 
             val session = tensorflowWrapper.getTFSessionWithSignature(
@@ -435,47 +454,127 @@ class TensorflowTapas(
                           "missing_segment_ids_key"),
                     segmentTensors)
               .fetch(_tfBertSignatures
-                .getOrElse(ModelSignatureConstants.EndLogitsOutput.key, "missing_end_logits_key"))
+                .getOrElse(ModelSignatureConstants.TapasLogitsOutput.key, "missing_end_logits_key"))
               .fetch(_tfBertSignatures
-                .getOrElse(ModelSignatureConstants.StartLogitsOutput.key, "missing_start_logits_key"))
+                .getOrElse(ModelSignatureConstants.TapasLogitsAggregationOutput.key, "missing_start_logits_key"))
 
-            val outs = runner.run()
+            val outs = runner.run().asScala
+            val logitsRaw = TensorResources.extractFloats(outs.head)
+            val aggregationRaw = TensorResources.extractFloats(outs.last)
 
-            batch.foreach(tapasData => {
-                  println("Input Ids:")
-                  println(tapasData.inputIds.slice(0, 50).map(_.toString).mkString(" "))
-                  println("Attention Mask:")
-                  println(tapasData.attentionMask.slice(0, 50).map(_.toString).mkString(" "))
-                  println("Segment Ids:")
-                  println(tapasData.segmentIds.slice(0, 50).map(_.toString).mkString(" "))
-                  println("Column Ids:")
-                  println(tapasData.columnIds.slice(0, 50).map(_.toString).mkString(" "))
-                  println("RowIds:")
-                  println(tapasData.rowIds.slice(0, 50).map(_.toString).mkString(" "))
-                  println("prevLabels:")
-                  println(tapasData.prevLabels.slice(0, 50).map(_.toString).mkString(" "))
-                  println("columnRanks:")
-                  println(tapasData.columnRanks.slice(0, 50).map(_.toString).mkString(" "))
-                  println("invertedColumnRanks:")
-                  println(tapasData.invertedColumnRanks.slice(0, 50).map(_.toString).mkString(" "))
-                  println("numericRelations:")
-                  println(tapasData.numericRelations.slice(0, 50).map(_.toString).mkString(" "))
-            })
-            (Array(), Array())
+            outs.foreach(_.close())
+            tensors.clearSession(outs)
+            tensors.clearTensors()
+
+            val probsDim = logitsRaw.length / batchLength
+            val flatMask = batch.flatMap(_.attentionMask)
+            val probabilities: Array[Array[Float]] = logitsRaw
+              .map(x => if (x < -88.7f) -88.7f else x)
+              .zipWithIndex
+              .map{
+                    case(logit, logitIdx) =>
+                          (1 / (1 + math.exp(-logit).toFloat)) * flatMask(logitIdx)
+              }
+              .grouped(probsDim)
+              .toArray
+
+            val agregationDim = aggregationRaw.length / batchLength
+            val aggregations: Array[Int] = aggregationRaw
+              .grouped(agregationDim)
+              .map(batchLogitAggregations => {
+                    batchLogitAggregations.zipWithIndex.maxBy(_._1)._2
+              }).toArray
+
+
+//            batch.zipWithIndex.foreach{
+//                  case (tapasData, batchIdx) =>
+//                        println("Input Ids:")
+//                        println(tapasData.inputIds.slice(0, 50).map(_.toString).mkString(" "))
+//                        println("Attention Mask:")
+//                        println(tapasData.attentionMask.slice(0, 50).map(_.toString).mkString(" "))
+//                        println("Segment Ids:")
+//                        println(tapasData.segmentIds.slice(0, 50).map(_.toString).mkString(" "))
+//                        println("Column Ids:")
+//                        println(tapasData.columnIds.slice(0, 50).map(_.toString).mkString(" "))
+//                        println("RowIds:")
+//                        println(tapasData.rowIds.slice(0, 50).map(_.toString).mkString(" "))
+//                        println("prevLabels:")
+//                        println(tapasData.prevLabels.slice(0, 50).map(_.toString).mkString(" "))
+//                        println("columnRanks:")
+//                        println(tapasData.columnRanks.slice(0, 50).map(_.toString).mkString(" "))
+//                        println("invertedColumnRanks:")
+//                        println(tapasData.invertedColumnRanks.slice(0, 50).map(_.toString).mkString(" "))
+//                        println("numericRelations:")
+//                        println(tapasData.numericRelations.slice(0, 50).map(_.toString).mkString(" "))
+//                        println("Logits:")
+//                        println(logits(batchIdx).slice(0, 50).map(_.toString).mkString(" "))
+//                        println("Logits Aggregation:")
+//                        println(logitsAggregation(batchIdx).slice(0, 50).map(_.toString).mkString(" "))
+//            }
+            (probabilities, aggregations)
       }
 
       def predictTapasSpan(
                             questions: Seq[Annotation],
-                            table: Annotation,
+                            tableAnnotation: Annotation,
                             maxSentenceLength: Int,
                             caseSensitive: Boolean): Seq[Annotation] = {
 
+            val table = parse(tableAnnotation.result).extract[Table]
+
             val tapasData = encodeTapasData(
-                  questionAnnotations = questions, tableAnnotation = table, caseSensitive = caseSensitive, maxSentenceLength = maxSentenceLength)
+                  questions = questions.map(_.result),
+                  table = table,
+                  caseSensitive = caseSensitive,
+                  maxSentenceLength = maxSentenceLength)
 
-            tagTapasSpan(batch = tapasData)
+            val (probabilities, aggregations) = tagTapasSpan(batch = tapasData)
 
-            Seq()
+            val cellPredictions = tapasData
+              .zipWithIndex
+              .flatMap {
+                    case (input, idx) =>
+                          val maxWidth = input.columnIds.max
+                          val maxHeight = input.rowIds.max
+                          if (maxWidth > 0 || maxHeight > 0){
+                                val coordToProbs = collection.mutable.Map[(Int, Int), Array[Float]]()
+                                probabilities(idx).zipWithIndex.foreach{
+                                      case (prob, probIdx) =>
+                                            if (input.segmentIds(probIdx) == 1 && input.columnIds(probIdx) > 0 && input.rowIds(probIdx) > 0) {
+                                                  val coord = (input.columnIds(probIdx) - 1, input.rowIds(probIdx) - 1)
+                                                  coordToProbs(coord) = coordToProbs.getOrElse(coord, Array()) ++ Array(prob)
+                                            }
+                                }
+                                val meanCoordProbs = coordToProbs.map(x => (x._1, x._2.sum / x._2.length))
+                                val answerCoordinates = collection.mutable.ArrayBuffer[(Int, Int)]()
+                                input.columnIds.indices.foreach{
+                                      col => input.rowIds.indices.foreach{
+                                            row =>
+                                                  if (meanCoordProbs.getOrElse((col, row), -1f) > 0.5f)
+                                                        answerCoordinates.append((col, row))
+                                      }
+                                }
+                                Seq(answerCoordinates.sorted.toArray)
+                          } else {
+                                Seq()
+                          }
+              }
+            cellPredictions
+              .map(cellPrediction => cellPrediction.map(x => table.rows(x._2)(x._1)).mkString(", "))
+              .zipWithIndex
+              .map{
+                    case (answers, queryId) =>
+                          val aggrString = AGGREGATIONS(aggregations(queryId))
+                          val result = if (aggrString != "NONE") s"$aggrString($answers)" else answers
+                          new Annotation(
+                                annotatorType = AnnotatorType.CHUNK,
+                                begin = 0,
+                                end = result.length,
+                                result = result,
+                                metadata = Map(
+                                      "question" -> questions(queryId).result,
+                                      "aggregation" -> aggrString)
+                        )
+              }
       }
-
 }
