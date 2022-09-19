@@ -1,0 +1,7 @@
+{
+  "header": ["name", "wealth", "date of birth"],
+  "rows": [
+    ["Donald Trump", "more than 100 millions", "June 12, 1970"],
+    ["Elon Musk", "200 billions", "January 10, 1960"]
+  ]
+}

@@ -35,5 +35,7 @@ object AnnotatorType {
   val LABELED_DEPENDENCY = "labeled_dependency"
   val LANGUAGE = "language"
   val NODE = "node"
+  val TABLE = "table"
   val DUMMY = "dummy"
+
 }
