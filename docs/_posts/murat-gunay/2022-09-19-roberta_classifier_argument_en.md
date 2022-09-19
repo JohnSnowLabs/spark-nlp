@@ -1,6 +1,6 @@
 ---
 layout: model
-title: English RoBertaForSequenceClassification Cased model (from addy88)
+title: English RoBertaForSequenceClassification Cased model (from chkla)
 author: John Snow Labs
 name: roberta_classifier_argument
 date: 2022-09-19
@@ -17,7 +17,7 @@ use_language_switcher: "Python-Scala-Java"
 
 ## Description
 
-Pretrained RoBertaForSequenceClassification model, adapted from Hugging Face and curated to provide scalability and production-readiness using Spark NLP. `argument-classifier` is a English model originally trained by `addy88`.
+Pretrained RoBertaForSequenceClassification model, adapted from Hugging Face and curated to provide scalability and production-readiness using Spark NLP. `roberta-argument` is a English model originally trained by `chkla`.
 
 ## Predicted Entities
 
@@ -26,7 +26,7 @@ Pretrained RoBertaForSequenceClassification model, adapted from Hugging Face and
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>
 <button class="button button-orange" disabled>Open in Colab</button>
-[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/roberta_classifier_argument_en_4.1.0_3.0_1663605190582.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
+[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/roberta_classifier_argument_en_4.1.0_3.0_1663610181316.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
 
 ## How to use
 
@@ -92,4 +92,5 @@ val result = pipeline.fit(data).transform(data)
 
 ## References
 
-- https://huggingface.co/addy88/argument-classifier
+- https://huggingface.co/chkla/roberta-argument
+- https://www.aclweb.org/anthology/D18-1402/
