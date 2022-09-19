@@ -56,6 +56,25 @@ tokenClassifier = legal.BertForTokenClassification.pretrained("legner_bert_indem
 ner_converter = NerConverter()\
     .setInputCols(["sentence","token","label"])\
     .setOutputCol("ner_chunk")
+    
+nlpPipeline = Pipeline(stages=[
+        documentAssembler,
+        sentencizer,
+        tokenizer,
+        tokenClassifier,
+        ner_converter
+        ])
+
+empty_data = spark.createDataFrame([[""]]).toDF("text")
+
+model = nlpPipeline.fit(empty_data)
+
+text='''The Company shall protect and indemnify the Supplier against any damages, losses or costs whatsoever'''
+
+data = spark.createDataFrame([[text]]).toDF("text")
+model = nlpPipeline.fit(data)
+lmodel = LightPipeline(model)
+res = lmodel.annotate(text)
 ```
 
 </div>
