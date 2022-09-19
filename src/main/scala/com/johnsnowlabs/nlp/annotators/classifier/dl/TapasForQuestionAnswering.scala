@@ -8,6 +8,13 @@ import org.apache.spark.ml.util.Identifiable
 import org.apache.spark.sql.SparkSession
 
 import java.io.File
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
+
+case class TapasTable(
+                     columns: Array[String],
+                     rows: Array[Array[Any]]
+                     )
 
 class TapasForQuestionAnswering(override val uid: String) extends BertForQuestionAnswering(uid) {
 
@@ -22,7 +29,7 @@ class TapasForQuestionAnswering(override val uid: String) extends BertForQuestio
     * @group anno
     */
   override val inputAnnotatorTypes: Array[String] =
-    Array(AnnotatorType.DOCUMENT)
+    Array(AnnotatorType.TABLE, AnnotatorType.DOCUMENT)
 
   private var _model: Option[Broadcast[TensorflowTapas]] = None
 
@@ -54,20 +61,25 @@ class TapasForQuestionAnswering(override val uid: String) extends BertForQuestio
 
     batchedAnnotations.map(annotations => {
 
-      val documents = annotations
+      val questions = annotations
         .filter(_.annotatorType == AnnotatorType.DOCUMENT)
         .toSeq
 
-      if (documents.nonEmpty) {
-        getModelIfNotSet.predictSpan(
-          documents,
-          $(maxSentenceLength),
-          $(caseSensitive),
-          MergeTokenStrategy.vocab)
+      val tables = annotations
+        .filter(_.annotatorType == AnnotatorType.TABLE)
+        .toSeq
+
+      if (questions.nonEmpty) {
+        tables.flatMap{ table => {
+          getModelIfNotSet.predictTapasSpan(
+            questions,
+            table,
+            $(maxSentenceLength),
+            $(caseSensitive))
+        }}
       } else {
         Seq.empty[Annotation]
-      }
-    })
+      }})
   }
 
 }
