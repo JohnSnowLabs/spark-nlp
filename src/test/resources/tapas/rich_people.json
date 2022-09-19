@@ -1,7 +1,7 @@
 {
-  "header": ["name", "wealth", "date of birth"],
+  "header": ["name", "money", "age"],
   "rows": [
-    ["Donald Trump", "more than 100 millions", "June 12, 1970"],
-    ["Elon Musk", "200 billions", "January 10, 1960"]
+    ["Donald Trump", "$100,000,000", "75"],
+    ["Elon Musk", "$20,000,000,000,000", "55"]
   ]
 }

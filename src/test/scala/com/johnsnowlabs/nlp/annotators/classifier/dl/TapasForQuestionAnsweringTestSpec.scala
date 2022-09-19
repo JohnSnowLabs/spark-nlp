@@ -25,7 +25,7 @@ class TapasForQuestionAnsweringTestSpec extends AnyFlatSpec {
     sourceFile.close()
 
     val data = Seq(
-      (textFileContents, "Who is the richest man? Who is poorer?"),
+      (textFileContents, "Who has more money? How much money has Donald Trump? How old are they?"),
     ).toDF("table", "questions").repartition(1)
 
     val docAssembler = new MultiDocumentAssembler()
@@ -49,7 +49,12 @@ class TapasForQuestionAnsweringTestSpec extends AnyFlatSpec {
 
     val pipeline = new Pipeline().setStages(Array(docAssembler, sentenceDetector, tableAssembler, tapas))
     val pipelineModel = pipeline.fit(data)
-    pipelineModel.transform(data).collect()
+    println(textFileContents)
+    pipelineModel
+      .transform(data)
+      .selectExpr("explode(answer) as answer")
+      .selectExpr("answer.metadata.question", "answer.result")
+      .show(truncate = false)
 
   }
 }
