@@ -26,7 +26,7 @@ Pretrained BertForSequenceClassification model, adapted from Hugging Face and cu
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>
 <button class="button button-orange" disabled>Open in Colab</button>
-[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/bert_classifier_evidence_types_en_4.1.0_3.0_1663606992387.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
+[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/bert_classifier_evidence_types_en_4.1.0_3.0_1663607074169.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
 
 ## How to use
 
