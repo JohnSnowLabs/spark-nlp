@@ -17,7 +17,7 @@ use_language_switcher: "Python-Scala-Java"
 
 ## Description
 
-Pretrained BertForSequenceClassification model, adapted from Hugging Face and curated to provide scalability and production-readiness using Spark NLP. `qs-classifier-bert` is a English model originally trained by `asvs`.
+Pretrained BertForSequenceClassification model, adapted from Hugging Face and curated to provide scalability and production-readiness using Spark NLP. `qs-classifier` is a English model originally trained by `asvs`.
 
 ## Predicted Entities
 
@@ -26,7 +26,7 @@ Pretrained BertForSequenceClassification model, adapted from Hugging Face and cu
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>
 <button class="button button-orange" disabled>Open in Colab</button>
-[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/bert_classifier_qs_en_4.2.0_3.0_1663668540245.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
+[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/bert_classifier_qs_en_4.2.0_3.0_1663668524739.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
 
 ## How to use
 
@@ -92,4 +92,4 @@ val result = pipeline.fit(data).transform(data)
 
 ## References
 
-- https://huggingface.co/asvs/qs-classifier-bert
+- https://huggingface.co/asvs/qs-classifier
