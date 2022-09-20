@@ -648,7 +648,8 @@ object PythonResourceDownloader {
     "RoBertaForQuestionAnswering" -> RoBertaForQuestionAnswering,
     "XlmRoBertaForQuestionAnswering" -> XlmRoBertaForQuestionAnswering,
     "SpanBertCorefModel" -> SpanBertCorefModel,
-    "ViTForImageClassification" -> ViTForImageClassification)
+    "ViTForImageClassification" -> ViTForImageClassification,
+    "CamemBertForTokenClassification" -> CamemBertForTokenClassification)
 
   def downloadModel(
       readerStr: String,
