@@ -1,20 +1,21 @@
 ---
-layout: demopage
-title: Radiology
+layout: demopagenew
+title: Radiology - Clinical NLP Demos & Notebooks
+seotitle: 'Clinical NLP: Radiology - John Snow Labs'
 full_width: true
 permalink: /radiology
 key: demo
+article_header:
+  type: demo
 license: false
+mode: immersivebg
 show_edit_on_github: false
 show_date: false
 data:
   sections:  
-    - title: Spark NLP for Healthcare
-      excerpt: Radiology
-      secheader: yes
+    - secheader: yes
       secheader:
-        - title: Spark NLP for Healthcare
-          subtitle: Radiology
+        - subtitle: Radiology - Live Demos & Notebooks
           activemenu: radiology
       source: yes
       source: 
@@ -29,7 +30,7 @@ data:
           - text: Live Demo
             type: normal
             url: https://demo.johnsnowlabs.com/healthcare/NER_RADIOLOGY
-          - text: Colab Netbook
+          - text: Colab
             type: blue_btn
             url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/NER_RADIOLOGY.ipynb
         - title: Detect Anatomical and Observation Entities in Chest Radiology Reports
@@ -43,7 +44,7 @@ data:
           - text: Live Demo
             type: normal
             url: https://demo.johnsnowlabs.com/healthcare/NER_CHEXPERT/
-          - text: Colab Netbook
+          - text: Colab
             type: blue_btn
             url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/NER_CHEXPERT.ipynb
         - title: Assign an assertion status (confirmed, suspected or negative) to Image Findings
@@ -57,7 +58,7 @@ data:
           - text: Live Demo
             type: normal
             url: https://demo.johnsnowlabs.com/healthcare/ASSERTION_RADIOLOGY/
-          - text: Colab Netbook
+          - text: Colab
             type: blue_btn
             url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/ASSERTION_RADIOLOGY.ipynb
         - title: Identify relations between problems, tests and findings
@@ -71,7 +72,7 @@ data:
           - text: Live Demo
             type: normal
             url: https://demo.johnsnowlabs.com/healthcare/RE_RADIOLOGY/
-          - text: Colab Netbook
+          - text: Colab
             type: blue_btn
             url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/RE_RADIOLOGY.ipynb
 ---

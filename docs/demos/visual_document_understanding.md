@@ -1,20 +1,22 @@
 ---
-layout: demopage
-title: Spark NLP in Action
+layout: demopagenew
+title: Visual Document Understanding - Visual NLP Demos & Notebooks
+seotitle: 'Visual NLP: Visual Document Understanding - John Snow Labs'
+subtitle: Run 300+ live demos and notebooks
 full_width: true
 permalink: /visual_document_understanding
 key: demo
+article_header:
+  type: demo
 license: false
+mode: immersivebg
 show_edit_on_github: false
 show_date: false
 data:
   sections:  
-    - title: Spark OCR
-      excerpt: Visual Document Understanding
-      secheader: yes
+    - secheader: yes
       secheader:
-        - title: Spark OCR
-          subtitle: Visual Document Understanding
+        - subtitle: Visual Document Understanding - Live Demos & Notebooks
           activemenu: visual_document_understanding
       source: yes
       source: 
@@ -29,23 +31,9 @@ data:
           - text: Live Demo
             type: normal
             url: https://demo.johnsnowlabs.com/ocr/VISUAL_DOCUMENT_CLASSIFY/
-          - text: Colab Netbook
+          - text: Colab
             type: blue_btn
-            url: https://colab.research.google.com/github/JohnSnowLabs/spark-ocr-workshop/blob/master/jupyter/SparkOCRVisualDocumentClassifier.ipynb
-        - title: Extract Data from Scanned Invoices
-          id: extract_entities_from_visual_documents  
-          image: 
-              src: /assets/images/Extract_entities_from_visual_documents.svg
-          image2: 
-              src: /assets/images/Extract_entities_from_visual_documents_c.svg
-          excerpt: Detect companies, total amounts and dates in scanned invoices using out of the box Spark OCR models. 
-          actions:
-          - text: Live Demo
-            type: normal
-            url: https://demo.johnsnowlabs.com/ocr/VISUAL_DOCUMENT_NER/
-          - text: Colab Netbook
-            type: blue_btn
-            url: https://colab.research.google.com/github/JohnSnowLabs/spark-ocr-workshop/blob/master/jupyter/SparkOCRVisualDocumentNer.ipynb
+            url: https://colab.research.google.com/github/JohnSnowLabs/spark-ocr-workshop/blob/master/jupyter/SparkOCRVisualDocumentClassifier.ipynb        
         - title: Extract Data from FoundationOne Sequencing Reports
           id: extract-data-from-foundationone-sequencing-reports
           image: 
@@ -57,7 +45,7 @@ data:
           - text: Live Demo
             type: normal
             url: https://demo.johnsnowlabs.com/ocr/FOUNDATIONONE_REPORT_PARSING/
-          - text: Colab Netbook
+          - text: Colab
             type: blue_btn
             url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/ocr/FOUNDATIONONE_REPORT_PARSING.ipynb 
         - title: Recognize entities in scanned PDFs
@@ -71,7 +59,7 @@ data:
           - text: Live Demo
             type: normal
             url: https://demo.johnsnowlabs.com/ocr/PDF_TEXT_NER/
-          - text: Colab Netbook
+          - text: Colab
             type: blue_btn
             url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/ocr/PDF_TEXT_NER.ipynb
         - title: Extract brands from visual documents
@@ -85,21 +73,7 @@ data:
           - text: Live Demo
             type: normal
             url: https://demo.johnsnowlabs.com/ocr/BRAND_EXTRACTION/
-          - text: Colab Netbook
+          - text: Colab
             type: blue_btn
-            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/ocr/BRAND_EXTRACTION.ipynb
-        - title: Form Recognition
-          id: form_recognition 
-          image: 
-              src: /assets/images/Detect_sentences_in_text.svg
-          image2: 
-              src: /assets/images/Detect_sentences_in_text_f.svg
-          excerpt: This demo shows how to perceive data in forms as key-value pairs.
-          actions:
-          - text: Live Demo
-            type: normal
-            url: https://demo.johnsnowlabs.com/ocr/FORM_RECOGNITION/
-          - text: Colab Netbook
-            type: blue_btn
-            url: https://colab.research.google.com/github/JohnSnowLabs/spark-ocr-workshop/blob/master/jupyter/FormRecognition/SparkOcrFormRecognition.ipynb
+            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/ocr/BRAND_EXTRACTION.ipynb                
 ---

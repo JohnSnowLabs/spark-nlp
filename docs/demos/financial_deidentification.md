@@ -1,10 +1,14 @@
 ---
-layout: demopage
+layout: demopagenew
 title: Spark NLP in Action
+subtitle: Run 300+ live demos and notebooks
 full_width: true
 permalink: /financial_deidentification
 key: demo
+article_header:
+  type: demo
 license: false
+mode: immersivebg
 show_edit_on_github: false
 show_date: false
 data:
@@ -29,7 +33,7 @@ data:
           - text: Live Demo
             type: normal
             url: https://demo.johnsnowlabs.com/finance/DEID_FIN/
-          - text: Colab Netbook
+          - text: Colab
             type: blue_btn
-            url: https://nlp.johnsnowlabs.com/  
+            url:    
 ---

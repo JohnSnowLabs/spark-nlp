@@ -76,6 +76,19 @@ class Annotation:
     def __repr__(self):
         return self.__str__()
 
+    def __eq__(self, other):
+        same_annotator_type = self.annotator_type == other.annotator_type
+        same_result = self.result == other.result
+        same_begin = self.begin == other.begin
+        same_end = self.end == other.end
+        same_metadata = self.metadata == other.metadata
+        same_embeddings = self.embeddings == other.embeddings
+
+        same_annotation = \
+            same_annotator_type and same_result and same_begin and same_end and same_metadata and same_embeddings
+
+        return same_annotation
+
     @staticmethod
     def dataType():
         """Returns a Spark `StructType`, that represents the schema of the
@@ -152,6 +165,5 @@ class Annotation:
             The new Row.
         """
         from pyspark.sql import Row
-        return Row(annotation.annotator_type, annotation.begin, annotation.end, annotation.result, annotation.metadata, annotation.embeddings)
-
-
+        return Row(annotation.annotator_type, annotation.begin, annotation.end, annotation.result, annotation.metadata,
+                   annotation.embeddings)

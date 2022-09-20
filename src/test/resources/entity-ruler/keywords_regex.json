@@ -2,11 +2,13 @@
   {
     "id": "person-regex",
     "label": "PERSON",
-    "patterns": ["\\w+\\s\\w+", "\\w+-\\w+"]
+    "patterns": ["\\w+\\s\\w+", "\\w+-\\w+"],
+    "regex": true
   },
   {
     "id": "locations-words",
     "label": "LOCATION",
-    "patterns": ["Winterfell"]
+    "patterns": ["Winterfell"],
+    "regex": false
   }
 ]

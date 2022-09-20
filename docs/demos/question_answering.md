@@ -1,20 +1,22 @@
 ---
-layout: demopage
-title: Spark NLP in Action
+layout: demopagenew
+title: Question Answering - Spark NLP Demos & Notebooks
+seotitle: 'Spark NLP: Question Answering - John Snow Labs'
+subtitle: Run 300+ live demos and notebooks
 full_width: true
 permalink: /question_answering
 key: demo
+article_header:
+  type: demo
 license: false
+mode: immersivebg
 show_edit_on_github: false
 show_date: false
 data:
   sections:  
-    - title: Spark NLP for Finance
-      excerpt: Question Answering
-      secheader: yes
+    - secheader: yes
       secheader:
-        - title: Spark NLP for Finance
-          subtitle: Question Answering
+        - subtitle: Question Answering - Live Demos & Notebooks
           activemenu: question_answering
       source: yes
       source:
@@ -29,7 +31,7 @@ data:
           - text: Live Demo
             type: normal
             url: https://demo.johnsnowlabs.com/public/QUESTION_ANSWERING_CLOSED_BOOK/
-          - text: Colab Netbook
+          - text: Colab
             type: blue_btn
             url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/public/QUESTION_ANSWERING_CLOSED_BOOK.ipynb
         - title: Automatically Answer Questions (OPEN BOOK)   
@@ -43,7 +45,7 @@ data:
           - text: Live Demo
             type: normal
             url: https://demo.johnsnowlabs.com/public/QUESTION_ANSWERING_OPEN_BOOK/
-          - text: Colab Netbook
+          - text: Colab
             type: blue_btn
             url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/public/QUESTION_ANSWERING_OPEN_BOOK.ipynb
 ---

@@ -45,6 +45,7 @@ import com.johnsnowlabs.util._
 import org.apache.hadoop.fs.FileSystem
 import org.apache.spark.ml.util.DefaultParamsReadable
 import org.apache.spark.ml.{PipelineModel, PipelineStage}
+import org.slf4j.LoggerFactory
 
 import scala.collection.mutable
 import scala.collection.mutable.ListBuffer
@@ -76,6 +77,8 @@ trait ResourceDownloader {
 }
 
 object ResourceDownloader {
+
+  private val logger = LoggerFactory.getLogger(this.getClass.toString)
 
   val fileSystem: FileSystem = OutputHelper.getFileSystem
 
@@ -419,7 +422,7 @@ object ResourceDownloader {
     *   path of downloaded resource
     */
   def downloadResource(request: ResourceRequest): String = {
-    val f = Future {
+    val future = Future {
       if (request.folder.equals(publicLoc)) {
         publicDownloader.download(request)
       } else if (request.folder.startsWith("@")) {
@@ -436,24 +439,24 @@ object ResourceDownloader {
       }
     }
 
-    var download_finished = false
+    var downloadFinished = false
     var path: Option[String] = None
-    val file_size = getDownloadSize(request)
+    val fileSize = getDownloadSize(request)
     require(
-      !file_size.equals("-1"),
+      !fileSize.equals("-1"),
       s"Can not find ${request.name} inside ${request.folder} to download. Please make sure the name and location are correct!")
     println(request.name + " download started this may take some time.")
-    println("Approximate size to download " + file_size)
+    println("Approximate size to download " + fileSize)
 
-    var nextc = 0
-    while (!download_finished) {
-      nextc += 1
-      f.onComplete {
+    while (!downloadFinished) {
+      future.onComplete {
         case Success(value) =>
-          download_finished = true
+          downloadFinished = true
           path = value
-        case Failure(_) =>
-          download_finished = true
+        case Failure(exception) =>
+          println(s"Error: ${exception.getMessage}")
+          logger.error(exception.getMessage)
+          downloadFinished = true
           path = None
       }
       Thread.sleep(1000)
@@ -650,7 +653,8 @@ object PythonResourceDownloader {
     "XlmRoBertaForQuestionAnswering" -> XlmRoBertaForQuestionAnswering,
     "SpanBertCorefModel" -> SpanBertCorefModel,
     "ViTForImageClassification" -> ViTForImageClassification,
-    "Wav2Vec2ForCTC" -> Wav2Vec2ForCTC)
+    "Wav2Vec2ForCTC" -> Wav2Vec2ForCTC,
+    "CamemBertForTokenClassification" -> CamemBertForTokenClassification)
 
   def downloadModel(
       readerStr: String,
