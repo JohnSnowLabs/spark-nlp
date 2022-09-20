@@ -152,7 +152,7 @@ spark = start(SECRET)
 If you want to download the source files (jar and whl files) locally, you can follow the instructions <a href="https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/jupyter/SparkNLP_offline_installation.ipynb">here</a>.
 
 
-### Spark NLP for Healthcare Cheat Sheet
+### Spark NLP for Healthcare Cheatsheet
 
 ```bash
 # Install Spark NLP from PyPI
