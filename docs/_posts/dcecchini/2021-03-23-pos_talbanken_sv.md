@@ -55,6 +55,11 @@ sentence_detector = SentenceDetector()\
 .setInputCols(["document"])\
 .setOutputCol("sentence")
 
+
+tokenizer = Tokenizer()\
+    .setInputCols("sentence")\
+    .setOutputCol("token")
+
 pos = PerceptronModel.pretrained("pos_talbanken", "sv")\
 .setInputCols(["document", "token"])\
 .setOutputCol("pos")
@@ -62,6 +67,7 @@ pos = PerceptronModel.pretrained("pos_talbanken", "sv")\
 pipeline = Pipeline(stages=[
 document_assembler,
 sentence_detector,
+tokenizer,
 posTagger
 ])
 
@@ -77,11 +83,15 @@ val sentence_detector = SentenceDetector()
 .setInputCols(["document"])
 	.setOutputCol("sentence")
 
+val tokenizer = Tokenizer()\
+    .setInputCols("sentence")\
+    .setOutputCol("token")
+
 val pos = PerceptronModel.pretrained("pos_talbanken", "sv")
 .setInputCols(Array("document", "token"))
 .setOutputCol("pos")
 
-val pipeline = new Pipeline().setStages(Array(document_assembler, sentence_detector, pos))
+val pipeline = new Pipeline().setStages(Array(document_assembler, sentence_detector,tokenizer , pos))
 
 val data = Seq(" Medicinsk bildtolk " också skall fungera som hjälpmedel för läkaren att klarlägga sjukdomsbilden utan att patienten behöver säga ett ord .").toDF("text")
 val result = pipeline.fit(data).transform(data)
