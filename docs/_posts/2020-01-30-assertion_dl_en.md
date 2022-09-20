@@ -44,24 +44,24 @@ document_assembler = DocumentAssembler()\
     .setOutputCol("document")
     
 sentenceDetector = SentenceDetectorDLModel.pretrained()\
-  .setInputCols("document")\
-  .setOutputCol("sentence")
+    .setInputCols("document")\
+    .setOutputCol("sentence")
     
 tokenizer = Tokenizer()\
     .setInputCols(["sentence"])\
     .setOutputCol("token")
 
 word_embeddings = WordEmbeddingsModel.pretrained("embeddings_clinical", "en", "clinical/models")\
-  .setInputCols(["sentence", "token"])\
-  .setOutputCol("embeddings")
+    .setInputCols(["sentence", "token"])\
+    .setOutputCol("embeddings")
 
 clinical_ner = MedicalNerModel.pretrained("ner_clinical", "en", "clinical/models") \
-  .setInputCols(["sentence", "token", "embeddings"]) \
-  .setOutputCol("ner")
+    .setInputCols(["sentence", "token", "embeddings"]) \
+    .setOutputCol("ner")
 
 ner_converter = NerConverter() \
-  .setInputCols(["sentence", "token", "ner"]) \
-  .setOutputCol("ner_chunk")
+    .setInputCols(["sentence", "token", "ner"]) \
+    .setOutputCol("ner_chunk")
 
 clinical_assertion = AssertionDLModel.pretrained("assertion_dl", "en", "clinical/models") \
     .setInputCols(["sentence", "ner_chunk", "embeddings"]) \
@@ -86,24 +86,24 @@ val document_assembler = new DocumentAssembler()
     .setOutputCol("document")
     
 val sentenceDetector = SentenceDetectorDLModel.pretrained()
-  .setInputCols("document")
-  .setOutputCol("sentence")
+    .setInputCols("document")
+    .setOutputCol("sentence")
     
 val tokenizer = new Tokenizer()
     .setInputCols("sentence")
     .setOutputCol("token")
 
 val word_embeddings = WordEmbeddingsModel.pretrained("embeddings_clinical", "en", "clinical/models")
-  .setInputCols(Array("sentence", "token"))
-  .setOutputCol("embeddings")
+    .setInputCols(Array("sentence", "token"))
+    .setOutputCol("embeddings")
 
 val clinical_ner = MedicalNerModel.pretrained("ner_clinical", "en", "clinical/models")
-  .setInputCols(Array("sentence", "token", "embeddings")) 
-  .setOutputCol("ner")
+    .setInputCols(Array("sentence", "token", "embeddings")) 
+    .setOutputCol("ner")
 
 val ner_converter = new NerConverter()
-  .setInputCols(Array("sentence", "token", "ner"))
-  .setOutputCol("ner_chunk")
+    .setInputCols(Array("sentence", "token", "ner"))
+    .setOutputCol("ner_chunk")
 
 val clinical_assertion = AssertionDLModel.pretrained("assertion_dl", "en", "clinical/models")
     .setInputCols(Array("sentence", "ner_chunk", "embeddings"))
