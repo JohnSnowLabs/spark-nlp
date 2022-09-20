@@ -23,7 +23,7 @@ from pyspark.sql.functions import col
 from test.util import SparkSessionForTest
 
 
-@pytest.mark.fast
+@pytest.mark.slow
 class Wav2Vec2ForCTCTestSpec(unittest.TestCase):
     def setUp(self):
         audio_path = os.getcwd() + "/../src/test/resources/audio/json/audio_floats.json"
