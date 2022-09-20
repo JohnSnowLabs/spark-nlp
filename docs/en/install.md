@@ -358,7 +358,7 @@ NOTE: Spark NLP 4.0.x is based on TensorFlow 2.7.x which is compatible with CUDA
 
 4. Now you can attach your notebook to the cluster and use Spark NLP!
 
-NOTE: Databrick's runtimes support different Apache Spark major releases. Please make sure you choose the correct Spark NLP Maven pacakge name (Maven Coordinate) for your runtime from our [Pacakges Cheatsheet](https://github.com/JohnSnowLabs/spark-nlp#packages-cheatsheet)
+NOTE: Databrick's runtimes support different Apache Spark major releases. Please make sure you choose the correct Spark NLP Maven pacakge name (Maven Coordinate) for your runtime from our [Packages Cheatsheet](https://github.com/JohnSnowLabs/spark-nlp#packages-cheatsheet)
 
 #### Databricks Notebooks
 
