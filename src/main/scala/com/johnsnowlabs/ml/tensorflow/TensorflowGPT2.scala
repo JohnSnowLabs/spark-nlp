@@ -284,8 +284,8 @@ class TensorflowGPT2(
       var nextToken = Array.ofDim[Int](decoderInputs.length)
 
       if (doSample) {
-        // Temperature (higher temperature => more likely to sample low probability tokens)
-        if (temperature != 1.0)
+        // Temperature (higher temperature => more likely to sample low probability tokens). May not be 0
+        if (temperature != 1.0 && temperature > 0)
           nextTokenLogits =
             for (nextTokenLogit <- nextTokenLogits)
               yield nextTokenLogit.map(_ / temperature.toFloat)
@@ -531,6 +531,11 @@ class TensorflowGPT2(
       if (accum >= randomDouble) {
         return i
       }
+    }
+    if (distFiltered.length == 0) {
+      // TODO should distFiltered.length == 0 happen (?)
+      //  Can we something better than 0?
+      return 0
     }
     indices(0)
   }
