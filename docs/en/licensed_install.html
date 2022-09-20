@@ -645,22 +645,26 @@ pyspark this cell is just ignored.</p>
 <p>You can either use our convenience function to start your Spark Session that will use standard configuration arguments:</p>
 
 <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">sparknlp_jsl</span>
-<span class="n">spark</span> <span class="o">=</span> <span class="n">sparknlp_jsl</span><span class="p">.</span><span class="n">start</span><span class="p">(</span><span class="s">"{secret.code}"</span><span class="p">)</span>
+<span class="n">spark</span> <span class="o">=</span> <span class="n">sparknlp_jsl</span><span class="p">.</span><span class="n">start</span><span class="p">(</span><span class="n">SECRET</span><span class="p">)</span>
 </code></pre></div></div>
 
 <p>Or use the SparkSession module for more flexibility:</p>
 
 <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">pyspark.sql</span> <span class="kn">import</span> <span class="n">SparkSession</span>
 
-<span class="n">spark</span> <span class="o">=</span> <span class="n">SparkSession</span><span class="p">.</span><span class="n">builder</span> \
-    <span class="p">.</span><span class="n">appName</span><span class="p">(</span><span class="s">"Spark NLP Enterprise"</span><span class="p">)</span> \
-    <span class="p">.</span><span class="n">master</span><span class="p">(</span><span class="s">"local[*]"</span><span class="p">)</span> \
-    <span class="p">.</span><span class="n">config</span><span class="p">(</span><span class="s">"spark.driver.memory"</span><span class="p">,</span><span class="s">"16"</span><span class="p">)</span> \
-    <span class="p">.</span><span class="n">config</span><span class="p">(</span><span class="s">"spark.driver.maxResultSize"</span><span class="p">,</span> <span class="s">"0"</span><span class="p">)</span> \
-    <span class="p">.</span><span class="n">config</span><span class="p">(</span><span class="s">"spark.kryoserializer.buffer.max"</span><span class="p">,</span> <span class="s">"1000M"</span><span class="p">)</span>\
-    <span class="p">.</span><span class="n">config</span><span class="p">(</span><span class="s">"spark.jars.packages"</span><span class="p">,</span> <span class="s">"com.johnsnowlabs.nlp:spark-nlp_2.11:2.7.6"</span><span class="p">)</span> \
-    <span class="p">.</span><span class="n">config</span><span class="p">(</span><span class="s">"spark.jars"</span><span class="p">,</span> <span class="s">"https://pypi.johnsnowlabs.com/${secret.code}/spark-nlp-jsl-${version}.jar"</span><span class="p">)</span> \
-    <span class="p">.</span><span class="n">getOrCreate</span><span class="p">()</span>
+<span class="k">def</span> <span class="nf">start</span><span class="p">(</span><span class="n">SECRET</span><span class="p">):</span>
+    <span class="n">builder</span> <span class="o">=</span> <span class="n">SparkSession</span><span class="p">.</span><span class="n">builder</span> \
+        <span class="p">.</span><span class="n">appName</span><span class="p">(</span><span class="s">"Spark NLP Licensed"</span><span class="p">)</span> \
+        <span class="p">.</span><span class="n">master</span><span class="p">(</span><span class="s">"local[*]"</span><span class="p">)</span> \
+        <span class="p">.</span><span class="n">config</span><span class="p">(</span><span class="s">"spark.driver.memory"</span><span class="p">,</span> <span class="s">"16G"</span><span class="p">)</span> \
+        <span class="p">.</span><span class="n">config</span><span class="p">(</span><span class="s">"spark.serializer"</span><span class="p">,</span> <span class="s">"org.apache.spark.serializer.KryoSerializer"</span><span class="p">)</span> \
+        <span class="p">.</span><span class="n">config</span><span class="p">(</span><span class="s">"spark.kryoserializer.buffer.max"</span><span class="p">,</span> <span class="s">"2000M"</span><span class="p">)</span> \
+        <span class="p">.</span><span class="n">config</span><span class="p">(</span><span class="s">"spark.jars.packages"</span><span class="p">,</span> <span class="s">"com.johnsnowlabs.nlp:spark-nlp_2.12:"</span><span class="o">+</span><span class="n">PUBLIC_VERSION</span><span class="p">)</span> \
+        <span class="p">.</span><span class="n">config</span><span class="p">(</span><span class="s">"spark.jars"</span><span class="p">,</span> <span class="s">"https://pypi.johnsnowlabs.com/"</span><span class="o">+</span><span class="n">SECRET</span><span class="o">+</span><span class="s">"/spark-nlp-jsl-"</span><span class="o">+</span><span class="n">JSL_VERSION</span><span class="o">+</span><span class="s">".jar"</span><span class="p">)</span>
+      
+    <span class="k">return</span> <span class="n">builder</span><span class="p">.</span><span class="n">getOrCreate</span><span class="p">()</span>
+
+<span class="n">spark</span> <span class="o">=</span> <span class="n">start</span><span class="p">(</span><span class="n">SECRET</span><span class="p">)</span>
 </code></pre></div></div>
 
 <p>If you want to download the source files (jar and whl files) locally, you can follow the instructions <a href="https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/jupyter/SparkNLP_offline_installation.ipynb">here</a>.</p>
@@ -929,6 +933,10 @@ running</p>
 
 <h2 id="install-on-gcp-dataproc">Install on GCP Dataproc</h2>
 
+<ul>
+  <li>You can follow the steps here for <a href="https://github.com/JohnSnowLabs/spark-nlp-workshop/tree/master/platforms/dataproc">installation via IU</a></li>
+</ul>
+
 <ol>
   <li>Create a cluster if you don’t have one already as follows.</li>
 </ol>
@@ -1001,8 +1009,8 @@ The key part of this usage is how to start SparkNLP sessions using Apache Hadoop
         .appName("Spark NLP Licensed") \
         .config("spark.serializer", "org.apache.spark.serializer.KryoSerializer") \
         .config("spark.kryoserializer.buffer.max", "2000M") \
-        .config("spark.jars.packages", "com.johnsnowlabs.nlp:spark-nlp_2.12:"+version) \
-        .config("spark.jars", "https://pypi.johnsnowlabs.com/"+secret+"/spark-nlp-jsl-"+jsl_version+".jar")
+        .config("spark.jars.packages", "com.johnsnowlabs.nlp:spark-nlp_2.12:"+PUBLIC_VERSION) \
+        .config("spark.jars", "https://pypi.johnsnowlabs.com/"+SECRET+"/spark-nlp-jsl-"+JSL_VERSION+".jar")
 
     return builder.getOrCreate()
 
@@ -1012,31 +1020,70 @@ spark = start(SECRET)
 <p>As you see, we did not set <code class="language-plaintext highlighter-rouge">.master('local[*]')</code> explicitly to let YARN manage the cluster.
 Or you can set <code class="language-plaintext highlighter-rouge">.master('yarn')</code>.</p>
 
-<h2 id="install-with-poetry">Install with Poetry</h2>
+<h2 id="install-on-aws-sagemaker">Install on AWS SageMaker</h2>
 
-<p>This is a sample <code class="language-plaintext highlighter-rouge">project.toml</code> file which you can use with <code class="language-plaintext highlighter-rouge">poetry install</code> to setup spark NLP + the Healthcare python library <code class="language-plaintext highlighter-rouge">spark-nlp-jsl</code></p>
+<ol>
+  <li>Access AWS Sagemaker in AWS.</li>
+  <li>Go to Notebook -&gt; Notebook Instances.</li>
+  <li>Create a new Notebook Instance, follow this <a href="https://github.com/JohnSnowLabs/spark-nlp-workshop/tree/master/platforms/sagemaker">Instructions Steps</a></li>
+  <li>Minimum requirement 16G RAM and 50G Volume. This is the configuration we have used, although most of the interesting models will require a ml.t3.xlarge instance or more. Reserve at least 50GB of memory</li>
+  <li>Once created, open JupyterLab and use Conda Python 3 kernel.</li>
+  <li>Upload <code class="language-plaintext highlighter-rouge">license key</code> and set <code class="language-plaintext highlighter-rouge">Environment Variables</code>.
+```Python
+import json
+import os</li>
+</ol>
 
-<p>You need to point it to either the <code class="language-plaintext highlighter-rouge">tar.gz</code> or <code class="language-plaintext highlighter-rouge">.whl</code> file which are hosted at
-<code class="language-plaintext highlighter-rouge">https://pypi.johnsnowlabs.com/&lt;SECRET&gt;/spark-nlp-jsl/</code></p>
+<p>with open(‘spark_nlp_for_healthcare.json’, ‘r’) as f:
+    for k, v in json.load(f).items():
+        %set_env $k=$v</p>
 
-<p><strong>NOTE</strong> You must update the <code class="language-plaintext highlighter-rouge">url</code> whenever you are <code class="language-plaintext highlighter-rouge">upgrading</code> your spark-nlp-jsl version</p>
+<p>%set_env PYSPARK=3.2.2
+%set_env SPARK_HOME=/home/ec2-user/SageMaker/spark-3.2.2-bin-hadoop2.7</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>7. Download and install libraries
+```Python
+!wget https://raw.githubusercontent.com/JohnSnowLabs/spark-nlp-workshop/master/jsl_sagemaker_setup.sh
+!bash jsl_sagemaker_setup.sh
+</code></pre></div></div>
+<ol>
+  <li>Import libraries and start session
+```Python
+import sparknlp
+import sparknlp_jsl
+from pyspark.sql import SparkSession</li>
+</ol>
 
-<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>tool.poetry]
-name <span class="o">=</span> <span class="s2">"poertry_demo"</span>
-version <span class="o">=</span> <span class="s2">"0.1.0"</span>
-description <span class="o">=</span> <span class="s2">""</span>
-authors <span class="o">=</span> <span class="o">[</span><span class="s2">"person &lt;person@gmail.com&gt;"</span><span class="o">]</span>
+<p>spark = sparknlp_jsl.start(license_keys[‘SECRET’])</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
 
-<span class="o">[</span>tool.poetry.dependencies]
-python <span class="o">=</span> <span class="s2">"^3.7"</span>
 
-<span class="o">[</span>tool.poetry.dev-dependencies]
-spark-nlp <span class="o">=</span> <span class="s2">"3.4.4"</span>
-spark-nlp-jsl <span class="o">=</span> <span class="o">{</span> url <span class="o">=</span> <span class="s2">"https://pypi.johnsnowlabs.com/SECRET/spark-nlp-jsl/spark_nlp_jsl-tar.gz_OR_.whl"</span> <span class="o">}</span>
+## Install with Poetry
 
-<span class="o">[</span>build-system]
-requires <span class="o">=</span> <span class="o">[</span><span class="s2">"poetry-core&gt;=1.0.0"</span><span class="o">]</span>
-build-backend <span class="o">=</span> <span class="s2">"poetry.core.masonry.api"</span>
+
+This is a sample `project.toml` file which you can use with `poetry install` to setup spark NLP + the Healthcare python library `spark-nlp-jsl`
+
+You need to point it to either the `tar.gz` or `.whl` file which are hosted at
+`https://pypi.johnsnowlabs.com/&lt;SECRET&gt;/spark-nlp-jsl/`
+
+**NOTE** You must update the `url` whenever you are `upgrading` your spark-nlp-jsl version
+
+```sh
+[tool.poetry]
+name = "poertry_demo"
+version = "0.1.0"
+description = ""
+authors = ["person &lt;person@gmail.com&gt;"]
+
+[tool.poetry.dependencies]
+python = "^3.7"
+
+[tool.poetry.dev-dependencies]
+spark-nlp = "3.4.4"
+spark-nlp-jsl = { url = "https://pypi.johnsnowlabs.com/SECRET/spark-nlp-jsl/spark_nlp_jsl-tar.gz_OR_.whl" }
+
+[build-system]
+requires = ["poetry-core&gt;=1.0.0"]
+build-backend = "poetry.core.masonry.api"
 </code></pre></div></div>
 
 <h2 id="spark-nlp-for-healthcare-in-aws-emr">Spark-NLP for Healthcare in AWS EMR</h2>
@@ -1132,11 +1179,11 @@ python3 <span class="nt">-m</span> venv .sparknlp-env
 <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>jupyter notebook
 </code></pre></div></div>
 
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c">### Now we are in the jupyter notebook cell:</span>
-import json
-import os
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">### Now we are in the jupyter notebook cell:
+</span><span class="kn">import</span> <span class="nn">json</span>
+<span class="kn">import</span> <span class="nn">os</span>
 
-with open<span class="o">(</span><span class="s1">'sparknlp_for_healthcare.json) as f:
+<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s">'sparknlp_for_healthcare.json) as f:
     license_keys = json.load(f)
 
 # Defining license key-value pairs as local variables
