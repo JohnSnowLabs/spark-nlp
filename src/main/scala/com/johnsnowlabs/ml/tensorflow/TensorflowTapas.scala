@@ -1,62 +1,14 @@
 package com.johnsnowlabs.ml.tensorflow
 
 import com.johnsnowlabs.ml.tensorflow.sign.ModelSignatureConstants
-import com.johnsnowlabs.nlp.annotators.common.{IndexedToken, Sentence}
-import com.johnsnowlabs.nlp.annotators.tokenizer.wordpiece.{BasicTokenizer, WordpieceEncoder}
+import com.johnsnowlabs.nlp.annotators.classifier.dl.tapas.{TapasEncoder, TapasInputData, TapasTable}
+import com.johnsnowlabs.nlp.annotators.tokenizer.wordpiece.WordpieceEncoder
 import com.johnsnowlabs.nlp.{Annotation, AnnotatorType}
 import com.johnsnowlabs.util.JsonParser.formats
-import org.json4s.DefaultFormats
 import org.json4s.jackson.JsonMethods.parse
 import org.tensorflow.ndarray.buffer.IntDataBuffer
-import sun.reflect.annotation.AnnotationType
 
-import java.time.format.DateTimeFormatter
-import java.time.temporal.ChronoField
-import scala.util.Try
 import scala.collection.JavaConverters._
-
-case class TapasCellDate(day: Option[Int], month: Option[Int], year: Option[Int])
-
-object TapasCellDate {
-      def Empty(): TapasCellDate  = {
-            TapasCellDate(None, None, None)
-      }
-}
-
-case class TapasCellValue(number: Option[Float], date: TapasCellDate)
-
-case class TapasNumericValueSpan(begin: Int, end: Int, value: TapasCellValue) {
-
-      def valueId: String = {
-            if (value.number.isDefined)
-                  value.number.toString
-            else if (value.date.day.isDefined || value.date.month.isDefined || value.date.year.isDefined)
-                  Array(
-                        if (value.date.day.isDefined) value.date.day.get.toString else "NA",
-                        if (value.date.month.isDefined) value.date.month.get.toString else "NA",
-                        if (value.date.year.isDefined) value.date.year.get.toString else "NA"
-                  ).mkString("@")
-            else TapasNumericValueSpan.emptyValueId
-      }
-}
-
-object TapasNumericValueSpan {
-      val emptyValueId = "NA"
-}
-
-case class Table(header: Array[String], rows: Array[Array[String]])
-
-case class TapasInputData(
-                              inputIds: Array[Int],
-                              attentionMask: Array[Int],
-                              segmentIds: Array[Int],
-                              columnIds: Array[Int],
-                              rowIds: Array[Int],
-                              prevLabels: Array[Int],
-                              columnRanks: Array[Int],
-                              invertedColumnRanks: Array[Int],
-                              numericRelations: Array[Int]
-                              )
 
 class TensorflowTapas(
     override val tensorflowWrapper: TensorflowWrapper,
@@ -74,324 +26,6 @@ class TensorflowTapas(
       tags = tags,
       signatures = signatures,
       vocabulary = vocabulary) {
-
-      val DT_FORMATTERS = Array(
-            ("MMMM", "\\w+".r),
-            ("yyyy", "\\d{4}".r),
-            ("yyyy's'", "\\d{4}s".r),
-            ("MMM yyyy", "\\w{3}\\s+\\d{4}".r),
-            ("MMMM yyyy", "\\w+\\s+\\d{4}".r),
-            ("MMMM d", "\\w+\\s+\\d{1,2}".r),
-            ("MMM d", "\\w{3}\\s+\\d{1,2}".r),
-            ("d MMMM", "\\d{1,2}\\s+\\w+".r),
-            ("d MMM", "\\d{1,2}\\s+\\w{3}".r),
-            ("MMMM d, yyyy", "\\w+\\s+\\d{1,2},\\s*\\d{4}".r),
-            ("d MMMM yyyy", "\\d{1,2}\\s+\\w+\\s+\\d{4}".r),
-            ("M-d-yyyy", "\\d{1,2}-\\d{1,2}-\\d{4}".r),
-            ("yyyyM-d", "\\d{4}-\\d{1,2}-\\d{1,2}".r),
-            ("yyyy MMMM", "\\d{4}\\s+\\w+".r),
-            ("d MMM yyyy", "\\d{1,2}\\s+\\w{3}\\s+\\d{4}".r),
-            ("yyyy-M-d", "\\d{4}-\\d{1,2}-\\d{1,2}".r),
-            ("MMM d, yyyy", "\\w{3}\\s+\\d{1,2},\\s*\\d{4}".r),
-            ("d.M.yyyy", "\\d{1,2}\\.\\d{1,2}\\.\\d{4}".r),
-            ("E, MMM d", "\\w{3},\\s+\\w{3}\\s+\\d{1,2}".r),
-            ("EEEE, MMM d", "\\w+,\\s+\\w{3}\\s+\\d{1,2}".r),
-            ("E, MMMM d", "\\w{3},\\s+\\w+\\s+\\d{1,2}".r),
-            ("EEEE, MMMM d", "\\w+,\\s+\\w+\\s+\\d{1,2}".r)
-      ).map(x => (DateTimeFormatter.ofPattern(x._1), x._2))
-
-      val MIN_YEAR = 1700
-      val MAX_YEAR = 2120
-
-      val MIN_NUMBER_OF_ROWS_WITH_VALUES_PROPORTION = 0.5
-      val ORDINAL_SUFFIXES = Array("st", "nd", "rd", "th")
-      val NUMBER_WORDS = Array("zero",  "one",  "two",  "three",  "four",  "five",
-            "six",  "seven", "eight",  "nine",  "ten", "eleven", "twelve")
-      val ORDINAL_WORDS = Array("zeroth", "first", "second",  "third",  "fourth",  "fith", "sixth",
-            "seventh", "eighth", "ninth", "tenth", "eleventh", "twelfth")
-
-      val AGGREGATIONS = Map(
-            0 -> "NONE",
-            1 -> "SUM",
-            2 -> "AVERAGE",
-            3 -> "COUNT")
-
-      def getAllSpans(text: String, maxNgramLength: Int) = {
-            var startIndices: Array[Int] = Array()
-            text.zipWithIndex.flatMap{
-                  case (ch, i) =>
-                        if (ch.isLetterOrDigit) {
-                              if (i == 0 || !text(i - 1).isLetterOrDigit)
-                                    startIndices = startIndices ++ Array(i)
-                              if (((i + 1) == text.length) || !text(i + 1).isLetterOrDigit){
-                                    startIndices.drop(startIndices.length-maxNgramLength).map(x => (x, i + 1))
-                              } else Array[(Int, Int)]()
-                        } else {
-                              Array[(Int, Int)]()
-                        }
-            }.toArray
-      }
-
-      def parseNumber(text: String): Option[Float] = {
-            var pText = text
-            ORDINAL_SUFFIXES
-              .foreach(suffix => {
-                    if (pText.endsWith(suffix)) {
-                          pText = pText.dropRight(suffix.length)
-                    }
-              })
-            pText = pText.replace(",", "")
-            Try(pText.toFloat).toOption
-      }
-
-      def parseDate(text: String): Option[TapasCellDate] = {
-            DT_FORMATTERS
-              .filter(dtf => dtf._2.pattern.matcher(text).matches() && Try(dtf._1.parse(text)).isSuccess)
-              .map(dtf => {
-                    val tempAccessor = dtf._1.parse(text)
-
-                    val day = Try(tempAccessor.get(ChronoField.DAY_OF_MONTH)).toOption
-                    val month = Try(tempAccessor.get(ChronoField.MONTH_OF_YEAR)).toOption
-                    val year1 = Try(tempAccessor.get(ChronoField.YEAR)).toOption
-                    val year2 = if (year1.isDefined) year1 else Try(tempAccessor.get(ChronoField.YEAR_OF_ERA)).toOption
-                    val year = if (year2.isDefined && year2.get >= MIN_YEAR && year2.get <= MAX_YEAR) year2 else None
-
-                    if (day.isDefined || month.isDefined || year.isDefined)
-                          Some(TapasCellDate(day, month, year))
-                    else
-                          None
-              })
-              .filter(_.isDefined)
-              .map(x => return x)
-
-            None
-      }
-
-      def parseText(text: String): Array[TapasNumericValueSpan] = {
-
-            val spans = collection.mutable.Map[(Int, Int), Array[TapasCellValue]]()
-
-            def addNumberSpan(span: (Int, Int), number: Float) = {
-                  if (!spans.contains(span))
-                        spans(span) = Array()
-                  spans(span) = spans(span) ++ Array(TapasCellValue(Some(number), TapasCellDate.Empty()))
-            }
-            def addDateSpan(span: (Int, Int), date: TapasCellDate) = {
-                  if (!spans.contains(span))
-                        spans(span) = Array()
-                  spans(span) = spans(span) ++ Array(TapasCellValue(None, date))
-            }
-            //add numbers
-            getAllSpans(text, 1).foreach(span => {
-                  val spanText = text.slice(span._1, span._2)
-                  val number = parseNumber(spanText)
-                  if (number.isDefined)
-                        addNumberSpan(span, number.get)
-                  NUMBER_WORDS.zipWithIndex.foreach{
-                        case (numWord, index) =>
-                              if (spanText == numWord)
-                                    addNumberSpan(span, index.toFloat)
-                  }
-                  ORDINAL_WORDS.zipWithIndex.foreach{
-                        case (numWord, index) =>
-                              if (spanText == numWord)
-                                    addNumberSpan(span, index.toFloat)
-                  }
-            })
-            //add dates
-            getAllSpans(text, 5).foreach(span => {
-                  val spanText = text.slice(span._1, span._2)
-                  val date = parseDate(spanText)
-                  if (date.isDefined)
-                        addDateSpan(span, date.get)
-            })
-
-            val sortedSpans = spans.toArray.sortBy(x =>  (x._1._2 - x._1._1, -x._1._1)).reverse
-            var selectedSpans = collection.mutable.ArrayBuffer[((Int, Int), Array[TapasCellValue])]()
-            sortedSpans.foreach{
-                  case (span, values) =>
-                        if (!selectedSpans.map(_._1).exists(selectedSpan => selectedSpan._1 <= span._1 && span._2 <= selectedSpan._2)){
-                              selectedSpans = selectedSpans ++ Array((span, values))
-                        }
-            }
-            selectedSpans
-              .sortBy(x => x._1._1)
-              .flatMap{
-                    case (span, values) =>
-                          values.map(value => TapasNumericValueSpan(span._1, span._2, value))
-              }.toArray
-      }
-
-      def encodeTapasData(
-                           questions: Seq[String],
-                           table: Table,
-                           caseSensitive: Boolean,
-                           maxSentenceLength: Int): Seq[TapasInputData] = {
-
-            val basicTokenizer = new BasicTokenizer(caseSensitive = true, hasBeginEnd = false)
-            val encoder = new WordpieceEncoder(vocabulary)
-
-            val questionInputIds = questions.map(question => {
-
-                  val sentence = new Sentence(
-                        start = 0,
-                        end = question.length,
-                        content = question,
-                        index = 0)
-                  val tokens = basicTokenizer.tokenize(sentence)
-                  (if (caseSensitive)
-                        tokens
-                  else
-                        tokens.map(x => IndexedToken(x.token.toLowerCase(), x.begin, x.end))
-                    ).flatMap(token => encoder.encode(token)).map(_.pieceId)
-            })
-            val maxQuestionLength = questionInputIds.map(_.length).max
-
-            val inputIds = collection.mutable.ArrayBuffer[Int]()
-            val attentionMask = collection.mutable.ArrayBuffer[Int]()
-            val segmentIds = collection.mutable.ArrayBuffer[Int]()
-            val columnIds = collection.mutable.ArrayBuffer[Int]()
-            val rowIds = collection.mutable.ArrayBuffer[Int]()
-            val prevLabels = collection.mutable.ArrayBuffer[Int]()
-            val columnRanks = collection.mutable.ArrayBuffer[Int]()
-            val invertedColumnRanks = collection.mutable.ArrayBuffer[Int]()
-            val numericRelations = collection.mutable.ArrayBuffer[Int]()
-
-            table.header.indices.foreach(colIndex => {
-                  val sentence = new Sentence(
-                        start = 0,
-                        end = table.header(colIndex).length,
-                        content = table.header(colIndex),
-                        index = colIndex)
-                  val tokens = basicTokenizer.tokenize(sentence)
-                  val columnInputIds = if (caseSensitive)
-                        tokens
-                  else
-                        tokens.map(x => IndexedToken(x.token.toLowerCase(), x.begin, x.end))
-
-                  columnInputIds.flatMap(token => encoder.encode(token)).foreach( x => {
-                        inputIds.append(x.pieceId)
-                        attentionMask.append(1)
-                        segmentIds.append(1)
-                        columnIds.append(colIndex + 1)
-                        rowIds.append(0)
-                        prevLabels.append(0)
-                        columnRanks.append(0)
-                        invertedColumnRanks.append(0)
-                        numericRelations.append(0)
-                  })
-
-            })
-
-            val tableCellValues = collection.mutable.Map[Int, Array[(TapasNumericValueSpan, Int, Array[Int])]]()
-
-            table.rows.indices.map(rowIndex => {
-                  table.header.indices.map(colIndex => {
-                        val cellText = table.rows(rowIndex)(colIndex)
-                        val sentence = new Sentence(
-                              start = 0,
-                              end = cellText.length,
-                              content = cellText,
-                              index = 0)
-                        val tokens = basicTokenizer.tokenize(sentence)
-                        val cellInputIds = (if (caseSensitive)
-                              tokens
-                        else
-                              tokens.map(x => IndexedToken(x.token.toLowerCase(), x.begin, x.end))
-                        )
-                          .flatMap(token => encoder.encode(token))
-
-                        cellInputIds.foreach(x => {
-                              inputIds.append(x.pieceId)
-                              attentionMask.append(1)
-                              segmentIds.append(1)
-                              columnIds.append(colIndex + 1)
-                              rowIds.append(rowIndex + 1)
-                              prevLabels.append(0)
-                              columnRanks.append(0)
-                              invertedColumnRanks.append(0)
-                              numericRelations.append(0)//TODO
-                        })
-
-                        val tapasNumValuesWithTokenIndices = parseText(cellText).map(numValue =>
-                              (numValue,
-                                rowIndex,
-                                cellInputIds
-                                  .zipWithIndex
-//                                  .filter(id => id._1.begin>=numValue.begin && id._1.end <= numValue.end)
-                                  .map(_._2 + (inputIds.length - cellInputIds.length))
-                              ))
-                        tableCellValues(colIndex) = tableCellValues.getOrElse(colIndex, Array()) ++ tapasNumValuesWithTokenIndices
-
-                  }).toArray
-            }).toArray
-
-            tableCellValues.foreach{
-                  case (colIndex, values) =>
-                        val rowsWithNumberValues = values.filter(x => x._1.value.number.isDefined).map(_._2).distinct.length
-                        val rowsWithDateValues = values.filter(x => x._1.value.number.isEmpty).map(_._2).distinct.length
-
-                        val sortedValues = if (rowsWithNumberValues >= math.max(rowsWithDateValues, MIN_NUMBER_OF_ROWS_WITH_VALUES_PROPORTION * table.rows.length)) {
-                              values.sortWith({
-                                    (v1, v2) => {
-                                          val n1 = v1._1.value.number.getOrElse(Float.MinValue)
-                                          val n2 = v2._1.value.number.getOrElse(Float.MinValue)
-                                          n1 < n2
-                                    }
-                              })
-                        } else if (rowsWithDateValues >= math.max(rowsWithNumberValues, MIN_NUMBER_OF_ROWS_WITH_VALUES_PROPORTION * table.rows.length)) {
-                              values.sortWith({
-                                    (v1, v2) => {
-                                          val day1 = v1._1.value.date.day.getOrElse(Int.MinValue)
-                                          val day2 = v2._1.value.date.day.getOrElse(Int.MinValue)
-                                          val month1 = v1._1.value.date.month.getOrElse(Int.MinValue)
-                                          val month2 = v2._1.value.date.month.getOrElse(Int.MinValue)
-                                          val year1 = v1._1.value.date.year.getOrElse(Int.MinValue)
-                                          val year2 = v2._1.value.date.year.getOrElse(Int.MinValue)
-                                          (year1 < year2) || (month1 < month2) || (day1 < day2)
-                                    }
-                              })
-                        } else Array[(TapasNumericValueSpan, Int, Array[Int])]()
-                        if (!sortedValues.isEmpty) {
-                              var rank = 0
-                              val curValue = TapasNumericValueSpan.emptyValueId
-                              val sortedValuesWithRanks = sortedValues
-                                .map(x => {
-                                      if (x._1.valueId != curValue) {
-                                            rank = rank + 1
-                                      }
-                                      x._3.foreach(inputIndex => columnRanks(inputIndex) = rank)
-                                      (x, rank)
-                                })
-                              val maxRank = sortedValuesWithRanks.map(_._2).max
-                              sortedValuesWithRanks.foreach(x =>
-                                    x._1._3.foreach(inputIndex => invertedColumnRanks(inputIndex) = maxRank - x._2 + 1))
-                        }
-            }
-
-            questionInputIds.map(qIds => {
-
-                  val emptyTokenTypes = Array.fill(qIds.length + 2)(0)
-                  val padding = Array.fill(maxQuestionLength - qIds.length)(0)
-
-                  def setMaxSentenceLimit(vector: Array[Int]): Array[Int] = {
-                        vector.slice(0, math.min(maxSentenceLength, vector.length))
-                  }
-
-                  TapasInputData(
-                        inputIds = setMaxSentenceLimit(
-                              Array(sentenceStartTokenId) ++ qIds ++ Array(sentenceEndTokenId) ++ inputIds ++ padding),
-                        attentionMask = setMaxSentenceLimit(emptyTokenTypes.map(_ => 1) ++ attentionMask ++ padding),
-                        segmentIds = setMaxSentenceLimit(emptyTokenTypes ++ segmentIds ++ padding),
-                        columnIds = setMaxSentenceLimit(emptyTokenTypes ++ columnIds ++ padding),
-                        rowIds = setMaxSentenceLimit(emptyTokenTypes ++ rowIds ++ padding),
-                        prevLabels = setMaxSentenceLimit(emptyTokenTypes ++ prevLabels ++ padding),
-                        columnRanks = setMaxSentenceLimit(emptyTokenTypes ++ columnRanks ++ padding),
-                        invertedColumnRanks = setMaxSentenceLimit(emptyTokenTypes ++ invertedColumnRanks ++ padding),
-                        numericRelations = setMaxSentenceLimit(emptyTokenTypes ++ numericRelations ++ padding))
-            })
-
-      }
 
       def tagTapasSpan(batch: Seq[TapasInputData]): (Array[Array[Float]], Array[Int]) = {
 
@@ -466,7 +100,7 @@ class TensorflowTapas(
             tensors.clearSession(outs)
             tensors.clearTensors()
 
-            val probsDim = logitsRaw.length / batchLength
+            val probabilitiesDim = logitsRaw.length / batchLength
             val flatMask = batch.flatMap(_.attentionMask)
             val probabilities: Array[Array[Float]] = logitsRaw
               .map(x => if (x < -88.7f) -88.7f else x)
@@ -475,42 +109,16 @@ class TensorflowTapas(
                     case(logit, logitIdx) =>
                           (1 / (1 + math.exp(-logit).toFloat)) * flatMask(logitIdx)
               }
-              .grouped(probsDim)
+              .grouped(probabilitiesDim)
               .toArray
 
-            val agregationDim = aggregationRaw.length / batchLength
+            val aggregationDim = aggregationRaw.length / batchLength
             val aggregations: Array[Int] = aggregationRaw
-              .grouped(agregationDim)
+              .grouped(aggregationDim)
               .map(batchLogitAggregations => {
                     batchLogitAggregations.zipWithIndex.maxBy(_._1)._2
               }).toArray
 
-
-//            batch.zipWithIndex.foreach{
-//                  case (tapasData, batchIdx) =>
-//                        println("Input Ids:")
-//                        println(tapasData.inputIds.slice(0, 50).map(_.toString).mkString(" "))
-//                        println("Attention Mask:")
-//                        println(tapasData.attentionMask.slice(0, 50).map(_.toString).mkString(" "))
-//                        println("Segment Ids:")
-//                        println(tapasData.segmentIds.slice(0, 50).map(_.toString).mkString(" "))
-//                        println("Column Ids:")
-//                        println(tapasData.columnIds.slice(0, 50).map(_.toString).mkString(" "))
-//                        println("RowIds:")
-//                        println(tapasData.rowIds.slice(0, 50).map(_.toString).mkString(" "))
-//                        println("prevLabels:")
-//                        println(tapasData.prevLabels.slice(0, 50).map(_.toString).mkString(" "))
-//                        println("columnRanks:")
-//                        println(tapasData.columnRanks.slice(0, 50).map(_.toString).mkString(" "))
-//                        println("invertedColumnRanks:")
-//                        println(tapasData.invertedColumnRanks.slice(0, 50).map(_.toString).mkString(" "))
-//                        println("numericRelations:")
-//                        println(tapasData.numericRelations.slice(0, 50).map(_.toString).mkString(" "))
-//                        println("Logits:")
-//                        println(logits(batchIdx).slice(0, 50).map(_.toString).mkString(" "))
-//                        println("Logits Aggregation:")
-//                        println(logitsAggregation(batchIdx).slice(0, 50).map(_.toString).mkString(" "))
-//            }
             (probabilities, aggregations)
       }
 
@@ -518,11 +126,15 @@ class TensorflowTapas(
                             questions: Seq[Annotation],
                             tableAnnotation: Annotation,
                             maxSentenceLength: Int,
-                            caseSensitive: Boolean): Seq[Annotation] = {
+                            caseSensitive: Boolean,
+                            minCellProbability: Float): Seq[Annotation] = {
 
-            val table = parse(tableAnnotation.result).extract[Table]
+            val encoder = new WordpieceEncoder(vocabulary)
+            val tapasEncoder = new TapasEncoder(sentenceStartTokenId, sentenceEndTokenId, encoder)
 
-            val tapasData = encodeTapasData(
+            val table = parse(tableAnnotation.result).extract[TapasTable]
+
+            val tapasData = tapasEncoder.encodeTapasData(
                   questions = questions.map(_.result),
                   table = table,
                   caseSensitive = caseSensitive,
@@ -537,43 +149,54 @@ class TensorflowTapas(
                           val maxWidth = input.columnIds.max
                           val maxHeight = input.rowIds.max
                           if (maxWidth > 0 || maxHeight > 0){
-                                val coordToProbs = collection.mutable.Map[(Int, Int), Array[Float]]()
+                                val coordToProbabilities = collection.mutable.Map[(Int, Int), Array[Float]]()
                                 probabilities(idx).zipWithIndex.foreach{
                                       case (prob, probIdx) =>
                                             if (input.segmentIds(probIdx) == 1 && input.columnIds(probIdx) > 0 && input.rowIds(probIdx) > 0) {
                                                   val coord = (input.columnIds(probIdx) - 1, input.rowIds(probIdx) - 1)
-                                                  coordToProbs(coord) = coordToProbs.getOrElse(coord, Array()) ++ Array(prob)
+                                                  coordToProbabilities(coord) = coordToProbabilities.getOrElse(coord, Array()) ++ Array(prob)
                                             }
                                 }
-                                val meanCoordProbs = coordToProbs.map(x => (x._1, x._2.sum / x._2.length))
+                                val meanCoordProbs = coordToProbabilities.map(x => (x._1, x._2.sum / x._2.length))
                                 val answerCoordinates = collection.mutable.ArrayBuffer[(Int, Int)]()
+                                val answerScores = collection.mutable.ArrayBuffer[Float]()
                                 input.columnIds.indices.foreach{
                                       col => input.rowIds.indices.foreach{
                                             row =>
-                                                  if (meanCoordProbs.getOrElse((col, row), -1f) > 0.5f)
+                                                  val score = meanCoordProbs.getOrElse((col, row), -1f)
+                                                  if (meanCoordProbs.getOrElse((col, row), -1f) > minCellProbability) {
                                                         answerCoordinates.append((col, row))
+                                                        answerScores.append(score)
+                                                  }
                                       }
                                 }
-                                Seq(answerCoordinates.sorted.toArray)
+                                val results = answerCoordinates.zip(answerScores).sortBy(_._1).toArray
+                                Seq(results)
                           } else {
                                 Seq()
                           }
               }
             cellPredictions
-              .map(cellPrediction => cellPrediction.map(x => table.rows(x._2)(x._1)).mkString(", "))
               .zipWithIndex
               .map{
-                    case (answers, queryId) =>
-                          val aggrString = AGGREGATIONS(aggregations(queryId))
-                          val result = if (aggrString != "NONE") s"$aggrString($answers)" else answers
+                    case (result, queryId) =>
+                          val cellPositions = result.map(_._1)
+                          val scores = result.map(_._2)
+                          val answers = cellPositions.map(x => table.rows(x._2)(x._1)).mkString(", ")
+                          val aggrString = tapasEncoder.getAggregationString(aggregations(queryId))
+                          val resultString = if (aggrString != "NONE") s"$aggrString($answers)" else answers
                           new Annotation(
                                 annotatorType = AnnotatorType.CHUNK,
                                 begin = 0,
-                                end = result.length,
-                                result = result,
+                                end = resultString.length,
+                                result = resultString,
                                 metadata = Map(
                                       "question" -> questions(queryId).result,
-                                      "aggregation" -> aggrString)
+                                      "aggregation" -> aggrString,
+                                      "cell_positions" ->
+                                          cellPositions.map(x => "[%d, %d]".format(x._1, x._2)).mkString(", "),
+                                      "cell_scores" -> scores.map(_.toString).mkString(", ")
+                                )
                         )
               }
       }

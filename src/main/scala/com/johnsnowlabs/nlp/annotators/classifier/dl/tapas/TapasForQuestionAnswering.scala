@@ -1,20 +1,14 @@
-package com.johnsnowlabs.nlp.annotators.classifier.dl
+package com.johnsnowlabs.nlp.annotators.classifier.dl.tapas
 
-import com.johnsnowlabs.ml.tensorflow.{MergeTokenStrategy, ReadTensorflowModel, TensorflowBertClassification, TensorflowTapas, TensorflowWrapper}
-import com.johnsnowlabs.nlp.{Annotation, AnnotatorType, HasPretrained, ParamsAndFeaturesReadable}
+import com.johnsnowlabs.ml.tensorflow.{ReadTensorflowModel, TensorflowTapas, TensorflowWrapper}
+import com.johnsnowlabs.nlp.annotators.classifier.dl.BertForQuestionAnswering
 import com.johnsnowlabs.nlp.util.io.{ExternalResource, ReadAs, ResourceHelper}
+import com.johnsnowlabs.nlp.{Annotation, AnnotatorType, HasPretrained, ParamsAndFeaturesReadable}
 import org.apache.spark.broadcast.Broadcast
 import org.apache.spark.ml.util.Identifiable
 import org.apache.spark.sql.SparkSession
 
 import java.io.File
-import java.time.LocalDate
-import java.time.format.DateTimeFormatter
-
-case class TapasTable(
-                     columns: Array[String],
-                     rows: Array[Array[Any]]
-                     )
 
 class TapasForQuestionAnswering(override val uid: String) extends BertForQuestionAnswering(uid) {
 
@@ -75,7 +69,8 @@ class TapasForQuestionAnswering(override val uid: String) extends BertForQuestio
             questions,
             table,
             $(maxSentenceLength),
-            $(caseSensitive))
+            $(caseSensitive),
+            0.5f)
         }}
       } else {
         Seq.empty[Annotation]

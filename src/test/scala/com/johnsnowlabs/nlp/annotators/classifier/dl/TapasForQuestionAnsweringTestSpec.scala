@@ -1,5 +1,6 @@
 package com.johnsnowlabs.nlp.annotators.classifier.dl
 
+import com.johnsnowlabs.nlp.annotators.classifier.dl.tapas.TapasForQuestionAnswering
 import com.johnsnowlabs.nlp.annotators.sentence_detector_dl.SentenceDetectorDLModel
 import com.johnsnowlabs.nlp.base.MultiDocumentAssembler
 import com.johnsnowlabs.nlp.{DocumentAssembler, TableAssembler}
@@ -13,10 +14,10 @@ import scala.io.Source
 class TapasForQuestionAnsweringTestSpec extends AnyFlatSpec {
   import ResourceHelper.spark.implicits._
 
-  "TapasForQuestionAnswering" should "load saved model" taggedAs SlowTest ignore {
+  "TapasForQuestionAnswering" should "load saved model" taggedAs SlowTest in {
     TapasForQuestionAnswering
       .loadSavedModel("/tmp/tapas_tf", ResourceHelper.spark)
-      .save("/models/sparknlp/tapas")
+      .write.overwrite.save("/models/sparknlp/tapas")
   }
 
   "TapasForQuestionAnswering" should "prepare inputs" in {
@@ -53,7 +54,7 @@ class TapasForQuestionAnsweringTestSpec extends AnyFlatSpec {
     pipelineModel
       .transform(data)
       .selectExpr("explode(answer) as answer")
-      .selectExpr("answer.metadata.question", "answer.result")
+      .selectExpr("answer.metadata.question", "answer.result", "answer.metadata.cell_positions", "answer.metadata.cell_scores")
       .show(truncate = false)
 
   }
