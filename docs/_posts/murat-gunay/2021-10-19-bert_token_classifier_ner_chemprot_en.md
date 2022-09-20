@@ -29,8 +29,8 @@ Detect chemical compounds and genes in the medical text using the pretrained NER
 
 
 {:.btn-box}
-<button class="button button-orange" disabled>Live Demo</button>
-[Open in Colab](https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/NER_BERT_TOKEN_CLASSIFIER.ipynb){:.button.button-orange.button-orange-trans.co.button-icon}
+[Live Demo](https://demo.johnsnowlabs.com/healthcare/NER_CHEMPROT_CLINICAL/){:.button.button-orange}
+[Open in Colab](https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/NER_CHEMPROT_CLINICAL.ipynb){:.button.button-orange.button-orange-trans.co.button-icon}
 [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/bert_token_classifier_ner_chemprot_en_3.3.0_2.4_1634644903577.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
 
 
@@ -39,42 +39,63 @@ Detect chemical compounds and genes in the medical text using the pretrained NER
 
 
 
-
-
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
 
 ```python
-...
-tokenClassifier = BertForTokenClassification.pretrained("bert_token_classifier_ner_chemprot", "en", "clinical/models")\
-.setInputCols("token", "document")\
-.setOutputCol("ner")\
-.setCaseSensitive(True)
+document_assembler = DocumentAssembler()\
+    .setInputCol("text")\
+    .setOutputCol("document")
+
+tokenizer = Tokenizer()\
+    .setInputCols(["document"])\
+    .setOutputCol("token")
+
+tokenClassifier = MedicalBertForTokenClassifier.pretrained("bert_token_classifier_ner_chemprot", "en", "clinical/models")\
+    .setInputCols("token", "document")\
+    .setOutputCol("ner")\
+    .setCaseSensitive(True)
 
 ner_converter = NerConverter()\
-.setInputCols(["document","token","ner"])\
-.setOutputCol("ner_chunk")
+    .setInputCols(["document","token","ner"])\
+    .setOutputCol("ner_chunk")
 
-pipeline =  Pipeline(stages=[documentAssembler, tokenizer, tokenClassifier, ner_converter])
 
-p_model = pipeline.fit(spark.createDataFrame(pd.DataFrame({'text': ['']})))
+pipeline =  Pipeline(stages=[document_assembler, 
+                             tokenizer, 
+                             tokenClassifier, 
+                             ner_converter])
 
-test_sentence = "Keratinocyte growth factor and acidic fibroblast growth factor are mitogens for primary cultures of mammary epithelium."
 
-result = p_model.transform(spark.createDataFrame(pd.DataFrame({'text': [test_sentence]})))
+sample_text = "Keratinocyte growth factor and acidic fibroblast growth factor are mitogens for primary cultures of mammary epithelium."
+
+df = spark.createDataFrame([[sample_text]]).toDF("text")
+
+result = pipeline.fit(df).transform(df)
 ```
 ```scala
-...
-val tokenClassifier = BertForTokenClassification.pretrained("bert_token_classifier_ner_chemprot", "en", "clinical/models")
-.setInputCols("token", "document")
-.setOutputCol("ner")
-.setCaseSensitive(True)
+val document_assembler = new DocumentAssembler()
+    .setInputCol("text")
+    .setOutputCol("document")
+
+val tokenizer = new Tokenizer()
+    .setInputCols("document")
+    .setOutputCol("token")
+
+val tokenClassifier = MedicalBertForTokenClassifier.pretrained("bert_token_classifier_ner_chemprot", "en", "clinical/models")
+    .setInputCols(Array("document","token"))
+    .setOutputCol("ner")
+    .setCaseSensitive(True)
 
 val ner_converter = new NerConverter()
-.setInputCols(Array("document","token","ner"))
-.setOutputCol("ner_chunk")
+    .setInputCols(Array("document","token","ner"))
+    .setOutputCol("ner_chunk")
 
-val pipeline =  new Pipeline().setStages(Array(documentAssembler, tokenizer, tokenClassifier, ner_converter))
+val pipeline =  new Pipeline().setStages(Array(
+                                              document_assembler, 
+                                              tokenizer, 
+                                              tokenClassifier, 
+                                              ner_converter))
 
 val data = Seq("""Keratinocyte growth factor and acidic fibroblast growth factor are mitogens for primary cultures of mammary epithelium.""").toDS.toDF("text")
 
@@ -85,6 +106,7 @@ val result = pipeline.fit(data).transform(data)
 {:.nlu-block}
 ```python
 import nlu
+
 nlu.load("en.med_ner.chemprot.bert").predict("""Keratinocyte growth factor and acidic fibroblast growth factor are mitogens for primary cultures of mammary epithelium.""")
 ```
 
@@ -101,8 +123,6 @@ nlu.load("en.med_ner.chemprot.bert").predict("""Keratinocyte growth factor and a
 |Keratinocyte growth factor     |GENE-Y   |
 |acidic fibroblast growth factor|GENE-Y   |
 +-------------------------------+---------+
-
-
 ```
 
 
