@@ -423,3 +423,10 @@ class _ViTForImageClassification(ExtendedJavaWrapper):
         super(_ViTForImageClassification, self).__init__(
             "com.johnsnowlabs.nlp.annotators.cv.ViTForImageClassification.loadSavedModel", path,
             jspark)
+
+
+class _CamemBertForTokenClassification(ExtendedJavaWrapper):
+    def __init__(self, path, jspark):
+        super(_CamemBertForTokenClassification, self).__init__(
+            "com.johnsnowlabs.nlp.annotators.classifier.dl.CamemBertForTokenClassification.loadSavedModel", path,
+            jspark)
