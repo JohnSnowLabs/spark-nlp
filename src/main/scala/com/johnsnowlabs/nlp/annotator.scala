@@ -621,4 +621,10 @@ package object annotator {
       extends ReadablePretrainedViTForImageModel
       with ReadViTForImageTensorflowModel
 
+  type CamemBertForTokenClassification =
+    com.johnsnowlabs.nlp.annotators.classifier.dl.CamemBertForTokenClassification
+
+  object CamemBertForTokenClassification
+      extends ReadablePretrainedCamemBertForTokenModel
+      with ReadCamemBertForTokenTensorflowModel
 }
