@@ -131,7 +131,7 @@ class ResourceHelperTestSpec extends AnyFlatSpec {
 
   it should "get content from SourceStream" taggedAs FastTest in {
     val sourceStream =
-      ResourceHelper.SourceStream("src/test/resources/entity-ruler/patterns.jsonl")
+      ResourceHelper.SourceStream("src/test/resources/entity-ruler/keywords_with_id.jsonl")
     val expectedContent = Array(
       "{\"id\": \"names-with-j\", \"label\": \"PERSON\", \"patterns\": [\"Jon\", \"John\", \"John Snow\", \"Jon Snow\"]}",
       "{\"id\": \"names-with-s\", \"label\": \"PERSON\", \"patterns\": [\"Stark\"]}",
