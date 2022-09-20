@@ -36,7 +36,10 @@ Use as part of an nlp pipeline as a substitute of the Tokenizer stage.
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
 ```python
-...
+document_assembler = DocumentAssembler() \
+    .setInputCol("text") \
+    .setOutputCol("document")
+    
 word_segmenter = WordSegmenterModel.pretrained('wordseg_best', 'th')\
         .setInputCols("document")\
         .setOutputCol("token")       
@@ -46,6 +49,10 @@ result = pipeline.fit(example ).transform(example)
 ```
 
 ```scala
+val document_assembler = DocumentAssembler()
+        .setInputCol("text")
+        .setOutputCol("document")
+        
 val document_assembler = DocumentAssembler()
         .setInputCol("text")
         .setOutputCol("document")

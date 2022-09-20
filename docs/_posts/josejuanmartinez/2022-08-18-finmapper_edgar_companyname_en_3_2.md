@@ -55,7 +55,7 @@ embeddings = BertEmbeddings.pretrained("bert_embeddings_sec_bert_base","en") \
         .setInputCols(["document", "token"]) \
         .setOutputCol("embeddings")
 
-ner_model = FinanceNerModel().pretrained("finner_orgs_prods_alias", "en", "finance/models")\
+ner_model = FinanceNerModel.pretrained("finner_orgs_prods_alias", "en", "finance/models")\
         .setInputCols(["document", "token", "embeddings"])\
         .setOutputCol("ner")
 
@@ -114,6 +114,9 @@ CM = ChunkMapperModel()\
       
 cm_pipeline = Pipeline(stages=[documentAssembler, chunkAssembler, CM])
 fit_cm_pipeline = cm_pipeline.fit(test_data)
+
+df = spark.createDataFrame([[first_result]]).toDF("text")
+r = fit_cm_pipeline.transform(df).collect()
 
 json_dict = dict()
 json_dict['mappings'] = []

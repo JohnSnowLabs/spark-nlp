@@ -5,7 +5,7 @@ author: John Snow Labs
 name: finner_deid
 date: 2022-08-09
 tags: [en, finance, ner, deid, licensed]
-task: Named Entity Recognition
+task: [De-identification, Named Entity Recognition]
 language: en
 edition: Spark NLP for Finance 1.0.0
 spark_version: 3.2
@@ -51,7 +51,7 @@ embeddings = RoBertaEmbeddings.pretrained("roberta_embeddings_legal_roberta_base
     .setInputCols(["sentence", "token"]) \
     .setOutputCol("embeddings")
 
-ner_model = FinanceNerModel().pretrained('finner_deid' "en", "finance/models")\
+ner_model = FinanceNerModel.pretrained('finner_deid' "en", "finance/models")\
         .setInputCols(["sentence", "token", "embeddings"])\
         .setOutputCol("ner")
 

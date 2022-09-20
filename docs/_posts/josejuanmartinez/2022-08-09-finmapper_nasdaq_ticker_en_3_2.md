@@ -1,6 +1,6 @@
 ---
 layout: model
-title: Mapping Tickers to Company Information
+title: Augment Tickers with NASDAQ database
 author: John Snow Labs
 name: finmapper_nasdaq_ticker
 date: 2022-08-09

@@ -37,8 +37,6 @@ Then, you can use the CrunchBase Chunk Mapper to get information about that comp
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
 ```python
-from johnsnowlabs.extensions.finance.chunk_classification.resolution import SentenceEntityResolverModel
-
 documentAssembler = DocumentAssembler()\
       .setInputCol("text")\
       .setOutputCol("ner_chunk")

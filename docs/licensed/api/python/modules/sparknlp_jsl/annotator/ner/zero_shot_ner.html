@@ -1,0 +1,477 @@
+
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>sparknlp_jsl.annotator.ner.zero_shot_ner &#8212; Spark NLP 4.0.0 documentation</title>
+  <script>
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../../../static/styles/theme.css?digest=9b1a4fa89bdd0e95b23b" rel="stylesheet">
+<link href="../../../../static/styles/pydata-sphinx-theme.css?digest=9b1a4fa89bdd0e95b23b" rel="stylesheet">
+
+  
+  <link rel="stylesheet"
+    href="../../../../static/vendor/fontawesome/6.1.2/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../../../../static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../../../../static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2">
+
+    <link rel="stylesheet" type="text/css" href="../../../../static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../../../../static/graphviz.css" />
+    <link rel="stylesheet" type="text/css" href="../../../../static/css/custom.css" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../../../static/scripts/pydata-sphinx-theme.js?digest=9b1a4fa89bdd0e95b23b">
+
+    <script data-url_root="../../../../" id="documentation_options" src="../../../../static/documentation_options.js"></script>
+    <script src="../../../../static/jquery.js"></script>
+    <script src="../../../../static/underscore.js"></script>
+    <script src="../../../../static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="../../../../static/doctools.js"></script>
+    <script src="../../../../static/toggleprompt.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'modules/sparknlp_jsl/annotator/ner/zero_shot_ner';</script>
+    <link rel="shortcut icon" href="../../../../static/fav.ico"/>
+    <link rel="index" title="Index" href="../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../search.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="docsearch:language" content="en">
+  </head>
+  
+  
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="180" data-default-mode="">
+
+  
+  <input type="checkbox" class="sidebar-toggle" name="__primary" id="__primary">
+  <label class="overlay overlay-primary" for="__primary"></label>
+
+  
+  <input type="checkbox" class="sidebar-toggle" name="__secondary" id="__secondary">
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+      
+<form class="bd-search d-flex align-items-center" action="../../../../search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search the docs ..." aria-label="Search the docs ..." autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+    </div>
+  </div>
+
+  
+  <nav class="bd-header navbar navbar-expand-lg bd-navbar" id="navbar-main"><div class="bd-header__inner bd-page-width">
+  <label class="sidebar-toggle primary-toggle" for="__primary">
+      <span class="fas fa-bars"></span>
+  </label>
+  <div id="navbar-start">
+    
+    
+  
+
+
+<a class="navbar-brand logo" href="../../../../index.html">
+
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <img src="../../../../static/logo.png" class="logo__image only-light" alt="Logo image">
+    <img src="../../../../static/logo.png" class="logo__image only-dark" alt="Logo image">
+  
+  
+</a>
+    
+  </div>
+
+  
+  <div class="col-lg-9 navbar-header-items">
+    <div id="navbar-center" class="mr-auto">
+      
+      <div class="navbar-center-item">
+        <nav class="navbar-nav">
+    <p class="sidebar-header-items__title" role="heading" aria-level="1" aria-label="Site Navigation">
+        Site Navigation
+    </p>
+    <ul id="navbar-main-elements" class="navbar-nav">
+        
+                <li class="nav-item">
+                    <a class="nav-link" href="../../../../getting_started/index.html">
+                        Getting Started
+                    </a>
+                </li>
+                
+
+                <li class="nav-item">
+                    <a class="nav-link" href="../../../../reference/index.html">
+                        API Reference
+                    </a>
+                </li>
+                
+    </ul>
+</nav>
+      </div>
+      
+    </div>
+
+    <div id="navbar-end">
+      <div class="navbar-end-item navbar-end__search-button-container">
+        
+<button class="btn btn-sm navbar-btn search-button search-button__button" title="Search">
+  <i class="fas fa-search"></i>
+</button>
+      </div>
+      
+      <div class="navbar-end-item">
+        <span class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle">
+    <a class="theme-switch" data-mode="light"><i class="fas fa-sun"></i></a>
+    <a class="theme-switch" data-mode="dark"><i class="far fa-moon"></i></a>
+    <a class="theme-switch" data-mode="auto"><i class="fas fa-adjust"></i></a>
+</span>
+      </div>
+      
+      <div class="navbar-end-item">
+        <ul id="navbar-icon-links" class="navbar-nav" aria-label="Icon Links">
+      </ul>
+      </div>
+      
+    </div>
+  </div>
+
+
+  
+  <div class="search-button-container--mobile">
+<button class="btn btn-sm navbar-btn search-button search-button__button" title="Search">
+  <i class="fas fa-search"></i>
+</button>
+  </div>
+
+  
+  <label class="sidebar-toggle secondary-toggle" for="__secondary">
+      <span class="fas fa-outdent"></span>
+  </label>
+  
+
+</div>
+  </nav>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      <div class="bd-sidebar-primary bd-sidebar hide-on-wide">
+        
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+      
+      <div class="navbar-center-item">
+        <nav class="navbar-nav">
+    <p class="sidebar-header-items__title" role="heading" aria-level="1" aria-label="Site Navigation">
+        Site Navigation
+    </p>
+    <ul id="navbar-main-elements" class="navbar-nav">
+        
+                <li class="nav-item">
+                    <a class="nav-link" href="../../../../getting_started/index.html">
+                        Getting Started
+                    </a>
+                </li>
+                
+
+                <li class="nav-item">
+                    <a class="nav-link" href="../../../../reference/index.html">
+                        API Reference
+                    </a>
+                </li>
+                
+    </ul>
+</nav>
+      </div>
+      
+      </div>
+    
+
+    
+    
+    <div class="sidebar-header-items__end">
+      
+      <div class="navbar-end-item">
+        <span class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle">
+    <a class="theme-switch" data-mode="light"><i class="fas fa-sun"></i></a>
+    <a class="theme-switch" data-mode="dark"><i class="far fa-moon"></i></a>
+    <a class="theme-switch" data-mode="auto"><i class="fas fa-adjust"></i></a>
+</span>
+      </div>
+      
+      <div class="navbar-end-item">
+        <ul id="navbar-icon-links" class="navbar-nav" aria-label="Icon Links">
+      </ul>
+      </div>
+      
+    </div>
+    
+  </div>
+
+  
+
+  
+  <div class="sidebar-end-items sidebar-primary__section">
+    <div class="sidebar-end-items__item">
+    </div>
+  </div>
+
+      </div>
+      <main class="bd-main">
+        
+        
+        <div class="bd-content">
+          <div class="bd-article-container">
+            
+            <div class="bd-header-article">
+                
+            </div>
+            
+            
+            <article class="bd-article" role="main">
+              
+  <h1>Source code for sparknlp_jsl.annotator.ner.zero_shot_ner</h1><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">sparknlp.common</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">sparknlp.annotator.classifier_dl</span> <span class="kn">import</span> <span class="n">RoBertaForQuestionAnswering</span>
+
+
+<div class="viewcode-block" id="ZeroShotNerModel"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/ner/zero_shot_ner/index.html#sparknlp_jsl.annotator.ner.zero_shot_ner.ZeroShotNerModel">[docs]</a><span class="k">class</span> <span class="nc">ZeroShotNerModel</span><span class="p">(</span><span class="n">RoBertaForQuestionAnswering</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Zero shot named entity recognition based on RoBertaForQuestionAnswering.</span>
+
+<span class="sd">    ==========================================  ======================</span>
+<span class="sd">    Input Annotation types                      Output Annotation type</span>
+<span class="sd">    ==========================================  ======================</span>
+<span class="sd">    ``DOCUMENT, TOKEN``                         ``NAMED_ENTITY``</span>
+<span class="sd">    ==========================================  ======================</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    entityDefinitions</span>
+<span class="sd">        A dictionary with definitions of named entities. The keys of dictionary are the entity labels and the</span>
+<span class="sd">        values are lists of questions. For example:</span>
+<span class="sd">              {</span>
+<span class="sd">                &quot;CITY&quot;: [&quot;Which city?&quot;, &quot;Which town?&quot;],</span>
+<span class="sd">                &quot;NAME&quot;: [&quot;What is her name?&quot;, &quot;What is his name?&quot;]}</span>
+
+<span class="sd">    predictionThreshold</span>
+<span class="sd">        Minimal confidence score to encode an entity (Default: 0.01f)</span>
+
+<span class="sd">    ignoreEntities</span>
+<span class="sd">        A list of entity labels which are discarded from the output.</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">    --------</span>
+<span class="sd">    &gt;&gt;&gt; document_assembler = DocumentAssembler() \</span>
+<span class="sd">    ...     .setInputCol(&quot;text&quot;) \</span>
+<span class="sd">    ...     .setOutputCol(&quot;document&quot;)</span>
+<span class="sd">    &gt;&gt;&gt; sentence_detector = annotators.SentenceDetector()\</span>
+<span class="sd">    ...     .setInputCols([&quot;document&quot;])\</span>
+<span class="sd">    ...     .setOutputCol(&quot;sentence&quot;)</span>
+<span class="sd">    &gt;&gt;&gt; tokenizer = annotators.Tokenizer()\</span>
+<span class="sd">    ...     .setInputCols([&quot;sentence&quot;])\</span>
+<span class="sd">    ...     .setOutputCol(&quot;token&quot;)</span>
+<span class="sd">    &gt;&gt;&gt; zero_shot_ner = ZeroShotNerModel()\</span>
+<span class="sd">    ...     .load(&quot;/models/sparknlp/zero_shot_ner&quot;)\</span>
+<span class="sd">    ...     .setEntityDefinitions(</span>
+<span class="sd">    ...         {</span>
+<span class="sd">    ...             &quot;NAME&quot;: [&quot;What is his name?&quot;, &quot;What is my name?&quot;, &quot;What is her name?&quot;],</span>
+<span class="sd">    ...             &quot;CITY&quot;: [&quot;Which city?&quot;, &quot;Which is the city?&quot;]</span>
+<span class="sd">    ...         })\</span>
+<span class="sd">    ...     .setInputCols([&quot;sentence&quot;, &quot;token&quot;])\</span>
+<span class="sd">    ...     .setOutputCol(&quot;zero_shot_ner&quot;)\</span>
+<span class="sd">    &gt;&gt;&gt; data = spark.createDataFrame(</span>
+<span class="sd">    ...         [[&quot;My name is Clara, I live in New York and Hellen lives in Paris.&quot;]]</span>
+<span class="sd">    ...     ).toDF(&quot;text&quot;)</span>
+<span class="sd">    &gt;&gt;&gt; Pipeline() \</span>
+<span class="sd">    ...     .setStages([document_assembler, sentence_detector, tokenizer, zero_shot_ner]) \</span>
+<span class="sd">    ...     .fit(data) \</span>
+<span class="sd">    ...     .transform(data) \</span>
+<span class="sd">    ...     .selectExpr(&quot;document&quot;, &quot;explode(zero_shot_ner) AS entity&quot;)\</span>
+<span class="sd">    ...     .select(</span>
+<span class="sd">    ...         &quot;document.result&quot;,</span>
+<span class="sd">    ...         &quot;entity.result&quot;,</span>
+<span class="sd">    ...         &quot;entity.metadata.word&quot;,</span>
+<span class="sd">    ...         &quot;entity.metadata.confidence&quot;,</span>
+<span class="sd">    ...         &quot;entity.metadata.question&quot;)\</span>
+<span class="sd">    ...     .show(truncate=False)</span>
+<span class="sd">        +-----------------------------------------------------------------+------+------+----------+------------------+</span>
+<span class="sd">        |result                                                           |result|word  |confidence|question          |</span>
+<span class="sd">        +-----------------------------------------------------------------+------+------+----------+------------------+</span>
+<span class="sd">        |[My name is Clara, I live in New York and Hellen lives in Paris.]|B-CITY|Paris |0.5328949 |Which is the city?|</span>
+<span class="sd">        |[My name is Clara, I live in New York and Hellen lives in Paris.]|B-NAME|Clara |0.9360068 |What is my name?  |</span>
+<span class="sd">        |[My name is Clara, I live in New York and Hellen lives in Paris.]|B-CITY|New   |0.83294415|Which city?       |</span>
+<span class="sd">        |[My name is Clara, I live in New York and Hellen lives in Paris.]|I-CITY|York  |0.83294415|Which city?       |</span>
+<span class="sd">        |[My name is Clara, I live in New York and Hellen lives in Paris.]|B-NAME|Hellen|0.45366877|What is her name? |</span>
+<span class="sd">        +-----------------------------------------------------------------+------+------+----------+------------------+</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+<div class="viewcode-block" id="ZeroShotNerModel.name"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/ner/zero_shot_ner/index.html#sparknlp_jsl.annotator.ner.zero_shot_ner.ZeroShotNerModel.name">[docs]</a>    <span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;ZeroShotNerModel&quot;</span></div>
+
+<div class="viewcode-block" id="ZeroShotNerModel.entityDefinitions"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/ner/zero_shot_ner/index.html#sparknlp_jsl.annotator.ner.zero_shot_ner.ZeroShotNerModel.entityDefinitions">[docs]</a>    <span class="n">entityDefinitions</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
+                           <span class="s2">&quot;entityDefinitions&quot;</span><span class="p">,</span>
+                           <span class="s2">&quot;Entity definitions&quot;</span><span class="p">,</span>
+                           <span class="n">TypeConverters</span><span class="o">.</span><span class="n">identity</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="ZeroShotNerModel.predictionThreshold"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/ner/zero_shot_ner/index.html#sparknlp_jsl.annotator.ner.zero_shot_ner.ZeroShotNerModel.predictionThreshold">[docs]</a>    <span class="n">predictionThreshold</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
+                                <span class="s2">&quot;predictionThreshold&quot;</span><span class="p">,</span>
+                                <span class="s2">&quot;Minimal confidence score to encode an entity (default is 0.1)&quot;</span><span class="p">,</span>
+                                <span class="n">TypeConverters</span><span class="o">.</span><span class="n">toFloat</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="ZeroShotNerModel.ignoreEntities"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/ner/zero_shot_ner/index.html#sparknlp_jsl.annotator.ner.zero_shot_ner.ZeroShotNerModel.ignoreEntities">[docs]</a>    <span class="n">ignoreEntities</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
+                                      <span class="s2">&quot;ignoreEntities&quot;</span><span class="p">,</span>
+                                      <span class="s2">&quot;List of entities to ignore&quot;</span><span class="p">,</span>
+                                      <span class="n">TypeConverters</span><span class="o">.</span><span class="n">toListString</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="ZeroShotNerModel.setPredictionThreshold"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/ner/zero_shot_ner/index.html#sparknlp_jsl.annotator.ner.zero_shot_ner.ZeroShotNerModel.setPredictionThreshold">[docs]</a>    <span class="k">def</span> <span class="nf">setPredictionThreshold</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">threshold</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Sets the minimal confidence score to encode an entity</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        threshold : float</span>
+<span class="sd">           minimal confidence score to encode an entity (default is 0.1)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">predictionThreshold</span><span class="o">=</span><span class="n">threshold</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="ZeroShotNerModel.setEntityDefinitions"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/ner/zero_shot_ner/index.html#sparknlp_jsl.annotator.ner.zero_shot_ner.ZeroShotNerModel.setEntityDefinitions">[docs]</a>    <span class="k">def</span> <span class="nf">setEntityDefinitions</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">definitions</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Set entity definitions</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        definitions : dict[str, list[str]]</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_call_java</span><span class="p">(</span><span class="s2">&quot;setEntityDefinitions&quot;</span><span class="p">,</span> <span class="n">definitions</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="bp">self</span></div>
+
+<div class="viewcode-block" id="ZeroShotNerModel.getEntityDefinitions"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/ner/zero_shot_ner/index.html#sparknlp_jsl.annotator.ner.zero_shot_ner.ZeroShotNerModel.getEntityDefinitions">[docs]</a>    <span class="k">def</span> <span class="nf">getEntityDefinitions</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">          Get entity definitions</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">t</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_call_java</span><span class="p">(</span><span class="s2">&quot;getEntityDefinitionsStr&quot;</span><span class="p">)</span>
+        <span class="n">entities</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">for</span> <span class="n">entity</span> <span class="ow">in</span> <span class="n">t</span><span class="p">:</span>
+            <span class="n">es</span> <span class="o">=</span> <span class="n">entity</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;@@@&quot;</span><span class="p">)</span>
+            <span class="n">entities</span><span class="p">[</span><span class="n">es</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span> <span class="o">=</span> <span class="n">es</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span>
+        <span class="k">return</span> <span class="n">entities</span></div>
+
+<div class="viewcode-block" id="ZeroShotNerModel.getClasses"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/ner/zero_shot_ner/index.html#sparknlp_jsl.annotator.ner.zero_shot_ner.ZeroShotNerModel.getClasses">[docs]</a>    <span class="k">def</span> <span class="nf">getClasses</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">         Get list of entities</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_call_java</span><span class="p">(</span><span class="s2">&quot;getClasses&quot;</span><span class="p">)</span></div>
+
+    <span class="nd">@keyword_only</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">classname</span><span class="o">=</span><span class="s2">&quot;com.johnsnowlabs.nlp.annotators.ner.ZeroShotNerModel&quot;</span><span class="p">,</span> <span class="n">java_model</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">ZeroShotNerModel</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
+            <span class="n">classname</span><span class="o">=</span><span class="n">classname</span><span class="p">,</span>
+            <span class="n">java_model</span><span class="o">=</span><span class="n">java_model</span>
+        <span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_setDefault</span><span class="p">(</span>
+            <span class="n">predictionThreshold</span><span class="o">=</span><span class="mf">0.01</span><span class="p">,</span>
+            <span class="n">ignoreEntities</span><span class="o">=</span><span class="p">[]</span>
+        <span class="p">)</span>
+
+    <span class="nd">@staticmethod</span>
+<div class="viewcode-block" id="ZeroShotNerModel.pretrained"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/ner/zero_shot_ner/index.html#sparknlp_jsl.annotator.ner.zero_shot_ner.ZeroShotNerModel.pretrained">[docs]</a>    <span class="k">def</span> <span class="nf">pretrained</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;zero_shot_ner_roberta&quot;</span><span class="p">,</span> <span class="n">lang</span><span class="o">=</span><span class="s2">&quot;en&quot;</span><span class="p">,</span> <span class="n">remote_loc</span><span class="o">=</span><span class="s2">&quot;clinical/models&quot;</span><span class="p">):</span>
+        <span class="kn">from</span> <span class="nn">sparknlp_jsl.pretrained</span> <span class="kn">import</span> <span class="n">InternalResourceDownloader</span>
+        <span class="k">return</span> <span class="n">InternalResourceDownloader</span><span class="o">.</span><span class="n">downloadModel</span><span class="p">(</span><span class="n">ZeroShotNerModel</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">lang</span><span class="p">,</span> <span class="n">remote_loc</span><span class="p">,</span>
+                                                        <span class="n">j_dwn</span><span class="o">=</span><span class="s1">&#39;InternalsPythonResourceDownloader&#39;</span><span class="p">)</span></div>
+
+    <span class="nd">@staticmethod</span>
+<div class="viewcode-block" id="ZeroShotNerModel.load"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/ner/zero_shot_ner/index.html#sparknlp_jsl.annotator.ner.zero_shot_ner.ZeroShotNerModel.load">[docs]</a>    <span class="k">def</span> <span class="nf">load</span><span class="p">(</span><span class="n">path</span><span class="p">):</span>
+        <span class="kn">from</span> <span class="nn">sparknlp_jsl.internal</span> <span class="kn">import</span> <span class="n">_RobertaQAToZeroShotNerLoader</span>
+        <span class="n">jModel</span> <span class="o">=</span> <span class="n">_RobertaQAToZeroShotNerLoader</span><span class="p">(</span><span class="n">path</span><span class="p">)</span><span class="o">.</span><span class="n">_java_obj</span>
+        <span class="k">return</span> <span class="n">ZeroShotNerModel</span><span class="p">(</span><span class="n">java_model</span><span class="o">=</span><span class="n">jModel</span><span class="p">)</span></div></div>
+</pre></div>
+
+            </article>
+            
+            
+            
+            <footer class="bd-footer-article">
+                <!-- Previous / next buttons -->
+<div class='prev-next-area'>
+</div>
+            </footer>
+            
+          </div>
+          
+          
+          
+            <div class="bd-sidebar-secondary bd-toc">
+              
+<div class="toc-item">
+  
+</div>
+
+<div class="toc-item">
+  
+</div>
+
+            </div>
+          
+          
+        </div>
+        <footer class="bd-footer-content">
+          <div class="bd-footer-content__inner">
+            
+          </div>
+        </footer>
+        
+      </main>
+    </div>
+  </div>
+
+  
+    
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../../../../static/scripts/pydata-sphinx-theme.js?digest=9b1a4fa89bdd0e95b23b"></script>
+
+  <footer class="bd-footer"><div class="bd-footer__inner container">
+  
+  <div class="footer-item">
+    
+<p class="copyright">
+
+    &copy; Copyright 2022, John Snow Labs.<br>
+
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+<p class="sphinx-version">
+Created using <a href="http://sphinx-doc.org/">Sphinx</a> 5.1.1.<br>
+</p>
+
+  </div>
+  
+</div>
+  </footer>
+  </body>
+</html>

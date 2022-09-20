@@ -1,20 +1,22 @@
 ---
-layout: demopage
-title: Spark NLP in Action
+layout: demopagenew
+title: Enhance Low-Quality Images - Visual NLP Demos & Notebooks
+seotitle: 'Visual NLP: Enhance Low-Quality Images - John Snow Labs'
+subtitle: Run 300+ live demos and notebooks
 full_width: true
 permalink: /enhance_low_quality_images
 key: demo
+article_header:
+  type: demo
 license: false
+mode: immersivebg
 show_edit_on_github: false
 show_date: false
 data:
   sections:  
-    - title: Spark OCR 
-      excerpt: Enhance Low-Quality Images
-      secheader: yes
+    - secheader: yes
       secheader:
-        - title: Spark OCR
-          subtitle: Enhance Low-Quality Images
+        - subtitle: Enhance Low-Quality Images - Live Demos & Notebooks
           activemenu: enhance_low_quality_images
       source: yes
       source: 
@@ -29,7 +31,7 @@ data:
           - text: Live Demo
             type: normal
             url: https://demo.johnsnowlabs.com/ocr/BG_NOISE_REMOVER/
-          - text: Colab Netbook
+          - text: Colab
             type: blue_btn
             url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/ocr/BG_NOISE_REMOVER.ipynb
         - title: Correct skewness in scanned documents
@@ -43,7 +45,7 @@ data:
           - text: Live Demo
             type: normal
             url: https://demo.johnsnowlabs.com/ocr/SKEW_CORRECTION/
-          - text: Colab Netbook
+          - text: Colab
             type: blue_btn
             url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/ocr/SKEW_CORRECTION.ipynb
         - title: Recognize text in natural scenes
@@ -57,7 +59,7 @@ data:
           - text: Live Demo
             type: normal
             url: https://demo.johnsnowlabs.com/ocr/NATURAL_SCENE/
-          - text: Colab Netbook
+          - text: Colab
             type: blue_btn
             url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/ocr/NATURAL_SCENE.ipynb
         - title: Enhance Faxes or Scanned Documents
@@ -71,7 +73,7 @@ data:
           - text: Live Demo
             type: normal
             url: https://demo.johnsnowlabs.com/ocr/ENHANCE_OLD_FAXES/
-          - text: Colab Netbook
+          - text: Colab
             type: blue_btn
             url: https://colab.research.google.com/github/JohnSnowLabs/spark-ocr-workshop/blob/master/jupyter/SparkOCRGPUOperations.ipynb
         - title: Enhance Photo of Documents
@@ -85,7 +87,7 @@ data:
           - text: Live Demo
             type: normal
             url: https://demo.johnsnowlabs.com/ocr/ENHANCE_DOC_PHOTO/
-          - text: Colab Netbook
+          - text: Colab
             type: blue_btn
             url: https://colab.research.google.com/github/JohnSnowLabs/spark-ocr-workshop/blob/master/jupyter/SparkOCRGPUOperations.ipynb
         

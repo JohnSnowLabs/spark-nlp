@@ -1,20 +1,22 @@
 ---
-layout: demopage
-title: Spark NLP in Action
+layout: demopagenew
+title: Analyze Medical Texts in Spanish - Clinical NLP Demos & Notebooks
+seotitle: 'Clinical NLP: Analyze Medical Texts in Spanish - John Snow Labs'
+subtitle: Run 300+ live demos and notebooks
 full_width: true
 permalink: /analyze_medical_text_spanish
 key: demo
+article_header:
+  type: demo
 license: false
+mode: immersivebg
 show_edit_on_github: false
 show_date: false
 data:
   sections:  
-    - title: Spark NLP for Healthcare 
-      excerpt: Analyze Medical Texts in Spanish
-      secheader: yes
+    - secheader: yes
       secheader:
-        - title: Spark NLP for Healthcare
-          subtitle: Analyze Medical Texts in Spanish
+        - subtitle: Analyze Medical Texts in Spanish - Live Demos & Notebooks
           activemenu: analyze_medical_text_spanish
       source: yes
       source: 
@@ -29,7 +31,7 @@ data:
           - text: Live Demo
             type: normal
             url: https://demo.johnsnowlabs.com/healthcare/NER_DIAG_PROC_ES/
-          - text: Colab Netbook
+          - text: Colab
             type: blue_btn
             url: https://githubtocolab.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/NER_DIAG_PROC_ES.ipynb
         - title: Resolve Clinical Health Information using the HPO taxonomy (Spanish) 
@@ -43,7 +45,7 @@ data:
           - text: Live Demo
             type: normal
             url: https://demo.johnsnowlabs.com/healthcare/ER_HPO_ES/
-          - text: Colab Netbook
+          - text: Colab
             type: blue_btn
             url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/24.Improved_Entity_Resolvers_in_SparkNLP_with_sBert.ipynb
         - title: Detect Tumor Characteristics in Spanish medical texts
@@ -57,7 +59,7 @@ data:
           - text: Live Demo
             type: normal
             url: https://demo.johnsnowlabs.com/healthcare/NER_TUMOR_ES/  
-          - text: Colab Netbook
+          - text: Colab
             type: blue_btn
             url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/NER_TUMOR_ES.ipynb
         - title: Map clinical terminology to SNOMED taxonomy in Spanish
@@ -71,7 +73,7 @@ data:
           - text: Live Demo
             type: normal
             url: https://demo.johnsnowlabs.com/healthcare/ER_SNOMED_ES
-          - text: Colab Netbook
+          - text: Colab
             type: blue_btn
             url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/ER_SNOMED_ES.ipynb
         - title: Deidentify Spanish texts
@@ -85,7 +87,7 @@ data:
           - text: Live Demo
             type: normal
             url: https://demo.johnsnowlabs.com/healthcare/DEID_PHI_TEXT_ES/
-          - text: Colab Netbook
+          - text: Colab
             type: blue_btn
             url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/4.2.Clinical_Deidentification_in_Spanish.ipynb
         - title: Detect PHI for Deidentification in Spanish
@@ -99,7 +101,19 @@ data:
           - text: Live Demo
             type: normal
             url: https://demo.johnsnowlabs.com/healthcare/NER_DEID_ES/
-          - text: Colab Netbook
+          - text: Colab
             type: blue_btn
             url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/4.2.Clinical_Deidentification_in_Spanish.ipynb
+        - title: Detection of disease mentions in Spanish tweets 
+          id: detection_disease_mentions_spanish_tweets       
+          image: 
+              src: /assets/images/Detection_of_disease_mentions_in_Spanish_tweets.svg
+          excerpt: This model extracts disease entities in Spanish tweets.
+          actions:
+          - text: Live Demo
+            type: normal
+            url: https://demo.johnsnowlabs.com/healthcare/PUBLIC_HEALTH_NER_DISEASE_ES/
+          - text: Colab
+            type: blue_btn
+            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/PUBLIC_HEALTH_MB4TC.ipynb
 ---

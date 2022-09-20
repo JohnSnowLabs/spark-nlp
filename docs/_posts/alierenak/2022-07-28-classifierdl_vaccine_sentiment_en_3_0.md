@@ -140,13 +140,11 @@ Curated from several academic and in-house datasets.
 ## Benchmarking
 
 ```bash
-              precision    recall  f1-score   support
-
+       label  precision    recall  f1-score   support
      neutral       0.76      0.72      0.74      1008
     positive       0.80      0.79      0.80       966
     negative       0.76      0.81      0.78       916
-
-    accuracy                           0.77      2890
-   macro avg       0.77      0.77      0.77      2890
-weighted avg       0.77      0.77      0.77      2890
+    accuracy       -         -         0.77      2890
+   macro-avg       0.77      0.77      0.77      2890
+weighted-avg       0.77      0.77      0.77      2890
 ```

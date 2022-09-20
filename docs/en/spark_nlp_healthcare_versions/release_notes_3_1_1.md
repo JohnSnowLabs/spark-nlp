@@ -126,6 +126,9 @@ We prepared a new notebook for those who want to get started with Spark NLP for 
 </ul>
 
 <ul class="pagination owl-carousel pagination_big">
+    <li><a href="release_notes_4_1_0">4.1.0</a></li>
+    <li><a href="release_notes_4_0_2">4.0.2</a></li>
+    <li><a href="release_notes_4_0_0">4.0.0</a></li>
     <li><a href="release_notes_3_5_3">3.5.3</a></li>
     <li><a href="release_notes_3_5_2">3.5.2</a></li>
     <li><a href="release_notes_3_5_1">3.5.1</a></li>

@@ -43,27 +43,28 @@ This NER model covers a subset of the 40 languages included in XTREME (shown her
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
+
 ```python
 document_assembler = DocumentAssembler() \
-.setInputCol('text') \
-.setOutputCol('document')
+    .setInputCol('text') \
+    .setOutputCol('document')
 
 tokenizer = Tokenizer() \
-.setInputCols(['document']) \
-.setOutputCol('token')
+    .setInputCols(['document']) \
+    .setOutputCol('token')
 
 embeddings = XlmRoBertaEmbeddings\
-.pretrained('xlm_roberta_xtreme_base', 'xx')\
-.setInputCols(["token", "document"])\
-.setOutputCol("embeddings")
+    .pretrained('xlm_roberta_xtreme_base', 'xx')\
+    .setInputCols(["token", "document"])\
+    .setOutputCol("embeddings")
 
 ner_model = NerDLModel.pretrained('ner_xtreme_xlm_roberta_xtreme_base', 'xx') \
-.setInputCols(['document', 'token', 'embeddings']) \
-.setOutputCol('ner')
+    .setInputCols(['document', 'token', 'embeddings']) \
+    .setOutputCol('ner')
 
 ner_converter = NerConverter() \
-.setInputCols(['document', 'token', 'ner']) \
-.setOutputCol('entities')
+    .setInputCols(['document', 'token', 'ner']) \
+    .setOutputCol('entities')
 
 pipeline = Pipeline(stages=[
 document_assembler, 
@@ -73,43 +74,77 @@ ner_model,
 ner_converter
 ])
 
-example = spark.createDataFrame(pd.DataFrame({'text': ['My name is John!']}))
+text_list = [["""Jerome Horsey was a resident of the Russia Company in Moscow from 1572 to 1585."""],
+            ["""Emilie Hartmanns Vater August Hartmann war Lehrer an der Hohen Karlsschule in Stuttgart, bis zu deren Auflösung 1793."""],
+             ["""James Watt nacque in Scozia il 19 gennaio 1736 da genitori presbiteriani."""],
+             ["""Quand j'ai dit à John que je voulais déménager en Alaska, il m'a prévenu que j'aurais du mal à trouver un Starbucks là-bas."""]]
+
+example = spark.createDataFrame(text_list).toDF("text")
 result = pipeline.fit(example).transform(example)
 ```
 ```scala
-val document_assembler = DocumentAssembler() 
-.setInputCol("text") 
-.setOutputCol("document")
+val document_assembler = new DocumentAssembler() 
+    .setInputCol("text") 
+    .setOutputCol("document")
 
-val tokenizer = Tokenizer() 
-.setInputCols("document") 
-.setOutputCol("token")
+val tokenizer = new Tokenizer() 
+    .setInputCols("document") 
+    .setOutputCol("token")
 
 val embeddings = XlmRoBertaEmbeddings.pretrained("xlm_roberta_xtreme_base", "xx")
-.setInputCols("document", "token") 
-.setOutputCol("embeddings")
+    .setInputCols(Array("document", "token"))
+    .setOutputCol("embeddings")
 
 val ner_model = NerDLModel.pretrained("ner_xtreme_xlm_roberta_xtreme_base", "xx") 
-.setInputCols("document"', "token", "embeddings") 
-.setOutputCol("ner")
+    .setInputCols(Array("document", "token", "embeddings"))
+    .setOutputCol("ner")
 
-val ner_converter = NerConverter() 
-.setInputCols("document", "token", "ner") 
-.setOutputCol("entities")
+val ner_converter = new NerConverter() 
+    .setInputCols(Array("document", "token", "ner"))
+    .setOutputCol("entities")
 
 val pipeline = new Pipeline().setStages(Array(document_assembler, tokenizer, embeddings, ner_model, ner_converter))
-val result = pipeline.fit(Seq.empty["My name is John!"].toDS.toDF("text")).transform(data)
+
+val data = Seq(("""Jerome Horsey was a resident of the Russia Company in Moscow from 1572 to 1585."""),
+            ("""Emilie Hartmanns Vater August Hartmann war Lehrer an der Hohen Karlsschule in Stuttgart, bis zu deren Auflösung 1793."""),
+             ("""James Watt nacque in Scozia il 19 gennaio 1736 da genitori presbiteriani."""),
+             ("""Quand j'ai dit à John que je voulais déménager en Alaska, il m'a prévenu que j'aurais du mal à trouver un Starbucks là-bas.""")).toDS.toDF("text"))
+
+val result = pipeline.fit(data).transform(data)
 ```
 
 {:.nlu-block}
 ```python
 import nlu
 
-text = ["My name is John!"]
+text = [["""Jerome Horsey was a resident of the Russia Company in Moscow from 1572 to 1585."""],
+            ["""Emilie Hartmanns Vater August Hartmann war Lehrer an der Hohen Karlsschule in Stuttgart, bis zu deren Auflösung 1793."""],
+             ["""James Watt nacque in Scozia il 19 gennaio 1736 da genitori presbiteriani."""],
+             ["""Quand j'ai dit à John que je voulais déménager en Alaska, il m'a prévenu que j'aurais du mal à trouver un Starbucks là-bas."""]]
 
 ner_df = nlu.load('xx.ner.ner_xtreme_xlm_roberta_xtreme_base').predict(text, output_level='token')
 ```
 </div>
+
+## Results
+```bash
++-----------------+---------+
+|chunk            |ner_label|
++-----------------+---------+
+|Jerome Horsey    |PER      |
+|Russia Company   |ORG      |
+|Moscow           |LOC      |
+|Emilie Hartmanns |PER      |
+|August Hartmann  |PER      |
+|Hohen Karlsschule|ORG      |
+|Stuttgart        |LOC      |
+|James Watt       |PER      |
+|Scozia           |LOC      |
+|John             |PER      |
+|Alaska           |LOC      |
+|Starbucks        |ORG      |
++-----------------+---------+
+```
 
 {:.model-param}
 ## Model Information

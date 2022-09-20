@@ -34,28 +34,75 @@ Extract key entities in financial contracts using pretrained NER model.
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
+
 ```python
 
-...
-embeddings_clinical = WordEmbeddingsModel.pretrained("embeddings_clinical", "en", "clinical/models")  .setInputCols(["sentence", "token"])  .setOutputCol("embeddings")
-clinical_ner = MedicalNerModel.pretrained("ner_financial_contract", "en", "clinical/models")   .setInputCols(["sentence", "token", "embeddings"])   .setOutputCol("ner")
-...
-nlpPipeline = Pipeline(stages=[document_assembler, sentence_detector, tokenizer, embeddings_clinical, clinical_ner, ner_converter])
-model = nlpPipeline.fit(spark.createDataFrame([[""]]).toDF("text"))
-results = model.transform(spark.createDataFrame([["EXAMPLE_TEXT"]]).toDF("text"))
+document_assembler = DocumentAssembler()\
+    .setInputCol("text")\
+    .setOutputCol("document")
+
+sentenceDetector = SentenceDetectorDLModel.pretrained("sentence_detector_dl_healthcare","en","clinical/models")\
+    .setInputCols(["document"])\
+    .setOutputCol("sentence")
+
+tokenizer = Tokenizer()\
+    .setInputCols(["sentence"])\
+    .setOutputCol("token")
+
+embeddings = WordEmbeddingsModel.pretrained("glove_6B_300", "xx")\
+    .setInputCols("sentence", "token")\
+    .setOutputCol("embeddings")
+
+clinical_ner = MedicalNerModel.pretrained("ner_financial_contract", "en", "clinical/models")\
+    .setInputCols(["sentence", "token", "embeddings"])\
+    .setOutputCol("ner")
+
+ner_converter = NerConverter()\
+    .setInputCols(["sentence", "token", "ner"])\
+    .setOutputCol("ner_chunk")
+
+nlpPipeline = Pipeline(stages=[document_assembler, sentenceDetector, tokenizer, embeddings, clinical_ner, ner_converter])
+
+empty_data = spark.createDataFrame([[""]]).toDF("text")
+
+model = nlpPipeline.fit(empty_data)
+
+text = """Hans is a professor at the Norwegian University of Copenhagen, and he is a true Copenhagener."""
+
+result = model.transform(spark.createDataFrame([[text]]).toDF("text"))
+
 ```
 ```scala
 
-...
-val embeddings_clinical = WordEmbeddingsModel.pretrained("embeddings_clinical", "en", "clinical/models")
-.setInputCols(Array("sentence", "token"))
-.setOutputCol("embeddings")
-val ner = MedicalNerModel.pretrained("ner_financial_contract", "en", "clinical/models")
-.setInputCols(Array("sentence", "token", "embeddings"))
-.setOutputCol("ner")
-...
-val pipeline = new Pipeline().setStages(Array(document_assembler, sentence_detector, tokenizer, embeddings_clinical, ner, ner_converter))
-val result = pipeline.fit(Seq.empty[String]).transform(data)
+document_assembler = new DocumentAssembler()\
+    .setInputCol("text")\
+    .setOutputCol("document")
+
+sentenceDetector = SentenceDetectorDLModel.pretrained("sentence_detector_dl_healthcare","en","clinical/models")\
+    .setInputCols("document")\
+    .setOutputCol("sentence")
+
+tokenizer = new Tokenizer()\
+    .setInputCols(["sentence"])\
+    .setOutputCol("token")
+
+embeddings = WordEmbeddingsModel.pretrained("glove_6B_300", "xx")\
+    .setInputCols(Array("sentence", "token"))\
+    .setOutputCol("embeddings")
+
+clinical_ner = MedicalNerModel.pretrained("ner_financial_contract", "en", "clinical/models")\
+    .setInputCols(Array("sentence", "token", "embeddings"))\
+    .setOutputCol("ner")
+
+ner_converter = new NerConverter()\
+    .setInputCols(Array("sentence", "token", "ner"))\
+    .setOutputCol("ner_chunk")
+
+val pipeline = new Pipeline().setStages(Array(document_assembler, sentenceDetector, tokenizer, embeddings, clinical_ner, ner_converter))
+
+val data = Seq("""Hans is a professor at the Norwegian University of Copenhagen, and he is a true Copenhagener.""").toDS.toDF("text")
+
+val result = pipeline.fit(data).transform(data)
 ```
 
 
@@ -66,6 +113,17 @@ nlu.load("en.med_ner.financial_contract").predict("""Put your text here.""")
 ```
 
 </div>
+
+## Results
+```bash
++--------------------+---------+
+|chunk               |ner_label|
++--------------------+---------+
+|professor           |PER      |
+|Norwegian University|PER      |
+|Copenhagen          |LOC      |
++--------------------+---------+
+```
 
 {:.model-param}
 ## Model Information

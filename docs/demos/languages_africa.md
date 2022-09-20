@@ -1,20 +1,22 @@
 ---
-layout: demopage
-title: Spark NLP in Action
+layout: demopagenew
+title: African Languages - Spark NLP Demos & Notebooks
+seotitle: 'Spark NLP: African Languages - John Snow Labs'
+subtitle: Run 300+ live demos and notebooks
 full_width: true
 permalink: /languages_africa
 key: demo
+article_header:
+  type: demo
 license: false
+mode: immersivebg
 show_edit_on_github: false
 show_date: false
 data:
   sections:  
-    - title: Spark NLP - World Languages 
-      excerpt: Languages of Africa 
-      secheader: yes
+    - secheader: yes
       secheader:
-        - title: Spark NLP - World Languages
-          subtitle: Languages of Africa 
+        - subtitle: African Languages - Live Demos & Notebooks
           activemenu: languages_africa
       source: yes
       source: 
@@ -29,7 +31,7 @@ data:
           - text: Live Demo
             type: normal
             url: https://demo.johnsnowlabs.com/public/AFRICAN_TRANSLATION_HAUSA/
-          - text: Colab Netbook
+          - text: Colab
             type: blue_btn
             url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/public/AFRICAN_TRANSLATION.ipynb
         - title: Translate text from Swahili to English
@@ -43,7 +45,7 @@ data:
           - text: Live Demo
             type: normal
             url: https://demo.johnsnowlabs.com/public/AFRICAN_TRANSLATION_SWAHILI/
-          - text: Colab Netbook
+          - text: Colab
             type: blue_btn
             url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/public/AFRICAN_TRANSLATION.ipynb
         - title: Translate text from Afrikaans to English
@@ -57,7 +59,7 @@ data:
           - text: Live Demo
             type: normal
             url:  https://demo.johnsnowlabs.com/public/AFRICAN_TRANSLATION_AFRIKAANS/
-          - text: Colab Netbook
+          - text: Colab
             type: blue_btn
             url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/public/AFRICAN_TRANSLATION.ipynb
         - title: Analyze sentiment in Swahili text
@@ -71,7 +73,7 @@ data:
           - text: Live Demo
             type: normal
             url:  https://demo.johnsnowlabs.com/public/SENTIMENT_SW/
-          - text: Colab Netbook
+          - text: Colab
             type: blue_btn
             url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/SENTIMENT_SW.ipynb
         - title: Recognize entities in 10 African languages 
@@ -85,7 +87,7 @@ data:
           - text: Live Demo
             type: normal
             url:  https://demo.johnsnowlabs.com/public/Ner_masakhaner/
-          - text: Colab Netbook
+          - text: Colab
             type: blue_btn
             url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/Ner_masakhaner.ipynb
         - title: Lemmatizer for African Languages
@@ -99,7 +101,7 @@ data:
           - text: Live Demo
             type: normal
             url:  https://demo.johnsnowlabs.com/public/LEMMATIZER_AFRICAN/
-          - text: Colab Netbook
+          - text: Colab
             type: blue_btn
             url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Public/2.Text_Preprocessing_with_SparkNLP_Annotators_Transformers.ipynb
 ---

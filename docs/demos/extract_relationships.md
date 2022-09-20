@@ -1,10 +1,14 @@
 ---
-layout: demopage
+layout: demopagenew
 title: Spark NLP in Action
+subtitle: Run 300+ live demos and notebooks
 full_width: true
 permalink: /extract_relationships
 key: demo
+article_header:
+  type: demo
 license: false
+mode: immersivebg
 show_edit_on_github: false
 show_date: false
 data:
@@ -29,7 +33,7 @@ data:
           - text: Live Demo
             type: normal
             url: https://demo.johnsnowlabs.com/healthcare/RE_POSOLOGY/
-          - text: Colab Netbook
+          - text: Colab
             type: blue_btn
             url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/RE_POSOLOGY.ipynb
         - title: Detect temporal relations for clinical events
@@ -43,7 +47,7 @@ data:
           - text: Live Demo
             type: normal
             url: https://demo.johnsnowlabs.com/healthcare/RE_CLINICAL_EVENTS/
-          - text: Colab Netbook
+          - text: Colab
             type: blue_btn
             url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/RE_CLINICAL_EVENTS.ipynb
         - title: Detect causality between symptoms and treatment
@@ -57,7 +61,7 @@ data:
           - text: Live Demo
             type: normal
             url: https://demo.johnsnowlabs.com/healthcare/RE_CLINICAL/
-          - text: Colab Netbook
+          - text: Colab
             type: blue_btn
             url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/RE_CLINICAL.ipynb
         - title: Detect relations between body parts and clinical entities
@@ -71,7 +75,7 @@ data:
           - text: Live Demo
             type: normal
             url: https://demo.johnsnowlabs.com/healthcare/RE_BODYPART_ENT/
-          - text: Colab Netbook
+          - text: Colab
             type: blue_btn
             url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/10.1.Clinical_Relation_Extraction_BodyParts_Models.ipynb
         - title: Detect how dates relate to clinical entities
@@ -85,7 +89,7 @@ data:
           - text: Live Demo
             type: normal
             url: https://demo.johnsnowlabs.com/healthcare/RE_CLINICAL_DATE/
-          - text: Colab Netbook
+          - text: Colab
             type: blue_btn
             url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/RE_CLINICAL_DATE.ipynb
         - title: Detect drugs interactions
@@ -99,7 +103,7 @@ data:
           - text: Live Demo
             type: normal
             url: https://demo.johnsnowlabs.com/healthcare/RE_DRUG_DRUG_INT/
-          - text: Colab Netbook
+          - text: Colab
             type: blue_btn
             url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/RE_DRUG_DRUG_INT.ipynb
         - title: Detect relations between chemicals and proteins
@@ -113,7 +117,7 @@ data:
           - text: Live Demo
             type: normal
             url: https://demo.johnsnowlabs.com/healthcare/RE_CHEM_PROT/
-          - text: Colab Netbook
+          - text: Colab
             type: blue_btn
             url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/RE_CHEM_PROT.ipynb
         - title: Identify relations between scale items and measurements according to NIHSS
@@ -127,7 +131,7 @@ data:
           - text: Live Demo
             type: normal
             url: https://demo.johnsnowlabs.com/healthcare/RE_NIHSS/
-          - text: Colab Netbook
+          - text: Colab
             type: blue_btn
             url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/RE_NIHSS.ipynb
         - title: Identify Relations Between Drugs and Adversary Events
@@ -141,7 +145,7 @@ data:
           - text: Live Demo
             type: normal
             url: https://demo.johnsnowlabs.com/healthcare/RE_ADE/
-          - text: Colab Netbook
+          - text: Colab
             type: blue_btn
             url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/RE_ADE.ipynb
         - title: Extract relations between drugs and proteins 
@@ -155,7 +159,7 @@ data:
           - text: Live Demo
             type: normal
             url: https://demo.johnsnowlabs.com/healthcare/RE_DRUG_PROT/
-          - text: Colab Netbook
+          - text: Colab
             type: blue_btn
             url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/RE_DRUG_PROT.ipynb
 ---

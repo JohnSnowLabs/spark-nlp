@@ -1,20 +1,22 @@
 ---
-layout: demopage
-title: Spark NLP in Action
+layout: demopagenew
+title: Detect Sentiment & Emotion - Spark NLP Demos & Notebooks
+seotitle: 'Spark NLP: Detect Sentiment & Emotion - John Snow Labs'
+subtitle: Run 300+ live demos and notebooks
 full_width: true
 permalink: /detect_sentiment_emotion
 key: demo
+article_header:
+  type: demo
 license: false
+mode: immersivebg
 show_edit_on_github: false
 show_date: false
 data:
   sections:  
-    - title: Spark NLP - English
-      excerpt: Detect Sentiment & Emotion 
-      secheader: yes
+    - secheader: yes
       secheader:
-        - title: Spark NLP - English
-          subtitle: Detect Sentiment & Emotion 
+        - subtitle: Detect Sentiment & Emotion - Live Demos & Notebooks
           activemenu: detect_sentiment_emotion
       source: yes
       source: 
@@ -29,7 +31,7 @@ data:
           - text: Live Demo
             type: normal
             url: https://demo.johnsnowlabs.com/public/SENTIMENT_EN/
-          - text: Colab Netbook
+          - text: Colab
             type: blue_btn
             url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/SENTIMENT_EN.ipynb
         - title: Detect emotions in tweets
@@ -43,7 +45,7 @@ data:
           - text: Live Demo
             type: normal
             url: https://demo.johnsnowlabs.com/public/SENTIMENT_EN_EMOTION/
-          - text: Colab Netbook
+          - text: Colab
             type: blue_btn
             url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/SENTIMENT_EN_EMOTION.ipynb
         - title: Aspect based sentiment analysis for restaurants
@@ -57,7 +59,7 @@ data:
           - text: Live Demo
             type: normal
             url: https://demo.johnsnowlabs.com/public/ASPECT_BASED_SENTIMENT_RESTAURANT/
-          - text: Colab Netbook
+          - text: Colab
             type: blue_btn
             url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/ABSA_Inference.ipynb        
         - title: Detect cyberbullying in tweets
@@ -71,7 +73,7 @@ data:
           - text: Live Demo
             type: normal
             url: https://demo.johnsnowlabs.com/public/SENTIMENT_EN_CYBERBULLYING/
-          - text: Colab Netbook
+          - text: Colab
             type: blue_btn
             url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/SENTIMENT_EN_CYBERBULLYING.ipynb        
         - title: Identify Emotions in texts
@@ -85,7 +87,7 @@ data:
           - text: Live Demo
             type: normal
             url: https://demo.johnsnowlabs.com/public/CLASSIFICATION_EMOTION/
-          - text: Colab Netbook
+          - text: Colab
             type: blue_btn
             url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/BertForSequenceClassification.ipynb
 ---

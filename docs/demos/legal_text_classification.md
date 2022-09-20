@@ -1,20 +1,22 @@
 ---
-layout: demopage
-title: Spark NLP in Action
+layout: demopagenew
+title: Classify Legal Texts - Legal NLP Demos & Notebooks
+seotitle: 'Legal NLP: Classify Legal Texts - John Snow Labs'
+subtitle: Run 300+ live demos and notebooks
 full_width: true
 permalink: /legal_text_classification
 key: demo
+article_header:
+  type: demo
 license: false
+mode: immersivebg
 show_edit_on_github: false
 show_date: false
 data:
   sections:  
-    - title: Spark NLP for Legal
-      excerpt: Legal Text Classification
-      secheader: yes
+    - secheader: yes
       secheader:
-        - title: Spark NLP for Legal
-          subtitle: Legal Text Classification
+        - subtitle: Classify Legal Texts - Live Demos & Notebooks
           activemenu: legal_text_classification
       source: yes
       source: 
@@ -29,9 +31,9 @@ data:
           - text: Live Demo
             type: normal
             url: https://demo.johnsnowlabs.com/legal/CLASSIFY_LEGAL_CLAUSES/
-          - text: Colab Netbook
+          - text: Colab
             type: blue_btn
-            url: https://nlp.johnsnowlabs.com/
+            url:  
         - title: Classify 15 types of clauses (Multilabel)  
           id: classify_texts_15_types_legal_clauses     
           image: 
@@ -43,7 +45,19 @@ data:
           - text: Live Demo
             type: normal
             url: https://demo.johnsnowlabs.com/legal/LEGMULTICLF_LEDGAR/
-          - text: Colab Netbook
+          - text: Colab
             type: blue_btn
-            url: https://nlp.johnsnowlabs.com/
+            url:  
+        - title: Classify Judgements Clauses 
+          id: classify_judgements_clauses      
+          image: 
+              src: /assets/images/Classify_Judgements_Clauses.svg
+          excerpt: These models analyze and identify if a clause is a decision, talks about a legal basis, a legitimate purpose, etc. and if an argument has been started by the ECHR, Commission/Chamber, the State, Third Parties, etc.
+          actions:
+          - text: Live Demo
+            type: normal
+            url: https://demo.johnsnowlabs.com/legal/LEG_JUDGEMENTS_CLF/
+          - text: Colab
+            type: blue_btn
+            url: 
 ---

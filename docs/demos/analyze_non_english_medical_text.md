@@ -1,10 +1,14 @@
 ---
-layout: demopage
+layout: demopagenew
 title: Spark NLP in Action
+subtitle: Run 300+ live demos and notebooks
 full_width: true
 permalink: /analyze_non_english_medical_text
 key: demo
+article_header:
+  type: demo
 license: false
+mode: immersivebg
 show_edit_on_github: false
 show_date: false
 data:
@@ -30,7 +34,7 @@ data:
           - text: Live Demo
             type: normal
             url: https://demo.johnsnowlabs.com/healthcare/ER_ICD10_GM_DE/
-          - text: Colab Netbook
+          - text: Colab
             type: blue_btn
             url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/ER_ICD10_GM_DE.ipynb
         - title: Detect symptoms, treatments and other NERs in German
@@ -44,7 +48,7 @@ data:
           - text: Live Demo
             type: normal
             url: https://demo.johnsnowlabs.com/healthcare/NER_HEALTHCARE_DE/
-          - text: Colab Netbook
+          - text: Colab
             type: blue_btn
             url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/NER_HEALTHCARE_DE.ipynb
         - title: Detect legal entities in German
@@ -58,7 +62,7 @@ data:
           - text: Live Demo
             type: normal
             url: https://demo.johnsnowlabs.com/healthcare/NER_LEGAL_DE/
-          - text: Colab Netbook
+          - text: Colab
             type: blue_btn
             url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/NER_LEGAL_DE.ipynb
         - title: Detect traffic information in text
@@ -72,7 +76,7 @@ data:
           - text: Live Demo
             type: normal
             url: https://demo.johnsnowlabs.com/healthcare/NER_TRAFFIC_DE/
-          - text: Colab Netbook
+          - text: Colab
             type: blue_btn
             url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/NER_TRAFFIC_DE.ipynb
         - title: Detect Diagnoses And Procedures In Spanish
@@ -86,7 +90,7 @@ data:
           - text: Live Demo
             type: normal
             url: https://demo.johnsnowlabs.com/healthcare/NER_DIAG_PROC_ES/
-          - text: Colab Netbook
+          - text: Colab
             type: blue_btn
             url: https://githubtocolab.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/NER_DIAG_PROC_ES.ipynb
         - title: HPO coding - Spanish
@@ -100,7 +104,7 @@ data:
           - text: Live Demo
             type: normal
             url: https://demo.johnsnowlabs.com/healthcare/ER_HPO_ES/
-          - text: Colab Netbook
+          - text: Colab
             type: blue_btn
             url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/24.Improved_Entity_Resolvers_in_SparkNLP_with_sBert.ipynb        
         - title: Detect professions and occupations in Spanish texts
@@ -114,7 +118,7 @@ data:
           - text: Live Demo
             type: normal
             url: https://demo.johnsnowlabs.com/healthcare/NER_PROFESSIONS_ES/ 
-          - text: Colab Netbook
+          - text: Colab
             type: blue_btn
             url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/NER_PROFESSIONS_ES.ipynb
         - title: Detect Tumor Characteristics in Spanish medical texts
@@ -128,7 +132,7 @@ data:
           - text: Live Demo
             type: normal
             url: https://demo.johnsnowlabs.com/healthcare/NER_TUMOR_ES/  
-          - text: Colab Netbook
+          - text: Colab
             type: blue_btn
             url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/NER_TUMOR_ES.ipynb 
         

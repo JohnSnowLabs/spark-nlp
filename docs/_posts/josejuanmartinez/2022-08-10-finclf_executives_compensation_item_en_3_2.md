@@ -50,7 +50,7 @@ useEmbeddings = UniversalSentenceEncoder.pretrained() \
     .setInputCols("document") \
     .setOutputCol("sentence_embeddings")
 
-docClassifier = ClassifierDLModel().pretrained("finclf_executives_compensation_item", "en", "finance/models")\
+docClassifier = ClassifierDLModel.pretrained("finclf_executives_compensation_item", "en", "finance/models")\
     .setInputCols(["sentence_embeddings"])\
     .setOutputCol("category")
     
