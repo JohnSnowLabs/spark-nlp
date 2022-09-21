@@ -1,10 +1,11 @@
 package com.johnsnowlabs.ml.tensorflow
 
 import com.johnsnowlabs.ml.tensorflow.sign.ModelSignatureConstants
-import com.johnsnowlabs.nlp.annotators.classifier.dl.tapas.{TapasEncoder, TapasInputData, TapasTable}
 import com.johnsnowlabs.nlp.annotators.tokenizer.wordpiece.WordpieceEncoder
 import com.johnsnowlabs.nlp.{Annotation, AnnotatorType}
 import com.johnsnowlabs.util.JsonParser.formats
+import com.johnsnowlabs.nlp.annotators.common.TableData
+import com.johnsnowlabs.nlp.annotators.tapas.{TapasEncoder, TapasInputData}
 import org.json4s.jackson.JsonMethods.parse
 import org.tensorflow.ndarray.buffer.IntDataBuffer
 
@@ -132,7 +133,7 @@ class TensorflowTapas(
             val encoder = new WordpieceEncoder(vocabulary)
             val tapasEncoder = new TapasEncoder(sentenceStartTokenId, sentenceEndTokenId, encoder)
 
-            val table = parse(tableAnnotation.result).extract[TapasTable]
+            val table = parse(tableAnnotation.result).extract[TableData]
 
             val tapasData = tapasEncoder.encodeTapasData(
                   questions = questions.map(_.result),

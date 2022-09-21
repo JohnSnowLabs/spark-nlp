@@ -1,6 +1,5 @@
 package com.johnsnowlabs.nlp.annotators.classifier.dl
 
-import com.johnsnowlabs.nlp.annotators.classifier.dl.tapas.TapasForQuestionAnswering
 import com.johnsnowlabs.nlp.annotators.sentence_detector_dl.SentenceDetectorDLModel
 import com.johnsnowlabs.nlp.base.MultiDocumentAssembler
 import com.johnsnowlabs.nlp.{DocumentAssembler, TableAssembler}
