@@ -26,3 +26,4 @@ from sparknlp.base.light_pipeline import *
 from sparknlp.base.recursive_pipeline import *
 from sparknlp.base.token_assembler import *
 from sparknlp.base.image_assembler import *
+from sparknlp.base.table_assembler import *
