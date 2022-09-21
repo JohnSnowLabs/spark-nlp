@@ -4,8 +4,7 @@ import com.johnsnowlabs.nlp.AnnotatorType.{DOCUMENT, TABLE}
 import com.johnsnowlabs.nlp.annotators.common.TableData
 import org.apache.spark.ml.param.Param
 import org.apache.spark.ml.util.Identifiable
-import org.json4s.jackson.JsonMethods.parse
-import com.johnsnowlabs.util.JsonParser.formats
+
 
 class TableAssembler (override val uid: String)
   extends AnnotatorModel[TokenAssembler]
@@ -25,41 +24,48 @@ class TableAssembler (override val uid: String)
     */
   override val inputAnnotatorTypes: Array[String] = Array(DOCUMENT)
 
-  protected val INPUT_TYPES = Array("json", "csv")
+  protected val INPUT_FORMATS = Array("json", "csv")
 
-  val inputType = new Param[String](this, "inputType", "Input table type. Supported types: %s".format(INPUT_TYPES.mkString(", ")))
+  val inputFormat = new Param[String](this, "inputFormat", "Input table format. Supported formats: %s".format(INPUT_FORMATS.mkString(", ")))
 
   def setInputType(value: String): this.type = {
-    require(INPUT_TYPES.contains(value), "Invalid input type. Currently supported input types are: " + INPUT_TYPES.mkString(", "))
-    set(this.inputType, value.toLowerCase)
+    require(INPUT_FORMATS.contains(value), "Invalid input format. Currently supported formats are: " + INPUT_FORMATS.mkString(", "))
+    set(this.inputFormat, value.toLowerCase)
   }
 
-  def getInputType: String = $(inputType)
+  def getInputType: String = $(inputFormat)
+
+  val csvDelimiter = new Param[String](this, "csvDelimiter", "CSV delimiter")
+
+  def setCsvDelimiter(value: String): this.type = {
+    set(this.csvDelimiter, value)
+  }
+
+  def getCsvDelimiter: String = $(csvDelimiter)
+
+  setDefault(inputFormat -> "json", csvDelimiter -> ",")
 
   override def annotate(annotations: Seq[Annotation]): Seq[Annotation] = {
-
 
     annotations
       .map{
         annotation =>
-          val jsonTable = $(inputType) match {
-            case "json" =>
-              try{
-                parse(annotation.result).extract[TableData]
-                annotation.result
-              } catch  {
-                case _: Exception => throw new Exception("Invalid JSON input")
-              }
-            case "csv" => "a"
-            case _ => throw new Exception("Unsupported input type: %s".format($(inputType)))
+          val jsonTable = try{
+            $(inputFormat) match {
+              case "json" => TableData.fromJSON(annotation.result).toJSON
+              case "csv" => TableData.fromCSV(annotation.result, $(csvDelimiter)).toJSON
+            }
+          } catch {
+            case _: Exception => throw new Exception("Invalid %s input".format($(inputFormat)))
           }
+
           new Annotation(
             annotatorType = TABLE,
             begin = 0,
             end = jsonTable.length,
             result = jsonTable,
             metadata = annotation.metadata ++ Map(
-              "original_input_type" -> $(inputType)
+              "original_input_type" -> $(inputFormat)
             ))
       }
 
