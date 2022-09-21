@@ -426,8 +426,8 @@ It is currently the engine behind the Microsoft Translator Neural Machine Transl
 
 <p>target languages: en</p>
 
-<p class="btn-box"><a href="https://demo.johnsnowlabs.com/public/TRANSLATION_MARIAN/" class="button button-orange">Live Demo</a>
-<a href="https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/TRANSLATION_MARIAN.ipynb" class="button button-orange button-orange-trans co button-icon">Open in Colab</a>
+<p class="btn-box"><a href="https://demo.johnsnowlabs.com/public/INDIAN_TRANSLATION_PUNJABI/" class="button button-orange">Live Demo</a>
+<a href="https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/TRANSLATION_PIPELINES_MODELS.ipynb" class="button button-orange button-orange-trans co button-icon">Open in Colab</a>
 <a href="https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/translate_pa_en_xx_3.1.0_2.4_1622846398691.zip" class="button button-orange button-orange-trans arr button-icon">Download</a></p>
 
 <h2 id="how-to-use">How to use</h2>
@@ -436,23 +436,39 @@ It is currently the engine behind the Microsoft Translator Neural Machine Transl
   <div class="top_tab_li">   
     <button class="tab-li code-selector-active python-button">Python</button><button class="tab-li code-selector-un-active scala-button">Scala</button><button class="tab-li code-selector-un-active nlu-button">NLU</button>
 </div>
-  <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">sparknlp.pretrained</span> <span class="kn">import</span> <span class="n">PretrainedPipeline</span> 
-<span class="n">pipeline</span> <span class="o">=</span> <span class="n">PretrainedPipeline</span><span class="p">(</span><span class="s">"translate_pa_en"</span><span class="p">,</span> <span class="n">lang</span> <span class="o">=</span> <span class="s">"xx"</span><span class="p">)</span> 
-<span class="n">pipeline</span><span class="p">.</span><span class="n">annotate</span><span class="p">(</span><span class="s">"Your sentence to translate!"</span><span class="p">)</span>
+
+  <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">sparknlp.pretrained</span> <span class="kn">import</span> <span class="n">PretrainedPipeline</span>
+
+<span class="n">pipeline</span> <span class="o">=</span> <span class="n">PretrainedPipeline</span><span class="p">(</span><span class="s">"translate_pa_en"</span><span class="p">,</span> <span class="n">lang</span> <span class="o">=</span> <span class="s">"xx"</span><span class="p">)</span>
+
+<span class="n">pipeline</span><span class="p">.</span><span class="n">annotate</span><span class="p">(</span><span class="s">"ਮੈਨੂੰ ਪੜ੍ਹਨਾ ਪਸੰਦ ਹੈ."</span><span class="p">)</span>
 </code></pre></div>  </div>
   <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
 <span class="k">import</span> <span class="nn">com.johnsnowlabs.nlp.pretrained.PretrainedPipeline</span>
+
 <span class="k">val</span> <span class="nv">pipeline</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">PretrainedPipeline</span><span class="o">(</span><span class="s">"translate_pa_en"</span><span class="o">,</span> <span class="n">lang</span> <span class="k">=</span> <span class="s">"xx"</span><span class="o">)</span>
-<span class="nv">pipeline</span><span class="o">.</span><span class="py">annotate</span><span class="o">(</span><span class="s">"Your sentence to translate!"</span><span class="o">)</span>
+
+<span class="nv">pipeline</span><span class="o">.</span><span class="py">annotate</span><span class="o">(</span><span class="s">"ਮੈਨੂੰ ਪੜ੍ਹਨਾ ਪਸੰਦ ਹੈ."</span><span class="o">)</span>
 </code></pre></div>  </div>
 
   <div class="language-python nlu-block highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
 <span class="kn">import</span> <span class="nn">nlu</span>
-<span class="n">text</span> <span class="o">=</span> <span class="p">[</span><span class="s">"text to translate"</span><span class="p">]</span>
+
+<span class="n">text</span> <span class="o">=</span> <span class="p">[</span><span class="s">"ਮੈਨੂੰ ਪੜ੍ਹਨਾ ਪਸੰਦ ਹੈ."</span><span class="p">]</span>
+
 <span class="n">translate_df</span> <span class="o">=</span> <span class="n">nlu</span><span class="p">.</span><span class="n">load</span><span class="p">(</span><span class="s">'xx.Punjabi (Eastern).translate_to.English'</span><span class="p">).</span><span class="n">predict</span><span class="p">(</span><span class="n">text</span><span class="p">,</span> <span class="n">output_level</span><span class="o">=</span><span class="s">'sentence'</span><span class="p">)</span>
 <span class="n">translate_df</span>
 </code></pre></div>  </div>
 </div>
+
+<h2 id="results">Results</h2>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>+------------------------------+---------------------------+
+|sentence                      |translation                |
++------------------------------+---------------------------+
+|ਮੈਨੂੰ ਪੜ੍ਹਨਾ ਪਸੰਦ ਹੈ.                 |I like reading.            | 
++------------------------------+---------------------------+
+</code></pre></div></div>
 
 <h2 class="model-param" id="model-information">Model Information</h2>
 

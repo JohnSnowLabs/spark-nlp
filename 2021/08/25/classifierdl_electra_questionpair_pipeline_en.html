@@ -414,15 +414,15 @@
             </a>
         </div><ul class="right-col menu"><li><i class="far fa-user"></i> <span>John Snow Labs</span></li><li><i class="far fa-calendar-alt"></i> <span>Aug 25, 2021</span>
             </li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2021-08-25T00:00:00+00:00"></div><header class="main-docs have_subtitle">
-          <h1>Question Pair Classifier Pipeline</h1><div class="top-subtitle mont"></div></header></div><meta itemprop="headline" content="Question Pair Classifier Pipeline"><div class="article__info tags_box clearfix"><ul class="left-col menu"><li>quora</li><li>question_pair</li><li>public</li><li>en</li><li>open_source</li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2021-08-25T00:00:00+00:00">
-    <meta itemprop="keywords" content="quora,question_pair,public,en,open_source"><div class="js-article-content"><div class="model-wrap"><div class="layout--article"><!-- start custom article top snippet -->
+          <h1>Question Pair Classifier Pipeline</h1><div class="top-subtitle mont"></div></header></div><meta itemprop="headline" content="Question Pair Classifier Pipeline"><div class="article__info tags_box clearfix"><ul class="left-col menu"><li>quora</li><li>question_pair</li><li>public</li><li>en</li><li>open_source</li><li>pipeline</li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2021-08-25T00:00:00+00:00">
+    <meta itemprop="keywords" content="quora,question_pair,public,en,open_source,pipeline"><div class="js-article-content"><div class="model-wrap"><div class="layout--article"><!-- start custom article top snippet -->
 
 <!-- end custom article top snippet --><div class="article__content" itemprop="articleBody"><h2 id="description">Description</h2>
 
 <p>This pre-trained pipeline identifies whether the two question sentences are semantically repetitive or different.</p>
 
-<p class="btn-box"><button class="button button-orange" disabled="">Live Demo</button>
-<button class="button button-orange" disabled="">Open in Colab</button>
+<p class="btn-box"><a href="https://demo.johnsnowlabs.com/public/CLASSIFICATION_QUESTIONPAIR/" class="button button-orange">Live Demo</a>
+<a href="https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/CLASSIFICATION_QUESTIONPAIRS.ipynb" class="button button-orange button-orange-trans co button-icon">Open in Colab</a>
 <a href="https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/classifierdl_electra_questionpair_pipeline_en_3.2.0_2.4_1629892687975.zip" class="button button-orange button-orange-trans arr button-icon">Download</a></p>
 
 <h2 id="how-to-use">How to use</h2>
@@ -435,12 +435,17 @@
   <div class="top_tab_li">   
     <button class="tab-li code-selector-active python-button">Python</button><button class="tab-li code-selector-un-active scala-button">Scala</button><button class="tab-li code-selector-un-active nlu-button">NLU</button>
 </div>
-  <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">python</span> <span class="n">pipeline</span> <span class="o">=</span> <span class="n">PretrainedPipeline</span><span class="p">(</span><span class="s">"classifierdl_electra_questionpair_pipeline"</span><span class="p">,</span> <span class="s">"en"</span><span class="p">)</span>
+
+  <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">sparknlp.pretrained</span> <span class="kn">import</span> <span class="n">PretrainedPipeline</span>
+
+<span class="n">pipeline</span> <span class="o">=</span> <span class="n">PretrainedPipeline</span><span class="p">(</span><span class="s">"classifierdl_electra_questionpair_pipeline"</span><span class="p">,</span> <span class="s">"en"</span><span class="p">)</span>
 
 <span class="n">result1</span> <span class="o">=</span> <span class="n">pipeline</span><span class="p">.</span><span class="n">fullAnnotate</span><span class="p">(</span><span class="s">"q1: What is your favorite movie? q2: Which movie do you like most?"</span><span class="p">)</span>
 <span class="n">result2</span> <span class="o">=</span> <span class="n">pipeline</span><span class="p">.</span><span class="n">fullAnnotate</span><span class="p">(</span><span class="s">"q1: What is your favorite movie? q2: Which movie genre would you like to watch?"</span><span class="p">)</span>
 </code></pre></div>  </div>
-  <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">val</span> <span class="nv">pipeline</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">PretrainedPipeline</span><span class="o">(</span><span class="s">"classifierdl_electra_questionpair_pipeline"</span><span class="o">,</span> <span class="s">"en"</span><span class="o">)</span>
+  <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="nn">com.johnsnowlabs.nlp.pretrained.PretrainedPipeline</span>
+
+<span class="k">val</span> <span class="nv">pipeline</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">PretrainedPipeline</span><span class="o">(</span><span class="s">"classifierdl_electra_questionpair_pipeline"</span><span class="o">,</span> <span class="s">"en"</span><span class="o">)</span>
 
 <span class="k">val</span> <span class="nv">result1</span> <span class="k">=</span> <span class="nv">pipeline</span><span class="o">.</span><span class="py">fullAnnotate</span><span class="o">(</span><span class="s">"q1: What is your favorite movie? q2: Which movie do you like most?"</span><span class="o">)(</span><span class="mi">0</span><span class="o">)</span>
 <span class="k">val</span> <span class="nv">result2</span> <span class="k">=</span> <span class="nv">pipeline</span><span class="o">.</span><span class="py">fullAnnotate</span><span class="o">(</span><span class="s">"q1: What is your favorite movie? q2: Which movie genre would you like to watch?"</span><span class="o">)(</span><span class="mi">0</span><span class="o">)</span>
@@ -449,8 +454,8 @@
 
 <h2 id="results">Results</h2>
 
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span><span class="s1">'almost_same'</span><span class="o">]</span>
-<span class="o">[</span><span class="s1">'not_same'</span><span class="o">]</span>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>result1 <span class="nt">--</span><span class="o">&gt;</span> <span class="o">[</span><span class="s1">'almost_same'</span><span class="o">]</span>
+result2 <span class="nt">--</span><span class="o">&gt;</span> <span class="o">[</span><span class="s1">'not_same'</span><span class="o">]</span>
 </code></pre></div></div>
 
 <h2 class="model-param" id="model-information">Model Information</h2>

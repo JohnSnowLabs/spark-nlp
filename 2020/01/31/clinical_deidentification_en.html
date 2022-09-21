@@ -11,7 +11,7 @@
     })(window,document,'script','dataLayer','GTM-59JLR64');</script>
 <!-- End Google Tag Manager --><title>Clinical Deidentification</title><meta property="og:title" content=""/>
 
-<meta name="description" content="DescriptionThis pipeline can be used to de-identify PHI information from medical texts. The PHI information will be obfuscated in the resulting text.Live DemoOpen in ColabDownloadHow to use         PythonScala  model = PretrainedPipeline("clinical_deidentification","en","clinical/models")    val model = PretrainedPi...">
+<meta name="description" content="DescriptionThis pipeline can be used to de-identify PHI information from medical texts. The PHI information will be obfuscated in the resulting text.Live DemoOpen in ColabDownloadHow to use         PythonScala  from sparknlp.pretrained import PretrainedPipelinesample = """Name : Hendrickson, Ora, Record date: 2093-0...">
 <link rel="canonical" href="/2020/01/31/clinical_deidentification_en.html"><link rel="alternate" type="application/rss+xml" title="Spark NLP" href="/feed.xml"><!-- start favicons snippet, use https://realfavicongenerator.net/ -->
 <!---->
 <!-- <link rel="apple-touch-icon" sizes="180x180" href="/fav.ico"> -->
@@ -420,19 +420,41 @@
 <!-- end custom article top snippet --><div class="article__content" itemprop="articleBody"><h2 class="h2_title" id="description">Description</h2>
 <p>This pipeline can be used to de-identify PHI information from medical texts. The PHI information will be obfuscated in the resulting text.</p>
 
-<p class="btn-box h2_title"><button class="button button-orange" disabled="">Live Demo</button>
-<a href="https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/11.Pretrained_Clinical_Pipelines.ipynb" class="button button-orange button-orange-trans co button-icon">Open in Colab</a><a href="https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/clinical_deidentification_en_2.4.0_2.4_1580481115376.zip" class="button button-orange button-orange-trans arr button-icon">Download</a></p>
-<h2 id="how-to-use">How to use</h2>
+<p class="btn-box"><a href="https://demo.johnsnowlabs.com/healthcare/DEID_PHI_TEXT/" class="button button-orange">Live Demo</a>
+<a href="https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/DEID_PHI_TEXT.ipynb" class="button button-orange button-orange-trans co button-icon">Open in Colab</a>
+<a href="https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/clinical_deidentification_en_2.4.0_2.4_1580481115376.zip" class="button button-orange button-orange-trans arr button-icon">Download</a></p>
+
+<h2 class="h2_title" id="how-to-use">How to use</h2>
+
 <div class="tabs-box">
 
   <div class="top_tab_li">   
     <button data-type="python" class="tab-li tab-li-second active">Python</button><button data-type="scala" class="tab-li tab-li-second">Scala</button>
 </div>
 
-  <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">model</span> <span class="o">=</span> <span class="n">PretrainedPipeline</span><span class="p">(</span><span class="s">"clinical_deidentification"</span><span class="p">,</span><span class="s">"en"</span><span class="p">,</span><span class="s">"clinical/models"</span><span class="p">)</span>
+  <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">sparknlp.pretrained</span> <span class="kn">import</span> <span class="n">PretrainedPipeline</span>
+
+<span class="n">sample</span> <span class="o">=</span> <span class="s">"""Name : Hendrickson, Ora, Record date: 2093-01-13, # 719435.
+Dr. John Green, ID: 1231511863, IP 203.120.223.13.
+He is a 60-year-old male was admitted to the Day Hospital for cystectomy on 01/13/93.
+Patient's VIN : 1HGBH41JXMN109286, SSN #333-44-6666, Driver's license no:A334455B.
+Phone (302) 786-5227, 0295 Keats Street, San Francisco, E-MAIL: smith@gmail.com."""</span>
+
+<span class="n">model</span> <span class="o">=</span> <span class="n">PretrainedPipeline</span><span class="p">(</span><span class="s">"clinical_deidentification"</span><span class="p">,</span> <span class="s">"en"</span><span class="p">,</span> <span class="s">"clinical/models"</span><span class="p">)</span>
+<span class="n">result</span> <span class="o">=</span> <span class="n">deid_pipeline</span><span class="p">.</span><span class="n">annotate</span><span class="p">(</span><span class="n">sample</span><span class="p">)</span>
 </code></pre></div>  </div>
 
-  <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">val</span> <span class="nv">model</span> <span class="k">=</span> <span class="nc">PretrainedPipeline</span><span class="o">(</span><span class="s">"clinical_deidentification"</span><span class="o">,</span><span class="s">"en"</span><span class="o">,</span><span class="s">"clinical/models"</span><span class="o">)</span>
+  <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="nn">com.johnsnowlabs.nlp.pretrained.PretrainedPipeline</span>
+
+<span class="k">val</span> <span class="nv">sample</span> <span class="k">=</span> <span class="s">"""Name : Hendrickson, Ora, Record date: 2093-01-13, # 719435.
+Dr. John Green, ID: 1231511863, IP 203.120.223.13.
+He is a 60-year-old male was admitted to the Day Hospital for cystectomy on 01/13/93.
+Patient's VIN : 1HGBH41JXMN109286, SSN #333-44-6666, Driver's license no:A334455B.
+Phone (302) 786-5227, 0295 Keats Street, San Francisco, E-MAIL: smith@gmail.com."""</span>
+
+
+<span class="k">val</span> <span class="nv">model</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">PretrainedPipeline</span><span class="o">(</span><span class="s">"clinical_deidentification"</span><span class="o">,</span> <span class="s">"en"</span><span class="o">,</span> <span class="s">"clinical/models"</span><span class="o">)</span>
+<span class="k">val</span> <span class="nv">result</span> <span class="k">=</span> <span class="nv">deid_pipeline</span><span class="o">.</span><span class="py">annotate</span><span class="o">(</span><span class="n">sample</span><span class="o">)</span>
 </code></pre></div>  </div>
 </div>
 
@@ -467,7 +489,6 @@
   </tbody>
 </table>
 
-<h2 class="h2_title" id="data-source">Data Source</h2>
 </div><div class="d-print-none"><footer class="article__footer"><meta itemprop="dateModified" content="2020-01-31T00:00:00+00:00"><!-- start custom article footer snippet -->
 
 <!-- end custom article footer snippet --></footer>
