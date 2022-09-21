@@ -19,8 +19,9 @@ package com.johnsnowlabs.nlp.annotators.audio
 import com.johnsnowlabs.nlp.AudioAssembler
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
 import com.johnsnowlabs.tags.SlowTest
+import com.johnsnowlabs.util.Benchmark
 import org.apache.spark.ml.Pipeline
-import org.apache.spark.sql.SparkSession
+import org.apache.spark.sql.{Dataset, Row, SparkSession}
 import org.scalatest.flatspec.AnyFlatSpec
 
 class Wav2Vec2ForCTCTestSpec extends AnyFlatSpec {
@@ -29,17 +30,21 @@ class Wav2Vec2ForCTCTestSpec extends AnyFlatSpec {
   import spark.implicits._
 
   val audioAssembler: AudioAssembler = new AudioAssembler()
-    .setInputCol("content")
+    .setInputCol("audio_content")
     .setOutputCol("audio_assembler")
 
   val speechToText: Wav2Vec2ForCTC = Wav2Vec2ForCTC
-//    .pretrained()
-    .loadSavedModel(
-      "/home/levi/IdeaProjects/spark-nlp/src/test/scala/com/johnsnowlabs/nlp/annotators/audio/export_wav2vec2-base-960h",
-      ResourceHelper.spark)
+    .pretrained()
     .setInputCols("audio_assembler")
     .setOutputCol("text")
-    .setBatchSize(1)
+
+  val processedAudioFloats: Dataset[Row] =
+    spark.read
+      .option("inferSchema", value = true)
+      .json("src/test/resources/audio/json/audio_floats.json")
+      .select($"float_array".cast("array<float>").as("audio_content"))
+
+  processedAudioFloats.printSchema()
 
   val pipeline: Pipeline = new Pipeline().setStages(Array(audioAssembler, speechToText))
 
@@ -54,13 +59,55 @@ class Wav2Vec2ForCTCTestSpec extends AnyFlatSpec {
       .toArray
     bufferedSource.close
 
-    val rawDF = Seq(rawFloats).toDF("content")
-    rawDF.printSchema()
+    val processedAudioFloats = Seq(rawFloats).toDF("audio_content")
+    processedAudioFloats.printSchema()
 
-    val pipelineDF = pipeline.fit(rawDF).transform(rawDF)
+    val pipelineDF = pipeline.fit(processedAudioFloats).transform(processedAudioFloats)
 
-    pipelineDF.select("text").show(10, false)
+    Benchmark.measure(iterations = 1, forcePrint = true, description = "Time to show result") {
+      pipelineDF.select("text").show(10, false)
+    }
+
+  }
+
+  "Wav2Vec2ForCTC" should "be serializable" taggedAs SlowTest in {
+
+    val pipelineModel = pipeline.fit(processedAudioFloats)
+    pipelineModel.stages.last
+      .asInstanceOf[Wav2Vec2ForCTC]
+      .write
+      .overwrite()
+      .save("./tmp_wav2vec_model")
+
+    val loadedWav2Vec2 = Wav2Vec2ForCTC.load("./tmp_wav2vec_model")
+    val newPipeline: Pipeline = new Pipeline().setStages(Array(audioAssembler, loadedWav2Vec2))
+
+    newPipeline
+      .fit(processedAudioFloats)
+      .transform(processedAudioFloats)
+      .select("text")
+      .show(10, false)
+
+  }
+
+  "ViTForImageClassification" should "benchmark" taggedAs SlowTest in {
+
+    Array(1, 4).foreach(b => {
+      speechToText.setBatchSize(b)
+
+      val pipelineModel = pipeline.fit(processedAudioFloats)
+      val pipelineDF = pipelineModel.transform(processedAudioFloats)
+
+      println(
+        s"batch size: ${pipelineModel.stages.last.asInstanceOf[Wav2Vec2ForCTC].getBatchSize}")
+
+      Benchmark.measure(
+        iterations = 1,
+        forcePrint = true,
+        description = "Time to save pipeline") {
+        pipelineDF.select("text").count()
+      }
+    })
   }
 
 }
-
