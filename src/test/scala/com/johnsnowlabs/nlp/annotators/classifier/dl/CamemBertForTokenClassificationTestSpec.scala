@@ -50,14 +50,14 @@ class CamemBertForTokenClassificationTestSpec extends AnyFlatSpec {
     .setInputCols(Array("document"))
     .setOutputCol("token")
 
-  val tokenClassifier: CamemBertForTokenClassification = CamemBertForTokenClassification
-    .pretrained()
-    .setInputCols(Array("token", "document"))
-    .setOutputCol("ner")
-    .setCaseSensitive(true)
-    .setMaxSentenceLength(512)
-
   "CamemBertForTokenClassification" should "correctly load custom model with extracted signatures" taggedAs SlowTest in {
+
+    val tokenClassifier: CamemBertForTokenClassification = CamemBertForTokenClassification
+      .pretrained()
+      .setInputCols(Array("token", "document"))
+      .setOutputCol("ner")
+      .setCaseSensitive(true)
+      .setMaxSentenceLength(512)
 
     val pipeline = new Pipeline().setStages(Array(document, tokenizer, tokenClassifier))
 
@@ -82,6 +82,13 @@ class CamemBertForTokenClassificationTestSpec extends AnyFlatSpec {
   }
 
   "CamemBertForTokenClassification" should "be saved and loaded correctly" taggedAs SlowTest in {
+
+    val tokenClassifier: CamemBertForTokenClassification = CamemBertForTokenClassification
+      .pretrained()
+      .setInputCols(Array("token", "document"))
+      .setOutputCol("ner")
+      .setCaseSensitive(true)
+      .setMaxSentenceLength(512)
 
     val pipeline = new Pipeline().setStages(Array(document, tokenizer, tokenClassifier))
 
@@ -112,6 +119,13 @@ class CamemBertForTokenClassificationTestSpec extends AnyFlatSpec {
   }
 
   "CamemBertForTokenClassification" should "benchmark test" taggedAs SlowTest in {
+
+    val tokenClassifier: CamemBertForTokenClassification = CamemBertForTokenClassification
+      .pretrained()
+      .setInputCols(Array("token", "document"))
+      .setOutputCol("ner")
+      .setCaseSensitive(true)
+      .setMaxSentenceLength(512)
 
     val conll = CoNLL()
     val training_data =
