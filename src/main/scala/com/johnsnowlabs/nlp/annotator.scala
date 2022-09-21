@@ -621,4 +621,10 @@ package object annotator {
       extends ReadablePretrainedViTForImageModel
       with ReadViTForImageTensorflowModel
 
+  type TapasForQuestionAnswering =
+    com.johnsnowlabs.nlp.annotators.classifier.dl.TapasForQuestionAnswering
+
+  object TapasForQuestionAnswering
+      extends ReadablePretrainedTapasForQAModel
+      with ReadTapasForQATensorflowModel
 }
