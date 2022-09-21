@@ -17,6 +17,7 @@
 package com.johnsnowlabs.nlp.pretrained
 
 import com.johnsnowlabs.nlp.annotators._
+import com.johnsnowlabs.nlp.annotators.audio.Wav2Vec2ForCTC
 import com.johnsnowlabs.nlp.annotators.classifier.dl._
 import com.johnsnowlabs.nlp.annotators.coref.SpanBertCorefModel
 import com.johnsnowlabs.nlp.annotators.cv.ViTForImageClassification
@@ -652,6 +653,7 @@ object PythonResourceDownloader {
     "XlmRoBertaForQuestionAnswering" -> XlmRoBertaForQuestionAnswering,
     "SpanBertCorefModel" -> SpanBertCorefModel,
     "ViTForImageClassification" -> ViTForImageClassification,
+    "Wav2Vec2ForCTC" -> Wav2Vec2ForCTC,
     "CamemBertForTokenClassification" -> CamemBertForTokenClassification)
 
   def downloadModel(
