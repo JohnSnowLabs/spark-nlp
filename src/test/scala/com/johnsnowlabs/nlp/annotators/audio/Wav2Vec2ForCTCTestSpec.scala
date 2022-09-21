@@ -33,11 +33,6 @@ class Wav2Vec2ForCTCTestSpec extends AnyFlatSpec {
     .setInputCol("audio_content")
     .setOutputCol("audio_assembler")
 
-  val speechToText: Wav2Vec2ForCTC = Wav2Vec2ForCTC
-    .pretrained()
-    .setInputCols("audio_assembler")
-    .setOutputCol("text")
-
   val processedAudioFloats: Dataset[Row] =
     spark.read
       .option("inferSchema", value = true)
@@ -46,9 +41,14 @@ class Wav2Vec2ForCTCTestSpec extends AnyFlatSpec {
 
   processedAudioFloats.printSchema()
 
-  val pipeline: Pipeline = new Pipeline().setStages(Array(audioAssembler, speechToText))
-
   "Wav2Vec2ForCTC" should "correctly transform speech to text from already processed audio files" taggedAs SlowTest in {
+
+    val speechToText: Wav2Vec2ForCTC = Wav2Vec2ForCTC
+      .pretrained()
+      .setInputCols("audio_assembler")
+      .setOutputCol("text")
+
+    val pipeline: Pipeline = new Pipeline().setStages(Array(audioAssembler, speechToText))
 
     val bufferedSource =
       scala.io.Source.fromFile("src/test/resources/audio/csv/audi_floats.csv")
@@ -72,6 +72,13 @@ class Wav2Vec2ForCTCTestSpec extends AnyFlatSpec {
 
   "Wav2Vec2ForCTC" should "be serializable" taggedAs SlowTest in {
 
+    val speechToText: Wav2Vec2ForCTC = Wav2Vec2ForCTC
+      .pretrained()
+      .setInputCols("audio_assembler")
+      .setOutputCol("text")
+
+    val pipeline: Pipeline = new Pipeline().setStages(Array(audioAssembler, speechToText))
+
     val pipelineModel = pipeline.fit(processedAudioFloats)
     pipelineModel.stages.last
       .asInstanceOf[Wav2Vec2ForCTC]
@@ -92,7 +99,14 @@ class Wav2Vec2ForCTCTestSpec extends AnyFlatSpec {
 
   "ViTForImageClassification" should "benchmark" taggedAs SlowTest in {
 
-    Array(1, 4).foreach(b => {
+    val speechToText: Wav2Vec2ForCTC = Wav2Vec2ForCTC
+      .pretrained()
+      .setInputCols("audio_assembler")
+      .setOutputCol("text")
+
+    val pipeline: Pipeline = new Pipeline().setStages(Array(audioAssembler, speechToText))
+
+    Array(1, 2, 4, 8).foreach(b => {
       speechToText.setBatchSize(b)
 
       val pipelineModel = pipeline.fit(processedAudioFloats)
