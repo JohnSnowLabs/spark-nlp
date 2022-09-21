@@ -26,7 +26,7 @@ class TapasForQuestionAnsweringTestSpec extends AnyFlatSpec {
     sourceFile.close()
 
     val data = Seq(
-      (textFileContents, "Who has more money? How much money has Donald Trump? How old are they?"),
+      (textFileContents, "Who earns leas than 200,000,000? Who has more money? How much money has Donald Trump? How old are they?"),
     ).toDF("table", "questions").repartition(1)
 
     val docAssembler = new MultiDocumentAssembler()

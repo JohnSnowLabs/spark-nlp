@@ -235,7 +235,6 @@ class TapasEncoder(val sentenceStartTokenId: Int,
     val prevLabels = collection.mutable.ArrayBuffer[Int]()
     val columnRanks = collection.mutable.ArrayBuffer[Int]()
     val invertedColumnRanks = collection.mutable.ArrayBuffer[Int]()
-    val numericRelations = collection.mutable.ArrayBuffer[Int]()
 
     table.header.indices.foreach(colIndex => {
       val sentence = new Sentence(
@@ -258,7 +257,6 @@ class TapasEncoder(val sentenceStartTokenId: Int,
         prevLabels.append(0)
         columnRanks.append(0)
         invertedColumnRanks.append(0)
-        numericRelations.append(0)
       })
 
     })
@@ -290,7 +288,6 @@ class TapasEncoder(val sentenceStartTokenId: Int,
           prevLabels.append(0)
           columnRanks.append(0)
           invertedColumnRanks.append(0)
-          numericRelations.append(0)
         })
 
         val tapasNumValuesWithTokenIndices = parseText(cellText).map(numValue =>
@@ -339,8 +336,8 @@ class TapasEncoder(val sentenceStartTokenId: Int,
     questions.zip(questionInputIds).map{
 
       case(question, qIds) =>
-
-        //generate numeric relations
+        //compute numeric relations
+        val numericRelations = collection.mutable.ArrayBuffer.fill(inputIds.length)(0)
         val questionNumValues = parseText(question)
         val cellRelations = collection.mutable.Map[(Int, Int), Array[Int]]()
         questionNumValues.foreach(questionNumValue => {
@@ -369,7 +366,8 @@ class TapasEncoder(val sentenceStartTokenId: Int,
         def setMaxSentenceLimit(vector: Array[Int]): Array[Int] = {
           vector.slice(0, math.min(maxSentenceLength, vector.length))
         }
-
+        println("Numeric relations:")
+        println(numericRelations.map(_.toString).mkString(" "))
         TapasInputData(
           inputIds = setMaxSentenceLimit(
             Array(sentenceStartTokenId) ++ qIds ++ Array(sentenceEndTokenId) ++ inputIds ++ padding),
