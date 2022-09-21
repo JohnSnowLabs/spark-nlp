@@ -76,7 +76,7 @@ class NerOverwriterTest extends AnyFlatSpec {
     val converter = new NerOverwriter()
       .setInputCols("ner")
       .setOutputCol("ner2")
-      .setReplaceWords(Map("B-PERSON" -> "B-PER2"))
+      .setReplaceEntities(Map("B-PERSON" -> "B-PER2"))
 
     val pipeline = new Pipeline()
       .setStages(

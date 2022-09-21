@@ -194,25 +194,25 @@ class NerOverwriter(override val uid: String)
     */
   def getNewResult: String = $(newResult)
 
-  val replaceWords: MapFeature[String, String] =
-    new MapFeature[String, String](this, "replaceWords")
+  val replaceEntities: MapFeature[String, String] =
+    new MapFeature[String, String](this, "replaceEntities")
 
-  def setReplaceWords(w: Map[String, String]): this.type = set(replaceWords, w)
+  def setReplaceEntities(w: Map[String, String]): this.type = set(replaceEntities, w)
 
   // for Python access
 
   /** @group setParam */
-  def setReplaceWords(w: util.HashMap[String, String]): this.type = {
+  def setReplaceEntities(w: util.HashMap[String, String]): this.type = {
 
     val ws = w.asScala.toMap
-    set(replaceWords, ws)
+    set(replaceEntities, ws)
   }
 
-  def getReplaceWords(): Map[String, String] = {
-    if (!replaceWords.isSet) {
+  def getReplaceEntities(): Map[String, String] = {
+    if (!replaceEntities.isSet) {
       Map.empty[String, String]
     } else {
-      $$(replaceWords)
+      $$(replaceEntities)
     }
   }
 
@@ -221,7 +221,7 @@ class NerOverwriter(override val uid: String)
   override def annotate(annotations: Seq[Annotation]): Seq[Annotation] = {
 
     val annotationsOverwritten = annotations
-    val replace = getReplaceWords()
+    val replace = getReplaceEntities()
     annotationsOverwritten
       .map { tokenAnnotation =>
         val stopWordsSet = $(stopWords).toSet
