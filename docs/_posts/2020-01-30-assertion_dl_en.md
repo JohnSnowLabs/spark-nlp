@@ -161,14 +161,13 @@ https://portal.dbmi.hms.harvard.edu/projects/n2c2-nlp/
 
 ## Benchmarking
 ```bash
-|    | label                        | prec | rec  | f1   |
-|---:|-----------------------------:|-----:|-----:|-----:|
-| 0 | absent                        | 0.94 | 0.87 | 0.91 |
-| 1 | associated_with_someone_else  | 0.81 | 0.73 | 0.76 |
-| 2 | conditional                   | 0.78 | 0.24 | 0.37 |
-| 3 | hypothetical                  | 0.89 | 0.75 | 0.81 |
-| 4 | possible                      | 0.70 | 0.52 | 0.60 |
-| 5 | present                       | 0.91 | 0.97 | 0.94 |
-| 6 | Macro-average                 | 0.84 | 0.68 | 0.73 |
-| 7 | Micro-average                 | 0.91 | 0.91 | 0.91 |
+label                          prec  rec   f1   
+absent                         0.94  0.87  0.91 
+associated_with_someone_else   0.81  0.73  0.76 
+conditional                    0.78  0.24  0.37 
+hypothetical                   0.89  0.75  0.81 
+possible                       0.70  0.52  0.60 
+present                        0.91  0.97  0.94 
+Macro-average                  0.84  0.68  0.73 
+Micro-average                  0.91  0.91  0.91 
 ```
