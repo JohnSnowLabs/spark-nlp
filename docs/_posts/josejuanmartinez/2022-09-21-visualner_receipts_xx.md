@@ -71,6 +71,15 @@ pipeline = PipelineModel(stages=[
     draw
 ])
 
+
+import pkg_resources
+bin_df = spark.read.format("binaryFile").load('data/t01.jpg')
+bin_df.show()
+
+results = pipeline.transform(bin_df).cache()
+
+res = results.collect()
+
 ## since pyspark2.3 doesn't have element_at, 'getItem' is involked
 path_array = f.split(results['path'], '/')
 
