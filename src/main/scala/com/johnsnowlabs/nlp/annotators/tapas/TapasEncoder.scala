@@ -467,8 +467,7 @@ class TapasEncoder(val sentenceStartTokenId: Int,
         def setMaxSentenceLimit(vector: Array[Int]): Array[Int] = {
           vector.slice(0, math.min(maxSentenceLength, vector.length))
         }
-        println("Numeric relations:")
-        println(numericRelations.map(_.toString).mkString(" "))
+        
         TapasInputData(
           inputIds = setMaxSentenceLimit(
             Array(sentenceStartTokenId) ++ qIds ++ Array(sentenceEndTokenId) ++ inputIds ++ padding),
