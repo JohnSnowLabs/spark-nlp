@@ -89,7 +89,7 @@ data:
             url: https://demo.johnsnowlabs.com/finance/FINCLF_FLS/
           - text: Colab
             type: blue_btn
-            url: https://nlp.johnsnowlabs.com/ 
+            url:  
         - title: Analyze sentiment in financial news
           id: analyze_sentiment_financial_news 
           image: 

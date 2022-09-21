@@ -1,0 +1,4 @@
+{"id": "names-with-j", "label": "PERSON", "patterns": ["Jon", "John", "John Snow", "Jon Snow"]}
+{"id": "names-with-s", "label": "PERSON", "patterns": ["Stark"]}
+{"id": "names-with-e", "label": "PERSON", "patterns": ["Eddard", "Eddard Stark"]}
+{"id": "locations", "label": "LOCATION", "patterns": ["Winterfell"]}

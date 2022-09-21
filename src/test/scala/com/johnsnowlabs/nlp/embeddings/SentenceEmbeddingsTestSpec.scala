@@ -253,14 +253,14 @@ class SentenceEmbeddingsTestSpec extends AnyFlatSpec {
 
     val embedStorageRef = embeddings.getStorageRef
 
-    val setnEmbedRef = embeddingsSentence.getStorageRef
-    val setnEmbedRefPipeModel =
+    val sentEmbedRef = embeddingsSentence.getStorageRef
+    val sentEmbedRefPipeModel =
       pipelineModel.stages(4).asInstanceOf[SentenceEmbeddings].getStorageRef
     val classifierStorageRef =
       pipelineModel.stages.last.asInstanceOf[ClassifierDLModel].getStorageRef
 
-    assert(setnEmbedRef == embedStorageRef)
-    assert(setnEmbedRefPipeModel == embedStorageRef)
+    assert(sentEmbedRef == embedStorageRef)
+    assert(sentEmbedRefPipeModel == embedStorageRef)
     assert(classifierStorageRef == embedStorageRef)
   }
 }

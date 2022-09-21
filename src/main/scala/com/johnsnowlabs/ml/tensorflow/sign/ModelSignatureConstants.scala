@@ -193,6 +193,11 @@ object ModelSignatureConstants {
     override val value: String = "pixel_values:0"
   }
 
+  case object AudioValuesInput extends TFInfoNameMapper {
+    override val key: String = "input_values"
+    override val value: String = "input_values:0"
+  }
+
   /** Retrieve signature patterns for a given provider
     *
     * @param modelProvider

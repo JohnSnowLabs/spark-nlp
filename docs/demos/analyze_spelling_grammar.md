@@ -104,35 +104,7 @@ data:
             url: https://demo.johnsnowlabs.com/public/T5_LINGUISTIC/
           - text: Colab
             type: blue_btn
-            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/T5_LINGUISTIC.ipynb               
-        - title:  Switch Between Active and Passive voice
-          id: switch_between_active_passive_voice  
-          image: 
-              src: /assets/images/Switch_Between_Active_and_Passive_voice.svg
-          image2: 
-              src: /assets/images/Switch_Between_Active_and_Passive_voice_f.svg
-          excerpt: This demo shows how to switch between active and passive sentences.
-          actions:
-          - text: Live Demo
-            type: normal
-            url:  https://demo.johnsnowlabs.com/public/T5_ACTIVE_PASSIVE/
-          - text: Colab
-            type: blue_btn
-            url:  https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/T5_LINGUISTIC.ipynb
-        - title:  Switch Between Informal and Formal style
-          id: switch_between_informal_formal  
-          image: 
-              src: /assets/images/Switch_Between_Informal_and_Formal_style.svg
-          image2: 
-              src: /assets/images/Switch_Between_Informal_and_Formal_style_f.svg
-          excerpt: This demo shows how to switch between texts written in formal and informal style.
-          actions:
-          - text: Live Demo
-            type: normal
-            url:  https://demo.johnsnowlabs.com/public/T5_FORMAL_INFORMAL/
-          - text: Colab
-            type: blue_btn
-            url:  https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/T5_LINGUISTIC.ipynb
+            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/T5_LINGUISTIC.ipynb        
         - title:  Evaluate Sentence Grammar
           id: evaluate_sentence_grammar
           image: 

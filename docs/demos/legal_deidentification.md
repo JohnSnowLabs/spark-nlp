@@ -35,5 +35,5 @@ data:
             url: https://demo.johnsnowlabs.com/legal/DEID_LEGAL/
           - text: Colab
             type: blue_btn
-            url: https://nlp.johnsnowlabs.com/        
+            url:          
 ---
