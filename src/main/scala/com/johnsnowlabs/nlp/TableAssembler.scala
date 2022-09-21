@@ -3,11 +3,10 @@ package com.johnsnowlabs.nlp
 import com.johnsnowlabs.nlp.AnnotatorType.{DOCUMENT, TABLE}
 import com.johnsnowlabs.nlp.annotators.common.TableData
 import org.apache.spark.ml.param.Param
-import org.apache.spark.ml.util.Identifiable
+import org.apache.spark.ml.util.{DefaultParamsReadable, Identifiable}
 
-
-class TableAssembler (override val uid: String)
-  extends AnnotatorModel[TokenAssembler]
+class TableAssembler(override val uid: String)
+    extends AnnotatorModel[TokenAssembler]
     with HasSimpleAnnotate[TokenAssembler] {
 
   def this() = this(Identifiable.randomUID("TableAssembler"))
@@ -26,10 +25,15 @@ class TableAssembler (override val uid: String)
 
   protected val INPUT_FORMATS = Array("json", "csv")
 
-  val inputFormat = new Param[String](this, "inputFormat", "Input table format. Supported formats: %s".format(INPUT_FORMATS.mkString(", ")))
+  val inputFormat = new Param[String](
+    this,
+    "inputFormat",
+    "Input table format. Supported formats: %s".format(INPUT_FORMATS.mkString(", ")))
 
   def setInputType(value: String): this.type = {
-    require(INPUT_FORMATS.contains(value), "Invalid input format. Currently supported formats are: " + INPUT_FORMATS.mkString(", "))
+    require(
+      INPUT_FORMATS.contains(value),
+      "Invalid input format. Currently supported formats are: " + INPUT_FORMATS.mkString(", "))
     set(this.inputFormat, value.toLowerCase)
   }
 
@@ -48,26 +52,23 @@ class TableAssembler (override val uid: String)
   override def annotate(annotations: Seq[Annotation]): Seq[Annotation] = {
 
     annotations
-      .map{
-        annotation =>
-          val jsonTable = try{
-            $(inputFormat) match {
-              case "json" => TableData.fromJSON(annotation.result).toJSON
-              case "csv" => TableData.fromCSV(annotation.result, $(csvDelimiter)).toJSON
-            }
-          } catch {
-            case _: Exception => throw new Exception("Invalid %s input".format($(inputFormat)))
-          }
-
-          new Annotation(
-            annotatorType = TABLE,
-            begin = 0,
-            end = jsonTable.length,
-            result = jsonTable,
-            metadata = annotation.metadata ++ Map(
-              "original_input_type" -> $(inputFormat)
-            ))
+      .map { annotation =>
+        val jsonTable = $(inputFormat) match {
+          case "json" => TableData.fromJson(annotation.result).toJson
+          case "csv" => TableData.fromCsv(annotation.result, $(csvDelimiter)).toJson
+        }
+        new Annotation(
+          annotatorType = TABLE,
+          begin = 0,
+          end = jsonTable.length,
+          result = jsonTable,
+          metadata = annotation.metadata ++ Map("original_input_type" -> $(inputFormat)))
       }
 
   }
 }
+
+/** This is the companion object of [[TableAssembler]]. Please refer to that class for the
+  * documentation.
+  */
+object TableAssembler extends DefaultParamsReadable[DocumentAssembler]

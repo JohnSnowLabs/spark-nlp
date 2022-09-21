@@ -52,4 +52,7 @@ package object base {
 
   type LightPipeline = com.johnsnowlabs.nlp.LightPipeline
 
+  type TableAssembler = com.johnsnowlabs.nlp.TableAssembler
+
+  object TableAssembler extends DefaultParamsReadable[TableAssembler]
 }

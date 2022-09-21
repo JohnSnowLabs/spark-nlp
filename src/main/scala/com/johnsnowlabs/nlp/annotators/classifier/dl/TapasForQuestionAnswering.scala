@@ -16,7 +16,6 @@ class TapasForQuestionAnswering(override val uid: String) extends BertForQuestio
     */
   def this() = this(Identifiable.randomUID("TapasForQuestionAnswering"))
 
-
   /** Input Annotator Types: DOCUMENT, DOCUMENT
     *
     * @group anno
@@ -49,7 +48,6 @@ class TapasForQuestionAnswering(override val uid: String) extends BertForQuestio
   /** @group getParam */
   override def getModelIfNotSet: TensorflowTapas = _model.get.value
 
-
   override def batchAnnotate(batchedAnnotations: Seq[Array[Annotation]]): Seq[Seq[Annotation]] = {
 
     batchedAnnotations.map(annotations => {
@@ -63,23 +61,26 @@ class TapasForQuestionAnswering(override val uid: String) extends BertForQuestio
         .toSeq
 
       if (questions.nonEmpty) {
-        tables.flatMap{ table => {
-          getModelIfNotSet.predictTapasSpan(
-            questions,
-            table,
-            $(maxSentenceLength),
-            $(caseSensitive),
-            0.5f)
-        }}
+        tables.flatMap { table =>
+          {
+            getModelIfNotSet.predictTapasSpan(
+              questions,
+              table,
+              $(maxSentenceLength),
+              $(caseSensitive),
+              0.5f)
+          }
+        }
       } else {
         Seq.empty[Annotation]
-      }})
+      }
+    })
   }
 
 }
 
 trait ReadablePretrainedTapasForQAModel
-  extends ParamsAndFeaturesReadable[TapasForQuestionAnswering]
+    extends ParamsAndFeaturesReadable[TapasForQuestionAnswering]
     with HasPretrained[TapasForQuestionAnswering] {
   override val defaultModelName: Some[String] = Some("tapas")
 
@@ -92,9 +93,9 @@ trait ReadablePretrainedTapasForQAModel
     super.pretrained(name, lang)
 
   override def pretrained(
-                           name: String,
-                           lang: String,
-                           remoteLoc: String): TapasForQuestionAnswering = super.pretrained(name, lang, remoteLoc)
+      name: String,
+      lang: String,
+      remoteLoc: String): TapasForQuestionAnswering = super.pretrained(name, lang, remoteLoc)
 }
 
 trait ReadTapasForQATensorflowModel extends ReadTensorflowModel {
@@ -103,9 +104,9 @@ trait ReadTapasForQATensorflowModel extends ReadTensorflowModel {
   override val tfFile: String = "bert_classification_tensorflow"
 
   def readTensorflow(
-                      instance: TapasForQuestionAnswering,
-                      path: String,
-                      spark: SparkSession): Unit = {
+      instance: TapasForQuestionAnswering,
+      path: String,
+      spark: SparkSession): Unit = {
 
     val tf = readTensorflowModel(path, spark, "_bert_classification_tf", initAllTables = false)
     instance.setModelIfNotSet(spark, tf)
@@ -153,5 +154,5 @@ trait ReadTapasForQATensorflowModel extends ReadTensorflowModel {
   * the documentation.
   */
 object TapasForQuestionAnswering
-  extends ReadablePretrainedTapasForQAModel
+    extends ReadablePretrainedTapasForQAModel
     with ReadTapasForQATensorflowModel
