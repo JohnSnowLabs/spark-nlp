@@ -132,5 +132,17 @@ data:
             url: https://demo.johnsnowlabs.com/public/T5_SQL/ 
           - text: Colab
             type: blue_btn
-            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/T5_SQL.ipynb        
+            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/T5_SQL.ipynb  
+        - title: Coreference Resolution
+          id: coreference_resolution  
+          image: 
+              src: /assets/images/Sql_query_generation.svg
+          excerpt: This demo shows how to identify expressions that refer to the same entity in a text.
+          actions:
+          - text: Live Demo
+            type: normal
+            url: https://demo.johnsnowlabs.com/public/COREFERENCE_RESOLUTION/
+          - text: Colab
+            type: blue_btn
+            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/public/COREFERENCE_RESOLUTION.ipynb
 ---

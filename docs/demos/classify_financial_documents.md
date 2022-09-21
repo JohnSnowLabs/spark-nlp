@@ -104,4 +104,16 @@ data:
           - text: Colab
             type: blue_btn
             url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/SENTIMENT_EN_FINANCE.ipynb
+        - title: Receipt Binary Classification
+          id: receipt_binary_classification 
+          image: 
+              src: /assets/images/Receipt_Binary_Classification.svg
+          excerpt: This demo shows how to use ViT, a Visual Transformer, to identify receipts vs no receipts in an image corpus.
+          actions:
+          - text: Live Demo
+            type: normal
+            url: https://demo.johnsnowlabs.com/finance/RECEIPT_BINARY_CLASSIFICATION/
+          - text: Colab
+            type: blue_btn
+            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/finance/RECEIPT_BINARY_CLASSIFICATION.ipynb
 ---
