@@ -169,7 +169,7 @@
   },
   "24": {
     "id": "24",
-    "title": "Spark NLP in Action",
+    "title": "Databricks Solution Accelerators",
     "content": "",
     "url": "/databricks_solution_accelerators",
     "relUrl": "/databricks_solution_accelerators"
@@ -1634,46 +1634,53 @@
     "id": "233",
     "title": "Understand Entities in Context - Finance NLP Demos & Notebooks",
     "content": "",
-    "url": "/understand_entities_context",
-    "relUrl": "/understand_entities_context"
+    "url": "/understand_financial_entities_context",
+    "relUrl": "/understand_financial_entities_context"
   },
   "234": {
     "id": "234",
+    "title": "Understand Entities in Context - Spark NLP Demos & Notebooks",
+    "content": "",
+    "url": "/understand_legal_entities_context",
+    "relUrl": "/understand_legal_entities_context"
+  },
+  "235": {
+    "id": "235",
     "title": "User Management",
     "content": "Basic user management features are included in the Annotation Lab. The admin user can add or remove a user from the data base or can edit user information if necessary. This feature is available by navigating to the lower left side menu and selecting User Management feature. All users that have beed added to the current Annotation Lab instance can be seen on the Users screen. First Name, Last Name and e-mail address information should be available for all users. An admin user can edit those information, add a user to a group or change a user’s password. User Details Annotation Lab stores basic information for each user, such as: the First Name, Last Name, E-mail address. Those can be edited from the User Details page by any Admin User. User Groups Currently two user groups are available: Annotators and UserAdmins. By default a new user is added to the Annotators group. This means the user will not have access to any admin features such as: User Management or Settings. For adding a user to the Admin group, an admin user needs to navigate to the Users screen, click on the edit button for the concerned user, then click on the Groups tab and check the Admin checkbox. Reset User Credentials An admin user can change the login credentials for another user, by navigating to the User Credentials tab and by defining a new (temporary) password. For extra protection, the admin user can also enforce the password change on next user login.",
     "url": "/docs/en/alab/user_management",
     "relUrl": "/docs/en/alab/user_management"
   },
-  "235": {
-    "id": "235",
+  "236": {
+    "id": "236",
     "title": "Version Compatibility",
     "content": "Healthcare NLP Spark OCR Spark NLP 3.0.0 3.4.0 3.0.0 3.0.1 3.4.0 3.0.1 3.0.2 3.4.0 3.0.2 3.0.3 3.4.0 3.0.3 3.1.0 3.4.1 3.1.0 3.1.1 3.4.1 3.1.1 3.1.2 3.4.1 3.1.2 3.1.3 3.5.0 3.1.3 3.1.3 3.6.0 3.1.3 3.2.0 3.7.0 3.2.0 3.2.1 3.8.0 3.2.1 3.2.2 3.8.0 3.2.2 3.2.3 3.8.0 3.2.3 3.3.0 3.8.0 3.3.0 3.3.1 3.9.0 3.3.1 3.3.2 3.9.0 3.3.2 3.3.4 3.10.0 3.3.4 3.4.0 3.11.0 3.4.0 3.4.1 3.11.0 3.4.1 3.4.2 3.11.0 3.4.2 3.5.0 3.11.0 3.4.2 3.5.1 3.12.0 3.4.2 3.5.3 3.13.0 3.4.4",
     "url": "/docs/en/version_compatibility",
     "relUrl": "/docs/en/version_compatibility"
   },
-  "236": {
-    "id": "236",
+  "237": {
+    "id": "237",
     "title": "Visual Document Understanding - Visual NLP Demos & Notebooks",
     "content": "",
     "url": "/visual_document_understanding",
     "relUrl": "/visual_document_understanding"
   },
-  "237": {
-    "id": "237",
+  "238": {
+    "id": "238",
     "title": "Visual NER",
     "content": "Annotating text included in image documents (e.g. scanned documents) is a common use case in many verticals but comes with several challenges. With the new Visual NER Labeling config, we aim to ease the work of annotators by allowing them to simply select text from an image and assign the corresponding label to it. This feature is powered by Spark OCR 3.5.0; thus a valid Spark OCR license is required to get access to it. Here is how this can be used: Upload a valid Spark OCR license. See how to do this here. Create a new project, specify a name for your project, add team members if necessary, and from the list of predefined templates (Default Project Configs) choose “Visual NER Labeling”. Update the configuration if necessary. This might be useful if you want to use other labels than the currently defined ones. Click the save button. While saving the project, a confirmation dialog is displayed to let you know that the Spark OCR pipeline for Visual NER is being deployed. Import the tasks you want to annotate (images). Start annotating text on top of the image by clicking on the text tokens or by drawing bounding boxes on top of chunks or image areas. Export annotations in your preferred format. The entire process is illustrated below: Support for multi-page PDF documents When a valid Saprk OCR license is available, Annotation Lab offers support for multi-page PDF annotation. The complete flow of import, annotation, and export for multi-page PDF files is currently supported. Users have two options for importing a new PDF file into the Visual NER project Import PDF file from local storage; Add a link to the PDF file in the file attribute. After import, the task becomes available on the Tasks Page. The title of the new task is the name of the imported file. On the labeling page, the PDF file is displayed with pagination so that annotators can annotate on the PDF document one page at a time. OCR and Visual NER servers Just like (preannotation servers)[], Annotation Lab 3.0.0 also supports the deployment of multiple OCR servers. If a user has uploaded a Spark OCR license, be it airgap or floating, OCR inference is enabled. To create a Visual NER project, users have to deploy at least one OCR server. Any OCR server can perform preannotation. To select the OCR server, users have to go to the Import page, toggle the OCR option and from the popup, choose one of the available OCR servers. In no suitable OCR server is available, one can be created by choosing the “Create Server” option. Visual NER Training And Preannotation With release 3.4.0 came support for Visual NER Automated Preannotation and Model Training. Visual NER Training Support Version 3.4.0 of the Annotation Lab offers the ability to train Visual NER models, apply active learning for automatic model training, and preannotate image-based tasks with existing models in order to accelerate annotation work. License Requirements Visual NER annotation, training and preannotation features are dependent on the presence of a Spark OCR license. Floating or airgap licenses with scope ocr: inference and ocr: training are required for preannotation and training respectively. Model Training The training feature for Visual NER projects can be activated from the Setup page via the “Train Now” button (See 1). From the Training Settings sections, users can tune the training parameters (e.g. Epoch, Batch) and choose the tasks to use for training the Visual NER model (See 3). Information on the training progress is shown in the top right corner of the Model Training tab (See 2). Users can check detailed information regarding the success or failure of the last training. Training Failure can occur because of: Insufficient number of completions Poor quality of completions Insufficient CPU and Memory Wrong training parameters When triggering the training, users can choose to immediately deploy the model or just train it without deploying. If immediate deployment is chosen, then the labeling config is updated with references to the new model so that it will be used for preannotations. Training Server Specification The minimal required training configuration is 64 GB RAM, 16 Core CPU for Visual NER Training. Visual NER Preannotation For running preannotation on one or several tasks, the Project Owner or the Manager must select the target tasks and can click on the Preannotate button from the upper right side of the Tasks Page. This will display a popup with information regarding the last deployment including the list of models deployed and the labels they predict. Known Limitations: When bulk preannotation is run on a lot of tasks, the preannotation can fail due to memory issues. Preannotation currently works at token level, and does not merge all tokens of a chunk into one entity. Preannotation Server Specification The minimal required training configuration is 32 GB RAM, 2 Core CPU for Visual NER Model.",
     "url": "/docs/en/alab/visual_ner",
     "relUrl": "/docs/en/alab/visual_ner"
   },
-  "238": {
-    "id": "238",
+  "239": {
+    "id": "239",
     "title": "Workflow Setup",
     "content": "When a team of people work together on a large annotation project, the tasks can be organized into a multi-step workflow for an easier management of the team collaboration. This is also necessary when the project has strict requirements on the labels: e.g. the same document must be labeled by multiple annotators; the annotations must be checked by a senior annotator. In this situation, a workflow can be setup using the task tagging functionality provided by the Annotation Lab. Then can be used for splitting work across the team but also for differentiating between first-level annotators and second-level reviewers. A full audit trail is kept on each action performed by all actors. Each saved entry is stored along with an authenticated user and a time stamp, and the user interface includes a visual comparison between versions. To add a tag, select a task and press Tags &gt; Add more. Tasks can be filtered by tags, making it easier to identify, for example, which documents are completed and which ones need to be reviewed.",
     "url": "/docs/en/alab/workflow",
     "relUrl": "/docs/en/alab/workflow"
   },
-  "239": {
-    "id": "239",
+  "240": {
+    "id": "240",
     "title": "Workflow Setup",
     "content": "When a team of people work together on a large annotation project, the tasks can be organized into a multi-step workflow for an easier management of the team collaboration. This is also necessary when the project has strict requirements on the labels: e.g. the same document must be labeled by multiple annotators; the annotations must be checked by a senior annotator. In this situation, a workflow can be setup using the task tagging functionality provided by the Annotation Lab. Then can be used for splitting work across the team but also for differentiating between first-level annotators and second-level reviewers. A full audit trail is kept on each action performed by all actors. Each saved entry is stored along with an authenticated user and a time stamp, and the user interface includes a visual comparison between versions. To add a tag, select a task and press Tags &gt; Add more. Tasks can be filtered by tags, making it easier to identify, for example, which documents are completed and which ones need to be reviewed.",
     "url": "/docs/en/workflow",
