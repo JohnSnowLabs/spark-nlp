@@ -1,7 +1,6 @@
-package com.johnsnowlabs.nlp.annotators.classifier.dl.tapas
+package com.johnsnowlabs.nlp.annotators.classifier.dl
 
 import com.johnsnowlabs.ml.tensorflow.{ReadTensorflowModel, TensorflowTapas, TensorflowWrapper}
-import com.johnsnowlabs.nlp.annotators.classifier.dl.BertForQuestionAnswering
 import com.johnsnowlabs.nlp.util.io.{ExternalResource, ReadAs, ResourceHelper}
 import com.johnsnowlabs.nlp.{Annotation, AnnotatorType, HasPretrained, ParamsAndFeaturesReadable}
 import org.apache.spark.broadcast.Broadcast
