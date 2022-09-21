@@ -17,11 +17,8 @@
 package com.johnsnowlabs.nlp.pretrained
 
 import com.johnsnowlabs.nlp.annotators._
-<<<<<<< HEAD
-import com.johnsnowlabs.nlp.annotators.classifier.dl
-=======
 import com.johnsnowlabs.nlp.annotators.audio.Wav2Vec2ForCTC
->>>>>>> release/420-release-candidate
+
 import com.johnsnowlabs.nlp.annotators.classifier.dl._
 import com.johnsnowlabs.nlp.annotators.coref.SpanBertCorefModel
 import com.johnsnowlabs.nlp.annotators.cv.ViTForImageClassification

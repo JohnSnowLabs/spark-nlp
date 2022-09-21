@@ -19,7 +19,6 @@ from sparknlp.annotator.classifier_dl import BertForQuestionAnswering
 class TapasForQuestionAnswering(BertForQuestionAnswering):
     name = "TapasForQuestionAnswering"
 
-
     @keyword_only
     def __init__(self, classname="com.johnsnowlabs.nlp.annotators.classifier.dl.TapasForQuestionAnswering",
                  java_model=None):
@@ -46,7 +45,7 @@ class TapasForQuestionAnswering(BertForQuestionAnswering):
 
         Returns
         -------
-        BertForQuestionAnswering
+        TapasForQuestionAnswering
             The restored model
         """
         from sparknlp.internal import _TapasForQuestionAnsweringLoader
@@ -70,7 +69,7 @@ class TapasForQuestionAnswering(BertForQuestionAnswering):
 
         Returns
         -------
-        BertForQuestionAnswering
+        TapasForQuestionAnswering
             The restored model
         """
         from sparknlp.pretrained import ResourceDownloader
