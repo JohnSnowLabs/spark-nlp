@@ -19,13 +19,13 @@ class TapasForQuestionAnsweringTestSpec extends AnyFlatSpec {
       .write.overwrite.save("/models/sparknlp/tapas")
   }
 
-  "TapasForQuestionAnswering" should "prepare inputs" in {
+  "TapasForQuestionAnswering" should "answer questions" in {
     val sourceFile = Source.fromFile("src/test/resources/tapas/rich_people.json")
     val textFileContents = sourceFile.getLines().mkString("\n")
     sourceFile.close()
 
     val data = Seq(
-      (textFileContents, "Who earns leas than 200,000,000? Who has more money? How much money has Donald Trump? How old are they?"),
+      (textFileContents, "Who earns 100,000,000? Who has more money? How much money has Donald Trump? How old are they?"),
     ).toDF("table", "questions").repartition(1)
 
     val docAssembler = new MultiDocumentAssembler()
