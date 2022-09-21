@@ -70,6 +70,27 @@ pipeline = PipelineModel(stages=[
     doc_ner,
     draw
 ])
+
+
+import pkg_resources
+bin_df = spark.read.format("binaryFile").load('data/t01.jpg')
+bin_df.show()
+
+results = pipeline.transform(bin_df).cache()
+
+res = results.collect()
+
+## since pyspark2.3 doesn't have element_at, 'getItem' is involked
+path_array = f.split(results['path'], '/')
+
+# from pyspark2.4
+# results.withColumn("filename", f.element_at(f.split("path", "/"), -1)) \
+
+results.withColumn('filename', path_array.getItem(f.size(path_array)- 1)) \
+    .withColumn("exploded_entities", f.explode("entities")) \
+    .select("filename", "exploded_entities") \
+    .show(truncate=False)
+            
 ```
 
 </div>
