@@ -269,3 +269,109 @@ class HasImageFeatureProperties:
             Resize the input to the given size. If a tuple is provided, it should be (width, height).
         """
         return self._set(size=value)
+
+
+class HasBatchedAnnotateAudio:
+    batchSize = Param(Params._dummy(), "batchSize", "Size of every batch", TypeConverters.toInt)
+
+    def setBatchSize(self, v):
+        """Sets batch size.
+
+        Parameters
+        ----------
+        v : int
+            Batch size
+        """
+        return self._set(batchSize=v)
+
+    def getBatchSize(self):
+        """Gets current batch size.
+
+        Returns
+        -------
+        int
+            Current batch size
+        """
+        return self.getOrDefault("batchSize")
+
+
+class HasAudioFeatureProperties:
+    doNormalize = Param(Params._dummy(), "doNormalize",
+                        "Whether to normalize the input",
+                        TypeConverters.toBoolean)
+
+    returnAttentionMask = Param(Params._dummy(), "returnAttentionMask", "",
+                                TypeConverters.toBoolean)
+
+    paddingSide = Param(Params._dummy(), "paddingSide",
+                        "",
+                        TypeConverters.toString)
+
+    featureSize = Param(Params._dummy(), "featureSize",
+                        "",
+                        TypeConverters.toInt)
+
+    samplingRate = Param(Params._dummy(), "samplingRate",
+                         "",
+                         TypeConverters.toInt)
+
+    paddingValue = Param(Params._dummy(), "paddingValue",
+                         "",
+                         TypeConverters.toFloat)
+
+    def setDoNormalize(self, value):
+        """
+
+        Parameters
+        ----------
+        value : Boolean
+            Whether to normalize the input with mean and standard deviation
+        """
+        return self._set(doNormalize=value)
+
+    def setReturnAttentionMask(self, value):
+        """
+
+        Parameters
+        ----------
+        value : boolean
+        """
+        return self._set(returnAttentionMask=value)
+
+    def setPaddingSide(self, value):
+        """
+
+        Parameters
+        ----------
+        value : str
+
+        """
+        return self._set(paddingSide=value)
+
+    def setFeatureSize(self, value):
+        """
+
+        Parameters
+        ----------
+        value : int
+
+        """
+        return self._set(featureSize=value)
+
+    def setSamplingRate(self, value):
+        """
+
+        Parameters
+        ----------
+        value : Int
+        """
+        return self._set(samplingRate=value)
+
+    def setPaddingValue(self, value):
+        """
+
+        Parameters
+        ----------
+        value : float
+        """
+        return self._set(paddingValue=value)
