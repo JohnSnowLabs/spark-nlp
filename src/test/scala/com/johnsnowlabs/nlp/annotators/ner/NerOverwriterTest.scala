@@ -27,14 +27,11 @@ import org.scalatest.flatspec.AnyFlatSpec
 
 class NerOverwriterTest extends AnyFlatSpec {
 
-
-
   "NeC Overwriter" should "correctly should change the tag" taggedAs SlowTest in {
     import ResourceHelper.spark.implicits._
 
     val testDF =
-      Seq(" john Doe lives in texas.floria, ").toDF(
-        "text")
+      Seq(" john Doe lives in texas.floria, ").toDF("text")
 
     val documentAssembler = new DocumentAssembler()
       .setInputCol("text")
