@@ -23,15 +23,16 @@ import com.johnsnowlabs.nlp.util.io.ResourceHelper.spark
 import com.johnsnowlabs.nlp.util.io.{ExternalResource, ReadAs, ResourceHelper}
 import com.johnsnowlabs.storage.Database.Name
 import com.johnsnowlabs.storage._
-import com.johnsnowlabs.util.spark.SparkUtil
-import com.johnsnowlabs.util.{JsonParser, Version}
+import com.johnsnowlabs.util.JsonParser
 import org.apache.spark.ml.PipelineModel
 import org.apache.spark.ml.param.BooleanParam
 import org.apache.spark.ml.util.Identifiable
-import org.apache.spark.sql.functions.{col, collect_set, concat, lit}
-import org.apache.spark.sql.types.StructField
-import org.apache.spark.sql.{DataFrame, Dataset}
+import org.apache.spark.sql.functions.{col, collect_set, concat, flatten, lit}
+import org.apache.spark.sql.types.{BooleanType, StringType, StructField, StructType}
+import org.apache.spark.sql.{DataFrame, Dataset, SparkSession}
 
+import scala.collection.mutable
+import scala.collection.mutable.ArrayBuffer
 import scala.io.Source
 
 /** Fits an Annotator to match exact strings or regex patterns provided in a file against a
@@ -161,8 +162,8 @@ class EntityRulerApproach(override val uid: String)
 
   override val description: String = "Entity Ruler matches entities based on text patterns"
 
-  private var entities: Array[String] = Array()
-  private var patterns: Map[String, String] = Map()
+  private var entitiesForRegex: Array[String] = Array()
+  private val keywordsPatterns: ArrayBuffer[EntityPattern] = ArrayBuffer()
   private var regexPatterns: Map[String, Seq[String]] = Map()
 
   /** Resource in JSON or CSV format to map entities to patterns (Default: `null`).
@@ -178,13 +179,14 @@ class EntityRulerApproach(override val uid: String)
     *
     * @group param
     */
+  @deprecated("Enabling pattern regex now is define on each pattern", "Since 4.2.0")
   val enablePatternRegex =
     new BooleanParam(this, "enablePatternRegex", "Enables regex pattern match")
 
   val sentenceMatch = new BooleanParam(
     this,
     "sentenceMatch",
-    "Whether to find match at sentence level. True: sentence level. False: token level")
+    "Whether to find match at sentence level (regex only). True: sentence level. False: token level")
 
   /** Whether to use RocksDB storage to serialize patterns (Default: `true`).
     *
@@ -193,7 +195,13 @@ class EntityRulerApproach(override val uid: String)
   val useStorage =
     new BooleanParam(this, "useStorage", "Whether to use RocksDB storage to serialize patterns")
 
+  val alphabet = new ExternalResourceParam(
+    this,
+    "alphabet",
+    "Alphabet resource path to plain text file with all characters in a given alphabet")
+
   /** @group setParam */
+  @deprecated("Enabling pattern regex now is define on each pattern", "4.2.0")
   def setEnablePatternRegex(value: Boolean): this.type = set(enablePatternRegex, value)
 
   /** @group setParam */
@@ -208,14 +216,25 @@ class EntityRulerApproach(override val uid: String)
   /** @group setParam */
   def setUseStorage(value: Boolean): this.type = set(useStorage, value)
 
+  /** @group setParam */
+  def setAlphabetResource(path: String): this.type = {
+    set(alphabet, ExternalResource(path, ReadAs.TEXT, Map()))
+  }
+
   setDefault(
     storagePath -> ExternalResource("", ReadAs.TEXT, Map()),
     patternsResource -> null,
     enablePatternRegex -> false,
-    useStorage -> true,
-    sentenceMatch -> false)
+    useStorage -> false,
+    sentenceMatch -> false,
+    caseSensitive -> true,
+    alphabet -> ExternalResource("english", ReadAs.TEXT, Map()))
 
   private val AVAILABLE_FORMATS = Array("JSON", "JSONL", "CSV")
+
+  override def beforeTraining(spark: SparkSession): Unit = {
+    validateParameters()
+  }
 
   override def train(
       dataset: Dataset[_],
@@ -226,46 +245,28 @@ class EntityRulerApproach(override val uid: String)
     if ($(useStorage)) {
       entityRuler
         .setStorageRef($(storageRef))
-        .setEnablePatternRegex($(enablePatternRegex))
         .setUseStorage($(useStorage))
-        .setSentenceMatch($(sentenceMatch))
 
     } else {
-      validateParameters()
-      resourceFormats match {
-        case "JSON&TEXT" => storePatternsFromJson(None)
-        case "JSONL&TEXT" => storePatternsFromJsonl(None)
-        case "JSON&SPARK" => storePatternsFromJSONDataFrame(None, "JSON")
-        case "JSONL&SPARK" => storePatternsFromJSONDataFrame(None, "JSONL")
-        case "CSV&TEXT" => computePatternsFromCSV()
-        case "CSV&SPARK" => storeEntityPatternsFromCSVDataFrame(None)
-        case _ @format => throw new IllegalArgumentException(s"format $format not available")
-      }
-      val entityRulerFeatures = EntityRulerFeatures(patterns, regexPatterns)
+      storePatterns(None)
+      val entityRulerFeatures = EntityRulerFeatures(Map(), regexPatterns)
       entityRuler
         .setUseStorage($(useStorage))
         .setEntityRulerFeatures(entityRulerFeatures)
     }
 
-    if ($(enablePatternRegex) || $(sentenceMatch)) {
-      entityRuler.setRegexEntities(entities)
+    var automaton: Option[AhoCorasickAutomaton] = None
+    if (keywordsPatterns.nonEmpty) {
+      val alphabet = EntityRulerUtil.loadAlphabet($(this.alphabet).path)
+      automaton = Some(
+        new AhoCorasickAutomaton(alphabet, keywordsPatterns.toArray, $(caseSensitive)))
     }
+
     entityRuler
+      .setRegexEntities(entitiesForRegex)
+      .setAhoCorasickAutomaton(automaton)
 
   }
-
-  /** Input annotator types: DOCUMENT, TOKEN
-    *
-    * @group anno
-    */
-  override val inputAnnotatorTypes: Array[String] = Array(DOCUMENT, TOKEN)
-
-  /** Output annotator types: CHUNK
-    *
-    * @group anno
-    */
-  override val outputAnnotatorType: AnnotatorType = CHUNK
-  override protected val databases: Array[Name] = EntityRulerModel.databases
 
   protected def index(
       fitDataset: Dataset[_],
@@ -274,29 +275,27 @@ class EntityRulerApproach(override val uid: String)
       writers: Map[Name, StorageWriter[_]],
       readOptions: Option[Map[String, String]]): Unit = {
 
+    validateParameters()
+
     if ($(useStorage)) {
-      validateParameters()
-
-      var storageWriter: StorageReadWriter[_] = null
-
-      if ($(enablePatternRegex) || $(sentenceMatch)) {
-        storageWriter = writers(Database.ENTITY_REGEX_PATTERNS)
-          .asInstanceOf[RegexPatternsReadWriter]
-      } else {
-        storageWriter = writers(Database.ENTITY_PATTERNS).asInstanceOf[PatternsReadWriter]
-      }
-
-      resourceFormats match {
-        case "JSON&TEXT" => storePatternsFromJson(Some(storageWriter))
-        case "JSONL&TEXT" => storePatternsFromJsonl(Some(storageWriter))
-        case "JSON&SPARK" => storePatternsFromJSONDataFrame(Some(storageWriter), "JSON")
-        case "JSONL&SPARK" => storePatternsFromJSONDataFrame(Some(storageWriter), "JSONL")
-        case "CSV&TEXT" => storePatternsFromCSV(storageWriter)
-        case "CSV&SPARK" => storeEntityPatternsFromCSVDataFrame(Some(storageWriter))
-        case _ @format => throw new IllegalArgumentException(s"format $format not available")
-      }
+      val storageWriter =
+        writers(Database.ENTITY_REGEX_PATTERNS).asInstanceOf[RegexPatternsReadWriter]
+      storePatterns(Some(storageWriter))
     }
 
+  }
+
+  private def storePatterns(storageWriter: Option[RegexPatternsReadWriter]): Unit = {
+
+    resourceFormats match {
+      case "JSON&TEXT" => storePatternsFromJson(storageWriter)
+      case "JSONL&TEXT" => storePatternsFromJsonl(storageWriter)
+      case "JSON&SPARK" => storePatternsFromJSONDataFrame(storageWriter, "JSON")
+      case "JSONL&SPARK" => storePatternsFromJSONDataFrame(storageWriter, "JSONL")
+      case "CSV&TEXT" => storePatternsFromCSV(storageWriter)
+      case "CSV&SPARK" => storeEntityPatternsFromCSVDataFrame(storageWriter)
+      case _ @format => throw new IllegalArgumentException(s"format $format not available")
+    }
   }
 
   private def validateParameters(): Unit = {
@@ -318,20 +317,33 @@ class EntityRulerApproach(override val uid: String)
     .options("format")
     .toUpperCase() + "&" + $(patternsResource).readAs
 
-  private def storePatternsFromJson(storageReadWriter: Option[StorageReadWriter[_]]): Unit = {
+  private def storePatternsFromJson(storageReadWriter: Option[RegexPatternsReadWriter]): Unit = {
 
     val entityPatterns: Array[EntityPattern] = parseJSON()
 
     entityPatterns.foreach { entityPattern =>
-      val entity =
-        if (entityPattern.id.isDefined) s"${entityPattern.label},${entityPattern.id.get}"
-        else entityPattern.label
-      storageReadWriter.getOrElse(None) match {
-        case patternsWriter: PatternsReadWriter =>
-          storePatterns(entityPattern.patterns.toIterator, entity, patternsWriter)
-        case regexPatternsWriter: RegexPatternsReadWriter =>
-          storeRegexPattern(entityPattern.patterns, entity, regexPatternsWriter)
-        case None => computePatterns(entityPattern.patterns, entity)
+      if (entityPattern.regex.getOrElse(false)) {
+        storeEntityPattern(entityPattern, storageReadWriter)
+      } else {
+        keywordsPatterns.append(entityPattern)
+      }
+    }
+  }
+
+  private def storeEntityPattern(
+      entityPattern: EntityPattern,
+      storageReadWriter: Option[RegexPatternsReadWriter]): Unit = {
+    val entity =
+      if (entityPattern.id.isDefined) s"${entityPattern.label},${entityPattern.id.get}"
+      else entityPattern.label
+    storageReadWriter.getOrElse(None) match {
+      case patternsWriter: PatternsReadWriter =>
+        storePatterns(entityPattern.patterns.toIterator, entity, patternsWriter)
+      case regexPatternsWriter: RegexPatternsReadWriter =>
+        storeRegexPattern(entityPattern.patterns, entity, regexPatternsWriter)
+      case None => {
+        val isRegex = entityPattern.regex.getOrElse(false)
+        computePatterns(entityPattern.patterns, isRegex, entity)
       }
     }
   }
@@ -341,134 +353,191 @@ class EntityRulerApproach(override val uid: String)
     val jsonContent = Source.fromInputStream(stream).mkString
     val entityPatterns: Array[EntityPattern] = JsonParser.parseArray[EntityPattern](jsonContent)
 
-    if ($(sentenceMatch)) {
-
-      val processedEntityPatterns: Array[EntityPattern] =
-        entityPatterns
-          .groupBy(_.label)
-          .map { entityPattern =>
-            val patterns: Seq[String] = entityPattern._2.flatMap(ep => ep.patterns).distinct
-            EntityPattern(entityPattern._1, patterns)
-          }
-          .toArray
-
-      processedEntityPatterns
-
-    } else entityPatterns
-
+    entityPatterns
   }
 
-  private def storePatternsFromJsonl(storageReadWriter: Option[StorageReadWriter[_]]): Unit = {
+  private def storePatternsFromJsonl(storageReadWriter: Option[RegexPatternsReadWriter]): Unit = {
 
     val sourceStream = ResourceHelper.SourceStream($(patternsResource).path)
+
     sourceStream.content.foreach(content =>
       content.foreach { line =>
         val entityPattern: EntityPattern = JsonParser.parseObject[EntityPattern](line)
-        val entity =
-          if (entityPattern.id.isDefined) s"${entityPattern.label},${entityPattern.id.get}"
-          else entityPattern.label
-        storageReadWriter.getOrElse(None) match {
-          case patternsWriter: PatternsReadWriter =>
-            storePatterns(entityPattern.patterns.toIterator, entity, patternsWriter)
-          case regexPatternsWriter: RegexPatternsReadWriter =>
-            storeRegexPattern(entityPattern.patterns, entity, regexPatternsWriter)
-          case None => computePatterns(entityPattern.patterns, entity)
-        }
+        if (entityPattern.regex.getOrElse(false)) {
+          storeEntityPattern(entityPattern, storageReadWriter)
+        } else keywordsPatterns.append(entityPattern)
       })
   }
 
-  private def storePatternsFromCSV(storageReadWriter: StorageReadWriter[_]): Unit = {
-    storageReadWriter match {
-      case patternsWriter: PatternsReadWriter =>
-        val entityPatterns: Map[String, String] =
-          ResourceHelper.parseKeyValueText($(patternsResource))
-        entityPatterns.foreach(entityPattern =>
-          storePattern(entityPattern._2, entityPattern._1, patternsWriter))
-      case regexPatternsWriter: RegexPatternsReadWriter =>
-        val entityPatterns: Map[String, List[String]] =
-          ResourceHelper.parseKeyListValues($(patternsResource))
-        entityPatterns.foreach(entityPattern =>
-          storeRegexPattern(entityPattern._2, entityPattern._1, regexPatternsWriter))
+  private def storePatternsFromCSV(regexPatternsWriter: Option[RegexPatternsReadWriter]): Unit = {
+
+    val delimiter: String = $(patternsResource).options("delimiter")
+    val patternsLines = ResourceHelper.parseLines($(patternsResource))
+    val regexList: ArrayBuffer[String] = ArrayBuffer()
+    val keywords: mutable.Map[String, Seq[String]] = mutable.Map()
+    val regexPatterns: mutable.Map[String, Seq[String]] = mutable.Map()
+    var patternsHasRegex = false
+
+    val groupByLabel =
+      patternsLines.groupBy(pattern => EntityRulerUtil.splitString(pattern, delimiter)(0))
+    groupByLabel.foreach { case (label, lines) =>
+      lines.foreach { line =>
+        val columns: Array[String] = EntityRulerUtil.splitString(line, delimiter)
+        val pattern = columns(1)
+        val isRegex = if (columns.length == 2) false else EntityRulerUtil.toBoolean(columns(2))
+
+        if (isRegex) {
+          regexList.append(pattern)
+          patternsHasRegex = true
+        } else {
+          val patterns = keywords.getOrElse(label, Seq())
+          keywords(label) = patterns ++ Seq(pattern)
+        }
+      }
+
+      if (regexPatternsWriter.isEmpty) {
+        regexPatterns(label) = regexList
+      }
+
+      if (patternsHasRegex && regexPatternsWriter.nonEmpty) {
+        storeRegexPattern(regexList, label, regexPatternsWriter.get)
+      }
+
+      keywords.foreach { case (label, patterns) =>
+        keywordsPatterns.append(EntityPattern(label, patterns))
+      }
+      keywords.clear()
     }
+
+    if (regexPatternsWriter.isEmpty) {
+      this.regexPatterns = regexPatterns.toMap
+      if (patternsHasRegex) entitiesForRegex = regexPatterns.keys.toArray
+    }
+
   }
 
   private def storeEntityPatternsFromCSVDataFrame(
-      storageReadWriter: Option[StorageReadWriter[_]]): Unit = {
+      storageReadWriter: Option[RegexPatternsReadWriter]): Unit = {
 
     val patternOptions = $(patternsResource).options
-    var patternsDataFrame = spark.read
-      .options(patternOptions)
+    val patternsSchema = StructType(
+      Array(
+        StructField("label", StringType, nullable = false),
+        StructField("pattern", StringType, nullable = false),
+        StructField("regex", BooleanType, nullable = true)))
+
+    val patternsDataFrame = spark.read
       .format(patternOptions("format"))
       .options(patternOptions)
       .option("delimiter", patternOptions("delimiter"))
+      .schema(patternsSchema)
       .load($(patternsResource).path)
-      .toDF("label", "pattern")
+      .na
+      .fill(value = false, Array("regex"))
 
-    patternsDataFrame = patternsDataFrame
-      .groupBy("label")
+    val groupedByPatternsDataFrame = patternsDataFrame
+      .groupBy("label", "regex")
       .agg(collect_set("pattern").alias("patterns"))
 
-    storeFromDataFrame(patternsDataFrame, storageReadWriter)
+    storeFromDataFrame(
+      groupedByPatternsDataFrame,
+      idFieldExist = false,
+      regexFieldExist = true,
+      storageReadWriter)
 
   }
 
   private def storePatternsFromJSONDataFrame(
-      storageReadWriter: Option[StorageReadWriter[_]],
+      storageReadWriter: Option[RegexPatternsReadWriter],
       format: String): Unit = {
 
     val path = $(patternsResource).path
-    var patternsDataFrame = spark.read.option("multiline", "true").json(path)
 
-    if (format.equals("JSONL")) {
-      patternsDataFrame = spark.read.json(path)
+    val dataFrameReader = spark.read
+    if (format.equals("JSON")) {
+      dataFrameReader.option("multiline", "true")
     }
 
-    storeFromDataFrame(patternsDataFrame, storageReadWriter)
+    var patternsDataFrame = dataFrameReader
+      .json(path)
+
+    val idField: Array[StructField] =
+      patternsDataFrame.schema.fields.filter(field => field.name == "id")
+    val regexField: Array[StructField] =
+      patternsDataFrame.schema.fields.filter(field => field.name == "regex")
+
+    if (regexField.isEmpty) {
+      patternsDataFrame = patternsDataFrame.withColumn("regex", lit(false))
+    } else {
+      patternsDataFrame = patternsDataFrame.na.fill(value = false, Array("regex"))
+    }
+    if (idField.nonEmpty) patternsDataFrame.na.drop()
+
+    storeFromDataFrame(
+      patternsDataFrame,
+      idField.nonEmpty,
+      regexField.nonEmpty,
+      storageReadWriter)
   }
 
   private def storeFromDataFrame(
       patternsDataFrame: DataFrame,
-      storageReadWriter: Option[StorageReadWriter[_]]): Unit = {
+      idFieldExist: Boolean,
+      regexFieldExist: Boolean,
+      storageReadWriter: Option[RegexPatternsReadWriter]): Unit = {
 
-    val fieldId: Array[StructField] =
-      patternsDataFrame.schema.fields.filter(field => field.name == "id")
-    val cleanedPatternsDataFrame = cleanPatternsDataFrame(patternsDataFrame, fieldId)
+    val regexPatternsDataFrame = patternsDataFrame.filter(col("regex") === true)
+    val cleanedRegexPatternsDataFrame =
+      cleanPatternsDataFrame(regexPatternsDataFrame, idFieldExist)
 
-    cleanedPatternsDataFrame.rdd.toLocalIterator.foreach { row =>
-      val patterns = row.getAs[Seq[String]]("patterns")
+    cleanedRegexPatternsDataFrame.rdd.toLocalIterator.foreach { row =>
+      val patterns = row.getAs[Seq[String]]("flatten_patterns")
       val entity =
-        if (fieldId.nonEmpty) row.getAs[String]("label_id") else row.getAs[String]("label")
+        if (idFieldExist) row.getAs[String]("label_id") else row.getAs[String]("label")
       storageReadWriter.getOrElse(None) match {
         case patternsWriter: PatternsReadWriter =>
           storePatterns(patterns.toIterator, entity, patternsWriter)
         case regexPatternsWriter: RegexPatternsReadWriter =>
           storeRegexPattern(patterns, entity, regexPatternsWriter)
-        case None => computePatterns(patterns, entity)
+        case None => computePatterns(patterns, isRegex = true, entity)
       }
     }
+
+    val keywordsDataFrame = patternsDataFrame.filter(col("regex") === false)
+    val cleanedKeywordsDataFrame = cleanPatternsDataFrame(keywordsDataFrame, idFieldExist)
+
+    cleanedKeywordsDataFrame.rdd.toLocalIterator.foreach { row =>
+      val patterns = row.getAs[Seq[String]]("flatten_patterns")
+      if (idFieldExist) {
+        val labelId = row.getAs[String]("label_id")
+        val label = labelId.split(",")(0)
+        val id = labelId.split(",")(1)
+        keywordsPatterns.append(EntityPattern(label, patterns, Some(id), Some(true)))
+      } else {
+        val label = row.getAs[String]("label")
+        keywordsPatterns.append(EntityPattern(label, patterns, None, Some(true)))
+      }
+
+    }
+
   }
 
   private def cleanPatternsDataFrame(
       patternsDataFrame: DataFrame,
-      fieldId: Array[StructField]): DataFrame = {
+      idFieldExist: Boolean): DataFrame = {
 
-    val spark = patternsDataFrame.sparkSession
-    val sparkVersion = Version.parse(spark.version).toFloat
-
-    if (fieldId.nonEmpty) {
+    if (idFieldExist) {
       val patternsWithIdDataFrame =
         patternsDataFrame.withColumn("label_id", concat(col("label"), lit(","), col("id")))
-      patternsWithIdDataFrame.createOrReplaceTempView("patterns_view")
-      val sqlText =
-        "SELECT label_id, flatten(collect_set(patterns)) AS patterns FROM patterns_view GROUP BY label_id"
-      spark.sql(sqlText)
-    } else {
-      patternsDataFrame.createOrReplaceTempView("patterns_view")
-      val sqlText =
-        "SELECT label, flatten(collect_set(patterns)) AS patterns FROM patterns_view GROUP BY label"
-      spark.sql(sqlText)
-    }
 
+      patternsWithIdDataFrame
+        .groupBy("label_id")
+        .agg(flatten(collect_set("patterns")).as("flatten_patterns"))
+    } else {
+      patternsDataFrame
+        .groupBy("label")
+        .agg(flatten(collect_set("patterns")).as("flatten_patterns"))
+    }
   }
 
   private def storePatterns(
@@ -490,8 +559,8 @@ class EntityRulerApproach(override val uid: String)
       entity: String,
       regexPatternsReaderWriter: RegexPatternsReadWriter): Unit = {
 
-    if (!entities.contains(entity)) {
-      entities = entities ++ Array(entity)
+    if (!entitiesForRegex.contains(entity)) {
+      entitiesForRegex = entitiesForRegex ++ Array(entity)
     }
     regexPatternsReaderWriter
       .lookup(entity)
@@ -511,26 +580,28 @@ class EntityRulerApproach(override val uid: String)
     }
   }
 
-  private def computePatternsFromCSV(): Unit = {
-    if ($(enablePatternRegex) || $(sentenceMatch)) {
-      regexPatterns = ResourceHelper.parseKeyListValues($(patternsResource))
-      entities = regexPatterns.keys.toArray
-    } else {
-      patterns = ResourceHelper.parseKeyValueText($(patternsResource)).flatMap {
-        case (key, value) => Map(value -> key)
+  private def computePatterns(patterns: Seq[String], isRegex: Boolean, entity: String): Unit = {
+    if (isRegex) {
+      regexPatterns = regexPatterns ++ Map(entity -> patterns)
+      if (!entitiesForRegex.contains(entity)) {
+        entitiesForRegex = entitiesForRegex ++ Array(entity)
       }
     }
   }
 
-  private def computePatterns(patterns: Seq[String], entity: String): Unit = {
-    if ($(enablePatternRegex) || $(sentenceMatch)) {
-      regexPatterns = regexPatterns ++ Map(entity -> patterns)
-      if (!entities.contains(entity)) {
-        entities = entities ++ Array(entity)
-      }
-    } else {
-      patterns.foreach(pattern => this.patterns = this.patterns ++ Map(pattern -> entity))
-    }
-  }
+  /** Input annotator types: DOCUMENT, TOKEN
+    *
+    * @group anno
+    */
+  override val inputAnnotatorTypes: Array[String] = Array(DOCUMENT)
+  override val optionalInputAnnotatorTypes: Array[String] = Array(TOKEN)
+
+  /** Output annotator types: CHUNK
+    *
+    * @group anno
+    */
+  override val outputAnnotatorType: AnnotatorType = CHUNK
+
+  override protected val databases: Array[Name] = EntityRulerModel.databases
 
 }

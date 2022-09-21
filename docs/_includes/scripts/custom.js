@@ -111,3 +111,15 @@ if(document.querySelector('.tab-description')) {
     });
   });
 }
+
+
+//disable Colab link
+if(document.querySelector('.btn.disable')) {
+  let btnDisable = document.querySelectorAll('.btn.disable');
+
+  btnDisable.forEach(element => {
+    element.addEventListener("click", function(e) {
+      e.preventDefault();
+    });
+  });
+}

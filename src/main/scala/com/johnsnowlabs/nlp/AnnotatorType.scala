@@ -17,6 +17,7 @@
 package com.johnsnowlabs.nlp
 
 object AnnotatorType {
+  val AUDIO = "audio"
   val DOCUMENT = "document"
   val IMAGE = "image"
   val TOKEN = "token"

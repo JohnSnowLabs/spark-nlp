@@ -20,7 +20,7 @@ import com.johnsnowlabs.nlp.AnnotatorType._
 import com.johnsnowlabs.nlp.annotators.cv.util.schema.ImageSchemaUtils
 import org.apache.spark.ml.Transformer
 import org.apache.spark.ml.param.{Param, ParamMap}
-import org.apache.spark.ml.util.{DefaultParamsWritable, Identifiable}
+import org.apache.spark.ml.util.{DefaultParamsReadable, DefaultParamsWritable, Identifiable}
 import org.apache.spark.sql.expressions.UserDefinedFunction
 import org.apache.spark.sql.functions.udf
 import org.apache.spark.sql.types._
@@ -177,3 +177,8 @@ private[nlp] case class ImageFields(
     nChannels: Int,
     mode: Int,
     data: Array[Byte])
+
+/** This is the companion object of [[ImageAssembler]]. Please refer to that class for the
+  * documentation.
+  */
+object ImageAssembler extends DefaultParamsReadable[ImageAssembler]

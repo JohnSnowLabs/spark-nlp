@@ -16,11 +16,15 @@
 
 package com.johnsnowlabs.nlp.pretrained
 
+import com.amazonaws.services.s3.model.ObjectMetadata
 import com.johnsnowlabs.client.aws.AWSGateway
+import com.johnsnowlabs.nlp.util.io.ResourceHelper
 import com.johnsnowlabs.util.FileHelper
+import org.apache.commons.io.IOUtils
 import org.apache.hadoop.fs.Path
+import org.apache.spark.sql.SparkSession
 
-import java.io.File
+import java.io.{ByteArrayInputStream, ByteArrayOutputStream, File}
 import java.nio.file.Files
 import java.sql.Timestamp
 import java.util.Calendar
@@ -39,7 +43,7 @@ class S3ResourceDownloader(
     mutable.Map[String, RepositoryMetadata]()
   val cachePath = new Path(cacheFolder)
 
-  if (!fileSystem.exists(cachePath)) {
+  if (!cacheFolder.startsWith("s3") && !fileSystem.exists(cachePath)) {
     fileSystem.mkdirs(cachePath)
   }
 
@@ -75,13 +79,69 @@ class S3ResourceDownloader(
     val link = resolveLink(request)
     link.flatMap { resource =>
       val s3FilePath = awsGateway.getS3File(s3Path, request.folder, resource.fileName)
-      val destinationFile = new Path(cachePath.toString, resource.fileName)
       if (!awsGateway.doesS3ObjectExist(bucket, s3FilePath)) {
         None
       } else {
-        downloadAndUnzipFile(destinationFile, resource, s3FilePath)
+        if (cachePath.toString.startsWith("s3")) {
+          val destinationS3URI = cachePath.toString.replace("s3:", "s3a:")
+          val sourceS3URI = s"s3a://$bucket/$s3FilePath"
+          val destinationKey = unzipInS3(sourceS3URI, destinationS3URI, ResourceHelper.spark)
+          Option(destinationKey)
+        } else {
+          val destinationFile = new Path(cachePath.toString, resource.fileName)
+          downloadAndUnzipFile(destinationFile, resource, s3FilePath)
+        }
       }
     }
+  }
+
+  private def unzipInS3(
+      sourceS3URI: String,
+      destinationS3URI: String,
+      sparkSession: SparkSession): String = {
+
+    val (sourceBucketName, sourceKey) = ResourceHelper.parseS3URI(sourceS3URI)
+    val (destinationBucketName, destinationKey) = ResourceHelper.parseS3URI(destinationS3URI)
+
+    val accessKeyId =
+      sparkSession.sparkContext.hadoopConfiguration.get("fs.s3a.access.key")
+    val secretAccessKey =
+      sparkSession.sparkContext.hadoopConfiguration.get("fs.s3a.secret.key")
+    val sessionToken =
+      sparkSession.sparkContext.hadoopConfiguration.get("fs.s3a.session.token")
+
+    if (accessKeyId == "" && secretAccessKey == "") {
+      throw new IllegalAccessException(
+        "Using S3 as cachePath requires to define access.key and secret.key hadoop configuration")
+    }
+    val awsGatewayDestination = new AWSGateway(accessKeyId, secretAccessKey, sessionToken)
+
+    val zippedModel = awsGateway.getS3Object(sourceBucketName, sourceKey)
+    val zipInputStream = new ZipInputStream(zippedModel.getObjectContent)
+    var zipEntry = zipInputStream.getNextEntry
+
+    val zipFile = sourceKey.split("/").last
+    val modelName = zipFile.substring(0, zipFile.indexOf(".zip"))
+
+    println(s"Uploading model $modelName to S3URI: $destinationS3URI")
+    while (zipEntry != null) {
+      if (!zipEntry.isDirectory) {
+        val fileName = s"$modelName/${zipEntry.getName}"
+        val destinationS3Path = destinationKey + "/" + fileName
+        val outputStream = new ByteArrayOutputStream()
+        IOUtils.copy(zipInputStream, outputStream)
+        val inputStream = new ByteArrayInputStream(outputStream.toByteArray)
+
+        awsGatewayDestination.client.putObject(
+          destinationBucketName,
+          destinationS3Path,
+          inputStream,
+          new ObjectMetadata())
+      }
+      zipEntry = zipInputStream.getNextEntry
+    }
+
+    destinationS3URI + "/" + modelName
   }
 
   def downloadAndUnzipFile(

@@ -47,11 +47,11 @@ object ConfigHelper {
   val s3SocketTimeout = "spark.jsl.settings.pretrained.s3_socket_timeout"
 
   // Stores info for AWS S3 logging output when training models
-  val awsLogCredentials = "spark.jsl.settings.aws.credentials"
-  val awsExternalAccessKeyId: String = awsLogCredentials + ".access_key_id"
-  val awsExternalSecretAccessKey: String = awsLogCredentials + ".secret_access_key"
-  val awsExternalSessionToken: String = awsLogCredentials + ".session_token"
-  val awsExternalProfileName: String = awsLogCredentials + ".aws_profile_name"
+  val awsExternalCredentials = "spark.jsl.settings.aws.credentials"
+  val awsExternalAccessKeyId: String = awsExternalCredentials + ".access_key_id"
+  val awsExternalSecretAccessKey: String = awsExternalCredentials + ".secret_access_key"
+  val awsExternalSessionToken: String = awsExternalCredentials + ".session_token"
+  val awsExternalProfileName: String = awsExternalCredentials + ".aws_profile_name"
   val awsExternalS3BucketKey = "spark.jsl.settings.aws.s3_bucket"
   val awsExternalRegion = "spark.jsl.settings.aws.region"
 

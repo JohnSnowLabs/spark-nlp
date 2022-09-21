@@ -24,8 +24,6 @@ data:
           id: identify_competitors_text   
           image: 
               src: /assets/images/Identify_Competitors_in_a_text.svg
-          image2: 
-              src: /assets/images/Identify_Competitors_in_a_text_f.svg
           excerpt: This model uses Assertion Status to identify if a PRODUCT or an ORG is mentioned to be a competitor.
           actions:
           - text: Live Demo
@@ -33,5 +31,17 @@ data:
             url: https://demo.johnsnowlabs.com/finance/ASSERTIONDL_COMPETITORS
           - text: Colab
             type: blue_btn
-            url:                 
+            url:  
+        - title: Identify Past Work Experience  
+          id: identify_past_work_experience    
+          image: 
+              src: /assets/images/Identify_Competitors_in_a_text.svg
+          excerpt: This model uses Assertion Status to identify if a mention to an Organization, Job Title or Date is about the past.
+          actions:
+          - text: Live Demo
+            type: normal
+            url: https://demo.johnsnowlabs.com/finance/ASSERTIONDL_PAST_ROLES/
+          - text: Colab
+            type: blue_btn
+            url:      
 ---

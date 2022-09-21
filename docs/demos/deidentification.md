@@ -110,7 +110,7 @@ data:
               src: /assets/images/Deidentify_free_text_documents.svg
           image2: 
               src: /assets/images/Deidentify_free_text_documents_f.svg
-          excerpt: This demo shows how to deidentify protected health information in English , Spanish, French, Italian and German texts.
+          excerpt: This demo shows how to deidentify protected health information in English, Spanish, French, Italian, Portuguese, Romanian, and German texts.
           actions:
           - text: Live Demo
             type: normal
