@@ -1,6 +1,7 @@
 package com.johnsnowlabs.nlp.annotators.classifier.dl
 
 import com.johnsnowlabs.ml.tensorflow.{ReadTensorflowModel, TensorflowTapas, TensorflowWrapper}
+import com.johnsnowlabs.nlp.base.TableAssembler
 import com.johnsnowlabs.nlp.util.io.{ExternalResource, ReadAs, ResourceHelper}
 import com.johnsnowlabs.nlp.{Annotation, AnnotatorType, HasPretrained, ParamsAndFeaturesReadable}
 import org.apache.spark.broadcast.Broadcast
@@ -8,6 +9,124 @@ import org.apache.spark.ml.util.Identifiable
 import org.apache.spark.sql.SparkSession
 
 import java.io.File
+
+/** TapasForQuestionAnswering is an implementation of TaPas - a BERT-based model specifically designed for answering
+  * questions about tabular data. It takes TABLE and DOCUMENT annotations as input and tries to answer the questions in
+  * the document by using the data from the table. The model is based in BertForQuestionAnswering and shares all
+  * its parameters with it.
+  *
+  * Pretrained models can be loaded with `pretrained` of the companion object:
+  * {{{
+  * val tapas = TapasForQuestionAnswering.pretrained()
+  *   .setInputCols(Array("document_question", "table"))
+  *   .setOutputCol("answer")
+  * }}}
+  * The default model is `"TODO"`, if no name is provided.
+  *
+  * For available pretrained models please see the
+  * [[https://nlp.johnsnowlabs.com/models?task=Question+Answering+Tapas Models Hub]].
+  *
+  * ==Example==
+  * {{{
+  * import spark.implicits._
+  * import com.johnsnowlabs.nlp.base._
+  * import com.johnsnowlabs.nlp.annotator._
+  * import org.apache.spark.ml.Pipeline
+  *
+  *  val questions =
+  *    """
+  *     |Who earns 100,000,000?
+  *     |Who has more money?
+  *     |How old are they?
+  *     |""".stripMargin.trim
+  *
+  *  val jsonData =
+  *    """
+  *     |{
+  *     | "header": ["name", "money", "age"],
+  *     | "rows": [
+  *     |   ["Donald Trump", "$100,000,000", "75"],
+  *     |   ["Elon Musk", "$20,000,000,000,000", "55"]
+  *     | ]
+  *     |}
+  *     |""".stripMargin.trim
+  *
+  *  val data = Seq((jsonData, questions))
+  *   .toDF("json_table", "questions")
+  *   .repartition(1)
+  *
+  * val docAssembler = new MultiDocumentAssembler()
+  *   .setInputCols("json_table", "questions")
+  *   .setOutputCols("document_table", "document_questions")
+  *
+  * val sentenceDetector = SentenceDetectorDLModel
+  *   .pretrained()
+  *   .setInputCols(Array("document_questions"))
+  *   .setOutputCol("question")
+  *
+  * val tableAssembler = new TableAssembler()
+  *   .setInputFormat("json")
+  *   .setInputCols(Array("document_table"))
+  *   .setOutputCol("table")
+  *
+  * val tapas = TapasForQuestionAnswering
+  *   .pretrained()
+  *   .setInputCols(Array("question", "table"))
+  *   .setOutputCol("answer")
+  *
+  * val pipeline = new Pipeline()
+  *   .setStages(
+  *     Array(
+  *       docAssembler,
+  *       sentenceDetector,
+  *       tableAssembler,
+  *        tapas))
+  *
+  * val pipelineModel = pipeline.fit(data)
+  * val result = pipeline.fit(data).transform(data)
+  *
+  * result
+  *   .selectExpr("explode(answer) as answer")
+  *   .selectExpr(
+  *     "answer.metadata.question",
+  *     "answer.result")
+  *
+  * +-----------------------+----------------------------------------+
+  * |question               |result                                  |
+  * +-----------------------+----------------------------------------+
+  * |Who earns 100,000,000? |Donald Trump                            |
+  * |Who has more money?    |Elon Musk                               |
+  * |How much they all earn?|COUNT($100,000,000, $20,000,000,000,000)|
+  * |How old are they?      |AVERAGE(75, 55)                         |
+  * +-----------------------+----------------------------------------+
+  * }}}
+  *
+  * @see
+  * [[https://aclanthology.org/2020.acl-main.398/]] for more details about the TaPas model
+  * @see
+  * [[TableAssembler]] for loading tabular data
+  * @see
+  * [[https://nlp.johnsnowlabs.com/docs/en/annotators Annotators Main Page]] for a list of
+  * transformer based classifiers
+  * @param uid
+  *   required uid for storing annotator to disk
+  * @groupname anno Annotator types
+  * @groupdesc anno
+  *   Required input and expected output annotator types
+  * @groupname Ungrouped Members
+  * @groupname param Parameters
+  * @groupname setParam Parameter setters
+  * @groupname getParam Parameter getters
+  * @groupname Ungrouped Members
+  * @groupprio param  1
+  * @groupprio anno  2
+  * @groupprio Ungrouped 3
+  * @groupprio setParam  4
+  * @groupprio getParam  5
+  * @groupdesc param
+  *   A list of (hyper-)parameter keys this annotator can take. Users can set and get the
+  *   parameter values through setters and getters, respectively.
+  */
 
 class TapasForQuestionAnswering(override val uid: String) extends BertForQuestionAnswering(uid) {
 
