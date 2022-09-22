@@ -79,15 +79,15 @@ import java.io.File
   *   tokenClassifier
   * ))
   *
-  * val data = Seq("John Lenon was born in London and lived in Paris. My name is Sarah and I live in London").toDF("text")
+  * val data = Seq("george washington est allé à washington").toDF("text")
   * val result = pipeline.fit(data).transform(data)
   *
   * result.select("label.result").show(false)
-  * +------------------------------------------------------------------------------------+
-  * |result                                                                              |
-  * +------------------------------------------------------------------------------------+
-  * |[B-PER, I-PER, O, O, O, B-LOC, O, O, O, B-LOC, O, O, O, O, B-PER, O, O, O, O, B-LOC]|
-  * +------------------------------------------------------------------------------------+
+  * +------------------------------+
+  * |result                        |
+  * +------------------------------+
+  * |[I-PER, I-PER, O, O, O, I-LOC]|
+  * +------------------------------+
   * }}}
   *
   * @see

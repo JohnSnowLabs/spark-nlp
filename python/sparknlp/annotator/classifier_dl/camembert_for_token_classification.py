@@ -29,6 +29,7 @@ class CamemBertForTokenClassification(AnnotatorModel,
     >>> token_classifier = CamemBertForTokenClassification.pretrained() \\
     ...     .setInputCols(["token", "document"]) \\
     ...     .setOutputCol("label")
+
     The default model is ``"camembert_base_token_classifier_wikiner"``, if no
     name is provided.
 
