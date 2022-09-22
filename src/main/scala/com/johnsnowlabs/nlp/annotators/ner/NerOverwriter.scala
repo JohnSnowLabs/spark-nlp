@@ -208,7 +208,7 @@ class NerOverwriter(override val uid: String)
     set(replaceEntities, ws)
   }
 
-  def getReplaceEntities(): Map[String, String] = {
+  def getReplaceEntities: Map[String, String] = {
     if (!replaceEntities.isSet) {
       Map.empty[String, String]
     } else {
@@ -221,7 +221,7 @@ class NerOverwriter(override val uid: String)
   override def annotate(annotations: Seq[Annotation]): Seq[Annotation] = {
 
     val annotationsOverwritten = annotations
-    val replace = getReplaceEntities()
+    val replace = getReplaceEntities
     annotationsOverwritten
       .map { tokenAnnotation =>
         val stopWordsSet = $(stopWords).toSet

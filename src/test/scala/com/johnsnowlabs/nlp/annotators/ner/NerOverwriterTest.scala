@@ -18,8 +18,6 @@ package com.johnsnowlabs.nlp.annotators.ner
 
 import com.johnsnowlabs.nlp.annotator._
 import com.johnsnowlabs.nlp.base._
-import com.johnsnowlabs.nlp.embeddings.WordEmbeddingsModel
-import com.johnsnowlabs.nlp.training.CoNLL
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
 import com.johnsnowlabs.tags.SlowTest
 import org.apache.spark.ml.Pipeline
@@ -70,10 +68,14 @@ class NerOverwriterTest extends AnyFlatSpec {
       .setIncludeConfidence(false)
       .setIncludeAllConfidenceScores(false)
 
-    val converter = new NerOverwriter()
+    val nerOverwrite = new NerOverwriter()
       .setInputCols("ner")
       .setOutputCol("ner2")
-      .setReplaceEntities(Map("B-PERSON" -> "B-PER2"))
+      .setReplaceEntities(Map("B-PERSON" -> "B-PER2", "I-PERSON" -> "I-PER2"))
+
+    val nerConverter = new NerConverter()
+      .setInputCols("sentence", "token_normalized", "ner2")
+      .setOutputCol("entities")
 
     val pipeline = new Pipeline()
       .setStages(
@@ -85,11 +87,14 @@ class NerOverwriterTest extends AnyFlatSpec {
           normalize,
           embeddings,
           ner,
-          converter))
+          nerOverwrite,
+          nerConverter))
 
-    val nermodel = pipeline.fit(testDF).transform(testDF)
+    val pipelineDF = pipeline.fit(testDF).transform(testDF)
 
-    nermodel.select("ner2.result").show(1, truncate = false)
+    pipelineDF.select("ner.result").show(1, truncate = false)
+    pipelineDF.select("ner2.result").show(1, truncate = false)
+    pipelineDF.select("entities.result").show(1, truncate = false)
 
   }
 }
