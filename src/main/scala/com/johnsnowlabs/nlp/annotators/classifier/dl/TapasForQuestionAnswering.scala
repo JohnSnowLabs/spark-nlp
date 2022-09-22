@@ -21,7 +21,7 @@ import java.io.File
   *   .setInputCols(Array("document_question", "table"))
   *   .setOutputCol("answer")
   * }}}
-  * The default model is `"TODO"`, if no name is provided.
+  * The default model is `"table_qa_tapas_base_finetuned_wtq"`, if no name is provided.
   *
   * For available pretrained models please see the
   * [[https://nlp.johnsnowlabs.com/models?task=Question+Answering+Tapas Models Hub]].
@@ -201,7 +201,7 @@ class TapasForQuestionAnswering(override val uid: String) extends BertForQuestio
 trait ReadablePretrainedTapasForQAModel
     extends ParamsAndFeaturesReadable[TapasForQuestionAnswering]
     with HasPretrained[TapasForQuestionAnswering] {
-  override val defaultModelName: Some[String] = Some("tapas")
+  override val defaultModelName: Some[String] = Some("table_qa_tapas_base_finetuned_wtq")
 
   /** Java compliant-overrides */
   override def pretrained(): TapasForQuestionAnswering = super.pretrained()

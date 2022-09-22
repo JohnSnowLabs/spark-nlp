@@ -29,7 +29,7 @@ class TapasForQuestionAnswering(BertForQuestionAnswering):
     ...     .setInputCols(["table", "document"]) \\
     ...     .setOutputCol("answer")
 
-    The default model is ``"TODO"``, if no name
+    The default model is ``"table_qa_tapas_base_finetuned_wtq"``, if no name
     is provided.
 
     For available pretrained models please see the `Models Hub
@@ -132,14 +132,14 @@ class TapasForQuestionAnswering(BertForQuestionAnswering):
         return TapasForQuestionAnswering(java_model=jModel)
 
     @staticmethod
-    def pretrained(name="", lang="en", remote_loc=None):
+    def pretrained(name="table_qa_tapas_base_finetuned_wtq", lang="en", remote_loc=None):
         """Downloads and loads a pretrained model.
 
         Parameters
         ----------
         name : str, optional
             Name of the pretrained model, by default
-            "TODO"
+            "table_qa_tapas_base_finetuned_wtq"
         lang : str, optional
             Language of the pretrained model, by default "en"
         remote_loc : str, optional
