@@ -127,7 +127,7 @@ class NerOverwriter(AnnotatorModel):
     newResult = Param(Params._dummy(), "newResult", "new NER class to apply to those stopwords",
                       typeConverter=TypeConverters.toString)
     replaceEntities = Param(Params._dummy(), "replaceEntities", "Ner tags to be replaced",
-                      typeConverter=TypeConverters.identity)
+                            typeConverter=TypeConverters.identity)
 
     def setStopWords(self, value):
         """Sets the words to be overwritten.
@@ -160,4 +160,3 @@ class NerOverwriter(AnnotatorModel):
         """
         self._call_java('setReplaceEntities', rw)
         return self
-
