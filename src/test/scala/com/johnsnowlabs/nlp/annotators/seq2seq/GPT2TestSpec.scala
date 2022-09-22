@@ -55,7 +55,11 @@ class GPT2TestSpec extends AnyFlatSpec {
       .setBatchSize(5)
       .setNoRepeatNgramSize(3)
       .setOutputCol("generation")
-    new Pipeline().setStages(Array(documentAssembler, gpt2)).fit(testData).transform(testData).show()
+    new Pipeline()
+      .setStages(Array(documentAssembler, gpt2))
+      .fit(testData)
+      .transform(testData)
+      .show()
 
   }
 
