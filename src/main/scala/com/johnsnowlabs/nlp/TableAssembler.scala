@@ -5,8 +5,9 @@ import com.johnsnowlabs.nlp.annotators.common.TableData
 import org.apache.spark.ml.param.{BooleanParam, Param}
 import org.apache.spark.ml.util.{DefaultParamsReadable, Identifiable}
 
-/** This transformer parses text into tabular representation. The input consists of DOCUMENT annotations and the output
-  * are TABLE annotations. The source format can be either JSON or CSV. The format of the JSON files should be:
+/** This transformer parses text into tabular representation. The input consists of DOCUMENT
+  * annotations and the output are TABLE annotations. The source format can be either JSON or CSV.
+  * The format of the JSON files should be:
   *
   * {{{
   * {
@@ -18,8 +19,8 @@ import org.apache.spark.ml.util.{DefaultParamsReadable, Identifiable}
   *    ]
   * }
   * }}}
-  * The CSV format support alternative delimiters (e.g. tab), as well as escaping delimiters by surrounding cell values
-  * with double quotes. For example:
+  * The CSV format support alternative delimiters (e.g. tab), as well as escaping delimiters by
+  * surrounding cell values with double quotes. For example:
   *
   * {{{
   * column1, column2, "column with, comma"
@@ -42,10 +43,10 @@ import org.apache.spark.ml.util.{DefaultParamsReadable, Identifiable}
   *     |"Elon Musk", "$20,000,000,000,000", "55"
   *     |""".stripMargin.trim
   *
-  * val data =Seq(csvData).toDF("json")
+  * val data =Seq(csvData).toDF("csv")
   *
   * val documentAssembler = new DocumentAssembler()
-  *   .setInputCol("json")
+  *   .setInputCol("csv")
   *   .setOutputCol("document")
   *
   * val tableAssembler = new TableAssembler()

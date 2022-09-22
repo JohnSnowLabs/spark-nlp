@@ -22,7 +22,7 @@ class TapasForQuestionAnsweringTestSpec extends AnyFlatSpec {
       .overwrite
       .save("/models/sparknlp/tapas")
   }
-  
+
   "TapasForQuestionAnswering" should "convert CSV text to table" in {
     val csv =
       """
@@ -77,7 +77,7 @@ class TapasForQuestionAnsweringTestSpec extends AnyFlatSpec {
       .setOutputCol("table")
 
     val tapas = TapasForQuestionAnswering
-      .load("/models/sparknlp/tapas")
+      .load("/tmp/tapas_sparknlp")
       .setInputCols(Array("question", "table"))
       .setOutputCol("answer")
 

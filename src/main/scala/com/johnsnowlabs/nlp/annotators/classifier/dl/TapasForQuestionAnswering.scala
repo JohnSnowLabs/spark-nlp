@@ -10,10 +10,10 @@ import org.apache.spark.sql.SparkSession
 
 import java.io.File
 
-/** TapasForQuestionAnswering is an implementation of TaPas - a BERT-based model specifically designed for answering
-  * questions about tabular data. It takes TABLE and DOCUMENT annotations as input and tries to answer the questions in
-  * the document by using the data from the table. The model is based in BertForQuestionAnswering and shares all
-  * its parameters with it.
+/** TapasForQuestionAnswering is an implementation of TaPas - a BERT-based model specifically
+  * designed for answering questions about tabular data. It takes TABLE and DOCUMENT annotations
+  * as input and tries to answer the questions in the document by using the data from the table.
+  * The model is based in BertForQuestionAnswering and shares all its parameters with it.
   *
   * Pretrained models can be loaded with `pretrained` of the companion object:
   * {{{
@@ -102,12 +102,12 @@ import java.io.File
   * }}}
   *
   * @see
-  * [[https://aclanthology.org/2020.acl-main.398/]] for more details about the TaPas model
+  *   [[https://aclanthology.org/2020.acl-main.398/]] for more details about the TaPas model
   * @see
-  * [[TableAssembler]] for loading tabular data
+  *   [[TableAssembler]] for loading tabular data
   * @see
-  * [[https://nlp.johnsnowlabs.com/docs/en/annotators Annotators Main Page]] for a list of
-  * transformer based classifiers
+  *   [[https://nlp.johnsnowlabs.com/docs/en/annotators Annotators Main Page]] for a list of
+  *   transformer based classifiers
   * @param uid
   *   required uid for storing annotator to disk
   * @groupname anno Annotator types
