@@ -30,6 +30,12 @@ class TableAssembler(AnnotatorModel):
         "CSV delimiter",
         typeConverter=TypeConverters.toString)
 
+    escapeCsvDelimiter = Param(
+        Params._dummy(),
+        "escapeCsvDelimiter",
+        "Escape Csv delimiter by surrounding values with double quotes",
+        typeConverter=TypeConverters.toBoolean)
+
     def setInputFormat(self, value):
         """Sets the table input format. The following formats are currently supported: json, csv.
 
@@ -50,6 +56,16 @@ class TableAssembler(AnnotatorModel):
         """
         return self._set(csvDelimiter=value)
 
+    def setEscapeCsvDelimiter(self, value):
+        """Escape Csv delimiter by surrounding values with double quotes
+
+        Parameters
+        ----------
+        value : bool
+            True of Csv delimiter is escaped by surrounding values with double quotes
+        """
+        return self._set(escapeCsvDelimiter=value)
+
     @keyword_only
     def __init__(self, classname="com.johnsnowlabs.nlp.TableAssembler", java_model=None):
         super(TableAssembler, self).__init__(
@@ -58,5 +74,6 @@ class TableAssembler(AnnotatorModel):
         )
         self._setDefault(
             inputFormat="json",
-            csvDelimiter=","
+            csvDelimiter=",",
+            escapeCsvDelimiter=True
         )
