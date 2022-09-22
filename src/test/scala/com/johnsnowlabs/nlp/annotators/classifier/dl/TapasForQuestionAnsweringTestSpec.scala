@@ -77,7 +77,7 @@ class TapasForQuestionAnsweringTestSpec extends AnyFlatSpec {
       .setOutputCol("table")
 
     val tapas = TapasForQuestionAnswering
-      .load("/tmp/tapas_sparknlp")
+      .pretrained()
       .setInputCols(Array("question", "table"))
       .setOutputCol("answer")
 

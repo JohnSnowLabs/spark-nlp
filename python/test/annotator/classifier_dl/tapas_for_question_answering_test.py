@@ -50,8 +50,8 @@ class TapasForQuestionAnsweringTestSpec(unittest.TestCase):
             .setInputCols(["document_table"])\
             .setOutputCol("table")
 
-        tapas = TapasForQuestionAnswering\
-            .load("/models/sparknlp/tapas")\
+        tapas = TapasForQuestionAnswering \
+            .pretrained()\
             .setMaxSentenceLength(512)\
             .setInputCols(["questions", "table"])\
             .setOutputCol("answers")
