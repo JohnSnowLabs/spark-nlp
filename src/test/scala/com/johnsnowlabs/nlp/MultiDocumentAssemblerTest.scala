@@ -202,8 +202,7 @@ class MultiDocumentAssemblerTest extends AnyFlatSpec with SparkSessionTest {
       Map(
         "output1" -> List(input1),
         "output2" -> List(input2),
-        "token" -> List("This", "is", "the", "second", "input"))
-    )
+        "token" -> List("This", "is", "the", "second", "input")))
 
     actualResults.zipWithIndex.foreach { case (actualResult, index) =>
       val expectedResult = expectedResults(index)

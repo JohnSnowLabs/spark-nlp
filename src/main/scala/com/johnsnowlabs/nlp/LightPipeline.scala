@@ -49,7 +49,8 @@ class LightPipeline(val pipelineModel: PipelineModel, parseEmbeddingsVectors: Bo
       optionalTargets: Array[String]): Array[Map[String, Seq[Annotation]]] = {
 
     if (targets.length != optionalTargets.length) {
-      throw new UnsupportedOperationException("targets and optionalTargets must be of the same length")
+      throw new UnsupportedOperationException(
+        "targets and optionalTargets must be of the same length")
     }
 
     (targets zip optionalTargets).par.map { case (target, optionalTarget) =>
@@ -290,7 +291,8 @@ class LightPipeline(val pipelineModel: PipelineModel, parseEmbeddingsVectors: Bo
       optionalTargets: Array[String]): Array[Map[String, Seq[String]]] = {
 
     if (targets.length != optionalTargets.length) {
-      throw new UnsupportedOperationException("targets and optionalTargets must be of the same length")
+      throw new UnsupportedOperationException(
+        "targets and optionalTargets must be of the same length")
     }
 
     (targets zip optionalTargets).par.map { case (target, optionalTarget) =>
