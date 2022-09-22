@@ -22,34 +22,7 @@ class TapasForQuestionAnsweringTestSpec extends AnyFlatSpec {
       .overwrite
       .save("/models/sparknlp/tapas")
   }
-
-  "sample" should "yess" in {
-    val csvData =
-      """
-        |"name", "money", "age"
-        |"Donald Trump", "$100,000,000", "75"
-        |"Elon Musk", "$20,000,000,000,000", "55"
-        |""".stripMargin.trim
-
-    val data =Seq(csvData).toDF("json")
-
-    val documentAssembler = new DocumentAssembler()
-      .setInputCol("json")
-      .setOutputCol("document")
-
-    val tableAssembler = new TableAssembler()
-      .setInputCols(Array("document"))
-      .setOutputCol("table")
-      .setInputFormat("csv")
-
-    val pipeline = new Pipeline().setStages(Array(documentAssembler, tableAssembler)).fit(data)
-
-    val result = pipeline.transform(data)
-    result
-      .selectExpr("explode(table) AS table")
-      .select("table.result", "table.metadata")
-      .show(false)
-  }
+  
   "TapasForQuestionAnswering" should "convert CSV text to table" in {
     val csv =
       """
