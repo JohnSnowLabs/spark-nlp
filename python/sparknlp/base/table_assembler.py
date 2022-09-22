@@ -16,6 +16,68 @@ from sparknlp.common import *
 
 
 class TableAssembler(AnnotatorModel):
+    """This transformer parses text into tabular representation. The input consists of DOCUMENT annotations and the
+    output are TABLE annotations. The source format can be either JSON or CSV. The CSV format support alternative
+    delimiters (e.g. tab), as well as escaping delimiters by surrounding cell values with double quotes.
+
+    The transformer stores tabular data internally as JSON. The default input format is also JSON.
+
+    ====================== ======================
+    Input Annotation types Output Annotation type
+    ====================== ======================
+    ``DOCUMENT``           ``TABLE``
+    ====================== ======================
+
+    Parameters
+    ----------
+        inputFormat
+            The format of the source representation of the table ('json' or 'csv')
+
+        csvDelimiter
+            The delimiter used for parsing CSV files (defailt is comma)
+
+        escapeCsvDelimiter
+            Whether to escape Csv delimiter by surrounding values with double quotes
+
+    Examples
+    --------
+    >>> import sparknlp
+    >>> from sparknlp.base import *
+    >>> from sparknlp.annotator import *
+    >>> from pyspark.ml import Pipeline
+    >>>
+    >>> document_assembler = DocumentAssembler() \\
+    ...     .setInputCol("table_csv") \\
+    ...     .setOutputCol("document_table")
+    >>> table_assembler = TableAssembler()\\
+    >>>     .setInputFormat("csv")\\
+    >>>     .setInputCols(["document_table"])\\
+    >>>     .setOutputCol("table")
+    >>>
+    >>> csv_data = "\\n".join([
+    >>> "name, money, age",
+    >>> "Donald Trump, \"100,000,000\", 75",
+    >>> "Elon Musk, \"20,000,000,000,000\", 55"])
+    >>> data = spark.createDataFrame([[csv_data]]) \\
+    ...    .toDF("table_csv")
+    >>> pipeline = Pipeline().setStages([
+    ...     document_assembler,
+     ...     table_assembler
+    ... ]).fit(data)
+    >>> result = pipeline.transform(data)
+    >>> result.select("table").show(truncate=False)
+    +-----------------------------------------------+
+    |table                                          |
+    +-----------------------------------------------+
+    |[[table, 0, 118, {                             |
+    |   "header":["name","money","age"],            |
+    |   "rows":[                                    |
+    |    ["Donald Trump","100,000,000","75"],       |
+    |    ["Elon Musk","20,000,000,000,000","55"]]   |
+    | },                                            |
+    | [sentence -> 0, input_format -> csv], []]]    |
+    +-----------------------------------------------+
+"""
     name = "TableAssembler"
 
     inputFormat = Param(
