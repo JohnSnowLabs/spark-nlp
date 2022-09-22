@@ -25,7 +25,7 @@ import org.scalatest.flatspec.AnyFlatSpec
 
 class NerOverwriterTest extends AnyFlatSpec {
 
-  "NeC Overwriter" should "correctly should change the tag" taggedAs SlowTest in {
+  "NerOverwriter" should "correctly should change all the NER tags" taggedAs SlowTest in {
     import ResourceHelper.spark.implicits._
 
     val testDF =
