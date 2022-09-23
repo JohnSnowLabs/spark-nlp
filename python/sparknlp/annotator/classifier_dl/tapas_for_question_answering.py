@@ -106,8 +106,8 @@ class TapasForQuestionAnswering(BertForQuestionAnswering):
             java_model=java_model
         )
         self._setDefault(
-            batchSize=8,
-            maxSentenceLength=128,
+            batchSize=2,
+            maxSentenceLength=512,
             caseSensitive=False
         )
 
