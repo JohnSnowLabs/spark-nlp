@@ -51,7 +51,7 @@ class TapasForQuestionAnsweringTestSpec(unittest.TestCase):
             .setOutputCol("table")
 
         tapas = TapasForQuestionAnswering() \
-            .pretrained("table_qa_tapas_base_finetuned_wtq", "en", "public/models")\
+            .pretrained()\
             .setMaxSentenceLength(512)\
             .setInputCols(["questions", "table"])\
             .setOutputCol("answers")
