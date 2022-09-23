@@ -627,4 +627,12 @@ package object annotator {
   object CamemBertForTokenClassification
       extends ReadablePretrainedCamemBertForTokenModel
       with ReadCamemBertForTokenTensorflowModel
+
+  type TapasForQuestionAnswering =
+    com.johnsnowlabs.nlp.annotators.classifier.dl.TapasForQuestionAnswering
+
+  object TapasForQuestionAnswering
+    extends ReadablePretrainedTapasForQAModel
+      with ReadTapasForQATensorflowModel
+
 }

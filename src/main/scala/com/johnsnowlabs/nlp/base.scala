@@ -60,4 +60,7 @@ package object base {
 
   object AudioAssembler extends DefaultParamsReadable[AudioAssembler]
 
+  type TableAssembler = com.johnsnowlabs.nlp.TableAssembler
+
+  object TableAssembler extends DefaultParamsReadable[TableAssembler]
 }
