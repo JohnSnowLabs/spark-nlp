@@ -436,3 +436,11 @@ class _CamemBertForTokenClassification(ExtendedJavaWrapper):
         super(_CamemBertForTokenClassification, self).__init__(
             "com.johnsnowlabs.nlp.annotators.classifier.dl.CamemBertForTokenClassification.loadSavedModel", path,
             jspark)
+
+
+class _TapasForQuestionAnsweringLoader(ExtendedJavaWrapper):
+    def __init__(self, path, jspark):
+        super(_TapasForQuestionAnsweringLoader, self).__init__(
+            "com.johnsnowlabs.nlp.annotators.classifier.dl.TapasForQuestionAnswering.loadSavedModel",
+            path,
+            jspark)

@@ -39,3 +39,5 @@ from sparknlp.annotator.classifier_dl.xlm_roberta_for_question_answering import 
 from sparknlp.annotator.classifier_dl.xlnet_for_sequence_classification import *
 from sparknlp.annotator.classifier_dl.xlnet_for_token_classification import *
 from sparknlp.annotator.classifier_dl.camembert_for_token_classification import *
+from sparknlp.annotator.classifier_dl.tapas_for_question_answering import *
+

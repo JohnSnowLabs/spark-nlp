@@ -18,6 +18,7 @@ package com.johnsnowlabs.nlp.pretrained
 
 import com.johnsnowlabs.nlp.annotators._
 import com.johnsnowlabs.nlp.annotators.audio.Wav2Vec2ForCTC
+
 import com.johnsnowlabs.nlp.annotators.classifier.dl._
 import com.johnsnowlabs.nlp.annotators.coref.SpanBertCorefModel
 import com.johnsnowlabs.nlp.annotators.cv.ViTForImageClassification
@@ -40,7 +41,7 @@ import com.johnsnowlabs.nlp.annotators.ws.WordSegmenterModel
 import com.johnsnowlabs.nlp.embeddings._
 import com.johnsnowlabs.nlp.pretrained.ResourceType.ResourceType
 import com.johnsnowlabs.nlp.util.io.{OutputHelper, ResourceHelper}
-import com.johnsnowlabs.nlp.{DocumentAssembler, pretrained}
+import com.johnsnowlabs.nlp.{DocumentAssembler, TableAssembler, pretrained}
 import com.johnsnowlabs.util._
 import org.apache.hadoop.fs.FileSystem
 import org.apache.spark.ml.util.DefaultParamsReadable
@@ -654,7 +655,9 @@ object PythonResourceDownloader {
     "SpanBertCorefModel" -> SpanBertCorefModel,
     "ViTForImageClassification" -> ViTForImageClassification,
     "Wav2Vec2ForCTC" -> Wav2Vec2ForCTC,
-    "CamemBertForTokenClassification" -> CamemBertForTokenClassification)
+    "CamemBertForTokenClassification" -> CamemBertForTokenClassification,
+    "TableAssembler" -> TableAssembler,
+    "TapasForQuestionAnswering" -> TapasForQuestionAnswering)
 
   def downloadModel(
       readerStr: String,

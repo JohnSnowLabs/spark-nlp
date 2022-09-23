@@ -178,6 +178,16 @@ object ModelSignatureConstants {
     override val value: String = "StatefulPartitionedCall:1"
   }
 
+  case object TapasLogitsOutput extends TFInfoNameMapper {
+    override val key: String = "logits"
+    override val value: String = "StatefulPartitionedCall:0"
+  }
+
+  case object TapasLogitsAggregationOutput extends TFInfoNameMapper {
+    override val key: String = "logits_aggregation"
+    override val value: String = "StatefulPartitionedCall:1"
+  }
+
   case object PixelValuesInput extends TFInfoNameMapper {
     override val key: String = "pixel_values"
     override val value: String = "pixel_values:0"
