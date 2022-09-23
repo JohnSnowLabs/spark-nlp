@@ -64,7 +64,7 @@ ner_converter = NerConverter()\
       .setOutputCol("ner_chunk")\
       .setWhiteList(["ORG"])
 
-CM = ChunkMapperModel().pretrained("legmapper_crunchbase_companyname", "en", "legal/models")\
+CM = ChunkMapperModel.pretrained("legmapper_crunchbase_companyname", "en", "legal/models")\
       .setInputCols(["ner_chunk"])\
       .setOutputCol("mappings")\
       .setRel('category_code')

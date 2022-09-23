@@ -43,7 +43,7 @@ tokenizer = Tokenizer()\
       .setInputCols("document")\
       .setOutputCol("token")
 
-tokenClassifier = RoBertaForTokenClassification.pretrained("roberta_token_classifier_ticker", "en")\
+tokenClassifier = RoBertaForTokenClassification.pretrained("finner_roberta_ticker", "en", "finance/models")\
   .setInputCols(["document",'token'])\
   .setOutputCol("ner")
 

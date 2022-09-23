@@ -1,6 +1,6 @@
 ---
 layout: model
-title: Financial ORG, PRODUCT and ALIAS NER
+title: Financial ORG, PRODUCT and ALIAS NER (Large)
 author: John Snow Labs
 name: finner_orgs_prods_alias
 date: 2022-08-17
@@ -10,6 +10,7 @@ language: en
 edition: Spark NLP for Finance 1.0.0
 spark_version: 3.2
 supported: true
+recommended: true
 article_header:
   type: cover
 use_language_switcher: "Python-Scala-Java"
@@ -51,7 +52,7 @@ embeddings = BertEmbeddings.pretrained("bert_embeddings_sec_bert_base","en") \
         .setInputCols(["sentence", "token"]) \
         .setOutputCol("embeddings")
 
-ner_model = FinanceNerModel().pretrained("finner_orgs_prods_alias","en","finance/models")\
+ner_model = FinanceNerModel.pretrained("finner_orgs_prods_alias","en","finance/models")\
         .setInputCols(["sentence", "token", "embeddings"])\
         .setOutputCol("ner")
 

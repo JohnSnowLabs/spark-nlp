@@ -5,7 +5,7 @@ author: John Snow Labs
 name: legner_deid
 date: 2022-08-09
 tags: [en, legal, ner, deid, licensed]
-task: Named Entity Recognition
+task: [De-identification, Named Entity Recognition]
 language: en
 edition: Spark NLP for Legal 1.0.0
 spark_version: 3.2
@@ -51,7 +51,7 @@ embeddings = RoBertaEmbeddings.pretrained("roberta_embeddings_legal_roberta_base
     .setInputCols(["sentence", "token"]) \
     .setOutputCol("embeddings")
 
-ner_model = LegalNerModel().pretrained('legner_deid' "en", "legal/models")\
+ner_model = LegalNerModel.pretrained('legner_deid' "en", "legal/models")\
         .setInputCols(["sentence", "token", "embeddings"])\
         .setOutputCol("ner")
 

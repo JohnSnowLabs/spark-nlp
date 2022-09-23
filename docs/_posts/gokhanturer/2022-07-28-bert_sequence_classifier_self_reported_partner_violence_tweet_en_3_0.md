@@ -24,8 +24,8 @@ Classification of Self-Reported Intimate Partner Violence on Twitter. This model
 `intimate_partner_violence`, `non-intimate_partner_violence`
 
 {:.btn-box}
-<button class="button button-orange" disabled>Live Demo</button>
-<button class="button button-orange" disabled>Open in Colab</button>
+[Live Demo](https://demo.johnsnowlabs.com/healthcare/PUBLIC_HEALTH_PARTNER_VIOLENCE/){:.button.button-orange}
+[Open in Colab](https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/PUBLIC_HEALTH_MB4SC.ipynb){:.button.button-orange.button-orange-trans.co.button-icon}
 [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/bert_sequence_classifier_self_reported_partner_violence_tweet_en_4.0.0_3.0_1658999356448.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
 
 ## How to use

@@ -126,7 +126,7 @@ You can either use our convenience function to start your Spark Session that wil
 
 ```python
 import sparknlp_jsl
-spark = sparknlp_jsl.start("{secret.code}")
+spark = sparknlp_jsl.start(SECRET)
 ```
 
 Or use the SparkSession module for more flexibility:
@@ -134,21 +134,25 @@ Or use the SparkSession module for more flexibility:
 ```python
 from pyspark.sql import SparkSession
 
-spark = SparkSession.builder \
-    .appName("Spark NLP Enterprise") \
-    .master("local[*]") \
-    .config("spark.driver.memory","16") \
-    .config("spark.driver.maxResultSize", "0") \
-    .config("spark.kryoserializer.buffer.max", "1000M")\
-    .config("spark.jars.packages", "com.johnsnowlabs.nlp:spark-nlp_2.11:2.7.6") \
-    .config("spark.jars", "https://pypi.johnsnowlabs.com/${secret.code}/spark-nlp-jsl-${version}.jar") \
-    .getOrCreate()
+def start(SECRET):
+    builder = SparkSession.builder \
+        .appName("Spark NLP Licensed") \
+        .master("local[*]") \
+        .config("spark.driver.memory", "16G") \
+        .config("spark.serializer", "org.apache.spark.serializer.KryoSerializer") \
+        .config("spark.kryoserializer.buffer.max", "2000M") \
+        .config("spark.jars.packages", "com.johnsnowlabs.nlp:spark-nlp_2.12:"+PUBLIC_VERSION) \
+        .config("spark.jars", "https://pypi.johnsnowlabs.com/"+SECRET+"/spark-nlp-jsl-"+JSL_VERSION+".jar")
+      
+    return builder.getOrCreate()
+
+spark = start(SECRET)
 ```
 
 If you want to download the source files (jar and whl files) locally, you can follow the instructions <a href="https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/jupyter/SparkNLP_offline_installation.ipynb">here</a>.
 
 
-### Spark NLP for Healthcare Cheat Sheet
+### Spark NLP for Healthcare Cheatsheet
 
 ```bash
 # Install Spark NLP from PyPI
@@ -400,6 +404,8 @@ os.environ.update(license_keys)
 
 ## Install on GCP Dataproc
 
+- You can follow the steps here for [installation via IU](https://github.com/JohnSnowLabs/spark-nlp-workshop/tree/master/platforms/dataproc)
+
 1. Create a cluster if you don't have one already as follows.
 
 At gcloud shell:
@@ -472,8 +478,8 @@ def start(secret):
         .appName("Spark NLP Licensed") \
         .config("spark.serializer", "org.apache.spark.serializer.KryoSerializer") \
         .config("spark.kryoserializer.buffer.max", "2000M") \
-        .config("spark.jars.packages", "com.johnsnowlabs.nlp:spark-nlp_2.12:"+version) \
-        .config("spark.jars", "https://pypi.johnsnowlabs.com/"+secret+"/spark-nlp-jsl-"+jsl_version+".jar")
+        .config("spark.jars.packages", "com.johnsnowlabs.nlp:spark-nlp_2.12:"+PUBLIC_VERSION) \
+        .config("spark.jars", "https://pypi.johnsnowlabs.com/"+SECRET+"/spark-nlp-jsl-"+JSL_VERSION+".jar")
 
     return builder.getOrCreate()
 
@@ -482,6 +488,42 @@ spark = start(SECRET)
 
 As you see, we did not set `.master('local[*]')` explicitly to let YARN manage the cluster.
 Or you can set `.master('yarn')`.
+
+
+## Install on AWS SageMaker
+
+1. Access AWS Sagemaker in AWS.
+2. Go to Notebook -> Notebook Instances.
+3. Create a new Notebook Instance, follow this [Instructions Steps](https://github.com/JohnSnowLabs/spark-nlp-workshop/tree/master/platforms/sagemaker)
+4. Minimum requirement 16G RAM and 50G Volume. This is the configuration we have used, although most of the interesting models will require a ml.t3.xlarge instance or more. Reserve at least 50GB of memory
+5. Once created, open JupyterLab and use Conda Python 3 kernel.
+6. Upload `license key` and set `Environment Variables`.
+```Python
+import json
+import os
+
+with open('spark_nlp_for_healthcare.json', 'r') as f:
+    for k, v in json.load(f).items():
+        %set_env $k=$v
+
+%set_env PYSPARK=3.2.2
+%set_env SPARK_HOME=/home/ec2-user/SageMaker/spark-3.2.2-bin-hadoop2.7
+```
+7. Download and install libraries
+```Python
+!wget https://raw.githubusercontent.com/JohnSnowLabs/spark-nlp-workshop/master/jsl_sagemaker_setup.sh
+!bash jsl_sagemaker_setup.sh
+```
+8. Import libraries and start session
+```Python
+import sparknlp
+import sparknlp_jsl
+from pyspark.sql import SparkSession
+
+spark = sparknlp_jsl.start(license_keys['SECRET'])
+```
+
+
 
 ## Install with Poetry
 
@@ -606,7 +648,7 @@ We can start jupyter notebook via:
 jupyter notebook
 ```
 
-```bash
+```python
 ### Now we are in the jupyter notebook cell:
 import json
 import os
