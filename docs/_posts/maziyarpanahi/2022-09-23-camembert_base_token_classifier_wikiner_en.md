@@ -119,13 +119,13 @@ val result = pipeline.fit(example).transform(example)
 
 ```bash
 root: "{"
-eval_loss ": 0.030238043516874313, "
-eval_precision ": 0.9309378330840458, "
-eval_recall ": 0.934396999194326, "
-eval_f1 ": 0.9326642087176625, "
-eval_accuracy ": 0.9911817277939677, "
-eval_runtime ": 641.7088, "
-eval_samples_per_second ": 208.961, "
-eval_steps_per_second ": 6.531, "
+eval_loss ": 0.0396629199385643, "
+eval_precision ": 0.9283267457180501, "
+eval_recall ": 0.9337809780447939, "
+eval_f1 ": 0.9310458739841875, "
+eval_accuracy ": 0.9896610647939648, "
+eval_runtime ": 204.7064, "
+eval_samples_per_second ": 65.508, "
+eval_steps_per_second ": 4.099, "
 epoch ": 3.0}"
 ```
