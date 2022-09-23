@@ -50,8 +50,8 @@ class TapasForQuestionAnsweringTestSpec(unittest.TestCase):
             .setInputCols(["document_table"])\
             .setOutputCol("table")
 
-        tapas = TapasForQuestionAnswering \
-            .pretrained()\
+        tapas = TapasForQuestionAnswering() \
+            .pretrained("table_qa_tapas_base_finetuned_wtq", "en", "public/models")\
             .setMaxSentenceLength(512)\
             .setInputCols(["questions", "table"])\
             .setOutputCol("answers")
