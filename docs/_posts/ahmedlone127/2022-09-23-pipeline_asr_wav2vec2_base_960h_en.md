@@ -24,7 +24,7 @@ Pretrained Wav2vec2  pipeline, adapted from Hugging Face and curated to provide 
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>
 <button class="button button-orange" disabled>Open in Colab</button>
-[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/pipeline_asr_wav2vec2_base_960h_en_4.2.0_3.0_1663934860018.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
+[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/pipeline_asr_wav2vec2_base_960h_en_4.2.0_3.0_1663948381169.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
 
 ## How to use
 
@@ -35,13 +35,13 @@ Pretrained Wav2vec2  pipeline, adapted from Hugging Face and curated to provide 
 ```python
 
         pipeline = PretrainedPipeline('pipeline_asr_wav2vec2_base_960h', lang = 'en')
-        annotations =  pipeline.fullAnnotate(listAudioFloats)
+        annotations =  pipeline.transform(audioDF)
         
 ```
 ```scala
 
         val pipeline = new PretrainedPipeline("pipeline_asr_wav2vec2_base_960h", lang = "en")
-        val annotations = pipeline.fullAnnotate(listAudioFloats)
+        val annotations = pipeline.transform(audioDF)
         
 ```
 </div>
