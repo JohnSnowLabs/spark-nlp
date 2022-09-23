@@ -1,2 +1,2 @@
-docs/_posts/maziyarpanahi/2021-11-03-bert_sequence_classifier_multilingual_sentiment_xx.md
-docs/_posts/maziyarpanahi/2021-11-03-bert_sequence_classifier_multilingual_sentiment_xx.md
+docs/en/nlp_server/installation.md
+docs/en/nlp_server/installation.md
