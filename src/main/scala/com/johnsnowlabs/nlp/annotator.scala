@@ -632,7 +632,7 @@ package object annotator {
     com.johnsnowlabs.nlp.annotators.classifier.dl.TapasForQuestionAnswering
 
   object TapasForQuestionAnswering
-    extends ReadablePretrainedTapasForQAModel
+      extends ReadablePretrainedTapasForQAModel
       with ReadTapasForQATensorflowModel
 
 }

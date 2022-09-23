@@ -223,7 +223,7 @@ class Wav2Vec2ForCTC(override val uid: String)
 trait ReadablePretrainedWav2Vec2ForAudioModel
     extends ParamsAndFeaturesReadable[Wav2Vec2ForCTC]
     with HasPretrained[Wav2Vec2ForCTC] {
-  override val defaultModelName: Some[String] = Some("wav2vec2_base_960h")
+  override val defaultModelName: Some[String] = Some("asr_wav2vec2_base_960h")
 
   /** Java compliant-overrides */
   override def pretrained(): Wav2Vec2ForCTC = super.pretrained()

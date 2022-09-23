@@ -27,7 +27,8 @@ object TableData {
       csv: String,
       delimiter: String = ",",
       escapeDelimiterByDoubleQuotes: Boolean = true): TableData = {
-    val delimiterPattern = delimiter + (if (escapeDelimiterByDoubleQuotes) csvDelimiterEscapePattern else "")
+    val delimiterPattern =
+      delimiter + (if (escapeDelimiterByDoubleQuotes) csvDelimiterEscapePattern else "")
 
     // trimming function which preserves tabs
     def trimSpace(string: String): String = {
