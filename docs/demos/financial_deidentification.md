@@ -35,5 +35,5 @@ data:
             url: https://demo.johnsnowlabs.com/finance/DEID_FIN/
           - text: Colab
             type: blue_btn
-            url: https://nlp.johnsnowlabs.com/  
+            url:    
 ---
