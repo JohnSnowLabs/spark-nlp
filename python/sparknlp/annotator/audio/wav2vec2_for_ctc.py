@@ -105,14 +105,14 @@ class Wav2Vec2ForCTC(AnnotatorModel,
         return Wav2Vec2ForCTC(java_model=jModel)
 
     @staticmethod
-    def pretrained(name="wav2vec2_base_960h", lang="en", remote_loc=None):
+    def pretrained(name="asr_wav2vec2_base_960h", lang="en", remote_loc=None):
         """Downloads and loads a pretrained model.
 
         Parameters
         ----------
         name : str, optional
             Name of the pretrained model, by default
-            "wav2vec2_base_960h"
+            "asr_wav2vec2_base_960h"
         lang : str, optional
             Language of the pretrained model, by default "en"
         remote_loc : str, optional
