@@ -71,6 +71,8 @@ class NerOverwriterTest extends AnyFlatSpec {
     val nerOverwrite = new NerOverwriter()
       .setInputCols("ner")
       .setOutputCol("ner2")
+      .setNerWords(Array("texasfloria"))
+      .setNewNerEntity("I-STATE")
       .setReplaceEntities(Map("B-PERSON" -> "B-PER2", "I-PERSON" -> "I-PER2"))
 
     val nerConverter = new NerConverter()
