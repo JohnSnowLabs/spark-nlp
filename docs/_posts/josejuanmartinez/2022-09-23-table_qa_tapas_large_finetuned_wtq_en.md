@@ -1,6 +1,6 @@
 ---
 layout: model
-title: Google's Tapas Table Understanding (Large, WTQ)
+title: Navteca's Tapas Table Understanding (Large, WTQ)
 author: John Snow Labs
 name: table_qa_tapas_large_finetuned_wtq
 date: 2022-09-23
@@ -29,7 +29,7 @@ Has aggregation operations?: True
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>
 <button class="button button-orange" disabled>Open in Colab</button>
-[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/table_qa_tapas_large_finetuned_wtq_en_4.2.0_3.2_1663925844292.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
+[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/table_qa_tapas_large_finetuned_wtq_en_4.2.0_3.2_1663926156962.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
 
 ## How to use
 
