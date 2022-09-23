@@ -114,3 +114,18 @@ val result = pipeline.fit(example).transform(example)
 ## References
 
 [https://huggingface.co/datasets/Jean-Baptiste/wikiner_fr](https://huggingface.co/datasets/Jean-Baptiste/wikiner_fr)
+
+## Benchmarking
+
+```bash
+root: "{"
+eval_loss ": 0.030238043516874313, "
+eval_precision ": 0.9309378330840458, "
+eval_recall ": 0.934396999194326, "
+eval_f1 ": 0.9326642087176625, "
+eval_accuracy ": 0.9911817277939677, "
+eval_runtime ": 641.7088, "
+eval_samples_per_second ": 208.961, "
+eval_steps_per_second ": 6.531, "
+epoch ": 3.0}"
+```
