@@ -148,8 +148,8 @@ class CamemBertEmbeddingsTestSpec extends AnyFlatSpec {
     val loadedPipelineModel = PipelineModel.load("./tmp_camembert_pipeline")
     loadedPipelineModel.transform(ddd).show()
 
-    val loadedDistilBertModel = RoBertaEmbeddings.load("./tmp_camembert_model")
-    loadedDistilBertModel.getDimension
+    val loadedCamemBertModel = CamemBertEmbeddings.load("./tmp_camembert_model")
+    loadedCamemBertModel.getDimension
 
   }
 

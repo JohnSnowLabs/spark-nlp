@@ -145,6 +145,11 @@ class EntityRulerApproach(AnnotatorApproach, HasStorage):
                           "Whether to find match at sentence level. True: sentence level. False: token level",
                           typeConverter=TypeConverters.toBoolean)
 
+    alphabet = Param(Params._dummy(),
+                     "alphabet",
+                     "Alphabet resource path to plain text file with all characters in a given alphabet",
+                     typeConverter=TypeConverters.identity)
+
     @keyword_only
     def __init__(self):
         super(EntityRulerApproach, self).__init__(
@@ -194,8 +199,19 @@ class EntityRulerApproach(AnnotatorApproach, HasStorage):
         """
         return self._set(sentenceMatch=value)
 
+    def setAlphabetResource(self, path):
+        """Alphabet Resource (a simple plain text with all language characters)
+
+        Parameters
+        ----------
+        path : str
+            Path to the resource
+        """
+        return self._set(alphabet=ExternalResource(path, read_as=ReadAs.TEXT, options={}))
+
     def _create_model(self, java_model):
         return EntityRulerModel(java_model=java_model)
+
 
 class EntityRulerModel(AnnotatorModel, HasStorageModel):
     """Instantiated model of the EntityRulerApproach.

@@ -132,6 +132,11 @@ class AWSGateway(
     client.getObject(req, tmpFile)
   }
 
+  def getS3Object(bucket: String, s3FilePath: String): S3Object = {
+    val s3Object = client.getObject(bucket, s3FilePath)
+    s3Object
+  }
+
   def getS3DownloadSize(
       s3Path: String,
       folder: String,
