@@ -11,7 +11,7 @@ def check_obj_exist(java_class):
     sc = SparkContext._active_spark_context
     java_obj = _jvm()
     for name in java_class.split("."):
-        # Bug (?) in P4J. Even if ClassPath does not Exist, JVM response is proto.SUCCESS_PACKAGE
+        # Bug (?) in P4J. Even if ClassPath does not exist, JVM response is proto.SUCCESS_PACKAGE
         # But it should give Class Not Found in JMV Exception
         # Instead it gives confusing package not callable exception
         java_obj = getattr(java_obj, name)
@@ -20,10 +20,13 @@ def check_obj_exist(java_class):
     # see JavaPackage.__dir__ and JavaPackage.__apply__ methods for more infos
     if UserHelpAutoCompletion.KEY in dir(java_obj):
         bck = '\n'
-        print(f"🚨 It looks like the Java Class {FAIL + java_class + ENDC} is missing in JVM! 🚨\n")
+        print(f"🚨 It looks like the class of {FAIL + java_class + ENDC} is missing from the SparkSession! 🚨\n This "
+              f"usually means Spark NLP is missing from your SparkSession. Please make sure your {FAIL}spark.jar{ENDC}"
+              f" is pointing to the correct Spark NLP Fat JAR, or {FAIL}spark.jar.packages{ENDC} is pointing to the "
+              f"correct Maven coordinates. https://github.com/JohnSnowLabs/spark-nlp#usage")
         if sc.getConf().get("spark.jars"):
             print(f"Currently loaded Jars are: \n",
                   f'{bck.join(sc.getConf().get("spark.jars").split(";"))}')
         else:
-            print(f'There are no custom Jars loaded into this Spark Session! '
-                  f'Make sure {FAIL}spark.jar{ENDC} SparkSetting is pointing to the correct jars!')
+            print(f'There are no custom JARs loaded into this Spark Session! '
+                  f'Make sure either {FAIL}spark.jar{ENDC} or {FAIL}spark.jar.packages{ENDC} is correctly set in SparkSession!')
