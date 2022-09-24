@@ -1,2 +1,4 @@
-docs/en/nlp_server/installation.md
-docs/en/nlp_server/installation.md
+docs/_data/navigation.yml
+docs/en/nlp_server/video_tutorials.md
+docs/_data/navigation.yml
+docs/en/nlp_server/video_tutorials.md
