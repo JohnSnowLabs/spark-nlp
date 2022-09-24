@@ -19,12 +19,12 @@ use_language_switcher: "Python-Scala-Java"
 
 Pretrained Wav2vec2  model, adapted from Hugging Face and curated to provide scalability and production-readiness using Spark NLP.`asr_wav2vec2_large_xlsr_53_hungarian_by_jonatasgrosman` is a Hungarian model originally trained by jonatasgrosman.
 
-NOTE: This model only works on a GPU, if you need to use this model on a CPU device please use asr_wav2vec2_large_xlsr_53_hungarian_by_jonatasgrosman_gpu
+NOTE: This model only works on a GPU, if you need to use this model on a CPU device please use asr_wav2vec2_large_xlsr_53_hungarian_by_jonatasgrosman
 
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>
 <button class="button button-orange" disabled>Open in Colab</button>
-[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/asr_wav2vec2_large_xlsr_53_hungarian_by_jonatasgrosman_gpu_hu_4.2.0_3.0_1664030442617.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
+[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/asr_wav2vec2_large_xlsr_53_hungarian_by_jonatasgrosman_gpu_hu_4.2.0_3.0_1664031736348.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
 
 ## How to use
 
