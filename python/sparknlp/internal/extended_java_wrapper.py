@@ -16,6 +16,7 @@
 from pyspark import SparkContext
 from pyspark.ml.wrapper import JavaWrapper
 from pyspark.sql import DataFrame
+from sparknlp.internal import check_obj_exist
 
 
 class ExtendedJavaWrapper(JavaWrapper):
@@ -33,6 +34,8 @@ class ExtendedJavaWrapper(JavaWrapper):
         return self._java_obj
 
     def new_java_obj(self, java_class, *args):
+        # check_obj_exist(java_class) TODO is checking this here efficient?
+        # if this is just used for primitive data types, we might want to ommit check here?
         return self._new_java_obj(java_class, *args)
 
     def new_java_array(self, pylist, java_class):

@@ -18,6 +18,7 @@ from pyspark.ml.util import JavaMLWritable
 
 import sparknlp.internal as _internal
 from sparknlp.common import AnnotatorProperties
+from sparknlp.internal import check_obj_exist
 
 
 class RecursiveAnnotatorApproach(_internal.RecursiveEstimator, JavaMLWritable, _internal.AnnotatorJavaMLReadable,
@@ -27,6 +28,7 @@ class RecursiveAnnotatorApproach(_internal.RecursiveEstimator, JavaMLWritable, _
     def __init__(self, classname):
         _internal.ParamsGettersSetters.__init__(self)
         self.__class__._java_class_name = classname
+        check_obj_exist(classname)
         self._java_obj = self._new_java_obj(classname, self.uid)
         self._setDefault(lazyAnnotator=False)
 

@@ -20,6 +20,8 @@ from pyspark.ml.wrapper import JavaTransformer
 from sparknlp.internal.params_getters_setters import ParamsGettersSetters
 from sparknlp.internal.annotator_java_ml import AnnotatorJavaMLReadable
 
+from sparknlp.internal.py4j_utils import check_obj_exist
+
 
 class AnnotatorTransformer(JavaTransformer, AnnotatorJavaMLReadable, JavaMLWritable, ParamsGettersSetters):
     @keyword_only
@@ -30,5 +32,6 @@ class AnnotatorTransformer(JavaTransformer, AnnotatorJavaMLReadable, JavaMLWrita
             kwargs.pop('classname')
         self.setParams(**kwargs)
         self.__class__._java_class_name = classname
+        check_obj_exist(classname)
         self._java_obj = self._new_java_obj(classname, self.uid)
 

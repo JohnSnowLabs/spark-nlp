@@ -18,7 +18,7 @@ from pyspark.ml import PipelineModel, Estimator, Pipeline, Transformer
 from pyspark.ml.wrapper import JavaEstimator
 
 from sparknlp.common import AnnotatorProperties
-from sparknlp.internal import RecursiveEstimator
+from sparknlp.internal import RecursiveEstimator, check_obj_exist
 from sparknlp.base import HasRecursiveTransform
 
 
@@ -48,6 +48,7 @@ class RecursivePipeline(Pipeline, JavaEstimator):
     @keyword_only
     def __init__(self, *args, **kwargs):
         super(RecursivePipeline, self).__init__(*args, **kwargs)
+        check_obj_exist('com.johnsnowlabs.nlp.RecursivePipeline')
         self._java_obj = self._new_java_obj("com.johnsnowlabs.nlp.RecursivePipeline", self.uid)
         kwargs = self._input_kwargs
         self.setParams(**kwargs)
