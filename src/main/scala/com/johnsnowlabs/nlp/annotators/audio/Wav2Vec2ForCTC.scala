@@ -40,6 +40,67 @@ import scala.io.Source
 /** Wav2Vec2 Model with a language modeling head on top for Connectionist Temporal Classification
   * (CTC). Wav2Vec2 was proposed in wav2vec 2.0: A Framework for Self-Supervised Learning of
   * Speech Representations by Alexei Baevski, Henry Zhou, Abdelrahman Mohamed, Michael Auli.
+  *
+  * The annotator takes audio files and transcribes it as text. The audio needs to be provided
+  * pre-processed an array of floats.
+  *
+  * Note that this annotator is currently not supported on Apple Silicon processors such as the
+  * M1. This is due to the processor not supporting instructions for XLA.
+  *
+  * Pretrained models can be loaded with `pretrained` of the companion object:
+  * {{{
+  * val speechToText = Wav2Vec2ForCTC.pretrained()
+  *   .setInputCols("audio_assembler")
+  *   .setOutputCol("text")
+  * }}}
+  * The default model is `"asr_wav2vec2_base_960h"`, if no name is provided.
+  *
+  * For available pretrained models please see the
+  * [[https://nlp.johnsnowlabs.com/models Models Hub]].
+  *
+  * To see which models are compatible and how to import them see
+  * [[https://github.com/JohnSnowLabs/spark-nlp/discussions/5669]] and to see more extended
+  * examples, see
+  * [[https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/audio/Wav2Vec2ForCTCTestSpec.scala Wav2Vec2ForCTCTestSpec]].
+  *
+  * ==Example==
+  * {{{
+  * import spark.implicits._
+  * import com.johnsnowlabs.nlp.base._
+  * import com.johnsnowlabs.nlp.annotators._
+  * import com.johnsnowlabs.nlp.annotators.audio.Wav2Vec2ForCTC
+  * import org.apache.spark.ml.Pipeline
+  *
+  * val audioAssembler: AudioAssembler = new AudioAssembler()
+  *   .setInputCol("audio_content")
+  *   .setOutputCol("audio_assembler")
+  *
+  * val speechToText: Wav2Vec2ForCTC = Wav2Vec2ForCTC
+  *   .pretrained()
+  *   .setInputCols("audio_assembler")
+  *   .setOutputCol("text")
+  *
+  * val pipeline: Pipeline = new Pipeline().setStages(Array(audioAssembler, speechToText))
+  *
+  * val bufferedSource =
+  *   scala.io.Source.fromFile("src/test/resources/audio/csv/audi_floats.csv")
+  *
+  * val rawFloats = bufferedSource
+  *   .getLines()
+  *   .map(_.split(",").head.trim.toFloat)
+  *   .toArray
+  * bufferedSource.close
+  *
+  * val processedAudioFloats = Seq(rawFloats).toDF("audio_content")
+  *
+  * val result = pipeline.fit(processedAudioFloats).transform(processedAudioFloats)
+  * result.select("text.result").show(truncate = false)
+  * +------------------------------------------------------------------------------------------+
+  * |result                                                                                    |
+  * +------------------------------------------------------------------------------------------+
+  * |[MISTER QUILTER IS THE APOSTLE OF THE MIDLE CLASES AND WE ARE GLAD TO WELCOME HIS GOSPEL ]|
+  * +------------------------------------------------------------------------------------------+
+  * }}}
   * @param uid
   *   required uid for storing annotator to disk
   * @groupname anno Annotator types
