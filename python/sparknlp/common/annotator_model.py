@@ -19,6 +19,7 @@ from pyspark.ml.wrapper import JavaModel
 
 import sparknlp.internal as _internal
 from sparknlp.common import AnnotatorProperties
+from sparknlp.internal import check_obj_exist
 
 
 class AnnotatorModel(JavaModel, _internal.AnnotatorJavaMLReadable, JavaMLWritable, AnnotatorProperties,
@@ -34,6 +35,7 @@ class AnnotatorModel(JavaModel, _internal.AnnotatorJavaMLReadable, JavaMLWritabl
         super(AnnotatorModel, self).__init__(java_model=java_model)
         if classname and not java_model:
             self.__class__._java_class_name = classname
+            check_obj_exist(classname)
             self._java_obj = self._new_java_obj(classname, self.uid)
         if java_model is not None:
             self._transfer_params_from_java()

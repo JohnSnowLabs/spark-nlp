@@ -19,6 +19,7 @@ from pyspark.ml.wrapper import JavaEstimator
 
 import sparknlp.internal as _internal
 from sparknlp.common.annotator_properties import AnnotatorProperties
+from sparknlp.internal import check_obj_exist
 
 
 class AnnotatorApproach(JavaEstimator, JavaMLWritable, _internal.AnnotatorJavaMLReadable, AnnotatorProperties,
@@ -28,6 +29,7 @@ class AnnotatorApproach(JavaEstimator, JavaMLWritable, _internal.AnnotatorJavaML
     def __init__(self, classname):
         _internal.ParamsGettersSetters.__init__(self)
         self.__class__._java_class_name = classname
+        check_obj_exist(classname)
         self._java_obj = self._new_java_obj(classname, self.uid)
         self._setDefault(lazyAnnotator=False)
 
