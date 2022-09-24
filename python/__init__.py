@@ -11,7 +11,3 @@
 #  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
-
-"""Module of annotators for sentiment analysis."""
-from sparknlp.annotator.sentiment.sentiment_detector import *
-from sparknlp.annotator.sentiment.vivekn_sentiment import *

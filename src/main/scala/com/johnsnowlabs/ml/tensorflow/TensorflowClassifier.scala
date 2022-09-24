@@ -16,6 +16,7 @@
 
 package com.johnsnowlabs.ml.tensorflow
 
+import com.johnsnowlabs.nlp.annotators.classifier.dl.ClassifierMetrics
 import com.johnsnowlabs.nlp.annotators.ner.Verbose
 import com.johnsnowlabs.nlp.util.io.OutputHelper
 import com.johnsnowlabs.nlp.{Annotation, AnnotatorType}
@@ -27,9 +28,10 @@ import scala.util.Random
 class TensorflowClassifier(
     val tensorflow: TensorflowWrapper,
     val encoder: ClassifierDatasetEncoder,
+    val testEncoder: Option[ClassifierDatasetEncoder],
     override val verboseLevel: Verbose.Value)
     extends Serializable
-    with Logging {
+    with ClassifierMetrics {
 
   private val inputKey = "inputs:0"
   private val labelKey = "labels:0"
@@ -45,8 +47,8 @@ class TensorflowClassifier(
   private val initKey = "init_all_tables"
 
   def train(
-      inputs: Array[Array[Float]],
-      labels: Array[String],
+      inputs: (Array[Array[Float]], Array[String]),
+      testInputs: Option[(Array[Array[Float]], Array[String])],
       classNum: Int,
       lr: Float = 5e-3f,
       batchSize: Int = 64,
@@ -55,6 +57,7 @@ class TensorflowClassifier(
       endEpoch: Int = 10,
       configProtoBytes: Option[Array[Byte]] = None,
       validationSplit: Float = 0.0f,
+      evaluationLogExtended: Boolean = false,
       enableOutputLogs: Boolean = false,
       outputLogsPath: String,
       uuid: String = Identifiable.randomUID("classifierdl")): Unit = {
@@ -67,25 +70,12 @@ class TensorflowClassifier(
         .addTarget(initKey)
         .run()
 
-    val encodedLabels = encoder.encodeTags(labels)
-    val zippedInputsLabels = inputs.zip(encodedLabels).toSeq
-    val trainingDataset = Random.shuffle(zippedInputsLabels)
-
-    val sample: Int = (trainingDataset.length * validationSplit).toInt
-
-    val (trainDatasetSeq, validateDatasetSample) = if (validationSplit > 0f) {
-      val (trainingSample, trainingSet) = trainingDataset.splitAt(sample)
-      (trainingSet.toArray, trainingSample.toArray)
-    } else {
-      // No validationSplit has been set so just use the entire training Dataset
-      val emptyValid: Seq[(Array[Float], Array[Int])] = Seq((Array.empty, Array.empty))
-      (trainingDataset.toArray, emptyValid.toArray)
-    }
+    val (trainSet, validationSet, testSet) = buildDatasets(inputs, testInputs, validationSplit)
 
     println(
-      s"Training started - epochs: $endEpoch - learning_rate: $lr - batch_size: $batchSize - training_examples: ${trainDatasetSeq.length} - classes: $classNum")
+      s"Training started - epochs: $endEpoch - learning_rate: $lr - batch_size: $batchSize - training_examples: ${trainSet.length} - classes: $classNum")
     outputLog(
-      s"Training started - epochs: $endEpoch - learning_rate: $lr - batch_size: $batchSize - training_examples: ${trainDatasetSeq.length} - classes: $classNum",
+      s"Training started - epochs: $endEpoch - learning_rate: $lr - batch_size: $batchSize - training_examples: ${trainSet.length} - classes: $classNum",
       uuid,
       enableOutputLogs,
       outputLogsPath)
@@ -98,7 +88,7 @@ class TensorflowClassifier(
       var acc = 0f
       val learningRate = lr / (1 + dropout * epoch)
 
-      for (batch <- trainDatasetSeq.grouped(batchSize)) {
+      for (batch <- trainSet.grouped(batchSize)) {
         val tensors = new TensorResources()
 
         val inputArrays = batch.map(x => x._1)
@@ -106,8 +96,8 @@ class TensorflowClassifier(
 
         val inputTensor = tensors.createTensor(inputArrays)
         val labelTensor = tensors.createTensor(labelsArray)
-        val lrTensor = tensors.createTensor(learningRate.toFloat)
-        val dpTensor = tensors.createTensor(dropout.toFloat)
+        val lrTensor = tensors.createTensor(learningRate)
+        val dpTensor = tensors.createTensor(dropout)
 
         val calculated = tensorflow
           .getTFSession(configProtoBytes = configProtoBytes)
@@ -128,27 +118,43 @@ class TensorflowClassifier(
 
         tensors.clearTensors()
       }
-      acc /= (trainDatasetSeq.length / batchSize)
+      acc /= (trainSet.length / batchSize)
       acc = acc.min(1.0f).max(0.0f)
 
+      val endTime = (System.nanoTime() - time) / 1e9
+      println(
+        f"Epoch ${epoch + 1}/$endEpoch - $endTime%.2fs - loss: $loss - acc: $acc - batches: $batches")
+      outputLog(
+        f"Epoch $epoch/$endEpoch - $endTime%.2fs - loss: $loss - acc: $acc - batches: $batches",
+        uuid,
+        enableOutputLogs,
+        outputLogsPath)
+
       if (validationSplit > 0.0) {
-        val validationAccuracy =
-          measure(validateDatasetSample, (s: String) => log(s, Verbose.Epochs))
-        val endTime = (System.nanoTime() - time) / 1e9
         println(
-          f"Epoch ${epoch + 1}/$endEpoch - $endTime%.2fs - loss: $loss - acc: $acc - val_acc: $validationAccuracy - batches: $batches")
+          s"Quality on validation dataset (${validationSplit * 100}%), validation examples = ${validationSet.length}")
         outputLog(
-          f"Epoch $epoch/$endEpoch - $endTime%.2fs - loss: $loss - acc: $acc - val_acc: $validationAccuracy - batches: $batches",
+          s"Quality on validation dataset (${validationSplit * 100}%), validation examples = ${validationSet.length}",
           uuid,
           enableOutputLogs,
           outputLogsPath)
-      } else {
-        val endTime = (System.nanoTime() - time) / 1e9
-        println(
-          f"Epoch ${epoch + 1}/$endEpoch - $endTime%.2fs - loss: $loss - acc: $acc - batches: $batches")
-        outputLog(
-          f"Epoch $epoch/$endEpoch - $endTime%.2fs - loss: $loss - acc: $acc - batches: $batches",
-          uuid,
+
+        measure(
+          validationSet,
+          "validation",
+          extended = evaluationLogExtended,
+          enableOutputLogs,
+          outputLogsPath)
+      }
+
+      if (testSet.nonEmpty) {
+        println(s"Quality on test dataset: ")
+        outputLog("Quality on test dataset: ", uuid, enableOutputLogs, outputLogsPath)
+
+        measure(
+          testSet,
+          "test",
+          extended = evaluationLogExtended,
           enableOutputLogs,
           outputLogsPath)
       }
@@ -158,6 +164,43 @@ class TensorflowClassifier(
     if (enableOutputLogs) {
       OutputHelper.exportLogFile(outputLogsPath)
     }
+  }
+
+  private def buildDatasets(
+      inputs: (Array[Array[Float]], Array[String]),
+      testInputs: Option[(Array[Array[Float]], Array[String])],
+      validationSplit: Float): (
+      Array[(Array[Float], Array[Int])],
+      Array[(Array[Float], Array[Int])],
+      Array[(Array[Float], Array[Int])]) = {
+
+    val trainingDataset = Random.shuffle(encodeInputs(inputs, "train").toSeq).toArray
+    val sample: Int = (trainingDataset.length * validationSplit).toInt
+
+    val (newTrainDataset, validateDatasetSample) = if (validationSplit > 0f) {
+      val (trainingSample, trainingSet) = trainingDataset.splitAt(sample)
+      (trainingSet, trainingSample)
+    } else {
+      // No validationSplit has been set so just use the entire training Dataset
+      val emptyValid: Array[(Array[Float], Array[Int])] = Array((Array.empty, Array.empty))
+      (trainingDataset, emptyValid)
+    }
+
+    val testDataset: Array[(Array[Float], Array[Int])] =
+      if (testInputs.isDefined) encodeInputs(testInputs.get, "test") else Array.empty
+
+    (newTrainDataset, validateDatasetSample, testDataset)
+  }
+
+  private def encodeInputs(
+      inputs: (Array[Array[Float]], Array[String]),
+      sourceData: String): Array[(Array[Float], Array[Int])] = {
+
+    val (embeddings, labels) = inputs
+    val myEncoder = if (sourceData == "train") encoder else testEncoder.get
+    val encodedLabels = myEncoder.encodeTags(labels)
+
+    embeddings.zip(encodedLabels)
   }
 
   def predict(
@@ -200,6 +243,7 @@ class TensorflowClassifier(
 
   def internalPredict(
       inputs: Array[Array[Float]],
+      numClasses: Int,
       configProtoBytes: Option[Array[Byte]] = None): Array[Int] = {
 
     val tensors = new TensorResources()
@@ -222,42 +266,63 @@ class TensorflowClassifier(
 
   def measure(
       labeled: Array[(Array[Float], Array[Int])],
-      log: String => Unit,
+      sourceData: String,
       extended: Boolean = false,
-      batchSize: Int = 100): Float = {
+      enableOutputLogs: Boolean = false,
+      outputLogsPath: String,
+      batchSize: Int = 100): (Float, Float) = {
+
+    val started = System.nanoTime()
+
+    val evaluationEncoder = if (sourceData == "validation") encoder else testEncoder.get
 
     // ToDo: Add batch strategy
-
-    val correctGuess = mutable.Map[Int, Int]()
-    val predicted = mutable.Map[Int, Int]()
-    val correct = mutable.Map[Int, Int]()
+    val truePositives = mutable.Map[String, Int]()
+    val falsePositives = mutable.Map[String, Int]()
+    val falseNegatives = mutable.Map[String, Int]()
+    val predicted = mutable.Map[String, Int]()
+    val correct = mutable.Map[String, Int]()
 
     val originalEmbeddings = labeled.map(x => x._1)
-    val originalLabels = labeled.map(x => x._2).map { x =>
+    val originalLabels: Array[Int] = labeled.map(x => x._2).map { x =>
       x.zipWithIndex.maxBy(_._1)._2
     }
 
-    val predictedLabels = internalPredict(originalEmbeddings)
-    val labeledPredicted = predictedLabels.zip(originalLabels)
+    val evaluationNumClasses =
+      if (sourceData == "validation") numClasses else testEncoder.get.params.tags.length
 
-    for (i <- labeledPredicted) {
-      val predict = i._1
-      val original = i._2
+    val predictedLabels: Array[Int] = internalPredict(originalEmbeddings, evaluationNumClasses)
+    val labeledPredictions: Array[(Int, Int)] = predictedLabels.zip(originalLabels)
 
-      correct(original) = correct.getOrElse(original, 0) + 1
-      predicted(predict) = predicted.getOrElse(predict, 0) + 1
+    for (labeledPrediction <- labeledPredictions) {
+      val predict = labeledPrediction._1
+      val original = labeledPrediction._2
+      val groundTruthTag = evaluationEncoder.tags(original)
+      val predictedTag = evaluationEncoder.tags(predict)
+
+      correct(groundTruthTag) = correct.getOrElse(groundTruthTag, 0) + 1
+      predicted(predictedTag) = predicted.getOrElse(predictedTag, 0) + 1
 
       if (original == predict) {
-        correctGuess(original) = correctGuess.getOrElse(original, 0) + 1
+        truePositives(groundTruthTag) = truePositives.getOrElse(groundTruthTag, 0) + 1
+      } else {
+        falsePositives(predictedTag) = falsePositives.getOrElse(predictedTag, 0) + 1
+        falseNegatives(groundTruthTag) = falseNegatives.getOrElse(groundTruthTag, 0) + 1
       }
     }
 
+    val endTime = (System.nanoTime() - started) / 1e9
+    println(f"time to finish evaluation: $endTime%.2fs")
+
     val labels = (correct.keys ++ predicted.keys).toSeq.distinct
-
-    val correctlyPredicted = correctGuess.filterKeys(label => labels.contains(label)).values.sum
-    val totalOriginalLabels = correct.filterKeys(label => labels.contains(label)).values.sum
-
-    (correctlyPredicted.toFloat / totalOriginalLabels.toFloat) * 100
+    aggregatedMetrics(
+      labels,
+      truePositives.toMap,
+      falsePositives.toMap,
+      falseNegatives.toMap,
+      extended,
+      enableOutputLogs,
+      outputLogsPath)
 
   }
 

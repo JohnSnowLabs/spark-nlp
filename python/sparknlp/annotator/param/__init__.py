@@ -12,6 +12,6 @@
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
 
-"""Module of annotators for sentiment analysis."""
-from sparknlp.annotator.sentiment.sentiment_detector import *
-from sparknlp.annotator.sentiment.vivekn_sentiment import *
+"""Module of annotators for params."""
+from sparknlp.annotator.param.evaluation_dl_params import *
+from sparknlp.annotator.param.classifier_encoder import *

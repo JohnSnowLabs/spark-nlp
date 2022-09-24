@@ -250,7 +250,7 @@ def start(gpu=False,
             def shutdown(self):
                 self.__spark_with_custom_gateway.shutdown()
 
-        return SparkRealTimeOutput()
+        return SparkRealTimeOutput().spark_session
     else:
         spark_session = start_without_realtime_output()
         return spark_session

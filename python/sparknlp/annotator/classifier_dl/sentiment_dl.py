@@ -13,10 +13,11 @@
 #  limitations under the License.
 """Contains classes for SentimentDL."""
 
+from sparknlp.annotator.param import EvaluationDLParams, ClassifierEncoder
 from sparknlp.common import *
 
 
-class SentimentDLApproach(AnnotatorApproach):
+class SentimentDLApproach(AnnotatorApproach, EvaluationDLParams, ClassifierEncoder):
     """Trains a SentimentDL, an annotator for multi-class sentiment analysis.
 
     In natural language processing, sentiment analysis is the task of
@@ -113,103 +114,14 @@ class SentimentDLApproach(AnnotatorApproach):
     >>> pipelineModel = pipeline.fit(smallCorpus)
     """
 
-    lr = Param(Params._dummy(), "lr", "Learning Rate", TypeConverters.toFloat)
-
-    batchSize = Param(Params._dummy(), "batchSize", "Batch size", TypeConverters.toInt)
-
     dropout = Param(Params._dummy(), "dropout", "Dropout coefficient", TypeConverters.toFloat)
 
-    maxEpochs = Param(Params._dummy(), "maxEpochs", "Maximum number of epochs to train", TypeConverters.toInt)
-
-    configProtoBytes = Param(Params._dummy(), "configProtoBytes",
-                             "ConfigProto from tensorflow, serialized into byte array. Get with config_proto.SerializeToString()",
-                             TypeConverters.toListInt)
-
-    validationSplit = Param(Params._dummy(), "validationSplit",
-                            "Choose the proportion of training dataset to be validated against the model on each Epoch. The value should be between 0.0 and 1.0 and by default it is 0.0 and off.",
-                            TypeConverters.toFloat)
-
-    enableOutputLogs = Param(Params._dummy(), "enableOutputLogs",
-                             "Whether to use stdout in addition to Spark logs.",
-                             TypeConverters.toBoolean)
-
-    outputLogsPath = Param(Params._dummy(), "outputLogsPath", "Folder path to save training logs",
-                           TypeConverters.toString)
-
-    labelColumn = Param(Params._dummy(),
-                        "labelColumn",
-                        "Column with label per each token",
-                        typeConverter=TypeConverters.toString)
-
-    verbose = Param(Params._dummy(), "verbose", "Level of verbosity during training", TypeConverters.toInt)
-    randomSeed = Param(Params._dummy(), "randomSeed", "Random seed", TypeConverters.toInt)
     threshold = Param(Params._dummy(), "threshold",
                       "The minimum threshold for the final result otheriwse it will be neutral", TypeConverters.toFloat)
+
     thresholdLabel = Param(Params._dummy(), "thresholdLabel",
                            "In case the score is less than threshold, what should be the label. Default is neutral.",
                            TypeConverters.toString)
-
-    def setVerbose(self, value):
-        """Sets level of verbosity during training
-
-        Parameters
-        ----------
-        value : int
-            Level of verbosity
-        """
-        return self._set(verbose=value)
-
-    def setRandomSeed(self, seed):
-        """Sets random seed for shuffling
-
-        Parameters
-        ----------
-        seed : int
-            Random seed for shuffling
-        """
-        return self._set(randomSeed=seed)
-
-    def setLabelColumn(self, value):
-        """Sets name of column for data labels
-
-        Parameters
-        ----------
-        value : str
-            Column for data labels
-        """
-        return self._set(labelColumn=value)
-
-    def setConfigProtoBytes(self, b):
-        """Sets configProto from tensorflow, serialized into byte array.
-
-        Parameters
-        ----------
-        b : List[int]
-            ConfigProto from tensorflow, serialized into byte array
-        """
-        return self._set(configProtoBytes=b)
-
-    def setLr(self, v):
-        """Sets Learning Rate, by default 0.005
-
-        Parameters
-        ----------
-        v : float
-            Learning Rate
-        """
-        self._set(lr=v)
-        return self
-
-    def setBatchSize(self, v):
-        """Sets batch size, by default 64.
-
-        Parameters
-        ----------
-        v : int
-            Batch size
-        """
-        self._set(batchSize=v)
-        return self
 
     def setDropout(self, v):
         """Sets dropout coefficient, by default 0.5.
@@ -221,53 +133,6 @@ class SentimentDLApproach(AnnotatorApproach):
         """
         self._set(dropout=v)
         return self
-
-    def setMaxEpochs(self, epochs):
-        """Sets maximum number of epochs to train, by default 30.
-
-        Parameters
-        ----------
-        epochs : int
-            Maximum number of epochs to train
-        """
-        return self._set(maxEpochs=epochs)
-
-    def _create_model(self, java_model):
-        return SentimentDLModel(java_model=java_model)
-
-    def setValidationSplit(self, v):
-        """Sets the proportion of training dataset to be validated against the
-        model on each Epoch, by default it is 0.0 and off. The value should be
-        between 0.0 and 1.0.
-
-        Parameters
-        ----------
-        v : float
-            Proportion of training dataset to be validated
-        """
-        self._set(validationSplit=v)
-        return self
-
-    def setEnableOutputLogs(self, value):
-        """Sets whether to use stdout in addition to Spark logs, by default
-        False.
-
-        Parameters
-        ----------
-        value : bool
-            Whether to use stdout in addition to Spark logs
-        """
-        return self._set(enableOutputLogs=value)
-
-    def setOutputLogsPath(self, p):
-        """Sets folder path to save training logs.
-
-        Parameters
-        ----------
-        p : str
-            Folder path to save training logs
-        """
-        return self._set(outputLogsPath=p)
 
     def setThreshold(self, v):
         """Sets the minimum threshold for the final result otheriwse it will be
@@ -292,6 +157,9 @@ class SentimentDLApproach(AnnotatorApproach):
         """
         return self._set(thresholdLabel=p)
 
+    def _create_model(self, java_model):
+        return SentimentDLModel(java_model=java_model)
+
     @keyword_only
     def __init__(self):
         super(SentimentDLApproach, self).__init__(
@@ -302,9 +170,11 @@ class SentimentDLApproach(AnnotatorApproach):
             batchSize=64,
             dropout=float(0.5),
             enableOutputLogs=False,
+            evaluationLogExtended=False,
             threshold=0.6,
             thresholdLabel="neutral"
         )
+
 
 class SentimentDLModel(AnnotatorModel, HasStorageRef):
     """SentimentDL, an annotator for multi-class sentiment analysis.
