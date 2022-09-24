@@ -24,7 +24,7 @@ NOTE: This pipeline only works on a CPU, if you need to use this pipeline on a G
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>
 <button class="button button-orange" disabled>Open in Colab</button>
-[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/pipeline_asr_wav2vec2_large_100k_voxpopuli_catala_by_ccoreilly_ca_4.2.0_3.0_1664013433223.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
+[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/pipeline_asr_wav2vec2_large_100k_voxpopuli_catala_by_ccoreilly_ca_4.2.0_3.0_1664035897662.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
 
 ## How to use
 
