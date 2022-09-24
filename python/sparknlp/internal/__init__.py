@@ -418,8 +418,29 @@ class _ResourceHelper(ExtendedJavaWrapper):
         super(_ResourceHelper, self).__init__(
             "com.johnsnowlabs.nlp.util.io.ResourceHelper.moveFile", local_file, hdfs_file)
 
+
 class _ViTForImageClassification(ExtendedJavaWrapper):
     def __init__(self, path, jspark):
         super(_ViTForImageClassification, self).__init__(
-            "com.johnsnowlabs.nlp.annotators.cv.ViTForImageClassification.loadSavedModel", path,
+            "com.johnsnowlabs.nlp.annotators.cv.ViTForImageClassification.loadSavedModel", path, jspark)
+
+
+class _Wav2Vec2ForCTC(ExtendedJavaWrapper):
+    def __init__(self, path, jspark):
+        super(_Wav2Vec2ForCTC, self).__init__(
+            "com.johnsnowlabs.nlp.annotators.audio.Wav2Vec2ForCTC.loadSavedModel", path, jspark)
+
+
+class _CamemBertForTokenClassification(ExtendedJavaWrapper):
+    def __init__(self, path, jspark):
+        super(_CamemBertForTokenClassification, self).__init__(
+            "com.johnsnowlabs.nlp.annotators.classifier.dl.CamemBertForTokenClassification.loadSavedModel", path,
+            jspark)
+
+
+class _TapasForQuestionAnsweringLoader(ExtendedJavaWrapper):
+    def __init__(self, path, jspark):
+        super(_TapasForQuestionAnsweringLoader, self).__init__(
+            "com.johnsnowlabs.nlp.annotators.classifier.dl.TapasForQuestionAnswering.loadSavedModel",
+            path,
             jspark)

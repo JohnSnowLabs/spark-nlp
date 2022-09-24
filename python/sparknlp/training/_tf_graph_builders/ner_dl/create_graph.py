@@ -14,6 +14,7 @@ def create_graph(
         is_medical=False
 ):
     tf.disable_v2_behavior()
+    tf.enable_v2_tensorshape()
     tf.reset_default_graph()
 
     if model_filename is None:
