@@ -20,24 +20,46 @@ from sparknlp.common import *
 class Wav2Vec2ForCTC(AnnotatorModel,
                      HasBatchedAnnotateAudio,
                      HasAudioFeatureProperties):
-    """
-
+    """Wav2Vec2 Model with a language modeling head on top for Connectionist Temporal 
+    Classification (CTC). Wav2Vec2 was proposed in wav2vec 2.0: A Framework for
+    Self-Supervised Learning of Speech Representations by Alexei Baevski, Henry Zhou,
+    Abdelrahman Mohamed, Michael Auli.
+    
+    The annotator takes audio files and transcribes it as text. The audio needs to be
+    provided pre-processed an array of floats.
+    
+    Note that this annotator is currently not supported on Apple Silicon processors such
+    as the M1. This is due to the processor not supporting instructions for XLA.
+    
+    Pretrained models can be loaded with ``pretrained`` of the companion object:
+    
+    >>> speechToText = Wav2Vec2ForCTC.pretrained() \\
+    ...     .setInputCols(["audio_assembler"]) \\
+    ...     .setOutputCol("text")
+        
+    
+    The default model is ``"asr_wav2vec2_base_960h"``, if no name is provided.
+    
+    For available pretrained models please see the
+    `Models Hub <https://nlp.johnsnowlabs.com/models>`__.
+    
+    To see which models are compatible and how to import them see
+    https://github.com/JohnSnowLabs/spark-nlp/discussions/5669 and to see more extended
+    examples, see
+    `Wav2Vec2ForCTCTestSpec <https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/audio/Wav2Vec2ForCTCTestSpec.scala>`__.
+    
     ====================== ======================
     Input Annotation types Output Annotation type
     ====================== ======================
     ``AUDIO``              ``DOCUMENT``
     ====================== ======================
-
-    References
-    ----------
-
-
+    
     Parameters
     ----------
-
-    configProtoBytes
-        ConfigProto from tensorflow, serialized into byte array.
-
+    
+    batchSize
+        Size of each batch, by default 2
+    
     Examples
     --------
     >>> import sparknlp
@@ -45,15 +67,21 @@ class Wav2Vec2ForCTC(AnnotatorModel,
     >>> from sparknlp.annotator import *
     >>> from pyspark.ml import Pipeline
     >>> audioAssembler = AudioAssembler() \\
-    ...     .setInputCol("audio") \\
+    ...     .setInputCol("audio_content") \\
     ...     .setOutputCol("audio_assembler")
     >>> speechToText = Wav2Vec2ForCTC \\
     ...     .pretrained() \\
     ...     .setInputCols(["audio_assembler"]) \\
     ...     .setOutputCol("text")
-    >>> pipeline = Pipeline().setStages([audioAssembler, Wav2Vec2ForCTC])
-    >>> pipelineDF = pipeline.fit(audioDF).transform(audioDF)
-
+    >>> pipeline = Pipeline().setStages([audioAssembler, speechToText])
+    >>> processedAudioFloats = spark.createDataFrame([[rawFloats]]).toDF("audio_content")
+    >>> result = pipeline.fit(processedAudioFloats).transform(processedAudioFloats)
+    >>> result.select("text.result").show(truncate = False)
+    +------------------------------------------------------------------------------------------+
+    |result                                                                                    |
+    +------------------------------------------------------------------------------------------+
+    |[MISTER QUILTER IS THE APOSTLE OF THE MIDLE CLASES AND WE ARE GLAD TO WELCOME HIS GOSPEL ]|
+    +------------------------------------------------------------------------------------------+
     """
     name = "Wav2Vec2ForCTC"
 
