@@ -464,7 +464,7 @@ object ResourceHelper {
     *
     * @return
     */
-  def readParquetSparkDataFrame(er: ExternalResource): DataFrame = {
+  def readSparkDataFrame(er: ExternalResource): DataFrame = {
     er.readAs match {
       case SPARK =>
         val dataset = spark.read.options(er.options).format(er.options("format")).load(er.path)

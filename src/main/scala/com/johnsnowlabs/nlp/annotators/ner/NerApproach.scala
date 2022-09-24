@@ -67,12 +67,6 @@ trait NerApproach[T <: NerApproach[_]] extends Params {
     */
   val randomSeed = new IntParam(this, "randomSeed", "Random seed")
 
-  /** Level of verbosity during training (Default: `Verbose.Silent.id`)
-    *
-    * @group param
-    */
-  val verbose = new IntParam(this, "verbose", "Level of verbosity during training")
-
   /** Column with label per each token
     *
     * @group setParam
@@ -97,18 +91,6 @@ trait NerApproach[T <: NerApproach[_]] extends Params {
     */
   def setMaxEpochs(epochs: Int): T = set(maxEpochs, epochs).asInstanceOf[T]
 
-  /** Level of verbosity during training
-    *
-    * @group setParam
-    */
-  def setVerbose(verbose: Int): T = set(this.verbose, verbose).asInstanceOf[T]
-
-  /** Level of verbosity during training
-    *
-    * @group setParam
-    */
-  def setVerbose(verbose: Verbose.Level): T = set(this.verbose, verbose.id).asInstanceOf[T]
-
   /** Random seed
     *
     * @group setParam
@@ -126,12 +108,6 @@ trait NerApproach[T <: NerApproach[_]] extends Params {
     * @group getParam
     */
   def getMaxEpochs: Int = $(maxEpochs)
-
-  /** Level of verbosity during training
-    *
-    * @group getParam
-    */
-  def getVerbose: Int = $(verbose)
 
   /** Random seed
     *
