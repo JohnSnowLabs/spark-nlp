@@ -53,7 +53,7 @@ function openTab(evt, cityName) {
 } */
 
 /*OPen by URL*/
-$(document).ready(function () {  
+jQuery(document).ready(function () {  
   const tabName = (window.location.hash || '').replace('#', '');
   const tab = document.getElementById(tabName || 'opensource');
   if (tab) {
@@ -62,10 +62,11 @@ $(document).ready(function () {
 });
 
 //Accordion demos categories
-let acc = document.getElementsByClassName("acc-top"),
+if(document.querySelector(".acc-top")) {
+  let acc = document.getElementsByClassName("acc-top"),
     isResizeble = false;
 
-  if(!isResizeble) {
+  if(!isResizeble && document.querySelector(".acc-top")) {
       let accBody = document.querySelector('.acc-body li.active');
       accBody.parentElement.style.maxHeight = accBody.parentElement.scrollHeight + 20 + "px";
       accBody.parentElement.classList.add('open');
@@ -86,23 +87,39 @@ for (let i = 0; i < acc.length; i++) {
     }
   });
 }
+}
+
 
 //Show more in demos description
-let tabDescription = document.querySelectorAll('.tab-description');
+if(document.querySelector('.tab-description')) {
+  let tabDescription = document.querySelectorAll('.tab-description');
 
-tabDescription.forEach(element => {
-  let tabDescriptionInner = element.querySelector('.tab-description-inner');
-  if(element.offsetHeight < tabDescriptionInner.offsetHeight) {
-    element.classList.add('big-descr');
-  }
-});
-
-let showMore = document.querySelectorAll('.show_more');
-
-showMore.forEach(element => {
-  element.addEventListener("click", function(e) {
-    e.preventDefault();
-    this.parentElement.parentElement.classList.remove('big-descr');
-    this.parentElement.parentElement.classList.add('big-descr-close');
+  tabDescription.forEach(element => {
+    let tabDescriptionInner = element.querySelector('.tab-description-inner');
+    if(element.offsetHeight < tabDescriptionInner.offsetHeight) {
+      element.classList.add('big-descr');
+    }
   });
-});
+
+  let showMore = document.querySelectorAll('.show_more');
+
+  showMore.forEach(element => {
+    element.addEventListener("click", function(e) {
+      e.preventDefault();
+      this.parentElement.parentElement.classList.remove('big-descr');
+      this.parentElement.parentElement.classList.add('big-descr-close');
+    });
+  });
+}
+
+
+//disable Colab link
+if(document.querySelector('.btn.disable')) {
+  let btnDisable = document.querySelectorAll('.btn.disable');
+
+  btnDisable.forEach(element => {
+    element.addEventListener("click", function(e) {
+      e.preventDefault();
+    });
+  });
+}

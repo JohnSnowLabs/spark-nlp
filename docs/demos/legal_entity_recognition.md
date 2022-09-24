@@ -34,31 +34,31 @@ data:
           - text: Colab
             type: blue_btn
             url: 
-        - title: Extract Signers, Roles and Companies  
-          id: extract_signers_roles_companies     
+        - title: Identify Companies and their aliases in legal texts
+          id: identify_companies_their_aliases_legal_texts        
           image: 
-              src: /assets/images/Extract_Signers_Roles.svg
+              src: /assets/images/Identify_Companies_and_their_aliases_in_legal_texts.svg
           image2: 
-              src: /assets/images/Extract_Signers_Roles_f.svg
-          excerpt: This model uses Name Entity Recognition to extract SIGNING_PERSON (People signing a document), SIGNING_TITLE (the roles of those people in the company) and PARTY (Organizations).
+              src: /assets/images/Identify_Companies_and_their_aliases_in_legal_texts_f.svg
+          excerpt: This model uses Entity Recognition to identify ORG (Companies), their ALIAS (other names the company uses in the contract/agreement) and company PRODUCTS.
           actions:
           - text: Live Demo
             type: normal
-            url: https://demo.johnsnowlabs.com/legal/LEGALNER_SIGNERS/
+            url: https://demo.johnsnowlabs.com/legal/LEGALNER_ALIAS/
           - text: Colab
             type: blue_btn
             url:
-        - title: Extract headers and subheaders 
-          id: extract_headers_subheaders_from_legal_documents   
+        - title: Extract Parties obligations in a Legal Agreement 
+          id: extract_parties_obligations_legal_agreement   
           image: 
-              src: /assets/images/Extract_Headers_and_Subheaders_from_Legal_Documents.svg
+              src: /assets/images/Extract_Parties_obligations_in_a_Legal_Agreement.svg
           image2: 
-              src: /assets/images/Extract_Headers_and_Subheaders_from_Legal_Documents_f.svg
-          excerpt: This model uses Name Entity Recognition to detect HEADERS and SUBHEADERS with aims to detect the different sections of a legal document.
+              src: /assets/images/Extract_Parties_obligations_in_a_Legal_Agreement_f.svg
+          excerpt: Automatically identify entities such as Organization, Jurisprudence, Legislation, Person, Location, and Time, etc. in (Brazilian) Portuguese legal text. 
           actions:
           - text: Live Demo
             type: normal
-            url: https://demo.johnsnowlabs.com/legal/LEGALNER_HEADERS/
+            url: https://demo.johnsnowlabs.com/legal/LEGALNER_OBLIGATIONS/
           - text: Colab
             type: blue_btn
             url: 
@@ -76,6 +76,20 @@ data:
           - text: Colab
             type: blue_btn
             url:
+        - title: Extract Signers, Roles and Companies  
+          id: extract_signers_roles_companies     
+          image: 
+              src: /assets/images/Extract_Signers_Roles.svg
+          image2: 
+              src: /assets/images/Extract_Signers_Roles_f.svg
+          excerpt: This model uses Name Entity Recognition to extract SIGNING_PERSON (People signing a document), SIGNING_TITLE (the roles of those people in the company) and PARTY (Organizations).
+          actions:
+          - text: Live Demo
+            type: normal
+            url: https://demo.johnsnowlabs.com/legal/LEGALNER_SIGNERS/
+          - text: Colab
+            type: blue_btn
+            url:  
         - title: Detect legal entities in German
           id: detect_legal_entities_german
           image: 
@@ -103,33 +117,17 @@ data:
             url: https://demo.johnsnowlabs.com/healthcare/NER_LEGAL_PT/
           - text: Colab
             type: blue_btn
-            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/NER_LEGAL_PT.ipynb
-        - title: Extract Parties obligations in a Legal Agreement 
-          id: extract_parties_obligations_legal_agreement   
+            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/NER_LEGAL_PT.ipynb 
+        - title: Legal Zero-Shot Named Entity Recognition 
+          id: legal_zero_shot_named_entity_recognition  
           image: 
-              src: /assets/images/Extract_Parties_obligations_in_a_Legal_Agreement.svg
-          image2: 
-              src: /assets/images/Extract_Parties_obligations_in_a_Legal_Agreement_f.svg
-          excerpt: Automatically identify entities such as Organization, Jurisprudence, Legislation, Person, Location, and Time, etc. in (Brazilian) Portuguese legal text. 
+              src: /assets/images/Named_Entity_Recognition_Brazilian_Portuguese_Legal_Texts.svg
+          excerpt: This demo shows how you can use prompts in the form of questions, to carry our Named Entity Recognition without any pretrained dataset. You will find a table with the example questions (prompts) used for the different labels on the side menu.
           actions:
           - text: Live Demo
             type: normal
-            url: https://demo.johnsnowlabs.com/legal/LEGALNER_OBLIGATIONS/
+            url: https://demo.johnsnowlabs.com/legal/LEGNER_ZEROSHOT/
           - text: Colab
             type: blue_btn
-            url: 
-        - title: Identify Companies and their aliases in legal texts
-          id: identify_companies_their_aliases_legal_texts        
-          image: 
-              src: /assets/images/Identify_Companies_and_their_aliases_in_legal_texts.svg
-          image2: 
-              src: /assets/images/Identify_Companies_and_their_aliases_in_legal_texts_f.svg
-          excerpt: This model uses Entity Recognition to identify ORG (Companies), their ALIAS (other names the company uses in the contract/agreement) and company PRODUCTS.
-          actions:
-          - text: Live Demo
-            type: normal
-            url: https://demo.johnsnowlabs.com/legal/LEGALNER_ALIAS/
-          - text: Colab
-            type: blue_btn
-            url:
+            url:        
 ---

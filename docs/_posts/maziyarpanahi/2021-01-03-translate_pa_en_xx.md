@@ -28,8 +28,8 @@ Note that this is a very computationally expensive module especially on larger s
 - target languages: `en`
 
 {:.btn-box}
-<button class="button button-orange" disabled>Live Demo</button>
-<button class="button button-orange" disabled>Open in Colab</button>
+[Live Demo](https://demo.johnsnowlabs.com/public/INDIAN_TRANSLATION_PUNJABI/){:.button.button-orange}
+[Open in Colab](https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/TRANSLATION_PIPELINES_MODELS.ipynb){:.button.button-orange.button-orange-trans.co.button-icon}
 [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/translate_pa_en_xx_2.7.0_2.4_1609690246774.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
 
 ## How to use
@@ -38,30 +38,44 @@ Note that this is a very computationally expensive module especially on larger s
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
+
 ```python
-from sparknlp.pretrained import PretrainedPipeline 
-pipeline = PretrainedPipeline("translate_pa_en", lang = "xx") 
-pipeline.annotate("Your sentence to translate!")
+from sparknlp.pretrained import PretrainedPipeline
+
+result = pipeline = PretrainedPipeline("translate_pa_en", lang = "xx") 
+
+pipeline.annotate("ਮੈਨੂੰ ਪੜ੍ਹਨਾ ਪਸੰਦ ਹੈ.")
 ```
 ```scala
-
 import com.johnsnowlabs.nlp.pretrained.PretrainedPipeline
 
 val pipeline = new PretrainedPipeline("translate_pa_en", lang = "xx")
 
-pipeline.annotate("Your sentence to translate!")
+val result = pipeline.annotate("ਮੈਨੂੰ ਪੜ੍ਹਨਾ ਪਸੰਦ ਹੈ.")
 ```
 
 {:.nlu-block}
 ```python
 import nlu
 
-text = ["text to translate"]
+text = ["ਮੈਨੂੰ ਪੜ੍ਹਨਾ ਪਸੰਦ ਹੈ."]
+
 translate_df = nlu.load('xx.pa.translate_to.en').predict(text, output_level='sentence')
+
 translate_df
 ```
 
 </div>
+
+## Results
+
+```bash
++------------------------------+---------------------------+
+|sentence                      |translation                |
++------------------------------+---------------------------+
+|ਮੈਨੂੰ ਪੜ੍ਹਨਾ ਪਸੰਦ ਹੈ.                 |I like reading.            | 
++------------------------------+---------------------------+
+```
 
 {:.model-param}
 ## Model Information

@@ -20,8 +20,8 @@ use_language_switcher: "Python-Scala-Java"
 This pre-trained pipeline is a BioBERT based classifier that can classify if an article is a randomized clinical trial (RCT) or not. This pretrained pipeline is built on the top of [bert_sequence_classifier_binary_rct_biobert](https://nlp.johnsnowlabs.com/2022/04/25/bert_sequence_classifier_binary_rct_biobert_en_3_0.html) model.
 
 {:.btn-box}
-<button class="button button-orange" disabled>Live Demo</button>
-<button class="button button-orange" disabled>Open in Colab</button>
+[Live Demo](https://demo.johnsnowlabs.com/healthcare/CLASSIFICATION_RCT/){:.button.button-orange}
+[Open in Colab](https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/CLASSIFICATION_RCT.ipynb){:.button.button-orange.button-orange-trans.co.button-icon}
 [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/bert_sequence_classifier_binary_rct_biobert_pipeline_en_3.4.2_3.0_1654510510935.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
 
 ## How to use
@@ -30,6 +30,7 @@ This pre-trained pipeline is a BioBERT based classifier that can classify if an 
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
+
 ```python
 from sparknlp.pretrained import PretrainedPipeline
 

@@ -47,5 +47,17 @@ data:
             url: https://demo.johnsnowlabs.com/finance/FIN_LEG_COMPANY_AUGMENTATION 
           - text: Colab
             type: blue_btn
-            url:              
+            url:       
+        - title: Financial Graph Visualization 
+          id: financial_graph_visualization   
+          image: 
+              src: /assets/images/Financial_Graph_Visualization.svg
+          excerpt: Use different models from Spark NLP for Finance, as NER, Relation Extraction, Entity Resolution and Chunk Mappers, to create your own Financial Graphs.
+          actions:
+          - text: Live Demo
+            type: normal
+            url: https://demo.johnsnowlabs.com/finance/NEO4J/
+          - text: Colab
+            type: blue_btn
+            url:        
 ---

@@ -49,7 +49,7 @@ embeddings = RoBertaEmbeddings.pretrained("roberta_embeddings_legal_roberta_base
     .setInputCols(["document", "token"]) \
     .setOutputCol("embeddings")
 
-ner_model = LegalNerModel().pretrained('legner_whereas', 'en', 'legal/models')\
+ner_model = LegalNerModel.pretrained('legner_whereas', 'en', 'legal/models')\
         .setInputCols(["document", "token", "embeddings"])\
         .setOutputCol("ner")
 
@@ -57,7 +57,7 @@ ner_converter = NerConverter()\
         .setInputCols(["document","token","ner"])\
         .setOutputCol("ner_chunk")
 
-reDL = RelationExtractionDLModel()\
+reDL = RelationExtractionDLModel\
     .pretrained("legre_whereas", "en", "legal/models")\
     .setPredictionThreshold(0.5)\
     .setInputCols(["ner_chunk", "document"])\

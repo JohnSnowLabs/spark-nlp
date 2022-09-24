@@ -104,4 +104,16 @@ data:
           - text: Colab
             type: blue_btn
             url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/4.2.Clinical_Deidentification_in_Spanish.ipynb
+        - title: Detection of disease mentions in Spanish tweets 
+          id: detection_disease_mentions_spanish_tweets       
+          image: 
+              src: /assets/images/Detection_of_disease_mentions_in_Spanish_tweets.svg
+          excerpt: This model extracts disease entities in Spanish tweets.
+          actions:
+          - text: Live Demo
+            type: normal
+            url: https://demo.johnsnowlabs.com/healthcare/PUBLIC_HEALTH_NER_DISEASE_ES/
+          - text: Colab
+            type: blue_btn
+            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/PUBLIC_HEALTH_MB4TC.ipynb
 ---

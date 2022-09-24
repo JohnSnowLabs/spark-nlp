@@ -134,8 +134,6 @@ sparknlp-healthcare:
         url: /docs/en/licensed_serving_spark_nlp_via_api_synapseml
       - title: Serving Spark NLP&#58 FastAPI
         url: /docs/en/licensed_serving_spark_nlp_via_api_fastapi
-      - title: Serving Spark NLP&#58 MLFlow on Databricks
-        url: /docs/en/licensed_serving_spark_nlp_via_api_databricks_mlflow
       - title: Scala API (Scaladoc)
         url: /licensed/api/
       - title: Python API (Sphinx)
