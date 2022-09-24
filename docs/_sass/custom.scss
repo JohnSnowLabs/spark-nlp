@@ -1641,7 +1641,6 @@ a.btn1.small {
 	-ms-flex-wrap: wrap;
 	-o-flex-wrap: wrap;
 	flex-wrap: wrap;
-	justify-content: space-between;
 }
 
 .tab-item {
@@ -1755,6 +1754,10 @@ a.btn1.small {
 		border: 1px solid #1E77B7;
 		background: #8be0ff;
 		color: #1e77b7 !important;
+	}
+	&.disable {
+		cursor: not-allowed;
+  		opacity: 0.5;
 	}
 	&.button--blue_btn {
 		background: #FFF1D1;
@@ -2278,7 +2281,6 @@ code {
 	display: flex;
 	justify-content: center;
 	margin: 0;
-	display: none;
 	&.pagination_big {
 		flex-wrap: wrap;
 		margin: 0 !important;
@@ -2533,8 +2535,10 @@ code {
 	line-height: 18px;
 }
 
+.tabs-box-medic,
 .tabs-box {
 	padding: 20px 0;
+	.top_tab_li .tab-li-inner,
 	.top_tab_li .tab-li {
 		text-align: center;
 		min-width: 196px;
@@ -2550,7 +2554,8 @@ code {
 		box-sizing: border-box;
 		box-shadow: 0px 0px 35px rgba(0, 152, 218, 0.1);
 		&:hover,
-		&.code-selector-active {
+		&.code-selector-active,
+		&.active {
 			background:$color-lightblue;
 			color: #fff;
 			border-color:$color-lightblue;
@@ -2562,9 +2567,41 @@ code {
 	.highlighter-rouge {
 		padding: 10px;
 		background: #e2f5fe;
+		&.tabs-wrapper {
+			background: none;
+			padding: 15px 0 0;
+			.top_tab_li .tab-li-inner {
+				min-width: 165px;
+				font-size: 16px;
+				padding: 10px;
+				&.active,
+				&:hover {					
+					background: #3e4095;
+					border-color: #3e4095;
+				}
+			}
+		}
+		.tabs-box-medic-inner-second {
+			padding: 10px;
+			background: #e2f5fe;
+		}
 	}
 	p {
 		padding-top: 15px;
+	}
+}
+
+.tabs-box-medic {
+	.top_tab_li .tab-li-inner {
+		min-width: 100px;
+	}
+}
+ 
+.tabs-box-medic-inner-second,
+.tabs-box-medic-inner {
+	display: none;
+	&.active {
+		display: block;
 	}
 }
 
@@ -3704,6 +3741,12 @@ code {
 	}
 }
 
+@media (max-width: 530px) {
+	.tabs-box .highlighter-rouge.tabs-wrapper .top_tab_li .tab-li-inner {
+		min-width: 96px;
+	}
+}
+
 @media (max-width: 400px) {
 	.docs-wrapper .table-model-big tbody tr td {
 		padding: 15px 5px;
@@ -3719,7 +3762,7 @@ code {
 		line-height: 35px;
 	}
 	.tabs-box .top_tab_li .tab-li {
-		min-width: 100px;
+		min-width: 122px;
 		font-size: 16px;
 		line-height: 22px;
 	}

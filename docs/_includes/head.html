@@ -10,10 +10,12 @@
     })(window,document,'script','dataLayer','GTM-59JLR64');</script>
 <!-- End Google Tag Manager -->
 
+{%- include snippets/get-article-pagetitle.html article=page -%}
+{%- assign _article_pagetitle = __return -%}
+
 {%- if page.layout == "landing" -%}
 <title>John Snow Labs - Spark NLP</title>
-{%- elsif page.layout == "demopagenew" -%}
-{%- include snippets/get-article-title.html article=page -%}
+{%- elsif _pagetitle -%}
 <title>{%- if __return -%}{{ __return }}{%- endif -%}</title>
 {%- else -%}
 {%- include snippets/get-article-title.html article=page -%}
@@ -23,7 +25,7 @@
 {%- include snippets/get-article-seotitle.html article=page -%}
 <meta property="og:title" content="{%- if __return -%}{{ __return }}{%- endif -%}"/>
 
-<meta name="description" content="{%- if page.excerpt -%}{{ page.excerpt | strip_html | strip_newlines | strip | truncate: 160 }}{%- else -%}{{ site.description }}{%- endif -%}">
+<meta name="description" content="{%- if page.excerpt -%}{{ page.excerpt | strip_html | strip_newlines | strip | truncate: 320 }}{%- else -%}{{ site.description }}{%- endif -%}">
 <link rel="canonical" href="{%- include snippets/page-url.html -%}">
 
 {%- assign _paths_rss = site.paths.rss | default: site.data.variables.default.paths.rss -%}
