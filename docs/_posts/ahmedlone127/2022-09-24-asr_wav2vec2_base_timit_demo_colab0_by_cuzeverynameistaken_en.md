@@ -24,7 +24,7 @@ NOTE: This model only works on a CPU, if you need to use this model on a GPU dev
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>
 <button class="button button-orange" disabled>Open in Colab</button>
-[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/asr_wav2vec2_base_timit_demo_colab0_by_cuzeverynameistaken_en_4.2.0_3.0_1664016965182.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
+[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/asr_wav2vec2_base_timit_demo_colab0_by_cuzeverynameistaken_en_4.2.0_3.0_1664039230746.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
 
 ## How to use
 
