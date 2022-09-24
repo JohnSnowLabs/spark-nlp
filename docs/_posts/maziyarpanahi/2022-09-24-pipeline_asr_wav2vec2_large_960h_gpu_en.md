@@ -24,7 +24,7 @@ NOTE: This pipeline only works on a CPU, if you need to use this pipeline on a G
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>
 <button class="button button-orange" disabled>Open in Colab</button>
-[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/pipeline_asr_wav2vec2_large_960h_gpu_en_4.2.0_3.0_1664034608185.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
+[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/pipeline_asr_wav2vec2_large_960h_gpu_en_4.2.0_3.0_1664037707174.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
 
 ## How to use
 
@@ -57,7 +57,7 @@ val annotations = pipeline.transform(audioDF)
 |License:|Open Source|
 |Edition:|Official|
 |Language:|en|
-|Size:|755.5 MB|
+|Size:|755.4 MB|
 
 ## Included Models
 
