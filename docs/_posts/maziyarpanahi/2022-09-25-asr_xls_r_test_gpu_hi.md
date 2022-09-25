@@ -1,6 +1,6 @@
 ---
 layout: model
-title: Hindi asr_xls_r_test_gpu TFWav2Vec2ForCTC for GPU from kapilkd13
+title: Hindi asr_xls_r_test_gpu TFWav2Vec2ForCTC for GPU from Priyajay
 author: John Snow Labs
 name: asr_xls_r_test_gpu
 date: 2022-09-25
@@ -17,14 +17,14 @@ use_language_switcher: "Python-Scala-Java"
 
 ## Description
 
-Pretrained Wav2vec2  model, adapted from Hugging Face and curated to provide scalability and production-readiness using Spark NLP.`asr_xls_r_test` is a Hindi model originally trained by kapilkd13.
+Pretrained Wav2vec2  model, adapted from Hugging Face and curated to provide scalability and production-readiness using Spark NLP.`asr_xls_r_test` is a Hindi model originally trained by Priyajay.
 
 NOTE: This model only works on a GPU, if you need to use this model on a CPU device please use asr_xls_r_test
 
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>
 <button class="button button-orange" disabled>Open in Colab</button>
-[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/asr_xls_r_test_gpu_hi_4.2.0_3.0_1664086249158.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
+[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/asr_xls_r_test_gpu_hi_4.2.0_3.0_1664091040801.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
 
 ## How to use
 
