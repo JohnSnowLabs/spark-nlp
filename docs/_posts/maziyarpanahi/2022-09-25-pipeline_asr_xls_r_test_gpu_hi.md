@@ -1,6 +1,6 @@
 ---
 layout: model
-title: Hindi asr_xls_r_test_gpu TFWav2Vec2ForCTC from kapilkd13
+title: Hindi asr_xls_r_test_gpu TFWav2Vec2ForCTC from Priyajay
 author: John Snow Labs
 name: pipeline_asr_xls_r_test_gpu
 date: 2022-09-25
@@ -17,14 +17,14 @@ use_language_switcher: "Python-Scala-Java"
 
 ## Description
 
-Pretrained Wav2vec2  pipeline, adapted from Hugging Face and curated to provide scalability and production-readiness using Spark NLP.`asr_xls_r_test` is a Hindi model originally trained by kapilkd13.
+Pretrained Wav2vec2  pipeline, adapted from Hugging Face and curated to provide scalability and production-readiness using Spark NLP.`asr_xls_r_test` is a Hindi model originally trained by Priyajay.
 
 NOTE: This pipeline only works on a CPU, if you need to use this pipeline on a GPU device please use pipeline_asr_xls_r_test
 
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>
 <button class="button button-orange" disabled>Open in Colab</button>
-[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/pipeline_asr_xls_r_test_gpu_hi_4.2.0_3.0_1664086291415.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
+[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/pipeline_asr_xls_r_test_gpu_hi_4.2.0_3.0_1664091108857.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
 
 ## How to use
 
