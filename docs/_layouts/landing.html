@@ -201,22 +201,22 @@ article_header:
                   <div class="highlight-box">
     {% highlight bash %}
     # Install Spark NLP from PyPI
-    $ pip install spark-nlp==4.0.2 pyspark==3.2.1
+    $ pip install spark-nlp==4.2.0 pyspark==3.3.0
 
     # Install Spark NLP from Anaconda/Conda
     $ conda install -c johnsnowlabs spark-nlp
 
     # Load Spark NLP with Spark Shell
-    $ spark-shell --packages com.johnsnowlabs.nlp:spark-nlp_2.12:4.0.2
+    $ spark-shell --packages com.johnsnowlabs.nlp:spark-nlp_2.12:4.2.0
 
     # Load Spark NLP with PySpark
-    $ pyspark --packages com.johnsnowlabs.nlp:spark-nlp_2.12:4.0.2
+    $ pyspark --packages com.johnsnowlabs.nlp:spark-nlp_2.12:4.2.0
 
     # Load Spark NLP with Spark Submit
-    $ spark-submit --packages com.johnsnowlabs.nlp:spark-nlp_2.12:4.0.2
+    $ spark-submit --packages com.johnsnowlabs.nlp:spark-nlp_2.12:4.2.0
 
     # Load Spark NLP as an external Fat JAR
-    $ spark-shell --jars spark-nlp-assembly-4.0.2.jar
+    $ spark-shell --jars spark-nlp-assembly-4.2.0.jar
     {% endhighlight %}
                     </div>
                 </div>
@@ -312,16 +312,20 @@ article_header:
                     <li><strong>Longformer</strong> Embeddings</li>
                     <li><strong>ALBERT</strong> Embeddings</li>
                     <li><strong>XLNet</strong> Embeddings</li>
+                    <li><strong>ELMO</strong> Embeddings</li>
 
                   </ul>
                   <ul class="list1">
-                    <li><strong>ELMO</strong> Embeddings</li>
+
                     <li><strong>Universal Sentence</strong> Encoder</li>
                     <li><strong>Sentence</strong> Embeddings</li>
                     <li><strong>Chunk</strong> Embeddings</li>
                     <li>Neural <strong>Machine Translation</strong> (MarianMT)</li>
                     <li><strong>Text-To-Text</strong> Transfer Transformer <strong>(Google T5)</strong></li>
                     <li><strong>Generative Pre-trained</strong> Transformer 2 <strong>(OpenAI GPT-2)</strong></li>
+                    <li>Vision Transformer (ViT) <strong>Image Classification</strong></li>
+                    <li>Automatic Speech Recognition <strong>(Wav2Vec2)</strong></li>
+                    <li>Table Question Answering <strong>(TAPAS)</strong></li>
                     <li>Unsupervised <strong>keywords extraction</strong></li>
                     <li>Language <strong>Detection</strong> & <strong>Identification</strong> (up to 375 languages)</li>
                     <li>Multi-class Text <strong>Classification</strong> (DL model)</li>
@@ -329,6 +333,7 @@ article_header:
                     <li>Multi-class <strong>Sentiment Analysis</strong> (DL model)</li>
                     <li>BERT for <strong>Token & Sequence Classification</strong></li>
                     <li>DistilBERT for <strong>Token & Sequence Classification</strong></li>
+                    <li>CamemBERT for <strong>Token Classification</strong></li>
                     <li>ALBERT for <strong>Token & Sequence Classification</strong></li>
                     <li>RoBERTa for <strong>Token & Sequence Classification</strong></li>
                     <li>DeBERTa for <strong>Token & Sequence Classification</strong></li>
@@ -340,13 +345,11 @@ article_header:
                     <li>Easy <strong>TensorFlow</strong> integration</li>
                     <li><strong>GPU</strong> Support</li>
                     <li>Full integration with <strong>Spark ML</strong> functions</li>
-                    <li><strong>4400+</strong> pre-trained <strong>models </strong> in <strong>200+ languages! </strong>
-                    <li><strong>1800+</strong> pre-trained <strong>pipelines </strong> in <strong>200+ languages! </strong>
+                    <li><strong>10000+</strong> pre-trained <strong>models </strong> in <strong>200+ languages! </strong>
+                    <li><strong>4000+</strong> pre-trained <strong>pipelines </strong> in <strong>200+ languages! </strong>
                   </ul>
                 </div>
 {% highlight python %}
-    from sparknlp.base import *
-    from sparknlp.annotator import *
     from sparknlp.pretrained import PretrainedPipeline
     import sparknlp
 
@@ -357,7 +360,8 @@ article_header:
     pipeline = PretrainedPipeline('explain_document_dl', lang='en')
 
     # Annotate your testing dataset
-    result = pipeline.annotate("The Mona Lisa is a 16th century oil painting created by Leonardo. It's held at the Louvre in Paris.")
+    text = "The Mona Lisa is a 16th century oil painting created by Leonardo. It's held at the Louvre in Paris."
+    result = pipeline.annotate(text)
 
     # What's in the pipeline
     list(result.keys())
