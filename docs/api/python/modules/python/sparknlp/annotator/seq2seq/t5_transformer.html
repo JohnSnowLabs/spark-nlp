@@ -1,0 +1,725 @@
+
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>python.sparknlp.annotator.seq2seq.t5_transformer &#8212; Spark NLP 4.2.0 documentation</title>
+  <script>
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../../../../static/styles/theme.css?digest=9b1a4fa89bdd0e95b23b" rel="stylesheet">
+<link href="../../../../../static/styles/pydata-sphinx-theme.css?digest=9b1a4fa89bdd0e95b23b" rel="stylesheet">
+
+  
+  <link rel="stylesheet"
+    href="../../../../../static/vendor/fontawesome/6.1.2/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../../../../../static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../../../../../static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2">
+
+    <link rel="stylesheet" type="text/css" href="../../../../../static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../../../../../static/graphviz.css" />
+    <link rel="stylesheet" type="text/css" href="../../../../../static/css/custom.css" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../../../../static/scripts/pydata-sphinx-theme.js?digest=9b1a4fa89bdd0e95b23b">
+
+    <script data-url_root="../../../../../" id="documentation_options" src="../../../../../static/documentation_options.js"></script>
+    <script src="../../../../../static/jquery.js"></script>
+    <script src="../../../../../static/underscore.js"></script>
+    <script src="../../../../../static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="../../../../../static/doctools.js"></script>
+    <script src="../../../../../static/sphinx_highlight.js"></script>
+    <script src="../../../../../static/toggleprompt.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'modules/python/sparknlp/annotator/seq2seq/t5_transformer';</script>
+    <link rel="shortcut icon" href="../../../../../static/fav.ico"/>
+    <link rel="index" title="Index" href="../../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../../search.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="docsearch:language" content="en">
+  </head>
+  
+  
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="180" data-default-mode="">
+
+  
+  <input type="checkbox" class="sidebar-toggle" name="__primary" id="__primary">
+  <label class="overlay overlay-primary" for="__primary"></label>
+
+  
+  <input type="checkbox" class="sidebar-toggle" name="__secondary" id="__secondary">
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+      
+<form class="bd-search d-flex align-items-center" action="../../../../../search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search the docs ..." aria-label="Search the docs ..." autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+    </div>
+  </div>
+
+  
+  <nav class="bd-header navbar navbar-expand-lg bd-navbar" id="navbar-main"><div class="bd-header__inner bd-page-width">
+  <label class="sidebar-toggle primary-toggle" for="__primary">
+      <span class="fas fa-bars"></span>
+  </label>
+  <div id="navbar-start">
+    
+    
+  
+
+
+<a class="navbar-brand logo" href="../../../../../index.html">
+
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <img src="../../../../../static/logo.png" class="logo__image only-light" alt="Logo image">
+    <img src="../../../../../static/logo.png" class="logo__image only-dark" alt="Logo image">
+  
+  
+</a>
+    
+  </div>
+
+  
+  <div class="col-lg-9 navbar-header-items">
+    <div id="navbar-center" class="mr-auto">
+      
+      <div class="navbar-center-item">
+        <nav class="navbar-nav">
+    <p class="sidebar-header-items__title" role="heading" aria-level="1" aria-label="Site Navigation">
+        Site Navigation
+    </p>
+    <ul id="navbar-main-elements" class="navbar-nav">
+        
+                <li class="nav-item">
+                    <a class="nav-link" href="../../../../../getting_started/index.html">
+                        Getting Started
+                    </a>
+                </li>
+                
+
+                <li class="nav-item">
+                    <a class="nav-link" href="../../../../../user_guide/index.html">
+                        User Guide
+                    </a>
+                </li>
+                
+
+                <li class="nav-item">
+                    <a class="nav-link" href="../../../../../third_party/index.html">
+                        Third Party Projects
+                    </a>
+                </li>
+                
+
+                <li class="nav-item">
+                    <a class="nav-link" href="../../../../../reference/index.html">
+                        API Reference
+                    </a>
+                </li>
+                
+    </ul>
+</nav>
+      </div>
+      
+    </div>
+
+    <div id="navbar-end">
+      <div class="navbar-end-item navbar-end__search-button-container">
+        
+<button class="btn btn-sm navbar-btn search-button search-button__button" title="Search">
+  <i class="fas fa-search"></i>
+</button>
+      </div>
+      
+      <div class="navbar-end-item">
+        <span class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle">
+    <a class="theme-switch" data-mode="light"><i class="fas fa-sun"></i></a>
+    <a class="theme-switch" data-mode="dark"><i class="far fa-moon"></i></a>
+    <a class="theme-switch" data-mode="auto"><i class="fas fa-adjust"></i></a>
+</span>
+      </div>
+      
+      <div class="navbar-end-item">
+        <ul id="navbar-icon-links" class="navbar-nav" aria-label="Icon Links">
+      </ul>
+      </div>
+      
+    </div>
+  </div>
+
+
+  
+  <div class="search-button-container--mobile">
+<button class="btn btn-sm navbar-btn search-button search-button__button" title="Search">
+  <i class="fas fa-search"></i>
+</button>
+  </div>
+
+  
+  <label class="sidebar-toggle secondary-toggle" for="__secondary">
+      <span class="fas fa-outdent"></span>
+  </label>
+  
+
+</div>
+  </nav>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      <div class="bd-sidebar-primary bd-sidebar hide-on-wide">
+        
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+      
+      <div class="navbar-center-item">
+        <nav class="navbar-nav">
+    <p class="sidebar-header-items__title" role="heading" aria-level="1" aria-label="Site Navigation">
+        Site Navigation
+    </p>
+    <ul id="navbar-main-elements" class="navbar-nav">
+        
+                <li class="nav-item">
+                    <a class="nav-link" href="../../../../../getting_started/index.html">
+                        Getting Started
+                    </a>
+                </li>
+                
+
+                <li class="nav-item">
+                    <a class="nav-link" href="../../../../../user_guide/index.html">
+                        User Guide
+                    </a>
+                </li>
+                
+
+                <li class="nav-item">
+                    <a class="nav-link" href="../../../../../third_party/index.html">
+                        Third Party Projects
+                    </a>
+                </li>
+                
+
+                <li class="nav-item">
+                    <a class="nav-link" href="../../../../../reference/index.html">
+                        API Reference
+                    </a>
+                </li>
+                
+    </ul>
+</nav>
+      </div>
+      
+      </div>
+    
+
+    
+    
+    <div class="sidebar-header-items__end">
+      
+      <div class="navbar-end-item">
+        <span class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle">
+    <a class="theme-switch" data-mode="light"><i class="fas fa-sun"></i></a>
+    <a class="theme-switch" data-mode="dark"><i class="far fa-moon"></i></a>
+    <a class="theme-switch" data-mode="auto"><i class="fas fa-adjust"></i></a>
+</span>
+      </div>
+      
+      <div class="navbar-end-item">
+        <ul id="navbar-icon-links" class="navbar-nav" aria-label="Icon Links">
+      </ul>
+      </div>
+      
+    </div>
+    
+  </div>
+
+  
+
+  
+  <div class="sidebar-end-items sidebar-primary__section">
+    <div class="sidebar-end-items__item">
+    </div>
+  </div>
+
+      </div>
+      <main class="bd-main">
+        
+        
+        <div class="bd-content">
+          <div class="bd-article-container">
+            
+            <div class="bd-header-article">
+                
+            </div>
+            
+            
+            <article class="bd-article" role="main">
+              
+  <h1>Source code for python.sparknlp.annotator.seq2seq.t5_transformer</h1><div class="highlight"><pre>
+<span></span><span class="c1">#  Copyright 2017-2022 John Snow Labs</span>
+<span class="c1">#</span>
+<span class="c1">#  Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);</span>
+<span class="c1">#  you may not use this file except in compliance with the License.</span>
+<span class="c1">#  You may obtain a copy of the License at</span>
+<span class="c1">#</span>
+<span class="c1">#     http://www.apache.org/licenses/LICENSE-2.0</span>
+<span class="c1">#</span>
+<span class="c1">#  Unless required by applicable law or agreed to in writing, software</span>
+<span class="c1">#  distributed under the License is distributed on an &quot;AS IS&quot; BASIS,</span>
+<span class="c1">#  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.</span>
+<span class="c1">#  See the License for the specific language governing permissions and</span>
+<span class="c1">#  limitations under the License.</span>
+<span class="sd">&quot;&quot;&quot;Contains classes for the T5Transformer.&quot;&quot;&quot;</span>
+
+
+<span class="kn">from</span> <span class="nn">sparknlp.common</span> <span class="kn">import</span> <span class="o">*</span>
+
+
+<div class="viewcode-block" id="T5Transformer"><a class="viewcode-back" href="../../../../../reference/autosummary/python/sparknlp/annotator/seq2seq/t5_transformer/index.html#python.sparknlp.annotator.seq2seq.t5_transformer.T5Transformer">[docs]</a><span class="k">class</span> <span class="nc">T5Transformer</span><span class="p">(</span><span class="n">AnnotatorModel</span><span class="p">,</span> <span class="n">HasBatchedAnnotate</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;T5: the Text-To-Text Transfer Transformer</span>
+
+<span class="sd">    T5 reconsiders all NLP tasks into a unified text-to-text-format where the</span>
+<span class="sd">    input and output are always text strings, in contrast to BERT-style models</span>
+<span class="sd">    that can only output either a class label or a span of the input. The</span>
+<span class="sd">    text-to-text framework is able to use the same model, loss function, and</span>
+<span class="sd">    hyper-parameters on any NLP task, including machine translation, document</span>
+<span class="sd">    summarization, question answering, and classification tasks (e.g., sentiment</span>
+<span class="sd">    analysis). T5 can even apply to regression tasks by training it to predict</span>
+<span class="sd">    the string representation of a number instead of the number itself.</span>
+
+<span class="sd">    Pretrained models can be loaded with :meth:`.pretrained` of the companion</span>
+<span class="sd">    object:</span>
+
+<span class="sd">    &gt;&gt;&gt; t5 = T5Transformer.pretrained() \\</span>
+<span class="sd">    ...     .setTask(&quot;summarize:&quot;) \\</span>
+<span class="sd">    ...     .setInputCols([&quot;document&quot;]) \\</span>
+<span class="sd">    ...     .setOutputCol(&quot;summaries&quot;)</span>
+
+
+<span class="sd">    The default model is ``&quot;t5_small&quot;``, if no name is provided. For available</span>
+<span class="sd">    pretrained models please see the `Models Hub</span>
+<span class="sd">    &lt;https://nlp.johnsnowlabs.com/models?q=t5&gt;`__.</span>
+
+<span class="sd">    For extended examples of usage, see the `Spark NLP Workshop</span>
+<span class="sd">    &lt;https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Public/10.Question_Answering_and_Summarization_with_T5.ipynb&gt;`__.</span>
+
+<span class="sd">    ====================== ======================</span>
+<span class="sd">    Input Annotation types Output Annotation type</span>
+<span class="sd">    ====================== ======================</span>
+<span class="sd">    ``DOCUMENT``           ``DOCUMENT``</span>
+<span class="sd">    ====================== ======================</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    configProtoBytes</span>
+<span class="sd">        ConfigProto from tensorflow, serialized into byte array.</span>
+<span class="sd">    task</span>
+<span class="sd">        Transformer&#39;s task, e.g. ``summarize:``</span>
+<span class="sd">    minOutputLength</span>
+<span class="sd">        Minimum length of the sequence to be generated</span>
+<span class="sd">    maxOutputLength</span>
+<span class="sd">        Maximum length of output text</span>
+<span class="sd">    doSample</span>
+<span class="sd">        Whether or not to use sampling; use greedy decoding otherwise</span>
+<span class="sd">    temperature</span>
+<span class="sd">        The value used to module the next token probabilities</span>
+<span class="sd">    topK</span>
+<span class="sd">        The number of highest probability vocabulary tokens to keep for</span>
+<span class="sd">        top-k-filtering</span>
+<span class="sd">    topP</span>
+<span class="sd">        Top cumulative probability for vocabulary tokens</span>
+
+<span class="sd">        If set to float &lt; 1, only the most probable tokens with probabilities</span>
+<span class="sd">        that add up to ``topP`` or higher are kept for generation.</span>
+<span class="sd">    repetitionPenalty</span>
+<span class="sd">        The parameter for repetition penalty. 1.0 means no penalty.</span>
+<span class="sd">    noRepeatNgramSize</span>
+<span class="sd">        If set to int &gt; 0, all ngrams of that size can only occur once</span>
+<span class="sd">    ignoreTokenIds</span>
+<span class="sd">       A list of token ids which are ignored in the decoder&#39;s output</span>
+
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+<span class="sd">    This is a very computationally expensive module especially on larger</span>
+<span class="sd">    sequence. The use of an accelerator such as GPU is recommended.</span>
+
+<span class="sd">    References</span>
+<span class="sd">    ----------</span>
+<span class="sd">    - `Exploring Transfer Learning with T5: the Text-To-Text Transfer</span>
+<span class="sd">      Transformer</span>
+<span class="sd">      &lt;https://ai.googleblog.com/2020/02/exploring-transfer-learning-with-t5.html&gt;`__</span>
+<span class="sd">    - `Exploring the Limits of Transfer Learning with a Unified Text-to-Text</span>
+<span class="sd">      Transformer &lt;https://arxiv.org/abs/1910.10683&gt;`__</span>
+<span class="sd">    - https://github.com/google-research/text-to-text-transfer-transformer</span>
+
+<span class="sd">    **Paper Abstract:**</span>
+
+<span class="sd">    *Transfer learning, where a model is first pre-trained on a data-rich task</span>
+<span class="sd">    before being fine-tuned on a downstream task, has emerged as a powerful</span>
+<span class="sd">    technique in natural language processing (NLP). The effectiveness of</span>
+<span class="sd">    transfer learning has given rise to a diversity of approaches, methodology,</span>
+<span class="sd">    and practice. In this paper, we explore the landscape of transfer learning</span>
+<span class="sd">    techniques for NLP by introducing a unified framework that converts all</span>
+<span class="sd">    text-based language problems into a text-to-text format. Our systematic</span>
+<span class="sd">    study compares pre-training objectives, architectures, unlabeled data sets,</span>
+<span class="sd">    transfer approaches, and other factors on dozens of language understanding</span>
+<span class="sd">    tasks. By combining the insights from our exploration with scale and our new</span>
+<span class="sd">    Colossal Clean Crawled Corpus, we achieve state-of-the-art results on many</span>
+<span class="sd">    benchmarks covering summarization, question answering, text classification,</span>
+<span class="sd">    and more. To facilitate future work on transfer learning for NLP, we release</span>
+<span class="sd">    our data set, pre-trained models, and code.*</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">    &gt;&gt;&gt; import sparknlp</span>
+<span class="sd">    &gt;&gt;&gt; from sparknlp.base import *</span>
+<span class="sd">    &gt;&gt;&gt; from sparknlp.annotator import *</span>
+<span class="sd">    &gt;&gt;&gt; from pyspark.ml import Pipeline</span>
+<span class="sd">    &gt;&gt;&gt; documentAssembler = DocumentAssembler() \\</span>
+<span class="sd">    ...     .setInputCol(&quot;text&quot;) \\</span>
+<span class="sd">    ...     .setOutputCol(&quot;documents&quot;)</span>
+<span class="sd">    &gt;&gt;&gt; t5 = T5Transformer.pretrained(&quot;t5_small&quot;) \\</span>
+<span class="sd">    ...     .setTask(&quot;summarize:&quot;) \\</span>
+<span class="sd">    ...     .setInputCols([&quot;documents&quot;]) \\</span>
+<span class="sd">    ...     .setMaxOutputLength(200) \\</span>
+<span class="sd">    ...     .setOutputCol(&quot;summaries&quot;)</span>
+<span class="sd">    &gt;&gt;&gt; pipeline = Pipeline().setStages([documentAssembler, t5])</span>
+<span class="sd">    &gt;&gt;&gt; data = spark.createDataFrame([[</span>
+<span class="sd">    ...     &quot;Transfer learning, where a model is first pre-trained on a data-rich task before being fine-tuned on a &quot; +</span>
+<span class="sd">    ...     &quot;downstream task, has emerged as a powerful technique in natural language processing (NLP). The effectiveness&quot; +</span>
+<span class="sd">    ...     &quot; of transfer learning has given rise to a diversity of approaches, methodology, and practice. In this &quot; +</span>
+<span class="sd">    ...     &quot;paper, we explore the landscape of transfer learning techniques for NLP by introducing a unified framework &quot; +</span>
+<span class="sd">    ...     &quot;that converts all text-based language problems into a text-to-text format. Our systematic study compares &quot; +</span>
+<span class="sd">    ...     &quot;pre-training objectives, architectures, unlabeled data sets, transfer approaches, and other factors on dozens &quot; +</span>
+<span class="sd">    ...     &quot;of language understanding tasks. By combining the insights from our exploration with scale and our new &quot; +</span>
+<span class="sd">    ...     &quot;Colossal Clean Crawled Corpus, we achieve state-of-the-art results on many benchmarks covering &quot; +</span>
+<span class="sd">    ...     &quot;summarization, question answering, text classification, and more. To facilitate future work on transfer &quot; +</span>
+<span class="sd">    ...     &quot;learning for NLP, we release our data set, pre-trained models, and code.&quot;</span>
+<span class="sd">    ... ]]).toDF(&quot;text&quot;)</span>
+<span class="sd">    &gt;&gt;&gt; result = pipeline.fit(data).transform(data)</span>
+<span class="sd">    &gt;&gt;&gt; result.select(&quot;summaries.result&quot;).show(truncate=False)</span>
+<span class="sd">    +--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+</span>
+<span class="sd">    |result                                                                                                                                                                                                        |</span>
+<span class="sd">    +--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+</span>
+<span class="sd">    |[transfer learning has emerged as a powerful technique in natural language processing (NLP) the effectiveness of transfer learning has given rise to a diversity of approaches, methodologies, and practice .]|</span>
+<span class="sd">    --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;T5Transformer&quot;</span>
+
+    <span class="n">configProtoBytes</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
+                             <span class="s2">&quot;configProtoBytes&quot;</span><span class="p">,</span>
+                             <span class="s2">&quot;ConfigProto from tensorflow, serialized into byte array. Get with config_proto.SerializeToString()&quot;</span><span class="p">,</span>
+                             <span class="n">TypeConverters</span><span class="o">.</span><span class="n">toListInt</span><span class="p">)</span>
+
+    <span class="n">task</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;task&quot;</span><span class="p">,</span> <span class="s2">&quot;Transformer&#39;s task, e.g. summarize&gt;&quot;</span><span class="p">,</span> <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toString</span><span class="p">)</span>
+
+    <span class="n">minOutputLength</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;minOutputLength&quot;</span><span class="p">,</span> <span class="s2">&quot;Minimum length of the sequence to be generated&quot;</span><span class="p">,</span>
+                            <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toInt</span><span class="p">)</span>
+
+    <span class="n">maxOutputLength</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;maxOutputLength&quot;</span><span class="p">,</span> <span class="s2">&quot;Maximum length of output text&quot;</span><span class="p">,</span>
+                            <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toInt</span><span class="p">)</span>
+
+    <span class="n">doSample</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;doSample&quot;</span><span class="p">,</span> <span class="s2">&quot;Whether or not to use sampling; use greedy decoding otherwise&quot;</span><span class="p">,</span>
+                     <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toBoolean</span><span class="p">)</span>
+
+    <span class="n">temperature</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;temperature&quot;</span><span class="p">,</span> <span class="s2">&quot;The value used to module the next token probabilities&quot;</span><span class="p">,</span>
+                        <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toFloat</span><span class="p">)</span>
+
+    <span class="n">topK</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;topK&quot;</span><span class="p">,</span>
+                 <span class="s2">&quot;The number of highest probability vocabulary tokens to keep for top-k-filtering&quot;</span><span class="p">,</span>
+                 <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toInt</span><span class="p">)</span>
+
+    <span class="n">topP</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;topP&quot;</span><span class="p">,</span>
+                 <span class="s2">&quot;If set to float &lt; 1, only the most probable tokens with probabilities that add up to ``top_p`` or higher are kept for generation&quot;</span><span class="p">,</span>
+                 <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toFloat</span><span class="p">)</span>
+
+    <span class="n">repetitionPenalty</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;repetitionPenalty&quot;</span><span class="p">,</span>
+                              <span class="s2">&quot;The parameter for repetition penalty. 1.0 means no penalty. See `this paper &lt;https://arxiv.org/pdf/1909.05858.pdf&gt;`__ for more details&quot;</span><span class="p">,</span>
+                              <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toFloat</span><span class="p">)</span>
+
+    <span class="n">noRepeatNgramSize</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;noRepeatNgramSize&quot;</span><span class="p">,</span>
+                              <span class="s2">&quot;If set to int &gt; 0, all ngrams of that size can only occur once&quot;</span><span class="p">,</span>
+                              <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toInt</span><span class="p">)</span>
+
+    <span class="n">ignoreTokenIds</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;ignoreTokenIds&quot;</span><span class="p">,</span>
+                           <span class="s2">&quot;A list of token ids which are ignored in the decoder&#39;s output&quot;</span><span class="p">,</span>
+                           <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toListInt</span><span class="p">)</span>
+
+<div class="viewcode-block" id="T5Transformer.setIgnoreTokenIds"><a class="viewcode-back" href="../../../../../reference/autosummary/python/sparknlp/annotator/seq2seq/t5_transformer/index.html#python.sparknlp.annotator.seq2seq.t5_transformer.T5Transformer.setIgnoreTokenIds">[docs]</a>    <span class="k">def</span> <span class="nf">setIgnoreTokenIds</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;A list of token ids which are ignored in the decoder&#39;s output.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        value : List[int]</span>
+<span class="sd">            The words to be filtered out</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">ignoreTokenIds</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="T5Transformer.setConfigProtoBytes"><a class="viewcode-back" href="../../../../../reference/autosummary/python/sparknlp/annotator/seq2seq/t5_transformer/index.html#python.sparknlp.annotator.seq2seq.t5_transformer.T5Transformer.setConfigProtoBytes">[docs]</a>    <span class="k">def</span> <span class="nf">setConfigProtoBytes</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Sets configProto from tensorflow, serialized into byte array.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        b : List[int]</span>
+<span class="sd">            ConfigProto from tensorflow, serialized into byte array</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">configProtoBytes</span><span class="o">=</span><span class="n">b</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="T5Transformer.setTask"><a class="viewcode-back" href="../../../../../reference/autosummary/python/sparknlp/annotator/seq2seq/t5_transformer/index.html#python.sparknlp.annotator.seq2seq.t5_transformer.T5Transformer.setTask">[docs]</a>    <span class="k">def</span> <span class="nf">setTask</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Sets the transformer&#39;s task, e.g. ``summarize:``.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        value : str</span>
+<span class="sd">            The transformer&#39;s task</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">task</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="T5Transformer.setMinOutputLength"><a class="viewcode-back" href="../../../../../reference/autosummary/python/sparknlp/annotator/seq2seq/t5_transformer/index.html#python.sparknlp.annotator.seq2seq.t5_transformer.T5Transformer.setMinOutputLength">[docs]</a>    <span class="k">def</span> <span class="nf">setMinOutputLength</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Sets minimum length of the sequence to be generated.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        value : int</span>
+<span class="sd">            Minimum length of the sequence to be generated</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">minOutputLength</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="T5Transformer.setMaxOutputLength"><a class="viewcode-back" href="../../../../../reference/autosummary/python/sparknlp/annotator/seq2seq/t5_transformer/index.html#python.sparknlp.annotator.seq2seq.t5_transformer.T5Transformer.setMaxOutputLength">[docs]</a>    <span class="k">def</span> <span class="nf">setMaxOutputLength</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Sets maximum length of output text.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        value : int</span>
+<span class="sd">            Maximum length of output text</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">maxOutputLength</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="T5Transformer.setDoSample"><a class="viewcode-back" href="../../../../../reference/autosummary/python/sparknlp/annotator/seq2seq/t5_transformer/index.html#python.sparknlp.annotator.seq2seq.t5_transformer.T5Transformer.setDoSample">[docs]</a>    <span class="k">def</span> <span class="nf">setDoSample</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Sets whether or not to use sampling, use greedy decoding otherwise.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        value : bool</span>
+<span class="sd">            Whether or not to use sampling; use greedy decoding otherwise</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">doSample</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="T5Transformer.setTemperature"><a class="viewcode-back" href="../../../../../reference/autosummary/python/sparknlp/annotator/seq2seq/t5_transformer/index.html#python.sparknlp.annotator.seq2seq.t5_transformer.T5Transformer.setTemperature">[docs]</a>    <span class="k">def</span> <span class="nf">setTemperature</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Sets the value used to module the next token probabilities.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        value : float</span>
+<span class="sd">            The value used to module the next token probabilities</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">temperature</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="T5Transformer.setTopK"><a class="viewcode-back" href="../../../../../reference/autosummary/python/sparknlp/annotator/seq2seq/t5_transformer/index.html#python.sparknlp.annotator.seq2seq.t5_transformer.T5Transformer.setTopK">[docs]</a>    <span class="k">def</span> <span class="nf">setTopK</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Sets the number of highest probability vocabulary tokens to keep for</span>
+<span class="sd">        top-k-filtering.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        value : int</span>
+<span class="sd">            Number of highest probability vocabulary tokens to keep</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">topK</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="T5Transformer.setTopP"><a class="viewcode-back" href="../../../../../reference/autosummary/python/sparknlp/annotator/seq2seq/t5_transformer/index.html#python.sparknlp.annotator.seq2seq.t5_transformer.T5Transformer.setTopP">[docs]</a>    <span class="k">def</span> <span class="nf">setTopP</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Sets the top cumulative probability for vocabulary tokens.</span>
+
+<span class="sd">        If set to float &lt; 1, only the most probable tokens with probabilities</span>
+<span class="sd">        that add up to ``topP`` or higher are kept for generation.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        value : float</span>
+<span class="sd">            Cumulative probability for vocabulary tokens</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">topP</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="T5Transformer.setRepetitionPenalty"><a class="viewcode-back" href="../../../../../reference/autosummary/python/sparknlp/annotator/seq2seq/t5_transformer/index.html#python.sparknlp.annotator.seq2seq.t5_transformer.T5Transformer.setRepetitionPenalty">[docs]</a>    <span class="k">def</span> <span class="nf">setRepetitionPenalty</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Sets the parameter for repetition penalty. 1.0 means no penalty.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        value : float</span>
+<span class="sd">            The repetition penalty</span>
+
+<span class="sd">        References</span>
+<span class="sd">        ----------</span>
+<span class="sd">        See `Ctrl: A Conditional Transformer Language Model For Controllable</span>
+<span class="sd">        Generation &lt;https://arxiv.org/pdf/1909.05858.pdf&gt;`__ for more details.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">repetitionPenalty</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="T5Transformer.setNoRepeatNgramSize"><a class="viewcode-back" href="../../../../../reference/autosummary/python/sparknlp/annotator/seq2seq/t5_transformer/index.html#python.sparknlp.annotator.seq2seq.t5_transformer.T5Transformer.setNoRepeatNgramSize">[docs]</a>    <span class="k">def</span> <span class="nf">setNoRepeatNgramSize</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Sets size of n-grams that can only occur once.</span>
+
+<span class="sd">        If set to int &gt; 0, all ngrams of that size can only occur once.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        value : int</span>
+<span class="sd">            N-gram size can only occur once</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">noRepeatNgramSize</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
+
+    <span class="nd">@keyword_only</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">classname</span><span class="o">=</span><span class="s2">&quot;com.johnsnowlabs.nlp.annotators.seq2seq.T5Transformer&quot;</span><span class="p">,</span> <span class="n">java_model</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">T5Transformer</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
+            <span class="n">classname</span><span class="o">=</span><span class="n">classname</span><span class="p">,</span>
+            <span class="n">java_model</span><span class="o">=</span><span class="n">java_model</span>
+        <span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_setDefault</span><span class="p">(</span>
+            <span class="n">task</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span>
+            <span class="n">minOutputLength</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+            <span class="n">maxOutputLength</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span>
+            <span class="n">doSample</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+            <span class="n">temperature</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span>
+            <span class="n">topK</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span>
+            <span class="n">topP</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span>
+            <span class="n">repetitionPenalty</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span>
+            <span class="n">noRepeatNgramSize</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+            <span class="n">ignoreTokenIds</span><span class="o">=</span><span class="p">[],</span>
+            <span class="n">batchSize</span><span class="o">=</span><span class="mi">1</span>
+        <span class="p">)</span>
+
+    <span class="nd">@staticmethod</span>
+<div class="viewcode-block" id="T5Transformer.loadSavedModel"><a class="viewcode-back" href="../../../../../reference/autosummary/python/sparknlp/annotator/seq2seq/t5_transformer/index.html#python.sparknlp.annotator.seq2seq.t5_transformer.T5Transformer.loadSavedModel">[docs]</a>    <span class="k">def</span> <span class="nf">loadSavedModel</span><span class="p">(</span><span class="n">folder</span><span class="p">,</span> <span class="n">spark_session</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Loads a locally saved model.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        folder : str</span>
+<span class="sd">            Folder of the saved model</span>
+<span class="sd">        spark_session : pyspark.sql.SparkSession</span>
+<span class="sd">            The current SparkSession</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        T5Transformer</span>
+<span class="sd">            The restored model</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="kn">from</span> <span class="nn">sparknlp.internal</span> <span class="kn">import</span> <span class="n">_T5Loader</span>
+        <span class="n">jModel</span> <span class="o">=</span> <span class="n">_T5Loader</span><span class="p">(</span><span class="n">folder</span><span class="p">,</span> <span class="n">spark_session</span><span class="o">.</span><span class="n">_jsparkSession</span><span class="p">)</span><span class="o">.</span><span class="n">_java_obj</span>
+        <span class="k">return</span> <span class="n">T5Transformer</span><span class="p">(</span><span class="n">java_model</span><span class="o">=</span><span class="n">jModel</span><span class="p">)</span></div>
+
+    <span class="nd">@staticmethod</span>
+<div class="viewcode-block" id="T5Transformer.pretrained"><a class="viewcode-back" href="../../../../../reference/autosummary/python/sparknlp/annotator/seq2seq/t5_transformer/index.html#python.sparknlp.annotator.seq2seq.t5_transformer.T5Transformer.pretrained">[docs]</a>    <span class="k">def</span> <span class="nf">pretrained</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;t5_small&quot;</span><span class="p">,</span> <span class="n">lang</span><span class="o">=</span><span class="s2">&quot;en&quot;</span><span class="p">,</span> <span class="n">remote_loc</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Downloads and loads a pretrained model.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        name : str, optional</span>
+<span class="sd">            Name of the pretrained model, by default &quot;t5_small&quot;</span>
+<span class="sd">        lang : str, optional</span>
+<span class="sd">            Language of the pretrained model, by default &quot;en&quot;</span>
+<span class="sd">        remote_loc : str, optional</span>
+<span class="sd">            Optional remote address of the resource, by default None. Will use</span>
+<span class="sd">            Spark NLPs repositories otherwise.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        T5Transformer</span>
+<span class="sd">            The restored model</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="kn">from</span> <span class="nn">sparknlp.pretrained</span> <span class="kn">import</span> <span class="n">ResourceDownloader</span>
+        <span class="k">return</span> <span class="n">ResourceDownloader</span><span class="o">.</span><span class="n">downloadModel</span><span class="p">(</span><span class="n">T5Transformer</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">lang</span><span class="p">,</span> <span class="n">remote_loc</span><span class="p">)</span></div></div>
+
+</pre></div>
+
+            </article>
+            
+            
+            
+            <footer class="bd-footer-article">
+                <!-- Previous / next buttons -->
+<div class='prev-next-area'>
+</div>
+            </footer>
+            
+          </div>
+          
+          
+          
+            <div class="bd-sidebar-secondary bd-toc">
+              
+<div class="toc-item">
+  
+</div>
+
+<div class="toc-item">
+  
+</div>
+
+            </div>
+          
+          
+        </div>
+        <footer class="bd-footer-content">
+          <div class="bd-footer-content__inner">
+            
+          </div>
+        </footer>
+        
+      </main>
+    </div>
+  </div>
+
+  
+    
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../../../../../static/scripts/pydata-sphinx-theme.js?digest=9b1a4fa89bdd0e95b23b"></script>
+
+  <footer class="bd-footer"><div class="bd-footer__inner container">
+  
+  <div class="footer-item">
+    
+<p class="copyright">
+
+    &copy; Copyright 2022, John Snow Labs.<br>
+
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+<p class="sphinx-version">
+Created using <a href="http://sphinx-doc.org/">Sphinx</a> 5.2.0.post0.<br>
+</p>
+
+  </div>
+  
+</div>
+  </footer>
+  </body>
+</html>
