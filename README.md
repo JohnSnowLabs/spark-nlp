@@ -17,8 +17,8 @@
 </p>
 
 Spark NLP is a state-of-the-art Natural Language Processing library built on top of Apache Spark. It provides **simple**, **performant** & **accurate** NLP annotations for machine learning pipelines that **scale** easily in a distributed environment.
-Spark NLP comes with **8000+** pretrained **pipelines** and **models** in more than **200+** languages.
-It also offers tasks such as **Tokenization**, **Word Segmentation**, **Part-of-Speech Tagging**, Word and Sentence **Embeddings**, **Named Entity Recognition**, **Dependency Parsing**, **Spell Checking**, **Text Classification**, **Sentiment Analysis**, **Token Classification**, **Machine Translation** (+180 languages), **Summarization** & **Question Answering**, **Text Generation**, **Image Classification**, and many more [NLP tasks](#features).
+Spark NLP comes with **14000+** pretrained **pipelines** and **models** in more than **200+** languages.
+It also offers tasks such as **Tokenization**, **Word Segmentation**, **Part-of-Speech Tagging**, Word and Sentence **Embeddings**, **Named Entity Recognition**, **Dependency Parsing**, **Spell Checking**, **Text Classification**, **Sentiment Analysis**, **Token Classification**, **Machine Translation** (+180 languages), **Summarization**, **Question Answering**, **Table Question Answering**, **Text Generation**, **Image Classification**, **Automatic Speech Recognition**, and many more [NLP tasks](#features).
 
 **Spark NLP** is the only open-source NLP library in **production** that offers state-of-the-art transformers such as **BERT**, **CamemBERT**, **ALBERT**, **ELECTRA**, **XLNet**, **DistilBERT**, **RoBERTa**, **DeBERTa**, **XLM-RoBERTa**, **Longformer**, **ELMO**, **Universal Sentence Encoder**, **Google T5**, **MarianMT**, **GPT2**, and **Vision Transformers (ViT)** not only to **Python** and **R**, but also to **JVM** ecosystem (**Java**, **Scala**, and **Kotlin**) at **scale** by extending **Apache Spark** natively.
 
@@ -115,6 +115,7 @@ Take a look at our official Spark NLP page: [http://nlp.johnsnowlabs.com/](http:
 - Multi-class Text Classification (Deep learning)
 - BERT for Token & Sequence Classification
 - DistilBERT for Token & Sequence Classification
+- CamemBERT for Token & Sequence Classification
 - ALBERT for Token & Sequence Classification
 - RoBERTa for Token & Sequence Classification
 - DeBERTa for Token & Sequence Classification
@@ -128,10 +129,12 @@ Take a look at our official Spark NLP page: [http://nlp.johnsnowlabs.com/](http:
 - DeBERTa for Question Answering
 - XLM-RoBERTa for Question Answering
 - Longformer for Question Answering
+- Table Question Answering (TAPAS)
 - Neural Machine Translation (MarianMT)
 - Text-To-Text Transfer Transformer (Google T5)
 - Generative Pre-trained Transformer 2 (OpenAI GPT2)
 - Vision Transformer (ViT)
+- Automatic Speech Recognition (Wav2Vec2)
 - Named entity recognition (Deep learning)
 - Easy TensorFlow integration
 - GPU Support
@@ -214,6 +217,7 @@ Spark NLP *4.2.0* has been built on top of Apache Spark 3.2 while fully supports
 
 | Spark NLP | Apache Spark 2.3.x | Apache Spark 2.4.x | Apache Spark 3.0.x | Apache Spark 3.1.x | Apache Spark 3.2.x | Apache Spark 3.3.x |
 |-----------|--------------------|--------------------|--------------------|--------------------|--------------------|--------------------|
+| 4.2.x     | NO                 | NO                 | YES                | YES                | YES                | YES                |
 | 4.1.x     | NO                 | NO                 | YES                | YES                | YES                | YES                |
 | 4.0.x     | NO                 | NO                 | YES                | YES                | YES                | YES                |
 | 3.4.x     | YES                | YES                | YES                | YES                | Partially          | N/A                |
@@ -231,6 +235,7 @@ Find out more about `Spark NLP` versions from our [release notes](https://github
 
 | Spark NLP | Python 3.6 | Python 3.7 | Python 3.8 | Python 3.9 | Scala 2.11 | Scala 2.12 |
 |-----------|------------|------------|------------|------------|------------|------------|
+| 4.2.x     | YES        | YES        | YES        | YES        | NO         | YES        |
 | 4.1.x     | YES        | YES        | YES        | YES        | NO         | YES        |
 | 4.0.x     | YES        | YES        | YES        | YES        | NO         | YES        |
 | 3.4.x     | YES        | YES        | YES        | YES        | YES        | YES        |
@@ -264,6 +269,8 @@ Spark NLP 4.2.0 has been tested and is compatible with the following runtimes:
 - 11.0 ML
 - 11.1
 - 11.1 ML
+- 11.2
+- 11.2 ML
 
 **GPU:**
 
@@ -275,6 +282,7 @@ Spark NLP 4.2.0 has been tested and is compatible with the following runtimes:
 - 10.5 ML & GPU
 - 11.0 ML & GPU
 - 11.1 ML & GPU
+- 11.2 ML & GPU
 
 NOTE: Spark NLP 4.0.x is based on TensorFlow 2.7.x which is compatible with CUDA11 and cuDNN 8.0.2. The only Databricks runtimes supporting CUDA 11 are 9.x and above as listed under GPU.
 
