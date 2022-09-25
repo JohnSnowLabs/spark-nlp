@@ -17,6 +17,8 @@
 package com.johnsnowlabs.nlp.annotators.audio
 
 import com.johnsnowlabs.nlp.AudioAssembler
+import com.johnsnowlabs.nlp.annotator.Tokenizer
+import com.johnsnowlabs.nlp.base.DocumentAssembler
 import com.johnsnowlabs.nlp.pretrained.PretrainedPipeline
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
 import com.johnsnowlabs.tags.SlowTest
@@ -68,6 +70,39 @@ class Wav2Vec2ForCTCTestSpec extends AnyFlatSpec {
     Benchmark.measure(iterations = 1, forcePrint = true, description = "Time to show result") {
       pipelineDF.select("text").show(10, false)
     }
+
+  }
+
+  "Wav2Vec2ForCTC" should "correctly work with Tokenizer" taggedAs SlowTest in {
+
+    val speechToText: Wav2Vec2ForCTC = Wav2Vec2ForCTC
+      .pretrained()
+      .setInputCols("audio_assembler")
+      .setOutputCol("document")
+
+    val token = new Tokenizer()
+      .setInputCols("document")
+      .setOutputCol("token")
+
+    val pipeline: Pipeline =
+      new Pipeline().setStages(Array(audioAssembler, speechToText, token))
+
+    val bufferedSource =
+      scala.io.Source.fromFile("src/test/resources/audio/csv/audi_floats.csv")
+
+    val rawFloats = bufferedSource
+      .getLines()
+      .map(_.split(",").head.trim.toFloat)
+      .toArray
+    bufferedSource.close
+
+    val processedAudioFloats = Seq(rawFloats).toDF("audio_content")
+    processedAudioFloats.printSchema()
+
+    val pipelineDF = pipeline.fit(processedAudioFloats).transform(processedAudioFloats)
+
+    pipelineDF.select("document").show(10, false)
+    pipelineDF.select("token").show(10, false)
 
   }
 
