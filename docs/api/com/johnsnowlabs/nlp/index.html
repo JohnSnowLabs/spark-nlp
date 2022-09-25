@@ -3,9 +3,9 @@
         <head>
           <meta http-equiv="X-UA-Compatible" content="IE=edge" />
           <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-          <title>Spark NLP 4.1.0 ScalaDoc  - com.johnsnowlabs.nlp</title>
-          <meta name="description" content="Spark NLP 4.1.0 ScalaDoc - com.johnsnowlabs.nlp" />
-          <meta name="keywords" content="Spark NLP 4.1.0 ScalaDoc com.johnsnowlabs.nlp" />
+          <title>Spark NLP 4.2.0 ScalaDoc  - com.johnsnowlabs.nlp</title>
+          <meta name="description" content="Spark NLP 4.2.0 ScalaDoc - com.johnsnowlabs.nlp" />
+          <meta name="keywords" content="Spark NLP 4.2.0 ScalaDoc com.johnsnowlabs.nlp" />
           <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
           
       
@@ -28,7 +28,7 @@
         </head>
         <body>
       <div id="search">
-        <span id="doc-title">Spark NLP 4.1.0 ScalaDoc<span id="doc-version"></span></span>
+        <span id="doc-title">Spark NLP 4.2.0 ScalaDoc<span id="doc-version"></span></span>
         <span class="close-results"><span class="left">&lt;</span> Back</span>
         <div id="textfilter">
           <span class="input">
@@ -286,6 +286,10 @@
                         <a class="class" href="Annotation.html" title="represents annotator's output parts and their details"></a>
                         <a href="Annotation.html" title="represents annotator's output parts and their details">Annotation</a>
                       </li><li class="current-entities indented3">
+                        <a class="object" href="AnnotationAudio$.html" title=""></a>
+                        <a class="class" href="AnnotationAudio.html" title="Represents AudioAssembler's output parts and their details."></a>
+                        <a href="AnnotationAudio.html" title="Represents AudioAssembler's output parts and their details.">AnnotationAudio</a>
+                      </li><li class="current-entities indented3">
                         <a class="object" href="AnnotationImage$.html" title=""></a>
                         <a class="class" href="AnnotationImage.html" title="Represents ImageAssembler's output parts and their details"></a>
                         <a href="AnnotationImage.html" title="Represents ImageAssembler's output parts and their details">AnnotationImage</a>
@@ -301,6 +305,10 @@
                         <span class="separator"></span>
                         <a class="object" href="AnnotatorType$.html" title=""></a>
                         <a href="AnnotatorType$.html" title="">AnnotatorType</a>
+                      </li><li class="current-entities indented3">
+                        <a class="object" href="AudioAssembler$.html" title="This is the companion object of AudioAssembler."></a>
+                        <a class="class" href="AudioAssembler.html" title="Prepares audio read by Spark into a format that is processable by Spark NLP."></a>
+                        <a href="AudioAssembler.html" title="Prepares audio read by Spark into a format that is processable by Spark NLP.">AudioAssembler</a>
                       </li><li class="current-entities indented3">
                         <span class="separator"></span>
                         <a class="trait" href="CanBeLazy.html" title=""></a>
@@ -339,8 +347,16 @@
                         <a href="GraphFinisher.html" title="Helper class to convert the knowledge graph from GraphExtraction into a generic format, such as RDF.">GraphFinisher</a>
                       </li><li class="current-entities indented3">
                         <span class="separator"></span>
+                        <a class="trait" href="HasAudioFeatureProperties.html" title="example of required parameters"></a>
+                        <a href="HasAudioFeatureProperties.html" title="example of required parameters">HasAudioFeatureProperties</a>
+                      </li><li class="current-entities indented3">
+                        <span class="separator"></span>
                         <a class="trait" href="HasBatchedAnnotate.html" title=""></a>
                         <a href="HasBatchedAnnotate.html" title="">HasBatchedAnnotate</a>
+                      </li><li class="current-entities indented3">
+                        <span class="separator"></span>
+                        <a class="trait" href="HasBatchedAnnotateAudio.html" title=""></a>
+                        <a href="HasBatchedAnnotateAudio.html" title="">HasBatchedAnnotateAudio</a>
                       </li><li class="current-entities indented3">
                         <span class="separator"></span>
                         <a class="trait" href="HasBatchedAnnotateImage.html" title=""></a>
@@ -402,7 +418,7 @@
                         <a class="trait" href="IAnnotation.html" title=""></a>
                         <a href="IAnnotation.html" title="">IAnnotation</a>
                       </li><li class="current-entities indented3">
-                        <span class="separator"></span>
+                        <a class="object" href="ImageAssembler$.html" title="This is the companion object of ImageAssembler."></a>
                         <a class="class" href="ImageAssembler.html" title="Prepares images read by Spark into a format that is processable by Spark NLP."></a>
                         <a href="ImageAssembler.html" title="Prepares images read by Spark into a format that is processable by Spark NLP.">ImageAssembler</a>
                       </li><li class="current-entities indented3">
@@ -441,6 +457,10 @@
                         <span class="separator"></span>
                         <a class="object" href="SparkNLP$.html" title=""></a>
                         <a href="SparkNLP$.html" title="">SparkNLP</a>
+                      </li><li class="current-entities indented3">
+                        <a class="object" href="TableAssembler$.html" title="This is the companion object of TableAssembler."></a>
+                        <a class="class" href="TableAssembler.html" title="This transformer parses text into tabular representation."></a>
+                        <a href="TableAssembler.html" title="This transformer parses text into tabular representation.">TableAssembler</a>
                       </li><li class="current-entities indented3">
                         <a class="object" href="TokenAssembler$.html" title="This is the companion object of TokenAssembler."></a>
                         <a class="class" href="TokenAssembler.html" title="This transformer reconstructs a DOCUMENT type annotation from tokens, usually after these have been normalized, lemmatized, normalized, spell checked, etc, in order to use this document annotation in further annotators."></a>
@@ -566,6 +586,22 @@
   the index of the first character under this annotation</p></dd><dt class="param">end</dt><dd class="cmt"><p>
   the index after the last character under this annotation</p></dd><dt class="param">metadata</dt><dd class="cmt"><p>
   associated metadata for this annotation</p></dd></dl></div>
+    </li><li name="com.johnsnowlabs.nlp.AnnotationAudio" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="AnnotationAudioextendsIAnnotationwithProductwithSerializable"></a><a id="AnnotationAudio:AnnotationAudio"></a>
+      <span class="permalink">
+      <a href="../../../com/johnsnowlabs/nlp/AnnotationAudio.html" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">case class</span>
+      </span>
+      <span class="symbol">
+        <a title="Represents AudioAssembler's output parts and their details." href="AnnotationAudio.html"><span class="name">AnnotationAudio</span></a><span class="params">(<span name="annotatorType">annotatorType: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="result">result: <span class="extype" name="scala.Array">Array</span>[<span class="extype" name="scala.Float">Float</span>]</span>, <span name="metadata">metadata: <span class="extype" name="scala.collection.Map">Map</span>[<span class="extype" name="scala.Predef.String">String</span>, <span class="extype" name="scala.Predef.String">String</span>]</span>)</span><span class="result"> extends <a href="IAnnotation.html" class="extype" name="com.johnsnowlabs.nlp.IAnnotation">IAnnotation</a> with <span class="extype" name="scala.Product">Product</span> with <span class="extype" name="scala.Serializable">Serializable</span></span>
+      </span>
+      
+      <p class="shortcomment cmt">Represents <a href="AudioAssembler.html" class="extype" name="com.johnsnowlabs.nlp.AudioAssembler">AudioAssembler</a>'s output parts and their details.</p>
     </li><li name="com.johnsnowlabs.nlp.AnnotationImage" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="AnnotationImageextendsIAnnotationwithProductwithSerializable"></a><a id="AnnotationImage:AnnotationImage"></a>
       <span class="permalink">
@@ -629,6 +665,34 @@ as a dummy placeholder for future reference
 strongly change once UsedDefinedTypes are allowed
 https://issues.apache.org/jira/browse/SPARK-7768
 </p>
+    </li><li name="com.johnsnowlabs.nlp.AudioAssembler" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="AudioAssemblerextendsTransformerwithDefaultParamsWritablewithHasOutputAnnotatorTypewithHasOutputAnnotationCol"></a><a id="AudioAssembler:AudioAssembler"></a>
+      <span class="permalink">
+      <a href="../../../com/johnsnowlabs/nlp/AudioAssembler.html" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">class</span>
+      </span>
+      <span class="symbol">
+        <a title="Prepares audio read by Spark into a format that is processable by Spark NLP." href="AudioAssembler.html"><span class="name">AudioAssembler</span></a><span class="result"> extends <span class="extype" name="org.apache.spark.ml.Transformer">Transformer</span> with <span class="extype" name="org.apache.spark.ml.util.DefaultParamsWritable">DefaultParamsWritable</span> with <a href="HasOutputAnnotatorType.html" class="extype" name="com.johnsnowlabs.nlp.HasOutputAnnotatorType">HasOutputAnnotatorType</a> with <a href="HasOutputAnnotationCol.html" class="extype" name="com.johnsnowlabs.nlp.HasOutputAnnotationCol">HasOutputAnnotationCol</a></span>
+      </span>
+      
+      <p class="shortcomment cmt">Prepares audio read by Spark into a format that is processable by Spark NLP.</p><div class="fullcomment"><div class="comment cmt"><p>Prepares audio read by Spark into a format that is processable by Spark NLP. This component is
+needed to process audio.</p><p>Input col is a single record that contains the raw content and metadata of the file.</p><h4>Example</h4><pre><span class="kw">import</span> com.johnsnowlabs.nlp.AudioAssembler
+<span class="kw">import</span> org.apache.spark.ml.Pipeline
+
+<span class="kw">val</span> audioAssembler = <span class="kw">new</span> AudioAssembler()
+  .setInputCol(<span class="lit">"audio"</span>)
+  .setOutputCol(<span class="lit">"audio_assembler"</span>)
+
+<span class="kw">val</span> pipeline = <span class="kw">new</span> Pipeline().setStages(<span class="std">Array</span>(audioAssembler))
+<span class="kw">val</span> pipelineDF = pipeline.fit(imageDF).transform(wavDf)
+pipelineDF.printSchema()
+root</pre><p>TODO:</p><ul><li>support various file formats</li><li>output into float array</li><li>handle stereo
+</li></ul></div></div>
     </li><li name="com.johnsnowlabs.nlp.CanBeLazy" visbl="pub" class="indented0 " data-isabs="true" fullComment="no" group="Ungrouped">
       <a id="CanBeLazyextendsAnyRef"></a><a id="CanBeLazy:CanBeLazy"></a>
       <span class="permalink">
@@ -970,6 +1034,29 @@ finishedResult.select(<span class="lit">"text"</span>, <span class="lit">"graph_
 |You and John prefer the morning flight through Denver|[[(prefer,nsubj,morning), (morning,flat,flight), (flight,flat,Denver)]]|
 +-----------------------------------------------------+-----------------------------------------------------------------------+</pre></div><dl class="attributes block"> <dt>See also</dt><dd><span class="cmt"><p>
   <a href="annotators/GraphExtraction.html" class="extype" name="com.johnsnowlabs.nlp.annotators.GraphExtraction">GraphExtraction</a> to extract the graph.</p></span></dd></dl></div>
+    </li><li name="com.johnsnowlabs.nlp.HasAudioFeatureProperties" visbl="pub" class="indented0 " data-isabs="true" fullComment="yes" group="Ungrouped">
+      <a id="HasAudioFeaturePropertiesextendsParamsAndFeaturesWritable"></a><a id="HasAudioFeatureProperties:HasAudioFeatureProperties"></a>
+      <span class="permalink">
+      <a href="../../../com/johnsnowlabs/nlp/HasAudioFeatureProperties.html" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">trait</span>
+      </span>
+      <span class="symbol">
+        <a title="example of required parameters" href="HasAudioFeatureProperties.html"><span class="name">HasAudioFeatureProperties</span></a><span class="result"> extends <a href="ParamsAndFeaturesWritable.html" class="extype" name="com.johnsnowlabs.nlp.ParamsAndFeaturesWritable">ParamsAndFeaturesWritable</a></span>
+      </span>
+      
+      <p class="shortcomment cmt">example of required parameters</p><div class="fullcomment"><div class="comment cmt"><p>example of required parameters</p><pre>{
+<span class="lit">"do_normalize"</span>: <span class="kw">true</span>,
+<span class="lit">"feature_size"</span>: <span class="num">1</span>,
+<span class="lit">"padding_side"</span>: <span class="lit">"right"</span>,
+<span class="lit">"padding_value"</span>: <span class="num">0.0</span>,
+<span class="lit">"return_attention_mask"</span>: <span class="kw">false</span>,
+<span class="lit">"sampling_rate"</span>: <span class="num">16000</span>
+}</pre></div></div>
     </li><li name="com.johnsnowlabs.nlp.HasBatchedAnnotate" visbl="pub" class="indented0 " data-isabs="true" fullComment="no" group="Ungrouped">
       <a id="HasBatchedAnnotate[M&lt;:org.apache.spark.ml.Model[M]]extendsAnyRef"></a><a id="HasBatchedAnnotate[M&lt;:Model[M]]:HasBatchedAnnotate[M]"></a>
       <span class="permalink">
@@ -983,6 +1070,22 @@ finishedResult.select(<span class="lit">"text"</span>, <span class="lit">"graph_
       </span>
       <span class="symbol">
         <a title="" href="HasBatchedAnnotate.html"><span class="name">HasBatchedAnnotate</span></a><span class="tparams">[<span name="M">M &lt;: <span class="extype" name="org.apache.spark.ml.Model">Model</span>[<span class="extype" name="com.johnsnowlabs.nlp.HasBatchedAnnotate.M">M</span>]</span>]</span><span class="result"> extends <span class="extype" name="scala.AnyRef">AnyRef</span></span>
+      </span>
+      
+      
+    </li><li name="com.johnsnowlabs.nlp.HasBatchedAnnotateAudio" visbl="pub" class="indented0 " data-isabs="true" fullComment="no" group="Ungrouped">
+      <a id="HasBatchedAnnotateAudio[M&lt;:org.apache.spark.ml.Model[M]]extendsAnyRef"></a><a id="HasBatchedAnnotateAudio[M&lt;:Model[M]]:HasBatchedAnnotateAudio[M]"></a>
+      <span class="permalink">
+      <a href="../../../com/johnsnowlabs/nlp/HasBatchedAnnotateAudio.html" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">trait</span>
+      </span>
+      <span class="symbol">
+        <a title="" href="HasBatchedAnnotateAudio.html"><span class="name">HasBatchedAnnotateAudio</span></a><span class="tparams">[<span name="M">M &lt;: <span class="extype" name="org.apache.spark.ml.Model">Model</span>[<span class="extype" name="com.johnsnowlabs.nlp.HasBatchedAnnotateAudio.M">M</span>]</span>]</span><span class="result"> extends <span class="extype" name="scala.AnyRef">AnyRef</span></span>
       </span>
       
       
@@ -1448,6 +1551,77 @@ root
       </span>
       
       
+    </li><li name="com.johnsnowlabs.nlp.TableAssembler" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="TableAssemblerextendsAnnotatorModel[com.johnsnowlabs.nlp.TokenAssembler]withHasSimpleAnnotate[com.johnsnowlabs.nlp.TokenAssembler]"></a><a id="TableAssembler:TableAssembler"></a>
+      <span class="permalink">
+      <a href="../../../com/johnsnowlabs/nlp/TableAssembler.html" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">class</span>
+      </span>
+      <span class="symbol">
+        <a title="This transformer parses text into tabular representation." href="TableAssembler.html"><span class="name">TableAssembler</span></a><span class="result"> extends <a href="AnnotatorModel.html" class="extype" name="com.johnsnowlabs.nlp.AnnotatorModel">AnnotatorModel</a>[<a href="TokenAssembler.html" class="extype" name="com.johnsnowlabs.nlp.TokenAssembler">TokenAssembler</a>] with <a href="HasSimpleAnnotate.html" class="extype" name="com.johnsnowlabs.nlp.HasSimpleAnnotate">HasSimpleAnnotate</a>[<a href="TokenAssembler.html" class="extype" name="com.johnsnowlabs.nlp.TokenAssembler">TokenAssembler</a>]</span>
+      </span>
+      
+      <p class="shortcomment cmt">This transformer parses text into tabular representation.</p><div class="fullcomment"><div class="comment cmt"><p>This transformer parses text into tabular representation. The input consists of DOCUMENT
+annotations and the output are TABLE annotations. The source format can be either JSON or CSV.
+The format of the JSON files should be:</p><pre>{
+  <span class="lit">"header"</span>: [col1, col2, ..., colN],
+  <span class="lit">"rows"</span>: [
+    [val11, val12, ..., val1N],
+    [val22, va22, ..., val2N],
+    ...
+   ]
+}</pre><p>The CSV format support alternative delimiters (e.g. tab), as well as escaping delimiters by
+surrounding cell values with double quotes. For example:</p><pre>column1, column2, <span class="lit">"column with, comma"</span>
+value1, value2, value3
+<span class="lit">"escaped value"</span>, <span class="lit">"value with, comma"</span>, <span class="lit">"value with double ("</span><span class="lit">") quote"</span></pre><p>The transformer stores tabular data internally as JSON. The default input format is also JSON.</p><h4>Example</h4><pre><span class="kw">import</span> spark.implicits._
+<span class="kw">import</span> com.johnsnowlabs.nlp.DocumentAssembler
+<span class="kw">import</span> org.apache.spark.ml.Pipeline
+
+<span class="kw">val</span> csvData =
+  <span class="lit">""</span><span class="lit">"
+    |"</span>name<span class="lit">", "</span>money<span class="lit">", "</span>age<span class="lit">"
+    |"</span>Donald Trump<span class="lit">", "</span>$100,<span class="num">000</span>,<span class="num">000</span><span class="lit">", "</span><span class="num">75</span><span class="lit">"
+    |"</span>Elon Musk<span class="lit">", "</span>$20,<span class="num">000</span>,<span class="num">000</span>,<span class="num">000</span>,<span class="num">000</span><span class="lit">", "</span><span class="num">55</span><span class="lit">"
+    |"</span><span class="lit">""</span>.stripMargin.trim
+
+<span class="kw">val</span> data =<span class="std">Seq</span>(csvData).toDF(<span class="lit">"csv"</span>)
+
+<span class="kw">val</span> documentAssembler = <span class="kw">new</span> DocumentAssembler()
+  .setInputCol(<span class="lit">"csv"</span>)
+  .setOutputCol(<span class="lit">"document"</span>)
+
+<span class="kw">val</span> tableAssembler = <span class="kw">new</span> TableAssembler()
+  .setInputCols(<span class="std">Array</span>(<span class="lit">"document"</span>))
+  .setOutputCol(<span class="lit">"table"</span>)
+  .setInputFormat(<span class="lit">"csv"</span>)
+
+<span class="kw">val</span> pipeline = <span class="kw">new</span> Pipeline()
+  .setStages(
+    <span class="std">Array</span>(documentAssembler, tableAssembler)
+    ).fit(data)
+
+<span class="kw">val</span> result = pipeline.transform(data)
+result
+  .selectExpr(<span class="lit">"explode(table) AS table"</span>)
+  .select(<span class="lit">"table.result"</span>, <span class="lit">"table.metadata.input_format"</span>)
+  .show(<span class="kw">false</span>)
+
++--------------------------------------------+-------------+
+|result                                      |input_format |
++--------------------------------------------+-------------+
+|{                                           |csv          |
+| <span class="lit">"header"</span>: [<span class="lit">"name"</span>,<span class="lit">"money"</span>,<span class="lit">"age"</span>],          |             |
+|  <span class="lit">"rows"</span>:[                                  |             |
+|   [<span class="lit">"Donald Trump"</span>,<span class="lit">"$100,000,000"</span>,<span class="lit">"75"</span>],    |             |
+|   [<span class="lit">"Elon Musk"</span>,<span class="lit">"$20,000,000,000,000"</span>,<span class="lit">"55"</span>] |             |
+|  ]                                         |             |
+|}                                           |             |
++--------------------------------------------+-------------+</pre></div></div>
     </li><li name="com.johnsnowlabs.nlp.TokenAssembler" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="TokenAssemblerextendsAnnotatorModel[com.johnsnowlabs.nlp.TokenAssembler]withHasSimpleAnnotate[com.johnsnowlabs.nlp.TokenAssembler]"></a><a id="TokenAssembler:TokenAssembler"></a>
       <span class="permalink">
@@ -1565,6 +1739,22 @@ result.select(<span class="lit">"cleanText"</span>).show(<span class="kw">false<
       </span>
       
       
+    </li><li name="com.johnsnowlabs.nlp.AnnotationAudio" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="AnnotationAudio"></a><a id="AnnotationAudio:AnnotationAudio"></a>
+      <span class="permalink">
+      <a href="../../../com/johnsnowlabs/nlp/AnnotationAudio$.html" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">object</span>
+      </span>
+      <span class="symbol">
+        <a title="" href="AnnotationAudio$.html"><span class="name">AnnotationAudio</span></a><span class="result"> extends <span class="extype" name="scala.Serializable">Serializable</span></span>
+      </span>
+      
+      
     </li><li name="com.johnsnowlabs.nlp.AnnotationImage" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
       <a id="AnnotationImage"></a><a id="AnnotationImage:AnnotationImage"></a>
       <span class="permalink">
@@ -1597,6 +1787,24 @@ result.select(<span class="lit">"cleanText"</span>).show(<span class="kw">false<
       </span>
       
       
+    </li><li name="com.johnsnowlabs.nlp.AudioAssembler" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="AudioAssembler"></a><a id="AudioAssembler:AudioAssembler"></a>
+      <span class="permalink">
+      <a href="../../../com/johnsnowlabs/nlp/AudioAssembler$.html" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">object</span>
+      </span>
+      <span class="symbol">
+        <a title="This is the companion object of AudioAssembler." href="AudioAssembler$.html"><span class="name">AudioAssembler</span></a><span class="result"> extends <span class="extype" name="org.apache.spark.ml.util.DefaultParamsReadable">DefaultParamsReadable</span>[<a href="AudioAssembler.html" class="extype" name="com.johnsnowlabs.nlp.AudioAssembler">AudioAssembler</a>] with <span class="extype" name="scala.Serializable">Serializable</span></span>
+      </span>
+      
+      <p class="shortcomment cmt">This is the companion object of <a href="AudioAssembler.html" class="extype" name="com.johnsnowlabs.nlp.AudioAssembler">AudioAssembler</a>.</p><div class="fullcomment"><div class="comment cmt"><p>This is the companion object of <a href="AudioAssembler.html" class="extype" name="com.johnsnowlabs.nlp.AudioAssembler">AudioAssembler</a>. Please refer to that class for the
+documentation.
+</p></div></div>
     </li><li name="com.johnsnowlabs.nlp.Chunk2Doc" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="Chunk2Doc"></a><a id="Chunk2Doc:Chunk2Doc"></a>
       <span class="permalink">
@@ -1687,6 +1895,24 @@ documentation.
       <p class="shortcomment cmt">This is the companion object of <a href="Finisher.html" class="extype" name="com.johnsnowlabs.nlp.Finisher">Finisher</a>.</p><div class="fullcomment"><div class="comment cmt"><p>This is the companion object of <a href="Finisher.html" class="extype" name="com.johnsnowlabs.nlp.Finisher">Finisher</a>. Please refer to that class for the
 documentation.
 </p></div></div>
+    </li><li name="com.johnsnowlabs.nlp.ImageAssembler" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="ImageAssembler"></a><a id="ImageAssembler:ImageAssembler"></a>
+      <span class="permalink">
+      <a href="../../../com/johnsnowlabs/nlp/ImageAssembler$.html" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">object</span>
+      </span>
+      <span class="symbol">
+        <a title="This is the companion object of ImageAssembler." href="ImageAssembler$.html"><span class="name">ImageAssembler</span></a><span class="result"> extends <span class="extype" name="org.apache.spark.ml.util.DefaultParamsReadable">DefaultParamsReadable</span>[<a href="ImageAssembler.html" class="extype" name="com.johnsnowlabs.nlp.ImageAssembler">ImageAssembler</a>] with <span class="extype" name="scala.Serializable">Serializable</span></span>
+      </span>
+      
+      <p class="shortcomment cmt">This is the companion object of <a href="ImageAssembler.html" class="extype" name="com.johnsnowlabs.nlp.ImageAssembler">ImageAssembler</a>.</p><div class="fullcomment"><div class="comment cmt"><p>This is the companion object of <a href="ImageAssembler.html" class="extype" name="com.johnsnowlabs.nlp.ImageAssembler">ImageAssembler</a>. Please refer to that class for the
+documentation.
+</p></div></div>
     </li><li name="com.johnsnowlabs.nlp.MultiDocumentAssembler" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="MultiDocumentAssembler"></a><a id="MultiDocumentAssembler:MultiDocumentAssembler"></a>
       <span class="permalink">
@@ -1721,6 +1947,24 @@ documentation.
       </span>
       
       
+    </li><li name="com.johnsnowlabs.nlp.TableAssembler" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="TableAssembler"></a><a id="TableAssembler:TableAssembler"></a>
+      <span class="permalink">
+      <a href="../../../com/johnsnowlabs/nlp/TableAssembler$.html" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">object</span>
+      </span>
+      <span class="symbol">
+        <a title="This is the companion object of TableAssembler." href="TableAssembler$.html"><span class="name">TableAssembler</span></a><span class="result"> extends <span class="extype" name="org.apache.spark.ml.util.DefaultParamsReadable">DefaultParamsReadable</span>[<a href="DocumentAssembler.html" class="extype" name="com.johnsnowlabs.nlp.DocumentAssembler">DocumentAssembler</a>] with <span class="extype" name="scala.Serializable">Serializable</span></span>
+      </span>
+      
+      <p class="shortcomment cmt">This is the companion object of <a href="TableAssembler.html" class="extype" name="com.johnsnowlabs.nlp.TableAssembler">TableAssembler</a>.</p><div class="fullcomment"><div class="comment cmt"><p>This is the companion object of <a href="TableAssembler.html" class="extype" name="com.johnsnowlabs.nlp.TableAssembler">TableAssembler</a>. Please refer to that class for the
+documentation.
+</p></div></div>
     </li><li name="com.johnsnowlabs.nlp.TokenAssembler" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="TokenAssembler"></a><a id="TokenAssembler:TokenAssembler"></a>
       <span class="permalink">

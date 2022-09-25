@@ -3,9 +3,9 @@
         <head>
           <meta http-equiv="X-UA-Compatible" content="IE=edge" />
           <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-          <title>Spark NLP 4.1.0 ScalaDoc  - com.johnsnowlabs.nlp.embeddings.CamemBertEmbeddings</title>
-          <meta name="description" content="Spark NLP 4.1.0 ScalaDoc - com.johnsnowlabs.nlp.embeddings.CamemBertEmbeddings" />
-          <meta name="keywords" content="Spark NLP 4.1.0 ScalaDoc com.johnsnowlabs.nlp.embeddings.CamemBertEmbeddings" />
+          <title>Spark NLP 4.2.0 ScalaDoc  - com.johnsnowlabs.nlp.embeddings.CamemBertEmbeddings</title>
+          <meta name="description" content="Spark NLP 4.2.0 ScalaDoc - com.johnsnowlabs.nlp.embeddings.CamemBertEmbeddings" />
+          <meta name="keywords" content="Spark NLP 4.2.0 ScalaDoc com.johnsnowlabs.nlp.embeddings.CamemBertEmbeddings" />
           <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
           
       
@@ -28,7 +28,7 @@
         </head>
         <body>
       <div id="search">
-        <span id="doc-title">Spark NLP 4.1.0 ScalaDoc<span id="doc-version"></span></span>
+        <span id="doc-title">Spark NLP 4.2.0 ScalaDoc<span id="doc-version"></span></span>
         <span class="close-results"><span class="left">&lt;</span> Back</span>
         <div id="textfilter">
           <span class="input">
@@ -459,18 +459,17 @@ state of the art in all four downstream tasks.</i></p><h4>Example</h4><pre><span
   embeddingsFinisher
 ))
 
-<span class="kw">val</span> data = <span class="std">Seq</span>(<span class="lit">"This is a sentence."</span>).toDF(<span class="lit">"text"</span>)
+<span class="kw">val</span> data = <span class="std">Seq</span>(<span class="lit">"C'est une phrase."</span>).toDF(<span class="lit">"text"</span>)
 <span class="kw">val</span> result = pipeline.fit(data).transform(data)
 
 result.selectExpr(<span class="lit">"explode(finished_embeddings) as result"</span>).show(<span class="num">5</span>, <span class="num">80</span>)
 +--------------------------------------------------------------------------------+
 |                                                                          result|
 +--------------------------------------------------------------------------------+
-|[-<span class="num">2.3497989177703857</span>,<span class="num">0.480538547039032</span>,-<span class="num">0.3238905668258667</span>,-<span class="num">1.612930893898010</span>...|
-|[-<span class="num">2.1357314586639404</span>,<span class="num">0.32984697818756104</span>,-<span class="num">0.6032363176345825</span>,-<span class="num">1.6791689395904</span>...|
-|[-<span class="num">1.8244884014129639</span>,-<span class="num">0.27088963985443115</span>,-<span class="num">1.059438943862915</span>,-<span class="num">0.9817547798156</span>...|
-|[-<span class="num">1.1648050546646118</span>,-<span class="num">0.4725411534309387</span>,-<span class="num">0.5938255786895752</span>,-<span class="num">1.5780693292617</span>...|
-|[-<span class="num">0.9125322699546814</span>,<span class="num">0.4563939869403839</span>,-<span class="num">0.3975459933280945</span>,-<span class="num">1.81611204147338</span>...|
+|[<span class="num">0.08442357927560806</span>,-<span class="num">0.12863239645957947</span>,-<span class="num">0.03835778683423996</span>,<span class="num">0.200479581952</span>...|
+|[<span class="num">0.048462312668561935</span>,<span class="num">0.12637358903884888</span>,-<span class="num">0.27429091930389404</span>,-<span class="num">0.07516729831</span>...|
+|[<span class="num">0.02690504491329193</span>,<span class="num">0.12104076147079468</span>,<span class="num">0.012526623904705048</span>,-<span class="num">0.031543646007</span>...|
+|[<span class="num">0.05877285450696945</span>,-<span class="num">0.08773420006036758</span>,-<span class="num">0.06381352990865707</span>,<span class="num">0.122621834278</span>...|
 +--------------------------------------------------------------------------------+</pre></div><dl class="attributes block"> <dt>See also</dt><dd><span class="cmt"><p>
   <a href="https://nlp.johnsnowlabs.com/docs/en/annotators" target="_blank">Annotators Main Page</a> for a list of
   transformer based embeddings</p></span></dd></dl><div class="toggleContainer block">

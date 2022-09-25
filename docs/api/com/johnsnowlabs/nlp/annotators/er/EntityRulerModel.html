@@ -3,9 +3,9 @@
         <head>
           <meta http-equiv="X-UA-Compatible" content="IE=edge" />
           <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-          <title>Spark NLP 4.1.0 ScalaDoc  - com.johnsnowlabs.nlp.annotators.er.EntityRulerModel</title>
-          <meta name="description" content="Spark NLP 4.1.0 ScalaDoc - com.johnsnowlabs.nlp.annotators.er.EntityRulerModel" />
-          <meta name="keywords" content="Spark NLP 4.1.0 ScalaDoc com.johnsnowlabs.nlp.annotators.er.EntityRulerModel" />
+          <title>Spark NLP 4.2.0 ScalaDoc  - com.johnsnowlabs.nlp.annotators.er.EntityRulerModel</title>
+          <meta name="description" content="Spark NLP 4.2.0 ScalaDoc - com.johnsnowlabs.nlp.annotators.er.EntityRulerModel" />
+          <meta name="keywords" content="Spark NLP 4.2.0 ScalaDoc com.johnsnowlabs.nlp.annotators.er.EntityRulerModel" />
           <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
           
       
@@ -28,7 +28,7 @@
         </head>
         <body>
       <div id="search">
-        <span id="doc-title">Spark NLP 4.1.0 ScalaDoc<span id="doc-version"></span></span>
+        <span id="doc-title">Spark NLP 4.2.0 ScalaDoc<span id="doc-version"></span></span>
         <span class="close-results"><span class="left">&lt;</span> Back</span>
         <div id="textfilter">
           <span class="input">
@@ -151,6 +151,10 @@
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="../index.html" class="extype" name="com.johnsnowlabs.nlp.annotators">annotators</a></dd></dl></div>
     </li><li class="current-entities indented5">
                         <span class="separator"></span>
+                        <a class="class" href="AhoCorasickAutomaton.html" title="Aho-Corasick Algorithm: https://dl.acm.org/doi/10.1145/360825.360855 A simple, efficient algorithm to locate all occurrences of any of a finite number of keywords in a string of text."></a>
+                        <a href="AhoCorasickAutomaton.html" title="Aho-Corasick Algorithm: https://dl.acm.org/doi/10.1145/360825.360855 A simple, efficient algorithm to locate all occurrences of any of a finite number of keywords in a string of text.">AhoCorasickAutomaton</a>
+                      </li><li class="current-entities indented5">
+                        <span class="separator"></span>
                         <a class="class" href="EntityPattern.html" title=""></a>
                         <a href="EntityPattern.html" title="">EntityPattern</a>
                       </li><li class="current-entities indented5">
@@ -169,6 +173,10 @@
                         <span class="separator"></span>
                         <a class="object" href="EntityRulerUtil$.html" title=""></a>
                         <a href="EntityRulerUtil$.html" title="">EntityRulerUtil</a>
+                      </li><li class="current-entities indented5">
+                        <span class="separator"></span>
+                        <a class="class" href="FlattenEntityPattern.html" title=""></a>
+                        <a href="FlattenEntityPattern.html" title="">FlattenEntityPattern</a>
                       </li><li class="current-entities indented5">
                         <span class="separator"></span>
                         <a class="class" href="PatternsReadWriter.html" title=""></a>
@@ -481,7 +489,7 @@ UserDefinedTypes to @developerAPI
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef → Any</dd></dl></div>
-    </li><li name="com.johnsnowlabs.nlp.AnnotatorModel#_transform" visbl="prt" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+    </li><li name="com.johnsnowlabs.nlp.annotators.er.EntityRulerModel#_transform" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="_transform(dataset:org.apache.spark.sql.Dataset[_],recursivePipeline:Option[org.apache.spark.ml.PipelineModel]):org.apache.spark.sql.DataFrame"></a><a id="_transform(Dataset[_],Option[PipelineModel]):DataFrame"></a>
       <span class="permalink">
       <a href="../../../../../com/johnsnowlabs/nlp/annotators/er/EntityRulerModel.html#_transform(dataset:org.apache.spark.sql.Dataset[_],recursivePipeline:Option[org.apache.spark.ml.PipelineModel]):org.apache.spark.sql.DataFrame" title="Permalink">
@@ -496,7 +504,7 @@ UserDefinedTypes to @developerAPI
         <span class="name">_transform</span><span class="params">(<span name="dataset">dataset: <span class="extype" name="org.apache.spark.sql.Dataset">Dataset</span>[_]</span>, <span name="recursivePipeline">recursivePipeline: <span class="extype" name="scala.Option">Option</span>[<span class="extype" name="org.apache.spark.ml.PipelineModel">PipelineModel</span>]</span>)</span><span class="result">: <span class="extype" name="org.apache.spark.sql.DataFrame">DataFrame</span></span>
       </span>
       
-      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd><dt>Definition Classes</dt><dd><a href="../../AnnotatorModel.html" class="extype" name="com.johnsnowlabs.nlp.AnnotatorModel">AnnotatorModel</a></dd></dl></div>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.er.EntityRulerModel">EntityRulerModel</a> → <a href="../../AnnotatorModel.html" class="extype" name="com.johnsnowlabs.nlp.AnnotatorModel">AnnotatorModel</a></dd></dl></div>
     </li><li name="com.johnsnowlabs.nlp.AnnotatorModel#afterAnnotate" visbl="prt" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="afterAnnotate(dataset:org.apache.spark.sql.DataFrame):org.apache.spark.sql.DataFrame"></a><a id="afterAnnotate(DataFrame):DataFrame"></a>
       <span class="permalink">
@@ -552,7 +560,7 @@ type
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>Any</dd></dl></div>
-    </li><li name="com.johnsnowlabs.nlp.AnnotatorModel#beforeAnnotate" visbl="prt" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+    </li><li name="com.johnsnowlabs.nlp.annotators.er.EntityRulerModel#beforeAnnotate" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="beforeAnnotate(dataset:org.apache.spark.sql.Dataset[_]):org.apache.spark.sql.Dataset[_]"></a><a id="beforeAnnotate(Dataset[_]):Dataset[_]"></a>
       <span class="permalink">
       <a href="../../../../../com/johnsnowlabs/nlp/annotators/er/EntityRulerModel.html#beforeAnnotate(dataset:org.apache.spark.sql.Dataset[_]):org.apache.spark.sql.Dataset[_]" title="Permalink">
@@ -567,7 +575,7 @@ type
         <span class="name">beforeAnnotate</span><span class="params">(<span name="dataset">dataset: <span class="extype" name="org.apache.spark.sql.Dataset">Dataset</span>[_]</span>)</span><span class="result">: <span class="extype" name="org.apache.spark.sql.Dataset">Dataset</span>[_]</span>
       </span>
       
-      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd><dt>Definition Classes</dt><dd><a href="../../AnnotatorModel.html" class="extype" name="com.johnsnowlabs.nlp.AnnotatorModel">AnnotatorModel</a></dd></dl></div>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.er.EntityRulerModel">EntityRulerModel</a> → <a href="../../AnnotatorModel.html" class="extype" name="com.johnsnowlabs.nlp.AnnotatorModel">AnnotatorModel</a></dd></dl></div>
     </li><li name="com.johnsnowlabs.nlp.HasCaseSensitiveProperties#caseSensitive" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="param">
       <a id="caseSensitive:org.apache.spark.ml.param.BooleanParam"></a><a id="caseSensitive:BooleanParam"></a>
       <span class="permalink">
@@ -1038,6 +1046,22 @@ type
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>Params</dd></dl></div>
+    </li><li name="com.johnsnowlabs.nlp.annotators.er.EntityRulerModel#getAutomatonModelIfNotSet" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="getAutomatonModelIfNotSet:Option[com.johnsnowlabs.nlp.annotators.er.AhoCorasickAutomaton]"></a><a id="getAutomatonModelIfNotSet:Option[AhoCorasickAutomaton]"></a>
+      <span class="permalink">
+      <a href="../../../../../com/johnsnowlabs/nlp/annotators/er/EntityRulerModel.html#getAutomatonModelIfNotSet:Option[com.johnsnowlabs.nlp.annotators.er.AhoCorasickAutomaton]" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">getAutomatonModelIfNotSet</span><span class="result">: <span class="extype" name="scala.Option">Option</span>[<a href="AhoCorasickAutomaton.html" class="extype" name="com.johnsnowlabs.nlp.annotators.er.AhoCorasickAutomaton">AhoCorasickAutomaton</a>]</span>
+      </span>
+      
+      
     </li><li name="com.johnsnowlabs.nlp.HasCaseSensitiveProperties#getCaseSensitive" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="getParam">
       <a id="getCaseSensitive:Boolean"></a>
       <span class="permalink">
@@ -1744,7 +1768,7 @@ as input and output columns if not specified
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.er.EntityRulerModel">EntityRulerModel</a> → <a href="../../../storage/HasStorageModel.html" class="extype" name="com.johnsnowlabs.storage.HasStorageModel">HasStorageModel</a> → <a href="../../ParamsAndFeaturesWritable.html" class="extype" name="com.johnsnowlabs.nlp.ParamsAndFeaturesWritable">ParamsAndFeaturesWritable</a></dd></dl></div>
-    </li><li name="com.johnsnowlabs.nlp.HasInputAnnotationCols#optionalInputAnnotatorTypes" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+    </li><li name="com.johnsnowlabs.nlp.annotators.er.EntityRulerModel#optionalInputAnnotatorTypes" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="optionalInputAnnotatorTypes:Array[String]"></a>
       <span class="permalink">
       <a href="../../../../../com/johnsnowlabs/nlp/annotators/er/EntityRulerModel.html#optionalInputAnnotatorTypes:Array[String]" title="Permalink">
@@ -1759,7 +1783,7 @@ as input and output columns if not specified
         <span class="name">optionalInputAnnotatorTypes</span><span class="result">: <span class="extype" name="scala.Array">Array</span>[<span class="extype" name="scala.Predef.String">String</span>]</span>
       </span>
       
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="../../HasInputAnnotationCols.html" class="extype" name="com.johnsnowlabs.nlp.HasInputAnnotationCols">HasInputAnnotationCols</a></dd></dl></div>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.er.EntityRulerModel">EntityRulerModel</a> → <a href="../../HasInputAnnotationCols.html" class="extype" name="com.johnsnowlabs.nlp.HasInputAnnotationCols">HasInputAnnotationCols</a></dd></dl></div>
     </li><li name="com.johnsnowlabs.nlp.annotators.er.EntityRulerModel#outputAnnotatorType" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="outputAnnotatorType:EntityRulerModel.this.AnnotatorType"></a><a id="outputAnnotatorType:AnnotatorType"></a>
       <span class="permalink">
@@ -2014,6 +2038,22 @@ as input and output columns if not specified
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>Params</dd></dl></div>
+    </li><li name="com.johnsnowlabs.nlp.annotators.er.EntityRulerModel#setAutomatonModelIfNotSet" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="setAutomatonModelIfNotSet(spark:org.apache.spark.sql.SparkSession,automaton:Option[com.johnsnowlabs.nlp.annotators.er.AhoCorasickAutomaton]):EntityRulerModel.this.type"></a><a id="setAutomatonModelIfNotSet(SparkSession,Option[AhoCorasickAutomaton]):EntityRulerModel.this.type"></a>
+      <span class="permalink">
+      <a href="../../../../../com/johnsnowlabs/nlp/annotators/er/EntityRulerModel.html#setAutomatonModelIfNotSet(spark:org.apache.spark.sql.SparkSession,automaton:Option[com.johnsnowlabs.nlp.annotators.er.AhoCorasickAutomaton]):EntityRulerModel.this.type" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">setAutomatonModelIfNotSet</span><span class="params">(<span name="spark">spark: <span class="extype" name="org.apache.spark.sql.SparkSession">SparkSession</span></span>, <span name="automaton">automaton: <span class="extype" name="scala.Option">Option</span>[<a href="AhoCorasickAutomaton.html" class="extype" name="com.johnsnowlabs.nlp.annotators.er.AhoCorasickAutomaton">AhoCorasickAutomaton</a>]</span>)</span><span class="result">: <a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.er.EntityRulerModel">EntityRulerModel</a>.this.type</span>
+      </span>
+      
+      
     </li><li name="com.johnsnowlabs.nlp.HasCaseSensitiveProperties#setCaseSensitive" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="setParam">
       <a id="setCaseSensitive(value:Boolean):HasCaseSensitiveProperties.this.type"></a><a id="setCaseSensitive(Boolean):EntityRulerModel.this.type"></a>
       <span class="permalink">
