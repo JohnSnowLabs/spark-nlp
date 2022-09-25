@@ -17,6 +17,7 @@
 package com.johnsnowlabs.nlp.annotators.audio
 
 import com.johnsnowlabs.nlp.AudioAssembler
+import com.johnsnowlabs.nlp.pretrained.PretrainedPipeline
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
 import com.johnsnowlabs.tags.SlowTest
 import com.johnsnowlabs.util.Benchmark
@@ -97,7 +98,7 @@ class Wav2Vec2ForCTCTestSpec extends AnyFlatSpec {
 
   }
 
-  "ViTForImageClassification" should "benchmark" taggedAs SlowTest in {
+  "Wav2Vec2ForCTC" should "benchmark" taggedAs SlowTest in {
 
     val speechToText: Wav2Vec2ForCTC = Wav2Vec2ForCTC
       .pretrained()
@@ -122,6 +123,15 @@ class Wav2Vec2ForCTCTestSpec extends AnyFlatSpec {
         pipelineDF.select("text").count()
       }
     })
+  }
+
+  "Wav2Vec2ForCTC" should "pretrained pipeline" taggedAs SlowTest in {
+
+    val pipelineModel = PretrainedPipeline("pipeline_asr_wav2vec2_base_960h")
+
+    val pipelineDF = pipelineModel.transform(processedAudioFloats)
+    pipelineDF.show()
+
   }
 
 }
