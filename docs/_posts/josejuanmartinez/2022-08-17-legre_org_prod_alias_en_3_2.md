@@ -67,7 +67,6 @@ reDL = RelationExtractionDLModel()\
 
 nlpPipeline = Pipeline(stages=[
         documentAssembler,
-        sentenceDetector,
         tokenizer,
         embeddings,
         ner_model,
