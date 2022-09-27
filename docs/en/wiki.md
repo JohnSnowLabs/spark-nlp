@@ -1,7 +1,7 @@
 ---
 layout: docs
 header: true
-title: Wiki Page
+title: Wiki
 permalink: /docs/en/wiki
 key: docs-concepts
 modify_date: "2022-09-27"
@@ -12,8 +12,6 @@ sidebar:
 ---
 
 <div class="h3-box" markdown="1">
-
-## Wiki Page
 
 This page is created for sharing some tips and tricks for the Spark NLP library. You can find valuable informations under the related highlights.
 
