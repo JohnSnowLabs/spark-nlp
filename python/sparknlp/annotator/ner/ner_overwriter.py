@@ -32,9 +32,9 @@ class NerOverwriter(AnnotatorModel):
 
     Parameters
     ----------
-    stopWords
+    nerWords
         The words to be overwritten
-    newResult
+    newNerEntity
         new NER class to apply to those stopwords, by default I-OVERWRITE
 
     Examples
@@ -93,8 +93,8 @@ class NerOverwriter(AnnotatorModel):
     >>> nerOverwriter = NerOverwriter() \\
     ...     .setInputCols(["ner"]) \\
     ...     .setOutputCol("ner_overwritten") \\
-    ...     .setStopWords(["Million"]) \\
-    ...     .setNewResult("B-CARDINAL")
+    ...     .setNerWords(["Million"]) \\
+    ...     .setNewNerEntity("B-CARDINAL")
     >>> nerOverwriter.transform(result).selectExpr("explode(ner_overwritten)").show(truncate=False)
     +---------------------------------------------------------+
     |col                                                      |
@@ -119,15 +119,17 @@ class NerOverwriter(AnnotatorModel):
     def __init__(self):
         super(NerOverwriter, self).__init__(classname="com.johnsnowlabs.nlp.annotators.ner.NerOverwriter")
         self._setDefault(
-            newResult="I-OVERWRITE"
+            newNerEntity="I-OVERWRITE"
         )
 
-    stopWords = Param(Params._dummy(), "stopWords", "The words to be overwritten",
+    nerWords = Param(Params._dummy(), "nerWords", "The words to be overwritten",
                       typeConverter=TypeConverters.toListString)
-    newResult = Param(Params._dummy(), "newResult", "new NER class to apply to those stopwords",
+    newNerEntity = Param(Params._dummy(), "newNerEntity", "new NER class to apply to those stopwords",
                       typeConverter=TypeConverters.toString)
+    replaceEntities = Param(Params._dummy(), "replaceEntities", "Ner tags to be replaced",
+                            typeConverter=TypeConverters.identity)
 
-    def setStopWords(self, value):
+    def setNerWords(self, value):
         """Sets the words to be overwritten.
 
         Parameters
@@ -135,9 +137,9 @@ class NerOverwriter(AnnotatorModel):
         value : List[str]
             The words to be overwritten
         """
-        return self._set(stopWords=value)
+        return self._set(nerWords=value)
 
-    def setNewResult(self, value):
+    def setNewNerEntity(self, value):
         """Sets new NER class to apply to those stopwords, by default
         I-OVERWRITE.
 
@@ -146,5 +148,15 @@ class NerOverwriter(AnnotatorModel):
         value : str
             NER class to apply the stopwords to
         """
-        return self._set(newResult=value)
+        return self._set(newNerEntity=value)
 
+    def setReplaceEntities(self, rw):
+        """Sets weights dictionary with the tags that you want to replace.
+
+        Parameters
+        ----------
+        rw : Dict[str, str]
+        Sets weights dictionary with the tags that you want to replace...
+        """
+        self._call_java('setReplaceEntities', rw)
+        return self

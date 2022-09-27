@@ -38,14 +38,14 @@ class ViTImageClassificationTestSpec extends AnyFlatSpec {
     .setInputCol("image")
     .setOutputCol("image_assembler")
 
-  val imageClassifier: ViTForImageClassification = ViTForImageClassification
-    .pretrained()
-    .setInputCols("image_assembler")
-    .setOutputCol("class")
-
-  val pipeline: Pipeline = new Pipeline().setStages(Array(imageAssembler, imageClassifier))
-
   "ViTForImageClassification" should "predict correct ImageNet classes" taggedAs SlowTest in {
+
+    val imageClassifier: ViTForImageClassification = ViTForImageClassification
+      .pretrained()
+      .setInputCols("image_assembler")
+      .setOutputCol("class")
+
+    val pipeline: Pipeline = new Pipeline().setStages(Array(imageAssembler, imageClassifier))
 
     val pipelineDF = pipeline.fit(imageDF).transform(imageDF)
 
@@ -80,6 +80,13 @@ class ViTImageClassificationTestSpec extends AnyFlatSpec {
   }
 
   "ViTForImageClassification" should "be serializable" taggedAs SlowTest in {
+
+    val imageClassifier: ViTForImageClassification = ViTForImageClassification
+      .pretrained()
+      .setInputCols("image_assembler")
+      .setOutputCol("class")
+
+    val pipeline: Pipeline = new Pipeline().setStages(Array(imageAssembler, imageClassifier))
 
     val pipelineModel = pipeline.fit(imageDF)
     val pipelineDF = pipelineModel.transform(imageDF)
@@ -121,6 +128,13 @@ class ViTImageClassificationTestSpec extends AnyFlatSpec {
 
   "ViTForImageClassification" should "benchmark" taggedAs SlowTest in {
 
+    val imageClassifier: ViTForImageClassification = ViTForImageClassification
+      .pretrained()
+      .setInputCols("image_assembler")
+      .setOutputCol("class")
+
+    val pipeline: Pipeline = new Pipeline().setStages(Array(imageAssembler, imageClassifier))
+
     Array(2, 4, 8, 16, 32, 128).foreach(b => {
       imageClassifier.setBatchSize(b)
 
@@ -140,6 +154,14 @@ class ViTImageClassificationTestSpec extends AnyFlatSpec {
   }
 
   "ViTForImageClassification" should "work with LightPipeline" taggedAs FastTest in {
+
+    val imageClassifier: ViTForImageClassification = ViTForImageClassification
+      .pretrained()
+      .setInputCols("image_assembler")
+      .setOutputCol("class")
+
+    val pipeline: Pipeline = new Pipeline().setStages(Array(imageAssembler, imageClassifier))
+
     val pipelineModel = pipeline.fit(imageDF)
     val lightPipeline = new LightPipeline(pipelineModel)
 

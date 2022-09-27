@@ -86,7 +86,6 @@ class TensorflowElmo(
         /*Combine tokens and sentences  and their calculated embeddings*/
         batch.zip(vectors).map { case (sentence, tokenVectors) =>
           val tokenLength = sentence._1.indexedTokens.length
-          //        val endRange =
           val tokenEmbeddings = tokenVectors.slice(0, tokenLength)
 
           val tokensWithEmbeddings = sentence._1.indexedTokens

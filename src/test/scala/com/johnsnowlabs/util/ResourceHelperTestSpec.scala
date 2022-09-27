@@ -131,7 +131,7 @@ class ResourceHelperTestSpec extends AnyFlatSpec {
 
   it should "get content from SourceStream" taggedAs FastTest in {
     val sourceStream =
-      ResourceHelper.SourceStream("src/test/resources/entity-ruler/patterns.jsonl")
+      ResourceHelper.SourceStream("src/test/resources/entity-ruler/keywords_with_id.jsonl")
     val expectedContent = Array(
       "{\"id\": \"names-with-j\", \"label\": \"PERSON\", \"patterns\": [\"Jon\", \"John\", \"John Snow\", \"Jon Snow\"]}",
       "{\"id\": \"names-with-s\", \"label\": \"PERSON\", \"patterns\": [\"Stark\"]}",
@@ -149,6 +149,22 @@ class ResourceHelperTestSpec extends AnyFlatSpec {
     val files = ResourceHelper.listLocalFiles("src/test/resources/image")
 
     assert(files.nonEmpty)
+  }
+
+  it should "parse S3 URIs" taggedAs FastTest in {
+    val s3URIs =
+      Array("s3a://my.bucket.com/my/S3/path/my_file.tmp", "s3://my.bucket.com/my/S3/path/")
+    val expectedOutput =
+      Array(("my.bucket.com", "my/S3/path/my_file.tmp"), ("my.bucket.com", "my/S3/path/"))
+
+    s3URIs.zipWithIndex.foreach { case (s3URI, index) =>
+      val (actualBucket, actualKey) = ResourceHelper.parseS3URI(s3URI)
+
+      val (expectedBucket, expectedKey) = expectedOutput(index)
+
+      assert(expectedBucket == actualBucket)
+      assert(expectedKey == actualKey)
+    }
   }
 
 }

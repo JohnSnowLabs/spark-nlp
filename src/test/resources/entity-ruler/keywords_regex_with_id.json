@@ -1,0 +1,14 @@
+[
+  {
+    "id": "id-regex",
+    "label": "ID",
+    "patterns": ["\\d+"],
+    "regex": true
+  },
+  {
+    "id": "locations-words",
+    "label": "LOCATION",
+    "patterns": ["Winterfell"],
+    "regex": false
+  }
+]

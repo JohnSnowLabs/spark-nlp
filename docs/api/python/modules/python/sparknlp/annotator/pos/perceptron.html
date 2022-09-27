@@ -1,0 +1,606 @@
+
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>python.sparknlp.annotator.pos.perceptron &#8212; Spark NLP 4.2.0 documentation</title>
+  <script>
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../../../../static/styles/theme.css?digest=9b1a4fa89bdd0e95b23b" rel="stylesheet">
+<link href="../../../../../static/styles/pydata-sphinx-theme.css?digest=9b1a4fa89bdd0e95b23b" rel="stylesheet">
+
+  
+  <link rel="stylesheet"
+    href="../../../../../static/vendor/fontawesome/6.1.2/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../../../../../static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../../../../../static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2">
+
+    <link rel="stylesheet" type="text/css" href="../../../../../static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../../../../../static/graphviz.css" />
+    <link rel="stylesheet" type="text/css" href="../../../../../static/css/custom.css" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../../../../static/scripts/pydata-sphinx-theme.js?digest=9b1a4fa89bdd0e95b23b">
+
+    <script data-url_root="../../../../../" id="documentation_options" src="../../../../../static/documentation_options.js"></script>
+    <script src="../../../../../static/jquery.js"></script>
+    <script src="../../../../../static/underscore.js"></script>
+    <script src="../../../../../static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="../../../../../static/doctools.js"></script>
+    <script src="../../../../../static/sphinx_highlight.js"></script>
+    <script src="../../../../../static/toggleprompt.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'modules/python/sparknlp/annotator/pos/perceptron';</script>
+    <link rel="shortcut icon" href="../../../../../static/fav.ico"/>
+    <link rel="index" title="Index" href="../../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../../search.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="docsearch:language" content="en">
+  </head>
+  
+  
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="180" data-default-mode="">
+
+  
+  <input type="checkbox" class="sidebar-toggle" name="__primary" id="__primary">
+  <label class="overlay overlay-primary" for="__primary"></label>
+
+  
+  <input type="checkbox" class="sidebar-toggle" name="__secondary" id="__secondary">
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+      
+<form class="bd-search d-flex align-items-center" action="../../../../../search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search the docs ..." aria-label="Search the docs ..." autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+    </div>
+  </div>
+
+  
+  <nav class="bd-header navbar navbar-expand-lg bd-navbar" id="navbar-main"><div class="bd-header__inner bd-page-width">
+  <label class="sidebar-toggle primary-toggle" for="__primary">
+      <span class="fas fa-bars"></span>
+  </label>
+  <div id="navbar-start">
+    
+    
+  
+
+
+<a class="navbar-brand logo" href="../../../../../index.html">
+
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <img src="../../../../../static/logo.png" class="logo__image only-light" alt="Logo image">
+    <img src="../../../../../static/logo.png" class="logo__image only-dark" alt="Logo image">
+  
+  
+</a>
+    
+  </div>
+
+  
+  <div class="col-lg-9 navbar-header-items">
+    <div id="navbar-center" class="mr-auto">
+      
+      <div class="navbar-center-item">
+        <nav class="navbar-nav">
+    <p class="sidebar-header-items__title" role="heading" aria-level="1" aria-label="Site Navigation">
+        Site Navigation
+    </p>
+    <ul id="navbar-main-elements" class="navbar-nav">
+        
+                <li class="nav-item">
+                    <a class="nav-link" href="../../../../../getting_started/index.html">
+                        Getting Started
+                    </a>
+                </li>
+                
+
+                <li class="nav-item">
+                    <a class="nav-link" href="../../../../../user_guide/index.html">
+                        User Guide
+                    </a>
+                </li>
+                
+
+                <li class="nav-item">
+                    <a class="nav-link" href="../../../../../third_party/index.html">
+                        Third Party Projects
+                    </a>
+                </li>
+                
+
+                <li class="nav-item">
+                    <a class="nav-link" href="../../../../../reference/index.html">
+                        API Reference
+                    </a>
+                </li>
+                
+    </ul>
+</nav>
+      </div>
+      
+    </div>
+
+    <div id="navbar-end">
+      <div class="navbar-end-item navbar-end__search-button-container">
+        
+<button class="btn btn-sm navbar-btn search-button search-button__button" title="Search">
+  <i class="fas fa-search"></i>
+</button>
+      </div>
+      
+      <div class="navbar-end-item">
+        <span class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle">
+    <a class="theme-switch" data-mode="light"><i class="fas fa-sun"></i></a>
+    <a class="theme-switch" data-mode="dark"><i class="far fa-moon"></i></a>
+    <a class="theme-switch" data-mode="auto"><i class="fas fa-adjust"></i></a>
+</span>
+      </div>
+      
+      <div class="navbar-end-item">
+        <ul id="navbar-icon-links" class="navbar-nav" aria-label="Icon Links">
+      </ul>
+      </div>
+      
+    </div>
+  </div>
+
+
+  
+  <div class="search-button-container--mobile">
+<button class="btn btn-sm navbar-btn search-button search-button__button" title="Search">
+  <i class="fas fa-search"></i>
+</button>
+  </div>
+
+  
+  <label class="sidebar-toggle secondary-toggle" for="__secondary">
+      <span class="fas fa-outdent"></span>
+  </label>
+  
+
+</div>
+  </nav>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      <div class="bd-sidebar-primary bd-sidebar hide-on-wide">
+        
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+      
+      <div class="navbar-center-item">
+        <nav class="navbar-nav">
+    <p class="sidebar-header-items__title" role="heading" aria-level="1" aria-label="Site Navigation">
+        Site Navigation
+    </p>
+    <ul id="navbar-main-elements" class="navbar-nav">
+        
+                <li class="nav-item">
+                    <a class="nav-link" href="../../../../../getting_started/index.html">
+                        Getting Started
+                    </a>
+                </li>
+                
+
+                <li class="nav-item">
+                    <a class="nav-link" href="../../../../../user_guide/index.html">
+                        User Guide
+                    </a>
+                </li>
+                
+
+                <li class="nav-item">
+                    <a class="nav-link" href="../../../../../third_party/index.html">
+                        Third Party Projects
+                    </a>
+                </li>
+                
+
+                <li class="nav-item">
+                    <a class="nav-link" href="../../../../../reference/index.html">
+                        API Reference
+                    </a>
+                </li>
+                
+    </ul>
+</nav>
+      </div>
+      
+      </div>
+    
+
+    
+    
+    <div class="sidebar-header-items__end">
+      
+      <div class="navbar-end-item">
+        <span class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle">
+    <a class="theme-switch" data-mode="light"><i class="fas fa-sun"></i></a>
+    <a class="theme-switch" data-mode="dark"><i class="far fa-moon"></i></a>
+    <a class="theme-switch" data-mode="auto"><i class="fas fa-adjust"></i></a>
+</span>
+      </div>
+      
+      <div class="navbar-end-item">
+        <ul id="navbar-icon-links" class="navbar-nav" aria-label="Icon Links">
+      </ul>
+      </div>
+      
+    </div>
+    
+  </div>
+
+  
+
+  
+  <div class="sidebar-end-items sidebar-primary__section">
+    <div class="sidebar-end-items__item">
+    </div>
+  </div>
+
+      </div>
+      <main class="bd-main">
+        
+        
+        <div class="bd-content">
+          <div class="bd-article-container">
+            
+            <div class="bd-header-article">
+                
+            </div>
+            
+            
+            <article class="bd-article" role="main">
+              
+  <h1>Source code for python.sparknlp.annotator.pos.perceptron</h1><div class="highlight"><pre>
+<span></span><span class="c1">#  Copyright 2017-2022 John Snow Labs</span>
+<span class="c1">#</span>
+<span class="c1">#  Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);</span>
+<span class="c1">#  you may not use this file except in compliance with the License.</span>
+<span class="c1">#  You may obtain a copy of the License at</span>
+<span class="c1">#</span>
+<span class="c1">#     http://www.apache.org/licenses/LICENSE-2.0</span>
+<span class="c1">#</span>
+<span class="c1">#  Unless required by applicable law or agreed to in writing, software</span>
+<span class="c1">#  distributed under the License is distributed on an &quot;AS IS&quot; BASIS,</span>
+<span class="c1">#  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.</span>
+<span class="c1">#  See the License for the specific language governing permissions and</span>
+<span class="c1">#  limitations under the License.</span>
+<span class="sd">&quot;&quot;&quot;Contains classes for the Perceptron Annotator.&quot;&quot;&quot;</span>
+
+<span class="kn">from</span> <span class="nn">sparknlp.common</span> <span class="kn">import</span> <span class="o">*</span>
+
+
+<div class="viewcode-block" id="PerceptronApproach"><a class="viewcode-back" href="../../../../../reference/autosummary/python/sparknlp/annotator/pos/perceptron/index.html#python.sparknlp.annotator.pos.perceptron.PerceptronApproach">[docs]</a><span class="k">class</span> <span class="nc">PerceptronApproach</span><span class="p">(</span><span class="n">AnnotatorApproach</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Trains an averaged Perceptron model to tag words part-of-speech. Sets a</span>
+<span class="sd">    POS tag to each word within a sentence.</span>
+
+<span class="sd">    For pretrained models please see the :class:`.PerceptronModel`.</span>
+
+<span class="sd">    The training data needs to be in a Spark DataFrame, where the column needs</span>
+<span class="sd">    to consist of Annotations of type ``POS``. The `Annotation` needs to have</span>
+<span class="sd">    member ``result`` set to the POS tag and have a ``&quot;word&quot;`` mapping to its</span>
+<span class="sd">    word inside of member ``metadata``. This DataFrame for training can easily</span>
+<span class="sd">    created by the helper class :class:`.POS`.</span>
+
+
+<span class="sd">    &gt;&gt;&gt; POS().readDataset(spark, datasetPath) \\</span>
+<span class="sd">    ...     .selectExpr(&quot;explode(tags) as tags&quot;).show(truncate=False)</span>
+<span class="sd">    +---------------------------------------------+</span>
+<span class="sd">    |tags                                         |</span>
+<span class="sd">    +---------------------------------------------+</span>
+<span class="sd">    |[pos, 0, 5, NNP, [word -&gt; Pierre], []]       |</span>
+<span class="sd">    |[pos, 7, 12, NNP, [word -&gt; Vinken], []]      |</span>
+<span class="sd">    |[pos, 14, 14, ,, [word -&gt; ,], []]            |</span>
+<span class="sd">    |[pos, 31, 34, MD, [word -&gt; will], []]        |</span>
+<span class="sd">    |[pos, 36, 39, VB, [word -&gt; join], []]        |</span>
+<span class="sd">    |[pos, 41, 43, DT, [word -&gt; the], []]         |</span>
+<span class="sd">    |[pos, 45, 49, NN, [word -&gt; board], []]       |</span>
+<span class="sd">                            ...</span>
+
+
+<span class="sd">    For extended examples of usage, see the `Spark NLP Workshop</span>
+<span class="sd">    &lt;https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/jupyter/training/french/Train-Perceptron-French.ipynb&gt;`__.</span>
+
+<span class="sd">    ====================== ======================</span>
+<span class="sd">    Input Annotation types Output Annotation type</span>
+<span class="sd">    ====================== ======================</span>
+<span class="sd">    ``TOKEN, DOCUMENT``    ``POS``</span>
+<span class="sd">    ====================== ======================</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    posCol</span>
+<span class="sd">        Column name for Array of POS tags that match tokens</span>
+<span class="sd">    nIterations</span>
+<span class="sd">        Number of iterations in training, converges to better accuracy, by</span>
+<span class="sd">        default 5</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">    &gt;&gt;&gt; import sparknlp</span>
+<span class="sd">    &gt;&gt;&gt; from sparknlp.base import *</span>
+<span class="sd">    &gt;&gt;&gt; from sparknlp.annotator import *</span>
+<span class="sd">    &gt;&gt;&gt; from sparknlp.training import *</span>
+<span class="sd">    &gt;&gt;&gt; from pyspark.ml import Pipeline</span>
+<span class="sd">    &gt;&gt;&gt; documentAssembler = DocumentAssembler() \\</span>
+<span class="sd">    ...     .setInputCol(&quot;text&quot;) \\</span>
+<span class="sd">    ...     .setOutputCol(&quot;document&quot;)</span>
+<span class="sd">    &gt;&gt;&gt; sentence = SentenceDetector() \\</span>
+<span class="sd">    ...     .setInputCols([&quot;document&quot;]) \\</span>
+<span class="sd">    ...     .setOutputCol(&quot;sentence&quot;)</span>
+<span class="sd">    &gt;&gt;&gt; tokenizer = Tokenizer() \\</span>
+<span class="sd">    ...     .setInputCols([&quot;sentence&quot;]) \\</span>
+<span class="sd">    ...     .setOutputCol(&quot;token&quot;)</span>
+<span class="sd">    &gt;&gt;&gt; datasetPath = &quot;src/test/resources/anc-pos-corpus-small/test-training.txt&quot;</span>
+<span class="sd">    &gt;&gt;&gt; trainingPerceptronDF = POS().readDataset(spark, datasetPath)</span>
+<span class="sd">    &gt;&gt;&gt; trainedPos = PerceptronApproach() \\</span>
+<span class="sd">    ...     .setInputCols([&quot;document&quot;, &quot;token&quot;]) \\</span>
+<span class="sd">    ...     .setOutputCol(&quot;pos&quot;) \\</span>
+<span class="sd">    ...     .setPosColumn(&quot;tags&quot;) \\</span>
+<span class="sd">    ...     .fit(trainingPerceptronDF)</span>
+<span class="sd">    &gt;&gt;&gt; pipeline = Pipeline().setStages([</span>
+<span class="sd">    ...     documentAssembler,</span>
+<span class="sd">    ...     sentence,</span>
+<span class="sd">    ...     tokenizer,</span>
+<span class="sd">    ...     trainedPos</span>
+<span class="sd">    ... ])</span>
+<span class="sd">    &gt;&gt;&gt; data = spark.createDataFrame([[&quot;To be or not to be, is this the question?&quot;]]).toDF(&quot;text&quot;)</span>
+<span class="sd">    &gt;&gt;&gt; result = pipeline.fit(data).transform(data)</span>
+<span class="sd">    &gt;&gt;&gt; result.selectExpr(&quot;pos.result&quot;).show(truncate=False)</span>
+<span class="sd">    +--------------------------------------------------+</span>
+<span class="sd">    |result                                            |</span>
+<span class="sd">    +--------------------------------------------------+</span>
+<span class="sd">    |[NNP, NNP, CD, JJ, NNP, NNP, ,, MD, VB, DT, CD, .]|</span>
+<span class="sd">    +--------------------------------------------------+</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">posCol</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
+                   <span class="s2">&quot;posCol&quot;</span><span class="p">,</span>
+                   <span class="s2">&quot;column of Array of POS tags that match tokens&quot;</span><span class="p">,</span>
+                   <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toString</span><span class="p">)</span>
+
+    <span class="n">nIterations</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
+                        <span class="s2">&quot;nIterations&quot;</span><span class="p">,</span>
+                        <span class="s2">&quot;Number of iterations in training, converges to better accuracy&quot;</span><span class="p">,</span>
+                        <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toInt</span><span class="p">)</span>
+
+    <span class="nd">@keyword_only</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">PerceptronApproach</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
+            <span class="n">classname</span><span class="o">=</span><span class="s2">&quot;com.johnsnowlabs.nlp.annotators.pos.perceptron.PerceptronApproach&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_setDefault</span><span class="p">(</span>
+            <span class="n">nIterations</span><span class="o">=</span><span class="mi">5</span>
+        <span class="p">)</span>
+
+<div class="viewcode-block" id="PerceptronApproach.setPosColumn"><a class="viewcode-back" href="../../../../../reference/autosummary/python/sparknlp/annotator/pos/perceptron/index.html#python.sparknlp.annotator.pos.perceptron.PerceptronApproach.setPosColumn">[docs]</a>    <span class="k">def</span> <span class="nf">setPosColumn</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Sets column name for Array of POS tags that match tokens.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        value : str</span>
+<span class="sd">            Name of column for Array of POS tags</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">posCol</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="PerceptronApproach.setIterations"><a class="viewcode-back" href="../../../../../reference/autosummary/python/sparknlp/annotator/pos/perceptron/index.html#python.sparknlp.annotator.pos.perceptron.PerceptronApproach.setIterations">[docs]</a>    <span class="k">def</span> <span class="nf">setIterations</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Sets number of iterations in training, by default 5.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        value : int</span>
+<span class="sd">            Number of iterations in training</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">nIterations</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="PerceptronApproach.getNIterations"><a class="viewcode-back" href="../../../../../reference/autosummary/python/sparknlp/annotator/pos/perceptron/index.html#python.sparknlp.annotator.pos.perceptron.PerceptronApproach.getNIterations">[docs]</a>    <span class="k">def</span> <span class="nf">getNIterations</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Gets number of iterations in training, by default 5.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        int</span>
+<span class="sd">            Number of iterations in training</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">getOrDefault</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">nIterations</span><span class="p">)</span></div>
+
+    <span class="k">def</span> <span class="nf">_create_model</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">java_model</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">PerceptronModel</span><span class="p">(</span><span class="n">java_model</span><span class="o">=</span><span class="n">java_model</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="PerceptronModel"><a class="viewcode-back" href="../../../../../reference/autosummary/python/sparknlp/annotator/pos/perceptron/index.html#python.sparknlp.annotator.pos.perceptron.PerceptronModel">[docs]</a><span class="k">class</span> <span class="nc">PerceptronModel</span><span class="p">(</span><span class="n">AnnotatorModel</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Averaged Perceptron model to tag words part-of-speech. Sets a POS tag to</span>
+<span class="sd">    each word within a sentence.</span>
+
+<span class="sd">    This is the instantiated model of the :class:`.PerceptronApproach`. For</span>
+<span class="sd">    training your own model, please see the documentation of that class.</span>
+
+<span class="sd">    Pretrained models can be loaded with :meth:`.pretrained` of the companion</span>
+<span class="sd">    object:</span>
+
+<span class="sd">    &gt;&gt;&gt; posTagger = PerceptronModel.pretrained() \\</span>
+<span class="sd">    ...     .setInputCols([&quot;document&quot;, &quot;token&quot;]) \\</span>
+<span class="sd">    ...     .setOutputCol(&quot;pos&quot;)</span>
+
+
+<span class="sd">    The default model is ``&quot;pos_anc&quot;``, if no name is provided.</span>
+
+<span class="sd">    For available pretrained models please see the `Models Hub</span>
+<span class="sd">    &lt;https://nlp.johnsnowlabs.com/models?task=Part+of+Speech+Tagging&gt;`__.</span>
+<span class="sd">    Additionally, pretrained pipelines are available for this module, see</span>
+<span class="sd">    `Pipelines &lt;https://nlp.johnsnowlabs.com/docs/en/pipelines&gt;`__.</span>
+
+<span class="sd">    For extended examples of usage, see the `Spark NLP Workshop</span>
+<span class="sd">    &lt;https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Public/3.SparkNLP_Pretrained_Models.ipynb&gt;`__.</span>
+
+<span class="sd">    ====================== ======================</span>
+<span class="sd">    Input Annotation types Output Annotation type</span>
+<span class="sd">    ====================== ======================</span>
+<span class="sd">    ``TOKEN, DOCUMENT``    ``POS``</span>
+<span class="sd">    ====================== ======================</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    None</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">    &gt;&gt;&gt; import sparknlp</span>
+<span class="sd">    &gt;&gt;&gt; from sparknlp.base import *</span>
+<span class="sd">    &gt;&gt;&gt; from sparknlp.annotator import *</span>
+<span class="sd">    &gt;&gt;&gt; from pyspark.ml import Pipeline</span>
+<span class="sd">    &gt;&gt;&gt; documentAssembler = DocumentAssembler() \\</span>
+<span class="sd">    ...     .setInputCol(&quot;text&quot;) \\</span>
+<span class="sd">    ...     .setOutputCol(&quot;document&quot;)</span>
+<span class="sd">    &gt;&gt;&gt; tokenizer = Tokenizer() \\</span>
+<span class="sd">    ...     .setInputCols([&quot;document&quot;]) \\</span>
+<span class="sd">    ...     .setOutputCol(&quot;token&quot;)</span>
+<span class="sd">    &gt;&gt;&gt; posTagger = PerceptronModel.pretrained() \\</span>
+<span class="sd">    ...     .setInputCols([&quot;document&quot;, &quot;token&quot;]) \\</span>
+<span class="sd">    ...     .setOutputCol(&quot;pos&quot;)</span>
+<span class="sd">    &gt;&gt;&gt; pipeline = Pipeline().setStages([</span>
+<span class="sd">    ...     documentAssembler,</span>
+<span class="sd">    ...     tokenizer,</span>
+<span class="sd">    ...     posTagger</span>
+<span class="sd">    ... ])</span>
+<span class="sd">    &gt;&gt;&gt; data = spark.createDataFrame([[&quot;Peter Pipers employees are picking pecks of pickled peppers&quot;]]).toDF(&quot;text&quot;)</span>
+<span class="sd">    &gt;&gt;&gt; result = pipeline.fit(data).transform(data)</span>
+<span class="sd">    &gt;&gt;&gt; result.selectExpr(&quot;explode(pos) as pos&quot;).show(truncate=False)</span>
+<span class="sd">    +-------------------------------------------+</span>
+<span class="sd">    |pos                                        |</span>
+<span class="sd">    +-------------------------------------------+</span>
+<span class="sd">    |[pos, 0, 4, NNP, [word -&gt; Peter], []]      |</span>
+<span class="sd">    |[pos, 6, 11, NNP, [word -&gt; Pipers], []]    |</span>
+<span class="sd">    |[pos, 13, 21, NNS, [word -&gt; employees], []]|</span>
+<span class="sd">    |[pos, 23, 25, VBP, [word -&gt; are], []]      |</span>
+<span class="sd">    |[pos, 27, 33, VBG, [word -&gt; picking], []]  |</span>
+<span class="sd">    |[pos, 35, 39, NNS, [word -&gt; pecks], []]    |</span>
+<span class="sd">    |[pos, 41, 42, IN, [word -&gt; of], []]        |</span>
+<span class="sd">    |[pos, 44, 50, JJ, [word -&gt; pickled], []]   |</span>
+<span class="sd">    |[pos, 52, 58, NNS, [word -&gt; peppers], []]  |</span>
+<span class="sd">    +-------------------------------------------+</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;PerceptronModel&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">classname</span><span class="o">=</span><span class="s2">&quot;com.johnsnowlabs.nlp.annotators.pos.perceptron.PerceptronModel&quot;</span><span class="p">,</span> <span class="n">java_model</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">PerceptronModel</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
+            <span class="n">classname</span><span class="o">=</span><span class="n">classname</span><span class="p">,</span>
+            <span class="n">java_model</span><span class="o">=</span><span class="n">java_model</span>
+        <span class="p">)</span>
+
+    <span class="nd">@staticmethod</span>
+<div class="viewcode-block" id="PerceptronModel.pretrained"><a class="viewcode-back" href="../../../../../reference/autosummary/python/sparknlp/annotator/pos/perceptron/index.html#python.sparknlp.annotator.pos.perceptron.PerceptronModel.pretrained">[docs]</a>    <span class="k">def</span> <span class="nf">pretrained</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;pos_anc&quot;</span><span class="p">,</span> <span class="n">lang</span><span class="o">=</span><span class="s2">&quot;en&quot;</span><span class="p">,</span> <span class="n">remote_loc</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Downloads and loads a pretrained model.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        name : str, optional</span>
+<span class="sd">            Name of the pretrained model, by default &quot;pos_anc&quot;</span>
+<span class="sd">        lang : str, optional</span>
+<span class="sd">            Language of the pretrained model, by default &quot;en&quot;</span>
+<span class="sd">        remote_loc : str, optional</span>
+<span class="sd">            Optional remote address of the resource, by default None. Will use</span>
+<span class="sd">            Spark NLPs repositories otherwise.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        PerceptronModel</span>
+<span class="sd">            The restored model</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="kn">from</span> <span class="nn">sparknlp.pretrained</span> <span class="kn">import</span> <span class="n">ResourceDownloader</span>
+        <span class="k">return</span> <span class="n">ResourceDownloader</span><span class="o">.</span><span class="n">downloadModel</span><span class="p">(</span><span class="n">PerceptronModel</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">lang</span><span class="p">,</span> <span class="n">remote_loc</span><span class="p">)</span></div></div>
+
+</pre></div>
+
+            </article>
+            
+            
+            
+            <footer class="bd-footer-article">
+                <!-- Previous / next buttons -->
+<div class='prev-next-area'>
+</div>
+            </footer>
+            
+          </div>
+          
+          
+          
+            <div class="bd-sidebar-secondary bd-toc">
+              
+<div class="toc-item">
+  
+</div>
+
+<div class="toc-item">
+  
+</div>
+
+            </div>
+          
+          
+        </div>
+        <footer class="bd-footer-content">
+          <div class="bd-footer-content__inner">
+            
+          </div>
+        </footer>
+        
+      </main>
+    </div>
+  </div>
+
+  
+    
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../../../../../static/scripts/pydata-sphinx-theme.js?digest=9b1a4fa89bdd0e95b23b"></script>
+
+  <footer class="bd-footer"><div class="bd-footer__inner container">
+  
+  <div class="footer-item">
+    
+<p class="copyright">
+
+    &copy; Copyright 2022, John Snow Labs.<br>
+
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+<p class="sphinx-version">
+Created using <a href="http://sphinx-doc.org/">Sphinx</a> 5.2.0.post0.<br>
+</p>
+
+  </div>
+  
+</div>
+  </footer>
+  </body>
+</html>

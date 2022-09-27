@@ -35,7 +35,14 @@ Dates-`DT`, Locations-`LC`, Organizations-`OG`, Persons-`PS`, Time-`TI`.
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
 ```python
-...
+document_assembler = DocumentAssembler() \
+    .setInputCol("text") \
+    .setOutputCol("document")
+    
+sentence_detector = SentenceDetector()\
+    .setInputCols(["document"])\
+    .setOutputCol("sentence")
+
 word_segmenter = WordSegmenterModel.pretrained("wordseg_kaist_ud", "ko")\
 .setInputCols(["sentence"])\
 .setOutputCol("token")
@@ -51,7 +58,14 @@ example = spark.createDataFrame([['라이프니츠 의 주도 로 베를린 에 
 result = pipeline.fit(example).transform(example)
 ```
 ```scala
-...
+val document_assembler = DocumentAssembler()
+        .setInputCol("text")
+        .setOutputCol("document")
+        
+val sentence_detector = SentenceDetector()\
+    .setInputCols(["document"])\
+    .setOutputCol("sentence")
+
 val word_segmenter = WordSegmenterModel.pretrained("wordseg_kaist_ud", "ko")
 .setInputCols(Array("sentence"))
 .setOutputCol("token")
