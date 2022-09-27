@@ -1,4 +1,2 @@
-docs/_posts/josejuanmartinez/2022-09-27-legclf_cuad_indemnifications_clause_en.md
-docs/_posts/josejuanmartinez/2022-09-27-legclf_cuad_licenses_clause_en.md
-docs/_posts/josejuanmartinez/2022-09-27-legclf_cuad_indemnifications_clause_en.md
-docs/_posts/josejuanmartinez/2022-09-27-legclf_cuad_licenses_clause_en.md
+docs/_posts/josejuanmartinez/2022-09-27-finassertion_time_en.md
+docs/_posts/josejuanmartinez/2022-09-27-finassertion_time_en.md
