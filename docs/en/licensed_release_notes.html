@@ -390,7 +390,7 @@
 <path d="M20.2658 26.412H8.38867V26.5781H20.2658V26.412Z" fill="#9EDEFA"/>
 </svg>
 -->
-</a><div class="sidebar-toc"><ul class="toc toc--navigator"><li class="toc-h1">Spark NLP for Healthcare</li><li class="toc-h2"><a href="/docs/en/license_getting_started">Getting Started</a></li><li class="toc-h2"><a href="/docs/en/licensed_install">Installation</a></li><li class="toc-h2"><a href="/docs/en/licensed_annotators">Annotators</a></li><li class="toc-h2"><a href="/docs/en/licensed_training">Training</a></li><li class="toc-h2"><a href="/docs/en/licensed_models">Models</a></li><li class="toc-h2"><a href="/docs/en/evaluation">Evaluation</a></li><li class="toc-h2"><a href="/docs/en/licensed_serving_spark_nlp_via_api_synapseml">Serving Spark NLP&#58 SynapseML</a></li><li class="toc-h2"><a href="/docs/en/licensed_serving_spark_nlp_via_api_fastapi">Serving Spark NLP&#58 FastAPI</a></li><li class="toc-h2"><a href="/licensed/api/">Scala API (Scaladoc)</a></li><li class="toc-h2"><a href="/licensed/api/python">Python API (Sphinx)</a></li><li class="toc-h2"><a href="/docs/en/licensed_version_compatibility">Version Compatibility</a></li><li class="toc-h2 active"><a href="/docs/en/licensed_release_notes">Release Notes</a></li><li class="toc-h2"><a href="/docs/en/benchmark">Cluster Speed Benchmarks</a></li><li class="toc-h2"><a href="/docs/en/cpu-ner-benchmark">CPU NER Benchmarks</a></li><li class="toc-h2"><a href="/docs/en/CPUvsGPUbenchmark_healthcare">GPU vs CPU benchmarks</a></li><li class="toc-h2"><a href="/docs/en/best_practices_pretrained_models">Best Practices Using Pretrained Models Together</a></li></ul></div></div><div class="page__main js-page-main has-aside cell cell--auto">
+</a><div class="sidebar-toc"><ul class="toc toc--navigator"><li class="toc-h1">Spark NLP for Healthcare</li><li class="toc-h2"><a href="/docs/en/license_getting_started">Getting Started</a></li><li class="toc-h2"><a href="/docs/en/licensed_install">Installation</a></li><li class="toc-h2"><a href="/docs/en/licensed_annotators">Annotators</a></li><li class="toc-h2"><a href="/docs/en/licensed_training">Training</a></li><li class="toc-h2"><a href="/docs/en/licensed_models">Models</a></li><li class="toc-h2"><a href="/docs/en/evaluation">Evaluation</a></li><li class="toc-h2"><a href="/docs/en/licensed_serving_spark_nlp_via_api_synapseml">Serving Spark NLP&#58 SynapseML</a></li><li class="toc-h2"><a href="/docs/en/licensed_serving_spark_nlp_via_api_fastapi">Serving Spark NLP&#58 FastAPI</a></li><li class="toc-h2"><a href="/licensed/api/">Scala API (Scaladoc)</a></li><li class="toc-h2"><a href="/licensed/api/python">Python API (Sphinx)</a></li><li class="toc-h2"><a href="/docs/en/licensed_version_compatibility">Version Compatibility</a></li><li class="toc-h2 active"><a href="/docs/en/licensed_release_notes">Release Notes</a></li><li class="toc-h2"><a href="/docs/en/benchmark">Cluster Speed Benchmarks</a></li><li class="toc-h2"><a href="/docs/en/cpu-ner-benchmark">CPU NER Benchmarks</a></li><li class="toc-h2"><a href="/docs/en/CPUvsGPUbenchmark_healthcare">GPU vs CPU benchmarks</a></li><li class="toc-h2"><a href="/docs/en/best_practices_pretrained_models">Best Practices Using Pretrained Models Together</a></li><li class="toc-h2"><a href="/docs/en/wiki">Wiki</a></li></ul></div></div><div class="page__main js-page-main has-aside cell cell--auto">
 
       <div class="page__main-inner"><div class="page__header d-print-none"><!-- Google Tag Manager (noscript) -->
 <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-59JLR64"
@@ -1026,7 +1026,7 @@ if(document.querySelectorAll('.tab-li-second')) {
             e.preventDefault();
             let tabAttribute = element.getAttribute('data-type'),
                 tabLiInner = element.parentNode.querySelectorAll('.tab-li-second'),
-                tabBoxInner = element.parentNode.parentNode.querySelectorAll('.tabs-box-medic-inner');
+                tabBoxInner = element.parentNode.parentNode.parentNode.querySelectorAll('.tabs-box-medic-inner');
             
             //remove active class
             tabBoxInner.forEach(item => {
@@ -1061,14 +1061,30 @@ if(document.querySelectorAll('.tab-li-second')) {
 
 //Third tabs
 if(document.querySelectorAll('.tab-li-inner')) {
-    let tabLiSecond = document.querySelectorAll('.tab-li-inner');
+
+
+
+    let tabLiSecond = document.querySelectorAll('.tab-li-inner'),
+        tabLiTop = document.querySelectorAll('.toptab-second'),
+        tabLi = document.querySelectorAll('.toptab-second p');
+
+        console.log(tabLiTop);
+
+    tabLiTop.forEach(e => {        
+        e.nextElementSibling.classList.add('active');
+    });
+
+    tabLi.forEach(e => {        
+        e.firstChild.classList.add('active');
+    });
+
 
     tabLiSecond.forEach(element => {
         element.addEventListener('click', function(e) {
             e.preventDefault();
             let tabAttributeSecond = element.getAttribute('data-type'),
                 tabLiInnerSecond = element.parentNode.querySelectorAll('.tab-li-inner'),
-                tabBoxInnerSecond = element.parentNode.parentNode.querySelectorAll('.tabs-box-medic-inner-second');
+                tabBoxInnerSecond = element.parentNode.parentNode.parentNode.querySelectorAll('.tabs-box-medic-inner-second');
             
             //remove active class
             tabBoxInnerSecond.forEach(item => {
