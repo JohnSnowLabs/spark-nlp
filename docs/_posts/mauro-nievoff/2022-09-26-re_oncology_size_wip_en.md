@@ -47,7 +47,7 @@ tokenizer = Tokenizer() \
     .setInputCols(["sentence"]) \
     .setOutputCol("token")
 
-word_embeddings = WordEmbeddingsModel().pretrained('embeddings_clinical', 'en', 'clinical/models')\
+word_embeddings = WordEmbeddingsModel().pretrained("embeddings_clinical", "en", "clinical/models")\
     .setInputCols(["sentence", 'token']) \
     .setOutputCol("embeddings")                
 
@@ -67,7 +67,7 @@ dependency_parser = DependencyParserModel.pretrained("dependency_conllu", "en") 
     .setInputCols(["sentence", "pos_tags", "token"]) \
     .setOutputCol("dependencies")
 
-re_model = RelationExtractionModel.pretrained("re_oncology_size_wip", "en", 'clinical/models') \
+re_model = RelationExtractionModel.pretrained("re_oncology_size_wip", "en", "clinical/models") \
     .setInputCols(["embeddings", "pos_tags", "ner_chunk", "dependencies"]) \
     .setOutputCol("relation_extraction") \
     .setRelationPairs(["Tumor_Finding-Tumor_Size", "Tumor_Size-Tumor_Finding"]) \
@@ -83,11 +83,63 @@ pipeline = Pipeline(stages=[document_assembler,
                             dependency_parser,
                             re_model])
 
-data = spark.createDataFrame([[The patient presented a 2 cm mass in her left breast, and the tumor in her other breast was 3 cm long.]]).toDF("text")
+data = spark.createDataFrame([["The patient presented a 2 cm mass in her left breast, and the tumor in her other breast was 3 cm long."]]).toDF("text")
 
 result = pipeline.fit(data).transform(data)
 ```
+```scala
+val document_assembler = new DocumentAssembler()
+    .setInputCol("text")
+    .setOutputCol("document")
 
+val sentence_detector = SentenceDetectorDLModel.pretrained("sentence_detector_dl_healthcare","en","clinical/models")
+    .setInputCols('document')
+    .setOutputCol('sentence')
+
+val tokenizer = new Tokenizer()
+    .setInputCols("sentence")
+    .setOutputCol("token")
+
+val word_embeddings = WordEmbeddingsModel().pretrained("embeddings_clinical", "en", "clinical/models")
+    .setInputCols(Array("sentence", "token"))
+    .setOutputCol("embeddings")                
+
+val ner = MedicalNerModel.pretrained("ner_oncology_wip", "en", "clinical/models")
+    .setInputCols(Array("sentence", "token", "embeddings"))
+    .setOutputCol("ner")
+
+val ner_converter = new NerConverter()
+    .setInputCols(Array("sentence", "token", "ner"))
+    .setOutputCol("ner_chunk")
+        
+val pos_tagger = PerceptronModel.pretrained("pos_clinical", "en", "clinical/models")
+    .setInputCols(Array("sentence", "token"))
+    .setOutputCol("pos_tags")
+
+val dependency_parser = DependencyParserModel.pretrained("dependency_conllu", "en")
+    .setInputCols(Array("sentence", "pos_tags", "token"))
+    .setOutputCol("dependencies")
+
+val re_model = RelationExtractionModel.pretrained("re_oncology_size_wip", "en", "clinical/models")
+    .setInputCols(Array("embeddings", "pos_tags", "ner_chunk", "dependencies"))
+    .setOutputCol("relation_extraction")
+    .setRelationPairs(Array("Tumor_Finding-Tumor_Size", "Tumor_Size-Tumor_Finding"))
+    .setMaxSyntacticDistance(10)
+        
+val pipeline = new Pipeline().setStages(Array(document_assembler,
+                            sentence_detector,
+                            tokenizer,
+                            word_embeddings,
+                            ner,
+                            ner_converter,
+                            pos_tagger,
+                            dependency_parser,
+                            re_model))
+
+val data = Seq("The patient presented a 2 cm mass in her left breast, and the tumor in her other breast was 3 cm long.").toDS.toDF("text")
+
+val result = pipeline.fit(data).transform(data)
+```
 </div>
 
 ## Results
@@ -121,9 +173,8 @@ In-house annotated oncology case reports.
 ## Benchmarking
 
 ```bash
-| relation   |   recall |   precision |   f1 |
-|:-----------|---------:|------------:|-----:|
-| is_size_of |     0.89 |        0.77 | 0.83 |
-| O          |     0.75 |        0.88 | 0.81 |
-| macro-avg  |     0.82 |        0.82 | 0.82 |
+label         recall   precision      f1
+is_size_of      0.89        0.77    0.83
+O               0.75        0.88    0.81
+macro-avg       0.82        0.82    0.82
 ```
