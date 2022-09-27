@@ -67,7 +67,7 @@ dependency_parser = DependencyParserModel.pretrained("dependency_conllu", "en") 
     .setInputCols(["sentence", "pos_tags", "token"]) \
     .setOutputCol("dependencies")
 
-re_model = RelationExtractionModel.pretrained("re_oncology_biomarker_result_wip") \
+re_model = RelationExtractionModel.pretrained("re_oncology_biomarker_result_wip", "en", "clinical/models") \
     .setInputCols(["embeddings", "pos_tags", "ner_chunk", "dependencies"]) \
     .setOutputCol("relation_extraction") \
     .setRelationPairs(['Biomarker-Biomarker_Result', 'Biomarker_Result-Biomarker', 'Oncogene-Biomarker_Result', 'Biomarker_Result-Oncogene']) \
