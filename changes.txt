@@ -1,2 +1,2 @@
-docs/_posts/maziyarpanahi/2022-09-25-asr_Wav2Vec2_large_xlsr_hindi_gpu_hi.md
-docs/_posts/maziyarpanahi/2022-09-25-asr_Wav2Vec2_large_xlsr_hindi_gpu_hi.md
+docs/_posts/maziyarpanahi/2022-09-25-pipeline_asr_Wav2Vec2_large_xlsr_hindi_gpu_hi.md
+docs/_posts/maziyarpanahi/2022-09-25-pipeline_asr_Wav2Vec2_large_xlsr_hindi_gpu_hi.md
