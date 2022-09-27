@@ -1,2 +1,4 @@
-docs/_posts/josejuanmartinez/2022-09-27-finner_bert_rufacts_ru.md
-docs/_posts/josejuanmartinez/2022-09-27-finner_bert_rufacts_ru.md
+docs/_posts/josejuanmartinez/2022-09-27-legner_br_base_pt.md
+docs/_posts/josejuanmartinez/2022-09-27-legner_br_large_pt.md
+docs/_posts/josejuanmartinez/2022-09-27-legner_br_base_pt.md
+docs/_posts/josejuanmartinez/2022-09-27-legner_br_large_pt.md

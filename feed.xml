@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.9.0">Jekyll</generator><link href="/feed.xml" rel="self" type="application/atom+xml" /><link href="/" rel="alternate" type="text/html" /><updated>2022-09-27T11:38:37+00:00</updated><id>/feed.xml</id><title type="html">Spark NLP</title><subtitle>High Performance NLP with Apache Spark
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.9.0">Jekyll</generator><link href="/feed.xml" rel="self" type="application/atom+xml" /><link href="/" rel="alternate" type="text/html" /><updated>2022-09-27T11:39:16+00:00</updated><id>/feed.xml</id><title type="html">Spark NLP</title><subtitle>High Performance NLP with Apache Spark
 </subtitle><author><name>{&quot;type&quot;=&gt;nil, &quot;name&quot;=&gt;nil, &quot;url&quot;=&gt;nil, &quot;avatar&quot;=&gt;nil, &quot;bio&quot;=&gt;nil, &quot;email&quot;=&gt;nil, &quot;facebook&quot;=&gt;nil, &quot;twitter&quot;=&gt;nil, &quot;weibo&quot;=&gt;nil, &quot;googleplus&quot;=&gt;nil, &quot;telegram&quot;=&gt;nil, &quot;medium&quot;=&gt;nil, &quot;zhihu&quot;=&gt;nil, &quot;douban&quot;=&gt;nil, &quot;linkedin&quot;=&gt;nil, &quot;github&quot;=&gt;nil, &quot;npm&quot;=&gt;nil}</name></author><entry><title type="html">Temporality / Certainty Assertion Status</title><link href="/2022/09/27/finassertion_time_en.html" rel="alternate" type="text/html" title="Temporality / Certainty Assertion Status" /><published>2022-09-27T00:00:00+00:00</published><updated>2022-09-27T00:00:00+00:00</updated><id>/2022/09/27/finassertion_time_en</id><content type="html" xml:base="/2022/09/27/finassertion_time_en.html">&lt;h2 id=&quot;description&quot;&gt;Description&lt;/h2&gt;
 
 &lt;p&gt;This is an Assertion Status Model aimed to detect temporality (PRESENT, PAST, FUTURE) or Certainty (POSSIBLE) in your financial documents&lt;/p&gt;
@@ -812,7 +812,497 @@ I-INDEMNIFICATION_INDIRECT_OBJECT       1.00      0.53      0.69        17
                          accuracy                           0.88       654
                         macro avg       0.71      0.61      0.81       654
                      weighted avg       0.95      0.88      0.91       654
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;</content><author><name>John Snow Labs</name></author><category term="indemnifications" /><category term="en" /><category term="licensed" /><summary type="html">Description This is a Legal Named Entity Recognition Model to identify the Subject (who), Action (web), Object(the indemnification) and Indirect Object (to whom) from Indemnification clauses. Predicted Entities INDEMNIFICATION, INDEMNIFICATION_SUBJECT, INDEMNIFICATION_ACTION, INDEMNIFICATION_INDIRECT_OBJECT Live Demo Open in Colab Download How to use PythonScalaNLU documentAssembler = DocumentAssembler()\ .setInputCol(&quot;text&quot;)\ .setOutputCol(&quot;document&quot;) sentencizer = SentenceDetectorDLModel\ .pretrained(&quot;sentence_detector_dl&quot;, &quot;en&quot;) \ .setInputCols([&quot;document&quot;])\ .setOutputCol(&quot;sentence&quot;) tokenizer = Tokenizer()\ .setInputCols([&quot;sentence&quot;])\ .setOutputCol(&quot;token&quot;) tokenClassifier = legal.BertForTokenClassification.pretrained(&quot;legner_bert_indemnifications&quot;, &quot;en&quot;, &quot;legal/models&quot;)\ .setInputCols(&quot;token&quot;, &quot;sentence&quot;)\ .setOutputCol(&quot;label&quot;)\ .setCaseSensitive(True) ner_converter = NerConverter()\ .setInputCols([&quot;sentence&quot;,&quot;token&quot;,&quot;label&quot;])\ .setOutputCol(&quot;ner_chunk&quot;) nlpPipeline = Pipeline(stages=[ documentAssembler, sentencizer, tokenizer, tokenClassifier, ner_converter ]) empty_data = spark.createDataFrame([[&quot;&quot;]]).toDF(&quot;text&quot;) model = nlpPipeline.fit(empty_data) text='''The Company shall protect and indemnify the Supplier against any damages, losses or costs whatsoever''' data = spark.createDataFrame([[text]]).toDF(&quot;text&quot;) model = nlpPipeline.fit(data) lmodel = LightPipeline(model) res = lmodel.annotate(text) Results +----------+---------------------------------+ | token| ner_label| +----------+---------------------------------+ | The| O| | Company| O| | shall| B-INDEMNIFICATION_ACTION| | protect| I-INDEMNIFICATION_ACTION| | and| O| | indemnify| B-INDEMNIFICATION_ACTION| | the| O| | Supplier|B-INDEMNIFICATION_INDIRECT_OBJECT| | against| O| | any| O| | damages| B-INDEMNIFICATION| | ,| O| | losses| B-INDEMNIFICATION| | or| O| | costs| B-INDEMNIFICATION| |whatsoever| O| +----------+---------------------------------+ Model Information Model Name: legner_bert_indemnifications Compatibility: Spark NLP for Legal 1.0.0+ License: Licensed Edition: Official Input Labels: [sentence, token] Output Labels: [ner] Language: en Size: 412.2 MB Case sensitive: true Max sentence length: 128 References In-house annotated examples from CUAD legal dataset Benchmarking precision recall f1-score support B-INDEMNIFICATION 0.91 0.89 0.90 36 B-INDEMNIFICATION_ACTION 0.92 0.71 0.80 17 B-INDEMNIFICATION_INDIRECT_OBJECT 0.88 0.88 0.88 40 B-INDEMNIFICATION_SUBJECT 0.71 0.56 0.63 9 I-INDEMNIFICATION 0.88 0.78 0.82 9 I-INDEMNIFICATION_ACTION 0.81 0.87 0.84 15 I-INDEMNIFICATION_INDIRECT_OBJECT 1.00 0.53 0.69 17 O 0.97 0.91 0.94 510 accuracy 0.88 654 macro avg 0.71 0.61 0.81 654 weighted avg 0.95 0.88 0.91 654</summary></entry><entry><title type="html">Hindi asr_CDAC_hindispeechrecognition TFWav2Vec2ForCTC from nalini2799</title><link href="/2022/09/26/asr_CDAC_hindispeechrecognition_hi.html" rel="alternate" type="text/html" title="Hindi asr_CDAC_hindispeechrecognition TFWav2Vec2ForCTC from nalini2799" /><published>2022-09-26T00:00:00+00:00</published><updated>2022-09-26T00:00:00+00:00</updated><id>/2022/09/26/asr_CDAC_hindispeechrecognition_hi</id><content type="html" xml:base="/2022/09/26/asr_CDAC_hindispeechrecognition_hi.html">&lt;h2 id=&quot;description&quot;&gt;Description&lt;/h2&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;</content><author><name>John Snow Labs</name></author><category term="indemnifications" /><category term="en" /><category term="licensed" /><summary type="html">Description This is a Legal Named Entity Recognition Model to identify the Subject (who), Action (web), Object(the indemnification) and Indirect Object (to whom) from Indemnification clauses. Predicted Entities INDEMNIFICATION, INDEMNIFICATION_SUBJECT, INDEMNIFICATION_ACTION, INDEMNIFICATION_INDIRECT_OBJECT Live Demo Open in Colab Download How to use PythonScalaNLU documentAssembler = DocumentAssembler()\ .setInputCol(&quot;text&quot;)\ .setOutputCol(&quot;document&quot;) sentencizer = SentenceDetectorDLModel\ .pretrained(&quot;sentence_detector_dl&quot;, &quot;en&quot;) \ .setInputCols([&quot;document&quot;])\ .setOutputCol(&quot;sentence&quot;) tokenizer = Tokenizer()\ .setInputCols([&quot;sentence&quot;])\ .setOutputCol(&quot;token&quot;) tokenClassifier = legal.BertForTokenClassification.pretrained(&quot;legner_bert_indemnifications&quot;, &quot;en&quot;, &quot;legal/models&quot;)\ .setInputCols(&quot;token&quot;, &quot;sentence&quot;)\ .setOutputCol(&quot;label&quot;)\ .setCaseSensitive(True) ner_converter = NerConverter()\ .setInputCols([&quot;sentence&quot;,&quot;token&quot;,&quot;label&quot;])\ .setOutputCol(&quot;ner_chunk&quot;) nlpPipeline = Pipeline(stages=[ documentAssembler, sentencizer, tokenizer, tokenClassifier, ner_converter ]) empty_data = spark.createDataFrame([[&quot;&quot;]]).toDF(&quot;text&quot;) model = nlpPipeline.fit(empty_data) text='''The Company shall protect and indemnify the Supplier against any damages, losses or costs whatsoever''' data = spark.createDataFrame([[text]]).toDF(&quot;text&quot;) model = nlpPipeline.fit(data) lmodel = LightPipeline(model) res = lmodel.annotate(text) Results +----------+---------------------------------+ | token| ner_label| +----------+---------------------------------+ | The| O| | Company| O| | shall| B-INDEMNIFICATION_ACTION| | protect| I-INDEMNIFICATION_ACTION| | and| O| | indemnify| B-INDEMNIFICATION_ACTION| | the| O| | Supplier|B-INDEMNIFICATION_INDIRECT_OBJECT| | against| O| | any| O| | damages| B-INDEMNIFICATION| | ,| O| | losses| B-INDEMNIFICATION| | or| O| | costs| B-INDEMNIFICATION| |whatsoever| O| +----------+---------------------------------+ Model Information Model Name: legner_bert_indemnifications Compatibility: Spark NLP for Legal 1.0.0+ License: Licensed Edition: Official Input Labels: [sentence, token] Output Labels: [ner] Language: en Size: 412.2 MB Case sensitive: true Max sentence length: 128 References In-house annotated examples from CUAD legal dataset Benchmarking precision recall f1-score support B-INDEMNIFICATION 0.91 0.89 0.90 36 B-INDEMNIFICATION_ACTION 0.92 0.71 0.80 17 B-INDEMNIFICATION_INDIRECT_OBJECT 0.88 0.88 0.88 40 B-INDEMNIFICATION_SUBJECT 0.71 0.56 0.63 9 I-INDEMNIFICATION 0.88 0.78 0.82 9 I-INDEMNIFICATION_ACTION 0.81 0.87 0.84 15 I-INDEMNIFICATION_INDIRECT_OBJECT 1.00 0.53 0.69 17 O 0.97 0.91 0.94 510 accuracy 0.88 654 macro avg 0.71 0.61 0.81 654 weighted avg 0.95 0.88 0.91 654</summary></entry><entry><title type="html">Brazilian Portuguese NER for Laws (Base)</title><link href="/2022/09/27/legner_br_base_pt.html" rel="alternate" type="text/html" title="Brazilian Portuguese NER for Laws (Base)" /><published>2022-09-27T00:00:00+00:00</published><updated>2022-09-27T00:00:00+00:00</updated><id>/2022/09/27/legner_br_base_pt</id><content type="html" xml:base="/2022/09/27/legner_br_base_pt.html">&lt;h2 id=&quot;description&quot;&gt;Description&lt;/h2&gt;
+
+&lt;p&gt;This model is a Deep Learning Portuguese Named Entity Recognition model for the legal domain, trained using Base Bert Embeddings, and is able to predict the following entities:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;ORGANIZACAO (Organizations)&lt;/li&gt;
+  &lt;li&gt;JURISPRUDENCIA (Jurisprudence)&lt;/li&gt;
+  &lt;li&gt;PESSOA (Person)&lt;/li&gt;
+  &lt;li&gt;TEMPO (Time)&lt;/li&gt;
+  &lt;li&gt;LOCAL (Location)&lt;/li&gt;
+  &lt;li&gt;LEGISLACAO (Laws)&lt;/li&gt;
+  &lt;li&gt;O (Other)&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;You can find different versions of this model in Models Hub:&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;With a Deep Learning architecture (non-transformer) and Base Embeddings;&lt;/li&gt;
+  &lt;li&gt;With a Deep Learning architecture (non-transformer) and Large Embeddings;&lt;/li&gt;
+  &lt;li&gt;With a Transformers Architecture and Base Embeddings;&lt;/li&gt;
+  &lt;li&gt;With a Transformers Architecture and Large Embeddings;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;predicted-entities&quot;&gt;Predicted Entities&lt;/h2&gt;
+
+&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;PESSOA&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;ORGANIZACAO&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;LEGISLACAO&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;JURISPRUDENCIA&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;TEMPO&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;LOCAL&lt;/code&gt;&lt;/p&gt;
+
+&lt;p class=&quot;btn-box&quot;&gt;&lt;a href=&quot;https://demo.johnsnowlabs.com/healthcare/NER_LEGAL_PT/&quot; class=&quot;button button-orange&quot;&gt;Live Demo&lt;/a&gt;
+&lt;button class=&quot;button button-orange&quot; disabled=&quot;&quot;&gt;Open in Colab&lt;/button&gt;
+&lt;a href=&quot;https://s3.amazonaws.com/auxdata.johnsnowlabs.com/legal/models/legner_br_base_pt_1.0.0_3.0_1664276774137.zip&quot; class=&quot;button button-orange button-orange-trans arr button-icon&quot;&gt;Download&lt;/a&gt;&lt;/p&gt;
+
+&lt;h2 id=&quot;how-to-use&quot;&gt;How to use&lt;/h2&gt;
+
+&lt;div class=&quot;tabs-box&quot;&gt;
+  &lt;div class=&quot;top_tab_li&quot;&gt;   
+    &lt;button class=&quot;tab-li code-selector-active python-button&quot;&gt;Python&lt;/button&gt;&lt;button class=&quot;tab-li code-selector-un-active scala-button&quot;&gt;Scala&lt;/button&gt;&lt;button class=&quot;tab-li code-selector-un-active nlu-button&quot;&gt;NLU&lt;/button&gt;
+&lt;/div&gt;
+  &lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;document_assembler&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;DocumentAssembler&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; \
+    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setInputCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'text'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; \
+    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'document'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+
+&lt;span class=&quot;n&quot;&gt;tokenizer&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Tokenizer&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; \
+    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setInputCols&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;([&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'document'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;])&lt;/span&gt; \
+    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'token'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+
+&lt;span class=&quot;n&quot;&gt;embeddings&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;BertEmbeddings&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;pretrained&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;bert_portuguese_base_cased&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;pt&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;\
+    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setInputCols&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;document&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;token&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; \
+    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;embeddings&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+
+&lt;span class=&quot;n&quot;&gt;ner_model&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;LegalNerModel&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;pretrained&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'legner_br_base'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;'pt'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;'legal/models'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; \
+    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setInputCols&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;([&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'document'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;'token'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;'embeddings'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;])&lt;/span&gt; \
+    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'ner'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+
+&lt;span class=&quot;n&quot;&gt;ner_converter&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;NerConverter&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; \
+    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setInputCols&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;([&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'document'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;'token'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;'ner'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;])&lt;/span&gt; \
+    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'ner_chunk'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+
+&lt;span class=&quot;n&quot;&gt;pipeline&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Pipeline&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;stages&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;document_assembler&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; 
+    &lt;span class=&quot;n&quot;&gt;tokenizer&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;embeddings&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;ner_model&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;ner_converter&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;])&lt;/span&gt;
+
+&lt;span class=&quot;n&quot;&gt;example&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;spark&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;createDataFrame&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;pd&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;DataFrame&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;({&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'text'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;&quot;&quot;Mediante do exposto , com fundamento nos artigos 32 , i , e 33 , da lei 8.443/1992 , submetem-se os autos à consideração superior , com posterior encaminhamento ao ministério público junto ao tcu e ao gabinete do relator , propondo : a ) conhecer do recurso e , no mérito , negar-lhe provimento ; b ) comunicar ao recorrente , ao superior tribunal militar e ao tribunal regional federal da 2ª região , a fim de fornecer subsídios para os processos judiciais 2001.34.00.024796-9 e 2003.34.00.044227-3 ; e aos demais interessados a deliberação que vier a ser proferida por esta corte ” .&quot;&quot;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]}))&lt;/span&gt;
+
+&lt;span class=&quot;n&quot;&gt;result&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;pipeline&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;fit&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;example&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;).&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;transform&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;example&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;  &lt;/div&gt;
+
+&lt;/div&gt;
+
+&lt;h2 id=&quot;results&quot;&gt;Results&lt;/h2&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;+-------------------+----------------+
+|              token|             ner|
++-------------------+----------------+
+|             diante|               O|
+|                 &lt;span class=&quot;k&quot;&gt;do&lt;/span&gt;|               O|
+|            exposto|               O|
+|                  ,|               O|
+|                com|               O|
+|         fundamento|               O|
+|                nos|               O|
+|            artigos|    B-LEGISLACAO|
+|                 32|    I-LEGISLACAO|
+|                  ,|    I-LEGISLACAO|
+|                  i|    I-LEGISLACAO|
+|                  ,|    I-LEGISLACAO|
+|                  e|    I-LEGISLACAO|
+|                 33|    I-LEGISLACAO|
+|                  ,|    I-LEGISLACAO|
+|                 da|    I-LEGISLACAO|
+|                lei|    I-LEGISLACAO|
+|         8.443/1992|    I-LEGISLACAO|
+|                  ,|               O|
+|        submetem-se|               O|
+|                 os|               O|
+|              autos|               O|
+|                  à|               O|
+|       consideração|               O|
+|           superior|               O|
+|                  ,|               O|
+|                com|               O|
+|          posterior|               O|
+|     encaminhamento|               O|
+|                 ao|               O|
+|         ministério|   B-ORGANIZACAO|
+|            público|   I-ORGANIZACAO|
+|              junto|               O|
+|                 ao|               O|
+|                tcu|   B-ORGANIZACAO|
+|                  e|               O|
+|                 ao|               O|
+|           gabinete|               O|
+|                 &lt;span class=&quot;k&quot;&gt;do&lt;/span&gt;|               O|
+|            relator|               O|
+|                  ,|               O|
+|           propondo|               O|
+|                  :|               O|
+|                  a|               O|
+|                  &lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;|               O|
+|           conhecer|               O|
+|                 &lt;span class=&quot;k&quot;&gt;do&lt;/span&gt;|               O|
+|            recurso|               O|
+|                  e|               O|
+|                  ,|               O|
+|                 no|               O|
+|             mérito|               O|
+|                  ,|               O|
+|          negar-lhe|               O|
+|         provimento|               O|
+|                  &lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;|               O|
+|                  b|               O|
+|                  &lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;|               O|
+|          comunicar|               O|
+|                 ao|               O|
+|         recorrente|               O|
+|                  ,|               O|
+|                 ao|               O|
+|           superior|   B-ORGANIZACAO|
+|           tribunal|   I-ORGANIZACAO|
+|            militar|   I-ORGANIZACAO|
+|                  e|               O|
+|                 ao|               O|
+|           tribunal|   B-ORGANIZACAO|
+|           regional|   I-ORGANIZACAO|
+|            federal|   I-ORGANIZACAO|
+|                 da|   I-ORGANIZACAO|
+|                 2ª|   I-ORGANIZACAO|
+|             região|   I-ORGANIZACAO|
+|                  ,|               O|
+|                  a|               O|
+|                fim|               O|
+|                 de|               O|
+|           fornecer|               O|
+|          subsídios|               O|
+|               para|               O|
+|                 os|               O|
+|          processos|               O|
+|          judiciais|               O|
+|2001.34.00.024796-9|B-JURISPRUDENCIA|
+|                  e|               O|
+|2003.34.00.044227-3|B-JURISPRUDENCIA|
+|                  &lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;|               O|
+|                  e|               O|
+|                aos|               O|
+|             demais|               O|
+|       interessados|               O|
+|                  a|               O|
+|        deliberação|               O|
+|                que|               O|
+|               vier|               O|
+|                  a|               O|
+|                ser|               O|
+|          proferida|               O|
+|                por|               O|
+|               esta|               O|
+|              corte|               O|
+|                  ”|               O|
+|                  .|               O|
++-------------------+----------------+
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h2 class=&quot;model-param&quot; id=&quot;model-information&quot;&gt;Model Information&lt;/h2&gt;
+
+&lt;table class=&quot;table-model&quot;&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Model Name:&lt;/td&gt;
+      &lt;td&gt;legner_br_base&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Compatibility:&lt;/td&gt;
+      &lt;td&gt;Spark NLP for Legal 1.0.0+&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;License:&lt;/td&gt;
+      &lt;td&gt;Licensed&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Edition:&lt;/td&gt;
+      &lt;td&gt;Official&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Input Labels:&lt;/td&gt;
+      &lt;td&gt;[sentence, token, embeddings]&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Output Labels:&lt;/td&gt;
+      &lt;td&gt;[ner]&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Language:&lt;/td&gt;
+      &lt;td&gt;pt&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Size:&lt;/td&gt;
+      &lt;td&gt;18.8 MB&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;h2 id=&quot;references&quot;&gt;References&lt;/h2&gt;
+
+&lt;p&gt;Original texts available in https://paperswithcode.com/sota?task=Token+Classification&amp;amp;dataset=lener_br and in-house data augmentation with weak labelling&lt;/p&gt;
+
+&lt;h2 id=&quot;benchmarking&quot;&gt;Benchmarking&lt;/h2&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;label             precision  recall  f1-score  support
+B-JURISPRUDENCIA  0.84       0.91    0.88      175    
+B-LEGISLACAO      0.96       0.96    0.96      347    
+B-LOCAL           0.69       0.68    0.68      40     
+B-ORGANIZACAO     0.95       0.71    0.81      441    
+B-PESSOA          0.91       0.95    0.93      221    
+B-TEMPO           0.94       0.86    0.90      176    
+I-JURISPRUDENCIA  0.86       0.91    0.89      461    
+I-LEGISLACAO      0.98       0.99    0.98      2012   
+I-LOCAL           0.54       0.53    0.53      72     
+I-ORGANIZACAO     0.94       0.76    0.84      768    
+I-PESSOA          0.93       0.98    0.95      461    
+I-TEMPO           0.90       0.85    0.88      66     
+O                 0.99       1.00    0.99      38419  
+accuracy          -          -       0.98      43659  
+macro-avg         0.88       0.85    0.86      43659  
+weighted-avg      0.98       0.98    0.98      43659  
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;</content><author><name>John Snow Labs</name></author><category term="pt" /><category term="licensed" /><summary type="html">Description This model is a Deep Learning Portuguese Named Entity Recognition model for the legal domain, trained using Base Bert Embeddings, and is able to predict the following entities: ORGANIZACAO (Organizations) JURISPRUDENCIA (Jurisprudence) PESSOA (Person) TEMPO (Time) LOCAL (Location) LEGISLACAO (Laws) O (Other) You can find different versions of this model in Models Hub: With a Deep Learning architecture (non-transformer) and Base Embeddings; With a Deep Learning architecture (non-transformer) and Large Embeddings; With a Transformers Architecture and Base Embeddings; With a Transformers Architecture and Large Embeddings; Predicted Entities PESSOA, ORGANIZACAO, LEGISLACAO, JURISPRUDENCIA, TEMPO, LOCAL Live Demo Open in Colab Download How to use PythonScalaNLU document_assembler = DocumentAssembler() \ .setInputCol('text') \ .setOutputCol('document') tokenizer = Tokenizer() \ .setInputCols(['document']) \ .setOutputCol('token') embeddings = BertEmbeddings.pretrained(&quot;bert_portuguese_base_cased&quot;, &quot;pt&quot;)\ .setInputCols(&quot;document&quot;, &quot;token&quot;) \ .setOutputCol(&quot;embeddings&quot;) ner_model = LegalNerModel.pretrained('legner_br_base', 'pt', 'legal/models') \ .setInputCols(['document', 'token', 'embeddings']) \ .setOutputCol('ner') ner_converter = NerConverter() \ .setInputCols(['document', 'token', 'ner']) \ .setOutputCol('ner_chunk') pipeline = Pipeline(stages=[ document_assembler, tokenizer, embeddings, ner_model, ner_converter ]) example = spark.createDataFrame(pd.DataFrame({'text': [&quot;&quot;&quot;Mediante do exposto , com fundamento nos artigos 32 , i , e 33 , da lei 8.443/1992 , submetem-se os autos à consideração superior , com posterior encaminhamento ao ministério público junto ao tcu e ao gabinete do relator , propondo : a ) conhecer do recurso e , no mérito , negar-lhe provimento ; b ) comunicar ao recorrente , ao superior tribunal militar e ao tribunal regional federal da 2ª região , a fim de fornecer subsídios para os processos judiciais 2001.34.00.024796-9 e 2003.34.00.044227-3 ; e aos demais interessados a deliberação que vier a ser proferida por esta corte ” .&quot;&quot;&quot;]})) result = pipeline.fit(example).transform(example) Results +-------------------+----------------+ | token| ner| +-------------------+----------------+ | diante| O| | do| O| | exposto| O| | ,| O| | com| O| | fundamento| O| | nos| O| | artigos| B-LEGISLACAO| | 32| I-LEGISLACAO| | ,| I-LEGISLACAO| | i| I-LEGISLACAO| | ,| I-LEGISLACAO| | e| I-LEGISLACAO| | 33| I-LEGISLACAO| | ,| I-LEGISLACAO| | da| I-LEGISLACAO| | lei| I-LEGISLACAO| | 8.443/1992| I-LEGISLACAO| | ,| O| | submetem-se| O| | os| O| | autos| O| | à| O| | consideração| O| | superior| O| | ,| O| | com| O| | posterior| O| | encaminhamento| O| | ao| O| | ministério| B-ORGANIZACAO| | público| I-ORGANIZACAO| | junto| O| | ao| O| | tcu| B-ORGANIZACAO| | e| O| | ao| O| | gabinete| O| | do| O| | relator| O| | ,| O| | propondo| O| | :| O| | a| O| | )| O| | conhecer| O| | do| O| | recurso| O| | e| O| | ,| O| | no| O| | mérito| O| | ,| O| | negar-lhe| O| | provimento| O| | ;| O| | b| O| | )| O| | comunicar| O| | ao| O| | recorrente| O| | ,| O| | ao| O| | superior| B-ORGANIZACAO| | tribunal| I-ORGANIZACAO| | militar| I-ORGANIZACAO| | e| O| | ao| O| | tribunal| B-ORGANIZACAO| | regional| I-ORGANIZACAO| | federal| I-ORGANIZACAO| | da| I-ORGANIZACAO| | 2ª| I-ORGANIZACAO| | região| I-ORGANIZACAO| | ,| O| | a| O| | fim| O| | de| O| | fornecer| O| | subsídios| O| | para| O| | os| O| | processos| O| | judiciais| O| |2001.34.00.024796-9|B-JURISPRUDENCIA| | e| O| |2003.34.00.044227-3|B-JURISPRUDENCIA| | ;| O| | e| O| | aos| O| | demais| O| | interessados| O| | a| O| | deliberação| O| | que| O| | vier| O| | a| O| | ser| O| | proferida| O| | por| O| | esta| O| | corte| O| | ”| O| | .| O| +-------------------+----------------+ Model Information Model Name: legner_br_base Compatibility: Spark NLP for Legal 1.0.0+ License: Licensed Edition: Official Input Labels: [sentence, token, embeddings] Output Labels: [ner] Language: pt Size: 18.8 MB References Original texts available in https://paperswithcode.com/sota?task=Token+Classification&amp;amp;dataset=lener_br and in-house data augmentation with weak labelling Benchmarking label precision recall f1-score support B-JURISPRUDENCIA 0.84 0.91 0.88 175 B-LEGISLACAO 0.96 0.96 0.96 347 B-LOCAL 0.69 0.68 0.68 40 B-ORGANIZACAO 0.95 0.71 0.81 441 B-PESSOA 0.91 0.95 0.93 221 B-TEMPO 0.94 0.86 0.90 176 I-JURISPRUDENCIA 0.86 0.91 0.89 461 I-LEGISLACAO 0.98 0.99 0.98 2012 I-LOCAL 0.54 0.53 0.53 72 I-ORGANIZACAO 0.94 0.76 0.84 768 I-PESSOA 0.93 0.98 0.95 461 I-TEMPO 0.90 0.85 0.88 66 O 0.99 1.00 0.99 38419 accuracy - - 0.98 43659 macro-avg 0.88 0.85 0.86 43659 weighted-avg 0.98 0.98 0.98 43659</summary></entry><entry><title type="html">Brazilian Portuguese NER for Laws (Large)</title><link href="/2022/09/27/legner_br_large_pt.html" rel="alternate" type="text/html" title="Brazilian Portuguese NER for Laws (Large)" /><published>2022-09-27T00:00:00+00:00</published><updated>2022-09-27T00:00:00+00:00</updated><id>/2022/09/27/legner_br_large_pt</id><content type="html" xml:base="/2022/09/27/legner_br_large_pt.html">&lt;h2 id=&quot;description&quot;&gt;Description&lt;/h2&gt;
+
+&lt;p&gt;This model is a Deep Learning Portuguese Named Entity Recognition model for the legal domain, trained using Base Bert Embeddings, and is able to predict the following entities:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;ORGANIZACAO (Organizations)&lt;/li&gt;
+  &lt;li&gt;JURISPRUDENCIA (Jurisprudence)&lt;/li&gt;
+  &lt;li&gt;PESSOA (Person)&lt;/li&gt;
+  &lt;li&gt;TEMPO (Time)&lt;/li&gt;
+  &lt;li&gt;LOCAL (Location)&lt;/li&gt;
+  &lt;li&gt;LEGISLACAO (Laws)&lt;/li&gt;
+  &lt;li&gt;O (Other)&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;You can find different versions of this model in Models Hub:&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;With a Deep Learning architecture (non-transformer) and Base Embeddings;&lt;/li&gt;
+  &lt;li&gt;With a Deep Learning architecture (non-transformer) and Large Embeddings;&lt;/li&gt;
+  &lt;li&gt;With a Transformers Architecture and Base Embeddings;&lt;/li&gt;
+  &lt;li&gt;With a Transformers Architecture and Large Embeddings;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;predicted-entities&quot;&gt;Predicted Entities&lt;/h2&gt;
+
+&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;PESSOA&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;ORGANIZACAO&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;LEGISLACAO&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;JURISPRUDENCIA&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;TEMPO&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;LOCAL&lt;/code&gt;&lt;/p&gt;
+
+&lt;p class=&quot;btn-box&quot;&gt;&lt;a href=&quot;https://demo.johnsnowlabs.com/healthcare/NER_LEGAL_PT/&quot; class=&quot;button button-orange&quot;&gt;Live Demo&lt;/a&gt;
+&lt;button class=&quot;button button-orange&quot; disabled=&quot;&quot;&gt;Open in Colab&lt;/button&gt;
+&lt;a href=&quot;https://s3.amazonaws.com/auxdata.johnsnowlabs.com/legal/models/legner_br_large_pt_1.0.0_3.0_1664278379247.zip&quot; class=&quot;button button-orange button-orange-trans arr button-icon&quot;&gt;Download&lt;/a&gt;&lt;/p&gt;
+
+&lt;h2 id=&quot;how-to-use&quot;&gt;How to use&lt;/h2&gt;
+
+&lt;div class=&quot;tabs-box&quot;&gt;
+  &lt;div class=&quot;top_tab_li&quot;&gt;   
+    &lt;button class=&quot;tab-li code-selector-active python-button&quot;&gt;Python&lt;/button&gt;&lt;button class=&quot;tab-li code-selector-un-active scala-button&quot;&gt;Scala&lt;/button&gt;&lt;button class=&quot;tab-li code-selector-un-active nlu-button&quot;&gt;NLU&lt;/button&gt;
+&lt;/div&gt;
+  &lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;document_assembler&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;DocumentAssembler&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; \
+    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setInputCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'text'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; \
+    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'document'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+
+&lt;span class=&quot;n&quot;&gt;tokenizer&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Tokenizer&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; \
+    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setInputCols&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;([&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'document'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;])&lt;/span&gt; \
+    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'token'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+
+&lt;span class=&quot;n&quot;&gt;embeddings&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;BertEmbeddings&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;pretrained&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;bert_portuguese_base_cased&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;pt&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;\
+    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setInputCols&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;document&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;token&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; \
+    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;embeddings&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+
+&lt;span class=&quot;n&quot;&gt;ner_model&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;LegalNerModel&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;pretrained&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'legner_br_large'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;'pt'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;'legal/models'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; \
+    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setInputCols&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;([&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'document'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;'token'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;'embeddings'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;])&lt;/span&gt; \
+    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'ner'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+
+&lt;span class=&quot;n&quot;&gt;ner_converter&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;NerConverter&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; \
+    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setInputCols&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;([&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'document'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;'token'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;'ner'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;])&lt;/span&gt; \
+    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'ner_chunk'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+
+&lt;span class=&quot;n&quot;&gt;pipeline&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Pipeline&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;stages&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;document_assembler&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; 
+    &lt;span class=&quot;n&quot;&gt;tokenizer&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;embeddings&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;ner_model&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;ner_converter&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;])&lt;/span&gt;
+
+&lt;span class=&quot;n&quot;&gt;example&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;spark&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;createDataFrame&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;pd&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;DataFrame&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;({&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'text'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;&quot;&quot;Mediante do exposto , com fundamento nos artigos 32 , i , e 33 , da lei 8.443/1992 , submetem-se os autos à consideração superior , com posterior encaminhamento ao ministério público junto ao tcu e ao gabinete do relator , propondo : a ) conhecer do recurso e , no mérito , negar-lhe provimento ; b ) comunicar ao recorrente , ao superior tribunal militar e ao tribunal regional federal da 2ª região , a fim de fornecer subsídios para os processos judiciais 2001.34.00.024796-9 e 2003.34.00.044227-3 ; e aos demais interessados a deliberação que vier a ser proferida por esta corte ” .&quot;&quot;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]}))&lt;/span&gt;
+
+&lt;span class=&quot;n&quot;&gt;result&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;pipeline&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;fit&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;example&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;).&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;transform&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;example&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;  &lt;/div&gt;
+
+&lt;/div&gt;
+
+&lt;h2 id=&quot;results&quot;&gt;Results&lt;/h2&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;+-------------------+----------------+
+|              token|             ner|
++-------------------+----------------+
+|             diante|               O|
+|                 &lt;span class=&quot;k&quot;&gt;do&lt;/span&gt;|               O|
+|            exposto|               O|
+|                  ,|               O|
+|                com|               O|
+|         fundamento|               O|
+|                nos|               O|
+|            artigos|    B-LEGISLACAO|
+|                 32|    I-LEGISLACAO|
+|                  ,|    I-LEGISLACAO|
+|                  i|    I-LEGISLACAO|
+|                  ,|    I-LEGISLACAO|
+|                  e|    I-LEGISLACAO|
+|                 33|    I-LEGISLACAO|
+|                  ,|    I-LEGISLACAO|
+|                 da|    I-LEGISLACAO|
+|                lei|    I-LEGISLACAO|
+|         8.443/1992|    I-LEGISLACAO|
+|                  ,|               O|
+|        submetem-se|               O|
+|                 os|               O|
+|              autos|               O|
+|                  à|               O|
+|       consideração|               O|
+|           superior|               O|
+|                  ,|               O|
+|                com|               O|
+|          posterior|               O|
+|     encaminhamento|               O|
+|                 ao|               O|
+|         ministério|   B-ORGANIZACAO|
+|            público|   I-ORGANIZACAO|
+|              junto|               O|
+|                 ao|               O|
+|                tcu|   B-ORGANIZACAO|
+|                  e|               O|
+|                 ao|               O|
+|           gabinete|               O|
+|                 &lt;span class=&quot;k&quot;&gt;do&lt;/span&gt;|               O|
+|            relator|               O|
+|                  ,|               O|
+|           propondo|               O|
+|                  :|               O|
+|                  a|               O|
+|                  &lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;|               O|
+|           conhecer|               O|
+|                 &lt;span class=&quot;k&quot;&gt;do&lt;/span&gt;|               O|
+|            recurso|               O|
+|                  e|               O|
+|                  ,|               O|
+|                 no|               O|
+|             mérito|               O|
+|                  ,|               O|
+|          negar-lhe|               O|
+|         provimento|               O|
+|                  &lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;|               O|
+|                  b|               O|
+|                  &lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;|               O|
+|          comunicar|               O|
+|                 ao|               O|
+|         recorrente|               O|
+|                  ,|               O|
+|                 ao|               O|
+|           superior|   B-ORGANIZACAO|
+|           tribunal|   I-ORGANIZACAO|
+|            militar|   I-ORGANIZACAO|
+|                  e|               O|
+|                 ao|               O|
+|           tribunal|   B-ORGANIZACAO|
+|           regional|   I-ORGANIZACAO|
+|            federal|   I-ORGANIZACAO|
+|                 da|   I-ORGANIZACAO|
+|                 2ª|   I-ORGANIZACAO|
+|             região|   I-ORGANIZACAO|
+|                  ,|               O|
+|                  a|               O|
+|                fim|               O|
+|                 de|               O|
+|           fornecer|               O|
+|          subsídios|               O|
+|               para|               O|
+|                 os|               O|
+|          processos|               O|
+|          judiciais|               O|
+|2001.34.00.024796-9|B-JURISPRUDENCIA|
+|                  e|               O|
+|2003.34.00.044227-3|B-JURISPRUDENCIA|
+|                  &lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;|               O|
+|                  e|               O|
+|                aos|               O|
+|             demais|               O|
+|       interessados|               O|
+|                  a|               O|
+|        deliberação|               O|
+|                que|               O|
+|               vier|               O|
+|                  a|               O|
+|                ser|               O|
+|          proferida|               O|
+|                por|               O|
+|               esta|               O|
+|              corte|               O|
+|                  ”|               O|
+|                  .|               O|
++-------------------+----------------+
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h2 class=&quot;model-param&quot; id=&quot;model-information&quot;&gt;Model Information&lt;/h2&gt;
+
+&lt;table class=&quot;table-model&quot;&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Model Name:&lt;/td&gt;
+      &lt;td&gt;legner_br_large&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Compatibility:&lt;/td&gt;
+      &lt;td&gt;Spark NLP for Legal 1.0.0+&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;License:&lt;/td&gt;
+      &lt;td&gt;Licensed&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Edition:&lt;/td&gt;
+      &lt;td&gt;Official&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Input Labels:&lt;/td&gt;
+      &lt;td&gt;[sentence, token, embeddings]&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Output Labels:&lt;/td&gt;
+      &lt;td&gt;[ner]&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Language:&lt;/td&gt;
+      &lt;td&gt;pt&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Size:&lt;/td&gt;
+      &lt;td&gt;19.5 MB&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;h2 id=&quot;references&quot;&gt;References&lt;/h2&gt;
+
+&lt;p&gt;Original texts available in https://paperswithcode.com/sota?task=Token+Classification&amp;amp;dataset=lener_br and in-house data augmentation with weak labelling&lt;/p&gt;
+
+&lt;h2 id=&quot;benchmarking&quot;&gt;Benchmarking&lt;/h2&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;label             precision  recall  f1-score  support
+B-JURISPRUDENCIA  0.84       0.91    0.88      175    
+B-LEGISLACAO      0.96       0.96    0.96      347    
+B-LOCAL           0.69       0.68    0.68      40     
+B-ORGANIZACAO     0.95       0.71    0.81      441    
+B-PESSOA          0.91       0.95    0.93      221    
+B-TEMPO           0.94       0.86    0.90      176    
+I-JURISPRUDENCIA  0.86       0.91    0.89      461    
+I-LEGISLACAO      0.98       0.99    0.98      2012   
+I-LOCAL           0.54       0.53    0.53      72     
+I-ORGANIZACAO     0.94       0.76    0.84      768    
+I-PESSOA          0.93       0.98    0.95      461    
+I-TEMPO           0.90       0.85    0.88      66     
+O                 0.99       1.00    0.99      38419  
+accuracy          -          -       0.98      43659  
+macro-avg         0.88       0.85    0.86      43659  
+weighted-avg      0.98       0.98    0.98      43659  
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;</content><author><name>John Snow Labs</name></author><category term="pt" /><category term="licensed" /><summary type="html">Description This model is a Deep Learning Portuguese Named Entity Recognition model for the legal domain, trained using Base Bert Embeddings, and is able to predict the following entities: ORGANIZACAO (Organizations) JURISPRUDENCIA (Jurisprudence) PESSOA (Person) TEMPO (Time) LOCAL (Location) LEGISLACAO (Laws) O (Other) You can find different versions of this model in Models Hub: With a Deep Learning architecture (non-transformer) and Base Embeddings; With a Deep Learning architecture (non-transformer) and Large Embeddings; With a Transformers Architecture and Base Embeddings; With a Transformers Architecture and Large Embeddings; Predicted Entities PESSOA, ORGANIZACAO, LEGISLACAO, JURISPRUDENCIA, TEMPO, LOCAL Live Demo Open in Colab Download How to use PythonScalaNLU document_assembler = DocumentAssembler() \ .setInputCol('text') \ .setOutputCol('document') tokenizer = Tokenizer() \ .setInputCols(['document']) \ .setOutputCol('token') embeddings = BertEmbeddings.pretrained(&quot;bert_portuguese_base_cased&quot;, &quot;pt&quot;)\ .setInputCols(&quot;document&quot;, &quot;token&quot;) \ .setOutputCol(&quot;embeddings&quot;) ner_model = LegalNerModel.pretrained('legner_br_large', 'pt', 'legal/models') \ .setInputCols(['document', 'token', 'embeddings']) \ .setOutputCol('ner') ner_converter = NerConverter() \ .setInputCols(['document', 'token', 'ner']) \ .setOutputCol('ner_chunk') pipeline = Pipeline(stages=[ document_assembler, tokenizer, embeddings, ner_model, ner_converter ]) example = spark.createDataFrame(pd.DataFrame({'text': [&quot;&quot;&quot;Mediante do exposto , com fundamento nos artigos 32 , i , e 33 , da lei 8.443/1992 , submetem-se os autos à consideração superior , com posterior encaminhamento ao ministério público junto ao tcu e ao gabinete do relator , propondo : a ) conhecer do recurso e , no mérito , negar-lhe provimento ; b ) comunicar ao recorrente , ao superior tribunal militar e ao tribunal regional federal da 2ª região , a fim de fornecer subsídios para os processos judiciais 2001.34.00.024796-9 e 2003.34.00.044227-3 ; e aos demais interessados a deliberação que vier a ser proferida por esta corte ” .&quot;&quot;&quot;]})) result = pipeline.fit(example).transform(example) Results +-------------------+----------------+ | token| ner| +-------------------+----------------+ | diante| O| | do| O| | exposto| O| | ,| O| | com| O| | fundamento| O| | nos| O| | artigos| B-LEGISLACAO| | 32| I-LEGISLACAO| | ,| I-LEGISLACAO| | i| I-LEGISLACAO| | ,| I-LEGISLACAO| | e| I-LEGISLACAO| | 33| I-LEGISLACAO| | ,| I-LEGISLACAO| | da| I-LEGISLACAO| | lei| I-LEGISLACAO| | 8.443/1992| I-LEGISLACAO| | ,| O| | submetem-se| O| | os| O| | autos| O| | à| O| | consideração| O| | superior| O| | ,| O| | com| O| | posterior| O| | encaminhamento| O| | ao| O| | ministério| B-ORGANIZACAO| | público| I-ORGANIZACAO| | junto| O| | ao| O| | tcu| B-ORGANIZACAO| | e| O| | ao| O| | gabinete| O| | do| O| | relator| O| | ,| O| | propondo| O| | :| O| | a| O| | )| O| | conhecer| O| | do| O| | recurso| O| | e| O| | ,| O| | no| O| | mérito| O| | ,| O| | negar-lhe| O| | provimento| O| | ;| O| | b| O| | )| O| | comunicar| O| | ao| O| | recorrente| O| | ,| O| | ao| O| | superior| B-ORGANIZACAO| | tribunal| I-ORGANIZACAO| | militar| I-ORGANIZACAO| | e| O| | ao| O| | tribunal| B-ORGANIZACAO| | regional| I-ORGANIZACAO| | federal| I-ORGANIZACAO| | da| I-ORGANIZACAO| | 2ª| I-ORGANIZACAO| | região| I-ORGANIZACAO| | ,| O| | a| O| | fim| O| | de| O| | fornecer| O| | subsídios| O| | para| O| | os| O| | processos| O| | judiciais| O| |2001.34.00.024796-9|B-JURISPRUDENCIA| | e| O| |2003.34.00.044227-3|B-JURISPRUDENCIA| | ;| O| | e| O| | aos| O| | demais| O| | interessados| O| | a| O| | deliberação| O| | que| O| | vier| O| | a| O| | ser| O| | proferida| O| | por| O| | esta| O| | corte| O| | ”| O| | .| O| +-------------------+----------------+ Model Information Model Name: legner_br_large Compatibility: Spark NLP for Legal 1.0.0+ License: Licensed Edition: Official Input Labels: [sentence, token, embeddings] Output Labels: [ner] Language: pt Size: 19.5 MB References Original texts available in https://paperswithcode.com/sota?task=Token+Classification&amp;amp;dataset=lener_br and in-house data augmentation with weak labelling Benchmarking label precision recall f1-score support B-JURISPRUDENCIA 0.84 0.91 0.88 175 B-LEGISLACAO 0.96 0.96 0.96 347 B-LOCAL 0.69 0.68 0.68 40 B-ORGANIZACAO 0.95 0.71 0.81 441 B-PESSOA 0.91 0.95 0.93 221 B-TEMPO 0.94 0.86 0.90 176 I-JURISPRUDENCIA 0.86 0.91 0.89 461 I-LEGISLACAO 0.98 0.99 0.98 2012 I-LOCAL 0.54 0.53 0.53 72 I-ORGANIZACAO 0.94 0.76 0.84 768 I-PESSOA 0.93 0.98 0.95 461 I-TEMPO 0.90 0.85 0.88 66 O 0.99 1.00 0.99 38419 accuracy - - 0.98 43659 macro-avg 0.88 0.85 0.86 43659 weighted-avg 0.98 0.98 0.98 43659</summary></entry><entry><title type="html">Hindi asr_CDAC_hindispeechrecognition TFWav2Vec2ForCTC from nalini2799</title><link href="/2022/09/26/asr_CDAC_hindispeechrecognition_hi.html" rel="alternate" type="text/html" title="Hindi asr_CDAC_hindispeechrecognition TFWav2Vec2ForCTC from nalini2799" /><published>2022-09-26T00:00:00+00:00</published><updated>2022-09-26T00:00:00+00:00</updated><id>/2022/09/26/asr_CDAC_hindispeechrecognition_hi</id><content type="html" xml:base="/2022/09/26/asr_CDAC_hindispeechrecognition_hi.html">&lt;h2 id=&quot;description&quot;&gt;Description&lt;/h2&gt;
 
 &lt;p&gt;Pretrained Wav2vec2  model, adapted from Hugging Face and curated to provide scalability and production-readiness using Spark NLP.&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;asr_CDAC_hindispeechrecognition&lt;/code&gt; is a Hindi model originally trained by nalini2799.&lt;/p&gt;
 
@@ -994,186 +1484,4 @@ I-INDEMNIFICATION_INDIRECT_OBJECT       1.00      0.53      0.69        17
       &lt;td&gt;1.2 GB&lt;/td&gt;
     &lt;/tr&gt;
   &lt;/tbody&gt;
-&lt;/table&gt;</content><author><name>John Snow Labs</name></author><category term="wav2vec2" /><category term="vi" /><category term="audio" /><category term="open_source" /><category term="asr" /><summary type="html">Description Pretrained Wav2vec2 model, adapted from Hugging Face and curated to provide scalability and production-readiness using Spark NLP.asr_Fine_Tune_XLSR_Wav2Vec2_Speech2Text_Vietnamese is a Vietnamese model originally trained by leduytan93. NOTE: This model only works on a CPU, if you need to use this model on a GPU device please use asr_Fine_Tune_XLSR_Wav2Vec2_Speech2Text_Vietnamese_gpu Live Demo Open in Colab Download How to use PythonScalaNLU audio_assembler = AudioAssembler() \ .setInputCol(&quot;audio_content&quot;) \ .setOutputCol(&quot;audio_assembler&quot;) speech_to_text = Wav2Vec2ForCTC \ .pretrained(&quot;asr_Fine_Tune_XLSR_Wav2Vec2_Speech2Text_Vietnamese&quot;, &quot;vi&quot;)\ .setInputCols(&quot;audio_assembler&quot;) \ .setOutputCol(&quot;text&quot;) pipeline = Pipeline(stages=[ audio_assembler, speech_to_text, ]) pipelineModel = pipeline.fit(audioDf) pipelineDF = pipelineModel.transform(audioDf) val audioAssembler = new AudioAssembler() .setInputCol(&quot;audio_content&quot;) .setOutputCol(&quot;audio_assembler&quot;) val speechToText = Wav2Vec2ForCTC .pretrained(&quot;asr_Fine_Tune_XLSR_Wav2Vec2_Speech2Text_Vietnamese&quot;, &quot;vi&quot;) .setInputCols(&quot;audio_assembler&quot;) .setOutputCol(&quot;text&quot;) val pipeline = new Pipeline().setStages(Array(audioAssembler, speechToText)) val pipelineModel = pipeline.fit(audioDf) val pipelineDF = pipelineModel.transform(audioDf) Model Information Model Name: asr_Fine_Tune_XLSR_Wav2Vec2_Speech2Text_Vietnamese Compatibility: Spark NLP 4.2.0+ License: Open Source Edition: Official Input Labels: [audio_assembler] Output Labels: [text] Language: vi Size: 1.2 GB</summary></entry><entry><title type="html">English asr_Fine_Tuned_XLSR_English TFWav2Vec2ForCTC from Sania67</title><link href="/2022/09/26/asr_Fine_Tuned_XLSR_English_en.html" rel="alternate" type="text/html" title="English asr_Fine_Tuned_XLSR_English TFWav2Vec2ForCTC from Sania67" /><published>2022-09-26T00:00:00+00:00</published><updated>2022-09-26T00:00:00+00:00</updated><id>/2022/09/26/asr_Fine_Tuned_XLSR_English_en</id><content type="html" xml:base="/2022/09/26/asr_Fine_Tuned_XLSR_English_en.html">&lt;h2 id=&quot;description&quot;&gt;Description&lt;/h2&gt;
-
-&lt;p&gt;Pretrained Wav2vec2  model, adapted from Hugging Face and curated to provide scalability and production-readiness using Spark NLP.&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;asr_Fine_Tuned_XLSR_English&lt;/code&gt; is a English model originally trained by Sania67.&lt;/p&gt;
-
-&lt;p&gt;NOTE: This model only works on a CPU, if you need to use this model on a GPU device please use asr_Fine_Tuned_XLSR_English_gpu&lt;/p&gt;
-
-&lt;p class=&quot;btn-box&quot;&gt;&lt;button class=&quot;button button-orange&quot; disabled=&quot;&quot;&gt;Live Demo&lt;/button&gt;
-&lt;button class=&quot;button button-orange&quot; disabled=&quot;&quot;&gt;Open in Colab&lt;/button&gt;
-&lt;a href=&quot;https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/asr_Fine_Tuned_XLSR_English_en_4.2.0_3.0_1664199621537.zip&quot; class=&quot;button button-orange button-orange-trans arr button-icon&quot;&gt;Download&lt;/a&gt;&lt;/p&gt;
-
-&lt;h2 id=&quot;how-to-use&quot;&gt;How to use&lt;/h2&gt;
-
-&lt;div class=&quot;tabs-box&quot;&gt;
-  &lt;div class=&quot;top_tab_li&quot;&gt;   
-    &lt;button class=&quot;tab-li code-selector-active python-button&quot;&gt;Python&lt;/button&gt;&lt;button class=&quot;tab-li code-selector-un-active scala-button&quot;&gt;Scala&lt;/button&gt;&lt;button class=&quot;tab-li code-selector-un-active nlu-button&quot;&gt;NLU&lt;/button&gt;
-&lt;/div&gt;
-  &lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;
-&lt;span class=&quot;n&quot;&gt;audio_assembler&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;AudioAssembler&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; \
-    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setInputCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;audio_content&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; \
-    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;audio_assembler&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-
-&lt;span class=&quot;n&quot;&gt;speech_to_text&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Wav2Vec2ForCTC&lt;/span&gt; \
-    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;pretrained&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;asr_Fine_Tuned_XLSR_English&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;en&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;\
-    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setInputCols&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;audio_assembler&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; \
-    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;text&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-
-&lt;span class=&quot;n&quot;&gt;pipeline&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Pipeline&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;stages&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;
-  &lt;span class=&quot;n&quot;&gt;audio_assembler&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-  &lt;span class=&quot;n&quot;&gt;speech_to_text&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;])&lt;/span&gt;
-
-&lt;span class=&quot;n&quot;&gt;pipelineModel&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;pipeline&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;fit&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;audioDf&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-
-&lt;span class=&quot;n&quot;&gt;pipelineDF&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;pipelineModel&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;transform&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;audioDf&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;  &lt;/div&gt;
-  &lt;div class=&quot;language-scala highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;
-&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;audioAssembler&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;AudioAssembler&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;()&lt;/span&gt;
-    &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;setInputCol&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;audio_content&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; 
-    &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;audio_assembler&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
-
-&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;speechToText&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;Wav2Vec2ForCTC&lt;/span&gt;
-    &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;pretrained&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;asr_Fine_Tuned_XLSR_English&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;en&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
-    &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;setInputCols&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;audio_assembler&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; 
-    &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;text&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; 
-
-&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;pipeline&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;Pipeline&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;().&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;setStages&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nc&quot;&gt;Array&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;audioAssembler&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;speechToText&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;))&lt;/span&gt;
-
-&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;pipelineModel&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;pipeline&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;fit&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;audioDf&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
-
-&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;pipelineDF&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;pipelineModel&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;transform&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;audioDf&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
-
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;  &lt;/div&gt;
-&lt;/div&gt;
-
-&lt;h2 class=&quot;model-param&quot; id=&quot;model-information&quot;&gt;Model Information&lt;/h2&gt;
-
-&lt;table class=&quot;table-model&quot;&gt;
-  &lt;tbody&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Model Name:&lt;/td&gt;
-      &lt;td&gt;asr_Fine_Tuned_XLSR_English&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Compatibility:&lt;/td&gt;
-      &lt;td&gt;Spark NLP 4.2.0+&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;License:&lt;/td&gt;
-      &lt;td&gt;Open Source&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Edition:&lt;/td&gt;
-      &lt;td&gt;Official&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Input Labels:&lt;/td&gt;
-      &lt;td&gt;[audio_assembler]&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Output Labels:&lt;/td&gt;
-      &lt;td&gt;[text]&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Language:&lt;/td&gt;
-      &lt;td&gt;en&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Size:&lt;/td&gt;
-      &lt;td&gt;1.2 GB&lt;/td&gt;
-    &lt;/tr&gt;
-  &lt;/tbody&gt;
-&lt;/table&gt;</content><author><name>John Snow Labs</name></author><category term="wav2vec2" /><category term="en" /><category term="audio" /><category term="open_source" /><category term="asr" /><summary type="html">Description Pretrained Wav2vec2 model, adapted from Hugging Face and curated to provide scalability and production-readiness using Spark NLP.asr_Fine_Tuned_XLSR_English is a English model originally trained by Sania67. NOTE: This model only works on a CPU, if you need to use this model on a GPU device please use asr_Fine_Tuned_XLSR_English_gpu Live Demo Open in Colab Download How to use PythonScalaNLU audio_assembler = AudioAssembler() \ .setInputCol(&quot;audio_content&quot;) \ .setOutputCol(&quot;audio_assembler&quot;) speech_to_text = Wav2Vec2ForCTC \ .pretrained(&quot;asr_Fine_Tuned_XLSR_English&quot;, &quot;en&quot;)\ .setInputCols(&quot;audio_assembler&quot;) \ .setOutputCol(&quot;text&quot;) pipeline = Pipeline(stages=[ audio_assembler, speech_to_text, ]) pipelineModel = pipeline.fit(audioDf) pipelineDF = pipelineModel.transform(audioDf) val audioAssembler = new AudioAssembler() .setInputCol(&quot;audio_content&quot;) .setOutputCol(&quot;audio_assembler&quot;) val speechToText = Wav2Vec2ForCTC .pretrained(&quot;asr_Fine_Tuned_XLSR_English&quot;, &quot;en&quot;) .setInputCols(&quot;audio_assembler&quot;) .setOutputCol(&quot;text&quot;) val pipeline = new Pipeline().setStages(Array(audioAssembler, speechToText)) val pipelineModel = pipeline.fit(audioDf) val pipelineDF = pipelineModel.transform(audioDf) Model Information Model Name: asr_Fine_Tuned_XLSR_English Compatibility: Spark NLP 4.2.0+ License: Open Source Edition: Official Input Labels: [audio_assembler] Output Labels: [text] Language: en Size: 1.2 GB</summary></entry><entry><title type="html">Hausa asr_Hausa_xlsr TFWav2Vec2ForCTC from Akashpb13</title><link href="/2022/09/26/asr_Hausa_xlsr_ha.html" rel="alternate" type="text/html" title="Hausa asr_Hausa_xlsr TFWav2Vec2ForCTC from Akashpb13" /><published>2022-09-26T00:00:00+00:00</published><updated>2022-09-26T00:00:00+00:00</updated><id>/2022/09/26/asr_Hausa_xlsr_ha</id><content type="html" xml:base="/2022/09/26/asr_Hausa_xlsr_ha.html">&lt;h2 id=&quot;description&quot;&gt;Description&lt;/h2&gt;
-
-&lt;p&gt;Pretrained Wav2vec2  model, adapted from Hugging Face and curated to provide scalability and production-readiness using Spark NLP.&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;asr_Hausa_xlsr&lt;/code&gt; is a Hausa model originally trained by Akashpb13.&lt;/p&gt;
-
-&lt;p&gt;NOTE: This model only works on a CPU, if you need to use this model on a GPU device please use asr_Hausa_xlsr_gpu&lt;/p&gt;
-
-&lt;p class=&quot;btn-box&quot;&gt;&lt;button class=&quot;button button-orange&quot; disabled=&quot;&quot;&gt;Live Demo&lt;/button&gt;
-&lt;button class=&quot;button button-orange&quot; disabled=&quot;&quot;&gt;Open in Colab&lt;/button&gt;
-&lt;a href=&quot;https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/asr_Hausa_xlsr_ha_4.2.0_3.0_1664192959924.zip&quot; class=&quot;button button-orange button-orange-trans arr button-icon&quot;&gt;Download&lt;/a&gt;&lt;/p&gt;
-
-&lt;h2 id=&quot;how-to-use&quot;&gt;How to use&lt;/h2&gt;
-
-&lt;div class=&quot;tabs-box&quot;&gt;
-  &lt;div class=&quot;top_tab_li&quot;&gt;   
-    &lt;button class=&quot;tab-li code-selector-active python-button&quot;&gt;Python&lt;/button&gt;&lt;button class=&quot;tab-li code-selector-un-active scala-button&quot;&gt;Scala&lt;/button&gt;&lt;button class=&quot;tab-li code-selector-un-active nlu-button&quot;&gt;NLU&lt;/button&gt;
-&lt;/div&gt;
-  &lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;
-&lt;span class=&quot;n&quot;&gt;audio_assembler&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;AudioAssembler&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; \
-    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setInputCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;audio_content&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; \
-    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;audio_assembler&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-
-&lt;span class=&quot;n&quot;&gt;speech_to_text&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Wav2Vec2ForCTC&lt;/span&gt; \
-    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;pretrained&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;asr_Hausa_xlsr&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;ha&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;\
-    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setInputCols&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;audio_assembler&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; \
-    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;text&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-
-&lt;span class=&quot;n&quot;&gt;pipeline&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Pipeline&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;stages&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;
-  &lt;span class=&quot;n&quot;&gt;audio_assembler&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-  &lt;span class=&quot;n&quot;&gt;speech_to_text&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;])&lt;/span&gt;
-
-&lt;span class=&quot;n&quot;&gt;pipelineModel&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;pipeline&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;fit&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;audioDf&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-
-&lt;span class=&quot;n&quot;&gt;pipelineDF&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;pipelineModel&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;transform&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;audioDf&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;  &lt;/div&gt;
-  &lt;div class=&quot;language-scala highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;
-&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;audioAssembler&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;AudioAssembler&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;()&lt;/span&gt;
-    &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;setInputCol&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;audio_content&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; 
-    &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;audio_assembler&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
-
-&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;speechToText&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;Wav2Vec2ForCTC&lt;/span&gt;
-    &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;pretrained&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;asr_Hausa_xlsr&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;ha&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
-    &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;setInputCols&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;audio_assembler&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; 
-    &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;text&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; 
-
-&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;pipeline&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;Pipeline&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;().&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;setStages&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nc&quot;&gt;Array&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;audioAssembler&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;speechToText&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;))&lt;/span&gt;
-
-&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;pipelineModel&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;pipeline&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;fit&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;audioDf&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
-
-&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;pipelineDF&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;pipelineModel&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;transform&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;audioDf&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
-
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;  &lt;/div&gt;
-&lt;/div&gt;
-
-&lt;h2 class=&quot;model-param&quot; id=&quot;model-information&quot;&gt;Model Information&lt;/h2&gt;
-
-&lt;table class=&quot;table-model&quot;&gt;
-  &lt;tbody&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Model Name:&lt;/td&gt;
-      &lt;td&gt;asr_Hausa_xlsr&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Compatibility:&lt;/td&gt;
-      &lt;td&gt;Spark NLP 4.2.0+&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;License:&lt;/td&gt;
-      &lt;td&gt;Open Source&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Edition:&lt;/td&gt;
-      &lt;td&gt;Official&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Input Labels:&lt;/td&gt;
-      &lt;td&gt;[audio_assembler]&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Output Labels:&lt;/td&gt;
-      &lt;td&gt;[text]&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Language:&lt;/td&gt;
-      &lt;td&gt;ha&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Size:&lt;/td&gt;
-      &lt;td&gt;1.2 GB&lt;/td&gt;
-    &lt;/tr&gt;
-  &lt;/tbody&gt;
-&lt;/table&gt;</content><author><name>John Snow Labs</name></author><category term="wav2vec2" /><category term="ha" /><category term="audio" /><category term="open_source" /><category term="asr" /><summary type="html">Description Pretrained Wav2vec2 model, adapted from Hugging Face and curated to provide scalability and production-readiness using Spark NLP.asr_Hausa_xlsr is a Hausa model originally trained by Akashpb13. NOTE: This model only works on a CPU, if you need to use this model on a GPU device please use asr_Hausa_xlsr_gpu Live Demo Open in Colab Download How to use PythonScalaNLU audio_assembler = AudioAssembler() \ .setInputCol(&quot;audio_content&quot;) \ .setOutputCol(&quot;audio_assembler&quot;) speech_to_text = Wav2Vec2ForCTC \ .pretrained(&quot;asr_Hausa_xlsr&quot;, &quot;ha&quot;)\ .setInputCols(&quot;audio_assembler&quot;) \ .setOutputCol(&quot;text&quot;) pipeline = Pipeline(stages=[ audio_assembler, speech_to_text, ]) pipelineModel = pipeline.fit(audioDf) pipelineDF = pipelineModel.transform(audioDf) val audioAssembler = new AudioAssembler() .setInputCol(&quot;audio_content&quot;) .setOutputCol(&quot;audio_assembler&quot;) val speechToText = Wav2Vec2ForCTC .pretrained(&quot;asr_Hausa_xlsr&quot;, &quot;ha&quot;) .setInputCols(&quot;audio_assembler&quot;) .setOutputCol(&quot;text&quot;) val pipeline = new Pipeline().setStages(Array(audioAssembler, speechToText)) val pipelineModel = pipeline.fit(audioDf) val pipelineDF = pipelineModel.transform(audioDf) Model Information Model Name: asr_Hausa_xlsr Compatibility: Spark NLP 4.2.0+ License: Open Source Edition: Official Input Labels: [audio_assembler] Output Labels: [text] Language: ha Size: 1.2 GB</summary></entry></feed>
+&lt;/table&gt;</content><author><name>John Snow Labs</name></author><category term="wav2vec2" /><category term="vi" /><category term="audio" /><category term="open_source" /><category term="asr" /><summary type="html">Description Pretrained Wav2vec2 model, adapted from Hugging Face and curated to provide scalability and production-readiness using Spark NLP.asr_Fine_Tune_XLSR_Wav2Vec2_Speech2Text_Vietnamese is a Vietnamese model originally trained by leduytan93. NOTE: This model only works on a CPU, if you need to use this model on a GPU device please use asr_Fine_Tune_XLSR_Wav2Vec2_Speech2Text_Vietnamese_gpu Live Demo Open in Colab Download How to use PythonScalaNLU audio_assembler = AudioAssembler() \ .setInputCol(&quot;audio_content&quot;) \ .setOutputCol(&quot;audio_assembler&quot;) speech_to_text = Wav2Vec2ForCTC \ .pretrained(&quot;asr_Fine_Tune_XLSR_Wav2Vec2_Speech2Text_Vietnamese&quot;, &quot;vi&quot;)\ .setInputCols(&quot;audio_assembler&quot;) \ .setOutputCol(&quot;text&quot;) pipeline = Pipeline(stages=[ audio_assembler, speech_to_text, ]) pipelineModel = pipeline.fit(audioDf) pipelineDF = pipelineModel.transform(audioDf) val audioAssembler = new AudioAssembler() .setInputCol(&quot;audio_content&quot;) .setOutputCol(&quot;audio_assembler&quot;) val speechToText = Wav2Vec2ForCTC .pretrained(&quot;asr_Fine_Tune_XLSR_Wav2Vec2_Speech2Text_Vietnamese&quot;, &quot;vi&quot;) .setInputCols(&quot;audio_assembler&quot;) .setOutputCol(&quot;text&quot;) val pipeline = new Pipeline().setStages(Array(audioAssembler, speechToText)) val pipelineModel = pipeline.fit(audioDf) val pipelineDF = pipelineModel.transform(audioDf) Model Information Model Name: asr_Fine_Tune_XLSR_Wav2Vec2_Speech2Text_Vietnamese Compatibility: Spark NLP 4.2.0+ License: Open Source Edition: Official Input Labels: [audio_assembler] Output Labels: [text] Language: vi Size: 1.2 GB</summary></entry></feed>
