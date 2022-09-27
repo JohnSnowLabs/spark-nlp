@@ -55,7 +55,7 @@ embeddings = BertEmbeddings.pretrained("bert_embeddings_sec_bert_base","en") \
         .setInputCols(["document", "token"]) \
         .setOutputCol("embeddings")
 
-ner_model = FinanceNerModel.pretrained("finner_orgs_prods_alias", "en", "finance/models")\
+ner_model = legal.NerModel.pretrained("legner_orgs_prods_alias", "en", "legal/models")\
         .setInputCols(["document", "token", "embeddings"])\
         .setOutputCol("ner")
 
@@ -71,7 +71,7 @@ sentence_embeddings = UniversalSentenceEncoder.pretrained("tfhub_use", "en") \
       .setInputCols("ner_chunk_doc") \
       .setOutputCol("sentence_embeddings")
     
-resolver = SentenceEntityResolverModel.pretrained("finel_edgar_companynames", "en", "finance/models") \
+resolver = legal.SentenceEntityResolverModel.pretrained("legel_edgar_company_name", "en", "legal/models") \
       .setInputCols(["ner_chunk_doc", "sentence_embeddings"]) \
       .setOutputCol("normalized")\
       .setDistanceFunction("EUCLIDEAN")
@@ -107,8 +107,8 @@ chunkAssembler = Doc2Chunk() \
     .setOutputCol("chunk") \
     .setIsArray(False)
 
-CM = ChunkMapperModel()\
-      .pretrained("finmapper_edgar_companyname", "en", "finance/models")\
+CM = legal.ChunkMapperModel()\
+      .pretrained("legmapper_edgar_companyname", "en", "legal/models")\
       .setInputCols(["chunk"])\
       .setOutputCol("mappings")
       
