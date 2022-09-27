@@ -3,9 +3,9 @@
         <head>
           <meta http-equiv="X-UA-Compatible" content="IE=edge" />
           <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-          <title>Spark NLP 4.1.0 ScalaDoc  - com.johnsnowlabs.nlp.annotators.er.EntityPattern</title>
-          <meta name="description" content="Spark NLP 4.1.0 ScalaDoc - com.johnsnowlabs.nlp.annotators.er.EntityPattern" />
-          <meta name="keywords" content="Spark NLP 4.1.0 ScalaDoc com.johnsnowlabs.nlp.annotators.er.EntityPattern" />
+          <title>Spark NLP 4.2.0 ScalaDoc  - com.johnsnowlabs.nlp.annotators.er.EntityPattern</title>
+          <meta name="description" content="Spark NLP 4.2.0 ScalaDoc - com.johnsnowlabs.nlp.annotators.er.EntityPattern" />
+          <meta name="keywords" content="Spark NLP 4.2.0 ScalaDoc com.johnsnowlabs.nlp.annotators.er.EntityPattern" />
           <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
           
       
@@ -28,7 +28,7 @@
         </head>
         <body>
       <div id="search">
-        <span id="doc-title">Spark NLP 4.1.0 ScalaDoc<span id="doc-version"></span></span>
+        <span id="doc-title">Spark NLP 4.2.0 ScalaDoc<span id="doc-version"></span></span>
         <span class="close-results"><span class="left">&lt;</span> Back</span>
         <div id="textfilter">
           <span class="input">
@@ -151,6 +151,10 @@
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="../index.html" class="extype" name="com.johnsnowlabs.nlp.annotators">annotators</a></dd></dl></div>
     </li><li class="current-entities indented5">
                         <span class="separator"></span>
+                        <a class="class" href="AhoCorasickAutomaton.html" title="Aho-Corasick Algorithm: https://dl.acm.org/doi/10.1145/360825.360855 A simple, efficient algorithm to locate all occurrences of any of a finite number of keywords in a string of text."></a>
+                        <a href="AhoCorasickAutomaton.html" title="Aho-Corasick Algorithm: https://dl.acm.org/doi/10.1145/360825.360855 A simple, efficient algorithm to locate all occurrences of any of a finite number of keywords in a string of text.">AhoCorasickAutomaton</a>
+                      </li><li class="current-entities indented5">
+                        <span class="separator"></span>
                         <a class="class" href="" title=""></a>
                         <a href="" title="">EntityPattern</a>
                       </li><li class="current-entities indented5">
@@ -169,6 +173,10 @@
                         <span class="separator"></span>
                         <a class="object" href="EntityRulerUtil$.html" title=""></a>
                         <a href="EntityRulerUtil$.html" title="">EntityRulerUtil</a>
+                      </li><li class="current-entities indented5">
+                        <span class="separator"></span>
+                        <a class="class" href="FlattenEntityPattern.html" title=""></a>
+                        <a href="FlattenEntityPattern.html" title="">FlattenEntityPattern</a>
                       </li><li class="current-entities indented5">
                         <span class="separator"></span>
                         <a class="class" href="PatternsReadWriter.html" title=""></a>
@@ -212,7 +220,7 @@
         <span class="kind">case class</span>
       </span>
       <span class="symbol">
-        <span class="name">EntityPattern</span><span class="params">(<span name="label">label: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="patterns">patterns: <span class="extype" name="scala.Seq">Seq</span>[<span class="extype" name="scala.Predef.String">String</span>]</span>, <span name="id">id: <span class="extype" name="scala.Option">Option</span>[<span class="extype" name="scala.Predef.String">String</span>] = <span class="symbol">None</span></span>)</span><span class="result"> extends <span class="extype" name="scala.Product">Product</span> with <span class="extype" name="scala.Serializable">Serializable</span></span>
+        <span class="name">EntityPattern</span><span class="params">(<span name="label">label: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="patterns">patterns: <span class="extype" name="scala.Seq">Seq</span>[<span class="extype" name="scala.Predef.String">String</span>]</span>, <span name="id">id: <span class="extype" name="scala.Option">Option</span>[<span class="extype" name="scala.Predef.String">String</span>] = <span class="symbol">None</span></span>, <span name="regex">regex: <span class="extype" name="scala.Option">Option</span>[<span class="extype" name="scala.Boolean">Boolean</span>] = <span class="symbol">None</span></span>)</span><span class="result"> extends <span class="extype" name="scala.Product">Product</span> with <span class="extype" name="scala.Serializable">Serializable</span></span>
       </span>
       </h4>
 
@@ -268,9 +276,9 @@
         <div id="constructors" class="members">
               <h3>Instance Constructors</h3>
               <ol><li name="com.johnsnowlabs.nlp.annotators.er.EntityPattern#&lt;init&gt;" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="&lt;init&gt;(label:String,patterns:Seq[String],id:Option[String]):com.johnsnowlabs.nlp.annotators.er.EntityPattern"></a><a id="&lt;init&gt;:EntityPattern"></a>
+      <a id="&lt;init&gt;(label:String,patterns:Seq[String],id:Option[String],regex:Option[Boolean]):com.johnsnowlabs.nlp.annotators.er.EntityPattern"></a><a id="&lt;init&gt;:EntityPattern"></a>
       <span class="permalink">
-      <a href="../../../../../com/johnsnowlabs/nlp/annotators/er/EntityPattern.html#&lt;init&gt;(label:String,patterns:Seq[String],id:Option[String]):com.johnsnowlabs.nlp.annotators.er.EntityPattern" title="Permalink">
+      <a href="../../../../../com/johnsnowlabs/nlp/annotators/er/EntityPattern.html#&lt;init&gt;(label:String,patterns:Seq[String],id:Option[String],regex:Option[Boolean]):com.johnsnowlabs.nlp.annotators.er.EntityPattern" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -279,7 +287,7 @@
         <span class="kind">new</span>
       </span>
       <span class="symbol">
-        <span class="name">EntityPattern</span><span class="params">(<span name="label">label: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="patterns">patterns: <span class="extype" name="scala.Seq">Seq</span>[<span class="extype" name="scala.Predef.String">String</span>]</span>, <span name="id">id: <span class="extype" name="scala.Option">Option</span>[<span class="extype" name="scala.Predef.String">String</span>] = <span class="symbol">None</span></span>)</span>
+        <span class="name">EntityPattern</span><span class="params">(<span name="label">label: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="patterns">patterns: <span class="extype" name="scala.Seq">Seq</span>[<span class="extype" name="scala.Predef.String">String</span>]</span>, <span name="id">id: <span class="extype" name="scala.Option">Option</span>[<span class="extype" name="scala.Predef.String">String</span>] = <span class="symbol">None</span></span>, <span name="regex">regex: <span class="extype" name="scala.Option">Option</span>[<span class="extype" name="scala.Boolean">Boolean</span>] = <span class="symbol">None</span></span>)</span>
       </span>
       
       
@@ -553,6 +561,22 @@
       </span>
       <span class="symbol">
         <span class="name">patterns</span><span class="result">: <span class="extype" name="scala.Seq">Seq</span>[<span class="extype" name="scala.Predef.String">String</span>]</span>
+      </span>
+      
+      
+    </li><li name="com.johnsnowlabs.nlp.annotators.er.EntityPattern#regex" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="regex:Option[Boolean]"></a>
+      <span class="permalink">
+      <a href="../../../../../com/johnsnowlabs/nlp/annotators/er/EntityPattern.html#regex:Option[Boolean]" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">regex</span><span class="result">: <span class="extype" name="scala.Option">Option</span>[<span class="extype" name="scala.Boolean">Boolean</span>]</span>
       </span>
       
       

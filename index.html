@@ -456,22 +456,22 @@
                   <div class="highlight-box">
     
 <figure class="highlight"><pre><code class="language-bash" data-lang="bash">    <span class="c"># Install Spark NLP from PyPI</span>
-    <span class="nv">$ </span>pip <span class="nb">install </span>spark-nlp<span class="o">==</span>4.0.2 <span class="nv">pyspark</span><span class="o">==</span>3.2.1
+    <span class="nv">$ </span>pip <span class="nb">install </span>spark-nlp<span class="o">==</span>4.2.0 <span class="nv">pyspark</span><span class="o">==</span>3.3.0
 
     <span class="c"># Install Spark NLP from Anaconda/Conda</span>
     <span class="nv">$ </span>conda <span class="nb">install</span> <span class="nt">-c</span> johnsnowlabs spark-nlp
 
     <span class="c"># Load Spark NLP with Spark Shell</span>
-    <span class="nv">$ </span>spark-shell <span class="nt">--packages</span> com.johnsnowlabs.nlp:spark-nlp_2.12:4.0.2
+    <span class="nv">$ </span>spark-shell <span class="nt">--packages</span> com.johnsnowlabs.nlp:spark-nlp_2.12:4.2.0
 
     <span class="c"># Load Spark NLP with PySpark</span>
-    <span class="nv">$ </span>pyspark <span class="nt">--packages</span> com.johnsnowlabs.nlp:spark-nlp_2.12:4.0.2
+    <span class="nv">$ </span>pyspark <span class="nt">--packages</span> com.johnsnowlabs.nlp:spark-nlp_2.12:4.2.0
 
     <span class="c"># Load Spark NLP with Spark Submit</span>
-    <span class="nv">$ </span>spark-submit <span class="nt">--packages</span> com.johnsnowlabs.nlp:spark-nlp_2.12:4.0.2
+    <span class="nv">$ </span>spark-submit <span class="nt">--packages</span> com.johnsnowlabs.nlp:spark-nlp_2.12:4.2.0
 
     <span class="c"># Load Spark NLP as an external Fat JAR</span>
-    <span class="nv">$ </span>spark-shell <span class="nt">--jars</span> spark-nlp-assembly-4.0.2.jar
+    <span class="nv">$ </span>spark-shell <span class="nt">--jars</span> spark-nlp-assembly-4.2.0.jar
     </code></pre></figure>
 
                     </div>
@@ -519,16 +519,20 @@
                     <li><strong>Longformer</strong> Embeddings</li>
                     <li><strong>ALBERT</strong> Embeddings</li>
                     <li><strong>XLNet</strong> Embeddings</li>
+                    <li><strong>ELMO</strong> Embeddings</li>
 
                   </ul>
                   <ul class="list1">
-                    <li><strong>ELMO</strong> Embeddings</li>
+
                     <li><strong>Universal Sentence</strong> Encoder</li>
                     <li><strong>Sentence</strong> Embeddings</li>
                     <li><strong>Chunk</strong> Embeddings</li>
                     <li>Neural <strong>Machine Translation</strong> (MarianMT)</li>
                     <li><strong>Text-To-Text</strong> Transfer Transformer <strong>(Google T5)</strong></li>
                     <li><strong>Generative Pre-trained</strong> Transformer 2 <strong>(OpenAI GPT-2)</strong></li>
+                    <li>Vision Transformer (ViT) <strong>Image Classification</strong></li>
+                    <li>Automatic Speech Recognition <strong>(Wav2Vec2)</strong></li>
+                    <li>Table Question Answering <strong>(TAPAS)</strong></li>
                     <li>Unsupervised <strong>keywords extraction</strong></li>
                     <li>Language <strong>Detection</strong> & <strong>Identification</strong> (up to 375 languages)</li>
                     <li>Multi-class Text <strong>Classification</strong> (DL model)</li>
@@ -536,6 +540,7 @@
                     <li>Multi-class <strong>Sentiment Analysis</strong> (DL model)</li>
                     <li>BERT for <strong>Token & Sequence Classification</strong></li>
                     <li>DistilBERT for <strong>Token & Sequence Classification</strong></li>
+                    <li>CamemBERT for <strong>Token Classification</strong></li>
                     <li>ALBERT for <strong>Token & Sequence Classification</strong></li>
                     <li>RoBERTa for <strong>Token & Sequence Classification</strong></li>
                     <li>DeBERTa for <strong>Token & Sequence Classification</strong></li>
@@ -547,14 +552,12 @@
                     <li>Easy <strong>TensorFlow</strong> integration</li>
                     <li><strong>GPU</strong> Support</li>
                     <li>Full integration with <strong>Spark ML</strong> functions</li>
-                    <li><strong>4400+</strong> pre-trained <strong>models </strong> in <strong>200+ languages! </strong>
-                    <li><strong>1800+</strong> pre-trained <strong>pipelines </strong> in <strong>200+ languages! </strong>
+                    <li><strong>8000+</strong> pre-trained <strong>models </strong> in <strong>200+ languages! </strong>
+                    <li><strong>3000+</strong> pre-trained <strong>pipelines </strong> in <strong>200+ languages! </strong>
                   </ul>
                 </div>
 
-<figure class="highlight"><pre><code class="language-python" data-lang="python">    <span class="kn">from</span> <span class="nn">sparknlp.base</span> <span class="kn">import</span> <span class="o">*</span>
-    <span class="kn">from</span> <span class="nn">sparknlp.annotator</span> <span class="kn">import</span> <span class="o">*</span>
-    <span class="kn">from</span> <span class="nn">sparknlp.pretrained</span> <span class="kn">import</span> <span class="n">PretrainedPipeline</span>
+<figure class="highlight"><pre><code class="language-python" data-lang="python">    <span class="kn">from</span> <span class="nn">sparknlp.pretrained</span> <span class="kn">import</span> <span class="n">PretrainedPipeline</span>
     <span class="kn">import</span> <span class="nn">sparknlp</span>
 
     <span class="c1"># Start Spark Session with Spark NLP
@@ -564,7 +567,8 @@
 </span>    <span class="n">pipeline</span> <span class="o">=</span> <span class="n">PretrainedPipeline</span><span class="p">(</span><span class="s">'explain_document_dl'</span><span class="p">,</span> <span class="n">lang</span><span class="o">=</span><span class="s">'en'</span><span class="p">)</span>
 
     <span class="c1"># Annotate your testing dataset
-</span>    <span class="n">result</span> <span class="o">=</span> <span class="n">pipeline</span><span class="p">.</span><span class="n">annotate</span><span class="p">(</span><span class="s">"The Mona Lisa is a 16th century oil painting created by Leonardo. It's held at the Louvre in Paris."</span><span class="p">)</span>
+</span>    <span class="n">text</span> <span class="o">=</span> <span class="s">"The Mona Lisa is a 16th century oil painting created by Leonardo. It's held at the Louvre in Paris."</span>
+    <span class="n">result</span> <span class="o">=</span> <span class="n">pipeline</span><span class="p">.</span><span class="n">annotate</span><span class="p">(</span><span class="n">text</span><span class="p">)</span>
 
     <span class="c1"># What's in the pipeline
 </span>    <span class="nb">list</span><span class="p">(</span><span class="n">result</span><span class="p">.</span><span class="n">keys</span><span class="p">())</span>
@@ -900,7 +904,6 @@
                 </li><li><a class="button button--trans button--pill button--lg" href="https://www.johnsnowlabs.com/slack-redirect/"><i class="fab fa-slack-hash"></i> Slack</a>
                 </li></ul></div></div> </section></div>
 </div>
-
 
 
 </div></article><!-- start custom main bottom snippet -->

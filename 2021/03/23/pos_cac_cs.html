@@ -460,6 +460,11 @@
 <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"document"</span><span class="p">])</span>\
 <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"sentence"</span><span class="p">)</span>
 
+
+<span class="n">tokenizer</span> <span class="o">=</span> <span class="n">Tokenizer</span><span class="p">()</span>\
+    <span class="p">.</span><span class="n">setInputCols</span><span class="p">(</span><span class="s">"sentence"</span><span class="p">)</span>\
+    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"token"</span><span class="p">)</span>
+
 <span class="n">pos</span> <span class="o">=</span> <span class="n">PerceptronModel</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"pos_cac"</span><span class="p">,</span> <span class="s">"cs"</span><span class="p">)</span>\
 <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"document"</span><span class="p">,</span> <span class="s">"token"</span><span class="p">])</span>\
 <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"pos"</span><span class="p">)</span>
@@ -467,6 +472,7 @@
 <span class="n">pipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">(</span><span class="n">stages</span><span class="o">=</span><span class="p">[</span>
 <span class="n">document_assembler</span><span class="p">,</span>
 <span class="n">sentence_detector</span><span class="p">,</span>
+<span class="n">tokenizer</span><span class="p">,</span>
 <span class="n">posTagger</span>
 <span class="p">])</span>
 
@@ -482,11 +488,15 @@
 <span class="o">.</span><span class="py">setInputCols</span><span class="o">([</span><span class="err">"</span><span class="kt">document</span><span class="err">"</span><span class="o">])</span>
 	<span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"sentence"</span><span class="o">)</span>
 
+<span class="k">val</span> <span class="nv">tokenizer</span> <span class="k">=</span> <span class="nc">Tokenizer</span><span class="o">()\</span>
+    <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="s">"sentence"</span><span class="o">)\</span>
+    <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"token"</span><span class="o">)</span>
+
 <span class="k">val</span> <span class="nv">pos</span> <span class="k">=</span> <span class="nv">PerceptronModel</span><span class="o">.</span><span class="py">pretrained</span><span class="o">(</span><span class="s">"pos_cac"</span><span class="o">,</span> <span class="s">"cs"</span><span class="o">)</span>
 <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="s">"document"</span><span class="o">,</span> <span class="s">"token"</span><span class="o">))</span>
 <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"pos"</span><span class="o">)</span>
 
-<span class="k">val</span> <span class="nv">pipeline</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">Pipeline</span><span class="o">().</span><span class="py">setStages</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="n">document_assembler</span><span class="o">,</span> <span class="n">sentence_detector</span><span class="o">,</span> <span class="n">pos</span><span class="o">))</span>
+<span class="k">val</span> <span class="nv">pipeline</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">Pipeline</span><span class="o">().</span><span class="py">setStages</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="n">document_assembler</span><span class="o">,</span> <span class="n">sentence_detector</span><span class="o">,</span><span class="n">tokenizer</span> <span class="o">,</span> <span class="n">pos</span><span class="o">))</span>
 
 <span class="k">val</span> <span class="nv">data</span> <span class="k">=</span> <span class="nc">Seq</span><span class="o">(</span><span class="s">"'Soustředit všechny propagační a agitační prostředky na vytvoření veřejného mínění , které bude podporovat přesnou , tvořivou a iniciativní práci ."</span><span class="o">).</span><span class="py">toDF</span><span class="o">(</span><span class="s">"text"</span><span class="o">)</span>
 <span class="k">val</span> <span class="nv">result</span> <span class="k">=</span> <span class="nv">pipeline</span><span class="o">.</span><span class="py">fit</span><span class="o">(</span><span class="n">data</span><span class="o">).</span><span class="py">transform</span><span class="o">(</span><span class="n">data</span><span class="o">)</span>
@@ -494,10 +504,10 @@
 
   <div class="language-python nlu-block highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">nlu</span>
 
-<span class="n">text</span> <span class="o">=</span> <span class="p">[</span><span class="s">""'Soustředit všechny propagační a agitační prostředky na vytvoření veřejného mínění , které bude podporovat přesnou , tvořivou a iniciativní práci .""]
-token_df = nlu.load('</span><span class="n">cs</span><span class="p">.</span><span class="n">pos</span><span class="p">.</span><span class="n">cac</span><span class="s">').predict(text)
-token_df
-</span></code></pre></div>  </div>
+<span class="n">text</span> <span class="o">=</span> <span class="p">[</span><span class="s">""</span><span class="n">Soustředit</span> <span class="n">všechny</span> <span class="n">propagační</span> <span class="n">a</span> <span class="n">agitační</span> <span class="n">prostředky</span> <span class="n">na</span> <span class="n">vytvoření</span> <span class="n">veřejného</span> <span class="n">mínění</span> <span class="p">,</span> <span class="n">které</span> <span class="n">bude</span> <span class="n">podporovat</span> <span class="n">přesnou</span> <span class="p">,</span> <span class="n">tvořivou</span> <span class="n">a</span> <span class="n">iniciativní</span> <span class="n">práci</span> <span class="p">.</span><span class="s">""</span><span class="p">]</span>
+<span class="n">token_df</span> <span class="o">=</span> <span class="n">nlu</span><span class="p">.</span><span class="n">load</span><span class="p">(</span><span class="s">'cs.pos.cac'</span><span class="p">).</span><span class="n">predict</span><span class="p">(</span><span class="n">text</span><span class="p">)</span>
+<span class="n">token_df</span>
+</code></pre></div>  </div>
 </div>
 
 <h2 id="results">Results</h2>

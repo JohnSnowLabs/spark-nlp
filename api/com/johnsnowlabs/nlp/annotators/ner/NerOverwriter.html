@@ -3,9 +3,9 @@
         <head>
           <meta http-equiv="X-UA-Compatible" content="IE=edge" />
           <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-          <title>Spark NLP 4.1.0 ScalaDoc  - com.johnsnowlabs.nlp.annotators.ner.NerOverwriter</title>
-          <meta name="description" content="Spark NLP 4.1.0 ScalaDoc - com.johnsnowlabs.nlp.annotators.ner.NerOverwriter" />
-          <meta name="keywords" content="Spark NLP 4.1.0 ScalaDoc com.johnsnowlabs.nlp.annotators.ner.NerOverwriter" />
+          <title>Spark NLP 4.2.0 ScalaDoc  - com.johnsnowlabs.nlp.annotators.ner.NerOverwriter</title>
+          <meta name="description" content="Spark NLP 4.2.0 ScalaDoc - com.johnsnowlabs.nlp.annotators.ner.NerOverwriter" />
+          <meta name="keywords" content="Spark NLP 4.2.0 ScalaDoc com.johnsnowlabs.nlp.annotators.ner.NerOverwriter" />
           <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
           
       
@@ -28,7 +28,7 @@
         </head>
         <body>
       <div id="search">
-        <span id="doc-title">Spark NLP 4.1.0 ScalaDoc<span id="doc-version"></span></span>
+        <span id="doc-title">Spark NLP 4.2.0 ScalaDoc<span id="doc-version"></span></span>
         <span class="close-results"><span class="left">&lt;</span> Back</span>
         <div id="textfilter">
           <span class="input">
@@ -305,8 +305,8 @@ result.selectExpr(<span class="lit">"explode(ner)"</span>).show(<span class="kw"
 <span class="kw">val</span> nerOverwriter = <span class="kw">new</span> NerOverwriter()
   .setInputCols(<span class="lit">"ner"</span>)
   .setOutputCol(<span class="lit">"ner_overwritten"</span>)
-  .setStopWords(<span class="std">Array</span>(<span class="lit">"Million"</span>))
-  .setNewResult(<span class="lit">"B-CARDINAL"</span>)
+  .setNerWords(<span class="std">Array</span>(<span class="lit">"Million"</span>))
+  .setNerNewEntity,(<span class="lit">"B-CARDINAL"</span>)
 
 nerOverwriter.transform(result).selectExpr(<span class="lit">"explode(ner_overwritten)"</span>).show(<span class="kw">false</span>)
 +---------------------------------------------------------+
@@ -1109,10 +1109,10 @@ type
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="../../CanBeLazy.html" class="extype" name="com.johnsnowlabs.nlp.CanBeLazy">CanBeLazy</a></dd></dl></div>
-    </li><li name="com.johnsnowlabs.nlp.annotators.ner.NerOverwriter#getNewResult" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="getParam">
-      <a id="getNewResult:String"></a>
+    </li><li name="com.johnsnowlabs.nlp.annotators.ner.NerOverwriter#getNerWords" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="getParam">
+      <a id="getNerWords:Array[String]"></a>
       <span class="permalink">
-      <a href="../../../../../com/johnsnowlabs/nlp/annotators/ner/NerOverwriter.html#getNewResult:String" title="Permalink">
+      <a href="../../../../../com/johnsnowlabs/nlp/annotators/ner/NerOverwriter.html#getNerWords:Array[String]" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -1121,7 +1121,23 @@ type
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">getNewResult</span><span class="result">: <span class="extype" name="scala.Predef.String">String</span></span>
+        <span class="name">getNerWords</span><span class="result">: <span class="extype" name="scala.Array">Array</span>[<span class="extype" name="scala.Predef.String">String</span>]</span>
+      </span>
+      
+      <p class="shortcomment cmt">The words to be filtered out.</p>
+    </li><li name="com.johnsnowlabs.nlp.annotators.ner.NerOverwriter#getNewNerEntity" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="getParam">
+      <a id="getNewNerEntity:String"></a>
+      <span class="permalink">
+      <a href="../../../../../com/johnsnowlabs/nlp/annotators/ner/NerOverwriter.html#getNewNerEntity:String" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">getNewNerEntity</span><span class="result">: <span class="extype" name="scala.Predef.String">String</span></span>
       </span>
       
       <p class="shortcomment cmt">New NER class to overwrite
@@ -1174,10 +1190,10 @@ type
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>Params</dd></dl></div>
-    </li><li name="com.johnsnowlabs.nlp.annotators.ner.NerOverwriter#getStopWords" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="getParam">
-      <a id="getStopWords:Array[String]"></a>
+    </li><li name="com.johnsnowlabs.nlp.annotators.ner.NerOverwriter#getReplaceEntities" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="getReplaceEntities:Map[String,String]"></a>
       <span class="permalink">
-      <a href="../../../../../com/johnsnowlabs/nlp/annotators/ner/NerOverwriter.html#getStopWords:Array[String]" title="Permalink">
+      <a href="../../../../../com/johnsnowlabs/nlp/annotators/ner/NerOverwriter.html#getReplaceEntities:Map[String,String]" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -1186,10 +1202,10 @@ type
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">getStopWords</span><span class="result">: <span class="extype" name="scala.Array">Array</span>[<span class="extype" name="scala.Predef.String">String</span>]</span>
+        <span class="name">getReplaceEntities</span><span class="result">: <span class="extype" name="scala.Predef.Map">Map</span>[<span class="extype" name="scala.Predef.String">String</span>, <span class="extype" name="scala.Predef.String">String</span>]</span>
       </span>
       
-      <p class="shortcomment cmt">The words to be filtered out.</p>
+      
     </li><li name="org.apache.spark.ml.param.Params#hasDefault" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="hasDefault[T](param:org.apache.spark.ml.param.Param[T]):Boolean"></a><a id="hasDefault[T](Param[T]):Boolean"></a>
       <span class="permalink">
@@ -1631,10 +1647,10 @@ as input and output columns if not specified
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd></dl></div>
-    </li><li name="com.johnsnowlabs.nlp.annotators.ner.NerOverwriter#newResult" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="param">
-      <a id="newResult:org.apache.spark.ml.param.Param[String]"></a><a id="newResult:Param[String]"></a>
+    </li><li name="com.johnsnowlabs.nlp.annotators.ner.NerOverwriter#nerWords" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="param">
+      <a id="nerWords:org.apache.spark.ml.param.StringArrayParam"></a><a id="nerWords:StringArrayParam"></a>
       <span class="permalink">
-      <a href="../../../../../com/johnsnowlabs/nlp/annotators/ner/NerOverwriter.html#newResult:org.apache.spark.ml.param.Param[String]" title="Permalink">
+      <a href="../../../../../com/johnsnowlabs/nlp/annotators/ner/NerOverwriter.html#nerWords:org.apache.spark.ml.param.StringArrayParam" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -1643,7 +1659,23 @@ as input and output columns if not specified
         <span class="kind">val</span>
       </span>
       <span class="symbol">
-        <span class="name">newResult</span><span class="result">: <span class="extype" name="org.apache.spark.ml.param.Param">Param</span>[<span class="extype" name="scala.Predef.String">String</span>]</span>
+        <span class="name">nerWords</span><span class="result">: <span class="extype" name="org.apache.spark.ml.param.StringArrayParam">StringArrayParam</span></span>
+      </span>
+      
+      <p class="shortcomment cmt">The words to be filtered out.</p>
+    </li><li name="com.johnsnowlabs.nlp.annotators.ner.NerOverwriter#newNerEntity" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="param">
+      <a id="newNerEntity:org.apache.spark.ml.param.Param[String]"></a><a id="newNerEntity:Param[String]"></a>
+      <span class="permalink">
+      <a href="../../../../../com/johnsnowlabs/nlp/annotators/ner/NerOverwriter.html#newNerEntity:org.apache.spark.ml.param.Param[String]" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">newNerEntity</span><span class="result">: <span class="extype" name="org.apache.spark.ml.param.Param">Param</span>[<span class="extype" name="scala.Predef.String">String</span>]</span>
       </span>
       
       <p class="shortcomment cmt">New NER class to overwrite
@@ -1784,6 +1816,22 @@ as input and output columns if not specified
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>Model</dd></dl></div>
+    </li><li name="com.johnsnowlabs.nlp.annotators.ner.NerOverwriter#replaceEntities" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="replaceEntities:com.johnsnowlabs.nlp.serialization.MapFeature[String,String]"></a><a id="replaceEntities:MapFeature[String,String]"></a>
+      <span class="permalink">
+      <a href="../../../../../com/johnsnowlabs/nlp/annotators/ner/NerOverwriter.html#replaceEntities:com.johnsnowlabs.nlp.serialization.MapFeature[String,String]" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">replaceEntities</span><span class="result">: <a href="../../serialization/MapFeature.html" class="extype" name="com.johnsnowlabs.nlp.serialization.MapFeature">MapFeature</a>[<span class="extype" name="scala.Predef.String">String</span>, <span class="extype" name="scala.Predef.String">String</span>]</span>
+      </span>
+      
+      
     </li><li name="org.apache.spark.ml.util.MLWritable#save" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="save(path:String):Unit"></a><a id="save(String):Unit"></a>
       <span class="permalink">
@@ -2067,10 +2115,10 @@ as input and output columns if not specified
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="../../CanBeLazy.html" class="extype" name="com.johnsnowlabs.nlp.CanBeLazy">CanBeLazy</a></dd></dl></div>
-    </li><li name="com.johnsnowlabs.nlp.annotators.ner.NerOverwriter#setNewResult" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="setParam">
-      <a id="setNewResult(r:String):NerOverwriter.this.type"></a><a id="setNewResult(String):NerOverwriter.this.type"></a>
+    </li><li name="com.johnsnowlabs.nlp.annotators.ner.NerOverwriter#setNerWords" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="setParam">
+      <a id="setNerWords(value:Array[String]):NerOverwriter.this.type"></a><a id="setNerWords(Array[String]):NerOverwriter.this.type"></a>
       <span class="permalink">
-      <a href="../../../../../com/johnsnowlabs/nlp/annotators/ner/NerOverwriter.html#setNewResult(r:String):NerOverwriter.this.type" title="Permalink">
+      <a href="../../../../../com/johnsnowlabs/nlp/annotators/ner/NerOverwriter.html#setNerWords(value:Array[String]):NerOverwriter.this.type" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -2079,7 +2127,23 @@ as input and output columns if not specified
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">setNewResult</span><span class="params">(<span name="r">r: <span class="extype" name="scala.Predef.String">String</span></span>)</span><span class="result">: <a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.ner.NerOverwriter">NerOverwriter</a>.this.type</span>
+        <span class="name">setNerWords</span><span class="params">(<span name="value">value: <span class="extype" name="scala.Array">Array</span>[<span class="extype" name="scala.Predef.String">String</span>]</span>)</span><span class="result">: <a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.ner.NerOverwriter">NerOverwriter</a>.this.type</span>
+      </span>
+      
+      <p class="shortcomment cmt">The words to be filtered out.</p>
+    </li><li name="com.johnsnowlabs.nlp.annotators.ner.NerOverwriter#setNewNerEntity" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="setParam">
+      <a id="setNewNerEntity(r:String):NerOverwriter.this.type"></a><a id="setNewNerEntity(String):NerOverwriter.this.type"></a>
+      <span class="permalink">
+      <a href="../../../../../com/johnsnowlabs/nlp/annotators/ner/NerOverwriter.html#setNewNerEntity(r:String):NerOverwriter.this.type" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">setNewNerEntity</span><span class="params">(<span name="r">r: <span class="extype" name="scala.Predef.String">String</span></span>)</span><span class="result">: <a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.ner.NerOverwriter">NerOverwriter</a>.this.type</span>
       </span>
       
       <p class="shortcomment cmt">New NER class to overwrite
@@ -2116,10 +2180,10 @@ as input and output columns if not specified
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>Model</dd></dl></div>
-    </li><li name="com.johnsnowlabs.nlp.annotators.ner.NerOverwriter#setStopWords" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="setParam">
-      <a id="setStopWords(value:Array[String]):NerOverwriter.this.type"></a><a id="setStopWords(Array[String]):NerOverwriter.this.type"></a>
+    </li><li name="com.johnsnowlabs.nlp.annotators.ner.NerOverwriter#setReplaceEntities" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="setParam">
+      <a id="setReplaceEntities(w:java.util.HashMap[String,String]):NerOverwriter.this.type"></a><a id="setReplaceEntities(HashMap[String,String]):NerOverwriter.this.type"></a>
       <span class="permalink">
-      <a href="../../../../../com/johnsnowlabs/nlp/annotators/ner/NerOverwriter.html#setStopWords(value:Array[String]):NerOverwriter.this.type" title="Permalink">
+      <a href="../../../../../com/johnsnowlabs/nlp/annotators/ner/NerOverwriter.html#setReplaceEntities(w:java.util.HashMap[String,String]):NerOverwriter.this.type" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -2128,26 +2192,26 @@ as input and output columns if not specified
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">setStopWords</span><span class="params">(<span name="value">value: <span class="extype" name="scala.Array">Array</span>[<span class="extype" name="scala.Predef.String">String</span>]</span>)</span><span class="result">: <a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.ner.NerOverwriter">NerOverwriter</a>.this.type</span>
+        <span class="name">setReplaceEntities</span><span class="params">(<span name="w">w: <span class="extype" name="java.util.HashMap">HashMap</span>[<span class="extype" name="scala.Predef.String">String</span>, <span class="extype" name="scala.Predef.String">String</span>]</span>)</span><span class="result">: <a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.ner.NerOverwriter">NerOverwriter</a>.this.type</span>
       </span>
       
-      <p class="shortcomment cmt">The words to be filtered out.</p>
-    </li><li name="com.johnsnowlabs.nlp.annotators.ner.NerOverwriter#stopWords" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="param">
-      <a id="stopWords:org.apache.spark.ml.param.StringArrayParam"></a><a id="stopWords:StringArrayParam"></a>
+      <p class="shortcomment cmt"></p>
+    </li><li name="com.johnsnowlabs.nlp.annotators.ner.NerOverwriter#setReplaceEntities" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="setReplaceEntities(w:Map[String,String]):NerOverwriter.this.type"></a><a id="setReplaceEntities(Map[String,String]):NerOverwriter.this.type"></a>
       <span class="permalink">
-      <a href="../../../../../com/johnsnowlabs/nlp/annotators/ner/NerOverwriter.html#stopWords:org.apache.spark.ml.param.StringArrayParam" title="Permalink">
+      <a href="../../../../../com/johnsnowlabs/nlp/annotators/ner/NerOverwriter.html#setReplaceEntities(w:Map[String,String]):NerOverwriter.this.type" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
       <span class="modifier_kind">
         <span class="modifier"></span>
-        <span class="kind">val</span>
+        <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">stopWords</span><span class="result">: <span class="extype" name="org.apache.spark.ml.param.StringArrayParam">StringArrayParam</span></span>
+        <span class="name">setReplaceEntities</span><span class="params">(<span name="w">w: <span class="extype" name="scala.Predef.Map">Map</span>[<span class="extype" name="scala.Predef.String">String</span>, <span class="extype" name="scala.Predef.String">String</span>]</span>)</span><span class="result">: <a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.ner.NerOverwriter">NerOverwriter</a>.this.type</span>
       </span>
       
-      <p class="shortcomment cmt">The words to be filtered out.</p>
+      
     </li><li name="scala.AnyRef#synchronized" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="synchronized[T0](x$1:=&gt;T0):T0"></a><a id="synchronized[T0](⇒T0):T0"></a>
       <span class="permalink">
