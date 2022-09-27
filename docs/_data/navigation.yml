@@ -150,6 +150,8 @@ sparknlp-healthcare:
         url: /docs/en/CPUvsGPUbenchmark_healthcare
       - title: Best Practices Using Pretrained Models Together
         url: /docs/en/best_practices_pretrained_models
+      - title: Wiki
+        url: /docs/en/wiki
 
 spark-ocr:
   - title: Spark OCR
