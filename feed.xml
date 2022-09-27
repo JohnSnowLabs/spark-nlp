@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.9.0">Jekyll</generator><link href="/feed.xml" rel="self" type="application/atom+xml" /><link href="/" rel="alternate" type="text/html" /><updated>2022-09-27T11:15:02+00:00</updated><id>/feed.xml</id><title type="html">Spark NLP</title><subtitle>High Performance NLP with Apache Spark
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.9.0">Jekyll</generator><link href="/feed.xml" rel="self" type="application/atom+xml" /><link href="/" rel="alternate" type="text/html" /><updated>2022-09-27T11:38:37+00:00</updated><id>/feed.xml</id><title type="html">Spark NLP</title><subtitle>High Performance NLP with Apache Spark
 </subtitle><author><name>{&quot;type&quot;=&gt;nil, &quot;name&quot;=&gt;nil, &quot;url&quot;=&gt;nil, &quot;avatar&quot;=&gt;nil, &quot;bio&quot;=&gt;nil, &quot;email&quot;=&gt;nil, &quot;facebook&quot;=&gt;nil, &quot;twitter&quot;=&gt;nil, &quot;weibo&quot;=&gt;nil, &quot;googleplus&quot;=&gt;nil, &quot;telegram&quot;=&gt;nil, &quot;medium&quot;=&gt;nil, &quot;zhihu&quot;=&gt;nil, &quot;douban&quot;=&gt;nil, &quot;linkedin&quot;=&gt;nil, &quot;github&quot;=&gt;nil, &quot;npm&quot;=&gt;nil}</name></author><entry><title type="html">Temporality / Certainty Assertion Status</title><link href="/2022/09/27/finassertion_time_en.html" rel="alternate" type="text/html" title="Temporality / Certainty Assertion Status" /><published>2022-09-27T00:00:00+00:00</published><updated>2022-09-27T00:00:00+00:00</updated><id>/2022/09/27/finassertion_time_en</id><content type="html" xml:base="/2022/09/27/finassertion_time_en.html">&lt;h2 id=&quot;description&quot;&gt;Description&lt;/h2&gt;
 
 &lt;p&gt;This is an Assertion Status Model aimed to detect temporality (PRESENT, PAST, FUTURE) or Certainty (POSSIBLE) in your financial documents&lt;/p&gt;
@@ -118,7 +118,188 @@ PAST	 270	 16	 10	 0.9440559	 0.96428573	 0.9540636
 tp: 761 fp: 36 fn: 36 labels: 4
 Macro-average	 prec: 0.9567319, rec: 0.9560336, f1: 0.95638263
 Micro-average	 prec: 0.9548306, rec: 0.9548306, f1: 0.9548306
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;</content><author><name>John Snow Labs</name></author><category term="en" /><category term="licensed" /><summary type="html">Description This is an Assertion Status Model aimed to detect temporality (PRESENT, PAST, FUTURE) or Certainty (POSSIBLE) in your financial documents Predicted Entities PRESENT, PAST, FUTURE, POSSIBLE Live Demo Open in Colab Download How to use PythonScalaNLU # YOUR NER HERE # ... embeddings = BertEmbeddings.pretrained(&quot;bert_embeddings_sec_bert_base&quot;,&quot;en&quot;) \ .setInputCols([&quot;sentence&quot;, &quot;token&quot;]) \ .setOutputCol(&quot;embeddings&quot;) chunk_converter = ChunkConverter() \ .setInputCols([&quot;entity&quot;]) \ .setOutputCol(&quot;ner_chunk&quot;) assertion = fin.AssertionDLModel.pretrained(&quot;finassertion_time&quot;, &quot;en&quot;, &quot;finance/models&quot;)\ .setInputCols([&quot;sentence&quot;, &quot;ner_chunk&quot;, &quot;embeddings&quot;]) \ .setOutputCol(&quot;assertion&quot;) nlpPipeline = Pipeline(stages=[ documentAssembler, tokenizer, embeddings, ner, chunk_converter, assertion ]) empty_data = spark.createDataFrame([[&quot;&quot;]]).toDF(&quot;text&quot;) model = nlpPipeline.fit(empty_data) lp = LightPipeline(model) texts = [&quot;Atlantic Inc headquarters could possibly be relocated to Delaware by the end of next year&quot;, &quot;John Crawford will be hired by Atlantic Inc as CTO&quot;] lp.annotate(texts) Results chunk,begin,end,entity_type,assertion Atlantic Inc,0,11,ORG,POSSIBLE Delaware,57,64,LOC,POSSIBLE chunk,begin,end,entity_type,assertion CTO,47,49,ROLE,FUTURE Atlantic Inc,31,42,ORG,FUTURE Model Information Model Name: finassertion_time Compatibility: Spark NLP for Finance 1.0.0+ License: Licensed Edition: Official Input Labels: [document, doc_chunk, embeddings] Output Labels: [assertion] Language: en Size: 2.2 MB References In-house annotations on financial and legal corpora Benchmarking label tp fp fn prec rec f1 PRESENT 201 11 16 0.9481132 0.92626727 0.937063 POSSIBLE 171 3 6 0.98275864 0.9661017 0.9743589 FUTURE 119 6 4 0.952 0.96747965 0.95967746 PAST 270 16 10 0.9440559 0.96428573 0.9540636 tp: 761 fp: 36 fn: 36 labels: 4 Macro-average prec: 0.9567319, rec: 0.9560336, f1: 0.95638263 Micro-average prec: 0.9548306, rec: 0.9548306, f1: 0.9548306</summary></entry><entry><title type="html">Temporality / Certainty Assertion Status</title><link href="/2022/09/27/legassertion_time_en.html" rel="alternate" type="text/html" title="Temporality / Certainty Assertion Status" /><published>2022-09-27T00:00:00+00:00</published><updated>2022-09-27T00:00:00+00:00</updated><id>/2022/09/27/legassertion_time_en</id><content type="html" xml:base="/2022/09/27/legassertion_time_en.html">&lt;h2 id=&quot;description&quot;&gt;Description&lt;/h2&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;</content><author><name>John Snow Labs</name></author><category term="en" /><category term="licensed" /><summary type="html">Description This is an Assertion Status Model aimed to detect temporality (PRESENT, PAST, FUTURE) or Certainty (POSSIBLE) in your financial documents Predicted Entities PRESENT, PAST, FUTURE, POSSIBLE Live Demo Open in Colab Download How to use PythonScalaNLU # YOUR NER HERE # ... embeddings = BertEmbeddings.pretrained(&quot;bert_embeddings_sec_bert_base&quot;,&quot;en&quot;) \ .setInputCols([&quot;sentence&quot;, &quot;token&quot;]) \ .setOutputCol(&quot;embeddings&quot;) chunk_converter = ChunkConverter() \ .setInputCols([&quot;entity&quot;]) \ .setOutputCol(&quot;ner_chunk&quot;) assertion = fin.AssertionDLModel.pretrained(&quot;finassertion_time&quot;, &quot;en&quot;, &quot;finance/models&quot;)\ .setInputCols([&quot;sentence&quot;, &quot;ner_chunk&quot;, &quot;embeddings&quot;]) \ .setOutputCol(&quot;assertion&quot;) nlpPipeline = Pipeline(stages=[ documentAssembler, tokenizer, embeddings, ner, chunk_converter, assertion ]) empty_data = spark.createDataFrame([[&quot;&quot;]]).toDF(&quot;text&quot;) model = nlpPipeline.fit(empty_data) lp = LightPipeline(model) texts = [&quot;Atlantic Inc headquarters could possibly be relocated to Delaware by the end of next year&quot;, &quot;John Crawford will be hired by Atlantic Inc as CTO&quot;] lp.annotate(texts) Results chunk,begin,end,entity_type,assertion Atlantic Inc,0,11,ORG,POSSIBLE Delaware,57,64,LOC,POSSIBLE chunk,begin,end,entity_type,assertion CTO,47,49,ROLE,FUTURE Atlantic Inc,31,42,ORG,FUTURE Model Information Model Name: finassertion_time Compatibility: Spark NLP for Finance 1.0.0+ License: Licensed Edition: Official Input Labels: [document, doc_chunk, embeddings] Output Labels: [assertion] Language: en Size: 2.2 MB References In-house annotations on financial and legal corpora Benchmarking label tp fp fn prec rec f1 PRESENT 201 11 16 0.9481132 0.92626727 0.937063 POSSIBLE 171 3 6 0.98275864 0.9661017 0.9743589 FUTURE 119 6 4 0.952 0.96747965 0.95967746 PAST 270 16 10 0.9440559 0.96428573 0.9540636 tp: 761 fp: 36 fn: 36 labels: 4 Macro-average prec: 0.9567319, rec: 0.9560336, f1: 0.95638263 Micro-average prec: 0.9548306, rec: 0.9548306, f1: 0.9548306</summary></entry><entry><title type="html">Russian Fact Extraction NER</title><link href="/2022/09/27/finner_bert_rufacts_ru.html" rel="alternate" type="text/html" title="Russian Fact Extraction NER" /><published>2022-09-27T00:00:00+00:00</published><updated>2022-09-27T00:00:00+00:00</updated><id>/2022/09/27/finner_bert_rufacts_ru</id><content type="html" xml:base="/2022/09/27/finner_bert_rufacts_ru.html">&lt;h2 id=&quot;description&quot;&gt;Description&lt;/h2&gt;
+
+&lt;p&gt;Russian Name Entity Recognition created for the RuREBus (Russian Relation Extraction for Business) shared task. The overall goal of the shared task was to develop business-oriented models capable of relation and/or fact extraction from texts.&lt;/p&gt;
+
+&lt;p&gt;A lot of business applications require relation extraction. Although there are a few corpora, that contain texts annotated with relations, all of them are more of an academic nature and differ from typical business applications. There are a few reasons for this.&lt;/p&gt;
+
+&lt;p&gt;First, the annotations are quite tight, i.e. almost every sentence contains an annotated relation. In contrast, the business-oriented documents often contain much less annotated examples. There might be one or two annotated examples in the whole document. Second, the existing corpora cover everyday topics (family relationships, birth and death relations, purchase and sale relations, etc). The business applications require other domain-specific relations.&lt;/p&gt;
+
+&lt;p&gt;The goal of the task is to compare the methods for relation extraction in a more close-to-practice way. For these reasons, we suggest using the documents, produced by the Ministry of Economic Development of the Russian Federation.&lt;/p&gt;
+
+&lt;p&gt;The corpus contains regional reports and strategic plans. A part of the corpus is annotated with named entities (8 classes) and semantic relations (11 classes). In total there are approximately 300 annotated documents. The annotation schema and the guidelines for annotators can be found in &lt;a href=&quot;https://github.com/dialogue-evaluation/RuREBus/blob/master/markup_instruction.pdf&quot;&gt;here&lt;/a&gt; (in Russian).&lt;/p&gt;
+
+&lt;p&gt;The dataset consists of:&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;
+    &lt;p&gt;A train set with manually annotated named entities and relations. First and second parts of train set are avaliable &lt;a href=&quot;https://github.com/dialogue-evaluation/RuREBus/tree/master/train_data&quot;&gt;here&lt;/a&gt;&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;A large corpus (approx. 280 million tokens) of raw free-form documents, produced by the Ministry of Economic Development. These documents come from the same domain as the train and the test set. This data is avaliable &lt;a href=&quot;https://yadi.sk/d/9uKbo3p0ghdNpQ&quot;&gt;here&lt;/a&gt;.&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;A test set without any annotations&lt;/p&gt;
+  &lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;The predicted entities are:&lt;/p&gt;
+
+&lt;p&gt;MET - Metric (productivity, growth…)
+ECO - Economical Entity / Concept (inner market, energy source…)
+BIN - 1-time action, binary (happened or not - construction, development, presence, absence…)
+CMP - Quantitative Comparision entity (increase, decrease…)
+QUA - Qualitative Comparison entity (stable, limited…)
+ACT - Activity (Restauration of buildings, Festivities in Cities…)
+INT - Institutions (Centers, Departments, etc)
+SOC - Social - Social object (Children, Elder people, Workers of X sector, …)&lt;/p&gt;
+
+&lt;h2 id=&quot;predicted-entities&quot;&gt;Predicted Entities&lt;/h2&gt;
+
+&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;MET&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;ECO&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;BIN&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;CMP&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;QUA&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;ACT&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;INT&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;SOC&lt;/code&gt;&lt;/p&gt;
+
+&lt;p class=&quot;btn-box&quot;&gt;&lt;a href=&quot;https://demo.johnsnowlabs.com/finance/FIN_NER_RUSSIAN_GOV/&quot; class=&quot;button button-orange&quot;&gt;Live Demo&lt;/a&gt;
+&lt;button class=&quot;button button-orange&quot; disabled=&quot;&quot;&gt;Open in Colab&lt;/button&gt;
+&lt;a href=&quot;https://s3.amazonaws.com/auxdata.johnsnowlabs.com/finance/models/finner_bert_rufacts_ru_1.0.0_3.0_1664277912886.zip&quot; class=&quot;button button-orange button-orange-trans arr button-icon&quot;&gt;Download&lt;/a&gt;&lt;/p&gt;
+
+&lt;h2 id=&quot;how-to-use&quot;&gt;How to use&lt;/h2&gt;
+
+&lt;div class=&quot;tabs-box&quot;&gt;
+  &lt;div class=&quot;top_tab_li&quot;&gt;   
+    &lt;button class=&quot;tab-li code-selector-active python-button&quot;&gt;Python&lt;/button&gt;&lt;button class=&quot;tab-li code-selector-un-active scala-button&quot;&gt;Scala&lt;/button&gt;&lt;button class=&quot;tab-li code-selector-un-active nlu-button&quot;&gt;NLU&lt;/button&gt;
+&lt;/div&gt;
+  &lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;document_assembler&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;DocumentAssembler&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;\
+    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setInputCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;text&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;\
+    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;document&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+
+&lt;span class=&quot;n&quot;&gt;sentencerDL&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;SentenceDetectorDLModel&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;pretrained&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;sentence_detector_dl&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;ru&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; \
+    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setInputCols&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;([&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;document&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;])&lt;/span&gt;\
+    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;sentence&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+
+&lt;span class=&quot;n&quot;&gt;tokenizer&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Tokenizer&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;\
+    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setInputCols&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;([&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;sentence&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;])&lt;/span&gt;\
+    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;token&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+
+&lt;span class=&quot;n&quot;&gt;ner_model&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;finance&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;BertForTokenClassification&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;pretrained&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;finner_bert_rufacts&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;en&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;finance/models&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;\
+    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setInputCols&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;([&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;sentence&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;token&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;])&lt;/span&gt;\
+    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;ner&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+
+&lt;span class=&quot;n&quot;&gt;ner_converter&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;NerConverter&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;\
+    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setInputCols&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;([&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;sentence&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;token&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;ner&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;])&lt;/span&gt;\
+    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;ner_chunk&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+
+&lt;span class=&quot;n&quot;&gt;pipeline&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Pipeline&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;stages&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;document_assembler&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;sentencerDL&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;tokenizer&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;ner_model&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;ner_converter&lt;/span&gt;   
+    &lt;span class=&quot;p&quot;&gt;])&lt;/span&gt;
+
+&lt;span class=&quot;n&quot;&gt;model&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;pipeline&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;fit&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;spark&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;createDataFrame&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;([[&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]]).&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;toDF&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;text&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt;
+
+&lt;span class=&quot;n&quot;&gt;text_list&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;&quot;&quot;В рамках обеспечения использования в деятельности ОМСУ муниципального образования Московской области региональных и муниципальных информационных систем предусматривается решение задач&quot;&quot;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;
+
+&lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;pandas&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;as&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;pd&lt;/span&gt;
+
+&lt;span class=&quot;n&quot;&gt;df&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;spark&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;createDataFrame&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;pd&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;DataFrame&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;({&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;text&quot;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;text_list&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;}))&lt;/span&gt;
+
+&lt;span class=&quot;n&quot;&gt;result&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;model&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;transform&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;df&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+
+&lt;span class=&quot;n&quot;&gt;result&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;select&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;F&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;explode&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;F&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;arrays_zip&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'ner_chunk.result'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;'ner_chunk.metadata'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)).&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;alias&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;cols&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt; \
+               &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;select&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;F&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;expr&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;cols['0']&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;).&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;alias&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;ner_chunk&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;),&lt;/span&gt;
+                       &lt;span class=&quot;n&quot;&gt;F&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;expr&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;cols['1']['entity']&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;).&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;alias&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;label&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)).&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;show&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;truncate&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;bp&quot;&gt;False&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;  &lt;/div&gt;
+
+&lt;/div&gt;
+
+&lt;h2 id=&quot;results&quot;&gt;Results&lt;/h2&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;+--------------------------------------------------+-----+
+|ner_chunk                                         |label|
++--------------------------------------------------+-----+
+|обеспечения                                       |BIN  |
+|ОМСУ муниципального образования                   |INST |
+|региональных и муниципальных информационных систем|ECO  |
++--------------------------------------------------+-----+
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h2 class=&quot;model-param&quot; id=&quot;model-information&quot;&gt;Model Information&lt;/h2&gt;
+
+&lt;table class=&quot;table-model&quot;&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Model Name:&lt;/td&gt;
+      &lt;td&gt;finner_bert_rufacts&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Compatibility:&lt;/td&gt;
+      &lt;td&gt;Spark NLP for Finance 1.0.0+&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;License:&lt;/td&gt;
+      &lt;td&gt;Licensed&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Edition:&lt;/td&gt;
+      &lt;td&gt;Official&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Input Labels:&lt;/td&gt;
+      &lt;td&gt;[sentence, token]&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Output Labels:&lt;/td&gt;
+      &lt;td&gt;[ner]&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Language:&lt;/td&gt;
+      &lt;td&gt;ru&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Size:&lt;/td&gt;
+      &lt;td&gt;358.7 MB&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Case sensitive:&lt;/td&gt;
+      &lt;td&gt;true&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Max sentence length:&lt;/td&gt;
+      &lt;td&gt;512&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;h2 id=&quot;references&quot;&gt;References&lt;/h2&gt;
+
+&lt;p&gt;https://github.com/dialogue-evaluation/RuREBus&lt;/p&gt;
+
+&lt;h2 id=&quot;benchmarking&quot;&gt;Benchmarking&lt;/h2&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;             precision    recall  f1-score   support
+
+       B-MET     0.7440    0.7440    0.7440       250
+       I-MET     0.8301    0.7704    0.7991       945
+       B-BIN     0.7248    0.7850    0.7537       614
+       B-ACT     0.6052    0.5551    0.5791       254
+       I-ACT     0.7215    0.6244    0.6695       892
+       B-ECO     0.6892    0.6813    0.6852       524
+       I-ECO     0.6750    0.6899    0.6824       861
+       B-CMP     0.8405    0.8354    0.8379       164
+       I-CMP     0.2000    0.0714    0.1053        14
+      B-INST     0.7152    0.7019    0.7085       161
+      I-INST     0.7560    0.7114    0.7330       440
+       B-SOC     0.5547    0.6698    0.6068       212
+       I-SOC     0.6178    0.7087    0.6601       381
+       B-QUA     0.6167    0.7303    0.6687       152
+       I-QUA     0.7333    0.4400    0.5500        25
+
+   micro avg     0.7107    0.7017    0.7062      5927
+   macro avg     0.6610    0.6337    0.6413      5927
+weighted avg     0.7136    0.7017    0.7059      5927
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;</content><author><name>John Snow Labs</name></author><category term="ru" /><category term="licensed" /><summary type="html">Description Russian Name Entity Recognition created for the RuREBus (Russian Relation Extraction for Business) shared task. The overall goal of the shared task was to develop business-oriented models capable of relation and/or fact extraction from texts. A lot of business applications require relation extraction. Although there are a few corpora, that contain texts annotated with relations, all of them are more of an academic nature and differ from typical business applications. There are a few reasons for this. First, the annotations are quite tight, i.e. almost every sentence contains an annotated relation. In contrast, the business-oriented documents often contain much less annotated examples. There might be one or two annotated examples in the whole document. Second, the existing corpora cover everyday topics (family relationships, birth and death relations, purchase and sale relations, etc). The business applications require other domain-specific relations. The goal of the task is to compare the methods for relation extraction in a more close-to-practice way. For these reasons, we suggest using the documents, produced by the Ministry of Economic Development of the Russian Federation. The corpus contains regional reports and strategic plans. A part of the corpus is annotated with named entities (8 classes) and semantic relations (11 classes). In total there are approximately 300 annotated documents. The annotation schema and the guidelines for annotators can be found in here (in Russian). The dataset consists of: A train set with manually annotated named entities and relations. First and second parts of train set are avaliable here A large corpus (approx. 280 million tokens) of raw free-form documents, produced by the Ministry of Economic Development. These documents come from the same domain as the train and the test set. This data is avaliable here. A test set without any annotations The predicted entities are: MET - Metric (productivity, growth…) ECO - Economical Entity / Concept (inner market, energy source…) BIN - 1-time action, binary (happened or not - construction, development, presence, absence…) CMP - Quantitative Comparision entity (increase, decrease…) QUA - Qualitative Comparison entity (stable, limited…) ACT - Activity (Restauration of buildings, Festivities in Cities…) INT - Institutions (Centers, Departments, etc) SOC - Social - Social object (Children, Elder people, Workers of X sector, …) Predicted Entities MET, ECO, BIN, CMP, QUA, ACT, INT, SOC Live Demo Open in Colab Download How to use PythonScalaNLU document_assembler = DocumentAssembler()\ .setInputCol(&quot;text&quot;)\ .setOutputCol(&quot;document&quot;) sentencerDL = SentenceDetectorDLModel.pretrained(&quot;sentence_detector_dl&quot;, &quot;ru&quot;) \ .setInputCols([&quot;document&quot;])\ .setOutputCol(&quot;sentence&quot;) tokenizer = Tokenizer()\ .setInputCols([&quot;sentence&quot;])\ .setOutputCol(&quot;token&quot;) ner_model = finance.BertForTokenClassification.pretrained(&quot;finner_bert_rufacts&quot;, &quot;en&quot;, &quot;finance/models&quot;)\ .setInputCols([&quot;sentence&quot;, &quot;token&quot;])\ .setOutputCol(&quot;ner&quot;) ner_converter = NerConverter()\ .setInputCols([&quot;sentence&quot;, &quot;token&quot;, &quot;ner&quot;])\ .setOutputCol(&quot;ner_chunk&quot;) pipeline = Pipeline(stages=[ document_assembler, sentencerDL, tokenizer, ner_model, ner_converter ]) model = pipeline.fit(spark.createDataFrame([[&quot;&quot;]]).toDF(&quot;text&quot;)) text_list = [&quot;&quot;&quot;В рамках обеспечения использования в деятельности ОМСУ муниципального образования Московской области региональных и муниципальных информационных систем предусматривается решение задач&quot;&quot;&quot;] import pandas as pd df = spark.createDataFrame(pd.DataFrame({&quot;text&quot; : text_list})) result = model.transform(df) result.select(F.explode(F.arrays_zip('ner_chunk.result', 'ner_chunk.metadata')).alias(&quot;cols&quot;)) \ .select(F.expr(&quot;cols['0']&quot;).alias(&quot;ner_chunk&quot;), F.expr(&quot;cols['1']['entity']&quot;).alias(&quot;label&quot;)).show(truncate = False) Results +--------------------------------------------------+-----+ |ner_chunk |label| +--------------------------------------------------+-----+ |обеспечения |BIN | |ОМСУ муниципального образования |INST | |региональных и муниципальных информационных систем|ECO | +--------------------------------------------------+-----+ Model Information Model Name: finner_bert_rufacts Compatibility: Spark NLP for Finance 1.0.0+ License: Licensed Edition: Official Input Labels: [sentence, token] Output Labels: [ner] Language: ru Size: 358.7 MB Case sensitive: true Max sentence length: 512 References https://github.com/dialogue-evaluation/RuREBus Benchmarking precision recall f1-score support B-MET 0.7440 0.7440 0.7440 250 I-MET 0.8301 0.7704 0.7991 945 B-BIN 0.7248 0.7850 0.7537 614 B-ACT 0.6052 0.5551 0.5791 254 I-ACT 0.7215 0.6244 0.6695 892 B-ECO 0.6892 0.6813 0.6852 524 I-ECO 0.6750 0.6899 0.6824 861 B-CMP 0.8405 0.8354 0.8379 164 I-CMP 0.2000 0.0714 0.1053 14 B-INST 0.7152 0.7019 0.7085 161 I-INST 0.7560 0.7114 0.7330 440 B-SOC 0.5547 0.6698 0.6068 212 I-SOC 0.6178 0.7087 0.6601 381 B-QUA 0.6167 0.7303 0.6687 152 I-QUA 0.7333 0.4400 0.5500 25 micro avg 0.7107 0.7017 0.7062 5927 macro avg 0.6610 0.6337 0.6413 5927 weighted avg 0.7136 0.7017 0.7059 5927</summary></entry><entry><title type="html">Temporality / Certainty Assertion Status</title><link href="/2022/09/27/legassertion_time_en.html" rel="alternate" type="text/html" title="Temporality / Certainty Assertion Status" /><published>2022-09-27T00:00:00+00:00</published><updated>2022-09-27T00:00:00+00:00</updated><id>/2022/09/27/legassertion_time_en</id><content type="html" xml:base="/2022/09/27/legassertion_time_en.html">&lt;h2 id=&quot;description&quot;&gt;Description&lt;/h2&gt;
 
 &lt;p&gt;This is an Assertion Status Model aimed to detect temporality (PRESENT, PAST, FUTURE) or Certainty (POSSIBLE) in your legal documents&lt;/p&gt;
 
@@ -995,95 +1176,4 @@ I-INDEMNIFICATION_INDIRECT_OBJECT       1.00      0.53      0.69        17
       &lt;td&gt;1.2 GB&lt;/td&gt;
     &lt;/tr&gt;
   &lt;/tbody&gt;
-&lt;/table&gt;</content><author><name>John Snow Labs</name></author><category term="wav2vec2" /><category term="ha" /><category term="audio" /><category term="open_source" /><category term="asr" /><summary type="html">Description Pretrained Wav2vec2 model, adapted from Hugging Face and curated to provide scalability and production-readiness using Spark NLP.asr_Hausa_xlsr is a Hausa model originally trained by Akashpb13. NOTE: This model only works on a CPU, if you need to use this model on a GPU device please use asr_Hausa_xlsr_gpu Live Demo Open in Colab Download How to use PythonScalaNLU audio_assembler = AudioAssembler() \ .setInputCol(&quot;audio_content&quot;) \ .setOutputCol(&quot;audio_assembler&quot;) speech_to_text = Wav2Vec2ForCTC \ .pretrained(&quot;asr_Hausa_xlsr&quot;, &quot;ha&quot;)\ .setInputCols(&quot;audio_assembler&quot;) \ .setOutputCol(&quot;text&quot;) pipeline = Pipeline(stages=[ audio_assembler, speech_to_text, ]) pipelineModel = pipeline.fit(audioDf) pipelineDF = pipelineModel.transform(audioDf) val audioAssembler = new AudioAssembler() .setInputCol(&quot;audio_content&quot;) .setOutputCol(&quot;audio_assembler&quot;) val speechToText = Wav2Vec2ForCTC .pretrained(&quot;asr_Hausa_xlsr&quot;, &quot;ha&quot;) .setInputCols(&quot;audio_assembler&quot;) .setOutputCol(&quot;text&quot;) val pipeline = new Pipeline().setStages(Array(audioAssembler, speechToText)) val pipelineModel = pipeline.fit(audioDf) val pipelineDF = pipelineModel.transform(audioDf) Model Information Model Name: asr_Hausa_xlsr Compatibility: Spark NLP 4.2.0+ License: Open Source Edition: Official Input Labels: [audio_assembler] Output Labels: [text] Language: ha Size: 1.2 GB</summary></entry><entry><title type="html">English asr_Quran_speech_recognizer TFWav2Vec2ForCTC from Nuwaisir</title><link href="/2022/09/26/asr_Quran_speech_recognizer_en.html" rel="alternate" type="text/html" title="English asr_Quran_speech_recognizer TFWav2Vec2ForCTC from Nuwaisir" /><published>2022-09-26T00:00:00+00:00</published><updated>2022-09-26T00:00:00+00:00</updated><id>/2022/09/26/asr_Quran_speech_recognizer_en</id><content type="html" xml:base="/2022/09/26/asr_Quran_speech_recognizer_en.html">&lt;h2 id=&quot;description&quot;&gt;Description&lt;/h2&gt;
-
-&lt;p&gt;Pretrained Wav2vec2  model, adapted from Hugging Face and curated to provide scalability and production-readiness using Spark NLP.&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;asr_Quran_speech_recognizer&lt;/code&gt; is a English model originally trained by Nuwaisir.&lt;/p&gt;
-
-&lt;p&gt;NOTE: This model only works on a CPU, if you need to use this model on a GPU device please use asr_Quran_speech_recognizer_gpu&lt;/p&gt;
-
-&lt;p class=&quot;btn-box&quot;&gt;&lt;button class=&quot;button button-orange&quot; disabled=&quot;&quot;&gt;Live Demo&lt;/button&gt;
-&lt;button class=&quot;button button-orange&quot; disabled=&quot;&quot;&gt;Open in Colab&lt;/button&gt;
-&lt;a href=&quot;https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/asr_Quran_speech_recognizer_en_4.2.0_3.0_1664208158710.zip&quot; class=&quot;button button-orange button-orange-trans arr button-icon&quot;&gt;Download&lt;/a&gt;&lt;/p&gt;
-
-&lt;h2 id=&quot;how-to-use&quot;&gt;How to use&lt;/h2&gt;
-
-&lt;div class=&quot;tabs-box&quot;&gt;
-  &lt;div class=&quot;top_tab_li&quot;&gt;   
-    &lt;button class=&quot;tab-li code-selector-active python-button&quot;&gt;Python&lt;/button&gt;&lt;button class=&quot;tab-li code-selector-un-active scala-button&quot;&gt;Scala&lt;/button&gt;&lt;button class=&quot;tab-li code-selector-un-active nlu-button&quot;&gt;NLU&lt;/button&gt;
-&lt;/div&gt;
-  &lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;
-&lt;span class=&quot;n&quot;&gt;audio_assembler&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;AudioAssembler&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; \
-    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setInputCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;audio_content&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; \
-    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;audio_assembler&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-
-&lt;span class=&quot;n&quot;&gt;speech_to_text&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Wav2Vec2ForCTC&lt;/span&gt; \
-    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;pretrained&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;asr_Quran_speech_recognizer&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;en&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;\
-    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setInputCols&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;audio_assembler&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; \
-    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;text&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-
-&lt;span class=&quot;n&quot;&gt;pipeline&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Pipeline&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;stages&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;
-  &lt;span class=&quot;n&quot;&gt;audio_assembler&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-  &lt;span class=&quot;n&quot;&gt;speech_to_text&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;])&lt;/span&gt;
-
-&lt;span class=&quot;n&quot;&gt;pipelineModel&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;pipeline&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;fit&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;audioDf&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-
-&lt;span class=&quot;n&quot;&gt;pipelineDF&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;pipelineModel&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;transform&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;audioDf&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;  &lt;/div&gt;
-  &lt;div class=&quot;language-scala highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;
-&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;audioAssembler&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;AudioAssembler&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;()&lt;/span&gt;
-    &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;setInputCol&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;audio_content&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; 
-    &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;audio_assembler&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
-
-&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;speechToText&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;Wav2Vec2ForCTC&lt;/span&gt;
-    &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;pretrained&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;asr_Quran_speech_recognizer&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;en&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
-    &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;setInputCols&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;audio_assembler&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; 
-    &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;text&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; 
-
-&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;pipeline&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;Pipeline&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;().&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;setStages&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nc&quot;&gt;Array&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;audioAssembler&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;speechToText&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;))&lt;/span&gt;
-
-&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;pipelineModel&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;pipeline&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;fit&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;audioDf&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
-
-&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;pipelineDF&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;pipelineModel&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;transform&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;audioDf&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
-
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;  &lt;/div&gt;
-&lt;/div&gt;
-
-&lt;h2 class=&quot;model-param&quot; id=&quot;model-information&quot;&gt;Model Information&lt;/h2&gt;
-
-&lt;table class=&quot;table-model&quot;&gt;
-  &lt;tbody&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Model Name:&lt;/td&gt;
-      &lt;td&gt;asr_Quran_speech_recognizer&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Compatibility:&lt;/td&gt;
-      &lt;td&gt;Spark NLP 4.2.0+&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;License:&lt;/td&gt;
-      &lt;td&gt;Open Source&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Edition:&lt;/td&gt;
-      &lt;td&gt;Official&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Input Labels:&lt;/td&gt;
-      &lt;td&gt;[audio_assembler]&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Output Labels:&lt;/td&gt;
-      &lt;td&gt;[text]&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Language:&lt;/td&gt;
-      &lt;td&gt;en&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Size:&lt;/td&gt;
-      &lt;td&gt;1.2 GB&lt;/td&gt;
-    &lt;/tr&gt;
-  &lt;/tbody&gt;
-&lt;/table&gt;</content><author><name>John Snow Labs</name></author><category term="wav2vec2" /><category term="en" /><category term="audio" /><category term="open_source" /><category term="asr" /><summary type="html">Description Pretrained Wav2vec2 model, adapted from Hugging Face and curated to provide scalability and production-readiness using Spark NLP.asr_Quran_speech_recognizer is a English model originally trained by Nuwaisir. NOTE: This model only works on a CPU, if you need to use this model on a GPU device please use asr_Quran_speech_recognizer_gpu Live Demo Open in Colab Download How to use PythonScalaNLU audio_assembler = AudioAssembler() \ .setInputCol(&quot;audio_content&quot;) \ .setOutputCol(&quot;audio_assembler&quot;) speech_to_text = Wav2Vec2ForCTC \ .pretrained(&quot;asr_Quran_speech_recognizer&quot;, &quot;en&quot;)\ .setInputCols(&quot;audio_assembler&quot;) \ .setOutputCol(&quot;text&quot;) pipeline = Pipeline(stages=[ audio_assembler, speech_to_text, ]) pipelineModel = pipeline.fit(audioDf) pipelineDF = pipelineModel.transform(audioDf) val audioAssembler = new AudioAssembler() .setInputCol(&quot;audio_content&quot;) .setOutputCol(&quot;audio_assembler&quot;) val speechToText = Wav2Vec2ForCTC .pretrained(&quot;asr_Quran_speech_recognizer&quot;, &quot;en&quot;) .setInputCols(&quot;audio_assembler&quot;) .setOutputCol(&quot;text&quot;) val pipeline = new Pipeline().setStages(Array(audioAssembler, speechToText)) val pipelineModel = pipeline.fit(audioDf) val pipelineDF = pipelineModel.transform(audioDf) Model Information Model Name: asr_Quran_speech_recognizer Compatibility: Spark NLP 4.2.0+ License: Open Source Edition: Official Input Labels: [audio_assembler] Output Labels: [text] Language: en Size: 1.2 GB</summary></entry></feed>
+&lt;/table&gt;</content><author><name>John Snow Labs</name></author><category term="wav2vec2" /><category term="ha" /><category term="audio" /><category term="open_source" /><category term="asr" /><summary type="html">Description Pretrained Wav2vec2 model, adapted from Hugging Face and curated to provide scalability and production-readiness using Spark NLP.asr_Hausa_xlsr is a Hausa model originally trained by Akashpb13. NOTE: This model only works on a CPU, if you need to use this model on a GPU device please use asr_Hausa_xlsr_gpu Live Demo Open in Colab Download How to use PythonScalaNLU audio_assembler = AudioAssembler() \ .setInputCol(&quot;audio_content&quot;) \ .setOutputCol(&quot;audio_assembler&quot;) speech_to_text = Wav2Vec2ForCTC \ .pretrained(&quot;asr_Hausa_xlsr&quot;, &quot;ha&quot;)\ .setInputCols(&quot;audio_assembler&quot;) \ .setOutputCol(&quot;text&quot;) pipeline = Pipeline(stages=[ audio_assembler, speech_to_text, ]) pipelineModel = pipeline.fit(audioDf) pipelineDF = pipelineModel.transform(audioDf) val audioAssembler = new AudioAssembler() .setInputCol(&quot;audio_content&quot;) .setOutputCol(&quot;audio_assembler&quot;) val speechToText = Wav2Vec2ForCTC .pretrained(&quot;asr_Hausa_xlsr&quot;, &quot;ha&quot;) .setInputCols(&quot;audio_assembler&quot;) .setOutputCol(&quot;text&quot;) val pipeline = new Pipeline().setStages(Array(audioAssembler, speechToText)) val pipelineModel = pipeline.fit(audioDf) val pipelineDF = pipelineModel.transform(audioDf) Model Information Model Name: asr_Hausa_xlsr Compatibility: Spark NLP 4.2.0+ License: Open Source Edition: Official Input Labels: [audio_assembler] Output Labels: [text] Language: ha Size: 1.2 GB</summary></entry></feed>

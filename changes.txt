@@ -1,2 +1,2 @@
-docs/_posts/josejuanmartinez/2022-08-18-legmapper_edgar_companyname_en_3_2.md
-docs/_posts/josejuanmartinez/2022-08-18-legmapper_edgar_companyname_en_3_2.md
+docs/_posts/josejuanmartinez/2022-09-27-finner_bert_rufacts_ru.md
+docs/_posts/josejuanmartinez/2022-09-27-finner_bert_rufacts_ru.md
