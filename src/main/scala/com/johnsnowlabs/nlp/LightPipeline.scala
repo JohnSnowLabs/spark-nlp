@@ -44,6 +44,20 @@ class LightPipeline(val pipelineModel: PipelineModel, parseEmbeddingsVectors: Bo
     fullAnnotateInternal(target, optionalTarget).mapValues(_.map(_.asInstanceOf[Annotation]))
   }
 
+  def fullAnnotate(
+      targets: Array[String],
+      optionalTargets: Array[String]): Array[Map[String, Seq[Annotation]]] = {
+
+    if (targets.length != optionalTargets.length) {
+      throw new UnsupportedOperationException(
+        "targets and optionalTargets must be of the same length")
+    }
+
+    (targets zip optionalTargets).par.map { case (target, optionalTarget) =>
+      fullAnnotate(target, optionalTarget)
+    }.toArray
+  }
+
   def fullAnnotateImage(pathToImages: Array[String]): Array[Map[String, Seq[IAnnotation]]] = {
     pathToImages.par
       .map(imageFilePath => fullAnnotateInternal(imageFilePath))
@@ -227,6 +241,18 @@ class LightPipeline(val pipelineModel: PipelineModel, parseEmbeddingsVectors: Bo
       .asJava
   }
 
+  def fullAnnotateJava(
+      targets: java.util.ArrayList[String],
+      optionalTargets: java.util.ArrayList[String])
+      : java.util.List[java.util.Map[String, java.util.List[JavaAnnotation]]] = {
+    (targets.asScala zip optionalTargets.asScala).par
+      .map { case (target, optionalTarget) =>
+        fullAnnotateJava(target, optionalTarget)
+      }
+      .toList
+      .asJava
+  }
+
   def fullAnnotateImageJava(
       pathToImage: String): java.util.Map[String, java.util.List[IAnnotation]] = {
     fullAnnotateImage(pathToImage).mapValues(_.asJava).asJava
@@ -260,6 +286,20 @@ class LightPipeline(val pipelineModel: PipelineModel, parseEmbeddingsVectors: Bo
     })
   }
 
+  def annotate(
+      targets: Array[String],
+      optionalTargets: Array[String]): Array[Map[String, Seq[String]]] = {
+
+    if (targets.length != optionalTargets.length) {
+      throw new UnsupportedOperationException(
+        "targets and optionalTargets must be of the same length")
+    }
+
+    (targets zip optionalTargets).par.map { case (target, optionalTarget) =>
+      annotate(target, optionalTarget)
+    }.toArray
+  }
+
   def annotateJava(target: String): java.util.Map[String, java.util.List[String]] = {
     annotate(target).mapValues(_.asJava).asJava
   }
@@ -274,6 +314,18 @@ class LightPipeline(val pipelineModel: PipelineModel, parseEmbeddingsVectors: Bo
       : java.util.List[java.util.Map[String, java.util.List[String]]] = {
     targets.asScala.par
       .map(target => annotateJava(target))
+      .toList
+      .asJava
+  }
+
+  def annotateJava(
+      targets: java.util.ArrayList[String],
+      optionalTargets: java.util.ArrayList[String])
+      : java.util.List[java.util.Map[String, java.util.List[String]]] = {
+    (targets.asScala zip optionalTargets.asScala).par
+      .map { case (target, optionalTarget) =>
+        annotateJava(target, optionalTarget)
+      }
       .toList
       .asJava
   }

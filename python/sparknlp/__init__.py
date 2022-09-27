@@ -17,8 +17,9 @@ import subprocess
 import threading
 from pyspark.sql import SparkSession
 from sparknlp import annotator
+# Must be declared here one by one or else PretrainedPipeline will fail with AttributeError
 from sparknlp.base import DocumentAssembler, MultiDocumentAssembler, Finisher, EmbeddingsFinisher, TokenAssembler, \
-    Chunk2Doc, Doc2Chunk
+    Chunk2Doc, Doc2Chunk, AudioAssembler, GraphFinisher, ImageAssembler, TableAssembler
 from pyspark.conf import SparkConf
 from pyspark.context import SparkContext
 from pyspark.java_gateway import launch_gateway
@@ -56,6 +57,7 @@ sys.modules['com.johnsnowlabs.nlp.annotators.ws'] = annotator
 sys.modules['com.johnsnowlabs.nlp.annotators.er'] = annotator
 sys.modules['com.johnsnowlabs.nlp.annotators.coref'] = annotator
 sys.modules['com.johnsnowlabs.nlp.annotators.cv'] = annotator
+sys.modules['com.johnsnowlabs.nlp.annotators.audio'] = annotator
 
 annotators = annotator
 embeddings = annotator
@@ -118,7 +120,7 @@ def start(gpu=False,
         The initiated Spark session.
 
     """
-    current_version = "4.1.0"
+    current_version = "4.2.0"
 
     class SparkNLPConfig:
 
@@ -249,7 +251,7 @@ def start(gpu=False,
             def shutdown(self):
                 self.__spark_with_custom_gateway.shutdown()
 
-        return SparkRealTimeOutput()
+        return SparkRealTimeOutput().spark_session
     else:
         spark_session = start_without_realtime_output()
         return spark_session
@@ -263,4 +265,4 @@ def version():
     str
         The current Spark NLP version.
     """
-    return '4.1.0'
+    return '4.2.0'

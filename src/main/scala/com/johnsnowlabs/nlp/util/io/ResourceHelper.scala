@@ -464,7 +464,7 @@ object ResourceHelper {
     *
     * @return
     */
-  def readParquetSparkDataFrame(er: ExternalResource): DataFrame = {
+  def readSparkDataFrame(er: ExternalResource): DataFrame = {
     er.readAs match {
       case SPARK =>
         val dataset = spark.read.options(er.options).format(er.options("format")).load(er.path)
@@ -643,6 +643,14 @@ object ResourceHelper {
       }
     }
 
+  }
+
+  def parseS3URI(s3URI: String): (String, String) = {
+    val prefix = if (s3URI.startsWith("s3:")) "s3://" else "s3a://"
+    val bucketName = s3URI.substring(prefix.length).split("/").head
+    val key = s3URI.substring((prefix + bucketName).length + 1)
+
+    (bucketName, key)
   }
 
 }

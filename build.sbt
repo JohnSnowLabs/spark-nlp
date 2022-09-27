@@ -6,7 +6,7 @@ name := getPackageName(is_m1, is_gpu, is_aarch64)
 
 organization := "com.johnsnowlabs.nlp"
 
-version := "4.1.0"
+version := "4.2.0"
 
 (ThisBuild / scalaVersion) := scalaVer
 
@@ -117,7 +117,12 @@ scmInfo := Some(
     id = "hatrungduc",
     name = "Devin Ha",
     email = "trung@johnsnowlabs.com",
-    url = url("https://github.com/hatrungduc")))
+    url = url("https://github.com/hatrungduc")),
+  Developer(
+    id = "ahmedlone127",
+    name = "Khawja Ahmed Lone",
+    email = "lone@johnsnowlabs.com",
+    url = url("https://github.com/ahmedlone127")))
 
 lazy val analyticsDependencies = Seq(
   "org.apache.spark" %% "spark-core" % sparkVer % Provided,

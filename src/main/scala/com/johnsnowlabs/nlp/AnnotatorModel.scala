@@ -94,6 +94,22 @@ abstract class AnnotatorModel[M <: Model[M]] extends RawAnnotator[M] with CanBeL
             })
             .withColumn(getOutputCol, wrapColumnMetadata(col(getOutputCol)))
           dfWithMetadata
+
+        case withBatchAnnotateAudio: HasBatchedAnnotateAudio[M] =>
+          val newStructType = inputDataset.schema.add(getOutputCol, Annotation.arrayType)
+          implicit val encoder: ExpressionEncoder[Row] = RowEncoder(newStructType)
+          val processedDataFrame = inputDataset.mapPartitions(partition => {
+            withBatchAnnotateAudio.batchProcess(partition)
+          })
+
+          /** Put back column metadata from `inputDataset` after destructive mapPartitions */
+          val dfWithMetadata = inputDataset.schema.fields
+            .foldLeft(processedDataFrame)((dataFrame, field) => {
+              dataFrame
+                .withColumn(field.name, dataFrame.col(field.name).as(field.name, field.metadata))
+            })
+            .withColumn(getOutputCol, wrapColumnMetadata(col(getOutputCol)))
+          dfWithMetadata
       }
     }
 

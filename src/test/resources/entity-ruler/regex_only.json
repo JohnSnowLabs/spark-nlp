@@ -1,0 +1,7 @@
+[
+  {
+    "label": "ID",
+    "patterns": ["\\d+.+\\d+"],
+    "regex": true
+  }
+]

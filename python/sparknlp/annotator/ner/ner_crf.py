@@ -147,6 +147,8 @@ class NerCrfApproach(AnnotatorApproach, NerApproach):
     externalFeatures = Param(Params._dummy(), "externalFeatures", "Additional dictionaries paths to use as a features",
                              TypeConverters.identity)
 
+    verbose = Param(Params._dummy(), "verbose", "Level of verbosity during training", TypeConverters.toInt)
+
     def setL2(self, l2value):
         """Sets L2 regularization coefficient, by default 1.0.
 
@@ -219,6 +221,16 @@ class NerCrfApproach(AnnotatorApproach, NerApproach):
             Whether to include the confidence value in the output.
         """
         return self._set(includeConfidence=b)
+
+    def setVerbose(self, verboseValue):
+        """Sets level of verbosity during training.
+
+        Parameters
+        ----------
+        verboseValue : int
+            Level of verbosity
+        """
+        return self._set(verbose=verboseValue)
 
     def _create_model(self, java_model):
         return NerCrfModel(java_model=java_model)

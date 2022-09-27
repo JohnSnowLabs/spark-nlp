@@ -3,9 +3,9 @@
         <head>
           <meta http-equiv="X-UA-Compatible" content="IE=edge" />
           <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-          <title>Spark NLP 4.1.0 ScalaDoc  - com.johnsnowlabs.nlp.annotators.er.EntityRulerApproach</title>
-          <meta name="description" content="Spark NLP 4.1.0 ScalaDoc - com.johnsnowlabs.nlp.annotators.er.EntityRulerApproach" />
-          <meta name="keywords" content="Spark NLP 4.1.0 ScalaDoc com.johnsnowlabs.nlp.annotators.er.EntityRulerApproach" />
+          <title>Spark NLP 4.2.0 ScalaDoc  - com.johnsnowlabs.nlp.annotators.er.EntityRulerApproach</title>
+          <meta name="description" content="Spark NLP 4.2.0 ScalaDoc - com.johnsnowlabs.nlp.annotators.er.EntityRulerApproach" />
+          <meta name="keywords" content="Spark NLP 4.2.0 ScalaDoc com.johnsnowlabs.nlp.annotators.er.EntityRulerApproach" />
           <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
           
       
@@ -28,7 +28,7 @@
         </head>
         <body>
       <div id="search">
-        <span id="doc-title">Spark NLP 4.1.0 ScalaDoc<span id="doc-version"></span></span>
+        <span id="doc-title">Spark NLP 4.2.0 ScalaDoc<span id="doc-version"></span></span>
         <span class="close-results"><span class="left">&lt;</span> Back</span>
         <div id="textfilter">
           <span class="input">
@@ -151,6 +151,10 @@
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="../index.html" class="extype" name="com.johnsnowlabs.nlp.annotators">annotators</a></dd></dl></div>
     </li><li class="current-entities indented5">
                         <span class="separator"></span>
+                        <a class="class" href="AhoCorasickAutomaton.html" title="Aho-Corasick Algorithm: https://dl.acm.org/doi/10.1145/360825.360855 A simple, efficient algorithm to locate all occurrences of any of a finite number of keywords in a string of text."></a>
+                        <a href="AhoCorasickAutomaton.html" title="Aho-Corasick Algorithm: https://dl.acm.org/doi/10.1145/360825.360855 A simple, efficient algorithm to locate all occurrences of any of a finite number of keywords in a string of text.">AhoCorasickAutomaton</a>
+                      </li><li class="current-entities indented5">
+                        <span class="separator"></span>
                         <a class="class" href="EntityPattern.html" title=""></a>
                         <a href="EntityPattern.html" title="">EntityPattern</a>
                       </li><li class="current-entities indented5">
@@ -169,6 +173,10 @@
                         <span class="separator"></span>
                         <a class="object" href="EntityRulerUtil$.html" title=""></a>
                         <a href="EntityRulerUtil$.html" title="">EntityRulerUtil</a>
+                      </li><li class="current-entities indented5">
+                        <span class="separator"></span>
+                        <a class="class" href="FlattenEntityPattern.html" title=""></a>
+                        <a href="FlattenEntityPattern.html" title="">FlattenEntityPattern</a>
                       </li><li class="current-entities indented5">
                         <span class="separator"></span>
                         <a class="class" href="PatternsReadWriter.html" title=""></a>
@@ -541,6 +549,22 @@ result.selectExpr(<span class="lit">"explode(entities)"</span>).show(<span class
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd><dt>Definition Classes</dt><dd><a href="../../AnnotatorApproach.html" class="extype" name="com.johnsnowlabs.nlp.AnnotatorApproach">AnnotatorApproach</a></dd></dl></div>
+    </li><li name="com.johnsnowlabs.nlp.annotators.er.EntityRulerApproach#alphabet" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="alphabet:com.johnsnowlabs.nlp.annotators.param.ExternalResourceParam"></a><a id="alphabet:ExternalResourceParam"></a>
+      <span class="permalink">
+      <a href="../../../../../com/johnsnowlabs/nlp/annotators/er/EntityRulerApproach.html#alphabet:com.johnsnowlabs.nlp.annotators.param.ExternalResourceParam" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">alphabet</span><span class="result">: <a href="../param/ExternalResourceParam.html" class="extype" name="com.johnsnowlabs.nlp.annotators.param.ExternalResourceParam">ExternalResourceParam</a></span>
+      </span>
+      
+      
     </li><li name="scala.Any#asInstanceOf" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="asInstanceOf[T0]:T0"></a>
       <span class="permalink">
@@ -557,7 +581,7 @@ result.selectExpr(<span class="lit">"explode(entities)"</span>).show(<span class
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>Any</dd></dl></div>
-    </li><li name="com.johnsnowlabs.nlp.AnnotatorApproach#beforeTraining" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+    </li><li name="com.johnsnowlabs.nlp.annotators.er.EntityRulerApproach#beforeTraining" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="beforeTraining(spark:org.apache.spark.sql.SparkSession):Unit"></a><a id="beforeTraining(SparkSession):Unit"></a>
       <span class="permalink">
       <a href="../../../../../com/johnsnowlabs/nlp/annotators/er/EntityRulerApproach.html#beforeTraining(spark:org.apache.spark.sql.SparkSession):Unit" title="Permalink">
@@ -572,7 +596,7 @@ result.selectExpr(<span class="lit">"explode(entities)"</span>).show(<span class
         <span class="name">beforeTraining</span><span class="params">(<span name="spark">spark: <span class="extype" name="org.apache.spark.sql.SparkSession">SparkSession</span></span>)</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
       </span>
       
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="../../AnnotatorApproach.html" class="extype" name="com.johnsnowlabs.nlp.AnnotatorApproach">AnnotatorApproach</a></dd></dl></div>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.er.EntityRulerApproach">EntityRulerApproach</a> → <a href="../../AnnotatorApproach.html" class="extype" name="com.johnsnowlabs.nlp.AnnotatorApproach">AnnotatorApproach</a></dd></dl></div>
     </li><li name="com.johnsnowlabs.nlp.HasCaseSensitiveProperties#caseSensitive" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="param">
       <a id="caseSensitive:org.apache.spark.ml.param.BooleanParam"></a><a id="caseSensitive:BooleanParam"></a>
       <span class="permalink">
@@ -775,22 +799,6 @@ result.selectExpr(<span class="lit">"explode(entities)"</span>).show(<span class
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="../../../storage/HasStorageOptions.html" class="extype" name="com.johnsnowlabs.storage.HasStorageOptions">HasStorageOptions</a></dd></dl></div>
-    </li><li name="com.johnsnowlabs.nlp.annotators.er.EntityRulerApproach#enablePatternRegex" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="param">
-      <a id="enablePatternRegex:org.apache.spark.ml.param.BooleanParam"></a><a id="enablePatternRegex:BooleanParam"></a>
-      <span class="permalink">
-      <a href="../../../../../com/johnsnowlabs/nlp/annotators/er/EntityRulerApproach.html#enablePatternRegex:org.apache.spark.ml.param.BooleanParam" title="Permalink">
-        <i class="material-icons"></i>
-      </a>
-    </span>
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">val</span>
-      </span>
-      <span class="symbol">
-        <span class="name">enablePatternRegex</span><span class="result">: <span class="extype" name="org.apache.spark.ml.param.BooleanParam">BooleanParam</span></span>
-      </span>
-      
-      <p class="shortcomment cmt">Enables regex pattern match (Default: <code>false</code>).</p>
     </li><li name="scala.AnyRef#eq" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="eq(x$1:AnyRef):Boolean"></a><a id="eq(AnyRef):Boolean"></a>
       <span class="permalink">
@@ -1843,7 +1851,7 @@ as input and output columns if not specified
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd><dt>Definition Classes</dt><dd><a href="../../ParamsAndFeaturesWritable.html" class="extype" name="com.johnsnowlabs.nlp.ParamsAndFeaturesWritable">ParamsAndFeaturesWritable</a></dd></dl></div>
-    </li><li name="com.johnsnowlabs.nlp.HasInputAnnotationCols#optionalInputAnnotatorTypes" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+    </li><li name="com.johnsnowlabs.nlp.annotators.er.EntityRulerApproach#optionalInputAnnotatorTypes" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="optionalInputAnnotatorTypes:Array[String]"></a>
       <span class="permalink">
       <a href="../../../../../com/johnsnowlabs/nlp/annotators/er/EntityRulerApproach.html#optionalInputAnnotatorTypes:Array[String]" title="Permalink">
@@ -1858,7 +1866,7 @@ as input and output columns if not specified
         <span class="name">optionalInputAnnotatorTypes</span><span class="result">: <span class="extype" name="scala.Array">Array</span>[<span class="extype" name="scala.Predef.String">String</span>]</span>
       </span>
       
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="../../HasInputAnnotationCols.html" class="extype" name="com.johnsnowlabs.nlp.HasInputAnnotationCols">HasInputAnnotationCols</a></dd></dl></div>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.er.EntityRulerApproach">EntityRulerApproach</a> → <a href="../../HasInputAnnotationCols.html" class="extype" name="com.johnsnowlabs.nlp.HasInputAnnotationCols">HasInputAnnotationCols</a></dd></dl></div>
     </li><li name="com.johnsnowlabs.nlp.annotators.er.EntityRulerApproach#outputAnnotatorType" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="anno">
       <a id="outputAnnotatorType:EntityRulerApproach.this.AnnotatorType"></a><a id="outputAnnotatorType:AnnotatorType"></a>
       <span class="permalink">
@@ -2080,6 +2088,22 @@ as input and output columns if not specified
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>Params</dd></dl></div>
+    </li><li name="com.johnsnowlabs.nlp.annotators.er.EntityRulerApproach#setAlphabetResource" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="setParam">
+      <a id="setAlphabetResource(path:String):EntityRulerApproach.this.type"></a><a id="setAlphabetResource(String):EntityRulerApproach.this.type"></a>
+      <span class="permalink">
+      <a href="../../../../../com/johnsnowlabs/nlp/annotators/er/EntityRulerApproach.html#setAlphabetResource(path:String):EntityRulerApproach.this.type" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">setAlphabetResource</span><span class="params">(<span name="path">path: <span class="extype" name="scala.Predef.String">String</span></span>)</span><span class="result">: <a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.er.EntityRulerApproach">EntityRulerApproach</a>.this.type</span>
+      </span>
+      
+      <p class="shortcomment cmt"></p>
     </li><li name="com.johnsnowlabs.nlp.HasCaseSensitiveProperties#setCaseSensitive" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="setParam">
       <a id="setCaseSensitive(value:Boolean):HasCaseSensitiveProperties.this.type"></a><a id="setCaseSensitive(Boolean):EntityRulerApproach.this.type"></a>
       <span class="permalink">
@@ -2208,22 +2232,6 @@ as input and output columns if not specified
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="../../../storage/HasStorageOptions.html" class="extype" name="com.johnsnowlabs.storage.HasStorageOptions">HasStorageOptions</a></dd></dl></div>
-    </li><li name="com.johnsnowlabs.nlp.annotators.er.EntityRulerApproach#setEnablePatternRegex" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="setParam">
-      <a id="setEnablePatternRegex(value:Boolean):EntityRulerApproach.this.type"></a><a id="setEnablePatternRegex(Boolean):EntityRulerApproach.this.type"></a>
-      <span class="permalink">
-      <a href="../../../../../com/johnsnowlabs/nlp/annotators/er/EntityRulerApproach.html#setEnablePatternRegex(value:Boolean):EntityRulerApproach.this.type" title="Permalink">
-        <i class="material-icons"></i>
-      </a>
-    </span>
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">def</span>
-      </span>
-      <span class="symbol">
-        <span class="name">setEnablePatternRegex</span><span class="params">(<span name="value">value: <span class="extype" name="scala.Boolean">Boolean</span></span>)</span><span class="result">: <a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.er.EntityRulerApproach">EntityRulerApproach</a>.this.type</span>
-      </span>
-      
-      <p class="shortcomment cmt"></p>
     </li><li name="com.johnsnowlabs.storage.HasStorageOptions#setIncludeStorage" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="setIncludeStorage(value:Boolean):HasStorageOptions.this.type"></a><a id="setIncludeStorage(Boolean):EntityRulerApproach.this.type"></a>
       <span class="permalink">
@@ -2674,7 +2682,49 @@ as input and output columns if not specified
 
         
 
-        
+        <div class="values members">
+              <h3>Deprecated Value Members</h3>
+              <ol><li name="com.johnsnowlabs.nlp.annotators.er.EntityRulerApproach#enablePatternRegex" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="param">
+      <a id="enablePatternRegex:org.apache.spark.ml.param.BooleanParam"></a><a id="enablePatternRegex:BooleanParam"></a>
+      <span class="permalink">
+      <a href="../../../../../com/johnsnowlabs/nlp/annotators/er/EntityRulerApproach.html#enablePatternRegex:org.apache.spark.ml.param.BooleanParam" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name deprecated" title="Deprecated: (Since version Since 4.2.0) Enabling pattern regex now is define on each pattern">enablePatternRegex</span><span class="result">: <span class="extype" name="org.apache.spark.ml.param.BooleanParam">BooleanParam</span></span>
+      </span>
+      
+      <p class="shortcomment cmt">Enables regex pattern match (Default: <code>false</code>).</p><div class="fullcomment"><div class="comment cmt"><p>Enables regex pattern match (Default: <code>false</code>).
+</p></div><dl class="attributes block"> <dt>Annotations</dt><dd>
+                <span class="name">@deprecated</span>
+              
+        </dd><dt>Deprecated</dt><dd class="cmt"><p><i>(Since version Since 4.2.0)</i> Enabling pattern regex now is define on each pattern</p></dd></dl></div>
+    </li><li name="com.johnsnowlabs.nlp.annotators.er.EntityRulerApproach#setEnablePatternRegex" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="setParam">
+      <a id="setEnablePatternRegex(value:Boolean):EntityRulerApproach.this.type"></a><a id="setEnablePatternRegex(Boolean):EntityRulerApproach.this.type"></a>
+      <span class="permalink">
+      <a href="../../../../../com/johnsnowlabs/nlp/annotators/er/EntityRulerApproach.html#setEnablePatternRegex(value:Boolean):EntityRulerApproach.this.type" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name deprecated" title="Deprecated: (Since version 4.2.0) Enabling pattern regex now is define on each pattern">setEnablePatternRegex</span><span class="params">(<span name="value">value: <span class="extype" name="scala.Boolean">Boolean</span></span>)</span><span class="result">: <a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.er.EntityRulerApproach">EntityRulerApproach</a>.this.type</span>
+      </span>
+      
+      <p class="shortcomment cmt"></p><div class="fullcomment"><div class="comment cmt"></div><dl class="attributes block"> <dt>Annotations</dt><dd>
+                <span class="name">@deprecated</span>
+              
+        </dd><dt>Deprecated</dt><dd class="cmt"><p><i>(Since version 4.2.0)</i> Enabling pattern regex now is define on each pattern</p></dd></dl></div>
+    </li></ol>
+            </div>
         </div>
 
         <div id="inheritedMembers">

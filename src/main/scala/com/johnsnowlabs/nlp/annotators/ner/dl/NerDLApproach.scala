@@ -22,8 +22,8 @@ import com.johnsnowlabs.ml.tensorflow._
 import com.johnsnowlabs.nlp.AnnotatorType.{DOCUMENT, NAMED_ENTITY, TOKEN, WORD_EMBEDDINGS}
 import com.johnsnowlabs.nlp.annotators.common.{NerTagged, WordpieceEmbeddingsSentence}
 import com.johnsnowlabs.nlp.annotators.ner.{ModelMetrics, NerApproach, Verbose}
-import com.johnsnowlabs.nlp.annotators.param.ExternalResourceParam
-import com.johnsnowlabs.nlp.util.io.{ExternalResource, OutputHelper, ReadAs, ResourceHelper}
+import com.johnsnowlabs.nlp.annotators.param.EvaluationDLParams
+import com.johnsnowlabs.nlp.util.io.{OutputHelper, ResourceHelper}
 import com.johnsnowlabs.nlp.{AnnotatorApproach, AnnotatorType, ParamsAndFeaturesWritable}
 import com.johnsnowlabs.storage.HasStorageRef
 import org.apache.commons.io.IOUtils
@@ -145,7 +145,8 @@ class NerDLApproach(override val uid: String)
     extends AnnotatorApproach[NerDLModel]
     with NerApproach[NerDLApproach]
     with Logging
-    with ParamsAndFeaturesWritable {
+    with ParamsAndFeaturesWritable
+    with EvaluationDLParams {
 
   def this() = this(Identifiable.randomUID("NerDL"))
 
@@ -220,42 +221,6 @@ class NerDLApproach(override val uid: String)
   val useContrib =
     new BooleanParam(this, "useContrib", "deprecated param - the value won't have any effect")
 
-  /** Choose the proportion of training dataset to be validated against the model on each Epoch
-    * (Default: `0.0f`). The value should be between 0.0 and 1.0 and by default it is 0.0 and off.
-    *
-    * @group param
-    */
-  val validationSplit = new FloatParam(
-    this,
-    "validationSplit",
-    "Choose the proportion of training dataset to be validated against the model on each Epoch. The value should be between 0.0 and 1.0 and by default it is 0.0 and off.")
-
-  /** Whether logs for validation to be extended (Default: `false`): it displays time and
-    * evaluation of each label
-    *
-    * @group param
-    */
-  val evaluationLogExtended = new BooleanParam(
-    this,
-    "evaluationLogExtended",
-    "Whether logs for validation to be extended: it displays time and evaluation of each label. Default is false.")
-
-  /** Whether to output to annotators log folder (Default: `false`)
-    *
-    * @group param
-    */
-  val enableOutputLogs =
-    new BooleanParam(this, "enableOutputLogs", "Whether to output to annotators log folder")
-
-  /** Path to test dataset. If set, it is used to calculate statistics on it during training.
-    *
-    * @group param
-    */
-  val testDataset = new ExternalResourceParam(
-    this,
-    "testDataset",
-    "Path to test dataset. If set, it is used to calculate statistics on it during training.")
-
   /** Whether to include confidence scores in annotation metadata (Default: `false`)
     *
     * @group param
@@ -274,13 +239,6 @@ class NerDLApproach(override val uid: String)
     this,
     "includeAllConfidenceScores",
     "whether to include all confidence scores in annotation metadata")
-
-  /** Folder path to save training logs (Default: `""`)
-    *
-    * @group param
-    */
-  val outputLogsPath =
-    new Param[String](this, "outputLogsPath", "Folder path to save training logs")
 
   /** Whether to optimize for large datasets or not (Default: `false`). Enabling this option can
     * slow down training.
@@ -351,31 +309,6 @@ class NerDLApproach(override val uid: String)
     */
   def getUseContrib: Boolean = $(this.useContrib)
 
-  /** Choose the proportion of training dataset to be validated against the model on each Epoch.
-    * The value should be between 0.0 and 1.0 and by default it is 0.0 and off.
-    *
-    * @group getParam
-    */
-  def getValidationSplit: Float = $(this.validationSplit)
-
-  /** whether to include confidence scores in annotation metadata
-    *
-    * @group getParam
-    */
-  def getIncludeConfidence: Boolean = $(includeConfidence)
-
-  /** Whether to output to annotators log folder
-    *
-    * @group getParam
-    */
-  def getEnableOutputLogs: Boolean = $(enableOutputLogs)
-
-  /** Folder path to save training logs
-    *
-    * @group getParam
-    */
-  def getOutputLogsPath: String = $(outputLogsPath)
-
   /** Memory Optimizer
     *
     * @group getParam
@@ -439,57 +372,12 @@ class NerDLApproach(override val uid: String)
       throw new UnsupportedOperationException("Cannot set contrib in Windows")
     else set(useContrib, value)
 
-  /** Choose the proportion of training dataset to be validated against the model on each Epoch.
-    * The value should be between 0.0 and 1.0 and by default it is 0.0 and off.
-    *
-    * @group setParam
-    */
-  def setValidationSplit(validationSplit: Float): NerDLApproach.this.type =
-    set(this.validationSplit, validationSplit)
-
-  /** Whether logs for validation to be extended: it displays time and evaluation of each label.
-    * Default is false.
-    *
-    * @group setParam
-    */
-  def setEvaluationLogExtended(evaluationLogExtended: Boolean): NerDLApproach.this.type =
-    set(this.evaluationLogExtended, evaluationLogExtended)
-
-  /** Whether to output to annotators log folder
-    *
-    * @group setParam
-    */
-  def setEnableOutputLogs(enableOutputLogs: Boolean): NerDLApproach.this.type =
-    set(this.enableOutputLogs, enableOutputLogs)
-
-  /** Folder path to save training logs
-    *
-    * @group setParam
-    */
-  def setOutputLogsPath(path: String): NerDLApproach.this.type = set(this.outputLogsPath, path)
-
   /** Whether to optimize for large datasets or not. Enabling this option can slow down training.
     *
     * @group setParam
     */
   def setEnableMemoryOptimizer(value: Boolean): NerDLApproach.this.type =
     set(this.enableMemoryOptimizer, value)
-
-  /** Path to test dataset. If set, it is used to calculate statistics on it during training.
-    *
-    * @group setParam
-    */
-  def setTestDataset(
-      path: String,
-      readAs: ReadAs.Format = ReadAs.SPARK,
-      options: Map[String, String] = Map("format" -> "parquet")): this.type =
-    set(testDataset, ExternalResource(path, readAs, options))
-
-  /** Path to test dataset. If set, it is used to calculate statistics on it during training.
-    *
-    * @group setParam
-    */
-  def setTestDataset(er: ExternalResource): NerDLApproach.this.type = set(testDataset, er)
 
   /** Whether to include confidence scores in annotation metadata
     *
@@ -525,14 +413,9 @@ class NerDLApproach(override val uid: String)
     po -> 0.005f,
     batchSize -> 8,
     dropout -> 0.5f,
-    verbose -> Verbose.Silent.id,
     useContrib -> true,
-    validationSplit -> 0.0f,
-    evaluationLogExtended -> false,
     includeConfidence -> false,
     includeAllConfidenceScores -> false,
-    enableOutputLogs -> false,
-    outputLogsPath -> "",
     enableMemoryOptimizer -> false,
     useBestModel -> false,
     bestModelMetric -> ModelMetrics.microF1)
@@ -564,7 +447,7 @@ class NerDLApproach(override val uid: String)
     val test = if (!isDefined(testDataset)) {
       train.limit(0) // keep the schema only
     } else {
-      ResourceHelper.readParquetSparkDataFrame($(testDataset))
+      ResourceHelper.readSparkDataFrame($(testDataset))
     }
 
     val embeddingsRef =
@@ -615,13 +498,13 @@ class NerDLApproach(override val uid: String)
     val graphBytesDef = IOUtils.toByteArray(graphStream)
     graph.importGraphDef(GraphDef.parseFrom(graphBytesDef))
 
-    val tf = new TensorflowWrapper(
+    val tfWrapper = new TensorflowWrapper(
       Variables(Array.empty[Array[Byte]], Array.empty[Byte]),
       graph.toGraphDef.toByteArray)
 
     val (ner, trainedTf) =
       try {
-        val model = new TensorflowNer(tf, encoder, Verbose($(verbose)))
+        val model = new TensorflowNer(tfWrapper, encoder, Verbose($(verbose)))
         if (isDefined(randomSeed)) {
           Random.setSeed($(randomSeed))
         }
@@ -656,7 +539,9 @@ class NerDLApproach(override val uid: String)
       }
 
     val newWrapper =
-      new TensorflowWrapper(TensorflowWrapper.extractVariablesSavedModel(trainedTf), tf.graph)
+      new TensorflowWrapper(
+        TensorflowWrapper.extractVariablesSavedModel(trainedTf),
+        tfWrapper.graph)
 
     val model = new NerDLModel()
       .setDatasetParams(ner.encoder.params)
@@ -751,13 +636,12 @@ trait WithGraphResolver {
 
     if (localGraphPath.isDefined && localGraphPath.get.startsWith("s3://")) {
 
-      val bucketName = localGraphPath.get.substring("s3://".length).split("/").head
+      val (bucketName, keyPrefix) = ResourceHelper.parseS3URI(localGraphPath.get)
 
       require(
         bucketName != "",
         "S3 bucket name is not define. Please define it with parameter setS3BucketName")
 
-      val keyPrefix = localGraphPath.get.substring(("s3://" + bucketName).length + 1)
       var tmpDirectory = SparkFiles.getRootDirectory()
 
       val awsGateway = new AWSGateway()
