@@ -75,7 +75,7 @@ if(document.querySelectorAll('.tab-li-second')) {
             e.preventDefault();
             let tabAttribute = element.getAttribute('data-type'),
                 tabLiInner = element.parentNode.querySelectorAll('.tab-li-second'),
-                tabBoxInner = element.parentNode.parentNode.querySelectorAll('.tabs-box-medic-inner');
+                tabBoxInner = element.parentNode.parentNode.parentNode.querySelectorAll('.tabs-box-medic-inner');
             
             //remove active class
             tabBoxInner.forEach(item => {
@@ -110,14 +110,30 @@ if(document.querySelectorAll('.tab-li-second')) {
 
 //Third tabs
 if(document.querySelectorAll('.tab-li-inner')) {
-    let tabLiSecond = document.querySelectorAll('.tab-li-inner');
+
+
+
+    let tabLiSecond = document.querySelectorAll('.tab-li-inner'),
+        tabLiTop = document.querySelectorAll('.toptab-second'),
+        tabLi = document.querySelectorAll('.toptab-second p');
+
+        console.log(tabLiTop);
+
+    tabLiTop.forEach(e => {        
+        e.nextElementSibling.classList.add('active');
+    });
+
+    tabLi.forEach(e => {        
+        e.firstChild.classList.add('active');
+    });
+
 
     tabLiSecond.forEach(element => {
         element.addEventListener('click', function(e) {
             e.preventDefault();
             let tabAttributeSecond = element.getAttribute('data-type'),
                 tabLiInnerSecond = element.parentNode.querySelectorAll('.tab-li-inner'),
-                tabBoxInnerSecond = element.parentNode.parentNode.querySelectorAll('.tabs-box-medic-inner-second');
+                tabBoxInnerSecond = element.parentNode.parentNode.parentNode.querySelectorAll('.tabs-box-medic-inner-second');
             
             //remove active class
             tabBoxInnerSecond.forEach(item => {
