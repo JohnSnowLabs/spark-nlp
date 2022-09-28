@@ -18,6 +18,7 @@ package com.johnsnowlabs.nlp.annotators.cv.util.io
 
 import com.johnsnowlabs.nlp.ImageFields
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
+import org.slf4j.LoggerFactory
 
 import java.awt.color.ColorSpace
 import java.awt.image.{BufferedImage, DataBufferByte, Raster}
@@ -28,21 +29,23 @@ import scala.util.{Failure, Success, Try}
 
 private[johnsnowlabs] object ImageIOUtils {
 
+  private val logger = LoggerFactory.getLogger("ImageIOUtils")
+
   /** (Scala-specific) OpenCV type mapping supported */
   val ocvTypes: Map[String, Int] =
     Map("CV_8U" -> 0, "CV_8UC1" -> 0, "CV_8UC3" -> 16, "CV_8UC4" -> 24)
 
   def loadImage(file: File): Option[BufferedImage] = {
-    if (file.isFile) Some(ImageIO.read(file)) else None
+    readImage(file)
   }
 
-  def loadImage(file: InputStream): BufferedImage = {
-    ImageIO.read(file)
+  def loadImage(inputStream: InputStream): Option[BufferedImage] = {
+    readImage(inputStream)
   }
 
   def loadImage(path: String): Option[BufferedImage] = {
     val filePath = ResourceHelper.getFileFromPath(path)
-    if (filePath.isDefined) Some(ImageIO.read(filePath.get)) else None
+    readImage(filePath)
   }
 
   def loadImageFromAnySource(path: String): Option[BufferedImage] = {
@@ -61,11 +64,31 @@ private[johnsnowlabs] object ImageIOUtils {
 
   }
 
+  def readImage(file: File): Option[BufferedImage] = {
+    Try(ImageIO.read(file)) match {
+      case Success(bufferedImage) => Some(bufferedImage)
+      case Failure(_) => {
+        logger.warn(s"Error in ImageIOUtils.readImage while reading file: ${file.getPath}")
+        None
+      }
+    }
+  }
+
+  def readImage(inputStream: InputStream): Option[BufferedImage] = {
+    Try(ImageIO.read(inputStream)) match {
+      case Success(bufferedImage) => Some(bufferedImage)
+      case Failure(_) => {
+        logger.warn(s"Error in ImageIOUtils.readImage while reading inputStream")
+        None
+      }
+    }
+  }
+
   def loadImages(imagesPath: String): Array[File] = {
     loadImagesFromDirectory(imagesPath) match {
       case Success(files) => files
       case Failure(_) =>
-        val singleImagePath = ResourceHelper.getFileFromPath(imagesPath).get
+        val singleImagePath = ResourceHelper.getFileFromPath(imagesPath)
         Array(singleImagePath)
     }
   }
@@ -161,12 +184,21 @@ private[johnsnowlabs] object ImageIOUtils {
     bufferedImageToImageFields(bufferedImage, file.getPath)
   }
 
-  def bufferedImageToImageFields(bufferedImage: Option[BufferedImage], origin: String): Option[ImageFields] = {
+  def bufferedImageToImageFields(
+      bufferedImage: Option[BufferedImage],
+      origin: String): Option[ImageFields] = {
     if (bufferedImage.isDefined) {
       val (nChannels, mode) = getChannelsAndMode(bufferedImage.get)
       val data = bufferedImageToByte(bufferedImage.get)
 
-      Some(ImageFields(origin, bufferedImage.get.getHeight, bufferedImage.get.getWidth, nChannels, mode, data))
+      Some(
+        ImageFields(
+          origin,
+          bufferedImage.get.getHeight,
+          bufferedImage.get.getWidth,
+          nChannels,
+          mode,
+          data))
     } else None
 
   }

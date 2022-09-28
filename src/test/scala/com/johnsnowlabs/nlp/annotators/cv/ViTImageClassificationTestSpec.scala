@@ -186,7 +186,8 @@ class ViTImageClassificationTestSpec extends AnyFlatSpec {
     assert(prediction("image_assembler").isEmpty)
     assert(prediction("class").isEmpty)
 
-    val images = Array("src/test/resources/image/hen.JPEG", "src/test/resources/image/missing_file.mf")
+    val images =
+      Array("src/test/resources/image/hen.JPEG", "src/test/resources/image/missing_file.mf")
     val predictions = lightPipeline.fullAnnotateImage(images)
 
     assert(predictions(0)("image_assembler").nonEmpty)

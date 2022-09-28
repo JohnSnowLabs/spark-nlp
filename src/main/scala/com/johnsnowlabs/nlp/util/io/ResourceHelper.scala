@@ -575,7 +575,7 @@ object ResourceHelper {
     files.toList
   }
 
-  def getFileFromPath(pathToFile: String): Option[File] = {
+  def getFileFromPath(pathToFile: String): File = {
     val fileSystem = OutputHelper.getFileSystem
     val filePath = fileSystem.getScheme match {
       case "hdfs" => {
@@ -588,7 +588,7 @@ object ResourceHelper {
       case _ => new File(pathToFile)
     }
 
-    if (filePath.isFile) Some(filePath) else None
+    filePath
   }
 
   def validFile(path: String): Boolean = {
