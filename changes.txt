@@ -1,2 +1,4 @@
-docs/en/wiki.md
-docs/en/wiki.md
+docs/_posts/josejuanmartinez/2022-09-28-finclf_bert_banking77_en.md
+docs/_posts/josejuanmartinez/2022-09-28-finre_work_experience_en.md
+docs/_posts/josejuanmartinez/2022-09-28-finclf_bert_banking77_en.md
+docs/_posts/josejuanmartinez/2022-09-28-finre_work_experience_en.md

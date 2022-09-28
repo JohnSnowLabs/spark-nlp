@@ -1,5 +1,350 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.9.2">Jekyll</generator><link href="/feed.xml" rel="self" type="application/atom+xml" /><link href="/" rel="alternate" type="text/html" /><updated>2022-09-27T16:12:22+00:00</updated><id>/feed.xml</id><title type="html">Spark NLP</title><subtitle>High Performance NLP with Apache Spark
-</subtitle><author><name>{&quot;type&quot;=&gt;nil, &quot;name&quot;=&gt;nil, &quot;url&quot;=&gt;nil, &quot;avatar&quot;=&gt;nil, &quot;bio&quot;=&gt;nil, &quot;email&quot;=&gt;nil, &quot;facebook&quot;=&gt;nil, &quot;twitter&quot;=&gt;nil, &quot;weibo&quot;=&gt;nil, &quot;googleplus&quot;=&gt;nil, &quot;telegram&quot;=&gt;nil, &quot;medium&quot;=&gt;nil, &quot;zhihu&quot;=&gt;nil, &quot;douban&quot;=&gt;nil, &quot;linkedin&quot;=&gt;nil, &quot;github&quot;=&gt;nil, &quot;npm&quot;=&gt;nil}</name></author><entry><title type="html">Temporality / Certainty Assertion Status</title><link href="/2022/09/27/finassertion_time_en.html" rel="alternate" type="text/html" title="Temporality / Certainty Assertion Status" /><published>2022-09-27T00:00:00+00:00</published><updated>2022-09-27T00:00:00+00:00</updated><id>/2022/09/27/finassertion_time_en</id><content type="html" xml:base="/2022/09/27/finassertion_time_en.html">&lt;h2 id=&quot;description&quot;&gt;Description&lt;/h2&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.9.2">Jekyll</generator><link href="/feed.xml" rel="self" type="application/atom+xml" /><link href="/" rel="alternate" type="text/html" /><updated>2022-09-28T10:41:34+00:00</updated><id>/feed.xml</id><title type="html">Spark NLP</title><subtitle>High Performance NLP with Apache Spark
+</subtitle><author><name>{&quot;type&quot;=&gt;nil, &quot;name&quot;=&gt;nil, &quot;url&quot;=&gt;nil, &quot;avatar&quot;=&gt;nil, &quot;bio&quot;=&gt;nil, &quot;email&quot;=&gt;nil, &quot;facebook&quot;=&gt;nil, &quot;twitter&quot;=&gt;nil, &quot;weibo&quot;=&gt;nil, &quot;googleplus&quot;=&gt;nil, &quot;telegram&quot;=&gt;nil, &quot;medium&quot;=&gt;nil, &quot;zhihu&quot;=&gt;nil, &quot;douban&quot;=&gt;nil, &quot;linkedin&quot;=&gt;nil, &quot;github&quot;=&gt;nil, &quot;npm&quot;=&gt;nil}</name></author><entry><title type="html">Topic Identification (Banking)</title><link href="/2022/09/28/finclf_bert_banking77_en.html" rel="alternate" type="text/html" title="Topic Identification (Banking)" /><published>2022-09-28T00:00:00+00:00</published><updated>2022-09-28T00:00:00+00:00</updated><id>/2022/09/28/finclf_bert_banking77_en</id><content type="html" xml:base="/2022/09/28/finclf_bert_banking77_en.html">&lt;h2 id=&quot;description&quot;&gt;Description&lt;/h2&gt;
+
+&lt;p&gt;This is a Bert-based model, which can be used to classify texts into 77 banking-related classes. This is a Multiclass model, meaning only one label will be returned as an output.&lt;/p&gt;
+
+&lt;p&gt;The classes are the following:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;activate_my_card&lt;/li&gt;
+  &lt;li&gt;age_limit&lt;/li&gt;
+  &lt;li&gt;apple_pay_or_google_pay&lt;/li&gt;
+  &lt;li&gt;atm_support&lt;/li&gt;
+  &lt;li&gt;automatic_top_up&lt;/li&gt;
+  &lt;li&gt;balance_not_updated_after_bank_transfer&lt;/li&gt;
+  &lt;li&gt;balance_not_updated_after_cheque_or_cash_deposit&lt;/li&gt;
+  &lt;li&gt;beneficiary_not_allowed&lt;/li&gt;
+  &lt;li&gt;cancel_transfer&lt;/li&gt;
+  &lt;li&gt;card_about_to_expire&lt;/li&gt;
+  &lt;li&gt;card_acceptance&lt;/li&gt;
+  &lt;li&gt;card_arrival&lt;/li&gt;
+  &lt;li&gt;card_delivery_estimate&lt;/li&gt;
+  &lt;li&gt;card_linking&lt;/li&gt;
+  &lt;li&gt;card_not_working&lt;/li&gt;
+  &lt;li&gt;card_payment_fee_charged&lt;/li&gt;
+  &lt;li&gt;card_payment_not_recognised&lt;/li&gt;
+  &lt;li&gt;card_payment_wrong_exchange_rate&lt;/li&gt;
+  &lt;li&gt;card_swallowed&lt;/li&gt;
+  &lt;li&gt;cash_withdrawal_charge&lt;/li&gt;
+  &lt;li&gt;cash_withdrawal_not_recognised&lt;/li&gt;
+  &lt;li&gt;change_pin&lt;/li&gt;
+  &lt;li&gt;compromised_card&lt;/li&gt;
+  &lt;li&gt;contactless_not_working&lt;/li&gt;
+  &lt;li&gt;country_support&lt;/li&gt;
+  &lt;li&gt;declined_card_payment&lt;/li&gt;
+  &lt;li&gt;declined_cash_withdrawal&lt;/li&gt;
+  &lt;li&gt;declined_transfer&lt;/li&gt;
+  &lt;li&gt;direct_debit_payment_not_recognised&lt;/li&gt;
+  &lt;li&gt;disposable_card_limits&lt;/li&gt;
+  &lt;li&gt;edit_personal_details&lt;/li&gt;
+  &lt;li&gt;exchange_charge&lt;/li&gt;
+  &lt;li&gt;exchange_rate&lt;/li&gt;
+  &lt;li&gt;exchange_via_app&lt;/li&gt;
+  &lt;li&gt;extra_charge_on_statement&lt;/li&gt;
+  &lt;li&gt;failed_transfer&lt;/li&gt;
+  &lt;li&gt;fiat_currency_support&lt;/li&gt;
+  &lt;li&gt;get_disposable_virtual_card&lt;/li&gt;
+  &lt;li&gt;get_physical_card&lt;/li&gt;
+  &lt;li&gt;getting_spare_card&lt;/li&gt;
+  &lt;li&gt;getting_virtual_card&lt;/li&gt;
+  &lt;li&gt;lost_or_stolen_card&lt;/li&gt;
+  &lt;li&gt;lost_or_stolen_phone&lt;/li&gt;
+  &lt;li&gt;order_physical_card&lt;/li&gt;
+  &lt;li&gt;passcode_forgotten&lt;/li&gt;
+  &lt;li&gt;pending_card_payment&lt;/li&gt;
+  &lt;li&gt;pending_cash_withdrawal&lt;/li&gt;
+  &lt;li&gt;pending_top_up&lt;/li&gt;
+  &lt;li&gt;pending_transfer&lt;/li&gt;
+  &lt;li&gt;pin_blocked&lt;/li&gt;
+  &lt;li&gt;receiving_money&lt;/li&gt;
+  &lt;li&gt;Refund_not_showing_up&lt;/li&gt;
+  &lt;li&gt;request_refund&lt;/li&gt;
+  &lt;li&gt;reverted_card_payment?&lt;/li&gt;
+  &lt;li&gt;supported_cards_and_currencies&lt;/li&gt;
+  &lt;li&gt;terminate_account&lt;/li&gt;
+  &lt;li&gt;top_up_by_bank_transfer_charge&lt;/li&gt;
+  &lt;li&gt;top_up_by_card_charge&lt;/li&gt;
+  &lt;li&gt;top_up_by_cash_or_cheque&lt;/li&gt;
+  &lt;li&gt;top_up_failed&lt;/li&gt;
+  &lt;li&gt;top_up_limits&lt;/li&gt;
+  &lt;li&gt;top_up_reverted&lt;/li&gt;
+  &lt;li&gt;topping_up_by_card&lt;/li&gt;
+  &lt;li&gt;transaction_charged_twice&lt;/li&gt;
+  &lt;li&gt;transfer_fee_charged&lt;/li&gt;
+  &lt;li&gt;transfer_into_account&lt;/li&gt;
+  &lt;li&gt;transfer_not_received_by_recipient&lt;/li&gt;
+  &lt;li&gt;transfer_timing&lt;/li&gt;
+  &lt;li&gt;unable_to_verify_identity&lt;/li&gt;
+  &lt;li&gt;verify_my_identity&lt;/li&gt;
+  &lt;li&gt;verify_source_of_funds&lt;/li&gt;
+  &lt;li&gt;verify_top_up&lt;/li&gt;
+  &lt;li&gt;virtual_card_not_working&lt;/li&gt;
+  &lt;li&gt;visa_or_mastercard&lt;/li&gt;
+  &lt;li&gt;why_verify_identity&lt;/li&gt;
+  &lt;li&gt;wrong_amount_of_cash_received&lt;/li&gt;
+  &lt;li&gt;wrong_exchange_rate_for_cash_withdrawal&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;predicted-entities&quot;&gt;Predicted Entities&lt;/h2&gt;
+
+&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;activate_my_card&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;age_limit&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;card_acceptance&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;card_arrival&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;card_delivery_estimate&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;card_linking&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;card_not_working&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;card_payment_fee_charged&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;card_payment_not_recognised&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;card_payment_wrong_exchange_rate&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;card_swallowed&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;cash_withdrawal_charge&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;apple_pay_or_google_pay&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;cash_withdrawal_not_recognised&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;change_pin&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;compromised_card&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;contactless_not_working&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;country_support&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;declined_card_payment&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;declined_cash_withdrawal&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;declined_transfer&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;direct_debit_payment_not_recognised&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;disposable_card_limits&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;atm_support&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;edit_personal_details&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;exchange_charge&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;exchange_rate&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;exchange_via_app&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;extra_charge_on_statement&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;failed_transfer&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;fiat_currency_support&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;get_disposable_virtual_card&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;get_physical_card&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;getting_spare_card&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;automatic_top_up&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;getting_virtual_card&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;lost_or_stolen_card&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;lost_or_stolen_phone&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;order_physical_card&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;passcode_forgotten&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;pending_card_payment&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;pending_cash_withdrawal&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;pending_top_up&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;pending_transfer&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;pin_blocked&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;balance_not_updated_after_bank_transfer&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;receiving_money&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Refund_not_showing_up&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;request_refund&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;reverted_card_payment?&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;supported_cards_and_currencies&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;terminate_account&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;top_up_by_bank_transfer_charge&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;top_up_by_card_charge&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;top_up_by_cash_or_cheque&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;top_up_failed&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;balance_not_updated_after_cheque_or_cash_deposit&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;top_up_limits&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;top_up_reverted&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;topping_up_by_card&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;transaction_charged_twice&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;transfer_fee_charged&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;transfer_into_account&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;transfer_not_received_by_recipient&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;transfer_timing&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;unable_to_verify_identity&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;verify_my_identity&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;beneficiary_not_allowed&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;verify_source_of_funds&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;verify_top_up&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;virtual_card_not_working&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;visa_or_mastercard&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;why_verify_identity&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;wrong_amount_of_cash_received&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;wrong_exchange_rate_for_cash_withdrawal&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;cancel_transfer&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;card_about_to_expire&lt;/code&gt;&lt;/p&gt;
+
+&lt;p class=&quot;btn-box&quot;&gt;&lt;a href=&quot;https://demo.johnsnowlabs.com/public/CLASSIFICATION_BANKING/&quot; class=&quot;button button-orange&quot;&gt;Live Demo&lt;/a&gt;
+&lt;button class=&quot;button button-orange&quot; disabled=&quot;&quot;&gt;Open in Colab&lt;/button&gt;
+&lt;a href=&quot;https://s3.amazonaws.com/auxdata.johnsnowlabs.com/finance/models/finclf_bert_banking77_en_1.0.0_3.0_1664361071567.zip&quot; class=&quot;button button-orange button-orange-trans arr button-icon&quot;&gt;Download&lt;/a&gt;&lt;/p&gt;
+
+&lt;h2 id=&quot;how-to-use&quot;&gt;How to use&lt;/h2&gt;
+
+&lt;div class=&quot;tabs-box&quot;&gt;
+  &lt;div class=&quot;top_tab_li&quot;&gt;   
+    &lt;button class=&quot;tab-li code-selector-active python-button&quot;&gt;Python&lt;/button&gt;&lt;button class=&quot;tab-li code-selector-un-active scala-button&quot;&gt;Scala&lt;/button&gt;&lt;button class=&quot;tab-li code-selector-un-active nlu-button&quot;&gt;NLU&lt;/button&gt;
+&lt;/div&gt;
+  &lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;document_assembler&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;DocumentAssembler&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; \
+    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setInputCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'text'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; \
+    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'document'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+
+&lt;span class=&quot;n&quot;&gt;tokenizer&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Tokenizer&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; \
+    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setInputCols&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;([&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'document'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;])&lt;/span&gt; \
+    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'token'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+
+&lt;span class=&quot;n&quot;&gt;sequenceClassifier&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;BertForSequenceClassification&lt;/span&gt; \
+      &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;pretrained&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'finclf_bert_banking77'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;'en'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;'finance/models'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; \
+      &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setInputCols&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;([&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'token'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;'document'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;])&lt;/span&gt; \
+      &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'class'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; \
+      &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setCaseSensitive&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;bp&quot;&gt;True&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; \
+      &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setMaxSentenceLength&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;512&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+
+&lt;span class=&quot;n&quot;&gt;pipeline&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Pipeline&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;stages&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;document_assembler&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;tokenizer&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;sequenceClassifier&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;])&lt;/span&gt;
+
+&lt;span class=&quot;n&quot;&gt;example&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;spark&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;createDataFrame&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;([[&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'I am still waiting on my card?'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]]).&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;toDF&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;text&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;result&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;pipeline&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;fit&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;example&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;).&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;transform&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;example&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;  &lt;/div&gt;
+
+&lt;/div&gt;
+
+&lt;h2 id=&quot;results&quot;&gt;Results&lt;/h2&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;'atm_support'&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;]&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h2 class=&quot;model-param&quot; id=&quot;model-information&quot;&gt;Model Information&lt;/h2&gt;
+
+&lt;table class=&quot;table-model&quot;&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Model Name:&lt;/td&gt;
+      &lt;td&gt;finclf_bert_banking77&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Compatibility:&lt;/td&gt;
+      &lt;td&gt;Spark NLP for Finance 1.0.0+&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;License:&lt;/td&gt;
+      &lt;td&gt;Licensed&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Edition:&lt;/td&gt;
+      &lt;td&gt;Official&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Input Labels:&lt;/td&gt;
+      &lt;td&gt;[document, token]&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Output Labels:&lt;/td&gt;
+      &lt;td&gt;[class]&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Language:&lt;/td&gt;
+      &lt;td&gt;en&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Size:&lt;/td&gt;
+      &lt;td&gt;410.1 MB&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Case sensitive:&lt;/td&gt;
+      &lt;td&gt;true&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Max sentence length:&lt;/td&gt;
+      &lt;td&gt;512&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;h2 id=&quot;references&quot;&gt;References&lt;/h2&gt;
+
+&lt;p&gt;Banking77 dataset (https://paperswithcode.com/dataset/banking77-oos) and in-house data augmentation&lt;/p&gt;
+
+&lt;h2 id=&quot;benchmarking&quot;&gt;Benchmarking&lt;/h2&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;+--------------------+--------------------+
+| Validation Metrics | Score              |
++--------------------+--------------------+
+| Loss               | 0.3031957447528839 |
+| Accuracy           | 0.9363636363636364 |
+| Macro F1           | 0.9364655956915154 |
+| Micro F1           | 0.9363636363636364 |
+| Weighted F1        | 0.9364655956915157 |
+| Macro Precision    | 0.9396792003322154 |
+| Micro Precision    | 0.9363636363636364 |
+| Weighted Precision | 0.9396792003322155 |
+| Macro Recall       | 0.9363636363636365 |
+| Micro Recall       | 0.9363636363636364 |
+| Weighted Recall    | 0.9363636363636364 |
++--------------------+--------------------+
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;</content><author><name>John Snow Labs</name></author><category term="en" /><category term="finance" /><category term="bank" /><category term="topic" /><category term="classification" /><category term="modeling" /><category term="licensed" /><summary type="html">Description This is a Bert-based model, which can be used to classify texts into 77 banking-related classes. This is a Multiclass model, meaning only one label will be returned as an output. The classes are the following: activate_my_card age_limit apple_pay_or_google_pay atm_support automatic_top_up balance_not_updated_after_bank_transfer balance_not_updated_after_cheque_or_cash_deposit beneficiary_not_allowed cancel_transfer card_about_to_expire card_acceptance card_arrival card_delivery_estimate card_linking card_not_working card_payment_fee_charged card_payment_not_recognised card_payment_wrong_exchange_rate card_swallowed cash_withdrawal_charge cash_withdrawal_not_recognised change_pin compromised_card contactless_not_working country_support declined_card_payment declined_cash_withdrawal declined_transfer direct_debit_payment_not_recognised disposable_card_limits edit_personal_details exchange_charge exchange_rate exchange_via_app extra_charge_on_statement failed_transfer fiat_currency_support get_disposable_virtual_card get_physical_card getting_spare_card getting_virtual_card lost_or_stolen_card lost_or_stolen_phone order_physical_card passcode_forgotten pending_card_payment pending_cash_withdrawal pending_top_up pending_transfer pin_blocked receiving_money Refund_not_showing_up request_refund reverted_card_payment? supported_cards_and_currencies terminate_account top_up_by_bank_transfer_charge top_up_by_card_charge top_up_by_cash_or_cheque top_up_failed top_up_limits top_up_reverted topping_up_by_card transaction_charged_twice transfer_fee_charged transfer_into_account transfer_not_received_by_recipient transfer_timing unable_to_verify_identity verify_my_identity verify_source_of_funds verify_top_up virtual_card_not_working visa_or_mastercard why_verify_identity wrong_amount_of_cash_received wrong_exchange_rate_for_cash_withdrawal Predicted Entities activate_my_card, age_limit, card_acceptance, card_arrival, card_delivery_estimate, card_linking, card_not_working, card_payment_fee_charged, card_payment_not_recognised, card_payment_wrong_exchange_rate, card_swallowed, cash_withdrawal_charge, apple_pay_or_google_pay, cash_withdrawal_not_recognised, change_pin, compromised_card, contactless_not_working, country_support, declined_card_payment, declined_cash_withdrawal, declined_transfer, direct_debit_payment_not_recognised, disposable_card_limits, atm_support, edit_personal_details, exchange_charge, exchange_rate, exchange_via_app, extra_charge_on_statement, failed_transfer, fiat_currency_support, get_disposable_virtual_card, get_physical_card, getting_spare_card, automatic_top_up, getting_virtual_card, lost_or_stolen_card, lost_or_stolen_phone, order_physical_card, passcode_forgotten, pending_card_payment, pending_cash_withdrawal, pending_top_up, pending_transfer, pin_blocked, balance_not_updated_after_bank_transfer, receiving_money, Refund_not_showing_up, request_refund, reverted_card_payment?, supported_cards_and_currencies, terminate_account, top_up_by_bank_transfer_charge, top_up_by_card_charge, top_up_by_cash_or_cheque, top_up_failed, balance_not_updated_after_cheque_or_cash_deposit, top_up_limits, top_up_reverted, topping_up_by_card, transaction_charged_twice, transfer_fee_charged, transfer_into_account, transfer_not_received_by_recipient, transfer_timing, unable_to_verify_identity, verify_my_identity, beneficiary_not_allowed, verify_source_of_funds, verify_top_up, virtual_card_not_working, visa_or_mastercard, why_verify_identity, wrong_amount_of_cash_received, wrong_exchange_rate_for_cash_withdrawal, cancel_transfer, card_about_to_expire Live Demo Open in Colab Download How to use PythonScalaNLU document_assembler = DocumentAssembler() \ .setInputCol('text') \ .setOutputCol('document') tokenizer = Tokenizer() \ .setInputCols(['document']) \ .setOutputCol('token') sequenceClassifier = BertForSequenceClassification \ .pretrained('finclf_bert_banking77', 'en', 'finance/models') \ .setInputCols(['token', 'document']) \ .setOutputCol('class') \ .setCaseSensitive(True) \ .setMaxSentenceLength(512) pipeline = Pipeline(stages=[document_assembler, tokenizer, sequenceClassifier]) example = spark.createDataFrame([['I am still waiting on my card?']]).toDF(&quot;text&quot;) result = pipeline.fit(example).transform(example) Results ['atm_support'] Model Information Model Name: finclf_bert_banking77 Compatibility: Spark NLP for Finance 1.0.0+ License: Licensed Edition: Official Input Labels: [document, token] Output Labels: [class] Language: en Size: 410.1 MB Case sensitive: true Max sentence length: 512 References Banking77 dataset (https://paperswithcode.com/dataset/banking77-oos) and in-house data augmentation Benchmarking +--------------------+--------------------+ | Validation Metrics | Score | +--------------------+--------------------+ | Loss | 0.3031957447528839 | | Accuracy | 0.9363636363636364 | | Macro F1 | 0.9364655956915154 | | Micro F1 | 0.9363636363636364 | | Weighted F1 | 0.9364655956915157 | | Macro Precision | 0.9396792003322154 | | Micro Precision | 0.9363636363636364 | | Weighted Precision | 0.9396792003322155 | | Macro Recall | 0.9363636363636365 | | Micro Recall | 0.9363636363636364 | | Weighted Recall | 0.9363636363636364 | +--------------------+--------------------+</summary></entry><entry><title type="html">Financial Relation Extraction (Work Experience)</title><link href="/2022/09/28/finre_work_experience_en.html" rel="alternate" type="text/html" title="Financial Relation Extraction (Work Experience)" /><published>2022-09-28T00:00:00+00:00</published><updated>2022-09-28T00:00:00+00:00</updated><id>/2022/09/28/finre_work_experience_en</id><content type="html" xml:base="/2022/09/28/finre_work_experience_en.html">&lt;h2 id=&quot;description&quot;&gt;Description&lt;/h2&gt;
+
+&lt;p&gt;This model allows you to analyzed present and past job positions of people, extracting relations between PERSON, ORG, ROLE and DATE. This model requires an NER with the mentioned entities, as &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;finner_org_per_role&lt;/code&gt; and can also be combined with &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;finassertiondl_past_roles&lt;/code&gt; to detect if the entities are mentioned to have happened in the PAST or not (although you can also infer that from the relations as &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;had_role_until&lt;/code&gt;).&lt;/p&gt;
+
+&lt;h2 id=&quot;predicted-entities&quot;&gt;Predicted Entities&lt;/h2&gt;
+
+&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;has_role&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;had_role_until&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;has_role_from&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;works_for&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;has_role_in_company&lt;/code&gt;&lt;/p&gt;
+
+&lt;p class=&quot;btn-box&quot;&gt;&lt;a href=&quot;https://demo.johnsnowlabs.com/finance/FINRE_WORK_EXPERIENCE&quot; class=&quot;button button-orange&quot;&gt;Live Demo&lt;/a&gt;
+&lt;button class=&quot;button button-orange&quot; disabled=&quot;&quot;&gt;Open in Colab&lt;/button&gt;
+&lt;a href=&quot;https://s3.amazonaws.com/auxdata.johnsnowlabs.com/finance/models/finre_work_experience_en_1.0.0_3.0_1664360618647.zip&quot; class=&quot;button button-orange button-orange-trans arr button-icon&quot;&gt;Download&lt;/a&gt;&lt;/p&gt;
+
+&lt;h2 id=&quot;how-to-use&quot;&gt;How to use&lt;/h2&gt;
+
+&lt;div class=&quot;tabs-box&quot;&gt;
+  &lt;div class=&quot;top_tab_li&quot;&gt;   
+    &lt;button class=&quot;tab-li code-selector-active python-button&quot;&gt;Python&lt;/button&gt;&lt;button class=&quot;tab-li code-selector-un-active scala-button&quot;&gt;Scala&lt;/button&gt;&lt;button class=&quot;tab-li code-selector-un-active nlu-button&quot;&gt;NLU&lt;/button&gt;
+&lt;/div&gt;
+  &lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;document_assembler&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;DocumentAssembler&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;\
+        &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setInputCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;text&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;\
+        &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;document&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+        
+&lt;span class=&quot;n&quot;&gt;sentence_detector&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;SentenceDetectorDLModel&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;pretrained&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;sentence_detector_dl&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;en&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;\
+        &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setInputCols&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;([&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;document&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;])&lt;/span&gt;\
+        &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;sentence&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;\
+        
+&lt;span class=&quot;n&quot;&gt;tokenizer&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Tokenizer&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;\
+        &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setInputCols&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;([&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;sentence&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;])&lt;/span&gt;\
+        &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;token&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+
+&lt;span class=&quot;n&quot;&gt;embeddings&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;BertEmbeddings&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;pretrained&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;bert_embeddings_sec_bert_base&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;en&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; \
+        &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setInputCols&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;([&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;sentence&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;token&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;])&lt;/span&gt; \
+        &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;embeddings&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+
+&lt;span class=&quot;n&quot;&gt;ner_model&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;finance&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;NerModel&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;pretrained&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'finner_org_per_role'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;'en'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;'finance/models'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;\
+        &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setInputCols&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;([&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;sentence&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;token&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;embeddings&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;])&lt;/span&gt;\
+        &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;ner&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+
+&lt;span class=&quot;n&quot;&gt;ner_converter&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;NerConverter&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;\
+        &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setInputCols&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;([&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;sentence&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;token&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;ner&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;])&lt;/span&gt;\
+        &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;ner_chunk&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+
+&lt;span class=&quot;n&quot;&gt;pos&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;PerceptronModel&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;pretrained&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;\
+    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setInputCols&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;([&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;sentence&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;token&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;])&lt;/span&gt;\
+    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;pos&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+    
+&lt;span class=&quot;n&quot;&gt;dependency_parser&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;DependencyParserModel&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;().&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;pretrained&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;dependency_conllu&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;en&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;\
+    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setInputCols&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;([&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;sentence&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;pos&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;token&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;])&lt;/span&gt;\
+    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;dependencies&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+
+&lt;span class=&quot;n&quot;&gt;re_ner_chunk_filter&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;RENerChunksFilter&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;\
+    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setInputCols&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;([&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;ner_chunk&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;dependencies&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;])&lt;/span&gt;\
+    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;re_ner_chunk&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;\
+    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setRelationPairs&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;([&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;PERSON-ROLE, ORG-ROLE, DATE-ROLE, PERSON-ORG&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;])&lt;/span&gt;\
+    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setMaxSyntacticDistance&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;5&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+
+&lt;span class=&quot;n&quot;&gt;re_Model&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;finance&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;RelationExtractionDLModel&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;pretrained&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;finre_work_experience&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;en&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;finance/models&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;\
+        &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setInputCols&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;([&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;re_ner_chunk&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;sentence&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;])&lt;/span&gt;\
+        &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;relations&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;\
+        &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setPredictionThreshold&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mf&quot;&gt;0.5&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+
+&lt;span class=&quot;n&quot;&gt;pipeline&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Pipeline&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;stages&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;document_assembler&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; 
+    &lt;span class=&quot;n&quot;&gt;sentence_detector&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;tokenizer&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;embeddings&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;ner_model&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;ner_converter&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;pos&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;dependency_parser&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;re_ner_chunk_filter&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;re_Model&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;])&lt;/span&gt;
+
+&lt;span class=&quot;n&quot;&gt;empty_df&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;spark&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;createDataFrame&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;([[&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;''&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]]).&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;toDF&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;text&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+
+&lt;span class=&quot;n&quot;&gt;re_model&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;pipeline&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;fit&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;empty_df&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+
+&lt;span class=&quot;n&quot;&gt;light_model&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;LightPipeline&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;re_model&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+
+&lt;span class=&quot;n&quot;&gt;text_list&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;&quot;&quot;We have experienced significant changes in our senior management team over the past several years, including the appointments of Mark Schmitz as our Executive Vice President and Chief Operating Officer in 2019.&quot;&quot;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+             &lt;span class=&quot;s&quot;&gt;&quot;&quot;&quot;In January 2019, Jose Cil was assigned the CEO of Restaurant Brands International, and Daniel Schwartz was assigned the Executive Chairman of the company.&quot;&quot;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+             &lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;
+
+&lt;span class=&quot;n&quot;&gt;results&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;light_model&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;fullAnnotate&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;text_list&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;  &lt;/div&gt;
+
+&lt;/div&gt;
+
+&lt;h2 id=&quot;results&quot;&gt;Results&lt;/h2&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;has_role	    PERSON	129	140	Mark Schmitz	ROLE	149	172	Executive Vice President	0.8707728
+has_role	    PERSON	129	140	Mark Schmitz	ROLE	178	200	Chief Operating Officer	0.97559035
+has_role_from	ROLE	149	172	Executive Vice President	DATE	205	208	2019	0.9327241
+has_role_from	ROLE	178	200	Chief Operating Officer	DATE	205	208	2019	0.90718126
+has_role_from	DATE	3	14	January 2019	ROLE	43	45	CEO	0.996639
+has_role_from	DATE	3	14	January 2019	ROLE	120	137	Executive Chairman	0.9964874
+has_role	    PERSON	17	24	Jose Cil	ROLE	43	45	CEO	0.8917691
+has_role	    PERSON	17	24	Jose Cil	ROLE	120	137	Executive Chairman	0.8527716
+has_role	    ROLE	43	45	CEO	PERSON	87	101	Daniel Schwartz	0.5765097
+has_role	    PERSON	87	101	Daniel Schwartz	ROLE	120	137	Executive Chairman	0.79235893
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h2 class=&quot;model-param&quot; id=&quot;model-information&quot;&gt;Model Information&lt;/h2&gt;
+
+&lt;table class=&quot;table-model&quot;&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Model Name:&lt;/td&gt;
+      &lt;td&gt;finre_work_experience&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Compatibility:&lt;/td&gt;
+      &lt;td&gt;Spark NLP for Finance 1.0.0+&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;License:&lt;/td&gt;
+      &lt;td&gt;Licensed&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Edition:&lt;/td&gt;
+      &lt;td&gt;Official&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Language:&lt;/td&gt;
+      &lt;td&gt;en&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Size:&lt;/td&gt;
+      &lt;td&gt;409.9 MB&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;h2 id=&quot;references&quot;&gt;References&lt;/h2&gt;
+
+&lt;p&gt;Manual annotations on CUAD dataset, 10K filings and Wikidata&lt;/p&gt;
+
+&lt;h2 id=&quot;benchmarking&quot;&gt;Benchmarking&lt;/h2&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;| Relation            | Recall |Precision|  F1     |Support
+
+| had_role_until      | 0.972  | 0.972   | 0.972   | 36  |
+| has_role            | 0.986  | 0.980   | 0.983   | 146 |
+| has_role_from       | 0.983  | 0.983   | 0.983   | 58  |
+| has_role_in_company | 0.954  | 0.969   | 0.961   | 65  |
+| works_for           | 0.933  | 0.933   | 0.933   | 15  |
+
+| Avg.                | 0.966  | 0.967   | 0.966   |     |
+| Weighted Avg.       | 0.975  | 0.975   | 0.975   |     |
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;</content><author><name>John Snow Labs</name></author><category term="work" /><category term="experience" /><category term="en" /><category term="licensed" /><summary type="html">Description This model allows you to analyzed present and past job positions of people, extracting relations between PERSON, ORG, ROLE and DATE. This model requires an NER with the mentioned entities, as finner_org_per_role and can also be combined with finassertiondl_past_roles to detect if the entities are mentioned to have happened in the PAST or not (although you can also infer that from the relations as had_role_until). Predicted Entities has_role, had_role_until, has_role_from, works_for, has_role_in_company Live Demo Open in Colab Download How to use PythonScalaNLU document_assembler = DocumentAssembler()\ .setInputCol(&quot;text&quot;)\ .setOutputCol(&quot;document&quot;) sentence_detector = SentenceDetectorDLModel.pretrained(&quot;sentence_detector_dl&quot;,&quot;en&quot;)\ .setInputCols([&quot;document&quot;])\ .setOutputCol(&quot;sentence&quot;)\ tokenizer = Tokenizer()\ .setInputCols([&quot;sentence&quot;])\ .setOutputCol(&quot;token&quot;) embeddings = BertEmbeddings.pretrained(&quot;bert_embeddings_sec_bert_base&quot;,&quot;en&quot;) \ .setInputCols([&quot;sentence&quot;, &quot;token&quot;]) \ .setOutputCol(&quot;embeddings&quot;) ner_model = finance.NerModel.pretrained('finner_org_per_role', 'en', 'finance/models')\ .setInputCols([&quot;sentence&quot;, &quot;token&quot;, &quot;embeddings&quot;])\ .setOutputCol(&quot;ner&quot;) ner_converter = NerConverter()\ .setInputCols([&quot;sentence&quot;,&quot;token&quot;,&quot;ner&quot;])\ .setOutputCol(&quot;ner_chunk&quot;) pos = PerceptronModel.pretrained()\ .setInputCols([&quot;sentence&quot;, &quot;token&quot;])\ .setOutputCol(&quot;pos&quot;) dependency_parser = DependencyParserModel().pretrained(&quot;dependency_conllu&quot;, &quot;en&quot;)\ .setInputCols([&quot;sentence&quot;, &quot;pos&quot;, &quot;token&quot;])\ .setOutputCol(&quot;dependencies&quot;) re_ner_chunk_filter = RENerChunksFilter()\ .setInputCols([&quot;ner_chunk&quot;, &quot;dependencies&quot;])\ .setOutputCol(&quot;re_ner_chunk&quot;)\ .setRelationPairs([&quot;PERSON-ROLE, ORG-ROLE, DATE-ROLE, PERSON-ORG&quot;])\ .setMaxSyntacticDistance(5) re_Model = finance.RelationExtractionDLModel.pretrained(&quot;finre_work_experience&quot;, &quot;en&quot;, &quot;finance/models&quot;)\ .setInputCols([&quot;re_ner_chunk&quot;, &quot;sentence&quot;])\ .setOutputCol(&quot;relations&quot;)\ .setPredictionThreshold(0.5) pipeline = Pipeline(stages=[ document_assembler, sentence_detector, tokenizer, embeddings, ner_model, ner_converter, pos, dependency_parser, re_ner_chunk_filter, re_Model]) empty_df = spark.createDataFrame([['']]).toDF(&quot;text&quot;) re_model = pipeline.fit(empty_df) light_model = LightPipeline(re_model) text_list = [&quot;&quot;&quot;We have experienced significant changes in our senior management team over the past several years, including the appointments of Mark Schmitz as our Executive Vice President and Chief Operating Officer in 2019.&quot;&quot;&quot;, &quot;&quot;&quot;In January 2019, Jose Cil was assigned the CEO of Restaurant Brands International, and Daniel Schwartz was assigned the Executive Chairman of the company.&quot;&quot;&quot;, ] results = light_model.fullAnnotate(text_list) Results has_role PERSON 129 140 Mark Schmitz ROLE 149 172 Executive Vice President 0.8707728 has_role PERSON 129 140 Mark Schmitz ROLE 178 200 Chief Operating Officer 0.97559035 has_role_from ROLE 149 172 Executive Vice President DATE 205 208 2019 0.9327241 has_role_from ROLE 178 200 Chief Operating Officer DATE 205 208 2019 0.90718126 has_role_from DATE 3 14 January 2019 ROLE 43 45 CEO 0.996639 has_role_from DATE 3 14 January 2019 ROLE 120 137 Executive Chairman 0.9964874 has_role PERSON 17 24 Jose Cil ROLE 43 45 CEO 0.8917691 has_role PERSON 17 24 Jose Cil ROLE 120 137 Executive Chairman 0.8527716 has_role ROLE 43 45 CEO PERSON 87 101 Daniel Schwartz 0.5765097 has_role PERSON 87 101 Daniel Schwartz ROLE 120 137 Executive Chairman 0.79235893 Model Information Model Name: finre_work_experience Compatibility: Spark NLP for Finance 1.0.0+ License: Licensed Edition: Official Language: en Size: 409.9 MB References Manual annotations on CUAD dataset, 10K filings and Wikidata Benchmarking | Relation | Recall |Precision| F1 |Support | had_role_until | 0.972 | 0.972 | 0.972 | 36 | | has_role | 0.986 | 0.980 | 0.983 | 146 | | has_role_from | 0.983 | 0.983 | 0.983 | 58 | | has_role_in_company | 0.954 | 0.969 | 0.961 | 65 | | works_for | 0.933 | 0.933 | 0.933 | 15 | | Avg. | 0.966 | 0.967 | 0.966 | | | Weighted Avg. | 0.975 | 0.975 | 0.975 | |</summary></entry><entry><title type="html">Temporality / Certainty Assertion Status</title><link href="/2022/09/27/finassertion_time_en.html" rel="alternate" type="text/html" title="Temporality / Certainty Assertion Status" /><published>2022-09-27T00:00:00+00:00</published><updated>2022-09-27T00:00:00+00:00</updated><id>/2022/09/27/finassertion_time_en</id><content type="html" xml:base="/2022/09/27/finassertion_time_en.html">&lt;h2 id=&quot;description&quot;&gt;Description&lt;/h2&gt;
 
 &lt;p&gt;This is an Assertion Status Model aimed to detect temporality (PRESENT, PAST, FUTURE) or Certainty (POSSIBLE) in your financial documents&lt;/p&gt;
 
@@ -1302,186 +1647,4 @@ O                 0.99       1.00    0.99      38419
 accuracy          -          -       0.98      43659  
 macro-avg         0.88       0.85    0.86      43659  
 weighted-avg      0.98       0.98    0.98      43659  
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;</content><author><name>John Snow Labs</name></author><category term="pt" /><category term="licensed" /><summary type="html">Description This model is a Deep Learning Portuguese Named Entity Recognition model for the legal domain, trained using Base Bert Embeddings, and is able to predict the following entities: ORGANIZACAO (Organizations) JURISPRUDENCIA (Jurisprudence) PESSOA (Person) TEMPO (Time) LOCAL (Location) LEGISLACAO (Laws) O (Other) You can find different versions of this model in Models Hub: With a Deep Learning architecture (non-transformer) and Base Embeddings; With a Deep Learning architecture (non-transformer) and Large Embeddings; With a Transformers Architecture and Base Embeddings; With a Transformers Architecture and Large Embeddings; Predicted Entities PESSOA, ORGANIZACAO, LEGISLACAO, JURISPRUDENCIA, TEMPO, LOCAL Live Demo Open in Colab Download How to use PythonScalaNLU document_assembler = DocumentAssembler() \ .setInputCol('text') \ .setOutputCol('document') tokenizer = Tokenizer() \ .setInputCols(['document']) \ .setOutputCol('token') embeddings = BertEmbeddings.pretrained(&quot;bert_portuguese_base_cased&quot;, &quot;pt&quot;)\ .setInputCols(&quot;document&quot;, &quot;token&quot;) \ .setOutputCol(&quot;embeddings&quot;) ner_model = LegalNerModel.pretrained('legner_br_large', 'pt', 'legal/models') \ .setInputCols(['document', 'token', 'embeddings']) \ .setOutputCol('ner') ner_converter = NerConverter() \ .setInputCols(['document', 'token', 'ner']) \ .setOutputCol('ner_chunk') pipeline = Pipeline(stages=[ document_assembler, tokenizer, embeddings, ner_model, ner_converter ]) example = spark.createDataFrame(pd.DataFrame({'text': [&quot;&quot;&quot;Mediante do exposto , com fundamento nos artigos 32 , i , e 33 , da lei 8.443/1992 , submetem-se os autos à consideração superior , com posterior encaminhamento ao ministério público junto ao tcu e ao gabinete do relator , propondo : a ) conhecer do recurso e , no mérito , negar-lhe provimento ; b ) comunicar ao recorrente , ao superior tribunal militar e ao tribunal regional federal da 2ª região , a fim de fornecer subsídios para os processos judiciais 2001.34.00.024796-9 e 2003.34.00.044227-3 ; e aos demais interessados a deliberação que vier a ser proferida por esta corte ” .&quot;&quot;&quot;]})) result = pipeline.fit(example).transform(example) Results +-------------------+----------------+ | token| ner| +-------------------+----------------+ | diante| O| | do| O| | exposto| O| | ,| O| | com| O| | fundamento| O| | nos| O| | artigos| B-LEGISLACAO| | 32| I-LEGISLACAO| | ,| I-LEGISLACAO| | i| I-LEGISLACAO| | ,| I-LEGISLACAO| | e| I-LEGISLACAO| | 33| I-LEGISLACAO| | ,| I-LEGISLACAO| | da| I-LEGISLACAO| | lei| I-LEGISLACAO| | 8.443/1992| I-LEGISLACAO| | ,| O| | submetem-se| O| | os| O| | autos| O| | à| O| | consideração| O| | superior| O| | ,| O| | com| O| | posterior| O| | encaminhamento| O| | ao| O| | ministério| B-ORGANIZACAO| | público| I-ORGANIZACAO| | junto| O| | ao| O| | tcu| B-ORGANIZACAO| | e| O| | ao| O| | gabinete| O| | do| O| | relator| O| | ,| O| | propondo| O| | :| O| | a| O| | )| O| | conhecer| O| | do| O| | recurso| O| | e| O| | ,| O| | no| O| | mérito| O| | ,| O| | negar-lhe| O| | provimento| O| | ;| O| | b| O| | )| O| | comunicar| O| | ao| O| | recorrente| O| | ,| O| | ao| O| | superior| B-ORGANIZACAO| | tribunal| I-ORGANIZACAO| | militar| I-ORGANIZACAO| | e| O| | ao| O| | tribunal| B-ORGANIZACAO| | regional| I-ORGANIZACAO| | federal| I-ORGANIZACAO| | da| I-ORGANIZACAO| | 2ª| I-ORGANIZACAO| | região| I-ORGANIZACAO| | ,| O| | a| O| | fim| O| | de| O| | fornecer| O| | subsídios| O| | para| O| | os| O| | processos| O| | judiciais| O| |2001.34.00.024796-9|B-JURISPRUDENCIA| | e| O| |2003.34.00.044227-3|B-JURISPRUDENCIA| | ;| O| | e| O| | aos| O| | demais| O| | interessados| O| | a| O| | deliberação| O| | que| O| | vier| O| | a| O| | ser| O| | proferida| O| | por| O| | esta| O| | corte| O| | ”| O| | .| O| +-------------------+----------------+ Model Information Model Name: legner_br_large Compatibility: Spark NLP for Legal 1.0.0+ License: Licensed Edition: Official Input Labels: [sentence, token, embeddings] Output Labels: [ner] Language: pt Size: 19.5 MB References Original texts available in https://paperswithcode.com/sota?task=Token+Classification&amp;amp;dataset=lener_br and in-house data augmentation with weak labelling Benchmarking label precision recall f1-score support B-JURISPRUDENCIA 0.84 0.91 0.88 175 B-LEGISLACAO 0.96 0.96 0.96 347 B-LOCAL 0.69 0.68 0.68 40 B-ORGANIZACAO 0.95 0.71 0.81 441 B-PESSOA 0.91 0.95 0.93 221 B-TEMPO 0.94 0.86 0.90 176 I-JURISPRUDENCIA 0.86 0.91 0.89 461 I-LEGISLACAO 0.98 0.99 0.98 2012 I-LOCAL 0.54 0.53 0.53 72 I-ORGANIZACAO 0.94 0.76 0.84 768 I-PESSOA 0.93 0.98 0.95 461 I-TEMPO 0.90 0.85 0.88 66 O 0.99 1.00 0.99 38419 accuracy - - 0.98 43659 macro-avg 0.88 0.85 0.86 43659 weighted-avg 0.98 0.98 0.98 43659</summary></entry><entry><title type="html">Hindi asr_CDAC_hindispeechrecognition TFWav2Vec2ForCTC from nalini2799</title><link href="/2022/09/26/asr_CDAC_hindispeechrecognition_hi.html" rel="alternate" type="text/html" title="Hindi asr_CDAC_hindispeechrecognition TFWav2Vec2ForCTC from nalini2799" /><published>2022-09-26T00:00:00+00:00</published><updated>2022-09-26T00:00:00+00:00</updated><id>/2022/09/26/asr_CDAC_hindispeechrecognition_hi</id><content type="html" xml:base="/2022/09/26/asr_CDAC_hindispeechrecognition_hi.html">&lt;h2 id=&quot;description&quot;&gt;Description&lt;/h2&gt;
-
-&lt;p&gt;Pretrained Wav2vec2  model, adapted from Hugging Face and curated to provide scalability and production-readiness using Spark NLP.&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;asr_CDAC_hindispeechrecognition&lt;/code&gt; is a Hindi model originally trained by nalini2799.&lt;/p&gt;
-
-&lt;p&gt;NOTE: This model only works on a CPU, if you need to use this model on a GPU device please use asr_CDAC_hindispeechrecognition_gpu&lt;/p&gt;
-
-&lt;p class=&quot;btn-box&quot;&gt;&lt;button class=&quot;button button-orange&quot; disabled=&quot;&quot;&gt;Live Demo&lt;/button&gt;
-&lt;button class=&quot;button button-orange&quot; disabled=&quot;&quot;&gt;Open in Colab&lt;/button&gt;
-&lt;a href=&quot;https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/asr_CDAC_hindispeechrecognition_hi_4.2.0_3.0_1664188438122.zip&quot; class=&quot;button button-orange button-orange-trans arr button-icon&quot;&gt;Download&lt;/a&gt;&lt;/p&gt;
-
-&lt;h2 id=&quot;how-to-use&quot;&gt;How to use&lt;/h2&gt;
-
-&lt;div class=&quot;tabs-box&quot;&gt;
-  &lt;div class=&quot;top_tab_li&quot;&gt;   
-    &lt;button class=&quot;tab-li code-selector-active python-button&quot;&gt;Python&lt;/button&gt;&lt;button class=&quot;tab-li code-selector-un-active scala-button&quot;&gt;Scala&lt;/button&gt;&lt;button class=&quot;tab-li code-selector-un-active nlu-button&quot;&gt;NLU&lt;/button&gt;
-&lt;/div&gt;
-  &lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;
-&lt;span class=&quot;n&quot;&gt;audio_assembler&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;AudioAssembler&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; \
-    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setInputCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;audio_content&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; \
-    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;audio_assembler&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-
-&lt;span class=&quot;n&quot;&gt;speech_to_text&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Wav2Vec2ForCTC&lt;/span&gt; \
-    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;pretrained&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;asr_CDAC_hindispeechrecognition&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;hi&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;\
-    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setInputCols&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;audio_assembler&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; \
-    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;text&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-
-&lt;span class=&quot;n&quot;&gt;pipeline&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Pipeline&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;stages&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;
-  &lt;span class=&quot;n&quot;&gt;audio_assembler&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-  &lt;span class=&quot;n&quot;&gt;speech_to_text&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;])&lt;/span&gt;
-
-&lt;span class=&quot;n&quot;&gt;pipelineModel&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;pipeline&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;fit&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;audioDf&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-
-&lt;span class=&quot;n&quot;&gt;pipelineDF&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;pipelineModel&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;transform&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;audioDf&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;  &lt;/div&gt;
-  &lt;div class=&quot;language-scala highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;
-&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;audioAssembler&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;AudioAssembler&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;()&lt;/span&gt;
-    &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;setInputCol&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;audio_content&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; 
-    &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;audio_assembler&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
-
-&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;speechToText&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;Wav2Vec2ForCTC&lt;/span&gt;
-    &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;pretrained&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;asr_CDAC_hindispeechrecognition&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;hi&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
-    &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;setInputCols&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;audio_assembler&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; 
-    &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;text&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; 
-
-&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;pipeline&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;Pipeline&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;().&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;setStages&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nc&quot;&gt;Array&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;audioAssembler&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;speechToText&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;))&lt;/span&gt;
-
-&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;pipelineModel&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;pipeline&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;fit&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;audioDf&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
-
-&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;pipelineDF&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;pipelineModel&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;transform&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;audioDf&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
-
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;  &lt;/div&gt;
-&lt;/div&gt;
-
-&lt;h2 class=&quot;model-param&quot; id=&quot;model-information&quot;&gt;Model Information&lt;/h2&gt;
-
-&lt;table class=&quot;table-model&quot;&gt;
-  &lt;tbody&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Model Name:&lt;/td&gt;
-      &lt;td&gt;asr_CDAC_hindispeechrecognition&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Compatibility:&lt;/td&gt;
-      &lt;td&gt;Spark NLP 4.2.0+&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;License:&lt;/td&gt;
-      &lt;td&gt;Open Source&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Edition:&lt;/td&gt;
-      &lt;td&gt;Official&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Input Labels:&lt;/td&gt;
-      &lt;td&gt;[audio_assembler]&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Output Labels:&lt;/td&gt;
-      &lt;td&gt;[text]&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Language:&lt;/td&gt;
-      &lt;td&gt;hi&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Size:&lt;/td&gt;
-      &lt;td&gt;1.2 GB&lt;/td&gt;
-    &lt;/tr&gt;
-  &lt;/tbody&gt;
-&lt;/table&gt;</content><author><name>John Snow Labs</name></author><category term="wav2vec2" /><category term="hi" /><category term="audio" /><category term="open_source" /><category term="asr" /><summary type="html">Description Pretrained Wav2vec2 model, adapted from Hugging Face and curated to provide scalability and production-readiness using Spark NLP.asr_CDAC_hindispeechrecognition is a Hindi model originally trained by nalini2799. NOTE: This model only works on a CPU, if you need to use this model on a GPU device please use asr_CDAC_hindispeechrecognition_gpu Live Demo Open in Colab Download How to use PythonScalaNLU audio_assembler = AudioAssembler() \ .setInputCol(&quot;audio_content&quot;) \ .setOutputCol(&quot;audio_assembler&quot;) speech_to_text = Wav2Vec2ForCTC \ .pretrained(&quot;asr_CDAC_hindispeechrecognition&quot;, &quot;hi&quot;)\ .setInputCols(&quot;audio_assembler&quot;) \ .setOutputCol(&quot;text&quot;) pipeline = Pipeline(stages=[ audio_assembler, speech_to_text, ]) pipelineModel = pipeline.fit(audioDf) pipelineDF = pipelineModel.transform(audioDf) val audioAssembler = new AudioAssembler() .setInputCol(&quot;audio_content&quot;) .setOutputCol(&quot;audio_assembler&quot;) val speechToText = Wav2Vec2ForCTC .pretrained(&quot;asr_CDAC_hindispeechrecognition&quot;, &quot;hi&quot;) .setInputCols(&quot;audio_assembler&quot;) .setOutputCol(&quot;text&quot;) val pipeline = new Pipeline().setStages(Array(audioAssembler, speechToText)) val pipelineModel = pipeline.fit(audioDf) val pipelineDF = pipelineModel.transform(audioDf) Model Information Model Name: asr_CDAC_hindispeechrecognition Compatibility: Spark NLP 4.2.0+ License: Open Source Edition: Official Input Labels: [audio_assembler] Output Labels: [text] Language: hi Size: 1.2 GB</summary></entry><entry><title type="html">Vietnamese asr_Fine_Tune_XLSR_Wav2Vec2_Speech2Text_Vietnamese TFWav2Vec2ForCTC from leduytan93</title><link href="/2022/09/26/asr_Fine_Tune_XLSR_Wav2Vec2_Speech2Text_Vietnamese_vi.html" rel="alternate" type="text/html" title="Vietnamese asr_Fine_Tune_XLSR_Wav2Vec2_Speech2Text_Vietnamese TFWav2Vec2ForCTC from leduytan93" /><published>2022-09-26T00:00:00+00:00</published><updated>2022-09-26T00:00:00+00:00</updated><id>/2022/09/26/asr_Fine_Tune_XLSR_Wav2Vec2_Speech2Text_Vietnamese_vi</id><content type="html" xml:base="/2022/09/26/asr_Fine_Tune_XLSR_Wav2Vec2_Speech2Text_Vietnamese_vi.html">&lt;h2 id=&quot;description&quot;&gt;Description&lt;/h2&gt;
-
-&lt;p&gt;Pretrained Wav2vec2  model, adapted from Hugging Face and curated to provide scalability and production-readiness using Spark NLP.&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;asr_Fine_Tune_XLSR_Wav2Vec2_Speech2Text_Vietnamese&lt;/code&gt; is a Vietnamese model originally trained by leduytan93.&lt;/p&gt;
-
-&lt;p&gt;NOTE: This model only works on a CPU, if you need to use this model on a GPU device please use asr_Fine_Tune_XLSR_Wav2Vec2_Speech2Text_Vietnamese_gpu&lt;/p&gt;
-
-&lt;p class=&quot;btn-box&quot;&gt;&lt;button class=&quot;button button-orange&quot; disabled=&quot;&quot;&gt;Live Demo&lt;/button&gt;
-&lt;button class=&quot;button button-orange&quot; disabled=&quot;&quot;&gt;Open in Colab&lt;/button&gt;
-&lt;a href=&quot;https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/asr_Fine_Tune_XLSR_Wav2Vec2_Speech2Text_Vietnamese_vi_4.2.0_3.0_1664197522821.zip&quot; class=&quot;button button-orange button-orange-trans arr button-icon&quot;&gt;Download&lt;/a&gt;&lt;/p&gt;
-
-&lt;h2 id=&quot;how-to-use&quot;&gt;How to use&lt;/h2&gt;
-
-&lt;div class=&quot;tabs-box&quot;&gt;
-  &lt;div class=&quot;top_tab_li&quot;&gt;   
-    &lt;button class=&quot;tab-li code-selector-active python-button&quot;&gt;Python&lt;/button&gt;&lt;button class=&quot;tab-li code-selector-un-active scala-button&quot;&gt;Scala&lt;/button&gt;&lt;button class=&quot;tab-li code-selector-un-active nlu-button&quot;&gt;NLU&lt;/button&gt;
-&lt;/div&gt;
-  &lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;
-&lt;span class=&quot;n&quot;&gt;audio_assembler&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;AudioAssembler&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; \
-    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setInputCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;audio_content&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; \
-    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;audio_assembler&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-
-&lt;span class=&quot;n&quot;&gt;speech_to_text&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Wav2Vec2ForCTC&lt;/span&gt; \
-    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;pretrained&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;asr_Fine_Tune_XLSR_Wav2Vec2_Speech2Text_Vietnamese&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;vi&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;\
-    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setInputCols&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;audio_assembler&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; \
-    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;text&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-
-&lt;span class=&quot;n&quot;&gt;pipeline&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Pipeline&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;stages&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;
-  &lt;span class=&quot;n&quot;&gt;audio_assembler&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-  &lt;span class=&quot;n&quot;&gt;speech_to_text&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;])&lt;/span&gt;
-
-&lt;span class=&quot;n&quot;&gt;pipelineModel&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;pipeline&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;fit&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;audioDf&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-
-&lt;span class=&quot;n&quot;&gt;pipelineDF&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;pipelineModel&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;transform&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;audioDf&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;  &lt;/div&gt;
-  &lt;div class=&quot;language-scala highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;
-&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;audioAssembler&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;AudioAssembler&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;()&lt;/span&gt;
-    &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;setInputCol&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;audio_content&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; 
-    &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;audio_assembler&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
-
-&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;speechToText&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;Wav2Vec2ForCTC&lt;/span&gt;
-    &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;pretrained&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;asr_Fine_Tune_XLSR_Wav2Vec2_Speech2Text_Vietnamese&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;vi&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
-    &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;setInputCols&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;audio_assembler&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; 
-    &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;text&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; 
-
-&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;pipeline&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;Pipeline&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;().&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;setStages&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nc&quot;&gt;Array&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;audioAssembler&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;speechToText&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;))&lt;/span&gt;
-
-&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;pipelineModel&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;pipeline&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;fit&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;audioDf&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
-
-&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;pipelineDF&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;pipelineModel&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;transform&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;audioDf&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
-
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;  &lt;/div&gt;
-&lt;/div&gt;
-
-&lt;h2 class=&quot;model-param&quot; id=&quot;model-information&quot;&gt;Model Information&lt;/h2&gt;
-
-&lt;table class=&quot;table-model&quot;&gt;
-  &lt;tbody&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Model Name:&lt;/td&gt;
-      &lt;td&gt;asr_Fine_Tune_XLSR_Wav2Vec2_Speech2Text_Vietnamese&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Compatibility:&lt;/td&gt;
-      &lt;td&gt;Spark NLP 4.2.0+&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;License:&lt;/td&gt;
-      &lt;td&gt;Open Source&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Edition:&lt;/td&gt;
-      &lt;td&gt;Official&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Input Labels:&lt;/td&gt;
-      &lt;td&gt;[audio_assembler]&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Output Labels:&lt;/td&gt;
-      &lt;td&gt;[text]&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Language:&lt;/td&gt;
-      &lt;td&gt;vi&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Size:&lt;/td&gt;
-      &lt;td&gt;1.2 GB&lt;/td&gt;
-    &lt;/tr&gt;
-  &lt;/tbody&gt;
-&lt;/table&gt;</content><author><name>John Snow Labs</name></author><category term="wav2vec2" /><category term="vi" /><category term="audio" /><category term="open_source" /><category term="asr" /><summary type="html">Description Pretrained Wav2vec2 model, adapted from Hugging Face and curated to provide scalability and production-readiness using Spark NLP.asr_Fine_Tune_XLSR_Wav2Vec2_Speech2Text_Vietnamese is a Vietnamese model originally trained by leduytan93. NOTE: This model only works on a CPU, if you need to use this model on a GPU device please use asr_Fine_Tune_XLSR_Wav2Vec2_Speech2Text_Vietnamese_gpu Live Demo Open in Colab Download How to use PythonScalaNLU audio_assembler = AudioAssembler() \ .setInputCol(&quot;audio_content&quot;) \ .setOutputCol(&quot;audio_assembler&quot;) speech_to_text = Wav2Vec2ForCTC \ .pretrained(&quot;asr_Fine_Tune_XLSR_Wav2Vec2_Speech2Text_Vietnamese&quot;, &quot;vi&quot;)\ .setInputCols(&quot;audio_assembler&quot;) \ .setOutputCol(&quot;text&quot;) pipeline = Pipeline(stages=[ audio_assembler, speech_to_text, ]) pipelineModel = pipeline.fit(audioDf) pipelineDF = pipelineModel.transform(audioDf) val audioAssembler = new AudioAssembler() .setInputCol(&quot;audio_content&quot;) .setOutputCol(&quot;audio_assembler&quot;) val speechToText = Wav2Vec2ForCTC .pretrained(&quot;asr_Fine_Tune_XLSR_Wav2Vec2_Speech2Text_Vietnamese&quot;, &quot;vi&quot;) .setInputCols(&quot;audio_assembler&quot;) .setOutputCol(&quot;text&quot;) val pipeline = new Pipeline().setStages(Array(audioAssembler, speechToText)) val pipelineModel = pipeline.fit(audioDf) val pipelineDF = pipelineModel.transform(audioDf) Model Information Model Name: asr_Fine_Tune_XLSR_Wav2Vec2_Speech2Text_Vietnamese Compatibility: Spark NLP 4.2.0+ License: Open Source Edition: Official Input Labels: [audio_assembler] Output Labels: [text] Language: vi Size: 1.2 GB</summary></entry></feed>
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;</content><author><name>John Snow Labs</name></author><category term="pt" /><category term="licensed" /><summary type="html">Description This model is a Deep Learning Portuguese Named Entity Recognition model for the legal domain, trained using Base Bert Embeddings, and is able to predict the following entities: ORGANIZACAO (Organizations) JURISPRUDENCIA (Jurisprudence) PESSOA (Person) TEMPO (Time) LOCAL (Location) LEGISLACAO (Laws) O (Other) You can find different versions of this model in Models Hub: With a Deep Learning architecture (non-transformer) and Base Embeddings; With a Deep Learning architecture (non-transformer) and Large Embeddings; With a Transformers Architecture and Base Embeddings; With a Transformers Architecture and Large Embeddings; Predicted Entities PESSOA, ORGANIZACAO, LEGISLACAO, JURISPRUDENCIA, TEMPO, LOCAL Live Demo Open in Colab Download How to use PythonScalaNLU document_assembler = DocumentAssembler() \ .setInputCol('text') \ .setOutputCol('document') tokenizer = Tokenizer() \ .setInputCols(['document']) \ .setOutputCol('token') embeddings = BertEmbeddings.pretrained(&quot;bert_portuguese_base_cased&quot;, &quot;pt&quot;)\ .setInputCols(&quot;document&quot;, &quot;token&quot;) \ .setOutputCol(&quot;embeddings&quot;) ner_model = LegalNerModel.pretrained('legner_br_large', 'pt', 'legal/models') \ .setInputCols(['document', 'token', 'embeddings']) \ .setOutputCol('ner') ner_converter = NerConverter() \ .setInputCols(['document', 'token', 'ner']) \ .setOutputCol('ner_chunk') pipeline = Pipeline(stages=[ document_assembler, tokenizer, embeddings, ner_model, ner_converter ]) example = spark.createDataFrame(pd.DataFrame({'text': [&quot;&quot;&quot;Mediante do exposto , com fundamento nos artigos 32 , i , e 33 , da lei 8.443/1992 , submetem-se os autos à consideração superior , com posterior encaminhamento ao ministério público junto ao tcu e ao gabinete do relator , propondo : a ) conhecer do recurso e , no mérito , negar-lhe provimento ; b ) comunicar ao recorrente , ao superior tribunal militar e ao tribunal regional federal da 2ª região , a fim de fornecer subsídios para os processos judiciais 2001.34.00.024796-9 e 2003.34.00.044227-3 ; e aos demais interessados a deliberação que vier a ser proferida por esta corte ” .&quot;&quot;&quot;]})) result = pipeline.fit(example).transform(example) Results +-------------------+----------------+ | token| ner| +-------------------+----------------+ | diante| O| | do| O| | exposto| O| | ,| O| | com| O| | fundamento| O| | nos| O| | artigos| B-LEGISLACAO| | 32| I-LEGISLACAO| | ,| I-LEGISLACAO| | i| I-LEGISLACAO| | ,| I-LEGISLACAO| | e| I-LEGISLACAO| | 33| I-LEGISLACAO| | ,| I-LEGISLACAO| | da| I-LEGISLACAO| | lei| I-LEGISLACAO| | 8.443/1992| I-LEGISLACAO| | ,| O| | submetem-se| O| | os| O| | autos| O| | à| O| | consideração| O| | superior| O| | ,| O| | com| O| | posterior| O| | encaminhamento| O| | ao| O| | ministério| B-ORGANIZACAO| | público| I-ORGANIZACAO| | junto| O| | ao| O| | tcu| B-ORGANIZACAO| | e| O| | ao| O| | gabinete| O| | do| O| | relator| O| | ,| O| | propondo| O| | :| O| | a| O| | )| O| | conhecer| O| | do| O| | recurso| O| | e| O| | ,| O| | no| O| | mérito| O| | ,| O| | negar-lhe| O| | provimento| O| | ;| O| | b| O| | )| O| | comunicar| O| | ao| O| | recorrente| O| | ,| O| | ao| O| | superior| B-ORGANIZACAO| | tribunal| I-ORGANIZACAO| | militar| I-ORGANIZACAO| | e| O| | ao| O| | tribunal| B-ORGANIZACAO| | regional| I-ORGANIZACAO| | federal| I-ORGANIZACAO| | da| I-ORGANIZACAO| | 2ª| I-ORGANIZACAO| | região| I-ORGANIZACAO| | ,| O| | a| O| | fim| O| | de| O| | fornecer| O| | subsídios| O| | para| O| | os| O| | processos| O| | judiciais| O| |2001.34.00.024796-9|B-JURISPRUDENCIA| | e| O| |2003.34.00.044227-3|B-JURISPRUDENCIA| | ;| O| | e| O| | aos| O| | demais| O| | interessados| O| | a| O| | deliberação| O| | que| O| | vier| O| | a| O| | ser| O| | proferida| O| | por| O| | esta| O| | corte| O| | ”| O| | .| O| +-------------------+----------------+ Model Information Model Name: legner_br_large Compatibility: Spark NLP for Legal 1.0.0+ License: Licensed Edition: Official Input Labels: [sentence, token, embeddings] Output Labels: [ner] Language: pt Size: 19.5 MB References Original texts available in https://paperswithcode.com/sota?task=Token+Classification&amp;amp;dataset=lener_br and in-house data augmentation with weak labelling Benchmarking label precision recall f1-score support B-JURISPRUDENCIA 0.84 0.91 0.88 175 B-LEGISLACAO 0.96 0.96 0.96 347 B-LOCAL 0.69 0.68 0.68 40 B-ORGANIZACAO 0.95 0.71 0.81 441 B-PESSOA 0.91 0.95 0.93 221 B-TEMPO 0.94 0.86 0.90 176 I-JURISPRUDENCIA 0.86 0.91 0.89 461 I-LEGISLACAO 0.98 0.99 0.98 2012 I-LOCAL 0.54 0.53 0.53 72 I-ORGANIZACAO 0.94 0.76 0.84 768 I-PESSOA 0.93 0.98 0.95 461 I-TEMPO 0.90 0.85 0.88 66 O 0.99 1.00 0.99 38419 accuracy - - 0.98 43659 macro-avg 0.88 0.85 0.86 43659 weighted-avg 0.98 0.98 0.98 43659</summary></entry></feed>
