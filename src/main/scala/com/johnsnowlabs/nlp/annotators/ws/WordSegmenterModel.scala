@@ -124,7 +124,7 @@ class WordSegmenterModel(override val uid: String)
   val enableRegexTokenizer: BooleanParam = new BooleanParam(
     this,
     "enableRegexTokenizer",
-    "Whether to use RegexTokenizer before segmentation. Useful for multi-lingual text")
+    "Whether to use RegexTokenizer before segmentation. Useful for multilingual text")
 
   /** Indicates whether to convert all characters to lowercase before tokenizing (Default:
     * `false`).
@@ -148,6 +148,7 @@ class WordSegmenterModel(override val uid: String)
   /** @group setParam */
   def setModel(targetModel: AveragedPerceptron): this.type = set(model, targetModel)
 
+  /** @group setParam */
   def setEnableRegexTokenizer(value: Boolean): this.type = set(enableRegexTokenizer, value)
 
   /** @group setParam */

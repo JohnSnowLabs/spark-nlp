@@ -13,7 +13,6 @@
 #  limitations under the License.
 """Contains classes for the WordSegmenter."""
 
-
 from sparknlp.common import *
 
 
@@ -60,6 +59,12 @@ class WordSegmenterApproach(AnnotatorApproach):
     ambiguityThreshold
         How much percentage of total amount of words are covered to be marked as
         frequent, by default 0.97
+    enableRegexTokenizer
+        Whether to use RegexTokenizer before segmentation. Useful for multilingual text
+    toLowercase
+        Indicates whether to convert all characters to lowercase before tokenizing. Used only when enableRegexTokenizer is true
+    pattern
+        regex pattern used for tokenizing. Used only when enableRegexTokenizer is true
 
     Examples
     --------
@@ -114,12 +119,28 @@ class WordSegmenterApproach(AnnotatorApproach):
                                "How much percentage of total amount of words are covered to be marked as frequent",
                                typeConverter=TypeConverters.toFloat)
 
+    enableRegexTokenizer = Param(Params._dummy(),
+                                 "enableRegexTokenizer",
+                                 "Whether to use RegexTokenizer before segmentation. Useful for multilingual text",
+                                 typeConverter=TypeConverters.toBoolean)
+
+    toLowercase = Param(Params._dummy(),
+                        "toLowercase",
+                        "Indicates whether to convert all characters to lowercase before tokenizing.",
+                        typeConverter=TypeConverters.toBoolean)
+
+    pattern = Param(Params._dummy(),
+                    "pattern",
+                    "regex pattern used for tokenizing. Defaults \\s+",
+                    typeConverter=TypeConverters.toString)
+
     @keyword_only
     def __init__(self):
         super(WordSegmenterApproach, self).__init__(
             classname="com.johnsnowlabs.nlp.annotators.ws.WordSegmenterApproach")
         self._setDefault(
-            nIterations=5, frequencyThreshold=5, ambiguityThreshold=0.97
+            nIterations=5, frequencyThreshold=5, ambiguityThreshold=0.97,
+            enableRegexTokenizer=False, toLowercase=False, pattern="\\s+"
         )
 
     def setPosColumn(self, value):
@@ -199,8 +220,41 @@ class WordSegmenterApproach(AnnotatorApproach):
         """
         return self.getOrDefault(self.ambiguityThreshold)
 
+    def setEnableRegexTokenizer(self, value):
+        """Sets whether to to use RegexTokenizer before segmentation.
+        Useful for multilingual text
+
+        Parameters
+        ----------
+        value : bool
+            Whether to use RegexTokenizer before segmentation
+        """
+        return self._set(enableRegexTokenizer=value)
+
+    def setToLowercase(self, value):
+        """Sets whether to convert all characters to lowercase before
+        tokenizing, by default False.
+
+        Parameters
+        ----------
+        value : bool
+            Whether to convert all characters to lowercase before tokenizing
+        """
+        return self._set(toLowercase=value)
+
+    def setPattern(self, value):
+        """Sets the regex pattern used for tokenizing, by default ``\\s+``.
+
+        Parameters
+        ----------
+        value : str
+            Regex pattern used for tokenizing
+        """
+        return self._set(pattern=value)
+
     def _create_model(self, java_model):
         return WordSegmenterModel(java_model=java_model)
+
 
 class WordSegmenterModel(AnnotatorModel):
     """WordSegmenter which tokenizes non-english or non-whitespace separated
@@ -266,6 +320,53 @@ class WordSegmenterModel(AnnotatorModel):
     """
     name = "WordSegmenterModel"
 
+    enableRegexTokenizer = Param(Params._dummy(),
+                                 "enableRegexTokenizer",
+                                 "Whether to use RegexTokenizer before segmentation. Useful for multilingual text",
+                                 typeConverter=TypeConverters.toBoolean)
+
+    toLowercase = Param(Params._dummy(),
+                        "toLowercase",
+                        "Indicates whether to convert all characters to lowercase before tokenizing.",
+                        typeConverter=TypeConverters.toBoolean)
+
+    pattern = Param(Params._dummy(),
+                    "pattern",
+                    "regex pattern used for tokenizing. Defaults \\s+",
+                    typeConverter=TypeConverters.toString)
+
+    def setEnableRegexTokenizer(self, value):
+        """Sets whether to to use RegexTokenizer before segmentation.
+        Useful for multilingual text
+
+        Parameters
+        ----------
+        value : bool
+            Whether to use RegexTokenizer before segmentation
+        """
+        return self._set(enableRegexTokenizer=value)
+
+    def setToLowercase(self, value):
+        """Sets whether to convert all characters to lowercase before
+        tokenizing, by default False.
+
+        Parameters
+        ----------
+        value : bool
+            Whether to convert all characters to lowercase before tokenizing
+        """
+        return self._set(toLowercase=value)
+
+    def setPattern(self, value):
+        """Sets the regex pattern used for tokenizing, by default ``\\s+``.
+
+        Parameters
+        ----------
+        value : str
+            Regex pattern used for tokenizing
+        """
+        return self._set(pattern=value)
+
     def __init__(self, classname="com.johnsnowlabs.nlp.annotators.ws.WordSegmenterModel", java_model=None):
         super(WordSegmenterModel, self).__init__(
             classname=classname,
@@ -293,4 +394,3 @@ class WordSegmenterModel(AnnotatorModel):
         """
         from sparknlp.pretrained import ResourceDownloader
         return ResourceDownloader.downloadModel(WordSegmenterModel, name, lang, remote_loc)
-

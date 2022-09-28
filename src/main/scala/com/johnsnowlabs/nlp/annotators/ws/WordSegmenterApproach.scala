@@ -187,6 +187,7 @@ class WordSegmenterApproach(override val uid: String)
   /** @group setParam */
   def setAmbiguityThreshold(value: Double): this.type = set(ambiguityThreshold, value)
 
+  /** @group setParam */
   def setEnableRegexTokenizer(value: Boolean): this.type = set(enableRegexTokenizer, value)
 
   /** @group setParam */
