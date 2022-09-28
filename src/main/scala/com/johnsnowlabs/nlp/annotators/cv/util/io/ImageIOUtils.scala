@@ -32,20 +32,20 @@ private[johnsnowlabs] object ImageIOUtils {
   val ocvTypes: Map[String, Int] =
     Map("CV_8U" -> 0, "CV_8UC1" -> 0, "CV_8UC3" -> 16, "CV_8UC4" -> 24)
 
-  def loadImage(file: File): BufferedImage = {
-    ImageIO.read(file)
+  def loadImage(file: File): Option[BufferedImage] = {
+    if (file.isFile) Some(ImageIO.read(file)) else None
   }
 
   def loadImage(file: InputStream): BufferedImage = {
     ImageIO.read(file)
   }
 
-  def loadImage(path: String): BufferedImage = {
+  def loadImage(path: String): Option[BufferedImage] = {
     val filePath = ResourceHelper.getFileFromPath(path)
-    ImageIO.read(filePath)
+    if (filePath.isDefined) Some(ImageIO.read(filePath.get)) else None
   }
 
-  def loadImageFromAnySource(path: String): BufferedImage = {
+  def loadImageFromAnySource(path: String): Option[BufferedImage] = {
 
     val prefix = if (path.indexOf(":") == -1) "" else path.substring(0, path.indexOf(":"))
 
@@ -54,7 +54,7 @@ private[johnsnowlabs] object ImageIOUtils {
         loadImage(path.replace("dbfs:", "/dbfs/"))
       case "hdfs" =>
         val sourceStream = ResourceHelper.SourceStream(path)
-        ImageIO.read(sourceStream.pipe.head)
+        Some(ImageIO.read(sourceStream.pipe.head))
       case _ =>
         loadImage(path)
     }
@@ -65,7 +65,7 @@ private[johnsnowlabs] object ImageIOUtils {
     loadImagesFromDirectory(imagesPath) match {
       case Success(files) => files
       case Failure(_) =>
-        val singleImagePath = ResourceHelper.getFileFromPath(imagesPath)
+        val singleImagePath = ResourceHelper.getFileFromPath(imagesPath).get
         Array(singleImagePath)
     }
   }
@@ -151,21 +151,24 @@ private[johnsnowlabs] object ImageIOUtils {
     (numberOfChannels, mode)
   }
 
-  def imagePathToImageFields(imagePath: String): ImageFields = {
+  def imagePathToImageFields(imagePath: String): Option[ImageFields] = {
     val bufferedImage = loadImageFromAnySource(imagePath)
     bufferedImageToImageFields(bufferedImage, imagePath)
   }
 
-  def imageFileToImageFields(file: File): ImageFields = {
+  def imageFileToImageFields(file: File): Option[ImageFields] = {
     val bufferedImage = loadImage(file)
     bufferedImageToImageFields(bufferedImage, file.getPath)
   }
 
-  def bufferedImageToImageFields(bufferedImage: BufferedImage, origin: String): ImageFields = {
-    val (nChannels, mode) = getChannelsAndMode(bufferedImage)
-    val data = bufferedImageToByte(bufferedImage)
+  def bufferedImageToImageFields(bufferedImage: Option[BufferedImage], origin: String): Option[ImageFields] = {
+    if (bufferedImage.isDefined) {
+      val (nChannels, mode) = getChannelsAndMode(bufferedImage.get)
+      val data = bufferedImageToByte(bufferedImage.get)
 
-    ImageFields(origin, bufferedImage.getHeight, bufferedImage.getWidth, nChannels, mode, data)
+      Some(ImageFields(origin, bufferedImage.get.getHeight, bufferedImage.get.getWidth, nChannels, mode, data))
+    } else None
+
   }
 
 }
