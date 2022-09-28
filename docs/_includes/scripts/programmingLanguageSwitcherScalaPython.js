@@ -119,7 +119,7 @@ if(document.querySelectorAll('.tab-li-inner')) {
 
         console.log(tabLiTop);
 
-    tabLiTop.forEach(e => {        
+    tabLiTop.forEach(e => {      
         e.nextElementSibling.classList.add('active');
     });
 

@@ -9,6 +9,8 @@
 
 {% endif %}
 
+{% if include.approach %}
+
 <div class="h3-box approach-content" markdown="1">
 
 {{include.approach_description}}
@@ -32,6 +34,7 @@
 | **Scala API:** {{include.approach_api_link}} |
 
 {% endif %}
+{% if include.approach_python_medical or include.approach_python_finance or include.approach_python_legal %}
 
 <details>
 
@@ -127,10 +130,14 @@
 </div>
 
 </details>
+{% endif %}
 
 </div>
 
-<div class="h3-box model-content" markdown="1" style="display: none;">
+{% endif %}
+{% if include.model %}
+
+<div class="h3-box model-content" markdown="1" {% if include.approach %} style="display: none;" {% endif %}>
 
 {{include.model_description}}
 
@@ -153,12 +160,13 @@
 | **Scala API:** {{include.model_api_link}} |
 
 {% endif %}
+{% if include.model_python_medical or include.model_python_finance or include.model_python_legal %}
 
 <details>
 
 <summary class="button"><b>Show Example</b></summary>
 
-<div class="tabs-box test-model" markdown="1">
+<div class="tabs-box" markdown="1">
 
 {% include programmingLanguageSelectScalaPython.html %}
 
@@ -251,7 +259,9 @@
 </div>
 
 </details>
+{% endif %}
 
 </div>
+{% endif %}
 
 </div>
