@@ -71,7 +71,7 @@ dependency_parser = DependencyParserModel.pretrained("dependency_conllu", "en") 
 re_model = RelationExtractionModel.pretrained("re_oncology_location_wip", "en", "clinical/models") \
     .setInputCols(["embeddings", "pos_tags", "ner_chunk", "dependencies"]) \
     .setOutputCol("relation_extraction") \
-    .setRelationPairs(["Tumor_Finding-Site_Breast", "Site_Breast-Tumor_Finding"]) \
+    .setRelationPairs(["Tumor_Finding-Site_Breast", "Site_Breast-Tumor_Finding","Tumor_Finding-Anatomical_Site", "Anatomical_Site-Tumor_Finding"]) \
     .setMaxSyntacticDistance(10)
         
 pipeline = Pipeline(stages=[document_assembler,
@@ -124,7 +124,7 @@ val dependency_parser = DependencyParserModel.pretrained("dependency_conllu", "e
 val re_model = RelationExtractionModel.pretrained("re_oncology_location_wip", "en", "clinical/models")
     .setInputCols(Array("embeddings", "pos_tags", "ner_chunk", "dependencies"))
     .setOutputCol("relation_extraction")
-    .setRelationPairs(Array("Tumor_Finding-Site_Breast", "Site_Breast-Tumor_Finding"))
+    .setRelationPairs(Array("Tumor_Finding-Site_Breast", "Site_Breast-Tumor_Finding","Tumor_Finding-Anatomical_Site", "Anatomical_Site-Tumor_Finding"))
     .setMaxSyntacticDistance(10)
 
 val pipeline = new Pipeline().setStages(Array(document_assembler,
