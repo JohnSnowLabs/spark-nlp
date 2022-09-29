@@ -34,6 +34,7 @@ Use relation pairs to include only the combinations of entities that are relevan
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
+
 ```python
 document_assembler = DocumentAssembler()\
     .setInputCol("text")\
@@ -150,15 +151,16 @@ val result = pipeline.fit(data).transform(data)
 ## Results
 
 ```bash
-  chunk1          entity1                         chunk2          entity2      relation confidence
-negative Biomarker_Result thyroid transcription factor-1        Biomarker is_finding_of 0.99808085
-negative Biomarker_Result                         napsin        Biomarker is_finding_of 0.99637383
-positive Biomarker_Result                             ER        Biomarker is_finding_of 0.99221414
-positive Biomarker_Result                             PR        Biomarker is_finding_of  0.9893672
-positive Biomarker_Result                           HER2         Oncogene             O  0.9986272
-      ER        Biomarker                       negative Biomarker_Result             O  0.9999089
-      PR        Biomarker                       negative Biomarker_Result             O  0.9998932
-negative Biomarker_Result                           HER2         Oncogene is_finding_of 0.98810333
+|   chunk1 |          entity1 |                         chunk2 |          entity2 |      relation | confidence |
+|----------|------------------|--------------------------------|------------------|---------------|------------|
+| negative | Biomarker_Result | thyroid transcription factor-1 |        Biomarker | is_finding_of | 0.99808085 |
+| negative | Biomarker_Result |                         napsin |        Biomarker | is_finding_of | 0.99637383 |
+| positive | Biomarker_Result |                             ER |        Biomarker | is_finding_of | 0.99221414 |
+| positive | Biomarker_Result |                             PR |        Biomarker | is_finding_of |  0.9893672 |
+| positive | Biomarker_Result |                           HER2 |         Oncogene |             O |  0.9986272 |
+|       ER |        Biomarker |                       negative | Biomarker_Result |             O |  0.9999089 |
+|       PR |        Biomarker |                       negative | Biomarker_Result |             O |  0.9998932 |
+| negative | Biomarker_Result |                           HER2 |         Oncogene | is_finding_of | 0.98810333 |
 ```
 
 {:.model-param}
@@ -180,7 +182,7 @@ In-house annotated oncology case reports.
 ## Benchmarking
 
 ```bash
-     relation  recall  precision   f1  
+        label  recall  precision   f1  
             O    0.93       0.97 0.95   
 is_finding_of    0.97       0.93 0.95    
     macro-avg    0.95       0.95 0.95      
