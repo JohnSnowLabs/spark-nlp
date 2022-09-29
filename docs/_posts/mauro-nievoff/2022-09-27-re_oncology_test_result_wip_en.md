@@ -146,10 +146,10 @@ val result = pipeline.fit(data).transform(data)
 ## Results
 
 ```bash
-   chunk1          entity1                 chunk2          entity2      relation confidence
-Pathology   Pathology_Test            tumor cells Pathology_Result is_finding_of 0.53310496
- positive Biomarker_Result               estrogen        Biomarker is_finding_of  0.9453165
- positive Biomarker_Result progesterone receptors        Biomarker is_finding_of  0.8816877
+   chunk1            entity1                   chunk2            entity2        relation   confidence
+Pathology     Pathology_Test              tumor cells   Pathology_Result   is_finding_of   0.53310496
+ positive   Biomarker_Result                 estrogen          Biomarker   is_finding_of   0.9453165
+ positive   Biomarker_Result   progesterone receptors          Biomarker   is_finding_of   0.8816877
 ```
 
 {:.model-param}
@@ -174,7 +174,7 @@ In-house annotated oncology case reports.
 ## Benchmarking
 
 ```bash
-     relation  recall  precision   f1
+        label  recall  precision   f1
             O    0.84       0.88 0.86
 is_finding_of    0.89       0.85 0.87
     macro-avg    0.86       0.86 0.86
