@@ -151,9 +151,9 @@ val result = pipeline.fit(data).transform(data)
 ## Results
 
 ```bash
-chunk1       entity1 chunk2       entity2   relation confidence
-  2 cm    Tumor_Size   mass Tumor_Finding is_size_of  0.9604708
- tumor Tumor_Finding   3 cm    Tumor_Size is_size_of 0.99731797
+chunk1        entity1   chunk2         entity2     relation   confidence
+  2 cm     Tumor_Size     mass   Tumor_Finding   is_size_of    0.9604708
+ tumor  Tumor_Finding     3 cm      Tumor_Size   is_size_of   0.99731797
 ```
 
 {:.model-param}
@@ -175,8 +175,8 @@ In-house annotated oncology case reports.
 ## Benchmarking
 
 ```bash
-  relation  recall  precision   f1  support
-         O    0.87       0.84 0.86    143.0
-is_size_of    0.85       0.88 0.86    157.0
- macro-avg    0.86       0.86 0.86      NaN
+     label  recall  precision   f1    support
+         O    0.87       0.84 0.86      143.0
+is_size_of    0.85       0.88 0.86      157.0
+ macro-avg    0.86       0.86 0.86        NaN
 ```
