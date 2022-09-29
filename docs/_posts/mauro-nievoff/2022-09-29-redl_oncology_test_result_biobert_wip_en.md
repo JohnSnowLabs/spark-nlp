@@ -67,9 +67,15 @@ dependency_parser = DependencyParserModel.pretrained("dependency_conllu", "en") 
     .setInputCols(["sentence", "pos_tags", "token"]) \
     .setOutputCol("dependencies")
 
-re_ner_chunk_filter = RENerChunksFilter()  .setInputCols(["ner_chunk", "dependencies"])  .setOutputCol("re_ner_chunk")  .setMaxSyntacticDistance(10)  .setRelationPairs(["Biomarker-Biomarker_Result", "Biomarker_Result-Biomarker", "Oncogene-Biomarker_Result", "Biomarker_Result-Oncogene", "Pathology_Test-Pathology_Result", "Pathology_Result-Pathology_Test"])
+re_ner_chunk_filter = RENerChunksFilter()\
+    .setInputCols(["ner_chunk", "dependencies"])\
+    .setOutputCol("re_ner_chunk")\
+    .setMaxSyntacticDistance(10)\
+    .setRelationPairs(["Biomarker-Biomarker_Result", "Biomarker_Result-Biomarker", "Oncogene-Biomarker_Result", "Biomarker_Result-Oncogene", "Pathology_Test-Pathology_Result", "Pathology_Result-Pathology_Test"])
 
-re_model = RelationExtractionDLModel.pretrained("redl_oncology_test_result_biobert_wip", "en", "clinical/models")   .setInputCols(["re_ner_chunk", "sentence"])   .setOutputCol("relation_extraction")
+re_model = RelationExtractionDLModel.pretrained("redl_oncology_test_result_biobert_wip", "en", "clinical/models")\
+    .setInputCols(["re_ner_chunk", "sentence"])\
+    .setOutputCol("relation_extraction")
         
 pipeline = Pipeline(stages=[document_assembler,
                             sentence_detector,
@@ -150,9 +156,10 @@ val result = pipeline.fit(data).transform(data)
 ## Results
 
 ```bash
-  chunk1          entity1                 chunk2   entity2      relation confidence
-positive Biomarker_Result               estrogen Biomarker is_finding_of 0.99451536
-positive Biomarker_Result progesterone receptors Biomarker is_finding_of 0.99218905
+|  chunk1 |          entity1 |                 chunk2 |   entity2 |      relation | confidence |
+|-------- |----------------- |----------------------- |---------- |-------------- |----------- |
+|positive | Biomarker_Result |               estrogen | Biomarker | is_finding_of | 0.99451536 |
+|positive | Biomarker_Result | progesterone receptors | Biomarker | is_finding_of | 0.99218905 |
 ```
 
 {:.model-param}
@@ -174,7 +181,7 @@ In-house annotated oncology case reports.
 ## Benchmarking
 
 ```bash
-     relation  recall  precision  f1  
+        label  recall  precision  f1  
             O    0.87       0.92 0.9   
 is_finding_of    0.93       0.88 0.9   
     macro-avg    0.90       0.90 0.9      
