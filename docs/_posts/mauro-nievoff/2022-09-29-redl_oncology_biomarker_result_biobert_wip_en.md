@@ -68,9 +68,15 @@ dependency_parser = DependencyParserModel.pretrained("dependency_conllu", "en") 
     .setInputCols(["sentence", "pos_tags", "token"]) \
     .setOutputCol("dependencies")
 
-re_ner_chunk_filter = RENerChunksFilter()  .setInputCols(["ner_chunk", "dependencies"])  .setOutputCol("re_ner_chunk")  .setMaxSyntacticDistance(10)  .setRelationPairs(["Biomarker-Biomarker_Result", "Biomarker_Result-Biomarker", "Oncogene-Biomarker_Result", "Biomarker_Result-Oncogene"])
+re_ner_chunk_filter = RENerChunksFilter()\
+    .setInputCols(["ner_chunk", "dependencies"])\
+    .setOutputCol("re_ner_chunk")\
+    .setMaxSyntacticDistance(10)\
+    .setRelationPairs(["Biomarker-Biomarker_Result", "Biomarker_Result-Biomarker", "Oncogene-Biomarker_Result", "Biomarker_Result-Oncogene"])
 
-re_model = RelationExtractionDLModel.pretrained("redl_oncology_biomarker_result_biobert_wip", "en", "clinical/models")   .setInputCols(["re_ner_chunk", "sentence"])   .setOutputCol("relation_extraction")
+re_model = RelationExtractionDLModel.pretrained("redl_oncology_biomarker_result_biobert_wip", "en", "clinical/models")\
+    .setInputCols(["re_ner_chunk", "sentence"])\
+    .setOutputCol("relation_extraction")
         
 pipeline = Pipeline(stages=[document_assembler,
                             sentence_detector,
@@ -121,15 +127,14 @@ val dependency_parser = DependencyParserModel.pretrained("dependency_conllu", "e
     .setOutputCol("dependencies")
 
 val re_ner_chunk_filter = new RENerChunksFilter()
-     .setInputCols("ner_chunk", "dependencies")
-     .setOutputCol("re_ner_chunk")
-     .setMaxSyntacticDistance(10)
-     .setRelationPairs(Array("Biomarker-Biomarker_Result", "Biomarker_Result-Biomarker", "Oncogene-Biomarker_Result", "Biomarker_Result-Oncogene"))
+    .setInputCols("ner_chunk", "dependencies")
+    .setOutputCol("re_ner_chunk")
+    .setMaxSyntacticDistance(10)
+    .setRelationPairs(Array("Biomarker-Biomarker_Result", "Biomarker_Result-Biomarker", "Oncogene-Biomarker_Result", "Biomarker_Result-Oncogene"))
 
 val re_model = RelationExtractionDLModel.pretrained("redl_oncology_biomarker_result_biobert_wip", "en", "clinical/models")
-      .setPredictionThreshold(0.5f)
-      .setInputCols("re_ner_chunk", "sentence")
-      .setOutputCol("relation_extraction")
+    .setInputCols("re_ner_chunk", "sentence")
+    .setOutputCol("relation_extraction")
 
 val pipeline = new Pipeline().setStages(Array(document_assembler,
                             sentence_detector,
