@@ -89,7 +89,7 @@ pipeline = Pipeline(stages=[document_assembler,
                             re_ner_chunk_filter,
                             re_model])
 
-data = spark.createDataFrame([["Her breast cancer was diagnosed three years ago, and a bilateral mastectomy was performed last month."]]).toDF("text")
+data = spark.createDataFrame([["Her breast cancer was diagnosed last year."]]).toDF("text")
 
 result = pipeline.fit(data).transform(data)
 ```
@@ -148,7 +148,7 @@ val pipeline = new Pipeline().setStages(Array(document_assembler,
                             re_ner_chunk_filter,
                             re_model))
 
-val data = Seq("Her breast cancer was diagnosed three years ago, and a bilateral mastectomy was performed last month.").toDS.toDF("text")
+val data = Seq("Her breast cancer was diagnosed last year.").toDS.toDF("text")
 
 val result = pipeline.fit(data).transform(data)
 
@@ -160,9 +160,7 @@ val result = pipeline.fit(data).transform(data)
 ```bash
 |          chunk1 |        entity1 |          chunk2 |        entity2 |   relation | confidence |
 | --------------- |--------------- |---------------- |--------------- |----------- |----------- |
-|   breast cancer |      Cancer_Dx | three years ago |  Relative_Date | is_date_of |  0.9999461 |
-| three years ago |  Relative_Date |      mastectomy | Cancer_Surgery | is_date_of |  0.9999212 |
-|      mastectomy | Cancer_Surgery |      last month |  Relative_Date | is_date_of |  0.9999969 |
+|   breast cancer |      Cancer_Dx |    last year    |  Relative_Date | is_date_of |  0.9999256 |
 
 ```
 
