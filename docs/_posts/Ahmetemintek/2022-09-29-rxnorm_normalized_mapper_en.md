@@ -82,8 +82,8 @@ result= mapper_model.transform(test_data)
 ```
 ```scala
 val document_assembler = new DocumentAssembler()\
-        .setInputCol('text')\
-        .setOutputCol('document')
+        .setInputCol("text")\
+        .setOutputCol("document")
 
 val sentence_detector = new SentenceDetector()\
         .setInputCols(["document"])\
