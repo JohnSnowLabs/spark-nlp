@@ -34,6 +34,7 @@ Use relation pairs to include only the combinations of entities that are relevan
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
+
 ```python
 document_assembler = DocumentAssembler()\
     .setInputCol("text")\
@@ -86,7 +87,6 @@ pipeline = Pipeline(stages=[document_assembler,
 data = spark.createDataFrame([["In April 2011, she first noticed a lump in her right breast."]]).toDF("text")
 
 result = pipeline.fit(data).transform(data)
-
 ```
 ```scala
 val document_assembler = new DocumentAssembler()
@@ -112,7 +112,6 @@ val ner = MedicalNerModel.pretrained("ner_oncology_wip", "en", "clinical/models"
 val ner_converter = new NerConverter()
     .setInputCols(Array("sentence", "token", "ner"))
     .setOutputCol("ner_chunk")
-
 
 val pos_tagger = PerceptronModel.pretrained("pos_clinical", "en", "clinical/models")
     .setInputCols(Array("sentence", "token"))
@@ -147,8 +146,8 @@ val result = pipeline.fit(data).transform(data)
 ## Results
 
 ```bash
-chunk1       entity1 chunk2     entity2       relation confidence
-  lump Tumor_Finding breast Site_Breast is_location_of 0.81315047
+chunk1        entity1  chunk2       entity2         relation   confidence
+  lump  Tumor_Finding  breast   Site_Breast   is_location_of   0.81315047
 ```
 
 {:.model-param}
@@ -173,8 +172,8 @@ In-house annotated oncology case reports.
 ## Benchmarking
 
 ```bash
-      relation  recall  precision   f1
-             O    0.83       0.93 0.88
-is_location_of    0.93       0.84 0.88
-     macro-avg    0.88       0.88 0.88
+         label  recall  precision   f1
+             O    0.83     0.93   0.88
+is_location_of    0.93     0.84   0.88
+     macro-avg    0.88     0.88   0.88
 ```
