@@ -147,11 +147,11 @@ val result = pipeline.fit(data).transform(data)
 ## Results
 
 ```bash
-         chunk1        entity1          chunk2        entity2   relation confidence
-  breast cancer      Cancer_Dx three years ago  Relative_Date is_date_of  0.5886298
-  breast cancer      Cancer_Dx      last month  Relative_Date          O 0.97087383
-three years ago  Relative_Date      mastectomy Cancer_Surgery          O  0.6020852
-     mastectomy Cancer_Surgery      last month  Relative_Date is_date_of  0.9277692
+         chunk1          entity1            chunk2         entity2    relation   confidence
+  breast cancer        Cancer_Dx   three years ago   Relative_Date  is_date_of    0.5886298
+  breast cancer        Cancer_Dx        last month   Relative_Date           O    0.9708738
+three years ago    Relative_Date        mastectomy  Cancer_Surgery           O    0.6020852
+     mastectomy   Cancer_Surgery        last month   Relative_Date  is_date_of    0.9277692
 ```
 
 {:.model-param}
@@ -176,8 +176,8 @@ In-house annotated oncology case reports.
 ## Benchmarking
 
 ```bash
-  relation  recall  precision   f1
-         O    0.79       0.76 0.77
-is_date_of    0.74       0.77 0.75
- macro-avg    0.76       0.76 0.76
+     label  recall  precision     f1
+         O    0.79       0.76   0.77
+is_date_of    0.74       0.77   0.75
+ macro-avg    0.76       0.76   0.76
 ```
