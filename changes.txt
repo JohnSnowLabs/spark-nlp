@@ -1,4 +1,2 @@
-docs/_includes/scripts/programmingLanguageSwitcherScalaPython.js
-docs/_includes/templates/licensed_approach_model_medical_fin_leg_template.md
-docs/_includes/scripts/programmingLanguageSwitcherScalaPython.js
-docs/_includes/templates/licensed_approach_model_medical_fin_leg_template.md
+docs/en/licensed_install.md
+docs/en/licensed_install.md
