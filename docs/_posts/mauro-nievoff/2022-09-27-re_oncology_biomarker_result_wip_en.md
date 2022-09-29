@@ -123,7 +123,7 @@ val dependency_parser = DependencyParserModel.pretrained("dependency_conllu", "e
 val re_model = RelationExtractionModel.pretrained("re_oncology_biomarker_result_wip", "en", "clinical/models")
     .setInputCols(Array("embeddings", "pos_tags", "ner_chunk", "dependencies"))
     .setOutputCol("relation_extraction")
-    .setRelationPairs(Array('Biomarker-Biomarker_Result', 'Biomarker_Result-Biomarker', 'Oncogene-Biomarker_Result', 'Biomarker_Result-Oncogene'))
+    .setRelationPairs(Array("Biomarker-Biomarker_Result", "Biomarker_Result-Biomarker", "Oncogene-Biomarker_Result", "Biomarker_Result-Oncogene"))
     .setMaxSyntacticDistance(10)
 
 val pipeline = new Pipeline().setStages(Array(document_assembler,
@@ -178,8 +178,8 @@ In-house annotated oncology case reports.
 ## Benchmarking
 
 ```bash
-     relation  recall  precision   f1
-            O    0.88       0.95 0.91
-is_finding_of    0.95       0.89 0.92
-    macro-avg    0.92       0.92 0.92
+        label  recall  precision   f1
+            O    0.88       0.95   0.91
+is_finding_of    0.95       0.89   0.92
+    macro-avg    0.92       0.92   0.92
 ```
