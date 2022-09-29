@@ -2,6 +2,14 @@
 GenericClassifier
 {%- endcapture -%}
 
+{%- capture approach -%}
+approach
+{%- endcapture -%}
+
+{%- capture model -%}
+model
+{%- endcapture -%}
+
 {%- capture model_description -%}
 Creates a generic single-label classifier which uses pre-generated Tensorflow graphs.
 The model operates on FEATURE_VECTOR annotations which can be produced using FeatureAssembler.
@@ -37,21 +45,13 @@ FEATURE_VECTOR
 CATEGORY
 {%- endcapture -%}
 
-{%- capture approach_python_example -%}
-import sparknlp
-from sparknlp.base import *
-from sparknlp.common import *
-from sparknlp.annotator import *
-from sparknlp.training import *
-import sparknlp_jsl
-from sparknlp_jsl.base import *
-from sparknlp_jsl.annotator import *
-from pyspark.ml import Pipeline
-features_asm = FeaturesAssembler() \
+{%- capture approach_python_medical -%}
+from johnsnowlabs import *
+features_asm = medical.FeaturesAssembler() \
     .setInputCols(["feature_1", "feature_2", "...", "feature_n"]) \
     .setOutputCol("features")
 
-gen_clf = GenericClassifierApproach() \
+gen_clf = medical.GenericClassifierApproach() \
     .setLabelColumn("target") \
     .setInputCols(["features"]) \
     .setOutputCol("prediction") \
@@ -73,12 +73,13 @@ clf_model = pipeline.fit(data)
 
 {%- endcapture -%}
 
-{%- capture approach_scala_example -%}
-val features_asm = new FeaturesAssembler()
+{%- capture approach_scala_medical -%}
+from johnsnowlabs import * 
+val features_asm = new medical.FeaturesAssembler()
   .setInputCols(Array("feature_1", "feature_2", "...", "feature_n"))
   .setOutputCol("features")
 
-val gen_clf = new GenericClassifierApproach()
+val gen_clf = new medical.GenericClassifierApproach()
   .setLabelColumn("target")
   .setInputCols("features")
   .setOutputCol("prediction")
@@ -105,8 +106,10 @@ val clf_model = pipeline.fit(data)
 {%- endcapture -%}
 
 
-{% include templates/licensed_approach_model_template.md
+{% include templates/licensed_approach_model_medical_fin_leg_template.md
 title=title
+approach=approach
+model=model
 model_description=model_description
 model_input_anno=model_input_anno
 model_output_anno=model_output_anno
@@ -114,7 +117,7 @@ model_api_link=model_api_link
 approach_description=approach_description
 approach_input_anno=approach_input_anno
 approach_output_anno=approach_output_anno
-approach_python_example=approach_python_example
-approach_scala_example=approach_scala_example
+approach_python_medical=approach_python_medical
+approach_scala_medical=approach_scala_medical
 approach_api_link=approach_api_link
 %}

@@ -2,6 +2,14 @@
 AssertionLogReg
 {%- endcapture -%}
 
+{%- capture approach -%}
+approach
+{%- endcapture -%}
+
+{%- capture model -%}
+model
+{%- endcapture -%}
+
 {%- capture model_description -%}
 This is a main class in AssertionLogReg family. Logarithmic Regression is used to extract Assertion Status
 from extracted entities and text. AssertionLogRegModel requires DOCUMENT, CHUNK and WORD_EMBEDDINGS type
@@ -45,38 +53,30 @@ DOCUMENT, CHUNK, WORD_EMBEDDINGS
 ASSERTION
 {%- endcapture -%}
 
-{%- capture approach_python_example -%}
-import sparknlp
-from sparknlp.base import *
-from sparknlp.common import *
-from sparknlp.annotator import *
-from sparknlp.training import *
-import sparknlp_jsl
-from sparknlp_jsl.base import *
-from sparknlp_jsl.annotator import *
-from pyspark.ml import Pipeline
+{%- capture approach_python_medical -%}
+from johnsnowlabs import *
 # Training with Glove Embeddings
 # First define pipeline stages to extract embeddings and text chunks
-documentAssembler = DocumentAssembler() \
+documentAssembler = nlp.DocumentAssembler() \
     .setInputCol("text") \
     .setOutputCol("document")
 
-tokenizer = Tokenizer() \
+tokenizer = nlp.Tokenizer() \
     .setInputCols(["document"]) \
     .setOutputCol("token")
 
-glove = WordEmbeddingsModel.pretrained("embeddings_clinical", "en", "clinical/models") \
+glove = nlp.WordEmbeddingsModel.pretrained("embeddings_clinical", "en", "clinical/models") \
     .setInputCols(["document", "token"]) \
     .setOutputCol("word_embeddings") \
     .setCaseSensitive(False)
 
-chunkAssembler = Doc2Chunk() \
+chunkAssembler = nlp.Doc2Chunk() \
     .setInputCols(["document"]) \
     .setChunkCol("target") \
     .setOutputCol("chunk")
 
 # Then the AssertionLogRegApproach model is defined. Label column is needed in the dataset for training.
-assertion = AssertionLogRegApproach() \
+assertion = medical.AssertionLogRegApproach() \
     .setLabelCol("label") \
     .setInputCols(["document", "chunk", "word_embeddings"]) \
     .setOutputCol("assertion") \
@@ -97,34 +97,35 @@ assertionPipeline = Pipeline(stages=[
 ])
 
 assertionModel = assertionPipeline.fit(dataset)
-
 {%- endcapture -%}
 
-{%- capture approach_scala_example -%}
+{%- capture approach_scala_medical -%}
+from johnsnowlabs import * 
+
 // Training with Glove Embeddings
 // First define pipeline stages to extract embeddings and text chunks
-val documentAssembler = new DocumentAssembler()
+val documentAssembler = new nlp.DocumentAssembler()
   .setInputCol("text")
   .setOutputCol("document")
 
-val tokenizer = new Tokenizer()
+val tokenizer = new nlp.Tokenizer()
   .setInputCols("document")
   .setOutputCol("token")
 
-val glove = WordEmbeddingsModel.pretrained("embeddings_clinical", "en", "clinical/models")
-  .setInputCols("document", "token")
+val glove = nlp.WordEmbeddingsModel.pretrained("embeddings_clinical", "en", "clinical/models")
+  .setInputCols(Array("document", "token"))
   .setOutputCol("word_embeddings")
   .setCaseSensitive(false)
 
-val chunkAssembler = new Doc2Chunk()
+val chunkAssembler = new nlp.Doc2Chunk()
   .setInputCols("document")
   .setChunkCol("target")
   .setOutputCol("chunk")
 
 // Then the AssertionLogRegApproach model is defined. Label column is needed in the dataset for training.
-val assertion = new AssertionLogRegApproach()
+val assertion = new medical.AssertionLogRegApproach()
   .setLabelCol("label")
-  .setInputCols("document", "chunk", "word_embeddings")
+  .setInputCols(Array("document", "chunk", "word_embeddings"))
   .setOutputCol("assertion")
   .setReg(0.01)
   .setBefore(11)
@@ -143,7 +144,6 @@ val assertionPipeline = new Pipeline().setStages(Array(
 ))
 
 val assertionModel = assertionPipeline.fit(dataset)
-
 {%- endcapture -%}
 
 {%- capture approach_api_link -%}
@@ -151,8 +151,10 @@ val assertionModel = assertionPipeline.fit(dataset)
 {%- endcapture -%}
 
 
-{% include templates/licensed_approach_model_template.md
+{% include templates/licensed_approach_model_medical_fin_leg_template.md
 title=title
+approach=approach
+model=model
 model_description=model_description
 model_input_anno=model_input_anno
 model_output_anno=model_output_anno
@@ -160,7 +162,7 @@ model_api_link=model_api_link
 approach_description=approach_description
 approach_input_anno=approach_input_anno
 approach_output_anno=approach_output_anno
-approach_python_example=approach_python_example
-approach_scala_example=approach_scala_example
+approach_python_medical=approach_python_medical
+approach_scala_medical=approach_scala_medical
 approach_api_link=approach_api_link
 %}

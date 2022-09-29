@@ -2,13 +2,21 @@
 MedicalNer
 {%- endcapture -%}
 
+{%- capture approach -%}
+approach
+{%- endcapture -%}
+
+{%- capture model -%}
+model
+{%- endcapture -%}
+
 {%- capture model_description -%}
 This Named Entity recognition annotator is a generic NER model based on Neural Networks.
 
 
 Pretrained models can be loaded with `pretrained` of the companion object:
 ```
-val nerModel = NerDLModel.pretrained()
+val nerModel = nlp.NerDLModel.pretrained()
   .setInputCols("sentence", "token", "embeddings")
   .setOutputCol("ner")
 ```
@@ -35,125 +43,283 @@ DOCUMENT, TOKEN, WORD_EMBEDDINGS
 NAMED_ENTITY
 {%- endcapture -%}
 
-{%- capture model_python_example -%}
-import sparknlp
-from sparknlp.base import *
-from sparknlp.annotator import *
-from pyspark.ml import Pipeline
+{%- capture model_python_medical -%}
+from johnsnowlabs import * 
 
-# First extract the prerequisites for the NerDLModel
-from sparknlp.annotator import *
-from sparknlp_jsl.annotator import *
-from sparknlp.base import *
-import sparknlp
-from pyspark.ml import Pipeline
+documentAssembler = nlp.DocumentAssembler()\
+    .setInputCol("text")\
+    .setOutputCol("document")
 
-# First extract the prerequisites for the NerDLApproach
-documentAssembler = DocumentAssembler() \
-.setInputCol("text") \
-.setOutputCol("document")
+sentenceDetector = nlp.SentenceDetectorDLModel.pretrained("sentence_detector_dl_healthcare","en","clinical/models") \
+    .setInputCols(["document"]) \
+    .setOutputCol("sentence") 
 
-sentence = SentenceDetector() \
-.setInputCols(["document"]) \
-.setOutputCol("sentence")
+tokenizer = nlp.Tokenizer()\
+    .setInputCols(["sentence"])\
+    .setOutputCol("token")
 
-tokenizer = Tokenizer() \
-.setInputCols(["sentence"]) \
-.setOutputCol("token")
-
-clinical_embeddings = WordEmbeddingsModel.pretrained('embeddings_clinical', "en", "clinical/models")\
-.setInputCols(["sentence", "token"])\
-.setOutputCol("embeddings")
-
-# Then the training can start
-nerTagger = MedicalNerApproach()\
-.setInputCols(["sentence", "token", "embeddings"])\
-.setLabelColumn("label")\
-.setOutputCol("ner")\
-.setMaxEpochs(2)\
-.setBatchSize(64)\
-.setRandomSeed(0)\
-.setVerbose(1)\
-.setValidationSplit(0.2)\
-.setEvaluationLogExtended(True) \
-.setEnableOutputLogs(True)\
-.setIncludeConfidence(True)\
-.setOutputLogsPath('ner_logs')\
-.setGraphFolder('medical_ner_graphs')\
-.setEnableMemoryOptimizer(True) #>> if you have a limited memory and a large conll file, you can set this True to train batch by batch
-
-pipeline = Pipeline().setStages([
-documentAssembler,
-sentence,
-tokenizer,
-clinical_embeddings,
-nerTagger
-])
+word_embeddings = nlp.WordEmbeddingsModel.pretrained("embeddings_clinical", "en", "clinical/models")\
+    .setInputCols(["sentence", "token"])\
+    .setOutputCol("embeddings")
 
 
-conll = CoNLL()
-conll_data = CoNLL().readDataset(spark, 'NER_NCBIconlltrain.txt')
+jsl_ner = medical.NerModel.pretrained("ner_jsl", "en", "clinical/models") \
+    .setInputCols(["sentence", "token", "embeddings"]) \
+    .setOutputCol("jsl_ner")
+    
+jsl_ner_converter = nlp.NerConverter() \
+    .setInputCols(["sentence", "token", "jsl_ner"]) \
+    .setOutputCol("jsl_ner_chunk")
 
-result = pipeline.fit(data).transform(data)
+jsl_ner_pipeline = Pipeline(stages=[
+    documentAssembler, 
+    sentenceDetector,
+    tokenizer,
+    word_embeddings,
+    jsl_ner,
+    jsl_ner_converter])
 
+result = jsl_ner_pipeline.fit(data).transform(data)
 
 
 {%- endcapture -%}
 
-{%- capture model_scala_example -%}
-import spark.implicits._
-import com.johnsnowlabs.nlp.base.DocumentAssembler
-import com.johnsnowlabs.nlp.annotators.Tokenizer
-import com.johnsnowlabs.nlp.annotators.sbd.pragmatic.SentenceDetector
-import com.johnsnowlabs.nlp.embeddings.WordEmbeddingsModel
-import com.johnsnowlabs.nlp.annotators.ner.dl.MedicalNerModel
-import org.apache.spark.ml.Pipeline
-
-// First extract the prerequisites for the NerDLModel
-val documentAssembler = new DocumentAssembler()
+{%- capture model_scala_medical -%}
+from johnsnowlabs import * 
+val documentAssembler = new nlp.DocumentAssembler()
   .setInputCol("text")
   .setOutputCol("document")
 
-val sentence = new SentenceDetector()
-  .setInputCols("document")
-  .setOutputCol("sentence")
+val sentenceDetector = nlp.SentenceDetectorDLModel
+    .pretrained("sentence_detector_dl_healthcare","en","clinical/models") 
+    .setInputCols("document") 
+    .setOutputCol("sentence") 
 
-val tokenizer = new Tokenizer()
+val tokenizer = new nlp.Tokenizer()
   .setInputCols("sentence")
   .setOutputCol("token")
 
-val embeddings = WordEmbeddingsModel
+val word_embeddings = nlp.WordEmbeddingsModel
    .pretrained("embeddings_clinical", "en", "clinical/models")
-   .setInputCols(Array("sentences", "tokens"))
+   .setInputCols(Array("sentence", "token"))
    .setOutputCol("embeddings")
 
-// Then NER can be extracted
-val nerTagger = MedicalNerModel .pretrained()
-  .setInputCols("sentence", "token", "embeddings")
-  .setOutputCol("ner")
+val jsl_ner = medical.NerModel
+    .pretrained("ner_jsl", "en", "clinical/models") 
+    .setInputCols(Array("sentence", "token","embeddings")) 
+    .setOutputCol("jsl_ner")
+
+val jsl_ner_converter = new nlp.NerConverter() 
+    .setInputCols(Array("sentence", "token", "jsl_ner")) 
+    .setOutputCol("jsl_ner_chunk")
 
 val pipeline = new Pipeline().setStages(Array(
   documentAssembler,
-  sentence,
+  sentenceDetector,
   tokenizer,
-  embeddings,
-  nerTagger
+  word_embeddings,
+  jsl_ner,
+  jsl_ner_converter
 ))
 
-val data = Seq("A 28-year-old female with a history of gestational diabetes mellitus diagnosed eight years prior to" +
-" presentation and subsequent type two diabetes mellitus ( T2DM ), one prior episode of HTG-induced." ).toDF("text")
 val result = pipeline.fit(data).transform(data)
 
-conll = CoNLL()
-conll_data = CoNLL().readDataset(spark, 'NER_NCBIconlltrain.txt')
 
-ner_model = ner_pipeline.fit(conll_data)
+{%- endcapture -%}
+
+
+{%- capture model_python_legal -%}
+from johnsnowlabs import * 
+
+documentAssembler = nlp.DocumentAssembler()\
+        .setInputCol("text")\
+        .setOutputCol("document")
+        
+sentenceDetector = nlp.SentenceDetectorDLModel.pretrained("sentence_detector_dl","xx")\
+        .setInputCols(["document"])\
+        .setOutputCol("sentence")
+
+tokenizer = nlp.Tokenizer()\
+        .setInputCols(["sentence"])\
+        .setOutputCol("token")
+
+embeddings = nlp.RoBertaEmbeddings.pretrained("roberta_embeddings_legal_roberta_base","en") \
+    .setInputCols(["sentence", "token"]) \
+    .setOutputCol("embeddings")
+
+ner_model = legal.NerModel.pretrained("legner_headers", "en", "legal/models")\
+        .setInputCols(["sentence", "token", "embeddings"])\
+        .setOutputCol("ner")
+
+ner_converter = nlp.NerConverter()\
+        .setInputCols(["sentence","token","ner"])\
+        .setOutputCol("ner_chunk")
+
+nlpPipeline = Pipeline(stages=[
+        documentAssembler,
+        sentenceDetector,
+        tokenizer,
+        embeddings,
+        ner_model,
+        ner_converter])
+
+
+
+result = nlpPipeline.fit(data).transform(data)
+
+
+{%- endcapture -%}
+
+{%- capture model_scala_legal -%}
+from johnsnowlabs import * 
+val documentAssembler = new nlp.DocumentAssembler()
+  .setInputCol("text")
+  .setOutputCol("document")
+
+val sentenceDetector = nlp.SentenceDetectorDLModel
+    .pretrained("sentence_detector_dl","xx") 
+    .setInputCols("document") 
+    .setOutputCol("sentence") 
+
+
+val tokenizer = new nlp.Tokenizer()
+  .setInputCols("sentence")
+  .setOutputCol("token")
+
+ 
+val embeddings = nlp.RoBertaEmbeddings
+   .pretrained("roberta_embeddings_legal_roberta_base", "en")
+   .setInputCols(Array("sentence", "token"))
+   .setOutputCol("embeddings")
+
+
+val ner_model = legal.NerModel
+    .pretrained("legner_headers", "en", "legal/models") 
+    .setInputCols(Array("sentence", "token","embeddings")) 
+    .setOutputCol("ner")
+
+
+val ner_converter = new nlp.NerConverter() 
+    .setInputCols(Array("sentence", "token", "ner")) 
+    .setOutputCol("ner_chunk")
+
+
+
+
+val pipeline = new Pipeline().setStages(Array(
+  documentAssembler,
+  sentenceDetector,
+  tokenizer,
+  embeddings,
+  ner_model,
+  ner_converter
+))
+
+val result = pipeline.fit(data).transform(data)
+
+
+{%- endcapture -%}
+
+
+
+
+
+{%- capture model_python_finance -%}
+from johnsnowlabs import * 
+
+documentAssembler = nlp.DocumentAssembler()\
+        .setInputCol("text")\
+        .setOutputCol("document")
+        
+sentenceDetector = nlp.SentenceDetectorDLModel.pretrained("sentence_detector_dl","xx")\
+        .setInputCols(["document"])\
+        .setOutputCol("sentence")
+
+tokenizer = nlp.Tokenizer()\
+        .setInputCols(["sentence"])\
+        .setOutputCol("token")
+
+embeddings = nlp.BertEmbeddings.pretrained("bert_embeddings_sec_bert_base","en") \
+    .setInputCols(["sentence", "token"]) \
+    .setOutputCol("embeddings")
+
+ner_model = finance.NerModel.pretrained("finner_headers", "en", "finance/models")\
+        .setInputCols(["sentence", "token", "embeddings"])\
+        .setOutputCol("ner")
+
+ner_converter = nlp.NerConverter()\
+        .setInputCols(["sentence","token","ner"])\
+        .setOutputCol("ner_chunk")
+
+nlpPipeline = Pipeline(stages=[
+        documentAssembler,
+        sentenceDetector,
+        tokenizer,
+        embeddings,
+        ner_model,
+        ner_converter])
+
+
+
+result = nlpPipeline.fit(data).transform(data)
+
+{%- endcapture -%}
+{%- capture model_scala_finance -%}
+from johnsnowlabs import * 
+val documentAssembler = new nlp.DocumentAssembler()
+  .setInputCol("text")
+  .setOutputCol("document")
+
+val sentenceDetector = nlp.SentenceDetectorDLModel
+    .pretrained("sentence_detector_dl","xx") 
+    .setInputCols("document") 
+    .setOutputCol("sentence") 
+
+
+val tokenizer = new nlp.Tokenizer()
+  .setInputCols("sentence")
+  .setOutputCol("token")
+
+ 
+val embeddings = nlp.BertEmbeddings
+   .pretrained("bert_embeddings_sec_bert_base", "en")
+   .setInputCols(Array("sentence", "token"))
+   .setOutputCol("embeddings")
+
+
+val ner_model = finance.NerModel
+    .pretrained("finner_headers", "en", "finance/models") 
+    .setInputCols(Array("sentence", "token","embeddings")) 
+    .setOutputCol("ner")
+
+
+val ner_converter = new nlp.NerConverter() 
+    .setInputCols(Array("sentence", "token", "ner")) 
+    .setOutputCol("ner_chunk")
+
+
+val pipeline = new Pipeline().setStages(Array(
+  documentAssembler,
+  sentenceDetector,
+  tokenizer,
+  embeddings,
+  ner_model,
+  ner_converter
+))
+
+val result = pipeline.fit(data).transform(data)
+
 
 {%- endcapture -%}
 
 {%- capture model_api_link -%}
 [MedicalNerModel](https://nlp.johnsnowlabs.com/licensed/api/com/johnsnowlabs/nlp/annotators/ner/MedicalNerModel.html)
 {%- endcapture -%}
+
+
+
+
+
 
 
 {%- capture approach_description -%}
@@ -187,33 +353,28 @@ DOCUMENT, TOKEN, WORD_EMBEDDINGS
 NAMED_ENTITY
 {%- endcapture -%}
 
-{%- capture approach_python_example -%}
-import sparknlp
-from sparknlp.base import *
-from sparknlp.annotator import *
-from sparknlp_jsl.annotator import *
-from sparknlp.training import *
-from pyspark.ml import Pipeline
+{%- capture approach_python_medical -%}
+from johnsnowlabs import * 
 
 # First extract the prerequisites for the NerDLApproach
-documentAssembler = DocumentAssembler() \
+documentAssembler = nlp.DocumentAssembler() \
 .setInputCol("text") \
 .setOutputCol("document")
 
-sentence = SentenceDetector() \
+sentence = nlp.SentenceDetector() \
 .setInputCols(["document"]) \
 .setOutputCol("sentence")
 
-tokenizer = Tokenizer() \
+tokenizer = nlp.Tokenizer() \
 .setInputCols(["sentence"]) \
 .setOutputCol("token")
 
-clinical_embeddings = WordEmbeddingsModel.pretrained('embeddings_clinical', "en", "clinical/models")\
+clinical_embeddings = nlp.WordEmbeddingsModel.pretrained('embeddings_clinical', "en", "clinical/models")\
 .setInputCols(["sentence", "token"])\
 .setOutputCol("embeddings")
 
 # Then the training can start
-nerTagger = MedicalNerApproach()\
+nerTagger = medical.NerApproach()\
 .setInputCols(["sentence", "token", "embeddings"])\
 .setLabelColumn("label")\
 .setOutputCol("ner")\
@@ -245,34 +406,28 @@ pipelineModel = pipeline.fit(trainingData)
 
 {%- endcapture -%}
 
-{%- capture approach_scala_example -%}
-import com.johnsnowlabs.nlp.base.DocumentAssembler
-import com.johnsnowlabs.nlp.annotators.Tokenizer
-import com.johnsnowlabs.nlp.annotators.sbd.pragmatic.SentenceDetector
-import com.johnsnowlabs.nlp.embeddings.WordEmbeddingsModel
-import com.johnsnowlabs.nlp.annotators.ner.MedicalNerApproach
-import com.johnsnowlabs.nlp.training.CoNLL
-import org.apache.spark.ml.Pipeline
-
+{%- capture approach_scala_medical -%}
+from johnsnowlabs import * 
 // First extract the prerequisites for the NerDLApproach
-val documentAssembler = new DocumentAssembler()
+val documentAssembler = new nlp.DocumentAssembler()
   .setInputCol("text")
   .setOutputCol("document")
 
-val sentence = new SentenceDetector()
+val sentence = new nlp.SentenceDetector()
   .setInputCols("document")
   .setOutputCol("sentence")
 
-val tokenizer = new Tokenizer()
+val tokenizer = new nlp.Tokenizer()
   .setInputCols("sentence")
   .setOutputCol("token")
 
-val embeddings = BertEmbeddings.pretrained()
-  .setInputCols("sentence", "token")
+val embeddings = nlp.WordEmbeddingsModel
+  .pretrained('embeddings_clinical', "en", "clinical/models")
+  .setInputCols(Array("sentence", "token"))
   .setOutputCol("embeddings")
 
 // Then the training can start
-val nerTagger =new MedicalNerApproach()
+val nerTagger =new medical.NerApproach()
 .setInputCols(Array("sentence", "token", "embeddings"))
 .setLabelColumn("label")
 .setOutputCol("ner")
@@ -307,19 +462,26 @@ val pipelineModel = pipeline.fit(trainingData)
 
 
 
-
-{% include templates/licensed_approach_model_template.md
+{% include templates/licensed_approach_model_medical_fin_leg_template.md
 title=title
+model=model
+approach=approach
 model_description=model_description
 model_input_anno=model_input_anno
 model_output_anno=model_output_anno
-model_python_example=model_python_example
-model_scala_example=model_scala_example
+model_python_medical=model_python_medical
+model_scala_medical=model_scala_medical
+model_python_legal=model_python_legal
+model_scala_legal=model_scala_legal
+model_python_finance=model_python_finance
+model_scala_finance=model_scala_finance
 model_api_link=model_api_link
 approach_description=approach_description
 approach_input_anno=approach_input_anno
 approach_output_anno=approach_output_anno
-approach_python_example=approach_python_example
-approach_scala_example=approach_scala_example
+approach_python_medical=approach_python_medical
+approach_scala_medical=approach_scala_medical
 approach_api_link=approach_api_link
 %}
+
+

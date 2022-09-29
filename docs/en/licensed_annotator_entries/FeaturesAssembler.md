@@ -2,7 +2,11 @@
 FeaturesAssembler
 {%- endcapture -%}
 
-{%- capture description -%}
+{%- capture approach -%}
+approach
+{%- endcapture -%}
+
+{%- capture approach_description -%}
 The FeaturesAssembler is used to collect features from different columns. It can collect features from single value
 columns (anything which can be cast to a float, if casts fails then the value is set to 0), array columns or
 SparkNLP annotations (if the annotation is an embedding, it takes the embedding, otherwise tries to cast the
@@ -10,24 +14,25 @@ SparkNLP annotations (if the annotation is an embedding, it takes the embedding,
 `embeddings` field).
 {%- endcapture -%}
 
-{%- capture input_anno -%}
+{%- capture approach_input_anno -%}
 NONE
 {%- endcapture -%}
 
-{%- capture output_anno -%}
+{%- capture approach_output_anno -%}
 "feature_vector"
 {%- endcapture -%}
 
-{%- capture api_link -%}
+{%- capture approach_api_link -%}
 [FeaturesAssembler](https://nlp.johnsnowlabs.com/licensed/api/com/johnsnowlabs/nlp/FeaturesAssembler)
 {%- endcapture -%}
 
-{%- capture python_example -%}
-features_asm = FeaturesAssembler() \
+{%- capture approach_python_medical -%}
+from johnsnowlabs import * 
+features_asm = medical.FeaturesAssembler() \
   .setInputCols(["feature_1", "feature_2", "...", "feature_n"]) \
   .setOutputCol("features")
 
-gen_clf = GenericClassifierApproach() \
+gen_clf = medical.GenericClassifierApproach() \
   .setLabelColumn("target") \
   .setInputCols(["features"]) \
   .setOutputCol("prediction") \
@@ -46,15 +51,15 @@ pipeline = Pipeline(stages=[
 ])
 
 clf_model = pipeline.fit(data)
-
 {%- endcapture -%}
 
-{%- capture scala_example -%}
-val features_asm = new FeaturesAssembler()
+{%- capture approach_scala_medical -%}
+from johnsnowlabs import * 
+val features_asm = new medical.FeaturesAssembler()
   .setInputCols(Array("feature_1", "feature_2", "...", "feature_n"))
   .setOutputCol("features")
 
-val gen_clf = new GenericClassifierApproach()
+val gen_clf = new medical.GenericClassifierApproach()
   .setLabelColumn("target")
   .setInputCols("features")
   .setOutputCol("prediction")
@@ -75,11 +80,12 @@ val pipeline = new Pipeline().setStages(Array(
 val clf_model = pipeline.fit(data)
 {%- endcapture -%}
 
-{% include templates/licensed_anno_template.md
+{% include templates/licensed_approach_model_medical_fin_leg_template.md
 title=title
-description=description
-input_anno=input_anno
-output_anno=output_anno
-python_example=python_example
-scala_example=scala_example
-api_link=api_link%}
+approach=approach
+approach_description=approach_description
+approach_input_anno=approach_input_anno
+approach_output_anno=approach_output_anno
+approach_python_medical=approach_python_medical
+approach_scala_medical=approach_scala_medical
+approach_api_link=approach_api_link%}

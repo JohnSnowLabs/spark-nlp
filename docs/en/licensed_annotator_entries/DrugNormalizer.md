@@ -2,7 +2,11 @@
 DrugNormalizer
 {%- endcapture -%}
 
-{%- capture description -%}
+{%- capture model -%}
+model
+{%- endcapture -%}
+
+{%- capture model_description -%}
 Annotator which normalizes raw text from clinical documents, e.g. scraped web pages or xml documents, from document type columns into Sentence.
 Removes all dirty characters from text following one or more input regex patterns.
 Can apply non wanted character removal which a specific policy.
@@ -11,31 +15,23 @@ Can apply lower case normalization.
 See [Spark NLP Workshop](https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/23.Drug_Normalizer.ipynb) for more examples of usage.
 {%- endcapture -%}
 
-{%- capture input_anno -%}
+{%- capture model_input_anno -%}
 DOCUMENT
 {%- endcapture -%}
 
-{%- capture output_anno -%}
+{%- capture model_output_anno -%}
 DOCUMENT
 {%- endcapture -%}
 
-{%- capture python_example -%}
-import sparknlp
-from sparknlp.base import *
-from sparknlp.common import *
-from sparknlp.annotator import *
-from sparknlp.training import *
-import sparknlp_jsl
-from sparknlp_jsl.base import *
-from sparknlp_jsl.annotator import *
-from pyspark.ml import Pipeline
+{%- capture model_python_medical -%}
+from johnsnowlabs import *
 data = spark.createDataFrame([
   ["Sodium Chloride/Potassium Chloride 13bag"],
   ["interferon alfa-2b 10 million unit ( 1 ml ) injec"],
   ["aspirin 10 meq/ 5 ml oral sol"]
 ]).toDF("text")
-document = DocumentAssembler().setInputCol("text").setOutputCol("document")
-drugNormalizer = DrugNormalizer().setInputCols(["document"]).setOutputCol("document_normalized")
+document = nlp.DocumentAssembler().setInputCol("text").setOutputCol("document")
+drugNormalizer = medical.DrugNormalizer().setInputCols(["document"]).setOutputCol("document_normalized")
 
 trainingPipeline = Pipeline(stages=[document, drugNormalizer])
 result = trainingPipeline.fit(data).transform(data)
@@ -51,14 +47,15 @@ result.selectExpr("explode(document_normalized.result) as normalized_text").show
 
 {%- endcapture -%}
 
-{%- capture scala_example -%}
+{%- capture model_scala_medical -%}
+from johnsnowlabs import * 
 val data = Seq(
   ("Sodium Chloride/Potassium Chloride 13bag"),
   ("interferon alfa-2b 10 million unit ( 1 ml ) injec"),
   ("aspirin 10 meq/ 5 ml oral sol")
 ).toDF("text")
-val document = new DocumentAssembler().setInputCol("text").setOutputCol("document")
-val drugNormalizer = new DrugNormalizer().setInputCols("document").setOutputCol("document_normalized")
+val document = new nlp.DocumentAssembler().setInputCol("text").setOutputCol("document")
+val drugNormalizer = new medical.DrugNormalizer().setInputCols("document").setOutputCol("document_normalized")
 
 val trainingPipeline = new Pipeline().setStages(Array(document, drugNormalizer))
 val result = trainingPipeline.fit(data).transform(data)
@@ -74,15 +71,16 @@ result.selectExpr("explode(document_normalized.result) as normalized_text").show
 
 {%- endcapture -%}
 
-{%- capture api_link -%}
+{%- capture model_api_link -%}
 [DrugNormalizer](https://nlp.johnsnowlabs.com/licensed/api/com/johnsnowlabs/nlp/annotators/DrugNormalizer)
 {%- endcapture -%}
 
-{% include templates/licensed_anno_template.md
+{% include templates/licensed_approach_model_medical_fin_leg_template.md
 title=title
-description=description
-input_anno=input_anno
-output_anno=output_anno
-python_example=python_example
-scala_example=scala_example
-api_link=api_link%}
+model=model
+model_description=model_description
+model_input_anno=model_input_anno
+model_output_anno=model_output_anno
+model_python_medical=model_python_medical
+model_scala_medical=model_scala_medical
+model_api_link=model_api_link%}

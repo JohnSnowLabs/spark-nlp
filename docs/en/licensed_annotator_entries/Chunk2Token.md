@@ -2,7 +2,11 @@
 Chunk2Token
 {%- endcapture -%}
 
-{%- capture description -%}
+{%- capture model -%}
+model
+{%- endcapture -%}
+
+{%- capture model_description -%}
 A feature transformer that converts the input array of strings (annotatorType CHUNK) into an
 array of chunk-based tokens (annotatorType TOKEN).
 
@@ -11,30 +15,22 @@ When the input is empty, an empty array is returned.
 This Annotator is specially convenient when using NGramGenerator annotations as inputs to WordEmbeddingsModels
 {%- endcapture -%}
 
-{%- capture input_anno -%}
+{%- capture model_input_anno -%}
 CHUNK
 {%- endcapture -%}
 
-{%- capture output_anno -%}
+{%- capture model_output_anno -%}
 TOKEN
 {%- endcapture -%}
 
-{%- capture python_example -%}
-import sparknlp
-from sparknlp.base import *
-from sparknlp.common import *
-from sparknlp.annotator import *
-from sparknlp.training import *
-import sparknlp_jsl
-from sparknlp_jsl.base import *
-from sparknlp_jsl.annotator import *
-from pyspark.ml import Pipeline
+{%- capture model_python_medical -%}
+from johnsnowlabs import * 
 # Define a pipeline for generating n-grams
 data = spark.createDataFrame([["A 63-year-old man presents to the hospital ..."]]).toDF("text")
-document = DocumentAssembler().setInputCol("text").setOutputCol("document")
-sentenceDetector = SentenceDetector().setInputCols(["document"]).setOutputCol("sentence")
-token = Tokenizer().setInputCols(["sentence"]).setOutputCol("token")
-ngrammer = NGramGenerator() \
+document = nlp.DocumentAssembler().setInputCol("text").setOutputCol("document")
+sentenceDetector = nlp.SentenceDetector().setInputCols(["document"]).setOutputCol("sentence")
+token = nlp.Tokenizer().setInputCols(["sentence"]).setOutputCol("token")
+ngrammer = nlp.NGramGenerator() \
  .setN(2) \
  .setEnableCumulative(False) \
  .setInputCols(["token"]) \
@@ -42,7 +38,7 @@ ngrammer = NGramGenerator() \
  .setDelimiter("_")
 
 # Stage to convert n-gram CHUNKS to TOKEN type
-chunk2Token = Chunk2Token().setInputCols(["ngrams"]).setOutputCol("ngram_tokens")
+chunk2Token = medical.Chunk2Token().setInputCols(["ngrams"]).setOutputCol("ngram_tokens")
 trainingPipeline = Pipeline(stages=[document, sentenceDetector, token, ngrammer, chunk2Token]).fit(data)
 
 result = trainingPipeline.transform(data).cache()
@@ -59,13 +55,14 @@ result.selectExpr("explode(ngram_tokens)").show(5, False)
 
 {%- endcapture -%}
 
-{%- capture scala_example -%}
+{%- capture model_scala_medical -%}
+from johnsnowlabs import * 
 // Define a pipeline for generating n-grams
 val data = Seq(("A 63-year-old man presents to the hospital ...")).toDF("text")
-val document = new DocumentAssembler().setInputCol("text").setOutputCol("document")
-val sentenceDetector = new SentenceDetector().setInputCols("document").setOutputCol("sentence")
-val token = new Tokenizer().setInputCols("sentence").setOutputCol("token")
-val ngrammer = new NGramGenerator()
+val document = new nlp.DocumentAssembler().setInputCol("text").setOutputCol("document")
+val sentenceDetector = new nlp.SentenceDetector().setInputCols("document").setOutputCol("sentence")
+val token = new nlp.Tokenizer().setInputCols("sentence").setOutputCol("token")
+val ngrammer = new nlp.NGramGenerator()
  .setN(2)
  .setEnableCumulative(false)
  .setInputCols("token")
@@ -73,7 +70,7 @@ val ngrammer = new NGramGenerator()
  .setDelimiter("_")
 
 // Stage to convert n-gram CHUNKS to TOKEN type
-val chunk2Token = new Chunk2Token().setInputCols("ngrams").setOutputCol("ngram_tokens")
+val chunk2Token = new medical.Chunk2Token().setInputCols("ngrams").setOutputCol("ngram_tokens")
 val trainingPipeline = new Pipeline().setStages(Array(document, sentenceDetector, token, ngrammer, chunk2Token)).fit(data)
 
 val result = trainingPipeline.transform(data).cache()
@@ -90,15 +87,16 @@ result.selectExpr("explode(ngram_tokens)").show(5, false)
 
 {%- endcapture -%}
 
-{%- capture api_link -%}
+{%- capture model_api_link -%}
 [Chunk2Token](https://nlp.johnsnowlabs.com/licensed/api/com/johnsnowlabs/nlp/annotators/Chunk2Token)
 {%- endcapture -%}
 
-{% include templates/licensed_anno_template.md
+{% include templates/licensed_approach_model_medical_fin_leg_template.md
 title=title
-description=description
-input_anno=input_anno
-output_anno=output_anno
-python_example=python_example
-scala_example=scala_example
-api_link=api_link%}
+model=model
+model_description=model_description
+model_input_anno=model_input_anno
+model_output_anno=model_output_anno
+model_python_medical=model_python_medical
+model_scala_medical=model_scala_medical
+model_api_link=model_api_link%}

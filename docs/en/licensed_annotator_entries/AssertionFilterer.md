@@ -1,35 +1,32 @@
+{%- capture model -%}
+model
+{%- endcapture -%}
+
 {%- capture title -%}
 AssertionFilterer
 {%- endcapture -%}
 
-{%- capture description -%}
+{%- capture model_description -%}
 Filters entities coming from ASSERTION type annotations and returns the CHUNKS.
 Filters can be set via a white list on the extracted chunk, the assertion or a regular expression.
 White list for assertion is enabled by default. To use chunk white list, `criteria` has to be set to `"isin"`.
 For regex, `criteria` has to be set to `"regex"`.
 {%- endcapture -%}
 
-{%- capture input_anno -%}
+{%- capture model_input_anno -%}
 DOCUMENT, CHUNK, ASSERTION
 {%- endcapture -%}
 
-{%- capture output_anno -%}
+{%- capture model_output_anno -%}
 CHUNK
 {%- endcapture -%}
 
-{%- capture python_example -%}
-import sparknlp
-from sparknlp.base import *
-from sparknlp.common import *
-from sparknlp.annotator import *
-from sparknlp.training import *
-import sparknlp_jsl
-from sparknlp_jsl.base import *
-from sparknlp_jsl.annotator import *
-from pyspark.ml import Pipeline
+
+{%- capture model_python_medical -%}
+from johnsnowlabs import * 
 # To see how the assertions are extracted, see the example for AssertionDLModel.
 # Define an extra step where the assertions are filtered
-assertionFilterer = AssertionFilterer() \
+assertionFilterer = medical.AssertionFilterer() \
   .setInputCols(["sentence","ner_chunk","assertion"]) \
   .setOutputCol("filtered") \
   .setCriteria("assertion") \
@@ -68,14 +65,15 @@ result.select("filtered.result").show(3, truncate=False)
 |[]                         |
 |[an epidural, PCA]         |
 +---------------------------+
-
 {%- endcapture -%}
 
-{%- capture scala_example -%}
+{%- capture model_scala_medical -%}
+from johnsnowlabs import * 
+
 // To see how the assertions are extracted, see the example for
 // [[com.johnsnowlabs.nlp.annotators.assertion.dl.AssertionDLModel AssertionDLModel]].
 // Define an extra step where the assertions are filtered
-val assertionFilterer = new AssertionFilterer()
+val assertionFilterer = new medical.AssertionFilterer()
   .setInputCols("sentence","ner_chunk","assertion")
   .setOutputCol("filtered")
   .setCriteria("assertion")
@@ -116,15 +114,16 @@ val result = assertionModel.transform(data)
 //
 {%- endcapture -%}
 
-{%- capture api_link -%}
+{%- capture model_api_link -%}
 [AssertionFilterer](https://nlp.johnsnowlabs.com/licensed/api/com/johnsnowlabs/nlp/annotators/chunker/AssertionFilterer)
 {%- endcapture -%}
 
-{% include templates/licensed_anno_template.md
+{% include templates/licensed_approach_model_medical_fin_leg_template.md
 title=title
-description=description
-input_anno=input_anno
-output_anno=output_anno
-python_example=python_example
-scala_example=scala_example
-api_link=api_link%}
+model=model
+model_description=model_description
+model_input_anno=model_input_anno
+model_output_anno=model_output_anno
+model_python_medical=model_python_medical
+model_scala_medical=model_scala_medical
+model_api_link=model_api_link%}

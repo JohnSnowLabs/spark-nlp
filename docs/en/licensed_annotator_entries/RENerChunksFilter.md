@@ -2,59 +2,55 @@
 RENerChunksFilter
 {%- endcapture -%}
 
-{%- capture description -%}
+{%- capture model -%}
+model
+{%- endcapture -%}
+
+{%- capture model_description -%}
 Filters and outputs combinations of relations between extracted entities, for further processing.
 This annotator is especially useful to create inputs for the RelationExtractionDLModel.
 {%- endcapture -%}
 
-{%- capture input_anno -%}
+{%- capture model_input_anno -%}
 CHUNK, DEPENDENCY
 {%- endcapture -%}
 
-{%- capture output_anno -%}
+{%- capture model_output_anno -%}
 CHUNK
 {%- endcapture -%}
 
-{%- capture python_example -%}
-import sparknlp
-from sparknlp.base import *
-from sparknlp.common import *
-from sparknlp.annotator import *
-from sparknlp.training import *
-import sparknlp_jsl
-from sparknlp_jsl.base import *
-from sparknlp_jsl.annotator import *
-from pyspark.ml import Pipeline
+{%- capture model_python_medical -%}
+from johnsnowlabs import * 
 # Define pipeline stages to extract entities
-documenter = DocumentAssembler() \
+documenter = nlp.DocumentAssembler() \
   .setInputCol("text") \
   .setOutputCol("document")
 
-sentencer = SentenceDetector() \
+sentencer = nlp.SentenceDetector() \
   .setInputCols(["document"]) \
   .setOutputCol("sentences")
 
-tokenizer = Tokenizer() \
+tokenizer = nlp.Tokenizer() \
   .setInputCols(["sentences"]) \
   .setOutputCol("tokens")
 
-words_embedder = WordEmbeddingsModel.pretrained("embeddings_clinical", "en", "clinical/models") \
+words_embedder = nlp.WordEmbeddingsModel.pretrained("embeddings_clinical", "en", "clinical/models") \
   .setInputCols(["sentences", "tokens"]) \
   .setOutputCol("embeddings")
 
-pos_tagger = PerceptronModel.pretrained("pos_clinical", "en", "clinical/models") \
+pos_tagger = nlp.PerceptronModel.pretrained("pos_clinical", "en", "clinical/models") \
   .setInputCols(["sentences", "tokens"]) \
   .setOutputCol("pos_tags")
 
-dependency_parser = DependencyParserModel.pretrained("dependency_conllu", "en") \
+dependency_parser = nlp.DependencyParserModel.pretrained("dependency_conllu", "en") \
   .setInputCols(["sentences", "pos_tags", "tokens"]) \
   .setOutputCol("dependencies")
 
-clinical_ner_tagger = MedicalNerModel.pretrained("jsl_ner_wip_greedy_clinical","en","clinical/models") \
+clinical_ner_tagger = medical.NerModel.pretrained("jsl_ner_wip_greedy_clinical","en","clinical/models") \
   .setInputCols(["sentences", "tokens", "embeddings"]) \
   .setOutputCol("ner_tags")
 
-ner_chunker = NerConverter() \
+ner_chunker = nlp.NerConverter() \
   .setInputCols(["sentences", "tokens", "ner_tags"]) \
   .setOutputCol("ner_chunks")
 
@@ -66,7 +62,7 @@ relationPairs = [
   "internal_organ_or_component-direction"
 ]
 
-re_ner_chunk_filter = RENerChunksFilter() \
+re_ner_chunk_filter = medical.RENerChunksFilter() \
   .setInputCols(["ner_chunks", "dependencies"]) \
   .setOutputCol("re_ner_chunks") \
   .setMaxSyntacticDistance(4) \
@@ -103,38 +99,39 @@ result.selectExpr("explode(re_ner_chunks) as re_chunks") \
 +-----+-------------+---------------------------+---------+
 {%- endcapture -%}
 
-{%- capture scala_example -%}
+{%- capture model_scala_medical -%}
+from johnsnowlabs import * 
 // Define pipeline stages to extract entities
-val documenter = new DocumentAssembler()
+val documenter = new nlp.DocumentAssembler()
   .setInputCol("text")
   .setOutputCol("document")
 
-val sentencer = new SentenceDetector()
+val sentencer = new nlp.SentenceDetector()
   .setInputCols("document")
   .setOutputCol("sentences")
 
-val tokenizer = new Tokenizer()
+val tokenizer = new nlp.Tokenizer()
   .setInputCols("sentences")
   .setOutputCol("tokens")
 
-val words_embedder = WordEmbeddingsModel.pretrained("embeddings_clinical", "en", "clinical/models")
-  .setInputCols("sentences", "tokens")
+val words_embedder = nlp.WordEmbeddingsModel.pretrained("embeddings_clinical", "en", "clinical/models")
+  .setInputCols(Array("sentences", "tokens"))
   .setOutputCol("embeddings")
 
-val pos_tagger = PerceptronModel.pretrained("pos_clinical", "en", "clinical/models")
-  .setInputCols("sentences", "tokens")
+val pos_tagger = nlp.PerceptronModel.pretrained("pos_clinical", "en", "clinical/models")
+  .setInputCols(Array("sentences", "tokens"))
   .setOutputCol("pos_tags")
 
-val dependency_parser = DependencyParserModel.pretrained("dependency_conllu", "en")
-  .setInputCols("sentences", "pos_tags", "tokens")
+val dependency_parser = nlp.DependencyParserModel.pretrained("dependency_conllu", "en")
+  .setInputCols(Array("sentences", "pos_tags", "tokens"))
   .setOutputCol("dependencies")
 
-val clinical_ner_tagger = MedicalNerModel.pretrained("jsl_ner_wip_greedy_clinical","en","clinical/models")
-  .setInputCols("sentences", "tokens", "embeddings")
+val clinical_ner_tagger = medical.NerModel.pretrained("jsl_ner_wip_greedy_clinical","en","clinical/models")
+  .setInputCols(Array("sentences", "tokens", "embeddings"))
   .setOutputCol("ner_tags")
 
-val ner_chunker = new NerConverter()
-  .setInputCols("sentences", "tokens", "ner_tags")
+val ner_chunker = new nlp.NerConverter()
+  .setInputCols(Array("sentences", "tokens", "ner_tags"))
   .setOutputCol("ner_chunks")
 
 // Define the relation pairs and the filter
@@ -143,8 +140,8 @@ val relationPairs = Array("direction-external_body_part_or_region",
                       "direction-internal_organ_or_component",
                       "internal_organ_or_component-direction")
 
-val re_ner_chunk_filter = new RENerChunksFilter()
-    .setInputCols("ner_chunks", "dependencies")
+val re_ner_chunk_filter = new medical.RENerChunksFilter()
+    .setInputCols(Array("ner_chunks", "dependencies"))
     .setOutputCol("re_ner_chunks")
     .setMaxSyntacticDistance(4)
     .setRelationPairs(Array("internal_organ_or_component-direction"))
@@ -182,15 +179,17 @@ val result = trained_pipeline.fit(data).transform(data)
 //
 {%- endcapture -%}
 
-{%- capture api_link -%}
+
+{%- capture model_api_link -%}
 [RENerChunksFilter](https://nlp.johnsnowlabs.com/licensed/api/com/johnsnowlabs/nlp/annotators/re/RENerChunksFilter)
 {%- endcapture -%}
 
-{% include templates/licensed_anno_template.md
+{% include templates/licensed_approach_model_medical_fin_leg_template.md
 title=title
-description=description
-input_anno=input_anno
-output_anno=output_anno
-python_example=python_example
-scala_example=scala_example
-api_link=api_link%}
+model=model
+model_description=model_description
+model_input_anno=model_input_anno
+model_output_anno=model_output_anno
+model_python_medical=model_python_medical
+model_scala_medical=model_scala_medical
+model_api_link=model_api_link%}

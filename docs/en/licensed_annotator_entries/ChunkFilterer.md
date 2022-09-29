@@ -2,47 +2,43 @@
 ChunkFilterer
 {%- endcapture -%}
 
-{%- capture description -%}
+{%- capture model -%}
+model
+{%- endcapture -%}
+
+{%- capture model_description -%}
 Filters entities coming from CHUNK annotations. Filters can be set via a white list of terms or a regular expression.
 White list criteria is enabled by default. To use regex, `criteria` has to be set to `regex`.
 {%- endcapture -%}
 
-{%- capture input_anno -%}
+{%- capture model_input_anno -%}
 DOCUMENT,CHUNK
 {%- endcapture -%}
 
-{%- capture output_anno -%}
+{%- capture model_output_anno -%}
 CHUNK
 {%- endcapture -%}
 
-{%- capture python_example -%}
-import sparknlp
-from sparknlp.base import *
-from sparknlp.common import *
-from sparknlp.annotator import *
-from sparknlp.training import *
-import sparknlp_jsl
-from sparknlp_jsl.base import *
-from sparknlp_jsl.annotator import *
-from pyspark.ml import Pipeline
+{%- capture model_python_medical -%}
+from johnsnowlabs import *
 # Filtering POS tags
 # First pipeline stages to extract the POS tags are defined
 data = spark.createDataFrame([["Has a past history of gastroenteritis and stomach pain, however patient ..."]]).toDF("text")
-docAssembler = DocumentAssembler().setInputCol("text").setOutputCol("document")
-sentenceDetector = SentenceDetector().setInputCols(["document"]).setOutputCol("sentence")
-tokenizer = Tokenizer().setInputCols(["sentence"]).setOutputCol("token")
+docAssembler = nlp.DocumentAssembler().setInputCol("text").setOutputCol("document")
+sentenceDetector = nlp.SentenceDetector().setInputCols(["document"]).setOutputCol("sentence")
+tokenizer = nlp.Tokenizer().setInputCols(["sentence"]).setOutputCol("token")
 
-posTagger = PerceptronModel.pretrained() \
+posTagger = nlp.PerceptronModel.pretrained() \
   .setInputCols(["sentence", "token"]) \
   .setOutputCol("pos")
 
-chunker = Chunker() \
+chunker = nlp.Chunker() \
   .setInputCols(["pos", "sentence"]) \
   .setOutputCol("chunk") \
   .setRegexParsers(["(<NN>)+"])
 
 # Then the chunks can be filtered via a white list. Here only terms with "gastroenteritis" remain.
-chunkerFilter = ChunkFilterer() \
+chunkerFilter = medical.ChunkFilterer() \
   .setInputCols(["sentence","chunk"]) \
   .setOutputCol("filtered") \
   .setCriteria("isin") \
@@ -76,29 +72,29 @@ result.selectExpr("explode(filtered)").show(truncate=False)
 |{chunk, 22, 36, gastroenteritis, {sentence -> 0, chunk -> 1}, []}  |
 |{chunk, 118, 132, gastroenteritis, {sentence -> 0, chunk -> 5}, []}|
 +-------------------------------------------------------------------+
-
 {%- endcapture -%}
 
-{%- capture scala_example -%}
+{%- capture model_scala_medical -%}
+from johnsnowlabs import * 
 // Filtering POS tags
 // First pipeline stages to extract the POS tags are defined
 val data = Seq("Has a past history of gastroenteritis and stomach pain, however patient ...").toDF("text")
-val docAssembler = new DocumentAssembler().setInputCol("text").setOutputCol("document")
-val sentenceDetector = new SentenceDetector().setInputCols("document").setOutputCol("sentence")
-val tokenizer = new Tokenizer().setInputCols("sentence").setOutputCol("token")
+val docAssembler = new nlp.DocumentAssembler().setInputCol("text").setOutputCol("document")
+val sentenceDetector = new nlp.SentenceDetector().setInputCols("document").setOutputCol("sentence")
+val tokenizer = new nlp.Tokenizer().setInputCols("sentence").setOutputCol("token")
 
-val posTagger = PerceptronModel.pretrained()
-  .setInputCols("sentence", "token")
+val posTagger = nlp.PerceptronModel.pretrained()
+  .setInputCols(Array("sentence", "token"))
   .setOutputCol("pos")
 
-val chunker = new Chunker()
-  .setInputCols("pos", "sentence")
+val chunker = new nlp.Chunker()
+  .setInputCols(Array("pos", "sentence"))
   .setOutputCol("chunk")
   .setRegexParsers(Array("(<NN>)+"))
 
 // Then the chunks can be filtered via a white list. Here only terms with "gastroenteritis" remain.
-val chunkerFilter = new ChunkFilterer()
-  .setInputCols("sentence","chunk")
+val chunkerFilter = new medical.ChunkFilterer()
+  .setInputCols(Array("sentence","chunk"))
   .setOutputCol("filtered")
   .setCriteria("isin")
   .setWhiteList("gastroenteritis")
@@ -130,18 +126,18 @@ result.selectExpr("explode(filtered)").show(truncate=false)
 |{chunk, 22, 36, gastroenteritis, {sentence -> 0, chunk -> 1}, []}  |
 |{chunk, 118, 132, gastroenteritis, {sentence -> 0, chunk -> 5}, []}|
 +-------------------------------------------------------------------+
-
 {%- endcapture -%}
 
-{%- capture api_link -%}
+{%- capture model_api_link -%}
 [ChunkFilterer](https://nlp.johnsnowlabs.com/licensed/api/com/johnsnowlabs/nlp/annotators/chunker/ChunkFilterer)
 {%- endcapture -%}
 
-{% include templates/licensed_anno_template.md
+{% include templates/licensed_approach_model_medical_fin_leg_template.md
 title=title
-description=description
-input_anno=input_anno
-output_anno=output_anno
-python_example=python_example
-scala_example=scala_example
-api_link=api_link%}
+model=model
+model_description=model_description
+model_input_anno=model_input_anno
+model_output_anno=model_output_anno
+model_python_medical=model_python_medical
+model_scala_medical=model_scala_medical
+model_api_link=model_api_link%}

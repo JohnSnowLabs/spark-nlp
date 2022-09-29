@@ -2,33 +2,30 @@
 ReIdentification
 {%- endcapture -%}
 
-{%- capture description -%}
+{%- capture model -%}
+model
+{%- endcapture -%}
+
+{%- capture model_description -%}
 Reidentifies obfuscated entities by DeIdentification. This annotator requires the outputs
 from the deidentification as input. Input columns need to be the deidentified document and the deidentification
 mappings set with DeIdentification.setMappingsColumn.
 To see how the entities are deidentified, please refer to the example of that class.
 {%- endcapture -%}
 
-{%- capture input_anno -%}
+{%- capture model_input_anno -%}
 DOCUMENT,CHUNK
 {%- endcapture -%}
 
-{%- capture output_anno -%}
+{%- capture model_output_anno -%}
 DOCUMENT
 {%- endcapture -%}
 
-{%- capture python_example -%}
-import sparknlp
-from sparknlp.base import *
-from sparknlp.common import *
-from sparknlp.annotator import *
-from sparknlp.training import *
-import sparknlp_jsl
-from sparknlp_jsl.base import *
-from sparknlp_jsl.annotator import *
-from pyspark.ml import Pipeline
+{%- capture model_python_medical -%}
+from johnsnowlabs import * 
+
 # Define the reidentification stage and transform the deidentified documents
-reideintification = ReIdentification() \
+reideintification = medical.ReIdentification() \
     .setInputCols(["dei", "protectedEntities"]) \
     .setOutputCol("reid") \
     .transform(result)
@@ -49,10 +46,11 @@ reideintification.selectExpr("explode(reid.result)").show(truncate=False)
 +-----------------------------------------------------------------------------------+
 {%- endcapture -%}
 
-{%- capture scala_example -%}
+{%- capture model_scala_medical -%}
+from johnsnowlabs import * 
 // Define the reidentification stage and transform the deidentified documents
-val reideintification = new ReIdentification()
-  .setInputCols("dei", "protectedEntities")
+val reideintification = new medical.ReIdentification()
+  .setInputCols(Array("dei", "protectedEntities"))
   .setOutputCol("reid")
   .transform(result)
 
@@ -73,15 +71,66 @@ val reideintification = new ReIdentification()
 //
 {%- endcapture -%}
 
-{%- capture api_link -%}
+
+{%- capture model_python_legal -%}
+from johnsnowlabs import * 
+
+# Define the reidentification stage and transform the deidentified documents
+reideintification = legal.ReIdentification() \
+    .setInputCols(["aux", "deidentified"]) \
+    .setOutputCol("original") \
+    .transform(result)
+
+{%- endcapture -%}
+
+{%- capture model_scala_legal -%}
+from johnsnowlabs import * 
+// Define the reidentification stage and transform the deidentified documents
+val reideintification = new legal.ReIdentification()
+  .setInputCols(Array("aux", "deidentified"))
+  .setOutputCol("original")
+  .transform(result)
+
+{%- endcapture -%}
+
+{%- capture model_python_finance -%}
+from johnsnowlabs import * 
+
+# Define the reidentification stage and transform the deidentified documents
+reideintification = finance.ReIdentification() \
+    .setInputCols(["aux", "deidentified"]) \
+    .setOutputCol("original") \
+    .transform(result)
+
+{%- endcapture -%}
+
+{%- capture model_scala_finance -%}
+from johnsnowlabs import * 
+// Define the reidentification stage and transform the deidentified documents
+val reideintification = new finance.ReIdentification()
+  .setInputCols(Array("aux", "deidentified"))
+  .setOutputCol("original")
+  .transform(result)
+
+{%- endcapture -%}
+
+{%- capture model_api_link -%}
 [ReIdentification](https://nlp.johnsnowlabs.com/licensed/api/com/johnsnowlabs/nlp/annotators/deid/ReIdentification)
 {%- endcapture -%}
 
-{% include templates/licensed_anno_template.md
+
+{% include templates/licensed_approach_model_medical_fin_leg_template.md
 title=title
-description=description
-input_anno=input_anno
-output_anno=output_anno
-python_example=python_example
-scala_example=scala_example
-api_link=api_link%}
+model=model
+model_description=model_description
+model_input_anno=model_input_anno
+model_output_anno=model_output_anno
+model_python_medical=model_python_medical
+model_scala_medical=model_scala_medical
+model_python_finance=model_python_finance
+model_scala_finance=model_scala_finance
+model_python_legal=model_python_legal
+model_scala_legal=model_scala_legal
+model_api_link=model_api_link%}
+
+
