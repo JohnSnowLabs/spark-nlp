@@ -34,6 +34,7 @@ Each relevant relation pair in the pipeline should include one date entity (Date
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
+
 ```python
 document_assembler = DocumentAssembler()\
     .setInputCol("text")\
@@ -67,9 +68,15 @@ dependency_parser = DependencyParserModel.pretrained("dependency_conllu", "en") 
     .setInputCols(["sentence", "pos_tags", "token"]) \
     .setOutputCol("dependencies")
 
-re_ner_chunk_filter = RENerChunksFilter()  .setInputCols(["ner_chunk", "dependencies"])  .setOutputCol("re_ner_chunk")  .setMaxSyntacticDistance(10)  .setRelationPairs(["Cancer_Dx-Date", "Date-Cancer_Dx", "Relative_Date-Cancer_Dx", "Cancer_Dx-Relative_Date", "Cancer_Surgery-Date", "Date-Cancer_Surgery", "Cancer_Surgery-Relative_Date", "Relative_Date-Cancer_Surgery"])
+re_ner_chunk_filter = RENerChunksFilter()\
+    .setInputCols(["ner_chunk", "dependencies"])\
+    .setOutputCol("re_ner_chunk")\
+    .setMaxSyntacticDistance(10)\
+    .setRelationPairs(["Cancer_Dx-Date", "Date-Cancer_Dx", "Relative_Date-Cancer_Dx", "Cancer_Dx-Relative_Date", "Cancer_Surgery-Date", "Date-Cancer_Surgery", "Cancer_Surgery-Relative_Date", "Relative_Date-Cancer_Surgery"])
 
-re_model = RelationExtractionDLModel.pretrained("redl_oncology_temporal_biobert_wip", "en", "clinical/models")   .setInputCols(["re_ner_chunk", "sentence"])   .setOutputCol("relation_extraction")
+re_model = RelationExtractionDLModel.pretrained("redl_oncology_temporal_biobert_wip", "en", "clinical/models")\
+    .setInputCols(["re_ner_chunk", "sentence"])\
+    .setOutputCol("relation_extraction")
         
 pipeline = Pipeline(stages=[document_assembler,
                             sentence_detector,
@@ -151,10 +158,11 @@ val result = pipeline.fit(data).transform(data)
 ## Results
 
 ```bash
-         chunk1        entity1          chunk2        entity2   relation confidence
-  breast cancer      Cancer_Dx three years ago  Relative_Date is_date_of  0.9999461
-three years ago  Relative_Date      mastectomy Cancer_Surgery is_date_of  0.9999212
-     mastectomy Cancer_Surgery      last month  Relative_Date is_date_of  0.9999969
+|          chunk1 |        entity1 |          chunk2 |        entity2 |   relation | confidence |
+| --------------- |--------------- |---------------- |--------------- |----------- |----------- |
+|   breast cancer |      Cancer_Dx | three years ago |  Relative_Date | is_date_of |  0.9999461 |
+| three years ago |  Relative_Date |      mastectomy | Cancer_Surgery | is_date_of |  0.9999212 |
+|      mastectomy | Cancer_Surgery |      last month |  Relative_Date | is_date_of |  0.9999969 |
 
 ```
 
@@ -177,7 +185,7 @@ In-house annotated oncology case reports.
 ## Benchmarking
 
 ```bash
-  relation  recall  precision   f1  support
+     label  recall  precision   f1  support
          O    0.77       0.81 0.79    302.0
 is_date_of    0.82       0.78 0.80    298.0
  macro-avg    0.79       0.79 0.79      NaN
