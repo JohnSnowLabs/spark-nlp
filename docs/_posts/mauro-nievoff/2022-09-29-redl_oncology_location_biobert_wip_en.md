@@ -67,9 +67,15 @@ dependency_parser = DependencyParserModel.pretrained("dependency_conllu", "en") 
     .setInputCols(["sentence", "pos_tags", "token"]) \
     .setOutputCol("dependencies")
 
-re_ner_chunk_filter = RENerChunksFilter()  .setInputCols(["ner_chunk", "dependencies"])  .setOutputCol("re_ner_chunk")  .setMaxSyntacticDistance(10)  .setRelationPairs(["Tumor_Finding-Site_Breast", "Site_Breast-Tumor_Finding"])
+re_ner_chunk_filter = RENerChunksFilter()\
+    .setInputCols(["ner_chunk", "dependencies"])\
+    .setOutputCol("re_ner_chunk")\
+    .setMaxSyntacticDistance(10)\
+    .setRelationPairs([""Tumor_Finding-Site_Breast", "Site_Breast-Tumor_Finding", "Tumor_Finding-Anatomical_Site", "Anatomical_Site-Tumor_Finding""])
 
-re_model = RelationExtractionDLModel.pretrained("redl_oncology_location_biobert_wip", "en", "clinical/models")   .setInputCols(["re_ner_chunk", "sentence"])   .setOutputCol("relation_extraction")
+re_model = RelationExtractionDLModel.pretrained("redl_oncology_location_biobert_wip", "en", "clinical/models")\
+    .setInputCols(["re_ner_chunk", "sentence"])\
+    .setOutputCol("relation_extraction")
         
 pipeline = Pipeline(stages=[document_assembler,
                             sentence_detector,
@@ -123,7 +129,7 @@ val re_ner_chunk_filter = new RENerChunksFilter()
      .setInputCols("ner_chunk", "dependencies")
      .setOutputCol("re_ner_chunk")
      .setMaxSyntacticDistance(10)
-     .setRelationPairs(Array("Tumor_Finding-Site_Breast", "Site_Breast-Tumor_Finding"))
+     .setRelationPairs(Array("Tumor_Finding-Site_Breast", "Site_Breast-Tumor_Finding","Tumor_Finding-Anatomical_Site", "Anatomical_Site-Tumor_Finding"))
 
 val re_model = RelationExtractionDLModel.pretrained("redl_oncology_location_biobert_wip", "en", "clinical/models")
       .setPredictionThreshold(0.5f)
@@ -150,8 +156,9 @@ val result = pipeline.fit(data).transform(data)
 ## Results
 
 ```bash
-chunk1       entity1 chunk2     entity2       relation confidence
-  lump Tumor_Finding breast Site_Breast is_location_of  0.9628376
+|chunk1 |       entity1  | chunk2 |     entity2 |       relation | confidence|
+|-------|--------------- |--------|-------------|----------------|-----------|
+|  lump | Tumor_Finding  | breast | Site_Breast | is_location_of |  0.9628376|
 ```
 
 {:.model-param}
@@ -173,7 +180,7 @@ In-house annotated oncology case reports.
 ## Benchmarking
 
 ```bash
-      relation  recall  precision   f1  
+         label  recall  precision   f1  
              O    0.90       0.94 0.92    
 is_location_of    0.94       0.90 0.92    
      macro-avg    0.92       0.92 0.92      
