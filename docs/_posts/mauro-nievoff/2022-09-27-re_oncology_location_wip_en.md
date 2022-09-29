@@ -146,8 +146,11 @@ val result = pipeline.fit(data).transform(data)
 ## Results
 
 ```bash
-chunk1        entity1  chunk2       entity2         relation   confidence
-  lump  Tumor_Finding  breast   Site_Breast   is_location_of   0.81315047
++--------------+-------------+-------------+-----------+------+---------------+-------------+-----------+------+----------+
+|      relation|      entity1|entity1_begin|entity1_end|chunk1|        entity2|entity2_begin|entity2_end|chunk2|confidence|
++--------------+-------------+-------------+-----------+------+---------------+-------------+-----------+------+----------+
+|is_location_of|Tumor_Finding|           35|         38|  lump|Anatomical_Site|           53|         58|breast|0.81353307|
++--------------+-------------+-------------+-----------+------+---------------+-------------+-----------+------+----------+
 ```
 
 {:.model-param}
