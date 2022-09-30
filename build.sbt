@@ -2,11 +2,11 @@ import Dependencies._
 import Resolvers.m2Resolvers
 import sbtassembly.MergeStrategy
 
-name := getPackageName(is_m1, is_gpu)
+name := getPackageName(is_m1, is_gpu, is_aarch64)
 
 organization := "com.johnsnowlabs.nlp"
 
-version := "4.0.2"
+version := "4.2.0"
 
 (ThisBuild / scalaVersion) := scalaVer
 
@@ -117,7 +117,12 @@ scmInfo := Some(
     id = "hatrungduc",
     name = "Devin Ha",
     email = "trung@johnsnowlabs.com",
-    url = url("https://github.com/hatrungduc")))
+    url = url("https://github.com/hatrungduc")),
+  Developer(
+    id = "ahmedlone127",
+    name = "Khawja Ahmed Lone",
+    email = "lone@johnsnowlabs.com",
+    url = url("https://github.com/ahmedlone127")))
 
 lazy val analyticsDependencies = Seq(
   "org.apache.spark" %% "spark-core" % sparkVer % Provided,
@@ -148,6 +153,8 @@ val tensorflowDependencies: Seq[sbt.ModuleID] =
     Seq(tensorflowGPU)
   else if (is_m1.equals("true"))
     Seq(tensorflowM1)
+  else if (is_aarch64.equals("true"))
+    Seq(tensorflowLinuxAarch64)
   else
     Seq(tensorflowCPU)
 

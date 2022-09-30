@@ -1,6 +1,6 @@
 ---
 layout: model
-title: Mapping Company Names to NASDAQ Tickers
+title: Augment Company Names with NASDAQ database
 author: John Snow Labs
 name: finmapper_nasdaq_companyname
 date: 2022-08-09

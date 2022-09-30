@@ -44,25 +44,42 @@ document_assembler = DocumentAssembler() \
     .setInputCol("text") \
     .setOutputCol("document")
 
+sentence_detector = SentenceDetector()\
+    .setInputCols(["document"])\
+    .setOutputCol("sentence")
+
+tokenizer = Tokenizer()\
+    .setInputCols("sentence")\
+    .setOutputCol("token")
+
+
 word_segmenter = WordSegmenterModel.pretrained('wordseg_best', 'th')\
         .setInputCols("document")\
         .setOutputCol("token")
 
-pipeline = Pipeline(stages=[document_assembler, word_segmenter])
+pipeline = Pipeline(stages=[document_assembler, sentence_detector, tokenizer, word_segmenter])
 
 example = spark.createDataFrame([['จวนจะถึงร้านที่คุณจองโต๊ะไว้แล้วจ้ะ']], ["text"])
 result = pipeline.fit(example ).transform(example)
 ```
+
 ```scala
 val document_assembler = DocumentAssembler()
         .setInputCol("text")
         .setOutputCol("document")
+val sentence_detector = SentenceDetector()\
+    .setInputCols(["document"])\
+    .setOutputCol("sentence")
+
+val tokenizer = Tokenizer()\
+    .setInputCols("sentence")\
+    .setOutputCol("token")
 
 val word_segmenter = WordSegmenterModel.pretrained("wordseg_best", "th")
         .setInputCols("document")
         .setOutputCol("token")
 
-val pipeline = new Pipeline().setStages(Array(document_assembler, word_segmenter))
+val pipeline = new Pipeline().setStages(Array(document_assembler, sentence_detector, tokenizer, word_segmenter))
 
 val data = Seq("จวนจะถึงร้านที่คุณจองโต๊ะไว้แล้วจ้ะ").toDF("text")
 

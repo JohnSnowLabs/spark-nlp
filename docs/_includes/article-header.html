@@ -2,12 +2,24 @@
 {%- include snippets/get-article-title.html article=include.article-%}
 {%- assign _article_title = __return -%}
 
+{%- include snippets/get-article-subtitle.html article=include.article-%}
+{%- assign _article_subtitle = __return -%}
+
 {%- if include.html != false -%}
 
   {%- include snippets/assign.html
     target=site.data.variables.default.page.show_title
     source0=layout.show_title source1=include.article.show_title -%}
   {%- assign _show_title = __return -%}
+
+  {%- include snippets/assign.html
+    target=site.data.variables.default.page.show_subtitle
+    source0=layout.show_subtitle source1=include.article.show_subtitle -%}
+  {%- assign _show_subtitle = __return -%}
+
+  {%- if _show_subtitle -%}
+      {%- assign _subtitle_class = _subtitle_class | append: 'have_subtitle' -%}
+  {%- endif -%}
 
   {%- include snippets/assign.html
     target=site.data.variables.default.page.show_nav
@@ -32,7 +44,12 @@
         <div class="header-nav">{%- include article-nav.html article=page -%}</div>
       {%- endif -%}
       {%- if _show_title -%}
-        <header class="main-docs"><h1>{{ _article_title }}</h1></header>
+        <header class="main-docs {{ _subtitle_class }}">
+          <h1>{{ _article_title }}</h1>
+          {%- if _show_subtitle -%}
+          <div class="top-subtitle mont">{{ _article_subtitle }}</div>
+          {%- endif -%}
+        </header>
       {%- endif -%}
       {%- if _show_edit_on_github -%}
         {%- if site.repository and site.repository_tree -%}

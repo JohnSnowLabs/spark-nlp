@@ -21,15 +21,6 @@ This is a Zero-shot Relation Extraction Model, meaning that it does not require 
 
 Make sure you keep the proper syntax of the relations you want to extract. For example:
 
-Before Spark NLP 4.0
-```
-re_model.setRelationalCategories({
-    "GRANTS_TO": ["{{OBLIGATION_SUBJECT}} grants {{OBLIGATION_INDIRECT_OBJECT}}"],
-    "GRANTS": ["{{OBLIGATION_SUBJECT}} grants {{OBLIGATION_ACTION}}"]
-})
-```
-
-After Spark NLP 4.0
 ```
 re_model.setRelationalCategories({
     "GRANTS_TO": ["{OBLIGATION_SUBJECT} grants {OBLIGATION_INDIRECT_OBJECT}"],
@@ -66,7 +57,7 @@ sparktokenizer = Tokenizer()\
   .setInputCols("document")\
   .setOutputCol("token")
 
-tokenClassifier = FinanceBertForTokenClassifier.pretrained('legner_obligations','en', 'legal/models')\
+tokenClassifier = LegalBertForTokenClassifier.pretrained('legner_obligations','en', 'legal/models')\
   .setInputCols("token", "document")\
   .setOutputCol("ner")\
   .setCaseSensitive(True)

@@ -22,11 +22,10 @@ import com.johnsnowlabs.ml.tensorflow._
 import com.johnsnowlabs.nlp.AnnotatorType.{DOCUMENT, NAMED_ENTITY, TOKEN, WORD_EMBEDDINGS}
 import com.johnsnowlabs.nlp.annotators.common.{NerTagged, WordpieceEmbeddingsSentence}
 import com.johnsnowlabs.nlp.annotators.ner.{ModelMetrics, NerApproach, Verbose}
-import com.johnsnowlabs.nlp.annotators.param.ExternalResourceParam
-import com.johnsnowlabs.nlp.util.io.{ExternalResource, ReadAs, ResourceHelper}
+import com.johnsnowlabs.nlp.annotators.param.EvaluationDLParams
+import com.johnsnowlabs.nlp.util.io.{OutputHelper, ResourceHelper}
 import com.johnsnowlabs.nlp.{AnnotatorApproach, AnnotatorType, ParamsAndFeaturesWritable}
 import com.johnsnowlabs.storage.HasStorageRef
-import com.johnsnowlabs.util.{ConfigHelper, ConfigLoader}
 import org.apache.commons.io.IOUtils
 import org.apache.commons.lang.SystemUtils
 import org.apache.spark.SparkFiles
@@ -146,7 +145,8 @@ class NerDLApproach(override val uid: String)
     extends AnnotatorApproach[NerDLModel]
     with NerApproach[NerDLApproach]
     with Logging
-    with ParamsAndFeaturesWritable {
+    with ParamsAndFeaturesWritable
+    with EvaluationDLParams {
 
   def this() = this(Identifiable.randomUID("NerDL"))
 
@@ -221,42 +221,6 @@ class NerDLApproach(override val uid: String)
   val useContrib =
     new BooleanParam(this, "useContrib", "deprecated param - the value won't have any effect")
 
-  /** Choose the proportion of training dataset to be validated against the model on each Epoch
-    * (Default: `0.0f`). The value should be between 0.0 and 1.0 and by default it is 0.0 and off.
-    *
-    * @group param
-    */
-  val validationSplit = new FloatParam(
-    this,
-    "validationSplit",
-    "Choose the proportion of training dataset to be validated against the model on each Epoch. The value should be between 0.0 and 1.0 and by default it is 0.0 and off.")
-
-  /** Whether logs for validation to be extended (Default: `false`): it displays time and
-    * evaluation of each label
-    *
-    * @group param
-    */
-  val evaluationLogExtended = new BooleanParam(
-    this,
-    "evaluationLogExtended",
-    "Whether logs for validation to be extended: it displays time and evaluation of each label. Default is false.")
-
-  /** Whether to output to annotators log folder (Default: `false`)
-    *
-    * @group param
-    */
-  val enableOutputLogs =
-    new BooleanParam(this, "enableOutputLogs", "Whether to output to annotators log folder")
-
-  /** Path to test dataset. If set, it is used to calculate statistics on it during training.
-    *
-    * @group param
-    */
-  val testDataset = new ExternalResourceParam(
-    this,
-    "testDataset",
-    "Path to test dataset. If set, it is used to calculate statistics on it during training.")
-
   /** Whether to include confidence scores in annotation metadata (Default: `false`)
     *
     * @group param
@@ -275,13 +239,6 @@ class NerDLApproach(override val uid: String)
     this,
     "includeAllConfidenceScores",
     "whether to include all confidence scores in annotation metadata")
-
-  /** Folder path to save training logs (Default: `""`)
-    *
-    * @group param
-    */
-  val outputLogsPath =
-    new Param[String](this, "outputLogsPath", "Folder path to save training logs")
 
   /** Whether to optimize for large datasets or not (Default: `false`). Enabling this option can
     * slow down training.
@@ -352,31 +309,6 @@ class NerDLApproach(override val uid: String)
     */
   def getUseContrib: Boolean = $(this.useContrib)
 
-  /** Choose the proportion of training dataset to be validated against the model on each Epoch.
-    * The value should be between 0.0 and 1.0 and by default it is 0.0 and off.
-    *
-    * @group getParam
-    */
-  def getValidationSplit: Float = $(this.validationSplit)
-
-  /** whether to include confidence scores in annotation metadata
-    *
-    * @group getParam
-    */
-  def getIncludeConfidence: Boolean = $(includeConfidence)
-
-  /** Whether to output to annotators log folder
-    *
-    * @group getParam
-    */
-  def getEnableOutputLogs: Boolean = $(enableOutputLogs)
-
-  /** Folder path to save training logs
-    *
-    * @group getParam
-    */
-  def getOutputLogsPath: String = $(outputLogsPath)
-
   /** Memory Optimizer
     *
     * @group getParam
@@ -440,57 +372,12 @@ class NerDLApproach(override val uid: String)
       throw new UnsupportedOperationException("Cannot set contrib in Windows")
     else set(useContrib, value)
 
-  /** Choose the proportion of training dataset to be validated against the model on each Epoch.
-    * The value should be between 0.0 and 1.0 and by default it is 0.0 and off.
-    *
-    * @group setParam
-    */
-  def setValidationSplit(validationSplit: Float): NerDLApproach.this.type =
-    set(this.validationSplit, validationSplit)
-
-  /** Whether logs for validation to be extended: it displays time and evaluation of each label.
-    * Default is false.
-    *
-    * @group setParam
-    */
-  def setEvaluationLogExtended(evaluationLogExtended: Boolean): NerDLApproach.this.type =
-    set(this.evaluationLogExtended, evaluationLogExtended)
-
-  /** Whether to output to annotators log folder
-    *
-    * @group setParam
-    */
-  def setEnableOutputLogs(enableOutputLogs: Boolean): NerDLApproach.this.type =
-    set(this.enableOutputLogs, enableOutputLogs)
-
-  /** Folder path to save training logs
-    *
-    * @group setParam
-    */
-  def setOutputLogsPath(path: String): NerDLApproach.this.type = set(this.outputLogsPath, path)
-
   /** Whether to optimize for large datasets or not. Enabling this option can slow down training.
     *
     * @group setParam
     */
   def setEnableMemoryOptimizer(value: Boolean): NerDLApproach.this.type =
     set(this.enableMemoryOptimizer, value)
-
-  /** Path to test dataset. If set, it is used to calculate statistics on it during training.
-    *
-    * @group setParam
-    */
-  def setTestDataset(
-      path: String,
-      readAs: ReadAs.Format = ReadAs.SPARK,
-      options: Map[String, String] = Map("format" -> "parquet")): this.type =
-    set(testDataset, ExternalResource(path, readAs, options))
-
-  /** Path to test dataset. If set, it is used to calculate statistics on it during training.
-    *
-    * @group setParam
-    */
-  def setTestDataset(er: ExternalResource): NerDLApproach.this.type = set(testDataset, er)
 
   /** Whether to include confidence scores in annotation metadata
     *
@@ -526,14 +413,9 @@ class NerDLApproach(override val uid: String)
     po -> 0.005f,
     batchSize -> 8,
     dropout -> 0.5f,
-    verbose -> Verbose.Silent.id,
     useContrib -> true,
-    validationSplit -> 0.0f,
-    evaluationLogExtended -> false,
     includeConfidence -> false,
     includeAllConfidenceScores -> false,
-    enableOutputLogs -> false,
-    outputLogsPath -> "",
     enableMemoryOptimizer -> false,
     useBestModel -> false,
     bestModelMetric -> ModelMetrics.microF1)
@@ -565,7 +447,7 @@ class NerDLApproach(override val uid: String)
     val test = if (!isDefined(testDataset)) {
       train.limit(0) // keep the schema only
     } else {
-      ResourceHelper.readParquetSparkDataFrame($(testDataset))
+      ResourceHelper.readSparkDataFrame($(testDataset))
     }
 
     val embeddingsRef =
@@ -574,11 +456,29 @@ class NerDLApproach(override val uid: String)
     val Array(validSplit, trainSplit) =
       train.randomSplit(Array($(validationSplit), 1.0f - $(validationSplit)))
 
-    val trainIteratorFunc = getIteratorFunc(trainSplit)
-    val validIteratorFunc = getIteratorFunc(validSplit)
-    val testIteratorFunc = getIteratorFunc(test)
+    val trainIteratorFunc = NerDLApproach.getIteratorFunc(
+      trainSplit,
+      inputColumns = getInputCols,
+      labelColumn = $(labelColumn),
+      batchSize = $(batchSize),
+      enableMemoryOptimizer = $(enableMemoryOptimizer))
 
-    val (labels, chars, embeddingsDim, dsLen) = getDataSetParams(trainIteratorFunc())
+    val validIteratorFunc = NerDLApproach.getIteratorFunc(
+      validSplit,
+      inputColumns = getInputCols,
+      labelColumn = $(labelColumn),
+      batchSize = $(batchSize),
+      enableMemoryOptimizer = $(enableMemoryOptimizer))
+
+    val testIteratorFunc = NerDLApproach.getIteratorFunc(
+      test,
+      inputColumns = getInputCols,
+      labelColumn = $(labelColumn),
+      batchSize = $(batchSize),
+      enableMemoryOptimizer = $(enableMemoryOptimizer))
+
+    val (labels, chars, embeddingsDim, dsLen) =
+      NerDLApproach.getDataSetParams(trainIteratorFunc())
 
     val settings = DatasetEncoderParams(
       labels.toList,
@@ -598,13 +498,13 @@ class NerDLApproach(override val uid: String)
     val graphBytesDef = IOUtils.toByteArray(graphStream)
     graph.importGraphDef(GraphDef.parseFrom(graphBytesDef))
 
-    val tf = new TensorflowWrapper(
+    val tfWrapper = new TensorflowWrapper(
       Variables(Array.empty[Array[Byte]], Array.empty[Byte]),
       graph.toGraphDef.toByteArray)
 
     val (ner, trainedTf) =
       try {
-        val model = new TensorflowNer(tf, encoder, Verbose($(verbose)))
+        val model = new TensorflowNer(tfWrapper, encoder, Verbose($(verbose)))
         if (isDefined(randomSeed)) {
           Random.setSeed($(randomSeed))
         }
@@ -639,7 +539,9 @@ class NerDLApproach(override val uid: String)
       }
 
     val newWrapper =
-      new TensorflowWrapper(TensorflowWrapper.extractVariablesSavedModel(trainedTf), tf.graph)
+      new TensorflowWrapper(
+        TensorflowWrapper.extractVariablesSavedModel(trainedTf),
+        tfWrapper.graph)
 
     val model = new NerDLModel()
       .setDatasetParams(ner.encoder.params)
@@ -654,53 +556,10 @@ class NerDLApproach(override val uid: String)
     model
 
   }
-
-  def getDataSetParams(dsIt: Iterator[Array[(TextSentenceLabels, WordpieceEmbeddingsSentence)]])
-      : (mutable.Set[String], mutable.Set[Char], Int, Long) = {
-
-    val labels = scala.collection.mutable.Set[String]()
-    val chars = scala.collection.mutable.Set[Char]()
-    var embeddingsDim = 1
-    var dsLen = 0L
-
-    // try to be frugal with memory and with number of passes thru the iterator
-    for (batch <- dsIt) {
-      dsLen += batch.length
-      for (datapoint <- batch) {
-
-        for (label <- datapoint._1.labels)
-          labels += label
-
-        for (token <- datapoint._2.tokens; char <- token.token.toCharArray)
-          chars += char
-
-        if (datapoint._2.tokens.nonEmpty)
-          embeddingsDim = datapoint._2.tokens.head.embeddings.length
-      }
-    }
-
-    (labels, chars, embeddingsDim, dsLen)
-  }
-
-  def getIteratorFunc(dataset: Dataset[Row])
-      : () => Iterator[Array[(TextSentenceLabels, WordpieceEmbeddingsSentence)]] = {
-
-    if ($(enableMemoryOptimizer)) { () =>
-      NerTagged.iterateOnDataframe(dataset, getInputCols, $(labelColumn), $(batchSize))
-
-    } else {
-      val inMemory = dataset
-        .select($(labelColumn), getInputCols.toSeq: _*)
-        .collect()
-
-      () => NerTagged.iterateOnArray(inMemory, getInputCols, $(batchSize))
-
-    }
-  }
-
 }
 
 trait WithGraphResolver {
+
   def searchForSuitableGraph(
       tags: Int,
       embeddingsNDims: Int,
@@ -777,31 +636,39 @@ trait WithGraphResolver {
 
     if (localGraphPath.isDefined && localGraphPath.get.startsWith("s3://")) {
 
-      val bucketName = localGraphPath.get.substring("s3://".length).split("/").head
+      val (bucketName, keyPrefix) = ResourceHelper.parseS3URI(localGraphPath.get)
 
       require(
         bucketName != "",
         "S3 bucket name is not define. Please define it with parameter setS3BucketName")
 
-      val keyPrefix = localGraphPath.get.substring(("s3://" + bucketName).length + 1)
       var tmpDirectory = SparkFiles.getRootDirectory()
 
-      val awsGateway = new AWSGateway(
-        ConfigLoader.getConfigStringValue(ConfigHelper.awsExternalAccessKeyId),
-        ConfigLoader.getConfigStringValue(ConfigHelper.awsExternalSecretAccessKey),
-        ConfigLoader.getConfigStringValue(ConfigHelper.awsExternalSessionToken),
-        ConfigLoader.getConfigStringValue(ConfigHelper.awsExternalProfileName),
-        ConfigLoader.getConfigStringValue(ConfigHelper.awsExternalRegion))
-
+      val awsGateway = new AWSGateway()
       awsGateway.downloadFilesFromDirectory(bucketName, keyPrefix, new File(tmpDirectory))
 
-      tmpDirectory = tmpDirectory + "/" + keyPrefix
+      if (OutputHelper.getFileSystem.getScheme == "dbfs") {
+        tmpDirectory = s"$tmpDirectory/$keyPrefix"
+      } else tmpDirectory = s"file:/$tmpDirectory/$keyPrefix"
+
       files = ResourceHelper.listLocalFiles(tmpDirectory).map(_.getAbsolutePath)
     } else {
-      files = localGraphPath
-        .map(path =>
-          ResourceHelper.listLocalFiles(ResourceHelper.copyToLocal(path)).map(_.getAbsolutePath))
-        .getOrElse(ResourceHelper.listResourceDirectory("/ner-dl"))
+
+      if (localGraphPath.isDefined && OutputHelper
+          .getFileSystem(localGraphPath.get)
+          ._1
+          .getScheme == "dbfs") {
+        files =
+          ResourceHelper.listLocalFiles(localGraphPath.get).map(file => file.getAbsolutePath)
+      } else {
+        files = localGraphPath
+          .map(path =>
+            ResourceHelper
+              .listLocalFiles(ResourceHelper.copyToLocal(path))
+              .map(_.getAbsolutePath))
+          .getOrElse(ResourceHelper.listResourceDirectory("/ner-dl"))
+      }
+
     }
     files
   }
@@ -811,4 +678,65 @@ trait WithGraphResolver {
 /** This is the companion object of [[NerDLApproach]]. Please refer to that class for the
   * documentation.
   */
-object NerDLApproach extends DefaultParamsReadable[NerDLApproach] with WithGraphResolver
+object NerDLApproach extends DefaultParamsReadable[NerDLApproach] with WithGraphResolver {
+
+  def getIteratorFunc(
+      dataset: Dataset[Row],
+      inputColumns: Array[String],
+      labelColumn: String,
+      batchSize: Int,
+      enableMemoryOptimizer: Boolean)
+      : () => Iterator[Array[(TextSentenceLabels, WordpieceEmbeddingsSentence)]] = {
+
+    if (enableMemoryOptimizer) { () =>
+      NerTagged.iterateOnDataframe(dataset, inputColumns, labelColumn, batchSize)
+
+    } else {
+      val inMemory = dataset
+        .select(labelColumn, inputColumns.toSeq: _*)
+        .collect()
+
+      () => NerTagged.iterateOnArray(inMemory, inputColumns, batchSize)
+    }
+  }
+
+  def getDataSetParams(dsIt: Iterator[Array[(TextSentenceLabels, WordpieceEmbeddingsSentence)]])
+      : (mutable.Set[String], mutable.Set[Char], Int, Long) = {
+
+    val labels = scala.collection.mutable.Set[String]()
+    val chars = scala.collection.mutable.Set[Char]()
+    var embeddingsDim = 1
+    var dsLen = 0L
+
+    // try to be frugal with memory and with number of passes thru the iterator
+    for (batch <- dsIt) {
+      dsLen += batch.length
+      for (datapoint <- batch) {
+
+        for (label <- datapoint._1.labels)
+          labels += label
+
+        for (token <- datapoint._2.tokens; char <- token.token.toCharArray)
+          chars += char
+
+        if (datapoint._2.tokens.nonEmpty)
+          embeddingsDim = datapoint._2.tokens.head.embeddings.length
+      }
+    }
+
+    (labels, chars, embeddingsDim, dsLen)
+  }
+
+  def getGraphParams(
+      dataset: Dataset[_],
+      inputColumns: java.util.ArrayList[java.lang.String],
+      labelColumn: String): (Int, Int, Int) = {
+
+    val trainIteratorFunc =
+      getIteratorFunc(dataset.toDF(), inputColumns.toArray.map(_.toString), labelColumn, 0, false)
+
+    val (labels, chars, embeddingsDim, _) = getDataSetParams(trainIteratorFunc())
+
+    (labels.size, embeddingsDim, chars.size + 1)
+  }
+}

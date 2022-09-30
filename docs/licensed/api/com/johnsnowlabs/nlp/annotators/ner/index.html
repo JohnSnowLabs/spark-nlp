@@ -3,9 +3,9 @@
         <head>
           <meta http-equiv="X-UA-Compatible" content="IE=edge" />
           <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-          <title>Spark NLP 4.0.2 ScalaDoc  - com.johnsnowlabs.nlp.annotators.ner</title>
-          <meta name="description" content="Spark NLP 4.0.2 ScalaDoc - com.johnsnowlabs.nlp.annotators.ner" />
-          <meta name="keywords" content="Spark NLP 4.0.2 ScalaDoc com.johnsnowlabs.nlp.annotators.ner" />
+          <title>Spark NLP 4.1.0 ScalaDoc  - com.johnsnowlabs.nlp.annotators.ner</title>
+          <meta name="description" content="Spark NLP 4.1.0 ScalaDoc - com.johnsnowlabs.nlp.annotators.ner" />
+          <meta name="keywords" content="Spark NLP 4.1.0 ScalaDoc com.johnsnowlabs.nlp.annotators.ner" />
           <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
           
       
@@ -28,7 +28,7 @@
         </head>
         <body>
       <div id="search">
-        <span id="doc-title">Spark NLP 4.0.2 ScalaDoc<span id="doc-version"></span></span>
+        <span id="doc-title">Spark NLP 4.1.0 ScalaDoc<span id="doc-version"></span></span>
         <span class="close-results"><span class="left">&lt;</span> Back</span>
         <div id="textfilter">
           <span class="input">
@@ -347,8 +347,16 @@
                         <a href="NerTagsEncodingInternal$.html" title="Works with different NER representations as tags Supports: IOB and IOB2 https://en.wikipedia.org/wiki/Inside%E2%80%93outside%E2%80%93beginning_(tagging)">NerTagsEncodingInternal</a>
                       </li><li class="current-entities indented5">
                         <span class="separator"></span>
+                        <a class="trait" href="ReadZeroShotNerTensorflowModel.html" title=""></a>
+                        <a href="ReadZeroShotNerTensorflowModel.html" title="">ReadZeroShotNerTensorflowModel</a>
+                      </li><li class="current-entities indented5">
+                        <span class="separator"></span>
                         <a class="trait" href="ReadablePretrainedMedicalNer.html" title=""></a>
                         <a href="ReadablePretrainedMedicalNer.html" title="">ReadablePretrainedMedicalNer</a>
+                      </li><li class="current-entities indented5">
+                        <span class="separator"></span>
+                        <a class="trait" href="ReadablePretrainedZeroShotNer.html" title=""></a>
+                        <a href="ReadablePretrainedZeroShotNer.html" title="">ReadablePretrainedZeroShotNer</a>
                       </li><li class="current-entities indented5">
                         <span class="separator"></span>
                         <a class="trait" href="ReadsMedicalNerGraph.html" title=""></a>
@@ -357,6 +365,10 @@
                         <span class="separator"></span>
                         <a class="trait" href="WithMedicalNerGraphResolver.html" title=""></a>
                         <a href="WithMedicalNerGraphResolver.html" title="">WithMedicalNerGraphResolver</a>
+                      </li><li class="current-entities indented5">
+                        <a class="object" href="ZeroShotNerModel$.html" title=""></a>
+                        <a class="class" href="ZeroShotNerModel.html" title="ZeroShotNerModel implements zero shot named entity recognition by utilizing RoBERTa transformer models fine tuned on a question answering task."></a>
+                        <a href="ZeroShotNerModel.html" title="ZeroShotNerModel implements zero shot named entity recognition by utilizing RoBERTa transformer models fine tuned on a question answering task.">ZeroShotNerModel</a>
                       </li><li name="com.johnsnowlabs.nlp.annotators.normalizer" visbl="pub" class="indented5 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="normalizer"></a><a id="normalizer:normalizer"></a>
       <span class="permalink">
@@ -370,6 +382,22 @@
       </span>
       <span class="symbol">
         <a title="" href="../normalizer/index.html"><span class="name">normalizer</span></a>
+      </span>
+      
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="../index.html" class="extype" name="com.johnsnowlabs.nlp.annotators">annotators</a></dd></dl></div>
+    </li><li name="com.johnsnowlabs.nlp.annotators.qa" visbl="pub" class="indented5 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="qa"></a><a id="qa:qa"></a>
+      <span class="permalink">
+      <a href="../../../../../com/johnsnowlabs/nlp/annotators/qa/index.html" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">package</span>
+      </span>
+      <span class="symbol">
+        <a title="" href="../qa/index.html"><span class="name">qa</span></a>
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="../index.html" class="extype" name="com.johnsnowlabs.nlp.annotators">annotators</a></dd></dl></div>
@@ -707,6 +735,22 @@ See also <a href="https://en.wikipedia.org/wiki/Inside%E2%80%93outside%E2%80%93b
 |{chunk, <span class="num">98</span>, <span class="num">107</span>, cellulitis, {entity -&gt; Diagnosis, sentence -&gt; <span class="num">0</span>, chunk -&gt; <span class="num">3</span>}, []} |
 |{chunk, <span class="num">110</span>, <span class="num">119</span>, pneumonias, {entity -&gt; Diagnosis, sentence -&gt; <span class="num">0</span>, chunk -&gt; <span class="num">4</span>}, []}|
 +-----------------------------------------------------------------------------------+</pre></div><dl class="attributes block"> <dt>See also</dt><dd><span class="cmt"><p><a href="MedicalNerModel.html" class="extype" name="com.johnsnowlabs.nlp.annotators.ner.MedicalNerModel">MedicalNerModel</a></p></span></dd></dl></div>
+    </li><li name="com.johnsnowlabs.nlp.annotators.ner.ReadZeroShotNerTensorflowModel" visbl="pub" class="indented0 " data-isabs="true" fullComment="no" group="Ungrouped">
+      <a id="ReadZeroShotNerTensorflowModelextendsReadTensorflowModel"></a><a id="ReadZeroShotNerTensorflowModel:ReadZeroShotNerTensorflowModel"></a>
+      <span class="permalink">
+      <a href="../../../../../com/johnsnowlabs/nlp/annotators/ner/ReadZeroShotNerTensorflowModel.html" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">trait</span>
+      </span>
+      <span class="symbol">
+        <a title="" href="ReadZeroShotNerTensorflowModel.html"><span class="name">ReadZeroShotNerTensorflowModel</span></a><span class="result"> extends <span class="extype" name="com.johnsnowlabs.ml.tensorflow.ReadTensorflowModel">ReadTensorflowModel</span></span>
+      </span>
+      
+      
     </li><li name="com.johnsnowlabs.nlp.annotators.ner.ReadablePretrainedMedicalNer" visbl="pub" class="indented0 " data-isabs="true" fullComment="no" group="Ungrouped">
       <a id="ReadablePretrainedMedicalNerextendsParamsAndFeaturesReadable[com.johnsnowlabs.nlp.annotators.ner.MedicalNerModel]withHasPretrained[com.johnsnowlabs.nlp.annotators.ner.MedicalNerModel]"></a><a id="ReadablePretrainedMedicalNer:ReadablePretrainedMedicalNer"></a>
       <span class="permalink">
@@ -720,6 +764,22 @@ See also <a href="https://en.wikipedia.org/wiki/Inside%E2%80%93outside%E2%80%93b
       </span>
       <span class="symbol">
         <a title="" href="ReadablePretrainedMedicalNer.html"><span class="name">ReadablePretrainedMedicalNer</span></a><span class="result"> extends <span class="extype" name="com.johnsnowlabs.nlp.ParamsAndFeaturesReadable">ParamsAndFeaturesReadable</span>[<a href="MedicalNerModel.html" class="extype" name="com.johnsnowlabs.nlp.annotators.ner.MedicalNerModel">MedicalNerModel</a>] with <span class="extype" name="com.johnsnowlabs.nlp.HasPretrained">HasPretrained</span>[<a href="MedicalNerModel.html" class="extype" name="com.johnsnowlabs.nlp.annotators.ner.MedicalNerModel">MedicalNerModel</a>]</span>
+      </span>
+      
+      
+    </li><li name="com.johnsnowlabs.nlp.annotators.ner.ReadablePretrainedZeroShotNer" visbl="pub" class="indented0 " data-isabs="true" fullComment="no" group="Ungrouped">
+      <a id="ReadablePretrainedZeroShotNerextendsParamsAndFeaturesReadable[com.johnsnowlabs.nlp.annotators.ner.ZeroShotNerModel]withHasPretrained[com.johnsnowlabs.nlp.annotators.ner.ZeroShotNerModel]"></a><a id="ReadablePretrainedZeroShotNer:ReadablePretrainedZeroShotNer"></a>
+      <span class="permalink">
+      <a href="../../../../../com/johnsnowlabs/nlp/annotators/ner/ReadablePretrainedZeroShotNer.html" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">trait</span>
+      </span>
+      <span class="symbol">
+        <a title="" href="ReadablePretrainedZeroShotNer.html"><span class="name">ReadablePretrainedZeroShotNer</span></a><span class="result"> extends <span class="extype" name="com.johnsnowlabs.nlp.ParamsAndFeaturesReadable">ParamsAndFeaturesReadable</span>[<a href="ZeroShotNerModel.html" class="extype" name="com.johnsnowlabs.nlp.annotators.ner.ZeroShotNerModel">ZeroShotNerModel</a>] with <span class="extype" name="com.johnsnowlabs.nlp.HasPretrained">HasPretrained</span>[<a href="ZeroShotNerModel.html" class="extype" name="com.johnsnowlabs.nlp.annotators.ner.ZeroShotNerModel">ZeroShotNerModel</a>]</span>
       </span>
       
       
@@ -755,6 +815,75 @@ See also <a href="https://en.wikipedia.org/wiki/Inside%E2%80%93outside%E2%80%93b
       </span>
       
       
+    </li><li name="com.johnsnowlabs.nlp.annotators.ner.ZeroShotNerModel" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="ZeroShotNerModelextendsRoBertaForQuestionAnsweringwithCheckLicense"></a><a id="ZeroShotNerModel:ZeroShotNerModel"></a>
+      <span class="permalink">
+      <a href="../../../../../com/johnsnowlabs/nlp/annotators/ner/ZeroShotNerModel.html" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">class</span>
+      </span>
+      <span class="symbol">
+        <a title="ZeroShotNerModel implements zero shot named entity recognition by utilizing RoBERTa transformer models fine tuned on a question answering task." href="ZeroShotNerModel.html"><span class="name">ZeroShotNerModel</span></a><span class="result"> extends <span class="extype" name="com.johnsnowlabs.nlp.annotators.classifier.dl.RoBertaForQuestionAnswering">RoBertaForQuestionAnswering</span> with <span class="extype" name="com.johnsnowlabs.license.CheckLicense">CheckLicense</span></span>
+      </span>
+      
+      <p class="shortcomment cmt">ZeroShotNerModel implements zero shot named entity recognition by utilizing RoBERTa transformer models
+fine tuned on a question answering task.</p><div class="fullcomment"><div class="comment cmt"><p>ZeroShotNerModel implements zero shot named entity recognition by utilizing RoBERTa transformer models
+fine tuned on a question answering task. Its input is a list of document annotations and it automatically generates
+questions which are used to recognize entities. The definitions of entities is given by a dictionary structures,
+specifying a set of questions for each entity. The model is based on RoBertaForQuestionAnswering from the open source
+SparkNLP project.</p><p>Pretrained models can be loaded with <code>pretrained</code> of the companion object:</p><pre><span class="kw">val</span> zeroShotRE = ZeroShotNerModel.pretrained()
+  .setInputCols(<span class="lit">"document"</span>)
+  .setOutputCol(<span class="lit">"zer_shot_ner"</span>)</pre><p>For available pretrained models please see the <a href="https://nlp.johnsnowlabs.com/models?task=Zero-Shot-NER" target="_blank">Models Hub</a>.</p><h4>Example</h4><pre> <span class="kw">val</span> documentAssembler = <span class="kw">new</span> DocumentAssembler()
+   .setInputCol(<span class="lit">"text"</span>)
+   .setOutputCol(<span class="lit">"document"</span>)
+
+ <span class="kw">val</span> sentenceDetector = <span class="kw">new</span> SentenceDetector()
+   .setInputCols(<span class="std">Array</span>(<span class="lit">"document"</span>))
+   .setOutputCol(<span class="lit">"sentences"</span>)
+
+ <span class="kw">val</span> zeroShotNer = ZeroShotNerModel
+   .pretrained()
+   .setEntityDefinitions(
+     <span class="std">Map</span>(
+       <span class="lit">"NAME"</span> -&gt; <span class="std">Array</span>(<span class="lit">"What is his name?"</span>, <span class="lit">"What is her name?"</span>),
+       <span class="lit">"CITY"</span> -&gt; <span class="std">Array</span>(<span class="lit">"Which city?"</span>)))
+   .setPredictionThreshold(<span class="num">0.01</span>f)
+   .setInputCols(<span class="lit">"sentences"</span>)
+   .setOutputCol(<span class="lit">"zero_shot_ner"</span>)
+
+ <span class="kw">val</span> pipeline = <span class="kw">new</span> Pipeline()
+   .setStages(<span class="std">Array</span>(
+     documentAssembler,
+     sentenceDetector,
+     zeroShotNer))
+
+ <span class="kw">val</span> model = pipeline.fit(<span class="std">Seq</span>(<span class="lit">""</span>).toDS.toDF(<span class="lit">"text"</span>))
+ <span class="kw">val</span> results = model.transform(
+   <span class="std">Seq</span>(<span class="lit">"Clara often travels between New York and Paris."</span>).toDS.toDF(<span class="lit">"text"</span>))
+
+ results
+   .selectExpr(<span class="lit">"document"</span>, <span class="lit">"explode(zero_shot_ner) AS entity"</span>)
+   .select(
+     col(<span class="lit">"entity.result"</span>),
+     col(<span class="lit">"entity.metadata.word"</span>),
+     col(<span class="lit">"entity.metadata.sentence"</span>),
+     col(<span class="lit">"entity.begin"</span>),
+     col(<span class="lit">"entity.end"</span>),
+     col(<span class="lit">"entity.metadata.confidence"</span>),
+     col(<span class="lit">"entity.metadata.question"</span>))
+   .show(truncate=<span class="kw">false</span>)
+
++------+-----+--------+-----+---+----------+------------------+
+|result|word |sentence|begin|end|confidence|question          |
++------+-----+--------+-----+---+----------+------------------+
+|B-CITY|Paris|<span class="num">0</span>       |<span class="num">41</span>   |<span class="num">45</span> |<span class="num">0.78655756</span>|Which is the city?|
+|B-CITY|New  |<span class="num">0</span>       |<span class="num">28</span>   |<span class="num">30</span> |<span class="num">0.29346612</span>|Which city?       |
+|I-CITY|York |<span class="num">0</span>       |<span class="num">32</span>   |<span class="num">35</span> |<span class="num">0.29346612</span>|Which city?       |
++------+-----+--------+-----+---+----------+------------------+</pre></div><dl class="attributes block"> <dt>See also</dt><dd><span class="cmt"><p><a href="https://arxiv.org/abs/1907.11692" target="_blank">https://arxiv.org/abs/1907.11692</a> for details about the RoBERTa transformer</p></span><span class="cmt"><p><span class="extype" name="RoBertaForQuestionAnswering">RoBertaForQuestionAnswering</span> for the SparkNLP implementation of RoBERTa question answering</p></span></dd></dl></div>
     </li></ol>
             </div>
 
@@ -877,6 +1006,22 @@ See also <a href="https://en.wikipedia.org/wiki/Inside%E2%80%93outside%E2%80%93b
       <p class="shortcomment cmt">Works with different NER representations as tags
 Supports: IOB and IOB2 https://en.wikipedia.org/wiki/Inside%E2%80%93outside%E2%80%93beginning_(tagging)
 </p>
+    </li><li name="com.johnsnowlabs.nlp.annotators.ner.ZeroShotNerModel" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="ZeroShotNerModel"></a><a id="ZeroShotNerModel:ZeroShotNerModel"></a>
+      <span class="permalink">
+      <a href="../../../../../com/johnsnowlabs/nlp/annotators/ner/ZeroShotNerModel$.html" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">object</span>
+      </span>
+      <span class="symbol">
+        <a title="" href="ZeroShotNerModel$.html"><span class="name">ZeroShotNerModel</span></a><span class="result"> extends <a href="ReadablePretrainedZeroShotNer.html" class="extype" name="com.johnsnowlabs.nlp.annotators.ner.ReadablePretrainedZeroShotNer">ReadablePretrainedZeroShotNer</a> with <a href="ReadZeroShotNerTensorflowModel.html" class="extype" name="com.johnsnowlabs.nlp.annotators.ner.ReadZeroShotNerTensorflowModel">ReadZeroShotNerTensorflowModel</a> with <span class="extype" name="scala.Serializable">Serializable</span></span>
+      </span>
+      
+      
     </li>
               </ol>
             </div>

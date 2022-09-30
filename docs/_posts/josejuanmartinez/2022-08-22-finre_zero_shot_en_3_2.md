@@ -21,15 +21,6 @@ This is a Zero-shot Relation Extraction Model, meaning that it does not require 
 
 Make sure you keep the proper syntax of the relations you want to extract. For example:
 
-Before Spark NLP 4.0
-```
-re_model.setRelationalCategories({
-    "DECREASE": ["{{PROFIT_DECLINE}} decrease {{AMOUNT}}", "{{PROFIT_DECLINE}} decrease {{PERCENTAGE}}",
-    "INCREASE": ["{{PROFIT_INCREASE}} increase {{AMOUNT}}", "{{PROFIT_INCREASE}} increase {{PERCENTAGE}}"]
-})
-```
-
-After Spark NLP 4.0
 ```
 re_model.setRelationalCategories({
     "DECREASE": ["{PROFIT_DECLINE} decrease {AMOUNT}", "{PROFIT_DECLINE}} decrease {PERCENTAGE}",

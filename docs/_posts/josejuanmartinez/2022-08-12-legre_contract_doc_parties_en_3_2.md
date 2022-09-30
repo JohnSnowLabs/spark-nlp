@@ -54,7 +54,7 @@ embeddings = BertEmbeddings.pretrained("bert_base_uncased_legal", "en") \
         .setInputCols("document", "token") \
         .setOutputCol("embeddings")
 
-ner_model = LegalNerModel().pretrained('legner_contract_doc_parties', 'en', 'legal/models')\
+ner_model = LegalNerModel.pretrained('legner_contract_doc_parties', 'en', 'legal/models')\
         .setInputCols(["document", "token", "embeddings"])\
         .setOutputCol("ner")
 

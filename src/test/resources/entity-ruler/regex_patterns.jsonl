@@ -1,2 +1,0 @@
-{"label": "PERSON", "patterns": ["\\w+\\s\\w+", "\\w+-\\w+"]}
-{"label": "LOCATION", "patterns": ["Winterfell"]}

@@ -33,7 +33,10 @@ In this model, we created a curated large data set obtained from Chinese Treeban
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
 ```python
-...
+document_assembler = DocumentAssembler() \
+    .setInputCol("text") \
+    .setOutputCol("document")
+    
 word_segmenter = WordSegmenterModel.load("WORDSEG_LARGE_CN")\
         .setInputCols("document")\
         .setOutputCol("token")\
@@ -44,7 +47,10 @@ result = ws_model.transform(example)
 ```
 
 ```scala
-...
+val document_assembler = DocumentAssembler()
+        .setInputCol("text")
+        .setOutputCol("document")
+        
 val word_segmenter = WordSegmenterModel.pretrained("wordseg_large", "zh")
         .setInputCols("document")
         .setOutputCol("token")
