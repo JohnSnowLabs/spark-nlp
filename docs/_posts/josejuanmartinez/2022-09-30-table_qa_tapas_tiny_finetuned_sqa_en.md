@@ -29,7 +29,7 @@ Has aggregation operations?: False
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>
 <button class="button button-orange" disabled>Open in Colab</button>
-[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/table_qa_tapas_tiny_finetuned_sqa_en_4.2.0_3.0_1664530405891.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
+[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/table_qa_tapas_tiny_finetuned_sqa_en_4.2.0_3.0_1664530438363.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
 
 ## How to use
 
