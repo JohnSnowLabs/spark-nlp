@@ -3,9 +3,9 @@
         <head>
           <meta http-equiv="X-UA-Compatible" content="IE=edge" />
           <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-          <title>Spark NLP 4.1.0 ScalaDoc  - com.johnsnowlabs.nlp.annotators.deid.DeIdentificationModel</title>
-          <meta name="description" content="Spark NLP 4.1.0 ScalaDoc - com.johnsnowlabs.nlp.annotators.deid.DeIdentificationModel" />
-          <meta name="keywords" content="Spark NLP 4.1.0 ScalaDoc com.johnsnowlabs.nlp.annotators.deid.DeIdentificationModel" />
+          <title>Spark NLP 4.2.0 ScalaDoc  - com.johnsnowlabs.nlp.annotators.deid.DeIdentificationModel</title>
+          <meta name="description" content="Spark NLP 4.2.0 ScalaDoc - com.johnsnowlabs.nlp.annotators.deid.DeIdentificationModel" />
+          <meta name="keywords" content="Spark NLP 4.2.0 ScalaDoc com.johnsnowlabs.nlp.annotators.deid.DeIdentificationModel" />
           <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
           
       
@@ -28,7 +28,7 @@
         </head>
         <body>
       <div id="search">
-        <span id="doc-title">Spark NLP 4.1.0 ScalaDoc<span id="doc-version"></span></span>
+        <span id="doc-title">Spark NLP 4.2.0 ScalaDoc<span id="doc-version"></span></span>
         <span class="close-results"><span class="left">&lt;</span> Back</span>
         <div id="textfilter">
           <span class="input">
@@ -181,6 +181,10 @@
                         <span class="separator"></span>
                         <a class="object" href="DefaultRegex$.html" title=""></a>
                         <a href="DefaultRegex$.html" title="">DefaultRegex</a>
+                      </li><li class="current-entities indented5">
+                        <span class="separator"></span>
+                        <a class="class" href="DocumentHashCoder.html" title=""></a>
+                        <a href="DocumentHashCoder.html" title="">DocumentHashCoder</a>
                       </li><li class="current-entities indented5">
                         <span class="separator"></span>
                         <a class="object" href="Language$.html" title=""></a>
@@ -1288,9 +1292,9 @@ policy is selected.</p></div><dl class="attributes block"> <dt>Definition Classe
       <p class="shortcomment cmt">dictionary, which contains all terms for using later in anonimization function
 </p>
     </li><li name="com.johnsnowlabs.nlp.annotators.deid.DeIdentificationModel#getAnonymizeSentence" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="getAnonymizeSentence(sentence:com.johnsnowlabs.nlp.annotators.common.Sentence,protectedEntities:Seq[com.johnsnowlabs.nlp.Annotation],dateTag:String,days:Int,dateToYear:Boolean,minYear:Int):(String,Seq[com.johnsnowlabs.nlp.Annotation])"></a><a id="getAnonymizeSentence(Sentence,Seq[Annotation],String,Int,Boolean,Int):(String,Seq[Annotation])"></a>
+      <a id="getAnonymizeSentence(sentence:com.johnsnowlabs.nlp.annotators.common.Sentence,protectedEntities:Seq[com.johnsnowlabs.nlp.Annotation],dateTag:String,days:Int,dateToYear:Boolean,minYear:Int,wholeDocumentDate:Option[Int]):(String,Seq[com.johnsnowlabs.nlp.Annotation])"></a><a id="getAnonymizeSentence(Sentence,Seq[Annotation],String,Int,Boolean,Int,Option[Int]):(String,Seq[Annotation])"></a>
       <span class="permalink">
-      <a href="../../../../../com/johnsnowlabs/nlp/annotators/deid/DeIdentificationModel.html#getAnonymizeSentence(sentence:com.johnsnowlabs.nlp.annotators.common.Sentence,protectedEntities:Seq[com.johnsnowlabs.nlp.Annotation],dateTag:String,days:Int,dateToYear:Boolean,minYear:Int):(String,Seq[com.johnsnowlabs.nlp.Annotation])" title="Permalink">
+      <a href="../../../../../com/johnsnowlabs/nlp/annotators/deid/DeIdentificationModel.html#getAnonymizeSentence(sentence:com.johnsnowlabs.nlp.annotators.common.Sentence,protectedEntities:Seq[com.johnsnowlabs.nlp.Annotation],dateTag:String,days:Int,dateToYear:Boolean,minYear:Int,wholeDocumentDate:Option[Int]):(String,Seq[com.johnsnowlabs.nlp.Annotation])" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -1299,7 +1303,7 @@ policy is selected.</p></div><dl class="attributes block"> <dt>Definition Classe
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">getAnonymizeSentence</span><span class="params">(<span name="sentence">sentence: <span class="extype" name="com.johnsnowlabs.nlp.annotators.common.Sentence">Sentence</span></span>, <span name="protectedEntities">protectedEntities: <span class="extype" name="scala.Seq">Seq</span>[<span class="extype" name="com.johnsnowlabs.nlp.Annotation">Annotation</span>]</span>, <span name="dateTag">dateTag: <span class="extype" name="scala.Predef.String">String</span> = <span class="symbol">&quot;DATE&quot;</span></span>, <span name="days">days: <span class="extype" name="scala.Int">Int</span> = <span class="symbol">0</span></span>, <span name="dateToYear">dateToYear: <span class="extype" name="scala.Boolean">Boolean</span> = <span class="symbol">false</span></span>, <span name="minYear">minYear: <span class="extype" name="scala.Int">Int</span> = <span class="symbol">1929</span></span>)</span><span class="result">: (<span class="extype" name="scala.Predef.String">String</span>, <span class="extype" name="scala.Seq">Seq</span>[<span class="extype" name="com.johnsnowlabs.nlp.Annotation">Annotation</span>])</span>
+        <span class="name">getAnonymizeSentence</span><span class="params">(<span name="sentence">sentence: <span class="extype" name="com.johnsnowlabs.nlp.annotators.common.Sentence">Sentence</span></span>, <span name="protectedEntities">protectedEntities: <span class="extype" name="scala.Seq">Seq</span>[<span class="extype" name="com.johnsnowlabs.nlp.Annotation">Annotation</span>]</span>, <span name="dateTag">dateTag: <span class="extype" name="scala.Predef.String">String</span> = <span class="symbol">&quot;DATE&quot;</span></span>, <span name="days">days: <span class="extype" name="scala.Int">Int</span> = <span class="symbol">0</span></span>, <span name="dateToYear">dateToYear: <span class="extype" name="scala.Boolean">Boolean</span> = <span class="symbol">false</span></span>, <span name="minYear">minYear: <span class="extype" name="scala.Int">Int</span> = <span class="symbol">1929</span></span>, <span name="wholeDocumentDate">wholeDocumentDate: <span class="extype" name="scala.Option">Option</span>[<span class="extype" name="scala.Int">Int</span>] = <span class="symbol">None</span></span>)</span><span class="result">: (<span class="extype" name="scala.Predef.String">String</span>, <span class="extype" name="scala.Seq">Seq</span>[<span class="extype" name="com.johnsnowlabs.nlp.Annotation">Annotation</span>])</span>
       </span>
       
       <p class="shortcomment cmt">Main point of interest.</p><div class="fullcomment"><div class="comment cmt"><p>Main point of interest. This method projects the sentence into the anonymized form
@@ -3178,6 +3182,22 @@ For date entities this method doesn't apply.</p></div><dl class="attributes bloc
       <p class="shortcomment cmt">It is the seed to select the entities on obfuscate mode.With the seed you can reply a execution several times
 with the same ouptut.</p><div class="fullcomment"><div class="comment cmt"><p>It is the seed to select the entities on obfuscate mode.With the seed you can reply a execution several times
 with the same ouptut.</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="DeIdentificationParams.html" class="extype" name="com.johnsnowlabs.nlp.annotators.deid.DeIdentificationParams">DeIdentificationParams</a></dd></dl></div>
+    </li><li name="com.johnsnowlabs.nlp.annotators.deid.DeIdentificationParams#setUseShiftDayse" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="setUseShiftDayse(s:Boolean):DeIdentificationParams.this.type"></a><a id="setUseShiftDayse(Boolean):DeIdentificationModel.this.type"></a>
+      <span class="permalink">
+      <a href="../../../../../com/johnsnowlabs/nlp/annotators/deid/DeIdentificationModel.html#setUseShiftDayse(s:Boolean):DeIdentificationParams.this.type" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">setUseShiftDayse</span><span class="params">(<span name="s">s: <span class="extype" name="scala.Boolean">Boolean</span></span>)</span><span class="result">: <a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.deid.DeIdentificationModel">DeIdentificationModel</a>.this.type</span>
+      </span>
+      
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="DeIdentificationParams.html" class="extype" name="com.johnsnowlabs.nlp.annotators.deid.DeIdentificationParams">DeIdentificationParams</a></dd></dl></div>
     </li><li name="scala.AnyRef#synchronized" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="synchronized[T0](x$1:=&gt;T0):T0"></a><a id="synchronized[T0](⇒T0):T0"></a>
       <span class="permalink">
@@ -3355,6 +3375,22 @@ with the same ouptut.</p></div><dl class="attributes block"> <dt>Definition Clas
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.deid.DeIdentificationModel">DeIdentificationModel</a> → Identifiable</dd></dl></div>
+    </li><li name="com.johnsnowlabs.nlp.annotators.deid.DeIdentificationParams#useShifDays" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="useShifDays:org.apache.spark.ml.param.BooleanParam"></a><a id="useShifDays:BooleanParam"></a>
+      <span class="permalink">
+      <a href="../../../../../com/johnsnowlabs/nlp/annotators/deid/DeIdentificationModel.html#useShifDays:org.apache.spark.ml.param.BooleanParam" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">useShifDays</span><span class="result">: <span class="extype" name="org.apache.spark.ml.param.BooleanParam">BooleanParam</span></span>
+      </span>
+      
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="DeIdentificationParams.html" class="extype" name="com.johnsnowlabs.nlp.annotators.deid.DeIdentificationParams">DeIdentificationParams</a></dd></dl></div>
     </li><li name="com.johnsnowlabs.nlp.RawAnnotator#validate" visbl="prt" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="validate(schema:org.apache.spark.sql.types.StructType):Boolean"></a><a id="validate(StructType):Boolean"></a>
       <span class="permalink">
