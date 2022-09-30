@@ -1,6 +1,6 @@
 ---
 layout: model
-title: Mapping ICD10-CM Codes with Their Corresponding ICD9-CM Codes
+title: Mapping ICD-10-CM Codes with Their Corresponding ICD-9-CM Codes
 author: John Snow Labs
 name: icd10_icd9_mapper
 date: 2022-09-30
@@ -17,7 +17,7 @@ use_language_switcher: "Python-Scala-Java"
 
 ## Description
 
-This pretrained model maps ICD10-CM codes to corresponding ICD9-CM codes
+This pretrained model maps ICD-10-CM codes to corresponding ICD-9-CM codes
 
 ## Predicted Entities
 
