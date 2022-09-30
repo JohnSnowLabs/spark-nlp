@@ -69,8 +69,8 @@ val documentAssembler = new DocumentAssembler()
         .setOutputCol("ner_chunk")
 
 val chunk_assembler = new Doc2Chunk()\
-        .setInputCols(['doc'])\
-        .setOutputCol('ner_chunk')
+        .setInputCols(["doc"])\
+        .setOutputCol("ner_chunk")
 
 val chunkerMapper = ChunkMapperModel.pretrained("icd9_icd10_mapper", "en","clinical/models")
         .setInputCols("icd10cm_code")
