@@ -36,6 +36,7 @@
     <script src="../../../../../../static/underscore.js"></script>
     <script src="../../../../../../static/_sphinx_javascript_frameworks_compat.js"></script>
     <script src="../../../../../../static/doctools.js"></script>
+    <script src="../../../../../../static/sphinx_highlight.js"></script>
     <script src="../../../../../../static/toggleprompt.js"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'reference/autosummary/sparknlp_jsl/annotator/qa/qa_ner_generator/index';</script>
     <link rel="shortcut icon" href="../../../../../../static/fav.ico"/>
@@ -452,6 +453,15 @@
     </a>
    </li>
    <li class="toctree-l2">
+    <a class="reference internal" href="../../deid/doccument_hashcoder/index.html">
+     <code class="xref py py-mod docutils literal notranslate">
+      <span class="pre">
+       sparknlp_jsl.annotator.deid.doccument_hashcoder
+      </span>
+     </code>
+    </a>
+   </li>
+   <li class="toctree-l2">
     <a class="reference internal" href="../../deid/reIdentification/index.html">
      <code class="xref py py-mod docutils literal notranslate">
       <span class="pre">
@@ -860,14 +870,14 @@
 <h3>Classes<a class="headerlink" href="#classes" title="Permalink to this heading">#</a></h3>
 <table class="autosummary longtable table autosummary">
 <tbody>
-<tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp_jsl.annotator.qa.qa_ner_generator.NerQAGenarator" title="sparknlp_jsl.annotator.qa.qa_ner_generator.NerQAGenarator"><code class="xref py py-obj docutils literal notranslate"><span class="pre">NerQAGenarator</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp_jsl.annotator.qa.qa_ner_generator.NerQuestionGenerator" title="sparknlp_jsl.annotator.qa.qa_ner_generator.NerQuestionGenerator"><code class="xref py py-obj docutils literal notranslate"><span class="pre">NerQuestionGenerator</span></code></a></p></td>
 <td><p>The chunk mapper Approach load a JsonDictionary that have the relations to be mapped in the ChunkMapperModel</p></td>
 </tr>
 </tbody>
 </table>
 <dl class="py class">
-<dt class="sig sig-object py" id="sparknlp_jsl.annotator.qa.qa_ner_generator.NerQAGenarator">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">NerQAGenarator</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">classname</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'com.johnsnowlabs.nlp.annotators.qa.NerQAGenarator'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">java_model</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../modules/sparknlp_jsl/annotator/qa/qa_ner_generator.html#NerQAGenarator"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.qa.qa_ner_generator.NerQAGenarator" title="Permalink to this definition">#</a></dt>
+<dt class="sig sig-object py" id="sparknlp_jsl.annotator.qa.qa_ner_generator.NerQuestionGenerator">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">NerQuestionGenerator</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">classname</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'com.johnsnowlabs.nlp.annotators.qa.NerQuestionGenerator'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">java_model</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../modules/sparknlp_jsl/annotator/qa/qa_ner_generator.html#NerQuestionGenerator"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.qa.qa_ner_generator.NerQuestionGenerator" title="Permalink to this definition">#</a></dt>
 <dd><p>The chunk mapper Approach load a JsonDictionary that have the relations to be mapped in the ChunkMapperModel</p>
 <table class="table">
 <thead>
@@ -927,33 +937,38 @@
 </pre></div>
 </div>
 <dl class="py attribute">
-<dt class="sig sig-object py" id="sparknlp_jsl.annotator.qa.qa_ner_generator.NerQAGenarator.name">
-<span class="sig-name descname"><span class="pre">name</span></span><em class="property"><span class="w"> </span><span class="pre">=</span> <span class="pre">ChunkMapperApproach</span></em><a class="reference internal" href="../../../../../../modules/sparknlp_jsl/annotator/qa/qa_ner_generator.html#NerQAGenarator.name"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.qa.qa_ner_generator.NerQAGenarator.name" title="Permalink to this definition">#</a></dt>
+<dt class="sig sig-object py" id="sparknlp_jsl.annotator.qa.qa_ner_generator.NerQuestionGenerator.name">
+<span class="sig-name descname"><span class="pre">name</span></span><em class="property"><span class="w"> </span><span class="pre">=</span> <span class="pre">ChunkMapperApproach</span></em><a class="reference internal" href="../../../../../../modules/sparknlp_jsl/annotator/qa/qa_ner_generator.html#NerQuestionGenerator.name"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.qa.qa_ner_generator.NerQuestionGenerator.name" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
-<dt class="sig sig-object py" id="sparknlp_jsl.annotator.qa.qa_ner_generator.NerQAGenarator.questionPronoun">
-<span class="sig-name descname"><span class="pre">questionPronoun</span></span><a class="reference internal" href="../../../../../../modules/sparknlp_jsl/annotator/qa/qa_ner_generator.html#NerQAGenarator.questionPronoun"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.qa.qa_ner_generator.NerQAGenarator.questionPronoun" title="Permalink to this definition">#</a></dt>
+<dt class="sig sig-object py" id="sparknlp_jsl.annotator.qa.qa_ner_generator.NerQuestionGenerator.questionPronoun">
+<span class="sig-name descname"><span class="pre">questionPronoun</span></span><a class="reference internal" href="../../../../../../modules/sparknlp_jsl/annotator/qa/qa_ner_generator.html#NerQuestionGenerator.questionPronoun"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.qa.qa_ner_generator.NerQuestionGenerator.questionPronoun" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
-<dt class="sig sig-object py" id="sparknlp_jsl.annotator.qa.qa_ner_generator.NerQAGenarator.questionMark">
-<span class="sig-name descname"><span class="pre">questionMark</span></span><a class="reference internal" href="../../../../../../modules/sparknlp_jsl/annotator/qa/qa_ner_generator.html#NerQAGenarator.questionMark"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.qa.qa_ner_generator.NerQAGenarator.questionMark" title="Permalink to this definition">#</a></dt>
+<dt class="sig sig-object py" id="sparknlp_jsl.annotator.qa.qa_ner_generator.NerQuestionGenerator.strategyType">
+<span class="sig-name descname"><span class="pre">strategyType</span></span><a class="reference internal" href="../../../../../../modules/sparknlp_jsl/annotator/qa/qa_ner_generator.html#NerQuestionGenerator.strategyType"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.qa.qa_ner_generator.NerQuestionGenerator.strategyType" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
-<dt class="sig sig-object py" id="sparknlp_jsl.annotator.qa.qa_ner_generator.NerQAGenarator.entities1">
-<span class="sig-name descname"><span class="pre">entities1</span></span><a class="reference internal" href="../../../../../../modules/sparknlp_jsl/annotator/qa/qa_ner_generator.html#NerQAGenarator.entities1"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.qa.qa_ner_generator.NerQAGenarator.entities1" title="Permalink to this definition">#</a></dt>
+<dt class="sig sig-object py" id="sparknlp_jsl.annotator.qa.qa_ner_generator.NerQuestionGenerator.questionMark">
+<span class="sig-name descname"><span class="pre">questionMark</span></span><a class="reference internal" href="../../../../../../modules/sparknlp_jsl/annotator/qa/qa_ner_generator.html#NerQuestionGenerator.questionMark"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.qa.qa_ner_generator.NerQuestionGenerator.questionMark" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
-<dt class="sig sig-object py" id="sparknlp_jsl.annotator.qa.qa_ner_generator.NerQAGenarator.entities2">
-<span class="sig-name descname"><span class="pre">entities2</span></span><a class="reference internal" href="../../../../../../modules/sparknlp_jsl/annotator/qa/qa_ner_generator.html#NerQAGenarator.entities2"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.qa.qa_ner_generator.NerQAGenarator.entities2" title="Permalink to this definition">#</a></dt>
+<dt class="sig sig-object py" id="sparknlp_jsl.annotator.qa.qa_ner_generator.NerQuestionGenerator.entities1">
+<span class="sig-name descname"><span class="pre">entities1</span></span><a class="reference internal" href="../../../../../../modules/sparknlp_jsl/annotator/qa/qa_ner_generator.html#NerQuestionGenerator.entities1"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.qa.qa_ner_generator.NerQuestionGenerator.entities1" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="sparknlp_jsl.annotator.qa.qa_ner_generator.NerQuestionGenerator.entities2">
+<span class="sig-name descname"><span class="pre">entities2</span></span><a class="reference internal" href="../../../../../../modules/sparknlp_jsl/annotator/qa/qa_ner_generator.html#NerQuestionGenerator.entities2"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.qa.qa_ner_generator.NerQuestionGenerator.entities2" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="sparknlp_jsl.annotator.qa.qa_ner_generator.NerQAGenarator.setQuestionMark">
-<span class="sig-name descname"><span class="pre">setQuestionMark</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">lc</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../modules/sparknlp_jsl/annotator/qa/qa_ner_generator.html#NerQAGenarator.setQuestionMark"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.qa.qa_ner_generator.NerQAGenarator.setQuestionMark" title="Permalink to this definition">#</a></dt>
+<dt class="sig sig-object py" id="sparknlp_jsl.annotator.qa.qa_ner_generator.NerQuestionGenerator.setQuestionMark">
+<span class="sig-name descname"><span class="pre">setQuestionMark</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">lc</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../modules/sparknlp_jsl/annotator/qa/qa_ner_generator.html#NerQuestionGenerator.setQuestionMark"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.qa.qa_ner_generator.NerQuestionGenerator.setQuestionMark" title="Permalink to this definition">#</a></dt>
 <dd><p>Set if we want to save the keys of the dictionary in lower case or not
 Parameters
 ———-
@@ -964,18 +979,30 @@ lc : bool</p>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="sparknlp_jsl.annotator.qa.qa_ner_generator.NerQAGenarator.setEntities1">
-<span class="sig-name descname"><span class="pre">setEntities1</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">e1</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../modules/sparknlp_jsl/annotator/qa/qa_ner_generator.html#NerQAGenarator.setEntities1"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.qa.qa_ner_generator.NerQAGenarator.setEntities1" title="Permalink to this definition">#</a></dt>
+<dt class="sig sig-object py" id="sparknlp_jsl.annotator.qa.qa_ner_generator.NerQuestionGenerator.setStrategyType">
+<span class="sig-name descname"><span class="pre">setStrategyType</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">lc</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../modules/sparknlp_jsl/annotator/qa/qa_ner_generator.html#NerQuestionGenerator.setStrategyType"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.qa.qa_ner_generator.NerQuestionGenerator.setStrategyType" title="Permalink to this definition">#</a></dt>
+<dd><p>Set if we want to save the keys of the dictionary in lower case or not
+Parameters
+———-
+lc : bool</p>
+<blockquote>
+<div><p>Parameter that select if you want to use the keys in lower case or not</p>
+</div></blockquote>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp_jsl.annotator.qa.qa_ner_generator.NerQuestionGenerator.setEntities1">
+<span class="sig-name descname"><span class="pre">setEntities1</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">e1</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../modules/sparknlp_jsl/annotator/qa/qa_ner_generator.html#NerQuestionGenerator.setEntities1"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.qa.qa_ner_generator.NerQuestionGenerator.setEntities1" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="sparknlp_jsl.annotator.qa.qa_ner_generator.NerQAGenarator.setEntities2">
-<span class="sig-name descname"><span class="pre">setEntities2</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">e2</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../modules/sparknlp_jsl/annotator/qa/qa_ner_generator.html#NerQAGenarator.setEntities2"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.qa.qa_ner_generator.NerQAGenarator.setEntities2" title="Permalink to this definition">#</a></dt>
+<dt class="sig sig-object py" id="sparknlp_jsl.annotator.qa.qa_ner_generator.NerQuestionGenerator.setEntities2">
+<span class="sig-name descname"><span class="pre">setEntities2</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">e2</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../modules/sparknlp_jsl/annotator/qa/qa_ner_generator.html#NerQuestionGenerator.setEntities2"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.qa.qa_ner_generator.NerQuestionGenerator.setEntities2" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="sparknlp_jsl.annotator.qa.qa_ner_generator.NerQAGenarator.setQuestionPronoun">
-<span class="sig-name descname"><span class="pre">setQuestionPronoun</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">rs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../modules/sparknlp_jsl/annotator/qa/qa_ner_generator.html#NerQAGenarator.setQuestionPronoun"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.qa.qa_ner_generator.NerQAGenarator.setQuestionPronoun" title="Permalink to this definition">#</a></dt>
+<dt class="sig sig-object py" id="sparknlp_jsl.annotator.qa.qa_ner_generator.NerQuestionGenerator.setQuestionPronoun">
+<span class="sig-name descname"><span class="pre">setQuestionPronoun</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">rs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../modules/sparknlp_jsl/annotator/qa/qa_ner_generator.html#NerQuestionGenerator.setQuestionPronoun"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.qa.qa_ner_generator.NerQuestionGenerator.setQuestionPronoun" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
@@ -1019,52 +1046,172 @@ lc : bool</p>
     </a>
     <ul class="nav section-nav flex-column">
      <li class="toc-h4 nav-item toc-entry">
-      <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.qa.qa_ner_generator.NerQAGenarator">
-       NerQAGenarator
+      <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.qa.qa_ner_generator.NerQuestionGenerator">
+       <code class="docutils literal notranslate">
+        <span class="pre">
+         NerQuestionGenerator
+        </span>
+       </code>
       </a>
       <ul class="nav section-nav flex-column">
        <li class="toc-h5 nav-item toc-entry">
-        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.qa.qa_ner_generator.NerQAGenarator.name">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.qa.qa_ner_generator.NerQuestionGenerator.name">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           NerQuestionGenerator.name
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.qa.qa_ner_generator.NerQuestionGenerator.questionPronoun">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           NerQuestionGenerator.questionPronoun
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.qa.qa_ner_generator.NerQuestionGenerator.strategyType">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           NerQuestionGenerator.strategyType
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.qa.qa_ner_generator.NerQuestionGenerator.questionMark">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           NerQuestionGenerator.questionMark
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.qa.qa_ner_generator.NerQuestionGenerator.entities1">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           NerQuestionGenerator.entities1
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.qa.qa_ner_generator.NerQuestionGenerator.entities2">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           NerQuestionGenerator.entities2
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.qa.qa_ner_generator.NerQuestionGenerator.setQuestionMark">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           NerQuestionGenerator.setQuestionMark()
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.qa.qa_ner_generator.NerQuestionGenerator.setStrategyType">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           NerQuestionGenerator.setStrategyType()
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.qa.qa_ner_generator.NerQuestionGenerator.setEntities1">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           NerQuestionGenerator.setEntities1()
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.qa.qa_ner_generator.NerQuestionGenerator.setEntities2">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           NerQuestionGenerator.setEntities2()
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.qa.qa_ner_generator.NerQuestionGenerator.setQuestionPronoun">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           NerQuestionGenerator.setQuestionPronoun()
+          </span>
+         </code>
+        </a>
+       </li>
+      </ul>
+     </li>
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.qa.qa_ner_generator.NerQuestionGenerator">
+       NerQuestionGenerator
+      </a>
+      <ul class="nav section-nav flex-column">
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.qa.qa_ner_generator.NerQuestionGenerator.name">
          name
         </a>
        </li>
        <li class="toc-h5 nav-item toc-entry">
-        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.qa.qa_ner_generator.NerQAGenarator.questionPronoun">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.qa.qa_ner_generator.NerQuestionGenerator.questionPronoun">
          questionPronoun
         </a>
        </li>
        <li class="toc-h5 nav-item toc-entry">
-        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.qa.qa_ner_generator.NerQAGenarator.questionMark">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.qa.qa_ner_generator.NerQuestionGenerator.strategyType">
+         strategyType
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.qa.qa_ner_generator.NerQuestionGenerator.questionMark">
          questionMark
         </a>
        </li>
        <li class="toc-h5 nav-item toc-entry">
-        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.qa.qa_ner_generator.NerQAGenarator.entities1">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.qa.qa_ner_generator.NerQuestionGenerator.entities1">
          entities1
         </a>
        </li>
        <li class="toc-h5 nav-item toc-entry">
-        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.qa.qa_ner_generator.NerQAGenarator.entities2">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.qa.qa_ner_generator.NerQuestionGenerator.entities2">
          entities2
         </a>
        </li>
        <li class="toc-h5 nav-item toc-entry">
-        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.qa.qa_ner_generator.NerQAGenarator.setQuestionMark">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.qa.qa_ner_generator.NerQuestionGenerator.setQuestionMark">
          setQuestionMark
         </a>
        </li>
        <li class="toc-h5 nav-item toc-entry">
-        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.qa.qa_ner_generator.NerQAGenarator.setEntities1">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.qa.qa_ner_generator.NerQuestionGenerator.setStrategyType">
+         setStrategyType
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.qa.qa_ner_generator.NerQuestionGenerator.setEntities1">
          setEntities1
         </a>
        </li>
        <li class="toc-h5 nav-item toc-entry">
-        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.qa.qa_ner_generator.NerQAGenarator.setEntities2">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.qa.qa_ner_generator.NerQuestionGenerator.setEntities2">
          setEntities2
         </a>
        </li>
        <li class="toc-h5 nav-item toc-entry">
-        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.qa.qa_ner_generator.NerQAGenarator.setQuestionPronoun">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.qa.qa_ner_generator.NerQuestionGenerator.setQuestionPronoun">
          setQuestionPronoun
         </a>
        </li>
@@ -1127,7 +1274,7 @@ lc : bool</p>
   <div class="footer-item">
     
 <p class="sphinx-version">
-Created using <a href="http://sphinx-doc.org/">Sphinx</a> 5.1.1.<br>
+Created using <a href="http://sphinx-doc.org/">Sphinx</a> 5.2.3.<br>
 </p>
 
   </div>
