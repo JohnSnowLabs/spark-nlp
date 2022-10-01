@@ -531,9 +531,971 @@
             <i class="far fa-edit"></i></a></div><meta itemprop="headline" content="Spark NLP for Healthcare Release Notes"><meta itemprop="author" content=""/><div class="js-article-content"><div class="docs-wrapper">
 <div class="layout--article"><!-- start custom article top snippet -->
 
-<!-- end custom article top snippet --><div class="article__content" itemprop="articleBody"><h2 id="410">4.1.0</h2>
+<!-- end custom article top snippet --><div class="article__content" itemprop="articleBody"><h2 id="420">4.2.0</h2>
 
 <h4 id="highlights">Highlights</h4>
+
+<ul>
+  <li>Introducing 46 new Oncology specific pretrained models (12 NER, 12 BERT-based token classification, 14 relation extraction, 8 assertion status models)</li>
+  <li>Brand new <code class="language-plaintext highlighter-rouge">NerQuestionGenerator</code> annotator for automated prompt generation for a QA-based Zero-Shot NER model</li>
+  <li>Updated ALAB (Annotation Lab) module becoming a fullfledged suite to manage activities on ALAB via its API remotely</li>
+  <li>New pretrained assertion status detection model (<code class="language-plaintext highlighter-rouge">assertion_jsl_augmented</code>) to classify the negativity &amp; assertion scope of medical concepts</li>
+  <li>New chunk mapper models and pretrained pipeline to map entities (phrases) to their corresponding ICD-9, ICD-10-CM and RxNorm codes</li>
+  <li>New ICD-9-CM sentence entity resolver model and pretrained pipeline</li>
+  <li>New shifting days feature in <code class="language-plaintext highlighter-rouge">DeIdentification</code> by using the new <code class="language-plaintext highlighter-rouge">DocumentHashCoder</code> annotator</li>
+  <li>Updated NER model finder pretrained pipeline to help users find the most appropriate NER model for their use case in one-liner</li>
+  <li>Medicare risk adjustment score calculation module updated to support different version and year combinations</li>
+  <li>Core improvements and bug fixes</li>
+  <li>New and updated notebooks</li>
+  <li>50+ new clinical models and pipelines added &amp; updated in total</li>
+</ul>
+
+<h4 id="introducing-46-new-oncology-specific-pretrained-models-12-ner-12-bert-based-token-classification-14-relation-extraction-8-assertion-status-models">Introducing 46 New Oncology Specific Pretrained Models (12 NER, 12 BERT-Based Token Classification, 14 Relation Extraction, 8 Assertion Status Models)</h4>
+
+<p>These models will be the first versions (wip - work in progress) of Oncology models.</p>
+
+<h5 id="new-oncological-ner-and-bert-based-token-classification-models">New Oncological NER and BERT-Based Token Classification Models</h5>
+
+<p>We have 12 new oncological NER and their BERT-based token classification models.</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>NER model name (MedicalNerModel)</th>
+      <th>BERT-Based model name (MedicalBertForTokenClassifier)</th>
+      <th>description</th>
+      <th>predicted entities</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><a href="https://nlp.johnsnowlabs.com/2022/09/30/ner_oncology_therapy_wip_en.html">ner_oncology_therapy_wip</a></td>
+      <td>bert_token_classifier_ner_oncology_therapy_wip</td>
+      <td>This model extracts entities related to cancer therapies, including posology entities and response to treatment, using granular labels.</td>
+      <td><code class="language-plaintext highlighter-rouge">Response_To_Treatment</code>, <code class="language-plaintext highlighter-rouge">Line_Of_Therapy</code>, <code class="language-plaintext highlighter-rouge">Cancer_Surgery</code>, <code class="language-plaintext highlighter-rouge">Radiotherapy</code>, <code class="language-plaintext highlighter-rouge">Immunotherapy</code>, <code class="language-plaintext highlighter-rouge">Targeted_Therapy</code>, <code class="language-plaintext highlighter-rouge">Hormonal_Therapy</code>, <code class="language-plaintext highlighter-rouge">Chemotherapy</code>, <code class="language-plaintext highlighter-rouge">Unspecific_Therapy</code>, <code class="language-plaintext highlighter-rouge">Route</code>, <code class="language-plaintext highlighter-rouge">Duration</code>, <code class="language-plaintext highlighter-rouge">Cycle_Count</code>, <code class="language-plaintext highlighter-rouge">Dosage</code>, <code class="language-plaintext highlighter-rouge">Frequency</code>, <code class="language-plaintext highlighter-rouge">Cycle_Number</code>, <code class="language-plaintext highlighter-rouge">Cycle_Day</code>, <code class="language-plaintext highlighter-rouge">Radiation_Dose</code></td>
+    </tr>
+    <tr>
+      <td><a href="https://nlp.johnsnowlabs.com/2022/09/30/ner_oncology_diagnosis_wip_en.html">ner_oncology_diagnosis_wip</a></td>
+      <td>bert_token_classifier_ner_oncology_diagnosis_wip</td>
+      <td>This model extracts entities related to cancer diagnosis, including the presence of metastasis.</td>
+      <td><code class="language-plaintext highlighter-rouge">Grade</code>, <code class="language-plaintext highlighter-rouge">Staging</code>, <code class="language-plaintext highlighter-rouge">Tumor_Size</code>, <code class="language-plaintext highlighter-rouge">Adenopathy</code>, <code class="language-plaintext highlighter-rouge">Pathology_Result</code>, <code class="language-plaintext highlighter-rouge">Histological_Type</code>, <code class="language-plaintext highlighter-rouge">Metastasis</code>, <code class="language-plaintext highlighter-rouge">Cancer_Score</code>, <code class="language-plaintext highlighter-rouge">Cancer_Dx</code>, <code class="language-plaintext highlighter-rouge">Invasion</code>, <code class="language-plaintext highlighter-rouge">Tumor_Finding</code>, <code class="language-plaintext highlighter-rouge">Performance_Status</code></td>
+    </tr>
+    <tr>
+      <td><a href="https://nlp.johnsnowlabs.com/2022/09/30/ner_oncology_wip_en.html">ner_oncology_wip</a></td>
+      <td>bert_token_classifier_ner_oncology_wip</td>
+      <td>This model extracts more than 40 oncology-related entities.</td>
+      <td><code class="language-plaintext highlighter-rouge">Histological_Type</code>, <code class="language-plaintext highlighter-rouge">Direction</code>, <code class="language-plaintext highlighter-rouge">Staging</code>, <code class="language-plaintext highlighter-rouge">Cancer_Score</code>, <code class="language-plaintext highlighter-rouge">Imaging_Test</code>, <code class="language-plaintext highlighter-rouge">Cycle_Number</code>, <code class="language-plaintext highlighter-rouge">Tumor_Finding</code>, <code class="language-plaintext highlighter-rouge">Site_Lymph_Node</code>, <code class="language-plaintext highlighter-rouge">Invasion</code>, <code class="language-plaintext highlighter-rouge">Response_To_Treatment</code>, <code class="language-plaintext highlighter-rouge">Smoking_Status</code>, <code class="language-plaintext highlighter-rouge">Tumor_Size</code>, <code class="language-plaintext highlighter-rouge">Cycle_Count</code>, <code class="language-plaintext highlighter-rouge">Adenopathy</code>, <code class="language-plaintext highlighter-rouge">Age</code>, <code class="language-plaintext highlighter-rouge">Biomarker_Result</code>, <code class="language-plaintext highlighter-rouge">Unspecific_Therapy</code>, <code class="language-plaintext highlighter-rouge">Site_Breast</code>, <code class="language-plaintext highlighter-rouge">Chemotherapy</code>, <code class="language-plaintext highlighter-rouge">Targeted_Therapy</code>, <code class="language-plaintext highlighter-rouge">Radiotherapy</code>, <code class="language-plaintext highlighter-rouge">Performance_Status</code>, <code class="language-plaintext highlighter-rouge">Pathology_Test</code>, <code class="language-plaintext highlighter-rouge">Site_Other_Body_Part</code>, <code class="language-plaintext highlighter-rouge">Cancer_Surgery</code>, <code class="language-plaintext highlighter-rouge">Line_Of_Therapy</code>, <code class="language-plaintext highlighter-rouge">Pathology_Result</code>, <code class="language-plaintext highlighter-rouge">Hormonal_Therapy</code>, <code class="language-plaintext highlighter-rouge">Site_Bone</code>, <code class="language-plaintext highlighter-rouge">Biomarker</code>, <code class="language-plaintext highlighter-rouge">Immunotherapy</code>, <code class="language-plaintext highlighter-rouge">Cycle_Day</code>, <code class="language-plaintext highlighter-rouge">Frequency</code>, <code class="language-plaintext highlighter-rouge">Route</code>, <code class="language-plaintext highlighter-rouge">Duration</code>, <code class="language-plaintext highlighter-rouge">Death_Entity</code>, <code class="language-plaintext highlighter-rouge">Metastasis</code>, <code class="language-plaintext highlighter-rouge">Site_Liver</code>, <code class="language-plaintext highlighter-rouge">Cancer_Dx</code>, <code class="language-plaintext highlighter-rouge">Grade</code>, <code class="language-plaintext highlighter-rouge">Date</code>, <code class="language-plaintext highlighter-rouge">Site_Lung</code>, <code class="language-plaintext highlighter-rouge">Site_Brain</code>, <code class="language-plaintext highlighter-rouge">Relative_Date</code>, <code class="language-plaintext highlighter-rouge">Race_Ethnicity</code>, <code class="language-plaintext highlighter-rouge">Gender</code>, <code class="language-plaintext highlighter-rouge">Oncogene</code>, <code class="language-plaintext highlighter-rouge">Dosage</code>, <code class="language-plaintext highlighter-rouge">Radiation_Dose</code></td>
+    </tr>
+    <tr>
+      <td><a href="https://nlp.johnsnowlabs.com/2022/09/30/ner_oncology_tnm_wip_en.html">ner_oncology_tnm_wip</a></td>
+      <td>bert_token_classifier_ner_oncology_tnm_wip</td>
+      <td>This model extracts mentions related to TNM staging.</td>
+      <td><code class="language-plaintext highlighter-rouge">Lymph_Node</code>, <code class="language-plaintext highlighter-rouge">Staging</code>, <code class="language-plaintext highlighter-rouge">Lymph_Node_Modifier</code>, <code class="language-plaintext highlighter-rouge">Tumor_Description</code>, <code class="language-plaintext highlighter-rouge">Tumor</code>, <code class="language-plaintext highlighter-rouge">Metastasis</code>, <code class="language-plaintext highlighter-rouge">Cancer_Dx</code></td>
+    </tr>
+    <tr>
+      <td><a href="https://nlp.johnsnowlabs.com/2022/09/30/ner_oncology_anatomy_general_wip_en.html">ner_oncology_anatomy_general_wip</a></td>
+      <td>bert_token_classifier_ner_oncology_anatomy_general_wip</td>
+      <td>This model extracts anatomical entities.</td>
+      <td><code class="language-plaintext highlighter-rouge">Anatomical_Site</code>, <code class="language-plaintext highlighter-rouge">Direction</code></td>
+    </tr>
+    <tr>
+      <td><a href="https://nlp.johnsnowlabs.com/2022/09/30/ner_oncology_demographics_wip_en.html">ner_oncology_demographics_wip</a></td>
+      <td>bert_token_classifier_ner_oncology_demographics_wip</td>
+      <td>This model extracts demographic information, including smoking status.</td>
+      <td><code class="language-plaintext highlighter-rouge">Age</code>, <code class="language-plaintext highlighter-rouge">Gender</code>, <code class="language-plaintext highlighter-rouge">Smoking_Status</code>, <code class="language-plaintext highlighter-rouge">Race_Ethnicity</code></td>
+    </tr>
+    <tr>
+      <td><a href="https://nlp.johnsnowlabs.com/2022/09/30/ner_oncology_test_wip_en.html">ner_oncology_test_wip</a></td>
+      <td>bert_token_classifier_ner_oncology_test_wip</td>
+      <td>This model extracts mentions of oncology-related tests.</td>
+      <td><code class="language-plaintext highlighter-rouge">Oncogene</code>, <code class="language-plaintext highlighter-rouge">Biomarker</code>, <code class="language-plaintext highlighter-rouge">Biomarker_Result</code>, <code class="language-plaintext highlighter-rouge">Imaging_Test</code>, <code class="language-plaintext highlighter-rouge">Pathology_Test</code></td>
+    </tr>
+    <tr>
+      <td><a href="https://nlp.johnsnowlabs.com/2022/09/30/ner_oncology_unspecific_posology_wip_en.html">ner_oncology_unspecific_posology_wip</a></td>
+      <td>bert_token_classifier_ner_oncology_unspecific_posology_wip</td>
+      <td>This model extracts any mention of cancer therapies and posology information using general labels</td>
+      <td><code class="language-plaintext highlighter-rouge">Cancer_Therapy</code>, <code class="language-plaintext highlighter-rouge">Posology_Information</code></td>
+    </tr>
+    <tr>
+      <td><a href="https://nlp.johnsnowlabs.com/2022/10/01/ner_oncology_anatomy_granular_wip_en.html">ner_oncology_anatomy_granular_wip</a></td>
+      <td>bert_token_classifier_ner_oncology_anatomy_granular_wip</td>
+      <td>This model extracts anatomical entities using granular labels.</td>
+      <td>Direction, Site_Lymph_Node, Site_Breast, Site_Other_Body_Part, Site_Bone, Site_Liver, Site_Lung, Site_Brain</td>
+    </tr>
+    <tr>
+      <td><a href="https://nlp.johnsnowlabs.com/2022/10/01/ner_oncology_response_to_treatment_wip_en.html">ner_oncology_response_to_treatment_wip</a></td>
+      <td>bert_token_classifier_ner_oncology_response_to_treatment_wip</td>
+      <td>This model extracts entities related to the patient’s response to cancer treatment.</td>
+      <td><code class="language-plaintext highlighter-rouge">Response_To_Treatment</code>, <code class="language-plaintext highlighter-rouge">Size_Trend</code>, <code class="language-plaintext highlighter-rouge">Line_Of_Therapy</code></td>
+    </tr>
+    <tr>
+      <td><a href="https://nlp.johnsnowlabs.com/2022/10/01/ner_oncology_biomarker_wip_en.html">ner_oncology_biomarker_wip</a></td>
+      <td>bert_token_classifier_ner_oncology_biomarker_wip</td>
+      <td>This model extracts biomarkers and their results.</td>
+      <td><code class="language-plaintext highlighter-rouge">Biomarker</code>, <code class="language-plaintext highlighter-rouge">Biomarker_Result</code></td>
+    </tr>
+    <tr>
+      <td><a href="https://nlp.johnsnowlabs.com/2022/10/01/ner_oncology_posology_wip_en.html">ner_oncology_posology_wip</a></td>
+      <td>bert_token_classifier_ner_oncology_posology_wip</td>
+      <td>This model extracts oncology specific posology information and cancer therapies.</td>
+      <td><code class="language-plaintext highlighter-rouge">Cycle_Number</code>, <code class="language-plaintext highlighter-rouge">Cycle_Count</code>, <code class="language-plaintext highlighter-rouge">Radiotherapy</code>, <code class="language-plaintext highlighter-rouge">Cancer_Surgery</code>, <code class="language-plaintext highlighter-rouge">Cycle_Day</code>, <code class="language-plaintext highlighter-rouge">Frequency</code>, <code class="language-plaintext highlighter-rouge">Route</code>, <code class="language-plaintext highlighter-rouge">Cancer_Therapy</code>, <code class="language-plaintext highlighter-rouge">Duration</code>, <code class="language-plaintext highlighter-rouge">Dosage</code>, <code class="language-plaintext highlighter-rouge">Radiation_Dose</code></td>
+    </tr>
+  </tbody>
+</table>
+
+<p><strong>F1 Scores:</strong></p>
+
+<table>
+  <thead>
+    <tr>
+      <th>label</th>
+      <th>f1</th>
+      <th>label</th>
+      <th>f1</th>
+      <th>label</th>
+      <th>f1</th>
+      <th>label</th>
+      <th>f1</th>
+      <th>label</th>
+      <th>f1</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Adenopathy</td>
+      <td>0.73</td>
+      <td>Cycle_Day</td>
+      <td>0.83</td>
+      <td>Histological_Type</td>
+      <td>0.71</td>
+      <td>Posology_Information</td>
+      <td>0.88</td>
+      <td>Site_Lymph_Node</td>
+      <td>0.91</td>
+    </tr>
+    <tr>
+      <td>Age</td>
+      <td>0.97</td>
+      <td>Cycle_Number</td>
+      <td>0.79</td>
+      <td>Hormonal_Therapy</td>
+      <td>0.90</td>
+      <td>Race_Ethnicity</td>
+      <td>0.86</td>
+      <td>Smoking_Status</td>
+      <td>0.82</td>
+    </tr>
+    <tr>
+      <td>Anatomical_Site</td>
+      <td>0.83</td>
+      <td>Date</td>
+      <td>0.97</td>
+      <td>Imaging_Test</td>
+      <td>0.90</td>
+      <td>Radiation_Dose</td>
+      <td>0.87</td>
+      <td>Staging</td>
+      <td>0.85</td>
+    </tr>
+    <tr>
+      <td>Biomarker</td>
+      <td>0.89</td>
+      <td>Death_Entity</td>
+      <td>0.82</td>
+      <td>Invasion</td>
+      <td>0.80</td>
+      <td>Radiotherapy</td>
+      <td>0.90</td>
+      <td>Targeted_Therapy</td>
+      <td>0.87</td>
+    </tr>
+    <tr>
+      <td>Biomarker_Result</td>
+      <td>0.82</td>
+      <td>Direction</td>
+      <td>0.82</td>
+      <td>Line_Of_Therapy</td>
+      <td>0.91</td>
+      <td>Relative_Date</td>
+      <td>0.79</td>
+      <td>Tumor</td>
+      <td>0.91</td>
+    </tr>
+    <tr>
+      <td>Cancer_Dx</td>
+      <td>0.92</td>
+      <td>Dosage</td>
+      <td>0.91</td>
+      <td>Lymph_Node</td>
+      <td>0.86</td>
+      <td>Route</td>
+      <td>0.84</td>
+      <td>Tumor_Description</td>
+      <td>0.81</td>
+    </tr>
+    <tr>
+      <td>Cancer_Surgery</td>
+      <td>0.85</td>
+      <td>Duration</td>
+      <td>0.77</td>
+      <td>Lymph_Node_Modifier</td>
+      <td>0.75</td>
+      <td>Site_Bone</td>
+      <td>0.80</td>
+      <td>Tumor_Finding</td>
+      <td>0.92</td>
+    </tr>
+    <tr>
+      <td>Cancer_Therapy</td>
+      <td>0.90</td>
+      <td>Frequency</td>
+      <td>0.88</td>
+      <td>Metastasis</td>
+      <td>0.95</td>
+      <td>Site_Brain</td>
+      <td>0.78</td>
+      <td>Tumor_Size</td>
+      <td>0.88</td>
+    </tr>
+    <tr>
+      <td>Chemotherapy</td>
+      <td>0.90</td>
+      <td>Gender</td>
+      <td>0.99</td>
+      <td>Oncogene</td>
+      <td>0.77</td>
+      <td>Site_Breast</td>
+      <td>0.88</td>
+      <td> </td>
+      <td> </td>
+    </tr>
+    <tr>
+      <td>Cycle_Count</td>
+      <td>0.81</td>
+      <td>Grade</td>
+      <td>0.81</td>
+      <td>Pathology_Test</td>
+      <td>0.79</td>
+      <td>Site_Lung</td>
+      <td>0.79</td>
+      <td> </td>
+      <td> </td>
+    </tr>
+  </tbody>
+</table>
+
+<p><em>NER Model Example:</em></p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">...</span>
+<span class="n">medical_ner</span> <span class="o">=</span> <span class="n">MedicalNerModel</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"ner_oncology_wip"</span><span class="p">,</span> <span class="s">"en"</span><span class="p">,</span> <span class="s">"clinical/models"</span><span class="p">)</span> \
+                   <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"sentence"</span><span class="p">,</span> <span class="s">"token"</span><span class="p">,</span> <span class="s">"embeddings"</span><span class="p">])</span> \
+                   <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"ner"</span><span class="p">)</span>
+<span class="p">...</span>
+
+<span class="n">sample_text</span> <span class="o">=</span> <span class="s">"The had previously undergone a left mastectomy and an axillary lymph node dissection for a left breast cancer twenty years ago. The tumor was positive for ER. Postoperatively, radiotherapy was administered to her breast."</span>
+</code></pre></div></div>
+
+<p><em>BERT-Based Token Classification Model Example:</em></p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">...</span>
+<span class="n">tokenClassifier</span> <span class="o">=</span> <span class="n">MedicalBertForTokenClassifier</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"bert_token_classifier_ner_oncology_wip"</span><span class="p">,</span> <span class="s">"en"</span><span class="p">,</span> <span class="s">"clinical/models"</span><span class="p">)</span>\
+    <span class="p">.</span><span class="n">setInputCols</span><span class="p">(</span><span class="s">"token"</span><span class="p">,</span> <span class="s">"document"</span><span class="p">)</span>\
+    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"ner"</span><span class="p">)</span>\
+    <span class="p">.</span><span class="n">setCaseSensitive</span><span class="p">(</span><span class="bp">True</span><span class="p">)</span>
+<span class="p">...</span>
+
+<span class="n">sample_text</span> <span class="o">=</span> <span class="s">"The had previously undergone a left mastectomy and an axillary lymph node dissection for a left breast cancer twenty years ago. The tumor was positive for ER. Postoperatively, radiotherapy was administered to her breast."</span>
+</code></pre></div></div>
+
+<p><em>Results:</em></p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>+------------------------------+---------------------+
+|chunk                         |ner_label            |
++------------------------------+---------------------+
+|left                          |Direction            |
+|mastectomy                    |Cancer_Surgery       |
+|axillary lymph node dissection|Cancer_Surgery       |
+|left                          |Direction            |
+|breast cancer                 |Cancer_Dx            |
+|twenty years ago              |Relative_Date        |
+|tumor                         |Tumor_Finding        |
+|positive                      |Biomarker_Result     |
+|ER                            |Biomarker            |
+|radiotherapy                  |Radiotherapy         |
+|her                           |Gender               |
+|breast                        |Site_Breast          |
++------------------------------+---------------------+
+</code></pre></div></div>
+
+<h5 id="new-oncological--assertion-status-models">New Oncological  Assertion Status Models</h5>
+
+<p>We have 8 new oncological assertion status detection models.</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>model name</th>
+      <th>description</th>
+      <th>predicted entities</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>assertion_oncology_wip</td>
+      <td>This model identifies the assertion status of different oncology-related entities.</td>
+      <td><code class="language-plaintext highlighter-rouge">Medical_History</code>, <code class="language-plaintext highlighter-rouge">Family_History</code>, <code class="language-plaintext highlighter-rouge">Possible</code>, <code class="language-plaintext highlighter-rouge">Hypothetical_Or_Absent</code></td>
+    </tr>
+    <tr>
+      <td>assertion_oncology_problem_wip</td>
+      <td>This assertion model identifies the status of Cancer_Dx extractions and other problem entities.</td>
+      <td><code class="language-plaintext highlighter-rouge">Present</code>, <code class="language-plaintext highlighter-rouge">Possible</code>, <code class="language-plaintext highlighter-rouge">Hypothetical</code>, <code class="language-plaintext highlighter-rouge">Absent</code>, <code class="language-plaintext highlighter-rouge">Family</code></td>
+    </tr>
+    <tr>
+      <td>assertion_oncology_treatment_wip</td>
+      <td>This model identifies the assertion status of treatments mentioned in text.</td>
+      <td><code class="language-plaintext highlighter-rouge">Present</code>, <code class="language-plaintext highlighter-rouge">Planned</code>, <code class="language-plaintext highlighter-rouge">Past</code>, <code class="language-plaintext highlighter-rouge">Hypothetical</code>, <code class="language-plaintext highlighter-rouge">Absent</code></td>
+    </tr>
+    <tr>
+      <td>assertion_oncology_response_to_treatment_wip</td>
+      <td>This assertion model identifies if the response to treatment mentioned in text actually happened, or if it mentioned as something absent or hypothetical.</td>
+      <td><code class="language-plaintext highlighter-rouge">Present_Or_Past</code>, <code class="language-plaintext highlighter-rouge">Hypothetical_Or_Absent</code></td>
+    </tr>
+    <tr>
+      <td>assertion_oncology_test_binary_wip</td>
+      <td>This assertion model identifies if a test mentioned in text actually was used, or if it mentioned as something absent or hypothetical.</td>
+      <td><code class="language-plaintext highlighter-rouge">Present_Or_Past</code>, <code class="language-plaintext highlighter-rouge">Hypothetical_Or_Absent</code></td>
+    </tr>
+    <tr>
+      <td>assertion_oncology_smoking_status_wip</td>
+      <td>This assertion model is used to classify the smoking status of the patient.</td>
+      <td><code class="language-plaintext highlighter-rouge">Absent</code>, <code class="language-plaintext highlighter-rouge">Past</code>, <code class="language-plaintext highlighter-rouge">Present</code></td>
+    </tr>
+    <tr>
+      <td>assertion_oncology_family_history_wip</td>
+      <td>This assertion model identifies if an entity refers to a family member.</td>
+      <td><code class="language-plaintext highlighter-rouge">Family_History</code>, <code class="language-plaintext highlighter-rouge">Other</code></td>
+    </tr>
+    <tr>
+      <td>assertion_oncology_demographic_binary_wip</td>
+      <td>This assertion model identifies if the demographic entities refer to the patient or to someone else.</td>
+      <td><code class="language-plaintext highlighter-rouge">Patient</code>, <code class="language-plaintext highlighter-rouge">Someone_Else</code></td>
+    </tr>
+  </tbody>
+</table>
+
+<p><em>Example:</em></p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">...</span>
+<span class="n">assertion</span> <span class="o">=</span> <span class="n">AssertionDLModel</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"assertion_oncology_problem_wip"</span><span class="p">,</span> <span class="s">"en"</span><span class="p">,</span> <span class="s">"clinical/models"</span><span class="p">)</span> \
+                <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"sentence"</span><span class="p">,</span> <span class="s">'ner_chunk'</span><span class="p">,</span> <span class="s">"embeddings"</span><span class="p">])</span> \
+                <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"assertion"</span><span class="p">)</span>
+<span class="p">...</span>
+
+<span class="n">sample_text</span> <span class="o">=</span> <span class="s">"Considering the findings, the patient may have a breast cancer. There are no signs of metastasis. Family history positive for breast cancer in her maternal grandmother."</span>
+</code></pre></div></div>
+
+<p><em>Results:</em></p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>+-------------+----------+---------+
+|        chunk| ner_label|assertion|
++-------------+----------+---------+
+|breast cancer| Cancer_Dx| Possible|
+|   metastasis|Metastasis|   Absent|
+|breast cancer| Cancer_Dx|   Family|
++-------------+----------+---------+
+</code></pre></div></div>
+
+<h5 id="new-oncological-relation-extraction-models">New Oncological Relation Extraction Models</h5>
+<p>We are releasing 7 new <code class="language-plaintext highlighter-rouge">RelationExtractionModel</code> and 7 new <code class="language-plaintext highlighter-rouge">RelationExtractionDLModel</code> models to extract relations between various oncological concepts.</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>model name</th>
+      <th>description</th>
+      <th>predicted entities</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><a href="https://nlp.johnsnowlabs.com/2022/09/26/re_oncology_size_wip_en.html">re_oncology_size_wip</a></td>
+      <td>This model links Tumor_Size extractions to their corresponding Tumor_Finding extractions.</td>
+      <td><code class="language-plaintext highlighter-rouge">is_size_of</code>, <code class="language-plaintext highlighter-rouge">O</code></td>
+    </tr>
+    <tr>
+      <td><a href="https://nlp.johnsnowlabs.com/2022/09/27/re_oncology_biomarker_result_wip_en.html">re_oncology_biomarker_result_wip</a></td>
+      <td>This model links Biomarker and Oncogene extractions to their corresponding Biomarker_Result extractions.</td>
+      <td><code class="language-plaintext highlighter-rouge">is_finding_of</code>, <code class="language-plaintext highlighter-rouge">O</code></td>
+    </tr>
+    <tr>
+      <td><a href="https://nlp.johnsnowlabs.com/2022/09/27/re_oncology_granular_wip_en.html">re_oncology_granular_wip</a></td>
+      <td>This model can be identified four relation types</td>
+      <td><code class="language-plaintext highlighter-rouge">is_size_of</code>, <code class="language-plaintext highlighter-rouge">is_finding_of</code>, <code class="language-plaintext highlighter-rouge">is_date_of</code>, <code class="language-plaintext highlighter-rouge">is_location_of</code>, <code class="language-plaintext highlighter-rouge">O</code></td>
+    </tr>
+    <tr>
+      <td><a href="https://nlp.johnsnowlabs.com/2022/09/27/re_oncology_location_wip_en.html">re_oncology_location_wip</a></td>
+      <td>This model links extractions from anatomical entities (such as Site_Breast or Site_Lung) to other clinical entities (such as Tumor_Finding or Cancer_Surgery).</td>
+      <td><code class="language-plaintext highlighter-rouge">is_location_of</code>, <code class="language-plaintext highlighter-rouge">O</code></td>
+    </tr>
+    <tr>
+      <td><a href="https://nlp.johnsnowlabs.com/2022/09/27/re_oncology_temporal_wip_en.html">re_oncology_temporal_wip</a></td>
+      <td>This model links Date and Relative_Date extractions to clinical entities such as Test or Cancer_Dx.</td>
+      <td><code class="language-plaintext highlighter-rouge">is_date_of</code>, <code class="language-plaintext highlighter-rouge">O</code></td>
+    </tr>
+    <tr>
+      <td><a href="https://nlp.johnsnowlabs.com/2022/09/27/re_oncology_test_result_wip_en.html">re_oncology_test_result_wip</a></td>
+      <td>This model links test extractions to their corresponding results.</td>
+      <td><code class="language-plaintext highlighter-rouge">is_finding_of</code>, <code class="language-plaintext highlighter-rouge">O</code></td>
+    </tr>
+    <tr>
+      <td><a href="https://nlp.johnsnowlabs.com/2022/09/27/re_oncology_wip_en.html">re_oncology_wip</a></td>
+      <td>This model link between dates and other clinical entities, between tumor mentions and their size, between anatomical entities and other clinical entities, and between tests and their results.</td>
+      <td><code class="language-plaintext highlighter-rouge">is_related_to</code>, <code class="language-plaintext highlighter-rouge">O</code></td>
+    </tr>
+    <tr>
+      <td><a href="https://nlp.johnsnowlabs.com/2022/09/28/redl_oncology_size_biobert_wip_en.html">redl_oncology_size_biobert_wip</a></td>
+      <td>This model links Tumor_Size extractions to their corresponding Tumor_Finding extractions.</td>
+      <td><code class="language-plaintext highlighter-rouge">is_size_of</code>, <code class="language-plaintext highlighter-rouge">O</code></td>
+    </tr>
+    <tr>
+      <td><a href="https://nlp.johnsnowlabs.com/2022/09/29/redl_oncology_biomarker_result_biobert_wip_en.html">redl_oncology_biomarker_result_biobert_wip</a></td>
+      <td>This model links Biomarker and Oncogene extractions to their corresponding Biomarker_Result extractions.</td>
+      <td><code class="language-plaintext highlighter-rouge">is_finding_of</code>, <code class="language-plaintext highlighter-rouge">O</code></td>
+    </tr>
+    <tr>
+      <td><a href="https://nlp.johnsnowlabs.com/2022/09/29/redl_oncology_location_biobert_wip_en.html">redl_oncology_location_biobert_wip</a></td>
+      <td>This model links extractions from anatomical entities (such as Site_Breast or Site_Lung) to other clinical entities (such as Tumor_Finding or Cancer_Surgery).</td>
+      <td><code class="language-plaintext highlighter-rouge">is_location_of</code>, <code class="language-plaintext highlighter-rouge">O</code></td>
+    </tr>
+    <tr>
+      <td><a href="https://nlp.johnsnowlabs.com/2022/09/29/redl_oncology_temporal_biobert_wip_en.html">redl_oncology_temporal_biobert_wip</a></td>
+      <td>This model links Date and Relative_Date extractions to clinical entities such as Test or Cancer_Dx.</td>
+      <td><code class="language-plaintext highlighter-rouge">is_date_of</code>, <code class="language-plaintext highlighter-rouge">O</code></td>
+    </tr>
+    <tr>
+      <td><a href="https://nlp.johnsnowlabs.com/2022/09/29/redl_oncology_test_result_biobert_wip_en.html">redl_oncology_test_result_biobert_wip</a></td>
+      <td>This model links test extractions to their corresponding results.</td>
+      <td><code class="language-plaintext highlighter-rouge">is_finding_of</code>, <code class="language-plaintext highlighter-rouge">O</code></td>
+    </tr>
+    <tr>
+      <td><a href="https://nlp.johnsnowlabs.com/2022/09/29/redl_oncology_biobert_wip_en.html">redl_oncology_biobert_wip</a></td>
+      <td>This model identifies relations between dates and other clinical entities, between tumor mentions and their size, between anatomical entities and other clinical entities, and between tests and their results.</td>
+      <td><code class="language-plaintext highlighter-rouge">is_related_to</code></td>
+    </tr>
+    <tr>
+      <td><a href="https://nlp.johnsnowlabs.com/2022/09/29/redl_oncology_granular_biobert_wip_en.html">redl_oncology_granular_biobert_wip</a></td>
+      <td>This model can be identified four relation types</td>
+      <td><code class="language-plaintext highlighter-rouge">is_date_of</code>, <code class="language-plaintext highlighter-rouge">is_finding_of</code>, <code class="language-plaintext highlighter-rouge">is_location_of</code>, <code class="language-plaintext highlighter-rouge">is_size_of</code>, <code class="language-plaintext highlighter-rouge">O</code></td>
+    </tr>
+  </tbody>
+</table>
+
+<p><strong>F1 Scores and Samples:</strong></p>
+
+<table>
+  <thead>
+    <tr>
+      <th>label</th>
+      <th>F1 Score</th>
+      <th>sample_text</th>
+      <th>results</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>is_finding_of</td>
+      <td>0.95</td>
+      <td>“Immunohistochemistry was negative for thyroid transcription factor-1 and napsin A.”</td>
+      <td><code class="language-plaintext highlighter-rouge">negative - thyroid transcription factor-1</code>, <code class="language-plaintext highlighter-rouge">negative - napsin</code></td>
+    </tr>
+    <tr>
+      <td>is_date_of</td>
+      <td>0.81</td>
+      <td>“A mastectomy was performed two months ago.”</td>
+      <td><code class="language-plaintext highlighter-rouge">mastectomy-two months ago</code></td>
+    </tr>
+    <tr>
+      <td>is_location_of</td>
+      <td>0.92</td>
+      <td>“In April 2011, she first noticed a lump in her right breast.”</td>
+      <td><code class="language-plaintext highlighter-rouge">lump - breast</code></td>
+    </tr>
+    <tr>
+      <td>is_size_of</td>
+      <td>0.86</td>
+      <td>“The patient presented a 2 cm mass in her left breast.”</td>
+      <td><code class="language-plaintext highlighter-rouge">2 cm - mass</code></td>
+    </tr>
+    <tr>
+      <td>is_related_to</td>
+      <td>0.87</td>
+      <td>A mastectomy was performed two months ago.”</td>
+      <td><code class="language-plaintext highlighter-rouge">mastectomy - two months ago</code></td>
+    </tr>
+  </tbody>
+</table>
+
+<p><em>Example:</em></p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">...</span>
+<span class="n">re_model</span> <span class="o">=</span> <span class="n">RelationExtractionModel</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"re_oncology_size_wip"</span><span class="p">,</span> <span class="s">"en"</span><span class="p">,</span> <span class="s">"clinical/models"</span><span class="p">)</span> \
+    <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"embeddings"</span><span class="p">,</span> <span class="s">"pos_tags"</span><span class="p">,</span> <span class="s">"ner_chunk"</span><span class="p">,</span> <span class="s">"dependencies"</span><span class="p">])</span> \
+    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"relations"</span><span class="p">)</span> \
+    <span class="p">.</span><span class="n">setRelationPairs</span><span class="p">([</span><span class="s">"Tumor_Finding-Tumor_Size"</span><span class="p">,</span> <span class="s">"Tumor_Size-Tumor_Finding"</span><span class="p">])</span> \
+    <span class="p">.</span><span class="n">setMaxSyntacticDistance</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
+<span class="p">...</span>
+
+<span class="n">sample_text</span> <span class="o">=</span> <span class="s">"The patient presented a 2 cm mass in her left breast, and the tumor in her other breast was 3 cm long."</span>
+</code></pre></div></div>
+
+<p><em>Results:</em></p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>+----------+-------------+------+-------------+------+----------+
+|  relation|      entity1|chunk1|      entity2|chunk2|confidence|
++----------+-------------+------+-------------+------+----------+
+|is_size_of|   Tumor_Size|  2 cm|Tumor_Finding|  mass| 0.8532705|
+|is_size_of|Tumor_Finding| tumor|   Tumor_Size|  3 cm| 0.8156226|
++----------+-------------+------+-------------+------+----------+
+</code></pre></div></div>
+
+<h4 id="brand-new-nerquestiongenerator-annotator-for-automated-prompt-generation-for-a-qa-based-zero-shot-ner-model">Brand New <code class="language-plaintext highlighter-rouge">NerQuestionGenerator</code> Annotator For Automated Prompt Generation For A QA-based Zero-Shot NER Model.</h4>
+
+<p>This annotators helps you build questions on the fly using 2 entities from different labels (preferably a subject and a verb). For example, let’s suppose you have an NER model, able to detect <code class="language-plaintext highlighter-rouge">PATIENT</code>and <code class="language-plaintext highlighter-rouge">ADMISSION</code> in the following text:</p>
+
+<p><code class="language-plaintext highlighter-rouge">John Smith was admitted Sep 3rd to Mayo Clinic</code></p>
+<ul>
+  <li>PATIENT: <code class="language-plaintext highlighter-rouge">John Smith</code></li>
+  <li>ADMISSION: <code class="language-plaintext highlighter-rouge">was admitted</code></li>
+</ul>
+
+<p>You can add the following annotator to construct questions using PATIENT and ADMISSION:</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># setEntities1 says which entity from NER goes first in the question
+# setEntities2 says which entity from NER goes second in the question
+# setQuestionMark to True adds a '?' at the end of the sentence (after entity 2)
+# To sum up, the pattern is     [QUESTIONPRONOUN] [ENTITY1] [ENTITY2] [QUESTIONMARK]
+</span>
+<span class="n">qagenerator</span> <span class="o">=</span> <span class="n">NerQuestionGenerator</span><span class="p">()</span>\
+  <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"ner_chunk"</span><span class="p">])</span>\
+  <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"question"</span><span class="p">)</span>\
+  <span class="p">.</span><span class="n">setQuestionMark</span><span class="p">(</span><span class="bp">True</span><span class="p">)</span>\
+  <span class="p">.</span><span class="n">setQuestionPronoun</span><span class="p">(</span><span class="s">"When"</span><span class="p">)</span>\
+  <span class="p">.</span><span class="n">setStrategyType</span><span class="p">(</span><span class="s">"Paired"</span><span class="p">)</span>\
+  <span class="p">.</span><span class="n">setEntities1</span><span class="p">([</span><span class="s">"PATIENT"</span><span class="p">])</span>\
+  <span class="p">.</span><span class="n">setEntities2</span><span class="p">([</span><span class="s">"ADMISSION"</span><span class="p">])</span>
+</code></pre></div></div>
+<p>In the column <code class="language-plaintext highlighter-rouge">question</code> you will find: <code class="language-plaintext highlighter-rouge">When John Smith was admitted?</code>. Likewise you could have <code class="language-plaintext highlighter-rouge">Where</code> or any other question pronoun you may need.</p>
+
+<p>You can use those questions in a QuestionAnsweringModel or ZeroShotNER (any model which requires a question as an input. Let’s see the case of QA.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">qa</span> <span class="o">=</span> <span class="n">BertForQuestionAnswering</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"bert_qa_spanbert_finetuned_squadv1"</span><span class="p">,</span><span class="s">"en"</span><span class="p">)</span> \
+  <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"question"</span><span class="p">,</span> <span class="s">"document"</span><span class="p">])</span> \
+  <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"answer"</span><span class="p">)</span> \
+  <span class="p">.</span><span class="n">setCaseSensitive</span><span class="p">(</span><span class="bp">True</span><span class="p">)</span>
+</code></pre></div></div>
+<p>The result will be:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>+--------------------------------------------------------+-----------------------------+
+|question                                                |answer                       |
++--------------------------------------------------------+-----------------------------+
+|[<span class="o">{</span>document, 0, 25, When John Smith was admitted ? ...<span class="o">}]</span> |[<span class="o">{</span>chunk, 0, 8, Sep 3rd ...<span class="o">}]</span> |
++--------------------------------------------------------+-----------------------------+
+</code></pre></div></div>
+<p>Strategies:</p>
+<ul>
+  <li>Paired: First chunk of Entity 1 will be grouped with first chunk of Entity 2, second with second, third with third, etc (one-vs-one)</li>
+  <li>Combined: A more flexible strategy to be used in case the number of chukns in Entity 1 is not aligned with the number of chunks in Entityt 2. The first chunk from Entity 1 will be grouped with all chunks in Entity 2, the second chunk in Entity 1 with again be grouped with all the chunks in Entity 2, etc (one-vs-all).</li>
+</ul>
+
+<h4 id="updated-alab-annotation-lab-module-becoming-a-fullfledged-suite-to-manage-activities-on-alab-via-its-api-remotely">Updated ALAB (Annotation Lab) Module Becoming a Fullfledged Suite to Manage Activities on ALAB Via Its API Remotely</h4>
+
+<p>We are release a new module for interacting with Annotation Lab with minimal code. Users can now create/edit/delete projects and their tasks. Also, they can upload preannotations, and export annotations and generate training data for various models. Complete documentation and tutorial is available at  <a href="https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Annotation_Lab/Complete_ALab_Module_SparkNLP_JSL.ipynb">Spark NLP Workshop</a>. Following is a comprehensive list of supported tasks:</p>
+
+<ul>
+  <li>Getting details of all projects in the Annotation Lab instance.</li>
+  <li>Creating New Projects.</li>
+  <li>Deleting Projects.</li>
+  <li>Setting &amp; editing configuration of projects.</li>
+  <li>Accessing/getting configuration of any existing project.</li>
+  <li>Upload tasks to a project.</li>
+  <li>Deleting tasks of a project.</li>
+  <li>Generating Preannotations for a project using custom Spark NLP pipelines.</li>
+  <li>Uploading Preannotations to a project.</li>
+  <li>Generating dataset for training Classification models.</li>
+  <li>Generating dataset for training NER models.</li>
+  <li>Generating dataset for training Assertion models.</li>
+  <li>Generating dataset for training Relation Extraction models.</li>
+</ul>
+
+<p><em>Using Annotation Lab Module:</em></p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">sparknlp_jsl.alab</span> <span class="kn">import</span> <span class="n">AnnotationLab</span>
+
+<span class="n">alab</span> <span class="o">=</span> <span class="n">AnnotationLab</span><span class="p">()</span>
+<span class="n">alab</span><span class="p">.</span><span class="n">set_credentials</span><span class="p">(</span><span class="n">username</span><span class="o">=</span><span class="n">username</span><span class="p">,</span> <span class="n">password</span><span class="o">=</span><span class="n">password</span><span class="p">,</span> <span class="n">client_secret</span><span class="o">=</span><span class="n">client_secret</span><span class="p">,</span> <span class="n">annotationlab_url</span><span class="o">=</span><span class="n">annotationlab_url</span><span class="p">)</span>
+
+<span class="c1"># create a new project
+</span><span class="n">alab</span><span class="p">.</span><span class="n">create_project</span><span class="p">(</span><span class="s">'alab_demo'</span><span class="p">)</span>
+
+<span class="c1"># assign ner labels to the project
+</span><span class="n">alab</span><span class="p">.</span><span class="n">set_project_config</span><span class="p">(</span><span class="s">'alab_demo'</span><span class="p">,</span> <span class="n">ner_labels</span><span class="o">=</span><span class="p">[</span><span class="s">'Age'</span><span class="p">,</span> <span class="s">'Gender'</span><span class="p">])</span>
+
+<span class="c1"># upload tasks
+</span><span class="n">alab</span><span class="p">.</span><span class="n">upload_tasks</span><span class="p">(</span><span class="s">'alab_demo'</span><span class="p">,</span> <span class="n">task_list</span><span class="o">=</span><span class="p">[</span><span class="n">txt1</span><span class="p">,</span> <span class="n">txt2</span><span class="p">...])</span>
+
+<span class="c1"># export tasks
+</span><span class="n">alab</span><span class="p">.</span><span class="n">get_annotations</span><span class="p">(</span><span class="s">'alab_demo'</span><span class="p">)</span>
+</code></pre></div></div>
+
+<h4 id="new-pretrained-assertion-status-detection-model-assertion_jsl_augmented-to-classify-the-negativity--assertion-scope-of-medical-concepts">New Pretrained Assertion Status Detection Model (<code class="language-plaintext highlighter-rouge">assertion_jsl_augmented</code>) to Classify The Negativity &amp; Assertion Scope of Medical Concepts</h4>
+<p>We are releasing new <code class="language-plaintext highlighter-rouge">assertion_jsl_augmented</code> model to classify the assertion status of the clinical entities with <code class="language-plaintext highlighter-rouge">Present</code>, <code class="language-plaintext highlighter-rouge">Absent</code>, <code class="language-plaintext highlighter-rouge">Possible</code>, <code class="language-plaintext highlighter-rouge">Planned</code>, <code class="language-plaintext highlighter-rouge">Past</code>, <code class="language-plaintext highlighter-rouge">Family</code>, <code class="language-plaintext highlighter-rouge">Hypothetical</code> and <code class="language-plaintext highlighter-rouge">SomeoneElse</code> labels.</p>
+
+<p>See <a href="https://nlp.johnsnowlabs.com/2022/09/15/assertion_jsl_augmented_en.html">Models Hub Page</a> for more details.</p>
+
+<p><em>Example:</em></p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">...</span>
+<span class="n">clinical_assertion</span> <span class="o">=</span> <span class="n">AssertionDLModel</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"assertion_jsl_augmented"</span><span class="p">,</span> <span class="s">"en"</span><span class="p">,</span> <span class="s">"clinical/models"</span><span class="p">)</span>
+    <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"sentence"</span><span class="p">,</span> <span class="s">"ner_chunk"</span><span class="p">,</span> <span class="s">"embeddings"</span><span class="p">])</span>
+    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"assertion"</span><span class="p">)</span>
+<span class="p">...</span>
+
+<span class="n">sample_text</span> <span class="o">=</span> <span class="s">"""Patient had a headache for the last 2 weeks, and appears anxious when she walks fast. No alopecia noted.
+She denies pain. Her father is paralyzed and it is a stressor for her. She was bullied by her boss and got antidepressant.
+We prescribed sleeping pills for her current insomnia"""</span>
+</code></pre></div></div>
+
+<p>Results:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>+--------------+-----+---+-------------------------+-----------+---------+
+|ner_chunk     |begin|end|ner_label                |sentence_id|assertion|
++--------------+-----+---+-------------------------+-----------+---------+
+|headache      |14   |21 |Symptom                  |0          |Past     |
+|anxious       |57   |63 |Symptom                  |0          |Possible |
+|alopecia      |89   |96 |Disease_Syndrome_Disorder|1          |Absent   |
+|pain          |116  |119|Symptom                  |2          |Absent   |
+|paralyzed     |136  |144|Symptom                  |3          |Family   |
+|antidepressant|212  |225|Drug_Ingredient          |4          |Past     |
+|sleeping pills|242  |255|Drug_Ingredient          |5          |Planned  |
+|insomnia      |273  |280|Symptom                  |5          |Present  |
++--------------+-----+---+-------------------------+-----------+---------+
+</code></pre></div></div>
+
+<h4 id="new-chunk-mapper-models-and-pretrained-pipeline-to-map-entities-phrases-to-their-corresponding-icd-9-icd-10-cm-and-rxnorm-codes">New Chunk Mapper models and Pretrained Pipeline to map entities (phrases) to their corresponding ICD-9, ICD-10-CM and RxNorm codes</h4>
+
+<p>We are releasing 4 new chunk mapper models that can map entities to their corresponding ICD-9, ICD-10-CM and RxNorm codes.</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>model name</th>
+      <th>description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><a href="https://nlp.johnsnowlabs.com/2022/09/29/rxnorm_normalized_mapper_en.html">rxnorm_normalized_mapper</a></td>
+      <td>Mapping drug entities (phrases) with the corresponding <strong>RxNorm codes and normalized resolutions</strong>.</td>
+    </tr>
+    <tr>
+      <td><a href="https://nlp.johnsnowlabs.com/2022/09/30/icd9_mapper_en.html">icd9_mapper</a></td>
+      <td>Mapping entities with their corresponding ICD-9-CM codes.</td>
+    </tr>
+    <tr>
+      <td><a href="https://nlp.johnsnowlabs.com/2022/09/30/icd10_icd9_mapper_en.html">icd10_icd9_mapper</a></td>
+      <td>Mapping ICD-10-CM codes with their corresponding ICD-9-CM codes.</td>
+    </tr>
+    <tr>
+      <td><a href="https://nlp.johnsnowlabs.com/2022/09/30/icd9_icd10_mapper_en.html">icd9_icd10_mapper</a></td>
+      <td>Mapping ICD-9-CM codes with their corresponding ICD-10-CM codes.</td>
+    </tr>
+    <tr>
+      <td><a href="https://nlp.johnsnowlabs.com/2022/09/30/icd10_icd9_mapping_en.html">icd10_icd9_mapping</a> (Pipeline)</td>
+      <td>This pretrained pipeline maps ICD-10-CM codes to ICD-9-CM codes without using any text data.</td>
+    </tr>
+  </tbody>
+</table>
+
+<p><em>Model Example:</em></p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">...</span>
+<span class="n">chunkerMapper</span> <span class="o">=</span> <span class="n">ChunkMapperModel</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"rxnorm_normalized_mapper"</span><span class="p">,</span> <span class="s">"en"</span><span class="p">,</span> <span class="s">"clinical/models"</span><span class="p">)</span>\
+        <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"ner_chunk"</span><span class="p">])</span>\
+        <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"mappings"</span><span class="p">)</span>\
+        <span class="p">.</span><span class="n">setRels</span><span class="p">([</span><span class="s">"rxnorm_code"</span><span class="p">,</span> <span class="s">"normalized_name"</span><span class="p">])</span>
+<span class="p">...</span>
+
+<span class="n">sample_text</span> <span class="o">=</span> <span class="s">"The patient was given Zyrtec 10 MG, Adapin 10 MG Oral Capsule, Septi-Soothe 0.5 Topical Spray"</span>
+</code></pre></div></div>
+
+<p><em>Results:</em></p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>+------------------------------+-----------+--------------------------------------------------------------+
+|ner_chunk                     |rxnorm_code|normalized_name                                               |
++------------------------------+-----------+--------------------------------------------------------------+
+|Zyrtec 10 MG                  |1011483    |cetirizine hydrochloride 10 MG <span class="o">[</span>Zyrtec]                       |
+|Adapin 10 MG Oral Capsule     |1000050    |doxepin hydrochloride 10 MG Oral Capsule <span class="o">[</span>Adapin]             |
+|Septi-Soothe 0.5 Topical Spray|1000046    |chlorhexidine diacetate 0.5 MG/ML Topical Spray <span class="o">[</span>Septi-Soothe]|
++------------------------------+-----------+--------------------------------------------------------------+
+</code></pre></div></div>
+
+<p><em>Pipeline Example:</em></p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">sparknlp.pretrained</span> <span class="kn">import</span> <span class="n">PretrainedPipeline</span>
+
+<span class="n">pipeline</span> <span class="o">=</span> <span class="n">PretrainedPipeline</span><span class="p">(</span> <span class="s">"icd10_icd9_mapping"</span><span class="p">,</span><span class="s">"en"</span><span class="p">,</span><span class="s">"clinical/models"</span><span class="p">)</span>
+<span class="n">pipeline</span><span class="p">.</span><span class="n">annotate</span><span class="p">(</span><span class="s">"Z833 A0100 A000"</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p><em>Results:</em></p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>| icd10_code          | icd9_code          |
+|:--------------------|:-------------------|
+| Z833 - A0100 - A000 | V180 - 0020 - 0010 |
+</code></pre></div></div>
+
+<h4 id="new-icd-9-cm-sentence-entity-resolver-model-and-pretrained-pipeline">New ICD-9-CM Sentence Entity Resolver Model and Pretrained Pipeline</h4>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">sbiobertresolve_icd9</code> : This model maps extracted medical entities to their corresponding ICD-9-CM codes using <code class="language-plaintext highlighter-rouge">sbiobert_base_cased_mli</code> Sentence Bert Embeddings.</li>
+</ul>
+
+<p><em>Example:</em></p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">...</span>
+<span class="n">icd10_resolver</span> <span class="o">=</span> <span class="n">SentenceEntityResolverModel</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"sbiobertresolve_icd9"</span><span class="p">,</span><span class="s">"en"</span><span class="p">,</span> <span class="s">"clinical/models"</span><span class="p">)</span> \
+    <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"ner_chunk"</span><span class="p">,</span> <span class="s">"sbert_embeddings"</span><span class="p">])</span> \
+    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"resolution"</span><span class="p">)</span>\
+    <span class="p">.</span><span class="n">setDistanceFunction</span><span class="p">(</span><span class="s">"EUCLIDEAN"</span><span class="p">)</span>
+<span class="p">...</span>
+
+<span class="n">sample_text</span> <span class="o">=</span> <span class="s">"A 28-year-old female with a history of gestational diabetes mellitus diagnosed eight years prior to presentation and subsequent type two diabetes mellitus, associated with an acute hepatitis, and obesity with a body mass index (BMI) of 33.5 kg/m2."</span>
+</code></pre></div></div>
+
+<p><em>Results:</em></p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>+-------------------------------------+-------+---------+------------------------------------------------+----------------------------------------------------------+
+|                            ner_chunk| entity|icd9_code|                                      resolution|                                                 all_codes|
++-------------------------------------+-------+---------+------------------------------------------------+----------------------------------------------------------+
+|        gestational diabetes mellitus|PROBLEM|   V12.21|[Personal <span class="nb">history </span>of gestational diabetes, Ne...|[V12.21, 775.1, 249, 250, 249.7, 249.71, 249.9, 249.61,...|
+|subsequent <span class="nb">type </span>two diabetes mellitus|PROBLEM|      249|[Secondary diabetes mellitus, Diabetes mellit...|[249, 250, 249.9, 249.7, 775.1, 249.6, 249.8, V12.21, 2...|
+|                   an acute hepatitis|PROBLEM|    571.1|[Acute alcoholic hepatitis, Viral hepatitis, ...|[571.1, 070, 571.42, 902.22, 279.51, 571.4, 091.62, 572...|
+|                              obesity|PROBLEM|    278.0|[Overweight and obesity, Morbid obesity, Over...|[278.0, 278.01, 278.02, V77.8, 278, 278.00, 272.2, 783....|
+|                    a body mass index|PROBLEM|      V85|[Body mass index <span class="o">[</span>BMI], Human bite, Localized...|[V85, E928.3, 278.1, 993, E008.4, V61.5, 747.63, V85.5,...|
++-------------------------------------+-------+---------+------------------------------------------------+----------------------------------------------------------+
+</code></pre></div></div>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">icd9_resolver_pipeline</code> : This pretrained pipeline maps entities with their corresponding ICD-9-CM codes. You’ll just feed your text and it will return the corresponding ICD-9-CM codes.</li>
+</ul>
+
+<p><em>Example:</em></p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">sparknlp.pretrained</span> <span class="kn">import</span> <span class="n">PretrainedPipeline</span>
+<span class="n">resolver_pipeline</span> <span class="o">=</span> <span class="n">PretrainedPipeline</span><span class="p">(</span><span class="s">"icd9_resolver_pipeline"</span><span class="p">,</span> <span class="s">"en"</span><span class="p">,</span> <span class="s">"clinical/models"</span><span class="p">)</span>
+
+<span class="n">sample_text</span> <span class="o">=</span> <span class="s">"""A 28-year-old female with a history of gestational diabetes mellitus diagnosed eight years and anisakiasis. Also, it was reported that fetal and neonatal hemorrhage"""</span>
+
+<span class="n">result</span> <span class="o">=</span> <span class="n">resolver_pipeline</span><span class="p">.</span><span class="n">fullAnnotate</span><span class="p">(</span><span class="n">sample_text</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p>Results:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>+-----------------------------+---------+---------+
+|chunk                        |ner_chunk|icd9_code|
++-----------------------------+---------+---------+
+|gestational diabetes mellitus|PROBLEM  |V12.21   |
+|anisakiasis                  |PROBLEM  |127.1    |
+|fetal and neonatal hemorrhage|PROBLEM  |772      |
++-----------------------------+---------+---------+
+</code></pre></div></div>
+
+<h4 id="new-shifting-days-feature-in-deidentification-by-using-the-new-documenthashcoder-annotator">New Shifting Days Feature in <code class="language-plaintext highlighter-rouge">Deidentification</code> by Using the New <code class="language-plaintext highlighter-rouge">DocumentHashCoder</code> Annotator</h4>
+
+<p>Now we can shift dates in the documents rather than obfuscating randomly. We have a new <code class="language-plaintext highlighter-rouge">DocumentHashCoder()</code> annotator to determine shifting days. This annotator gets the hash of the specified column and creates a new document column containing day shift information. And then, the <code class="language-plaintext highlighter-rouge">DeIdentification</code> annotator deidentifies this new doc. We can use the seed parameter to hash consistently.</p>
+
+<p><em>Example:</em></p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">documentHasher</span> <span class="o">=</span> <span class="n">DocumentHashCoder</span><span class="p">()</span>\
+    <span class="p">.</span><span class="n">setInputCols</span><span class="p">(</span><span class="s">"document"</span><span class="p">)</span>\
+    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"document2"</span><span class="p">)</span>\
+    <span class="p">.</span><span class="n">setPatientIdColumn</span><span class="p">(</span><span class="s">"patientID"</span><span class="p">)</span>\
+    <span class="p">.</span><span class="n">setRangeDays</span><span class="p">(</span><span class="mi">100</span><span class="p">)</span>\
+    <span class="p">.</span><span class="n">setNewDateShift</span><span class="p">(</span><span class="s">"shift_days"</span><span class="p">)</span>\
+    <span class="p">.</span><span class="n">setSeed</span><span class="p">(</span><span class="mi">100</span><span class="p">)</span>
+
+<span class="n">de_identification</span> <span class="o">=</span> <span class="n">DeIdentification</span><span class="p">()</span> \
+    <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"ner_chunk"</span><span class="p">,</span> <span class="s">"token"</span><span class="p">,</span> <span class="s">"document2"</span><span class="p">])</span> \
+    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"deid_text"</span><span class="p">)</span> \
+    <span class="p">.</span><span class="n">setMode</span><span class="p">(</span><span class="s">"obfuscate"</span><span class="p">)</span> \
+    <span class="p">.</span><span class="n">setObfuscateDate</span><span class="p">(</span><span class="bp">True</span><span class="p">)</span> \
+    <span class="p">.</span><span class="n">setDateTag</span><span class="p">(</span><span class="s">"DATE"</span><span class="p">)</span> \
+    <span class="p">.</span><span class="n">setLanguage</span><span class="p">(</span><span class="s">"en"</span><span class="p">)</span> \
+    <span class="p">.</span><span class="n">setObfuscateRefSource</span><span class="p">(</span><span class="s">'faker'</span><span class="p">)</span> \
+    <span class="p">.</span><span class="n">setUseShifDays</span><span class="p">(</span><span class="bp">True</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p><em>Results:</em></p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+output.select<span class="o">(</span><span class="s1">'patientID'</span>,<span class="s1">'text'</span>, <span class="s1">'deid_text.result'</span><span class="o">)</span>.show<span class="o">(</span><span class="nb">truncate</span> <span class="o">=</span> False<span class="o">)</span>
++---------+----------------------------------------+---------------------------------------------+
+|patientID|text                                    |result                                       |
++---------+----------------------------------------+---------------------------------------------+
+|A001     |Chris Brown was discharged on 10/02/2022|[Glorious Mc was discharged on 27/03/2022]   |
+|A001     |Mark White was discharged on 10/04/2022 |[Kimberlee Bair was discharged on 25/05/2022]|
+|A003     |John was discharged on 15/03/2022       |[Monia Richmond was discharged on 17/05/2022]|
+|A003     |John Moore was discharged on 15/12/2022 |[Veleta Pollard was discharged on 16/02/2023]|
++---------+----------------------------------------+---------------------------------------------+
+</code></pre></div></div>
+
+<p>Instead of shifting days according to ID column, we can specify shifting values with another column.</p>
+
+<p><em>Example:</em></p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">documentHasher</span> <span class="o">=</span> <span class="n">DocumentHashCoder</span><span class="p">()</span>\
+    <span class="p">.</span><span class="n">setInputCols</span><span class="p">(</span><span class="s">"document"</span><span class="p">)</span>\
+    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"document2"</span><span class="p">)</span>\
+    <span class="p">.</span><span class="n">setDateShiftColumn</span><span class="p">(</span><span class="s">"dateshift"</span><span class="p">)</span>\
+
+<span class="n">de_identification</span> <span class="o">=</span> <span class="n">DeIdentification</span><span class="p">()</span> \
+    <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"ner_chunk"</span><span class="p">,</span> <span class="s">"token"</span><span class="p">,</span> <span class="s">"document2"</span><span class="p">])</span> \
+    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"deid_text"</span><span class="p">)</span> \
+    <span class="p">.</span><span class="n">setMode</span><span class="p">(</span><span class="s">"obfuscate"</span><span class="p">)</span> \
+    <span class="p">.</span><span class="n">setObfuscateDate</span><span class="p">(</span><span class="bp">True</span><span class="p">)</span> \
+    <span class="p">.</span><span class="n">setDateTag</span><span class="p">(</span><span class="s">"DATE"</span><span class="p">)</span> \
+    <span class="p">.</span><span class="n">setLanguage</span><span class="p">(</span><span class="s">"en"</span><span class="p">)</span> \
+    <span class="p">.</span><span class="n">setObfuscateRefSource</span><span class="p">(</span><span class="s">'faker'</span><span class="p">)</span> \
+    <span class="p">.</span><span class="n">setUseShifDays</span><span class="p">(</span><span class="bp">True</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p><em>Results:</em></p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>+----------------------------------------+---------+---------------------------------------------+
+|text                                    |dateshift|result                                       |
++----------------------------------------+---------+---------------------------------------------+
+|Chris Brown was discharged on 10/02/2022|10       |[Levorn Powers was discharged on 20/02/2022] |
+|Mark White was discharged on 10/04/2022 |10       |[Hall Jointer was discharged on 20/04/2022]  |
+|John was discharged on 15/03/2022       |30       |[Jared Gains was discharged on 14/04/2022]   |
+|John Moore was discharged on 15/12/2022 |30       |[Frederic Seitz was discharged on 14/01/2023]|
++----------------------------------------+---------+---------------------------------------------+
+</code></pre></div></div>
+
+<p>You can check <a href="https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/4.Clinical_DeIdentification.ipynb">Clinical Deidentification Notebook</a> for more examples.</p>
+
+<h4 id="updated-ner-model-finder-pretrained-pipeline-to-help-users-find-the-most-appropriate-ner-model-for-their-use-case-in-one-liner">Updated NER Model Finder Pretrained Pipeline to Help Users Find The Most Appropriate NER Model For Their Use Case In One-Liner</h4>
+
+<p>We have updated <code class="language-plaintext highlighter-rouge">ner_model_finder</code> pretrained pipeline and <code class="language-plaintext highlighter-rouge">sbertresolve_ner_model_finder</code> resolver model with 70 clinical NER models and their labels.</p>
+
+<p>See <a href="https://nlp.johnsnowlabs.com/2022/09/05/ner_model_finder_en.html">Models Hub Page</a> for more details and the <a href="https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/11.Pretrained_Clinical_Pipelines.ipynb">Pretrained Clinical Pipelines Notebook</a> for the examples.</p>
+
+<h4 id="support-different-version-and-year-combinations-on-medicare-risk-adjustment-score-calculation-module">Support Different Version and Year Combinations on Medicare Risk Adjustment Score Calculation Module</h4>
+
+<p>Now, you can calculate CMS-HCC risk score with different version and year combinations by importing one of the following function calculate the score.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>- profileV2217   - profileV2318  - profileV2417
+- profileV2218   - profileV2319  - profileV2418
+- profileV2219                   - profileV2419
+- profileV2220                   - profileV2420
+- profileV2221                   - profileV2421
+- profileV2222                   - profileV2422
+</code></pre></div></div>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">sparknlp_jsl.functions</span> <span class="kn">import</span> <span class="n">profileV24Y20</span>
+</code></pre></div></div>
+<p>See the <a href="https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/3.1.Calculate_Medicare_Risk_Adjustment_Score.ipynb">notebook</a> for more details.</p>
+
+<h4 id="core-improvements-and-bug-fixes">Core Improvements and Bug Fixes</h4>
+
+<ul>
+  <li>
+    <p><code class="language-plaintext highlighter-rouge">ContextualParserApproach</code>:  New parameter <code class="language-plaintext highlighter-rouge">completeContextMatch</code>.<br />
+This parameter let the user define whether to do an <strong>exact match of prefix and suffix</strong>.</p>
+  </li>
+  <li>
+    <p><code class="language-plaintext highlighter-rouge">Deidentification</code>: Enhanced default regex rules in French deidentification for <code class="language-plaintext highlighter-rouge">DATE</code> entity extraction.</p>
+  </li>
+  <li>
+    <p><code class="language-plaintext highlighter-rouge">ZeroShotRelationExtractionModel</code>: Fixed the issue that setting some parameters together and no need to <code class="language-plaintext highlighter-rouge">setRelationalCategories</code> after downloading the model.</p>
+  </li>
+</ul>
+
+<h4 id="new-and-updated-notebooks">New and Updated Notebooks</h4>
+
+<ul>
+  <li>New <a href="https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/19.MedicalBertForSequenceClassification_in_SparkNLP.ipynb">MedicalBertForSequenceClassification Notebook</a> to show how to use <code class="language-plaintext highlighter-rouge">MedicalBertForSequenceClassification</code> models.</li>
+  <li>New <a href="https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Annotation_Lab/Complete_ALab_Module_SparkNLP_JSL.ipynb">ALAB Module Notebook</a> to show all features of ALAB Module.</li>
+  <li>Updated <a href="https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/3.1.Calculate_Medicare_Risk_Adjustment_Score.ipynb">Medicare Risk Adjustment Score Calculation Notebook</a> with the new changes in HCC score calculation functions.</li>
+  <li>Updated <a href="https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/4.Clinical_DeIdentification.ipynb">Clinical DeIdentification Notebook</a> by adding how not to deidentify a part of an entity section and showing examples of shifting days feature with the new <code class="language-plaintext highlighter-rouge">DocumentHashCoder</code>.</li>
+  <li>Updated <a href="https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/11.Pretrained_Clinical_Pipelines.ipynb">Pretrained Clinical Pipelines Notebook</a> with the updated <code class="language-plaintext highlighter-rouge">ner_model_finder</code> results.</li>
+</ul>
+
+<h4 id="50-new-clinical-models-and-pipelines-added--updated-in-total">50+ New Clinical Models and Pipelines Added &amp; Updated in Total</h4>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">assertion_jsl_augmented</code></li>
+  <li><code class="language-plaintext highlighter-rouge">rxnorm_normalized_mapper</code></li>
+  <li><code class="language-plaintext highlighter-rouge">ner_model_finder</code></li>
+  <li><code class="language-plaintext highlighter-rouge">sbertresolve_ner_model_finder</code></li>
+  <li><code class="language-plaintext highlighter-rouge">sbiobertresolve_icd9</code></li>
+  <li><code class="language-plaintext highlighter-rouge">icd9_resolver_pipeline</code></li>
+  <li><code class="language-plaintext highlighter-rouge">rxnorm_normalized_mapper</code></li>
+  <li><code class="language-plaintext highlighter-rouge">icd9_mapper</code></li>
+  <li><code class="language-plaintext highlighter-rouge">icd10_icd9_mapper</code></li>
+  <li><code class="language-plaintext highlighter-rouge">icd9_icd10_mapper</code></li>
+  <li><code class="language-plaintext highlighter-rouge">icd10_icd9_mapping</code></li>
+  <li><code class="language-plaintext highlighter-rouge">bert_qa_spanbert_finetuned_squadv1</code></li>
+  <li><code class="language-plaintext highlighter-rouge">ner_oncology_therapy_wip</code></li>
+  <li><code class="language-plaintext highlighter-rouge">ner_oncology_diagnosis_wip</code></li>
+  <li><code class="language-plaintext highlighter-rouge">ner_oncology_wip</code></li>
+  <li><code class="language-plaintext highlighter-rouge">ner_oncology_tnm_wip</code></li>
+  <li><code class="language-plaintext highlighter-rouge">ner_oncology_anatomy_general_wip</code></li>
+  <li><code class="language-plaintext highlighter-rouge">ner_oncology_demographics_wip</code></li>
+  <li><code class="language-plaintext highlighter-rouge">ner_oncology_test_wip</code></li>
+  <li><code class="language-plaintext highlighter-rouge">ner_oncology_unspecific_posology_wip</code></li>
+  <li><code class="language-plaintext highlighter-rouge">ner_oncology_anatomy_granular_wip</code></li>
+  <li><code class="language-plaintext highlighter-rouge">ner_oncology_response_to_treatment_wip</code></li>
+  <li><code class="language-plaintext highlighter-rouge">ner_oncology_biomarker_wip</code></li>
+  <li><code class="language-plaintext highlighter-rouge">ner_oncology_posology_wip</code></li>
+  <li><code class="language-plaintext highlighter-rouge">bert_token_classifier_ner_oncology_therapy_wip</code></li>
+  <li><code class="language-plaintext highlighter-rouge">bert_token_classifier_ner_oncology_diagnosis_wip</code></li>
+  <li><code class="language-plaintext highlighter-rouge">bert_token_classifier_ner_oncology_wip</code></li>
+  <li><code class="language-plaintext highlighter-rouge">bert_token_classifier_ner_oncology_tnm_wip</code></li>
+  <li><code class="language-plaintext highlighter-rouge">bert_token_classifier_ner_oncology_anatomy_general_wip</code></li>
+  <li><code class="language-plaintext highlighter-rouge">bert_token_classifier_ner_oncology_demographics_wip</code></li>
+  <li><code class="language-plaintext highlighter-rouge">bert_token_classifier_ner_oncology_test_wip</code></li>
+  <li><code class="language-plaintext highlighter-rouge">bert_token_classifier_ner_oncology_unspecific_posology_wip</code></li>
+  <li><code class="language-plaintext highlighter-rouge">bert_token_classifier_ner_oncology_anatomy_granular_wip</code></li>
+  <li><code class="language-plaintext highlighter-rouge">bert_token_classifier_ner_oncology_response_to_treatment_wip</code></li>
+  <li><code class="language-plaintext highlighter-rouge">bert_token_classifier_ner_oncology_biomarker_wip</code></li>
+  <li><code class="language-plaintext highlighter-rouge">bert_token_classifier_ner_oncology_posology_wip</code></li>
+  <li><code class="language-plaintext highlighter-rouge">assertion_oncology_wip</code></li>
+  <li><code class="language-plaintext highlighter-rouge">assertion_oncology_problem_wip</code></li>
+  <li><code class="language-plaintext highlighter-rouge">assertion_oncology_treatment_wip</code></li>
+  <li><code class="language-plaintext highlighter-rouge">assertion_oncology_response_to_treatment_wip</code></li>
+  <li><code class="language-plaintext highlighter-rouge">assertion_oncology_test_binary_wip</code></li>
+  <li><code class="language-plaintext highlighter-rouge">assertion_oncology_smoking_status_wip</code></li>
+  <li><code class="language-plaintext highlighter-rouge">assertion_oncology_family_history_wip</code></li>
+  <li><code class="language-plaintext highlighter-rouge">assertion_oncology_demographic_binary_wip</code></li>
+  <li><code class="language-plaintext highlighter-rouge">re_oncology_size_wip</code></li>
+  <li><code class="language-plaintext highlighter-rouge">re_oncology_biomarker_result_wip</code></li>
+  <li><code class="language-plaintext highlighter-rouge">re_oncology_granular_wip</code></li>
+  <li><code class="language-plaintext highlighter-rouge">re_oncology_location_wip</code></li>
+  <li><code class="language-plaintext highlighter-rouge">re_oncology_temporal_wip</code></li>
+  <li><code class="language-plaintext highlighter-rouge">re_oncology_test_result_wip</code></li>
+  <li><code class="language-plaintext highlighter-rouge">re_oncology_wip</code></li>
+  <li><code class="language-plaintext highlighter-rouge">redl_oncology_size_biobert_wip</code></li>
+  <li><code class="language-plaintext highlighter-rouge">redl_oncology_biomarker_result_biobert_wip</code></li>
+  <li><code class="language-plaintext highlighter-rouge">redl_oncology_location_biobert_wip</code></li>
+  <li><code class="language-plaintext highlighter-rouge">redl_oncology_temporal_biobert_wip</code></li>
+  <li><code class="language-plaintext highlighter-rouge">redl_oncology_test_result_biobert_wip</code></li>
+  <li><code class="language-plaintext highlighter-rouge">redl_oncology_biobert_wip</code></li>
+  <li><code class="language-plaintext highlighter-rouge">redl_oncology_granular_biobert_wip</code></li>
+</ul>
+
+<h2 id="410">4.1.0</h2>
+
+<h4 id="highlights-1">Highlights</h4>
 
 <ul>
   <li>Zero-Shot NER model to extract entities with no training dataset</li>
@@ -819,7 +1781,7 @@
 
 <p>You can check <a href="https://nlp.johnsnowlabs.com/2022/08/30/ner_profiling_clinical_en.html">ner_profiling_clinical</a> and <a href="https://nlp.johnsnowlabs.com/2022/08/28/ner_profiling_biobert_en.html">ner_profiling_biobert</a> Models Hub pages for more details and the NER model lists that these pipelines include.</p>
 
-<h4 id="core-improvements-and-bug-fixes">Core Improvements and Bug Fixes</h4>
+<h4 id="core-improvements-and-bug-fixes-1">Core Improvements and Bug Fixes</h4>
 
 <ul>
   <li>Updated HCC module (<code class="language-plaintext highlighter-rouge">from sparknlp_jsl.functions import profile</code>) with the new changes in HCC score calculation functions.</li>
@@ -840,7 +1802,7 @@
   </li>
 </ul>
 
-<h4 id="new-and-updated-notebooks">New and Updated Notebooks</h4>
+<h4 id="new-and-updated-notebooks-1">New and Updated Notebooks</h4>
 
 <ul>
   <li>We have a new <a href="https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/1.6.ZeroShot_Clinical_NER.ipynb">Zero-Shot Clinical NER Notebook</a> to show how to use zero-shot NER model.</li>
