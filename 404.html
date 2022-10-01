@@ -427,10 +427,10 @@
     j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
     })(window,document,'script','dataLayer','GTM-59JLR64');</script>
-<!-- End Google Tag Manager --><title>Google's Tapas Table Understanding (Tiny, WTQ)</title><meta property="og:title" content=""/>
+<!-- End Google Tag Manager --><title>Extract Mentions of Response to Cancer Treatment</title><meta property="og:title" content=""/>
 
-<meta name="description" content="DescriptionThis is a Zero-shot Table Understanding Model which allows you to carry out Question Answering on Spark Dataframes. If you have a file stored in any table format, as csv, load it before using Spark.Size of this model: TinyHas aggregation operations?: TruePredicted EntitiesLive DemoOpen in ColabDownloadHow...">
-<link rel="canonical" href="/2022/09/30/table_qa_tapas_tiny_finetuned_wtq_en.html"><link rel="alternate" type="application/rss+xml" title="Spark NLP" href="/feed.xml"><!-- start favicons snippet, use https://realfavicongenerator.net/ -->
+<meta name="description" content="DescriptionThis model extracts entities related to the patient”s response to the oncology treatment, including clinical response and changes in tumor size.Predicted EntitiesResponse_To_Treatment, Size_Trend, Line_Of_TherapyLive DemoOpen in ColabDownloadHow to use         PythonScalaNLU  document_assembler = Document...">
+<link rel="canonical" href="/2022/10/01/ner_oncology_response_to_treatment_wip_en.html"><link rel="alternate" type="application/rss+xml" title="Spark NLP" href="/feed.xml"><!-- start favicons snippet, use https://realfavicongenerator.net/ -->
 <!---->
 <!-- <link rel="apple-touch-icon" sizes="180x180" href="/fav.ico"> -->
 
@@ -826,27 +826,26 @@
 
 <!-- end custom main top snippet --><article><script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script><div class="article__header"><div class="header-author"><div class="article__info clearfix"><div class="left-col">
             <a class="edit-on-github-btn" target="_blank" rel="alternate"
-               href="https://github.com/johnsnowlabs/spark-nlp/tree/master/docs/_posts/josejuanmartinez/2022-09-30-table_qa_tapas_tiny_finetuned_wtq_en.md">
+               href="https://github.com/johnsnowlabs/spark-nlp/tree/master/docs/_posts/mauro-nievoff/2022-10-01-ner_oncology_response_to_treatment_wip_en.md">
               <span class="fab fa-github"></span>
               <span class="edit-on-github-label">Edit on GitHub</span>
             </a>
-        </div><ul class="right-col menu"><li><i class="far fa-user"></i> <span>John Snow Labs</span></li><li><i class="far fa-calendar-alt"></i> <span>Sep 30, 2022</span>
-            </li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2022-09-30T00:00:00+00:00"></div><header class="main-docs have_subtitle">
-          <h1>Google's Tapas Table Understanding (Tiny, WTQ)</h1><div class="top-subtitle mont"></div></header></div><meta itemprop="headline" content="Google's Tapas Table Understanding (Tiny, WTQ)"><div class="article__info tags_box clearfix"><ul class="left-col menu"><li>en</li><li>table</li><li>qa</li><li>question</li><li>answering</li><li>open_source</li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2022-09-30T00:00:00+00:00">
-    <meta itemprop="keywords" content="en,table,qa,question,answering,open_source"><div class="js-article-content"><div class="model-wrap"><div class="layout--article"><!-- start custom article top snippet -->
+        </div><ul class="right-col menu"><li><i class="far fa-user"></i> <span>John Snow Labs</span></li><li><i class="far fa-calendar-alt"></i> <span>Oct 01, 2022</span>
+            </li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2022-10-01T00:00:00+00:00"></div><header class="main-docs have_subtitle">
+          <h1>Extract Mentions of Response to Cancer Treatment</h1><div class="top-subtitle mont"></div></header></div><meta itemprop="headline" content="Extract Mentions of Response to Cancer Treatment"><div class="article__info tags_box clearfix"><ul class="left-col menu"><li>licensed</li><li>clinical</li><li>oncology</li><li>en</li><li>ner</li><li>treatment</li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2022-10-01T00:00:00+00:00">
+    <meta itemprop="keywords" content="licensed,clinical,oncology,en,ner,treatment"><div class="js-article-content"><div class="model-wrap"><div class="layout--article"><!-- start custom article top snippet -->
 
 <!-- end custom article top snippet --><div class="article__content" itemprop="articleBody"><h2 id="description">Description</h2>
 
-<p>This is a Zero-shot Table Understanding Model which allows you to carry out Question Answering on Spark Dataframes. If you have a file stored in any table format, as csv, load it before using Spark.</p>
-
-<p>Size of this model: Tiny
-Has aggregation operations?: True</p>
+<p>This model extracts entities related to the patient”s response to the oncology treatment, including clinical response and changes in tumor size.</p>
 
 <h2 id="predicted-entities">Predicted Entities</h2>
 
+<p><code class="language-plaintext highlighter-rouge">Response_To_Treatment</code>, <code class="language-plaintext highlighter-rouge">Size_Trend</code>, <code class="language-plaintext highlighter-rouge">Line_Of_Therapy</code></p>
+
 <p class="btn-box"><button class="button button-orange" disabled="">Live Demo</button>
-<button class="button button-orange" disabled="">Open in Colab</button>
-<a href="https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/table_qa_tapas_tiny_finetuned_wtq_en_4.2.0_3.0_1664530892606.zip" class="button button-orange button-orange-trans arr button-icon">Download</a></p>
+<a href="https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/27.Oncology_Model.ipynb" class="button button-orange button-orange-trans co button-icon">Open in Colab</a>
+<a href="https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/ner_oncology_response_to_treatment_wip_en_4.0.0_3.0_1664585303681.zip" class="button button-orange button-orange-trans arr button-icon">Download</a></p>
 
 <h2 id="how-to-use">How to use</h2>
 
@@ -854,72 +853,84 @@ Has aggregation operations?: True</p>
   <div class="top_tab_li">   
     <button class="tab-li code-selector-active python-button">Python</button><button class="tab-li code-selector-un-active scala-button">Scala</button><button class="tab-li code-selector-un-active nlu-button">NLU</button>
 </div>
-  <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">json_data</span> <span class="o">=</span> <span class="s">"""
-{
-  "header": ["name", "money", "age"],
-  "rows": [
-    ["Donald Trump", "$100,000,000", "75"],
-    ["Elon Musk", "$20,000,000,000,000", "55"]
-  ]
-}
-"""</span>
+  <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">document_assembler</span> <span class="o">=</span> <span class="n">DocumentAssembler</span><span class="p">()</span>\
+    <span class="p">.</span><span class="n">setInputCol</span><span class="p">(</span><span class="s">"text"</span><span class="p">)</span>\
+    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"document"</span><span class="p">)</span>
 
-<span class="n">queries</span> <span class="o">=</span> <span class="p">[</span>
-    <span class="s">"Who earns less than 200,000,000?"</span><span class="p">,</span>
-    <span class="s">"Who earns 100,000,000?"</span><span class="p">,</span> 
-    <span class="s">"How much money has Donald Trump?"</span><span class="p">,</span>
-    <span class="s">"How old are they?"</span><span class="p">,</span>
-<span class="p">]</span>
+<span class="n">sentence_detector</span> <span class="o">=</span> <span class="n">SentenceDetectorDLModel</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"sentence_detector_dl_healthcare"</span><span class="p">,</span><span class="s">"en"</span><span class="p">,</span><span class="s">"clinical/models"</span><span class="p">)</span>\
+    <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"document"</span><span class="p">])</span>\
+    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"sentence"</span><span class="p">)</span>
 
-<span class="n">data</span> <span class="o">=</span> <span class="n">spark</span><span class="p">.</span><span class="n">createDataFrame</span><span class="p">([</span>
-        <span class="p">[</span><span class="n">json_data</span><span class="p">,</span> <span class="s">" "</span><span class="p">.</span><span class="n">join</span><span class="p">(</span><span class="n">queries</span><span class="p">)]</span>
-    <span class="p">]).</span><span class="n">toDF</span><span class="p">(</span><span class="s">"table_json"</span><span class="p">,</span> <span class="s">"questions"</span><span class="p">)</span>
-    
-<span class="n">document_assembler</span> <span class="o">=</span> <span class="n">MultiDocumentAssembler</span><span class="p">()</span> \
-    <span class="p">.</span><span class="n">setInputCols</span><span class="p">(</span><span class="s">"table_json"</span><span class="p">,</span> <span class="s">"questions"</span><span class="p">)</span> \
-    <span class="p">.</span><span class="n">setOutputCols</span><span class="p">(</span><span class="s">"document_table"</span><span class="p">,</span> <span class="s">"document_questions"</span><span class="p">)</span>
+<span class="n">tokenizer</span> <span class="o">=</span> <span class="n">Tokenizer</span><span class="p">()</span> \
+    <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"sentence"</span><span class="p">])</span> \
+    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"token"</span><span class="p">)</span>
 
-<span class="n">sentence_detector</span> <span class="o">=</span> <span class="n">SentenceDetector</span><span class="p">()</span> \
-    <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"document_questions"</span><span class="p">])</span> \
-    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"questions"</span><span class="p">)</span>
+<span class="n">word_embeddings</span> <span class="o">=</span> <span class="n">WordEmbeddingsModel</span><span class="p">().</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"embeddings_clinical"</span><span class="p">,</span> <span class="s">"en"</span><span class="p">,</span> <span class="s">"clinical/models"</span><span class="p">)</span>\
+    <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"sentence"</span><span class="p">,</span> <span class="s">"token"</span><span class="p">])</span> \
+    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"embeddings"</span><span class="p">)</span>                
 
-<span class="n">table_assembler</span> <span class="o">=</span> <span class="n">TableAssembler</span><span class="p">()</span>\
-    <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"document_table"</span><span class="p">])</span>\
-    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"table"</span><span class="p">)</span>
+<span class="n">ner</span> <span class="o">=</span> <span class="n">MedicalNerModel</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"ner_oncology_response_to_treatment_wip"</span><span class="p">,</span> <span class="s">"en"</span><span class="p">,</span> <span class="s">"clinical/models"</span><span class="p">)</span> \
+    <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"sentence"</span><span class="p">,</span> <span class="s">"token"</span><span class="p">,</span> <span class="s">"embeddings"</span><span class="p">])</span> \
+    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"ner"</span><span class="p">)</span>
 
-<span class="n">tapas</span> <span class="o">=</span> <span class="n">TapasForQuestionAnswering</span>\
-    <span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"table_qa_tapas_tiny_finetuned_wtq"</span><span class="p">,</span><span class="s">"en"</span><span class="p">)</span>\
-    <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"questions"</span><span class="p">,</span> <span class="s">"table"</span><span class="p">])</span>\
-    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"answers"</span><span class="p">)</span>
+<span class="n">ner_converter</span> <span class="o">=</span> <span class="n">NerConverter</span><span class="p">()</span> \
+    <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"sentence"</span><span class="p">,</span> <span class="s">"token"</span><span class="p">,</span> <span class="s">"ner"</span><span class="p">])</span> \
+    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"ner_chunk"</span><span class="p">)</span>
+<span class="n">pipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">(</span><span class="n">stages</span><span class="o">=</span><span class="p">[</span><span class="n">document_assembler</span><span class="p">,</span>
+                            <span class="n">sentence_detector</span><span class="p">,</span>
+                            <span class="n">tokenizer</span><span class="p">,</span>
+                            <span class="n">word_embeddings</span><span class="p">,</span>
+                            <span class="n">ner</span><span class="p">,</span>
+                            <span class="n">ner_converter</span><span class="p">])</span>
 
-<span class="n">pipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">(</span><span class="n">stages</span><span class="o">=</span><span class="p">[</span>
-    <span class="n">document_assembler</span><span class="p">,</span>
-    <span class="n">sentence_detector</span><span class="p">,</span>
-    <span class="n">table_assembler</span><span class="p">,</span>
-    <span class="n">tapas</span>
-<span class="p">])</span>
+<span class="n">data</span> <span class="o">=</span> <span class="n">spark</span><span class="p">.</span><span class="n">createDataFrame</span><span class="p">([[</span><span class="s">"She completed her first-line therapy, but some months later there was recurrence of the breast cancer. "</span><span class="p">]]).</span><span class="n">toDF</span><span class="p">(</span><span class="s">"text"</span><span class="p">)</span>
 
-<span class="n">model</span> <span class="o">=</span> <span class="n">pipeline</span><span class="p">.</span><span class="n">fit</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
-<span class="n">model</span>\
-    <span class="p">.</span><span class="n">transform</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>\
-    <span class="p">.</span><span class="n">selectExpr</span><span class="p">(</span><span class="s">"explode(answers) AS answer"</span><span class="p">)</span>\
-    <span class="p">.</span><span class="n">select</span><span class="p">(</span><span class="s">"answer"</span><span class="p">)</span>\
-    <span class="p">.</span><span class="n">show</span><span class="p">(</span><span class="n">truncate</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
-
+<span class="n">result</span> <span class="o">=</span> <span class="n">pipeline</span><span class="p">.</span><span class="n">fit</span><span class="p">(</span><span class="n">data</span><span class="p">).</span><span class="n">transform</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
 </code></pre></div>  </div>
+  <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">val</span> <span class="nv">document_assembler</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">DocumentAssembler</span><span class="o">()</span>
+    <span class="o">.</span><span class="py">setInputCol</span><span class="o">(</span><span class="s">"text"</span><span class="o">)</span>
+    <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"document"</span><span class="o">)</span>
+    
+<span class="k">val</span> <span class="nv">sentence_detector</span> <span class="k">=</span> <span class="nv">SentenceDetectorDLModel</span><span class="o">.</span><span class="py">pretrained</span><span class="o">(</span><span class="s">"sentence_detector_dl_healthcare"</span><span class="o">,</span><span class="s">"en"</span><span class="o">,</span><span class="s">"clinical/models"</span><span class="o">)</span>
+    <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="s">"document"</span><span class="o">)</span>
+    <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"sentence"</span><span class="o">)</span>
+    
+<span class="k">val</span> <span class="nv">tokenizer</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">Tokenizer</span><span class="o">()</span>
+    <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="s">"sentence"</span><span class="o">)</span>
+    <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"token"</span><span class="o">)</span>
+    
+<span class="k">val</span> <span class="nv">word_embeddings</span> <span class="k">=</span> <span class="nc">WordEmbeddingsModel</span><span class="o">().</span><span class="py">pretrained</span><span class="o">(</span><span class="s">"embeddings_clinical"</span><span class="o">,</span> <span class="s">"en"</span><span class="o">,</span> <span class="s">"clinical/models"</span><span class="o">)</span>
+    <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="s">"sentence"</span><span class="o">,</span> <span class="s">"token"</span><span class="o">))</span>
+    <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"embeddings"</span><span class="o">)</span>                
+    
+<span class="k">val</span> <span class="nv">ner</span> <span class="k">=</span> <span class="nv">MedicalNerModel</span><span class="o">.</span><span class="py">pretrained</span><span class="o">(</span><span class="s">"ner_oncology_response_to_treatment_wip"</span><span class="o">,</span> <span class="s">"en"</span><span class="o">,</span> <span class="s">"clinical/models"</span><span class="o">)</span>
+    <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="s">"sentence"</span><span class="o">,</span> <span class="s">"token"</span><span class="o">,</span> <span class="s">"embeddings"</span><span class="o">))</span>
+    <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"ner"</span><span class="o">)</span>
+    
+<span class="k">val</span> <span class="nv">ner_converter</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">NerConverter</span><span class="o">()</span>
+    <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="s">"sentence"</span><span class="o">,</span> <span class="s">"token"</span><span class="o">,</span> <span class="s">"ner"</span><span class="o">))</span>
+    <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"ner_chunk"</span><span class="o">)</span>
 
+        
+<span class="k">val</span> <span class="nv">pipeline</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">Pipeline</span><span class="o">().</span><span class="py">setStages</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="n">document_assembler</span><span class="o">,</span>
+                            <span class="n">sentence_detector</span><span class="o">,</span>
+                            <span class="n">tokenizer</span><span class="o">,</span>
+                            <span class="n">word_embeddings</span><span class="o">,</span>
+                            <span class="n">ner</span><span class="o">,</span>
+                            <span class="n">ner_converter</span><span class="o">))</span>    
+
+<span class="k">val</span> <span class="nv">data</span> <span class="k">=</span> <span class="nc">Seq</span><span class="o">(</span><span class="s">"She completed her first-line therapy, but some months later there was recurrence of the breast cancer. "</span><span class="o">).</span><span class="py">toDS</span><span class="o">.</span><span class="py">toDF</span><span class="o">(</span><span class="s">"text"</span><span class="o">)</span>
+
+<span class="k">val</span> <span class="nv">result</span> <span class="k">=</span> <span class="nv">pipeline</span><span class="o">.</span><span class="py">fit</span><span class="o">(</span><span class="n">data</span><span class="o">).</span><span class="py">transform</span><span class="o">(</span><span class="n">data</span><span class="o">)</span>
+</code></pre></div>  </div>
 </div>
 
 <h2 id="results">Results</h2>
 
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>+----------------------------------------------------------------------------------------------------------------------------------------------------------------------+
-|answer                                                                                                                                                                |
-+----------------------------------------------------------------------------------------------------------------------------------------------------------------------+
-|<span class="o">{</span>chunk, 0, 12, Donald Trump, <span class="o">{</span>question -&gt; Who earns less than 200,000,000?, aggregation -&gt; NONE, cell_positions -&gt; <span class="o">[</span>0, 0], cell_scores -&gt; 0.9999999<span class="o">}</span>, <span class="o">[]}</span>             |
-|<span class="o">{</span>chunk, 0, 12, Donald Trump, <span class="o">{</span>question -&gt; Who earns 100,000,000?, aggregation -&gt; NONE, cell_positions -&gt; <span class="o">[</span>0, 0], cell_scores -&gt; 0.9999999<span class="o">}</span>, <span class="o">[]}</span>                       |
-|<span class="o">{</span>chunk, 0, 12, <span class="nv">$100</span>,000,000, <span class="o">{</span>question -&gt; How much money has Donald Trump?, aggregation -&gt; NONE, cell_positions -&gt; <span class="o">[</span>1, 0], cell_scores -&gt; 0.9999998<span class="o">}</span>, <span class="o">[]}</span>             |
-|<span class="o">{</span>chunk, 0, 6, AVERAGE <span class="o">&gt;</span> 75, 55, <span class="o">{</span>question -&gt; How old are they?, aggregation -&gt; AVERAGE, cell_positions -&gt; <span class="o">[</span>2, 0], <span class="o">[</span>2, 1], cell_scores -&gt; 0.99999976, 0.9999995<span class="o">}</span>, <span class="o">[]}</span>  |
-+----------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>| chunk      | ner_label             |
+|:-----------|:----------------------|
+| first-line | Line_Of_Therapy       |
+| recurrence | Response_To_Treatment |
 </code></pre></div></div>
 
 <h2 class="model-param" id="model-information">Model Information</h2>
@@ -928,19 +939,27 @@ Has aggregation operations?: True</p>
   <tbody>
     <tr>
       <td>Model Name:</td>
-      <td>table_qa_tapas_tiny_finetuned_wtq</td>
+      <td>ner_oncology_response_to_treatment_wip</td>
     </tr>
     <tr>
       <td>Compatibility:</td>
-      <td>Spark NLP 4.2.0+</td>
+      <td>Spark NLP for Healthcare 4.0.0+</td>
     </tr>
     <tr>
       <td>License:</td>
-      <td>Open Source</td>
+      <td>Licensed</td>
     </tr>
     <tr>
       <td>Edition:</td>
       <td>Official</td>
+    </tr>
+    <tr>
+      <td>Input Labels:</td>
+      <td>[sentence, token, embeddings]</td>
+    </tr>
+    <tr>
+      <td>Output Labels:</td>
+      <td>[ner]</td>
     </tr>
     <tr>
       <td>Language:</td>
@@ -948,20 +967,25 @@ Has aggregation operations?: True</p>
     </tr>
     <tr>
       <td>Size:</td>
-      <td>17.4 MB</td>
-    </tr>
-    <tr>
-      <td>Case sensitive:</td>
-      <td>false</td>
+      <td>848.8 KB</td>
     </tr>
   </tbody>
 </table>
 
 <h2 id="references">References</h2>
 
-<p>https://www.microsoft.com/en-us/download/details.aspx?id=54253
-https://github.com/ppasupat/WikiTableQuestions</p>
-</div><div class="d-print-none"><footer class="article__footer"><meta itemprop="dateModified" content="2022-09-30T00:00:00+00:00"><!-- start custom article footer snippet -->
+<p>In-house annotated oncology case reports.</p>
+
+<h2 id="benchmarking">Benchmarking</h2>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>                label    tp    fp    fn  total  precision  recall   f1
+Response_To_Treatment 233.0  81.0 120.0  353.0       0.74    0.66 0.70
+           Size_Trend  31.0  34.0  45.0   76.0       0.48    0.41 0.44
+      Line_Of_Therapy  82.0  11.0   5.0   87.0       0.88    0.94 0.91
+            macro_avg 346.0 126.0 170.0  516.0       0.70    0.67 0.68
+            micro_avg   NaN   NaN   NaN    NaN       0.73    0.67 0.70
+</code></pre></div></div>
+</div><div class="d-print-none"><footer class="article__footer"><meta itemprop="dateModified" content="2022-10-01T00:00:00+00:00"><!-- start custom article footer snippet -->
 
 <!-- end custom article footer snippet --></footer>
 
@@ -1192,7 +1216,7 @@ hr.code-selector-underlie {
 
 }
 
-</style><div class="article__section-navigator clearfix"><div class="previous nav_link"><span>PREVIOUS</span><a href="/2022/09/30/table_qa_tapas_tiny_finetuned_sqa_en.html">Google's Tapas Table Understanding (Tiny, SQA)</a></div></div></div>
+</style><div class="article__section-navigator clearfix"><div class="previous nav_link"><span>PREVIOUS</span><a href="/2022/10/01/ner_oncology_posology_wip_en.html">Extract Cancer Therapies and Granular Posology Information</a></div></div></div>
 
 </div>
 </div>
