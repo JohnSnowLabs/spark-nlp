@@ -51,7 +51,7 @@ German Named Entity Recognition model, trained using large German Base Bert mode
 {:.btn-box}
 [Live Demo](https://demo.johnsnowlabs.com/healthcare/NER_LEGAL_DE/){:.button.button-orange}
 <button class="button button-orange" disabled>Open in Colab</button>
-[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/legal/models/legner_bert_base_courts_de_1.0.0_3.0_1664706525115.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
+[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/legal/models/legner_bert_base_courts_de_1.0.0_3.0_1664708306072.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
 
 ## How to use
 
@@ -127,7 +127,7 @@ result.select(F.explode(F.arrays_zip('ner_chunk.result', 'ner_chunk.metadata')).
 |Input Labels:|[sentence, token]|
 |Output Labels:|[ner]|
 |Language:|de|
-|Size:|410.5 MB|
+|Size:|407.0 MB|
 |Case sensitive:|true|
 |Max sentence length:|512|
 
