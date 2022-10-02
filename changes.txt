@@ -1,8 +1,2 @@
-docs/_posts/josejuanmartinez/2022-10-02-legner_arabert_arabic_ar.md
 docs/_posts/josejuanmartinez/2022-10-02-legner_bert_base_courts_de.md
-docs/_posts/josejuanmartinez/2022-10-02-legner_bert_large_courts_de.md
-docs/_posts/josejuanmartinez/2022-10-02-legner_courts_de.md
-docs/_posts/josejuanmartinez/2022-10-02-legner_arabert_arabic_ar.md
 docs/_posts/josejuanmartinez/2022-10-02-legner_bert_base_courts_de.md
-docs/_posts/josejuanmartinez/2022-10-02-legner_bert_large_courts_de.md
-docs/_posts/josejuanmartinez/2022-10-02-legner_courts_de.md
