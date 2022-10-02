@@ -67,7 +67,7 @@ tokeniz = nlp.Tokenizer()\
   .setInputCols("document")\
   .setOutputCol("token")
   
-tokenClassifier = legal.LegalBertForTokenClassification.pretrained("legner_arabert_arabic", "ar", "legal/models")\
+tokenClassifier = legal.BertForTokenClassification.pretrained("legner_arabert_arabic", "ar", "legal/models")\
   .setInputCols("token", "document")\
   .setOutputCol("label")
   
