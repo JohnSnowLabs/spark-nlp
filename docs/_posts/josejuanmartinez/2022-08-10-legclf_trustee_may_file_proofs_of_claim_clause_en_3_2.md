@@ -52,7 +52,7 @@ embeddings = BertSentenceEmbeddings.pretrained("sent_bert_base_cased", "en") \
       .setInputCols("document") \
       .setOutputCol("sentence_embeddings")
 
-docClassifier = ClassifierDLModel().pretrained("legclf_trustee_may_file_proofs_of_claim_clause", "en", "legal/models")\
+docClassifier = ClassifierDLModel.pretrained("legclf_trustee_may_file_proofs_of_claim_clause", "en", "legal/models")\
     .setInputCols(["sentence_embeddings"])\
     .setOutputCol("category")
     

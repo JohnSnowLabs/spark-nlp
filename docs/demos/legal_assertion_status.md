@@ -1,20 +1,24 @@
 ---
-layout: demopage
+layout: demopagenew
 title: Spark NLP in Action
+subtitle: Run 300+ live demos and notebooks
 full_width: true
 permalink: /legal_assertion_status
 key: demo
+article_header:
+  type: demo
 license: false
+mode: immersivebg
 show_edit_on_github: false
 show_date: false
 data:
   sections:  
     - title: Spark NLP for Legal
-      excerpt: Understand Entity Context
+      excerpt: Understand Legal Entities Context
       secheader: yes
       secheader:
         - title: Spark NLP for Legal
-          subtitle: Understand Entity Context
+          subtitle: Understand Legal Entities Context
           activemenu: legal_assertion_status
       source: yes
       source: 
@@ -29,7 +33,7 @@ data:
           - text: Live Demo
             type: normal
             url: https://demo.johnsnowlabs.com/finance/ASSERTIONDL_COMPETITORS
-          - text: Colab Netbook
+          - text: Colab
             type: blue_btn
             url:                 
 ---

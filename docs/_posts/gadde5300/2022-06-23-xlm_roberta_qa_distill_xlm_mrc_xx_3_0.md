@@ -1,12 +1,12 @@
 ---
 layout: model
-title: Multilingual XlmRoBertaForQuestionAnswering (from aicryptogroup)
+title: English XlmRoBertaForQuestionAnswering (from aicryptogroup)
 author: John Snow Labs
 name: xlm_roberta_qa_distill_xlm_mrc
 date: 2022-06-23
 tags: [en, vi, open_source, question_answering, xlmroberta, xx]
 task: Question Answering
-language: xx
+language: en
 edition: Spark NLP 4.0.0
 spark_version: 3.0
 supported: true
@@ -22,7 +22,7 @@ Pretrained Question Answering model, adapted from Hugging Face and curated to pr
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>
 <button class="button button-orange" disabled>Open in Colab</button>
-[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/xlm_roberta_qa_distill_xlm_mrc_xx_4.0.0_3.0_1655987250264.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
+[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/xlm_roberta_qa_distill_xlm_mrc_en_4.0.0_3.0_1655987250264.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
 
 ## How to use
 
@@ -31,11 +31,11 @@ Pretrained Question Answering model, adapted from Hugging Face and curated to pr
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
 ```python
-document_assembler = MultiDocumentAssembler() \ 
+document_assembler = MultiDocumentAssembler() \
 .setInputCols(["question", "context"]) \
 .setOutputCols(["document_question", "document_context"])
 
-spanClassifier = XlmRoBertaForQuestionAnswering.pretrained("xlm_roberta_qa_distill_xlm_mrc","xx") \
+spanClassifier = XlmRoBertaForQuestionAnswering.pretrained("xlm_roberta_qa_distill_xlm_mrc","en") \
 .setInputCols(["document_question", "document_context"]) \
 .setOutputCol("answer") \
 .setCaseSensitive(True)
@@ -51,11 +51,11 @@ result = pipeline.fit(example).transform(example)
 ```
 ```scala
 val document = new MultiDocumentAssembler()
-.setInputCols(Array("question", "context")) 
+.setInputCols(Array("question", "context"))
 .setOutputCols(Array("document_question", "document_context"))
 
 val spanClassifier = XlmRoBertaForQuestionAnswering
-.pretrained("xlm_roberta_qa_distill_xlm_mrc","xx")
+.pretrained("xlm_roberta_qa_distill_xlm_mrc","en")
 .setInputCols(Array("document_question", "document_context"))
 .setOutputCol("answer")
 .setCaseSensitive(true)
@@ -75,7 +75,7 @@ val result = pipeline.fit(example).transform(example)
 {:.nlu-block}
 ```python
 import nlu
-nlu.load("xx.answer_question.xlm_roberta.distilled").predict("""What's my name?|||"My name is Clara and I live in Berkeley.""")
+nlu.load("en.answer_question.xlm_roberta.distilled").predict("""What's my name?|||"My name is Clara and I live in Berkeley.""")
 ```
 
 </div>
@@ -91,7 +91,7 @@ nlu.load("xx.answer_question.xlm_roberta.distilled").predict("""What's my name?|
 |Edition:|Official|
 |Input Labels:|[question, context]|
 |Output Labels:|[answer]|
-|Language:|xx|
+|Language:|en|
 |Size:|151.4 MB|
 |Case sensitive:|true|
 |Max sentence length:|512|
@@ -99,3 +99,4 @@ nlu.load("xx.answer_question.xlm_roberta.distilled").predict("""What's my name?|
 ## References
 
 - https://huggingface.co/aicryptogroup/distill-xlm-mrc
+

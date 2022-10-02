@@ -37,18 +37,20 @@ import org.slf4j.{Logger, LoggerFactory}
 import java.io.File
 
 class AWSGateway(
-    accessKeyId: String,
-    secretAccessKey: String,
-    sessionToken: String,
-    awsProfile: String,
-    region: String,
+    accessKeyId: String = ConfigLoader.getConfigStringValue(ConfigHelper.awsExternalAccessKeyId),
+    secretAccessKey: String =
+      ConfigLoader.getConfigStringValue(ConfigHelper.awsExternalSecretAccessKey),
+    sessionToken: String =
+      ConfigLoader.getConfigStringValue(ConfigHelper.awsExternalSessionToken),
+    awsProfile: String = ConfigLoader.getConfigStringValue(ConfigHelper.awsExternalProfileName),
+    region: String = ConfigLoader.getConfigStringValue(ConfigHelper.awsExternalRegion),
     credentialsType: String = "default")
     extends AutoCloseable {
 
   protected val logger: Logger = LoggerFactory.getLogger(this.getClass.toString)
 
   lazy val client: AmazonS3 = {
-    if (region == "" || region == null) {
+    if (region.isEmpty || region == null) {
       throw new InvalidArgumentException(
         "Region argument is mandatory to create Amazon S3 client.")
     }
@@ -128,6 +130,11 @@ class AWSGateway(
   def getS3Object(bucket: String, s3FilePath: String, tmpFile: File): ObjectMetadata = {
     val req = new GetObjectRequest(bucket, s3FilePath)
     client.getObject(req, tmpFile)
+  }
+
+  def getS3Object(bucket: String, s3FilePath: String): S3Object = {
+    val s3Object = client.getObject(bucket, s3FilePath)
+    s3Object
   }
 
   def getS3DownloadSize(

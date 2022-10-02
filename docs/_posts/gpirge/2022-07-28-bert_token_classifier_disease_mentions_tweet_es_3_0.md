@@ -24,8 +24,8 @@ This model is intended for detecting disease mentions in Spanish tweets and trai
 `ENFERMEDAD`
 
 {:.btn-box}
-<button class="button button-orange" disabled>Live Demo</button>
-<button class="button button-orange" disabled>Open in Colab</button>
+[Live Demo](https://demo.johnsnowlabs.com/healthcare/PUBLIC_HEALTH_NER_DISEASE_ES/){:.button.button-orange}
+[Open in Colab](https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/PUBLIC_HEALTH_MB4TC.ipynb){:.button.button-orange.button-orange-trans.co.button-icon}
 [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/bert_token_classifier_disease_mentions_tweet_es_4.0.0_3.0_1659033666412.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
 
 ## How to use
@@ -34,6 +34,7 @@ This model is intended for detecting disease mentions in Spanish tweets and trai
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
+
 ```python
 documentAssembler = DocumentAssembler()\
   .setInputCol("text")\
@@ -100,7 +101,7 @@ val pipeline =  new Pipeline().setStages(Array(
                       tokenClassifier,
                       ner_converter))
 
-val data = Seq(Array("El diagnóstico fueron varios. Principal: Neumonía en el pulmón derecho. Sinusitis de caballo, Faringitis aguda e infección de orina, también elevada. Gripe No. Estuvo hablando conmigo, sin exagerar, mas de media hora, dándome ánimo y fuerza y que sabe, porque ha visto"), StringType()).toDS().toDF("text")
+val data = Seq(Array("El diagnóstico fueron varios. Principal: Neumonía en el pulmón derecho. Sinusitis de caballo, Faringitis aguda e infección de orina, también elevada. Gripe No. Estuvo hablando conmigo, sin exagerar, mas de media hora, dándome ánimo y fuerza y que sabe, porque ha visto")).toDS().toDF("text")
 
 val result = model.fit(data).transform(data)
 ```
@@ -142,7 +143,7 @@ val result = model.fit(data).transform(data)
        label  precision    recall  f1-score   support
 B-ENFERMEDAD       0.74      0.95      0.83      4243
 I-ENFERMEDAD       0.64      0.79      0.71      1570
-   micro avg       0.71      0.91      0.80      5813
-   macro avg       0.69      0.87      0.77      5813
-weighted avg       0.71      0.91      0.80      5813
+   micro-avg       0.71      0.91      0.80      5813
+   macro-avg       0.69      0.87      0.77      5813
+weighted-avg       0.71      0.91      0.80      5813
 ```

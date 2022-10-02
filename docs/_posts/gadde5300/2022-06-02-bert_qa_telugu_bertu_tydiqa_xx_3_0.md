@@ -31,7 +31,7 @@ Pretrained Question Answering model, adapted from Hugging Face and curated to pr
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
 ```python
-document_assembler = MultiDocumentAssembler() \ 
+document_assembler = MultiDocumentAssembler() \
 .setInputCols(["question", "context"]) \
 .setOutputCols(["document_question", "document_context"])
 
@@ -100,3 +100,4 @@ nlu.load("xx.answer_question.tydiqa.bert").predict("""What's my name?|||"My name
 
 - https://huggingface.co/kuppuluri/telugu_bertu_tydiqa
 - https://github.com/google-research-datasets/tydiqa
+

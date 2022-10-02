@@ -82,9 +82,14 @@ ocr_base_handwritten: Text recognition base model for handwritten text based on 
     <li>
         <strong>Version 3.12.0</strong>
     </li>
+    <li>
+        <a href="release_notes_3_13_0">Version 3.13.0</a>
+    </li>
 </ul>
 
 <ul class="pagination owl-carousel pagination_big">
+  <li><a href="release_notes_3_14_0">3.14.0</a></li>
+  <li><a href="release_notes_3_13_0">3.13.0</a></li>
   <li class="active"><a href="release_notes_3_12_0">3.12.0</a></li>
   <li><a href="release_notes_3_11_0">3.11.0</a></li>
   <li><a href="release_notes_3_10_0">3.10.0</a></li>

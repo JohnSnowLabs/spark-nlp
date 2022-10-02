@@ -1,20 +1,22 @@
 ---
-layout: demopage
-title: Spark NLP in Action
+layout: demopagenew
+title: Resolve Entities to Codes - Clinical NLP Demos & Notebooks
+seotitle: 'Clinical NLP: Resolve Entities to Codes - John Snow Labs'
+subtitle: Run 300+ live demos and notebooks
 full_width: true
 permalink: /resolve_entities_codes
 key: demo
+article_header:
+  type: demo
 license: false
+mode: immersivebg
 show_edit_on_github: false
 show_date: false
 data:
   sections:  
-    - title: Spark NLP for Healthcare 
-      excerpt: Resolve Entities to Codes 
-      secheader: yes
+    - secheader: yes
       secheader:
-        - title: Spark NLP for Healthcare
-          subtitle: Resolve Entities to Codes 
+        - subtitle: Resolve Entities to Codes - Live Demos & Notebooks
           activemenu: resolve_entities_codes
       source: yes
       source: 
@@ -29,7 +31,7 @@ data:
           - text: Live Demo
             type: normal
             url: https://demo.johnsnowlabs.com/healthcare/ER_SNOMED
-          - text: Colab Netbook
+          - text: Colab
             type: blue_btn
             url: https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/ER_SNOMED.ipynb        
         - title: Map clinical terminology to ICD-10-CM taxonomy
@@ -43,7 +45,7 @@ data:
           - text: Live Demo
             type: normal
             url: https://demo.johnsnowlabs.com/healthcare/ER_ICD10_CM/
-          - text: Colab Netbook
+          - text: Colab
             type: blue_btn
             url: https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/ER_ICD10_CM.ipynb
         - title: Map drug terminology to RxNorm taxonomy
@@ -57,7 +59,7 @@ data:
           - text: Live Demo
             type: normal
             url: https://demo.johnsnowlabs.com/healthcare/ER_RXNORM/
-          - text: Colab Netbook
+          - text: Colab
             type: blue_btn
             url: https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/ER_RXNORM.ipynb              
         - title: Map healthcare codes between taxonomies
@@ -71,7 +73,7 @@ data:
           - text: Live Demo
             type: normal
             url: https://demo.johnsnowlabs.com/healthcare/ER_CODE_MAPPING/
-          - text: Colab Netbook
+          - text: Colab
             type: blue_btn
             url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/11.1.Healthcare_Code_Mapping.ipynb#scrollTo=e5qYdIEv4JPL
         - title: Map laboratory terminology to LOINC taxonomy
@@ -85,7 +87,7 @@ data:
           - text: Live Demo
             type: normal
             url: https://demo.johnsnowlabs.com/healthcare/ER_LOINC/
-          - text: Colab Netbook
+          - text: Colab
             type: blue_btn
             url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/ER_LOINC.ipynb        
         - title: Resolve Clinical Health Information using the HPO taxonomy
@@ -99,7 +101,7 @@ data:
           - text: Live Demo
             type: normal
             url: https://demo.johnsnowlabs.com/healthcare/ER_HPO/
-          - text: Colab Netbook
+          - text: Colab
             type: blue_btn
             url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/ER_HPO.ipynb
         - title: Resolve Clinical Health Information using the MeSH taxonomy
@@ -113,7 +115,7 @@ data:
           - text: Live Demo
             type: normal
             url: https://demo.johnsnowlabs.com/healthcare/ER_MSH/
-          - text: Colab Netbook
+          - text: Colab
             type: blue_btn
             url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/ER_MSH.ipynb
         - title: Resolve Clinical Findings using the UMLS CUI taxonomy
@@ -127,10 +129,11 @@ data:
           - text: Live Demo
             type: normal
             url: https://demo.johnsnowlabs.com/healthcare/ER_UMLS_CUI/
-          - text: Colab Netbook
+          - text: Colab
             type: blue_btn
             url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/ER_UMLS_CUI.ipynb
         - title: Map clinical terminology to HCPCS taxonomy
+          hide: yes
           id: map_clinical_terminology_hcpcs_taxonomy  
           image: 
               src: /assets/images/Map_clinical_terminology_to_HCPCS_taxonomy.svg
@@ -141,7 +144,7 @@ data:
           - text: Live Demo
             type: normal
             url: https://demo.johnsnowlabs.com/healthcare/ER_HCPCS/
-          - text: Colab Netbook
+          - text: Colab
             type: blue_btn
             url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/ER_HCPCS.ipynb
         - title: Resolve Clinical Health Information using the NDC taxonomy
@@ -155,7 +158,7 @@ data:
           - text: Live Demo
             type: normal
             url: https://demo.johnsnowlabs.com/healthcare/ER_NDC/
-          - text: Colab Netbook
+          - text: Colab
             type: blue_btn
             url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/ER_NDC.ipynb#scrollTo=dnJ9X-mbEOMr
         - title: Resolve Clinical Abbreviations and Acronyms
@@ -169,7 +172,7 @@ data:
           - text: Live Demo
             type: normal
             url: https://demo.johnsnowlabs.com/healthcare/ER_CLINICAL_ABBREVIATION_ACRONYM/
-          - text: Colab Netbook
+          - text: Colab
             type: blue_btn
             url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/ER_CLINICAL_ABBREVIATION_ACRONYM.ipynb
         - title: Resolve Drug Class using RxNorm taxonomy
@@ -183,7 +186,7 @@ data:
           - text: Live Demo
             type: normal
             url: https://demo.johnsnowlabs.com/healthcare/ER_RXNORM_DRUG_CLASS/
-          - text: Colab Netbook
+          - text: Colab
             type: blue_btn
             url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/ER_RXNORM_DRUG_CLASS.ipynb
         - title: Resolve Drug & Substance using the UMLS CUI taxonomy
@@ -197,7 +200,7 @@ data:
           - text: Live Demo
             type: normal
             url: https://demo.johnsnowlabs.com/healthcare/ER_UMLS_CUI_DRUG_SUBSTANCE/
-          - text: Colab Netbook
+          - text: Colab
             type: blue_btn
             url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/ER_UMLS_CUI_DRUG_SUBSTANCE.ipynb
         - title: Resolve Clinical Procedures using CPT taxonomy
@@ -211,7 +214,7 @@ data:
           - text: Live Demo
             type: normal
             url: https://demo.johnsnowlabs.com/healthcare/ER_CPT/
-          - text: Colab Netbook
+          - text: Colab
             type: blue_btn
             url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/ER_CPT.ipynb
 ---

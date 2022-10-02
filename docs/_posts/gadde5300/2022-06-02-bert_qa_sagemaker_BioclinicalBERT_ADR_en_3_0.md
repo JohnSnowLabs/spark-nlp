@@ -4,7 +4,7 @@ title: English BertForQuestionAnswering model (from anindabitm)
 author: John Snow Labs
 name: bert_qa_sagemaker_BioclinicalBERT_ADR
 date: 2022-06-02
-tags: [en, open_source, question_answering, bert]
+tags: [open_source, question_answering, bert]
 task: Question Answering
 language: en
 edition: Spark NLP 4.0.0
@@ -31,7 +31,7 @@ Pretrained Question Answering model, adapted from Hugging Face and curated to pr
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
 ```python
-document_assembler = MultiDocumentAssembler() \ 
+document_assembler = MultiDocumentAssembler() \
 .setInputCols(["question", "context"]) \
 .setOutputCols(["document_question", "document_context"])
 
@@ -99,3 +99,4 @@ nlu.load("en.answer_question.bio_clinical.bert").predict("""What's my name?|||"M
 ## References
 
 - https://huggingface.co/anindabitm/sagemaker-BioclinicalBERT-ADR
+

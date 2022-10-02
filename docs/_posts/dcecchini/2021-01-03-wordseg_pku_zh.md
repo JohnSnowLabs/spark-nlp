@@ -36,7 +36,10 @@ Use as part of an nlp pipeline as a substitute of the Tokenizer stage.
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
 ```python
-...
+document_assembler = DocumentAssembler() \
+    .setInputCol("text") \
+    .setOutputCol("document")
+    
 word_segmenter = WordSegmenterModel.pretrained('wordseg_msr', 'zh')\
         .setInputCols("document")\
         .setOutputCol("token")    
@@ -46,7 +49,10 @@ example = spark.createDataFrame([['然而，这样的处理也衍生了一些问
 result = model.transform(example)
 ```
 ```scala
-...
+val document_assembler = DocumentAssembler()
+        .setInputCol("text")
+        .setOutputCol("document")
+        
 val word_segmenter = WordSegmenterModel.pretrained("wordseg_pku", "zh")
         .setInputCols("document")
         .setOutputCol("token")

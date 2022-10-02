@@ -34,37 +34,39 @@ This pretrained named entity recognition (NER) model is a deep learning model fo
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
+
 ```python
 document_assembler = DocumentAssembler()\
-.setInputCol("text")\
-.setOutputCol("document")
+    .setInputCol("text")\
+    .setOutputCol("document")
 
-sentenceDetectorDL = SentenceDetectorDLModel.pretrained("sentence_detector_dl_healthcare", "en", 'clinical/models') \
-.setInputCols(["document"]) \
-.setOutputCol("sentence")
+sentenceDetectorDL = SentenceDetectorDLModel\
+    .pretrained("sentence_detector_dl_healthcare", "en", 'clinical/models') \
+    .setInputCols(["document"]) \
+    .setOutputCol("sentence")
 
 tokenizer = Tokenizer()\
-.setInputCols(["sentence"])\
-.setOutputCol("token")
+    .setInputCols(["sentence"])\
+    .setOutputCol("token")
 
 word_embeddings = WordEmbeddingsModel.pretrained("embeddings_clinical" ,"en", "clinical/models")\
-.setInputCols(["sentence","token"])\
-.setOutputCol("embeddings")
+    .setInputCols(["sentence","token"])\
+    .setOutputCol("embeddings")
 
 ner_model = MedicalNerModel.pretrained("ner_pathogen", "en", "clinical/models")\
-.setInputCols(["sentence", "token", "embeddings"]) \
-.setOutputCol("ner")
+    .setInputCols(["sentence", "token", "embeddings"]) \
+    .setOutputCol("ner")
 
 ner_converter = NerConverter()\
-.setInputCols(["sentence", "token", "ner"])\
-.setOutputCol("ner_chunk")
+    .setInputCols(["sentence", "token", "ner"])\
+    .setOutputCol("ner_chunk")
 
 pipeline = Pipeline(stages=[document_assembler,
-sentenceDetectorDL,
-tokenizer,
-word_embeddings,
-ner_model, 
-ner_converter])
+        sentenceDetectorDL,
+        tokenizer,
+        word_embeddings,
+        ner_model, 
+        ner_converter])
 
 data = spark.createDataFrame([["""Racecadotril is an antisecretory medication and it has better tolerability than loperamide. Diarrhea is the condition of having loose, liquid or watery bowel movements each day. Signs of dehydration often begin with loss of the normal stretchiness of the skin.  This can progress to loss of skin color, a fast heart rate as it becomes more severe.  While it has been speculated that rabies virus, Lyssavirus and Ephemerovirus could be transmitted through aerosols, studies have concluded that this is only feasible in limited conditions."""]]).toDF("text")
 
@@ -72,35 +74,35 @@ result = pipeline.fit(data).transform(data)
 ```
 ```scala
 val document_assembler = new DocumentAssembler()
-.setInputCol("text")
-.setOutputCol("document")
+    .setInputCol("text")
+    .setOutputCol("document")
 
 val sentence_detector = SentenceDetectorDLModel.pretrained("sentence_detector_dl_healthcare", "en", "clinical/models")
-.setInputCols("document")
-.setOutputCol("sentence")
+    .setInputCols("document")
+    .setOutputCol("sentence")
 
 val tokenizer = new Tokenizer()
-.setInputCols("sentence")
-.setOutputCol("token")
+    .setInputCols("sentence")
+    .setOutputCol("token")
 
 val word_embeddings = WordEmbeddingsModel.pretrained("embeddings_clinical" ,"en", "clinical/models")
-.setInputCols(Array("sentence","token"))
-.setOutputCol("embeddings")
+    .setInputCols(Array("sentence","token"))
+    .setOutputCol("embeddings")
 
 val ner_model = MedicalNerModel.pretrained("ner_pathogen", "en", "clinical/models")
-.setInputCols(Array("sentence", "token", "embeddings"))
-.setOutputCol("ner")
+    .setInputCols(Array("sentence", "token", "embeddings"))
+    .setOutputCol("ner")
 
 val ner_converter = new NerConverter()
-.setInputCols(Array("sentence", "token", "ner"))
-.setOutputCol("ner_chunk")
+    .setInputCols(Array("sentence", "token", "ner"))
+    .setOutputCol("ner_chunk")
 
 val pipeline = new Pipeline().setStages(Array(document_assembler, 
-sentence_detector, 
-tokenizer, 
-word_embeddings, 
-ner_model, 
-ner_converter))
+                                            sentence_detector, 
+                                            tokenizer, 
+                                            word_embeddings, 
+                                            ner_model, 
+                                            ner_converter))
 
 val data = Seq("""Racecadotril is an antisecretory medication and it has better tolerability than loperamide. Diarrhea is the condition of having loose, liquid or watery bowel movements each day. Signs of dehydration often begin with loss of the normal stretchiness of the skin.  This can progress to loss of skin color, a fast heart rate as it becomes more severe.  While it has been speculated that rabies virus, Lyssavirus and Ephemerovirus could be transmitted through aerosols, studies have concluded that this is only feasible in limited conditions.""").toDS.toDF("text")
 
@@ -155,10 +157,10 @@ Trained on [dataset](https://www.kaggle.com/datasets/finalepoch/medical-ner) to 
 ## Benchmarking
 
 ```bash
-label   tp   fp   fn  total  precision   recall     f1
-Pathogen 15.0  3.0  9.0   24.0     0.8333   0.625  0.7143
-Medicine 15.0  2.0  0.0   15.0     0.8824   1.0    0.9375
-MedicalCondition 53.0  2.0  6.0   59.0     0.9636   0.8983 0.9298
-macro   -    -    -     -          -       -    0.8605
-micro   -    -    -     -          -       -    0.8782
+label               tp   fp   fn     total  precision  recall     f1
+Pathogen            15.0  3.0  9.0   24.0     0.8333   0.625  0.7143
+Medicine            15.0  2.0  0.0   15.0     0.8824   1.0    0.9375
+MedicalCondition    53.0  2.0  6.0   59.0     0.9636   0.8983 0.9298
+macro               -     -    -     -        -        -      0.8605
+micro               -     -    -     -        -        -      0.8782
 ```

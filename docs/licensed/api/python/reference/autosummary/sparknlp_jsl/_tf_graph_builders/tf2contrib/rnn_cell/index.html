@@ -7,53 +7,74 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
 
     <title>sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell &#8212; Spark NLP 4.0.0 documentation</title>
-<script>
-  document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
-  document.documentElement.dataset.theme = localStorage.getItem("theme") || "light"
-</script>
-
+  <script>
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
   <!-- Loaded before other Sphinx assets -->
-  <link href="../../../../../../static/styles/theme.css?digest=92025949c220c2e29695" rel="stylesheet">
-<link href="../../../../../../static/styles/pydata-sphinx-theme.css?digest=92025949c220c2e29695" rel="stylesheet">
+  <link href="../../../../../../static/styles/theme.css?digest=9b1a4fa89bdd0e95b23b" rel="stylesheet">
+<link href="../../../../../../static/styles/pydata-sphinx-theme.css?digest=9b1a4fa89bdd0e95b23b" rel="stylesheet">
 
-
+  
   <link rel="stylesheet"
-    href="../../../../../../static/vendor/fontawesome/5.13.0/css/all.min.css">
+    href="../../../../../../static/vendor/fontawesome/6.1.2/css/all.min.css">
   <link rel="preload" as="font" type="font/woff2" crossorigin
-    href="../../../../../../static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+    href="../../../../../../static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2">
   <link rel="preload" as="font" type="font/woff2" crossorigin
-    href="../../../../../../static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+    href="../../../../../../static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2">
 
     <link rel="stylesheet" type="text/css" href="../../../../../../static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="../../../../../../static/graphviz.css" />
     <link rel="stylesheet" type="text/css" href="../../../../../../static/css/custom.css" />
-
+  
   <!-- Pre-loaded scripts that we'll load fully later -->
-  <link rel="preload" as="script" href="../../../../../../static/scripts/pydata-sphinx-theme.js?digest=92025949c220c2e29695">
+  <link rel="preload" as="script" href="../../../../../../static/scripts/pydata-sphinx-theme.js?digest=9b1a4fa89bdd0e95b23b">
 
     <script data-url_root="../../../../../../" id="documentation_options" src="../../../../../../static/documentation_options.js"></script>
     <script src="../../../../../../static/jquery.js"></script>
     <script src="../../../../../../static/underscore.js"></script>
     <script src="../../../../../../static/_sphinx_javascript_frameworks_compat.js"></script>
     <script src="../../../../../../static/doctools.js"></script>
+    <script src="../../../../../../static/sphinx_highlight.js"></script>
     <script src="../../../../../../static/toggleprompt.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'reference/autosummary/sparknlp_jsl/_tf_graph_builders/tf2contrib/rnn_cell/index';</script>
     <link rel="shortcut icon" href="../../../../../../static/fav.ico"/>
     <link rel="index" title="Index" href="../../../../../../genindex.html" />
     <link rel="search" title="Search" href="../../../../../../search.html" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<meta name="docsearch:language" content="en">
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="docsearch:language" content="en">
   </head>
   
   
   <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="180" data-default-mode="">
-    <div class="bd-header-announcement container-fluid" id="banner">
+
+  
+  <input type="checkbox" class="sidebar-toggle" name="__primary" id="__primary">
+  <label class="overlay overlay-primary" for="__primary"></label>
+
+  
+  <input type="checkbox" class="sidebar-toggle" name="__secondary" id="__secondary">
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
       
-
+<form class="bd-search d-flex align-items-center" action="../../../../../../search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search the docs ..." aria-label="Search the docs ..." autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
     </div>
+  </div>
 
-    
-    <nav class="bd-header navbar navbar-light navbar-expand-lg bg-light fixed-top bd-navbar" id="navbar-main"><div class="bd-header__inner container-xl">
-
+  
+  <nav class="bd-header navbar navbar-expand-lg bd-navbar" id="navbar-main"><div class="bd-header__inner bd-page-width">
+  <label class="sidebar-toggle primary-toggle" for="__primary">
+      <span class="fas fa-bars"></span>
+  </label>
   <div id="navbar-start">
     
     
@@ -61,9 +82,15 @@
 
 
 <a class="navbar-brand logo" href="../../../../../../index.html">
+
   
   
   
+  
+  
+  
+  
+
   
     <img src="../../../../../../static/logo.png" class="logo__image only-light" alt="Logo image">
     <img src="../../../../../../static/logo.png" class="logo__image only-dark" alt="Logo image">
@@ -73,38 +100,46 @@
     
   </div>
 
-  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar-collapsible" aria-controls="navbar-collapsible" aria-expanded="false" aria-label="Toggle navigation">
-    <span class="fas fa-bars"></span>
-  </button>
-
   
-  <div id="navbar-collapsible" class="col-lg-9 collapse navbar-collapse">
+  <div class="col-lg-9 navbar-header-items">
     <div id="navbar-center" class="mr-auto">
       
       <div class="navbar-center-item">
-        <ul id="navbar-main-elements" class="navbar-nav">
-    <li class="toctree-l1 nav-item">
- <a class="reference internal nav-link" href="../../../../../../getting_started/index.html">
-  Getting Started
- </a>
-</li>
+        <nav class="navbar-nav">
+    <p class="sidebar-header-items__title" role="heading" aria-level="1" aria-label="Site Navigation">
+        Site Navigation
+    </p>
+    <ul id="navbar-main-elements" class="navbar-nav">
+        
+                <li class="nav-item">
+                    <a class="nav-link" href="../../../../../../getting_started/index.html">
+                        Getting Started
+                    </a>
+                </li>
+                
 
-<li class="toctree-l1 nav-item">
- <a class="reference internal nav-link" href="../../../../../index.html">
-  API Reference
- </a>
-</li>
-
-    
-</ul>
+                <li class="nav-item">
+                    <a class="nav-link" href="../../../../../index.html">
+                        API Reference
+                    </a>
+                </li>
+                
+    </ul>
+</nav>
       </div>
       
     </div>
 
     <div id="navbar-end">
+      <div class="navbar-end-item navbar-end__search-button-container">
+        
+<button class="btn btn-sm navbar-btn search-button search-button__button" title="Search">
+  <i class="fas fa-search"></i>
+</button>
+      </div>
       
       <div class="navbar-end-item">
-        <span id="theme-switch" class="btn btn-sm btn-outline-primary navbar-btn rounded-circle">
+        <span class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle">
     <a class="theme-switch" data-mode="light"><i class="fas fa-sun"></i></a>
     <a class="theme-switch" data-mode="dark"><i class="far fa-moon"></i></a>
     <a class="theme-switch" data-mode="auto"><i class="fas fa-adjust"></i></a>
@@ -118,21 +153,91 @@
       
     </div>
   </div>
+
+
+  
+  <div class="search-button-container--mobile">
+<button class="btn btn-sm navbar-btn search-button search-button__button" title="Search">
+  <i class="fas fa-search"></i>
+</button>
+  </div>
+
+  
+  <label class="sidebar-toggle secondary-toggle" for="__secondary">
+      <span class="fas fa-outdent"></span>
+  </label>
+  
+
 </div>
-    </nav>
+  </nav>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+      
+      <div class="navbar-center-item">
+        <nav class="navbar-nav">
+    <p class="sidebar-header-items__title" role="heading" aria-level="1" aria-label="Site Navigation">
+        Site Navigation
+    </p>
+    <ul id="navbar-main-elements" class="navbar-nav">
+        
+                <li class="nav-item">
+                    <a class="nav-link" href="../../../../../../getting_started/index.html">
+                        Getting Started
+                    </a>
+                </li>
+                
+
+                <li class="nav-item">
+                    <a class="nav-link" href="../../../../../index.html">
+                        API Reference
+                    </a>
+                </li>
+                
+    </ul>
+</nav>
+      </div>
+      
+      </div>
     
 
-    <div class="bd-container container-xl">
-      <div class="bd-container__inner row">
-          
+    
+    
+    <div class="sidebar-header-items__end">
+      
+      <div class="navbar-end-item">
+        <span class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle">
+    <a class="theme-switch" data-mode="light"><i class="fas fa-sun"></i></a>
+    <a class="theme-switch" data-mode="dark"><i class="far fa-moon"></i></a>
+    <a class="theme-switch" data-mode="auto"><i class="fas fa-adjust"></i></a>
+</span>
+      </div>
+      
+      <div class="navbar-end-item">
+        <ul id="navbar-icon-links" class="navbar-nav" aria-label="Icon Links">
+      </ul>
+      </div>
+      
+    </div>
+    
+  </div>
 
-<!-- Only show if we have sidebars configured, else just a small margin  -->
-<div class="bd-sidebar-primary col-12 col-md-3 bd-sidebar">
-  <div class="sidebar-start-items"><form class="bd-search d-flex align-items-center" action="../../../../../../search.html" method="get">
-  <i class="icon fas fa-search"></i>
-  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search the docs ..." aria-label="Search the docs ..." autocomplete="off" >
-</form><nav class="bd-links" id="bd-docs-nav" aria-label="Main navigation">
-  <div class="bd-toc-item active">
+  
+  <div class="sidebar-start-items sidebar-primary__section">
+    <div class="sidebar-start-items__item"><nav class="bd-links" id="bd-docs-nav" aria-label="Section navigation">
+  <p class="bd-links__title" role="heading" aria-level="1">
+    Section Navigation
+  </p>
+  <div class="bd-toc-item navbar-nav">
     <ul class="current nav bd-sidenav">
  <li class="toctree-l1">
   <a class="reference internal" href="../core_rnn_cell/index.html">
@@ -192,615 +297,30 @@
 
   </div>
 </nav>
-  </div>
-  <div class="sidebar-end-items">
-  </div>
-</div>
-
-
-          
-
-
-<div class="bd-sidebar-secondary d-none d-xl-block col-xl-2 bd-toc">
-  
-    
-    <div class="toc-item">
-      
-<div class="tocsection onthispage mt-5 pt-1 pb-3">
-    <i class="fas fa-list"></i> On this page
-</div>
-
-<nav id="bd-toc-nav">
-    <ul class="visible nav section-nav flex-column">
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#module-contents">
-   Module Contents
-  </a>
-  <ul class="nav section-nav flex-column">
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#classes">
-     Classes
-    </a>
-    <ul class="nav section-nav flex-column">
-     <li class="toc-h4 nav-item toc-entry">
-      <a class="reference internal nav-link" href="#sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.CoupledInputForgetGateLSTMCell">
-       CoupledInputForgetGateLSTMCell
-      </a>
-      <ul class="nav section-nav flex-column">
-       <li class="toc-h5 nav-item toc-entry">
-        <a class="reference internal nav-link" href="#sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.CoupledInputForgetGateLSTMCell.state_size">
-         state_size
-        </a>
-       </li>
-       <li class="toc-h5 nav-item toc-entry">
-        <a class="reference internal nav-link" href="#sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.CoupledInputForgetGateLSTMCell.output_size">
-         output_size
-        </a>
-       </li>
-       <li class="toc-h5 nav-item toc-entry">
-        <a class="reference internal nav-link" href="#sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.CoupledInputForgetGateLSTMCell.call">
-         call
-        </a>
-       </li>
-      </ul>
-     </li>
-     <li class="toc-h4 nav-item toc-entry">
-      <a class="reference internal nav-link" href="#sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.TimeFreqLSTMCell">
-       TimeFreqLSTMCell
-      </a>
-      <ul class="nav section-nav flex-column">
-       <li class="toc-h5 nav-item toc-entry">
-        <a class="reference internal nav-link" href="#sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.TimeFreqLSTMCell.output_size">
-         output_size
-        </a>
-       </li>
-       <li class="toc-h5 nav-item toc-entry">
-        <a class="reference internal nav-link" href="#sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.TimeFreqLSTMCell.state_size">
-         state_size
-        </a>
-       </li>
-       <li class="toc-h5 nav-item toc-entry">
-        <a class="reference internal nav-link" href="#sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.TimeFreqLSTMCell.call">
-         call
-        </a>
-       </li>
-      </ul>
-     </li>
-     <li class="toc-h4 nav-item toc-entry">
-      <a class="reference internal nav-link" href="#sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.GridLSTMCell">
-       GridLSTMCell
-      </a>
-      <ul class="nav section-nav flex-column">
-       <li class="toc-h5 nav-item toc-entry">
-        <a class="reference internal nav-link" href="#sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.GridLSTMCell.output_size">
-         output_size
-        </a>
-       </li>
-       <li class="toc-h5 nav-item toc-entry">
-        <a class="reference internal nav-link" href="#sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.GridLSTMCell.state_size">
-         state_size
-        </a>
-       </li>
-       <li class="toc-h5 nav-item toc-entry">
-        <a class="reference internal nav-link" href="#sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.GridLSTMCell.call">
-         call
-        </a>
-       </li>
-      </ul>
-     </li>
-     <li class="toc-h4 nav-item toc-entry">
-      <a class="reference internal nav-link" href="#sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.BidirectionalGridLSTMCell">
-       BidirectionalGridLSTMCell
-      </a>
-      <ul class="nav section-nav flex-column">
-       <li class="toc-h5 nav-item toc-entry">
-        <a class="reference internal nav-link" href="#sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.BidirectionalGridLSTMCell.call">
-         call
-        </a>
-       </li>
-      </ul>
-     </li>
-     <li class="toc-h4 nav-item toc-entry">
-      <a class="reference internal nav-link" href="#sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.AttentionCellWrapper">
-       AttentionCellWrapper
-      </a>
-      <ul class="nav section-nav flex-column">
-       <li class="toc-h5 nav-item toc-entry">
-        <a class="reference internal nav-link" href="#sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.AttentionCellWrapper.state_size">
-         state_size
-        </a>
-       </li>
-       <li class="toc-h5 nav-item toc-entry">
-        <a class="reference internal nav-link" href="#sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.AttentionCellWrapper.output_size">
-         output_size
-        </a>
-       </li>
-       <li class="toc-h5 nav-item toc-entry">
-        <a class="reference internal nav-link" href="#sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.AttentionCellWrapper.call">
-         call
-        </a>
-       </li>
-      </ul>
-     </li>
-     <li class="toc-h4 nav-item toc-entry">
-      <a class="reference internal nav-link" href="#sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.HighwayWrapper">
-       HighwayWrapper
-      </a>
-      <ul class="nav section-nav flex-column">
-       <li class="toc-h5 nav-item toc-entry">
-        <a class="reference internal nav-link" href="#sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.HighwayWrapper.state_size">
-         state_size
-        </a>
-       </li>
-       <li class="toc-h5 nav-item toc-entry">
-        <a class="reference internal nav-link" href="#sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.HighwayWrapper.output_size">
-         output_size
-        </a>
-       </li>
-       <li class="toc-h5 nav-item toc-entry">
-        <a class="reference internal nav-link" href="#sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.HighwayWrapper.zero_state">
-         zero_state
-        </a>
-       </li>
-      </ul>
-     </li>
-     <li class="toc-h4 nav-item toc-entry">
-      <a class="reference internal nav-link" href="#sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.LayerNormBasicLSTMCell">
-       LayerNormBasicLSTMCell
-      </a>
-      <ul class="nav section-nav flex-column">
-       <li class="toc-h5 nav-item toc-entry">
-        <a class="reference internal nav-link" href="#sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.LayerNormBasicLSTMCell.state_size">
-         state_size
-        </a>
-       </li>
-       <li class="toc-h5 nav-item toc-entry">
-        <a class="reference internal nav-link" href="#sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.LayerNormBasicLSTMCell.output_size">
-         output_size
-        </a>
-       </li>
-       <li class="toc-h5 nav-item toc-entry">
-        <a class="reference internal nav-link" href="#sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.LayerNormBasicLSTMCell.call">
-         call
-        </a>
-       </li>
-      </ul>
-     </li>
-     <li class="toc-h4 nav-item toc-entry">
-      <a class="reference internal nav-link" href="#sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.NASCell">
-       NASCell
-      </a>
-      <ul class="nav section-nav flex-column">
-       <li class="toc-h5 nav-item toc-entry">
-        <a class="reference internal nav-link" href="#sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.NASCell.state_size">
-         state_size
-        </a>
-       </li>
-       <li class="toc-h5 nav-item toc-entry">
-        <a class="reference internal nav-link" href="#sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.NASCell.output_size">
-         output_size
-        </a>
-       </li>
-       <li class="toc-h5 nav-item toc-entry">
-        <a class="reference internal nav-link" href="#sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.NASCell.build">
-         build
-        </a>
-       </li>
-       <li class="toc-h5 nav-item toc-entry">
-        <a class="reference internal nav-link" href="#sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.NASCell.call">
-         call
-        </a>
-       </li>
-      </ul>
-     </li>
-     <li class="toc-h4 nav-item toc-entry">
-      <a class="reference internal nav-link" href="#sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.UGRNNCell">
-       UGRNNCell
-      </a>
-      <ul class="nav section-nav flex-column">
-       <li class="toc-h5 nav-item toc-entry">
-        <a class="reference internal nav-link" href="#sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.UGRNNCell.state_size">
-         state_size
-        </a>
-       </li>
-       <li class="toc-h5 nav-item toc-entry">
-        <a class="reference internal nav-link" href="#sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.UGRNNCell.output_size">
-         output_size
-        </a>
-       </li>
-       <li class="toc-h5 nav-item toc-entry">
-        <a class="reference internal nav-link" href="#sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.UGRNNCell.call">
-         call
-        </a>
-       </li>
-      </ul>
-     </li>
-     <li class="toc-h4 nav-item toc-entry">
-      <a class="reference internal nav-link" href="#sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.IntersectionRNNCell">
-       IntersectionRNNCell
-      </a>
-      <ul class="nav section-nav flex-column">
-       <li class="toc-h5 nav-item toc-entry">
-        <a class="reference internal nav-link" href="#sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.IntersectionRNNCell.state_size">
-         state_size
-        </a>
-       </li>
-       <li class="toc-h5 nav-item toc-entry">
-        <a class="reference internal nav-link" href="#sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.IntersectionRNNCell.output_size">
-         output_size
-        </a>
-       </li>
-       <li class="toc-h5 nav-item toc-entry">
-        <a class="reference internal nav-link" href="#sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.IntersectionRNNCell.call">
-         call
-        </a>
-       </li>
-      </ul>
-     </li>
-     <li class="toc-h4 nav-item toc-entry">
-      <a class="reference internal nav-link" href="#sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.CompiledWrapper">
-       CompiledWrapper
-      </a>
-      <ul class="nav section-nav flex-column">
-       <li class="toc-h5 nav-item toc-entry">
-        <a class="reference internal nav-link" href="#sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.CompiledWrapper.state_size">
-         state_size
-        </a>
-       </li>
-       <li class="toc-h5 nav-item toc-entry">
-        <a class="reference internal nav-link" href="#sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.CompiledWrapper.output_size">
-         output_size
-        </a>
-       </li>
-       <li class="toc-h5 nav-item toc-entry">
-        <a class="reference internal nav-link" href="#sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.CompiledWrapper.zero_state">
-         zero_state
-        </a>
-       </li>
-      </ul>
-     </li>
-     <li class="toc-h4 nav-item toc-entry">
-      <a class="reference internal nav-link" href="#sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.PhasedLSTMCell">
-       PhasedLSTMCell
-      </a>
-      <ul class="nav section-nav flex-column">
-       <li class="toc-h5 nav-item toc-entry">
-        <a class="reference internal nav-link" href="#sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.PhasedLSTMCell.state_size">
-         state_size
-        </a>
-       </li>
-       <li class="toc-h5 nav-item toc-entry">
-        <a class="reference internal nav-link" href="#sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.PhasedLSTMCell.output_size">
-         output_size
-        </a>
-       </li>
-       <li class="toc-h5 nav-item toc-entry">
-        <a class="reference internal nav-link" href="#sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.PhasedLSTMCell.call">
-         call
-        </a>
-       </li>
-      </ul>
-     </li>
-     <li class="toc-h4 nav-item toc-entry">
-      <a class="reference internal nav-link" href="#sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.ConvLSTMCell">
-       ConvLSTMCell
-      </a>
-      <ul class="nav section-nav flex-column">
-       <li class="toc-h5 nav-item toc-entry">
-        <a class="reference internal nav-link" href="#sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.ConvLSTMCell.output_size">
-         output_size
-        </a>
-       </li>
-       <li class="toc-h5 nav-item toc-entry">
-        <a class="reference internal nav-link" href="#sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.ConvLSTMCell.state_size">
-         state_size
-        </a>
-       </li>
-       <li class="toc-h5 nav-item toc-entry">
-        <a class="reference internal nav-link" href="#sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.ConvLSTMCell.call">
-         call
-        </a>
-       </li>
-      </ul>
-     </li>
-     <li class="toc-h4 nav-item toc-entry">
-      <a class="reference internal nav-link" href="#sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.Conv1DLSTMCell">
-       Conv1DLSTMCell
-      </a>
-     </li>
-     <li class="toc-h4 nav-item toc-entry">
-      <a class="reference internal nav-link" href="#sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.Conv2DLSTMCell">
-       Conv2DLSTMCell
-      </a>
-     </li>
-     <li class="toc-h4 nav-item toc-entry">
-      <a class="reference internal nav-link" href="#sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.Conv3DLSTMCell">
-       Conv3DLSTMCell
-      </a>
-     </li>
-     <li class="toc-h4 nav-item toc-entry">
-      <a class="reference internal nav-link" href="#sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.GLSTMCell">
-       GLSTMCell
-      </a>
-      <ul class="nav section-nav flex-column">
-       <li class="toc-h5 nav-item toc-entry">
-        <a class="reference internal nav-link" href="#sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.GLSTMCell.state_size">
-         state_size
-        </a>
-       </li>
-       <li class="toc-h5 nav-item toc-entry">
-        <a class="reference internal nav-link" href="#sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.GLSTMCell.output_size">
-         output_size
-        </a>
-       </li>
-       <li class="toc-h5 nav-item toc-entry">
-        <a class="reference internal nav-link" href="#sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.GLSTMCell.call">
-         call
-        </a>
-       </li>
-      </ul>
-     </li>
-     <li class="toc-h4 nav-item toc-entry">
-      <a class="reference internal nav-link" href="#sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.LayerNormLSTMCell">
-       LayerNormLSTMCell
-      </a>
-      <ul class="nav section-nav flex-column">
-       <li class="toc-h5 nav-item toc-entry">
-        <a class="reference internal nav-link" href="#sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.LayerNormLSTMCell.state_size">
-         state_size
-        </a>
-       </li>
-       <li class="toc-h5 nav-item toc-entry">
-        <a class="reference internal nav-link" href="#sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.LayerNormLSTMCell.output_size">
-         output_size
-        </a>
-       </li>
-       <li class="toc-h5 nav-item toc-entry">
-        <a class="reference internal nav-link" href="#sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.LayerNormLSTMCell.call">
-         call
-        </a>
-       </li>
-      </ul>
-     </li>
-     <li class="toc-h4 nav-item toc-entry">
-      <a class="reference internal nav-link" href="#sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.SRUCell">
-       SRUCell
-      </a>
-      <ul class="nav section-nav flex-column">
-       <li class="toc-h5 nav-item toc-entry">
-        <a class="reference internal nav-link" href="#sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.SRUCell.state_size">
-         state_size
-        </a>
-       </li>
-       <li class="toc-h5 nav-item toc-entry">
-        <a class="reference internal nav-link" href="#sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.SRUCell.output_size">
-         output_size
-        </a>
-       </li>
-       <li class="toc-h5 nav-item toc-entry">
-        <a class="reference internal nav-link" href="#sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.SRUCell.build">
-         build
-        </a>
-       </li>
-       <li class="toc-h5 nav-item toc-entry">
-        <a class="reference internal nav-link" href="#sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.SRUCell.call">
-         call
-        </a>
-       </li>
-      </ul>
-     </li>
-     <li class="toc-h4 nav-item toc-entry">
-      <a class="reference internal nav-link" href="#sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.WeightNormLSTMCell">
-       WeightNormLSTMCell
-      </a>
-      <ul class="nav section-nav flex-column">
-       <li class="toc-h5 nav-item toc-entry">
-        <a class="reference internal nav-link" href="#sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.WeightNormLSTMCell.state_size">
-         state_size
-        </a>
-       </li>
-       <li class="toc-h5 nav-item toc-entry">
-        <a class="reference internal nav-link" href="#sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.WeightNormLSTMCell.output_size">
-         output_size
-        </a>
-       </li>
-       <li class="toc-h5 nav-item toc-entry">
-        <a class="reference internal nav-link" href="#sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.WeightNormLSTMCell.call">
-         call
-        </a>
-       </li>
-      </ul>
-     </li>
-     <li class="toc-h4 nav-item toc-entry">
-      <a class="reference internal nav-link" href="#sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.IndRNNCell">
-       IndRNNCell
-      </a>
-      <ul class="nav section-nav flex-column">
-       <li class="toc-h5 nav-item toc-entry">
-        <a class="reference internal nav-link" href="#sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.IndRNNCell.state_size">
-         state_size
-        </a>
-       </li>
-       <li class="toc-h5 nav-item toc-entry">
-        <a class="reference internal nav-link" href="#sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.IndRNNCell.output_size">
-         output_size
-        </a>
-       </li>
-       <li class="toc-h5 nav-item toc-entry">
-        <a class="reference internal nav-link" href="#sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.IndRNNCell.build">
-         build
-        </a>
-       </li>
-       <li class="toc-h5 nav-item toc-entry">
-        <a class="reference internal nav-link" href="#sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.IndRNNCell.call">
-         call
-        </a>
-       </li>
-      </ul>
-     </li>
-     <li class="toc-h4 nav-item toc-entry">
-      <a class="reference internal nav-link" href="#sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.IndyGRUCell">
-       IndyGRUCell
-      </a>
-      <ul class="nav section-nav flex-column">
-       <li class="toc-h5 nav-item toc-entry">
-        <a class="reference internal nav-link" href="#sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.IndyGRUCell.state_size">
-         state_size
-        </a>
-       </li>
-       <li class="toc-h5 nav-item toc-entry">
-        <a class="reference internal nav-link" href="#sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.IndyGRUCell.output_size">
-         output_size
-        </a>
-       </li>
-       <li class="toc-h5 nav-item toc-entry">
-        <a class="reference internal nav-link" href="#sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.IndyGRUCell.build">
-         build
-        </a>
-       </li>
-       <li class="toc-h5 nav-item toc-entry">
-        <a class="reference internal nav-link" href="#sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.IndyGRUCell.call">
-         call
-        </a>
-       </li>
-      </ul>
-     </li>
-     <li class="toc-h4 nav-item toc-entry">
-      <a class="reference internal nav-link" href="#sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.IndyLSTMCell">
-       IndyLSTMCell
-      </a>
-      <ul class="nav section-nav flex-column">
-       <li class="toc-h5 nav-item toc-entry">
-        <a class="reference internal nav-link" href="#sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.IndyLSTMCell.state_size">
-         state_size
-        </a>
-       </li>
-       <li class="toc-h5 nav-item toc-entry">
-        <a class="reference internal nav-link" href="#sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.IndyLSTMCell.output_size">
-         output_size
-        </a>
-       </li>
-       <li class="toc-h5 nav-item toc-entry">
-        <a class="reference internal nav-link" href="#sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.IndyLSTMCell.build">
-         build
-        </a>
-       </li>
-       <li class="toc-h5 nav-item toc-entry">
-        <a class="reference internal nav-link" href="#sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.IndyLSTMCell.call">
-         call
-        </a>
-       </li>
-      </ul>
-     </li>
-     <li class="toc-h4 nav-item toc-entry">
-      <a class="reference internal nav-link" href="#sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.NTMCell">
-       NTMCell
-      </a>
-      <ul class="nav section-nav flex-column">
-       <li class="toc-h5 nav-item toc-entry">
-        <a class="reference internal nav-link" href="#sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.NTMCell.state_size">
-         state_size
-        </a>
-       </li>
-       <li class="toc-h5 nav-item toc-entry">
-        <a class="reference internal nav-link" href="#sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.NTMCell.output_size">
-         output_size
-        </a>
-       </li>
-       <li class="toc-h5 nav-item toc-entry">
-        <a class="reference internal nav-link" href="#sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.NTMCell.build">
-         build
-        </a>
-       </li>
-       <li class="toc-h5 nav-item toc-entry">
-        <a class="reference internal nav-link" href="#sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.NTMCell.call">
-         call
-        </a>
-       </li>
-       <li class="toc-h5 nav-item toc-entry">
-        <a class="reference internal nav-link" href="#sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.NTMCell.zero_state">
-         zero_state
-        </a>
-       </li>
-      </ul>
-     </li>
-     <li class="toc-h4 nav-item toc-entry">
-      <a class="reference internal nav-link" href="#sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.MinimalRNNCell">
-       MinimalRNNCell
-      </a>
-      <ul class="nav section-nav flex-column">
-       <li class="toc-h5 nav-item toc-entry">
-        <a class="reference internal nav-link" href="#sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.MinimalRNNCell.state_size">
-         state_size
-        </a>
-       </li>
-       <li class="toc-h5 nav-item toc-entry">
-        <a class="reference internal nav-link" href="#sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.MinimalRNNCell.output_size">
-         output_size
-        </a>
-       </li>
-       <li class="toc-h5 nav-item toc-entry">
-        <a class="reference internal nav-link" href="#sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.MinimalRNNCell.build">
-         build
-        </a>
-       </li>
-       <li class="toc-h5 nav-item toc-entry">
-        <a class="reference internal nav-link" href="#sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.MinimalRNNCell.call">
-         call
-        </a>
-       </li>
-      </ul>
-     </li>
-     <li class="toc-h4 nav-item toc-entry">
-      <a class="reference internal nav-link" href="#sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.CFNCell">
-       CFNCell
-      </a>
-      <ul class="nav section-nav flex-column">
-       <li class="toc-h5 nav-item toc-entry">
-        <a class="reference internal nav-link" href="#sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.CFNCell.state_size">
-         state_size
-        </a>
-       </li>
-       <li class="toc-h5 nav-item toc-entry">
-        <a class="reference internal nav-link" href="#sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.CFNCell.output_size">
-         output_size
-        </a>
-       </li>
-       <li class="toc-h5 nav-item toc-entry">
-        <a class="reference internal nav-link" href="#sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.CFNCell.build">
-         build
-        </a>
-       </li>
-       <li class="toc-h5 nav-item toc-entry">
-        <a class="reference internal nav-link" href="#sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.CFNCell.call">
-         call
-        </a>
-       </li>
-      </ul>
-     </li>
-    </ul>
-   </li>
-  </ul>
- </li>
-</ul>
-
-</nav>
     </div>
-    
-    <div class="toc-item">
-      
-    </div>
-    
+  </div>
   
-</div>
 
+  
+  <div class="sidebar-end-items sidebar-primary__section">
+    <div class="sidebar-end-items__item">
+    </div>
+  </div>
 
-          
-          
-          <div class="bd-content col-12 col-md-9 col-xl-7">
-              
-              <article class="bd-article" role="main">
+      </div>
+      <main class="bd-main">
+        
+        
+        <div class="bd-content">
+          <div class="bd-article-container">
+            
+            <div class="bd-header-article">
                 
+            </div>
+            
+            
+            <article class="bd-article" role="main">
+              
   <section id="module-sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell">
 <span id="sparknlp-jsl-tf-graph-builders-tf2contrib-rnn-cell"></span><h1><a class="reference internal" href="#module-sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell" title="sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell</span></code></a><a class="headerlink" href="#module-sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell" title="Permalink to this heading">#</a></h1>
 <p>Module for constructing RNN Cells.</p>
@@ -890,6 +410,16 @@
 </tr>
 </tbody>
 </table>
+</section>
+<section id="attributes">
+<h3>Attributes<a class="headerlink" href="#attributes" title="Permalink to this heading">#</a></h3>
+<table class="autosummary longtable table autosummary">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.NTMControllerState" title="sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.NTMControllerState"><code class="xref py py-obj docutils literal notranslate"><span class="pre">NTMControllerState</span></code></a></p></td>
+<td><p></p></td>
+</tr>
+</tbody>
+</table>
 <dl class="py class">
 <dt class="sig sig-object py" id="sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.CoupledInputForgetGateLSTMCell">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">CoupledInputForgetGateLSTMCell</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">num_units</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">use_peepholes</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">initializer</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num_proj</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">proj_clip</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num_unit_shards</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num_proj_shards</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">forget_bias</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">state_is_tuple</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">activation</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">math_ops.tanh</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reuse</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">layer_norm</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">norm_gain</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">norm_shift</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../modules/sparknlp_jsl/_tf_graph_builders/tf2contrib/rnn_cell.html#CoupledInputForgetGateLSTMCell"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.CoupledInputForgetGateLSTMCell" title="Permalink to this definition">#</a></dt>
@@ -923,20 +453,6 @@ Layer normalization implementation is based on:</p>
 <p>“Layer Normalization”
 Jimmy Lei Ba, Jamie Ryan Kiros, Geoffrey E. Hinton</p>
 <p>and is applied before the internal nonlinearities.</p>
-<dl class="py method">
-<dt class="sig sig-object py" id="sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.CoupledInputForgetGateLSTMCell.state_size">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">state_size</span></span><a class="reference internal" href="../../../../../../modules/sparknlp_jsl/_tf_graph_builders/tf2contrib/rnn_cell.html#CoupledInputForgetGateLSTMCell.state_size"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.CoupledInputForgetGateLSTMCell.state_size" title="Permalink to this definition">#</a></dt>
-<dd><p>size(s) of state(s) used by this cell.</p>
-<p>It can be represented by an Integer, a TensorShape or a tuple of Integers
-or TensorShapes.</p>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.CoupledInputForgetGateLSTMCell.output_size">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">output_size</span></span><a class="reference internal" href="../../../../../../modules/sparknlp_jsl/_tf_graph_builders/tf2contrib/rnn_cell.html#CoupledInputForgetGateLSTMCell.output_size"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.CoupledInputForgetGateLSTMCell.output_size" title="Permalink to this definition">#</a></dt>
-<dd><p>Integer or TensorShape: size of outputs produced by this cell.</p>
-</dd></dl>
-
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.CoupledInputForgetGateLSTMCell.call">
 <span class="sig-name descname"><span class="pre">call</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">inputs</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">state</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../modules/sparknlp_jsl/_tf_graph_builders/tf2contrib/rnn_cell.html#CoupledInputForgetGateLSTMCell.call"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.CoupledInputForgetGateLSTMCell.call" title="Permalink to this definition">#</a></dt>
@@ -987,20 +503,6 @@ for LVCSR Tasks.” submitted to INTERSPEECH, 2016.</p>
 </div></blockquote>
 <p>It uses peep-hole connections and optional cell clipping.</p>
 <dl class="py method">
-<dt class="sig sig-object py" id="sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.TimeFreqLSTMCell.output_size">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">output_size</span></span><a class="reference internal" href="../../../../../../modules/sparknlp_jsl/_tf_graph_builders/tf2contrib/rnn_cell.html#TimeFreqLSTMCell.output_size"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.TimeFreqLSTMCell.output_size" title="Permalink to this definition">#</a></dt>
-<dd><p>Integer or TensorShape: size of outputs produced by this cell.</p>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.TimeFreqLSTMCell.state_size">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">state_size</span></span><a class="reference internal" href="../../../../../../modules/sparknlp_jsl/_tf_graph_builders/tf2contrib/rnn_cell.html#TimeFreqLSTMCell.state_size"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.TimeFreqLSTMCell.state_size" title="Permalink to this definition">#</a></dt>
-<dd><p>size(s) of state(s) used by this cell.</p>
-<p>It can be represented by an Integer, a TensorShape or a tuple of Integers
-or TensorShapes.</p>
-</dd></dl>
-
-<dl class="py method">
 <dt class="sig sig-object py" id="sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.TimeFreqLSTMCell.call">
 <span class="sig-name descname"><span class="pre">call</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">inputs</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">state</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../modules/sparknlp_jsl/_tf_graph_builders/tf2contrib/rnn_cell.html#TimeFreqLSTMCell.call"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.TimeFreqLSTMCell.call" title="Permalink to this definition">#</a></dt>
 <dd><p>Run one step of LSTM.</p>
@@ -1044,20 +546,6 @@ for LVCSR Tasks.” submitted to INTERSPEECH, 2016.</p>
 </dd>
 </dl>
 <p>The code uses optional peephole connections, shared_weights and cell clipping.</p>
-<dl class="py method">
-<dt class="sig sig-object py" id="sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.GridLSTMCell.output_size">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">output_size</span></span><a class="reference internal" href="../../../../../../modules/sparknlp_jsl/_tf_graph_builders/tf2contrib/rnn_cell.html#GridLSTMCell.output_size"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.GridLSTMCell.output_size" title="Permalink to this definition">#</a></dt>
-<dd><p>Integer or TensorShape: size of outputs produced by this cell.</p>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.GridLSTMCell.state_size">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">state_size</span></span><a class="reference internal" href="../../../../../../modules/sparknlp_jsl/_tf_graph_builders/tf2contrib/rnn_cell.html#GridLSTMCell.state_size"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.GridLSTMCell.state_size" title="Permalink to this definition">#</a></dt>
-<dd><p>size(s) of state(s) used by this cell.</p>
-<p>It can be represented by an Integer, a TensorShape or a tuple of Integers
-or TensorShapes.</p>
-</dd></dl>
-
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.GridLSTMCell.call">
 <span class="sig-name descname"><span class="pre">call</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">inputs</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">state</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../modules/sparknlp_jsl/_tf_graph_builders/tf2contrib/rnn_cell.html#GridLSTMCell.call"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.GridLSTMCell.call" title="Permalink to this definition">#</a></dt>
@@ -1133,20 +621,6 @@ after reading “inputs” when previous state was “state”.</p></li>
 <dd><p>Basic attention cell wrapper.</p>
 <p>Implementation based on <a class="reference external" href="https://arxiv.org/abs/1601.06733">https://arxiv.org/abs/1601.06733</a>.</p>
 <dl class="py method">
-<dt class="sig sig-object py" id="sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.AttentionCellWrapper.state_size">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">state_size</span></span><a class="reference internal" href="../../../../../../modules/sparknlp_jsl/_tf_graph_builders/tf2contrib/rnn_cell.html#AttentionCellWrapper.state_size"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.AttentionCellWrapper.state_size" title="Permalink to this definition">#</a></dt>
-<dd><p>size(s) of state(s) used by this cell.</p>
-<p>It can be represented by an Integer, a TensorShape or a tuple of Integers
-or TensorShapes.</p>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.AttentionCellWrapper.output_size">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">output_size</span></span><a class="reference internal" href="../../../../../../modules/sparknlp_jsl/_tf_graph_builders/tf2contrib/rnn_cell.html#AttentionCellWrapper.output_size"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.AttentionCellWrapper.output_size" title="Permalink to this definition">#</a></dt>
-<dd><p>Integer or TensorShape: size of outputs produced by this cell.</p>
-</dd></dl>
-
-<dl class="py method">
 <dt class="sig sig-object py" id="sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.AttentionCellWrapper.call">
 <span class="sig-name descname"><span class="pre">call</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">inputs</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">state</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../modules/sparknlp_jsl/_tf_graph_builders/tf2contrib/rnn_cell.html#AttentionCellWrapper.call"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.AttentionCellWrapper.call" title="Permalink to this definition">#</a></dt>
 <dd><p>Long short-term memory cell with attention (LSTMA).</p>
@@ -1164,20 +638,6 @@ arXiv preprint arXiv:1505.00387, 2015.
 https://arxiv.org/abs/1505.00387</p>
 </dd>
 </dl>
-<dl class="py method">
-<dt class="sig sig-object py" id="sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.HighwayWrapper.state_size">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">state_size</span></span><a class="reference internal" href="../../../../../../modules/sparknlp_jsl/_tf_graph_builders/tf2contrib/rnn_cell.html#HighwayWrapper.state_size"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.HighwayWrapper.state_size" title="Permalink to this definition">#</a></dt>
-<dd><p>size(s) of state(s) used by this cell.</p>
-<p>It can be represented by an Integer, a TensorShape or a tuple of Integers
-or TensorShapes.</p>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.HighwayWrapper.output_size">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">output_size</span></span><a class="reference internal" href="../../../../../../modules/sparknlp_jsl/_tf_graph_builders/tf2contrib/rnn_cell.html#HighwayWrapper.output_size"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.HighwayWrapper.output_size" title="Permalink to this definition">#</a></dt>
-<dd><p>Integer or TensorShape: size of outputs produced by this cell.</p>
-</dd></dl>
-
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.HighwayWrapper.zero_state">
 <span class="sig-name descname"><span class="pre">zero_state</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">batch_size</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dtype</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../modules/sparknlp_jsl/_tf_graph_builders/tf2contrib/rnn_cell.html#HighwayWrapper.zero_state"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.HighwayWrapper.zero_state" title="Permalink to this definition">#</a></dt>
@@ -1216,20 +676,6 @@ Recurrent dropout is base on:</p>
 <p>“Recurrent Dropout without Memory Loss”
 Stanislau Semeniuta, Aliaksei Severyn, Erhardt Barth.</p>
 <dl class="py method">
-<dt class="sig sig-object py" id="sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.LayerNormBasicLSTMCell.state_size">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">state_size</span></span><a class="reference internal" href="../../../../../../modules/sparknlp_jsl/_tf_graph_builders/tf2contrib/rnn_cell.html#LayerNormBasicLSTMCell.state_size"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.LayerNormBasicLSTMCell.state_size" title="Permalink to this definition">#</a></dt>
-<dd><p>size(s) of state(s) used by this cell.</p>
-<p>It can be represented by an Integer, a TensorShape or a tuple of Integers
-or TensorShapes.</p>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.LayerNormBasicLSTMCell.output_size">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">output_size</span></span><a class="reference internal" href="../../../../../../modules/sparknlp_jsl/_tf_graph_builders/tf2contrib/rnn_cell.html#LayerNormBasicLSTMCell.output_size"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.LayerNormBasicLSTMCell.output_size" title="Permalink to this definition">#</a></dt>
-<dd><p>Integer or TensorShape: size of outputs produced by this cell.</p>
-</dd></dl>
-
-<dl class="py method">
 <dt class="sig sig-object py" id="sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.LayerNormBasicLSTMCell.call">
 <span class="sig-name descname"><span class="pre">call</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">inputs</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">state</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../modules/sparknlp_jsl/_tf_graph_builders/tf2contrib/rnn_cell.html#LayerNormBasicLSTMCell.call"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.LayerNormBasicLSTMCell.call" title="Permalink to this definition">#</a></dt>
 <dd><p>LSTM cell with layer normalization and recurrent dropout.</p>
@@ -1248,20 +694,6 @@ or TensorShapes.</p>
 <p>Barret Zoph and Quoc V. Le.
 “Neural Architecture Search with Reinforcement Learning” Proc. ICLR 2017.</p>
 <p>The class uses an optional projection layer.</p>
-<dl class="py method">
-<dt class="sig sig-object py" id="sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.NASCell.state_size">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">state_size</span></span><a class="reference internal" href="../../../../../../modules/sparknlp_jsl/_tf_graph_builders/tf2contrib/rnn_cell.html#NASCell.state_size"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.NASCell.state_size" title="Permalink to this definition">#</a></dt>
-<dd><p>size(s) of state(s) used by this cell.</p>
-<p>It can be represented by an Integer, a TensorShape or a tuple of Integers
-or TensorShapes.</p>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.NASCell.output_size">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">output_size</span></span><a class="reference internal" href="../../../../../../modules/sparknlp_jsl/_tf_graph_builders/tf2contrib/rnn_cell.html#NASCell.output_size"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.NASCell.output_size" title="Permalink to this definition">#</a></dt>
-<dd><p>Integer or TensorShape: size of outputs produced by this cell.</p>
-</dd></dl>
-
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.NASCell.build">
 <span class="sig-name descname"><span class="pre">build</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">inputs_shape</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../modules/sparknlp_jsl/_tf_graph_builders/tf2contrib/rnn_cell.html#NASCell.build"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.NASCell.build" title="Permalink to this definition">#</a></dt>
@@ -1331,20 +763,6 @@ idea of the feedforward Highway Network.</p>
 <p>Jasmine Collins, Jascha Sohl-Dickstein, and David Sussillo.
 “Capacity and Trainability in Recurrent Neural Networks” Proc. ICLR 2017.</p>
 <dl class="py method">
-<dt class="sig sig-object py" id="sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.UGRNNCell.state_size">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">state_size</span></span><a class="reference internal" href="../../../../../../modules/sparknlp_jsl/_tf_graph_builders/tf2contrib/rnn_cell.html#UGRNNCell.state_size"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.UGRNNCell.state_size" title="Permalink to this definition">#</a></dt>
-<dd><p>size(s) of state(s) used by this cell.</p>
-<p>It can be represented by an Integer, a TensorShape or a tuple of Integers
-or TensorShapes.</p>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.UGRNNCell.output_size">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">output_size</span></span><a class="reference internal" href="../../../../../../modules/sparknlp_jsl/_tf_graph_builders/tf2contrib/rnn_cell.html#UGRNNCell.output_size"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.UGRNNCell.output_size" title="Permalink to this definition">#</a></dt>
-<dd><p>Integer or TensorShape: size of outputs produced by this cell.</p>
-</dd></dl>
-
-<dl class="py method">
 <dt class="sig sig-object py" id="sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.UGRNNCell.call">
 <span class="sig-name descname"><span class="pre">call</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">inputs</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">state</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../modules/sparknlp_jsl/_tf_graph_builders/tf2contrib/rnn_cell.html#UGRNNCell.call"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.UGRNNCell.call" title="Permalink to this definition">#</a></dt>
 <dd><p>Run one step of UGRNN.</p>
@@ -1391,20 +809,6 @@ and use default settings for subsequent layers.</p>
 <p>The Intersection RNN is built for use in deeply stacked
 RNNs so it may not achieve best performance with depth 1.</p>
 <dl class="py method">
-<dt class="sig sig-object py" id="sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.IntersectionRNNCell.state_size">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">state_size</span></span><a class="reference internal" href="../../../../../../modules/sparknlp_jsl/_tf_graph_builders/tf2contrib/rnn_cell.html#IntersectionRNNCell.state_size"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.IntersectionRNNCell.state_size" title="Permalink to this definition">#</a></dt>
-<dd><p>size(s) of state(s) used by this cell.</p>
-<p>It can be represented by an Integer, a TensorShape or a tuple of Integers
-or TensorShapes.</p>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.IntersectionRNNCell.output_size">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">output_size</span></span><a class="reference internal" href="../../../../../../modules/sparknlp_jsl/_tf_graph_builders/tf2contrib/rnn_cell.html#IntersectionRNNCell.output_size"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.IntersectionRNNCell.output_size" title="Permalink to this definition">#</a></dt>
-<dd><p>Integer or TensorShape: size of outputs produced by this cell.</p>
-</dd></dl>
-
-<dl class="py method">
 <dt class="sig sig-object py" id="sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.IntersectionRNNCell.call">
 <span class="sig-name descname"><span class="pre">call</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">inputs</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">state</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../modules/sparknlp_jsl/_tf_graph_builders/tf2contrib/rnn_cell.html#IntersectionRNNCell.call"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.IntersectionRNNCell.call" title="Permalink to this definition">#</a></dt>
 <dd><p>Run one step of the Intersection RNN.</p>
@@ -1436,20 +840,6 @@ state: state Tensor, 2D, batch x num units.</p>
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">CompiledWrapper</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cell</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">compile_stateful</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../modules/sparknlp_jsl/_tf_graph_builders/tf2contrib/rnn_cell.html#CompiledWrapper"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.CompiledWrapper" title="Permalink to this definition">#</a></dt>
 <dd><p>Wraps step execution in an XLA JIT scope.</p>
 <dl class="py method">
-<dt class="sig sig-object py" id="sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.CompiledWrapper.state_size">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">state_size</span></span><a class="reference internal" href="../../../../../../modules/sparknlp_jsl/_tf_graph_builders/tf2contrib/rnn_cell.html#CompiledWrapper.state_size"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.CompiledWrapper.state_size" title="Permalink to this definition">#</a></dt>
-<dd><p>size(s) of state(s) used by this cell.</p>
-<p>It can be represented by an Integer, a TensorShape or a tuple of Integers
-or TensorShapes.</p>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.CompiledWrapper.output_size">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">output_size</span></span><a class="reference internal" href="../../../../../../modules/sparknlp_jsl/_tf_graph_builders/tf2contrib/rnn_cell.html#CompiledWrapper.output_size"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.CompiledWrapper.output_size" title="Permalink to this definition">#</a></dt>
-<dd><p>Integer or TensorShape: size of outputs produced by this cell.</p>
-</dd></dl>
-
-<dl class="py method">
 <dt class="sig sig-object py" id="sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.CompiledWrapper.zero_state">
 <span class="sig-name descname"><span class="pre">zero_state</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">batch_size</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dtype</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../modules/sparknlp_jsl/_tf_graph_builders/tf2contrib/rnn_cell.html#CompiledWrapper.zero_state"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.CompiledWrapper.zero_state" title="Permalink to this definition">#</a></dt>
 <dd><p>Return zero-filled state tensor(s).</p>
@@ -1473,20 +863,6 @@ the shapes <cite>[batch_size, s]</cite> for each s in <cite>state_size</cite>.</
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">PhasedLSTMCell</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">num_units</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">use_peepholes</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">leak</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.001</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ratio_on</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">trainable_ratio_on</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">period_init_min</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">period_init_max</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1000.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reuse</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../modules/sparknlp_jsl/_tf_graph_builders/tf2contrib/rnn_cell.html#PhasedLSTMCell"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.PhasedLSTMCell" title="Permalink to this definition">#</a></dt>
 <dd><p>Phased LSTM recurrent network cell.</p>
 <p><a class="reference external" href="https://arxiv.org/pdf/1610.09513v1.pdf">https://arxiv.org/pdf/1610.09513v1.pdf</a></p>
-<dl class="py method">
-<dt class="sig sig-object py" id="sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.PhasedLSTMCell.state_size">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">state_size</span></span><a class="reference internal" href="../../../../../../modules/sparknlp_jsl/_tf_graph_builders/tf2contrib/rnn_cell.html#PhasedLSTMCell.state_size"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.PhasedLSTMCell.state_size" title="Permalink to this definition">#</a></dt>
-<dd><p>size(s) of state(s) used by this cell.</p>
-<p>It can be represented by an Integer, a TensorShape or a tuple of Integers
-or TensorShapes.</p>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.PhasedLSTMCell.output_size">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">output_size</span></span><a class="reference internal" href="../../../../../../modules/sparknlp_jsl/_tf_graph_builders/tf2contrib/rnn_cell.html#PhasedLSTMCell.output_size"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.PhasedLSTMCell.output_size" title="Permalink to this definition">#</a></dt>
-<dd><p>Integer or TensorShape: size of outputs produced by this cell.</p>
-</dd></dl>
-
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.PhasedLSTMCell.call">
 <span class="sig-name descname"><span class="pre">call</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">inputs</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">state</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../modules/sparknlp_jsl/_tf_graph_builders/tf2contrib/rnn_cell.html#PhasedLSTMCell.call"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.PhasedLSTMCell.call" title="Permalink to this definition">#</a></dt>
@@ -1521,20 +897,6 @@ It stores the features.</p>
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">ConvLSTMCell</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">conv_ndims</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">input_shape</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_channels</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">kernel_shape</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">use_bias</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">skip_connection</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">forget_bias</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">initializers</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'conv_lstm_cell'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../modules/sparknlp_jsl/_tf_graph_builders/tf2contrib/rnn_cell.html#ConvLSTMCell"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.ConvLSTMCell" title="Permalink to this definition">#</a></dt>
 <dd><p>Convolutional LSTM recurrent network cell.</p>
 <p><a class="reference external" href="https://arxiv.org/pdf/1506.04214v1.pdf">https://arxiv.org/pdf/1506.04214v1.pdf</a></p>
-<dl class="py method">
-<dt class="sig sig-object py" id="sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.ConvLSTMCell.output_size">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">output_size</span></span><a class="reference internal" href="../../../../../../modules/sparknlp_jsl/_tf_graph_builders/tf2contrib/rnn_cell.html#ConvLSTMCell.output_size"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.ConvLSTMCell.output_size" title="Permalink to this definition">#</a></dt>
-<dd><p>Integer or TensorShape: size of outputs produced by this cell.</p>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.ConvLSTMCell.state_size">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">state_size</span></span><a class="reference internal" href="../../../../../../modules/sparknlp_jsl/_tf_graph_builders/tf2contrib/rnn_cell.html#ConvLSTMCell.state_size"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.ConvLSTMCell.state_size" title="Permalink to this definition">#</a></dt>
-<dd><p>size(s) of state(s) used by this cell.</p>
-<p>It can be represented by an Integer, a TensorShape or a tuple of Integers
-or TensorShapes.</p>
-</dd></dl>
-
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.ConvLSTMCell.call">
 <span class="sig-name descname"><span class="pre">call</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">inputs</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">state</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">scope</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../modules/sparknlp_jsl/_tf_graph_builders/tf2contrib/rnn_cell.html#ConvLSTMCell.call"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.ConvLSTMCell.call" title="Permalink to this definition">#</a></dt>
@@ -1587,20 +949,6 @@ evenly-sized sub-vector of the output.  For example, a G-LSTM cell with 128
 units and 4 groups consists of 4 LSTMs sub-cells with 32 units each.  If that
 G-LSTM cell is fed a 200-dim input, then each sub-cell receives a 50-dim part
 of the input and produces a 32-dim part of the output.</p>
-<dl class="py method">
-<dt class="sig sig-object py" id="sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.GLSTMCell.state_size">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">state_size</span></span><a class="reference internal" href="../../../../../../modules/sparknlp_jsl/_tf_graph_builders/tf2contrib/rnn_cell.html#GLSTMCell.state_size"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.GLSTMCell.state_size" title="Permalink to this definition">#</a></dt>
-<dd><p>size(s) of state(s) used by this cell.</p>
-<p>It can be represented by an Integer, a TensorShape or a tuple of Integers
-or TensorShapes.</p>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.GLSTMCell.output_size">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">output_size</span></span><a class="reference internal" href="../../../../../../modules/sparknlp_jsl/_tf_graph_builders/tf2contrib/rnn_cell.html#GLSTMCell.output_size"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.GLSTMCell.output_size" title="Permalink to this definition">#</a></dt>
-<dd><p>Integer or TensorShape: size of outputs produced by this cell.</p>
-</dd></dl>
-
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.GLSTMCell.call">
 <span class="sig-name descname"><span class="pre">call</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">inputs</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">state</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../modules/sparknlp_jsl/_tf_graph_builders/tf2contrib/rnn_cell.html#GLSTMCell.call"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.GLSTMCell.call" title="Permalink to this definition">#</a></dt>
@@ -1668,20 +1016,6 @@ an optional projection layer.</p>
 <p>“Layer Normalization”
 Jimmy Lei Ba, Jamie Ryan Kiros, Geoffrey E. Hinton</p>
 <p>and is applied before the internal nonlinearities.</p>
-<dl class="py method">
-<dt class="sig sig-object py" id="sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.LayerNormLSTMCell.state_size">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">state_size</span></span><a class="reference internal" href="../../../../../../modules/sparknlp_jsl/_tf_graph_builders/tf2contrib/rnn_cell.html#LayerNormLSTMCell.state_size"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.LayerNormLSTMCell.state_size" title="Permalink to this definition">#</a></dt>
-<dd><p>size(s) of state(s) used by this cell.</p>
-<p>It can be represented by an Integer, a TensorShape or a tuple of Integers
-or TensorShapes.</p>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.LayerNormLSTMCell.output_size">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">output_size</span></span><a class="reference internal" href="../../../../../../modules/sparknlp_jsl/_tf_graph_builders/tf2contrib/rnn_cell.html#LayerNormLSTMCell.output_size"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.LayerNormLSTMCell.output_size" title="Permalink to this definition">#</a></dt>
-<dd><p>Integer or TensorShape: size of outputs produced by this cell.</p>
-</dd></dl>
-
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.LayerNormLSTMCell.call">
 <span class="sig-name descname"><span class="pre">call</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">inputs</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">state</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../modules/sparknlp_jsl/_tf_graph_builders/tf2contrib/rnn_cell.html#LayerNormLSTMCell.call"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.LayerNormLSTMCell.call" title="Permalink to this definition">#</a></dt>
@@ -1753,20 +1087,6 @@ cases.</p>
 </dd>
 </dl>
 <dl class="py method">
-<dt class="sig sig-object py" id="sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.SRUCell.state_size">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">state_size</span></span><a class="reference internal" href="../../../../../../modules/sparknlp_jsl/_tf_graph_builders/tf2contrib/rnn_cell.html#SRUCell.state_size"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.SRUCell.state_size" title="Permalink to this definition">#</a></dt>
-<dd><p>size(s) of state(s) used by this cell.</p>
-<p>It can be represented by an Integer, a TensorShape or a tuple of Integers
-or TensorShapes.</p>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.SRUCell.output_size">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">output_size</span></span><a class="reference internal" href="../../../../../../modules/sparknlp_jsl/_tf_graph_builders/tf2contrib/rnn_cell.html#SRUCell.output_size"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.SRUCell.output_size" title="Permalink to this definition">#</a></dt>
-<dd><p>Integer or TensorShape: size of outputs produced by this cell.</p>
-</dd></dl>
-
-<dl class="py method">
 <dt class="sig sig-object py" id="sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.SRUCell.build">
 <span class="sig-name descname"><span class="pre">build</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">inputs_shape</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../modules/sparknlp_jsl/_tf_graph_builders/tf2contrib/rnn_cell.html#SRUCell.build"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.SRUCell.build" title="Permalink to this definition">#</a></dt>
 <dd><p>Creates the variables of the layer (optional, for subclass implementers).</p>
@@ -1814,20 +1134,6 @@ and an optional projection layer.</p>
 Hasim Sak, Andrew Senior, and Francoise Beaufays.
 “Long short-term memory recurrent neural network architectures for
 large scale acoustic modeling.” INTERSPEECH, 2014.</p>
-<dl class="py method">
-<dt class="sig sig-object py" id="sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.WeightNormLSTMCell.state_size">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">state_size</span></span><a class="reference internal" href="../../../../../../modules/sparknlp_jsl/_tf_graph_builders/tf2contrib/rnn_cell.html#WeightNormLSTMCell.state_size"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.WeightNormLSTMCell.state_size" title="Permalink to this definition">#</a></dt>
-<dd><p>size(s) of state(s) used by this cell.</p>
-<p>It can be represented by an Integer, a TensorShape or a tuple of Integers
-or TensorShapes.</p>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.WeightNormLSTMCell.output_size">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">output_size</span></span><a class="reference internal" href="../../../../../../modules/sparknlp_jsl/_tf_graph_builders/tf2contrib/rnn_cell.html#WeightNormLSTMCell.output_size"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.WeightNormLSTMCell.output_size" title="Permalink to this definition">#</a></dt>
-<dd><p>Integer or TensorShape: size of outputs produced by this cell.</p>
-</dd></dl>
-
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.WeightNormLSTMCell.call">
 <span class="sig-name descname"><span class="pre">call</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">inputs</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">state</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../modules/sparknlp_jsl/_tf_graph_builders/tf2contrib/rnn_cell.html#WeightNormLSTMCell.call"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.WeightNormLSTMCell.call" title="Permalink to this definition">#</a></dt>
@@ -1885,20 +1191,6 @@ cases.</p>
 </dl>
 </dd>
 </dl>
-<dl class="py method">
-<dt class="sig sig-object py" id="sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.IndRNNCell.state_size">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">state_size</span></span><a class="reference internal" href="../../../../../../modules/sparknlp_jsl/_tf_graph_builders/tf2contrib/rnn_cell.html#IndRNNCell.state_size"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.IndRNNCell.state_size" title="Permalink to this definition">#</a></dt>
-<dd><p>size(s) of state(s) used by this cell.</p>
-<p>It can be represented by an Integer, a TensorShape or a tuple of Integers
-or TensorShapes.</p>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.IndRNNCell.output_size">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">output_size</span></span><a class="reference internal" href="../../../../../../modules/sparknlp_jsl/_tf_graph_builders/tf2contrib/rnn_cell.html#IndRNNCell.output_size"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.IndRNNCell.output_size" title="Permalink to this definition">#</a></dt>
-<dd><p>Integer or TensorShape: size of outputs produced by this cell.</p>
-</dd></dl>
-
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.IndRNNCell.build">
 <span class="sig-name descname"><span class="pre">build</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">inputs_shape</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../modules/sparknlp_jsl/_tf_graph_builders/tf2contrib/rnn_cell.html#IndRNNCell.build"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.IndRNNCell.build" title="Permalink to this definition">#</a></dt>
@@ -1971,20 +1263,6 @@ cases.</p>
 </dd>
 </dl>
 <dl class="py method">
-<dt class="sig sig-object py" id="sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.IndyGRUCell.state_size">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">state_size</span></span><a class="reference internal" href="../../../../../../modules/sparknlp_jsl/_tf_graph_builders/tf2contrib/rnn_cell.html#IndyGRUCell.state_size"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.IndyGRUCell.state_size" title="Permalink to this definition">#</a></dt>
-<dd><p>size(s) of state(s) used by this cell.</p>
-<p>It can be represented by an Integer, a TensorShape or a tuple of Integers
-or TensorShapes.</p>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.IndyGRUCell.output_size">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">output_size</span></span><a class="reference internal" href="../../../../../../modules/sparknlp_jsl/_tf_graph_builders/tf2contrib/rnn_cell.html#IndyGRUCell.output_size"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.IndyGRUCell.output_size" title="Permalink to this definition">#</a></dt>
-<dd><p>Integer or TensorShape: size of outputs produced by this cell.</p>
-</dd></dl>
-
-<dl class="py method">
 <dt class="sig sig-object py" id="sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.IndyGRUCell.build">
 <span class="sig-name descname"><span class="pre">build</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">inputs_shape</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../modules/sparknlp_jsl/_tf_graph_builders/tf2contrib/rnn_cell.html#IndyGRUCell.build"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.IndyGRUCell.build" title="Permalink to this definition">#</a></dt>
 <dd><p>Creates the variables of the layer (optional, for subclass implementers).</p>
@@ -2036,20 +1314,6 @@ reduce the scale of forgetting in the beginning of the training.</p>
 use peep-hole connections: it is the basic baseline.</p>
 <p>For a detailed analysis of IndyLSTMs, see <a class="reference external" href="https://arxiv.org/abs/1903.08023">https://arxiv.org/abs/1903.08023</a>.</p>
 <dl class="py method">
-<dt class="sig sig-object py" id="sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.IndyLSTMCell.state_size">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">state_size</span></span><a class="reference internal" href="../../../../../../modules/sparknlp_jsl/_tf_graph_builders/tf2contrib/rnn_cell.html#IndyLSTMCell.state_size"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.IndyLSTMCell.state_size" title="Permalink to this definition">#</a></dt>
-<dd><p>size(s) of state(s) used by this cell.</p>
-<p>It can be represented by an Integer, a TensorShape or a tuple of Integers
-or TensorShapes.</p>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.IndyLSTMCell.output_size">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">output_size</span></span><a class="reference internal" href="../../../../../../modules/sparknlp_jsl/_tf_graph_builders/tf2contrib/rnn_cell.html#IndyLSTMCell.output_size"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.IndyLSTMCell.output_size" title="Permalink to this definition">#</a></dt>
-<dd><p>Integer or TensorShape: size of outputs produced by this cell.</p>
-</dd></dl>
-
-<dl class="py method">
 <dt class="sig sig-object py" id="sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.IndyLSTMCell.build">
 <span class="sig-name descname"><span class="pre">build</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">inputs_shape</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../modules/sparknlp_jsl/_tf_graph_builders/tf2contrib/rnn_cell.html#IndyLSTMCell.build"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.IndyLSTMCell.build" title="Permalink to this definition">#</a></dt>
 <dd><p>Creates the variables of the layer (optional, for subclass implementers).</p>
@@ -2088,6 +1352,11 @@ state: An <cite>LSTMStateTuple</cite> of state tensors, each shaped</p>
 
 </dd></dl>
 
+<dl class="py data">
+<dt class="sig sig-object py" id="sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.NTMControllerState">
+<span class="sig-name descname"><span class="pre">NTMControllerState</span></span><a class="reference internal" href="../../../../../../modules/sparknlp_jsl/_tf_graph_builders/tf2contrib/rnn_cell.html#NTMControllerState"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.NTMControllerState" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
 <dl class="py class">
 <dt class="sig sig-object py" id="sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.NTMCell">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">NTMCell</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">controller</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">memory_size</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">memory_vector_dim</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">read_head_num</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">write_head_num</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">shift_range</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_dim</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">clip_value</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">20</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dtype</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">dtypes.float32</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../modules/sparknlp_jsl/_tf_graph_builders/tf2contrib/rnn_cell.html#NTMCell"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.NTMCell" title="Permalink to this definition">#</a></dt>
@@ -2101,20 +1370,6 @@ Mark Collier, Joeran Beel</p>
 Neural Turing Machines
 <a class="reference external" href="https://arxiv.org/abs/1410.5401">https://arxiv.org/abs/1410.5401</a>
 A Graves, G Wayne, I Danihelka</p>
-<dl class="py method">
-<dt class="sig sig-object py" id="sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.NTMCell.state_size">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">state_size</span></span><a class="reference internal" href="../../../../../../modules/sparknlp_jsl/_tf_graph_builders/tf2contrib/rnn_cell.html#NTMCell.state_size"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.NTMCell.state_size" title="Permalink to this definition">#</a></dt>
-<dd><p>size(s) of state(s) used by this cell.</p>
-<p>It can be represented by an Integer, a TensorShape or a tuple of Integers
-or TensorShapes.</p>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.NTMCell.output_size">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">output_size</span></span><a class="reference internal" href="../../../../../../modules/sparknlp_jsl/_tf_graph_builders/tf2contrib/rnn_cell.html#NTMCell.output_size"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.NTMCell.output_size" title="Permalink to this definition">#</a></dt>
-<dd><p>Integer or TensorShape: size of outputs produced by this cell.</p>
-</dd></dl>
-
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.NTMCell.build">
 <span class="sig-name descname"><span class="pre">build</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">inputs_shape</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../modules/sparknlp_jsl/_tf_graph_builders/tf2contrib/rnn_cell.html#NTMCell.build"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.NTMCell.build" title="Permalink to this definition">#</a></dt>
@@ -2182,20 +1437,6 @@ the shapes <cite>[batch_size, s]</cite> for each s in <cite>state_size</cite>.</
 hidden state is then calculated as a weighted sum of the projected input and
 the previous hidden state, using a single update gate.</p>
 <dl class="py method">
-<dt class="sig sig-object py" id="sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.MinimalRNNCell.state_size">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">state_size</span></span><a class="reference internal" href="../../../../../../modules/sparknlp_jsl/_tf_graph_builders/tf2contrib/rnn_cell.html#MinimalRNNCell.state_size"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.MinimalRNNCell.state_size" title="Permalink to this definition">#</a></dt>
-<dd><p>size(s) of state(s) used by this cell.</p>
-<p>It can be represented by an Integer, a TensorShape or a tuple of Integers
-or TensorShapes.</p>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.MinimalRNNCell.output_size">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">output_size</span></span><a class="reference internal" href="../../../../../../modules/sparknlp_jsl/_tf_graph_builders/tf2contrib/rnn_cell.html#MinimalRNNCell.output_size"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.MinimalRNNCell.output_size" title="Permalink to this definition">#</a></dt>
-<dd><p>Integer or TensorShape: size of outputs produced by this cell.</p>
-</dd></dl>
-
-<dl class="py method">
 <dt class="sig sig-object py" id="sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.MinimalRNNCell.build">
 <span class="sig-name descname"><span class="pre">build</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">inputs_shape</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../modules/sparknlp_jsl/_tf_graph_builders/tf2contrib/rnn_cell.html#MinimalRNNCell.build"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.MinimalRNNCell.build" title="Permalink to this definition">#</a></dt>
 <dd><p>Creates the variables of the layer (optional, for subclass implementers).</p>
@@ -2252,20 +1493,6 @@ goes through a contractive mapping. The new hidden state is then calculated
 as a linear combination of the projected input and the contracted previous
 hidden state, using decoupled input and forget gates.</p>
 <dl class="py method">
-<dt class="sig sig-object py" id="sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.CFNCell.state_size">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">state_size</span></span><a class="reference internal" href="../../../../../../modules/sparknlp_jsl/_tf_graph_builders/tf2contrib/rnn_cell.html#CFNCell.state_size"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.CFNCell.state_size" title="Permalink to this definition">#</a></dt>
-<dd><p>size(s) of state(s) used by this cell.</p>
-<p>It can be represented by an Integer, a TensorShape or a tuple of Integers
-or TensorShapes.</p>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.CFNCell.output_size">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">output_size</span></span><a class="reference internal" href="../../../../../../modules/sparknlp_jsl/_tf_graph_builders/tf2contrib/rnn_cell.html#CFNCell.output_size"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.CFNCell.output_size" title="Permalink to this definition">#</a></dt>
-<dd><p>Integer or TensorShape: size of outputs produced by this cell.</p>
-</dd></dl>
-
-<dl class="py method">
 <dt class="sig sig-object py" id="sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.CFNCell.build">
 <span class="sig-name descname"><span class="pre">build</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">inputs_shape</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../modules/sparknlp_jsl/_tf_graph_builders/tf2contrib/rnn_cell.html#CFNCell.build"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.CFNCell.build" title="Permalink to this definition">#</a></dt>
 <dd><p>Creates the variables of the layer (optional, for subclass implementers).</p>
@@ -2312,41 +1539,1025 @@ state: state Tensor, must be 2-D, <cite>[batch, state_size]</cite>.</p>
 </section>
 
 
-              </article>
-              
-
-              
-              <footer class="bd-footer-article">
-                  <!-- Previous / next buttons -->
+            </article>
+            
+            
+            
+            <footer class="bd-footer-article">
+                <!-- Previous / next buttons -->
 <div class='prev-next-area'>
 </div>
-              </footer>
-              
+            </footer>
+            
           </div>
           
-      </div>
+          
+          
+            <div class="bd-sidebar-secondary bd-toc">
+              
+<div class="toc-item">
+  
+<div class="tocsection onthispage">
+    <i class="fas fa-list"></i> On this page
+</div>
+<nav id="bd-toc-nav" class="page-toc">
+    <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#module-contents">
+   Module Contents
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#classes">
+     Classes
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#attributes">
+     Attributes
+    </a>
+    <ul class="nav section-nav flex-column">
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.CoupledInputForgetGateLSTMCell">
+       <code class="docutils literal notranslate">
+        <span class="pre">
+         CoupledInputForgetGateLSTMCell
+        </span>
+       </code>
+      </a>
+      <ul class="nav section-nav flex-column">
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.CoupledInputForgetGateLSTMCell.call">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           CoupledInputForgetGateLSTMCell.call()
+          </span>
+         </code>
+        </a>
+       </li>
+      </ul>
+     </li>
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.TimeFreqLSTMCell">
+       <code class="docutils literal notranslate">
+        <span class="pre">
+         TimeFreqLSTMCell
+        </span>
+       </code>
+      </a>
+      <ul class="nav section-nav flex-column">
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.TimeFreqLSTMCell.call">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           TimeFreqLSTMCell.call()
+          </span>
+         </code>
+        </a>
+       </li>
+      </ul>
+     </li>
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.GridLSTMCell">
+       <code class="docutils literal notranslate">
+        <span class="pre">
+         GridLSTMCell
+        </span>
+       </code>
+      </a>
+      <ul class="nav section-nav flex-column">
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.GridLSTMCell.call">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           GridLSTMCell.call()
+          </span>
+         </code>
+        </a>
+       </li>
+      </ul>
+     </li>
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.BidirectionalGridLSTMCell">
+       <code class="docutils literal notranslate">
+        <span class="pre">
+         BidirectionalGridLSTMCell
+        </span>
+       </code>
+      </a>
+      <ul class="nav section-nav flex-column">
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.BidirectionalGridLSTMCell.call">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           BidirectionalGridLSTMCell.call()
+          </span>
+         </code>
+        </a>
+       </li>
+      </ul>
+     </li>
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.AttentionCellWrapper">
+       <code class="docutils literal notranslate">
+        <span class="pre">
+         AttentionCellWrapper
+        </span>
+       </code>
+      </a>
+      <ul class="nav section-nav flex-column">
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.AttentionCellWrapper.call">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           AttentionCellWrapper.call()
+          </span>
+         </code>
+        </a>
+       </li>
+      </ul>
+     </li>
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.HighwayWrapper">
+       <code class="docutils literal notranslate">
+        <span class="pre">
+         HighwayWrapper
+        </span>
+       </code>
+      </a>
+      <ul class="nav section-nav flex-column">
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.HighwayWrapper.zero_state">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           HighwayWrapper.zero_state()
+          </span>
+         </code>
+        </a>
+       </li>
+      </ul>
+     </li>
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.LayerNormBasicLSTMCell">
+       <code class="docutils literal notranslate">
+        <span class="pre">
+         LayerNormBasicLSTMCell
+        </span>
+       </code>
+      </a>
+      <ul class="nav section-nav flex-column">
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.LayerNormBasicLSTMCell.call">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           LayerNormBasicLSTMCell.call()
+          </span>
+         </code>
+        </a>
+       </li>
+      </ul>
+     </li>
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.NASCell">
+       <code class="docutils literal notranslate">
+        <span class="pre">
+         NASCell
+        </span>
+       </code>
+      </a>
+      <ul class="nav section-nav flex-column">
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.NASCell.build">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           NASCell.build()
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.NASCell.call">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           NASCell.call()
+          </span>
+         </code>
+        </a>
+       </li>
+      </ul>
+     </li>
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.UGRNNCell">
+       <code class="docutils literal notranslate">
+        <span class="pre">
+         UGRNNCell
+        </span>
+       </code>
+      </a>
+      <ul class="nav section-nav flex-column">
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.UGRNNCell.call">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           UGRNNCell.call()
+          </span>
+         </code>
+        </a>
+       </li>
+      </ul>
+     </li>
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.IntersectionRNNCell">
+       <code class="docutils literal notranslate">
+        <span class="pre">
+         IntersectionRNNCell
+        </span>
+       </code>
+      </a>
+      <ul class="nav section-nav flex-column">
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.IntersectionRNNCell.call">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           IntersectionRNNCell.call()
+          </span>
+         </code>
+        </a>
+       </li>
+      </ul>
+     </li>
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.CompiledWrapper">
+       <code class="docutils literal notranslate">
+        <span class="pre">
+         CompiledWrapper
+        </span>
+       </code>
+      </a>
+      <ul class="nav section-nav flex-column">
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.CompiledWrapper.zero_state">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           CompiledWrapper.zero_state()
+          </span>
+         </code>
+        </a>
+       </li>
+      </ul>
+     </li>
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.PhasedLSTMCell">
+       <code class="docutils literal notranslate">
+        <span class="pre">
+         PhasedLSTMCell
+        </span>
+       </code>
+      </a>
+      <ul class="nav section-nav flex-column">
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.PhasedLSTMCell.call">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           PhasedLSTMCell.call()
+          </span>
+         </code>
+        </a>
+       </li>
+      </ul>
+     </li>
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.ConvLSTMCell">
+       <code class="docutils literal notranslate">
+        <span class="pre">
+         ConvLSTMCell
+        </span>
+       </code>
+      </a>
+      <ul class="nav section-nav flex-column">
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.ConvLSTMCell.call">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           ConvLSTMCell.call()
+          </span>
+         </code>
+        </a>
+       </li>
+      </ul>
+     </li>
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.Conv1DLSTMCell">
+       <code class="docutils literal notranslate">
+        <span class="pre">
+         Conv1DLSTMCell
+        </span>
+       </code>
+      </a>
+     </li>
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.Conv2DLSTMCell">
+       <code class="docutils literal notranslate">
+        <span class="pre">
+         Conv2DLSTMCell
+        </span>
+       </code>
+      </a>
+     </li>
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.Conv3DLSTMCell">
+       <code class="docutils literal notranslate">
+        <span class="pre">
+         Conv3DLSTMCell
+        </span>
+       </code>
+      </a>
+     </li>
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.GLSTMCell">
+       <code class="docutils literal notranslate">
+        <span class="pre">
+         GLSTMCell
+        </span>
+       </code>
+      </a>
+      <ul class="nav section-nav flex-column">
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.GLSTMCell.call">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           GLSTMCell.call()
+          </span>
+         </code>
+        </a>
+       </li>
+      </ul>
+     </li>
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.LayerNormLSTMCell">
+       <code class="docutils literal notranslate">
+        <span class="pre">
+         LayerNormLSTMCell
+        </span>
+       </code>
+      </a>
+      <ul class="nav section-nav flex-column">
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.LayerNormLSTMCell.call">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           LayerNormLSTMCell.call()
+          </span>
+         </code>
+        </a>
+       </li>
+      </ul>
+     </li>
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.SRUCell">
+       <code class="docutils literal notranslate">
+        <span class="pre">
+         SRUCell
+        </span>
+       </code>
+      </a>
+      <ul class="nav section-nav flex-column">
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.SRUCell.build">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           SRUCell.build()
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.SRUCell.call">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           SRUCell.call()
+          </span>
+         </code>
+        </a>
+       </li>
+      </ul>
+     </li>
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.WeightNormLSTMCell">
+       <code class="docutils literal notranslate">
+        <span class="pre">
+         WeightNormLSTMCell
+        </span>
+       </code>
+      </a>
+      <ul class="nav section-nav flex-column">
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.WeightNormLSTMCell.call">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           WeightNormLSTMCell.call()
+          </span>
+         </code>
+        </a>
+       </li>
+      </ul>
+     </li>
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.IndRNNCell">
+       <code class="docutils literal notranslate">
+        <span class="pre">
+         IndRNNCell
+        </span>
+       </code>
+      </a>
+      <ul class="nav section-nav flex-column">
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.IndRNNCell.build">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           IndRNNCell.build()
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.IndRNNCell.call">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           IndRNNCell.call()
+          </span>
+         </code>
+        </a>
+       </li>
+      </ul>
+     </li>
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.IndyGRUCell">
+       <code class="docutils literal notranslate">
+        <span class="pre">
+         IndyGRUCell
+        </span>
+       </code>
+      </a>
+      <ul class="nav section-nav flex-column">
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.IndyGRUCell.build">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           IndyGRUCell.build()
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.IndyGRUCell.call">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           IndyGRUCell.call()
+          </span>
+         </code>
+        </a>
+       </li>
+      </ul>
+     </li>
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.IndyLSTMCell">
+       <code class="docutils literal notranslate">
+        <span class="pre">
+         IndyLSTMCell
+        </span>
+       </code>
+      </a>
+      <ul class="nav section-nav flex-column">
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.IndyLSTMCell.build">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           IndyLSTMCell.build()
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.IndyLSTMCell.call">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           IndyLSTMCell.call()
+          </span>
+         </code>
+        </a>
+       </li>
+      </ul>
+     </li>
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.NTMControllerState">
+       <code class="docutils literal notranslate">
+        <span class="pre">
+         NTMControllerState
+        </span>
+       </code>
+      </a>
+     </li>
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.NTMCell">
+       <code class="docutils literal notranslate">
+        <span class="pre">
+         NTMCell
+        </span>
+       </code>
+      </a>
+      <ul class="nav section-nav flex-column">
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.NTMCell.build">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           NTMCell.build()
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.NTMCell.call">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           NTMCell.call()
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.NTMCell.zero_state">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           NTMCell.zero_state()
+          </span>
+         </code>
+        </a>
+       </li>
+      </ul>
+     </li>
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.MinimalRNNCell">
+       <code class="docutils literal notranslate">
+        <span class="pre">
+         MinimalRNNCell
+        </span>
+       </code>
+      </a>
+      <ul class="nav section-nav flex-column">
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.MinimalRNNCell.build">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           MinimalRNNCell.build()
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.MinimalRNNCell.call">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           MinimalRNNCell.call()
+          </span>
+         </code>
+        </a>
+       </li>
+      </ul>
+     </li>
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.CFNCell">
+       <code class="docutils literal notranslate">
+        <span class="pre">
+         CFNCell
+        </span>
+       </code>
+      </a>
+      <ul class="nav section-nav flex-column">
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.CFNCell.build">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           CFNCell.build()
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.CFNCell.call">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           CFNCell.call()
+          </span>
+         </code>
+        </a>
+       </li>
+      </ul>
+     </li>
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.CoupledInputForgetGateLSTMCell">
+       CoupledInputForgetGateLSTMCell
+      </a>
+      <ul class="nav section-nav flex-column">
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.CoupledInputForgetGateLSTMCell.call">
+         call
+        </a>
+       </li>
+      </ul>
+     </li>
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.TimeFreqLSTMCell">
+       TimeFreqLSTMCell
+      </a>
+      <ul class="nav section-nav flex-column">
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.TimeFreqLSTMCell.call">
+         call
+        </a>
+       </li>
+      </ul>
+     </li>
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.GridLSTMCell">
+       GridLSTMCell
+      </a>
+      <ul class="nav section-nav flex-column">
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.GridLSTMCell.call">
+         call
+        </a>
+       </li>
+      </ul>
+     </li>
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.BidirectionalGridLSTMCell">
+       BidirectionalGridLSTMCell
+      </a>
+      <ul class="nav section-nav flex-column">
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.BidirectionalGridLSTMCell.call">
+         call
+        </a>
+       </li>
+      </ul>
+     </li>
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.AttentionCellWrapper">
+       AttentionCellWrapper
+      </a>
+      <ul class="nav section-nav flex-column">
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.AttentionCellWrapper.call">
+         call
+        </a>
+       </li>
+      </ul>
+     </li>
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.HighwayWrapper">
+       HighwayWrapper
+      </a>
+      <ul class="nav section-nav flex-column">
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.HighwayWrapper.zero_state">
+         zero_state
+        </a>
+       </li>
+      </ul>
+     </li>
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.LayerNormBasicLSTMCell">
+       LayerNormBasicLSTMCell
+      </a>
+      <ul class="nav section-nav flex-column">
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.LayerNormBasicLSTMCell.call">
+         call
+        </a>
+       </li>
+      </ul>
+     </li>
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.NASCell">
+       NASCell
+      </a>
+      <ul class="nav section-nav flex-column">
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.NASCell.build">
+         build
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.NASCell.call">
+         call
+        </a>
+       </li>
+      </ul>
+     </li>
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.UGRNNCell">
+       UGRNNCell
+      </a>
+      <ul class="nav section-nav flex-column">
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.UGRNNCell.call">
+         call
+        </a>
+       </li>
+      </ul>
+     </li>
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.IntersectionRNNCell">
+       IntersectionRNNCell
+      </a>
+      <ul class="nav section-nav flex-column">
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.IntersectionRNNCell.call">
+         call
+        </a>
+       </li>
+      </ul>
+     </li>
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.CompiledWrapper">
+       CompiledWrapper
+      </a>
+      <ul class="nav section-nav flex-column">
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.CompiledWrapper.zero_state">
+         zero_state
+        </a>
+       </li>
+      </ul>
+     </li>
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.PhasedLSTMCell">
+       PhasedLSTMCell
+      </a>
+      <ul class="nav section-nav flex-column">
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.PhasedLSTMCell.call">
+         call
+        </a>
+       </li>
+      </ul>
+     </li>
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.ConvLSTMCell">
+       ConvLSTMCell
+      </a>
+      <ul class="nav section-nav flex-column">
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.ConvLSTMCell.call">
+         call
+        </a>
+       </li>
+      </ul>
+     </li>
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.Conv1DLSTMCell">
+       Conv1DLSTMCell
+      </a>
+     </li>
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.Conv2DLSTMCell">
+       Conv2DLSTMCell
+      </a>
+     </li>
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.Conv3DLSTMCell">
+       Conv3DLSTMCell
+      </a>
+     </li>
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.GLSTMCell">
+       GLSTMCell
+      </a>
+      <ul class="nav section-nav flex-column">
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.GLSTMCell.call">
+         call
+        </a>
+       </li>
+      </ul>
+     </li>
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.LayerNormLSTMCell">
+       LayerNormLSTMCell
+      </a>
+      <ul class="nav section-nav flex-column">
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.LayerNormLSTMCell.call">
+         call
+        </a>
+       </li>
+      </ul>
+     </li>
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.SRUCell">
+       SRUCell
+      </a>
+      <ul class="nav section-nav flex-column">
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.SRUCell.build">
+         build
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.SRUCell.call">
+         call
+        </a>
+       </li>
+      </ul>
+     </li>
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.WeightNormLSTMCell">
+       WeightNormLSTMCell
+      </a>
+      <ul class="nav section-nav flex-column">
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.WeightNormLSTMCell.call">
+         call
+        </a>
+       </li>
+      </ul>
+     </li>
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.IndRNNCell">
+       IndRNNCell
+      </a>
+      <ul class="nav section-nav flex-column">
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.IndRNNCell.build">
+         build
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.IndRNNCell.call">
+         call
+        </a>
+       </li>
+      </ul>
+     </li>
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.IndyGRUCell">
+       IndyGRUCell
+      </a>
+      <ul class="nav section-nav flex-column">
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.IndyGRUCell.build">
+         build
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.IndyGRUCell.call">
+         call
+        </a>
+       </li>
+      </ul>
+     </li>
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.IndyLSTMCell">
+       IndyLSTMCell
+      </a>
+      <ul class="nav section-nav flex-column">
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.IndyLSTMCell.build">
+         build
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.IndyLSTMCell.call">
+         call
+        </a>
+       </li>
+      </ul>
+     </li>
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.NTMControllerState">
+       NTMControllerState
+      </a>
+     </li>
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.NTMCell">
+       NTMCell
+      </a>
+      <ul class="nav section-nav flex-column">
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.NTMCell.build">
+         build
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.NTMCell.call">
+         call
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.NTMCell.zero_state">
+         zero_state
+        </a>
+       </li>
+      </ul>
+     </li>
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.MinimalRNNCell">
+       MinimalRNNCell
+      </a>
+      <ul class="nav section-nav flex-column">
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.MinimalRNNCell.build">
+         build
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.MinimalRNNCell.call">
+         call
+        </a>
+       </li>
+      </ul>
+     </li>
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.CFNCell">
+       CFNCell
+      </a>
+      <ul class="nav section-nav flex-column">
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.CFNCell.build">
+         build
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.CFNCell.call">
+         call
+        </a>
+       </li>
+      </ul>
+     </li>
+    </ul>
+   </li>
+  </ul>
+ </li>
+</ul>
+
+</nav>
+</div>
+
+<div class="toc-item">
+  
+</div>
+
+<div class="toc-item">
+  
+<div class="tocsection sourcelink">
+    <a href="../../../../../../_sources/reference/autosummary/sparknlp_jsl/_tf_graph_builders/tf2contrib/rnn_cell/index.rst.txt">
+        <i class="fas fa-file-alt"></i> Show Source
+    </a>
+</div>
+
+</div>
+
+            </div>
+          
+          
+        </div>
+        <footer class="bd-footer-content">
+          <div class="bd-footer-content__inner">
+            
+          </div>
+        </footer>
+        
+      </main>
     </div>
+  </div>
 
   
-  
+    
   <!-- Scripts loaded after <body> so the DOM is not blocked -->
-  <script src="../../../../../../static/scripts/pydata-sphinx-theme.js?digest=92025949c220c2e29695"></script>
+  <script src="../../../../../../static/scripts/pydata-sphinx-theme.js?digest=9b1a4fa89bdd0e95b23b"></script>
 
-<footer class="bd-footer"><div class="bd-footer__inner container">
+  <footer class="bd-footer"><div class="bd-footer__inner container">
   
   <div class="footer-item">
-    <p class="copyright">
+    
+<p class="copyright">
+
     &copy; Copyright 2022, John Snow Labs.<br>
+
 </p>
+
   </div>
   
   <div class="footer-item">
-    <p class="sphinx-version">
-Created using <a href="http://sphinx-doc.org/">Sphinx</a> 5.1.1.<br>
+    
+<p class="sphinx-version">
+Created using <a href="http://sphinx-doc.org/">Sphinx</a> 5.2.3.<br>
 </p>
+
   </div>
   
 </div>
-</footer>
+  </footer>
   </body>
 </html>

@@ -6,7 +6,7 @@ name: xlm_roberta_qa_xlmr_base_texas_squad_es_es_saattrupdan
 date: 2022-06-24
 tags: [es, open_source, question_answering, xlmroberta]
 task: Question Answering
-language: de
+language: es
 edition: Spark NLP 4.0.0
 spark_version: 3.0
 supported: true
@@ -22,7 +22,7 @@ Pretrained Question Answering model, adapted from Hugging Face and curated to pr
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>
 <button class="button button-orange" disabled>Open in Colab</button>
-[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/xlm_roberta_qa_xlmr_base_texas_squad_es_es_saattrupdan_de_4.0.0_3.0_1656065698550.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
+[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/xlm_roberta_qa_xlmr_base_texas_squad_es_es_saattrupdan_es_4.0.0_3.0_1656065698550.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
 
 ## How to use
 
@@ -31,11 +31,11 @@ Pretrained Question Answering model, adapted from Hugging Face and curated to pr
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
 ```python
-document_assembler = MultiDocumentAssembler() \ 
+document_assembler = MultiDocumentAssembler() \
 .setInputCols(["question", "context"]) \
 .setOutputCols(["document_question", "document_context"])
 
-spanClassifier = XlmRoBertaForQuestionAnswering.pretrained("xlm_roberta_qa_xlmr_base_texas_squad_es_es_saattrupdan","de") \
+spanClassifier = XlmRoBertaForQuestionAnswering.pretrained("xlm_roberta_qa_xlmr_base_texas_squad_es_es_saattrupdan","es") \
 .setInputCols(["document_question", "document_context"]) \
 .setOutputCol("answer") \
 .setCaseSensitive(True)
@@ -55,7 +55,7 @@ val document = new MultiDocumentAssembler()
 .setOutputCols(Array("document_question", "document_context"))
 
 val spanClassifier = XlmRoBertaForQuestionAnswering
-.pretrained("xlm_roberta_qa_xlmr_base_texas_squad_es_es_saattrupdan","de")
+.pretrained("xlm_roberta_qa_xlmr_base_texas_squad_es_es_saattrupdan","es")
 .setInputCols(Array("document_question", "document_context"))
 .setOutputCol("answer")
 .setCaseSensitive(true)
@@ -75,7 +75,7 @@ val result = pipeline.fit(example).transform(example)
 {:.nlu-block}
 ```python
 import nlu
-nlu.load("de.answer_question.squad_spanish_tuned.xlmr_roberta.base.by_saattrupdan").predict("""What's my name?|||"My name is Clara and I live in Berkeley.""")
+nlu.load("es.answer_question.squad_spanish_tuned.xlmr_roberta.base.by_saattrupdan").predict("""What's my name?|||"My name is Clara and I live in Berkeley.""")
 ```
 
 </div>
@@ -91,7 +91,7 @@ nlu.load("de.answer_question.squad_spanish_tuned.xlmr_roberta.base.by_saattrupda
 |Edition:|Official|
 |Input Labels:|[question, context]|
 |Output Labels:|[answer]|
-|Language:|de|
+|Language:|es|
 |Size:|876.8 MB|
 |Case sensitive:|true|
 |Max sentence length:|512|
@@ -99,3 +99,5 @@ nlu.load("de.answer_question.squad_spanish_tuned.xlmr_roberta.base.by_saattrupda
 ## References
 
 -  https://huggingface.co/saattrupdan/xlmr-base-texas-squad-es
+
+

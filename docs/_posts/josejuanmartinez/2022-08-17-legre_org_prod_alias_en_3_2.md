@@ -51,7 +51,7 @@ embeddings = BertEmbeddings.pretrained("bert_embeddings_sec_bert_base","en") \
         .setInputCols(["document", "token"]) \
         .setOutputCol("embeddings")
 
-ner_model = LegalNerModel().pretrained("legner_orgs_prods_alias", "en", "legal/models")\
+ner_model = LegalNerModel.pretrained("legner_orgs_prods_alias", "en", "legal/models")\
         .setInputCols(["document", "token", "embeddings"])\
         .setOutputCol("ner")
 
@@ -67,7 +67,6 @@ reDL = RelationExtractionDLModel()\
 
 nlpPipeline = Pipeline(stages=[
         documentAssembler,
-        sentenceDetector,
         tokenizer,
         embeddings,
         ner_model,

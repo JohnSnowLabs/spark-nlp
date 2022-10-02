@@ -35,7 +35,10 @@ Use in the pipeline with the pretrained multi-language `UniversalSentenceEncoder
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
 ```python
-...
+document_assembler = DocumentAssembler() \
+    .setInputCol("text") \
+    .setOutputCol("document")
+
 use = UniversalSentenceEncoder.pretrained("tfhub_use_multi_lg", "xx") \
     .setInputCols(["document"])\
     .setOutputCol("sentence_embeddings")
@@ -49,7 +52,11 @@ result = pipeline.fit(example).transform(example)
 ```
 
 ```scala
-...
+
+val document_assembler = DocumentAssembler()
+        .setInputCol("text")
+        .setOutputCol("document")
+
 val use = UniversalSentenceEncoder.pretrained("tfhub_use_multi_lg", "xx")
     .setInputCols(Array("document")
     .setOutputCol("sentence_embeddings")
