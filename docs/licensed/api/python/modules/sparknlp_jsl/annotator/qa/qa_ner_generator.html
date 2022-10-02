@@ -35,6 +35,7 @@
     <script src="../../../../static/underscore.js"></script>
     <script src="../../../../static/_sphinx_javascript_frameworks_compat.js"></script>
     <script src="../../../../static/doctools.js"></script>
+    <script src="../../../../static/sphinx_highlight.js"></script>
     <script src="../../../../static/toggleprompt.js"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'modules/sparknlp_jsl/annotator/qa/qa_ner_generator';</script>
     <link rel="shortcut icon" href="../../../../static/fav.ico"/>
@@ -254,7 +255,7 @@
   <h1>Source code for sparknlp_jsl.annotator.qa.qa_ner_generator</h1><div class="highlight"><pre>
 <span></span><span class="kn">from</span> <span class="nn">sparknlp.common</span> <span class="kn">import</span> <span class="o">*</span>
 
-<div class="viewcode-block" id="NerQAGenarator"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/qa/qa_ner_generator/index.html#sparknlp_jsl.annotator.qa.qa_ner_generator.NerQAGenarator">[docs]</a><span class="k">class</span> <span class="nc">NerQAGenarator</span><span class="p">(</span><span class="n">AnnotatorModel</span><span class="p">):</span>
+<div class="viewcode-block" id="NerQuestionGenerator"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/qa/qa_ner_generator/index.html#sparknlp_jsl.annotator.qa.qa_ner_generator.NerQuestionGenerator">[docs]</a><span class="k">class</span> <span class="nc">NerQuestionGenerator</span><span class="p">(</span><span class="n">AnnotatorModel</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    The chunk mapper Approach load a JsonDictionary that have the relations to be mapped in the ChunkMapperModel</span>
 
@@ -326,30 +327,35 @@
 <span class="sd">    +-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+</span>
 
 <span class="sd">    &quot;&quot;&quot;</span>
-<div class="viewcode-block" id="NerQAGenarator.name"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/qa/qa_ner_generator/index.html#sparknlp_jsl.annotator.qa.qa_ner_generator.NerQAGenarator.name">[docs]</a>    <span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;ChunkMapperApproach&quot;</span></div>
+<div class="viewcode-block" id="NerQuestionGenerator.name"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/qa/qa_ner_generator/index.html#sparknlp_jsl.annotator.qa.qa_ner_generator.NerQuestionGenerator.name">[docs]</a>    <span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;ChunkMapperApproach&quot;</span></div>
 
 
-<div class="viewcode-block" id="NerQAGenarator.questionPronoun"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/qa/qa_ner_generator/index.html#sparknlp_jsl.annotator.qa.qa_ner_generator.NerQAGenarator.questionPronoun">[docs]</a>    <span class="n">questionPronoun</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
+<div class="viewcode-block" id="NerQuestionGenerator.questionPronoun"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/qa/qa_ner_generator/index.html#sparknlp_jsl.annotator.qa.qa_ner_generator.NerQuestionGenerator.questionPronoun">[docs]</a>    <span class="n">questionPronoun</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
                 <span class="s2">&quot;questionPronoun&quot;</span><span class="p">,</span>
                 <span class="s2">&quot;Relation for the model&quot;</span><span class="p">,</span>
                 <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toString</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="NerQAGenarator.questionMark"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/qa/qa_ner_generator/index.html#sparknlp_jsl.annotator.qa.qa_ner_generator.NerQAGenarator.questionMark">[docs]</a>    <span class="n">questionMark</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
+<div class="viewcode-block" id="NerQuestionGenerator.strategyType"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/qa/qa_ner_generator/index.html#sparknlp_jsl.annotator.qa.qa_ner_generator.NerQuestionGenerator.strategyType">[docs]</a>    <span class="n">strategyType</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
+                            <span class="s2">&quot;strategyType&quot;</span><span class="p">,</span>
+                            <span class="s2">&quot;Strategy for the proccess&quot;</span><span class="p">,</span>
+                            <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toString</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="NerQuestionGenerator.questionMark"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/qa/qa_ner_generator/index.html#sparknlp_jsl.annotator.qa.qa_ner_generator.NerQuestionGenerator.questionMark">[docs]</a>    <span class="n">questionMark</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
                       <span class="s2">&quot;questionMark&quot;</span><span class="p">,</span>
                       <span class="s2">&quot;Set if we want to save the dictionary in lower case or not&quot;</span><span class="p">,</span>
                       <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toBoolean</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="NerQAGenarator.entities1"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/qa/qa_ner_generator/index.html#sparknlp_jsl.annotator.qa.qa_ner_generator.NerQAGenarator.entities1">[docs]</a>    <span class="n">entities1</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
+<div class="viewcode-block" id="NerQuestionGenerator.entities1"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/qa/qa_ner_generator/index.html#sparknlp_jsl.annotator.qa.qa_ner_generator.NerQuestionGenerator.entities1">[docs]</a>    <span class="n">entities1</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
                  <span class="s2">&quot;entities1&quot;</span><span class="p">,</span>
                  <span class="s2">&quot;possible object column&quot;</span><span class="p">,</span>
                  <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toListString</span><span class="p">)</span></div>
-<div class="viewcode-block" id="NerQAGenarator.entities2"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/qa/qa_ner_generator/index.html#sparknlp_jsl.annotator.qa.qa_ner_generator.NerQAGenarator.entities2">[docs]</a>    <span class="n">entities2</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
+<div class="viewcode-block" id="NerQuestionGenerator.entities2"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/qa/qa_ner_generator/index.html#sparknlp_jsl.annotator.qa.qa_ner_generator.NerQuestionGenerator.entities2">[docs]</a>    <span class="n">entities2</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
                       <span class="s2">&quot;entities2&quot;</span><span class="p">,</span>
                       <span class="s2">&quot;possible subject column&quot;</span><span class="p">,</span>
                       <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toListString</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="NerQAGenarator.setQuestionMark"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/qa/qa_ner_generator/index.html#sparknlp_jsl.annotator.qa.qa_ner_generator.NerQAGenarator.setQuestionMark">[docs]</a>    <span class="k">def</span> <span class="nf">setQuestionMark</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">lc</span><span class="p">):</span>
+<div class="viewcode-block" id="NerQuestionGenerator.setQuestionMark"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/qa/qa_ner_generator/index.html#sparknlp_jsl.annotator.qa.qa_ner_generator.NerQuestionGenerator.setQuestionMark">[docs]</a>    <span class="k">def</span> <span class="nf">setQuestionMark</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">lc</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Set if we want to save the keys of the dictionary in lower case or not</span>
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -358,19 +364,28 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">questionMark</span><span class="o">=</span><span class="n">lc</span><span class="p">)</span></div>
 
+<div class="viewcode-block" id="NerQuestionGenerator.setStrategyType"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/qa/qa_ner_generator/index.html#sparknlp_jsl.annotator.qa.qa_ner_generator.NerQuestionGenerator.setStrategyType">[docs]</a>    <span class="k">def</span> <span class="nf">setStrategyType</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">lc</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Set if we want to save the keys of the dictionary in lower case or not</span>
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        lc : bool</span>
+<span class="sd">            Parameter that select if you want to use the keys in lower case or not</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">strategyType</span><span class="o">=</span><span class="n">lc</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="NerQAGenarator.setEntities1"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/qa/qa_ner_generator/index.html#sparknlp_jsl.annotator.qa.qa_ner_generator.NerQAGenarator.setEntities1">[docs]</a>    <span class="k">def</span> <span class="nf">setEntities1</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">e1</span><span class="p">):</span>
+
+<div class="viewcode-block" id="NerQuestionGenerator.setEntities1"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/qa/qa_ner_generator/index.html#sparknlp_jsl.annotator.qa.qa_ner_generator.NerQuestionGenerator.setEntities1">[docs]</a>    <span class="k">def</span> <span class="nf">setEntities1</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">e1</span><span class="p">):</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">entities1</span><span class="o">=</span><span class="n">e1</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="NerQAGenarator.setEntities2"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/qa/qa_ner_generator/index.html#sparknlp_jsl.annotator.qa.qa_ner_generator.NerQAGenarator.setEntities2">[docs]</a>    <span class="k">def</span> <span class="nf">setEntities2</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">e2</span><span class="p">):</span>
+<div class="viewcode-block" id="NerQuestionGenerator.setEntities2"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/qa/qa_ner_generator/index.html#sparknlp_jsl.annotator.qa.qa_ner_generator.NerQuestionGenerator.setEntities2">[docs]</a>    <span class="k">def</span> <span class="nf">setEntities2</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">e2</span><span class="p">):</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">entities2</span><span class="o">=</span><span class="n">e2</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="NerQAGenarator.setQuestionPronoun"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/qa/qa_ner_generator/index.html#sparknlp_jsl.annotator.qa.qa_ner_generator.NerQAGenarator.setQuestionPronoun">[docs]</a>    <span class="k">def</span> <span class="nf">setQuestionPronoun</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">rs</span><span class="p">):</span>
+<div class="viewcode-block" id="NerQuestionGenerator.setQuestionPronoun"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/qa/qa_ner_generator/index.html#sparknlp_jsl.annotator.qa.qa_ner_generator.NerQuestionGenerator.setQuestionPronoun">[docs]</a>    <span class="k">def</span> <span class="nf">setQuestionPronoun</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">rs</span><span class="p">):</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">questionPronoun</span><span class="o">=</span><span class="n">rs</span><span class="p">)</span></div>
 
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">classname</span><span class="o">=</span><span class="s2">&quot;com.johnsnowlabs.nlp.annotators.qa.NerQAGenarator&quot;</span><span class="p">,</span> <span class="n">java_model</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-        <span class="nb">super</span><span class="p">(</span><span class="n">NerQAGenarator</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">classname</span><span class="o">=</span><span class="s2">&quot;com.johnsnowlabs.nlp.annotators.qa.NerQuestionGenerator&quot;</span><span class="p">,</span> <span class="n">java_model</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">NerQuestionGenerator</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
             <span class="n">classname</span><span class="o">=</span><span class="n">classname</span><span class="p">,</span>
             <span class="n">java_model</span><span class="o">=</span><span class="n">java_model</span></div>
         <span class="p">)</span>
@@ -435,7 +450,7 @@
   <div class="footer-item">
     
 <p class="sphinx-version">
-Created using <a href="http://sphinx-doc.org/">Sphinx</a> 5.1.1.<br>
+Created using <a href="http://sphinx-doc.org/">Sphinx</a> 5.2.3.<br>
 </p>
 
   </div>

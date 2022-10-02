@@ -36,6 +36,7 @@
     <script src="../../../../../../static/underscore.js"></script>
     <script src="../../../../../../static/_sphinx_javascript_frameworks_compat.js"></script>
     <script src="../../../../../../static/doctools.js"></script>
+    <script src="../../../../../../static/sphinx_highlight.js"></script>
     <script src="../../../../../../static/toggleprompt.js"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'reference/autosummary/sparknlp_jsl/annotator/deid/deIdentification/index';</script>
     <link rel="shortcut icon" href="../../../../../../static/fav.ico"/>
@@ -447,6 +448,15 @@
      <code class="xref py py-mod docutils literal notranslate">
       <span class="pre">
        sparknlp_jsl.annotator.deid.deIdentification
+      </span>
+     </code>
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../doccument_hashcoder/index.html">
+     <code class="xref py py-mod docutils literal notranslate">
+      <span class="pre">
+       sparknlp_jsl.annotator.deid.doccument_hashcoder
       </span>
      </code>
     </a>
@@ -1142,6 +1152,11 @@ fixed_length_chars: Replace the obfuscated entity with a masking sequence compos
 <span class="sig-name descname"><span class="pre">language</span></span><a class="reference internal" href="../../../../../../modules/sparknlp_jsl/annotator/deid/deIdentification.html#DeIdentification.language"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.deid.deIdentification.DeIdentification.language" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
+<dl class="py attribute">
+<dt class="sig sig-object py" id="sparknlp_jsl.annotator.deid.deIdentification.DeIdentification.useShifDays">
+<span class="sig-name descname"><span class="pre">useShifDays</span></span><a class="reference internal" href="../../../../../../modules/sparknlp_jsl/annotator/deid/deIdentification.html#DeIdentification.useShifDays"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.deid.deIdentification.DeIdentification.useShifDays" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp_jsl.annotator.deid.deIdentification.DeIdentification.getBlackList">
 <span class="sig-name descname"><span class="pre">getBlackList</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../modules/sparknlp_jsl/annotator/deid/deIdentification.html#DeIdentification.getBlackList"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.deid.deIdentification.DeIdentification.getBlackList" title="Permalink to this definition">#</a></dt>
@@ -1497,6 +1512,20 @@ s : list</p>
 </div></blockquote>
 </dd></dl>
 
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp_jsl.annotator.deid.deIdentification.DeIdentification.setUseShifDays">
+<span class="sig-name descname"><span class="pre">setUseShifDays</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">s</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../modules/sparknlp_jsl/annotator/deid/deIdentification.html#DeIdentification.setUseShifDays"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.deid.deIdentification.DeIdentification.setUseShifDays" title="Permalink to this definition">#</a></dt>
+<dd><p>Sets if you want to use the random shift day when de document has this metadata.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>s</strong><span class="classifier">bool</span></dt><dd><p>Whether to use regex.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
 </dd></dl>
 
 <dl class="py class">
@@ -1758,6 +1787,11 @@ fixed_length_chars: Replace the obfuscated entity with a masking sequence compos
 <dl class="py attribute">
 <dt class="sig sig-object py" id="sparknlp_jsl.annotator.deid.deIdentification.DeIdentificationModel.language">
 <span class="sig-name descname"><span class="pre">language</span></span><a class="reference internal" href="../../../../../../modules/sparknlp_jsl/annotator/deid/deIdentification.html#DeIdentificationModel.language"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.deid.deIdentification.DeIdentificationModel.language" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="sparknlp_jsl.annotator.deid.deIdentification.DeIdentificationModel.useShifDays">
+<span class="sig-name descname"><span class="pre">useShifDays</span></span><a class="reference internal" href="../../../../../../modules/sparknlp_jsl/annotator/deid/deIdentification.html#DeIdentificationModel.useShifDays"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.deid.deIdentification.DeIdentificationModel.useShifDays" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
@@ -2063,6 +2097,20 @@ WHen setting to ‘false’ then the date will be mask to &lt;DATE&gt;</p>
 <dd></dd></dl>
 
 <dl class="py method">
+<dt class="sig sig-object py" id="sparknlp_jsl.annotator.deid.deIdentification.DeIdentificationModel.setUseShifDays">
+<span class="sig-name descname"><span class="pre">setUseShifDays</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">s</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../modules/sparknlp_jsl/annotator/deid/deIdentification.html#DeIdentificationModel.setUseShifDays"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.deid.deIdentification.DeIdentificationModel.setUseShifDays" title="Permalink to this definition">#</a></dt>
+<dd><p>Sets if you want to use the random shift day when de document has this metadata.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>s</strong><span class="classifier">bool</span></dt><dd><p>Whether to use regex.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
 <dt class="sig sig-object py" id="sparknlp_jsl.annotator.deid.deIdentification.DeIdentificationModel.pretrained">
 <em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">pretrained</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lang</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'en'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">remote_loc</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../modules/sparknlp_jsl/annotator/deid/deIdentification.html#DeIdentificationModel.pretrained"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.deid.deIdentification.DeIdentificationModel.pretrained" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
@@ -2107,6 +2155,937 @@ WHen setting to ‘false’ then the date will be mask to &lt;DATE&gt;</p>
      Classes
     </a>
     <ul class="nav section-nav flex-column">
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.deid.deIdentification.DeIdentification">
+       <code class="docutils literal notranslate">
+        <span class="pre">
+         DeIdentification
+        </span>
+       </code>
+      </a>
+      <ul class="nav section-nav flex-column">
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.deid.deIdentification.DeIdentification.name">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           DeIdentification.name
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.deid.deIdentification.DeIdentification.regexPatternsDictionary">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           DeIdentification.regexPatternsDictionary
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.deid.deIdentification.DeIdentification.mode">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           DeIdentification.mode
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.deid.deIdentification.DeIdentification.maskingPolicy">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           DeIdentification.maskingPolicy
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.deid.deIdentification.DeIdentification.fixedMaskLength">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           DeIdentification.fixedMaskLength
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.deid.deIdentification.DeIdentification.obfuscateDate">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           DeIdentification.obfuscateDate
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.deid.deIdentification.DeIdentification.obfuscateRefFile">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           DeIdentification.obfuscateRefFile
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.deid.deIdentification.DeIdentification.refFileFormat">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           DeIdentification.refFileFormat
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.deid.deIdentification.DeIdentification.refSep">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           DeIdentification.refSep
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.deid.deIdentification.DeIdentification.dateTag">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           DeIdentification.dateTag
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.deid.deIdentification.DeIdentification.days">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           DeIdentification.days
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.deid.deIdentification.DeIdentification.dateToYear">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           DeIdentification.dateToYear
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.deid.deIdentification.DeIdentification.minYear">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           DeIdentification.minYear
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.deid.deIdentification.DeIdentification.dateFormats">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           DeIdentification.dateFormats
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.deid.deIdentification.DeIdentification.consistentObfuscation">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           DeIdentification.consistentObfuscation
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.deid.deIdentification.DeIdentification.sameEntityThreshold">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           DeIdentification.sameEntityThreshold
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.deid.deIdentification.DeIdentification.obfuscateRefSource">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           DeIdentification.obfuscateRefSource
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.deid.deIdentification.DeIdentification.regexOverride">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           DeIdentification.regexOverride
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.deid.deIdentification.DeIdentification.seed">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           DeIdentification.seed
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.deid.deIdentification.DeIdentification.ignoreRegex">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           DeIdentification.ignoreRegex
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.deid.deIdentification.DeIdentification.isRandomDateDisplacement">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           DeIdentification.isRandomDateDisplacement
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.deid.deIdentification.DeIdentification.mappingsColumn">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           DeIdentification.mappingsColumn
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.deid.deIdentification.DeIdentification.returnEntityMappings">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           DeIdentification.returnEntityMappings
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.deid.deIdentification.DeIdentification.blackList">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           DeIdentification.blackList
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.deid.deIdentification.DeIdentification.language">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           DeIdentification.language
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.deid.deIdentification.DeIdentification.useShifDays">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           DeIdentification.useShifDays
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.deid.deIdentification.DeIdentification.getBlackList">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           DeIdentification.getBlackList()
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.deid.deIdentification.DeIdentification.setLanguage">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           DeIdentification.setLanguage()
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.deid.deIdentification.DeIdentification.setRegexPatternsDictionary">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           DeIdentification.setRegexPatternsDictionary()
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.deid.deIdentification.DeIdentification.setMode">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           DeIdentification.setMode()
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.deid.deIdentification.DeIdentification.setMaskingPolicy">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           DeIdentification.setMaskingPolicy()
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.deid.deIdentification.DeIdentification.setFixedMaskLength">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           DeIdentification.setFixedMaskLength()
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.deid.deIdentification.DeIdentification.setObfuscateRefFile">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           DeIdentification.setObfuscateRefFile()
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.deid.deIdentification.DeIdentification.setRefFileFormat">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           DeIdentification.setRefFileFormat()
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.deid.deIdentification.DeIdentification.setRefSep">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           DeIdentification.setRefSep()
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.deid.deIdentification.DeIdentification.setDateTag">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           DeIdentification.setDateTag()
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.deid.deIdentification.DeIdentification.setObfuscateDate">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           DeIdentification.setObfuscateDate()
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.deid.deIdentification.DeIdentification.setDays">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           DeIdentification.setDays()
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.deid.deIdentification.DeIdentification.setDateToYear">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           DeIdentification.setDateToYear()
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.deid.deIdentification.DeIdentification.setMinYear">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           DeIdentification.setMinYear()
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.deid.deIdentification.DeIdentification.setDateFormats">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           DeIdentification.setDateFormats()
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.deid.deIdentification.DeIdentification.setConsistentObfuscation">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           DeIdentification.setConsistentObfuscation()
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.deid.deIdentification.DeIdentification.setSameEntityThreshold">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           DeIdentification.setSameEntityThreshold()
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.deid.deIdentification.DeIdentification.setObfuscateRefSource">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           DeIdentification.setObfuscateRefSource()
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.deid.deIdentification.DeIdentification.setRegexOverride">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           DeIdentification.setRegexOverride()
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.deid.deIdentification.DeIdentification.setIgnoreRegex">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           DeIdentification.setIgnoreRegex()
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.deid.deIdentification.DeIdentification.setSeed">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           DeIdentification.setSeed()
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.deid.deIdentification.DeIdentification.setIsRandomDateDisplacement">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           DeIdentification.setIsRandomDateDisplacement()
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.deid.deIdentification.DeIdentification.setMappingsColumn">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           DeIdentification.setMappingsColumn()
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.deid.deIdentification.DeIdentification.setReturnEntityMappings">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           DeIdentification.setReturnEntityMappings()
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.deid.deIdentification.DeIdentification.setBlackList">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           DeIdentification.setBlackList()
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.deid.deIdentification.DeIdentification.setUseShifDays">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           DeIdentification.setUseShifDays()
+          </span>
+         </code>
+        </a>
+       </li>
+      </ul>
+     </li>
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.deid.deIdentification.DeIdentificationModel">
+       <code class="docutils literal notranslate">
+        <span class="pre">
+         DeIdentificationModel
+        </span>
+       </code>
+      </a>
+      <ul class="nav section-nav flex-column">
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.deid.deIdentification.DeIdentificationModel.name">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           DeIdentificationModel.name
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.deid.deIdentification.DeIdentificationModel.dateFormats">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           DeIdentificationModel.dateFormats
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.deid.deIdentification.DeIdentificationModel.mode">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           DeIdentificationModel.mode
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.deid.deIdentification.DeIdentificationModel.maskingPolicy">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           DeIdentificationModel.maskingPolicy
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.deid.deIdentification.DeIdentificationModel.fixedMaskLength">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           DeIdentificationModel.fixedMaskLength
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.deid.deIdentification.DeIdentificationModel.obfuscateDate">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           DeIdentificationModel.obfuscateDate
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.deid.deIdentification.DeIdentificationModel.dateTag">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           DeIdentificationModel.dateTag
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.deid.deIdentification.DeIdentificationModel.days">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           DeIdentificationModel.days
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.deid.deIdentification.DeIdentificationModel.dateToYear">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           DeIdentificationModel.dateToYear
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.deid.deIdentification.DeIdentificationModel.minYear">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           DeIdentificationModel.minYear
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#id0">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           DeIdentificationModel.dateFormats
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.deid.deIdentification.DeIdentificationModel.consistentObfuscation">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           DeIdentificationModel.consistentObfuscation
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.deid.deIdentification.DeIdentificationModel.sameEntityThreshold">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           DeIdentificationModel.sameEntityThreshold
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.deid.deIdentification.DeIdentificationModel.obfuscateRefSource">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           DeIdentificationModel.obfuscateRefSource
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.deid.deIdentification.DeIdentificationModel.regexOverride">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           DeIdentificationModel.regexOverride
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.deid.deIdentification.DeIdentificationModel.seed">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           DeIdentificationModel.seed
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.deid.deIdentification.DeIdentificationModel.ignoreRegex">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           DeIdentificationModel.ignoreRegex
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.deid.deIdentification.DeIdentificationModel.isRandomDateDisplacement">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           DeIdentificationModel.isRandomDateDisplacement
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.deid.deIdentification.DeIdentificationModel.mappingsColumn">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           DeIdentificationModel.mappingsColumn
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.deid.deIdentification.DeIdentificationModel.returnEntityMappings">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           DeIdentificationModel.returnEntityMappings
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.deid.deIdentification.DeIdentificationModel.blackList">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           DeIdentificationModel.blackList
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.deid.deIdentification.DeIdentificationModel.regexEntities">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           DeIdentificationModel.regexEntities
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#id13">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           DeIdentificationModel.mode
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.deid.deIdentification.DeIdentificationModel.language">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           DeIdentificationModel.language
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.deid.deIdentification.DeIdentificationModel.useShifDays">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           DeIdentificationModel.useShifDays
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.deid.deIdentification.DeIdentificationModel.getBlackList">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           DeIdentificationModel.getBlackList()
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.deid.deIdentification.DeIdentificationModel.setLanguage">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           DeIdentificationModel.setLanguage()
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.deid.deIdentification.DeIdentificationModel.setMode">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           DeIdentificationModel.setMode()
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.deid.deIdentification.DeIdentificationModel.setMaskingPolicy">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           DeIdentificationModel.setMaskingPolicy()
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.deid.deIdentification.DeIdentificationModel.setFixedMaskLength">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           DeIdentificationModel.setFixedMaskLength()
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.deid.deIdentification.DeIdentificationModel.setDateTag">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           DeIdentificationModel.setDateTag()
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.deid.deIdentification.DeIdentificationModel.setObfuscateDate">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           DeIdentificationModel.setObfuscateDate()
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.deid.deIdentification.DeIdentificationModel.setDays">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           DeIdentificationModel.setDays()
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.deid.deIdentification.DeIdentificationModel.setDateToYear">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           DeIdentificationModel.setDateToYear()
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.deid.deIdentification.DeIdentificationModel.setMinYear">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           DeIdentificationModel.setMinYear()
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.deid.deIdentification.DeIdentificationModel.setDateFormats">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           DeIdentificationModel.setDateFormats()
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.deid.deIdentification.DeIdentificationModel.setConsistentObfuscation">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           DeIdentificationModel.setConsistentObfuscation()
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.deid.deIdentification.DeIdentificationModel.setSameEntityThreshold">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           DeIdentificationModel.setSameEntityThreshold()
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.deid.deIdentification.DeIdentificationModel.setObfuscateRefSource">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           DeIdentificationModel.setObfuscateRefSource()
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.deid.deIdentification.DeIdentificationModel.setRegexOverride">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           DeIdentificationModel.setRegexOverride()
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.deid.deIdentification.DeIdentificationModel.setSeed">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           DeIdentificationModel.setSeed()
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.deid.deIdentification.DeIdentificationModel.setIgnoreRegex">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           DeIdentificationModel.setIgnoreRegex()
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.deid.deIdentification.DeIdentificationModel.setIsRandomDateDisplacement">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           DeIdentificationModel.setIsRandomDateDisplacement()
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.deid.deIdentification.DeIdentificationModel.setMappingsColumn">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           DeIdentificationModel.setMappingsColumn()
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.deid.deIdentification.DeIdentificationModel.setBlackList">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           DeIdentificationModel.setBlackList()
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.deid.deIdentification.DeIdentificationModel.setReturnEntityMappings">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           DeIdentificationModel.setReturnEntityMappings()
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.deid.deIdentification.DeIdentificationModel.getRegexEntities">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           DeIdentificationModel.getRegexEntities()
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.deid.deIdentification.DeIdentificationModel.setUseShifDays">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           DeIdentificationModel.setUseShifDays()
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.deid.deIdentification.DeIdentificationModel.pretrained">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           DeIdentificationModel.pretrained()
+          </span>
+         </code>
+        </a>
+       </li>
+      </ul>
+     </li>
      <li class="toc-h4 nav-item toc-entry">
       <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.deid.deIdentification.DeIdentification">
        DeIdentification
@@ -2238,6 +3217,11 @@ WHen setting to ‘false’ then the date will be mask to &lt;DATE&gt;</p>
         </a>
        </li>
        <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.deid.deIdentification.DeIdentification.useShifDays">
+         useShifDays
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
         <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.deid.deIdentification.DeIdentification.getBlackList">
          getBlackList
         </a>
@@ -2360,6 +3344,11 @@ WHen setting to ‘false’ then the date will be mask to &lt;DATE&gt;</p>
        <li class="toc-h5 nav-item toc-entry">
         <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.deid.deIdentification.DeIdentification.setBlackList">
          setBlackList
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.deid.deIdentification.DeIdentification.setUseShifDays">
+         setUseShifDays
         </a>
        </li>
       </ul>
@@ -2490,6 +3479,11 @@ WHen setting to ‘false’ then the date will be mask to &lt;DATE&gt;</p>
         </a>
        </li>
        <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.deid.deIdentification.DeIdentificationModel.useShifDays">
+         useShifDays
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
         <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.deid.deIdentification.DeIdentificationModel.getBlackList">
          getBlackList
         </a>
@@ -2600,6 +3594,11 @@ WHen setting to ‘false’ then the date will be mask to &lt;DATE&gt;</p>
         </a>
        </li>
        <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.deid.deIdentification.DeIdentificationModel.setUseShifDays">
+         setUseShifDays
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
         <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.deid.deIdentification.DeIdentificationModel.pretrained">
          pretrained
         </a>
@@ -2663,7 +3662,7 @@ WHen setting to ‘false’ then the date will be mask to &lt;DATE&gt;</p>
   <div class="footer-item">
     
 <p class="sphinx-version">
-Created using <a href="http://sphinx-doc.org/">Sphinx</a> 5.1.1.<br>
+Created using <a href="http://sphinx-doc.org/">Sphinx</a> 5.2.3.<br>
 </p>
 
   </div>

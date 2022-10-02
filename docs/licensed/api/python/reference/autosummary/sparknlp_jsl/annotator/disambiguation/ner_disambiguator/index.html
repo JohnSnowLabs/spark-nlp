@@ -36,6 +36,7 @@
     <script src="../../../../../../static/underscore.js"></script>
     <script src="../../../../../../static/_sphinx_javascript_frameworks_compat.js"></script>
     <script src="../../../../../../static/doctools.js"></script>
+    <script src="../../../../../../static/sphinx_highlight.js"></script>
     <script src="../../../../../../static/toggleprompt.js"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'reference/autosummary/sparknlp_jsl/annotator/disambiguation/ner_disambiguator/index';</script>
     <link rel="shortcut icon" href="../../../../../../static/fav.ico"/>
@@ -447,6 +448,15 @@
      <code class="xref py py-mod docutils literal notranslate">
       <span class="pre">
        sparknlp_jsl.annotator.deid.deIdentification
+      </span>
+     </code>
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../../deid/doccument_hashcoder/index.html">
+     <code class="xref py py-mod docutils literal notranslate">
+      <span class="pre">
+       sparknlp_jsl.annotator.deid.doccument_hashcoder
       </span>
      </code>
     </a>
@@ -1400,6 +1410,316 @@ http:#en.wikipedia.org/?curid=144171, http:#en.wikipedia.org/?curid=6636454</p><
     <ul class="nav section-nav flex-column">
      <li class="toc-h4 nav-item toc-entry">
       <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.disambiguation.ner_disambiguator.NerDisambiguator">
+       <code class="docutils literal notranslate">
+        <span class="pre">
+         NerDisambiguator
+        </span>
+       </code>
+      </a>
+      <ul class="nav section-nav flex-column">
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.disambiguation.ner_disambiguator.NerDisambiguator.embeddingTypeParam">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           NerDisambiguator.embeddingTypeParam
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.disambiguation.ner_disambiguator.NerDisambiguator.numFirstChars">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           NerDisambiguator.numFirstChars
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.disambiguation.ner_disambiguator.NerDisambiguator.tokenSearch">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           NerDisambiguator.tokenSearch
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.disambiguation.ner_disambiguator.NerDisambiguator.narrowWithApproximateMatching">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           NerDisambiguator.narrowWithApproximateMatching
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.disambiguation.ner_disambiguator.NerDisambiguator.levenshteinDistanceThresholdParam">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           NerDisambiguator.levenshteinDistanceThresholdParam
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.disambiguation.ner_disambiguator.NerDisambiguator.nearMatchingGapParam">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           NerDisambiguator.nearMatchingGapParam
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.disambiguation.ner_disambiguator.NerDisambiguator.predictionsLimit">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           NerDisambiguator.predictionsLimit
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.disambiguation.ner_disambiguator.NerDisambiguator.s3KnowledgeBaseName">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           NerDisambiguator.s3KnowledgeBaseName
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.disambiguation.ner_disambiguator.NerDisambiguator.setEmbeddingType">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           NerDisambiguator.setEmbeddingType()
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.disambiguation.ner_disambiguator.NerDisambiguator.setNumFirstChars">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           NerDisambiguator.setNumFirstChars()
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.disambiguation.ner_disambiguator.NerDisambiguator.setTokenSearch">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           NerDisambiguator.setTokenSearch()
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.disambiguation.ner_disambiguator.NerDisambiguator.setNarrowWithApproximateMatching">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           NerDisambiguator.setNarrowWithApproximateMatching()
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.disambiguation.ner_disambiguator.NerDisambiguator.setLevenshteinDistanceThresholdParam">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           NerDisambiguator.setLevenshteinDistanceThresholdParam()
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.disambiguation.ner_disambiguator.NerDisambiguator.setNearMatchingGapParam">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           NerDisambiguator.setNearMatchingGapParam()
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.disambiguation.ner_disambiguator.NerDisambiguator.setPredictionLimit">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           NerDisambiguator.setPredictionLimit()
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.disambiguation.ner_disambiguator.NerDisambiguator.setS3KnowledgeBaseName">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           NerDisambiguator.setS3KnowledgeBaseName()
+          </span>
+         </code>
+        </a>
+       </li>
+      </ul>
+     </li>
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.disambiguation.ner_disambiguator.NerDisambiguatorModel">
+       <code class="docutils literal notranslate">
+        <span class="pre">
+         NerDisambiguatorModel
+        </span>
+       </code>
+      </a>
+      <ul class="nav section-nav flex-column">
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.disambiguation.ner_disambiguator.NerDisambiguatorModel.name">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           NerDisambiguatorModel.name
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.disambiguation.ner_disambiguator.NerDisambiguatorModel.embeddingTypeParam">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           NerDisambiguatorModel.embeddingTypeParam
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.disambiguation.ner_disambiguator.NerDisambiguatorModel.numFirstChars">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           NerDisambiguatorModel.numFirstChars
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.disambiguation.ner_disambiguator.NerDisambiguatorModel.tokenSearch">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           NerDisambiguatorModel.tokenSearch
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.disambiguation.ner_disambiguator.NerDisambiguatorModel.narrowWithApproximateMatching">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           NerDisambiguatorModel.narrowWithApproximateMatching
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.disambiguation.ner_disambiguator.NerDisambiguatorModel.levenshteinDistanceThresholdParam">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           NerDisambiguatorModel.levenshteinDistanceThresholdParam
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.disambiguation.ner_disambiguator.NerDisambiguatorModel.nearMatchingGapParam">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           NerDisambiguatorModel.nearMatchingGapParam
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.disambiguation.ner_disambiguator.NerDisambiguatorModel.predictionsLimit">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           NerDisambiguatorModel.predictionsLimit
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.disambiguation.ner_disambiguator.NerDisambiguatorModel.setEmbeddingType">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           NerDisambiguatorModel.setEmbeddingType()
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.disambiguation.ner_disambiguator.NerDisambiguatorModel.setNumFirstChars">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           NerDisambiguatorModel.setNumFirstChars()
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.disambiguation.ner_disambiguator.NerDisambiguatorModel.setTokenSearch">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           NerDisambiguatorModel.setTokenSearch()
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.disambiguation.ner_disambiguator.NerDisambiguatorModel.setNarrowWithApproximateMatching">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           NerDisambiguatorModel.setNarrowWithApproximateMatching()
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.disambiguation.ner_disambiguator.NerDisambiguatorModel.setLevenshteinDistanceThresholdParam">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           NerDisambiguatorModel.setLevenshteinDistanceThresholdParam()
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.disambiguation.ner_disambiguator.NerDisambiguatorModel.setNearMatchingGapParam">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           NerDisambiguatorModel.setNearMatchingGapParam()
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.disambiguation.ner_disambiguator.NerDisambiguatorModel.setPredictionLimit">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           NerDisambiguatorModel.setPredictionLimit()
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.disambiguation.ner_disambiguator.NerDisambiguatorModel.pretrained">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           NerDisambiguatorModel.pretrained()
+          </span>
+         </code>
+        </a>
+       </li>
+      </ul>
+     </li>
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.disambiguation.ner_disambiguator.NerDisambiguator">
        NerDisambiguator
       </a>
       <ul class="nav section-nav flex-column">
@@ -1629,7 +1949,7 @@ http:#en.wikipedia.org/?curid=144171, http:#en.wikipedia.org/?curid=6636454</p><
   <div class="footer-item">
     
 <p class="sphinx-version">
-Created using <a href="http://sphinx-doc.org/">Sphinx</a> 5.1.1.<br>
+Created using <a href="http://sphinx-doc.org/">Sphinx</a> 5.2.3.<br>
 </p>
 
   </div>

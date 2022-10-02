@@ -36,6 +36,7 @@
     <script src="../../../../../../static/underscore.js"></script>
     <script src="../../../../../../static/_sphinx_javascript_frameworks_compat.js"></script>
     <script src="../../../../../../static/doctools.js"></script>
+    <script src="../../../../../../static/sphinx_highlight.js"></script>
     <script src="../../../../../../static/toggleprompt.js"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'reference/autosummary/sparknlp_jsl/annotator/classification/medical_bert_for_token_classifier/index';</script>
     <link rel="shortcut icon" href="../../../../../../static/fav.ico"/>
@@ -447,6 +448,15 @@
      <code class="xref py py-mod docutils literal notranslate">
       <span class="pre">
        sparknlp_jsl.annotator.deid.deIdentification
+      </span>
+     </code>
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../../deid/doccument_hashcoder/index.html">
+     <code class="xref py py-mod docutils literal notranslate">
+      <span class="pre">
+       sparknlp_jsl.annotator.deid.doccument_hashcoder
       </span>
      </code>
     </a>
@@ -1105,6 +1115,98 @@ Spark NLPs repositories otherwise.</p>
     <ul class="nav section-nav flex-column">
      <li class="toc-h4 nav-item toc-entry">
       <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.classification.medical_bert_for_token_classifier.MedicalBertForTokenClassifier">
+       <code class="docutils literal notranslate">
+        <span class="pre">
+         MedicalBertForTokenClassifier
+        </span>
+       </code>
+      </a>
+      <ul class="nav section-nav flex-column">
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.classification.medical_bert_for_token_classifier.MedicalBertForTokenClassifier.name">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           MedicalBertForTokenClassifier.name
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.classification.medical_bert_for_token_classifier.MedicalBertForTokenClassifier.maxSentenceLength">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           MedicalBertForTokenClassifier.maxSentenceLength
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.classification.medical_bert_for_token_classifier.MedicalBertForTokenClassifier.configProtoBytes">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           MedicalBertForTokenClassifier.configProtoBytes
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.classification.medical_bert_for_token_classifier.MedicalBertForTokenClassifier.setConfigProtoBytes">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           MedicalBertForTokenClassifier.setConfigProtoBytes()
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.classification.medical_bert_for_token_classifier.MedicalBertForTokenClassifier.setMaxSentenceLength">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           MedicalBertForTokenClassifier.setMaxSentenceLength()
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.classification.medical_bert_for_token_classifier.MedicalBertForTokenClassifier.getClasses">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           MedicalBertForTokenClassifier.getClasses()
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.classification.medical_bert_for_token_classifier.MedicalBertForTokenClassifier.loadSavedModel">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           MedicalBertForTokenClassifier.loadSavedModel()
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.classification.medical_bert_for_token_classifier.MedicalBertForTokenClassifier.loadSavedModelOpenSource">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           MedicalBertForTokenClassifier.loadSavedModelOpenSource()
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.classification.medical_bert_for_token_classifier.MedicalBertForTokenClassifier.pretrained">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           MedicalBertForTokenClassifier.pretrained()
+          </span>
+         </code>
+        </a>
+       </li>
+      </ul>
+     </li>
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.classification.medical_bert_for_token_classifier.MedicalBertForTokenClassifier">
        MedicalBertForTokenClassifier
       </a>
       <ul class="nav section-nav flex-column">
@@ -1212,7 +1314,7 @@ Spark NLPs repositories otherwise.</p>
   <div class="footer-item">
     
 <p class="sphinx-version">
-Created using <a href="http://sphinx-doc.org/">Sphinx</a> 5.1.1.<br>
+Created using <a href="http://sphinx-doc.org/">Sphinx</a> 5.2.3.<br>
 </p>
 
   </div>

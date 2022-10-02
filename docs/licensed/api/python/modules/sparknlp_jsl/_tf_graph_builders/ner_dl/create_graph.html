@@ -35,6 +35,7 @@
     <script src="../../../../static/underscore.js"></script>
     <script src="../../../../static/_sphinx_javascript_frameworks_compat.js"></script>
     <script src="../../../../static/doctools.js"></script>
+    <script src="../../../../static/sphinx_highlight.js"></script>
     <script src="../../../../static/toggleprompt.js"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'modules/sparknlp_jsl/_tf_graph_builders/ner_dl/create_graph';</script>
     <link rel="shortcut icon" href="../../../../static/fav.ico"/>
@@ -268,6 +269,7 @@
         <span class="n">is_medical</span><span class="o">=</span><span class="kc">False</span>
 <span class="p">):</span>
     <span class="n">tf</span><span class="o">.</span><span class="n">disable_v2_behavior</span><span class="p">()</span>
+    <span class="n">tf</span><span class="o">.</span><span class="n">enable_v2_tensorshape</span><span class="p">()</span>
     <span class="n">tf</span><span class="o">.</span><span class="n">reset_default_graph</span><span class="p">()</span>
 
     <span class="k">if</span> <span class="n">model_filename</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
@@ -346,7 +348,7 @@
   <div class="footer-item">
     
 <p class="sphinx-version">
-Created using <a href="http://sphinx-doc.org/">Sphinx</a> 5.1.1.<br>
+Created using <a href="http://sphinx-doc.org/">Sphinx</a> 5.2.3.<br>
 </p>
 
   </div>
