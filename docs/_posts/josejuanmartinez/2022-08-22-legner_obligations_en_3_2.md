@@ -41,21 +41,18 @@ The object is usually very diverse (will provide with technology? documents? peo
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
 ```python
-from sparknlp.base import *
-from sparknlp.annotator import *
-from pyspark.ml import Pipeline
-from sparknlp_jsl.annotator import *
+from johnsnowlabs import *
 
-documentAssembler = DocumentAssembler()\
+documentAssembler = nlp.DocumentAssembler()\
   .setInputCol("text")\
   .setOutputCol("document")
 
-sparktokenizer = Tokenizer()\
+sparktokenizer = nlp.Tokenizer()\
   .setInputCols("document")\
   .setOutputCol("token")
 
 
-tokenClassifier = LegalBertForTokenClassification.pretrained("legner_obligations", "en", "legal/models")\
+tokenClassifier = legal.BertForTokenClassification.pretrained("legner_obligations", "en", "legal/models")\
   .setInputCols("token", "document")\
   .setOutputCol("label")\
   .setCaseSensitive(True)
@@ -66,6 +63,8 @@ pipeline =  Pipeline(stages=[
   tokenClassifier
     ]
 )
+
+import pandas as pd
 
 p_model = pipeline.fit(spark.createDataFrame(pd.DataFrame({'text': ['']})))
 

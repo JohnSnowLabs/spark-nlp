@@ -36,15 +36,15 @@ This model is trained to carry out a Zero-Shot Named Entity Recognition (NER) ap
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
 ```python
-documentAssembler = DocumentAssembler()\
+documentAssembler = nlp.DocumentAssembler()\
   .setInputCol("text")\
   .setOutputCol("document")
 
-sparktokenizer = Tokenizer()\
+sparktokenizer = nlp.Tokenizer()\
   .setInputCols("document")\
   .setOutputCol("token")
 
-zero_shot_ner = ZeroShotNerModel.pretrained("legner_roberta_zeroshot", "en", "legal/models")\
+zero_shot_ner = legal.ZeroShotNerModel.pretrained("legner_roberta_zeroshot", "en", "legal/models")\
     .setInputCols(["document", "token"])\
     .setOutputCol("zero_shot_ner")\
     .setEntityDefinitions(
@@ -57,7 +57,7 @@ zero_shot_ner = ZeroShotNerModel.pretrained("legner_roberta_zeroshot", "en", "le
             "LICENSE_RECIPIENT": ["To whom the license is granted?"]
         })
 
-nerconverter = NerConverter()\
+nerconverter = nlp.NerConverter()\
   .setInputCols(["document", "token", "zero_shot_ner"])\
   .setOutputCol("ner_chunk")
 

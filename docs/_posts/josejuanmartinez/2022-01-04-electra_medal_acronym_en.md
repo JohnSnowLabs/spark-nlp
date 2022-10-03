@@ -35,38 +35,38 @@ Electra model fine tuned on MeDAL, a large dataset on abbreviation disambiguatio
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
 ```python
-documentAssembler= DocumentAssembler()\
+documentAssembler= nlp.DocumentAssembler()\
 .setInputCol("text")\
 .setOutputCol("document")
 
-sentenceDetector = SentenceDetector()\
+sentenceDetector = nlp.SentenceDetector()\
 .setInputCols(["document"])\
 .setOutputCol("sentence")
 
-tokenizer= Tokenizer()\
+tokenizer= nlp.Tokenizer()\
 .setInputCols(["sentence"])\
 .setOutputCol("token")
 
-embeddings = BertEmbeddings.pretrained("electra_medal_acronym", "en") \
+embeddings = nlp.BertEmbeddings.pretrained("electra_medal_acronym", "en") \
 .setInputCols("sentence", "token") \
 .setOutputCol("embeddings")
 
 nlpPipeline= Pipeline(stages=[documentAssembler, sentenceDetector, tokenizer, embeddings])
 ```
 ```scala
-val documentAssembler = new DocumentAssembler()
+val documentAssembler = new nlp.DocumentAssembler()
 .setInputCol("text")
 .setOutputCol("document")
 
-val sentenceDetector = new SentenceDetector()
+val sentenceDetector = new nlp.SentenceDetector()
 .setInputCols(Array("document"))
 .setOutputCol("sentence")
 
-val tokenizer = new Tokenizer()
+val tokenizer = new nlp.Tokenizer()
 .setInputCols(Array("sentence"))
 .setOutputCol("token")
 
-val embeddings = BertEmbeddings.pretrained("electra_medal_acronym", "en") 
+val embeddings = nlp.BertEmbeddings.pretrained("electra_medal_acronym", "en") 
 .setInputCols("sentence", "token")
 .setOutputCol("embeddings")
 
