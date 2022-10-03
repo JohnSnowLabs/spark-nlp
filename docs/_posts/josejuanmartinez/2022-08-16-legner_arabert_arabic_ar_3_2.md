@@ -67,7 +67,7 @@ tokenizer = nlp.Tokenizer()\
   .setInputCols("document")\
   .setOutputCol("token")
   
-tokenClassifier = finance.BertForTokenClassification.pretrained("finner_arabert_arabic", "ar", "finance/models")\
+tokenClassifier = legal.BertForTokenClassification.pretrained("legner_arabert_arabic", "ar", "legal/models")\
   .setInputCols("token", "document")\
   .setOutputCol("label")
   
