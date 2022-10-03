@@ -131,6 +131,7 @@ model_python_finance=model_python_finance
 model_scala_finance=model_scala_finance
 model_python_legal=model_python_legal
 model_scala_legal=model_scala_legal
-model_api_link=model_api_link%}
+model_api_link=model_api_link
+%}
 
 

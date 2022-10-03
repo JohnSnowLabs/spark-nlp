@@ -113,10 +113,9 @@ embeddings = nlp.WordEmbeddingsModel.pretrained("embeddings_clinical", "en", "cl
   .setOutputCol("embeddings") \
   .setCaseSensitive(False)
 
-ner = medical.NerModel.pretrained("ner_radiology", "en", "clinical/models") \
-  .setInputCols(["sentence","token","embeddings"]) \
-  .setOutputCol("ner") \
-  .setIncludeConfidence(True)
+ner_model = legal.NerModel.pretrained("legner_orgs_prods_alias", "en", "legal/models")\
+  .setInputCols(["sentence", "token", "embeddings"])\
+  .setOutputCol("ner")
 
 # Define the NerChunker to combine to chunks
 chunker = legal.NerChunker() \
@@ -129,7 +128,7 @@ pipeline= Pipeline(stages=[
   sentenceDetector,
   tokenizer,
   embeddings,
-  ner,
+  ner_model,
   chunker
 ])
 {%- endcapture -%}
@@ -157,10 +156,9 @@ embeddings = nlp.WordEmbeddingsModel.pretrained("embeddings_clinical", "en", "cl
   .setOutputCol("embeddings") \
   .setCaseSensitive(False)
 
-ner = medical.NerModel.pretrained("ner_radiology", "en", "clinical/models") \
-  .setInputCols(["sentence","token","embeddings"]) \
-  .setOutputCol("ner") \
-  .setIncludeConfidence(True)
+ner_model = finance.NerModel.pretrained("finner_orgs_prods_alias","en","finance/models")\
+  .setInputCols(["sentence", "token", "embeddings"]) \
+  .setOutputCol("ner")
 
 # Define the NerChunker to combine to chunks
 chunker = finance.NerChunker() \
@@ -173,7 +171,7 @@ pipeline= Pipeline(stages=[
   sentenceDetector,
   tokenizer,
   embeddings,
-  ner,
+  ner_model,
   chunker
 ])
 {%- endcapture -%}
@@ -271,10 +269,9 @@ val embeddings = nlp.WordEmbeddingsModel.pretrained("embeddings_clinical", "en",
   .setOutputCol("embeddings")
   .setCaseSensitive(False)
 
-val ner = medical.NerModel.pretrained("ner_radiology", "en", "clinical/models")
-  .setInputCols(Array("sentence","token","embeddings"))
+val ner_model = legal.NerModel.pretrained("legner_orgs_prods_alias", "en", "legal/models")\
+  .setInputCols(Array("sentence", "token", "embeddings"))\
   .setOutputCol("ner")
-  .setIncludeConfidence(True)
 
 // Define the NerChunker to combine to chunks
 val chunker = new legal.NerChunker()
@@ -287,7 +284,7 @@ val pipeline=new Pipeline().setStages(Array(
   sentenceDetector,
   tokenizer,
   embeddings,
-  ner,
+  ner_model,
   chunker
 ))
 {%- endcapture -%}
@@ -314,10 +311,9 @@ val embeddings = nlp.WordEmbeddingsModel.pretrained("embeddings_clinical", "en",
   .setOutputCol("embeddings")
   .setCaseSensitive(False)
 
-val ner = medical.NerModel.pretrained("ner_radiology", "en", "clinical/models")
-  .setInputCols(Array("sentence","token","embeddings"))
+val ner_model = finance.NerModel.pretrained("finner_orgs_prods_alias","en","finance/models")\
+  .setInputCols(Array("sentence", "token", "embeddings")) \
   .setOutputCol("ner")
-  .setIncludeConfidence(True)
 
 // Define the NerChunker to combine to chunks
 val chunker = new finance.NerChunker()
@@ -330,7 +326,7 @@ val pipeline=new Pipeline().setStages(Array(
   sentenceDetector,
   tokenizer,
   embeddings,
-  ner,
+  ner_model,
   chunker
 ))
 {%- endcapture -%}

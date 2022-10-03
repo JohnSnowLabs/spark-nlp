@@ -133,8 +133,8 @@ word_embeddings = nlp.WordEmbeddingsModel.pretrained() \
 sentence_embeddings = nlp.SentenceEmbeddings() \
   .setInputCols(["sentence","embeddings"]) \
   .setOutputCol("sentence_embeddings")
-ner_model = nlp.NerDLModel.pretrained() \
-  .setInputCols(["sentence", "token", "embeddings"]) \
+ner_model = legal.NerModel.pretrained("legner_orgs_prods_alias", "en", "legal/models")\
+  .setInputCols(["sentence", "token", "embeddings"])\
   .setOutputCol("ner")
 ner_converter = nlp.NerConverter() \
   .setInputCols(["sentence", "token", "ner"]) \
@@ -183,7 +183,7 @@ word_embeddings = nlp.WordEmbeddingsModel.pretrained() \
 sentence_embeddings = nlp.SentenceEmbeddings() \
   .setInputCols(["sentence","embeddings"]) \
   .setOutputCol("sentence_embeddings")
-ner_model = nlp.NerDLModel.pretrained() \
+ner_model = finance.NerModel.pretrained("finner_orgs_prods_alias","en","finance/models")\
   .setInputCols(["sentence", "token", "embeddings"]) \
   .setOutputCol("ner")
 ner_converter = nlp.NerConverter() \
@@ -296,8 +296,8 @@ val word_embeddings = nlp.WordEmbeddingsModel.pretrained()
 val sentence_embeddings = new nlp.SentenceEmbeddings()
   .setInputCols(Array("sentence","embeddings"))
   .setOutputCol("sentence_embeddings")
-val ner_model = nlp.NerDLModel.pretrained()
-  .setInputCols(Array("sentence", "token", "embeddings"))
+val ner_model = legal.NerModel.pretrained("legner_orgs_prods_alias", "en", "legal/models")\
+  .setInputCols(Array("sentence", "token", "embeddings"))\
   .setOutputCol("ner")
 val ner_converter = new nlp.NerConverter()
   .setInputCols(Array("sentence", "token", "ner"))
@@ -344,8 +344,8 @@ val word_embeddings = nlp.WordEmbeddingsModel.pretrained()
 val sentence_embeddings = new nlp.SentenceEmbeddings()
   .setInputCols(Array("sentence","embeddings"))
   .setOutputCol("sentence_embeddings")
-val ner_model = nlp.NerDLModel.pretrained()
-  .setInputCols(Array("sentence", "token", "embeddings"))
+val ner_model = finance.NerModel.pretrained("finner_orgs_prods_alias","en","finance/models")\
+  .setInputCols(Array("sentence", "token", "embeddings")) \
   .setOutputCol("ner")
 val ner_converter = new nlp.NerConverter()
   .setInputCols(Array("sentence", "token", "ner"))

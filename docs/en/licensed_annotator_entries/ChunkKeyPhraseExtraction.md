@@ -110,13 +110,12 @@ embeddings = nlp.WordEmbeddingsModel() \
     .setInputCols(["document", "tokens"]) \
     .setOutputCol("embeddings")
 
-ner_tagger = medical.NerModel() \
-    .pretrained("ner_jsl_slim", "en", "clinical/models") \
-    .setInputCols(["sentences", "tokens", "embeddings"]) \
-    .setOutputCol("ner_tags")
+ner_model = legal.NerModel.pretrained("legner_orgs_prods_alias", "en", "legal/models")\
+    .setInputCols(["sentence", "token", "embeddings"])\
+    .setOutputCol("ner")
 
 ner_converter = nlp.NerConverter()\
-    .setInputCols("sentences", "tokens", "ner_tags")\
+    .setInputCols("sentences", "tokens", "ner")\
     .setOutputCol("ner_chunks")
 
 key_phrase_extractor = legal.ChunkKeyPhraseExtraction\
@@ -128,7 +127,7 @@ key_phrase_extractor = legal.ChunkKeyPhraseExtraction\
     .setOutputCol("ner_chunk_key_phrases")
 
 pipeline = sparknlp.base.Pipeline() \
-    .setStages([documenter, sentencer, tokenizer, embeddings, ner_tagger, ner_converter, key_phrase_extractor])
+    .setStages([documenter, sentencer, tokenizer, embeddings, ner_model, ner_converter, key_phrase_extractor])
 {%- endcapture -%}
 
 {%- capture model_python_finance -%}
@@ -151,13 +150,12 @@ embeddings = nlp.WordEmbeddingsModel() \
     .setInputCols(["document", "tokens"]) \
     .setOutputCol("embeddings")
 
-ner_tagger = medical.NerModel() \
-    .pretrained("ner_jsl_slim", "en", "clinical/models") \
-    .setInputCols(["sentences", "tokens", "embeddings"]) \
-    .setOutputCol("ner_tags")
+ner_model = finance.NerModel.pretrained("finner_orgs_prods_alias","en","finance/models")\
+    .setInputCols(["sentence", "token", "embeddings"]) \
+    .setOutputCol("ner")
 
 ner_converter = nlp.NerConverter()\
-    .setInputCols("sentences", "tokens", "ner_tags")\
+    .setInputCols("sentences", "tokens", "ner")\
     .setOutputCol("ner_chunks")
 
 key_phrase_extractor = finance.ChunkKeyPhraseExtraction\
@@ -169,7 +167,7 @@ key_phrase_extractor = finance.ChunkKeyPhraseExtraction\
     .setOutputCol("ner_chunk_key_phrases")
 
 pipeline = sparknlp.base.Pipeline() \
-    .setStages([documenter, sentencer, tokenizer, embeddings, ner_tagger, ner_converter, key_phrase_extractor])
+    .setStages([documenter, sentencer, tokenizer, embeddings, ner_model, ner_converter, key_phrase_extractor])
 {%- endcapture -%}
 
 

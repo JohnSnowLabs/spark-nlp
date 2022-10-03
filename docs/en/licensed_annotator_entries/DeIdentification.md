@@ -441,9 +441,9 @@ embeddings = nlp.WordEmbeddingsModel \
     .setOutputCol("embeddings")
 
 # Ner entities
-clinical_sensitive_entities = medical.NerModel \
-    .pretrained("ner_deid_enriched", "en", "clinical/models") \
-    .setInputCols(["sentence", "token", "embeddings"]).setOutputCol("ner")
+ner_model = legal.NerModel.pretrained("legner_orgs_prods_alias", "en", "legal/models")\
+    .setInputCols(["sentence", "token", "embeddings"])\
+    .setOutputCol("ner")
 
 nerConverter = nlp.NerConverter() \
     .setInputCols(["sentence", "token", "ner"]) \
@@ -472,7 +472,7 @@ pipeline = Pipeline(stages=[
     sentenceDetector,
     tokenizer,
     embeddings,
-    clinical_sensitive_entities,
+    ner_model,
     nerConverter,
     deIdentification
 ])
@@ -500,9 +500,9 @@ embeddings = nlp.WordEmbeddingsModel \
     .setOutputCol("embeddings")
 
 # Ner entities
-clinical_sensitive_entities = medical.NerModel \
-    .pretrained("ner_deid_enriched", "en", "clinical/models") \
-    .setInputCols(["sentence", "token", "embeddings"]).setOutputCol("ner")
+ner_model = finance.NerModel.pretrained("finner_orgs_prods_alias","en","finance/models")\
+    .setInputCols(["sentence", "token", "embeddings"]) \
+    .setOutputCol("ner")
 
 nerConverter = nlp.NerConverter() \
     .setInputCols(["sentence", "token", "ner"]) \
@@ -531,7 +531,7 @@ pipeline = Pipeline(stages=[
     sentenceDetector,
     tokenizer,
     embeddings,
-    clinical_sensitive_entities,
+    ner_model,
     nerConverter,
     deIdentification
 ])
@@ -633,8 +633,9 @@ val documentAssembler = new nlp.DocumentAssembler()
      .setOutputCol("embeddings")
 
 // Ner entities
-val clinical_sensitive_entities = medical.NerModel.pretrained("ner_deid_enriched", "en", "clinical/models")
-        .setInputCols(Array("sentence", "token", "embeddings")).setOutputCol("ner")
+val ner_model = legal.NerModel.pretrained("legner_orgs_prods_alias", "en", "legal/models")
+    .setInputCols(Array("sentence", "token", "embeddings"))
+    .setOutputCol("ner")
 
  val nerConverter = new nlp.NerConverter()
      .setInputCols(Array("sentence", "token", "ner"))
@@ -664,7 +665,7 @@ val pipeline = new Pipeline().setStages(Array(
   sentenceDetector,
   tokenizer,
   embeddings,
-  clinical_sensitive_entities,
+  ner_model,
   nerConverter,
   deIdentification
 ))
@@ -691,8 +692,9 @@ val documentAssembler = new nlp.DocumentAssembler()
      .setOutputCol("embeddings")
 
 // Ner entities
-val clinical_sensitive_entities = medical.NerModel.pretrained("ner_deid_enriched", "en", "clinical/models")
-        .setInputCols(Array("sentence", "token", "embeddings")).setOutputCol("ner")
+val ner_model = finance.NerModel.pretrained("finner_orgs_prods_alias","en","finance/models")
+     .setInputCols(Array("sentence", "token", "embeddings"))
+     .setOutputCol("ner")
 
  val nerConverter = new nlp.NerConverter()
      .setInputCols(Array("sentence", "token", "ner"))
@@ -722,7 +724,7 @@ val pipeline = new Pipeline().setStages(Array(
   sentenceDetector,
   tokenizer,
   embeddings,
-  clinical_sensitive_entities,
+  ner_model,
   nerConverter,
   deIdentification
 ))

@@ -127,12 +127,12 @@ dependency_parser = nlp.DependencyParserModel.pretrained("dependency_conllu", "e
   .setInputCols(["sentences", "pos_tags", "tokens"]) \
   .setOutputCol("dependencies")
 
-clinical_ner_tagger = medical.NerModel.pretrained("jsl_ner_wip_greedy_clinical","en","clinical/models") \
-  .setInputCols(["sentences", "tokens", "embeddings"]) \
-  .setOutputCol("ner_tags")
+ner_model = legal.NerModel.pretrained("legner_orgs_prods_alias", "en", "legal/models")\
+  .setInputCols(["sentence", "token", "embedding])\
+  .setOutputCol("ner")
 
 ner_chunker = nlp.NerConverter() \
-  .setInputCols(["sentences", "tokens", "ner_tags"]) \
+  .setInputCols(["sentences", "tokens", "ner"]) \
   .setOutputCol("ner_chunks")
 
 # Define the relation pairs and the filter
@@ -155,9 +155,9 @@ trained_pipeline = Pipeline(stages=[
   tokenizer,
   words_embedder,
   pos_tagger,
-  clinical_ner_tagger,
-  ner_chunker,
   dependency_parser,
+  ner_model,
+  ner_chunker,
   re_ner_chunk_filter
 ])
 {%- endcapture -%}
@@ -190,12 +190,12 @@ dependency_parser = nlp.DependencyParserModel.pretrained("dependency_conllu", "e
   .setInputCols(["sentences", "pos_tags", "tokens"]) \
   .setOutputCol("dependencies")
 
-clinical_ner_tagger = medical.NerModel.pretrained("jsl_ner_wip_greedy_clinical","en","clinical/models") \
-  .setInputCols(["sentences", "tokens", "embeddings"]) \
-  .setOutputCol("ner_tags")
+ner_model = finance.NerModel.pretrained("finner_orgs_prods_alias","en","finance/models")\
+  .setInputCols(["sentence", "token", "embeddings"])\
+  .setOutputCol("ner")
 
 ner_chunker = nlp.NerConverter() \
-  .setInputCols(["sentences", "tokens", "ner_tags"]) \
+  .setInputCols(["sentences", "tokens", "ner"]) \
   .setOutputCol("ner_chunks")
 
 # Define the relation pairs and the filter
@@ -218,9 +218,9 @@ trained_pipeline = Pipeline(stages=[
   tokenizer,
   words_embedder,
   pos_tagger,
-  clinical_ner_tagger,
-  ner_chunker,
   dependency_parser,
+  ner_model,
+  ner_chunker,
   re_ner_chunk_filter
 ])
 {%- endcapture -%}
@@ -334,12 +334,12 @@ val dependency_parser = nlp.DependencyParserModel.pretrained("dependency_conllu"
   .setInputCols(Array("sentences", "pos_tags", "tokens"))
   .setOutputCol("dependencies")
 
-val clinical_ner_tagger = medical.NerModel.pretrained("jsl_ner_wip_greedy_clinical","en","clinical/models")
-  .setInputCols(Array("sentences", "tokens", "embeddings"))
-  .setOutputCol("ner_tags")
+val ner_model = legal.NerModel.pretrained("legner_orgs_prods_alias", "en", "legal/models")
+  .setInputCols(Array("sentence", "token", "embedding))
+  .setOutputCol("ner")
 
 val ner_chunker = new nlp.NerConverter()
-  .setInputCols(Array("sentences", "tokens", "ner_tags"))
+  .setInputCols(Array("sentences", "tokens", "ner"))
   .setOutputCol("ner_chunks")
 
 // Define the relation pairs and the filter
@@ -360,9 +360,9 @@ val trained_pipeline = new Pipeline().setStages(Array(
   tokenizer,
   words_embedder,
   pos_tagger,
-  clinical_ner_tagger,
-  ner_chunker,
   dependency_parser,
+  ner_model,
+  ner_chunker,
   re_ner_chunk_filter
 ))
 {%- endcapture -%}
@@ -395,12 +395,12 @@ val dependency_parser = nlp.DependencyParserModel.pretrained("dependency_conllu"
   .setInputCols(Array("sentences", "pos_tags", "tokens"))
   .setOutputCol("dependencies")
 
-val clinical_ner_tagger = medical.NerModel.pretrained("jsl_ner_wip_greedy_clinical","en","clinical/models")
-  .setInputCols(Array("sentences", "tokens", "embeddings"))
-  .setOutputCol("ner_tags")
+val ner_model = finance.NerModel.pretrained("finner_orgs_prods_alias","en","finance/models")
+  .setInputCols(Array("sentence", "token", "embeddings"))
+  .setOutputCol("ner")
 
 val ner_chunker = new nlp.NerConverter()
-  .setInputCols(Array("sentences", "tokens", "ner_tags"))
+  .setInputCols(Array("sentences", "tokens", "ner"))
   .setOutputCol("ner_chunks")
 
 // Define the relation pairs and the filter
@@ -421,9 +421,9 @@ val trained_pipeline = new Pipeline().setStages(Array(
   tokenizer,
   words_embedder,
   pos_tagger,
-  clinical_ner_tagger,
-  ner_chunker,
   dependency_parser,
+  ner_model,
+  ner_chunker,
   re_ner_chunk_filter
 ))
 {%- endcapture -%}
