@@ -441,28 +441,28 @@
   <div class="top_tab_li">   
     <button class="tab-li code-selector-active python-button">Python</button><button class="tab-li code-selector-un-active scala-button">Scala</button><button class="tab-li code-selector-un-active nlu-button">NLU</button>
 </div>
-  <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">document_assembler</span> <span class="o">=</span> <span class="n">DocumentAssembler</span><span class="p">()</span>\
+  <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">document_assembler</span> <span class="o">=</span> <span class="n">nlp</span><span class="p">.</span><span class="n">DocumentAssembler</span><span class="p">()</span>\
       <span class="p">.</span><span class="n">setInputCol</span><span class="p">(</span><span class="s">'text'</span><span class="p">)</span>\
       <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">'document'</span><span class="p">)</span>
 
-<span class="n">tokenizer</span> <span class="o">=</span> <span class="n">Tokenizer</span><span class="p">()</span>\
+<span class="n">tokenizer</span> <span class="o">=</span> <span class="n">nlp</span><span class="p">.</span><span class="n">Tokenizer</span><span class="p">()</span>\
       <span class="p">.</span><span class="n">setInputCols</span><span class="p">(</span><span class="s">"document"</span><span class="p">)</span>\
       <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"token"</span><span class="p">)</span>
 
-<span class="n">embeddings</span> <span class="o">=</span> <span class="n">WordEmbeddingsModel</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">'glove_100d'</span><span class="p">)</span> \
+<span class="n">embeddings</span> <span class="o">=</span> <span class="n">nlp</span><span class="p">.</span><span class="n">WordEmbeddingsModel</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">'glove_100d'</span><span class="p">)</span> \
         <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">'document'</span><span class="p">,</span> <span class="s">'token'</span><span class="p">])</span> \
         <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">'embeddings'</span><span class="p">)</span>
 
-<span class="n">ner_model</span> <span class="o">=</span> <span class="n">NerDLModel</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"onto_100"</span><span class="p">,</span> <span class="s">"en"</span><span class="p">)</span> \
+<span class="n">ner_model</span> <span class="o">=</span> <span class="n">nlp</span><span class="p">.</span><span class="n">NerDLModel</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"onto_100"</span><span class="p">,</span> <span class="s">"en"</span><span class="p">)</span> \
         <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"document"</span><span class="p">,</span> <span class="s">"token"</span><span class="p">,</span> <span class="s">"embeddings"</span><span class="p">])</span> \
         <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"ner"</span><span class="p">)</span>
  
-<span class="n">ner_converter</span> <span class="o">=</span> <span class="n">NerConverter</span><span class="p">()</span>\
+<span class="n">ner_converter</span> <span class="o">=</span> <span class="n">nlp</span><span class="p">.</span><span class="n">NerConverter</span><span class="p">()</span>\
       <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"document"</span><span class="p">,</span> <span class="s">"token"</span><span class="p">,</span> <span class="s">"ner"</span><span class="p">])</span>\
       <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"ner_chunk"</span><span class="p">)</span>\
       <span class="p">.</span><span class="n">setWhiteList</span><span class="p">([</span><span class="s">"CARDINAL"</span><span class="p">])</span>
 
-<span class="n">CM</span> <span class="o">=</span> <span class="n">ChunkMapperModel</span><span class="p">()</span>\
+<span class="n">CM</span> <span class="o">=</span> <span class="n">legal</span><span class="p">.</span><span class="n">ChunkMapperModel</span><span class="p">()</span>\
       <span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"legmapper_edgar_irs"</span><span class="p">,</span> <span class="s">"en"</span><span class="p">,</span> <span class="s">"legal/models"</span><span class="p">)</span>\
       <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"ner_chunk"</span><span class="p">])</span>\
       <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"mappings"</span><span class="p">)</span>

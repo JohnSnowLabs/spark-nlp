@@ -11,7 +11,7 @@
     })(window,document,'script','dataLayer','GTM-59JLR64');</script>
 <!-- End Google Tag Manager --><title>Identify Job Experiences in the Past</title><meta property="og:title" content=""/>
 
-<meta name="description" content="DescriptionThis model is aimed to detect if any Role, Job Title, Person, Organization, Date, etc. entity, extracted with NER, is expressed as a Past Experience.Predicted EntitiesNO_PAST, PASTLive DemoOpen in ColabDownloadHow to use         PythonScalaNLU  documentAssembler = DocumentAssembler()\    .setInputCol("tex...">
+<meta name="description" content="DescriptionThis model is aimed to detect if any Role, Job Title, Person, Organization, Date, etc. entity, extracted with NER, is expressed as a Past Experience.Predicted EntitiesNO_PAST, PASTLive DemoOpen in ColabDownloadHow to use         PythonScalaNLU  documentAssembler = nlp.DocumentAssembler()\    .setInputCol(...">
 <link rel="canonical" href="/2022/09/09/finassertiondl_past_roles_en.html"><link rel="alternate" type="application/rss+xml" title="Spark NLP" href="/feed.xml"><!-- start favicons snippet, use https://realfavicongenerator.net/ -->
 <!---->
 <!-- <link rel="apple-touch-icon" sizes="180x180" href="/fav.ico"> -->
@@ -435,43 +435,43 @@
   <div class="top_tab_li">   
     <button class="tab-li code-selector-active python-button">Python</button><button class="tab-li code-selector-un-active scala-button">Scala</button><button class="tab-li code-selector-un-active nlu-button">NLU</button>
 </div>
-  <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">documentAssembler</span> <span class="o">=</span> <span class="n">DocumentAssembler</span><span class="p">()</span>\
+  <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">documentAssembler</span> <span class="o">=</span> <span class="n">nlp</span><span class="p">.</span><span class="n">DocumentAssembler</span><span class="p">()</span>\
     <span class="p">.</span><span class="n">setInputCol</span><span class="p">(</span><span class="s">"text"</span><span class="p">)</span>\
     <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"document"</span><span class="p">)</span>
 
-<span class="c1"># Tokenizer splits words in a relevant format for NLP
-</span><span class="n">tokenizer</span> <span class="o">=</span> <span class="n">Tokenizer</span><span class="p">()</span>\
+<span class="c1"># nlp.Tokenizer splits words in a relevant format for NLP
+</span><span class="n">tokenizer</span> <span class="o">=</span> <span class="n">nlp</span><span class="p">.</span><span class="n">Tokenizer</span><span class="p">()</span>\
     <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"document"</span><span class="p">])</span>\
     <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"token"</span><span class="p">)</span>
 
-<span class="n">embeddings</span> <span class="o">=</span> <span class="n">BertEmbeddings</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"bert_embeddings_sec_bert_base"</span><span class="p">,</span><span class="s">"en"</span><span class="p">)</span> \
+<span class="n">embeddings</span> <span class="o">=</span> <span class="n">nlp</span><span class="p">.</span><span class="n">BertEmbeddings</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"bert_embeddings_sec_bert_base"</span><span class="p">,</span><span class="s">"en"</span><span class="p">)</span> \
     <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"document"</span><span class="p">,</span> <span class="s">"token"</span><span class="p">])</span> \
     <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"embeddings"</span><span class="p">)</span>
     
 <span class="c1"># Add as many NER as you wish here. We have added 2 as an example.
-# ===============
-</span><span class="n">tokenClassifier</span> <span class="o">=</span> <span class="n">FinanceBertForTokenClassifier</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"finner_bert_roles"</span><span class="p">,</span> <span class="s">"en"</span><span class="p">,</span> <span class="s">"finance/models"</span><span class="p">)</span>\
+# ================
+</span><span class="n">tokenClassifier</span> <span class="o">=</span> <span class="n">finance</span><span class="p">.</span><span class="n">BertForTokenClassification</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"finner_bert_roles"</span><span class="p">,</span> <span class="s">"en"</span><span class="p">,</span> <span class="s">"finance/models"</span><span class="p">)</span>\
   <span class="p">.</span><span class="n">setInputCols</span><span class="p">(</span><span class="s">"token"</span><span class="p">,</span> <span class="s">"document"</span><span class="p">)</span>\
   <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"label"</span><span class="p">)</span>
 
-<span class="n">ner</span> <span class="o">=</span> <span class="n">FinanceNerModel</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"finner_org_per_role"</span><span class="p">,</span> <span class="s">"en"</span><span class="p">,</span> <span class="s">"finance/models"</span><span class="p">)</span>\
+<span class="n">ner</span> <span class="o">=</span> <span class="n">finance</span><span class="p">.</span><span class="n">NerModel</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"finner_org_per_role_date"</span><span class="p">,</span> <span class="s">"en"</span><span class="p">,</span> <span class="s">"finance/models"</span><span class="p">)</span>\
   <span class="p">.</span><span class="n">setInputCols</span><span class="p">(</span><span class="s">"document"</span><span class="p">,</span> <span class="s">"token"</span><span class="p">,</span> <span class="s">"embeddings"</span><span class="p">)</span>\
   <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"label2"</span><span class="p">)</span>
 
-<span class="n">ner_converter</span> <span class="o">=</span> <span class="n">NerConverterInternal</span><span class="p">()</span> \
+<span class="n">ner_converter</span> <span class="o">=</span> <span class="n">finance</span><span class="p">.</span><span class="n">NerConverterInternal</span><span class="p">()</span> \
     <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"document"</span><span class="p">,</span> <span class="s">"token"</span><span class="p">,</span> <span class="s">"label"</span><span class="p">])</span> \
     <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"ner_chunk"</span><span class="p">)</span>
 
-<span class="n">ner_converter2</span> <span class="o">=</span> <span class="n">NerConverterInternal</span><span class="p">()</span> \
+<span class="n">ner_converter2</span> <span class="o">=</span> <span class="n">finance</span><span class="p">.</span><span class="n">NerConverterInternal</span><span class="p">()</span> \
     <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"document"</span><span class="p">,</span> <span class="s">"token"</span><span class="p">,</span> <span class="s">"label2"</span><span class="p">])</span> \
     <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"ner_chunk2"</span><span class="p">)</span>
 
-<span class="n">merger</span> <span class="o">=</span>  <span class="n">ChunkMergeApproach</span><span class="p">()</span>\
+<span class="n">merger</span> <span class="o">=</span>  <span class="n">finance</span><span class="p">.</span><span class="n">ChunkMergeApproach</span><span class="p">()</span>\
     <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"ner_chunk"</span><span class="p">,</span> <span class="s">"ner_chunk2"</span><span class="p">])</span>\
     <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"merged_chunk"</span><span class="p">)</span>
-<span class="c1"># ===============
+<span class="c1"># ================
 </span>
-<span class="n">assertion</span> <span class="o">=</span> <span class="n">AssertionDLModel</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"finassertiondl_past_roles"</span><span class="p">,</span> <span class="s">"en"</span><span class="p">,</span> <span class="s">"finance/models"</span><span class="p">)</span>\
+<span class="n">assertion</span> <span class="o">=</span> <span class="n">finance</span><span class="p">.</span><span class="n">AssertionDLModel</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"finassertiondl_past_roles"</span><span class="p">,</span> <span class="s">"en"</span><span class="p">,</span> <span class="s">"finance/models"</span><span class="p">)</span>\
     <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"document"</span><span class="p">,</span> <span class="s">"merged_chunk"</span><span class="p">,</span> <span class="s">"embeddings"</span><span class="p">])</span> \
     <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"assertion"</span><span class="p">)</span>
     

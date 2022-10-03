@@ -11,7 +11,7 @@
     })(window,document,'script','dataLayer','GTM-59JLR64');</script>
 <!-- End Google Tag Manager --><title>Augment Tickers with NASDAQ database</title><meta property="og:title" content=""/>
 
-<meta name="description" content="DescriptionThis model allows you to, given a Ticker, get information about that company, including the Company Name, the Industry and the Sector.Predicted EntitiesLive DemoOpen in ColabDownloadHow to use         PythonScalaNLU  from johnsnowlabs.extensions.finance.chunk_classification.resolution import ChunkMapperMo...">
+<meta name="description" content="DescriptionThis model allows you to, given a Ticker, get information about that company, including the Company Name, the Industry and the Sector.Predicted EntitiesLive DemoOpen in ColabDownloadHow to use         PythonScalaNLU  document_assembler = nlp.DocumentAssembler()\      .setInputCol('text')\      .setOutputC...">
 <link rel="canonical" href="/2022/08/09/finmapper_nasdaq_ticker_en_3_2.html"><link rel="alternate" type="application/rss+xml" title="Spark NLP" href="/feed.xml"><!-- start favicons snippet, use https://realfavicongenerator.net/ -->
 <!---->
 <!-- <link rel="apple-touch-icon" sizes="180x180" href="/fav.ico"> -->
@@ -433,25 +433,24 @@
   <div class="top_tab_li">   
     <button class="tab-li code-selector-active python-button">Python</button><button class="tab-li code-selector-un-active scala-button">Scala</button><button class="tab-li code-selector-un-active nlu-button">NLU</button>
 </div>
-  <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">johnsnowlabs.extensions.finance.chunk_classification.resolution</span> <span class="kn">import</span> <span class="n">ChunkMapperModel</span>
-
-<span class="n">document_assembler</span> <span class="o">=</span> <span class="n">DocumentAssembler</span><span class="p">()</span>\
+  <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+<span class="n">document_assembler</span> <span class="o">=</span> <span class="n">nlp</span><span class="p">.</span><span class="n">DocumentAssembler</span><span class="p">()</span>\
       <span class="p">.</span><span class="n">setInputCol</span><span class="p">(</span><span class="s">'text'</span><span class="p">)</span>\
       <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">'document'</span><span class="p">)</span>
 
-<span class="n">tokenizer</span> <span class="o">=</span> <span class="n">Tokenizer</span><span class="p">()</span>\
+<span class="n">tokenizer</span> <span class="o">=</span> <span class="n">nlp</span><span class="p">.</span><span class="n">Tokenizer</span><span class="p">()</span>\
       <span class="p">.</span><span class="n">setInputCols</span><span class="p">(</span><span class="s">"document"</span><span class="p">)</span>\
       <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"token"</span><span class="p">)</span>
 
-<span class="n">tokenClassifier</span> <span class="o">=</span> <span class="n">RoBertaForTokenClassification</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"finner_roberta_ticker"</span><span class="p">,</span> <span class="s">"en"</span><span class="p">,</span> <span class="s">"finance/models"</span><span class="p">)</span>\
+<span class="n">tokenClassifier</span> <span class="o">=</span> <span class="n">nlp</span><span class="p">.</span><span class="n">RoBertaForTokenClassification</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"finner_roberta_ticker"</span><span class="p">,</span> <span class="s">"en"</span><span class="p">,</span> <span class="s">"finance/models"</span><span class="p">)</span>\
   <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"document"</span><span class="p">,</span><span class="s">'token'</span><span class="p">])</span>\
   <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"ner"</span><span class="p">)</span>
 
-<span class="n">ner_converter</span> <span class="o">=</span> <span class="n">NerConverter</span><span class="p">()</span>\
+<span class="n">ner_converter</span> <span class="o">=</span> <span class="n">nlp</span><span class="p">.</span><span class="n">NerConverter</span><span class="p">()</span>\
       <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"document"</span><span class="p">,</span> <span class="s">"token"</span><span class="p">,</span> <span class="s">"ner"</span><span class="p">])</span>\
       <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"ner_chunk"</span><span class="p">)</span>
 
-<span class="n">CM</span> <span class="o">=</span> <span class="n">ChunkMapperModel</span><span class="p">()</span>\
+<span class="n">CM</span> <span class="o">=</span> <span class="n">finance</span><span class="p">.</span><span class="n">ChunkMapperModel</span><span class="p">()</span>\
       <span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">'finmapper_nasdaq_companyname'</span><span class="p">,</span> <span class="s">'en'</span><span class="p">,</span> <span class="s">'finance/models'</span><span class="p">)</span>\
       <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"ner_chunk"</span><span class="p">])</span>\
       <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"mappings"</span><span class="p">)</span>\
@@ -459,9 +458,8 @@
 
 <span class="n">pipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">().</span><span class="n">setStages</span><span class="p">([</span><span class="n">document_assembler</span><span class="p">,</span>
                                  <span class="n">tokenizer</span><span class="p">,</span> 
-                                 <span class="n">embeddings</span><span class="p">,</span>
-                                 <span class="n">ner_model</span><span class="p">,</span> 
-                                 <span class="n">ner_converter</span><span class="p">,</span> 
+                                 <span class="n">tokenClassifier</span><span class="p">,</span>
+                                 <span class="n">ner_converter</span><span class="p">,</span>  
                                  <span class="n">CM</span><span class="p">])</span>
 
 <span class="n">text</span> <span class="o">=</span> <span class="p">[</span><span class="s">"""There are some serious purchases and sales of AMZN stock today."""</span><span class="p">]</span>

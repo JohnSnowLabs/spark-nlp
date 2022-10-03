@@ -437,15 +437,15 @@
   <div class="top_tab_li">   
     <button class="tab-li code-selector-active python-button">Python</button><button class="tab-li code-selector-un-active scala-button">Scala</button><button class="tab-li code-selector-un-active nlu-button">NLU</button>
 </div>
-  <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">documentAssembler</span> <span class="o">=</span> <span class="n">DocumentAssembler</span><span class="p">()</span>\
+  <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">documentAssembler</span> <span class="o">=</span> <span class="n">nlp</span><span class="p">.</span><span class="n">DocumentAssembler</span><span class="p">()</span>\
 <span class="p">.</span><span class="n">setInputCol</span><span class="p">(</span><span class="s">"term"</span><span class="p">)</span>\
 <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"document"</span><span class="p">)</span>
 
-<span class="n">tokenizer</span> <span class="o">=</span> <span class="n">Tokenizer</span><span class="p">()</span>\
+<span class="n">tokenizer</span> <span class="o">=</span> <span class="n">nlp</span><span class="p">.</span><span class="n">Tokenizer</span><span class="p">()</span>\
 <span class="p">.</span><span class="n">setInputCols</span><span class="p">(</span><span class="s">"document"</span><span class="p">)</span>\
 <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"token"</span><span class="p">)</span>
 
-<span class="n">roberta_embeddings</span> <span class="o">=</span> <span class="n">RoBertaEmbeddings</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"roberta_base_biomedical"</span><span class="p">,</span> <span class="s">"es"</span><span class="p">)</span>\
+<span class="n">roberta_embeddings</span> <span class="o">=</span> <span class="n">nlp</span><span class="p">.</span><span class="n">RoBertaEmbeddings</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"roberta_base_biomedical"</span><span class="p">,</span> <span class="s">"es"</span><span class="p">)</span>\
 <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"document"</span><span class="p">,</span> <span class="s">"token"</span><span class="p">])</span>\
 <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"roberta_embeddings"</span><span class="p">)</span>
 
@@ -454,15 +454,15 @@
 <span class="n">tokenizer</span><span class="p">,</span>
 <span class="n">roberta_embeddings</span><span class="p">])</span>
 </code></pre></div>  </div>
-  <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">val</span> <span class="nv">documentAssembler</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">DocumentAssembler</span><span class="o">()</span>
+  <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">val</span> <span class="nv">documentAssembler</span> <span class="k">=</span> <span class="k">new</span> <span class="nv">nlp</span><span class="o">.</span><span class="py">DocumentAssembler</span><span class="o">()</span>
 <span class="o">.</span><span class="py">setInputCol</span><span class="o">(</span><span class="s">"term"</span><span class="o">)</span>
 <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"document"</span><span class="o">)</span>
 
-<span class="k">val</span> <span class="nv">tokenizer</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">Tokenizer</span><span class="o">()</span>
+<span class="k">val</span> <span class="nv">tokenizer</span> <span class="k">=</span> <span class="k">new</span> <span class="nv">nlp</span><span class="o">.</span><span class="py">Tokenizer</span><span class="o">()</span>
 <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="s">"document"</span><span class="o">)</span>
 <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"token"</span><span class="o">)</span>
 
-<span class="k">val</span> <span class="nv">roberta_embeddings</span> <span class="k">=</span> <span class="nv">RoBertaEmbeddings</span><span class="o">.</span><span class="py">pretrained</span><span class="o">(</span><span class="s">"roberta_base_biomedical"</span><span class="o">,</span> <span class="s">"es"</span><span class="o">)</span>
+<span class="k">val</span> <span class="nv">roberta_embeddings</span> <span class="k">=</span> <span class="nv">nlp</span><span class="o">.</span><span class="py">RoBertaEmbeddings</span><span class="o">.</span><span class="py">pretrained</span><span class="o">(</span><span class="s">"roberta_base_biomedical"</span><span class="o">,</span> <span class="s">"es"</span><span class="o">)</span>
 <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="s">"document"</span><span class="o">,</span> <span class="s">"token"</span><span class="o">))</span>
 <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"roberta_embeddings"</span><span class="o">)</span>
 

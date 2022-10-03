@@ -435,16 +435,16 @@
   <div class="top_tab_li">   
     <button class="tab-li code-selector-active python-button">Python</button><button class="tab-li code-selector-un-active scala-button">Scala</button><button class="tab-li code-selector-un-active nlu-button">NLU</button>
 </div>
-  <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">documentAssembler</span> <span class="o">=</span> <span class="n">DocumentAssembler</span><span class="p">()</span>\
+  <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">documentAssembler</span> <span class="o">=</span> <span class="n">nlp</span><span class="p">.</span><span class="n">DocumentAssembler</span><span class="p">()</span>\
         <span class="p">.</span><span class="n">setInputCol</span><span class="p">(</span><span class="s">"text"</span><span class="p">)</span>\
         <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"document"</span><span class="p">)</span>
 
-<span class="n">sentencizer</span> <span class="o">=</span> <span class="n">SentenceDetectorDLModel</span>\
+<span class="n">sentencizer</span> <span class="o">=</span> <span class="n">nlp</span><span class="p">.</span><span class="n">SentenceDetectorDLModel</span>\
         <span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"sentence_detector_dl"</span><span class="p">,</span> <span class="s">"en"</span><span class="p">)</span> \
         <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"document"</span><span class="p">])</span>\
         <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"sentence"</span><span class="p">)</span>
                       
-<span class="n">tokenizer</span> <span class="o">=</span> <span class="n">Tokenizer</span><span class="p">()</span>\
+<span class="n">tokenizer</span> <span class="o">=</span> <span class="n">nlp</span><span class="p">.</span><span class="n">Tokenizer</span><span class="p">()</span>\
         <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"sentence"</span><span class="p">])</span>\
         <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"token"</span><span class="p">)</span>
 
@@ -453,24 +453,24 @@
   <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"label"</span><span class="p">)</span>\
   <span class="p">.</span><span class="n">setCaseSensitive</span><span class="p">(</span><span class="bp">True</span><span class="p">)</span>
 
-<span class="n">ner_converter</span> <span class="o">=</span> <span class="n">NerConverter</span><span class="p">()</span>\
+<span class="n">ner_converter</span> <span class="o">=</span> <span class="n">nlp</span><span class="p">.</span><span class="n">NerConverter</span><span class="p">()</span>\
     <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"sentence"</span><span class="p">,</span><span class="s">"token"</span><span class="p">,</span><span class="s">"label"</span><span class="p">])</span>\
     <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"ner_chunk"</span><span class="p">)</span>
 
 <span class="c1"># ONLY NEEDED IF YOU WANT TO FILTER RELATION PAIRS OR SYNTACTIC DISTANCE
 # =================
-</span><span class="n">pos_tagger</span> <span class="o">=</span> <span class="n">PerceptronModel</span><span class="p">()</span>\
+</span><span class="n">pos_tagger</span> <span class="o">=</span> <span class="n">nlp</span><span class="p">.</span><span class="n">PerceptronModel</span><span class="p">()</span>\
     <span class="p">.</span><span class="n">pretrained</span><span class="p">()</span> \
     <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"sentence"</span><span class="p">,</span> <span class="s">"token"</span><span class="p">])</span>\
     <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"pos_tags"</span><span class="p">)</span>
 
-<span class="n">dependency_parser</span> <span class="o">=</span> <span class="n">DependencyParserModel</span><span class="p">()</span> \
+<span class="n">dependency_parser</span> <span class="o">=</span> <span class="n">nlp</span><span class="p">.</span><span class="n">DependencyParserModel</span><span class="p">()</span> \
     <span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"dependency_conllu"</span><span class="p">,</span> <span class="s">"en"</span><span class="p">)</span> \
     <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"sentence"</span><span class="p">,</span> <span class="s">"pos_tags"</span><span class="p">,</span> <span class="s">"token"</span><span class="p">])</span> \
     <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"dependencies"</span><span class="p">)</span>
 
 <span class="c1">#Set a filter on pairs of named entities which will be treated as relation candidates
-</span><span class="n">re_filter</span> <span class="o">=</span> <span class="n">RENerChunksFilter</span><span class="p">()</span>\
+</span><span class="n">re_filter</span> <span class="o">=</span> <span class="n">legal</span><span class="p">.</span><span class="n">RENerChunksFilter</span><span class="p">()</span>\
     <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"ner_chunk"</span><span class="p">,</span> <span class="s">"dependencies"</span><span class="p">])</span>\
     <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"re_ner_chunks"</span><span class="p">)</span>\
     <span class="p">.</span><span class="n">setMaxSyntacticDistance</span><span class="p">(</span><span class="mi">20</span><span class="p">)</span>\

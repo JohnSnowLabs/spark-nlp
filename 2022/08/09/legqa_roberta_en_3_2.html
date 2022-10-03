@@ -11,7 +11,7 @@
     })(window,document,'script','dataLayer','GTM-59JLR64');</script>
 <!-- End Google Tag Manager --><title>Legal Question Answering (RoBerta)</title><meta property="og:title" content=""/>
 
-<meta name="description" content="DescriptionLegal RoBerta-based Question Answering model, trained on squad-v2, finetuned on proprietary Legal questions and answers.Predicted EntitiesLive DemoOpen in ColabDownloadHow to use         PythonScalaNLU  document_assembler = MultiDocumentAssembler() \ .setInputCols(["question", "context"]) \.setOutputCols(...">
+<meta name="description" content="DescriptionLegal RoBerta-based Question Answering model, trained on squad-v2, finetuned on proprietary Legal questions and answers.Predicted EntitiesLive DemoOpen in ColabDownloadHow to use         PythonScalaNLU  documentAssembler = nlp.MultiDocumentAssembler()\        .setInputCols(["question", "context"])\       ...">
 <link rel="canonical" href="/2022/08/09/legqa_roberta_en_3_2.html"><link rel="alternate" type="application/rss+xml" title="Spark NLP" href="/feed.xml"><!-- start favicons snippet, use https://realfavicongenerator.net/ -->
 <!---->
 <!-- <link rel="apple-touch-icon" sizes="180x180" href="/fav.ico"> -->
@@ -433,17 +433,18 @@
   <div class="top_tab_li">   
     <button class="tab-li code-selector-active python-button">Python</button><button class="tab-li code-selector-un-active scala-button">Scala</button><button class="tab-li code-selector-un-active nlu-button">NLU</button>
 </div>
-  <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">document_assembler</span> <span class="o">=</span> <span class="n">MultiDocumentAssembler</span><span class="p">()</span> \ 
-<span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"question"</span><span class="p">,</span> <span class="s">"context"</span><span class="p">])</span> \
-<span class="p">.</span><span class="n">setOutputCols</span><span class="p">([</span><span class="s">"document_question"</span><span class="p">,</span> <span class="s">"document_context"</span><span class="p">])</span>
+  <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+<span class="n">documentAssembler</span> <span class="o">=</span> <span class="n">nlp</span><span class="p">.</span><span class="n">MultiDocumentAssembler</span><span class="p">()</span>\
+        <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"question"</span><span class="p">,</span> <span class="s">"context"</span><span class="p">])</span>\
+        <span class="p">.</span><span class="n">setOutputCols</span><span class="p">([</span><span class="s">"document_question"</span><span class="p">,</span> <span class="s">"document_context"</span><span class="p">])</span>
 
-<span class="n">spanClassifier</span> <span class="o">=</span> <span class="n">RoBertaForQuestionAnswering</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"legqa_roberta"</span><span class="p">,</span><span class="s">"en"</span><span class="p">,</span> <span class="s">"legal/models"</span><span class="p">)</span> \
+<span class="n">spanClassifier</span> <span class="o">=</span> <span class="n">nlp</span><span class="p">.</span><span class="n">RoBertaForQuestionAnswering</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"legqa_roberta"</span><span class="p">,</span><span class="s">"en"</span><span class="p">,</span> <span class="s">"legal/models"</span><span class="p">)</span> \
 <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"document_question"</span><span class="p">,</span> <span class="s">"document_context"</span><span class="p">])</span> \
 <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"answer"</span><span class="p">)</span> \
 <span class="p">.</span><span class="n">setCaseSensitive</span><span class="p">(</span><span class="bp">True</span><span class="p">)</span>
 
 <span class="n">pipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">().</span><span class="n">setStages</span><span class="p">([</span>
-<span class="n">document_assembler</span><span class="p">,</span>
+<span class="n">documentAssembler</span><span class="p">,</span>
 <span class="n">spanClassifier</span>
 <span class="p">])</span>
 

@@ -438,15 +438,15 @@
     <button class="tab-li code-selector-active python-button">Python</button><button class="tab-li code-selector-un-active scala-button">Scala</button><button class="tab-li code-selector-un-active nlu-button">NLU</button>
 </div>
   <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">...</span>
-<span class="n">c2doc</span> <span class="o">=</span> <span class="n">Chunk2Doc</span><span class="p">()</span> \
+<span class="n">c2doc</span> <span class="o">=</span> <span class="n">nlp</span><span class="p">.</span><span class="n">Chunk2Doc</span><span class="p">()</span> \
 <span class="p">.</span><span class="n">setInputCols</span><span class="p">(</span><span class="s">"ner_chunk"</span><span class="p">)</span> \
 <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"sentence"</span><span class="p">)</span>
 
-<span class="n">chunk_tokenizer</span> <span class="o">=</span> <span class="n">Tokenizer</span><span class="p">()</span>\
+<span class="n">chunk_tokenizer</span> <span class="o">=</span> <span class="n">nlp</span><span class="p">.</span><span class="n">Tokenizer</span><span class="p">()</span>\
 <span class="p">.</span><span class="n">setInputCols</span><span class="p">(</span><span class="s">"sentence"</span><span class="p">)</span>\
 <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"token"</span><span class="p">)</span>
 
-<span class="n">chunk_word_embeddings</span> <span class="o">=</span> <span class="n">RoBertaEmbeddings</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"roberta_base_biomedical"</span><span class="p">,</span> <span class="s">"es"</span><span class="p">)</span>\
+<span class="n">chunk_word_embeddings</span> <span class="o">=</span> <span class="n">nlp</span><span class="p">.</span><span class="n">RoBertaEmbeddings</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"roberta_base_biomedical"</span><span class="p">,</span> <span class="s">"es"</span><span class="p">)</span>\
 <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"sentence"</span><span class="p">,</span> <span class="s">"token"</span><span class="p">])</span>\
 <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"ner_chunk_word_embeddings"</span><span class="p">)</span>
 
@@ -455,7 +455,7 @@
 <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"ner_chunk_embeddings"</span><span class="p">)</span> \
 <span class="p">.</span><span class="n">setPoolingStrategy</span><span class="p">(</span><span class="s">"AVERAGE"</span><span class="p">)</span>
 
-<span class="n">er</span> <span class="o">=</span> <span class="n">SentenceEntityResolverModel</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"robertaresolve_snomed"</span><span class="p">,</span> <span class="s">"es"</span><span class="p">,</span> <span class="s">"clinical/models"</span><span class="p">)</span>\
+<span class="n">er</span> <span class="o">=</span> <span class="n">medical</span><span class="p">.</span><span class="n">SentenceEntityResolverModel</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"robertaresolve_snomed"</span><span class="p">,</span> <span class="s">"es"</span><span class="p">,</span> <span class="s">"clinical/models"</span><span class="p">)</span>\
 <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"sentence"</span><span class="p">,</span> <span class="s">"ner_chunk_embeddings"</span><span class="p">])</span> \
 <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"snomed_code"</span><span class="p">)</span> \
 <span class="p">.</span><span class="n">setDistanceFunction</span><span class="p">(</span><span class="s">"EUCLIDEAN"</span><span class="p">)</span>
@@ -478,15 +478,15 @@
 </code></pre></div>  </div>
 
   <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">...</span>
-<span class="k">val</span> <span class="nv">c2doc</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">Chunk2Doc</span><span class="o">()</span>
+<span class="k">val</span> <span class="nv">c2doc</span> <span class="k">=</span> <span class="k">new</span> <span class="nv">nlp</span><span class="o">.</span><span class="py">Chunk2Doc</span><span class="o">()</span>
 <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="s">"ner_chunk"</span><span class="o">))</span>
 <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"sentence"</span><span class="o">)</span>    
 
-<span class="k">val</span> <span class="nv">chunk_tokenizer</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">Tokenizer</span><span class="o">()</span>
+<span class="k">val</span> <span class="nv">chunk_tokenizer</span> <span class="k">=</span> <span class="k">new</span> <span class="nv">nlp</span><span class="o">.</span><span class="py">Tokenizer</span><span class="o">()</span>
 <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="s">"sentence"</span><span class="o">)</span>
 <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"token"</span><span class="o">)</span>
 
-<span class="k">val</span> <span class="nv">chunk_word_embeddings</span> <span class="k">=</span> <span class="nv">RoBertaEmbeddings</span><span class="o">.</span><span class="py">pretrained</span><span class="o">(</span><span class="s">"roberta_base_biomedical"</span><span class="o">,</span> <span class="s">"es"</span><span class="o">)</span>
+<span class="k">val</span> <span class="nv">chunk_word_embeddings</span> <span class="k">=</span> <span class="nv">nlp</span><span class="o">.</span><span class="py">RoBertaEmbeddings</span><span class="o">.</span><span class="py">pretrained</span><span class="o">(</span><span class="s">"roberta_base_biomedical"</span><span class="o">,</span> <span class="s">"es"</span><span class="o">)</span>
 <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="s">"sentence"</span><span class="o">,</span> <span class="s">"token"</span><span class="o">))</span>
 <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"ner_chunk_word_embeddings"</span><span class="o">)</span>
 
@@ -495,7 +495,7 @@
 <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"ner_chunk_embeddings"</span><span class="o">)</span>
 <span class="o">.</span><span class="py">setPoolingStrategy</span><span class="o">(</span><span class="s">"AVERAGE"</span><span class="o">)</span>
 
-<span class="k">val</span> <span class="nv">er</span> <span class="k">=</span> <span class="nv">SentenceEntityResolverModel</span><span class="o">.</span><span class="py">pretrained</span><span class="o">(</span><span class="s">"robertaresolve_snomed"</span><span class="o">,</span> <span class="s">"es"</span><span class="o">,</span> <span class="s">"clinical/models"</span><span class="o">)</span>
+<span class="k">val</span> <span class="nv">er</span> <span class="k">=</span> <span class="nv">medical</span><span class="o">.</span><span class="py">SentenceEntityResolverModel</span><span class="o">.</span><span class="py">pretrained</span><span class="o">(</span><span class="s">"robertaresolve_snomed"</span><span class="o">,</span> <span class="s">"es"</span><span class="o">,</span> <span class="s">"clinical/models"</span><span class="o">)</span>
 <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="s">"sentence"</span><span class="o">,</span> <span class="s">"ner_chunk_embeddings"</span><span class="o">))</span>
 <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"snomed_code"</span><span class="o">)</span>
 <span class="o">.</span><span class="py">setDistanceFunction</span><span class="o">(</span><span class="s">"EUCLIDEAN"</span><span class="o">)</span>

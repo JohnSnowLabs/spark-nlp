@@ -441,29 +441,28 @@
   <div class="top_tab_li">   
     <button class="tab-li code-selector-active python-button">Python</button><button class="tab-li code-selector-un-active scala-button">Scala</button><button class="tab-li code-selector-un-active nlu-button">NLU</button>
 </div>
-  <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">sparknlp.pretrained</span> <span class="kn">import</span> <span class="n">PretrainedPipeline</span>
+  <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">johnsnowlabs</span> <span class="kn">import</span> <span class="o">*</span>
 
 <span class="n">deid_pipeline</span> <span class="o">=</span> <span class="n">PretrainedPipeline</span><span class="p">(</span><span class="s">"legpipe_whereas"</span><span class="p">,</span> <span class="s">"en"</span><span class="p">,</span> <span class="s">"legal/models"</span><span class="p">)</span>
 
-<span class="n">deid_pipeline</span><span class="p">.</span><span class="n">annotate</span><span class="p">(</span><span class="s">'WHEREAS VerticalNet owns and operates a series of online communities.'')
+<span class="n">deid_pipeline</span><span class="p">.</span><span class="n">annotate</span><span class="p">(</span><span class="s">'WHEREAS VerticalNet owns and operates a series of online communities.'</span><span class="p">)</span>
 
-# Return NER chunks
-pipeline_result['</span><span class="n">ner_chunk</span><span class="s">']
+<span class="c1"># Return NER chunks
+</span><span class="n">pipeline_result</span><span class="p">[</span><span class="s">'ner_chunk'</span><span class="p">]</span>
 
-# Return RE
-pipeline_result['</span><span class="n">relations</span><span class="s">']
+<span class="c1"># Return RE
+</span><span class="n">pipeline_result</span><span class="p">[</span><span class="s">'relations'</span><span class="p">]</span>
 
-# Visualize the Dependencies
-from sparknlp_display import DependencyParserVisualizer
+<span class="c1"># Visualize the Dependencies
+</span>
+<span class="n">dependency_vis</span> <span class="o">=</span> <span class="n">viz</span><span class="p">.</span><span class="n">DependencyParserVisualizer</span><span class="p">()</span>
 
-dependency_vis = DependencyParserVisualizer()
-
-dependency_vis.display(pipeline_result[0], #should be the results of a single example, not the complete dataframe.
-                       pos_col = '</span><span class="n">pos</span><span class="s">', #specify the pos column
-                       dependency_col = '</span><span class="n">dependencies</span><span class="s">', #specify the dependency column
-                       dependency_type_col = '</span><span class="n">dependency_type</span><span class="s">' #specify the dependency type column
-                       )
-</span></code></pre></div>  </div>
+<span class="n">dependency_vis</span><span class="p">.</span><span class="n">display</span><span class="p">(</span><span class="n">pipeline_result</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="c1">#should be the results of a single example, not the complete dataframe.
+</span>                       <span class="n">pos_col</span> <span class="o">=</span> <span class="s">'pos'</span><span class="p">,</span> <span class="c1">#specify the pos column
+</span>                       <span class="n">dependency_col</span> <span class="o">=</span> <span class="s">'dependencies'</span><span class="p">,</span> <span class="c1">#specify the dependency column
+</span>                       <span class="n">dependency_type_col</span> <span class="o">=</span> <span class="s">'dependency_type'</span> <span class="c1">#specify the dependency type column
+</span>                       <span class="p">)</span>
+</code></pre></div>  </div>
 
 </div>
 
@@ -521,15 +520,15 @@ dependency_vis.display(pipeline_result[0], #should be the results of a single ex
 <h2 id="included-models">Included Models</h2>
 
 <ul>
-  <li>DocumentAssembler</li>
-  <li>Tokenizer</li>
-  <li>PerceptronModel</li>
-  <li>DependencyParserModel</li>
-  <li>TypedDependencyParserModel</li>
-  <li>RoBertaEmbeddings</li>
-  <li>LegalNerModel</li>
-  <li>NerConverter</li>
-  <li>RelationExtractionDLModel</li>
+  <li>nlp.DocumentAssembler</li>
+  <li>nlp.Tokenizer</li>
+  <li>nlp.PerceptronModel</li>
+  <li>nlp.DependencyParserModel</li>
+  <li>nlp.TypedDependencyParserModel</li>
+  <li>nlp.RoBertaEmbeddings</li>
+  <li>legal.NerModel</li>
+  <li>nlp.NerConverter</li>
+  <li>legal.RelationExtractionDLModel</li>
 </ul>
 </div><div class="d-print-none"><footer class="article__footer"><meta itemprop="dateModified" content="2022-08-24T00:00:00+00:00"><!-- start custom article footer snippet -->
 

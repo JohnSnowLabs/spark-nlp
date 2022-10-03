@@ -437,45 +437,45 @@
   <div class="top_tab_li">   
     <button class="tab-li code-selector-active python-button">Python</button><button class="tab-li code-selector-un-active scala-button">Scala</button><button class="tab-li code-selector-un-active nlu-button">NLU</button>
 </div>
-  <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">document_assembler</span> <span class="o">=</span> <span class="n">DocumentAssembler</span><span class="p">()</span>\
+  <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">document_assembler</span> <span class="o">=</span> <span class="n">nlp</span><span class="p">.</span><span class="n">DocumentAssembler</span><span class="p">()</span>\
         <span class="p">.</span><span class="n">setInputCol</span><span class="p">(</span><span class="s">"text"</span><span class="p">)</span>\
         <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"document"</span><span class="p">)</span>
         
-<span class="n">sentence_detector</span> <span class="o">=</span> <span class="n">SentenceDetectorDLModel</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"sentence_detector_dl"</span><span class="p">,</span><span class="s">"en"</span><span class="p">)</span>\
+<span class="n">sentence_detector</span> <span class="o">=</span> <span class="n">nlp</span><span class="p">.</span><span class="n">SentenceDetectorDLModel</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"sentence_detector_dl"</span><span class="p">,</span><span class="s">"en"</span><span class="p">)</span>\
         <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"document"</span><span class="p">])</span>\
         <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"sentence"</span><span class="p">)</span>\
         
-<span class="n">tokenizer</span> <span class="o">=</span> <span class="n">Tokenizer</span><span class="p">()</span>\
+<span class="n">tokenizer</span> <span class="o">=</span> <span class="n">nlp</span><span class="p">.</span><span class="n">Tokenizer</span><span class="p">()</span>\
         <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"sentence"</span><span class="p">])</span>\
         <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"token"</span><span class="p">)</span>
 
-<span class="n">embeddings</span> <span class="o">=</span> <span class="n">BertEmbeddings</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"bert_embeddings_sec_bert_base"</span><span class="p">,</span><span class="s">"en"</span><span class="p">)</span> \
+<span class="n">embeddings</span> <span class="o">=</span> <span class="n">nlp</span><span class="p">.</span><span class="n">BertEmbeddings</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"bert_embeddings_sec_bert_base"</span><span class="p">,</span><span class="s">"en"</span><span class="p">)</span> \
         <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"sentence"</span><span class="p">,</span> <span class="s">"token"</span><span class="p">])</span> \
         <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"embeddings"</span><span class="p">)</span>
 
-<span class="n">ner_model</span> <span class="o">=</span> <span class="n">FinanceNerModel</span><span class="p">().</span><span class="n">pretrained</span><span class="p">(</span><span class="s">'finner_org_per_role'</span><span class="p">,</span> <span class="s">'en'</span><span class="p">,</span> <span class="s">'finance/models'</span><span class="p">)</span>\
+<span class="n">ner_model</span> <span class="o">=</span> <span class="n">finance</span><span class="p">.</span><span class="n">NerModel</span><span class="p">().</span><span class="n">pretrained</span><span class="p">(</span><span class="s">'finner_org_per_role_date'</span><span class="p">,</span> <span class="s">'en'</span><span class="p">,</span> <span class="s">'finance/models'</span><span class="p">)</span>\
         <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"sentence"</span><span class="p">,</span> <span class="s">"token"</span><span class="p">,</span> <span class="s">"embeddings"</span><span class="p">])</span>\
         <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"ner"</span><span class="p">)</span>
 
-<span class="n">ner_converter</span> <span class="o">=</span> <span class="n">NerConverter</span><span class="p">()</span>\
+<span class="n">ner_converter</span> <span class="o">=</span> <span class="n">nlp</span><span class="p">.</span><span class="n">NerConverter</span><span class="p">()</span>\
         <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"sentence"</span><span class="p">,</span><span class="s">"token"</span><span class="p">,</span><span class="s">"ner"</span><span class="p">])</span>\
         <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"ner_chunk"</span><span class="p">)</span>
 
-<span class="n">pos</span> <span class="o">=</span> <span class="n">PerceptronModel</span><span class="p">.</span><span class="n">pretrained</span><span class="p">()</span>\
+<span class="n">pos</span> <span class="o">=</span> <span class="n">nlp</span><span class="p">.</span><span class="n">PerceptronModel</span><span class="p">.</span><span class="n">pretrained</span><span class="p">()</span>\
     <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"sentence"</span><span class="p">,</span> <span class="s">"token"</span><span class="p">])</span>\
     <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"pos"</span><span class="p">)</span>
     
-<span class="n">dependency_parser</span> <span class="o">=</span> <span class="n">DependencyParserModel</span><span class="p">().</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"dependency_conllu"</span><span class="p">,</span> <span class="s">"en"</span><span class="p">)</span>\
+<span class="n">dependency_parser</span> <span class="o">=</span> <span class="n">nlp</span><span class="p">.</span><span class="n">DependencyParserModel</span><span class="p">().</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"dependency_conllu"</span><span class="p">,</span> <span class="s">"en"</span><span class="p">)</span>\
     <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"sentence"</span><span class="p">,</span> <span class="s">"pos"</span><span class="p">,</span> <span class="s">"token"</span><span class="p">])</span>\
     <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"dependencies"</span><span class="p">)</span>
 
-<span class="n">re_ner_chunk_filter</span> <span class="o">=</span> <span class="n">RENerChunksFilter</span><span class="p">()</span>\
+<span class="n">re_ner_chunk_filter</span> <span class="o">=</span> <span class="n">finance</span><span class="p">.</span><span class="n">RENerChunksFilter</span><span class="p">()</span>\
     <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"ner_chunk"</span><span class="p">,</span> <span class="s">"dependencies"</span><span class="p">])</span>\
     <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"re_ner_chunk"</span><span class="p">)</span>\
     <span class="p">.</span><span class="n">setRelationPairs</span><span class="p">([</span><span class="s">"PERSON-ROLE, ORG-ROLE, DATE-ROLE, PERSON-ORG"</span><span class="p">])</span>\
     <span class="p">.</span><span class="n">setMaxSyntacticDistance</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
 
-<span class="n">re_Model</span> <span class="o">=</span> <span class="n">RelationExtractionDLModel</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"finre_work_experience"</span><span class="p">,</span> <span class="s">"en"</span><span class="p">,</span> <span class="s">"finance/models"</span><span class="p">)</span>\
+<span class="n">re_Model</span> <span class="o">=</span> <span class="n">finance</span><span class="p">.</span><span class="n">RelationExtractionDLModel</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"finre_work_experience"</span><span class="p">,</span> <span class="s">"en"</span><span class="p">,</span> <span class="s">"finance/models"</span><span class="p">)</span>\
         <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"re_ner_chunk"</span><span class="p">,</span> <span class="s">"sentence"</span><span class="p">])</span>\
         <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"relations"</span><span class="p">)</span>\
         <span class="p">.</span><span class="n">setPredictionThreshold</span><span class="p">(</span><span class="mf">0.5</span><span class="p">)</span>

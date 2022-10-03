@@ -11,7 +11,7 @@
     })(window,document,'script','dataLayer','GTM-59JLR64');</script>
 <!-- End Google Tag Manager --><title>Financial Pipeline (ORG-PER-ROLE-DATE)</title><meta property="og:title" content=""/>
 
-<meta name="description" content="DescriptionThis is a pretrained pipeline to extract Companies (ORG), People (PERSON), Job titles (ROLE) and Dates combining different pretrained NER models to improve coverage.Predicted EntitiesORG, PERSON, ROLE, DATELive DemoOpen in ColabDownloadHow to use         PythonScalaNLU  from sparknlp.pretrained import Pre...">
+<meta name="description" content="DescriptionThis is a pretrained pipeline to extract Companies (ORG), People (PERSON), Job titles (ROLE) and Dates combining different pretrained NER models to improve coverage.Predicted EntitiesORG, PERSON, ROLE, DATELive DemoOpen in ColabDownloadHow to use         PythonScalaNLU  from johnsnowlabs import *deid_pipe...">
 <link rel="canonical" href="/2022/09/09/finpipe_org_per_role_date_en.html"><link rel="alternate" type="application/rss+xml" title="Spark NLP" href="/feed.xml"><!-- start favicons snippet, use https://realfavicongenerator.net/ -->
 <!---->
 <!-- <link rel="apple-touch-icon" sizes="180x180" href="/fav.ico"> -->
@@ -435,7 +435,7 @@
   <div class="top_tab_li">   
     <button class="tab-li code-selector-active python-button">Python</button><button class="tab-li code-selector-un-active scala-button">Scala</button><button class="tab-li code-selector-un-active nlu-button">NLU</button>
 </div>
-  <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">sparknlp.pretrained</span> <span class="kn">import</span> <span class="n">PretrainedPipeline</span>
+  <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">johnsnowlabs</span> <span class="kn">import</span> <span class="o">*</span>
 
 <span class="n">deid_pipeline</span> <span class="o">=</span> <span class="n">PretrainedPipeline</span><span class="p">(</span><span class="s">"finpipe_org_per_role_date"</span><span class="p">,</span> <span class="s">"en"</span><span class="p">,</span> <span class="s">"finance/models"</span><span class="p">)</span>
 

@@ -437,76 +437,76 @@
   <div class="top_tab_li">   
     <button class="tab-li code-selector-active python-button">Python</button><button class="tab-li code-selector-un-active scala-button">Scala</button><button class="tab-li code-selector-un-active nlu-button">NLU</button>
 </div>
-  <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">documentAssembler</span> <span class="o">=</span> <span class="n">DocumentAssembler</span><span class="p">()</span>\
+  <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">documentAssembler</span> <span class="o">=</span> <span class="n">nlp</span><span class="p">.</span><span class="n">DocumentAssembler</span><span class="p">()</span>\
         <span class="p">.</span><span class="n">setInputCol</span><span class="p">(</span><span class="s">"text"</span><span class="p">)</span>\
         <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"document"</span><span class="p">)</span>
 
-<span class="n">sentence_detector</span> <span class="o">=</span> <span class="n">SentenceDetectorDLModel</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"sentence_detector_dl"</span><span class="p">,</span> <span class="s">"en"</span><span class="p">)</span>\
+<span class="n">sentence_detector</span> <span class="o">=</span> <span class="n">nlp</span><span class="p">.</span><span class="n">SentenceDetectorDLModel</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"sentence_detector_dl"</span><span class="p">,</span> <span class="s">"en"</span><span class="p">)</span>\
         <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"document"</span><span class="p">])</span>\
         <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"sentence"</span><span class="p">)</span>
         
-<span class="n">tokenizer</span> <span class="o">=</span> <span class="n">Tokenizer</span><span class="p">()</span>\
+<span class="n">tokenizer</span> <span class="o">=</span> <span class="n">nlp</span><span class="p">.</span><span class="n">Tokenizer</span><span class="p">()</span>\
         <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"sentence"</span><span class="p">])</span>\
         <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"token"</span><span class="p">)</span>
 
-<span class="c1"># ==========
-# This is needed only to filter relation pairs using RENerChunksFilter (see below)
-# ==========
-</span><span class="n">pos</span> <span class="o">=</span> <span class="n">PerceptronModel</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"pos_anc"</span><span class="p">,</span> <span class="s">'en'</span><span class="p">)</span>\
+<span class="c1"># ===========
+# This is needed only to filter relation pairs using finance.RENerChunksFilter (see below)
+# ===========
+</span><span class="n">pos</span> <span class="o">=</span> <span class="n">nlp</span><span class="p">.</span><span class="n">PerceptronModel</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"pos_anc"</span><span class="p">,</span> <span class="s">'en'</span><span class="p">)</span>\
           <span class="p">.</span><span class="n">setInputCols</span><span class="p">(</span><span class="s">"sentence"</span><span class="p">,</span> <span class="s">"token"</span><span class="p">)</span>\
           <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"pos"</span><span class="p">)</span>
 
-<span class="n">depency_parser</span> <span class="o">=</span> <span class="n">DependencyParserModel</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"dependency_conllu"</span><span class="p">,</span> <span class="s">"en"</span><span class="p">)</span> \
+<span class="n">depency_parser</span> <span class="o">=</span> <span class="n">nlp</span><span class="p">.</span><span class="n">DependencyParserModel</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"dependency_conllu"</span><span class="p">,</span> <span class="s">"en"</span><span class="p">)</span> \
     <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"sentence"</span><span class="p">,</span> <span class="s">"pos"</span><span class="p">,</span> <span class="s">"token"</span><span class="p">])</span> \
     <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"dependencies"</span><span class="p">)</span>
-<span class="c1"># ==========
+<span class="c1"># ===========
 </span>
-<span class="c1"># ==========
+<span class="c1"># ===========
 # USE ANY NERMODEL WHICH RETRIEVES ORG
 </span>  <span class="n">We</span> <span class="n">recommend</span> <span class="sb">`finner_orgs_prods_alias`</span> <span class="n">because</span> <span class="n">it</span> <span class="n">retrieves</span> <span class="n">also</span> <span class="n">companies</span> <span class="n">Aliases</span> <span class="p">(</span><span class="k">as</span> <span class="s">"AWS"</span> <span class="ow">in</span> <span class="n">the</span> <span class="n">sentence</span> <span class="s">"Amazon Web Services (AWS)"</span><span class="p">)</span>
-<span class="c1"># ==========
-</span><span class="n">bert_embeddings</span><span class="o">=</span> <span class="n">BertEmbeddings</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"bert_embeddings_sec_bert_base"</span><span class="p">,</span><span class="s">"en"</span><span class="p">)</span>\
+<span class="c1"># ===========
+</span><span class="n">bert_embeddings</span><span class="o">=</span> <span class="n">nlp</span><span class="p">.</span><span class="n">BertEmbeddings</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"bert_embeddings_sec_bert_base"</span><span class="p">,</span><span class="s">"en"</span><span class="p">)</span>\
         <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"sentence"</span><span class="p">,</span> <span class="s">"token"</span><span class="p">])</span>\
         <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"bert_embeddings"</span><span class="p">)</span>
 
-<span class="n">ner_model_org</span><span class="o">=</span> <span class="n">FinanceNerModel</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"finner_orgs_prods_alias"</span><span class="p">,</span> <span class="s">"en"</span><span class="p">,</span> <span class="s">"finance/models"</span><span class="p">)</span>\
+<span class="n">ner_model_org</span><span class="o">=</span> <span class="n">finance</span><span class="p">.</span><span class="n">NerModel</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"finner_orgs_prods_alias"</span><span class="p">,</span> <span class="s">"en"</span><span class="p">,</span> <span class="s">"finance/models"</span><span class="p">)</span>\
         <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"sentence"</span><span class="p">,</span> <span class="s">"token"</span><span class="p">,</span> <span class="s">"bert_embeddings"</span><span class="p">])</span>\
         <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"ner_cuad"</span><span class="p">)</span>
 
-<span class="n">ner_converter_org</span> <span class="o">=</span> <span class="n">NerConverter</span><span class="p">()</span>\
+<span class="n">ner_converter_org</span> <span class="o">=</span> <span class="n">nlp</span><span class="p">.</span><span class="n">NerConverter</span><span class="p">()</span>\
         <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"sentence"</span><span class="p">,</span><span class="s">"token"</span><span class="p">,</span><span class="s">"ner_cuad"</span><span class="p">])</span>\
         <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"ner_chunk_org"</span><span class="p">)</span>\
         <span class="p">.</span><span class="n">setWhiteList</span><span class="p">([</span><span class="s">'ORG'</span><span class="p">,</span> <span class="s">'PRODUCT'</span><span class="p">,</span> <span class="s">'ALIAS'</span><span class="p">])</span>
 
-<span class="c1"># ==========
+<span class="c1"># ===========
 # USE ANY NERMODEL WHICH RETRIEVES DATES. 
 </span>  <span class="n">In</span> <span class="n">this</span> <span class="n">example</span><span class="p">,</span> <span class="n">we</span> <span class="n">will</span> <span class="n">go</span> <span class="k">for</span> <span class="n">big</span> <span class="n">accuracy</span> <span class="k">with</span> <span class="n">large</span> <span class="n">Roberta</span> <span class="n">Ontonotes</span> <span class="n">mode</span>
-<span class="c1"># ==========
-</span><span class="n">roberta_embeddings</span> <span class="o">=</span> <span class="n">RoBertaEmbeddings</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">'roberta_large'</span><span class="p">,</span> <span class="s">'en'</span><span class="p">)</span>\
+<span class="c1"># ===========
+</span><span class="n">roberta_embeddings</span> <span class="o">=</span> <span class="n">nlp</span><span class="p">.</span><span class="n">RoBertaEmbeddings</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">'roberta_large'</span><span class="p">,</span> <span class="s">'en'</span><span class="p">)</span>\
       <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"token"</span><span class="p">,</span> <span class="s">"sentence"</span><span class="p">])</span>\
       <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"roberta_embeddings"</span><span class="p">)</span>
 
-<span class="n">ner_model_onto</span> <span class="o">=</span> <span class="n">NerDLModel</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">'ner_ontonotes_roberta_large'</span><span class="p">,</span> <span class="s">'en'</span><span class="p">)</span> \
+<span class="n">ner_model_onto</span> <span class="o">=</span> <span class="n">nlp</span><span class="p">.</span><span class="n">NerDLModel</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">'ner_ontonotes_roberta_large'</span><span class="p">,</span> <span class="s">'en'</span><span class="p">)</span> \
     <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">'sentence'</span><span class="p">,</span> <span class="s">'token'</span><span class="p">,</span> <span class="s">'roberta_embeddings'</span><span class="p">])</span> \
     <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">'ner_onto'</span><span class="p">)</span>
 
-<span class="c1"># ==========
+<span class="c1"># ===========
 </span>
-<span class="n">ner_converter_onto</span> <span class="o">=</span> <span class="n">NerConverter</span><span class="p">()</span>\
+<span class="n">ner_converter_onto</span> <span class="o">=</span> <span class="n">nlp</span><span class="p">.</span><span class="n">NerConverter</span><span class="p">()</span>\
         <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"sentence"</span><span class="p">,</span><span class="s">"token"</span><span class="p">,</span><span class="s">"ner_onto"</span><span class="p">])</span>\
         <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"ner_chunk_onto"</span><span class="p">)</span>\
         <span class="p">.</span><span class="n">setWhiteList</span><span class="p">([</span><span class="s">"DATE"</span><span class="p">])</span>
 
-<span class="n">chunk_merger</span> <span class="o">=</span> <span class="n">ChunkMergeApproach</span><span class="p">()</span>\
+<span class="n">chunk_merger</span> <span class="o">=</span> <span class="n">finance</span><span class="p">.</span><span class="n">ChunkMergeApproach</span><span class="p">()</span>\
         <span class="p">.</span><span class="n">setInputCols</span><span class="p">(</span><span class="s">'ner_chunk_org'</span><span class="p">,</span> <span class="s">"ner_chunk_onto"</span><span class="p">)</span>\
         <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">'ner_chunk'</span><span class="p">)</span>
 
-<span class="n">re_ner_chunk_filter</span> <span class="o">=</span> <span class="n">RENerChunksFilter</span><span class="p">()</span> \
+<span class="n">re_ner_chunk_filter</span> <span class="o">=</span> <span class="n">finance</span><span class="p">.</span><span class="n">RENerChunksFilter</span><span class="p">()</span> \
     <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"ner_chunk"</span><span class="p">,</span> <span class="s">"dependencies"</span><span class="p">])</span>\
     <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"re_ner_chunk"</span><span class="p">)</span>\
     <span class="p">.</span><span class="n">setRelationPairs</span><span class="p">([</span><span class="s">"DATE-ORG"</span><span class="p">,</span> <span class="s">"DATE-ALIAS"</span><span class="p">,</span> <span class="s">"DATE-PRODUCT"</span><span class="p">,</span> <span class="s">"ORG-ORG"</span><span class="p">])</span>
 
-<span class="n">re_Model</span> <span class="o">=</span> <span class="n">RelationExtractionDLModel</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"finre_acquisitions_subsidiaries"</span><span class="p">,</span> <span class="s">"en"</span><span class="p">,</span> <span class="s">"finance/models"</span><span class="p">)</span>\
+<span class="n">re_Model</span> <span class="o">=</span> <span class="n">finance</span><span class="p">.</span><span class="n">RelationExtractionDLModel</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"finre_acquisitions_subsidiaries"</span><span class="p">,</span> <span class="s">"en"</span><span class="p">,</span> <span class="s">"finance/models"</span><span class="p">)</span>\
         <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"re_ner_chunk"</span><span class="p">,</span> <span class="s">"sentence"</span><span class="p">])</span>\
         <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"relations"</span><span class="p">)</span>\
         <span class="p">.</span><span class="n">setPredictionThreshold</span><span class="p">(</span><span class="mf">0.5</span><span class="p">)</span>

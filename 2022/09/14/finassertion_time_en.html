@@ -11,7 +11,7 @@
     })(window,document,'script','dataLayer','GTM-59JLR64');</script>
 <!-- End Google Tag Manager --><title>Temporality / Certainty Assertion Status</title><meta property="og:title" content=""/>
 
-<meta name="description" content="DescriptionThis is an Assertion Status Model aimed to detect temporality (PRESENT, PAST, FUTURE) or Certainty (POSSIBLE) in your financial documentsPredicted EntitiesPRESENT, PAST, FUTURE, POSSIBLELive DemoOpen in ColabDownloadHow to use         PythonScalaNLU  # YOUR NER HERE# ...embeddings = BertEmbeddings.pretrai...">
+<meta name="description" content="DescriptionThis is an Assertion Status Model aimed to detect temporality (PRESENT, PAST, FUTURE) or Certainty (POSSIBLE) in your financial documentsPredicted EntitiesPRESENT, PAST, FUTURE, POSSIBLELive DemoOpen in ColabDownloadHow to use         PythonScalaNLU  # YOUR NER HERE# ...embeddings = nlp.BertEmbeddings.pre...">
 <link rel="canonical" href="/2022/09/14/finassertion_time_en.html"><link rel="alternate" type="application/rss+xml" title="Spark NLP" href="/feed.xml"><!-- start favicons snippet, use https://realfavicongenerator.net/ -->
 <!---->
 <!-- <link rel="apple-touch-icon" sizes="180x180" href="/fav.ico"> -->
@@ -437,23 +437,20 @@
 </div>
   <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># YOUR NER HERE
 # ...
-</span><span class="n">embeddings</span> <span class="o">=</span> <span class="n">BertEmbeddings</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"bert_embeddings_sec_bert_base"</span><span class="p">,</span><span class="s">"en"</span><span class="p">)</span> \
+</span><span class="n">embeddings</span> <span class="o">=</span> <span class="n">nlp</span><span class="p">.</span><span class="n">BertEmbeddings</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"bert_embeddings_sec_bert_base"</span><span class="p">,</span><span class="s">"en"</span><span class="p">)</span> \
     <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"sentence"</span><span class="p">,</span> <span class="s">"token"</span><span class="p">])</span> \
     <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"embeddings"</span><span class="p">)</span>
 
-<span class="n">chunk_converter</span> <span class="o">=</span> <span class="n">ChunkConverter</span><span class="p">()</span> \
+<span class="n">chunk_converter</span> <span class="o">=</span> <span class="n">finance</span><span class="p">.</span><span class="n">ChunkConverter</span><span class="p">()</span> \
     <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"entity"</span><span class="p">])</span> \
     <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"ner_chunk"</span><span class="p">)</span>
 
-<span class="n">assertion</span> <span class="o">=</span> <span class="n">fin</span><span class="p">.</span><span class="n">AssertionDLModel</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"finassertion_time"</span><span class="p">,</span> <span class="s">"en"</span><span class="p">,</span> <span class="s">"finance/models"</span><span class="p">)</span>\
+<span class="n">assertion</span> <span class="o">=</span> <span class="n">finance</span><span class="p">.</span><span class="n">AssertionDLModel</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"finassertion_time"</span><span class="p">,</span> <span class="s">"en"</span><span class="p">,</span> <span class="s">"finance/models"</span><span class="p">)</span>\
     <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"sentence"</span><span class="p">,</span> <span class="s">"ner_chunk"</span><span class="p">,</span> <span class="s">"embeddings"</span><span class="p">])</span> \
     <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"assertion"</span><span class="p">)</span>
     
 <span class="n">nlpPipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">(</span><span class="n">stages</span><span class="o">=</span><span class="p">[</span>
-    <span class="n">documentAssembler</span><span class="p">,</span> 
-    <span class="n">tokenizer</span><span class="p">,</span>
     <span class="n">embeddings</span><span class="p">,</span>
-    <span class="n">ner</span><span class="p">,</span>
     <span class="n">chunk_converter</span><span class="p">,</span>
     <span class="n">assertion</span>
     <span class="p">])</span>
