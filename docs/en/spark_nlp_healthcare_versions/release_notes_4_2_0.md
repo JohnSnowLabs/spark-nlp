@@ -36,6 +36,8 @@ sidebar:
 
 These models will be the first versions (wip - work in progress) of Oncology models.
 
+See [Oncology Model Notebook](https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/27.Oncology_Model.ipynb) for examples.
+
 </div><div class="h3-box" markdown="1">
 
 ##### New Oncological NER and BERT-Based Token Classification Models
@@ -588,6 +590,7 @@ This parameter let the user define whether to do an **exact match of prefix and 
 
 + New [MedicalBertForSequenceClassification Notebook](https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/19.MedicalBertForSequenceClassification_in_SparkNLP.ipynb) to show how to use `MedicalBertForSequenceClassification` models.
 + New [ALAB Module Notebook](https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Annotation_Lab/Complete_ALab_Module_SparkNLP_JSL.ipynb) to show all features of ALAB Module.
++ New [Oncology Models Notebook](https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/27.Oncology_Model.ipynb) to show the examples of the new Oncology models. 
 + Updated [Medicare Risk Adjustment Score Calculation Notebook](https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/3.1.Calculate_Medicare_Risk_Adjustment_Score.ipynb) with the new changes in HCC score calculation functions.
 + Updated [Clinical DeIdentification Notebook](https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/4.Clinical_DeIdentification.ipynb) by adding how not to deidentify a part of an entity section and showing examples of shifting days feature with the new `DocumentHashCoder`.  
 + Updated [Pretrained Clinical Pipelines Notebook](https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/11.Pretrained_Clinical_Pipelines.ipynb) with the updated `ner_model_finder` results.
