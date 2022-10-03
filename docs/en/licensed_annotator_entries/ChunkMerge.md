@@ -59,7 +59,7 @@ pipeline = Pipeline(stages=[
     .setInputCols(["sentence", "token", "embs"]).setOutputCol("bionlp_ner"),
  nlp.NerConverter().setInputCols(["sentence", "token", "bionlp_ner"]) \
     .setOutputCol("bionlp_ner_chunk"),
- medicalChunkMergeApproach().setInputCols(["jsl_ner_chunk", "bionlp_ner_chunk"]).setOutputCol("merged_chunk")
+ medical.ChunkMergeApproach().setInputCols(["jsl_ner_chunk", "bionlp_ner_chunk"]).setOutputCol("merged_chunk")
 ])
 
 # Show results
@@ -176,7 +176,7 @@ tokenizer = nlp.Tokenizer()\
     .setInputCols(["sentence"])\
     .setOutputCol("token")
 
-embeddings = nlp.RoBertaEmbeddings.pretrained("roberta_embeddings_legal_roberta_base","en") \
+embeddings = legal.RoBertaEmbeddings.pretrained("roberta_embeddings_legal_roberta_base","en") \
     .setInputCols(["sentence", "token"]) \
     .setOutputCol("embeddings")
 

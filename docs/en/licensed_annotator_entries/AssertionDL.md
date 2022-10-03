@@ -418,6 +418,101 @@ assertionModel = trainingPipeline.fit(data)
 assertionResults = assertionModel.transform(data).cache()
 {%- endcapture -%}
 
+{%- capture approach_python_legal -%}
+from johnsnowlabs import * 
+# First, pipeline stages for pre-processing the dataset (containing columns for text and label) are defined.
+document = nlp.DocumentAssembler()\
+    .setInputCol("sentence")\
+    .setOutputCol("document")
+chunk = nlp.Doc2Chunk()\
+    .setInputCols("document")\
+    .setOutputCol("doc_chunk")\
+    .setChunkCol("chunk")\
+    .setStartCol("tkn_start")\
+    .setStartColByTokenIndex(True)\
+    .setFailOnMissing(False)\
+    .setLowerCase(False)
+token = nlp.Tokenizer()\
+    .setInputCols(['document'])\
+    .setOutputCol('token')
+roberta_embeddings = RoBertaEmbeddings.pretrained("roberta_embeddings_legal_roberta_base","en") \
+    .setInputCols(["document", "token"]) \
+    .setOutputCol("embeddings") \
+    .setMaxSentenceLength(512)
+
+# Define AssertionDLApproach with parameters and start training
+assertionStatus = legal.AssertionDLApproach()\
+    .setLabelCol("assertion_label")\
+    .setInputCols("document", "doc_chunk", "embeddings")\
+    .setOutputCol("assertion")\
+    .setBatchSize(128)\
+    .setLearningRate(0.001)\
+    .setEpochs(2)\
+    .setStartCol("tkn_start")\
+    .setEndCol("tkn_end")\
+    .setMaxSentLen(1200)\
+    .setEnableOutputLogs(True)\
+    .setOutputLogsPath('training_logs/')\
+    .setGraphFolder(graph_folder)\
+    .setGraphFile(f"{graph_folder}/assertion_graph.pb")\
+    .setTestDataset(path="test_data.parquet", read_as='SPARK', options={'format': 'parquet'})\
+    .setScopeWindow(scope_window)
+    #.setValidationSplit(0.2)\    
+    #.setDropout(0.1)\    
+
+trainingPipeline = Pipeline().setStages([
+    document,
+    chunk,
+    token,
+    roberta_embeddings,
+    assertionStatus
+])
+
+assertionModel = trainingPipeline.fit(data)
+assertionResults = assertionModel.transform(data).cache()
+{%- endcapture -%}
+
+{%- capture approach_python_finance -%}
+from johnsnowlabs import * 
+# First, pipeline stages for pre-processing the dataset (containing columns for text and label) are defined.
+document = nlp.DocumentAssembler() \
+    .setInputCol("text") \
+    .setOutputCol("document")
+chunk = nlp.Doc2Chunk() \
+    .setInputCols(["document"]) \
+    .setOutputCol("chunk")
+token = nlp.Tokenizer() \
+    .setInputCols(["document"]) \
+    .setOutputCol("token")
+embeddings = nlp.WordEmbeddingsModel.pretrained("embeddings_clinical", "en", "clinical/models") \
+    .setInputCols(["document", "token"]) \
+    .setOutputCol("embeddings")
+
+# Define AssertionDLApproach with parameters and start training
+assertionStatus = finance.AssertionDLApproach() \
+    .setLabelCol("label") \
+    .setInputCols(["document", "chunk", "embeddings"]) \
+    .setOutputCol("assertion") \
+    .setBatchSize(128) \
+    .setDropout(0.012) \
+    .setLearningRate(0.015) \
+    .setEpochs(1) \
+    .setStartCol("start") \
+    .setEndCol("end") \
+    .setMaxSentLen(250)
+
+trainingPipeline = Pipeline().setStages([
+    document,
+    chunk,
+    token,
+    embeddings,
+    assertionStatus
+])
+
+assertionModel = trainingPipeline.fit(data)
+assertionResults = assertionModel.transform(data).cache()
+{%- endcapture -%}
+
 {%- capture approach_scala_medical -%}
 from johnsnowlabs import * 
 
@@ -460,6 +555,103 @@ val assertionModel = trainingPipeline.fit(data)
 val assertionResults = assertionModel.transform(data).cache()
 {%- endcapture -%}
 
+{%- capture approach_scala_legal -%}
+from johnsnowlabs import * 
+
+val document = new nlp.DocumentAssembler()\
+    .setInputCol("sentence")\
+    .setOutputCol("document")
+val chunk = new nlp.Doc2Chunk()\
+    .setInputCols("document")\
+    .setOutputCol("doc_chunk")\
+    .setChunkCol("chunk")\
+    .setStartCol("tkn_start")\
+    .setStartColByTokenIndex(True)\
+    .setFailOnMissing(False)\
+    .setLowerCase(False)
+val token = new nlp.Tokenizer()\
+    .setInputCols(['document'])\
+    .setOutputCol('token')
+val roberta_embeddings = RoBertaEmbeddings.pretrained("roberta_embeddings_legal_roberta_base","en") \
+    .setInputCols(["document", "token"]) \
+    .setOutputCol("embeddings") \
+    .setMaxSentenceLength(512)
+
+# Define AssertionDLApproach with parameters and start training
+val assertionStatus = new legal.AssertionDLApproach()\
+    .setLabelCol("assertion_label")\
+    .setInputCols("document", "doc_chunk", "embeddings")\
+    .setOutputCol("assertion")\
+    .setBatchSize(128)\
+    .setLearningRate(0.001)\
+    .setEpochs(2)\
+    .setStartCol("tkn_start")\
+    .setEndCol("tkn_end")\
+    .setMaxSentLen(1200)\
+    .setEnableOutputLogs(True)\
+    .setOutputLogsPath('training_logs/')\
+    .setGraphFolder(graph_folder)\
+    .setGraphFile(f"{graph_folder}/assertion_graph.pb")\
+    .setTestDataset(path="test_data.parquet", read_as='SPARK', options={'format': 'parquet'})\
+    .setScopeWindow(scope_window)
+    #.setValidationSplit(0.2)\    
+    #.setDropout(0.1)\    
+
+val trainingPipeline = new Pipeline().setStages(Array(
+  document,
+  chunk,
+  token,
+  roberta_embeddings,
+  assertionStatus
+))
+
+val assertionModel = trainingPipeline.fit(data)
+val assertionResults = assertionModel.transform(data).cache()
+{%- endcapture -%}
+
+{%- capture approach_scala_finance -%}
+from johnsnowlabs import * 
+
+// First, pipeline stages for pre-processing the dataset (containing columns for text and label) are defined.
+val document = new nlp.DocumentAssembler()
+  .setInputCol("text")
+  .setOutputCol("document")
+val chunk = new nlp.Doc2Chunk()
+  .setInputCols("document")
+  .setOutputCol("chunk")
+val token = new nlp.Tokenizer()
+  .setInputCols("document")
+  .setOutputCol("token")
+val embeddings = nlp.WordEmbeddingsModel.pretrained("embeddings_clinical", "en", "clinical/models")
+  .setInputCols("document", "token")
+  .setOutputCol("embeddings")
+
+// Define AssertionDLApproach with parameters and start training
+val assertionStatus = new finance.AssertionDLApproach()
+  .setLabelCol("label")
+  .setInputCols("document", "chunk", "embeddings")
+  .setOutputCol("assertion")
+  .setBatchSize(128)
+  .setDropout(0.012f)
+  .setLearningRate(0.015f)
+  .setEpochs(1)
+  .setStartCol("start")
+  .setEndCol("end")
+  .setMaxSentLen(250)
+
+val trainingPipeline = new Pipeline().setStages(Array(
+  document,
+  chunk,
+  token,
+  embeddings,
+  assertionStatus
+))
+
+val assertionModel = trainingPipeline.fit(data)
+val assertionResults = assertionModel.transform(data).cache()
+{%- endcapture -%}
+
+
 {%- capture approach_api_link -%}
 [AssertionDLApproach](https://nlp.johnsnowlabs.com/licensed/api/com/johnsnowlabs/nlp/annotators/assertion/dl/AssertionDLApproach)
 {%- endcapture -%}
@@ -483,6 +675,10 @@ approach_description=approach_description
 approach_input_anno=approach_input_anno
 approach_output_anno=approach_output_anno
 approach_python_medical=approach_python_medical
+approach_python_legal=approach_python_legal
+approach_python_finance=approach_python_finance
 approach_scala_medical=approach_scala_medical
+approach_scala_legal=approach_scala_legal
+approach_scala_finance=approach_scala_finance
 approach_api_link=approach_api_link
 %}

@@ -74,6 +74,80 @@ result.selectExpr("explode(filtered)").show(truncate=False)
 +-------------------------------------------------------------------+
 {%- endcapture -%}
 
+{%- capture model_python_legal -%}
+from johnsnowlabs import *
+# Filtering POS tags
+# First pipeline stages to extract the POS tags are defined
+
+docAssembler = nlp.DocumentAssembler().setInputCol("text").setOutputCol("document")
+sentenceDetector = nlp.SentenceDetector().setInputCols(["document"]).setOutputCol("sentence")
+tokenizer = nlp.Tokenizer().setInputCols(["sentence"]).setOutputCol("token")
+
+posTagger = nlp.PerceptronModel.pretrained() \
+  .setInputCols(["sentence", "token"]) \
+  .setOutputCol("pos")
+
+chunker = nlp.Chunker() \
+  .setInputCols(["pos", "sentence"]) \
+  .setOutputCol("chunk") \
+  .setRegexParsers(["(<NN>)+"])
+
+# Then the chunks can be filtered via a white list. Here only terms with "gastroenteritis" remain.
+chunkerFilter = legal.ChunkFilterer() \
+  .setInputCols(["sentence","chunk"]) \
+  .setOutputCol("filtered") \
+  .setCriteria("isin") \
+  .setWhiteList(["gastroenteritis"])
+
+pipeline = Pipeline(stages=[
+  docAssembler,
+  sentenceDetector,
+  tokenizer,
+  posTagger,
+  chunker,
+  chunkerFilter])
+
+result = pipeline.fit(data).transform(data)
+{%- endcapture -%}
+
+
+{%- capture model_python_finance -%}
+from johnsnowlabs import *
+# Filtering POS tags
+# First pipeline stages to extract the POS tags are defined
+
+docAssembler = nlp.DocumentAssembler().setInputCol("text").setOutputCol("document")
+sentenceDetector = nlp.SentenceDetector().setInputCols(["document"]).setOutputCol("sentence")
+tokenizer = nlp.Tokenizer().setInputCols(["sentence"]).setOutputCol("token")
+
+posTagger = nlp.PerceptronModel.pretrained() \
+  .setInputCols(["sentence", "token"]) \
+  .setOutputCol("pos")
+
+chunker = nlp.Chunker() \
+  .setInputCols(["pos", "sentence"]) \
+  .setOutputCol("chunk") \
+  .setRegexParsers(["(<NN>)+"])
+
+# Then the chunks can be filtered via a white list. Here only terms with "gastroenteritis" remain.
+chunkerFilter = finance.ChunkFilterer() \
+  .setInputCols(["sentence","chunk"]) \
+  .setOutputCol("filtered") \
+  .setCriteria("isin") \
+  .setWhiteList(["gastroenteritis"])
+
+pipeline = Pipeline(stages=[
+  docAssembler,
+  sentenceDetector,
+  tokenizer,
+  posTagger,
+  chunker,
+  chunkerFilter])
+
+result = pipeline.fit(data).transform(data)
+{%- endcapture -%}
+
+
 {%- capture model_scala_medical -%}
 from johnsnowlabs import * 
 // Filtering POS tags
@@ -128,6 +202,72 @@ result.selectExpr("explode(filtered)").show(truncate=false)
 +-------------------------------------------------------------------+
 {%- endcapture -%}
 
+
+{%- capture model_scala_legal -%}
+from johnsnowlabs import * 
+
+val docAssembler = new nlp.DocumentAssembler().setInputCol("text").setOutputCol("document")
+val sentenceDetector = new nlp.SentenceDetector().setInputCols("document").setOutputCol("sentence")
+val tokenizer = new nlp.Tokenizer().setInputCols("sentence").setOutputCol("token")
+
+val posTagger = nlp.PerceptronModel.pretrained()
+  .setInputCols(Array("sentence", "token"))
+  .setOutputCol("pos")
+
+val chunker = new nlp.Chunker()
+  .setInputCols(Array("pos", "sentence"))
+  .setOutputCol("chunk")
+  .setRegexParsers(Array("(<NN>)+"))
+
+// Then the chunks can be filtered via a white list. Here only terms with "gastroenteritis" remain.
+val chunkerFilter = new legal.ChunkFilterer()
+  .setInputCols(Array("sentence","chunk"))
+  .setOutputCol("filtered")
+  .setCriteria("isin")
+  .setWhiteList("gastroenteritis")
+
+val pipeline = new Pipeline().setStages(Array(
+  docAssembler,
+  sentenceDetector,
+  tokenizer,
+  posTagger,
+  chunker,
+  chunkerFilter))
+{%- endcapture -%}
+
+{%- capture model_scala_finance -%}
+from johnsnowlabs import * 
+
+val docAssembler = new nlp.DocumentAssembler().setInputCol("text").setOutputCol("document")
+val sentenceDetector = new nlp.SentenceDetector().setInputCols("document").setOutputCol("sentence")
+val tokenizer = new nlp.Tokenizer().setInputCols("sentence").setOutputCol("token")
+
+val posTagger = nlp.PerceptronModel.pretrained()
+  .setInputCols(Array("sentence", "token"))
+  .setOutputCol("pos")
+
+val chunker = new nlp.Chunker()
+  .setInputCols(Array("pos", "sentence"))
+  .setOutputCol("chunk")
+  .setRegexParsers(Array("(<NN>)+"))
+
+// Then the chunks can be filtered via a white list. Here only terms with "gastroenteritis" remain.
+val chunkerFilter = new finance.ChunkFilterer()
+  .setInputCols(Array("sentence","chunk"))
+  .setOutputCol("filtered")
+  .setCriteria("isin")
+  .setWhiteList("gastroenteritis")
+
+val pipeline = new Pipeline().setStages(Array(
+  docAssembler,
+  sentenceDetector,
+  tokenizer,
+  posTagger,
+  chunker,
+  chunkerFilter))
+{%- endcapture -%}
+
+
 {%- capture model_api_link -%}
 [ChunkFilterer](https://nlp.johnsnowlabs.com/licensed/api/com/johnsnowlabs/nlp/annotators/chunker/ChunkFilterer)
 {%- endcapture -%}
@@ -139,5 +279,9 @@ model_description=model_description
 model_input_anno=model_input_anno
 model_output_anno=model_output_anno
 model_python_medical=model_python_medical
+model_python_legal=model_python_legal
+model_python_finance=model_python_finance
 model_scala_medical=model_scala_medical
+model_scala_legal=model_scala_legal
+model_scala_finance=model_scala_finance
 model_api_link=model_api_link%}

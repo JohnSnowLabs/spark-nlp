@@ -86,6 +86,91 @@ pipeline = Pipeline(stages=[
 model = pipeline.fit(trainingData)
 {%- endcapture -%}
 
+{%- capture approach_python_legal -%}
+from johnsnowlabs import *
+# Define pipeline stages to prepare the data
+document_assembler = nlp.DocumentAssembler() \
+  .setInputCol("text") \
+  .setOutputCol("document")
+
+tokenizer = nlp.Tokenizer() \
+  .setInputCols(["document"]) \
+  .setOutputCol("token")
+
+normalizer = nlp.Normalizer() \
+  .setInputCols(["token"]) \
+  .setOutputCol("normalized")
+
+stopwords_cleaner = nlp.StopWordsCleaner() \
+  .setInputCols(["normalized"]) \
+  .setOutputCol("cleanTokens") \
+  .setCaseSensitive(False)
+
+stemmer = nlp.Stemmer() \
+  .setInputCols(["cleanTokens"]) \
+  .setOutputCol("stem")
+
+# Define the document classifier and fit training data to it
+logreg = legal.DocumentLogRegClassifierApproach() \
+  .setInputCols(["stem"]) \
+  .setLabelCol("category") \
+  .setOutputCol("prediction")
+
+pipeline = Pipeline(stages=[
+  document_assembler,
+  tokenizer,
+  normalizer,
+  stopwords_cleaner,
+  stemmer,
+  logreg
+])
+
+model = pipeline.fit(trainingData)
+{%- endcapture -%}
+
+
+{%- capture approach_python_finance -%}
+from johnsnowlabs import *
+# Define pipeline stages to prepare the data
+document_assembler = nlp.DocumentAssembler() \
+  .setInputCol("text") \
+  .setOutputCol("document")
+
+tokenizer = nlp.Tokenizer() \
+  .setInputCols(["document"]) \
+  .setOutputCol("token")
+
+normalizer = nlp.Normalizer() \
+  .setInputCols(["token"]) \
+  .setOutputCol("normalized")
+
+stopwords_cleaner = nlp.StopWordsCleaner() \
+  .setInputCols(["normalized"]) \
+  .setOutputCol("cleanTokens") \
+  .setCaseSensitive(False)
+
+stemmer = nlp.Stemmer() \
+  .setInputCols(["cleanTokens"]) \
+  .setOutputCol("stem")
+
+# Define the document classifier and fit training data to it
+logreg = finance.DocumentLogRegClassifierApproach() \
+  .setInputCols(["stem"]) \
+  .setLabelCol("category") \
+  .setOutputCol("prediction")
+
+pipeline = Pipeline(stages=[
+  document_assembler,
+  tokenizer,
+  normalizer,
+  stopwords_cleaner,
+  stemmer,
+  logreg
+])
+
+model = pipeline.fit(trainingData)
+{%- endcapture -%}
+
 {%- capture approach_scala_medical -%}
 from johnsnowlabs import * 
 // Define pipeline stages to prepare the data
@@ -128,6 +213,90 @@ val pipeline = new Pipeline().setStages(Array(
 val model = pipeline.fit(trainingData)
 {%- endcapture -%}
 
+{%- capture approach_scala_legal -%}
+from johnsnowlabs import * 
+// Define pipeline stages to prepare the data
+val document_assembler = new nlp.DocumentAssembler()
+  .setInputCol("text")
+  .setOutputCol("document")
+
+val tokenizer = new nlp.Tokenizer()
+  .setInputCols("document")
+  .setOutputCol("token")
+
+val normalizer = new nlp.Normalizer()
+  .setInputCols("token")
+  .setOutputCol("normalized")
+
+val stopwords_cleaner = new nlp.StopWordsCleaner()
+  .setInputCols("normalized")
+  .setOutputCol("cleanTokens")
+  .setCaseSensitive(false)
+
+val stemmer = new nlp.Stemmer()
+  .setInputCols("cleanTokens")
+  .setOutputCol("stem")
+
+// Define the document classifier and fit training data to it
+val logreg = new legal.DocumentLogRegClassifierApproach()
+  .setInputCols("stem")
+  .setLabelCol("category")
+  .setOutputCol("prediction")
+
+val pipeline = new Pipeline().setStages(Array(
+  document_assembler,
+  tokenizer,
+  normalizer,
+  stopwords_cleaner,
+  stemmer,
+  logreg
+))
+
+val model = pipeline.fit(trainingData)
+{%- endcapture -%}
+
+{%- capture approach_scala_finance -%}
+from johnsnowlabs import * 
+// Define pipeline stages to prepare the data
+val document_assembler = new nlp.DocumentAssembler()
+  .setInputCol("text")
+  .setOutputCol("document")
+
+val tokenizer = new nlp.Tokenizer()
+  .setInputCols("document")
+  .setOutputCol("token")
+
+val normalizer = new nlp.Normalizer()
+  .setInputCols("token")
+  .setOutputCol("normalized")
+
+val stopwords_cleaner = new nlp.StopWordsCleaner()
+  .setInputCols("normalized")
+  .setOutputCol("cleanTokens")
+  .setCaseSensitive(false)
+
+val stemmer = new nlp.Stemmer()
+  .setInputCols("cleanTokens")
+  .setOutputCol("stem")
+
+// Define the document classifier and fit training data to it
+val logreg = new finance.DocumentLogRegClassifierApproach()
+  .setInputCols("stem")
+  .setLabelCol("category")
+  .setOutputCol("prediction")
+
+val pipeline = new Pipeline().setStages(Array(
+  document_assembler,
+  tokenizer,
+  normalizer,
+  stopwords_cleaner,
+  stemmer,
+  logreg
+))
+
+val model = pipeline.fit(trainingData)
+{%- endcapture -%}
+
 {%- capture approach_api_link -%}
 [DocumentLogRegClassifierApproach](https://nlp.johnsnowlabs.com/licensed/api/com/johnsnowlabs/nlp/annotators/classification/DocumentLogRegClassifierApproach)
 {%- endcapture -%}
@@ -145,6 +314,10 @@ approach_description=approach_description
 approach_input_anno=approach_input_anno
 approach_output_anno=approach_output_anno
 approach_python_medical=approach_python_medical
+approach_python_legal=approach_python_legal
+approach_python_finance=approach_python_finance
 approach_scala_medical=approach_scala_medical
+approach_scala_legal=approach_scala_legal
+approach_scala_finance=approach_scala_finance
 approach_api_link=approach_api_link
 %}

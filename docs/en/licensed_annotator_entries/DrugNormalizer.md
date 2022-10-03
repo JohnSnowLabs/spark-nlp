@@ -47,6 +47,26 @@ result.selectExpr("explode(document_normalized.result) as normalized_text").show
 
 {%- endcapture -%}
 
+{%- capture model_python_legal -%}
+from johnsnowlabs import *
+
+document = nlp.DocumentAssembler().setInputCol("text").setOutputCol("document")
+drugNormalizer = legal.DrugNormalizer().setInputCols(["document"]).setOutputCol("document_normalized")
+
+trainingPipeline = Pipeline(stages=[document, drugNormalizer])
+{%- endcapture -%}
+
+{%- capture model_python_finance -%}
+from johnsnowlabs import *
+
+document = nlp.DocumentAssembler().setInputCol("text").setOutputCol("document")
+drugNormalizer = finance.DrugNormalizer().setInputCols(["document"]).setOutputCol("document_normalized")
+
+trainingPipeline = Pipeline(stages=[document, drugNormalizer])
+{%- endcapture -%}
+
+
+
 {%- capture model_scala_medical -%}
 from johnsnowlabs import * 
 val data = Seq(
@@ -71,6 +91,27 @@ result.selectExpr("explode(document_normalized.result) as normalized_text").show
 
 {%- endcapture -%}
 
+{%- capture model_scala_legal -%}
+from johnsnowlabs import * 
+
+val document = new nlp.DocumentAssembler().setInputCol("text").setOutputCol("document")
+val drugNormalizer = new legal.DrugNormalizer().setInputCols("document").setOutputCol("document_normalized")
+
+val trainingPipeline = new Pipeline().setStages(Array(document, drugNormalizer))
+
+{%- endcapture -%}
+
+{%- capture model_scala_finance -%}
+from johnsnowlabs import * 
+
+val document = new nlp.DocumentAssembler().setInputCol("text").setOutputCol("document")
+val drugNormalizer = new finance.DrugNormalizer().setInputCols("document").setOutputCol("document_normalized")
+
+val trainingPipeline = new Pipeline().setStages(Array(document, drugNormalizer))
+
+{%- endcapture -%}
+
+
 {%- capture model_api_link -%}
 [DrugNormalizer](https://nlp.johnsnowlabs.com/licensed/api/com/johnsnowlabs/nlp/annotators/DrugNormalizer)
 {%- endcapture -%}
@@ -82,5 +123,9 @@ model_description=model_description
 model_input_anno=model_input_anno
 model_output_anno=model_output_anno
 model_python_medical=model_python_medical
+model_python_legal=model_python_legal
+model_python_finance=model_python_finance
 model_scala_medical=model_scala_medical
+model_scala_legal=model_scala_legal
+model_scala_finance=model_scala_finance
 model_api_link=model_api_link%}

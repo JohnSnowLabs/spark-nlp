@@ -482,6 +482,86 @@ snomedModel = bertExtractor.fit(snomedData)
 
 {%- endcapture -%}
 
+{%- capture approach_python_legal -%}
+from johnsnowlabs import * 
+
+# Training a SNOMED resolution model using BERT sentence embeddings
+# Define pre-processing pipeline for training data. It needs consists of columns for the normalized training data and their labels.
+documentAssembler = nlp.DocumentAssembler() \
+  .setInputCol("normalized_text") \
+  .setOutputCol("document")
+
+sentenceDetector = nlp.SentenceDetector()\
+  .setInputCols(["document"])\
+  .setOutputCol("sentence")
+
+bertEmbeddings = nlp.BertSentenceEmbeddings.pretrained("sent_biobert_pubmed_base_cased") \
+  .setInputCols(["sentence"]) \
+  .setOutputCol("bert_embeddings")
+
+snomedTrainingPipeline = Pipeline(stages=[
+  documentAssembler,
+  sentenceDetector,
+  bertEmbeddings
+])
+snomedTrainingModel = snomedTrainingPipeline.fit(data)
+snomedData = snomedTrainingModel.transform(data).cache()
+
+# Then the Resolver can be trained with
+bertExtractor = legal.SentenceEntityResolverApproach() \
+  .setNeighbours(25) \
+  .setThreshold(1000) \
+  .setInputCols(["bert_embeddings"]) \
+  .setNormalizedCol("normalized_text") \
+  .setLabelCol("label") \
+  .setOutputCol("snomed_code") \
+  .setDistanceFunction("EUCLIDIAN") \
+  .setCaseSensitive(False)
+
+snomedModel = bertExtractor.fit(snomedData)
+
+{%- endcapture -%}
+
+{%- capture approach_python_finance -%}
+from johnsnowlabs import * 
+
+# Training a SNOMED resolution model using BERT sentence embeddings
+# Define pre-processing pipeline for training data. It needs consists of columns for the normalized training data and their labels.
+documentAssembler = nlp.DocumentAssembler() \
+  .setInputCol("normalized_text") \
+  .setOutputCol("document")
+
+sentenceDetector = nlp.SentenceDetector()\
+  .setInputCols(["document"])\
+  .setOutputCol("sentence")
+
+bertEmbeddings = nlp.BertSentenceEmbeddings.pretrained("sent_biobert_pubmed_base_cased") \
+  .setInputCols(["sentence"]) \
+  .setOutputCol("bert_embeddings")
+
+snomedTrainingPipeline = Pipeline(stages=[
+  documentAssembler,
+  sentenceDetector,
+  bertEmbeddings
+])
+snomedTrainingModel = snomedTrainingPipeline.fit(data)
+snomedData = snomedTrainingModel.transform(data).cache()
+
+# Then the Resolver can be trained with
+bertExtractor = finance.SentenceEntityResolverApproach() \
+  .setNeighbours(25) \
+  .setThreshold(1000) \
+  .setInputCols(["bert_embeddings"]) \
+  .setNormalizedCol("normalized_text") \
+  .setLabelCol("label") \
+  .setOutputCol("snomed_code") \
+  .setDistanceFunction("EUCLIDIAN") \
+  .setCaseSensitive(False)
+
+snomedModel = bertExtractor.fit(snomedData)
+
+{%- endcapture -%}
+
 {%- capture approach_scala_medical -%}
 from johnsnowlabs import * 
 // Training a SNOMED resolution model using BERT sentence embeddings
@@ -507,6 +587,82 @@ val sentenceDetector = nlp.SentenceDetector()
 
 // Then the Resolver can be trained with
 val bertExtractor = new medical.SentenceEntityResolverApproach()
+  .setNeighbours(25)
+  .setThreshold(1000)
+  .setInputCols("bert_embeddings")
+  .setNormalizedCol("normalized_text")
+  .setLabelCol("label")
+  .setOutputCol("snomed_code")
+  .setDistanceFunction("EUCLIDIAN")
+  .setCaseSensitive(false)
+
+val snomedModel = bertExtractor.fit(snomedData)
+
+{%- endcapture -%}
+
+{%- capture approach_scala_legal -%}
+from johnsnowlabs import * 
+// Training a SNOMED resolution model using BERT sentence embeddings
+// Define pre-processing pipeline for training data. It needs consists of columns for the normalized training data and their labels.
+val documentAssembler = new nlp.DocumentAssembler()
+   .setInputCol("normalized_text")
+   .setOutputCol("document")
+
+val sentenceDetector = nlp.SentenceDetector()
+  .setInputCols("document")
+  .setOutputCol("sentence")
+
+ val bertEmbeddings = nlp.BertSentenceEmbeddings.pretrained("sent_biobert_pubmed_base_cased")
+   .setInputCols("sentence")
+   .setOutputCol("bert_embeddings")
+ val snomedTrainingPipeline = new Pipeline().setStages(Array(
+   documentAssembler,
+   sentenceDetector,
+   bertEmbeddings
+ ))
+ val snomedTrainingModel = snomedTrainingPipeline.fit(data)
+ val snomedData = snomedTrainingModel.transform(data).cache()
+
+// Then the Resolver can be trained with
+val bertExtractor = new legal.SentenceEntityResolverApproach()
+  .setNeighbours(25)
+  .setThreshold(1000)
+  .setInputCols("bert_embeddings")
+  .setNormalizedCol("normalized_text")
+  .setLabelCol("label")
+  .setOutputCol("snomed_code")
+  .setDistanceFunction("EUCLIDIAN")
+  .setCaseSensitive(false)
+
+val snomedModel = bertExtractor.fit(snomedData)
+
+{%- endcapture -%}
+
+{%- capture approach_scala_finance -%}
+from johnsnowlabs import * 
+// Training a SNOMED resolution model using BERT sentence embeddings
+// Define pre-processing pipeline for training data. It needs consists of columns for the normalized training data and their labels.
+val documentAssembler = new nlp.DocumentAssembler()
+   .setInputCol("normalized_text")
+   .setOutputCol("document")
+
+val sentenceDetector = nlp.SentenceDetector()
+  .setInputCols("document")
+  .setOutputCol("sentence")
+
+ val bertEmbeddings = nlp.BertSentenceEmbeddings.pretrained("sent_biobert_pubmed_base_cased")
+   .setInputCols("sentence")
+   .setOutputCol("bert_embeddings")
+ val snomedTrainingPipeline = new Pipeline().setStages(Array(
+   documentAssembler,
+   sentenceDetector,
+   bertEmbeddings
+ ))
+ val snomedTrainingModel = snomedTrainingPipeline.fit(data)
+ val snomedData = snomedTrainingModel.transform(data).cache()
+
+// Then the Resolver can be trained with
+val bertExtractor = new finance.SentenceEntityResolverApproach()
   .setNeighbours(25)
   .setThreshold(1000)
   .setInputCols("bert_embeddings")
@@ -546,6 +702,10 @@ approach_description=approach_description
 approach_input_anno=approach_input_anno
 approach_output_anno=approach_output_anno
 approach_python_medical=approach_python_medical
+approach_python_legal=approach_python_legal
+approach_python_finance=approach_python_finance
 approach_scala_medical=approach_scala_medical
+approach_scala_legal=approach_scala_legal
+approach_scala_finance=approach_scala_finance
 approach_api_link=approach_api_link
 %}

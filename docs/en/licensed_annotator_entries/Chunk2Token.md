@@ -55,6 +55,43 @@ result.selectExpr("explode(ngram_tokens)").show(5, False)
 
 {%- endcapture -%}
 
+
+{%- capture model_python_legal -%}
+from johnsnowlabs import * 
+# Define a pipeline for generating n-grams
+document = nlp.DocumentAssembler().setInputCol("text").setOutputCol("document")
+sentenceDetector = nlp.SentenceDetector().setInputCols(["document"]).setOutputCol("sentence")
+token = nlp.Tokenizer().setInputCols(["sentence"]).setOutputCol("token")
+ngrammer = nlp.NGramGenerator() \
+ .setN(2) \
+ .setEnableCumulative(False) \
+ .setInputCols(["token"]) \
+ .setOutputCol("ngrams") \
+ .setDelimiter("_")
+
+# Stage to convert n-gram CHUNKS to TOKEN type
+chunk2Token = legal.Chunk2Token().setInputCols(["ngrams"]).setOutputCol("ngram_tokens")
+trainingPipeline = Pipeline(stages=[document, sentenceDetector, token, ngrammer, chunk2Token])
+{%- endcapture -%}
+
+{%- capture model_python_finance -%}
+from johnsnowlabs import * 
+# Define a pipeline for generating n-grams
+document = nlp.DocumentAssembler().setInputCol("text").setOutputCol("document")
+sentenceDetector = nlp.SentenceDetector().setInputCols(["document"]).setOutputCol("sentence")
+token = nlp.Tokenizer().setInputCols(["sentence"]).setOutputCol("token")
+ngrammer = nlp.NGramGenerator() \
+ .setN(2) \
+ .setEnableCumulative(False) \
+ .setInputCols(["token"]) \
+ .setOutputCol("ngrams") \
+ .setDelimiter("_")
+
+# Stage to convert n-gram CHUNKS to TOKEN type
+chunk2Token = finance.Chunk2Token().setInputCols(["ngrams"]).setOutputCol("ngram_tokens")
+trainingPipeline = Pipeline(stages=[document, sentenceDetector, token, ngrammer, chunk2Token])
+{%- endcapture -%}
+
 {%- capture model_scala_medical -%}
 from johnsnowlabs import * 
 // Define a pipeline for generating n-grams
@@ -87,6 +124,44 @@ result.selectExpr("explode(ngram_tokens)").show(5, false)
 
 {%- endcapture -%}
 
+{%- capture model_scala_legal -%}
+from johnsnowlabs import * 
+// Define a pipeline for generating n-grams
+
+val document = new nlp.DocumentAssembler().setInputCol("text").setOutputCol("document")
+val sentenceDetector = new nlp.SentenceDetector().setInputCols("document").setOutputCol("sentence")
+val token = new nlp.Tokenizer().setInputCols("sentence").setOutputCol("token")
+val ngrammer = new nlp.NGramGenerator()
+ .setN(2)
+ .setEnableCumulative(false)
+ .setInputCols("token")
+ .setOutputCol("ngrams")
+ .setDelimiter("_")
+
+// Stage to convert n-gram CHUNKS to TOKEN type
+val chunk2Token = new legal.Chunk2Token().setInputCols("ngrams").setOutputCol("ngram_tokens")
+val trainingPipeline = new Pipeline().setStages(Array(document, sentenceDetector, token, ngrammer, chunk2Token))
+{%- endcapture -%}
+
+{%- capture model_scala_finance -%}
+from johnsnowlabs import * 
+// Define a pipeline for generating n-grams
+
+val document = new nlp.DocumentAssembler().setInputCol("text").setOutputCol("document")
+val sentenceDetector = new nlp.SentenceDetector().setInputCols("document").setOutputCol("sentence")
+val token = new nlp.Tokenizer().setInputCols("sentence").setOutputCol("token")
+val ngrammer = new nlp.NGramGenerator()
+ .setN(2)
+ .setEnableCumulative(false)
+ .setInputCols("token")
+ .setOutputCol("ngrams")
+ .setDelimiter("_")
+
+// Stage to convert n-gram CHUNKS to TOKEN type
+val chunk2Token = new finance.Chunk2Token().setInputCols("ngrams").setOutputCol("ngram_tokens")
+val trainingPipeline = new Pipeline().setStages(Array(document, sentenceDetector, token, ngrammer, chunk2Token))
+{%- endcapture -%}
+
 {%- capture model_api_link -%}
 [Chunk2Token](https://nlp.johnsnowlabs.com/licensed/api/com/johnsnowlabs/nlp/annotators/Chunk2Token)
 {%- endcapture -%}
@@ -98,5 +173,9 @@ model_description=model_description
 model_input_anno=model_input_anno
 model_output_anno=model_output_anno
 model_python_medical=model_python_medical
+model_python_legal=model_python_legal
+model_python_finance=model_python_finance
 model_scala_medical=model_scala_medical
+model_scala_legal=model_scala_legal
+model_scala_finance=model_scala_finance
 model_api_link=model_api_link%}

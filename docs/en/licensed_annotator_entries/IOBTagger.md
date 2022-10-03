@@ -52,6 +52,40 @@ result.selectExpr("explode(ner_label) as a") \
 
 {%- endcapture -%}
 
+{%- capture model_python_legal -%}
+from johnsnowlabs import * 
+# Pipeline stages are defined where NER is done. NER is converted to chunks.
+
+docAssembler = nlp.DocumentAssembler().setInputCol("text").setOutputCol("document")
+sentenceDetector = nlp.SentenceDetector().setInputCols(["document"]).setOutputCol("sentence")
+tokenizer = nlp.Tokenizer().setInputCols(["sentence"]).setOutputCol("token")
+embeddings = nlp.WordEmbeddingsModel.pretrained("embeddings_clinical", "en", "clinical/models").setInputCols(["sentence", "token"]).setOutputCol("embs")
+nerModel = medical.NerModel.pretrained("ner_jsl", "en", "clinical/models").setInputCols(["sentence", "token", "embs"]).setOutputCol("ner")
+nerConverter = nlp.NerConverter().setInputCols(["sentence", "token", "ner"]).setOutputCol("ner_chunk")
+
+# Define the IOB tagger, which needs tokens and chunks as input. Show results.
+iobTagger = legal.IOBTagger().setInputCols(["token", "ner_chunk"]).setOutputCol("ner_label")
+pipeline = Pipeline(stages=[docAssembler, sentenceDetector, tokenizer, embeddings, nerModel, nerConverter, iobTagger])
+{%- endcapture -%}
+
+{%- capture model_python_finance -%}
+from johnsnowlabs import * 
+# Pipeline stages are defined where NER is done. NER is converted to chunks.
+
+docAssembler = nlp.DocumentAssembler().setInputCol("text").setOutputCol("document")
+sentenceDetector = nlp.SentenceDetector().setInputCols(["document"]).setOutputCol("sentence")
+tokenizer = nlp.Tokenizer().setInputCols(["sentence"]).setOutputCol("token")
+embeddings = nlp.WordEmbeddingsModel.pretrained("embeddings_clinical", "en", "clinical/models").setInputCols(["sentence", "token"]).setOutputCol("embs")
+nerModel = medical.NerModel.pretrained("ner_jsl", "en", "clinical/models").setInputCols(["sentence", "token", "embs"]).setOutputCol("ner")
+nerConverter = nlp.NerConverter().setInputCols(["sentence", "token", "ner"]).setOutputCol("ner_chunk")
+
+# Define the IOB tagger, which needs tokens and chunks as input. Show results.
+iobTagger = finance.IOBTagger().setInputCols(["token", "ner_chunk"]).setOutputCol("ner_label")
+pipeline = Pipeline(stages=[docAssembler, sentenceDetector, tokenizer, embeddings, nerModel, nerConverter, iobTagger])
+{%- endcapture -%}
+
+
+
 {%- capture model_scala_medical -%}
 from johnsnowlabs import * 
 // Pipeline stages are defined where NER is done. NER is converted to chunks.
@@ -83,6 +117,40 @@ result.selectExpr("explode(ner_label) as a")
 
 {%- endcapture -%}
 
+
+{%- capture model_scala_legal -%}
+from johnsnowlabs import * 
+// Pipeline stages are defined where NER is done. NER is converted to chunks.
+val docAssembler = new nlp.DocumentAssembler().setInputCol("text").setOutputCol("document")
+val sentenceDetector = new nlp.SentenceDetector().setInputCols("document").setOutputCol("sentence")
+val tokenizer = new nlp.Tokenizer().setInputCols("sentence").setOutputCol("token")
+val embeddings = nlp.WordEmbeddingsModel.pretrained("embeddings_clinical", "en", "clinical/models").setInputCols(Array("sentence", "token")).setOutputCol("embs")
+val nerModel = medical.NerModel.pretrained("ner_jsl", "en", "clinical/models").setInputCols(Array("sentence", "token", "embs")).setOutputCol("ner")
+val nerConverter = new nlp.NerConverter().setInputCols(Array("sentence", "token", "ner")).setOutputCol("ner_chunk")
+
+// Define the IOB tagger, which needs tokens and chunks as input. Show results.
+val iobTagger = new legal.IOBTagger().setInputCols(Array("token", "ner_chunk")).setOutputCol("ner_label")
+val pipeline = new Pipeline().setStages(Array(docAssembler, sentenceDetector, tokenizer, embeddings, nerModel, nerConverter, iobTagger))
+{%- endcapture -%}
+
+
+{%- capture model_scala_finance -%}
+from johnsnowlabs import * 
+// Pipeline stages are defined where NER is done. NER is converted to chunks.
+val docAssembler = new nlp.DocumentAssembler().setInputCol("text").setOutputCol("document")
+val sentenceDetector = new nlp.SentenceDetector().setInputCols("document").setOutputCol("sentence")
+val tokenizer = new nlp.Tokenizer().setInputCols("sentence").setOutputCol("token")
+val embeddings = nlp.WordEmbeddingsModel.pretrained("embeddings_clinical", "en", "clinical/models").setInputCols(Array("sentence", "token")).setOutputCol("embs")
+val nerModel = finance.NerModel.pretrained("ner_jsl", "en", "clinical/models").setInputCols(Array("sentence", "token", "embs")).setOutputCol("ner")
+val nerConverter = new nlp.NerConverter().setInputCols(Array("sentence", "token", "ner")).setOutputCol("ner_chunk")
+
+// Define the IOB tagger, which needs tokens and chunks as input. Show results.
+val iobTagger = new legal.IOBTagger().setInputCols(Array("token", "ner_chunk")).setOutputCol("ner_label")
+val pipeline = new Pipeline().setStages(Array(docAssembler, sentenceDetector, tokenizer, embeddings, nerModel, nerConverter, iobTagger))
+{%- endcapture -%}
+
+
+
 {%- capture model_api_link -%}
 [IOBTagger](https://nlp.johnsnowlabs.com/licensed/api/com/johnsnowlabs/nlp/annotators/ner/IOBTagger)
 {%- endcapture -%}
@@ -95,7 +163,11 @@ model_description=model_description
 model_input_anno=model_input_anno
 model_output_anno=model_output_anno
 model_python_medical=model_python_medical
+model_python_legal=model_python_legal
+model_python_finance=model_python_finance
 model_scala_medical=model_scala_medical
+model_scala_legal=model_scala_legal
+model_scala_finance=model_scala_finance
 model_api_link=model_api_link%}
 
 

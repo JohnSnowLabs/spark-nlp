@@ -419,6 +419,125 @@ result.select("dei.result").show(truncate = False)
 +--------------------------------------------------------------------------------------------------+
 {%- endcapture -%}
 
+{%- capture approach_python_legal -%}
+from johnsnowlabs import *
+
+documentAssembler = nlp.DocumentAssembler() \
+    .setInputCol("text") \
+    .setOutputCol("document")
+
+ sentenceDetector = nlp.SentenceDetector() \
+    .setInputCols(["document"]) \
+    .setOutputCol("sentence") \
+    .setUseAbbreviations(True)
+
+tokenizer = nlp.Tokenizer() \
+    .setInputCols(["sentence"]) \
+    .setOutputCol("token")
+
+embeddings = nlp.WordEmbeddingsModel \
+    .pretrained("embeddings_clinical", "en", "clinical/models") \
+    .setInputCols(["sentence", "token"]) \
+    .setOutputCol("embeddings")
+
+# Ner entities
+clinical_sensitive_entities = medical.NerModel \
+    .pretrained("ner_deid_enriched", "en", "clinical/models") \
+    .setInputCols(["sentence", "token", "embeddings"]).setOutputCol("ner")
+
+nerConverter = nlp.NerConverter() \
+    .setInputCols(["sentence", "token", "ner"]) \
+    .setOutputCol("ner_con")
+
+# Deidentification
+deIdentification = legal.DeIdentification() \
+    .setInputCols(["ner_chunk", "token", "sentence"]) \
+    .setOutputCol("dei") \
+    # file with custom regex pattern for custom entities
+    .setRegexPatternsDictionary("path/to/dic_regex_patterns_main_categories.txt") \
+    # file with custom obfuscator names for the entities
+    .setObfuscateRefFile("path/to/obfuscate_fixed_entities.txt") \
+    .setRefFileFormat("csv") \
+    .setRefSep("#") \
+    .setMode("obfuscate") \
+    .setDateFormats(Array("MM/dd/yy","yyyy-MM-dd")) \
+    .setObfuscateDate(True) \
+    .setDateTag("DATE") \
+    .setDays(5) \
+    .setObfuscateRefSource("file")
+
+# Pipeline
+pipeline = Pipeline(stages=[
+    documentAssembler,
+    sentenceDetector,
+    tokenizer,
+    embeddings,
+    clinical_sensitive_entities,
+    nerConverter,
+    deIdentification
+])
+{%- endcapture -%}
+
+{%- capture approach_python_finance -%}
+from johnsnowlabs import *
+
+documentAssembler = nlp.DocumentAssembler() \
+    .setInputCol("text") \
+    .setOutputCol("document")
+
+ sentenceDetector = nlp.SentenceDetector() \
+    .setInputCols(["document"]) \
+    .setOutputCol("sentence") \
+    .setUseAbbreviations(True)
+
+tokenizer = nlp.Tokenizer() \
+    .setInputCols(["sentence"]) \
+    .setOutputCol("token")
+
+embeddings = nlp.WordEmbeddingsModel \
+    .pretrained("embeddings_clinical", "en", "clinical/models") \
+    .setInputCols(["sentence", "token"]) \
+    .setOutputCol("embeddings")
+
+# Ner entities
+clinical_sensitive_entities = medical.NerModel \
+    .pretrained("ner_deid_enriched", "en", "clinical/models") \
+    .setInputCols(["sentence", "token", "embeddings"]).setOutputCol("ner")
+
+nerConverter = nlp.NerConverter() \
+    .setInputCols(["sentence", "token", "ner"]) \
+    .setOutputCol("ner_con")
+
+# Deidentification
+deIdentification = finance.DeIdentification() \
+    .setInputCols(["ner_chunk", "token", "sentence"]) \
+    .setOutputCol("dei") \
+    # file with custom regex pattern for custom entities
+    .setRegexPatternsDictionary("path/to/dic_regex_patterns_main_categories.txt") \
+    # file with custom obfuscator names for the entities
+    .setObfuscateRefFile("path/to/obfuscate_fixed_entities.txt") \
+    .setRefFileFormat("csv") \
+    .setRefSep("#") \
+    .setMode("obfuscate") \
+    .setDateFormats(Array("MM/dd/yy","yyyy-MM-dd")) \
+    .setObfuscateDate(True) \
+    .setDateTag("DATE") \
+    .setDays(5) \
+    .setObfuscateRefSource("file")
+
+# Pipeline
+pipeline = Pipeline(stages=[
+    documentAssembler,
+    sentenceDetector,
+    tokenizer,
+    embeddings,
+    clinical_sensitive_entities,
+    nerConverter,
+    deIdentification
+])
+{%- endcapture -%}
+
+
 {%- capture approach_scala_medical -%}
 from johnsnowlabs import * 
 val documentAssembler = new nlp.DocumentAssembler()
@@ -493,6 +612,122 @@ result.select("dei.result").show(truncate = false)
 //
 {%- endcapture -%}
 
+{%- capture approach_scala_legal -%}
+from johnsnowlabs import * 
+val documentAssembler = new nlp.DocumentAssembler()
+     .setInputCol("text")
+     .setOutputCol("document")
+
+ val sentenceDetector = new nlp.SentenceDetector()
+     .setInputCols(Array("document"))
+     .setOutputCol("sentence")
+     .setUseAbbreviations(true)
+
+ val tokenizer = new nlp.Tokenizer()
+     .setInputCols(Array("sentence"))
+     .setOutputCol("token")
+
+ val embeddings = nlp.WordEmbeddingsModel
+     .pretrained("embeddings_clinical", "en", "clinical/models")
+     .setInputCols(Array("sentence", "token"))
+     .setOutputCol("embeddings")
+
+// Ner entities
+val clinical_sensitive_entities = medical.NerModel.pretrained("ner_deid_enriched", "en", "clinical/models")
+        .setInputCols(Array("sentence", "token", "embeddings")).setOutputCol("ner")
+
+ val nerConverter = new nlp.NerConverter()
+     .setInputCols(Array("sentence", "token", "ner"))
+     .setOutputCol("ner_con")
+
+// Deidentification
+val deIdentification = new legal.DeIdentification()
+     .setInputCols(Array("ner_chunk", "token", "sentence"))
+     .setOutputCol("dei")
+     // file with custom regex patterns for custom entities
+     .setRegexPatternsDictionary("path/to/dic_regex_patterns_main_categories.txt")
+     // file with custom obfuscator names for the entities
+     .setObfuscateRefFile("path/to/obfuscate_fixed_entities.txt")
+     .setRefFileFormat("csv")
+     .setRefSep("#")
+     .setMode("obfuscate")
+     .setDateFormats(Array("MM/dd/yy","yyyy-MM-dd"))
+     .setObfuscateDate(true)
+     .setDateTag("DATE")
+     .setDays(5)
+     .setObfuscateRefSource("file")
+
+// Pipeline
+
+val pipeline = new Pipeline().setStages(Array(
+  documentAssembler,
+  sentenceDetector,
+  tokenizer,
+  embeddings,
+  clinical_sensitive_entities,
+  nerConverter,
+  deIdentification
+))
+{%- endcapture -%}
+
+{%- capture approach_scala_finance -%}
+from johnsnowlabs import * 
+val documentAssembler = new nlp.DocumentAssembler()
+     .setInputCol("text")
+     .setOutputCol("document")
+
+ val sentenceDetector = new nlp.SentenceDetector()
+     .setInputCols(Array("document"))
+     .setOutputCol("sentence")
+     .setUseAbbreviations(true)
+
+ val tokenizer = new nlp.Tokenizer()
+     .setInputCols(Array("sentence"))
+     .setOutputCol("token")
+
+ val embeddings = nlp.WordEmbeddingsModel
+     .pretrained("embeddings_clinical", "en", "clinical/models")
+     .setInputCols(Array("sentence", "token"))
+     .setOutputCol("embeddings")
+
+// Ner entities
+val clinical_sensitive_entities = medical.NerModel.pretrained("ner_deid_enriched", "en", "clinical/models")
+        .setInputCols(Array("sentence", "token", "embeddings")).setOutputCol("ner")
+
+ val nerConverter = new nlp.NerConverter()
+     .setInputCols(Array("sentence", "token", "ner"))
+     .setOutputCol("ner_con")
+
+// Deidentification
+val deIdentification = new finance.DeIdentification()
+     .setInputCols(Array("ner_chunk", "token", "sentence"))
+     .setOutputCol("dei")
+     // file with custom regex patterns for custom entities
+     .setRegexPatternsDictionary("path/to/dic_regex_patterns_main_categories.txt")
+     // file with custom obfuscator names for the entities
+     .setObfuscateRefFile("path/to/obfuscate_fixed_entities.txt")
+     .setRefFileFormat("csv")
+     .setRefSep("#")
+     .setMode("obfuscate")
+     .setDateFormats(Array("MM/dd/yy","yyyy-MM-dd"))
+     .setObfuscateDate(true)
+     .setDateTag("DATE")
+     .setDays(5)
+     .setObfuscateRefSource("file")
+
+// Pipeline
+
+val pipeline = new Pipeline().setStages(Array(
+  documentAssembler,
+  sentenceDetector,
+  tokenizer,
+  embeddings,
+  clinical_sensitive_entities,
+  nerConverter,
+  deIdentification
+))
+{%- endcapture -%}
+
 {%- capture approach_api_link -%}
 [DeIdentification](https://nlp.johnsnowlabs.com/licensed/api/com/johnsnowlabs/nlp/annotators/deid/DeIdentification)
 {%- endcapture -%}
@@ -514,6 +749,10 @@ approach_description=approach_description
 approach_input_anno=approach_input_anno
 approach_output_anno=approach_output_anno
 approach_python_medical=approach_python_medical
+approach_python_legal=approach_python_legal
+approach_python_finance=approach_python_finance
 approach_scala_medical=approach_scala_medical
+approach_scala_legal=approach_scala_legal
+approach_scala_finance=approach_scala_finance
 approach_api_link=approach_api_link
 %}
