@@ -49,32 +49,32 @@ re_model.setRelationalCategories({
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
 ```python
-document_assembler = DocumentAssembler()\
+document_assembler = nlp.DocumentAssembler()\
     .setInputCol("text")\
     .setOutputCol("document")
 
-sentence_detector = SentenceDetectorDLModel.pretrained("sentence_detector_dl","xx")\
+sentence_detector = nlp.SentenceDetectorDLModel.pretrained("sentence_detector_dl","xx")\
     .setInputCols(["document"])\
     .setOutputCol("sentence")
 
-tokenizer = Tokenizer()\
+tokenizer = nlp.Tokenizer()\
     .setInputCols(["sentence"])\
     .setOutputCol("token")
 
-embeddings = BertEmbeddings.pretrained("bert_embeddings_sec_bert_base", "en") \
+embeddings = nlp.BertEmbeddings.pretrained("bert_embeddings_sec_bert_base", "en") \
   .setInputCols("sentence", "token") \
   .setOutputCol("embeddings")\
   .setMaxSentenceLength(512)
 
-ner_model = FinanceNerModel.pretrained("finner_10k", "en", "finance/models")\
+ner_model = finance.NerModel.pretrained("finner_10k", "en", "finance/models")\
     .setInputCols(["sentence", "token", "embeddings"])\
     .setOutputCol("ner")\
 
-ner_converter = NerConverter()\
+ner_converter = nlp.NerConverter()\
     .setInputCols(["sentence", "token", "ner"])\
     .setOutputCol("ner_chunk")
 
-re_model = ZeroShotRelationExtractionModel.pretrained("finre_zero_shot", "en", "finance/models")\
+re_model = finance.ZeroShotRelationExtractionModel.pretrained("finre_zero_shot", "en", "finance/models")\
     .setInputCols(["ner_chunk", "sentence"]) \
     .setOutputCol("relations")
 

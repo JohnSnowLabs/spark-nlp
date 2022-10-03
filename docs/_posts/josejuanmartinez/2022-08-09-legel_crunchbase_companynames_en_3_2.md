@@ -37,15 +37,15 @@ Then, you can use the CrunchBase Chunk Mapper to get information about that comp
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
 ```python
-documentAssembler = DocumentAssembler()\
+documentAssembler = nlp.DocumentAssembler()\
       .setInputCol("text")\
       .setOutputCol("ner_chunk")
 
-embeddings = UniversalSentenceEncoder.pretrained("tfhub_use", "en") \
+embeddings = nlp.UniversalSentenceEncoder.pretrained("tfhub_use", "en") \
       .setInputCols("ner_chunk") \
       .setOutputCol("sentence_embeddings")
     
-resolver = SentenceEntityResolverModel.pretrained("legel_crunchbase_companynames", "en", "legal/models") \
+resolver = legal.SentenceEntityResolverModel.pretrained("legel_crunchbase_companynames", "en", "legal/models") \
       .setInputCols(["ner_chunk", "sentence_embeddings"]) \
       .setOutputCol("name")\
       .setDistanceFunction("EUCLIDEAN")

@@ -35,30 +35,30 @@ This Financial NER Model is aimed to process the first summary page of 10K filin
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
 ```python
-document_assembler = DocumentAssembler()\
+document_assembler = nlp.DocumentAssembler()\
     .setInputCol("text")\
     .setOutputCol("document")
 
-sentence_detector = SentenceDetector() \
+sentence_detector = nlp.SentenceDetector() \
     .setInputCols(["document"]) \
     .setOutputCol("sentence") \
     .setCustomBounds(["\n\n"])
 
-tokenizer = Tokenizer()\
+tokenizer = nlp.Tokenizer()\
     .setInputCols(["sentence"])\
     .setOutputCol("token")
 
-embeddings = BertEmbeddings.pretrained("bert_embeddings_finbert_pretrain_yiyanghkust","en")\
+embeddings = nlp.BertEmbeddings.pretrained("bert_embeddings_finbert_pretrain_yiyanghkust","en")\
     .setInputCols(["sentence", "token"])\
     .setOutputCol("embeddings")\
     .setCaseSensitive(True)\
     .setMaxSentenceLength(512)
 
-ner_model = FinanceNerModel.pretrained("finner_10k_summary","en","finance/models")\
+ner_model = finance.NerModel.pretrained("finner_10k_summary","en","finance/models")\
     .setInputCols(["sentence", "token", "embeddings"])\
     .setOutputCol("ner")\
 
-ner_converter = NerConverter()\
+ner_converter = nlp.NerConverter()\
     .setInputCols(["sentence", "token", "ner"])\
     .setOutputCol("ner_chunk")
 

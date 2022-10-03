@@ -42,11 +42,11 @@ Moreover, the input of this model can even be a concatenation of entities from N
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
 ```python
-document_assembler = DocumentAssembler() \
+document_assembler = nlp.DocumentAssembler() \
     .setInputCol("text") \
     .setOutputCol("documents")
 
-t5 = T5Transformer() \
+t5 = nlp.T5Transformer() \
     .pretrained("t5_question_generation_small") \
     .setTask("")\
     .setMaxOutputLength(200)\
@@ -61,11 +61,11 @@ results = pipeline.fit(data_df).transform(data_df)
 results.select("question.result").show(truncate=False)
 ```
 ```scala
-val documentAssembler = new DocumentAssembler()
+val documentAssembler = new nlp.DocumentAssembler()
   .setInputCol("text")
   .setOutputCol("documents")
 
-val t5 = T5Transformer.pretrained("t5_question_generation_small")
+val t5 = nlp.T5Transformer.pretrained("t5_question_generation_small")
   .setTask("")
   .setMaxOutputLength(200)
   .setInputCols("documents")
