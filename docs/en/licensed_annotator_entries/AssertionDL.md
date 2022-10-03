@@ -435,7 +435,7 @@ chunk = nlp.Doc2Chunk()\
 token = nlp.Tokenizer()\
     .setInputCols(['document'])\
     .setOutputCol('token')
-roberta_embeddings = legal.RoBertaEmbeddings.pretrained("roberta_embeddings_legal_roberta_base","en") \
+roberta_embeddings = nlp.RoBertaEmbeddings.pretrained("roberta_embeddings_legal_roberta_base","en") \
     .setInputCols(["document", "token"]) \
     .setOutputCol("embeddings") \
     .setMaxSentenceLength(512)
@@ -572,7 +572,7 @@ val chunk = new nlp.Doc2Chunk()\
 val token = new nlp.Tokenizer()\
     .setInputCols(['document'])\
     .setOutputCol('token')
-val roberta_embeddings = legal.RoBertaEmbeddings.pretrained("roberta_embeddings_legal_roberta_base","en") \
+val roberta_embeddings = nlp.RoBertaEmbeddings.pretrained("roberta_embeddings_legal_roberta_base","en") \
     .setInputCols(["document", "token"]) \
     .setOutputCol("embeddings") \
     .setMaxSentenceLength(512)

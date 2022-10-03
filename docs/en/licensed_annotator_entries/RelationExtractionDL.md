@@ -143,7 +143,7 @@ tokenizer = nlp.Tokenizer()\
     .setInputCols(["document"])\
     .setOutputCol("token")
 
-embeddings = legal.RoBertaEmbeddings.pretrained("roberta_embeddings_legal_roberta_base", "en") \
+embeddings = nlp.RoBertaEmbeddings.pretrained("roberta_embeddings_legal_roberta_base", "en") \
     .setInputCols("sentence", "token") \
     .setOutputCol("embeddings")\
     .setMaxSentenceLength(512)
@@ -192,7 +192,7 @@ val tokenizer = new nlp.Tokenizer()
   .setOutputCol("token")
 
  
-val embeddings = legal.RoBertaEmbeddings
+val embeddings = nlp.RoBertaEmbeddings
    .pretrained("roberta_embeddings_legal_roberta_base", "en")
    .setInputCols(Array("sentence", "token"))
    .setOutputCol("embeddings")

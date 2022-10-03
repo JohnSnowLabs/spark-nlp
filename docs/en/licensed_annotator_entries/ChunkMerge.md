@@ -176,7 +176,7 @@ tokenizer = nlp.Tokenizer()\
     .setInputCols(["sentence"])\
     .setOutputCol("token")
 
-embeddings = legal.RoBertaEmbeddings.pretrained("roberta_embeddings_legal_roberta_base","en") \
+embeddings = nlp.RoBertaEmbeddings.pretrained("roberta_embeddings_legal_roberta_base","en") \
     .setInputCols(["sentence", "token"]) \
     .setOutputCol("embeddings")
 
