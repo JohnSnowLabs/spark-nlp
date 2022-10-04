@@ -1,8 +1,8 @@
 ---
 layout: docs
 header: true
-seotitle: Spark NLP for Healthcare | John Snow Labs
-title: Healthcare NLP Annotators
+seotitle: Spark NLP | John Snow Labs
+title: Licensed NLP Annotators
 permalink: /docs/en/licensed_annotators
 key: docs-licensed-annotators
 modify_date: "2020-08-10"
@@ -14,7 +14,7 @@ sidebar:
 
 <div class="h3-box" markdown="1">
 
-A Spark NLP for Healthcare subscription includes access to several pretrained annotators.
+A Spark NLP license includes access to several pretrained annotators.
 At the [Spark NLP Healthcare Workshop](https://github.com/JohnSnowLabs/spark-nlp-workshop/tree/e06141715bc14e5ed43388585ce002b8b37e3f18/tutorials/Certification_Trainings/Healthcare) you can see different types of annotators in action.
 
 Check out the [Spark NLP Annotators page](https://nlp.johnsnowlabs.com/docs/en/annotators) for more information on how to read this page.
@@ -24,7 +24,7 @@ Check out the [Spark NLP Annotators page](https://nlp.johnsnowlabs.com/docs/en/a
 ## Available Annotators
 
 {:.table-model-big}
-|Annotator|Description|
+|Annotators|Description|
 |---|---|
 {% include templates/licensed_table_entry.md  name="AssertionDL" summary="AssertionDL is a deep Learning based approach used to extract Assertion Status from extracted entities and text."%}
 {% include templates/licensed_table_entry.md  name="AssertionFilterer" summary="Filters entities coming from ASSERTION type annotations and returns the CHUNKS."%}
