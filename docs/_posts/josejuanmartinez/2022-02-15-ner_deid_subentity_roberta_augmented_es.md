@@ -53,27 +53,27 @@ This is a version that includes Roberta Clinical embeddings. You can find as wel
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
 ```python
-documentAssembler = DocumentAssembler()\
+documentAssembler = nlp.DocumentAssembler()\
 .setInputCol("text")\
 .setOutputCol("document")
 
 
-sentenceDetector = SentenceDetectorDLModel.pretrained("sentence_detector_dl","xx")\
+sentenceDetector = nlp.SentenceDetectorDLModel.pretrained("sentence_detector_dl","xx")\
 .setInputCols(["document"])\
 .setOutputCol("sentence")
 
 
-tokenizer = Tokenizer()\
+tokenizer = nlp.Tokenizer()\
 .setInputCols(["sentence"])\
 .setOutputCol("token")
 
 
-roberta_embeddings = RoBertaEmbeddings.pretrained("roberta_base_biomedical", "es")\
+roberta_embeddings = nlp.RoBertaEmbeddings.pretrained("roberta_base_biomedical", "es")\
 .setInputCols(["sentence", "token"])\
 .setOutputCol("embeddings")
 
 
-clinical_ner = MedicalNerModel.pretrained("ner_deid_subentity_roberta_augmented", "es", "clinical/models")\
+clinical_ner = medical.NerModel.pretrained("ner_deid_subentity_roberta_augmented", "es", "clinical/models")\
 .setInputCols(["sentence","token","embeddings"])\
 .setOutputCol("ner")
 
@@ -97,27 +97,27 @@ df = spark.createDataFrame([text]).toDF("text")
 results = nlpPipeline.fit(df).transform(df)
 ```
 ```scala
-val documentAssembler = new DocumentAssembler()
+val documentAssembler = new nlp.DocumentAssembler()
 .setInputCol("text")
 .setOutputCol("document")
 
 
-val sentenceDetector = SentenceDetectorDLModel.pretrained("sentence_detector_dl_healthcare","xx")
+val sentenceDetector = nlp.SentenceDetectorDLModel.pretrained("sentence_detector_dl_healthcare","xx")
 .setInputCols(Array("document"))
 .setOutputCol("sentence")
 
 
-val tokenizer = new Tokenizer()
+val tokenizer = new nlp.Tokenizer()
 .setInputCols(Array("sentence"))
 .setOutputCol("token")
 
 
-val roberta_embeddings = RoBertaEmbeddings.pretrained("roberta_base_biomedical", "es")
+val roberta_embeddings = nlp.RoBertaEmbeddings.pretrained("roberta_base_biomedical", "es")
 .setInputCols(Array("sentence", "token"))
 .setOutputCol("embeddings")
 
 
-val clinical_ner = MedicalNerModel.pretrained("ner_deid_subentity_roberta_augmented", "es", "clinical/models")
+val clinical_ner = medical.NerModel.pretrained("ner_deid_subentity_roberta_augmented", "es", "clinical/models")
 .setInputCols(Array("sentence","token","embeddings"))
 .setOutputCol("ner")
 

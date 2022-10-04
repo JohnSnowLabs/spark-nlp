@@ -37,36 +37,36 @@ This models allows you to identify ORG and PRODUCTS mentioned in the text to be 
 ```python
 # Annotator that transforms a text column from dataframe into an Annotation ready for NLP
 
-from sparknlp_jsl.annotator import *
+from johnsnowlabs import *
 
-documentAssembler = DocumentAssembler()\
+documentAssembler = nlp.DocumentAssembler()\
     .setInputCol("text")\
     .setOutputCol("document")
 
 # Sentence Detector annotator, processes various sentences per line
-sentenceDetector = SentenceDetector()\
+sentenceDetector = nlp.SentenceDetector()\
     .setInputCols(["document"])\
     .setOutputCol("sentence")
 
-# Tokenizer splits words in a relevant format for NLP
-tokenizer = Tokenizer()\
+# nlp.Tokenizer splits words in a relevant format for NLP
+tokenizer = nlp.Tokenizer()\
     .setInputCols(["sentence"])\
     .setOutputCol("token")
 
-embeddings = BertEmbeddings.pretrained("bert_embeddings_sec_bert_base","en") \
+embeddings = nlp.BertEmbeddings.pretrained("bert_embeddings_sec_bert_base","en") \
     .setInputCols(["sentence", "token"]) \
     .setOutputCol("embeddings")
 
-ner_model_org = FinanceNerModel.pretrained("finner_orgs_prods_alias", "en", "finance/models")\
+ner_model_org = finance.NerModel.pretrained("finner_orgs_prods_alias", "en", "finance/models")\
     .setInputCols(["sentence", "token", "embeddings"])\
     .setOutputCol("ner")
 
-ner_converter = NerConverterInternal() \
+ner_converter = finance.NerConverterInternal() \
     .setInputCols(["sentence", "token", "ner"]) \
     .setOutputCol("ner_chunk")\
     .setWhiteList(['ORG', 'PRODUCT'])
 
-assertion = AssertionDLModel.pretrained("finassertion_competitors", "en", "finance/models")\
+assertion = finance.AssertionDLModel.pretrained("finassertion_competitors", "en", "finance/models")\
     .setInputCols(["sentence", "ner_chunk", "embeddings"]) \
     .setOutputCol("assertion")
     

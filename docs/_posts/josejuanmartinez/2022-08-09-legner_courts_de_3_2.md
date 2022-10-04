@@ -61,12 +61,12 @@ German Named Entity Recognition model, trained using a Deep Learning architectur
 {% include programmingLanguageSelectScalaPythonNLU.html %}
 ```python
 ...
-word_embeddings = WordEmbeddingsModel.pretrained("w2v_cc_300d",'de','clinical/models')\
+word_embeddings = nlp.WordEmbeddingsModel.pretrained("w2v_cc_300d",'de','clinical/models')\
 .setInputCols(["sentence", 'token'])\
 .setOutputCol("embeddings")\
 .setCaseSensitive(False)
 
-legal_ner = LegalNerModel.pretrained("legner_courts",'de','legal/models') \
+legal_ner = legal.NerModel.pretrained("legner_courts",'de','legal/models') \
 .setInputCols(["sentence", "token", "embeddings"]) \
 .setOutputCol("ner")
 ...

@@ -36,6 +36,7 @@
     <script src="../../../../../../static/underscore.js"></script>
     <script src="../../../../../../static/_sphinx_javascript_frameworks_compat.js"></script>
     <script src="../../../../../../static/doctools.js"></script>
+    <script src="../../../../../../static/sphinx_highlight.js"></script>
     <script src="../../../../../../static/toggleprompt.js"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'reference/autosummary/sparknlp_jsl/annotator/ner/ner_converter_internal/index';</script>
     <link rel="shortcut icon" href="../../../../../../static/fav.ico"/>
@@ -447,6 +448,15 @@
      <code class="xref py py-mod docutils literal notranslate">
       <span class="pre">
        sparknlp_jsl.annotator.deid.deIdentification
+      </span>
+     </code>
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../../deid/doccument_hashcoder/index.html">
+     <code class="xref py py-mod docutils literal notranslate">
+      <span class="pre">
+       sparknlp_jsl.annotator.deid.doccument_hashcoder
       </span>
      </code>
     </a>
@@ -1283,6 +1293,271 @@ Chunks with no associated entity (tagged “O”) are filtered.</p>
     <ul class="nav section-nav flex-column">
      <li class="toc-h4 nav-item toc-entry">
       <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.ner.ner_converter_internal.NerConverterInternal">
+       <code class="docutils literal notranslate">
+        <span class="pre">
+         NerConverterInternal
+        </span>
+       </code>
+      </a>
+      <ul class="nav section-nav flex-column">
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.ner.ner_converter_internal.NerConverterInternal.name">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           NerConverterInternal.name
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.ner.ner_converter_internal.NerConverterInternal.whiteList">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           NerConverterInternal.whiteList
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.ner.ner_converter_internal.NerConverterInternal.preservePosition">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           NerConverterInternal.preservePosition
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.ner.ner_converter_internal.NerConverterInternal.greedyMode">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           NerConverterInternal.greedyMode
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.ner.ner_converter_internal.NerConverterInternal.threshold">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           NerConverterInternal.threshold
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.ner.ner_converter_internal.NerConverterInternal.replaceDictResource">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           NerConverterInternal.replaceDictResource
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.ner.ner_converter_internal.NerConverterInternal.blackList">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           NerConverterInternal.blackList
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.ner.ner_converter_internal.NerConverterInternal.replaceLabels">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           NerConverterInternal.replaceLabels
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.ner.ner_converter_internal.NerConverterInternal.setWhiteList">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           NerConverterInternal.setWhiteList()
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.ner.ner_converter_internal.NerConverterInternal.setBlackList">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           NerConverterInternal.setBlackList()
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.ner.ner_converter_internal.NerConverterInternal.setPreservePosition">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           NerConverterInternal.setPreservePosition()
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.ner.ner_converter_internal.NerConverterInternal.setGreedyMode">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           NerConverterInternal.setGreedyMode()
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.ner.ner_converter_internal.NerConverterInternal.setThreshold">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           NerConverterInternal.setThreshold()
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.ner.ner_converter_internal.NerConverterInternal.setReplaceDictResource">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           NerConverterInternal.setReplaceDictResource()
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.ner.ner_converter_internal.NerConverterInternal.setReplaceLabels">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           NerConverterInternal.setReplaceLabels()
+          </span>
+         </code>
+        </a>
+       </li>
+      </ul>
+     </li>
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.ner.ner_converter_internal.NerConverterInternalModel">
+       <code class="docutils literal notranslate">
+        <span class="pre">
+         NerConverterInternalModel
+        </span>
+       </code>
+      </a>
+      <ul class="nav section-nav flex-column">
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.ner.ner_converter_internal.NerConverterInternalModel.name">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           NerConverterInternalModel.name
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.ner.ner_converter_internal.NerConverterInternalModel.whiteList">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           NerConverterInternalModel.whiteList
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.ner.ner_converter_internal.NerConverterInternalModel.preservePosition">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           NerConverterInternalModel.preservePosition
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.ner.ner_converter_internal.NerConverterInternalModel.greedyMode">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           NerConverterInternalModel.greedyMode
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.ner.ner_converter_internal.NerConverterInternalModel.threshold">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           NerConverterInternalModel.threshold
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.ner.ner_converter_internal.NerConverterInternalModel.replaceDict">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           NerConverterInternalModel.replaceDict
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.ner.ner_converter_internal.NerConverterInternalModel.blackList">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           NerConverterInternalModel.blackList
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.ner.ner_converter_internal.NerConverterInternalModel.setWhiteList">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           NerConverterInternalModel.setWhiteList()
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.ner.ner_converter_internal.NerConverterInternalModel.setBlackList">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           NerConverterInternalModel.setBlackList()
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.ner.ner_converter_internal.NerConverterInternalModel.setPreservePosition">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           NerConverterInternalModel.setPreservePosition()
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.ner.ner_converter_internal.NerConverterInternalModel.setGreedyMode">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           NerConverterInternalModel.setGreedyMode()
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.ner.ner_converter_internal.NerConverterInternalModel.setThreshold">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           NerConverterInternalModel.setThreshold()
+          </span>
+         </code>
+        </a>
+       </li>
+      </ul>
+     </li>
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.ner.ner_converter_internal.NerConverterInternal">
        NerConverterInternal
       </a>
       <ul class="nav section-nav flex-column">
@@ -1487,7 +1762,7 @@ Chunks with no associated entity (tagged “O”) are filtered.</p>
   <div class="footer-item">
     
 <p class="sphinx-version">
-Created using <a href="http://sphinx-doc.org/">Sphinx</a> 5.1.1.<br>
+Created using <a href="http://sphinx-doc.org/">Sphinx</a> 5.2.3.<br>
 </p>
 
   </div>

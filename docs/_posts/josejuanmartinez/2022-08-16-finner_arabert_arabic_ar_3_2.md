@@ -59,19 +59,21 @@ CURR (currency)
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
 ```python
-documentAssembler = DocumentAssembler()\
+documentAssembler = nlp.DocumentAssembler()\
   .setInputCol("text")\
   .setOutputCol("document")
 
-tokeniz = Tokenizer()\
+tokenizer = nlp.Tokenizer()\
   .setInputCols("document")\
   .setOutputCol("token")
   
-tokenClassifier = FinanceBertForTokenClassification.pretrained("finner_arabert_arabic", "ar", "finance/models")\
+tokenClassifier = finance.BertForTokenClassification.pretrained("finner_arabert_arabic", "ar", "finance/models")\
   .setInputCols("token", "document")\
   .setOutputCol("label")
   
 pipeline = Pipeline(stages=[documentAssembler, tokenizer, tokenClassifier])
+
+import pandas as pd
 
 example = spark.createDataFrame(pd.DataFrame({'text': ["""أمثلة:
 جامعة بيرزيت وبالتعاون مع مؤسسة ادوارد سعيد تنظم مهرجان للفن الشعبي سيبدأ الساعة الرابعة عصرا، بتاريخ 16/5/2016.

@@ -37,15 +37,15 @@ If you look for an augmented version of this model, with more fine-grain vertica
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
 ```python
-document_assembler = DocumentAssembler() \
+document_assembler = nlp.DocumentAssembler() \
     .setInputCol('text') \
     .setOutputCol('document')
 
-tokenizer = Tokenizer() \
+tokenizer = nlp.Tokenizer() \
     .setInputCols(['document']) \
     .setOutputCol('token')
 
-sequenceClassifier = FinanceBertForSequenceClassification.pretrained("finclf_esg", "en", "finance/models"))\
+sequenceClassifier = finance.BertForSequenceClassification.pretrained("finclf_esg", "en", "finance/models")\
   .setInputCols(["document",'token'])\
   .setOutputCol("class")
 

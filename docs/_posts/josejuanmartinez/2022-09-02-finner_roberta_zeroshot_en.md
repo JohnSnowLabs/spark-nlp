@@ -36,15 +36,15 @@ This model is trained to carry out a Zero-Shot Named Entity Recognition (NER) ap
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
 ```python
-documentAssembler = DocumentAssembler()\
+documentAssembler = nlp.DocumentAssembler()\
   .setInputCol("text")\
   .setOutputCol("document")
 
-sparktokenizer = Tokenizer()\
+sparktokenizer = nlp.Tokenizer()\
   .setInputCols("document")\
   .setOutputCol("token")
 
-zero_shot_ner = ZeroShotNerModel.pretrained("finner_roberta_zeroshot", "en", "finance/models")\
+zero_shot_ner = finance.ZeroShotNerModel.pretrained("finner_roberta_zeroshot", "en", "finance/models")\
     .setInputCols(["document", "token"])\
     .setOutputCol("zero_shot_ner")\
     .setEntityDefinitions(
@@ -58,7 +58,7 @@ zero_shot_ner = ZeroShotNerModel.pretrained("finner_roberta_zeroshot", "en", "fi
             "OPERATING_LOSS_2019": ["Which was the operating loss in 2019"]
         })
 
-nerconverter = NerConverter()\
+nerconverter = nlp.NerConverter()\
   .setInputCols(["document", "token", "zero_shot_ner"])\
   .setOutputCol("ner_chunk")
 

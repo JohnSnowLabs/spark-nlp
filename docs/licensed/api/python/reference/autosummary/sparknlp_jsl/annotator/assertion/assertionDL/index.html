@@ -36,6 +36,7 @@
     <script src="../../../../../../static/underscore.js"></script>
     <script src="../../../../../../static/_sphinx_javascript_frameworks_compat.js"></script>
     <script src="../../../../../../static/doctools.js"></script>
+    <script src="../../../../../../static/sphinx_highlight.js"></script>
     <script src="../../../../../../static/toggleprompt.js"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'reference/autosummary/sparknlp_jsl/annotator/assertion/assertionDL/index';</script>
     <link rel="shortcut icon" href="../../../../../../static/fav.ico"/>
@@ -447,6 +448,15 @@
      <code class="xref py py-mod docutils literal notranslate">
       <span class="pre">
        sparknlp_jsl.annotator.deid.deIdentification
+      </span>
+     </code>
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../../deid/doccument_hashcoder/index.html">
+     <code class="xref py py-mod docutils literal notranslate">
+      <span class="pre">
+       sparknlp_jsl.annotator.deid.doccument_hashcoder
       </span>
      </code>
     </a>
@@ -1543,6 +1553,469 @@ annotator inputs, which can be obtained by e.g a</p>
     <ul class="nav section-nav flex-column">
      <li class="toc-h4 nav-item toc-entry">
       <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.assertion.assertionDL.AssertionDLApproach">
+       <code class="docutils literal notranslate">
+        <span class="pre">
+         AssertionDLApproach
+        </span>
+       </code>
+      </a>
+      <ul class="nav section-nav flex-column">
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.assertion.assertionDL.AssertionDLApproach.label">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           AssertionDLApproach.label
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.assertion.assertionDL.AssertionDLApproach.startCol">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           AssertionDLApproach.startCol
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.assertion.assertionDL.AssertionDLApproach.endCol">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           AssertionDLApproach.endCol
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.assertion.assertionDL.AssertionDLApproach.batchSize">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           AssertionDLApproach.batchSize
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.assertion.assertionDL.AssertionDLApproach.epochs">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           AssertionDLApproach.epochs
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.assertion.assertionDL.AssertionDLApproach.learningRate">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           AssertionDLApproach.learningRate
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.assertion.assertionDL.AssertionDLApproach.dropout">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           AssertionDLApproach.dropout
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.assertion.assertionDL.AssertionDLApproach.maxSentLen">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           AssertionDLApproach.maxSentLen
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.assertion.assertionDL.AssertionDLApproach.graphFolder">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           AssertionDLApproach.graphFolder
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.assertion.assertionDL.AssertionDLApproach.graphFile">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           AssertionDLApproach.graphFile
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.assertion.assertionDL.AssertionDLApproach.configProtoBytes">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           AssertionDLApproach.configProtoBytes
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.assertion.assertionDL.AssertionDLApproach.validationSplit">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           AssertionDLApproach.validationSplit
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.assertion.assertionDL.AssertionDLApproach.evaluationLogExtended">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           AssertionDLApproach.evaluationLogExtended
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.assertion.assertionDL.AssertionDLApproach.testDataset">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           AssertionDLApproach.testDataset
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.assertion.assertionDL.AssertionDLApproach.includeConfidence">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           AssertionDLApproach.includeConfidence
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.assertion.assertionDL.AssertionDLApproach.enableOutputLogs">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           AssertionDLApproach.enableOutputLogs
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.assertion.assertionDL.AssertionDLApproach.outputLogsPath">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           AssertionDLApproach.outputLogsPath
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.assertion.assertionDL.AssertionDLApproach.verbose">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           AssertionDLApproach.verbose
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.assertion.assertionDL.AssertionDLApproach.scopeWindow">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           AssertionDLApproach.scopeWindow
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.assertion.assertionDL.AssertionDLApproach.setGraphFolder">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           AssertionDLApproach.setGraphFolder()
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.assertion.assertionDL.AssertionDLApproach.setGraphFile">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           AssertionDLApproach.setGraphFile()
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.assertion.assertionDL.AssertionDLApproach.setConfigProtoBytes">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           AssertionDLApproach.setConfigProtoBytes()
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.assertion.assertionDL.AssertionDLApproach.setLabelCol">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           AssertionDLApproach.setLabelCol()
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.assertion.assertionDL.AssertionDLApproach.setStartCol">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           AssertionDLApproach.setStartCol()
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.assertion.assertionDL.AssertionDLApproach.setEndCol">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           AssertionDLApproach.setEndCol()
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.assertion.assertionDL.AssertionDLApproach.setBatchSize">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           AssertionDLApproach.setBatchSize()
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.assertion.assertionDL.AssertionDLApproach.setEpochs">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           AssertionDLApproach.setEpochs()
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.assertion.assertionDL.AssertionDLApproach.setLearningRate">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           AssertionDLApproach.setLearningRate()
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.assertion.assertionDL.AssertionDLApproach.setDropout">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           AssertionDLApproach.setDropout()
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.assertion.assertionDL.AssertionDLApproach.setMaxSentLen">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           AssertionDLApproach.setMaxSentLen()
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.assertion.assertionDL.AssertionDLApproach.setValidationSplit">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           AssertionDLApproach.setValidationSplit()
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.assertion.assertionDL.AssertionDLApproach.setEvaluationLogExtended">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           AssertionDLApproach.setEvaluationLogExtended()
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.assertion.assertionDL.AssertionDLApproach.setTestDataset">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           AssertionDLApproach.setTestDataset()
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.assertion.assertionDL.AssertionDLApproach.setIncludeConfidence">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           AssertionDLApproach.setIncludeConfidence()
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.assertion.assertionDL.AssertionDLApproach.setEnableOutputLogs">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           AssertionDLApproach.setEnableOutputLogs()
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.assertion.assertionDL.AssertionDLApproach.setOutputLogsPath">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           AssertionDLApproach.setOutputLogsPath()
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.assertion.assertionDL.AssertionDLApproach.setVerbose">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           AssertionDLApproach.setVerbose()
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.assertion.assertionDL.AssertionDLApproach.setScopeWindow">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           AssertionDLApproach.setScopeWindow()
+          </span>
+         </code>
+        </a>
+       </li>
+      </ul>
+     </li>
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.assertion.assertionDL.AssertionDLModel">
+       <code class="docutils literal notranslate">
+        <span class="pre">
+         AssertionDLModel
+        </span>
+       </code>
+      </a>
+      <ul class="nav section-nav flex-column">
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.assertion.assertionDL.AssertionDLModel.name">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           AssertionDLModel.name
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.assertion.assertionDL.AssertionDLModel.maxSentLen">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           AssertionDLModel.maxSentLen
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.assertion.assertionDL.AssertionDLModel.targetNerLabels">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           AssertionDLModel.targetNerLabels
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.assertion.assertionDL.AssertionDLModel.configProtoBytes">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           AssertionDLModel.configProtoBytes
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.assertion.assertionDL.AssertionDLModel.classes">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           AssertionDLModel.classes
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.assertion.assertionDL.AssertionDLModel.scopeWindow">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           AssertionDLModel.scopeWindow
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.assertion.assertionDL.AssertionDLModel.includeConfidence">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           AssertionDLModel.includeConfidence
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.assertion.assertionDL.AssertionDLModel.setConfigProtoBytes">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           AssertionDLModel.setConfigProtoBytes()
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.assertion.assertionDL.AssertionDLModel.setIncludeConfidence">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           AssertionDLModel.setIncludeConfidence()
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.assertion.assertionDL.AssertionDLModel.setScopeWindow">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           AssertionDLModel.setScopeWindow()
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.assertion.assertionDL.AssertionDLModel.pretrained">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           AssertionDLModel.pretrained()
+          </span>
+         </code>
+        </a>
+       </li>
+      </ul>
+     </li>
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.assertion.assertionDL.AssertionDLApproach">
        AssertionDLApproach
       </a>
       <ul class="nav section-nav flex-column">
@@ -1857,7 +2330,7 @@ annotator inputs, which can be obtained by e.g a</p>
   <div class="footer-item">
     
 <p class="sphinx-version">
-Created using <a href="http://sphinx-doc.org/">Sphinx</a> 5.1.1.<br>
+Created using <a href="http://sphinx-doc.org/">Sphinx</a> 5.2.3.<br>
 </p>
 
   </div>

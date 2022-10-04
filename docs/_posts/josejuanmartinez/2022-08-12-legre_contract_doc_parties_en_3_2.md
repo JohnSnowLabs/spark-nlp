@@ -42,38 +42,46 @@ As an output, you will get the relations linking the different concepts together
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
 ```python
-documentAssembler = DocumentAssembler()\
+documentAssembler = nlp.DocumentAssembler()\
   .setInputCol("text")\
   .setOutputCol("document")
 
-tokenizer = Tokenizer()\
+tokenizer = nlp.Tokenizer()\
   .setInputCols("document")\
   .setOutputCol("token")
 
-embeddings = BertEmbeddings.pretrained("bert_base_uncased_legal", "en") \
+embeddings = nlp.BertEmbeddings.pretrained("bert_base_uncased_legal", "en") \
         .setInputCols("document", "token") \
         .setOutputCol("embeddings")
 
-ner_model = LegalNerModel.pretrained('legner_contract_doc_parties', 'en', 'legal/models')\
+ner_model = legal.NerModel.pretrained('legner_contract_doc_parties', 'en', 'legal/models')\
         .setInputCols(["document", "token", "embeddings"])\
         .setOutputCol("ner")
 
-ner_converter = NerConverter()\
+ner_converter = nlp.NerConverter()\
         .setInputCols(["document","token","ner"])\
         .setOutputCol("ner_chunk")
 
-reDL = RelationExtractionDLModel()\
+reDL = legal.RelationExtractionDLModel()\
     .pretrained('legre_contract_doc_parties', 'en', 'legal/models')\
     .setPredictionThreshold(0.5)\
     .setInputCols(["ner_chunk", "document"])\
     .setOutputCol("relations")
+
+nlpPipeline = Pipeline(stages=[
+        documentAssembler,
+        tokenizer,
+        embeddings,
+        ner_model,
+        ner_converter,
+        reDL])
     
 text='''
 This INTELLECTUAL PROPERTY AGREEMENT (this "Agreement"), dated as of December 31, 2018 (the "Effective Date") is entered into by and between Armstrong Flooring, Inc., a Delaware corporation ("Seller") and AFI Licensing LLC, a Delaware limited liability company ("Licensing" and together with Seller, "Arizona") and AHF Holding, Inc. (formerly known as Tarzan HoldCo, Inc.), a Delaware corporation ("Buyer") and Armstrong Hardwood Flooring Company, a Tennessee corporation (the "Company" and together with Buyer the "Buyer Entities") (each of Arizona on the one hand and the Buyer Entities on the other hand, a "Party" and collectively, the "Parties").
 '''
 
 data = spark.createDataFrame([[text]]).toDF("text")
-model = pipeline.fit(data)
+model = nlpPipeline.fit(data)
 ```
 
 </div>

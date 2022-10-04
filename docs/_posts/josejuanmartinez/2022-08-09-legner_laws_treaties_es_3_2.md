@@ -39,19 +39,19 @@ This model originally trained on scjn dataset, available [here](https://huggingf
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
 ```python
-documentAssembler = DocumentAssembler() \
+documentAssembler = nlp.DocumentAssembler() \
        .setInputCol("text") \
        .setOutputCol("document")
 
-sentenceDetector = SentenceDetectorDLModel.pretrained("sentence_detector_dl", "xx")\
+sentenceDetector = nlp.SentenceDetectorDLModel.pretrained("sentence_detector_dl", "xx")\
        .setInputCols(["document"])\
        .setOutputCol("sentence")
 
-tokenizer = Tokenizer() \
+tokenizer = nlp.Tokenizer() \
     .setInputCols("sentence") \
     .setOutputCol("token")
 
-tokenClassifier = RoBertaForTokenClassification.pretrained("legner_laws_treaties","es", "legal/models") \
+tokenClassifier = nlp.RoBertaForTokenClassification.pretrained("legner_laws_treaties","es", "legal/models") \
     .setInputCols(["sentence", "token"]) \
     .setOutputCol("ner")
 
@@ -70,8 +70,8 @@ light_result = light_model.fullAnnotate(text)
 chunks = []
 entities = []
 
-for n in light_result[0]['ner_chunk']:       
-    print("{n.result} ({n.metadata['entity']}))
+for n in light_result[0]['ner']:       
+    print("{n.result} ({n.metadata['entity']})")
 ```
 
 </div>

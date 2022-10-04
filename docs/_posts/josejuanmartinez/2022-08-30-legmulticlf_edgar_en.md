@@ -52,15 +52,15 @@ This is a Multilabel Document Classification model, which can be used to identif
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
 ```python
-document = DocumentAssembler()\
+document = nlp.DocumentAssembler()\
   .setInputCol("text")\
   .setOutputCol("document")
 
-embeddings = BertSentenceEmbeddings.pretrained("sent_bert_base_uncased_legal", "en") \
+embeddings = nlp.BertSentenceEmbeddings.pretrained("sent_bert_base_uncased_legal", "en") \
       .setInputCols("document") \
       .setOutputCol("sentence_embeddings")
 
-multiClassifier = MultiClassifierDLModel.pretrained("legmulticlf_edgar", "en", "legal/models") \
+multiClassifier = nlp.MultiClassifierDLModel.pretrained("legmulticlf_edgar", "en", "legal/models") \
   .setInputCols(["document", "sentence_embeddings"]) \
   .setOutputCol("class")
 

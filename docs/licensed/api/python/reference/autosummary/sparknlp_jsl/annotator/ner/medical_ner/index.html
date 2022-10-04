@@ -36,6 +36,7 @@
     <script src="../../../../../../static/underscore.js"></script>
     <script src="../../../../../../static/_sphinx_javascript_frameworks_compat.js"></script>
     <script src="../../../../../../static/doctools.js"></script>
+    <script src="../../../../../../static/sphinx_highlight.js"></script>
     <script src="../../../../../../static/toggleprompt.js"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'reference/autosummary/sparknlp_jsl/annotator/ner/medical_ner/index';</script>
     <link rel="shortcut icon" href="../../../../../../static/fav.ico"/>
@@ -447,6 +448,15 @@
      <code class="xref py py-mod docutils literal notranslate">
       <span class="pre">
        sparknlp_jsl.annotator.deid.deIdentification
+      </span>
+     </code>
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../../deid/doccument_hashcoder/index.html">
+     <code class="xref py py-mod docutils literal notranslate">
+      <span class="pre">
+       sparknlp_jsl.annotator.deid.doccument_hashcoder
       </span>
      </code>
     </a>
@@ -953,56 +963,51 @@ the score of the predicted tag, by default False</p>
 <dt><strong>enableMemoryOptimizer</strong></dt><dd><p>Whether to optimize for large datasets or not. Enabling this option can
 slow down training, by default False</p>
 </dd>
+<dt><strong>Examples</strong></dt><dd></dd>
+<dt><strong>——–</strong></dt><dd></dd>
+<dt><strong>&gt;&gt;&gt; import sparknlp</strong></dt><dd></dd>
+<dt><strong>&gt;&gt;&gt; from sparknlp.base import *</strong></dt><dd></dd>
+<dt><strong>&gt;&gt;&gt; from sparknlp.common import *</strong></dt><dd></dd>
+<dt><strong>&gt;&gt;&gt; from sparknlp.annotator import *</strong></dt><dd></dd>
+<dt><strong>&gt;&gt;&gt; from sparknlp.training import *</strong></dt><dd></dd>
+<dt><strong>&gt;&gt;&gt; import sparknlp_jsl</strong></dt><dd></dd>
+<dt><strong>&gt;&gt;&gt; from sparknlp_jsl.base import *</strong></dt><dd></dd>
+<dt><strong>&gt;&gt;&gt; from sparknlp_jsl.annotator import *</strong></dt><dd></dd>
+<dt><strong>&gt;&gt;&gt; from pyspark.ml import Pipeline</strong></dt><dd></dd>
+<dt><strong>First extract the prerequisites for the NerDLApproach</strong></dt><dd></dd>
+<dt><a href="#id1"><span class="problematic" id="id2">**</span></a>&gt;&gt;&gt; documentAssembler = DocumentAssembler() **</dt><dd></dd>
+<dt><a href="#id3"><span class="problematic" id="id4">**</span></a>…     .setInputCol(“text”) **</dt><dd></dd>
+<dt><strong>…     .setOutputCol(“document”)</strong></dt><dd></dd>
+<dt><a href="#id5"><span class="problematic" id="id6">**</span></a>&gt;&gt;&gt; sentence = SentenceDetector() **</dt><dd></dd>
+<dt><a href="#id7"><span class="problematic" id="id8">**</span></a>…     .setInputCols([“document”]) **</dt><dd></dd>
+<dt><strong>…     .setOutputCol(“sentence”)</strong></dt><dd></dd>
+<dt><a href="#id9"><span class="problematic" id="id10">**</span></a>&gt;&gt;&gt; tokenizer = Tokenizer() **</dt><dd></dd>
+<dt><a href="#id11"><span class="problematic" id="id12">**</span></a>…     .setInputCols([“sentence”]) **</dt><dd></dd>
+<dt><strong>…     .setOutputCol(“token”)</strong></dt><dd></dd>
+<dt><a href="#id13"><span class="problematic" id="id14">**</span></a>&gt;&gt;&gt; embeddings = BertEmbeddings.pretrained() **</dt><dd></dd>
+<dt><a href="#id15"><span class="problematic" id="id16">**</span></a>…     .setInputCols([“sentence”, “token”]) **</dt><dd></dd>
+<dt><strong>…     .setOutputCol(“embeddings”)</strong></dt><dd></dd>
+<dt><strong>Then the training can start</strong></dt><dd></dd>
+<dt><a href="#id17"><span class="problematic" id="id18">**</span></a>&gt;&gt;&gt; nerTagger = MedicalNerApproach() **</dt><dd></dd>
+<dt><a href="#id19"><span class="problematic" id="id20">**</span></a>…     .setInputCols([“sentence”, “token”, “embeddings”]) **</dt><dd></dd>
+<dt><a href="#id21"><span class="problematic" id="id22">**</span></a>…     .setLabelColumn(“label”) **</dt><dd></dd>
+<dt><a href="#id23"><span class="problematic" id="id24">**</span></a>…     .setOutputCol(“ner”) **</dt><dd></dd>
+<dt><a href="#id25"><span class="problematic" id="id26">**</span></a>…     .setMaxEpochs(1) **</dt><dd></dd>
+<dt><a href="#id27"><span class="problematic" id="id28">**</span></a>…     .setRandomSeed(0) **</dt><dd></dd>
+<dt><strong>…     .setVerbose(0)</strong></dt><dd></dd>
+<dt><strong>&gt;&gt;&gt; pipeline = Pipeline().setStages([</strong></dt><dd></dd>
+<dt><strong>…     documentAssembler,</strong></dt><dd></dd>
+<dt><strong>…     sentence,</strong></dt><dd></dd>
+<dt><strong>…     tokenizer,</strong></dt><dd></dd>
+<dt><strong>…     embeddings,</strong></dt><dd></dd>
+<dt><strong>…     nerTagger</strong></dt><dd></dd>
+<dt><strong>… ])</strong></dt><dd></dd>
+<dt><strong>&gt;&gt;&gt; conll = CoNLL()</strong></dt><dd></dd>
+<dt><strong>&gt;&gt;&gt; trainingData = conll.readDataset(spark, “src/test/resources/conll2003/eng.train”)</strong></dt><dd></dd>
+<dt><strong>&gt;&gt;&gt; pipelineModel = pipeline.fit(trainingData)</strong></dt><dd></dd>
 </dl>
 </dd>
 </dl>
-<p class="rubric">Examples</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">sparknlp</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">sparknlp.base</span> <span class="kn">import</span> <span class="o">*</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">sparknlp.common</span> <span class="kn">import</span> <span class="o">*</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">sparknlp.annotator</span> <span class="kn">import</span> <span class="o">*</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">sparknlp.training</span> <span class="kn">import</span> <span class="o">*</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">sparknlp_jsl</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">sparknlp_jsl.base</span> <span class="kn">import</span> <span class="o">*</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">sparknlp_jsl.annotator</span> <span class="kn">import</span> <span class="o">*</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">pyspark.ml</span> <span class="kn">import</span> <span class="n">Pipeline</span>
-</pre></div>
-</div>
-<p>First extract the prerequisites for the NerDLApproach</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">documentAssembler</span> <span class="o">=</span> <span class="n">DocumentAssembler</span><span class="p">()</span> \
-<span class="gp">... </span>    <span class="o">.</span><span class="n">setInputCol</span><span class="p">(</span><span class="s2">&quot;text&quot;</span><span class="p">)</span> \
-<span class="gp">... </span>    <span class="o">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s2">&quot;document&quot;</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">sentence</span> <span class="o">=</span> <span class="n">SentenceDetector</span><span class="p">()</span> \
-<span class="gp">... </span>    <span class="o">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s2">&quot;document&quot;</span><span class="p">])</span> \
-<span class="gp">... </span>    <span class="o">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s2">&quot;sentence&quot;</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">tokenizer</span> <span class="o">=</span> <span class="n">Tokenizer</span><span class="p">()</span> \
-<span class="gp">... </span>    <span class="o">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s2">&quot;sentence&quot;</span><span class="p">])</span> \
-<span class="gp">... </span>    <span class="o">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s2">&quot;token&quot;</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">embeddings</span> <span class="o">=</span> <span class="n">BertEmbeddings</span><span class="o">.</span><span class="n">pretrained</span><span class="p">()</span> \
-<span class="gp">... </span>    <span class="o">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s2">&quot;sentence&quot;</span><span class="p">,</span> <span class="s2">&quot;token&quot;</span><span class="p">])</span> \
-<span class="gp">... </span>    <span class="o">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s2">&quot;embeddings&quot;</span><span class="p">)</span>
-</pre></div>
-</div>
-<p>Then the training can start</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">nerTagger</span> <span class="o">=</span> <span class="n">MedicalNerApproach</span><span class="p">()</span> \
-<span class="gp">... </span>    <span class="o">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s2">&quot;sentence&quot;</span><span class="p">,</span> <span class="s2">&quot;token&quot;</span><span class="p">,</span> <span class="s2">&quot;embeddings&quot;</span><span class="p">])</span> \
-<span class="gp">... </span>    <span class="o">.</span><span class="n">setLabelColumn</span><span class="p">(</span><span class="s2">&quot;label&quot;</span><span class="p">)</span> \
-<span class="gp">... </span>    <span class="o">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s2">&quot;ner&quot;</span><span class="p">)</span> \
-<span class="gp">... </span>    <span class="o">.</span><span class="n">setMaxEpochs</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> \
-<span class="gp">... </span>    <span class="o">.</span><span class="n">setRandomSeed</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span> \
-<span class="gp">... </span>    <span class="o">.</span><span class="n">setVerbose</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">pipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">()</span><span class="o">.</span><span class="n">setStages</span><span class="p">([</span>
-<span class="gp">... </span>    <span class="n">documentAssembler</span><span class="p">,</span>
-<span class="gp">... </span>    <span class="n">sentence</span><span class="p">,</span>
-<span class="gp">... </span>    <span class="n">tokenizer</span><span class="p">,</span>
-<span class="gp">... </span>    <span class="n">embeddings</span><span class="p">,</span>
-<span class="gp">... </span>    <span class="n">nerTagger</span>
-<span class="gp">... </span><span class="p">])</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">conll</span> <span class="o">=</span> <span class="n">CoNLL</span><span class="p">()</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">trainingData</span> <span class="o">=</span> <span class="n">conll</span><span class="o">.</span><span class="n">readDataset</span><span class="p">(</span><span class="n">spark</span><span class="p">,</span> <span class="s2">&quot;src/test/resources/conll2003/eng.train&quot;</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">pipelineModel</span> <span class="o">=</span> <span class="n">pipeline</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">trainingData</span><span class="p">)</span>
-</pre></div>
-</div>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="sparknlp_jsl.annotator.ner.medical_ner.MedicalNerApproach.lr">
 <span class="sig-name descname"><span class="pre">lr</span></span><a class="reference internal" href="../../../../../../modules/sparknlp_jsl/annotator/ner/medical_ner.html#MedicalNerApproach.lr"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.ner.medical_ner.MedicalNerApproach.lr" title="Permalink to this definition">#</a></dt>
@@ -1044,21 +1049,6 @@ slow down training, by default False</p>
 <dd></dd></dl>
 
 <dl class="py attribute">
-<dt class="sig sig-object py" id="sparknlp_jsl.annotator.ner.medical_ner.MedicalNerApproach.validationSplit">
-<span class="sig-name descname"><span class="pre">validationSplit</span></span><a class="reference internal" href="../../../../../../modules/sparknlp_jsl/annotator/ner/medical_ner.html#MedicalNerApproach.validationSplit"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.ner.medical_ner.MedicalNerApproach.validationSplit" title="Permalink to this definition">#</a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="sparknlp_jsl.annotator.ner.medical_ner.MedicalNerApproach.evaluationLogExtended">
-<span class="sig-name descname"><span class="pre">evaluationLogExtended</span></span><a class="reference internal" href="../../../../../../modules/sparknlp_jsl/annotator/ner/medical_ner.html#MedicalNerApproach.evaluationLogExtended"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.ner.medical_ner.MedicalNerApproach.evaluationLogExtended" title="Permalink to this definition">#</a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="sparknlp_jsl.annotator.ner.medical_ner.MedicalNerApproach.testDataset">
-<span class="sig-name descname"><span class="pre">testDataset</span></span><a class="reference internal" href="../../../../../../modules/sparknlp_jsl/annotator/ner/medical_ner.html#MedicalNerApproach.testDataset"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.ner.medical_ner.MedicalNerApproach.testDataset" title="Permalink to this definition">#</a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
 <dt class="sig sig-object py" id="sparknlp_jsl.annotator.ner.medical_ner.MedicalNerApproach.includeConfidence">
 <span class="sig-name descname"><span class="pre">includeConfidence</span></span><a class="reference internal" href="../../../../../../modules/sparknlp_jsl/annotator/ner/medical_ner.html#MedicalNerApproach.includeConfidence"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.ner.medical_ner.MedicalNerApproach.includeConfidence" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
@@ -1066,16 +1056,6 @@ slow down training, by default False</p>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="sparknlp_jsl.annotator.ner.medical_ner.MedicalNerApproach.includeAllConfidenceScores">
 <span class="sig-name descname"><span class="pre">includeAllConfidenceScores</span></span><a class="reference internal" href="../../../../../../modules/sparknlp_jsl/annotator/ner/medical_ner.html#MedicalNerApproach.includeAllConfidenceScores"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.ner.medical_ner.MedicalNerApproach.includeAllConfidenceScores" title="Permalink to this definition">#</a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="sparknlp_jsl.annotator.ner.medical_ner.MedicalNerApproach.enableOutputLogs">
-<span class="sig-name descname"><span class="pre">enableOutputLogs</span></span><a class="reference internal" href="../../../../../../modules/sparknlp_jsl/annotator/ner/medical_ner.html#MedicalNerApproach.enableOutputLogs"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.ner.medical_ner.MedicalNerApproach.enableOutputLogs" title="Permalink to this definition">#</a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="sparknlp_jsl.annotator.ner.medical_ner.MedicalNerApproach.outputLogsPath">
-<span class="sig-name descname"><span class="pre">outputLogsPath</span></span><a class="reference internal" href="../../../../../../modules/sparknlp_jsl/annotator/ner/medical_ner.html#MedicalNerApproach.outputLogsPath"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.ner.medical_ner.MedicalNerApproach.outputLogsPath" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
@@ -1255,40 +1235,6 @@ between 0.0 and 1.0.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="sparknlp_jsl.annotator.ner.medical_ner.MedicalNerApproach.setEvaluationLogExtended">
-<span class="sig-name descname"><span class="pre">setEvaluationLogExtended</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">v</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../modules/sparknlp_jsl/annotator/ner/medical_ner.html#MedicalNerApproach.setEvaluationLogExtended"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.ner.medical_ner.MedicalNerApproach.setEvaluationLogExtended" title="Permalink to this definition">#</a></dt>
-<dd><p>Sets whether logs for validation to be extended, by default False.
-Displays time and evaluation of each label.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><dl class="simple">
-<dt><strong>v</strong><span class="classifier">bool</span></dt><dd><p>Whether logs for validation to be extended</p>
-</dd>
-</dl>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="sparknlp_jsl.annotator.ner.medical_ner.MedicalNerApproach.setTestDataset">
-<span class="sig-name descname"><span class="pre">setTestDataset</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">read_as</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">ReadAs.SPARK</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">options</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../modules/sparknlp_jsl/annotator/ner/medical_ner.html#MedicalNerApproach.setTestDataset"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.ner.medical_ner.MedicalNerApproach.setTestDataset" title="Permalink to this definition">#</a></dt>
-<dd><p>Sets Path to test dataset. If set used to calculate statistic on it
-during training.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><dl class="simple">
-<dt><strong>path</strong><span class="classifier">str</span></dt><dd><p>Path to test dataset</p>
-</dd>
-<dt><strong>read_as</strong><span class="classifier">str, optional</span></dt><dd><p>How to read the resource, by default ReadAs.SPARK</p>
-</dd>
-<dt><strong>options</strong><span class="classifier">dict, optional</span></dt><dd><p>Options for reading the resource, by default {“format”: “parquet”}</p>
-</dd>
-</dl>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
 <dt class="sig sig-object py" id="sparknlp_jsl.annotator.ner.medical_ner.MedicalNerApproach.setIncludeConfidence">
 <span class="sig-name descname"><span class="pre">setIncludeConfidence</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../modules/sparknlp_jsl/annotator/ner/medical_ner.html#MedicalNerApproach.setIncludeConfidence"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.ner.medical_ner.MedicalNerApproach.setIncludeConfidence" title="Permalink to this definition">#</a></dt>
 <dd><p>Sets whether to include confidence scores in annotation metadata, by
@@ -1320,21 +1266,6 @@ just the score of the predicted tag</p>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="sparknlp_jsl.annotator.ner.medical_ner.MedicalNerApproach.setEnableOutputLogs">
-<span class="sig-name descname"><span class="pre">setEnableOutputLogs</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../modules/sparknlp_jsl/annotator/ner/medical_ner.html#MedicalNerApproach.setEnableOutputLogs"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.ner.medical_ner.MedicalNerApproach.setEnableOutputLogs" title="Permalink to this definition">#</a></dt>
-<dd><p>Sets whether to use stdout in addition to Spark logs, by default
-False.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><dl class="simple">
-<dt><strong>value</strong><span class="classifier">bool</span></dt><dd><p>Whether to use stdout in addition to Spark logs</p>
-</dd>
-</dl>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
 <dt class="sig sig-object py" id="sparknlp_jsl.annotator.ner.medical_ner.MedicalNerApproach.setEnableMemoryOptimizer">
 <span class="sig-name descname"><span class="pre">setEnableMemoryOptimizer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../modules/sparknlp_jsl/annotator/ner/medical_ner.html#MedicalNerApproach.setEnableMemoryOptimizer"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.ner.medical_ner.MedicalNerApproach.setEnableMemoryOptimizer" title="Permalink to this definition">#</a></dt>
 <dd><p>Sets Whether to optimize for large datasets or not, by default False.
@@ -1358,20 +1289,6 @@ The metric that is being monitored is macro F1 for the following cases(highest p
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><dl class="simple">
 <dt><strong>value</strong><span class="classifier">bool</span></dt><dd><p>Whether to return the model that has achieved the best metrics across epochs.</p>
-</dd>
-</dl>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="sparknlp_jsl.annotator.ner.medical_ner.MedicalNerApproach.setOutputLogsPath">
-<span class="sig-name descname"><span class="pre">setOutputLogsPath</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">p</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../modules/sparknlp_jsl/annotator/ner/medical_ner.html#MedicalNerApproach.setOutputLogsPath"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.ner.medical_ner.MedicalNerApproach.setOutputLogsPath" title="Permalink to this definition">#</a></dt>
-<dd><p>Sets folder path to save training logs.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><dl class="simple">
-<dt><strong>p</strong><span class="classifier">str</span></dt><dd><p>Folder path to save training logs</p>
 </dd>
 </dl>
 </dd>
@@ -1473,7 +1390,7 @@ Neural Networks.</p>
 state-of-the-art in most datasets.</p>
 <p>This is the instantiated model of the <code class="xref py py-class docutils literal notranslate"><span class="pre">NerDLApproach</span></code>. For training
 your own model, please see the documentation of that class.</p>
-<p>Pretrained models can be loaded with <a class="reference internal" href="#id1" title="sparknlp_jsl.annotator.ner.medical_ner.MedicalNerModel.pretrained"><code class="xref py py-meth docutils literal notranslate"><span class="pre">pretrained()</span></code></a> of the companion
+<p>Pretrained models can be loaded with <a class="reference internal" href="#id29" title="sparknlp_jsl.annotator.ner.medical_ner.MedicalNerModel.pretrained"><code class="xref py py-meth docutils literal notranslate"><span class="pre">pretrained()</span></code></a> of the companion
 object:</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">nerModel</span> <span class="o">=</span> <span class="n">MedicalNerDLModel</span><span class="o">.</span><span class="n">pretrained</span><span class="p">()</span> \
 <span class="gp">... </span>    <span class="o">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s2">&quot;sentence&quot;</span><span class="p">,</span> <span class="s2">&quot;token&quot;</span><span class="p">,</span> <span class="s2">&quot;embeddings&quot;</span><span class="p">])</span> \
@@ -1686,8 +1603,8 @@ default False.</p>
 <dd></dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="id1">
-<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">pretrained</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'ner_clinical'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lang</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'en'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">remote_loc</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'clinical/models'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../modules/sparknlp_jsl/annotator/ner/medical_ner.html#MedicalNerModel.pretrained"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id1" title="Permalink to this definition">#</a></dt>
+<dt class="sig sig-object py" id="id29">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">pretrained</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'ner_clinical'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lang</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'en'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">remote_loc</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'clinical/models'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../modules/sparknlp_jsl/annotator/ner/medical_ner.html#MedicalNerModel.pretrained"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id29" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
@@ -1730,6 +1647,514 @@ default False.</p>
      Classes
     </a>
     <ul class="nav section-nav flex-column">
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.ner.medical_ner.MedicalNerApproach">
+       <code class="docutils literal notranslate">
+        <span class="pre">
+         MedicalNerApproach
+        </span>
+       </code>
+      </a>
+      <ul class="nav section-nav flex-column">
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.ner.medical_ner.MedicalNerApproach.lr">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           MedicalNerApproach.lr
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.ner.medical_ner.MedicalNerApproach.po">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           MedicalNerApproach.po
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.ner.medical_ner.MedicalNerApproach.batchSize">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           MedicalNerApproach.batchSize
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.ner.medical_ner.MedicalNerApproach.dropout">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           MedicalNerApproach.dropout
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.ner.medical_ner.MedicalNerApproach.graphFolder">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           MedicalNerApproach.graphFolder
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.ner.medical_ner.MedicalNerApproach.graphFile">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           MedicalNerApproach.graphFile
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.ner.medical_ner.MedicalNerApproach.configProtoBytes">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           MedicalNerApproach.configProtoBytes
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.ner.medical_ner.MedicalNerApproach.useContrib">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           MedicalNerApproach.useContrib
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.ner.medical_ner.MedicalNerApproach.includeConfidence">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           MedicalNerApproach.includeConfidence
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.ner.medical_ner.MedicalNerApproach.includeAllConfidenceScores">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           MedicalNerApproach.includeAllConfidenceScores
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.ner.medical_ner.MedicalNerApproach.logPrefix">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           MedicalNerApproach.logPrefix
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.ner.medical_ner.MedicalNerApproach.enableMemoryOptimizer">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           MedicalNerApproach.enableMemoryOptimizer
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.ner.medical_ner.MedicalNerApproach.useBestModel">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           MedicalNerApproach.useBestModel
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.ner.medical_ner.MedicalNerApproach.pretrainedModelPath">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           MedicalNerApproach.pretrainedModelPath
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.ner.medical_ner.MedicalNerApproach.overrideExistingTags">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           MedicalNerApproach.overrideExistingTags
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.ner.medical_ner.MedicalNerApproach.tagsMapping">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           MedicalNerApproach.tagsMapping
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.ner.medical_ner.MedicalNerApproach.earlyStoppingCriterion">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           MedicalNerApproach.earlyStoppingCriterion
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.ner.medical_ner.MedicalNerApproach.earlyStoppingPatience">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           MedicalNerApproach.earlyStoppingPatience
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.ner.medical_ner.MedicalNerApproach.setConfigProtoBytes">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           MedicalNerApproach.setConfigProtoBytes()
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.ner.medical_ner.MedicalNerApproach.setGraphFolder">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           MedicalNerApproach.setGraphFolder()
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.ner.medical_ner.MedicalNerApproach.setGraphFile">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           MedicalNerApproach.setGraphFile()
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.ner.medical_ner.MedicalNerApproach.setUseContrib">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           MedicalNerApproach.setUseContrib()
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.ner.medical_ner.MedicalNerApproach.setLr">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           MedicalNerApproach.setLr()
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.ner.medical_ner.MedicalNerApproach.setPo">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           MedicalNerApproach.setPo()
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.ner.medical_ner.MedicalNerApproach.setBatchSize">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           MedicalNerApproach.setBatchSize()
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.ner.medical_ner.MedicalNerApproach.setDropout">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           MedicalNerApproach.setDropout()
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.ner.medical_ner.MedicalNerApproach.setValidationSplit">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           MedicalNerApproach.setValidationSplit()
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.ner.medical_ner.MedicalNerApproach.setIncludeConfidence">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           MedicalNerApproach.setIncludeConfidence()
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.ner.medical_ner.MedicalNerApproach.setIncludeAllConfidenceScores">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           MedicalNerApproach.setIncludeAllConfidenceScores()
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.ner.medical_ner.MedicalNerApproach.setEnableMemoryOptimizer">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           MedicalNerApproach.setEnableMemoryOptimizer()
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.ner.medical_ner.MedicalNerApproach.setUseBestModel">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           MedicalNerApproach.setUseBestModel()
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.ner.medical_ner.MedicalNerApproach.setLogPrefix">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           MedicalNerApproach.setLogPrefix()
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.ner.medical_ner.MedicalNerApproach.setPretrainedModelPath">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           MedicalNerApproach.setPretrainedModelPath()
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.ner.medical_ner.MedicalNerApproach.setOverrideExistingTags">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           MedicalNerApproach.setOverrideExistingTags()
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.ner.medical_ner.MedicalNerApproach.setTagsMapping">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           MedicalNerApproach.setTagsMapping()
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.ner.medical_ner.MedicalNerApproach.setEarlyStoppingCriterion">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           MedicalNerApproach.setEarlyStoppingCriterion()
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.ner.medical_ner.MedicalNerApproach.setEarlyStoppingPatience">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           MedicalNerApproach.setEarlyStoppingPatience()
+          </span>
+         </code>
+        </a>
+       </li>
+      </ul>
+     </li>
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.ner.medical_ner.MedicalNerModel">
+       <code class="docutils literal notranslate">
+        <span class="pre">
+         MedicalNerModel
+        </span>
+       </code>
+      </a>
+      <ul class="nav section-nav flex-column">
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.ner.medical_ner.MedicalNerModel.name">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           MedicalNerModel.name
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.ner.medical_ner.MedicalNerModel.configProtoBytes">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           MedicalNerModel.configProtoBytes
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.ner.medical_ner.MedicalNerModel.includeConfidence">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           MedicalNerModel.includeConfidence
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.ner.medical_ner.MedicalNerModel.includeAllConfidenceScores">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           MedicalNerModel.includeAllConfidenceScores
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.ner.medical_ner.MedicalNerModel.inferenceBatchSize">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           MedicalNerModel.inferenceBatchSize
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.ner.medical_ner.MedicalNerModel.classes">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           MedicalNerModel.classes
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.ner.medical_ner.MedicalNerModel.trainingClassDistribution">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           MedicalNerModel.trainingClassDistribution
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.ner.medical_ner.MedicalNerModel.labelCasing">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           MedicalNerModel.labelCasing
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.ner.medical_ner.MedicalNerModel.setConfigProtoBytes">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           MedicalNerModel.setConfigProtoBytes()
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.ner.medical_ner.MedicalNerModel.setIncludeConfidence">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           MedicalNerModel.setIncludeConfidence()
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#id0">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           MedicalNerModel.setIncludeConfidence()
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.ner.medical_ner.MedicalNerModel.setInferenceBatchSize">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           MedicalNerModel.setInferenceBatchSize()
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.ner.medical_ner.MedicalNerModel.setLabelCasing">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           MedicalNerModel.setLabelCasing()
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.ner.medical_ner.MedicalNerModel.getTrainingClassDistribution">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           MedicalNerModel.getTrainingClassDistribution()
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.ner.medical_ner.MedicalNerModel.pretrained">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           MedicalNerModel.pretrained()
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.ner.medical_ner.MedicalNerModel.loadSavedModel">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           MedicalNerModel.loadSavedModel()
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#id29">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           MedicalNerModel.pretrained()
+          </span>
+         </code>
+        </a>
+       </li>
+      </ul>
+     </li>
      <li class="toc-h4 nav-item toc-entry">
       <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.ner.medical_ner.MedicalNerApproach">
        MedicalNerApproach
@@ -1776,21 +2201,6 @@ default False.</p>
         </a>
        </li>
        <li class="toc-h5 nav-item toc-entry">
-        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.ner.medical_ner.MedicalNerApproach.validationSplit">
-         validationSplit
-        </a>
-       </li>
-       <li class="toc-h5 nav-item toc-entry">
-        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.ner.medical_ner.MedicalNerApproach.evaluationLogExtended">
-         evaluationLogExtended
-        </a>
-       </li>
-       <li class="toc-h5 nav-item toc-entry">
-        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.ner.medical_ner.MedicalNerApproach.testDataset">
-         testDataset
-        </a>
-       </li>
-       <li class="toc-h5 nav-item toc-entry">
         <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.ner.medical_ner.MedicalNerApproach.includeConfidence">
          includeConfidence
         </a>
@@ -1798,16 +2208,6 @@ default False.</p>
        <li class="toc-h5 nav-item toc-entry">
         <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.ner.medical_ner.MedicalNerApproach.includeAllConfidenceScores">
          includeAllConfidenceScores
-        </a>
-       </li>
-       <li class="toc-h5 nav-item toc-entry">
-        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.ner.medical_ner.MedicalNerApproach.enableOutputLogs">
-         enableOutputLogs
-        </a>
-       </li>
-       <li class="toc-h5 nav-item toc-entry">
-        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.ner.medical_ner.MedicalNerApproach.outputLogsPath">
-         outputLogsPath
         </a>
        </li>
        <li class="toc-h5 nav-item toc-entry">
@@ -1896,16 +2296,6 @@ default False.</p>
         </a>
        </li>
        <li class="toc-h5 nav-item toc-entry">
-        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.ner.medical_ner.MedicalNerApproach.setEvaluationLogExtended">
-         setEvaluationLogExtended
-        </a>
-       </li>
-       <li class="toc-h5 nav-item toc-entry">
-        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.ner.medical_ner.MedicalNerApproach.setTestDataset">
-         setTestDataset
-        </a>
-       </li>
-       <li class="toc-h5 nav-item toc-entry">
         <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.ner.medical_ner.MedicalNerApproach.setIncludeConfidence">
          setIncludeConfidence
         </a>
@@ -1916,11 +2306,6 @@ default False.</p>
         </a>
        </li>
        <li class="toc-h5 nav-item toc-entry">
-        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.ner.medical_ner.MedicalNerApproach.setEnableOutputLogs">
-         setEnableOutputLogs
-        </a>
-       </li>
-       <li class="toc-h5 nav-item toc-entry">
         <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.ner.medical_ner.MedicalNerApproach.setEnableMemoryOptimizer">
          setEnableMemoryOptimizer
         </a>
@@ -1928,11 +2313,6 @@ default False.</p>
        <li class="toc-h5 nav-item toc-entry">
         <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.ner.medical_ner.MedicalNerApproach.setUseBestModel">
          setUseBestModel
-        </a>
-       </li>
-       <li class="toc-h5 nav-item toc-entry">
-        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.ner.medical_ner.MedicalNerApproach.setOutputLogsPath">
-         setOutputLogsPath
         </a>
        </li>
        <li class="toc-h5 nav-item toc-entry">
@@ -2053,7 +2433,7 @@ default False.</p>
         </a>
        </li>
        <li class="toc-h5 nav-item toc-entry">
-        <a class="reference internal nav-link" href="#id1">
+        <a class="reference internal nav-link" href="#id29">
          pretrained
         </a>
        </li>
@@ -2116,7 +2496,7 @@ default False.</p>
   <div class="footer-item">
     
 <p class="sphinx-version">
-Created using <a href="http://sphinx-doc.org/">Sphinx</a> 5.1.1.<br>
+Created using <a href="http://sphinx-doc.org/">Sphinx</a> 5.2.3.<br>
 </p>
 
   </div>

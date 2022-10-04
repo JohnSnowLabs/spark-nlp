@@ -35,23 +35,30 @@ This model is a pre-trained NLP model to analyze sentiment of financial text. It
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
 ```python
-documentAssembler = DocumentAssembler() \
-    .setInputCols(["text"]) \
-    .setOutputCols("document")
+documentAssembler = nlp.DocumentAssembler() \
+    .setInputCol("text") \
+    .setOutputCol("document")
 
-tokenizer = Tokenizer() \
+tokenizer = nlp.Tokenizer() \
     .setInputCols("document") \
     .setOutputCol("token")
 
-classifier = RoBertaForSequenceClassification.pretrained("finclf_distilroberta_sentiment_analysis","en", "finance/models") \
+classifier = nlp.RoBertaForSequenceClassification.pretrained("finclf_distilroberta_sentiment_analysis","en", "finance/models") \
     .setInputCols(["document", "token"]) \
     .setOutputCol("class")
+
+
+nlpPipeline = Pipeline(
+      stages = [
+          documentAssembler,
+          tokenizer,
+          classifier])
     
 
 # couple of simple examples
 example = spark.createDataFrame([["Stocks rallied and the British pound gained."]]).toDF("text")
 
-result = pipeline.fit(example).transform(example)
+result = nlpPipeline.fit(example).transform(example)
 
 # result is a DataFrame
 result.select("text", "class.result").show()
