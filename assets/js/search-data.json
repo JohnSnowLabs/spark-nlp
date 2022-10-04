@@ -1633,7 +1633,7 @@
   "233": {
     "id": "233",
     "title": "Video Tutorials",
-    "content": "{%- include extensions/youtube.html id=&#39;jgUylZlz3uA&#39; -%}End-to-End No-Code Development of NER model for Text with Annotation Lab. Dia Trambitas - April, 2022 {%- include extensions/youtube.html id=&#39;JDDmTF6ir9k&#39; -%}End-to-End No-Code Development of Visual NER Models for PDFs and Images. Dia Trambitas - April, 2022 Add a new user. Ida Lucente - January, 2021 Update password from User Profile. Ida Lucente - January, 2021 Collect the client secret. Ida Lucente - January, 2021 Setup 2FA. Ida Lucente - January, 2021 API usage example. Ida Lucente - January, 2021",
+    "content": "{%- include extensions/youtube.html id=&#39;tzEwzT_HmXM&#39; -%}How to create a NER project in Annotation Lab. Suvrat Joshi - September, 2022 {%- include extensions/youtube.html id=&#39;jgUylZlz3uA&#39; -%}End-to-End No-Code Development of NER model for Text with Annotation Lab. Dia Trambitas - April, 2022 {%- include extensions/youtube.html id=&#39;JDDmTF6ir9k&#39; -%}End-to-End No-Code Development of Visual NER Models for PDFs and Images. Dia Trambitas - April, 2022 Add a new user. Ida Lucente - January, 2021 Update password from User Profile. Ida Lucente - January, 2021 Collect the client secret. Ida Lucente - January, 2021 Setup 2FA. Ida Lucente - January, 2021 API usage example. Ida Lucente - January, 2021",
     "url": "/docs/en/alab/tutorials",
     "relUrl": "/docs/en/alab/tutorials"
   },

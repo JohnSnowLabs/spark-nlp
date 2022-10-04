@@ -1,2 +1,6 @@
-docs/_posts/josejuanmartinez/2022-08-16-legner_arabert_arabic_ar_3_2.md
-docs/_posts/josejuanmartinez/2022-08-16-legner_arabert_arabic_ar_3_2.md
+docs/_includes/scripts/lib/toc.js
+docs/_sass/custom.scss
+docs/en/alab/tutorials.md
+docs/_includes/scripts/lib/toc.js
+docs/_sass/custom.scss
+docs/en/alab/tutorials.md
