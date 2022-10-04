@@ -1,5 +1,5 @@
 {%- capture title -%}
-MedicalNer
+NerModel
 {%- endcapture -%}
 
 {%- capture approach -%}
