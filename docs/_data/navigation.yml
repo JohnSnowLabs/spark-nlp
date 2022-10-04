@@ -116,20 +116,16 @@ annotation-lab:
         url: /docs/en/alab/release_notes
 
 sparknlp-healthcare:
-  - title: Licensed libraries
-    children:
-      - title: Licensed Annotators
-        url: /docs/en/licensed_annotators
-  - title: Spark NLP for Healthcare
+  - title: All Enterprise libraries
     children:
       - title: Getting Started
         url: /docs/en/license_getting_started
       - title: Installation
         url: /docs/en/licensed_install
+      - title: Annotators
+        url: /docs/en/licensed_annotators
       - title: Training
         url: /docs/en/licensed_training
-      - title: Models
-        url: /docs/en/licensed_models
       - title: Evaluation
         url: /docs/en/evaluation
       - title: Serving Spark NLP&#58 SynapseML
@@ -140,10 +136,8 @@ sparknlp-healthcare:
         url: /licensed/api/
       - title: Python API (Sphinx)
         url: /licensed/api/python
-      - title: Version Compatibility
-        url: /docs/en/licensed_version_compatibility
-      - title: Release Notes
-        url: /docs/en/licensed_release_notes
+      - title: Wiki
+        url: /docs/en/wiki
       - title: Cluster Speed Benchmarks
         url: /docs/en/benchmark
       - title: CPU NER Benchmarks
@@ -152,8 +146,30 @@ sparknlp-healthcare:
         url: /docs/en/CPUvsGPUbenchmark_healthcare
       - title: Best Practices Using Pretrained Models Together
         url: /docs/en/best_practices_pretrained_models
-      - title: Wiki
-        url: /docs/en/wiki
+  - title: Healthcare NLP
+    children:
+      - title: Version Compatibility
+        url: /docs/en/licensed_version_compatibility
+      - title: Release Notes
+        url: /docs/en/licensed_release_notes
+      - title: Healthcare Models
+        url: /models?edition=Spark+NLP+for+Healthcare
+  - title: Finance NLP
+    children:
+      - title: Release Notes
+        url: /docs/en/financial_release_notes
+      - title: Version Compatibility
+        url: /docs/en/financial_version_compatibility
+      - title: Financial Models
+        url: /models?edition=Spark+NLP+for+Finance
+  - title: Legal NLP
+    children:
+      - title: Release Notes
+        url: /docs/en/legal_release_notes
+      - title: Version Compatibility
+        url: /docs/en/legal_version_compatibility
+      - title: Legal Models
+        url: /models?edition=Spark+NLP+for+Legal
 
 spark-ocr:
   - title: Spark OCR
