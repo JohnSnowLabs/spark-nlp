@@ -1,0 +1,490 @@
+
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>sparknlp_jsl.legal.graph.relation_extraction.zero_shot_relation_extraction &#8212; Spark NLP 4.0.0 documentation</title>
+  <script>
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../../../../static/styles/theme.css?digest=9b1a4fa89bdd0e95b23b" rel="stylesheet">
+<link href="../../../../../static/styles/pydata-sphinx-theme.css?digest=9b1a4fa89bdd0e95b23b" rel="stylesheet">
+
+  
+  <link rel="stylesheet"
+    href="../../../../../static/vendor/fontawesome/6.1.2/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../../../../../static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../../../../../static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2">
+
+    <link rel="stylesheet" type="text/css" href="../../../../../static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../../../../../static/graphviz.css" />
+    <link rel="stylesheet" type="text/css" href="../../../../../static/css/custom.css" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../../../../static/scripts/pydata-sphinx-theme.js?digest=9b1a4fa89bdd0e95b23b">
+
+    <script data-url_root="../../../../../" id="documentation_options" src="../../../../../static/documentation_options.js"></script>
+    <script src="../../../../../static/jquery.js"></script>
+    <script src="../../../../../static/underscore.js"></script>
+    <script src="../../../../../static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="../../../../../static/doctools.js"></script>
+    <script src="../../../../../static/sphinx_highlight.js"></script>
+    <script src="../../../../../static/toggleprompt.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'modules/sparknlp_jsl/legal/graph/relation_extraction/zero_shot_relation_extraction';</script>
+    <link rel="shortcut icon" href="../../../../../static/fav.ico"/>
+    <link rel="index" title="Index" href="../../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../../search.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="docsearch:language" content="en">
+  </head>
+  
+  
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="180" data-default-mode="">
+
+  
+  <input type="checkbox" class="sidebar-toggle" name="__primary" id="__primary">
+  <label class="overlay overlay-primary" for="__primary"></label>
+
+  
+  <input type="checkbox" class="sidebar-toggle" name="__secondary" id="__secondary">
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+      
+<form class="bd-search d-flex align-items-center" action="../../../../../search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search the docs ..." aria-label="Search the docs ..." autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+    </div>
+  </div>
+
+  
+  <nav class="bd-header navbar navbar-expand-lg bd-navbar" id="navbar-main"><div class="bd-header__inner bd-page-width">
+  <label class="sidebar-toggle primary-toggle" for="__primary">
+      <span class="fas fa-bars"></span>
+  </label>
+  <div id="navbar-start">
+    
+    
+  
+
+
+<a class="navbar-brand logo" href="../../../../../index.html">
+
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <img src="../../../../../static/logo.png" class="logo__image only-light" alt="Logo image">
+    <img src="../../../../../static/logo.png" class="logo__image only-dark" alt="Logo image">
+  
+  
+</a>
+    
+  </div>
+
+  
+  <div class="col-lg-9 navbar-header-items">
+    <div id="navbar-center" class="mr-auto">
+      
+      <div class="navbar-center-item">
+        <nav class="navbar-nav">
+    <p class="sidebar-header-items__title" role="heading" aria-level="1" aria-label="Site Navigation">
+        Site Navigation
+    </p>
+    <ul id="navbar-main-elements" class="navbar-nav">
+        
+                <li class="nav-item">
+                    <a class="nav-link" href="../../../../../getting_started/index.html">
+                        Getting Started
+                    </a>
+                </li>
+                
+
+                <li class="nav-item">
+                    <a class="nav-link" href="../../../../../reference/index.html">
+                        API Reference
+                    </a>
+                </li>
+                
+    </ul>
+</nav>
+      </div>
+      
+    </div>
+
+    <div id="navbar-end">
+      <div class="navbar-end-item navbar-end__search-button-container">
+        
+<button class="btn btn-sm navbar-btn search-button search-button__button" title="Search">
+  <i class="fas fa-search"></i>
+</button>
+      </div>
+      
+      <div class="navbar-end-item">
+        <span class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle">
+    <a class="theme-switch" data-mode="light"><i class="fas fa-sun"></i></a>
+    <a class="theme-switch" data-mode="dark"><i class="far fa-moon"></i></a>
+    <a class="theme-switch" data-mode="auto"><i class="fas fa-adjust"></i></a>
+</span>
+      </div>
+      
+      <div class="navbar-end-item">
+        <ul id="navbar-icon-links" class="navbar-nav" aria-label="Icon Links">
+      </ul>
+      </div>
+      
+    </div>
+  </div>
+
+
+  
+  <div class="search-button-container--mobile">
+<button class="btn btn-sm navbar-btn search-button search-button__button" title="Search">
+  <i class="fas fa-search"></i>
+</button>
+  </div>
+
+  
+  <label class="sidebar-toggle secondary-toggle" for="__secondary">
+      <span class="fas fa-outdent"></span>
+  </label>
+  
+
+</div>
+  </nav>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      <div class="bd-sidebar-primary bd-sidebar hide-on-wide">
+        
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+      
+      <div class="navbar-center-item">
+        <nav class="navbar-nav">
+    <p class="sidebar-header-items__title" role="heading" aria-level="1" aria-label="Site Navigation">
+        Site Navigation
+    </p>
+    <ul id="navbar-main-elements" class="navbar-nav">
+        
+                <li class="nav-item">
+                    <a class="nav-link" href="../../../../../getting_started/index.html">
+                        Getting Started
+                    </a>
+                </li>
+                
+
+                <li class="nav-item">
+                    <a class="nav-link" href="../../../../../reference/index.html">
+                        API Reference
+                    </a>
+                </li>
+                
+    </ul>
+</nav>
+      </div>
+      
+      </div>
+    
+
+    
+    
+    <div class="sidebar-header-items__end">
+      
+      <div class="navbar-end-item">
+        <span class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle">
+    <a class="theme-switch" data-mode="light"><i class="fas fa-sun"></i></a>
+    <a class="theme-switch" data-mode="dark"><i class="far fa-moon"></i></a>
+    <a class="theme-switch" data-mode="auto"><i class="fas fa-adjust"></i></a>
+</span>
+      </div>
+      
+      <div class="navbar-end-item">
+        <ul id="navbar-icon-links" class="navbar-nav" aria-label="Icon Links">
+      </ul>
+      </div>
+      
+    </div>
+    
+  </div>
+
+  
+
+  
+  <div class="sidebar-end-items sidebar-primary__section">
+    <div class="sidebar-end-items__item">
+    </div>
+  </div>
+
+      </div>
+      <main class="bd-main">
+        
+        
+        <div class="bd-content">
+          <div class="bd-article-container">
+            
+            <div class="bd-header-article">
+                
+            </div>
+            
+            
+            <article class="bd-article" role="main">
+              
+  <h1>Source code for sparknlp_jsl.legal.graph.relation_extraction.zero_shot_relation_extraction</h1><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">sparknlp.common</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">sparknlp_jsl.annotator.classification.medical_bert_for_sequence_classification</span> <span class="kn">import</span> <span class="n">MedicalBertForSequenceClassification</span>
+<span class="kn">from</span> <span class="nn">sparknlp_jsl.annotator.re.zero_shot_relation_extraction</span> <span class="kn">import</span> <span class="n">ZeroShotRelationExtractionModel</span> <span class="k">as</span> <span class="n">M</span>
+
+
+<div class="viewcode-block" id="ZeroShotRelationExtractionModel"><a class="viewcode-back" href="../../../../../reference/autosummary/sparknlp_jsl/legal/graph/relation_extraction/zero_shot_relation_extraction/index.html#sparknlp_jsl.legal.graph.relation_extraction.zero_shot_relation_extraction.ZeroShotRelationExtractionModel">[docs]</a><span class="k">class</span> <span class="nc">ZeroShotRelationExtractionModel</span><span class="p">(</span><span class="n">M</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    ZeroShotRelationExtractionModel implements zero shot binary relations extraction by utilizing BERT transformer</span>
+<span class="sd">    models trained on the NLI (Natural Language Inference) task. The model inputs consists of documents/sentences and</span>
+<span class="sd">    paired NER chunks, usually obtained by RENerChunksFilter. The definitions of relations which are extracted is given</span>
+<span class="sd">    by a dictionary structures, specifying a set of statements regarding the relationship of named entities. These</span>
+<span class="sd">    statements are automatically appended to each document in the dataset and the NLI model is used to determine</span>
+<span class="sd">     whether a particular relationship between entities.</span>
+
+<span class="sd">    ==========================================  ======================</span>
+<span class="sd">    Input Annotation types                      Output Annotation type</span>
+<span class="sd">    ==========================================  ======================</span>
+<span class="sd">    ``CHUNK, DOCUMENT``                         ``CATEGORY``</span>
+<span class="sd">    ==========================================  ======================</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    relationalCategories</span>
+<span class="sd">        A dictionary with definitions of relational categories. The keys of dictionary are the relation labels and the</span>
+<span class="sd">        values are lists of hypothesis templates. For example:</span>
+<span class="sd">              {&quot;CURE&quot;: [</span>
+<span class="sd">                    &quot;{TREATMENT, DRUG} cures {PROBLEM}.&quot;</span>
+<span class="sd">                    ],</span>
+<span class="sd">                &quot;IMPROVE&quot;: [</span>
+<span class="sd">                    &quot;{TREATMENT} improves {PROBLEM}.&quot;,</span>
+<span class="sd">                    &quot;{TREATMENT} cures {PROBLEM}.&quot;</span>
+<span class="sd">                    ]}</span>
+<span class="sd">    predictionThreshold</span>
+<span class="sd">        Minimal confidence score to encode a relation (Default: 0.5f)</span>
+<span class="sd">    multiLabel</span>
+<span class="sd">        Whether or not a pair of entities can be categorized by multiple relations (Default: False)</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">    &gt;&gt;&gt; documentAssembler = DocumentAssembler()</span>
+<span class="sd">    &gt;&gt;&gt; documenter = sparknlp.DocumentAssembler() \</span>
+<span class="sd">    ...     .setInputCol(&quot;text&quot;) \</span>
+<span class="sd">    ...     .setOutputCol(&quot;document&quot;)</span>
+<span class="sd">    &gt;&gt;&gt; tokenizer = sparknlp.annotators.Tokenizer() \</span>
+<span class="sd">    ...     .setInputCols([&quot;document&quot;]) \</span>
+<span class="sd">    ...     .setOutputCol(&quot;tokens&quot;)</span>
+<span class="sd">    &gt;&gt;&gt; sentencer = sparknlp.annotators.SentenceDetector()\</span>
+<span class="sd">    ...     .setInputCols([&quot;document&quot;])\</span>
+<span class="sd">    ...     .setOutputCol(&quot;sentences&quot;)</span>
+<span class="sd">    &gt;&gt;&gt; words_embedder = sparknlp.annotators.WordEmbeddingsModel() \</span>
+<span class="sd">    ...     .pretrained(&quot;embeddings_clinical&quot;, &quot;en&quot;, &quot;clinical/models&quot;) \</span>
+<span class="sd">    ...     .setInputCols([&quot;sentences&quot;, &quot;tokens&quot;]) \</span>
+<span class="sd">    ...     .setOutputCol(&quot;embeddings&quot;)</span>
+<span class="sd">    &gt;&gt;&gt; pos_tagger = sparknlp.annotators.PerceptronModel() \</span>
+<span class="sd">    ...     .pretrained(&quot;pos_clinical&quot;, &quot;en&quot;, &quot;clinical/models&quot;) \</span>
+<span class="sd">    ...     .setInputCols([&quot;sentences&quot;, &quot;tokens&quot;]) \</span>
+<span class="sd">    ...     .setOutputCol(&quot;pos_tags&quot;)</span>
+<span class="sd">    &gt;&gt;&gt; ner_tagger = MedicalNerModel() \</span>
+<span class="sd">    ...     .pretrained(&quot;ner_clinical&quot;, &quot;en&quot;, &quot;clinical/models&quot;) \</span>
+<span class="sd">    ...     .setInputCols([&quot;sentences&quot;, &quot;tokens&quot;, &quot;embeddings&quot;]) \</span>
+<span class="sd">    ...     .setOutputCol(&quot;ner_tags&quot;)</span>
+<span class="sd">    &gt;&gt;&gt; ner_converter = sparknlp.annotators.NerConverter() \</span>
+<span class="sd">    ...     .setInputCols([&quot;sentences&quot;, &quot;tokens&quot;, &quot;ner_tags&quot;]) \</span>
+<span class="sd">    ...     .setOutputCol(&quot;ner_chunks&quot;)</span>
+<span class="sd">    &gt;&gt;&gt; dependency_parser = sparknlp.annotators.DependencyParserModel() \</span>
+<span class="sd">    ...     .pretrained(&quot;dependency_conllu&quot;, &quot;en&quot;) \</span>
+<span class="sd">    ...     .setInputCols([&quot;document&quot;, &quot;pos_tags&quot;, &quot;tokens&quot;]) \</span>
+<span class="sd">    ...     .setOutputCol(&quot;dependencies&quot;)</span>
+<span class="sd">    &gt;&gt;&gt; re_ner_chunk_filter = RENerChunksFilter() \</span>
+<span class="sd">    ...     .setRelationPairs([&quot;problem-test&quot;,&quot;problem-treatment&quot;]) \</span>
+<span class="sd">    ...     .setMaxSyntacticDistance(4)\</span>
+<span class="sd">    ...     .setDocLevelRelations(False)\</span>
+<span class="sd">    ...     .setInputCols([&quot;ner_chunks&quot;, &quot;dependencies&quot;]) \</span>
+<span class="sd">    ...     .setOutputCol(&quot;re_ner_chunks&quot;)</span>
+<span class="sd">    &gt;&gt;&gt; re_model = ZeroShotRelationExtractionModel \</span>
+<span class="sd">    ...     .load(&quot;/tmp/spark_sbert_zero_shot&quot;) \</span>
+<span class="sd">    ...     .setRelationalCategories({</span>
+<span class="sd">    ...         &quot;CURE&quot;: [&quot;{TREATMENT} cures {PROBLEM}.&quot;],</span>
+<span class="sd">    ...         &quot;IMPROVE&quot;: [&quot;{TREATMENT} improves {PROBLEM}.&quot;, &quot;{TREATMENT} cures {PROBLEM}.&quot;],</span>
+<span class="sd">    ...         &quot;REVEAL&quot;: [&quot;{TEST} reveals {PROBLEM}.&quot;]})\</span>
+<span class="sd">    ...     .setMultiLabel(False)\</span>
+<span class="sd">    ...     .setInputCols([&quot;re_ner_chunks&quot;, &quot;sentences&quot;]) \</span>
+<span class="sd">    ...     .setOutputCol(&quot;relations&quot;)</span>
+<span class="sd">    &gt;&gt;&gt; data = spark.createDataFrame(</span>
+<span class="sd">    ...     [[&quot;Paracetamol can alleviate headache or sickness. An MRI test can be used to find cancer.&quot;]]</span>
+<span class="sd">    ...     ).toDF(&quot;text&quot;)</span>
+<span class="sd">    &gt;&gt;&gt; results = sparknlp.base.Pipeline() \</span>
+<span class="sd">    ...     .setStages([documenter, tokenizer, sentencer, words_embedder, pos_tagger, ner_tagger, ner_converter,</span>
+<span class="sd">    ...         dependency_parser, re_ner_chunk_filter, re_model]) \</span>
+<span class="sd">    ...     .fit(data) \</span>
+<span class="sd">    ...     .transform(data) \</span>
+<span class="sd">    &gt;&gt;&gt; results\</span>
+<span class="sd">    ...     .selectExpr(&quot;explode(relations) as relation&quot;)\</span>
+<span class="sd">    ...     .selectExpr(&quot;relation.result&quot;, &quot;relation.metadata.confidence&quot;)\</span>
+<span class="sd">    ...     .show(truncate=False)</span>
+<span class="sd">+-------+----------+</span>
+<span class="sd">|result |confidence|</span>
+<span class="sd">+-------+----------+</span>
+<span class="sd">|REVEAL |0.9760039 |</span>
+<span class="sd">|IMPROVE|0.98819494|</span>
+<span class="sd">|IMPROVE|0.9929625 |</span>
+<span class="sd">+-------+----------+</span>
+<span class="sd">&quot;&quot;&quot;</span>
+    <span class="c1"># relationalCategories = Param(Params._dummy(),</span>
+    <span class="c1">#                              &quot;relationalCategories&quot;,</span>
+    <span class="c1">#                              &quot;Definitions of relational categories&quot;,</span>
+    <span class="c1">#                              TypeConverters.identity)</span>
+    <span class="c1">#</span>
+    <span class="c1"># predictionThreshold = Param(Params._dummy(),</span>
+    <span class="c1">#                             &quot;predictionThreshold&quot;,</span>
+    <span class="c1">#                             &quot;Minimal confidence score to encode a relation (Default: 0.5f)&quot;,</span>
+    <span class="c1">#                             TypeConverters.toFloat)</span>
+    <span class="c1">#</span>
+    <span class="c1"># multiLabel = Param(Params._dummy(),</span>
+    <span class="c1">#                    &quot;multiLabel&quot;,</span>
+    <span class="c1">#                    &quot;Whether or not a pair of entities can be categorized by multiple relations (Default: False)&quot;,</span>
+    <span class="c1">#                    TypeConverters.toBoolean)</span>
+    <span class="c1">#</span>
+    <span class="c1"># def setRelationalCategories(self, categories):</span>
+    <span class="c1">#     &quot;&quot;&quot;Set definitions of relational categories</span>
+    <span class="c1">#</span>
+    <span class="c1">#     Parameters</span>
+    <span class="c1">#     ----------</span>
+    <span class="c1">#     categories : dict[str, list[str]]</span>
+    <span class="c1">#         xxx</span>
+    <span class="c1">#     &quot;&quot;&quot;</span>
+    <span class="c1">#     categories = categories.copy()</span>
+    <span class="c1">#     from sparknlp_jsl.internal import RelationalCategories</span>
+    <span class="c1">#     return self._set(relationalCategories=RelationalCategories(categories))</span>
+
+    <span class="nd">@keyword_only</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">classname</span><span class="o">=</span><span class="s2">&quot;com.johnsnowlabs.legal.graph.relation_extraction.ZeroShotRelationExtractionModel&quot;</span><span class="p">,</span> <span class="n">java_model</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">ZeroShotRelationExtractionModel</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
+            <span class="n">classname</span><span class="o">=</span><span class="n">classname</span><span class="p">,</span>
+            <span class="n">java_model</span><span class="o">=</span><span class="n">java_model</span>
+        <span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_setDefault</span><span class="p">(</span>
+            <span class="n">predictionThreshold</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span>
+            <span class="n">multiLabel</span><span class="o">=</span><span class="kc">False</span>
+        <span class="p">)</span>
+
+    <span class="nd">@staticmethod</span>
+<div class="viewcode-block" id="ZeroShotRelationExtractionModel.pretrained"><a class="viewcode-back" href="../../../../../reference/autosummary/sparknlp_jsl/legal/graph/relation_extraction/zero_shot_relation_extraction/index.html#sparknlp_jsl.legal.graph.relation_extraction.zero_shot_relation_extraction.ZeroShotRelationExtractionModel.pretrained">[docs]</a>    <span class="k">def</span> <span class="nf">pretrained</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">lang</span><span class="o">=</span><span class="s2">&quot;en&quot;</span><span class="p">,</span> <span class="n">remote_loc</span><span class="o">=</span><span class="s2">&quot;clinical/models&quot;</span><span class="p">):</span>
+        <span class="kn">from</span> <span class="nn">sparknlp_jsl.pretrained</span> <span class="kn">import</span> <span class="n">InternalResourceDownloader</span>
+        <span class="k">return</span> <span class="n">InternalResourceDownloader</span><span class="o">.</span><span class="n">downloadModel</span><span class="p">(</span><span class="n">ZeroShotRelationExtractionModel</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">lang</span><span class="p">,</span> <span class="n">remote_loc</span><span class="p">,</span>
+                                                        <span class="n">j_dwn</span><span class="o">=</span><span class="s1">&#39;InternalsPythonResourceDownloader&#39;</span><span class="p">)</span></div>
+
+    <span class="nd">@staticmethod</span>
+<div class="viewcode-block" id="ZeroShotRelationExtractionModel.loadSavedModel"><a class="viewcode-back" href="../../../../../reference/autosummary/sparknlp_jsl/legal/graph/relation_extraction/zero_shot_relation_extraction/index.html#sparknlp_jsl.legal.graph.relation_extraction.zero_shot_relation_extraction.ZeroShotRelationExtractionModel.loadSavedModel">[docs]</a>    <span class="k">def</span> <span class="nf">loadSavedModel</span><span class="p">(</span><span class="n">folder</span><span class="p">,</span> <span class="n">spark_session</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Loads a locally saved model.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        folder : str</span>
+<span class="sd">            Folder of the saved model</span>
+<span class="sd">        spark_session : pyspark.sql.SparkSession</span>
+<span class="sd">            The current SparkSession</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        ZeroShotRelationExtractionModel</span>
+<span class="sd">            The restored model</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="kn">from</span> <span class="nn">sparknlp_jsl.internal</span> <span class="kn">import</span> <span class="n">_LegalZeroShotRelationExtractionModelLoader</span>
+        <span class="n">jModel</span> <span class="o">=</span> <span class="n">_LegalZeroShotRelationExtractionModelLoader</span><span class="p">(</span><span class="n">folder</span><span class="p">,</span> <span class="n">spark_session</span><span class="o">.</span><span class="n">_jsparkSession</span><span class="p">)</span><span class="o">.</span><span class="n">_java_obj</span>
+        <span class="k">return</span> <span class="n">ZeroShotRelationExtractionModel</span><span class="p">(</span><span class="n">java_model</span><span class="o">=</span><span class="n">jModel</span><span class="p">)</span></div></div>
+</pre></div>
+
+            </article>
+            
+            
+            
+            <footer class="bd-footer-article">
+                <!-- Previous / next buttons -->
+<div class='prev-next-area'>
+</div>
+            </footer>
+            
+          </div>
+          
+          
+          
+            <div class="bd-sidebar-secondary bd-toc">
+              
+<div class="toc-item">
+  
+</div>
+
+<div class="toc-item">
+  
+</div>
+
+            </div>
+          
+          
+        </div>
+        <footer class="bd-footer-content">
+          <div class="bd-footer-content__inner">
+            
+          </div>
+        </footer>
+        
+      </main>
+    </div>
+  </div>
+
+  
+    
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../../../../../static/scripts/pydata-sphinx-theme.js?digest=9b1a4fa89bdd0e95b23b"></script>
+
+  <footer class="bd-footer"><div class="bd-footer__inner container">
+  
+  <div class="footer-item">
+    
+<p class="copyright">
+
+    &copy; Copyright 2022, John Snow Labs.<br>
+
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+<p class="sphinx-version">
+Created using <a href="http://sphinx-doc.org/">Sphinx</a> 5.2.3.<br>
+</p>
+
+  </div>
+  
+</div>
+  </footer>
+  </body>
+</html>

@@ -257,7 +257,12 @@ result.selectExpr(<span class="lit">"ner_chunk.result"</span>, <span class="lit"
             Linear Supertypes
           </span>
           <div class="superTypes hiddenContent"><span class="extype" name="com.johnsnowlabs.license.CheckLicense">CheckLicense</span>, <span class="extype" name="com.johnsnowlabs.nlp.HasSimpleAnnotate">HasSimpleAnnotate</span>[<a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.assertion.dl.AssertionDLModel">AssertionDLModel</a>], <span class="extype" name="com.johnsnowlabs.storage.HasStorageRef">HasStorageRef</span>, <span class="extype" name="com.johnsnowlabs.ml.tensorflow.WriteTensorflowModel">WriteTensorflowModel</span>, <span class="extype" name="com.johnsnowlabs.nlp.AnnotatorModel">AnnotatorModel</span>[<a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.assertion.dl.AssertionDLModel">AssertionDLModel</a>], <span class="extype" name="com.johnsnowlabs.nlp.CanBeLazy">CanBeLazy</span>, <span class="extype" name="com.johnsnowlabs.nlp.RawAnnotator">RawAnnotator</span>[<a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.assertion.dl.AssertionDLModel">AssertionDLModel</a>], <span class="extype" name="com.johnsnowlabs.nlp.HasOutputAnnotationCol">HasOutputAnnotationCol</span>, <span class="extype" name="com.johnsnowlabs.nlp.HasInputAnnotationCols">HasInputAnnotationCols</span>, <span class="extype" name="com.johnsnowlabs.nlp.HasOutputAnnotatorType">HasOutputAnnotatorType</span>, <span class="extype" name="com.johnsnowlabs.nlp.ParamsAndFeaturesWritable">ParamsAndFeaturesWritable</span>, <span class="extype" name="com.johnsnowlabs.nlp.HasFeatures">HasFeatures</span>, <span class="extype" name="org.apache.spark.ml.util.DefaultParamsWritable">DefaultParamsWritable</span>, <span class="extype" name="org.apache.spark.ml.util.MLWritable">MLWritable</span>, <span class="extype" name="org.apache.spark.ml.Model">Model</span>[<a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.assertion.dl.AssertionDLModel">AssertionDLModel</a>], <span class="extype" name="org.apache.spark.ml.Transformer">Transformer</span>, <span class="extype" name="org.apache.spark.ml.PipelineStage">PipelineStage</span>, <span class="extype" name="org.apache.spark.internal.Logging">Logging</span>, <span class="extype" name="org.apache.spark.ml.param.Params">Params</span>, <span class="extype" name="scala.Serializable">Serializable</span>, <span class="extype" name="java.io.Serializable">Serializable</span>, <span class="extype" name="org.apache.spark.ml.util.Identifiable">Identifiable</span>, <span class="extype" name="scala.AnyRef">AnyRef</span>, <span class="extype" name="scala.Any">Any</span></div>
-        </div></div>
+        </div><div class="toggleContainer block">
+            <span class="toggle">
+              Known Subclasses
+            </span>
+            <div class="subClasses hiddenContent"><a href="../../../../finance/chunk_classification/assertion/AssertionDLModel.html" class="extype" name="com.johnsnowlabs.finance.chunk_classification.assertion.AssertionDLModel">AssertionDLModel</a>, <a href="../../../../legal/chunk_classification/assertion/AssertionDLModel.html" class="extype" name="com.johnsnowlabs.legal.chunk_classification.assertion.AssertionDLModel">AssertionDLModel</a></div>
+          </div></div>
         
 
       <div id="mbrsel">
@@ -1172,6 +1177,38 @@ In [2]: config = tf.compat.v1.ConfigProto(allow_soft_placement=True, log_device_
       
       <p class="shortcomment cmt">ConfigProto from tensorflow, serialized into byte array.</p><div class="fullcomment"><div class="comment cmt"><p>ConfigProto from tensorflow, serialized into byte array. Get with config_proto.SerializeToString
 </p></div></div>
+    </li><li name="com.johnsnowlabs.nlp.annotators.assertion.dl.AssertionDLModel#getConfigProtoBytesAsInt" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="getConfigProtoBytesAsInt:Option[Array[Int]]"></a>
+      <span class="permalink">
+      <a href="../../../../../../com/johnsnowlabs/nlp/annotators/assertion/dl/AssertionDLModel.html#getConfigProtoBytesAsInt:Option[Array[Int]]" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">getConfigProtoBytesAsInt</span><span class="result">: <span class="extype" name="scala.Option">Option</span>[<span class="extype" name="scala.Array">Array</span>[<span class="extype" name="scala.Int">Int</span>]]</span>
+      </span>
+      
+      
+    </li><li name="com.johnsnowlabs.nlp.annotators.assertion.dl.AssertionDLModel#getDatasetParams" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="getDatasetParams:com.johnsnowlabs.ml.tensorflow.DatasetEncoderParams"></a><a id="getDatasetParams:DatasetEncoderParams"></a>
+      <span class="permalink">
+      <a href="../../../../../../com/johnsnowlabs/nlp/annotators/assertion/dl/AssertionDLModel.html#getDatasetParams:com.johnsnowlabs.ml.tensorflow.DatasetEncoderParams" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">getDatasetParams</span><span class="result">: <span class="extype" name="com.johnsnowlabs.ml.tensorflow.DatasetEncoderParams">DatasetEncoderParams</span></span>
+      </span>
+      
+      
     </li><li name="org.apache.spark.ml.param.Params#getDefault" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="getDefault[T](param:org.apache.spark.ml.param.Param[T]):Option[T]"></a><a id="getDefault[T](Param[T]):Option[T]"></a>
       <span class="permalink">
