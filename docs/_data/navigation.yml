@@ -116,14 +116,16 @@ annotation-lab:
         url: /docs/en/alab/release_notes
 
 sparknlp-healthcare:
+  - title: Licensed libraries
+    children:
+      - title: Licensed Annotators
+        url: /docs/en/licensed_annotators
   - title: Spark NLP for Healthcare
     children:
       - title: Getting Started
         url: /docs/en/license_getting_started
       - title: Installation
         url: /docs/en/licensed_install
-      - title: Annotators
-        url: /docs/en/licensed_annotators
       - title: Training
         url: /docs/en/licensed_training
       - title: Models
