@@ -2,7 +2,11 @@
 ChunkKeyPhraseExtraction
 {%- endcapture -%}
 
-{%- capture description -%}
+{%- capture model -%}
+model
+{%- endcapture -%}
+
+{%- capture model_description -%}
 Chunk KeyPhrase Extraction uses Bert Sentence Embeddings to determine the most relevant key phrases describing a text. 
 The input to the model consists of chunk annotations and sentence or document annotation. The model compares the chunks 
 against the corresponding sentences/documents and selects the chunks which are most representative of the broader text 
@@ -17,51 +21,44 @@ BertSentenceEmbeddings model. Available models can be found at the [Models Hub](
 
 {%- endcapture -%}
 
-{%- capture input_anno -%}
+{%- capture model_input_anno -%}
 DOCUMENT, CHUNK
 {%- endcapture -%}
 
-{%- capture output_anno -%}
+{%- capture model_output_anno -%}
 CHUNK
 {%- endcapture -%}
 
-{%- capture python_example -%}
-import sparknlp
-from sparknlp.base import *
-from sparknlp.annotator import *
+{%- capture model_python_medical -%}
+from johnsnowlabs import *
 
-import sparknlp_jsl
-from sparknlp_jsl.base import *
-from sparknlp_jsl.annotator import *
-from pyspark.ml import Pipeline
-
-documenter = sparknlp.DocumentAssembler() \
+documenter = nlp.DocumentAssembler() \
     .setInputCol("text") \
     .setOutputCol("document")
 
-sentencer = sparknlp.annotators.SentenceDetector() \
+sentencer = nlp.SentenceDetector() \
     .setInputCols(["document"])\
     .setOutputCol("sentences")
 
-tokenizer = sparknlp.annotators.Tokenizer() \
+tokenizer = nlp.Tokenizer() \
     .setInputCols(["document"]) \
     .setOutputCol("tokens") \
 
-embeddings = sparknlp.annotators.WordEmbeddingsModel() \
+embeddings = nlp.WordEmbeddingsModel() \
     .pretrained("embeddings_clinical", "en", "clinical/models") \
     .setInputCols(["document", "tokens"]) \
     .setOutputCol("embeddings")
 
-ner_tagger = MedicalNerModel() \
+ner_tagger = medical.NerModel() \
     .pretrained("ner_jsl_slim", "en", "clinical/models") \
     .setInputCols(["sentences", "tokens", "embeddings"]) \
     .setOutputCol("ner_tags")
 
-ner_converter = NerConverter()\
+ner_converter = nlp.NerConverter()\
     .setInputCols("sentences", "tokens", "ner_tags")\
     .setOutputCol("ner_chunks")
 
-key_phrase_extractor = ChunkKeyPhraseExtraction\
+key_phrase_extractor = medical.ChunkKeyPhraseExtraction\
     .pretrained()\
     .setTopN(1)\
     .setDocumentLevelProcessing(False)\
@@ -92,34 +89,111 @@ results\
 +-----------------------------+------------------+-------------------+
 {%- endcapture -%}
 
-{%- capture scala_example -%}
-import spark.implicits._
-import com.johnsnowlabs.nlp.base.DocumentAssembler
-import com.johnsnowlabs.nlp.annotator.SentenceDetector
-import com.johnsnowlabs.nlp.embeddings.BertSentenceEmbeddings
-import com.johnsnowlabs.nlp.EmbeddingsFinisher
-import org.apache.spark.ml.Pipeline
 
-val documentAssembler = new DocumentAssembler()
+{%- capture model_python_legal -%}
+from johnsnowlabs import *
+
+documenter = nlp.DocumentAssembler() \
+    .setInputCol("text") \
+    .setOutputCol("document")
+
+sentencer = nlp.SentenceDetector() \
+    .setInputCols(["document"])\
+    .setOutputCol("sentences")
+
+tokenizer = nlp.Tokenizer() \
+    .setInputCols(["document"]) \
+    .setOutputCol("tokens") \
+
+embeddings = nlp.WordEmbeddingsModel() \
+    .pretrained("embeddings_clinical", "en", "clinical/models") \
+    .setInputCols(["document", "tokens"]) \
+    .setOutputCol("embeddings")
+
+ner_model = legal.NerModel.pretrained("legner_orgs_prods_alias", "en", "legal/models")\
+    .setInputCols(["sentence", "token", "embeddings"])\
+    .setOutputCol("ner")
+
+ner_converter = nlp.NerConverter()\
+    .setInputCols("sentences", "tokens", "ner")\
+    .setOutputCol("ner_chunks")
+
+key_phrase_extractor = legal.ChunkKeyPhraseExtraction\
+    .pretrained()\
+    .setTopN(1)\
+    .setDocumentLevelProcessing(False)\
+    .setDivergence(0.4)\
+    .setInputCols(["sentences", "ner_chunks"])\
+    .setOutputCol("ner_chunk_key_phrases")
+
+pipeline = sparknlp.base.Pipeline() \
+    .setStages([documenter, sentencer, tokenizer, embeddings, ner_model, ner_converter, key_phrase_extractor])
+{%- endcapture -%}
+
+{%- capture model_python_finance -%}
+from johnsnowlabs import *
+
+documenter = nlp.DocumentAssembler() \
+    .setInputCol("text") \
+    .setOutputCol("document")
+
+sentencer = nlp.SentenceDetector() \
+    .setInputCols(["document"])\
+    .setOutputCol("sentences")
+
+tokenizer = nlp.Tokenizer() \
+    .setInputCols(["document"]) \
+    .setOutputCol("tokens") \
+
+embeddings = nlp.WordEmbeddingsModel() \
+    .pretrained("embeddings_clinical", "en", "clinical/models") \
+    .setInputCols(["document", "tokens"]) \
+    .setOutputCol("embeddings")
+
+ner_model = finance.NerModel.pretrained("finner_orgs_prods_alias","en","finance/models")\
+    .setInputCols(["sentence", "token", "embeddings"]) \
+    .setOutputCol("ner")
+
+ner_converter = nlp.NerConverter()\
+    .setInputCols("sentences", "tokens", "ner")\
+    .setOutputCol("ner_chunks")
+
+key_phrase_extractor = finance.ChunkKeyPhraseExtraction\
+    .pretrained()\
+    .setTopN(1)\
+    .setDocumentLevelProcessing(False)\
+    .setDivergence(0.4)\
+    .setInputCols(["sentences", "ner_chunks"])\
+    .setOutputCol("ner_chunk_key_phrases")
+
+pipeline = sparknlp.base.Pipeline() \
+    .setStages([documenter, sentencer, tokenizer, embeddings, ner_model, ner_converter, key_phrase_extractor])
+{%- endcapture -%}
+
+
+{%- capture model_scala_medical -%}
+from johnsnowlabs import *
+
+val documentAssembler = new nlp.DocumentAssembler()
     .setInputCol("text")
     .setOutputCol("document")
 
-val tokenizer = new Tokenizer()
+val tokenizer = new nlp.Tokenizer()
     .setInputCols("document")
     .setOutputCol("tokens")
 
-val stopWordsCleaner = StopWordsCleaner.pretrained()
+val stopWordsCleaner = nlp.StopWordsCleaner.pretrained()
     .setInputCols("tokens")
     .setOutputCol("clean_tokens")
     .setCaseSensitive(false)
 
-val nGrams = new NGramGenerator()
+val nGrams = new nlp.NGramGenerator()
     .setInputCols(Array("clean_tokens"))
     .setOutputCol("ngrams")
     .setN(3)
 
 
-val chunkKeyPhraseExtractor = ChunkKeyPhraseExtraction
+val chunkKeyPhraseExtractor = medical.ChunkKeyPhraseExtraction
     .pretrained()
     .setTopN(2)
     .setDivergence(0.7f)
@@ -153,18 +227,99 @@ result
 |complains swelling forearm|0.6325718954229369 |0.1897715761677257|
 |type 2 year               |0.40181028931546364|-0.189501077108947|
 +--------------------------+-------------------+------------------+
- 
 {%- endcapture -%}
 
-{%- capture api_link -%}
+{%- capture model_scala_legal -%}
+from johnsnowlabs import *
+
+val documentAssembler = new nlp.DocumentAssembler()
+    .setInputCol("text")
+    .setOutputCol("document")
+
+val tokenizer = new nlp.Tokenizer()
+    .setInputCols("document")
+    .setOutputCol("tokens")
+
+val stopWordsCleaner = nlp.StopWordsCleaner.pretrained()
+    .setInputCols("tokens")
+    .setOutputCol("clean_tokens")
+    .setCaseSensitive(false)
+
+val nGrams = new nlp.NGramGenerator()
+    .setInputCols(Array("clean_tokens"))
+    .setOutputCol("ngrams")
+    .setN(3)
+
+
+val chunkKeyPhraseExtractor = legal.ChunkKeyPhraseExtraction
+    .pretrained()
+    .setTopN(2)
+    .setDivergence(0.7f)
+    .setInputCols(Array("document", "ngrams"))
+    .setOutputCol("key_phrases")
+
+val pipeline = new Pipeline().setStages(Array(
+    documentAssembler,
+    tokenizer,
+    stopWordsCleaner,
+    nGrams,
+    chunkKeyPhraseExtractor))
+{%- endcapture -%}
+
+{%- capture model_scala_finance -%}
+from johnsnowlabs import *
+
+val documentAssembler = new nlp.DocumentAssembler()
+    .setInputCol("text")
+    .setOutputCol("document")
+
+val tokenizer = new nlp.Tokenizer()
+    .setInputCols("document")
+    .setOutputCol("tokens")
+
+val stopWordsCleaner = nlp.StopWordsCleaner.pretrained()
+    .setInputCols("tokens")
+    .setOutputCol("clean_tokens")
+    .setCaseSensitive(false)
+
+val nGrams = new nlp.NGramGenerator()
+    .setInputCols(Array("clean_tokens"))
+    .setOutputCol("ngrams")
+    .setN(3)
+
+
+val chunkKeyPhraseExtractor = finance.ChunkKeyPhraseExtraction
+    .pretrained()
+    .setTopN(2)
+    .setDivergence(0.7f)
+    .setInputCols(Array("document", "ngrams"))
+    .setOutputCol("key_phrases")
+
+val pipeline = new Pipeline().setStages(Array(
+    documentAssembler,
+    tokenizer,
+    stopWordsCleaner,
+    nGrams,
+    chunkKeyPhraseExtractor))
+{%- endcapture -%}
+
+
+
+
+{%- capture model_api_link -%}
 [ChunkKeyPhraseExtraction](https://nlp.johnsnowlabs.com/licensed/api/com/johnsnowlabs/nlp/annotators/chunker/ChunkKeyPhraseExtraction)
 {%- endcapture -%}
 
-{% include templates/licensed_anno_template.md
+{% include templates/licensed_approach_model_medical_fin_leg_template.md
 title=title
-description=description
-input_anno=input_anno
-output_anno=output_anno
-python_example=python_example
-scala_example=scala_example
-api_link=api_link%}
+model=model
+model_description=model_description
+model_input_anno=model_input_anno
+model_output_anno=model_output_anno
+model_python_medical=model_python_medical
+model_python_legal=model_python_legal
+model_python_finance=model_python_finance
+model_scala_medical=model_scala_medical
+model_scala_legal=model_scala_legal
+model_scala_finance=model_scala_finance
+model_api_link=model_api_link%}
