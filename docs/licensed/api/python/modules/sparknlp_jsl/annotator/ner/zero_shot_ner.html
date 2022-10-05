@@ -35,6 +35,7 @@
     <script src="../../../../static/underscore.js"></script>
     <script src="../../../../static/_sphinx_javascript_frameworks_compat.js"></script>
     <script src="../../../../static/doctools.js"></script>
+    <script src="../../../../static/sphinx_highlight.js"></script>
     <script src="../../../../static/toggleprompt.js"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'modules/sparknlp_jsl/annotator/ner/zero_shot_ner';</script>
     <link rel="shortcut icon" href="../../../../static/fav.ico"/>
@@ -329,11 +330,6 @@
 <span class="sd">    &quot;&quot;&quot;</span>
 <div class="viewcode-block" id="ZeroShotNerModel.name"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/ner/zero_shot_ner/index.html#sparknlp_jsl.annotator.ner.zero_shot_ner.ZeroShotNerModel.name">[docs]</a>    <span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;ZeroShotNerModel&quot;</span></div>
 
-<div class="viewcode-block" id="ZeroShotNerModel.entityDefinitions"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/ner/zero_shot_ner/index.html#sparknlp_jsl.annotator.ner.zero_shot_ner.ZeroShotNerModel.entityDefinitions">[docs]</a>    <span class="n">entityDefinitions</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
-                           <span class="s2">&quot;entityDefinitions&quot;</span><span class="p">,</span>
-                           <span class="s2">&quot;Entity definitions&quot;</span><span class="p">,</span>
-                           <span class="n">TypeConverters</span><span class="o">.</span><span class="n">identity</span><span class="p">)</span></div>
-
 <div class="viewcode-block" id="ZeroShotNerModel.predictionThreshold"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/ner/zero_shot_ner/index.html#sparknlp_jsl.annotator.ner.zero_shot_ner.ZeroShotNerModel.predictionThreshold">[docs]</a>    <span class="n">predictionThreshold</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
                                 <span class="s2">&quot;predictionThreshold&quot;</span><span class="p">,</span>
                                 <span class="s2">&quot;Minimal confidence score to encode an entity (default is 0.1)&quot;</span><span class="p">,</span>
@@ -365,18 +361,6 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">_call_java</span><span class="p">(</span><span class="s2">&quot;setEntityDefinitions&quot;</span><span class="p">,</span> <span class="n">definitions</span><span class="p">)</span>
 
         <span class="k">return</span> <span class="bp">self</span></div>
-
-<div class="viewcode-block" id="ZeroShotNerModel.getEntityDefinitions"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/ner/zero_shot_ner/index.html#sparknlp_jsl.annotator.ner.zero_shot_ner.ZeroShotNerModel.getEntityDefinitions">[docs]</a>    <span class="k">def</span> <span class="nf">getEntityDefinitions</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">          Get entity definitions</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-
-        <span class="n">t</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_call_java</span><span class="p">(</span><span class="s2">&quot;getEntityDefinitionsStr&quot;</span><span class="p">)</span>
-        <span class="n">entities</span> <span class="o">=</span> <span class="p">{}</span>
-        <span class="k">for</span> <span class="n">entity</span> <span class="ow">in</span> <span class="n">t</span><span class="p">:</span>
-            <span class="n">es</span> <span class="o">=</span> <span class="n">entity</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;@@@&quot;</span><span class="p">)</span>
-            <span class="n">entities</span><span class="p">[</span><span class="n">es</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span> <span class="o">=</span> <span class="n">es</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span>
-        <span class="k">return</span> <span class="n">entities</span></div>
 
 <div class="viewcode-block" id="ZeroShotNerModel.getClasses"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/ner/zero_shot_ner/index.html#sparknlp_jsl.annotator.ner.zero_shot_ner.ZeroShotNerModel.getClasses">[docs]</a>    <span class="k">def</span> <span class="nf">getClasses</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
@@ -466,7 +450,7 @@
   <div class="footer-item">
     
 <p class="sphinx-version">
-Created using <a href="http://sphinx-doc.org/">Sphinx</a> 5.1.1.<br>
+Created using <a href="http://sphinx-doc.org/">Sphinx</a> 5.2.3.<br>
 </p>
 
   </div>

@@ -43,35 +43,35 @@ IMPORTANT: Chunk Mappers work with exact matches, so before using Chunk Mapping,
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
 ```python
-documentAssembler = DocumentAssembler()\
+documentAssembler = nlp.DocumentAssembler()\
         .setInputCol("text")\
         .setOutputCol("document")
 
-tokenizer = Tokenizer()\
+tokenizer = nlp.Tokenizer()\
         .setInputCols(["document"])\
         .setOutputCol("token")
 
-embeddings = BertEmbeddings.pretrained("bert_embeddings_sec_bert_base","en") \
+embeddings = nlp.BertEmbeddings.pretrained("bert_embeddings_sec_bert_base","en") \
         .setInputCols(["document", "token"]) \
         .setOutputCol("embeddings")
 
-ner_model = FinanceNerModel.pretrained("finner_orgs_prods_alias", "en", "finance/models")\
+ner_model = finance.NerModel.pretrained("finner_orgs_prods_alias", "en", "finance/models")\
         .setInputCols(["document", "token", "embeddings"])\
         .setOutputCol("ner")
 
-ner_converter = NerConverter()\
+ner_converter = nlp.NerConverter()\
         .setInputCols(["document","token","ner"])\
         .setOutputCol("ner_chunk")
 
-chunkToDoc = Chunk2Doc()\
+chunkToDoc = nlp.Chunk2Doc()\
         .setInputCols("ner_chunk")\
         .setOutputCol("ner_chunk_doc")
 
-sentence_embeddings = UniversalSentenceEncoder.pretrained("tfhub_use", "en") \
+sentence_embeddings = nlp.UniversalSentenceEncoder.pretrained("tfhub_use", "en") \
       .setInputCols("ner_chunk_doc") \
       .setOutputCol("sentence_embeddings")
     
-resolver = SentenceEntityResolverModel.pretrained("finel_edgar_companynames", "en", "finance/models") \
+resolver = legal.SentenceEntityResolverModel.pretrained("finel_edgar_company_name", "en", "finance/models") \
       .setInputCols(["ner_chunk_doc", "sentence_embeddings"]) \
       .setOutputCol("normalized")\
       .setDistanceFunction("EUCLIDEAN")
@@ -98,16 +98,16 @@ res = lp.fullAnnotate("Jamestown Invest LLC is a direct-to-consumer platform for
 first_result = res[0]['normalized']['all_k_resolutions'].split(':::')[0] # Jamestown Invest 1, LLC
 
 
-documentAssembler = DocumentAssembler()\
+documentAssembler = nlp.DocumentAssembler()\
         .setInputCol("text")\
         .setOutputCol("document")
 
-chunkAssembler = Doc2Chunk() \
+chunkAssembler = nlp.Doc2Chunk() \
     .setInputCols("document") \
     .setOutputCol("chunk") \
     .setIsArray(False)
 
-CM = ChunkMapperModel()\
+CM = legal.ChunkMapperModel()\
       .pretrained("finmapper_edgar_companyname", "en", "finance/models")\
       .setInputCols(["chunk"])\
       .setOutputCol("mappings")
@@ -117,6 +117,8 @@ fit_cm_pipeline = cm_pipeline.fit(test_data)
 
 df = spark.createDataFrame([[first_result]]).toDF("text")
 r = fit_cm_pipeline.transform(df).collect()
+
+import json
 
 json_dict = dict()
 json_dict['mappings'] = []

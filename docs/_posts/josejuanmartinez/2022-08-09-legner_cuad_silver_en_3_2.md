@@ -50,28 +50,28 @@ You can several models trained on Golden versions of this dataset (annotated by 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
 ```python
-documentAssembler = DocumentAssembler()\
+documentAssembler = nlp.DocumentAssembler()\
         .setInputCol("text")\
         .setOutputCol("document")
 
-sentencizer = SentenceDetector()\
+sentencizer = nlp.SentenceDetector()\
         .setInputCols(["document"])\
         .setOutputCol("sentences")\
         .setExplodeSentences(True)
 
-tokenizer = Tokenizer()\
+tokenizer = nlp.Tokenizer()\
   .setInputCols(["sentences"])\
   .setOutputCol("token")
         
-embeddings = WordEmbeddingsModel.pretrained("w2v_cc_300d", "en")\
+embeddings = nlp.WordEmbeddingsModel.pretrained("w2v_cc_300d", "en")\
     .setInputCols(["sentences", "token"])\
     .setOutputCol("embeddings")
 
-jsl_ner = LegalNerModel.pretrained("legner_cuad_silver", "en", "legal/models")\
+jsl_ner = legal.NerModel.pretrained("legner_cuad_silver", "en", "legal/models")\
 		.setInputCols(["sentences", "token", "embeddings"]) \
 		.setOutputCol("jsl_ner")
 
-jsl_ner_converter = NerConverter() \
+jsl_ner_converter = nlp.NerConverter() \
 		.setInputCols(["sentences", "token", "jsl_ner"]) \
 		.setOutputCol("ner_chunk")
         

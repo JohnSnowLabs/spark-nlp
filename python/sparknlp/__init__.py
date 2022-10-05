@@ -17,8 +17,9 @@ import subprocess
 import threading
 from pyspark.sql import SparkSession
 from sparknlp import annotator
+# Must be declared here one by one or else PretrainedPipeline will fail with AttributeError
 from sparknlp.base import DocumentAssembler, MultiDocumentAssembler, Finisher, EmbeddingsFinisher, TokenAssembler, \
-    Chunk2Doc, Doc2Chunk
+    Chunk2Doc, Doc2Chunk, AudioAssembler, GraphFinisher, ImageAssembler, TableAssembler
 from pyspark.conf import SparkConf
 from pyspark.context import SparkContext
 from pyspark.java_gateway import launch_gateway
@@ -250,7 +251,7 @@ def start(gpu=False,
             def shutdown(self):
                 self.__spark_with_custom_gateway.shutdown()
 
-        return SparkRealTimeOutput()
+        return SparkRealTimeOutput().spark_session
     else:
         spark_session = start_without_realtime_output()
         return spark_session

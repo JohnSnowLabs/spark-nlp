@@ -60,11 +60,11 @@ German Named Entity Recognition model, trained using large German Base Bert mode
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
 ```python
-document_assembler = DocumentAssembler()\
+document_assembler = nlp.DocumentAssembler()\
     .setInputCol("text")\
     .setOutputCol("document")
 
-tokenizer = Tokenizer()\
+tokenizer = nlp.Tokenizer()\
     .setInputCols(["document"])\
     .setOutputCol("token")
 
@@ -74,7 +74,7 @@ ner_model = BertForTokenClassifier.pretrained("legner_bert_large_courts", "de", 
     .setCaseSensitive(True)\
     .setMaxSentenceLength(512)
 
-ner_converter = NerConverter()\
+ner_converter = nlp.NerConverter()\
     .setInputCols(["document", "token", "ner"])\
     .setOutputCol("ner_chunk")
 

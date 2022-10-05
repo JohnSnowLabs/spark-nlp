@@ -1,0 +1,704 @@
+
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>python.sparknlp.annotator.spell_check.norvig_sweeting &#8212; Spark NLP 4.2.0 documentation</title>
+  <script>
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../../../../static/styles/theme.css?digest=9b1a4fa89bdd0e95b23b" rel="stylesheet">
+<link href="../../../../../static/styles/pydata-sphinx-theme.css?digest=9b1a4fa89bdd0e95b23b" rel="stylesheet">
+
+  
+  <link rel="stylesheet"
+    href="../../../../../static/vendor/fontawesome/6.1.2/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../../../../../static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../../../../../static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2">
+
+    <link rel="stylesheet" type="text/css" href="../../../../../static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../../../../../static/graphviz.css" />
+    <link rel="stylesheet" type="text/css" href="../../../../../static/css/custom.css" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../../../../static/scripts/pydata-sphinx-theme.js?digest=9b1a4fa89bdd0e95b23b">
+
+    <script data-url_root="../../../../../" id="documentation_options" src="../../../../../static/documentation_options.js"></script>
+    <script src="../../../../../static/jquery.js"></script>
+    <script src="../../../../../static/underscore.js"></script>
+    <script src="../../../../../static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="../../../../../static/doctools.js"></script>
+    <script src="../../../../../static/sphinx_highlight.js"></script>
+    <script src="../../../../../static/toggleprompt.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'modules/python/sparknlp/annotator/spell_check/norvig_sweeting';</script>
+    <link rel="shortcut icon" href="../../../../../static/fav.ico"/>
+    <link rel="index" title="Index" href="../../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../../search.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="docsearch:language" content="en">
+  </head>
+  
+  
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="180" data-default-mode="">
+
+  
+  <input type="checkbox" class="sidebar-toggle" name="__primary" id="__primary">
+  <label class="overlay overlay-primary" for="__primary"></label>
+
+  
+  <input type="checkbox" class="sidebar-toggle" name="__secondary" id="__secondary">
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+      
+<form class="bd-search d-flex align-items-center" action="../../../../../search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search the docs ..." aria-label="Search the docs ..." autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+    </div>
+  </div>
+
+  
+  <nav class="bd-header navbar navbar-expand-lg bd-navbar" id="navbar-main"><div class="bd-header__inner bd-page-width">
+  <label class="sidebar-toggle primary-toggle" for="__primary">
+      <span class="fas fa-bars"></span>
+  </label>
+  <div id="navbar-start">
+    
+    
+  
+
+
+<a class="navbar-brand logo" href="../../../../../index.html">
+
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <img src="../../../../../static/logo.png" class="logo__image only-light" alt="Logo image">
+    <img src="../../../../../static/logo.png" class="logo__image only-dark" alt="Logo image">
+  
+  
+</a>
+    
+  </div>
+
+  
+  <div class="col-lg-9 navbar-header-items">
+    <div id="navbar-center" class="mr-auto">
+      
+      <div class="navbar-center-item">
+        <nav class="navbar-nav">
+    <p class="sidebar-header-items__title" role="heading" aria-level="1" aria-label="Site Navigation">
+        Site Navigation
+    </p>
+    <ul id="navbar-main-elements" class="navbar-nav">
+        
+                <li class="nav-item">
+                    <a class="nav-link" href="../../../../../getting_started/index.html">
+                        Getting Started
+                    </a>
+                </li>
+                
+
+                <li class="nav-item">
+                    <a class="nav-link" href="../../../../../user_guide/index.html">
+                        User Guide
+                    </a>
+                </li>
+                
+
+                <li class="nav-item">
+                    <a class="nav-link" href="../../../../../third_party/index.html">
+                        Third Party Projects
+                    </a>
+                </li>
+                
+
+                <li class="nav-item">
+                    <a class="nav-link" href="../../../../../reference/index.html">
+                        API Reference
+                    </a>
+                </li>
+                
+    </ul>
+</nav>
+      </div>
+      
+    </div>
+
+    <div id="navbar-end">
+      <div class="navbar-end-item navbar-end__search-button-container">
+        
+<button class="btn btn-sm navbar-btn search-button search-button__button" title="Search">
+  <i class="fas fa-search"></i>
+</button>
+      </div>
+      
+      <div class="navbar-end-item">
+        <span class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle">
+    <a class="theme-switch" data-mode="light"><i class="fas fa-sun"></i></a>
+    <a class="theme-switch" data-mode="dark"><i class="far fa-moon"></i></a>
+    <a class="theme-switch" data-mode="auto"><i class="fas fa-adjust"></i></a>
+</span>
+      </div>
+      
+      <div class="navbar-end-item">
+        <ul id="navbar-icon-links" class="navbar-nav" aria-label="Icon Links">
+      </ul>
+      </div>
+      
+    </div>
+  </div>
+
+
+  
+  <div class="search-button-container--mobile">
+<button class="btn btn-sm navbar-btn search-button search-button__button" title="Search">
+  <i class="fas fa-search"></i>
+</button>
+  </div>
+
+  
+  <label class="sidebar-toggle secondary-toggle" for="__secondary">
+      <span class="fas fa-outdent"></span>
+  </label>
+  
+
+</div>
+  </nav>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      <div class="bd-sidebar-primary bd-sidebar hide-on-wide">
+        
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+      
+      <div class="navbar-center-item">
+        <nav class="navbar-nav">
+    <p class="sidebar-header-items__title" role="heading" aria-level="1" aria-label="Site Navigation">
+        Site Navigation
+    </p>
+    <ul id="navbar-main-elements" class="navbar-nav">
+        
+                <li class="nav-item">
+                    <a class="nav-link" href="../../../../../getting_started/index.html">
+                        Getting Started
+                    </a>
+                </li>
+                
+
+                <li class="nav-item">
+                    <a class="nav-link" href="../../../../../user_guide/index.html">
+                        User Guide
+                    </a>
+                </li>
+                
+
+                <li class="nav-item">
+                    <a class="nav-link" href="../../../../../third_party/index.html">
+                        Third Party Projects
+                    </a>
+                </li>
+                
+
+                <li class="nav-item">
+                    <a class="nav-link" href="../../../../../reference/index.html">
+                        API Reference
+                    </a>
+                </li>
+                
+    </ul>
+</nav>
+      </div>
+      
+      </div>
+    
+
+    
+    
+    <div class="sidebar-header-items__end">
+      
+      <div class="navbar-end-item">
+        <span class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle">
+    <a class="theme-switch" data-mode="light"><i class="fas fa-sun"></i></a>
+    <a class="theme-switch" data-mode="dark"><i class="far fa-moon"></i></a>
+    <a class="theme-switch" data-mode="auto"><i class="fas fa-adjust"></i></a>
+</span>
+      </div>
+      
+      <div class="navbar-end-item">
+        <ul id="navbar-icon-links" class="navbar-nav" aria-label="Icon Links">
+      </ul>
+      </div>
+      
+    </div>
+    
+  </div>
+
+  
+
+  
+  <div class="sidebar-end-items sidebar-primary__section">
+    <div class="sidebar-end-items__item">
+    </div>
+  </div>
+
+      </div>
+      <main class="bd-main">
+        
+        
+        <div class="bd-content">
+          <div class="bd-article-container">
+            
+            <div class="bd-header-article">
+                
+            </div>
+            
+            
+            <article class="bd-article" role="main">
+              
+  <h1>Source code for python.sparknlp.annotator.spell_check.norvig_sweeting</h1><div class="highlight"><pre>
+<span></span><span class="c1">#  Copyright 2017-2022 John Snow Labs</span>
+<span class="c1">#</span>
+<span class="c1">#  Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);</span>
+<span class="c1">#  you may not use this file except in compliance with the License.</span>
+<span class="c1">#  You may obtain a copy of the License at</span>
+<span class="c1">#</span>
+<span class="c1">#     http://www.apache.org/licenses/LICENSE-2.0</span>
+<span class="c1">#</span>
+<span class="c1">#  Unless required by applicable law or agreed to in writing, software</span>
+<span class="c1">#  distributed under the License is distributed on an &quot;AS IS&quot; BASIS,</span>
+<span class="c1">#  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.</span>
+<span class="c1">#  See the License for the specific language governing permissions and</span>
+<span class="c1">#  limitations under the License.</span>
+<span class="sd">&quot;&quot;&quot;Contains classes for the NorvigSweeting spell checker.&quot;&quot;&quot;</span>
+
+<span class="kn">from</span> <span class="nn">sparknlp.common</span> <span class="kn">import</span> <span class="o">*</span>
+
+
+<div class="viewcode-block" id="NorvigSweetingApproach"><a class="viewcode-back" href="../../../../../reference/autosummary/python/sparknlp/annotator/spell_check/norvig_sweeting/index.html#python.sparknlp.annotator.spell_check.norvig_sweeting.NorvigSweetingApproach">[docs]</a><span class="k">class</span> <span class="nc">NorvigSweetingApproach</span><span class="p">(</span><span class="n">AnnotatorApproach</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Trains annotator, that retrieves tokens and makes corrections automatically if</span>
+<span class="sd">    not found in an English dictionary, based on the algorithm by Peter Norvig.</span>
+
+<span class="sd">    The algorithm is based on a Bayesian approach to spell checking: Given the word we</span>
+<span class="sd">    look in the provided dictionary to choose the word with the highest probability</span>
+<span class="sd">    to be the correct one.</span>
+
+<span class="sd">    A dictionary of correct spellings must be provided with :meth:`.setDictionary` in</span>
+<span class="sd">    the form of a text file, where each word is parsed by a regex pattern.</span>
+
+<span class="sd">    For instantiated/pretrained models, see :class:`.NorvigSweetingModel`.</span>
+
+<span class="sd">    For extended examples of usage, see the `Spark NLP Workshop</span>
+<span class="sd">    &lt;https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/jupyter/training/english/vivekn-sentiment/VivekNarayanSentimentApproach.ipynb&gt;`__.</span>
+
+<span class="sd">    ====================== ======================</span>
+<span class="sd">    Input Annotation types Output Annotation type</span>
+<span class="sd">    ====================== ======================</span>
+<span class="sd">    ``TOKEN``              ``TOKEN``</span>
+<span class="sd">    ====================== ======================</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    dictionary</span>
+<span class="sd">        Dictionary needs &#39;tokenPattern&#39; regex in dictionary for separating words</span>
+<span class="sd">    caseSensitive</span>
+<span class="sd">        Whether to ignore case sensitivity, by default False</span>
+<span class="sd">    doubleVariants</span>
+<span class="sd">        Whether to use more expensive spell checker, by default False</span>
+
+<span class="sd">        Increase search at cost of performance. Enables extra check for word</span>
+<span class="sd">        combinations.</span>
+<span class="sd">    shortCircuit</span>
+<span class="sd">        Whether to use faster mode, by default False</span>
+
+<span class="sd">        Increase performance at cost of accuracy. Faster but less accurate.</span>
+<span class="sd">    frequencyPriority</span>
+<span class="sd">        Applies frequency over hamming in intersections, when false hamming</span>
+<span class="sd">        takes priority, by default True</span>
+<span class="sd">    wordSizeIgnore</span>
+<span class="sd">        Minimum size of word before ignoring, by default 3</span>
+<span class="sd">    dupsLimit</span>
+<span class="sd">        Maximum duplicate of characters in a word to consider, by default 2</span>
+<span class="sd">    reductLimit</span>
+<span class="sd">        Word reductions limit, by default 3</span>
+<span class="sd">    intersections</span>
+<span class="sd">        Hamming intersections to attempt, by default 10</span>
+<span class="sd">    vowelSwapLimit</span>
+<span class="sd">        Vowel swap attempts, by default 6</span>
+
+<span class="sd">    References</span>
+<span class="sd">    ----------</span>
+
+<span class="sd">    Inspired by the spell checker by Peter Norvig:</span>
+<span class="sd">    `How to Write a Spelling Corrector &lt;https://norvig.com/spell-correct.html&gt;`__</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">    &gt;&gt;&gt; import sparknlp</span>
+<span class="sd">    &gt;&gt;&gt; from sparknlp.base import *</span>
+<span class="sd">    &gt;&gt;&gt; from sparknlp.annotator import *</span>
+<span class="sd">    &gt;&gt;&gt; from pyspark.ml import Pipeline</span>
+
+<span class="sd">    In this example, the dictionary ``&quot;words.txt&quot;`` has the form of::</span>
+
+<span class="sd">        ...</span>
+<span class="sd">        gummy</span>
+<span class="sd">        gummic</span>
+<span class="sd">        gummier</span>
+<span class="sd">        gummiest</span>
+<span class="sd">        gummiferous</span>
+<span class="sd">        ...</span>
+
+<span class="sd">    This dictionary is then set to be the basis of the spell checker.</span>
+
+<span class="sd">    &gt;&gt;&gt; documentAssembler = DocumentAssembler() \\</span>
+<span class="sd">    ...     .setInputCol(&quot;text&quot;) \\</span>
+<span class="sd">    ...     .setOutputCol(&quot;document&quot;)</span>
+<span class="sd">    &gt;&gt;&gt; tokenizer = Tokenizer() \\</span>
+<span class="sd">    ...     .setInputCols([&quot;document&quot;]) \\</span>
+<span class="sd">    ...     .setOutputCol(&quot;token&quot;)</span>
+<span class="sd">    &gt;&gt;&gt; spellChecker = NorvigSweetingApproach() \\</span>
+<span class="sd">    ...     .setInputCols([&quot;token&quot;]) \\</span>
+<span class="sd">    ...     .setOutputCol(&quot;spell&quot;) \\</span>
+<span class="sd">    ...     .setDictionary(&quot;src/test/resources/spell/words.txt&quot;)</span>
+<span class="sd">    &gt;&gt;&gt; pipeline = Pipeline().setStages([</span>
+<span class="sd">    ...     documentAssembler,</span>
+<span class="sd">    ...     tokenizer,</span>
+<span class="sd">    ...     spellChecker</span>
+<span class="sd">    ... ])</span>
+<span class="sd">    &gt;&gt;&gt; pipelineModel = pipeline.fit(trainingData)</span>
+
+<span class="sd">    See Also</span>
+<span class="sd">    --------</span>
+<span class="sd">    SymmetricDeleteApproach : for an alternative approach to spell checking</span>
+<span class="sd">    ContextSpellCheckerApproach : for a DL based approach</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">dictionary</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
+                       <span class="s2">&quot;dictionary&quot;</span><span class="p">,</span>
+                       <span class="s2">&quot;dictionary needs &#39;tokenPattern&#39; regex in dictionary for separating words&quot;</span><span class="p">,</span>
+                       <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">identity</span><span class="p">)</span>
+
+    <span class="n">caseSensitive</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
+                          <span class="s2">&quot;caseSensitive&quot;</span><span class="p">,</span>
+                          <span class="s2">&quot;whether to ignore case sensitivty&quot;</span><span class="p">,</span>
+                          <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toBoolean</span><span class="p">)</span>
+
+    <span class="n">doubleVariants</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
+                           <span class="s2">&quot;doubleVariants&quot;</span><span class="p">,</span>
+                           <span class="s2">&quot;whether to use more expensive spell checker&quot;</span><span class="p">,</span>
+                           <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toBoolean</span><span class="p">)</span>
+
+    <span class="n">shortCircuit</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
+                         <span class="s2">&quot;shortCircuit&quot;</span><span class="p">,</span>
+                         <span class="s2">&quot;whether to use faster mode&quot;</span><span class="p">,</span>
+                         <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toBoolean</span><span class="p">)</span>
+
+    <span class="n">frequencyPriority</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
+                              <span class="s2">&quot;frequencyPriority&quot;</span><span class="p">,</span>
+                              <span class="s2">&quot;applies frequency over hamming in intersections. When false hamming takes priority&quot;</span><span class="p">,</span>
+                              <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toBoolean</span><span class="p">)</span>
+
+    <span class="n">wordSizeIgnore</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
+                           <span class="s2">&quot;wordSizeIgnore&quot;</span><span class="p">,</span>
+                           <span class="s2">&quot;minimum size of word before ignoring. Defaults to 3&quot;</span><span class="p">,</span>
+                           <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toInt</span><span class="p">)</span>
+
+    <span class="n">dupsLimit</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
+                      <span class="s2">&quot;dupsLimit&quot;</span><span class="p">,</span>
+                      <span class="s2">&quot;maximum duplicate of characters in a word to consider. Defaults to 2&quot;</span><span class="p">,</span>
+                      <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toInt</span><span class="p">)</span>
+
+    <span class="n">reductLimit</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
+                        <span class="s2">&quot;reductLimit&quot;</span><span class="p">,</span>
+                        <span class="s2">&quot;word reductions limit. Defaults to 3&quot;</span><span class="p">,</span>
+                        <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toInt</span><span class="p">)</span>
+
+    <span class="n">intersections</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
+                          <span class="s2">&quot;intersections&quot;</span><span class="p">,</span>
+                          <span class="s2">&quot;hamming intersections to attempt. Defaults to 10&quot;</span><span class="p">,</span>
+                          <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toInt</span><span class="p">)</span>
+
+    <span class="n">vowelSwapLimit</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
+                           <span class="s2">&quot;vowelSwapLimit&quot;</span><span class="p">,</span>
+                           <span class="s2">&quot;vowel swap attempts. Defaults to 6&quot;</span><span class="p">,</span>
+                           <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toInt</span><span class="p">)</span>
+
+    <span class="nd">@keyword_only</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">NorvigSweetingApproach</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
+            <span class="n">classname</span><span class="o">=</span><span class="s2">&quot;com.johnsnowlabs.nlp.annotators.spell.norvig.NorvigSweetingApproach&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_setDefault</span><span class="p">(</span><span class="n">caseSensitive</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">doubleVariants</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">shortCircuit</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">wordSizeIgnore</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">dupsLimit</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
+                         <span class="n">reductLimit</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">intersections</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">vowelSwapLimit</span><span class="o">=</span><span class="mi">6</span><span class="p">,</span> <span class="n">frequencyPriority</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">dictionary_path</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+
+<div class="viewcode-block" id="NorvigSweetingApproach.setDictionary"><a class="viewcode-back" href="../../../../../reference/autosummary/python/sparknlp/annotator/spell_check/norvig_sweeting/index.html#python.sparknlp.annotator.spell_check.norvig_sweeting.NorvigSweetingApproach.setDictionary">[docs]</a>    <span class="k">def</span> <span class="nf">setDictionary</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span> <span class="n">token_pattern</span><span class="o">=</span><span class="s2">&quot;\S+&quot;</span><span class="p">,</span> <span class="n">read_as</span><span class="o">=</span><span class="n">ReadAs</span><span class="o">.</span><span class="n">TEXT</span><span class="p">,</span> <span class="n">options</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;format&quot;</span><span class="p">:</span> <span class="s2">&quot;text&quot;</span><span class="p">}):</span>
+        <span class="sd">&quot;&quot;&quot;Sets dictionary which needs &#39;tokenPattern&#39; regex for separating</span>
+<span class="sd">        words.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        path : str</span>
+<span class="sd">            Path to the source file</span>
+<span class="sd">        token_pattern : str, optional</span>
+<span class="sd">            Pattern for token separation, by default ``\\S+``</span>
+<span class="sd">        read_as : str, optional</span>
+<span class="sd">            How to read the file, by default ReadAs.TEXT</span>
+<span class="sd">        options : dict, optional</span>
+<span class="sd">            Options to read the resource, by default {&quot;format&quot;: &quot;text&quot;}</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">dictionary_path</span> <span class="o">=</span> <span class="n">path</span>
+        <span class="n">opts</span> <span class="o">=</span> <span class="n">options</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+        <span class="k">if</span> <span class="s2">&quot;tokenPattern&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">opts</span><span class="p">:</span>
+            <span class="n">opts</span><span class="p">[</span><span class="s2">&quot;tokenPattern&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">token_pattern</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">dictionary</span><span class="o">=</span><span class="n">ExternalResource</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">read_as</span><span class="p">,</span> <span class="n">opts</span><span class="p">))</span></div>
+
+<div class="viewcode-block" id="NorvigSweetingApproach.setCaseSensitive"><a class="viewcode-back" href="../../../../../reference/autosummary/python/sparknlp/annotator/spell_check/norvig_sweeting/index.html#python.sparknlp.annotator.spell_check.norvig_sweeting.NorvigSweetingApproach.setCaseSensitive">[docs]</a>    <span class="k">def</span> <span class="nf">setCaseSensitive</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Sets whether to ignore case sensitivity, by default False.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        value : bool</span>
+<span class="sd">            Whether to ignore case sensitivity</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">caseSensitive</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="NorvigSweetingApproach.setDoubleVariants"><a class="viewcode-back" href="../../../../../reference/autosummary/python/sparknlp/annotator/spell_check/norvig_sweeting/index.html#python.sparknlp.annotator.spell_check.norvig_sweeting.NorvigSweetingApproach.setDoubleVariants">[docs]</a>    <span class="k">def</span> <span class="nf">setDoubleVariants</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Sets whether to use more expensive spell checker, by default False.</span>
+
+<span class="sd">        Increase search at cost of performance. Enables extra check for word</span>
+<span class="sd">        combinations.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        value : bool</span>
+<span class="sd">            [description]</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">doubleVariants</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="NorvigSweetingApproach.setShortCircuit"><a class="viewcode-back" href="../../../../../reference/autosummary/python/sparknlp/annotator/spell_check/norvig_sweeting/index.html#python.sparknlp.annotator.spell_check.norvig_sweeting.NorvigSweetingApproach.setShortCircuit">[docs]</a>    <span class="k">def</span> <span class="nf">setShortCircuit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Sets whether to use faster mode, by default False.</span>
+
+<span class="sd">        Increase performance at cost of accuracy. Faster but less accurate.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        value : bool</span>
+<span class="sd">            Whether to use faster mode</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">shortCircuit</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="NorvigSweetingApproach.setFrequencyPriority"><a class="viewcode-back" href="../../../../../reference/autosummary/python/sparknlp/annotator/spell_check/norvig_sweeting/index.html#python.sparknlp.annotator.spell_check.norvig_sweeting.NorvigSweetingApproach.setFrequencyPriority">[docs]</a>    <span class="k">def</span> <span class="nf">setFrequencyPriority</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Sets whether to consider frequency over hamming in intersections,</span>
+<span class="sd">        when false hamming takes priority, by default True.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        value : bool</span>
+<span class="sd">            Whether to consider frequency over hamming in intersections</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">frequencyPriority</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
+
+    <span class="k">def</span> <span class="nf">_create_model</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">java_model</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">NorvigSweetingModel</span><span class="p">(</span><span class="n">java_model</span><span class="o">=</span><span class="n">java_model</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="NorvigSweetingModel"><a class="viewcode-back" href="../../../../../reference/autosummary/python/sparknlp/annotator/spell_check/norvig_sweeting/index.html#python.sparknlp.annotator.spell_check.norvig_sweeting.NorvigSweetingModel">[docs]</a><span class="k">class</span> <span class="nc">NorvigSweetingModel</span><span class="p">(</span><span class="n">AnnotatorModel</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;This annotator retrieves tokens and makes corrections automatically if</span>
+<span class="sd">    not found in an English dictionary.</span>
+
+<span class="sd">    The Symmetric Delete spelling correction algorithm reduces the complexity of</span>
+<span class="sd">    edit candidate generation and dictionary lookup for a given</span>
+<span class="sd">    Damerau-Levenshtein distance. It is six orders of magnitude faster (than the</span>
+<span class="sd">    standard approach with deletes + transposes + replaces + inserts) and</span>
+<span class="sd">    language independent.</span>
+
+<span class="sd">    This is the instantiated model of the :class:`.NorvigSweetingApproach`. For</span>
+<span class="sd">    training your own model, please see the documentation of that class.</span>
+
+<span class="sd">    Pretrained models can be loaded with :meth:`.pretrained` of the companion</span>
+<span class="sd">    object:</span>
+
+<span class="sd">    &gt;&gt;&gt;    spellChecker = NorvigSweetingModel.pretrained() \\</span>
+<span class="sd">    ...        .setInputCols([&quot;token&quot;]) \\</span>
+<span class="sd">    ...        .setOutputCol(&quot;spell&quot;) \\</span>
+
+
+<span class="sd">    The default model is ``&quot;spellcheck_norvig&quot;``, if no name is provided. For</span>
+<span class="sd">    available pretrained models please see the `Models Hub</span>
+<span class="sd">    &lt;https://nlp.johnsnowlabs.com/models?task=Spell+Check&gt;`__.</span>
+
+
+<span class="sd">    For extended examples of usage, see the `Spark NLP Workshop</span>
+<span class="sd">    &lt;https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/jupyter/training/english/vivekn-sentiment/VivekNarayanSentimentApproach.ipynb&gt;`__.</span>
+
+<span class="sd">    ====================== ======================</span>
+<span class="sd">    Input Annotation types Output Annotation type</span>
+<span class="sd">    ====================== ======================</span>
+<span class="sd">    ``TOKEN``              ``TOKEN``</span>
+<span class="sd">    ====================== ======================</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    None</span>
+
+<span class="sd">    References</span>
+<span class="sd">    ----------</span>
+<span class="sd">    Inspired by Norvig model and `SymSpell</span>
+<span class="sd">    &lt;https://github.com/wolfgarbe/SymSpell&gt;`__.</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">    &gt;&gt;&gt; import sparknlp</span>
+<span class="sd">    &gt;&gt;&gt; from sparknlp.base import *</span>
+<span class="sd">    &gt;&gt;&gt; from sparknlp.annotator import *</span>
+<span class="sd">    &gt;&gt;&gt; from pyspark.ml import Pipeline</span>
+<span class="sd">    &gt;&gt;&gt; documentAssembler = DocumentAssembler() \\</span>
+<span class="sd">    ...     .setInputCol(&quot;text&quot;) \\</span>
+<span class="sd">    ...     .setOutputCol(&quot;document&quot;)</span>
+<span class="sd">    &gt;&gt;&gt; tokenizer = Tokenizer() \\</span>
+<span class="sd">    ...     .setInputCols([&quot;document&quot;]) \\</span>
+<span class="sd">    ...     .setOutputCol(&quot;token&quot;)</span>
+<span class="sd">    &gt;&gt;&gt; spellChecker = NorvigSweetingModel.pretrained() \\</span>
+<span class="sd">    ...     .setInputCols([&quot;token&quot;]) \\</span>
+<span class="sd">    ...     .setOutputCol(&quot;spell&quot;)</span>
+<span class="sd">    &gt;&gt;&gt; pipeline = Pipeline().setStages([</span>
+<span class="sd">    ...     documentAssembler,</span>
+<span class="sd">    ...     tokenizer,</span>
+<span class="sd">    ...     spellChecker</span>
+<span class="sd">    ... ])</span>
+<span class="sd">    &gt;&gt;&gt; data = spark.createDataFrame([[&quot;somtimes i wrrite wordz erong.&quot;]]).toDF(&quot;text&quot;)</span>
+<span class="sd">    &gt;&gt;&gt; result = pipeline.fit(data).transform(data)</span>
+<span class="sd">    &gt;&gt;&gt; result.select(&quot;spell.result&quot;).show(truncate=False)</span>
+<span class="sd">    +--------------------------------------+</span>
+<span class="sd">    |result                                |</span>
+<span class="sd">    +--------------------------------------+</span>
+<span class="sd">    |[sometimes, i, write, words, wrong, .]|</span>
+<span class="sd">    +--------------------------------------+</span>
+
+<span class="sd">    See Also</span>
+<span class="sd">    --------</span>
+<span class="sd">    SymmetricDeleteModel : for an alternative approach to spell checking</span>
+<span class="sd">    ContextSpellCheckerModel : for a DL based approach</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;NorvigSweetingModel&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">classname</span><span class="o">=</span><span class="s2">&quot;com.johnsnowlabs.nlp.annotators.spell.norvig.NorvigSweetingModel&quot;</span><span class="p">,</span> <span class="n">java_model</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">NorvigSweetingModel</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
+            <span class="n">classname</span><span class="o">=</span><span class="n">classname</span><span class="p">,</span>
+            <span class="n">java_model</span><span class="o">=</span><span class="n">java_model</span>
+        <span class="p">)</span>
+
+    <span class="nd">@staticmethod</span>
+<div class="viewcode-block" id="NorvigSweetingModel.pretrained"><a class="viewcode-back" href="../../../../../reference/autosummary/python/sparknlp/annotator/spell_check/norvig_sweeting/index.html#python.sparknlp.annotator.spell_check.norvig_sweeting.NorvigSweetingModel.pretrained">[docs]</a>    <span class="k">def</span> <span class="nf">pretrained</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;spellcheck_norvig&quot;</span><span class="p">,</span> <span class="n">lang</span><span class="o">=</span><span class="s2">&quot;en&quot;</span><span class="p">,</span> <span class="n">remote_loc</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Downloads and loads a pretrained model.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        name : str, optional</span>
+<span class="sd">            Name of the pretrained model, by default &quot;spellcheck_norvig&quot;</span>
+<span class="sd">        lang : str, optional</span>
+<span class="sd">            Language of the pretrained model, by default &quot;en&quot;</span>
+<span class="sd">        remote_loc : str, optional</span>
+<span class="sd">            Optional remote address of the resource, by default None. Will use</span>
+<span class="sd">            Spark NLPs repositories otherwise.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        NorvigSweetingModel</span>
+<span class="sd">            The restored model</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="kn">from</span> <span class="nn">sparknlp.pretrained</span> <span class="kn">import</span> <span class="n">ResourceDownloader</span>
+        <span class="k">return</span> <span class="n">ResourceDownloader</span><span class="o">.</span><span class="n">downloadModel</span><span class="p">(</span><span class="n">NorvigSweetingModel</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">lang</span><span class="p">,</span> <span class="n">remote_loc</span><span class="p">)</span></div></div>
+
+</pre></div>
+
+            </article>
+            
+            
+            
+            <footer class="bd-footer-article">
+                <!-- Previous / next buttons -->
+<div class='prev-next-area'>
+</div>
+            </footer>
+            
+          </div>
+          
+          
+          
+            <div class="bd-sidebar-secondary bd-toc">
+              
+<div class="toc-item">
+  
+</div>
+
+<div class="toc-item">
+  
+</div>
+
+            </div>
+          
+          
+        </div>
+        <footer class="bd-footer-content">
+          <div class="bd-footer-content__inner">
+            
+          </div>
+        </footer>
+        
+      </main>
+    </div>
+  </div>
+
+  
+    
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../../../../../static/scripts/pydata-sphinx-theme.js?digest=9b1a4fa89bdd0e95b23b"></script>
+
+  <footer class="bd-footer"><div class="bd-footer__inner container">
+  
+  <div class="footer-item">
+    
+<p class="copyright">
+
+    &copy; Copyright 2022, John Snow Labs.<br>
+
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+<p class="sphinx-version">
+Created using <a href="http://sphinx-doc.org/">Sphinx</a> 5.2.0.post0.<br>
+</p>
+
+  </div>
+  
+</div>
+  </footer>
+  </body>
+</html>

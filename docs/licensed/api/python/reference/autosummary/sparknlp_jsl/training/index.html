@@ -36,6 +36,7 @@
     <script src="../../../../static/underscore.js"></script>
     <script src="../../../../static/_sphinx_javascript_frameworks_compat.js"></script>
     <script src="../../../../static/doctools.js"></script>
+    <script src="../../../../static/sphinx_highlight.js"></script>
     <script src="../../../../static/toggleprompt.js"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'reference/autosummary/sparknlp_jsl/training/index';</script>
     <link rel="shortcut icon" href="../../../../static/fav.ico"/>
@@ -420,6 +421,140 @@
     <ul class="nav section-nav flex-column">
      <li class="toc-h4 nav-item toc-entry">
       <a class="reference internal nav-link" href="#sparknlp_jsl.training.AnnotationToolJsonReader">
+       <code class="docutils literal notranslate">
+        <span class="pre">
+         AnnotationToolJsonReader
+        </span>
+       </code>
+      </a>
+      <ul class="nav section-nav flex-column">
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.training.AnnotationToolJsonReader.readDataset">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           AnnotationToolJsonReader.readDataset()
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.training.AnnotationToolJsonReader.generateAssertionTrainSet">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           AnnotationToolJsonReader.generateAssertionTrainSet()
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.training.AnnotationToolJsonReader.generateConll">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           AnnotationToolJsonReader.generateConll()
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.training.AnnotationToolJsonReader.generatePlainAssertionTrainSet">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           AnnotationToolJsonReader.generatePlainAssertionTrainSet()
+          </span>
+         </code>
+        </a>
+       </li>
+      </ul>
+     </li>
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#sparknlp_jsl.training.CodiEspReader">
+       <code class="docutils literal notranslate">
+        <span class="pre">
+         CodiEspReader
+        </span>
+       </code>
+      </a>
+      <ul class="nav section-nav flex-column">
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.training.CodiEspReader.readDatasetTaskX">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           CodiEspReader.readDatasetTaskX()
+          </span>
+         </code>
+        </a>
+       </li>
+      </ul>
+     </li>
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#sparknlp_jsl.training.CantemistReader">
+       <code class="docutils literal notranslate">
+        <span class="pre">
+         CantemistReader
+        </span>
+       </code>
+      </a>
+      <ul class="nav section-nav flex-column">
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.training.CantemistReader.readDatasetTaskNer">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           CantemistReader.readDatasetTaskNer()
+          </span>
+         </code>
+        </a>
+       </li>
+      </ul>
+     </li>
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#sparknlp_jsl.training.tf_graph">
+       <code class="docutils literal notranslate">
+        <span class="pre">
+         tf_graph
+        </span>
+       </code>
+      </a>
+     </li>
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#sparknlp_jsl.training.tf_graph_1x">
+       <code class="docutils literal notranslate">
+        <span class="pre">
+         tf_graph_1x
+        </span>
+       </code>
+      </a>
+     </li>
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#sparknlp_jsl.training.SynonymAugmentationUMLS">
+       <code class="docutils literal notranslate">
+        <span class="pre">
+         SynonymAugmentationUMLS
+        </span>
+       </code>
+      </a>
+      <ul class="nav section-nav flex-column">
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.training.SynonymAugmentationUMLS.augmentCsv">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           SynonymAugmentationUMLS.augmentCsv()
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.training.SynonymAugmentationUMLS.augmentDataFrame">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           SynonymAugmentationUMLS.augmentDataFrame()
+          </span>
+         </code>
+        </a>
+       </li>
+      </ul>
+     </li>
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#sparknlp_jsl.training.AnnotationToolJsonReader">
        AnnotationToolJsonReader
       </a>
       <ul class="nav section-nav flex-column">
@@ -553,7 +688,7 @@
   <div class="footer-item">
     
 <p class="sphinx-version">
-Created using <a href="http://sphinx-doc.org/">Sphinx</a> 5.1.1.<br>
+Created using <a href="http://sphinx-doc.org/">Sphinx</a> 5.2.3.<br>
 </p>
 
   </div>

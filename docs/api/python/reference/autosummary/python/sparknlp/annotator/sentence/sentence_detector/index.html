@@ -1,0 +1,1787 @@
+
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+
+    <title>python.sparknlp.annotator.sentence.sentence_detector &#8212; Spark NLP 4.2.0 documentation</title>
+  <script>
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../../../../../../static/styles/theme.css?digest=9b1a4fa89bdd0e95b23b" rel="stylesheet">
+<link href="../../../../../../../static/styles/pydata-sphinx-theme.css?digest=9b1a4fa89bdd0e95b23b" rel="stylesheet">
+
+  
+  <link rel="stylesheet"
+    href="../../../../../../../static/vendor/fontawesome/6.1.2/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../../../../../../../static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../../../../../../../static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2">
+
+    <link rel="stylesheet" type="text/css" href="../../../../../../../static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../../../../../../../static/graphviz.css" />
+    <link rel="stylesheet" type="text/css" href="../../../../../../../static/css/custom.css" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../../../../../../static/scripts/pydata-sphinx-theme.js?digest=9b1a4fa89bdd0e95b23b">
+
+    <script data-url_root="../../../../../../../" id="documentation_options" src="../../../../../../../static/documentation_options.js"></script>
+    <script src="../../../../../../../static/jquery.js"></script>
+    <script src="../../../../../../../static/underscore.js"></script>
+    <script src="../../../../../../../static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="../../../../../../../static/doctools.js"></script>
+    <script src="../../../../../../../static/sphinx_highlight.js"></script>
+    <script src="../../../../../../../static/toggleprompt.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'reference/autosummary/python/sparknlp/annotator/sentence/sentence_detector/index';</script>
+    <link rel="shortcut icon" href="../../../../../../../static/fav.ico"/>
+    <link rel="index" title="Index" href="../../../../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../../../../search.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="docsearch:language" content="en">
+  </head>
+  
+  
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="180" data-default-mode="">
+
+  
+  <input type="checkbox" class="sidebar-toggle" name="__primary" id="__primary">
+  <label class="overlay overlay-primary" for="__primary"></label>
+
+  
+  <input type="checkbox" class="sidebar-toggle" name="__secondary" id="__secondary">
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+      
+<form class="bd-search d-flex align-items-center" action="../../../../../../../search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search the docs ..." aria-label="Search the docs ..." autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+    </div>
+  </div>
+
+  
+  <nav class="bd-header navbar navbar-expand-lg bd-navbar" id="navbar-main"><div class="bd-header__inner bd-page-width">
+  <label class="sidebar-toggle primary-toggle" for="__primary">
+      <span class="fas fa-bars"></span>
+  </label>
+  <div id="navbar-start">
+    
+    
+  
+
+
+<a class="navbar-brand logo" href="../../../../../../../index.html">
+
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <img src="../../../../../../../static/logo.png" class="logo__image only-light" alt="Logo image">
+    <img src="../../../../../../../static/logo.png" class="logo__image only-dark" alt="Logo image">
+  
+  
+</a>
+    
+  </div>
+
+  
+  <div class="col-lg-9 navbar-header-items">
+    <div id="navbar-center" class="mr-auto">
+      
+      <div class="navbar-center-item">
+        <nav class="navbar-nav">
+    <p class="sidebar-header-items__title" role="heading" aria-level="1" aria-label="Site Navigation">
+        Site Navigation
+    </p>
+    <ul id="navbar-main-elements" class="navbar-nav">
+        
+                <li class="nav-item">
+                    <a class="nav-link" href="../../../../../../../getting_started/index.html">
+                        Getting Started
+                    </a>
+                </li>
+                
+
+                <li class="nav-item">
+                    <a class="nav-link" href="../../../../../../../user_guide/index.html">
+                        User Guide
+                    </a>
+                </li>
+                
+
+                <li class="nav-item">
+                    <a class="nav-link" href="../../../../../../../third_party/index.html">
+                        Third Party Projects
+                    </a>
+                </li>
+                
+
+                <li class="nav-item">
+                    <a class="nav-link" href="../../../../../../index.html">
+                        API Reference
+                    </a>
+                </li>
+                
+    </ul>
+</nav>
+      </div>
+      
+    </div>
+
+    <div id="navbar-end">
+      <div class="navbar-end-item navbar-end__search-button-container">
+        
+<button class="btn btn-sm navbar-btn search-button search-button__button" title="Search">
+  <i class="fas fa-search"></i>
+</button>
+      </div>
+      
+      <div class="navbar-end-item">
+        <span class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle">
+    <a class="theme-switch" data-mode="light"><i class="fas fa-sun"></i></a>
+    <a class="theme-switch" data-mode="dark"><i class="far fa-moon"></i></a>
+    <a class="theme-switch" data-mode="auto"><i class="fas fa-adjust"></i></a>
+</span>
+      </div>
+      
+      <div class="navbar-end-item">
+        <ul id="navbar-icon-links" class="navbar-nav" aria-label="Icon Links">
+      </ul>
+      </div>
+      
+    </div>
+  </div>
+
+
+  
+  <div class="search-button-container--mobile">
+<button class="btn btn-sm navbar-btn search-button search-button__button" title="Search">
+  <i class="fas fa-search"></i>
+</button>
+  </div>
+
+  
+  <label class="sidebar-toggle secondary-toggle" for="__secondary">
+      <span class="fas fa-outdent"></span>
+  </label>
+  
+
+</div>
+  </nav>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+      
+      <div class="navbar-center-item">
+        <nav class="navbar-nav">
+    <p class="sidebar-header-items__title" role="heading" aria-level="1" aria-label="Site Navigation">
+        Site Navigation
+    </p>
+    <ul id="navbar-main-elements" class="navbar-nav">
+        
+                <li class="nav-item">
+                    <a class="nav-link" href="../../../../../../../getting_started/index.html">
+                        Getting Started
+                    </a>
+                </li>
+                
+
+                <li class="nav-item">
+                    <a class="nav-link" href="../../../../../../../user_guide/index.html">
+                        User Guide
+                    </a>
+                </li>
+                
+
+                <li class="nav-item">
+                    <a class="nav-link" href="../../../../../../../third_party/index.html">
+                        Third Party Projects
+                    </a>
+                </li>
+                
+
+                <li class="nav-item">
+                    <a class="nav-link" href="../../../../../../index.html">
+                        API Reference
+                    </a>
+                </li>
+                
+    </ul>
+</nav>
+      </div>
+      
+      </div>
+    
+
+    
+    
+    <div class="sidebar-header-items__end">
+      
+      <div class="navbar-end-item">
+        <span class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle">
+    <a class="theme-switch" data-mode="light"><i class="fas fa-sun"></i></a>
+    <a class="theme-switch" data-mode="dark"><i class="far fa-moon"></i></a>
+    <a class="theme-switch" data-mode="auto"><i class="fas fa-adjust"></i></a>
+</span>
+      </div>
+      
+      <div class="navbar-end-item">
+        <ul id="navbar-icon-links" class="navbar-nav" aria-label="Icon Links">
+      </ul>
+      </div>
+      
+    </div>
+    
+  </div>
+
+  
+  <div class="sidebar-start-items sidebar-primary__section">
+    <div class="sidebar-start-items__item"><nav class="bd-links" id="bd-docs-nav" aria-label="Section navigation">
+  <p class="bd-links__title" role="heading" aria-level="1">
+    Section Navigation
+  </p>
+  <div class="bd-toc-item navbar-nav">
+    <ul class="current nav bd-sidenav">
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../../classifier_dl/index.html">
+   <code class="xref py py-mod docutils literal notranslate">
+    <span class="pre">
+     python.sparknlp.annotator.classifier_dl
+    </span>
+   </code>
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/>
+  <label class="toctree-toggle" for="toctree-checkbox-1">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../../classifier_dl/albert_for_sequence_classification/index.html">
+     <code class="xref py py-mod docutils literal notranslate">
+      <span class="pre">
+       python.sparknlp.annotator.classifier_dl.albert_for_sequence_classification
+      </span>
+     </code>
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../../classifier_dl/albert_for_token_classification/index.html">
+     <code class="xref py py-mod docutils literal notranslate">
+      <span class="pre">
+       python.sparknlp.annotator.classifier_dl.albert_for_token_classification
+      </span>
+     </code>
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../../classifier_dl/bert_for_sequence_classification/index.html">
+     <code class="xref py py-mod docutils literal notranslate">
+      <span class="pre">
+       python.sparknlp.annotator.classifier_dl.bert_for_sequence_classification
+      </span>
+     </code>
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../../classifier_dl/bert_for_token_classification/index.html">
+     <code class="xref py py-mod docutils literal notranslate">
+      <span class="pre">
+       python.sparknlp.annotator.classifier_dl.bert_for_token_classification
+      </span>
+     </code>
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../../classifier_dl/camembert_for_token_classification/index.html">
+     <code class="xref py py-mod docutils literal notranslate">
+      <span class="pre">
+       python.sparknlp.annotator.classifier_dl.camembert_for_token_classification
+      </span>
+     </code>
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../../classifier_dl/classifier_dl/index.html">
+     <code class="xref py py-mod docutils literal notranslate">
+      <span class="pre">
+       python.sparknlp.annotator.classifier_dl.classifier_dl
+      </span>
+     </code>
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../../classifier_dl/deberta_for_sequence_classification/index.html">
+     <code class="xref py py-mod docutils literal notranslate">
+      <span class="pre">
+       python.sparknlp.annotator.classifier_dl.deberta_for_sequence_classification
+      </span>
+     </code>
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../../classifier_dl/deberta_for_token_classification/index.html">
+     <code class="xref py py-mod docutils literal notranslate">
+      <span class="pre">
+       python.sparknlp.annotator.classifier_dl.deberta_for_token_classification
+      </span>
+     </code>
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../../classifier_dl/distil_bert_for_sequence_classification/index.html">
+     <code class="xref py py-mod docutils literal notranslate">
+      <span class="pre">
+       python.sparknlp.annotator.classifier_dl.distil_bert_for_sequence_classification
+      </span>
+     </code>
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../../classifier_dl/distil_bert_for_token_classification/index.html">
+     <code class="xref py py-mod docutils literal notranslate">
+      <span class="pre">
+       python.sparknlp.annotator.classifier_dl.distil_bert_for_token_classification
+      </span>
+     </code>
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../../classifier_dl/longformer_for_sequence_classification/index.html">
+     <code class="xref py py-mod docutils literal notranslate">
+      <span class="pre">
+       python.sparknlp.annotator.classifier_dl.longformer_for_sequence_classification
+      </span>
+     </code>
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../../classifier_dl/longformer_for_token_classification/index.html">
+     <code class="xref py py-mod docutils literal notranslate">
+      <span class="pre">
+       python.sparknlp.annotator.classifier_dl.longformer_for_token_classification
+      </span>
+     </code>
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../../classifier_dl/multi_classifier_dl/index.html">
+     <code class="xref py py-mod docutils literal notranslate">
+      <span class="pre">
+       python.sparknlp.annotator.classifier_dl.multi_classifier_dl
+      </span>
+     </code>
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../../classifier_dl/roberta_for_sequence_classification/index.html">
+     <code class="xref py py-mod docutils literal notranslate">
+      <span class="pre">
+       python.sparknlp.annotator.classifier_dl.roberta_for_sequence_classification
+      </span>
+     </code>
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../../classifier_dl/roberta_for_token_classification/index.html">
+     <code class="xref py py-mod docutils literal notranslate">
+      <span class="pre">
+       python.sparknlp.annotator.classifier_dl.roberta_for_token_classification
+      </span>
+     </code>
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../../classifier_dl/sentiment_dl/index.html">
+     <code class="xref py py-mod docutils literal notranslate">
+      <span class="pre">
+       python.sparknlp.annotator.classifier_dl.sentiment_dl
+      </span>
+     </code>
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../../classifier_dl/xlm_roberta_for_sequence_classification/index.html">
+     <code class="xref py py-mod docutils literal notranslate">
+      <span class="pre">
+       python.sparknlp.annotator.classifier_dl.xlm_roberta_for_sequence_classification
+      </span>
+     </code>
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../../classifier_dl/xlm_roberta_for_token_classification/index.html">
+     <code class="xref py py-mod docutils literal notranslate">
+      <span class="pre">
+       python.sparknlp.annotator.classifier_dl.xlm_roberta_for_token_classification
+      </span>
+     </code>
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../../classifier_dl/xlnet_for_sequence_classification/index.html">
+     <code class="xref py py-mod docutils literal notranslate">
+      <span class="pre">
+       python.sparknlp.annotator.classifier_dl.xlnet_for_sequence_classification
+      </span>
+     </code>
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../../classifier_dl/xlnet_for_token_classification/index.html">
+     <code class="xref py py-mod docutils literal notranslate">
+      <span class="pre">
+       python.sparknlp.annotator.classifier_dl.xlnet_for_token_classification
+      </span>
+     </code>
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../../dependency/index.html">
+   <code class="xref py py-mod docutils literal notranslate">
+    <span class="pre">
+     python.sparknlp.annotator.dependency
+    </span>
+   </code>
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/>
+  <label class="toctree-toggle" for="toctree-checkbox-2">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../../dependency/dependency_parser/index.html">
+     <code class="xref py py-mod docutils literal notranslate">
+      <span class="pre">
+       python.sparknlp.annotator.dependency.dependency_parser
+      </span>
+     </code>
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../../dependency/typed_dependency_parser/index.html">
+     <code class="xref py py-mod docutils literal notranslate">
+      <span class="pre">
+       python.sparknlp.annotator.dependency.typed_dependency_parser
+      </span>
+     </code>
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../../embeddings/index.html">
+   <code class="xref py py-mod docutils literal notranslate">
+    <span class="pre">
+     python.sparknlp.annotator.embeddings
+    </span>
+   </code>
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/>
+  <label class="toctree-toggle" for="toctree-checkbox-3">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../../embeddings/albert_embeddings/index.html">
+     <code class="xref py py-mod docutils literal notranslate">
+      <span class="pre">
+       python.sparknlp.annotator.embeddings.albert_embeddings
+      </span>
+     </code>
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../../embeddings/bert_embeddings/index.html">
+     <code class="xref py py-mod docutils literal notranslate">
+      <span class="pre">
+       python.sparknlp.annotator.embeddings.bert_embeddings
+      </span>
+     </code>
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../../embeddings/bert_sentence_embeddings/index.html">
+     <code class="xref py py-mod docutils literal notranslate">
+      <span class="pre">
+       python.sparknlp.annotator.embeddings.bert_sentence_embeddings
+      </span>
+     </code>
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../../embeddings/camembert_embeddings/index.html">
+     <code class="xref py py-mod docutils literal notranslate">
+      <span class="pre">
+       python.sparknlp.annotator.embeddings.camembert_embeddings
+      </span>
+     </code>
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../../embeddings/chunk_embeddings/index.html">
+     <code class="xref py py-mod docutils literal notranslate">
+      <span class="pre">
+       python.sparknlp.annotator.embeddings.chunk_embeddings
+      </span>
+     </code>
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../../embeddings/deberta_embeddings/index.html">
+     <code class="xref py py-mod docutils literal notranslate">
+      <span class="pre">
+       python.sparknlp.annotator.embeddings.deberta_embeddings
+      </span>
+     </code>
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../../embeddings/distil_bert_embeddings/index.html">
+     <code class="xref py py-mod docutils literal notranslate">
+      <span class="pre">
+       python.sparknlp.annotator.embeddings.distil_bert_embeddings
+      </span>
+     </code>
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../../embeddings/doc2vec/index.html">
+     <code class="xref py py-mod docutils literal notranslate">
+      <span class="pre">
+       python.sparknlp.annotator.embeddings.doc2vec
+      </span>
+     </code>
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../../embeddings/elmo_embeddings/index.html">
+     <code class="xref py py-mod docutils literal notranslate">
+      <span class="pre">
+       python.sparknlp.annotator.embeddings.elmo_embeddings
+      </span>
+     </code>
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../../embeddings/longformer_embeddings/index.html">
+     <code class="xref py py-mod docutils literal notranslate">
+      <span class="pre">
+       python.sparknlp.annotator.embeddings.longformer_embeddings
+      </span>
+     </code>
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../../embeddings/roberta_embeddings/index.html">
+     <code class="xref py py-mod docutils literal notranslate">
+      <span class="pre">
+       python.sparknlp.annotator.embeddings.roberta_embeddings
+      </span>
+     </code>
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../../embeddings/roberta_sentence_embeddings/index.html">
+     <code class="xref py py-mod docutils literal notranslate">
+      <span class="pre">
+       python.sparknlp.annotator.embeddings.roberta_sentence_embeddings
+      </span>
+     </code>
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../../embeddings/sentence_embeddings/index.html">
+     <code class="xref py py-mod docutils literal notranslate">
+      <span class="pre">
+       python.sparknlp.annotator.embeddings.sentence_embeddings
+      </span>
+     </code>
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../../embeddings/universal_sentence_encoder/index.html">
+     <code class="xref py py-mod docutils literal notranslate">
+      <span class="pre">
+       python.sparknlp.annotator.embeddings.universal_sentence_encoder
+      </span>
+     </code>
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../../embeddings/word2vec/index.html">
+     <code class="xref py py-mod docutils literal notranslate">
+      <span class="pre">
+       python.sparknlp.annotator.embeddings.word2vec
+      </span>
+     </code>
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../../embeddings/word_embeddings/index.html">
+     <code class="xref py py-mod docutils literal notranslate">
+      <span class="pre">
+       python.sparknlp.annotator.embeddings.word_embeddings
+      </span>
+     </code>
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../../embeddings/xlm_roberta_embeddings/index.html">
+     <code class="xref py py-mod docutils literal notranslate">
+      <span class="pre">
+       python.sparknlp.annotator.embeddings.xlm_roberta_embeddings
+      </span>
+     </code>
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../../embeddings/xlm_roberta_sentence_embeddings/index.html">
+     <code class="xref py py-mod docutils literal notranslate">
+      <span class="pre">
+       python.sparknlp.annotator.embeddings.xlm_roberta_sentence_embeddings
+      </span>
+     </code>
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../../embeddings/xlnet_embeddings/index.html">
+     <code class="xref py py-mod docutils literal notranslate">
+      <span class="pre">
+       python.sparknlp.annotator.embeddings.xlnet_embeddings
+      </span>
+     </code>
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../../er/index.html">
+   <code class="xref py py-mod docutils literal notranslate">
+    <span class="pre">
+     python.sparknlp.annotator.er
+    </span>
+   </code>
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" type="checkbox"/>
+  <label class="toctree-toggle" for="toctree-checkbox-4">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../../er/entity_ruler/index.html">
+     <code class="xref py py-mod docutils literal notranslate">
+      <span class="pre">
+       python.sparknlp.annotator.er.entity_ruler
+      </span>
+     </code>
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../../keyword_extraction/index.html">
+   <code class="xref py py-mod docutils literal notranslate">
+    <span class="pre">
+     python.sparknlp.annotator.keyword_extraction
+    </span>
+   </code>
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" type="checkbox"/>
+  <label class="toctree-toggle" for="toctree-checkbox-5">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../../keyword_extraction/yake_keyword_extraction/index.html">
+     <code class="xref py py-mod docutils literal notranslate">
+      <span class="pre">
+       python.sparknlp.annotator.keyword_extraction.yake_keyword_extraction
+      </span>
+     </code>
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../../ld_dl/index.html">
+   <code class="xref py py-mod docutils literal notranslate">
+    <span class="pre">
+     python.sparknlp.annotator.ld_dl
+    </span>
+   </code>
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-6" name="toctree-checkbox-6" type="checkbox"/>
+  <label class="toctree-toggle" for="toctree-checkbox-6">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../../ld_dl/language_detector_dl/index.html">
+     <code class="xref py py-mod docutils literal notranslate">
+      <span class="pre">
+       python.sparknlp.annotator.ld_dl.language_detector_dl
+      </span>
+     </code>
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../../matcher/index.html">
+   <code class="xref py py-mod docutils literal notranslate">
+    <span class="pre">
+     python.sparknlp.annotator.matcher
+    </span>
+   </code>
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-7" name="toctree-checkbox-7" type="checkbox"/>
+  <label class="toctree-toggle" for="toctree-checkbox-7">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../../matcher/big_text_matcher/index.html">
+     <code class="xref py py-mod docutils literal notranslate">
+      <span class="pre">
+       python.sparknlp.annotator.matcher.big_text_matcher
+      </span>
+     </code>
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../../matcher/date_matcher/index.html">
+     <code class="xref py py-mod docutils literal notranslate">
+      <span class="pre">
+       python.sparknlp.annotator.matcher.date_matcher
+      </span>
+     </code>
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../../matcher/multi_date_matcher/index.html">
+     <code class="xref py py-mod docutils literal notranslate">
+      <span class="pre">
+       python.sparknlp.annotator.matcher.multi_date_matcher
+      </span>
+     </code>
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../../matcher/regex_matcher/index.html">
+     <code class="xref py py-mod docutils literal notranslate">
+      <span class="pre">
+       python.sparknlp.annotator.matcher.regex_matcher
+      </span>
+     </code>
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../../matcher/text_matcher/index.html">
+     <code class="xref py py-mod docutils literal notranslate">
+      <span class="pre">
+       python.sparknlp.annotator.matcher.text_matcher
+      </span>
+     </code>
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../../ner/index.html">
+   <code class="xref py py-mod docutils literal notranslate">
+    <span class="pre">
+     python.sparknlp.annotator.ner
+    </span>
+   </code>
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-8" name="toctree-checkbox-8" type="checkbox"/>
+  <label class="toctree-toggle" for="toctree-checkbox-8">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../../ner/ner_approach/index.html">
+     <code class="xref py py-mod docutils literal notranslate">
+      <span class="pre">
+       python.sparknlp.annotator.ner.ner_approach
+      </span>
+     </code>
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../../ner/ner_converter/index.html">
+     <code class="xref py py-mod docutils literal notranslate">
+      <span class="pre">
+       python.sparknlp.annotator.ner.ner_converter
+      </span>
+     </code>
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../../ner/ner_crf/index.html">
+     <code class="xref py py-mod docutils literal notranslate">
+      <span class="pre">
+       python.sparknlp.annotator.ner.ner_crf
+      </span>
+     </code>
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../../ner/ner_dl/index.html">
+     <code class="xref py py-mod docutils literal notranslate">
+      <span class="pre">
+       python.sparknlp.annotator.ner.ner_dl
+      </span>
+     </code>
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../../ner/ner_overwriter/index.html">
+     <code class="xref py py-mod docutils literal notranslate">
+      <span class="pre">
+       python.sparknlp.annotator.ner.ner_overwriter
+      </span>
+     </code>
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../param/index.html">
+   <code class="xref py py-mod docutils literal notranslate">
+    <span class="pre">
+     python.sparknlp.annotator.param
+    </span>
+   </code>
+  </a>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../../pos/index.html">
+   <code class="xref py py-mod docutils literal notranslate">
+    <span class="pre">
+     python.sparknlp.annotator.pos
+    </span>
+   </code>
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-9" name="toctree-checkbox-9" type="checkbox"/>
+  <label class="toctree-toggle" for="toctree-checkbox-9">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../../pos/perceptron/index.html">
+     <code class="xref py py-mod docutils literal notranslate">
+      <span class="pre">
+       python.sparknlp.annotator.pos.perceptron
+      </span>
+     </code>
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 current active has-children">
+  <a class="reference internal" href="../index.html">
+   <code class="xref py py-mod docutils literal notranslate">
+    <span class="pre">
+     python.sparknlp.annotator.sentence
+    </span>
+   </code>
+  </a>
+  <input checked="" class="toctree-checkbox" id="toctree-checkbox-10" name="toctree-checkbox-10" type="checkbox"/>
+  <label class="toctree-toggle" for="toctree-checkbox-10">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul class="current">
+   <li class="toctree-l2 current active">
+    <a class="current reference internal" href="#">
+     <code class="xref py py-mod docutils literal notranslate">
+      <span class="pre">
+       python.sparknlp.annotator.sentence.sentence_detector
+      </span>
+     </code>
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../sentence_detector_dl/index.html">
+     <code class="xref py py-mod docutils literal notranslate">
+      <span class="pre">
+       python.sparknlp.annotator.sentence.sentence_detector_dl
+      </span>
+     </code>
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../../sentiment/index.html">
+   <code class="xref py py-mod docutils literal notranslate">
+    <span class="pre">
+     python.sparknlp.annotator.sentiment
+    </span>
+   </code>
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-11" name="toctree-checkbox-11" type="checkbox"/>
+  <label class="toctree-toggle" for="toctree-checkbox-11">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../../sentiment/sentiment_detector/index.html">
+     <code class="xref py py-mod docutils literal notranslate">
+      <span class="pre">
+       python.sparknlp.annotator.sentiment.sentiment_detector
+      </span>
+     </code>
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../../sentiment/vivekn_sentiment/index.html">
+     <code class="xref py py-mod docutils literal notranslate">
+      <span class="pre">
+       python.sparknlp.annotator.sentiment.vivekn_sentiment
+      </span>
+     </code>
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../../seq2seq/index.html">
+   <code class="xref py py-mod docutils literal notranslate">
+    <span class="pre">
+     python.sparknlp.annotator.seq2seq
+    </span>
+   </code>
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-12" name="toctree-checkbox-12" type="checkbox"/>
+  <label class="toctree-toggle" for="toctree-checkbox-12">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../../seq2seq/gpt2_transformer/index.html">
+     <code class="xref py py-mod docutils literal notranslate">
+      <span class="pre">
+       python.sparknlp.annotator.seq2seq.gpt2_transformer
+      </span>
+     </code>
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../../seq2seq/marian_transformer/index.html">
+     <code class="xref py py-mod docutils literal notranslate">
+      <span class="pre">
+       python.sparknlp.annotator.seq2seq.marian_transformer
+      </span>
+     </code>
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../../seq2seq/t5_transformer/index.html">
+     <code class="xref py py-mod docutils literal notranslate">
+      <span class="pre">
+       python.sparknlp.annotator.seq2seq.t5_transformer
+      </span>
+     </code>
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../../spell_check/index.html">
+   <code class="xref py py-mod docutils literal notranslate">
+    <span class="pre">
+     python.sparknlp.annotator.spell_check
+    </span>
+   </code>
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-13" name="toctree-checkbox-13" type="checkbox"/>
+  <label class="toctree-toggle" for="toctree-checkbox-13">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../../spell_check/context_spell_checker/index.html">
+     <code class="xref py py-mod docutils literal notranslate">
+      <span class="pre">
+       python.sparknlp.annotator.spell_check.context_spell_checker
+      </span>
+     </code>
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../../spell_check/norvig_sweeting/index.html">
+     <code class="xref py py-mod docutils literal notranslate">
+      <span class="pre">
+       python.sparknlp.annotator.spell_check.norvig_sweeting
+      </span>
+     </code>
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../../spell_check/symmetric_delete/index.html">
+     <code class="xref py py-mod docutils literal notranslate">
+      <span class="pre">
+       python.sparknlp.annotator.spell_check.symmetric_delete
+      </span>
+     </code>
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../../token/index.html">
+   <code class="xref py py-mod docutils literal notranslate">
+    <span class="pre">
+     python.sparknlp.annotator.token
+    </span>
+   </code>
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-14" name="toctree-checkbox-14" type="checkbox"/>
+  <label class="toctree-toggle" for="toctree-checkbox-14">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../../token/chunk_tokenizer/index.html">
+     <code class="xref py py-mod docutils literal notranslate">
+      <span class="pre">
+       python.sparknlp.annotator.token.chunk_tokenizer
+      </span>
+     </code>
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../../token/recursive_tokenizer/index.html">
+     <code class="xref py py-mod docutils literal notranslate">
+      <span class="pre">
+       python.sparknlp.annotator.token.recursive_tokenizer
+      </span>
+     </code>
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../../token/regex_tokenizer/index.html">
+     <code class="xref py py-mod docutils literal notranslate">
+      <span class="pre">
+       python.sparknlp.annotator.token.regex_tokenizer
+      </span>
+     </code>
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../../token/token2_chunk/index.html">
+     <code class="xref py py-mod docutils literal notranslate">
+      <span class="pre">
+       python.sparknlp.annotator.token.token2_chunk
+      </span>
+     </code>
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../../token/tokenizer/index.html">
+     <code class="xref py py-mod docutils literal notranslate">
+      <span class="pre">
+       python.sparknlp.annotator.token.tokenizer
+      </span>
+     </code>
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../../ws/index.html">
+   <code class="xref py py-mod docutils literal notranslate">
+    <span class="pre">
+     python.sparknlp.annotator.ws
+    </span>
+   </code>
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-15" name="toctree-checkbox-15" type="checkbox"/>
+  <label class="toctree-toggle" for="toctree-checkbox-15">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../../ws/word_segmenter/index.html">
+     <code class="xref py py-mod docutils literal notranslate">
+      <span class="pre">
+       python.sparknlp.annotator.ws.word_segmenter
+      </span>
+     </code>
+    </a>
+   </li>
+  </ul>
+ </li>
+</ul>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../chunker/index.html">
+   <code class="xref py py-mod docutils literal notranslate">
+    <span class="pre">
+     python.sparknlp.annotator.chunker
+    </span>
+   </code>
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../document_normalizer/index.html">
+   <code class="xref py py-mod docutils literal notranslate">
+    <span class="pre">
+     python.sparknlp.annotator.document_normalizer
+    </span>
+   </code>
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../graph_extraction/index.html">
+   <code class="xref py py-mod docutils literal notranslate">
+    <span class="pre">
+     python.sparknlp.annotator.graph_extraction
+    </span>
+   </code>
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../lemmatizer/index.html">
+   <code class="xref py py-mod docutils literal notranslate">
+    <span class="pre">
+     python.sparknlp.annotator.lemmatizer
+    </span>
+   </code>
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../n_gram_generator/index.html">
+   <code class="xref py py-mod docutils literal notranslate">
+    <span class="pre">
+     python.sparknlp.annotator.n_gram_generator
+    </span>
+   </code>
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../normalizer/index.html">
+   <code class="xref py py-mod docutils literal notranslate">
+    <span class="pre">
+     python.sparknlp.annotator.normalizer
+    </span>
+   </code>
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../stemmer/index.html">
+   <code class="xref py py-mod docutils literal notranslate">
+    <span class="pre">
+     python.sparknlp.annotator.stemmer
+    </span>
+   </code>
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../stop_words_cleaner/index.html">
+   <code class="xref py py-mod docutils literal notranslate">
+    <span class="pre">
+     python.sparknlp.annotator.stop_words_cleaner
+    </span>
+   </code>
+  </a>
+ </li>
+</ul>
+
+  </div>
+</nav>
+    </div>
+  </div>
+  
+
+  
+  <div class="sidebar-end-items sidebar-primary__section">
+    <div class="sidebar-end-items__item">
+    </div>
+  </div>
+
+      </div>
+      <main class="bd-main">
+        
+        
+        <div class="bd-content">
+          <div class="bd-article-container">
+            
+            <div class="bd-header-article">
+                
+            </div>
+            
+            
+            <article class="bd-article" role="main">
+              
+  <section id="module-python.sparknlp.annotator.sentence.sentence_detector">
+<span id="python-sparknlp-annotator-sentence-sentence-detector"></span><h1><a class="reference internal" href="#module-python.sparknlp.annotator.sentence.sentence_detector" title="python.sparknlp.annotator.sentence.sentence_detector"><code class="xref py py-mod docutils literal notranslate"><span class="pre">python.sparknlp.annotator.sentence.sentence_detector</span></code></a><a class="headerlink" href="#module-python.sparknlp.annotator.sentence.sentence_detector" title="Permalink to this heading">#</a></h1>
+<p>Contains classes for the SentenceDetector.</p>
+<section id="module-contents">
+<h2>Module Contents<a class="headerlink" href="#module-contents" title="Permalink to this heading">#</a></h2>
+<section id="classes">
+<h3>Classes<a class="headerlink" href="#classes" title="Permalink to this heading">#</a></h3>
+<table class="autosummary longtable table autosummary">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#python.sparknlp.annotator.sentence.sentence_detector.SentenceDetectorParams" title="python.sparknlp.annotator.sentence.sentence_detector.SentenceDetectorParams"><code class="xref py py-obj docutils literal notranslate"><span class="pre">SentenceDetectorParams</span></code></a></p></td>
+<td><p>Base class for SentenceDetector parameters</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#python.sparknlp.annotator.sentence.sentence_detector.SentenceDetector" title="python.sparknlp.annotator.sentence.sentence_detector.SentenceDetector"><code class="xref py py-obj docutils literal notranslate"><span class="pre">SentenceDetector</span></code></a></p></td>
+<td><p>Annotator that detects sentence boundaries using regular expressions.</p></td>
+</tr>
+</tbody>
+</table>
+<dl class="py class">
+<dt class="sig sig-object py" id="python.sparknlp.annotator.sentence.sentence_detector.SentenceDetectorParams">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">SentenceDetectorParams</span></span><a class="reference internal" href="../../../../../../../modules/python/sparknlp/annotator/sentence/sentence_detector.html#SentenceDetectorParams"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#python.sparknlp.annotator.sentence.sentence_detector.SentenceDetectorParams" title="Permalink to this definition">#</a></dt>
+<dd><p>Base class for SentenceDetector parameters</p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="python.sparknlp.annotator.sentence.sentence_detector.SentenceDetector">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">SentenceDetector</span></span><a class="reference internal" href="../../../../../../../modules/python/sparknlp/annotator/sentence/sentence_detector.html#SentenceDetector"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#python.sparknlp.annotator.sentence.sentence_detector.SentenceDetector" title="Permalink to this definition">#</a></dt>
+<dd><p>Annotator that detects sentence boundaries using regular expressions.</p>
+<p>The following characters are checked as sentence boundaries:</p>
+<ol class="arabic simple">
+<li><p>Lists (“(i), (ii)”, “(a), (b)”, “1., 2.”)</p></li>
+<li><p>Numbers</p></li>
+<li><p>Abbreviations</p></li>
+<li><p>Punctuations</p></li>
+<li><p>Multiple Periods</p></li>
+<li><p>Geo-Locations/Coordinates (“N°. 1026.253.553.”)</p></li>
+<li><p>Ellipsis (”…”)</p></li>
+<li><p>In-between punctuations</p></li>
+<li><p>Quotation marks</p></li>
+<li><p>Exclamation Points</p></li>
+<li><p>Basic Breakers (“.”, “;”)</p></li>
+</ol>
+<p>For the explicit regular expressions used for detection, refer to source of
+<a class="reference external" href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/main/scala/com/johnsnowlabs/nlp/annotators/sbd/pragmatic/PragmaticContentFormatter.scala">PragmaticContentFormatter</a>.</p>
+<p>To add additional custom bounds, the parameter <code class="docutils literal notranslate"><span class="pre">customBounds</span></code> can be set with an array:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">sentence</span> <span class="o">=</span> <span class="n">SentenceDetector</span><span class="p">()</span> \
+<span class="gp">&gt;&gt;&gt; </span>    <span class="o">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s2">&quot;document&quot;</span><span class="p">])</span> \
+<span class="gp">&gt;&gt;&gt; </span>    <span class="o">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s2">&quot;sentence&quot;</span><span class="p">)</span> \
+<span class="gp">&gt;&gt;&gt; </span>    <span class="o">.</span><span class="n">setCustomBounds</span><span class="p">([</span><span class="s2">&quot;</span><span class="se">\n\n</span><span class="s2">&quot;</span><span class="p">])</span>
+</pre></div>
+</div>
+<p>If only the custom bounds should be used, then the parameter <code class="docutils literal notranslate"><span class="pre">useCustomBoundsOnly</span></code> should be set to <code class="docutils literal notranslate"><span class="pre">true</span></code>.</p>
+<p>Each extracted sentence can be returned in an Array or exploded to separate rows,
+if <code class="docutils literal notranslate"><span class="pre">explodeSentences</span></code> is set to <code class="docutils literal notranslate"><span class="pre">true</span></code>.</p>
+<p>For extended examples of usage, see the <a class="reference external" href="https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Public/2.Text_Preprocessing_with_SparkNLP_Annotators_Transformers.ipynb">Spark NLP Workshop</a>.</p>
+<table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Input Annotation types</p></th>
+<th class="head"><p>Output Annotation type</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">DOCUMENT</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">DOCUMENT</span></code></p></td>
+</tr>
+</tbody>
+</table>
+<dl class="field-list">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl>
+<dt><strong>useAbbreviations</strong></dt><dd><p>whether to apply abbreviations at sentence detection, by default True</p>
+</dd>
+<dt><strong>customBounds</strong></dt><dd><p>characters used to explicitly mark sentence bounds, by default []</p>
+</dd>
+<dt><strong>useCustomBoundsOnly</strong></dt><dd><p>Only utilize custom bounds in sentence detection, by default False</p>
+</dd>
+<dt><strong>customBoundsStrategy</strong></dt><dd><p>Sets how to return matched custom bounds, by default “none”.</p>
+<p>Will have no effect if no custom bounds are used.
+Possible values are:</p>
+<ul class="simple">
+<li><p>“none” - Will not return the matched bound</p></li>
+<li><p>“prepend” - Prepends a sentence break to the match</p></li>
+<li><p>“append” - Appends a sentence break to the match</p></li>
+</ul>
+</dd>
+<dt><strong>explodeSentences</strong></dt><dd><p>whether to explode each sentence into a different row, for better
+parallelization, by default False</p>
+</dd>
+<dt><strong>splitLength</strong></dt><dd><p>length at which sentences will be forcibly split</p>
+</dd>
+<dt><strong>minLength</strong></dt><dd><p>Set the minimum allowed length for each sentence, by default 0</p>
+</dd>
+<dt><strong>maxLength</strong></dt><dd><p>Set the maximum allowed length for each sentence, by default 99999</p>
+</dd>
+<dt><strong>detectLists</strong></dt><dd><p>whether detect lists during sentence detection, by default True</p>
+</dd>
+</dl>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">sparknlp</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">sparknlp.base</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">sparknlp.annotator</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">pyspark.ml</span> <span class="kn">import</span> <span class="n">Pipeline</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">documentAssembler</span> <span class="o">=</span> <span class="n">DocumentAssembler</span><span class="p">()</span> \
+<span class="gp">... </span>    <span class="o">.</span><span class="n">setInputCol</span><span class="p">(</span><span class="s2">&quot;text&quot;</span><span class="p">)</span> \
+<span class="gp">... </span>    <span class="o">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s2">&quot;document&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">sentence</span> <span class="o">=</span> <span class="n">SentenceDetector</span><span class="p">()</span> \
+<span class="gp">... </span>    <span class="o">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s2">&quot;document&quot;</span><span class="p">])</span> \
+<span class="gp">... </span>    <span class="o">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s2">&quot;sentence&quot;</span><span class="p">)</span>
+<span class="gp">... </span>    <span class="o">.</span><span class="n">setCustomBounds</span><span class="p">([</span><span class="s2">&quot;</span><span class="se">\n\n</span><span class="s2">&quot;</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">pipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">()</span><span class="o">.</span><span class="n">setStages</span><span class="p">([</span>
+<span class="gp">... </span>    <span class="n">documentAssembler</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="n">sentence</span>
+<span class="gp">... </span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">data</span> <span class="o">=</span> <span class="n">spark</span><span class="o">.</span><span class="n">createDataFrame</span><span class="p">([[</span><span class="s2">&quot;This is my first sentence. This my second.</span><span class="se">\n\n</span><span class="s2">How about a third?&quot;</span><span class="p">]])</span><span class="o">.</span><span class="n">toDF</span><span class="p">(</span><span class="s2">&quot;text&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">result</span> <span class="o">=</span> <span class="n">pipeline</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">data</span><span class="p">)</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">result</span><span class="o">.</span><span class="n">selectExpr</span><span class="p">(</span><span class="s2">&quot;explode(sentence) as sentences&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="n">truncate</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="go">+------------------------------------------------------------------+</span>
+<span class="go">|sentences                                                         |</span>
+<span class="go">+------------------------------------------------------------------+</span>
+<span class="go">|[document, 0, 25, This is my first sentence., [sentence -&gt; 0], []]|</span>
+<span class="go">|[document, 27, 41, This my second., [sentence -&gt; 1], []]          |</span>
+<span class="go">|[document, 43, 60, How about a third?, [sentence -&gt; 2], []]       |</span>
+<span class="go">+------------------------------------------------------------------+</span>
+</pre></div>
+</div>
+<dl class="py method">
+<dt class="sig sig-object py" id="python.sparknlp.annotator.sentence.sentence_detector.SentenceDetector.setCustomBounds">
+<span class="sig-name descname"><span class="pre">setCustomBounds</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../../modules/python/sparknlp/annotator/sentence/sentence_detector.html#SentenceDetector.setCustomBounds"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#python.sparknlp.annotator.sentence.sentence_detector.SentenceDetector.setCustomBounds" title="Permalink to this definition">#</a></dt>
+<dd><p>Sets characters used to explicitly mark sentence bounds, by default
+[].</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>value</strong><span class="classifier">List[str]</span></dt><dd><p>Characters used to explicitly mark sentence bounds</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="python.sparknlp.annotator.sentence.sentence_detector.SentenceDetector.setCustomBoundsStrategy">
+<span class="sig-name descname"><span class="pre">setCustomBoundsStrategy</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../../modules/python/sparknlp/annotator/sentence/sentence_detector.html#SentenceDetector.setCustomBoundsStrategy"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#python.sparknlp.annotator.sentence.sentence_detector.SentenceDetector.setCustomBoundsStrategy" title="Permalink to this definition">#</a></dt>
+<dd><p>Sets how to return matched custom bounds, by default “none”.</p>
+<p>Will have no effect if no custom bounds are used.
+Possible values are:</p>
+<ul class="simple">
+<li><p>“none” - Will not return the matched bound</p></li>
+<li><p>“prepend” - Prepends a sentence break to the match</p></li>
+<li><p>“append” - Appends a sentence break to the match</p></li>
+</ul>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>value</strong><span class="classifier">str</span></dt><dd><p>Strategy to use</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="python.sparknlp.annotator.sentence.sentence_detector.SentenceDetector.setUseAbbreviations">
+<span class="sig-name descname"><span class="pre">setUseAbbreviations</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../../modules/python/sparknlp/annotator/sentence/sentence_detector.html#SentenceDetector.setUseAbbreviations"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#python.sparknlp.annotator.sentence.sentence_detector.SentenceDetector.setUseAbbreviations" title="Permalink to this definition">#</a></dt>
+<dd><p>Sets whether to apply abbreviations at sentence detection, by default
+True</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>value</strong><span class="classifier">bool</span></dt><dd><p>Whether to apply abbreviations at sentence detection</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="python.sparknlp.annotator.sentence.sentence_detector.SentenceDetector.setDetectLists">
+<span class="sig-name descname"><span class="pre">setDetectLists</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../../modules/python/sparknlp/annotator/sentence/sentence_detector.html#SentenceDetector.setDetectLists"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#python.sparknlp.annotator.sentence.sentence_detector.SentenceDetector.setDetectLists" title="Permalink to this definition">#</a></dt>
+<dd><p>Sets whether detect lists during sentence detection, by default True</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>value</strong><span class="classifier">bool</span></dt><dd><p>Whether detect lists during sentence detection</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="python.sparknlp.annotator.sentence.sentence_detector.SentenceDetector.setUseCustomBoundsOnly">
+<span class="sig-name descname"><span class="pre">setUseCustomBoundsOnly</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../../modules/python/sparknlp/annotator/sentence/sentence_detector.html#SentenceDetector.setUseCustomBoundsOnly"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#python.sparknlp.annotator.sentence.sentence_detector.SentenceDetector.setUseCustomBoundsOnly" title="Permalink to this definition">#</a></dt>
+<dd><p>Sets whether to only utilize custom bounds in sentence detection, by
+default False.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>value</strong><span class="classifier">bool</span></dt><dd><p>Whether to only utilize custom bounds</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="python.sparknlp.annotator.sentence.sentence_detector.SentenceDetector.setExplodeSentences">
+<span class="sig-name descname"><span class="pre">setExplodeSentences</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../../modules/python/sparknlp/annotator/sentence/sentence_detector.html#SentenceDetector.setExplodeSentences"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#python.sparknlp.annotator.sentence.sentence_detector.SentenceDetector.setExplodeSentences" title="Permalink to this definition">#</a></dt>
+<dd><p>Sets whether to explode each sentence into a different row, for
+better parallelization, by default False.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>value</strong><span class="classifier">bool</span></dt><dd><p>Whether to explode each sentence into a different row</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="python.sparknlp.annotator.sentence.sentence_detector.SentenceDetector.setSplitLength">
+<span class="sig-name descname"><span class="pre">setSplitLength</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../../modules/python/sparknlp/annotator/sentence/sentence_detector.html#SentenceDetector.setSplitLength"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#python.sparknlp.annotator.sentence.sentence_detector.SentenceDetector.setSplitLength" title="Permalink to this definition">#</a></dt>
+<dd><p>Sets length at which sentences will be forcibly split.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>value</strong><span class="classifier">int</span></dt><dd><p>Length at which sentences will be forcibly split.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="python.sparknlp.annotator.sentence.sentence_detector.SentenceDetector.setMinLength">
+<span class="sig-name descname"><span class="pre">setMinLength</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../../modules/python/sparknlp/annotator/sentence/sentence_detector.html#SentenceDetector.setMinLength"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#python.sparknlp.annotator.sentence.sentence_detector.SentenceDetector.setMinLength" title="Permalink to this definition">#</a></dt>
+<dd><p>Sets minimum allowed length for each sentence, by default 0</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>value</strong><span class="classifier">int</span></dt><dd><p>Minimum allowed length for each sentence</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="python.sparknlp.annotator.sentence.sentence_detector.SentenceDetector.setMaxLength">
+<span class="sig-name descname"><span class="pre">setMaxLength</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../../modules/python/sparknlp/annotator/sentence/sentence_detector.html#SentenceDetector.setMaxLength"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#python.sparknlp.annotator.sentence.sentence_detector.SentenceDetector.setMaxLength" title="Permalink to this definition">#</a></dt>
+<dd><p>Sets the maximum allowed length for each sentence, by default
+99999</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>value</strong><span class="classifier">int</span></dt><dd><p>Maximum allowed length for each sentence</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+</section>
+</section>
+
+
+            </article>
+            
+            
+            
+            <footer class="bd-footer-article">
+                <!-- Previous / next buttons -->
+<div class='prev-next-area'>
+</div>
+            </footer>
+            
+          </div>
+          
+          
+          
+            <div class="bd-sidebar-secondary bd-toc">
+              
+<div class="toc-item">
+  
+<div class="tocsection onthispage">
+    <i class="fas fa-list"></i> On this page
+</div>
+<nav id="bd-toc-nav" class="page-toc">
+    <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#module-contents">
+   Module Contents
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#classes">
+     Classes
+    </a>
+    <ul class="nav section-nav flex-column">
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#python.sparknlp.annotator.sentence.sentence_detector.SentenceDetectorParams">
+       <code class="docutils literal notranslate">
+        <span class="pre">
+         SentenceDetectorParams
+        </span>
+       </code>
+      </a>
+     </li>
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#python.sparknlp.annotator.sentence.sentence_detector.SentenceDetector">
+       <code class="docutils literal notranslate">
+        <span class="pre">
+         SentenceDetector
+        </span>
+       </code>
+      </a>
+      <ul class="nav section-nav flex-column">
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#python.sparknlp.annotator.sentence.sentence_detector.SentenceDetector.setCustomBounds">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           SentenceDetector.setCustomBounds()
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#python.sparknlp.annotator.sentence.sentence_detector.SentenceDetector.setCustomBoundsStrategy">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           SentenceDetector.setCustomBoundsStrategy()
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#python.sparknlp.annotator.sentence.sentence_detector.SentenceDetector.setUseAbbreviations">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           SentenceDetector.setUseAbbreviations()
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#python.sparknlp.annotator.sentence.sentence_detector.SentenceDetector.setDetectLists">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           SentenceDetector.setDetectLists()
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#python.sparknlp.annotator.sentence.sentence_detector.SentenceDetector.setUseCustomBoundsOnly">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           SentenceDetector.setUseCustomBoundsOnly()
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#python.sparknlp.annotator.sentence.sentence_detector.SentenceDetector.setExplodeSentences">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           SentenceDetector.setExplodeSentences()
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#python.sparknlp.annotator.sentence.sentence_detector.SentenceDetector.setSplitLength">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           SentenceDetector.setSplitLength()
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#python.sparknlp.annotator.sentence.sentence_detector.SentenceDetector.setMinLength">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           SentenceDetector.setMinLength()
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#python.sparknlp.annotator.sentence.sentence_detector.SentenceDetector.setMaxLength">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           SentenceDetector.setMaxLength()
+          </span>
+         </code>
+        </a>
+       </li>
+      </ul>
+     </li>
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#python.sparknlp.annotator.sentence.sentence_detector.SentenceDetectorParams">
+       SentenceDetectorParams
+      </a>
+     </li>
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#python.sparknlp.annotator.sentence.sentence_detector.SentenceDetector">
+       SentenceDetector
+      </a>
+      <ul class="nav section-nav flex-column">
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#python.sparknlp.annotator.sentence.sentence_detector.SentenceDetector.setCustomBounds">
+         setCustomBounds
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#python.sparknlp.annotator.sentence.sentence_detector.SentenceDetector.setCustomBoundsStrategy">
+         setCustomBoundsStrategy
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#python.sparknlp.annotator.sentence.sentence_detector.SentenceDetector.setUseAbbreviations">
+         setUseAbbreviations
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#python.sparknlp.annotator.sentence.sentence_detector.SentenceDetector.setDetectLists">
+         setDetectLists
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#python.sparknlp.annotator.sentence.sentence_detector.SentenceDetector.setUseCustomBoundsOnly">
+         setUseCustomBoundsOnly
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#python.sparknlp.annotator.sentence.sentence_detector.SentenceDetector.setExplodeSentences">
+         setExplodeSentences
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#python.sparknlp.annotator.sentence.sentence_detector.SentenceDetector.setSplitLength">
+         setSplitLength
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#python.sparknlp.annotator.sentence.sentence_detector.SentenceDetector.setMinLength">
+         setMinLength
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#python.sparknlp.annotator.sentence.sentence_detector.SentenceDetector.setMaxLength">
+         setMaxLength
+        </a>
+       </li>
+      </ul>
+     </li>
+    </ul>
+   </li>
+  </ul>
+ </li>
+</ul>
+
+</nav>
+</div>
+
+<div class="toc-item">
+  
+</div>
+
+<div class="toc-item">
+  
+<div class="tocsection sourcelink">
+    <a href="../../../../../../../_sources/reference/autosummary/python/sparknlp/annotator/sentence/sentence_detector/index.rst.txt">
+        <i class="fas fa-file-alt"></i> Show Source
+    </a>
+</div>
+
+</div>
+
+            </div>
+          
+          
+        </div>
+        <footer class="bd-footer-content">
+          <div class="bd-footer-content__inner">
+            
+          </div>
+        </footer>
+        
+      </main>
+    </div>
+  </div>
+
+  
+    
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../../../../../../../static/scripts/pydata-sphinx-theme.js?digest=9b1a4fa89bdd0e95b23b"></script>
+
+  <footer class="bd-footer"><div class="bd-footer__inner container">
+  
+  <div class="footer-item">
+    
+<p class="copyright">
+
+    &copy; Copyright 2022, John Snow Labs.<br>
+
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+<p class="sphinx-version">
+Created using <a href="http://sphinx-doc.org/">Sphinx</a> 5.2.0.post0.<br>
+</p>
+
+  </div>
+  
+</div>
+  </footer>
+  </body>
+</html>

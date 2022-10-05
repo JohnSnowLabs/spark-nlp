@@ -36,6 +36,7 @@
     <script src="../../../../../../static/underscore.js"></script>
     <script src="../../../../../../static/_sphinx_javascript_frameworks_compat.js"></script>
     <script src="../../../../../../static/doctools.js"></script>
+    <script src="../../../../../../static/sphinx_highlight.js"></script>
     <script src="../../../../../../static/toggleprompt.js"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'reference/autosummary/sparknlp_jsl/annotator/classification/document_log_classifier/index';</script>
     <link rel="shortcut icon" href="../../../../../../static/fav.ico"/>
@@ -447,6 +448,15 @@
      <code class="xref py py-mod docutils literal notranslate">
       <span class="pre">
        sparknlp_jsl.annotator.deid.deIdentification
+      </span>
+     </code>
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../../deid/doccument_hashcoder/index.html">
+     <code class="xref py py-mod docutils literal notranslate">
+      <span class="pre">
+       sparknlp_jsl.annotator.deid.doccument_hashcoder
       </span>
      </code>
     </a>
@@ -1243,6 +1253,244 @@ text and their label. The result is a trained GenericClassifierModel.</p>
     <ul class="nav section-nav flex-column">
      <li class="toc-h4 nav-item toc-entry">
       <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.classification.document_log_classifier.DocumentLogRegClassifierApproach">
+       <code class="docutils literal notranslate">
+        <span class="pre">
+         DocumentLogRegClassifierApproach
+        </span>
+       </code>
+      </a>
+      <ul class="nav section-nav flex-column">
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.classification.document_log_classifier.DocumentLogRegClassifierApproach.labelCol">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           DocumentLogRegClassifierApproach.labelCol
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.classification.document_log_classifier.DocumentLogRegClassifierApproach.maxIter">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           DocumentLogRegClassifierApproach.maxIter
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.classification.document_log_classifier.DocumentLogRegClassifierApproach.tol">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           DocumentLogRegClassifierApproach.tol
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.classification.document_log_classifier.DocumentLogRegClassifierApproach.fitIntercept">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           DocumentLogRegClassifierApproach.fitIntercept
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.classification.document_log_classifier.DocumentLogRegClassifierApproach.labels">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           DocumentLogRegClassifierApproach.labels
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.classification.document_log_classifier.DocumentLogRegClassifierApproach.vectorizationModelPath">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           DocumentLogRegClassifierApproach.vectorizationModelPath
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.classification.document_log_classifier.DocumentLogRegClassifierApproach.classificationModelPath">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           DocumentLogRegClassifierApproach.classificationModelPath
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.classification.document_log_classifier.DocumentLogRegClassifierApproach.setLabelColumn">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           DocumentLogRegClassifierApproach.setLabelColumn()
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.classification.document_log_classifier.DocumentLogRegClassifierApproach.setMaxIter">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           DocumentLogRegClassifierApproach.setMaxIter()
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.classification.document_log_classifier.DocumentLogRegClassifierApproach.setTol">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           DocumentLogRegClassifierApproach.setTol()
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.classification.document_log_classifier.DocumentLogRegClassifierApproach.setFitIntercept">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           DocumentLogRegClassifierApproach.setFitIntercept()
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.classification.document_log_classifier.DocumentLogRegClassifierApproach.setVectorizationModelPath">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           DocumentLogRegClassifierApproach.setVectorizationModelPath()
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.classification.document_log_classifier.DocumentLogRegClassifierApproach.setClassificationModelPath">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           DocumentLogRegClassifierApproach.setClassificationModelPath()
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.classification.document_log_classifier.DocumentLogRegClassifierApproach.setLabels">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           DocumentLogRegClassifierApproach.setLabels()
+          </span>
+         </code>
+        </a>
+       </li>
+      </ul>
+     </li>
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.classification.document_log_classifier.DocumentLogRegClassifierModel">
+       <code class="docutils literal notranslate">
+        <span class="pre">
+         DocumentLogRegClassifierModel
+        </span>
+       </code>
+      </a>
+      <ul class="nav section-nav flex-column">
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.classification.document_log_classifier.DocumentLogRegClassifierModel.name">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           DocumentLogRegClassifierModel.name
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.classification.document_log_classifier.DocumentLogRegClassifierModel.vectorizationModel">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           DocumentLogRegClassifierModel.vectorizationModel
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.classification.document_log_classifier.DocumentLogRegClassifierModel.classificationModel">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           DocumentLogRegClassifierModel.classificationModel
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.classification.document_log_classifier.DocumentLogRegClassifierModel.labels">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           DocumentLogRegClassifierModel.labels
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.classification.document_log_classifier.DocumentLogRegClassifierModel.mergeChunks">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           DocumentLogRegClassifierModel.mergeChunks
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.classification.document_log_classifier.DocumentLogRegClassifierModel.setLabels">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           DocumentLogRegClassifierModel.setLabels()
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.classification.document_log_classifier.DocumentLogRegClassifierModel.setMergeChunks">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           DocumentLogRegClassifierModel.setMergeChunks()
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.classification.document_log_classifier.DocumentLogRegClassifierModel.setVectorizationModel">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           DocumentLogRegClassifierModel.setVectorizationModel()
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.classification.document_log_classifier.DocumentLogRegClassifierModel.setClassificationModel">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           DocumentLogRegClassifierModel.setClassificationModel()
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.classification.document_log_classifier.DocumentLogRegClassifierModel.pretrained">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           DocumentLogRegClassifierModel.pretrained()
+          </span>
+         </code>
+        </a>
+       </li>
+      </ul>
+     </li>
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.classification.document_log_classifier.DocumentLogRegClassifierApproach">
        DocumentLogRegClassifierApproach
       </a>
       <ul class="nav section-nav flex-column">
@@ -1432,7 +1680,7 @@ text and their label. The result is a trained GenericClassifierModel.</p>
   <div class="footer-item">
     
 <p class="sphinx-version">
-Created using <a href="http://sphinx-doc.org/">Sphinx</a> 5.1.1.<br>
+Created using <a href="http://sphinx-doc.org/">Sphinx</a> 5.2.3.<br>
 </p>
 
   </div>

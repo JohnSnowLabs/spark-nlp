@@ -35,25 +35,24 @@ This model allows you to, given a Ticker, get information about that company, in
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
 ```python
-from johnsnowlabs.extensions.finance.chunk_classification.resolution import ChunkMapperModel
 
-document_assembler = DocumentAssembler()\
+document_assembler = nlp.DocumentAssembler()\
       .setInputCol('text')\
       .setOutputCol('document')
 
-tokenizer = Tokenizer()\
+tokenizer = nlp.Tokenizer()\
       .setInputCols("document")\
       .setOutputCol("token")
 
-tokenClassifier = RoBertaForTokenClassification.pretrained("finner_roberta_ticker", "en", "finance/models")\
+tokenClassifier = nlp.RoBertaForTokenClassification.pretrained("finner_roberta_ticker", "en", "finance/models")\
   .setInputCols(["document",'token'])\
   .setOutputCol("ner")
 
-ner_converter = NerConverter()\
+ner_converter = nlp.NerConverter()\
       .setInputCols(["document", "token", "ner"])\
       .setOutputCol("ner_chunk")
 
-CM = ChunkMapperModel()\
+CM = finance.ChunkMapperModel()\
       .pretrained('finmapper_nasdaq_companyname', 'en', 'finance/models')\
       .setInputCols(["ner_chunk"])\
       .setOutputCol("mappings")\
@@ -61,9 +60,8 @@ CM = ChunkMapperModel()\
 
 pipeline = Pipeline().setStages([document_assembler,
                                  tokenizer, 
-                                 embeddings,
-                                 ner_model, 
-                                 ner_converter, 
+                                 tokenClassifier,
+                                 ner_converter,  
                                  CM])
 
 text = ["""There are some serious purchases and sales of AMZN stock today."""]

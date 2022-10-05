@@ -36,6 +36,7 @@
     <script src="../../../../../../static/underscore.js"></script>
     <script src="../../../../../../static/_sphinx_javascript_frameworks_compat.js"></script>
     <script src="../../../../../../static/doctools.js"></script>
+    <script src="../../../../../../static/sphinx_highlight.js"></script>
     <script src="../../../../../../static/toggleprompt.js"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'reference/autosummary/sparknlp_jsl/annotator/merge/chunker_merge/index';</script>
     <link rel="shortcut icon" href="../../../../../../static/fav.ico"/>
@@ -447,6 +448,15 @@
      <code class="xref py py-mod docutils literal notranslate">
       <span class="pre">
        sparknlp_jsl.annotator.deid.deIdentification
+      </span>
+     </code>
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../../deid/doccument_hashcoder/index.html">
+     <code class="xref py py-mod docutils literal notranslate">
+      <span class="pre">
+       sparknlp_jsl.annotator.deid.doccument_hashcoder
       </span>
      </code>
     </a>
@@ -1189,6 +1199,208 @@ Labels can be changed by setReplaceDictResource.</p>
     <ul class="nav section-nav flex-column">
      <li class="toc-h4 nav-item toc-entry">
       <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.merge.chunker_merge.ChunkMergeApproach">
+       <code class="docutils literal notranslate">
+        <span class="pre">
+         ChunkMergeApproach
+        </span>
+       </code>
+      </a>
+      <ul class="nav section-nav flex-column">
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.merge.chunker_merge.ChunkMergeApproach.name">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           ChunkMergeApproach.name
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.merge.chunker_merge.ChunkMergeApproach.mergeOverlapping">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           ChunkMergeApproach.mergeOverlapping
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.merge.chunker_merge.ChunkMergeApproach.falsePositivesResource">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           ChunkMergeApproach.falsePositivesResource
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.merge.chunker_merge.ChunkMergeApproach.replaceDictResource">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           ChunkMergeApproach.replaceDictResource
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.merge.chunker_merge.ChunkMergeApproach.chunkPrecedence">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           ChunkMergeApproach.chunkPrecedence
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.merge.chunker_merge.ChunkMergeApproach.blackList">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           ChunkMergeApproach.blackList
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.merge.chunker_merge.ChunkMergeApproach.setMergeOverlapping">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           ChunkMergeApproach.setMergeOverlapping()
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.merge.chunker_merge.ChunkMergeApproach.setFalsePositivesResource">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           ChunkMergeApproach.setFalsePositivesResource()
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.merge.chunker_merge.ChunkMergeApproach.setReplaceDictResource">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           ChunkMergeApproach.setReplaceDictResource()
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.merge.chunker_merge.ChunkMergeApproach.setChunkPrecedence">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           ChunkMergeApproach.setChunkPrecedence()
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.merge.chunker_merge.ChunkMergeApproach.setBlackList">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           ChunkMergeApproach.setBlackList()
+          </span>
+         </code>
+        </a>
+       </li>
+      </ul>
+     </li>
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.merge.chunker_merge.ChunkMergeModel">
+       <code class="docutils literal notranslate">
+        <span class="pre">
+         ChunkMergeModel
+        </span>
+       </code>
+      </a>
+      <ul class="nav section-nav flex-column">
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.merge.chunker_merge.ChunkMergeModel.name">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           ChunkMergeModel.name
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.merge.chunker_merge.ChunkMergeModel.mergeOverlapping">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           ChunkMergeModel.mergeOverlapping
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.merge.chunker_merge.ChunkMergeModel.falsePositives">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           ChunkMergeModel.falsePositives
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.merge.chunker_merge.ChunkMergeModel.replaceDict">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           ChunkMergeModel.replaceDict
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.merge.chunker_merge.ChunkMergeModel.chunkPrecedence">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           ChunkMergeModel.chunkPrecedence
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.merge.chunker_merge.ChunkMergeModel.blackList">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           ChunkMergeModel.blackList
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.merge.chunker_merge.ChunkMergeModel.setMergeOverlapping">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           ChunkMergeModel.setMergeOverlapping()
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.merge.chunker_merge.ChunkMergeModel.setChunkPrecedence">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           ChunkMergeModel.setChunkPrecedence()
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.merge.chunker_merge.ChunkMergeModel.pretrained">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           ChunkMergeModel.pretrained()
+          </span>
+         </code>
+        </a>
+       </li>
+      </ul>
+     </li>
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.merge.chunker_merge.ChunkMergeApproach">
        ChunkMergeApproach
       </a>
       <ul class="nav section-nav flex-column">
@@ -1358,7 +1570,7 @@ Labels can be changed by setReplaceDictResource.</p>
   <div class="footer-item">
     
 <p class="sphinx-version">
-Created using <a href="http://sphinx-doc.org/">Sphinx</a> 5.1.1.<br>
+Created using <a href="http://sphinx-doc.org/">Sphinx</a> 5.2.3.<br>
 </p>
 
   </div>

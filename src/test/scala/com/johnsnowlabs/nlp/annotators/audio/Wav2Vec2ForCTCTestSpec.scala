@@ -17,6 +17,9 @@
 package com.johnsnowlabs.nlp.annotators.audio
 
 import com.johnsnowlabs.nlp.AudioAssembler
+import com.johnsnowlabs.nlp.annotator.Tokenizer
+import com.johnsnowlabs.nlp.base.DocumentAssembler
+import com.johnsnowlabs.nlp.pretrained.PretrainedPipeline
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
 import com.johnsnowlabs.tags.SlowTest
 import com.johnsnowlabs.util.Benchmark
@@ -70,6 +73,39 @@ class Wav2Vec2ForCTCTestSpec extends AnyFlatSpec {
 
   }
 
+  "Wav2Vec2ForCTC" should "correctly work with Tokenizer" taggedAs SlowTest in {
+
+    val speechToText: Wav2Vec2ForCTC = Wav2Vec2ForCTC
+      .pretrained()
+      .setInputCols("audio_assembler")
+      .setOutputCol("document")
+
+    val token = new Tokenizer()
+      .setInputCols("document")
+      .setOutputCol("token")
+
+    val pipeline: Pipeline =
+      new Pipeline().setStages(Array(audioAssembler, speechToText, token))
+
+    val bufferedSource =
+      scala.io.Source.fromFile("src/test/resources/audio/csv/audi_floats.csv")
+
+    val rawFloats = bufferedSource
+      .getLines()
+      .map(_.split(",").head.trim.toFloat)
+      .toArray
+    bufferedSource.close
+
+    val processedAudioFloats = Seq(rawFloats).toDF("audio_content")
+    processedAudioFloats.printSchema()
+
+    val pipelineDF = pipeline.fit(processedAudioFloats).transform(processedAudioFloats)
+
+    pipelineDF.select("document").show(10, false)
+    pipelineDF.select("token").show(10, false)
+
+  }
+
   "Wav2Vec2ForCTC" should "be serializable" taggedAs SlowTest in {
 
     val speechToText: Wav2Vec2ForCTC = Wav2Vec2ForCTC
@@ -97,7 +133,7 @@ class Wav2Vec2ForCTCTestSpec extends AnyFlatSpec {
 
   }
 
-  "ViTForImageClassification" should "benchmark" taggedAs SlowTest in {
+  "Wav2Vec2ForCTC" should "benchmark" taggedAs SlowTest in {
 
     val speechToText: Wav2Vec2ForCTC = Wav2Vec2ForCTC
       .pretrained()
@@ -122,6 +158,15 @@ class Wav2Vec2ForCTCTestSpec extends AnyFlatSpec {
         pipelineDF.select("text").count()
       }
     })
+  }
+
+  "Wav2Vec2ForCTC" should "pretrained pipeline" taggedAs SlowTest in {
+
+    val pipelineModel = PretrainedPipeline("pipeline_asr_wav2vec2_base_960h")
+
+    val pipelineDF = pipelineModel.transform(processedAudioFloats)
+    pipelineDF.show()
+
   }
 
 }

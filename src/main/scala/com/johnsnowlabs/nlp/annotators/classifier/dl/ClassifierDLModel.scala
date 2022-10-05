@@ -199,7 +199,7 @@ class ClassifierDLModel(override val uid: String)
       val encoder = new ClassifierDatasetEncoder(datasetParams.get.get)
 
       _model = Some(
-        spark.sparkContext.broadcast(new TensorflowClassifier(tf, encoder, Verbose.Silent)))
+        spark.sparkContext.broadcast(new TensorflowClassifier(tf, encoder, None, Verbose.Silent)))
     }
     this
   }

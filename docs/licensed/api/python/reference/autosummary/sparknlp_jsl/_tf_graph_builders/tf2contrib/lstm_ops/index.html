@@ -36,6 +36,7 @@
     <script src="../../../../../../static/underscore.js"></script>
     <script src="../../../../../../static/_sphinx_javascript_frameworks_compat.js"></script>
     <script src="../../../../../../static/doctools.js"></script>
+    <script src="../../../../../../static/sphinx_highlight.js"></script>
     <script src="../../../../../../static/toggleprompt.js"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'reference/autosummary/sparknlp_jsl/_tf_graph_builders/tf2contrib/lstm_ops/index';</script>
     <link rel="shortcut icon" href="../../../../../../static/fav.ico"/>
@@ -366,20 +367,6 @@ reduce the scale of forgetting in the beginning of the training.</p>
 faster.  The weight and bias matrices should be compatible as long as the
 variable scope matches.</p>
 <dl class="py method">
-<dt class="sig sig-object py" id="sparknlp_jsl._tf_graph_builders.tf2contrib.lstm_ops.LSTMBlockCell.state_size">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">state_size</span></span><a class="reference internal" href="../../../../../../modules/sparknlp_jsl/_tf_graph_builders/tf2contrib/lstm_ops.html#LSTMBlockCell.state_size"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl._tf_graph_builders.tf2contrib.lstm_ops.LSTMBlockCell.state_size" title="Permalink to this definition">#</a></dt>
-<dd><p>size(s) of state(s) used by this cell.</p>
-<p>It can be represented by an Integer, a TensorShape or a tuple of Integers
-or TensorShapes.</p>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="sparknlp_jsl._tf_graph_builders.tf2contrib.lstm_ops.LSTMBlockCell.output_size">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">output_size</span></span><a class="reference internal" href="../../../../../../modules/sparknlp_jsl/_tf_graph_builders/tf2contrib/lstm_ops.html#LSTMBlockCell.output_size"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl._tf_graph_builders.tf2contrib.lstm_ops.LSTMBlockCell.output_size" title="Permalink to this definition">#</a></dt>
-<dd><p>Integer or TensorShape: size of outputs produced by this cell.</p>
-</dd></dl>
-
-<dl class="py method">
 <dt class="sig sig-object py" id="sparknlp_jsl._tf_graph_builders.tf2contrib.lstm_ops.LSTMBlockCell.build">
 <span class="sig-name descname"><span class="pre">build</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">inputs_shape</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../modules/sparknlp_jsl/_tf_graph_builders/tf2contrib/lstm_ops.html#LSTMBlockCell.build"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl._tf_graph_builders.tf2contrib.lstm_ops.LSTMBlockCell.build" title="Permalink to this definition">#</a></dt>
 <dd><p>Creates the variables of the layer (optional, for subclass implementers).</p>
@@ -465,12 +452,6 @@ LSTMBlockCell defined above.</p>
 reduce the scale of forgetting in the beginning of the training.</p>
 <p>The variable naming is consistent with <cite>rnn_cell_impl.LSTMCell</cite>.</p>
 <dl class="py method">
-<dt class="sig sig-object py" id="sparknlp_jsl._tf_graph_builders.tf2contrib.lstm_ops.LSTMBlockFusedCell.num_units">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">num_units</span></span><a class="reference internal" href="../../../../../../modules/sparknlp_jsl/_tf_graph_builders/tf2contrib/lstm_ops.html#LSTMBlockFusedCell.num_units"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl._tf_graph_builders.tf2contrib.lstm_ops.LSTMBlockFusedCell.num_units" title="Permalink to this definition">#</a></dt>
-<dd><p>Number of units in this cell (output dimension).</p>
-</dd></dl>
-
-<dl class="py method">
 <dt class="sig sig-object py" id="sparknlp_jsl._tf_graph_builders.tf2contrib.lstm_ops.LSTMBlockFusedCell.build">
 <span class="sig-name descname"><span class="pre">build</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">input_shape</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../modules/sparknlp_jsl/_tf_graph_builders/tf2contrib/lstm_ops.html#LSTMBlockFusedCell.build"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl._tf_graph_builders.tf2contrib.lstm_ops.LSTMBlockFusedCell.build" title="Permalink to this definition">#</a></dt>
 <dd><p>Creates the variables of the layer (optional, for subclass implementers).</p>
@@ -535,6 +516,93 @@ layer instantiation and layer call.</p>
     <ul class="nav section-nav flex-column">
      <li class="toc-h4 nav-item toc-entry">
       <a class="reference internal nav-link" href="#sparknlp_jsl._tf_graph_builders.tf2contrib.lstm_ops.LayerRNNCell">
+       <code class="docutils literal notranslate">
+        <span class="pre">
+         LayerRNNCell
+        </span>
+       </code>
+      </a>
+     </li>
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#sparknlp_jsl._tf_graph_builders.tf2contrib.lstm_ops.LSTMBlockCell">
+       <code class="docutils literal notranslate">
+        <span class="pre">
+         LSTMBlockCell
+        </span>
+       </code>
+      </a>
+      <ul class="nav section-nav flex-column">
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl._tf_graph_builders.tf2contrib.lstm_ops.LSTMBlockCell.build">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           LSTMBlockCell.build()
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl._tf_graph_builders.tf2contrib.lstm_ops.LSTMBlockCell.call">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           LSTMBlockCell.call()
+          </span>
+         </code>
+        </a>
+       </li>
+      </ul>
+     </li>
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#sparknlp_jsl._tf_graph_builders.tf2contrib.lstm_ops.LSTMBlockWrapper">
+       <code class="docutils literal notranslate">
+        <span class="pre">
+         LSTMBlockWrapper
+        </span>
+       </code>
+      </a>
+      <ul class="nav section-nav flex-column">
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl._tf_graph_builders.tf2contrib.lstm_ops.LSTMBlockWrapper.num_units">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           LSTMBlockWrapper.num_units()
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl._tf_graph_builders.tf2contrib.lstm_ops.LSTMBlockWrapper.call">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           LSTMBlockWrapper.call()
+          </span>
+         </code>
+        </a>
+       </li>
+      </ul>
+     </li>
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#sparknlp_jsl._tf_graph_builders.tf2contrib.lstm_ops.LSTMBlockFusedCell">
+       <code class="docutils literal notranslate">
+        <span class="pre">
+         LSTMBlockFusedCell
+        </span>
+       </code>
+      </a>
+      <ul class="nav section-nav flex-column">
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl._tf_graph_builders.tf2contrib.lstm_ops.LSTMBlockFusedCell.build">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           LSTMBlockFusedCell.build()
+          </span>
+         </code>
+        </a>
+       </li>
+      </ul>
+     </li>
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#sparknlp_jsl._tf_graph_builders.tf2contrib.lstm_ops.LayerRNNCell">
        LayerRNNCell
       </a>
      </li>
@@ -543,16 +611,6 @@ layer instantiation and layer call.</p>
        LSTMBlockCell
       </a>
       <ul class="nav section-nav flex-column">
-       <li class="toc-h5 nav-item toc-entry">
-        <a class="reference internal nav-link" href="#sparknlp_jsl._tf_graph_builders.tf2contrib.lstm_ops.LSTMBlockCell.state_size">
-         state_size
-        </a>
-       </li>
-       <li class="toc-h5 nav-item toc-entry">
-        <a class="reference internal nav-link" href="#sparknlp_jsl._tf_graph_builders.tf2contrib.lstm_ops.LSTMBlockCell.output_size">
-         output_size
-        </a>
-       </li>
        <li class="toc-h5 nav-item toc-entry">
         <a class="reference internal nav-link" href="#sparknlp_jsl._tf_graph_builders.tf2contrib.lstm_ops.LSTMBlockCell.build">
          build
@@ -587,11 +645,6 @@ layer instantiation and layer call.</p>
        LSTMBlockFusedCell
       </a>
       <ul class="nav section-nav flex-column">
-       <li class="toc-h5 nav-item toc-entry">
-        <a class="reference internal nav-link" href="#sparknlp_jsl._tf_graph_builders.tf2contrib.lstm_ops.LSTMBlockFusedCell.num_units">
-         num_units
-        </a>
-       </li>
        <li class="toc-h5 nav-item toc-entry">
         <a class="reference internal nav-link" href="#sparknlp_jsl._tf_graph_builders.tf2contrib.lstm_ops.LSTMBlockFusedCell.build">
          build
@@ -656,7 +709,7 @@ layer instantiation and layer call.</p>
   <div class="footer-item">
     
 <p class="sphinx-version">
-Created using <a href="http://sphinx-doc.org/">Sphinx</a> 5.1.1.<br>
+Created using <a href="http://sphinx-doc.org/">Sphinx</a> 5.2.3.<br>
 </p>
 
   </div>

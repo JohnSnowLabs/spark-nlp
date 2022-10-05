@@ -3,7 +3,13 @@
 
 ## {{include.title}}
 
+{% if include.approach and include.model %}
+
 {% include approachModelSelect.html %}
+
+{% endif %}
+
+{% if include.approach %}
 
 <div class="h3-box approach-content" markdown="1">
 
@@ -28,29 +34,34 @@
 | **Scala API:** {{include.approach_api_link}} |
 
 {% endif %}
-
-
-{% if include.approach_python_medical and include.approach_scala_medical %}
+{% if include.approach_python_medical or include.approach_python_finance or include.approach_python_legal %}
 
 <details>
 
 <summary class="button"><b>Show Example</b></summary>
 
-<div class="tabs-box" markdown="1">
+<div class="tabs-box test-approach" markdown="1">
 
 {% include programmingLanguageSelectScalaPython.html %}
 
 <div class="tabs-box-medic-inner tabs-wrapper highlighter-rouge language-python active" markdown="1">
 
-{% include programmingLanguageSelectScalaPythonMFL.html %}
+<div class="top_tab_li toptab-second"  markdown="1">
+{% if include.approach_python_medical %}<button data-type="medical" class="tab-li-inner"  markdown="1">Medical</button>{% endif %}{% if include.approach_python_finance %}<button data-type="finance" class="tab-li-inner"  markdown="1">Finance</button>{% endif %}{% if include.approach_python_legal %}<button data-type="legal" class="tab-li-inner"  markdown="1">Legal</button>{% endif %}
+</div>
 
-<div class="tabs-box-medic-inner-second highlighter-rouge language-medical active" markdown="1">
+{% if include.approach_python_medical %}
+
+<div class="tabs-box-medic-inner-second highlighter-rouge language-medical" markdown="1">
 
 ```python
 {{include.approach_python_medical}}
 ```
 
 </div>
+
+{% endif %}
+{% if include.approach_python_finance %}
 
 <div class="tabs-box-medic-inner-second highlighter-rouge language-finance" markdown="1">
 
@@ -60,6 +71,9 @@
 
 </div>
 
+{% endif %}
+{% if include.approach_python_legal %}
+
 <div class="tabs-box-medic-inner-second highlighter-rouge language-legal" markdown="1">
 
 ```python
@@ -68,18 +82,27 @@
 
 </div>
 
+{% endif %}
+
 </div>
 <div class="tabs-box-medic-inner tabs-wrapper highlighter-rouge language-scala" markdown="1">
 
-{% include programmingLanguageSelectScalaPythonMFL.html %}
+<div class="top_tab_li toptab-second"  markdown="1">
+{% if include.approach_scala_medical %}<button data-type="medical" class="tab-li-inner"  markdown="1">Medical</button>{% endif %}{% if include.approach_scala_finance %}<button data-type="finance" class="tab-li-inner"  markdown="1">Finance</button>{% endif %}{% if include.approach_scala_legal %}<button data-type="legal" class="tab-li-inner"  markdown="1">Legal</button>{% endif %}
+</div>
 
-<div class="tabs-box-medic-inner-second highlighter-rouge language-medical active" markdown="1">
+{% if include.approach_scala_medical %}
+
+<div class="tabs-box-medic-inner-second highlighter-rouge language-medical" markdown="1">
 
 ```scala
 {{include.approach_scala_medical}}
 ```
 
 </div>
+
+{% endif %}
+{% if include.approach_scala_finance %}
 
 <div class="tabs-box-medic-inner-second highlighter-rouge language-finance" markdown="1">
 
@@ -89,6 +112,9 @@
 
 </div>
 
+{% endif %}
+{% if include.approach_scala_legal %}
+
 <div class="tabs-box-medic-inner-second highlighter-rouge language-legal" markdown="1">
 
 ```scala
@@ -97,17 +123,21 @@
 
 </div>
 
+{% endif %}
+
 </div>
 
 </div>
 
 </details>
-
 {% endif %}
 
 </div>
 
-<div class="h3-box model-content" markdown="1" style="display: none;">
+{% endif %}
+{% if include.model %}
+
+<div class="h3-box model-content" markdown="1" {% if include.approach %} style="display: none;" {% endif %}>
 
 {{include.model_description}}
 
@@ -130,9 +160,7 @@
 | **Scala API:** {{include.model_api_link}} |
 
 {% endif %}
-
-
-{% if include.model_python_medical and include.model_scala_medical %}
+{% if include.model_python_medical or include.model_python_finance or include.model_python_legal %}
 
 <details>
 
@@ -144,16 +172,23 @@
 
 <div class="tabs-box-medic-inner tabs-wrapper highlighter-rouge language-python active" markdown="1">
 
-{% include programmingLanguageSelectScalaPythonMFL.html %}
+<div class="top_tab_li toptab-second"  markdown="1">
+{% if include.model_python_medical %}<button data-type="medical" class="tab-li-inner"  markdown="1">Medical</button>{% endif %}{% if include.model_python_finance %}<button data-type="finance" class="tab-li-inner"  markdown="1">Finance</button>{% endif %}{% if include.model_python_legal %}<button data-type="legal" class="tab-li-inner"  markdown="1">Legal</button>{% endif %}
+</div>
 
+{% if include.model_python_medical %}
 
-<div class="tabs-box-medic-inner-second highlighter-rouge language-medical active" markdown="1">
+<div class="tabs-box-medic-inner-second highlighter-rouge language-medical" markdown="1">
 
 ```python
 {{include.model_python_medical}}
 ```
 
 </div>
+
+{% endif %}
+{% if include.model_python_finance %}
+
 <div class="tabs-box-medic-inner-second highlighter-rouge language-finance" markdown="1">
 
 ```python
@@ -161,6 +196,11 @@
 ```
 
 </div>
+
+{% endif %}
+{% if include.model_python_legal %}
+
+
 <div class="tabs-box-medic-inner-second highlighter-rouge language-legal" markdown="1">
 
 ```python
@@ -169,18 +209,29 @@
 
 </div>
 
+{% endif %}
+
 </div>
 <div class="tabs-box-medic-inner tabs-wrapper highlighter-rouge language-scala" markdown="1">
 
-{% include programmingLanguageSelectScalaPythonMFL.html %}
+<div class="top_tab_li toptab-second"  markdown="1">
+{% if include.model_scala_medical %}<button data-type="medical" class="tab-li-inner"  markdown="1">Medical</button>{% endif %}{% if include.model_scala_finance %}<button data-type="finance" class="tab-li-inner"  markdown="1">Finance</button>{% endif %}{% if include.model_scala_finance %}<button data-type="legal" class="tab-li-inner"  markdown="1">Legal</button>{% endif %}
+</div>
 
-<div class="tabs-box-medic-inner-second highlighter-rouge language-medical active" markdown="1">
+{% if include.model_scala_medical %}
+
+<div class="tabs-box-medic-inner-second highlighter-rouge language-medical" markdown="1">
 
 ```scala
 {{include.model_scala_medical}}
 ```
 
 </div>
+
+{% endif %}
+{% if include.model_scala_finance %}
+
+
 <div class="tabs-box-medic-inner-second highlighter-rouge language-finance" markdown="1">
 
 ```scala
@@ -188,6 +239,11 @@
 ```
 
 </div>
+
+{% endif %}
+{% if include.model_scala_legal %}
+
+
 <div class="tabs-box-medic-inner-second highlighter-rouge language-legal" markdown="1">
 
 ```scala
@@ -196,14 +252,16 @@
 
 </div>
 
+{% endif %}
+
 </div>
 
 </div>
 
 </details>
-
 {% endif %}
 
 </div>
+{% endif %}
 
 </div>

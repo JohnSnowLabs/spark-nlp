@@ -132,7 +132,10 @@
           </li>
         </ul>
         <ul class="acc-top"><li class="acc-top-item">Legal NLP<i class="fas fa-chevron-down"></i></li></ul>
-        <ul class="acc-body">          
+        <ul class="acc-body"> 
+          <li {% if _section.secheader %} {% for child in _section.secheader %} {% if child.activemenu == "legal_text_classification" %} class="active"  {% endif %} {% endfor %} {% endif %} >
+            <a href="/legal_text_classification">Classify Legal Texts</a>
+          </li>         
           <li {% if _section.secheader %} {% for child in _section.secheader %} {% if child.activemenu == "legal_entity_recognition" %} class="active"  {% endif %} {% endfor %} {% endif %} >
             <a href="/legal_entity_recognition">Recognize Legal Entities</a>
           </li>
@@ -144,9 +147,6 @@
           </li>
           <li {% if _section.secheader %} {% for child in _section.secheader %} {% if child.activemenu == "legal_company_normalization" %} class="active"  {% endif %} {% endfor %} {% endif %} >
             <a href="/legal_company_normalization">Normalization & Data Augmentation</a>
-          </li>
-          <li {% if _section.secheader %} {% for child in _section.secheader %} {% if child.activemenu == "legal_text_classification" %} class="active"  {% endif %} {% endfor %} {% endif %} >
-            <a href="/legal_text_classification">Classify Legal Texts</a>
           </li>
           <li {% if _section.secheader %} {% for child in _section.secheader %} {% if child.activemenu == "legal_deidentification" %} class="active"  {% endif %} {% endfor %} {% endif %} >
             <a href="/legal_deidentification">Legal Deidentification</a>
