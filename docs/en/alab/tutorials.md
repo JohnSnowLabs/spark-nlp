@@ -15,6 +15,8 @@ sidebar:
 
 <div class="grid--container container-aside"><div class="grid">
 
+<div class="cell cell--12 cell--lg-6 cell--sm-12"><div class="video-item">{%- include extensions/youtube.html id='ycrJX_UMA6I' -%}<div class="video-descr">Programmatic labeling in Annotation Lab. Suvrat Joshi - October, 2022</div></div></div>
+
 <div class="cell cell--12 cell--lg-6 cell--sm-12"><div class="video-item">{%- include extensions/youtube.html id='tzEwzT_HmXM' -%}<div class="video-descr">How to create a NER project in Annotation Lab. Suvrat Joshi - September, 2022</div></div></div>
 
 <div class="cell cell--12 cell--lg-6 cell--sm-12"><div class="video-item">{%- include extensions/youtube.html id='jgUylZlz3uA' -%}<div class="video-descr">End-to-End No-Code Development of NER model for Text with Annotation Lab. Dia Trambitas - April, 2022</div></div></div>

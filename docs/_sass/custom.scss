@@ -2009,6 +2009,14 @@ code {
 }
 
 .model-wrap {
+	.tabs-box {
+		.highlighter-rouge {
+			display: none;
+			&.active {
+				display: block;
+			}
+		}
+	}
 	p {
 		font-size: 18px;
 		line-height: 26px;

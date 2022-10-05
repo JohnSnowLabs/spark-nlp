@@ -65,6 +65,64 @@ defer(function () { // load inital language
 }); */
 
 
+if(document.querySelectorAll('.model-wrap').length !== 0) {
+
+    let tabLi = document.querySelectorAll('.tab-li'),
+        tabLiTopF = document.querySelectorAll('.top_tab_li');
+
+    tabLiTopF.forEach(e => {        
+        e.nextElementSibling.classList.add('active');
+    });
+
+    tabLi.forEach(element => {
+        element.addEventListener('click', function(e) {
+            e.preventDefault();
+            let tabAttribute = element.getAttribute('data-type'),
+                tabLiInner = element.parentNode.querySelectorAll('.tab-li'),
+                tabBoxInner = element.parentNode.parentNode.parentNode.querySelectorAll('.highlighter-rouge');
+            
+            //remove active class
+            tabBoxInner.forEach(item => {
+                item.classList.remove('active');
+                if(item.classList.contains('nlu-block')) {
+                    item.classList.remove('language-python');
+                }  
+                
+            });
+            tabLiInner.forEach(el => {
+                el.classList.remove('active');
+                el.classList.remove('code-selector-active');
+            });
+            element.classList.add('active');
+    
+            //add active class
+            switch (tabAttribute) {
+                case "python":
+                    tabBoxInner.forEach(item => {
+                        if(item.classList.contains('language-python')) {
+                            item.classList.add('active');
+                        }                    
+                    });
+                    break;
+                case "scala":
+                    tabBoxInner.forEach(item => {
+                        if(item.classList.contains('language-scala')) {
+                            item.classList.add('active');
+                        }                    
+                    });
+                  break;
+                  case "nlu":
+                    tabBoxInner.forEach(item => {
+                        if(item.classList.contains('nlu-block')) {
+                            item.classList.add('active');
+                        }                    
+                    });
+                  break;
+                default:              
+              }
+        });
+    });
+}
 
 //Second tabs
 if(document.querySelectorAll('.tab-li-second')) {
@@ -117,7 +175,6 @@ if(document.querySelectorAll('.tab-li-inner')) {
         tabLiTop = document.querySelectorAll('.toptab-second'),
         tabLi = document.querySelectorAll('.toptab-second p');
 
-        console.log(tabLiTop);
 
     tabLiTop.forEach(e => {        
         e.nextElementSibling.classList.add('active');
