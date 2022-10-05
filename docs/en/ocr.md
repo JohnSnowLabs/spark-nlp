@@ -1,8 +1,8 @@
 ---
 layout: docs
 header: true
-seotitle: Spark OCR | John Snow Labs
-title: Spark OCR
+seotitle: Visual NLP | John Snow Labs
+title: Visual NLP (Spark OCR)
 permalink: /docs/en/ocr
 key: docs-ocr
 modify_date: "2020-04-08"
