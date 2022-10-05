@@ -7,7 +7,7 @@ date: 2022-01-05
 tags: [en, licensed]
 task: OCR Text Detection & Recognition
 language: en
-edition: Spark NLP 3.3.0
+edition: Spark OCR 3.3.0
 spark_version: 2.4
 supported: true
 article_header:
@@ -88,7 +88,7 @@ val pipeline = new Pipeline()
 |---|---|
 |Model Name:|layoutlmv2_funsd|
 |Type:|ocr|
-|Compatibility:|Spark NLP 3.3.0+|
+|Compatibility:|Spark OCR 3.3.0+|
 |License:|Licensed|
 |Edition:|Official|
 |Language:|en|
