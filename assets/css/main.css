@@ -6766,6 +6766,10 @@ code {
       background: #ECF9FF;
       float: left; }
 
+.model-wrap .tabs-box .highlighter-rouge {
+  display: none; }
+  .model-wrap .tabs-box .highlighter-rouge.active {
+    display: block; }
 .model-wrap p {
   font-size: 18px;
   line-height: 26px;

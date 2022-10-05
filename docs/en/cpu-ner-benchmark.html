@@ -390,7 +390,7 @@
 <path d="M20.2658 26.412H8.38867V26.5781H20.2658V26.412Z" fill="#9EDEFA"/>
 </svg>
 -->
-</a><div class="sidebar-toc"><ul class="toc toc--navigator"><li class="toc-h1">All Enterprise libraries</li><li class="toc-h2"><a href="/docs/en/license_getting_started">Getting Started</a></li><li class="toc-h2"><a href="/docs/en/licensed_install">Installation</a></li><li class="toc-h2"><a href="/docs/en/licensed_annotators">Annotators</a></li><li class="toc-h2"><a href="/docs/en/licensed_training">Training</a></li><li class="toc-h2"><a href="/docs/en/evaluation">Evaluation</a></li><li class="toc-h2"><a href="/docs/en/licensed_serving_spark_nlp_via_api_synapseml">Serving Spark NLP&#58 SynapseML</a></li><li class="toc-h2"><a href="/docs/en/licensed_serving_spark_nlp_via_api_fastapi">Serving Spark NLP&#58 FastAPI</a></li><li class="toc-h2"><a href="/licensed/api/">Scala API (Scaladoc)</a></li><li class="toc-h2"><a href="/licensed/api/python">Python API (Sphinx)</a></li><li class="toc-h2"><a href="/docs/en/wiki">Wiki</a></li><li class="toc-h2"><a href="/docs/en/benchmark">Cluster Speed Benchmarks</a></li><li class="toc-h2 active"><a href="/docs/en/cpu-ner-benchmark">CPU NER Benchmarks</a></li><li class="toc-h2"><a href="/docs/en/CPUvsGPUbenchmark_healthcare">GPU vs CPU benchmarks</a></li><li class="toc-h2"><a href="/docs/en/best_practices_pretrained_models">Best Practices Using Pretrained Models Together</a></li><li class="toc-h1">Healthcare NLP</li><li class="toc-h2"><a href="/docs/en/licensed_version_compatibility">Version Compatibility</a></li><li class="toc-h2"><a href="/docs/en/licensed_release_notes">Release Notes</a></li><li class="toc-h2"><a href="/models?edition=Spark+NLP+for+Healthcare">Healthcare Models</a></li><li class="toc-h1">Finance NLP</li><li class="toc-h2"><a href="/docs/en/financial_release_notes">Release Notes</a></li><li class="toc-h2"><a href="/docs/en/financial_version_compatibility">Version Compatibility</a></li><li class="toc-h2"><a href="/models?edition=Spark+NLP+for+Finance">Financial Models</a></li><li class="toc-h1">Legal NLP</li><li class="toc-h2"><a href="/docs/en/legal_release_notes">Release Notes</a></li><li class="toc-h2"><a href="/docs/en/legal_version_compatibility">Version Compatibility</a></li><li class="toc-h2"><a href="/models?edition=Spark+NLP+for+Legal">Legal Models</a></li></ul></div></div><div class="page__main js-page-main has-aside cell cell--auto">
+</a><div class="sidebar-toc"><ul class="toc toc--navigator"><li class="toc-h1">All Enterprise libraries</li><li class="toc-h2"><a href="/docs/en/license_getting_started">Getting Started</a></li><li class="toc-h2"><a href="/docs/en/licensed_install">Installation</a></li><li class="toc-h2"><a href="/docs/en/licensed_annotators">Annotators</a></li><li class="toc-h2"><a href="/docs/en/licensed_training">Training</a></li><li class="toc-h2"><a href="/docs/en/evaluation">Evaluation</a></li><li class="toc-h2"><a href="/docs/en/licensed_serving_spark_nlp_via_api_synapseml">Serving Spark NLP&#58 SynapseML</a></li><li class="toc-h2"><a href="/docs/en/licensed_serving_spark_nlp_via_api_fastapi">Serving Spark NLP&#58 FastAPI</a></li><li class="toc-h2"><a href="/licensed/api/">Scala API (Scaladoc)</a></li><li class="toc-h2"><a href="/licensed/api/python">Python API (Sphinx)</a></li><li class="toc-h2"><a href="/docs/en/wiki">Wiki</a></li><li class="toc-h2"><a href="/docs/en/benchmark">Cluster Speed Benchmarks</a></li><li class="toc-h2 active"><a href="/docs/en/cpu-ner-benchmark">CPU NER Benchmarks</a></li><li class="toc-h2"><a href="/docs/en/CPUvsGPUbenchmark_healthcare">GPU vs CPU benchmarks</a></li><li class="toc-h2"><a href="/docs/en/best_practices_pretrained_models">Best Practices Using Pretrained Models Together</a></li><li class="toc-h1">Healthcare NLP</li><li class="toc-h2"><a href="/docs/en/licensed_release_notes">Release Notes</a></li><li class="toc-h2"><a href="/models?edition=Spark+NLP+for+Healthcare">Healthcare Models</a></li><li class="toc-h2"><a href="/docs/en/licensed_version_compatibility">Version Compatibility</a></li><li class="toc-h1">Finance NLP</li><li class="toc-h2"><a href="/docs/en/financial_release_notes">Release Notes</a></li><li class="toc-h2"><a href="/models?edition=Spark+NLP+for+Finance">Financial Models</a></li><li class="toc-h2"><a href="/docs/en/financial_version_compatibility">Version Compatibility</a></li><li class="toc-h1">Legal NLP</li><li class="toc-h2"><a href="/docs/en/legal_release_notes">Release Notes</a></li><li class="toc-h2"><a href="/models?edition=Spark+NLP+for+Legal">Legal Models</a></li><li class="toc-h2"><a href="/docs/en/legal_version_compatibility">Version Compatibility</a></li></ul></div></div><div class="page__main js-page-main has-aside cell cell--auto">
 
       <div class="page__main-inner"><div class="page__header d-print-none"><!-- Google Tag Manager (noscript) -->
 <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-59JLR64"
@@ -698,6 +698,64 @@ defer(function () { // load inital language
 }); */
 
 
+if(document.querySelectorAll('.model-wrap').length !== 0) {
+
+    let tabLi = document.querySelectorAll('.tab-li'),
+        tabLiTopF = document.querySelectorAll('.top_tab_li');
+
+    tabLiTopF.forEach(e => {        
+        e.nextElementSibling.classList.add('active');
+    });
+
+    tabLi.forEach(element => {
+        element.addEventListener('click', function(e) {
+            e.preventDefault();
+            let tabAttribute = element.getAttribute('data-type'),
+                tabLiInner = element.parentNode.querySelectorAll('.tab-li'),
+                tabBoxInner = element.parentNode.parentNode.parentNode.querySelectorAll('.highlighter-rouge');
+            
+            //remove active class
+            tabBoxInner.forEach(item => {
+                item.classList.remove('active');
+                if(item.classList.contains('nlu-block')) {
+                    item.classList.remove('language-python');
+                }  
+                
+            });
+            tabLiInner.forEach(el => {
+                el.classList.remove('active');
+                el.classList.remove('code-selector-active');
+            });
+            element.classList.add('active');
+    
+            //add active class
+            switch (tabAttribute) {
+                case "python":
+                    tabBoxInner.forEach(item => {
+                        if(item.classList.contains('language-python')) {
+                            item.classList.add('active');
+                        }                    
+                    });
+                    break;
+                case "scala":
+                    tabBoxInner.forEach(item => {
+                        if(item.classList.contains('language-scala')) {
+                            item.classList.add('active');
+                        }                    
+                    });
+                  break;
+                  case "nlu":
+                    tabBoxInner.forEach(item => {
+                        if(item.classList.contains('nlu-block')) {
+                            item.classList.add('active');
+                        }                    
+                    });
+                  break;
+                default:              
+              }
+        });
+    });
+}
 
 //Second tabs
 if(document.querySelectorAll('.tab-li-second')) {
@@ -750,7 +808,6 @@ if(document.querySelectorAll('.tab-li-inner')) {
         tabLiTop = document.querySelectorAll('.toptab-second'),
         tabLi = document.querySelectorAll('.toptab-second p');
 
-        console.log(tabLiTop);
 
     tabLiTop.forEach(e => {        
         e.nextElementSibling.classList.add('active');
