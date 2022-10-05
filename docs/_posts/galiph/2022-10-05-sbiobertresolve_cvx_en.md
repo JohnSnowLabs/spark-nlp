@@ -17,7 +17,7 @@ use_language_switcher: "Python-Scala-Java"
 
 ## Description
 
-This model maps vaccine entities to CVX codes using sbiobert_base_cased_mli Sentence Bert Embeddings. Additionally, this model returns status of the vaccine (Active/Inactive/Pending/Non-US)  in all_k_aux_labels column.
+This model maps vaccine entities to CVX codes using sbiobert_base_cased_mli Sentence Bert Embeddings. Additionally, this model returns status of the vaccine (Active/Inactive/Pending/Non-US) in all_k_aux_labels column.
 
 ## Predicted Entities
 
