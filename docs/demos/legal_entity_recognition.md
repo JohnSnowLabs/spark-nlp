@@ -24,8 +24,6 @@ data:
           id: extract_document_type_parties_aliases_dates_contracts    
           image: 
               src: /assets/images/Extract_Document_Type.svg
-          image2: 
-              src: /assets/images/Extract_Document_Type_f.svg
           excerpt: This model uses Name Entity Recognition to extract DOC (Document Type), PARTY (An Entity signing a contract), ALIAS (the way a company is named later on in the document) and EFFDATE (Effective Date of the contract).
           actions:
           - text: Live Demo
@@ -38,8 +36,6 @@ data:
           id: identify_companies_their_aliases_legal_texts        
           image: 
               src: /assets/images/Identify_Companies_and_their_aliases_in_legal_texts.svg
-          image2: 
-              src: /assets/images/Identify_Companies_and_their_aliases_in_legal_texts_f.svg
           excerpt: This model uses Entity Recognition to identify ORG (Companies), their ALIAS (other names the company uses in the contract/agreement) and company PRODUCTS.
           actions:
           - text: Live Demo
@@ -52,8 +48,6 @@ data:
           id: extract_parties_obligations_legal_agreement   
           image: 
               src: /assets/images/Extract_Parties_obligations_in_a_Legal_Agreement.svg
-          image2: 
-              src: /assets/images/Extract_Parties_obligations_in_a_Legal_Agreement_f.svg
           excerpt: Automatically identify entities such as Organization, Jurisprudence, Legislation, Person, Location, and Time, etc. in (Brazilian) Portuguese legal text. 
           actions:
           - text: Live Demo
@@ -66,8 +60,6 @@ data:
           id: extract_entities_whereas_clauses      
           image: 
               src: /assets/images/Extract_Entities_from_Whereas_clauses.svg
-          image2: 
-              src: /assets/images/Extract_Entities_from_Whereas_clauses_f.svg
           excerpt: This model uses Name Entity Recognition detect "Whereas" clauses and extract, from them, the SUBJECT, the ACTION and the OBJECT.
           actions:
           - text: Live Demo
@@ -80,8 +72,6 @@ data:
           id: extract_signers_roles_companies     
           image: 
               src: /assets/images/Extract_Signers_Roles.svg
-          image2: 
-              src: /assets/images/Extract_Signers_Roles_f.svg
           excerpt: This model uses Name Entity Recognition to extract SIGNING_PERSON (People signing a document), SIGNING_TITLE (the roles of those people in the company) and PARTY (Organizations).
           actions:
           - text: Live Demo
@@ -94,8 +84,6 @@ data:
           id: detect_legal_entities_german
           image: 
               src: /assets/images/Grammar_Analysis.svg
-          image2: 
-              src: /assets/images/Grammar_Analysis_f.svg
           excerpt: Automatically identify entities such as persons, judges, lawyers, countries, cities, landscapes, organizations, courts, trademark laws, contracts, etc. in German legal text.
           actions:
           - text: Live Demo
@@ -108,8 +96,6 @@ data:
           id: named_entity_recognition_brazilian_portuguese_legal_texts  
           image: 
               src: /assets/images/Named_Entity_Recognition_Brazilian_Portuguese_Legal_Texts.svg
-          image2: 
-              src: /assets/images/Named_Entity_Recognition_Brazilian_Portuguese_Legal_Texts_f.svg
           excerpt: Automatically identify entities such as Organization, Jurisprudence, Legislation, Person, Location, and Time, etc. in (Brazilian) Portuguese legal text. 
           actions:
           - text: Live Demo
@@ -129,5 +115,17 @@ data:
             url: https://demo.johnsnowlabs.com/legal/LEGNER_ZEROSHOT/
           - text: Colab
             type: blue_btn
-            url:        
+            url:     
+        - title: Detect Law and Money entities in Spanish 
+          id: detect_law_money_entities_spanish  
+          image: 
+              src: /assets/images/Detect_Law_and_Money_entities_in_Spanish.svg
+          excerpt: This demo shows how to extract law and money from Spanish legal texts.
+          actions:
+          - text: Live Demo
+            type: normal
+            url: https://demo.johnsnowlabs.com/legal/LEGALNER_LAW_MONEY/
+          - text: Colab
+            type: blue_btn
+            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Legal/4.NER_and_ZeroShot.ipynb 
 ---
