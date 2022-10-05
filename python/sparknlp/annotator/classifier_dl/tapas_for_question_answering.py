@@ -41,6 +41,19 @@ class TapasForQuestionAnswering(BertForQuestionAnswering):
     ``DOCUMENT, TABLE``   ``CHUNK``
     ====================== ======================
 
+    Parameters
+    ----------
+    batchSize
+        Batch size. Large values allows faster processing but requires more
+        memory, by default 2
+    caseSensitive
+        Whether to ignore case in tokens for embeddings matching, by default
+        False
+    configProtoBytes
+        ConfigProto from tensorflow, serialized into byte array.
+    maxSentenceLength
+        Max sentence length to process, by default 512
+
     Examples
     --------
     >>> import sparknlp
@@ -49,8 +62,8 @@ class TapasForQuestionAnswering(BertForQuestionAnswering):
     >>> from pyspark.ml import Pipeline
     >>>
     >>> document_assembler = MultiDocumentAssembler()\\
-    .setInputCols("table_json", "questions")\\
-    .setOutputCols("document_table", "document_questions")
+    ...     .setInputCols("table_json", "questions")\\
+    ...     .setOutputCols("document_table", "document_questions")
     >>>
     >>> sentence_detector = SentenceDetector()\\
     ...     .setInputCols(["document_questions"])\\
