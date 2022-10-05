@@ -271,8 +271,14 @@
 <span class="kn">from</span> <span class="nn">sparknlp_jsl.annotator.router</span> <span class="kn">import</span> <span class="o">*</span>
 <span class="kn">from</span> <span class="nn">sparknlp_jsl.annotator.doc2_chunk_internal</span> <span class="kn">import</span> <span class="o">*</span>
 <span class="kn">from</span> <span class="nn">sparknlp_jsl.annotator.tf_graph_builder</span> <span class="kn">import</span> <span class="o">*</span>
-<span class="kn">from</span> <span class="nn">sparknlp.annotator</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">import</span> <span class="nn">sys</span>
+<span class="kn">from</span> <span class="nn">sparknlp_jsl</span> <span class="kn">import</span> <span class="n">finance</span>
+<span class="kn">from</span> <span class="nn">sparknlp_jsl</span> <span class="kn">import</span> <span class="n">legal</span>
+<span class="n">sys</span><span class="o">.</span><span class="n">modules</span><span class="p">[</span><span class="s1">&#39;com.johnsnowlabs.finance&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">finance</span>
+<span class="n">sys</span><span class="o">.</span><span class="n">modules</span><span class="p">[</span><span class="s1">&#39;com.johnsnowlabs.legal&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">legal</span>
 
+
+<span class="kn">from</span> <span class="nn">sparknlp.annotator</span> <span class="kn">import</span> <span class="o">*</span>
 
 <span class="k">if</span> <span class="n">sys</span><span class="o">.</span><span class="n">version_info</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
     <span class="k">raise</span> <span class="ne">ImportError</span><span class="p">(</span>
@@ -281,7 +287,8 @@
     <span class="p">)</span>
 <span class="k">else</span><span class="p">:</span>
     <span class="nb">__import__</span><span class="p">(</span><span class="s2">&quot;com.johnsnowlabs.nlp&quot;</span><span class="p">)</span>
-
+    <span class="nb">__import__</span><span class="p">(</span><span class="s2">&quot;com.johnsnowlabs.finance&quot;</span><span class="p">)</span>
+    <span class="nb">__import__</span><span class="p">(</span><span class="s2">&quot;com.johnsnowlabs.legal&quot;</span><span class="p">)</span>
 
 <span class="n">sparknlp</span><span class="o">.</span><span class="n">annotator</span><span class="o">.</span><span class="n">assertion</span> <span class="o">=</span> <span class="n">sys</span><span class="o">.</span><span class="n">modules</span><span class="p">[</span><span class="vm">__name__</span><span class="p">]</span>
 <span class="n">sparknlp</span><span class="o">.</span><span class="n">annotator</span><span class="o">.</span><span class="n">assertion</span><span class="o">.</span><span class="n">dl</span> <span class="o">=</span> <span class="n">sys</span><span class="o">.</span><span class="n">modules</span><span class="p">[</span><span class="vm">__name__</span><span class="p">]</span>
@@ -298,6 +305,16 @@
 <span class="n">sparknlp</span><span class="o">.</span><span class="n">annotator</span><span class="o">.</span><span class="n">qa</span> <span class="o">=</span> <span class="n">sys</span><span class="o">.</span><span class="n">modules</span><span class="p">[</span><span class="vm">__name__</span><span class="p">]</span>
 <span class="n">sparknlp</span><span class="o">.</span><span class="n">annotator</span><span class="o">.</span><span class="n">re</span> <span class="o">=</span> <span class="n">sys</span><span class="o">.</span><span class="n">modules</span><span class="p">[</span><span class="vm">__name__</span><span class="p">]</span>
 <span class="n">sparknlp</span><span class="o">.</span><span class="n">annotator</span><span class="o">.</span><span class="n">chunker</span> <span class="o">=</span> <span class="n">sys</span><span class="o">.</span><span class="n">modules</span><span class="p">[</span><span class="vm">__name__</span><span class="p">]</span>
+
+<span class="n">sparknlp</span><span class="o">.</span><span class="n">annotator</span><span class="o">.</span><span class="n">finance_classifier_dl</span> <span class="o">=</span> <span class="n">sys</span><span class="o">.</span><span class="n">modules</span><span class="p">[</span><span class="vm">__name__</span><span class="p">]</span>
+<div class="viewcode-block" id="finance"><a class="viewcode-back" href="../../reference/autosummary/sparknlp_jsl/annotator/index.html#sparknlp_jsl.annotator.finance">[docs]</a><span class="n">sparknlp</span><span class="o">.</span><span class="n">finance</span> <span class="o">=</span> <span class="n">sys</span><span class="o">.</span><span class="n">modules</span><span class="p">[</span><span class="vm">__name__</span><span class="p">]</span></div>
+<div class="viewcode-block" id="finance_classifier_dl"><a class="viewcode-back" href="../../reference/autosummary/sparknlp_jsl/annotator/index.html#sparknlp_jsl.annotator.finance_classifier_dl">[docs]</a><span class="n">sparknlp</span><span class="o">.</span><span class="n">finance_classifier_dl</span> <span class="o">=</span> <span class="n">sys</span><span class="o">.</span><span class="n">modules</span><span class="p">[</span><span class="vm">__name__</span><span class="p">]</span></div>
+
+
+<span class="n">sparknlp</span><span class="o">.</span><span class="n">annotator</span><span class="o">.</span><span class="n">legal_classifier_dl</span> <span class="o">=</span> <span class="n">sys</span><span class="o">.</span><span class="n">modules</span><span class="p">[</span><span class="vm">__name__</span><span class="p">]</span>
+<div class="viewcode-block" id="legal"><a class="viewcode-back" href="../../reference/autosummary/sparknlp_jsl/annotator/index.html#sparknlp_jsl.annotator.legal">[docs]</a><span class="n">sparknlp</span><span class="o">.</span><span class="n">legal</span> <span class="o">=</span> <span class="n">sys</span><span class="o">.</span><span class="n">modules</span><span class="p">[</span><span class="vm">__name__</span><span class="p">]</span></div>
+<div class="viewcode-block" id="legal_classifier_dl"><a class="viewcode-back" href="../../reference/autosummary/sparknlp_jsl/annotator/index.html#sparknlp_jsl.annotator.legal_classifier_dl">[docs]</a><span class="n">sparknlp</span><span class="o">.</span><span class="n">legal_classifier_dl</span> <span class="o">=</span> <span class="n">sys</span><span class="o">.</span><span class="n">modules</span><span class="p">[</span><span class="vm">__name__</span><span class="p">]</span></div>
+
 
 
 <div class="viewcode-block" id="assertion"><a class="viewcode-back" href="../../reference/autosummary/sparknlp_jsl/annotator/index.html#sparknlp_jsl.annotator.assertion">[docs]</a><span class="n">assertion</span> <span class="o">=</span> <span class="n">sys</span><span class="o">.</span><span class="n">modules</span><span class="p">[</span><span class="vm">__name__</span><span class="p">]</span></div>

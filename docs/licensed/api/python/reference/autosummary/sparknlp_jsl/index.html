@@ -280,6 +280,22 @@
 <li class="toctree-l2"><a class="reference internal" href="annotator/tf_graph_builder/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp_jsl.annotator.tf_graph_builder</span></code></a></li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="finance/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp_jsl.finance</span></code></a><ul>
+<li class="toctree-l2"><a class="reference internal" href="finance/chunk_classification/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp_jsl.finance.chunk_classification</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="finance/graph/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp_jsl.finance.graph</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="finance/seq_generation/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp_jsl.finance.seq_generation</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="finance/sequence_classification/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp_jsl.finance.sequence_classification</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="finance/token_classification/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp_jsl.finance.token_classification</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="legal/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp_jsl.legal</span></code></a><ul>
+<li class="toctree-l2"><a class="reference internal" href="legal/chunk_classification/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp_jsl.legal.chunk_classification</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="legal/graph/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp_jsl.legal.graph</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="legal/seq_generation/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp_jsl.legal.seq_generation</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="legal/sequence_classification/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp_jsl.legal.sequence_classification</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="legal/token_classification/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp_jsl.legal.token_classification</span></code></a></li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="utils/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp_jsl.utils</span></code></a><ul>
 <li class="toctree-l2"><a class="reference internal" href="utils/alab_utils/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp_jsl.utils.alab_utils</span></code></a></li>
 </ul>
@@ -336,20 +352,44 @@
 <h3>Attributes<a class="headerlink" href="#attributes" title="Permalink to this heading">#</a></h3>
 <table class="autosummary longtable table autosummary">
 <tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="legal/index.html#module-sparknlp_jsl.legal" title="sparknlp_jsl.legal"><code class="xref py py-obj docutils literal notranslate"><span class="pre">legal</span></code></a></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#sparknlp_jsl.finance" title="sparknlp_jsl.finance"><code class="xref py py-obj docutils literal notranslate"><span class="pre">finance</span></code></a></p></td>
+<td><p></p></td>
+</tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp_jsl.annotators" title="sparknlp_jsl.annotators"><code class="xref py py-obj docutils literal notranslate"><span class="pre">annotators</span></code></a></p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#sparknlp_jsl.version_regex" title="sparknlp_jsl.version_regex"><code class="xref py py-obj docutils literal notranslate"><span class="pre">version_regex</span></code></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#sparknlp_jsl.transformer_seq_classification" title="sparknlp_jsl.transformer_seq_classification"><code class="xref py py-obj docutils literal notranslate"><span class="pre">transformer_seq_classification</span></code></a></p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp_jsl.size_regex" title="sparknlp_jsl.size_regex"><code class="xref py py-obj docutils literal notranslate"><span class="pre">size_regex</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp_jsl.version_regex" title="sparknlp_jsl.version_regex"><code class="xref py py-obj docutils literal notranslate"><span class="pre">version_regex</span></code></a></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#sparknlp_jsl.size_regex" title="sparknlp_jsl.size_regex"><code class="xref py py-obj docutils literal notranslate"><span class="pre">size_regex</span></code></a></p></td>
 <td><p></p></td>
 </tr>
 </tbody>
 </table>
 <dl class="py data">
+<dt class="sig sig-object py" id="sparknlp_jsl.legal">
+<span class="sig-name descname"><span class="pre">legal</span></span><a class="reference internal" href="../../../modules/sparknlp_jsl.html#legal"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.legal" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="sparknlp_jsl.finance">
+<span class="sig-name descname"><span class="pre">finance</span></span><a class="reference internal" href="../../../modules/sparknlp_jsl.html#finance"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.finance" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py data">
 <dt class="sig sig-object py" id="sparknlp_jsl.annotators">
 <span class="sig-name descname"><span class="pre">annotators</span></span><a class="reference internal" href="../../../modules/sparknlp_jsl.html#annotators"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotators" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="sparknlp_jsl.transformer_seq_classification">
+<span class="sig-name descname"><span class="pre">transformer_seq_classification</span></span><a class="reference internal" href="../../../modules/sparknlp_jsl.html#transformer_seq_classification"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.transformer_seq_classification" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py data">
@@ -441,10 +481,37 @@
     </a>
     <ul class="nav section-nav flex-column">
      <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#sparknlp_jsl.legal">
+       <code class="docutils literal notranslate">
+        <span class="pre">
+         legal
+        </span>
+       </code>
+      </a>
+     </li>
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#sparknlp_jsl.finance">
+       <code class="docutils literal notranslate">
+        <span class="pre">
+         finance
+        </span>
+       </code>
+      </a>
+     </li>
+     <li class="toc-h4 nav-item toc-entry">
       <a class="reference internal nav-link" href="#sparknlp_jsl.annotators">
        <code class="docutils literal notranslate">
         <span class="pre">
          annotators
+        </span>
+       </code>
+      </a>
+     </li>
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#sparknlp_jsl.transformer_seq_classification">
+       <code class="docutils literal notranslate">
+        <span class="pre">
+         transformer_seq_classification
         </span>
        </code>
       </a>
@@ -513,8 +580,23 @@
       </a>
      </li>
      <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#sparknlp_jsl.legal">
+       legal
+      </a>
+     </li>
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#sparknlp_jsl.finance">
+       finance
+      </a>
+     </li>
+     <li class="toc-h4 nav-item toc-entry">
       <a class="reference internal nav-link" href="#sparknlp_jsl.annotators">
        annotators
+      </a>
+     </li>
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#sparknlp_jsl.transformer_seq_classification">
+       transformer_seq_classification
       </a>
      </li>
      <li class="toc-h4 nav-item toc-entry">
