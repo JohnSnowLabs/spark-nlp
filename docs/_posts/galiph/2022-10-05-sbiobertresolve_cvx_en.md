@@ -68,9 +68,9 @@ val cvx_resolver = SentenceEntityResolverModel.pretrained("sbiobertresolve_cvx",
 .setOutputCol("cvx_code")
 .setDistanceFunction("EUCLIDEAN")
 
-val rxnorm_pipelineModel = new PipelineModel().setStages(Array(documentAssembler, sbert_embedder, cvx_resolver))
+val cvx_pipelineModel = new PipelineModel().setStages(Array(documentAssembler, sbert_embedder, cvx_resolver))
 
-val light_model = LightPipeline(rxnorm_pipelineModel)
+val light_model = LightPipeline(cvx_pipelineModel)
 
 val result = light_model.fullAnnotate(Array("Sinovac", "Moderna", "BIOTHRAX"))
 ```
