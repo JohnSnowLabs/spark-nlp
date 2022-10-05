@@ -13,8 +13,9 @@
 #  limitations under the License.
 """Contains classes for the LightPipeline."""
 
-from sparknlp.annotation import Annotation
 import sparknlp.internal as _internal
+from sparknlp.annotation import Annotation
+from sparknlp.annotation_audio import AnnotationAudio
 from sparknlp.annotation_image import AnnotationImage
 
 
@@ -83,13 +84,19 @@ class LightPipeline:
                                     list(annotation.result()),
                                     dict(annotation.metadata()))
                 )
+            elif annotation_type == "AnnotationAudio":
+                annotations.append(
+                    AnnotationAudio(annotation.annotatorType(),
+                                    list(annotation.result()),
+                                    annotation.metadata())
+                )
             else:
                 annotations.append(
                     Annotation(annotation.annotatorType(),
                                annotation.begin(),
                                annotation.end(),
                                annotation.result(),
-                               dict(annotation.metadata()),
+                               annotation.metadata(),
                                [])
                 )
         return annotations
@@ -128,31 +135,70 @@ class LightPipeline:
         Annotation(named_entity, 30, 36, B-LOC, {'word': 'Baghdad'}),
         Annotation(named_entity, 37, 37, O, {'word': '.'})]
         """
-        result = []
 
         if optional_target == "":
-            if type(target) is str:
-               target = [target]
-            elif type(target) is list and type(target[0]) is list:
-                raise TypeError("target is a 1D list")
+            if self.__isTextInput(target):
+                result = self.__fullAnnotateText(target)
+            elif self.__isAudioInput(target):
+                result = self.__fullAnnotateAudio(target)
             else:
-                raise TypeError("target for annotation must be 'str' or list")
-
-            for annotations_result in self._lightPipeline.fullAnnotateJava(target):
-                result.append(self.buildStages(annotations_result))
-
+                raise TypeError("argument for annotation must be 'str' or list[str] or list[float] or list[list[float]]")
         else:
-            if type(target) is str and type(optional_target) is str:
-                annotations_dict = self._lightPipeline.fullAnnotateJava(target, optional_target)
-                result.append(self.buildStages(annotations_dict))
-            elif type(target) is list and type(optional_target) is list:
-                if type(target[0]) is list or type(optional_target[0]) is list:
-                    raise TypeError("target and optional_target is a 1D list")
-                full_annotations = self._lightPipeline.fullAnnotateJava(target, optional_target)
-                for annotations_dict in full_annotations:
-                    result.append(self.buildStages(annotations_dict))
+            if self.__isTextInput(target) and self.__isTextInput(optional_target):
+                result = self.__fullAnnotateQuestionAnswering(target, optional_target)
             else:
-                raise TypeError("target and optional_target for annotation must be both 'str' or both lists")
+                raise TypeError("arguments for annotation must be 'str' or list[str]")
+
+        return result
+
+    @staticmethod
+    def __isTextInput(target):
+        if type(target) is str:
+            return True
+        elif type(target) is list and type(target[0]) is str:
+            return True
+        else:
+            return False
+
+    @staticmethod
+    def __isAudioInput(target):
+        if type(target) is list and type(target[0]) is float:
+            return True
+        elif type(target) is list and type(target[0]) is list and type(target[0][0]) is float:
+            return True
+        else:
+            return False
+
+    def __fullAnnotateText(self, target):
+        result = []
+        if type(target) is str:
+            target = [target]
+
+        for annotations_result in self._lightPipeline.fullAnnotateJava(target):
+            result.append(self.__buildStages(annotations_result))
+        return result
+
+    def __fullAnnotateAudio(self, audios):
+        result = []
+        if type(audios[0]) is float:
+            annotations_dict = self._lightPipeline.fullAnnotateSingleAudioJava(audios)
+            result.append(self.__buildStages(annotations_dict))
+        else:
+            full_annotations = self._lightPipeline.fullAnnotateAudiosJava(audios)
+            for annotations_dict in full_annotations:
+                result.append(self.__buildStages(annotations_dict))
+
+        return result
+
+    def __fullAnnotateQuestionAnswering(self, question, context):
+        result = []
+        if type(question) is str and type(context) is str:
+            annotations_dict = self._lightPipeline.fullAnnotateJava(question, context)
+            result.append(self.__buildStages(annotations_dict))
+        else:
+            full_annotations = self._lightPipeline.fullAnnotateJava(question, context)
+            for annotations_dict in full_annotations:
+                result.append(self.__buildStages(annotations_dict))
 
         return result
 
@@ -178,13 +224,13 @@ class LightPipeline:
             result = []
 
             for image_result in self._lightPipeline.fullAnnotateImageJava(path_to_image):
-                result.append(self.buildStages(image_result))
+                result.append(self.__buildStages(image_result))
 
             return result
         else:
-            raise TypeError("target for annotation may be 'str' or 'list'")
+            raise TypeError("argument for annotation may be 'str' or list[str]")
 
-    def buildStages(self, annotations_result):
+    def __buildStages(self, annotations_result):
         stages = {}
         for annotator_type, annotations in annotations_result.items():
             stages[annotator_type] = self._annotation_from_java(annotations)
