@@ -20,16 +20,11 @@ import com.johnsnowlabs.ml.tensorflow._
 import com.johnsnowlabs.nlp._
 import com.johnsnowlabs.nlp.annotators.common._
 import com.johnsnowlabs.nlp.annotators.tokenizer.wordpiece.{BasicTokenizer, WordpieceEncoder}
-import com.johnsnowlabs.nlp.serialization.MapFeature
-import com.johnsnowlabs.nlp.util.io.{ExternalResource, ReadAs, ResourceHelper}
 import com.johnsnowlabs.storage.HasStorageRef
-import org.apache.spark.broadcast.Broadcast
 import org.apache.spark.ml.param.{IntArrayParam, IntParam}
 import org.apache.spark.ml.util.Identifiable
 import org.apache.spark.sql.{DataFrame, SparkSession}
 import org.slf4j.{Logger, LoggerFactory}
-
-import java.io.File
 
 /** Token-level embeddings using BERT. BERT (Bidirectional Encoder Representations from
   * Transformers) provides dense vector representations for natural language by using a deep,
@@ -155,28 +150,12 @@ class BertEmbeddings(override val uid: String)
     with WriteTensorflowModel
     with HasEmbeddingsProperties
     with HasStorageRef
-    with HasCaseSensitiveProperties {
+    with HasCaseSensitiveProperties
+    with HasDlModel[BertEmbeddings, TensorflowBert]
+    with HasVocabulary
+    with HasSignature {
 
   def this() = this(Identifiable.randomUID("BERT_EMBEDDINGS"))
-
-  /** @group setParam */
-  def sentenceStartTokenId: Int = {
-    $$(vocabulary)("[CLS]")
-  }
-
-  /** @group setParam */
-  def sentenceEndTokenId: Int = {
-    $$(vocabulary)("[SEP]")
-  }
-
-  /** Vocabulary used to encode the words to ids with WordPieceEncoder
-    *
-    * @group param
-    */
-  val vocabulary: MapFeature[String, Int] = new MapFeature(this, "vocabulary")
-
-  /** @group setParam */
-  def setVocabulary(value: Map[String, Int]): this.type = set(vocabulary, value)
 
   /** ConfigProto from tensorflow, serialized into byte array. Get with
     * `config_proto.SerializeToString()`
@@ -215,26 +194,8 @@ class BertEmbeddings(override val uid: String)
   /** @group getParam */
   def getMaxSentenceLength: Int = $(maxSentenceLength)
 
-  /** It contains TF model signatures for the laded saved model
-    *
-    * @group param
-    */
-  val signatures = new MapFeature[String, String](model = this, name = "signatures")
-
   /** @group setParam */
-  def setSignatures(value: Map[String, String]): this.type = {
-    if (get(signatures).isEmpty)
-      set(signatures, value)
-    this
-  }
-
-  /** @group getParam */
-  def getSignatures: Option[Map[String, String]] = get(this.signatures)
-
-  private var _model: Option[Broadcast[TensorflowBert]] = None
-
-  /** @group setParam */
-  def setModelIfNotSet(
+  override def setModelIfNotSet(
       spark: SparkSession,
       tensorflowWrapper: TensorflowWrapper): BertEmbeddings = {
     if (_model.isEmpty) {
@@ -250,9 +211,6 @@ class BertEmbeddings(override val uid: String)
 
     this
   }
-
-  /** @group getParam */
-  def getModelIfNotSet: TensorflowBert = _model.get.value
 
   /** Set Embeddings dimensions for the BERT model Only possible to set this when the first time
     * is saved dimension is not changeable, it comes from BERT config file
@@ -389,7 +347,9 @@ trait ReadablePretrainedBertModel
     super.pretrained(name, lang, remoteLoc)
 }
 
-trait ReadBertTensorflowModel extends ReadTensorflowModel {
+trait ReadBertTensorflowModel
+    extends ReadTensorflowModel
+    with HasLoadSavedModel[BertEmbeddings, TensorflowBert] {
   this: ParamsAndFeaturesReadable[BertEmbeddings] =>
 
   override val tfFile: String = "bert_tensorflow"
@@ -401,42 +361,6 @@ trait ReadBertTensorflowModel extends ReadTensorflowModel {
   }
 
   addReader(readTensorflow)
-
-  def loadSavedModel(tfModelPath: String, spark: SparkSession): BertEmbeddings = {
-
-    val f = new File(tfModelPath)
-    val savedModel = new File(tfModelPath, "saved_model.pb")
-
-    require(f.exists, s"Folder $tfModelPath not found")
-    require(f.isDirectory, s"File $tfModelPath is not folder")
-    require(
-      savedModel.exists(),
-      s"savedModel file saved_model.pb not found in folder $tfModelPath")
-
-    val vocab = new File(tfModelPath + "/assets", "vocab.txt")
-
-    require(f.exists, s"Folder $tfModelPath not found")
-    require(f.isDirectory, s"File $tfModelPath is not folder")
-    require(vocab.exists(), s"Vocabulary file vocab.txt not found in folder $tfModelPath")
-
-    val vocabResource =
-      new ExternalResource(vocab.getAbsolutePath, ReadAs.TEXT, Map("format" -> "text"))
-    val words = ResourceHelper.parseLines(vocabResource).zipWithIndex.toMap
-
-    val (wrapper, signatures) =
-      TensorflowWrapper.read(tfModelPath, zipped = false, useBundle = true)
-
-    val _signatures = signatures match {
-      case Some(s) => s
-      case None => throw new Exception("Cannot load signature definitions from model!")
-    }
-
-    /** the order of setSignatures is important if we use getSignatures inside setModelIfNotSet */
-    new BertEmbeddings()
-      .setVocabulary(words)
-      .setSignatures(_signatures)
-      .setModelIfNotSet(spark, wrapper)
-  }
 }
 
 /** This is the companion object of [[BertEmbeddings]]. Please refer to that class for the
