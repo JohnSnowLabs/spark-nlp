@@ -16,9 +16,10 @@
 
 package com.johnsnowlabs.storage;
 
+import java.io.Serializable;
 import java.util.Arrays;
 
-public final class BytesKey {
+public final class BytesKey implements Serializable {
 
     private final byte[] array;
 
