@@ -101,10 +101,11 @@ class LightPipeline(val pipelineModel: PipelineModel, parseEmbeddingsVectors: Bo
           processImageAssembler(target, imageAssembler, annotations)
         case audioAssembler: AudioAssembler =>
           processAudioAssembler(audio, audioAssembler, annotations)
-        case annotatorModel: AnnotatorModel[_] =>
-          processAnnotatorModel(annotatorModel, annotations)
+        case lazyAnnotator: AnnotatorModel[_] if lazyAnnotator.getLazyAnnotator => annotations
         case recursiveAnnotator: HasRecursiveTransform[_] with AnnotatorModel[_] =>
           processRecursiveAnnotator(recursiveAnnotator, annotations)
+        case annotatorModel: AnnotatorModel[_] =>
+          processAnnotatorModel(annotatorModel, annotations)
         case finisher: Finisher => annotations.filterKeys(finisher.getInputCols.contains)
         case graphFinisher: GraphFinisher => processGraphFinisher(graphFinisher, annotations)
         case rawModel: RawAnnotator[_] => processRowAnnotator(rawModel, annotations)
@@ -167,7 +168,6 @@ class LightPipeline(val pipelineModel: PipelineModel, parseEmbeddingsVectors: Bo
       annotatorModel: AnnotatorModel[_],
       annotations: Map[String, Seq[IAnnotation]]): Map[String, Seq[IAnnotation]] = {
     annotatorModel match {
-      case lazyAnnotator: AnnotatorModel[_] if lazyAnnotator.getLazyAnnotator => annotations
       case annotator: HasSimpleAnnotate[_] =>
         processAnnotator(annotator, annotations)
       case batchedAnnotator: HasBatchedAnnotate[_] =>
