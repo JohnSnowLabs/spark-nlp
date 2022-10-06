@@ -127,7 +127,38 @@ The Annotation Lab also offers support for relation extraction. Relations are in
     <Relation value="MetastasisLocation"/>
   </Relations>
 ```
-No other constraints can currently be enforced on the labels linked by the defined relations so the annotators must be extra careful and follow the annotation guidelines that specify how the defined relations can be used.  
+
+### Constraints for relation labeling
+
+While annotating projects with Relations between Entities, defining constraints (the direction, the domain, the co-domain) of relations is important. Annotation Lab offers a way to define such constraints by editing the Project Configuration. The Project Owner or Project Managers can specify which Relation needs to be bound to which Labels and in which direction. This will hide some Relations in Labeling Page for NER Labels which will simplify the annotation process and will avoid the creation of any incorrect relations in the scope of the project.
+To define such constraint, add allowed attribute to the <Relation> tag:
+-  L1>L2 means Relation can be created in the direction from Label L1 to Label L2, but not the other way around
+-  L1<>L2 means Relation can be created in either direction between Label L1 to Label L2
+
+If the allowed attribute is not present in the tag, there is no such restriction. 
+
+Bellow you can find a sample Project Configuration with Constraints for Relation Labels:
+
+```bash
+<View> 
+<Header value="Sample Project Configuration for Relations Annotation"/> 
+<Relations> 
+    <Relation value="Was In" allowed="PERSON>LOC"/> 
+    <Relation value="Has Function" allowed="LOC>EVENT,PERSON>MEDICINE"/> 
+    <Relation value="Involved In" allowed="PERSON<>EVENT"/> 
+    <Relation value="No Constraints"/> 
+</Relations> 
+<Labels name="label" toName="text"> 
+    <Label value="PERSON"/> 
+    <Label value="EVENT"/> 
+    <Label value="MEDICINE"/> 
+    <Label value="LOC"/> 
+</Labels> 
+<Text name="text" value="$text"/> 
+</View>
+```
+
+
  
 ## Project Validations
 
