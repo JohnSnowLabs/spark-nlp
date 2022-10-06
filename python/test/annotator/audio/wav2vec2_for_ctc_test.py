@@ -21,7 +21,7 @@ from sparknlp.annotator import *
 from sparknlp.base import *
 from test.util import SparkSessionForTest
 
-
+@test.mark.slow
 class Wav2Vec2TestSetUp(unittest.TestCase):
 
     def setUp(self):

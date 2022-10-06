@@ -18,7 +18,7 @@ package com.johnsnowlabs.nlp.annotators.audio
 
 import com.johnsnowlabs.nlp.AudioAssembler
 import com.johnsnowlabs.nlp.annotator.Tokenizer
-import com.johnsnowlabs.nlp.base.{DocumentAssembler, LightPipeline}
+import com.johnsnowlabs.nlp.base.LightPipeline
 import com.johnsnowlabs.nlp.pretrained.PretrainedPipeline
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
 import com.johnsnowlabs.tags.SlowTest
@@ -169,7 +169,7 @@ class Wav2Vec2ForCTCTestSpec extends AnyFlatSpec {
     val lightPipeline = new LightPipeline(pipelineModel)
     val results = lightPipeline.fullAnnotate(Array(rawFloats, rawFloats))
 
-    results.foreach{ result =>
+    results.foreach { result =>
       assert(result("audio_assembler").nonEmpty)
       assert(result("document").nonEmpty)
       assert(result("token").nonEmpty)
