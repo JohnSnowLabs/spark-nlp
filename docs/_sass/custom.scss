@@ -2008,6 +2008,15 @@ code {
 	}
 }
 
+.tabs-box.tabs-new {
+	.highlighter-rouge {
+		display: none;
+		&.active {
+			display: block;
+		}
+	}
+}
+
 .model-wrap {
 	.tabs-box {
 		.highlighter-rouge {

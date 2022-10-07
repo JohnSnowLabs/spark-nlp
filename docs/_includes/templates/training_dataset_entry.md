@@ -27,7 +27,7 @@ Refer to the documentation for more details on the API:
 
 <summary class="button"><b>Show Example</b></summary>
 
-<div class="tabs-box" markdown="1">
+<div class="tabs-box tabs-new" markdown="1">
 
 {% include programmingLanguageSelectScalaPython.html %}
 

@@ -44,7 +44,7 @@ It's based on CascadeTabNet which used Cascade mask Region-based CNN High-Resolu
 
 **Example:**
 
-<div class="tabs-box pt0" markdown="1">
+<div class="tabs-box tabs-new pt0" markdown="1">
 
 {% include programmingLanguageSelectScalaPython.html %}
 
@@ -167,7 +167,7 @@ Current implementation support few algorithm for extract cells:
 
 **Example:**
 
-<div class="tabs-box pt0" markdown="1">
+<div class="tabs-box tabs-new pt0" markdown="1">
 
 {% include programmingLanguageSelectScalaPython.html %}
 
@@ -281,7 +281,7 @@ to _outputCol_ as TableContainer structure.
 
 **Example:**
 
-<div class="tabs-box pt0" markdown="1">
+<div class="tabs-box tabs-new pt0" markdown="1">
 
 {% include programmingLanguageSelectScalaPython.html %}
 
