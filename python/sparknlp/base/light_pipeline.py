@@ -82,7 +82,7 @@ class LightPipeline:
                                     annotation.nChannels(),
                                     annotation.mode(),
                                     list(annotation.result()),
-                                    dict(annotation.metadata()))
+                                    annotation.metadata())
                 )
             elif annotation_type == "AnnotationAudio":
                 annotations.append(
@@ -108,7 +108,7 @@ class LightPipeline:
 
         Parameters
         ----------
-        target : list or str
+        target : list or str or float
             The data to be annotated
         optional_target: list or str
             Optional data to be annotated (currently used for Question Answering)
@@ -170,13 +170,28 @@ class LightPipeline:
             return False
 
     def __fullAnnotateText(self, target):
-        result = []
-        if type(target) is str:
-            target = [target]
 
-        for annotations_result in self._lightPipeline.fullAnnotateJava(target):
-            result.append(self.__buildStages(annotations_result))
-        return result
+        if self.__isPath(target):
+            result = self.fullAnnotateImage(target)
+            return result
+        else:
+            result = []
+            if type(target) is str:
+                target = [target]
+
+            for annotations_result in self._lightPipeline.fullAnnotateJava(target):
+                result.append(self.__buildStages(annotations_result))
+            return result
+
+    def __isPath(self, target):
+        if type(target) is list:
+            target = target[0]
+
+        if target.find("/") < 0:
+            return False
+        else:
+            is_valid_file = _internal._ResourceHelper_validFile(target).apply()
+            return is_valid_file
 
     def __fullAnnotateAudio(self, audios):
         result = []
