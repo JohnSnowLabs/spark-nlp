@@ -6766,6 +6766,11 @@ code {
       background: #ECF9FF;
       float: left; }
 
+.tabs-box.tabs-new .highlighter-rouge {
+  display: none; }
+  .tabs-box.tabs-new .highlighter-rouge.active {
+    display: block; }
+
 .model-wrap .tabs-box .highlighter-rouge {
   display: none; }
   .model-wrap .tabs-box .highlighter-rouge.active {

@@ -623,7 +623,7 @@ It’s based on Cascade Region-based CNN network.</p>
 
 <p><strong>Example:</strong></p>
 
-<div class="tabs-box pt0">
+<div class="tabs-box tabs-new pt0">
 
   <div class="top_tab_li">   
     <p><button data-type="python" class="tab-li tab-li-second active">Python</button><button data-type="scala" class="tab-li tab-li-second">Scala</button></p>
@@ -806,7 +806,7 @@ It’s based on CRAFT network architecture.</p>
 
 <p><strong>Example:</strong></p>
 
-<div class="tabs-box pt0">
+<div class="tabs-box tabs-new pt0">
 
   <div class="top_tab_li">   
     <p><button data-type="python" class="tab-li tab-li-second active">Python</button><button data-type="scala" class="tab-li tab-li-second">Scala</button></p>
@@ -1003,7 +1003,7 @@ Currently, it’s available only on Python side.</p>
 
 <p><strong>Example:</strong></p>
 
-<div class="tabs-box pt0">
+<div class="tabs-box tabs-new pt0">
 
   <div class="top_tab_li">   
     <p><button data-type="python" class="tab-li tab-li-second active">Python</button><button data-type="scala" class="tab-li tab-li-second">Scala</button></p>
@@ -1131,7 +1131,7 @@ defer(function () { // load inital language
 }); */
 
 
-if(document.querySelectorAll('.model-wrap').length !== 0) {
+if((document.querySelectorAll('.model-wrap').length !== 0) || (document.querySelectorAll('.tabs-new').length !== 0)) {
 
     let tabLi = document.querySelectorAll('.tab-li'),
         tabLiTopF = document.querySelectorAll('.top_tab_li');
@@ -1191,7 +1191,7 @@ if(document.querySelectorAll('.model-wrap').length !== 0) {
 }
 
 //Second tabs
-if(document.querySelectorAll('.tab-li-second')) {
+if(document.querySelectorAll('.tab-li-second').length !== 0) {
     let tabLi = document.querySelectorAll('.tab-li-second');
 
     tabLi.forEach(element => {
@@ -1233,9 +1233,7 @@ if(document.querySelectorAll('.tab-li-second')) {
 }
 
 //Third tabs
-if(document.querySelectorAll('.tab-li-inner')) {
-
-
+if(document.querySelectorAll('.tab-li-inner').length !== 0) {
 
     let tabLiSecond = document.querySelectorAll('.tab-li-inner'),
         tabLiTop = document.querySelectorAll('.toptab-second'),

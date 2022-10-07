@@ -612,7 +612,7 @@ You can checkout a demo application of the Explain Document ML pipeline here:</p
   <p>Explain Document ML (<strong>explain_document_ml</strong>) is a pretrained pipeline that does a little bit of everything NLP related. Let’s try it
 out in scala. Note that the first time you run the below code it might take longer since it downloads the pretrained pipeline from our servers!</p>
 
-  <div class="tabs-box">
+  <div class="tabs-box tabs-new">
 
     <div class="top_tab_li">   
     <p><button data-type="python" class="tab-li tab-li-second active">Python</button><button data-type="scala" class="tab-li tab-li-second">Scala</button></p>
@@ -681,7 +681,7 @@ different components in a spark dataframe.</p>
   <p>Remember than when starting jupyter notebook from pyspark or when running the spark-shell for scala, a Spark Session is started in the background
 by default within the namespace ‘scala’.</p>
 
-  <div class="tabs-box">
+  <div class="tabs-box tabs-new">
 
     <div class="top_tab_li">   
     <p><button data-type="python" class="tab-li tab-li-second active">Python</button><button data-type="scala" class="tab-li tab-li-second">Scala</button></p>
@@ -758,7 +758,7 @@ by default within the namespace ‘scala’.</p>
   <p>The output of the previous DataFrame was in terms of Annotation objects. This output is not really comfortable to deal with, as you can see by
 running the code:</p>
 
-  <div class="tabs-box">
+  <div class="tabs-box tabs-new">
 
     <div class="top_tab_li">   
     <p><button data-type="python" class="tab-li tab-li-second active">Python</button><button data-type="scala" class="tab-li tab-li-second">Scala</button></p>
@@ -877,7 +877,7 @@ token or a lemma, as both are of type token.</p>
 
   <p>Since version 1.5.0 we are making necessary imports easy to reach, <strong>base._</strong> will include general Spark NLP transformers and concepts, while <strong>annotator._</strong> will include all annotators that we currently provide. We also need Spark ML pipelines.</p>
 
-  <div class="tabs-box">
+  <div class="tabs-box tabs-new">
 
     <div class="top_tab_li">   
     <p><button data-type="python" class="tab-li tab-li-second active">Python</button><button data-type="scala" class="tab-li tab-li-second">Scala</button></p>
@@ -903,7 +903,7 @@ annotated. There is a special <strong>transformer</strong> that does this for us
 the <strong>DocumentAssembler</strong>, it creates the first annotation of type
 <strong>Document</strong> which may be used by annotators down the road.</p>
 
-  <div class="tabs-box">
+  <div class="tabs-box tabs-new">
 
     <div class="top_tab_li">   
     <p><button data-type="python" class="tab-li tab-li-second active">Python</button><button data-type="scala" class="tab-li tab-li-second">Scala</button></p>
@@ -927,7 +927,7 @@ the <strong>DocumentAssembler</strong>, it creates the first annotation of type
   <p>In this quick example, we now proceed to identify the sentences in the input document. SentenceDetector requires a Document annotation,
 which is provided by the DocumentAssembler output, and it’s itself a Document type token. The Tokenizer requires a Document annotation type. That means it works both with DocumentAssembler or SentenceDetector output. In the following example we use the sentence output.</p>
 
-  <div class="tabs-box">
+  <div class="tabs-box tabs-new">
 
     <div class="top_tab_li">   
     <p><button data-type="python" class="tab-li tab-li-second active">Python</button><button data-type="scala" class="tab-li tab-li-second">Scala</button></p>
@@ -970,7 +970,7 @@ which is provided by the DocumentAssembler output, and it’s itself a Document 
 
   <p>At the end of each pipeline or any stage that was done by Spark NLP, you may want to get results out whether onto another pipeline or simply write them on disk. The <code class="language-plaintext highlighter-rouge">Finisher</code> annotator helps you to clean the metadata (if it’s set to true) and output the results into an array:</p>
 
-  <div class="tabs-box">
+  <div class="tabs-box tabs-new">
 
     <div class="top_tab_li">   
     <p><button data-type="python" class="tab-li tab-li-second active">Python</button><button data-type="scala" class="tab-li tab-li-second">Scala</button></p>
@@ -1007,7 +1007,7 @@ which is provided by the DocumentAssembler output, and it’s itself a Document 
 <p>Now we want to put all this together and retrieve the results, we use a Pipeline for this.  We use the same data in fit() that we will use in
 transform since none of the pipeline stages have a training stage.</p>
 
-<div class="tabs-box">
+<div class="tabs-box tabs-new">
 
   <div class="top_tab_li">   
     <p><button data-type="python" class="tab-li tab-li-second active">Python</button><button data-type="scala" class="tab-li tab-li-second">Scala</button></p>
@@ -1063,7 +1063,7 @@ amounts of data. This means, we do not input a Spark Dataframe, but a string or 
 Pipelines, you need to input an already trained (fit) Spark ML Pipeline.
 It’s transform() stage is converted into annotate() instead.</p>
 
-<div class="tabs-box">
+<div class="tabs-box tabs-new">
 
   <div class="top_tab_li">   
     <p><button data-type="python" class="tab-li tab-li-second active">Python</button><button data-type="scala" class="tab-li tab-li-second">Scala</button></p>
@@ -1163,7 +1163,7 @@ converting them into an AnnotatorModel.</p>
 
   <p><strong>Example:</strong></p>
 
-  <div class="tabs-box">
+  <div class="tabs-box tabs-new">
 
     <div class="top_tab_li">   
     <p><button data-type="python" class="tab-li tab-li-second active">Python</button><button data-type="scala" class="tab-li tab-li-second">Scala</button></p>
@@ -1190,7 +1190,7 @@ seamlessly so it is important to have this concept handy. Once a
 
   <p><strong>Example:</strong></p>
 
-  <div class="tabs-box">
+  <div class="tabs-box tabs-new">
 
     <div class="top_tab_li">   
     <p><button data-type="python" class="tab-li tab-li-second active">Python</button><button data-type="scala" class="tab-li tab-li-second">Scala</button></p>
@@ -1216,7 +1216,7 @@ maximum). To use them, simply plug in a trained (fitted) pipeline.</p>
 
   <p><strong>Example:</strong></p>
 
-  <div class="tabs-box">
+  <div class="tabs-box tabs-new">
 
     <div class="top_tab_li">   
     <p><button data-type="python" class="tab-li tab-li-second active">Python</button><button data-type="scala" class="tab-li tab-li-second">Scala</button></p>
@@ -1254,7 +1254,7 @@ same intention.</p>
 
   <p><strong>Example:</strong></p>
 
-  <div class="tabs-box">
+  <div class="tabs-box tabs-new">
 
     <div class="top_tab_li">   
     <p><button data-type="python" class="tab-li tab-li-second active">Python</button><button data-type="scala" class="tab-li tab-li-second">Scala</button></p>
@@ -1369,7 +1369,7 @@ defer(function () { // load inital language
 }); */
 
 
-if(document.querySelectorAll('.model-wrap').length !== 0) {
+if((document.querySelectorAll('.model-wrap').length !== 0) || (document.querySelectorAll('.tabs-new').length !== 0)) {
 
     let tabLi = document.querySelectorAll('.tab-li'),
         tabLiTopF = document.querySelectorAll('.top_tab_li');
@@ -1429,7 +1429,7 @@ if(document.querySelectorAll('.model-wrap').length !== 0) {
 }
 
 //Second tabs
-if(document.querySelectorAll('.tab-li-second')) {
+if(document.querySelectorAll('.tab-li-second').length !== 0) {
     let tabLi = document.querySelectorAll('.tab-li-second');
 
     tabLi.forEach(element => {
@@ -1471,9 +1471,7 @@ if(document.querySelectorAll('.tab-li-second')) {
 }
 
 //Third tabs
-if(document.querySelectorAll('.tab-li-inner')) {
-
-
+if(document.querySelectorAll('.tab-li-inner').length !== 0) {
 
     let tabLiSecond = document.querySelectorAll('.tab-li-inner'),
         tabLiTop = document.querySelectorAll('.toptab-second'),
