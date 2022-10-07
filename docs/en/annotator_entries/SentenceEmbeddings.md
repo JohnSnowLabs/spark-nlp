@@ -15,7 +15,7 @@ and the [SentenceEmbeddingsTestSpec](https://github.com/JohnSnowLabs/spark-nlp/b
 
 **TIP:** Here is how you can explode and convert these embeddings into `Vectors` or what's known as `Feature` column so it can be used in Spark ML regression or clustering functions:
 
-<div class="tabs-box" markdown="1">
+<div class="tabs-box tabs-new" markdown="1">
 
 {% include programmingLanguageSelectScalaPython.html %}
 
