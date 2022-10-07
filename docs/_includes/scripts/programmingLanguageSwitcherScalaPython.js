@@ -65,7 +65,7 @@ defer(function () { // load inital language
 }); */
 
 
-if(document.querySelectorAll('.model-wrap').length !== 0) {
+if((document.querySelectorAll('.model-wrap').length !== 0) || (document.querySelectorAll('.tabs-new').length !== 0)) {
 
     let tabLi = document.querySelectorAll('.tab-li'),
         tabLiTopF = document.querySelectorAll('.top_tab_li');
@@ -125,7 +125,7 @@ if(document.querySelectorAll('.model-wrap').length !== 0) {
 }
 
 //Second tabs
-if(document.querySelectorAll('.tab-li-second')) {
+if(document.querySelectorAll('.tab-li-second').length !== 0) {
     let tabLi = document.querySelectorAll('.tab-li-second');
 
     tabLi.forEach(element => {
@@ -167,9 +167,7 @@ if(document.querySelectorAll('.tab-li-second')) {
 }
 
 //Third tabs
-if(document.querySelectorAll('.tab-li-inner')) {
-
-
+if(document.querySelectorAll('.tab-li-inner').length !== 0) {
 
     let tabLiSecond = document.querySelectorAll('.tab-li-inner'),
         tabLiTop = document.querySelectorAll('.toptab-second'),

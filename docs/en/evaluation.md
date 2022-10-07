@@ -23,7 +23,7 @@ The results will display on the console or to an [MLflow tracking UI](https://ml
 
 **Example:**
 
-<div class="tabs-box pt0" markdown="1">
+<div class="tabs-box tabs-new pt0" markdown="1">
 
 {% include programmingLanguageSelectScalaPython.html %}
 
@@ -63,7 +63,7 @@ My sister goes to Munich.
 
 **Example for annotator:**
 
-<div class="tabs-box pt0" markdown="1">
+<div class="tabs-box tabs-new pt0" markdown="1">
 
 {% include programmingLanguageSelectScalaPython.html %}
 
@@ -91,7 +91,7 @@ norvigSpellEvaluation.computeAccuracyAnnotator(trainFile, spell)
 
 **Example for pretrained model:**
 
-<div class="tabs-box pt0" markdown="1">
+<div class="tabs-box tabs-new pt0" markdown="1">
 
 {% include programmingLanguageSelectScalaPython.html %}
 
@@ -139,7 +139,7 @@ My sister goes to Munich.
 
 **Example for annotator:**
 
-<div class="tabs-box pt0" markdown="1">
+<div class="tabs-box tabs-new pt0" markdown="1">
 
 {% include programmingLanguageSelectScalaPython.html %}
 ```python
@@ -165,7 +165,7 @@ symSpellEvaluation.computeAccuracyAnnotator(trainFile, spell)
 
 **Example for pretrained model:**
 
-<div class="tabs-box pt0" markdown="1">
+<div class="tabs-box tabs-new pt0" markdown="1">
 
 {% include programmingLanguageSelectScalaPython.html %}
 ```python
@@ -195,7 +195,7 @@ to display accuracy for entity I-PER and B-PER set "IOB" whereas just for entity
 
 **Example:**
 
-<div class="tabs-box pt0" markdown="1">
+<div class="tabs-box tabs-new pt0" markdown="1">
 
 {% include programmingLanguageSelectScalaPython.html %}
 ```python
@@ -237,7 +237,7 @@ nerDLEvaluation.computeAccuracyAnnotator(trainFile, nerApproach, embeddings)
 
 **Example for pretrained model:**
 
-<div class="tabs-box pt0" markdown="1">
+<div class="tabs-box tabs-new pt0" markdown="1">
 
 {% include programmingLanguageSelectScalaPython.html %}
 ```python
@@ -268,7 +268,7 @@ to display accuracy for entity I-PER and B-PER set "IOB" whereas just for entity
 
 **Example:**
 
-<div class="tabs-box pt0" markdown="1">
+<div class="tabs-box tabs-new pt0" markdown="1">
 
 {% include programmingLanguageSelectScalaPython.html %}
 ```python
@@ -309,7 +309,7 @@ nerCrfEvaluation.computeAccuracyAnnotator(trainFile, nerTagger, embeddings)
 
 **Example for pretrained model:**
 
-<div class="tabs-box pt0" markdown="1">
+<div class="tabs-box tabs-new pt0" markdown="1">
 
 {% include programmingLanguageSelectScalaPython.html %}
 ```python
@@ -338,7 +338,7 @@ You can evaluate POS either by training an annotator or by using a pretrained mo
 
 **Example for annotator:**
 
-<div class="tabs-box pt0" markdown="1">
+<div class="tabs-box tabs-new pt0" markdown="1">
 
 {% include programmingLanguageSelectScalaPython.html %}
 ```python

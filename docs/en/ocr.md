@@ -60,7 +60,7 @@ Below, you can follow a more theoretical and thorough quick start guide.
 
 The following code example creates an OCR Pipeline for processing image(s). The image file(s) can contain complex layout like columns, tables, images inside.
 
-<div class="tabs-box" markdown="1">
+<div class="tabs-box tabs-new" markdown="1">
 
 {% include programmingLanguageSelectScalaPython.html %}
 
@@ -139,7 +139,7 @@ data.show()
 
 Next sample provides an example of OCR Pipeline for processing PDF files containing image data. In this case, the [PdfToImage](ocr_pipeline_components#pdftoimage) transformer is used to convert PDF file to a set of images.
 
-<div class="tabs-box" markdown="1">
+<div class="tabs-box tabs-new" markdown="1">
 
 {% include programmingLanguageSelectScalaPython.html %}
 
@@ -226,7 +226,7 @@ For each PDF file, this pipeline will:
     - run OCR and save output to the `text` column
 
 
-<div class="tabs-box" markdown="1">
+<div class="tabs-box tabs-new" markdown="1">
 
 {% include programmingLanguageSelectScalaPython.html %}
 
@@ -326,7 +326,7 @@ data.show()
 
 Next code segments provide an example of streaming OCR pipeline. It processes images and stores results to memory table.
 
-<div class="tabs-box" markdown="1">
+<div class="tabs-box tabs-new" markdown="1">
 
 {% include programmingLanguageSelectScalaPython.html %}
 
@@ -392,7 +392,7 @@ query = modelPipeline.transform(dataFrame) \
 
 For getting results from memory table following code could be used:
 
-<div class="tabs-box" markdown="1">
+<div class="tabs-box tabs-new" markdown="1">
 
 {% include programmingLanguageSelectScalaPython.html %}
 
@@ -429,7 +429,7 @@ In this case OCR transformers would fill _exception_ column that contains _trans
 
 Here is an output with exception when try to process js file using OCR pipeline:
 
-<div class="tabs-box" markdown="1">
+<div class="tabs-box tabs-new" markdown="1">
 
 {% include programmingLanguageSelectScalaPython.html %}
 
