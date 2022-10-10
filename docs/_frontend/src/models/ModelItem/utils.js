@@ -53,3 +53,19 @@ export const addNamingConventions = (title) => {
     return acc;
   }, []);
 };
+
+export const products = {
+  'Spark NLP': 'Spark NLP',
+  'Spark NLP for Healthcare': 'Healthcare NLP',
+  'Spark OCR': 'Visual NLP',
+  'Spark NLP for Finance': 'Finance NLP',
+  'Spark NLP for Legal': 'Legal NLP',
+};
+
+export const productDisplayName = (edition) => {
+  for (const [key, value] of Object.entries(products).reverse()) {
+    if (edition.includes(key)) {
+      return edition.replace(key, value);
+    }
+  }
+};
