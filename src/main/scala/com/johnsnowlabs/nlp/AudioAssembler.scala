@@ -45,10 +45,6 @@ import org.apache.spark.sql.{DataFrame, Dataset}
   * root
   *
   * }}}
-  * TODO:
-  *   - support various file formats
-  *   - output into float array
-  *   - handle stereo
   */
 class AudioAssembler(override val uid: String)
     extends Transformer
@@ -62,12 +58,12 @@ class AudioAssembler(override val uid: String)
     */
   override val outputAnnotatorType: AnnotatorType = AUDIO
 
-  /** Input column of raw floats of the processed audio
+  /** Input column of raw float or double of the processed audio
     *
     * @group param
     */
   val inputCol: Param[String] =
-    new Param[String](this, "inputCol", "Input column of raw floats of the audio")
+    new Param[String](this, "inputCol", "Input column of raw float or double of the audio")
 
   /** Input column of raw audio
     *
@@ -100,15 +96,38 @@ class AudioAssembler(override val uid: String)
         metadata = Map("length" -> contentLength.toString) ++ metadata))
   }
 
+  private[nlp] def assemble(
+      audio: Array[Double],
+      metadata: Map[String, String]): Seq[AnnotationAudio] = {
+
+    val audioContent = Option(audio).getOrElse(Array.emptyDoubleArray)
+    val contentLength: Int = audioContent.length
+    Seq(
+      new AnnotationAudio(
+        AnnotatorType.AUDIO,
+        result = audioContent.map(x => x.toFloat),
+        metadata = Map("length" -> contentLength.toString) ++ metadata))
+  }
+
   private[nlp] def dfAssemble: UserDefinedFunction = udf { (audio: Array[Float]) =>
     assemble(audio, Map("audio" -> "0"))
   }
 
-  private[nlp] def isArrayFloat(inputSchema: DataType): Boolean = {
-    DataType.equalsStructurally(
-      ArrayType(FloatType, containsNull = false),
-      inputSchema,
-      ignoreNullability = true)
+  private[nlp] def dfAssembleDouble: UserDefinedFunction = udf { (audio: Array[Double]) =>
+    assemble(audio, Map("audio" -> "0"))
+  }
+
+  private[nlp] def isArrayFloatOrDouble(inputSchema: DataType): (Boolean, String) = {
+    if (DataType.equalsStructurally(
+        ArrayType(FloatType, containsNull = false),
+        inputSchema,
+        ignoreNullability = true)) (true, "FloatType")
+    else if (DataType.equalsStructurally(
+        ArrayType(DoubleType, containsNull = false),
+        inputSchema,
+        ignoreNullability = true)) (true, "DoubleType")
+    else
+      (false, "FloatType")
   }
 
   /** requirement for pipeline transformation validation. It is called on fit() */
@@ -133,13 +152,17 @@ class AudioAssembler(override val uid: String)
 
     val inputColSchema = dataset.schema(getInputCol).dataType
     require(
-      isArrayFloat(inputColSchema),
-      s"""column $getInputCol does not contain Array of Floats. Instead it is $inputColSchema type. Please make sure your inputCol contains Array[Float].""".stripMargin)
+      isArrayFloatOrDouble(inputColSchema)._1,
+      s"""column $getInputCol does not contain Array of Floats or Array of Doubles. 
+         |Instead it is $inputColSchema type. Please make sure your inputCol contains Array[Float] or Array[Double].""".stripMargin)
 
     val audioAnnotations = {
-      dfAssemble(dataset($(inputCol)))
+      if (isArrayFloatOrDouble(inputColSchema)._2 == "FloatType") {
+        dfAssemble(dataset($(inputCol)))
+      } else if (isArrayFloatOrDouble(inputColSchema)._2 == "DoubleType") {
+        dfAssembleDouble(dataset($(inputCol)))
+      } else dfAssemble(dataset($(inputCol)))
     }
-
     dataset.withColumn(getOutputCol, audioAnnotations.as(getOutputCol, metadataBuilder.build))
 
   }
