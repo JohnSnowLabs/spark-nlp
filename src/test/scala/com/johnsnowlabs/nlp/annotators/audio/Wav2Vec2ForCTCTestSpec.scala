@@ -162,9 +162,17 @@ class Wav2Vec2ForCTCTestSpec extends AnyFlatSpec {
 
   "Wav2Vec2ForCTC" should "pretrained pipeline" taggedAs SlowTest in {
 
+    val processedAudioDoubles: Dataset[Row] =
+      spark.read
+        .option("inferSchema", value = true)
+        .json("src/test/resources/audio/json/audio_floats.json")
+        .select($"float_array".as("audio_content"))
+
+    processedAudioDoubles.printSchema()
+
     val pipelineModel = PretrainedPipeline("pipeline_asr_wav2vec2_base_960h")
 
-    val pipelineDF = pipelineModel.transform(processedAudioFloats)
+    val pipelineDF = pipelineModel.transform(processedAudioDoubles)
     pipelineDF.show()
 
   }
