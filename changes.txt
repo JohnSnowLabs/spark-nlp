@@ -1,6 +1,2 @@
-docs/_frontend/src/models/FilterForm/FilterForm.js
-docs/_frontend/src/models/ModelItem/ModelItem.js
-docs/_frontend/src/models/ModelItem/utils.js
-docs/_frontend/src/models/FilterForm/FilterForm.js
-docs/_frontend/src/models/ModelItem/ModelItem.js
-docs/_frontend/src/models/ModelItem/utils.js
+docs/_includes/scripts/programmingLanguageSwitcherScalaPython.js
+docs/_includes/scripts/programmingLanguageSwitcherScalaPython.js
