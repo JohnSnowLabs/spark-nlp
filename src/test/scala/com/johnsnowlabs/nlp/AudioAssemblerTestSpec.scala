@@ -30,6 +30,36 @@ class AudioAssemblerTestSpec extends AnyFlatSpec {
 
   bufferedSource.close
 
+  it should "work with array of doubles" taggedAs FastTest in {
+
+    val processedAudioDoubles: DataFrame =
+      spark.read
+        .option("inferSchema", value = true)
+        .json("src/test/resources/audio/json/audio_floats.json")
+        .select($"float_array")
+
+    processedAudioDoubles.printSchema()
+    processedAudioDoubles.show()
+
+    val audioAssembler = new AudioAssembler()
+      .setInputCol("float_array")
+      .setOutputCol("audio_assembler")
+
+    audioAssembler.transform(processedAudioDoubles).collect()
+
+    val bufferedSource: BufferedSource =
+      scala.io.Source.fromFile("src/test/resources/audio/csv/audi_floats.csv")
+
+    val rawDoubles: Array[Double] = bufferedSource
+      .getLines()
+      .map(_.split(",").head.trim.toDouble)
+      .toArray
+
+    audioAssembler.assemble(rawDoubles, Map("" -> ""))
+    audioAssembler.transform(processedAudioDoubles).collect()
+
+  }
+
   it should "run in a LightPipeline" taggedAs FastTest in {
     val audioAssembler = new AudioAssembler()
       .setInputCol("float_array")
