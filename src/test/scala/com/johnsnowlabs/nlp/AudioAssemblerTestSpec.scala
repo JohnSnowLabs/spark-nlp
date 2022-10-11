@@ -37,7 +37,7 @@ class AudioAssemblerTestSpec extends AnyFlatSpec {
     val processedAudioDoubles: DataFrame =
       spark.read
         .option("inferSchema", value = true)
-        .json(pathToFileWithFloats)
+        .json("src/test/resources/audio/json/audio_floats.json")
         .select($"float_array")
 
     processedAudioDoubles.printSchema()
