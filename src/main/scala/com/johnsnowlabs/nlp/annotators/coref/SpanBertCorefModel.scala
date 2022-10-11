@@ -53,16 +53,17 @@ import java.io.File
   * The default model is `"spanbert_base_coref"`, if no name is provided. For available pretrained
   * models please see the [[https://nlp.johnsnowlabs.com/models Models Hub]].
   *
+  * For extended examples of usage, see the
+  * [[https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/jupyter/annotation/english/coreference-resolution/Coreference_Resolution_SpanBertCorefModel.ipynb Spark NLP Workshop]]
+  *
   * '''References:'''
   *   - [[https://github.com/mandarjoshi90/coref]]
   *
   * ==Example==
   * {{{
   * import spark.implicits._
-  * import com.johnsnowlabs.nlp.base.DocumentAssembler
-  * import com.johnsnowlabs.nlp.annotators.Tokenizer
-  * import com.johnsnowlabs.nlp.annotators.sbd.pragmatic.SentenceDetector
-  * import com.johnsnowlabs.nlp.annotators.coref.SpanBertCorefModel*
+  * import com.johnsnowlabs.nlp.base._
+  * import com.johnsnowlabs.nlp.annotator._
   * import org.apache.spark.ml.Pipeline
   *
   * val documentAssembler = new DocumentAssembler()
