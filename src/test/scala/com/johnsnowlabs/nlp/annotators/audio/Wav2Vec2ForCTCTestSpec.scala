@@ -18,7 +18,7 @@ package com.johnsnowlabs.nlp.annotators.audio
 
 import com.johnsnowlabs.nlp.AudioAssembler
 import com.johnsnowlabs.nlp.annotator.Tokenizer
-import com.johnsnowlabs.nlp.base.DocumentAssembler
+import com.johnsnowlabs.nlp.base.LightPipeline
 import com.johnsnowlabs.nlp.pretrained.PretrainedPipeline
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
 import com.johnsnowlabs.tags.SlowTest
@@ -54,7 +54,7 @@ class Wav2Vec2ForCTCTestSpec extends AnyFlatSpec {
     val pipeline: Pipeline = new Pipeline().setStages(Array(audioAssembler, speechToText))
 
     val bufferedSource =
-      scala.io.Source.fromFile("src/test/resources/audio/csv/audi_floats.csv")
+      scala.io.Source.fromFile("src/test/resources/audio/csv/audio_floats.csv")
 
     val rawFloats = bufferedSource
       .getLines()
@@ -88,7 +88,7 @@ class Wav2Vec2ForCTCTestSpec extends AnyFlatSpec {
       new Pipeline().setStages(Array(audioAssembler, speechToText, token))
 
     val bufferedSource =
-      scala.io.Source.fromFile("src/test/resources/audio/csv/audi_floats.csv")
+      scala.io.Source.fromFile("src/test/resources/audio/csv/audio_floats.csv")
 
     val rawFloats = bufferedSource
       .getLines()
@@ -103,6 +103,77 @@ class Wav2Vec2ForCTCTestSpec extends AnyFlatSpec {
 
     pipelineDF.select("document").show(10, false)
     pipelineDF.select("token").show(10, false)
+
+  }
+
+  "Wav2Vec2ForCTC" should "transform speech to text with LightPipeline" taggedAs SlowTest in {
+    val speechToText: Wav2Vec2ForCTC = Wav2Vec2ForCTC
+      .pretrained()
+      .setInputCols("audio_assembler")
+      .setOutputCol("document")
+
+    val token = new Tokenizer()
+      .setInputCols("document")
+      .setOutputCol("token")
+
+    val pipeline: Pipeline =
+      new Pipeline().setStages(Array(audioAssembler, speechToText, token))
+
+    val bufferedSource =
+      scala.io.Source.fromFile("src/test/resources/audio/csv/audio_floats.csv")
+
+    val rawFloats = bufferedSource
+      .getLines()
+      .map(_.split(",").head.trim.toFloat)
+      .toArray
+    bufferedSource.close
+
+    val processedAudioFloats = Seq(rawFloats).toDF("audio_content")
+    processedAudioFloats.printSchema()
+
+    val pipelineModel = pipeline.fit(processedAudioFloats)
+    val lightPipeline = new LightPipeline(pipelineModel)
+    val result = lightPipeline.fullAnnotate(rawFloats)
+
+    assert(result("audio_assembler").nonEmpty)
+    assert(result("document").nonEmpty)
+    assert(result("token").nonEmpty)
+  }
+
+  it should "transform several speeches to text with LightPipeline" taggedAs SlowTest in {
+    val speechToText: Wav2Vec2ForCTC = Wav2Vec2ForCTC
+      .pretrained()
+      .setInputCols("audio_assembler")
+      .setOutputCol("document")
+
+    val token = new Tokenizer()
+      .setInputCols("document")
+      .setOutputCol("token")
+
+    val pipeline: Pipeline =
+      new Pipeline().setStages(Array(audioAssembler, speechToText, token))
+
+    val bufferedSource =
+      scala.io.Source.fromFile("src/test/resources/audio/csv/audio_floats.csv")
+
+    val rawFloats = bufferedSource
+      .getLines()
+      .map(_.split(",").head.trim.toFloat)
+      .toArray
+    bufferedSource.close
+
+    val processedAudioFloats = Seq(rawFloats).toDF("audio_content")
+    processedAudioFloats.printSchema()
+
+    val pipelineModel = pipeline.fit(processedAudioFloats)
+    val lightPipeline = new LightPipeline(pipelineModel)
+    val results = lightPipeline.fullAnnotate(Array(rawFloats, rawFloats))
+
+    results.foreach { result =>
+      assert(result("audio_assembler").nonEmpty)
+      assert(result("document").nonEmpty)
+      assert(result("token").nonEmpty)
+    }
 
   }
 
