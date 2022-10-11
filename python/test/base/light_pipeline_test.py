@@ -67,6 +67,39 @@ class LightPipelineTextInputTest(LightPipelineTextSetUp, unittest.TestCase):
             self.assertTrue(len(result["token"]) > 0)
 
 
+@pytest.mark.fast
+class LightPipelineNoisyTextInputTest(LightPipelineTextSetUp, unittest.TestCase):
+
+    def setUp(self):
+        super().setUp()
+        self.noisy_text = "I am still so sick  http://myloc.me/22zV"
+
+    def runTest(self):
+        light_pipeline = LightPipeline(self.model)
+
+        annotations_result = light_pipeline.fullAnnotate(self.text)
+
+        self.assertEqual(len(annotations_result), 1)
+        for result in annotations_result:
+            self.assertTrue(len(result["document"]) > 0)
+            self.assertTrue(len(result["token"]) > 0)
+
+        annotations_result = light_pipeline.fullAnnotate(self.noisy_text)
+
+        self.assertEqual(len(annotations_result), 1)
+        for result in annotations_result:
+            self.assertTrue(len(result["document"]) > 0)
+            self.assertTrue(len(result["token"]) > 0)
+
+        texts = [self.noisy_text, self.text]
+        annotations_result = light_pipeline.fullAnnotate(texts)
+
+        self.assertEqual(len(annotations_result), len(texts))
+        for result in annotations_result:
+            self.assertTrue(len(result["document"]) > 0)
+            self.assertTrue(len(result["token"]) > 0)
+
+
 class LightPipelineImageSetUp(unittest.TestCase):
 
     def setUp(self):
@@ -260,7 +293,7 @@ class LightPipelineQAInputTest(unittest.TestCase):
     def setUp(self):
         self.question = "What's my name?"
         self.context = "My name is Clara and I live in Berkeley."
-        self.data = SparkContextForTest.spark.createDataFrame([[self.question, self.context]])\
+        self.data = SparkContextForTest.spark.createDataFrame([[self.question, self.context]]) \
             .toDF("question", "context")
 
     def runTest(self):
