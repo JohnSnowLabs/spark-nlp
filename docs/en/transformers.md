@@ -70,7 +70,7 @@ DistilBertForSequenceClassification |   | ✅  |  [TFDistilBertForSequenceClassi
 AlbertForSequenceClassification |   | ✅  |  [TFAlbertForSequenceClassification](https://huggingface.co/docs/transformers/model_doc/albert#transformers.TFAlbertForSequenceClassification)
 RoBertaForSequenceClassification |   | ✅  |  [TFRobertaForSequenceClassification](https://huggingface.co/docs/transformers/model_doc/roberta#transformers.TFRobertaForSequenceClassification)
 DeBertaForSequenceClassification |   | ✅  |  [TFDebertaV2ForSequenceClassification](https://huggingface.co/docs/transformers/model_doc/deberta-v2#transformers.TFDebertaV2ForSequenceClassification)
-XlmRoBertaForSequenceClassification |   | ✅  |  [TFXLMRobertaForSequenceClassification](https://huggingface.co/docs/transformers/model_doc/xlmroberta#transformers.TFXLMRobertaForSequenceClassification)
+XlmRoBertaForSequenceClassification |   | ✅  |  [TFXLMRobertaForSequenceClassification](https://huggingface.co/docs/transformers/model_doc/xlm-roberta#transformers.TFXLMRobertaForSequenceClassification)
 XlnetForSequenceClassification |   | ✅  |  [TFXLNetForSequenceClassification](https://huggingface.co/docs/transformers/model_doc/xlnet#transformers.TFXLNetForSequenceClassification)
 LongformerForSequenceClassification |   | ✅  |  [TFLongformerForSequenceClassification](https://huggingface.co/docs/transformers/model_doc/longformer#transformers.TFLongformerForSequenceClassification)
 | AlbertForQuestionAnswering  |   |✅  |  [TFAlbertForQuestionAnswering](https://huggingface.co/docs/transformers/model_doc/albert#transformers.TFAlbertForQuestionAnswering)
@@ -124,6 +124,7 @@ LongformerForQuestionAnswering|[HuggingFace in Spark NLP - LongformerForQuestion
 RoBertaForQuestionAnswering|[HuggingFace in Spark NLP - RoBertaForQuestionAnswering](https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/jupyter/transformers/HuggingFace%20in%20Spark%20NLP%20-%20RoBertaForQuestionAnswering.ipynb) | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/jupyter/transformers/HuggingFace%20in%20Spark%20NLP%20-%20RoBertaForQuestionAnswering.ipynb)
 XlmRobertaForQuestionAnswering|[HuggingFace in Spark NLP - XlmRobertaForQuestionAnswering](https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/jupyter/transformers/HuggingFace%20in%20Spark%20NLP%20-%20XlmRobertaForQuestionAnswering.ipynb) | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/jupyter/transformers/HuggingFace%20in%20Spark%20NLP%20-%20XlmRobertaForQuestionAnswering.ipynb)
 ViTForImageClassification|[HuggingFace in Spark NLP - ViTForImageClassification](https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/jupyter/transformers/HuggingFace%20in%20Spark%20NLP%20-%20ViTForImageClassification.ipynb) | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/jupyter/transformers/HuggingFace%20in%20Spark%20NLP%20-%20ViTForImageClassification.ipynb)
+
 
 #### TF Hub to Spark NLP
 
