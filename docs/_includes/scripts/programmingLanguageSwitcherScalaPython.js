@@ -67,7 +67,7 @@ defer(function () { // load inital language
 
 if((document.querySelectorAll('.model-wrap').length !== 0) || (document.querySelectorAll('.tabs-new').length !== 0)) {
 
-    let tabLi = document.querySelectorAll('.tab-li'),
+    let tabLi = document.querySelectorAll('.tabs-new .tab-li'),
         tabLiTopF = document.querySelectorAll('.top_tab_li');
 
     tabLiTopF.forEach(e => {        
@@ -135,6 +135,7 @@ if(document.querySelectorAll('.tab-li-second').length !== 0) {
                 tabLiInner = element.parentNode.querySelectorAll('.tab-li-second'),
                 tabBoxInner = element.parentNode.parentNode.parentNode.querySelectorAll('.tabs-box-medic-inner');
             
+
             //remove active class
             tabBoxInner.forEach(item => {
                 item.classList.remove('active');
