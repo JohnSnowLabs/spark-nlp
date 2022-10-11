@@ -64,8 +64,7 @@ class LightPipeline:
         self.pipeline_model = pipelineModel
         self._lightPipeline = _internal._LightPipeline(pipelineModel, parse_embeddings).apply()
 
-    @staticmethod
-    def _annotation_from_java(java_annotations):
+    def _annotation_from_java(self, java_annotations):
         annotations = []
         for annotation in java_annotations:
 
@@ -73,6 +72,7 @@ class LightPipeline:
             annotation_type = annotation.toString()[:index]
 
             if annotation_type == "AnnotationImage":
+                result = self._get_result(annotation)
                 annotations.append(
                     AnnotationImage(annotation.annotatorType(),
                                     annotation.origin(),
@@ -80,8 +80,8 @@ class LightPipeline:
                                     annotation.width(),
                                     annotation.nChannels(),
                                     annotation.mode(),
-                                    list(annotation.result()),
-                                    dict(annotation.metadata()))
+                                    result,
+                                    annotation.metadata())
                 )
             else:
                 annotations.append(
@@ -89,10 +89,18 @@ class LightPipeline:
                                annotation.begin(),
                                annotation.end(),
                                annotation.result(),
-                               dict(annotation.metadata()),
+                               annotation.metadata(),
                                [])
                 )
         return annotations
+
+    def _get_result(self, annotation):
+        try:
+            result = list(annotation.result())
+        except TypeError:
+            result = []
+
+        return result
 
     def fullAnnotate(self, target, optional_target=""):
         """Annotates the data provided into `Annotation` type results.
