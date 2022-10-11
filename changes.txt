@@ -1,2 +1,2 @@
-docs/_includes/scripts/programmingLanguageSwitcherScalaPython.js
-docs/_includes/scripts/programmingLanguageSwitcherScalaPython.js
+docs/en/transformers.md
+docs/en/transformers.md
