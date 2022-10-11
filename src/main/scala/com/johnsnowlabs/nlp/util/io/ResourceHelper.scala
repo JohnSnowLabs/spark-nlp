@@ -580,15 +580,15 @@ object ResourceHelper {
     val filePath = fileSystem.getScheme match {
       case "hdfs" => {
         if (pathToFile.startsWith("file:")) {
-          Option(new File(pathToFile.replace("file:", "")))
-        } else Option(new File(pathToFile))
+          new File(pathToFile.replace("file:", ""))
+        } else new File(pathToFile)
       }
       case "dbfs" if pathToFile.startsWith("dbfs:") =>
-        Option(new File(pathToFile.replace("dbfs:", "/dbfs/")))
-      case _ => Option(new File(pathToFile))
+        new File(pathToFile.replace("dbfs:", "/dbfs/"))
+      case _ => new File(pathToFile)
     }
 
-    filePath.getOrElse(throw new FileNotFoundException(s"file: $pathToFile not found"))
+    filePath
   }
 
   def validFile(path: String): Boolean = {
