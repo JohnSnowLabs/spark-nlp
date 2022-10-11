@@ -49,3 +49,31 @@ class Wav2Vec2ForCTCTestSpec(unittest.TestCase):
         model = pipeline.fit(self.data)
         result_df = model.transform(self.data)
         assert result_df.select("text").count() > 0
+
+
+@pytest.mark.slow
+class Wav2Vec2ForCTCWithDoubleTestSpec(unittest.TestCase):
+    def setUp(self):
+        audio_path = os.getcwd() + "/../src/test/resources/audio/json/audio_floats.json"
+        self.data = SparkSessionForTest.spark.read.option("inferSchema", value=True).json(audio_path) \
+            .select(col("float_array").alias("audio_content"))
+
+    def runTest(self):
+        self.data.show()
+        audio_assembler = AudioAssembler() \
+            .setInputCol("audio_content") \
+            .setOutputCol("audio_assembler")
+
+        speech_to_text = Wav2Vec2ForCTC \
+            .pretrained() \
+            .setInputCols("audio_assembler") \
+            .setOutputCol("text")
+
+        pipeline = Pipeline(stages=[
+            audio_assembler,
+            speech_to_text,
+        ])
+
+        model = pipeline.fit(self.data)
+        result_df = model.transform(self.data)
+        assert result_df.select("text").count() > 0
