@@ -7,7 +7,7 @@ date: 2021-09-04
 tags: [en, licensed]
 task: OCR Table Detection & Recognition
 language: en
-edition: Spark NLP 3.0.0
+edition: Spark OCR 3.0.0
 spark_version: 3.0
 supported: true
 article_header:
@@ -35,7 +35,7 @@ This modes is used by ImageTableDetector
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
 ```python
-binary_to_image = BinaryToImage() 
+binary_to_image = BinaryToImage()
 binary_to_image.setImageType(ImageType.TYPE_3BYTE_BGR)
 
 table_detector = ImageTableDetector
@@ -68,7 +68,7 @@ val tableDetector = ImageTableDetector
 |---|---|
 |Model Name:|ocr_table_detection_general_model|
 |Type:|ocr|
-|Compatibility:|Spark NLP 3.0.0+|
+|Compatibility:|Spark OCR 3.0.0+|
 |License:|Licensed|
 |Edition:|Official|
 |Output Labels:|[table regions]|

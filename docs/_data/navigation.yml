@@ -148,28 +148,28 @@ sparknlp-healthcare:
         url: /docs/en/best_practices_pretrained_models
   - title: Healthcare NLP
     children:
-      - title: Version Compatibility
-        url: /docs/en/licensed_version_compatibility
       - title: Release Notes
         url: /docs/en/licensed_release_notes
       - title: Healthcare Models
         url: /models?edition=Spark+NLP+for+Healthcare
+      - title: Version Compatibility
+        url: /docs/en/licensed_version_compatibility
   - title: Finance NLP
     children:
       - title: Release Notes
         url: /docs/en/financial_release_notes
-      - title: Version Compatibility
-        url: /docs/en/financial_version_compatibility
       - title: Financial Models
         url: /models?edition=Spark+NLP+for+Finance
+      - title: Version Compatibility
+        url: /docs/en/financial_version_compatibility
   - title: Legal NLP
     children:
       - title: Release Notes
         url: /docs/en/legal_release_notes
-      - title: Version Compatibility
-        url: /docs/en/legal_version_compatibility
       - title: Legal Models
         url: /models?edition=Spark+NLP+for+Legal
+      - title: Version Compatibility
+        url: /docs/en/legal_version_compatibility
 
 spark-ocr:
   - title: Spark OCR
