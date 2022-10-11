@@ -36,6 +36,7 @@
     <script src="../../../../../../static/underscore.js"></script>
     <script src="../../../../../../static/_sphinx_javascript_frameworks_compat.js"></script>
     <script src="../../../../../../static/doctools.js"></script>
+    <script src="../../../../../../static/sphinx_highlight.js"></script>
     <script src="../../../../../../static/toggleprompt.js"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'reference/autosummary/sparknlp_jsl/annotator/context/contextual_parser/index';</script>
     <link rel="shortcut icon" href="../../../../../../static/fav.ico"/>
@@ -447,6 +448,15 @@
      <code class="xref py py-mod docutils literal notranslate">
       <span class="pre">
        sparknlp_jsl.annotator.deid.deIdentification
+      </span>
+     </code>
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../../deid/doccument_hashcoder/index.html">
+     <code class="xref py py-mod docutils literal notranslate">
+      <span class="pre">
+       sparknlp_jsl.annotator.deid.doccument_hashcoder
       </span>
      </code>
     </a>
@@ -1285,6 +1295,226 @@ Pipeline could then be defined like this</p>
     <ul class="nav section-nav flex-column">
      <li class="toc-h4 nav-item toc-entry">
       <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.context.contextual_parser.ContextualParserApproach">
+       <code class="docutils literal notranslate">
+        <span class="pre">
+         ContextualParserApproach
+        </span>
+       </code>
+      </a>
+      <ul class="nav section-nav flex-column">
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.context.contextual_parser.ContextualParserApproach.jsonPath">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           ContextualParserApproach.jsonPath
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.context.contextual_parser.ContextualParserApproach.caseSensitive">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           ContextualParserApproach.caseSensitive
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.context.contextual_parser.ContextualParserApproach.prefixAndSuffixMatch">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           ContextualParserApproach.prefixAndSuffixMatch
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.context.contextual_parser.ContextualParserApproach.dictionary">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           ContextualParserApproach.dictionary
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.context.contextual_parser.ContextualParserApproach.optionalContextRules">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           ContextualParserApproach.optionalContextRules
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.context.contextual_parser.ContextualParserApproach.shortestContextMatch">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           ContextualParserApproach.shortestContextMatch
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.context.contextual_parser.ContextualParserApproach.completeContextMatch">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           ContextualParserApproach.completeContextMatch
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.context.contextual_parser.ContextualParserApproach.setJsonPath">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           ContextualParserApproach.setJsonPath()
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.context.contextual_parser.ContextualParserApproach.setCaseSensitive">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           ContextualParserApproach.setCaseSensitive()
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.context.contextual_parser.ContextualParserApproach.setPrefixAndSuffixMatch">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           ContextualParserApproach.setPrefixAndSuffixMatch()
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.context.contextual_parser.ContextualParserApproach.setDictionary">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           ContextualParserApproach.setDictionary()
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.context.contextual_parser.ContextualParserApproach.setOptionalContextRules">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           ContextualParserApproach.setOptionalContextRules()
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.context.contextual_parser.ContextualParserApproach.setShortestContextMatch">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           ContextualParserApproach.setShortestContextMatch()
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.context.contextual_parser.ContextualParserApproach.setCompleteContextMatch">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           ContextualParserApproach.setCompleteContextMatch()
+          </span>
+         </code>
+        </a>
+       </li>
+      </ul>
+     </li>
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.context.contextual_parser.ContextualParserModel">
+       <code class="docutils literal notranslate">
+        <span class="pre">
+         ContextualParserModel
+        </span>
+       </code>
+      </a>
+      <ul class="nav section-nav flex-column">
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.context.contextual_parser.ContextualParserModel.caseSensitive">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           ContextualParserModel.caseSensitive
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.context.contextual_parser.ContextualParserModel.prefixAndSuffixMatch">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           ContextualParserModel.prefixAndSuffixMatch
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.context.contextual_parser.ContextualParserModel.optionalContextRules">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           ContextualParserModel.optionalContextRules
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.context.contextual_parser.ContextualParserModel.shortestContextMatch">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           ContextualParserModel.shortestContextMatch
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.context.contextual_parser.ContextualParserModel.setCaseSensitive">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           ContextualParserModel.setCaseSensitive()
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.context.contextual_parser.ContextualParserModel.setPrefixAndSuffixMatch">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           ContextualParserModel.setPrefixAndSuffixMatch()
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.context.contextual_parser.ContextualParserModel.setOptionalContextRules">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           ContextualParserModel.setOptionalContextRules()
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.context.contextual_parser.ContextualParserModel.setShortestContextMatch">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           ContextualParserModel.setShortestContextMatch()
+          </span>
+         </code>
+        </a>
+       </li>
+      </ul>
+     </li>
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.context.contextual_parser.ContextualParserApproach">
        ContextualParserApproach
       </a>
       <ul class="nav section-nav flex-column">
@@ -1464,7 +1694,7 @@ Pipeline could then be defined like this</p>
   <div class="footer-item">
     
 <p class="sphinx-version">
-Created using <a href="http://sphinx-doc.org/">Sphinx</a> 5.1.1.<br>
+Created using <a href="http://sphinx-doc.org/">Sphinx</a> 5.2.3.<br>
 </p>
 
   </div>

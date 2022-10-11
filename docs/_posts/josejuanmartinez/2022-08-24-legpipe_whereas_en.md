@@ -39,11 +39,11 @@ The difficulty of these entities is that they are totally free-text, with OBJECT
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
 ```python
-from sparknlp.pretrained import PretrainedPipeline
+from johnsnowlabs import *
 
 deid_pipeline = PretrainedPipeline("legpipe_whereas", "en", "legal/models")
 
-deid_pipeline.annotate('WHEREAS VerticalNet owns and operates a series of online communities.'')
+deid_pipeline.annotate('WHEREAS VerticalNet owns and operates a series of online communities.')
 
 # Return NER chunks
 pipeline_result['ner_chunk']
@@ -52,9 +52,8 @@ pipeline_result['ner_chunk']
 pipeline_result['relations']
 
 # Visualize the Dependencies
-from sparknlp_display import DependencyParserVisualizer
 
-dependency_vis = DependencyParserVisualizer()
+dependency_vis = viz.DependencyParserVisualizer()
 
 dependency_vis.display(pipeline_result[0], #should be the results of a single example, not the complete dataframe.
                        pos_col = 'pos', #specify the pos column
@@ -97,12 +96,12 @@ In-house annotations on CUAD dataset
 
 ## Included Models
 
-- DocumentAssembler
-- Tokenizer
-- PerceptronModel
-- DependencyParserModel
-- TypedDependencyParserModel
-- RoBertaEmbeddings
-- LegalNerModel
-- NerConverter
-- RelationExtractionDLModel
+- nlp.DocumentAssembler
+- nlp.Tokenizer
+- nlp.PerceptronModel
+- nlp.DependencyParserModel
+- nlp.TypedDependencyParserModel
+- nlp.RoBertaEmbeddings
+- legal.NerModel
+- nlp.NerConverter
+- legal.RelationExtractionDLModel

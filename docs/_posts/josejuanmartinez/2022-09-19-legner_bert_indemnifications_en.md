@@ -35,16 +35,16 @@ This is a Legal Named Entity Recognition Model to identify the Subject (who), Ac
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
 ```python
-documentAssembler = DocumentAssembler()\
+documentAssembler = nlp.DocumentAssembler()\
         .setInputCol("text")\
         .setOutputCol("document")
 
-sentencizer = SentenceDetectorDLModel\
+sentencizer = nlp.SentenceDetectorDLModel\
         .pretrained("sentence_detector_dl", "en") \
         .setInputCols(["document"])\
         .setOutputCol("sentence")
                       
-tokenizer = Tokenizer()\
+tokenizer = nlp.Tokenizer()\
         .setInputCols(["sentence"])\
         .setOutputCol("token")
 
@@ -53,7 +53,7 @@ tokenClassifier = legal.BertForTokenClassification.pretrained("legner_bert_indem
   .setOutputCol("label")\
   .setCaseSensitive(True)
 
-ner_converter = NerConverter()\
+ner_converter = nlp.NerConverter()\
     .setInputCols(["sentence","token","label"])\
     .setOutputCol("ner_chunk")
     

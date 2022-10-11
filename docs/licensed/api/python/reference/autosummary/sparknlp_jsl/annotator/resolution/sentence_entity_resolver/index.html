@@ -36,6 +36,7 @@
     <script src="../../../../../../static/underscore.js"></script>
     <script src="../../../../../../static/_sphinx_javascript_frameworks_compat.js"></script>
     <script src="../../../../../../static/doctools.js"></script>
+    <script src="../../../../../../static/sphinx_highlight.js"></script>
     <script src="../../../../../../static/toggleprompt.js"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'reference/autosummary/sparknlp_jsl/annotator/resolution/sentence_entity_resolver/index';</script>
     <link rel="shortcut icon" href="../../../../../../static/fav.ico"/>
@@ -447,6 +448,15 @@
      <code class="xref py py-mod docutils literal notranslate">
       <span class="pre">
        sparknlp_jsl.annotator.deid.deIdentification
+      </span>
+     </code>
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../../deid/doccument_hashcoder/index.html">
+     <code class="xref py py-mod docutils literal notranslate">
+      <span class="pre">
+       sparknlp_jsl.annotator.deid.doccument_hashcoder
       </span>
      </code>
     </a>
@@ -1389,6 +1399,354 @@ and returns the normalized entity for a particular trained ontology / curated da
     <ul class="nav section-nav flex-column">
      <li class="toc-h4 nav-item toc-entry">
       <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.resolution.sentence_entity_resolver.SentenceResolverParams">
+       <code class="docutils literal notranslate">
+        <span class="pre">
+         SentenceResolverParams
+        </span>
+       </code>
+      </a>
+      <ul class="nav section-nav flex-column">
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.resolution.sentence_entity_resolver.SentenceResolverParams.distanceFunction">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           SentenceResolverParams.distanceFunction
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.resolution.sentence_entity_resolver.SentenceResolverParams.neighbours">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           SentenceResolverParams.neighbours
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.resolution.sentence_entity_resolver.SentenceResolverParams.threshold">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           SentenceResolverParams.threshold
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.resolution.sentence_entity_resolver.SentenceResolverParams.confidenceFunction">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           SentenceResolverParams.confidenceFunction
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.resolution.sentence_entity_resolver.SentenceResolverParams.missAsEmpty">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           SentenceResolverParams.missAsEmpty
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.resolution.sentence_entity_resolver.SentenceResolverParams.setDistanceFunction">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           SentenceResolverParams.setDistanceFunction()
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.resolution.sentence_entity_resolver.SentenceResolverParams.setNeighbours">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           SentenceResolverParams.setNeighbours()
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.resolution.sentence_entity_resolver.SentenceResolverParams.setThreshold">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           SentenceResolverParams.setThreshold()
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.resolution.sentence_entity_resolver.SentenceResolverParams.setConfidenceFunction">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           SentenceResolverParams.setConfidenceFunction()
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.resolution.sentence_entity_resolver.SentenceResolverParams.setMissAsEmpty">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           SentenceResolverParams.setMissAsEmpty()
+          </span>
+         </code>
+        </a>
+       </li>
+      </ul>
+     </li>
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.resolution.sentence_entity_resolver.SentenceEntityResolverApproach">
+       <code class="docutils literal notranslate">
+        <span class="pre">
+         SentenceEntityResolverApproach
+        </span>
+       </code>
+      </a>
+      <ul class="nav section-nav flex-column">
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.resolution.sentence_entity_resolver.SentenceEntityResolverApproach.labelCol">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           SentenceEntityResolverApproach.labelCol
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.resolution.sentence_entity_resolver.SentenceEntityResolverApproach.normalizedCol">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           SentenceEntityResolverApproach.normalizedCol
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.resolution.sentence_entity_resolver.SentenceEntityResolverApproach.pretrainedModelPath">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           SentenceEntityResolverApproach.pretrainedModelPath
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.resolution.sentence_entity_resolver.SentenceEntityResolverApproach.overrideExistingCodes">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           SentenceEntityResolverApproach.overrideExistingCodes
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.resolution.sentence_entity_resolver.SentenceEntityResolverApproach.dropCodesList">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           SentenceEntityResolverApproach.dropCodesList
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.resolution.sentence_entity_resolver.SentenceEntityResolverApproach.returnCosineDistances">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           SentenceEntityResolverApproach.returnCosineDistances
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.resolution.sentence_entity_resolver.SentenceEntityResolverApproach.aux_label_col">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           SentenceEntityResolverApproach.aux_label_col
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.resolution.sentence_entity_resolver.SentenceEntityResolverApproach.useAuxLabel">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           SentenceEntityResolverApproach.useAuxLabel
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.resolution.sentence_entity_resolver.SentenceEntityResolverApproach.setUseAuxLabel">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           SentenceEntityResolverApproach.setUseAuxLabel()
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.resolution.sentence_entity_resolver.SentenceEntityResolverApproach.setAuxLabelCol">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           SentenceEntityResolverApproach.setAuxLabelCol()
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.resolution.sentence_entity_resolver.SentenceEntityResolverApproach.setExtractCosineDistances">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           SentenceEntityResolverApproach.setExtractCosineDistances()
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.resolution.sentence_entity_resolver.SentenceEntityResolverApproach.setLabelCol">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           SentenceEntityResolverApproach.setLabelCol()
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.resolution.sentence_entity_resolver.SentenceEntityResolverApproach.setNormalizedCol">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           SentenceEntityResolverApproach.setNormalizedCol()
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.resolution.sentence_entity_resolver.SentenceEntityResolverApproach.setPretrainedModelPath">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           SentenceEntityResolverApproach.setPretrainedModelPath()
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.resolution.sentence_entity_resolver.SentenceEntityResolverApproach.setOverrideExistingCodes">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           SentenceEntityResolverApproach.setOverrideExistingCodes()
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.resolution.sentence_entity_resolver.SentenceEntityResolverApproach.setDropCodesList">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           SentenceEntityResolverApproach.setDropCodesList()
+          </span>
+         </code>
+        </a>
+       </li>
+      </ul>
+     </li>
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.resolution.sentence_entity_resolver.SentenceEntityResolverModel">
+       <code class="docutils literal notranslate">
+        <span class="pre">
+         SentenceEntityResolverModel
+        </span>
+       </code>
+      </a>
+      <ul class="nav section-nav flex-column">
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.resolution.sentence_entity_resolver.SentenceEntityResolverModel.name">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           SentenceEntityResolverModel.name
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.resolution.sentence_entity_resolver.SentenceEntityResolverModel.returnCosineDistances">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           SentenceEntityResolverModel.returnCosineDistances
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.resolution.sentence_entity_resolver.SentenceEntityResolverModel.aux_label_col">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           SentenceEntityResolverModel.aux_label_col
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.resolution.sentence_entity_resolver.SentenceEntityResolverModel.useAuxLabel">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           SentenceEntityResolverModel.useAuxLabel
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.resolution.sentence_entity_resolver.SentenceEntityResolverModel.searchTree">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           SentenceEntityResolverModel.searchTree
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.resolution.sentence_entity_resolver.SentenceEntityResolverModel.setUseAuxLabel">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           SentenceEntityResolverModel.setUseAuxLabel()
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.resolution.sentence_entity_resolver.SentenceEntityResolverModel.setAuxLabelCol">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           SentenceEntityResolverModel.setAuxLabelCol()
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.resolution.sentence_entity_resolver.SentenceEntityResolverModel.setSearchTree">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           SentenceEntityResolverModel.setSearchTree()
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.resolution.sentence_entity_resolver.SentenceEntityResolverModel.pretrained">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           SentenceEntityResolverModel.pretrained()
+          </span>
+         </code>
+        </a>
+       </li>
+      </ul>
+     </li>
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.resolution.sentence_entity_resolver.SentenceResolverParams">
        SentenceResolverParams
       </a>
       <ul class="nav section-nav flex-column">
@@ -1640,7 +1998,7 @@ and returns the normalized entity for a particular trained ontology / curated da
   <div class="footer-item">
     
 <p class="sphinx-version">
-Created using <a href="http://sphinx-doc.org/">Sphinx</a> 5.1.1.<br>
+Created using <a href="http://sphinx-doc.org/">Sphinx</a> 5.2.3.<br>
 </p>
 
   </div>

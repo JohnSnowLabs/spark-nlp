@@ -169,6 +169,7 @@ class Chunker(override val uid: String)
 
   /** @group param */
   private lazy val replacements = Map("<" -> "(?:<", ">" -> ">)", "|" -> ">|<")
+  private lazy val emptyString = ""
 
   /** @group param */
   private lazy val POSTagPatterns: Array[Regex] = {
@@ -238,8 +239,16 @@ class Chunker(override val uid: String)
         .flatten
 
       val chunkAnnotations = chunkPhrases.zipWithIndex.map { case (phrase, idx) =>
-        val result = sentence.result
-          .substring(phrase.head.begin - sentence.begin, phrase.last.end - sentence.begin + 1)
+        /** avoid exception if any document/sentence is dirty with bad indices */
+        val result =
+          try {
+            sentence.result.substring(
+              phrase.head.begin - sentence.begin,
+              phrase.last.end - sentence.begin + 1)
+          } catch {
+            case _: Exception => emptyString
+          }
+
         val start = phrase.head.begin
         val end = phrase.last.end
         Annotation(
@@ -250,7 +259,8 @@ class Chunker(override val uid: String)
           Map("sentence" -> sentenceIndex.toString, "chunk" -> idx.toString))
       }
 
-      chunkAnnotations
+      /** filter out any annotation with empty result */
+      chunkAnnotations.filter(x => x.result.nonEmpty)
     }
 
   }

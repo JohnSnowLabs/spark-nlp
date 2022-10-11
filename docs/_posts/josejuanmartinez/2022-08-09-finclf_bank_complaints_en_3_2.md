@@ -35,15 +35,15 @@ This model classifies Bank-related texts into different 7 different categories, 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
 ```python
-document_assembler = DocumentAssembler() \
+document_assembler = nlp.DocumentAssembler() \
     .setInputCol("text") \
     .setOutputCol("document")
 
-embeddings = UniversalSentenceEncoder.pretrained() \
+embeddings = nlp.UniversalSentenceEncoder.pretrained() \
       .setInputCols("document") \
       .setOutputCol("sentence_embeddings")
 
-classsifier_dl = ClassifierDLModel.load("finclf_bank_complaints", "en", "finance/models")\
+classsifier_dl = nlp.ClassifierDLModel.pretrained("finclf_bank_complaints", "en", "finance/models")\
       .setInputCols(["sentence_embeddings"])\
       .setOutputCol("label")\
 

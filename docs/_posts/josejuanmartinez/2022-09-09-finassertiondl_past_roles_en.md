@@ -35,43 +35,43 @@ This model is aimed to detect if any Role, Job Title, Person, Organization, Date
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
 ```python
-documentAssembler = DocumentAssembler()\
+documentAssembler = nlp.DocumentAssembler()\
     .setInputCol("text")\
     .setOutputCol("document")
 
-# Tokenizer splits words in a relevant format for NLP
-tokenizer = Tokenizer()\
+# nlp.Tokenizer splits words in a relevant format for NLP
+tokenizer = nlp.Tokenizer()\
     .setInputCols(["document"])\
     .setOutputCol("token")
 
-embeddings = BertEmbeddings.pretrained("bert_embeddings_sec_bert_base","en") \
+embeddings = nlp.BertEmbeddings.pretrained("bert_embeddings_sec_bert_base","en") \
     .setInputCols(["document", "token"]) \
     .setOutputCol("embeddings")
     
 # Add as many NER as you wish here. We have added 2 as an example.
-# ===============
-tokenClassifier = FinanceBertForTokenClassifier.pretrained("finner_bert_roles", "en", "finance/models")\
+# ================
+tokenClassifier = finance.BertForTokenClassification.pretrained("finner_bert_roles", "en", "finance/models")\
   .setInputCols("token", "document")\
   .setOutputCol("label")
 
-ner = FinanceNerModel.pretrained("finner_org_per_role", "en", "finance/models")\
+ner = finance.NerModel.pretrained("finner_org_per_role_date", "en", "finance/models")\
   .setInputCols("document", "token", "embeddings")\
   .setOutputCol("label2")
 
-ner_converter = NerConverterInternal() \
+ner_converter = finance.NerConverterInternal() \
     .setInputCols(["document", "token", "label"]) \
     .setOutputCol("ner_chunk")
 
-ner_converter2 = NerConverterInternal() \
+ner_converter2 = finance.NerConverterInternal() \
     .setInputCols(["document", "token", "label2"]) \
     .setOutputCol("ner_chunk2")
 
-merger =  ChunkMergeApproach()\
+merger =  finance.ChunkMergeApproach()\
     .setInputCols(["ner_chunk", "ner_chunk2"])\
     .setOutputCol("merged_chunk")
-# ===============
+# ================
 
-assertion = AssertionDLModel.pretrained("finassertiondl_past_roles", "en", "finance/models")\
+assertion = finance.AssertionDLModel.pretrained("finassertiondl_past_roles", "en", "finance/models")\
     .setInputCols(["document", "merged_chunk", "embeddings"]) \
     .setOutputCol("assertion")
     

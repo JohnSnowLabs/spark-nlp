@@ -37,16 +37,17 @@ If you look for generic version, only returning Environment, Social or Governanc
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
+
 ```python
-document_assembler = DocumentAssembler() \
+document_assembler = nlp.DocumentAssembler() \
     .setInputCol('text') \
     .setOutputCol('document')
 
-tokenizer = Tokenizer() \
+tokenizer = nlp.Tokenizer() \
     .setInputCols(['document']) \
     .setOutputCol('token')
 
-sequenceClassifier = FinanceBertForSequenceClassification.pretrained("finclf_augmented_esg", "en", "finance/models"))\
+sequenceClassifier = finance.BertForSequenceClassification.pretrained("finclf_augmented_esg", "en", "finance/models")\
   .setInputCols(["document",'token'])\
   .setOutputCol("class")
 

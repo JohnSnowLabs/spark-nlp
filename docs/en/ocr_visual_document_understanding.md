@@ -54,7 +54,7 @@ to 10 different classes (Resume, News, Note, Advertisement, Scientific, Report, 
 **Example:**
 
 
-<div class="tabs-box pt0" markdown="1">
+<div class="tabs-box tabs-new pt0" markdown="1">
 
 {% include programmingLanguageSelectScalaPython.html %}
 
@@ -179,7 +179,7 @@ scanned receipt images.
 **Example:**
 
 
-<div class="tabs-box pt0" markdown="1">
+<div class="tabs-box tabs-new pt0" markdown="1">
 
 {% include programmingLanguageSelectScalaPython.html %}
 
@@ -298,7 +298,7 @@ The dataset comprises 199 real, fully annotated, scanned forms.
 **Example:**
 
 
-<div class="tabs-box pt0" markdown="1">
+<div class="tabs-box tabs-new pt0" markdown="1">
 
 {% include programmingLanguageSelectScalaPython.html %}
 
@@ -438,7 +438,7 @@ It can detect relations only for key/value in same line.
 **Example:**
 
 
-<div class="tabs-box pt0" markdown="1">
+<div class="tabs-box tabs-new pt0" markdown="1">
 
 {% include programmingLanguageSelectScalaPython.html %}
 

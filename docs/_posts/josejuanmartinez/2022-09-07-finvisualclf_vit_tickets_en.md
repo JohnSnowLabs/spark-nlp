@@ -41,11 +41,11 @@ You can use this model to filter out non-tickets from a folder of images or mobi
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
 ```python
-document_assembler = ImageAssembler() \
+document_assembler = nlp.ImageAssembler() \
     .setInputCol("image") \
     .setOutputCol("image_assembler")
 
-imageClassifier_loaded = ViTForImageClassification.pretrained("finvisualclf_tickets", "en", "finance/models")\
+imageClassifier_loaded = nlp.ViTForImageClassification.pretrained("finvisualclf_vit_tickets", "en", "finance/models")\
   .setInputCols(["image_assembler"])\
   .setOutputCol("class")
 

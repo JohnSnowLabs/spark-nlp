@@ -11,6 +11,8 @@ sidebar:
     nav: sparknlp-healthcare
 ---
 
+<div class="h3-box" markdown="1">
+
 ## 4.1.0
 
 #### Highlights
@@ -24,6 +26,8 @@ sidebar:
 + Core improvements and bug fixes
 + New and updated notebooks
 + 20+ new clinical models and pipelines added & updated in total
+
+</div><div class="h3-box" markdown="1">
 
 #### Zero-Shot NER model to Extract Entities With No Training Dataset
 
@@ -68,9 +72,7 @@ sample_text = ["The doctor pescribed Majezik for my severe headache.",
 +------------------------------------------------+--------------+----------+
 ```
 
-
-
-
+</div><div class="h3-box" markdown="1">
 
 #### 7 New Clinical NER Models in Spanish
 
@@ -120,6 +122,7 @@ example_text=  """"Efecto de la suplementación con ácido fólico sobre los niv
 +-----------------------------+---------+
 ```
 
+</div><div class="h3-box" markdown="1">
 
 #### 8 New Clinical Classification Models in English and German Related to Public Health Topics (Depression, Covid Sentiment, Health Mentions)
 
@@ -160,6 +163,8 @@ example_text = ["Do what makes you happy, be with who makes you smile, laugh as 
  +-----------------------------------------------------------------------------------------------------------------+---------------+
 ```
 
+</div><div class="h3-box" markdown="1">
+
 #### New Pretrained Chunk Mapper Model (`drug_ade_mapper`) to Map Drugs With Their Corresponding Adverse Drug Events
 
 We are releasing new `drug_ade_mapper` pretrained chunk mapper model to map drugs with their corresponding adverse drug events.
@@ -192,6 +197,7 @@ sample_text = "The patient was prescribed 1000 mg fish oil and multivitamins. Sh
 +----------------+------------+-------------------------------------------------------------------------------------------+
 ```
 
+</div><div class="h3-box" markdown="1">
 
 #### A New Pretrained Resolver Pipeline (`medication_resolver_pipeline`) to Extract Medications and Resolve Their Adverse Reactions (ADE), RxNorm, UMLS, NDC, SNOMED CT Codes and Action/Treatments in Clinical Text.
 
@@ -228,12 +234,15 @@ med_transform_pipeline.transform(spark.createDataFrame([[sample_text]]).toDF("te
 | Everolimus 1.5 mg tablet     | DRUG        | Acute myocardial infarction |  2056895 | NONE                       | NONE                                       | C4723581 | NONE        | 00054-0604    | 00054-0604-21 |
 ```
 
+</div><div class="h3-box" markdown="1">
+
 #### Updated NER Profiling Pretrained Pipelines With New NER Models to Allow Running 64 Clinical NER Models at Once
 
 We have upadated `ner_profiling_clinical` and `ner_profiling_biobert` pretrained pipelines with the new NER models. When you run these pipelines over your text, now you will end up with the predictions coming out of **64 clinical NER models in `ner_profiling_clinical`** and **22 clinical NER models in `ner_profiling_biobert`** results.
 
 You can check [ner_profiling_clinical](https://nlp.johnsnowlabs.com/2022/08/30/ner_profiling_clinical_en.html) and [ner_profiling_biobert](https://nlp.johnsnowlabs.com/2022/08/28/ner_profiling_biobert_en.html) Models Hub pages for more details and the NER model lists that these pipelines include.
 
+</div><div class="h3-box" markdown="1">
 
 #### Core Improvements and Bug Fixes
 
@@ -248,6 +257,7 @@ You can check [ner_profiling_clinical](https://nlp.johnsnowlabs.com/2022/08/30/n
   - Wrong index computations of chunks after matching sub-tokens.
   - Including sub-token matches even though `completeMatchRegex: "true"`.
 
+</div><div class="h3-box" markdown="1">
 
 #### New and Updated Notebooks
 
@@ -259,6 +269,8 @@ You can check [ner_profiling_clinical](https://nlp.johnsnowlabs.com/2022/08/30/n
   - [Pretrained NER Profiling Pipelines Notebook](https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/11.2.Pretrained_NER_Profiling_Pipelines.ipynb)
 + We have updated [Clinical Assertion Model Notebook](https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/2.Clinical_Assertion_Model.ipynb) according to the bug fix in the training section.
 + We moved all Azure/AWS/Databricks notebooks to `products` folder in [spark-nlp-worksop](https://github.com/JohnSnowLabs/spark-nlp-workshop/tree/master/products) repo.
+
+</div><div class="h3-box" markdown="1">
 
 #### 20+ New Clinical Models and Pipelines Added & Updated in Total
 
@@ -284,7 +296,7 @@ You can check [ner_profiling_clinical](https://nlp.johnsnowlabs.com/2022/08/30/n
 + `bert_sequence_classifier_depression`
 + `bert_sequence_classifier_covid_sentiment`
 
-<div class="prev_ver h3-box" markdown="1">
+</div><div class="prev_ver h3-box" markdown="1">
 
 ## Versions
 
@@ -297,9 +309,12 @@ You can check [ner_profiling_clinical](https://nlp.johnsnowlabs.com/2022/08/30/n
     <li>
         <strong>Version 4.1.0</strong>
     </li>
+    <li>
+        <a href="release_notes_4_2_0">Version 4.2.0</a>
+    </li>
 </ul>
-
 <ul class="pagination owl-carousel pagination_big">
+    <li><a href="release_notes_4_2_0">4.2.0</a></li>
     <li class="active"><a href="release_notes_4_1_0">4.1.0</a></li>
     <li><a href="release_notes_4_0_2">4.0.2</a></li>
     <li><a href="release_notes_4_0_0">4.0.0</a></li>

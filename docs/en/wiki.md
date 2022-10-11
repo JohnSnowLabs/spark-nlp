@@ -13,7 +13,7 @@ sidebar:
 
 <div class="h3-box" markdown="1">
 
-This page is created for sharing some tips and tricks for the Spark NLP library. You can find valuable informations under the related highlights.
+This page is created for sharing some tips and tricks for the Spark NLP library. You can find valuable information under the related highlights.
 
 </div>
 <div class="h3-box" markdown="1">
@@ -22,7 +22,7 @@ This page is created for sharing some tips and tricks for the Spark NLP library.
 
 #### Loading the Same Model Into the Same Annotator More Than One Time
 
-There is 1 instance of a model when we use `.pretrained` or `.load`. So when we try to use the same model with the same annotator more than one time with different parameters, it fails. We cannot have more than 1 model per annotator in the memory. **You can load 10 different `MedicalNerModel`, but not the same model twice with different parameters, it will just load once and reuse it the other times. It's not possible to duplicate the annotator/model unless the model is different. (each model creates a unique id).**
+There is 1 instance of a model when we use `.pretrained` or `.load`. So when we try to use the same model with the same annotator more than one time with different parameters, it fails. We cannot have more than 1 model per annotator in the memory. **You can load 10 different `NerModel`, but not the same model twice with different parameters, it will just load once and reuse it the other times. It's not possible to duplicate the annotator/model unless the model is different. (each model creates a unique id).**
 
 You can only load 1 model per annotator, once that happens that model with all its parameters stays in the memory. So if you want to load the very same model on the very same annotator in another pipeline, whether you use `.transform`, or LightPipeline, it will take the already loaded model from the memory. So if the first one has different inputCol/outputCol then the second pipeline just can't find the input/output or if the parameters are different in the second pipeline you may not see the desired outcome.
 

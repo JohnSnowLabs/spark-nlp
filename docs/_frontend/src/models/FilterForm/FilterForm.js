@@ -1,15 +1,8 @@
 import Select from '../Select';
 import './FilterForm.css';
+import { products, productDisplayName } from '../ModelItem/utils';
 
 const { createElement: e } = React;
-
-const products = [
-  'Spark NLP',
-  'Spark NLP for Healthcare',
-  'Spark OCR',
-  'Spark NLP for Finance',
-  'Spark NLP for Legal',
-];
 
 const removeAloneEditions = (editions) => {
   const groups = {};
@@ -49,10 +42,11 @@ const compareEditions = (a, b) => {
       [, name, space, version] = m;
     }
     let priority;
-    const index = products.indexOf(name);
+    const productKeys = Object.keys(products);
+    const index = productKeys.indexOf(name);
     if (index !== -1) {
       if (name === edition) {
-        priority = index - products.length;
+        priority = index - productKeys.length;
       } else {
         priority = index;
       }
@@ -157,18 +151,25 @@ const FilterForm = ({ onSubmit, isLoading, meta, params }) => {
             onChange: (e) => {
               onSubmit({ edition: e.target.value });
             },
+            renderValue: (edition) => {
+              return productDisplayName(edition);
+            },
           },
           editions
             .map((edition) => {
-              if (products.includes(edition)) {
-                let new_edition = `All ${edition} versions`;
+              if (edition in products) {
+                let new_edition = `All ${products[edition]} versions`;
                 return e(
                   'option',
                   { key: new_edition, value: edition },
                   new_edition
                 );
               } else {
-                return e('option', { key: edition, value: edition }, edition);
+                return e(
+                  'option',
+                  { key: edition, value: edition },
+                  productDisplayName(edition)
+                );
               }
             })
             .reduce(

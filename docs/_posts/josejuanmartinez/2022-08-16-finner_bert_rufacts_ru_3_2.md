@@ -62,23 +62,23 @@ SOC - Social - Social object (Children, Elder people, Workers of X sector, ...)
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
 ```python
-document_assembler = DocumentAssembler()\
+document_assembler = nlp.DocumentAssembler()\
     .setInputCol("text")\
     .setOutputCol("document")
 
-sentencerDL = SentenceDetectorDLModel.pretrained("sentence_detector_dl", "ru") \
+sentencerDL = nlp.SentenceDetectorDLModel.pretrained("sentence_detector_dl", "ru") \
     .setInputCols(["document"])\
     .setOutputCol("sentence")
 
-tokenizer = Tokenizer()\
+tokenizer = nlp.Tokenizer()\
     .setInputCols(["sentence"])\
     .setOutputCol("token")
 
-ner_model = FinanceBertForTokenClassifier.pretrained("finner_bert_rufacts", "en", "finance/models")\
+ner_model = finance.BertForTokenClassification.pretrained("finner_bert_rufacts", "ru", "finance/models")\
     .setInputCols(["sentence", "token"])\
     .setOutputCol("ner")
 
-ner_converter = NerConverter()\
+ner_converter = nlp.NerConverter()\
     .setInputCols(["sentence", "token", "ner"])\
     .setOutputCol("ner_chunk")
 

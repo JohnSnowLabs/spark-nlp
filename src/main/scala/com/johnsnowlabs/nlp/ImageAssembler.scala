@@ -117,25 +117,27 @@ class ImageAssembler(override val uid: String)
   override def copy(extra: ParamMap): Transformer = defaultCopy(extra)
 
   private[nlp] def assemble(
-      image: ImageFields,
+      image: Option[ImageFields],
       metadata: Map[String, String]): Seq[AnnotationImage] = {
 
-    Seq(
-      AnnotationImage(
-        annotatorType = outputAnnotatorType,
-        origin = image.origin,
-        height = image.height,
-        width = image.width,
-        nChannels = image.nChannels,
-        mode = image.mode,
-        result = image.data,
-        metadata = metadata))
+    if (image.isDefined) {
+      Seq(
+        AnnotationImage(
+          annotatorType = outputAnnotatorType,
+          origin = image.get.origin,
+          height = image.get.height,
+          width = image.get.width,
+          nChannels = image.get.nChannels,
+          mode = image.get.mode,
+          result = image.get.data,
+          metadata = metadata))
+    } else Seq.empty
 
   }
 
   private[nlp] def dfAssemble: UserDefinedFunction = udf { (image: ImageFields) =>
     // Apache Spark has only 1 image per row
-    assemble(image, Map("image" -> "0"))
+    assemble(Some(image), Map("image" -> "0"))
   }
 
   /** requirement for pipeline transformation validation. It is called on fit() */

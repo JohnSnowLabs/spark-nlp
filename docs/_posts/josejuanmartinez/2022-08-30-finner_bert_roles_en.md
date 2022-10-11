@@ -18,7 +18,7 @@ use_language_switcher: "Python-Scala-Java"
 
 ## Description
 
-This is a Financial BertForTokenClassification NER model aimed to extract Job Titles / Roles of people in Companies, and was trained using Resumes, Wikipedia Articles, Financial and Legal documents, annotated in-house.
+This is a Financial nlp.BertForTokenClassification NER model aimed to extract Job Titles / Roles of people in Companies, and was trained using Resumes, Wikipedia Articles, Financial and Legal documents, annotated in-house.
 
 ## Predicted Entities
 
@@ -36,25 +36,22 @@ This is a Financial BertForTokenClassification NER model aimed to extract Job Ti
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
 ```python
-from sparknlp.base import *
-from sparknlp.annotator import *
-from pyspark.ml import Pipeline
-from sparknlp_jsl.annotator import *
+from johnsnowlabs import *
 
-documentAssembler = DocumentAssembler()\
+documentAssembler = nlp.DocumentAssembler()\
   .setInputCol("text")\
   .setOutputCol("document")
 
-tokenizer = Tokenizer()\
+tokenizer = nlp.Tokenizer()\
   .setInputCols("document")\
   .setOutputCol("token")
 
-tokenClassifier = FinanceBertForTokenClassification.pretrained("finner_bert_roles", "en", "finance/models")\
+tokenClassifier = finance.BertForTokenClassification.pretrained("finner_bert_roles", "en", "finance/models")\
   .setInputCols("token", "document")\
   .setOutputCol("label")\
   .setCaseSensitive(True)
 
-ner_converter = NerConverter()\
+ner_converter = nlp.NerConverter()\
         .setInputCols(["document","token","label"])\
         .setOutputCol("ner_chunk")
 
@@ -66,9 +63,10 @@ pipeline =  Pipeline(stages=[
     ]
 )
 
+import pandas as pd
+
 p_model = pipeline.fit(spark.createDataFrame(pd.DataFrame({'text': ['']})))
 
-model = nlpPipeline.fit(empty_data)
 
 text = 'Jeffrey Preston Bezos is an American entrepreneur, founder and CEO of Amazon'
 

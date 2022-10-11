@@ -42,15 +42,15 @@ Take into consideration the embeddings of this model allows up to 512 tokens. If
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
 ```python
-documentAssembler = DocumentAssembler() \
+documentAssembler = nlp.DocumentAssembler() \
      .setInputCol("text") \
      .setOutputCol("document")
 
-useEmbeddings = UniversalSentenceEncoder.pretrained() \
+useEmbeddings = nlp.UniversalSentenceEncoder.pretrained() \
     .setInputCols("document") \
     .setOutputCol("sentence_embeddings")
 
-docClassifier = ClassifierDLModel.pretrained("finclf_risk_factors_item", "en", "finance/models")\
+docClassifier = nlp.ClassifierDLModel.pretrained("finclf_risk_factors_item", "en", "finance/models")\
     .setInputCols(["sentence_embeddings"])\
     .setOutputCol("category")
     
