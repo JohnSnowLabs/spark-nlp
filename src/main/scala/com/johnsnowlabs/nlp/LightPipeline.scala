@@ -68,80 +68,65 @@ class LightPipeline(val pipelineModel: PipelineModel, parseEmbeddingsVectors: Bo
     fullAnnotateInternal(pathToImage)
   }
 
+  def fullAnnotate(audio: Array[Double]): Map[String, Seq[IAnnotation]] = {
+    // We need this since py4j converts python floats to java Doubles
+    fullAnnotate(audio.map(_.toFloat))
+  }
+
+  def fullAnnotate(audio: Array[Float]): Map[String, Seq[IAnnotation]] = {
+    fullAnnotateInternal(target = "", audio = audio)
+  }
+
+  def fullAnnotate(audios: Array[Array[Float]]): Array[Map[String, Seq[IAnnotation]]] = {
+    audios.par.map(audio => fullAnnotate(audio)).toArray
+  }
+
   private def fullAnnotateInternal(
       target: String,
       optionalTarget: String = "",
+      audio: Array[Float] = Array.empty,
       startWith: Map[String, Seq[IAnnotation]] = Map.empty[String, Seq[IAnnotation]])
       : Map[String, Seq[IAnnotation]] = {
     getStages.foldLeft(startWith)((annotations, transformer) => {
       transformer match {
         case documentAssembler: DocumentAssembler =>
-          annotations.updated(
-            documentAssembler.getOutputCol,
-            documentAssembler.assemble(target, Map.empty[String, String]))
+          processDocumentAssembler(documentAssembler, target, annotations)
         case multiDocumentAssembler: MultiDocumentAssembler =>
-          val multiDocumentAnnotations =
-            getMultipleDocumentAnnotations(
-              multiDocumentAssembler,
-              target,
-              optionalTarget,
-              annotations)
-          annotations ++ multiDocumentAnnotations
+          processMultipleDocumentAssembler(
+            multiDocumentAssembler,
+            target,
+            optionalTarget,
+            annotations)
         case imageAssembler: ImageAssembler =>
-          val currentImageFields = ImageIOUtils.imagePathToImageFields(target)
-          annotations.updated(
-            imageAssembler.getOutputCol,
-            imageAssembler.assemble(currentImageFields, Map.empty[String, String]))
+          processImageAssembler(target, imageAssembler, annotations)
+        case audioAssembler: AudioAssembler =>
+          processAudioAssembler(audio, audioAssembler, annotations)
         case lazyAnnotator: AnnotatorModel[_] if lazyAnnotator.getLazyAnnotator => annotations
         case recursiveAnnotator: HasRecursiveTransform[_] with AnnotatorModel[_] =>
-          val combinedAnnotations =
-            getCombinedAnnotations(recursiveAnnotator.getInputCols, annotations)
-          annotations.updated(
-            recursiveAnnotator.getOutputCol,
-            recursiveAnnotator.annotate(
-              combinedAnnotations.map(_.asInstanceOf[Annotation]),
-              pipelineModel))
-        case batchedAnnotator: AnnotatorModel[_] with HasBatchedAnnotate[_] =>
-          val combinedAnnotations =
-            getCombinedAnnotations(batchedAnnotator.getInputCols, annotations)
-          val batchedAnnotations = Seq(combinedAnnotations.map(_.asInstanceOf[Annotation]))
-          // Benchmarks proved that parallel execution in LightPipeline gains more speed than batching entries (which require non parallel collections)
-          annotations.updated(
-            batchedAnnotator.getOutputCol,
-            batchedAnnotator.batchAnnotate(batchedAnnotations).head)
-        case batchedAnnotatorImage: AnnotatorModel[_] with HasBatchedAnnotateImage[_] =>
-          val combinedAnnotations =
-            getCombinedAnnotations(batchedAnnotatorImage.getInputCols, annotations)
-          val batchedAnnotations = Seq(combinedAnnotations.map(_.asInstanceOf[AnnotationImage]))
-          annotations.updated(
-            batchedAnnotatorImage.getOutputCol,
-            batchedAnnotatorImage.batchAnnotate(batchedAnnotations).head)
-        case annotator: AnnotatorModel[_] with HasSimpleAnnotate[_] =>
-          val inputCols = getAnnotatorInputCols(annotator)
-          val combinedAnnotations = getCombinedAnnotations(inputCols, annotations)
-          annotations.updated(
-            annotator.getOutputCol,
-            annotator.annotate(combinedAnnotations.map(_.asInstanceOf[Annotation])))
-        case finisher: Finisher =>
-          annotations.filterKeys(finisher.getInputCols.contains)
-        case graphFinisher: GraphFinisher =>
-          val annotated = getGraphFinisherOutput(annotations, graphFinisher)
-          annotations.updated(graphFinisher.getOutputCol, annotated)
-        case rawModel: RawAnnotator[_] =>
-          if (ignoreUnsupported) annotations
-          else
-            throw new IllegalArgumentException(
-              s"model ${rawModel.uid} does not support LightPipeline." +
-                s" Call setIgnoreUnsupported(boolean) on LightPipeline to ignore")
+          processRecursiveAnnotator(recursiveAnnotator, annotations)
+        case annotatorModel: AnnotatorModel[_] =>
+          processAnnotatorModel(annotatorModel, annotations)
+        case finisher: Finisher => annotations.filterKeys(finisher.getInputCols.contains)
+        case graphFinisher: GraphFinisher => processGraphFinisher(graphFinisher, annotations)
+        case rawModel: RawAnnotator[_] => processRowAnnotator(rawModel, annotations)
         case pipeline: PipelineModel =>
           new LightPipeline(pipeline, parseEmbeddingsVectors)
-            .fullAnnotateInternal(target, optionalTarget, annotations)
+            .fullAnnotateInternal(target, optionalTarget, audio, annotations)
         case _ => annotations
       }
     })
   }
 
-  private def getMultipleDocumentAnnotations(
+  private def processDocumentAssembler(
+      documentAssembler: DocumentAssembler,
+      target: String,
+      annotations: Map[String, Seq[IAnnotation]]): Map[String, Seq[IAnnotation]] = {
+    annotations.updated(
+      documentAssembler.getOutputCol,
+      documentAssembler.assemble(target, Map.empty[String, String]))
+  }
+
+  private def processMultipleDocumentAssembler(
       multiDocumentAssembler: MultiDocumentAssembler,
       target: String,
       optionalTarget: String,
@@ -157,7 +142,126 @@ class LightPipeline(val pipelineModel: PipelineModel, parseEmbeddingsVectors: Bo
         multiDocumentAssembler.assemble(input, Map.empty[String, String]))
     }
 
-    multiDocumentAnnotations
+    annotations ++ multiDocumentAnnotations
+  }
+
+  private def processImageAssembler(
+      target: String,
+      imageAssembler: ImageAssembler,
+      annotations: Map[String, Seq[IAnnotation]]): Map[String, Seq[IAnnotation]] = {
+    val currentImageFields = ImageIOUtils.imagePathToImageFields(target)
+    annotations.updated(
+      imageAssembler.getOutputCol,
+      imageAssembler.assemble(currentImageFields, Map.empty[String, String]))
+  }
+
+  private def processAudioAssembler(
+      audio: Array[Float],
+      audioAssembler: AudioAssembler,
+      annotations: Map[String, Seq[IAnnotation]]): Map[String, Seq[IAnnotation]] = {
+    annotations.updated(
+      audioAssembler.getOutputCol,
+      audioAssembler.assemble(audio, Map.empty[String, String]))
+  }
+
+  private def processAnnotatorModel(
+      annotatorModel: AnnotatorModel[_],
+      annotations: Map[String, Seq[IAnnotation]]): Map[String, Seq[IAnnotation]] = {
+    annotatorModel match {
+      case annotator: HasSimpleAnnotate[_] =>
+        processAnnotator(annotator, annotations)
+      case batchedAnnotator: HasBatchedAnnotate[_] =>
+        processBatchedAnnotator(batchedAnnotator, annotations)
+      case batchedAnnotatorImage: HasBatchedAnnotateImage[_] =>
+        processBatchedAnnotatorImage(batchedAnnotatorImage, annotations)
+      case batchedAnnotatorAudio: HasBatchedAnnotateAudio[_] =>
+        processBatchedAnnotatorAudio(batchedAnnotatorAudio, annotations)
+    }
+  }
+
+  private def processBatchedAnnotator(
+      batchedAnnotator: AnnotatorModel[_] with HasBatchedAnnotate[_],
+      annotations: Map[String, Seq[IAnnotation]]): Map[String, Seq[IAnnotation]] = {
+    val combinedAnnotations =
+      getCombinedAnnotations(batchedAnnotator.getInputCols, annotations)
+    val batchedAnnotations = Seq(combinedAnnotations.map(_.asInstanceOf[Annotation]))
+
+    // Benchmarks proved that parallel execution in LightPipeline gains more speed than batching entries (which require non parallel collections)
+    annotations.updated(
+      batchedAnnotator.getOutputCol,
+      batchedAnnotator.batchAnnotate(batchedAnnotations).head)
+  }
+
+  private def processBatchedAnnotatorImage(
+      batchedAnnotatorImage: AnnotatorModel[_] with HasBatchedAnnotateImage[_],
+      annotations: Map[String, Seq[IAnnotation]]): Map[String, Seq[IAnnotation]] = {
+    val combinedAnnotations =
+      getCombinedAnnotations(batchedAnnotatorImage.getInputCols, annotations)
+    val batchedAnnotations = Seq(combinedAnnotations.map(_.asInstanceOf[AnnotationImage]))
+
+    annotations.updated(
+      batchedAnnotatorImage.getOutputCol,
+      batchedAnnotatorImage.batchAnnotate(batchedAnnotations).head)
+  }
+
+  private def processBatchedAnnotatorAudio(
+      batchedAnnotateAudio: AnnotatorModel[_] with HasBatchedAnnotateAudio[_],
+      annotations: Map[String, Seq[IAnnotation]]): Map[String, Seq[IAnnotation]] = {
+    val combinedAnnotations =
+      getCombinedAnnotations(batchedAnnotateAudio.getInputCols, annotations)
+    val batchedAnnotations = Seq(combinedAnnotations.map(_.asInstanceOf[AnnotationAudio]))
+
+    annotations.updated(
+      batchedAnnotateAudio.getOutputCol,
+      batchedAnnotateAudio.batchAnnotate(batchedAnnotations).head)
+  }
+
+  private def processAnnotator(
+      annotator: AnnotatorModel[_] with HasSimpleAnnotate[_],
+      annotations: Map[String, Seq[IAnnotation]]): Map[String, Seq[IAnnotation]] = {
+    val inputCols = getAnnotatorInputCols(annotator)
+    val combinedAnnotations = getCombinedAnnotations(inputCols, annotations)
+
+    annotations.updated(
+      annotator.getOutputCol,
+      annotator.annotate(combinedAnnotations.map(_.asInstanceOf[Annotation])))
+  }
+
+  private def processRecursiveAnnotator(
+      recursiveAnnotator: HasRecursiveTransform[_] with AnnotatorModel[_],
+      annotations: Map[String, Seq[IAnnotation]]): Map[String, Seq[IAnnotation]] = {
+    val combinedAnnotations =
+      getCombinedAnnotations(recursiveAnnotator.getInputCols, annotations)
+
+    annotations.updated(
+      recursiveAnnotator.getOutputCol,
+      recursiveAnnotator.annotate(
+        combinedAnnotations.map(_.asInstanceOf[Annotation]),
+        pipelineModel))
+  }
+
+  private def processGraphFinisher(
+      graphFinisher: GraphFinisher,
+      annotations: Map[String, Seq[IAnnotation]]): Map[String, Seq[IAnnotation]] = {
+    val finisherStages = getStages
+      .filter(stage => stage.isInstanceOf[GraphFinisher])
+      .map(stage => stage.asInstanceOf[GraphFinisher].getInputCol)
+    val metadata = annotations
+      .filter(annotation => finisherStages.contains(annotation._1))
+      .flatMap(annotation => annotation._2.flatMap(a => a.asInstanceOf[Annotation].metadata))
+
+    val annotated = graphFinisher.annotate(metadata)
+    annotations.updated(graphFinisher.getOutputCol, annotated)
+  }
+
+  private def processRowAnnotator(
+      rawAnnotator: RawAnnotator[_],
+      annotations: Map[String, Seq[IAnnotation]]): Map[String, Seq[IAnnotation]] = {
+    if (ignoreUnsupported) annotations
+    else
+      throw new IllegalArgumentException(
+        s"model ${rawAnnotator.uid} does not support LightPipeline." +
+          s" Call setIgnoreUnsupported(boolean) on LightPipeline to ignore")
   }
 
   private def getCombinedAnnotations(
@@ -172,37 +276,17 @@ class LightPipeline(val pipelineModel: PipelineModel, parseEmbeddingsVectors: Bo
   private def getAnnotatorInputCols(annotator: AnnotatorModel[_]): Array[String] = {
     var inputCols = annotator.getInputCols
     if (annotator.optionalInputAnnotatorTypes.nonEmpty) {
-      val optionalColumns =
-        getOptionalAnnotatorsOutputCols(annotator.optionalInputAnnotatorTypes)
+      val optionalColumns = getStages
+        .filter(stage => stage.isInstanceOf[AnnotatorModel[_]])
+        .filter(stage =>
+          annotator.optionalInputAnnotatorTypes.contains(
+            stage.asInstanceOf[AnnotatorModel[_]].outputAnnotatorType))
+        .map(stage => stage.asInstanceOf[AnnotatorModel[_]].getOutputCol)
+
       inputCols = inputCols ++ optionalColumns
     }
 
     inputCols
-  }
-
-  private def getOptionalAnnotatorsOutputCols(
-      optionalInputAnnotatorTypes: Array[String]): Array[String] = {
-    val optionalColumns = getStages
-      .filter(stage => stage.isInstanceOf[AnnotatorModel[_]])
-      .filter(stage =>
-        optionalInputAnnotatorTypes.contains(
-          stage.asInstanceOf[AnnotatorModel[_]].outputAnnotatorType))
-      .map(stage => stage.asInstanceOf[AnnotatorModel[_]].getOutputCol)
-
-    optionalColumns
-  }
-
-  private def getGraphFinisherOutput(
-      annotations: Map[String, Seq[IAnnotation]],
-      graphFinisher: GraphFinisher): Seq[Annotation] = {
-    val result = getStages
-      .filter(stage => stage.isInstanceOf[GraphFinisher])
-      .map(stage => stage.asInstanceOf[GraphFinisher].getInputCol)
-    val metadata = annotations
-      .filter(annotation => result.contains(annotation._1))
-      .flatMap(annotation => annotation._2.flatMap(a => a.asInstanceOf[Annotation].metadata))
-
-    graphFinisher.annotate(metadata)
   }
 
   def fullAnnotateJava(target: String): java.util.Map[String, java.util.List[JavaAnnotation]] = {
@@ -264,6 +348,21 @@ class LightPipeline(val pipelineModel: PipelineModel, parseEmbeddingsVectors: Bo
     pathToImages.asScala.par
       .map { imageFilePath =>
         fullAnnotateInternal(imageFilePath).mapValues(_.asJava).asJava
+      }
+      .toList
+      .asJava
+  }
+
+  def fullAnnotateSingleAudioJava(
+      audio: java.util.ArrayList[Double]): java.util.Map[String, java.util.List[IAnnotation]] = {
+    fullAnnotate(audio.asScala.toArray).mapValues(_.asJava).asJava
+  }
+
+  def fullAnnotateAudiosJava(audios: java.util.ArrayList[java.util.ArrayList[Double]])
+      : java.util.List[java.util.Map[String, java.util.List[IAnnotation]]] = {
+    audios.asScala.par
+      .map { audio =>
+        fullAnnotate(audio.asScala.toArray).mapValues(_.asJava).asJava
       }
       .toList
       .asJava

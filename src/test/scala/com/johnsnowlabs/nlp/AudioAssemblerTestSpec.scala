@@ -21,7 +21,7 @@ class AudioAssemblerTestSpec extends AnyFlatSpec {
   processedAudioFloats.show()
 
   val bufferedSource: BufferedSource =
-    scala.io.Source.fromFile("src/test/resources/audio/csv/audi_floats.csv")
+    scala.io.Source.fromFile("src/test/resources/audio/csv/audio_floats.csv")
 
   val rawFloats: Array[Float] = bufferedSource
     .getLines()
