@@ -32,6 +32,8 @@ class Wav2Vec2ForCTCTestSpec extends AnyFlatSpec {
   val spark: SparkSession = ResourceHelper.spark
   import spark.implicits._
 
+  val pathToFileWithFloats = "src/test/resources/audio/csv/audio_floats.csv"
+
   val audioAssembler: AudioAssembler = new AudioAssembler()
     .setInputCol("audio_content")
     .setOutputCol("audio_assembler")
@@ -54,7 +56,7 @@ class Wav2Vec2ForCTCTestSpec extends AnyFlatSpec {
     val pipeline: Pipeline = new Pipeline().setStages(Array(audioAssembler, speechToText))
 
     val bufferedSource =
-      scala.io.Source.fromFile("src/test/resources/audio/csv/audio_floats.csv")
+      scala.io.Source.fromFile(pathToFileWithFloats)
 
     val rawFloats = bufferedSource
       .getLines()
@@ -88,7 +90,7 @@ class Wav2Vec2ForCTCTestSpec extends AnyFlatSpec {
       new Pipeline().setStages(Array(audioAssembler, speechToText, token))
 
     val bufferedSource =
-      scala.io.Source.fromFile("src/test/resources/audio/csv/audio_floats.csv")
+      scala.io.Source.fromFile(pathToFileWithFloats)
 
     val rawFloats = bufferedSource
       .getLines()
@@ -120,7 +122,7 @@ class Wav2Vec2ForCTCTestSpec extends AnyFlatSpec {
       new Pipeline().setStages(Array(audioAssembler, speechToText, token))
 
     val bufferedSource =
-      scala.io.Source.fromFile("src/test/resources/audio/csv/audio_floats.csv")
+      scala.io.Source.fromFile(pathToFileWithFloats)
 
     val rawFloats = bufferedSource
       .getLines()
@@ -154,7 +156,7 @@ class Wav2Vec2ForCTCTestSpec extends AnyFlatSpec {
       new Pipeline().setStages(Array(audioAssembler, speechToText, token))
 
     val bufferedSource =
-      scala.io.Source.fromFile("src/test/resources/audio/csv/audio_floats.csv")
+      scala.io.Source.fromFile(pathToFileWithFloats)
 
     val rawFloats = bufferedSource
       .getLines()
