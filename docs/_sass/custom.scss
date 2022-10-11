@@ -2008,7 +2008,24 @@ code {
 	}
 }
 
+.tabs-box.tabs-new {
+	.highlighter-rouge {
+		display: none;
+		&.active {
+			display: block;
+		}
+	}
+}
+
 .model-wrap {
+	.tabs-box {
+		.highlighter-rouge {
+			display: none;
+			&.active {
+				display: block;
+			}
+		}
+	}
 	p {
 		font-size: 18px;
 		line-height: 26px;
