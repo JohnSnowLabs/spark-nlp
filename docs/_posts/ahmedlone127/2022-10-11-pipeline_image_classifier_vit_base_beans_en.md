@@ -1,6 +1,6 @@
 ---
 layout: model
-title: English pipeline_image_classifier_vit_base_beans ViTForImageClassification from karthiksv
+title: English pipeline_image_classifier_vit_base_beans ViTForImageClassification from nateraw
 author: John Snow Labs
 name: pipeline_image_classifier_vit_base_beans
 date: 2022-10-11
@@ -17,12 +17,12 @@ use_language_switcher: "Python-Scala-Java"
 
 ## Description
 
-Pretrained VIT  model, adapted from Hugging Face and curated to provide scalability and production-readiness using Spark NLP.`image_classifier_vit_base_beans` is a English model originally trained by karthiksv.
+Pretrained VIT  model, adapted from Hugging Face and curated to provide scalability and production-readiness using Spark NLP.`image_classifier_vit_base_beans` is a English model originally trained by nateraw.
 
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>
 <button class="button button-orange" disabled>Open in Colab</button>
-[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/pipeline_image_classifier_vit_base_beans_en_4.2.1_3.0_1665526179755.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
+[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/pipeline_image_classifier_vit_base_beans_en_4.2.1_3.0_1665526196110.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
 
 ## How to use
 
