@@ -40,13 +40,7 @@ class ViTImageClassificationTestSpec extends AnyFlatSpec {
 
   "ViTForImageClassification" should "predict correct ImageNet classes" taggedAs SlowTest in {
 
-    val imageClassifier: ViTForImageClassification = ViTForImageClassification
-      .pretrained()
-      .setInputCols("image_assembler")
-      .setOutputCol("class")
-
-    val pipeline: Pipeline = new Pipeline().setStages(Array(imageAssembler, imageClassifier))
-
+    val pipeline = setUpImageClassifierPipeline()
     val pipelineDF = pipeline.fit(imageDF).transform(imageDF)
 
     val goldStandards =
@@ -81,13 +75,7 @@ class ViTImageClassificationTestSpec extends AnyFlatSpec {
 
   "ViTForImageClassification" should "be serializable" taggedAs SlowTest in {
 
-    val imageClassifier: ViTForImageClassification = ViTForImageClassification
-      .pretrained()
-      .setInputCols("image_assembler")
-      .setOutputCol("class")
-
-    val pipeline: Pipeline = new Pipeline().setStages(Array(imageAssembler, imageClassifier))
-
+    val pipeline = setUpImageClassifierPipeline()
     val pipelineModel = pipeline.fit(imageDF)
     val pipelineDF = pipelineModel.transform(imageDF)
     pipelineDF.take(1)
@@ -153,15 +141,9 @@ class ViTImageClassificationTestSpec extends AnyFlatSpec {
     })
   }
 
-  "ViTForImageClassification" should "work with LightPipeline" taggedAs FastTest in {
+  "ViTForImageClassification" should "work with LightPipeline" taggedAs SlowTest in {
 
-    val imageClassifier: ViTForImageClassification = ViTForImageClassification
-      .pretrained()
-      .setInputCols("image_assembler")
-      .setOutputCol("class")
-
-    val pipeline: Pipeline = new Pipeline().setStages(Array(imageAssembler, imageClassifier))
-
+    val pipeline = setUpImageClassifierPipeline()
     val pipelineModel = pipeline.fit(imageDF)
     val lightPipeline = new LightPipeline(pipelineModel)
 
@@ -171,13 +153,9 @@ class ViTImageClassificationTestSpec extends AnyFlatSpec {
     assert(prediction("class").nonEmpty)
   }
 
-  "ViTForImageClassification with LightPipeline" should "return empty result when image path is wrong" in {
+  "ViTForImageClassification with LightPipeline" should "return empty result when image path is wrong" taggedAs SlowTest in {
 
-    val imageClassifier: ViTForImageClassification = ViTForImageClassification
-      .pretrained()
-      .setInputCols("image_assembler")
-      .setOutputCol("class")
-    val pipeline: Pipeline = new Pipeline().setStages(Array(imageAssembler, imageClassifier))
+    val pipeline = setUpImageClassifierPipeline()
     val pipelineModel = pipeline.fit(imageDF)
     val lightPipeline = new LightPipeline(pipelineModel)
 
@@ -194,6 +172,42 @@ class ViTImageClassificationTestSpec extends AnyFlatSpec {
     assert(predictions(0)("class").nonEmpty)
     assert(predictions(1)("image_assembler").isEmpty)
     assert(predictions(1)("class").isEmpty)
+
+    val predictionsFullAnnotate = lightPipeline.fullAnnotate(images)
+    assert(predictions(0)("image_assembler").nonEmpty)
+    assert(predictions(0)("class").nonEmpty)
+    assert(predictions(1)("image_assembler").isEmpty)
+    assert(predictions(1)("class").isEmpty)
+  }
+
+  it should "work for mix inputs" in {
+    val pipeline = setUpImageClassifierPipeline()
+    val pipelineModel = pipeline.fit(imageDF)
+    val lightPipeline = new LightPipeline(pipelineModel)
+
+    val prediction = lightPipeline.fullAnnotateImage("./image")
+
+    assert(prediction("image_assembler").isEmpty)
+    assert(prediction("class").isEmpty)
+
+    val images =
+      Array("src/test/resources/image/hen.JPEG", "this is a text")
+    val predictions = lightPipeline.fullAnnotateImage(images)
+
+    assert(predictions(0)("image_assembler").nonEmpty)
+    assert(predictions(0)("class").nonEmpty)
+    assert(predictions(1)("image_assembler").isEmpty)
+    assert(predictions(1)("class").isEmpty)
+  }
+
+  private def setUpImageClassifierPipeline(): Pipeline = {
+    val imageClassifier: ViTForImageClassification = ViTForImageClassification
+      .pretrained()
+      .setInputCols("image_assembler")
+      .setOutputCol("class")
+
+    val pipeline = new Pipeline().setStages(Array(imageAssembler, imageClassifier))
+    pipeline
   }
 
 }
