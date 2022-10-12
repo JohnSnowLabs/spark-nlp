@@ -7,7 +7,7 @@ date: 2022-10-12
 tags: [cvx, cpt, chunk_mapping, en, licensed, clinical]
 task: Chunk Mapping
 language: en
-edition: Spark NLP for Healthcare 4.2.0
+edition: Spark NLP for Healthcare 4.1.0
 spark_version: 3.0
 supported: true
 article_header:
@@ -26,7 +26,7 @@ This pretrained model maps CVX codes with their corresponding vaccine names and 
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>
 [Open in Colab](https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/26.Chunk_Mapping.ipynb){:.button.button-orange.button-orange-trans.co.button-icon}
-[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/cvx_code_mapper_en_4.2.0_3.0_1665570321569.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
+[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/cvx_code_mapper_en_4.1.0_3.0_1665598034618.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
 
 ## How to use
 
@@ -104,7 +104,7 @@ val result= pipeline.fit(data).transform(data)
 {:.table-model}
 |---|---|
 |Model Name:|cvx_code_mapper|
-|Compatibility:|Spark NLP for Healthcare 4.2.0+|
+|Compatibility:|Spark NLP for Healthcare 4.1.0+|
 |License:|Licensed|
 |Edition:|Official|
 |Input Labels:|[chunk]|
