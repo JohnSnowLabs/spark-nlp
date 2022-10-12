@@ -25,6 +25,8 @@ import com.johnsnowlabs.nlp.annotators.pos.perceptron.{
 import com.johnsnowlabs.nlp.annotators.ws.TagsType.{LEFT_BOUNDARY, MIDDLE, RIGHT_BOUNDARY}
 import com.johnsnowlabs.nlp.serialization.StructFeature
 import com.johnsnowlabs.nlp._
+import com.johnsnowlabs.nlp.annotators.RegexTokenizer
+import org.apache.spark.ml.param.{BooleanParam, Param}
 import org.apache.spark.ml.util.Identifiable
 
 /** WordSegmenter which tokenizes non-english or non-whitespace separated texts.
@@ -119,11 +121,43 @@ class WordSegmenterModel(override val uid: String)
   val model: StructFeature[AveragedPerceptron] =
     new StructFeature[AveragedPerceptron](this, "POS Model")
 
+  val enableRegexTokenizer: BooleanParam = new BooleanParam(
+    this,
+    "enableRegexTokenizer",
+    "Whether to use RegexTokenizer before segmentation. Useful for multilingual text")
+
+  /** Indicates whether to convert all characters to lowercase before tokenizing (Default:
+    * `false`).
+    *
+    * @group param
+    */
+  val toLowercase: BooleanParam = new BooleanParam(
+    this,
+    "toLowercase",
+    "Indicates whether to convert all characters to lowercase before tokenizing.\n")
+
+  /** Regex pattern used to match delimiters (Default: `"\\s+"`)
+    *
+    * @group param
+    */
+  val pattern: Param[String] = new Param(this, "pattern", "regex pattern used for tokenizing")
+
   /** @group getParam */
   def getModel: AveragedPerceptron = $$(model)
 
   /** @group setParam */
   def setModel(targetModel: AveragedPerceptron): this.type = set(model, targetModel)
+
+  /** @group setParam */
+  def setEnableRegexTokenizer(value: Boolean): this.type = set(enableRegexTokenizer, value)
+
+  /** @group setParam */
+  def setToLowercase(value: Boolean): this.type = set(toLowercase, value)
+
+  /** @group setParam */
+  def setPattern(value: String): this.type = set(pattern, value)
+
+  setDefault(enableRegexTokenizer -> false, toLowercase -> false, pattern -> "\\s+")
 
   /** takes a document and annotations and produces new annotations of this annotator's annotation
     * type
@@ -135,11 +169,59 @@ class WordSegmenterModel(override val uid: String)
     *   relationship
     */
   override def annotate(annotations: Seq[Annotation]): Seq[Annotation] = {
+
+    if ($(enableRegexTokenizer)) {
+      return segmentWithRegexAnnotator(annotations)
+    }
+
     val sentences = SentenceSplit.unpack(annotations)
     val tokens = getTokenAnnotations(sentences)
     val tokenizedSentences = TokenizedWithSentence.unpack(annotations ++ tokens)
     val tagged = tag($$(model), tokenizedSentences.toArray)
     buildWordSegments(tagged)
+  }
+
+  private def segmentWithRegexAnnotator(annotatedSentences: Seq[Annotation]): Seq[Annotation] = {
+
+    val outputCol = Identifiable.randomUID("regex_token")
+
+    val regexTokenizer = new RegexTokenizer()
+      .setInputCols(getInputCols)
+      .setOutputCol(outputCol)
+      .setToLowercase($(toLowercase))
+      .setPattern($(pattern))
+
+    val annotatedTokens = regexTokenizer.annotate(annotatedSentences)
+
+    val segmentedResult = annotatedTokens.flatMap { annotatedToken =>
+      val codePoint = annotatedToken.result.codePointAt(0)
+      val unicodeScript = Character.UnicodeScript.of(codePoint)
+      if (unicodeScript == Character.UnicodeScript.LATIN) {
+        Seq(annotatedToken)
+      } else {
+        val sentenceIndex = annotatedToken.metadata("sentence")
+
+        val annotatedSentence = Annotation(
+          DOCUMENT,
+          annotatedToken.begin,
+          annotatedToken.end,
+          annotatedToken.result,
+          Map("sentence" -> sentenceIndex))
+        val sentence = Sentence(
+          annotatedToken.result,
+          annotatedToken.begin,
+          annotatedToken.end,
+          sentenceIndex.toInt)
+        val annotatedTokens = getTokenAnnotations(Seq(sentence))
+
+        val tokenizedSentences =
+          TokenizedWithSentence.unpack(annotatedTokens ++ Seq(annotatedSentence))
+        val tagged = tag($$(model), tokenizedSentences.toArray)
+        buildWordSegments(tagged)
+      }
+    }
+
+    segmentedResult
   }
 
   private def getTokenAnnotations(annotation: Seq[Sentence]): Seq[Annotation] = {

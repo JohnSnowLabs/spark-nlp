@@ -17,8 +17,8 @@ here = path.abspath(path.dirname(__file__))
 with open(path.join(here, 'README.md'), encoding='utf-8') as f:
     long_description = f.read()
 
-# Arguments marked as "Required" below must be included for upload to PyPI.
-# Fields marked as "Optional" may be commented out.
+# Arguments marked as 'Required' below must be included for upload to PyPI.
+# Fields marked as 'Optional' may be commented out.
 
 setup(
     # This is the name of your project. The first time you publish this
@@ -41,10 +41,10 @@ setup(
     # project code, see
     # https://packaging.python.org/en/latest/single_source_version.html
 
-    version='4.2.0',  # Required
+    version='4.2.1',  # Required
 
     # This is a one-line description or tagline of what your project does. This
-    # corresponds to the "Summary" metadata field:
+    # corresponds to the 'Summary' metadata field:
     # https://packaging.python.org/specifications/core-metadata/#summary
     description='John Snow Labs Spark NLP is a natural language processing library built on top of Apache Spark ML. It provides simple, performant & accurate NLP annotations for machine learning pipelines, that scale easily in a distributed environment.',  # Required
 
@@ -54,7 +54,7 @@ setup(
     # Often, this is the same as your README, so you can just read it in from
     # that file directly (as we have already done above)
     #
-    # This field corresponds to the "Description" metadata field:
+    # This field corresponds to the 'Description' metadata field:
     # https://packaging.python.org/specifications/core-metadata/#description-optional
     long_description=long_description,  # Optional
 
@@ -62,19 +62,19 @@ setup(
     # text/plain, text/x-rst, and text/markdown
     #
     # Optional if long_description is written in reStructuredText (rst) but
-    # required for plain-text or Markdown; if unspecified, "applications should
+    # required for plain-text or Markdown; if unspecified, 'applications should
     # attempt to render [the long_description] as text/x-rst; charset=UTF-8 and
-    # fall back to text/plain if it is not valid rst" (see link below)
+    # fall back to text/plain if it is not valid rst' (see link below)
     #
-    # This field corresponds to the "Description-Content-Type" metadata field:
+    # This field corresponds to the 'Description-Content-Type' metadata field:
     # https://packaging.python.org/specifications/core-metadata/#description-content-type-optional
     long_description_content_type='text/markdown',  # Optional (see note above)
 
     # This should be a valid link to your project's main homepage.
     #
-    # This field corresponds to the "Home-Page" metadata field:
+    # This field corresponds to the 'Home-Page' metadata field:
     # https://packaging.python.org/specifications/core-metadata/#home-page-optional
-    url='http://nlp.johnsnowlabs.com',  # Optional
+    url='https://github.com/JohnSnowLabs/spark-nlp',  # Optional
 
     # This should be your name or the name of the organization which owns the
     # project.
@@ -96,10 +96,15 @@ setup(
 
         # Indicate who your project is intended for
         'Intended Audience :: Developers',
-        'Topic :: Software Development :: Build Tools',
+        'Intended Audience :: Information Technology',
+        'Intended Audience :: Science/Research',
 
         # Pick your license as you wish
         'License :: OSI Approved :: Apache Software License',
+        'Operating System :: OS Independent',
+        'Operating System :: POSIX :: Linux',
+        'Operating System :: MacOS :: MacOS X',
+        'Operating System :: Microsoft :: Windows',
 
         # Specify the Python versions you support here. In particular, ensure
         # that you indicate whether you support Python 2, Python 3 or both.
@@ -108,13 +113,22 @@ setup(
         'Programming Language :: Python :: 3.7',
         'Programming Language :: Python :: 3.8',
         'Programming Language :: Python :: 3.9',
+        'Topic :: Scientific/Engineering :: Artificial Intelligence',
+        'Topic :: Scientific/Engineering :: Information Analysis',
+        'Topic :: Software Development :: Libraries :: Python Modules',
+        'Topic :: Software Development :: Internationalization',
+        'Topic :: Software Development :: Localization',
+        'Topic :: Software Development :: Build Tools',
+        'Topic :: Text Processing :: Linguistic',
+        'Topic :: Scientific/Engineering',
+        'Typing :: Typed',
     ],
 
     # This field adds keywords for your project which will appear on the
     # project page. What does your project relate to?
     #
     # Note that this is a string of words separated by whitespace, not a list.
-    keywords='NLP spark development',  # Optional
+    keywords='NLP spark vision speech deep learning transformer tensorflow BERT GPT-2 Wav2Vec2 ViT',  # Optional
 
     # You can just specify package directories manually here if your project is
     # simple. Or you can use find_packages().
@@ -123,9 +137,9 @@ setup(
     # the `py_modules` argument instead as follows, which will expect a file
     # called `my_module.py` to exist:
     #
-    #   py_modules=["my_module"],
+    #   py_modules=['my_module'],
 
-    packages=find_packages(exclude=['test']),
+    packages=find_packages(exclude=['test*', 'tmp*']),
 
     include_package_data=False  # Needed to install jar file
 

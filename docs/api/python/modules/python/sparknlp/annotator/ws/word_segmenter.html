@@ -5,15 +5,15 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>python.sparknlp.annotator.ws.word_segmenter &#8212; Spark NLP 4.2.0 documentation</title>
+    <title>python.sparknlp.annotator.ws.word_segmenter &#8212; Spark NLP 4.2.1 documentation</title>
   <script>
     document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
     document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
   </script>
   
   <!-- Loaded before other Sphinx assets -->
-  <link href="../../../../../static/styles/theme.css?digest=9b1a4fa89bdd0e95b23b" rel="stylesheet">
-<link href="../../../../../static/styles/pydata-sphinx-theme.css?digest=9b1a4fa89bdd0e95b23b" rel="stylesheet">
+  <link href="../../../../../static/styles/theme.css?digest=1e1de1a1873e13ef5536" rel="stylesheet">
+<link href="../../../../../static/styles/pydata-sphinx-theme.css?digest=1e1de1a1873e13ef5536" rel="stylesheet">
 
   
   <link rel="stylesheet"
@@ -22,13 +22,15 @@
     href="../../../../../static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2">
   <link rel="preload" as="font" type="font/woff2" crossorigin
     href="../../../../../static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../../../../../static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2">
 
     <link rel="stylesheet" type="text/css" href="../../../../../static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="../../../../../static/graphviz.css" />
     <link rel="stylesheet" type="text/css" href="../../../../../static/css/custom.css" />
   
   <!-- Pre-loaded scripts that we'll load fully later -->
-  <link rel="preload" as="script" href="../../../../../static/scripts/pydata-sphinx-theme.js?digest=9b1a4fa89bdd0e95b23b">
+  <link rel="preload" as="script" href="../../../../../static/scripts/pydata-sphinx-theme.js?digest=1e1de1a1873e13ef5536">
 
     <script data-url_root="../../../../../" id="documentation_options" src="../../../../../static/documentation_options.js"></script>
     <script src="../../../../../static/jquery.js"></script>
@@ -62,7 +64,7 @@
     <div class="search-button__search-container">
       
 <form class="bd-search d-flex align-items-center" action="../../../../../search.html" method="get">
-  <i class="icon fas fa-search"></i>
+  <i class="fa-solid fa-magnifying-glass"></i>
   <input type="search" class="form-control" name="q" id="search-input" placeholder="Search the docs ..." aria-label="Search the docs ..." autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
   <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
 </form>
@@ -72,7 +74,7 @@
   
   <nav class="bd-header navbar navbar-expand-lg bd-navbar" id="navbar-main"><div class="bd-header__inner bd-page-width">
   <label class="sidebar-toggle primary-toggle" for="__primary">
-      <span class="fas fa-bars"></span>
+      <span class="fa-solid fa-bars"></span>
   </label>
   <div id="navbar-start">
     
@@ -146,16 +148,16 @@
     <div id="navbar-end">
       <div class="navbar-end-item navbar-end__search-button-container">
         
-<button class="btn btn-sm navbar-btn search-button search-button__button" title="Search">
-  <i class="fas fa-search"></i>
+<button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" data-toggle="tooltip">
+  <i class="fa-solid fa-magnifying-glass"></i>
 </button>
       </div>
       
       <div class="navbar-end-item">
-        <span class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle">
-    <a class="theme-switch" data-mode="light"><i class="fas fa-sun"></i></a>
-    <a class="theme-switch" data-mode="dark"><i class="far fa-moon"></i></a>
-    <a class="theme-switch" data-mode="auto"><i class="fas fa-adjust"></i></a>
+        <span class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" data-toggle="tooltip">
+    <a class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></a>
+    <a class="theme-switch" data-mode="dark"><i class="fa-regular fa-moon"></i></a>
+    <a class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></a>
 </span>
       </div>
       
@@ -170,14 +172,14 @@
 
   
   <div class="search-button-container--mobile">
-<button class="btn btn-sm navbar-btn search-button search-button__button" title="Search">
-  <i class="fas fa-search"></i>
+<button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" data-toggle="tooltip">
+  <i class="fa-solid fa-magnifying-glass"></i>
 </button>
   </div>
 
   
   <label class="sidebar-toggle secondary-toggle" for="__secondary">
-      <span class="fas fa-outdent"></span>
+      <span class="fa-solid fa-outdent"></span>
   </label>
   
 
@@ -242,10 +244,10 @@
     <div class="sidebar-header-items__end">
       
       <div class="navbar-end-item">
-        <span class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle">
-    <a class="theme-switch" data-mode="light"><i class="fas fa-sun"></i></a>
-    <a class="theme-switch" data-mode="dark"><i class="far fa-moon"></i></a>
-    <a class="theme-switch" data-mode="auto"><i class="fas fa-adjust"></i></a>
+        <span class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" data-toggle="tooltip">
+    <a class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></a>
+    <a class="theme-switch" data-mode="dark"><i class="fa-regular fa-moon"></i></a>
+    <a class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></a>
 </span>
       </div>
       
@@ -296,7 +298,6 @@
 <span class="c1">#  limitations under the License.</span>
 <span class="sd">&quot;&quot;&quot;Contains classes for the WordSegmenter.&quot;&quot;&quot;</span>
 
-
 <span class="kn">from</span> <span class="nn">sparknlp.common</span> <span class="kn">import</span> <span class="o">*</span>
 
 
@@ -343,6 +344,12 @@
 <span class="sd">    ambiguityThreshold</span>
 <span class="sd">        How much percentage of total amount of words are covered to be marked as</span>
 <span class="sd">        frequent, by default 0.97</span>
+<span class="sd">    enableRegexTokenizer</span>
+<span class="sd">        Whether to use RegexTokenizer before segmentation. Useful for multilingual text</span>
+<span class="sd">    toLowercase</span>
+<span class="sd">        Indicates whether to convert all characters to lowercase before tokenizing. Used only when enableRegexTokenizer is true</span>
+<span class="sd">    pattern</span>
+<span class="sd">        regex pattern used for tokenizing. Used only when enableRegexTokenizer is true</span>
 
 <span class="sd">    Examples</span>
 <span class="sd">    --------</span>
@@ -397,12 +404,28 @@
                                <span class="s2">&quot;How much percentage of total amount of words are covered to be marked as frequent&quot;</span><span class="p">,</span>
                                <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toFloat</span><span class="p">)</span>
 
+    <span class="n">enableRegexTokenizer</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
+                                 <span class="s2">&quot;enableRegexTokenizer&quot;</span><span class="p">,</span>
+                                 <span class="s2">&quot;Whether to use RegexTokenizer before segmentation. Useful for multilingual text&quot;</span><span class="p">,</span>
+                                 <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toBoolean</span><span class="p">)</span>
+
+    <span class="n">toLowercase</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
+                        <span class="s2">&quot;toLowercase&quot;</span><span class="p">,</span>
+                        <span class="s2">&quot;Indicates whether to convert all characters to lowercase before tokenizing.&quot;</span><span class="p">,</span>
+                        <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toBoolean</span><span class="p">)</span>
+
+    <span class="n">pattern</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
+                    <span class="s2">&quot;pattern&quot;</span><span class="p">,</span>
+                    <span class="s2">&quot;regex pattern used for tokenizing. Defaults </span><span class="se">\\</span><span class="s2">s+&quot;</span><span class="p">,</span>
+                    <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toString</span><span class="p">)</span>
+
     <span class="nd">@keyword_only</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="nb">super</span><span class="p">(</span><span class="n">WordSegmenterApproach</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
             <span class="n">classname</span><span class="o">=</span><span class="s2">&quot;com.johnsnowlabs.nlp.annotators.ws.WordSegmenterApproach&quot;</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_setDefault</span><span class="p">(</span>
-            <span class="n">nIterations</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">frequencyThreshold</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">ambiguityThreshold</span><span class="o">=</span><span class="mf">0.97</span>
+            <span class="n">nIterations</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">frequencyThreshold</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">ambiguityThreshold</span><span class="o">=</span><span class="mf">0.97</span><span class="p">,</span>
+            <span class="n">enableRegexTokenizer</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">toLowercase</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">pattern</span><span class="o">=</span><span class="s2">&quot;</span><span class="se">\\</span><span class="s2">s+&quot;</span>
         <span class="p">)</span>
 
 <div class="viewcode-block" id="WordSegmenterApproach.setPosColumn"><a class="viewcode-back" href="../../../../../reference/autosummary/python/sparknlp/annotator/ws/word_segmenter/index.html#python.sparknlp.annotator.ws.word_segmenter.WordSegmenterApproach.setPosColumn">[docs]</a>    <span class="k">def</span> <span class="nf">setPosColumn</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
@@ -482,8 +505,41 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">getOrDefault</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ambiguityThreshold</span><span class="p">)</span></div>
 
+<div class="viewcode-block" id="WordSegmenterApproach.setEnableRegexTokenizer"><a class="viewcode-back" href="../../../../../reference/autosummary/python/sparknlp/annotator/ws/word_segmenter/index.html#python.sparknlp.annotator.ws.word_segmenter.WordSegmenterApproach.setEnableRegexTokenizer">[docs]</a>    <span class="k">def</span> <span class="nf">setEnableRegexTokenizer</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Sets whether to to use RegexTokenizer before segmentation.</span>
+<span class="sd">        Useful for multilingual text</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        value : bool</span>
+<span class="sd">            Whether to use RegexTokenizer before segmentation</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">enableRegexTokenizer</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="WordSegmenterApproach.setToLowercase"><a class="viewcode-back" href="../../../../../reference/autosummary/python/sparknlp/annotator/ws/word_segmenter/index.html#python.sparknlp.annotator.ws.word_segmenter.WordSegmenterApproach.setToLowercase">[docs]</a>    <span class="k">def</span> <span class="nf">setToLowercase</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Sets whether to convert all characters to lowercase before</span>
+<span class="sd">        tokenizing, by default False.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        value : bool</span>
+<span class="sd">            Whether to convert all characters to lowercase before tokenizing</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">toLowercase</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="WordSegmenterApproach.setPattern"><a class="viewcode-back" href="../../../../../reference/autosummary/python/sparknlp/annotator/ws/word_segmenter/index.html#python.sparknlp.annotator.ws.word_segmenter.WordSegmenterApproach.setPattern">[docs]</a>    <span class="k">def</span> <span class="nf">setPattern</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Sets the regex pattern used for tokenizing, by default ``\\s+``.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        value : str</span>
+<span class="sd">            Regex pattern used for tokenizing</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">pattern</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
+
     <span class="k">def</span> <span class="nf">_create_model</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">java_model</span><span class="p">):</span>
         <span class="k">return</span> <span class="n">WordSegmenterModel</span><span class="p">(</span><span class="n">java_model</span><span class="o">=</span><span class="n">java_model</span><span class="p">)</span></div>
+
 
 <div class="viewcode-block" id="WordSegmenterModel"><a class="viewcode-back" href="../../../../../reference/autosummary/python/sparknlp/annotator/ws/word_segmenter/index.html#python.sparknlp.annotator.ws.word_segmenter.WordSegmenterModel">[docs]</a><span class="k">class</span> <span class="nc">WordSegmenterModel</span><span class="p">(</span><span class="n">AnnotatorModel</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;WordSegmenter which tokenizes non-english or non-whitespace separated</span>
@@ -549,6 +605,53 @@
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;WordSegmenterModel&quot;</span>
 
+    <span class="n">enableRegexTokenizer</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
+                                 <span class="s2">&quot;enableRegexTokenizer&quot;</span><span class="p">,</span>
+                                 <span class="s2">&quot;Whether to use RegexTokenizer before segmentation. Useful for multilingual text&quot;</span><span class="p">,</span>
+                                 <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toBoolean</span><span class="p">)</span>
+
+    <span class="n">toLowercase</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
+                        <span class="s2">&quot;toLowercase&quot;</span><span class="p">,</span>
+                        <span class="s2">&quot;Indicates whether to convert all characters to lowercase before tokenizing.&quot;</span><span class="p">,</span>
+                        <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toBoolean</span><span class="p">)</span>
+
+    <span class="n">pattern</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
+                    <span class="s2">&quot;pattern&quot;</span><span class="p">,</span>
+                    <span class="s2">&quot;regex pattern used for tokenizing. Defaults </span><span class="se">\\</span><span class="s2">s+&quot;</span><span class="p">,</span>
+                    <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toString</span><span class="p">)</span>
+
+<div class="viewcode-block" id="WordSegmenterModel.setEnableRegexTokenizer"><a class="viewcode-back" href="../../../../../reference/autosummary/python/sparknlp/annotator/ws/word_segmenter/index.html#python.sparknlp.annotator.ws.word_segmenter.WordSegmenterModel.setEnableRegexTokenizer">[docs]</a>    <span class="k">def</span> <span class="nf">setEnableRegexTokenizer</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Sets whether to to use RegexTokenizer before segmentation.</span>
+<span class="sd">        Useful for multilingual text</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        value : bool</span>
+<span class="sd">            Whether to use RegexTokenizer before segmentation</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">enableRegexTokenizer</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="WordSegmenterModel.setToLowercase"><a class="viewcode-back" href="../../../../../reference/autosummary/python/sparknlp/annotator/ws/word_segmenter/index.html#python.sparknlp.annotator.ws.word_segmenter.WordSegmenterModel.setToLowercase">[docs]</a>    <span class="k">def</span> <span class="nf">setToLowercase</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Sets whether to convert all characters to lowercase before</span>
+<span class="sd">        tokenizing, by default False.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        value : bool</span>
+<span class="sd">            Whether to convert all characters to lowercase before tokenizing</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">toLowercase</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="WordSegmenterModel.setPattern"><a class="viewcode-back" href="../../../../../reference/autosummary/python/sparknlp/annotator/ws/word_segmenter/index.html#python.sparknlp.annotator.ws.word_segmenter.WordSegmenterModel.setPattern">[docs]</a>    <span class="k">def</span> <span class="nf">setPattern</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Sets the regex pattern used for tokenizing, by default ``\\s+``.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        value : str</span>
+<span class="sd">            Regex pattern used for tokenizing</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">pattern</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
+
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">classname</span><span class="o">=</span><span class="s2">&quot;com.johnsnowlabs.nlp.annotators.ws.WordSegmenterModel&quot;</span><span class="p">,</span> <span class="n">java_model</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="nb">super</span><span class="p">(</span><span class="n">WordSegmenterModel</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
             <span class="n">classname</span><span class="o">=</span><span class="n">classname</span><span class="p">,</span>
@@ -576,7 +679,6 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="kn">from</span> <span class="nn">sparknlp.pretrained</span> <span class="kn">import</span> <span class="n">ResourceDownloader</span>
         <span class="k">return</span> <span class="n">ResourceDownloader</span><span class="o">.</span><span class="n">downloadModel</span><span class="p">(</span><span class="n">WordSegmenterModel</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">lang</span><span class="p">,</span> <span class="n">remote_loc</span><span class="p">)</span></div></div>
-
 </pre></div>
 
             </article>
@@ -595,6 +697,11 @@
           
             <div class="bd-sidebar-secondary bd-toc">
               
+<div class="toc-item">
+  
+<div id="searchbox"></div>
+</div>
+
 <div class="toc-item">
   
 </div>
@@ -620,7 +727,7 @@
   
     
   <!-- Scripts loaded after <body> so the DOM is not blocked -->
-  <script src="../../../../../static/scripts/pydata-sphinx-theme.js?digest=9b1a4fa89bdd0e95b23b"></script>
+  <script src="../../../../../static/scripts/pydata-sphinx-theme.js?digest=1e1de1a1873e13ef5536"></script>
 
   <footer class="bd-footer"><div class="bd-footer__inner container">
   
@@ -637,7 +744,7 @@
   <div class="footer-item">
     
 <p class="sphinx-version">
-Created using <a href="http://sphinx-doc.org/">Sphinx</a> 5.2.0.post0.<br>
+Created using <a href="http://sphinx-doc.org/">Sphinx</a> 5.2.3.<br>
 </p>
 
   </div>

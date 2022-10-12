@@ -19,7 +19,7 @@ from sparknlp.internal import AnnotatorTransformer
 
 
 class AudioAssembler(AnnotatorTransformer):
-    """Prepares Floats from a processed audio file(s)
+    """Prepares Floats or Doubles from a processed audio file(s)
     This component is needed to process audio.
 
     ====================== ======================
@@ -72,7 +72,7 @@ class AudioAssembler(AnnotatorTransformer):
         Parameters
         ----------
         value : str
-            Name of the input column that has audio in format of Array[Float]
+            Name of the input column that has audio in format of Array[Float] or Array[Double]
         """
         return self._set(inputCol=value)
 
