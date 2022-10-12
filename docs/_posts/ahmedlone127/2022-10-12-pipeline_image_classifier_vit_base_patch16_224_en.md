@@ -1,6 +1,6 @@
 ---
 layout: model
-title: English pipeline_image_classifier_vit_base_patch16_224 ViTForImageClassification from google
+title: English pipeline_image_classifier_vit_base_patch16_224 ViTForImageClassification from optimum
 author: John Snow Labs
 name: pipeline_image_classifier_vit_base_patch16_224
 date: 2022-10-12
@@ -17,12 +17,12 @@ use_language_switcher: "Python-Scala-Java"
 
 ## Description
 
-Pretrained VIT  model, adapted from Hugging Face and curated to provide scalability and production-readiness using Spark NLP.`image_classifier_vit_base_patch16_224` is a English model originally trained by google.
+Pretrained VIT  model, adapted from Hugging Face and curated to provide scalability and production-readiness using Spark NLP.`image_classifier_vit_base_patch16_224` is a English model originally trained by optimum.
 
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>
 <button class="button button-orange" disabled>Open in Colab</button>
-[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/pipeline_image_classifier_vit_base_patch16_224_en_4.2.1_3.0_1665534598956.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
+[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/pipeline_image_classifier_vit_base_patch16_224_en_4.2.1_3.0_1665534697381.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
 
 ## How to use
 
