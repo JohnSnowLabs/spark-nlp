@@ -488,9 +488,6 @@ class ContextSpellCheckerTestSpec extends AnyFlatSpec {
     assert(tmp.equals("( 08/10/1982 )"))
   }
 
-
-
-
   "when using ContextSpellchecker" should "Adding Multiple values for updateVocabClass when append=true should not crash" taggedAs SlowTest in {
 
     import SparkAccessor.spark
@@ -522,7 +519,5 @@ class ContextSpellCheckerTestSpec extends AnyFlatSpec {
     val result = pipeline.transform(data).show()
 
   }
-
-
 
 }
