@@ -35,6 +35,7 @@
     <script src="../../../../static/underscore.js"></script>
     <script src="../../../../static/_sphinx_javascript_frameworks_compat.js"></script>
     <script src="../../../../static/doctools.js"></script>
+    <script src="../../../../static/sphinx_highlight.js"></script>
     <script src="../../../../static/toggleprompt.js"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'modules/sparknlp_jsl/annotator/ner/medical_ner';</script>
     <link rel="shortcut icon" href="../../../../static/fav.ico"/>
@@ -257,9 +258,9 @@
 <span class="kn">from</span> <span class="nn">sparknlp.common</span> <span class="kn">import</span> <span class="o">*</span>
 <span class="kn">import</span> <span class="nn">sparknlp</span>
 <span class="kn">from</span> <span class="nn">sparknlp.internal</span> <span class="kn">import</span> <span class="n">ExtendedJavaWrapper</span>
+<span class="kn">from</span> <span class="nn">sparknlp.annotator.param.evaluation_dl_params</span> <span class="kn">import</span> <span class="n">EvaluationDLParams</span>
 
-
-<div class="viewcode-block" id="MedicalNerApproach"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/ner/medical_ner/index.html#sparknlp_jsl.annotator.ner.medical_ner.MedicalNerApproach">[docs]</a><span class="k">class</span> <span class="nc">MedicalNerApproach</span><span class="p">(</span><span class="n">AnnotatorApproach</span><span class="p">,</span> <span class="n">sparknlp</span><span class="o">.</span><span class="n">annotators</span><span class="o">.</span><span class="n">NerApproach</span><span class="p">):</span>
+<div class="viewcode-block" id="MedicalNerApproach"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/ner/medical_ner/index.html#sparknlp_jsl.annotator.ner.medical_ner.MedicalNerApproach">[docs]</a><span class="k">class</span> <span class="nc">MedicalNerApproach</span><span class="p">(</span><span class="n">AnnotatorApproach</span><span class="p">,</span> <span class="n">sparknlp</span><span class="o">.</span><span class="n">annotators</span><span class="o">.</span><span class="n">NerApproach</span><span class="p">,</span><span class="n">EvaluationDLParams</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;This Named Entity recognition annotator allows to train generic NER model</span>
 <span class="sd">    based on Neural Networks.</span>
 
@@ -340,7 +341,6 @@
 <span class="sd">    enableMemoryOptimizer</span>
 <span class="sd">        Whether to optimize for large datasets or not. Enabling this option can</span>
 <span class="sd">        slow down training, by default False</span>
-
 <span class="sd">    Examples</span>
 <span class="sd">    --------</span>
 <span class="sd">    &gt;&gt;&gt; import sparknlp</span>
@@ -413,18 +413,6 @@
                        <span class="s2">&quot;whether to use contrib LSTM Cells. Not compatible with Windows. Might slightly improve accuracy.&quot;</span><span class="p">,</span>
                        <span class="n">TypeConverters</span><span class="o">.</span><span class="n">toBoolean</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="MedicalNerApproach.validationSplit"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/ner/medical_ner/index.html#sparknlp_jsl.annotator.ner.medical_ner.MedicalNerApproach.validationSplit">[docs]</a>    <span class="n">validationSplit</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;validationSplit&quot;</span><span class="p">,</span>
-                            <span class="s2">&quot;Choose the proportion of training dataset to be validated against the model on each Epoch. The value should be between 0.0 and 1.0 and by default it is 0.0 and off.&quot;</span><span class="p">,</span>
-                            <span class="n">TypeConverters</span><span class="o">.</span><span class="n">toFloat</span><span class="p">)</span></div>
-
-<div class="viewcode-block" id="MedicalNerApproach.evaluationLogExtended"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/ner/medical_ner/index.html#sparknlp_jsl.annotator.ner.medical_ner.MedicalNerApproach.evaluationLogExtended">[docs]</a>    <span class="n">evaluationLogExtended</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;evaluationLogExtended&quot;</span><span class="p">,</span>
-                                  <span class="s2">&quot;Choose the proportion of training dataset to be validated against the model on each Epoch. The value should be between 0.0 and 1.0 and by default it is 0.0 and off.&quot;</span><span class="p">,</span>
-                                  <span class="n">TypeConverters</span><span class="o">.</span><span class="n">toBoolean</span><span class="p">)</span></div>
-
-<div class="viewcode-block" id="MedicalNerApproach.testDataset"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/ner/medical_ner/index.html#sparknlp_jsl.annotator.ner.medical_ner.MedicalNerApproach.testDataset">[docs]</a>    <span class="n">testDataset</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;testDataset&quot;</span><span class="p">,</span>
-                        <span class="s2">&quot;Path to test dataset. If set used to calculate statistic on it during training.&quot;</span><span class="p">,</span>
-                        <span class="n">TypeConverters</span><span class="o">.</span><span class="n">identity</span><span class="p">)</span></div>
-
 <div class="viewcode-block" id="MedicalNerApproach.includeConfidence"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/ner/medical_ner/index.html#sparknlp_jsl.annotator.ner.medical_ner.MedicalNerApproach.includeConfidence">[docs]</a>    <span class="n">includeConfidence</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;includeConfidence&quot;</span><span class="p">,</span>
                               <span class="s2">&quot;whether to include confidence scores in annotation metadata&quot;</span><span class="p">,</span>
                               <span class="n">TypeConverters</span><span class="o">.</span><span class="n">toBoolean</span><span class="p">)</span></div>
@@ -433,12 +421,6 @@
                                        <span class="s2">&quot;whether to include all confidence scores in annotation metadata or just the score of the predicted tag&quot;</span><span class="p">,</span>
                                        <span class="n">TypeConverters</span><span class="o">.</span><span class="n">toBoolean</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="MedicalNerApproach.enableOutputLogs"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/ner/medical_ner/index.html#sparknlp_jsl.annotator.ner.medical_ner.MedicalNerApproach.enableOutputLogs">[docs]</a>    <span class="n">enableOutputLogs</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;enableOutputLogs&quot;</span><span class="p">,</span>
-                             <span class="s2">&quot;Whether to use stdout in addition to Spark logs.&quot;</span><span class="p">,</span>
-                             <span class="n">TypeConverters</span><span class="o">.</span><span class="n">toBoolean</span><span class="p">)</span></div>
-
-<div class="viewcode-block" id="MedicalNerApproach.outputLogsPath"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/ner/medical_ner/index.html#sparknlp_jsl.annotator.ner.medical_ner.MedicalNerApproach.outputLogsPath">[docs]</a>    <span class="n">outputLogsPath</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;outputLogsPath&quot;</span><span class="p">,</span> <span class="s2">&quot;Folder path to save training logs&quot;</span><span class="p">,</span>
-                           <span class="n">TypeConverters</span><span class="o">.</span><span class="n">toString</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="MedicalNerApproach.logPrefix"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/ner/medical_ner/index.html#sparknlp_jsl.annotator.ner.medical_ner.MedicalNerApproach.logPrefix">[docs]</a>    <span class="n">logPrefix</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;logPrefix&quot;</span><span class="p">,</span>
                       <span class="s2">&quot;A prefix that will be appended to every log, default value is empty.&quot;</span><span class="p">,</span> <span class="n">TypeConverters</span><span class="o">.</span><span class="n">toString</span><span class="p">)</span></div>
@@ -583,35 +565,6 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">validationSplit</span><span class="o">=</span><span class="n">v</span><span class="p">)</span>
         <span class="k">return</span> <span class="bp">self</span></div>
 
-<div class="viewcode-block" id="MedicalNerApproach.setEvaluationLogExtended"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/ner/medical_ner/index.html#sparknlp_jsl.annotator.ner.medical_ner.MedicalNerApproach.setEvaluationLogExtended">[docs]</a>    <span class="k">def</span> <span class="nf">setEvaluationLogExtended</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">v</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Sets whether logs for validation to be extended, by default False.</span>
-<span class="sd">        Displays time and evaluation of each label.</span>
-
-<span class="sd">        Parameters</span>
-<span class="sd">        ----------</span>
-<span class="sd">        v : bool</span>
-<span class="sd">            Whether logs for validation to be extended</span>
-
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">evaluationLogExtended</span><span class="o">=</span><span class="n">v</span><span class="p">)</span>
-        <span class="k">return</span> <span class="bp">self</span></div>
-
-<div class="viewcode-block" id="MedicalNerApproach.setTestDataset"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/ner/medical_ner/index.html#sparknlp_jsl.annotator.ner.medical_ner.MedicalNerApproach.setTestDataset">[docs]</a>    <span class="k">def</span> <span class="nf">setTestDataset</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span> <span class="n">read_as</span><span class="o">=</span><span class="n">ReadAs</span><span class="o">.</span><span class="n">SPARK</span><span class="p">,</span> <span class="n">options</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Sets Path to test dataset. If set used to calculate statistic on it</span>
-<span class="sd">        during training.</span>
-
-<span class="sd">        Parameters</span>
-<span class="sd">        ----------</span>
-<span class="sd">        path : str</span>
-<span class="sd">            Path to test dataset</span>
-<span class="sd">        read_as : str, optional</span>
-<span class="sd">            How to read the resource, by default ReadAs.SPARK</span>
-<span class="sd">        options : dict, optional</span>
-<span class="sd">            Options for reading the resource, by default {&quot;format&quot;: &quot;parquet&quot;}</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">if</span> <span class="n">options</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="n">options</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;format&quot;</span><span class="p">:</span> <span class="s2">&quot;parquet&quot;</span><span class="p">}</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">testDataset</span><span class="o">=</span><span class="n">ExternalResource</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">read_as</span><span class="p">,</span> <span class="n">options</span><span class="p">))</span></div>
 
 <div class="viewcode-block" id="MedicalNerApproach.setIncludeConfidence"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/ner/medical_ner/index.html#sparknlp_jsl.annotator.ner.medical_ner.MedicalNerApproach.setIncludeConfidence">[docs]</a>    <span class="k">def</span> <span class="nf">setIncludeConfidence</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Sets whether to include confidence scores in annotation metadata, by</span>
@@ -636,16 +589,6 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">includeAllConfidenceScores</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="MedicalNerApproach.setEnableOutputLogs"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/ner/medical_ner/index.html#sparknlp_jsl.annotator.ner.medical_ner.MedicalNerApproach.setEnableOutputLogs">[docs]</a>    <span class="k">def</span> <span class="nf">setEnableOutputLogs</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Sets whether to use stdout in addition to Spark logs, by default</span>
-<span class="sd">        False.</span>
-
-<span class="sd">        Parameters</span>
-<span class="sd">        ----------</span>
-<span class="sd">        value : bool</span>
-<span class="sd">            Whether to use stdout in addition to Spark logs</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">enableOutputLogs</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="MedicalNerApproach.setEnableMemoryOptimizer"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/ner/medical_ner/index.html#sparknlp_jsl.annotator.ner.medical_ner.MedicalNerApproach.setEnableMemoryOptimizer">[docs]</a>    <span class="k">def</span> <span class="nf">setEnableMemoryOptimizer</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Sets Whether to optimize for large datasets or not, by default False.</span>
@@ -670,15 +613,7 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">useBestModel</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="MedicalNerApproach.setOutputLogsPath"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/ner/medical_ner/index.html#sparknlp_jsl.annotator.ner.medical_ner.MedicalNerApproach.setOutputLogsPath">[docs]</a>    <span class="k">def</span> <span class="nf">setOutputLogsPath</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">p</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Sets folder path to save training logs.</span>
 
-<span class="sd">        Parameters</span>
-<span class="sd">        ----------</span>
-<span class="sd">        p : str</span>
-<span class="sd">            Folder path to save training logs</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">outputLogsPath</span><span class="o">=</span><span class="n">p</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="MedicalNerApproach.setLogPrefix"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/ner/medical_ner/index.html#sparknlp_jsl.annotator.ner.medical_ner.MedicalNerApproach.setLogPrefix">[docs]</a>    <span class="k">def</span> <span class="nf">setLogPrefix</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">s</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Sets folder path to save training logs.</span>
@@ -753,13 +688,9 @@
             <span class="n">po</span><span class="o">=</span><span class="nb">float</span><span class="p">(</span><span class="mf">0.005</span><span class="p">),</span>
             <span class="n">batchSize</span><span class="o">=</span><span class="mi">8</span><span class="p">,</span>
             <span class="n">dropout</span><span class="o">=</span><span class="nb">float</span><span class="p">(</span><span class="mf">0.5</span><span class="p">),</span>
-            <span class="n">verbose</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
             <span class="n">useContrib</span><span class="o">=</span><span class="n">uc</span><span class="p">,</span>
-            <span class="n">validationSplit</span><span class="o">=</span><span class="nb">float</span><span class="p">(</span><span class="mf">0.0</span><span class="p">),</span>
-            <span class="n">evaluationLogExtended</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
             <span class="n">includeConfidence</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
             <span class="n">includeAllConfidenceScores</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
-            <span class="n">enableOutputLogs</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
             <span class="n">enableMemoryOptimizer</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
             <span class="n">pretrainedModelPath</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span>
             <span class="n">overrideExistingTags</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
@@ -1036,7 +967,7 @@
   <div class="footer-item">
     
 <p class="sphinx-version">
-Created using <a href="http://sphinx-doc.org/">Sphinx</a> 5.1.1.<br>
+Created using <a href="http://sphinx-doc.org/">Sphinx</a> 5.2.3.<br>
 </p>
 
   </div>

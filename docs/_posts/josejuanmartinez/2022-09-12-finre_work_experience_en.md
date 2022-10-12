@@ -35,45 +35,45 @@ https://demo.johnsnowlabs.com/finance/FINRE_WORK_EXPERIENCE
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
 ```python
-document_assembler = DocumentAssembler()\
+document_assembler = nlp.DocumentAssembler()\
         .setInputCol("text")\
         .setOutputCol("document")
         
-sentence_detector = SentenceDetectorDLModel.pretrained("sentence_detector_dl","en")\
+sentence_detector = nlp.SentenceDetectorDLModel.pretrained("sentence_detector_dl","en")\
         .setInputCols(["document"])\
         .setOutputCol("sentence")\
         
-tokenizer = Tokenizer()\
+tokenizer = nlp.Tokenizer()\
         .setInputCols(["sentence"])\
         .setOutputCol("token")
 
-embeddings = BertEmbeddings.pretrained("bert_embeddings_sec_bert_base","en") \
+embeddings = nlp.BertEmbeddings.pretrained("bert_embeddings_sec_bert_base","en") \
         .setInputCols(["sentence", "token"]) \
         .setOutputCol("embeddings")
 
-ner_model = FinanceNerModel().pretrained('finner_org_per_role', 'en', 'finance/models')\
+ner_model = finance.NerModel().pretrained('finner_org_per_role_date', 'en', 'finance/models')\
         .setInputCols(["sentence", "token", "embeddings"])\
         .setOutputCol("ner")
 
-ner_converter = NerConverter()\
+ner_converter = nlp.NerConverter()\
         .setInputCols(["sentence","token","ner"])\
         .setOutputCol("ner_chunk")
 
-pos = PerceptronModel.pretrained()\
+pos = nlp.PerceptronModel.pretrained()\
     .setInputCols(["sentence", "token"])\
     .setOutputCol("pos")
     
-dependency_parser = DependencyParserModel().pretrained("dependency_conllu", "en")\
+dependency_parser = nlp.DependencyParserModel().pretrained("dependency_conllu", "en")\
     .setInputCols(["sentence", "pos", "token"])\
     .setOutputCol("dependencies")
 
-re_ner_chunk_filter = RENerChunksFilter()\
+re_ner_chunk_filter = finance.RENerChunksFilter()\
     .setInputCols(["ner_chunk", "dependencies"])\
     .setOutputCol("re_ner_chunk")\
     .setRelationPairs(["PERSON-ROLE, ORG-ROLE, DATE-ROLE, PERSON-ORG"])\
     .setMaxSyntacticDistance(5)
 
-re_Model = RelationExtractionDLModel.pretrained("finre_work_experience", "en", "finance/models")\
+re_Model = finance.RelationExtractionDLModel.pretrained("finre_work_experience", "en", "finance/models")\
         .setInputCols(["re_ner_chunk", "sentence"])\
         .setOutputCol("relations")\
         .setPredictionThreshold(0.5)

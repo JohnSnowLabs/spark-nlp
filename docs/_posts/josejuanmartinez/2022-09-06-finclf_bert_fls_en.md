@@ -39,15 +39,15 @@ This model was trained originally on 3,500 manually annotated sentences from Man
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
 ```python
-document_assembler = DocumentAssembler() \
+document_assembler = nlp.DocumentAssembler() \
     .setInputCol('text') \
     .setOutputCol('document')
 
-tokenizer = Tokenizer() \
+tokenizer = nlp.Tokenizer() \
     .setInputCols(['document']) \
     .setOutputCol('token')
 
-sequenceClassifier = FinanceBertForSequenceClassification.pretrained("finclf_bert_fls", "en", "finance/models")\
+sequenceClassifier = finance.BertForSequenceClassification.pretrained("finclf_bert_fls", "en", "finance/models")\
   .setInputCols(["document",'token'])\
   .setOutputCol("class")
   

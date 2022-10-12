@@ -37,28 +37,28 @@ Financial documents may be long, going over the limits of most of the standard D
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
 ```python
-documentAssembler = DocumentAssembler()\
+documentAssembler = nlp.DocumentAssembler()\
 		.setInputCol("text")\
 		.setOutputCol("document")
 
-# Consider using SentenceDetector with rules/patterns to get smaller chunks from long sentences
-sentence_detector = SentenceDetectorDLModel.pretrained("sentence_detector_dl", "en")\
+# Consider using nlp.SentenceDetector with rules/patterns to get smaller chunks from long sentences
+sentence_detector = nlp.SentenceDetectorDLModel.pretrained("sentence_detector_dl", "en")\
     .setInputCols(["document"])\
     .setOutputCol("sentence")
 
-tokenizer = Tokenizer()\
+tokenizer = nlp.Tokenizer()\
 		.setInputCols(["sentence"])\
 		.setOutputCol("token")
 	
-embeddings = BertEmbeddings.pretrained("bert_embeddings_legal_bert_base_uncased","en") \
+embeddings = nlp.BertEmbeddings.pretrained("bert_embeddings_legal_bert_base_uncased","en") \
     .setInputCols(["sentence", "token"]) \
     .setOutputCol("embeddings")
     
-jsl_ner = FinanceNerModel.pretrained("finner_sec_conll", "en", "finance/models") \
+jsl_ner = finance.NerModel.pretrained("finner_sec_conll", "en", "finance/models") \
 		.setInputCols(["sentence", "token", "embeddings"]) \
 		.setOutputCol("jsl_ner")
 
-jsl_ner_converter = NerConverter() \
+jsl_ner_converter = nlp.NerConverter() \
 		.setInputCols(["sentence", "token", "jsl_ner"]) \
 		.setOutputCol("ner_chunk")
 

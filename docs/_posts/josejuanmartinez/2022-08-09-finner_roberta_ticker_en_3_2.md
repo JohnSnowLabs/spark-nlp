@@ -35,26 +35,25 @@ This model aims to detect Trading Symbols / Tickers in texts. You can then use C
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
 ```python
-document_assembler = DocumentAssembler()\
+document_assembler = nlp.DocumentAssembler()\
       .setInputCol('text')\
       .setOutputCol('document')
 
-tokenizer = Tokenizer()\
+tokenizer = nlp.Tokenizer()\
       .setInputCols("document")\
       .setOutputCol("token")
 
-tokenClassifier = RoBertaForTokenClassification.pretrained("finner_roberta_ticker", "en", "finance/models")\
+tokenClassifier = nlp.RoBertaForTokenClassification.pretrained("finner_roberta_ticker", "en", "finance/models")\
   .setInputCols(["document",'token'])\
   .setOutputCol("ner")
 
-ner_converter = NerConverter()\
+ner_converter = nlp.NerConverter()\
       .setInputCols(["document", "token", "ner"])\
       .setOutputCol("ner_chunk")
 
 pipeline = Pipeline().setStages([document_assembler,
                                  tokenizer, 
-                                 embeddings,
-                                 ner_model, 
+                                 tokenClassifier,
                                  ner_converter])
 
 text = ["""There are some serious purchases and sales of AMZN stock today."""]

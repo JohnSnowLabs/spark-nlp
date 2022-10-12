@@ -49,24 +49,24 @@ re_model.setRelationalCategories({
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
 ```python
-documentAssembler = DocumentAssembler()\
+documentAssembler = nlp.DocumentAssembler()\
   .setInputCol("text")\
   .setOutputCol("document")
 
-sparktokenizer = Tokenizer()\
+sparktokenizer = nlp.Tokenizer()\
   .setInputCols("document")\
   .setOutputCol("token")
 
-tokenClassifier = LegalBertForTokenClassifier.pretrained('legner_obligations','en', 'legal/models')\
+tokenClassifier = legal.BertForTokenClassifier.pretrained('legner_obligations','en', 'legal/models')\
   .setInputCols("token", "document")\
   .setOutputCol("ner")\
   .setCaseSensitive(True)
 
-ner_converter = NerConverter()\
+ner_converter = nlp.NerConverter()\
     .setInputCols(["document", "token", "ner"])\
     .setOutputCol("ner_chunk")
 
-re_model = ZeroShotRelationExtractionModel.pretrained("legre_zero_shot", "en", "legal/models")\
+re_model = legal.ZeroShotRelationExtractionModel.pretrained("legre_zero_shot", "en", "legal/models")\
     .setInputCols(["ner_chunk", "sentence"]) \
     .setOutputCol("relations")
 

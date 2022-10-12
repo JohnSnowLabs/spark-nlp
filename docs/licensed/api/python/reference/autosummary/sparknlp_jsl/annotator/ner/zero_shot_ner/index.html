@@ -36,6 +36,7 @@
     <script src="../../../../../../static/underscore.js"></script>
     <script src="../../../../../../static/_sphinx_javascript_frameworks_compat.js"></script>
     <script src="../../../../../../static/doctools.js"></script>
+    <script src="../../../../../../static/sphinx_highlight.js"></script>
     <script src="../../../../../../static/toggleprompt.js"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'reference/autosummary/sparknlp_jsl/annotator/ner/zero_shot_ner/index';</script>
     <link rel="shortcut icon" href="../../../../../../static/fav.ico"/>
@@ -447,6 +448,15 @@
      <code class="xref py py-mod docutils literal notranslate">
       <span class="pre">
        sparknlp_jsl.annotator.deid.deIdentification
+      </span>
+     </code>
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../../deid/doccument_hashcoder/index.html">
+     <code class="xref py py-mod docutils literal notranslate">
+      <span class="pre">
+       sparknlp_jsl.annotator.deid.doccument_hashcoder
       </span>
      </code>
     </a>
@@ -935,11 +945,6 @@ values are lists of questions. For example:</p>
 <dd></dd></dl>
 
 <dl class="py attribute">
-<dt class="sig sig-object py" id="sparknlp_jsl.annotator.ner.zero_shot_ner.ZeroShotNerModel.entityDefinitions">
-<span class="sig-name descname"><span class="pre">entityDefinitions</span></span><a class="reference internal" href="../../../../../../modules/sparknlp_jsl/annotator/ner/zero_shot_ner.html#ZeroShotNerModel.entityDefinitions"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.ner.zero_shot_ner.ZeroShotNerModel.entityDefinitions" title="Permalink to this definition">#</a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
 <dt class="sig sig-object py" id="sparknlp_jsl.annotator.ner.zero_shot_ner.ZeroShotNerModel.predictionThreshold">
 <span class="sig-name descname"><span class="pre">predictionThreshold</span></span><a class="reference internal" href="../../../../../../modules/sparknlp_jsl/annotator/ner/zero_shot_ner.html#ZeroShotNerModel.predictionThreshold"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.ner.zero_shot_ner.ZeroShotNerModel.predictionThreshold" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
@@ -974,12 +979,6 @@ values are lists of questions. For example:</p>
 </dl>
 </dd>
 </dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="sparknlp_jsl.annotator.ner.zero_shot_ner.ZeroShotNerModel.getEntityDefinitions">
-<span class="sig-name descname"><span class="pre">getEntityDefinitions</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../modules/sparknlp_jsl/annotator/ner/zero_shot_ner.html#ZeroShotNerModel.getEntityDefinitions"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.ner.zero_shot_ner.ZeroShotNerModel.getEntityDefinitions" title="Permalink to this definition">#</a></dt>
-<dd><p>Get entity definitions</p>
 </dd></dl>
 
 <dl class="py method">
@@ -1062,17 +1061,95 @@ Spark NLPs repositories otherwise.</p>
     <ul class="nav section-nav flex-column">
      <li class="toc-h4 nav-item toc-entry">
       <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.ner.zero_shot_ner.ZeroShotNerModel">
+       <code class="docutils literal notranslate">
+        <span class="pre">
+         ZeroShotNerModel
+        </span>
+       </code>
+      </a>
+      <ul class="nav section-nav flex-column">
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.ner.zero_shot_ner.ZeroShotNerModel.name">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           ZeroShotNerModel.name
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.ner.zero_shot_ner.ZeroShotNerModel.predictionThreshold">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           ZeroShotNerModel.predictionThreshold
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.ner.zero_shot_ner.ZeroShotNerModel.ignoreEntities">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           ZeroShotNerModel.ignoreEntities
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.ner.zero_shot_ner.ZeroShotNerModel.setPredictionThreshold">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           ZeroShotNerModel.setPredictionThreshold()
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.ner.zero_shot_ner.ZeroShotNerModel.setEntityDefinitions">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           ZeroShotNerModel.setEntityDefinitions()
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.ner.zero_shot_ner.ZeroShotNerModel.getClasses">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           ZeroShotNerModel.getClasses()
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.ner.zero_shot_ner.ZeroShotNerModel.pretrained">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           ZeroShotNerModel.pretrained()
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.ner.zero_shot_ner.ZeroShotNerModel.load">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           ZeroShotNerModel.load()
+          </span>
+         </code>
+        </a>
+       </li>
+      </ul>
+     </li>
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.ner.zero_shot_ner.ZeroShotNerModel">
        ZeroShotNerModel
       </a>
       <ul class="nav section-nav flex-column">
        <li class="toc-h5 nav-item toc-entry">
         <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.ner.zero_shot_ner.ZeroShotNerModel.name">
          name
-        </a>
-       </li>
-       <li class="toc-h5 nav-item toc-entry">
-        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.ner.zero_shot_ner.ZeroShotNerModel.entityDefinitions">
-         entityDefinitions
         </a>
        </li>
        <li class="toc-h5 nav-item toc-entry">
@@ -1093,11 +1170,6 @@ Spark NLPs repositories otherwise.</p>
        <li class="toc-h5 nav-item toc-entry">
         <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.ner.zero_shot_ner.ZeroShotNerModel.setEntityDefinitions">
          setEntityDefinitions
-        </a>
-       </li>
-       <li class="toc-h5 nav-item toc-entry">
-        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.ner.zero_shot_ner.ZeroShotNerModel.getEntityDefinitions">
-         getEntityDefinitions
         </a>
        </li>
        <li class="toc-h5 nav-item toc-entry">
@@ -1174,7 +1246,7 @@ Spark NLPs repositories otherwise.</p>
   <div class="footer-item">
     
 <p class="sphinx-version">
-Created using <a href="http://sphinx-doc.org/">Sphinx</a> 5.1.1.<br>
+Created using <a href="http://sphinx-doc.org/">Sphinx</a> 5.2.3.<br>
 </p>
 
   </div>

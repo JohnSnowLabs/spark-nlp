@@ -35,6 +35,7 @@
     <script src="../../../static/underscore.js"></script>
     <script src="../../../static/_sphinx_javascript_frameworks_compat.js"></script>
     <script src="../../../static/doctools.js"></script>
+    <script src="../../../static/sphinx_highlight.js"></script>
     <script src="../../../static/toggleprompt.js"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'modules/sparknlp_jsl/utils/alab_utils';</script>
     <link rel="shortcut icon" href="../../../static/fav.ico"/>
@@ -402,12 +403,12 @@
                         <span class="n">ground_truth_index</span> <span class="o">=</span> <span class="n">ind</span>
                 <span class="n">rels</span><span class="o">.</span><span class="n">extend</span><span class="p">([(</span><span class="n">d</span><span class="p">[</span><span class="s1">&#39;from_id&#39;</span><span class="p">],</span> <span class="n">d</span><span class="p">[</span><span class="s1">&#39;to_id&#39;</span><span class="p">],</span> <span class="n">d</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;labels&#39;</span><span class="p">,</span> <span class="p">[]),</span> <span class="n">task_id</span><span class="p">)</span> <span class="k">for</span> <span class="n">d</span> <span class="ow">in</span>
                              <span class="n">ann_result</span><span class="p">[</span><span class="s1">&#39;completions&#39;</span><span class="p">][</span><span class="n">ground_truth_index</span><span class="p">][</span><span class="s1">&#39;result&#39;</span><span class="p">]</span> <span class="k">if</span> <span class="n">d</span><span class="p">[</span><span class="s1">&#39;type&#39;</span><span class="p">]</span>
-                             <span class="ow">not</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;labels&#39;</span><span class="p">,</span> <span class="s1">&#39;choices&#39;</span><span class="p">]])</span>
+                             <span class="ow">not</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;labels&#39;</span><span class="p">,</span> <span class="s1">&#39;choices&#39;</span><span class="p">,</span> <span class="s1">&#39;textarea&#39;</span><span class="p">]])</span>
                 <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Successfully processed relations for task:&#39;</span><span class="p">,</span> <span class="n">task_title_print</span><span class="p">)</span>
 
             <span class="k">elif</span> <span class="n">ground_truth</span> <span class="ow">is</span> <span class="kc">False</span> <span class="ow">or</span> <span class="n">ground_truth</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
                 <span class="n">rels</span><span class="o">.</span><span class="n">extend</span><span class="p">([(</span><span class="n">d</span><span class="p">[</span><span class="s1">&#39;from_id&#39;</span><span class="p">],</span> <span class="n">d</span><span class="p">[</span><span class="s1">&#39;to_id&#39;</span><span class="p">],</span> <span class="n">d</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;labels&#39;</span><span class="p">,</span> <span class="p">[]),</span> <span class="n">task_id</span><span class="p">)</span> <span class="k">for</span> <span class="n">d</span> <span class="ow">in</span>
-                             <span class="n">ann_result</span><span class="p">[</span><span class="s1">&#39;completions&#39;</span><span class="p">][</span><span class="o">-</span><span class="mi">1</span><span class="p">][</span><span class="s1">&#39;result&#39;</span><span class="p">]</span> <span class="k">if</span> <span class="n">d</span><span class="p">[</span><span class="s1">&#39;type&#39;</span><span class="p">]</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;labels&#39;</span><span class="p">,</span> <span class="s1">&#39;choices&#39;</span><span class="p">]])</span>
+                             <span class="n">ann_result</span><span class="p">[</span><span class="s1">&#39;completions&#39;</span><span class="p">][</span><span class="o">-</span><span class="mi">1</span><span class="p">][</span><span class="s1">&#39;result&#39;</span><span class="p">]</span> <span class="k">if</span> <span class="n">d</span><span class="p">[</span><span class="s1">&#39;type&#39;</span><span class="p">]</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;labels&#39;</span><span class="p">,</span> <span class="s1">&#39;choices&#39;</span><span class="p">,</span> <span class="s1">&#39;textarea&#39;</span><span class="p">]])</span>
                 <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Successfully processed relations for task:&#39;</span><span class="p">,</span> <span class="n">task_title_print</span><span class="p">)</span>
 
         <span class="k">except</span><span class="p">:</span>
@@ -850,7 +851,7 @@
   <div class="footer-item">
     
 <p class="sphinx-version">
-Created using <a href="http://sphinx-doc.org/">Sphinx</a> 5.1.1.<br>
+Created using <a href="http://sphinx-doc.org/">Sphinx</a> 5.2.3.<br>
 </p>
 
   </div>

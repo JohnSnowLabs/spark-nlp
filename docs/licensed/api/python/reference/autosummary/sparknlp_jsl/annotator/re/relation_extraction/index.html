@@ -36,6 +36,7 @@
     <script src="../../../../../../static/underscore.js"></script>
     <script src="../../../../../../static/_sphinx_javascript_frameworks_compat.js"></script>
     <script src="../../../../../../static/doctools.js"></script>
+    <script src="../../../../../../static/sphinx_highlight.js"></script>
     <script src="../../../../../../static/toggleprompt.js"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'reference/autosummary/sparknlp_jsl/annotator/re/relation_extraction/index';</script>
     <link rel="shortcut icon" href="../../../../../../static/fav.ico"/>
@@ -447,6 +448,15 @@
      <code class="xref py py-mod docutils literal notranslate">
       <span class="pre">
        sparknlp_jsl.annotator.deid.deIdentification
+      </span>
+     </code>
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../../deid/doccument_hashcoder/index.html">
+     <code class="xref py py-mod docutils literal notranslate">
+      <span class="pre">
+       sparknlp_jsl.annotator.deid.doccument_hashcoder
       </span>
      </code>
     </a>
@@ -1454,6 +1464,253 @@ To start training, see the parameters that need to be set in the Parameters sect
     <ul class="nav section-nav flex-column">
      <li class="toc-h4 nav-item toc-entry">
       <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.re.relation_extraction.RelationExtractionApproach">
+       <code class="docutils literal notranslate">
+        <span class="pre">
+         RelationExtractionApproach
+        </span>
+       </code>
+      </a>
+      <ul class="nav section-nav flex-column">
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.re.relation_extraction.RelationExtractionApproach.name">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           RelationExtractionApproach.name
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.re.relation_extraction.RelationExtractionApproach.fromEntityBeginCol">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           RelationExtractionApproach.fromEntityBeginCol
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.re.relation_extraction.RelationExtractionApproach.fromEntityEndCol">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           RelationExtractionApproach.fromEntityEndCol
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.re.relation_extraction.RelationExtractionApproach.fromEntityLabelCol">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           RelationExtractionApproach.fromEntityLabelCol
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.re.relation_extraction.RelationExtractionApproach.toEntityBeginCol">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           RelationExtractionApproach.toEntityBeginCol
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.re.relation_extraction.RelationExtractionApproach.toEntityEndCol">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           RelationExtractionApproach.toEntityEndCol
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.re.relation_extraction.RelationExtractionApproach.toEntityLabelCol">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           RelationExtractionApproach.toEntityLabelCol
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.re.relation_extraction.RelationExtractionApproach.customLabels">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           RelationExtractionApproach.customLabels
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.re.relation_extraction.RelationExtractionApproach.setFromEntity">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           RelationExtractionApproach.setFromEntity()
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.re.relation_extraction.RelationExtractionApproach.setToEntity">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           RelationExtractionApproach.setToEntity()
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.re.relation_extraction.RelationExtractionApproach.setCustomLabels">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           RelationExtractionApproach.setCustomLabels()
+          </span>
+         </code>
+        </a>
+       </li>
+      </ul>
+     </li>
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.re.relation_extraction.RelationExtractionModel">
+       <code class="docutils literal notranslate">
+        <span class="pre">
+         RelationExtractionModel
+        </span>
+       </code>
+      </a>
+      <ul class="nav section-nav flex-column">
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.re.relation_extraction.RelationExtractionModel.name">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           RelationExtractionModel.name
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.re.relation_extraction.RelationExtractionModel.predictionThreshold">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           RelationExtractionModel.predictionThreshold
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.re.relation_extraction.RelationExtractionModel.relationPairs">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           RelationExtractionModel.relationPairs
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.re.relation_extraction.RelationExtractionModel.relationPairsCaseSensitive">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           RelationExtractionModel.relationPairsCaseSensitive
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.re.relation_extraction.RelationExtractionModel.maxSyntacticDistance">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           RelationExtractionModel.maxSyntacticDistance
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.re.relation_extraction.RelationExtractionModel.classes">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           RelationExtractionModel.classes
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.re.relation_extraction.RelationExtractionModel.setMaxSyntacticDistance">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           RelationExtractionModel.setMaxSyntacticDistance()
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.re.relation_extraction.RelationExtractionModel.setPredictionThreshold">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           RelationExtractionModel.setPredictionThreshold()
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.re.relation_extraction.RelationExtractionModel.setRelationPairs">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           RelationExtractionModel.setRelationPairs()
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.re.relation_extraction.RelationExtractionModel.setRelationPairsCaseSensitive">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           RelationExtractionModel.setRelationPairsCaseSensitive()
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.re.relation_extraction.RelationExtractionModel.setCustomLabels">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           RelationExtractionModel.setCustomLabels()
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.re.relation_extraction.RelationExtractionModel.getClasses">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           RelationExtractionModel.getClasses()
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.re.relation_extraction.RelationExtractionModel.pretrained">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           RelationExtractionModel.pretrained()
+          </span>
+         </code>
+        </a>
+       </li>
+      </ul>
+     </li>
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.re.relation_extraction.PosologyREModel">
+       <code class="docutils literal notranslate">
+        <span class="pre">
+         PosologyREModel
+        </span>
+       </code>
+      </a>
+     </li>
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.re.relation_extraction.RelationExtractionApproach">
        RelationExtractionApproach
       </a>
       <ul class="nav section-nav flex-column">
@@ -1648,7 +1905,7 @@ To start training, see the parameters that need to be set in the Parameters sect
   <div class="footer-item">
     
 <p class="sphinx-version">
-Created using <a href="http://sphinx-doc.org/">Sphinx</a> 5.1.1.<br>
+Created using <a href="http://sphinx-doc.org/">Sphinx</a> 5.2.3.<br>
 </p>
 
   </div>

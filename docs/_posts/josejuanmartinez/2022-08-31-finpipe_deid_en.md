@@ -159,26 +159,26 @@ In-house annotations on legal and financial documents, Ontonotes, Conll 2003, Fi
 
 ## Included Models
 
-- DocumentAssembler
-- SentenceDetectorDLModel
-- TokenizerModel
-- RoBertaEmbeddings
-- BertEmbeddings
-- FinanceNerModel
-- NerConverter
-- FinanceNerModel
-- NerConverter
-- FinanceNerModel
-- NerConverterInternalModel
-- FinanceNerModel
-- NerConverterInternalModel
+- nlp.DocumentAssembler
+- nlp.SentenceDetectorDLModel
+- nlp.TokenizerModel
+- nlp.RoBertaEmbeddings
+- nlp.BertEmbeddings
+- finance.NerModel
+- nlp.NerConverter
+- finance.NerModel
+- nlp.NerConverter
+- finance.NerModel
+- finance.NerConverterInternalModel
+- finance.NerModel
+- finance.NerConverterInternalModel
 - ContextualParserModel
 - ContextualParserModel
-- RegexMatcherModel
-- RegexMatcherModel
+- nlp.RegexMatcherModel
+- nlp.RegexMatcherModel
 - ChunkMergeModel
-- DeIdentificationModel
-- DeIdentificationModel
-- DeIdentificationModel
-- DeIdentificationModel
+- finance.DeIdentificationModel
+- finance.DeIdentificationModel
+- finance.DeIdentificationModel
+- finance.DeIdentificationModel
 - Finisher

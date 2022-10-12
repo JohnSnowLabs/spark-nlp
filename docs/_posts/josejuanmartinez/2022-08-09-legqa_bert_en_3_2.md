@@ -35,17 +35,17 @@ Legal Bert-based Question Answering model, trained on squad-v2, finetuned on pro
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
 ```python
-document_assembler = MultiDocumentAssembler() \ 
-.setInputCols(["question", "context"]) \
-.setOutputCols(["document_question", "document_context"])
+documentAssembler = nlp.MultiDocumentAssembler()\
+        .setInputCols(["question", "context"])\
+        .setOutputCols(["document_question", "document_context"])
 
-spanClassifier = BertForQuestionAnswering.pretrained("legqa_bert","en", "legal/models") \
+spanClassifier = nlp.BertForQuestionAnswering.pretrained("legqa_bert","en", "legal/models") \
 .setInputCols(["document_question", "document_context"]) \
 .setOutputCol("answer") \
 .setCaseSensitive(True)
 
 pipeline = Pipeline().setStages([
-document_assembler,
+documentAssembler,
 spanClassifier
 ])
 

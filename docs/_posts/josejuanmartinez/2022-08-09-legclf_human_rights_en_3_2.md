@@ -67,19 +67,19 @@ This model was originally trained with 6089 legal texts (see the original work [
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
 ```python
-documentAssembler = DocumentAssembler() \
+documentAssembler = nlp.DocumentAssembler() \
        .setInputCol("text") \
        .setOutputCol("document")
 
-sentenceDetector = SentenceDetectorDLModel.pretrained("sentence_detector_dl", "xx")\
+sentenceDetector = nlp.SentenceDetectorDLModel.pretrained("sentence_detector_dl", "xx")\
        .setInputCols(["document"])\
        .setOutputCol("sentence")
 
-tokenizer = Tokenizer() \
+tokenizer = nlp.Tokenizer() \
     .setInputCols("sentence") \
     .setOutputCol("token")
 
-tokenClassifier = RoBertaForSequenceClassification.pretrained("legclf_human_rights","es", "legal/models") \
+tokenClassifier = nlp.RoBertaForSequenceClassification.pretrained("legclf_human_rights","en", "legal/models") \
     .setInputCols(["sentence", "token"]) \
     .setOutputCol("class")
 

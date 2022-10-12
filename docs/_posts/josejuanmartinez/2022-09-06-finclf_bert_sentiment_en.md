@@ -35,15 +35,15 @@ This model is a Sentiment Analysis fine-tuned model on 12K+ manually annotated (
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
 ```python
-document_assembler = DocumentAssembler() \
+document_assembler = nlp.DocumentAssembler() \
     .setInputCol('text') \
     .setOutputCol('document')
 
-tokenizer = Tokenizer() \
+tokenizer = nlp.Tokenizer() \
     .setInputCols(['document']) \
     .setOutputCol('token')
 
-sequenceClassifier = FinanceBertForSequenceClassification.pretrained("finclf_bert_sentiment", "en", "finance/models")\
+sequenceClassifier = finance.BertForSequenceClassification.pretrained("finclf_bert_sentiment", "en", "finance/models")\
   .setInputCols(["document",'token'])\
   .setOutputCol("class")
   

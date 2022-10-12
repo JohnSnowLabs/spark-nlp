@@ -154,6 +154,9 @@
           <li data-hide="hide" {% if _section.secheader %} {% for child in _section.secheader %} {% if child.activemenu == "understand_legal_entities_context" %} class="active"  {% endif %} {% endfor %} {% endif %} >
             <a href="/understand_legal_entities_context">Understand Tables</a>
           </li>
+          <li {% if _section.secheader %} {% for child in _section.secheader %} {% if child.activemenu == "long_document_splitting" %} class="active"  {% endif %} {% endfor %} {% endif %} >
+            <a href="/long_document_splitting">Long Document Splitting</a>
+          </li>
         </ul>              
       </div>
       <div class="col-side">

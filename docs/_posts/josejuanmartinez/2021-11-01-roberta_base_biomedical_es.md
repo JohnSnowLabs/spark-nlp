@@ -39,15 +39,15 @@ To see more details, please check the official page in Hugging Face: https://hug
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
 ```python
-documentAssembler = DocumentAssembler()\
+documentAssembler = nlp.DocumentAssembler()\
 .setInputCol("term")\
 .setOutputCol("document")
 
-tokenizer = Tokenizer()\
+tokenizer = nlp.Tokenizer()\
 .setInputCols("document")\
 .setOutputCol("token")
 
-roberta_embeddings = RoBertaEmbeddings.pretrained("roberta_base_biomedical", "es")\
+roberta_embeddings = nlp.RoBertaEmbeddings.pretrained("roberta_base_biomedical", "es")\
 .setInputCols(["document", "token"])\
 .setOutputCol("roberta_embeddings")
 
@@ -57,15 +57,15 @@ tokenizer,
 roberta_embeddings])
 ```
 ```scala
-val documentAssembler = new DocumentAssembler()
+val documentAssembler = new nlp.DocumentAssembler()
 .setInputCol("term")
 .setOutputCol("document")
 
-val tokenizer = new Tokenizer()
+val tokenizer = new nlp.Tokenizer()
 .setInputCols("document")
 .setOutputCol("token")
 
-val roberta_embeddings = RoBertaEmbeddings.pretrained("roberta_base_biomedical", "es")
+val roberta_embeddings = nlp.RoBertaEmbeddings.pretrained("roberta_base_biomedical", "es")
 .setInputCols(Array("document", "token"))
 .setOutputCol("roberta_embeddings")
 

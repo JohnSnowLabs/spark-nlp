@@ -37,23 +37,23 @@ This is a light version of the model, trained on Tweets. You can find heavier mo
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
 ```python
-document_assembler = DocumentAssembler()\
+document_assembler = nlp.DocumentAssembler()\
     .setInputCol("text")\
     .setOutputCol("document")
 
-tokenizer = Tokenizer() \
+tokenizer = nlp.Tokenizer() \
     .setInputCols(["document"])\
     .setOutputCol("token")
 
-embeddings = BertEmbeddings.pretrained("bert_embeddings_sec_bert_base","en") \
+embeddings = nlp.BertEmbeddings.pretrained("bert_embeddings_sec_bert_base","en") \
     .setInputCols(["document", "token"]) \
     .setOutputCol("embeddings")
 
-ner_model = FinanceNerModel.pretrained("finner_ticker", "en", "finance/models")\
+ner_model = finance.NerModel.pretrained("finner_ticker", "en", "finance/models")\
     .setInputCols(["document", "token", "embeddings"])\
     .setOutputCol("ner")\
 
-ner_converter = NerConverter()\
+ner_converter = nlp.NerConverter()\
     .setInputCols(["document", "token", "ner"])\
     .setOutputCol("ner_chunk")
 

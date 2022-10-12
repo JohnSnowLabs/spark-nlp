@@ -46,6 +46,7 @@ Even though 2.4.0 was very stable, version 2.4.1 is here to address minor bug fi
 </ul>
 
 <ul class="pagination owl-carousel pagination_big">
+    <li><a href="release_notes_4_2_0">4.2.0</a></li>
     <li><a href="release_notes_4_1_0">4.1.0</a></li>
     <li><a href="release_notes_4_0_2">4.0.2</a></li>
     <li><a href="release_notes_4_0_0">4.0.0</a></li>

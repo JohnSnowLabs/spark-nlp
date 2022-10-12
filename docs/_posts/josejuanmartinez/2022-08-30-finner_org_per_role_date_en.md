@@ -39,27 +39,27 @@ This is an NER model trained on SEC 10K documents, aimed to extract the followin
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
 ```python
-documentAssembler = DocumentAssembler()\
+documentAssembler = nlp.DocumentAssembler()\
         .setInputCol("text")\
         .setOutputCol("document")
         
-sentenceDetector = SentenceDetectorDLModel.pretrained("sentence_detector_dl","xx")\
+sentenceDetector = nlp.SentenceDetectorDLModel.pretrained("sentence_detector_dl","xx")\
         .setInputCols(["document"])\
         .setOutputCol("sentence")
 
-tokenizer = Tokenizer()\
+tokenizer = nlp.Tokenizer()\
         .setInputCols(["sentence"])\
         .setOutputCol("token")
 
-embeddings = BertEmbeddings.pretrained("bert_embeddings_sec_bert_base","en") \
+embeddings = nlp.BertEmbeddings.pretrained("bert_embeddings_sec_bert_base","en") \
     .setInputCols(["sentence", "token"]) \
     .setOutputCol("embeddings")
 
-ner_model = FinanceNerModel.pretrained("finner_org_people_role_date", "en", "finance/models")\
+ner_model = finance.NerModel.pretrained("finner_org_per_role_date", "en", "finance/models")\
         .setInputCols(["sentence", "token", "embeddings"])\
         .setOutputCol("ner")
         
-ner_converter = NerConverter()\
+ner_converter = nlp.NerConverter()\
         .setInputCols(["sentence","token","ner"])\
         .setOutputCol("ner_chunk")
 
@@ -78,7 +78,7 @@ model = nlpPipeline.fit(empty_data)
 
 text = ["""Jeffrey Preston Bezos is an American entrepreneur, founder and CEO of Amazon"""]
 
-result = pipeline.transform(spark.createDataFrame([text]).toDF("text"))
+result = model.transform(spark.createDataFrame([text]).toDF("text"))
 
 ```
 

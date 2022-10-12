@@ -26,7 +26,7 @@ and [StopWordsCleanerTestSpec](https://github.com/JohnSnowLabs/spark-nlp/blob/ma
 > **NOTE:**
 > If you need to `setStopWords` from a text file, you can first read and convert it into an array of string as follows.
 
-<div class="tabs-box" markdown="1">
+<div class="tabs-box tabs-new" markdown="1">
 
 {% include programmingLanguageSelectScalaPython.html %}
 

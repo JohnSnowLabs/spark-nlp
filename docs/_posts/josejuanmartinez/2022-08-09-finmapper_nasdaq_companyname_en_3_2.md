@@ -35,34 +35,33 @@ This model allows you to, given an extracted name of a company, get information 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
 ```python
-from johnsnowlabs.extensions.finance.chunk_classification.resolution import ChunkMapperModel
 
-document_assembler = DocumentAssembler()\
+document_assembler = nlp.DocumentAssembler()\
       .setInputCol('text')\
       .setOutputCol('document')
 
-tokenizer = Tokenizer()\
+tokenizer = nlp.Tokenizer()\
       .setInputCols("document")\
       .setOutputCol("token")
 
 # This is a the lighter but less accurate wayto get companies. 
 # Check for much more accurate models in Models Hub / Finance.
-# =========================================================
-embeddings = WordEmbeddingsModel.pretrained('glove_100d') \
+# ==========================================================
+embeddings = nlp.WordEmbeddingsModel.pretrained('glove_100d') \
         .setInputCols(['document', 'token']) \
         .setOutputCol('embeddings')
 
-ner_model = NerDLModel.pretrained("onto_100", "en") \
+ner_model = nlp.NerDLModel.pretrained("onto_100", "en") \
         .setInputCols(["document", "token", "embeddings"]) \
         .setOutputCol("ner")
-# =========================================================
+# ==========================================================
  
-ner_converter = NerConverter()\
+ner_converter = nlp.NerConverter()\
       .setInputCols(["document", "token", "ner"])\
       .setOutputCol("ner_chunk")\
       .setWhiteList(["ORG"])
 
-CM = ChunkMapperModel()\
+CM = finance.ChunkMapperModel()\
       .pretrained('finmapper_nasdaq_companyname', 'en', 'finance/models')\
       .setInputCols(["ner_chunk"])\
       .setOutputCol("mappings")\

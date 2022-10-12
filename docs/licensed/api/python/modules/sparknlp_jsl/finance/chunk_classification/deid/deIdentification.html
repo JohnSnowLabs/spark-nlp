@@ -1,0 +1,635 @@
+
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>sparknlp_jsl.finance.chunk_classification.deid.deIdentification &#8212; Spark NLP 4.0.0 documentation</title>
+  <script>
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../../../../static/styles/theme.css?digest=9b1a4fa89bdd0e95b23b" rel="stylesheet">
+<link href="../../../../../static/styles/pydata-sphinx-theme.css?digest=9b1a4fa89bdd0e95b23b" rel="stylesheet">
+
+  
+  <link rel="stylesheet"
+    href="../../../../../static/vendor/fontawesome/6.1.2/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../../../../../static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../../../../../static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2">
+
+    <link rel="stylesheet" type="text/css" href="../../../../../static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../../../../../static/graphviz.css" />
+    <link rel="stylesheet" type="text/css" href="../../../../../static/css/custom.css" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../../../../static/scripts/pydata-sphinx-theme.js?digest=9b1a4fa89bdd0e95b23b">
+
+    <script data-url_root="../../../../../" id="documentation_options" src="../../../../../static/documentation_options.js"></script>
+    <script src="../../../../../static/jquery.js"></script>
+    <script src="../../../../../static/underscore.js"></script>
+    <script src="../../../../../static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="../../../../../static/doctools.js"></script>
+    <script src="../../../../../static/sphinx_highlight.js"></script>
+    <script src="../../../../../static/toggleprompt.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'modules/sparknlp_jsl/finance/chunk_classification/deid/deIdentification';</script>
+    <link rel="shortcut icon" href="../../../../../static/fav.ico"/>
+    <link rel="index" title="Index" href="../../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../../search.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="docsearch:language" content="en">
+  </head>
+  
+  
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="180" data-default-mode="">
+
+  
+  <input type="checkbox" class="sidebar-toggle" name="__primary" id="__primary">
+  <label class="overlay overlay-primary" for="__primary"></label>
+
+  
+  <input type="checkbox" class="sidebar-toggle" name="__secondary" id="__secondary">
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+      
+<form class="bd-search d-flex align-items-center" action="../../../../../search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search the docs ..." aria-label="Search the docs ..." autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+    </div>
+  </div>
+
+  
+  <nav class="bd-header navbar navbar-expand-lg bd-navbar" id="navbar-main"><div class="bd-header__inner bd-page-width">
+  <label class="sidebar-toggle primary-toggle" for="__primary">
+      <span class="fas fa-bars"></span>
+  </label>
+  <div id="navbar-start">
+    
+    
+  
+
+
+<a class="navbar-brand logo" href="../../../../../index.html">
+
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <img src="../../../../../static/logo.png" class="logo__image only-light" alt="Logo image">
+    <img src="../../../../../static/logo.png" class="logo__image only-dark" alt="Logo image">
+  
+  
+</a>
+    
+  </div>
+
+  
+  <div class="col-lg-9 navbar-header-items">
+    <div id="navbar-center" class="mr-auto">
+      
+      <div class="navbar-center-item">
+        <nav class="navbar-nav">
+    <p class="sidebar-header-items__title" role="heading" aria-level="1" aria-label="Site Navigation">
+        Site Navigation
+    </p>
+    <ul id="navbar-main-elements" class="navbar-nav">
+        
+                <li class="nav-item">
+                    <a class="nav-link" href="../../../../../getting_started/index.html">
+                        Getting Started
+                    </a>
+                </li>
+                
+
+                <li class="nav-item">
+                    <a class="nav-link" href="../../../../../reference/index.html">
+                        API Reference
+                    </a>
+                </li>
+                
+    </ul>
+</nav>
+      </div>
+      
+    </div>
+
+    <div id="navbar-end">
+      <div class="navbar-end-item navbar-end__search-button-container">
+        
+<button class="btn btn-sm navbar-btn search-button search-button__button" title="Search">
+  <i class="fas fa-search"></i>
+</button>
+      </div>
+      
+      <div class="navbar-end-item">
+        <span class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle">
+    <a class="theme-switch" data-mode="light"><i class="fas fa-sun"></i></a>
+    <a class="theme-switch" data-mode="dark"><i class="far fa-moon"></i></a>
+    <a class="theme-switch" data-mode="auto"><i class="fas fa-adjust"></i></a>
+</span>
+      </div>
+      
+      <div class="navbar-end-item">
+        <ul id="navbar-icon-links" class="navbar-nav" aria-label="Icon Links">
+      </ul>
+      </div>
+      
+    </div>
+  </div>
+
+
+  
+  <div class="search-button-container--mobile">
+<button class="btn btn-sm navbar-btn search-button search-button__button" title="Search">
+  <i class="fas fa-search"></i>
+</button>
+  </div>
+
+  
+  <label class="sidebar-toggle secondary-toggle" for="__secondary">
+      <span class="fas fa-outdent"></span>
+  </label>
+  
+
+</div>
+  </nav>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      <div class="bd-sidebar-primary bd-sidebar hide-on-wide">
+        
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+      
+      <div class="navbar-center-item">
+        <nav class="navbar-nav">
+    <p class="sidebar-header-items__title" role="heading" aria-level="1" aria-label="Site Navigation">
+        Site Navigation
+    </p>
+    <ul id="navbar-main-elements" class="navbar-nav">
+        
+                <li class="nav-item">
+                    <a class="nav-link" href="../../../../../getting_started/index.html">
+                        Getting Started
+                    </a>
+                </li>
+                
+
+                <li class="nav-item">
+                    <a class="nav-link" href="../../../../../reference/index.html">
+                        API Reference
+                    </a>
+                </li>
+                
+    </ul>
+</nav>
+      </div>
+      
+      </div>
+    
+
+    
+    
+    <div class="sidebar-header-items__end">
+      
+      <div class="navbar-end-item">
+        <span class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle">
+    <a class="theme-switch" data-mode="light"><i class="fas fa-sun"></i></a>
+    <a class="theme-switch" data-mode="dark"><i class="far fa-moon"></i></a>
+    <a class="theme-switch" data-mode="auto"><i class="fas fa-adjust"></i></a>
+</span>
+      </div>
+      
+      <div class="navbar-end-item">
+        <ul id="navbar-icon-links" class="navbar-nav" aria-label="Icon Links">
+      </ul>
+      </div>
+      
+    </div>
+    
+  </div>
+
+  
+
+  
+  <div class="sidebar-end-items sidebar-primary__section">
+    <div class="sidebar-end-items__item">
+    </div>
+  </div>
+
+      </div>
+      <main class="bd-main">
+        
+        
+        <div class="bd-content">
+          <div class="bd-article-container">
+            
+            <div class="bd-header-article">
+                
+            </div>
+            
+            
+            <article class="bd-article" role="main">
+              
+  <h1>Source code for sparknlp_jsl.finance.chunk_classification.deid.deIdentification</h1><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">sparknlp.common</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">sparknlp_jsl.annotator.deid</span> <span class="kn">import</span> <span class="n">DeIdentificationModel</span> <span class="k">as</span> <span class="n">M</span>
+<span class="kn">from</span> <span class="nn">sparknlp_jsl.annotator.deid</span> <span class="kn">import</span> <span class="n">DeIdentification</span> <span class="k">as</span> <span class="n">A</span>
+<div class="viewcode-block" id="DeIdentification"><a class="viewcode-back" href="../../../../../reference/autosummary/sparknlp_jsl/finance/chunk_classification/deid/deIdentification/index.html#sparknlp_jsl.finance.chunk_classification.deid.deIdentification.DeIdentification">[docs]</a><span class="k">class</span> <span class="nc">DeIdentification</span><span class="p">(</span><span class="n">A</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Contains all the methods for training a DeIdentificationModel model.</span>
+<span class="sd">    This module can obfuscate or mask the entities that contains personal information. These can be set with a file of</span>
+<span class="sd">    regex patterns with setRegexPatternsDictionary, where each line is a mapping of entity to regex</span>
+
+<span class="sd">    ========================================= ======================</span>
+<span class="sd">    Input Annotation types                    Output Annotation type</span>
+<span class="sd">    ========================================= ======================</span>
+<span class="sd">    ``DOCUMENT, CHUNK, TOKEN``                ``DOCUMENT``</span>
+<span class="sd">    ========================================= ======================</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    regexPatternsDictionary</span>
+<span class="sd">        ictionary with regular expression patterns that match some protected entity</span>
+<span class="sd">    mode</span>
+<span class="sd">        Mode for Anonimizer [&#39;mask&#39;|&#39;obfuscate&#39;]</span>
+<span class="sd">    obfuscateDate</span>
+<span class="sd">        When mode==&#39;obfuscate&#39; whether to obfuscate dates or not. This param helps in consistency to make dateFormats more visible. When setting to ``true``, make sure dateFormats param fits the needs (default: false)</span>
+<span class="sd">    obfuscateRefFile</span>
+<span class="sd">        File with the terms to be used for Obfuscation</span>
+<span class="sd">    refFileFormat</span>
+<span class="sd">        Format of the reference file</span>
+<span class="sd">    refSep</span>
+<span class="sd">        Sep character in refFile</span>
+<span class="sd">    dateTag</span>
+<span class="sd">        Tag representing dates in the obfuscate reference file (default: DATE)</span>
+<span class="sd">    days</span>
+<span class="sd">        Number of days to obfuscate the dates by displacement. If not provided a random integer between 1 and 60 will be used</span>
+<span class="sd">    dateToYear</span>
+<span class="sd">        True if we want the model to transform dates into years, False otherwise.</span>
+<span class="sd">    minYear</span>
+<span class="sd">        Minimum year to be used when transforming dates into years.</span>
+<span class="sd">    dateFormats</span>
+<span class="sd">        List of date formats to automatically displace if parsed</span>
+<span class="sd">    consistentObfuscation</span>
+<span class="sd">        Whether to replace very similar entities in a document with the same randomized term (default: true)</span>
+<span class="sd">        The similarity is based on the Levenshtein Distance between the words.</span>
+<span class="sd">    sameEntityThreshold</span>
+<span class="sd">        Similarity threshold [0.0-1.0] to consider two appearances of an entity as ``the same`` (default: 0.9).</span>
+<span class="sd">    obfuscateRefSource</span>
+<span class="sd">        The source of obfuscation of to obfuscate the entities.For dates entities doesnt apply tha method.</span>
+<span class="sd">        The values ar the following:</span>
+<span class="sd">        file: Takes the entities from the obfuscatorRefFile</span>
+<span class="sd">        faker: Takes the entities from the Faker module</span>
+<span class="sd">        both : Takes the entities from the obfuscatorRefFile and the faker module randomly.</span>
+
+<span class="sd">    regexOverride</span>
+<span class="sd">        If is true prioritize the regex entities, if is false prioritize the ner.</span>
+<span class="sd">    seed</span>
+<span class="sd">        It is the seed to select the entities on obfuscate mode.With the seed you can reply a execution several times with the same ouptut.</span>
+<span class="sd">    ignoreRegex</span>
+<span class="sd">       Select if you want to use regex file loaded in the model.If true the default regex file will be not used.The default value is false.</span>
+<span class="sd">    isRandomDateDisplacement</span>
+<span class="sd">        Use a random displacement days in dates entities,that random number is based on the [[DeIdentificationParams.seed]]</span>
+<span class="sd">        If true use random displacement days in dates entities,if false use the [[DeIdentificationParams.days]]</span>
+<span class="sd">        The default value is false.</span>
+<span class="sd">    mappingsColumn</span>
+<span class="sd">        This is the mapping column that will return the Annotations chunks with the fake entities.</span>
+<span class="sd">    returnEntityMappings</span>
+<span class="sd">        With this property you select if you want to return mapping column</span>
+<span class="sd">    blackList</span>
+<span class="sd">        List of entities ignored for masking or obfuscation.The default values are: &quot;SSN&quot;,&quot;PASSPORT&quot;,&quot;DLN&quot;,&quot;NPI&quot;,&quot;C_CARD&quot;,&quot;IBAN&quot;,&quot;DEA&quot;</span>
+
+<span class="sd">    maskingPolicy</span>
+<span class="sd">        Select the masking policy:</span>
+<span class="sd">            same_length_chars: Replace the obfuscated entity with a masking sequence composed of asterisks and surrounding squared brackets, being the total length of the masking sequence of the same length as the original sequence.</span>
+<span class="sd">            Example, Smith -&gt; [***].</span>
+<span class="sd">            If the entity is less than 3 chars (like Jo, or 5), asterisks without brackets will be returned.</span>
+<span class="sd">            entity_labels: Replace the values with the corresponding entity labels.</span>
+<span class="sd">            fixed_length_chars: Replace the obfuscated entity with a masking sequence composed of a fixed number of asterisks.</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+
+<span class="sd">    &gt;&gt;&gt; import sparknlp</span>
+<span class="sd">    &gt;&gt;&gt; from sparknlp.base import *</span>
+<span class="sd">    &gt;&gt;&gt; from sparknlp.common import *</span>
+<span class="sd">    &gt;&gt;&gt; from sparknlp.annotator import *</span>
+<span class="sd">    &gt;&gt;&gt; from sparknlp.training import *</span>
+<span class="sd">    &gt;&gt;&gt; import sparknlp_jsl</span>
+<span class="sd">    &gt;&gt;&gt; from sparknlp_jsl.base import *</span>
+<span class="sd">    &gt;&gt;&gt; from sparknlp_jsl.annotator import *</span>
+<span class="sd">    &gt;&gt;&gt; from pyspark.ml import Pipeline</span>
+<span class="sd">    &gt;&gt;&gt; documentAssembler = DocumentAssembler() \\</span>
+<span class="sd">    ...     .setInputCol(&quot;text&quot;) \\</span>
+<span class="sd">    ...     .setOutputCol(&quot;document&quot;)</span>
+<span class="sd">    ...</span>
+<span class="sd">    &gt;&gt;&gt;  sentenceDetector = SentenceDetector() \\</span>
+<span class="sd">    ...     .setInputCols([&quot;document&quot;]) \\</span>
+<span class="sd">    ...     .setOutputCol(&quot;sentence&quot;) \\</span>
+<span class="sd">    ...     .setUseAbbreviations(True)</span>
+<span class="sd">    ...</span>
+<span class="sd">    &gt;&gt;&gt; tokenizer = Tokenizer() \</span>
+<span class="sd">    ...     .setInputCols([&quot;sentence&quot;]) \</span>
+<span class="sd">    ...     .setOutputCol(&quot;token&quot;)</span>
+<span class="sd">    ...</span>
+<span class="sd">    &gt;&gt; embeddings = WordEmbeddingsModel \</span>
+<span class="sd">    ...     .pretrained(&quot;embeddings_clinical&quot;, &quot;en&quot;, &quot;clinical/models&quot;) \</span>
+<span class="sd">    ...     .setInputCols([&quot;sentence&quot;, &quot;token&quot;]) \</span>
+<span class="sd">    ...     .setOutputCol(&quot;embeddings&quot;)</span>
+<span class="sd">    ...</span>
+<span class="sd">     Ner entities</span>
+<span class="sd">    &gt;&gt;&gt; clinical_sensitive_entities = MedicalNerModel \\</span>
+<span class="sd">    ...     .pretrained(&quot;ner_deid_enriched&quot;, &quot;en&quot;, &quot;clinical/models&quot;) \\</span>
+<span class="sd">    ...     .setInputCols([&quot;sentence&quot;, &quot;token&quot;, &quot;embeddings&quot;]).setOutputCol(&quot;ner&quot;)</span>
+<span class="sd">    ...</span>
+<span class="sd">    &gt;&gt;&gt; nerConverter = NerConverter() \\</span>
+<span class="sd">    ...     .setInputCols([&quot;sentence&quot;, &quot;token&quot;, &quot;ner&quot;]) \\</span>
+<span class="sd">    ...     .setOutputCol(&quot;ner_con&quot;)</span>
+<span class="sd">     Deidentification</span>
+<span class="sd">    &gt;&gt;&gt; deIdentification = DeIdentification() \\</span>
+<span class="sd">    ...     .setInputCols([&quot;ner_chunk&quot;, &quot;token&quot;, &quot;sentence&quot;]) \\</span>
+<span class="sd">    ...     .setOutputCol(&quot;dei&quot;) \\</span>
+<span class="sd">    ...     # file with custom regex pattern for custom entities\</span>
+<span class="sd">    ...     .setRegexPatternsDictionary(&quot;path/to/dic_regex_patterns_main_categories.txt&quot;) \\</span>
+<span class="sd">    ...     # file with custom obfuscator names for the entities\</span>
+<span class="sd">    ...     .setObfuscateRefFile(&quot;path/to/obfuscate_fixed_entities.txt&quot;) \\</span>
+<span class="sd">    ...     .setRefFileFormat(&quot;csv&quot;) \\</span>
+<span class="sd">    ...     .setRefSep(&quot;#&quot;) \\</span>
+<span class="sd">    ...     .setMode(&quot;obfuscate&quot;) \\</span>
+<span class="sd">    ...     .setDateFormats(Array(&quot;MM/dd/yy&quot;,&quot;yyyy-MM-dd&quot;)) \\</span>
+<span class="sd">    ...     .setObfuscateDate(True) \\</span>
+<span class="sd">    ...     .setDateTag(&quot;DATE&quot;) \\</span>
+<span class="sd">    ...     .setDays(5) \\</span>
+<span class="sd">    ...     .setObfuscateRefSource(&quot;file&quot;)</span>
+<span class="sd">    Pipeline</span>
+<span class="sd">    &gt;&gt;&gt; data = spark.createDataFrame([</span>
+<span class="sd">    ...     [&quot;# 7194334 Date : 01/13/93 PCP : Oliveira , 25 years-old , Record date : 2079-11-09.&quot;]</span>
+<span class="sd">    ...     ]).toDF(&quot;text&quot;)</span>
+<span class="sd">    &gt;&gt;&gt; pipeline = Pipeline(stages=[</span>
+<span class="sd">    ...     documentAssembler,</span>
+<span class="sd">    ...     sentenceDetector,</span>
+<span class="sd">    ...     tokenizer,</span>
+<span class="sd">    ...     embeddings,</span>
+<span class="sd">    ...     clinical_sensitive_entities,</span>
+<span class="sd">    ...     nerConverter,</span>
+<span class="sd">    ...     deIdentification</span>
+<span class="sd">    ... ])</span>
+<span class="sd">    &gt;&gt;&gt; result = pipeline.fit(data).transform(data)</span>
+<span class="sd">    &gt;&gt;&gt; result.select(&quot;dei.result&quot;).show(truncate = False)</span>
+<span class="sd">     +--------------------------------------------------------------------------------------------------+</span>
+<span class="sd">     |result                                                                                            |</span>
+<span class="sd">     +--------------------------------------------------------------------------------------------------+</span>
+<span class="sd">     |[# 01010101 Date : 01/18/93 PCP : Dr. Gregory House , &lt;AGE&gt; years-old , Record date : 2079-11-14.]|</span>
+<span class="sd">     +--------------------------------------------------------------------------------------------------+</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="DeIdentification.name"><a class="viewcode-back" href="../../../../../reference/autosummary/sparknlp_jsl/finance/chunk_classification/deid/deIdentification/index.html#sparknlp_jsl.finance.chunk_classification.deid.deIdentification.DeIdentification.name">[docs]</a>    <span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;DeIdentification&quot;</span></div>
+
+    <span class="nd">@keyword_only</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">DeIdentification</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">classname</span><span class="o">=</span><span class="s2">&quot;com.johnsnowlabs.finance.chunk_classification.deid.DeIdentification&quot;</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_create_model</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">java_model</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">DeIdentificationModel</span><span class="p">(</span><span class="n">java_model</span><span class="o">=</span><span class="n">java_model</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="DeIdentificationModel"><a class="viewcode-back" href="../../../../../reference/autosummary/sparknlp_jsl/finance/chunk_classification/deid/deIdentification/index.html#sparknlp_jsl.finance.chunk_classification.deid.deIdentification.DeIdentificationModel">[docs]</a><span class="k">class</span> <span class="nc">DeIdentificationModel</span><span class="p">(</span><span class="n">M</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; The DeIdentificationModel model can obfuscate or mask the entities that contains personal information. These can be set with a file of</span>
+<span class="sd">    regex patterns with setRegexPatternsDictionary, where each line is a mapping of entity to regex</span>
+
+<span class="sd">    ========================================= ======================</span>
+<span class="sd">    Input Annotation types                    Output Annotation type</span>
+<span class="sd">    ========================================= ======================</span>
+<span class="sd">    ``DOCUMENT, CHUNK, TOKEN``                ``DOCUMENT``</span>
+<span class="sd">    ========================================= ======================</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    regexPatternsDictionary</span>
+<span class="sd">        ictionary with regular expression patterns that match some protected entity</span>
+<span class="sd">    mode</span>
+<span class="sd">        Mode for Anonimizer [&#39;mask&#39;|&#39;obfuscate&#39;]</span>
+<span class="sd">    obfuscateDate</span>
+<span class="sd">        When mode==&#39;obfuscate&#39; whether to obfuscate dates or not. This param helps in consistency to make dateFormats more visible. When setting to `true`, make sure dateFormats param fits the needs (default: false)</span>
+<span class="sd">    dateTag</span>
+<span class="sd">        Tag representing dates in the obfuscate reference file (default: DATE)</span>
+<span class="sd">    days</span>
+<span class="sd">        Number of days to obfuscate the dates by displacement. If not provided a random integer between 1 and 60 will be used</span>
+<span class="sd">    dateToYear</span>
+<span class="sd">        True if we want the model to transform dates into years, False otherwise.</span>
+<span class="sd">    minYear</span>
+<span class="sd">        Minimum year to be used when transforming dates into years.</span>
+<span class="sd">    dateFormats</span>
+<span class="sd">        List of date formats to automatically displace if parsed</span>
+<span class="sd">    consistentObfuscation</span>
+<span class="sd">        Whether to replace very similar entities in a document with the same randomized term (default: true)</span>
+<span class="sd">        The similarity is based on the Levenshtein Distance between the words.</span>
+<span class="sd">    sameEntityThreshold</span>
+<span class="sd">        Similarity threshold [0.0-1.0] to consider two appearances of an entity as `the same` (default: 0.9).</span>
+<span class="sd">    obfuscateRefSource</span>
+<span class="sd">        The source of obfuscation of to obfuscate the entities.For dates entities doesnt apply tha method.</span>
+<span class="sd">        The values ar the following:</span>
+<span class="sd">        file: Takes the entities from the obfuscatorRefFile</span>
+<span class="sd">        faker: Takes the entities from the Faker module</span>
+<span class="sd">        both: Takes the entities from the obfuscatorRefFile and the faker module randomly.</span>
+<span class="sd">    regexOverride</span>
+<span class="sd">        If is true prioritize the regex entities, if is false prioritize the ner.</span>
+<span class="sd">    seed</span>
+<span class="sd">        It is the seed to select the entities on obfuscate mode.With the seed you can reply a execution several times with the same ouptut.</span>
+<span class="sd">    ignoreRegex</span>
+<span class="sd">       Select if you want to use regex file loaded in the model.If true the default regex file will be not used.The default value is false.</span>
+<span class="sd">    isRandomDateDisplacement</span>
+<span class="sd">        Use a random displacement days in dates entities,that random number is based on the [[DeIdentificationParams.seed]]</span>
+<span class="sd">        If true use random displacement days in dates entities,if false use the [[DeIdentificationParams.days]]</span>
+<span class="sd">        The default value is false.</span>
+<span class="sd">    mappingsColumn</span>
+<span class="sd">        This is the mapping column that will return the Annotations chunks with the fake entities.</span>
+<span class="sd">    returnEntityMappings</span>
+<span class="sd">        With this property you select if you want to return mapping column</span>
+<span class="sd">    blackList</span>
+<span class="sd">        List of entities ignored for masking or obfuscation.The default values are: &quot;SSN&quot;,&quot;PASSPORT&quot;,&quot;DLN&quot;,&quot;NPI&quot;,&quot;C_CARD&quot;,&quot;IBAN&quot;,&quot;DEA&quot;</span>
+<span class="sd">    regexEntities</span>
+<span class="sd">        Keep the regex entities used in the regexPatternDictionary</span>
+<span class="sd">    maskingPolicy</span>
+<span class="sd">        Select the masking policy:</span>
+<span class="sd">            same_length_chars: Replace the obfuscated entity with a masking sequence composed of asterisks and surrounding squared brackets, being the total length of the masking sequence of the same length as the original sequence.</span>
+<span class="sd">            Example, Smith -&gt; [***].</span>
+<span class="sd">            If the entity is less than 3 chars (like Jo, or 5), asterisks without brackets will be returned.</span>
+<span class="sd">            entity_labels: Replace the values with the corresponding entity labels.</span>
+<span class="sd">            fixed_length_chars: Replace the obfuscated entity with a masking sequence composed of a fixed number of asterisks.</span>
+
+<span class="sd">    fixedMaskLength: this is the length of the masking sequence that will be used when the &#39;fixed_length_chars&#39; masking policy is selected.</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+
+<span class="sd">    &gt;&gt;&gt; import sparknlp</span>
+<span class="sd">    &gt;&gt;&gt; from sparknlp.base import *</span>
+<span class="sd">    &gt;&gt;&gt; from sparknlp.common import *</span>
+<span class="sd">    &gt;&gt;&gt; from sparknlp.annotator import *</span>
+<span class="sd">    &gt;&gt;&gt; from sparknlp.training import *</span>
+<span class="sd">    &gt;&gt;&gt; import sparknlp_jsl</span>
+<span class="sd">    &gt;&gt;&gt; from sparknlp_jsl.base import *</span>
+<span class="sd">    &gt;&gt;&gt; from sparknlp_jsl.annotator import *</span>
+<span class="sd">    &gt;&gt;&gt; from pyspark.ml import Pipeline</span>
+<span class="sd">    &gt;&gt;&gt; documentAssembler = DocumentAssembler() \\</span>
+<span class="sd">    ...     .setInputCol(&quot;text&quot;) \\</span>
+<span class="sd">    ...     .setOutputCol(&quot;document&quot;)</span>
+<span class="sd">    ...</span>
+<span class="sd">    &gt;&gt;&gt;  sentenceDetector = SentenceDetector() \\</span>
+<span class="sd">    ...     .setInputCols([&quot;document&quot;]) \\</span>
+<span class="sd">    ...     .setOutputCol(&quot;sentence&quot;) \\</span>
+<span class="sd">    ...     .setUseAbbreviations(True)</span>
+<span class="sd">    ...</span>
+<span class="sd">    &gt;&gt;&gt; tokenizer = Tokenizer() \</span>
+<span class="sd">    ...     .setInputCols([&quot;sentence&quot;]) \</span>
+<span class="sd">    ...     .setOutputCol(&quot;token&quot;)</span>
+<span class="sd">    ...</span>
+<span class="sd">    &gt;&gt; embeddings = WordEmbeddingsModel \</span>
+<span class="sd">    ...     .pretrained(&quot;embeddings_clinical&quot;, &quot;en&quot;, &quot;clinical/models&quot;) \</span>
+<span class="sd">    ...     .setInputCols([&quot;sentence&quot;, &quot;token&quot;]) \</span>
+<span class="sd">    ...     .setOutputCol(&quot;embeddings&quot;)</span>
+<span class="sd">    ...</span>
+<span class="sd">     Ner entities</span>
+<span class="sd">    &gt;&gt;&gt; clinical_sensitive_entities = MedicalNerModel \\</span>
+<span class="sd">    ...     .pretrained(&quot;ner_deid_enriched&quot;, &quot;en&quot;, &quot;clinical/models&quot;) \\</span>
+<span class="sd">    ...     .setInputCols([&quot;sentence&quot;, &quot;token&quot;, &quot;embeddings&quot;]).setOutputCol(&quot;ner&quot;)</span>
+<span class="sd">    ...</span>
+<span class="sd">    &gt;&gt;&gt; nerConverter = NerConverter() \\</span>
+<span class="sd">    ...     .setInputCols([&quot;sentence&quot;, &quot;token&quot;, &quot;ner&quot;]) \\</span>
+<span class="sd">    ...     .setOutputCol(&quot;ner_con&quot;)</span>
+<span class="sd">    ...</span>
+<span class="sd">     Deidentification</span>
+<span class="sd">    &gt;&gt;&gt; deIdentification = DeIdentificationModel.pretrained(&quot;deidentify_large&quot;, &quot;en&quot;, &quot;clinical/models&quot;) \\</span>
+<span class="sd">    ...     .setInputCols([&quot;ner_chunk&quot;, &quot;token&quot;, &quot;sentence&quot;]) \\</span>
+<span class="sd">    ...     .setOutputCol(&quot;dei&quot;) \\</span>
+<span class="sd">    ...     .setMode(&quot;obfuscate&quot;) \\</span>
+<span class="sd">    ...     .setDateFormats(Array(&quot;MM/dd/yy&quot;,&quot;yyyy-MM-dd&quot;)) \\</span>
+<span class="sd">    ...     .setObfuscateDate(True) \\</span>
+<span class="sd">    ...     .setDateTag(&quot;DATE&quot;) \\</span>
+<span class="sd">    ...     .setDays(5) \\</span>
+<span class="sd">    ...     .setObfuscateRefSource(&quot;both&quot;)</span>
+<span class="sd">    &gt;&gt;&gt; data = spark.createDataFrame([</span>
+<span class="sd">    ...     [&quot;# 7194334 Date : 01/13/93 PCP : Oliveira , 25 years-old , Record date : 2079-11-09.&quot;]</span>
+<span class="sd">    ...     ]).toDF(&quot;text&quot;)</span>
+<span class="sd">    &gt;&gt;&gt; pipeline = Pipeline(stages=[</span>
+<span class="sd">    ...     documentAssembler,</span>
+<span class="sd">    ...     sentenceDetector,</span>
+<span class="sd">    ...     tokenizer,</span>
+<span class="sd">    ...     embeddings,</span>
+<span class="sd">    ...     clinical_sensitive_entities,</span>
+<span class="sd">    ...     nerConverter,</span>
+<span class="sd">    ...     deIdentification</span>
+<span class="sd">    ... ])</span>
+<span class="sd">    &gt;&gt;&gt; result = pipeline.fit(data).transform(data)</span>
+<span class="sd">    &gt;&gt;&gt; result.select(&quot;dei.result&quot;).show(truncate = False)</span>
+<span class="sd">     +--------------------------------------------------------------------------------------------------+</span>
+<span class="sd">     |result                                                                                            |</span>
+<span class="sd">     +--------------------------------------------------------------------------------------------------+</span>
+<span class="sd">     |[# 01010101 Date : 01/18/93 PCP : Dr. Gregory House , &lt;AGE&gt; years-old , Record date : 2079-11-14.]|</span>
+<span class="sd">     +--------------------------------------------------------------------------------------------------+</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+<div class="viewcode-block" id="DeIdentificationModel.name"><a class="viewcode-back" href="../../../../../reference/autosummary/sparknlp_jsl/finance/chunk_classification/deid/deIdentification/index.html#sparknlp_jsl.finance.chunk_classification.deid.deIdentification.DeIdentificationModel.name">[docs]</a>    <span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;DeIdentificationModel&quot;</span></div>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">classname</span><span class="o">=</span><span class="s2">&quot;com.johnsnowlabs.finance.chunk_classification.deid.DeIdentificationModel&quot;</span><span class="p">,</span> <span class="n">java_model</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">DeIdentificationModel</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
+            <span class="n">classname</span><span class="o">=</span><span class="n">classname</span><span class="p">,</span>
+            <span class="n">java_model</span><span class="o">=</span><span class="n">java_model</span>
+        <span class="p">)</span>
+
+    <span class="nd">@staticmethod</span>
+<div class="viewcode-block" id="DeIdentificationModel.pretrained"><a class="viewcode-back" href="../../../../../reference/autosummary/sparknlp_jsl/finance/chunk_classification/deid/deIdentification/index.html#sparknlp_jsl.finance.chunk_classification.deid.deIdentification.DeIdentificationModel.pretrained">[docs]</a>    <span class="k">def</span> <span class="nf">pretrained</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">lang</span><span class="o">=</span><span class="s2">&quot;en&quot;</span><span class="p">,</span> <span class="n">remote_loc</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="kn">from</span> <span class="nn">sparknlp.pretrained</span> <span class="kn">import</span> <span class="n">ResourceDownloader</span>
+        <span class="k">return</span> <span class="n">ResourceDownloader</span><span class="o">.</span><span class="n">downloadModel</span><span class="p">(</span><span class="n">DeIdentificationModel</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">lang</span><span class="p">,</span> <span class="n">remote_loc</span><span class="p">,</span>
+                                                <span class="n">j_dwn</span><span class="o">=</span><span class="s1">&#39;InternalsPythonResourceDownloader&#39;</span><span class="p">)</span></div></div>
+</pre></div>
+
+            </article>
+            
+            
+            
+            <footer class="bd-footer-article">
+                <!-- Previous / next buttons -->
+<div class='prev-next-area'>
+</div>
+            </footer>
+            
+          </div>
+          
+          
+          
+            <div class="bd-sidebar-secondary bd-toc">
+              
+<div class="toc-item">
+  
+</div>
+
+<div class="toc-item">
+  
+</div>
+
+            </div>
+          
+          
+        </div>
+        <footer class="bd-footer-content">
+          <div class="bd-footer-content__inner">
+            
+          </div>
+        </footer>
+        
+      </main>
+    </div>
+  </div>
+
+  
+    
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../../../../../static/scripts/pydata-sphinx-theme.js?digest=9b1a4fa89bdd0e95b23b"></script>
+
+  <footer class="bd-footer"><div class="bd-footer__inner container">
+  
+  <div class="footer-item">
+    
+<p class="copyright">
+
+    &copy; Copyright 2022, John Snow Labs.<br>
+
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+<p class="sphinx-version">
+Created using <a href="http://sphinx-doc.org/">Sphinx</a> 5.2.3.<br>
+</p>
+
+  </div>
+  
+</div>
+  </footer>
+  </body>
+</html>

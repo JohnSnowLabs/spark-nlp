@@ -304,6 +304,7 @@ We have new Spark NLP for Healthcare [Python API Documentation](https://nlp.john
 </ul>
 
 <ul class="pagination owl-carousel pagination_big">
+    <li><a href="release_notes_4_2_0">4.2.0</a></li>
     <li><a href="release_notes_4_1_0">4.1.0</a></li>
     <li><a href="release_notes_4_0_2">4.0.2</a></li>
     <li><a href="release_notes_4_0_0">4.0.0</a></li>

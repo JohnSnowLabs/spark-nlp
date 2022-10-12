@@ -35,6 +35,7 @@
     <script src="../../../../static/underscore.js"></script>
     <script src="../../../../static/_sphinx_javascript_frameworks_compat.js"></script>
     <script src="../../../../static/doctools.js"></script>
+    <script src="../../../../static/sphinx_highlight.js"></script>
     <script src="../../../../static/toggleprompt.js"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'modules/sparknlp_jsl/_tf_graph_builders/tf2contrib/rnn_cell';</script>
     <link rel="shortcut icon" href="../../../../static/fav.ico"/>
@@ -463,12 +464,12 @@
             <span class="bp">self</span><span class="o">.</span><span class="n">_output_size</span> <span class="o">=</span> <span class="n">num_units</span>
 
     <span class="nd">@property</span>
-<div class="viewcode-block" id="CoupledInputForgetGateLSTMCell.state_size"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/_tf_graph_builders/tf2contrib/rnn_cell/index.html#sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.CoupledInputForgetGateLSTMCell.state_size">[docs]</a>    <span class="k">def</span> <span class="nf">state_size</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_state_size</span></div>
+    <span class="k">def</span> <span class="nf">state_size</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_state_size</span>
 
     <span class="nd">@property</span>
-<div class="viewcode-block" id="CoupledInputForgetGateLSTMCell.output_size"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/_tf_graph_builders/tf2contrib/rnn_cell/index.html#sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.CoupledInputForgetGateLSTMCell.output_size">[docs]</a>    <span class="k">def</span> <span class="nf">output_size</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_output_size</span></div>
+    <span class="k">def</span> <span class="nf">output_size</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_output_size</span>
 
 <div class="viewcode-block" id="CoupledInputForgetGateLSTMCell.call"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/_tf_graph_builders/tf2contrib/rnn_cell/index.html#sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.CoupledInputForgetGateLSTMCell.call">[docs]</a>    <span class="k">def</span> <span class="nf">call</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">inputs</span><span class="p">,</span> <span class="n">state</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Run one step of LSTM.</span>
@@ -632,12 +633,12 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">_reuse</span> <span class="o">=</span> <span class="n">reuse</span>
 
     <span class="nd">@property</span>
-<div class="viewcode-block" id="TimeFreqLSTMCell.output_size"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/_tf_graph_builders/tf2contrib/rnn_cell/index.html#sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.TimeFreqLSTMCell.output_size">[docs]</a>    <span class="k">def</span> <span class="nf">output_size</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_output_size</span></div>
+    <span class="k">def</span> <span class="nf">output_size</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_output_size</span>
 
     <span class="nd">@property</span>
-<div class="viewcode-block" id="TimeFreqLSTMCell.state_size"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/_tf_graph_builders/tf2contrib/rnn_cell/index.html#sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.TimeFreqLSTMCell.state_size">[docs]</a>    <span class="k">def</span> <span class="nf">state_size</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_state_size</span></div>
+    <span class="k">def</span> <span class="nf">state_size</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_state_size</span>
 
 <div class="viewcode-block" id="TimeFreqLSTMCell.call"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/_tf_graph_builders/tf2contrib/rnn_cell/index.html#sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.TimeFreqLSTMCell.call">[docs]</a>    <span class="k">def</span> <span class="nf">call</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">inputs</span><span class="p">,</span> <span class="n">state</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Run one step of LSTM.</span>
@@ -862,16 +863,16 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">_output_size</span> <span class="o">=</span> <span class="n">num_units</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">_total_blocks</span> <span class="o">*</span> <span class="mi">2</span>
 
     <span class="nd">@property</span>
-<div class="viewcode-block" id="GridLSTMCell.output_size"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/_tf_graph_builders/tf2contrib/rnn_cell/index.html#sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.GridLSTMCell.output_size">[docs]</a>    <span class="k">def</span> <span class="nf">output_size</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_output_size</span></div>
+    <span class="k">def</span> <span class="nf">output_size</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_output_size</span>
 
     <span class="nd">@property</span>
-<div class="viewcode-block" id="GridLSTMCell.state_size"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/_tf_graph_builders/tf2contrib/rnn_cell/index.html#sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.GridLSTMCell.state_size">[docs]</a>    <span class="k">def</span> <span class="nf">state_size</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_state_size</span></div>
+    <span class="k">def</span> <span class="nf">state_size</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_state_size</span>
 
     <span class="nd">@property</span>
-<div class="viewcode-block" id="GridLSTMCell.state_tuple_type"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/_tf_graph_builders/tf2contrib/rnn_cell/index.html#sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.GridLSTMCell.state_tuple_type">[docs]</a>    <span class="k">def</span> <span class="nf">state_tuple_type</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_state_tuple_type</span></div>
+    <span class="k">def</span> <span class="nf">state_tuple_type</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_state_tuple_type</span>
 
 <div class="viewcode-block" id="GridLSTMCell.call"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/_tf_graph_builders/tf2contrib/rnn_cell/index.html#sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.GridLSTMCell.call">[docs]</a>    <span class="k">def</span> <span class="nf">call</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">inputs</span><span class="p">,</span> <span class="n">state</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Run one step of LSTM.</span>
@@ -1433,17 +1434,17 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">_linear3</span> <span class="o">=</span> <span class="kc">None</span>
 
     <span class="nd">@property</span>
-<div class="viewcode-block" id="AttentionCellWrapper.state_size"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/_tf_graph_builders/tf2contrib/rnn_cell/index.html#sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.AttentionCellWrapper.state_size">[docs]</a>    <span class="k">def</span> <span class="nf">state_size</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">state_size</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="n">size</span> <span class="o">=</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_cell</span><span class="o">.</span><span class="n">state_size</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_attn_size</span><span class="p">,</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">_attn_size</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">_attn_length</span><span class="p">)</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_state_is_tuple</span><span class="p">:</span>
             <span class="k">return</span> <span class="n">size</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="k">return</span> <span class="nb">sum</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">size</span><span class="p">))</span></div>
+            <span class="k">return</span> <span class="nb">sum</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">size</span><span class="p">))</span>
 
     <span class="nd">@property</span>
-<div class="viewcode-block" id="AttentionCellWrapper.output_size"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/_tf_graph_builders/tf2contrib/rnn_cell/index.html#sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.AttentionCellWrapper.output_size">[docs]</a>    <span class="k">def</span> <span class="nf">output_size</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_attn_size</span></div>
+    <span class="k">def</span> <span class="nf">output_size</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_attn_size</span>
 
 <div class="viewcode-block" id="AttentionCellWrapper.call"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/_tf_graph_builders/tf2contrib/rnn_cell/index.html#sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.AttentionCellWrapper.call">[docs]</a>    <span class="k">def</span> <span class="nf">call</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">inputs</span><span class="p">,</span> <span class="n">state</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Long short-term memory cell with attention (LSTMA).&quot;&quot;&quot;</span>
@@ -1536,12 +1537,12 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">_carry_bias_init</span> <span class="o">=</span> <span class="n">carry_bias_init</span>
 
     <span class="nd">@property</span>
-<div class="viewcode-block" id="HighwayWrapper.state_size"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/_tf_graph_builders/tf2contrib/rnn_cell/index.html#sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.HighwayWrapper.state_size">[docs]</a>    <span class="k">def</span> <span class="nf">state_size</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_cell</span><span class="o">.</span><span class="n">state_size</span></div>
+    <span class="k">def</span> <span class="nf">state_size</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_cell</span><span class="o">.</span><span class="n">state_size</span>
 
     <span class="nd">@property</span>
-<div class="viewcode-block" id="HighwayWrapper.output_size"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/_tf_graph_builders/tf2contrib/rnn_cell/index.html#sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.HighwayWrapper.output_size">[docs]</a>    <span class="k">def</span> <span class="nf">output_size</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_cell</span><span class="o">.</span><span class="n">output_size</span></div>
+    <span class="k">def</span> <span class="nf">output_size</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_cell</span><span class="o">.</span><span class="n">output_size</span>
 
 <div class="viewcode-block" id="HighwayWrapper.zero_state"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/_tf_graph_builders/tf2contrib/rnn_cell/index.html#sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.HighwayWrapper.zero_state">[docs]</a>    <span class="k">def</span> <span class="nf">zero_state</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">batch_size</span><span class="p">,</span> <span class="n">dtype</span><span class="p">):</span>
         <span class="k">with</span> <span class="n">ops</span><span class="o">.</span><span class="n">name_scope</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="vm">__name__</span> <span class="o">+</span> <span class="s2">&quot;ZeroState&quot;</span><span class="p">,</span> <span class="n">values</span><span class="o">=</span><span class="p">[</span><span class="n">batch_size</span><span class="p">]):</span>
@@ -1660,12 +1661,12 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">_reuse</span> <span class="o">=</span> <span class="n">reuse</span>
 
     <span class="nd">@property</span>
-<div class="viewcode-block" id="LayerNormBasicLSTMCell.state_size"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/_tf_graph_builders/tf2contrib/rnn_cell/index.html#sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.LayerNormBasicLSTMCell.state_size">[docs]</a>    <span class="k">def</span> <span class="nf">state_size</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">return</span> <span class="n">rnn_cell_impl</span><span class="o">.</span><span class="n">LSTMStateTuple</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_num_units</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_num_units</span><span class="p">)</span></div>
+    <span class="k">def</span> <span class="nf">state_size</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">rnn_cell_impl</span><span class="o">.</span><span class="n">LSTMStateTuple</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_num_units</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_num_units</span><span class="p">)</span>
 
     <span class="nd">@property</span>
-<div class="viewcode-block" id="LayerNormBasicLSTMCell.output_size"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/_tf_graph_builders/tf2contrib/rnn_cell/index.html#sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.LayerNormBasicLSTMCell.output_size">[docs]</a>    <span class="k">def</span> <span class="nf">output_size</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_num_units</span></div>
+    <span class="k">def</span> <span class="nf">output_size</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_num_units</span>
 
     <span class="k">def</span> <span class="nf">_norm</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">inp</span><span class="p">,</span> <span class="n">scope</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">dtypes</span><span class="o">.</span><span class="n">float32</span><span class="p">):</span>
         <span class="n">shape</span> <span class="o">=</span> <span class="n">inp</span><span class="o">.</span><span class="n">get_shape</span><span class="p">()[</span><span class="o">-</span><span class="mi">1</span><span class="p">:]</span>
@@ -1762,12 +1763,12 @@
             <span class="bp">self</span><span class="o">.</span><span class="n">_output_size</span> <span class="o">=</span> <span class="n">num_units</span>
 
     <span class="nd">@property</span>
-<div class="viewcode-block" id="NASCell.state_size"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/_tf_graph_builders/tf2contrib/rnn_cell/index.html#sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.NASCell.state_size">[docs]</a>    <span class="k">def</span> <span class="nf">state_size</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_state_size</span></div>
+    <span class="k">def</span> <span class="nf">state_size</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_state_size</span>
 
     <span class="nd">@property</span>
-<div class="viewcode-block" id="NASCell.output_size"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/_tf_graph_builders/tf2contrib/rnn_cell/index.html#sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.NASCell.output_size">[docs]</a>    <span class="k">def</span> <span class="nf">output_size</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_output_size</span></div>
+    <span class="k">def</span> <span class="nf">output_size</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_output_size</span>
 
 <div class="viewcode-block" id="NASCell.build"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/_tf_graph_builders/tf2contrib/rnn_cell/index.html#sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.NASCell.build">[docs]</a>    <span class="k">def</span> <span class="nf">build</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">inputs_shape</span><span class="p">):</span>
         <span class="n">input_size</span> <span class="o">=</span> <span class="n">tensor_shape</span><span class="o">.</span><span class="n">dimension_value</span><span class="p">(</span>
@@ -1918,12 +1919,12 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">_linear</span> <span class="o">=</span> <span class="kc">None</span>
 
     <span class="nd">@property</span>
-<div class="viewcode-block" id="UGRNNCell.state_size"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/_tf_graph_builders/tf2contrib/rnn_cell/index.html#sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.UGRNNCell.state_size">[docs]</a>    <span class="k">def</span> <span class="nf">state_size</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_num_units</span></div>
+    <span class="k">def</span> <span class="nf">state_size</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_num_units</span>
 
     <span class="nd">@property</span>
-<div class="viewcode-block" id="UGRNNCell.output_size"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/_tf_graph_builders/tf2contrib/rnn_cell/index.html#sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.UGRNNCell.output_size">[docs]</a>    <span class="k">def</span> <span class="nf">output_size</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_num_units</span></div>
+    <span class="k">def</span> <span class="nf">output_size</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_num_units</span>
 
 <div class="viewcode-block" id="UGRNNCell.call"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/_tf_graph_builders/tf2contrib/rnn_cell/index.html#sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.UGRNNCell.call">[docs]</a>    <span class="k">def</span> <span class="nf">call</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">inputs</span><span class="p">,</span> <span class="n">state</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Run one step of UGRNN.</span>
@@ -2027,12 +2028,12 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">_linear2</span> <span class="o">=</span> <span class="kc">None</span>
 
     <span class="nd">@property</span>
-<div class="viewcode-block" id="IntersectionRNNCell.state_size"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/_tf_graph_builders/tf2contrib/rnn_cell/index.html#sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.IntersectionRNNCell.state_size">[docs]</a>    <span class="k">def</span> <span class="nf">state_size</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_num_units</span></div>
+    <span class="k">def</span> <span class="nf">state_size</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_num_units</span>
 
     <span class="nd">@property</span>
-<div class="viewcode-block" id="IntersectionRNNCell.output_size"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/_tf_graph_builders/tf2contrib/rnn_cell/index.html#sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.IntersectionRNNCell.output_size">[docs]</a>    <span class="k">def</span> <span class="nf">output_size</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_num_units</span></div>
+    <span class="k">def</span> <span class="nf">output_size</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_num_units</span>
 
 <div class="viewcode-block" id="IntersectionRNNCell.call"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/_tf_graph_builders/tf2contrib/rnn_cell/index.html#sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.IntersectionRNNCell.call">[docs]</a>    <span class="k">def</span> <span class="nf">call</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">inputs</span><span class="p">,</span> <span class="n">state</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Run one step of the Intersection RNN.</span>
@@ -2115,12 +2116,12 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">_compile_stateful</span> <span class="o">=</span> <span class="n">compile_stateful</span>
 
     <span class="nd">@property</span>
-<div class="viewcode-block" id="CompiledWrapper.state_size"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/_tf_graph_builders/tf2contrib/rnn_cell/index.html#sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.CompiledWrapper.state_size">[docs]</a>    <span class="k">def</span> <span class="nf">state_size</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_cell</span><span class="o">.</span><span class="n">state_size</span></div>
+    <span class="k">def</span> <span class="nf">state_size</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_cell</span><span class="o">.</span><span class="n">state_size</span>
 
     <span class="nd">@property</span>
-<div class="viewcode-block" id="CompiledWrapper.output_size"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/_tf_graph_builders/tf2contrib/rnn_cell/index.html#sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.CompiledWrapper.output_size">[docs]</a>    <span class="k">def</span> <span class="nf">output_size</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_cell</span><span class="o">.</span><span class="n">output_size</span></div>
+    <span class="k">def</span> <span class="nf">output_size</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_cell</span><span class="o">.</span><span class="n">output_size</span>
 
 <div class="viewcode-block" id="CompiledWrapper.zero_state"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/_tf_graph_builders/tf2contrib/rnn_cell/index.html#sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.CompiledWrapper.zero_state">[docs]</a>    <span class="k">def</span> <span class="nf">zero_state</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">batch_size</span><span class="p">,</span> <span class="n">dtype</span><span class="p">):</span>
         <span class="k">with</span> <span class="n">ops</span><span class="o">.</span><span class="n">name_scope</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="vm">__name__</span> <span class="o">+</span> <span class="s2">&quot;ZeroState&quot;</span><span class="p">,</span> <span class="n">values</span><span class="o">=</span><span class="p">[</span><span class="n">batch_size</span><span class="p">]):</span>
@@ -2218,12 +2219,12 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">_linear3</span> <span class="o">=</span> <span class="kc">None</span>
 
     <span class="nd">@property</span>
-<div class="viewcode-block" id="PhasedLSTMCell.state_size"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/_tf_graph_builders/tf2contrib/rnn_cell/index.html#sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.PhasedLSTMCell.state_size">[docs]</a>    <span class="k">def</span> <span class="nf">state_size</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">return</span> <span class="n">rnn_cell_impl</span><span class="o">.</span><span class="n">LSTMStateTuple</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_num_units</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_num_units</span><span class="p">)</span></div>
+    <span class="k">def</span> <span class="nf">state_size</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">rnn_cell_impl</span><span class="o">.</span><span class="n">LSTMStateTuple</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_num_units</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_num_units</span><span class="p">)</span>
 
     <span class="nd">@property</span>
-<div class="viewcode-block" id="PhasedLSTMCell.output_size"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/_tf_graph_builders/tf2contrib/rnn_cell/index.html#sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.PhasedLSTMCell.output_size">[docs]</a>    <span class="k">def</span> <span class="nf">output_size</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_num_units</span></div>
+    <span class="k">def</span> <span class="nf">output_size</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_num_units</span>
 
     <span class="k">def</span> <span class="nf">_mod</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Modulo function that propagates x gradients.&quot;&quot;&quot;</span>
@@ -2377,12 +2378,12 @@
             <span class="bp">self</span><span class="o">.</span><span class="n">_input_shape</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">_total_output_channels</span><span class="p">])</span>
 
     <span class="nd">@property</span>
-<div class="viewcode-block" id="ConvLSTMCell.output_size"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/_tf_graph_builders/tf2contrib/rnn_cell/index.html#sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.ConvLSTMCell.output_size">[docs]</a>    <span class="k">def</span> <span class="nf">output_size</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_output_size</span></div>
+    <span class="k">def</span> <span class="nf">output_size</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_output_size</span>
 
     <span class="nd">@property</span>
-<div class="viewcode-block" id="ConvLSTMCell.state_size"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/_tf_graph_builders/tf2contrib/rnn_cell/index.html#sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.ConvLSTMCell.state_size">[docs]</a>    <span class="k">def</span> <span class="nf">state_size</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_state_size</span></div>
+    <span class="k">def</span> <span class="nf">state_size</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_state_size</span>
 
 <div class="viewcode-block" id="ConvLSTMCell.call"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/_tf_graph_builders/tf2contrib/rnn_cell/index.html#sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.ConvLSTMCell.call">[docs]</a>    <span class="k">def</span> <span class="nf">call</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">inputs</span><span class="p">,</span> <span class="n">state</span><span class="p">,</span> <span class="n">scope</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="n">cell</span><span class="p">,</span> <span class="n">hidden</span> <span class="o">=</span> <span class="n">state</span>
@@ -2580,12 +2581,12 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">_linear2</span> <span class="o">=</span> <span class="kc">None</span>
 
     <span class="nd">@property</span>
-<div class="viewcode-block" id="GLSTMCell.state_size"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/_tf_graph_builders/tf2contrib/rnn_cell/index.html#sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.GLSTMCell.state_size">[docs]</a>    <span class="k">def</span> <span class="nf">state_size</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_state_size</span></div>
+    <span class="k">def</span> <span class="nf">state_size</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_state_size</span>
 
     <span class="nd">@property</span>
-<div class="viewcode-block" id="GLSTMCell.output_size"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/_tf_graph_builders/tf2contrib/rnn_cell/index.html#sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.GLSTMCell.output_size">[docs]</a>    <span class="k">def</span> <span class="nf">output_size</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_output_size</span></div>
+    <span class="k">def</span> <span class="nf">output_size</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_output_size</span>
 
     <span class="k">def</span> <span class="nf">_get_input_for_group</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">inputs</span><span class="p">,</span> <span class="n">group_id</span><span class="p">,</span> <span class="n">group_size</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Slices inputs into groups to prepare for processing by cell&#39;s groups.</span>
@@ -2817,12 +2818,12 @@
             <span class="bp">self</span><span class="o">.</span><span class="n">_output_size</span> <span class="o">=</span> <span class="n">num_units</span>
 
     <span class="nd">@property</span>
-<div class="viewcode-block" id="LayerNormLSTMCell.state_size"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/_tf_graph_builders/tf2contrib/rnn_cell/index.html#sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.LayerNormLSTMCell.state_size">[docs]</a>    <span class="k">def</span> <span class="nf">state_size</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_state_size</span></div>
+    <span class="k">def</span> <span class="nf">state_size</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_state_size</span>
 
     <span class="nd">@property</span>
-<div class="viewcode-block" id="LayerNormLSTMCell.output_size"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/_tf_graph_builders/tf2contrib/rnn_cell/index.html#sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.LayerNormLSTMCell.output_size">[docs]</a>    <span class="k">def</span> <span class="nf">output_size</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_output_size</span></div>
+    <span class="k">def</span> <span class="nf">output_size</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_output_size</span>
 
     <span class="k">def</span> <span class="nf">_linear</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
                 <span class="n">args</span><span class="p">,</span>
@@ -3026,12 +3027,12 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">input_spec</span> <span class="o">=</span> <span class="n">input_spec</span><span class="o">.</span><span class="n">InputSpec</span><span class="p">(</span><span class="n">ndim</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
 
     <span class="nd">@property</span>
-<div class="viewcode-block" id="SRUCell.state_size"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/_tf_graph_builders/tf2contrib/rnn_cell/index.html#sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.SRUCell.state_size">[docs]</a>    <span class="k">def</span> <span class="nf">state_size</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_num_units</span></div>
+    <span class="k">def</span> <span class="nf">state_size</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_num_units</span>
 
     <span class="nd">@property</span>
-<div class="viewcode-block" id="SRUCell.output_size"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/_tf_graph_builders/tf2contrib/rnn_cell/index.html#sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.SRUCell.output_size">[docs]</a>    <span class="k">def</span> <span class="nf">output_size</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_num_units</span></div>
+    <span class="k">def</span> <span class="nf">output_size</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_num_units</span>
 
 <div class="viewcode-block" id="SRUCell.build"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/_tf_graph_builders/tf2contrib/rnn_cell/index.html#sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.SRUCell.build">[docs]</a>    <span class="k">def</span> <span class="nf">build</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">inputs_shape</span><span class="p">):</span>
         <span class="k">if</span> <span class="n">tensor_shape</span><span class="o">.</span><span class="n">dimension_value</span><span class="p">(</span><span class="n">inputs_shape</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
@@ -3154,12 +3155,12 @@
             <span class="bp">self</span><span class="o">.</span><span class="n">_output_size</span> <span class="o">=</span> <span class="n">num_units</span>
 
     <span class="nd">@property</span>
-<div class="viewcode-block" id="WeightNormLSTMCell.state_size"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/_tf_graph_builders/tf2contrib/rnn_cell/index.html#sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.WeightNormLSTMCell.state_size">[docs]</a>    <span class="k">def</span> <span class="nf">state_size</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_state_size</span></div>
+    <span class="k">def</span> <span class="nf">state_size</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_state_size</span>
 
     <span class="nd">@property</span>
-<div class="viewcode-block" id="WeightNormLSTMCell.output_size"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/_tf_graph_builders/tf2contrib/rnn_cell/index.html#sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.WeightNormLSTMCell.output_size">[docs]</a>    <span class="k">def</span> <span class="nf">output_size</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_output_size</span></div>
+    <span class="k">def</span> <span class="nf">output_size</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_output_size</span>
 
     <span class="k">def</span> <span class="nf">_normalize</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">weight</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Apply weight normalization.</span>
@@ -3366,12 +3367,12 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">_activation</span> <span class="o">=</span> <span class="n">activation</span> <span class="ow">or</span> <span class="n">math_ops</span><span class="o">.</span><span class="n">tanh</span>
 
     <span class="nd">@property</span>
-<div class="viewcode-block" id="IndRNNCell.state_size"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/_tf_graph_builders/tf2contrib/rnn_cell/index.html#sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.IndRNNCell.state_size">[docs]</a>    <span class="k">def</span> <span class="nf">state_size</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_num_units</span></div>
+    <span class="k">def</span> <span class="nf">state_size</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_num_units</span>
 
     <span class="nd">@property</span>
-<div class="viewcode-block" id="IndRNNCell.output_size"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/_tf_graph_builders/tf2contrib/rnn_cell/index.html#sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.IndRNNCell.output_size">[docs]</a>    <span class="k">def</span> <span class="nf">output_size</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_num_units</span></div>
+    <span class="k">def</span> <span class="nf">output_size</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_num_units</span>
 
 <div class="viewcode-block" id="IndRNNCell.build"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/_tf_graph_builders/tf2contrib/rnn_cell/index.html#sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.IndRNNCell.build">[docs]</a>    <span class="k">def</span> <span class="nf">build</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">inputs_shape</span><span class="p">):</span>
         <span class="k">if</span> <span class="n">tensor_shape</span><span class="o">.</span><span class="n">dimension_value</span><span class="p">(</span><span class="n">inputs_shape</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
@@ -3460,12 +3461,12 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">_bias_initializer</span> <span class="o">=</span> <span class="n">bias_initializer</span>
 
     <span class="nd">@property</span>
-<div class="viewcode-block" id="IndyGRUCell.state_size"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/_tf_graph_builders/tf2contrib/rnn_cell/index.html#sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.IndyGRUCell.state_size">[docs]</a>    <span class="k">def</span> <span class="nf">state_size</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_num_units</span></div>
+    <span class="k">def</span> <span class="nf">state_size</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_num_units</span>
 
     <span class="nd">@property</span>
-<div class="viewcode-block" id="IndyGRUCell.output_size"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/_tf_graph_builders/tf2contrib/rnn_cell/index.html#sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.IndyGRUCell.output_size">[docs]</a>    <span class="k">def</span> <span class="nf">output_size</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_num_units</span></div>
+    <span class="k">def</span> <span class="nf">output_size</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_num_units</span>
 
 <div class="viewcode-block" id="IndyGRUCell.build"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/_tf_graph_builders/tf2contrib/rnn_cell/index.html#sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.IndyGRUCell.build">[docs]</a>    <span class="k">def</span> <span class="nf">build</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">inputs_shape</span><span class="p">):</span>
         <span class="k">if</span> <span class="n">tensor_shape</span><span class="o">.</span><span class="n">dimension_value</span><span class="p">(</span><span class="n">inputs_shape</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
@@ -3597,12 +3598,12 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">_bias_initializer</span> <span class="o">=</span> <span class="n">bias_initializer</span>
 
     <span class="nd">@property</span>
-<div class="viewcode-block" id="IndyLSTMCell.state_size"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/_tf_graph_builders/tf2contrib/rnn_cell/index.html#sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.IndyLSTMCell.state_size">[docs]</a>    <span class="k">def</span> <span class="nf">state_size</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">return</span> <span class="n">rnn_cell_impl</span><span class="o">.</span><span class="n">LSTMStateTuple</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_num_units</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_num_units</span><span class="p">)</span></div>
+    <span class="k">def</span> <span class="nf">state_size</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">rnn_cell_impl</span><span class="o">.</span><span class="n">LSTMStateTuple</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_num_units</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_num_units</span><span class="p">)</span>
 
     <span class="nd">@property</span>
-<div class="viewcode-block" id="IndyLSTMCell.output_size"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/_tf_graph_builders/tf2contrib/rnn_cell/index.html#sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.IndyLSTMCell.output_size">[docs]</a>    <span class="k">def</span> <span class="nf">output_size</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_num_units</span></div>
+    <span class="k">def</span> <span class="nf">output_size</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_num_units</span>
 
 <div class="viewcode-block" id="IndyLSTMCell.build"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/_tf_graph_builders/tf2contrib/rnn_cell/index.html#sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.IndyLSTMCell.build">[docs]</a>    <span class="k">def</span> <span class="nf">build</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">inputs_shape</span><span class="p">):</span>
         <span class="k">if</span> <span class="n">tensor_shape</span><span class="o">.</span><span class="n">dimension_value</span><span class="p">(</span><span class="n">inputs_shape</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
@@ -3747,7 +3748,7 @@
                 <span class="bp">self</span><span class="o">.</span><span class="n">memory_vector_dim</span> <span class="o">*</span> <span class="mi">2</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">write_head_num</span><span class="p">)</span>
 
     <span class="nd">@property</span>
-<div class="viewcode-block" id="NTMCell.state_size"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/_tf_graph_builders/tf2contrib/rnn_cell/index.html#sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.NTMCell.state_size">[docs]</a>    <span class="k">def</span> <span class="nf">state_size</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">state_size</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="n">NTMControllerState</span><span class="p">(</span>
             <span class="n">controller_state</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">controller</span><span class="o">.</span><span class="n">state_size</span><span class="p">,</span>
             <span class="n">read_vector_list</span><span class="o">=</span><span class="p">[</span>
@@ -3758,11 +3759,11 @@
                 <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">read_head_num</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">write_head_num</span><span class="p">)</span>
             <span class="p">],</span>
             <span class="n">M</span><span class="o">=</span><span class="n">tensor_shape</span><span class="o">.</span><span class="n">TensorShape</span><span class="p">([</span><span class="bp">self</span><span class="o">.</span><span class="n">memory_size</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">memory_vector_dim</span><span class="p">]),</span>
-            <span class="n">time</span><span class="o">=</span><span class="n">tensor_shape</span><span class="o">.</span><span class="n">TensorShape</span><span class="p">([]))</span></div>
+            <span class="n">time</span><span class="o">=</span><span class="n">tensor_shape</span><span class="o">.</span><span class="n">TensorShape</span><span class="p">([]))</span>
 
     <span class="nd">@property</span>
-<div class="viewcode-block" id="NTMCell.output_size"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/_tf_graph_builders/tf2contrib/rnn_cell/index.html#sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.NTMCell.output_size">[docs]</a>    <span class="k">def</span> <span class="nf">output_size</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">output_dim</span></div>
+    <span class="k">def</span> <span class="nf">output_size</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">output_dim</span>
 
 <div class="viewcode-block" id="NTMCell.build"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/_tf_graph_builders/tf2contrib/rnn_cell/index.html#sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.NTMCell.build">[docs]</a>    <span class="k">def</span> <span class="nf">build</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">inputs_shape</span><span class="p">):</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">output_dim</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
@@ -4065,12 +4066,12 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">bias_initializer</span> <span class="o">=</span> <span class="n">initializers</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">bias_initializer</span><span class="p">)</span>
 
     <span class="nd">@property</span>
-<div class="viewcode-block" id="MinimalRNNCell.state_size"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/_tf_graph_builders/tf2contrib/rnn_cell/index.html#sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.MinimalRNNCell.state_size">[docs]</a>    <span class="k">def</span> <span class="nf">state_size</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">units</span></div>
+    <span class="k">def</span> <span class="nf">state_size</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">units</span>
 
     <span class="nd">@property</span>
-<div class="viewcode-block" id="MinimalRNNCell.output_size"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/_tf_graph_builders/tf2contrib/rnn_cell/index.html#sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.MinimalRNNCell.output_size">[docs]</a>    <span class="k">def</span> <span class="nf">output_size</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">units</span></div>
+    <span class="k">def</span> <span class="nf">output_size</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">units</span>
 
 <div class="viewcode-block" id="MinimalRNNCell.build"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/_tf_graph_builders/tf2contrib/rnn_cell/index.html#sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.MinimalRNNCell.build">[docs]</a>    <span class="k">def</span> <span class="nf">build</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">inputs_shape</span><span class="p">):</span>
         <span class="k">if</span> <span class="n">inputs_shape</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
@@ -4179,12 +4180,12 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">bias_initializer</span> <span class="o">=</span> <span class="n">initializers</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">bias_initializer</span><span class="p">)</span>
 
     <span class="nd">@property</span>
-<div class="viewcode-block" id="CFNCell.state_size"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/_tf_graph_builders/tf2contrib/rnn_cell/index.html#sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.CFNCell.state_size">[docs]</a>    <span class="k">def</span> <span class="nf">state_size</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">units</span></div>
+    <span class="k">def</span> <span class="nf">state_size</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">units</span>
 
     <span class="nd">@property</span>
-<div class="viewcode-block" id="CFNCell.output_size"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/_tf_graph_builders/tf2contrib/rnn_cell/index.html#sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.CFNCell.output_size">[docs]</a>    <span class="k">def</span> <span class="nf">output_size</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">units</span></div>
+    <span class="k">def</span> <span class="nf">output_size</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">units</span>
 
 <div class="viewcode-block" id="CFNCell.build"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/_tf_graph_builders/tf2contrib/rnn_cell/index.html#sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.CFNCell.build">[docs]</a>    <span class="k">def</span> <span class="nf">build</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">inputs_shape</span><span class="p">):</span>
         <span class="k">if</span> <span class="n">inputs_shape</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
@@ -4318,7 +4319,7 @@
   <div class="footer-item">
     
 <p class="sphinx-version">
-Created using <a href="http://sphinx-doc.org/">Sphinx</a> 5.1.1.<br>
+Created using <a href="http://sphinx-doc.org/">Sphinx</a> 5.2.3.<br>
 </p>
 
   </div>

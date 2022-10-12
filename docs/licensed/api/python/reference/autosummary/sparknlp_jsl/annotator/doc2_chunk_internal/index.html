@@ -36,6 +36,7 @@
     <script src="../../../../../static/underscore.js"></script>
     <script src="../../../../../static/_sphinx_javascript_frameworks_compat.js"></script>
     <script src="../../../../../static/doctools.js"></script>
+    <script src="../../../../../static/sphinx_highlight.js"></script>
     <script src="../../../../../static/toggleprompt.js"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'reference/autosummary/sparknlp_jsl/annotator/doc2_chunk_internal/index';</script>
     <link rel="shortcut icon" href="../../../../../static/fav.ico"/>
@@ -447,6 +448,15 @@
      <code class="xref py py-mod docutils literal notranslate">
       <span class="pre">
        sparknlp_jsl.annotator.deid.deIdentification
+      </span>
+     </code>
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../deid/doccument_hashcoder/index.html">
+     <code class="xref py py-mod docutils literal notranslate">
+      <span class="pre">
+       sparknlp_jsl.annotator.deid.doccument_hashcoder
       </span>
      </code>
     </a>
@@ -1108,6 +1118,143 @@ Return empty otherwise.</p>
     <ul class="nav section-nav flex-column">
      <li class="toc-h4 nav-item toc-entry">
       <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.doc2_chunk_internal.Doc2ChunkInternal">
+       <code class="docutils literal notranslate">
+        <span class="pre">
+         Doc2ChunkInternal
+        </span>
+       </code>
+      </a>
+      <ul class="nav section-nav flex-column">
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.doc2_chunk_internal.Doc2ChunkInternal.chunkCol">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           Doc2ChunkInternal.chunkCol
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.doc2_chunk_internal.Doc2ChunkInternal.startCol">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           Doc2ChunkInternal.startCol
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.doc2_chunk_internal.Doc2ChunkInternal.startColByTokenIndex">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           Doc2ChunkInternal.startColByTokenIndex
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.doc2_chunk_internal.Doc2ChunkInternal.isArray">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           Doc2ChunkInternal.isArray
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.doc2_chunk_internal.Doc2ChunkInternal.failOnMissing">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           Doc2ChunkInternal.failOnMissing
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.doc2_chunk_internal.Doc2ChunkInternal.lowerCase">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           Doc2ChunkInternal.lowerCase
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.doc2_chunk_internal.Doc2ChunkInternal.name">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           Doc2ChunkInternal.name
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.doc2_chunk_internal.Doc2ChunkInternal.setParams">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           Doc2ChunkInternal.setParams()
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.doc2_chunk_internal.Doc2ChunkInternal.setChunkCol">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           Doc2ChunkInternal.setChunkCol()
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.doc2_chunk_internal.Doc2ChunkInternal.setIsArray">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           Doc2ChunkInternal.setIsArray()
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.doc2_chunk_internal.Doc2ChunkInternal.setStartCol">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           Doc2ChunkInternal.setStartCol()
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.doc2_chunk_internal.Doc2ChunkInternal.setStartColByTokenIndex">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           Doc2ChunkInternal.setStartColByTokenIndex()
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.doc2_chunk_internal.Doc2ChunkInternal.setFailOnMissing">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           Doc2ChunkInternal.setFailOnMissing()
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.doc2_chunk_internal.Doc2ChunkInternal.setLowerCase">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           Doc2ChunkInternal.setLowerCase()
+          </span>
+         </code>
+        </a>
+       </li>
+      </ul>
+     </li>
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.doc2_chunk_internal.Doc2ChunkInternal">
        Doc2ChunkInternal
       </a>
       <ul class="nav section-nav flex-column">
@@ -1240,7 +1387,7 @@ Return empty otherwise.</p>
   <div class="footer-item">
     
 <p class="sphinx-version">
-Created using <a href="http://sphinx-doc.org/">Sphinx</a> 5.1.1.<br>
+Created using <a href="http://sphinx-doc.org/">Sphinx</a> 5.2.3.<br>
 </p>
 
   </div>

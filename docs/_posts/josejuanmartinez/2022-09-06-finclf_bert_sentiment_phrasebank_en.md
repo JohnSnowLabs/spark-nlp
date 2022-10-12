@@ -35,15 +35,15 @@ This model is a pre-trained NLP model to analyze sentiment of financial text. It
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
 ```python
-document_assembler = DocumentAssembler() \
+document_assembler = nlp.DocumentAssembler() \
     .setInputCol('text') \
     .setOutputCol('document')
 
-tokenizer = Tokenizer() \
+tokenizer = nlp.Tokenizer() \
     .setInputCols(['document']) \
     .setOutputCol('token')
 
-sequenceClassifier_loaded = FinanceBertForSequenceClassification.pretrained("finclf_bert_sentiment_phrasebank", "en", "finance/models")\
+sequenceClassifier_loaded = finance.BertForSequenceClassification.pretrained("finclf_bert_sentiment_phrasebank", "en", "finance/models")\
   .setInputCols(["document",'token'])\
   .setOutputCol("class")
 

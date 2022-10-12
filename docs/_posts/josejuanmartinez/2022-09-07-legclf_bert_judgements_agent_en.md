@@ -42,15 +42,15 @@ text_list = ["""The applicant further noted that his placement in the home had a
              ]
              
 # Test classifier in Spark NLP pipeline
-document_assembler = DocumentAssembler() \
+document_assembler = nlp.DocumentAssembler() \
     .setInputCol('text') \
     .setOutputCol('document')
 
-tokenizer = Tokenizer()\
+tokenizer = nlp.Tokenizer()\
     .setInputCols(['document'])\
     .setOutputCol("token")
 
-clf_model = LegalBertForSequenceClassification.pretrained("legclf_bert_judgements_agent", "en", "legal/models")\
+clf_model = legal.BertForSequenceClassification.pretrained("legclf_bert_judgements_agent", "en", "legal/models")\
     .setInputCols(['document','token'])\
     .setOutputCol("class")\
     .setCaseSensitive(True)\
@@ -68,6 +68,8 @@ empty_df = spark.createDataFrame([['']]).toDF("text")
 model = clf_pipeline.fit(empty_df)
 
 light_model = LightPipeline(model)
+
+import pandas as pd
 
 df = spark.createDataFrame(pd.DataFrame({"text" : text_list}))
 

@@ -36,6 +36,7 @@
     <script src="../../../../../../static/underscore.js"></script>
     <script src="../../../../../../static/_sphinx_javascript_frameworks_compat.js"></script>
     <script src="../../../../../../static/doctools.js"></script>
+    <script src="../../../../../../static/sphinx_highlight.js"></script>
     <script src="../../../../../../static/toggleprompt.js"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'reference/autosummary/sparknlp_jsl/annotator/chunker/chunker_filterer/index';</script>
     <link rel="shortcut icon" href="../../../../../../static/fav.ico"/>
@@ -447,6 +448,15 @@
      <code class="xref py py-mod docutils literal notranslate">
       <span class="pre">
        sparknlp_jsl.annotator.deid.deIdentification
+      </span>
+     </code>
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../../deid/doccument_hashcoder/index.html">
+     <code class="xref py py-mod docutils literal notranslate">
+      <span class="pre">
+       sparknlp_jsl.annotator.deid.doccument_hashcoder
       </span>
      </code>
     </a>
@@ -1265,6 +1275,244 @@ regex : Filter using a regex</p>
     <ul class="nav section-nav flex-column">
      <li class="toc-h4 nav-item toc-entry">
       <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.chunker.chunker_filterer.ChunkFiltererApproach">
+       <code class="docutils literal notranslate">
+        <span class="pre">
+         ChunkFiltererApproach
+        </span>
+       </code>
+      </a>
+      <ul class="nav section-nav flex-column">
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.chunker.chunker_filterer.ChunkFiltererApproach.name">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           ChunkFiltererApproach.name
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.chunker.chunker_filterer.ChunkFiltererApproach.whiteList">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           ChunkFiltererApproach.whiteList
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.chunker.chunker_filterer.ChunkFiltererApproach.blackList">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           ChunkFiltererApproach.blackList
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.chunker.chunker_filterer.ChunkFiltererApproach.regex">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           ChunkFiltererApproach.regex
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.chunker.chunker_filterer.ChunkFiltererApproach.filterValue">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           ChunkFiltererApproach.filterValue
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.chunker.chunker_filterer.ChunkFiltererApproach.criteria">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           ChunkFiltererApproach.criteria
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.chunker.chunker_filterer.ChunkFiltererApproach.entitiesConfidenceResource">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           ChunkFiltererApproach.entitiesConfidenceResource
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.chunker.chunker_filterer.ChunkFiltererApproach.setWhiteList">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           ChunkFiltererApproach.setWhiteList()
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.chunker.chunker_filterer.ChunkFiltererApproach.setBlackList">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           ChunkFiltererApproach.setBlackList()
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.chunker.chunker_filterer.ChunkFiltererApproach.setRegex">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           ChunkFiltererApproach.setRegex()
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.chunker.chunker_filterer.ChunkFiltererApproach.setCriteria">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           ChunkFiltererApproach.setCriteria()
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.chunker.chunker_filterer.ChunkFiltererApproach.setFilterEntity">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           ChunkFiltererApproach.setFilterEntity()
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.chunker.chunker_filterer.ChunkFiltererApproach.setEntitiesConfidenceResource">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           ChunkFiltererApproach.setEntitiesConfidenceResource()
+          </span>
+         </code>
+        </a>
+       </li>
+      </ul>
+     </li>
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.chunker.chunker_filterer.ChunkFilterer">
+       <code class="docutils literal notranslate">
+        <span class="pre">
+         ChunkFilterer
+        </span>
+       </code>
+      </a>
+      <ul class="nav section-nav flex-column">
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.chunker.chunker_filterer.ChunkFilterer.name">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           ChunkFilterer.name
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.chunker.chunker_filterer.ChunkFilterer.whiteList">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           ChunkFilterer.whiteList
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.chunker.chunker_filterer.ChunkFilterer.blackList">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           ChunkFilterer.blackList
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.chunker.chunker_filterer.ChunkFilterer.regex">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           ChunkFilterer.regex
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.chunker.chunker_filterer.ChunkFilterer.filterValue">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           ChunkFilterer.filterValue
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.chunker.chunker_filterer.ChunkFilterer.criteria">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           ChunkFilterer.criteria
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.chunker.chunker_filterer.ChunkFilterer.setWhiteList">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           ChunkFilterer.setWhiteList()
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.chunker.chunker_filterer.ChunkFilterer.setBlackList">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           ChunkFilterer.setBlackList()
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.chunker.chunker_filterer.ChunkFilterer.setRegex">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           ChunkFilterer.setRegex()
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.chunker.chunker_filterer.ChunkFilterer.setFilterEntity">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           ChunkFilterer.setFilterEntity()
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.chunker.chunker_filterer.ChunkFilterer.setCriteria">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           ChunkFilterer.setCriteria()
+          </span>
+         </code>
+        </a>
+       </li>
+      </ul>
+     </li>
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.chunker.chunker_filterer.ChunkFiltererApproach">
        ChunkFiltererApproach
       </a>
       <ul class="nav section-nav flex-column">
@@ -1454,7 +1702,7 @@ regex : Filter using a regex</p>
   <div class="footer-item">
     
 <p class="sphinx-version">
-Created using <a href="http://sphinx-doc.org/">Sphinx</a> 5.1.1.<br>
+Created using <a href="http://sphinx-doc.org/">Sphinx</a> 5.2.3.<br>
 </p>
 
   </div>

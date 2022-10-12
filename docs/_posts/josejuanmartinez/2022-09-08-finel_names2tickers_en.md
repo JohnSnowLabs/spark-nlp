@@ -35,15 +35,15 @@ This is an Entity Resolution / Entity Linking model, which is able to provide Ti
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
 ```python
-documentAssembler = DocumentAssembler()\
+documentAssembler = nlp.DocumentAssembler()\
       .setInputCol("text")\
       .setOutputCol("ner_chunk")
 
-embeddings = UniversalSentenceEncoder.pretrained("tfhub_use", "en") \
+embeddings = nlp.UniversalSentenceEncoder.pretrained("tfhub_use", "en") \
       .setInputCols("ner_chunk") \
       .setOutputCol("sentence_embeddings")
     
-resolver = SentenceEntityResolverModel.pretrained("finel_names2tickers", "en", "finance/models") \
+resolver = finance.SentenceEntityResolverModel.pretrained("finel_names2tickers", "en", "finance/models") \
       .setInputCols(["ner_chunk", "sentence_embeddings"]) \
       .setOutputCol("name")\
       .setDistanceFunction("EUCLIDEAN")

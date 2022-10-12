@@ -36,6 +36,7 @@
     <script src="../../../../../static/underscore.js"></script>
     <script src="../../../../../static/_sphinx_javascript_frameworks_compat.js"></script>
     <script src="../../../../../static/doctools.js"></script>
+    <script src="../../../../../static/sphinx_highlight.js"></script>
     <script src="../../../../../static/toggleprompt.js"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'reference/autosummary/sparknlp_jsl/annotator/tf_graph_builder/index';</script>
     <link rel="shortcut icon" href="../../../../../static/fav.ico"/>
@@ -452,6 +453,15 @@
     </a>
    </li>
    <li class="toctree-l2">
+    <a class="reference internal" href="../deid/doccument_hashcoder/index.html">
+     <code class="xref py py-mod docutils literal notranslate">
+      <span class="pre">
+       sparknlp_jsl.annotator.deid.doccument_hashcoder
+      </span>
+     </code>
+    </a>
+   </li>
+   <li class="toctree-l2">
     <a class="reference internal" href="../deid/reIdentification/index.html">
      <code class="xref py py-mod docutils literal notranslate">
       <span class="pre">
@@ -860,7 +870,7 @@
 <h3>Classes<a class="headerlink" href="#classes" title="Permalink to this heading">#</a></h3>
 <table class="autosummary longtable table autosummary">
 <tbody>
-<tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp_jsl.annotator.tf_graph_builder.MedicalGraphBuilderModel" title="sparknlp_jsl.annotator.tf_graph_builder.MedicalGraphBuilderModel"><code class="xref py py-obj docutils literal notranslate"><span class="pre">MedicalGraphBuilderModel</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp_jsl.annotator.tf_graph_builder.TFGraphBuilderModel" title="sparknlp_jsl.annotator.tf_graph_builder.TFGraphBuilderModel"><code class="xref py py-obj docutils literal notranslate"><span class="pre">TFGraphBuilderModel</span></code></a></p></td>
 <td><p>Abstract class for models that are fitted by estimators.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#sparknlp_jsl.annotator.tf_graph_builder.TFGraphBuilder" title="sparknlp_jsl.annotator.tf_graph_builder.TFGraphBuilder"><code class="xref py py-obj docutils literal notranslate"><span class="pre">TFGraphBuilder</span></code></a></p></td>
@@ -869,8 +879,8 @@
 </tbody>
 </table>
 <dl class="py class">
-<dt class="sig sig-object py" id="sparknlp_jsl.annotator.tf_graph_builder.MedicalGraphBuilderModel">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">MedicalGraphBuilderModel</span></span><a class="reference internal" href="../../../../../modules/sparknlp_jsl/annotator/tf_graph_builder.html#MedicalGraphBuilderModel"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.tf_graph_builder.MedicalGraphBuilderModel" title="Permalink to this definition">#</a></dt>
+<dt class="sig sig-object py" id="sparknlp_jsl.annotator.tf_graph_builder.TFGraphBuilderModel">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">TFGraphBuilderModel</span></span><a class="reference internal" href="../../../../../modules/sparknlp_jsl/annotator/tf_graph_builder.html#TFGraphBuilderModel"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.tf_graph_builder.TFGraphBuilderModel" title="Permalink to this definition">#</a></dt>
 <dd><p>Abstract class for models that are fitted by estimators.</p>
 <div class="versionadded">
 <p><span class="versionmodified added">New in version 1.4.0.</span></p>
@@ -1250,8 +1260,379 @@ file name.</p>
     </a>
     <ul class="nav section-nav flex-column">
      <li class="toc-h4 nav-item toc-entry">
-      <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.tf_graph_builder.MedicalGraphBuilderModel">
-       MedicalGraphBuilderModel
+      <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.tf_graph_builder.TFGraphBuilderModel">
+       <code class="docutils literal notranslate">
+        <span class="pre">
+         TFGraphBuilderModel
+        </span>
+       </code>
+      </a>
+     </li>
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.tf_graph_builder.TFGraphBuilder">
+       <code class="docutils literal notranslate">
+        <span class="pre">
+         TFGraphBuilder
+        </span>
+       </code>
+      </a>
+      <ul class="nav section-nav flex-column">
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.tf_graph_builder.TFGraphBuilder.modelName">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           TFGraphBuilder.modelName
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.tf_graph_builder.TFGraphBuilder.labelColumn">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           TFGraphBuilder.labelColumn
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.tf_graph_builder.TFGraphBuilder.inputCols">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           TFGraphBuilder.inputCols
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.tf_graph_builder.TFGraphBuilder.graphFolder">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           TFGraphBuilder.graphFolder
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.tf_graph_builder.TFGraphBuilder.graphFile">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           TFGraphBuilder.graphFile
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.tf_graph_builder.TFGraphBuilder.hiddenUnitsNumber">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           TFGraphBuilder.hiddenUnitsNumber
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.tf_graph_builder.TFGraphBuilder.hiddenLayers">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           TFGraphBuilder.hiddenLayers
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.tf_graph_builder.TFGraphBuilder.maxSequenceLength">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           TFGraphBuilder.maxSequenceLength
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.tf_graph_builder.TFGraphBuilder.hiddenAct">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           TFGraphBuilder.hiddenAct
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.tf_graph_builder.TFGraphBuilder.hiddenActL2">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           TFGraphBuilder.hiddenActL2
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.tf_graph_builder.TFGraphBuilder.hiddenWeightsL2">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           TFGraphBuilder.hiddenWeightsL2
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.tf_graph_builder.TFGraphBuilder.batchNorm">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           TFGraphBuilder.batchNorm
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.tf_graph_builder.TFGraphBuilder.isMedical">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           TFGraphBuilder.isMedical
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.tf_graph_builder.TFGraphBuilder.setHiddenAct">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           TFGraphBuilder.setHiddenAct()
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.tf_graph_builder.TFGraphBuilder.getHiddenAct">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           TFGraphBuilder.getHiddenAct()
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.tf_graph_builder.TFGraphBuilder.setHiddenActL2">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           TFGraphBuilder.setHiddenActL2()
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.tf_graph_builder.TFGraphBuilder.getHiddenActL2">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           TFGraphBuilder.getHiddenActL2()
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.tf_graph_builder.TFGraphBuilder.setHiddenWeightsL2">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           TFGraphBuilder.setHiddenWeightsL2()
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.tf_graph_builder.TFGraphBuilder.getHiddenWeightsL2">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           TFGraphBuilder.getHiddenWeightsL2()
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.tf_graph_builder.TFGraphBuilder.setBatchNorm">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           TFGraphBuilder.setBatchNorm()
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.tf_graph_builder.TFGraphBuilder.getBatchNorm">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           TFGraphBuilder.getBatchNorm()
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.tf_graph_builder.TFGraphBuilder.setIsMedical">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           TFGraphBuilder.setIsMedical()
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.tf_graph_builder.TFGraphBuilder.getIsMedical">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           TFGraphBuilder.getIsMedical()
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.tf_graph_builder.TFGraphBuilder.setHiddenLayers">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           TFGraphBuilder.setHiddenLayers()
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.tf_graph_builder.TFGraphBuilder.getHiddenLayers">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           TFGraphBuilder.getHiddenLayers()
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.tf_graph_builder.TFGraphBuilder.setMaxSequenceLength">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           TFGraphBuilder.setMaxSequenceLength()
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.tf_graph_builder.TFGraphBuilder.getMaxSequenceLength">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           TFGraphBuilder.getMaxSequenceLength()
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.tf_graph_builder.TFGraphBuilder.setHiddenUnitsNumber">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           TFGraphBuilder.setHiddenUnitsNumber()
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.tf_graph_builder.TFGraphBuilder.getHiddenUnitsNumber">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           TFGraphBuilder.getHiddenUnitsNumber()
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.tf_graph_builder.TFGraphBuilder.setModelName">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           TFGraphBuilder.setModelName()
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.tf_graph_builder.TFGraphBuilder.getModelName">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           TFGraphBuilder.getModelName()
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.tf_graph_builder.TFGraphBuilder.setLabelColumn">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           TFGraphBuilder.setLabelColumn()
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.tf_graph_builder.TFGraphBuilder.getLabelColumn">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           TFGraphBuilder.getLabelColumn()
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.tf_graph_builder.TFGraphBuilder.setInputCols">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           TFGraphBuilder.setInputCols()
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.tf_graph_builder.TFGraphBuilder.getInputCols">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           TFGraphBuilder.getInputCols()
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.tf_graph_builder.TFGraphBuilder.setGraphFolder">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           TFGraphBuilder.setGraphFolder()
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.tf_graph_builder.TFGraphBuilder.getGraphFolder">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           TFGraphBuilder.getGraphFolder()
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.tf_graph_builder.TFGraphBuilder.setGraphFile">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           TFGraphBuilder.setGraphFile()
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.tf_graph_builder.TFGraphBuilder.getGraphFile">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           TFGraphBuilder.getGraphFile()
+          </span>
+         </code>
+        </a>
+       </li>
+      </ul>
+     </li>
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.tf_graph_builder.TFGraphBuilderModel">
+       TFGraphBuilderModel
       </a>
      </li>
      <li class="toc-h4 nav-item toc-entry">
@@ -1513,7 +1894,7 @@ file name.</p>
   <div class="footer-item">
     
 <p class="sphinx-version">
-Created using <a href="http://sphinx-doc.org/">Sphinx</a> 5.1.1.<br>
+Created using <a href="http://sphinx-doc.org/">Sphinx</a> 5.2.3.<br>
 </p>
 
   </div>

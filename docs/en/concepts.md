@@ -84,7 +84,7 @@ You can checkout a demo application of the Explain Document ML pipeline here:
 Explain Document ML (**explain_document_ml**) is a pretrained pipeline that does a little bit of everything NLP related. Let's try it
 out in scala. Note that the first time you run the below code it might take longer since it downloads the pretrained pipeline from our servers!
 
-<div class="tabs-box" markdown="1">
+<div class="tabs-box tabs-new" markdown="1">
 
 {% include programmingLanguageSelectScalaPython.html %}
 
@@ -154,7 +154,7 @@ different components in a spark dataframe.
 Remember than when starting jupyter notebook from pyspark or when running the spark-shell for scala, a Spark Session is started in the background
 by default within the namespace 'scala'.
 
-<div class="tabs-box" markdown="1">
+<div class="tabs-box tabs-new" markdown="1">
 
 {% include programmingLanguageSelectScalaPython.html %}
 
@@ -233,7 +233,7 @@ The output of the previous DataFrame was in terms of Annotation objects. This ou
 running the code:
 
 
-<div class="tabs-box" markdown="1">
+<div class="tabs-box tabs-new" markdown="1">
 
 {% include programmingLanguageSelectScalaPython.html %}
 
@@ -353,7 +353,7 @@ token or a lemma, as both are of type token.
 
 Since version 1.5.0 we are making necessary imports easy to reach, **base.\_** will include general Spark NLP transformers and concepts, while **annotator.\_** will include all annotators that we currently provide. We also need Spark ML pipelines.
 
-<div class="tabs-box" markdown="1">
+<div class="tabs-box tabs-new" markdown="1">
 
 {% include programmingLanguageSelectScalaPython.html %}
 
@@ -377,7 +377,7 @@ annotated. There is a special **transformer** that does this for us:
 the **DocumentAssembler**, it creates the first annotation of type
 **Document** which may be used by annotators down the road.
 
-<div class="tabs-box" markdown="1">
+<div class="tabs-box tabs-new" markdown="1">
 
 {% include programmingLanguageSelectScalaPython.html %}
 
@@ -400,7 +400,7 @@ val documentAssembler = new DocumentAssembler().
 In this quick example, we now proceed to identify the sentences in the input document. SentenceDetector requires a Document annotation,
 which is provided by the DocumentAssembler output, and it's itself a Document type token. The Tokenizer requires a Document annotation type. That means it works both with DocumentAssembler or SentenceDetector output. In the following example we use the sentence output.
 
-<div class="tabs-box" markdown="1">
+<div class="tabs-box tabs-new" markdown="1">
 
 {% include programmingLanguageSelectScalaPython.html %}
 
@@ -446,7 +446,7 @@ val finisher = new Finisher().
 
 At the end of each pipeline or any stage that was done by Spark NLP, you may want to get results out whether onto another pipeline or simply write them on disk. The `Finisher` annotator helps you to clean the metadata (if it's set to true) and output the results into an array:
 
-<div class="tabs-box" markdown="1">
+<div class="tabs-box tabs-new" markdown="1">
 
 {% include programmingLanguageSelectScalaPython.html %}
 
@@ -484,7 +484,7 @@ df.withColumn("tmp", explode(col("chunk"))).select("tmp.*")
 Now we want to put all this together and retrieve the results, we use a Pipeline for this.  We use the same data in fit() that we will use in
 transform since none of the pipeline stages have a training stage.
 
-<div class="tabs-box" markdown="1">
+<div class="tabs-box tabs-new" markdown="1">
 
 {% include programmingLanguageSelectScalaPython.html %}
 
@@ -541,7 +541,7 @@ amounts of data. This means, we do not input a Spark Dataframe, but a string or 
 Pipelines, you need to input an already trained (fit) Spark ML Pipeline.
 It's transform() stage is converted into annotate() instead.
 
-<div class="tabs-box" markdown="1">
+<div class="tabs-box tabs-new" markdown="1">
 
 {% include programmingLanguageSelectScalaPython.html %}
 
@@ -636,7 +636,7 @@ converting them into an AnnotatorModel.
 
 **Example:**
 
-<div class="tabs-box" markdown="1">
+<div class="tabs-box tabs-new" markdown="1">
 
 {% include programmingLanguageSelectScalaPython.html %}
 
@@ -661,7 +661,7 @@ seamlessly so it is important to have this concept handy. Once a
 
 **Example:**
 
-<div class="tabs-box" markdown="1">
+<div class="tabs-box tabs-new" markdown="1">
 
 {% include programmingLanguageSelectScalaPython.html %}
 
@@ -685,7 +685,7 @@ maximum). To use them, simply plug in a trained (fitted) pipeline.
 
 **Example:**
 
-<div class="tabs-box" markdown="1">
+<div class="tabs-box tabs-new" markdown="1">
 
 {% include programmingLanguageSelectScalaPython.html %}
 
@@ -721,7 +721,7 @@ same intention.
 
 **Example:**
 
-<div class="tabs-box" markdown="1">
+<div class="tabs-box tabs-new" markdown="1">
 
 {% include programmingLanguageSelectScalaPython.html %}
 

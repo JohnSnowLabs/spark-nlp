@@ -36,6 +36,7 @@
     <script src="../../../../static/underscore.js"></script>
     <script src="../../../../static/_sphinx_javascript_frameworks_compat.js"></script>
     <script src="../../../../static/doctools.js"></script>
+    <script src="../../../../static/sphinx_highlight.js"></script>
     <script src="../../../../static/toggleprompt.js"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'reference/autosummary/sparknlp_jsl/eval/index';</script>
     <link rel="shortcut icon" href="../../../../static/fav.ico"/>
@@ -411,6 +412,171 @@
     <ul class="nav section-nav flex-column">
      <li class="toc-h4 nav-item toc-entry">
       <a class="reference internal nav-link" href="#sparknlp_jsl.eval.NorvigSpellEvaluation">
+       <code class="docutils literal notranslate">
+        <span class="pre">
+         NorvigSpellEvaluation
+        </span>
+       </code>
+      </a>
+      <ul class="nav section-nav flex-column">
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.eval.NorvigSpellEvaluation.computeAccuracyAnnotator">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           NorvigSpellEvaluation.computeAccuracyAnnotator()
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.eval.NorvigSpellEvaluation.computeAccuracyModel">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           NorvigSpellEvaluation.computeAccuracyModel()
+          </span>
+         </code>
+        </a>
+       </li>
+      </ul>
+     </li>
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#sparknlp_jsl.eval.SymSpellEvaluation">
+       <code class="docutils literal notranslate">
+        <span class="pre">
+         SymSpellEvaluation
+        </span>
+       </code>
+      </a>
+      <ul class="nav section-nav flex-column">
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.eval.SymSpellEvaluation.computeAccuracyAnnotator">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           SymSpellEvaluation.computeAccuracyAnnotator()
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.eval.SymSpellEvaluation.computeAccuracyModel">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           SymSpellEvaluation.computeAccuracyModel()
+          </span>
+         </code>
+        </a>
+       </li>
+      </ul>
+     </li>
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#sparknlp_jsl.eval.NerDLEvaluation">
+       <code class="docutils literal notranslate">
+        <span class="pre">
+         NerDLEvaluation
+        </span>
+       </code>
+      </a>
+      <ul class="nav section-nav flex-column">
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.eval.NerDLEvaluation.computeAccuracyModel">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           NerDLEvaluation.computeAccuracyModel()
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.eval.NerDLEvaluation.computeAccuracyAnnotator">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           NerDLEvaluation.computeAccuracyAnnotator()
+          </span>
+         </code>
+        </a>
+       </li>
+      </ul>
+     </li>
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#sparknlp_jsl.eval.NerDLMetrics">
+       <code class="docutils literal notranslate">
+        <span class="pre">
+         NerDLMetrics
+        </span>
+       </code>
+      </a>
+      <ul class="nav section-nav flex-column">
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.eval.NerDLMetrics.computeMetricsFromDF">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           NerDLMetrics.computeMetricsFromDF()
+          </span>
+         </code>
+        </a>
+       </li>
+      </ul>
+     </li>
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#sparknlp_jsl.eval.NerCrfEvaluation">
+       <code class="docutils literal notranslate">
+        <span class="pre">
+         NerCrfEvaluation
+        </span>
+       </code>
+      </a>
+      <ul class="nav section-nav flex-column">
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.eval.NerCrfEvaluation.computeAccuracyModel">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           NerCrfEvaluation.computeAccuracyModel()
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.eval.NerCrfEvaluation.computeAccuracyAnnotator">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           NerCrfEvaluation.computeAccuracyAnnotator()
+          </span>
+         </code>
+        </a>
+       </li>
+      </ul>
+     </li>
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#sparknlp_jsl.eval.POSEvaluation">
+       <code class="docutils literal notranslate">
+        <span class="pre">
+         POSEvaluation
+        </span>
+       </code>
+      </a>
+      <ul class="nav section-nav flex-column">
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.eval.POSEvaluation.computeAccuracyModel">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           POSEvaluation.computeAccuracyModel()
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.eval.POSEvaluation.computeAccuracyAnnotator">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           POSEvaluation.computeAccuracyAnnotator()
+          </span>
+         </code>
+        </a>
+       </li>
+      </ul>
+     </li>
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#sparknlp_jsl.eval.NorvigSpellEvaluation">
        NorvigSpellEvaluation
       </a>
       <ul class="nav section-nav flex-column">
@@ -563,7 +729,7 @@
   <div class="footer-item">
     
 <p class="sphinx-version">
-Created using <a href="http://sphinx-doc.org/">Sphinx</a> 5.1.1.<br>
+Created using <a href="http://sphinx-doc.org/">Sphinx</a> 5.2.3.<br>
 </p>
 
   </div>

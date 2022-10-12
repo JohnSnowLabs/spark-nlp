@@ -35,6 +35,7 @@
     <script src="../../../../static/underscore.js"></script>
     <script src="../../../../static/_sphinx_javascript_frameworks_compat.js"></script>
     <script src="../../../../static/doctools.js"></script>
+    <script src="../../../../static/sphinx_highlight.js"></script>
     <script src="../../../../static/toggleprompt.js"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'modules/sparknlp_jsl/annotator/re/zero_shot_relation_extraction';</script>
     <link rel="shortcut icon" href="../../../../static/fav.ico"/>
@@ -354,10 +355,6 @@
 <span class="sd">    |IMPROVE|0.9929625 |</span>
 <span class="sd">    +-------+----------+</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-<div class="viewcode-block" id="ZeroShotRelationExtractionModel.relationalCategories"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/re/zero_shot_relation_extraction/index.html#sparknlp_jsl.annotator.re.zero_shot_relation_extraction.ZeroShotRelationExtractionModel.relationalCategories">[docs]</a>    <span class="n">relationalCategories</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
-                                 <span class="s2">&quot;relationalCategories&quot;</span><span class="p">,</span>
-                                 <span class="s2">&quot;Definitions of relational categories&quot;</span><span class="p">,</span>
-                                 <span class="n">TypeConverters</span><span class="o">.</span><span class="n">identity</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="ZeroShotRelationExtractionModel.predictionThreshold"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/re/zero_shot_relation_extraction/index.html#sparknlp_jsl.annotator.re.zero_shot_relation_extraction.ZeroShotRelationExtractionModel.predictionThreshold">[docs]</a>    <span class="n">predictionThreshold</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
                                 <span class="s2">&quot;predictionThreshold&quot;</span><span class="p">,</span>
@@ -375,10 +372,11 @@
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
 <span class="sd">        categories : dict[str, list[str]]</span>
-<span class="sd">            xxx</span>
+
 <span class="sd">        &quot;&quot;&quot;</span>
 
-        <span class="bp">self</span><span class="o">.</span><span class="n">_call_java</span><span class="p">(</span><span class="s2">&quot;setRelationalCategories&quot;</span><span class="p">,</span><span class="n">categories</span><span class="p">)</span></div>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_call_java</span><span class="p">(</span><span class="s2">&quot;setRelationalCategories&quot;</span><span class="p">,</span><span class="n">categories</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span></div>
 
     <span class="nd">@keyword_only</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">classname</span><span class="o">=</span><span class="s2">&quot;com.johnsnowlabs.nlp.annotators.re.ZeroShotRelationExtractionModel&quot;</span><span class="p">,</span> <span class="n">java_model</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
@@ -476,7 +474,7 @@
   <div class="footer-item">
     
 <p class="sphinx-version">
-Created using <a href="http://sphinx-doc.org/">Sphinx</a> 5.1.1.<br>
+Created using <a href="http://sphinx-doc.org/">Sphinx</a> 5.2.3.<br>
 </p>
 
   </div>

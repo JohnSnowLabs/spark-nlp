@@ -36,6 +36,7 @@
     <script src="../../../../../../static/underscore.js"></script>
     <script src="../../../../../../static/_sphinx_javascript_frameworks_compat.js"></script>
     <script src="../../../../../../static/doctools.js"></script>
+    <script src="../../../../../../static/sphinx_highlight.js"></script>
     <script src="../../../../../../static/toggleprompt.js"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'reference/autosummary/sparknlp_jsl/_tf_graph_builders_1x/ner_dl/ner_model/index';</script>
     <link rel="shortcut icon" href="../../../../../../static/fav.ico"/>
@@ -479,6 +480,215 @@
     <ul class="nav section-nav flex-column">
      <li class="toc-h4 nav-item toc-entry">
       <a class="reference internal nav-link" href="#sparknlp_jsl._tf_graph_builders_1x.ner_dl.ner_model.NerModel">
+       <code class="docutils literal notranslate">
+        <span class="pre">
+         NerModel
+        </span>
+       </code>
+      </a>
+      <ul class="nav section-nav flex-column">
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl._tf_graph_builders_1x.ner_dl.ner_model.NerModel.add_bilstm_char_repr">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           NerModel.add_bilstm_char_repr()
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl._tf_graph_builders_1x.ner_dl.ner_model.NerModel.add_cnn_char_repr">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           NerModel.add_cnn_char_repr()
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl._tf_graph_builders_1x.ner_dl.ner_model.NerModel.add_pretrained_word_embeddings">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           NerModel.add_pretrained_word_embeddings()
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl._tf_graph_builders_1x.ner_dl.ner_model.NerModel.add_context_repr">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           NerModel.add_context_repr()
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl._tf_graph_builders_1x.ner_dl.ner_model.NerModel.add_inference_layer">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           NerModel.add_inference_layer()
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl._tf_graph_builders_1x.ner_dl.ner_model.NerModel.add_training_op">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           NerModel.add_training_op()
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl._tf_graph_builders_1x.ner_dl.ner_model.NerModel.num_trues">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           NerModel.num_trues()
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl._tf_graph_builders_1x.ner_dl.ner_model.NerModel.fill">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           NerModel.fill()
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl._tf_graph_builders_1x.ner_dl.ner_model.NerModel.get_sentence_lengths">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           NerModel.get_sentence_lengths()
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl._tf_graph_builders_1x.ner_dl.ner_model.NerModel.get_sentence_token_lengths">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           NerModel.get_sentence_token_lengths()
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl._tf_graph_builders_1x.ner_dl.ner_model.NerModel.get_word_lengths">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           NerModel.get_word_lengths()
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl._tf_graph_builders_1x.ner_dl.ner_model.NerModel.get_char_ids">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           NerModel.get_char_ids()
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl._tf_graph_builders_1x.ner_dl.ner_model.NerModel.get_from_batch">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           NerModel.get_from_batch()
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl._tf_graph_builders_1x.ner_dl.ner_model.NerModel.get_tag_ids">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           NerModel.get_tag_ids()
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl._tf_graph_builders_1x.ner_dl.ner_model.NerModel.get_word_embeddings">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           NerModel.get_word_embeddings()
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl._tf_graph_builders_1x.ner_dl.ner_model.NerModel.slice">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           NerModel.slice()
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl._tf_graph_builders_1x.ner_dl.ner_model.NerModel.init_variables">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           NerModel.init_variables()
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl._tf_graph_builders_1x.ner_dl.ner_model.NerModel.train">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           NerModel.train()
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl._tf_graph_builders_1x.ner_dl.ner_model.NerModel.measure">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           NerModel.measure()
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl._tf_graph_builders_1x.ner_dl.ner_model.NerModel.get_softmax">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           NerModel.get_softmax()
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl._tf_graph_builders_1x.ner_dl.ner_model.NerModel.predict">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           NerModel.predict()
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl._tf_graph_builders_1x.ner_dl.ner_model.NerModel.close">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           NerModel.close()
+          </span>
+         </code>
+        </a>
+       </li>
+      </ul>
+     </li>
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#sparknlp_jsl._tf_graph_builders_1x.ner_dl.ner_model.NerModel">
        NerModel
       </a>
       <ul class="nav section-nav flex-column">
@@ -651,7 +861,7 @@
   <div class="footer-item">
     
 <p class="sphinx-version">
-Created using <a href="http://sphinx-doc.org/">Sphinx</a> 5.1.1.<br>
+Created using <a href="http://sphinx-doc.org/">Sphinx</a> 5.2.3.<br>
 </p>
 
   </div>

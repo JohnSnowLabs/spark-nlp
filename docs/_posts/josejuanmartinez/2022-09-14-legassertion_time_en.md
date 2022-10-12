@@ -37,23 +37,20 @@ This is an Assertion Status Model aimed to detect temporality (PRESENT, PAST, FU
 ```python
 # YOUR NER HERE
 # ...
-embeddings = BertEmbeddings.pretrained("bert_embeddings_sec_bert_base","en") \
+embeddings = nlp.BertEmbeddings.pretrained("bert_embeddings_sec_bert_base","en") \
     .setInputCols(["sentence", "token"]) \
     .setOutputCol("embeddings")
 
-chunk_converter = ChunkConverter() \
+chunk_converter = legal.ChunkConverter() \
     .setInputCols(["entity"]) \
     .setOutputCol("ner_chunk")
 
-assertion = leg.AssertionDLModel.pretrained("legassertion_time", "en", "legal/models")\
+assertion = legal.AssertionDLModel.pretrained("legassertion_time", "en", "legal/models")\
     .setInputCols(["sentence", "ner_chunk", "embeddings"]) \
     .setOutputCol("assertion")
     
 nlpPipeline = Pipeline(stages=[
-    documentAssembler, 
-    tokenizer,
     embeddings,
-    ner,
     chunk_converter,
     assertion
     ])

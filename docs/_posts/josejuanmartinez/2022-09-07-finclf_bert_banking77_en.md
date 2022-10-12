@@ -35,15 +35,15 @@ This is a Bert-based model, which can be used to classify texts into 77 banking-
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
 ```python
-document_assembler = DocumentAssembler() \
+document_assembler = nlp.DocumentAssembler() \
     .setInputCol('text') \
     .setOutputCol('document')
 
-tokenizer = Tokenizer() \
+tokenizer = nlp.Tokenizer() \
     .setInputCols(['document']) \
     .setOutputCol('token')
 
-sequenceClassifier = BertForSequenceClassification \
+sequenceClassifier = finance.BertForSequenceClassification \
       .pretrained('finclf_bert_banking77', 'en', 'finance/models') \
       .setInputCols(['token', 'document']) \
       .setOutputCol('class') \

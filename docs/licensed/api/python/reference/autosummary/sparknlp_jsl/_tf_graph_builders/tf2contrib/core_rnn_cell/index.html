@@ -36,6 +36,7 @@
     <script src="../../../../../../static/underscore.js"></script>
     <script src="../../../../../../static/_sphinx_javascript_frameworks_compat.js"></script>
     <script src="../../../../../../static/doctools.js"></script>
+    <script src="../../../../../../static/sphinx_highlight.js"></script>
     <script src="../../../../../../static/toggleprompt.js"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'reference/autosummary/sparknlp_jsl/_tf_graph_builders/tf2contrib/core_rnn_cell/index';</script>
     <link rel="shortcut icon" href="../../../../../../static/fav.ico"/>
@@ -367,20 +368,6 @@ but instead concatenate the whole sequence of your inputs in time,
 do the embedding on this batch-concatenated sequence, then split it and
 feed into your RNN.</p>
 <dl class="py method">
-<dt class="sig sig-object py" id="sparknlp_jsl._tf_graph_builders.tf2contrib.core_rnn_cell.EmbeddingWrapper.state_size">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">state_size</span></span><a class="reference internal" href="../../../../../../modules/sparknlp_jsl/_tf_graph_builders/tf2contrib/core_rnn_cell.html#EmbeddingWrapper.state_size"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl._tf_graph_builders.tf2contrib.core_rnn_cell.EmbeddingWrapper.state_size" title="Permalink to this definition">#</a></dt>
-<dd><p>size(s) of state(s) used by this cell.</p>
-<p>It can be represented by an Integer, a TensorShape or a tuple of Integers
-or TensorShapes.</p>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="sparknlp_jsl._tf_graph_builders.tf2contrib.core_rnn_cell.EmbeddingWrapper.output_size">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">output_size</span></span><a class="reference internal" href="../../../../../../modules/sparknlp_jsl/_tf_graph_builders/tf2contrib/core_rnn_cell.html#EmbeddingWrapper.output_size"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl._tf_graph_builders.tf2contrib.core_rnn_cell.EmbeddingWrapper.output_size" title="Permalink to this definition">#</a></dt>
-<dd><p>Integer or TensorShape: size of outputs produced by this cell.</p>
-</dd></dl>
-
-<dl class="py method">
 <dt class="sig sig-object py" id="sparknlp_jsl._tf_graph_builders.tf2contrib.core_rnn_cell.EmbeddingWrapper.zero_state">
 <span class="sig-name descname"><span class="pre">zero_state</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">batch_size</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dtype</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../modules/sparknlp_jsl/_tf_graph_builders/tf2contrib/core_rnn_cell.html#EmbeddingWrapper.zero_state"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl._tf_graph_builders.tf2contrib.core_rnn_cell.EmbeddingWrapper.zero_state" title="Permalink to this definition">#</a></dt>
 <dd><p>Return zero-filled state tensor(s).</p>
@@ -412,20 +399,6 @@ the shapes <cite>[batch_size, s]</cite> for each s in <cite>state_size</cite>.</
 <p>Note: in many cases it may be more efficient to not use this wrapper,
 but instead concatenate the whole sequence of your inputs in time,
 do the projection on this batch-concatenated sequence, then split it.</p>
-<dl class="py method">
-<dt class="sig sig-object py" id="sparknlp_jsl._tf_graph_builders.tf2contrib.core_rnn_cell.InputProjectionWrapper.state_size">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">state_size</span></span><a class="reference internal" href="../../../../../../modules/sparknlp_jsl/_tf_graph_builders/tf2contrib/core_rnn_cell.html#InputProjectionWrapper.state_size"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl._tf_graph_builders.tf2contrib.core_rnn_cell.InputProjectionWrapper.state_size" title="Permalink to this definition">#</a></dt>
-<dd><p>size(s) of state(s) used by this cell.</p>
-<p>It can be represented by an Integer, a TensorShape or a tuple of Integers
-or TensorShapes.</p>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="sparknlp_jsl._tf_graph_builders.tf2contrib.core_rnn_cell.InputProjectionWrapper.output_size">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">output_size</span></span><a class="reference internal" href="../../../../../../modules/sparknlp_jsl/_tf_graph_builders/tf2contrib/core_rnn_cell.html#InputProjectionWrapper.output_size"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl._tf_graph_builders.tf2contrib.core_rnn_cell.InputProjectionWrapper.output_size" title="Permalink to this definition">#</a></dt>
-<dd><p>Integer or TensorShape: size of outputs produced by this cell.</p>
-</dd></dl>
-
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp_jsl._tf_graph_builders.tf2contrib.core_rnn_cell.InputProjectionWrapper.zero_state">
 <span class="sig-name descname"><span class="pre">zero_state</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">batch_size</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dtype</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../modules/sparknlp_jsl/_tf_graph_builders/tf2contrib/core_rnn_cell.html#InputProjectionWrapper.zero_state"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl._tf_graph_builders.tf2contrib.core_rnn_cell.InputProjectionWrapper.zero_state" title="Permalink to this definition">#</a></dt>
@@ -459,20 +432,6 @@ the shapes <cite>[batch_size, s]</cite> for each s in <cite>state_size</cite>.</
 but instead concatenate the whole sequence of your outputs in time,
 do the projection on this batch-concatenated sequence, then split it
 if needed or directly feed into a softmax.</p>
-<dl class="py method">
-<dt class="sig sig-object py" id="sparknlp_jsl._tf_graph_builders.tf2contrib.core_rnn_cell.OutputProjectionWrapper.state_size">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">state_size</span></span><a class="reference internal" href="../../../../../../modules/sparknlp_jsl/_tf_graph_builders/tf2contrib/core_rnn_cell.html#OutputProjectionWrapper.state_size"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl._tf_graph_builders.tf2contrib.core_rnn_cell.OutputProjectionWrapper.state_size" title="Permalink to this definition">#</a></dt>
-<dd><p>size(s) of state(s) used by this cell.</p>
-<p>It can be represented by an Integer, a TensorShape or a tuple of Integers
-or TensorShapes.</p>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="sparknlp_jsl._tf_graph_builders.tf2contrib.core_rnn_cell.OutputProjectionWrapper.output_size">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">output_size</span></span><a class="reference internal" href="../../../../../../modules/sparknlp_jsl/_tf_graph_builders/tf2contrib/core_rnn_cell.html#OutputProjectionWrapper.output_size"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl._tf_graph_builders.tf2contrib.core_rnn_cell.OutputProjectionWrapper.output_size" title="Permalink to this definition">#</a></dt>
-<dd><p>Integer or TensorShape: size of outputs produced by this cell.</p>
-</dd></dl>
-
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp_jsl._tf_graph_builders.tf2contrib.core_rnn_cell.OutputProjectionWrapper.zero_state">
 <span class="sig-name descname"><span class="pre">zero_state</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">batch_size</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dtype</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../modules/sparknlp_jsl/_tf_graph_builders/tf2contrib/core_rnn_cell.html#OutputProjectionWrapper.zero_state"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl._tf_graph_builders.tf2contrib.core_rnn_cell.OutputProjectionWrapper.zero_state" title="Permalink to this definition">#</a></dt>
@@ -543,6 +502,102 @@ the shapes <cite>[batch_size, s]</cite> for each s in <cite>state_size</cite>.</
     <ul class="nav section-nav flex-column">
      <li class="toc-h4 nav-item toc-entry">
       <a class="reference internal nav-link" href="#sparknlp_jsl._tf_graph_builders.tf2contrib.core_rnn_cell.RNNCell">
+       <code class="docutils literal notranslate">
+        <span class="pre">
+         RNNCell
+        </span>
+       </code>
+      </a>
+     </li>
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#sparknlp_jsl._tf_graph_builders.tf2contrib.core_rnn_cell.EmbeddingWrapper">
+       <code class="docutils literal notranslate">
+        <span class="pre">
+         EmbeddingWrapper
+        </span>
+       </code>
+      </a>
+      <ul class="nav section-nav flex-column">
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl._tf_graph_builders.tf2contrib.core_rnn_cell.EmbeddingWrapper.zero_state">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           EmbeddingWrapper.zero_state()
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl._tf_graph_builders.tf2contrib.core_rnn_cell.EmbeddingWrapper.call">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           EmbeddingWrapper.call()
+          </span>
+         </code>
+        </a>
+       </li>
+      </ul>
+     </li>
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#sparknlp_jsl._tf_graph_builders.tf2contrib.core_rnn_cell.InputProjectionWrapper">
+       <code class="docutils literal notranslate">
+        <span class="pre">
+         InputProjectionWrapper
+        </span>
+       </code>
+      </a>
+      <ul class="nav section-nav flex-column">
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl._tf_graph_builders.tf2contrib.core_rnn_cell.InputProjectionWrapper.zero_state">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           InputProjectionWrapper.zero_state()
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl._tf_graph_builders.tf2contrib.core_rnn_cell.InputProjectionWrapper.call">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           InputProjectionWrapper.call()
+          </span>
+         </code>
+        </a>
+       </li>
+      </ul>
+     </li>
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#sparknlp_jsl._tf_graph_builders.tf2contrib.core_rnn_cell.OutputProjectionWrapper">
+       <code class="docutils literal notranslate">
+        <span class="pre">
+         OutputProjectionWrapper
+        </span>
+       </code>
+      </a>
+      <ul class="nav section-nav flex-column">
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl._tf_graph_builders.tf2contrib.core_rnn_cell.OutputProjectionWrapper.zero_state">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           OutputProjectionWrapper.zero_state()
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl._tf_graph_builders.tf2contrib.core_rnn_cell.OutputProjectionWrapper.call">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           OutputProjectionWrapper.call()
+          </span>
+         </code>
+        </a>
+       </li>
+      </ul>
+     </li>
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#sparknlp_jsl._tf_graph_builders.tf2contrib.core_rnn_cell.RNNCell">
        RNNCell
       </a>
      </li>
@@ -551,16 +606,6 @@ the shapes <cite>[batch_size, s]</cite> for each s in <cite>state_size</cite>.</
        EmbeddingWrapper
       </a>
       <ul class="nav section-nav flex-column">
-       <li class="toc-h5 nav-item toc-entry">
-        <a class="reference internal nav-link" href="#sparknlp_jsl._tf_graph_builders.tf2contrib.core_rnn_cell.EmbeddingWrapper.state_size">
-         state_size
-        </a>
-       </li>
-       <li class="toc-h5 nav-item toc-entry">
-        <a class="reference internal nav-link" href="#sparknlp_jsl._tf_graph_builders.tf2contrib.core_rnn_cell.EmbeddingWrapper.output_size">
-         output_size
-        </a>
-       </li>
        <li class="toc-h5 nav-item toc-entry">
         <a class="reference internal nav-link" href="#sparknlp_jsl._tf_graph_builders.tf2contrib.core_rnn_cell.EmbeddingWrapper.zero_state">
          zero_state
@@ -579,16 +624,6 @@ the shapes <cite>[batch_size, s]</cite> for each s in <cite>state_size</cite>.</
       </a>
       <ul class="nav section-nav flex-column">
        <li class="toc-h5 nav-item toc-entry">
-        <a class="reference internal nav-link" href="#sparknlp_jsl._tf_graph_builders.tf2contrib.core_rnn_cell.InputProjectionWrapper.state_size">
-         state_size
-        </a>
-       </li>
-       <li class="toc-h5 nav-item toc-entry">
-        <a class="reference internal nav-link" href="#sparknlp_jsl._tf_graph_builders.tf2contrib.core_rnn_cell.InputProjectionWrapper.output_size">
-         output_size
-        </a>
-       </li>
-       <li class="toc-h5 nav-item toc-entry">
         <a class="reference internal nav-link" href="#sparknlp_jsl._tf_graph_builders.tf2contrib.core_rnn_cell.InputProjectionWrapper.zero_state">
          zero_state
         </a>
@@ -605,16 +640,6 @@ the shapes <cite>[batch_size, s]</cite> for each s in <cite>state_size</cite>.</
        OutputProjectionWrapper
       </a>
       <ul class="nav section-nav flex-column">
-       <li class="toc-h5 nav-item toc-entry">
-        <a class="reference internal nav-link" href="#sparknlp_jsl._tf_graph_builders.tf2contrib.core_rnn_cell.OutputProjectionWrapper.state_size">
-         state_size
-        </a>
-       </li>
-       <li class="toc-h5 nav-item toc-entry">
-        <a class="reference internal nav-link" href="#sparknlp_jsl._tf_graph_builders.tf2contrib.core_rnn_cell.OutputProjectionWrapper.output_size">
-         output_size
-        </a>
-       </li>
        <li class="toc-h5 nav-item toc-entry">
         <a class="reference internal nav-link" href="#sparknlp_jsl._tf_graph_builders.tf2contrib.core_rnn_cell.OutputProjectionWrapper.zero_state">
          zero_state
@@ -684,7 +709,7 @@ the shapes <cite>[batch_size, s]</cite> for each s in <cite>state_size</cite>.</
   <div class="footer-item">
     
 <p class="sphinx-version">
-Created using <a href="http://sphinx-doc.org/">Sphinx</a> 5.1.1.<br>
+Created using <a href="http://sphinx-doc.org/">Sphinx</a> 5.2.3.<br>
 </p>
 
   </div>

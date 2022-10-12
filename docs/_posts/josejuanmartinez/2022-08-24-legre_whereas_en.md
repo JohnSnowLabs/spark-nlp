@@ -37,27 +37,27 @@ You can also use `legpipe_whereas` which includes this model and its NER and als
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
 ```python
-documentAssembler = DocumentAssembler()\
+documentAssembler = nlp.DocumentAssembler()\
   .setInputCol("text")\
   .setOutputCol("document")
 
-tokenizer = Tokenizer()\
+tokenizer = nlp.Tokenizer()\
   .setInputCols("document")\
   .setOutputCol("token")
 
-embeddings = RoBertaEmbeddings.pretrained("roberta_embeddings_legal_roberta_base","en") \
+embeddings = nlp.RoBertaEmbeddings.pretrained("roberta_embeddings_legal_roberta_base","en") \
     .setInputCols(["document", "token"]) \
     .setOutputCol("embeddings")
 
-ner_model = LegalNerModel.pretrained('legner_whereas', 'en', 'legal/models')\
+ner_model = legal.NerModel.pretrained('legner_whereas', 'en', 'legal/models')\
         .setInputCols(["document", "token", "embeddings"])\
         .setOutputCol("ner")
 
-ner_converter = NerConverter()\
+ner_converter = nlp.NerConverter()\
         .setInputCols(["document","token","ner"])\
         .setOutputCol("ner_chunk")
 
-reDL = RelationExtractionDLModel\
+reDL = legal.RelationExtractionDLModel\
     .pretrained("legre_whereas", "en", "legal/models")\
     .setPredictionThreshold(0.5)\
     .setInputCols(["ner_chunk", "document"])\
@@ -78,7 +78,7 @@ WHEREAS VerticalNet owns and operates a series of online communities ( as define
 
 data = spark.createDataFrame([[text]]).toDF("text")
 model = pipeline.fit(data)
-res = pipeline.transform(text)
+res = model.transform(data)
 ```
 
 </div>

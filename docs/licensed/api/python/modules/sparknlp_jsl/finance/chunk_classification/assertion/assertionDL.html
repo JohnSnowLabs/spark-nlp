@@ -1,0 +1,533 @@
+
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>sparknlp_jsl.finance.chunk_classification.assertion.assertionDL &#8212; Spark NLP 4.0.0 documentation</title>
+  <script>
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../../../../static/styles/theme.css?digest=9b1a4fa89bdd0e95b23b" rel="stylesheet">
+<link href="../../../../../static/styles/pydata-sphinx-theme.css?digest=9b1a4fa89bdd0e95b23b" rel="stylesheet">
+
+  
+  <link rel="stylesheet"
+    href="../../../../../static/vendor/fontawesome/6.1.2/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../../../../../static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../../../../../static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2">
+
+    <link rel="stylesheet" type="text/css" href="../../../../../static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../../../../../static/graphviz.css" />
+    <link rel="stylesheet" type="text/css" href="../../../../../static/css/custom.css" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../../../../static/scripts/pydata-sphinx-theme.js?digest=9b1a4fa89bdd0e95b23b">
+
+    <script data-url_root="../../../../../" id="documentation_options" src="../../../../../static/documentation_options.js"></script>
+    <script src="../../../../../static/jquery.js"></script>
+    <script src="../../../../../static/underscore.js"></script>
+    <script src="../../../../../static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="../../../../../static/doctools.js"></script>
+    <script src="../../../../../static/sphinx_highlight.js"></script>
+    <script src="../../../../../static/toggleprompt.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'modules/sparknlp_jsl/finance/chunk_classification/assertion/assertionDL';</script>
+    <link rel="shortcut icon" href="../../../../../static/fav.ico"/>
+    <link rel="index" title="Index" href="../../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../../search.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="docsearch:language" content="en">
+  </head>
+  
+  
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="180" data-default-mode="">
+
+  
+  <input type="checkbox" class="sidebar-toggle" name="__primary" id="__primary">
+  <label class="overlay overlay-primary" for="__primary"></label>
+
+  
+  <input type="checkbox" class="sidebar-toggle" name="__secondary" id="__secondary">
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+      
+<form class="bd-search d-flex align-items-center" action="../../../../../search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search the docs ..." aria-label="Search the docs ..." autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+    </div>
+  </div>
+
+  
+  <nav class="bd-header navbar navbar-expand-lg bd-navbar" id="navbar-main"><div class="bd-header__inner bd-page-width">
+  <label class="sidebar-toggle primary-toggle" for="__primary">
+      <span class="fas fa-bars"></span>
+  </label>
+  <div id="navbar-start">
+    
+    
+  
+
+
+<a class="navbar-brand logo" href="../../../../../index.html">
+
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <img src="../../../../../static/logo.png" class="logo__image only-light" alt="Logo image">
+    <img src="../../../../../static/logo.png" class="logo__image only-dark" alt="Logo image">
+  
+  
+</a>
+    
+  </div>
+
+  
+  <div class="col-lg-9 navbar-header-items">
+    <div id="navbar-center" class="mr-auto">
+      
+      <div class="navbar-center-item">
+        <nav class="navbar-nav">
+    <p class="sidebar-header-items__title" role="heading" aria-level="1" aria-label="Site Navigation">
+        Site Navigation
+    </p>
+    <ul id="navbar-main-elements" class="navbar-nav">
+        
+                <li class="nav-item">
+                    <a class="nav-link" href="../../../../../getting_started/index.html">
+                        Getting Started
+                    </a>
+                </li>
+                
+
+                <li class="nav-item">
+                    <a class="nav-link" href="../../../../../reference/index.html">
+                        API Reference
+                    </a>
+                </li>
+                
+    </ul>
+</nav>
+      </div>
+      
+    </div>
+
+    <div id="navbar-end">
+      <div class="navbar-end-item navbar-end__search-button-container">
+        
+<button class="btn btn-sm navbar-btn search-button search-button__button" title="Search">
+  <i class="fas fa-search"></i>
+</button>
+      </div>
+      
+      <div class="navbar-end-item">
+        <span class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle">
+    <a class="theme-switch" data-mode="light"><i class="fas fa-sun"></i></a>
+    <a class="theme-switch" data-mode="dark"><i class="far fa-moon"></i></a>
+    <a class="theme-switch" data-mode="auto"><i class="fas fa-adjust"></i></a>
+</span>
+      </div>
+      
+      <div class="navbar-end-item">
+        <ul id="navbar-icon-links" class="navbar-nav" aria-label="Icon Links">
+      </ul>
+      </div>
+      
+    </div>
+  </div>
+
+
+  
+  <div class="search-button-container--mobile">
+<button class="btn btn-sm navbar-btn search-button search-button__button" title="Search">
+  <i class="fas fa-search"></i>
+</button>
+  </div>
+
+  
+  <label class="sidebar-toggle secondary-toggle" for="__secondary">
+      <span class="fas fa-outdent"></span>
+  </label>
+  
+
+</div>
+  </nav>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      <div class="bd-sidebar-primary bd-sidebar hide-on-wide">
+        
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+      
+      <div class="navbar-center-item">
+        <nav class="navbar-nav">
+    <p class="sidebar-header-items__title" role="heading" aria-level="1" aria-label="Site Navigation">
+        Site Navigation
+    </p>
+    <ul id="navbar-main-elements" class="navbar-nav">
+        
+                <li class="nav-item">
+                    <a class="nav-link" href="../../../../../getting_started/index.html">
+                        Getting Started
+                    </a>
+                </li>
+                
+
+                <li class="nav-item">
+                    <a class="nav-link" href="../../../../../reference/index.html">
+                        API Reference
+                    </a>
+                </li>
+                
+    </ul>
+</nav>
+      </div>
+      
+      </div>
+    
+
+    
+    
+    <div class="sidebar-header-items__end">
+      
+      <div class="navbar-end-item">
+        <span class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle">
+    <a class="theme-switch" data-mode="light"><i class="fas fa-sun"></i></a>
+    <a class="theme-switch" data-mode="dark"><i class="far fa-moon"></i></a>
+    <a class="theme-switch" data-mode="auto"><i class="fas fa-adjust"></i></a>
+</span>
+      </div>
+      
+      <div class="navbar-end-item">
+        <ul id="navbar-icon-links" class="navbar-nav" aria-label="Icon Links">
+      </ul>
+      </div>
+      
+    </div>
+    
+  </div>
+
+  
+
+  
+  <div class="sidebar-end-items sidebar-primary__section">
+    <div class="sidebar-end-items__item">
+    </div>
+  </div>
+
+      </div>
+      <main class="bd-main">
+        
+        
+        <div class="bd-content">
+          <div class="bd-article-container">
+            
+            <div class="bd-header-article">
+                
+            </div>
+            
+            
+            <article class="bd-article" role="main">
+              
+  <h1>Source code for sparknlp_jsl.finance.chunk_classification.assertion.assertionDL</h1><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">pyspark</span> <span class="kn">import</span> <span class="n">keyword_only</span>
+<span class="kn">from</span> <span class="nn">sparknlp.common</span> <span class="kn">import</span> <span class="n">AnnotatorApproach</span>
+
+<span class="kn">from</span> <span class="nn">sparknlp_jsl.annotator.assertion.assertionDL</span> <span class="kn">import</span> <span class="n">AssertionDLApproach</span> <span class="k">as</span> <span class="n">A</span>
+<span class="kn">from</span> <span class="nn">sparknlp_jsl.annotator.assertion.assertionDL</span> <span class="kn">import</span> <span class="n">AssertionDLModel</span> <span class="k">as</span> <span class="n">M</span>
+<div class="viewcode-block" id="AssertionDLApproach"><a class="viewcode-back" href="../../../../../reference/autosummary/sparknlp_jsl/finance/chunk_classification/assertion/assertionDL/index.html#sparknlp_jsl.finance.chunk_classification.assertion.assertionDL.AssertionDLApproach">[docs]</a><span class="k">class</span> <span class="nc">AssertionDLApproach</span><span class="p">(</span><span class="n">A</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Train a Assertion Model algorithm using deep learning.</span>
+<span class="sd">    from extracted entities and text. AssertionLogRegModel requires DOCUMENT, CHUNK and WORD_EMBEDDINGS type</span>
+<span class="sd">    annotator inputs, which can be obtained by e.g a</span>
+
+<span class="sd">    The training data should have annotations columns of type ``DOCUMENT``, ``CHUNK``, ``WORD_EMBEDDINGS``, the ``label`` column</span>
+<span class="sd">    (The assertion status that you want to predict), the ``start`` (the start index for the term that has the assertion status),</span>
+<span class="sd">    the ``end`` column (the end index for the term that has the assertion status).This model use a deep learning to predict the entity.</span>
+
+<span class="sd">    ========================================= ======================</span>
+<span class="sd">    Input Annotation types                    Output Annotation type</span>
+<span class="sd">    ========================================= ======================</span>
+<span class="sd">    ``DOCUMENT, CHUNK, WORD_EMBEDDINGS``      ``ASSERTION``</span>
+<span class="sd">    ========================================= ======================</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    label</span>
+<span class="sd">        Column with one label per document. Example of possible values: “present”, “absent”, “hypothetical”, “conditional”, “associated_with_other_person”, etc.</span>
+<span class="sd">    startCol</span>
+<span class="sd">        Column that contains the token number for the start of the target</span>
+<span class="sd">    endCol</span>
+<span class="sd">        olumn that contains the token number for the end of the target</span>
+<span class="sd">    batchSize</span>
+<span class="sd">        Size for each batch in the optimization process</span>
+<span class="sd">    epochs</span>
+<span class="sd">        Number of epochs for the optimization process</span>
+<span class="sd">    learningRate</span>
+<span class="sd">        Learning rate for the optimization process</span>
+<span class="sd">    dropout</span>
+<span class="sd">        dropout&quot;, &quot;Dropout at the output of each layer</span>
+<span class="sd">    maxSentLen</span>
+<span class="sd">        Max length for an input sentence.</span>
+<span class="sd">    graphFolder</span>
+<span class="sd">        Folder path that contain external graph files</span>
+<span class="sd">    graphFile</span>
+<span class="sd">        Graph file name to use</span>
+<span class="sd">    configProtoBytes</span>
+<span class="sd">        ConfigProto from tensorflow, serialized into byte array. Get with config_proto.SerializeToString()</span>
+<span class="sd">    validationSplit</span>
+<span class="sd">        Choose the proportion of training dataset to be validated against the model on each Epoch. The value should be between 0.0 and 1.0 and by default it is 0.0 and off.</span>
+<span class="sd">    evaluationLogExtended</span>
+<span class="sd">       Select if you want to have mode eval.</span>
+<span class="sd">    testDataset</span>
+<span class="sd">        Path to test dataset. If set used to calculate statistic on it during training.</span>
+<span class="sd">    includeConfidence</span>
+<span class="sd">        whether to include confidence scores in annotation metadata</span>
+<span class="sd">    enableOutputLogs</span>
+<span class="sd">        whether or not to output logs</span>
+<span class="sd">    outputLogsPath</span>
+<span class="sd">        Folder path to save training logs</span>
+<span class="sd">    verbose</span>
+<span class="sd">        Level of verbosity during training</span>
+<span class="sd">    scopeWindow</span>
+<span class="sd">        The scope window of the assertion expression</span>
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">    &gt;&gt;&gt; import sparknlp</span>
+<span class="sd">    &gt;&gt;&gt; from sparknlp.base import *</span>
+<span class="sd">    &gt;&gt;&gt; from sparknlp.annotator import *</span>
+<span class="sd">    &gt;&gt;&gt; from sparknlp_jsl.annotator import *</span>
+<span class="sd">    &gt;&gt;&gt; from sparknlp.training import *</span>
+<span class="sd">    &gt;&gt;&gt; from pyspark.ml import Pipeline</span>
+<span class="sd">    &gt;&gt;&gt; document_assembler = DocumentAssembler() \\</span>
+<span class="sd">    ...    .setInputCol(&quot;text&quot;) \\</span>
+<span class="sd">    ...    .setOutputCol(&quot;document&quot;)</span>
+<span class="sd">    &gt;&gt;&gt; sentence_detector = SentenceDetector() \\</span>
+<span class="sd">    ...    .setInputCol(&quot;document&quot;) \\</span>
+<span class="sd">    ...    .setOutputCol(&quot;sentence&quot;)</span>
+<span class="sd">    &gt;&gt;&gt; tokenizer = Tokenizer() \\</span>
+<span class="sd">    ...    .setInputCols([&quot;sentence&quot;]) \\</span>
+<span class="sd">    ...    .setOutputCol(&quot;token&quot;)</span>
+<span class="sd">    &gt;&gt;&gt; embeddings = WordEmbeddingsModel.pretrained(&quot;embeddings_clinical&quot;, &quot;en&quot;, &quot;clinical/models&quot;) \\</span>
+<span class="sd">    ...    .setInputCols([&quot;sentence&quot;, &quot;token&quot;]) \\</span>
+<span class="sd">    ...    .setOutputCol(&quot;word_embeddings&quot;) \\</span>
+<span class="sd">    ...    .setCaseSensitive(False)</span>
+<span class="sd">    &gt;&gt;&gt; chunk = Chunker() \\</span>
+<span class="sd">    ...    .setInputCols([sentence]) \\</span>
+<span class="sd">    ...    .setChunkCol(&quot;chunk&quot;) \\</span>
+<span class="sd">    ...    .setOutputCol(&quot;chunk&quot;)</span>
+<span class="sd">    &gt;&gt;&gt; assertion = AssertionDLApproach() \\</span>
+<span class="sd">    ...    .setLabelCol(&quot;label&quot;) \\</span>
+<span class="sd">    ...    .setInputCols([&quot;document&quot;, &quot;chunk&quot;, &quot;word_embeddings&quot;]) \\</span>
+<span class="sd">    ...    .setOutputCol(&quot;assertion&quot;) \\</span>
+<span class="sd">    ...    .setOutputCol(&quot;assertion&quot;) \\</span>
+<span class="sd">    ...    .setBatchSize(128) \\</span>
+<span class="sd">    ...    .setDropout(0.012) \\</span>
+<span class="sd">    ...    .setLearningRate(0.015) \\</span>
+<span class="sd">    ...    .setEpochs(1) \\</span>
+<span class="sd">    ...    .setStartCol(&quot;start&quot;) \\</span>
+<span class="sd">    ...    .setScopeWindow([3, 4]) \\</span>
+<span class="sd">    ...    .setEndCol(&quot;end&quot;) \\</span>
+<span class="sd">    ...    .setMaxSentLen(250)</span>
+<span class="sd">    &gt;&gt;&gt; assertionPipeline = Pipeline(stages=[</span>
+<span class="sd">    ...    document_assembler,</span>
+<span class="sd">    ...    sentence_detector,</span>
+<span class="sd">    ...    tokenizer,</span>
+<span class="sd">    ...    embeddings,</span>
+<span class="sd">    ...    chunk,</span>
+<span class="sd">    ...    assertion])</span>
+<span class="sd">    &gt;&gt;&gt; assertionModel = assertionPipeline.fit(dataset)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="nf">_create_model</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">java_model</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">AssertionDLModel</span><span class="p">(</span><span class="n">java_model</span><span class="o">=</span><span class="n">java_model</span><span class="p">)</span>
+
+    <span class="nd">@keyword_only</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">AnnotatorApproach</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
+            <span class="n">classname</span><span class="o">=</span><span class="s2">&quot;com.johnsnowlabs.finance.chunk_classification.assertion.AssertionDLApproach&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_setDefault</span><span class="p">(</span><span class="n">label</span><span class="o">=</span><span class="s2">&quot;label&quot;</span><span class="p">,</span> <span class="n">batchSize</span><span class="o">=</span><span class="mi">64</span><span class="p">,</span> <span class="n">epochs</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">learningRate</span><span class="o">=</span><span class="mf">0.0012</span><span class="p">,</span> <span class="n">dropout</span><span class="o">=</span><span class="mf">0.05</span><span class="p">,</span> <span class="n">maxSentLen</span><span class="o">=</span><span class="mi">250</span><span class="p">,</span>
+                         <span class="n">includeConfidence</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">scopeWindow</span><span class="o">=</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">])</span></div>
+
+
+
+<div class="viewcode-block" id="AssertionDLModel"><a class="viewcode-back" href="../../../../../reference/autosummary/sparknlp_jsl/finance/chunk_classification/assertion/assertionDL/index.html#sparknlp_jsl.finance.chunk_classification.assertion.assertionDL.AssertionDLModel">[docs]</a><span class="k">class</span> <span class="nc">AssertionDLModel</span><span class="p">(</span><span class="n">M</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;AssertionDL is a deep Learning based approach used to extract Assertion Status</span>
+<span class="sd">    from extracted entities and text. AssertionDLModel requires DOCUMENT, CHUNK and WORD_EMBEDDINGS type</span>
+<span class="sd">    annotator inputs, which can be obtained by e.g a</span>
+
+
+<span class="sd">    ========================================= ======================</span>
+<span class="sd">    Input Annotation types                    Output Annotation type</span>
+<span class="sd">    ========================================= ======================</span>
+<span class="sd">    ``DOCUMENT, CHUNK, WORD_EMBEDDINGS``      ``ASSERTION``</span>
+<span class="sd">    ========================================= ======================</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    maxSentLen</span>
+<span class="sd">        Max length for an input sentence.</span>
+<span class="sd">    targetNerLabels</span>
+<span class="sd">        List of NER labels to mark as target for assertion, must match NER output.</span>
+<span class="sd">    configProtoBytes</span>
+<span class="sd">        ConfigProto from tensorflow, serialized into byte array.</span>
+<span class="sd">    classes</span>
+<span class="sd">        Tags used to trained this AssertionDLModel</span>
+<span class="sd">    scopeWindow</span>
+<span class="sd">        The scope window of the assertion expression</span>
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+
+<span class="sd">    &gt;&gt;&gt; import sparknlp</span>
+<span class="sd">    &gt;&gt;&gt; from sparknlp.base import *</span>
+<span class="sd">    &gt;&gt;&gt; from sparknlp.common import *</span>
+<span class="sd">    &gt;&gt;&gt; from sparknlp.annotator import *</span>
+<span class="sd">    &gt;&gt;&gt; from sparknlp.training import *</span>
+<span class="sd">    &gt;&gt;&gt; import sparknlp_jsl</span>
+<span class="sd">    &gt;&gt;&gt; from sparknlp_jsl.base import *</span>
+<span class="sd">    &gt;&gt;&gt; from sparknlp_jsl.annotator import *</span>
+<span class="sd">    &gt;&gt;&gt; from pyspark.ml import Pipeline</span>
+<span class="sd">    &gt;&gt;&gt; data = spark.createDataFrame([[&quot;Patient with severe fever and sore throat&quot;],[&quot;Patient shows no stomach pain&quot;],[&quot;She was maintained on an epidural and PCA for pain control.&quot;]]).toDF(&quot;text&quot;)</span>
+<span class="sd">    &gt;&gt;&gt; documentAssembler = DocumentAssembler().setInputCol(&quot;text&quot;).setOutputCol(&quot;document&quot;)</span>
+<span class="sd">    &gt;&gt;&gt; sentenceDetector = SentenceDetector().setInputCols([&quot;document&quot;]).setOutputCol(&quot;sentence&quot;)</span>
+<span class="sd">    &gt;&gt;&gt; tokenizer = Tokenizer().setInputCols([&quot;sentence&quot;]).setOutputCol(&quot;token&quot;)</span>
+<span class="sd">    &gt;&gt;&gt; embeddings = WordEmbeddingsModel.pretrained(&quot;embeddings_clinical&quot;, &quot;en&quot;, &quot;clinical/models&quot;) \\</span>
+<span class="sd">    ...  .setOutputCol(&quot;embeddings&quot;)</span>
+<span class="sd">    &gt;&gt;&gt; nerModel = MedicalNerModel.pretrained(&quot;ner_clinical&quot;, &quot;en&quot;, &quot;clinical/models&quot;) \\</span>
+<span class="sd">    ...  .setInputCols([&quot;sentence&quot;, &quot;token&quot;, &quot;embeddings&quot;]).setOutputCol(&quot;ner&quot;)</span>
+<span class="sd">    &gt;&gt;&gt; nerConverter = NerConverter().setInputCols([&quot;sentence&quot;, &quot;token&quot;, &quot;ner&quot;]).setOutputCol(&quot;ner_chunk&quot;)</span>
+<span class="sd">    &gt;&gt;&gt; clinicalAssertion = AssertionDLModel.pretrained(&quot;assertion_dl&quot;, &quot;en&quot;, &quot;clinical/models&quot;) \\</span>
+<span class="sd">    ...  .setInputCols([&quot;sentence&quot;, &quot;ner_chunk&quot;, &quot;embeddings&quot;]) \\</span>
+<span class="sd">    ...  .setOutputCol(&quot;assertion&quot;)</span>
+<span class="sd">    &gt;&gt;&gt; assertionPipeline = Pipeline(stages=[</span>
+<span class="sd">    ...  documentAssembler,</span>
+<span class="sd">    ...  sentenceDetector,</span>
+<span class="sd">    ...  tokenizer,</span>
+<span class="sd">    ...  embeddings,</span>
+<span class="sd">    ...  nerModel,</span>
+<span class="sd">    ...  nerConverter,</span>
+<span class="sd">    ...  clinicalAssertion</span>
+<span class="sd">    ... ])</span>
+
+<span class="sd">    &gt;&gt;&gt; assertionModel = assertionPipeline.fit(data)</span>
+
+
+<span class="sd">    &gt;&gt;&gt; result = assertionModel.transform(data)</span>
+<span class="sd">    &gt;&gt;&gt; result.selectExpr(&quot;ner_chunk.result as ner&quot;, &quot;assertion.result&quot;).show(3, truncate=False)</span>
+<span class="sd">    +--------------------------------+--------------------------------+</span>
+<span class="sd">    |ner                             |result                          |</span>
+<span class="sd">    +--------------------------------+--------------------------------+</span>
+<span class="sd">    |[severe fever, sore throat]     |[present, present]              |</span>
+<span class="sd">    |[stomach pain]                  |[absent]                        |</span>
+<span class="sd">    |[an epidural, PCA, pain control]|[present, present, hypothetical]|</span>
+<span class="sd">    +--------------------------------+--------------------------------+</span>
+
+
+
+<span class="sd">    &quot;&quot;&quot;</span>
+<div class="viewcode-block" id="AssertionDLModel.name"><a class="viewcode-back" href="../../../../../reference/autosummary/sparknlp_jsl/finance/chunk_classification/assertion/assertionDL/index.html#sparknlp_jsl.finance.chunk_classification.assertion.assertionDL.AssertionDLModel.name">[docs]</a>    <span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;AssertionDLModel&quot;</span></div>
+
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">classname</span><span class="o">=</span><span class="s2">&quot;com.johnsnowlabs.finance.chunk_classification.assertion.AssertionDLModel&quot;</span><span class="p">,</span> <span class="n">java_model</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">AssertionDLModel</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
+            <span class="n">classname</span><span class="o">=</span><span class="n">classname</span><span class="p">,</span>
+            <span class="n">java_model</span><span class="o">=</span><span class="n">java_model</span>
+        <span class="p">)</span>
+
+    <span class="nd">@staticmethod</span>
+<div class="viewcode-block" id="AssertionDLModel.pretrained"><a class="viewcode-back" href="../../../../../reference/autosummary/sparknlp_jsl/finance/chunk_classification/assertion/assertionDL/index.html#sparknlp_jsl.finance.chunk_classification.assertion.assertionDL.AssertionDLModel.pretrained">[docs]</a>    <span class="k">def</span> <span class="nf">pretrained</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">lang</span><span class="o">=</span><span class="s2">&quot;en&quot;</span><span class="p">,</span> <span class="n">remote_loc</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="kn">from</span> <span class="nn">sparknlp_jsl.pretrained</span> <span class="kn">import</span> <span class="n">InternalResourceDownloader</span>
+        <span class="k">return</span> <span class="n">InternalResourceDownloader</span><span class="o">.</span><span class="n">downloadModel</span><span class="p">(</span><span class="n">AssertionDLModel</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">lang</span><span class="p">,</span> <span class="n">remote_loc</span><span class="p">,</span>
+                                                        <span class="n">j_dwn</span><span class="o">=</span><span class="s1">&#39;InternalsPythonResourceDownloader&#39;</span><span class="p">)</span></div></div>
+
+</pre></div>
+
+            </article>
+            
+            
+            
+            <footer class="bd-footer-article">
+                <!-- Previous / next buttons -->
+<div class='prev-next-area'>
+</div>
+            </footer>
+            
+          </div>
+          
+          
+          
+            <div class="bd-sidebar-secondary bd-toc">
+              
+<div class="toc-item">
+  
+</div>
+
+<div class="toc-item">
+  
+</div>
+
+            </div>
+          
+          
+        </div>
+        <footer class="bd-footer-content">
+          <div class="bd-footer-content__inner">
+            
+          </div>
+        </footer>
+        
+      </main>
+    </div>
+  </div>
+
+  
+    
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../../../../../static/scripts/pydata-sphinx-theme.js?digest=9b1a4fa89bdd0e95b23b"></script>
+
+  <footer class="bd-footer"><div class="bd-footer__inner container">
+  
+  <div class="footer-item">
+    
+<p class="copyright">
+
+    &copy; Copyright 2022, John Snow Labs.<br>
+
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+<p class="sphinx-version">
+Created using <a href="http://sphinx-doc.org/">Sphinx</a> 5.2.3.<br>
+</p>
+
+  </div>
+  
+</div>
+  </footer>
+  </body>
+</html>

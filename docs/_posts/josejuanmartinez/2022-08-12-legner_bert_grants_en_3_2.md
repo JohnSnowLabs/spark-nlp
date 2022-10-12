@@ -35,15 +35,15 @@ This model aims to detect License grants / permissions in agreements, provided b
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
 ```python
-documentAssembler = DocumentAssembler()\
+documentAssembler = nlp.DocumentAssembler()\
   .setInputCol("text")\
   .setOutputCol("document")
 
-tokenizer = Tokenizer()\
+tokenizer = nlp.Tokenizer()\
   .setInputCols("document")\
   .setOutputCol("token")
 
-tokenClassifier = LegalBertForTokenClassification.pretrained("legner_bert_grants", "en", "legal/models")\
+tokenClassifier = legal.BertForTokenClassification.pretrained("legner_bert_grants", "en", "legal/models")\
   .setInputCols("token", "document")\
   .setOutputCol("label")\
   .setCaseSensitive(True)
@@ -54,6 +54,8 @@ pipeline =  Pipeline(stages=[
   tokenClassifier
     ]
 )
+
+import pandas as pd
 
 p_model = pipeline.fit(spark.createDataFrame(pd.DataFrame({'text': ['']})))
 
