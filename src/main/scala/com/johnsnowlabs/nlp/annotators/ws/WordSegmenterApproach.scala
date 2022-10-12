@@ -23,7 +23,7 @@ import com.johnsnowlabs.nlp.annotators.pos.perceptron.{
   TrainingPerceptronLegacy
 }
 import org.apache.spark.ml.PipelineModel
-import org.apache.spark.ml.param.{DoubleParam, IntParam, Param}
+import org.apache.spark.ml.param.{BooleanParam, DoubleParam, IntParam, Param}
 import org.apache.spark.ml.util.{DefaultParamsReadable, Identifiable}
 import org.apache.spark.sql.Dataset
 
@@ -131,7 +131,6 @@ class WordSegmenterApproach(override val uid: String)
     this,
     "nIterations",
     "Number of iterations in training, converges to better accuracy")
-  setDefault(nIterations, 5)
 
   /** How many times at least a tag on a word to be marked as frequent (Default: `20`)
     *
@@ -141,7 +140,6 @@ class WordSegmenterApproach(override val uid: String)
     this,
     "frequencyThreshold",
     "How many times at least a tag on a word to be marked as frequent")
-  setDefault(frequencyThreshold, 20)
 
   /** How much percentage of total amount of words are covered to be marked as frequent (Default:
     * `0.97`)
@@ -152,7 +150,30 @@ class WordSegmenterApproach(override val uid: String)
     this,
     "ambiguityThreshold",
     "How much percentage of total amount of words are covered to be marked as frequent")
-  setDefault(ambiguityThreshold, 0.97)
+
+  val enableRegexTokenizer: BooleanParam = new BooleanParam(
+    this,
+    "enableRegexTokenizer",
+    "Whether to use RegexTokenizer before segmentation. Useful for multilingual text")
+
+  /** Indicates whether to convert all characters to lowercase before tokenizing (Default:
+    * `false`).
+    *
+    * @group param
+    */
+  val toLowercase: BooleanParam = new BooleanParam(
+    this,
+    "toLowercase",
+    "Indicates whether to convert all characters to lowercase before tokenizing. Used only when enableRegexTokenizer is true")
+
+  /** Regex pattern used to match delimiters (Default: `"\\s+"`)
+    *
+    * @group param
+    */
+  val pattern: Param[String] = new Param(
+    this,
+    "pattern",
+    "regex pattern used for tokenizing. Used only when enableRegexTokenizer is true")
 
   /** @group setParam */
   def setPosColumn(value: String): this.type = set(posCol, value)
@@ -165,6 +186,23 @@ class WordSegmenterApproach(override val uid: String)
 
   /** @group setParam */
   def setAmbiguityThreshold(value: Double): this.type = set(ambiguityThreshold, value)
+
+  /** @group setParam */
+  def setEnableRegexTokenizer(value: Boolean): this.type = set(enableRegexTokenizer, value)
+
+  /** @group setParam */
+  def setToLowercase(value: Boolean): this.type = set(toLowercase, value)
+
+  /** @group setParam */
+  def setPattern(value: String): this.type = set(pattern, value)
+
+  setDefault(
+    nIterations -> 5,
+    frequencyThreshold -> 20,
+    ambiguityThreshold -> 0.97,
+    enableRegexTokenizer -> false,
+    toLowercase -> false,
+    pattern -> "\\s+")
 
   /** @group getParam */
   def getNIterations: Int = $(nIterations)
@@ -184,6 +222,9 @@ class WordSegmenterApproach(override val uid: String)
 
     new WordSegmenterModel()
       .setModel(finalModel)
+      .setEnableRegexTokenizer($(enableRegexTokenizer))
+      .setToLowercase($(toLowercase))
+      .setPattern($(pattern))
   }
 
   /** Output Annotator Types: TOKEN

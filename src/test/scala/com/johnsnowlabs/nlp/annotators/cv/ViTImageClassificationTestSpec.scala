@@ -171,4 +171,29 @@ class ViTImageClassificationTestSpec extends AnyFlatSpec {
     assert(prediction("class").nonEmpty)
   }
 
+  "ViTForImageClassification with LightPipeline" should "return empty result when image path is wrong" in {
+
+    val imageClassifier: ViTForImageClassification = ViTForImageClassification
+      .pretrained()
+      .setInputCols("image_assembler")
+      .setOutputCol("class")
+    val pipeline: Pipeline = new Pipeline().setStages(Array(imageAssembler, imageClassifier))
+    val pipelineModel = pipeline.fit(imageDF)
+    val lightPipeline = new LightPipeline(pipelineModel)
+
+    val prediction = lightPipeline.fullAnnotateImage("./image")
+
+    assert(prediction("image_assembler").isEmpty)
+    assert(prediction("class").isEmpty)
+
+    val images =
+      Array("src/test/resources/image/hen.JPEG", "src/test/resources/image/missing_file.mf")
+    val predictions = lightPipeline.fullAnnotateImage(images)
+
+    assert(predictions(0)("image_assembler").nonEmpty)
+    assert(predictions(0)("class").nonEmpty)
+    assert(predictions(1)("image_assembler").isEmpty)
+    assert(predictions(1)("class").isEmpty)
+  }
+
 }

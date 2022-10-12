@@ -1,7 +1,7 @@
 import os
 import re
 
-from sparknlp.internal import _ResourceHelper
+from sparknlp.internal import _ResourceHelper_moveFile
 from sparknlp.training._tf_graph_builders.ner_dl.create_graph import create_graph
 
 
@@ -150,7 +150,7 @@ class NerTFGraphBuilder(TFGraphBuilder):
             )
 
             file_location = os.path.join(tmp_location, model_filename)
-            _ResourceHelper(file_location, model_location).apply()
+            _ResourceHelper_moveFile(file_location, model_location).apply()
 
         else:
             create_graph(
@@ -254,7 +254,7 @@ class TFGraphBuilderFactory:
                 model.build(tmp_location, model_filename)
 
                 file_location = os.path.join(tmp_location, model_filename)
-                _ResourceHelper(file_location, model_location).apply()
+                _ResourceHelper_moveFile(file_location, model_location).apply()
 
             else:
                 model.build(model_location, model_filename)

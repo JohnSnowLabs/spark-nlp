@@ -5,15 +5,15 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>python.sparknlp.base.light_pipeline &#8212; Spark NLP 4.2.0 documentation</title>
+    <title>python.sparknlp.base.light_pipeline &#8212; Spark NLP 4.2.1 documentation</title>
   <script>
     document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
     document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
   </script>
   
   <!-- Loaded before other Sphinx assets -->
-  <link href="../../../../static/styles/theme.css?digest=9b1a4fa89bdd0e95b23b" rel="stylesheet">
-<link href="../../../../static/styles/pydata-sphinx-theme.css?digest=9b1a4fa89bdd0e95b23b" rel="stylesheet">
+  <link href="../../../../static/styles/theme.css?digest=1e1de1a1873e13ef5536" rel="stylesheet">
+<link href="../../../../static/styles/pydata-sphinx-theme.css?digest=1e1de1a1873e13ef5536" rel="stylesheet">
 
   
   <link rel="stylesheet"
@@ -22,13 +22,15 @@
     href="../../../../static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2">
   <link rel="preload" as="font" type="font/woff2" crossorigin
     href="../../../../static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../../../../static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2">
 
     <link rel="stylesheet" type="text/css" href="../../../../static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="../../../../static/graphviz.css" />
     <link rel="stylesheet" type="text/css" href="../../../../static/css/custom.css" />
   
   <!-- Pre-loaded scripts that we'll load fully later -->
-  <link rel="preload" as="script" href="../../../../static/scripts/pydata-sphinx-theme.js?digest=9b1a4fa89bdd0e95b23b">
+  <link rel="preload" as="script" href="../../../../static/scripts/pydata-sphinx-theme.js?digest=1e1de1a1873e13ef5536">
 
     <script data-url_root="../../../../" id="documentation_options" src="../../../../static/documentation_options.js"></script>
     <script src="../../../../static/jquery.js"></script>
@@ -62,7 +64,7 @@
     <div class="search-button__search-container">
       
 <form class="bd-search d-flex align-items-center" action="../../../../search.html" method="get">
-  <i class="icon fas fa-search"></i>
+  <i class="fa-solid fa-magnifying-glass"></i>
   <input type="search" class="form-control" name="q" id="search-input" placeholder="Search the docs ..." aria-label="Search the docs ..." autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
   <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
 </form>
@@ -72,7 +74,7 @@
   
   <nav class="bd-header navbar navbar-expand-lg bd-navbar" id="navbar-main"><div class="bd-header__inner bd-page-width">
   <label class="sidebar-toggle primary-toggle" for="__primary">
-      <span class="fas fa-bars"></span>
+      <span class="fa-solid fa-bars"></span>
   </label>
   <div id="navbar-start">
     
@@ -146,16 +148,16 @@
     <div id="navbar-end">
       <div class="navbar-end-item navbar-end__search-button-container">
         
-<button class="btn btn-sm navbar-btn search-button search-button__button" title="Search">
-  <i class="fas fa-search"></i>
+<button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" data-toggle="tooltip">
+  <i class="fa-solid fa-magnifying-glass"></i>
 </button>
       </div>
       
       <div class="navbar-end-item">
-        <span class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle">
-    <a class="theme-switch" data-mode="light"><i class="fas fa-sun"></i></a>
-    <a class="theme-switch" data-mode="dark"><i class="far fa-moon"></i></a>
-    <a class="theme-switch" data-mode="auto"><i class="fas fa-adjust"></i></a>
+        <span class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" data-toggle="tooltip">
+    <a class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></a>
+    <a class="theme-switch" data-mode="dark"><i class="fa-regular fa-moon"></i></a>
+    <a class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></a>
 </span>
       </div>
       
@@ -170,14 +172,14 @@
 
   
   <div class="search-button-container--mobile">
-<button class="btn btn-sm navbar-btn search-button search-button__button" title="Search">
-  <i class="fas fa-search"></i>
+<button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" data-toggle="tooltip">
+  <i class="fa-solid fa-magnifying-glass"></i>
 </button>
   </div>
 
   
   <label class="sidebar-toggle secondary-toggle" for="__secondary">
-      <span class="fas fa-outdent"></span>
+      <span class="fa-solid fa-outdent"></span>
   </label>
   
 
@@ -242,10 +244,10 @@
     <div class="sidebar-header-items__end">
       
       <div class="navbar-end-item">
-        <span class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle">
-    <a class="theme-switch" data-mode="light"><i class="fas fa-sun"></i></a>
-    <a class="theme-switch" data-mode="dark"><i class="far fa-moon"></i></a>
-    <a class="theme-switch" data-mode="auto"><i class="fas fa-adjust"></i></a>
+        <span class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" data-toggle="tooltip">
+    <a class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></a>
+    <a class="theme-switch" data-mode="dark"><i class="fa-regular fa-moon"></i></a>
+    <a class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></a>
 </span>
       </div>
       
@@ -296,8 +298,9 @@
 <span class="c1">#  limitations under the License.</span>
 <span class="sd">&quot;&quot;&quot;Contains classes for the LightPipeline.&quot;&quot;&quot;</span>
 
-<span class="kn">from</span> <span class="nn">sparknlp.annotation</span> <span class="kn">import</span> <span class="n">Annotation</span>
 <span class="kn">import</span> <span class="nn">sparknlp.internal</span> <span class="k">as</span> <span class="nn">_internal</span>
+<span class="kn">from</span> <span class="nn">sparknlp.annotation</span> <span class="kn">import</span> <span class="n">Annotation</span>
+<span class="kn">from</span> <span class="nn">sparknlp.annotation_audio</span> <span class="kn">import</span> <span class="n">AnnotationAudio</span>
 <span class="kn">from</span> <span class="nn">sparknlp.annotation_image</span> <span class="kn">import</span> <span class="n">AnnotationImage</span>
 
 
@@ -347,8 +350,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">pipeline_model</span> <span class="o">=</span> <span class="n">pipelineModel</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_lightPipeline</span> <span class="o">=</span> <span class="n">_internal</span><span class="o">.</span><span class="n">_LightPipeline</span><span class="p">(</span><span class="n">pipelineModel</span><span class="p">,</span> <span class="n">parse_embeddings</span><span class="p">)</span><span class="o">.</span><span class="n">apply</span><span class="p">()</span>
 
-    <span class="nd">@staticmethod</span>
-    <span class="k">def</span> <span class="nf">_annotation_from_java</span><span class="p">(</span><span class="n">java_annotations</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">_annotation_from_java</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">java_annotations</span><span class="p">):</span>
         <span class="n">annotations</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="k">for</span> <span class="n">annotation</span> <span class="ow">in</span> <span class="n">java_annotations</span><span class="p">:</span>
 
@@ -356,6 +358,7 @@
             <span class="n">annotation_type</span> <span class="o">=</span> <span class="n">annotation</span><span class="o">.</span><span class="n">toString</span><span class="p">()[:</span><span class="n">index</span><span class="p">]</span>
 
             <span class="k">if</span> <span class="n">annotation_type</span> <span class="o">==</span> <span class="s2">&quot;AnnotationImage&quot;</span><span class="p">:</span>
+                <span class="n">result</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_result</span><span class="p">(</span><span class="n">annotation</span><span class="p">)</span>
                 <span class="n">annotations</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
                     <span class="n">AnnotationImage</span><span class="p">(</span><span class="n">annotation</span><span class="o">.</span><span class="n">annotatorType</span><span class="p">(),</span>
                                     <span class="n">annotation</span><span class="o">.</span><span class="n">origin</span><span class="p">(),</span>
@@ -364,7 +367,13 @@
                                     <span class="n">annotation</span><span class="o">.</span><span class="n">nChannels</span><span class="p">(),</span>
                                     <span class="n">annotation</span><span class="o">.</span><span class="n">mode</span><span class="p">(),</span>
                                     <span class="nb">list</span><span class="p">(</span><span class="n">annotation</span><span class="o">.</span><span class="n">result</span><span class="p">()),</span>
-                                    <span class="nb">dict</span><span class="p">(</span><span class="n">annotation</span><span class="o">.</span><span class="n">metadata</span><span class="p">()))</span>
+                                    <span class="n">annotation</span><span class="o">.</span><span class="n">metadata</span><span class="p">())</span>
+                <span class="p">)</span>
+            <span class="k">elif</span> <span class="n">annotation_type</span> <span class="o">==</span> <span class="s2">&quot;AnnotationAudio&quot;</span><span class="p">:</span>
+                <span class="n">annotations</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+                    <span class="n">AnnotationAudio</span><span class="p">(</span><span class="n">annotation</span><span class="o">.</span><span class="n">annotatorType</span><span class="p">(),</span>
+                                    <span class="nb">list</span><span class="p">(</span><span class="n">annotation</span><span class="o">.</span><span class="n">result</span><span class="p">()),</span>
+                                    <span class="n">annotation</span><span class="o">.</span><span class="n">metadata</span><span class="p">())</span>
                 <span class="p">)</span>
             <span class="k">else</span><span class="p">:</span>
                 <span class="n">annotations</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
@@ -372,10 +381,18 @@
                                <span class="n">annotation</span><span class="o">.</span><span class="n">begin</span><span class="p">(),</span>
                                <span class="n">annotation</span><span class="o">.</span><span class="n">end</span><span class="p">(),</span>
                                <span class="n">annotation</span><span class="o">.</span><span class="n">result</span><span class="p">(),</span>
-                               <span class="nb">dict</span><span class="p">(</span><span class="n">annotation</span><span class="o">.</span><span class="n">metadata</span><span class="p">()),</span>
+                               <span class="n">annotation</span><span class="o">.</span><span class="n">metadata</span><span class="p">(),</span>
                                <span class="p">[])</span>
                 <span class="p">)</span>
         <span class="k">return</span> <span class="n">annotations</span>
+
+    <span class="k">def</span> <span class="nf">_get_result</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">annotation</span><span class="p">):</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">result</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">annotation</span><span class="o">.</span><span class="n">result</span><span class="p">())</span>
+        <span class="k">except</span> <span class="ne">TypeError</span><span class="p">:</span>
+            <span class="n">result</span> <span class="o">=</span> <span class="p">[]</span>
+
+        <span class="k">return</span> <span class="n">result</span>
 
 <div class="viewcode-block" id="LightPipeline.fullAnnotate"><a class="viewcode-back" href="../../../../reference/autosummary/python/sparknlp/base/light_pipeline/index.html#python.sparknlp.base.light_pipeline.LightPipeline.fullAnnotate">[docs]</a>    <span class="k">def</span> <span class="nf">fullAnnotate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">target</span><span class="p">,</span> <span class="n">optional_target</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Annotates the data provided into `Annotation` type results.</span>
@@ -384,7 +401,7 @@
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
-<span class="sd">        target : list or str</span>
+<span class="sd">        target : list or str or float</span>
 <span class="sd">            The data to be annotated</span>
 <span class="sd">        optional_target: list or str</span>
 <span class="sd">            Optional data to be annotated (currently used for Question Answering)</span>
@@ -411,33 +428,87 @@
 <span class="sd">        Annotation(named_entity, 30, 36, B-LOC, {&#39;word&#39;: &#39;Baghdad&#39;}),</span>
 <span class="sd">        Annotation(named_entity, 37, 37, O, {&#39;word&#39;: &#39;.&#39;})]</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">result</span> <span class="o">=</span> <span class="p">[]</span>
 
         <span class="k">if</span> <span class="n">optional_target</span> <span class="o">==</span> <span class="s2">&quot;&quot;</span><span class="p">:</span>
-            <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">target</span><span class="p">)</span> <span class="ow">is</span> <span class="nb">str</span><span class="p">:</span>
-               <span class="n">target</span> <span class="o">=</span> <span class="p">[</span><span class="n">target</span><span class="p">]</span>
-            <span class="k">elif</span> <span class="nb">type</span><span class="p">(</span><span class="n">target</span><span class="p">)</span> <span class="ow">is</span> <span class="nb">list</span> <span class="ow">and</span> <span class="nb">type</span><span class="p">(</span><span class="n">target</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="ow">is</span> <span class="nb">list</span><span class="p">:</span>
-                <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;target is a 1D list&quot;</span><span class="p">)</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">__isTextInput</span><span class="p">(</span><span class="n">target</span><span class="p">):</span>
+                <span class="n">result</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__fullAnnotateText</span><span class="p">(</span><span class="n">target</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">__isAudioInput</span><span class="p">(</span><span class="n">target</span><span class="p">):</span>
+                <span class="n">result</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__fullAnnotateAudio</span><span class="p">(</span><span class="n">target</span><span class="p">)</span>
             <span class="k">else</span><span class="p">:</span>
-                <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;target for annotation must be &#39;str&#39; or list&quot;</span><span class="p">)</span>
-
-            <span class="k">for</span> <span class="n">annotations_result</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_lightPipeline</span><span class="o">.</span><span class="n">fullAnnotateJava</span><span class="p">(</span><span class="n">target</span><span class="p">):</span>
-                <span class="n">result</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">buildStages</span><span class="p">(</span><span class="n">annotations_result</span><span class="p">))</span>
-
+                <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;argument for annotation must be &#39;str&#39; or list[str] or list[float] or list[list[float]]&quot;</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">target</span><span class="p">)</span> <span class="ow">is</span> <span class="nb">str</span> <span class="ow">and</span> <span class="nb">type</span><span class="p">(</span><span class="n">optional_target</span><span class="p">)</span> <span class="ow">is</span> <span class="nb">str</span><span class="p">:</span>
-                <span class="n">annotations_dict</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_lightPipeline</span><span class="o">.</span><span class="n">fullAnnotateJava</span><span class="p">(</span><span class="n">target</span><span class="p">,</span> <span class="n">optional_target</span><span class="p">)</span>
-                <span class="n">result</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">buildStages</span><span class="p">(</span><span class="n">annotations_dict</span><span class="p">))</span>
-            <span class="k">elif</span> <span class="nb">type</span><span class="p">(</span><span class="n">target</span><span class="p">)</span> <span class="ow">is</span> <span class="nb">list</span> <span class="ow">and</span> <span class="nb">type</span><span class="p">(</span><span class="n">optional_target</span><span class="p">)</span> <span class="ow">is</span> <span class="nb">list</span><span class="p">:</span>
-                <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">target</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="ow">is</span> <span class="nb">list</span> <span class="ow">or</span> <span class="nb">type</span><span class="p">(</span><span class="n">optional_target</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="ow">is</span> <span class="nb">list</span><span class="p">:</span>
-                    <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;target and optional_target is a 1D list&quot;</span><span class="p">)</span>
-                <span class="n">full_annotations</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_lightPipeline</span><span class="o">.</span><span class="n">fullAnnotateJava</span><span class="p">(</span><span class="n">target</span><span class="p">,</span> <span class="n">optional_target</span><span class="p">)</span>
-                <span class="k">for</span> <span class="n">annotations_dict</span> <span class="ow">in</span> <span class="n">full_annotations</span><span class="p">:</span>
-                    <span class="n">result</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">buildStages</span><span class="p">(</span><span class="n">annotations_dict</span><span class="p">))</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">__isTextInput</span><span class="p">(</span><span class="n">target</span><span class="p">)</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">__isTextInput</span><span class="p">(</span><span class="n">optional_target</span><span class="p">):</span>
+                <span class="n">result</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__fullAnnotateQuestionAnswering</span><span class="p">(</span><span class="n">target</span><span class="p">,</span> <span class="n">optional_target</span><span class="p">)</span>
             <span class="k">else</span><span class="p">:</span>
-                <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;target and optional_target for annotation must be both &#39;str&#39; or both lists&quot;</span><span class="p">)</span>
+                <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;arguments for annotation must be &#39;str&#39; or list[str]&quot;</span><span class="p">)</span>
 
         <span class="k">return</span> <span class="n">result</span></div>
+
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">__isTextInput</span><span class="p">(</span><span class="n">target</span><span class="p">):</span>
+        <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">target</span><span class="p">)</span> <span class="ow">is</span> <span class="nb">str</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">True</span>
+        <span class="k">elif</span> <span class="nb">type</span><span class="p">(</span><span class="n">target</span><span class="p">)</span> <span class="ow">is</span> <span class="nb">list</span> <span class="ow">and</span> <span class="nb">type</span><span class="p">(</span><span class="n">target</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="ow">is</span> <span class="nb">str</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">True</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">False</span>
+
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">__isAudioInput</span><span class="p">(</span><span class="n">target</span><span class="p">):</span>
+        <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">target</span><span class="p">)</span> <span class="ow">is</span> <span class="nb">list</span> <span class="ow">and</span> <span class="nb">type</span><span class="p">(</span><span class="n">target</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="ow">is</span> <span class="nb">float</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">True</span>
+        <span class="k">elif</span> <span class="nb">type</span><span class="p">(</span><span class="n">target</span><span class="p">)</span> <span class="ow">is</span> <span class="nb">list</span> <span class="ow">and</span> <span class="nb">type</span><span class="p">(</span><span class="n">target</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="ow">is</span> <span class="nb">list</span> <span class="ow">and</span> <span class="nb">type</span><span class="p">(</span><span class="n">target</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">])</span> <span class="ow">is</span> <span class="nb">float</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">True</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">False</span>
+
+    <span class="k">def</span> <span class="nf">__fullAnnotateText</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">target</span><span class="p">):</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">__isPath</span><span class="p">(</span><span class="n">target</span><span class="p">):</span>
+            <span class="n">result</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">fullAnnotateImage</span><span class="p">(</span><span class="n">target</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">result</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">result</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">target</span><span class="p">)</span> <span class="ow">is</span> <span class="nb">str</span><span class="p">:</span>
+                <span class="n">target</span> <span class="o">=</span> <span class="p">[</span><span class="n">target</span><span class="p">]</span>
+
+            <span class="k">for</span> <span class="n">annotations_result</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_lightPipeline</span><span class="o">.</span><span class="n">fullAnnotateJava</span><span class="p">(</span><span class="n">target</span><span class="p">):</span>
+                <span class="n">result</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__buildStages</span><span class="p">(</span><span class="n">annotations_result</span><span class="p">))</span>
+            <span class="k">return</span> <span class="n">result</span>
+
+    <span class="k">def</span> <span class="nf">__isPath</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">target</span><span class="p">):</span>
+        <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">target</span><span class="p">)</span> <span class="ow">is</span> <span class="nb">list</span><span class="p">:</span>
+            <span class="n">target</span> <span class="o">=</span> <span class="n">target</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+        <span class="k">if</span> <span class="n">target</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s2">&quot;/&quot;</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">False</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">is_valid_file</span> <span class="o">=</span> <span class="n">_internal</span><span class="o">.</span><span class="n">_ResourceHelper_validFile</span><span class="p">(</span><span class="n">target</span><span class="p">)</span><span class="o">.</span><span class="n">apply</span><span class="p">()</span>
+            <span class="k">return</span> <span class="n">is_valid_file</span>
+
+    <span class="k">def</span> <span class="nf">__fullAnnotateAudio</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">audios</span><span class="p">):</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">audios</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="ow">is</span> <span class="nb">float</span><span class="p">:</span>
+            <span class="n">annotations_dict</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_lightPipeline</span><span class="o">.</span><span class="n">fullAnnotateSingleAudioJava</span><span class="p">(</span><span class="n">audios</span><span class="p">)</span>
+            <span class="n">result</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__buildStages</span><span class="p">(</span><span class="n">annotations_dict</span><span class="p">))</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">full_annotations</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_lightPipeline</span><span class="o">.</span><span class="n">fullAnnotateAudiosJava</span><span class="p">(</span><span class="n">audios</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">annotations_dict</span> <span class="ow">in</span> <span class="n">full_annotations</span><span class="p">:</span>
+                <span class="n">result</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__buildStages</span><span class="p">(</span><span class="n">annotations_dict</span><span class="p">))</span>
+
+        <span class="k">return</span> <span class="n">result</span>
+
+    <span class="k">def</span> <span class="nf">__fullAnnotateQuestionAnswering</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">question</span><span class="p">,</span> <span class="n">context</span><span class="p">):</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">question</span><span class="p">)</span> <span class="ow">is</span> <span class="nb">str</span> <span class="ow">and</span> <span class="nb">type</span><span class="p">(</span><span class="n">context</span><span class="p">)</span> <span class="ow">is</span> <span class="nb">str</span><span class="p">:</span>
+            <span class="n">annotations_dict</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_lightPipeline</span><span class="o">.</span><span class="n">fullAnnotateJava</span><span class="p">(</span><span class="n">question</span><span class="p">,</span> <span class="n">context</span><span class="p">)</span>
+            <span class="n">result</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__buildStages</span><span class="p">(</span><span class="n">annotations_dict</span><span class="p">))</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">full_annotations</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_lightPipeline</span><span class="o">.</span><span class="n">fullAnnotateJava</span><span class="p">(</span><span class="n">question</span><span class="p">,</span> <span class="n">context</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">annotations_dict</span> <span class="ow">in</span> <span class="n">full_annotations</span><span class="p">:</span>
+                <span class="n">result</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__buildStages</span><span class="p">(</span><span class="n">annotations_dict</span><span class="p">))</span>
+
+        <span class="k">return</span> <span class="n">result</span>
 
 <div class="viewcode-block" id="LightPipeline.fullAnnotateImage"><a class="viewcode-back" href="../../../../reference/autosummary/python/sparknlp/base/light_pipeline/index.html#python.sparknlp.base.light_pipeline.LightPipeline.fullAnnotateImage">[docs]</a>    <span class="k">def</span> <span class="nf">fullAnnotateImage</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">path_to_image</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Annotates the data provided into `Annotation` type results.</span>
@@ -461,13 +532,13 @@
             <span class="n">result</span> <span class="o">=</span> <span class="p">[]</span>
 
             <span class="k">for</span> <span class="n">image_result</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_lightPipeline</span><span class="o">.</span><span class="n">fullAnnotateImageJava</span><span class="p">(</span><span class="n">path_to_image</span><span class="p">):</span>
-                <span class="n">result</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">buildStages</span><span class="p">(</span><span class="n">image_result</span><span class="p">))</span>
+                <span class="n">result</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__buildStages</span><span class="p">(</span><span class="n">image_result</span><span class="p">))</span>
 
             <span class="k">return</span> <span class="n">result</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;target for annotation may be &#39;str&#39; or &#39;list&#39;&quot;</span><span class="p">)</span></div>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;argument for annotation may be &#39;str&#39; or list[str]&quot;</span><span class="p">)</span></div>
 
-    <span class="k">def</span> <span class="nf">buildStages</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">annotations_result</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">__buildStages</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">annotations_result</span><span class="p">):</span>
         <span class="n">stages</span> <span class="o">=</span> <span class="p">{}</span>
         <span class="k">for</span> <span class="n">annotator_type</span><span class="p">,</span> <span class="n">annotations</span> <span class="ow">in</span> <span class="n">annotations_result</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
             <span class="n">stages</span><span class="p">[</span><span class="n">annotator_type</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_annotation_from_java</span><span class="p">(</span><span class="n">annotations</span><span class="p">)</span>
@@ -590,6 +661,11 @@
               
 <div class="toc-item">
   
+<div id="searchbox"></div>
+</div>
+
+<div class="toc-item">
+  
 </div>
 
 <div class="toc-item">
@@ -613,7 +689,7 @@
   
     
   <!-- Scripts loaded after <body> so the DOM is not blocked -->
-  <script src="../../../../static/scripts/pydata-sphinx-theme.js?digest=9b1a4fa89bdd0e95b23b"></script>
+  <script src="../../../../static/scripts/pydata-sphinx-theme.js?digest=1e1de1a1873e13ef5536"></script>
 
   <footer class="bd-footer"><div class="bd-footer__inner container">
   
@@ -630,7 +706,7 @@
   <div class="footer-item">
     
 <p class="sphinx-version">
-Created using <a href="http://sphinx-doc.org/">Sphinx</a> 5.2.0.post0.<br>
+Created using <a href="http://sphinx-doc.org/">Sphinx</a> 5.2.3.<br>
 </p>
 
   </div>

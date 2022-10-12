@@ -30,6 +30,7 @@ import org.slf4j.LoggerFactory
 
 import java.util
 import scala.collection.JavaConverters._
+import scala.collection.mutable
 
 /** Implements a deep-learning based Noisy Channel Model Spell Algorithm. Correction candidates
   * are extracted combining context information and word information.
@@ -382,6 +383,8 @@ class ContextSpellCheckerModel(override val uid: String)
 
     classes.filter(_.label.equals(label)).head match {
       case v: VocabParser =>
+        if (v.vocab.eq(null)) v.vocab = mutable.Set.empty[String]
+
         val newSet = if (append) v.vocab ++ vocab else vocab
         v.vocab = newSet
         v.transducer = v.generateTransducer
