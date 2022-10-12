@@ -488,4 +488,41 @@ class ContextSpellCheckerTestSpec extends AnyFlatSpec {
     assert(tmp.equals("( 08/10/1982 )"))
   }
 
+
+
+
+  "when using ContextSpellchecker" should "Adding Multiple values for updateVocabClass when append=true should not crash" taggedAs SlowTest in {
+
+    import SparkAccessor.spark
+    import spark.implicits._
+
+    val data =
+      Seq("We should take a trup to Supercalifragilisticexpialidoccious Land").toDF("text")
+    val meds: java.util.ArrayList[String] = new java.util.ArrayList[String]()
+    meds.add("Supercalifragilisticexpialidocious")
+    meds.add("Monika")
+    meds.add("Peter")
+
+    val documentAssembler =
+      new DocumentAssembler().setInputCol("text").setOutputCol("doc")
+
+    val tokenizer: Tokenizer = new Tokenizer()
+      .setInputCols(Array("doc"))
+      .setOutputCol("token")
+
+    val spellChecker = ContextSpellCheckerModel
+      .pretrained()
+      .updateVocabClass("_LOC_", meds, append = true)
+      .setInputCols("token")
+      .setOutputCol("checked")
+      .setUseNewLines(true)
+
+    val pipeline =
+      new Pipeline().setStages(Array(documentAssembler, tokenizer, spellChecker)).fit(data)
+    val result = pipeline.transform(data).show()
+
+  }
+
+
+
 }
