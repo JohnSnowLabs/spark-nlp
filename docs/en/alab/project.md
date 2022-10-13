@@ -3,10 +3,10 @@ layout: docs
 comment: no
 header: true
 seotitle: Annotation Lab | John Snow Labs
-title: Home Page
-permalink: /docs/en/alab/start_page
+title: Project
+permalink: /docs/en/alab/project
 key: docs-training
-modify_date: "2020-11-18"
+modify_date: "2022-10-13"
 use_language_switcher: "Python-Scala"
 show_nav: true
 sidebar:
