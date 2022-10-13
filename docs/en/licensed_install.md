@@ -250,14 +250,25 @@ unmanagedJars in Compile += file("lib/sparknlp-jsl.jar")
 
 ## Install on Databricks
 
+- List of [tested runtimes](/docs/en/install#databricks-support).
+- Recommended instance type `Standard_F8s_v2 (16 GB Memory, 8 Cores)` or better.
+
+
+### Connection via Databricks Partner connect
+
+Databricks has an integration of Spark NLP libraries via Partner connect. If you are [eligible](https://docs.databricks.com/integrations/partner-connect/index.html?#requirements-1), you can [connect](https://docs.databricks.com/integrations/partner-connect/index.html?#quickstart-connect-to-a-partner-solution-using-partner-connect) your Databricks workspace to John Snow Labs. You will be redirected to John Snow Labs portal. You can purchase a license, thereby filling in your credit card information. It will create a new Databricks cluster, and the license files are then directly installed there. 
+
+There is a 30-days free trial licensing period. You can use the trial period only once. After the trial period, we will automatically start charging your credit card.  
+
+- Start exploring preloaded notebooks `Workspace -> Shared -> John Snow Labs`
+
 ### Automatic deployment of John Snow Labs NLP libraries
 
-You can automatically deploy John Snow Labs libraries on Databricks by filling in the form available [here](https://www.johnsnowlabs.com/databricks/). 
-This will allow you to start a 30-day free trial with no limit on the amount of processed data. You just need to provide a Databricks Access Token that is used by our deployment script to connect to your Databricks instance and install John Snow Labs NLP libraries on a cluster of your choice.
+Alternatively, you can automatically deploy John Snow Labs libraries on Databricks by filling in the form available [here](https://www.johnsnowlabs.com/databricks/). This will allow you to start a 30-day free trial with no limit on the amount of processed data. You just need to provide a Databricks Access Token that is used by our deployment script to connect to your Databricks instance and install John Snow Labs NLP libraries on a cluster of your choice.
 
-</div><div class="h3-box" markdown="1">
+- Start exploring preloaded notebooks `Workspace -> Shared -> John Snow Labs`
 
-### Manual deployment of Enterprise Spark NLP
+### Manual deployment of Spark NLP for Healthcare
 
 1. Create a cluster if you don't have one already
 2. On a new cluster or existing one you need to add the following to the `Advanced Options -> Spark` tab, in `Spark.Config` box:
@@ -265,13 +276,14 @@ This will allow you to start a 30-day free trial with no limit on the amount of 
     ```bash
     spark.kryoserializer.buffer.max 1000M
     spark.serializer org.apache.spark.serializer.KryoSerializer
-    spark.driver.extraJavaOptions -Dspark.jsl.settings.pretrained.credentials.secret_access_key=xxx -Dspark.jsl.settings.pretrained.credentials.access_key_id=yyy
-
     ```
       -  Please add the following to the `Advanced Options -> Spark` tab, in `Environment Variables` box:
 
     ```bash
+    AWS_ACCESS_KEY_ID=xxx
+    AWS_SECRET_ACCESS_KEY=yyy
     SPARK_NLP_LICENSE=zzz
+    SPARK_OCR_LICENSE=aaa
     ```
 Note: Spark-NLP for Healthcare also support reading the license from the Databricks DFS, on the fixed location, dbfs:/FileStore/johnsnowlabs/license.key. 
 The precedence for that location is the highest, so make sure that file is not containing any outdated license key.
@@ -302,11 +314,9 @@ The precedence for that location is the highest, so make sure that file is not c
  - Install New -> PyPI -> `spark-nlp` -> Install
  - Install New -> Maven -> Coordinates -> `com.johnsnowlabs.nlp:spark-nlp_2.12:${version}` -> Install
  - Please add following jars:
-        - Install New -> python Whl -> upload `https://pypi.johnsnowlabs.com/${secret.code}/spark-nlp-jsl/spark_nlp_jsl-${version}-py3-none-any.whl`
+        - Install New -> Python Whl -> upload `https://pypi.johnsnowlabs.com/${secret.code}/spark-nlp-jsl/spark_nlp_jsl-${version}-py3-none-any.whl`
         - Install New -> Jar -> upload `https://pypi.johnsnowlabs.com/${secret.code}/spark-nlp-jsl-${version}.jar`
 4. Now you can attach your notebook to the cluster and use Spark NLP!
-
-</div><div class="h3-box" markdown="1">
 
 ## Windows Support
 
