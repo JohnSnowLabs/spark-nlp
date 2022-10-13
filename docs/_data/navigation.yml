@@ -72,12 +72,10 @@ annotation-lab:
         url: /docs/en/alab/quickstart
       - title: Installation
         url: /docs/en/alab/install
-      - title: Home Page
-        url: /docs/en/alab/start_page
-      - title: Project Setup
-        url: /docs/en/alab/project_setup
-      - title: Import Documents
+      - title: Models and Rules 
         url: /docs/en/alab/import
+      - title: Project
+        url: /docs/en/alab/project
       - title: Tasks
         url: /docs/en/alab/tasks
       - title: Annotation
