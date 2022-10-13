@@ -186,7 +186,7 @@ class Extractor
             end.join.delete_suffix('.').delete_suffix(')')
           end
         end.compact.uniq
-      end 
+      end
     end
     nil
   end
@@ -231,29 +231,20 @@ end
 
 editions = Set.new
 uniq_to_models_mapping = {}
-uniq_for_indexing = Set.new
 name_language_editions_sparkversion_to_models_mapping = {}
 models_json = {}
 models_benchmarking_json = {}
 models_references_json = {}
 
 all_posts_id = []
-changed_filenames = []
+
+all_deleted_posts = []
 
 def is_latest?(group, model)
-  models = group[model[:id]]
+  models = group[model[:uniq_key]]
   Date.parse(model[:date]) == models.map { |m| Date.parse(m[:date])}.max
 end
 
-if File.exist?("./changes.txt")
-  changed_filenames = File.open("./changes.txt") \
-    .each_line \
-    .to_a \
-    .map(&:chomp) \
-    .uniq \
-    .select { |v| v.start_with?("docs/_posts") } \
-    .map { |v| File.basename(v) }
-end
 
 Jekyll::Hooks.register :posts, :pre_render do |post|
   extractor = Extractor.new(post.content)
@@ -308,8 +299,10 @@ Jekyll::Hooks.register :posts, :post_render do |post|
   supported = !!post.data['supported']
   deprecated = !!post.data['deprecated']
   recommended = !!post.data['recommended']
+  key = "#{post.data['name']}_#{post.data['language']}_#{post.data['edition']}_#{post.data["spark_version"]}"
+
   model = {
-    id: "#{post.data['name']}_#{post.data['language']}_#{post.data['edition']}_#{post.data["spark_version"]}",
+    id: post.url,
     name: post.data['name'],
     title: post.data['title'],
     tags_glued: post.data['tags'].join(' '),
@@ -324,20 +317,18 @@ Jekyll::Hooks.register :posts, :post_render do |post|
     deprecated: deprecated,
     body: body,
     url: post.url,
-    recommended: recommended
+    recommended: recommended,
+    uniq_key: key
   }
 
   uniq = "#{post.data['name']}_#{post.data['language']}"
   uniq_to_models_mapping[uniq] = [] unless uniq_to_models_mapping.has_key? uniq
   uniq_to_models_mapping[uniq] << model
   editions.add(edition_short) unless edition_short.empty?
-  uniq_for_indexing << uniq if changed_filenames.include?(post.basename)
-  changed_filenames.delete(post.basename)
 
-  key = model[:id]
   name_language_editions_sparkversion_to_models_mapping[key] = [] unless name_language_editions_sparkversion_to_models_mapping.has_key? key
   name_language_editions_sparkversion_to_models_mapping[key] << model
-  all_posts_id << key
+  all_posts_id << model[:id]
 end
 
 client = nil
@@ -432,6 +423,7 @@ unless ENV['ELASTICSEARCH_URL'].to_s.empty?
 end
 
 Jekyll::Hooks.register :site, :post_render do |site|
+  is_incremental = site.config['incremental']
   force_reindex = editions_changed?(editions)
   bulk_indexer = BulkIndexer.new(client)
 
@@ -465,34 +457,77 @@ Jekyll::Hooks.register :site, :post_render do |site|
       model[:download_link] = models_json[model[:url]][:download_link]
 
       if client
-        if force_reindex || uniq_for_indexing.include?(uniq)
-          if is_latest?(name_language_editions_sparkversion_to_models_mapping, model)
-            id = model.delete(:id)
-            bulk_indexer.index(id, model)
-          end
+        if is_latest?(name_language_editions_sparkversion_to_models_mapping, model)
+          id = model.delete(:id)
+          model.delete(:uniq_key)
+          bulk_indexer.index(id, model)
         end
       end
     end
   end
   bulk_indexer.execute
 
-  if client
-    # Also delete models whose  name, language, edition, spark version were modified
+  if client and not is_incremental
+    # For full build, remove all documents not in site.posts
     client.delete_by_query index: 'models', body: {query: {bool: {must_not: {ids: {values: all_posts_id}}}}}
   end
-
-
-
 end
 
 Jekyll::Hooks.register :site, :post_write do |site|
+  is_incremental = site.config['incremental']
+  backup_filename = File.join(site.config['source'], 'models.json')
+  backup_benchmarking_filename = File.join(site.config['source'], 'benchmarking.json')
+  backup_references_filename = File.join(site.config['source'], 'references.json')
+
+  if is_incremental
+    # Read from backup and merge with incremental posts data
+    begin
+        backup_models_data = JSON.parse(File.read(backup_filename))
+    rescue
+      backup_models_data = Hash.new
+    end
+    begin
+      backup_benchmarking_data = JSON.parse(File.read(backup_benchmarking_filename))
+    rescue
+      backup_benchmarking_data = Hash.new
+    end
+
+    begin
+      backup_references_data = JSON.parse(File.read(backup_references_filename))
+    rescue
+      backup_references_data = Hash.new
+    end
+
+    # Remove deleted posts
+    all_deleted_posts.each do |url|
+      backup_models_data.delete(url)
+      backup_references_data.delete(url)
+      backup_benchmarking_data.delete(url)
+    end
+
+    models_json = backup_models_data.merge(models_json)
+    models_benchmarking_json = backup_benchmarking_data.merge(models_benchmarking_json)
+    models_references_json = backup_references_data.merge(models_references_json)
+  end
+
   filename = File.join(site.config['destination'], 'models.json')
   File.write(filename, models_json.values.to_json)
+  File.write(backup_filename, models_json.to_json)
 
   benchmarking_filename = File.join(site.config['destination'], 'benchmarking.json')
   File.write(benchmarking_filename, models_benchmarking_json.to_json)
+  File.write(backup_benchmarking_filename, models_benchmarking_json.to_json)
 
   references_filename = File.join(site.config['destination'], 'references.json')
   File.write(references_filename, models_references_json.to_json)
+  File.write(backup_references_filename, models_references_json.to_json)
+end
 
+Jekyll::Hooks.register :clean, :on_obsolete do |files|
+  all_deleted_posts = files
+              .select {|v| v.include?('/docs/_site') and v.end_with?('.html')}
+              .map {|v| v.split('/docs/_site')[1]}
+  if client
+    client.delete_by_query index: 'models', body: {query: {bool: {must: {ids: {values: all_deleted_posts}}}}}
+  end
 end
