@@ -1,0 +1,38 @@
+version: '3.7'
+
+services:
+  spark_nlp_build_incremental:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    extra_hosts:
+      - 'host.docker.internal:host-gateway'
+    volumes:
+      - ./:/docs/
+    command: >
+      sh -c "jekyll build -I &&
+      echo 'Done building' &&
+      cp -r /app/_frontend/static _site &&
+      touch _site/.nojekyll &&
+      echo 'Publishing to Github Pages' &&
+      gh-pages -d _site -m 'deploy: ${GIT_COMMIT}' -u '${GIT_AUTHOR_NAME} <${GIT_AUTHOR_EMAIL}>' -t true -r ${GIT_REPO_URL}"
+
+  spark_nlp_build_forced:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    extra_hosts:
+      - 'host.docker.internal:host-gateway'
+    volumes:
+      - ./:/docs/
+    command: >
+      sh -c "rm -f /docs/.jekyll-metadata &&
+      rm -f /docs/models.json &&
+      rm -f /docs/benchmarking.json &&
+      rm -f /docs/references.json &&
+      FORCE=1 jekyll build -I &&
+      echo 'Done building' &&
+      cp -r /app/_frontend/static _site &&
+      touch _site/.nojekyll &&
+      echo 'Publishing to Github Pages' &&
+      gh-pages -d _site -m 'deploy: ${GIT_COMMIT}' -u '${GIT_AUTHOR_NAME} <${GIT_AUTHOR_EMAIL}>' -t true -r ${GIT_REPO_URL}"
