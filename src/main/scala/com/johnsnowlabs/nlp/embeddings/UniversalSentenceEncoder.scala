@@ -25,15 +25,13 @@ import com.johnsnowlabs.ml.tensorflow.{
 import com.johnsnowlabs.ml.util.LoadExternalModel.modelSanityCheck
 import com.johnsnowlabs.ml.util.ModelEngine
 import com.johnsnowlabs.nlp.AnnotatorType.{DOCUMENT, SENTENCE_EMBEDDINGS}
-import com.johnsnowlabs.nlp.annotators.common.SentenceSplit
 import com.johnsnowlabs.nlp._
+import com.johnsnowlabs.nlp.annotators.common.SentenceSplit
 import com.johnsnowlabs.storage.HasStorageRef
 import org.apache.spark.broadcast.Broadcast
 import org.apache.spark.ml.param.{BooleanParam, IntArrayParam, IntParam}
 import org.apache.spark.ml.util.Identifiable
 import org.apache.spark.sql.{DataFrame, SparkSession}
-
-import java.io.File
 
 /** The Universal Sentence Encoder encodes text into high dimensional vectors that can be used for
   * text classification, semantic similarity, clustering and other natural language tasks.
@@ -325,7 +323,7 @@ trait ReadablePretrainedUSEModel
     super.pretrained(name, lang, remoteLoc)
 }
 
-trait ReadUSETensorflowModel extends ReadTensorflowModel {
+trait ReadUSEDLModel extends ReadTensorflowModel {
   this: ParamsAndFeaturesReadable[UniversalSentenceEncoder] =>
 
   /*Needs to point to an actual folder rather than a .pb file*/
@@ -386,4 +384,4 @@ trait ReadUSETensorflowModel extends ReadTensorflowModel {
 /** This is the companion object of [[UniversalSentenceEncoder]]. Please refer to that class for
   * the documentation.
   */
-object UniversalSentenceEncoder extends ReadablePretrainedUSEModel with ReadUSETensorflowModel
+object UniversalSentenceEncoder extends ReadablePretrainedUSEModel with ReadUSEDLModel

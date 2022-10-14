@@ -359,7 +359,7 @@ trait ReadablePretrainedXlnetModel
     super.pretrained(name, lang, remoteLoc)
 }
 
-trait ReadXlnetTensorflowModel extends ReadTensorflowModel with ReadSentencePieceModel {
+trait ReadXlnetDLModel extends ReadTensorflowModel with ReadSentencePieceModel {
   this: ParamsAndFeaturesReadable[XlnetEmbeddings] =>
 
   override val tfFile: String = "xlnet_tensorflow"
@@ -413,4 +413,4 @@ trait ReadXlnetTensorflowModel extends ReadTensorflowModel with ReadSentencePiec
 /** This is the companion object of [[XlnetEmbeddings]]. Please refer to that class for the
   * documentation.
   */
-object XlnetEmbeddings extends ReadablePretrainedXlnetModel with ReadXlnetTensorflowModel
+object XlnetEmbeddings extends ReadablePretrainedXlnetModel with ReadXlnetDLModel

@@ -362,7 +362,7 @@ trait ReadablePretrainedAlbertModel
     super.pretrained(name, lang, remoteLoc)
 }
 
-trait ReadAlbertTensorflowModel extends ReadTensorflowModel with ReadSentencePieceModel {
+trait ReadAlbertDLModel extends ReadTensorflowModel with ReadSentencePieceModel {
   this: ParamsAndFeaturesReadable[AlbertEmbeddings] =>
 
   override val tfFile: String = "albert_tensorflow"
@@ -416,4 +416,4 @@ trait ReadAlbertTensorflowModel extends ReadTensorflowModel with ReadSentencePie
 /** This is the companion object of [[AlbertEmbeddings]]. Please refer to that class for the
   * documentation.
   */
-object AlbertEmbeddings extends ReadablePretrainedAlbertModel with ReadAlbertTensorflowModel
+object AlbertEmbeddings extends ReadablePretrainedAlbertModel with ReadAlbertDLModel

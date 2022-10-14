@@ -398,7 +398,7 @@ trait ReadablePretrainedDistilBertModel
     super.pretrained(name, lang, remoteLoc)
 }
 
-trait ReadDistilBertTensorflowModel extends ReadTensorflowModel {
+trait ReadDistilBertDLModel extends ReadTensorflowModel {
   this: ParamsAndFeaturesReadable[DistilBertEmbeddings] =>
 
   override val tfFile: String = "distilbert_tensorflow"
@@ -452,6 +452,4 @@ trait ReadDistilBertTensorflowModel extends ReadTensorflowModel {
 /** This is the companion object of [[DistilBertEmbeddings]]. Please refer to that class for the
   * documentation.
   */
-object DistilBertEmbeddings
-    extends ReadablePretrainedDistilBertModel
-    with ReadDistilBertTensorflowModel
+object DistilBertEmbeddings extends ReadablePretrainedDistilBertModel with ReadDistilBertDLModel

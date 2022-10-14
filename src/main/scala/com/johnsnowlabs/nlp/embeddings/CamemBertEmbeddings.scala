@@ -329,7 +329,7 @@ trait ReadablePretrainedCamemBertModel
     super.pretrained(name, lang, remoteLoc)
 }
 
-trait ReadCamemBertTensorflowModel extends ReadTensorflowModel with ReadSentencePieceModel {
+trait ReadCamemBertDLModel extends ReadTensorflowModel with ReadSentencePieceModel {
   this: ParamsAndFeaturesReadable[CamemBertEmbeddings] =>
 
   override val tfFile: String = "camembert_tensorflow"
@@ -384,6 +384,4 @@ trait ReadCamemBertTensorflowModel extends ReadTensorflowModel with ReadSentence
 /** This is the companion object of [[CamemBertEmbeddings]]. Please refer to that class for the
   * documentation.
   */
-object CamemBertEmbeddings
-    extends ReadablePretrainedCamemBertModel
-    with ReadCamemBertTensorflowModel
+object CamemBertEmbeddings extends ReadablePretrainedCamemBertModel with ReadCamemBertDLModel

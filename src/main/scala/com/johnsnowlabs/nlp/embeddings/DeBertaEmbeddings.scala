@@ -29,8 +29,6 @@ import org.apache.spark.ml.param.{IntArrayParam, IntParam}
 import org.apache.spark.ml.util.Identifiable
 import org.apache.spark.sql.{DataFrame, SparkSession}
 
-import java.io.File
-
 /** The DeBERTa model was proposed in
   * [[https://arxiv.org/abs/2006.03654 DeBERTa: Decoding-enhanced BERT with Disentangled Attention]]
   * by Pengcheng He, Xiaodong Liu, Jianfeng Gao, Weizhu Chen It is based on Google’s BERT model
@@ -345,7 +343,7 @@ trait ReadablePretrainedDeBertaModel
     super.pretrained(name, lang, remoteLoc)
 }
 
-trait ReadDeBertaTensorflowModel extends ReadTensorflowModel with ReadSentencePieceModel {
+trait ReadDeBertaDLModel extends ReadTensorflowModel with ReadSentencePieceModel {
   this: ParamsAndFeaturesReadable[DeBertaEmbeddings] =>
 
   override val tfFile: String = "deberta_tensorflow"
@@ -399,4 +397,4 @@ trait ReadDeBertaTensorflowModel extends ReadTensorflowModel with ReadSentencePi
 /** This is the companion object of [[DeBertaEmbeddings]]. Please refer to that class for the
   * documentation.
   */
-object DeBertaEmbeddings extends ReadablePretrainedDeBertaModel with ReadDeBertaTensorflowModel
+object DeBertaEmbeddings extends ReadablePretrainedDeBertaModel with ReadDeBertaDLModel
