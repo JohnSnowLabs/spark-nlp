@@ -268,7 +268,7 @@ Alternatively, you can automatically deploy John Snow Labs libraries on Databric
 
 - Start exploring preloaded notebooks `Workspace -> Shared -> John Snow Labs`
 
-### Manual deployment of Spark NLP for Healthcare
+### Manual deployment of Enterprise Spark NLP
 
 1. Create a cluster if you don't have one already
 2. On a new cluster or existing one you need to add the following to the `Advanced Options -> Spark` tab, in `Spark.Config` box:
@@ -285,7 +285,7 @@ Alternatively, you can automatically deploy John Snow Labs libraries on Databric
     SPARK_NLP_LICENSE=zzz
     SPARK_OCR_LICENSE=aaa
     ```
-Note: Spark-NLP for Healthcare also support reading the license from the Databricks DFS, on the fixed location, dbfs:/FileStore/johnsnowlabs/license.key. 
+Note: Enterprise Spark NLP also support reading the license from the Databricks DFS, on the fixed location, dbfs:/FileStore/johnsnowlabs/license.key. 
 The precedence for that location is the highest, so make sure that file is not containing any outdated license key.
 
       -   (OPTIONAL) If the environment variables used to setup the AWS Access/Secret keys are conflicting with the credential provider chain in Databricks, you may not be able to access to other s3 buckets. To access both JSL repos with JSL AWS keys as well as your own s3 bucket with your own AWS keys), you need to use the following script, copy that to dbfs folder, then go to the Databricks console (init scripts menu) to add the init script for your cluster as follows:
