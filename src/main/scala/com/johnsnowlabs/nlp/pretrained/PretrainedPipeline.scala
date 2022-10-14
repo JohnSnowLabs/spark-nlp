@@ -120,6 +120,14 @@ case class PretrainedPipeline(
     lightModel.fullAnnotate(targets, optionalTargets)
   }
 
+  def fullAnnotateImage(pathToImage: String): Map[String, Seq[IAnnotation]] = {
+    lightModel.fullAnnotateImage(pathToImage)
+  }
+
+  def fullAnnotateImage(pathToImages: Array[String]): Array[Map[String, Seq[IAnnotation]]] = {
+    lightModel.fullAnnotateImage(pathToImages)
+  }
+
   def fullAnnotate(audio: Array[Float]): Map[String, Seq[IAnnotation]] = {
     lightModel.fullAnnotate(audio)
   }
@@ -148,6 +156,16 @@ case class PretrainedPipeline(
       optionalTargets: java.util.ArrayList[String])
       : java.util.List[java.util.Map[String, java.util.List[IAnnotation]]] = {
     lightModel.fullAnnotateJava(targets, optionalTargets)
+  }
+
+  def fullAnnotateImageJava(
+      pathToImage: String): java.util.Map[String, java.util.List[IAnnotation]] = {
+    lightModel.fullAnnotateImageJava(pathToImage)
+  }
+
+  def fullAnnotateImageJava(pathToImages: java.util.ArrayList[String])
+      : java.util.List[java.util.Map[String, java.util.List[IAnnotation]]] = {
+    lightModel.fullAnnotateJava(pathToImages)
   }
 
   def fullAnnotateSingleAudioJava(

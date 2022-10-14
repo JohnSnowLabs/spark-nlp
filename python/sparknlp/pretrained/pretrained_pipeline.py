@@ -137,6 +137,24 @@ class PretrainedPipeline:
         else:
             raise Exception("target must be either a spark DataFrame, a list of strings or a string")
 
+    def fullAnnotateImage(self, path_to_image):
+        """Annotates the data provided into `Annotation` type results.
+
+        The data should be either a list or a str.
+
+        Parameters
+        ----------
+        path_to_image : list or str
+            Source path of image, list of paths to images
+
+        Returns
+        -------
+        List[AnnotationImage]
+            The result of the annotation
+        """
+        pipeline = self.light_model
+        return pipeline.fullAnnotateImage(path_to_image)
+
     def transform(self, data):
         """Transforms the input dataset with Spark.
 
