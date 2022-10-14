@@ -26,19 +26,20 @@ object LoadExternalModel {
 
     /** Check if the path is correct */
     val f = new File(modelPath)
-
     require(f.exists, s"Folder $modelPath not found")
-    require(f.isDirectory, s"File $modelPath is not folder")
+    require(f.isDirectory, s"Folder $modelPath is not folder")
 
     /*Check if the assets path is correct*/
     val assetsPath = modelPath + "/assets"
+    val assetsPathFile = new File(assetsPath)
+    require(assetsPathFile.exists, s"Folder $assetsPath not found")
+    require(assetsPathFile.isDirectory, s"Folder $assetsPath is not folder")
 
-    require(f.exists, s"Folder $assetsPath not found")
-    require(f.isDirectory, s"File $assetsPath is not folder")
-
+    /*TensorFlow required model's name*/
     val tfSavedModel = new File(modelPath, ModelEngine.tensorflowModelName)
     val tfSavedModelExist = tfSavedModel.exists()
 
+    /*ONNX required model's name*/
     val onnxModel = new File(modelPath, ModelEngine.onnxModelName)
     val onnxModelExist = onnxModel.exists()
 
