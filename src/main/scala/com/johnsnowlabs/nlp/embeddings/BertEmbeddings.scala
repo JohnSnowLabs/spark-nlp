@@ -17,19 +17,18 @@
 package com.johnsnowlabs.nlp.embeddings
 
 import com.johnsnowlabs.ml.tensorflow._
+import com.johnsnowlabs.ml.util.LoadExternalModel.{loadTextAsset, modelSanityCheck}
+import com.johnsnowlabs.ml.util.ModelEngine
 import com.johnsnowlabs.nlp._
 import com.johnsnowlabs.nlp.annotators.common._
 import com.johnsnowlabs.nlp.annotators.tokenizer.wordpiece.{BasicTokenizer, WordpieceEncoder}
 import com.johnsnowlabs.nlp.serialization.MapFeature
-import com.johnsnowlabs.nlp.util.io.{ExternalResource, ReadAs, ResourceHelper}
 import com.johnsnowlabs.storage.HasStorageRef
 import org.apache.spark.broadcast.Broadcast
 import org.apache.spark.ml.param.{IntArrayParam, IntParam}
 import org.apache.spark.ml.util.Identifiable
 import org.apache.spark.sql.{DataFrame, SparkSession}
 import org.slf4j.{Logger, LoggerFactory}
-
-import java.io.File
 
 /** Token-level embeddings using BERT. BERT (Bidirectional Encoder Representations from
   * Transformers) provides dense vector representations for natural language by using a deep,
@@ -389,7 +388,7 @@ trait ReadablePretrainedBertModel
     super.pretrained(name, lang, remoteLoc)
 }
 
-trait ReadBertTensorflowModel extends ReadTensorflowModel {
+trait ReadBertDLModel extends ReadTensorflowModel {
   this: ParamsAndFeaturesReadable[BertEmbeddings] =>
 
   override val tfFile: String = "bert_tensorflow"
@@ -402,46 +401,41 @@ trait ReadBertTensorflowModel extends ReadTensorflowModel {
 
   addReader(readTensorflow)
 
-  def loadSavedModel(tfModelPath: String, spark: SparkSession): BertEmbeddings = {
+  def loadSavedModel(modelPath: String, spark: SparkSession): BertEmbeddings = {
 
-    val f = new File(tfModelPath)
-    val savedModel = new File(tfModelPath, "saved_model.pb")
+    val detectedEngine = modelSanityCheck(modelPath)
 
-    require(f.exists, s"Folder $tfModelPath not found")
-    require(f.isDirectory, s"File $tfModelPath is not folder")
-    require(
-      savedModel.exists(),
-      s"savedModel file saved_model.pb not found in folder $tfModelPath")
+    val vocabs = loadTextAsset(modelPath, "vocab.txt")
 
-    val vocab = new File(tfModelPath + "/assets", "vocab.txt")
+    /*Universal parameters for all engines*/
+    val bertEmbeddings = new BertEmbeddings()
+      .setVocabulary(vocabs)
 
-    require(f.exists, s"Folder $tfModelPath not found")
-    require(f.isDirectory, s"File $tfModelPath is not folder")
-    require(vocab.exists(), s"Vocabulary file vocab.txt not found in folder $tfModelPath")
+    detectedEngine match {
+      case ModelEngine.tensorflow =>
+        val (wrapper, signatures) =
+          TensorflowWrapper.read(modelPath, zipped = false, useBundle = true)
 
-    val vocabResource =
-      new ExternalResource(vocab.getAbsolutePath, ReadAs.TEXT, Map("format" -> "text"))
-    val words = ResourceHelper.parseLines(vocabResource).zipWithIndex.toMap
+        val _signatures = signatures match {
+          case Some(s) => s
+          case None => throw new Exception("Cannot load signature definitions from model!")
+        }
 
-    val (wrapper, signatures) =
-      TensorflowWrapper.read(tfModelPath, zipped = false, useBundle = true)
+        /** the order of setSignatures is important if we use getSignatures inside
+          * setModelIfNotSet
+          */
+        bertEmbeddings
+          .setSignatures(_signatures)
+          .setModelIfNotSet(spark, wrapper)
 
-    val _signatures = signatures match {
-      case Some(s) => s
-      case None => throw new Exception("Cannot load signature definitions from model!")
+        bertEmbeddings
     }
-
-    /** the order of setSignatures is important if we use getSignatures inside setModelIfNotSet */
-    new BertEmbeddings()
-      .setVocabulary(words)
-      .setSignatures(_signatures)
-      .setModelIfNotSet(spark, wrapper)
   }
 }
 
 /** This is the companion object of [[BertEmbeddings]]. Please refer to that class for the
   * documentation.
   */
-object BertEmbeddings extends ReadablePretrainedBertModel with ReadBertTensorflowModel {
+object BertEmbeddings extends ReadablePretrainedBertModel with ReadBertDLModel {
   private[BertEmbeddings] val logger: Logger = LoggerFactory.getLogger("BertEmbeddings")
 }
