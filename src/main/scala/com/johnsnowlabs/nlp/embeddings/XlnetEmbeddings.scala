@@ -18,6 +18,8 @@ package com.johnsnowlabs.nlp.embeddings
 
 import com.johnsnowlabs.ml.tensorflow._
 import com.johnsnowlabs.ml.tensorflow.sentencepiece._
+import com.johnsnowlabs.ml.util.LoadExternalModel.{loadSentencePieceAsset, modelSanityCheck}
+import com.johnsnowlabs.ml.util.ModelEngine
 import com.johnsnowlabs.nlp._
 import com.johnsnowlabs.nlp.annotators.common._
 import com.johnsnowlabs.nlp.serialization.MapFeature
@@ -26,8 +28,6 @@ import org.apache.spark.broadcast.Broadcast
 import org.apache.spark.ml.param.{IntArrayParam, IntParam}
 import org.apache.spark.ml.util.Identifiable
 import org.apache.spark.sql.{DataFrame, SparkSession}
-
-import java.io.File
 
 /** XlnetEmbeddings (XLNet): Generalized Autoregressive Pretraining for Language Understanding
   *
@@ -373,35 +373,40 @@ trait ReadXlnetTensorflowModel extends ReadTensorflowModel with ReadSentencePiec
 
   addReader(readTensorflow)
 
-  def loadSavedModel(tfModelPath: String, spark: SparkSession): XlnetEmbeddings = {
+  def loadSavedModel(modelPath: String, spark: SparkSession): XlnetEmbeddings = {
 
-    val f = new File(tfModelPath)
-    val sppModelPath = tfModelPath + "/assets"
-    val savedModel = new File(tfModelPath, "saved_model.pb")
-    val sppModel = new File(sppModelPath, "spiece.model")
+    val detectedEngine = modelSanityCheck(modelPath)
 
-    require(f.exists, s"Folder $tfModelPath not found")
-    require(f.isDirectory, s"File $tfModelPath is not folder")
-    require(
-      savedModel.exists(),
-      s"savedModel file saved_model.pb not found in folder $tfModelPath")
-    require(
-      sppModel.exists(),
-      s"SentencePiece model spiece.model not found in folder $sppModelPath")
+    val spModel = loadSentencePieceAsset(modelPath, "spiece.model")
 
-    val (wrapper, signatures) =
-      TensorflowWrapper.read(tfModelPath, zipped = false, useBundle = true)
-    val spp = SentencePieceWrapper.read(sppModel.toString)
+    /*Universal parameters for all engines*/
+    val annotatorModel = new XlnetEmbeddings()
 
-    val _signatures = signatures match {
-      case Some(s) => s
-      case None => throw new Exception("Cannot load signature definitions from model!")
+    detectedEngine match {
+      case ModelEngine.tensorflow =>
+        val (wrapper, signatures) =
+          TensorflowWrapper.read(modelPath, zipped = false, useBundle = true)
+
+        val _signatures = signatures match {
+          case Some(s) => s
+          case None => throw new Exception("Cannot load signature definitions from model!")
+        }
+
+        /** the order of setSignatures is important if we use getSignatures inside
+          * setModelIfNotSet
+          */
+        annotatorModel
+          .setSignatures(_signatures)
+          .setModelIfNotSet(spark, wrapper, spModel)
+
+      case _ =>
+        throw new Exception(
+          "Your imported model is not supported. Please make sure you" +
+            s"follow provided notebooks to import external models into Spark NLP: " +
+            s"https://github.com/JohnSnowLabs/spark-nlp/discussions/5669")
     }
 
-    new XlnetEmbeddings()
-      .setSignatures(_signatures)
-      .setModelIfNotSet(spark, wrapper, spp)
-
+    annotatorModel
   }
 }
 

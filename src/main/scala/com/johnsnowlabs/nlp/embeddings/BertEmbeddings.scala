@@ -405,10 +405,10 @@ trait ReadBertDLModel extends ReadTensorflowModel {
 
     val detectedEngine = modelSanityCheck(modelPath)
 
-    val vocabs = loadTextAsset(modelPath, "vocab.txt")
+    val vocabs = loadTextAsset(modelPath, "vocab.txt").zipWithIndex.toMap
 
     /*Universal parameters for all engines*/
-    val bertEmbeddings = new BertEmbeddings()
+    val annotatorModel = new BertEmbeddings()
       .setVocabulary(vocabs)
 
     detectedEngine match {
@@ -424,12 +424,18 @@ trait ReadBertDLModel extends ReadTensorflowModel {
         /** the order of setSignatures is important if we use getSignatures inside
           * setModelIfNotSet
           */
-        bertEmbeddings
+        annotatorModel
           .setSignatures(_signatures)
           .setModelIfNotSet(spark, wrapper)
 
-        bertEmbeddings
+      case _ =>
+        throw new Exception(
+          "Your imported model is not supported. Please make sure you" +
+            s"follow provided notebooks to import external models into Spark NLP: " +
+            s"https://github.com/JohnSnowLabs/spark-nlp/discussions/5669")
     }
+
+    annotatorModel
   }
 }
 

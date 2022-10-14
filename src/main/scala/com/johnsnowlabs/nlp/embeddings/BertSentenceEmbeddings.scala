@@ -17,6 +17,8 @@
 package com.johnsnowlabs.nlp.embeddings
 
 import com.johnsnowlabs.ml.tensorflow._
+import com.johnsnowlabs.ml.util.LoadExternalModel.{loadTextAsset, modelSanityCheck}
+import com.johnsnowlabs.ml.util.ModelEngine
 import com.johnsnowlabs.nlp._
 import com.johnsnowlabs.nlp.annotators.common._
 import com.johnsnowlabs.nlp.annotators.tokenizer.wordpiece.{BasicTokenizer, WordpieceEncoder}
@@ -435,35 +437,41 @@ trait ReadBertSentenceTensorflowModel extends ReadTensorflowModel {
 
   addReader(readTensorflow)
 
-  def loadSavedModel(folder: String, spark: SparkSession): BertSentenceEmbeddings = {
+  def loadSavedModel(modelPath: String, spark: SparkSession): BertSentenceEmbeddings = {
 
-    val f = new File(folder)
-    val savedModel = new File(folder, "saved_model.pb")
-    require(f.exists, s"Folder $folder not found")
-    require(f.isDirectory, s"File $folder is not folder")
-    require(savedModel.exists(), s"savedModel file saved_model.pb not found in folder $folder")
+    val detectedEngine = modelSanityCheck(modelPath)
 
-    val vocab = new File(folder + "/assets", "vocab.txt")
-    require(f.exists, s"Folder $folder not found")
-    require(f.isDirectory, s"File $folder is not folder")
-    require(vocab.exists(), s"Vocabulary file vocab.txt not found in folder $folder")
+    val vocabs = loadTextAsset(modelPath, "vocab.txt").zipWithIndex.toMap
 
-    val vocabResource =
-      new ExternalResource(vocab.getAbsolutePath, ReadAs.TEXT, Map("format" -> "text"))
-    val words = ResourceHelper.parseLines(vocabResource).zipWithIndex.toMap
+    /*Universal parameters for all engines*/
+    val annotatorModel = new BertSentenceEmbeddings()
+      .setVocabulary(vocabs)
 
-    val (wrapper, signatures) = TensorflowWrapper.read(folder, zipped = false, useBundle = true)
+    detectedEngine match {
+      case ModelEngine.tensorflow =>
+        val (wrapper, signatures) =
+          TensorflowWrapper.read(modelPath, zipped = false, useBundle = true)
 
-    val _signatures = signatures match {
-      case Some(s) => s
-      case None => throw new Exception("Cannot load signature definitions from model!")
+        val _signatures = signatures match {
+          case Some(s) => s
+          case None => throw new Exception("Cannot load signature definitions from model!")
+        }
+
+        /** the order of setSignatures is important if we use getSignatures inside
+          * setModelIfNotSet
+          */
+        annotatorModel
+          .setSignatures(_signatures)
+          .setModelIfNotSet(spark, wrapper)
+
+      case _ =>
+        throw new Exception(
+          "Your imported model is not supported. Please make sure you" +
+            s"follow provided notebooks to import external models into Spark NLP: " +
+            s"https://github.com/JohnSnowLabs/spark-nlp/discussions/5669")
     }
 
-    /** the order of setSignatures is important if we use getSignatures inside setModelIfNotSet */
-    new BertSentenceEmbeddings()
-      .setVocabulary(words)
-      .setSignatures(_signatures)
-      .setModelIfNotSet(spark, wrapper)
+    annotatorModel
   }
 }
 

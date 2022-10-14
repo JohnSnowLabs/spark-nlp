@@ -22,6 +22,8 @@ import com.johnsnowlabs.ml.tensorflow.{
   TensorflowWrapper,
   WriteTensorflowModel
 }
+import com.johnsnowlabs.ml.util.LoadExternalModel.modelSanityCheck
+import com.johnsnowlabs.ml.util.ModelEngine
 import com.johnsnowlabs.nlp.AnnotatorType.{DOCUMENT, SENTENCE_EMBEDDINGS}
 import com.johnsnowlabs.nlp.annotators.common.SentenceSplit
 import com.johnsnowlabs.nlp._
@@ -342,28 +344,42 @@ trait ReadUSETensorflowModel extends ReadTensorflowModel {
   addReader(readTensorflow)
 
   def loadSavedModel(
-      folder: String,
+      modelPath: String,
       spark: SparkSession,
       loadSP: Boolean = false): UniversalSentenceEncoder = {
-    val f = new File(folder)
-    val savedModel = new File(folder, "saved_model.pb")
 
-    require(f.exists, s"Folder $folder not found")
-    require(f.isDirectory, s"File $folder is not folder")
-    require(savedModel.exists(), s"savedModel file saved_model.pb not found in folder $folder")
+    val detectedEngine = modelSanityCheck(modelPath)
 
-    val wrapper =
-      TensorflowWrapper.readWithSP(
-        folder,
-        zipped = false,
-        useBundle = true,
-        tags = Array("serve"),
-        initAllTables = true,
-        loadSP = loadSP)
-
-    new UniversalSentenceEncoder()
+    /*Universal parameters for all engines*/
+    val annotatorModel = new UniversalSentenceEncoder()
       .setLoadSP(loadSP)
-      .setModelIfNotSet(spark, wrapper)
+
+    detectedEngine match {
+      case ModelEngine.tensorflow =>
+        val wrapper =
+          TensorflowWrapper.readWithSP(
+            modelPath,
+            zipped = false,
+            useBundle = true,
+            tags = Array("serve"),
+            initAllTables = true,
+            loadSP = loadSP)
+
+        /** the order of setSignatures is important if we use getSignatures inside
+          * setModelIfNotSet
+          */
+        annotatorModel
+          .setModelIfNotSet(spark, wrapper)
+
+      case _ =>
+        throw new Exception(
+          "Your imported model is not supported. Please make sure you" +
+            s"follow provided notebooks to import external models into Spark NLP: " +
+            s"https://github.com/JohnSnowLabs/spark-nlp/discussions/5669")
+    }
+
+    annotatorModel
+
   }
 }
 
