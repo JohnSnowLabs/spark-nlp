@@ -27,8 +27,6 @@ import org.apache.spark.ml.param.{IntArrayParam, IntParam, Param}
 import org.apache.spark.ml.util.Identifiable
 import org.apache.spark.sql.{DataFrame, SparkSession}
 
-import java.io.File
-
 /** Word embeddings from ELMo (Embeddings from Language Models), a language model trained on the 1
   * Billion Word Benchmark.
   *
@@ -349,7 +347,7 @@ trait ReadablePretrainedElmoModel
     super.pretrained(name, lang, remoteLoc)
 }
 
-trait ReadElmoTensorflowModel extends ReadTensorflowModel {
+trait ReadElmoDLModel extends ReadTensorflowModel {
   this: ParamsAndFeaturesReadable[ElmoEmbeddings] =>
 
   override val tfFile: String = "elmo_tensorflow"
@@ -396,4 +394,4 @@ trait ReadElmoTensorflowModel extends ReadTensorflowModel {
 /** This is the companion object of [[ElmoEmbeddings]]. Please refer to that class for the
   * documentation.
   */
-object ElmoEmbeddings extends ReadablePretrainedElmoModel with ReadElmoTensorflowModel
+object ElmoEmbeddings extends ReadablePretrainedElmoModel with ReadElmoDLModel

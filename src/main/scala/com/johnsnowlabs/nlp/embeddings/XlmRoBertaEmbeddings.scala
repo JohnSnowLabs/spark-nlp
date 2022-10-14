@@ -360,7 +360,7 @@ trait ReadablePretrainedXlmRobertaModel
     super.pretrained(name, lang, remoteLoc)
 }
 
-trait ReadXlmRobertaTensorflowModel extends ReadTensorflowModel with ReadSentencePieceModel {
+trait ReadXlmRobertaDLModel extends ReadTensorflowModel with ReadSentencePieceModel {
   this: ParamsAndFeaturesReadable[XlmRoBertaEmbeddings] =>
 
   override val tfFile: String = "xlmroberta_tensorflow"
@@ -412,6 +412,4 @@ trait ReadXlmRobertaTensorflowModel extends ReadTensorflowModel with ReadSentenc
   }
 }
 
-object XlmRoBertaEmbeddings
-    extends ReadablePretrainedXlmRobertaModel
-    with ReadXlmRobertaTensorflowModel
+object XlmRoBertaEmbeddings extends ReadablePretrainedXlmRobertaModel with ReadXlmRobertaDLModel

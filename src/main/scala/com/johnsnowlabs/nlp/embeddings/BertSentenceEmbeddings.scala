@@ -23,14 +23,11 @@ import com.johnsnowlabs.nlp._
 import com.johnsnowlabs.nlp.annotators.common._
 import com.johnsnowlabs.nlp.annotators.tokenizer.wordpiece.{BasicTokenizer, WordpieceEncoder}
 import com.johnsnowlabs.nlp.serialization.MapFeature
-import com.johnsnowlabs.nlp.util.io.{ExternalResource, ReadAs, ResourceHelper}
 import com.johnsnowlabs.storage.HasStorageRef
 import org.apache.spark.broadcast.Broadcast
 import org.apache.spark.ml.param.{BooleanParam, IntArrayParam, IntParam}
 import org.apache.spark.ml.util.Identifiable
 import org.apache.spark.sql.{DataFrame, SparkSession}
-
-import java.io.File
 
 /** Sentence-level embeddings using BERT. BERT (Bidirectional Encoder Representations from
   * Transformers) provides dense vector representations for natural language by using a deep,
@@ -421,7 +418,7 @@ trait ReadablePretrainedBertSentenceModel
     super.pretrained(name, lang, remoteLoc)
 }
 
-trait ReadBertSentenceTensorflowModel extends ReadTensorflowModel {
+trait ReadBertSentenceDLModel extends ReadTensorflowModel {
   this: ParamsAndFeaturesReadable[BertSentenceEmbeddings] =>
 
   override val tfFile: String = "bert_sentence_tensorflow"
@@ -480,4 +477,4 @@ trait ReadBertSentenceTensorflowModel extends ReadTensorflowModel {
   */
 object BertSentenceEmbeddings
     extends ReadablePretrainedBertSentenceModel
-    with ReadBertSentenceTensorflowModel
+    with ReadBertSentenceDLModel

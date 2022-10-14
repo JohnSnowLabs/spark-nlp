@@ -392,7 +392,7 @@ trait ReadablePretrainedRobertaSentenceModel
       remoteLoc: String): RoBertaSentenceEmbeddings = super.pretrained(name, lang, remoteLoc)
 }
 
-trait ReadRobertaSentenceTensorflowModel extends ReadTensorflowModel {
+trait ReadRobertaSentenceDLModel extends ReadTensorflowModel {
   this: ParamsAndFeaturesReadable[RoBertaSentenceEmbeddings] =>
 
   override val tfFile: String = "roberta_tensorflow"
@@ -459,4 +459,4 @@ trait ReadRobertaSentenceTensorflowModel extends ReadTensorflowModel {
   */
 object RoBertaSentenceEmbeddings
     extends ReadablePretrainedRobertaSentenceModel
-    with ReadRobertaSentenceTensorflowModel
+    with ReadRobertaSentenceDLModel

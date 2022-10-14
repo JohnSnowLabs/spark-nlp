@@ -416,7 +416,7 @@ trait ReadablePretrainedRobertaModel
     super.pretrained(name, lang, remoteLoc)
 }
 
-trait ReadRobertaTensorflowModel extends ReadTensorflowModel {
+trait ReadRobertaDLModel extends ReadTensorflowModel {
   this: ParamsAndFeaturesReadable[RoBertaEmbeddings] =>
 
   override val tfFile: String = "roberta_tensorflow"
@@ -478,4 +478,4 @@ trait ReadRobertaTensorflowModel extends ReadTensorflowModel {
 /** This is the companion object of [[RoBertaEmbeddings]]. Please refer to that class for the
   * documentation.
   */
-object RoBertaEmbeddings extends ReadablePretrainedRobertaModel with ReadRobertaTensorflowModel
+object RoBertaEmbeddings extends ReadablePretrainedRobertaModel with ReadRobertaDLModel
