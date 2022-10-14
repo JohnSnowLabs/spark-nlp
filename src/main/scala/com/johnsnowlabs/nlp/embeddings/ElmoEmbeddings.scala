@@ -17,6 +17,8 @@
 package com.johnsnowlabs.nlp.embeddings
 
 import com.johnsnowlabs.ml.tensorflow._
+import com.johnsnowlabs.ml.util.LoadExternalModel.modelSanityCheck
+import com.johnsnowlabs.ml.util.ModelEngine
 import com.johnsnowlabs.nlp._
 import com.johnsnowlabs.nlp.annotators.common._
 import com.johnsnowlabs.storage.HasStorageRef
@@ -359,23 +361,35 @@ trait ReadElmoTensorflowModel extends ReadTensorflowModel {
 
   addReader(readTensorflow)
 
-  def loadSavedModel(folder: String, spark: SparkSession): ElmoEmbeddings = {
+  def loadSavedModel(modelPath: String, spark: SparkSession): ElmoEmbeddings = {
 
-    val f = new File(folder)
-    val savedModel = new File(folder, "saved_model.pb")
-    require(f.exists, s"Folder $folder not found")
-    require(f.isDirectory, s"File $folder is not folder")
-    require(savedModel.exists(), s"savedModel file saved_model.pb not found in folder $folder")
+    val detectedEngine = modelSanityCheck(modelPath)
 
-    val (wrapper, _) = TensorflowWrapper.read(
-      folder,
-      zipped = false,
-      useBundle = true,
-      tags = Array("serve"),
-      initAllTables = true)
+    val annotatorModel = new ElmoEmbeddings()
 
-    new ElmoEmbeddings()
-      .setModelIfNotSet(spark, wrapper)
+    detectedEngine match {
+      case ModelEngine.tensorflow =>
+        val (wrapper, _) = TensorflowWrapper.read(
+          modelPath,
+          zipped = false,
+          useBundle = true,
+          tags = Array("serve"),
+          initAllTables = true)
+
+        /** the order of setSignatures is important if we use getSignatures inside
+          * setModelIfNotSet
+          */
+        annotatorModel
+          .setModelIfNotSet(spark, wrapper)
+
+      case _ =>
+        throw new Exception(
+          "Your imported model is not supported. Please make sure you" +
+            s"follow provided notebooks to import external models into Spark NLP: " +
+            s"https://github.com/JohnSnowLabs/spark-nlp/discussions/5669")
+    }
+
+    annotatorModel
   }
 }
 

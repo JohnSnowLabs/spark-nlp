@@ -2,6 +2,8 @@ package com.johnsnowlabs.nlp.embeddings
 
 import com.johnsnowlabs.ml.tensorflow._
 import com.johnsnowlabs.ml.tensorflow.sentencepiece._
+import com.johnsnowlabs.ml.util.LoadExternalModel.{loadSentencePieceAsset, modelSanityCheck}
+import com.johnsnowlabs.ml.util.ModelEngine
 import com.johnsnowlabs.nlp._
 import com.johnsnowlabs.nlp.annotators.common._
 import com.johnsnowlabs.nlp.serialization.MapFeature
@@ -10,8 +12,6 @@ import org.apache.spark.broadcast.Broadcast
 import org.apache.spark.ml.param.{IntArrayParam, IntParam}
 import org.apache.spark.ml.util.Identifiable
 import org.apache.spark.sql.{DataFrame, SparkSession}
-
-import java.io.File
 
 /** The CamemBERT model was proposed in CamemBERT: a Tasty French Language Model by Louis Martin,
   * Benjamin Muller, Pedro Javier Ortiz Suárez, Yoann Dupont, Laurent Romary, Éric Villemonte de
@@ -344,34 +344,40 @@ trait ReadCamemBertTensorflowModel extends ReadTensorflowModel with ReadSentence
 
   addReader(readTensorflow)
 
-  def loadSavedModel(tfModelPath: String, spark: SparkSession): CamemBertEmbeddings = {
+  def loadSavedModel(modelPath: String, spark: SparkSession): CamemBertEmbeddings = {
 
-    val f = new File(tfModelPath)
-    val savedModel = new File(tfModelPath, "saved_model.pb")
-    require(f.exists, s"Folder $tfModelPath not found")
-    require(f.isDirectory, s"File $tfModelPath is not folder")
-    require(
-      savedModel.exists(),
-      s"savedModel file saved_model.pb not found in folder $tfModelPath")
-    val sppModelPath = tfModelPath + "/assets"
-    val sppModel = new File(sppModelPath, "sentencepiece.bpe.model")
-    require(
-      sppModel.exists(),
-      s"SentencePiece model sentencepiece.bpe.model not found in folder $sppModelPath")
+    val detectedEngine = modelSanityCheck(modelPath)
 
-    val (wrapper, signatures) =
-      TensorflowWrapper.read(tfModelPath, zipped = false, useBundle = true)
-    val spp = SentencePieceWrapper.read(sppModel.toString)
+    val spModel = loadSentencePieceAsset(modelPath, "sentencepiece.bpe.model")
 
-    val _signatures = signatures match {
-      case Some(s) => s
-      case None => throw new Exception("Cannot load signature definitions from model!")
+    /*Universal parameters for all engines*/
+    val annotatorModel = new CamemBertEmbeddings()
+
+    detectedEngine match {
+      case ModelEngine.tensorflow =>
+        val (wrapper, signatures) =
+          TensorflowWrapper.read(modelPath, zipped = false, useBundle = true)
+
+        val _signatures = signatures match {
+          case Some(s) => s
+          case None => throw new Exception("Cannot load signature definitions from model!")
+        }
+
+        /** the order of setSignatures is important if we use getSignatures inside
+          * setModelIfNotSet
+          */
+        annotatorModel
+          .setSignatures(_signatures)
+          .setModelIfNotSet(spark, wrapper, spModel)
+
+      case _ =>
+        throw new Exception(
+          "Your imported model is not supported. Please make sure you" +
+            s"follow provided notebooks to import external models into Spark NLP: " +
+            s"https://github.com/JohnSnowLabs/spark-nlp/discussions/5669")
     }
 
-    /** the order of setSignatures is important if we use getSignatures inside setModelIfNotSet */
-    new CamemBertEmbeddings()
-      .setSignatures(_signatures)
-      .setModelIfNotSet(spark, wrapper, spp)
+    annotatorModel
   }
 }
 

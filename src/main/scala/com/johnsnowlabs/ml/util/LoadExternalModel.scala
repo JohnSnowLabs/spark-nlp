@@ -16,6 +16,7 @@
 
 package com.johnsnowlabs.ml.util
 
+import com.johnsnowlabs.ml.tensorflow.sentencepiece.SentencePieceWrapper
 import com.johnsnowlabs.nlp.util.io.{ExternalResource, ReadAs, ResourceHelper}
 
 import java.io.File
@@ -48,27 +49,32 @@ object LoadExternalModel {
     } else if (onnxModelExist) {
       ModelEngine.onnx
     } else {
-      // TODO: change this error once there is more than one DL engine
       require(
         tfSavedModelExist || onnxModelExist,
         s"Could not find saved_model.pb for TensorFlow model in $modelPath. Please make sure you" +
-          s"followed provided notebooks to import TensorFlow models into Spark NLP: " +
+          s"follow provided notebooks to import external models into Spark NLP: " +
           s"https://github.com/JohnSnowLabs/spark-nlp/discussions/5669")
       ModelEngine.unk
     }
 
   }
 
-  def loadTextAsset(assetPath: String, assetName: String): Map[String, Int] = {
-
-    val assetsPath = assetPath + "/assets"
-    val assetFile = new File(assetsPath, assetName)
-    require(assetFile.exists(), s"File $assetName not found in folder $assetsPath")
-
+  def loadTextAsset(assetPath: String, assetName: String): Array[String] = {
+    val assetFile = checkAndCreateFile(assetPath + "/assets", assetName)
     val assetResource =
       new ExternalResource(assetFile.getAbsolutePath, ReadAs.TEXT, Map("format" -> "text"))
-    ResourceHelper.parseLines(assetResource).zipWithIndex.toMap
+    ResourceHelper.parseLines(assetResource)
+  }
 
+  def loadSentencePieceAsset(assetPath: String, assetName: String): SentencePieceWrapper = {
+    val assetFile = checkAndCreateFile(assetPath + "/assets", assetName)
+    SentencePieceWrapper.read(assetFile.toString)
+  }
+
+  private def checkAndCreateFile(filePath: String, fileName: String): File = {
+    val f = new File(filePath, fileName)
+    require(f.exists(), s"File $fileName not found in folder $filePath")
+    f
   }
 
 }
