@@ -22,17 +22,20 @@ import com.johnsnowlabs.ml.tensorflow.{
   TensorflowWrapper,
   WriteTensorflowModel
 }
+import com.johnsnowlabs.ml.util.LoadExternalModel.{
+  loadTextAsset,
+  modelSanityCheck,
+  notSupportedEngineError
+}
+import com.johnsnowlabs.ml.util.ModelEngine
 import com.johnsnowlabs.nlp.AnnotatorType.DOCUMENT
+import com.johnsnowlabs.nlp._
 import com.johnsnowlabs.nlp.annotators.tokenizer.bpe.{BpeTokenizer, Gpt2Tokenizer}
 import com.johnsnowlabs.nlp.serialization.MapFeature
-import com.johnsnowlabs.nlp.util.io.{ExternalResource, ReadAs, ResourceHelper}
-import com.johnsnowlabs.nlp._
 import org.apache.spark.broadcast.Broadcast
 import org.apache.spark.ml.param._
 import org.apache.spark.ml.util.Identifiable
 import org.apache.spark.sql.SparkSession
-
-import java.io.File
 
 /** GPT-2: the OpenAI Text-To-Text Transformer
   *
@@ -519,46 +522,44 @@ trait ReadGPT2TransformerTensorflowModel extends ReadTensorflowModel {
 
   addReader(readTensorflow)
 
-  def loadSavedModel(folder: String, spark: SparkSession): GPT2Transformer = {
+  def loadSavedModel(modelPath: String, spark: SparkSession): GPT2Transformer = {
 
-    val f = new File(folder)
-    val bpeFolder = folder + "/assets"
+    val detectedEngine = modelSanityCheck(modelPath)
 
-    val vocabFile = new File(s"$bpeFolder/vocab.txt")
-    val mergesFile = new File(s"$bpeFolder/merges.txt")
+    val vocabs = loadTextAsset(modelPath, "vocab.txt").zipWithIndex.toMap
 
-    val savedModel = new File(folder, "saved_model.pb")
-
-    require(f.exists, s"Folder $folder not found")
-    require(f.isDirectory, s"File $folder is not a folder")
-    require(savedModel.exists(), s"savedModel file saved_model.pb not found in folder $folder")
-    require(vocabFile.exists(), s"vocab.json not found in $bpeFolder")
-    require(vocabFile.exists(), s"merges.txt not found in $bpeFolder")
-
-    val vocabResource =
-      new ExternalResource(vocabFile.getAbsolutePath, ReadAs.TEXT, Map("format" -> "text"))
-    val words = ResourceHelper.parseLines(vocabResource).zipWithIndex.toMap
-
-    val mergesResource =
-      new ExternalResource(mergesFile.getAbsolutePath, ReadAs.TEXT, Map("format" -> "text"))
-    val merges = ResourceHelper.parseLines(mergesResource)
-
-    val bytePairs: Map[(String, String), Int] = merges
+    val bytePairs = loadTextAsset(modelPath, "merges.txt")
       .map(_.split(" "))
       .filter(w => w.length == 2)
       .map { case Array(c1, c2) => (c1, c2) }
       .zipWithIndex
       .toMap
 
-    val (wrapper, _) =
-      TensorflowWrapper.read(folder, zipped = false, useBundle = true, tags = Array("serve"))
-
-    val gpt2model = new GPT2Transformer()
+    /*Universal parameters for all engines*/
+    val annotatorModel = new GPT2Transformer()
+      .setVocabulary(vocabs)
       .setMerges(bytePairs)
-      .setVocabulary(words)
-      .setModelIfNotSet(spark, wrapper)
 
-    gpt2model
+    detectedEngine match {
+      case ModelEngine.tensorflow =>
+        val (wrapper, _) =
+          TensorflowWrapper.read(
+            modelPath,
+            zipped = false,
+            useBundle = true,
+            tags = Array("serve"))
+
+        /** the order of setSignatures is important if we use getSignatures inside
+          * setModelIfNotSet
+          */
+        annotatorModel
+          .setModelIfNotSet(spark, wrapper)
+
+      case _ =>
+        throw new Exception(notSupportedEngineError)
+    }
+
+    annotatorModel
   }
 
 }

@@ -27,6 +27,12 @@ import com.johnsnowlabs.ml.tensorflow.{
   TensorflowWrapper,
   WriteTensorflowModel
 }
+import com.johnsnowlabs.ml.util.LoadExternalModel.{
+  loadSentencePieceAsset,
+  modelSanityCheck,
+  notSupportedEngineError
+}
+import com.johnsnowlabs.ml.util.ModelEngine
 import com.johnsnowlabs.nlp.AnnotatorType.DOCUMENT
 import com.johnsnowlabs.nlp._
 import com.johnsnowlabs.nlp.serialization.MapFeature
@@ -34,8 +40,6 @@ import org.apache.spark.broadcast.Broadcast
 import org.apache.spark.ml.param._
 import org.apache.spark.ml.util.Identifiable
 import org.apache.spark.sql.SparkSession
-
-import java.io.File
 
 /** T5: the Text-To-Text Transfer Transformer
   *
@@ -520,36 +524,41 @@ trait ReadT5TransformerTensorflowModel extends ReadTensorflowModel with ReadSent
 
   addReader(readTensorflow)
 
-  def loadSavedModel(folder: String, spark: SparkSession): T5Transformer = {
+  def loadSavedModel(modelPath: String, spark: SparkSession): T5Transformer = {
 
-    val f = new File(folder)
-    val sppModelPath = folder + "/assets"
-    val savedModel = new File(folder, "saved_model.pb")
-    val sppModel = new File(sppModelPath, "spiece.model")
+    val detectedEngine = modelSanityCheck(modelPath)
 
-    require(f.exists, s"Folder $folder not found")
-    require(f.isDirectory, s"File $folder is not folder")
-    require(savedModel.exists(), s"savedModel file saved_model.pb not found in folder $folder")
-    require(sppModel.exists(), s"SentencePiece model not found in folder $sppModelPath")
+    /*Universal parameters for all engines*/
+    val annotatorModel = new T5Transformer()
 
-    val (wrapper, signatures) = TensorflowWrapper.read(
-      folder,
-      zipped = false,
-      useBundle = true,
-      tags = Array("serve"),
-      initAllTables = false)
-    val spp = SentencePieceWrapper.read(sppModel.toString)
+    val spModel = loadSentencePieceAsset(modelPath, "spiece.model")
 
-    val _signatures = signatures match {
-      case Some(s) => s
-      case None => throw new Exception("Cannot load signature definitions from model!")
+    detectedEngine match {
+      case ModelEngine.tensorflow =>
+        val (wrapper, signatures) = TensorflowWrapper.read(
+          modelPath,
+          zipped = false,
+          useBundle = true,
+          tags = Array("serve"),
+          initAllTables = false)
+
+        val _signatures = signatures match {
+          case Some(s) => s
+          case None => throw new Exception("Cannot load signature definitions from model!")
+        }
+
+        /** the order of setSignatures is important if we use getSignatures inside
+          * setModelIfNotSet
+          */
+        annotatorModel
+          .setSignatures(_signatures)
+          .setModelIfNotSet(spark, wrapper, spModel)
+
+      case _ =>
+        throw new Exception(notSupportedEngineError)
     }
 
-    val t5model = new T5Transformer()
-      .setSignatures(_signatures)
-      .setModelIfNotSet(spark, wrapper, spp)
-
-    t5model
+    annotatorModel
   }
 }
 
