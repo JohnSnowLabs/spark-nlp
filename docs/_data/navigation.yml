@@ -98,22 +98,31 @@ annotation-lab:
         url: /docs/en/alab/analytics
       - title: Annotation Export
         url: /docs/en/alab/export
-      - title: User Management
-        url: /docs/en/alab/user_management
       - title: Workflow Setup
         url: /docs/en/alab/workflow
-      - title: License Setup
-        url: /docs/en/alab/byol
-      - title: API Integration
-        url: /docs/en/alab/api
-      - title: Infrastructure
-        url: /docs/en/alab/infrastructure
       - title: Security and Privacy
         url: /docs/en/alab/security
+      - subtitle: Administration
+        children:
+          - title: User Management
+            url: /docs/en/alab/user_management
+          - title: License Management
+            url: /docs/en/alab/byol
+          - title: Backup and Restore
+            url: /docs/en/alab/backup_restore
+          - title: Analytics Permission
+            url: /docs/en/alab/analytics_permission
+          - title: API Integration
+            url: /docs/en/alab/api
+          - title: Infrastructure Configuration
+            url: /docs/en/alab/infrastructure
+          - title: Cluster Management
+            url: /docs/en/alab/cluster_management
       - title: Video Tutorials
         url: /docs/en/alab/tutorials
       - title: Release Notes
         url: /docs/en/alab/release_notes
+
 
 sparknlp-healthcare:
   - title: All Enterprise libraries
