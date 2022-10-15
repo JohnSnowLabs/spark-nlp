@@ -17,16 +17,20 @@
 package com.johnsnowlabs.nlp.annotators.ld.dl
 
 import com.johnsnowlabs.ml.tensorflow._
+import com.johnsnowlabs.ml.util.LoadExternalModel.{
+  loadTextAsset,
+  modelSanityCheck,
+  notSupportedEngineError
+}
+import com.johnsnowlabs.ml.util.ModelEngine
 import com.johnsnowlabs.nlp._
 import com.johnsnowlabs.nlp.annotators.common._
 import com.johnsnowlabs.nlp.serialization.MapFeature
-import com.johnsnowlabs.nlp.util.io.{ExternalResource, ReadAs, ResourceHelper}
 import org.apache.spark.broadcast.Broadcast
 import org.apache.spark.ml.param._
 import org.apache.spark.ml.util.Identifiable
 import org.apache.spark.sql.SparkSession
 
-import java.io.File
 import scala.collection.immutable.ListMap
 
 /** Language Identification and Detection by using CNN and RNN architectures in TensorFlow.
@@ -323,37 +327,38 @@ trait ReadLanguageDetectorDLTensorflowModel extends ReadTensorflowModel {
 
   addReader(readTensorflow)
 
-  def loadSavedModel(folder: String, spark: SparkSession): LanguageDetectorDL = {
+  def loadSavedModel(modelPath: String, spark: SparkSession): LanguageDetectorDL = {
 
-    val f = new File(folder)
-    val savedModel = new File(folder, "saved_model.pb")
-    require(f.exists, s"Folder $folder not found")
-    require(f.isDirectory, s"File $folder is not folder")
-    require(savedModel.exists(), s"savedModel file saved_model.pb not found in folder $folder")
+    val detectedEngine = modelSanityCheck(modelPath)
 
-    val alphabetPath = new File(folder + "/assets", "alphabet.txt")
-    val languagePath = new File(folder + "/assets", "language.txt")
+    val alphabets = loadTextAsset(modelPath, "alphabet.txt").zipWithIndex.toMap
+    val languages = loadTextAsset(modelPath, "language.txt").zipWithIndex.toMap
 
-    require(f.exists, s"Folder $folder not found")
-    require(f.isDirectory, s"File $folder is not folder")
-    require(alphabetPath.exists(), s"Alphabet file alphabet.txt not found in folder $folder")
-    require(languagePath.exists(), s"Language file language.txt not found in folder $folder")
-
-    val alphabetResource =
-      new ExternalResource(alphabetPath.getAbsolutePath, ReadAs.TEXT, Map("format" -> "text"))
-    val alphabets = ResourceHelper.parseLines(alphabetResource).zipWithIndex.toMap
-
-    val languageResource =
-      new ExternalResource(languagePath.getAbsolutePath, ReadAs.TEXT, Map("format" -> "text"))
-    val languages = ResourceHelper.parseLines(languageResource).zipWithIndex.toMap
-
-    val (wrapper, _) =
-      TensorflowWrapper.read(folder, zipped = false, useBundle = true, tags = Array("serve"))
-
-    new LanguageDetectorDL()
+    /*Universal parameters for all engines*/
+    val annotatorModel = new LanguageDetectorDL()
       .setAlphabet(alphabets)
       .setLanguage(languages)
-      .setModelIfNotSet(spark, wrapper)
+
+    detectedEngine match {
+      case ModelEngine.tensorflow =>
+        val (wrapper, _) =
+          TensorflowWrapper.read(
+            modelPath,
+            zipped = false,
+            useBundle = true,
+            tags = Array("serve"))
+
+        /** the order of setSignatures is important if we use getSignatures inside
+          * setModelIfNotSet
+          */
+        annotatorModel
+          .setModelIfNotSet(spark, wrapper)
+
+      case _ =>
+        throw new Exception(notSupportedEngineError)
+    }
+
+    annotatorModel
   }
 }
 

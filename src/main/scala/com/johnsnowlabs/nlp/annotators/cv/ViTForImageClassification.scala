@@ -22,6 +22,8 @@ import com.johnsnowlabs.ml.tensorflow.{
   TensorflowWrapper,
   WriteTensorflowModel
 }
+import com.johnsnowlabs.ml.util.LoadExternalModel.{modelSanityCheck, notSupportedEngineError}
+import com.johnsnowlabs.ml.util.ModelEngine
 import com.johnsnowlabs.nlp.AnnotatorType.{CATEGORY, IMAGE}
 import com.johnsnowlabs.nlp._
 import com.johnsnowlabs.nlp.annotators.cv.feature_extractor.Preprocessor
@@ -337,21 +339,14 @@ trait ReadViTForImageTensorflowModel extends ReadTensorflowModel {
 
   addReader(readTensorflow)
 
-  def loadSavedModel(tfModelPath: String, spark: SparkSession): ViTForImageClassification = {
+  def loadSavedModel(modelPath: String, spark: SparkSession): ViTForImageClassification = {
 
-    val f = new File(tfModelPath)
-    val savedModel = new File(tfModelPath, "saved_model.pb")
+    val detectedEngine = modelSanityCheck(modelPath)
 
-    require(f.exists, s"Folder $tfModelPath not found")
-    require(f.isDirectory, s"File $tfModelPath is not folder")
-    require(
-      savedModel.exists(),
-      s"savedModel file saved_model.pb not found in folder $tfModelPath")
-
-    val labelsPath = new File(tfModelPath + "/assets", "labels.json")
+    val labelsPath = new File(modelPath + "/assets", "labels.json")
     require(
       labelsPath.exists(),
-      s"Labels file labels.json not found in folder $tfModelPath/assets/")
+      s"Labels file labels.json not found in folder $modelPath/assets/")
 
     val labelStream = ResourceHelper.getResourceStream(labelsPath.getAbsolutePath)
     val labelJsonContent = Source.fromInputStream(labelStream).mkString
@@ -359,33 +354,17 @@ trait ReadViTForImageTensorflowModel extends ReadTensorflowModel {
       parse(labelJsonContent, useBigIntForLong = true).values
         .asInstanceOf[Map[String, BigInt]]
 
-    val preprocessorConfigPath = new File(tfModelPath + "/assets", "preprocessor_config.json")
+    val preprocessorConfigPath = new File(modelPath + "/assets", "preprocessor_config.json")
     require(
       preprocessorConfigPath.exists(),
-      s"Labels file preprocessor_config.json not found in folder $tfModelPath/assets/")
+      s"Labels file preprocessor_config.json not found in folder $modelPath/assets/")
 
     val preprocessorConfig =
       Preprocessor.loadPreprocessorConfig(preprocessorConfigPath.getAbsolutePath)
 
-    val (wrapper, signatures) =
-      TensorflowWrapper.read(tfModelPath, zipped = false, useBundle = true)
-
-    val _signatures = signatures match {
-      case Some(s) => s
-      case None => throw new Exception("Cannot load signature definitions from model!")
-    }
-
-    /** the order of setSignatures is important if we use getSignatures inside setModelIfNotSet */
-    new ViTForImageClassification()
+    /*Universal parameters for all engines*/
+    val annotatorModel = new ViTForImageClassification()
       .setLabels(labelJsonMap)
-      .setSignatures(_signatures)
-      .setModelIfNotSet(
-        spark,
-        wrapper,
-        preprocessorConfig.image_mean,
-        preprocessorConfig.image_std,
-        preprocessorConfig.resample,
-        preprocessorConfig.size)
       .setDoNormalize(preprocessorConfig.do_normalize)
       .setDoResize(preprocessorConfig.do_resize)
       .setFeatureExtractorType(preprocessorConfig.feature_extractor_type)
@@ -394,6 +373,34 @@ trait ReadViTForImageTensorflowModel extends ReadTensorflowModel {
       .setResample(preprocessorConfig.resample)
       .setSize(preprocessorConfig.size)
 
+    detectedEngine match {
+      case ModelEngine.tensorflow =>
+        val (wrapper, signatures) =
+          TensorflowWrapper.read(modelPath, zipped = false, useBundle = true)
+
+        val _signatures = signatures match {
+          case Some(s) => s
+          case None => throw new Exception("Cannot load signature definitions from model!")
+        }
+
+        /** the order of setSignatures is important if we use getSignatures inside
+          * setModelIfNotSet
+          */
+        annotatorModel
+          .setSignatures(_signatures)
+          .setModelIfNotSet(
+            spark,
+            wrapper,
+            preprocessorConfig.image_mean,
+            preprocessorConfig.image_std,
+            preprocessorConfig.resample,
+            preprocessorConfig.size)
+
+      case _ =>
+        throw new Exception(notSupportedEngineError)
+    }
+
+    annotatorModel
   }
 }
 
