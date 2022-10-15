@@ -17,7 +17,11 @@
 package com.johnsnowlabs.nlp.embeddings
 
 import com.johnsnowlabs.ml.tensorflow._
-import com.johnsnowlabs.ml.util.LoadExternalModel.{loadTextAsset, modelSanityCheck}
+import com.johnsnowlabs.ml.util.LoadExternalModel.{
+  loadTextAsset,
+  modelSanityCheck,
+  notSupportedEngineError
+}
 import com.johnsnowlabs.ml.util.ModelEngine
 import com.johnsnowlabs.nlp._
 import com.johnsnowlabs.nlp.annotators.common._
@@ -453,10 +457,7 @@ trait ReadLongformerTensorflowModel extends ReadTensorflowModel {
           .setModelIfNotSet(spark, wrapper)
 
       case _ =>
-        throw new Exception(
-          "Your imported model is not supported. Please make sure you" +
-            s"follow provided notebooks to import external models into Spark NLP: " +
-            s"https://github.com/JohnSnowLabs/spark-nlp/discussions/5669")
+        throw new Exception(notSupportedEngineError)
     }
 
     annotatorModel

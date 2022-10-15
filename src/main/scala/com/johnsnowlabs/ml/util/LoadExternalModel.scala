@@ -23,6 +23,11 @@ import java.io.File
 
 object LoadExternalModel {
 
+  val notSupportedEngineError: String =
+    "Your imported model is not supported. Please make sure you" +
+      s"follow provided notebooks to import external models into Spark NLP: " +
+      s"https://github.com/JohnSnowLabs/spark-nlp/discussions/5669"
+
   def modelSanityCheck(modelPath: String): String = {
 
     /** Check if the path is correct */
@@ -49,11 +54,7 @@ object LoadExternalModel {
     } else if (onnxModelExist) {
       ModelEngine.onnx
     } else {
-      require(
-        tfSavedModelExist || onnxModelExist,
-        s"Could not find saved_model.pb for TensorFlow model in $modelPath. Please make sure you" +
-          s"follow provided notebooks to import external models into Spark NLP: " +
-          s"https://github.com/JohnSnowLabs/spark-nlp/discussions/5669")
+      require(tfSavedModelExist || onnxModelExist, notSupportedEngineError)
       ModelEngine.unk
     }
 

@@ -22,7 +22,7 @@ import com.johnsnowlabs.ml.tensorflow.{
   TensorflowWrapper,
   WriteTensorflowModel
 }
-import com.johnsnowlabs.ml.util.LoadExternalModel.modelSanityCheck
+import com.johnsnowlabs.ml.util.LoadExternalModel.{modelSanityCheck, notSupportedEngineError}
 import com.johnsnowlabs.ml.util.ModelEngine
 import com.johnsnowlabs.nlp.AnnotatorType.{DOCUMENT, SENTENCE_EMBEDDINGS}
 import com.johnsnowlabs.nlp._
@@ -370,10 +370,7 @@ trait ReadUSEDLModel extends ReadTensorflowModel {
           .setModelIfNotSet(spark, wrapper)
 
       case _ =>
-        throw new Exception(
-          "Your imported model is not supported. Please make sure you" +
-            s"follow provided notebooks to import external models into Spark NLP: " +
-            s"https://github.com/JohnSnowLabs/spark-nlp/discussions/5669")
+        throw new Exception(notSupportedEngineError)
     }
 
     annotatorModel
