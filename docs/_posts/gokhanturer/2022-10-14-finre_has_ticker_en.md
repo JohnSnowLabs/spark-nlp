@@ -37,6 +37,7 @@ Ticker : `AAPL`
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
+
 ```python
 document_assembler = nlp.DocumentAssembler()\
        .setInputCol("text")\
@@ -104,13 +105,12 @@ light_model = nlp.LightPipeline(re_model)
 light_model.fullAnnotate(text)
 ```
 
-</div>
 
 ## Results
 
 ```bash
 |   relation | entity1 | entity1_begin | entity1_end | chunk1 | entity2 | entity2_begin | entity2_end |                      chunk2 | confidence |
-|-----------|--------|--------------|------------|-------|--------|--------------|------------|----------------------------|-----------|
+|------------|---------|---------------|-------------|--------|---------|---------------|-------------|-----------------------------|------------|
 | has_ticker |  TICKER |             8 |          10 |    NOV |     ORG |            13 |          39 | National Oilwell Varco Inc. |  0.9966828 |
 ```
 
