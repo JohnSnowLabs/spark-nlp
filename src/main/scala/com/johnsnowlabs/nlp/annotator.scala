@@ -377,9 +377,7 @@ package object annotator {
 
   type DistilBertEmbeddings = com.johnsnowlabs.nlp.embeddings.DistilBertEmbeddings
 
-  object DistilBertEmbeddings
-      extends ReadablePretrainedDistilBertModel
-      with ReadDistilBertDLModel
+  object DistilBertEmbeddings extends ReadablePretrainedDistilBertModel with ReadDistilBertDLModel
 
   type RoBertaEmbeddings = com.johnsnowlabs.nlp.embeddings.RoBertaEmbeddings
 
@@ -387,9 +385,7 @@ package object annotator {
 
   type XlmRoBertaEmbeddings = com.johnsnowlabs.nlp.embeddings.XlmRoBertaEmbeddings
 
-  object XlmRoBertaEmbeddings
-      extends ReadablePretrainedXlmRobertaModel
-      with ReadXlmRobertaDLModel
+  object XlmRoBertaEmbeddings extends ReadablePretrainedXlmRobertaModel with ReadXlmRobertaDLModel
 
   type BertForTokenClassification =
     com.johnsnowlabs.nlp.annotators.classifier.dl.BertForTokenClassification
@@ -555,9 +551,7 @@ package object annotator {
 
   type CamemBertEmbeddings = com.johnsnowlabs.nlp.embeddings.CamemBertEmbeddings
 
-  object CamemBertEmbeddings
-      extends ReadablePretrainedCamemBertModel
-      with ReadCamemBertDLModel
+  object CamemBertEmbeddings extends ReadablePretrainedCamemBertModel with ReadCamemBertDLModel
 
   type SpanBertCorefModel = com.johnsnowlabs.nlp.annotators.coref.SpanBertCorefModel
 

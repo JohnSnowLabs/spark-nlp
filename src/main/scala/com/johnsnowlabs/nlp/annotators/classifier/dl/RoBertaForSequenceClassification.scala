@@ -17,16 +17,19 @@
 package com.johnsnowlabs.nlp.annotators.classifier.dl
 
 import com.johnsnowlabs.ml.tensorflow._
+import com.johnsnowlabs.ml.util.LoadExternalModel.{
+  loadTextAsset,
+  modelSanityCheck,
+  notSupportedEngineError
+}
+import com.johnsnowlabs.ml.util.ModelEngine
 import com.johnsnowlabs.nlp._
 import com.johnsnowlabs.nlp.annotators.common._
 import com.johnsnowlabs.nlp.serialization.MapFeature
-import com.johnsnowlabs.nlp.util.io.{ExternalResource, ReadAs, ResourceHelper}
 import org.apache.spark.broadcast.Broadcast
 import org.apache.spark.ml.param.{BooleanParam, IntArrayParam, IntParam}
 import org.apache.spark.ml.util.Identifiable
 import org.apache.spark.sql.SparkSession
-
-import java.io.File
 
 /** RoBertaForSequenceClassification can load RoBERTa Models with sequence
   * classification/regression head on top (a linear layer on top of the pooled output) e.g. for
@@ -374,68 +377,45 @@ trait ReadRoBertaForSequenceTensorflowModel extends ReadTensorflowModel {
 
   addReader(readTensorflow)
 
-  def loadSavedModel(
-      tfModelPath: String,
-      spark: SparkSession): RoBertaForSequenceClassification = {
+  def loadSavedModel(modelPath: String, spark: SparkSession): RoBertaForSequenceClassification = {
+    val detectedEngine = modelSanityCheck(modelPath)
 
-    val f = new File(tfModelPath)
-    val savedModel = new File(tfModelPath, "saved_model.pb")
-
-    require(f.exists, s"Folder $tfModelPath not found")
-    require(f.isDirectory, s"File $tfModelPath is not folder")
-    require(
-      savedModel.exists(),
-      s"savedModel file saved_model.pb not found in folder $tfModelPath")
-
-    val vocabFile = new File(tfModelPath + "/assets", "vocab.txt")
-    require(f.exists, s"Folder $tfModelPath not found")
-    require(f.isDirectory, s"File $tfModelPath is not folder")
-    require(vocabFile.exists(), s"Vocabulary file vocab.txt not found in folder $tfModelPath")
-
-    val mergesFile = new File(tfModelPath + "/assets", "merges.txt")
-    require(f.exists, s"Folder $tfModelPath not found")
-    require(f.isDirectory, s"File $tfModelPath is not folder")
-    require(mergesFile.exists(), s"merges file merges.txt not found in folder $tfModelPath")
-
-    val vocabResource =
-      new ExternalResource(vocabFile.getAbsolutePath, ReadAs.TEXT, Map("format" -> "text"))
-    val words = ResourceHelper.parseLines(vocabResource).zipWithIndex.toMap
-
-    val mergesResource =
-      new ExternalResource(mergesFile.getAbsolutePath, ReadAs.TEXT, Map("format" -> "text"))
-    val merges = ResourceHelper.parseLines(mergesResource)
-
-    val bytePairs: Map[(String, String), Int] = merges
+    val vocabs = loadTextAsset(modelPath, "vocab.txt").zipWithIndex.toMap
+    val bytePairs = loadTextAsset(modelPath, "merges.txt")
       .map(_.split(" "))
       .filter(w => w.length == 2)
       .map { case Array(c1, c2) => (c1, c2) }
       .zipWithIndex
       .toMap
+    val labels = loadTextAsset(modelPath, "labels.txt").zipWithIndex.toMap
 
-    val labelsPath = new File(tfModelPath + "/assets", "labels.txt")
-    require(
-      labelsPath.exists(),
-      s"Labels file labels.txt not found in folder $tfModelPath/assets/")
-
-    val labelsResource =
-      new ExternalResource(labelsPath.getAbsolutePath, ReadAs.TEXT, Map("format" -> "text"))
-    val labels = ResourceHelper.parseLines(labelsResource).zipWithIndex.toMap
-
-    val (wrapper, signatures) =
-      TensorflowWrapper.read(tfModelPath, zipped = false, useBundle = true)
-
-    val _signatures = signatures match {
-      case Some(s) => s
-      case None => throw new Exception("Cannot load signature definitions from model!")
-    }
-
-    /** the order of setSignatures is important if we use getSignatures inside setModelIfNotSet */
-    new RoBertaForSequenceClassification()
-      .setVocabulary(words)
+    val annotatorModel = new RoBertaForSequenceClassification()
+      .setVocabulary(vocabs)
       .setMerges(bytePairs)
       .setLabels(labels)
-      .setSignatures(_signatures)
-      .setModelIfNotSet(spark, wrapper)
+
+    detectedEngine match {
+      case ModelEngine.tensorflow =>
+        val (wrapper, signatures) =
+          TensorflowWrapper.read(modelPath, zipped = false, useBundle = true)
+
+        val _signatures = signatures match {
+          case Some(s) => s
+          case None => throw new Exception("Cannot load signature definitions from model!")
+        }
+
+        /** the order of setSignatures is important if we use getSignatures inside
+          * setModelIfNotSet
+          */
+        annotatorModel
+          .setSignatures(_signatures)
+          .setModelIfNotSet(spark, wrapper)
+
+      case _ =>
+        throw new Exception(notSupportedEngineError)
+    }
+
+    annotatorModel
   }
 }
 
