@@ -17,14 +17,13 @@
 package com.johnsnowlabs.nlp.annotators.classifier.dl
 
 import com.johnsnowlabs.ml.tensorflow.{ReadTensorflowModel, TensorflowTapas, TensorflowWrapper}
+import com.johnsnowlabs.ml.util.LoadExternalModel.{loadTextAsset, modelSanityCheck, notSupportedEngineError}
+import com.johnsnowlabs.ml.util.ModelEngine
 import com.johnsnowlabs.nlp.base.TableAssembler
-import com.johnsnowlabs.nlp.util.io.{ExternalResource, ReadAs, ResourceHelper}
 import com.johnsnowlabs.nlp.{Annotation, AnnotatorType, HasPretrained, ParamsAndFeaturesReadable}
 import org.apache.spark.broadcast.Broadcast
 import org.apache.spark.ml.util.Identifiable
 import org.apache.spark.sql.SparkSession
-
-import java.io.File
 
 /** TapasForQuestionAnswering is an implementation of TaPas - a BERT-based model specifically
   * designed for answering questions about tabular data. It takes TABLE and DOCUMENT annotations
@@ -251,43 +250,42 @@ trait ReadTapasForQATensorflowModel extends ReadTensorflowModel {
 
   addReader(readTensorflow)
 
-  def loadSavedModel(tfModelPath: String, spark: SparkSession): TapasForQuestionAnswering = {
+  def loadSavedModel(modelPath: String, spark: SparkSession): TapasForQuestionAnswering = {
 
-    val f = new File(tfModelPath)
-    val savedModel = new File(tfModelPath, "saved_model.pb")
+    val detectedEngine = modelSanityCheck(modelPath)
 
-    require(f.exists, s"Folder $tfModelPath not found")
-    require(f.isDirectory, s"File $tfModelPath is not folder")
-    require(
-      savedModel.exists(),
-      s"savedModel file saved_model.pb not found in folder $tfModelPath")
+    val vocabs = loadTextAsset(modelPath, "vocab.txt").zipWithIndex.toMap
 
-    val vocabPath = new File(tfModelPath + "/assets", "vocab.txt")
-    require(
-      vocabPath.exists(),
-      s"Vocabulary file vocab.txt not found in folder $tfModelPath/assets/")
+    /*Universal parameters for all engines*/
+    val annotatorModel = new TapasForQuestionAnswering()
+      .setVocabulary(vocabs)
 
-    val vocabResource =
-      new ExternalResource(vocabPath.getAbsolutePath, ReadAs.TEXT, Map("format" -> "text"))
-    val words = ResourceHelper.parseLines(vocabResource).zipWithIndex.toMap
+    detectedEngine match {
+      case ModelEngine.tensorflow =>
+        val (wrapper, signatures) =
+          TensorflowWrapper.read(modelPath, zipped = false, useBundle = true)
 
-    val (wrapper, signatures) =
-      TensorflowWrapper.read(tfModelPath, zipped = false, useBundle = true)
+        val _signatures = signatures match {
+          case Some(s) => s
+          case None => throw new Exception("Cannot load signature definitions from model!")
+        }
 
-    val _signatures = signatures match {
-      case Some(s) => s
-      case None => throw new Exception("Cannot load signature definitions from model!")
+        /** the order of setSignatures is important if we use getSignatures inside
+          * setModelIfNotSet
+          */
+        annotatorModel
+          .setSignatures(_signatures)
+          .setModelIfNotSet(spark, wrapper)
+
+      case _ =>
+        throw new Exception(notSupportedEngineError)
     }
 
-    /** the order of setSignatures is important if we use getSignatures inside setModelIfNotSet */
-    new TapasForQuestionAnswering()
-      .setVocabulary(words)
-      .setSignatures(_signatures)
-      .setModelIfNotSet(spark, wrapper)
+    annotatorModel
   }
 }
 
-/** This is the companion object of [[BertForQuestionAnswering]]. Please refer to that class for
+/** This is the companion object of [[TapasForQuestionAnswering]]. Please refer to that class for
   * the documentation.
   */
 object TapasForQuestionAnswering

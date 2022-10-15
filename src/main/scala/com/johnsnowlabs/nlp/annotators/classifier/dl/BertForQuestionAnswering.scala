@@ -17,15 +17,18 @@
 package com.johnsnowlabs.nlp.annotators.classifier.dl
 
 import com.johnsnowlabs.ml.tensorflow._
+import com.johnsnowlabs.ml.util.LoadExternalModel.{
+  loadTextAsset,
+  modelSanityCheck,
+  notSupportedEngineError
+}
+import com.johnsnowlabs.ml.util.ModelEngine
 import com.johnsnowlabs.nlp._
 import com.johnsnowlabs.nlp.serialization.MapFeature
-import com.johnsnowlabs.nlp.util.io.{ExternalResource, ReadAs, ResourceHelper}
 import org.apache.spark.broadcast.Broadcast
 import org.apache.spark.ml.param.{IntArrayParam, IntParam}
 import org.apache.spark.ml.util.Identifiable
 import org.apache.spark.sql.SparkSession
-
-import java.io.File
 
 /** BertForQuestionAnswering can load Bert Models with a span classification head on top for
   * extractive question-answering tasks like SQuAD (a linear layer on top of the hidden-states
@@ -310,39 +313,38 @@ trait ReadBertForQATensorflowModel extends ReadTensorflowModel {
 
   addReader(readTensorflow)
 
-  def loadSavedModel(tfModelPath: String, spark: SparkSession): BertForQuestionAnswering = {
+  def loadSavedModel(modelPath: String, spark: SparkSession): BertForQuestionAnswering = {
 
-    val f = new File(tfModelPath)
-    val savedModel = new File(tfModelPath, "saved_model.pb")
+    val detectedEngine = modelSanityCheck(modelPath)
 
-    require(f.exists, s"Folder $tfModelPath not found")
-    require(f.isDirectory, s"File $tfModelPath is not folder")
-    require(
-      savedModel.exists(),
-      s"savedModel file saved_model.pb not found in folder $tfModelPath")
+    val vocabs = loadTextAsset(modelPath, "vocab.txt").zipWithIndex.toMap
 
-    val vocabPath = new File(tfModelPath + "/assets", "vocab.txt")
-    require(
-      vocabPath.exists(),
-      s"Vocabulary file vocab.txt not found in folder $tfModelPath/assets/")
+    /*Universal parameters for all engines*/
+    val annotatorModel = new BertForQuestionAnswering()
+      .setVocabulary(vocabs)
 
-    val vocabResource =
-      new ExternalResource(vocabPath.getAbsolutePath, ReadAs.TEXT, Map("format" -> "text"))
-    val words = ResourceHelper.parseLines(vocabResource).zipWithIndex.toMap
+    detectedEngine match {
+      case ModelEngine.tensorflow =>
+        val (wrapper, signatures) =
+          TensorflowWrapper.read(modelPath, zipped = false, useBundle = true)
 
-    val (wrapper, signatures) =
-      TensorflowWrapper.read(tfModelPath, zipped = false, useBundle = true)
+        val _signatures = signatures match {
+          case Some(s) => s
+          case None => throw new Exception("Cannot load signature definitions from model!")
+        }
 
-    val _signatures = signatures match {
-      case Some(s) => s
-      case None => throw new Exception("Cannot load signature definitions from model!")
+        /** the order of setSignatures is important if we use getSignatures inside
+          * setModelIfNotSet
+          */
+        annotatorModel
+          .setSignatures(_signatures)
+          .setModelIfNotSet(spark, wrapper)
+
+      case _ =>
+        throw new Exception(notSupportedEngineError)
     }
 
-    /** the order of setSignatures is important if we use getSignatures inside setModelIfNotSet */
-    new BertForQuestionAnswering()
-      .setVocabulary(words)
-      .setSignatures(_signatures)
-      .setModelIfNotSet(spark, wrapper)
+    annotatorModel
   }
 }
 

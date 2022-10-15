@@ -22,14 +22,18 @@ import com.johnsnowlabs.ml.tensorflow.sentencepiece.{
   SentencePieceWrapper,
   WriteSentencePieceModel
 }
+import com.johnsnowlabs.ml.util.LoadExternalModel.{
+  loadSentencePieceAsset,
+  modelSanityCheck,
+  notSupportedEngineError
+}
+import com.johnsnowlabs.ml.util.ModelEngine
 import com.johnsnowlabs.nlp._
 import com.johnsnowlabs.nlp.serialization.MapFeature
 import org.apache.spark.broadcast.Broadcast
 import org.apache.spark.ml.param.{IntArrayParam, IntParam}
 import org.apache.spark.ml.util.Identifiable
 import org.apache.spark.sql.SparkSession
-
-import java.io.File
 
 /** DeBertaForQuestionAnswering can load DeBERTa Models with a span classification head on top for
   * extractive question-answering tasks like SQuAD (a linear layer on top of the hidden-states
@@ -84,7 +88,7 @@ import java.io.File
   * }}}
   *
   * @see
-  *   [[DeBertaForSequenceClassification]] for sequence-level classification
+  *   [[DeBertaForQuestionAnswering]] for span-level classification
   * @see
   *   [[https://nlp.johnsnowlabs.com/docs/en/annotators Annotators Main Page]] for a list of
   *   transformer based classifiers
@@ -303,37 +307,42 @@ trait ReadDeBertaForQATensorflowModel extends ReadTensorflowModel with ReadSente
 
   addReader(readTensorflow)
 
-  def loadSavedModel(tfModelPath: String, spark: SparkSession): DeBertaForQuestionAnswering = {
+  def loadSavedModel(modelPath: String, spark: SparkSession): DeBertaForQuestionAnswering = {
 
-    val f = new File(tfModelPath)
-    val savedModel = new File(tfModelPath, "saved_model.pb")
-    require(f.exists, s"Folder $tfModelPath not found")
-    require(f.isDirectory, s"File $tfModelPath is not folder")
-    require(
-      savedModel.exists(),
-      s"savedModel file saved_model.pb not found in folder $tfModelPath")
-    val sppModelPath = tfModelPath + "/assets"
-    val sppModel = new File(sppModelPath, "spm.model")
-    require(sppModel.exists(), s"SentencePiece model spm.model not found in folder $sppModelPath")
+    val detectedEngine = modelSanityCheck(modelPath)
 
-    val (wrapper, signatures) =
-      TensorflowWrapper.read(tfModelPath, zipped = false, useBundle = true)
-    val spp = SentencePieceWrapper.read(sppModel.toString)
+    val spModel = loadSentencePieceAsset(modelPath, "spiece.model")
 
-    val _signatures = signatures match {
-      case Some(s) => s
-      case None => throw new Exception("Cannot load signature definitions from model!")
+    /*Universal parameters for all engines*/
+    val annotatorModel = new DeBertaForQuestionAnswering()
+
+    detectedEngine match {
+      case ModelEngine.tensorflow =>
+        val (wrapper, signatures) =
+          TensorflowWrapper.read(modelPath, zipped = false, useBundle = true)
+
+        val _signatures = signatures match {
+          case Some(s) => s
+          case None => throw new Exception("Cannot load signature definitions from model!")
+        }
+
+        /** the order of setSignatures is important if we use getSignatures inside
+          * setModelIfNotSet
+          */
+        annotatorModel
+          .setSignatures(_signatures)
+          .setModelIfNotSet(spark, wrapper, spModel)
+
+      case _ =>
+        throw new Exception(notSupportedEngineError)
     }
 
-    /** the order of setSignatures is important if we use getSignatures inside setModelIfNotSet */
-    new DeBertaForQuestionAnswering()
-      .setSignatures(_signatures)
-      .setModelIfNotSet(spark, wrapper, spp)
+    annotatorModel
   }
 }
 
-/** This is the companion object of [[DeBertaForSequenceClassification]]. Please refer to that
-  * class for the documentation.
+/** This is the companion object of [[DeBertaForQuestionAnswering]]. Please refer to that class
+  * for the documentation.
   */
 object DeBertaForQuestionAnswering
     extends ReadablePretrainedDeBertaForQAModel

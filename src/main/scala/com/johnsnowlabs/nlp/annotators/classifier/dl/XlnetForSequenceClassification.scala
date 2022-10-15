@@ -22,16 +22,20 @@ import com.johnsnowlabs.ml.tensorflow.sentencepiece.{
   SentencePieceWrapper,
   WriteSentencePieceModel
 }
+import com.johnsnowlabs.ml.util.LoadExternalModel.{
+  loadSentencePieceAsset,
+  loadTextAsset,
+  modelSanityCheck,
+  notSupportedEngineError
+}
+import com.johnsnowlabs.ml.util.ModelEngine
 import com.johnsnowlabs.nlp._
 import com.johnsnowlabs.nlp.annotators.common._
 import com.johnsnowlabs.nlp.serialization.MapFeature
-import com.johnsnowlabs.nlp.util.io.{ExternalResource, ReadAs, ResourceHelper}
 import org.apache.spark.broadcast.Broadcast
 import org.apache.spark.ml.param.{BooleanParam, IntArrayParam, IntParam}
 import org.apache.spark.ml.util.Identifiable
 import org.apache.spark.sql.SparkSession
-
-import java.io.File
 
 /** XlnetForSequenceClassification can load XLNet Models with sequence classification/regression
   * head on top (a linear layer on top of the pooled output) e.g. for multi-class document
@@ -355,43 +359,38 @@ trait ReadXlnetForSequenceTensorflowModel
 
   addReader(readTensorflow)
 
-  def loadSavedModel(tfModelPath: String, spark: SparkSession): XlnetForSequenceClassification = {
-    val f = new File(tfModelPath)
-    val savedModel = new File(tfModelPath, "saved_model.pb")
-    require(f.exists, s"Folder $tfModelPath not found")
-    require(f.isDirectory, s"File $tfModelPath is not folder")
-    require(
-      savedModel.exists(),
-      s"savedModel file saved_model.pb not found in folder $tfModelPath")
-    val sppModelPath = tfModelPath + "/assets"
-    val sppModel = new File(sppModelPath, "spiece.model")
-    require(
-      sppModel.exists(),
-      s"SentencePiece model spiece.model not found in folder $sppModelPath")
+  def loadSavedModel(modelPath: String, spark: SparkSession): XlnetForSequenceClassification = {
 
-    val labelsPath = new File(tfModelPath + "/assets", "labels.txt")
-    require(
-      labelsPath.exists(),
-      s"Labels file labels.txt not found in folder $tfModelPath/assets/")
+    val detectedEngine = modelSanityCheck(modelPath)
 
-    val labelsResource =
-      new ExternalResource(labelsPath.getAbsolutePath, ReadAs.TEXT, Map("format" -> "text"))
-    val labels = ResourceHelper.parseLines(labelsResource).zipWithIndex.toMap
+    val spModel = loadSentencePieceAsset(modelPath, "spiece.model")
+    val labels = loadTextAsset(modelPath, "labels.txt").zipWithIndex.toMap
 
-    val (wrapper, signatures) =
-      TensorflowWrapper.read(tfModelPath, zipped = false, useBundle = true)
-    val spp = SentencePieceWrapper.read(sppModel.toString)
+    val annotatorModel = new XlnetForSequenceClassification()
+      .setLabels(labels)
 
-    val _signatures = signatures match {
-      case Some(s) => s
-      case None => throw new Exception("Cannot load signature definitions from model!")
+    detectedEngine match {
+      case ModelEngine.tensorflow =>
+        val (wrapper, signatures) =
+          TensorflowWrapper.read(modelPath, zipped = false, useBundle = true)
+
+        val _signatures = signatures match {
+          case Some(s) => s
+          case None => throw new Exception("Cannot load signature definitions from model!")
+        }
+
+        /** the order of setSignatures is important if we use getSignatures inside
+          * setModelIfNotSet
+          */
+        annotatorModel
+          .setSignatures(_signatures)
+          .setModelIfNotSet(spark, wrapper, spModel)
+
+      case _ =>
+        throw new Exception(notSupportedEngineError)
     }
 
-    /** the order of setSignatures is important if we use getSignatures inside setModelIfNotSet */
-    new XlnetForSequenceClassification()
-      .setLabels(labels)
-      .setSignatures(_signatures)
-      .setModelIfNotSet(spark, wrapper, spp)
+    annotatorModel
   }
 }
 
