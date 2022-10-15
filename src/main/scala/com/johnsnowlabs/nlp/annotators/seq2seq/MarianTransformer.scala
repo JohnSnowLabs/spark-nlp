@@ -18,15 +18,19 @@ package com.johnsnowlabs.nlp.annotators.seq2seq
 
 import com.johnsnowlabs.ml.tensorflow._
 import com.johnsnowlabs.ml.tensorflow.sentencepiece._
+import com.johnsnowlabs.ml.util.LoadExternalModel.{
+  loadSentencePieceAsset,
+  loadTextAsset,
+  modelSanityCheck,
+  notSupportedEngineError
+}
+import com.johnsnowlabs.ml.util.ModelEngine
 import com.johnsnowlabs.nlp._
 import com.johnsnowlabs.nlp.serialization.MapFeature
-import com.johnsnowlabs.nlp.util.io.{ExternalResource, ReadAs, ResourceHelper}
 import org.apache.spark.broadcast.Broadcast
 import org.apache.spark.ml.param.{IntArrayParam, IntParam, Param, StringArrayParam}
 import org.apache.spark.ml.util.Identifiable
 import org.apache.spark.sql.SparkSession
-
-import java.io.File
 
 /** MarianTransformer: Fast Neural Machine Translation
   *
@@ -427,60 +431,47 @@ trait ReadMarianMTTensorflowModel extends ReadTensorflowModel with ReadSentenceP
 
   addReader(readTensorflow)
 
-  def loadSavedModel(folder: String, spark: SparkSession): MarianTransformer = {
+  def loadSavedModel(modelPath: String, spark: SparkSession): MarianTransformer = {
 
-    val f = new File(folder)
-    val assetsPath = folder + "/assets"
-    val savedModel = new File(folder, "saved_model.pb")
-    val sppSrcModel = new File(assetsPath, "source.spm")
-    val sppTrgModel = new File(assetsPath, "target.spm")
-    val sppVocab = new File(assetsPath, "vocabs.txt")
+    val detectedEngine = modelSanityCheck(modelPath)
 
-    require(f.exists, s"Folder $folder not found")
-    require(f.isDirectory, s"File $folder is not folder")
-    require(savedModel.exists(), s"savedModel file saved_model.pb not found in folder $folder")
-    require(
-      sppSrcModel.exists(),
-      s"SentencePiece model source.spm not found in folder $assetsPath")
-    require(
-      sppTrgModel.exists(),
-      s"SentencePiece model target.spm not found in folder $assetsPath")
-    require(
-      sppVocab.exists(),
-      s"SentencePiece model source.model not found in folder $assetsPath")
-
-    val vocabResource =
-      new ExternalResource(sppVocab.getAbsolutePath, ReadAs.TEXT, Map("format" -> "text"))
-    val words = ResourceHelper
-      .parseLines(vocabResource)
-      .zipWithIndex
-      .toMap
-      .toSeq
+    val sppSrc = loadSentencePieceAsset(modelPath, "source.spm")
+    val sppTrg = loadSentencePieceAsset(modelPath, "target.spm")
+    val vocabs = loadTextAsset(modelPath, "vocab.txt").zipWithIndex.toMap.toSeq
       .sortBy(_._2)
       .map(x => x._1.mkString)
       .toArray
 
-    val (wrapper, signatures) = TensorflowWrapper.read(
-      folder,
-      zipped = false,
-      useBundle = true,
-      tags = Array("serve"),
-      initAllTables = false)
-    val sppSrc = SentencePieceWrapper.read(sppSrcModel.toString)
-    val sppTrg = SentencePieceWrapper.read(sppTrgModel.toString)
+    /*Universal parameters for all engines*/
+    val annotatorModel = new MarianTransformer()
+      .setVocabulary(vocabs)
 
-    val _signatures = signatures match {
-      case Some(s) => s
-      case None => throw new Exception("Cannot load signature definitions from model!")
+    detectedEngine match {
+      case ModelEngine.tensorflow =>
+        val (wrapper, signatures) = TensorflowWrapper.read(
+          modelPath,
+          zipped = false,
+          useBundle = true,
+          tags = Array("serve"),
+          initAllTables = false)
+
+        val _signatures = signatures match {
+          case Some(s) => s
+          case None => throw new Exception("Cannot load signature definitions from model!")
+        }
+
+        /** the order of setSignatures is important if we use getSignatures inside
+          * setModelIfNotSet
+          */
+        annotatorModel
+          .setSignatures(_signatures)
+          .setModelIfNotSet(spark, wrapper, sppSrc, sppTrg)
+
+      case _ =>
+        throw new Exception(notSupportedEngineError)
     }
 
-    /** the order of setSignatures is important is we use getSignatures inside setModelIfNotSet */
-    val marianMT = new MarianTransformer()
-      .setVocabulary(words)
-      .setSignatures(_signatures)
-      .setModelIfNotSet(spark, wrapper, sppSrc, sppTrg)
-
-    marianMT
+    annotatorModel
   }
 }
 
