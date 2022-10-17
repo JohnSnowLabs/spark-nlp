@@ -15,8 +15,7 @@ sidebar:
 
 ## Recommended installation
 On Oct 4th, 2022 we released `johnsnowlabs` library, which eases the installation and session starting processes in an 
-almost transparent way for the user. Check documentation [here](https://nlu.johnsnowlabs.com/docs/en/install). We highly 
-recommend you to use this new library.
+almost transparent way for the user. Check documentation [here](https://nlu.johnsnowlabs.com/docs/en/install). We highly recommend you to use this new library.
 
 If you want to proceed with a custom installation, check the details in the sections below.
 
@@ -258,7 +257,7 @@ unmanagedJars in Compile += file("lib/sparknlp-jsl.jar")
 
 Databricks has an integration of Spark NLP libraries via Partner connect. If you are [eligible](https://docs.databricks.com/integrations/partner-connect/index.html?#requirements-1), you can [connect](https://docs.databricks.com/integrations/partner-connect/index.html?#quickstart-connect-to-a-partner-solution-using-partner-connect) your Databricks workspace to John Snow Labs. You will be redirected to John Snow Labs portal. You can purchase a license, thereby filling in your credit card information. It will create a new Databricks cluster, and the license files are then directly installed there. 
 
-There is a 30-days free trial licensing period. You can use the trial period only once. After the trial period, we will automatically start charging your credit card.  
+There is a 30-days free trial licensing period. You can use the trial period only once. After the trial period, we will contact you with a licensing offer.  
 
 - Start exploring preloaded notebooks `Workspace -> Shared -> John Snow Labs`
 
@@ -268,6 +267,15 @@ Alternatively, you can automatically deploy John Snow Labs libraries on Databric
 
 - Start exploring preloaded notebooks `Workspace -> Shared -> John Snow Labs`
 
+### Automatic deployment via my.JohnSnowLabs.com 
+
+Login to your account on my.JohnSnowLabs.com, navigate to 'My Subscriptions' page, and identify your license for Databricks. Click on the three dots as illustrated in the image below, then select the `Install On Cluster` option.
+
+<img class="image image--xl" src="/assets/images/myJSLdeployment.png" style="width:100%; align:center; box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);"/>
+
+On the install form, provide an access token for this account and then select the cluster where you want to install the libraries. The installation takes around 15 minutes. Once it is done, you will get an email with information on the status of your deployment and on how to get started with the libraries. 
+
+<img class="image image--xl" src="/assets/images/install_form.png" style="width:100%; align:center; box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);"/>
 ### Manual deployment of Enterprise Spark NLP
 
 1. Create a cluster if you don't have one already
