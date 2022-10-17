@@ -17,7 +17,7 @@ use_language_switcher: "Python-Scala-Java"
 
 ## Description
 
-This is a Legal Named Entity Recognition Model to identify the Subject (who), Action (web), Object(the indemnification) and Indirect Object (to whom) from Warranty clauses.
+This is a Legal Named Entity Recognition Model to identify the Subject (who), Action (what), Object(the indemnification) and Indirect Object (to whom) from Warranty clauses.
 
 ## Predicted Entities
 
@@ -62,7 +62,7 @@ ner_converter = nlp.NerConverter()\
 
 nlpPipeline = Pipeline(stages=[documentAssembler,sentenceDetector,tokenizer,embeddings,ner_model,ner_converter])
 
-data = spark.createDataFrame([["It has the right , without restriction , to grant the licenses granted under this Agreement."]]).toDF("text")
+data = spark.createDataFrame([["""8 . Representations and Warranties SONY hereby makes the following representations and warranties to PURCHASER , each of which shall be true and correct as of the date hereof and as of the Closing Date , and shall be unaffected by any investigation heretofore or hereafter made : 8.1 Power and Authority SONY has the right and power to enter into this IP Agreement and to transfer the Transferred Patents and to grant the license set forth in Section 3.1 ."""]]).toDF("text")
 
 result = nlpPipeline.fit(data).transform(data)
 ```
@@ -72,11 +72,17 @@ result = nlpPipeline.fit(data).transform(data)
 ## Results
 
 ```bash
-+----------------------------------------------------------------------------------------+--------+
-|chunk                                                                                   |entity  |
-+----------------------------------------------------------------------------------------+--------+
-|has the right , without restriction , to grant the licenses granted under this Agreement|WARRANTY|
-+----------------------------------------------------------------------------------------+--------+
++--------------------------------------------------------------------------+------------------------+
+|chunk                                                                     |entity                  |
++--------------------------------------------------------------------------+------------------------+
+|SONY                                                                      |WARRANTY_SUBJECT        |
+|makes the following representations and warranties                        |WARRANTY_ACTION         |
+|PURCHASER                                                                 |WARRANTY_INDIRECT_OBJECT|
+|shall be true and correct as of the date hereof and as of the Closing Date|WARRANTY                |
+|shall be unaffected by any investigation                                  |WARRANTY                |
+|SONY                                                                      |WARRANTY_SUBJECT        |
+|has the right and power to enter into this IP Agreement                   |WARRANTY                |
++--------------------------------------------------------------------------+------------------------+
 
 ```
 
