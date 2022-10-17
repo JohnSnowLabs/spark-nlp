@@ -39,7 +39,7 @@ object LoadExternalModel {
     require(f.isDirectory, s"Folder $modelPath is not folder")
 
     /*Check if the assets path is correct*/
-    val assetsPath = modelPath + "/assets"
+    val assetsPath = Paths.get(modelPath, "/assets").toString
     val assetsPathFile = new File(assetsPath)
     require(assetsPathFile.exists, s"Folder $assetsPath not found")
     require(assetsPathFile.isDirectory, s"Folder $assetsPath is not folder")
@@ -76,16 +76,19 @@ object LoadExternalModel {
   def retrieveModel(path: String): (URL, String) = {
 
     // TODO: Exception handling for S3, perhaps other file systems?
-//    if (!ResourceHelper.validFile(path)) throw new FileNotFoundException("File not found for ")
+    val localFileUri: URI =
+      try {
+        val localModelUri = ResourceHelper.copyToLocalSavedModel(path)
 
-    val localFileUri: URI = {
-      val localModelPath = ResourceHelper.copyToLocalSavedModel(path)
-      val uri = URI.create(localModelPath)
+        // Get absolute path so file protocol is included
+        if (Option(localModelUri.getScheme).isEmpty) Paths.get(localModelUri).toAbsolutePath.toUri
+        else localModelUri
+      } catch {
+        case e: Exception =>
+          throw new Exception(
+            s"Could not create temporary local directory for $path: ${e.getMessage}")
 
-      // Get absolute path so file protocol is included
-      if (Option(uri.getScheme).isEmpty) Paths.get(localModelPath).toAbsolutePath.toUri
-      else uri
-    }
+      }
 
     val localPath: String = localFileUri.getPath
 

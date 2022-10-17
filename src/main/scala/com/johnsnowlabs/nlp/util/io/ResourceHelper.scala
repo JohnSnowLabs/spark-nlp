@@ -26,7 +26,8 @@ import org.apache.spark.ml.{Pipeline, PipelineModel}
 import org.apache.spark.sql.{DataFrame, Dataset, SparkSession}
 
 import java.io._
-import java.net.{URL, URLDecoder}
+import java.net.{URI, URL, URLDecoder}
+import java.nio.file
 import java.nio.file.{Files, Paths}
 import java.util.jar.JarFile
 import scala.collection.mutable.{ArrayBuffer, Map => MMap}
@@ -110,35 +111,36 @@ object ResourceHelper {
       *
       * @param prefix
       *   Prefix for the temporary folder.
-      * @return
+      * @return URI of the created temporary folder with the resource
       */
-    def copyToLocalSavedModel(prefix: String = "sparknlp_tmp_"): String = {
+    def copyToLocalSavedModel(prefix: String = "sparknlp_tmp_"): URI = {
       if (fileSystem.getScheme == "file")
-        return resource
+        return path.toUri
 
-      val destination = Files.createTempDirectory(prefix)
-      val destinationUri = destination.toUri
+      val destination: file.Path = Files.createTempDirectory(prefix)
 
-      fileSystem.getScheme match {
+      val destinationUri = fileSystem.getScheme match {
         case "hdfs" =>
-          val files = fileSystem.listFiles(path, false)
-          while (files.hasNext) {
-            fileSystem.copyToLocalFile(files.next.getPath, new Path(destinationUri))
-          }
+          fileSystem.copyToLocalFile(false, path, new Path(destination.toUri), true)
+          if (fileSystem.getFileStatus(path).isDirectory)
+            Paths.get(destination.toString, path.getName).toUri
+          else destination.toUri
         case "dbfs" =>
           val dbfsPath = path.toString.replace("dbfs:/", "/dbfs/")
           val sourceFile = new File(dbfsPath)
           val targetFile = new File(destination.toString)
           if (sourceFile.isFile) FileUtils.copyFileToDirectory(sourceFile, targetFile)
           else FileUtils.copyDirectory(sourceFile, targetFile)
+          targetFile.toURI
         case _ =>
           val files = fileSystem.listFiles(path, false)
           while (files.hasNext) {
-            fileSystem.copyFromLocalFile(files.next.getPath, new Path(destinationUri))
+            fileSystem.copyFromLocalFile(files.next.getPath, new Path(destination.toUri))
           }
+          destination.toUri
       }
 
-      destinationUri.toString
+      destinationUri
     }
 
     def close(): Unit = {
@@ -161,7 +163,8 @@ object ResourceHelper {
     val resource = SourceStream(path)
     resource.copyToLocal()
   }
-  def copyToLocalSavedModel(path: String): String = {
+
+  def copyToLocalSavedModel(path: String): URI = {
     val resource = SourceStream(path)
     resource.copyToLocalSavedModel()
   }
