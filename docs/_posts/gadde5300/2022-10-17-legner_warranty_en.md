@@ -97,3 +97,21 @@ result = nlpPipeline.fit(data).transform(data)
 ## References
 
 In-house annotated examples from CUAD legal dataset
+
+## Benchmarking
+
+```bash
+                            precision    recall  f1-score   support
+                B-WARRANTY     0.8993    0.9178    0.9085       146
+         B-WARRANTY_ACTION     1.0000    0.9318    0.9647        44
+B-WARRANTY_INDIRECT_OBJECT     1.0000    0.9474    0.9730        19
+        B-WARRANTY_SUBJECT     0.8554    0.9726    0.9103        73
+                I-WARRANTY     0.9695    0.9618    0.9656      1885
+         I-WARRANTY_ACTION     0.9515    0.9800    0.9655       100
+I-WARRANTY_INDIRECT_OBJECT     0.8333    0.8333    0.8333         6
+        I-WARRANTY_SUBJECT     1.0000    0.9444    0.9714        36
+                         O     0.9758    0.9772    0.9765      3381
+                  accuracy                         0.9698      5690
+                 macro avg     0.9428    0.9407    0.9410      5690
+              weighted avg     0.9700    0.9698    0.9698      5690
+```
