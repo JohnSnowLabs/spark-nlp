@@ -8,7 +8,7 @@ tags: [en, finance, companies, tickers, nasdaq, licensed]
 task: Entity Resolution
 language: en
 edition: Spark NLP for Finance 1.0.0
-spark_version: 3.2
+spark_version: 3.0
 supported: true
 article_header:
   type: cover

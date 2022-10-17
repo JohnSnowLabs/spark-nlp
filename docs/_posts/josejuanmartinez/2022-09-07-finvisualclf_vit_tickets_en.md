@@ -8,7 +8,7 @@ tags: [en, finance, classification, tickets, licensed]
 task: Image Classification
 language: en
 edition: Spark NLP for Finance 1.0.0
-spark_version: 3.2
+spark_version: 3.0
 supported: true
 recommended: true
 article_header:
