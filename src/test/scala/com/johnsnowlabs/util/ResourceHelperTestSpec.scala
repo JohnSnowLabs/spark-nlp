@@ -17,10 +17,12 @@
 package com.johnsnowlabs.util
 
 import com.johnsnowlabs.nlp.util.io.{ExternalResource, ReadAs, ResourceHelper}
-import com.johnsnowlabs.tags.FastTest
+import com.johnsnowlabs.tags.{FastTest, SlowTest}
 import org.scalatest.flatspec.AnyFlatSpec
 
 import java.io.{File, FileNotFoundException}
+import java.net.URI
+import java.nio.file.Paths
 
 class ResourceHelperTestSpec extends AnyFlatSpec {
 
@@ -165,6 +167,37 @@ class ResourceHelperTestSpec extends AnyFlatSpec {
       assert(expectedBucket == actualBucket)
       assert(expectedKey == actualKey)
     }
+  }
+
+  it should "not copyToLocalSavedModel a local file" taggedAs FastTest in {
+    val resourcePath = "src/test/resources/tf-hub-bert/model"
+    val tmpFolder: String = ResourceHelper.copyToLocalSavedModel(resourcePath).getPath
+
+    assert (resourcePath == tmpFolder, "Folder should not have been copied.")
+  }
+
+  // Local HDFS needs to be set up
+  ignore should "copyToLocalSavedModel from hdfs" taggedAs SlowTest in {
+
+    // Folder
+    val hdfsFolderPath = "hdfs://localhost:9000/sparknlp/tf-hub-bert/model"
+    val resourcePath = "src/test/resources/tf-hub-bert/model"
+    val resourceFolderContent: Array[String] = new File(resourcePath).listFiles().map(_.getName)
+    val tmpFolder: URI = ResourceHelper.copyToLocalSavedModel(hdfsFolderPath)
+
+    val localPath = new File(tmpFolder)
+
+    localPath.listFiles().foreach { f: File =>
+      assert(
+        resourceFolderContent.contains(f.getName),
+        s"File $f missing in copied temporary folder $tmpFolder.")
+    }
+
+    // Single File
+    val hdfsFilePath = "hdfs://localhost:9000/sparknlp/tf-hub-bert/model/assets/vocab.txt"
+
+    val tmpFolderFile: String = ResourceHelper.copyToLocalSavedModel(hdfsFilePath).getPath
+    assert(Paths.get(tmpFolderFile, "vocab.txt").toFile.exists(), "Copied file doesn't exist.")
   }
 
 }
