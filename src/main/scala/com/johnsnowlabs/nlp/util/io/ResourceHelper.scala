@@ -106,6 +106,41 @@ object ResourceHelper {
       destination.toString
     }
 
+    /** Copies the resource into a local temporary folder and returns the folders URI.
+      *
+      * @param prefix
+      *   Prefix for the temporary folder.
+      * @return
+      */
+    def copyToLocalSavedModel(prefix: String = "sparknlp_tmp_"): String = {
+      if (fileSystem.getScheme == "file")
+        return resource
+
+      val destination = Files.createTempDirectory(prefix)
+      val destinationUri = destination.toUri
+
+      fileSystem.getScheme match {
+        case "hdfs" =>
+          val files = fileSystem.listFiles(path, false)
+          while (files.hasNext) {
+            fileSystem.copyToLocalFile(files.next.getPath, new Path(destinationUri))
+          }
+        case "dbfs" =>
+          val dbfsPath = path.toString.replace("dbfs:/", "/dbfs/")
+          val sourceFile = new File(dbfsPath)
+          val targetFile = new File(destination.toString)
+          if (sourceFile.isFile) FileUtils.copyFileToDirectory(sourceFile, targetFile)
+          else FileUtils.copyDirectory(sourceFile, targetFile)
+        case _ =>
+          val files = fileSystem.listFiles(path, false)
+          while (files.hasNext) {
+            fileSystem.copyFromLocalFile(files.next.getPath, new Path(destinationUri))
+          }
+      }
+
+      destinationUri.toString
+    }
+
     def close(): Unit = {
       openBuffers.foreach(_.close())
       pipe.foreach(_.close)
@@ -125,6 +160,10 @@ object ResourceHelper {
   def copyToLocal(path: String): String = {
     val resource = SourceStream(path)
     resource.copyToLocal()
+  }
+  def copyToLocalSavedModel(path: String): String = {
+    val resource = SourceStream(path)
+    resource.copyToLocalSavedModel()
   }
 
   /** NOT thread safe. Do not call from executors. */
@@ -154,7 +193,7 @@ object ResourceHelper {
 
     if (dirURL != null && dirURL.getProtocol.equals("file") && new File(dirURL.toURI).exists()) {
       /* A file path: easy enough */
-      return new File(dirURL.toURI).listFiles.sorted.map(_.getPath).map(fixTarget(_))
+      return new File(dirURL.toURI).listFiles.sorted.map(_.getPath).map(fixTarget)
     } else if (dirURL == null) {
       /* path not in resources and not in disk */
       throw new FileNotFoundException(path)
@@ -552,7 +591,7 @@ object ResourceHelper {
     val fileSystem = OutputHelper.getFileSystem
 
     val filesPath = fileSystem.getScheme match {
-      case "hdfs" => {
+      case "hdfs" =>
         if (path.startsWith("file:")) {
           Option(new File(path.replace("file:", "")).listFiles())
         } else {
@@ -566,7 +605,6 @@ object ResourceHelper {
 
           Option(files.toArray)
         }
-      }
       case "dbfs" if path.startsWith("dbfs:") =>
         Option(new File(path.replace("dbfs:", "/dbfs/")).listFiles())
       case _ => Option(new File(path).listFiles())
@@ -579,11 +617,10 @@ object ResourceHelper {
   def getFileFromPath(pathToFile: String): File = {
     val fileSystem = OutputHelper.getFileSystem
     val filePath = fileSystem.getScheme match {
-      case "hdfs" => {
+      case "hdfs" =>
         if (pathToFile.startsWith("file:")) {
           new File(pathToFile.replace("file:", ""))
         } else new File(pathToFile)
-      }
       case "dbfs" if pathToFile.startsWith("dbfs:") =>
         new File(pathToFile.replace("dbfs:", "/dbfs/"))
       case _ => new File(pathToFile)
@@ -605,6 +642,13 @@ object ResourceHelper {
       }
     }
 
+    if (!isValid) {
+      validDbfsFile(path) match {
+        case Success(value) => isValid = value
+        case Failure(_) => isValid = false
+      }
+    }
+
     isValid
   }
 
@@ -616,6 +660,10 @@ object ResourceHelper {
     val hadoopPath = new Path(path)
     val fileSystem = OutputHelper.getFileSystem
     fileSystem.exists(hadoopPath)
+  }
+
+  private def validDbfsFile(path: String): Try[Boolean] = Try {
+    getFileFromPath(path).exists()
   }
 
   def moveFile(sourceFile: String, destinationFile: String): Unit = {
