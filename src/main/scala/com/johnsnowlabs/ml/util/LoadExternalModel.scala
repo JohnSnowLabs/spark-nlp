@@ -61,6 +61,13 @@ object LoadExternalModel {
 
   }
 
+  /** @param assetPath
+    *   path to root of assets directory
+    * @param assetName
+    *   asset's name
+    * @return
+    *   Array[String]
+    */
   def loadTextAsset(assetPath: String, assetName: String): Array[String] = {
     val assetFile = checkAndCreateFile(assetPath + "/assets", assetName)
     val assetResource =
@@ -68,17 +75,38 @@ object LoadExternalModel {
     ResourceHelper.parseLines(assetResource)
   }
 
+  /** @param assetPath
+    *   path to root of assets directory
+    * @param assetName
+    *   asset's name
+    * @return
+    *   SentencePieceWrapper
+    */
   def loadSentencePieceAsset(assetPath: String, assetName: String): SentencePieceWrapper = {
     val assetFile = checkAndCreateFile(assetPath + "/assets", assetName)
     SentencePieceWrapper.read(assetFile.toString)
   }
 
+  /** @param assetPath
+    *   path to root of assets directory
+    * @param assetName
+    *   asset's name
+    * @return
+    *   JSON as String to be parsed later
+    */
   def loadJsonStringAsset(assetPath: String, assetName: String): String = {
     val assetFile = checkAndCreateFile(assetPath + "/assets", assetName)
     val vocabStream = ResourceHelper.getResourceStream(assetFile.getAbsolutePath)
     Source.fromInputStream(vocabStream).mkString
   }
 
+  /** @param filePath
+    *   path to the file
+    * @param fileName
+    *   file's name
+    * @return
+    *   File if the file exists
+    */
   private def checkAndCreateFile(filePath: String, fileName: String): File = {
     val f = new File(filePath, fileName)
     require(f.exists(), s"File $fileName not found in folder $filePath")
