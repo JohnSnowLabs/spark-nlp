@@ -22,13 +22,16 @@ import com.johnsnowlabs.ml.tensorflow.{
   TensorflowWrapper,
   WriteTensorflowModel
 }
-import com.johnsnowlabs.ml.util.LoadExternalModel.{modelSanityCheck, notSupportedEngineError}
+import com.johnsnowlabs.ml.util.LoadExternalModel.{
+  loadJsonStringAsset,
+  modelSanityCheck,
+  notSupportedEngineError
+}
 import com.johnsnowlabs.ml.util.ModelEngine
 import com.johnsnowlabs.nlp.AnnotatorType.{CATEGORY, IMAGE}
 import com.johnsnowlabs.nlp._
 import com.johnsnowlabs.nlp.annotators.cv.feature_extractor.Preprocessor
 import com.johnsnowlabs.nlp.serialization.MapFeature
-import com.johnsnowlabs.nlp.util.io.ResourceHelper
 import org.apache.spark.broadcast.Broadcast
 import org.apache.spark.ml.param.IntArrayParam
 import org.apache.spark.ml.util.Identifiable
@@ -37,7 +40,6 @@ import org.json4s._
 import org.json4s.jackson.JsonMethods._
 
 import java.io.File
-import scala.io.Source
 
 /** Vision Transformer (ViT) for image classification.
   *
@@ -343,24 +345,15 @@ trait ReadViTForImageTensorflowModel extends ReadTensorflowModel {
 
     val detectedEngine = modelSanityCheck(modelPath)
 
-    val labelsPath = new File(modelPath + "/assets", "labels.json")
-    require(
-      labelsPath.exists(),
-      s"Labels file labels.json not found in folder $modelPath/assets/")
-
-    val labelStream = ResourceHelper.getResourceStream(labelsPath.getAbsolutePath)
-    val labelJsonContent = Source.fromInputStream(labelStream).mkString
+    val labelJsonContent = loadJsonStringAsset(modelPath, "labels.json")
     val labelJsonMap =
       parse(labelJsonContent, useBigIntForLong = true).values
         .asInstanceOf[Map[String, BigInt]]
 
-    val preprocessorConfigPath = new File(modelPath + "/assets", "preprocessor_config.json")
-    require(
-      preprocessorConfigPath.exists(),
-      s"Labels file preprocessor_config.json not found in folder $modelPath/assets/")
-
+    val preprocessorConfigJsonContent =
+      loadJsonStringAsset(modelPath, "preprocessor_config.json")
     val preprocessorConfig =
-      Preprocessor.loadPreprocessorConfig(preprocessorConfigPath.getAbsolutePath)
+      Preprocessor.loadPreprocessorConfig(preprocessorConfigJsonContent)
 
     /*Universal parameters for all engines*/
     val annotatorModel = new ViTForImageClassification()
