@@ -20,6 +20,7 @@ import com.johnsnowlabs.ml.tensorflow.sentencepiece.SentencePieceWrapper
 import com.johnsnowlabs.nlp.util.io.{ExternalResource, ReadAs, ResourceHelper}
 
 import java.io.File
+import scala.io.Source
 
 object LoadExternalModel {
 
@@ -70,6 +71,12 @@ object LoadExternalModel {
   def loadSentencePieceAsset(assetPath: String, assetName: String): SentencePieceWrapper = {
     val assetFile = checkAndCreateFile(assetPath + "/assets", assetName)
     SentencePieceWrapper.read(assetFile.toString)
+  }
+
+  def loadJsonStringAsset(assetPath: String, assetName: String): String = {
+    val assetFile = checkAndCreateFile(assetPath + "/assets", assetName)
+    val vocabStream = ResourceHelper.getResourceStream(assetFile.getAbsolutePath)
+    Source.fromInputStream(vocabStream).mkString
   }
 
   private def checkAndCreateFile(filePath: String, fileName: String): File = {
