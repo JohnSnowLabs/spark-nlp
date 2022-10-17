@@ -535,8 +535,7 @@
 
   <h2 id="recommended-installation">Recommended installation</h2>
   <p>On Oct 4th, 2022 we released <code class="language-plaintext highlighter-rouge">johnsnowlabs</code> library, which eases the installation and session starting processes in an 
-almost transparent way for the user. Check documentation <a href="https://nlu.johnsnowlabs.com/docs/en/install">here</a>. We highly 
-recommend you to use this new library.</p>
+almost transparent way for the user. Check documentation <a href="https://nlu.johnsnowlabs.com/docs/en/install">here</a>. We highly recommend you to use this new library.</p>
 
   <p>If you want to proceed with a custom installation, check the details in the sections below.</p>
 
@@ -775,14 +774,38 @@ spark-submit <span class="nt">--packages</span> com.johnsnowlabs.nlp:spark-nlp_2
 
   <h2 id="install-on-databricks">Install on Databricks</h2>
 
+  <ul>
+    <li>List of <a href="/docs/en/install#databricks-support">tested runtimes</a>.</li>
+    <li>Recommended instance type <code class="language-plaintext highlighter-rouge">Standard_F8s_v2 (16 GB Memory, 8 Cores)</code> or better.</li>
+  </ul>
+
+  <h3 id="connection-via-databricks-partner-connect">Connection via Databricks Partner connect</h3>
+
+  <p>Databricks has an integration of Spark NLP libraries via Partner connect. If you are <a href="https://docs.databricks.com/integrations/partner-connect/index.html?#requirements-1">eligible</a>, you can <a href="https://docs.databricks.com/integrations/partner-connect/index.html?#quickstart-connect-to-a-partner-solution-using-partner-connect">connect</a> your Databricks workspace to John Snow Labs. You will be redirected to John Snow Labs portal. You can purchase a license, thereby filling in your credit card information. It will create a new Databricks cluster, and the license files are then directly installed there.</p>
+
+  <p>There is a 30-days free trial licensing period. You can use the trial period only once. After the trial period, we will contact you with a licensing offer.</p>
+
+  <ul>
+    <li>Start exploring preloaded notebooks <code class="language-plaintext highlighter-rouge">Workspace -&gt; Shared -&gt; John Snow Labs</code></li>
+  </ul>
+
   <h3 id="automatic-deployment-of-john-snow-labs-nlp-libraries">Automatic deployment of John Snow Labs NLP libraries</h3>
 
-  <p>You can automatically deploy John Snow Labs libraries on Databricks by filling in the form available <a href="https://www.johnsnowlabs.com/databricks/">here</a>. 
-This will allow you to start a 30-day free trial with no limit on the amount of processed data. You just need to provide a Databricks Access Token that is used by our deployment script to connect to your Databricks instance and install John Snow Labs NLP libraries on a cluster of your choice.</p>
+  <p>Alternatively, you can automatically deploy John Snow Labs libraries on Databricks by filling in the form available <a href="https://www.johnsnowlabs.com/databricks/">here</a>. This will allow you to start a 30-day free trial with no limit on the amount of processed data. You just need to provide a Databricks Access Token that is used by our deployment script to connect to your Databricks instance and install John Snow Labs NLP libraries on a cluster of your choice.</p>
 
-</div>
-<div class="h3-box">
+  <ul>
+    <li>Start exploring preloaded notebooks <code class="language-plaintext highlighter-rouge">Workspace -&gt; Shared -&gt; John Snow Labs</code></li>
+  </ul>
 
+  <h3 id="automatic-deployment-via-myjohnsnowlabscom">Automatic deployment via my.JohnSnowLabs.com</h3>
+
+  <p>Login to your account on my.JohnSnowLabs.com, navigate to ‘My Subscriptions’ page, and identify your license for Databricks. Click on the three dots as illustrated in the image below, then select the <code class="language-plaintext highlighter-rouge">Install On Cluster</code> option.</p>
+
+  <p><img class="image image--xl" src="/assets/images/myJSLdeployment.png" style="width:100%; align:center; box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);" /></p>
+
+  <p>On the install form, provide an access token for this account and then select the cluster where you want to install the libraries. The installation takes around 15 minutes. Once it is done, you will get an email with information on the status of your deployment and on how to get started with the libraries.</p>
+
+  <p><img class="image image--xl" src="/assets/images/install_form.png" style="width:100%; align:center; box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);" /></p>
   <h3 id="manual-deployment-of-enterprise-spark-nlp">Manual deployment of Enterprise Spark NLP</h3>
 
   <ol>
@@ -792,16 +815,17 @@ This will allow you to start a 30-day free trial with no limit on the amount of 
 
       <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> spark.kryoserializer.buffer.max 1000M
  spark.serializer org.apache.spark.serializer.KryoSerializer
- spark.driver.extraJavaOptions <span class="nt">-Dspark</span>.jsl.settings.pretrained.credentials.secret_access_key<span class="o">=</span>xxx <span class="nt">-Dspark</span>.jsl.settings.pretrained.credentials.access_key_id<span class="o">=</span>yyy
-
 </code></pre></div>      </div>
       <ul>
         <li>Please add the following to the <code class="language-plaintext highlighter-rouge">Advanced Options -&gt; Spark</code> tab, in <code class="language-plaintext highlighter-rouge">Environment Variables</code> box:</li>
       </ul>
 
-      <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="nv">SPARK_NLP_LICENSE</span><span class="o">=</span>zzz
+      <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="nv">AWS_ACCESS_KEY_ID</span><span class="o">=</span>xxx
+ <span class="nv">AWS_SECRET_ACCESS_KEY</span><span class="o">=</span>yyy
+ <span class="nv">SPARK_NLP_LICENSE</span><span class="o">=</span>zzz
+ <span class="nv">SPARK_OCR_LICENSE</span><span class="o">=</span>aaa
 </code></pre></div>      </div>
-      <p>Note: Spark-NLP for Healthcare also support reading the license from the Databricks DFS, on the fixed location, dbfs:/FileStore/johnsnowlabs/license.key. 
+      <p>Note: Enterprise Spark NLP also support reading the license from the Databricks DFS, on the fixed location, dbfs:/FileStore/johnsnowlabs/license.key. 
 The precedence for that location is the highest, so make sure that file is not containing any outdated license key.</p>
 
       <ul>
@@ -833,7 +857,7 @@ The precedence for that location is the highest, so make sure that file is not c
         <li>Install New -&gt; Maven -&gt; Coordinates -&gt; <code class="language-plaintext highlighter-rouge">com.johnsnowlabs.nlp:spark-nlp_2.12:${version}</code> -&gt; Install</li>
         <li>Please add following jars:
           <ul>
-            <li>Install New -&gt; python Whl -&gt; upload <code class="language-plaintext highlighter-rouge">https://pypi.johnsnowlabs.com/${secret.code}/spark-nlp-jsl/spark_nlp_jsl-${version}-py3-none-any.whl</code></li>
+            <li>Install New -&gt; Python Whl -&gt; upload <code class="language-plaintext highlighter-rouge">https://pypi.johnsnowlabs.com/${secret.code}/spark-nlp-jsl/spark_nlp_jsl-${version}-py3-none-any.whl</code></li>
             <li>Install New -&gt; Jar -&gt; upload <code class="language-plaintext highlighter-rouge">https://pypi.johnsnowlabs.com/${secret.code}/spark-nlp-jsl-${version}.jar</code></li>
           </ul>
         </li>
@@ -841,9 +865,6 @@ The precedence for that location is the highest, so make sure that file is not c
     </li>
     <li>Now you can attach your notebook to the cluster and use Spark NLP!</li>
   </ol>
-
-</div>
-<div class="h3-box">
 
   <h2 id="windows-support">Windows Support</h2>
 
