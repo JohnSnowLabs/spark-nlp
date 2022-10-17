@@ -1,6 +1,6 @@
 ---
 layout: model
-title: Financial Relation Extraction (Stock Ticker)
+title: Financial Relation Extraction (Tickers)
 author: John Snow Labs
 name: finre_has_ticker
 date: 2022-10-15
@@ -37,6 +37,7 @@ Ticker: `AAPL`
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
+
 ```python
 document_assembler = nlp.DocumentAssembler()\
     .setInputCol("text")\
@@ -76,11 +77,11 @@ chunk_merger = finance.ChunkMergeApproach()\
     .setOutputCol('ner_chunk')\
     .setMergeOverlapping(True)\
 
-pos = PerceptronModel.pretrained("pos_anc", 'en')\
+pos = nlp.PerceptronModel.pretrained("pos_anc", 'en')\
      .setInputCols("sentence", "token")\
      .setOutputCol("pos")
     
-dependency_parser = DependencyParserModel().pretrained("dependency_conllu", "en")\
+dependency_parser = nlp.DependencyParserModel().pretrained("dependency_conllu", "en")\
     .setInputCols(["sentence", "pos", "token"])\
     .setOutputCol("dependencies")
 
