@@ -1,6 +1,6 @@
 ---
 layout: model
-title: Legal Warranty NER
+title: Legal Confidentiality NER
 author: John Snow Labs
 name: legner_confidentiality
 date: 2022-10-17
