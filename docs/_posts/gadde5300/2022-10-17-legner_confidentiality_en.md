@@ -62,7 +62,7 @@ ner_converter = nlp.NerConverter()\
 
 nlpPipeline = Pipeline(stages=[documentAssembler,sentenceDetector,tokenizer,embeddings,ner_model,ner_converter])
 
-data = spark.createDataFrame([["( b ) not to use such Confidential Information and Know-How of the Disclosing Party for any purpose other than those set forth herein ."]]).toDF("text")
+data = spark.createDataFrame([["Each party will promptly return to the other upon request any Confidential Information of the other party then in its possession or under its control."]]).toDF("text")
 
 result = nlpPipeline.fit(data).transform(data)
 ```
@@ -72,12 +72,14 @@ result = nlpPipeline.fit(data).transform(data)
 ## Results
 
 ```bash
+
 +------------------------+-------------------------------+
 |chunk                   |entity                         |
 +------------------------+-------------------------------+
-|not to use              |CONFIDENTIALITY_ACTION         |
+|Each party              |CONFIDENTIALITY_SUBJECT        |
+|will promptly return    |CONFIDENTIALITY_ACTION         |
+|other                   |CONFIDENTIALITY_INDIRECT_OBJECT|
 |Confidential Information|CONFIDENTIALITY                |
-|Disclosing Party        |CONFIDENTIALITY_INDIRECT_OBJECT|
 +------------------------+-------------------------------+
 
 ```
