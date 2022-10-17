@@ -8,7 +8,7 @@ tags: [en, legal, ner, zero, shot, zeroshot, licensed]
 task: Named Entity Recognition
 language: en
 edition: Spark NLP for Legal 1.0.0
-spark_version: 3.2
+spark_version: 3.0
 supported: true
 recommended: true
 article_header:

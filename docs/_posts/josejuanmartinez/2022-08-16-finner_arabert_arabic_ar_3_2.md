@@ -8,7 +8,7 @@ tags: [ar, financial, licensed]
 task: Named Entity Recognition
 language: ar
 edition: Spark NLP for Finance 1.0.0
-spark_version: 3.2
+spark_version: 3.0
 supported: true
 article_header:
   type: cover
