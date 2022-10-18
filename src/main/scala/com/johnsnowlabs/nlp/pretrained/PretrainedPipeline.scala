@@ -88,11 +88,6 @@ case class PretrainedPipeline(
 
   lazy val lightModel = new LightPipeline(model, parseEmbeddingsVectors)
 
-  def annotate(dataset: DataFrame, inputColumn: String): DataFrame = {
-    model
-      .transform(dataset.withColumnRenamed(inputColumn, "text"))
-  }
-
   def annotate(target: String): Map[String, Seq[String]] = lightModel.annotate(target)
 
   def annotate(target: Array[String]): Array[Map[String, Seq[String]]] =

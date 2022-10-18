@@ -73,7 +73,7 @@ class LightPipeline:
             annotation_type = annotation.toString()[:index]
 
             if annotation_type == "AnnotationImage":
-                result = self._get_result(annotation)
+                result = self.__get_result(annotation)
                 annotations.append(
                     AnnotationImage(annotation.annotatorType(),
                                     annotation.origin(),
@@ -81,13 +81,14 @@ class LightPipeline:
                                     annotation.width(),
                                     annotation.nChannels(),
                                     annotation.mode(),
-                                    list(annotation.result()),
+                                    result,
                                     annotation.metadata())
                 )
             elif annotation_type == "AnnotationAudio":
+                result = self.__get_result(annotation)
                 annotations.append(
                     AnnotationAudio(annotation.annotatorType(),
-                                    list(annotation.result()),
+                                    result,
                                     annotation.metadata())
                 )
             else:
@@ -101,7 +102,8 @@ class LightPipeline:
                 )
         return annotations
 
-    def _get_result(self, annotation):
+    @staticmethod
+    def __get_result(annotation):
         try:
             result = list(annotation.result())
         except TypeError:

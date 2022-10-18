@@ -85,17 +85,11 @@ class PretrainedPipeline:
         >>> result["ner"]
         ['B-ORG', 'O', 'O', 'B-PER', 'O', 'O', 'B-LOC', 'O']
         """
-        if type(target) is DataFrame:
-            if not column:
-                raise Exception("annotate() column arg needed when targeting a DataFrame")
-            return self.model.transform(target.withColumnRenamed(column, "text"))
-        elif type(target) is list or type(target) is str:
-            pipeline = self.light_model
-            return pipeline.annotate(target)
-        else:
-            raise Exception("target must be either a spark DataFrame, a list of strings or a string")
 
-    def fullAnnotate(self, target, column=None):
+        annotations = self.light_model.annotate(target)
+        return annotations
+
+    def fullAnnotate(self, target, optional_target=""):
         """Annotates the data provided into `Annotation` type results.
 
         The data should be either a list or a str.
@@ -127,15 +121,8 @@ class PretrainedPipeline:
         Annotation(named_entity, 30, 36, B-LOC, {'word': 'Baghdad'}),
         Annotation(named_entity, 37, 37, O, {'word': '.'})]
         """
-        if type(target) is DataFrame:
-            if not column:
-                raise Exception("annotate() column arg needed when targeting a DataFrame")
-            return self.model.transform(target.withColumnRenamed(column, "text"))
-        elif type(target) is list or type(target) is str:
-            pipeline = self.light_model
-            return pipeline.fullAnnotate(target)
-        else:
-            raise Exception("target must be either a spark DataFrame, a list of strings or a string")
+        annotations = self.light_model.fullAnnotate(target, optional_target)
+        return annotations
 
     def fullAnnotateImage(self, path_to_image):
         """Annotates the data provided into `Annotation` type results.
