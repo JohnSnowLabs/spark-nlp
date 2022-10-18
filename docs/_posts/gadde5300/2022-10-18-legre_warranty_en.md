@@ -63,8 +63,36 @@ reDL = legal.RelationExtractionDLModel.pretrained("legre_warranty", "en", "legal
     
 pipeline = Pipeline(stages=[documentAssembler, tokenizer, embeddings, ner_model, ner_converter, reDL])
 ```
-
 </div>
+
+## Results
+
+```bash
+|relation           |entity1         |entity1_begin|entity1_end|chunk1                               |entity2         |entity2_begin|entity2_end|chunk2                               |confidence|
+|-------------------|----------------|-------------|-----------|-------------------------------------|----------------|-------------|-----------|-------------------------------------|----------|
+|is_warranty_subject|WARRANTY        |4            |16         |has the right                        |WARRANTY_SUBJECT|118          |123        |XENCOR                               |0.9466976 |
+|is_warranty_subject|WARRANTY        |4            |16         |has the right                        |WARRANTY_ACTION |132          |139        |warrants                             |0.67225415|
+|is_warranty_subject|WARRANTY        |4            |16         |has the right                        |WARRANTY        |159          |195        |has the right to provide the Material|0.87391967|
+|is_warranty_object |WARRANTY        |4            |16         |has the right                        |WARRANTY        |202          |218        |XENCOR Technology                    |0.88958645|
+|is_warranty_object |WARRANTY        |4            |16         |has the right                        |WARRANTY        |225          |252        |XENCOR Intellectual Property         |0.8665168 |
+|is_warranty_object |WARRANTY        |4            |16         |has the right                        |WARRANTY        |384          |419        |that there are no third party rights |0.7922626 |
+|is_warranty_subject|WARRANTY_SUBJECT|118          |123        |XENCOR                               |WARRANTY_ACTION |132          |139        |warrants                             |0.96969295|
+|is_warranty_subject|WARRANTY_SUBJECT|118          |123        |XENCOR                               |WARRANTY        |159          |195        |has the right to provide the Material|0.79866207|
+|is_warranty_object |WARRANTY_SUBJECT|118          |123        |XENCOR                               |WARRANTY        |202          |218        |XENCOR Technology                    |0.9910159 |
+|is_warranty_object |WARRANTY_SUBJECT|118          |123        |XENCOR                               |WARRANTY        |225          |252        |XENCOR Intellectual Property         |0.98841876|
+|is_warranty_object |WARRANTY_SUBJECT|118          |123        |XENCOR                               |WARRANTY        |384          |419        |that there are no third party rights |0.97111255|
+|is_warranty_subject|WARRANTY_ACTION |132          |139        |warrants                             |WARRANTY        |159          |195        |has the right to provide the Material|0.81981117|
+|is_warranty_object |WARRANTY_ACTION |132          |139        |warrants                             |WARRANTY        |202          |218        |XENCOR Technology                    |0.9782923 |
+|is_warranty_object |WARRANTY_ACTION |132          |139        |warrants                             |WARRANTY        |225          |252        |XENCOR Intellectual Property         |0.97429705|
+|is_warranty_object |WARRANTY_ACTION |132          |139        |warrants                             |WARRANTY        |384          |419        |that there are no third party rights |0.96212465|
+|is_warranty_object |WARRANTY        |159          |195        |has the right to provide the Material|WARRANTY        |202          |218        |XENCOR Technology                    |0.8761815 |
+|is_warranty_object |WARRANTY        |159          |195        |has the right to provide the Material|WARRANTY        |225          |252        |XENCOR Intellectual Property         |0.84010834|
+|is_warranty_object |WARRANTY        |159          |195        |has the right to provide the Material|WARRANTY        |384          |419        |that there are no third party rights |0.7867731 |
+|is_warranty_object |WARRANTY        |202          |218        |XENCOR Technology                    |WARRANTY        |225          |252        |XENCOR Intellectual Property         |0.804943  |
+|is_warranty_object |WARRANTY        |202          |218        |XENCOR Technology                    |WARRANTY        |384          |419        |that there are no third party rights |0.7577851 |
+|is_warranty_object |WARRANTY        |225          |252        |XENCOR Intellectual Property         |WARRANTY        |384          |419        |that there are no third party rights |0.7666794 |
+
+```
 
 {:.model-param}
 ## Model Information
@@ -81,3 +109,17 @@ pipeline = Pipeline(stages=[documentAssembler, tokenizer, embeddings, ner_model,
 ## References
 
 In-house annotated examples from CUAD legal dataset
+
+## Benchmarking
+
+```bash
+Relation                Recall    Precision F1          Support
+
+is_warranty_indobject   1.000     1.000     1.000        15
+is_warranty_object      1.000     1.000     1.000        44
+is_warranty_subject     1.000     1.000     1.000        29
+
+Avg.                    1.000     1.000     1.000
+
+Weighted Avg.           1.000     1.000     1.000
+```
