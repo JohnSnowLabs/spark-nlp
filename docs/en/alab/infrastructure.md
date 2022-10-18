@@ -27,6 +27,6 @@ Since version 2.8.0, Annotation Lab gives users the ability to change the config
 4.  Spark Kryo Buff Max – Specifies the maximum memory size to allocate for the Kryo serialization buffer.
 5.  Spark Driver Maximum Result Size – Represents the total size of the serialized results of all the partitions for spark.
 
-<img class="image image--xl" src="/assets/images/annotation_lab/4.1.0/infrastructure.png" style="width:100%; align:center; box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);"/>
+<img class="image image__shadow" src="/assets/images/annotation_lab/4.1.0/infrastructure.png" style="width:100%;"/>
 
 > **Note:** If the specified configurations exceed the available resources, the server will not start.

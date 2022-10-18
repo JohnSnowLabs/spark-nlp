@@ -49,7 +49,7 @@ backup.files=false
 
 In 2.8.0 release, Annotation Lab added support for defining database and files backups via the UI. An _admin_ user can view and edit the backup settings under the **Settings** menu. Users can select different backup periods and can specify a target S3 bucket for storing the backup files. New backups will be automatically generated and saved to the S3 bucket following the defined schedule.
 
-<img class="image image--xl" src="/assets/images/annotation_lab/4.1.0/backupRestoreUI.png" style="width:100%; align:center; box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);"/>
+<img class="image image__shadow" src="/assets/images/annotation_lab/4.1.0/backupRestoreUI.png" style="width:100%;"/>
 
 ## Restore
 

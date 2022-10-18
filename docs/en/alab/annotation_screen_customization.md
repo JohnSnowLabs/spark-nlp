@@ -52,7 +52,7 @@ hotkey  |string     |Hotkey to use to focus on the filter text area
 
 
 
-<img class="image image--xl" src="/assets/images/annotation_lab/2.6.0/filter.png" style="width:100%; align:center; box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);"/>
+<img class="image image__shadow" src="/assets/images/annotation_lab/2.6.0/filter.png" style="width:100%;"/>
 
 For obtaining the above display on a NER project, the config should look as follows:
 
@@ -71,7 +71,7 @@ For obtaining the above display on a NER project, the config should look as foll
 ```
 
 Notice how users can search for the desired label using the filter bar:
-<img class="image image--xl" src="/assets/images/annotation_lab/2.6.0/ner_label_search.gif" style="width:100%; align:center; box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);"/>
+<img class="image image__shadow" src="/assets/images/annotation_lab/2.6.0/ner_label_search.gif" style="width:100%;"/>
 
 
 ## Resizable labels area and textbox area 
@@ -95,7 +95,7 @@ To add the scroll bar, the `View` tag with `overflow-y:scroll` attribute can be 
 
 Once it has been added and saved to the Project Configuration, the scroll bar should be visible.
 
-<img class="image image--xl" src="/assets/images/annotation_lab/2.6.0/scroll_bar.png" style="width:100%; align:center; box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);"/>
+<img class="image image__shadow" src="/assets/images/annotation_lab/2.6.0/scroll_bar.png" style="width:100%;"/>
 
 **Example**
 Using the following Project Configuration 
@@ -119,4 +119,4 @@ Using the following Project Configuration
 ```
 
 we'll obtain the output illustrated below:
-<img class="image image--xl" src="/assets/images/annotation_lab/2.6.0/scroll_and_filter.gif" style="width:100%; align:center; box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);"/>
+<img class="image image__shadow" src="/assets/images/annotation_lab/2.6.0/scroll_and_filter.gif" style="width:100%;"/>

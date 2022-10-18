@@ -15,12 +15,12 @@ sidebar:
 
 When you login to the Annotation Lab, you will be presented with the list of available projects you have created (**My Projects**) or that have been shared with you (**Shared With Me**). Some basic information are shown for each project the total number of tasks and the creation date.   
 
-<img class="image image--xl" src="/assets/images/annotation_lab/StartPage.png" style="width:100%; align:center; box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);"/>
+<img class="image image__shadow" src="/assets/images/annotation_lab/StartPage.png" style="width:100%;"/>
 
 
 The list of projects can be sorted ascending or descending on the project creation date. 
 
-<img class="image image--xl" src="/assets/images/annotation_lab/SortProjects.png" style="width:100%; align:center; box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);"/>
+<img class="image image__shadow" src="/assets/images/annotation_lab/SortProjects.png" style="width:100%;"/>
 
 
 ## Project Grouping
@@ -29,16 +29,16 @@ As the number of projects can grow significantly over time, for an easier manage
 
 The list of visible projects can be filtered based on group name, or using the search functionality which applies to both group name and project name. 
 
-<img class="image image--xl" src="/assets/images/annotation_lab/1.6.0/project_group.png" style="width:100%; align:center; box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);"/>
+<img class="image image__shadow" src="/assets/images/annotation_lab/1.6.0/project_group.png" style="width:100%;"/>
 
 ## Project Cloning and Backup
 In previous versions, it was possible to Import/Export Tasks only from a Project. Apart from the Tasks other components like Project Configuration, Tags, etc. could not be easily exported/imported. Since release 3.2.0, it is possible to perform the import/export of an entire Project. All project-related items (tasks, project configuration, project members, task assignments) can be imported/exported. 
 
-<img class="image image--xl" src="/assets/images/annotation_lab/anno_backup_clone.gif" style="width:100%; align:center; box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);"/>
+<img class="image image__shadow" src="/assets/images/annotation_lab/anno_backup_clone.gif" style="width:100%;"/>
 
 In addition, users can clone an existing project as well.
 
-<img class="image image--xl" src="/assets/images/annotation_lab/anno_clone.png" style="width:100%; align:center; box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);"/>
+<img class="image image__shadow" src="/assets/images/annotation_lab/anno_clone.png" style="width:100%;"/>
 
 
 

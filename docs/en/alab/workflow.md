@@ -18,7 +18,7 @@ When a team of people work together on a large annotation project, the tasks can
 In this situation, a workflow can be setup using the task tagging functionality provided by the Annotation Lab. Then can be used for splitting work across the team but also for differentiating between first-level annotators and second-level reviewers.  
 
 
-<img class="image image--xl" src="/assets/images/annotation_lab/tags.png" style="width:100%; align:center; box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);"/>
+<img class="image image__shadow" src="/assets/images/annotation_lab/tags.png" style="width:100%;"/>
 
 
 A full audit trail is kept on each action performed by all actors. Each saved entry is stored along with an authenticated user and a time stamp, and the user interface includes a visual comparison between versions.
@@ -26,4 +26,4 @@ A full audit trail is kept on each action performed by all actors. Each saved en
 
 To add a tag, select a task and press Tags > Add more. Tasks can be filtered by tags, making it easier to identify, for example, which documents are completed and which ones need to be reviewed.
  
-<img class="image image--xl" src="/assets/images/annotation_lab/tags2.png" style="width:100%; align:center; box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);"/>
+<img class="image image__shadow" src="/assets/images/annotation_lab/tags2.png" style="width:100%;"/>

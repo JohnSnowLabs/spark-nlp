@@ -19,16 +19,16 @@ By default, dashboards in the Analytics page is disabled for a project. Users ca
 
 The Analytics Requests page lists all the pending requests for the Analytics page from one or more users. The _admin_ user can grant or deny the permission to the requests as needed. It is accessible from `Settings > Analytics Requests`. Each request contains information such as the name of project for which the analytics request was made, the user who initiated the request, and the date when the request was made.
 
-<img class="image image--xl" src="/assets/images/annotation_lab/4.1.0/analytics_requests.png" style="width:100%; align:center; box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);"/>
+<img class="image image__shadow" src="/assets/images/annotation_lab/4.1.0/analytics_requests.png" style="width:100%;"/>
 
 **Granting a request**
 
 All the requests granted by the _admin_ user is listed under this tab. The table shows information about the granted requests, like the name of the project for which the analytics request was made, the user who initiated the request, the user who granted the request, the date when the request was granted, the latest date when the analytics were updated. The _admin_ user can also revoke an already granted request from this list.
 
-<img class="image image--xl" src="/assets/images/annotation_lab/4.1.0/ar_granted.png" style="width:100%; align:center; box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);"/>
+<img class="image image__shadow" src="/assets/images/annotation_lab/4.1.0/ar_granted.png" style="width:100%;"/>
 
 **Denying/Revoking a request**
 
 All the requests denied or revoked by the _admin_ user is listed under this tab. The table shows information about the denied/revoked requests, like the name of the project for which the analytics request was made, the user who initiated the request, the user who denied/revoked the request, the date when the request was denied/revoked, the latest date when the analytics were updated.
 
-<img class="image image--xl" src="/assets/images/annotation_lab/4.1.0/ar_revoked.png" style="width:100%; align:center; box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);"/>
+<img class="image image__shadow" src="/assets/images/annotation_lab/4.1.0/ar_revoked.png" style="width:100%;"/>
