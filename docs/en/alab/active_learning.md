@@ -15,9 +15,9 @@ sidebar:
 
 A **Project Owner** or a **Manager** can use the completed tasks (completions) from a project for training a new Spark NLP model. The training feature can be found on the Setup page.
 
-<img class="image image--xl" src="/assets/images/annotation_lab/2.6.0/train_setup_label.png" style="width:80%; align:center; box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);"/>
-<img class="image image--xl" src="/assets/images/annotation_lab/2.6.0/train_setup_pipeline.png" style="width:80%; align:center; box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);"/>
-<img class="image image--xl" src="/assets/images/annotation_lab/2.6.0/train_setup_model.png" style="width:100%; align:center; box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);"/>
+<img class="image image__shadow" src="/assets/images/annotation_lab/2.6.0/train_setup_label.png" style="width:80%;"/>
+<img class="image image__shadow" src="/assets/images/annotation_lab/2.6.0/train_setup_pipeline.png" style="width:80%;"/>
+<img class="image image__shadow" src="/assets/images/annotation_lab/2.6.0/train_setup_model.png" style="width:100%;"/>
 
 ## Named Entity Recognition Projects
 Named Entity Recognition (NER) projects usually include several labels. When the annotation team has generated a relevant sample of training data/examples for each one of the labels the Project Owner/Manager can use this data to train an DL model which can then be used to predict the labels on new tasks. 
@@ -30,7 +30,7 @@ When triggering the training, users are prompted to choose either to immediately
 
 It is possible to download training logs by clicking on the download logs icon (see item 8 on the above image) of the recently trained NER model which includes information like training parameters and TF graph used along with precision, recall, f1 score, etc.
 
-<img class="image image--xl" src="/assets/images/annotation_lab/2.6.0/train_ner.gif" style="width:100%; align:center; box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);"/>
+<img class="image image__shadow" src="/assets/images/annotation_lab/2.6.0/train_ner.gif" style="width:100%;"/>
 
 ## Training parameters
 
@@ -38,7 +38,7 @@ In Annotation Lab versions prior to 1.8.0, for mixed projects containing multipl
 
 In order to improve the usability of the system, Annotation Lab 1.8.0 added dropdown options to choose which type of training to run next. The project Owner or Manager of a project can scroll down to Training Settings and choose the training type. The drop-down gives a list of possible training types for that particular project based on defined Labeling Config. Another drop-down also lists available embeddings which can be used for training the model.
 
-<img class="image image--xl" src="/assets/images/annotation_lab/2.6.0/trainig_models.png" style="width:80%; align:center; box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);"/>
+<img class="image image__shadow" src="/assets/images/annotation_lab/2.6.0/trainig_models.png" style="width:80%;"/>
 
 
 It is possible to tune the most common training parameters (Validation split ratio, Epoch, Learning rate, Decay, Dropout, and Batch) by editing their values in Training Parameters.
@@ -56,12 +56,12 @@ If a MedicalNER model is available on the Models Hub section of the Annotation L
 
 When Fine Tuning is enabled, the same embeddings used for training the `base model` will be used to train the new model. Those need to be available on the Models Hub section as well. If present, embeddings will be automatically selected, otherwise users must go to the Models Hub page and download or upload them.
 
-<img class="image image--xl" src="/assets/images/annotation_lab/2.6.0/transfer_learning.gif" style="width:80%; align:center; box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);"/>
+<img class="image image__shadow" src="/assets/images/annotation_lab/2.6.0/transfer_learning.gif" style="width:80%;"/>
 
 ## Custom Training Script
 If users want to change the default Training script present within the Annotation Lab, they can upload their own training pipeline. In the Training section of the Project Setup Page, admin users can upload the training scripts. At the moment we are supporting custom training script just for NER projects.
 
-<img class="image image--xl" src="/assets/images/annotation_lab/2.6.0/custom_script.png" style="width:80%; align:center; box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);"/>
+<img class="image image__shadow" src="/assets/images/annotation_lab/2.6.0/custom_script.png" style="width:80%;"/>
 
 ## Selection of Completions
 During the annotation project lifetime, normally not all tasks/completions are ready to be used as a training dataset. This is why the training process selects completions based on their status:
@@ -83,10 +83,10 @@ Once the model(s) has been trained, the project configuration will be automatica
 ```
 
 It is not possible to mark a label as an Assertion Status label and use a NER model to predict it. A validation error is shown in the Interface Preview in case an invalid Assertion model is used.
-<img class="image image--xl" src="/assets/images/annotation_lab/1.6.0/as_notification.png" style="width:70%; align:center; box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);"/>
+<img class="image image__shadow" src="/assets/images/annotation_lab/1.6.0/as_notification.png" style="width:70%;"/>
 
 The Annotation Lab only allows the use of one single Assertion Status model in the same project.
-<img class="image image--xl" src="/assets/images/annotation_lab/1.6.0/one_as.png" style="width:70%; align:center; box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);"/>
+<img class="image image__shadow" src="/assets/images/annotation_lab/1.6.0/one_as.png" style="width:70%;"/>
 
 
 ## Classification Project Models Training
@@ -145,7 +145,7 @@ The model to be trained can also be specified by setting the train="true" attrib
 ```
 The trained classification models are also available on the Spark NLP pipeline config list.
 
-<img class="image image--xl" src="/assets/images/annotation_lab/1.6.0/classification_pipeline.png" style="width:80%; align:center; box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);"/>
+<img class="image image__shadow" src="/assets/images/annotation_lab/1.6.0/classification_pipeline.png" style="width:80%;"/>
 
 
 
@@ -158,19 +158,19 @@ Project Owners or Managers can enable the Active Learning feature by clicking on
 
 While enabling this feature, users are asked whether they want to deploy the newly trained model right after the training process or not.
 
-<img class="image image--xl" src="/assets/images/annotation_lab/2.6.0/deployAL.png" style="width:70%; align:center; box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);"/>
+<img class="image image__shadow" src="/assets/images/annotation_lab/2.6.0/deployAL.png" style="width:70%;"/>
 
 If the user chooses not to automatically deploy the newly trained model, this can be done on demand by navigating to the Spark NLP pipeline Config and filtering the model by name of the project (item 3) and select that new model trained by Active Learning. This will update the Labeling Config (name of the model in tag is changed). Hovering on each trained model will show the training date and time.
 
 
-<img class="image image--xl" src="/assets/images/annotation_lab/1.6.0/ner_config.png" style="width:70%; align:center; box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);"/>
+<img class="image image__shadow" src="/assets/images/annotation_lab/1.6.0/ner_config.png" style="width:70%;"/>
 
 If the user opts to deploy the model after the training, the Project Configuration is automatically updated for each label that is not associated with a pretrained Spark NLP model, the model information is updated with the name of the new model.
 
 If there is any mistake in the name of models, the validation error is displayed in the Interface Preview Section present on the right side of the Labeling Config area.
 
 
-<img class="image image--xl" src="/assets/images/annotation_lab/1.6.0/config_update.png" style="width:70%; align:center; box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);"/>
+<img class="image image__shadow" src="/assets/images/annotation_lab/1.6.0/config_update.png" style="width:70%;"/>
 
 ## Train German and Spanish Models
 

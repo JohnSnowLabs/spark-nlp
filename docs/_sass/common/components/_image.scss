@@ -17,3 +17,11 @@
 .image--xs {
   width: map-get($image, width-xs);
 }
+.image__shadow {
+  box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
+}
+.image__align--center {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}

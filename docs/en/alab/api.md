@@ -15,11 +15,11 @@ sidebar:
 
 All features provided by the Annotation Lab via UI are also accessible via API. The complete API documentation is available on the SWAGGER page of the Annotation Lab. It is available under Settings > API Integration.
 
-<img class="image image--xl" src="/assets/images/annotation_lab/4.1.0/swagger.png" style="width:100%; align:center; box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);"/>
+<img class="image image__shadow" src="/assets/images/annotation_lab/4.1.0/swagger.png" style="width:100%;"/>
 
 Concrete query examples are provided for each available endpoint.
 
-<img class="image image--xl" src="/assets/images/annotation_lab/4.1.0/list_of_projects.png" style="width:100%; align:center; box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);"/>
+<img class="image image__shadow" src="/assets/images/annotation_lab/4.1.0/list_of_projects.png" style="width:100%;"/>
 
 ## Example of creating a new project via API
 

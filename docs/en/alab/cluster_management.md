@@ -55,8 +55,8 @@ A new column, status, is added to the Clusters page that gives the status of tra
 Users can visualize which servers are busy and which are idle. It is very useful information when the user intends to deploy a new server in replacement of an idle one. In this situation, the user can delete an idle server and deploy another pre-annotation/ training server.
 This information is also available on the pre-annotation popup when the user selects the deployed server to use for pre-annotation.
 
-<img class="image image--xl" src="/assets/images/annotation_lab/4.1.0/server_status.png" style="width:100%; align:center; box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);"/>
+<img class="image image__shadow" src="/assets/images/annotation_lab/4.1.0/server_status.png" style="width:100%;"/>
 
 Also, if any issues are encountered during server initialization, those are displayed on the tooltip accessible via mouse-over. Depending on the issue, changes might be required in the infrastructure settings, and the user will have to manually redeploy the training/pre-annotation server.
 
-<img class="image image--xl" src="/assets/images/annotation_lab/serverStatus2.png" style="width:100%; align:center; box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);"/>
+<img class="image image__shadow" src="/assets/images/annotation_lab/serverStatus2.png" style="width:100%;"/>
