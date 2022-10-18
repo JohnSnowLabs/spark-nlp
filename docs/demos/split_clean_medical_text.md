@@ -26,8 +26,6 @@ data:
           id: spell_checking_for_clinical_documents
           image: 
               src: /assets/images/Detect_clinical_events.svg
-          image2: 
-              src: /assets/images/Detect_clinical_events_f.svg
           excerpt: Automatically identify from clinical documents using our pretrained Spark NLP model <b>ner_bionlp.</b>
           actions:
           - text: Live Demo
@@ -40,8 +38,6 @@ data:
           id: detect_sentences_in_healthcare_documents
           image: 
               src: /assets/images/Detect_sentences_in_healthcare_documents.svg
-          image2: 
-              src: /assets/images/Detect_sentences_in_healthcare_documents_f.svg
           excerpt: Automatically detect sentences in noisy healthcare documents with our pretrained Sentence Splitter DL model.
           actions:
           - text: Live Demo
@@ -54,8 +50,6 @@ data:
           id: normalize_medication-related_phrases
           image: 
               src: /assets/images/Normalize_Medication-related_Phrases.svg
-          image2: 
-              src: /assets/images/Normalize_Medication-related_Phrases_f.svg
           excerpt: Normalize medication-related phrases such as dosage, form and strength, as well as abbreviations in text and named entities extracted by NER models.
           actions:
           - text: Live Demo
@@ -68,8 +62,6 @@ data:
           id: link_entities_to_wikipedia_pages
           image: 
               src: /assets/images/Link_entities_to_Wikipedia_pages.svg
-          image2: 
-              src: /assets/images/Link_entities_to_Wikipedia_pages_f.svg
           excerpt: Automatically disambiguate people’s names based on their context and link them to corresponding Wikipedia pages using out of the box Spark NLP pretrained models.
           actions:
           - text: Live Demo
@@ -82,8 +74,6 @@ data:
           id: normalize_section_headers_visit_summary 
           image: 
               src: /assets/images/Normalize_Section_Headers_of_the_Visit_Summary.svg
-          image2: 
-              src: /assets/images/Normalize_Section_Headers_of_the_Visit_Summary_f.svg
           excerpt: This demo maps Section Headers of the clinical visit data to their normalized versions.
           actions:
           - text: Live Demo
@@ -96,8 +86,6 @@ data:
           id: extract_chunk_key_phrases  
           image: 
               src: /assets/images/Extract_Chunk_Key_Phrases.svg
-          image2: 
-              src: /assets/images/Extract_Chunk_Key_Phrases_f.svg
           excerpt: This demo shows how Chunk Key Phrases in medical texts can be extracted automatically using Spark NLP models.
           actions:
           - text: Live Demo

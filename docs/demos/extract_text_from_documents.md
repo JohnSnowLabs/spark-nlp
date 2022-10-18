@@ -24,8 +24,6 @@ data:
           id: pdf_to_text
           image: 
               src: /assets/images/PDF_to_Text.svg
-          image2: 
-              src: /assets/images/PDF_to_Text_f.svg
           excerpt: Extract text from generated/selectable PDF documents and keep the original structure of the document by using our out-of-the-box Spark OCR library.
           actions:
           - text: Live Demo
@@ -38,8 +36,6 @@ data:
           id: dicom_to_text
           image: 
               src: /assets/images/DICOM_to_Text.svg
-          image2: 
-              src: /assets/images/DICOM_to_Text_f.svg
           excerpt: Recognize text from DICOM format documents. This feature explores both to the text on the image and to the text from the metadata file.
           actions:
           - text: Live Demo
@@ -52,8 +48,6 @@ data:
           id: image_to_text
           image: 
               src: /assets/images/Image_to_Text.svg
-          image2: 
-              src: /assets/images/Image_to_Text_f.svg
           excerpt: Recognize text in images and scanned PDF documents by using our out-of-the-box Spark OCR library.
           actions:
           - text: Live Demo
@@ -66,8 +60,6 @@ data:
           id: docx-to-text
           image: 
               src: /assets/images/correct.svg
-          image2: 
-              src: /assets/images/correct_f.svg
           excerpt: Extract text from Word documents with Spark OCR
           actions:
           - text: Live Demo
@@ -80,8 +72,6 @@ data:
           id: extract-text-from-power-point-slides 
           image: 
               src: /assets/images/PPTX_to_Text.svg
-          image2: 
-              src: /assets/images/PPTX_to_Text_f.svg
           excerpt: This demo shows how PPTX texts can be extracted using Spark OCR.
           actions:
           - text: Live Demo
