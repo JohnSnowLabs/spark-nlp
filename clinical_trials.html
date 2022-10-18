@@ -9,11 +9,11 @@
     j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
     })(window,document,'script','dataLayer','GTM-59JLR64');</script>
-<!-- End Google Tag Manager --><title>Spark NLP in Action</title><meta property="og:title" content=""/>
+<!-- End Google Tag Manager --><title>Clinical Trials - Healthcare NLP Demos & Notebooks</title><meta property="og:title" content="Healthcare NLP: Clinical Trials - John Snow Labs"/>
 
 <meta name="description" content="High Performance NLP with Apache Spark
 ">
-<link rel="canonical" href="/extract_relationships"><link rel="alternate" type="application/rss+xml" title="Spark NLP" href="/feed.xml"><!-- start favicons snippet, use https://realfavicongenerator.net/ -->
+<link rel="canonical" href="/clinical_trials"><link rel="alternate" type="application/rss+xml" title="Spark NLP" href="/feed.xml"><!-- start favicons snippet, use https://realfavicongenerator.net/ -->
 <!---->
 <!-- <link rel="apple-touch-icon" sizes="180x180" href="/fav.ico"> -->
 
@@ -408,7 +408,7 @@
               <div class="col-main cell cell--auto"><!-- start custom main top snippet -->
 
 <!-- end custom main top snippet --><article itemscope itemtype="http://schema.org/WebPage"><script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script><div class="article__header"><header class="main-docs have_subtitle">
-          <div class="top-title mont">Spark NLP in Action</div><div class="top-subtitle mont">Run 300+ live demos and notebooks</div></header></div><meta itemprop="headline" content="Spark NLP in Action"><div class="js-article-content"><div class="demomenu">
+          <div class="top-title mont">Spark NLP in Action</div><div class="top-subtitle mont">Run 300+ live demos and notebooks</div></header></div><meta itemprop="headline" content="Clinical Trials - Healthcare NLP Demos & Notebooks"><div class="js-article-content"><div class="demomenu">
                           <div class="subtitle">Demos Categories</div><div class="demopage-sidemenu">
     <div class="sidemenu">
       <div class="col-side">
@@ -475,7 +475,7 @@
           <li      >
             <a href="/resolve_entities_codes">Resolve Entities to Codes</a>
           </li>
-          <li    class="active"     >
+          <li      >
             <a href="/extract_relationships">Extract Relationships</a>
           </li>
           <li      >
@@ -511,7 +511,7 @@
           <li      >
             <a href="/biomedical_research">Biomedical Research</a>
           </li>
-          <li      >
+          <li    class="active"     >
             <a href="/clinical_trials">Clinical Trials</a>
           </li>
         </ul>        
@@ -607,62 +607,38 @@
 
       <div class="">
         
-<h1 class="subtitle">Extract Relationships</h1><div class="grid--container main-big" id="panels"><div class="tab-wrapper-inner"><div class="tab-item ">
+<h1 class="subtitle">Clinical Trials - Live Demos & Notebooks</h1><div class="grid--container main-big" id="panels"><div class="tab-wrapper-inner"><div class="tab-item ">
               <div class="tab-item-inner">
                 <div class="tab-item-wrapper"><div class="tab-item-top"><figure class="tab_fig_blue">
-                        <img src="/assets/images/Grammar_Analysis.svg" />
-                      </figure><div class="tab-item-title">Detect posology relations</div>
-                  </div><div class="tab-description"><div class="tab-description-inner">Automatically identify relations between drugs, dosage, duration, frequency and strength using our pretrained clinical Relation Extraction (RE) model. <a href="#" class="show_more">(...)</a></div></div></div><ul class="tab-menu"><li><a id="detect_posology_relations" class="btn button--normal button--pill button--lg"
-                        href="https://demo.johnsnowlabs.com/healthcare/RE_POSOLOGY/">Live Demo</a></li><li><a id="detect_posology_relations" class="btn button--blue_btn button--pill button--lg"
-                        href="https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/RE_POSOLOGY.ipynb">Colab</a></li></ul></div> 
+                        <img src="/assets/images/ExtractEntitiesClinicalTrialAbstracts.svg" />
+                      </figure><div class="tab-item-title">Extract Entities in Clinical Trial Abstracts</div>
+                  </div><div class="tab-description"><div class="tab-description-inner">This model extracts to trial design, diseases, drugs, population, statistics, publication etc. relevant entities from clinical trial abstracts. <a href="#" class="show_more">(...)</a></div></div></div><ul class="tab-menu"><li><a id="extract_entities_clinical_trial_abstracts" class="btn button--normal button--pill button--lg"
+                        href="https://demo.johnsnowlabs.com/healthcare/NER_CLINICAL_TRIALS_ABSTRACT/">Live Demo</a></li><li><a id="extract_entities_clinical_trial_abstracts" class="btn button--blue_btn button--pill button--lg"
+                        href="https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/NER_CLINICAL_TRIALS_ABSTRACT.ipynb">Colab</a></li></ul></div> 
             </div><div class="tab-item ">
               <div class="tab-item-inner">
                 <div class="tab-item-wrapper"><div class="tab-item-top"><figure class="tab_fig_blue">
-                        <img src="/assets/images/Grammar_Analysis.svg" />
-                      </figure><div class="tab-item-title">Detect temporal relations for clinical events</div>
-                  </div><div class="tab-description"><div class="tab-description-inner">Automatically identify three types of relations between clinical events: After, Before and Overlap using our pretrained clinical Relation Extraction (RE) model. <a href="#" class="show_more">(...)</a></div></div></div><ul class="tab-menu"><li><a id="detect_temporal_relations_for_clinical_events" class="btn button--normal button--pill button--lg"
-                        href="https://demo.johnsnowlabs.com/healthcare/RE_CLINICAL_EVENTS/">Live Demo</a></li><li><a id="detect_temporal_relations_for_clinical_events" class="btn button--blue_btn button--pill button--lg"
-                        href="https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/RE_CLINICAL_EVENTS.ipynb">Colab</a></li></ul></div> 
+                        <img src="/assets/images/Recognize_concepts_in_drug_development_trials.svg" />
+                      </figure><div class="tab-item-title">Recognize Concepts in Drug Development Trials</div>
+                  </div><div class="tab-description"><div class="tab-description-inner">This demo shows how to extract concepts related to drug development including Trial Groups, End Points and Hazard Ratio. <a href="#" class="show_more">(...)</a></div></div></div><ul class="tab-menu"><li><a id="recognize_concepts_in_drug_development_trials" class="btn button--normal button--pill button--lg"
+                        href="https://demo.johnsnowlabs.com/healthcare/NER_DRUGS_DEVELOPMENT_TRIALS/">Live Demo</a></li><li><a id="recognize_concepts_in_drug_development_trials" class="btn button--blue_btn button--pill button--lg"
+                        href="https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/NER_DRUGS_DEVELOPMENT_TRIALS.ipynb">Colab</a></li></ul></div> 
             </div><div class="tab-item ">
               <div class="tab-item-inner">
                 <div class="tab-item-wrapper"><div class="tab-item-top"><figure class="tab_fig_blue">
-                        <img src="/assets/images/Grammar_Analysis.svg" />
-                      </figure><div class="tab-item-title">Detect causality between symptoms and treatment</div>
-                  </div><div class="tab-description"><div class="tab-description-inner">Automatically identify relations between symptoms and treatment using our pretrained clinical Relation Extraction (RE) model. <a href="#" class="show_more">(...)</a></div></div></div><ul class="tab-menu"><li><a id="detect_causality_between_symptoms_and_treatment" class="btn button--normal button--pill button--lg"
-                        href="https://demo.johnsnowlabs.com/healthcare/RE_CLINICAL/">Live Demo</a></li><li><a id="detect_causality_between_symptoms_and_treatment" class="btn button--blue_btn button--pill button--lg"
-                        href="https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/RE_CLINICAL.ipynb">Colab</a></li></ul></div> 
+                        <img src="/assets/images/Classify_Randomized_Clinical_Trial_RCT.svg" />
+                      </figure><div class="tab-item-title">Classify Randomized Clinical Trial (RCT)</div>
+                  </div><div class="tab-description"><div class="tab-description-inner">This demo shows a classifier that can classify whether an article is a randomized clinical trial (RCT) or not, as well as a classifier that can divide it into sections in abstracts of scientific articles on randomized clinical trials (RCT). <a href="#" class="show_more">(...)</a></div></div></div><ul class="tab-menu"><li><a id="classify_randomized_clinical_trial_rct" class="btn button--normal button--pill button--lg"
+                        href="https://demo.johnsnowlabs.com/healthcare/CLASSIFICATION_RCT/">Live Demo</a></li><li><a id="classify_randomized_clinical_trial_rct" class="btn button--blue_btn button--pill button--lg"
+                        href="https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/CLASSIFICATION_RCT.ipynb">Colab</a></li></ul></div> 
             </div><div class="tab-item ">
               <div class="tab-item-inner">
                 <div class="tab-item-wrapper"><div class="tab-item-top"><figure class="tab_fig_blue">
-                        <img src="/assets/images/Detect_relations.svg" />
-                      </figure><div class="tab-item-title">Detect relations between body parts and clinical entities</div>
-                  </div><div class="tab-description"><div class="tab-description-inner">Use pre-trained relation extraction models to extract relations between body parts and clinical entities. <a href="#" class="show_more">(...)</a></div></div></div><ul class="tab-menu"><li><a id="detect_relations_between_body_parts_and_clinical_entities" class="btn button--normal button--pill button--lg"
-                        href="https://demo.johnsnowlabs.com/healthcare/RE_BODYPART_ENT/">Live Demo</a></li><li><a id="detect_relations_between_body_parts_and_clinical_entities" class="btn button--blue_btn button--pill button--lg"
-                        href="https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/10.1.Clinical_Relation_Extraction_BodyParts_Models.ipynb">Colab</a></li></ul></div> 
-            </div><div class="tab-item ">
-              <div class="tab-item-inner">
-                <div class="tab-item-wrapper"><div class="tab-item-top"><figure class="tab_fig_blue">
-                        <img src="/assets/images/ExtractRelationships_2.svg" />
-                      </figure><div class="tab-item-title">Detect how dates relate to clinical entities</div>
-                  </div><div class="tab-description"><div class="tab-description-inner">Detect clinical entities such as problems, tests and treatments, and how they relate to specific dates. <a href="#" class="show_more">(...)</a></div></div></div><ul class="tab-menu"><li><a id="detect_how_dates_relate_to_clinical_entities" class="btn button--normal button--pill button--lg"
-                        href="https://demo.johnsnowlabs.com/healthcare/RE_CLINICAL_DATE/">Live Demo</a></li><li><a id="detect_how_dates_relate_to_clinical_entities" class="btn button--blue_btn button--pill button--lg"
-                        href="https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/RE_CLINICAL_DATE.ipynb">Colab</a></li></ul></div> 
-            </div><div class="tab-item ">
-              <div class="tab-item-inner">
-                <div class="tab-item-wrapper"><div class="tab-item-top"><figure class="tab_fig_blue">
-                        <img src="/assets/images/Identify_relations_between_scale_items_measurements_according.svg" />
-                      </figure><div class="tab-item-title">Identify relations between scale items and measurements according to NIHSS</div>
-                  </div><div class="tab-description"><div class="tab-description-inner">This demo shows how relations between scale items and their measurements can be identified according to NIHSS guidelines using a Spark NLP Healthcare RE model. <a href="#" class="show_more">(...)</a></div></div></div><ul class="tab-menu"><li><a id="identify_relations_between_scale_items_their_measurements_according" class="btn button--normal button--pill button--lg"
-                        href="https://demo.johnsnowlabs.com/healthcare/RE_NIHSS/">Live Demo</a></li><li><a id="identify_relations_between_scale_items_their_measurements_according" class="btn button--blue_btn button--pill button--lg"
-                        href="https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/RE_NIHSS.ipynb">Colab</a></li></ul></div> 
-            </div><div class="tab-item ">
-              <div class="tab-item-inner">
-                <div class="tab-item-wrapper"><div class="tab-item-top"><figure class="tab_fig_blue">
-                        <img src="/assets/images/Identify_relations_between_drugs_and_ade.svg" />
-                      </figure><div class="tab-item-title">Identify Relations Between Drugs and Adversary Events</div>
-                  </div><div class="tab-description"><div class="tab-description-inner">This demo shows how to detect relations between drugs and adverse reactions caused by them. <a href="#" class="show_more">(...)</a></div></div></div><ul class="tab-menu"><li><a id="identify_relations_between_drugs_and_ade" class="btn button--normal button--pill button--lg"
-                        href="https://demo.johnsnowlabs.com/healthcare/RE_ADE/">Live Demo</a></li><li><a id="identify_relations_between_drugs_and_ade" class="btn button--blue_btn button--pill button--lg"
-                        href="https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/RE_ADE.ipynb">Colab</a></li></ul></div> 
+                        <img src="/assets/images/Detect_Covid-related_clinical_terminology.svg" />
+                      </figure><div class="tab-item-title">Detect Covid-related clinical terminology</div>
+                  </div><div class="tab-description"><div class="tab-description-inner">This demo shows how Covid-related clinical terminology can be detected using a Spark NLP Healthcare NER model. <a href="#" class="show_more">(...)</a></div></div></div><ul class="tab-menu"><li><a id="detect_covid_related_clinical_terminology" class="btn button--normal button--pill button--lg"
+                        href="https://demo.johnsnowlabs.com/healthcare/NER_COVID/">Live Demo</a></li><li><a id="detect_covid_related_clinical_terminology" class="btn button--blue_btn button--pill button--lg"
+                        href="https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/NER_COVID.ipynb">Colab</a></li></ul></div> 
             </div></div></div></div> </section></div>
 </div>
 
