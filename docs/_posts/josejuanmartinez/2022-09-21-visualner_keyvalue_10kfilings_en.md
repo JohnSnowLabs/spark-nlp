@@ -5,10 +5,10 @@ author: John Snow Labs
 name: visualner_keyvalue_10kfilings
 date: 2022-09-21
 tags: [en, licensed]
-task: OCR Object Detection
+task: Named Entity Recognition
 language: en
 edition: Spark OCR 4.0.0
-spark_version: 3.2
+spark_version: 3.0
 supported: true
 article_header:
   type: cover

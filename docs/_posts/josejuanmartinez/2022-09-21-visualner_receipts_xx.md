@@ -5,10 +5,10 @@ author: John Snow Labs
 name: visualner_receipts
 date: 2022-09-21
 tags: [xx, licensed]
-task: OCR Object Detection
+task: Named Entity Recognition
 language: xx
 edition: Spark OCR 4.0.0
-spark_version: 3.2
+spark_version: 3.0
 supported: true
 article_header:
   type: cover
