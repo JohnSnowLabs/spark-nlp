@@ -25,8 +25,6 @@ data:
           id: calculate_medicare_risk_score 
           image: 
               src: /assets/images/Calculate_Medicare_Risk_Score.svg
-          image2: 
-              src: /assets/images/Calculate_Medicare_Risk_Score_f.svg
           excerpt: This demos shows how to calculate medical risk adjustment scores automatically using ICD codes of diseases.
           actions:
           - text: Live Demo

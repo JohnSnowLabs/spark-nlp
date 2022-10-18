@@ -24,8 +24,6 @@ data:
           id: recognize_entities_in_english_text
           image: 
               src: /assets/images/United_Kingdom.png
-          image2: 
-              src: /assets/images/United_Kingdom.png
           excerpt: Recognize <b>Persons, Locations, Organizations</b> and <b>Misc</b> entities using out of the box pretrained Deep Learning models based on GloVe (glove_100d) and BERT (ner_dl_bert) word embeddings.
           actions:
           - text: Live Demo
@@ -37,8 +35,6 @@ data:
         - title: Recognize entities in French text
           id: recognize_entities_in_french_text
           image: 
-              src: /assets/images/French_flag.svg
-          image2: 
               src: /assets/images/French_flag.svg
           excerpt: Recognize entities in French text
           actions:
@@ -52,8 +48,6 @@ data:
           id: recognize_entities_in_italian_text
           image: 
               src: /assets/images/Italian_flag.svg
-          image2: 
-              src: /assets/images/Italian_flag.svg
           excerpt: Recognize <b>Persons, Locations, Organizations</b> and <b>Misc</b> entities using an out of the box pretrained Deep Learning model and GloVe word embeddings (glove_300d).
           actions:
           - text: Live Demo
@@ -65,8 +59,6 @@ data:
         - title: Recognize entities in Norwegian text
           id: recognize_entities_in_norwegian_text
           image: 
-              src: /assets/images/norway-flag.jpg
-          image2: 
               src: /assets/images/norway-flag.jpg
           excerpt: Recognize <b>Persons, Locations, Organizations</b> and <b>Misc</b> entities using 3 different out of the box pretrained Deep Learning models based on different GloVe word embeddings (glove_100d &amp; glove_300d).
           actions:
@@ -80,8 +72,6 @@ data:
           id: recognize_entities_in_polish_text
           image: 
               src: /assets/images/poland-flag.jpg
-          image2: 
-              src: /assets/images/poland-flag.jpg
           excerpt: Recognize <b>Persons, Locations, Organizations</b> and <b>Misc</b> entities using 3 different out of the box pretrained Deep Learning models based on different GloVe word embeddings (glove_100d &amp; glove_300d).
           actions:
           - text: Live Demo
@@ -93,8 +83,6 @@ data:
         - title: Recognize entities in Portuguese text
           id: recognize_entities_in_portuguese_text
           image: 
-              src: /assets/images/flag-400.png
-          image2: 
               src: /assets/images/flag-400.png
           excerpt: Recognize <b>Persons, Locations, Organizations</b> and <b>Misc</b> entities using 3 different out of the box pretrained Deep Learning models based on different GloVe word embeddings (glove_100d &amp; glove_300d).
           actions:
@@ -108,8 +96,6 @@ data:
           id: recognize_entities_in_russian_text
           image: 
               src: /assets/images/russia-flag.jpg
-          image2: 
-              src: /assets/images/russia-flag.jpg
           excerpt: Recognize <b>Persons, Locations, Organizations</b> and <b>Misc</b> entities using 3 different out of the box pretrained Deep Learning models based on different GloVe word embeddings (glove_100d &amp; glove_300d).
           actions:
           - text: Live Demo
@@ -121,8 +107,6 @@ data:
         - title: Recognize entities in Spanish text
           id: recognize_entities_in_spanish_text
           image: 
-              src: /assets/images/spanish-flag-small.png
-          image2: 
               src: /assets/images/spanish-flag-small.png
           excerpt: Recognize <b>Persons, Locations, Organizations</b> and <b>Misc</b> entities using 3 different out of the box pretrained Deep Learning models based on different GloVe word embeddings (glove_100d &amp; glove_300d).
           actions:
@@ -136,8 +120,6 @@ data:
           id: recognize_entities_in_danish_text
           image: 
               src: /assets/images/Flag_of_Denmark.png
-          image2: 
-              src: /assets/images/Flag_of_Denmark.png
           excerpt: Recognize <b>Persons, Locations, Organizations</b> and <b>Misc</b> entities using an out of the box pretrained Deep Learning model and GloVe word embeddings (glove_300d).
           actions:
           - text: Live Demo
@@ -149,8 +131,6 @@ data:
         - title: Recognize entities in Swedish text
           id: recognize_entities_in_swedish_text
           image: 
-              src: /assets/images/Flag_of_Sweden.jpg
-          image2: 
               src: /assets/images/Flag_of_Sweden.jpg
           excerpt: Recognize <b>Persons, Locations, Organizations</b> and <b>Misc</b> entities using an out of the box pretrained Deep Learning model and GloVe word embeddings (glove_300d).
           actions:
@@ -164,8 +144,6 @@ data:
           id: recognize_entities_in_finnish_text
           image: 
               src: /assets/images/flag-of-finland.jpg
-          image2: 
-              src: /assets/images/flag-of-finland.jpg
           excerpt: Recognize <b>Persons, Locations, Organizations</b> and <b>Misc</b> entities using an out of the box pretrained Deep Learning model and GloVe word embeddings (glove_300d).
           actions:
           - text: Live Demo
@@ -178,8 +156,6 @@ data:
           id: prebuilt_pipeline_for_entity_recognition_in_danish
           image: 
               src: /assets/images/Prebuilt_pipeline_for_entity_recognition_in_Danish.svg
-          image2: 
-              src: /assets/images/Prebuilt_pipeline_for_entity_recognition_in_Danish_f.svg
           excerpt: This SparkNLP out-of-the-box pipeline returns tokens, lemmas, pos, embeddings and NERs in one line of code. It automatically recognizes <b>Persons, Locations, Organizations</b> and <b>Misc</b> entities in Danish text.
           actions:
           - text: Live Demo
@@ -192,8 +168,6 @@ data:
           id: prebuilt_pipeline_for_entity_recognition_in_swedish
           image: 
               src: /assets/images/Prebuilt_pipeline_for_entity_recognition_in_Swedish.svg
-          image2: 
-              src: /assets/images/Prebuilt_pipeline_for_entity_recognition_in_Swedish_f.svg
           excerpt: This SparkNLP out-of-the-box pipeline returns tokens, lemmas, pos, embeddings and NERs in one line of code. It automatically recognizes <b>Persons, Locations, Organizations</b> and <b>Misc</b> entities in Swedish text.
           actions:
           - text: Live Demo
@@ -206,8 +180,6 @@ data:
           id: prebuilt_pipeline_for_entity_recognition_in_finnish
           image: 
               src: /assets/images/Prebuilt_pipeline_for_entity_recognition_in_Finnish.svg
-          image2: 
-              src: /assets/images/Prebuilt_pipeline_for_entity_recognition_in_Finnish_f.svg
           excerpt: This SparkNLP out-of-the-box pipeline returns tokens, lemmas, pos, embeddings and NERs in one line of code. It automatically recognizes <b>Persons, Locations, Organizations</b> and <b>Misc</b> entities in Finnish text.
           actions:
           - text: Live Demo
@@ -220,8 +192,6 @@ data:
           id: classify_german_news 
           image: 
               src: /assets/images/Classify_German_News.svg
-          image2: 
-              src: /assets/images/Classify_German_News_c.svg
           excerpt: Automatically classifies any German news in documents using our out-of-the-box Spark NLP Classifier DL Model.
           actions:
           - text: Live Demo
@@ -234,8 +204,6 @@ data:
           id: analyze_sentiment_french_texts  
           image: 
               src: /assets/images/Analyze_sentiment_French_texts.svg
-          image2: 
-              src: /assets/images/Analyze_sentiment_French_texts_f.svg
           excerpt: This demo shows how sentiment can be identified (positive or negative) in French texts.
           actions:
           - text: Live Demo
@@ -248,8 +216,6 @@ data:
           id: recognize_entities_scandinavian_languages   
           image: 
               src: /assets/images/Recognize_entities_in__Scandinavian_languages.svg
-          image2: 
-              src: /assets/images/Recognize_entities_in__Scandinavian_languages_f.svg
           excerpt: This demo shows how to extract people, locations and organizations from texts written in Scandinavian languages.
           actions:
           - text: Live Demo
@@ -262,8 +228,6 @@ data:
           id: recognize_entities_different_high_resourced_languages    
           image: 
               src: /assets/images/Recognize_entities_in_10_different_high_resourced_languages.svg
-          image2: 
-              src: /assets/images/Recognize_entities_in_10_different_high_resourced_languages_f.svg
           excerpt: This demo shows how to extract people, locations and organizations from texts written in up to 10 different languages (Arabic, Chinese, French, …).
           actions:
           - text: Live Demo
@@ -276,8 +240,6 @@ data:
           id: toxic_content_classifier_for_russian    
           image: 
               src: /assets/images/Toxic_content_classifier_for_russian.svg
-          image2: 
-              src: /assets/images/Toxic_content_classifier_for_russian_f.svg
           excerpt: This demo shows how to identify if a Russian text contains toxic content or not.
           actions:
           - text: Live Demo
@@ -290,8 +252,6 @@ data:
           id: identify_sentiments_German_texts 
           image: 
               src: /assets/images/Identify_sentiments_in_Geman_texts.svg
-          image2: 
-              src: /assets/images/Identify_sentiments_in_Geman_texts_f.svg
           excerpt: This demo shows whether the sentiments are positive or negative in German texts. 
           actions:
           - text: Live Demo
@@ -304,8 +264,6 @@ data:
           id: identify_sentiments_french_texts 
           image: 
               src: /assets/images/Identify_sentiments_in_French_texts.svg
-          image2: 
-              src: /assets/images/Identify_sentiments_in_French_texts_f.svg
           excerpt: This demo shows whether the sentiments are positive or negative in French texts. 
           actions:
           - text: Live Demo
@@ -318,8 +276,6 @@ data:
           id: icelandic_typo_detector  
           image: 
               src: /assets/images/Spell_Checking.svg
-          image2: 
-              src: /assets/images/Spell_Checking_f.svg
           excerpt: This demo shows how to detect typos in Icelandic texts. 
           actions:
           - text: Live Demo
@@ -332,8 +288,6 @@ data:
           id: analyze_sentiment_danish_texts   
           image: 
               src: /assets/images/Aspect_based_sentiment_analysis_for_restaurants.svg
-          image2: 
-              src: /assets/images/Aspect_based_sentiment_analysis_for_restaurants_f.svg
           excerpt: This demo shows how to identify positive, negative or neutral sentiment in Danish texts. 
           actions:
           - text: Live Demo
@@ -346,8 +300,6 @@ data:
           id: lemmatizer_european_languages    
           image: 
               src: /assets/images/Lemmatizer_for_European_Languages.svg
-          image2: 
-              src: /assets/images/Lemmatizer_for_European_Languages_f.svg
           excerpt: This demo shows how to lemmatize documents of European languages.
           actions:
           - text: Live Demo

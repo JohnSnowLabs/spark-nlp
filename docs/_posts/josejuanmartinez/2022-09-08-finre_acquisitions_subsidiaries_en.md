@@ -8,7 +8,7 @@ tags: [en, finance, re, relations, acquisitions, subsidiaries, licensed]
 task: Relation Extraction
 language: en
 edition: Spark NLP for Finance 1.0.0
-spark_version: 3.2
+spark_version: 3.0
 supported: true
 article_header:
   type: cover
