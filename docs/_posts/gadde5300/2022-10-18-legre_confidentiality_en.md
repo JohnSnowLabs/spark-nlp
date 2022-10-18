@@ -86,7 +86,6 @@ res = model.transform(data)
 |is_confidentiality_object   |CONFIDENTIALITY_ACTION         |12           |31         |will promptly return    |CONFIDENTIALITY                |63           |86         |Confidential Information|0.99497294|
 |is_confidentiality_indobject|CONFIDENTIALITY_ACTION         |12           |31         |will promptly return    |CONFIDENTIALITY_INDIRECT_OBJECT|95           |105        |other party             |0.9985304 |
 |is_confidentiality_object   |CONFIDENTIALITY_INDIRECT_OBJECT|40           |44         |other                   |CONFIDENTIALITY                |63           |86         |Confidential Information|0.93832284|
-|is_confidentiality_indobject|CONFIDENTIALITY_INDIRECT_OBJECT|40           |44         |other                   |CONFIDENTIALITY_INDIRECT_OBJECT|95           |105        |other party             |0.99965453|
 |is_confidentiality_indobject|CONFIDENTIALITY                |63           |86         |Confidential Information|CONFIDENTIALITY_INDIRECT_OBJECT|95           |105        |other party             |0.9798117 |
 ```
 
