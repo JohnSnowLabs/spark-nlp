@@ -24,8 +24,6 @@ data:
           id: automatically_answer_questions_closed
           image: 
               src: /assets/images/Automatically_Answer_Questions_closed.svg
-          image2: 
-              src: /assets/images/Automatically_Answer_Questions_closed_f.svg
           excerpt: Automatically generate answers to questions without context.
           actions:
           - text: Live Demo
@@ -38,8 +36,6 @@ data:
           id: automatically_answer_questions_open
           image: 
               src: /assets/images/Automatically_Answer_Questions.svg
-          image2: 
-              src: /assets/images/Automatically_Answer_Questions_f.svg
           excerpt: Automatically generate answers to questions with context.
           actions:
           - text: Live Demo

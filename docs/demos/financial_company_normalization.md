@@ -24,8 +24,6 @@ data:
           id: company_normalization_edgar_crunchbase_databases 
           image: 
               src: /assets/images/Company_Normalization.svg
-          image2: 
-              src: /assets/images/Company_Normalization_f.svg
           excerpt: These models normalize versions of Company Names using Edgar and Crunchbase databases conventions.
           actions:
           - text: Live Demo
@@ -38,8 +36,6 @@ data:
           id: augment_company_names_public_information   
           image: 
               src: /assets/images/Augment_Company_Names_Public_Information.svg
-          image2: 
-              src: /assets/images/Augment_Company_Names_Public_Information_f.svg
           excerpt: These models aim to augment NER with information from external sources.
           actions:
           - text: Live Demo

@@ -24,8 +24,6 @@ data:
           id: translate-entities-in-hausa
           image: 
               src: /assets/images/Flag_of_Niger.png
-          image2: 
-              src: /assets/images/Flag_of_Niger.png
           excerpt: Translate Hausa to English using our pre-trained model.
           actions:
           - text: Live Demo
@@ -37,8 +35,6 @@ data:
         - title: Translate text from Swahili to English
           id: translate-entities-in-swahili
           image: 
-              src: /assets/images/Flag_of_Tanzania.png
-          image2: 
               src: /assets/images/Flag_of_Tanzania.png
           excerpt: Translate Swahili to English using our pre-trained model.
           actions:
@@ -52,8 +48,6 @@ data:
           id: translate-entities-in-afrikaans
           image: 
               src: /assets/images/Flag_of_South_Africa.svg.png
-          image2: 
-              src: /assets/images/Flag_of_South_Africa.svg.png
           excerpt: Translate Afrikaans to English using our pre-trained model.
           actions:
           - text: Live Demo
@@ -66,8 +60,6 @@ data:
           id: analyze_sentiment_swahili_text 
           image: 
               src: /assets/images/Analyze_sentiment_in_Swahili_text.svg
-          image2: 
-              src: /assets/images/Analyze_sentiment_in_Swahili_text_f.svg
           excerpt: This demo shows how to carry out sentiment analysis in Swahili texts.
           actions:
           - text: Live Demo
@@ -80,8 +72,6 @@ data:
           id: recognize_entities_african_languages  
           image: 
               src: /assets/images/Recognize_entities_in_10_African_languages.svg
-          image2: 
-              src: /assets/images/Recognize_entities_in_10_African_languages_f.svg
           excerpt: This demo shows how to extract dates, people, locations and organizations from texts written in any of 10 different African languages.
           actions:
           - text: Live Demo
@@ -94,8 +84,6 @@ data:
           id: lemmatizer_african_languages   
           image: 
               src: /assets/images/Lemmatizer_for_African_Languages.svg
-          image2: 
-              src: /assets/images/Lemmatizer_for_African_Languages_f.svg
           excerpt: This demo shows how to lemmatize documents of African languages.
           actions:
           - text: Live Demo

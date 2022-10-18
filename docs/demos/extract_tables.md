@@ -24,8 +24,6 @@ data:
           id: extract_tables_from_pdfs
           image: 
               src: /assets/images/Extract_tables_from_PDFs.svg
-          image2: 
-              src: /assets/images/Extract_tables_from_PDFs_f.svg
           excerpt: Extract tables from selectable PDF documents with Spark OCR.
           actions:
           - text: Live Demo
@@ -39,8 +37,6 @@ data:
           id: detect_tables_in_documents
           image: 
               src: /assets/images/Detect_tables_in_documents.svg
-          image2: 
-              src: /assets/images/Detect_tables_in_documents_f.svg
           excerpt: Detect tables on the image by a pretrained model based on CascadeTabNet.
           actions:
           - text: Live Demo
@@ -53,8 +49,6 @@ data:
           id: detect_tables_extract_text 
           image: 
               src: /assets/images/Detect_sentences_in_text.svg
-          image2: 
-              src: /assets/images/Detect_sentences_in_text_f.svg
           excerpt: Detect and extract structured tables from scanned PDF documents & images with Spark OCR.
           actions:
           - text: Live Demo
@@ -67,8 +61,6 @@ data:
           id: extract_tables_from_power_point_slide  
           image: 
               src: /assets/images/PPTX_to_Table.svg
-          image2: 
-              src: /assets/images/PPTX_to_Table_f.svg
           excerpt: This demo shows how PPTX tables can be extracted using Spark OCR.
           actions:
           - text: Live Demo
