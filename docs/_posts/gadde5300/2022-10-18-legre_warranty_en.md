@@ -1,0 +1,131 @@
+---
+layout: model
+title: Legal Relation Extraction (Warranty)
+author: John Snow Labs
+name: legre_warranty
+date: 2022-10-18
+tags: [legal, en, re, licensed, warranty]
+task: Relation Extraction
+language: en
+edition: Spark NLP for Legal 1.0.0
+spark_version: 3.0
+supported: true
+article_header:
+  type: cover
+use_language_switcher: "Python-Scala-Java"
+---
+
+## Description
+
+This is a Legal Relation Extraction Model to identify the Subject (who), Action (web), Object(the indemnification) and Indirect Object (to whom) from Warranty clauses.
+
+## Predicted Entities
+
+`is_warranty_indobject`, `is_warranty_object`, `is_warranty_subject`
+
+{:.btn-box}
+<button class="button button-orange" disabled>Live Demo</button>
+<button class="button button-orange" disabled>Open in Colab</button>
+[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/legal/models/legre_warranty_en_1.0.0_3.0_1666094112477.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
+
+## How to use
+
+
+
+<div class="tabs-box" markdown="1">
+{% include programmingLanguageSelectScalaPythonNLU.html %}
+```python
+
+documentAssembler = nlp.DocumentAssembler()\
+  .setInputCol("text")\
+  .setOutputCol("document")
+
+tokenizer = nlp.Tokenizer()\
+  .setInputCols("document")\
+  .setOutputCol("token")
+
+embeddings = nlp.RoBertaEmbeddings.pretrained("roberta_embeddings_legal_roberta_base","en") \
+    .setInputCols(["document", "token"]) \
+    .setOutputCol("embeddings")
+
+ner_model = legal.NerModel.pretrained('legner_warranty', 'en', 'legal/models') \
+        .setInputCols(["document", "token", "embeddings"]) \
+        .setOutputCol("ner")
+
+ner_converter = nlp.NerConverter() \
+        .setInputCols(["document","token","ner"]) \
+        .setOutputCol("ner_chunk")
+
+reDL = legal.RelationExtractionDLModel.pretrained("legre_warranty", "en", "legal/models") \
+    .setPredictionThreshold(0.5) \
+    .setInputCols(["ner_chunk", "document"]) \
+    .setOutputCol("relations")
+    
+pipeline = Pipeline(stages=[documentAssembler, tokenizer, embeddings, ner_model, ner_converter, reDL])
+
+text = """"Each party will promptly return to the other upon request any Confidential Information of the other party then in its possession or under its control."""
+
+data = spark.createDataFrame([[text]]).toDF("text")
+model = pipeline.fit(data)
+res = model.transform(data)
+```
+</div>
+
+## Results
+
+```bash
+|relation           |entity1         |entity1_begin|entity1_end|chunk1                               |entity2         |entity2_begin|entity2_end|chunk2                               |confidence|
+|-------------------|----------------|-------------|-----------|-------------------------------------|----------------|-------------|-----------|-------------------------------------|----------|
+|is_warranty_subject|WARRANTY        |4            |16         |has the right                        |WARRANTY_SUBJECT|118          |123        |XENCOR                               |0.9466976 |
+|is_warranty_subject|WARRANTY        |4            |16         |has the right                        |WARRANTY_ACTION |132          |139        |warrants                             |0.67225415|
+|is_warranty_subject|WARRANTY        |4            |16         |has the right                        |WARRANTY        |159          |195        |has the right to provide the Material|0.87391967|
+|is_warranty_object |WARRANTY        |4            |16         |has the right                        |WARRANTY        |202          |218        |XENCOR Technology                    |0.88958645|
+|is_warranty_object |WARRANTY        |4            |16         |has the right                        |WARRANTY        |225          |252        |XENCOR Intellectual Property         |0.8665168 |
+|is_warranty_object |WARRANTY        |4            |16         |has the right                        |WARRANTY        |384          |419        |that there are no third party rights |0.7922626 |
+|is_warranty_subject|WARRANTY_SUBJECT|118          |123        |XENCOR                               |WARRANTY_ACTION |132          |139        |warrants                             |0.96969295|
+|is_warranty_subject|WARRANTY_SUBJECT|118          |123        |XENCOR                               |WARRANTY        |159          |195        |has the right to provide the Material|0.79866207|
+|is_warranty_object |WARRANTY_SUBJECT|118          |123        |XENCOR                               |WARRANTY        |202          |218        |XENCOR Technology                    |0.9910159 |
+|is_warranty_object |WARRANTY_SUBJECT|118          |123        |XENCOR                               |WARRANTY        |225          |252        |XENCOR Intellectual Property         |0.98841876|
+|is_warranty_object |WARRANTY_SUBJECT|118          |123        |XENCOR                               |WARRANTY        |384          |419        |that there are no third party rights |0.97111255|
+|is_warranty_subject|WARRANTY_ACTION |132          |139        |warrants                             |WARRANTY        |159          |195        |has the right to provide the Material|0.81981117|
+|is_warranty_object |WARRANTY_ACTION |132          |139        |warrants                             |WARRANTY        |202          |218        |XENCOR Technology                    |0.9782923 |
+|is_warranty_object |WARRANTY_ACTION |132          |139        |warrants                             |WARRANTY        |225          |252        |XENCOR Intellectual Property         |0.97429705|
+|is_warranty_object |WARRANTY_ACTION |132          |139        |warrants                             |WARRANTY        |384          |419        |that there are no third party rights |0.96212465|
+|is_warranty_object |WARRANTY        |159          |195        |has the right to provide the Material|WARRANTY        |202          |218        |XENCOR Technology                    |0.8761815 |
+|is_warranty_object |WARRANTY        |159          |195        |has the right to provide the Material|WARRANTY        |225          |252        |XENCOR Intellectual Property         |0.84010834|
+|is_warranty_object |WARRANTY        |159          |195        |has the right to provide the Material|WARRANTY        |384          |419        |that there are no third party rights |0.7867731 |
+|is_warranty_object |WARRANTY        |202          |218        |XENCOR Technology                    |WARRANTY        |225          |252        |XENCOR Intellectual Property         |0.804943  |
+|is_warranty_object |WARRANTY        |202          |218        |XENCOR Technology                    |WARRANTY        |384          |419        |that there are no third party rights |0.7577851 |
+|is_warranty_object |WARRANTY        |225          |252        |XENCOR Intellectual Property         |WARRANTY        |384          |419        |that there are no third party rights |0.7666794 |
+
+```
+
+{:.model-param}
+## Model Information
+
+{:.table-model}
+|---|---|
+|Model Name:|legre_warranty|
+|Compatibility:|Spark NLP for Legal 1.0.0+|
+|License:|Licensed|
+|Edition:|Official|
+|Language:|en|
+|Size:|409.9 MB|
+
+## References
+
+In-house annotated examples from CUAD legal dataset
+
+## Benchmarking
+
+```bash
+Relation                Recall    Precision F1          Support
+
+is_warranty_indobject   1.000     1.000     1.000        15
+is_warranty_object      1.000     1.000     1.000        44
+is_warranty_subject     1.000     1.000     1.000        29
+
+Avg.                    1.000     1.000     1.000
+
+Weighted Avg.           1.000     1.000     1.000
+```
