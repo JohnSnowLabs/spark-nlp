@@ -24,8 +24,6 @@ data:
           id: snomed_coding
           image: 
               src: /assets/images/Detect_signs_and_symptoms.svg
-          image2: 
-              src: /assets/images/Detect_signs_and_symptoms_f.svg
           excerpt: Automatically resolve the SNOMED code corresponding to the diseases and conditions mentioned in your health record using Spark NLP for Healthcare out of the box.
           actions:
           - text: Live Demo
@@ -38,8 +36,6 @@ data:
           id: icd10-cm_coding
           image: 
               src: /assets/images/Resolve_Symptoms_to_ICD10-CM_Codes.svg
-          image2: 
-              src: /assets/images/Resolve_Symptoms_to_ICD10-CM_Codes_f.svg
           excerpt: This demo shows how clinical problems can be automatically mapped to the ICD10-CM taxonomy.
           actions:
           - text: Live Demo
@@ -52,8 +48,6 @@ data:
           id: rxnorm_coding
           image: 
               src: /assets/images/Resolve_Drugs_to_RxNorm_Codes.svg
-          image2: 
-              src: /assets/images/Resolve_Drugs_to_RxNorm_Codes_f.svg
           excerpt: This demo shows how drugs can be automatically mapped to RxNorm codes using sentence based resolvers. 
           actions:
           - text: Live Demo
@@ -66,8 +60,6 @@ data:
           id: logical-observation-identifiers-names-and-codes
           image: 
               src: /assets/images/Map_Healthcare_Codes.svg
-          image2: 
-              src: /assets/images/Map_Healthcare_Codes_f.svg
           excerpt: These pretrained pipelines map various codes (e.g., ICD10CM codes to SNOMED codes) without using any text data.
           actions:
           - text: Live Demo
@@ -80,8 +72,6 @@ data:
           id: resolve_clinical_entities_codes_loinc
           image: 
               src: /assets/images/Resolve_Clinical_Entities_to_LOINC.svg
-          image2: 
-              src: /assets/images/Resolve_Clinical_Entities_to_LOINC_f.svg
           excerpt: This demo shows how laboratory terminology can be automatically mapped to the Logical Observation Identifiers Names and Codes (LOINC) taxonomy.
           actions:
           - text: Live Demo
@@ -94,8 +84,6 @@ data:
           id: resolve_clinical_health_information_using_hpo_taxonomy 
           image: 
               src: /assets/images/Resolve_Clinical_Health_Information_using_the_HPO_taxonomy.svg
-          image2: 
-              src: /assets/images/Resolve_Clinical_Health_Information_using_the_HPO_taxonomy_f.svg
           excerpt: This demo shows how clinical health information can be mapped to codes using the HPO taxonomy.
           actions:
           - text: Live Demo
@@ -108,8 +96,6 @@ data:
           id: resolve_clinical_health_information_using_mesh_taxonomy 
           image: 
               src: /assets/images/Resolve_Clinical_Health_Information_using_the_MeSH_taxonomy.svg
-          image2: 
-              src: /assets/images/Resolve_Clinical_Health_Information_using_the_MeSH_taxonomy_f.svg
           excerpt: This demo shows how clinical health information can be mapped to codes using the MeSH taxonomy.
           actions:
           - text: Live Demo
@@ -122,8 +108,6 @@ data:
           id: resolve_clinical_health_information_using_umls_cui_taxonomy 
           image: 
               src: /assets/images/Sentence_Entity_Resolver_for_UMLS_CUI.svg
-          image2: 
-              src: /assets/images/Sentence_Entity_Resolver_for_UMLS_CUI_f.svg
           excerpt: This demo shows how clinical findings can be mapped to codes using the UMLS CUI taxonomy.
           actions:
           - text: Live Demo
@@ -137,8 +121,6 @@ data:
           id: map_clinical_terminology_hcpcs_taxonomy  
           image: 
               src: /assets/images/Map_clinical_terminology_to_HCPCS_taxonomy.svg
-          image2: 
-              src: /assets/images/Map_clinical_terminology_to_HCPCS_taxonomy_f.svg
           excerpt: This demo shows how clinical terminology can be automatically mapped to the Healthcare Common procedure Coding System (HCPCS) taxonomy.
           actions:
           - text: Live Demo
@@ -151,8 +133,6 @@ data:
           id: resolve_clinical_health_information_using_ndc_taxonomy   
           image: 
               src: /assets/images/Resolve_Clinical_Health_Information_using_the_NDC_taxonomy.svg
-          image2: 
-              src: /assets/images/Resolve_Clinical_Health_Information_using_the_NDC_taxonomy_f.svg
           excerpt: This demo shows how clinical health information and concepts (like drugs/ingredients) can be mapped to codes using the NDC taxonomy.
           actions:
           - text: Live Demo
@@ -165,8 +145,6 @@ data:
           id: resolve_clinical_abbreviations_acronyms    
           image: 
               src: /assets/images/Resolve_Clinical_Abbreviations_and_Acronyms.svg
-          image2: 
-              src: /assets/images/Resolve_Clinical_Abbreviations_and_Acronyms_f.svg
           excerpt: This demo shows how to map clinical abbreviations and acronyms to their meanings.
           actions:
           - text: Live Demo
@@ -179,8 +157,6 @@ data:
           id: resolve_drug_class_using_rxnorm_taxonomy     
           image: 
               src: /assets/images/Resolve_Drug_Class_using_RxNorm_taxonomy.svg
-          image2: 
-              src: /assets/images/Resolve_Drug_Class_using_RxNorm_taxonomy_f.svg
           excerpt: This demo shows how to map Drugs to related Drug-Classes using RxNorm taxonomy.
           actions:
           - text: Live Demo
@@ -193,8 +169,6 @@ data:
           id: resolve_drug_Substance_using_umls_cui_taxonomy      
           image: 
               src: /assets/images/Resolve_Drug_Substance_using_the_umls_cuitaxonomy.svg
-          image2: 
-              src: /assets/images/Resolve_Drug_Substance_using_the_umls_cuitaxonomy_f.svg
           excerpt: This demo shows how to map Drug & Substance to their corresponding codes using UMLS CUI taxonomy.
           actions:
           - text: Live Demo
@@ -207,8 +181,6 @@ data:
           id: resolve_clinical_procedures_cpt_taxonomy       
           image: 
               src: /assets/images/Resolve_Clinical_Procedures_using_CPT_taxonomy.svg
-          image2: 
-              src: /assets/images/Resolve_Clinical_Procedures_using_CPT_taxonomy_f.svg
           excerpt: This demo shows how to map clinical procedures to codes using CPT taxonomy.
           actions:
           - text: Live Demo

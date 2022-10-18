@@ -24,8 +24,6 @@ data:
           id: recognize_entities_in_japanese_text
           image: 
               src: /assets/images/Flag_of_Japan.png
-          image2: 
-              src: /assets/images/Flag_of_Japan.png
           excerpt: Recognize Persons, Locations and Organization entities using an out of the box pretrained Deep Learning model and language specific embeddings. 
           actions:
           - text: Live Demo
@@ -37,8 +35,6 @@ data:
         - title: Recognize entities in Korean text
           id: recognize_entities_in_korean_text
           image: 
-              src: /assets/images/South_Korea.png
-          image2: 
               src: /assets/images/South_Korea.png
           excerpt: Recognize Persons, Locations and other entities using an out of the box pretrained Deep Learning model and language specific embeddings.
           actions:
@@ -52,8 +48,6 @@ data:
           id: recognize_entities_in_chinese_text
           image: 
               src: /assets/images/Flag-China.jpg
-          image2: 
-              src: /assets/images/Flag-China.jpg
           excerpt: Recognize Persons, Locations and other entities using an out of the box pretrained Deep Learning model and language specific embeddings.
           actions:
           - text: Live Demo
@@ -66,8 +60,6 @@ data:
           id: lemmatizer_east_asian_languages 
           image: 
               src: /assets/images/Lemmatizer_for_East_Asian_Languages.svg
-          image2: 
-              src: /assets/images/Lemmatizer_for_East_Asian_Languages_f.svg
           excerpt: This demo shows how to lemmatize documents of East Asian languages.
           actions:
           - text: Live Demo
