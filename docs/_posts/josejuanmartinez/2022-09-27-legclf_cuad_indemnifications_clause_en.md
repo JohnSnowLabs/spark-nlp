@@ -1,6 +1,6 @@
 ---
 layout: model
-title: Legal Indemnifications Clause Binary Classifier
+title: Legal Indemnifications Clause Binary Classifier (CUAD dataset)
 author: John Snow Labs
 name: legclf_cuad_indemnifications_clause
 date: 2022-09-27
@@ -27,6 +27,8 @@ If you have big legal documents, and you want to look for clauses, we recommend 
 Take into consideration the embeddings of this model allows up to 512 tokens. If you have more than that, consider splitting in smaller pieces (you can also check the same tutorial link provided above).
 
 This model can be combined with any of the other 200+ Legal Clauses Classifiers you will find in Models Hub, getting as an output a series of True/False values for each of the legal clause model you have added.
+
+The difference between his model and others with the same title is the dataset it was trained on. 
 
 ## Predicted Entities
 
