@@ -62,6 +62,12 @@ reDL = legal.RelationExtractionDLModel.pretrained("legre_warranty", "en", "legal
     .setOutputCol("relations")
     
 pipeline = Pipeline(stages=[documentAssembler, tokenizer, embeddings, ner_model, ner_converter, reDL])
+
+text = """"Each party will promptly return to the other upon request any Confidential Information of the other party then in its possession or under its control."""
+
+data = spark.createDataFrame([[text]]).toDF("text")
+model = pipeline.fit(data)
+res = model.transform(data)
 ```
 </div>
 
