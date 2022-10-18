@@ -4,7 +4,7 @@ title: Legal Relation Extraction (Confidentiality)
 author: John Snow Labs
 name: legre_confidentiality
 date: 2022-10-18
-tags: [legal, en, re, licensed, is_confidentiality_subject]
+tags: [legal, en, re, licensed, confidentiality]
 task: Relation Extraction
 language: en
 edition: Spark NLP for Legal 1.0.0
