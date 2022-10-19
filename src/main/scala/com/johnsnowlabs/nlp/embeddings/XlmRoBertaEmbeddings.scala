@@ -164,7 +164,8 @@ class XlmRoBertaEmbeddings(override val uid: String)
     with WriteSentencePieceModel
     with HasEmbeddingsProperties
     with HasStorageRef
-    with HasCaseSensitiveProperties {
+    with HasCaseSensitiveProperties
+    with HasEngine {
 
   /** Annotator reference id. Used to identify elements in metadata or to refer to this annotator
     * type
@@ -387,6 +388,8 @@ trait ReadXlmRobertaDLModel extends ReadTensorflowModel with ReadSentencePieceMo
 
     /*Universal parameters for all engines*/
     val annotatorModel = new XlmRoBertaEmbeddings()
+
+    annotatorModel.set(annotatorModel.engine, detectedEngine)
 
     detectedEngine match {
       case ModelEngine.tensorflow =>

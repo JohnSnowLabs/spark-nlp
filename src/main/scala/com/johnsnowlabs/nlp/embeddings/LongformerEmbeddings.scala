@@ -151,7 +151,8 @@ class LongformerEmbeddings(override val uid: String)
     with WriteTensorflowModel
     with HasEmbeddingsProperties
     with HasStorageRef
-    with HasCaseSensitiveProperties {
+    with HasCaseSensitiveProperties
+    with HasEngine {
 
   /** Annotator reference id. Used to identify elements in metadata or to refer to this annotator
     * type
@@ -438,6 +439,8 @@ trait ReadLongformerTensorflowModel extends ReadTensorflowModel {
     val annotatorModel = new LongformerEmbeddings()
       .setVocabulary(vocabs)
       .setMerges(bytePairs)
+
+    annotatorModel.set(annotatorModel.engine, detectedEngine)
 
     detectedEngine match {
       case ModelEngine.tensorflow =>

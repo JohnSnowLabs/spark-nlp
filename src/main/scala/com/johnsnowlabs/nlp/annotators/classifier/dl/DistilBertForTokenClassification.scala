@@ -116,7 +116,8 @@ class DistilBertForTokenClassification(override val uid: String)
     extends AnnotatorModel[DistilBertForTokenClassification]
     with HasBatchedAnnotate[DistilBertForTokenClassification]
     with WriteTensorflowModel
-    with HasCaseSensitiveProperties {
+    with HasCaseSensitiveProperties
+    with HasEngine {
 
   /** Annotator reference id. Used to identify elements in metadata or to refer to this annotator
     * type
@@ -347,6 +348,8 @@ trait ReadDistilBertForTokenTensorflowModel extends ReadTensorflowModel {
     val annotatorModel = new DistilBertForTokenClassification()
       .setVocabulary(vocabs)
       .setLabels(labels)
+
+    annotatorModel.set(annotatorModel.engine, detectedEngine)
 
     detectedEngine match {
       case ModelEngine.tensorflow =>

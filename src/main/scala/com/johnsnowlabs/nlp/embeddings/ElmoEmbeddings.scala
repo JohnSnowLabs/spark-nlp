@@ -155,7 +155,8 @@ class ElmoEmbeddings(override val uid: String)
     with WriteTensorflowModel
     with HasEmbeddingsProperties
     with HasStorageRef
-    with HasCaseSensitiveProperties {
+    with HasCaseSensitiveProperties
+    with HasEngine {
 
   /** Input annotator types : DOCUMENT, TOKEN
     *
@@ -364,6 +365,8 @@ trait ReadElmoDLModel extends ReadTensorflowModel {
     val detectedEngine = modelSanityCheck(modelPath)
 
     val annotatorModel = new ElmoEmbeddings()
+
+    annotatorModel.set(annotatorModel.engine, detectedEngine)
 
     detectedEngine match {
       case ModelEngine.tensorflow =>

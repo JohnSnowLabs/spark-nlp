@@ -17,8 +17,16 @@
 package com.johnsnowlabs.nlp.annotators.classifier.dl
 
 import com.johnsnowlabs.ml.tensorflow._
-import com.johnsnowlabs.ml.tensorflow.sentencepiece.{ReadSentencePieceModel, SentencePieceWrapper, WriteSentencePieceModel}
-import com.johnsnowlabs.ml.util.LoadExternalModel.{loadSentencePieceAsset, modelSanityCheck, notSupportedEngineError}
+import com.johnsnowlabs.ml.tensorflow.sentencepiece.{
+  ReadSentencePieceModel,
+  SentencePieceWrapper,
+  WriteSentencePieceModel
+}
+import com.johnsnowlabs.ml.util.LoadExternalModel.{
+  loadSentencePieceAsset,
+  modelSanityCheck,
+  notSupportedEngineError
+}
 import com.johnsnowlabs.ml.util.ModelEngine
 import com.johnsnowlabs.nlp._
 import com.johnsnowlabs.nlp.serialization.MapFeature
@@ -108,7 +116,8 @@ class AlbertForQuestionAnswering(override val uid: String)
     with HasBatchedAnnotate[AlbertForQuestionAnswering]
     with WriteTensorflowModel
     with WriteSentencePieceModel
-    with HasCaseSensitiveProperties {
+    with HasCaseSensitiveProperties
+    with HasEngine {
 
   /** Annotator reference id. Used to identify elements in metadata or to refer to this annotator
     * type
@@ -304,6 +313,8 @@ trait ReadAlbertForQATensorflowModel extends ReadTensorflowModel with ReadSenten
 
     /*Universal parameters for all engines*/
     val annotatorModel = new AlbertForQuestionAnswering()
+
+    annotatorModel.set(annotatorModel.engine, detectedEngine)
 
     detectedEngine match {
       case ModelEngine.tensorflow =>

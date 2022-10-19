@@ -156,7 +156,8 @@ class T5Transformer(override val uid: String)
     with HasBatchedAnnotate[T5Transformer]
     with ParamsAndFeaturesWritable
     with WriteTensorflowModel
-    with WriteSentencePieceModel {
+    with WriteSentencePieceModel
+    with HasEngine {
 
   def this() = this(Identifiable.randomUID("T5TRANSFORMER"))
 
@@ -530,6 +531,8 @@ trait ReadT5TransformerTensorflowModel extends ReadTensorflowModel with ReadSent
 
     /*Universal parameters for all engines*/
     val annotatorModel = new T5Transformer()
+
+    annotatorModel.set(annotatorModel.engine, detectedEngine)
 
     val spModel = loadSentencePieceAsset(modelPath, "spiece.model")
 

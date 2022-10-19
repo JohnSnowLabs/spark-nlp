@@ -13,11 +13,10 @@
 #  limitations under the License.
 """Contains classes for the T5Transformer."""
 
-
 from sparknlp.common import *
 
 
-class T5Transformer(AnnotatorModel, HasBatchedAnnotate):
+class T5Transformer(AnnotatorModel, HasBatchedAnnotate, HasEngine):
     """T5: the Text-To-Text Transfer Transformer
 
     T5 reconsiders all NLP tasks into a unified text-to-text-format where the
@@ -370,4 +369,3 @@ class T5Transformer(AnnotatorModel, HasBatchedAnnotate):
         """
         from sparknlp.pretrained import ResourceDownloader
         return ResourceDownloader.downloadModel(T5Transformer, name, lang, remote_loc)
-

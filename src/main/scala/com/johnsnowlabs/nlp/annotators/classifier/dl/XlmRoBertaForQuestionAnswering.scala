@@ -116,7 +116,8 @@ class XlmRoBertaForQuestionAnswering(override val uid: String)
     with HasBatchedAnnotate[XlmRoBertaForQuestionAnswering]
     with WriteTensorflowModel
     with WriteSentencePieceModel
-    with HasCaseSensitiveProperties {
+    with HasCaseSensitiveProperties
+    with HasEngine {
 
   /** Annotator reference id. Used to identify elements in metadata or to refer to this annotator
     * type
@@ -315,6 +316,8 @@ trait ReadXlmRoBertaForQATensorflowModel extends ReadTensorflowModel with ReadSe
 
     /*Universal parameters for all engines*/
     val annotatorModel = new XlmRoBertaForQuestionAnswering()
+
+    annotatorModel.set(annotatorModel.engine, detectedEngine)
 
     detectedEngine match {
       case ModelEngine.tensorflow =>

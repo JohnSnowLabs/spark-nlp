@@ -118,7 +118,8 @@ class RoBertaForSequenceClassification(override val uid: String)
     with HasBatchedAnnotate[RoBertaForSequenceClassification]
     with WriteTensorflowModel
     with HasCaseSensitiveProperties
-    with HasClassifierActivationProperties {
+    with HasClassifierActivationProperties
+    with HasEngine {
 
   /** Annotator reference id. Used to identify elements in metadata or to refer to this annotator
     * type
@@ -393,6 +394,8 @@ trait ReadRoBertaForSequenceTensorflowModel extends ReadTensorflowModel {
       .setVocabulary(vocabs)
       .setMerges(bytePairs)
       .setLabels(labels)
+
+    annotatorModel.set(annotatorModel.engine, detectedEngine)
 
     detectedEngine match {
       case ModelEngine.tensorflow =>

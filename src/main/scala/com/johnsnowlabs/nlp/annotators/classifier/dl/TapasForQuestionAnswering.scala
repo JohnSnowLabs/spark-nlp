@@ -17,7 +17,11 @@
 package com.johnsnowlabs.nlp.annotators.classifier.dl
 
 import com.johnsnowlabs.ml.tensorflow.{ReadTensorflowModel, TensorflowTapas, TensorflowWrapper}
-import com.johnsnowlabs.ml.util.LoadExternalModel.{loadTextAsset, modelSanityCheck, notSupportedEngineError}
+import com.johnsnowlabs.ml.util.LoadExternalModel.{
+  loadTextAsset,
+  modelSanityCheck,
+  notSupportedEngineError
+}
 import com.johnsnowlabs.ml.util.ModelEngine
 import com.johnsnowlabs.nlp.base.TableAssembler
 import com.johnsnowlabs.nlp.{Annotation, AnnotatorType, HasPretrained, ParamsAndFeaturesReadable}
@@ -259,6 +263,8 @@ trait ReadTapasForQATensorflowModel extends ReadTensorflowModel {
     /*Universal parameters for all engines*/
     val annotatorModel = new TapasForQuestionAnswering()
       .setVocabulary(vocabs)
+
+    annotatorModel.set(annotatorModel.engine, detectedEngine)
 
     detectedEngine match {
       case ModelEngine.tensorflow =>

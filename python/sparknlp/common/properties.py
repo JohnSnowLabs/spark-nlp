@@ -375,3 +375,19 @@ class HasAudioFeatureProperties:
         value : float
         """
         return self._set(paddingValue=value)
+
+
+class HasEngine:
+    engine = Param(Params._dummy(), "engine",
+                   "Deep Learning engine used for this model",
+                   typeConverter=TypeConverters.toString)
+
+    def getEngine(self):
+        """
+
+        Returns
+        -------
+        str
+           Deep Learning engine used for this model"
+        """
+        return self.getOrDefault(self.engine)

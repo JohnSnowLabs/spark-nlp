@@ -461,7 +461,8 @@ class ContextSpellCheckerApproach(AnnotatorApproach):
     def _create_model(self, java_model):
         return ContextSpellCheckerModel(java_model=java_model)
 
-class ContextSpellCheckerModel(AnnotatorModel):
+
+class ContextSpellCheckerModel(AnnotatorModel, HasEngine):
     """Implements a deep-learning based Noisy Channel Model Spell Algorithm.
     Correction candidates are extracted combining context information and word
     information.
@@ -801,4 +802,3 @@ class ContextSpellCheckerModel(AnnotatorModel):
         """
         from sparknlp.pretrained import ResourceDownloader
         return ResourceDownloader.downloadModel(ContextSpellCheckerModel, name, lang, remote_loc)
-

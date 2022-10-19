@@ -173,7 +173,8 @@ class XlnetEmbeddings(override val uid: String)
     with WriteSentencePieceModel
     with HasEmbeddingsProperties
     with HasStorageRef
-    with HasCaseSensitiveProperties {
+    with HasCaseSensitiveProperties
+    with HasEngine {
 
   /** Annotator reference id. Used to identify elements in metadata or to refer to this annotator
     * type
@@ -385,6 +386,8 @@ trait ReadXlnetDLModel extends ReadTensorflowModel with ReadSentencePieceModel {
 
     /*Universal parameters for all engines*/
     val annotatorModel = new XlnetEmbeddings()
+
+    annotatorModel.set(annotatorModel.engine, detectedEngine)
 
     detectedEngine match {
       case ModelEngine.tensorflow =>

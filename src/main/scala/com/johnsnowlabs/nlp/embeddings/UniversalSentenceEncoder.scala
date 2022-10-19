@@ -143,7 +143,8 @@ class UniversalSentenceEncoder(override val uid: String)
     with HasBatchedAnnotate[UniversalSentenceEncoder]
     with HasEmbeddingsProperties
     with HasStorageRef
-    with WriteTensorflowModel {
+    with WriteTensorflowModel
+    with HasEngine {
 
   /** Annotator reference id. Used to identify elements in metadata or to refer to this annotator
     * type
@@ -351,6 +352,8 @@ trait ReadUSEDLModel extends ReadTensorflowModel {
     /*Universal parameters for all engines*/
     val annotatorModel = new UniversalSentenceEncoder()
       .setLoadSP(loadSP)
+
+    annotatorModel.set(annotatorModel.engine, detectedEngine)
 
     detectedEngine match {
       case ModelEngine.tensorflow =>

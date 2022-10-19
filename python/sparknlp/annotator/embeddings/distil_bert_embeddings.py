@@ -20,7 +20,8 @@ class DistilBertEmbeddings(AnnotatorModel,
                            HasEmbeddingsProperties,
                            HasCaseSensitiveProperties,
                            HasStorageRef,
-                           HasBatchedAnnotate):
+                           HasBatchedAnnotate,
+                           HasEngine):
     """DistilBERT is a small, fast, cheap and light Transformer model trained by
     distilling BERT base. It has 40% less parameters than ``bert-base-uncased``,
     runs 60% faster while preserving over 95% of BERT's performances as measured
@@ -228,4 +229,3 @@ class DistilBertEmbeddings(AnnotatorModel,
         """
         from sparknlp.pretrained import ResourceDownloader
         return ResourceDownloader.downloadModel(DistilBertEmbeddings, name, lang, remote_loc)
-

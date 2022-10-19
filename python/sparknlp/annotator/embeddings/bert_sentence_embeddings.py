@@ -20,7 +20,8 @@ class BertSentenceEmbeddings(AnnotatorModel,
                              HasEmbeddingsProperties,
                              HasCaseSensitiveProperties,
                              HasStorageRef,
-                             HasBatchedAnnotate):
+                             HasBatchedAnnotate,
+                             HasEngine):
     """Sentence-level embeddings using BERT. BERT (Bidirectional Encoder
     Representations from Transformers) provides dense vector representations for
     natural language by using a deep, pre-trained neural network with the
@@ -229,4 +230,3 @@ class BertSentenceEmbeddings(AnnotatorModel,
         """
         from sparknlp.pretrained import ResourceDownloader
         return ResourceDownloader.downloadModel(BertSentenceEmbeddings, name, lang, remote_loc)
-

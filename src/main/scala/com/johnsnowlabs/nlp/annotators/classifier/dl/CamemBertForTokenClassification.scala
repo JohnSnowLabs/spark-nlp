@@ -123,7 +123,8 @@ class CamemBertForTokenClassification(override val uid: String)
     with HasBatchedAnnotate[CamemBertForTokenClassification]
     with WriteTensorflowModel
     with WriteSentencePieceModel
-    with HasCaseSensitiveProperties {
+    with HasCaseSensitiveProperties
+    with HasEngine {
 
   /** Annotator reference id. Used to identify elements in metadata or to refer to this annotator
     * type
@@ -343,6 +344,8 @@ trait ReadCamemBertForTokenTensorflowModel
 
     val annotatorModel = new CamemBertForTokenClassification()
       .setLabels(labels)
+
+    annotatorModel.set(annotatorModel.engine, detectedEngine)
 
     detectedEngine match {
       case ModelEngine.tensorflow =>

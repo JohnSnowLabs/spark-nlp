@@ -123,7 +123,8 @@ class AlbertForTokenClassification(override val uid: String)
     with HasBatchedAnnotate[AlbertForTokenClassification]
     with WriteTensorflowModel
     with WriteSentencePieceModel
-    with HasCaseSensitiveProperties {
+    with HasCaseSensitiveProperties
+    with HasEngine {
 
   /** Annotator reference id. Used to identify elements in metadata or to refer to this annotator
     * type
@@ -339,6 +340,8 @@ trait ReadAlbertForTokenTensorflowModel extends ReadTensorflowModel with ReadSen
 
     val annotatorModel = new AlbertForTokenClassification()
       .setLabels(labels)
+
+    annotatorModel.set(annotatorModel.engine, detectedEngine)
 
     detectedEngine match {
       case ModelEngine.tensorflow =>

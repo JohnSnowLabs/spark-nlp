@@ -123,7 +123,8 @@ class XlnetForTokenClassification(override val uid: String)
     with HasBatchedAnnotate[XlnetForTokenClassification]
     with WriteTensorflowModel
     with WriteSentencePieceModel
-    with HasCaseSensitiveProperties {
+    with HasCaseSensitiveProperties
+    with HasEngine {
 
   /** Annotator reference id. Used to identify elements in metadata or to refer to this annotator
     * type
@@ -339,6 +340,8 @@ trait ReadXlnetForTokenTensorflowModel extends ReadTensorflowModel with ReadSent
 
     val annotatorModel = new XlnetForTokenClassification()
       .setLabels(labels)
+
+    annotatorModel.set(annotatorModel.engine, detectedEngine)
 
     detectedEngine match {
       case ModelEngine.tensorflow =>

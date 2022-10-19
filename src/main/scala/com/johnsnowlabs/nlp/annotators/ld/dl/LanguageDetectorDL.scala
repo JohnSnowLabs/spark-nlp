@@ -114,7 +114,8 @@ import scala.collection.immutable.ListMap
 class LanguageDetectorDL(override val uid: String)
     extends AnnotatorModel[LanguageDetectorDL]
     with HasSimpleAnnotate[LanguageDetectorDL]
-    with WriteTensorflowModel {
+    with WriteTensorflowModel
+    with HasEngine {
 
   def this() = this(Identifiable.randomUID("LANGUAGE_DETECTOR_DL"))
 
@@ -338,6 +339,8 @@ trait ReadLanguageDetectorDLTensorflowModel extends ReadTensorflowModel {
     val annotatorModel = new LanguageDetectorDL()
       .setAlphabet(alphabets)
       .setLanguage(languages)
+
+    annotatorModel.set(annotatorModel.engine, detectedEngine)
 
     detectedEngine match {
       case ModelEngine.tensorflow =>

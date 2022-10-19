@@ -140,7 +140,8 @@ class MarianTransformer(override val uid: String)
     extends AnnotatorModel[MarianTransformer]
     with HasBatchedAnnotate[MarianTransformer]
     with WriteTensorflowModel
-    with WriteSentencePieceModel {
+    with WriteSentencePieceModel
+    with HasEngine {
 
   /** Annotator reference id. Used to identify elements in metadata or to refer to this annotator
     * type
@@ -445,6 +446,8 @@ trait ReadMarianMTTensorflowModel extends ReadTensorflowModel with ReadSentenceP
     /*Universal parameters for all engines*/
     val annotatorModel = new MarianTransformer()
       .setVocabulary(vocabs)
+
+    annotatorModel.set(annotatorModel.engine, detectedEngine)
 
     detectedEngine match {
       case ModelEngine.tensorflow =>
