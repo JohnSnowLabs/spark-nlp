@@ -19,6 +19,11 @@ use_language_switcher: "Python-Scala-Java"
 
 Pretrained VIT  model, adapted from Hugging Face and curated to provide scalability and production-readiness using Spark NLP.`image_classifier_vit__test_1_95` is a English model originally trained by 25khattab.
 
+
+## Predicted Entities
+
+`LABEL_0`, `LABEL_1`
+
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>
 <button class="button button-orange" disabled>Open in Colab</button>
