@@ -19,48 +19,48 @@ The labeling screen offers some configurable features. For example, you can modi
 ## Enable labeling hotkeys
 
 This option specifies if the hotkeys assigned to taxonomy labels should be used for activating them during the annotation process.
-<img class="image image--xl" src="/assets/images/annotation_lab/settings/Enable_labeling_hotkeys.png" style="width:100%; align:center; box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);"/>
+<img class="image image__shadow" src="/assets/images/annotation_lab/settings/Enable_labeling_hotkeys.png" style="width:100%;"/>
 
 ## Show hotkey tooltips
 
 When the enable labelling hotkeys is turned on, it is possible to also show the hotkey tooltips on some of the buttons - the ones which have hotkeys assigned. 
-<img class="image image--xl" src="/assets/images/annotation_lab/settings/settings_hotkey.png" style="width:100%; align:center; box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);"/>
+<img class="image image__shadow" src="/assets/images/annotation_lab/settings/settings_hotkey.png" style="width:100%;"/>
 
-<img class="image image--xl" src="/assets/images/annotation_lab/settings/hotkeys.png" style="width:100%; align:center; box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);"/>
+<img class="image image__shadow" src="/assets/images/annotation_lab/settings/hotkeys.png" style="width:100%;"/>
 
 ## Show labels hotkey tooltips
 
 When this option is checked tooltips will be displayed on mouse over for the buttons that have hotkeys assigned. 
-<img class="image image--xl" src="/assets/images/annotation_lab/settings/tooltips.gif" style="width:100%; align:center; box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);"/>
+<img class="image image__shadow" src="/assets/images/annotation_lab/settings/tooltips.gif" style="width:100%;"/>
 
 
 ## Show labels inside the regions
 
 When this option is checked the labels assigned to each annotated region are displayed on the respective region as shown in the image below. 
-<img class="image image--xl" src="/assets/images/annotation_lab/settings/labels_inside_regions.png" style="width:100%; align:center; box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);"/>
+<img class="image image__shadow" src="/assets/images/annotation_lab/settings/labels_inside_regions.png" style="width:100%;"/>
 
 ## Keep label selected after creating a region
 
 This option helps users quickly annotate sequences of the same label by keeping the label selected after the annotation of a region. 
 With the option unchecked:
-<img class="image image--xl" src="/assets/images/annotation_lab/settings/region_not_selected.gif" style="width:100%; align:center; box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);"/>
+<img class="image image__shadow" src="/assets/images/annotation_lab/settings/region_not_selected.gif" style="width:100%;"/>
 With the option checked:
-<img class="image image--xl" src="/assets/images/annotation_lab/settings/region_selected.gif" style="width:100%; align:center; box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);"/>
+<img class="image image__shadow" src="/assets/images/annotation_lab/settings/region_selected.gif" style="width:100%;"/>
 
 ## Select regions after creating
 
 This option keeps the annotated region selected after annotation. In this way, it will be easier for users to quickly change the assigned label for the last selected region if necessary. 
-<img class="image image--xl" src="/assets/images/annotation_lab/settings/annotations_selected.gif" style="width:100%; align:center; box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);"/>
+<img class="image image__shadow" src="/assets/images/annotation_lab/settings/annotations_selected.gif" style="width:100%;"/>
 
 ## Show line numbers for Text
 
 This option adds line counts for the text to annotate as illustrated below. 
-<img class="image image--xl" src="/assets/images/annotation_lab/settings/show_line_number.png" style="width:100%; align:center; box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);"/>
+<img class="image image__shadow" src="/assets/images/annotation_lab/settings/show_line_number.png" style="width:100%;"/>
 
 ## Label all occurrences of selected text
 
 When checked, this option allow users to annotate all occurences of a label in the current task in one step. 
-<img class="image image--xl" src="/assets/images/annotation_lab/settings/all_occ.gif" style="width:100%; align:center; box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);"/>
+<img class="image image__shadow" src="/assets/images/annotation_lab/settings/all_occ.gif" style="width:100%;"/>
 
 ## Annotation Screen customizations
 
@@ -103,7 +103,7 @@ hotkey  |string     |Hotkey to use to focus on the filter text area
 
 
 
-<img class="image image--xl" src="/assets/images/annotation_lab/2.6.0/filter.png" style="width:100%; align:center; box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);"/>
+<img class="image image__shadow" src="/assets/images/annotation_lab/2.6.0/filter.png" style="width:100%;"/>
 
 For obtaining the above display on a NER project, the config should look as follows:
 
@@ -122,7 +122,7 @@ For obtaining the above display on a NER project, the config should look as foll
 ```
 
 Notice how users can search for the desired label using the filter bar:
-<img class="image image--xl" src="/assets/images/annotation_lab/2.6.0/ner_label_search.gif" style="width:100%; align:center; box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);"/>
+<img class="image image__shadow" src="/assets/images/annotation_lab/2.6.0/ner_label_search.gif" style="width:100%;"/>
 
 
 ### Resizable labels area and textbox area 
@@ -146,7 +146,7 @@ To add the scroll bar, the `View` tag with `overflow-y:scroll` attribute can be 
 
 Once it has been added and saved to the Project Configuration, the scroll bar should be visible.
 
-<img class="image image--xl" src="/assets/images/annotation_lab/2.6.0/scroll_bar.png" style="width:100%; align:center; box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);"/>
+<img class="image image__shadow" src="/assets/images/annotation_lab/2.6.0/scroll_bar.png" style="width:100%;"/>
 
 **Example**
 Using the following Project Configuration 
@@ -170,7 +170,7 @@ Using the following Project Configuration
 ```
 
 we'll obtain the output illustrated below:
-<img class="image image--xl" src="/assets/images/annotation_lab/2.6.0/scroll_and_filter.gif" style="width:100%; align:center; box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);"/>
+<img class="image image__shadow" src="/assets/images/annotation_lab/2.6.0/scroll_and_filter.gif" style="width:100%;"/>
 
 
 ### Project Configuration Box

@@ -18,7 +18,7 @@ sidebar:
 
 For projects that include a large number of labels, we have created a way to optimize the taxonomy display so that users can quickly find the label they are searching for. 
 
-<img class="image image--xl" src="/assets/images/annotation_lab/settings/large_taxonomy.png" style="width:100%; align:center; box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);"/>
+<img class="image image__shadow" src="/assets/images/annotation_lab/settings/large_taxonomy.png" style="width:100%;"/>
 
 To obtain the above display please use the following configuration:
 

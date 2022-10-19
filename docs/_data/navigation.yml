@@ -80,8 +80,6 @@ annotation-lab:
         url: /docs/en/alab/tasks
       - title: Annotation
         url: /docs/en/alab/annotation
-      - title: NLP Models Hub
-        url: /docs/en/alab/models_hub
       - title: Preannotations with Spark NLP
         url: /docs/en/alab/preannotations
       - title: Active Learning
@@ -96,18 +94,36 @@ annotation-lab:
         url: /docs/en/alab/analytics
       - title: Annotation Export
         url: /docs/en/alab/export
-      - title: User Management
-        url: /docs/en/alab/user_management
       - title: Workflow Setup
         url: /docs/en/alab/workflow
-      - title: License Setup
-        url: /docs/en/alab/byol
-      - title: API Integration
-        url: /docs/en/alab/api
-      - title: Infrastructure
-        url: /docs/en/alab/infrastructure
       - title: Security and Privacy
         url: /docs/en/alab/security
+      - subtitle: Resources – Models and Rules
+        children:
+          - title: Models Hub
+            url: /docs/en/alab/models_hub
+          - title: Models
+            url: /docs/en/alab/models
+          - title: Embeddings
+            url: /docs/en/alab/embeddings
+          - title: Rules
+            url: /docs/en/alab/rules
+      - subtitle: Administration
+        children:
+          - title: User Management
+            url: /docs/en/alab/user_management
+          - title: License Management
+            url: /docs/en/alab/byol
+          - title: Backup and Restore
+            url: /docs/en/alab/backup_restore
+          - title: Analytics Permission
+            url: /docs/en/alab/analytics_permission
+          - title: API Integration
+            url: /docs/en/alab/api
+          - title: Infrastructure Configuration
+            url: /docs/en/alab/infrastructure
+          - title: Cluster Management
+            url: /docs/en/alab/cluster_management
       - title: Video Tutorials
         url: /docs/en/alab/tutorials
       - title: Release Notes
