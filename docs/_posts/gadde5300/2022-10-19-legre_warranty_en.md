@@ -72,6 +72,20 @@ res = model.transform(data)
 
 </div>
 
+## Results
+
+```bash
+|relation           |entity1         |entity1_begin|entity1_end|chunk1  |entity2        |entity2_begin|entity2_end|chunk2                                                                                                                                 |confidence|
+|-------------------|----------------|-------------|-----------|--------|---------------|-------------|-----------|---------------------------------------------------------------------------------------------------------------------------------------|----------|
+|is_warranty_subject|WARRANTY_SUBJECT|158          |164        |Shipper |WARRANTY_ACTION|166          |173        |warrants                                                                                                                               |0.98402506|
+|is_warranty_subject|WARRANTY_SUBJECT|196          |202        |Shipper |WARRANTY_ACTION|204          |211        |warrants                                                                                                                               |0.9707028 |
+|is_warranty_object |WARRANTY_SUBJECT|196          |202        |Shipper |WARRANTY       |218          |352        |all upstream and downstream transportation arrangements are in place, or will be in place as of the requested effective date of service|0.9917001 |
+|is_warranty_object |WARRANTY_SUBJECT|196          |202        |Shipper |WARRANTY       |367          |474        |has advised the upstream and downstream transporters of the receipt and delivery points under this Agreement                           |0.79867786|
+|is_warranty_object |WARRANTY_ACTION |204          |211        |warrants|WARRANTY       |218          |352        |all upstream and downstream transportation arrangements are in place, or will be in place as of the requested effective date of service|0.97821265|
+|is_warranty_object |WARRANTY_ACTION |204          |211        |warrants|WARRANTY       |367          |474        |has advised the upstream and downstream transporters of the receipt and delivery points under this Agreement                           |0.80337876|
+
+```
+
 {:.model-param}
 ## Model Information
 
@@ -87,3 +101,14 @@ res = model.transform(data)
 ## References
 
 In-house annotated examples from CUAD legal dataset
+
+## Benchmarking
+
+```bash
+Relation                Recall    Precision F1          Support
+is_warranty_indobject   1.000     1.000     1.000        15
+is_warranty_object      1.000     1.000     1.000        44
+is_warranty_subject     1.000     1.000     1.000        29
+Avg.                    1.000     1.000     1.000
+Weighted Avg.           1.000     1.000     1.000
+```
