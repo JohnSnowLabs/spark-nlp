@@ -131,7 +131,6 @@ class Wav2Vec2ForCTCTestSpec extends AnyFlatSpec {
     bufferedSource.close
 
     val processedAudioFloats = Seq(rawFloats).toDF("audio_content")
-    processedAudioFloats.printSchema()
 
     val pipelineModel = pipeline.fit(processedAudioFloats)
     val lightPipeline = new LightPipeline(pipelineModel)
