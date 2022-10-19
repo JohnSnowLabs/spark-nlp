@@ -1,6 +1,6 @@
 ---
 layout: model
-title: Financial NER (Medium)
+title: Financial NER (md, Medium)
 author: John Snow Labs
 name: finner_financial_medium
 date: 2022-10-19
