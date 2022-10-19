@@ -138,7 +138,8 @@ class MultiClassifierDLModel(override val uid: String)
     with HasSimpleAnnotate[MultiClassifierDLModel]
     with WriteTensorflowModel
     with HasStorageRef
-    with ParamsAndFeaturesWritable {
+    with ParamsAndFeaturesWritable
+    with HasEngine {
   def this() = this(Identifiable.randomUID("MultiClassifierDLModel"))
 
   /** Output annotator type : SENTENCE_EMBEDDINGS

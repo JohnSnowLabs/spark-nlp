@@ -133,7 +133,8 @@ class SpanBertCorefModel(override val uid: String)
     with WriteTensorflowModel
     with HasEmbeddingsProperties
     with HasStorageRef
-    with HasCaseSensitiveProperties {
+    with HasCaseSensitiveProperties
+    with HasEngine {
 
   def this() = this(Identifiable.randomUID("SPANBERTCOREFMODEL"))
 
@@ -444,6 +445,8 @@ trait ReadSpanBertCorefTensorflowModel extends ReadTensorflowModel {
     /*Universal parameters for all engines*/
     val annotatorModel = new SpanBertCorefModel()
       .setVocabulary(vocabs)
+
+    annotatorModel.set(annotatorModel.engine, detectedEngine)
 
     detectedEngine match {
       case ModelEngine.tensorflow =>

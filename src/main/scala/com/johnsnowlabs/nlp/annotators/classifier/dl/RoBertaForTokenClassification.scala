@@ -116,7 +116,8 @@ class RoBertaForTokenClassification(override val uid: String)
     extends AnnotatorModel[RoBertaForTokenClassification]
     with HasBatchedAnnotate[RoBertaForTokenClassification]
     with WriteTensorflowModel
-    with HasCaseSensitiveProperties {
+    with HasCaseSensitiveProperties
+    with HasEngine {
 
   /** Annotator reference id. Used to identify elements in metadata or to refer to this annotator
     * type
@@ -365,6 +366,8 @@ trait ReadRoBertaForTokenTensorflowModel extends ReadTensorflowModel {
       .setVocabulary(vocabs)
       .setMerges(bytePairs)
       .setLabels(labels)
+
+    annotatorModel.set(annotatorModel.engine, detectedEngine)
 
     detectedEngine match {
       case ModelEngine.tensorflow =>

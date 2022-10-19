@@ -116,7 +116,8 @@ class BertForTokenClassification(override val uid: String)
     extends AnnotatorModel[BertForTokenClassification]
     with HasBatchedAnnotate[BertForTokenClassification]
     with WriteTensorflowModel
-    with HasCaseSensitiveProperties {
+    with HasCaseSensitiveProperties
+    with HasEngine {
 
   /** Annotator reference id. Used to identify elements in metadata or to refer to this annotator
     * type
@@ -345,6 +346,8 @@ trait ReadBertForTokenTensorflowModel extends ReadTensorflowModel {
     val annotatorModel = new BertForTokenClassification()
       .setVocabulary(vocabs)
       .setLabels(labels)
+
+    annotatorModel.set(annotatorModel.engine, detectedEngine)
 
     detectedEngine match {
       case ModelEngine.tensorflow =>

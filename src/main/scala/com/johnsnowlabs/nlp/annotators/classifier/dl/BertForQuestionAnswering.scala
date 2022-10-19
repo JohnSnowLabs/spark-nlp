@@ -111,7 +111,8 @@ class BertForQuestionAnswering(override val uid: String)
     extends AnnotatorModel[BertForQuestionAnswering]
     with HasBatchedAnnotate[BertForQuestionAnswering]
     with WriteTensorflowModel
-    with HasCaseSensitiveProperties {
+    with HasCaseSensitiveProperties
+    with HasEngine {
 
   /** Annotator reference id. Used to identify elements in metadata or to refer to this annotator
     * type
@@ -322,6 +323,8 @@ trait ReadBertForQATensorflowModel extends ReadTensorflowModel {
     /*Universal parameters for all engines*/
     val annotatorModel = new BertForQuestionAnswering()
       .setVocabulary(vocabs)
+
+    annotatorModel.set(annotatorModel.engine, detectedEngine)
 
     detectedEngine match {
       case ModelEngine.tensorflow =>

@@ -110,7 +110,8 @@ class LongformerForQuestionAnswering(override val uid: String)
     extends AnnotatorModel[LongformerForQuestionAnswering]
     with HasBatchedAnnotate[LongformerForQuestionAnswering]
     with WriteTensorflowModel
-    with HasCaseSensitiveProperties {
+    with HasCaseSensitiveProperties
+    with HasEngine {
 
   /** Annotator reference id. Used to identify elements in metadata or to refer to this annotator
     * type
@@ -343,6 +344,8 @@ trait ReadLongformerForQATensorflowModel extends ReadTensorflowModel {
     val annotatorModel = new LongformerForQuestionAnswering()
       .setVocabulary(vocabs)
       .setMerges(bytePairs)
+
+    annotatorModel.set(annotatorModel.engine, detectedEngine)
 
     detectedEngine match {
       case ModelEngine.tensorflow =>

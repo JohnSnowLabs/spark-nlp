@@ -19,7 +19,8 @@ from sparknlp.common import *
 
 class Wav2Vec2ForCTC(AnnotatorModel,
                      HasBatchedAnnotateAudio,
-                     HasAudioFeatureProperties):
+                     HasAudioFeatureProperties,
+                     HasEngine):
     """Wav2Vec2 Model with a language modeling head on top for Connectionist Temporal 
     Classification (CTC). Wav2Vec2 was proposed in wav2vec 2.0: A Framework for
     Self-Supervised Learning of Speech Representations by Alexei Baevski, Henry Zhou,

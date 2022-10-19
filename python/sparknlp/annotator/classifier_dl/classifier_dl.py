@@ -145,7 +145,7 @@ class ClassifierDLApproach(AnnotatorApproach, EvaluationDLParams, ClassifierEnco
         )
 
 
-class ClassifierDLModel(AnnotatorModel, HasStorageRef):
+class ClassifierDLModel(AnnotatorModel, HasStorageRef, HasEngine):
     """ClassifierDL for generic Multi-class Text Classification.
 
     ClassifierDL uses the state-of-the-art Universal Sentence Encoder as an
@@ -280,4 +280,3 @@ class ClassifierDLModel(AnnotatorModel, HasStorageRef):
         """
         from sparknlp.pretrained import ResourceDownloader
         return ResourceDownloader.downloadModel(ClassifierDLModel, name, lang, remote_loc)
-

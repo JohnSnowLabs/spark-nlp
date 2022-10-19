@@ -116,7 +116,8 @@ class LongformerForTokenClassification(override val uid: String)
     extends AnnotatorModel[LongformerForTokenClassification]
     with HasBatchedAnnotate[LongformerForTokenClassification]
     with WriteTensorflowModel
-    with HasCaseSensitiveProperties {
+    with HasCaseSensitiveProperties
+    with HasEngine {
 
   /** Annotator reference id. Used to identify elements in metadata or to refer to this annotator
     * type
@@ -367,6 +368,8 @@ trait ReadLongformerForTokenTensorflowModel extends ReadTensorflowModel {
       .setVocabulary(vocabs)
       .setMerges(bytePairs)
       .setLabels(labels)
+
+    annotatorModel.set(annotatorModel.engine, detectedEngine)
 
     detectedEngine match {
       case ModelEngine.tensorflow =>

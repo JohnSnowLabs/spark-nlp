@@ -163,7 +163,8 @@ class DistilBertEmbeddings(override val uid: String)
     with WriteTensorflowModel
     with HasEmbeddingsProperties
     with HasStorageRef
-    with HasCaseSensitiveProperties {
+    with HasCaseSensitiveProperties
+    with HasEngine {
 
   /** Annotator reference id. Used to identify elements in metadata or to refer to this annotator
     * type
@@ -424,6 +425,8 @@ trait ReadDistilBertDLModel extends ReadTensorflowModel {
     /*Universal parameters for all engines*/
     val annotatorModel = new DistilBertEmbeddings()
       .setVocabulary(vocabs)
+
+    annotatorModel.set(annotatorModel.engine, detectedEngine)
 
     detectedEngine match {
       case ModelEngine.tensorflow =>

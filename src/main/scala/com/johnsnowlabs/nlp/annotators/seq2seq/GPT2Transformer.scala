@@ -152,7 +152,8 @@ class GPT2Transformer(override val uid: String)
     extends AnnotatorModel[GPT2Transformer]
     with HasBatchedAnnotate[GPT2Transformer]
     with ParamsAndFeaturesWritable
-    with WriteTensorflowModel {
+    with WriteTensorflowModel
+    with HasEngine {
 
   def this() = this(Identifiable.randomUID("GPT2TRANSFORMER"))
 
@@ -539,6 +540,8 @@ trait ReadGPT2TransformerTensorflowModel extends ReadTensorflowModel {
     val annotatorModel = new GPT2Transformer()
       .setVocabulary(vocabs)
       .setMerges(bytePairs)
+
+    annotatorModel.set(annotatorModel.engine, detectedEngine)
 
     detectedEngine match {
       case ModelEngine.tensorflow =>

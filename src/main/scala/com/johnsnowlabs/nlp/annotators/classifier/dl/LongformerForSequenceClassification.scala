@@ -118,7 +118,8 @@ class LongformerForSequenceClassification(override val uid: String)
     with HasBatchedAnnotate[LongformerForSequenceClassification]
     with WriteTensorflowModel
     with HasCaseSensitiveProperties
-    with HasClassifierActivationProperties {
+    with HasClassifierActivationProperties
+    with HasEngine {
 
   /** Annotator reference id. Used to identify elements in metadata or to refer to this annotator
     * type
@@ -398,6 +399,8 @@ trait ReadLongformerForSequenceTensorflowModel extends ReadTensorflowModel {
       .setVocabulary(vocabs)
       .setMerges(bytePairs)
       .setLabels(labels)
+
+    annotatorModel.set(annotatorModel.engine, detectedEngine)
 
     detectedEngine match {
       case ModelEngine.tensorflow =>

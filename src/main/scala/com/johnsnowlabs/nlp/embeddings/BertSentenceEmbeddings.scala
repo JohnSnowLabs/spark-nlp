@@ -153,7 +153,8 @@ class BertSentenceEmbeddings(override val uid: String)
     with WriteTensorflowModel
     with HasEmbeddingsProperties
     with HasStorageRef
-    with HasCaseSensitiveProperties {
+    with HasCaseSensitiveProperties
+    with HasEngine {
 
   def this() = this(Identifiable.randomUID("BERT_SENTENCE_EMBEDDINGS"))
 
@@ -447,6 +448,8 @@ trait ReadBertSentenceDLModel extends ReadTensorflowModel {
     /*Universal parameters for all engines*/
     val annotatorModel = new BertSentenceEmbeddings()
       .setVocabulary(vocabs)
+
+    annotatorModel.set(annotatorModel.engine, detectedEngine)
 
     detectedEngine match {
       case ModelEngine.tensorflow =>

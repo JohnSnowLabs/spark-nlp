@@ -110,7 +110,8 @@ class RoBertaForQuestionAnswering(override val uid: String)
     extends AnnotatorModel[RoBertaForQuestionAnswering]
     with HasBatchedAnnotate[RoBertaForQuestionAnswering]
     with WriteTensorflowModel
-    with HasCaseSensitiveProperties {
+    with HasCaseSensitiveProperties
+    with HasEngine {
 
   /** Annotator reference id. Used to identify elements in metadata or to refer to this annotator
     * type
@@ -341,6 +342,8 @@ trait ReadRoBertaForQATensorflowModel extends ReadTensorflowModel {
     val annotatorModel = new RoBertaForQuestionAnswering()
       .setVocabulary(vocabs)
       .setMerges(bytePairs)
+
+    annotatorModel.set(annotatorModel.engine, detectedEngine)
 
     detectedEngine match {
       case ModelEngine.tensorflow =>

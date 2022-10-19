@@ -19,7 +19,8 @@ from sparknlp.common import *
 
 class ViTForImageClassification(AnnotatorModel,
                                 HasBatchedAnnotateImage,
-                                HasImageFeatureProperties):
+                                HasImageFeatureProperties,
+                                HasEngine):
     """Vision Transformer (ViT) for image classification.
 
     ViT is a transformer based alternative to the convolutional neural networks usually

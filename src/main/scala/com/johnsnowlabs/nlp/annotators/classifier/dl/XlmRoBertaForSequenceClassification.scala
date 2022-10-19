@@ -125,7 +125,8 @@ class XlmRoBertaForSequenceClassification(override val uid: String)
     with WriteTensorflowModel
     with WriteSentencePieceModel
     with HasCaseSensitiveProperties
-    with HasClassifierActivationProperties {
+    with HasClassifierActivationProperties
+    with HasEngine {
 
   /** Annotator reference id. Used to identify elements in metadata or to refer to this annotator
     * type
@@ -372,6 +373,8 @@ trait ReadXlmRoBertaForSequenceTensorflowModel
 
     val annotatorModel = new XlmRoBertaForSequenceClassification()
       .setLabels(labels)
+
+    annotatorModel.set(annotatorModel.engine, detectedEngine)
 
     detectedEngine match {
       case ModelEngine.tensorflow =>

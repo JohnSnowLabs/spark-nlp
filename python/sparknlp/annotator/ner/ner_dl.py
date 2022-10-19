@@ -364,7 +364,7 @@ class NerDLApproach(AnnotatorApproach, NerApproach, EvaluationDLParams):
         )
 
 
-class NerDLModel(AnnotatorModel, HasStorageRef, HasBatchedAnnotate):
+class NerDLModel(AnnotatorModel, HasStorageRef, HasBatchedAnnotate, HasEngine):
     """This Named Entity recognition annotator is a generic NER model based on
     Neural Networks.
 
@@ -545,4 +545,3 @@ class NerDLModel(AnnotatorModel, HasStorageRef, HasBatchedAnnotate):
         """
         from sparknlp.pretrained import ResourceDownloader
         return ResourceDownloader.downloadModel(NerDLModel, name, lang, remote_loc)
-

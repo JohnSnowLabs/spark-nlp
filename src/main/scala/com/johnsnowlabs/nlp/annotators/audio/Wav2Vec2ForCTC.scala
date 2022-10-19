@@ -126,7 +126,8 @@ class Wav2Vec2ForCTC(override val uid: String)
     extends AnnotatorModel[Wav2Vec2ForCTC]
     with HasBatchedAnnotateAudio[Wav2Vec2ForCTC]
     with HasAudioFeatureProperties
-    with WriteTensorflowModel {
+    with WriteTensorflowModel
+    with HasEngine {
 
   /** Annotator reference id. Used to identify elements in metadata or to refer to this annotator
     * type
@@ -336,6 +337,8 @@ trait ReadWav2Vec2ForAudioTensorflowModel extends ReadTensorflowModel {
       .setPaddingValue(preprocessorConfig.padding_value)
       .setReturnAttentionMask(preprocessorConfig.return_attention_mask)
       .setSamplingRate(preprocessorConfig.sampling_rate)
+
+    annotatorModel.set(annotatorModel.engine, detectedEngine)
 
     detectedEngine match {
       case ModelEngine.tensorflow =>

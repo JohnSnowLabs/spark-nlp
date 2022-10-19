@@ -163,7 +163,8 @@ class RoBertaEmbeddings(override val uid: String)
     with WriteTensorflowModel
     with HasEmbeddingsProperties
     with HasStorageRef
-    with HasCaseSensitiveProperties {
+    with HasCaseSensitiveProperties
+    with HasEngine {
 
   /** Annotator reference id. Used to identify elements in metadata or to refer to this annotator
     * type
@@ -450,6 +451,8 @@ trait ReadRobertaDLModel extends ReadTensorflowModel {
     val annotatorModel = new RoBertaEmbeddings()
       .setVocabulary(vocabs)
       .setMerges(bytePairs)
+
+    annotatorModel.set(annotatorModel.engine, detectedEngine)
 
     detectedEngine match {
       case ModelEngine.tensorflow =>

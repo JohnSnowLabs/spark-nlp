@@ -116,7 +116,8 @@ class DeBertaForQuestionAnswering(override val uid: String)
     with HasBatchedAnnotate[DeBertaForQuestionAnswering]
     with WriteTensorflowModel
     with WriteSentencePieceModel
-    with HasCaseSensitiveProperties {
+    with HasCaseSensitiveProperties
+    with HasEngine {
 
   /** Annotator reference id. Used to identify elements in metadata or to refer to this annotator
     * type
@@ -315,6 +316,8 @@ trait ReadDeBertaForQATensorflowModel extends ReadTensorflowModel with ReadSente
 
     /*Universal parameters for all engines*/
     val annotatorModel = new DeBertaForQuestionAnswering()
+
+    annotatorModel.set(annotatorModel.engine, detectedEngine)
 
     detectedEngine match {
       case ModelEngine.tensorflow =>

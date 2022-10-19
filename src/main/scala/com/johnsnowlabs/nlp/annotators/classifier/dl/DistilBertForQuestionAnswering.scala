@@ -110,7 +110,8 @@ class DistilBertForQuestionAnswering(override val uid: String)
     extends AnnotatorModel[DistilBertForQuestionAnswering]
     with HasBatchedAnnotate[DistilBertForQuestionAnswering]
     with WriteTensorflowModel
-    with HasCaseSensitiveProperties {
+    with HasCaseSensitiveProperties
+    with HasEngine {
 
   /** Annotator reference id. Used to identify elements in metadata or to refer to this annotator
     * type
@@ -322,6 +323,8 @@ trait ReadDistilBertForQATensorflowModel extends ReadTensorflowModel {
     /*Universal parameters for all engines*/
     val annotatorModel = new DistilBertForQuestionAnswering()
       .setVocabulary(vocabs)
+
+    annotatorModel.set(annotatorModel.engine, detectedEngine)
 
     detectedEngine match {
       case ModelEngine.tensorflow =>

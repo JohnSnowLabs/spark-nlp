@@ -136,7 +136,8 @@ class CamemBertEmbeddings(override val uid: String)
     with WriteSentencePieceModel
     with HasEmbeddingsProperties
     with HasStorageRef
-    with HasCaseSensitiveProperties {
+    with HasCaseSensitiveProperties
+    with HasEngine {
 
   def this() = this(Identifiable.randomUID("CAMEMBERT_EMBEDDINGS"))
 
@@ -356,6 +357,8 @@ trait ReadCamemBertDLModel extends ReadTensorflowModel with ReadSentencePieceMod
 
     /*Universal parameters for all engines*/
     val annotatorModel = new CamemBertEmbeddings()
+
+    annotatorModel.set(annotatorModel.engine, detectedEngine)
 
     detectedEngine match {
       case ModelEngine.tensorflow =>

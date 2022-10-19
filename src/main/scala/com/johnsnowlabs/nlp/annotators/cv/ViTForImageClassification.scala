@@ -127,7 +127,8 @@ class ViTForImageClassification(override val uid: String)
     extends AnnotatorModel[ViTForImageClassification]
     with HasBatchedAnnotateImage[ViTForImageClassification]
     with HasImageFeatureProperties
-    with WriteTensorflowModel {
+    with WriteTensorflowModel
+    with HasEngine {
 
   /** Annotator reference id. Used to identify elements in metadata or to refer to this annotator
     * type
@@ -365,6 +366,8 @@ trait ReadViTForImageTensorflowModel extends ReadTensorflowModel {
       .setImageStd(preprocessorConfig.image_std)
       .setResample(preprocessorConfig.resample)
       .setSize(preprocessorConfig.size)
+
+    annotatorModel.set(annotatorModel.engine, detectedEngine)
 
     detectedEngine match {
       case ModelEngine.tensorflow =>
