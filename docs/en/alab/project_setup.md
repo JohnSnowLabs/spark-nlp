@@ -158,7 +158,6 @@ Bellow you can find a sample Project Configuration with Constraints for Relation
 </View>
 ```
 
-
  
 ## Project Validations
 
