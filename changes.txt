@@ -1,4 +1,2 @@
-docs/_data/navigation.yml
-docs/en/utility_helper_modules.md
-docs/_data/navigation.yml
-docs/en/utility_helper_modules.md
+docs/_posts/josejuanmartinez/2022-08-17-finner_10k_summary_en_3_2.md
+docs/_posts/josejuanmartinez/2022-08-17-finner_10k_summary_en_3_2.md
