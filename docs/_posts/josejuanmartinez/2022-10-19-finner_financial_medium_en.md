@@ -77,7 +77,7 @@ ner_model = finance.NerModel.pretrained("finner_financial_medium", "en", "financ
     .setInputCols(["sentence", "token", "embeddings"])\
     .setOutputCol("ner")\
 
-ner_converter = finance.NerConverter()\
+ner_converter = nlp.NerConverter()\
     .setInputCols(["sentence", "token", "ner"])\
     .setOutputCol("ner_chunk")
 
