@@ -1,6 +1,6 @@
 ---
 layout: model
-title: Financial 10K Filings NER
+title: Financial 10K Filings NER (Summary page)
 author: John Snow Labs
 name: finner_10k_summary
 date: 2022-08-17
