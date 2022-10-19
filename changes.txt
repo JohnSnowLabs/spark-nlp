@@ -1,10 +1,4 @@
-docs/_posts/josejuanmartinez/2022-09-20-legclf_cuad_confidentiality_clause_en.md
-docs/_posts/josejuanmartinez/2022-09-20-legclf_cuad_obligations_clause_en.md
-docs/_posts/josejuanmartinez/2022-09-20-legclf_cuad_whereas_clause_en.md
-docs/_posts/josejuanmartinez/2022-09-27-legclf_cuad_indemnifications_clause_en.md
-docs/_posts/josejuanmartinez/2022-09-27-legclf_cuad_licenses_clause_en.md
-docs/_posts/josejuanmartinez/2022-09-20-legclf_cuad_confidentiality_clause_en.md
-docs/_posts/josejuanmartinez/2022-09-20-legclf_cuad_obligations_clause_en.md
-docs/_posts/josejuanmartinez/2022-09-20-legclf_cuad_whereas_clause_en.md
-docs/_posts/josejuanmartinez/2022-09-27-legclf_cuad_indemnifications_clause_en.md
-docs/_posts/josejuanmartinez/2022-09-27-legclf_cuad_licenses_clause_en.md
+docs/_data/navigation.yml
+docs/en/utility_helper_modules.md
+docs/_data/navigation.yml
+docs/en/utility_helper_modules.md
