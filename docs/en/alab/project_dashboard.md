@@ -13,14 +13,14 @@ sidebar:
     nav: annotation-lab
 ---
 
-When you login to the Annotation Lab, you will be presented with the the project dashboard. For each project details like description, task counts, groups, team members, etc. are available on the main dashboard so users can quickly identify the projects they need to work on, without navigating to the Project Details page. You will be presented with the list of available projects you have created **My Projects** or that have been shared with you **Shared With Me**. **All Projects** combines the list of the projects created by you and the the projects shared to the you.
+When you login to the Annotation Lab, you will be presented with the the project dashboard. For each project, details like description, task counts, groups, team members, etc. are available on the main dashboard so users can quickly identify the projects they need to work on, without navigating to the Project Details page. You will be presented with the list of available projects you have created **My Projects** or that have been shared with you **Shared With Me**. **All Projects** combines the list of the projects created by you and the the projects shared to the you.
 
-<img class="image image--xl" src="/assets/images/annotation_lab/4.1.0/dashboardShared.png" style="width:100%; align:center; box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);"/>
+<img class="image image--xl" src="/assets/images/annotation_lab/4.1.0/dashboardShared.png" style="width:100%; image-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);"/>
 
 
-The list of projects can be sorted according to the name of the project. Also, projects can be sorted in ascending or descending order according to the creation date. name. 
+The list of projects can be sorted according to the name of the project. Also, projects can be sorted in ascending or descending order according to the creation date. 
 
-<img class="image image--xl" src="/assets/images/annotation_lab/4.1.0/dashboardSort.png" style="width:100%; align:center; box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);"/>
+<img class="image image--xl" src="/assets/images/annotation_lab/4.1.0/dashboardSort.png" style="width:100%; image-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);"/>
 
 The filters associated with the Projects dashboard are clear, simple, and precise to make the users more productive and efficient while working with a large number of projects.
 

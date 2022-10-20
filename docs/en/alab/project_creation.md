@@ -21,7 +21,7 @@ You can create a new project using a creation wizard which will guide users thro
 Every project in Annotation Lab should have the following information:
 
 - a unique name and a short description;
-- a team of annotators, reviewers and a manager which will colaborate on the project;
+- a team of annotators, reviewers and a manager who will collaborate on the project;
 - a configuration which specifies the type of annotations that will be created.
 
 To create a new project, click on the Create Project button on the Home Page and choose a name for it. The project can include a short description and annotation instructions/guidelines.
@@ -30,7 +30,7 @@ To create a new project, click on the Create Project button on the Home Page and
 
 Reserved words cannot be used as project names. The use of keywords like count, permission, or name as project names generated UI glitches. To avoid such issues, these keywords are no longer accepted as project names.
 
-<img class="image image--xl" src="/assets/images/annotation_lab/4.1.0/reserved.gif" style="width:100%; align:center; box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);"/>
+<img class="image image--xl" src="/assets/images/annotation_lab/4.1.0/reserved.gif" style="width:100%; image-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);"/>
 
 **Adding Team Members**
 
@@ -56,7 +56,7 @@ The Project Configuration itself is a multi-step process. The wizard will guide 
 ## Clone
 You can create a copy of a project, by using the Clone option. The option to clone the project is also listed in the kebab menu of each project. The cloned project is differentiated as it contains cloned suffix in its project name.
 
-<img class="image image--xl" src="/assets/images/annotation_lab/4.1.0/dashboardCloneImportExport.png" style="width:100%; align:center; box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);"/>
+<img class="image image--xl" src="/assets/images/annotation_lab/4.1.0/dashboardCloneImportExport.png" style="width:100%; image-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);"/>
   
 ## Export  
 Entire Projects can be exported. The option to export the project is listed in the kebab menu of each project. All project-related items such as tasks, project configuration, project members, task assignments, and comments are included in the export file.
@@ -71,7 +71,7 @@ As the number of projects can grow significantly over time, for an easier manage
 
 The list of visible projects can be filtered based on group name, or using the search functionality which applies to both group name and project name. 
 
-<img class="image image--xl" src="/assets/images/annotation_lab/4.1.0/dashboardGroup.png" style="width:100%; align:center; box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);"/>
+<img class="image image--xl" src="/assets/images/annotation_lab/4.1.0/dashboardGroup.png" style="width:100%; image-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);"/>
 
 Projects can be organized in custom groups, and each project card will inherit the group color so that the users can visually distinguish the projects easily in a large cluster of projects. The new color picker for the group is user-friendly and customizable.
 

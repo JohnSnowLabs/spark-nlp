@@ -51,7 +51,7 @@ wget https://setup.johnsnowlabs.com/annotationlab/upgrade.sh -O - | sudo bash -s
 
 After running the install/upgrade script the Annotation Lab is available at http://INSTANCE_IP  or https://INSTANCE_IP 
 
-<img class="image image--xl" src="/assets/images/annotation_lab/4.1.0/loginScreenALAB.png" style="width:100%; align:center; box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);"/>
+<img class="image image--xl" src="/assets/images/annotation_lab/4.1.0/loginScreenALAB.png" style="width:100%; image-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);"/>
 
 We have an aesthetically pleasing Login Page with a section highlighting the key features of Annotation Lab. Sign-In page highlights main features of Annotation Lab with animated GIFs.
 
