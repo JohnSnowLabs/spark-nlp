@@ -91,7 +91,7 @@ re_ner_chunk_filter = finance.RENerChunksFilter()\
     .setRelationPairs(["ORG-TICKER"])\
     .setMaxSyntacticDistance(4)
 
-re_Model = finance.RelationExtractionDLModel.pretrained("REDL_hastick", "en", "finance/models")\
+re_Model = finance.RelationExtractionDLModel.pretrained("finre_has_ticker", "en", "finance/models")\
     .setInputCols(["ner_chunk", "sentence"])\
     .setOutputCol("relations")\
     .setPredictionThreshold(0.2)
