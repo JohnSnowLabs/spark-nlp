@@ -128,7 +128,7 @@ dependency_parser = nlp.DependencyParserModel.pretrained("dependency_conllu", "e
   .setOutputCol("dependencies")
 
 ner_model = legal.NerModel.pretrained("legner_orgs_prods_alias", "en", "legal/models")\
-  .setInputCols(["sentence", "token", "embedding])\
+  .setInputCols(["sentence", "token", "embedding"])\
   .setOutputCol("ner")
 
 ner_chunker = nlp.NerConverter() \
@@ -335,7 +335,7 @@ val dependency_parser = nlp.DependencyParserModel.pretrained("dependency_conllu"
   .setOutputCol("dependencies")
 
 val ner_model = legal.NerModel.pretrained("legner_orgs_prods_alias", "en", "legal/models")
-  .setInputCols(Array("sentence", "token", "embedding))
+  .setInputCols(Array("sentence", "token", "embedding"))
   .setOutputCol("ner")
 
 val ner_chunker = new nlp.NerConverter()

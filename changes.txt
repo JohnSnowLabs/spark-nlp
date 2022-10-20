@@ -1,4 +1,2 @@
-docs/_includes/scripts/programmingLanguageSwitcherScalaPython.js
-docs/en/auxiliary.md
-docs/_includes/scripts/programmingLanguageSwitcherScalaPython.js
-docs/en/auxiliary.md
+docs/en/licensed_annotator_entries/RENerChunksFilter.md
+docs/en/licensed_annotator_entries/RENerChunksFilter.md

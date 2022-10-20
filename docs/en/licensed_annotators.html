@@ -534,7 +534,7 @@
 <!-- end custom article top snippet --><div class="article__content" itemprop="articleBody"><div class="h3-box">
 
   <p>A Spark NLP Enterprise license includes access to unique annotators.
-At the <a href="https://github.com/JohnSnowLabs/spark-nlp-workshop/tree/e06141715bc14e5ed43388585ce002b8b37e3f18/tutorials/Certification_Trainings">Spark NLP Workshop</a> you can see different types of annotators in action.</p>
+At the <a href="https://github.com/JohnSnowLabs/spark-nlp-workshop/tree/master/tutorials/Certification_Trainings_JSL">Spark NLP Workshop</a> you can see different types of annotators in action.</p>
 
   <p>By clicking on any annotator, you will see different sections:</p>
   <ul>
@@ -547,8 +547,9 @@ At the <a href="https://github.com/JohnSnowLabs/spark-nlp-workshop/tree/e0614171
     <li>Healthcare NLP</li>
     <li>Finance NLP</li>
     <li>Legal NLP</li>
-    <li>Check out the <a href="https://nlp.johnsnowlabs.com/docs/en/annotators">Spark NLP Annotators page</a> for more information on how to read this page.</li>
   </ul>
+
+  <p>Check out the <a href="https://nlp.johnsnowlabs.com/docs/en/annotators">Spark NLP Annotators page</a> for more information on how to read this page.</p>
 
 </div>
 
@@ -8304,39 +8305,39 @@ This annotator is especially useful to create inputs for the RelationExtractionD
   <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"dependencies"</span><span class="p">)</span>
 
 <span class="n">ner_model</span> <span class="o">=</span> <span class="n">legal</span><span class="p">.</span><span class="n">NerModel</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"legner_orgs_prods_alias"</span><span class="p">,</span> <span class="s">"en"</span><span class="p">,</span> <span class="s">"legal/models"</span><span class="p">)</span>\
-  <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"sentence"</span><span class="p">,</span> <span class="s">"token"</span><span class="p">,</span> <span class="s">"embedding])</span><span class="se">\
-</span><span class="s">  .setOutputCol("</span><span class="n">ner</span><span class="s">")
+  <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"sentence"</span><span class="p">,</span> <span class="s">"token"</span><span class="p">,</span> <span class="s">"embedding"</span><span class="p">])</span>\
+  <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"ner"</span><span class="p">)</span>
 
-ner_chunker = nlp.NerConverter() </span><span class="se">\
-</span><span class="s">  .setInputCols(["</span><span class="n">sentences</span><span class="s">", "</span><span class="n">tokens</span><span class="s">", "</span><span class="n">ner</span><span class="s">"]) </span><span class="se">\
-</span><span class="s">  .setOutputCol("</span><span class="n">ner_chunks</span><span class="s">")
+<span class="n">ner_chunker</span> <span class="o">=</span> <span class="n">nlp</span><span class="p">.</span><span class="n">NerConverter</span><span class="p">()</span> \
+  <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"sentences"</span><span class="p">,</span> <span class="s">"tokens"</span><span class="p">,</span> <span class="s">"ner"</span><span class="p">])</span> \
+  <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"ner_chunks"</span><span class="p">)</span>
 
-# Define the relation pairs and the filter
-relationPairs = [
-  "</span><span class="n">direction</span><span class="o">-</span><span class="n">external_body_part_or_region</span><span class="s">",
-  "</span><span class="n">external_body_part_or_region</span><span class="o">-</span><span class="n">direction</span><span class="s">",
-  "</span><span class="n">direction</span><span class="o">-</span><span class="n">internal_organ_or_component</span><span class="s">",
-  "</span><span class="n">internal_organ_or_component</span><span class="o">-</span><span class="n">direction</span><span class="s">"
-]
+<span class="c1"># Define the relation pairs and the filter
+</span><span class="n">relationPairs</span> <span class="o">=</span> <span class="p">[</span>
+  <span class="s">"direction-external_body_part_or_region"</span><span class="p">,</span>
+  <span class="s">"external_body_part_or_region-direction"</span><span class="p">,</span>
+  <span class="s">"direction-internal_organ_or_component"</span><span class="p">,</span>
+  <span class="s">"internal_organ_or_component-direction"</span>
+<span class="p">]</span>
 
-re_ner_chunk_filter = legal.RENerChunksFilter() </span><span class="se">\
-</span><span class="s">  .setInputCols(["</span><span class="n">ner_chunks</span><span class="s">", "</span><span class="n">dependencies</span><span class="s">"]) </span><span class="se">\
-</span><span class="s">  .setOutputCol("</span><span class="n">re_ner_chunks</span><span class="s">") </span><span class="se">\
-</span><span class="s">  .setMaxSyntacticDistance(4) </span><span class="se">\
-</span><span class="s">  .setRelationPairs(["</span><span class="n">internal_organ_or_component</span><span class="o">-</span><span class="n">direction</span><span class="s">"])
+<span class="n">re_ner_chunk_filter</span> <span class="o">=</span> <span class="n">legal</span><span class="p">.</span><span class="n">RENerChunksFilter</span><span class="p">()</span> \
+  <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"ner_chunks"</span><span class="p">,</span> <span class="s">"dependencies"</span><span class="p">])</span> \
+  <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"re_ner_chunks"</span><span class="p">)</span> \
+  <span class="p">.</span><span class="n">setMaxSyntacticDistance</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span> \
+  <span class="p">.</span><span class="n">setRelationPairs</span><span class="p">([</span><span class="s">"internal_organ_or_component-direction"</span><span class="p">])</span>
 
-trained_pipeline = Pipeline(stages=[
-  documenter,
-  sentencer,
-  tokenizer,
-  words_embedder,
-  pos_tagger,
-  dependency_parser,
-  ner_model,
-  ner_chunker,
-  re_ner_chunk_filter
-])
-</span></code></pre></div>            </div>
+<span class="n">trained_pipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">(</span><span class="n">stages</span><span class="o">=</span><span class="p">[</span>
+  <span class="n">documenter</span><span class="p">,</span>
+  <span class="n">sentencer</span><span class="p">,</span>
+  <span class="n">tokenizer</span><span class="p">,</span>
+  <span class="n">words_embedder</span><span class="p">,</span>
+  <span class="n">pos_tagger</span><span class="p">,</span>
+  <span class="n">dependency_parser</span><span class="p">,</span>
+  <span class="n">ner_model</span><span class="p">,</span>
+  <span class="n">ner_chunker</span><span class="p">,</span>
+  <span class="n">re_ner_chunk_filter</span>
+<span class="p">])</span>
+</code></pre></div>            </div>
 
           </div>
 
@@ -8522,24 +8523,24 @@ trained_pipeline = Pipeline(stages=[
   <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"dependencies"</span><span class="o">)</span>
 
 <span class="k">val</span> <span class="nv">ner_model</span> <span class="k">=</span> <span class="nv">legal</span><span class="o">.</span><span class="py">NerModel</span><span class="o">.</span><span class="py">pretrained</span><span class="o">(</span><span class="s">"legner_orgs_prods_alias"</span><span class="o">,</span> <span class="s">"en"</span><span class="o">,</span> <span class="s">"legal/models"</span><span class="o">)</span>
-  <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="s">"sentence"</span><span class="o">,</span> <span class="s">"token"</span><span class="o">,</span> <span class="s">"embedding))
-  .setOutputCol("</span><span class="n">ner</span><span class="s">")
+  <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="s">"sentence"</span><span class="o">,</span> <span class="s">"token"</span><span class="o">,</span> <span class="s">"embedding"</span><span class="o">))</span>
+  <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"ner"</span><span class="o">)</span>
 
-val ner_chunker = new nlp.NerConverter()
-  .setInputCols(Array("</span><span class="n">sentences</span><span class="s">", "</span><span class="n">tokens</span><span class="s">", "</span><span class="n">ner</span><span class="s">"))
-  .setOutputCol("</span><span class="n">ner_chunks</span><span class="s">")
+<span class="k">val</span> <span class="nv">ner_chunker</span> <span class="k">=</span> <span class="k">new</span> <span class="nv">nlp</span><span class="o">.</span><span class="py">NerConverter</span><span class="o">()</span>
+  <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="s">"sentences"</span><span class="o">,</span> <span class="s">"tokens"</span><span class="o">,</span> <span class="s">"ner"</span><span class="o">))</span>
+  <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"ner_chunks"</span><span class="o">)</span>
 
-// Define the relation pairs and the filter
-val relationPairs = Array("</span><span class="n">direction</span><span class="o">-</span><span class="n">external_body_part_or_region</span><span class="s">",
-                      "</span><span class="n">external_body_part_or_region</span><span class="o">-</span><span class="n">direction</span><span class="s">",
-                      "</span><span class="n">direction</span><span class="o">-</span><span class="n">internal_organ_or_component</span><span class="s">",
-                      "</span><span class="n">internal_organ_or_component</span><span class="o">-</span><span class="n">direction</span><span class="s">")
+<span class="c1">// Define the relation pairs and the filter</span>
+<span class="k">val</span> <span class="nv">relationPairs</span> <span class="k">=</span> <span class="nc">Array</span><span class="o">(</span><span class="s">"direction-external_body_part_or_region"</span><span class="o">,</span>
+                      <span class="s">"external_body_part_or_region-direction"</span><span class="o">,</span>
+                      <span class="s">"direction-internal_organ_or_component"</span><span class="o">,</span>
+                      <span class="s">"internal_organ_or_component-direction"</span><span class="o">)</span>
 
-val re_ner_chunk_filter = new legal.RENerChunksFilter()
-    .setInputCols(Array("</span><span class="n">ner_chunks</span><span class="s">", "</span><span class="n">dependencies</span><span class="s">"))
-    .setOutputCol("</span><span class="n">re_ner_chunks</span><span class="s">")
-    .setMaxSyntacticDistance(4)
-    .setRelationPairs(Array("</span><span class="n">internal_organ_or_component</span><span class="o">-</span><span class="n">direction</span><span class="err">"</span><span class="o">))</span>
+<span class="k">val</span> <span class="nv">re_ner_chunk_filter</span> <span class="k">=</span> <span class="k">new</span> <span class="nv">legal</span><span class="o">.</span><span class="py">RENerChunksFilter</span><span class="o">()</span>
+    <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="s">"ner_chunks"</span><span class="o">,</span> <span class="s">"dependencies"</span><span class="o">))</span>
+    <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"re_ner_chunks"</span><span class="o">)</span>
+    <span class="o">.</span><span class="py">setMaxSyntacticDistance</span><span class="o">(</span><span class="mi">4</span><span class="o">)</span>
+    <span class="o">.</span><span class="py">setRelationPairs</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="s">"internal_organ_or_component-direction"</span><span class="o">))</span>
 
 <span class="k">val</span> <span class="nv">trained_pipeline</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">Pipeline</span><span class="o">().</span><span class="py">setStages</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span>
   <span class="n">documenter</span><span class="o">,</span>
