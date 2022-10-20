@@ -67,8 +67,13 @@ defer(function () { // load inital language
 
 if((document.querySelectorAll('.model-wrap').length !== 0) || (document.querySelectorAll('.tabs-new').length !== 0)) {
 
-    let tabLi = document.querySelectorAll('.tabs-new .tab-li'),
-        tabLiTopF = document.querySelectorAll('.top_tab_li');
+    let tabLi = document.querySelectorAll('.tabs-new .tab-li');
+
+    if((document.querySelectorAll('.model-wrap').length !== 0)) {
+        tabLi = document.querySelectorAll('.model-wrap .tab-li');
+    } 
+    
+    let tabLiTopF = document.querySelectorAll('.top_tab_li');
 
     tabLiTopF.forEach(e => {        
         e.nextElementSibling.classList.add('active');

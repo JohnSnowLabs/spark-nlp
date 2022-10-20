@@ -73,12 +73,6 @@ https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/234-release-candidate/ju
 
 {% include programmingLanguageSelectScalaPython.html %}
 
-```scala
-val modified = data.mapAnnotationsCol("pos", "mod_pos","pos" ,(_: Seq[Annotation]) => {
-      "hello world"
-    })
-```
-
 ```python
 def my_annoation_map_function(annotations):
     return list(map(lambda a: Annotation(
@@ -92,6 +86,12 @@ def my_annoation_map_function(annotations):
 result.select(
     map_annotations(my_annoation_map_function, Annotation.arrayType())('token')
 ).toDF("my output").show(truncate=False)
+```
+
+```scala
+val modified = data.mapAnnotationsCol("pos", "mod_pos","pos" ,(_: Seq[Annotation]) => {
+      "hello world"
+    })
 ```
 
 </div>
