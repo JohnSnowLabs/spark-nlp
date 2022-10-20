@@ -1,2 +1,2 @@
-docs/en/licensed_annotator_entries/RENerChunksFilter.md
-docs/en/licensed_annotator_entries/RENerChunksFilter.md
+docs/en/licensed_annotators.md
+docs/en/licensed_annotators.md
