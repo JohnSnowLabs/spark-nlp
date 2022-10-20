@@ -1,2 +1,4 @@
-docs/_posts/josejuanmartinez/2022-08-17-finner_10k_summary_en_3_2.md
-docs/_posts/josejuanmartinez/2022-08-17-finner_10k_summary_en_3_2.md
+docs/_includes/scripts/programmingLanguageSwitcherScalaPython.js
+docs/en/auxiliary.md
+docs/_includes/scripts/programmingLanguageSwitcherScalaPython.js
+docs/en/auxiliary.md

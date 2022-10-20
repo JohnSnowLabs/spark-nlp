@@ -597,11 +597,6 @@ https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/234-release-candidate/ju
     <p><button data-type="python" class="tab-li tab-li-second active">Python</button><button data-type="scala" class="tab-li tab-li-second">Scala</button></p>
 </div>
 
-  <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">val</span> <span class="nv">modified</span> <span class="k">=</span> <span class="nv">data</span><span class="o">.</span><span class="py">mapAnnotationsCol</span><span class="o">(</span><span class="s">"pos"</span><span class="o">,</span> <span class="s">"mod_pos"</span><span class="o">,</span><span class="s">"pos"</span> <span class="o">,(</span><span class="k">_:</span> <span class="kt">Seq</span><span class="o">[</span><span class="kt">Annotation</span><span class="o">])</span> <span class="k">=&gt;</span> <span class="o">{</span>
-      <span class="s">"hello world"</span>
-    <span class="o">})</span>
-</code></pre></div>  </div>
-
   <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">def</span> <span class="nf">my_annoation_map_function</span><span class="p">(</span><span class="n">annotations</span><span class="p">):</span>
     <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="k">lambda</span> <span class="n">a</span><span class="p">:</span> <span class="n">Annotation</span><span class="p">(</span>
         <span class="s">'my_own_type'</span><span class="p">,</span>
@@ -614,6 +609,11 @@ https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/234-release-candidate/ju
 <span class="n">result</span><span class="p">.</span><span class="n">select</span><span class="p">(</span>
     <span class="n">map_annotations</span><span class="p">(</span><span class="n">my_annoation_map_function</span><span class="p">,</span> <span class="n">Annotation</span><span class="p">.</span><span class="n">arrayType</span><span class="p">())(</span><span class="s">'token'</span><span class="p">)</span>
 <span class="p">).</span><span class="n">toDF</span><span class="p">(</span><span class="s">"my output"</span><span class="p">).</span><span class="n">show</span><span class="p">(</span><span class="n">truncate</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+</code></pre></div>  </div>
+
+  <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">val</span> <span class="nv">modified</span> <span class="k">=</span> <span class="nv">data</span><span class="o">.</span><span class="py">mapAnnotationsCol</span><span class="o">(</span><span class="s">"pos"</span><span class="o">,</span> <span class="s">"mod_pos"</span><span class="o">,</span><span class="s">"pos"</span> <span class="o">,(</span><span class="k">_:</span> <span class="kt">Seq</span><span class="o">[</span><span class="kt">Annotation</span><span class="o">])</span> <span class="k">=&gt;</span> <span class="o">{</span>
+      <span class="s">"hello world"</span>
+    <span class="o">})</span>
 </code></pre></div>  </div>
 
 </div>
@@ -694,8 +694,13 @@ defer(function () { // load inital language
 
 if((document.querySelectorAll('.model-wrap').length !== 0) || (document.querySelectorAll('.tabs-new').length !== 0)) {
 
-    let tabLi = document.querySelectorAll('.tabs-new .tab-li'),
-        tabLiTopF = document.querySelectorAll('.top_tab_li');
+    let tabLi = document.querySelectorAll('.tabs-new .tab-li');
+
+    if((document.querySelectorAll('.model-wrap').length !== 0)) {
+        tabLi = document.querySelectorAll('.model-wrap .tab-li');
+    } 
+    
+    let tabLiTopF = document.querySelectorAll('.top_tab_li');
 
     tabLiTopF.forEach(e => {        
         e.nextElementSibling.classList.add('active');
