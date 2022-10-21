@@ -121,7 +121,7 @@ result.select("text", "sentiment.result").show(false)
 {%- endcapture -%}
 
 {%- capture model_python_api_link -%}
-[SentimentDLModel](/api/python/reference/autosummary/sparknlp/annotator/sentiment/sentiment_dl/index.html#sparknlp.annotator.sentiment.sentiment_dl.SentimentDLModel)
+[SentimentDLModel](/api/python/reference/autosummary/python/sparknlp/annotator/sentiment/sentiment_dl/index.html#sparknlp.annotator.sentiment.sentiment_dl.SentimentDLModel)
 {%- endcapture -%}
 
 {%- capture model_source_link -%}
@@ -252,7 +252,7 @@ val pipelineModel = pipeline.fit(smallCorpus)
 {%- endcapture -%}
 
 {%- capture approach_python_api_link -%}
-[SentimentDLApproach](/api/python/reference/autosummary/sparknlp/annotator/sentiment/sentiment_dl/index.html#sparknlp.annotator.sentiment.sentiment_dl.SentimentDLApproach)
+[SentimentDLApproach](/api/python/reference/autosummary/python/sparknlp/annotator/sentiment/sentiment_dl/index.html#sparknlp.annotator.sentiment.sentiment_dl.SentimentDLApproach)
 {%- endcapture -%}
 
 {%- capture approach_source_link -%}

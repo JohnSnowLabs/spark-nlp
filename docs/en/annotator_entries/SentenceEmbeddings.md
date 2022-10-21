@@ -168,7 +168,7 @@ result.selectExpr("explode(finished_embeddings) as result").show(5, 80)
 {%- endcapture -%}
 
 {%- capture python_api_link -%}
-[SentenceEmbeddings](/api/python/reference/autosummary/sparknlp/annotator/embeddings/sentence_embeddings/index.html#sparknlp.annotator.embeddings.sentence_embeddings.SentenceEmbeddings)
+[SentenceEmbeddings](/api/python/reference/autosummary/python/sparknlp/annotator/embeddings/sentence_embeddings/index.html#sparknlp.annotator.embeddings.sentence_embeddings.SentenceEmbeddings)
 {%- endcapture -%}
 
 {%- capture source_link -%}

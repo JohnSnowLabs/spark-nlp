@@ -168,7 +168,7 @@ result.selectExpr("explode(arrays_zip(token.result, dependency.result, dependenc
 {%- endcapture -%}
 
 {%- capture model_python_api_link -%}
-[TypedDependencyParserModel](/api/python/reference/autosummary/sparknlp/annotator/dependency/typed_dependency_parser/index.html#sparknlp.annotator.dependency.typed_dependency_parser.TypedDependencyParserModel)
+[TypedDependencyParserModel](/api/python/reference/autosummary/python/sparknlp/annotator/dependency/typed_dependency_parser/index.html#sparknlp.annotator.dependency.typed_dependency_parser.TypedDependencyParserModel)
 {%- endcapture -%}
 
 {%- capture model_source_link -%}
@@ -306,7 +306,7 @@ val pipelineModel = pipeline.fit(emptyDataSet)
 {%- endcapture -%}
 
 {%- capture approach_python_api_link -%}
-[TypedDependencyParserApproach](/api/python/reference/autosummary/sparknlp/annotator/dependency/typed_dependency_parser/index.html#sparknlp.annotator.dependency.typed_dependency_parser.TypedDependencyParserApproach)
+[TypedDependencyParserApproach](/api/python/reference/autosummary/python/sparknlp/annotator/dependency/typed_dependency_parser/index.html#sparknlp.annotator.dependency.typed_dependency_parser.TypedDependencyParserApproach)
 {%- endcapture -%}
 
 {%- capture approach_source_link -%}

@@ -152,7 +152,7 @@ result.selectExpr("explode(finished_embeddings) as result").show(5, 80)
 {%- endcapture -%}
 
 {%- capture model_python_api_link -%}
-[WordEmbeddingsModel](/api/python/reference/autosummary/sparknlp/annotator/embeddings/word_embeddings/index.html#sparknlp.annotator.embeddings.word_embeddings.WordEmbeddingsModel)
+[WordEmbeddingsModel](/api/python/reference/autosummary/python/sparknlp/annotator/embeddings/word_embeddings/index.html#sparknlp.annotator.embeddings.word_embeddings.WordEmbeddingsModel)
 {%- endcapture -%}
 
 {%- capture model_source_link -%}
@@ -306,7 +306,7 @@ result.selectExpr("explode(finished_embeddings) as result").show(false)
 {%- endcapture -%}
 
 {%- capture approach_python_api_link -%}
-[WordEmbeddings](/api/python/reference/autosummary/sparknlp/annotator/embeddings/word_embeddings/index.html#sparknlp.annotator.embeddings.word_embeddings.WordEmbeddings)
+[WordEmbeddings](/api/python/reference/autosummary/python/sparknlp/annotator/embeddings/word_embeddings/index.html#sparknlp.annotator.embeddings.word_embeddings.WordEmbeddings)
 {%- endcapture -%}
 
 {%- capture approach_source_link -%}
