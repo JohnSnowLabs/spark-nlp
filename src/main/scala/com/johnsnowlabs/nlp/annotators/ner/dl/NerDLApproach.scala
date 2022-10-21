@@ -16,7 +16,6 @@
 
 package com.johnsnowlabs.nlp.annotators.ner.dl
 
-import com.johnsnowlabs.client.aws.AWSGateway
 import com.johnsnowlabs.ml.crf.TextSentenceLabels
 import com.johnsnowlabs.ml.tensorflow._
 import com.johnsnowlabs.nlp.AnnotatorType.{DOCUMENT, NAMED_ENTITY, TOKEN, WORD_EMBEDDINGS}
@@ -29,7 +28,6 @@ import com.johnsnowlabs.nlp.{AnnotatorApproach, AnnotatorType, ParamsAndFeatures
 import com.johnsnowlabs.storage.HasStorageRef
 import org.apache.commons.io.IOUtils
 import org.apache.commons.lang.SystemUtils
-import org.apache.spark.SparkFiles
 import org.apache.spark.ml.PipelineModel
 import org.apache.spark.ml.param._
 import org.apache.spark.ml.util.{DefaultParamsReadable, Identifiable}

@@ -16,6 +16,7 @@
 
 package com.johnsnowlabs.nlp.util.io
 
+import com.amazonaws.AmazonServiceException
 import com.johnsnowlabs.nlp.annotators.Tokenizer
 import com.johnsnowlabs.nlp.annotators.common.{TaggedSentence, TaggedWord}
 import com.johnsnowlabs.nlp.pretrained.ResourceDownloader
@@ -198,13 +199,25 @@ object ResourceHelper {
     resource.copyToLocal()
   }
 
-  def copyToLocalSavedModel(path: String): URI = {
+  def copyToLocalSavedModel(path: String): URI = try {
     if (path.startsWith("s3:/") || path.startsWith("s3a:/")) { // Download directly from S3
       ResourceDownloader.downloadS3Directory(path)
     } else { // Use Source Stream
       val resource = SourceStream(path)
       resource.copyToLocalSavedModel()
     }
+  } catch {
+    case awsE: AmazonServiceException =>
+      println(
+        "Error while retrieving folder from S3. Make sure you have set the right " +
+          "access keys with proper permissions in your configuration. For an example please see " +
+          "https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/jupyter/training/english/dl-ner/mfa_ner_graphs_s3.ipynb")
+      throw awsE
+    case e: Exception =>
+      println(
+        s"Could not create temporary local directory for provided path $path." +
+          "Please note that only file:/, hdfs:/, dbfs:/ and s3:/ protocols are supported.")
+      throw e
   }
 
   /** NOT thread safe. Do not call from executors. */

@@ -577,7 +577,6 @@ object ResourceDownloader {
 
     val (bucketName, keyPrefix) = ResourceHelper.parseS3URI(path)
 
-    // TODO: which temporary dir to choose?
     val tmpDirectory = SparkFiles.getRootDirectory()
 
     val awsGateway = new AWSGateway()
