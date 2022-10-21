@@ -107,7 +107,7 @@ result.selectExpr("explode(date) as dates").show(false)
 {%- endcapture -%}
 
 {%- capture python_api_link -%}
-[MultiDateMatcher](/api/python/reference/autosummary/sparknlp/annotator/matcher/multi_date_matcher/index.html#sparknlp.annotator.matcher.multi_date_matcher.MultiDateMatcher)
+[MultiDateMatcher](/api/python/reference/autosummary/python/sparknlp/annotator/matcher/multi_date_matcher/index.html#sparknlp.annotator.matcher.multi_date_matcher.MultiDateMatcher)
 {%- endcapture -%}
 
 {%- capture source_link -%}

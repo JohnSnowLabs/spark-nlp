@@ -57,7 +57,7 @@ WORD_EMBEDDINGS
 {%- endcapture -%}
 
 {%- capture python_api_link -%}
-[XlmRoBertaEmbeddings](/api/python/reference/autosummary/sparknlp/annotator/embeddings/xlm_roberta_embeddings/index.html#sparknlp.annotator.embeddings.xlm_roberta_embeddings.XlmRoBertaEmbeddings)
+[XlmRoBertaEmbeddings](/api/python/reference/autosummary/python/sparknlp/annotator/embeddings/xlm_roberta_embeddings/index.html#sparknlp.annotator.embeddings.xlm_roberta_embeddings.XlmRoBertaEmbeddings)
 {%- endcapture -%}
 
 {%- capture source_link -%}

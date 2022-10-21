@@ -105,7 +105,7 @@ val pipelineModel = pipeline.fit(trainingDataSet)
 {%- endcapture -%}
 
 {%- capture python_api_link -%}
-[WordSegmenterApproach](/api/python/reference/autosummary/sparknlp/annotator/ws/word_segmenter/index.html#sparknlp.annotator.ws.word_segmenter.WordSegmenterApproach)
+[WordSegmenterApproach](/api/python/reference/autosummary/python/sparknlp/annotator/ws/word_segmenter/index.html#sparknlp.annotator.ws.word_segmenter.WordSegmenterApproach)
 {%- endcapture -%}
 
 {%- capture source_link -%}

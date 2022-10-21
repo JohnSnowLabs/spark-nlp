@@ -20,7 +20,7 @@ TOKEN
 {%- endcapture -%}
 
 {%- capture model_python_api_link -%}
-[ChunkTokenizerModel](/api/python/reference/autosummary/sparknlp/annotator/token/chunk_tokenizer/index.html#sparknlp.annotator.token.chunk_tokenizer.ChunkTokenizerModel)
+[ChunkTokenizerModel](/api/python/reference/autosummary/python/sparknlp/annotator/token/chunk_tokenizer/index.html#sparknlp.annotator.token.chunk_tokenizer.ChunkTokenizerModel)
 {%- endcapture -%}
 
 {%- capture model_source_link -%}
@@ -153,7 +153,7 @@ result.selectExpr("entity.result as entity" , "chunk_token.result as chunk_token
 {%- endcapture -%}
 
 {%- capture approach_python_api_link -%}
-[ChunkTokenizer](/api/python/reference/autosummary/sparknlp/annotator/token/chunk_tokenizer/index.html#sparknlp.annotator.token.chunk_tokenizer.ChunkTokenizer)
+[ChunkTokenizer](/api/python/reference/autosummary/python/sparknlp/annotator/token/chunk_tokenizer/index.html#sparknlp.annotator.token.chunk_tokenizer.ChunkTokenizer)
 {%- endcapture -%}
 
 {%- capture approach_source_link -%}

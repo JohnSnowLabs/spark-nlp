@@ -461,22 +461,37 @@
         </ul>
       </div>
       <div class="col-side">
-        <ul class="acc-top"><li class="acc-top-item">Healthcare NLP<i class="fas fa-chevron-down"></i></li></ul>
+        <ul class="acc-top"><li class="acc-top-item">Biomedical NLP<i class="fas fa-chevron-down"></i></li></ul>
         <ul class="acc-body">          
           <li      >
-            <a href="/recognize_clinical_entities">Recognize Clinical Entities</a>
+            <a href="/genes_variants_phenotypes">Genes, Variants, Phenotypes</a>
+          </li>
+          <li    class="active"     >
+            <a href="/clinical_trials">Clinical Trials</a>
           </li>
           <li      >
-            <a href="/recognize_biomedical_entities">Recognize Biomedical Entities</a>
+            <a href="/biomedical_research">Biomedical Research</a>
           </li>
+          <li      >
+            <a href="/public_health">Vaccines &amp; Public Health</a>
+          </li>
+        </ul> 
+        <ul class="acc-top"><li class="acc-top-item">Clinical NLP<i class="fas fa-chevron-down"></i></li></ul>
+        <ul class="acc-body"> 
           <li      >
             <a href="/deidentification">De-Identification</a>
+          </li> 
+          <li      >
+            <a href="/diagnoses_procedures">Diagnoses &amp; Procedures</a>
+          </li> 
+          <li      >
+            <a href="/drug_adverse_events">Drugs &amp; Adverse Events</a>
           </li>
           <li      >
-            <a href="/resolve_entities_codes">Resolve Entities to Codes</a>
+            <a href="/labs_tests_and_vitals">Labs, Tests, and Vitals</a>
           </li>
           <li      >
-            <a href="/extract_relationships">Extract Relationships</a>
+            <a href="/analyze_clinical_notes">Analyze Clinical Notes</a>
           </li>
           <li      >
             <a href="/radiology">Radiology</a>
@@ -485,36 +500,21 @@
             <a href="/oncology">Oncology</a>
           </li>
           <li      >
-            <a href="/social_determinants">Social Determinants</a>
-          </li>
-          <li      >
-            <a href="/split_clean_medical_text">Split &amp; Clean Medical Text</a>
-          </li>
-          <li      >
-            <a href="/analyze_medical_text_spanish">Analyze Medical Texts in Spanish</a>
-          </li>
-          <li      >
-            <a href="/analyze_medical_text_german">Analyze Medical Texts in German</a>
-          </li>
-          <li      >
-            <a href="/medical_risk_scoring">Medical Risk Scoring</a>
-          </li>
-          <li      >
-            <a href="/classify_medical_texts">Classify Medical Texts</a>
-          </li>
-          <li      >
-            <a href="/public_health">Public Health</a>
+            <a href="/resolve_entities_codes">Resolve Entities to Codes</a>
           </li>
           <li      >
             <a href="/databricks_solution_accelerators">Databricks Solution Accelerators</a>
           </li>
+        </ul> 
+        <ul class="acc-top"><li class="acc-top-item">Medical NLP: World Language<i class="fas fa-chevron-down"></i></li></ul>
+        <ul class="acc-body"> 
           <li      >
-            <a href="/biomedical_research">Biomedical Research</a>
+            <a href="/german">German</a>
+          </li> 
+          <li      >
+            <a href="/analyze_medical_text_spanish">Spanish</a>
           </li>
-          <li    class="active"     >
-            <a href="/clinical_trials">Clinical Trials</a>
-          </li>
-        </ul>        
+        </ul> 
       </div>
       <div class="col-side">
         <ul class="acc-top"><li class="acc-top-item">Finance NLP<i class="fas fa-chevron-down"></i></li></ul>
@@ -610,14 +610,6 @@
 <h1 class="subtitle">Clinical Trials - Live Demos & Notebooks</h1><div class="grid--container main-big" id="panels"><div class="tab-wrapper-inner"><div class="tab-item ">
               <div class="tab-item-inner">
                 <div class="tab-item-wrapper"><div class="tab-item-top"><figure class="tab_fig_blue">
-                        <img src="/assets/images/ExtractEntitiesClinicalTrialAbstracts.svg" />
-                      </figure><div class="tab-item-title">Extract Entities in Clinical Trial Abstracts</div>
-                  </div><div class="tab-description"><div class="tab-description-inner">This model extracts to trial design, diseases, drugs, population, statistics, publication etc. relevant entities from clinical trial abstracts. <a href="#" class="show_more">(...)</a></div></div></div><ul class="tab-menu"><li><a id="extract_entities_clinical_trial_abstracts" class="btn button--normal button--pill button--lg"
-                        href="https://demo.johnsnowlabs.com/healthcare/NER_CLINICAL_TRIALS_ABSTRACT/">Live Demo</a></li><li><a id="extract_entities_clinical_trial_abstracts" class="btn button--blue_btn button--pill button--lg"
-                        href="https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/NER_CLINICAL_TRIALS_ABSTRACT.ipynb">Colab</a></li></ul></div> 
-            </div><div class="tab-item ">
-              <div class="tab-item-inner">
-                <div class="tab-item-wrapper"><div class="tab-item-top"><figure class="tab_fig_blue">
                         <img src="/assets/images/Recognize_concepts_in_drug_development_trials.svg" />
                       </figure><div class="tab-item-title">Recognize Concepts in Drug Development Trials</div>
                   </div><div class="tab-description"><div class="tab-description-inner">This demo shows how to extract concepts related to drug development including Trial Groups, End Points and Hazard Ratio. <a href="#" class="show_more">(...)</a></div></div></div><ul class="tab-menu"><li><a id="recognize_concepts_in_drug_development_trials" class="btn button--normal button--pill button--lg"
@@ -639,6 +631,14 @@
                   </div><div class="tab-description"><div class="tab-description-inner">This demo shows how Covid-related clinical terminology can be detected using a Spark NLP Healthcare NER model. <a href="#" class="show_more">(...)</a></div></div></div><ul class="tab-menu"><li><a id="detect_covid_related_clinical_terminology" class="btn button--normal button--pill button--lg"
                         href="https://demo.johnsnowlabs.com/healthcare/NER_COVID/">Live Demo</a></li><li><a id="detect_covid_related_clinical_terminology" class="btn button--blue_btn button--pill button--lg"
                         href="https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/NER_COVID.ipynb">Colab</a></li></ul></div> 
+            </div><div class="tab-item ">
+              <div class="tab-item-inner">
+                <div class="tab-item-wrapper"><div class="tab-item-top"><figure class="tab_fig_blue">
+                        <img src="/assets/images/ExtractEntitiesClinicalTrialAbstracts.svg" />
+                      </figure><div class="tab-item-title">Extract Entities in Clinical Trial Abstracts</div>
+                  </div><div class="tab-description"><div class="tab-description-inner">This model extracts to trial design, diseases, drugs, population, statistics, publication etc. relevant entities from clinical trial abstracts. <a href="#" class="show_more">(...)</a></div></div></div><ul class="tab-menu"><li><a id="extract_entities_clinical_trial_abstracts" class="btn button--normal button--pill button--lg"
+                        href="https://demo.johnsnowlabs.com/healthcare/NER_CLINICAL_TRIALS_ABSTRACT/">Live Demo</a></li><li><a id="extract_entities_clinical_trial_abstracts" class="btn button--blue_btn button--pill button--lg"
+                        href="https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/NER_CLINICAL_TRIALS_ABSTRACT.ipynb">Colab</a></li></ul></div> 
             </div></div></div></div> </section></div>
 </div>
 

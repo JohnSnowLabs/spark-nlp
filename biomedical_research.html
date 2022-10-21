@@ -9,7 +9,7 @@
     j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
     })(window,document,'script','dataLayer','GTM-59JLR64');</script>
-<!-- End Google Tag Manager --><title>Biomedical Research  - Finance NLP Demos & Notebooks</title><meta property="og:title" content="Healthcare NLP: Biomedical Research  - John Snow Labs"/>
+<!-- End Google Tag Manager --><title>Biomedical Research  - Biomedical NLP Demos & Notebooks</title><meta property="og:title" content="Biomedical NLP: Biomedical Research  - John Snow Labs"/>
 
 <meta name="description" content="High Performance NLP with Apache Spark
 ">
@@ -408,7 +408,7 @@
               <div class="col-main cell cell--auto"><!-- start custom main top snippet -->
 
 <!-- end custom main top snippet --><article itemscope itemtype="http://schema.org/WebPage"><script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script><div class="article__header"><header class="main-docs have_subtitle">
-          <div class="top-title mont">Spark NLP in Action</div><div class="top-subtitle mont">Run 300+ live demos and notebooks</div></header></div><meta itemprop="headline" content="Biomedical Research  - Finance NLP Demos & Notebooks"><div class="js-article-content"><div class="demomenu">
+          <div class="top-title mont">Spark NLP in Action</div><div class="top-subtitle mont">Run 300+ live demos and notebooks</div></header></div><meta itemprop="headline" content="Biomedical Research  - Biomedical NLP Demos & Notebooks"><div class="js-article-content"><div class="demomenu">
                           <div class="subtitle">Demos Categories</div><div class="demopage-sidemenu">
     <div class="sidemenu">
       <div class="col-side">
@@ -461,22 +461,37 @@
         </ul>
       </div>
       <div class="col-side">
-        <ul class="acc-top"><li class="acc-top-item">Healthcare NLP<i class="fas fa-chevron-down"></i></li></ul>
+        <ul class="acc-top"><li class="acc-top-item">Biomedical NLP<i class="fas fa-chevron-down"></i></li></ul>
         <ul class="acc-body">          
           <li      >
-            <a href="/recognize_clinical_entities">Recognize Clinical Entities</a>
+            <a href="/genes_variants_phenotypes">Genes, Variants, Phenotypes</a>
           </li>
           <li      >
-            <a href="/recognize_biomedical_entities">Recognize Biomedical Entities</a>
+            <a href="/clinical_trials">Clinical Trials</a>
           </li>
+          <li    class="active"     >
+            <a href="/biomedical_research">Biomedical Research</a>
+          </li>
+          <li      >
+            <a href="/public_health">Vaccines &amp; Public Health</a>
+          </li>
+        </ul> 
+        <ul class="acc-top"><li class="acc-top-item">Clinical NLP<i class="fas fa-chevron-down"></i></li></ul>
+        <ul class="acc-body"> 
           <li      >
             <a href="/deidentification">De-Identification</a>
+          </li> 
+          <li      >
+            <a href="/diagnoses_procedures">Diagnoses &amp; Procedures</a>
+          </li> 
+          <li      >
+            <a href="/drug_adverse_events">Drugs &amp; Adverse Events</a>
           </li>
           <li      >
-            <a href="/resolve_entities_codes">Resolve Entities to Codes</a>
+            <a href="/labs_tests_and_vitals">Labs, Tests, and Vitals</a>
           </li>
           <li      >
-            <a href="/extract_relationships">Extract Relationships</a>
+            <a href="/analyze_clinical_notes">Analyze Clinical Notes</a>
           </li>
           <li      >
             <a href="/radiology">Radiology</a>
@@ -485,36 +500,21 @@
             <a href="/oncology">Oncology</a>
           </li>
           <li      >
-            <a href="/social_determinants">Social Determinants</a>
-          </li>
-          <li      >
-            <a href="/split_clean_medical_text">Split &amp; Clean Medical Text</a>
-          </li>
-          <li      >
-            <a href="/analyze_medical_text_spanish">Analyze Medical Texts in Spanish</a>
-          </li>
-          <li      >
-            <a href="/analyze_medical_text_german">Analyze Medical Texts in German</a>
-          </li>
-          <li      >
-            <a href="/medical_risk_scoring">Medical Risk Scoring</a>
-          </li>
-          <li      >
-            <a href="/classify_medical_texts">Classify Medical Texts</a>
-          </li>
-          <li      >
-            <a href="/public_health">Public Health</a>
+            <a href="/resolve_entities_codes">Resolve Entities to Codes</a>
           </li>
           <li      >
             <a href="/databricks_solution_accelerators">Databricks Solution Accelerators</a>
           </li>
-          <li    class="active"     >
-            <a href="/biomedical_research">Biomedical Research</a>
-          </li>
+        </ul> 
+        <ul class="acc-top"><li class="acc-top-item">Medical NLP: World Language<i class="fas fa-chevron-down"></i></li></ul>
+        <ul class="acc-body"> 
           <li      >
-            <a href="/clinical_trials">Clinical Trials</a>
+            <a href="/german">German</a>
+          </li> 
+          <li      >
+            <a href="/analyze_medical_text_spanish">Spanish</a>
           </li>
-        </ul>        
+        </ul> 
       </div>
       <div class="col-side">
         <ul class="acc-top"><li class="acc-top-item">Finance NLP<i class="fas fa-chevron-down"></i></li></ul>
@@ -610,14 +610,6 @@
 <h1 class="subtitle">Biomedical Research - Live Demos & Notebooks</h1><div class="grid--container main-big" id="panels"><div class="tab-wrapper-inner"><div class="tab-item ">
               <div class="tab-item-inner">
                 <div class="tab-item-wrapper"><div class="tab-item-top"><figure class="tab_fig_blue">
-                        <img src="/assets/images/DetectPathogenConcepts.svg" />
-                      </figure><div class="tab-item-title">Detect Pathogen Concepts</div>
-                  </div><div class="tab-description"><div class="tab-description-inner">This demo automatically identifies pathogen concepts from clinical text. <a href="#" class="show_more">(...)</a></div></div></div><ul class="tab-menu"><li><a id="detect_pathogen_concepts" class="btn button--normal button--pill button--lg"
-                        href="https://demo.johnsnowlabs.com/healthcare/NER_PATHOGEN/">Live Demo</a></li><li><a id="detect_pathogen_concepts" class="btn button--blue_btn button--pill button--lg"
-                        href="https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/NER_PATHOGEN.ipynb">Colab</a></li></ul></div> 
-            </div><div class="tab-item ">
-              <div class="tab-item-inner">
-                <div class="tab-item-wrapper"><div class="tab-item-top"><figure class="tab_fig_blue">
                         <img src="/assets/images/Detect_drugs_interactions.svg" />
                       </figure><div class="tab-item-title">Detect drugs interactions</div>
                   </div><div class="tab-description"><div class="tab-description-inner">Detect possible interactions between drugs using out-of-the-box Relation Extraction Spark NLP model. <a href="#" class="show_more">(...)</a></div></div></div><ul class="tab-menu"><li><a id="detect_drugs_interactions" class="btn button--normal button--pill button--lg"
@@ -647,6 +639,22 @@
                   </div><div class="tab-description"><div class="tab-description-inner">This model detects interactions between chemical compounds/drugs and genes/proteins. <a href="#" class="show_more">(...)</a></div></div></div><ul class="tab-menu"><li><a id="extract_relations_between_drugs_proteins" class="btn button--normal button--pill button--lg"
                         href="https://demo.johnsnowlabs.com/healthcare/RE_DRUG_PROT/">Live Demo</a></li><li><a id="extract_relations_between_drugs_proteins" class="btn button--blue_btn button--pill button--lg"
                         href="https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/RE_DRUG_PROT.ipynb">Colab</a></li></ul></div> 
+            </div><div class="tab-item ">
+              <div class="tab-item-inner">
+                <div class="tab-item-wrapper"><div class="tab-item-top"><figure class="tab_fig_blue">
+                        <img src="/assets/images/DetectPathogenConcepts.svg" />
+                      </figure><div class="tab-item-title">Detect Pathogen Concepts</div>
+                  </div><div class="tab-description"><div class="tab-description-inner">This demo automatically identifies pathogen concepts from clinical text. <a href="#" class="show_more">(...)</a></div></div></div><ul class="tab-menu"><li><a id="detect_pathogen_concepts" class="btn button--normal button--pill button--lg"
+                        href="https://demo.johnsnowlabs.com/healthcare/NER_PATHOGEN/">Live Demo</a></li><li><a id="detect_pathogen_concepts" class="btn button--blue_btn button--pill button--lg"
+                        href="https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/NER_PATHOGEN.ipynb">Colab</a></li></ul></div> 
+            </div><div class="tab-item ">
+              <div class="tab-item-inner">
+                <div class="tab-item-wrapper"><div class="tab-item-top"><figure class="tab_fig_blue">
+                        <img src="/assets/images/Detect_mentions_of_general_medical_terms.svg" />
+                      </figure><div class="tab-item-title">Detect mentions of general medical terms (coarse)</div>
+                  </div><div class="tab-description"><div class="tab-description-inner">Extract general medical terms in text like body parts, cells, genes, symptoms, etc in text. <a href="#" class="show_more">(...)</a></div></div></div><ul class="tab-menu"><li><a id="detect_mentions_general_medical_terms_coarse" class="btn button--normal button--pill button--lg"
+                        href="https://demo.johnsnowlabs.com/healthcare/NER_MEDMENTIONS_COARSE/">Live Demo</a></li><li><a id="detect_mentions_general_medical_terms_coarse" class="btn button--blue_btn button--pill button--lg"
+                        href="https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/NER_MEDMENTIONS_COARSE.ipynb">Colab</a></li></ul></div> 
             </div></div></div></div> </section></div>
 </div>
 

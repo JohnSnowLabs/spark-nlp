@@ -9,11 +9,11 @@
     j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
     })(window,document,'script','dataLayer','GTM-59JLR64');</script>
-<!-- End Google Tag Manager --><title>Analyze Medical Texts in German</title><meta property="og:title" content=""/>
+<!-- End Google Tag Manager --><title>Diagnoses & Procedures - Clinical NLP Demos & Notebooks</title><meta property="og:title" content="Clinical NLP: Diagnoses & Procedures - John Snow Labs"/>
 
 <meta name="description" content="High Performance NLP with Apache Spark
 ">
-<link rel="canonical" href="/analyze_medical_text_german"><link rel="alternate" type="application/rss+xml" title="Spark NLP" href="/feed.xml"><!-- start favicons snippet, use https://realfavicongenerator.net/ -->
+<link rel="canonical" href="/diagnoses_procedures"><link rel="alternate" type="application/rss+xml" title="Spark NLP" href="/feed.xml"><!-- start favicons snippet, use https://realfavicongenerator.net/ -->
 <!---->
 <!-- <link rel="apple-touch-icon" sizes="180x180" href="/fav.ico"> -->
 
@@ -408,7 +408,7 @@
               <div class="col-main cell cell--auto"><!-- start custom main top snippet -->
 
 <!-- end custom main top snippet --><article itemscope itemtype="http://schema.org/WebPage"><script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script><div class="article__header"><header class="main-docs have_subtitle">
-          <div class="top-title mont">Spark NLP in Action</div><div class="top-subtitle mont">Run 300+ live demos and notebooks</div></header></div><meta itemprop="headline" content="Analyze Medical Texts in German"><div class="js-article-content"><div class="demomenu">
+          <div class="top-title mont">Spark NLP in Action</div><div class="top-subtitle mont">Run 300+ live demos and notebooks</div></header></div><meta itemprop="headline" content="Diagnoses & Procedures - Clinical NLP Demos & Notebooks"><div class="js-article-content"><div class="demomenu">
                           <div class="subtitle">Demos Categories</div><div class="demopage-sidemenu">
     <div class="sidemenu">
       <div class="col-side">
@@ -461,22 +461,37 @@
         </ul>
       </div>
       <div class="col-side">
-        <ul class="acc-top"><li class="acc-top-item">Healthcare NLP<i class="fas fa-chevron-down"></i></li></ul>
+        <ul class="acc-top"><li class="acc-top-item">Biomedical NLP<i class="fas fa-chevron-down"></i></li></ul>
         <ul class="acc-body">          
           <li      >
-            <a href="/recognize_clinical_entities">Recognize Clinical Entities</a>
+            <a href="/genes_variants_phenotypes">Genes, Variants, Phenotypes</a>
           </li>
           <li      >
-            <a href="/recognize_biomedical_entities">Recognize Biomedical Entities</a>
+            <a href="/clinical_trials">Clinical Trials</a>
           </li>
+          <li      >
+            <a href="/biomedical_research">Biomedical Research</a>
+          </li>
+          <li      >
+            <a href="/public_health">Vaccines &amp; Public Health</a>
+          </li>
+        </ul> 
+        <ul class="acc-top"><li class="acc-top-item">Clinical NLP<i class="fas fa-chevron-down"></i></li></ul>
+        <ul class="acc-body"> 
           <li      >
             <a href="/deidentification">De-Identification</a>
+          </li> 
+          <li    class="active"     >
+            <a href="/diagnoses_procedures">Diagnoses &amp; Procedures</a>
+          </li> 
+          <li      >
+            <a href="/drug_adverse_events">Drugs &amp; Adverse Events</a>
           </li>
           <li      >
-            <a href="/resolve_entities_codes">Resolve Entities to Codes</a>
+            <a href="/labs_tests_and_vitals">Labs, Tests, and Vitals</a>
           </li>
           <li      >
-            <a href="/extract_relationships">Extract Relationships</a>
+            <a href="/analyze_clinical_notes">Analyze Clinical Notes</a>
           </li>
           <li      >
             <a href="/radiology">Radiology</a>
@@ -485,36 +500,21 @@
             <a href="/oncology">Oncology</a>
           </li>
           <li      >
-            <a href="/social_determinants">Social Determinants</a>
-          </li>
-          <li      >
-            <a href="/split_clean_medical_text">Split &amp; Clean Medical Text</a>
-          </li>
-          <li      >
-            <a href="/analyze_medical_text_spanish">Analyze Medical Texts in Spanish</a>
-          </li>
-          <li    class="active"     >
-            <a href="/analyze_medical_text_german">Analyze Medical Texts in German</a>
-          </li>
-          <li      >
-            <a href="/medical_risk_scoring">Medical Risk Scoring</a>
-          </li>
-          <li      >
-            <a href="/classify_medical_texts">Classify Medical Texts</a>
-          </li>
-          <li      >
-            <a href="/public_health">Public Health</a>
+            <a href="/resolve_entities_codes">Resolve Entities to Codes</a>
           </li>
           <li      >
             <a href="/databricks_solution_accelerators">Databricks Solution Accelerators</a>
           </li>
+        </ul> 
+        <ul class="acc-top"><li class="acc-top-item">Medical NLP: World Language<i class="fas fa-chevron-down"></i></li></ul>
+        <ul class="acc-body"> 
           <li      >
-            <a href="/biomedical_research">Biomedical Research</a>
-          </li>
+            <a href="/german">German</a>
+          </li> 
           <li      >
-            <a href="/clinical_trials">Clinical Trials</a>
+            <a href="/analyze_medical_text_spanish">Spanish</a>
           </li>
-        </ul>        
+        </ul> 
       </div>
       <div class="col-side">
         <ul class="acc-top"><li class="acc-top-item">Finance NLP<i class="fas fa-chevron-down"></i></li></ul>
@@ -607,46 +607,78 @@
 
       <div class="">
         
-<h1 class="subtitle">Analyze Medical Texts in German</h1><div class="grid--container main-big" id="panels"><div class="tab-wrapper-inner"><div class="tab-item ">
+<h1 class="subtitle">Diagnoses & Procedures - Live Demos & Notebooks</h1><div class="grid--container main-big" id="panels"><div class="tab-wrapper-inner"><div class="tab-item ">
               <div class="tab-item-inner">
                 <div class="tab-item-wrapper"><div class="tab-item-top"><figure class="tab_fig_blue">
-                        <img src="/assets/images/Detect_causality_between_symptoms.svg" />
-                      </figure><div class="tab-item-title">Detect symptoms, treatments and other clinical information in German</div>
-                  </div><div class="tab-description"><div class="tab-description-inner">Automatically identify symptoms, diagnoses, procedures, body parts or medication in German clinical texts. <a href="#" class="show_more">(...)</a></div></div></div><ul class="tab-menu"><li><a id="detect_symptoms" class="btn button--normal button--pill button--lg"
-                        href="https://demo.johnsnowlabs.com/healthcare/NER_HEALTHCARE_DE/">Live Demo</a></li><li><a id="detect_symptoms" class="btn button--blue_btn button--pill button--lg"
-                        href="https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/NER_HEALTHCARE_DE.ipynb">Colab</a></li></ul></div> 
+                        <img src="/assets/images/Identify_diagnosis_and_symptoms_assertion_status.svg" />
+                      </figure><div class="tab-item-title">Identify diagnosis and symptoms assertion status</div>
+                  </div><div class="tab-description"><div class="tab-description-inner">Automatically detect if a diagnosis or a symptom is present, absent, uncertain or associated to other persons (e.g. family members). <a href="#" class="show_more">(...)</a></div></div></div><ul class="tab-menu"><li><a id="identify_diagnosis_and_symptoms_assertion_status" class="btn button--normal button--pill button--lg"
+                        href="https://demo.johnsnowlabs.com/healthcare/ASSERTION/">Live Demo</a></li><li><a id="identify_diagnosis_and_symptoms_assertion_status" class="btn button--blue_btn button--pill button--lg"
+                        href="https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/2.Clinical_Assertion_Model.ipynb">Colab</a></li></ul></div> 
             </div><div class="tab-item ">
               <div class="tab-item-inner">
                 <div class="tab-item-wrapper"><div class="tab-item-top"><figure class="tab_fig_blue">
-                        <img src="/assets/images/Resolve_German_Clinical_Health_Information_using_the_SNOMED_taxonomy.svg" />
-                      </figure><div class="tab-item-title">Resolve German Clinical Health Information using the SNOMED taxonomy</div>
-                  </div><div class="tab-description"><div class="tab-description-inner">This demo shows how German clinical health information (like diagnoses/procedures) can be mapped to codes using the SNOMED taxonomy. <a href="#" class="show_more">(...)</a></div></div></div><ul class="tab-menu"><li><a id="resolve_german_clinical_health_information_using_snomed_taxonomy" class="btn button--normal button--pill button--lg"
-                        href="https://demo.johnsnowlabs.com/healthcare/ER_SNOMED_DE/">Live Demo</a></li><li><a id="resolve_german_clinical_health_information_using_snomed_taxonomy" class="btn button--blue_btn button--pill button--lg"
-                        href="https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/14.German_Healthcare_Models.ipynb">Colab</a></li></ul></div> 
+                        <img src="/assets/images/Calculate_Medicare_Risk_Score.svg" />
+                      </figure><div class="tab-item-title">Calculate Medicare HCC Risk Score</div>
+                  </div><div class="tab-description"><div class="tab-description-inner">This demos shows how to calculate medical risk adjustment scores automatically using ICD codes of diseases. <a href="#" class="show_more">(...)</a></div></div></div><ul class="tab-menu"><li><a id="calculate_medicare_risk_score" class="btn button--normal button--pill button--lg"
+                        href="https://demo.johnsnowlabs.com/healthcare/HCC_RISK_SCORE/">Live Demo</a></li><li><a id="calculate_medicare_risk_score" class="btn button--blue_btn button--pill button--lg"
+                        href="https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/3.1.Calculate_Medicare_Risk_Adjustment_Score.ipynb">Colab</a></li></ul></div> 
             </div><div class="tab-item ">
               <div class="tab-item-inner">
                 <div class="tab-item-wrapper"><div class="tab-item-top"><figure class="tab_fig_blue">
-                        <img src="/assets/images/Resolve_German_Clinical_Findings_using_the_ICD10-GM_taxonomy.svg" />
-                      </figure><div class="tab-item-title">Resolve German Clinical Findings using the ICD10-GM taxonomy</div>
-                  </div><div class="tab-description"><div class="tab-description-inner">This demo shows how German clinical findings can be mapped to codes using the ICD10-GM taxonomy. <a href="#" class="show_more">(...)</a></div></div></div><ul class="tab-menu"><li><a id="resolve_german_clinical_findings_using_icd10_gm_taxonomy" class="btn button--normal button--pill button--lg"
-                        href="https://demo.johnsnowlabs.com/healthcare/ER_ICD10_GM_DE/">Live Demo</a></li><li><a id="resolve_german_clinical_findings_using_icd10_gm_taxonomy" class="btn button--blue_btn button--pill button--lg"
-                        href="https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/ER_ICD10_GM_DE.ipynb">Colab</a></li></ul></div> 
+                        <img src="/assets/images/Detect_risk_factors.svg" />
+                      </figure><div class="tab-item-title">Detect clinical entities in text</div>
+                  </div><div class="tab-description"><div class="tab-description-inner">Automatically detect more than 50 clinical entities using our NER deep learning model. <a href="#" class="show_more">(...)</a></div></div></div><ul class="tab-menu"><li><a id="detect_clinical_entities_in_text" class="btn button--normal button--pill button--lg"
+                        href="https://demo.johnsnowlabs.com/healthcare/NER_CLINICAL/">Live Demo</a></li><li><a id="detect_clinical_entities_in_text" class="btn button--blue_btn button--pill button--lg"
+                        href="https://githubtocolab.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/1.Clinical_Named_Entity_Recognition_Model.ipynb">Colab</a></li></ul></div> 
             </div><div class="tab-item ">
               <div class="tab-item-inner">
                 <div class="tab-item-wrapper"><div class="tab-item-top"><figure class="tab_fig_blue">
-                        <img src="/assets/images/Detect_PHI_terminology_German_medical_text.svg" />
-                      </figure><div class="tab-item-title">Detect PHI terminology in German medical text</div>
-                  </div><div class="tab-description"><div class="tab-description-inner">This demo shows how Protected Health Information (PHI) in German that may need to be de-identified can be extracted using Spark NLP Healthcare NER model. <a href="#" class="show_more">(...)</a></div></div></div><ul class="tab-menu"><li><a id="detect_phi_terminology_german_medical_text" class="btn button--normal button--pill button--lg"
-                        href="https://demo.johnsnowlabs.com/healthcare/NER_DEID_DE/">Live Demo</a></li><li><a id="detect_phi_terminology_german_medical_text" class="btn button--blue_btn button--pill button--lg"
-                        href="https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/4.1.Clinical_Deidentification_in_German.ipynb">Colab</a></li></ul></div> 
+                        <img src="/assets/images/Detect_diagnosis_and_procedures.svg" />
+                      </figure><div class="tab-item-title">Detect diagnosis and procedures</div>
+                  </div><div class="tab-description"><div class="tab-description-inner">Automatically identify diagnoses and procedures in clinical documents using the pretrained Spark NLP clinical models. <a href="#" class="show_more">(...)</a></div></div></div><ul class="tab-menu"><li><a id="detect_diagnosis_and_procedures" class="btn button--normal button--pill button--lg"
+                        href="https://demo.johnsnowlabs.com/healthcare/NER_DIAG_PROC/">Live Demo</a></li><li><a id="detect_diagnosis_and_procedures" class="btn button--blue_btn button--pill button--lg"
+                        href="https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/NER_DIAG_PROC.ipynb">Colab</a></li></ul></div> 
             </div><div class="tab-item ">
               <div class="tab-item-inner">
                 <div class="tab-item-wrapper"><div class="tab-item-top"><figure class="tab_fig_blue">
-                        <img src="/assets/images/Deidentify_German_Medical_texts.svg" />
-                      </figure><div class="tab-item-title">Deidentify German Medical texts</div>
-                  </div><div class="tab-description"><div class="tab-description-inner">This demo shows how to deidentify protected health information in German medical texts. <a href="#" class="show_more">(...)</a></div></div></div><ul class="tab-menu"><li><a id="deidentify_german_medical_texts" class="btn button--normal button--pill button--lg"
-                        href="https://demo.johnsnowlabs.com/healthcare/DEID_PHI_TEXT_DE/">Live Demo</a></li><li><a id="deidentify_german_medical_texts" class="btn button--blue_btn button--pill button--lg"
-                        href="https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/4.1.Clinical_Deidentification_in_German.ipynb">Colab</a></li></ul></div> 
+                        <img src="/assets/images/Grammar_Analysis.svg" />
+                      </figure><div class="tab-item-title">Detect temporal relations for clinical events</div>
+                  </div><div class="tab-description"><div class="tab-description-inner">Automatically identify three types of relations between clinical events: After, Before and Overlap using our pretrained clinical Relation Extraction (RE) model. <a href="#" class="show_more">(...)</a></div></div></div><ul class="tab-menu"><li><a id="detect_temporal_relations_for_clinical_events" class="btn button--normal button--pill button--lg"
+                        href="https://demo.johnsnowlabs.com/healthcare/RE_CLINICAL_EVENTS/">Live Demo</a></li><li><a id="detect_temporal_relations_for_clinical_events" class="btn button--blue_btn button--pill button--lg"
+                        href="https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/RE_CLINICAL_EVENTS.ipynb">Colab</a></li></ul></div> 
+            </div><div class="tab-item ">
+              <div class="tab-item-inner">
+                <div class="tab-item-wrapper"><div class="tab-item-top"><figure class="tab_fig_blue">
+                        <img src="/assets/images/Grammar_Analysis.svg" />
+                      </figure><div class="tab-item-title">Detect causality between symptoms and treatment</div>
+                  </div><div class="tab-description"><div class="tab-description-inner">Automatically identify relations between symptoms and treatment using our pretrained clinical Relation Extraction (RE) model. <a href="#" class="show_more">(...)</a></div></div></div><ul class="tab-menu"><li><a id="detect_causality_between_symptoms_and_treatment" class="btn button--normal button--pill button--lg"
+                        href="https://demo.johnsnowlabs.com/healthcare/RE_CLINICAL/">Live Demo</a></li><li><a id="detect_causality_between_symptoms_and_treatment" class="btn button--blue_btn button--pill button--lg"
+                        href="https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/RE_CLINICAL.ipynb">Colab</a></li></ul></div> 
+            </div><div class="tab-item ">
+              <div class="tab-item-inner">
+                <div class="tab-item-wrapper"><div class="tab-item-top"><figure class="tab_fig_blue">
+                        <img src="/assets/images/Detect_relations.svg" />
+                      </figure><div class="tab-item-title">Detect relations between body parts and clinical entities</div>
+                  </div><div class="tab-description"><div class="tab-description-inner">Use pre-trained relation extraction models to extract relations between body parts and clinical entities. <a href="#" class="show_more">(...)</a></div></div></div><ul class="tab-menu"><li><a id="detect_relations_between_body_parts_and_clinical_entities" class="btn button--normal button--pill button--lg"
+                        href="https://demo.johnsnowlabs.com/healthcare/RE_BODYPART_ENT/">Live Demo</a></li><li><a id="detect_relations_between_body_parts_and_clinical_entities" class="btn button--blue_btn button--pill button--lg"
+                        href="https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/10.1.Clinical_Relation_Extraction_BodyParts_Models.ipynb">Colab</a></li></ul></div> 
+            </div><div class="tab-item ">
+              <div class="tab-item-inner">
+                <div class="tab-item-wrapper"><div class="tab-item-top"><figure class="tab_fig_blue">
+                        <img src="/assets/images/ExtractRelationships_2.svg" />
+                      </figure><div class="tab-item-title">Detect how dates relate to clinical entities</div>
+                  </div><div class="tab-description"><div class="tab-description-inner">Detect clinical entities such as problems, tests and treatments, and how they relate to specific dates. <a href="#" class="show_more">(...)</a></div></div></div><ul class="tab-menu"><li><a id="detect_how_dates_relate_to_clinical_entities" class="btn button--normal button--pill button--lg"
+                        href="https://demo.johnsnowlabs.com/healthcare/RE_CLINICAL_DATE/">Live Demo</a></li><li><a id="detect_how_dates_relate_to_clinical_entities" class="btn button--blue_btn button--pill button--lg"
+                        href="https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/RE_CLINICAL_DATE.ipynb">Colab</a></li></ul></div> 
+            </div><div class="tab-item ">
+              <div class="tab-item-inner">
+                <div class="tab-item-wrapper"><div class="tab-item-top"><figure class="tab_fig_blue">
+                        <img src="/assets/images/Detect_Clinical_Entities_with_JSL.svg" />
+                      </figure><div class="tab-item-title">Detecting Clinical Entities with JSL</div>
+                  </div><div class="tab-description"><div class="tab-description-inner">Automatically detects more than 77 clinical entities using our NER deep learning model. <a href="#" class="show_more">(...)</a></div></div></div><ul class="tab-menu"><li><a id="detecting_clinical_entities_jsl" class="btn button--normal button--pill button--lg"
+                        href="https://demo.johnsnowlabs.com/healthcare/NER_JSL/">Live Demo</a></li><li><a id="detecting_clinical_entities_jsl" class="btn button--blue_btn button--pill button--lg"
+                        href="https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/NER_JSL.ipynb">Colab</a></li></ul></div> 
             </div></div></div></div> </section></div>
 </div>
 

@@ -9,11 +9,11 @@
     j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
     })(window,document,'script','dataLayer','GTM-59JLR64');</script>
-<!-- End Google Tag Manager --><title>Spark NLP in Action</title><meta property="og:title" content=""/>
+<!-- End Google Tag Manager --><title>Genes, Variants, Phenotypes - Biomedical NLP Demos & Notebooks</title><meta property="og:title" content="Biomedical NLP: Genes, Variants, Phenotypes - John Snow Labs"/>
 
 <meta name="description" content="High Performance NLP with Apache Spark
 ">
-<link rel="canonical" href="/split_clean_medical_text"><link rel="alternate" type="application/rss+xml" title="Spark NLP" href="/feed.xml"><!-- start favicons snippet, use https://realfavicongenerator.net/ -->
+<link rel="canonical" href="/genes_variants_phenotypes"><link rel="alternate" type="application/rss+xml" title="Spark NLP" href="/feed.xml"><!-- start favicons snippet, use https://realfavicongenerator.net/ -->
 <!---->
 <!-- <link rel="apple-touch-icon" sizes="180x180" href="/fav.ico"> -->
 
@@ -408,7 +408,7 @@
               <div class="col-main cell cell--auto"><!-- start custom main top snippet -->
 
 <!-- end custom main top snippet --><article itemscope itemtype="http://schema.org/WebPage"><script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script><div class="article__header"><header class="main-docs have_subtitle">
-          <div class="top-title mont">Spark NLP in Action</div><div class="top-subtitle mont">Run 300+ live demos and notebooks</div></header></div><meta itemprop="headline" content="Spark NLP in Action"><div class="js-article-content"><div class="demomenu">
+          <div class="top-title mont">Spark NLP in Action</div><div class="top-subtitle mont">Run 300+ live demos and notebooks</div></header></div><meta itemprop="headline" content="Genes, Variants, Phenotypes - Biomedical NLP Demos & Notebooks"><div class="js-article-content"><div class="demomenu">
                           <div class="subtitle">Demos Categories</div><div class="demopage-sidemenu">
     <div class="sidemenu">
       <div class="col-side">
@@ -461,22 +461,37 @@
         </ul>
       </div>
       <div class="col-side">
-        <ul class="acc-top"><li class="acc-top-item">Healthcare NLP<i class="fas fa-chevron-down"></i></li></ul>
+        <ul class="acc-top"><li class="acc-top-item">Biomedical NLP<i class="fas fa-chevron-down"></i></li></ul>
         <ul class="acc-body">          
-          <li      >
-            <a href="/recognize_clinical_entities">Recognize Clinical Entities</a>
+          <li    class="active"     >
+            <a href="/genes_variants_phenotypes">Genes, Variants, Phenotypes</a>
           </li>
           <li      >
-            <a href="/recognize_biomedical_entities">Recognize Biomedical Entities</a>
+            <a href="/clinical_trials">Clinical Trials</a>
           </li>
+          <li      >
+            <a href="/biomedical_research">Biomedical Research</a>
+          </li>
+          <li      >
+            <a href="/public_health">Vaccines &amp; Public Health</a>
+          </li>
+        </ul> 
+        <ul class="acc-top"><li class="acc-top-item">Clinical NLP<i class="fas fa-chevron-down"></i></li></ul>
+        <ul class="acc-body"> 
           <li      >
             <a href="/deidentification">De-Identification</a>
+          </li> 
+          <li      >
+            <a href="/diagnoses_procedures">Diagnoses &amp; Procedures</a>
+          </li> 
+          <li      >
+            <a href="/drug_adverse_events">Drugs &amp; Adverse Events</a>
           </li>
           <li      >
-            <a href="/resolve_entities_codes">Resolve Entities to Codes</a>
+            <a href="/labs_tests_and_vitals">Labs, Tests, and Vitals</a>
           </li>
           <li      >
-            <a href="/extract_relationships">Extract Relationships</a>
+            <a href="/analyze_clinical_notes">Analyze Clinical Notes</a>
           </li>
           <li      >
             <a href="/radiology">Radiology</a>
@@ -485,36 +500,21 @@
             <a href="/oncology">Oncology</a>
           </li>
           <li      >
-            <a href="/social_determinants">Social Determinants</a>
-          </li>
-          <li    class="active"     >
-            <a href="/split_clean_medical_text">Split &amp; Clean Medical Text</a>
-          </li>
-          <li      >
-            <a href="/analyze_medical_text_spanish">Analyze Medical Texts in Spanish</a>
-          </li>
-          <li      >
-            <a href="/analyze_medical_text_german">Analyze Medical Texts in German</a>
-          </li>
-          <li      >
-            <a href="/medical_risk_scoring">Medical Risk Scoring</a>
-          </li>
-          <li      >
-            <a href="/classify_medical_texts">Classify Medical Texts</a>
-          </li>
-          <li      >
-            <a href="/public_health">Public Health</a>
+            <a href="/resolve_entities_codes">Resolve Entities to Codes</a>
           </li>
           <li      >
             <a href="/databricks_solution_accelerators">Databricks Solution Accelerators</a>
           </li>
+        </ul> 
+        <ul class="acc-top"><li class="acc-top-item">Medical NLP: World Language<i class="fas fa-chevron-down"></i></li></ul>
+        <ul class="acc-body"> 
           <li      >
-            <a href="/biomedical_research">Biomedical Research</a>
-          </li>
+            <a href="/german">German</a>
+          </li> 
           <li      >
-            <a href="/clinical_trials">Clinical Trials</a>
+            <a href="/analyze_medical_text_spanish">Spanish</a>
           </li>
-        </ul>        
+        </ul> 
       </div>
       <div class="col-side">
         <ul class="acc-top"><li class="acc-top-item">Finance NLP<i class="fas fa-chevron-down"></i></li></ul>
@@ -607,54 +607,70 @@
 
       <div class="">
         
-<h1 class="subtitle">Split & Clean Medical Text</h1><div class="grid--container main-big" id="panels"><div class="tab-wrapper-inner"><div class="tab-item ">
+<h1 class="subtitle">Genes, Variants, Phenotypes</h1><div class="grid--container main-big" id="panels"><div class="tab-wrapper-inner"><div class="tab-item ">
               <div class="tab-item-inner">
                 <div class="tab-item-wrapper"><div class="tab-item-top"><figure class="tab_fig_blue">
-                        <img src="/assets/images/Detect_clinical_events.svg" />
-                      </figure><div class="tab-item-title">Spell checking for clinical documents</div>
-                  </div><div class="tab-description"><div class="tab-description-inner">Automatically identify from clinical documents using our pretrained Spark NLP model <b>ner_bionlp.</b> <a href="#" class="show_more">(...)</a></div></div></div><ul class="tab-menu"><li><a id="spell_checking_for_clinical_documents" class="btn button--normal button--pill button--lg"
-                        href="https://demo.johnsnowlabs.com/healthcare/CONTEXTUAL_SPELL_CHECKER">Live Demo</a></li><li><a id="spell_checking_for_clinical_documents" class="btn button--blue_btn button--pill button--lg"
-                        href="https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/CONTEXTUAL_SPELL_CHECKER.ipynb">Colab</a></li></ul></div> 
+                        <img src="/assets/images/Detect_chemical_compounds_and_genes.svg" />
+                      </figure><div class="tab-item-title">Detect chemical compounds and genes</div>
+                  </div><div class="tab-description"><div class="tab-description-inner">Automatically detect all chemical compounds and gene mentions using our pretrained chemprot model included in Spark NLP for Healthcare. <a href="#" class="show_more">(...)</a></div></div></div><ul class="tab-menu"><li><a id="detect_chemical_compounds_and_genes" class="btn button--normal button--pill button--lg"
+                        href="https://demo.johnsnowlabs.com/healthcare/NER_CHEMPROT_CLINICAL">Live Demo</a></li><li><a id="detect_chemical_compounds_and_genes" class="btn button--blue_btn button--pill button--lg"
+                        href="https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/NER_CHEMPROT_CLINICAL.ipynb">Colab</a></li></ul></div> 
             </div><div class="tab-item ">
               <div class="tab-item-inner">
                 <div class="tab-item-wrapper"><div class="tab-item-top"><figure class="tab_fig_blue">
-                        <img src="/assets/images/Detect_sentences_in_healthcare_documents.svg" />
-                      </figure><div class="tab-item-title">Detect sentences in healthcare documents</div>
-                  </div><div class="tab-description"><div class="tab-description-inner">Automatically detect sentences in noisy healthcare documents with our pretrained Sentence Splitter DL model. <a href="#" class="show_more">(...)</a></div></div></div><ul class="tab-menu"><li><a id="detect_sentences_in_healthcare_documents" class="btn button--normal button--pill button--lg"
-                        href="https://demo.johnsnowlabs.com/healthcare/SENTENCE_DETECTOR_HC/">Live Demo</a></li><li><a id="detect_sentences_in_healthcare_documents" class="btn button--blue_btn button--pill button--lg"
-                        href="https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Public/9.SentenceDetectorDL.ipynb">Colab</a></li></ul></div> 
+                        <img src="/assets/images/Detect_genes_and_human_phenotypes.svg" />
+                      </figure><div class="tab-item-title">Detect genes and human phenotypes</div>
+                  </div><div class="tab-description"><div class="tab-description-inner">Automatically detect mentions of genes and human phenotypes (hp) in medical text using Spark NLP for Healthcare pretrained models. <a href="#" class="show_more">(...)</a></div></div></div><ul class="tab-menu"><li><a id="detect_genes_and_human_phenotypes" class="btn button--normal button--pill button--lg"
+                        href="https://demo.johnsnowlabs.com/healthcare/NER_HUMAN_PHENOTYPE_GENE_CLINICAL">Live Demo</a></li><li><a id="detect_genes_and_human_phenotypes" class="btn button--blue_btn button--pill button--lg"
+                        href="https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/NER_HUMAN_PHENOTYPE_GENE_CLINICAL.ipynb">Colab</a></li></ul></div> 
             </div><div class="tab-item ">
               <div class="tab-item-inner">
                 <div class="tab-item-wrapper"><div class="tab-item-top"><figure class="tab_fig_blue">
-                        <img src="/assets/images/Normalize_Medication-related_Phrases.svg" />
-                      </figure><div class="tab-item-title">Normalize medication-related phrases</div>
-                  </div><div class="tab-description"><div class="tab-description-inner">Normalize medication-related phrases such as dosage, form and strength, as well as abbreviations in text and named entities extracted by NER models. <a href="#" class="show_more">(...)</a></div></div></div><ul class="tab-menu"><li><a id="normalize_medication-related_phrases" class="btn button--normal button--pill button--lg"
-                        href="https://demo.johnsnowlabs.com/healthcare/DRUG_NORMALIZATION">Live Demo</a></li><li><a id="normalize_medication-related_phrases" class="btn button--blue_btn button--pill button--lg"
-                        href="https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/23.Drug_Normalizer.ipynb">Colab</a></li></ul></div> 
+                        <img src="/assets/images/Detect_normalized_genes_and_human_phenotypes.svg" />
+                      </figure><div class="tab-item-title">Detect normalized genes and human phenotypes</div>
+                  </div><div class="tab-description"><div class="tab-description-inner">Automatically detect normalized mentions of genes (go) and human phenotypes (hp) in medical text using Spark NLP for Healthcare pretrained models. <a href="#" class="show_more">(...)</a></div></div></div><ul class="tab-menu"><li><a id="detect_normalized_genes_and_human_phenotypes" class="btn button--normal button--pill button--lg"
+                        href="https://demo.johnsnowlabs.com/healthcare/NER_HUMAN_PHENOTYPE_GO_CLINICAL">Live Demo</a></li><li><a id="detect_normalized_genes_and_human_phenotypes" class="btn button--blue_btn button--pill button--lg"
+                        href="https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/NER_HUMAN_PHENOTYPE_GO_CLINICAL.ipynb">Colab</a></li></ul></div> 
             </div><div class="tab-item ">
               <div class="tab-item-inner">
                 <div class="tab-item-wrapper"><div class="tab-item-top"><figure class="tab_fig_blue">
-                        <img src="/assets/images/Link_entities_to_Wikipedia_pages.svg" />
-                      </figure><div class="tab-item-title">Link entities to Wikipedia pages</div>
-                  </div><div class="tab-description"><div class="tab-description-inner">Automatically disambiguate people’s names based on their context and link them to corresponding Wikipedia pages using out of the box Spark NLP pretrained models. <a href="#" class="show_more">(...)</a></div></div></div><ul class="tab-menu"><li><a id="link_entities_to_wikipedia_pages" class="btn button--normal button--pill button--lg"
-                        href="https://demo.johnsnowlabs.com/healthcare/NER_DISAMBIGUATION/">Live Demo</a></li><li><a id="link_entities_to_wikipedia_pages" class="btn button--blue_btn button--pill button--lg"
-                        href="https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/12.Named_Entity_Disambiguation.ipynb">Colab</a></li></ul></div> 
+                        <img src="/assets/images/Detect_cell_structure_DNA_RNA_and_protein.svg" />
+                      </figure><div class="tab-item-title">Detect cell structure, DNA, RNA and protein</div>
+                  </div><div class="tab-description"><div class="tab-description-inner">Automatically detect cell type, cell line, DNA and RNA information using our pretrained Spark NLP for Healthcare model. <a href="#" class="show_more">(...)</a></div></div></div><ul class="tab-menu"><li><a id="detect_cell_structure" class="btn button--normal button--pill button--lg"
+                        href="https://demo.johnsnowlabs.com/healthcare/NER_CELLULAR/">Live Demo</a></li><li><a id="detect_cell_structure" class="btn button--blue_btn button--pill button--lg"
+                        href="https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/NER_CELLULAR.ipynb">Colab</a></li></ul></div> 
             </div><div class="tab-item ">
               <div class="tab-item-inner">
                 <div class="tab-item-wrapper"><div class="tab-item-top"><figure class="tab_fig_blue">
-                        <img src="/assets/images/Normalize_Section_Headers_of_the_Visit_Summary.svg" />
-                      </figure><div class="tab-item-title">Normalize Section Headers of the Visit Summary</div>
-                  </div><div class="tab-description"><div class="tab-description-inner">This demo maps Section Headers of the clinical visit data to their normalized versions. <a href="#" class="show_more">(...)</a></div></div></div><ul class="tab-menu"><li><a id="normalize_section_headers_visit_summary" class="btn button--normal button--pill button--lg"
-                        href="https://demo.johnsnowlabs.com/healthcare/NORMALIZED_SECTION_HEADER_MAPPER/">Live Demo</a></li><li><a id="normalize_section_headers_visit_summary" class="btn button--blue_btn button--pill button--lg"
-                        href="https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/NORMALIZED_SECTION_HEADER_MAPPER.ipynb">Colab</a></li></ul></div> 
+                        <img src="/assets/images/Detect_bacteria_plants_animals_or_general_species.svg" />
+                      </figure><div class="tab-item-title">Detect bacteria, plants, animals or general species</div>
+                  </div><div class="tab-description"><div class="tab-description-inner">Automatically detect bacteria, plants, animals, and other species using our pretrained Spark NLP for Healthcare model. <a href="#" class="show_more">(...)</a></div></div></div><ul class="tab-menu"><li><a id="detect_bacteria" class="btn button--normal button--pill button--lg"
+                        href="https://demo.johnsnowlabs.com/healthcare/NER_BACTERIAL_SPECIES/">Live Demo</a></li><li><a id="detect_bacteria" class="btn button--blue_btn button--pill button--lg"
+                        href="https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/NER_BACTERIAL_SPECIES.ipynb">Colab</a></li></ul></div> 
             </div><div class="tab-item ">
               <div class="tab-item-inner">
                 <div class="tab-item-wrapper"><div class="tab-item-top"><figure class="tab_fig_blue">
-                        <img src="/assets/images/Extract_Chunk_Key_Phrases.svg" />
-                      </figure><div class="tab-item-title">Extract Chunk Key Phrases</div>
-                  </div><div class="tab-description"><div class="tab-description-inner">This demo shows how Chunk Key Phrases in medical texts can be extracted automatically using Spark NLP models. <a href="#" class="show_more">(...)</a></div></div></div><ul class="tab-menu"><li><a id="extract_chunk_key_phrases" class="btn button--normal button--pill button--lg"
-                        href="https://demo.johnsnowlabs.com/healthcare/CHUNK_KEYWORD_EXTRACTOR/">Live Demo</a></li><li><a id="extract_chunk_key_phrases" class="btn button--blue_btn button--pill button--lg"
-                        href="https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/9.Chunk_Key_Phrase_Extraction.ipynb">Colab</a></li></ul></div> 
+                        <img src="/assets/images/Detect_Genomic_Variant_Information.svg" />
+                      </figure><div class="tab-item-title">Detect Genomic Variant Information</div>
+                  </div><div class="tab-description"><div class="tab-description-inner">This model extracts genetic variant information from the medical text. <a href="#" class="show_more">(...)</a></div></div></div><ul class="tab-menu"><li><a id="detect_genomic_variant_information" class="btn button--normal button--pill button--lg"
+                        href="https://demo.johnsnowlabs.com/healthcare/NER_GEN_VAR/">Live Demo</a></li><li><a id="detect_genomic_variant_information" class="btn button--blue_btn button--pill button--lg"
+                        href="https://githubtocolab.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/1.Clinical_Named_Entity_Recognition_Model.ipynb">Colab</a></li></ul></div> 
+            </div><div class="tab-item ">
+              <div class="tab-item-inner">
+                <div class="tab-item-wrapper"><div class="tab-item-top"><figure class="tab_fig_blue">
+                        <img src="/assets/images/Extract_chemical_compounds_drugs_genes_and_proteins.svg" />
+                      </figure><div class="tab-item-title">Extract chemical compounds, drugs, genes and proteins</div>
+                  </div><div class="tab-description"><div class="tab-description-inner">This demo shows how to extract chemical compounds, drugs, genes and proteins from medical texts. <a href="#" class="show_more">(...)</a></div></div></div><ul class="tab-menu"><li><a id="extract_chemical_compounds_drugs_genes_proteins" class="btn button--normal button--pill button--lg"
+                        href="https://demo.johnsnowlabs.com/healthcare/NER_DRUG_PROT/">Live Demo</a></li><li><a id="extract_chemical_compounds_drugs_genes_proteins" class="btn button--blue_btn button--pill button--lg"
+                        href="https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/1.Clinical_Named_Entity_Recognition_Model.ipynb">Colab</a></li></ul></div> 
+            </div><div class="tab-item ">
+              <div class="tab-item-inner">
+                <div class="tab-item-wrapper"><div class="tab-item-top"><figure class="tab_fig_blue">
+                        <img src="/assets/images/Detect_chemical_compounds.svg" />
+                      </figure><div class="tab-item-title">Detect chemical compounds</div>
+                  </div><div class="tab-description"><div class="tab-description-inner">Automatically detect all types of chemical compounds using our pretrained Spark NLP for Healthcare model. <a href="#" class="show_more">(...)</a></div></div></div><ul class="tab-menu"><li><a id="detect_chemical_compounds" class="btn button--normal button--pill button--lg"
+                        href="https://demo.johnsnowlabs.com/healthcare/NER_CHEMICALS/">Live Demo</a></li><li><a id="detect_chemical_compounds" class="btn button--blue_btn button--pill button--lg"
+                        href="https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/NER_CHEMICALS.ipynb">Colab</a></li></ul></div> 
             </div></div></div></div> </section></div>
 </div>
 
