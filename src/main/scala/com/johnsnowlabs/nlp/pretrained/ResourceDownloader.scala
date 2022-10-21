@@ -16,9 +16,9 @@
 
 package com.johnsnowlabs.nlp.pretrained
 
+import com.johnsnowlabs.client.aws.AWSGateway
 import com.johnsnowlabs.nlp.annotators._
 import com.johnsnowlabs.nlp.annotators.audio.Wav2Vec2ForCTC
-
 import com.johnsnowlabs.nlp.annotators.classifier.dl._
 import com.johnsnowlabs.nlp.annotators.coref.SpanBertCorefModel
 import com.johnsnowlabs.nlp.annotators.cv.ViTForImageClassification
@@ -44,10 +44,14 @@ import com.johnsnowlabs.nlp.util.io.{OutputHelper, ResourceHelper}
 import com.johnsnowlabs.nlp.{DocumentAssembler, TableAssembler, pretrained}
 import com.johnsnowlabs.util._
 import org.apache.hadoop.fs.FileSystem
+import org.apache.spark.SparkFiles
 import org.apache.spark.ml.util.DefaultParamsReadable
 import org.apache.spark.ml.{PipelineModel, PipelineStage}
 import org.slf4j.LoggerFactory
 
+import java.io.File
+import java.net.URI
+import java.nio.file.Paths
 import scala.collection.mutable
 import scala.collection.mutable.ListBuffer
 import scala.concurrent.ExecutionContext.Implicits.global
@@ -560,6 +564,28 @@ object ResourceDownloader {
 
     }
   }
+
+  /** Downloads the provided S3 path to a local temporary directory and returns the location of
+    * the folder.
+    *
+    * @param path
+    *   S3 URL to the resource
+    * @return
+    *   URI of the local path to the temporary folder of the resource
+    */
+  def downloadS3Directory(path: String): URI = {
+
+    val (bucketName, keyPrefix) = ResourceHelper.parseS3URI(path)
+
+    // TODO: which temporary dir to choose?
+    val tmpDirectory = SparkFiles.getRootDirectory()
+
+    val awsGateway = new AWSGateway()
+    awsGateway.downloadFilesFromDirectory(bucketName, keyPrefix, new File(tmpDirectory))
+
+    Paths.get(tmpDirectory, keyPrefix).toUri
+  }
+
 }
 
 object ResourceType extends Enumeration {

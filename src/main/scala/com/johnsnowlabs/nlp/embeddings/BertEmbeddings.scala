@@ -17,7 +17,11 @@
 package com.johnsnowlabs.nlp.embeddings
 
 import com.johnsnowlabs.ml.tensorflow._
-import com.johnsnowlabs.ml.util.LoadExternalModel.{loadTextAsset, notSupportedEngineError, retrieveModel}
+import com.johnsnowlabs.ml.util.LoadExternalModel.{
+  loadTextAsset,
+  notSupportedEngineError,
+  retrieveModel
+}
 import com.johnsnowlabs.ml.util.ModelEngine
 import com.johnsnowlabs.nlp._
 import com.johnsnowlabs.nlp.annotators.common._
