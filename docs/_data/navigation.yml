@@ -72,12 +72,6 @@ annotation-lab:
         url: /docs/en/alab/quickstart
       - title: Installation
         url: /docs/en/alab/install
-      - title: Home Page
-        url: /docs/en/alab/start_page
-      - title: Project Setup
-        url: /docs/en/alab/project_setup
-      - title: Import Documents
-        url: /docs/en/alab/import
       - title: Tasks
         url: /docs/en/alab/tasks
       - title: Annotation
@@ -86,20 +80,31 @@ annotation-lab:
         url: /docs/en/alab/preannotations
       - title: Active Learning
         url: /docs/en/alab/active_learning
-      - title: Visual NER
-        url: /docs/en/alab/visual_ner
-      - title: Annotation Settings
-        url: /docs/en/alab/settings
-      - title: Annotation Customizations
-        url: /docs/en/alab/annotation_screen_customization
       - title: Analytics
         url: /docs/en/alab/analytics
-      - title: Annotation Export
-        url: /docs/en/alab/export
       - title: Workflow Setup
         url: /docs/en/alab/workflow
       - title: Security and Privacy
         url: /docs/en/alab/security
+      - subtitle: Project
+        children:
+          - title: Dashboard
+            url: /docs/en/alab/project_dashboard
+          - title: Project Creation
+            url: /docs/en/alab/project_creation
+          - title: Configuration 
+            url: /docs/en/alab/project_configuration
+          - title: Visual NER 
+            url: /docs/en/alab/visual_ner           
+          - title: Annotation Settings 
+            url: /docs/en/alab/settings
+          - title: Annotation Customizations 
+            url: /docs/en/alab/annotation_screen_customization
+          - title: Import Tasks 
+            url: /docs/en/alab/import   
+          - title: Export Annotations 
+            url: /docs/en/alab/export                                                 
+      
       - subtitle: Resources – Models and Rules
         children:
           - title: Models Hub
