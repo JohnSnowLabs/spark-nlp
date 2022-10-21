@@ -23,7 +23,7 @@ After you finish editing the labels you want to define for your project click th
 We currently support multiple predefined project configurations. The most popular ones are **Text Classification** and **Named Entity Recognition**. Create a setup from scratch or customize a predefined one according to your needs.
 
 
- <img class="image image--xl" src="/assets/images/annotation_lab/4.1.0/template.jpg" style="width:100%;  image-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);"/>
+ <img class="image image--xl image__shadow" src="/assets/images/annotation_lab/4.1.0/template.jpg" style="width:100%"/>
 
  
 For customizing a predefined configuration, click on the corresponding link in the table above and then navigate to the Labeling config widget and manually edit/update it to contain the labels you need. 
@@ -38,7 +38,7 @@ The **Annotation Lab** offers support for two types of labels:
 -	Simple labels for NER or assertion models;
 -	Binary relations for relation extraction models. 
 
-<img class="image image--xl" src="/assets/images/annotation_lab/4.1.0/NER_template.png" style="width:100%; image-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);"/>
+<img class="image image--xl image__shadow" src="/assets/images/annotation_lab/4.1.0/NER_template.png" style="width:100%;"/>
  
 ### Assertion Labels 
 The syntax for defining an Assertion Status label is the same as for the NER labels, with an additional attribute - **assertion** which should be set to true (see example below). This is convention defined by Annotation Lab users which we exploited for identifying the labels to include in the training and prediction of Assertion Models.

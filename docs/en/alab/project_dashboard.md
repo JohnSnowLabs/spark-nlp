@@ -20,7 +20,7 @@ When you login to the Annotation Lab, you will be presented with the the project
 
 The list of projects can be sorted according to the name of the project. Also, projects can be sorted in ascending or descending order according to the creation date. 
 
-<img class="image image--xl" src="/assets/images/annotation_lab/4.1.0/dashboardSort.png" style="width:100%; image-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);"/>
+<img class="image image--xl image__shadow" src="/assets/images/annotation_lab/4.1.0/dashboardSort.png" style="width:100%;"/>
 
 The filters associated with the Projects dashboard are clear, simple, and precise to make the users more productive and efficient while working with a large number of projects.
 
