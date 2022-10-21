@@ -16,6 +16,7 @@
 
 package com.johnsnowlabs.util
 
+import com.amazonaws.AmazonServiceException
 import com.johnsnowlabs.nlp.util.io.{ExternalResource, ReadAs, ResourceHelper}
 import com.johnsnowlabs.tags.{FastTest, SlowTest}
 import org.scalatest.flatspec.AnyFlatSpec
@@ -208,7 +209,7 @@ class ResourceHelperTestSpec extends AnyFlatSpec {
 
     ResourceHelper.getSparkSessionWithS3(awsAccessKeyId, awsSecretAccessKey, awsSessionToken)
 
-    val s3FolderPath = "s3://devin-sparknlp-test/tf-hub-bert/model"
+    val s3FolderPath = "s3://sparknlp-test/tf-hub-bert/model"
 
     val resourcePath = "src/test/resources/tf-hub-bert/model"
 
@@ -221,6 +222,16 @@ class ResourceHelperTestSpec extends AnyFlatSpec {
         s"File $f missing in copied temporary folder $localPath.")
     }
 
+  }
+
+  it should "copyToLocalSavedModel should catch s3 exception" taggedAs SlowTest in {
+    ResourceHelper.getSparkSessionWithS3("NONE", "NONE", "NONE")
+
+    val s3FolderPath = "s3://sparknlp-test/tf-hub-bert/model"
+
+    assertThrows[AmazonServiceException] {
+      ResourceHelper.copyToLocalSavedModel(s3FolderPath)
+    }
   }
 
 }

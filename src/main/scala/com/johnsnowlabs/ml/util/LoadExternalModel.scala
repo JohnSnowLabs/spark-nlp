@@ -75,20 +75,13 @@ object LoadExternalModel {
     */
   def retrieveModel(path: String): (URL, String) = {
 
-    // TODO: Exception handling for S3, perhaps other file systems?
-    val localFileUri: URI =
-      try {
-        val localModelUri = ResourceHelper.copyToLocalSavedModel(path)
+    val localFileUri: URI = {
+      val localModelUri = ResourceHelper.copyToLocalSavedModel(path)
 
-        // Get absolute path so file protocol is included
-        if (Option(localModelUri.getScheme).isEmpty) Paths.get(localModelUri).toAbsolutePath.toUri
-        else localModelUri
-      } catch {
-        case e: Exception =>
-          throw new Exception(
-            s"Could not create temporary local directory for $path: ${e.getMessage}")
-
-      }
+      // Get absolute path so file protocol is included
+      if (Option(localModelUri.getScheme).isEmpty) Paths.get(localModelUri).toAbsolutePath.toUri
+      else localModelUri
+    }
 
     val localPath: String = localFileUri.getPath
 
