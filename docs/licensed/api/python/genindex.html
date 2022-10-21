@@ -12,8 +12,8 @@
   </script>
   
   <!-- Loaded before other Sphinx assets -->
-  <link href="static/styles/theme.css?digest=9b1a4fa89bdd0e95b23b" rel="stylesheet">
-<link href="static/styles/pydata-sphinx-theme.css?digest=9b1a4fa89bdd0e95b23b" rel="stylesheet">
+  <link href="static/styles/theme.css?digest=1e1de1a1873e13ef5536" rel="stylesheet">
+<link href="static/styles/pydata-sphinx-theme.css?digest=1e1de1a1873e13ef5536" rel="stylesheet">
 
   
   <link rel="stylesheet"
@@ -22,13 +22,15 @@
     href="static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2">
   <link rel="preload" as="font" type="font/woff2" crossorigin
     href="static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2">
 
     <link rel="stylesheet" type="text/css" href="static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="static/graphviz.css" />
     <link rel="stylesheet" type="text/css" href="static/css/custom.css" />
   
   <!-- Pre-loaded scripts that we'll load fully later -->
-  <link rel="preload" as="script" href="static/scripts/pydata-sphinx-theme.js?digest=9b1a4fa89bdd0e95b23b">
+  <link rel="preload" as="script" href="static/scripts/pydata-sphinx-theme.js?digest=1e1de1a1873e13ef5536">
 
     <script data-url_root="./" id="documentation_options" src="static/documentation_options.js"></script>
     <script src="static/jquery.js"></script>
@@ -62,7 +64,7 @@
     <div class="search-button__search-container">
       
 <form class="bd-search d-flex align-items-center" action="search.html" method="get">
-  <i class="icon fas fa-search"></i>
+  <i class="fa-solid fa-magnifying-glass"></i>
   <input type="search" class="form-control" name="q" id="search-input" placeholder="Search the docs ..." aria-label="Search the docs ..." autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
   <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
 </form>
@@ -72,7 +74,7 @@
   
   <nav class="bd-header navbar navbar-expand-lg bd-navbar" id="navbar-main"><div class="bd-header__inner bd-page-width">
   <label class="sidebar-toggle primary-toggle" for="__primary">
-      <span class="fas fa-bars"></span>
+      <span class="fa-solid fa-bars"></span>
   </label>
   <div id="navbar-start">
     
@@ -132,16 +134,16 @@
     <div id="navbar-end">
       <div class="navbar-end-item navbar-end__search-button-container">
         
-<button class="btn btn-sm navbar-btn search-button search-button__button" title="Search">
-  <i class="fas fa-search"></i>
+<button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" data-toggle="tooltip">
+  <i class="fa-solid fa-magnifying-glass"></i>
 </button>
       </div>
       
       <div class="navbar-end-item">
-        <span class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle">
-    <a class="theme-switch" data-mode="light"><i class="fas fa-sun"></i></a>
-    <a class="theme-switch" data-mode="dark"><i class="far fa-moon"></i></a>
-    <a class="theme-switch" data-mode="auto"><i class="fas fa-adjust"></i></a>
+        <span class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" data-toggle="tooltip">
+    <a class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></a>
+    <a class="theme-switch" data-mode="dark"><i class="fa-regular fa-moon"></i></a>
+    <a class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></a>
 </span>
       </div>
       
@@ -156,14 +158,14 @@
 
   
   <div class="search-button-container--mobile">
-<button class="btn btn-sm navbar-btn search-button search-button__button" title="Search">
-  <i class="fas fa-search"></i>
+<button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" data-toggle="tooltip">
+  <i class="fa-solid fa-magnifying-glass"></i>
 </button>
   </div>
 
   
   <label class="sidebar-toggle secondary-toggle" for="__secondary">
-      <span class="fas fa-outdent"></span>
+      <span class="fa-solid fa-outdent"></span>
   </label>
   
 
@@ -214,10 +216,10 @@
     <div class="sidebar-header-items__end">
       
       <div class="navbar-end-item">
-        <span class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle">
-    <a class="theme-switch" data-mode="light"><i class="fas fa-sun"></i></a>
-    <a class="theme-switch" data-mode="dark"><i class="far fa-moon"></i></a>
-    <a class="theme-switch" data-mode="auto"><i class="fas fa-adjust"></i></a>
+        <span class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" data-toggle="tooltip">
+    <a class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></a>
+    <a class="theme-switch" data-mode="dark"><i class="fa-regular fa-moon"></i></a>
+    <a class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></a>
 </span>
       </div>
       
@@ -303,6 +305,8 @@
 </li>
       <li><a href="reference/autosummary/sparknlp_jsl/_tf_graph_builders/ner_dl/ner_model/index.html#sparknlp_jsl._tf_graph_builders.ner_dl.ner_model.NerModel.add_training_op">add_training_op() (NerModel method)</a>, <a href="reference/autosummary/sparknlp_jsl/_tf_graph_builders_1x/ner_dl/ner_model/index.html#sparknlp_jsl._tf_graph_builders_1x.ner_dl.ner_model.NerModel.add_training_op">[1]</a>
 </li>
+      <li><a href="reference/autosummary/sparknlp_jsl/modelTracer/index.html#sparknlp_jsl.modelTracer.ModelTracer.addUidCols">addUidCols() (ModelTracer method)</a>
+</li>
       <li><a href="reference/autosummary/sparknlp_jsl/annotator/assertion/assertion_dl_reg/index.html#sparknlp_jsl.annotator.assertion.assertion_dl_reg.AssertionLogRegApproach.afterParam">afterParam (AssertionLogRegApproach attribute)</a>
 
       <ul>
@@ -327,10 +331,10 @@
 </li>
       <li><a href="reference/autosummary/sparknlp_jsl/training/index.html#sparknlp_jsl.training.AnnotationToolJsonReader">AnnotationToolJsonReader (class in sparknlp_jsl.training)</a>
 </li>
-      <li><a href="reference/autosummary/sparknlp_jsl/index.html#sparknlp_jsl.annotators">annotators (in module sparknlp_jsl)</a>
-</li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="reference/autosummary/sparknlp_jsl/index.html#sparknlp_jsl.annotators">annotators (in module sparknlp_jsl)</a>
+</li>
       <li><a href="reference/autosummary/sparknlp_jsl/annotator/index.html#id2">assertion (in module sparknlp_jsl.annotator)</a>, <a href="reference/autosummary/sparknlp_jsl/annotator/index.html#sparknlp_jsl.annotator.assertion">[1]</a>
 </li>
       <li><a href="reference/autosummary/sparknlp_jsl/annotator/assertion/assertionDL/index.html#sparknlp_jsl.annotator.assertion.assertionDL.AssertionDLApproach">AssertionDLApproach (class in sparknlp_jsl.annotator.assertion.assertionDL)</a>
@@ -1107,10 +1111,10 @@
 </li>
       <li><a href="reference/autosummary/sparknlp_jsl/utils/alab_utils/index.html#sparknlp_jsl.utils.alab_utils.get_nlp_regex_token_pipeline">get_nlp_regex_token_pipeline() (in module sparknlp_jsl.utils.alab_utils)</a>
 </li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="reference/autosummary/sparknlp_jsl/utils/alab_utils/index.html#sparknlp_jsl.utils.alab_utils.get_nlp_token_pipeline">get_nlp_token_pipeline() (in module sparknlp_jsl.utils.alab_utils)</a>
 </li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="reference/autosummary/sparknlp_jsl/freeze/index.html#sparknlp_jsl.freeze.get_possibles_models">get_possibles_models() (in module sparknlp_jsl.freeze)</a>
 </li>
       <li><a href="reference/autosummary/sparknlp_jsl/alab/index.html#sparknlp_jsl.alab.AnnotationLab.get_project_config">get_project_config() (AnnotationLab method)</a>
@@ -1187,6 +1191,8 @@
 </li>
       <li><a href="reference/autosummary/sparknlp_jsl/annotator/ner/medical_ner/index.html#sparknlp_jsl.annotator.ner.medical_ner.MedicalNerModel.getTrainingClassDistribution">getTrainingClassDistribution() (MedicalNerModel method)</a>
 </li>
+      <li><a href="reference/autosummary/sparknlp_jsl/annotator/tf_graph_builder/index.html#sparknlp_jsl.annotator.tf_graph_builder.TFGraphBuilder.getUseRelationDirection">getUseRelationDirection() (TFGraphBuilder method)</a>
+</li>
       <li><a href="reference/autosummary/sparknlp_jsl/_tf_graph_builders/tf2contrib/rnn_cell/index.html#sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.GLSTMCell">GLSTMCell (class in sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell)</a>
 </li>
       <li><a href="reference/autosummary/sparknlp_jsl/annotator/assertion/assertionDL/index.html#sparknlp_jsl.annotator.assertion.assertionDL.AssertionDLApproach.graphFile">graphFile (AssertionDLApproach attribute)</a>
@@ -1253,6 +1259,12 @@
         <li><a href="reference/autosummary/sparknlp_jsl/annotator/deid/deIdentification/index.html#sparknlp_jsl.annotator.deid.deIdentification.DeIdentificationModel.ignoreRegex">(DeIdentificationModel attribute)</a>
 </li>
       </ul></li>
+      <li><a href="reference/autosummary/sparknlp_jsl/annotator/ner/ner_converter_internal/index.html#sparknlp_jsl.annotator.ner.ner_converter_internal.NerConverterInternal.ignoreStopWords">ignoreStopWords (NerConverterInternal attribute)</a>
+
+      <ul>
+        <li><a href="reference/autosummary/sparknlp_jsl/annotator/ner/ner_converter_internal/index.html#sparknlp_jsl.annotator.ner.ner_converter_internal.NerConverterInternalModel.ignoreStopWords">(NerConverterInternalModel attribute)</a>
+</li>
+      </ul></li>
       <li><a href="reference/autosummary/sparknlp_jsl/annotator/ner/medical_ner/index.html#sparknlp_jsl.annotator.ner.medical_ner.MedicalNerApproach.includeAllConfidenceScores">includeAllConfidenceScores (MedicalNerApproach attribute)</a>
 
       <ul>
@@ -1279,10 +1291,10 @@
 </li>
       <li><a href="reference/autosummary/sparknlp_jsl/_tf_graph_builders/generic_classifier/settings/index.html#sparknlp_jsl._tf_graph_builders.generic_classifier.settings.MODEL_OPS.INIT">INIT (MODEL_OPS attribute)</a>, <a href="reference/autosummary/sparknlp_jsl/_tf_graph_builders_1x/generic_classifier/settings/index.html#sparknlp_jsl._tf_graph_builders_1x.generic_classifier.settings.MODEL_OPS.INIT">[1]</a>
 </li>
-      <li><a href="reference/autosummary/sparknlp_jsl/_tf_graph_builders/ner_dl/ner_model/index.html#sparknlp_jsl._tf_graph_builders.ner_dl.ner_model.NerModel.init_variables">init_variables() (NerModel method)</a>, <a href="reference/autosummary/sparknlp_jsl/_tf_graph_builders_1x/ner_dl/ner_model/index.html#sparknlp_jsl._tf_graph_builders_1x.ner_dl.ner_model.NerModel.init_variables">[1]</a>
-</li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="reference/autosummary/sparknlp_jsl/_tf_graph_builders/ner_dl/ner_model/index.html#sparknlp_jsl._tf_graph_builders.ner_dl.ner_model.NerModel.init_variables">init_variables() (NerModel method)</a>, <a href="reference/autosummary/sparknlp_jsl/_tf_graph_builders_1x/ner_dl/ner_model/index.html#sparknlp_jsl._tf_graph_builders_1x.ner_dl.ner_model.NerModel.init_variables">[1]</a>
+</li>
       <li><a href="reference/autosummary/sparknlp_jsl/base/index.html#sparknlp_jsl.base.FeaturesAssembler.inputCols">inputCols (FeaturesAssembler attribute)</a>
 
       <ul>
@@ -1613,6 +1625,8 @@
 </li>
       <li><a href="reference/autosummary/sparknlp_jsl/_tf_graph_builders/generic_classifier/settings/index.html#sparknlp_jsl._tf_graph_builders.generic_classifier.settings.Settings.MODELS_DIR">MODELS_DIR (Settings attribute)</a>, <a href="reference/autosummary/sparknlp_jsl/_tf_graph_builders_1x/generic_classifier/settings/index.html#sparknlp_jsl._tf_graph_builders_1x.generic_classifier.settings.Settings.MODELS_DIR">[1]</a>
 </li>
+      <li><a href="reference/autosummary/sparknlp_jsl/modelTracer/index.html#sparknlp_jsl.modelTracer.ModelTracer">ModelTracer (class in sparknlp_jsl.modelTracer)</a>
+</li>
       <li>
     module
 
@@ -1746,6 +1760,8 @@
         <li><a href="reference/autosummary/sparknlp_jsl/annotator/deid/doccument_hashcoder/index.html#module-sparknlp_jsl.annotator.deid.doccument_hashcoder">sparknlp_jsl.annotator.deid.doccument_hashcoder</a>
 </li>
         <li><a href="reference/autosummary/sparknlp_jsl/annotator/deid/reIdentification/index.html#module-sparknlp_jsl.annotator.deid.reIdentification">sparknlp_jsl.annotator.deid.reIdentification</a>
+</li>
+        <li><a href="reference/autosummary/sparknlp_jsl/annotator/deid/replacer/index.html#module-sparknlp_jsl.annotator.deid.replacer">sparknlp_jsl.annotator.deid.replacer</a>
 </li>
         <li><a href="reference/autosummary/sparknlp_jsl/annotator/disambiguation/index.html#module-sparknlp_jsl.annotator.disambiguation">sparknlp_jsl.annotator.disambiguation</a>
 </li>
@@ -1920,6 +1936,8 @@
         <li><a href="reference/autosummary/sparknlp_jsl/legal/token_classification/ner/legal_ner/index.html#module-sparknlp_jsl.legal.token_classification.ner.legal_ner">sparknlp_jsl.legal.token_classification.ner.legal_ner</a>
 </li>
         <li><a href="reference/autosummary/sparknlp_jsl/legal/token_classification/ner/zero_shot_ner/index.html#module-sparknlp_jsl.legal.token_classification.ner.zero_shot_ner">sparknlp_jsl.legal.token_classification.ner.zero_shot_ner</a>
+</li>
+        <li><a href="reference/autosummary/sparknlp_jsl/modelTracer/index.html#module-sparknlp_jsl.modelTracer">sparknlp_jsl.modelTracer</a>
 </li>
         <li><a href="reference/autosummary/sparknlp_jsl/pretrained/index.html#module-sparknlp_jsl.pretrained">sparknlp_jsl.pretrained</a>
 </li>
@@ -2172,10 +2190,10 @@
 </li>
       <li><a href="reference/autosummary/sparknlp_jsl/_tf_graph_builders/generic_classifier/progresstracker/index.html#sparknlp_jsl._tf_graph_builders.generic_classifier.progresstracker.ProgressTracker.on_training_end">on_training_end() (ProgressTracker method)</a>, <a href="reference/autosummary/sparknlp_jsl/_tf_graph_builders_1x/generic_classifier/progresstracker/index.html#sparknlp_jsl._tf_graph_builders_1x.generic_classifier.progresstracker.ProgressTracker.on_training_end">[1]</a>
 </li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="reference/autosummary/sparknlp_jsl/_tf_graph_builders/generic_classifier/progresstracker/index.html#sparknlp_jsl._tf_graph_builders.generic_classifier.progresstracker.ProgressTracker.on_training_start">on_training_start() (ProgressTracker method)</a>, <a href="reference/autosummary/sparknlp_jsl/_tf_graph_builders_1x/generic_classifier/progresstracker/index.html#sparknlp_jsl._tf_graph_builders_1x.generic_classifier.progresstracker.ProgressTracker.on_training_start">[1]</a>
 </li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="reference/autosummary/sparknlp_jsl/annotator/context/contextual_parser/index.html#sparknlp_jsl.annotator.context.contextual_parser.ContextualParserApproach.optionalContextRules">optionalContextRules (ContextualParserApproach attribute)</a>
 
       <ul>
@@ -2183,6 +2201,8 @@
 </li>
       </ul></li>
       <li><a href="reference/autosummary/sparknlp_jsl/base/index.html#sparknlp_jsl.base.FeaturesAssembler.outputCol">outputCol (FeaturesAssembler attribute)</a>
+</li>
+      <li><a href="reference/autosummary/sparknlp_jsl/annotator/normalizer/date_normalizer/index.html#sparknlp_jsl.annotator.normalizer.date_normalizer.DateNormalizer.outputDateFormat">outputDateFormat (DateNormalizer attribute)</a>
 </li>
       <li><a href="reference/autosummary/sparknlp_jsl/annotator/assertion/assertionDL/index.html#sparknlp_jsl.annotator.assertion.assertionDL.AssertionDLApproach.outputLogsPath">outputLogsPath (AssertionDLApproach attribute)</a>
 
@@ -2420,6 +2440,12 @@
 </li>
       <li><a href="reference/autosummary/sparknlp_jsl/annotator/deid/deIdentification/index.html#sparknlp_jsl.annotator.deid.deIdentification.DeIdentification.regexPatternsDictionary">regexPatternsDictionary (DeIdentification attribute)</a>
 </li>
+      <li><a href="reference/autosummary/sparknlp_jsl/annotator/deid/deIdentification/index.html#sparknlp_jsl.annotator.deid.deIdentification.DeIdentification.region">region (DeIdentification attribute)</a>
+
+      <ul>
+        <li><a href="reference/autosummary/sparknlp_jsl/annotator/deid/deIdentification/index.html#sparknlp_jsl.annotator.deid.deIdentification.DeIdentificationModel.region">(DeIdentificationModel attribute)</a>
+</li>
+      </ul></li>
       <li><a href="reference/autosummary/sparknlp_jsl/annotator/assertion/assertion_dl_reg/index.html#sparknlp_jsl.annotator.assertion.assertion_dl_reg.AssertionLogRegApproach.regParam">regParam (AssertionLogRegApproach attribute)</a>
 </li>
       <li><a href="reference/autosummary/sparknlp_jsl/annotator/deid/reIdentification/index.html#sparknlp_jsl.annotator.deid.reIdentification.ReIdentification">ReIdentification (class in sparknlp_jsl.annotator.deid.reIdentification)</a>
@@ -2431,6 +2457,8 @@
 </li>
       </ul></li>
       <li><a href="reference/autosummary/sparknlp_jsl/internal/index.html#sparknlp_jsl.internal.RelationalCategories">RelationalCategories() (in module sparknlp_jsl.internal)</a>
+</li>
+      <li><a href="reference/autosummary/sparknlp_jsl/annotator/re/relation_extraction/index.html#sparknlp_jsl.annotator.re.relation_extraction.RelationExtractionApproach.relationDirectionCol">relationDirectionCol (RelationExtractionApproach attribute)</a>
 </li>
       <li><a href="reference/autosummary/sparknlp_jsl/annotator/re/relation_extraction/index.html#sparknlp_jsl.annotator.re.relation_extraction.RelationExtractionApproach">RelationExtractionApproach (class in sparknlp_jsl.annotator.re.relation_extraction)</a>
 </li>
@@ -2485,6 +2513,8 @@
 </li>
       </ul></li>
       <li><a href="reference/autosummary/sparknlp_jsl/annotator/ner/ner_converter_internal/index.html#sparknlp_jsl.annotator.ner.ner_converter_internal.NerConverterInternal.replaceLabels">replaceLabels (NerConverterInternal attribute)</a>
+</li>
+      <li><a href="reference/autosummary/sparknlp_jsl/annotator/deid/replacer/index.html#sparknlp_jsl.annotator.deid.replacer.Replacer">Replacer (class in sparknlp_jsl.annotator.deid.replacer)</a>
 </li>
       <li><a href="reference/autosummary/sparknlp_jsl/annotator/index.html#id5">resolution (in module sparknlp_jsl.annotator)</a>, <a href="reference/autosummary/sparknlp_jsl/annotator/index.html#sparknlp_jsl.annotator.resolution">[1]</a>
 </li>
@@ -2876,6 +2906,12 @@
         <li><a href="reference/autosummary/sparknlp_jsl/annotator/deid/deIdentification/index.html#sparknlp_jsl.annotator.deid.deIdentification.DeIdentificationModel.setIgnoreRegex">(DeIdentificationModel method)</a>
 </li>
       </ul></li>
+      <li><a href="reference/autosummary/sparknlp_jsl/annotator/ner/ner_converter_internal/index.html#sparknlp_jsl.annotator.ner.ner_converter_internal.NerConverterInternal.setIgnoreStopWords">setIgnoreStopWords() (NerConverterInternal method)</a>
+
+      <ul>
+        <li><a href="reference/autosummary/sparknlp_jsl/annotator/ner/ner_converter_internal/index.html#sparknlp_jsl.annotator.ner.ner_converter_internal.NerConverterInternalModel.setIgnoreStopWords">(NerConverterInternalModel method)</a>
+</li>
+      </ul></li>
       <li><a href="reference/autosummary/sparknlp_jsl/annotator/ner/medical_ner/index.html#sparknlp_jsl.annotator.ner.medical_ner.MedicalNerApproach.setIncludeAllConfidenceScores">setIncludeAllConfidenceScores() (MedicalNerApproach method)</a>
 </li>
       <li><a href="reference/autosummary/sparknlp_jsl/annotator/assertion/assertionDL/index.html#sparknlp_jsl.annotator.assertion.assertionDL.AssertionDLApproach.setIncludeConfidence">setIncludeConfidence() (AssertionDLApproach method)</a>
@@ -3098,6 +3134,8 @@
         <li><a href="reference/autosummary/sparknlp_jsl/base/index.html#sparknlp_jsl.base.FeaturesAssembler.setOutputCol">(FeaturesAssembler method)</a>
 </li>
       </ul></li>
+      <li><a href="reference/autosummary/sparknlp_jsl/annotator/normalizer/date_normalizer/index.html#sparknlp_jsl.annotator.normalizer.date_normalizer.DateNormalizer.setOutputDateformat">setOutputDateformat() (DateNormalizer method)</a>
+</li>
       <li><a href="reference/autosummary/sparknlp_jsl/annotator/assertion/assertionDL/index.html#sparknlp_jsl.annotator.assertion.assertionDL.AssertionDLApproach.setOutputLogsPath">setOutputLogsPath() (AssertionDLApproach method)</a>
 
       <ul>
@@ -3184,6 +3222,12 @@
 </li>
       <li><a href="reference/autosummary/sparknlp_jsl/annotator/deid/deIdentification/index.html#sparknlp_jsl.annotator.deid.deIdentification.DeIdentification.setRegexPatternsDictionary">setRegexPatternsDictionary() (DeIdentification method)</a>
 </li>
+      <li><a href="reference/autosummary/sparknlp_jsl/annotator/deid/deIdentification/index.html#sparknlp_jsl.annotator.deid.deIdentification.DeIdentification.setRegion">setRegion() (DeIdentification method)</a>
+
+      <ul>
+        <li><a href="reference/autosummary/sparknlp_jsl/annotator/deid/deIdentification/index.html#sparknlp_jsl.annotator.deid.deIdentification.DeIdentificationModel.setRegion">(DeIdentificationModel method)</a>
+</li>
+      </ul></li>
       <li><a href="reference/autosummary/sparknlp_jsl/annotator/chunker/chunkmapper/index.html#sparknlp_jsl.annotator.chunker.chunkmapper.ChunkMapperApproach.setRel">setRel() (ChunkMapperApproach method)</a>
 
       <ul>
@@ -3191,6 +3235,8 @@
 </li>
       </ul></li>
       <li><a href="reference/autosummary/sparknlp_jsl/annotator/re/zero_shot_relation_extraction/index.html#sparknlp_jsl.annotator.re.zero_shot_relation_extraction.ZeroShotRelationExtractionModel.setRelationalCategories">setRelationalCategories() (ZeroShotRelationExtractionModel method)</a>
+</li>
+      <li><a href="reference/autosummary/sparknlp_jsl/annotator/re/relation_extraction/index.html#sparknlp_jsl.annotator.re.relation_extraction.RelationExtractionApproach.setRelationDirectionCol">setRelationDirectionCol() (RelationExtractionApproach method)</a>
 </li>
       <li><a href="reference/autosummary/sparknlp_jsl/annotator/re/relation_extraction/index.html#sparknlp_jsl.annotator.re.relation_extraction.RelationExtractionModel.setRelationPairs">setRelationPairs() (RelationExtractionModel method)</a>
 
@@ -3316,6 +3362,8 @@
 </li>
       <li><a href="reference/autosummary/sparknlp_jsl/annotator/ner/medical_ner/index.html#sparknlp_jsl.annotator.ner.medical_ner.MedicalNerApproach.setUseContrib">setUseContrib() (MedicalNerApproach method)</a>
 </li>
+      <li><a href="reference/autosummary/sparknlp_jsl/annotator/tf_graph_builder/index.html#sparknlp_jsl.annotator.tf_graph_builder.TFGraphBuilder.setUseRelationDirection">setUseRelationDirection() (TFGraphBuilder method)</a>
+</li>
       <li><a href="reference/autosummary/sparknlp_jsl/annotator/deid/deIdentification/index.html#sparknlp_jsl.annotator.deid.deIdentification.DeIdentification.setUseShifDays">setUseShifDays() (DeIdentification method)</a>
 
       <ul>
@@ -3374,6 +3422,8 @@
         <li><a href="reference/autosummary/sparknlp_jsl/_tf_graph_builders/ner_dl/sentence_grouper/index.html#sparknlp_jsl._tf_graph_builders.ner_dl.sentence_grouper.SentenceGrouper.slice">(SentenceGrouper method)</a>, <a href="reference/autosummary/sparknlp_jsl/_tf_graph_builders_1x/ner_dl/sentence_grouper/index.html#sparknlp_jsl._tf_graph_builders_1x.ner_dl.sentence_grouper.SentenceGrouper.slice">[1]</a>
 </li>
       </ul></li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li>
     sparknlp_jsl
 
@@ -3381,8 +3431,6 @@
         <li><a href="reference/autosummary/sparknlp_jsl/index.html#module-sparknlp_jsl">module</a>
 </li>
       </ul></li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li>
     sparknlp_jsl._tf_graph_builders
 
@@ -3829,6 +3877,13 @@
 
       <ul>
         <li><a href="reference/autosummary/sparknlp_jsl/annotator/deid/reIdentification/index.html#module-sparknlp_jsl.annotator.deid.reIdentification">module</a>
+</li>
+      </ul></li>
+      <li>
+    sparknlp_jsl.annotator.deid.replacer
+
+      <ul>
+        <li><a href="reference/autosummary/sparknlp_jsl/annotator/deid/replacer/index.html#module-sparknlp_jsl.annotator.deid.replacer">module</a>
 </li>
       </ul></li>
       <li>
@@ -4441,6 +4496,13 @@
 </li>
       </ul></li>
       <li>
+    sparknlp_jsl.modelTracer
+
+      <ul>
+        <li><a href="reference/autosummary/sparknlp_jsl/modelTracer/index.html#module-sparknlp_jsl.modelTracer">module</a>
+</li>
+      </ul></li>
+      <li>
     sparknlp_jsl.pretrained
 
       <ul>
@@ -4662,6 +4724,8 @@
 </li>
       <li><a href="reference/autosummary/sparknlp_jsl/annotator/ner/medical_ner/index.html#sparknlp_jsl.annotator.ner.medical_ner.MedicalNerApproach.useContrib">useContrib (MedicalNerApproach attribute)</a>
 </li>
+      <li><a href="reference/autosummary/sparknlp_jsl/annotator/tf_graph_builder/index.html#sparknlp_jsl.annotator.tf_graph_builder.TFGraphBuilder.useRelationDirection">useRelationDirection (TFGraphBuilder attribute)</a>
+</li>
       <li><a href="reference/autosummary/sparknlp_jsl/annotator/deid/deIdentification/index.html#sparknlp_jsl.annotator.deid.deIdentification.DeIdentification.useShifDays">useShifDays (DeIdentification attribute)</a>
 
       <ul>
@@ -4777,6 +4841,11 @@
               
 <div class="toc-item">
   
+<div id="searchbox"></div>
+</div>
+
+<div class="toc-item">
+  
 </div>
 
 <div class="toc-item">
@@ -4800,7 +4869,7 @@
   
     
   <!-- Scripts loaded after <body> so the DOM is not blocked -->
-  <script src="static/scripts/pydata-sphinx-theme.js?digest=9b1a4fa89bdd0e95b23b"></script>
+  <script src="static/scripts/pydata-sphinx-theme.js?digest=1e1de1a1873e13ef5536"></script>
 
   <footer class="bd-footer"><div class="bd-footer__inner container">
   
@@ -4817,7 +4886,7 @@
   <div class="footer-item">
     
 <p class="sphinx-version">
-Created using <a href="http://sphinx-doc.org/">Sphinx</a> 5.2.3.<br>
+Created using <a href="http://sphinx-doc.org/">Sphinx</a> 5.3.0.<br>
 </p>
 
   </div>

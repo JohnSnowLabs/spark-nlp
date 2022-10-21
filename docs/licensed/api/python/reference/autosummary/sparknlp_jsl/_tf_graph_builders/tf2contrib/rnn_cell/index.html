@@ -13,8 +13,8 @@
   </script>
   
   <!-- Loaded before other Sphinx assets -->
-  <link href="../../../../../../static/styles/theme.css?digest=9b1a4fa89bdd0e95b23b" rel="stylesheet">
-<link href="../../../../../../static/styles/pydata-sphinx-theme.css?digest=9b1a4fa89bdd0e95b23b" rel="stylesheet">
+  <link href="../../../../../../static/styles/theme.css?digest=1e1de1a1873e13ef5536" rel="stylesheet">
+<link href="../../../../../../static/styles/pydata-sphinx-theme.css?digest=1e1de1a1873e13ef5536" rel="stylesheet">
 
   
   <link rel="stylesheet"
@@ -23,13 +23,15 @@
     href="../../../../../../static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2">
   <link rel="preload" as="font" type="font/woff2" crossorigin
     href="../../../../../../static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../../../../../../static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2">
 
     <link rel="stylesheet" type="text/css" href="../../../../../../static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="../../../../../../static/graphviz.css" />
     <link rel="stylesheet" type="text/css" href="../../../../../../static/css/custom.css" />
   
   <!-- Pre-loaded scripts that we'll load fully later -->
-  <link rel="preload" as="script" href="../../../../../../static/scripts/pydata-sphinx-theme.js?digest=9b1a4fa89bdd0e95b23b">
+  <link rel="preload" as="script" href="../../../../../../static/scripts/pydata-sphinx-theme.js?digest=1e1de1a1873e13ef5536">
 
     <script data-url_root="../../../../../../" id="documentation_options" src="../../../../../../static/documentation_options.js"></script>
     <script src="../../../../../../static/jquery.js"></script>
@@ -63,7 +65,7 @@
     <div class="search-button__search-container">
       
 <form class="bd-search d-flex align-items-center" action="../../../../../../search.html" method="get">
-  <i class="icon fas fa-search"></i>
+  <i class="fa-solid fa-magnifying-glass"></i>
   <input type="search" class="form-control" name="q" id="search-input" placeholder="Search the docs ..." aria-label="Search the docs ..." autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
   <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
 </form>
@@ -73,7 +75,7 @@
   
   <nav class="bd-header navbar navbar-expand-lg bd-navbar" id="navbar-main"><div class="bd-header__inner bd-page-width">
   <label class="sidebar-toggle primary-toggle" for="__primary">
-      <span class="fas fa-bars"></span>
+      <span class="fa-solid fa-bars"></span>
   </label>
   <div id="navbar-start">
     
@@ -133,16 +135,16 @@
     <div id="navbar-end">
       <div class="navbar-end-item navbar-end__search-button-container">
         
-<button class="btn btn-sm navbar-btn search-button search-button__button" title="Search">
-  <i class="fas fa-search"></i>
+<button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" data-toggle="tooltip">
+  <i class="fa-solid fa-magnifying-glass"></i>
 </button>
       </div>
       
       <div class="navbar-end-item">
-        <span class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle">
-    <a class="theme-switch" data-mode="light"><i class="fas fa-sun"></i></a>
-    <a class="theme-switch" data-mode="dark"><i class="far fa-moon"></i></a>
-    <a class="theme-switch" data-mode="auto"><i class="fas fa-adjust"></i></a>
+        <span class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" data-toggle="tooltip">
+    <a class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></a>
+    <a class="theme-switch" data-mode="dark"><i class="fa-regular fa-moon"></i></a>
+    <a class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></a>
 </span>
       </div>
       
@@ -157,14 +159,14 @@
 
   
   <div class="search-button-container--mobile">
-<button class="btn btn-sm navbar-btn search-button search-button__button" title="Search">
-  <i class="fas fa-search"></i>
+<button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" data-toggle="tooltip">
+  <i class="fa-solid fa-magnifying-glass"></i>
 </button>
   </div>
 
   
   <label class="sidebar-toggle secondary-toggle" for="__secondary">
-      <span class="fas fa-outdent"></span>
+      <span class="fa-solid fa-outdent"></span>
   </label>
   
 
@@ -215,10 +217,10 @@
     <div class="sidebar-header-items__end">
       
       <div class="navbar-end-item">
-        <span class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle">
-    <a class="theme-switch" data-mode="light"><i class="fas fa-sun"></i></a>
-    <a class="theme-switch" data-mode="dark"><i class="far fa-moon"></i></a>
-    <a class="theme-switch" data-mode="auto"><i class="fas fa-adjust"></i></a>
+        <span class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" data-toggle="tooltip">
+    <a class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></a>
+    <a class="theme-switch" data-mode="dark"><i class="fa-regular fa-moon"></i></a>
+    <a class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></a>
 </span>
       </div>
       
@@ -239,60 +241,12 @@
   </p>
   <div class="bd-toc-item navbar-nav">
     <ul class="current nav bd-sidenav">
- <li class="toctree-l1">
-  <a class="reference internal" href="../core_rnn_cell/index.html">
-   <code class="xref py py-mod docutils literal notranslate">
-    <span class="pre">
-     sparknlp_jsl._tf_graph_builders.tf2contrib.core_rnn_cell
-    </span>
-   </code>
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="../fused_rnn_cell/index.html">
-   <code class="xref py py-mod docutils literal notranslate">
-    <span class="pre">
-     sparknlp_jsl._tf_graph_builders.tf2contrib.fused_rnn_cell
-    </span>
-   </code>
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="../gru_ops/index.html">
-   <code class="xref py py-mod docutils literal notranslate">
-    <span class="pre">
-     sparknlp_jsl._tf_graph_builders.tf2contrib.gru_ops
-    </span>
-   </code>
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="../lstm_ops/index.html">
-   <code class="xref py py-mod docutils literal notranslate">
-    <span class="pre">
-     sparknlp_jsl._tf_graph_builders.tf2contrib.lstm_ops
-    </span>
-   </code>
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="../rnn/index.html">
-   <code class="xref py py-mod docutils literal notranslate">
-    <span class="pre">
-     sparknlp_jsl._tf_graph_builders.tf2contrib.rnn
-    </span>
-   </code>
-  </a>
- </li>
- <li class="toctree-l1 current active">
-  <a class="current reference internal" href="#">
-   <code class="xref py py-mod docutils literal notranslate">
-    <span class="pre">
-     sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell
-    </span>
-   </code>
-  </a>
- </li>
+<li class="toctree-l1"><a class="reference internal" href="../core_rnn_cell/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp_jsl._tf_graph_builders.tf2contrib.core_rnn_cell</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../fused_rnn_cell/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp_jsl._tf_graph_builders.tf2contrib.fused_rnn_cell</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../gru_ops/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp_jsl._tf_graph_builders.tf2contrib.gru_ops</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../lstm_ops/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp_jsl._tf_graph_builders.tf2contrib.lstm_ops</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../rnn/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp_jsl._tf_graph_builders.tf2contrib.rnn</span></code></a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell</span></code></a></li>
 </ul>
 
   </div>
@@ -641,19 +595,7 @@ https://arxiv.org/abs/1505.00387</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.HighwayWrapper.zero_state">
 <span class="sig-name descname"><span class="pre">zero_state</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">batch_size</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dtype</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../modules/sparknlp_jsl/_tf_graph_builders/tf2contrib/rnn_cell.html#HighwayWrapper.zero_state"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.HighwayWrapper.zero_state" title="Permalink to this definition">#</a></dt>
-<dd><p>Return zero-filled state tensor(s).</p>
-<dl>
-<dt>Args:</dt><dd><p>batch_size: int, float, or unit Tensor representing the batch size.
-dtype: the data type to use for the state.</p>
-</dd>
-<dt>Returns:</dt><dd><p>If <cite>state_size</cite> is an int or TensorShape, then the return value is a
-<cite>N-D</cite> tensor of shape <cite>[batch_size, state_size]</cite> filled with zeros.</p>
-<p>If <cite>state_size</cite> is a nested list or tuple, then the return value is
-a nested list or tuple (of the same structure) of <cite>2-D</cite> tensors with
-the shapes <cite>[batch_size, s]</cite> for each s in <cite>state_size</cite>.</p>
-</dd>
-</dl>
-</dd></dl>
+<dd></dd></dl>
 
 </dd></dl>
 
@@ -697,20 +639,7 @@ Stanislau Semeniuta, Aliaksei Severyn, Erhardt Barth.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.NASCell.build">
 <span class="sig-name descname"><span class="pre">build</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">inputs_shape</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../modules/sparknlp_jsl/_tf_graph_builders/tf2contrib/rnn_cell.html#NASCell.build"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.NASCell.build" title="Permalink to this definition">#</a></dt>
-<dd><p>Creates the variables of the layer (optional, for subclass implementers).</p>
-<p>This is a method that implementers of subclasses of <cite>Layer</cite> or <cite>Model</cite>
-can override if they need a state-creation step in-between
-layer instantiation and layer call.</p>
-<p>This is typically used to create the weights of <cite>Layer</cite> subclasses.</p>
-<dl class="simple">
-<dt>Arguments:</dt><dd><dl class="simple">
-<dt>input_shape: Instance of <cite>TensorShape</cite>, or list of instances of</dt><dd><p><cite>TensorShape</cite> if the layer expects a list of inputs
-(one instance per input).</p>
-</dd>
-</dl>
-</dd>
-</dl>
-</dd></dl>
+<dd></dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.NASCell.call">
@@ -842,19 +771,7 @@ state: state Tensor, 2D, batch x num units.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.CompiledWrapper.zero_state">
 <span class="sig-name descname"><span class="pre">zero_state</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">batch_size</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dtype</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../modules/sparknlp_jsl/_tf_graph_builders/tf2contrib/rnn_cell.html#CompiledWrapper.zero_state"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.CompiledWrapper.zero_state" title="Permalink to this definition">#</a></dt>
-<dd><p>Return zero-filled state tensor(s).</p>
-<dl>
-<dt>Args:</dt><dd><p>batch_size: int, float, or unit Tensor representing the batch size.
-dtype: the data type to use for the state.</p>
-</dd>
-<dt>Returns:</dt><dd><p>If <cite>state_size</cite> is an int or TensorShape, then the return value is a
-<cite>N-D</cite> tensor of shape <cite>[batch_size, state_size]</cite> filled with zeros.</p>
-<p>If <cite>state_size</cite> is a nested list or tuple, then the return value is
-a nested list or tuple (of the same structure) of <cite>2-D</cite> tensors with
-the shapes <cite>[batch_size, s]</cite> for each s in <cite>state_size</cite>.</p>
-</dd>
-</dl>
-</dd></dl>
+<dd></dd></dl>
 
 </dd></dl>
 
@@ -900,15 +817,7 @@ It stores the features.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.ConvLSTMCell.call">
 <span class="sig-name descname"><span class="pre">call</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">inputs</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">state</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">scope</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../modules/sparknlp_jsl/_tf_graph_builders/tf2contrib/rnn_cell.html#ConvLSTMCell.call"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.ConvLSTMCell.call" title="Permalink to this definition">#</a></dt>
-<dd><p>This is where the layer’s logic lives.</p>
-<dl class="simple">
-<dt>Arguments:</dt><dd><p>inputs: Input tensor, or list/tuple of input tensors.
-<a href="#id1"><span class="problematic" id="id2">**</span></a>kwargs: Additional keyword arguments.</p>
-</dd>
-<dt>Returns:</dt><dd><p>A tensor or list/tuple of tensors.</p>
-</dd>
-</dl>
-</dd></dl>
+<dd></dd></dl>
 
 </dd></dl>
 
@@ -1083,26 +992,13 @@ the given variables, an error is raised.</p>
 cases.</p>
 </dd>
 </dl>
-<p><a href="#id3"><span class="problematic" id="id4">**</span></a>kwargs: Additional keyword arguments.</p>
+<p><a href="#id1"><span class="problematic" id="id2">**</span></a>kwargs: Additional keyword arguments.</p>
 </dd>
 </dl>
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.SRUCell.build">
 <span class="sig-name descname"><span class="pre">build</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">inputs_shape</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../modules/sparknlp_jsl/_tf_graph_builders/tf2contrib/rnn_cell.html#SRUCell.build"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.SRUCell.build" title="Permalink to this definition">#</a></dt>
-<dd><p>Creates the variables of the layer (optional, for subclass implementers).</p>
-<p>This is a method that implementers of subclasses of <cite>Layer</cite> or <cite>Model</cite>
-can override if they need a state-creation step in-between
-layer instantiation and layer call.</p>
-<p>This is typically used to create the weights of <cite>Layer</cite> subclasses.</p>
-<dl class="simple">
-<dt>Arguments:</dt><dd><dl class="simple">
-<dt>input_shape: Instance of <cite>TensorShape</cite>, or list of instances of</dt><dd><p><cite>TensorShape</cite> if the layer expects a list of inputs
-(one instance per input).</p>
-</dd>
-</dl>
-</dd>
-</dl>
-</dd></dl>
+<dd></dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.SRUCell.call">
@@ -1194,20 +1090,7 @@ cases.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.IndRNNCell.build">
 <span class="sig-name descname"><span class="pre">build</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">inputs_shape</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../modules/sparknlp_jsl/_tf_graph_builders/tf2contrib/rnn_cell.html#IndRNNCell.build"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.IndRNNCell.build" title="Permalink to this definition">#</a></dt>
-<dd><p>Creates the variables of the layer (optional, for subclass implementers).</p>
-<p>This is a method that implementers of subclasses of <cite>Layer</cite> or <cite>Model</cite>
-can override if they need a state-creation step in-between
-layer instantiation and layer call.</p>
-<p>This is typically used to create the weights of <cite>Layer</cite> subclasses.</p>
-<dl class="simple">
-<dt>Arguments:</dt><dd><dl class="simple">
-<dt>input_shape: Instance of <cite>TensorShape</cite>, or list of instances of</dt><dd><p><cite>TensorShape</cite> if the layer expects a list of inputs
-(one instance per input).</p>
-</dd>
-</dl>
-</dd>
-</dl>
-</dd></dl>
+<dd></dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.IndRNNCell.call">
@@ -1265,20 +1148,7 @@ cases.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.IndyGRUCell.build">
 <span class="sig-name descname"><span class="pre">build</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">inputs_shape</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../modules/sparknlp_jsl/_tf_graph_builders/tf2contrib/rnn_cell.html#IndyGRUCell.build"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.IndyGRUCell.build" title="Permalink to this definition">#</a></dt>
-<dd><p>Creates the variables of the layer (optional, for subclass implementers).</p>
-<p>This is a method that implementers of subclasses of <cite>Layer</cite> or <cite>Model</cite>
-can override if they need a state-creation step in-between
-layer instantiation and layer call.</p>
-<p>This is typically used to create the weights of <cite>Layer</cite> subclasses.</p>
-<dl class="simple">
-<dt>Arguments:</dt><dd><dl class="simple">
-<dt>input_shape: Instance of <cite>TensorShape</cite>, or list of instances of</dt><dd><p><cite>TensorShape</cite> if the layer expects a list of inputs
-(one instance per input).</p>
-</dd>
-</dl>
-</dd>
-</dl>
-</dd></dl>
+<dd></dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.IndyGRUCell.call">
@@ -1316,20 +1186,7 @@ use peep-hole connections: it is the basic baseline.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.IndyLSTMCell.build">
 <span class="sig-name descname"><span class="pre">build</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">inputs_shape</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../modules/sparknlp_jsl/_tf_graph_builders/tf2contrib/rnn_cell.html#IndyLSTMCell.build"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.IndyLSTMCell.build" title="Permalink to this definition">#</a></dt>
-<dd><p>Creates the variables of the layer (optional, for subclass implementers).</p>
-<p>This is a method that implementers of subclasses of <cite>Layer</cite> or <cite>Model</cite>
-can override if they need a state-creation step in-between
-layer instantiation and layer call.</p>
-<p>This is typically used to create the weights of <cite>Layer</cite> subclasses.</p>
-<dl class="simple">
-<dt>Arguments:</dt><dd><dl class="simple">
-<dt>input_shape: Instance of <cite>TensorShape</cite>, or list of instances of</dt><dd><p><cite>TensorShape</cite> if the layer expects a list of inputs
-(one instance per input).</p>
-</dd>
-</dl>
-</dd>
-</dl>
-</dd></dl>
+<dd></dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.IndyLSTMCell.call">
@@ -1365,7 +1222,7 @@ state: An <cite>LSTMStateTuple</cite> of state tensors, each shaped</p>
 <a class="reference external" href="https://arxiv.org/abs/1807.08518">https://arxiv.org/abs/1807.08518</a>
 Mark Collier, Joeran Beel</p>
 <p>which is in turn based on the source code of:
-<a class="reference external" href="https://github.com/snowkylin/ntm">https://github.com/snowkylin/ntm</a></p>
+<a class="github reference external" href="https://github.com/snowkylin/ntm">snowkylin/ntm</a></p>
 <p>and of course the original NTM paper:
 Neural Turing Machines
 <a class="reference external" href="https://arxiv.org/abs/1410.5401">https://arxiv.org/abs/1410.5401</a>
@@ -1373,50 +1230,17 @@ A Graves, G Wayne, I Danihelka</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.NTMCell.build">
 <span class="sig-name descname"><span class="pre">build</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">inputs_shape</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../modules/sparknlp_jsl/_tf_graph_builders/tf2contrib/rnn_cell.html#NTMCell.build"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.NTMCell.build" title="Permalink to this definition">#</a></dt>
-<dd><p>Creates the variables of the layer (optional, for subclass implementers).</p>
-<p>This is a method that implementers of subclasses of <cite>Layer</cite> or <cite>Model</cite>
-can override if they need a state-creation step in-between
-layer instantiation and layer call.</p>
-<p>This is typically used to create the weights of <cite>Layer</cite> subclasses.</p>
-<dl class="simple">
-<dt>Arguments:</dt><dd><dl class="simple">
-<dt>input_shape: Instance of <cite>TensorShape</cite>, or list of instances of</dt><dd><p><cite>TensorShape</cite> if the layer expects a list of inputs
-(one instance per input).</p>
-</dd>
-</dl>
-</dd>
-</dl>
-</dd></dl>
+<dd></dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.NTMCell.call">
 <span class="sig-name descname"><span class="pre">call</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">prev_state</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../modules/sparknlp_jsl/_tf_graph_builders/tf2contrib/rnn_cell.html#NTMCell.call"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.NTMCell.call" title="Permalink to this definition">#</a></dt>
-<dd><p>This is where the layer’s logic lives.</p>
-<dl class="simple">
-<dt>Arguments:</dt><dd><p>inputs: Input tensor, or list/tuple of input tensors.
-<a href="#id5"><span class="problematic" id="id6">**</span></a>kwargs: Additional keyword arguments.</p>
-</dd>
-<dt>Returns:</dt><dd><p>A tensor or list/tuple of tensors.</p>
-</dd>
-</dl>
-</dd></dl>
+<dd></dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.NTMCell.zero_state">
 <span class="sig-name descname"><span class="pre">zero_state</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">batch_size</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dtype</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../modules/sparknlp_jsl/_tf_graph_builders/tf2contrib/rnn_cell.html#NTMCell.zero_state"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.NTMCell.zero_state" title="Permalink to this definition">#</a></dt>
-<dd><p>Return zero-filled state tensor(s).</p>
-<dl>
-<dt>Args:</dt><dd><p>batch_size: int, float, or unit Tensor representing the batch size.
-dtype: the data type to use for the state.</p>
-</dd>
-<dt>Returns:</dt><dd><p>If <cite>state_size</cite> is an int or TensorShape, then the return value is a
-<cite>N-D</cite> tensor of shape <cite>[batch_size, state_size]</cite> filled with zeros.</p>
-<p>If <cite>state_size</cite> is a nested list or tuple, then the return value is
-a nested list or tuple (of the same structure) of <cite>2-D</cite> tensors with
-the shapes <cite>[batch_size, s]</cite> for each s in <cite>state_size</cite>.</p>
-</dd>
-</dl>
-</dd></dl>
+<dd></dd></dl>
 
 </dd></dl>
 
@@ -1439,20 +1263,7 @@ the previous hidden state, using a single update gate.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.MinimalRNNCell.build">
 <span class="sig-name descname"><span class="pre">build</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">inputs_shape</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../modules/sparknlp_jsl/_tf_graph_builders/tf2contrib/rnn_cell.html#MinimalRNNCell.build"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.MinimalRNNCell.build" title="Permalink to this definition">#</a></dt>
-<dd><p>Creates the variables of the layer (optional, for subclass implementers).</p>
-<p>This is a method that implementers of subclasses of <cite>Layer</cite> or <cite>Model</cite>
-can override if they need a state-creation step in-between
-layer instantiation and layer call.</p>
-<p>This is typically used to create the weights of <cite>Layer</cite> subclasses.</p>
-<dl class="simple">
-<dt>Arguments:</dt><dd><dl class="simple">
-<dt>input_shape: Instance of <cite>TensorShape</cite>, or list of instances of</dt><dd><p><cite>TensorShape</cite> if the layer expects a list of inputs
-(one instance per input).</p>
-</dd>
-</dl>
-</dd>
-</dl>
-</dd></dl>
+<dd></dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.MinimalRNNCell.call">
@@ -1495,20 +1306,7 @@ hidden state, using decoupled input and forget gates.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.CFNCell.build">
 <span class="sig-name descname"><span class="pre">build</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">inputs_shape</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../modules/sparknlp_jsl/_tf_graph_builders/tf2contrib/rnn_cell.html#CFNCell.build"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.CFNCell.build" title="Permalink to this definition">#</a></dt>
-<dd><p>Creates the variables of the layer (optional, for subclass implementers).</p>
-<p>This is a method that implementers of subclasses of <cite>Layer</cite> or <cite>Model</cite>
-can override if they need a state-creation step in-between
-layer instantiation and layer call.</p>
-<p>This is typically used to create the weights of <cite>Layer</cite> subclasses.</p>
-<dl class="simple">
-<dt>Arguments:</dt><dd><dl class="simple">
-<dt>input_shape: Instance of <cite>TensorShape</cite>, or list of instances of</dt><dd><p><cite>TensorShape</cite> if the layer expects a list of inputs
-(one instance per input).</p>
-</dd>
-</dl>
-</dd>
-</dl>
-</dd></dl>
+<dd></dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.CFNCell.call">
@@ -1558,7 +1356,7 @@ state: state Tensor, must be 2-D, <cite>[batch, state_size]</cite>.</p>
 <div class="toc-item">
   
 <div class="tocsection onthispage">
-    <i class="fas fa-list"></i> On this page
+    <i class="fa-solid fa-list"></i> On this page
 </div>
 <nav id="bd-toc-nav" class="page-toc">
     <ul class="visible nav section-nav flex-column">
@@ -2506,13 +2304,18 @@ state: state Tensor, must be 2-D, <cite>[batch, state_size]</cite>.</p>
 
 <div class="toc-item">
   
+<div id="searchbox"></div>
+</div>
+
+<div class="toc-item">
+  
 </div>
 
 <div class="toc-item">
   
 <div class="tocsection sourcelink">
     <a href="../../../../../../_sources/reference/autosummary/sparknlp_jsl/_tf_graph_builders/tf2contrib/rnn_cell/index.rst.txt">
-        <i class="fas fa-file-alt"></i> Show Source
+        <i class="fa-solid fa-file-lines"></i> Show Source
     </a>
 </div>
 
@@ -2535,7 +2338,7 @@ state: state Tensor, must be 2-D, <cite>[batch, state_size]</cite>.</p>
   
     
   <!-- Scripts loaded after <body> so the DOM is not blocked -->
-  <script src="../../../../../../static/scripts/pydata-sphinx-theme.js?digest=9b1a4fa89bdd0e95b23b"></script>
+  <script src="../../../../../../static/scripts/pydata-sphinx-theme.js?digest=1e1de1a1873e13ef5536"></script>
 
   <footer class="bd-footer"><div class="bd-footer__inner container">
   
@@ -2552,7 +2355,7 @@ state: state Tensor, must be 2-D, <cite>[batch, state_size]</cite>.</p>
   <div class="footer-item">
     
 <p class="sphinx-version">
-Created using <a href="http://sphinx-doc.org/">Sphinx</a> 5.2.3.<br>
+Created using <a href="http://sphinx-doc.org/">Sphinx</a> 5.3.0.<br>
 </p>
 
   </div>
