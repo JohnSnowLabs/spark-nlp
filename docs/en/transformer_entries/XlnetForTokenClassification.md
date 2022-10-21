@@ -127,7 +127,7 @@ result.select("label.result").show(false)
 {%- endcapture -%}
 
 {%- capture python_api_link -%}
-[XlnetForTokenClassification](/api/python/reference/autosummary/sparknlp/annotator/classifier_dl/xlnet_for_token_classification/index.html#sparknlp.annotator.classifier_dl.xlnet_for_token_classification.XlnetForTokenClassification)
+[XlnetForTokenClassification](/api/python/reference/autosummary/python/sparknlp/annotator/classifier_dl/xlnet_for_token_classification/index.html#sparknlp.annotator.classifier_dl.xlnet_for_token_classification.XlnetForTokenClassification)
 {%- endcapture -%}
 
 {%- capture source_link -%}

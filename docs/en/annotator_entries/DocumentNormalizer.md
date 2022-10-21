@@ -119,7 +119,7 @@ result.selectExpr("normalizedDocument.result").show(truncate=false)
 {%- endcapture -%}
 
 {%- capture python_api_link -%}
-[DocumentNormalizer](/api/python/reference/autosummary/sparknlp/annotator/document_normalizer/index.html#sparknlp.annotator.document_normalizer.DocumentNormalizer)
+[DocumentNormalizer](/api/python/reference/autosummary/python/sparknlp/annotator/document_normalizer/index.html#sparknlp.annotator.document_normalizer.DocumentNormalizer)
 {%- endcapture -%}
 
 {%- capture source_link -%}

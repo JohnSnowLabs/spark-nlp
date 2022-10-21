@@ -142,7 +142,7 @@ result.select("final_sentiment").show(false)
 {%- endcapture -%}
 
 {%- capture python_api_link -%}
-[ViveknSentimentApproach](/api/python/reference/autosummary/sparknlp/annotator/sentiment/vivekn_sentiment/index.html#sparknlp.annotator.sentiment.vivekn_sentiment.ViveknSentimentApproach)
+[ViveknSentimentApproach](/api/python/reference/autosummary/python/sparknlp/annotator/sentiment/vivekn_sentiment/index.html#sparknlp.annotator.sentiment.vivekn_sentiment.ViveknSentimentApproach)
 {%- endcapture -%}
 
 {%- capture source_link -%}

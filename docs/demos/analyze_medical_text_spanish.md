@@ -1,7 +1,7 @@
 ---
 layout: demopagenew
-title: Analyze Medical Texts in Spanish - Clinical NLP Demos & Notebooks
-seotitle: 'Clinical NLP: Analyze Medical Texts in Spanish - John Snow Labs'
+title: Analyze Medical Texts in Spanish - Medical NLP Demos & Notebooks
+seotitle: 'Medical NLP: Analyze Medical Texts in Spanish - John Snow Labs'
 subtitle: Run 300+ live demos and notebooks
 full_width: true
 permalink: /analyze_medical_text_spanish
@@ -20,6 +20,18 @@ data:
           activemenu: analyze_medical_text_spanish
       source: yes
       source: 
+        - title: Detect professions and occupations in Spanish
+          id: detect_professions_occupations_Spanish_texts 
+          image: 
+              src: /assets/images/Classify-documents.svg
+          excerpt: Automatically identify professions and occupations entities in Spanish texts using our pretrained Spark NLP for Healthcare model. 
+          actions:
+          - text: Live Demo
+            type: normal
+            url: https://demo.johnsnowlabs.com/healthcare/NER_PROFESSIONS_ES/ 
+          - text: Colab
+            type: blue_btn
+            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/NER_PROFESSIONS_ES.ipynb
         - title: Detect Diagnoses And Procedures In Spanish
           id: detect-diagnoses-and-procedures-in-spanish
           image: 

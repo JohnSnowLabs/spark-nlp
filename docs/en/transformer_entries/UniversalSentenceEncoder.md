@@ -50,7 +50,7 @@ SENTENCE_EMBEDDINGS
 {%- endcapture -%}
 
 {%- capture python_api_link -%}
-[UniversalSentenceEncoder](/api/python/reference/autosummary/sparknlp/annotator/embeddings/universal_sentence_encoder/index.html#sparknlp.annotator.embeddings.universal_sentence_encoder.UniversalSentenceEncoder)
+[UniversalSentenceEncoder](/api/python/reference/autosummary/python/sparknlp/annotator/embeddings/universal_sentence_encoder/index.html#sparknlp.annotator.embeddings.universal_sentence_encoder.UniversalSentenceEncoder)
 {%- endcapture -%}
 
 {%- capture source_link -%}

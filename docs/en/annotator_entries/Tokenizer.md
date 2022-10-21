@@ -23,7 +23,7 @@ TOKEN
 {%- endcapture -%}
 
 {%- capture model_python_api_link -%}
-[TokenizerModel](/api/python/reference/autosummary/sparknlp/annotator/token/tokenizer/index.html#sparknlp.annotator.token.tokenizer.TokenizerModel)
+[TokenizerModel](/api/python/reference/autosummary/python/sparknlp/annotator/token/tokenizer/index.html#sparknlp.annotator.token.tokenizer.TokenizerModel)
 {%- endcapture -%}
 
 {%- capture model_source_link -%}
@@ -99,7 +99,7 @@ result.selectExpr("token.result").show(false)
 {%- endcapture -%}
 
 {%- capture approach_python_api_link -%}
-[Tokenizer](/api/python/reference/autosummary/sparknlp/annotator/token/tokenizer/index.html#sparknlp.annotator.token.tokenizer.Tokenizer)
+[Tokenizer](/api/python/reference/autosummary/python/sparknlp/annotator/token/tokenizer/index.html#sparknlp.annotator.token.tokenizer.Tokenizer)
 {%- endcapture -%}
 
 {%- capture approach_source_link -%}

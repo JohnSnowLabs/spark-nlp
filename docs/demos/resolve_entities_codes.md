@@ -140,19 +140,7 @@ data:
             url: https://demo.johnsnowlabs.com/healthcare/ER_NDC/
           - text: Colab
             type: blue_btn
-            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/ER_NDC.ipynb#scrollTo=dnJ9X-mbEOMr
-        - title: Resolve Clinical Abbreviations and Acronyms
-          id: resolve_clinical_abbreviations_acronyms    
-          image: 
-              src: /assets/images/Resolve_Clinical_Abbreviations_and_Acronyms.svg
-          excerpt: This demo shows how to map clinical abbreviations and acronyms to their meanings.
-          actions:
-          - text: Live Demo
-            type: normal
-            url: https://demo.johnsnowlabs.com/healthcare/ER_CLINICAL_ABBREVIATION_ACRONYM/
-          - text: Colab
-            type: blue_btn
-            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/ER_CLINICAL_ABBREVIATION_ACRONYM.ipynb
+            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/ER_NDC.ipynb#scrollTo=dnJ9X-mbEOMr        
         - title: Resolve Drug Class using RxNorm taxonomy
           id: resolve_drug_class_using_rxnorm_taxonomy     
           image: 

@@ -69,7 +69,7 @@ WORD_EMBEDDINGS
 {%- endcapture -%}
 
 {%- capture python_api_link -%}
-[XlnetEmbeddings](/api/python/reference/autosummary/sparknlp/annotator/embeddings/xlnet_embeddings/index.html#sparknlp.annotator.embeddings.xlnet_embeddings.XlnetEmbeddings)
+[XlnetEmbeddings](/api/python/reference/autosummary/python/sparknlp/annotator/embeddings/xlnet_embeddings/index.html#sparknlp.annotator.embeddings.xlnet_embeddings.XlnetEmbeddings)
 {%- endcapture -%}
 
 {%- capture source_link -%}
