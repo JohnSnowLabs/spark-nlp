@@ -1,9 +1,10 @@
 ---
 layout: demopagenew
-title: Analyze Medical Texts in German
+title: German - Medical NLP Demos & Notebooks
+seotitle: 'Medical NLP: German - John Snow Labs'
 subtitle: Run 300+ live demos and notebooks
 full_width: true
-permalink: /analyze_medical_text_german
+permalink: /german
 key: demo
 article_header:
   type: demo
@@ -13,15 +14,12 @@ show_edit_on_github: false
 show_date: false
 data:
   sections:  
-    - title: Spark NLP for Healthcare 
-      excerpt: Analyze Medical Texts in German
-      secheader: yes
+    - secheader: yes
       secheader:
-        - title: Spark NLP for Healthcare
-          subtitle: Analyze Medical Texts in German
-          activemenu: analyze_medical_text_german
+        - subtitle: German - Live Demos & Notebooks
+          activemenu: german
       source: yes
-      source: 
+      source:           
         - title: Detect symptoms, treatments and other clinical information in German
           id: detect_symptoms
           image: 
@@ -81,5 +79,5 @@ data:
             url: https://demo.johnsnowlabs.com/healthcare/DEID_PHI_TEXT_DE/
           - text: Colab
             type: blue_btn
-            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/4.1.Clinical_Deidentification_in_German.ipynb 
+            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/4.1.Clinical_Deidentification_in_German.ipynb             
 ---

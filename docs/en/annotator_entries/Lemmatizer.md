@@ -40,7 +40,7 @@ val lemmatizer = LemmatizerModel.pretrained()
 {%- endcapture -%}
 
 {%- capture model_python_api_link -%}
-[LemmatizerModel](/api/python/reference/autosummary/sparknlp/annotator/lemmatizer/index.html#sparknlp.annotator.lemmatizer.LemmatizerModel)
+[LemmatizerModel](/api/python/reference/autosummary/python/sparknlp/annotator/lemmatizer/index.html#sparknlp.annotator.lemmatizer.LemmatizerModel)
 {%- endcapture -%}
 
 {%- capture model_source_link -%}
@@ -181,7 +181,7 @@ result.selectExpr("lemma.result").show(false)
 {%- endcapture -%}
 
 {%- capture approach_python_api_link -%}
-[Lemmatizer](/api/python/reference/autosummary/sparknlp/annotator/lemmatizer/index.html#sparknlp.annotator.lemmatizer.Lemmatizer)
+[Lemmatizer](/api/python/reference/autosummary/python/sparknlp/annotator/lemmatizer/index.html#sparknlp.annotator.lemmatizer.Lemmatizer)
 {%- endcapture -%}
 
 {%- capture approach_source_link -%}

@@ -1,7 +1,7 @@
 ---
 layout: demopagenew
-title: Biomedical Research  - Finance NLP Demos & Notebooks
-seotitle: 'Healthcare NLP: Biomedical Research  - John Snow Labs'
+title: Biomedical Research  - Biomedical NLP Demos & Notebooks
+seotitle: 'Biomedical NLP: Biomedical Research  - John Snow Labs'
 subtitle: Run 300+ live demos and notebooks
 full_width: true
 permalink: /biomedical_research
@@ -19,19 +19,7 @@ data:
         - subtitle: Biomedical Research - Live Demos & Notebooks
           activemenu: biomedical_research
       source: yes
-      source: 
-        - title: Detect Pathogen Concepts  
-          id: detect_pathogen_concepts    
-          image: 
-              src: /assets/images/DetectPathogenConcepts.svg
-          excerpt: This demo automatically identifies pathogen concepts from clinical text.
-          actions:
-          - text: Live Demo
-            type: normal
-            url: https://demo.johnsnowlabs.com/healthcare/NER_PATHOGEN/
-          - text: Colab
-            type: blue_btn
-            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/NER_PATHOGEN.ipynb  
+      source:           
         - title: Detect drugs interactions
           id: detect_drugs_interactions
           image: 
@@ -79,5 +67,29 @@ data:
             url: https://demo.johnsnowlabs.com/healthcare/RE_DRUG_PROT/
           - text: Colab
             type: blue_btn
-            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/RE_DRUG_PROT.ipynb   
+            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/RE_DRUG_PROT.ipynb 
+        - title: Detect Pathogen Concepts  
+          id: detect_pathogen_concepts    
+          image: 
+              src: /assets/images/DetectPathogenConcepts.svg
+          excerpt: This demo automatically identifies pathogen concepts from clinical text.
+          actions:
+          - text: Live Demo
+            type: normal
+            url: https://demo.johnsnowlabs.com/healthcare/NER_PATHOGEN/
+          - text: Colab
+            type: blue_btn
+            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/NER_PATHOGEN.ipynb
+        - title: Detect mentions of general medical terms (coarse) 
+          id: detect_mentions_general_medical_terms_coarse
+          image: 
+              src: /assets/images/Detect_mentions_of_general_medical_terms.svg
+          excerpt: Extract general medical terms in text like body parts, cells, genes, symptoms, etc in text.
+          actions:
+          - text: Live Demo
+            type: normal
+            url: https://demo.johnsnowlabs.com/healthcare/NER_MEDMENTIONS_COARSE/
+          - text: Colab
+            type: blue_btn
+            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/NER_MEDMENTIONS_COARSE.ipynb
 ---

@@ -54,7 +54,7 @@ pubTatorDataSet.show(1)
 {%- endcapture -%}
 
 {%- capture python_api_link -%}
-[PubTator](/api/python/reference/autosummary/sparknlp/training/pub_tator/index.html#sparknlp.training.pub_tator.PubTator)
+[PubTator](/api/python/reference/autosummary/python/sparknlp/training/pub_tator/index.html#sparknlp.training.pub_tator.PubTator)
 {%- endcapture -%}
 
 {%- capture source_link -%}

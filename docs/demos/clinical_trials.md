@@ -19,19 +19,7 @@ data:
         - subtitle: Clinical Trials - Live Demos & Notebooks
           activemenu: clinical_trials
       source: yes
-      source: 
-        - title: Extract Entities in Clinical Trial Abstracts  
-          id: extract_entities_clinical_trial_abstracts     
-          image: 
-              src: /assets/images/ExtractEntitiesClinicalTrialAbstracts.svg
-          excerpt: This model extracts to trial design, diseases, drugs, population, statistics, publication etc. relevant entities from clinical trial abstracts.
-          actions:
-          - text: Live Demo
-            type: normal
-            url: https://demo.johnsnowlabs.com/healthcare/NER_CLINICAL_TRIALS_ABSTRACT/
-          - text: Colab
-            type: blue_btn
-            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/NER_CLINICAL_TRIALS_ABSTRACT.ipynb
+      source:         
         - title: Recognize Concepts in Drug Development Trials
           id: recognize_concepts_in_drug_development_trials
           image: 
@@ -68,4 +56,16 @@ data:
           - text: Colab
             type: blue_btn
             url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/NER_COVID.ipynb
+        - title: Extract Entities in Clinical Trial Abstracts  
+          id: extract_entities_clinical_trial_abstracts     
+          image: 
+              src: /assets/images/ExtractEntitiesClinicalTrialAbstracts.svg
+          excerpt: This model extracts to trial design, diseases, drugs, population, statistics, publication etc. relevant entities from clinical trial abstracts.
+          actions:
+          - text: Live Demo
+            type: normal
+            url: https://demo.johnsnowlabs.com/healthcare/NER_CLINICAL_TRIALS_ABSTRACT/
+          - text: Colab
+            type: blue_btn
+            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/NER_CLINICAL_TRIALS_ABSTRACT.ipynb
 ---

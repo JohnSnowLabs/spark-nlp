@@ -100,7 +100,7 @@ converter.transform(result).selectExpr("explode(entities)").show(false)
 {%- endcapture -%}
 
 {%- capture python_api_link -%}
-[NerConverter](/api/python/reference/autosummary/sparknlp/annotator/ner/ner_converter/index.html#sparknlp.annotator.ner.ner_converter.NerConverter)
+[NerConverter](/api/python/reference/autosummary/python/sparknlp/annotator/ner/ner_converter/index.html#sparknlp.annotator.ner.ner_converter.NerConverter)
 {%- endcapture -%}
 
 {%- capture source_link -%}
