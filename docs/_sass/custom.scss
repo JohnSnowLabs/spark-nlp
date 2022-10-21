@@ -2314,6 +2314,15 @@ code {
 	margin: 0 !important;
 }
 
+.btn-flex {
+	display: flex;
+
+	a {
+		min-width: 180px;
+		margin-right: 10px;
+	}
+}
+
 .go_next,
 .root[data-is-touch="false"] .go_next {
 	padding-top: 50px;
