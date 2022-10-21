@@ -23,6 +23,7 @@ import com.johnsnowlabs.nlp.AnnotatorType.{DOCUMENT, NAMED_ENTITY, TOKEN, WORD_E
 import com.johnsnowlabs.nlp.annotators.common.{NerTagged, WordpieceEmbeddingsSentence}
 import com.johnsnowlabs.nlp.annotators.ner.{ModelMetrics, NerApproach, Verbose}
 import com.johnsnowlabs.nlp.annotators.param.EvaluationDLParams
+import com.johnsnowlabs.nlp.pretrained.ResourceDownloader
 import com.johnsnowlabs.nlp.util.io.{OutputHelper, ResourceHelper}
 import com.johnsnowlabs.nlp.{AnnotatorApproach, AnnotatorType, ParamsAndFeaturesWritable}
 import com.johnsnowlabs.storage.HasStorageRef
@@ -636,20 +637,7 @@ trait WithGraphResolver {
 
     if (localGraphPath.isDefined && localGraphPath.get.startsWith("s3://")) {
 
-      val (bucketName, keyPrefix) = ResourceHelper.parseS3URI(localGraphPath.get)
-
-      require(
-        bucketName != "",
-        "S3 bucket name is not define. Please define it with parameter setS3BucketName")
-
-      var tmpDirectory = SparkFiles.getRootDirectory()
-
-      val awsGateway = new AWSGateway()
-      awsGateway.downloadFilesFromDirectory(bucketName, keyPrefix, new File(tmpDirectory))
-
-      if (OutputHelper.getFileSystem.getScheme == "dbfs") {
-        tmpDirectory = s"$tmpDirectory/$keyPrefix"
-      } else tmpDirectory = s"file:/$tmpDirectory/$keyPrefix"
+      val tmpDirectory = ResourceDownloader.downloadS3Directory(localGraphPath.get).getPath
 
       files = ResourceHelper.listLocalFiles(tmpDirectory).map(_.getAbsolutePath)
     } else {

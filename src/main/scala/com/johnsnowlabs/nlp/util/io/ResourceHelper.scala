@@ -18,6 +18,7 @@ package com.johnsnowlabs.nlp.util.io
 
 import com.johnsnowlabs.nlp.annotators.Tokenizer
 import com.johnsnowlabs.nlp.annotators.common.{TaggedSentence, TaggedWord}
+import com.johnsnowlabs.nlp.pretrained.ResourceDownloader
 import com.johnsnowlabs.nlp.util.io.ReadAs._
 import com.johnsnowlabs.nlp.{DocumentAssembler, Finisher}
 import org.apache.commons.io.{FileUtils, IOUtils}
@@ -50,6 +51,38 @@ object ResourceHelper {
         .config("spark.serializer", "org.apache.spark.serializer.KryoSerializer")
         .config("spark.kryoserializer.buffer.max", "1000m")
         .getOrCreate())
+
+  def getSparkSessionWithS3(
+      awsAccessKeyId: String,
+      awsSecretAccessKey: String,
+      awsSessionToken: String): SparkSession = {
+
+    require(
+      SparkSession.getActiveSession.isEmpty,
+      "Spark session already running, can't apply new configuration for S3.")
+
+    SparkSession
+      .builder()
+      .appName("SparkNLP Session with S3 Support")
+      .master("local[*]")
+      .config("spark.driver.memory", "22G")
+      .config("spark.serializer", "org.apache.spark.serializer.KryoSerializer")
+      .config("spark.kryoserializer.buffer.max", "2000M")
+      .config("spark.driver.maxResultSize", "0")
+      .config("spark.jsl.settings.aws.credentials.access_key_id", awsAccessKeyId)
+      .config("spark.jsl.settings.aws.credentials.secret_access_key", awsSecretAccessKey)
+      .config("spark.jsl.settings.aws.credentials.session_token", awsSessionToken)
+      .config("spark.jsl.settings.aws.region", "us-east-1")
+      .config(
+        "spark.hadoop.fs.s3a.aws.credentials.provider",
+        "org.apache.hadoop.fs.s3a.TemporaryAWSCredentialsProvider")
+      .config("spark.hadoop.fs.s3a.impl", "org.apache.hadoop.fs.s3a.S3AFileSystem")
+      .config(
+        "spark.jars.packages",
+        "org.apache.hadoop:hadoop-aws:3.3.1,com.amazonaws:aws-java-sdk:1.11.901")
+      .config("spark.hadoop.fs.s3a.path.style.access", "true")
+      .getOrCreate()
+  }
 
   lazy val spark: SparkSession = getActiveSparkSession
 
@@ -111,7 +144,8 @@ object ResourceHelper {
       *
       * @param prefix
       *   Prefix for the temporary folder.
-      * @return URI of the created temporary folder with the resource
+      * @return
+      *   URI of the created temporary folder with the resource
       */
     def copyToLocalSavedModel(prefix: String = "sparknlp_tmp_"): URI = {
       if (fileSystem.getScheme == "file")
@@ -165,8 +199,12 @@ object ResourceHelper {
   }
 
   def copyToLocalSavedModel(path: String): URI = {
-    val resource = SourceStream(path)
-    resource.copyToLocalSavedModel()
+    if (path.startsWith("s3:/") || path.startsWith("s3a:/")) { // Download directly from S3
+      ResourceDownloader.downloadS3Directory(path)
+    } else { // Use Source Stream
+      val resource = SourceStream(path)
+      resource.copyToLocalSavedModel()
+    }
   }
 
   /** NOT thread safe. Do not call from executors. */
@@ -712,7 +750,8 @@ object ResourceHelper {
     val bucketName = s3URI.substring(prefix.length).split("/").head
     val key = s3URI.substring((prefix + bucketName).length + 1)
 
+    require(bucketName.nonEmpty, "S3 bucket name is empty!")
+
     (bucketName, key)
   }
-
 }

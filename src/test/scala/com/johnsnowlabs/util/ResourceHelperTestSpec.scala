@@ -173,7 +173,7 @@ class ResourceHelperTestSpec extends AnyFlatSpec {
     val resourcePath = "src/test/resources/tf-hub-bert/model"
     val tmpFolder: String = ResourceHelper.copyToLocalSavedModel(resourcePath).getPath
 
-    assert (resourcePath == tmpFolder, "Folder should not have been copied.")
+    assert(resourcePath == tmpFolder, "Folder should not have been copied.")
   }
 
   // Local HDFS needs to be set up
@@ -198,6 +198,29 @@ class ResourceHelperTestSpec extends AnyFlatSpec {
 
     val tmpFolderFile: String = ResourceHelper.copyToLocalSavedModel(hdfsFilePath).getPath
     assert(Paths.get(tmpFolderFile, "vocab.txt").toFile.exists(), "Copied file doesn't exist.")
+  }
+
+  // AWS keys need to be set up for this test
+  ignore should "copyToLocalSavedModel from s3" taggedAs SlowTest in {
+    val awsAccessKeyId = sys.env("AWS_ACCESS_KEY_ID")
+    val awsSecretAccessKey = sys.env("AWS_SECRET_ACCESS_KEY")
+    val awsSessionToken = sys.env("AWS_SESSION_TOKEN")
+
+    ResourceHelper.getSparkSessionWithS3(awsAccessKeyId, awsSecretAccessKey, awsSessionToken)
+
+    val s3FolderPath = "s3://devin-sparknlp-test/tf-hub-bert/model"
+
+    val resourcePath = "src/test/resources/tf-hub-bert/model"
+
+    val resourceFolderContent: Array[String] = new File(resourcePath).listFiles().map(_.getName)
+
+    val localPath = ResourceHelper.copyToLocalSavedModel(s3FolderPath)
+    new File(localPath).listFiles().foreach { f: File =>
+      assert(
+        resourceFolderContent.contains(f.getName),
+        s"File $f missing in copied temporary folder $localPath.")
+    }
+
   }
 
 }

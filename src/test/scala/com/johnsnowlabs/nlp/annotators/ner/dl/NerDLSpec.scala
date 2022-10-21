@@ -331,4 +331,21 @@ class NerDLSpec extends AnyFlatSpec {
     pipelineDF.select("ner").show(1, truncate = false)
   }
 
+  // AWS keys need to be set up for this test
+  ignore should "correct search for suitable graphs on S3" taggedAs SlowTest in {
+    val awsAccessKeyId = sys.env("AWS_ACCESS_KEY_ID")
+    val awsSecretAccessKey = sys.env("AWS_SECRET_ACCESS_KEY")
+    val awsSessionToken = sys.env("AWS_SESSION_TOKEN")
+
+    ResourceHelper.getSparkSessionWithS3(awsAccessKeyId, awsSecretAccessKey, awsSessionToken)
+
+    val s3FolderPath = "s3://devin-sparknlp-test/ner-dl/"  // identical to the one in repository
+    val smallGraphFile = NerDLApproach.searchForSuitableGraph(10, 100, 120, Some(s3FolderPath))
+    assert(smallGraphFile.endsWith("blstm_10_100_128_120.pb"))
+
+    val bigGraphFile = NerDLApproach.searchForSuitableGraph(25, 300, 120, Some(s3FolderPath))
+    assert(bigGraphFile.endsWith("blstm_38_300_128_200.pb"))
+
+  }
+
 }
