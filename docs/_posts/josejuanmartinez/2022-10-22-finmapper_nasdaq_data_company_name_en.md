@@ -68,6 +68,13 @@ ner_converter = nlp.NerConverter()\
       .setOutputCol("ner_chunk")\
       .setWhiteList(["ORG"])
 
+...
+
+# Use `finel_nasdaq_data_company_name` Entity Resolver to normalize the company name
+# to be able to match with Chunk Mapper
+
+...
+
 CM = finance.ChunkMapperModel.pretrained('finmapper_nasdaq_data_company_name', 'en', 'finance/models')\
       .setInputCols(["ner_chunk"])\
       .setOutputCol("mappings")\
