@@ -17,6 +17,7 @@
 </ul>
 
 <ul class="pagination owl-carousel pagination_big">
+    <li><a href="release_notes_4_2_1">4.2.1</a></li>
     <li><a href="release_notes_4_2_0">4.2.0</a></li>
     <li><a href="release_notes_4_1_0">4.1.0</a></li>
     <li><a href="release_notes_4_0_2">4.0.2</a></li>
