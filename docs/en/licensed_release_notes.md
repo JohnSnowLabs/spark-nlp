@@ -447,8 +447,8 @@ Now we have 46 new [Healtcare Certification Training notebooks](https://github.c
     </li>
 </ul>
 <ul class="pagination owl-carousel pagination_big">
-    <li class="active"><a href="/licensed_release_notes">4.2.1</a></li>
-    <li><a href="spark_nlp_healthcare_versions/release_notes_4_1_0">4.2.0</a></li>
+    <li class="active"><a href="spark_nlp_healthcare_versions/release_notes_4_2_1">4.2.1</a></li>
+    <li><a href="spark_nlp_healthcare_versions/release_notes_4_2_0">4.2.0</a></li>
     <li><a href="spark_nlp_healthcare_versions/release_notes_4_1_0">4.1.0</a></li>
     <li><a href="spark_nlp_healthcare_versions/release_notes_4_0_2">4.0.2</a></li>
     <li><a href="spark_nlp_healthcare_versions/release_notes_4_0_0">4.0.0</a></li>
