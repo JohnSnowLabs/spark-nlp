@@ -1,6 +1,6 @@
 ---
 layout: model
-title: Company Name Normalization to Nasdaq Data
+title: Company Name Normalization using Nasdaq
 author: John Snow Labs
 name: finel_nasdaq_data_company_name
 date: 2022-10-22
