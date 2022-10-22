@@ -1,6 +1,6 @@
 ---
 layout: model
-title: Company to Ticker using Nasdaq Data
+title: Company to Ticker using Nasdaq
 author: John Snow Labs
 name: finel_nasdaq_data_ticker
 date: 2022-10-22
