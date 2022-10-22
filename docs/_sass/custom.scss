@@ -2009,6 +2009,16 @@ code {
 }
 
 .tabs-box.tabs-new {
+	.python-inner {
+		&.active {
+			.highlighter-rouge {
+				display: block;			
+			}
+		}
+		.highlighter-rouge {
+			display: none;			
+		}
+	}
 	.highlighter-rouge {
 		display: none;
 		&.active {
@@ -2576,6 +2586,7 @@ code {
 .tabs-box-medic,
 .tabs-box {
 	padding: 20px 0;
+	.top_tab_li .tab-jsl,
 	.top_tab_li .tab-li-inner,
 	.top_tab_li .tab-li {
 		text-align: center;
@@ -2600,6 +2611,16 @@ code {
 		}
 		&.noactive {
 			display: none;
+		}
+	}
+	.top_tab_li .tab-jsl {
+		min-width: 165px;
+		font-size: 16px;
+		padding: 10px;
+		&.active,
+		&:hover {					
+			background: #3e4095;
+			border-color: #3e4095;
 		}
 	}
 	.highlighter-rouge {
@@ -3783,11 +3804,17 @@ code {
 	.tabs-box .highlighter-rouge.tabs-wrapper .top_tab_li .tab-li-inner {
 		min-width: 96px;
 	}
+	.tabs-box .top_tab_li .tab-li {
+		min-width: 100%;
+	}
 }
 
 @media (max-width: 400px) {
 	.docs-wrapper .table-model-big tbody tr td {
 		padding: 15px 5px;
+	}
+	.tabs-box .top_tab_li .tab-jsl {
+		min-width: 132px;
 	}
 	.docs-wrapper h2 {
 		font-weight: bold;
