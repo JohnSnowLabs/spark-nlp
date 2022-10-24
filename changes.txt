@@ -1,10 +1,2 @@
-docs/_includes/programmingLanguageSelectPythons.html
-docs/_includes/scripts/programmingLanguageSwitcherScalaPython.js
-docs/_sass/custom.scss
-docs/en/license_getting_started.md
-docs/en/tab_example.md
-docs/_includes/programmingLanguageSelectPythons.html
-docs/_includes/scripts/programmingLanguageSwitcherScalaPython.js
-docs/_sass/custom.scss
-docs/en/license_getting_started.md
-docs/en/tab_example.md
+docs/_includes/demomenu.html
+docs/_includes/demomenu.html
