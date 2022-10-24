@@ -51,7 +51,7 @@ useEmbeddings = nlp.UniversalSentenceEncoder.pretrained() \
     .setInputCols("document") \
     .setOutputCol("sentence_embeddings")
 
-docClassifier = legal.ClassifierDLModel.pretrained("finclf_security_ownership_item", "en", "finance/models")\
+docClassifier = nlp.ClassifierDLModel.pretrained("finclf_security_ownership_item", "en", "finance/models")\
     .setInputCols(["sentence_embeddings"])\
     .setOutputCol("category")
     

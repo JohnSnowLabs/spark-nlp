@@ -44,7 +44,7 @@ embeddings = nlp.UniversalSentenceEncoder.pretrained() \
       .setInputCols("document") \
       .setOutputCol("sentence_embeddings")
 
-classsifier_dl = finance.ClassifierDLModel.pretrained("finclf_bank_complaints", "en", "finance/models")\
+classsifier_dl = nlp.ClassifierDLModel.pretrained("finclf_bank_complaints", "en", "finance/models")\
       .setInputCols(["sentence_embeddings"])\
       .setOutputCol("label")\
 
