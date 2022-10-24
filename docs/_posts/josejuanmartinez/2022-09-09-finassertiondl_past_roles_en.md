@@ -128,9 +128,9 @@ In-house annotations from 10K Filings and Wikidata
 ## Benchmarking
 
 ```bash
-label          tp    fp    fn    prec        rec         f1
-NO_PAST	       362	 6	   13	 0.9836956	 0.96533334	 0.974428
-PAST	       196	 13	   6	 0.9377990	 0.97029704	 0.953771
-Macro-average  558   19    19    0.9607473   0.96781516  0.964268
-Micro-average  558   19    19    0.9670710   0.96707106  0.967071
+label          tp    fp    fn    prec        rec          f1
+NO_PAST        362   6     13    0.9836956   0.96533334   0.974428
+PAST           196   13    6     0.9377990   0.97029704   0.953771
+Macro-average  558   19    19    0.9607473   0.96781516   0.964268
+Micro-average  558   19    19    0.9670710   0.96707106   0.967071
 ```
