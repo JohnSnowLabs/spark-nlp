@@ -16,17 +16,21 @@
 
 package com.johnsnowlabs.nlp.util.io
 
+import com.amazonaws.AmazonServiceException
 import com.johnsnowlabs.nlp.annotators.Tokenizer
 import com.johnsnowlabs.nlp.annotators.common.{TaggedSentence, TaggedWord}
+import com.johnsnowlabs.nlp.pretrained.ResourceDownloader
 import com.johnsnowlabs.nlp.util.io.ReadAs._
 import com.johnsnowlabs.nlp.{DocumentAssembler, Finisher}
+import com.johnsnowlabs.util.ConfigHelper
 import org.apache.commons.io.{FileUtils, IOUtils}
 import org.apache.hadoop.fs.Path
 import org.apache.spark.ml.{Pipeline, PipelineModel}
 import org.apache.spark.sql.{DataFrame, Dataset, SparkSession}
 
 import java.io._
-import java.net.{URL, URLDecoder}
+import java.net.{URI, URL, URLDecoder}
+import java.nio.file
 import java.nio.file.{Files, Paths}
 import java.util.jar.JarFile
 import scala.collection.mutable.{ArrayBuffer, Map => MMap}
@@ -49,6 +53,51 @@ object ResourceHelper {
         .config("spark.serializer", "org.apache.spark.serializer.KryoSerializer")
         .config("spark.kryoserializer.buffer.max", "1000m")
         .getOrCreate())
+
+  def getSparkSessionWithS3(
+      awsAccessKeyId: String,
+      awsSecretAccessKey: String,
+      hadoopAwsVersion: String = ConfigHelper.hadoopAwsVersion,
+      AwsJavaSdkVersion: String = ConfigHelper.awsJavaSdkVersion,
+      region: String = "us-east-1",
+      s3Impl: String = "org.apache.hadoop.fs.s3a.S3AFileSystem",
+      pathStyleAccess: Boolean = true,
+      credentialsProvider: String = "TemporaryAWSCredentialsProvider",
+      awsSessionToken: Option[String] = None): SparkSession = {
+
+    require(
+      SparkSession.getActiveSession.isEmpty,
+      "Spark session already running, can't apply new configuration for S3.")
+
+    val sparkSession = SparkSession
+      .builder()
+      .appName("SparkNLP Session with S3 Support")
+      .master("local[*]")
+      .config("spark.driver.memory", "22G")
+      .config("spark.serializer", "org.apache.spark.serializer.KryoSerializer")
+      .config("spark.kryoserializer.buffer.max", "1000M")
+      .config("spark.driver.maxResultSize", "0")
+      .config(ConfigHelper.awsExternalAccessKeyId, awsAccessKeyId)
+      .config(ConfigHelper.awsExternalSecretAccessKey, awsSecretAccessKey)
+      .config(ConfigHelper.awsExternalRegion, region)
+      .config(
+        "spark.hadoop.fs.s3a.aws.credentials.provider",
+        s"org.apache.hadoop.fs.s3a.$credentialsProvider")
+      .config("spark.hadoop.fs.s3a.impl", s3Impl)
+      .config(
+        "spark.jars.packages",
+        "org.apache.hadoop:hadoop-aws:" + hadoopAwsVersion + ",com.amazonaws:aws-java-sdk:" + AwsJavaSdkVersion)
+      .config("spark.hadoop.fs.s3a.path.style.access", pathStyleAccess.toString)
+
+    if (credentialsProvider == "TemporaryAWSCredentialsProvider") {
+      require(
+        awsSessionToken.isDefined,
+        "AWS Session token needs to be provided for TemporaryAWSCredentialsProvider.")
+      sparkSession.config(ConfigHelper.awsExternalSessionToken, awsSessionToken.get)
+    }
+
+    sparkSession.getOrCreate()
+  }
 
   lazy val spark: SparkSession = getActiveSparkSession
 
@@ -75,35 +124,41 @@ object ResourceHelper {
 
     val content: Seq[Iterator[String]] = openBuffers.map(c => c.getLines())
 
-    def copyToLocal(prefix: String = "sparknlp_tmp_"): String = {
+    /** Copies the resource into a local temporary folder and returns the folders URI.
+      *
+      * @param prefix
+      *   Prefix for the temporary folder.
+      * @return
+      *   URI of the created temporary folder with the resource
+      */
+    def copyToLocal(prefix: String = "sparknlp_tmp_"): URI = {
       if (fileSystem.getScheme == "file")
-        return resource
+        return path.toUri
 
-      val destination = Files.createTempDirectory(prefix).toUri
+      val destination: file.Path = Files.createTempDirectory(prefix)
 
-      fileSystem.getScheme match {
+      val destinationUri = fileSystem.getScheme match {
         case "hdfs" =>
-          val files = fileSystem.listFiles(path, false)
-          while (files.hasNext) {
-            fileSystem.copyToLocalFile(files.next.getPath, new Path(destination))
-          }
+          fileSystem.copyToLocalFile(false, path, new Path(destination.toUri), true)
+          if (fileSystem.getFileStatus(path).isDirectory)
+            Paths.get(destination.toString, path.getName).toUri
+          else destination.toUri
         case "dbfs" =>
           val dbfsPath = path.toString.replace("dbfs:/", "/dbfs/")
-          val localFiles = listLocalFiles(dbfsPath)
-          localFiles.foreach { localFile =>
-            val inputStream = getResourceStream(localFile.toString)
-            val targetPath = destination + localFile.toString.split("/").last
-            val targetFile = new File(targetPath)
-            FileUtils.copyInputStreamToFile(inputStream, targetFile)
-          }
+          val sourceFile = new File(dbfsPath)
+          val targetFile = new File(destination.toString)
+          if (sourceFile.isFile) FileUtils.copyFileToDirectory(sourceFile, targetFile)
+          else FileUtils.copyDirectory(sourceFile, targetFile)
+          targetFile.toURI
         case _ =>
           val files = fileSystem.listFiles(path, false)
           while (files.hasNext) {
-            fileSystem.copyFromLocalFile(files.next.getPath, new Path(destination))
+            fileSystem.copyFromLocalFile(files.next.getPath, new Path(destination.toUri))
           }
+          destination.toUri
       }
 
-      destination.toString
+      destinationUri
     }
 
     def close(): Unit = {
@@ -122,9 +177,24 @@ object ResourceHelper {
     }
   }
 
-  def copyToLocal(path: String): String = {
-    val resource = SourceStream(path)
-    resource.copyToLocal()
+  def copyToLocal(path: String): URI = try {
+    if (path.startsWith("s3:/") || path.startsWith("s3a:/")) { // Download directly from S3
+      ResourceDownloader.downloadS3Directory(path)
+    } else { // Use Source Stream
+      val resource = SourceStream(path)
+      resource.copyToLocal()
+    }
+  } catch {
+    case awsE: AmazonServiceException =>
+      println("Error while retrieving folder from S3. Make sure you have set the right " +
+        "access keys with proper permissions in your configuration. For an example please see " +
+        "https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/jupyter/training/english/dl-ner/mfa_ner_graphs_s3.ipynb")
+      throw awsE
+    case e: Exception =>
+      println(
+        s"Could not create temporary local directory for provided path $path." +
+          "Please note that only file:/, hdfs:/, dbfs:/ and s3:/ protocols are supported.")
+      throw e
   }
 
   /** NOT thread safe. Do not call from executors. */
@@ -154,7 +224,7 @@ object ResourceHelper {
 
     if (dirURL != null && dirURL.getProtocol.equals("file") && new File(dirURL.toURI).exists()) {
       /* A file path: easy enough */
-      return new File(dirURL.toURI).listFiles.sorted.map(_.getPath).map(fixTarget(_))
+      return new File(dirURL.toURI).listFiles.sorted.map(_.getPath).map(fixTarget)
     } else if (dirURL == null) {
       /* path not in resources and not in disk */
       throw new FileNotFoundException(path)
@@ -552,7 +622,7 @@ object ResourceHelper {
     val fileSystem = OutputHelper.getFileSystem
 
     val filesPath = fileSystem.getScheme match {
-      case "hdfs" => {
+      case "hdfs" =>
         if (path.startsWith("file:")) {
           Option(new File(path.replace("file:", "")).listFiles())
         } else {
@@ -566,7 +636,6 @@ object ResourceHelper {
 
           Option(files.toArray)
         }
-      }
       case "dbfs" if path.startsWith("dbfs:") =>
         Option(new File(path.replace("dbfs:", "/dbfs/")).listFiles())
       case _ => Option(new File(path).listFiles())
@@ -579,11 +648,10 @@ object ResourceHelper {
   def getFileFromPath(pathToFile: String): File = {
     val fileSystem = OutputHelper.getFileSystem
     val filePath = fileSystem.getScheme match {
-      case "hdfs" => {
+      case "hdfs" =>
         if (pathToFile.startsWith("file:")) {
           new File(pathToFile.replace("file:", ""))
         } else new File(pathToFile)
-      }
       case "dbfs" if pathToFile.startsWith("dbfs:") =>
         new File(pathToFile.replace("dbfs:", "/dbfs/"))
       case _ => new File(pathToFile)
@@ -605,6 +673,13 @@ object ResourceHelper {
       }
     }
 
+    if (!isValid) {
+      validDbfsFile(path) match {
+        case Success(value) => isValid = value
+        case Failure(_) => isValid = false
+      }
+    }
+
     isValid
   }
 
@@ -616,6 +691,10 @@ object ResourceHelper {
     val hadoopPath = new Path(path)
     val fileSystem = OutputHelper.getFileSystem
     fileSystem.exists(hadoopPath)
+  }
+
+  private def validDbfsFile(path: String): Try[Boolean] = Try {
+    getFileFromPath(path).exists()
   }
 
   def moveFile(sourceFile: String, destinationFile: String): Unit = {
@@ -661,7 +740,8 @@ object ResourceHelper {
     val bucketName = s3URI.substring(prefix.length).split("/").head
     val key = s3URI.substring((prefix + bucketName).length + 1)
 
+    require(bucketName.nonEmpty, "S3 bucket name is empty!")
+
     (bucketName, key)
   }
-
 }
