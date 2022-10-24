@@ -108,6 +108,6 @@ In-house annotations on 10K financial reports and reports from Russell 3000 firm
 Non-specific_FLS       0.91      0.94      0.92       215
          Not_FLS       0.84      0.87      0.85        70
         accuracy         -         -       0.92       596
-       macro avg       0.90      0.91      0.91       596
-    weighted avg       0.93      0.92      0.92       596
+       macro-avg       0.90      0.91      0.91       596
+    weighted-avg       0.93      0.92      0.92       596
 ```
