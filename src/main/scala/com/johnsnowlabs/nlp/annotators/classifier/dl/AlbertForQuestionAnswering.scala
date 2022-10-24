@@ -307,9 +307,9 @@ trait ReadAlbertForQATensorflowModel extends ReadTensorflowModel with ReadSenten
   addReader(readTensorflow)
 
   def loadSavedModel(modelPath: String, spark: SparkSession): AlbertForQuestionAnswering = {
-    val detectedEngine = modelSanityCheck(modelPath)
+    val (localModelPath, detectedEngine) = modelSanityCheck(modelPath)
 
-    val spModel = loadSentencePieceAsset(modelPath, "spiece.model")
+    val spModel = loadSentencePieceAsset(localModelPath, "spiece.model")
 
     /*Universal parameters for all engines*/
     val annotatorModel = new AlbertForQuestionAnswering()
@@ -319,7 +319,7 @@ trait ReadAlbertForQATensorflowModel extends ReadTensorflowModel with ReadSenten
     detectedEngine match {
       case ModelEngine.tensorflow =>
         val (wrapper, signatures) =
-          TensorflowWrapper.read(modelPath, zipped = false, useBundle = true)
+          TensorflowWrapper.read(localModelPath, zipped = false, useBundle = true)
 
         val _signatures = signatures match {
           case Some(s) => s

@@ -18,11 +18,7 @@ package com.johnsnowlabs.nlp.embeddings
 
 import com.johnsnowlabs.ml.tensorflow._
 import com.johnsnowlabs.ml.tensorflow.sentencepiece._
-import com.johnsnowlabs.ml.util.LoadExternalModel.{
-  loadSentencePieceAsset,
-  modelSanityCheck,
-  notSupportedEngineError
-}
+import com.johnsnowlabs.ml.util.LoadExternalModel.{loadSentencePieceAsset, modelSanityCheck, notSupportedEngineError}
 import com.johnsnowlabs.ml.util.ModelEngine
 import com.johnsnowlabs.nlp._
 import com.johnsnowlabs.nlp.annotators.common._
@@ -364,9 +360,9 @@ trait ReadDeBertaDLModel extends ReadTensorflowModel with ReadSentencePieceModel
 
   def loadSavedModel(modelPath: String, spark: SparkSession): DeBertaEmbeddings = {
 
-    val detectedEngine = modelSanityCheck(modelPath)
+    val (localModelPath, detectedEngine) = modelSanityCheck(modelPath)
 
-    val spModel = loadSentencePieceAsset(modelPath, "spiece.model")
+    val spModel = loadSentencePieceAsset(localModelPath, "spiece.model")
 
     /*Universal parameters for all engines*/
     val annotatorModel = new DeBertaEmbeddings()
@@ -376,7 +372,7 @@ trait ReadDeBertaDLModel extends ReadTensorflowModel with ReadSentencePieceModel
     detectedEngine match {
       case ModelEngine.tensorflow =>
         val (wrapper, signatures) =
-          TensorflowWrapper.read(modelPath, zipped = false, useBundle = true)
+          TensorflowWrapper.read(localModelPath, zipped = false, useBundle = true)
 
         val _signatures = signatures match {
           case Some(s) => s

@@ -310,9 +310,9 @@ trait ReadXlmRoBertaForQATensorflowModel extends ReadTensorflowModel with ReadSe
 
   def loadSavedModel(modelPath: String, spark: SparkSession): XlmRoBertaForQuestionAnswering = {
 
-    val detectedEngine = modelSanityCheck(modelPath)
+    val (localModelPath, detectedEngine) = modelSanityCheck(modelPath)
 
-    val spModel = loadSentencePieceAsset(modelPath, "sentencepiece.bpe.model")
+    val spModel = loadSentencePieceAsset(localModelPath, "sentencepiece.bpe.model")
 
     /*Universal parameters for all engines*/
     val annotatorModel = new XlmRoBertaForQuestionAnswering()
@@ -322,7 +322,7 @@ trait ReadXlmRoBertaForQATensorflowModel extends ReadTensorflowModel with ReadSe
     detectedEngine match {
       case ModelEngine.tensorflow =>
         val (wrapper, signatures) =
-          TensorflowWrapper.read(modelPath, zipped = false, useBundle = true)
+          TensorflowWrapper.read(localModelPath, zipped = false, useBundle = true)
 
         val _signatures = signatures match {
           case Some(s) => s

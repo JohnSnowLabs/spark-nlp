@@ -19,8 +19,8 @@ package com.johnsnowlabs.nlp.embeddings
 import com.johnsnowlabs.ml.tensorflow._
 import com.johnsnowlabs.ml.util.LoadExternalModel.{
   loadTextAsset,
-  notSupportedEngineError,
-  retrieveModel
+  modelSanityCheck,
+  notSupportedEngineError
 }
 import com.johnsnowlabs.ml.util.ModelEngine
 import com.johnsnowlabs.nlp._
@@ -408,9 +408,8 @@ trait ReadBertDLModel extends ReadTensorflowModel {
 
   def loadSavedModel(modelPath: String, spark: SparkSession): BertEmbeddings = {
 
-    val (localModelUrl, detectedEngine) = retrieveModel(modelPath)
+    val (localModelPath, detectedEngine) = modelSanityCheck(modelPath)
 
-    val localModelPath = localModelUrl.getPath
     val vocabs = loadTextAsset(localModelPath, "vocab.txt").zipWithIndex.toMap
 
     /*Universal parameters for all engines*/

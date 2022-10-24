@@ -362,7 +362,7 @@ trait ReadElmoDLModel extends ReadTensorflowModel {
 
   def loadSavedModel(modelPath: String, spark: SparkSession): ElmoEmbeddings = {
 
-    val detectedEngine = modelSanityCheck(modelPath)
+    val (localModelPath, detectedEngine) = modelSanityCheck(modelPath)
 
     val annotatorModel = new ElmoEmbeddings()
 
@@ -371,7 +371,7 @@ trait ReadElmoDLModel extends ReadTensorflowModel {
     detectedEngine match {
       case ModelEngine.tensorflow =>
         val (wrapper, _) = TensorflowWrapper.read(
-          modelPath,
+          localModelPath,
           zipped = false,
           useBundle = true,
           tags = Array("serve"),

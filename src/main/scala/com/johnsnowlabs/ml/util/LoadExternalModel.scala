@@ -31,7 +31,7 @@ object LoadExternalModel {
       s"follow provided notebooks to import external models into Spark NLP: " +
       s"https://github.com/JohnSnowLabs/spark-nlp/discussions/5669"
 
-  def modelSanityCheck(modelPath: String): String = {
+  def detectEngine(modelPath: String): String = {
 
     /** Check if the path is correct */
     val f = new File(modelPath)
@@ -63,17 +63,18 @@ object LoadExternalModel {
 
   }
 
-  /** Retrieves a local path for a model folder.
+  /** Retrieves a local path for a model folder and detects DL engine
     *
     * If the model is at a remote location it will be downloaded and a local path provided.
-    * Otherwise an URL to the local path of the folder will be returned.
+    * Otherwise an URL to the local path of the folder will be returned. This method also tests
+    * the sanity of the DL model while detecting the DL engine
     *
     * @param path
     *   Local or Remote path of the model folder
     * @return
     *   URL to the local path of the folder
     */
-  def retrieveModel(path: String): (URL, String) = {
+  def modelSanityCheck(path: String): (String, String) = {
 
     val localFileUri: URI = {
       val localModelUri = ResourceHelper.copyToLocal(path)
@@ -85,7 +86,7 @@ object LoadExternalModel {
 
     val localPath: String = localFileUri.getPath
 
-    (localFileUri.toURL, modelSanityCheck(localPath))
+    (localFileUri.toURL.getPath, detectEngine(localPath))
   }
 
   def loadTextAsset(assetPath: String, assetName: String): Array[String] = {

@@ -316,15 +316,15 @@ trait ReadWav2Vec2ForAudioTensorflowModel extends ReadTensorflowModel {
 
   def loadSavedModel(modelPath: String, spark: SparkSession): Wav2Vec2ForCTC = {
 
-    val detectedEngine = modelSanityCheck(modelPath)
+    val (localModelPath, detectedEngine) = modelSanityCheck(modelPath)
 
-    val vocabJsonContent = loadJsonStringAsset(modelPath, "vocab.json")
+    val vocabJsonContent = loadJsonStringAsset(localModelPath, "vocab.json")
     val vocabJsonMap =
       parse(vocabJsonContent, useBigIntForLong = true).values
         .asInstanceOf[Map[String, BigInt]]
 
     val preprocessorConfigJsonContent =
-      loadJsonStringAsset(modelPath, "preprocessor_config.json")
+      loadJsonStringAsset(localModelPath, "preprocessor_config.json")
     val preprocessorConfig =
       Preprocessor.loadPreprocessorConfig(preprocessorConfigJsonContent)
 
@@ -343,7 +343,7 @@ trait ReadWav2Vec2ForAudioTensorflowModel extends ReadTensorflowModel {
     detectedEngine match {
       case ModelEngine.tensorflow =>
         val (wrapper, signatures) =
-          TensorflowWrapper.read(modelPath, zipped = false, useBundle = true)
+          TensorflowWrapper.read(localModelPath, zipped = false, useBundle = true)
 
         val _signatures = signatures match {
           case Some(s) => s

@@ -434,11 +434,11 @@ trait ReadMarianMTTensorflowModel extends ReadTensorflowModel with ReadSentenceP
 
   def loadSavedModel(modelPath: String, spark: SparkSession): MarianTransformer = {
 
-    val detectedEngine = modelSanityCheck(modelPath)
+    val (localModelPath, detectedEngine) = modelSanityCheck(modelPath)
 
-    val sppSrc = loadSentencePieceAsset(modelPath, "source.spm")
-    val sppTrg = loadSentencePieceAsset(modelPath, "target.spm")
-    val vocabs = loadTextAsset(modelPath, "vocab.txt").zipWithIndex.toMap.toSeq
+    val sppSrc = loadSentencePieceAsset(localModelPath, "source.spm")
+    val sppTrg = loadSentencePieceAsset(localModelPath, "target.spm")
+    val vocabs = loadTextAsset(localModelPath, "vocab.txt").zipWithIndex.toMap.toSeq
       .sortBy(_._2)
       .map(x => x._1.mkString)
       .toArray
@@ -452,7 +452,7 @@ trait ReadMarianMTTensorflowModel extends ReadTensorflowModel with ReadSentenceP
     detectedEngine match {
       case ModelEngine.tensorflow =>
         val (wrapper, signatures) = TensorflowWrapper.read(
-          modelPath,
+          localModelPath,
           zipped = false,
           useBundle = true,
           tags = Array("serve"),

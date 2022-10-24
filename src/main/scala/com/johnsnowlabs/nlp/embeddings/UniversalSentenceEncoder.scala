@@ -347,7 +347,7 @@ trait ReadUSEDLModel extends ReadTensorflowModel {
       spark: SparkSession,
       loadSP: Boolean = false): UniversalSentenceEncoder = {
 
-    val detectedEngine = modelSanityCheck(modelPath)
+    val (localModelPath, detectedEngine) = modelSanityCheck(modelPath)
 
     /*Universal parameters for all engines*/
     val annotatorModel = new UniversalSentenceEncoder()
@@ -359,7 +359,7 @@ trait ReadUSEDLModel extends ReadTensorflowModel {
       case ModelEngine.tensorflow =>
         val wrapper =
           TensorflowWrapper.readWithSP(
-            modelPath,
+            localModelPath,
             zipped = false,
             useBundle = true,
             tags = Array("serve"),

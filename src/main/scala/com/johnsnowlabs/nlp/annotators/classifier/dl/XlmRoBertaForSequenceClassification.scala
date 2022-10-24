@@ -366,10 +366,10 @@ trait ReadXlmRoBertaForSequenceTensorflowModel
       modelPath: String,
       spark: SparkSession): XlmRoBertaForSequenceClassification = {
 
-    val detectedEngine = modelSanityCheck(modelPath)
+    val (localModelPath, detectedEngine) = modelSanityCheck(modelPath)
 
-    val spModel = loadSentencePieceAsset(modelPath, "sentencepiece.bpe.model")
-    val labels = loadTextAsset(modelPath, "labels.txt").zipWithIndex.toMap
+    val spModel = loadSentencePieceAsset(localModelPath, "sentencepiece.bpe.model")
+    val labels = loadTextAsset(localModelPath, "labels.txt").zipWithIndex.toMap
 
     val annotatorModel = new XlmRoBertaForSequenceClassification()
       .setLabels(labels)
@@ -379,7 +379,7 @@ trait ReadXlmRoBertaForSequenceTensorflowModel
     detectedEngine match {
       case ModelEngine.tensorflow =>
         val (wrapper, signatures) =
-          TensorflowWrapper.read(modelPath, zipped = false, useBundle = true)
+          TensorflowWrapper.read(localModelPath, zipped = false, useBundle = true)
 
         val _signatures = signatures match {
           case Some(s) => s
