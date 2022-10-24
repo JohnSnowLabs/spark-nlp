@@ -22,6 +22,7 @@ import com.johnsnowlabs.nlp.annotators.common.{TaggedSentence, TaggedWord}
 import com.johnsnowlabs.nlp.pretrained.ResourceDownloader
 import com.johnsnowlabs.nlp.util.io.ReadAs._
 import com.johnsnowlabs.nlp.{DocumentAssembler, Finisher}
+import com.johnsnowlabs.util.ConfigHelper
 import org.apache.commons.io.{FileUtils, IOUtils}
 import org.apache.hadoop.fs.Path
 import org.apache.spark.ml.{Pipeline, PipelineModel}
@@ -56,33 +57,46 @@ object ResourceHelper {
   def getSparkSessionWithS3(
       awsAccessKeyId: String,
       awsSecretAccessKey: String,
-      awsSessionToken: String): SparkSession = {
+      hadoopAwsVersion: String = ConfigHelper.hadoopAwsVersion,
+      AwsJavaSdkVersion: String = ConfigHelper.awsJavaSdkVersion,
+      region: String = "us-east-1",
+      s3Impl: String = "org.apache.hadoop.fs.s3a.S3AFileSystem",
+      pathStyleAccess: Boolean = true,
+      credentialsProvider: String = "TemporaryAWSCredentialsProvider",
+      awsSessionToken: Option[String] = None): SparkSession = {
 
     require(
       SparkSession.getActiveSession.isEmpty,
       "Spark session already running, can't apply new configuration for S3.")
 
-    SparkSession
+    val sparkSession = SparkSession
       .builder()
       .appName("SparkNLP Session with S3 Support")
       .master("local[*]")
       .config("spark.driver.memory", "22G")
       .config("spark.serializer", "org.apache.spark.serializer.KryoSerializer")
-      .config("spark.kryoserializer.buffer.max", "2000M")
+      .config("spark.kryoserializer.buffer.max", "1000M")
       .config("spark.driver.maxResultSize", "0")
-      .config("spark.jsl.settings.aws.credentials.access_key_id", awsAccessKeyId)
-      .config("spark.jsl.settings.aws.credentials.secret_access_key", awsSecretAccessKey)
-      .config("spark.jsl.settings.aws.credentials.session_token", awsSessionToken)
-      .config("spark.jsl.settings.aws.region", "us-east-1")
+      .config(ConfigHelper.awsExternalAccessKeyId, awsAccessKeyId)
+      .config(ConfigHelper.awsExternalSecretAccessKey, awsSecretAccessKey)
+      .config(ConfigHelper.awsExternalRegion, region)
       .config(
         "spark.hadoop.fs.s3a.aws.credentials.provider",
-        "org.apache.hadoop.fs.s3a.TemporaryAWSCredentialsProvider")
-      .config("spark.hadoop.fs.s3a.impl", "org.apache.hadoop.fs.s3a.S3AFileSystem")
+        s"org.apache.hadoop.fs.s3a.$credentialsProvider")
+      .config("spark.hadoop.fs.s3a.impl", s3Impl)
       .config(
         "spark.jars.packages",
-        "org.apache.hadoop:hadoop-aws:3.3.1,com.amazonaws:aws-java-sdk:1.11.901")
-      .config("spark.hadoop.fs.s3a.path.style.access", "true")
-      .getOrCreate()
+        "org.apache.hadoop:hadoop-aws:" + hadoopAwsVersion + ",com.amazonaws:aws-java-sdk:" + AwsJavaSdkVersion)
+      .config("spark.hadoop.fs.s3a.path.style.access", pathStyleAccess.toString)
+
+    if (credentialsProvider == "TemporaryAWSCredentialsProvider") {
+      require(
+        awsSessionToken.isDefined,
+        "AWS Session token needs to be provided for TemporaryAWSCredentialsProvider.")
+      sparkSession.config(ConfigHelper.awsExternalSessionToken, awsSessionToken.get)
+    }
+
+    sparkSession.getOrCreate()
   }
 
   lazy val spark: SparkSession = getActiveSparkSession
@@ -110,37 +124,6 @@ object ResourceHelper {
 
     val content: Seq[Iterator[String]] = openBuffers.map(c => c.getLines())
 
-    def copyToLocal(prefix: String = "sparknlp_tmp_"): String = {
-      if (fileSystem.getScheme == "file")
-        return resource
-
-      val destination = Files.createTempDirectory(prefix).toUri
-
-      fileSystem.getScheme match {
-        case "hdfs" =>
-          val files = fileSystem.listFiles(path, false)
-          while (files.hasNext) {
-            fileSystem.copyToLocalFile(files.next.getPath, new Path(destination))
-          }
-        case "dbfs" =>
-          val dbfsPath = path.toString.replace("dbfs:/", "/dbfs/")
-          val localFiles = listLocalFiles(dbfsPath)
-          localFiles.foreach { localFile =>
-            val inputStream = getResourceStream(localFile.toString)
-            val targetPath = destination + localFile.toString.split("/").last
-            val targetFile = new File(targetPath)
-            FileUtils.copyInputStreamToFile(inputStream, targetFile)
-          }
-        case _ =>
-          val files = fileSystem.listFiles(path, false)
-          while (files.hasNext) {
-            fileSystem.copyFromLocalFile(files.next.getPath, new Path(destination))
-          }
-      }
-
-      destination.toString
-    }
-
     /** Copies the resource into a local temporary folder and returns the folders URI.
       *
       * @param prefix
@@ -148,7 +131,7 @@ object ResourceHelper {
       * @return
       *   URI of the created temporary folder with the resource
       */
-    def copyToLocalSavedModel(prefix: String = "sparknlp_tmp_"): URI = {
+    def copyToLocal(prefix: String = "sparknlp_tmp_"): URI = {
       if (fileSystem.getScheme == "file")
         return path.toUri
 
@@ -194,24 +177,18 @@ object ResourceHelper {
     }
   }
 
-  def copyToLocal(path: String): String = {
-    val resource = SourceStream(path)
-    resource.copyToLocal()
-  }
-
-  def copyToLocalSavedModel(path: String): URI = try {
+  def copyToLocal(path: String): URI = try {
     if (path.startsWith("s3:/") || path.startsWith("s3a:/")) { // Download directly from S3
       ResourceDownloader.downloadS3Directory(path)
     } else { // Use Source Stream
       val resource = SourceStream(path)
-      resource.copyToLocalSavedModel()
+      resource.copyToLocal()
     }
   } catch {
     case awsE: AmazonServiceException =>
-      println(
-        "Error while retrieving folder from S3. Make sure you have set the right " +
-          "access keys with proper permissions in your configuration. For an example please see " +
-          "https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/jupyter/training/english/dl-ner/mfa_ner_graphs_s3.ipynb")
+      println("Error while retrieving folder from S3. Make sure you have set the right " +
+        "access keys with proper permissions in your configuration. For an example please see " +
+        "https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/jupyter/training/english/dl-ner/mfa_ner_graphs_s3.ipynb")
       throw awsE
     case e: Exception =>
       println(
