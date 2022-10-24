@@ -103,7 +103,7 @@ Legal documents, scrapped from the Internet, and classified in-house
 ## Benchmarking
 
 ```bash
-                   precision    recall  f1-score   support
+            label  precision    recall  f1-score   support
 books-and-records       0.91      0.94      0.92        31
             other       0.98      0.97      0.98       104
          accuracy         -         -       0.96       135
