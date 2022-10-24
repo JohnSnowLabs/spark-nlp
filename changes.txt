@@ -1,4 +1,4 @@
-docs/_includes/demomenu.html
-docs/_includes/programmingLanguageSelectPythons.html
-docs/_includes/demomenu.html
-docs/_includes/programmingLanguageSelectPythons.html
+docs/en/licensed_release_notes.md
+docs/en/spark_nlp_healthcare_versions/release_notes_4_2_1.md
+docs/en/licensed_release_notes.md
+docs/en/spark_nlp_healthcare_versions/release_notes_4_2_1.md

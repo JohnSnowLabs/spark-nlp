@@ -544,7 +544,7 @@
     <li>Being able to play with different date formats in <code class="language-plaintext highlighter-rouge">DateNormalizer</code> output.</li>
     <li>New <code class="language-plaintext highlighter-rouge">Replacer</code> annotator to replace chunks with their normalized versions (`DateNormalizer’) in documents.</li>
     <li>New <code class="language-plaintext highlighter-rouge">ModelTracer</code> helper class to generate and add model UID and timestamps of the stages in a pipeline</li>
-    <li>Added entity source and labels to the <code class="language-plaintext highlighter-rouge">AssertionFilter</code> metadata</li>
+    <li>Added entity source and labels to the <code class="language-plaintext highlighter-rouge">AssertionFilterer</code> metadata</li>
     <li>New chunk mapper and sentence entity resolver models and a pipeline for CVX</li>
     <li>Updated clinical NER models with new labels</li>
     <li>New Certification Training notebooks for the <code class="language-plaintext highlighter-rouge">johnsnowlabs</code> library</li>
@@ -767,9 +767,9 @@ Shanghai, China """</span>
 </div>
 <div class="prev_ver h3-box">
 
-  <h4 id="added-entity-source-and-labels-to-the-assertionfilter-metadata">Added Entity Source and Labels to the <code class="language-plaintext highlighter-rouge">AssertionFilter</code> Metadata</h4>
+  <h4 id="added-entity-source-and-labels-to-the-assertionfilterer-metadata">Added Entity Source and Labels to the <code class="language-plaintext highlighter-rouge">AssertionFilterer</code> Metadata</h4>
 
-  <p>Now the <code class="language-plaintext highlighter-rouge">AssertionFilter</code> annotator returns the entity source and assertion labels in the metadata.</p>
+  <p>Now the <code class="language-plaintext highlighter-rouge">AssertionFilterer</code> annotator returns the entity source and assertion labels in the metadata.</p>
 
   <p><em>Example:</em></p>
   <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">assertionFilterer</span> <span class="o">=</span> <span class="n">AssertionFilterer</span><span class="p">()</span> \
@@ -938,19 +938,22 @@ Shanghai, China """</span>
 
   <ul>
     <li>
-      <p>New <a href="https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings_JSL/Healthcare/28.EntityRuler_with_Clinical_NER_Models.ipynb">Coreference Resolution</a> notebook to find other references of clinical entities in a document.</p>
+      <p>New <a href="https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/29.Coreference_Resolution_with_Clinical_NER_Models.ipynb">Coreference Resolution</a> notebook to find other references of clinical entities in a document.</p>
     </li>
     <li>
-      <p>Updated <a href="https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings_JSL/Healthcare/1.Clinical_Named_Entity_Recognition_Model.ipynb">Clinical Name Entity Recognition Model</a> notebook with the new feature <code class="language-plaintext highlighter-rouge">setIgnoreStopWords</code> parameter and <code class="language-plaintext highlighter-rouge">ModelTracer</code> module.</p>
+      <p>Updated <a href="https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/1.Clinical_Named_Entity_Recognition_Model.ipynb">Clinical Name Entity Recognition Model</a> notebook with the new feature <code class="language-plaintext highlighter-rouge">setIgnoreStopWords</code> parameter and <code class="language-plaintext highlighter-rouge">ModelTracer</code> module.</p>
     </li>
     <li>
-      <p>Updated <a href="https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings_JSL/Healthcare/2.Clinical_Assertion_Model.ipynb">Clinical Assertion Model</a> notebook with the new changes in <code class="language-plaintext highlighter-rouge">AssertionFilter</code> improvement.</p>
+      <p>Updated <a href="https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/2.Clinical_Assertion_Model.ipynb">Clinical Assertion Model</a> notebook with the new changes in <code class="language-plaintext highlighter-rouge">AssertionFilterer</code> improvement.</p>
     </li>
     <li>
-      <p>Updated <a href="https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings_JSL/Healthcare/10.Clinical_Relation_Extraction.ipynb">Clinical Relation Extraction</a> notebook with the new <code class="language-plaintext highlighter-rouge">setRelationDirectionCol</code> parameter in <code class="language-plaintext highlighter-rouge">RelationExtractionApproach</code>.</p>
+      <p>Updated <a href="https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/4.Clinical_DeIdentification.ipynb">Clinical Deidentification</a> notebook with the new <code class="language-plaintext highlighter-rouge">setRegion</code> parameter in <code class="language-plaintext highlighter-rouge">DeIdentification</code>.</p>
     </li>
     <li>
-      <p>Updated <a href="https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings_JSL/Healthcare/25.Date_Normalizer.ipynb">Date Normalizer</a> notebook with the new <code class="language-plaintext highlighter-rouge">setOutputDateformat</code> parameter in <code class="language-plaintext highlighter-rouge">DateNormalizer</code> and <code class="language-plaintext highlighter-rouge">Replacer</code> annotator.</p>
+      <p>Updated <a href="https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/10.Clinical_Relation_Extraction.ipynb">Clinical Relation Extraction</a> notebook with the new <code class="language-plaintext highlighter-rouge">setRelationDirectionCol</code> parameter in <code class="language-plaintext highlighter-rouge">RelationExtractionApproach</code>.</p>
+    </li>
+    <li>
+      <p>Updated <a href="https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/25.Date_Normalizer.ipynb">Date Normalizer</a> notebook with the new <code class="language-plaintext highlighter-rouge">setOutputDateformat</code> parameter in <code class="language-plaintext highlighter-rouge">DateNormalizer</code> and <code class="language-plaintext highlighter-rouge">Replacer</code> annotator.</p>
     </li>
     <li>
       <p>Updated 25 Certification Training <a href="https://github.com/JohnSnowLabs/spark-nlp-workshop/tree/master/tutorials/Certification_Trainings/Public">Public notebooks</a> and 47 Certification Training <a href="https://github.com/JohnSnowLabs/spark-nlp-workshop/tree/master/tutorials/Certification_Trainings/Healthcare">Healthcare notebooks</a> with the latest updates in the libraries.</p>
