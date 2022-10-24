@@ -20,7 +20,6 @@ import com.johnsnowlabs.ml.tensorflow.sentencepiece.SentencePieceWrapper
 import com.johnsnowlabs.nlp.util.io.{ExternalResource, ReadAs, ResourceHelper}
 
 import java.io.File
-import java.net.{URI, URL}
 import java.nio.file.Paths
 import scala.io.Source
 
@@ -75,18 +74,9 @@ object LoadExternalModel {
     *   URL to the local path of the folder
     */
   def modelSanityCheck(path: String): (String, String) = {
+    val localPath: String = ResourceHelper.copyToLocal(path).getPath
 
-    val localFileUri: URI = {
-      val localModelUri = ResourceHelper.copyToLocal(path)
-
-      // Get absolute path so file protocol is included
-      if (Option(localModelUri.getScheme).isEmpty) Paths.get(localModelUri).toAbsolutePath.toUri
-      else localModelUri
-    }
-
-    val localPath: String = localFileUri.getPath
-
-    (localFileUri.toURL.getPath, detectEngine(localPath))
+    (localPath, detectEngine(localPath))
   }
 
   def loadTextAsset(assetPath: String, assetName: String): Array[String] = {
