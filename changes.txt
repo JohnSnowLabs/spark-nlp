@@ -1,2 +1,4 @@
 docs/_includes/demomenu.html
+docs/_includes/programmingLanguageSelectPythons.html
 docs/_includes/demomenu.html
+docs/_includes/programmingLanguageSelectPythons.html
