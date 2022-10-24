@@ -60,6 +60,9 @@ object ConfigHelper {
   val serializationMode = "spark.jsl.settings.annotatorSerializationFormat"
   val useBroadcast = "spark.jsl.settings.useBroadcastForFeatures"
 
+  val hadoopAwsVersion: String = "3.3.1"
+  val awsJavaSdkVersion: String = "1.11.901"
+
   def getConfigValueOrElse(property: String, defaultValue: String): String = {
     sparkSession.conf.get(property, defaultValue)
   }

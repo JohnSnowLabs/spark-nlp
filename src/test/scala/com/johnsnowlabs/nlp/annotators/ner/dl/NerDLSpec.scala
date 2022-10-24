@@ -340,7 +340,6 @@ class NerDLSpec extends AnyFlatSpec {
     ResourceHelper.getSparkSessionWithS3(
       awsAccessKeyId,
       awsSecretAccessKey,
-      "3.3.1",
       awsSessionToken = Some(awsSessionToken))
 
     val s3FolderPath = "s3://sparknlp-test/ner-dl/" // identical to the one in repository

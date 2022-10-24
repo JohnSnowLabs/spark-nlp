@@ -22,6 +22,7 @@ import com.johnsnowlabs.nlp.annotators.common.{TaggedSentence, TaggedWord}
 import com.johnsnowlabs.nlp.pretrained.ResourceDownloader
 import com.johnsnowlabs.nlp.util.io.ReadAs._
 import com.johnsnowlabs.nlp.{DocumentAssembler, Finisher}
+import com.johnsnowlabs.util.ConfigHelper
 import org.apache.commons.io.{FileUtils, IOUtils}
 import org.apache.hadoop.fs.Path
 import org.apache.spark.ml.{Pipeline, PipelineModel}
@@ -56,7 +57,8 @@ object ResourceHelper {
   def getSparkSessionWithS3(
       awsAccessKeyId: String,
       awsSecretAccessKey: String,
-      hadoopAwsVersion: String,
+      hadoopAwsVersion: String = ConfigHelper.hadoopAwsVersion,
+      AwsJavaSdkVersion: String = ConfigHelper.awsJavaSdkVersion,
       region: String = "us-east-1",
       s3Impl: String = "org.apache.hadoop.fs.s3a.S3AFileSystem",
       pathStyleAccess: Boolean = true,
@@ -75,23 +77,23 @@ object ResourceHelper {
       .config("spark.serializer", "org.apache.spark.serializer.KryoSerializer")
       .config("spark.kryoserializer.buffer.max", "1000M")
       .config("spark.driver.maxResultSize", "0")
-      .config("spark.jsl.settings.aws.credentials.access_key_id", awsAccessKeyId)
-      .config("spark.jsl.settings.aws.credentials.secret_access_key", awsSecretAccessKey)
-      .config("spark.jsl.settings.aws.region", region)
+      .config(ConfigHelper.awsExternalAccessKeyId, awsAccessKeyId)
+      .config(ConfigHelper.awsExternalSecretAccessKey, awsSecretAccessKey)
+      .config(ConfigHelper.awsExternalRegion, region)
       .config(
         "spark.hadoop.fs.s3a.aws.credentials.provider",
         s"org.apache.hadoop.fs.s3a.$credentialsProvider")
       .config("spark.hadoop.fs.s3a.impl", s3Impl)
       .config(
         "spark.jars.packages",
-        "org.apache.hadoop:hadoop-aws:" + hadoopAwsVersion + ",com.amazonaws:aws-java-sdk:1.11.901")
+        "org.apache.hadoop:hadoop-aws:" + hadoopAwsVersion + ",com.amazonaws:aws-java-sdk:" + AwsJavaSdkVersion)
       .config("spark.hadoop.fs.s3a.path.style.access", pathStyleAccess.toString)
 
     if (credentialsProvider == "TemporaryAWSCredentialsProvider") {
       require(
         awsSessionToken.isDefined,
         "AWS Session token needs to be provided for TemporaryAWSCredentialsProvider.")
-      sparkSession.config("spark.jsl.settings.aws.credentials.session_token", awsSessionToken.get)
+      sparkSession.config(ConfigHelper.awsExternalSessionToken, awsSessionToken.get)
     }
 
     sparkSession.getOrCreate()
