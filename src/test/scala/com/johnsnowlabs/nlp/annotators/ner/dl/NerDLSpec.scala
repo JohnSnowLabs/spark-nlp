@@ -337,7 +337,11 @@ class NerDLSpec extends AnyFlatSpec {
     val awsSecretAccessKey = sys.env("AWS_SECRET_ACCESS_KEY")
     val awsSessionToken = sys.env("AWS_SESSION_TOKEN")
 
-    ResourceHelper.getSparkSessionWithS3(awsAccessKeyId, awsSecretAccessKey, awsSessionToken)
+    ResourceHelper.getSparkSessionWithS3(
+      awsAccessKeyId,
+      awsSecretAccessKey,
+      "3.3.1",
+      awsSessionToken = Some(awsSessionToken))
 
     val s3FolderPath = "s3://sparknlp-test/ner-dl/" // identical to the one in repository
     val smallGraphFile = NerDLApproach.searchForSuitableGraph(10, 100, 120, Some(s3FolderPath))

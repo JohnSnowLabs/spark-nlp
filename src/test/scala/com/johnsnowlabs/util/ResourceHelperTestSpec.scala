@@ -170,21 +170,21 @@ class ResourceHelperTestSpec extends AnyFlatSpec {
     }
   }
 
-  it should "not copyToLocalSavedModel a local file" taggedAs FastTest in {
+  it should "not copyToLocal a local file" taggedAs FastTest in {
     val resourcePath = "src/test/resources/tf-hub-bert/model"
-    val tmpFolder: String = ResourceHelper.copyToLocalSavedModel(resourcePath).getPath
+    val tmpFolder: String = ResourceHelper.copyToLocal(resourcePath).getPath
 
     assert(resourcePath == tmpFolder, "Folder should not have been copied.")
   }
 
   // Local HDFS needs to be set up
-  ignore should "copyToLocalSavedModel from hdfs" taggedAs SlowTest in {
+  ignore should "copyToLocal from hdfs" taggedAs SlowTest in {
 
     // Folder
     val hdfsFolderPath = "hdfs://localhost:9000/sparknlp/tf-hub-bert/model"
     val resourcePath = "src/test/resources/tf-hub-bert/model"
     val resourceFolderContent: Array[String] = new File(resourcePath).listFiles().map(_.getName)
-    val tmpFolder: URI = ResourceHelper.copyToLocalSavedModel(hdfsFolderPath)
+    val tmpFolder: URI = ResourceHelper.copyToLocal(hdfsFolderPath)
 
     val localPath = new File(tmpFolder)
 
@@ -197,17 +197,21 @@ class ResourceHelperTestSpec extends AnyFlatSpec {
     // Single File
     val hdfsFilePath = "hdfs://localhost:9000/sparknlp/tf-hub-bert/model/assets/vocab.txt"
 
-    val tmpFolderFile: String = ResourceHelper.copyToLocalSavedModel(hdfsFilePath).getPath
+    val tmpFolderFile: String = ResourceHelper.copyToLocal(hdfsFilePath).getPath
     assert(Paths.get(tmpFolderFile, "vocab.txt").toFile.exists(), "Copied file doesn't exist.")
   }
 
   // AWS keys need to be set up for this test
-  ignore should "copyToLocalSavedModel from s3" taggedAs SlowTest in {
+  ignore should "copyToLocal from s3" taggedAs SlowTest in {
     val awsAccessKeyId = sys.env("AWS_ACCESS_KEY_ID")
     val awsSecretAccessKey = sys.env("AWS_SECRET_ACCESS_KEY")
     val awsSessionToken = sys.env("AWS_SESSION_TOKEN")
 
-    ResourceHelper.getSparkSessionWithS3(awsAccessKeyId, awsSecretAccessKey, awsSessionToken)
+    ResourceHelper.getSparkSessionWithS3(
+      awsAccessKeyId,
+      awsSecretAccessKey,
+      "3.3.1",
+      awsSessionToken = Some(awsSessionToken))
 
     val s3FolderPath = "s3://sparknlp-test/tf-hub-bert/model"
 
@@ -215,7 +219,7 @@ class ResourceHelperTestSpec extends AnyFlatSpec {
 
     val resourceFolderContent: Array[String] = new File(resourcePath).listFiles().map(_.getName)
 
-    val localPath = ResourceHelper.copyToLocalSavedModel(s3FolderPath)
+    val localPath = ResourceHelper.copyToLocal(s3FolderPath)
     new File(localPath).listFiles().foreach { f: File =>
       assert(
         resourceFolderContent.contains(f.getName),
@@ -224,13 +228,13 @@ class ResourceHelperTestSpec extends AnyFlatSpec {
 
   }
 
-  it should "copyToLocalSavedModel should catch s3 exception" taggedAs SlowTest in {
-    ResourceHelper.getSparkSessionWithS3("NONE", "NONE", "NONE")
+  it should "copyToLocal should catch s3 exception" taggedAs SlowTest in {
+    ResourceHelper.getSparkSessionWithS3("NONE", "NONE", "3.3.1", awsSessionToken = Some("NONE"))
 
     val s3FolderPath = "s3://sparknlp-test/tf-hub-bert/model"
 
     assertThrows[AmazonServiceException] {
-      ResourceHelper.copyToLocalSavedModel(s3FolderPath)
+      ResourceHelper.copyToLocal(s3FolderPath)
     }
   }
 
