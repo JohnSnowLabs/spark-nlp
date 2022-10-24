@@ -208,10 +208,9 @@ object ResourceHelper {
     }
   } catch {
     case awsE: AmazonServiceException =>
-      println(
-        "Error while retrieving folder from S3. Make sure you have set the right " +
-          "access keys with proper permissions in your configuration. For an example please see " +
-          "https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/jupyter/training/english/dl-ner/mfa_ner_graphs_s3.ipynb")
+      println("Error while retrieving folder from S3. Make sure you have set the right " +
+        "access keys with proper permissions in your configuration. For an example please see " +
+        "https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/jupyter/training/english/dl-ner/mfa_ner_graphs_s3.ipynb")
       throw awsE
     case e: Exception =>
       println(
