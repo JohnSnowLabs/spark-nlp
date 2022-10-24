@@ -19,8 +19,8 @@ package com.johnsnowlabs.nlp.embeddings
 import com.johnsnowlabs.ml.tensorflow._
 import com.johnsnowlabs.ml.util.LoadExternalModel.{
   loadTextAsset,
-  modelSanityCheck,
-  notSupportedEngineError
+  notSupportedEngineError,
+  retrieveModel
 }
 import com.johnsnowlabs.ml.util.ModelEngine
 import com.johnsnowlabs.nlp._
@@ -408,9 +408,10 @@ trait ReadBertDLModel extends ReadTensorflowModel {
 
   def loadSavedModel(modelPath: String, spark: SparkSession): BertEmbeddings = {
 
-    val detectedEngine = modelSanityCheck(modelPath)
+    val (localModelUrl, detectedEngine) = retrieveModel(modelPath)
 
-    val vocabs = loadTextAsset(modelPath, "vocab.txt").zipWithIndex.toMap
+    val localModelPath = localModelUrl.getPath
+    val vocabs = loadTextAsset(localModelPath, "vocab.txt").zipWithIndex.toMap
 
     /*Universal parameters for all engines*/
     val annotatorModel = new BertEmbeddings()
@@ -421,7 +422,7 @@ trait ReadBertDLModel extends ReadTensorflowModel {
     detectedEngine match {
       case ModelEngine.tensorflow =>
         val (wrapper, signatures) =
-          TensorflowWrapper.read(modelPath, zipped = false, useBundle = true)
+          TensorflowWrapper.read(localModelPath, zipped = false, useBundle = true)
 
         val _signatures = signatures match {
           case Some(s) => s
