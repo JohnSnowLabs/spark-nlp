@@ -104,11 +104,11 @@ In-house annotations on financial and legal corpora
 ## Benchmarking
 
 ```bash
-label	             tp	       fp	   fn	  prec	        rec	         f1
-PRESENT	             201       11	   16	  0.9481132	    0.9262672	 0.937063
-POSSIBLE	         171       3	   6	  0.9827586 	0.9661017	 0.974359
-FUTURE	             119       6	   4	  0.952	        0.9674796	 0.959677
-PAST	             270       16	   10	  0.9440559	    0.9642857	 0.954063
-Macro-average        761       36      36     0.9567319,    0.9560336    0.9563826
-Micro-average        761       36      36     0.9548306     0.9548306    0.9548306
+label            tp      fp    fn    prec         rec         f1
+PRESENT          201     11    16    0.9481132    0.9262672   0.937063
+POSSIBLE         171     3     6     0.9827586    0.9661017   0.974359
+FUTURE           119     6     4     0.952        0.9674796   0.959677
+PAST             270     16    10    0.9440559    0.9642857   0.954063
+Macro-average    761     36    36    0.9567319    0.9560336   0.9563826
+Micro-average    761     36    36    0.9548306    0.9548306   0.9548306
 ```
