@@ -133,7 +133,7 @@ object ResourceHelper {
       */
     def copyToLocal(prefix: String = "sparknlp_tmp_"): URI = {
       if (fileSystem.getScheme == "file")
-        return path.toUri
+        return Paths.get(resource).toUri
 
       val destination: file.Path = Files.createTempDirectory(prefix)
 
