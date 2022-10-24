@@ -125,9 +125,9 @@ In-house annotations from 10K Filings
 ## Benchmarking
 
 ```bash
-label               tp     fp    fn  prec          rec           f1
-NO_COMPETITOR       158    0     1	 1.0	       0.9937107	 0.9968454
-COMPETITOR          25     1     0	 0.9615384	   1.0	         0.9803921
-Macro-average       183    1     1   0.9807692     0.9968554     0.9887469
-Micro-average       183    1     1   0.9945652     0.9945652     0.9945652
+label             tp     fp    fn   prec        rec          f1
+NO_COMPETITOR     158    0     1    1.0         0.9937107    0.9968454
+COMPETITOR        25     1     0    0.9615384   1.0          0.9803921
+Macro-average     183    1     1    0.9807692   0.9968554    0.9887469
+Micro-average     183    1     1    0.9945652   0.9945652    0.9945652
 ``` 
