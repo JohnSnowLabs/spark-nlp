@@ -210,7 +210,6 @@ class ResourceHelperTestSpec extends AnyFlatSpec {
     ResourceHelper.getSparkSessionWithS3(
       awsAccessKeyId,
       awsSecretAccessKey,
-      "3.3.1",
       awsSessionToken = Some(awsSessionToken))
 
     val s3FolderPath = "s3://sparknlp-test/tf-hub-bert/model"
@@ -229,7 +228,7 @@ class ResourceHelperTestSpec extends AnyFlatSpec {
   }
 
   it should "copyToLocal should catch s3 exception" taggedAs SlowTest in {
-    ResourceHelper.getSparkSessionWithS3("NONE", "NONE", "3.3.1", awsSessionToken = Some("NONE"))
+    ResourceHelper.getSparkSessionWithS3("NONE", "NONE", awsSessionToken = Some("NONE"))
 
     val s3FolderPath = "s3://sparknlp-test/tf-hub-bert/model"
 
