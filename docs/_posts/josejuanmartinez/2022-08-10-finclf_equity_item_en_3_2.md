@@ -41,6 +41,7 @@ Take into consideration the embeddings of this model allows up to 512 tokens. If
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
+
 ```python
 documentAssembler = nlp.DocumentAssembler() \
      .setInputCol("text") \
@@ -50,7 +51,7 @@ useEmbeddings = nlp.UniversalSentenceEncoder.pretrained() \
     .setInputCols("document") \
     .setOutputCol("sentence_embeddings")
 
-docClassifier = nlp.ClassifierDLModel.pretrained("finclf_equity_item", "en", "finance/models")\
+docClassifier = finance.ClassifierDLModel.pretrained("finclf_equity_item", "en", "finance/models")\
     .setInputCols(["sentence_embeddings"])\
     .setOutputCol("category")
     
@@ -100,12 +101,10 @@ Weak labelling on documents from Edgar database
 ## Benchmarking
 
 ```bash
-              precision    recall  f1-score   support
-
+       label  precision    recall  f1-score   support
       equity       0.84      0.85      0.84        66
        other       0.85      0.84      0.84        67
-
-    accuracy                           0.84       133
-   macro avg       0.84      0.84      0.84       133
-weighted avg       0.84      0.84      0.84       133
+    accuracy        -         -        0.84       133
+   macro-avg       0.84      0.84      0.84       133
+weighted-avg       0.84      0.84      0.84       133
 ```

@@ -38,6 +38,7 @@ This model was trained originally on 3,500 manually annotated sentences from Man
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
+
 ```python
 document_assembler = nlp.DocumentAssembler() \
     .setInputCol('text') \
@@ -102,13 +103,11 @@ In-house annotations on 10K financial reports and reports from Russell 3000 firm
 ## Benchmarking
 
 ```bash
-			      precision    recall  f1-score   support
-
-Specific FLS       0.96      0.93      0.94       311
-Non-specific FLS   0.91      0.94      0.92       215
-     Not FLS       0.84      0.87      0.85        70
-
-    accuracy                           0.92       596
-   macro avg       0.90      0.91      0.91       596
-weighted avg       0.93      0.92      0.92       596
+           label  precision    recall  f1-score   support
+    Specific_FLS       0.96      0.93      0.94       311
+Non-specific_FLS       0.91      0.94      0.92       215
+         Not_FLS       0.84      0.87      0.85        70
+        accuracy         -         -       0.92       596
+       macro avg       0.90      0.91      0.91       596
+    weighted avg       0.93      0.92      0.92       596
 ```

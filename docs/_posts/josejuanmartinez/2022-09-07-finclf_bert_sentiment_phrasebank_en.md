@@ -34,6 +34,7 @@ This model is a pre-trained NLP model to analyze sentiment of financial text. It
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
+
 ```python
 document_assembler = nlp.DocumentAssembler() \
     .setInputCol('text') \
@@ -98,13 +99,11 @@ In-house financial documents and Financial PhraseBank by Malo et al. (2014)
 ## Benchmarking
 
 ```bash
-              precision    recall  f1-score   support
-
+       label  precision    recall  f1-score   support
     positive       0.76      0.89      0.82       253
     negative       0.87      0.86      0.87       133
      neutral       0.94      0.87      0.90       584
-
-    accuracy                           0.87       970
-   macro avg       0.86      0.87      0.86       970
-weighted avg       0.88      0.87      0.88       970
+    accuracy         -         -       0.87       970
+   macro-avg       0.86      0.87      0.86       970
+weighted-avg       0.88      0.87      0.88       970
 ```

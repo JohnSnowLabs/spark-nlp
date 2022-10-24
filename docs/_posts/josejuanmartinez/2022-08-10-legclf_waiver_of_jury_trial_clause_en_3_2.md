@@ -102,13 +102,10 @@ Legal documents, scrapped from the Internet, and classified in-house
 ## Benchmarking
 
 ```bash
-                      precision    recall  f1-score   support
-
+               label  precision    recall  f1-score   support
                other       0.96      0.99      0.98       102
 waiver-of-jury-trial       0.96      0.86      0.91        28
-
-            accuracy                           0.96       130
-           macro avg       0.96      0.92      0.94       130
-        weighted avg       0.96      0.96      0.96       130
-
+            accuracy         -         -       0.96       130
+           macro-avg       0.96      0.92      0.94       130
+        weighted-avg       0.96      0.96      0.96       130
 ```

@@ -36,6 +36,7 @@ You can also use `legpipe_whereas` which includes this model and its NER and als
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
+
 ```python
 documentAssembler = nlp.DocumentAssembler()\
   .setInputCol("text")\
@@ -112,13 +113,10 @@ Manual annotations on CUAD dataset
 ## Benchmarking
 
 ```bash
-Relation           Recall Precision        F1   Support
-
-has_object          0.946     0.981     0.964        56
-has_subject         0.952     0.988     0.969        83
-no_rel              1.000     0.970     0.985       161
-
-Avg.                0.966     0.980     0.973
-
-Weighted Avg.       0.977     0.977     0.977
+label               Recall    Precision  F1          Support
+has_object          0.946     0.981      0.964        56
+has_subject         0.952     0.988      0.969        83
+no_rel              1.000     0.970      0.985       161
+Avg.                0.966     0.980      0.973        -
+Weighted-Avg.       0.977     0.977      0.977        -
 ```

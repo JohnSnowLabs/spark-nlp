@@ -34,24 +34,30 @@ Pretrained Spanish Named Entity Recognition model for detecting laws and monetar
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
+
 ```python
-documentAssembler = DocumentAssembler() \
+documentAssembler = nlp.DocumentAssembler() \
 .setInputCol("text") \
 .setOutputCol("document")
 
-sentenceDetector = SentenceDetectorDLModel.pretrained("sentence_detector_dl", "xx")\
+sentenceDetector = nlp.SentenceDetectorDLModel.pretrained("sentence_detector_dl", "xx")\
 .setInputCols(["document"])\
 .setOutputCol("sentence")
 
-tokenizer = Tokenizer() \
+tokenizer = nlp.Tokenizer() \
 .setInputCols("sentence") \
 .setOutputCol("token")
 
-tokenClassifier = RoBertaForTokenClassification.pretrained("legner_law_money", "es", "legal/models") \
+tokenClassifier = nlp.RoBertaForTokenClassification.pretrained("legner_law_money", "es", "legal/models") \
 .setInputCols(["sentence", "token"]) \
 .setOutputCol("ner")
 
-pipeline = Pipeline(stages=[documentAssembler, sentenceDetector, tokenizer, tokenClassifier])
+pipeline = Pipeline(
+    stages=[
+      documentAssembler, 
+      sentenceDetector, 
+      tokenizer, 
+      tokenClassifier])
 
 text = "La recaudación del ministerio del interior fue de 20,000,000 euros así constatado por el artículo 24 de la Constitución Española."
 
@@ -102,8 +108,7 @@ This model was trained in-house and available annotations of this [dataset](http
 ## Benchmarking
 
 ```bash
-                  precision    recall  f1-score   support
-
+           label  precision    recall  f1-score   support
              LAW       0.95      0.96      0.96        20
            MONEY       0.98      0.99      0.99       106
         accuracy         -         -       0.98       126

@@ -45,6 +45,7 @@ The difference between his model and others with the same title is the dataset i
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
+
 ```python
 documentAssembler = nlp.DocumentAssembler() \
      .setInputCol("clause_text") \
@@ -54,7 +55,7 @@ embeddings = nlp.BertSentenceEmbeddings.pretrained("sent_bert_base_cased", "en")
       .setInputCols("document") \
       .setOutputCol("sentence_embeddings")
 
-docClassifier = nlp.ClassifierDLModel.pretrained("legclf_confidential_clause", "en", "legal/models")\
+docClassifier = legal.ClassifierDLModel.pretrained("legclf_confidential_clause", "en", "legal/models")\
     .setInputCols(["sentence_embeddings"])\
     .setOutputCol("category")
     
@@ -105,13 +106,10 @@ In-house annotations on CUAD dataset
 ## Benchmarking
 
 ```bash
-                 precision    recall  f1-score   support
-
+          label  precision    recall  f1-score   support
 confidentiality       1.00      0.91      0.95        11
           other       0.95      1.00      0.97        19
-
-       accuracy                           0.97        30
-      macro avg       0.97      0.95      0.96        30
-   weighted avg       0.97      0.97      0.97        30
-
+       accuracy         -         -       0.97        30
+      macro-avg       0.97      0.95      0.96        30
+   weighted-avg       0.97      0.97      0.97        30
 ```

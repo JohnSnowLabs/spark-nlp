@@ -43,6 +43,7 @@ This model can be combined with any of the other 200+ Legal Clauses Classifiers 
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
+
 ```python
 documentAssembler = nlp.DocumentAssembler() \
      .setInputCol("clause_text") \
@@ -52,7 +53,7 @@ embeddings = nlp.BertSentenceEmbeddings.pretrained("sent_bert_base_cased", "en")
       .setInputCols("document") \
       .setOutputCol("sentence_embeddings")
 
-docClassifier = nlp.ClassifierDLModel.pretrained("legclf_section_headings_clause", "en", "legal/models")\
+docClassifier = legal.ClassifierDLModel.pretrained("legclf_section_headings_clause", "en", "legal/models")\
     .setInputCols(["sentence_embeddings"])\
     .setOutputCol("category")
     
@@ -102,13 +103,10 @@ Legal documents, scrapped from the Internet, and classified in-house
 ## Benchmarking
 
 ```bash
-                  precision    recall  f1-score   support
-
+           label  precision    recall  f1-score   support
            other       1.00      1.00      1.00       159
 section-headings       1.00      1.00      1.00        46
-
-        accuracy                           1.00       205
-       macro avg       1.00      1.00      1.00       205
-    weighted avg       1.00      1.00      1.00       205
-
+        accuracy         -         -       1.00       205
+       macro-avg       1.00      1.00      1.00       205
+    weighted-avg       1.00      1.00      1.00       205
 ```

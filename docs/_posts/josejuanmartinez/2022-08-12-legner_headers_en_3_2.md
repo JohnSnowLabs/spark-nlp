@@ -36,6 +36,7 @@ Other models can be found to detect other parts of the document, as Headers/Subh
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
+
 ```python
 documentAssembler = nlp.DocumentAssembler()\
         .setInputCol("text")\
@@ -202,12 +203,13 @@ Manual annotations on CUAD dataset
 ## Benchmarking
 
 ```bash
-label	 tp	 fp	 fn	 prec	 rec	 f1
-I-HEADER	 1486	 40	 25	 0.97378767	 0.98345464	 0.9785973
-B-SUBHEADER	 744	 16	 14	 0.97894734	 0.98153037	 0.9802372
-I-SUBHEADER	 2382	 53	 34	 0.9782341	 0.98592716	 0.98206556
-B-HEADER	 415	 4	 12	 0.9904535	 0.97189695	 0.9810875
-tp: 5027 fp: 113 fn: 85 labels: 4
-Macro-average	 prec: 0.9803556, rec: 0.9807023, f1: 0.9805289
-Micro-average	 prec: 0.97801554, rec: 0.98337245, f1: 0.98068666
+label           tp      fp    fn    prec         rec           f1
+I-HEADER        1486    40    25    0.97378767   0.98345464    0.9785973
+B-SUBHEADER     744     16    14    0.97894734   0.98153037    0.9802372
+I-SUBHEADER     2382    53    34    0.9782341    0.98592716    0.98206556
+B-HEADER        415     4     12    0.9904535    0.97189695    0.9810875
+Macro-average   5027    113   85    0.9803556    0.9807023     0.9805289
+Micro-average   5027    113   85    0.97801554   0.98337245    0.98068666
 ```
+
+

@@ -34,6 +34,7 @@ This model is a Sentiment Analysis fine-tuned model on 12K+ manually annotated (
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
+
 ```python
 document_assembler = nlp.DocumentAssembler() \
     .setInputCol('text') \
@@ -98,13 +99,11 @@ In-house annotations on financial reports
 ## Benchmarking
 
 ```bash
-              precision    recall  f1-score   support
-
+       label  precision    recall  f1-score   support
      neutral       0.91      0.87      0.89       588
     positive       0.76      0.81      0.78       251
     negative       0.83      0.87      0.85       131
-
-    accuracy                           0.86       970
-   macro avg       0.83      0.85      0.84       970
-weighted avg       0.86      0.86      0.86       970
+    accuracy         -         -       0.86       970
+   macro-avg       0.83      0.85      0.84       970
+weighted-avg       0.86      0.86      0.86       970
 ```

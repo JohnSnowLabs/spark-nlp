@@ -34,18 +34,19 @@ This is an Assertion Status Model aimed to detect temporality (PRESENT, PAST, FU
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
+
 ```python
 # YOUR NER HERE
 # ...
-embeddings = BertEmbeddings.pretrained("bert_embeddings_sec_bert_base","en") \
+embeddings = nlp.BertEmbeddings.pretrained("bert_embeddings_sec_bert_base","en") \
     .setInputCols(["sentence", "token"]) \
     .setOutputCol("embeddings")
 
-chunk_converter = ChunkConverter() \
+chunk_converter = nlp.ChunkConverter() \
     .setInputCols(["entity"]) \
     .setOutputCol("ner_chunk")
 
-assertion = leg.AssertionDLModel.pretrained("legassertion_time", "en", "legal/models")\
+assertion = legal.AssertionDLModel.pretrained("legassertion_time", "en", "legal/models")\
     .setInputCols(["sentence", "ner_chunk", "embeddings"]) \
     .setOutputCol("assertion")
     
@@ -103,12 +104,11 @@ In-house annotations on financial and legal corpora
 ## Benchmarking
 
 ```bash
-label	 tp	 fp	 fn	 prec	 rec	 f1
-PRESENT	 201	 11	 16	 0.9481132	 0.92626727	 0.937063
-POSSIBLE	 171	 3	 6	 0.98275864	 0.9661017	 0.9743589
-FUTURE	 119	 6	 4	 0.952	 0.96747965	 0.95967746
-PAST	 270	 16	 10	 0.9440559	 0.96428573	 0.9540636
-tp: 761 fp: 36 fn: 36 labels: 4
-Macro-average	 prec: 0.9567319, rec: 0.9560336, f1: 0.95638263
-Micro-average	 prec: 0.9548306, rec: 0.9548306, f1: 0.9548306
+label	             tp	       fp	   fn	  prec	        rec	         f1
+PRESENT	             201       11	   16	  0.9481132	    0.9262672	 0.937063
+POSSIBLE	         171       3	   6	  0.9827586 	0.9661017	 0.974359
+FUTURE	             119       6	   4	  0.952	        0.9674796	 0.959677
+PAST	             270       16	   10	  0.9440559	    0.9642857	 0.954063
+Macro-average        761       36      36     0.9567319,    0.9560336    0.9563826
+Micro-average        761       36      36     0.9548306     0.9548306    0.9548306
 ```

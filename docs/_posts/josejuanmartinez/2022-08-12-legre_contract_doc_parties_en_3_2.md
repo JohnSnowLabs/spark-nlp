@@ -41,6 +41,7 @@ As an output, you will get the relations linking the different concepts together
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
+
 ```python
 documentAssembler = nlp.DocumentAssembler()\
   .setInputCol("text")\
@@ -127,15 +128,12 @@ Manual annotations on CUAD dataset
 ## Benchmarking
 
 ```bash
-Relation                 Recall Precision        F1   Support
-
-dated_as                 0.962     0.962     0.962        26
-has_alias                0.936     0.946     0.941        94
-has_collective_alias     1.000     1.000     1.000         7
-no_rel                   0.982     0.980     0.981       497
-signed_by                0.961     0.961     0.961        76
-
-Avg.                     0.968     0.970     0.969
-
-Weighted Avg.            0.973     0.973     0.973
-```
+label                   Recall  Precision        F1   Support
+dated_as                 0.962      0.962     0.962        26
+has_alias                0.936      0.946     0.941        94
+has_collective_alias     1.000      1.000     1.000         7
+no_rel                   0.982      0.980     0.981       497
+signed_by                0.961      0.961     0.961        76
+Avg.                     0.968      0.970     0.969         -
+Weighted-Avg.            0.973      0.973     0.973         -
+``` 

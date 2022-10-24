@@ -43,6 +43,7 @@ This model can be combined with any of the other 200+ Legal Clauses Classifiers 
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
+
 ```python
 documentAssembler = nlp.DocumentAssembler() \
      .setInputCol("clause_text") \
@@ -52,7 +53,7 @@ embeddings = nlp.BertSentenceEmbeddings.pretrained("sent_bert_base_cased", "en")
       .setInputCols("document") \
       .setOutputCol("sentence_embeddings")
 
-docClassifier = nlp.ClassifierDLModel.pretrained("legclf_relationship_of_the_parties_clause", "en", "legal/models")\
+docClassifier = legal.ClassifierDLModel.pretrained("legclf_relationship_of_the_parties_clause", "en", "legal/models")\
     .setInputCols(["sentence_embeddings"])\
     .setOutputCol("category")
     
@@ -102,13 +103,10 @@ Legal documents, scrapped from the Internet, and classified in-house
 ## Benchmarking
 
 ```bash
-                             precision    recall  f1-score   support
-
+                      label  precision    recall  f1-score   support
                       other       0.99      1.00      0.99       241
 relationship of the parties       0.99      0.96      0.97        78
-
-                   accuracy                           0.99       319
-                  macro avg       0.99      0.98      0.98       319
-               weighted avg       0.99      0.99      0.99       319
-
+                   accuracy         -         -       0.99       319
+                  macro-avg       0.99      0.98      0.98       319
+               weighted-avg       0.99      0.99      0.99       319
 ```

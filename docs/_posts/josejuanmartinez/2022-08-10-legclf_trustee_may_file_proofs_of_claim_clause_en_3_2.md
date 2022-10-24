@@ -43,6 +43,7 @@ This model can be combined with any of the other 200+ Legal Clauses Classifiers 
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
+
 ```python
 documentAssembler = nlp.DocumentAssembler() \
      .setInputCol("clause_text") \
@@ -52,7 +53,7 @@ embeddings = nlp.BertSentenceEmbeddings.pretrained("sent_bert_base_cased", "en")
       .setInputCols("document") \
       .setOutputCol("sentence_embeddings")
 
-docClassifier = nlp.ClassifierDLModel.pretrained("legclf_trustee_may_file_proofs_of_claim_clause", "en", "legal/models")\
+docClassifier = legal.ClassifierDLModel.pretrained("legclf_trustee_may_file_proofs_of_claim_clause", "en", "legal/models")\
     .setInputCols(["sentence_embeddings"])\
     .setOutputCol("category")
     
@@ -102,13 +103,10 @@ Legal documents, scrapped from the Internet, and classified in-house
 ## Benchmarking
 
 ```bash
-                                  precision    recall  f1-score   support
-
+                           label  precision    recall  f1-score   support
                            other       0.97      0.97      0.97        30
 trustee-may-file-proofs-of-claim       0.93      0.93      0.93        15
-
-                        accuracy                           0.96        45
-                       macro avg       0.95      0.95      0.95        45
-                    weighted avg       0.96      0.96      0.96        45
-
+                        accuracy         -         -       0.96        45
+                       macro-avg       0.95      0.95      0.95        45
+                    weighted-avg       0.96      0.96      0.96        45
 ```

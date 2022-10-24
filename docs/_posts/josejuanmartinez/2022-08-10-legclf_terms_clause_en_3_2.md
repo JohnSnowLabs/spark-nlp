@@ -52,7 +52,7 @@ embeddings = nlp.BertSentenceEmbeddings.pretrained("sent_bert_base_cased", "en")
       .setInputCols("document") \
       .setOutputCol("sentence_embeddings")
 
-docClassifier = nlp.ClassifierDLModel.pretrained("legclf_terms_clause", "en", "legal/models")\
+docClassifier = legal.ClassifierDLModel.pretrained("legclf_terms_clause", "en", "legal/models")\
     .setInputCols(["sentence_embeddings"])\
     .setOutputCol("category")
     
@@ -102,13 +102,10 @@ Legal documents, scrapped from the Internet, and classified in-house
 ## Benchmarking
 
 ```bash
-              precision    recall  f1-score   support
-
+       label  precision    recall  f1-score   support
        other       0.92      0.95      0.93       577
        terms       0.88      0.82      0.85       271
-
-    accuracy                           0.91       848
-   macro avg       0.90      0.88      0.89       848
-weighted avg       0.91      0.91      0.91       848
-
+    accuracy         -         -       0.91       848
+   macro-avg       0.90      0.88      0.89       848
+weighted-avg       0.91      0.91      0.91       848
 ```
