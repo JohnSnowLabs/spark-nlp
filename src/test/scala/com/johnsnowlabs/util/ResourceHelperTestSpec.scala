@@ -227,7 +227,7 @@ class ResourceHelperTestSpec extends AnyFlatSpec {
 
   }
 
-  it should "copyToLocal should catch s3 exception" taggedAs SlowTest in {
+  ignore should "copyToLocal should catch s3 exception" taggedAs SlowTest in {
     ResourceHelper.getSparkSessionWithS3("NONE", "NONE", awsSessionToken = Some("NONE"))
 
     val s3FolderPath = "s3://sparknlp-test/tf-hub-bert/model"
