@@ -50,22 +50,7 @@
           </li>
         </ul>
       </div>
-      <div class="col-side">
-        <ul class="acc-top"><li class="acc-top-item">Biomedical NLP<i class="fas fa-chevron-down"></i></li></ul>
-        <ul class="acc-body">          
-          <li {% if _section.secheader %} {% for child in _section.secheader %} {% if child.activemenu == "genes_variants_phenotypes" %} class="active"  {% endif %} {% endfor %} {% endif %} >
-            <a href="/genes_variants_phenotypes">Genes, Variants, Phenotypes</a>
-          </li>
-          <li {% if _section.secheader %} {% for child in _section.secheader %} {% if child.activemenu == "clinical_trials" %} class="active"  {% endif %} {% endfor %} {% endif %} >
-            <a href="/clinical_trials">Clinical Trials</a>
-          </li>
-          <li {% if _section.secheader %} {% for child in _section.secheader %} {% if child.activemenu == "biomedical_research" %} class="active"  {% endif %} {% endfor %} {% endif %} >
-            <a href="/biomedical_research">Biomedical Research</a>
-          </li>
-          <li {% if _section.secheader %} {% for child in _section.secheader %} {% if child.activemenu == "public_health" %} class="active"  {% endif %} {% endfor %} {% endif %} >
-            <a href="/public_health">Vaccines &amp; Public Health</a>
-          </li>
-        </ul> 
+      <div class="col-side">        
         <ul class="acc-top"><li class="acc-top-item">Clinical NLP<i class="fas fa-chevron-down"></i></li></ul>
         <ul class="acc-body"> 
           <li {% if _section.secheader %} {% for child in _section.secheader %} {% if child.activemenu == "deidentification" %} class="active"  {% endif %} {% endfor %} {% endif %} >
@@ -94,6 +79,21 @@
           </li>
           <li {% if _section.secheader %} {% for child in _section.secheader %} {% if child.activemenu == "databricks_solution_accelerators" %} class="active"  {% endif %} {% endfor %} {% endif %} >
             <a href="/databricks_solution_accelerators">Databricks Solution Accelerators</a>
+          </li>
+        </ul> 
+        <ul class="acc-top"><li class="acc-top-item">Biomedical NLP<i class="fas fa-chevron-down"></i></li></ul>
+        <ul class="acc-body">          
+          <li {% if _section.secheader %} {% for child in _section.secheader %} {% if child.activemenu == "genes_variants_phenotypes" %} class="active"  {% endif %} {% endfor %} {% endif %} >
+            <a href="/genes_variants_phenotypes">Genes, Variants, Phenotypes</a>
+          </li>
+          <li {% if _section.secheader %} {% for child in _section.secheader %} {% if child.activemenu == "clinical_trials" %} class="active"  {% endif %} {% endfor %} {% endif %} >
+            <a href="/clinical_trials">Clinical Trials</a>
+          </li>
+          <li {% if _section.secheader %} {% for child in _section.secheader %} {% if child.activemenu == "biomedical_research" %} class="active"  {% endif %} {% endfor %} {% endif %} >
+            <a href="/biomedical_research">Biomedical Research</a>
+          </li>
+          <li {% if _section.secheader %} {% for child in _section.secheader %} {% if child.activemenu == "public_health" %} class="active"  {% endif %} {% endfor %} {% endif %} >
+            <a href="/public_health">Vaccines &amp; Public Health</a>
           </li>
         </ul> 
         <ul class="acc-top"><li class="acc-top-item">Medical NLP: World Languages<i class="fas fa-chevron-down"></i></li></ul>
