@@ -337,10 +337,10 @@ trait ReadXlmRoBertaForTokenTensorflowModel
 
   def loadSavedModel(modelPath: String, spark: SparkSession): XlmRoBertaForTokenClassification = {
 
-    val detectedEngine = modelSanityCheck(modelPath)
+    val (localModelPath, detectedEngine) = modelSanityCheck(modelPath)
 
-    val spModel = loadSentencePieceAsset(modelPath, "sentencepiece.bpe.model")
-    val labels = loadTextAsset(modelPath, "labels.txt").zipWithIndex.toMap
+    val spModel = loadSentencePieceAsset(localModelPath, "sentencepiece.bpe.model")
+    val labels = loadTextAsset(localModelPath, "labels.txt").zipWithIndex.toMap
 
     val annotatorModel = new XlmRoBertaForTokenClassification()
       .setLabels(labels)
@@ -350,7 +350,7 @@ trait ReadXlmRoBertaForTokenTensorflowModel
     detectedEngine match {
       case ModelEngine.tensorflow =>
         val (wrapper, signatures) =
-          TensorflowWrapper.read(modelPath, zipped = false, useBundle = true)
+          TensorflowWrapper.read(localModelPath, zipped = false, useBundle = true)
 
         val _signatures = signatures match {
           case Some(s) => s

@@ -379,16 +379,16 @@ trait ReadRoBertaForSequenceTensorflowModel extends ReadTensorflowModel {
   addReader(readTensorflow)
 
   def loadSavedModel(modelPath: String, spark: SparkSession): RoBertaForSequenceClassification = {
-    val detectedEngine = modelSanityCheck(modelPath)
+    val (localModelPath, detectedEngine) = modelSanityCheck(modelPath)
 
-    val vocabs = loadTextAsset(modelPath, "vocab.txt").zipWithIndex.toMap
-    val bytePairs = loadTextAsset(modelPath, "merges.txt")
+    val vocabs = loadTextAsset(localModelPath, "vocab.txt").zipWithIndex.toMap
+    val bytePairs = loadTextAsset(localModelPath, "merges.txt")
       .map(_.split(" "))
       .filter(w => w.length == 2)
       .map { case Array(c1, c2) => (c1, c2) }
       .zipWithIndex
       .toMap
-    val labels = loadTextAsset(modelPath, "labels.txt").zipWithIndex.toMap
+    val labels = loadTextAsset(localModelPath, "labels.txt").zipWithIndex.toMap
 
     val annotatorModel = new RoBertaForSequenceClassification()
       .setVocabulary(vocabs)
@@ -400,7 +400,7 @@ trait ReadRoBertaForSequenceTensorflowModel extends ReadTensorflowModel {
     detectedEngine match {
       case ModelEngine.tensorflow =>
         val (wrapper, signatures) =
-          TensorflowWrapper.read(modelPath, zipped = false, useBundle = true)
+          TensorflowWrapper.read(localModelPath, zipped = false, useBundle = true)
 
         val _signatures = signatures match {
           case Some(s) => s

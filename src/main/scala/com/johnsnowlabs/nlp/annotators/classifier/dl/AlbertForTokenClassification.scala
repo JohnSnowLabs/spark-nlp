@@ -333,10 +333,10 @@ trait ReadAlbertForTokenTensorflowModel extends ReadTensorflowModel with ReadSen
 
   def loadSavedModel(modelPath: String, spark: SparkSession): AlbertForTokenClassification = {
 
-    val detectedEngine = modelSanityCheck(modelPath)
+    val (localModelPath, detectedEngine) = modelSanityCheck(modelPath)
 
-    val spModel = loadSentencePieceAsset(modelPath, "spiece.model")
-    val labels = loadTextAsset(modelPath, "labels.txt").zipWithIndex.toMap
+    val spModel = loadSentencePieceAsset(localModelPath, "spiece.model")
+    val labels = loadTextAsset(localModelPath, "labels.txt").zipWithIndex.toMap
 
     val annotatorModel = new AlbertForTokenClassification()
       .setLabels(labels)
@@ -346,7 +346,7 @@ trait ReadAlbertForTokenTensorflowModel extends ReadTensorflowModel with ReadSen
     detectedEngine match {
       case ModelEngine.tensorflow =>
         val (wrapper, signatures) =
-          TensorflowWrapper.read(modelPath, zipped = false, useBundle = true)
+          TensorflowWrapper.read(localModelPath, zipped = false, useBundle = true)
 
         val _signatures = signatures match {
           case Some(s) => s

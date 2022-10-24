@@ -371,9 +371,9 @@ trait ReadXlmRobertaSentenceDLModel extends ReadTensorflowModel with ReadSentenc
 
   def loadSavedModel(modelPath: String, spark: SparkSession): XlmRoBertaSentenceEmbeddings = {
 
-    val detectedEngine = modelSanityCheck(modelPath)
+    val (localModelPath, detectedEngine) = modelSanityCheck(modelPath)
 
-    val spModel = loadSentencePieceAsset(modelPath, "sentencepiece.bpe.model")
+    val spModel = loadSentencePieceAsset(localModelPath, "sentencepiece.bpe.model")
 
     /*Universal parameters for all engines*/
     val annotatorModel = new XlmRoBertaSentenceEmbeddings()
@@ -383,7 +383,7 @@ trait ReadXlmRobertaSentenceDLModel extends ReadTensorflowModel with ReadSentenc
     detectedEngine match {
       case ModelEngine.tensorflow =>
         val (wrapper, signatures) =
-          TensorflowWrapper.read(modelPath, zipped = false, useBundle = true)
+          TensorflowWrapper.read(localModelPath, zipped = false, useBundle = true)
 
         val _signatures = signatures match {
           case Some(s) => s

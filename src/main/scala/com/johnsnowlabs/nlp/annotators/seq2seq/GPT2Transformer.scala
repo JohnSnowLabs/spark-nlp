@@ -525,11 +525,11 @@ trait ReadGPT2TransformerTensorflowModel extends ReadTensorflowModel {
 
   def loadSavedModel(modelPath: String, spark: SparkSession): GPT2Transformer = {
 
-    val detectedEngine = modelSanityCheck(modelPath)
+    val (localModelPath, detectedEngine) = modelSanityCheck(modelPath)
 
-    val vocabs = loadTextAsset(modelPath, "vocab.txt").zipWithIndex.toMap
+    val vocabs = loadTextAsset(localModelPath, "vocab.txt").zipWithIndex.toMap
 
-    val bytePairs = loadTextAsset(modelPath, "merges.txt")
+    val bytePairs = loadTextAsset(localModelPath, "merges.txt")
       .map(_.split(" "))
       .filter(w => w.length == 2)
       .map { case Array(c1, c2) => (c1, c2) }
@@ -547,7 +547,7 @@ trait ReadGPT2TransformerTensorflowModel extends ReadTensorflowModel {
       case ModelEngine.tensorflow =>
         val (wrapper, _) =
           TensorflowWrapper.read(
-            modelPath,
+            localModelPath,
             zipped = false,
             useBundle = true,
             tags = Array("serve"))

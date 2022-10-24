@@ -527,19 +527,19 @@ trait ReadT5TransformerTensorflowModel extends ReadTensorflowModel with ReadSent
 
   def loadSavedModel(modelPath: String, spark: SparkSession): T5Transformer = {
 
-    val detectedEngine = modelSanityCheck(modelPath)
+    val (localModelPath, detectedEngine) = modelSanityCheck(modelPath)
 
     /*Universal parameters for all engines*/
     val annotatorModel = new T5Transformer()
 
     annotatorModel.set(annotatorModel.engine, detectedEngine)
 
-    val spModel = loadSentencePieceAsset(modelPath, "spiece.model")
+    val spModel = loadSentencePieceAsset(localModelPath, "spiece.model")
 
     detectedEngine match {
       case ModelEngine.tensorflow =>
         val (wrapper, signatures) = TensorflowWrapper.read(
-          modelPath,
+          localModelPath,
           zipped = false,
           useBundle = true,
           tags = Array("serve"),

@@ -330,10 +330,10 @@ trait ReadLanguageDetectorDLTensorflowModel extends ReadTensorflowModel {
 
   def loadSavedModel(modelPath: String, spark: SparkSession): LanguageDetectorDL = {
 
-    val detectedEngine = modelSanityCheck(modelPath)
+    val (localModelPath, detectedEngine) = modelSanityCheck(modelPath)
 
-    val alphabets = loadTextAsset(modelPath, "alphabet.txt").zipWithIndex.toMap
-    val languages = loadTextAsset(modelPath, "language.txt").zipWithIndex.toMap
+    val alphabets = loadTextAsset(localModelPath, "alphabet.txt").zipWithIndex.toMap
+    val languages = loadTextAsset(localModelPath, "language.txt").zipWithIndex.toMap
 
     /*Universal parameters for all engines*/
     val annotatorModel = new LanguageDetectorDL()
@@ -346,7 +346,7 @@ trait ReadLanguageDetectorDLTensorflowModel extends ReadTensorflowModel {
       case ModelEngine.tensorflow =>
         val (wrapper, _) =
           TensorflowWrapper.read(
-            modelPath,
+            localModelPath,
             zipped = false,
             useBundle = true,
             tags = Array("serve"))

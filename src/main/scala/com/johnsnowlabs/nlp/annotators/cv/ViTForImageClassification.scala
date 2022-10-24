@@ -344,15 +344,15 @@ trait ReadViTForImageTensorflowModel extends ReadTensorflowModel {
 
   def loadSavedModel(modelPath: String, spark: SparkSession): ViTForImageClassification = {
 
-    val detectedEngine = modelSanityCheck(modelPath)
+    val (localModelPath, detectedEngine) = modelSanityCheck(modelPath)
 
-    val labelJsonContent = loadJsonStringAsset(modelPath, "labels.json")
+    val labelJsonContent = loadJsonStringAsset(localModelPath, "labels.json")
     val labelJsonMap =
       parse(labelJsonContent, useBigIntForLong = true).values
         .asInstanceOf[Map[String, BigInt]]
 
     val preprocessorConfigJsonContent =
-      loadJsonStringAsset(modelPath, "preprocessor_config.json")
+      loadJsonStringAsset(localModelPath, "preprocessor_config.json")
     val preprocessorConfig =
       Preprocessor.loadPreprocessorConfig(preprocessorConfigJsonContent)
 
@@ -372,7 +372,7 @@ trait ReadViTForImageTensorflowModel extends ReadTensorflowModel {
     detectedEngine match {
       case ModelEngine.tensorflow =>
         val (wrapper, signatures) =
-          TensorflowWrapper.read(modelPath, zipped = false, useBundle = true)
+          TensorflowWrapper.read(localModelPath, zipped = false, useBundle = true)
 
         val _signatures = signatures match {
           case Some(s) => s

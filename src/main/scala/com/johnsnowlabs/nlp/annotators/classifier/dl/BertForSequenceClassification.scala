@@ -371,10 +371,10 @@ trait ReadBertForSequenceTensorflowModel extends ReadTensorflowModel {
 
   def loadSavedModel(modelPath: String, spark: SparkSession): BertForSequenceClassification = {
 
-    val detectedEngine = modelSanityCheck(modelPath)
+    val (localModelPath, detectedEngine) = modelSanityCheck(modelPath)
 
-    val vocabs = loadTextAsset(modelPath, "vocab.txt").zipWithIndex.toMap
-    val labels = loadTextAsset(modelPath, "labels.txt").zipWithIndex.toMap
+    val vocabs = loadTextAsset(localModelPath, "vocab.txt").zipWithIndex.toMap
+    val labels = loadTextAsset(localModelPath, "labels.txt").zipWithIndex.toMap
 
     val annotatorModel = new BertForSequenceClassification()
       .setVocabulary(vocabs)
@@ -385,7 +385,7 @@ trait ReadBertForSequenceTensorflowModel extends ReadTensorflowModel {
     detectedEngine match {
       case ModelEngine.tensorflow =>
         val (wrapper, signatures) =
-          TensorflowWrapper.read(modelPath, zipped = false, useBundle = true)
+          TensorflowWrapper.read(localModelPath, zipped = false, useBundle = true)
 
         val _signatures = signatures match {
           case Some(s) => s

@@ -351,9 +351,9 @@ trait ReadCamemBertDLModel extends ReadTensorflowModel with ReadSentencePieceMod
 
   def loadSavedModel(modelPath: String, spark: SparkSession): CamemBertEmbeddings = {
 
-    val detectedEngine = modelSanityCheck(modelPath)
+    val (localModelPath, detectedEngine) = modelSanityCheck(modelPath)
 
-    val spModel = loadSentencePieceAsset(modelPath, "sentencepiece.bpe.model")
+    val spModel = loadSentencePieceAsset(localModelPath, "sentencepiece.bpe.model")
 
     /*Universal parameters for all engines*/
     val annotatorModel = new CamemBertEmbeddings()
@@ -363,7 +363,7 @@ trait ReadCamemBertDLModel extends ReadTensorflowModel with ReadSentencePieceMod
     detectedEngine match {
       case ModelEngine.tensorflow =>
         val (wrapper, signatures) =
-          TensorflowWrapper.read(modelPath, zipped = false, useBundle = true)
+          TensorflowWrapper.read(localModelPath, zipped = false, useBundle = true)
 
         val _signatures = signatures match {
           case Some(s) => s

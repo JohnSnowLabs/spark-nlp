@@ -365,10 +365,10 @@ trait ReadDeBertaForSequenceTensorflowModel
 
   def loadSavedModel(modelPath: String, spark: SparkSession): DeBertaForSequenceClassification = {
 
-    val detectedEngine = modelSanityCheck(modelPath)
+    val (localModelPath, detectedEngine) = modelSanityCheck(modelPath)
 
-    val spModel = loadSentencePieceAsset(modelPath, "spm.model")
-    val labels = loadTextAsset(modelPath, "labels.txt").zipWithIndex.toMap
+    val spModel = loadSentencePieceAsset(localModelPath, "spm.model")
+    val labels = loadTextAsset(localModelPath, "labels.txt").zipWithIndex.toMap
 
     val annotatorModel = new DeBertaForSequenceClassification()
       .setLabels(labels)
@@ -378,7 +378,7 @@ trait ReadDeBertaForSequenceTensorflowModel
     detectedEngine match {
       case ModelEngine.tensorflow =>
         val (wrapper, signatures) =
-          TensorflowWrapper.read(modelPath, zipped = false, useBundle = true)
+          TensorflowWrapper.read(localModelPath, zipped = false, useBundle = true)
 
         val _signatures = signatures match {
           case Some(s) => s

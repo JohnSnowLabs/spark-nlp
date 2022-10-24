@@ -415,11 +415,11 @@ trait ReadRobertaSentenceDLModel extends ReadTensorflowModel {
 
   def loadSavedModel(modelPath: String, spark: SparkSession): RoBertaSentenceEmbeddings = {
 
-    val detectedEngine = modelSanityCheck(modelPath)
+    val (localModelPath, detectedEngine) = modelSanityCheck(modelPath)
 
-    val vocabs = loadTextAsset(modelPath, "vocab.txt").zipWithIndex.toMap
+    val vocabs = loadTextAsset(localModelPath, "vocab.txt").zipWithIndex.toMap
 
-    val bytePairs = loadTextAsset(modelPath, "merges.txt")
+    val bytePairs = loadTextAsset(localModelPath, "merges.txt")
       .map(_.split(" "))
       .filter(w => w.length == 2)
       .map { case Array(c1, c2) => (c1, c2) }
@@ -436,7 +436,7 @@ trait ReadRobertaSentenceDLModel extends ReadTensorflowModel {
     detectedEngine match {
       case ModelEngine.tensorflow =>
         val (wrapper, signatures) =
-          TensorflowWrapper.read(modelPath, zipped = false, useBundle = true)
+          TensorflowWrapper.read(localModelPath, zipped = false, useBundle = true)
 
         val _signatures = signatures match {
           case Some(s) => s

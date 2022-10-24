@@ -316,9 +316,9 @@ trait ReadDistilBertForQATensorflowModel extends ReadTensorflowModel {
 
   def loadSavedModel(modelPath: String, spark: SparkSession): DistilBertForQuestionAnswering = {
 
-    val detectedEngine = modelSanityCheck(modelPath)
+    val (localModelPath, detectedEngine) = modelSanityCheck(modelPath)
 
-    val vocabs = loadTextAsset(modelPath, "vocab.txt").zipWithIndex.toMap
+    val vocabs = loadTextAsset(localModelPath, "vocab.txt").zipWithIndex.toMap
 
     /*Universal parameters for all engines*/
     val annotatorModel = new DistilBertForQuestionAnswering()
@@ -329,7 +329,7 @@ trait ReadDistilBertForQATensorflowModel extends ReadTensorflowModel {
     detectedEngine match {
       case ModelEngine.tensorflow =>
         val (wrapper, signatures) =
-          TensorflowWrapper.read(modelPath, zipped = false, useBundle = true)
+          TensorflowWrapper.read(localModelPath, zipped = false, useBundle = true)
 
         val _signatures = signatures match {
           case Some(s) => s
