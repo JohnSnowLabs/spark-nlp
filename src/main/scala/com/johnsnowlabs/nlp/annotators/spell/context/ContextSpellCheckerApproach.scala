@@ -753,7 +753,9 @@ class ContextSpellCheckerApproach(override val uid: String)
   private def getGraphFiles(localGraphPath: Option[String]): Seq[String] = {
     val graphFiles = localGraphPath
       .map(path =>
-        ResourceHelper.listLocalFiles(ResourceHelper.copyToLocal(path)).map(_.getAbsolutePath))
+        ResourceHelper
+          .listLocalFiles(ResourceHelper.copyToLocal(path).getPath)
+          .map(_.getAbsolutePath))
       .getOrElse(ResourceHelper.listResourceDirectory("/spell_nlm"))
 
     graphFiles
