@@ -633,7 +633,8 @@ trait WithGraphResolver {
   private def getFiles(localGraphPath: Option[String]): Seq[String] = {
     var files: Seq[String] = List()
 
-    if (localGraphPath.isDefined && localGraphPath.get.startsWith("s3://")) {
+    if (localGraphPath.isDefined && localGraphPath.get
+        .startsWith("s3://")) { // TODO: Might be able to remove this condition
 
       val tmpDirectory = ResourceDownloader.downloadS3Directory(localGraphPath.get).getPath
 
@@ -650,7 +651,7 @@ trait WithGraphResolver {
         files = localGraphPath
           .map(path =>
             ResourceHelper
-              .listLocalFiles(ResourceHelper.copyToLocal(path))
+              .listLocalFiles(ResourceHelper.copyToLocal(path).getPath)
               .map(_.getAbsolutePath))
           .getOrElse(ResourceHelper.listResourceDirectory("/ner-dl"))
       }

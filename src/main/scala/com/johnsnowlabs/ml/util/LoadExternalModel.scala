@@ -76,7 +76,7 @@ object LoadExternalModel {
   def retrieveModel(path: String): (URL, String) = {
 
     val localFileUri: URI = {
-      val localModelUri = ResourceHelper.copyToLocalSavedModel(path)
+      val localModelUri = ResourceHelper.copyToLocal(path)
 
       // Get absolute path so file protocol is included
       if (Option(localModelUri.getScheme).isEmpty) Paths.get(localModelUri).toAbsolutePath.toUri
