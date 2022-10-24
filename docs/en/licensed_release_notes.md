@@ -23,7 +23,7 @@ sidebar:
 + Being able to play with different date formats in `DateNormalizer` output.
 + New `Replacer` annotator to replace chunks with their normalized versions (`DateNormalizer') in documents.
 + New `ModelTracer` helper class to generate and add model UID and timestamps of the stages in a pipeline
-+ Added entity source and labels to the `AssertionFilter` metadata
++ Added entity source and labels to the `AssertionFilterer` metadata
 + New chunk mapper and sentence entity resolver models and a pipeline for CVX
 + Updated clinical NER models with new labels
 + New Certification Training notebooks for the `johnsnowlabs` library
@@ -250,9 +250,9 @@ result.show(truncate=False)
 
 </div><div class="prev_ver h3-box" markdown="1">
 
-#### Added Entity Source and Labels to the `AssertionFilter` Metadata
+#### Added Entity Source and Labels to the `AssertionFilterer` Metadata
 
-Now the `AssertionFilter` annotator returns the entity source and assertion labels in the metadata.
+Now the `AssertionFilterer` annotator returns the entity source and assertion labels in the metadata.
 
 *Example:*
 ```python
@@ -406,15 +406,17 @@ Now we have 46 new [Healtcare Certification Training notebooks](https://github.c
 
 #### New and Updated Notebooks
 
-+ New [Coreference Resolution](https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings_JSL/Healthcare/28.EntityRuler_with_Clinical_NER_Models.ipynb) notebook to find other references of clinical entities in a document.
++ New [Coreference Resolution](https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/29.Coreference_Resolution_with_Clinical_NER_Models.ipynb) notebook to find other references of clinical entities in a document.
 
-+ Updated [Clinical Name Entity Recognition Model](https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings_JSL/Healthcare/1.Clinical_Named_Entity_Recognition_Model.ipynb) notebook with the new feature `setIgnoreStopWords` parameter and `ModelTracer` module.
++ Updated [Clinical Name Entity Recognition Model](https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/1.Clinical_Named_Entity_Recognition_Model.ipynb) notebook with the new feature `setIgnoreStopWords` parameter and `ModelTracer` module.
 
-+ Updated [Clinical Assertion Model](https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings_JSL/Healthcare/2.Clinical_Assertion_Model.ipynb) notebook with the new changes in `AssertionFilter` improvement.
++ Updated [Clinical Assertion Model](https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/2.Clinical_Assertion_Model.ipynb) notebook with the new changes in `AssertionFilterer` improvement.
 
-+ Updated [Clinical Relation Extraction](https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings_JSL/Healthcare/10.Clinical_Relation_Extraction.ipynb) notebook with the new `setRelationDirectionCol` parameter in `RelationExtractionApproach`.
++ Updated [Clinical Deidentification](https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/4.Clinical_DeIdentification.ipynb) notebook with the new `setRegion` parameter in `DeIdentification`.
 
-+ Updated [Date Normalizer](https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings_JSL/Healthcare/25.Date_Normalizer.ipynb) notebook with the new `setOutputDateformat` parameter in `DateNormalizer` and `Replacer` annotator.
++ Updated [Clinical Relation Extraction](https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/10.Clinical_Relation_Extraction.ipynb) notebook with the new `setRelationDirectionCol` parameter in `RelationExtractionApproach`.
+
++ Updated [Date Normalizer](https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/25.Date_Normalizer.ipynb) notebook with the new `setOutputDateformat` parameter in `DateNormalizer` and `Replacer` annotator.
 
 + Updated 25 Certification Training [Public notebooks](https://github.com/JohnSnowLabs/spark-nlp-workshop/tree/master/tutorials/Certification_Trainings/Public) and 47 Certification Training [Healthcare notebooks](https://github.com/JohnSnowLabs/spark-nlp-workshop/tree/master/tutorials/Certification_Trainings/Healthcare) with the latest updates in the libraries.
 
