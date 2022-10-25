@@ -105,7 +105,7 @@ annotation-lab:
       - subtitle: Model Training
         children:
           - title: Model Training Parameters
-            url: /docs/en/alab/training_parameters
+            url: /docs/en/alab/training_configurations
           - title: Active Learning
             url: /docs/en/alab/active_learning            
           - title: Transfer Learning
