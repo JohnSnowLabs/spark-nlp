@@ -150,8 +150,7 @@ Manual annotations on 10-K Filings
 ## Benchmarking
 
 ```bash
-                label      precision    recall  f1-score   support
-
+             label      precision    recall  f1-score   support
       B-TITLE_CLASS       1.00      1.00      1.00        15
       I-TITLE_CLASS       1.00      1.00      1.00        21
               B-ORG       0.84      0.66      0.74        62
