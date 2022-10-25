@@ -24,8 +24,6 @@ data:
           id: detect_wide_ranging_entities_market
           image: 
               src: /assets/images/Detect_wide-ranging_entities_in_the_Market.svg
-          image2: 
-              src: /assets/images/Detect_wide-ranging_entities_in_the_Market_c.svg
           excerpt: Detect 66 general entities such as art, newspaper, director, war, airport etc., using pretrained Spark NLP NER model.
           actions:
           - text: Live Demo
@@ -38,8 +36,6 @@ data:
           id: recognize_more_entities_in_text
           image: 
               src: /assets/images/Spell_Checking.svg
-          image2: 
-              src: /assets/images/Spell_Checking_f.svg
           excerpt: Recognize over 18 entities such as <b>Countries, People, Organizations, Products, Events,</b> etc. using an out of the box pretrained NerDLApproach trained on the OntoNotes corpus.
           actions:
           - text: Live Demo
@@ -52,8 +48,6 @@ data:
           id: detect_key_phrases
           image: 
               src: /assets/images/Detect_Key_Phrases.svg
-          image2: 
-              src: /assets/images/Detect_Key_Phrases_f.svg
           excerpt: Automatically detect key phrases in your text documents using out-of-the-box Spark NLP models.
           actions:
           - text: Live Demo
@@ -66,8 +60,6 @@ data:
           id: find_a_text_in_document
           image: 
               src: /assets/images/Find_in_Text.svg
-          image2: 
-              src: /assets/images/Find_in_Text_f.svg
           excerpt: Finds a text in document either by keyword or by regex expression.
           actions:
           - text: Live Demo
@@ -80,8 +72,6 @@ data:
           id: recognize_entities_in_text
           image: 
               src: /assets/images/Split_Clean_Text.svg
-          image2: 
-              src: /assets/images/Split_Clean_Text_f.svg
           excerpt: Recognize <b>Persons, Locations, Organizations</b> and <b>Misc</b> entities using out of the box pretrained Deep Learning models based on GloVe (glove_100d) and BERT (ner_dl_bert) word embeddings.
           actions:
           - text: Live Demo
@@ -94,8 +84,6 @@ data:
           id: detect_and_normalize_dates
           image: 
               src: /assets/images/Detect_and_normalize_dates.svg
-          image2: 
-              src: /assets/images/Detect_and_normalize_dates_f.svg
           excerpt: Automatically detect key phrases expressing dates and normalize them with respect to a reference date.
           actions:
           - text: Live Demo
@@ -108,8 +96,6 @@ data:
           id: detect_entities_tweets  
           image: 
               src: /assets/images/Detect_Entities_in_tweets.svg
-          image2: 
-              src: /assets/images/Detect_Entities_in_tweets_f.svg
           excerpt: This demo shows how to extract Named Entities, as PER, ORG or LOC, from tweets.
           actions:
           - text: Live Demo
@@ -122,8 +108,6 @@ data:
           id: recognize_restaurant_terminology  
           image: 
               src: /assets/images/Recognize_restaurant_terminology.svg
-          image2: 
-              src: /assets/images/Recognize_restaurant_terminology_f.svg
           excerpt: This demo shows how to extract restaurant-related terminology from texts.
           actions:
           - text: Live Demo
@@ -136,8 +120,6 @@ data:
           id: recognize_time-related_terminology 
           image: 
               src: /assets/images/Recognize_time-related_terminology.svg
-          image2: 
-              src: /assets/images/Recognize_time-related_terminology_f.svg
           excerpt: This demo shows how to extract time-related terminology from texts.
           actions:
           - text: Live Demo
@@ -150,8 +132,6 @@ data:
           id: detect_traffic_information_in_text
           image: 
               src: /assets/images/Detect_traffic_information_in_text.svg
-          image2: 
-              src: /assets/images/Detect_traffic_information_in_text_f.svg
           excerpt: Automatically extract geographical location, postal codes, and traffic routes in German text using our pretrained Spark NLP model.
           actions:
           - text: Live Demo

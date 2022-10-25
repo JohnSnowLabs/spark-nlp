@@ -139,7 +139,7 @@ result.selectExpr("explode(arrays_zip(sentence, sarcasm)) as out")
 {%- endcapture -%}
 
 {%- capture model_python_api_link -%}
-[ClassifierDLModel](/api/python/reference/autosummary/sparknlp/annotator/classifier_dl/classifier_dl/index.html#sparknlp.annotator.classifier_dl.classifier_dl.ClassifierDLModel)
+[ClassifierDLModel](/api/python/reference/autosummary/python/sparknlp/annotator/classifier_dl/classifier_dl/index.html#sparknlp.annotator.classifier_dl.classifier_dl.ClassifierDLModel)
 {%- endcapture -%}
 
 {%- capture model_source_link -%}
@@ -268,7 +268,7 @@ val pipelineModel = pipeline.fit(smallCorpus)
 {%- endcapture -%}
 
 {%- capture approach_python_api_link -%}
-[ClassifierDLApproach](/api/python/reference/autosummary/sparknlp/annotator/classifier_dl/classifier_dl/index.html#sparknlp.annotator.classifier_dl.classifier_dl.ClassifierDLApproach)
+[ClassifierDLApproach](/api/python/reference/autosummary/python/sparknlp/annotator/classifier_dl/classifier_dl/index.html#sparknlp.annotator.classifier_dl.classifier_dl.ClassifierDLApproach)
 {%- endcapture -%}
 
 {%- capture approach_source_link -%}

@@ -8,7 +8,7 @@ tags: [en, legal, ner, agreements, licensed]
 task: Named Entity Recognition
 language: en
 edition: Spark NLP for Legal 1.0.0
-spark_version: 3.2
+spark_version: 3.0
 supported: true
 article_header:
   type: cover
@@ -41,28 +41,29 @@ Other models can be found to detect other parts of the document, as Headers/Subh
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
+
 ```python
-documentAssembler = DocumentAssembler()\
+documentAssembler = nlp.DocumentAssembler()\
         .setInputCol("text")\
         .setOutputCol("document")
         
-sentenceDetector = SentenceDetectorDLModel.pretrained("sentence_detector_dl","xx")\
+sentenceDetector = nlp.SentenceDetectorDLModel.pretrained("sentence_detector_dl","xx")\
         .setInputCols(["document"])\
         .setOutputCol("sentence")
 
-tokenizer = Tokenizer()\
+tokenizer = nlp.Tokenizer()\
         .setInputCols(["sentence"])\
         .setOutputCol("token")
 
-embeddings = RoBertaEmbeddings.pretrained("roberta_embeddings_legal_roberta_base","en") \
+embeddings = nlp.RoBertaEmbeddings.pretrained("roberta_embeddings_legal_roberta_base","en") \
     .setInputCols(["sentence", "token"]) \
     .setOutputCol("embeddings")
 
-ner_model = LegalNerModel.pretrained('legner_signers', 'en', 'legal/models')\
+ner_model = legal.NerModel.pretrained('legner_signers', 'en', 'legal/models')\
         .setInputCols(["sentence", "token", "embeddings"])\
         .setOutputCol("ner")
 
-ner_converter = NerConverter()\
+ner_converter = nlp.NerConverter()\
         .setInputCols(["sentence","token","ner"])\
         .setOutputCol("ner_chunk")
 
@@ -176,13 +177,13 @@ Manual annotations on CUAD dataset
 ## Benchmarking
 
 ```bash
-I-PARTY	 366	 26	 39	 0.93367344	 0.9037037	 0.91844416
-I-SIGNING_TITLE	 41	 0	 4	 1.0	 0.9111111	 0.95348835
-I-SIGNING_PERSON	 115	 10	 13	 0.92	 0.8984375	 0.9090909
-B-SIGNING_PERSON	 46	 3	 11	 0.93877554	 0.80701756	 0.8679246
-B-PARTY	 122	 14	 28	 0.89705884	 0.81333333	 0.85314685
-B-SIGNING_TITLE	 26	 0	 2	 1.0	 0.9285714	 0.9629629
-tp: 716 fp: 53 fn: 97 labels: 6
-Macro-average	 prec: 0.9482513, rec: 0.8770291, f1: 0.91125065
-Micro-average	 prec: 0.9310793, rec: 0.8806888, f1: 0.9051833
+label               tp     fp    fn     prec           rec           f1
+I-PARTY             366    26    39     0.93367344     0.9037037     0.91844416
+I-SIGNING_TITLE     41     0     4      1.0            0.9111111     0.95348835
+I-SIGNING_PERSON    115    10    13     0.92           0.8984375     0.9090909
+B-SIGNING_PERSON    46     3     11     0.93877554     0.80701756    0.8679246
+B-PARTY             122    14    28     0.89705884     0.81333333    0.85314685
+B-SIGNING_TITLE     26     0     2      1.0            0.9285714     0.9629629
+Macro-average	    716    53    97     0.9482513      0.8770291     0.91125065
+Micro-average	    716    53    97     0.9310793      0.8806888     0.9051833
 ```

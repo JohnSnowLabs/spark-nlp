@@ -8,7 +8,7 @@ tags: [en, financial, ner, ticker, trading, licensed]
 task: Named Entity Recognition
 language: en
 edition: Spark NLP for Finance 1.0.0
-spark_version: 3.2
+spark_version: 3.0
 supported: true
 article_header:
   type: cover
@@ -34,27 +34,27 @@ This model aims to detect Trading Symbols / Tickers in texts. You can then use C
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
+
 ```python
-document_assembler = DocumentAssembler()\
+document_assembler = nlp.DocumentAssembler()\
       .setInputCol('text')\
       .setOutputCol('document')
 
-tokenizer = Tokenizer()\
+tokenizer = nlp.Tokenizer()\
       .setInputCols("document")\
       .setOutputCol("token")
 
-tokenClassifier = RoBertaForTokenClassification.pretrained("finner_roberta_ticker", "en", "finance/models")\
+tokenClassifier = nlp.RoBertaForTokenClassification.pretrained("finner_roberta_ticker", "en", "finance/models")\
   .setInputCols(["document",'token'])\
   .setOutputCol("ner")
 
-ner_converter = NerConverter()\
+ner_converter = nlp.NerConverter()\
       .setInputCols(["document", "token", "ner"])\
       .setOutputCol("ner_chunk")
 
 pipeline = Pipeline().setStages([document_assembler,
                                  tokenizer, 
-                                 embeddings,
-                                 ner_model, 
+                                 tokenClassifier,
                                  ner_converter])
 
 text = ["""There are some serious purchases and sales of AMZN stock today."""]
@@ -98,11 +98,9 @@ Original dataset (https://www.kaggle.com/omermetinn/tweets-about-the-top-compani
 ## Benchmarking
 
 ```bash
-              precision    recall  f1-score   support
-
+       label  precision    recall  f1-score   support
       TICKER       0.98      0.97      0.98      9823
-
-   micro avg       0.98      0.97      0.98      9823
-   macro avg       0.98      0.97      0.98      9823
-weighted avg       0.98      0.97      0.98      9823
+   micro-avg       0.98      0.97      0.98      9823
+   macro-avg       0.98      0.97      0.98      9823
+weighted-avg       0.98      0.97      0.98      9823
 ```

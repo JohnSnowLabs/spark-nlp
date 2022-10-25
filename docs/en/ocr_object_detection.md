@@ -52,7 +52,7 @@ Detector support following labels:
 
 **Example:**
 
-<div class="tabs-box pt0" markdown="1">
+<div class="tabs-box tabs-new pt0" markdown="1">
 
 {% include programmingLanguageSelectScalaPython.html %}
 
@@ -172,7 +172,7 @@ It's based on CRAFT network architecture.
 
 **Example:**
 
-<div class="tabs-box pt0" markdown="1">
+<div class="tabs-box tabs-new pt0" markdown="1">
 
 {% include programmingLanguageSelectScalaPython.html %}
 
@@ -305,7 +305,7 @@ Currently, it's available only on Python side.
 
 **Example:**
 
-<div class="tabs-box pt0" markdown="1">
+<div class="tabs-box tabs-new pt0" markdown="1">
 
 {% include programmingLanguageSelectScalaPython.html %}
 

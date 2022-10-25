@@ -1,4 +1,26 @@
 ========
+4.2.1
+========
+----------------
+New Features & Enhancements
+----------------
+
+* Support for multi-lingual WordSegmenter. Add `enableRegexTokenizer` feature in WordSegmenter to support word segmentation within mixed and multi-lingual content https://github.com/JohnSnowLabs/spark-nlp/pull/12854
+* Add support for Audio/ASR (Wav2Vec2) support to LightPipeline https://github.com/JohnSnowLabs/spark-nlp/pull/12895
+* Add support for Double type in addition to Float type to AudioAssembler annotator https://github.com/JohnSnowLabs/spark-nlp/pull/12904
+* Improve error handling in fullAnnotateImage for LightPipeline https://github.com/JohnSnowLabs/spark-nlp/pull/12868
+
+* Add SpanBertCoref annotator to all docs https://github.com/JohnSnowLabs/spark-nlp/pull/12889
+
+----------------
+Bug Fixes
+----------------
+
+* Fix feeding `fullAnnotate` in Lightpipeline with a list that started to fail in 4.2.0 release
+* Fix exception in ContextSpellCheckerModel when updateVocabClass is used with append set to true https://github.com/JohnSnowLabs/spark-nlp/pull/12875
+* Fix exception in Chunker annotator https://github.com/JohnSnowLabs/spark-nlp/pull/12901
+
+========
 4.2.0
 ========
 ----------------

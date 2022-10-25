@@ -42,7 +42,7 @@ class ImageUtilsTestSpec extends AnyFlatSpec {
     JsonParser.parseObject[Preprocessor](preprocessorConfigJsonContent)
 
   val imageBufferedImage: BufferedImage =
-    ImageIOUtils.loadImage("src/test/resources/image/egyptian_cat.jpeg")
+    ImageIOUtils.loadImage("src/test/resources/image/egyptian_cat.jpeg").get
   val isGray: Boolean =
     imageBufferedImage.getColorModel.getColorSpace.getType == ColorSpace.TYPE_GRAY
   val hasAlpha: Boolean = imageBufferedImage.getColorModel.hasAlpha

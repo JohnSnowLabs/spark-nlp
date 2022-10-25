@@ -17,7 +17,7 @@ For instantiated/pretrained models, see Doc2VecModel.
 
 **Sources** :
 
-For the original C implementation, see https://code.google.com/p/word2vec/
+For the original C implementation, see [https://code.google.com/p/word2vec/](https://code.google.com/p/word2vec/)
 
 For the research paper, see
 [Efficient Estimation of Word Representations in Vector Space](https://arxiv.org/abs/1301.3781)
@@ -100,7 +100,7 @@ val pipelineModel = pipeline.fit(dataset)
 {%- endcapture -%}
 
 {%- capture python_api_link -%}
-[Doc2VecApproach](/api/python/reference/autosummary/sparknlp/annotator/embeddings/doc2vec/index.html#sparknlp.annotator.embeddings.doc2vec.Doc2VecApproach)
+[Doc2VecApproach](/api/python/reference/autosummary/python/sparknlp/annotator/embeddings/doc2vec/index.html#sparknlp.annotator.embeddings.doc2vec.Doc2VecApproach)
 {%- endcapture -%}
 
 {%- capture source_link -%}

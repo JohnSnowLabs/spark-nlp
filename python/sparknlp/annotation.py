@@ -81,7 +81,7 @@ class Annotation:
         same_result = self.result == other.result
         same_begin = self.begin == other.begin
         same_end = self.end == other.end
-        same_metadata = self.metadata == other.metadata
+        same_metadata = dict(self.metadata) == other.metadata
         same_embeddings = self.embeddings == other.embeddings
 
         same_annotation = \

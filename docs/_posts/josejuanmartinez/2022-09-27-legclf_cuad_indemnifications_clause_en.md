@@ -1,6 +1,6 @@
 ---
 layout: model
-title: Legal Indemnifications Clause Binary Classifier
+title: Legal Indemnifications Clause Binary Classifier (CUAD dataset)
 author: John Snow Labs
 name: legclf_cuad_indemnifications_clause
 date: 2022-09-27
@@ -28,6 +28,8 @@ Take into consideration the embeddings of this model allows up to 512 tokens. If
 
 This model can be combined with any of the other 200+ Legal Clauses Classifiers you will find in Models Hub, getting as an output a series of True/False values for each of the legal clause model you have added.
 
+The difference between his model and others with the same title is the dataset it was trained on. 
+
 ## Predicted Entities
 
 `other`, `indemnifications`
@@ -43,16 +45,17 @@ This model can be combined with any of the other 200+ Legal Clauses Classifiers 
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
+
 ```python
-documentAssembler = DocumentAssembler() \
+documentAssembler = nlp.DocumentAssembler() \
      .setInputCol("clause_text") \
      .setOutputCol("document")
   
-embeddings = BertSentenceEmbeddings.pretrained("sent_bert_base_cased", "en") \
+embeddings = nlp.BertSentenceEmbeddings.pretrained("sent_bert_base_cased", "en") \
       .setInputCols("document") \
       .setOutputCol("sentence_embeddings")
 
-docClassifier = legal.ClassifierDLModel.pretrained("legclf_cuad_indemnifications_clause", "en", "legal/models")\
+docClassifier = nlp.ClassifierDLModel.pretrained("legclf_cuad_indemnifications_clause", "en", "legal/models")\
     .setInputCols(["sentence_embeddings"])\
     .setOutputCol("category")
     
@@ -103,12 +106,10 @@ In-house annotations on CUAD dataset
 ## Benchmarking
 
 ```bash
-                  precision    recall  f1-score   support
-
+           label  precision    recall  f1-score   support
 indemnifications       1.00      0.83      0.91        12
            other       0.83      1.00      0.91        10
-
-        accuracy                           0.91        22
+        accuracy         -         -       0.91        22
        macro avg       0.92      0.92      0.91        22
     weighted avg       0.92      0.91      0.91        22
 ```

@@ -3,9 +3,9 @@
         <head>
           <meta http-equiv="X-UA-Compatible" content="IE=edge" />
           <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-          <title>Spark NLP 4.2.0 ScalaDoc  - com.johnsnowlabs.nlp.annotators.ner.NerTagsEncodingInternal</title>
-          <meta name="description" content="Spark NLP 4.2.0 ScalaDoc - com.johnsnowlabs.nlp.annotators.ner.NerTagsEncodingInternal" />
-          <meta name="keywords" content="Spark NLP 4.2.0 ScalaDoc com.johnsnowlabs.nlp.annotators.ner.NerTagsEncodingInternal" />
+          <title>Spark NLP 4.2.1 ScalaDoc  - com.johnsnowlabs.nlp.annotators.ner.NerTagsEncodingInternal</title>
+          <meta name="description" content="Spark NLP 4.2.1 ScalaDoc - com.johnsnowlabs.nlp.annotators.ner.NerTagsEncodingInternal" />
+          <meta name="keywords" content="Spark NLP 4.2.1 ScalaDoc com.johnsnowlabs.nlp.annotators.ner.NerTagsEncodingInternal" />
           <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
           
       
@@ -28,7 +28,7 @@
         </head>
         <body>
       <div id="search">
-        <span id="doc-title">Spark NLP 4.2.0 ScalaDoc<span id="doc-version"></span></span>
+        <span id="doc-title">Spark NLP 4.2.1 ScalaDoc<span id="doc-version"></span></span>
         <span class="close-results"><span class="left">&lt;</span> Back</span>
         <div id="textfilter">
           <span class="input">
@@ -439,9 +439,9 @@ Supports: IOB and IOB2 https://en.wikipedia.org/wiki/Inside%E2%80%93outside%E2%8
               
         </dd></dl></div>
     </li><li name="com.johnsnowlabs.nlp.annotators.ner.NerTagsEncodingInternal#fromIOB" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="fromIOB(sentence:com.johnsnowlabs.nlp.annotators.common.Annotated.NerTaggedSentence,doc:com.johnsnowlabs.nlp.Annotation,sentenceIndex:Int,preservePosition:Boolean,greedyMode:Boolean):Seq[com.johnsnowlabs.nlp.annotators.ner.NamedEntityConfidence]"></a><a id="fromIOB(NerTaggedSentence,Annotation,Int,Boolean,Boolean):Seq[NamedEntityConfidence]"></a>
+      <a id="fromIOB(sentence:com.johnsnowlabs.nlp.annotators.common.Annotated.NerTaggedSentence,doc:com.johnsnowlabs.nlp.Annotation,sentenceIndex:Int,preservePosition:Boolean,greedyMode:Boolean,ignoreStopWords:Array[String]):Seq[com.johnsnowlabs.nlp.annotators.ner.NamedEntityConfidence]"></a><a id="fromIOB(NerTaggedSentence,Annotation,Int,Boolean,Boolean,Array[String]):Seq[NamedEntityConfidence]"></a>
       <span class="permalink">
-      <a href="../../../../../com/johnsnowlabs/nlp/annotators/ner/NerTagsEncodingInternal$.html#fromIOB(sentence:com.johnsnowlabs.nlp.annotators.common.Annotated.NerTaggedSentence,doc:com.johnsnowlabs.nlp.Annotation,sentenceIndex:Int,preservePosition:Boolean,greedyMode:Boolean):Seq[com.johnsnowlabs.nlp.annotators.ner.NamedEntityConfidence]" title="Permalink">
+      <a href="../../../../../com/johnsnowlabs/nlp/annotators/ner/NerTagsEncodingInternal$.html#fromIOB(sentence:com.johnsnowlabs.nlp.annotators.common.Annotated.NerTaggedSentence,doc:com.johnsnowlabs.nlp.Annotation,sentenceIndex:Int,preservePosition:Boolean,greedyMode:Boolean,ignoreStopWords:Array[String]):Seq[com.johnsnowlabs.nlp.annotators.ner.NamedEntityConfidence]" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -450,7 +450,7 @@ Supports: IOB and IOB2 https://en.wikipedia.org/wiki/Inside%E2%80%93outside%E2%8
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">fromIOB</span><span class="params">(<span name="sentence">sentence: <span class="extype" name="com.johnsnowlabs.nlp.annotators.common.Annotated.NerTaggedSentence">NerTaggedSentence</span></span>, <span name="doc">doc: <span class="extype" name="com.johnsnowlabs.nlp.Annotation">Annotation</span></span>, <span name="sentenceIndex">sentenceIndex: <span class="extype" name="scala.Int">Int</span> = <span class="symbol">0</span></span>, <span name="preservePosition">preservePosition: <span class="extype" name="scala.Boolean">Boolean</span> = <span class="symbol">true</span></span>, <span name="greedyMode">greedyMode: <span class="extype" name="scala.Boolean">Boolean</span> = <span class="symbol">false</span></span>)</span><span class="result">: <span class="extype" name="scala.Seq">Seq</span>[<a href="NamedEntityConfidence.html" class="extype" name="com.johnsnowlabs.nlp.annotators.ner.NamedEntityConfidence">NamedEntityConfidence</a>]</span>
+        <span class="name">fromIOB</span><span class="params">(<span name="sentence">sentence: <span class="extype" name="com.johnsnowlabs.nlp.annotators.common.Annotated.NerTaggedSentence">NerTaggedSentence</span></span>, <span name="doc">doc: <span class="extype" name="com.johnsnowlabs.nlp.Annotation">Annotation</span></span>, <span name="sentenceIndex">sentenceIndex: <span class="extype" name="scala.Int">Int</span> = <span class="symbol">0</span></span>, <span name="preservePosition">preservePosition: <span class="extype" name="scala.Boolean">Boolean</span> = <span class="symbol">true</span></span>, <span name="greedyMode">greedyMode: <span class="extype" name="scala.Boolean">Boolean</span> = <span class="symbol">false</span></span>, <span name="ignoreStopWords">ignoreStopWords: <span class="extype" name="scala.Array">Array</span>[<span class="extype" name="scala.Predef.String">String</span>]</span>)</span><span class="result">: <span class="extype" name="scala.Seq">Seq</span>[<a href="NamedEntityConfidence.html" class="extype" name="com.johnsnowlabs.nlp.annotators.ner.NamedEntityConfidence">NamedEntityConfidence</a>]</span>
       </span>
       
       <p class="shortcomment cmt">Converts from IOB or IOB2 to list of NamedEntity
@@ -596,6 +596,22 @@ Supports: IOB and IOB2 https://en.wikipedia.org/wiki/Inside%E2%80%93outside%E2%8
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef → Any</dd></dl></div>
+    </li><li name="com.johnsnowlabs.nlp.annotators.ner.NerTagsEncodingInternal#updateContent" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="updateContent(content:String):String"></a><a id="updateContent(String):String"></a>
+      <span class="permalink">
+      <a href="../../../../../com/johnsnowlabs/nlp/annotators/ner/NerTagsEncodingInternal$.html#updateContent(content:String):String" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">updateContent</span><span class="params">(<span name="content">content: <span class="extype" name="scala.Predef.String">String</span></span>)</span><span class="result">: <span class="extype" name="scala.Predef.String">String</span></span>
+      </span>
+      
+      
     </li><li name="scala.AnyRef#wait" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="wait():Unit"></a>
       <span class="permalink">

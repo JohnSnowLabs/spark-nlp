@@ -7,7 +7,7 @@ date: 2021-12-09
 tags: [en, licensed]
 task: OCR Text Detection & Recognition
 language: en
-edition: Spark NLP 3.0.0
+edition: Spark OCR 3.0.0
 spark_version: 3.0
 supported: true
 article_header:
@@ -49,7 +49,7 @@ text_detector.setOutputCol("text_regions")
 |---|---|
 |Model Name:|text_detection_v1|
 |Type:|ocr|
-|Compatibility:|Spark NLP 3.0.0+|
+|Compatibility:|Spark OCR 3.0.0+|
 |License:|Licensed|
 |Edition:|Official|
 |Output Labels:|[text_regions]|

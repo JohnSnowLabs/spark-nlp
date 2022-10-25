@@ -3,9 +3,9 @@
         <head>
           <meta http-equiv="X-UA-Compatible" content="IE=edge" />
           <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-          <title>Spark NLP 4.2.0 ScalaDoc  - com.johnsnowlabs.nlp.annotators.re.REDataEncoder</title>
-          <meta name="description" content="Spark NLP 4.2.0 ScalaDoc - com.johnsnowlabs.nlp.annotators.re.REDataEncoder" />
-          <meta name="keywords" content="Spark NLP 4.2.0 ScalaDoc com.johnsnowlabs.nlp.annotators.re.REDataEncoder" />
+          <title>Spark NLP 4.2.1 ScalaDoc  - com.johnsnowlabs.nlp.annotators.re.REDataEncoder</title>
+          <meta name="description" content="Spark NLP 4.2.1 ScalaDoc - com.johnsnowlabs.nlp.annotators.re.REDataEncoder" />
+          <meta name="keywords" content="Spark NLP 4.2.1 ScalaDoc com.johnsnowlabs.nlp.annotators.re.REDataEncoder" />
           <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
           
       
@@ -28,7 +28,7 @@
         </head>
         <body>
       <div id="search">
-        <span id="doc-title">Spark NLP 4.2.0 ScalaDoc<span id="doc-version"></span></span>
+        <span id="doc-title">Spark NLP 4.2.1 ScalaDoc<span id="doc-version"></span></span>
         <span class="close-results"><span class="left">&lt;</span> Back</span>
         <div id="textfilter">
           <span class="input">
@@ -189,6 +189,10 @@
                         <span class="separator"></span>
                         <a class="trait" href="ReadablePretrainedZeroShotRelationExtractionModel.html" title=""></a>
                         <a href="ReadablePretrainedZeroShotRelationExtractionModel.html" title="">ReadablePretrainedZeroShotRelationExtractionModel</a>
+                      </li><li class="current-entities indented5">
+                        <span class="separator"></span>
+                        <a class="object" href="RelationDirection$.html" title=""></a>
+                        <a href="RelationDirection$.html" title="">RelationDirection</a>
                       </li><li class="current-entities indented5">
                         <span class="separator"></span>
                         <a class="trait" href="RelationEncoding.html" title=""></a>
@@ -365,6 +369,22 @@
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef → Any</dd></dl></div>
+    </li><li name="com.johnsnowlabs.nlp.annotators.re.REDataEncoder#RelationDirectionSuffices" visbl="prt" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="RelationDirectionSuffices:scala.collection.mutable.Map[String,String]"></a><a id="RelationDirectionSuffices:Map[String,String]"></a>
+      <span class="permalink">
+      <a href="../../../../../com/johnsnowlabs/nlp/annotators/re/REDataEncoder.html#RelationDirectionSuffices:scala.collection.mutable.Map[String,String]" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">RelationDirectionSuffices</span><span class="result">: <span class="extype" name="scala.collection.mutable.Map">Map</span>[<span class="extype" name="scala.Predef.String">String</span>, <span class="extype" name="scala.Predef.String">String</span>]</span>
+      </span>
+      
+      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd></dl></div>
     </li><li name="scala.Any#asInstanceOf" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="asInstanceOf[T0]:T0"></a>
       <span class="permalink">
@@ -405,6 +425,22 @@
                 <span class="name">@native</span><span class="args">()</span>
               
         </dd></dl></div>
+    </li><li name="com.johnsnowlabs.nlp.annotators.re.REDataEncoder#decodeRelationDirection" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="decodeRelationDirection(label:String):String"></a><a id="decodeRelationDirection(String):String"></a>
+      <span class="permalink">
+      <a href="../../../../../com/johnsnowlabs/nlp/annotators/re/REDataEncoder.html#decodeRelationDirection(label:String):String" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">decodeRelationDirection</span><span class="params">(<span name="label">label: <span class="extype" name="scala.Predef.String">String</span></span>)</span><span class="result">: <span class="extype" name="scala.Predef.String">String</span></span>
+      </span>
+      
+      
     </li><li name="com.johnsnowlabs.nlp.annotators.re.REDataEncoder#encodeFeatures" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
       <a id="encodeFeatures(dataset:org.apache.spark.sql.Dataset[_],fromLabelCol:String,fromBeginCol:String,fromEndCol:String,toLabelCol:String,toBeginCol:String,toEndCol:String,nerTags:Array[String]):org.apache.spark.sql.Dataset[_]"></a><a id="encodeFeatures(Dataset[_],String,String,String,String,String,String,Array[String]):Dataset[_]"></a>
       <span class="permalink">
@@ -418,6 +454,38 @@
       </span>
       <span class="symbol">
         <span class="name">encodeFeatures</span><span class="params">(<span name="dataset">dataset: <span class="extype" name="org.apache.spark.sql.Dataset">Dataset</span>[_]</span>, <span name="fromLabelCol">fromLabelCol: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="fromBeginCol">fromBeginCol: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="fromEndCol">fromEndCol: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="toLabelCol">toLabelCol: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="toBeginCol">toBeginCol: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="toEndCol">toEndCol: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="nerTags">nerTags: <span class="extype" name="scala.Array">Array</span>[<span class="extype" name="scala.Predef.String">String</span>]</span>)</span><span class="result">: <span class="extype" name="org.apache.spark.sql.Dataset">Dataset</span>[_]</span>
+      </span>
+      
+      
+    </li><li name="com.johnsnowlabs.nlp.annotators.re.REDataEncoder#encodeRelationDirection" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="encodeRelationDirection(label:String,direction:String):String"></a><a id="encodeRelationDirection(String,String):String"></a>
+      <span class="permalink">
+      <a href="../../../../../com/johnsnowlabs/nlp/annotators/re/REDataEncoder.html#encodeRelationDirection(label:String,direction:String):String" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">encodeRelationDirection</span><span class="params">(<span name="label">label: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="direction">direction: <span class="extype" name="scala.Predef.String">String</span></span>)</span><span class="result">: <span class="extype" name="scala.Predef.String">String</span></span>
+      </span>
+      
+      
+    </li><li name="com.johnsnowlabs.nlp.annotators.re.REDataEncoder#encodeRelationLabelUDF" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="encodeRelationLabelUDF:org.apache.spark.sql.expressions.UserDefinedFunction"></a><a id="encodeRelationLabelUDF:UserDefinedFunction"></a>
+      <span class="permalink">
+      <a href="../../../../../com/johnsnowlabs/nlp/annotators/re/REDataEncoder.html#encodeRelationLabelUDF:org.apache.spark.sql.expressions.UserDefinedFunction" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">encodeRelationLabelUDF</span><span class="result">: <span class="extype" name="org.apache.spark.sql.expressions.UserDefinedFunction">UserDefinedFunction</span></span>
       </span>
       
       
@@ -644,6 +712,22 @@
       </span>
       <span class="symbol">
         <span class="name">setNerTags</span><span class="params">(<span name="nerTags">nerTags: <span class="extype" name="scala.Array">Array</span>[<span class="extype" name="scala.Predef.String">String</span>]</span>)</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
+      </span>
+      
+      
+    </li><li name="com.johnsnowlabs.nlp.annotators.re.REDataEncoder#stripRelationLabelDirection" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="stripRelationLabelDirection(label:String,direction:String):String"></a><a id="stripRelationLabelDirection(String,String):String"></a>
+      <span class="permalink">
+      <a href="../../../../../com/johnsnowlabs/nlp/annotators/re/REDataEncoder.html#stripRelationLabelDirection(label:String,direction:String):String" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">stripRelationLabelDirection</span><span class="params">(<span name="label">label: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="direction">direction: <span class="extype" name="scala.Predef.String">String</span></span>)</span><span class="result">: <span class="extype" name="scala.Predef.String">String</span></span>
       </span>
       
       

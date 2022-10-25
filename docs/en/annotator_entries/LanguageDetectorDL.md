@@ -114,7 +114,7 @@ result.select("language.result").show(false)
 {%- endcapture -%}
 
 {%- capture python_api_link -%}
-[LanguageDetectorDL](/api/python/reference/autosummary/sparknlp/annotator/ld_dl/language_detector_dl/index.html#sparknlp.annotator.ld_dl.language_detector_dl.LanguageDetectorDL)
+[LanguageDetectorDL](/api/python/reference/autosummary/python/sparknlp/annotator/ld_dl/language_detector_dl/index.html#sparknlp.annotator.ld_dl.language_detector_dl.LanguageDetectorDL)
 {%- endcapture -%}
 
 {%- capture source_link -%}

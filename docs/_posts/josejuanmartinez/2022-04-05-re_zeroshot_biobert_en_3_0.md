@@ -42,50 +42,50 @@ Take a look at how it works in the "Open in Colab" section below.
 ```python
 data = spark.createDataFrame( [["Paracetamol can alleviate headache or sickness. An MRI test can be used to find cancer."]] ).toDF("text")
 
-documenter = DocumentAssembler() \
+documenter = nlp.DocumentAssembler() \
     .setInputCol("text") \
     .setOutputCol("document")
 
-tokenizer = Tokenizer() \
+tokenizer = nlp.Tokenizer() \
     .setInputCols(["document"]) \
     .setOutputCol("tokens")
 
-sentencer = SentenceDetector()\
+sentencer = nlp.SentenceDetector()\
     .setInputCols(["document"])\
     .setOutputCol("sentences")
 
-words_embedder = WordEmbeddingsModel() \
+words_embedder = nlp.WordEmbeddingsModel() \
     .pretrained("embeddings_clinical", "en", "clinical/models") \
     .setInputCols(["sentences", "tokens"]) \
     .setOutputCol("embeddings")
 
-pos_tagger = PerceptronModel() \
+pos_tagger = nlp.PerceptronModel() \
     .pretrained("pos_clinical", "en", "clinical/models") \
     .setInputCols(["sentences", "tokens"]) \
     .setOutputCol("pos_tags")
 
-ner_tagger = MedicalNerModel() \
+ner_tagger = medical.NerModel() \
     .pretrained("ner_clinical", "en", "clinical/models") \
     .setInputCols(["sentences", "tokens", "embeddings"]) \
     .setOutputCol("ner_tags")
 
-ner_converter = NerConverter() \
+ner_converter = nlp.NerConverter() \
     .setInputCols(["sentences", "tokens", "ner_tags"]) \
     .setOutputCol("ner_chunks")
 
-dependency_parser = DependencyParserModel() \
+dependency_parser = nlp.DependencyParserModel() \
     .pretrained("dependency_conllu", "en") \
     .setInputCols(["document", "pos_tags", "tokens"]) \
     .setOutputCol("dependencies")
 
-re_ner_chunk_filter = RENerChunksFilter() \
+re_ner_chunk_filter = medical.RENerChunksFilter() \
     .setRelationPairs(["problem-test","problem-treatment"]) \
     .setMaxSyntacticDistance(4)\
     .setDocLevelRelations(False)\
     .setInputCols(["ner_chunks", "dependencies"]) \
     .setOutputCol("re_ner_chunks")
 
-re_model = ZeroShotRelationExtractionModel.pretrained("re_zeroshot_biobert", "en", "clinical/models")\
+re_model = medical.ZeroShotRelationExtractionModel.pretrained("re_zeroshot_biobert", "en", "clinical/models")\
     .setInputCols(["re_ner_chunks", "sentences"]) \
     .setOutputCol("relations")\
     .setMultiLabel(True)
@@ -117,51 +117,51 @@ results\
 ```scala
 val data = spark.createDataFrame(Seq("Paracetamol can alleviate headache or sickness. An MRI test can be used to find cancer.")).toDF("text")
 
-val documenter = new DocumentAssembler()
+val documenter = new nlp.DocumentAssembler()
     .setInputCol("text")
     .setOutputCol("document")
 
 
-val tokenizer = new Tokenizer()
+val tokenizer = new nlp.Tokenizer()
     .setInputCols("document")
     .setOutputCol("tokens")
 
 
-val sentencer = new SentenceDetector()
+val sentencer = new nlp.SentenceDetector()
     .setInputCols("document")
     .setOutputCol("sentences")
 
 
-val words_embedder = WordEmbeddingsModel()
+val words_embedder = nlp.WordEmbeddingsModel()
     .pretrained("embeddings_clinical", "en", "clinical/models")
     .setInputCols(Array("sentences", "tokens"))
     .setOutputCol("embeddings")
 
 
-val pos_tagger = PerceptronModel()
+val pos_tagger = nlp.PerceptronModel()
     .pretrained("pos_clinical", "en", "clinical/models")
     .setInputCols(Array("sentences", "tokens"))
     .setOutputCol("pos_tags")
 
 
-val ner_tagger = MedicalNerModel()
+val ner_tagger = medical.NerModel()
     .pretrained("ner_clinical", "en", "clinical/models")
     .setInputCols(Array("sentences", "tokens", "embeddings"))
     .setOutputCol("ner_tags")
 
 
-val ner_converter = new NerConverter()
+val ner_converter = new nlp.NerConverter()
     .setInputCols(Array("sentences", "tokens", "ner_tags"))
     .setOutputCol("ner_chunks")
 
 
-val dependency_parser = DependencyParserModel()
+val dependency_parser = nlp.DependencyParserModel()
     .pretrained("dependency_conllu", "en")
     .setInputCols(Array("document", "pos_tags", "tokens"))
     .setOutputCol("dependencies")
 
 
-val re_ner_chunk_filter = new RENerChunksFilter()
+val re_ner_chunk_filter = new medical.RENerChunksFilter()
     .setRelationPairs(Array("problem-test","problem-treatment"))
     .setMaxSyntacticDistance(4)
     .setDocLevelRelations(false)
@@ -169,7 +169,7 @@ val re_ner_chunk_filter = new RENerChunksFilter()
     .setOutputCol("re_ner_chunks")
 
 
-val re_model = ZeroShotRelationExtractionModel.pretrained("re_zeroshot_biobert", "en", "clinical/models")
+val re_model = medical.ZeroShotRelationExtractionModel.pretrained("re_zeroshot_biobert", "en", "clinical/models")
     .setInputCols(Array("re_ner_chunks", "sentences"))
     .setOutputCol("relations")
     .setMultiLabel(false)

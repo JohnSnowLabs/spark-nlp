@@ -8,7 +8,7 @@ tags: [es, legal, conventions, classification, en, licensed]
 task: Text Classification
 language: en
 edition: Spark NLP for Legal 1.0.0
-spark_version: 3.2
+spark_version: 3.0
 supported: true
 article_header:
   type: cover
@@ -46,19 +46,19 @@ This model was originally trained with 3799 legal texts (see the original work [
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
 ```python
-documentAssembler = DocumentAssembler() \
+documentAssembler = nlp.DocumentAssembler() \
        .setInputCol("text") \
        .setOutputCol("document")
 
-sentenceDetector = SentenceDetectorDLModel.pretrained("sentence_detector_dl", "xx")\
+sentenceDetector = nlp.SentenceDetectorDLModel.pretrained("sentence_detector_dl", "xx")\
        .setInputCols(["document"])\
        .setOutputCol("sentence")
 
-tokenizer = Tokenizer() \
+tokenizer = nlp.Tokenizer() \
     .setInputCols("sentence") \
     .setOutputCol("token")
 
-tokenClassifier = RoBertaForSequenceClassification.pretrained("legclf_conventions","es", "legal/models") \
+tokenClassifier = nlp.RoBertaForSequenceClassification.pretrained("legclf_conventions","en", "legal/models") \
     .setInputCols(["sentence", "token"]) \
     .setOutputCol("class")
 
@@ -106,8 +106,8 @@ This model was originally trained with 3799 legal texts (see the original work [
 ## Benchmarking
 
 ```bash
-label        precision	recall	f1-score	support
-accuracy	     -		        0.90      	 120
-macro avg	    0.90	0.91	0.90	     120
-weighted avg	0.90	0.90	0.90	     120
-```
+label            precision  recall   f1-score  support
+accuracy           -          -      0.90      120
+macro-avg        0.90       0.91     0.90      120
+weighted-avg     0.90       0.90     0.90      120
+```     

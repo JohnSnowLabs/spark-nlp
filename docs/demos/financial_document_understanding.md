@@ -24,8 +24,6 @@ data:
           id: classify_financial_documents_using_spark_ocr 
           image: 
               src: /assets/images/Classify_Financial_Documents_using_SparkOCR.svg
-          image2: 
-              src: /assets/images/Classify_Financial_Documents_using_SparkOCR_f.svg
           excerpt: This demo shows how to classify finance documents using text and layout data with the new features offered by Spark OCR.
           actions:
           - text: Live Demo
@@ -38,8 +36,6 @@ data:
           id: extract_entities_from_visual_documents  
           image: 
               src: /assets/images/Extract_entities_from_visual_documents.svg
-          image2: 
-              src: /assets/images/Extract_entities_from_visual_documents_c.svg
           excerpt: Detect companies, total amounts and dates in scanned invoices using out of the box Spark OCR models. 
           actions:
           - text: Live Demo
@@ -52,8 +48,6 @@ data:
           id: form_recognition 
           image: 
               src: /assets/images/Detect_sentences_in_text.svg
-          image2: 
-              src: /assets/images/Detect_sentences_in_text_f.svg
           excerpt: This demo shows how to perceive data in forms as key-value pairs.
           actions:
           - text: Live Demo

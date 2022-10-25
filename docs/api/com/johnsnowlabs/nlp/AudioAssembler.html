@@ -3,9 +3,9 @@
         <head>
           <meta http-equiv="X-UA-Compatible" content="IE=edge" />
           <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-          <title>Spark NLP 4.2.0 ScalaDoc  - com.johnsnowlabs.nlp.AudioAssembler</title>
-          <meta name="description" content="Spark NLP 4.2.0 ScalaDoc - com.johnsnowlabs.nlp.AudioAssembler" />
-          <meta name="keywords" content="Spark NLP 4.2.0 ScalaDoc com.johnsnowlabs.nlp.AudioAssembler" />
+          <title>Spark NLP 4.2.1 ScalaDoc  - com.johnsnowlabs.nlp.AudioAssembler</title>
+          <meta name="description" content="Spark NLP 4.2.1 ScalaDoc - com.johnsnowlabs.nlp.AudioAssembler" />
+          <meta name="keywords" content="Spark NLP 4.2.1 ScalaDoc com.johnsnowlabs.nlp.AudioAssembler" />
           <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
           
       
@@ -28,7 +28,7 @@
         </head>
         <body>
       <div id="search">
-        <span id="doc-title">Spark NLP 4.2.0 ScalaDoc<span id="doc-version"></span></span>
+        <span id="doc-title">Spark NLP 4.2.1 ScalaDoc<span id="doc-version"></span></span>
         <span class="close-results"><span class="left">&lt;</span> Back</span>
         <div id="textfilter">
           <span class="input">
@@ -462,8 +462,7 @@ needed to process audio.</p><p>Input col is a single record that contains the ra
 <span class="kw">val</span> pipeline = <span class="kw">new</span> Pipeline().setStages(<span class="std">Array</span>(audioAssembler))
 <span class="kw">val</span> pipelineDF = pipeline.fit(imageDF).transform(wavDf)
 pipelineDF.printSchema()
-root</pre><p>TODO:</p><ul><li>support various file formats</li><li>output into float array</li><li>handle stereo
-</li></ul></div><div class="toggleContainer block">
+root</pre></div><div class="toggleContainer block">
           <span class="toggle">
             Linear Supertypes
           </span>
@@ -1074,7 +1073,7 @@ root</pre><p>TODO:</p><ul><li>support various file formats</li><li>output into f
         <span class="name">inputCol</span><span class="result">: <span class="extype" name="org.apache.spark.ml.param.Param">Param</span>[<span class="extype" name="scala.Predef.String">String</span>]</span>
       </span>
       
-      <p class="shortcomment cmt">Input column of raw floats of the processed audio
+      <p class="shortcomment cmt">Input column of raw float or double of the processed audio
 </p>
     </li><li name="org.apache.spark.ml.param.Params#isDefined" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="isDefined(param:org.apache.spark.ml.param.Param[_]):Boolean"></a><a id="isDefined(Param[_]):Boolean"></a>

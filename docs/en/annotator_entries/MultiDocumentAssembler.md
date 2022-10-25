@@ -93,7 +93,7 @@ root
 {%- endcapture -%}
 
 {%- capture python_api_link -%}
-[MultiDocumentAssembler](/api/python/reference/autosummary/sparknlp/base/multi_document_assembler/index.html#sparknlp.base.multi_document_assembler.MultiDocumentAssembler)
+[MultiDocumentAssembler](/api/python/reference/autosummary/python/sparknlp/base/multi_document_assembler/index.html#sparknlp.base.multi_document_assembler.MultiDocumentAssembler)
 {%- endcapture -%}
 
 {%- capture source_link -%}

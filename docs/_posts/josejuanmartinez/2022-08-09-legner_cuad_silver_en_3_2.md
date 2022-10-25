@@ -8,7 +8,7 @@ tags: [en, legal, ner, cuad, licensed]
 task: Named Entity Recognition
 language: en
 edition: Spark NLP for Legal 1.0.0
-spark_version: 3.2
+spark_version: 3.0
 supported: true
 article_header:
   type: cover
@@ -49,29 +49,30 @@ You can several models trained on Golden versions of this dataset (annotated by 
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
+
 ```python
-documentAssembler = DocumentAssembler()\
+documentAssembler = nlp.DocumentAssembler()\
         .setInputCol("text")\
         .setOutputCol("document")
 
-sentencizer = SentenceDetector()\
+sentencizer = nlp.SentenceDetector()\
         .setInputCols(["document"])\
         .setOutputCol("sentences")\
         .setExplodeSentences(True)
 
-tokenizer = Tokenizer()\
+tokenizer = nlp.Tokenizer()\
   .setInputCols(["sentences"])\
   .setOutputCol("token")
         
-embeddings = WordEmbeddingsModel.pretrained("w2v_cc_300d", "en")\
+embeddings = nlp.WordEmbeddingsModel.pretrained("w2v_cc_300d", "en")\
     .setInputCols(["sentences", "token"])\
     .setOutputCol("embeddings")
 
-jsl_ner = LegalNerModel.pretrained("legner_cuad_silver", "en", "legal/models")\
+jsl_ner = legal.NerModel.pretrained("legner_cuad_silver", "en", "legal/models")\
 		.setInputCols(["sentences", "token", "embeddings"]) \
 		.setOutputCol("jsl_ner")
 
-jsl_ner_converter = NerConverter() \
+jsl_ner_converter = nlp.NerConverter() \
 		.setInputCols(["sentences", "token", "jsl_ner"]) \
 		.setOutputCol("ner_chunk")
         
@@ -164,25 +165,22 @@ Manual rules, patterns, weak-labelling, preannotations from in-house models and 
 ## Benchmarking
 
 ```bash
-Quality on test dataset: 
-time to finish evaluation: 39.25s
-Total test loss: 14.3751	Avg test loss: 0.9583
-label	 tp	 fp	 fn	 prec	 rec	 f1
-B-PERSON	 89	 11	 11	 0.89	 0.89	 0.89
-B-LAW	 759	 111	 148	 0.8724138	 0.8368247	 0.8542487
-I-PARTY	 8632	 47	 23	 0.9945846	 0.9973426	 0.9959617
-B-EFFDATE	 9	 1	 4	 0.9	 0.6923077	 0.7826087
-B-LOC	 372	 76	 61	 0.83035713	 0.8591224	 0.8444949
-B-DATE	 1020	 104	 102	 0.9074733	 0.90909094	 0.9082814
-B-DOC	 1370	 36	 12	 0.97439545	 0.9913169	 0.9827834
-I-EFFDATE	 14	 0	 0	 1.0	 1.0	 1.0
-I-DOC	 2227	 49	 0	 0.978471	 1.0	 0.98911834
-B-ORDINAL	 99	 11	 15	 0.9	 0.8684211	 0.8839286
-B-ROLE	 228	 6	 0	 0.974359	 1.0	 0.987013
-B-PERCENT	 34	 4	 0	 0.8947368	 1.0	 0.9444445
-B-ORG	 1992	 478	 624	 0.8064777	 0.7614679	 0.7833268
-B-PARTY	 2275	 39	 82	 0.9831461	 0.96521	 0.97409546
-tp: 19120 fp: 973 fn: 1082 labels: 14
-Macro-average	 prec: 0.92188674, rec: 0.9122217, f1: 0.9170287
-Micro-average	 prec: 0.95157516, rec: 0.94644094, f1: 0.9490011
+label             tp       fp    fn    prec        rec          f1
+B-PERSON          89       11    11    0.89        0.89         0.89
+B-LAW             759      111   148   0.8724138   0.8368247    0.8542487
+I-PARTY           8632     47    23    0.9945846   0.9973426    0.9959617
+B-EFFDATE         9        1     4     0.9         0.6923077    0.7826087
+B-LOC             372      76    61    0.83035713  0.8591224    0.8444949
+B-DATE            1020     104   102   0.9074733   0.90909094   0.9082814
+B-DOC             1370     36    12    0.97439545  0.9913169    0.9827834
+I-EFFDATE         14       0     0     1.0         1.0          1.0
+I-DOC             2227     49    0     0.978471    1.0          0.98911834
+B-ORDINAL         99       11    15    0.9         0.8684211    0.8839286
+B-ROLE            228      6     0     0.974359    1.0          0.987013
+B-PERCENT         34       4     0     0.8947368   1.0          0.9444445
+B-ORG          	  1992     478   624   0.8064777   0.7614679    0.7833268
+B-PARTY        	  2275     39    82    0.9831461   0.96521      0.97409546
+Macro-average     19120    973   1082  0.92188674  0.9122217    0.9170287
+Micro-average     19120    973   1082  0.95157516  0.94644094   0.9490011
 ```
+

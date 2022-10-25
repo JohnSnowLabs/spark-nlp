@@ -31,6 +31,7 @@ import java.nio.file.{Files, Paths}
 import java.util.jar.JarFile
 import scala.collection.mutable.{ArrayBuffer, Map => MMap}
 import scala.io.BufferedSource
+import scala.util.{Failure, Success, Try}
 
 /** Helper one-place for IO management. Streams, source and external input should be handled from
   * here
@@ -580,31 +581,41 @@ object ResourceHelper {
     val filePath = fileSystem.getScheme match {
       case "hdfs" => {
         if (pathToFile.startsWith("file:")) {
-          Option(new File(pathToFile.replace("file:", "")))
-        } else Option(new File(pathToFile))
+          new File(pathToFile.replace("file:", ""))
+        } else new File(pathToFile)
       }
       case "dbfs" if pathToFile.startsWith("dbfs:") =>
-        Option(new File(pathToFile.replace("dbfs:", "/dbfs/")))
-      case _ => Option(new File(pathToFile))
+        new File(pathToFile.replace("dbfs:", "/dbfs/"))
+      case _ => new File(pathToFile)
     }
 
-    filePath.getOrElse(throw new FileNotFoundException(s"file: $pathToFile not found"))
+    filePath
   }
 
   def validFile(path: String): Boolean = {
-    var isValid = Files.exists(Paths.get(path))
+    var isValid = validLocalFile(path) match {
+      case Success(value) => value
+      case Failure(_) => false
+    }
 
     if (!isValid) {
-      val hadoopPath = new Path(path)
-      val fileSystem = OutputHelper.getFileSystem
-      if (fileSystem.exists(hadoopPath)) {
-        isValid = true
-      } else {
-        isValid = false
+      validHadoopFile(path) match {
+        case Success(value) => isValid = value
+        case Failure(_) => isValid = false
       }
     }
 
     isValid
+  }
+
+  private def validLocalFile(path: String): Try[Boolean] = Try {
+    Files.exists(Paths.get(path))
+  }
+
+  private def validHadoopFile(path: String): Try[Boolean] = Try {
+    val hadoopPath = new Path(path)
+    val fileSystem = OutputHelper.getFileSystem
+    fileSystem.exists(hadoopPath)
   }
 
   def moveFile(sourceFile: String, destinationFile: String): Unit = {

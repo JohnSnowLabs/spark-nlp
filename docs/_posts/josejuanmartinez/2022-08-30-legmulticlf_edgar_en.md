@@ -8,7 +8,7 @@ tags: [en, legal, classification, clauses, edgar, ledgar, licensed]
 task: Text Classification
 language: en
 edition: Spark NLP for Legal 1.0.0
-spark_version: 3.2
+spark_version: 3.0
 supported: true
 recommended: true
 article_header:
@@ -51,16 +51,17 @@ This is a Multilabel Document Classification model, which can be used to identif
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
+
 ```python
-document = DocumentAssembler()\
+document = nlp.DocumentAssembler()\
   .setInputCol("text")\
   .setOutputCol("document")
 
-embeddings = BertSentenceEmbeddings.pretrained("sent_bert_base_uncased_legal", "en") \
+embeddings = nlp.BertSentenceEmbeddings.pretrained("sent_bert_base_uncased_legal", "en") \
       .setInputCols("document") \
       .setOutputCol("sentence_embeddings")
 
-multiClassifier = MultiClassifierDLModel.pretrained("legmulticlf_edgar", "en", "legal/models") \
+multiClassifier = nlp.MultiClassifierDLModel.pretrained("legmulticlf_edgar", "en", "legal/models") \
   .setInputCols(["document", "sentence_embeddings"]) \
   .setOutputCol("class")
 
@@ -107,26 +108,24 @@ Ledgar dataset, available at https://metatext.io/datasets/ledgar, with in-house 
 
 ```bash
 Classification report: 
-label            precision    recall  f1-score   support
-
-amendments         0.89      0.66      0.76      2126
-expenses           0.74      0.45      0.56       783
-assigns            0.82      0.36      0.50      1156
-counterparts       0.99      0.97      0.98      1903
-entire agreements  0.98      0.91      0.94      2168
-expenses           0.99      0.53      0.70       817
-governing laws     0.96      0.98      0.97      2608
-notices            0.94      0.94      0.94      1888
-representations    0.91      0.72      0.80       911
-severability       0.97      0.95      0.96      1640
-successors         0.90      0.50      0.64      1423
-survival           0.95      0.85      0.90      1175
-terminations       0.62      0.76      0.68       912
-waivers            0.92      0.59      0.72      1474
-warranties         0.82      0.66      0.73       756
-
-   micro avg       0.92      0.77      0.84     21740
-   macro avg       0.89      0.72      0.78     21740
-weighted avg       0.91      0.77      0.82     21740
- samples avg       0.81      0.80      0.80     21740
+label              precision    recall    f1-score  support
+amendments         0.89         0.66      0.76      2126
+expenses           0.74         0.45      0.56       783
+assigns            0.82         0.36      0.50      1156
+counterparts       0.99         0.97      0.98      1903
+entire_agreements  0.98         0.91      0.94      2168
+expenses           0.99         0.53      0.70       817
+governing_laws     0.96         0.98      0.97      2608
+notices            0.94         0.94      0.94      1888
+representations    0.91         0.72      0.80       911
+severability       0.97         0.95      0.96      1640
+successors         0.90         0.50      0.64      1423
+survival           0.95         0.85      0.90      1175
+terminations       0.62         0.76      0.68       912
+waivers            0.92         0.59      0.72      1474
+warranties         0.82         0.66      0.73       756
+micro-avg          0.92         0.77      0.84     21740
+macro-avg          0.89         0.72      0.78     21740
+weighted-avg       0.91         0.77      0.82     21740
+samples-avg        0.81         0.80      0.80     21740
 ```

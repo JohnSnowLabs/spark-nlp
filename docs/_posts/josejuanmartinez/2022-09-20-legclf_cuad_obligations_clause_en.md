@@ -1,6 +1,6 @@
 ---
 layout: model
-title: Legal Obligations Clause Binary Classifier
+title: Legal Obligations Clause Binary Classifier (CUAD dataset)
 author: John Snow Labs
 name: legclf_cuad_obligations_clause
 date: 2022-09-20
@@ -8,7 +8,7 @@ tags: [en, legal, classification, clauses, obligations, licensed]
 task: Text Classification
 language: en
 edition: Spark NLP for Legal 1.0.0
-spark_version: 3.2
+spark_version: 3.0
 supported: true
 article_header:
   type: cover
@@ -28,6 +28,8 @@ Take into consideration the embeddings of this model allows up to 512 tokens. If
 
 This model can be combined with any of the other 200+ Legal Clauses Classifiers you will find in Models Hub, getting as an output a series of True/False values for each of the legal clause model you have added.
 
+The difference between his model and others with the same title is the dataset it was trained on.
+
 ## Predicted Entities
 
 `other`, `obligations`
@@ -43,16 +45,17 @@ This model can be combined with any of the other 200+ Legal Clauses Classifiers 
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
+
 ```python
-documentAssembler = DocumentAssembler() \
+documentAssembler = nlp.DocumentAssembler() \
      .setInputCol("clause_text") \
      .setOutputCol("document")
   
-embeddings = BertSentenceEmbeddings.pretrained("sent_bert_base_cased", "en") \
+embeddings = nlp.BertSentenceEmbeddings.pretrained("sent_bert_base_cased", "en") \
       .setInputCols("document") \
       .setOutputCol("sentence_embeddings")
 
-docClassifier = legal.ClassifierDLModel.pretrained("legclf_cuad_obligations_clause", "en", "legal/models")\
+docClassifier = nlp.ClassifierDLModel.pretrained("legclf_obligations_absolute_clause", "en", "legal/models")\
     .setInputCols(["sentence_embeddings"])\
     .setOutputCol("category")
     
@@ -103,13 +106,10 @@ In-house annotations on CUAD dataset
 ## Benchmarking
 
 ```bash
-              precision    recall  f1-score   support
-
+       label  precision    recall  f1-score   support
  obligations       0.88      0.79      0.83        95
        other       0.88      0.93      0.90       152
-
-    accuracy                           0.88       247
+    accuracy         -         -       0.88       247
    macro avg       0.88      0.86      0.87       247
 weighted avg       0.88      0.88      0.88       247
-
 ```

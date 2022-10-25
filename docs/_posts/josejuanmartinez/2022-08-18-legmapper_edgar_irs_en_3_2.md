@@ -8,7 +8,7 @@ tags: [en, legal, companies, edgar, data, augmentation, irs, licensed]
 task: Chunk Mapping
 language: en
 edition: Spark NLP for Legal 1.0.0
-spark_version: 3.2
+spark_version: 3.0
 supported: true
 article_header:
   type: cover
@@ -40,29 +40,30 @@ This Chunk Mapper model allows you to, given a detected IRS with any NER model, 
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
+
 ```python
-document_assembler = DocumentAssembler()\
+document_assembler = nlp.DocumentAssembler()\
       .setInputCol('text')\
       .setOutputCol('document')
 
-tokenizer = Tokenizer()\
+tokenizer = nlp.Tokenizer()\
       .setInputCols("document")\
       .setOutputCol("token")
 
-embeddings = WordEmbeddingsModel.pretrained('glove_100d') \
+embeddings = nlp.WordEmbeddingsModel.pretrained('glove_100d') \
         .setInputCols(['document', 'token']) \
         .setOutputCol('embeddings')
 
-ner_model = NerDLModel.pretrained("onto_100", "en") \
+ner_model = nlp.NerDLModel.pretrained("onto_100", "en") \
         .setInputCols(["document", "token", "embeddings"]) \
         .setOutputCol("ner")
  
-ner_converter = NerConverter()\
+ner_converter = nlp.NerConverter()\
       .setInputCols(["document", "token", "ner"])\
       .setOutputCol("ner_chunk")\
       .setWhiteList(["CARDINAL"])
 
-CM = ChunkMapperModel()\
+CM = legal.ChunkMapperModel()\
       .pretrained("legmapper_edgar_irs", "en", "legal/models")\
       .setInputCols(["ner_chunk"])\
       .setOutputCol("mappings")

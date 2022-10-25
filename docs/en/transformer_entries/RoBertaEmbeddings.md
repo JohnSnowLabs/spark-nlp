@@ -53,7 +53,7 @@ WORD_EMBEDDINGS
 {%- endcapture -%}
 
 {%- capture python_api_link -%}
-[RoBertaEmbeddings](/api/python/reference/autosummary/sparknlp/annotator/embeddings/roberta_embeddings/index.html#sparknlp.annotator.embeddings.roberta_embeddings.RoBertaEmbeddings)
+[RoBertaEmbeddings](/api/python/reference/autosummary/python/sparknlp/annotator/embeddings/roberta_embeddings/index.html#sparknlp.annotator.embeddings.roberta_embeddings.RoBertaEmbeddings)
 {%- endcapture -%}
 
 {%- capture source_link -%}

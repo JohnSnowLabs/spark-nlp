@@ -8,7 +8,7 @@ tags: [en, legal, obligations, licensed]
 task: [Named Entity Recognition, Part of Speech Tagging, Dependency Parser]
 language: en
 edition: Spark NLP for Legal 1.0.0
-spark_version: 3.2
+spark_version: 3.0
 supported: true
 article_header:
   type: cover
@@ -40,8 +40,9 @@ This model does not include a Sentence Detector, it executes everything at docum
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
+
 ```python
-from sparknlp.pretrained import PretrainedPipeline
+from johnsnowlabs import *
 
 deid_pipeline = PretrainedPipeline("legpipe_obligations", "en", "legal/models")
 
@@ -51,9 +52,8 @@ deid_pipeline.annotate('The Supplier agrees to provide the Buyer with all the ne
 pipeline_result['ner_chunk']
 
 # Visualize the Dependencies
-from sparknlp_display import DependencyParserVisualizer
 
-dependency_vis = DependencyParserVisualizer()
+dependency_vis = viz.DependencyParserVisualizer()
 
 dependency_vis.display(pipeline_result[0], #should be the results of a single example, not the complete dataframe.
                        pos_col = 'pos', #specify the pos column
@@ -97,10 +97,10 @@ In-house annotations on CUAD dataset
 
 ## Included Models
 
-- DocumentAssembler
-- Tokenizer
-- PerceptronModel
-- DependencyParserModel
-- TypedDependencyParserModel
-- LegalBertForTokenClassification
-- NerConverter
+- nlp.DocumentAssembler
+- nlp.Tokenizer
+- nlp.PerceptronModel
+- nlp.DependencyParserModel
+- nlp.TypedDependencyParserModel
+- legal.BertForTokenClassification
+- nlp.NerConverter

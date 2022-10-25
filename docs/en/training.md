@@ -29,7 +29,7 @@ In order to train a Norvig or Symmetric Spell Checkers, we need to get corpus da
 
 **Example:**
 
-<div class="tabs-box" markdown="1">
+<div class="tabs-box tabs-new" markdown="1">
 
 {% include programmingLanguageSelectScalaPython.html %}
 

@@ -24,8 +24,6 @@ data:
           id: detect_language
           image: 
               src: /assets/images/globe.svg
-          image2: 
-              src: /assets/images/globe_w.svg
           excerpt: Spark NLP Language Detector offers support for 20 different languages <b>Bulgarian, Czech, German, Greek, English, Spanish, Finnish, French, Croatian, Hungarian, Italy, Norwegian, Polish, Portuguese, Romanian, Russian, Slovak, Swedish, Turkish, and Ukrainian</b>
           actions:
           - text: Live Demo
@@ -38,8 +36,6 @@ data:
           id: translate_text_in_more_than
           image: 
               src: /assets/images/language.svg
-          image2: 
-              src: /assets/images/language_w.svg
           excerpt: Translate text in more than 192 languages using pretrained Deep Learning models.
           actions:
           - text: Live Demo
