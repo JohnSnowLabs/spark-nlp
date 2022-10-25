@@ -34,17 +34,18 @@ This is a Relation Extraction model to group the different entities extracted wi
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
+
 ```python
-documentAssembler = DocumentAssembler()\
+documentAssembler = nlp.DocumentAssembler()\
         .setInputCol("text")\
         .setOutputCol("document")
 
-sentencizer = SentenceDetectorDLModel\
+sentencizer = nlp.SentenceDetectorDLModel\
         .pretrained("sentence_detector_dl", "en") \
         .setInputCols(["document"])\
         .setOutputCol("sentence")
                       
-tokenizer = Tokenizer()\
+tokenizer = nlp.Tokenizer()\
         .setInputCols(["sentence"])\
         .setOutputCol("token")
 
@@ -53,24 +54,24 @@ tokenClassifier = legal.BertForTokenClassification.pretrained("legner_bert_indem
   .setOutputCol("label")\
   .setCaseSensitive(True)
 
-ner_converter = NerConverter()\
+ner_converter = nlp.NerConverter()\
     .setInputCols(["sentence","token","label"])\
     .setOutputCol("ner_chunk")
 
 # ONLY NEEDED IF YOU WANT TO FILTER RELATION PAIRS OR SYNTACTIC DISTANCE
 # =================
-pos_tagger = PerceptronModel()\
+pos_tagger = nlp.PerceptronModel()\
     .pretrained() \
     .setInputCols(["sentence", "token"])\
     .setOutputCol("pos_tags")
 
-dependency_parser = DependencyParserModel() \
+dependency_parser = nlp.DependencyParserModel() \
     .pretrained("dependency_conllu", "en") \
     .setInputCols(["sentence", "pos_tags", "token"]) \
     .setOutputCol("dependencies")
 
 #Set a filter on pairs of named entities which will be treated as relation candidates
-re_filter = RENerChunksFilter()\
+re_filter = legal.RENerChunksFilter()\
     .setInputCols(["ner_chunk", "dependencies"])\
     .setOutputCol("re_ner_chunks")\
     .setMaxSyntacticDistance(20)\
@@ -139,14 +140,11 @@ In-house annotated examples from CUAD legal dataset
 ## Benchmarking
 
 ```bash
-Relation           Recall Precision        F1   Support
-
+                       label    Recall Precision        F1   Support
 is_indemnification_indobject     0.966     1.000     0.982        29
-is_indemnification_object     0.929     0.929     0.929        42
-is_indemnification_subject     0.931     0.931     0.931        29
-no_rel              0.950     0.941     0.945       100
-
-Avg.                0.944     0.950     0.947
-
-Weighted Avg.       0.945     0.945     0.945
+is_indemnification_object        0.929     0.929     0.929        42
+is_indemnification_subject       0.931     0.931     0.931        29
+no_rel                           0.950     0.941     0.945       100
+Avg.                             0.944     0.950     0.947        -
+Weighted-Avg.                    0.945     0.945     0.945        -
 ```

@@ -35,6 +35,7 @@ This model is trained to carry out a Zero-Shot Named Entity Recognition (NER) ap
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
+
 ```python
 documentAssembler = nlp.DocumentAssembler()\
   .setInputCol("text")\

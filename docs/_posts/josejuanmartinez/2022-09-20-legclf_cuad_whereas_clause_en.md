@@ -45,6 +45,7 @@ The difference between his model and others with the same title is the dataset i
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
+
 ```python
 documentAssembler = nlp.DocumentAssembler() \
      .setInputCol("clause_text") \
@@ -105,13 +106,11 @@ In-house annotations on CUAD dataset
 ## Benchmarking
 
 ```bash
-              precision    recall  f1-score   support
-
+       label  precision    recall  f1-score   support
        other       0.98      0.94      0.96        67
      whereas       0.91      0.98      0.94        41
-
-    accuracy                           0.95       108
-   macro avg       0.95      0.96      0.95       108
-weighted avg       0.96      0.95      0.95       108
+    accuracy         -         -       0.95       108
+   macro-avg       0.95      0.96      0.95       108
+weighted-avg       0.96      0.95      0.95       108
 
 ```

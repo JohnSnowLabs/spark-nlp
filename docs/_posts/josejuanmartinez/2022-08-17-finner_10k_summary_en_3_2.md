@@ -34,6 +34,7 @@ This Financial NER Model is aimed to process the first summary page of 10K filin
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
+
 ```python
 document_assembler = nlp.DocumentAssembler()\
     .setInputCol("text")\
@@ -149,8 +150,7 @@ Manual annotations on 10-K Filings
 ## Benchmarking
 
 ```bash
-                      precision    recall  f1-score   support
-
+              label  precision    recall  f1-score   support
       B-TITLE_CLASS       1.00      1.00      1.00        15
       I-TITLE_CLASS       1.00      1.00      1.00        21
               B-ORG       0.84      0.66      0.74        62
@@ -168,8 +168,7 @@ Manual annotations on 10-K Filings
       I-FISCAL_YEAR       0.93      0.92      0.92       125
 B-TITLE_CLASS_VALUE       1.00      0.93      0.97        15
               B-CFN       0.92      1.00      0.96        12
-
-          micro avg       0.93      0.89      0.91       751
-          macro avg       0.84      0.81      0.82       751
-       weighted avg       0.92      0.89      0.91       751
+          micro-avg       0.93      0.89      0.91       751
+          macro-avg       0.84      0.81      0.82       751
+       weighted-avg       0.92      0.89      0.91       751
 ```

@@ -45,6 +45,7 @@ You can carry out both masking and obfuscation with this pipeline, on the follow
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
+
 ```python
 from sparknlp.pretrained import PretrainedPipeline
 

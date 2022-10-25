@@ -58,6 +58,7 @@ CURR (currency)
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
+
 ```python
 documentAssembler = nlp.DocumentAssembler()\
   .setInputCol("text")\
@@ -173,8 +174,7 @@ https://ontology.birzeit.edu/Wojood/
 ## Benchmarking
 
 ```bash
-             precision    recall  f1-score   support
-
+       label  precision    recall  f1-score   support
   B-CARDINAL       0.93      0.87      0.80        19
       B-DATE       0.88      0.93      0.90       106
      B-EVENT       1.00      0.86      0.92        14
@@ -199,8 +199,7 @@ https://ontology.birzeit.edu/Wojood/
       I-PERS       0.94      1.00      0.97        60
    I-WEBSITE       0.94      1.00      0.97        15
            O       0.98      0.97      0.98      3062
-
-    accuracy                           0.95      4468
-   macro avg       0.83      0.81      0.81      4468
-weighted avg       0.95      0.95      0.95      4468
+    accuracy         -         -       0.95      4468
+   macro-avg       0.83      0.81      0.81      4468
+weighted-avg       0.95      0.95      0.95      4468
 ```

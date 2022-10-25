@@ -34,6 +34,7 @@ This is a pretrained pipeline to extract Companies (ORG), People (PERSON), Job t
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
+
 ```python
 from johnsnowlabs import *
 

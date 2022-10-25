@@ -34,20 +34,21 @@ This model allows you to analyzed present and past job positions of people, extr
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
+
 ```python
-document_assembler = DocumentAssembler()\
+document_assembler = nlp.DocumentAssembler()\
         .setInputCol("text")\
         .setOutputCol("document")
         
-sentence_detector = SentenceDetectorDLModel.pretrained("sentence_detector_dl","en")\
+sentence_detector = nlp.SentenceDetectorDLModel.pretrained("sentence_detector_dl","en")\
         .setInputCols(["document"])\
         .setOutputCol("sentence")\
         
-tokenizer = Tokenizer()\
+tokenizer = nlp.Tokenizer()\
         .setInputCols(["sentence"])\
         .setOutputCol("token")
 
-embeddings = BertEmbeddings.pretrained("bert_embeddings_sec_bert_base","en") \
+embeddings = nlp.BertEmbeddings.pretrained("bert_embeddings_sec_bert_base","en") \
         .setInputCols(["sentence", "token"]) \
         .setOutputCol("embeddings")
 
@@ -55,19 +56,19 @@ ner_model = finance.NerModel.pretrained('finner_org_per_role', 'en', 'finance/mo
         .setInputCols(["sentence", "token", "embeddings"])\
         .setOutputCol("ner")
 
-ner_converter = NerConverter()\
+ner_converter = nlp.NerConverter()\
         .setInputCols(["sentence","token","ner"])\
         .setOutputCol("ner_chunk")
 
-pos = PerceptronModel.pretrained()\
+pos = nlp.PerceptronModel.pretrained()\
     .setInputCols(["sentence", "token"])\
     .setOutputCol("pos")
     
-dependency_parser = DependencyParserModel().pretrained("dependency_conllu", "en")\
+dependency_parser = nlp.DependencyParserModel().pretrained("dependency_conllu", "en")\
     .setInputCols(["sentence", "pos", "token"])\
     .setOutputCol("dependencies")
 
-re_ner_chunk_filter = RENerChunksFilter()\
+re_ner_chunk_filter = finance.RENerChunksFilter()\
     .setInputCols(["ner_chunk", "dependencies"])\
     .setOutputCol("re_ner_chunk")\
     .setRelationPairs(["PERSON-ROLE, ORG-ROLE, DATE-ROLE, PERSON-ORG"])\
@@ -139,14 +140,12 @@ Manual annotations on CUAD dataset, 10K filings and Wikidata
 ## Benchmarking
 
 ```bash
-| Relation            | Recall |Precision|  F1     |Support
-
-| had_role_until      | 0.972  | 0.972   | 0.972   | 36  |
-| has_role            | 0.986  | 0.980   | 0.983   | 146 |
-| has_role_from       | 0.983  | 0.983   | 0.983   | 58  |
-| has_role_in_company | 0.954  | 0.969   | 0.961   | 65  |
-| works_for           | 0.933  | 0.933   | 0.933   | 15  |
-
-| Avg.                | 0.966  | 0.967   | 0.966   |     |
-| Weighted Avg.       | 0.975  | 0.975   | 0.975   |     |
-```
+ label                Recall   Precision  F1       Support
+ had_role_until       0.972    0.972      0.972    36  
+ has_role             0.986    0.980      0.983    146 
+ has_role_from        0.983    0.983      0.983    58  
+ has_role_in_company  0.954    0.969      0.961    65  
+ works_for            0.933    0.933      0.933    15  
+ Avg.                 0.966    0.967      0.966     -   
+ Weighted-Avg.        0.975    0.975      0.975     -   
+```  

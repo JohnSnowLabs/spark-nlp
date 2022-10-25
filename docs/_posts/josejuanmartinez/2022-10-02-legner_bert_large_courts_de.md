@@ -59,6 +59,7 @@ German Named Entity Recognition model, trained using large German Base Bert mode
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
+
 ```python
 document_assembler = nlp.DocumentAssembler()\
     .setInputCol("text")\
@@ -158,9 +159,7 @@ Court decisions from 2017 and 2018 were selected for the dataset, published onli
 ## Benchmarking
 
 ```bash
-+---------------+-------+------------+------+-------------+-----+------------+
-| Macro-average | prec: | 0.9361195, | rec: | 0.92941516, | f1: | 0.93681455 |
-+---------------+-------+------------+------+-------------+-----+------------+
-| Micro-average | prec: | 0.9856711, | rec: | 0.9857456,  | f1: | 0.9851656  |
-+---------------+-------+------------+------+-------------+-----+------------+
+        label        prec         rec          f1
+Macro-average   0.9361195   0.9294152   0.9368145
+Micro-average   0.9856711   0.9857456   0.9851656 
 ```

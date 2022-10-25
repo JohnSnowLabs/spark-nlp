@@ -38,24 +38,29 @@ This model originally trained on scjn dataset, available [here](https://huggingf
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
+
 ```python
-documentAssembler = DocumentAssembler() \
+documentAssembler = nlp.DocumentAssembler() \
        .setInputCol("text") \
        .setOutputCol("document")
 
-sentenceDetector = SentenceDetectorDLModel.pretrained("sentence_detector_dl", "xx")\
+sentenceDetector = nlp.SentenceDetectorDLModel.pretrained("sentence_detector_dl", "xx")\
        .setInputCols(["document"])\
        .setOutputCol("sentence")
 
-tokenizer = Tokenizer() \
+tokenizer = nlp.Tokenizer() \
     .setInputCols("sentence") \
     .setOutputCol("token")
 
-tokenClassifier = RoBertaForTokenClassification.pretrained("legner_laws_treaties","es", "legal/models") \
+tokenClassifier = nlp.RoBertaForTokenClassification.pretrained("legner_laws_treaties","es", "legal/models") \
     .setInputCols(["sentence", "token"]) \
     .setOutputCol("ner")
 
-pipeline = Pipeline(stages=[documentAssembler, sentenceDetector, tokenizer, tokenClassifier])
+pipeline = Pipeline(
+    stages=[documentAssembler, 
+            sentenceDetector, 
+            tokenizer, 
+            tokenClassifier])
 
 text = "Sin perjuicio de lo dispuesto en el párrafo b), los requisitos y los efectos de una reivindicación de prioridad presentada conforme al párrafo 1), serán los establecidos en el Artículo 4 del Acta de Estocolmo del Convenio de París para la Protección de la Propiedad Industrial."
 
@@ -105,9 +110,7 @@ This model was originally trained on scjn dataset, available [here](https://hugg
 ## Benchmarking
 
 ```bash
-+---------------+-------+------------+------+-------------+-----+------------+
-| Macro-average | prec: | 0.9361195, | rec: | 0.92941516, | f1: | 0.93681455 |
-+---------------+-------+------------+------+-------------+-----+------------+
-| Micro-average | prec: | 0.9856711, | rec: | 0.9857456,  | f1: | 0.9851656  |
-+---------------+-------+------------+------+-------------+-----+------------+
+        label        prec        rec          f1
+Macro-average   0.9361195  0.9294152   0.9368145 
+Micro-average   0.9856711  0.9857456   0.9851656  
 ```

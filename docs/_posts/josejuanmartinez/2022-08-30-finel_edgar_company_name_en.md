@@ -34,6 +34,7 @@ This is an Entity Linking / Entity Resolution model, which allows you to map an 
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
+
 ```python
 documentAssembler = nlp.DocumentAssembler()\
       .setInputCol("text")\

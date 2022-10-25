@@ -48,24 +48,30 @@ You can find different versions of this model in Models Hub:
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
+
 ```python
-documentAssembler = DocumentAssembler() \
+documentAssembler = nlp.DocumentAssembler() \
         .setInputCol("text") \
         .setOutputCol("document")
 
-sentenceDetector = SentenceDetectorDLModel.pretrained("sentence_detector_dl", "xx")\
+sentenceDetector = nlp.SentenceDetectorDLModel.pretrained("sentence_detector_dl", "xx")\
        .setInputCols(["document"])\
        .setOutputCol("sentence")
 
-tokenizer = Tokenizer() \
+tokenizer = nlp.Tokenizer() \
     .setInputCols("sentence") \
     .setOutputCol("token")
 
-tokenClassifier = BertForTokenClassification.pretrained("legner_br_bert_base","pt", "legal/models") \
+tokenClassifier = nlp.BertForTokenClassification.pretrained("legner_br_bert_base","pt", "legal/models") \
     .setInputCols(["sentence", "token"]) \
     .setOutputCol("ner")
 
-pipeline = Pipeline(stages=[documentAssembler, sentenceDetector, tokenizer, tokenClassifier])
+pipeline = Pipeline(
+  stages=[
+    documentAssembler, 
+    sentenceDetector, 
+    tokenizer, 
+    tokenClassifier])
 
 example = spark.createDataFrame(pd.DataFrame({'text': ["""Mediante do exposto , com fundamento nos artigos 32 , i , e 33 , da lei 8.443/1992 , submetem-se os autos à consideração superior , com posterior encaminhamento ao ministério público junto ao tcu e ao gabinete do relator , propondo : a ) conhecer do recurso e , no mérito , negar-lhe provimento ; b ) comunicar ao recorrente , ao superior tribunal militar e ao tribunal regional federal da 2ª região , a fim de fornecer subsídios para os processos judiciais 2001.34.00.024796-9 e 2003.34.00.044227-3 ; e aos demais interessados a deliberação que vier a ser proferida por esta corte ” ."""]}))
 
@@ -211,7 +217,6 @@ Original texts available in https://paperswithcode.com/sota?task=Token+Classific
 
 ```bash
            label  precision    recall  f1-score   support
-
    B-ORGANIZACAO       0.86      0.86      0.86       499
    I-ORGANIZACAO       0.89      0.89      0.89       859
     B-LEGISLACAO       0.94      0.94      0.94       373
@@ -224,8 +229,7 @@ I-JURISPRUDENCIA       0.87      0.79      0.83       475
         I-PESSOA       0.96      0.99      0.97       494
          B-LOCAL       0.78      0.81      0.79        47
          I-LOCAL       0.59      0.74      0.66        85
-
-       micro avg       0.91      0.91      0.91      5741
-       macro avg       0.86      0.84      0.84      5741
-    weighted avg       0.91      0.91      0.91      5741
+       micro-avg       0.91      0.91      0.91      5741
+       macro-avg       0.86      0.84      0.84      5741
+    weighted-avg       0.91      0.91      0.91      5741
 ```
