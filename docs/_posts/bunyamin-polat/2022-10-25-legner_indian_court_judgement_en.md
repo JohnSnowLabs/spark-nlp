@@ -34,6 +34,7 @@ This is an NER model trained on Indian court dataset, aimed to extract the follo
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
+
 ```python
 document_assembler = nlp.DocumentAssembler()\
     .setInputCol("text")\
