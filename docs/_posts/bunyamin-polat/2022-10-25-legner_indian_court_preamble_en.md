@@ -34,6 +34,7 @@ This is an NER model trained on Indian court dataset, aimed to extract the follo
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
+
 ```python
 document_assembler = nlp.DocumentAssembler()\
     .setInputCol("text")\
@@ -73,7 +74,7 @@ pipeline = Pipeline(stages=[
 
 model = pipeline.fit(spark.createDataFrame([[""]]).toDF("text"))
 
-data = spark.createDataFrame([[""""""In The High Court Of Judicature At Madras 
+data = spark.createDataFrame([["""In The High Court Of Judicature At Madras 
 
                 Dated:  31/05/2006  
                 
@@ -104,9 +105,7 @@ compensation to the petitioner.
 
 For Petitioner :  Mr.  K.Sudarsanam for M/s.  Surithi Associates
 
-For Respondents:  Mr.  Mohd.Fiary Hussain for R1                
-
-"""""]]
+For Respondents:  Mr.  Mohd.Fiary Hussain for R1"""]])
                              
 result = model.transform(data)
 ```
@@ -177,9 +176,7 @@ compensation to the petitioner.
 
 For Petitioner :  Mr.  K.Sudarsanam for M/s.  Surithi Associates
 
-For Respondents:  Mr.  Mohd.Fiary Hussain for R1                
-
-""").toDS.toDF("text")
+For Respondents:  Mr.  Mohd.Fiary Hussain for R1""").toDS.toDF("text")
                              
 val result = pipeline.fit(data).transform(data)
 ```
