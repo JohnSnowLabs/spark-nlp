@@ -34,6 +34,7 @@ Extract clinical entities from Romanian clinical texts. This model is trained us
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
+
 ```python
 document_assembler = DocumentAssembler()\
 .setInputCol("text")\
@@ -168,27 +169,27 @@ nlu.load("ro.med_ner.clinical").predict(""" Solicitare: Angio CT cardio-toracic 
 ## Benchmarking
 
 ```bash
-label  precision    recall  f1-score   support
-Body_Part       0.87      0.90      0.88       689
-Clinical_Dept       0.68      0.62      0.65        97
-Date       1.00      0.99      0.99        87
-Direction       0.64      0.74      0.69        50
-Disease_Syndrome_Disorder       0.69      0.66      0.67       123
-Dosage       0.74      0.97      0.84        38
-Drug_Ingredient       0.98      0.92      0.95        48
-Form       1.00      1.00      1.00         6
-Imaging_Findings       0.74      0.76      0.75       202
-Imaging_Technique       0.92      0.88      0.90        26
-Imaging_Test       0.93      0.97      0.95       208
-Measurements       0.70      0.67      0.69       214
-Medical_Device       0.92      0.81      0.86        42
-Pulse       0.82      1.00      0.90         9
-Route       0.97      0.91      0.94        33
-Score       0.91      0.95      0.93        41
-Time       1.00      1.00      1.00        28
-Units       0.60      0.89      0.71        88
-Weight       1.00      1.00      1.00         9
-micro-avg       0.82      0.84      0.83      2054
-macro-avg       0.70      0.72      0.71      2054
-weighted-avg       0.81      0.84      0.82      2054
+label                       precision recall    f1-score   support
+Body_Part                   0.87      0.90      0.88       689
+Clinical_Dept               0.68      0.62      0.65        97
+Date                        1.00      0.99      0.99        87
+Direction                   0.64      0.74      0.69        50
+Disease_Syndrome_Disorder   0.69      0.66      0.67       123
+Dosage                      0.74      0.97      0.84        38
+Drug_Ingredient             0.98      0.92      0.95        48
+Form                        1.00      1.00      1.00         6
+Imaging_Findings            0.74      0.76      0.75       202
+Imaging_Technique           0.92      0.88      0.90        26
+Imaging_Test                0.93      0.97      0.95       208
+Measurements                0.70      0.67      0.69       214
+Medical_Device              0.92      0.81      0.86        42
+Pulse                       0.82      1.00      0.90         9
+Route                       0.97      0.91      0.94        33
+Score                       0.91      0.95      0.93        41
+Time                        1.00      1.00      1.00        28
+Units                       0.60      0.89      0.71        88
+Weight                      1.00      1.00      1.00         9
+micro-avg                   0.82      0.84      0.83      2054
+macro-avg                   0.70      0.72      0.71      2054
+weighted-avg                0.81      0.84      0.82      2054
 ```

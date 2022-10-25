@@ -64,6 +64,8 @@ This release comes with new models, new features, bug fixes, and notebook exampl
 </ul>
 
 <ul class="pagination owl-carousel pagination_big">
+  <li><a href="release_notes_3_14_0">3.14.0</a></li>
+  <li><a href="release_notes_3_13_0">3.13.0</a></li>
   <li><a href="release_notes_3_12_0">3.12.0</a></li>
   <li class="active"><a href="release_notes_3_11_0">3.11.0</a></li>
   <li><a href="release_notes_3_10_0">3.10.0</a></li>

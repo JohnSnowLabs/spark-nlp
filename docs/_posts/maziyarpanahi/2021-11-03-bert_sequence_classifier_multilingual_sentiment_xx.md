@@ -59,7 +59,7 @@ tokenizer = Tokenizer() \
     .setOutputCol('token')
 
 sequenceClassifier = BertForSequenceClassification \
-      .pretrained('bert_sequence_classifier_multilingual_sentiment', xx') \
+      .pretrained('bert_sequence_classifier_multilingual_sentiment', 'xx') \
       .setInputCols(['token', 'document']) \
       .setOutputCol('class') \
       .setCaseSensitive(False) \

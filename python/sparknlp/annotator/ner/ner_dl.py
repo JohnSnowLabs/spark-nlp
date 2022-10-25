@@ -15,11 +15,12 @@
 
 import sys
 
+from sparknlp.annotator.param import EvaluationDLParams
 from sparknlp.common import *
 from sparknlp.annotator.ner.ner_approach import NerApproach
 
 
-class NerDLApproach(AnnotatorApproach, NerApproach):
+class NerDLApproach(AnnotatorApproach, NerApproach, EvaluationDLParams):
     """This Named Entity recognition annotator allows to train generic NER model
     based on Neural Networks.
 
@@ -177,18 +178,6 @@ class NerDLApproach(AnnotatorApproach, NerApproach):
                        "whether to use contrib LSTM Cells. Not compatible with Windows. Might slightly improve accuracy.",
                        TypeConverters.toBoolean)
 
-    validationSplit = Param(Params._dummy(), "validationSplit",
-                            "Choose the proportion of training dataset to be validated against the model on each Epoch. The value should be between 0.0 and 1.0 and by default it is 0.0 and off.",
-                            TypeConverters.toFloat)
-
-    evaluationLogExtended = Param(Params._dummy(), "evaluationLogExtended",
-                                  "Whether logs for validation to be extended: it displays time and evaluation of each label. Default is False.",
-                                  TypeConverters.toBoolean)
-
-    testDataset = Param(Params._dummy(), "testDataset",
-                        "Path to test dataset. If set used to calculate statistic on it during training.",
-                        TypeConverters.identity)
-
     includeConfidence = Param(Params._dummy(), "includeConfidence",
                               "whether to include confidence scores in annotation metadata",
                               TypeConverters.toBoolean)
@@ -196,13 +185,6 @@ class NerDLApproach(AnnotatorApproach, NerApproach):
     includeAllConfidenceScores = Param(Params._dummy(), "includeAllConfidenceScores",
                                        "whether to include all confidence scores in annotation metadata or just the score of the predicted tag",
                                        TypeConverters.toBoolean)
-
-    enableOutputLogs = Param(Params._dummy(), "enableOutputLogs",
-                             "Whether to use stdout in addition to Spark logs.",
-                             TypeConverters.toBoolean)
-
-    outputLogsPath = Param(Params._dummy(), "outputLogsPath", "Folder path to save training logs",
-                           TypeConverters.toString)
 
     enableMemoryOptimizer = Param(Params._dummy(), "enableMemoryOptimizer",
                                   "Whether to optimize for large datasets or not. Enabling this option can slow down training.",
@@ -300,50 +282,6 @@ class NerDLApproach(AnnotatorApproach, NerApproach):
         self._set(dropout=v)
         return self
 
-    def _create_model(self, java_model):
-        return NerDLModel(java_model=java_model)
-
-    def setValidationSplit(self, v):
-        """Sets the proportion of training dataset to be validated against the
-        model on each Epoch, by default it is 0.0 and off. The value should be
-        between 0.0 and 1.0.
-
-        Parameters
-        ----------
-        v : float
-            Proportion of training dataset to be validated
-        """
-        self._set(validationSplit=v)
-        return self
-
-    def setEvaluationLogExtended(self, v):
-        """Sets whether logs for validation to be extended, by default False.
-        Displays time and evaluation of each label.
-
-        Parameters
-        ----------
-        v : bool
-            Whether logs for validation to be extended
-
-        """
-        self._set(evaluationLogExtended=v)
-        return self
-
-    def setTestDataset(self, path, read_as=ReadAs.SPARK, options={"format": "parquet"}):
-        """Sets Path to test dataset. If set used to calculate statistic on it
-        during training.
-
-        Parameters
-        ----------
-        path : str
-            Path to test dataset
-        read_as : str, optional
-            How to read the resource, by default ReadAs.SPARK
-        options : dict, optional
-            Options for reading the resource, by default {"format": "parquet"}
-        """
-        return self._set(testDataset=ExternalResource(path, read_as, options.copy()))
-
     def setIncludeConfidence(self, value):
         """Sets whether to include confidence scores in annotation metadata, by
         default False.
@@ -367,17 +305,6 @@ class NerDLApproach(AnnotatorApproach, NerApproach):
         """
         return self._set(includeAllConfidenceScores=value)
 
-    def setEnableOutputLogs(self, value):
-        """Sets whether to use stdout in addition to Spark logs, by default
-        False.
-
-        Parameters
-        ----------
-        value : bool
-            Whether to use stdout in addition to Spark logs
-        """
-        return self._set(enableOutputLogs=value)
-
     def setEnableMemoryOptimizer(self, value):
         """Sets Whether to optimize for large datasets or not, by default False.
         Enabling this option can slow down training.
@@ -388,16 +315,6 @@ class NerDLApproach(AnnotatorApproach, NerApproach):
             Whether to optimize for large datasets
         """
         return self._set(enableMemoryOptimizer=value)
-
-    def setOutputLogsPath(self, p):
-        """Sets folder path to save training logs.
-
-        Parameters
-        ----------
-        p : str
-            Folder path to save training logs
-        """
-        return self._set(outputLogsPath=p)
 
     def setUseBestModel(self, value):
         """Whether to restore and use the model that has achieved the best performance at the end of the training.
@@ -419,6 +336,9 @@ class NerDLApproach(AnnotatorApproach, NerApproach):
             Whether to check F1 Micro-average or F1 Macro-average as a final metric for the best model
         """
         return self._set(bestModelMetric=value)
+
+    def _create_model(self, java_model):
+        return NerDLModel(java_model=java_model)
 
     @keyword_only
     def __init__(self):
@@ -442,6 +362,7 @@ class NerDLApproach(AnnotatorApproach, NerApproach):
             useBestModel=False,
             bestModelMetric="f1_micro"
         )
+
 
 class NerDLModel(AnnotatorModel, HasStorageRef, HasBatchedAnnotate):
     """This Named Entity recognition annotator is a generic NER model based on

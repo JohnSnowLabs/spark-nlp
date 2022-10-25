@@ -67,7 +67,7 @@ import java.io.File
   * To see which models are compatible and how to import them see
   * [[https://github.com/JohnSnowLabs/spark-nlp/discussions/5669]].
   *
-  * '''Sources:'''
+  * '''References:'''
   *
   * [[https://arxiv.org/pdf/1909.11942.pdf ALBERT: A LITE BERT FOR SELF-SUPERVISED LEARNING OF LANGUAGE REPRESENTATIONS]]
   *

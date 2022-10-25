@@ -118,19 +118,15 @@ Trained on data gathered and manually annotated by John Snow Labs
 https://portal.dbmi.hms.harvard.edu/projects/n2c2-nlp/
 
 ## Benchmarking
-The model has been validated against the posology dataset described in "Magge, Scotch, & Gonzalez-Hernandez, 2018".
 ```bash
        label  precision  recall  f1-score
- 
            O       0.96    0.93      0.94
         TeRP       0.91    0.94      0.92
          PIP       0.86    0.92      0.89
         TrAP       0.81    0.92      0.86
         TrCP       0.56    0.55      0.55
         TeCP       0.57    0.49      0.53
-
-    accuracy                         0.88
-   macro avg       0.65    0.59      0.60
-weighted avg       0.87    0.88      0.87 
+    accuracy        -       -        0.88
+   macro-avg       0.65    0.59      0.60
+weighted-avg       0.87    0.88      0.87 
 ```
-Magge, Scotch, Gonzalez-Hernandez (2018) collapsed DRUG-FORM and DRUG-ROUTE into a single relation.

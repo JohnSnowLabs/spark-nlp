@@ -114,23 +114,28 @@ The classes are the following:
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
+
 ```python
-document_assembler = DocumentAssembler() \
+document_assembler = nlp.DocumentAssembler() \
     .setInputCol('text') \
     .setOutputCol('document')
 
-tokenizer = Tokenizer() \
+tokenizer = nlp.Tokenizer() \
     .setInputCols(['document']) \
     .setOutputCol('token')
 
-sequenceClassifier = BertForSequenceClassification \
+sequenceClassifier = finance.BertForSequenceClassification \
       .pretrained('finclf_bert_banking77', 'en', 'finance/models') \
       .setInputCols(['token', 'document']) \
       .setOutputCol('class') \
       .setCaseSensitive(True) \
       .setMaxSentenceLength(512)
 
-pipeline = Pipeline(stages=[document_assembler, tokenizer, sequenceClassifier])
+pipeline = Pipeline(
+  stages=[
+    document_assembler, 
+    tokenizer, 
+    sequenceClassifier])
 
 example = spark.createDataFrame([['I am still waiting on my card?']]).toDF("text")
 result = pipeline.fit(example).transform(example)
@@ -167,19 +172,16 @@ Banking77 dataset (https://paperswithcode.com/dataset/banking77-oos) and in-hous
 ## Benchmarking
 
 ```bash
-+--------------------+--------------------+
-| Validation Metrics | Score              |
-+--------------------+--------------------+
-| Loss               | 0.3031957447528839 |
-| Accuracy           | 0.9363636363636364 |
-| Macro F1           | 0.9364655956915154 |
-| Micro F1           | 0.9363636363636364 |
-| Weighted F1        | 0.9364655956915157 |
-| Macro Precision    | 0.9396792003322154 |
-| Micro Precision    | 0.9363636363636364 |
-| Weighted Precision | 0.9396792003322155 |
-| Macro Recall       | 0.9363636363636365 |
-| Micro Recall       | 0.9363636363636364 |
-| Weighted Recall    | 0.9363636363636364 |
-+--------------------+--------------------+
+label               Score              
+Loss                0.3031957447528839 
+Accuracy            0.9363636363636364 
+Macro_F1            0.9364655956915154 
+Micro_F1            0.9363636363636364 
+Weighted_F1         0.9364655956915157 
+Macro_Precision     0.9396792003322154 
+Micro_Precision     0.9363636363636364 
+Weighted_Precision  0.9396792003322155 
+Macro_Recall        0.9363636363636365 
+Micro_Recall        0.9363636363636364 
+Weighted_Recall     0.9363636363636364 
 ```

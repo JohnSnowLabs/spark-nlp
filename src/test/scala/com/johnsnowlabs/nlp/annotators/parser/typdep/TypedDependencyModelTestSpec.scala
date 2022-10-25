@@ -23,6 +23,7 @@ import com.johnsnowlabs.nlp.annotators.parser.dep.{
   DependencyParserModel
 }
 import com.johnsnowlabs.nlp.annotators.sbd.pragmatic.SentenceDetector
+import com.johnsnowlabs.nlp.util.io.ResourceHelper
 import com.johnsnowlabs.nlp.{DocumentAssembler, Finisher, SparkAccessor}
 import com.johnsnowlabs.tags.SlowTest
 import org.apache.spark.ml.Pipeline
@@ -33,14 +34,7 @@ class TypedDependencyModelTestSpec extends AnyFlatSpec {
 
   System.gc()
 
-  private val spark = SparkSession
-    .builder()
-    .appName("benchmark")
-    .master("local[*]")
-    .config("spark.driver.memory", "3G")
-    .config("spark.kryoserializer.buffer.max", "200M")
-    .config("spark.serializer", "org.apache.spark.serializer.KryoSerializer")
-    .getOrCreate()
+  val spark: SparkSession = ResourceHelper.spark
 
   import spark.implicits._
 
@@ -126,58 +120,55 @@ class TypedDependencyModelTestSpec extends AnyFlatSpec {
 
     }
 
-  "A typed dependency parser (trained with CoNLL-U) model with sentences in one row input" should
-    "predict a labeled relationship between words in each sentence" taggedAs SlowTest in {
-      import SparkAccessor.spark.implicits._
-      val pipeline = new Pipeline()
-        .setStages(
-          Array(
-            documentAssembler,
-            sentenceDetector,
-            tokenizer,
-            posTagger,
-            dependencyParserConllU,
-            typedDependencyParserConllU))
+  "A typed dependency parser model" should "A typed dependency parser (trained with CoNLL-U) model with sentences in one row input" taggedAs SlowTest in {
+    import SparkAccessor.spark.implicits._
+    val pipeline = new Pipeline()
+      .setStages(
+        Array(
+          documentAssembler,
+          sentenceDetector,
+          tokenizer,
+          posTagger,
+          dependencyParserConllU,
+          typedDependencyParserConllU))
 
-      val model = pipeline.fit(emptyDataSet)
+    val model = pipeline.fit(emptyDataSet)
 
-      val testDataSet =
-        Seq("It should continue to be defanged. " + "That too was stopped.").toDS.toDF("text")
-      val typedDependencyParserDataFrame = model.transform(testDataSet)
-      // typedDependencyParserDataFrame.collect()
+    val testDataSet =
+      Seq("It should continue to be defanged. " + "That too was stopped.").toDS.toDF("text")
+    val typedDependencyParserDataFrame = model.transform(testDataSet)
+    // typedDependencyParserDataFrame.collect()
 //      typedDependencyParserDataFrame.select("labdep").show(false)
-      assert(typedDependencyParserDataFrame.isInstanceOf[DataFrame])
+    assert(typedDependencyParserDataFrame.isInstanceOf[DataFrame])
 
-    }
+  }
 
-  "A typed dependency parser model (trained with CoNLL-U) with finisher in its pipeline" should
-    "predict a labeled relationship between words in each sentence" in {
-      import SparkAccessor.spark.implicits._
+  "A typed dependency parser model" should "predict a labeled relationship between words in each sentence" taggedAs SlowTest in {
+    import SparkAccessor.spark.implicits._
 
-      val finisher = new Finisher().setInputCols("labdep")
+    val finisher = new Finisher().setInputCols("labdep")
 
-      val pipeline = new Pipeline()
-        .setStages(
-          Array(
-            documentAssembler,
-            sentenceDetector,
-            tokenizer,
-            posTagger,
-            dependencyParserConllU,
-            typedDependencyParserConllU,
-            finisher))
+    val pipeline = new Pipeline()
+      .setStages(
+        Array(
+          documentAssembler,
+          sentenceDetector,
+          tokenizer,
+          posTagger,
+          dependencyParserConllU,
+          typedDependencyParserConllU,
+          finisher))
 
-      val model = pipeline.fit(emptyDataSet)
+    val model = pipeline.fit(emptyDataSet)
 
-      val testDataSet = Seq(
-        "So what happened?",
-        "It should continue to be defanged.",
-        "That too was stopped.").toDS.toDF("text")
-      val typedDependencyParserDataFrame = model.transform(testDataSet)
-      // typedDependencyParserDataFrame.collect()
+    val testDataSet =
+      Seq("So what happened?", "It should continue to be defanged.", "That too was stopped.").toDS
+        .toDF("text")
+    val typedDependencyParserDataFrame = model.transform(testDataSet)
+    // typedDependencyParserDataFrame.collect()
 //      typedDependencyParserDataFrame.show(false)
-      assert(typedDependencyParserDataFrame.isInstanceOf[DataFrame])
+    assert(typedDependencyParserDataFrame.isInstanceOf[DataFrame])
 
-    }
+  }
 
 }

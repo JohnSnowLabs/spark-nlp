@@ -1,6 +1,6 @@
 ---
 layout: model
-title: Spanish Electra Embeddings (from mrm8488)
+title: Spanish Electra Uncased Embeddings (Oscar dataset) 
 author: John Snow Labs
 name: electra_embeddings_electricidad_base_generator
 date: 2022-05-17

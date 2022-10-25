@@ -48,24 +48,24 @@ Deidentification NER (Spanish) is a Named Entity Recognition model that annotate
 {% include programmingLanguageSelectScalaPythonNLU.html %}
 
 ```python
-documentAssembler = DocumentAssembler()\
+documentAssembler = nlp.DocumentAssembler()\
 .setInputCol("text")\
 .setOutputCol("document")
 
-# Feel free to experiment with multilingual or Spanish SentenceDetector instead
-sentenceDetector = SentenceDetectorDLModel.pretrained("sentence_detector_dl","xx")\
+# Feel free to experiment with multilingual or Spanish nlp.SentenceDetector instead
+sentenceDetector = nlp.SentenceDetectorDLModel.pretrained("sentence_detector_dl","xx")\
 .setInputCols(["document"])\
 .setOutputCol("sentence")
 
-tokenizer = Tokenizer()\
+tokenizer = nlp.Tokenizer()\
 .setInputCols(["sentence"])\
 .setOutputCol("token")
 
-embeddings = WordEmbeddingsModel.pretrained("embeddings_sciwiki_300d","es","clinical/models")\
+embeddings = nlp.WordEmbeddingsModel.pretrained("embeddings_sciwiki_300d","es","clinical/models")\
 	.setInputCols(["sentence","token"])\
 	.setOutputCol("word_embeddings")
 
-clinical_ner = MedicalNerModel.pretrained("ner_deid_generic", "es", "clinical/models")\
+clinical_ner = medical.NerModel.pretrained("ner_deid_generic", "es", "clinical/models")\
 .setInputCols(["sentence","token","word_embeddings"])\
 .setOutputCol("ner")
 
@@ -85,23 +85,23 @@ df = spark.createDataFrame([text]).toDF("text")
 results = nlpPipeline.fit(df).transform(df)
 ```
 ```scala
-val documentAssembler = new DocumentAssembler()
+val documentAssembler = new nlp.DocumentAssembler()
 .setInputCol("text")
 .setOutputCol("document")
 
-val sentenceDetector = SentenceDetectorDLModel.pretrained("sentence_detector_dl","xx")
+val sentenceDetector = nlp.SentenceDetectorDLModel.pretrained("sentence_detector_dl","xx")
 .setInputCols(Array("document"))
 .setOutputCol("sentence")
 
-val tokenizer = new Tokenizer()
+val tokenizer = new nlp.Tokenizer()
 .setInputCols(Array("sentence"))
 .setOutputCol("token")
 
-embeddings = WordEmbeddingsModel.pretrained("embeddings_sciwiki_300d","es","clinical/models")
+embeddings = nlp.WordEmbeddingsModel.pretrained("embeddings_sciwiki_300d","es","clinical/models")
 	.setInputCols(Array("sentence","token"))
 	.setOutputCol("word_embeddings")
 
-clinical_ner = MedicalNerModel.pretrained("ner_deid_generic", "es", "clinical/models")
+clinical_ner = medical.NerModel.pretrained("ner_deid_generic", "es", "clinical/models")
 .setInputCols(Array("sentence","token","word_embeddings"))
 .setOutputCol("ner")
 

@@ -41,7 +41,7 @@ For more information see the [User Guide](https://nlp.johnsnowlabs.com/api/pytho
 
 <summary class="button"><b>Show Example</b></summary>
 
-<div class="tabs-box" markdown="1">
+<div class="tabs-box tabs-new" markdown="1">
 
 ```python
 # Metrics while training an annotator can be logged with for example:

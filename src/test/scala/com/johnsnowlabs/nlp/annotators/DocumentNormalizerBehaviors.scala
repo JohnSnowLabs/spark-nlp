@@ -31,6 +31,43 @@ trait DocumentNormalizerBehaviors extends AnyFlatSpec {
 
   val DOC_NORMALIZER_BASE_DIR = "src/test/resources/doc-normalizer"
 
+  def runLookaroundDocNormPipeline(
+      action: String,
+      patterns: Array[String],
+      replacement: String = " ") = {
+    val dataset =
+      SparkAccessor.spark
+        .createDataFrame(
+          List(
+            (1, "10.2"),
+            (2, "9,53"),
+            (3, "11.01 mg"),
+            (4, "mg 11.01"),
+            (5, "14,220"),
+            (6, "Amoxiciline 4,5 mg for $10.35; Ibuprofen 5,5mg for $9.00.")))
+        .toDF("id", "text")
+
+    val annotated =
+      AnnotatorBuilder
+        .withDocumentNormalizer(
+          dataset = dataset,
+          action = action,
+          patterns = patterns,
+          replacement = replacement)
+
+    val normalizedDoc: Array[Annotation] = annotated
+      .select("normalizedDocument")
+      .collect
+      .flatMap {
+        _.getSeq[Row](0)
+      }
+      .map {
+        Annotation(_)
+      }
+
+    normalizedDoc
+  }
+
   def fixtureFilesHTML(action: String, patterns: Array[String], replacement: String = " ") = {
 
     import SparkAccessor.spark.implicits._
@@ -117,6 +154,43 @@ trait DocumentNormalizerBehaviors extends AnyFlatSpec {
       }
 
     normalizedDoc
+  }
+
+  "A DocumentNormalizer" should "annotate replacing , to . using iterative positive lookahead" taggedAs FastTest in {
+    val action = "lookaround"
+    val patterns = Array(".*\\d+(\\,)\\d+(?=\\s?mg).*")
+    val replacement = "."
+
+    val f = runLookaroundDocNormPipeline(action, patterns, replacement)(
+      5
+    ) // Amoxiciline 4,5 mg for $10.35; Ibuprofen 5,5mg for $9.00.
+
+    0 should equal(f.begin)
+    55 should equal(f.end)
+  }
+
+  "A DocumentNormalizer" should "annotate replacing . to , using positive lookahead" taggedAs FastTest in {
+    val action = "lookaround"
+    val patterns = Array(".*\\d+(\\.)\\d+(?= mg).*")
+    val replacement = ","
+
+    val f = runLookaroundDocNormPipeline(action, patterns, replacement)(2) // 11,01 mg
+
+    println(f)
+
+    0 should equal(f.begin)
+    7 should equal(f.end)
+  }
+
+  "A DocumentNormalizer" should "annotate replacing . to , using positive lookbehind" taggedAs FastTest in {
+    val action = "lookaround"
+    val patterns = Array(".*(?<=mg )\\d+(\\.)\\d+.*")
+    val replacement = ","
+
+    val f = runLookaroundDocNormPipeline(action, patterns, replacement)(3) // mg 11,01
+
+    0 should equal(f.begin)
+    7 should equal(f.end)
   }
 
   "A DocumentNormalizer" should "annotate with the correct indexes cleaning up all HTML tags" taggedAs FastTest in {

@@ -13,11 +13,12 @@
 #  limitations under the License.
 """Contains classes for MultiClassifierDL."""
 
+from sparknlp.annotator.param import EvaluationDLParams, ClassifierEncoder
 from sparknlp.annotator.classifier_dl import ClassifierDLModel
 from sparknlp.common import *
 
 
-class MultiClassifierDLApproach(AnnotatorApproach):
+class MultiClassifierDLApproach(AnnotatorApproach, EvaluationDLParams, ClassifierEncoder):
     """Trains a MultiClassifierDL for Multi-label Text Classification.
 
     MultiClassifierDL uses a Bidirectional GRU with a convolutional model that
@@ -143,34 +144,6 @@ class MultiClassifierDLApproach(AnnotatorApproach):
     SentimentDLApproach : for sentiment analysis
     """
 
-    lr = Param(Params._dummy(), "lr", "Learning Rate", TypeConverters.toFloat)
-
-    batchSize = Param(Params._dummy(), "batchSize", "Batch size", TypeConverters.toInt)
-
-    maxEpochs = Param(Params._dummy(), "maxEpochs", "Maximum number of epochs to train", TypeConverters.toInt)
-
-    configProtoBytes = Param(Params._dummy(), "configProtoBytes",
-                             "ConfigProto from tensorflow, serialized into byte array. Get with config_proto.SerializeToString()",
-                             TypeConverters.toListInt)
-
-    validationSplit = Param(Params._dummy(), "validationSplit",
-                            "Choose the proportion of training dataset to be validated against the model on each Epoch. The value should be between 0.0 and 1.0 and by default it is 0.0 and off.",
-                            TypeConverters.toFloat)
-
-    enableOutputLogs = Param(Params._dummy(), "enableOutputLogs",
-                             "Whether to use stdout in addition to Spark logs.",
-                             TypeConverters.toBoolean)
-
-    outputLogsPath = Param(Params._dummy(), "outputLogsPath", "Folder path to save training logs",
-                           TypeConverters.toString)
-
-    labelColumn = Param(Params._dummy(),
-                        "labelColumn",
-                        "Column with label per each token",
-                        typeConverter=TypeConverters.toString)
-
-    verbose = Param(Params._dummy(), "verbose", "Level of verbosity during training", TypeConverters.toInt)
-    randomSeed = Param(Params._dummy(), "randomSeed", "Random seed", TypeConverters.toInt)
     shufflePerEpoch = Param(Params._dummy(), "shufflePerEpoch", "whether to shuffle the training data on each Epoch",
                             TypeConverters.toBoolean)
     threshold = Param(Params._dummy(), "threshold",
@@ -186,105 +159,6 @@ class MultiClassifierDLApproach(AnnotatorApproach):
         """
         return self._set(verbose=v)
 
-    def setRandomSeed(self, seed):
-        """Sets random seed for shuffling.
-
-        Parameters
-        ----------
-        seed : int
-            Random seed for shuffling
-        """
-        return self._set(randomSeed=seed)
-
-    def setLabelColumn(self, v):
-        """Sets name of column for data labels.
-
-        Parameters
-        ----------
-        v : str
-            Column for data labels
-        """
-        return self._set(labelColumn=v)
-
-    def setConfigProtoBytes(self, v):
-        """Sets configProto from tensorflow, serialized into byte array.
-
-        Parameters
-        ----------
-        v : List[str]
-            ConfigProto from tensorflow, serialized into byte array
-        """
-        return self._set(configProtoBytes=v)
-
-    def setLr(self, v):
-        """Sets Learning Rate, by default 0.001.
-
-        Parameters
-        ----------
-        v : float
-            Learning Rate
-        """
-        self._set(lr=v)
-        return self
-
-    def setBatchSize(self, v):
-        """Sets batch size, by default 64.
-
-        Parameters
-        ----------
-        v : int
-            Batch size
-        """
-        self._set(batchSize=v)
-        return self
-
-    def setMaxEpochs(self, v):
-        """Sets maximum number of epochs to train, by default 10.
-
-        Parameters
-        ----------
-        v : int
-            Maximum number of epochs to train
-        """
-        return self._set(maxEpochs=v)
-
-    def _create_model(self, java_model):
-        return ClassifierDLModel(java_model=java_model)
-
-    def setValidationSplit(self, v):
-        """Sets the proportion of training dataset to be validated against the
-        model on each Epoch, by default it is 0.0 and off. The value should be
-        between 0.0 and 1.0.
-
-        Parameters
-        ----------
-        v : float
-            Proportion of training dataset to be validated
-        """
-        self._set(validationSplit=v)
-        return self
-
-    def setEnableOutputLogs(self, v):
-        """Sets whether to use stdout in addition to Spark logs, by default
-        False.
-
-        Parameters
-        ----------
-        v : bool
-            Whether to use stdout in addition to Spark logs
-        """
-        return self._set(enableOutputLogs=v)
-
-    def setOutputLogsPath(self, v):
-        """Sets folder path to save training logs.
-
-        Parameters
-        ----------
-        v : str
-            Folder path to save training logs
-        """
-        return self._set(outputLogsPath=v)
-
     def setShufflePerEpoch(self, v):
         return self._set(shufflePerEpoch=v)
 
@@ -298,6 +172,9 @@ class MultiClassifierDLApproach(AnnotatorApproach):
         """
         self._set(threshold=v)
         return self
+
+    def _create_model(self, java_model):
+        return ClassifierDLModel(java_model=java_model)
 
     @keyword_only
     def __init__(self):
@@ -313,6 +190,7 @@ class MultiClassifierDLApproach(AnnotatorApproach):
             shufflePerEpoch=False,
             enableOutputLogs=False
         )
+
 
 class MultiClassifierDLModel(AnnotatorModel, HasStorageRef):
     """MultiClassifierDL for Multi-label Text Classification.

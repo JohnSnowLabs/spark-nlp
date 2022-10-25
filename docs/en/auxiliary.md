@@ -48,7 +48,7 @@ In Scala, importing inner functions brings implicits that allow these functions 
 
 **Imports:**
 
-<div class="tabs-box pt0" markdown="1">
+<div class="tabs-box tabs-new pt0" markdown="1">
 
 {% include programmingLanguageSelectScalaPython.html %}
 
@@ -69,15 +69,9 @@ import com.johnsnowlabs.nlp.Annotation
 Complete usage examples can be seen here:
 https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/234-release-candidate/jupyter/annotation/english/spark-nlp-basics/spark-nlp-basics-functions.ipynb
 
-<div class="tabs-box" markdown="1">
+<div class="tabs-box tabs-new" markdown="1">
 
 {% include programmingLanguageSelectScalaPython.html %}
-
-```scala
-val modified = data.mapAnnotationsCol("pos", "mod_pos","pos" ,(_: Seq[Annotation]) => {
-      "hello world"
-    })
-```
 
 ```python
 def my_annoation_map_function(annotations):
@@ -92,6 +86,12 @@ def my_annoation_map_function(annotations):
 result.select(
     map_annotations(my_annoation_map_function, Annotation.arrayType())('token')
 ).toDF("my output").show(truncate=False)
+```
+
+```scala
+val modified = data.mapAnnotationsCol("pos", "mod_pos","pos" ,(_: Seq[Annotation]) => {
+      "hello world"
+    })
 ```
 
 </div>

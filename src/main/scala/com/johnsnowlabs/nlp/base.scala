@@ -52,4 +52,15 @@ package object base {
 
   type LightPipeline = com.johnsnowlabs.nlp.LightPipeline
 
+  type ImageAssembler = com.johnsnowlabs.nlp.ImageAssembler
+
+  object ImageAssembler extends DefaultParamsReadable[ImageAssembler]
+
+  type AudioAssembler = com.johnsnowlabs.nlp.AudioAssembler
+
+  object AudioAssembler extends DefaultParamsReadable[AudioAssembler]
+
+  type TableAssembler = com.johnsnowlabs.nlp.TableAssembler
+
+  object TableAssembler extends DefaultParamsReadable[TableAssembler]
 }

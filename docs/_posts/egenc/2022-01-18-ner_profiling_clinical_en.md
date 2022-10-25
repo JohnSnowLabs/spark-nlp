@@ -5,7 +5,7 @@ author: John Snow Labs
 name: ner_profiling_clinical
 date: 2022-01-18
 tags: [ner, ner_profiling, clinical, en, licensed]
-task: Named Entity Recognition
+task: [Named Entity Recognition, Pipeline Healthcare]
 language: en
 edition: Spark NLP for Healthcare 3.3.1
 spark_version: 2.4

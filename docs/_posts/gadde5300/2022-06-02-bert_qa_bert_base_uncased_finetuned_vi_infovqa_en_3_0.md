@@ -1,12 +1,12 @@
 ---
 layout: model
-title: English BertForQuestionAnswering model (from tiennvcs)
+title: Vietnamese BertForQuestionAnswering model (from tiennvcs)
 author: John Snow Labs
 name: bert_qa_bert_base_uncased_finetuned_vi_infovqa
 date: 2022-06-02
-tags: [en, open_source, question_answering, bert]
+tags: [open_source, question_answering, bert]
 task: Question Answering
-language: en
+language: vi
 edition: Spark NLP 4.0.0
 spark_version: 3.0
 supported: true
@@ -17,12 +17,12 @@ use_language_switcher: "Python-Scala-Java"
 
 ## Description
 
-Pretrained Question Answering model, adapted from Hugging Face and curated to provide scalability and production-readiness using Spark NLP. `bert-base-uncased-finetuned-vi-infovqa` is a English model orginally trained by `tiennvcs`.
+Pretrained Question Answering model, adapted from Hugging Face and curated to provide scalability and production-readiness using Spark NLP. `bert-base-uncased-finetuned-vi-infovqa` is a Vietnamese model orginally trained by `tiennvcs`.
 
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>
 <button class="button button-orange" disabled>Open in Colab</button>
-[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/bert_qa_bert_base_uncased_finetuned_vi_infovqa_en_4.0.0_3.0_1654181242200.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
+[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/bert_qa_bert_base_uncased_finetuned_vi_infovqa_vi_4.0.0_3.0_1654181242200.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
 
 ## How to use
 
@@ -31,11 +31,11 @@ Pretrained Question Answering model, adapted from Hugging Face and curated to pr
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
 ```python
-document_assembler = MultiDocumentAssembler() \ 
+document_assembler = MultiDocumentAssembler() \
 .setInputCols(["question", "context"]) \
 .setOutputCols(["document_question", "document_context"])
 
-spanClassifier = BertForQuestionAnswering.pretrained("bert_qa_bert_base_uncased_finetuned_vi_infovqa","en") \
+spanClassifier = BertForQuestionAnswering.pretrained("bert_qa_bert_base_uncased_finetuned_vi_infovqa","vi") \
 .setInputCols(["document_question", "document_context"]) \
 .setOutputCol("answer") \
 .setCaseSensitive(True)
@@ -55,7 +55,7 @@ val document = new MultiDocumentAssembler()
 .setOutputCols("document_question", "document_context")
 
 val spanClassifier = BertForQuestionAnswering
-.pretrained("bert_qa_bert_base_uncased_finetuned_vi_infovqa","en")
+.pretrained("bert_qa_bert_base_uncased_finetuned_vi_infovqa","vi")
 .setInputCols(Array("document_question", "document_context"))
 .setOutputCol("answer")
 .setCaseSensitive(true)
@@ -75,7 +75,7 @@ val result = pipeline.fit(example).transform(example)
 {:.nlu-block}
 ```python
 import nlu
-nlu.load("en.answer_question.bert.vi_infovqa.base_uncased.by_tiennvcs").predict("""What's my name?|||"My name is Clara and I live in Berkeley.""")
+nlu.load("vi.answer_question.bert.vi_infovqa.base_uncased.by_tiennvcs").predict("""What's my name?|||"My name is Clara and I live in Berkeley.""")
 ```
 
 </div>
@@ -91,7 +91,7 @@ nlu.load("en.answer_question.bert.vi_infovqa.base_uncased.by_tiennvcs").predict(
 |Edition:|Official|
 |Input Labels:|[sentence, token]|
 |Output Labels:|[embeddings]|
-|Language:|en|
+|Language:|vi|
 |Size:|407.7 MB|
 |Case sensitive:|false|
 |Max sentence length:|512|
@@ -99,3 +99,4 @@ nlu.load("en.answer_question.bert.vi_infovqa.base_uncased.by_tiennvcs").predict(
 ## References
 
 - https://huggingface.co/tiennvcs/bert-base-uncased-finetuned-vi-infovqa
+

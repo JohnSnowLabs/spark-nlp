@@ -23,7 +23,7 @@ Pretrained named entity recognition deep learning model for clinical terminology
 
 
 ## Predicted Entities 
-`Age`, `Diagnosis`, `Dosage`, `Drug_Name`, `Frequency`, `Gender`, `Lab_Name`, `Lab_Result`, `Symptom_Name`.
+`Age`, `Diagnosis`, `Dosage`, `Drug_Name`, `Frequency`, `Gender`, `Lab_Name`, `Lab_Result`, `Symptom_Name`, `Allergenic_substance`, `Blood_Pressure`, `Causative_Agents_(Virus_and_Bacteria)`, `Modifier`, `Name`, `Negation`, `O2_Saturation`, `Procedure`, `Procedure_Name`, `Pulse_Rate`, `Respiratory_Rate`, `Route`, `Section_Name`, `Substance_Name`, `Temperature`, `Weight`.
 
 
 {:.btn-box}

@@ -19,13 +19,14 @@ package com.johnsnowlabs.nlp.annotators.classifier.dl
 import com.johnsnowlabs.ml.tensorflow._
 import com.johnsnowlabs.nlp.AnnotatorType.{CATEGORY, SENTENCE_EMBEDDINGS}
 import com.johnsnowlabs.nlp.annotators.ner.Verbose
+import com.johnsnowlabs.nlp.util.io.ResourceHelper
 import com.johnsnowlabs.nlp.{AnnotatorApproach, AnnotatorType, ParamsAndFeaturesWritable}
 import com.johnsnowlabs.storage.HasStorageRef
 import org.apache.spark.ml.PipelineModel
 import org.apache.spark.ml.param._
 import org.apache.spark.ml.util.{DefaultParamsReadable, Identifiable}
+import org.apache.spark.sql.Dataset
 import org.apache.spark.sql.types._
-import org.apache.spark.sql.{Dataset, SparkSession}
 
 import scala.util.Random
 
@@ -120,7 +121,8 @@ import scala.util.Random
   */
 class ClassifierDLApproach(override val uid: String)
     extends AnnotatorApproach[ClassifierDLModel]
-    with ParamsAndFeaturesWritable {
+    with ParamsAndFeaturesWritable
+    with ClassifierEncoder {
 
   def this() = this(Identifiable.randomUID("ClassifierDL"))
 
@@ -139,105 +141,11 @@ class ClassifierDLApproach(override val uid: String)
     */
   override val outputAnnotatorType: String = CATEGORY
 
-  /** Random seed for shuffling the dataset
-    *
-    * @group param
-    */
-  val randomSeed = new IntParam(this, "randomSeed", "Random seed")
-
-  /** Column with label per each document
-    *
-    * @group param
-    */
-  val labelColumn = new Param[String](this, "labelColumn", "Column with label per each document")
-
-  /** Learning Rate (Default: `5e-3f`)
-    *
-    * @group param
-    */
-  val lr = new FloatParam(this, "lr", "Learning Rate")
-
-  /** Batch size (Default: `64`)
-    *
-    * @group param
-    */
-  val batchSize = new IntParam(this, "batchSize", "Batch size")
-
   /** Dropout coefficient (Default: `0.5f`)
     *
     * @group param
     */
   val dropout = new FloatParam(this, "dropout", "Dropout coefficient")
-
-  /** Maximum number of epochs to train (Default: `10`)
-    *
-    * @group param
-    */
-  val maxEpochs = new IntParam(this, "maxEpochs", "Maximum number of epochs to train")
-
-  /** Whether to output to annotators log folder (Default: `false`)
-    *
-    * @group param
-    */
-  val enableOutputLogs =
-    new BooleanParam(this, "enableOutputLogs", "Whether to output to annotators log folder")
-
-  /** Folder path to save training logs (Default: `""`)
-    *
-    * @group param
-    */
-  val outputLogsPath =
-    new Param[String](this, "outputLogsPath", "Folder path to save training logs")
-
-  /** Choose the proportion of training dataset to be validated against the model on each Epoch
-    * (Default: `0.0f`). The value should be between 0.0 and 1.0 and by default it is 0.0 and off.
-    *
-    * @group param
-    */
-  val validationSplit = new FloatParam(
-    this,
-    "validationSplit",
-    "Choose the proportion of training dataset to be validated against the model on each Epoch. The value should be between 0.0 and 1.0 and by default it is 0.0 and off.")
-
-  /** Level of verbosity during training (Default: `Verbose.Silent.id`)
-    *
-    * @group param
-    */
-  val verbose = new IntParam(this, "verbose", "Level of verbosity during training")
-
-  /** ConfigProto from tensorflow, serialized into byte array. Get with
-    * config_proto.SerializeToString()
-    *
-    * @group param
-    */
-  val configProtoBytes = new IntArrayParam(
-    this,
-    "configProtoBytes",
-    "ConfigProto from tensorflow, serialized into byte array. Get with config_proto.SerializeToString()")
-
-  /** Random seed
-    *
-    * @group setParam
-    */
-  def setRandomSeed(seed: Int): ClassifierDLApproach.this.type = set(randomSeed, seed)
-
-  /** Column with label per each document
-    *
-    * @group setParam
-    */
-  def setLabelColumn(column: String): ClassifierDLApproach.this.type = set(labelColumn, column)
-
-  /** Learning Rate (Default: `5e-3f`)
-    *
-    * @group setParam
-    */
-  def setLr(lr: Float): ClassifierDLApproach.this.type = set(this.lr, lr)
-
-  /** Batch size (Default: `64`)
-    *
-    * @group setParam
-    */
-  def setBatchSize(batch: Int): ClassifierDLApproach.this.type = set(this.batchSize, batch)
 
   /** Dropout coefficient (Default: `0.5f`)
     *
@@ -245,126 +153,13 @@ class ClassifierDLApproach(override val uid: String)
     */
   def setDropout(dropout: Float): ClassifierDLApproach.this.type = set(this.dropout, dropout)
 
-  /** Maximum number of epochs to train (Default: `10`)
-    *
-    * @group setParam
-    */
-  def setMaxEpochs(epochs: Int): ClassifierDLApproach.this.type = set(maxEpochs, epochs)
-
-  /** Tensorflow config Protobytes passed to the TF session
-    *
-    * @group setParam
-    */
-  def setConfigProtoBytes(bytes: Array[Int]): ClassifierDLApproach.this.type =
-    set(this.configProtoBytes, bytes)
-
-  /** Whether to output to annotators log folder (Default: `false`)
-    *
-    * @group setParam
-    */
-  def setEnableOutputLogs(enableOutputLogs: Boolean): ClassifierDLApproach.this.type =
-    set(this.enableOutputLogs, enableOutputLogs)
-
-  /** Choose the proportion of training dataset to be validated against the model on each Epoch
-    * (Default: `0.0f`). The value should be between 0.0 and 1.0 and by default it is 0.0 and off.
-    *
-    * @group setParam
-    */
-  def setValidationSplit(validationSplit: Float): ClassifierDLApproach.this.type =
-    set(this.validationSplit, validationSplit)
-
-  /** Level of verbosity during training (Default: `Verbose.Silent.id`)
-    *
-    * @group setParam
-    */
-  def setVerbose(verbose: Int): ClassifierDLApproach.this.type = set(this.verbose, verbose)
-
-  /** Folder path to save training logs (Default: `""`)
-    *
-    * @group setParam
-    */
-  def setOutputLogsPath(path: String): ClassifierDLApproach.this.type =
-    set(this.outputLogsPath, path)
-
-  /** Level of verbosity during training (Default: `Verbose.Silent.id`)
-    *
-    * @group setParam
-    */
-  def setVerbose(verbose: Verbose.Level): ClassifierDLApproach.this.type =
-    set(this.verbose, verbose.id)
-
-  /** Random seed
-    *
-    * @group getParam
-    */
-  def getRandomSeed: Int = $(this.randomSeed)
-
-  /** Column with label per each document
-    *
-    * @group getParam
-    */
-  def getLabelColumn: String = $(this.labelColumn)
-
-  /** Learning Rate (Default: `5e-3f`)
-    *
-    * @group getParam
-    */
-  def getLr: Float = $(this.lr)
-
-  /** Batch size (Default: `64`)
-    *
-    * @group getParam
-    */
-  def getBatchSize: Int = $(this.batchSize)
-
   /** Dropout coefficient (Default: `0.5f`)
     *
     * @group getParam
     */
   def getDropout: Float = $(this.dropout)
 
-  /** Whether to output to annotators log folder (Default: `false`)
-    *
-    * @group getParam
-    */
-  def getEnableOutputLogs: Boolean = $(enableOutputLogs)
-
-  /** Choose the proportion of training dataset to be validated against the model on each Epoch
-    * (Default: `0.0f`). The value should be between 0.0 and 1.0 and by default it is 0.0 and off.
-    *
-    * @group getParam
-    */
-  def getValidationSplit: Float = $(this.validationSplit)
-
-  /** Folder path to save training logs (Default: `""`)
-    *
-    * @group getParam
-    */
-  def getOutputLogsPath: String = $(outputLogsPath)
-
-  /** Maximum number of epochs to train (Default: `10`)
-    *
-    * @group getParam
-    */
-  def getMaxEpochs: Int = $(maxEpochs)
-
-  /** Tensorflow config Protobytes passed to the TF session
-    *
-    * @group getParam
-    */
-  def getConfigProtoBytes: Option[Array[Byte]] = get(this.configProtoBytes).map(_.map(_.toByte))
-
-  setDefault(
-    maxEpochs -> 10,
-    lr -> 5e-3f,
-    dropout -> 0.5f,
-    batchSize -> 64,
-    enableOutputLogs -> false,
-    verbose -> Verbose.Silent.id,
-    validationSplit -> 0.0f,
-    outputLogsPath -> "")
-
-  override def beforeTraining(spark: SparkSession): Unit = {}
+  setDefault(maxEpochs -> 10, lr -> 5e-3f, dropout -> 0.5f, batchSize -> 64)
 
   override def train(
       dataset: Dataset[_],
@@ -376,55 +171,46 @@ class ClassifierDLApproach(override val uid: String)
       s"The label column $labelColumn type is $labelColType and it's not compatible. " +
         s"Compatible types are StringType, IntegerType, DoubleType, LongType, or FloatType. ")
 
-    val embeddingsRef = HasStorageRef.getStorageRefFromInput(
-      dataset,
-      $(inputCols),
-      AnnotatorType.SENTENCE_EMBEDDINGS)
+    val (trainDataset, trainLabels) = buildDatasetWithLabels(dataset, getInputCols(0))
+    val settings = ClassifierDatasetEncoderParams(tags = trainLabels)
+    val encoder = new ClassifierDatasetEncoder(settings)
+    val trainInputs = extractInputs(encoder, trainDataset)
 
-    val embeddingsField: String = ".embeddings"
-    val inputColumns = getInputCols(0) + embeddingsField
-    val train =
-      dataset.select(dataset.col($(labelColumn)).cast("string"), dataset.col(inputColumns))
-    val labels = train.select($(labelColumn)).distinct.collect.map(x => x(0).toString)
-    val labelsCount = labels.length
-
-    require(
-      labels.length >= 2 && labels.length <= 100,
-      s"The total unique number of classes must be more than 2 and less than 100. Currently is ${labels.length}")
+    var testEncoder: Option[ClassifierDatasetEncoder] = None
+    val testInputs =
+      if (!isDefined(testDataset)) None
+      else {
+        val testDataFrame = ResourceHelper.readSparkDataFrame($(testDataset))
+        val (test, testLabels) = buildDatasetWithLabels(testDataFrame, getInputCols(0))
+        val settings = ClassifierDatasetEncoderParams(tags = testLabels)
+        testEncoder = Some(new ClassifierDatasetEncoder(settings))
+        Option(extractInputs(testEncoder.get, test))
+      }
 
     val tfWrapper: TensorflowWrapper = loadSavedModel()
 
-    val settings = ClassifierDatasetEncoderParams(tags = labels)
-
-    val encoder = new ClassifierDatasetEncoder(settings)
-
-    val embeddingsDim = encoder.calculateEmbeddingsDim(train)
-    require(
-      embeddingsDim <= 1024,
-      s"The ClassifierDL only accepts embeddings less than 1024 dimensions. Current dimension is ${embeddingsDim}. Please use embeddings" +
-        s" with less than ")
-
-    val trainDataset = encoder.collectTrainingInstances(train, getLabelColumn)
-    val inputEmbeddings = encoder.extractSentenceEmbeddings(trainDataset)
-    val inputLabels = encoder.extractLabels(trainDataset)
-
     val classifier =
       try {
-        val model = new TensorflowClassifier(tensorflow = tfWrapper, encoder, Verbose($(verbose)))
+        val model = new TensorflowClassifier(
+          tensorflow = tfWrapper,
+          encoder,
+          testEncoder,
+          Verbose($(verbose)))
         if (isDefined(randomSeed)) {
           Random.setSeed($(randomSeed))
         }
 
         model.train(
-          inputEmbeddings,
-          inputLabels,
-          labelsCount,
+          trainInputs,
+          testInputs,
+          trainLabels.length,
           lr = $(lr),
           batchSize = $(batchSize),
           dropout = $(dropout),
           endEpoch = $(maxEpochs),
           configProtoBytes = getConfigProtoBytes,
           validationSplit = $(validationSplit),
+          evaluationLogExtended = $(evaluationLogExtended),
           enableOutputLogs = $(enableOutputLogs),
           outputLogsPath = $(outputLogsPath),
           uuid = this.uid)
@@ -438,6 +224,11 @@ class ClassifierDLApproach(override val uid: String)
       TensorflowWrapper.extractVariablesSavedModel(
         tfWrapper.getTFSession(configProtoBytes = getConfigProtoBytes)),
       tfWrapper.graph)
+
+    val embeddingsRef = HasStorageRef.getStorageRefFromInput(
+      dataset,
+      $(inputCols),
+      AnnotatorType.SENTENCE_EMBEDDINGS)
 
     val model = new ClassifierDLModel()
       .setDatasetParams(classifier.encoder.params)

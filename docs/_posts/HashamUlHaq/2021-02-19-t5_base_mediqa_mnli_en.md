@@ -1,11 +1,12 @@
 ---
 layout: model
-title: T5 text-to-text model (clinical)
+title: T5 Clinical Summarization / QA model
 author: John Snow Labs
 name: t5_base_mediqa_mnli
 date: 2021-02-19
 tags: [t5, licensed, clinical, en]
 supported: true
+recommended: true
 task: Summarization
 language: en
 edition: Spark NLP for Healthcare 2.7.4

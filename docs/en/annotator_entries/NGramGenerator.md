@@ -122,7 +122,7 @@ results.selectExpr("explode(ngrams) as result").show(false)
 {%- endcapture -%}
 
 {%- capture python_api_link -%}
-[NGramGenerator](/api/python/reference/autosummary/sparknlp/annotator/n_gram_generator/index.html#sparknlp.annotator.n_gram_generator.NGramGenerator)
+[NGramGenerator](/api/python/reference/autosummary/python/sparknlp/annotator/n_gram_generator/index.html#sparknlp.annotator.n_gram_generator.NGramGenerator)
 {%- endcapture -%}
 
 {%- capture source_link -%}

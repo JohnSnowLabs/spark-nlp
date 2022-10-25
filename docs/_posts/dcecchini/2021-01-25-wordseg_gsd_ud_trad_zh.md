@@ -35,22 +35,37 @@ Use as part of an nlp pipeline as a substitute for the Tokenizer stage.
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
 ```python
-...
+document_assembler = DocumentAssembler() \
+    .setInputCol("text") \
+    .setOutputCol("document")
+    
+sentence_detector = SentenceDetector()\
+    .setInputCols(["document"])\
+    .setOutputCol("sentence")
+
 word_segmenter = WordSegmenterModel.pretrained("wordseg_gsd_ud_trad", "zh")\
         .setInputCols(["sentence"])\
         .setOutputCol("token")    
-pipeline = Pipeline(stages=[document_assembler, word_segmenter])
+pipeline = Pipeline(stages=[document_assembler,sentence_detector, word_segmenter])
 ws_model = pipeline.fit(spark.createDataFrame([[""]]).toDF("text"))
 example = spark.createDataFrame([['然而，這樣的處理也衍生了一些問題。']], ["text"])
 result = ws_model.transform(example)
 ```
 
 ```scala
-...
+
+val document_assembler = DocumentAssembler()
+        .setInputCol("text")
+        .setOutputCol("document")
+        
+val sentence_detector = SentenceDetector()\
+    .setInputCols(["document"])\
+    .setOutputCol("sentence")
+
 val word_segmenter = WordSegmenterModel.pretrained("wordseg_gsd_ud_trad", "zh")
         .setInputCols(Array("sentence"))
         .setOutputCol("token")
-val pipeline = new Pipeline().setStages(Array(document_assembler, word_segmenter))
+val pipeline = new Pipeline().setStages(Array(document_assembler,sentence_detector, word_segmenter))
 val data = Seq("然而，這樣的處理也衍生了一些問題。").toDF("text")
 val result = pipeline.fit(data).transform(data)
 ```

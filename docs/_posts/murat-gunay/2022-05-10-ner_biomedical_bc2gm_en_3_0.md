@@ -17,9 +17,7 @@ use_language_switcher: "Python-Scala-Java"
 
 
 
-
 ## Description
-
 
 
 
@@ -27,9 +25,7 @@ Named Entity recognition annotator allows for a generic model to be trained by u
 
 
 
-
 This model has been trained to extract genes/proteins from a medical text.
-
 
 
 
@@ -37,9 +33,7 @@ This model has been trained to extract genes/proteins from a medical text.
 
 
 
-
 `GENE_PROTEIN`
-
 
 
 
@@ -52,12 +46,6 @@ This model has been trained to extract genes/proteins from a medical text.
 
 
 ## How to use
-
-
-
-
-
-
 
 
 
@@ -160,8 +148,6 @@ nlu.load("en.med_ner.biomedical_bc2gm").predict("""Immunohistochemical staining 
 ## Results
 
 
-
-
 ```bash
 +-----------+------------+
 |chunk      |ner_label   |
@@ -173,12 +159,8 @@ nlu.load("en.med_ner.biomedical_bc2gm").predict("""Immunohistochemical staining 
 ```
 
 
-
-
 {:.model-param}
 ## Model Information
-
-
 
 
 {:.table-model}
@@ -193,33 +175,19 @@ nlu.load("en.med_ner.biomedical_bc2gm").predict("""Immunohistochemical staining 
 |Size:|14.6 MB|
 
 
-
-
 ## References
 
 
-
-
 Created by Smith et al. at 2008, the BioCreative II Gene Mention Recognition ([BC2GM](https://metatext.io/datasets/biocreative-ii-gene-mention-recognition-(bc2gm))) Dataset contains data where participants are asked to identify a gene mention in a sentence by giving its start and end characters. The training set consists of a set of sentences, and for each sentence a set of gene mentions (GENE annotations).
-
-
 
 
 ## Benchmarking
 
 
 ```bash
-label precision recall f1-score support
-GENE_PROTEIN      0.83   0.82     0.82    6325 
-micro-avg      0.83   0.82     0.82    6325
-macro-avg      0.83   0.82     0.82    6325
-weighted-avg      0.83   0.82     0.82    6325
+label 		precision recall f1-score support
+GENE_PROTEIN	0.83   0.82     0.82    6325 
+micro-avg      	0.83   0.82     0.82    6325
+macro-avg      	0.83   0.82     0.82    6325
+weighted-avg	0.83   0.82     0.82    6325
 ```
-
-
-
-
-<!--stackedit_data:
-eyJoaXN0b3J5IjpbLTE4NDcxMTk2NDMsLTE1OTIxMDM0NzUsNT
-YxOTc2Mjg0LDE2NTY2MTc4MjUsLTI2MzQ3ODc3Ml19
--->

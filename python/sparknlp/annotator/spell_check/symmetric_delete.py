@@ -20,6 +20,14 @@ class SymmetricDeleteApproach(AnnotatorApproach):
     """Trains a Symmetric Delete spelling correction algorithm. Retrieves tokens
     and utilizes distance metrics to compute possible derived words.
 
+    The Symmetric Delete spelling correction algorithm reduces the complexity of edit
+    candidate generation and dictionary lookup for a given Damerau-Levenshtein distance.
+    It is six orders of magnitude faster (than the standard approach with deletes +
+    transposes + replaces + inserts) and language independent.
+
+    A dictionary of correct spellings must be provided with :meth:`.setDictionary` in
+    the form of a text file, where each word is parsed by a regex pattern.
+
     For instantiated/pretrained models, see :class:`.SymmetricDeleteModel`.
 
     ====================== ======================

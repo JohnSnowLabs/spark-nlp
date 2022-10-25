@@ -28,7 +28,7 @@ For available pretrained models please see the [Models Hub](https://nlp.johnsnow
 
 **Sources** :
 
-For the original C implementation, see https://code.google.com/p/word2vec/
+For the original C implementation, see [https://code.google.com/p/word2vec/](https://code.google.com/p/word2vec/)
 
 For the research paper, see
 [Efficient Estimation of Word Representations in Vector Space](https://arxiv.org/abs/1301.3781)
@@ -130,7 +130,7 @@ result.selectExpr("explode(finished_embeddings) as result").show(1, 80)
 {%- endcapture -%}
 
 {%- capture model_python_api_link -%}
-[Word2VecModel](/api/python/reference/autosummary/sparknlp/annotator/embeddings/word2vec/index.html#sparknlp.annotator.embeddings.word2vec.Word2VecModel)
+[Word2VecModel](/api/python/reference/autosummary/python/sparknlp/annotator/embeddings/word2vec/index.html#sparknlp.annotator.embeddings.word2vec.Word2VecModel)
 {%- endcapture -%}
 
 {%- capture model_source_link -%}
@@ -152,7 +152,7 @@ For instantiated/pretrained models, see Word2VecModel.
 
 **Sources** :
 
-For the original C implementation, see https://code.google.com/p/word2vec/
+For the original C implementation, see [https://code.google.com/p/word2vec/](https://code.google.com/p/word2vec/)
 
 For the research paper, see
 [Efficient Estimation of Word Representations in Vector Space](https://arxiv.org/abs/1301.3781)
@@ -234,7 +234,7 @@ val pipelineModel = pipeline.fit(dataset)
 {%- endcapture -%}
 
 {%- capture approach_python_api_link -%}
-[Word2VecApproach](/api/python/reference/autosummary/sparknlp/annotator/embeddings/word2vec/index.html#sparknlp.annotator.embeddings.word2vec.Word2VecApproach)
+[Word2VecApproach](/api/python/reference/autosummary/python/sparknlp/annotator/embeddings/word2vec/index.html#sparknlp.annotator.embeddings.word2vec.Word2VecApproach)
 {%- endcapture -%}
 
 {%- capture approach_source_link -%}

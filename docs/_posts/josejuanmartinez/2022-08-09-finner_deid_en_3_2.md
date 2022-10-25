@@ -5,10 +5,10 @@ author: John Snow Labs
 name: finner_deid
 date: 2022-08-09
 tags: [en, finance, ner, deid, licensed]
-task: Named Entity Recognition
+task: [De-identification, Named Entity Recognition]
 language: en
 edition: Spark NLP for Finance 1.0.0
-spark_version: 3.2
+spark_version: 3.0
 supported: true
 article_header:
   type: cover
@@ -34,28 +34,29 @@ This is a NER model which allows you to detect some generic entities that may re
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
+
 ```python
-documentAssembler = DocumentAssembler()\
+documentAssembler = nlp.DocumentAssembler()\
         .setInputCol("text")\
         .setOutputCol("document")
         
-sentenceDetector = SentenceDetectorDLModel.pretrained("sentence_detector_dl","xx")\
+sentenceDetector = nlp.SentenceDetectorDLModel.pretrained("sentence_detector_dl","xx")\
         .setInputCols(["document"])\
         .setOutputCol("sentence")
 
-tokenizer = Tokenizer()\
+tokenizer = nlp.Tokenizer()\
         .setInputCols(["sentence"])\
         .setOutputCol("token")
 
-embeddings = RoBertaEmbeddings.pretrained("roberta_embeddings_legal_roberta_base","en") \
+embeddings = nlp.RoBertaEmbeddings.pretrained("roberta_embeddings_legal_roberta_base","en") \
     .setInputCols(["sentence", "token"]) \
     .setOutputCol("embeddings")
 
-ner_model = FinanceNerModel().pretrained('finner_deid' "en", "finance/models")\
+ner_model = finance.NerModel.pretrained('finner_deid', "en", "finance/models")\
         .setInputCols(["sentence", "token", "embeddings"])\
         .setOutputCol("ner")
 
-ner_converter = NerConverter()\
+ner_converter = nlp.NerConverter()\
         .setInputCols(["sentence","token","ner"])\
         .setOutputCol("ner_chunk")
 

@@ -99,14 +99,14 @@ val result = pipeline.annotate("Record date : 2093-01-13, David Hale, M.D. IP: 2
 
 ## Included Models
 
-- DocumentAssembler
-- SentenceDetector
-- TokenizerModel
-- WordEmbeddingsModel
-- MedicalNerModel
-- NerConverterInternal
-- MedicalNerModel
-- NerConverterInternal
+- nlp.DocumentAssembler
+- nlp.SentenceDetector
+- nlp.TokenizerModel
+- nlp.WordEmbeddingsModel
+- medical.NerModel
+- medical.NerConverterInternal
+- medical.NerModel
+- medical.NerConverterInternal
 - ChunkMergeModel
 - ContextualParserModel
 - ContextualParserModel
@@ -119,8 +119,8 @@ val result = pipeline.annotate("Record date : 2093-01-13, David Hale, M.D. IP: 2
 - ContextualParserModel
 - ChunkMergeModel
 - ChunkMergeModel
-- DeIdentificationModel
-- DeIdentificationModel
-- DeIdentificationModel
-- DeIdentificationModel
+- medical.DeIdentificationModel
+- medical.DeIdentificationModel
+- medical.DeIdentificationModel
+- medical.DeIdentificationModel
 - Finisher

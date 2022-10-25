@@ -105,9 +105,7 @@ class DeBertaEmbeddingsTestSpec extends AnyFlatSpec {
       println(s"total tokens: $totalTokens")
       println(s"total embeddings: $totalEmbeddings")
 
-      // it is normal that the embeddings is less than total tokens in a sentence/document
-      // tokens generate multiple sub-wrods or pieces which won't be included in the final results
-      assert(totalTokens >= totalEmbeddings)
+      assert(totalTokens == totalEmbeddings)
 
     }
   }

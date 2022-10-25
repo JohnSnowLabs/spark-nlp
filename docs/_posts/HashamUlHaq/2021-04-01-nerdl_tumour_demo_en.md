@@ -21,7 +21,7 @@ Extract entities related to tumor in medical text using pretrained NER model
 
 ## Predicted Entities
 
-`Localization`, `Size`, `X`, `Laterality`, `Staging`, `Grading`
+`Localization`, `Size`, `Laterality`, `Staging`, `Grading`
 
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>

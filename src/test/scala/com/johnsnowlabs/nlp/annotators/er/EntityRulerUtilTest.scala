@@ -1,8 +1,9 @@
 package com.johnsnowlabs.nlp.annotators.er
 
+import com.johnsnowlabs.nlp.annotators.SparkSessionTest
 import org.scalatest.flatspec.AnyFlatSpec
 
-class EntityRulerUtilTest extends AnyFlatSpec {
+class EntityRulerUtilTest extends AnyFlatSpec with SparkSessionTest {
 
   "EntityRulerUtil" should "merge intervals" in {
 
@@ -27,4 +28,17 @@ class EntityRulerUtilTest extends AnyFlatSpec {
     assert(expectedMerged == actualMerged)
   }
 
+  it should "load alphabet" in {
+    val englishAlphabet = EntityRulerUtil.loadAlphabet("english")
+
+    assert(englishAlphabet.nonEmpty)
+  }
+
+  it should "load alphabet from disk" in {
+
+    val sampleJapanesePath = "src/test/resources/entity-ruler/sample_japanese_alphabet.txt"
+    val sampleJapaneseCharacters = EntityRulerUtil.loadAlphabet(sampleJapanesePath)
+
+    assert(sampleJapaneseCharacters.nonEmpty)
+  }
 }

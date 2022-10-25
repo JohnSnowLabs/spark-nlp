@@ -1,12 +1,12 @@
 ---
 layout: model
-title: English BertForQuestionAnswering model (from obokkkk)
+title: Korean BertForQuestionAnswering model (from obokkkk)
 author: John Snow Labs
 name: bert_qa_bert_base_multilingual_cased_finetuned_klue
 date: 2022-06-02
-tags: [en, open_source, question_answering, bert]
+tags: [open_source, question_answering, bert]
 task: Question Answering
-language: en
+language: ko
 edition: Spark NLP 4.0.0
 spark_version: 3.0
 supported: true
@@ -17,12 +17,12 @@ use_language_switcher: "Python-Scala-Java"
 
 ## Description
 
-Pretrained Question Answering model, adapted from Hugging Face and curated to provide scalability and production-readiness using Spark NLP. `bert-base-multilingual-cased-finetuned-klue` is a English model orginally trained by `obokkkk`.
+Pretrained Question Answering model, adapted from Hugging Face and curated to provide scalability and production-readiness using Spark NLP. `bert-base-multilingual-cased-finetuned-klue` is a Korean model orginally trained by `obokkkk`.
 
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>
 <button class="button button-orange" disabled>Open in Colab</button>
-[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/bert_qa_bert_base_multilingual_cased_finetuned_klue_en_4.0.0_3.0_1654180066545.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
+[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/bert_qa_bert_base_multilingual_cased_finetuned_klue_ko_4.0.0_3.0_1654180066545.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
 
 ## How to use
 
@@ -31,11 +31,11 @@ Pretrained Question Answering model, adapted from Hugging Face and curated to pr
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
 ```python
-document_assembler = MultiDocumentAssembler() \ 
+document_assembler = MultiDocumentAssembler() \
 .setInputCols(["question", "context"]) \
 .setOutputCols(["document_question", "document_context"])
 
-spanClassifier = BertForQuestionAnswering.pretrained("bert_qa_bert_base_multilingual_cased_finetuned_klue","en") \
+spanClassifier = BertForQuestionAnswering.pretrained("bert_qa_bert_base_multilingual_cased_finetuned_klue","ko") \
 .setInputCols(["document_question", "document_context"]) \
 .setOutputCol("answer") \
 .setCaseSensitive(True)
@@ -55,7 +55,7 @@ val document = new MultiDocumentAssembler()
 .setOutputCols("document_question", "document_context")
 
 val spanClassifier = BertForQuestionAnswering
-.pretrained("bert_qa_bert_base_multilingual_cased_finetuned_klue","en")
+.pretrained("bert_qa_bert_base_multilingual_cased_finetuned_klue","ko")
 .setInputCols(Array("document_question", "document_context"))
 .setOutputCol("answer")
 .setCaseSensitive(true)
@@ -75,7 +75,7 @@ val result = pipeline.fit(example).transform(example)
 {:.nlu-block}
 ```python
 import nlu
-nlu.load("en.answer_question.klue.bert.multilingual_base_cased").predict("""What's my name?|||"My name is Clara and I live in Berkeley.""")
+nlu.load("ko.answer_question.klue.bert.multilingual_base_cased").predict("""What's my name?|||"My name is Clara and I live in Berkeley.""")
 ```
 
 </div>
@@ -91,7 +91,7 @@ nlu.load("en.answer_question.klue.bert.multilingual_base_cased").predict("""What
 |Edition:|Official|
 |Input Labels:|[sentence, token]|
 |Output Labels:|[embeddings]|
-|Language:|en|
+|Language:|ko|
 |Size:|665.6 MB|
 |Case sensitive:|true|
 |Max sentence length:|512|
@@ -99,3 +99,4 @@ nlu.load("en.answer_question.klue.bert.multilingual_base_cased").predict("""What
 ## References
 
 - https://huggingface.co/obokkkk/bert-base-multilingual-cased-finetuned-klue
+

@@ -23,6 +23,10 @@ import com.johnsnowlabs.nlp.annotators.coref.{
   ReadSpanBertCorefTensorflowModel,
   ReadablePretrainedSpanBertCorefModel
 }
+import com.johnsnowlabs.nlp.annotators.cv.{
+  ReadViTForImageTensorflowModel,
+  ReadablePretrainedViTForImageModel
+}
 import com.johnsnowlabs.nlp.annotators.er.ReadablePretrainedEntityRuler
 import com.johnsnowlabs.nlp.annotators.ld.dl.{
   ReadLanguageDetectorDLTensorflowModel,
@@ -609,5 +613,26 @@ package object annotator {
   object LongformerForQuestionAnswering
       extends ReadablePretrainedLongformerForQAModel
       with ReadLongformerForQATensorflowModel
+
+  type ViTForImageClassification =
+    com.johnsnowlabs.nlp.annotators.cv.ViTForImageClassification
+
+  object ViTForImageClassification
+      extends ReadablePretrainedViTForImageModel
+      with ReadViTForImageTensorflowModel
+
+  type CamemBertForTokenClassification =
+    com.johnsnowlabs.nlp.annotators.classifier.dl.CamemBertForTokenClassification
+
+  object CamemBertForTokenClassification
+      extends ReadablePretrainedCamemBertForTokenModel
+      with ReadCamemBertForTokenTensorflowModel
+
+  type TapasForQuestionAnswering =
+    com.johnsnowlabs.nlp.annotators.classifier.dl.TapasForQuestionAnswering
+
+  object TapasForQuestionAnswering
+      extends ReadablePretrainedTapasForQAModel
+      with ReadTapasForQATensorflowModel
 
 }

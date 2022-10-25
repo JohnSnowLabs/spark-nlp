@@ -8,7 +8,7 @@ tags: [en, finance, qa, licensed]
 task: Question Answering
 language: en
 edition: Spark NLP for Finance 1.0.0
-spark_version: 3.2
+spark_version: 3.0
 supported: true
 article_header:
   type: cover
@@ -34,20 +34,20 @@ Financial RoBerta-based Question Answering model, trained on squad-v2, finetuned
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
-```python
-document_assembler = MultiDocumentAssembler() \ 
-.setInputCols(["question", "context"]) \
-.setOutputCols(["document_question", "document_context"])
 
-spanClassifier = RoBertaForQuestionAnswering.pretrained("roberta_qa_fin_RoBERTa_v1_finetuned_squad","en", "finance/models") \
+```python
+
+documentAssembler = nlp.MultiDocumentAssembler()\
+        .setInputCols(["question", "context"])\
+        .setOutputCols(["document_question", "document_context"])
+
+spanClassifier = nlp.RoBertaForQuestionAnswering.pretrained("finqa_roberta","en", "finance/models") \
 .setInputCols(["document_question", "document_context"]) \
 .setOutputCol("answer") \
 .setCaseSensitive(True)
 
-pipeline = Pipeline().setStages([
-document_assembler,
-spanClassifier
-])
+
+pipeline = Pipeline(stages=[documentAssembler, spanClassifier])
 
 example = spark.createDataFrame([["What is the current total Operating Profit?", "Operating profit totaled EUR 9.4 mn , down from EUR 11.7 mn in 2004"]]).toDF("question", "context")
 

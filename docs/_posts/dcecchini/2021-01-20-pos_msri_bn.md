@@ -58,7 +58,7 @@ tokenizer,
 posTagger
 ])
 
-example = spark.createDataFrame([["বাসস্থান-ঘরগৃহস্থালি তোড়া ভাষায় গ্রামকেও বলে ` মোদ ' ৷"]], ["text"])
+example = spark.createDataFrame([["বাসস্থান-ঘরগৃহস্থালি তোড়া ভাষায় গ্রামকেও বলে  মোদ ' ৷"]], ["text"])
 
 result = pipeline.fit(example).transform(example)
 ```

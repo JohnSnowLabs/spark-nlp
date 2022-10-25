@@ -49,7 +49,7 @@ class TensorflowDeBerta(
   private val SentencePadTokenId = spp.getSppModel.pieceToId("[PAD]")
   private val SentencePieceDelimiterId = spp.getSppModel.pieceToId("▁")
 
-  def prepareBatchInputs(
+  def encode(
       sentences: Seq[(WordpieceTokenizedSentence, Int)],
       maxSequenceLength: Int): Seq[Array[Int]] = {
     val maxSentenceLength =
@@ -166,18 +166,20 @@ class TensorflowDeBerta(
     wordPieceTokenizedSentences.zipWithIndex
       .grouped(batchSize)
       .flatMap { batch =>
-        val batchedInputsIds = prepareBatchInputs(batch, maxSentenceLength)
-        val vectors = tag(batchedInputsIds)
+        val encoded = encode(batch, maxSentenceLength)
+        val vectors = tag(encoded)
 
         /*Combine tokens and calculated embeddings*/
         batch.zip(vectors).map { case (sentence, tokenVectors) =>
           val tokenLength = sentence._1.tokens.length
           /*All wordpiece embeddings*/
           val tokenEmbeddings = tokenVectors.slice(1, tokenLength + 1)
+          val originalIndexedTokens = tokenizedSentences(sentence._2)
+
           val tokensWithEmbeddings =
             sentence._1.tokens.zip(tokenEmbeddings).flatMap { case (token, tokenEmbedding) =>
               val tokenWithEmbeddings = TokenPieceEmbeddings(token, tokenEmbedding)
-              val originalTokensWithEmbeddings = tokenizedSentences(sentence._2).indexedTokens
+              val originalTokensWithEmbeddings = originalIndexedTokens.indexedTokens
                 .find(p =>
                   p.begin == tokenWithEmbeddings.begin && tokenWithEmbeddings.isWordStart)
                 .map { token =>
@@ -195,7 +197,7 @@ class TensorflowDeBerta(
               originalTokensWithEmbeddings
             }
 
-          WordpieceEmbeddingsSentence(tokensWithEmbeddings, sentence._2)
+          WordpieceEmbeddingsSentence(tokensWithEmbeddings, originalIndexedTokens.sentenceIndex)
         }
       }
       .toSeq

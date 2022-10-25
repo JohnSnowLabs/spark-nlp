@@ -1,6 +1,6 @@
 import React from 'react';
 import ModelItemTag from '../ModelItemTag';
-import { addNamingConventions } from './utils';
+import { productDisplayName, addNamingConventions } from './utils';
 import './ModelItem.css';
 
 const ModelItem = ({
@@ -36,7 +36,9 @@ const ModelItem = ({
     <div className="cell cell--12 cell--md-6 cell--lg-4">
       <div className="model-item">
         {label}
-        {recommended && <span class="fa fa-star model-item__recommended"></span>}
+        {recommended && (
+          <span class="fa fa-star model-item__recommended"></span>
+        )}
         <div className="model-item__header">
           <a href={url} className="model-item__title">
             {addNamingConventions(title)}
@@ -60,7 +62,11 @@ const ModelItem = ({
             value={Array.isArray(task) ? task.join(', ') : task}
           />
           <ModelItemTag icon="flag" name="Language" value={language} />
-          <ModelItemTag icon="clone" name="Edition" value={edition} />
+          <ModelItemTag
+            icon="clone"
+            name="Edition"
+            value={productDisplayName(edition)}
+          />
         </div>
       </div>
     </div>

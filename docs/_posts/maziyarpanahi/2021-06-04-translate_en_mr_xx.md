@@ -25,8 +25,8 @@ source languages: en
 target languages: mr
 
 {:.btn-box}
-[Live Demo](https://demo.johnsnowlabs.com/public/TRANSLATION_MARIAN/){:.button.button-orange}
-[Open in Colab](https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/TRANSLATION_MARIAN.ipynb){:.button.button-orange.button-orange-trans.co.button-icon}
+[Live Demo](https://demo.johnsnowlabs.com/public/INDIAN_TRANSLATION_MARATHI/){:.button.button-orange}
+[Open in Colab](https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/TRANSLATION_PIPELINES_MODELS.ipynb){:.button.button-orange.button-orange-trans.co.button-icon}
 [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/translate_en_mr_xx_3.1.0_2.4_1622839654047.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
 
 ## How to use
@@ -35,15 +35,20 @@ target languages: mr
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
+
 ```python
-from sparknlp.pretrained import PretrainedPipeline 
+from sparknlp.pretrained import PretrainedPipeline
+
 pipeline = PretrainedPipeline("translate_en_mr", lang = "xx") 
+
 pipeline.annotate("Your sentence to translate!")
 ```
 ```scala
 
 import com.johnsnowlabs.nlp.pretrained.PretrainedPipeline
+
 val pipeline = new PretrainedPipeline("translate_en_mr", lang = "xx")
+
 pipeline.annotate("Your sentence to translate!")
 ```
 
@@ -51,11 +56,22 @@ pipeline.annotate("Your sentence to translate!")
 ```python
 
 import nlu
-text = ["text to translate"]
+text = ["Your sentence to translate!"]
+
 translate_df = nlu.load('xx.English.translate_to.Marathi').predict(text, output_level='sentence')
 translate_df
 ```
 </div>
+
+## Results
+
+```bash
++------------------------------+--------------------------+
+|sentence                      |translation               |
++------------------------------+--------------------------+
+|Your sentence to translate!   |तू तुझ्या वाक्याचा अनुवाद करशील!  | 
++------------------------------+--------------------------+
+```
 
 {:.model-param}
 ## Model Information

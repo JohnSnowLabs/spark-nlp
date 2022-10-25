@@ -8,7 +8,7 @@ tags: [en, finance, re, zero, shot, zero_shot, licensed]
 task: Relation Extraction
 language: en
 edition: Spark NLP for Finance 1.0.0
-spark_version: 3.2
+spark_version: 3.0
 supported: true
 article_header:
   type: cover
@@ -21,15 +21,6 @@ This is a Zero-shot Relation Extraction Model, meaning that it does not require 
 
 Make sure you keep the proper syntax of the relations you want to extract. For example:
 
-Before Spark NLP 4.0
-```
-re_model.setRelationalCategories({
-    "DECREASE": ["{{PROFIT_DECLINE}} decrease {{AMOUNT}}", "{{PROFIT_DECLINE}} decrease {{PERCENTAGE}}",
-    "INCREASE": ["{{PROFIT_INCREASE}} increase {{AMOUNT}}", "{{PROFIT_INCREASE}} increase {{PERCENTAGE}}"]
-})
-```
-
-After Spark NLP 4.0
 ```
 re_model.setRelationalCategories({
     "DECREASE": ["{PROFIT_DECLINE} decrease {AMOUNT}", "{PROFIT_DECLINE}} decrease {PERCENTAGE}",
@@ -57,33 +48,34 @@ re_model.setRelationalCategories({
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
+
 ```python
-document_assembler = DocumentAssembler()\
+document_assembler = nlp.DocumentAssembler()\
     .setInputCol("text")\
     .setOutputCol("document")
 
-sentence_detector = SentenceDetectorDLModel.pretrained("sentence_detector_dl","xx")\
+sentence_detector = nlp.SentenceDetectorDLModel.pretrained("sentence_detector_dl","xx")\
     .setInputCols(["document"])\
     .setOutputCol("sentence")
 
-tokenizer = Tokenizer()\
+tokenizer = nlp.Tokenizer()\
     .setInputCols(["sentence"])\
     .setOutputCol("token")
 
-embeddings = BertEmbeddings.pretrained("bert_embeddings_sec_bert_base", "en") \
+embeddings = nlp.BertEmbeddings.pretrained("bert_embeddings_sec_bert_base", "en") \
   .setInputCols("sentence", "token") \
   .setOutputCol("embeddings")\
   .setMaxSentenceLength(512)
 
-ner_model = FinanceNerModel.pretrained("finner_10k", "en", "finance/models")\
+ner_model = finance.NerModel.pretrained("finner_10k", "en", "finance/models")\
     .setInputCols(["sentence", "token", "embeddings"])\
     .setOutputCol("ner")\
 
-ner_converter = NerConverter()\
+ner_converter = nlp.NerConverter()\
     .setInputCols(["sentence", "token", "ner"])\
     .setOutputCol("ner_chunk")
 
-re_model = ZeroShotRelationExtractionModel.pretrained("finre_zero_shot", "en", "finance/models")\
+re_model = finance.ZeroShotRelationExtractionModel.pretrained("finre_zero_shot", "en", "finance/models")\
     .setInputCols(["ner_chunk", "sentence"]) \
     .setOutputCol("relations")
 

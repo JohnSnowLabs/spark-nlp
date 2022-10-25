@@ -8,7 +8,7 @@ tags: [en, finance, assertion, status, competitors, licensed]
 task: Assertion Status
 language: en
 edition: Spark NLP for Finance 1.0.0
-spark_version: 3.2
+spark_version: 3.0
 supported: true
 article_header:
   type: cover
@@ -34,39 +34,40 @@ This models allows you to identify ORG and PRODUCTS mentioned in the text to be 
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
+
 ```python
 # Annotator that transforms a text column from dataframe into an Annotation ready for NLP
 
-from sparknlp_jsl.annotator import *
+from johnsnowlabs import *
 
-documentAssembler = DocumentAssembler()\
+documentAssembler = nlp.DocumentAssembler()\
     .setInputCol("text")\
     .setOutputCol("document")
 
 # Sentence Detector annotator, processes various sentences per line
-sentenceDetector = SentenceDetector()\
+sentenceDetector = nlp.SentenceDetector()\
     .setInputCols(["document"])\
     .setOutputCol("sentence")
 
-# Tokenizer splits words in a relevant format for NLP
-tokenizer = Tokenizer()\
+# nlp.Tokenizer splits words in a relevant format for NLP
+tokenizer = nlp.Tokenizer()\
     .setInputCols(["sentence"])\
     .setOutputCol("token")
 
-embeddings = BertEmbeddings.pretrained("bert_embeddings_sec_bert_base","en") \
+embeddings = nlp.BertEmbeddings.pretrained("bert_embeddings_sec_bert_base","en") \
     .setInputCols(["sentence", "token"]) \
     .setOutputCol("embeddings")
 
-ner_model_org = FinanceNerModel().pretrained("finner_orgs_prods_alias", "en", "finance/models")\
+ner_model_org = finance.NerModel.pretrained("finner_orgs_prods_alias", "en", "finance/models")\
     .setInputCols(["sentence", "token", "embeddings"])\
     .setOutputCol("ner")
 
-ner_converter = NerConverterInternal() \
+ner_converter = finance.NerConverterInternal() \
     .setInputCols(["sentence", "token", "ner"]) \
     .setOutputCol("ner_chunk")\
     .setWhiteList(['ORG', 'PRODUCT'])
 
-assertion = AssertionDLModel.pretrained("finassertion_competitors", "en", "finance/models")\
+assertion = finance.AssertionDLModel.pretrained("finassertion_competitors", "en", "finance/models")\
     .setInputCols(["sentence", "ner_chunk", "embeddings"]) \
     .setOutputCol("assertion")
     
@@ -124,10 +125,9 @@ In-house annotations from 10K Filings
 ## Benchmarking
 
 ```bash
-label	 tp	 fp	 fn	 prec	 rec	 f1
-NO_COMPETITOR	 158	 0	 1	 1.0	 0.9937107	 0.9968454
-COMPETITOR	 25	 1	 0	 0.96153843	 1.0	 0.98039216
-tp: 183 fp: 1 fn: 1 labels: 2
-Macro-average	 prec: 0.9807692, rec: 0.9968554, f1: 0.9887469
-Micro-average	 prec: 0.9945652, rec: 0.9945652, f1: 0.9945652
-```
+label             tp     fp    fn   prec        rec          f1
+NO_COMPETITOR     158    0     1    1.0         0.9937107    0.9968454
+COMPETITOR        25     1     0    0.9615384   1.0          0.9803921
+Macro-average     183    1     1    0.9807692   0.9968554    0.9887469
+Micro-average     183    1     1    0.9945652   0.9945652    0.9945652
+``` 

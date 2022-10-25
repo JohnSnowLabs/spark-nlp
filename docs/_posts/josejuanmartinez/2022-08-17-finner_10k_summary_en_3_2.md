@@ -1,6 +1,6 @@
 ---
 layout: model
-title: Financial 10K Filings NER
+title: Financial 10K Filings NER (Summary page)
 author: John Snow Labs
 name: finner_10k_summary
 date: 2022-08-17
@@ -8,7 +8,7 @@ tags: [en, finance, ner, annual, reports, 10k, filings, licensed]
 task: Named Entity Recognition
 language: en
 edition: Spark NLP for Finance 1.0.0
-spark_version: 3.2
+spark_version: 3.0
 supported: true
 article_header:
   type: cover
@@ -34,31 +34,32 @@ This Financial NER Model is aimed to process the first summary page of 10K filin
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
+
 ```python
-document_assembler = DocumentAssembler()\
+document_assembler = nlp.DocumentAssembler()\
     .setInputCol("text")\
     .setOutputCol("document")
 
-sentence_detector = SentenceDetector() \
+sentence_detector = nlp.SentenceDetector() \
     .setInputCols(["document"]) \
     .setOutputCol("sentence") \
     .setCustomBounds(["\n\n"])
 
-tokenizer = Tokenizer()\
+tokenizer = nlp.Tokenizer()\
     .setInputCols(["sentence"])\
     .setOutputCol("token")
 
-embeddings = BertEmbeddings.pretrained("bert_embeddings_finbert_pretrain_yiyanghkust","en")\
+embeddings = nlp.BertEmbeddings.pretrained("bert_embeddings_finbert_pretrain_yiyanghkust","en")\
     .setInputCols(["sentence", "token"])\
     .setOutputCol("embeddings")\
     .setCaseSensitive(True)\
     .setMaxSentenceLength(512)
 
-ner_model = FinanceNerModel.pretrained("finner_10k_summary","en","finance/models")\
+ner_model = finance.NerModel.pretrained("finner_10k_summary","en","finance/models")\
     .setInputCols(["sentence", "token", "embeddings"])\
     .setOutputCol("ner")\
 
-ner_converter = NerConverter()\
+ner_converter = nlp.NerConverter()\
     .setInputCols(["sentence", "token", "ner"])\
     .setOutputCol("ner_chunk")
 
@@ -149,8 +150,7 @@ Manual annotations on 10-K Filings
 ## Benchmarking
 
 ```bash
-                      precision    recall  f1-score   support
-
+              label  precision    recall  f1-score   support
       B-TITLE_CLASS       1.00      1.00      1.00        15
       I-TITLE_CLASS       1.00      1.00      1.00        21
               B-ORG       0.84      0.66      0.74        62
@@ -168,8 +168,7 @@ Manual annotations on 10-K Filings
       I-FISCAL_YEAR       0.93      0.92      0.92       125
 B-TITLE_CLASS_VALUE       1.00      0.93      0.97        15
               B-CFN       0.92      1.00      0.96        12
-
-          micro avg       0.93      0.89      0.91       751
-          macro avg       0.84      0.81      0.82       751
-       weighted avg       0.92      0.89      0.91       751
+          micro-avg       0.93      0.89      0.91       751
+          macro-avg       0.84      0.81      0.82       751
+       weighted-avg       0.92      0.89      0.91       751
 ```

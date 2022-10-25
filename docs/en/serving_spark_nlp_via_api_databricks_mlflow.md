@@ -175,6 +175,8 @@ Then, create a Lemmatization pipeline:
       lemmatizer
      ])
 
+    p_model = pipeline.fit( spark.createDataFrame([[""]]).toDF("text") )
+
 IMPORTANT: Last output column of the last component in the pipeline should be called prediction.
 
 Finally, let’s log the experiment. In the **Experiment Tracking** section, we used the pip_requirements parameter in the log_model() function to set the required libraries:

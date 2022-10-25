@@ -36,6 +36,7 @@ object Database {
   val TMNODES: Name = new Name {
     override val name: String = "TMNODES"
   }
+  @deprecated
   val ENTITY_PATTERNS: Name = new Name {
     override val name: String = "ENTITY_PATTERNS"
   }

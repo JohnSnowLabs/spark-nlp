@@ -1,22 +1,59 @@
 import Select from '../Select';
 import './FilterForm.css';
+import { products, productDisplayName } from '../ModelItem/utils';
 
 const { createElement: e } = React;
 
+const removeAloneEditions = (editions) => {
+  const groups = {};
+  editions.forEach((edition) => {
+    const m = edition.match(/^(.*?) \d\.\d$/);
+    if (m) {
+      const [, name] = m;
+      if (groups[name]) {
+        groups[name] += 1;
+      } else {
+        groups[name] = 1;
+      }
+    }
+  });
+
+  const result = [];
+  editions.forEach((edition) => {
+    const m = edition.match(/^(.*?)( )?(\d\.\d)?$/);
+    if (m) {
+      const [, name, , version] = m;
+      if (version && groups[name] == 1) {
+        return;
+      }
+      result.push(edition);
+    }
+  });
+  return result;
+};
+
 const compareEditions = (a, b) => {
   const getPriority = (edition) => {
-    const products = ['Spark NLP', 'Spark NLP for Healthcare', 'Spark OCR'];
-    const index = products.indexOf(edition);
+    const m = edition.match(/^(.*?)( )?(\d\.\d)?$/);
+    let name = edition,
+      space,
+      version;
+    if (m) {
+      [, name, space, version] = m;
+    }
+    let priority;
+    const productKeys = Object.keys(products);
+    const index = productKeys.indexOf(name);
     if (index !== -1) {
-      return index - products.length;
+      if (name === edition) {
+        priority = index - productKeys.length;
+      } else {
+        priority = index;
+      }
+    } else {
+      priority = 999;
     }
-    if (edition.includes('Spark NLP for Healthcare')) {
-      return 1;
-    }
-    if (edition.includes('Spark NLP')) {
-      return 0;
-    }
-    return 2;
+    return priority;
   };
   return getPriority(a) - getPriority(b);
 };
@@ -27,6 +64,7 @@ const FilterForm = ({ onSubmit, isLoading, meta, params }) => {
   if (meta && meta.aggregations) {
     ({ tasks, languages, editions } = meta.aggregations);
   }
+  editions = removeAloneEditions(editions);
   editions.sort(compareEditions);
 
   let task;
@@ -113,22 +151,25 @@ const FilterForm = ({ onSubmit, isLoading, meta, params }) => {
             onChange: (e) => {
               onSubmit({ edition: e.target.value });
             },
+            renderValue: (edition) => {
+              return productDisplayName(edition);
+            },
           },
           editions
             .map((edition) => {
-              if (
-                edition == 'Spark NLP' ||
-                edition == 'Spark NLP for Healthcare' ||
-                edition == 'Spark OCR'
-              ) {
-                let new_edition = `All ${edition} versions`;
+              if (edition in products) {
+                let new_edition = `All ${products[edition]} versions`;
                 return e(
                   'option',
                   { key: new_edition, value: edition },
                   new_edition
                 );
               } else {
-                return e('option', { key: edition, value: edition }, edition);
+                return e(
+                  'option',
+                  { key: edition, value: edition },
+                  productDisplayName(edition)
+                );
               }
             })
             .reduce(

@@ -43,7 +43,14 @@ This model uses the pre-trained `bert_base_chinese` embeddings model from `BertE
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
 ```python
-...
+document_assembler = DocumentAssembler() \
+    .setInputCol("text") \
+    .setOutputCol("document")
+    
+sentence_detector = SentenceDetector()\
+    .setInputCols(["document"])\
+    .setOutputCol("sentence")
+
 word_segmenter = WordSegmenterModel.pretrained("wordseg_large", "zh")\
         .setInputCols(["sentence"])\
         .setOutputCol("token")
@@ -60,7 +67,16 @@ result = pipeline.fit(example).transform(example)
 ```
 
 ```scala
-...
+
+val document_assembler = DocumentAssembler()
+        .setInputCol("text")
+        .setOutputCol("document")
+        
+val sentence_detector = SentenceDetector()\
+    .setInputCols(["document"])\
+    .setOutputCol("sentence")
+
+
 val word_segmenter = WordSegmenterModel.pretrained("wordseg_large", "zh")
      .setInputCols(Array("sentence"))
      .setOutputCol("token")

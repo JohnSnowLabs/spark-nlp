@@ -50,26 +50,26 @@ This NER model is trained with a combination of custom datasets, Spanish 2002 co
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
 ```python
-documentAssembler = DocumentAssembler()\
+documentAssembler = nlp.DocumentAssembler()\
         .setInputCol("text")\
         .setOutputCol("document")
         
-sentenceDetector = SentenceDetectorDLModel.pretrained("sentence_detector_dl","xx")\
+sentenceDetector = nlp.SentenceDetectorDLModel.pretrained("sentence_detector_dl","xx")\
         .setInputCols(["document"])\
         .setOutputCol("sentence")
 
 
-tokenizer = Tokenizer()\
+tokenizer = nlp.Tokenizer()\
         .setInputCols(["sentence"])\
         .setOutputCol("token")
 
 
-embeddings = WordEmbeddingsModel.pretrained("embeddings_sciwiki_300d","es","clinical/models")\
+embeddings = nlp.WordEmbeddingsModel.pretrained("embeddings_sciwiki_300d","es","clinical/models")\
 	.setInputCols(["sentence","token"])\
 	.setOutputCol("word_embeddings")
 
 
-clinical_ner = MedicalNerModel.pretrained("ner_deid_subentity_augmented", "es", "clinical/models")\
+clinical_ner = medical.NerModel.pretrained("ner_deid_subentity_augmented", "es", "clinical/models")\
         .setInputCols(["sentence","token","word_embeddings"])\
         .setOutputCol("ner")
 
@@ -90,30 +90,30 @@ Antonio Miguel Martínez, varón de de 35 años de edad, de profesión auxiliar 
 df = spark.createDataFrame([text]).toDF("text")
 
 
-results = nlpPipeline.fit(data).transform(data)
+results = nlpPipeline.fit(df).transform(df)
 ```
 ```scala
-val documentAssembler = new DocumentAssembler()
+val documentAssembler = new nlp.DocumentAssembler()
         .setInputCol("text")
         .setOutputCol("document")
 
 
-val sentenceDetector = SentenceDetectorDLModel.pretrained("sentence_detector_dl_healthcare","xx")
+val sentenceDetector = nlp.SentenceDetectorDLModel.pretrained("sentence_detector_dl_healthcare","xx")
         .setInputCols(Array("document"))
         .setOutputCol("sentence")
 
 
-val tokenizer = new Tokenizer()
+val tokenizer = new nlp.Tokenizer()
         .setInputCols(Array("sentence"))
         .setOutputCol("token")
 
 
-val embeddings = WordEmbeddingsModel.pretrained("embeddings_sciwiki_300d","es","clinical/models")
+val embeddings = nlp.WordEmbeddingsModel.pretrained("embeddings_sciwiki_300d","es","clinical/models")
     .setInputCols(Array("sentence", "token"))
     .setOutputCol("embeddings")
 
 
-val clinical_ner = MedicalNerModel.pretrained("ner_deid_subentity_augmented", "es", "clinical/models")
+val clinical_ner = medical.NerModel.pretrained("ner_deid_subentity_augmented", "es", "clinical/models")
         .setInputCols(Array("sentence","token","embeddings"))
         .setOutputCol("ner")
 
@@ -127,7 +127,7 @@ val text = "Antonio Miguel Martínez, varón de de 35 años de edad, de profesi�
 val df = Seq(text).toDF("text")
 
 
-val results = pipeline.fit(data).transform(data)
+val results = pipeline.fit(df).transform(df)
 ```
 </div>
 

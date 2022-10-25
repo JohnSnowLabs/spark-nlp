@@ -22,7 +22,7 @@ Pretrained named entity recognition deep learning model for biology and genetics
 
 {:.h2_title}
 ## Predicted Entities 
-``Amino_acid``, ``Anatomical_system``, ``Cancer``, ``Cell``, ``Cellular_component``, ``Developing_anatomical_Structure``, ``Gene_or_gene_product``, ``Immaterial_anatomical_entity``, ``Multi-tissue_structure``, ``Organ``, ``Organism``, ``Organism_subdivision``, ``Simple_chemical``, ``Tissue``
+``Amino_acid``, ``Anatomical_system``, ``Cancer``, ``Cell``, ``Cellular_component``, ``Developing_anatomical_Structure``, ``Gene_or_gene_product``, ``Immaterial_anatomical_entity``, ``Multi-tissue_structure``, ``Organ``, ``Organism``, ``Organism_subdivision``, ``Simple_chemical``, ``Tissue``, ``Organism_substance``, ``Pathological_formation``
 
 
 {:.btn-box}

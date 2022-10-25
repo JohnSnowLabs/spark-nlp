@@ -49,7 +49,8 @@ import java.io.File
   * [[https://nlp.johnsnowlabs.com/models?task=Text+Classification Models Hub]].
   *
   * To see which models are compatible and how to import them see
-  * [[https://github.com/JohnSnowLabs/spark-nlp/discussions/5669]]. and the
+  * [[https://github.com/JohnSnowLabs/spark-nlp/discussions/5669]] and to see more extended
+  * examples, see
   * [[https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/classifier/dl/DeBertaForSequenceClassificationTestSpec.scala DeBertaForSequenceClassification]].
   *
   * ==Example==

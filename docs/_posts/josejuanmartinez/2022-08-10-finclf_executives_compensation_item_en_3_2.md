@@ -8,7 +8,7 @@ tags: [en, finance, classification, 10k, annual, reports, sec, filings, licensed
 task: Text Classification
 language: en
 edition: Spark NLP for Finance 1.0.0
-spark_version: 3.2
+spark_version: 3.0
 supported: true
 article_header:
   type: cover
@@ -41,16 +41,17 @@ Take into consideration the embeddings of this model allows up to 512 tokens. If
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
+
 ```python
-documentAssembler = DocumentAssembler() \
+documentAssembler = nlp.DocumentAssembler() \
      .setInputCol("text") \
      .setOutputCol("document")
 
-useEmbeddings = UniversalSentenceEncoder.pretrained() \
+useEmbeddings = nlp.UniversalSentenceEncoder.pretrained() \
     .setInputCols("document") \
     .setOutputCol("sentence_embeddings")
 
-docClassifier = ClassifierDLModel().pretrained("finclf_executives_compensation_item", "en", "finance/models")\
+docClassifier = nlp.ClassifierDLModel.pretrained("finclf_executives_compensation_item", "en", "finance/models")\
     .setInputCols(["sentence_embeddings"])\
     .setOutputCol("category")
     
@@ -100,12 +101,10 @@ Weak labelling on documents from Edgar database
 ## Benchmarking
 
 ```bash
-                         precision    recall  f1-score   support
-
+                  label  precision    recall  f1-score   support
 executives_compensation       0.93      0.94      0.94       104
                   other       0.93      0.92      0.92        83
-
-               accuracy                           0.93       187
-              macro avg       0.93      0.93      0.93       187
-           weighted avg       0.93      0.93      0.93       187
+               accuracy        -         -        0.93       187
+              macro-avg       0.93      0.93      0.93       187
+           weighted-avg       0.93      0.93      0.93       187
 ```

@@ -165,7 +165,7 @@ result.select("ner.result").show(truncate = false)
 {%- endcapture -%}
 
 {%- capture python_api_link -%}
-[AlbertForTokenClassification](/api/python/reference/autosummary/sparknlp/annotator/classifier_dl/albert_for_token_classification/index.html#sparknlp.annotator.classifier_dl.albert_for_token_classification.AlbertForTokenClassification)
+[AlbertForTokenClassification](/api/python/reference/autosummary/python/sparknlp/annotator/classifier_dl/albert_for_token_classification/index.html#sparknlp.annotator.classifier_dl.albert_for_token_classification.AlbertForTokenClassification)
 {%- endcapture -%}
 
 {%- capture source_link -%}

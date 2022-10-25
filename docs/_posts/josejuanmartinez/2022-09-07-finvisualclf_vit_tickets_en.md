@@ -1,6 +1,6 @@
 ---
 layout: model
-title: Tickets Binary Classification
+title: Receipts Binary Classification
 author: John Snow Labs
 name: finvisualclf_vit_tickets
 date: 2022-09-07
@@ -8,8 +8,9 @@ tags: [en, finance, classification, tickets, licensed]
 task: Image Classification
 language: en
 edition: Spark NLP for Finance 1.0.0
-spark_version: 3.2
+spark_version: 3.0
 supported: true
+recommended: true
 article_header:
   type: cover
 use_language_switcher: "Python-Scala-Java"
@@ -20,7 +21,7 @@ use_language_switcher: "Python-Scala-Java"
 This is a ViT (Visual Transformer) model, which can be used to carry out Binary Classification (true or false) on pictures / photos / images. This model has been trained in-house with different corpora, including:
 - CORD
 - COCO
-- In-house annotated tickets 
+- In-house annotated receipts 
 
 You can use this model to filter out non-tickets from a folder of images or mobile pictures, and then use Spark OCR to extract information using the layout and the text features.
 
@@ -39,12 +40,13 @@ You can use this model to filter out non-tickets from a folder of images or mobi
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
+
 ```python
-document_assembler = ImageAssembler() \
+document_assembler = nlp.ImageAssembler() \
     .setInputCol("image") \
     .setOutputCol("image_assembler")
 
-imageClassifier_loaded = ViTForImageClassification.pretrained("finvisualclf_tickets", "en", "finance/models")\
+imageClassifier_loaded = nlp.ViTForImageClassification.pretrained("finvisualclf_vit_tickets", "en", "finance/models")\
   .setInputCols(["image_assembler"])\
   .setOutputCol("class")
 
@@ -91,11 +93,13 @@ result.select("class.result").show(1, False)
 
 ## References
 
-Cord, rvl-cdip, visual-genome and an external receipt tickers dataset
+Cord, rvl-cdip, visual-genome and an external receipt dataset
 
 ## Benchmarking
 
 ```bash
-training_loss validation_loss f1 
-0.0006 0.0044 0.9997
+label            score
+training_loss    0.0006  
+validation_loss  0.0044
+f1               0.9997
 ```
