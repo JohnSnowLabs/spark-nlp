@@ -1,6 +1,6 @@
 ---
 layout: model
-title: Legal Swiss Judgements Classification
+title: Legal Swiss Judgements Classification (German)
 author: John Snow Labs
 name: legclf_bert_swiss_judgements
 date: 2022-10-25
