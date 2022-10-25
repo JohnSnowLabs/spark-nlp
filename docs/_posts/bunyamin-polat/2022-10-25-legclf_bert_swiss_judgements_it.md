@@ -34,6 +34,7 @@ This model is a Bert-based model that can be used to classify Italian Swiss Judg
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
+
 ```python
 document_assembler = nlp.DocumentAssembler() \
     .setInputCol('text') \
@@ -105,7 +106,7 @@ Training data is available [here](https://zenodo.org/record/7109926#.Y1gJwexBw8E
 | other         | 0.88      | 0.44   | 0.58     | 32      |
 | penal-law     | 0.91      | 0.95   | 0.93     | 1219    |
 | public-law    | 0.93      | 0.88   | 0.90     | 1433    |
-| social -aw    | 0.96      | 0.92   | 0.94     | 924     |
+| social-law    | 0.96      | 0.92   | 0.94     | 924     |
 | accuracy      |   -       |   -    | 0.92     | 5786    |
 | macro-avg     | 0.92      | 0.85   | 0.87     | 5786    |
 | weighted-avg  | 0.92      | 0.92   | 0.92     | 5786    |
