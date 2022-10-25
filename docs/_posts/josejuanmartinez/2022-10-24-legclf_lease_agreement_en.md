@@ -108,13 +108,10 @@ Legal documents, scrapped from the Internet, and classified in-house + SEC docum
 ## Benchmarking
 
 ```bash
-                 precision    recall  f1-score   support
-
+          label  precision    recall  f1-score   support
 lease-agreement       0.94      0.97      0.96        33
           other       0.98      0.97      0.98        62
-
-       accuracy                           0.97        95
-      macro avg       0.96      0.97      0.97        95
-   weighted avg       0.97      0.97      0.97        95
-
+       accuracy        -         -        0.97        95
+      macro-avg       0.96      0.97      0.97        95
+   weighted-avg       0.97      0.97      0.97        95
 ```
