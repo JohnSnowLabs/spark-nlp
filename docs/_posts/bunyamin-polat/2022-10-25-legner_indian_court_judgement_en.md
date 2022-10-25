@@ -79,7 +79,7 @@ P.K.Jaiswal)  Judge
 (Jarat Kumar Jain) Judge ns.
 W.P.No.1361/2013 
 14/12/2015              
-Parties through their Counsel."""]]
+Parties through their Counsel."""]])
                              
 result = model.transform(data)
 ```
@@ -134,7 +134,7 @@ val result = pipeline.fit(data).transform(data)
 
 ```bash
 +----------------+-----------+
-|ticker          |label      |
+|chunk           |label      |
 +----------------+-----------+
 |Dhar            |GPE        |
 |Sikandar        |RESPONDENT |
