@@ -44,7 +44,7 @@ tokenizer = nlp.Tokenizer()\
     .setInputCols(['document'])\
     .setOutputCol("token")
 
-clf_model = legal.BertForSequenceClassification.load("models/b4sc_legal_judgements_all_it", "it", "legal/models")\
+clf_model = legal.BertForSequenceClassification.pretrained("legclf_bert_swiss_judgements", "it", "legal/models")\
     .setInputCols(['document','token'])\
     .setOutputCol("class")\
     .setCaseSensitive(True)\
