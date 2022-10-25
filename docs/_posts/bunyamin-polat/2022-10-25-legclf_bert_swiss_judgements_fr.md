@@ -17,7 +17,7 @@ use_language_switcher: "Python-Scala-Java"
 
 ## Description
 
-This model is a Bert-based model that can be used to classify French Swiss Judgement documents into the following 6 classes according to their case area. It has been trained with SOTA approach.
+This model is a Bert-based model that can be used to classify Swiss Judgement documents in French language into the following 6 classes according to their case area. It has been trained with SOTA approach.
 
 ## Predicted Entities
 
@@ -37,14 +37,15 @@ This model is a Bert-based model that can be used to classify French Swiss Judge
 
 ```python
 document_assembler = nlp.DocumentAssembler() \
-    .setInputCol('text') \
-    .setOutputCol('document')
+    .setInputCol("text") \
+    .setOutputCol("document")
 
 tokenizer = nlp.Tokenizer()\
-    .setInputCols(['document'])\
+    .setInputCols(["document"])\
     .setOutputCol("token")
 
 clf_model = legal.BertForSequenceClassification.pretrained("legclf_bert_swiss_judgements", "fr", "legal/models")\
+    .setInputCols(["document", "token"])
     .setOutputCol("class")\
     .setCaseSensitive(True)\
     .setMaxSentenceLength(512)
