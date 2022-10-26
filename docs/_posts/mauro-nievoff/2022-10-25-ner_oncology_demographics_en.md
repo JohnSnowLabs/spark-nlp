@@ -140,11 +140,11 @@ In-house annotated oncology case reports.
 ## Benchmarking
 
 ```bash
-         label     tp   fp   fn  total  precision  recall   f1
-Smoking_Status   60.0 19.0  8.0   68.0       0.76    0.88 0.82
-           Age  934.0 33.0 15.0  949.0       0.97    0.98 0.97
-Race_Ethnicity   57.0  5.0  5.0   62.0       0.92    0.92 0.92
-        Gender 1248.0 18.0  6.0 1254.0       0.99    1.00 0.99
-     macro_avg 2299.0 75.0 34.0 2333.0       0.91    0.95 0.93
-     micro_avg    NaN  NaN  NaN    NaN       0.97    0.99 0.98
+         label   tp  fp  fn  total  precision  recall   f1
+Smoking_Status   60  19   8     68       0.76    0.88 0.82
+           Age  934  33  15    949       0.97    0.98 0.97
+Race_Ethnicity   57   5   5     62       0.92    0.92 0.92
+        Gender 1248  18   6   1254       0.99    1.00 0.99
+     macro_avg 2299  75  34   2333       0.91    0.95 0.93
+     micro_avg 2299  75  34   2333       0.97    0.99 0.98
 ```
