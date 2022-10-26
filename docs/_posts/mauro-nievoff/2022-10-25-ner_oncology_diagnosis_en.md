@@ -145,19 +145,19 @@ In-house annotated oncology case reports.
 ## Benchmarking
 
 ```bash
-             label     tp     fp    fn  total  precision  recall   f1
- Histological_Type  354.0   63.0  99.0  453.0       0.85    0.78 0.81
-           Staging  234.0   27.0  24.0  258.0       0.90    0.91 0.90
-      Cancer_Score   36.0   15.0  26.0   62.0       0.71    0.58 0.64
-     Tumor_Finding 1121.0   83.0 136.0 1257.0       0.93    0.89 0.91
-          Invasion  154.0   27.0  27.0  181.0       0.85    0.85 0.85
-        Tumor_Size 1058.0  126.0  71.0 1129.0       0.89    0.94 0.91
-        Adenopathy   66.0   10.0  30.0   96.0       0.87    0.69 0.77
-Performance_Status  116.0   15.0  19.0  135.0       0.89    0.86 0.87
-  Pathology_Result  852.0  686.0 290.0 1142.0       0.55    0.75 0.64
-        Metastasis  356.0   15.0  14.0  370.0       0.96    0.96 0.96
-         Cancer_Dx 1302.0   88.0  92.0 1394.0       0.94    0.93 0.94
-             Grade  201.0   23.0  35.0  236.0       0.90    0.85 0.87
-         macro_avg 5850.0 1178.0 863.0 6713.0       0.85    0.83 0.84
-         micro_avg    NaN    NaN   NaN    NaN       0.85    0.87 0.86
+             label   tp   fp  fn  total  precision  recall   f1
+ Histological_Type  354   63  99    453       0.85    0.78 0.81
+           Staging  234   27  24    258       0.90    0.91 0.90
+      Cancer_Score   36   15  26     62       0.71    0.58 0.64
+     Tumor_Finding 1121   83 136   1257       0.93    0.89 0.91
+          Invasion  154   27  27    181       0.85    0.85 0.85
+        Tumor_Size 1058  126  71   1129       0.89    0.94 0.91
+        Adenopathy   66   10  30     96       0.87    0.69 0.77
+Performance_Status  116   15  19    135       0.89    0.86 0.87
+  Pathology_Result  852  686 290   1142       0.55    0.75 0.64
+        Metastasis  356   15  14    370       0.96    0.96 0.96
+         Cancer_Dx 1302   88  92   1394       0.94    0.93 0.94
+             Grade  201   23  35    236       0.90    0.85 0.87
+         macro_avg 5850 1178 863   6713       0.85    0.83 0.84
+         micro_avg 5850 1178 863   6713       0.85    0.87 0.86
 ```
