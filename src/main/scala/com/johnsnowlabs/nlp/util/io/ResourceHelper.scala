@@ -133,7 +133,7 @@ object ResourceHelper {
       */
     def copyToLocal(prefix: String = "sparknlp_tmp_"): URI = {
       if (fileSystem.getScheme == "file")
-        return Paths.get(resource).toUri
+        return URI.create(resource)
 
       val destination: file.Path = Files.createTempDirectory(prefix)
 
@@ -192,7 +192,9 @@ object ResourceHelper {
     if (path.startsWith("s3:/") || path.startsWith("s3a:/")) { // Download directly from S3
       ResourceDownloader.downloadS3Directory(path)
     } else { // Use Source Stream
-      val resource = SourceStream(path)
+      val pathWithProtocol: String =
+        if (URI.create(path).getScheme == null) new File(path).toURI.toURL.toString else path
+      val resource = SourceStream(pathWithProtocol)
       resource.copyToLocal()
     }
   } catch {
@@ -203,7 +205,7 @@ object ResourceHelper {
       throw awsE
     case e: Exception =>
       println(
-        s"Could not create temporary local directory for provided path $path." +
+        s"Could not create temporary local directory for provided path $path. " +
           "Please note that only file:/, hdfs:/, dbfs:/ and s3:/ protocols are supported.")
       throw e
   }
