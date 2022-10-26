@@ -146,9 +146,9 @@ In-house annotated oncology case reports.
 ## Benchmarking
 
 ```bash
-               label     tp    fp    fn  total  precision  recall   f1
-Posology_Information 2663.0 244.0 399.0 3062.0       0.92    0.87 0.89
-      Cancer_Therapy 2580.0 317.0 247.0 2827.0       0.89    0.91 0.90
-           macro_avg 5243.0 561.0 646.0 5889.0       0.90    0.89 0.90
-           micro_avg    NaN   NaN   NaN    NaN       0.90    0.89 0.90
+               label   tp  fp  fn  total  precision  recall   f1
+Posology_Information 2663 244 399   3062       0.92    0.87 0.89
+      Cancer_Therapy 2580 317 247   2827       0.89    0.91 0.90
+           macro_avg 5243 561 646   5889       0.90    0.89 0.90
+           micro_avg 5243 561 646   5889       0.90    0.89 0.90
 ```
