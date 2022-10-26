@@ -177,6 +177,17 @@ object ResourceHelper {
     }
   }
 
+  /** Copies the remote resource to a local temporary folder and returns its absolute path.
+    *
+    * Currently, file:/, s3:/, hdfs:/ and dbfs:/ are supported.
+    *
+    * If the file is already on the local file system just the absolute path will be returned
+    * instead.
+    * @param path
+    *   Path to the resource
+    * @return
+    *   Absolute path to the temporary or local folder of the resource
+    */
   def copyToLocal(path: String): URI = try {
     if (path.startsWith("s3:/") || path.startsWith("s3a:/")) { // Download directly from S3
       ResourceDownloader.downloadS3Directory(path)
