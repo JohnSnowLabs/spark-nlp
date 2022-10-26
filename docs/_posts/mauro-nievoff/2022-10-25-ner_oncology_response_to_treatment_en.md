@@ -139,10 +139,10 @@ In-house annotated oncology case reports.
 ## Benchmarking
 
 ```bash
-                label    tp    fp    fn  total  precision  recall   f1
-Response_To_Treatment 326.0 101.0 157.0  483.0       0.76    0.67 0.72
-           Size_Trend  43.0  28.0  70.0  113.0       0.61    0.38 0.47
-      Line_Of_Therapy  99.0  11.0   7.0  106.0       0.90    0.93 0.92
-            macro_avg 468.0 140.0 234.0  702.0       0.76    0.66 0.70
-            micro_avg   NaN   NaN   NaN    NaN       0.76    0.67 0.71
+                label  tp  fp  fn  total  precision  recall   f1
+Response_To_Treatment 326 101 157    483       0.76    0.67 0.72
+           Size_Trend  43  28  70    113       0.61    0.38 0.47
+      Line_Of_Therapy  99  11   7    106       0.90    0.93 0.92
+            macro_avg 468 140 234    702       0.76    0.66 0.70
+            micro_avg 468 140 234    702       0.76    0.67 0.71
 ```
