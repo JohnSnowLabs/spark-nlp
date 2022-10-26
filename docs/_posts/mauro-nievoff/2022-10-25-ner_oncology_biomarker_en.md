@@ -156,9 +156,9 @@ In-house annotated oncology case reports.
 ## Benchmarking
 
 ```bash
-           label     tp    fp    fn  total  precision  recall   f1
-Biomarker_Result 1030.0 148.0 415.0 1445.0       0.87    0.71 0.79
-       Biomarker 1685.0 272.0 279.0 1964.0       0.86    0.86 0.86
-       macro_avg 2715.0 420.0 694.0 3409.0       0.87    0.79 0.82
-       micro_avg    NaN   NaN   NaN    NaN       0.87    0.80 0.83
+           label   tp  fp  fn  total  precision  recall   f1
+Biomarker_Result 1030 148 415   1445       0.87    0.71 0.79
+       Biomarker 1685 272 279   1964       0.86    0.86 0.86
+       macro_avg 2715 420 694   3409       0.87    0.79 0.82
+       micro_avg 2715 420 694   3409       0.87    0.80 0.83
 ```
