@@ -144,18 +144,18 @@ In-house annotated oncology case reports.
 ## Benchmarking
 
 ```bash
-         label     tp    fp     fn  total  precision  recall   f1
-  Cycle_Number   52.0   4.0   45.0   97.0       0.93    0.54 0.68
-   Cycle_Count  200.0  63.0   30.0  230.0       0.76    0.87 0.81
-  Radiotherapy  255.0  16.0   55.0  310.0       0.94    0.82 0.88
-Cancer_Surgery  592.0  66.0  227.0  819.0       0.90    0.72 0.80
-     Cycle_Day  175.0  22.0   73.0  248.0       0.89    0.71 0.79
-     Frequency  337.0  44.0   90.0  427.0       0.88    0.79 0.83
-         Route   53.0   1.0   60.0  113.0       0.98    0.47 0.63
-Cancer_Therapy 1448.0  81.0  250.0 1698.0       0.95    0.85 0.90
-      Duration  525.0 154.0  236.0  761.0       0.77    0.69 0.73
-        Dosage  858.0  79.0  202.0 1060.0       0.92    0.81 0.86
-Radiation_Dose   86.0   4.0   40.0  126.0       0.96    0.68 0.80
-     macro_avg 4581.0 534.0 1308.0 5889.0       0.90    0.72 0.79
-     micro_avg    NaN   NaN    NaN    NaN       0.90    0.78 0.83
+         label   tp  fp   fn  total  precision  recall   f1
+  Cycle_Number   52   4   45     97       0.93    0.54 0.68
+   Cycle_Count  200  63   30    230       0.76    0.87 0.81
+  Radiotherapy  255  16   55    310       0.94    0.82 0.88
+Cancer_Surgery  592  66  227    819       0.90    0.72 0.80
+     Cycle_Day  175  22   73    248       0.89    0.71 0.79
+     Frequency  337  44   90    427       0.88    0.79 0.83
+         Route   53   1   60    113       0.98    0.47 0.63
+Cancer_Therapy 1448  81  250   1698       0.95    0.85 0.90
+      Duration  525 154  236    761       0.77    0.69 0.73
+        Dosage  858  79  202   1060       0.92    0.81 0.86
+Radiation_Dose   86   4   40    126       0.96    0.68 0.80
+     macro_avg 4581 534 1308   5889       0.90    0.72 0.79
+     micro_avg 4581 534 1308   5889       0.90    0.78 0.83
 ```
