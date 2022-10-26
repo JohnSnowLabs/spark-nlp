@@ -141,12 +141,12 @@ In-house annotated oncology case reports.
 ## Benchmarking
 
 ```bash
-           label     tp     fp    fn  total  precision  recall   f1
-    Imaging_Test 2020.0  229.0 184.0 2204.0       0.90    0.92 0.91
-Biomarker_Result 1177.0  186.0 268.0 1445.0       0.86    0.81 0.84
-  Pathology_Test  888.0  276.0 162.0 1050.0       0.76    0.85 0.80
-       Biomarker 1287.0  254.0 228.0 1515.0       0.84    0.85 0.84
-        Oncogene  365.0   89.0  84.0  449.0       0.80    0.81 0.81
-       macro_avg 5737.0 1034.0 926.0 6663.0       0.83    0.85 0.84
-       micro_avg    NaN    NaN   NaN    NaN       0.85    0.86 0.85
+           label   tp   fp  fn  total  precision  recall   f1
+    Imaging_Test 2020  229 184   2204       0.90    0.92 0.91
+Biomarker_Result 1177  186 268   1445       0.86    0.81 0.84
+  Pathology_Test  888  276 162   1050       0.76    0.85 0.80
+       Biomarker 1287  254 228   1515       0.84    0.85 0.84
+        Oncogene  365   89  84    449       0.80    0.81 0.81
+       macro_avg 5737 1034 926   6663       0.83    0.85 0.84
+       micro_avg 5737 1034 926   6663       0.85    0.86 0.85
 ```
