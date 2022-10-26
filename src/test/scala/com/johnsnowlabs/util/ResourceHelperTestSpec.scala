@@ -172,9 +172,11 @@ class ResourceHelperTestSpec extends AnyFlatSpec {
 
   it should "not copyToLocal a local file" taggedAs FastTest in {
     val resourcePath = "src/test/resources/tf-hub-bert/model"
-    val tmpFolder: String = ResourceHelper.copyToLocal(resourcePath).getPath
+    val resourceUri = new File("src/test/resources/tf-hub-bert/model").toURI
 
-    assert(resourcePath == tmpFolder, "Folder should not have been copied.")
+    val tmpFolder = ResourceHelper.copyToLocal(resourcePath)
+
+    assert(resourceUri == tmpFolder, "Folder should not have been copied.")
   }
 
   // Local HDFS needs to be set up
