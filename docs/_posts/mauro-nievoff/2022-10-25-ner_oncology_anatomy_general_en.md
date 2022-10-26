@@ -143,9 +143,9 @@ In-house annotated oncology case reports.
 ## Benchmarking
 
 ```bash
-          label     tp    fp    fn  total  precision  recall   f1
-Anatomical_Site 2946.0 549.0 638.0 3584.0       0.84    0.82 0.83
-      Direction  864.0 209.0 120.0  984.0       0.81    0.88 0.84
-      macro_avg 3810.0 758.0 758.0 4568.0       0.82    0.85 0.84
-      micro_avg    NaN   NaN   NaN    NaN       0.83    0.83 0.83
+          label    tp   fp   fn total  precision  recall   f1
+Anatomical_Site  2946  549  638  3584       0.84    0.82 0.83
+      Direction   864  209  120   984       0.81    0.88 0.84
+      macro_avg  3810  758  758  4568       0.82    0.85 0.84
+      micro_avg  3810  758  758  4568       0.83    0.83 0.83
 ```
