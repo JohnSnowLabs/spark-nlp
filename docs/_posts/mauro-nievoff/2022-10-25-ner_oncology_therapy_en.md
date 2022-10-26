@@ -152,24 +152,24 @@ In-house annotated oncology case reports.
 ## Benchmarking
 
 ```bash
-                label     tp     fp     fn  total  precision  recall   f1
-         Cycle_Number   78.0   41.0   19.0   97.0       0.66    0.80 0.72
-Response_To_Treatment  451.0  205.0  145.0  596.0       0.69    0.76 0.72
-          Cycle_Count  210.0   75.0   20.0  230.0       0.74    0.91 0.82
-   Unspecific_Therapy  189.0   76.0   89.0  278.0       0.71    0.68 0.70
-         Chemotherapy  831.0   87.0   48.0  879.0       0.91    0.95 0.92
-     Targeted_Therapy  194.0   28.0   34.0  228.0       0.87    0.85 0.86
-         Radiotherapy  279.0   35.0   31.0  310.0       0.89    0.90 0.89
-       Cancer_Surgery  720.0  192.0   99.0  819.0       0.79    0.88 0.83
-      Line_Of_Therapy   95.0    6.0   11.0  106.0       0.94    0.90 0.92
-     Hormonal_Therapy  170.0    6.0   15.0  185.0       0.97    0.92 0.94
-        Immunotherapy   96.0   17.0   32.0  128.0       0.85    0.75 0.80
-            Cycle_Day  205.0   38.0   43.0  248.0       0.84    0.83 0.84
-            Frequency  363.0   33.0   64.0  427.0       0.92    0.85 0.88
-                Route   93.0    6.0   20.0  113.0       0.94    0.82 0.88
-             Duration  527.0  102.0  234.0  761.0       0.84    0.69 0.76
-               Dosage  959.0   63.0  101.0 1060.0       0.94    0.90 0.92
-       Radiation_Dose  106.0   12.0   20.0  126.0       0.90    0.84 0.87
-            macro_avg 5566.0 1022.0 1025.0 6591.0       0.85    0.84 0.84
-            micro_avg    NaN    NaN    NaN    NaN       0.85    0.84 0.84
+                label   tp   fp   fn  total  precision  recall   f1
+         Cycle_Number   78   41   19     97       0.66    0.80 0.72
+Response_To_Treatment  451  205  145    596       0.69    0.76 0.72
+          Cycle_Count  210   75   20    230       0.74    0.91 0.82
+   Unspecific_Therapy  189   76   89    278       0.71    0.68 0.70
+         Chemotherapy  831   87   48    879       0.91    0.95 0.92
+     Targeted_Therapy  194   28   34    228       0.87    0.85 0.86
+         Radiotherapy  279   35   31    310       0.89    0.90 0.89
+       Cancer_Surgery  720  192   99    819       0.79    0.88 0.83
+      Line_Of_Therapy   95    6   11    106       0.94    0.90 0.92
+     Hormonal_Therapy  170    6   15    185       0.97    0.92 0.94
+        Immunotherapy   96   17   32    128       0.85    0.75 0.80
+            Cycle_Day  205   38   43    248       0.84    0.83 0.84
+            Frequency  363   33   64    427       0.92    0.85 0.88
+                Route   93    6   20    113       0.94    0.82 0.88
+             Duration  527  102  234    761       0.84    0.69 0.76
+               Dosage  959   63  101   1060       0.94    0.90 0.92
+       Radiation_Dose  106   12   20    126       0.90    0.84 0.87
+            macro_avg 5566 1022 1025   6591       0.85    0.84 0.84
+            micro_avg 5566 1022 1025   6591       0.85    0.84 0.84
 ```
