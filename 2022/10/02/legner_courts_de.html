@@ -459,6 +459,7 @@
   <div class="top_tab_li">   
     <p><button data-type="python" class="tab-li code-selector-active python-button">Python</button><button data-type="scala" class="tab-li code-selector-un-active scala-button">Scala</button><button data-type="nlu" class="tab-li code-selector-un-active nlu-button">NLU</button></p>
 </div>
+
   <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">...</span>
 <span class="n">word_embeddings</span> <span class="o">=</span> <span class="n">nlp</span><span class="p">.</span><span class="n">WordEmbeddingsModel</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"w2v_cc_300d"</span><span class="p">,</span><span class="s">'de'</span><span class="p">,</span><span class="s">'clinical/models'</span><span class="p">)</span>\
 <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"sentence"</span><span class="p">,</span> <span class="s">'token'</span><span class="p">])</span>\
@@ -556,11 +557,9 @@
 
 <h2 id="benchmarking">Benchmarking</h2>
 
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>+---------------+-------+------------+------+-------------+-----+------------+
-| Macro-average | prec: | 0.9210195, | rec: | 0.91861916, | f1: | 0.91981775 |
-+---------------+-------+------------+------+-------------+-----+------------+
-| Micro-average | prec: | 0.9833763, | rec: | 0.9837547,  | f1: | 0.9835655  |
-+---------------+-------+------------+------+-------------+-----+------------+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>        label        prec         rec          f1
+Macro-average   0.9210195   0.9186192   0.9198177
+Micro-average   0.9833763   0.9837547   0.9835655 
 </code></pre></div></div>
 </div><div class="d-print-none"><footer class="article__footer"><meta itemprop="dateModified" content="2022-10-02T00:00:00+00:00"><!-- start custom article footer snippet -->
 

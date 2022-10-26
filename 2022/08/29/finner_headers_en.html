@@ -446,6 +446,7 @@
   <div class="top_tab_li">   
     <p><button data-type="python" class="tab-li code-selector-active python-button">Python</button><button data-type="scala" class="tab-li code-selector-un-active scala-button">Scala</button><button data-type="nlu" class="tab-li code-selector-un-active nlu-button">NLU</button></p>
 </div>
+
   <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">documentAssembler</span> <span class="o">=</span> <span class="n">nlp</span><span class="p">.</span><span class="n">DocumentAssembler</span><span class="p">()</span>\
         <span class="p">.</span><span class="n">setInputCol</span><span class="p">(</span><span class="s">"text"</span><span class="p">)</span>\
         <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"document"</span><span class="p">)</span>
@@ -601,14 +602,13 @@
 
 <h2 id="benchmarking">Benchmarking</h2>
 
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>label	 tp	 fp	 fn	 prec	 rec	 f1
-I-HEADER	 2835	 9	 8	 0.9968355	 0.99718606	 0.9970107
-B-SUBHEADER	 963	 135	 131	 0.8770492	 0.88025594	 0.87864965
-I-SUBHEADER	 2573	 219	 152	 0.9215616	 0.9442202	 0.9327533
-B-HEADER	 425	 1	 1	 0.9976526	 0.9976526	 0.9976526
-tp: 6796 fp: 364 fn: 292 labels: 4
-Macro-average	 prec: 0.94827473, rec: 0.9548287, f1: 0.95154047
-Micro-average	 prec: 0.949162, rec: 0.9588036, f1: 0.9539584
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>label            tp      fp      fn      prec         rec          f1
+I-HEADER         2835    9       8       0.996835     0.9971860    0.9970107
+B-SUBHEADER      963     135     131     0.877049     0.8802559    0.87864965
+I-SUBHEADER      2573    219     152     0.921561     0.9442202    0.9327533
+B-HEADER         425     1       1       0.997652     0.9976526    0.9976526
+Macro-average    6796    364     292     0.948274     0.9548287    0.95154047
+Micro-average    6796    364     292     0.949162     0.9588036    0.9539584
 </code></pre></div></div>
 </div><div class="d-print-none"><footer class="article__footer"><meta itemprop="dateModified" content="2022-08-29T00:00:00+00:00"><!-- start custom article footer snippet -->
 

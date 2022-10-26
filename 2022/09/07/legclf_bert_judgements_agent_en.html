@@ -437,6 +437,7 @@
   <div class="top_tab_li">   
     <p><button data-type="python" class="tab-li code-selector-active python-button">Python</button><button data-type="scala" class="tab-li code-selector-un-active scala-button">Scala</button><button data-type="nlu" class="tab-li code-selector-un-active nlu-button">NLU</button></p>
 </div>
+
   <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">text_list</span> <span class="o">=</span> <span class="p">[</span><span class="s">"""The applicant further noted that his placement in the home had already lasted more than eight years and that his hopes of leaving one day were futile , as the decision had to be approved by his guardian."""</span><span class="p">.</span><span class="n">lower</span><span class="p">(),</span>
              <span class="s">"""The Court observes that the situation was subsequently presented differently before the Riga Regional Court , the applicant having submitted , in the context of her appeal , a certificate prepared at her request by a psychologist on 16 December 2008 , that is , after the first - instance judgment . This document indicated that , while the child 's young age prevented her from expressing a preference as to her place of residence , an immediate separation from her mother was to be ruled out on account of the likelihood of psychological trauma ( see paragraph 22 above )."""</span><span class="p">.</span><span class="n">lower</span><span class="p">()</span>
              <span class="p">]</span>
@@ -549,18 +550,16 @@
 
 <h2 id="benchmarking">Benchmarking</h2>
 
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>                      precision    recall  f1-score   support
-
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>             label  precision    recall  f1-score   support
          APPLICANT       0.91      0.89      0.90       238
 COMMISSION/CHAMBER       0.80      1.00      0.89        20
               ECHR       0.92      0.96      0.94       870
              OTHER       0.95      0.90      0.93       940
              STATE       0.91      0.94      0.92       205
-     THIRD PARTIES       0.96      0.92      0.94        26
-
-          accuracy                           0.93      2299
-         macro avg       0.91      0.94      0.92      2299
-      weighted avg       0.93      0.93      0.93      2299
+     THIRD_PARTIES       0.96      0.92      0.94        26
+          accuracy         -         -       0.93      2299
+         macro-avg       0.91      0.94      0.92      2299
+      weighted-avg       0.93      0.93      0.93      2299
 </code></pre></div></div>
 </div><div class="d-print-none"><footer class="article__footer"><meta itemprop="dateModified" content="2022-09-07T00:00:00+00:00"><!-- start custom article footer snippet -->
 

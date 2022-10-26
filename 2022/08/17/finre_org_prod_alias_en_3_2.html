@@ -441,6 +441,7 @@
   <div class="top_tab_li">   
     <p><button data-type="python" class="tab-li code-selector-active python-button">Python</button><button data-type="scala" class="tab-li code-selector-un-active scala-button">Scala</button><button data-type="nlu" class="tab-li code-selector-un-active nlu-button">NLU</button></p>
 </div>
+
   <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">documentAssembler</span> <span class="o">=</span> <span class="n">nlp</span><span class="p">.</span><span class="n">DocumentAssembler</span><span class="p">()</span>\
         <span class="p">.</span><span class="n">setInputCol</span><span class="p">(</span><span class="s">"text"</span><span class="p">)</span>\
         <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"document"</span><span class="p">)</span>
@@ -536,15 +537,12 @@ has_alias	ORG	64	92	Hitachi Capital America Corp.	ALIAS	96	102	Hitachi	0.9983972
 
 <h2 id="benchmarking">Benchmarking</h2>
 
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Relation           Recall Precision        F1   Support
-
-has_alias           0.920     1.000     0.958        50
-has_collective_alias     1.000     0.750     0.857         6
-no_rel              1.000     0.957     0.978        44
-
-Avg.                0.973     0.902     0.931
-
-Weighted Avg.       0.960     0.966     0.961
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>label                    Recall    Precision    F1        Support
+has_alias                0.920     1.000        0.958     50
+has_collective_alias     1.000     0.750        0.857      6
+no_rel                   1.000     0.957        0.978     44
+Avg.                     0.973     0.902        0.931      -
+Weighted-Avg.            0.960     0.966        0.961      -
 </code></pre></div></div>
 </div><div class="d-print-none"><footer class="article__footer"><meta itemprop="dateModified" content="2022-08-17T00:00:00+00:00"><!-- start custom article footer snippet -->
 

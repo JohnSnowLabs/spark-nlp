@@ -444,6 +444,7 @@
   <div class="top_tab_li">   
     <p><button data-type="python" class="tab-li code-selector-active python-button">Python</button><button data-type="scala" class="tab-li code-selector-un-active scala-button">Scala</button><button data-type="nlu" class="tab-li code-selector-un-active nlu-button">NLU</button></p>
 </div>
+
   <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">documentAssembler</span> <span class="o">=</span> <span class="n">nlp</span><span class="p">.</span><span class="n">DocumentAssembler</span><span class="p">()</span>\
         <span class="p">.</span><span class="n">setInputCol</span><span class="p">(</span><span class="s">"text"</span><span class="p">)</span>\
         <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"document"</span><span class="p">)</span>
@@ -604,15 +605,15 @@
 
 <h2 id="benchmarking">Benchmarking</h2>
 
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>I-PARTY	 366	 26	 39	 0.93367344	 0.9037037	 0.91844416
-I-SIGNING_TITLE	 41	 0	 4	 1.0	 0.9111111	 0.95348835
-I-SIGNING_PERSON	 115	 10	 13	 0.92	 0.8984375	 0.9090909
-B-SIGNING_PERSON	 46	 3	 11	 0.93877554	 0.80701756	 0.8679246
-B-PARTY	 122	 14	 28	 0.89705884	 0.81333333	 0.85314685
-B-SIGNING_TITLE	 26	 0	 2	 1.0	 0.9285714	 0.9629629
-tp: 716 fp: 53 fn: 97 labels: 6
-Macro-average	 prec: 0.9482513, rec: 0.8770291, f1: 0.91125065
-Micro-average	 prec: 0.9310793, rec: 0.8806888, f1: 0.9051833
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>label               tp     fp    fn     prec           rec           f1
+I-PARTY             366    26    39     0.93367344     0.9037037     0.91844416
+I-SIGNING_TITLE     41     0     4      1.0            0.9111111     0.95348835
+I-SIGNING_PERSON    115    10    13     0.92           0.8984375     0.9090909
+B-SIGNING_PERSON    46     3     11     0.93877554     0.80701756    0.8679246
+B-PARTY             122    14    28     0.89705884     0.81333333    0.85314685
+B-SIGNING_TITLE     26     0     2      1.0            0.9285714     0.9629629
+Macro-average	    716    53    97     0.9482513      0.8770291     0.91125065
+Micro-average	    716    53    97     0.9310793      0.8806888     0.9051833
 </code></pre></div></div>
 </div><div class="d-print-none"><footer class="article__footer"><meta itemprop="dateModified" content="2022-08-16T00:00:00+00:00"><!-- start custom article footer snippet -->
 

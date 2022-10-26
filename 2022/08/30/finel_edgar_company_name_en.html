@@ -9,7 +9,7 @@
     j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
     })(window,document,'script','dataLayer','GTM-59JLR64');</script>
-<!-- End Google Tag Manager --><title>Company Name Normalization to Edgar Database</title><meta property="og:title" content=""/>
+<!-- End Google Tag Manager --><title>Company Name Normalization using Edgar Database</title><meta property="og:title" content=""/>
 
 <meta name="description" content="DescriptionThis is an Entity Linking / Entity Resolution model, which allows you to map an extracted Company Name from any NER model, to the name used by SEC in Edgar Database. This can come in handy to afterwards use Edgar Chunk Mappers with the output of this resolution, to carry out data augmentation and retrieve...">
 <link rel="canonical" href="/2022/08/30/finel_edgar_company_name_en.html"><link rel="alternate" type="application/rss+xml" title="Spark NLP" href="/feed.xml"><!-- start favicons snippet, use https://realfavicongenerator.net/ -->
@@ -414,7 +414,7 @@
             </a>
         </div><ul class="right-col menu"><li><i class="far fa-user"></i> <span>John Snow Labs</span></li><li><i class="far fa-calendar-alt"></i> <span>Aug 30, 2022</span>
             </li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2022-08-30T00:00:00+00:00"></div><header class="main-docs have_subtitle">
-          <h1>Company Name Normalization to Edgar Database</h1><div class="top-subtitle mont"></div></header></div><meta itemprop="headline" content="Company Name Normalization to Edgar Database"><div class="article__info tags_box clearfix"><ul class="left-col menu"><li>en</li><li>finance</li><li>companies</li><li>edgar</li><li>licensed</li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2022-08-30T00:00:00+00:00">
+          <h1>Company Name Normalization using Edgar Database</h1><div class="top-subtitle mont"></div></header></div><meta itemprop="headline" content="Company Name Normalization using Edgar Database"><div class="article__info tags_box clearfix"><ul class="left-col menu"><li>en</li><li>finance</li><li>companies</li><li>edgar</li><li>licensed</li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2022-08-30T00:00:00+00:00">
     <meta itemprop="keywords" content="en,finance,companies,edgar,licensed"><div class="js-article-content"><div class="model-wrap"><div class="layout--article"><!-- start custom article top snippet -->
 
 <!-- end custom article top snippet --><div class="article__content" itemprop="articleBody"><h2 id="description">Description</h2>
@@ -433,6 +433,7 @@
   <div class="top_tab_li">   
     <p><button data-type="python" class="tab-li code-selector-active python-button">Python</button><button data-type="scala" class="tab-li code-selector-un-active scala-button">Scala</button><button data-type="nlu" class="tab-li code-selector-un-active nlu-button">NLU</button></p>
 </div>
+
   <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">documentAssembler</span> <span class="o">=</span> <span class="n">nlp</span><span class="p">.</span><span class="n">DocumentAssembler</span><span class="p">()</span>\
       <span class="p">.</span><span class="n">setInputCol</span><span class="p">(</span><span class="s">"text"</span><span class="p">)</span>\
       <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"ner_chunk"</span><span class="p">)</span>
@@ -443,7 +444,7 @@
     
 <span class="n">resolver</span> <span class="o">=</span> <span class="n">finance</span><span class="p">.</span><span class="n">SentenceEntityResolverModel</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"finel_edgar_company_name"</span><span class="p">,</span> <span class="s">"en"</span><span class="p">,</span> <span class="s">"finance/models"</span><span class="p">)</span>\
       <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"ner_chunk"</span><span class="p">,</span> <span class="s">"sentence_embeddings"</span><span class="p">])</span> \
-      <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"irs_code"</span><span class="p">)</span>\
+      <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"normalized"</span><span class="p">)</span>\
       <span class="p">.</span><span class="n">setDistanceFunction</span><span class="p">(</span><span class="s">"EUCLIDEAN"</span><span class="p">)</span>
 
 <span class="n">pipelineModel</span> <span class="o">=</span> <span class="n">PipelineModel</span><span class="p">(</span>

@@ -441,23 +441,28 @@
   <div class="top_tab_li">   
     <p><button data-type="python" class="tab-li code-selector-active python-button">Python</button><button data-type="scala" class="tab-li code-selector-un-active scala-button">Scala</button><button data-type="nlu" class="tab-li code-selector-un-active nlu-button">NLU</button></p>
 </div>
-  <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">documentAssembler</span> <span class="o">=</span> <span class="n">DocumentAssembler</span><span class="p">()</span> \
+
+  <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">documentAssembler</span> <span class="o">=</span> <span class="n">nlp</span><span class="p">.</span><span class="n">DocumentAssembler</span><span class="p">()</span> \
        <span class="p">.</span><span class="n">setInputCol</span><span class="p">(</span><span class="s">"text"</span><span class="p">)</span> \
        <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"document"</span><span class="p">)</span>
 
-<span class="n">sentenceDetector</span> <span class="o">=</span> <span class="n">SentenceDetectorDLModel</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"sentence_detector_dl"</span><span class="p">,</span> <span class="s">"xx"</span><span class="p">)</span>\
+<span class="n">sentenceDetector</span> <span class="o">=</span> <span class="n">nlp</span><span class="p">.</span><span class="n">SentenceDetectorDLModel</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"sentence_detector_dl"</span><span class="p">,</span> <span class="s">"xx"</span><span class="p">)</span>\
        <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"document"</span><span class="p">])</span>\
        <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"sentence"</span><span class="p">)</span>
 
-<span class="n">tokenizer</span> <span class="o">=</span> <span class="n">Tokenizer</span><span class="p">()</span> \
+<span class="n">tokenizer</span> <span class="o">=</span> <span class="n">nlp</span><span class="p">.</span><span class="n">Tokenizer</span><span class="p">()</span> \
     <span class="p">.</span><span class="n">setInputCols</span><span class="p">(</span><span class="s">"sentence"</span><span class="p">)</span> \
     <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"token"</span><span class="p">)</span>
 
-<span class="n">tokenClassifier</span> <span class="o">=</span> <span class="n">RoBertaForTokenClassification</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"legner_laws_treaties"</span><span class="p">,</span><span class="s">"es"</span><span class="p">,</span> <span class="s">"legal/models"</span><span class="p">)</span> \
+<span class="n">tokenClassifier</span> <span class="o">=</span> <span class="n">nlp</span><span class="p">.</span><span class="n">RoBertaForTokenClassification</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"legner_laws_treaties"</span><span class="p">,</span><span class="s">"es"</span><span class="p">,</span> <span class="s">"legal/models"</span><span class="p">)</span> \
     <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"sentence"</span><span class="p">,</span> <span class="s">"token"</span><span class="p">])</span> \
     <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"ner"</span><span class="p">)</span>
 
-<span class="n">pipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">(</span><span class="n">stages</span><span class="o">=</span><span class="p">[</span><span class="n">documentAssembler</span><span class="p">,</span> <span class="n">sentenceDetector</span><span class="p">,</span> <span class="n">tokenizer</span><span class="p">,</span> <span class="n">tokenClassifier</span><span class="p">])</span>
+<span class="n">pipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">(</span>
+    <span class="n">stages</span><span class="o">=</span><span class="p">[</span><span class="n">documentAssembler</span><span class="p">,</span> 
+            <span class="n">sentenceDetector</span><span class="p">,</span> 
+            <span class="n">tokenizer</span><span class="p">,</span> 
+            <span class="n">tokenClassifier</span><span class="p">])</span>
 
 <span class="n">text</span> <span class="o">=</span> <span class="s">"Sin perjuicio de lo dispuesto en el párrafo b), los requisitos y los efectos de una reivindicación de prioridad presentada conforme al párrafo 1), serán los establecidos en el Artículo 4 del Acta de Estocolmo del Convenio de París para la Protección de la Propiedad Industrial."</span>
 
@@ -536,11 +541,9 @@
 
 <h2 id="benchmarking">Benchmarking</h2>
 
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>+---------------+-------+------------+------+-------------+-----+------------+
-| Macro-average | prec: | 0.9361195, | rec: | 0.92941516, | f1: | 0.93681455 |
-+---------------+-------+------------+------+-------------+-----+------------+
-| Micro-average | prec: | 0.9856711, | rec: | 0.9857456,  | f1: | 0.9851656  |
-+---------------+-------+------------+------+-------------+-----+------------+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>        label        prec        rec          f1
+Macro-average   0.9361195  0.9294152   0.9368145 
+Micro-average   0.9856711  0.9857456   0.9851656  
 </code></pre></div></div>
 </div><div class="d-print-none"><footer class="article__footer"><meta itemprop="dateModified" content="2022-09-28T00:00:00+00:00"><!-- start custom article footer snippet -->
 

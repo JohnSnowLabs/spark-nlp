@@ -433,6 +433,7 @@
   <div class="top_tab_li">   
     <p><button data-type="python" class="tab-li code-selector-active python-button">Python</button><button data-type="scala" class="tab-li code-selector-un-active scala-button">Scala</button><button data-type="nlu" class="tab-li code-selector-un-active nlu-button">NLU</button></p>
 </div>
+
   <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">documentAssembler</span> <span class="o">=</span> <span class="n">nlp</span><span class="p">.</span><span class="n">MultiDocumentAssembler</span><span class="p">()</span>\
         <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"question"</span><span class="p">,</span> <span class="s">"context"</span><span class="p">])</span>\
         <span class="p">.</span><span class="n">setOutputCols</span><span class="p">([</span><span class="s">"document_question"</span><span class="p">,</span> <span class="s">"document_context"</span><span class="p">])</span>

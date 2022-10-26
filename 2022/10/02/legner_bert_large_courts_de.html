@@ -459,6 +459,7 @@
   <div class="top_tab_li">   
     <p><button data-type="python" class="tab-li code-selector-active python-button">Python</button><button data-type="scala" class="tab-li code-selector-un-active scala-button">Scala</button><button data-type="nlu" class="tab-li code-selector-un-active nlu-button">NLU</button></p>
 </div>
+
   <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">document_assembler</span> <span class="o">=</span> <span class="n">nlp</span><span class="p">.</span><span class="n">DocumentAssembler</span><span class="p">()</span>\
     <span class="p">.</span><span class="n">setInputCol</span><span class="p">(</span><span class="s">"text"</span><span class="p">)</span>\
     <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"document"</span><span class="p">)</span>
@@ -586,11 +587,9 @@
 
 <h2 id="benchmarking">Benchmarking</h2>
 
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>+---------------+-------+------------+------+-------------+-----+------------+
-| Macro-average | prec: | 0.9361195, | rec: | 0.92941516, | f1: | 0.93681455 |
-+---------------+-------+------------+------+-------------+-----+------------+
-| Micro-average | prec: | 0.9856711, | rec: | 0.9857456,  | f1: | 0.9851656  |
-+---------------+-------+------------+------+-------------+-----+------------+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>        label        prec         rec          f1
+Macro-average   0.9361195   0.9294152   0.9368145
+Micro-average   0.9856711   0.9857456   0.9851656 
 </code></pre></div></div>
 </div><div class="d-print-none"><footer class="article__footer"><meta itemprop="dateModified" content="2022-10-02T00:00:00+00:00"><!-- start custom article footer snippet -->
 

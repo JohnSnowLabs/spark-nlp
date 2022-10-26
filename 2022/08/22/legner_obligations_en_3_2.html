@@ -441,6 +441,7 @@
   <div class="top_tab_li">   
     <p><button data-type="python" class="tab-li code-selector-active python-button">Python</button><button data-type="scala" class="tab-li code-selector-un-active scala-button">Scala</button><button data-type="nlu" class="tab-li code-selector-un-active nlu-button">NLU</button></p>
 </div>
+
   <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">johnsnowlabs</span> <span class="kn">import</span> <span class="o">*</span>
 
 <span class="n">documentAssembler</span> <span class="o">=</span> <span class="n">nlp</span><span class="p">.</span><span class="n">DocumentAssembler</span><span class="p">()</span>\
@@ -555,8 +556,7 @@
 
 <h2 id="benchmarking">Benchmarking</h2>
 
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>                              precision    recall  f1-score   support
-
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>                       label  precision    recall  f1-score   support
                 B-OBLIGATION       0.61      0.44      0.51        93
          B-OBLIGATION_ACTION       0.88      0.89      0.89        85
 B-OBLIGATION_INDIRECT_OBJECT       0.69      0.71      0.70        34
@@ -565,10 +565,9 @@ B-OBLIGATION_INDIRECT_OBJECT       0.69      0.71      0.70        34
          I-OBLIGATION_ACTION       0.80      0.79      0.79       167
         I-OBLIGATION_SUBJECT       0.75      0.43      0.55        14
                            O       0.87      0.84      0.85      2395
-
-                    accuracy                           0.81      4126
-                   macro avg       0.76      0.72      0.73      4126
-                weighted avg       0.81      0.81      0.81      4126
+                    accuracy         -         -       0.81      4126
+                   macro-avg       0.76      0.72      0.73      4126
+                weighted-avg       0.81      0.81      0.81      4126
 </code></pre></div></div>
 </div><div class="d-print-none"><footer class="article__footer"><meta itemprop="dateModified" content="2022-08-22T00:00:00+00:00"><!-- start custom article footer snippet -->
 

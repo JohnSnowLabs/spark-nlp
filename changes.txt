@@ -1,4 +1,2 @@
-docs/en/licensed_release_notes.md
-docs/en/spark_nlp_healthcare_versions/release_notes_4_2_1.md
-docs/en/licensed_release_notes.md
-docs/en/spark_nlp_healthcare_versions/release_notes_4_2_1.md
+docs/_posts/josejuanmartinez/2022-08-10-legclf_execution_clause_en_3_2.md
+docs/_posts/josejuanmartinez/2022-08-10-legclf_execution_clause_en_3_2.md

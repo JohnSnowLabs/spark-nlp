@@ -453,23 +453,29 @@
   <div class="top_tab_li">   
     <p><button data-type="python" class="tab-li code-selector-active python-button">Python</button><button data-type="scala" class="tab-li code-selector-un-active scala-button">Scala</button><button data-type="nlu" class="tab-li code-selector-un-active nlu-button">NLU</button></p>
 </div>
-  <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">documentAssembler</span> <span class="o">=</span> <span class="n">DocumentAssembler</span><span class="p">()</span> \
+
+  <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">documentAssembler</span> <span class="o">=</span> <span class="n">nlp</span><span class="p">.</span><span class="n">DocumentAssembler</span><span class="p">()</span> \
         <span class="p">.</span><span class="n">setInputCol</span><span class="p">(</span><span class="s">"text"</span><span class="p">)</span> \
         <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"document"</span><span class="p">)</span>
 
-<span class="n">sentenceDetector</span> <span class="o">=</span> <span class="n">SentenceDetectorDLModel</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"sentence_detector_dl"</span><span class="p">,</span> <span class="s">"xx"</span><span class="p">)</span>\
+<span class="n">sentenceDetector</span> <span class="o">=</span> <span class="n">nlp</span><span class="p">.</span><span class="n">SentenceDetectorDLModel</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"sentence_detector_dl"</span><span class="p">,</span> <span class="s">"xx"</span><span class="p">)</span>\
        <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"document"</span><span class="p">])</span>\
        <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"sentence"</span><span class="p">)</span>
 
-<span class="n">tokenizer</span> <span class="o">=</span> <span class="n">Tokenizer</span><span class="p">()</span> \
+<span class="n">tokenizer</span> <span class="o">=</span> <span class="n">nlp</span><span class="p">.</span><span class="n">Tokenizer</span><span class="p">()</span> \
     <span class="p">.</span><span class="n">setInputCols</span><span class="p">(</span><span class="s">"sentence"</span><span class="p">)</span> \
     <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"token"</span><span class="p">)</span>
 
-<span class="n">tokenClassifier</span> <span class="o">=</span> <span class="n">BertForTokenClassification</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"legner_br_bert_base"</span><span class="p">,</span><span class="s">"pt"</span><span class="p">,</span> <span class="s">"legal/models"</span><span class="p">)</span> \
+<span class="n">tokenClassifier</span> <span class="o">=</span> <span class="n">nlp</span><span class="p">.</span><span class="n">BertForTokenClassification</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"legner_br_bert_base"</span><span class="p">,</span><span class="s">"pt"</span><span class="p">,</span> <span class="s">"legal/models"</span><span class="p">)</span> \
     <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"sentence"</span><span class="p">,</span> <span class="s">"token"</span><span class="p">])</span> \
     <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"ner"</span><span class="p">)</span>
 
-<span class="n">pipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">(</span><span class="n">stages</span><span class="o">=</span><span class="p">[</span><span class="n">documentAssembler</span><span class="p">,</span> <span class="n">sentenceDetector</span><span class="p">,</span> <span class="n">tokenizer</span><span class="p">,</span> <span class="n">tokenClassifier</span><span class="p">])</span>
+<span class="n">pipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">(</span>
+  <span class="n">stages</span><span class="o">=</span><span class="p">[</span>
+    <span class="n">documentAssembler</span><span class="p">,</span> 
+    <span class="n">sentenceDetector</span><span class="p">,</span> 
+    <span class="n">tokenizer</span><span class="p">,</span> 
+    <span class="n">tokenClassifier</span><span class="p">])</span>
 
 <span class="n">example</span> <span class="o">=</span> <span class="n">spark</span><span class="p">.</span><span class="n">createDataFrame</span><span class="p">(</span><span class="n">pd</span><span class="p">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s">'text'</span><span class="p">:</span> <span class="p">[</span><span class="s">"""Mediante do exposto , com fundamento nos artigos 32 , i , e 33 , da lei 8.443/1992 , submetem-se os autos à consideração superior , com posterior encaminhamento ao ministério público junto ao tcu e ao gabinete do relator , propondo : a ) conhecer do recurso e , no mérito , negar-lhe provimento ; b ) comunicar ao recorrente , ao superior tribunal militar e ao tribunal regional federal da 2ª região , a fim de fornecer subsídios para os processos judiciais 2001.34.00.024796-9 e 2003.34.00.044227-3 ; e aos demais interessados a deliberação que vier a ser proferida por esta corte ” ."""</span><span class="p">]}))</span>
 
@@ -644,7 +650,6 @@
 <h2 id="benchmarking">Benchmarking</h2>
 
 <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>           label  precision    recall  f1-score   support
-
    B-ORGANIZACAO       0.86      0.86      0.86       499
    I-ORGANIZACAO       0.89      0.89      0.89       859
     B-LEGISLACAO       0.94      0.94      0.94       373
@@ -657,10 +662,9 @@ I-JURISPRUDENCIA       0.87      0.79      0.83       475
         I-PESSOA       0.96      0.99      0.97       494
          B-LOCAL       0.78      0.81      0.79        47
          I-LOCAL       0.59      0.74      0.66        85
-
-       micro avg       0.91      0.91      0.91      5741
-       macro avg       0.86      0.84      0.84      5741
-    weighted avg       0.91      0.91      0.91      5741
+       micro-avg       0.91      0.91      0.91      5741
+       macro-avg       0.86      0.84      0.84      5741
+    weighted-avg       0.91      0.91      0.91      5741
 </code></pre></div></div>
 </div><div class="d-print-none"><footer class="article__footer"><meta itemprop="dateModified" content="2022-09-28T00:00:00+00:00"><!-- start custom article footer snippet -->
 

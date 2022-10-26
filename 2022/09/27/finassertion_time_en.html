@@ -435,6 +435,7 @@
   <div class="top_tab_li">   
     <p><button data-type="python" class="tab-li code-selector-active python-button">Python</button><button data-type="scala" class="tab-li code-selector-un-active scala-button">Scala</button><button data-type="nlu" class="tab-li code-selector-un-active nlu-button">NLU</button></p>
 </div>
+
   <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># YOUR NER HERE
 # ...
 </span><span class="n">embeddings</span> <span class="o">=</span> <span class="n">BertEmbeddings</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"bert_embeddings_sec_bert_base"</span><span class="p">,</span><span class="s">"en"</span><span class="p">)</span> \
@@ -445,7 +446,7 @@
     <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"entity"</span><span class="p">])</span> \
     <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"ner_chunk"</span><span class="p">)</span>
 
-<span class="n">assertion</span> <span class="o">=</span> <span class="n">fin</span><span class="p">.</span><span class="n">AssertionDLModel</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"finassertion_time"</span><span class="p">,</span> <span class="s">"en"</span><span class="p">,</span> <span class="s">"finance/models"</span><span class="p">)</span>\
+<span class="n">assertion</span> <span class="o">=</span> <span class="n">finance</span><span class="p">.</span><span class="n">AssertionDLModel</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"finassertion_time"</span><span class="p">,</span> <span class="s">"en"</span><span class="p">,</span> <span class="s">"finance/models"</span><span class="p">)</span>\
     <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"sentence"</span><span class="p">,</span> <span class="s">"ner_chunk"</span><span class="p">,</span> <span class="s">"embeddings"</span><span class="p">])</span> \
     <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"assertion"</span><span class="p">)</span>
     
@@ -528,15 +529,15 @@ Atlantic Inc,31,42,ORG,FUTURE
 
 <h2 id="benchmarking">Benchmarking</h2>
 
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>label	 tp	 fp	 fn	 prec	 rec	 f1
-PRESENT	 201	 11	 16	 0.9481132	 0.92626727	 0.937063
-POSSIBLE	 171	 3	 6	 0.98275864	 0.9661017	 0.9743589
-FUTURE	 119	 6	 4	 0.952	 0.96747965	 0.95967746
-PAST	 270	 16	 10	 0.9440559	 0.96428573	 0.9540636
-tp: 761 fp: 36 fn: 36 labels: 4
-Macro-average	 prec: 0.9567319, rec: 0.9560336, f1: 0.95638263
-Micro-average	 prec: 0.9548306, rec: 0.9548306, f1: 0.9548306
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>label            tp    fp   fn   prec         rec          f1
+PRESENT          201   11   16   0.9481132    0.92626727   0.937063
+POSSIBLE         171   3    6    0.98275864   0.9661017    0.9743589
+FUTURE           119   6    4    0.952        0.96747965   0.95967746
+PAST             270   16   10   0.9440559    0.96428573   0.9540636
+Macro-average    761   36   36   0.9567319    0.9560336    0.95638263
+Micro-average    761   36   36   0.9548306    0.9548306    0.9548306
 </code></pre></div></div>
+
 </div><div class="d-print-none"><footer class="article__footer"><meta itemprop="dateModified" content="2022-09-27T00:00:00+00:00"><!-- start custom article footer snippet -->
 
 <!-- end custom article footer snippet --></footer>

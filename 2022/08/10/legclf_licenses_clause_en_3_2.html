@@ -446,6 +446,7 @@
   <div class="top_tab_li">   
     <p><button data-type="python" class="tab-li code-selector-active python-button">Python</button><button data-type="scala" class="tab-li code-selector-un-active scala-button">Scala</button><button data-type="nlu" class="tab-li code-selector-un-active nlu-button">NLU</button></p>
 </div>
+
   <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">documentAssembler</span> <span class="o">=</span> <span class="n">nlp</span><span class="p">.</span><span class="n">DocumentAssembler</span><span class="p">()</span> \
      <span class="p">.</span><span class="n">setInputCol</span><span class="p">(</span><span class="s">"clause_text"</span><span class="p">)</span> \
      <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"document"</span><span class="p">)</span>
@@ -527,15 +528,12 @@
 
 <h2 id="benchmarking">Benchmarking</h2>
 
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>              precision    recall  f1-score   support
-
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>       label  precision    recall  f1-score   support
     licenses       0.91      0.84      0.88        38
        other       0.92      0.96      0.94        71
-
-    accuracy                           0.92       109
-   macro avg       0.92      0.90      0.91       109
-weighted avg       0.92      0.92      0.92       109
-
+    accuracy         -         -       0.92       109
+   macro-avg       0.92      0.90      0.91       109
+weighted-avg       0.92      0.92      0.92       109
 </code></pre></div></div>
 </div><div class="d-print-none"><footer class="article__footer"><meta itemprop="dateModified" content="2022-08-10T00:00:00+00:00"><!-- start custom article footer snippet -->
 

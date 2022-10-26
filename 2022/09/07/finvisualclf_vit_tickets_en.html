@@ -442,6 +442,7 @@
   <div class="top_tab_li">   
     <p><button data-type="python" class="tab-li code-selector-active python-button">Python</button><button data-type="scala" class="tab-li code-selector-un-active scala-button">Scala</button><button data-type="nlu" class="tab-li code-selector-un-active nlu-button">NLU</button></p>
 </div>
+
   <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">document_assembler</span> <span class="o">=</span> <span class="n">nlp</span><span class="p">.</span><span class="n">ImageAssembler</span><span class="p">()</span> \
     <span class="p">.</span><span class="n">setInputCol</span><span class="p">(</span><span class="s">"image"</span><span class="p">)</span> \
     <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"image_assembler"</span><span class="p">)</span>
@@ -521,8 +522,10 @@
 
 <h2 id="benchmarking">Benchmarking</h2>
 
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>training_loss validation_loss f1 
-0.0006 0.0044 0.9997
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>label            score
+training_loss    0.0006  
+validation_loss  0.0044
+f1               0.9997
 </code></pre></div></div>
 </div><div class="d-print-none"><footer class="article__footer"><meta itemprop="dateModified" content="2022-09-07T00:00:00+00:00"><!-- start custom article footer snippet -->
 
