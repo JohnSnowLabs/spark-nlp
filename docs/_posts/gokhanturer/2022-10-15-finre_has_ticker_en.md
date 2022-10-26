@@ -54,28 +54,26 @@ tokenizer = nlp.Tokenizer()\
 embeddings = nlp.BertEmbeddings.pretrained("bert_embeddings_sec_bert_base","en") \
     .setInputCols(["sentence", "token"]) \
     .setOutputCol("embeddings")
-
 ner_model_org = finance.NerModel.pretrained("finner_orgs_prods_alias","en","finance/models")\
     .setInputCols(["sentence", "token", "embeddings"])\
     .setOutputCol("ner_org")
-
 ner_converter_org = nlp.NerConverter()\
     .setInputCols(["sentence","token","ner_org"])\
     .setOutputCol("ner_chunk_org")\
-    .setWhiteList(['ORG'])\
+    .setWhiteList(['ORG'])
 
 ner_model_ticker = finance.NerModel.pretrained("finner_ticker", "en", "finance/models")\
     .setInputCols(["sentence", "token", "embeddings"])\
-    .setOutputCol("ner_ticker")\
+    .setOutputCol("ner_ticker")
 
 ner_converter_ticker = nlp.NerConverter() \
     .setInputCols(["sentence", "token", "ner_ticker"]) \
-    .setOutputCol("ner_chunk_ticker")\
+    .setOutputCol("ner_chunk_ticker")
 
 chunk_merger = finance.ChunkMergeApproach()\
     .setInputCols("ner_chunk_ticker", "ner_chunk_org")\
     .setOutputCol('ner_chunk')\
-    .setMergeOverlapping(True)\
+    .setMergeOverlapping(True)
 
 pos = nlp.PerceptronModel.pretrained("pos_anc", 'en')\
      .setInputCols("sentence", "token")\
@@ -112,13 +110,9 @@ pipeline = Pipeline(stages=[
     re_Model])
 
 empty_df = spark.createDataFrame([['']]).toDF("text")
-
 re_model = pipeline.fit(empty_df)
-
 text="""'MTH - Meritage Homes Corporation Reports Disappointing Revenue. RECN, Resources Connection Inc. Shareholder Raymond James Trust Has Decreased Holding'"""
-
 light_model = nlp.LightPipeline(re_model)
-
 light_model.fullAnnotate(text)
 ```
 
