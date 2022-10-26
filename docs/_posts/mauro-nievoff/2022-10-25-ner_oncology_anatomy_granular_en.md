@@ -141,15 +141,15 @@ In-house annotated oncology case reports.
 ## Benchmarking
 
 ```bash
-               label     tp    fp     fn  total  precision  recall   f1
-           Direction  822.0 221.0  162.0  984.0       0.79    0.84 0.81
-     Site_Lymph_Node  481.0  38.0   70.0  551.0       0.93    0.87 0.90
-         Site_Breast   88.0  14.0   59.0  147.0       0.86    0.60 0.71
-Site_Other_Body_Part  604.0 184.0  897.0 1501.0       0.77    0.40 0.53
-           Site_Bone  252.0  74.0   61.0  313.0       0.77    0.81 0.79
-          Site_Liver  178.0  92.0   56.0  234.0       0.66    0.76 0.71
-           Site_Lung  398.0  98.0  161.0  559.0       0.80    0.71 0.75
-          Site_Brain  197.0  44.0   82.0  279.0       0.82    0.71 0.76
-           macro_avg 3020.0 765.0 1548.0 4568.0       0.80    0.71 0.74
-           micro_avg    NaN   NaN    NaN    NaN       0.80    0.66 0.71
+               label   tp  fp   fn  total  precision  recall   f1
+           Direction  822 221  162    984       0.79    0.84 0.81
+     Site_Lymph_Node  481  38   70    551       0.93    0.87 0.90
+         Site_Breast   88  14   59    147       0.86    0.60 0.71
+Site_Other_Body_Part  604 184  897   1501       0.77    0.40 0.53
+           Site_Bone  252  74   61    313       0.77    0.81 0.79
+          Site_Liver  178  92   56    234       0.66    0.76 0.71
+           Site_Lung  398  98  161    559       0.80    0.71 0.75
+          Site_Brain  197  44   82    279       0.82    0.71 0.76
+           macro_avg 3020 765 1548   4568       0.80    0.71 0.74
+           micro_avg 3020 765 1548   4568       0.80    0.66 0.71
 ```
