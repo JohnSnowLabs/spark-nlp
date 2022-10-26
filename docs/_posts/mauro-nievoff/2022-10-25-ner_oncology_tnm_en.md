@@ -143,14 +143,14 @@ In-house annotated oncology case reports.
 ## Benchmarking
 
 ```bash
-              label     tp    fp    fn  total  precision  recall   f1
-         Lymph_Node  570.0  77.0  77.0  647.0       0.88    0.88 0.88
-            Staging  232.0  22.0  26.0  258.0       0.91    0.90 0.91
-Lymph_Node_Modifier   30.0   5.0   5.0   35.0       0.86    0.86 0.86
-  Tumor_Description 2651.0 581.0 490.0 3141.0       0.82    0.84 0.83
-              Tumor 1116.0  72.0 141.0 1257.0       0.94    0.89 0.91
-         Metastasis  358.0  15.0  12.0  370.0       0.96    0.97 0.96
-          Cancer_Dx 1302.0  87.0  92.0 1394.0       0.94    0.93 0.94
-          macro_avg 6259.0 859.0 843.0 7102.0       0.90    0.90 0.90
-          micro_avg    NaN   NaN   NaN    NaN       0.88    0.88 0.88
+              label   tp  fp  fn  total  precision  recall   f1
+         Lymph_Node  570  77  77    647       0.88    0.88 0.88
+            Staging  232  22  26    258       0.91    0.90 0.91
+Lymph_Node_Modifier   30   5   5     35       0.86    0.86 0.86
+  Tumor_Description 2651 581 490   3141       0.82    0.84 0.83
+              Tumor 1116  72 141   1257       0.94    0.89 0.91
+         Metastasis  358  15  12    370       0.96    0.97 0.96
+          Cancer_Dx 1302  87  92   1394       0.94    0.93 0.94
+          macro_avg 6259 859 843   7102       0.90    0.90 0.90
+          micro_avg 6259 859 843   7102       0.88    0.88 0.88
 ```
