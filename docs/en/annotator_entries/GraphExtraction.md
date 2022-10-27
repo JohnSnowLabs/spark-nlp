@@ -188,7 +188,7 @@ result.select("graph").show(false)
 {%- endcapture -%}
 
 {%- capture python_api_link -%}
-[GraphExtraction](/api/python/reference/autosummary/sparknlp/annotator/graph_extraction/index.html#sparknlp.annotator.graph_extraction.GraphExtraction)
+[GraphExtraction](/api/python/reference/autosummary/python/sparknlp/annotator/graph_extraction/index.html#sparknlp.annotator.graph_extraction.GraphExtraction)
 {%- endcapture -%}
 
 {%- capture source_link -%}

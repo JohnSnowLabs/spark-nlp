@@ -129,7 +129,7 @@ results.select("generation.result").show(truncate = false)
 {%- endcapture -%}
 
 {%- capture python_api_link -%}
-[GPT2Transformer](/api/python/reference/autosummary/sparknlp/annotator/seq2seq/gpt2_transformer/index.html#sparknlp.annotator.seq2seq.gpt2_transformer.GPT2Transformer)
+[GPT2Transformer](/api/python/reference/autosummary/python/sparknlp/annotator/seq2seq/gpt2_transformer/index.html#sparknlp.annotator.seq2seq.gpt2_transformer.GPT2Transformer)
 {%- endcapture -%}
 
 {%- capture source_link -%}

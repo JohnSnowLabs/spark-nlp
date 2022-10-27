@@ -1,6 +1,7 @@
 ---
 layout: demopagenew
-title: Spark NLP in Action
+title: Vaccines & Public Health - Biomedical NLP Demos & Notebooks
+seotitle: 'Biomedical NLP: Vaccines & Public Health - John Snow Labs'
 subtitle: Run 300+ live demos and notebooks
 full_width: true
 permalink: /public_health
@@ -13,12 +14,9 @@ show_edit_on_github: false
 show_date: false
 data:
   sections:  
-    - title: Spark NLP for Finance
-      excerpt: Public Health
-      secheader: yes
+    - secheader: yes
       secheader:
-        - title: Spark NLP for Finance
-          subtitle: Public Health
+        - subtitle: Vaccines & Public Health - Live Demos & Notebooks
           activemenu: public_health
       source: yes
       source:

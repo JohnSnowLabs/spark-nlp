@@ -114,7 +114,7 @@ result.select("spell.result").show(false)
 {%- endcapture -%}
 
 {%- capture model_python_api_link -%}
-[NorvigSweetingModel](/api/python/reference/autosummary/sparknlp/annotator/spell_check/norvig_sweeting/index.html#sparknlp.annotator.spell_check.norvig_sweeting.NorvigSweetingModel)
+[NorvigSweetingModel](/api/python/reference/autosummary/python/sparknlp/annotator/spell_check/norvig_sweeting/index.html#sparknlp.annotator.spell_check.norvig_sweeting.NorvigSweetingModel)
 {%- endcapture -%}
 
 {%- capture model_source_link -%}
@@ -232,7 +232,7 @@ val pipelineModel = pipeline.fit(trainingData)
 {%- endcapture -%}
 
 {%- capture approach_python_api_link -%}
-[NorvigSweetingApproach](/api/python/reference/autosummary/sparknlp/annotator/spell_check/norvig_sweeting/index.html#sparknlp.annotator.spell_check.norvig_sweeting.NorvigSweetingApproach)
+[NorvigSweetingApproach](/api/python/reference/autosummary/python/sparknlp/annotator/spell_check/norvig_sweeting/index.html#sparknlp.annotator.spell_check.norvig_sweeting.NorvigSweetingApproach)
 {%- endcapture -%}
 
 {%- capture approach_source_link -%}

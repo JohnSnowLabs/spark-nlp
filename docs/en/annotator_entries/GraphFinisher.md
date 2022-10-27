@@ -64,7 +64,7 @@ finishedResult.select("text", "graph_finished").show(false)
 {%- endcapture -%}
 
 {%- capture python_api_link -%}
-[GraphFinisher](/api/python/reference/autosummary/sparknlp/base/graph_finisher/index.html#sparknlp.base.graph_finisher.GraphFinisher)
+[GraphFinisher](/api/python/reference/autosummary/python/sparknlp/base/graph_finisher/index.html#sparknlp.base.graph_finisher.GraphFinisher)
 {%- endcapture -%}
 
 {%- capture source_link -%}

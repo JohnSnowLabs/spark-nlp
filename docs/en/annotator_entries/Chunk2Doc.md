@@ -75,7 +75,7 @@ result.selectExpr("explode(chunkConverted)").show(false)
 {%- endcapture -%}
 
 {%- capture python_api_link -%}
-[Chunk2Doc](/api/python/reference/autosummary/sparknlp/base/chunk2_doc/index.html#sparknlp.base.chunk2_doc.Chunk2Doc)
+[Chunk2Doc](/api/python/reference/autosummary/python/sparknlp/base/chunk2_doc/index.html#sparknlp.base.chunk2_doc.Chunk2Doc)
 {%- endcapture -%}
 
 {%- capture source_link -%}
