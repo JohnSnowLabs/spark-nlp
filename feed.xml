@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.9.2">Jekyll</generator><link href="/feed.xml" rel="self" type="application/atom+xml" /><link href="/" rel="alternate" type="text/html" /><updated>2022-10-26T13:27:04+00:00</updated><id>/feed.xml</id><title type="html">Spark NLP</title><subtitle>High Performance NLP with Apache Spark
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.9.2">Jekyll</generator><link href="/feed.xml" rel="self" type="application/atom+xml" /><link href="/" rel="alternate" type="text/html" /><updated>2022-10-27T09:10:19+00:00</updated><id>/feed.xml</id><title type="html">Spark NLP</title><subtitle>High Performance NLP with Apache Spark
 </subtitle><author><name>{&quot;type&quot;=&gt;nil, &quot;name&quot;=&gt;nil, &quot;url&quot;=&gt;nil, &quot;avatar&quot;=&gt;nil, &quot;bio&quot;=&gt;nil, &quot;email&quot;=&gt;nil, &quot;facebook&quot;=&gt;nil, &quot;twitter&quot;=&gt;nil, &quot;weibo&quot;=&gt;nil, &quot;googleplus&quot;=&gt;nil, &quot;telegram&quot;=&gt;nil, &quot;medium&quot;=&gt;nil, &quot;zhihu&quot;=&gt;nil, &quot;douban&quot;=&gt;nil, &quot;linkedin&quot;=&gt;nil, &quot;github&quot;=&gt;nil, &quot;npm&quot;=&gt;nil}</name></author><entry><title type="html">Mapping CVX Codes with Their Corresponding Vaccine Names and CPT Codes.</title><link href="/2022/10/12/cvx_code_mapper_en.html" rel="alternate" type="text/html" title="Mapping CVX Codes with Their Corresponding Vaccine Names and CPT Codes." /><published>2022-10-12T00:00:00+00:00</published><updated>2022-10-12T00:00:00+00:00</updated><id>/2022/10/12/cvx_code_mapper_en</id><content type="html" xml:base="/2022/10/12/cvx_code_mapper_en.html">&lt;h2 id=&quot;description&quot;&gt;Description&lt;/h2&gt;
 
 &lt;p&gt;This pretrained model maps CVX codes with their corresponding vaccine names and CPT codes. It returns 3 types of vaccine names; &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;short_name&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;full_name&lt;/code&gt; and &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;trade_name&lt;/code&gt;.&lt;/p&gt;
@@ -431,141 +431,13 @@
       &lt;td&gt;false&lt;/td&gt;
     &lt;/tr&gt;
   &lt;/tbody&gt;
-&lt;/table&gt;</content><author><name>John Snow Labs</name></author><category term="entity_resolution" /><category term="cvx" /><category term="clinical" /><category term="en" /><category term="licensed" /><summary type="html">Description This model maps vaccine entities to CVX codes using sbiobert_base_cased_mli Sentence Bert Embeddings. Additionally, this model returns status of the vaccine (Active/Inactive/Pending/Non-US) in all_k_aux_labels column. Predicted Entities CVX Code, Status Live Demo Open in Colab Download How to use PythonScalaNLU documentAssembler = DocumentAssembler()\ .setInputCol(&quot;text&quot;)\ .setOutputCol(&quot;ner_chunk&quot;) sbert_embedder = BertSentenceEmbeddings.pretrained(&quot;sbiobert_base_cased_mli&quot;, &quot;en&quot;, &quot;clinical/models&quot;)\ .setInputCols([&quot;ner_chunk&quot;])\ .setOutputCol(&quot;sbert_embeddings&quot;) cvx_resolver = SentenceEntityResolverModel.pretrained(&quot;sbiobertresolve_cvx&quot;, &quot;en&quot;, &quot;clinical/models&quot;)\ .setInputCols([&quot;ner_chunk&quot;, &quot;sbert_embeddings&quot;])\ .setOutputCol(&quot;cvx_code&quot;)\ .setDistanceFunction(&quot;EUCLIDEAN&quot;) pipelineModel = PipelineModel( stages = [ documentAssembler, sbert_embedder, cvx_resolver ]) light_model = LightPipeline(pipelineModel) result = light_model.fullAnnotate([&quot;Sinovac&quot;, &quot;Moderna&quot;, &quot;BIOTHRAX&quot;]) val documentAssembler = new DocumentAssembler() .setInputCol(&quot;text&quot;) .setOutputCol(&quot;ner_chunk&quot;) val sbert_embedder = BertSentenceEmbeddings.pretrained(&quot;sbiobert_base_cased_mli&quot;, &quot;en&quot;,&quot;clinical/models&quot;) .setInputCols(Array(&quot;ner_chunk&quot;)) .setOutputCol(&quot;sbert_embeddings&quot;) val cvx_resolver = SentenceEntityResolverModel.pretrained(&quot;sbiobertresolve_cvx&quot;, &quot;en&quot;, &quot;clinical/models&quot;) .setInputCols(Array(&quot;ner_chunk&quot;, &quot;sbert_embeddings&quot;)) .setOutputCol(&quot;cvx_code&quot;) .setDistanceFunction(&quot;EUCLIDEAN&quot;) val cvx_pipelineModel = new PipelineModel().setStages(Array(documentAssembler, sbert_embedder, cvx_resolver)) val light_model = LightPipeline(cvx_pipelineModel) val result = light_model.fullAnnotate(Array(&quot;Sinovac&quot;, &quot;Moderna&quot;, &quot;BIOTHRAX&quot;)) Results +----------+--------+-------------------------------------------------------+--------+ |ner_chunk |cvx_code|resolved_text |Status | +----------+--------+-------------------------------------------------------+--------+ |Sinovac |511 |COVID-19 IV Non-US Vaccine (CoronaVac, Sinovac) |Non-US | |Moderna |227 |COVID-19, mRNA, LNP-S, PF, pediatric 50 mcg/0.5 mL dose|Inactive| |BIOTHRAX |24 |anthrax |Active | +----------+--------+-------------------------------------------------------+--------+ Model Information Model Name: sbiobertresolve_cvx Compatibility: Spark NLP for Healthcare 4.1.0+ License: Licensed Edition: Official Input Labels: [bert_embeddings] Output Labels: [cvx_code] Language: en Size: 1.6 MB Case sensitive: false</summary></entry><entry><title type="html">English pipeline_image_classifier_vit_ALL_2 ViTForImageClassification from Ahmed9275</title><link href="/2022/10/12/pipeline_image_classifier_vit_ALL_2_en.html" rel="alternate" type="text/html" title="English pipeline_image_classifier_vit_ALL_2 ViTForImageClassification from Ahmed9275" /><published>2022-10-12T00:00:00+00:00</published><updated>2022-10-12T00:00:00+00:00</updated><id>/2022/10/12/pipeline_image_classifier_vit_ALL_2_en</id><content type="html" xml:base="/2022/10/12/pipeline_image_classifier_vit_ALL_2_en.html">&lt;h2 id=&quot;description&quot;&gt;Description&lt;/h2&gt;
-
-&lt;p&gt;Pretrained VIT  model, adapted from Hugging Face and curated to provide scalability and production-readiness using Spark NLP.&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;image_classifier_vit_ALL_2&lt;/code&gt; is a English model originally trained by Ahmed9275.&lt;/p&gt;
-
-&lt;p class=&quot;btn-box&quot;&gt;&lt;button class=&quot;button button-orange&quot; disabled=&quot;&quot;&gt;Live Demo&lt;/button&gt;
-&lt;button class=&quot;button button-orange&quot; disabled=&quot;&quot;&gt;Open in Colab&lt;/button&gt;
-&lt;a href=&quot;https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/pipeline_image_classifier_vit_ALL_2_en_4.2.1_3.0_1665535986514.zip&quot; class=&quot;button button-orange button-orange-trans arr button-icon&quot;&gt;Download&lt;/a&gt;&lt;/p&gt;
-
-&lt;h2 id=&quot;how-to-use&quot;&gt;How to use&lt;/h2&gt;
-
-&lt;div class=&quot;tabs-box&quot;&gt;
-  &lt;div class=&quot;top_tab_li&quot;&gt;   
-    &lt;p&gt;&lt;button data-type=&quot;python&quot; class=&quot;tab-li code-selector-active python-button&quot;&gt;Python&lt;/button&gt;&lt;button data-type=&quot;scala&quot; class=&quot;tab-li code-selector-un-active scala-button&quot;&gt;Scala&lt;/button&gt;&lt;button data-type=&quot;nlu&quot; class=&quot;tab-li code-selector-un-active nlu-button&quot;&gt;NLU&lt;/button&gt;&lt;/p&gt;
-&lt;/div&gt;
-  &lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;
-    &lt;span class=&quot;n&quot;&gt;pipeline&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;PretrainedPipeline&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'pipeline_image_classifier_vit_ALL_2'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;lang&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;'en'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;annotations&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;  &lt;span class=&quot;n&quot;&gt;pipeline&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;transform&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;imageDF&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-    
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;  &lt;/div&gt;
-  &lt;div class=&quot;language-scala highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;
-    &lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;pipeline&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;PretrainedPipeline&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;pipeline_image_classifier_vit_ALL_2&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;lang&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;en&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
-    &lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;annotations&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;pipeline&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;transform&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;imageDF&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
-    
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;  &lt;/div&gt;
-&lt;/div&gt;
-
-&lt;h2 class=&quot;model-param&quot; id=&quot;model-information&quot;&gt;Model Information&lt;/h2&gt;
-
-&lt;table class=&quot;table-model&quot;&gt;
-  &lt;tbody&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Model Name:&lt;/td&gt;
-      &lt;td&gt;pipeline_image_classifier_vit_ALL_2&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Type:&lt;/td&gt;
-      &lt;td&gt;pipeline&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Compatibility:&lt;/td&gt;
-      &lt;td&gt;Spark NLP 4.2.1+&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;License:&lt;/td&gt;
-      &lt;td&gt;Open Source&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Edition:&lt;/td&gt;
-      &lt;td&gt;Official&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Language:&lt;/td&gt;
-      &lt;td&gt;en&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Size:&lt;/td&gt;
-      &lt;td&gt;321.9 MB&lt;/td&gt;
-    &lt;/tr&gt;
-  &lt;/tbody&gt;
-&lt;/table&gt;
-
-&lt;h2 id=&quot;included-models&quot;&gt;Included Models&lt;/h2&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;ImageAssembler&lt;/li&gt;
-  &lt;li&gt;ViTForImageClassification&lt;/li&gt;
-&lt;/ul&gt;</content><author><name>John Snow Labs</name></author><category term="vit" /><category term="en" /><category term="images" /><category term="open_source" /><category term="pipeline" /><summary type="html">Description Pretrained VIT model, adapted from Hugging Face and curated to provide scalability and production-readiness using Spark NLP.image_classifier_vit_ALL_2 is a English model originally trained by Ahmed9275. Live Demo Open in Colab Download How to use PythonScalaNLU pipeline = PretrainedPipeline('pipeline_image_classifier_vit_ALL_2', lang = 'en') annotations = pipeline.transform(imageDF) val pipeline = new PretrainedPipeline(&quot;pipeline_image_classifier_vit_ALL_2&quot;, lang = &quot;en&quot;) val annotations = pipeline.transform(imageDF) Model Information Model Name: pipeline_image_classifier_vit_ALL_2 Type: pipeline Compatibility: Spark NLP 4.2.1+ License: Open Source Edition: Official Language: en Size: 321.9 MB Included Models ImageAssembler ViTForImageClassification</summary></entry><entry><title type="html">English pipeline_image_classifier_vit_ALL_94.5 ViTForImageClassification from Ahmed9275</title><link href="/2022/10/12/pipeline_image_classifier_vit_ALL_94.5_en.html" rel="alternate" type="text/html" title="English pipeline_image_classifier_vit_ALL_94.5 ViTForImageClassification from Ahmed9275" /><published>2022-10-12T00:00:00+00:00</published><updated>2022-10-12T00:00:00+00:00</updated><id>/2022/10/12/pipeline_image_classifier_vit_ALL_94.5_en</id><content type="html" xml:base="/2022/10/12/pipeline_image_classifier_vit_ALL_94.5_en.html">&lt;h2 id=&quot;description&quot;&gt;Description&lt;/h2&gt;
-
-&lt;p&gt;Pretrained VIT  model, adapted from Hugging Face and curated to provide scalability and production-readiness using Spark NLP.&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;image_classifier_vit_ALL_94.5&lt;/code&gt; is a English model originally trained by Ahmed9275.&lt;/p&gt;
-
-&lt;p class=&quot;btn-box&quot;&gt;&lt;button class=&quot;button button-orange&quot; disabled=&quot;&quot;&gt;Live Demo&lt;/button&gt;
-&lt;button class=&quot;button button-orange&quot; disabled=&quot;&quot;&gt;Open in Colab&lt;/button&gt;
-&lt;a href=&quot;https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/pipeline_image_classifier_vit_ALL_94.5_en_4.2.1_3.0_1665535053337.zip&quot; class=&quot;button button-orange button-orange-trans arr button-icon&quot;&gt;Download&lt;/a&gt;&lt;/p&gt;
-
-&lt;h2 id=&quot;how-to-use&quot;&gt;How to use&lt;/h2&gt;
-
-&lt;div class=&quot;tabs-box&quot;&gt;
-  &lt;div class=&quot;top_tab_li&quot;&gt;   
-    &lt;p&gt;&lt;button data-type=&quot;python&quot; class=&quot;tab-li code-selector-active python-button&quot;&gt;Python&lt;/button&gt;&lt;button data-type=&quot;scala&quot; class=&quot;tab-li code-selector-un-active scala-button&quot;&gt;Scala&lt;/button&gt;&lt;button data-type=&quot;nlu&quot; class=&quot;tab-li code-selector-un-active nlu-button&quot;&gt;NLU&lt;/button&gt;&lt;/p&gt;
-&lt;/div&gt;
-  &lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;
-    &lt;span class=&quot;n&quot;&gt;pipeline&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;PretrainedPipeline&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'pipeline_image_classifier_vit_ALL_94.5'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;lang&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;'en'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;annotations&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;  &lt;span class=&quot;n&quot;&gt;pipeline&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;transform&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;imageDF&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-    
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;  &lt;/div&gt;
-  &lt;div class=&quot;language-scala highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;
-    &lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;pipeline&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;PretrainedPipeline&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;pipeline_image_classifier_vit_ALL_94.5&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;lang&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;en&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
-    &lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;annotations&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;pipeline&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;transform&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;imageDF&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
-    
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;  &lt;/div&gt;
-&lt;/div&gt;
-
-&lt;h2 class=&quot;model-param&quot; id=&quot;model-information&quot;&gt;Model Information&lt;/h2&gt;
-
-&lt;table class=&quot;table-model&quot;&gt;
-  &lt;tbody&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Model Name:&lt;/td&gt;
-      &lt;td&gt;pipeline_image_classifier_vit_ALL_94.5&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Type:&lt;/td&gt;
-      &lt;td&gt;pipeline&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Compatibility:&lt;/td&gt;
-      &lt;td&gt;Spark NLP 4.2.1+&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;License:&lt;/td&gt;
-      &lt;td&gt;Open Source&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Edition:&lt;/td&gt;
-      &lt;td&gt;Official&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Language:&lt;/td&gt;
-      &lt;td&gt;en&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Size:&lt;/td&gt;
-      &lt;td&gt;321.9 MB&lt;/td&gt;
-    &lt;/tr&gt;
-  &lt;/tbody&gt;
-&lt;/table&gt;
-
-&lt;h2 id=&quot;included-models&quot;&gt;Included Models&lt;/h2&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;ImageAssembler&lt;/li&gt;
-  &lt;li&gt;ViTForImageClassification&lt;/li&gt;
-&lt;/ul&gt;</content><author><name>John Snow Labs</name></author><category term="vit" /><category term="en" /><category term="images" /><category term="open_source" /><category term="pipeline" /><summary type="html">Description Pretrained VIT model, adapted from Hugging Face and curated to provide scalability and production-readiness using Spark NLP.image_classifier_vit_ALL_94.5 is a English model originally trained by Ahmed9275. Live Demo Open in Colab Download How to use PythonScalaNLU pipeline = PretrainedPipeline('pipeline_image_classifier_vit_ALL_94.5', lang = 'en') annotations = pipeline.transform(imageDF) val pipeline = new PretrainedPipeline(&quot;pipeline_image_classifier_vit_ALL_94.5&quot;, lang = &quot;en&quot;) val annotations = pipeline.transform(imageDF) Model Information Model Name: pipeline_image_classifier_vit_ALL_94.5 Type: pipeline Compatibility: Spark NLP 4.2.1+ License: Open Source Edition: Official Language: en Size: 321.9 MB Included Models ImageAssembler ViTForImageClassification</summary></entry><entry><title type="html">English pipeline_image_classifier_vit_CarViT ViTForImageClassification from abdusahmbzuai</title><link href="/2022/10/12/pipeline_image_classifier_vit_CarViT_en.html" rel="alternate" type="text/html" title="English pipeline_image_classifier_vit_CarViT ViTForImageClassification from abdusahmbzuai" /><published>2022-10-12T00:00:00+00:00</published><updated>2022-10-12T00:00:00+00:00</updated><id>/2022/10/12/pipeline_image_classifier_vit_CarViT_en</id><content type="html" xml:base="/2022/10/12/pipeline_image_classifier_vit_CarViT_en.html">&lt;h2 id=&quot;description&quot;&gt;Description&lt;/h2&gt;
+&lt;/table&gt;</content><author><name>John Snow Labs</name></author><category term="entity_resolution" /><category term="cvx" /><category term="clinical" /><category term="en" /><category term="licensed" /><summary type="html">Description This model maps vaccine entities to CVX codes using sbiobert_base_cased_mli Sentence Bert Embeddings. Additionally, this model returns status of the vaccine (Active/Inactive/Pending/Non-US) in all_k_aux_labels column. Predicted Entities CVX Code, Status Live Demo Open in Colab Download How to use PythonScalaNLU documentAssembler = DocumentAssembler()\ .setInputCol(&quot;text&quot;)\ .setOutputCol(&quot;ner_chunk&quot;) sbert_embedder = BertSentenceEmbeddings.pretrained(&quot;sbiobert_base_cased_mli&quot;, &quot;en&quot;, &quot;clinical/models&quot;)\ .setInputCols([&quot;ner_chunk&quot;])\ .setOutputCol(&quot;sbert_embeddings&quot;) cvx_resolver = SentenceEntityResolverModel.pretrained(&quot;sbiobertresolve_cvx&quot;, &quot;en&quot;, &quot;clinical/models&quot;)\ .setInputCols([&quot;ner_chunk&quot;, &quot;sbert_embeddings&quot;])\ .setOutputCol(&quot;cvx_code&quot;)\ .setDistanceFunction(&quot;EUCLIDEAN&quot;) pipelineModel = PipelineModel( stages = [ documentAssembler, sbert_embedder, cvx_resolver ]) light_model = LightPipeline(pipelineModel) result = light_model.fullAnnotate([&quot;Sinovac&quot;, &quot;Moderna&quot;, &quot;BIOTHRAX&quot;]) val documentAssembler = new DocumentAssembler() .setInputCol(&quot;text&quot;) .setOutputCol(&quot;ner_chunk&quot;) val sbert_embedder = BertSentenceEmbeddings.pretrained(&quot;sbiobert_base_cased_mli&quot;, &quot;en&quot;,&quot;clinical/models&quot;) .setInputCols(Array(&quot;ner_chunk&quot;)) .setOutputCol(&quot;sbert_embeddings&quot;) val cvx_resolver = SentenceEntityResolverModel.pretrained(&quot;sbiobertresolve_cvx&quot;, &quot;en&quot;, &quot;clinical/models&quot;) .setInputCols(Array(&quot;ner_chunk&quot;, &quot;sbert_embeddings&quot;)) .setOutputCol(&quot;cvx_code&quot;) .setDistanceFunction(&quot;EUCLIDEAN&quot;) val cvx_pipelineModel = new PipelineModel().setStages(Array(documentAssembler, sbert_embedder, cvx_resolver)) val light_model = LightPipeline(cvx_pipelineModel) val result = light_model.fullAnnotate(Array(&quot;Sinovac&quot;, &quot;Moderna&quot;, &quot;BIOTHRAX&quot;)) Results +----------+--------+-------------------------------------------------------+--------+ |ner_chunk |cvx_code|resolved_text |Status | +----------+--------+-------------------------------------------------------+--------+ |Sinovac |511 |COVID-19 IV Non-US Vaccine (CoronaVac, Sinovac) |Non-US | |Moderna |227 |COVID-19, mRNA, LNP-S, PF, pediatric 50 mcg/0.5 mL dose|Inactive| |BIOTHRAX |24 |anthrax |Active | +----------+--------+-------------------------------------------------------+--------+ Model Information Model Name: sbiobertresolve_cvx Compatibility: Spark NLP for Healthcare 4.1.0+ License: Licensed Edition: Official Input Labels: [bert_embeddings] Output Labels: [cvx_code] Language: en Size: 1.6 MB Case sensitive: false</summary></entry><entry><title type="html">English pipeline_image_classifier_vit_CarViT ViTForImageClassification from abdusahmbzuai</title><link href="/2022/10/12/pipeline_image_classifier_vit_CarViT_en.html" rel="alternate" type="text/html" title="English pipeline_image_classifier_vit_CarViT ViTForImageClassification from abdusahmbzuai" /><published>2022-10-12T00:00:00+00:00</published><updated>2022-10-12T00:00:00+00:00</updated><id>/2022/10/12/pipeline_image_classifier_vit_CarViT_en</id><content type="html" xml:base="/2022/10/12/pipeline_image_classifier_vit_CarViT_en.html">&lt;h2 id=&quot;description&quot;&gt;Description&lt;/h2&gt;
 
 &lt;p&gt;Pretrained VIT  model, adapted from Hugging Face and curated to provide scalability and production-readiness using Spark NLP.&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;image_classifier_vit_CarViT&lt;/code&gt; is a English model originally trained by abdusahmbzuai.&lt;/p&gt;
+
+&lt;h2 id=&quot;predicted-entities&quot;&gt;Predicted Entities&lt;/h2&gt;
+
+&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Toyota&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Audi&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Dodge&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Aston Martin&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Chevrolet&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Mitsubishi&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Kia&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Honda&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Chrysler&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Lexus&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Land Rover&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Rolls-Royce&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Porsche&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;FIAT&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Cadillac&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Jaguar&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;smart&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Tesla&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Maserati&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Buick&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;GMC&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Genesis&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;McLaren&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Bentley&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;BMW&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Lincoln&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Subaru&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Volvo&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Lamborghini&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Nissan&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Alfa Romeo&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Jeep&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;INFINITI&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Mazda&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Hyundai&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Volkswagen&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Ram&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Ferrari&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Acura&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Mercedes-Benz&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;MINI&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Ford&lt;/code&gt;&lt;/p&gt;
 
 &lt;p class=&quot;btn-box&quot;&gt;&lt;button class=&quot;button button-orange&quot; disabled=&quot;&quot;&gt;Live Demo&lt;/button&gt;
 &lt;button class=&quot;button button-orange&quot; disabled=&quot;&quot;&gt;Open in Colab&lt;/button&gt;
@@ -629,9 +501,13 @@
 &lt;ul&gt;
   &lt;li&gt;ImageAssembler&lt;/li&gt;
   &lt;li&gt;ViTForImageClassification&lt;/li&gt;
-&lt;/ul&gt;</content><author><name>John Snow Labs</name></author><category term="vit" /><category term="en" /><category term="images" /><category term="open_source" /><category term="pipeline" /><summary type="html">Description Pretrained VIT model, adapted from Hugging Face and curated to provide scalability and production-readiness using Spark NLP.image_classifier_vit_CarViT is a English model originally trained by abdusahmbzuai. Live Demo Open in Colab Download How to use PythonScalaNLU pipeline = PretrainedPipeline('pipeline_image_classifier_vit_CarViT', lang = 'en') annotations = pipeline.transform(imageDF) val pipeline = new PretrainedPipeline(&quot;pipeline_image_classifier_vit_CarViT&quot;, lang = &quot;en&quot;) val annotations = pipeline.transform(imageDF) Model Information Model Name: pipeline_image_classifier_vit_CarViT Type: pipeline Compatibility: Spark NLP 4.2.1+ License: Open Source Edition: Official Language: en Size: 322.0 MB Included Models ImageAssembler ViTForImageClassification</summary></entry><entry><title type="html">English pipeline_image_classifier_vit_Check_Aligned_Teeth ViTForImageClassification from steven123</title><link href="/2022/10/12/pipeline_image_classifier_vit_Check_Aligned_Teeth_en.html" rel="alternate" type="text/html" title="English pipeline_image_classifier_vit_Check_Aligned_Teeth ViTForImageClassification from steven123" /><published>2022-10-12T00:00:00+00:00</published><updated>2022-10-12T00:00:00+00:00</updated><id>/2022/10/12/pipeline_image_classifier_vit_Check_Aligned_Teeth_en</id><content type="html" xml:base="/2022/10/12/pipeline_image_classifier_vit_Check_Aligned_Teeth_en.html">&lt;h2 id=&quot;description&quot;&gt;Description&lt;/h2&gt;
+&lt;/ul&gt;</content><author><name>John Snow Labs</name></author><category term="vit" /><category term="en" /><category term="images" /><category term="open_source" /><category term="pipeline" /><summary type="html">Description Pretrained VIT model, adapted from Hugging Face and curated to provide scalability and production-readiness using Spark NLP.image_classifier_vit_CarViT is a English model originally trained by abdusahmbzuai. Predicted Entities Toyota, Audi, Dodge, Aston Martin, Chevrolet, Mitsubishi, Kia, Honda, Chrysler, Lexus, Land Rover, Rolls-Royce, Porsche, FIAT, Cadillac, Jaguar, smart, Tesla, Maserati, Buick, GMC, Genesis, McLaren, Bentley, BMW, Lincoln, Subaru, Volvo, Lamborghini, Nissan, Alfa Romeo, Jeep, INFINITI, Mazda, Hyundai, Volkswagen, Ram, Ferrari, Acura, Mercedes-Benz, MINI, Ford Live Demo Open in Colab Download How to use PythonScalaNLU pipeline = PretrainedPipeline('pipeline_image_classifier_vit_CarViT', lang = 'en') annotations = pipeline.transform(imageDF) val pipeline = new PretrainedPipeline(&quot;pipeline_image_classifier_vit_CarViT&quot;, lang = &quot;en&quot;) val annotations = pipeline.transform(imageDF) Model Information Model Name: pipeline_image_classifier_vit_CarViT Type: pipeline Compatibility: Spark NLP 4.2.1+ License: Open Source Edition: Official Language: en Size: 322.0 MB Included Models ImageAssembler ViTForImageClassification</summary></entry><entry><title type="html">English pipeline_image_classifier_vit_Check_Aligned_Teeth ViTForImageClassification from steven123</title><link href="/2022/10/12/pipeline_image_classifier_vit_Check_Aligned_Teeth_en.html" rel="alternate" type="text/html" title="English pipeline_image_classifier_vit_Check_Aligned_Teeth ViTForImageClassification from steven123" /><published>2022-10-12T00:00:00+00:00</published><updated>2022-10-12T00:00:00+00:00</updated><id>/2022/10/12/pipeline_image_classifier_vit_Check_Aligned_Teeth_en</id><content type="html" xml:base="/2022/10/12/pipeline_image_classifier_vit_Check_Aligned_Teeth_en.html">&lt;h2 id=&quot;description&quot;&gt;Description&lt;/h2&gt;
 
 &lt;p&gt;Pretrained VIT  model, adapted from Hugging Face and curated to provide scalability and production-readiness using Spark NLP.&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;image_classifier_vit_Check_Aligned_Teeth&lt;/code&gt; is a English model originally trained by steven123.&lt;/p&gt;
+
+&lt;h2 id=&quot;predicted-entities&quot;&gt;Predicted Entities&lt;/h2&gt;
+
+&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Aligned Teeth&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Crooked Teeth&lt;/code&gt;&lt;/p&gt;
 
 &lt;p class=&quot;btn-box&quot;&gt;&lt;button class=&quot;button button-orange&quot; disabled=&quot;&quot;&gt;Live Demo&lt;/button&gt;
 &lt;button class=&quot;button button-orange&quot; disabled=&quot;&quot;&gt;Open in Colab&lt;/button&gt;
@@ -695,9 +571,13 @@
 &lt;ul&gt;
   &lt;li&gt;ImageAssembler&lt;/li&gt;
   &lt;li&gt;ViTForImageClassification&lt;/li&gt;
-&lt;/ul&gt;</content><author><name>John Snow Labs</name></author><category term="vit" /><category term="en" /><category term="images" /><category term="open_source" /><category term="pipeline" /><summary type="html">Description Pretrained VIT model, adapted from Hugging Face and curated to provide scalability and production-readiness using Spark NLP.image_classifier_vit_Check_Aligned_Teeth is a English model originally trained by steven123. Live Demo Open in Colab Download How to use PythonScalaNLU pipeline = PretrainedPipeline('pipeline_image_classifier_vit_Check_Aligned_Teeth', lang = 'en') annotations = pipeline.transform(imageDF) val pipeline = new PretrainedPipeline(&quot;pipeline_image_classifier_vit_Check_Aligned_Teeth&quot;, lang = &quot;en&quot;) val annotations = pipeline.transform(imageDF) Model Information Model Name: pipeline_image_classifier_vit_Check_Aligned_Teeth Type: pipeline Compatibility: Spark NLP 4.2.1+ License: Open Source Edition: Official Language: en Size: 321.9 MB Included Models ImageAssembler ViTForImageClassification</summary></entry><entry><title type="html">English pipeline_image_classifier_vit_Check_GoodBad_Teeth ViTForImageClassification from steven123</title><link href="/2022/10/12/pipeline_image_classifier_vit_Check_GoodBad_Teeth_en.html" rel="alternate" type="text/html" title="English pipeline_image_classifier_vit_Check_GoodBad_Teeth ViTForImageClassification from steven123" /><published>2022-10-12T00:00:00+00:00</published><updated>2022-10-12T00:00:00+00:00</updated><id>/2022/10/12/pipeline_image_classifier_vit_Check_GoodBad_Teeth_en</id><content type="html" xml:base="/2022/10/12/pipeline_image_classifier_vit_Check_GoodBad_Teeth_en.html">&lt;h2 id=&quot;description&quot;&gt;Description&lt;/h2&gt;
+&lt;/ul&gt;</content><author><name>John Snow Labs</name></author><category term="vit" /><category term="en" /><category term="images" /><category term="open_source" /><category term="pipeline" /><summary type="html">Description Pretrained VIT model, adapted from Hugging Face and curated to provide scalability and production-readiness using Spark NLP.image_classifier_vit_Check_Aligned_Teeth is a English model originally trained by steven123. Predicted Entities Aligned Teeth, Crooked Teeth Live Demo Open in Colab Download How to use PythonScalaNLU pipeline = PretrainedPipeline('pipeline_image_classifier_vit_Check_Aligned_Teeth', lang = 'en') annotations = pipeline.transform(imageDF) val pipeline = new PretrainedPipeline(&quot;pipeline_image_classifier_vit_Check_Aligned_Teeth&quot;, lang = &quot;en&quot;) val annotations = pipeline.transform(imageDF) Model Information Model Name: pipeline_image_classifier_vit_Check_Aligned_Teeth Type: pipeline Compatibility: Spark NLP 4.2.1+ License: Open Source Edition: Official Language: en Size: 321.9 MB Included Models ImageAssembler ViTForImageClassification</summary></entry><entry><title type="html">English pipeline_image_classifier_vit_Check_GoodBad_Teeth ViTForImageClassification from steven123</title><link href="/2022/10/12/pipeline_image_classifier_vit_Check_GoodBad_Teeth_en.html" rel="alternate" type="text/html" title="English pipeline_image_classifier_vit_Check_GoodBad_Teeth ViTForImageClassification from steven123" /><published>2022-10-12T00:00:00+00:00</published><updated>2022-10-12T00:00:00+00:00</updated><id>/2022/10/12/pipeline_image_classifier_vit_Check_GoodBad_Teeth_en</id><content type="html" xml:base="/2022/10/12/pipeline_image_classifier_vit_Check_GoodBad_Teeth_en.html">&lt;h2 id=&quot;description&quot;&gt;Description&lt;/h2&gt;
 
 &lt;p&gt;Pretrained VIT  model, adapted from Hugging Face and curated to provide scalability and production-readiness using Spark NLP.&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;image_classifier_vit_Check_GoodBad_Teeth&lt;/code&gt; is a English model originally trained by steven123.&lt;/p&gt;
+
+&lt;h2 id=&quot;predicted-entities&quot;&gt;Predicted Entities&lt;/h2&gt;
+
+&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Bad Teeth&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Good Teeth&lt;/code&gt;&lt;/p&gt;
 
 &lt;p class=&quot;btn-box&quot;&gt;&lt;button class=&quot;button button-orange&quot; disabled=&quot;&quot;&gt;Live Demo&lt;/button&gt;
 &lt;button class=&quot;button button-orange&quot; disabled=&quot;&quot;&gt;Open in Colab&lt;/button&gt;
@@ -761,9 +641,13 @@
 &lt;ul&gt;
   &lt;li&gt;ImageAssembler&lt;/li&gt;
   &lt;li&gt;ViTForImageClassification&lt;/li&gt;
-&lt;/ul&gt;</content><author><name>John Snow Labs</name></author><category term="vit" /><category term="en" /><category term="images" /><category term="open_source" /><category term="pipeline" /><summary type="html">Description Pretrained VIT model, adapted from Hugging Face and curated to provide scalability and production-readiness using Spark NLP.image_classifier_vit_Check_GoodBad_Teeth is a English model originally trained by steven123. Live Demo Open in Colab Download How to use PythonScalaNLU pipeline = PretrainedPipeline('pipeline_image_classifier_vit_Check_GoodBad_Teeth', lang = 'en') annotations = pipeline.transform(imageDF) val pipeline = new PretrainedPipeline(&quot;pipeline_image_classifier_vit_Check_GoodBad_Teeth&quot;, lang = &quot;en&quot;) val annotations = pipeline.transform(imageDF) Model Information Model Name: pipeline_image_classifier_vit_Check_GoodBad_Teeth Type: pipeline Compatibility: Spark NLP 4.2.1+ License: Open Source Edition: Official Language: en Size: 321.9 MB Included Models ImageAssembler ViTForImageClassification</summary></entry><entry><title type="html">English pipeline_image_classifier_vit_Check_Gum_Teeth ViTForImageClassification from steven123</title><link href="/2022/10/12/pipeline_image_classifier_vit_Check_Gum_Teeth_en.html" rel="alternate" type="text/html" title="English pipeline_image_classifier_vit_Check_Gum_Teeth ViTForImageClassification from steven123" /><published>2022-10-12T00:00:00+00:00</published><updated>2022-10-12T00:00:00+00:00</updated><id>/2022/10/12/pipeline_image_classifier_vit_Check_Gum_Teeth_en</id><content type="html" xml:base="/2022/10/12/pipeline_image_classifier_vit_Check_Gum_Teeth_en.html">&lt;h2 id=&quot;description&quot;&gt;Description&lt;/h2&gt;
+&lt;/ul&gt;</content><author><name>John Snow Labs</name></author><category term="vit" /><category term="en" /><category term="images" /><category term="open_source" /><category term="pipeline" /><summary type="html">Description Pretrained VIT model, adapted from Hugging Face and curated to provide scalability and production-readiness using Spark NLP.image_classifier_vit_Check_GoodBad_Teeth is a English model originally trained by steven123. Predicted Entities Bad Teeth, Good Teeth Live Demo Open in Colab Download How to use PythonScalaNLU pipeline = PretrainedPipeline('pipeline_image_classifier_vit_Check_GoodBad_Teeth', lang = 'en') annotations = pipeline.transform(imageDF) val pipeline = new PretrainedPipeline(&quot;pipeline_image_classifier_vit_Check_GoodBad_Teeth&quot;, lang = &quot;en&quot;) val annotations = pipeline.transform(imageDF) Model Information Model Name: pipeline_image_classifier_vit_Check_GoodBad_Teeth Type: pipeline Compatibility: Spark NLP 4.2.1+ License: Open Source Edition: Official Language: en Size: 321.9 MB Included Models ImageAssembler ViTForImageClassification</summary></entry><entry><title type="html">English pipeline_image_classifier_vit_Check_Gum_Teeth ViTForImageClassification from steven123</title><link href="/2022/10/12/pipeline_image_classifier_vit_Check_Gum_Teeth_en.html" rel="alternate" type="text/html" title="English pipeline_image_classifier_vit_Check_Gum_Teeth ViTForImageClassification from steven123" /><published>2022-10-12T00:00:00+00:00</published><updated>2022-10-12T00:00:00+00:00</updated><id>/2022/10/12/pipeline_image_classifier_vit_Check_Gum_Teeth_en</id><content type="html" xml:base="/2022/10/12/pipeline_image_classifier_vit_Check_Gum_Teeth_en.html">&lt;h2 id=&quot;description&quot;&gt;Description&lt;/h2&gt;
 
 &lt;p&gt;Pretrained VIT  model, adapted from Hugging Face and curated to provide scalability and production-readiness using Spark NLP.&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;image_classifier_vit_Check_Gum_Teeth&lt;/code&gt; is a English model originally trained by steven123.&lt;/p&gt;
+
+&lt;h2 id=&quot;predicted-entities&quot;&gt;Predicted Entities&lt;/h2&gt;
+
+&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Bad_Gum&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Good_Gum&lt;/code&gt;&lt;/p&gt;
 
 &lt;p class=&quot;btn-box&quot;&gt;&lt;button class=&quot;button button-orange&quot; disabled=&quot;&quot;&gt;Live Demo&lt;/button&gt;
 &lt;button class=&quot;button button-orange&quot; disabled=&quot;&quot;&gt;Open in Colab&lt;/button&gt;
@@ -827,4 +711,144 @@
 &lt;ul&gt;
   &lt;li&gt;ImageAssembler&lt;/li&gt;
   &lt;li&gt;ViTForImageClassification&lt;/li&gt;
-&lt;/ul&gt;</content><author><name>John Snow Labs</name></author><category term="vit" /><category term="en" /><category term="images" /><category term="open_source" /><category term="pipeline" /><summary type="html">Description Pretrained VIT model, adapted from Hugging Face and curated to provide scalability and production-readiness using Spark NLP.image_classifier_vit_Check_Gum_Teeth is a English model originally trained by steven123. Live Demo Open in Colab Download How to use PythonScalaNLU pipeline = PretrainedPipeline('pipeline_image_classifier_vit_Check_Gum_Teeth', lang = 'en') annotations = pipeline.transform(imageDF) val pipeline = new PretrainedPipeline(&quot;pipeline_image_classifier_vit_Check_Gum_Teeth&quot;, lang = &quot;en&quot;) val annotations = pipeline.transform(imageDF) Model Information Model Name: pipeline_image_classifier_vit_Check_Gum_Teeth Type: pipeline Compatibility: Spark NLP 4.2.1+ License: Open Source Edition: Official Language: en Size: 321.9 MB Included Models ImageAssembler ViTForImageClassification</summary></entry></feed>
+&lt;/ul&gt;</content><author><name>John Snow Labs</name></author><category term="vit" /><category term="en" /><category term="images" /><category term="open_source" /><category term="pipeline" /><summary type="html">Description Pretrained VIT model, adapted from Hugging Face and curated to provide scalability and production-readiness using Spark NLP.image_classifier_vit_Check_Gum_Teeth is a English model originally trained by steven123. Predicted Entities Bad_Gum, Good_Gum Live Demo Open in Colab Download How to use PythonScalaNLU pipeline = PretrainedPipeline('pipeline_image_classifier_vit_Check_Gum_Teeth', lang = 'en') annotations = pipeline.transform(imageDF) val pipeline = new PretrainedPipeline(&quot;pipeline_image_classifier_vit_Check_Gum_Teeth&quot;, lang = &quot;en&quot;) val annotations = pipeline.transform(imageDF) Model Information Model Name: pipeline_image_classifier_vit_Check_Gum_Teeth Type: pipeline Compatibility: Spark NLP 4.2.1+ License: Open Source Edition: Official Language: en Size: 321.9 MB Included Models ImageAssembler ViTForImageClassification</summary></entry><entry><title type="html">English pipeline_image_classifier_vit_Check_Missing_Teeth ViTForImageClassification from steven123</title><link href="/2022/10/12/pipeline_image_classifier_vit_Check_Missing_Teeth_en.html" rel="alternate" type="text/html" title="English pipeline_image_classifier_vit_Check_Missing_Teeth ViTForImageClassification from steven123" /><published>2022-10-12T00:00:00+00:00</published><updated>2022-10-12T00:00:00+00:00</updated><id>/2022/10/12/pipeline_image_classifier_vit_Check_Missing_Teeth_en</id><content type="html" xml:base="/2022/10/12/pipeline_image_classifier_vit_Check_Missing_Teeth_en.html">&lt;h2 id=&quot;description&quot;&gt;Description&lt;/h2&gt;
+
+&lt;p&gt;Pretrained VIT  model, adapted from Hugging Face and curated to provide scalability and production-readiness using Spark NLP.&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;image_classifier_vit_Check_Missing_Teeth&lt;/code&gt; is a English model originally trained by steven123.&lt;/p&gt;
+
+&lt;h2 id=&quot;predicted-entities&quot;&gt;Predicted Entities&lt;/h2&gt;
+
+&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Missing Teeth&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Non-Missing Teeth&lt;/code&gt;&lt;/p&gt;
+
+&lt;p class=&quot;btn-box&quot;&gt;&lt;button class=&quot;button button-orange&quot; disabled=&quot;&quot;&gt;Live Demo&lt;/button&gt;
+&lt;button class=&quot;button button-orange&quot; disabled=&quot;&quot;&gt;Open in Colab&lt;/button&gt;
+&lt;a href=&quot;https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/pipeline_image_classifier_vit_Check_Missing_Teeth_en_4.2.1_3.0_1665536176475.zip&quot; class=&quot;button button-orange button-orange-trans arr button-icon&quot;&gt;Download&lt;/a&gt;&lt;/p&gt;
+
+&lt;h2 id=&quot;how-to-use&quot;&gt;How to use&lt;/h2&gt;
+
+&lt;div class=&quot;tabs-box&quot;&gt;
+  &lt;div class=&quot;top_tab_li&quot;&gt;   
+    &lt;p&gt;&lt;button data-type=&quot;python&quot; class=&quot;tab-li code-selector-active python-button&quot;&gt;Python&lt;/button&gt;&lt;button data-type=&quot;scala&quot; class=&quot;tab-li code-selector-un-active scala-button&quot;&gt;Scala&lt;/button&gt;&lt;button data-type=&quot;nlu&quot; class=&quot;tab-li code-selector-un-active nlu-button&quot;&gt;NLU&lt;/button&gt;&lt;/p&gt;
+&lt;/div&gt;
+  &lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;
+    &lt;span class=&quot;n&quot;&gt;pipeline&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;PretrainedPipeline&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'pipeline_image_classifier_vit_Check_Missing_Teeth'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;lang&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;'en'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;annotations&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;  &lt;span class=&quot;n&quot;&gt;pipeline&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;transform&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;imageDF&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+    
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;  &lt;/div&gt;
+  &lt;div class=&quot;language-scala highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;
+    &lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;pipeline&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;PretrainedPipeline&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;pipeline_image_classifier_vit_Check_Missing_Teeth&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;lang&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;en&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;annotations&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;pipeline&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;transform&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;imageDF&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+    
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;  &lt;/div&gt;
+&lt;/div&gt;
+
+&lt;h2 class=&quot;model-param&quot; id=&quot;model-information&quot;&gt;Model Information&lt;/h2&gt;
+
+&lt;table class=&quot;table-model&quot;&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Model Name:&lt;/td&gt;
+      &lt;td&gt;pipeline_image_classifier_vit_Check_Missing_Teeth&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Type:&lt;/td&gt;
+      &lt;td&gt;pipeline&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Compatibility:&lt;/td&gt;
+      &lt;td&gt;Spark NLP 4.2.1+&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;License:&lt;/td&gt;
+      &lt;td&gt;Open Source&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Edition:&lt;/td&gt;
+      &lt;td&gt;Official&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Language:&lt;/td&gt;
+      &lt;td&gt;en&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Size:&lt;/td&gt;
+      &lt;td&gt;321.9 MB&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;h2 id=&quot;included-models&quot;&gt;Included Models&lt;/h2&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;ImageAssembler&lt;/li&gt;
+  &lt;li&gt;ViTForImageClassification&lt;/li&gt;
+&lt;/ul&gt;</content><author><name>John Snow Labs</name></author><category term="vit" /><category term="en" /><category term="images" /><category term="open_source" /><category term="pipeline" /><summary type="html">Description Pretrained VIT model, adapted from Hugging Face and curated to provide scalability and production-readiness using Spark NLP.image_classifier_vit_Check_Missing_Teeth is a English model originally trained by steven123. Predicted Entities Missing Teeth, Non-Missing Teeth Live Demo Open in Colab Download How to use PythonScalaNLU pipeline = PretrainedPipeline('pipeline_image_classifier_vit_Check_Missing_Teeth', lang = 'en') annotations = pipeline.transform(imageDF) val pipeline = new PretrainedPipeline(&quot;pipeline_image_classifier_vit_Check_Missing_Teeth&quot;, lang = &quot;en&quot;) val annotations = pipeline.transform(imageDF) Model Information Model Name: pipeline_image_classifier_vit_Check_Missing_Teeth Type: pipeline Compatibility: Spark NLP 4.2.1+ License: Open Source Edition: Official Language: en Size: 321.9 MB Included Models ImageAssembler ViTForImageClassification</summary></entry><entry><title type="html">English pipeline_image_classifier_vit_Infrastructures ViTForImageClassification from drab</title><link href="/2022/10/12/pipeline_image_classifier_vit_Infrastructures_en.html" rel="alternate" type="text/html" title="English pipeline_image_classifier_vit_Infrastructures ViTForImageClassification from drab" /><published>2022-10-12T00:00:00+00:00</published><updated>2022-10-12T00:00:00+00:00</updated><id>/2022/10/12/pipeline_image_classifier_vit_Infrastructures_en</id><content type="html" xml:base="/2022/10/12/pipeline_image_classifier_vit_Infrastructures_en.html">&lt;h2 id=&quot;description&quot;&gt;Description&lt;/h2&gt;
+
+&lt;p&gt;Pretrained VIT  model, adapted from Hugging Face and curated to provide scalability and production-readiness using Spark NLP.&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;image_classifier_vit_Infrastructures&lt;/code&gt; is a English model originally trained by drab.&lt;/p&gt;
+
+&lt;h2 id=&quot;predicted-entities&quot;&gt;Predicted Entities&lt;/h2&gt;
+
+&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Cooling tower&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Transmission grid&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Wind turbines&lt;/code&gt;&lt;/p&gt;
+
+&lt;p class=&quot;btn-box&quot;&gt;&lt;button class=&quot;button button-orange&quot; disabled=&quot;&quot;&gt;Live Demo&lt;/button&gt;
+&lt;button class=&quot;button button-orange&quot; disabled=&quot;&quot;&gt;Open in Colab&lt;/button&gt;
+&lt;a href=&quot;https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/pipeline_image_classifier_vit_Infrastructures_en_4.2.1_3.0_1665537380624.zip&quot; class=&quot;button button-orange button-orange-trans arr button-icon&quot;&gt;Download&lt;/a&gt;&lt;/p&gt;
+
+&lt;h2 id=&quot;how-to-use&quot;&gt;How to use&lt;/h2&gt;
+
+&lt;div class=&quot;tabs-box&quot;&gt;
+  &lt;div class=&quot;top_tab_li&quot;&gt;   
+    &lt;p&gt;&lt;button data-type=&quot;python&quot; class=&quot;tab-li code-selector-active python-button&quot;&gt;Python&lt;/button&gt;&lt;button data-type=&quot;scala&quot; class=&quot;tab-li code-selector-un-active scala-button&quot;&gt;Scala&lt;/button&gt;&lt;button data-type=&quot;nlu&quot; class=&quot;tab-li code-selector-un-active nlu-button&quot;&gt;NLU&lt;/button&gt;&lt;/p&gt;
+&lt;/div&gt;
+  &lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;
+    &lt;span class=&quot;n&quot;&gt;pipeline&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;PretrainedPipeline&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'pipeline_image_classifier_vit_Infrastructures'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;lang&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;'en'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;annotations&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;  &lt;span class=&quot;n&quot;&gt;pipeline&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;transform&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;imageDF&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+    
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;  &lt;/div&gt;
+  &lt;div class=&quot;language-scala highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;
+    &lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;pipeline&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;PretrainedPipeline&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;pipeline_image_classifier_vit_Infrastructures&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;lang&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;en&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;annotations&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;pipeline&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;transform&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;imageDF&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+    
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;  &lt;/div&gt;
+&lt;/div&gt;
+
+&lt;h2 class=&quot;model-param&quot; id=&quot;model-information&quot;&gt;Model Information&lt;/h2&gt;
+
+&lt;table class=&quot;table-model&quot;&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Model Name:&lt;/td&gt;
+      &lt;td&gt;pipeline_image_classifier_vit_Infrastructures&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Type:&lt;/td&gt;
+      &lt;td&gt;pipeline&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Compatibility:&lt;/td&gt;
+      &lt;td&gt;Spark NLP 4.2.1+&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;License:&lt;/td&gt;
+      &lt;td&gt;Open Source&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Edition:&lt;/td&gt;
+      &lt;td&gt;Official&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Language:&lt;/td&gt;
+      &lt;td&gt;en&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Size:&lt;/td&gt;
+      &lt;td&gt;321.9 MB&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;h2 id=&quot;included-models&quot;&gt;Included Models&lt;/h2&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;ImageAssembler&lt;/li&gt;
+  &lt;li&gt;ViTForImageClassification&lt;/li&gt;
+&lt;/ul&gt;</content><author><name>John Snow Labs</name></author><category term="vit" /><category term="en" /><category term="images" /><category term="open_source" /><category term="pipeline" /><summary type="html">Description Pretrained VIT model, adapted from Hugging Face and curated to provide scalability and production-readiness using Spark NLP.image_classifier_vit_Infrastructures is a English model originally trained by drab. Predicted Entities Cooling tower, Transmission grid, Wind turbines Live Demo Open in Colab Download How to use PythonScalaNLU pipeline = PretrainedPipeline('pipeline_image_classifier_vit_Infrastructures', lang = 'en') annotations = pipeline.transform(imageDF) val pipeline = new PretrainedPipeline(&quot;pipeline_image_classifier_vit_Infrastructures&quot;, lang = &quot;en&quot;) val annotations = pipeline.transform(imageDF) Model Information Model Name: pipeline_image_classifier_vit_Infrastructures Type: pipeline Compatibility: Spark NLP 4.2.1+ License: Open Source Edition: Official Language: en Size: 321.9 MB Included Models ImageAssembler ViTForImageClassification</summary></entry></feed>
