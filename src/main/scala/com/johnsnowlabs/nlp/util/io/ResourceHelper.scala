@@ -189,14 +189,15 @@ object ResourceHelper {
     *   Absolute path to the temporary or local folder of the resource
     */
   def copyToLocal(path: String): String = try {
-    val localUri = if (path.startsWith("s3:/") || path.startsWith("s3a:/")) { // Download directly from S3
-      ResourceDownloader.downloadS3Directory(path)
-    } else { // Use Source Stream
-      val pathWithProtocol: String =
-        if (URI.create(path).getScheme == null) new File(path).toURI.toURL.toString else path
-      val resource = SourceStream(pathWithProtocol)
-      resource.copyToLocal()
-    }
+    val localUri =
+      if (path.startsWith("s3:/") || path.startsWith("s3a:/")) { // Download directly from S3
+        ResourceDownloader.downloadS3Directory(path)
+      } else { // Use Source Stream
+        val pathWithProtocol: String =
+          if (URI.create(path).getScheme == null) new File(path).toURI.toURL.toString else path
+        val resource = SourceStream(pathWithProtocol)
+        resource.copyToLocal()
+      }
 
     new File(localUri).getAbsolutePath // Platform independent path
   } catch {
