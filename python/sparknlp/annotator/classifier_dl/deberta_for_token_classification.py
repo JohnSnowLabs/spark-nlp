@@ -18,7 +18,8 @@ from sparknlp.common import *
 
 class DeBertaForTokenClassification(AnnotatorModel,
                                     HasCaseSensitiveProperties,
-                                    HasBatchedAnnotate):
+                                    HasBatchedAnnotate,
+                                    HasEngine):
     """DeBertaForTokenClassification can load DeBERTa v2&v3 Models with a token
     classification head on top (a linear layer on top of the hidden-states
     output) e.g. for Named-Entity-Recognition (NER) tasks.

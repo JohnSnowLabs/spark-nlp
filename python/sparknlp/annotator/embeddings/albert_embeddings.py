@@ -15,11 +15,13 @@
 
 from sparknlp.common import *
 
+
 class AlbertEmbeddings(AnnotatorModel,
                        HasEmbeddingsProperties,
                        HasCaseSensitiveProperties,
                        HasStorageRef,
-                       HasBatchedAnnotate):
+                       HasBatchedAnnotate,
+                       HasEngine):
     """ALBERT: A Lite Bert For Self-Supervised Learning Of Language
     Representations - Google Research, Toyota Technological Institute at Chicago
 
@@ -236,4 +238,3 @@ class AlbertEmbeddings(AnnotatorModel,
         """
         from sparknlp.pretrained import ResourceDownloader
         return ResourceDownloader.downloadModel(AlbertEmbeddings, name, lang, remote_loc)
-

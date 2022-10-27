@@ -18,6 +18,12 @@ package com.johnsnowlabs.nlp.embeddings
 
 import com.johnsnowlabs.ml.tensorflow._
 import com.johnsnowlabs.ml.tensorflow.sentencepiece._
+import com.johnsnowlabs.ml.util.LoadExternalModel.{
+  loadSentencePieceAsset,
+  modelSanityCheck,
+  notSupportedEngineError
+}
+import com.johnsnowlabs.ml.util.ModelEngine
 import com.johnsnowlabs.nlp._
 import com.johnsnowlabs.nlp.annotators.common._
 import com.johnsnowlabs.nlp.serialization.MapFeature
@@ -26,8 +32,6 @@ import org.apache.spark.broadcast.Broadcast
 import org.apache.spark.ml.param.{IntArrayParam, IntParam}
 import org.apache.spark.ml.util.Identifiable
 import org.apache.spark.sql.{DataFrame, SparkSession}
-
-import java.io.File
 
 /** The XLM-RoBERTa model was proposed in
   * [[https://arxiv.org/abs/1911.02116 Unsupervised Cross-lingual Representation Learning at Scale]]
@@ -160,7 +164,8 @@ class XlmRoBertaEmbeddings(override val uid: String)
     with WriteSentencePieceModel
     with HasEmbeddingsProperties
     with HasStorageRef
-    with HasCaseSensitiveProperties {
+    with HasCaseSensitiveProperties
+    with HasEngine {
 
   /** Annotator reference id. Used to identify elements in metadata or to refer to this annotator
     * type
@@ -360,7 +365,7 @@ trait ReadablePretrainedXlmRobertaModel
     super.pretrained(name, lang, remoteLoc)
 }
 
-trait ReadXlmRobertaTensorflowModel extends ReadTensorflowModel with ReadSentencePieceModel {
+trait ReadXlmRobertaDLModel extends ReadTensorflowModel with ReadSentencePieceModel {
   this: ParamsAndFeaturesReadable[XlmRoBertaEmbeddings] =>
 
   override val tfFile: String = "xlmroberta_tensorflow"
@@ -375,37 +380,40 @@ trait ReadXlmRobertaTensorflowModel extends ReadTensorflowModel with ReadSentenc
 
   addReader(readTensorflow)
 
-  def loadSavedModel(tfModelPath: String, spark: SparkSession): XlmRoBertaEmbeddings = {
+  def loadSavedModel(modelPath: String, spark: SparkSession): XlmRoBertaEmbeddings = {
 
-    val f = new File(tfModelPath)
-    val savedModel = new File(tfModelPath, "saved_model.pb")
-    require(f.exists, s"Folder $tfModelPath not found")
-    require(f.isDirectory, s"File $tfModelPath is not folder")
-    require(
-      savedModel.exists(),
-      s"savedModel file saved_model.pb not found in folder $tfModelPath")
-    val sppModelPath = tfModelPath + "/assets"
-    val sppModel = new File(sppModelPath, "sentencepiece.bpe.model")
-    require(
-      sppModel.exists(),
-      s"SentencePiece model sentencepiece.bpe.model not found in folder $sppModelPath")
+    val (localModelPath, detectedEngine) = modelSanityCheck(modelPath)
 
-    val (wrapper, signatures) =
-      TensorflowWrapper.read(tfModelPath, zipped = false, useBundle = true)
-    val spp = SentencePieceWrapper.read(sppModel.toString)
+    val spModel = loadSentencePieceAsset(localModelPath, "sentencepiece.bpe.model")
 
-    val _signatures = signatures match {
-      case Some(s) => s
-      case None => throw new Exception("Cannot load signature definitions from model!")
+    /*Universal parameters for all engines*/
+    val annotatorModel = new XlmRoBertaEmbeddings()
+
+    annotatorModel.set(annotatorModel.engine, detectedEngine)
+
+    detectedEngine match {
+      case ModelEngine.tensorflow =>
+        val (wrapper, signatures) =
+          TensorflowWrapper.read(localModelPath, zipped = false, useBundle = true)
+
+        val _signatures = signatures match {
+          case Some(s) => s
+          case None => throw new Exception("Cannot load signature definitions from model!")
+        }
+
+        /** the order of setSignatures is important if we use getSignatures inside
+          * setModelIfNotSet
+          */
+        annotatorModel
+          .setSignatures(_signatures)
+          .setModelIfNotSet(spark, wrapper, spModel)
+
+      case _ =>
+        throw new Exception(notSupportedEngineError)
     }
 
-    /** the order of setSignatures is important is we use getSignatures inside setModelIfNotSet */
-    new XlmRoBertaEmbeddings()
-      .setSignatures(_signatures)
-      .setModelIfNotSet(spark, wrapper, spp)
+    annotatorModel
   }
 }
 
-object XlmRoBertaEmbeddings
-    extends ReadablePretrainedXlmRobertaModel
-    with ReadXlmRobertaTensorflowModel
+object XlmRoBertaEmbeddings extends ReadablePretrainedXlmRobertaModel with ReadXlmRobertaDLModel
