@@ -39,8 +39,8 @@ class AnnotationImage:
         Associated metadata for this annotation
     """
 
-    def __init__(self, annotator_type, origin, height, width, nChannels, mode, result, metadata):
-        self.annotator_type = annotator_type
+    def __init__(self, annotatorType, origin, height, width, nChannels, mode, result, metadata):
+        self.annotatorType = annotatorType
         self.origin = origin
         self.height = height
         self.width = width
@@ -63,12 +63,12 @@ class AnnotationImage:
         AnnotationImage
             Newly created AnnotationImage
         """
-        return AnnotationImage(self.annotator_type, self.origin, self.height, self.width,
+        return AnnotationImage(self.annotatorType, self.origin, self.height, self.width,
                                self.nChannels, self.mode, result, self.metadata)
 
     def __str__(self):
         return "AnnotationImage(%s, %s, %i, %i, %i, %i, %s, %s)" % (
-            self.annotator_type,
+            self.annotatorType,
             self.origin,
             self.height,
             self.width,
