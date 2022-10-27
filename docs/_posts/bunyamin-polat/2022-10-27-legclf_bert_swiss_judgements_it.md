@@ -34,9 +34,10 @@ This model is a Bert-based model that can be used to classify Swiss Judgement do
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
+
 ```python
-document_assembler = nlp.DocumentAssembler() \
-    .setInputCol('text') \
+document_assembler = nlp.DocumentAssembler()\
+    .setInputCol('text')\
     .setOutputCol('document')
 
 tokenizer = nlp.Tokenizer()\
