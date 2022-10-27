@@ -1,9 +1,10 @@
 ---
 layout: demopagenew
-title: Spark NLP in Action
+title: Genes, Variants, Phenotypes - Biomedical NLP Demos & Notebooks
+seotitle: 'Biomedical NLP: Genes, Variants, Phenotypes - John Snow Labs'
 subtitle: Run 300+ live demos and notebooks
 full_width: true
-permalink: /recognize_biomedical_entities
+permalink: /genes_variants_phenotypes
 key: demo
 article_header:
   type: demo
@@ -13,15 +14,15 @@ show_edit_on_github: false
 show_date: false
 data:
   sections:  
-    - title: Spark NLP for Healthcare 
-      excerpt: Recognize Biomedical Entities 
+    - title: Biomedical NLP
+      excerpt: Genes, Variants, Phenotypes
       secheader: yes
       secheader:
-        - title: Spark NLP for Healthcare
-          subtitle: Recognize Biomedical Entities 
-          activemenu: recognize_biomedical_entities
+        - title: Biomedical NLP
+          subtitle: Genes, Variants, Phenotypes
+          activemenu: genes_variants_phenotypes
       source: yes
-      source: 
+      source:
         - title: Detect chemical compounds and genes
           id: detect_chemical_compounds_and_genes
           image: 
@@ -69,19 +70,7 @@ data:
             url: https://demo.johnsnowlabs.com/healthcare/NER_CELLULAR/
           - text: Colab
             type: blue_btn
-            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/NER_CELLULAR.ipynb
-        - title: Detect chemical compounds
-          id: detect_chemical_compounds
-          image: 
-              src: /assets/images/Detect_chemical_compounds.svg
-          excerpt: Automatically detect all types of chemical compounds using our pretrained Spark NLP for Healthcare model.
-          actions:
-          - text: Live Demo
-            type: normal
-            url: https://demo.johnsnowlabs.com/healthcare/NER_CHEMICALS/
-          - text: Colab
-            type: blue_btn
-            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/NER_CHEMICALS.ipynb
+            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/NER_CELLULAR.ipynb        
         - title: Detect bacteria, plants, animals or general species
           id: detect_bacteria
           image: 
@@ -117,17 +106,17 @@ data:
             url: https://demo.johnsnowlabs.com/healthcare/NER_DRUG_PROT/
           - text: Colab
             type: blue_btn
-            url: https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/1.Clinical_Named_Entity_Recognition_Model.ipynb   
-        - title: Detect Drug Chemicals 
-          id: detect_drug_chemicals   
+            url: https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/1.Clinical_Named_Entity_Recognition_Model.ipynb
+        - title: Detect chemical compounds
+          id: detect_chemical_compounds
           image: 
-              src: /assets/images/Detect_Drug_Chemicals.svg
-          excerpt: Automatically identify drug chemicals in clinical documents using the pretrained Spark NLP clinical models.
+              src: /assets/images/Detect_chemical_compounds.svg
+          excerpt: Automatically detect all types of chemical compounds using our pretrained Spark NLP for Healthcare model.
           actions:
           - text: Live Demo
             type: normal
-            url: https://demo.johnsnowlabs.com/healthcare/NER_DRUGS/
+            url: https://demo.johnsnowlabs.com/healthcare/NER_CHEMICALS/
           - text: Colab
             type: blue_btn
-            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/NER_DRUGS.ipynb
+            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/NER_CHEMICALS.ipynb      
 ---

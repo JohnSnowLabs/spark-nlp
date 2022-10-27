@@ -40,6 +40,7 @@ This Chunk Mapper model allows you to, given a detected IRS with any NER model, 
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
+
 ```python
 document_assembler = nlp.DocumentAssembler()\
       .setInputCol('text')\

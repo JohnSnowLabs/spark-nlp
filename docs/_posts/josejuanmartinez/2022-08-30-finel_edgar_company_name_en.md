@@ -1,6 +1,6 @@
 ---
 layout: model
-title: Company Name Normalization to Edgar Database
+title: Company Name Normalization using Edgar Database
 author: John Snow Labs
 name: finel_edgar_company_name
 date: 2022-08-30
@@ -34,6 +34,7 @@ This is an Entity Linking / Entity Resolution model, which allows you to map an 
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
+
 ```python
 documentAssembler = nlp.DocumentAssembler()\
       .setInputCol("text")\
@@ -45,7 +46,7 @@ embeddings = nlp.UniversalSentenceEncoder.pretrained("tfhub_use", "en") \
     
 resolver = finance.SentenceEntityResolverModel.pretrained("finel_edgar_company_name", "en", "finance/models")\
       .setInputCols(["ner_chunk", "sentence_embeddings"]) \
-      .setOutputCol("irs_code")\
+      .setOutputCol("normalized")\
       .setDistanceFunction("EUCLIDEAN")
 
 pipelineModel = PipelineModel(

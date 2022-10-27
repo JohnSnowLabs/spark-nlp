@@ -66,6 +66,7 @@ This model was originally trained with 6089 legal texts (see the original work [
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
+
 ```python
 documentAssembler = nlp.DocumentAssembler() \
        .setInputCol("text") \
@@ -127,8 +128,8 @@ This model was originally trained on 6089 legal texts (see the original work [he
 ## Benchmarking
 
 ```bash
-label        precision	recall	f1-score	support
-accuracy	     -		        0.91      	 98
-macro avg	    0.92	0.91	0.91	     98
-weighted avg	0.92	0.90	0.91	     98
-```
+label             precision  recall    f1-score    support
+accuracy            -          -       0.91        98
+macro-avg         0.92       0.91      0.91        98
+weighted-avg      0.92       0.90      0.91        98
+```       

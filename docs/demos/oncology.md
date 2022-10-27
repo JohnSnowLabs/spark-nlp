@@ -19,6 +19,18 @@ data:
           activemenu: oncology
       source: yes
       source: 
+        - title: Explore Oncology Notes with Spark NLP Models
+          id: explore_oncology_notes_spark_models
+          image: 
+              src: /assets/images/Detect_Oncological_Concepts.svg
+          excerpt: This demo shows how oncological terms can be detected using Spark NLP Healthcare NER, Assertion Status, and Relation Extraction models.
+          actions:
+          - text: Live Demo
+            type: normal
+            url: https://demo.johnsnowlabs.com/healthcare/ONCOLOGY/
+          - text: Colab
+            type: blue_btn
+            url: https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/27.Oncology_Model.ipynb
         - title: Detect oncological & biological concepts
           id: detect_tumor_characteristics
           image: 

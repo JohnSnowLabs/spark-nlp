@@ -33,7 +33,7 @@ NAMED_ENTITY
 {%- endcapture -%}
 
 {%- capture python_api_link -%}
-[DistilBertForTokenClassification](/api/python/reference/autosummary/sparknlp/annotator/classifier_dl/distil_bert_for_token_classification/index.html#sparknlp.annotator.classifier_dl.distil_bert_for_token_classification.DistilBertForTokenClassification)
+[DistilBertForTokenClassification](/api/python/reference/autosummary/python/sparknlp/annotator/classifier_dl/distil_bert_for_token_classification/index.html#sparknlp.annotator.classifier_dl.distil_bert_for_token_classification.DistilBertForTokenClassification)
 {%- endcapture -%}
 
 {%- capture source_link -%}

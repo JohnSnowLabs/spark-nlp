@@ -42,6 +42,7 @@ IMPORTANT: Chunk Mappers work with exact matches, so before using Chunk Mapping,
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
+
 ```python
 documentAssembler = nlp.DocumentAssembler()\
         .setInputCol("text")\

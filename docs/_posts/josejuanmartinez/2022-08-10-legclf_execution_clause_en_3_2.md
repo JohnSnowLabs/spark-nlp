@@ -102,13 +102,10 @@ Legal documents, scrapped from the Internet, and classified in-house
 ## Benchmarking
 
 ```bash
-              precision    recall  f1-score   support
-
+       label  precision    recall  f1-score   support
    execution       0.87      0.77      0.82        44
        other       0.89      0.94      0.91        84
-
-    accuracy                           0.88       128
-   macro avg       0.88      0.86      0.87       128
-weighted avg       0.88      0.88      0.88       128
-
+    accuracy        -         -        0.88       128
+   macro-avg       0.88      0.86      0.87       128
+weighted-avg       0.88      0.88      0.88       128
 ```

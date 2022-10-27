@@ -38,6 +38,7 @@ The difficulty of these entities is that they are totally free-text, with OBJECT
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
+
 ```python
 from johnsnowlabs import *
 

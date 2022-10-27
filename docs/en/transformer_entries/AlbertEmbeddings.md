@@ -74,7 +74,7 @@ WORD_EMBEDDINGS
 {%- endcapture -%}
 
 {%- capture python_api_link -%}
-[AlbertEmbeddings](/api/python/reference/autosummary/sparknlp/annotator/embeddings/albert_embeddings/index.html#sparknlp.annotator.embeddings.albert_embeddings.AlbertEmbeddings)
+[AlbertEmbeddings](/api/python/reference/autosummary/python/sparknlp/annotator/embeddings/albert_embeddings/index.html#sparknlp.annotator.embeddings.albert_embeddings.AlbertEmbeddings)
 {%- endcapture -%}
 
 {%- capture source_link -%}

@@ -43,6 +43,7 @@ This model can be combined with any of the other 200+ Legal Clauses Classifiers 
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
+
 ```python
 documentAssembler = nlp.DocumentAssembler() \
      .setInputCol("clause_text") \
@@ -102,13 +103,10 @@ Legal documents, scrapped from the Internet, and classified in-house
 ## Benchmarking
 
 ```bash
-                     precision    recall  f1-score   support
-
+              label  precision    recall  f1-score   support
 certain-definitions       0.95      0.84      0.89        49
               other       0.94      0.99      0.96       138
-
-           accuracy                           0.95       187
-          macro avg       0.95      0.91      0.93       187
-       weighted avg       0.95      0.95      0.95       187
-
+           accuracy        -         -        0.95       187
+          macro-avg       0.95      0.91      0.93       187
+       weighted-avg       0.95      0.95      0.95       187
 ```

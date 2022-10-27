@@ -41,6 +41,7 @@ Take into consideration the embeddings of this model allows up to 512 tokens. If
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
+
 ```python
 documentAssembler = nlp.DocumentAssembler() \
      .setInputCol("text") \
@@ -100,12 +101,10 @@ Weak labelling on documents from Edgar database
 ## Benchmarking
 
 ```bash
-              precision    recall  f1-score   support
-
+       label  precision    recall  f1-score   support
   executives       0.96      0.98      0.97        46
        other       0.98      0.96      0.97        45
-
-    accuracy                           0.97        91
-   macro avg       0.97      0.97      0.97        91
-weighted avg       0.97      0.97      0.97        91
+    accuracy        -         -        0.97        91
+   macro-avg       0.97      0.97      0.97        91
+weighted-avg       0.97      0.97      0.97        91
 ```

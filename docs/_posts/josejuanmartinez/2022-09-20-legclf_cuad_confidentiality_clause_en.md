@@ -43,6 +43,7 @@ This model can be combined with any of the other 200+ Legal Clauses Classifiers 
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
+
 ```python
 documentAssembler = nlp.DocumentAssembler() \
      .setInputCol("clause_text") \
@@ -103,13 +104,10 @@ In-house annotations on CUAD dataset
 ## Benchmarking
 
 ```bash
-                 precision    recall  f1-score   support
-
+          label  precision    recall  f1-score   support
 confidentiality       1.00      0.91      0.95        11
           other       0.95      1.00      0.97        19
-
-       accuracy                           0.97        30
-      macro avg       0.97      0.95      0.96        30
-   weighted avg       0.97      0.97      0.97        30
-
+       accuracy         -         -       0.97        30
+      macro-avg       0.97      0.95      0.96        30
+   weighted-avg       0.97      0.97      0.97        30
 ```

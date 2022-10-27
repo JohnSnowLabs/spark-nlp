@@ -40,6 +40,7 @@ You can use this model to filter out non-tickets from a folder of images or mobi
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
+
 ```python
 document_assembler = nlp.ImageAssembler() \
     .setInputCol("image") \
@@ -97,6 +98,8 @@ Cord, rvl-cdip, visual-genome and an external receipt dataset
 ## Benchmarking
 
 ```bash
-training_loss validation_loss f1 
-0.0006 0.0044 0.9997
+label            score
+training_loss    0.0006  
+validation_loss  0.0044
+f1               0.9997
 ```

@@ -36,6 +36,7 @@ This is a light version of the model, trained on Tweets. You can find heavier mo
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
+
 ```python
 document_assembler = nlp.DocumentAssembler()\
     .setInputCol("text")\
@@ -115,11 +116,9 @@ Original dataset (https://www.kaggle.com/omermetinn/tweets-about-the-top-compani
 ## Benchmarking
 
 ```bash
-              precision    recall  f1-score   support
-
+       label  precision    recall  f1-score   support
       TICKER       0.97      0.96      0.97      9823
-
-   micro avg       0.97      0.96      0.97      9823
-   macro avg       0.97      0.96      0.97      9823
-weighted avg       0.97      0.96      0.97      9823
+   micro-avg       0.97      0.96      0.97      9823
+   macro-avg       0.97      0.96      0.97      9823
+weighted-avg       0.97      0.96      0.97      9823
 ```

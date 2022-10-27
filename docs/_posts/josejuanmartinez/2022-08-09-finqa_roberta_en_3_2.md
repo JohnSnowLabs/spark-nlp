@@ -34,6 +34,7 @@ Financial RoBerta-based Question Answering model, trained on squad-v2, finetuned
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
+
 ```python
 
 documentAssembler = nlp.MultiDocumentAssembler()\
