@@ -6,7 +6,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
 
-    <title>python.sparknlp.pretrained.pretrained_pipeline &#8212; Spark NLP 4.2.1 documentation</title>
+    <title>python.sparknlp.pretrained.pretrained_pipeline &#8212; Spark NLP 4.2.2 documentation</title>
   <script>
     document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
     document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
@@ -376,7 +376,7 @@ by default None</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="python.sparknlp.pretrained.pretrained_pipeline.PretrainedPipeline.fullAnnotate">
-<span class="sig-name descname"><span class="pre">fullAnnotate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">target</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">column</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../modules/python/sparknlp/pretrained/pretrained_pipeline.html#PretrainedPipeline.fullAnnotate"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#python.sparknlp.pretrained.pretrained_pipeline.PretrainedPipeline.fullAnnotate" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">fullAnnotate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">target</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">optional_target</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../modules/python/sparknlp/pretrained/pretrained_pipeline.html#PretrainedPipeline.fullAnnotate"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#python.sparknlp.pretrained.pretrained_pipeline.PretrainedPipeline.fullAnnotate" title="Permalink to this definition">#</a></dt>
 <dd><p>Annotates the data provided into <cite>Annotation</cite> type results.</p>
 <p>The data should be either a list or a str.</p>
 <dl class="field-list simple">
@@ -410,6 +410,27 @@ by default None</p>
 <span class="go">Annotation(named_entity, 37, 37, O, {&#39;word&#39;: &#39;.&#39;})]</span>
 </pre></div>
 </div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="python.sparknlp.pretrained.pretrained_pipeline.PretrainedPipeline.fullAnnotateImage">
+<span class="sig-name descname"><span class="pre">fullAnnotateImage</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path_to_image</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../modules/python/sparknlp/pretrained/pretrained_pipeline.html#PretrainedPipeline.fullAnnotateImage"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#python.sparknlp.pretrained.pretrained_pipeline.PretrainedPipeline.fullAnnotateImage" title="Permalink to this definition">#</a></dt>
+<dd><p>Annotates the data provided into <cite>Annotation</cite> type results.</p>
+<p>The data should be either a list or a str.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>path_to_image</strong><span class="classifier">list or str</span></dt><dd><p>Source path of image, list of paths to images</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><dl class="simple">
+<dt>List[AnnotationImage]</dt><dd><p>The result of the annotation</p>
+</dd>
+</dl>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py method">
@@ -500,6 +521,15 @@ by default None</p>
         </a>
        </li>
        <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#python.sparknlp.pretrained.pretrained_pipeline.PretrainedPipeline.fullAnnotateImage">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           PretrainedPipeline.fullAnnotateImage()
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
         <a class="reference internal nav-link" href="#python.sparknlp.pretrained.pretrained_pipeline.PretrainedPipeline.transform">
          <code class="docutils literal notranslate">
           <span class="pre">
@@ -523,6 +553,11 @@ by default None</p>
        <li class="toc-h5 nav-item toc-entry">
         <a class="reference internal nav-link" href="#python.sparknlp.pretrained.pretrained_pipeline.PretrainedPipeline.fullAnnotate">
          fullAnnotate
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#python.sparknlp.pretrained.pretrained_pipeline.PretrainedPipeline.fullAnnotateImage">
+         fullAnnotateImage
         </a>
        </li>
        <li class="toc-h5 nav-item toc-entry">
@@ -594,7 +629,7 @@ by default None</p>
   <div class="footer-item">
     
 <p class="sphinx-version">
-Created using <a href="http://sphinx-doc.org/">Sphinx</a> 5.2.3.<br>
+Created using <a href="http://sphinx-doc.org/">Sphinx</a> 5.3.0.<br>
 </p>
 
   </div>

@@ -16,7 +16,12 @@
 
 package com.johnsnowlabs.nlp.annotators
 
-import com.johnsnowlabs.nlp.annotators.common.{InfixToken, PrefixedToken, SuffixedToken}
+import com.johnsnowlabs.nlp.annotators.common.{
+  InfixToken,
+  PrefixedToken,
+  PreprocessingParser,
+  SuffixedToken
+}
 import com.johnsnowlabs.nlp.serialization.{ArrayFeature, SetFeature}
 import com.johnsnowlabs.nlp._
 import org.apache.spark.ml.util.Identifiable
@@ -124,10 +129,12 @@ class RecursiveTokenizerModel(override val uid: String)
     */
   override def annotate(annotations: Seq[Annotation]): Seq[Annotation] =
     annotations.flatMap { annotation =>
-      tokenize(annotation.result).map(token =>
+      tokenize(annotation.result, annotation.begin).map(token =>
         annotation.copy(
           annotatorType = AnnotatorType.TOKEN,
-          result = token,
+          result = token._1,
+          begin = token._2,
+          end = token._3,
           metadata = annotation.metadata
             .updated("sentence", annotation.metadata.getOrElse("sentence", "0"))))
     }
@@ -138,33 +145,55 @@ class RecursiveTokenizerModel(override val uid: String)
   @transient
   private lazy val secondPass = Seq(SuffixedToken($$(suffixes)), PrefixedToken($$(prefixes)))
 
-  private def tokenize(text: String): Seq[String] =
-    text
-      .split(" ")
-      .filter(_ != " ")
-      .flatMap { token =>
-        var tmp = Seq(token)
+  private def tokenize(text: String, beginTextIndex: Int): Seq[(String, Int, Int)] = {
+    val splitText = text.split(" ").filter(_ != " ")
+    var previousBegin = beginTextIndex
+
+    splitText.zipWithIndex
+      .flatMap { case (token, tokenIndex) =>
+        if (tokenIndex > 0) {
+          previousBegin = previousBegin + splitText(tokenIndex - 1).length + 1
+        }
+        var tmpToken: Seq[(String, Int, Int)] =
+          Seq((token, previousBegin, previousBegin + token.length - 1))
 
         firstPass.foreach { parser =>
-          tmp = tmp.flatMap { t =>
-            if (whitelist.getOrDefault.contains(t))
-              Seq(t)
+          tmpToken = tmpToken.flatMap { token =>
+            if (whitelist.getOrDefault.contains(token._1))
+              Seq(token)
             else
-              parser.separate(t).split(" ")
+              parseSeparator(parser, token._1, token._2)
           }
         }
 
         secondPass.foreach { parser =>
-          tmp = tmp.flatMap { t =>
-            if (whitelist.getOrDefault.contains(t))
-              Seq(t)
-            else
-              parser.separate(t).split(" ")
+          tmpToken = tmpToken.flatMap { token =>
+            if (whitelist.getOrDefault.contains(token._1))
+              Seq(token)
+            else {
+              parseSeparator(parser, token._1, token._2)
+            }
           }
         }
-        tmp
+        tmpToken
       }
-      .filter(!_.equals(""))
+      .filter(!_._1.equals(""))
+  }
+
+  private def parseSeparator(
+      parser: PreprocessingParser,
+      token: String,
+      begin: Int): Array[(String, Int, Int)] = {
+    val parserSeparator = parser.separate(token).split(" ")
+    var currentParsedTokenBegin = begin
+    val tokensResult = parserSeparator.zipWithIndex.map { case (parsedToken, index) =>
+      if (index > 0)
+        currentParsedTokenBegin = currentParsedTokenBegin + parserSeparator(index - 1).length
+      (parsedToken, currentParsedTokenBegin, currentParsedTokenBegin + parsedToken.length - 1)
+    }
+
+    tokensResult
+  }
 
 }
 

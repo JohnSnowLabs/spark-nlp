@@ -101,7 +101,7 @@ class ImageUtilsTestSpec extends AnyFlatSpec {
 
   "ImageResizeUtils" should "read preprocessor_config.json file" taggedAs FastTest in {
     val preprocessorConfig =
-      Preprocessor.loadPreprocessorConfig(preprocessorConfigPath.getAbsolutePath)
+      Preprocessor.loadPreprocessorConfig(preprocessorConfigJsonContent)
 
     assert(preprocessorConfig.feature_extractor_type == "ViTFeatureExtractor")
     assert(preprocessorConfig.image_mean sameElements Array(0.5d, 0.5d, 0.5d))

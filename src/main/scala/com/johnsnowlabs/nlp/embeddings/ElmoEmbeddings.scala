@@ -17,6 +17,8 @@
 package com.johnsnowlabs.nlp.embeddings
 
 import com.johnsnowlabs.ml.tensorflow._
+import com.johnsnowlabs.ml.util.LoadExternalModel.{modelSanityCheck, notSupportedEngineError}
+import com.johnsnowlabs.ml.util.ModelEngine
 import com.johnsnowlabs.nlp._
 import com.johnsnowlabs.nlp.annotators.common._
 import com.johnsnowlabs.storage.HasStorageRef
@@ -24,8 +26,6 @@ import org.apache.spark.broadcast.Broadcast
 import org.apache.spark.ml.param.{IntArrayParam, IntParam, Param}
 import org.apache.spark.ml.util.Identifiable
 import org.apache.spark.sql.{DataFrame, SparkSession}
-
-import java.io.File
 
 /** Word embeddings from ELMo (Embeddings from Language Models), a language model trained on the 1
   * Billion Word Benchmark.
@@ -155,7 +155,8 @@ class ElmoEmbeddings(override val uid: String)
     with WriteTensorflowModel
     with HasEmbeddingsProperties
     with HasStorageRef
-    with HasCaseSensitiveProperties {
+    with HasCaseSensitiveProperties
+    with HasEngine {
 
   /** Input annotator types : DOCUMENT, TOKEN
     *
@@ -347,7 +348,7 @@ trait ReadablePretrainedElmoModel
     super.pretrained(name, lang, remoteLoc)
 }
 
-trait ReadElmoTensorflowModel extends ReadTensorflowModel {
+trait ReadElmoDLModel extends ReadTensorflowModel {
   this: ParamsAndFeaturesReadable[ElmoEmbeddings] =>
 
   override val tfFile: String = "elmo_tensorflow"
@@ -359,27 +360,38 @@ trait ReadElmoTensorflowModel extends ReadTensorflowModel {
 
   addReader(readTensorflow)
 
-  def loadSavedModel(folder: String, spark: SparkSession): ElmoEmbeddings = {
+  def loadSavedModel(modelPath: String, spark: SparkSession): ElmoEmbeddings = {
 
-    val f = new File(folder)
-    val savedModel = new File(folder, "saved_model.pb")
-    require(f.exists, s"Folder $folder not found")
-    require(f.isDirectory, s"File $folder is not folder")
-    require(savedModel.exists(), s"savedModel file saved_model.pb not found in folder $folder")
+    val (localModelPath, detectedEngine) = modelSanityCheck(modelPath)
 
-    val (wrapper, _) = TensorflowWrapper.read(
-      folder,
-      zipped = false,
-      useBundle = true,
-      tags = Array("serve"),
-      initAllTables = true)
+    val annotatorModel = new ElmoEmbeddings()
 
-    new ElmoEmbeddings()
-      .setModelIfNotSet(spark, wrapper)
+    annotatorModel.set(annotatorModel.engine, detectedEngine)
+
+    detectedEngine match {
+      case ModelEngine.tensorflow =>
+        val (wrapper, _) = TensorflowWrapper.read(
+          localModelPath,
+          zipped = false,
+          useBundle = true,
+          tags = Array("serve"),
+          initAllTables = true)
+
+        /** the order of setSignatures is important if we use getSignatures inside
+          * setModelIfNotSet
+          */
+        annotatorModel
+          .setModelIfNotSet(spark, wrapper)
+
+      case _ =>
+        throw new Exception(notSupportedEngineError)
+    }
+
+    annotatorModel
   }
 }
 
 /** This is the companion object of [[ElmoEmbeddings]]. Please refer to that class for the
   * documentation.
   */
-object ElmoEmbeddings extends ReadablePretrainedElmoModel with ReadElmoTensorflowModel
+object ElmoEmbeddings extends ReadablePretrainedElmoModel with ReadElmoDLModel

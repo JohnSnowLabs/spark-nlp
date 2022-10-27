@@ -16,8 +16,9 @@ from sparknlp.common import *
 
 
 class LongformerForQuestionAnswering(AnnotatorModel,
-                                 HasCaseSensitiveProperties,
-                                 HasBatchedAnnotate):
+                                     HasCaseSensitiveProperties,
+                                     HasBatchedAnnotate,
+                                     HasEngine):
     """LongformerForQuestionAnswering can load Longformer Models with a span classification head on top for extractive
     question-answering tasks like SQuAD (a linear layer on top of the hidden-states output to compute span start
     logits and span end logits).

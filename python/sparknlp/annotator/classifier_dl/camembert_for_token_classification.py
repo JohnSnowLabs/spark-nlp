@@ -18,7 +18,8 @@ from sparknlp.common import *
 
 class CamemBertForTokenClassification(AnnotatorModel,
                                       HasCaseSensitiveProperties,
-                                      HasBatchedAnnotate):
+                                      HasBatchedAnnotate,
+                                      HasEngine):
     """CamemBertForTokenClassification can load CamemBERT Models with a token
     classification head on top (a linear layer on top of the hidden-states
     output) e.g. for Named-Entity-Recognition (NER) tasks.

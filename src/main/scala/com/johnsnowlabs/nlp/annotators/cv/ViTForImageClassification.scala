@@ -22,11 +22,16 @@ import com.johnsnowlabs.ml.tensorflow.{
   TensorflowWrapper,
   WriteTensorflowModel
 }
+import com.johnsnowlabs.ml.util.LoadExternalModel.{
+  loadJsonStringAsset,
+  modelSanityCheck,
+  notSupportedEngineError
+}
+import com.johnsnowlabs.ml.util.ModelEngine
 import com.johnsnowlabs.nlp.AnnotatorType.{CATEGORY, IMAGE}
 import com.johnsnowlabs.nlp._
 import com.johnsnowlabs.nlp.annotators.cv.feature_extractor.Preprocessor
 import com.johnsnowlabs.nlp.serialization.MapFeature
-import com.johnsnowlabs.nlp.util.io.ResourceHelper
 import org.apache.spark.broadcast.Broadcast
 import org.apache.spark.ml.param.IntArrayParam
 import org.apache.spark.ml.util.Identifiable
@@ -35,7 +40,6 @@ import org.json4s._
 import org.json4s.jackson.JsonMethods._
 
 import java.io.File
-import scala.io.Source
 
 /** Vision Transformer (ViT) for image classification.
   *
@@ -123,7 +127,8 @@ class ViTForImageClassification(override val uid: String)
     extends AnnotatorModel[ViTForImageClassification]
     with HasBatchedAnnotateImage[ViTForImageClassification]
     with HasImageFeatureProperties
-    with WriteTensorflowModel {
+    with WriteTensorflowModel
+    with HasEngine {
 
   /** Annotator reference id. Used to identify elements in metadata or to refer to this annotator
     * type
@@ -337,55 +342,23 @@ trait ReadViTForImageTensorflowModel extends ReadTensorflowModel {
 
   addReader(readTensorflow)
 
-  def loadSavedModel(tfModelPath: String, spark: SparkSession): ViTForImageClassification = {
+  def loadSavedModel(modelPath: String, spark: SparkSession): ViTForImageClassification = {
 
-    val f = new File(tfModelPath)
-    val savedModel = new File(tfModelPath, "saved_model.pb")
+    val (localModelPath, detectedEngine) = modelSanityCheck(modelPath)
 
-    require(f.exists, s"Folder $tfModelPath not found")
-    require(f.isDirectory, s"File $tfModelPath is not folder")
-    require(
-      savedModel.exists(),
-      s"savedModel file saved_model.pb not found in folder $tfModelPath")
-
-    val labelsPath = new File(tfModelPath + "/assets", "labels.json")
-    require(
-      labelsPath.exists(),
-      s"Labels file labels.json not found in folder $tfModelPath/assets/")
-
-    val labelStream = ResourceHelper.getResourceStream(labelsPath.getAbsolutePath)
-    val labelJsonContent = Source.fromInputStream(labelStream).mkString
+    val labelJsonContent = loadJsonStringAsset(localModelPath, "labels.json")
     val labelJsonMap =
       parse(labelJsonContent, useBigIntForLong = true).values
         .asInstanceOf[Map[String, BigInt]]
 
-    val preprocessorConfigPath = new File(tfModelPath + "/assets", "preprocessor_config.json")
-    require(
-      preprocessorConfigPath.exists(),
-      s"Labels file preprocessor_config.json not found in folder $tfModelPath/assets/")
-
+    val preprocessorConfigJsonContent =
+      loadJsonStringAsset(localModelPath, "preprocessor_config.json")
     val preprocessorConfig =
-      Preprocessor.loadPreprocessorConfig(preprocessorConfigPath.getAbsolutePath)
+      Preprocessor.loadPreprocessorConfig(preprocessorConfigJsonContent)
 
-    val (wrapper, signatures) =
-      TensorflowWrapper.read(tfModelPath, zipped = false, useBundle = true)
-
-    val _signatures = signatures match {
-      case Some(s) => s
-      case None => throw new Exception("Cannot load signature definitions from model!")
-    }
-
-    /** the order of setSignatures is important if we use getSignatures inside setModelIfNotSet */
-    new ViTForImageClassification()
+    /*Universal parameters for all engines*/
+    val annotatorModel = new ViTForImageClassification()
       .setLabels(labelJsonMap)
-      .setSignatures(_signatures)
-      .setModelIfNotSet(
-        spark,
-        wrapper,
-        preprocessorConfig.image_mean,
-        preprocessorConfig.image_std,
-        preprocessorConfig.resample,
-        preprocessorConfig.size)
       .setDoNormalize(preprocessorConfig.do_normalize)
       .setDoResize(preprocessorConfig.do_resize)
       .setFeatureExtractorType(preprocessorConfig.feature_extractor_type)
@@ -394,6 +367,36 @@ trait ReadViTForImageTensorflowModel extends ReadTensorflowModel {
       .setResample(preprocessorConfig.resample)
       .setSize(preprocessorConfig.size)
 
+    annotatorModel.set(annotatorModel.engine, detectedEngine)
+
+    detectedEngine match {
+      case ModelEngine.tensorflow =>
+        val (wrapper, signatures) =
+          TensorflowWrapper.read(localModelPath, zipped = false, useBundle = true)
+
+        val _signatures = signatures match {
+          case Some(s) => s
+          case None => throw new Exception("Cannot load signature definitions from model!")
+        }
+
+        /** the order of setSignatures is important if we use getSignatures inside
+          * setModelIfNotSet
+          */
+        annotatorModel
+          .setSignatures(_signatures)
+          .setModelIfNotSet(
+            spark,
+            wrapper,
+            preprocessorConfig.image_mean,
+            preprocessorConfig.image_std,
+            preprocessorConfig.resample,
+            preprocessorConfig.size)
+
+      case _ =>
+        throw new Exception(notSupportedEngineError)
+    }
+
+    annotatorModel
   }
 }
 

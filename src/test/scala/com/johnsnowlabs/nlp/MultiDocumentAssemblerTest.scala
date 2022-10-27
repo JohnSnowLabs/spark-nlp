@@ -58,7 +58,10 @@ class MultiDocumentAssemblerTest extends AnyFlatSpec with SparkSessionTest {
       pipeline.setStages(Array(multiDocumentAssembler, tokenizer)).fit(twoInputDataset)
 
     val lightPipeline = new LightPipeline(pipelineModel)
-    val actualResult = lightPipeline.fullAnnotate(input1, input2)
+    val result = lightPipeline.fullAnnotate(input1, input2)
+    val actualResult = result.flatMap { case (key, annotations) =>
+      Map(key -> annotations.map(_.asInstanceOf[Annotation]))
+    }
 
     val expectedResult =
       Map(
@@ -87,8 +90,13 @@ class MultiDocumentAssemblerTest extends AnyFlatSpec with SparkSessionTest {
       pipeline.setStages(Array(multiDocumentAssembler, tokenizer)).fit(twoInputDataset)
 
     val lightPipeline = new LightPipeline(pipelineModel)
-    val actualResults =
+    val results =
       lightPipeline.fullAnnotate(Array(input1, input1), Array(input2, input2))
+
+    val actualResults = results.map(result =>
+      result.flatMap { case (key, annotations) =>
+        Map(key -> annotations.map(_.asInstanceOf[Annotation]))
+      })
 
     val expectedResults = Array(
       Map(
@@ -248,7 +256,10 @@ class MultiDocumentAssemblerTest extends AnyFlatSpec with SparkSessionTest {
     val pipelineModel = pipeline.setStages(Array(multiDocumentAssembler, tokenizer)).fit(dataset)
 
     val lightPipeline = new LightPipeline(pipelineModel)
-    val actualResult = lightPipeline.fullAnnotate(input1)
+    val result = lightPipeline.fullAnnotate(input1)
+    val actualResult = result.flatMap { case (key, annotations) =>
+      Map(key -> annotations.map(_.asInstanceOf[Annotation]))
+    }
 
     val expectedResult =
       Map(
