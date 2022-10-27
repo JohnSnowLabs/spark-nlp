@@ -3,9 +3,9 @@
         <head>
           <meta http-equiv="X-UA-Compatible" content="IE=edge" />
           <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-          <title>Spark NLP 4.2.1 ScalaDoc  - com.johnsnowlabs.nlp.util.io.ResourceHelper</title>
-          <meta name="description" content="Spark NLP 4.2.1 ScalaDoc - com.johnsnowlabs.nlp.util.io.ResourceHelper" />
-          <meta name="keywords" content="Spark NLP 4.2.1 ScalaDoc com.johnsnowlabs.nlp.util.io.ResourceHelper" />
+          <title>Spark NLP 4.2.2 ScalaDoc  - com.johnsnowlabs.nlp.util.io.ResourceHelper</title>
+          <meta name="description" content="Spark NLP 4.2.2 ScalaDoc - com.johnsnowlabs.nlp.util.io.ResourceHelper" />
+          <meta name="keywords" content="Spark NLP 4.2.2 ScalaDoc com.johnsnowlabs.nlp.util.io.ResourceHelper" />
           <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
           
       
@@ -28,7 +28,7 @@
         </head>
         <body>
       <div id="search">
-        <span id="doc-title">Spark NLP 4.2.1 ScalaDoc<span id="doc-version"></span></span>
+        <span id="doc-title">Spark NLP 4.2.2 ScalaDoc<span id="doc-version"></span></span>
         <span class="close-results"><span class="left">&lt;</span> Back</span>
         <div id="textfilter">
           <span class="input">
@@ -359,7 +359,7 @@ here
                 <span class="name">@native</span><span class="args">()</span>
               
         </dd></dl></div>
-    </li><li name="com.johnsnowlabs.nlp.util.io.ResourceHelper#copyToLocal" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+    </li><li name="com.johnsnowlabs.nlp.util.io.ResourceHelper#copyToLocal" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="copyToLocal(path:String):String"></a><a id="copyToLocal(String):String"></a>
       <span class="permalink">
       <a href="../../../../../com/johnsnowlabs/nlp/util/io/ResourceHelper$.html#copyToLocal(path:String):String" title="Permalink">
@@ -374,7 +374,10 @@ here
         <span class="name">copyToLocal</span><span class="params">(<span name="path">path: <span class="extype" name="scala.Predef.String">String</span></span>)</span><span class="result">: <span class="extype" name="scala.Predef.String">String</span></span>
       </span>
       
-      
+      <p class="shortcomment cmt">Copies the remote resource to a local temporary folder and returns its absolute path.</p><div class="fullcomment"><div class="comment cmt"><p>Copies the remote resource to a local temporary folder and returns its absolute path.</p><p>Currently, file:/, s3:/, hdfs:/ and dbfs:/ are supported.</p><p>If the file is already on the local file system just the absolute path will be returned
+instead.</p></div><dl class="paramcmts block"><dt class="param">path</dt><dd class="cmt"><p>
+  Path to the resource</p></dd><dt>returns</dt><dd class="cmt"><p>
+  Absolute path to the temporary or local folder of the resource</p></dd></dl></div>
     </li><li name="scala.AnyRef#eq" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="eq(x$1:AnyRef):Boolean"></a><a id="eq(AnyRef):Boolean"></a>
       <span class="permalink">
@@ -546,6 +549,22 @@ access
       </span>
       
       <p class="shortcomment cmt">NOT thread safe.</p><div class="fullcomment"><div class="comment cmt"><p>NOT thread safe. Do not call from executors.</p></div></div>
+    </li><li name="com.johnsnowlabs.nlp.util.io.ResourceHelper#getSparkSessionWithS3" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="getSparkSessionWithS3(awsAccessKeyId:String,awsSecretAccessKey:String,hadoopAwsVersion:String,AwsJavaSdkVersion:String,region:String,s3Impl:String,pathStyleAccess:Boolean,credentialsProvider:String,awsSessionToken:Option[String]):org.apache.spark.sql.SparkSession"></a><a id="getSparkSessionWithS3(String,String,String,String,String,String,Boolean,String,Option[String]):SparkSession"></a>
+      <span class="permalink">
+      <a href="../../../../../com/johnsnowlabs/nlp/util/io/ResourceHelper$.html#getSparkSessionWithS3(awsAccessKeyId:String,awsSecretAccessKey:String,hadoopAwsVersion:String,AwsJavaSdkVersion:String,region:String,s3Impl:String,pathStyleAccess:Boolean,credentialsProvider:String,awsSessionToken:Option[String]):org.apache.spark.sql.SparkSession" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">getSparkSessionWithS3</span><span class="params">(<span name="awsAccessKeyId">awsAccessKeyId: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="awsSecretAccessKey">awsSecretAccessKey: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="hadoopAwsVersion">hadoopAwsVersion: <span class="extype" name="scala.Predef.String">String</span> = <span class="symbol"><span class="name"><a href="../../../../index.html">ConfigHelper.hadoopAwsVersion</a></span></span></span>, <span name="AwsJavaSdkVersion">AwsJavaSdkVersion: <span class="extype" name="scala.Predef.String">String</span> = <span class="symbol"><span class="name"><a href="../../../../index.html">ConfigHelper.awsJavaSdkVersion</a></span></span></span>, <span name="region">region: <span class="extype" name="scala.Predef.String">String</span> = <span class="symbol">&quot;us-east-1&quot;</span></span>, <span name="s3Impl">s3Impl: <span class="extype" name="scala.Predef.String">String</span> = <span class="defval" name="&quot;org.apache.hadoop.fs.s3a.S3AFileSystem&quot;">...</span></span>, <span name="pathStyleAccess">pathStyleAccess: <span class="extype" name="scala.Boolean">Boolean</span> = <span class="symbol">true</span></span>, <span name="credentialsProvider">credentialsProvider: <span class="extype" name="scala.Predef.String">String</span> = <span class="symbol">&quot;TemporaryAWSCredentialsProvider&quot;</span></span>, <span name="awsSessionToken">awsSessionToken: <span class="extype" name="scala.Option">Option</span>[<span class="extype" name="scala.Predef.String">String</span>] = <span class="symbol">None</span></span>)</span><span class="result">: <span class="extype" name="org.apache.spark.sql.SparkSession">SparkSession</span></span>
+      </span>
+      
+      
     </li><li name="com.johnsnowlabs.nlp.util.io.ResourceHelper#getWordCount" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
       <a id="getWordCount(externalResource:com.johnsnowlabs.nlp.util.io.ExternalResource,wordCount:scala.collection.mutable.Map[String,Long],pipeline:Option[org.apache.spark.ml.PipelineModel]):scala.collection.mutable.Map[String,Long]"></a><a id="getWordCount(ExternalResource,Map[String,Long],Option[PipelineModel]):Map[String,Long]"></a>
       <span class="permalink">

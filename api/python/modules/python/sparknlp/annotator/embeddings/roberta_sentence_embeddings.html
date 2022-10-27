@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>python.sparknlp.annotator.embeddings.roberta_sentence_embeddings &#8212; Spark NLP 4.2.1 documentation</title>
+    <title>python.sparknlp.annotator.embeddings.roberta_sentence_embeddings &#8212; Spark NLP 4.2.2 documentation</title>
   <script>
     document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
     document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
@@ -298,7 +298,6 @@
 <span class="c1">#  limitations under the License.</span>
 <span class="sd">&quot;&quot;&quot;Contains classes for RoBertaSentenceEmbeddings.&quot;&quot;&quot;</span>
 
-
 <span class="kn">from</span> <span class="nn">sparknlp.common</span> <span class="kn">import</span> <span class="o">*</span>
 
 
@@ -306,7 +305,8 @@
                                 <span class="n">HasEmbeddingsProperties</span><span class="p">,</span>
                                 <span class="n">HasCaseSensitiveProperties</span><span class="p">,</span>
                                 <span class="n">HasStorageRef</span><span class="p">,</span>
-                                <span class="n">HasBatchedAnnotate</span><span class="p">):</span>
+                                <span class="n">HasBatchedAnnotate</span><span class="p">,</span>
+                                <span class="n">HasEngine</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Sentence-level embeddings using RoBERTa. The RoBERTa model was proposed in RoBERTa: A Robustly Optimized BERT</span>
 <span class="sd">    Pretraining Approach  by Yinhan Liu, Myle Ott, Naman Goyal, Jingfei Du, Mandar Joshi, Danqi Chen, Omer Levy,</span>
 <span class="sd">    Mike Lewis, Luke Zettlemoyer, Veselin Stoyanov. It is based on Google&#39;s BERT model released in 2018. It builds on</span>
@@ -484,7 +484,6 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="kn">from</span> <span class="nn">sparknlp.pretrained</span> <span class="kn">import</span> <span class="n">ResourceDownloader</span>
         <span class="k">return</span> <span class="n">ResourceDownloader</span><span class="o">.</span><span class="n">downloadModel</span><span class="p">(</span><span class="n">RoBertaSentenceEmbeddings</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">lang</span><span class="p">,</span> <span class="n">remote_loc</span><span class="p">)</span></div></div>
-
 </pre></div>
 
             </article>
@@ -550,7 +549,7 @@
   <div class="footer-item">
     
 <p class="sphinx-version">
-Created using <a href="http://sphinx-doc.org/">Sphinx</a> 5.2.3.<br>
+Created using <a href="http://sphinx-doc.org/">Sphinx</a> 5.3.0.<br>
 </p>
 
   </div>
