@@ -18,7 +18,8 @@ from sparknlp.common import *
 
 class LongformerForTokenClassification(AnnotatorModel,
                                        HasCaseSensitiveProperties,
-                                       HasBatchedAnnotate):
+                                       HasBatchedAnnotate,
+                                       HasEngine):
     """LongformerForTokenClassification can load Longformer Models with a token
     classification head on top (a linear layer on top of the hidden-states
     output) e.g. for Named-Entity-Recognition (NER) tasks.
@@ -183,4 +184,3 @@ class LongformerForTokenClassification(AnnotatorModel,
         """
         from sparknlp.pretrained import ResourceDownloader
         return ResourceDownloader.downloadModel(LongformerForTokenClassification, name, lang, remote_loc)
-

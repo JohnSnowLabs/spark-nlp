@@ -16,7 +16,7 @@
 from sparknlp.common import *
 
 
-class LanguageDetectorDL(AnnotatorModel, HasStorageRef):
+class LanguageDetectorDL(AnnotatorModel, HasStorageRef, HasEngine):
     """Language Identification and Detection by using CNN and RNN architectures
     in TensorFlow.
 
@@ -193,4 +193,3 @@ class LanguageDetectorDL(AnnotatorModel, HasStorageRef):
         """
         from sparknlp.pretrained import ResourceDownloader
         return ResourceDownloader.downloadModel(LanguageDetectorDL, name, lang, remote_loc)
-

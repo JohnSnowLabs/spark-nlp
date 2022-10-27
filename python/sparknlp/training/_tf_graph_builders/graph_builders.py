@@ -273,8 +273,8 @@ class TFGraphBuilderFactory:
 
         Examples
         --------
-        >>> from sparknlp_jsl.training import tf_graph
-        >>> tf_graph.print_model_params("assertion_dl")
+        >>> from sparknlp.training import tf_graph
+        >>> tf_graph.print_model_params("ner_dl")
         """
         if model_name not in TFGraphBuilderFactory.get_models():
             raise Exception(f"Model {model_name} not supported.")

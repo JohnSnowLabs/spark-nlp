@@ -18,7 +18,8 @@ from sparknlp.common import *
 
 class BertForTokenClassification(AnnotatorModel,
                                  HasCaseSensitiveProperties,
-                                 HasBatchedAnnotate):
+                                 HasBatchedAnnotate,
+                                 HasEngine):
     """BertForTokenClassification can load Bert Models with a token
     classification head on top (a linear layer on top of the hidden-states
     output) e.g. for Named-Entity-Recognition (NER) tasks.
@@ -184,4 +185,3 @@ class BertForTokenClassification(AnnotatorModel,
         """
         from sparknlp.pretrained import ResourceDownloader
         return ResourceDownloader.downloadModel(BertForTokenClassification, name, lang, remote_loc)
-

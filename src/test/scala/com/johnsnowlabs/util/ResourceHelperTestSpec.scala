@@ -16,11 +16,14 @@
 
 package com.johnsnowlabs.util
 
+import com.amazonaws.AmazonServiceException
 import com.johnsnowlabs.nlp.util.io.{ExternalResource, ReadAs, ResourceHelper}
-import com.johnsnowlabs.tags.FastTest
+import com.johnsnowlabs.tags.{FastTest, SlowTest}
 import org.scalatest.flatspec.AnyFlatSpec
 
 import java.io.{File, FileNotFoundException}
+import java.net.URI
+import java.nio.file.Paths
 
 class ResourceHelperTestSpec extends AnyFlatSpec {
 
@@ -164,6 +167,75 @@ class ResourceHelperTestSpec extends AnyFlatSpec {
 
       assert(expectedBucket == actualBucket)
       assert(expectedKey == actualKey)
+    }
+  }
+
+  it should "not copyToLocal a local file" taggedAs FastTest in {
+    val resourcePath = "src/test/resources/tf-hub-bert/model"
+    val resourceUri = new File("src/test/resources/tf-hub-bert/model").toURI
+
+    val tmpFolder = ResourceHelper.copyToLocal(resourcePath)
+
+    assert(resourceUri == tmpFolder, "Folder should not have been copied.")
+  }
+
+  // Local HDFS needs to be set up
+  ignore should "copyToLocal from hdfs" taggedAs SlowTest in {
+
+    // Folder
+    val hdfsFolderPath = "hdfs://localhost:9000/sparknlp/tf-hub-bert/model"
+    val resourcePath = "src/test/resources/tf-hub-bert/model"
+    val resourceFolderContent: Array[String] = new File(resourcePath).listFiles().map(_.getName)
+    val tmpFolder: URI = ResourceHelper.copyToLocal(hdfsFolderPath)
+
+    val localPath = new File(tmpFolder)
+
+    localPath.listFiles().foreach { f: File =>
+      assert(
+        resourceFolderContent.contains(f.getName),
+        s"File $f missing in copied temporary folder $tmpFolder.")
+    }
+
+    // Single File
+    val hdfsFilePath = "hdfs://localhost:9000/sparknlp/tf-hub-bert/model/assets/vocab.txt"
+
+    val tmpFolderFile: String = ResourceHelper.copyToLocal(hdfsFilePath).getPath
+    assert(Paths.get(tmpFolderFile, "vocab.txt").toFile.exists(), "Copied file doesn't exist.")
+  }
+
+  // AWS keys need to be set up for this test
+  ignore should "copyToLocal from s3" taggedAs SlowTest in {
+    val awsAccessKeyId = sys.env("AWS_ACCESS_KEY_ID")
+    val awsSecretAccessKey = sys.env("AWS_SECRET_ACCESS_KEY")
+    val awsSessionToken = sys.env("AWS_SESSION_TOKEN")
+
+    ResourceHelper.getSparkSessionWithS3(
+      awsAccessKeyId,
+      awsSecretAccessKey,
+      awsSessionToken = Some(awsSessionToken))
+
+    val s3FolderPath = "s3://sparknlp-test/tf-hub-bert/model"
+
+    val resourcePath = "src/test/resources/tf-hub-bert/model"
+
+    val resourceFolderContent: Array[String] = new File(resourcePath).listFiles().map(_.getName)
+
+    val localPath = ResourceHelper.copyToLocal(s3FolderPath)
+    new File(localPath).listFiles().foreach { f: File =>
+      assert(
+        resourceFolderContent.contains(f.getName),
+        s"File $f missing in copied temporary folder $localPath.")
+    }
+
+  }
+
+  ignore should "copyToLocal should catch s3 exception" taggedAs SlowTest in {
+    ResourceHelper.getSparkSessionWithS3("NONE", "NONE", awsSessionToken = Some("NONE"))
+
+    val s3FolderPath = "s3://sparknlp-test/tf-hub-bert/model"
+
+    assertThrows[AmazonServiceException] {
+      ResourceHelper.copyToLocal(s3FolderPath)
     }
   }
 

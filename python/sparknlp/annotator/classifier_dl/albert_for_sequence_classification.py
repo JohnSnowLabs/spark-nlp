@@ -19,7 +19,8 @@ from sparknlp.common import *
 class AlbertForSequenceClassification(AnnotatorModel,
                                       HasCaseSensitiveProperties,
                                       HasBatchedAnnotate,
-                                      HasClassifierActivationProperties):
+                                      HasClassifierActivationProperties,
+                                      HasEngine):
     """AlbertForSequenceClassification can load Albert Models with sequence classification/regression head on
     top (a linear layer on top of the pooled output) e.g. for multi-class document classification tasks.
 
@@ -209,4 +210,3 @@ class AlbertForSequenceClassification(AnnotatorModel,
         """
         from sparknlp.pretrained import ResourceDownloader
         return ResourceDownloader.downloadModel(AlbertForSequenceClassification, name, lang, remote_loc)
-

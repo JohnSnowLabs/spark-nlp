@@ -20,7 +20,8 @@ class LongformerEmbeddings(AnnotatorModel,
                            HasEmbeddingsProperties,
                            HasCaseSensitiveProperties,
                            HasStorageRef,
-                           HasBatchedAnnotate):
+                           HasBatchedAnnotate,
+                           HasEngine):
     """Longformer is a transformer model for long documents. The Longformer
     model was presented in `Longformer: The Long-Document Transformer` by Iz
     Beltagy, Matthew E. Peters, Arman Cohan. longformer-base-4096 is a BERT-like
@@ -218,4 +219,3 @@ class LongformerEmbeddings(AnnotatorModel,
         """
         from sparknlp.pretrained import ResourceDownloader
         return ResourceDownloader.downloadModel(LongformerEmbeddings, name, lang, remote_loc)
-
