@@ -56,7 +56,7 @@ clf_pipeline = Pipeline(stages=[
     clf_model   
 ])
 
-model = pipeline.fit(spark.createDataFrame([[""]]).toDF("text"))
+model = clf_pipeline.fit(spark.createDataFrame([[""]]).toDF("text"))
 
 data = spark.createDataFrame([["""Sachverhalt: A. Mit Strafbefehl vom 30. Juli 2015 sprach die Staatsanwaltschaft Lenzburg-Aarau gegen X._ eine bedingte Geldstrafe von 150 Tagessätzen zu Fr. 150.-- (Probezeit vier Jahre) sowie eine Busse von Fr. 4'500.-- aus wegen Führens eines Motorfahrzeugs in angetrunkenem Zustand sowie wegen mehrfacher Anstiftung zu falschem Zeugnis. Die Staatsanwaltschaft legte X._ unter anderem zur Last, am 5. Juli 2013 nach Aussage von Zeugen sein Auto mit einem Blutalkoholgehalt von mindestens 2,12 Promille bestiegen und von Lenzburg an seinen Wohnort in Z._ gelenkt zu haben. Das nach Einsprache von X._ mit der Sache befasste Bezirksgericht Lenzburg sprach ihn vom Vorwurf der mehrfachen Anstiftung zu falschem Zeugnis frei und verurteilte ihn wegen Führens eines Motorfahrzeugs in angetrunkenem Zustand zu einer bedingten Geldstrafe von 105 Tagessätzen zu Fr. 210.-- (Probezeit zwei Jahre) und zu einer Busse von Fr. 4'400.-- (Urteil vom 15. August 2016). B. X._ erhob Berufung. Das Obergericht des Kantons Aargau wies das Rechtsmittel ab (Urteil vom 3. Juli 2017). C. Mit Beschwerde in Strafsachen beantragt X._, das angefochtene Urteil sei aufzuheben und er von Schuld und Strafe freizusprechen."""]]).toDF("text")
 
