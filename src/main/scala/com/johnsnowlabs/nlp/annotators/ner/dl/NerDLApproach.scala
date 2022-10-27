@@ -651,7 +651,7 @@ trait WithGraphResolver {
         files = localGraphPath
           .map(path =>
             ResourceHelper
-              .listLocalFiles(ResourceHelper.copyToLocal(path).getPath)
+              .listLocalFiles(ResourceHelper.copyToLocal(path))
               .map(_.getAbsolutePath))
           .getOrElse(ResourceHelper.listResourceDirectory("/ner-dl"))
       }

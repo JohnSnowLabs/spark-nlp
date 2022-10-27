@@ -74,7 +74,7 @@ object LoadExternalModel {
     *   URL to the local path of the folder
     */
   def modelSanityCheck(path: String): (String, String) = {
-    val localPath: String = ResourceHelper.copyToLocal(path).getPath
+    val localPath: String = ResourceHelper.copyToLocal(path)
 
     (localPath, detectEngine(localPath))
   }
