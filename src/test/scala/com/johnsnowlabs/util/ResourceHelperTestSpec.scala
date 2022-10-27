@@ -22,7 +22,6 @@ import com.johnsnowlabs.tags.{FastTest, SlowTest}
 import org.scalatest.flatspec.AnyFlatSpec
 
 import java.io.{File, FileNotFoundException}
-import java.net.URI
 import java.nio.file.Paths
 
 class ResourceHelperTestSpec extends AnyFlatSpec {
@@ -172,7 +171,7 @@ class ResourceHelperTestSpec extends AnyFlatSpec {
 
   it should "not copyToLocal a local file" taggedAs FastTest in {
     val resourcePath = "src/test/resources/tf-hub-bert/model"
-    val resourceUri = new File("src/test/resources/tf-hub-bert/model").toURI
+    val resourceUri = new File("src/test/resources/tf-hub-bert/model").getAbsolutePath
 
     val tmpFolder = ResourceHelper.copyToLocal(resourcePath)
 
@@ -186,7 +185,7 @@ class ResourceHelperTestSpec extends AnyFlatSpec {
     val hdfsFolderPath = "hdfs://localhost:9000/sparknlp/tf-hub-bert/model"
     val resourcePath = "src/test/resources/tf-hub-bert/model"
     val resourceFolderContent: Array[String] = new File(resourcePath).listFiles().map(_.getName)
-    val tmpFolder: URI = ResourceHelper.copyToLocal(hdfsFolderPath)
+    val tmpFolder = ResourceHelper.copyToLocal(hdfsFolderPath)
 
     val localPath = new File(tmpFolder)
 
@@ -199,7 +198,7 @@ class ResourceHelperTestSpec extends AnyFlatSpec {
     // Single File
     val hdfsFilePath = "hdfs://localhost:9000/sparknlp/tf-hub-bert/model/assets/vocab.txt"
 
-    val tmpFolderFile: String = ResourceHelper.copyToLocal(hdfsFilePath).getPath
+    val tmpFolderFile: String = ResourceHelper.copyToLocal(hdfsFilePath)
     assert(Paths.get(tmpFolderFile, "vocab.txt").toFile.exists(), "Copied file doesn't exist.")
   }
 
