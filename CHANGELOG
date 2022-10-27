@@ -1,4 +1,26 @@
 ========
+4.2.2
+========
+----------------
+New Features & Enhancements
+----------------
+
+* Add support for importing TensorFlow SavedModel from remote storages like DBFS, S3, and HDFS
+* Add support for `fullAnnotate` in `LightPipeline` for path of images in Scala
+* Add `fullAnnotate` method in `PretrainedPipeline` for Scala
+* Add `fullAnnotateJava` method in `PretrainedPipeline` for Java
+* Add `fullAnnotateImage` to `PretrainedPipeline` for Scala
+* Add `fullAnnotateImageJava` to `PretrainedPipeline` for Java
+* Add support for QA in `fullAnnotate` method in `PretrainedPipeline`
+* Add `Predicted Entities` to all Vision Transformers (ViT) models and pipelines
+
+----------------
+Bug Fixes
+----------------
+* Unify `annotatorType` name in Python and Scala for Spark schema in Annotation, AnnotationImage and AnnotationAudio
+* Fix missing indexes in `RecursiveTokenizer` annotator
+
+========
 4.2.1
 ========
 ----------------
