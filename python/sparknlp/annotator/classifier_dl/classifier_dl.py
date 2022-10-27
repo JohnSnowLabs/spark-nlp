@@ -16,6 +16,7 @@
 from sparknlp.annotator.param import EvaluationDLParams, ClassifierEncoder
 from sparknlp.base import DocumentAssembler
 from sparknlp.common import *
+from sparknlp.common.annotator_type import AnnotatorType
 
 
 class ClassifierDLApproach(AnnotatorApproach, EvaluationDLParams, ClassifierEncoder):
@@ -114,6 +115,7 @@ class ClassifierDLApproach(AnnotatorApproach, EvaluationDLParams, ClassifierEnco
     MultiClassifierDLApproach : for multi-class classification
     SentimentDLApproach : for sentiment analysis
     """
+    inputAnnotatorTypes = [AnnotatorType.SENTENCE_EMBEDDINGS]
 
     dropout = Param(Params._dummy(), "dropout", "Dropout coefficient", TypeConverters.toFloat)
 
@@ -234,6 +236,8 @@ class ClassifierDLModel(AnnotatorModel, HasStorageRef, HasEngine):
     """
 
     name = "ClassifierDLModel"
+
+    inputAnnotatorTypes = [AnnotatorType.SENTENCE_EMBEDDINGS]
 
     def __init__(self, classname="com.johnsnowlabs.nlp.annotators.classifier.dl.ClassifierDLModel", java_model=None):
         super(ClassifierDLModel, self).__init__(

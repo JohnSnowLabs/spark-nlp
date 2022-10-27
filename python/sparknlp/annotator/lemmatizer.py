@@ -13,6 +13,7 @@
 #  limitations under the License.
 """Contains classes for the Lemmatizer."""
 from sparknlp.common import *
+from sparknlp.common.annotator_type import AnnotatorType
 
 
 class Lemmatizer(AnnotatorApproach):
@@ -86,6 +87,8 @@ class Lemmatizer(AnnotatorApproach):
     |[Peter, Pipers, employees, are, pick, peck, of, pickle, pepper, .]|
     +------------------------------------------------------------------+
     """
+    inputAnnotatorTypes = [AnnotatorType.TOKEN]
+
     dictionary = Param(Params._dummy(),
                        "dictionary",
                        "lemmatizer external dictionary." +

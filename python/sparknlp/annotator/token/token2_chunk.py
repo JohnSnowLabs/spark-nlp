@@ -15,6 +15,7 @@
 
 
 from sparknlp.common import *
+from sparknlp.common.annotator_type import AnnotatorType
 
 
 class Token2Chunk(AnnotatorModel):
@@ -66,6 +67,8 @@ class Token2Chunk(AnnotatorModel):
     +------------------------------------------+
     """
     name = "Token2Chunk"
+
+    inputAnnotatorTypes = [AnnotatorType.TOKEN]
 
     def __init__(self):
         super(Token2Chunk, self).__init__(classname="com.johnsnowlabs.nlp.annotators.Token2Chunk")

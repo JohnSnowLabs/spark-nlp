@@ -17,14 +17,20 @@ from pyspark.ml.param import TypeConverters, Params, Param
 
 
 class AnnotatorProperties(Params):
+
+    inputAnnotatorTypes = []
+    optionalInputAnnotatorTypes = []
+
     inputCols = Param(Params._dummy(),
                       "inputCols",
                       "previous annotations columns, if renamed",
                       typeConverter=TypeConverters.toListString)
+
     outputCol = Param(Params._dummy(),
                       "outputCol",
                       "output annotation column. can be left default.",
                       typeConverter=TypeConverters.toString)
+
     lazyAnnotator = Param(Params._dummy(),
                           "lazyAnnotator",
                           "Whether this AnnotatorModel acts as lazy in RecursivePipelines",
@@ -39,10 +45,20 @@ class AnnotatorProperties(Params):
         *value : str
             Input columns for the annotator
         """
-        if len(value) == 1 and type(value[0]) == list:
-            return self._set(inputCols=value[0])
+        if type(value[0]) == str or type(value[0]) == list:
+            expected_columns = len(self.inputAnnotatorTypes) + len(self.optionalInputAnnotatorTypes)
+            if expected_columns == 1:
+                if len(value) == 1 and type(value[0]) == list:
+                    return self._set(inputCols=[value[0][0]])
+                else:
+                    return self._set(inputCols=[value[0]])
+            else:
+                if len(value) == 1 and type(value[0]) == list:
+                    return self._set(inputCols=value[0])
+                else:
+                    return self._set(inputCols=list(value))
         else:
-            return self._set(inputCols=list(value))
+            TypeError("InputCols datatype not supported. It must be either str or list")
 
     def getInputCols(self):
         """Gets current column names of input annotations."""
