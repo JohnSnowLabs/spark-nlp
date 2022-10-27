@@ -19,6 +19,11 @@ use_language_switcher: "Python-Scala-Java"
 
 Pretrained VIT  model, adapted from Hugging Face and curated to provide scalability and production-readiness using Spark NLP.`image_classifier_vit_dog_races` is a English model originally trained by roschmid.
 
+
+## Predicted Entities
+
+`Rottweiler`, `Shiba Inu`, `Chow Chow dog`, `Siberian Husky`, `German Shepherd`, `Pug`, `Border Collie`, `Golden Retriever`, `Tibetan Mastiff`
+
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>
 <button class="button button-orange" disabled>Open in Colab</button>

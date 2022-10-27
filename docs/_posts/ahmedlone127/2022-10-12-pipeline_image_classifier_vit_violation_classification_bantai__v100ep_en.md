@@ -19,6 +19,16 @@ use_language_switcher: "Python-Scala-Java"
 
 Pretrained VIT  model, adapted from Hugging Face and curated to provide scalability and production-readiness using Spark NLP.`image_classifier_vit_violation_classification_bantai__v100ep` is a English model originally trained by AykeeSalazar.
 
+
+## Predicted Entities
+
+`Public Smoking`, `Public-Drinking`, `ambiguous`, `non-violation`
+
+
+## Predicted Entities
+
+`Public Smoking`, `Public-Drinking`, `ambiguous`, `non-violation`
+
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>
 <button class="button button-orange" disabled>Open in Colab</button>

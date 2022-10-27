@@ -1,6 +1,6 @@
 ---
 layout: model
-title: Financial 10K Filings NER (Summary page)
+title: Financial 10K Filings NER
 author: John Snow Labs
 name: finner_10k_summary
 date: 2022-08-17
@@ -168,7 +168,8 @@ Manual annotations on 10-K Filings
       I-FISCAL_YEAR       0.93      0.92      0.92       125
 B-TITLE_CLASS_VALUE       1.00      0.93      0.97        15
               B-CFN       0.92      1.00      0.96        12
-          micro-avg       0.93      0.89      0.91       751
-          macro-avg       0.84      0.81      0.82       751
-       weighted-avg       0.92      0.89      0.91       751
+
+          micro avg       0.93      0.89      0.91       751
+          macro avg       0.84      0.81      0.82       751
+       weighted avg       0.92      0.89      0.91       751
 ```

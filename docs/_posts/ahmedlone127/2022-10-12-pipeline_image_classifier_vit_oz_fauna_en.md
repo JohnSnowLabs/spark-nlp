@@ -19,6 +19,11 @@ use_language_switcher: "Python-Scala-Java"
 
 Pretrained VIT  model, adapted from Hugging Face and curated to provide scalability and production-readiness using Spark NLP.`image_classifier_vit_oz_fauna` is a English model originally trained by lewtun.
 
+
+## Predicted Entities
+
+`koala`, `kookaburra`, `dingo`, `possum`, `tasmanian devil`
+
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>
 <button class="button button-orange" disabled>Open in Colab</button>
