@@ -40,8 +40,8 @@ class Annotation:
         Embeddings vector where applicable
     """
 
-    def __init__(self, annotator_type, begin, end, result, metadata, embeddings):
-        self.annotator_type = annotator_type
+    def __init__(self, annotatorType, begin, end, result, metadata, embeddings):
+        self.annotatorType = annotatorType
         self.begin = begin
         self.end = end
         self.result = result
@@ -62,11 +62,11 @@ class Annotation:
         Annotation
             Newly created Annotation
         """
-        return Annotation(self.annotator_type, self.begin, self.end, result, self.metadata, self.embeddings)
+        return Annotation(self.annotatorType, self.begin, self.end, result, self.metadata, self.embeddings)
 
     def __str__(self):
         return "Annotation(%s, %i, %i, %s, %s)" % (
-            self.annotator_type,
+            self.annotatorType,
             self.begin,
             self.end,
             self.result,
@@ -77,7 +77,7 @@ class Annotation:
         return self.__str__()
 
     def __eq__(self, other):
-        same_annotator_type = self.annotator_type == other.annotator_type
+        same_annotator_type = self.annotatorType == other.annotatorType
         same_result = self.result == other.result
         same_begin = self.begin == other.begin
         same_end = self.end == other.end
@@ -165,5 +165,5 @@ class Annotation:
             The new Row.
         """
         from pyspark.sql import Row
-        return Row(annotation.annotator_type, annotation.begin, annotation.end, annotation.result, annotation.metadata,
+        return Row(annotation.annotatorType, annotation.begin, annotation.end, annotation.result, annotation.metadata,
                    annotation.embeddings)

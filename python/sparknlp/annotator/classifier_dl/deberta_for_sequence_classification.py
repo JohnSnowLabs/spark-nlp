@@ -19,7 +19,8 @@ from sparknlp.common import *
 class DeBertaForSequenceClassification(AnnotatorModel,
                                        HasCaseSensitiveProperties,
                                        HasBatchedAnnotate,
-                                       HasClassifierActivationProperties):
+                                       HasClassifierActivationProperties,
+                                       HasEngine):
     """DeBertaForSequenceClassification can load DeBERTa v2 & v3 Models with sequence classification/regression head on
     top (a linear layer on top of the pooled output) e.g. for multi-class document classification tasks.
 

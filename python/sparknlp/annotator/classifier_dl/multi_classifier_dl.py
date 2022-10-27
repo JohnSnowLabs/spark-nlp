@@ -192,7 +192,7 @@ class MultiClassifierDLApproach(AnnotatorApproach, EvaluationDLParams, Classifie
         )
 
 
-class MultiClassifierDLModel(AnnotatorModel, HasStorageRef):
+class MultiClassifierDLModel(AnnotatorModel, HasStorageRef, HasEngine):
     """MultiClassifierDL for Multi-label Text Classification.
 
     MultiClassifierDL Bidirectional GRU with Convolution model we have built
@@ -354,4 +354,3 @@ class MultiClassifierDLModel(AnnotatorModel, HasStorageRef):
         """
         from sparknlp.pretrained import ResourceDownloader
         return ResourceDownloader.downloadModel(MultiClassifierDLModel, name, lang, remote_loc)
-

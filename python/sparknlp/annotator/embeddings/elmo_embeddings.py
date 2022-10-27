@@ -16,7 +16,11 @@
 from sparknlp.common import *
 
 
-class ElmoEmbeddings(AnnotatorModel, HasEmbeddingsProperties, HasCaseSensitiveProperties, HasStorageRef):
+class ElmoEmbeddings(AnnotatorModel,
+                     HasEmbeddingsProperties,
+                     HasCaseSensitiveProperties,
+                     HasStorageRef,
+                     HasEngine):
     """Word embeddings from ELMo (Embeddings from Language Models), a language
     model trained on the 1 Billion Word Benchmark.
 
@@ -241,4 +245,3 @@ class ElmoEmbeddings(AnnotatorModel, HasEmbeddingsProperties, HasCaseSensitivePr
         """
         from sparknlp.pretrained import ResourceDownloader
         return ResourceDownloader.downloadModel(ElmoEmbeddings, name, lang, remote_loc)
-

@@ -16,7 +16,7 @@
 
 package com.johnsnowlabs.nlp.pretrained
 
-import com.johnsnowlabs.nlp.LightPipeline
+import com.johnsnowlabs.nlp.{IAnnotation, LightPipeline}
 import org.apache.spark.ml.PipelineModel
 import org.apache.spark.sql.DataFrame
 
@@ -88,11 +88,6 @@ case class PretrainedPipeline(
 
   lazy val lightModel = new LightPipeline(model, parseEmbeddingsVectors)
 
-  def annotate(dataset: DataFrame, inputColumn: String): DataFrame = {
-    model
-      .transform(dataset.withColumnRenamed(inputColumn, "text"))
-  }
-
   def annotate(target: String): Map[String, Seq[String]] = lightModel.annotate(target)
 
   def annotate(target: Array[String]): Array[Map[String, Seq[String]]] =
@@ -104,6 +99,78 @@ case class PretrainedPipeline(
   def annotateJava(targets: java.util.ArrayList[String])
       : java.util.List[java.util.Map[String, java.util.List[String]]] = {
     lightModel.annotateJava(targets)
+  }
+
+  def fullAnnotate(target: String, optionalTarget: String = ""): Map[String, Seq[IAnnotation]] = {
+    lightModel.fullAnnotate(target, optionalTarget)
+  }
+
+  def fullAnnotate(targets: Array[String]): Array[Map[String, Seq[IAnnotation]]] = {
+    lightModel.fullAnnotate(targets)
+  }
+
+  def fullAnnotate(
+      targets: Array[String],
+      optionalTargets: Array[String]): Array[Map[String, Seq[IAnnotation]]] = {
+    lightModel.fullAnnotate(targets, optionalTargets)
+  }
+
+  def fullAnnotateImage(pathToImage: String): Map[String, Seq[IAnnotation]] = {
+    lightModel.fullAnnotateImage(pathToImage)
+  }
+
+  def fullAnnotateImage(pathToImages: Array[String]): Array[Map[String, Seq[IAnnotation]]] = {
+    lightModel.fullAnnotateImage(pathToImages)
+  }
+
+  def fullAnnotate(audio: Array[Float]): Map[String, Seq[IAnnotation]] = {
+    lightModel.fullAnnotate(audio)
+  }
+
+  def fullAnnotate(audios: Array[Array[Float]]): Array[Map[String, Seq[IAnnotation]]] = {
+    lightModel.fullAnnotate(audios)
+  }
+
+  def fullAnnotateJava(target: String): java.util.Map[String, java.util.List[IAnnotation]] = {
+    lightModel.fullAnnotateJava(target)
+  }
+
+  def fullAnnotateJava(
+      target: String,
+      optionalTarget: String): java.util.Map[String, java.util.List[IAnnotation]] = {
+    lightModel.fullAnnotateJava(target, optionalTarget)
+  }
+
+  def fullAnnotateJava(targets: java.util.ArrayList[String])
+      : java.util.List[java.util.Map[String, java.util.List[IAnnotation]]] = {
+    lightModel.fullAnnotateJava(targets)
+  }
+
+  def fullAnnotateJava(
+      targets: java.util.ArrayList[String],
+      optionalTargets: java.util.ArrayList[String])
+      : java.util.List[java.util.Map[String, java.util.List[IAnnotation]]] = {
+    lightModel.fullAnnotateJava(targets, optionalTargets)
+  }
+
+  def fullAnnotateImageJava(
+      pathToImage: String): java.util.Map[String, java.util.List[IAnnotation]] = {
+    lightModel.fullAnnotateImageJava(pathToImage)
+  }
+
+  def fullAnnotateImageJava(pathToImages: java.util.ArrayList[String])
+      : java.util.List[java.util.Map[String, java.util.List[IAnnotation]]] = {
+    lightModel.fullAnnotateJava(pathToImages)
+  }
+
+  def fullAnnotateSingleAudioJava(
+      audio: java.util.ArrayList[Double]): java.util.Map[String, java.util.List[IAnnotation]] = {
+    lightModel.fullAnnotateSingleAudioJava(audio)
+  }
+
+  def fullAnnotateAudiosJava(audios: java.util.ArrayList[java.util.ArrayList[Double]])
+      : java.util.List[java.util.Map[String, java.util.List[IAnnotation]]] = {
+    lightModel.fullAnnotateAudiosJava(audios)
   }
 
   def transform(dataFrame: DataFrame): DataFrame = model.transform(dataFrame)

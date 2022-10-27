@@ -9,7 +9,6 @@ class TFNerDLGraphBuilderModel(Model, DefaultParamsWritable, DefaultParamsReadab
 
 
 class TFNerDLGraphBuilder(Estimator, DefaultParamsWritable, DefaultParamsReadable):
-
     labelColumn = Param(Params._dummy(),
                         "labelColumn",
                         "Labels",
@@ -138,7 +137,8 @@ class TFNerDLGraphBuilder(Estimator, DefaultParamsWritable, DefaultParamsReadabl
         print(build_params)
 
         try:
-            tf_graph.build("ner_dl", build_params=build_params, model_location=self.getGraphFolder(), model_filename=graph_file)
+            tf_graph.build("ner_dl", build_params=build_params, model_location=self.getGraphFolder(),
+                           model_filename=graph_file)
         except Exception:
             print("Can't build the tensorflow graph with TF 2 graph factory, attempting TF 1.15 factory")
             try:

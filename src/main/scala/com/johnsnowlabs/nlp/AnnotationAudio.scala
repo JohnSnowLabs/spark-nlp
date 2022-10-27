@@ -27,6 +27,7 @@ case class AnnotationAudio(
     result: Array[Float],
     metadata: Map[String, String])
     extends IAnnotation {
+
   override def equals(obj: Any): Boolean = {
     obj match {
       case annotation: AnnotationAudio =>
@@ -36,6 +37,15 @@ case class AnnotationAudio(
       case _ => false
     }
   }
+
+  def getAnnotatorType: String = {
+    annotatorType
+  }
+
+  def getMetadata: Map[String, String] = {
+    metadata
+  }
+
 }
 
 object AnnotationAudio {
