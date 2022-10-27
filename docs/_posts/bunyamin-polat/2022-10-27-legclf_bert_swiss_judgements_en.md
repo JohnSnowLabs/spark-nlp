@@ -36,15 +36,15 @@ This model is a Bert-based model that can be used to classify Swiss Judgement do
 {% include programmingLanguageSelectScalaPythonNLU.html %}
 
 ```python
-document_assembler = nlp.DocumentAssembler() \
-    .setInputCol('text') \
+document_assembler = nlp.DocumentAssembler()\
+    .setInputCol('text')\
     .setOutputCol('document')
 
 tokenizer = nlp.Tokenizer()\
     .setInputCols(['document'])\
-    .setOutputCol("token")
+    .setOutputCol('token')
 
-clf_model = legal.BertForSequenceClassification.pretrained("legclf_bert_swiss_judgements", "en", "legal/models")\
+clf_model = legal.BertForSequenceClassification.pretrained('legclf_bert_swiss_judgements', 'en', 'legal/models')\
     .setInputCols(['document', 'token'])\
     .setOutputCol('class')\
     .setCaseSensitive(True)\
@@ -105,7 +105,7 @@ Training data is available [here](https://zenodo.org/record/7109926#.Y1gJwexBw8E
 | penal-law     | 0.97      | 0.94   | 0.96     | 1140    |
 | public-law    | 0.94      | 0.97   | 0.95     | 1551    |
 | social-law    | 0.98      | 0.94   | 0.96     | 970     |
-| accuracy                           | 0.96     | 5971    |
+| accuracy          -           -    | 0.96     | 5971    |
 | macro-avg     | 0.95      | 0.95   | 0.95     | 5971    |
 | weighted-avg  | 0.96      | 0.96   | 0.96     | 5971    |
 ```
