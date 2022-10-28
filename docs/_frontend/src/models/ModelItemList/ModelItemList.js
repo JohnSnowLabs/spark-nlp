@@ -1,3 +1,5 @@
+import React from 'react';
+import { createPortal } from 'react-dom';
 import Pagination from '../Pagination';
 import Sidebar from '../Sidebar';
 import './ModelItemList.css';
@@ -24,7 +26,7 @@ const ModelItemList = ({
     onSupportedToggle(flag);
   };
 
-  return ReactDOM.createPortal(
+  return createPortal(
     <div key="items" className="grid--container model-items">
       <div className="model-items__sidebar-wrapper">
         <div className="model-items__sidebar">

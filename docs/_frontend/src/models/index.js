@@ -1,5 +1,6 @@
-const { createElement: e } = React;
+import React from 'react';
+import { render } from 'react-dom';
 
 import App from './App';
 
-ReactDOM.render(e(App), document.getElementById('app'));
+render(<App />, document.getElementById('app'));

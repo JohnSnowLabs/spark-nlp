@@ -1,4 +1,4 @@
-const { createElement: e } = React;
+import { createElement as e } from 'react';
 
 const ModelItemTag = ({ icon, name, value }) => {
   return e('div', { className: 'model-item__tag' }, [
