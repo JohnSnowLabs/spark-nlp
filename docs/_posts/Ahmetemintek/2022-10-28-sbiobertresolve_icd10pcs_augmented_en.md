@@ -61,7 +61,7 @@ clinical_ner = MedicalNerModel.pretrained("ner_jsl", "en", "clinical/models")\
 ner_converter = NerConverter()\
   .setInputCols(["sentence","token","ner"])\
   .setOutputCol("ner_chunk")\
-  .setWhiteList(['Procedure', 'Test', 'Test_Result', 'Treatment', 'Pulse', 'Imaging_Technique', 'Labour_Delivery', 'Blood_Pressure', 'Oxygen_Therapy', 'Weight', 'LDL', 'O2_Saturation', 'BMI', 'Vaccine', 'Respiration', 'Temperature', 'Birth_Entity', 'Triglycerides', 'Puerperium'])
+  .setWhiteList(['Procedure', 'Test', 'Test_Result', 'Treatment', 'Pulse', 'Imaging_Technique', 'Labour_Delivery', 'Blood_Pressure', 'Oxygen_Therapy', 'Weight', 'LDL', 'O2_Saturation', 'BMI', 'Vaccine', 'Respiration', 'Temperature', 'Birth_Entity', 'Triglycerides'])
 
 
 chunk2doc = Chunk2Doc().setInputCols("ner_chunk").setOutputCol("ner_chunk_doc")
@@ -114,7 +114,7 @@ val clinical_ner = MedicalNerModel.pretrained("ner_jsl", "en", "clinical/models"
 val ner_converter = NerConverter()
 .setInputCols(Array("sentence","token","ner"))
 .setOutputCol("ner_chunk")
-.setWhiteList(Array("Procedure", "Test", "Test_Result", "Treatment", "Pulse", "Imaging_Technique", "Labour_Delivery", "Blood_Pressure", "Oxygen_Therapy", "Weight", "LDL", "O2_Saturation", "BMI", "Vaccine", "Respiration", "Temperature", "Birth_Entity", "Triglycerides", "Puerperium"))
+.setWhiteList(Array("Procedure", "Test", "Test_Result", "Treatment", "Pulse", "Imaging_Technique", "Labour_Delivery", "Blood_Pressure", "Oxygen_Therapy", "Weight", "LDL", "O2_Saturation", "BMI", "Vaccine", "Respiration", "Temperature", "Birth_Entity", "Triglycerides"))
 
 
 val chunk2doc = Chunk2Doc().setInputCols("ner_chunk").setOutputCol("ner_chunk_doc")
