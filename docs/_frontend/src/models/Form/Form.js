@@ -1,7 +1,6 @@
+import { createElement as e } from 'react';
 import SearchForm from '../SearchForm';
 import FilterForm from '../FilterForm';
-
-const { createElement: e } = React;
 
 const Form = ({ onSubmit, isLoading, params, meta }) => {
   return [
