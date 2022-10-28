@@ -1,8 +1,7 @@
+import { createElement as e } from 'react';
 import Select from '../Select';
 import './FilterForm.css';
 import { products, productDisplayName } from '../ModelItem/utils';
-
-const { createElement: e } = React;
 
 const removeAloneEditions = (editions) => {
   const groups = {};
