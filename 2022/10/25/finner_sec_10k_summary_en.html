@@ -9,10 +9,10 @@
     j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
     })(window,document,'script','dataLayer','GTM-59JLR64');</script>
-<!-- End Google Tag Manager --><title>Legal Relation Extraction (Warranty)</title><meta property="og:title" content=""/>
+<!-- End Google Tag Manager --><title>Financial 10K Filings NER (Summary page, SEC embeddings)</title><meta property="og:title" content=""/>
 
-<meta name="description" content="DescriptionThis is a Legal Relation Extraction Model to identify the Subject (who), Action (web), Object(the indemnification) and Indirect Object (to whom) from warranty clauses.Predicted Entitiesis_warranty_indobject, is_warranty_object, is_warranty_subjectLive DemoOpen in ColabDownloadHow to use         PythonScal...">
-<link rel="canonical" href="/2022/10/19/legre_warranty_en.html"><link rel="alternate" type="application/rss+xml" title="Spark NLP" href="/feed.xml"><!-- start favicons snippet, use https://realfavicongenerator.net/ -->
+<meta name="description" content="DescriptionThis Financial NER Model is aimed to process the first summary page of 10K filings and extract the information about the Company submitting the filing, trading data, address / phones, CFN, IRS, etc.This is another version of finner_10k_summary trained with better financial embeddings (bert_embeddings_sec_...">
+<link rel="canonical" href="/2022/10/25/finner_sec_10k_summary_en.html"><link rel="alternate" type="application/rss+xml" title="Spark NLP" href="/feed.xml"><!-- start favicons snippet, use https://realfavicongenerator.net/ -->
 <!---->
 <!-- <link rel="apple-touch-icon" sizes="180x180" href="/fav.ico"> -->
 
@@ -408,26 +408,26 @@
 
 <!-- end custom main top snippet --><article><script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script><div class="article__header"><div class="header-author"><div class="article__info clearfix"><div class="left-col">
             <a class="edit-on-github-btn" target="_blank" rel="alternate"
-               href="https://github.com/johnsnowlabs/spark-nlp/tree/master/docs/_posts/gadde5300/2022-10-19-legre_warranty_en.md">
+               href="https://github.com/johnsnowlabs/spark-nlp/tree/master/docs/_posts/josejuanmartinez/2022-10-25-finner_sec_10k_summary_en.md">
               <span class="fab fa-github"></span>
               <span class="edit-on-github-label">Edit on GitHub</span>
             </a>
-        </div><ul class="right-col menu"><li><i class="far fa-user"></i> <span>John Snow Labs</span></li><li><i class="far fa-calendar-alt"></i> <span>Oct 19, 2022</span>
-            </li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2022-10-19T00:00:00+00:00"></div><header class="main-docs have_subtitle">
-          <h1>Legal Relation Extraction (Warranty)</h1><div class="top-subtitle mont"></div></header></div><meta itemprop="headline" content="Legal Relation Extraction (Warranty)"><div class="article__info tags_box clearfix"><ul class="left-col menu"><li>legal</li><li>en</li><li>re</li><li>licensed</li><li>warranty</li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2022-10-19T00:00:00+00:00">
-    <meta itemprop="keywords" content="legal,en,re,licensed,warranty"><div class="js-article-content"><div class="model-wrap"><div class="layout--article"><!-- start custom article top snippet -->
+        </div><ul class="right-col menu"><li><i class="far fa-user"></i> <span>John Snow Labs</span></li><li><i class="far fa-calendar-alt"></i> <span>Oct 25, 2022</span>
+            </li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2022-10-25T00:00:00+00:00"></div><header class="main-docs have_subtitle">
+          <h1>Financial 10K Filings NER (Summary page, SEC embeddings)</h1><div class="top-subtitle mont"></div></header></div><meta itemprop="headline" content="Financial 10K Filings NER (Summary page, SEC embeddings)"><div class="article__info tags_box clearfix"><ul class="left-col menu"><li>sec</li><li>10k</li><li>en</li><li>licensed</li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2022-10-25T00:00:00+00:00">
+    <meta itemprop="keywords" content="sec,10k,en,licensed"><div class="js-article-content"><div class="model-wrap"><div class="layout--article"><!-- start custom article top snippet -->
 
 <!-- end custom article top snippet --><div class="article__content" itemprop="articleBody"><h2 id="description">Description</h2>
 
-<p>This is a Legal Relation Extraction Model to identify the Subject (who), Action (web), Object(the indemnification) and Indirect Object (to whom) from warranty clauses.</p>
+<p>This Financial NER Model is aimed to process the first summary page of 10K filings and extract the information about the Company submitting the filing, trading data, address / phones, CFN, IRS, etc.</p>
+
+<p>This is another version of <code class="language-plaintext highlighter-rouge">finner_10k_summary</code> trained with better financial embeddings (<code class="language-plaintext highlighter-rouge">bert_embeddings_sec_bert_base</code>)</p>
 
 <h2 id="predicted-entities">Predicted Entities</h2>
 
-<p><code class="language-plaintext highlighter-rouge">is_warranty_indobject</code>, <code class="language-plaintext highlighter-rouge">is_warranty_object</code>, <code class="language-plaintext highlighter-rouge">is_warranty_subject</code></p>
-
 <p class="btn-box"><button class="button button-orange" disabled="">Live Demo</button>
 <button class="button button-orange" disabled="">Open in Colab</button>
-<a href="https://s3.amazonaws.com/auxdata.johnsnowlabs.com/legal/models/legre_warranty_en_1.0.0_3.0_1666154293071.zip" class="button button-orange button-orange-trans arr button-icon">Download</a></p>
+<a href="https://s3.amazonaws.com/auxdata.johnsnowlabs.com/finance/models/finner_sec_10k_summary_en_1.0.0_3.0_1666711517681.zip" class="button button-orange button-orange-trans arr button-icon">Download</a></p>
 
 <h2 id="how-to-use">How to use</h2>
 
@@ -435,54 +435,95 @@
   <div class="top_tab_li">   
     <p><button data-type="python" class="tab-li code-selector-active python-button">Python</button><button data-type="scala" class="tab-li code-selector-un-active scala-button">Scala</button><button data-type="nlu" class="tab-li code-selector-un-active nlu-button">NLU</button></p>
 </div>
-  <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
-<span class="n">documentAssembler</span> <span class="o">=</span> <span class="n">nlp</span><span class="p">.</span><span class="n">DocumentAssembler</span><span class="p">()</span>\
-  <span class="p">.</span><span class="n">setInputCol</span><span class="p">(</span><span class="s">"text"</span><span class="p">)</span>\
-  <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"document"</span><span class="p">)</span>
+  <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">document_assembler</span> <span class="o">=</span> <span class="n">nlp</span><span class="p">.</span><span class="n">DocumentAssembler</span><span class="p">()</span>\
+    <span class="p">.</span><span class="n">setInputCol</span><span class="p">(</span><span class="s">"text"</span><span class="p">)</span>\
+    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"document"</span><span class="p">)</span>
+
+<span class="n">sentence_detector</span> <span class="o">=</span> <span class="n">nlp</span><span class="p">.</span><span class="n">SentenceDetector</span><span class="p">()</span> \
+    <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"document"</span><span class="p">])</span> \
+    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"sentence"</span><span class="p">)</span> \
+    <span class="p">.</span><span class="n">setCustomBounds</span><span class="p">([</span><span class="s">"</span><span class="se">\n\n</span><span class="s">"</span><span class="p">])</span>
 
 <span class="n">tokenizer</span> <span class="o">=</span> <span class="n">nlp</span><span class="p">.</span><span class="n">Tokenizer</span><span class="p">()</span>\
-  <span class="p">.</span><span class="n">setInputCols</span><span class="p">(</span><span class="s">"document"</span><span class="p">)</span>\
-  <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"token"</span><span class="p">)</span>
+    <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"sentence"</span><span class="p">])</span>\
+    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"token"</span><span class="p">)</span>
 
-<span class="n">embeddings</span> <span class="o">=</span> <span class="n">nlp</span><span class="p">.</span><span class="n">RoBertaEmbeddings</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"roberta_embeddings_legal_roberta_base"</span><span class="p">,</span><span class="s">"en"</span><span class="p">)</span> \
-    <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"document"</span><span class="p">,</span> <span class="s">"token"</span><span class="p">])</span> \
-    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"embeddings"</span><span class="p">)</span>
+<span class="n">embeddings</span> <span class="o">=</span> <span class="n">nlp</span><span class="p">.</span><span class="n">BertEmbeddings</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"bert_embeddings_sec_bert_base"</span><span class="p">,</span><span class="s">"en"</span><span class="p">)</span>\
+    <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"sentence"</span><span class="p">,</span> <span class="s">"token"</span><span class="p">])</span>\
+    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"embeddings"</span><span class="p">)</span>\
+    <span class="p">.</span><span class="n">setCaseSensitive</span><span class="p">(</span><span class="bp">True</span><span class="p">)</span>\
+    <span class="p">.</span><span class="n">setMaxSentenceLength</span><span class="p">(</span><span class="mi">512</span><span class="p">)</span>
 
-<span class="n">ner_model</span> <span class="o">=</span> <span class="n">legal</span><span class="p">.</span><span class="n">NerModel</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">'legner_warranty'</span><span class="p">,</span> <span class="s">'en'</span><span class="p">,</span> <span class="s">'legal/models'</span><span class="p">)</span> \
-        <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"document"</span><span class="p">,</span> <span class="s">"token"</span><span class="p">,</span> <span class="s">"embeddings"</span><span class="p">])</span> \
-        <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"ner"</span><span class="p">)</span>
+<span class="n">ner_model</span> <span class="o">=</span> <span class="n">finance</span><span class="p">.</span><span class="n">NerModel</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"finner_sec_10k_summary"</span><span class="p">,</span><span class="s">"en"</span><span class="p">,</span><span class="s">"finance/models"</span><span class="p">)</span>\
+    <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"sentence"</span><span class="p">,</span> <span class="s">"token"</span><span class="p">,</span> <span class="s">"embeddings"</span><span class="p">])</span>\
+    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"ner"</span><span class="p">)</span>\
 
-<span class="n">ner_converter</span> <span class="o">=</span> <span class="n">nlp</span><span class="p">.</span><span class="n">NerConverter</span><span class="p">()</span> \
-        <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"document"</span><span class="p">,</span><span class="s">"token"</span><span class="p">,</span><span class="s">"ner"</span><span class="p">])</span> \
-        <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"ner_chunk"</span><span class="p">)</span>
+<span class="n">ner_converter</span> <span class="o">=</span> <span class="n">nlp</span><span class="p">.</span><span class="n">NerConverter</span><span class="p">()</span>\
+    <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"sentence"</span><span class="p">,</span> <span class="s">"token"</span><span class="p">,</span> <span class="s">"ner"</span><span class="p">])</span>\
+    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"ner_chunk"</span><span class="p">)</span>
 
-<span class="n">reDL</span> <span class="o">=</span> <span class="n">legal</span><span class="p">.</span><span class="n">RelationExtractionDLModel</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"legre_warranty"</span><span class="p">,</span> <span class="s">"en"</span><span class="p">,</span> <span class="s">"legal/models"</span><span class="p">)</span> \
-    <span class="p">.</span><span class="n">setPredictionThreshold</span><span class="p">(</span><span class="mf">0.5</span><span class="p">)</span> \
-    <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"ner_chunk"</span><span class="p">,</span> <span class="s">"document"</span><span class="p">])</span> \
-    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"relations"</span><span class="p">)</span>
-    
-<span class="n">pipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">(</span><span class="n">stages</span><span class="o">=</span><span class="p">[</span><span class="n">documentAssembler</span><span class="p">,</span> <span class="n">tokenizer</span><span class="p">,</span> <span class="n">embeddings</span><span class="p">,</span> <span class="n">ner_model</span><span class="p">,</span> <span class="n">ner_converter</span><span class="p">,</span> <span class="n">reDL</span><span class="p">])</span>
+<span class="n">pipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">(</span><span class="n">stages</span><span class="o">=</span><span class="p">[</span>
+    <span class="n">document_assembler</span><span class="p">,</span>
+    <span class="n">sentence_detector</span><span class="p">,</span>
+    <span class="n">tokenizer</span><span class="p">,</span>
+    <span class="n">embeddings</span><span class="p">,</span>
+    <span class="n">ner_model</span><span class="p">,</span>
+    <span class="n">ner_converter</span>   
+    <span class="p">])</span>
 
-<span class="n">text</span> <span class="o">=</span> <span class="s">"""ARTICLE XI - WARRANTIES   11.1 In addition to the warranties set forth in Article IX of the General Terms and Conditions of Transporter's FERC Gas Tariff, Shipper warrants the following:   (a) Shipper warrants that all upstream and downstream transportation arrangements are in place, or will be in place as of the requested effective date of service, and that it has advised the upstream and downstream transporters of the receipt and delivery points under this Agreement and any quantity limitations for each point as specified on Exhibit "A" attached hereto."""</span>
+<span class="n">model</span> <span class="o">=</span> <span class="n">pipeline</span><span class="p">.</span><span class="n">fit</span><span class="p">(</span><span class="n">spark</span><span class="p">.</span><span class="n">createDataFrame</span><span class="p">([[</span><span class="s">""</span><span class="p">]]).</span><span class="n">toDF</span><span class="p">(</span><span class="s">"text"</span><span class="p">))</span>
 
-<span class="n">data</span> <span class="o">=</span> <span class="n">spark</span><span class="p">.</span><span class="n">createDataFrame</span><span class="p">([[</span><span class="n">text</span><span class="p">]]).</span><span class="n">toDF</span><span class="p">(</span><span class="s">"text"</span><span class="p">)</span>
-<span class="n">model</span> <span class="o">=</span> <span class="n">pipeline</span><span class="p">.</span><span class="n">fit</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
-<span class="n">res</span> <span class="o">=</span> <span class="n">model</span><span class="p">.</span><span class="n">transform</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+<span class="n">data</span> <span class="o">=</span> <span class="n">spark</span><span class="p">.</span><span class="n">createDataFrame</span><span class="p">([[</span><span class="s">"""ANNUAL REPORT PURSUANT TO SECTION 13 OR 15(d) OF THE SECURITIES AND EXCHANGE ACT OF 1934
+For the annual period ended January 31, 2021
+or
+TRANSITION REPORT PURSUANT TO SECTION 13 OR 15(d) OF THE SECURITIES EXCHANGE ACT OF 1934
+For the transition period from________to_______
+Commission File Number: 001-38856
+PAGERDUTY, INC.
+(Exact name of registrant as specified in its charter)
+Delaware
+27-2793871
+(State or other jurisdiction of
+incorporation or organization)
+(I.R.S. Employer
+Identification Number)
+600 Townsend St., Suite 200, San Francisco, CA 94103
+(844) 800-3889
+(Address, including zip code, and telephone number, including area code, of registrant’s principal executive offices)
+Securities registered pursuant to Section 12(b) of the Act:
+Title of each class
+Trading symbol(s)
+Name of each exchange on which registered
+Common Stock, $0.000005 par value,
+PD
+New York Stock Exchange"""</span><span class="p">]]).</span><span class="n">toDF</span><span class="p">(</span><span class="s">"text"</span><span class="p">)</span>
+
+<span class="n">result</span> <span class="o">=</span> <span class="n">model</span><span class="p">.</span><span class="n">transform</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+
+<span class="n">result</span><span class="p">.</span><span class="n">select</span><span class="p">(</span><span class="n">F</span><span class="p">.</span><span class="n">explode</span><span class="p">(</span><span class="n">F</span><span class="p">.</span><span class="n">arrays_zip</span><span class="p">(</span><span class="s">'ner_chunk.result'</span><span class="p">,</span> <span class="s">'ner_chunk.metadata'</span><span class="p">)).</span><span class="n">alias</span><span class="p">(</span><span class="s">"cols"</span><span class="p">))</span> \
+               <span class="p">.</span><span class="n">select</span><span class="p">(</span><span class="n">F</span><span class="p">.</span><span class="n">expr</span><span class="p">(</span><span class="s">"cols['0']"</span><span class="p">).</span><span class="n">alias</span><span class="p">(</span><span class="s">"ticker"</span><span class="p">),</span>
+                       <span class="n">F</span><span class="p">.</span><span class="n">expr</span><span class="p">(</span><span class="s">"cols['1']['entity']"</span><span class="p">).</span><span class="n">alias</span><span class="p">(</span><span class="s">"label"</span><span class="p">)).</span><span class="n">show</span><span class="p">(</span><span class="mi">50</span><span class="p">,</span> <span class="n">truncate</span> <span class="o">=</span> <span class="bp">False</span><span class="p">)</span>
 </code></pre></div>  </div>
 
 </div>
 
 <h2 id="results">Results</h2>
 
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>|relation           |entity1         |entity1_begin|entity1_end|chunk1  |entity2        |entity2_begin|entity2_end|chunk2                                                                                                                                 |confidence|
-|-------------------|----------------|-------------|-----------|--------|---------------|-------------|-----------|---------------------------------------------------------------------------------------------------------------------------------------|----------|
-|is_warranty_subject|WARRANTY_SUBJECT|158          |164        |Shipper |WARRANTY_ACTION|166          |173        |warrants                                                                                                                               |0.98402506|
-|is_warranty_subject|WARRANTY_SUBJECT|196          |202        |Shipper |WARRANTY_ACTION|204          |211        |warrants                                                                                                                               |0.9707028 |
-|is_warranty_object |WARRANTY_SUBJECT|196          |202        |Shipper |WARRANTY       |218          |352        |all upstream and downstream transportation arrangements are <span class="k">in </span>place, or will be <span class="k">in </span>place as of the requested effective <span class="nb">date </span>of service|0.9917001 |
-|is_warranty_object |WARRANTY_SUBJECT|196          |202        |Shipper |WARRANTY       |367          |474        |has advised the upstream and downstream transporters of the receipt and delivery points under this Agreement                           |0.79867786|
-|is_warranty_object |WARRANTY_ACTION |204          |211        |warrants|WARRANTY       |218          |352        |all upstream and downstream transportation arrangements are <span class="k">in </span>place, or will be <span class="k">in </span>place as of the requested effective <span class="nb">date </span>of service|0.97821265|
-|is_warranty_object |WARRANTY_ACTION |204          |211        |warrants|WARRANTY       |367          |474        |has advised the upstream and downstream transporters of the receipt and delivery points under this Agreement                           |0.80337876|
-
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>+----------------------------------------------+-----------------+
+|ticker                                        |label            |
++----------------------------------------------+-----------------+
+|January 31, 2021                              |FISCAL_YEAR      |
+|001-38856                                     |CFN              |
+|PAGERDUTY, INC                                |ORG              |
+|Delaware                                      |STATE            |
+|27-2793871                                    |IRS              |
+|600 Townsend St., Suite 200, San Francisco, CA|ADDRESS          |
+|<span class="o">(</span>844<span class="o">)</span> 800-3889                                |PHONE            |
+|Common Stock                                  |TITLE_CLASS      |
+|<span class="nv">$0</span>.000005                                     |TITLE_CLASS_VALUE|
+|PD                                            |TICKER           |
+|New York Stock Exchange                       |STOCK_EXCHANGE   |
++----------------------------------------------+-----------------+
 </code></pre></div></div>
 
 <h2 class="model-param" id="model-information">Model Information</h2>
@@ -491,11 +532,11 @@
   <tbody>
     <tr>
       <td>Model Name:</td>
-      <td>legre_warranty</td>
+      <td>finner_sec_10k_summary</td>
     </tr>
     <tr>
       <td>Compatibility:</td>
-      <td>Spark NLP for Legal 1.0.0+</td>
+      <td>Spark NLP for Finance 1.0.0+</td>
     </tr>
     <tr>
       <td>License:</td>
@@ -506,30 +547,53 @@
       <td>Official</td>
     </tr>
     <tr>
+      <td>Input Labels:</td>
+      <td>[sentence, token, embeddings]</td>
+    </tr>
+    <tr>
+      <td>Output Labels:</td>
+      <td>[ner]</td>
+    </tr>
+    <tr>
       <td>Language:</td>
       <td>en</td>
     </tr>
     <tr>
       <td>Size:</td>
-      <td>409.9 MB</td>
+      <td>16.5 MB</td>
     </tr>
   </tbody>
 </table>
 
 <h2 id="references">References</h2>
 
-<p>In-house annotated examples from CUAD legal dataset</p>
+<p>Manual annotations on 10-K Filings</p>
 
 <h2 id="benchmarking">Benchmarking</h2>
 
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Relation                Recall    Precision F1          Support
-is_warranty_indobject   1.000     1.000     1.000        15
-is_warranty_object      1.000     1.000     1.000        44
-is_warranty_subject     1.000     1.000     1.000        29
-Avg.                    1.000     1.000     1.000
-Weighted Avg.           1.000     1.000     1.000
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>             label      precision    recall  f1-score   support
+      B-TITLE_CLASS       1.00      1.00      1.00        15
+      I-TITLE_CLASS       1.00      1.00      1.00        21
+              B-ORG       0.84      0.66      0.74        62
+              I-ORG       0.88      0.76      0.82        93
+   B-STOCK_EXCHANGE       0.86      0.86      0.86        14
+   I-STOCK_EXCHANGE       0.98      0.98      0.98        50
+            B-PHONE       0.95      0.87      0.91        23
+            I-PHONE       0.95      1.00      0.98        60
+            B-STATE       0.89      0.85      0.87        20
+              B-IRS       1.00      0.88      0.93        16
+          B-ADDRESS       0.94      0.83      0.88        18
+          I-ADDRESS       0.92      0.97      0.94       144
+           B-TICKER       0.86      0.92      0.89        13
+      B-FISCAL_YEAR       0.96      0.88      0.92        50
+      I-FISCAL_YEAR       0.93      0.92      0.92       125
+B-TITLE_CLASS_VALUE       1.00      0.93      0.97        15
+              B-CFN       0.92      1.00      0.96        12
+          micro-avg       0.93      0.89      0.91       751
+          macro-avg       0.84      0.81      0.82       751
+       weighted-avg       0.92      0.89      0.91       751
 </code></pre></div></div>
-</div><div class="d-print-none"><footer class="article__footer"><meta itemprop="dateModified" content="2022-10-19T00:00:00+00:00"><!-- start custom article footer snippet -->
+</div><div class="d-print-none"><footer class="article__footer"><meta itemprop="dateModified" content="2022-10-25T00:00:00+00:00"><!-- start custom article footer snippet -->
 
 <!-- end custom article footer snippet --></footer>
 
@@ -868,7 +932,7 @@ hr.code-selector-underlie {
 
 }
 
-</style><div class="article__section-navigator clearfix"><div class="previous nav_link"><span>PREVIOUS</span><a href="/2022/10/18/legclf_cuad_warranty_clause_en.html">Legal Warranty Clause Binary Classifier (CUAD dataset)</a></div><div class="next nav_link"><span>NEXT</span><a href="/2022/10/19/finner_financial_medium_en.html">Financial NER (md, Medium)</a></div></div></div>
+</style><div class="article__section-navigator clearfix"><div class="previous nav_link"><span>PREVIOUS</span><a href="/2022/10/25/legner_indian_court_preamble_en.html">Legal NER for Indian Court Documents</a></div><div class="next nav_link"><span>NEXT</span><a href="/2022/10/27/legclf_bert_swiss_judgements_de.html">Legal Swiss Judgements Classification (German)</a></div></div></div>
 
 </div>
 </div>
