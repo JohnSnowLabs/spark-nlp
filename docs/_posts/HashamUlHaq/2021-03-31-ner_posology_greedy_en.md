@@ -7,7 +7,7 @@ date: 2021-03-31
 tags: [ner, clinical, licensed, en]
 task: Named Entity Recognition
 language: en
-edition: Spark NLP for Healthcare 3.0.0
+edition: Healthcare NLP 3.0.0
 spark_version: 3.0
 supported: true
 article_header:
@@ -94,7 +94,7 @@ nlu.load("en.med_ner.posology.greedy").predict("""The patient was prescribed 1 c
 {:.table-model}
 |---|---|
 |Model Name:|ner_posology_greedy|
-|Compatibility:|Spark NLP for Healthcare 3.0.0+|
+|Compatibility:|Healthcare NLP 3.0.0+|
 |License:|Licensed|
 |Edition:|Official|
 |Input Labels:|[sentence, token, embeddings]|

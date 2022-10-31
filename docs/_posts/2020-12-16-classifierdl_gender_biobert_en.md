@@ -6,7 +6,7 @@ name: classifierdl_gender_biobert
 date: 2020-12-16
 task: Text Classification
 language: en
-edition: Spark NLP for Healthcare 2.6.5
+edition: Healthcare NLP 2.6.5
 spark_version: 2.4
 tags: [classifier, en, clinical, licensed]
 supported: true
@@ -97,7 +97,7 @@ Female
 |---|---|
 |Model Name:|classifierdl_gender_biobert|
 |Type:|ClassifierDLModel|
-|Compatibility:|Spark NLP for Healthcare 2.6.5 +|
+|Compatibility:|Healthcare NLP 2.6.5 +|
 |Edition:|Official|
 |License:|Licensed|
 |Input Labels:|[sentence_embeddings]|

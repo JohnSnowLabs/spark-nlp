@@ -7,7 +7,7 @@ date: 2022-09-30
 tags: [licensed, clinical, oncology, en, ner]
 task: Named Entity Recognition
 language: en
-edition: Spark NLP for Healthcare 4.0.0
+edition: Healthcare NLP 4.0.0
 spark_version: 3.0
 supported: true
 article_header:
@@ -128,7 +128,7 @@ val result = pipeline.fit(data).transform(data)
 {:.table-model}
 |---|---|
 |Model Name:|ner_oncology_tnm_wip|
-|Compatibility:|Spark NLP for Healthcare 4.0.0+|
+|Compatibility:|Healthcare NLP 4.0.0+|
 |License:|Licensed|
 |Edition:|Official|
 |Input Labels:|[sentence, token, embeddings]|

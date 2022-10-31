@@ -7,7 +7,7 @@ date: 2022-10-22
 tags: [lt, legal, classification, sentiment, analysis, licensed]
 task: Text Classification
 language: lt
-edition: Spark NLP for Finance 1.0.0
+edition: Finance NLP 1.0.0
 spark_version: 3.0
 supported: true
 article_header:
@@ -82,7 +82,7 @@ result.select("text", "class.result").show(truncate=False)
 {:.table-model}
 |---|---|
 |Model Name:|finclf_bert_sentiment_analysis|
-|Compatibility:|Spark NLP for Finance 1.0.0+|
+|Compatibility:|Finance NLP 1.0.0+|
 |License:|Licensed|
 |Edition:|Official|
 |Input Labels:|[document, token]|

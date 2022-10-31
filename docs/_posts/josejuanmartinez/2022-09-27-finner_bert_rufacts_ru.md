@@ -7,7 +7,7 @@ date: 2022-09-27
 tags: [ru, licensed]
 task: Named Entity Recognition
 language: ru
-edition: Spark NLP for Finance 1.0.0
+edition: Finance NLP 1.0.0
 spark_version: 3.0
 supported: true
 article_header:
@@ -126,7 +126,7 @@ result.select(F.explode(F.arrays_zip('ner_chunk.result', 'ner_chunk.metadata')).
 {:.table-model}
 |---|---|
 |Model Name:|finner_bert_rufacts|
-|Compatibility:|Spark NLP for Finance 1.0.0+|
+|Compatibility:|Finance NLP 1.0.0+|
 |License:|Licensed|
 |Edition:|Official|
 |Input Labels:|[sentence, token]|

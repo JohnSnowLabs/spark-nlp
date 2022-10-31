@@ -7,7 +7,7 @@ date: 2022-07-24
 tags: [deidentification, deid, glove, slim, pipeline, clinical, en, licensed]
 task: Pipeline Healthcare
 language: en
-edition: Spark NLP for Healthcare 4.0.0
+edition: Healthcare NLP 4.0.0
 spark_version: 3.0
 supported: true
 article_header:
@@ -105,7 +105,7 @@ Phone 04.32.52.27.90, North Adrienne, Colorado Springs, E-MAIL: Rawland@google.c
 |---|---|
 |Model Name:|clinical_deidentification_slim|
 |Type:|pipeline|
-|Compatibility:|Spark NLP for Healthcare 4.0.0+|
+|Compatibility:|Healthcare NLP 4.0.0+|
 |License:|Licensed|
 |Edition:|Official|
 |Language:|en|

@@ -6,7 +6,7 @@ name: ner_human_phenotype_go_clinical
 date: 2020-09-21
 task: Named Entity Recognition
 language: en
-edition: Spark NLP for Healthcare 2.6.0
+edition: Healthcare NLP 2.6.0
 spark_version: 2.4
 tags: [ner, en, licensed, clinical]
 supported: true
@@ -93,7 +93,7 @@ nlu.load("en.med_ner.human_phenotype.go_clinical").predict("""Another disease th
 |---|---|
 |Model Name:|ner_human_phenotype_go_clinical|
 |Type:|ner|
-|Compatibility:|Spark NLP for Healthcare 2.6.0 +|
+|Compatibility:|Healthcare NLP 2.6.0 +|
 |Edition:|Official|
 |License:|Licensed|
 |Input Labels:|[sentence, token, embeddings]|

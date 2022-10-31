@@ -7,7 +7,7 @@ date: 2021-10-31
 tags: [icd10cm, entity_resolution, clinical, en, licensed]
 task: Entity Resolution
 language: en
-edition: Spark NLP for Healthcare 3.3.1
+edition: Healthcare NLP 3.3.1
 spark_version: 2.4
 supported: true
 article_header:
@@ -114,7 +114,7 @@ nlu.load("en.resolve.icd10cm.augmented").predict("""A 28-year-old female with a 
 {:.table-model}
 |---|---|
 |Model Name:|sbiobertresolve_icd10cm_augmented|
-|Compatibility:|Spark NLP for Healthcare 3.3.1+|
+|Compatibility:|Healthcare NLP 3.3.1+|
 |License:|Licensed|
 |Edition:|Official|
 |Input Labels:|[sentence_embeddings]|

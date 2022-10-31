@@ -7,7 +7,7 @@ date: 2022-10-12
 tags: [entity_resolution, cvx, clinical, en, licensed]
 task: Entity Resolution
 language: en
-edition: Spark NLP for Healthcare 4.1.0
+edition: Healthcare NLP 4.1.0
 spark_version: 3.0
 supported: true
 article_header:
@@ -94,7 +94,7 @@ val documentAssembler = new DocumentAssembler()
 {:.table-model}
 |---|---|
 |Model Name:|sbiobertresolve_cvx|
-|Compatibility:|Spark NLP for Healthcare 4.1.0+|
+|Compatibility:|Healthcare NLP 4.1.0+|
 |License:|Licensed|
 |Edition:|Official|
 |Input Labels:|[bert_embeddings]|

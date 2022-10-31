@@ -7,7 +7,7 @@ date: 2021-07-16
 tags: [licensed, en, relation_extraction, clinical]
 task: Relation Extraction
 language: en
-edition: Spark NLP for Healthcare 3.1.2
+edition: Healthcare NLP 3.1.2
 spark_version: 3.0
 supported: true
 article_header:
@@ -158,7 +158,7 @@ nlu.load("en.relation.ade_biobert").predict("""Been taking Lipitor for 15 years 
 |---|---|
 |Model Name:|re_ade_biobert|
 |Type:|re|
-|Compatibility:|Spark NLP for Healthcare 3.1.2+|
+|Compatibility:|Healthcare NLP 3.1.2+|
 |License:|Licensed|
 |Edition:|Official|
 |Input Labels:|[embeddings, pos_tags, train_ner_chunks, dependencies]|

@@ -7,7 +7,7 @@ date: 2022-02-17
 tags: [en, licensed]
 task: OCR Text Detection & Recognition
 language: en
-edition: Spark OCR 3.3.3
+edition: Visual NLP 3.3.3
 spark_version: 2.4
 supported: true
 article_header:
@@ -59,7 +59,7 @@ print(result[0].text)
 |---|---|
 |Model Name:|ocr_small_handwritten|
 |Type:|ocr|
-|Compatibility:|Spark OCR 3.3.3+|
+|Compatibility:|Visual NLP 3.3.3+|
 |License:|Licensed|
 |Edition:|Official|
 |Language:|en|

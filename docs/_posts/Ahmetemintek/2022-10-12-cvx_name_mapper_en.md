@@ -7,7 +7,7 @@ date: 2022-10-12
 tags: [cvx, chunk_mapping, cpt, en, clinical, licensed]
 task: Chunk Mapping
 language: en
-edition: Spark NLP for Healthcare 4.1.0
+edition: Healthcare NLP 4.1.0
 spark_version: 3.0
 supported: true
 article_header:
@@ -103,7 +103,7 @@ val result= pipeline.fit(data).transform(data)
 {:.table-model}
 |---|---|
 |Model Name:|cvx_name_mapper|
-|Compatibility:|Spark NLP for Healthcare 4.1.0+|
+|Compatibility:|Healthcare NLP 4.1.0+|
 |License:|Licensed|
 |Edition:|Official|
 |Input Labels:|[chunk]|

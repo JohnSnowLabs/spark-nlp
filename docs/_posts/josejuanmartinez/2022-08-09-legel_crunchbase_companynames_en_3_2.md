@@ -7,7 +7,7 @@ date: 2022-08-09
 tags: [en, legal, companies, crunchbase, licensed]
 task: Entity Resolution
 language: en
-edition: Spark NLP for Legal 1.0.0
+edition: Legal NLP 1.0.0
 spark_version: 3.0
 supported: true
 article_header:
@@ -82,7 +82,7 @@ lp.fullAnnotate("Shwrm")
 |---|---|
 |Model Name:|legel_crunchbase_companynames|
 |Type:|legal|
-|Compatibility:|Spark NLP for Legal 1.0.0+|
+|Compatibility:|Legal NLP 1.0.0+|
 |License:|Licensed|
 |Edition:|Official|
 |Input Labels:|[sentence_embeddings]|

@@ -7,7 +7,7 @@ date: 2022-04-13
 tags: [deid, deidentification, pt, licensed, clinical]
 task: De-identification
 language: pt
-edition: Spark NLP for Healthcare 3.4.2
+edition: Healthcare NLP 3.4.2
 spark_version: 3.0
 supported: true
 article_header:
@@ -183,7 +183,7 @@ Doutora: Maria Santos
 {:.table-model}
 |---|---|
 |Model Name:|ner_deid_generic|
-|Compatibility:|Spark NLP for Healthcare 3.4.2+|
+|Compatibility:|Healthcare NLP 3.4.2+|
 |License:|Licensed|
 |Edition:|Official|
 |Input Labels:|[sentence, token, embeddings]|

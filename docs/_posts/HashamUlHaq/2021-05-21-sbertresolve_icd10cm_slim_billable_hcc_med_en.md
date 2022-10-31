@@ -7,7 +7,7 @@ date: 2021-05-21
 tags: [licensed, clinical, en, entity_resolution]
 task: Entity Resolution
 language: en
-edition: Spark NLP for Healthcare 3.0.4
+edition: Healthcare NLP 3.0.4
 spark_version: 3.0
 supported: true
 article_header:
@@ -105,7 +105,7 @@ nlu.load("en.resolve.icd10cm.slim_billable_hcc_med").predict("""metastatic lung 
 {:.table-model}
 |---|---|
 |Model Name:|sbertresolve_icd10cm_slim_billable_hcc_med|
-|Compatibility:|Spark NLP for Healthcare 3.0.4+|
+|Compatibility:|Healthcare NLP 3.0.4+|
 |License:|Licensed|
 |Edition:|Official|
 |Input Labels:|[ner_chunk, sbert_embeddings]|

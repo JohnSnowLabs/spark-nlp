@@ -7,7 +7,7 @@ date: 2022-06-22
 tags: [en, ner, clinical, licensed]
 task: Named Entity Recognition
 language: en
-edition: Spark NLP for Healthcare 3.5.3
+edition: Healthcare NLP 3.5.3
 spark_version: 3.0
 supported: true
 article_header:
@@ -150,7 +150,7 @@ nlu.load("en.med_ner.living_species").predict("""42-year-old woman with end-stag
 {:.table-model}
 |---|---|
 |Model Name:|ner_living_species|
-|Compatibility:|Spark NLP for Healthcare 3.5.3+|
+|Compatibility:|Healthcare NLP 3.5.3+|
 |License:|Licensed|
 |Edition:|Official|
 |Input Labels:|[sentence, token, embeddings]|

@@ -7,7 +7,7 @@ date: 2022-09-28
 tags: [es, legal, ner, laws, treaties, agreements, licensed]
 task: Named Entity Recognition
 language: es
-edition: Spark NLP for Legal 1.0.0
+edition: Legal NLP 1.0.0
 spark_version: 3.0
 supported: true
 article_header:
@@ -93,7 +93,7 @@ para la Protección de la Propiedad Industrial. (TRAT_INTL)
 {:.table-model}
 |---|---|
 |Model Name:|legner_laws_treaties|
-|Compatibility:|Spark NLP for Legal 1.0.0+|
+|Compatibility:|Legal NLP 1.0.0+|
 |License:|Licensed|
 |Edition:|Official|
 |Input Labels:|[document, token]|

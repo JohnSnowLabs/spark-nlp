@@ -7,7 +7,7 @@ date: 2022-01-17
 tags: [deid, es, licensed]
 task: De-identification
 language: es
-edition: Spark NLP for Healthcare 3.3.4
+edition: Healthcare NLP 3.3.4
 spark_version: 3.0
 supported: true
 article_header:
@@ -173,7 +173,7 @@ val results = pipeline.fit(data).transform(data)
 {:.table-model}
 |---|---|
 |Model Name:|ner_deid_generic_roberta|
-|Compatibility:|Spark NLP for Healthcare 3.3.4+|
+|Compatibility:|Healthcare NLP 3.3.4+|
 |License:|Licensed|
 |Edition:|Official|
 |Input Labels:|[sentence, token, embeddings]|

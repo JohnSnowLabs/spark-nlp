@@ -7,7 +7,7 @@ date: 2022-06-26
 tags: [en, ner, clinical, licensed, bertfortokenclassification]
 task: Named Entity Recognition
 language: en
-edition: Spark NLP for Healthcare 3.5.3
+edition: Healthcare NLP 3.5.3
 spark_version: 3.0
 supported: true
 article_header:
@@ -145,7 +145,7 @@ nlu.load("en.med_ner.living_species.token_bert").predict("""42-year-old woman wi
 {:.table-model}
 |---|---|
 |Model Name:|bert_token_classifier_ner_living_species|
-|Compatibility:|Spark NLP for Healthcare 3.5.3+|
+|Compatibility:|Healthcare NLP 3.5.3+|
 |License:|Licensed|
 |Edition:|Official|
 |Input Labels:|[sentence, token]|

@@ -7,7 +7,7 @@ date: 2021-12-21
 tags: [embeddings, clinical, licensed, en]
 task: Embeddings
 language: en
-edition: Spark NLP for Healthcare 3.3.4
+edition: Healthcare NLP 3.3.4
 spark_version: 2.4
 supported: true
 article_header:
@@ -58,7 +58,7 @@ Gives a 512-dimensional vector representation of the sentence.
 {:.table-model}
 |---|---|
 |Model Name:|jsl_sbert_medium_rxnorm|
-|Compatibility:|Spark NLP for Healthcare 3.3.4+|
+|Compatibility:|Healthcare NLP 3.3.4+|
 |License:|Licensed|
 |Edition:|Official|
 |Language:|en|

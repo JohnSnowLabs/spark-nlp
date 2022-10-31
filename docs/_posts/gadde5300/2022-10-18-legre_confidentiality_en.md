@@ -7,7 +7,7 @@ date: 2022-10-18
 tags: [legal, en, re, licensed, confidentiality]
 task: Relation Extraction
 language: en
-edition: Spark NLP for Legal 1.0.0
+edition: Legal NLP 1.0.0
 spark_version: 3.0
 supported: true
 article_header:
@@ -95,7 +95,7 @@ res = model.transform(data)
 {:.table-model}
 |---|---|
 |Model Name:|legre_confidentiality|
-|Compatibility:|Spark NLP for Legal 1.0.0+|
+|Compatibility:|Legal NLP 1.0.0+|
 |License:|Licensed|
 |Edition:|Official|
 |Language:|en|

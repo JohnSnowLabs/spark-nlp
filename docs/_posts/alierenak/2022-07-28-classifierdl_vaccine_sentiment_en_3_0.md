@@ -7,7 +7,7 @@ date: 2022-07-28
 tags: [public_health, en, licensed, vaccine_sentiment, classification]
 task: Sentiment Analysis
 language: en
-edition: Spark NLP for Healthcare 4.0.0
+edition: Healthcare NLP 4.0.0
 spark_version: 3.0
 supported: true
 article_header:
@@ -125,7 +125,7 @@ val result = bert_clf_pipeline.fit(data).transform(data)
 {:.table-model}
 |---|---|
 |Model Name:|classifierdl_vaccine_sentiment|
-|Compatibility:|Spark NLP for Healthcare 4.0.0+|
+|Compatibility:|Healthcare NLP 4.0.0+|
 |License:|Licensed|
 |Edition:|Official|
 |Input Labels:|[sentence_embeddings]|

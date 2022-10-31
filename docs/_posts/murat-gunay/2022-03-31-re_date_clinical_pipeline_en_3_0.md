@@ -7,7 +7,7 @@ date: 2022-03-31
 tags: [licensed, clinical, relation_extraction, date, en]
 task: Relation Extraction
 language: en
-edition: Spark NLP for Healthcare 3.4.1
+edition: Healthcare NLP 3.4.1
 spark_version: 3.0
 supported: true
 article_header:
@@ -74,7 +74,7 @@ pipeline.fullAnnotate("This 73 y/o patient had CT on 1/12/95, with progressive m
 |---|---|
 |Model Name:|re_date_clinical_pipeline|
 |Type:|pipeline|
-|Compatibility:|Spark NLP for Healthcare 3.4.1+|
+|Compatibility:|Healthcare NLP 3.4.1+|
 |License:|Licensed|
 |Edition:|Official|
 |Language:|en|

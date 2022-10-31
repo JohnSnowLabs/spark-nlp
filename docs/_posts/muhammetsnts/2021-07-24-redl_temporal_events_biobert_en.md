@@ -7,7 +7,7 @@ date: 2021-07-24
 tags: [relation_extraction, en, clinical, licensed]
 task: Relation Extraction
 language: en
-edition: Spark NLP for Healthcare 3.0.3
+edition: Healthcare NLP 3.0.3
 spark_version: 2.4
 supported: true
 article_header:
@@ -189,7 +189,7 @@ nlu.load("en.relation.temporal_events").predict("""She is diagnosed with cancer 
 {:.table-model}
 |---|---|
 |Model Name:|redl_temporal_events_biobert|
-|Compatibility:|Spark NLP for Healthcare 3.0.3+|
+|Compatibility:|Healthcare NLP 3.0.3+|
 |License:|Licensed|
 |Edition:|Official|
 |Language:|en|

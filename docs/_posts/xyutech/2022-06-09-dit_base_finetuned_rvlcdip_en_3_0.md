@@ -7,7 +7,7 @@ date: 2022-06-09
 tags: [en, licensed]
 task: OCR Document Classification
 language: en
-edition: Spark OCR 3.3.0
+edition: Visual NLP 3.3.0
 spark_version: 3.0
 supported: true
 article_header:
@@ -74,7 +74,7 @@ Document Image Transformer (DiT) model for document classification. The model wa
 |---|---|
 |Model Name:|dit_base_finetuned_rvlcdip|
 |Type:|ocr|
-|Compatibility:|Spark OCR 3.3.0+|
+|Compatibility:|Visual NLP 3.3.0+|
 |License:|Licensed|
 |Edition:|Official|
 |Language:|en|

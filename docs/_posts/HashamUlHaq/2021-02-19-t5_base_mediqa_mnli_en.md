@@ -9,7 +9,7 @@ supported: true
 recommended: true
 task: Summarization
 language: en
-edition: Spark NLP for Healthcare 2.7.4
+edition: Healthcare NLP 2.7.4
 spark_version: 2.4
 article_header:
 type: cover
@@ -86,7 +86,7 @@ What are the treatments for mensus?, What are the treatments for infantile femal
 {:.table-model}
 |---|---|
 |Model Name:|t5_base_mediqa_mnli|
-|Compatibility:|Spark NLP for Healthcare 2.7.4+|
+|Compatibility:|Healthcare NLP 2.7.4+|
 |License:|Licensed|
 |Edition:|Official|
 |Language:|en|

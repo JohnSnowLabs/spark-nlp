@@ -7,7 +7,7 @@ date: 2022-08-09
 tags: [en, legal, qa, licensed]
 task: Question Answering
 language: en
-edition: Spark NLP for Legal 1.0.0
+edition: Legal NLP 1.0.0
 spark_version: 3.0
 supported: true
 article_header:
@@ -72,7 +72,7 @@ result.select('answer.result').show()
 {:.table-model}
 |---|---|
 |Model Name:|legqa_roberta|
-|Compatibility:|Spark NLP for Legal 1.0.0+|
+|Compatibility:|Legal NLP 1.0.0+|
 |License:|Licensed|
 |Edition:|Official|
 |Input Labels:|[question, context]|

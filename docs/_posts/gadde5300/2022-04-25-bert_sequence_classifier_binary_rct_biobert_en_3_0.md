@@ -7,7 +7,7 @@ date: 2022-04-25
 tags: [licensed, rct, classifier, en, clinical]
 task: Text Classification
 language: en
-edition: Spark NLP for Healthcare 3.5.0
+edition: Healthcare NLP 3.5.0
 spark_version: 3.0
 supported: true
 article_header:
@@ -116,7 +116,7 @@ val result = pipeline.fit(data).transform(data)
 {:.table-model}
 |---|---|
 |Model Name:|bert_sequence_classifier_binary_rct_biobert|
-|Compatibility:|Spark NLP for Healthcare 3.5.0+|
+|Compatibility:|Healthcare NLP 3.5.0+|
 |License:|Licensed|
 |Edition:|Official|
 |Input Labels:|[document, token]|

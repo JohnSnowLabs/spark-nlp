@@ -7,7 +7,7 @@ date: 2022-08-16
 tags: [ar, financial, licensed]
 task: Named Entity Recognition
 language: ar
-edition: Spark NLP for Finance 1.0.0
+edition: Finance NLP 1.0.0
 spark_version: 3.0
 supported: true
 article_header:
@@ -157,7 +157,7 @@ result = pipeline.fit(example).transform(example)
 |---|---|
 |Model Name:|finner_arabert_arabic|
 |Type:|finance|
-|Compatibility:|Spark NLP for Finance 1.0.0+|
+|Compatibility:|Finance NLP 1.0.0+|
 |License:|Licensed|
 |Edition:|Official|
 |Input Labels:|[sentence, token]|

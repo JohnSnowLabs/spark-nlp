@@ -8,7 +8,7 @@ language: es
 repository: clinical/models
 date: 2020-07-08
 task: Named Entity Recognition
-edition: Spark NLP for Healthcare 2.5.3
+edition: Healthcare NLP 2.5.3
 spark_version: 2.4
 tags: [clinical,licensed,ner,es]
 supported: true

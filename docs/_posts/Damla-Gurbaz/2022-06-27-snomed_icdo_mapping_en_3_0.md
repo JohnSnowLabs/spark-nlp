@@ -7,7 +7,7 @@ date: 2022-06-27
 tags: [snomed, icdo, pipeline, chunk_mapper, clinical, licensed, en]
 task: Pipeline Healthcare
 language: en
-edition: Spark NLP for Healthcare 3.5.3
+edition: Healthcare NLP 3.5.3
 spark_version: 3.0
 supported: true
 article_header:
@@ -70,7 +70,7 @@ nlu.load("en.map_entity.snomed_to_icdo.pipe").predict("""10376009 2026006 266380
 |---|---|
 |Model Name:|snomed_icdo_mapping|
 |Type:|pipeline|
-|Compatibility:|Spark NLP for Healthcare 3.5.3+|
+|Compatibility:|Healthcare NLP 3.5.3+|
 |License:|Licensed|
 |Edition:|Official|
 |Language:|en|

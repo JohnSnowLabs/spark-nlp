@@ -7,7 +7,7 @@ date: 2022-07-26
 tags: [en, licensed, umls, pipeline]
 task: Pipeline Healthcare
 language: en
-edition: Spark NLP for Healthcare 4.0.0
+edition: Healthcare NLP 4.0.0
 spark_version: 3.0
 supported: true
 article_header:
@@ -62,7 +62,7 @@ val pipeline.annotate("The patient was given Adapin 10 MG, coumadn 5 mg")
 |---|---|
 |Model Name:|umls_drug_resolver_pipeline|
 |Type:|pipeline|
-|Compatibility:|Spark NLP for Healthcare 4.0.0+|
+|Compatibility:|Healthcare NLP 4.0.0+|
 |License:|Licensed|
 |Edition:|Official|
 |Language:|en|

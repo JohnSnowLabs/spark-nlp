@@ -7,7 +7,7 @@ date: 2022-03-04
 tags: [deid, fr, licensed]
 task: De-identification
 language: fr
-edition: Spark NLP for Healthcare 3.4.1
+edition: Healthcare NLP 3.4.1
 spark_version: 2.4
 supported: true
 recommended: true
@@ -227,7 +227,7 @@ COURRIEL : massecatherine@bouygtel.fr
 |---|---|
 |Model Name:|clinical_deidentification|
 |Type:|pipeline|
-|Compatibility:|Spark NLP for Healthcare 3.4.1+|
+|Compatibility:|Healthcare NLP 3.4.1+|
 |License:|Licensed|
 |Edition:|Official|
 |Language:|fr|

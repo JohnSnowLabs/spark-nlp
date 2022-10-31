@@ -7,7 +7,7 @@ date: 2022-03-21
 tags: [licensed, ner, slim, en]
 task: Named Entity Recognition
 language: en
-edition: Spark NLP for Healthcare 3.4.1
+edition: Healthcare NLP 3.4.1
 spark_version: 3.0
 supported: true
 article_header:
@@ -68,7 +68,7 @@ pipeline.annotate("HISTORY: 30-year-old female presents for digital bilateral ma
 |---|---|
 |Model Name:|bert_token_classifier_ner_jsl_slim_pipeline|
 |Type:|pipeline|
-|Compatibility:|Spark NLP for Healthcare 3.4.1+|
+|Compatibility:|Healthcare NLP 3.4.1+|
 |License:|Licensed|
 |Edition:|Official|
 |Language:|en|

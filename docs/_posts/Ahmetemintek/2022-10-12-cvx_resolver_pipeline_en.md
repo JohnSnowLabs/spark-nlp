@@ -7,7 +7,7 @@ date: 2022-10-12
 tags: [en, licensed, clinical, resolver, chunk_mapping, cvx, pipeline]
 task: Pipeline Healthcare
 language: en
-edition: Spark NLP for Healthcare 4.1.0
+edition: Healthcare NLP 4.1.0
 spark_version: 3.0
 supported: true
 article_header:
@@ -67,7 +67,7 @@ val result = resolver_pipeline.fullAnnotate("The patient has a history of influe
 |---|---|
 |Model Name:|cvx_resolver_pipeline|
 |Type:|pipeline|
-|Compatibility:|Spark NLP for Healthcare 4.1.0+|
+|Compatibility:|Healthcare NLP 4.1.0+|
 |License:|Licensed|
 |Edition:|Official|
 |Language:|en|

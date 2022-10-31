@@ -7,7 +7,7 @@ date: 2022-08-17
 tags: [en, finance, assertion, status, competitors, licensed]
 task: Assertion Status
 language: en
-edition: Spark NLP for Finance 1.0.0
+edition: Finance NLP 1.0.0
 spark_version: 3.0
 supported: true
 article_header:
@@ -110,7 +110,7 @@ model.transform(spark.createDataFrame([[text]]).toDF("text")).select(F.explode(F
 |---|---|
 |Model Name:|finassertion_competitors|
 |Type:|finance|
-|Compatibility:|Spark NLP for Finance 1.0.0+|
+|Compatibility:|Finance NLP 1.0.0+|
 |License:|Licensed|
 |Edition:|Official|
 |Input Labels:|[document, doc_chunk, embeddings]|

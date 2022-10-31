@@ -7,7 +7,7 @@ date: 2022-03-31
 tags: [licensed, clinical, relation_extraction, problem, test, findings, en]
 task: Relation Extraction
 language: en
-edition: Spark NLP for Healthcare 3.4.1
+edition: Healthcare NLP 3.4.1
 spark_version: 3.0
 supported: true
 article_header:
@@ -73,7 +73,7 @@ pipeline.fullAnnotate("Targeted biopsy of this lesion for histological correlati
 |---|---|
 |Model Name:|re_test_problem_finding_pipeline|
 |Type:|pipeline|
-|Compatibility:|Spark NLP for Healthcare 3.4.1+|
+|Compatibility:|Healthcare NLP 3.4.1+|
 |License:|Licensed|
 |Edition:|Official|
 |Language:|en|

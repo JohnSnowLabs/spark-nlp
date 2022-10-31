@@ -7,7 +7,7 @@ date: 2022-08-09
 tags: [en, finance, bank, classification, licensed]
 task: Text Classification
 language: en
-edition: Spark NLP for Finance 1.0.0
+edition: Finance NLP 1.0.0
 spark_version: 3.0
 supported: true
 article_header:
@@ -76,7 +76,7 @@ result['label']
 {:.table-model}
 |---|---|
 |Model Name:|finclf_bank_complaints|
-|Compatibility:|Spark NLP for Finance 1.0.0+|
+|Compatibility:|Finance NLP 1.0.0+|
 |License:|Licensed|
 |Edition:|Official|
 |Input Labels:|[sentence_embeddings]|

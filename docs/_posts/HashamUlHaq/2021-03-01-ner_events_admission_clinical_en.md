@@ -7,7 +7,7 @@ date: 2021-03-01
 tags: [ner, licensed, clinical, en]
 task: Named Entity Recognition
 language: en
-edition: Spark NLP for Healthcare 2.7.4
+edition: Healthcare NLP 2.7.4
 spark_version: 2.4
 supported: true
 article_header:
@@ -94,7 +94,7 @@ nlu.load("en.med_ner.admission_events").predict("""The patient presented to the 
 |---|---|
 |Model Name:|ner_events_admission_clinical|
 |Type:|ner|
-|Compatibility:|Spark NLP for Healthcare 2.7.4+|
+|Compatibility:|Healthcare NLP 2.7.4+|
 |License:|Licensed|
 |Edition:|Official|
 |Input Labels:|[sentence, token, embeddings]|

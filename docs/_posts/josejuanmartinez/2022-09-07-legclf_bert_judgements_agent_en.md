@@ -7,7 +7,7 @@ date: 2022-09-07
 tags: [en, legal, judgements, agent, echr, licensed]
 task: Text Classification
 language: en
-edition: Spark NLP for Legal 1.0.0
+edition: Legal NLP 1.0.0
 spark_version: 3.0
 supported: true
 article_header:
@@ -101,7 +101,7 @@ result = result.select(F.explode(F.arrays_zip('document.result', 'class.result')
 |---|---|
 |Model Name:|legclf_bert_judgements_agent|
 |Type:|legal|
-|Compatibility:|Spark NLP for Legal 1.0.0+|
+|Compatibility:|Legal NLP 1.0.0+|
 |License:|Licensed|
 |Edition:|Official|
 |Input Labels:|[document, token]|

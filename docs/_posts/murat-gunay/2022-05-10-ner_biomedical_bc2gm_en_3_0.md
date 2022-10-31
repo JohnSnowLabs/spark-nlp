@@ -7,7 +7,7 @@ date: 2022-05-10
 tags: [bc2gm, ner, biomedical, gene_protein, gene, protein, en, licensed, clinical]
 task: Named Entity Recognition
 language: en
-edition: Spark NLP for Healthcare 3.5.1
+edition: Healthcare NLP 3.5.1
 spark_version: 3.0
 supported: true
 article_header:
@@ -166,7 +166,7 @@ nlu.load("en.med_ner.biomedical_bc2gm").predict("""Immunohistochemical staining 
 {:.table-model}
 |---|---|
 |Model Name:|ner_biomedical_bc2gm|
-|Compatibility:|Spark NLP for Healthcare 3.5.1+|
+|Compatibility:|Healthcare NLP 3.5.1+|
 |License:|Licensed|
 |Edition:|Official|
 |Input Labels:|[sentence, token, embeddings]|

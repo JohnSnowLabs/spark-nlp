@@ -7,7 +7,7 @@ date: 2021-11-26
 tags: [en, ner, clinical, licensed]
 task: Named Entity Recognition
 language: en
-edition: Spark NLP for Healthcare 3.3.3
+edition: Healthcare NLP 3.3.3
 spark_version: 3.0
 supported: true
 article_header:
@@ -123,7 +123,7 @@ nlu.load("en.med_ner.biomarker").predict("""Here , we report the first case of a
 {:.table-model}
 |---|---|
 |Model Name:|ner_biomarker|
-|Compatibility:|Spark NLP for Healthcare 3.3.3+|
+|Compatibility:|Healthcare NLP 3.3.3+|
 |License:|Licensed|
 |Edition:|Official|
 |Input Labels:|[sentence, token, embeddings]|

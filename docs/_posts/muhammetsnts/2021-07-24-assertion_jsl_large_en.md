@@ -7,7 +7,7 @@ date: 2021-07-24
 tags: [licensed, clinical, assertion, en]
 task: Assertion Status
 language: en
-edition: Spark NLP for Healthcare 3.1.2
+edition: Healthcare NLP 3.1.2
 spark_version: 2.4
 supported: true
 article_header:
@@ -143,7 +143,7 @@ The output is a dataframe with a sentence per row and an `assertion` column cont
 {:.table-model}
 |---|---|
 |Model Name:|assertion_jsl_large|
-|Compatibility:|Spark NLP for Healthcare 3.1.2+|
+|Compatibility:|Healthcare NLP 3.1.2+|
 |License:|Licensed|
 |Edition:|Official|
 |Input Labels:|[document, chunk, embeddings]|

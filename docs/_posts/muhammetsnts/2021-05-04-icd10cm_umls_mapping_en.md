@@ -7,7 +7,7 @@ date: 2021-05-04
 tags: [icd10cm, umls, en, licensed]
 task: Pipeline Healthcare
 language: en
-edition: Spark NLP for Healthcare 3.0.2
+edition: Healthcare NLP 3.0.2
 spark_version: 3.0
 supported: true
 article_header:
@@ -64,7 +64,7 @@ nlu.load("en.resolve.icd10cm.umls").predict("""M89.50 R82.2 R09.01""")
 |---|---|
 |Model Name:|icd10cm_umls_mapping|
 |Type:|pipeline|
-|Compatibility:|Spark NLP for Healthcare 3.0.2+|
+|Compatibility:|Healthcare NLP 3.0.2+|
 |License:|Licensed|
 |Edition:|Official|
 |Language:|en|

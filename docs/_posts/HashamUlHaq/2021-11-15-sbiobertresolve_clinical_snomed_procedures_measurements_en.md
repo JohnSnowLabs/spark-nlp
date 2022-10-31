@@ -7,7 +7,7 @@ date: 2021-11-15
 tags: [en, licensed, clinical, entity_resolution]
 task: Entity Resolution
 language: en
-edition: Spark NLP for Healthcare 3.3.2
+edition: Healthcare NLP 3.3.2
 spark_version: 3.0
 supported: true
 article_header:
@@ -107,7 +107,7 @@ nlu.load("en.resolve.clinical_snomed_procedures_measurements").predict("""corona
 {:.table-model}
 |---|---|
 |Model Name:|sbiobertresolve_clinical_snomed_procedures_measurements|
-|Compatibility:|Spark NLP for Healthcare 3.3.2+|
+|Compatibility:|Healthcare NLP 3.3.2+|
 |License:|Licensed|
 |Edition:|Official|
 |Input Labels:|[sentence_chunk_embeddings]|

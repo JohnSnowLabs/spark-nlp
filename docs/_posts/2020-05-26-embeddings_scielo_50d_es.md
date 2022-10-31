@@ -8,7 +8,7 @@ language: es
 repository: clinical/models
 date: 2020-05-26
 task: Embeddings
-edition: Spark NLP for Healthcare 2.5.0
+edition: Healthcare NLP 2.5.0
 spark_version: 2.4
 tags: [clinical,embeddings,es]
 supported: true

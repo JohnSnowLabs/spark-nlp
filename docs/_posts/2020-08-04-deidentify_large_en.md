@@ -7,7 +7,7 @@ language: en
 repository: clinical/models
 date: 2020-08-04
 task: De-identification
-edition: Spark NLP for Healthcare 2.5.5
+edition: Healthcare NLP 2.5.5
 spark_version: 2.4
 tags: [deidentify, en, clinical, licensed]
 supported: true
@@ -92,7 +92,7 @@ nlu.load("en.de_identify.large").predict("""Patient AIQING, 25 month years-old ,
 |---|---|
 |Model Name:|deidentify_large|
 |Type:|deid|
-|Compatibility:| Spark NLP for Healthcare 2.5.5|
+|Compatibility:| Healthcare NLP 2.5.5|
 |License:|Licensed|
 |Edition:|Official|
 |Input Labels:|[sentence, token, ner_chunk]|

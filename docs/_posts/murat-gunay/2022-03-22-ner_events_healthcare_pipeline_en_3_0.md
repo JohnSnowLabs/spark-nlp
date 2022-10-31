@@ -7,7 +7,7 @@ date: 2022-03-22
 tags: [licensed, ner, clinical, en]
 task: Named Entity Recognition
 language: en
-edition: Spark NLP for Healthcare 3.4.1
+edition: Healthcare NLP 3.4.1
 spark_version: 3.0
 supported: true
 article_header:
@@ -79,7 +79,7 @@ pipeline.fullAnnotate("The patient presented to the emergency room last evening"
 |---|---|
 |Model Name:|ner_events_healthcare_pipeline|
 |Type:|pipeline|
-|Compatibility:|Spark NLP for Healthcare 3.4.1+|
+|Compatibility:|Healthcare NLP 3.4.1+|
 |License:|Licensed|
 |Edition:|Official|
 |Language:|en|

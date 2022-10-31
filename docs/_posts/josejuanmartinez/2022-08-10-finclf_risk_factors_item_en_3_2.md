@@ -7,7 +7,7 @@ date: 2022-08-10
 tags: [en, finance, classification, 10k, annual, reports, sec, filings, licensed]
 task: Text Classification
 language: en
-edition: Spark NLP for Finance 1.0.0
+edition: Finance NLP 1.0.0
 spark_version: 3.0
 supported: true
 article_header:
@@ -19,7 +19,7 @@ use_language_switcher: "Python-Scala-Java"
 
 This model is a Binary Classifier (True, False) for the `risk_factors` item type of 10K Annual Reports. To use this model, make sure you provide enough context as an input. Adding Sentence Splitters to the pipeline will make the model see only sentences, not the whole text, so it's better to skip it, unless you want to do Binary Classification as sentence level.
 
-If you have big financial documents, and you want to look for clauses, we recommend you to split the documents using any of the techniques available in our Spark NLP for Finance Workshop Tokenization & Splitting Tutorial (link [here](https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Finance/1.Tokenization_Splitting.ipynb)), namely:
+If you have big financial documents, and you want to look for clauses, we recommend you to split the documents using any of the techniques available in our Finance NLP Workshop Tokenization & Splitting Tutorial (link [here](https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Finance/1.Tokenization_Splitting.ipynb)), namely:
 - Paragraph splitting (by multiline);
 - Splitting by headers / subheaders;
 - etc.
@@ -86,7 +86,7 @@ result = model.transform(df)
 {:.table-model}
 |---|---|
 |Model Name:|finclf_risk_factors_item|
-|Compatibility:|Spark NLP for Finance 1.0.0+|
+|Compatibility:|Finance NLP 1.0.0+|
 |License:|Licensed|
 |Edition:|Official|
 |Input Labels:|[sentence_embeddings]|

@@ -6,7 +6,7 @@ name: classifierdl_ade_biobert
 date: 2020-09-30
 task: Text Classification
 language: en
-edition: Spark NLP for Healthcare 2.6.2
+edition: Healthcare NLP 2.6.2
 spark_version: 2.4
 tags: [classifier, en, clinical, licensed]
 supported: true
@@ -98,7 +98,7 @@ nlu.load("en.classify.ade.biobert").predict("""I feel a bit drowsy & have a litt
 |---|---|
 |Model Name:|classifierdl_ade_biobert|
 |Type:|ClassifierDLModel|
-|Compatibility:|Spark NLP for Healthcare 2.6.2 +|
+|Compatibility:|Healthcare NLP 2.6.2 +|
 |Edition:|Official|
 |License:|Licensed|
 |Input Labels:|[sentence_embeddings]|

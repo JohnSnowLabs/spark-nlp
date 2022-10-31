@@ -7,7 +7,7 @@ date: 2022-06-27
 tags: [deidentification, bert, phi, ner, ro, licensed]
 task: Named Entity Recognition
 language: ro
-edition: Spark NLP for Healthcare 4.0.0
+edition: Healthcare NLP 4.0.0
 spark_version: 3.0
 supported: true
 article_header:
@@ -157,7 +157,7 @@ C.N.P : 2450502264401""")
 {:.table-model}
 |---|---|
 |Model Name:|ner_deid_subentity_bert|
-|Compatibility:|Spark NLP for Healthcare 4.0.0+|
+|Compatibility:|Healthcare NLP 4.0.0+|
 |License:|Licensed|
 |Edition:|Official|
 |Input Labels:|[sentence, token, embeddings]|

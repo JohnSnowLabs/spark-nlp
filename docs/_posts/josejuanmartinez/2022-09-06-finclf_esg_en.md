@@ -7,7 +7,7 @@ date: 2022-09-06
 tags: [en, financial, esg, classification, licensed]
 task: Text Classification
 language: en
-edition: Spark NLP for Finance 1.0.0
+edition: Finance NLP 1.0.0
 spark_version: 3.0
 supported: true
 article_header:
@@ -88,7 +88,7 @@ result.select("text", "class.result").show()
 |---|---|
 |Model Name:|finclf_esg|
 |Type:|finance|
-|Compatibility:|Spark NLP for Finance 1.0.0+|
+|Compatibility:|Finance NLP 1.0.0+|
 |License:|Licensed|
 |Edition:|Official|
 |Input Labels:|[document, token]|

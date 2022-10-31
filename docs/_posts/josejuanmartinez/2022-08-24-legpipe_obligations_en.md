@@ -7,7 +7,7 @@ date: 2022-08-24
 tags: [en, legal, obligations, licensed]
 task: [Named Entity Recognition, Part of Speech Tagging, Dependency Parser]
 language: en
-edition: Spark NLP for Legal 1.0.0
+edition: Legal NLP 1.0.0
 spark_version: 3.0
 supported: true
 article_header:
@@ -85,7 +85,7 @@ dependency_vis.display(pipeline_result[0], #should be the results of a single ex
 |---|---|
 |Model Name:|legpipe_obligations|
 |Type:|pipeline|
-|Compatibility:|Spark NLP for Legal 1.0.0+|
+|Compatibility:|Legal NLP 1.0.0+|
 |License:|Licensed|
 |Edition:|Official|
 |Language:|en|

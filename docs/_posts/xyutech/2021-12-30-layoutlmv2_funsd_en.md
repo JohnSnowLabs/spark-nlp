@@ -7,7 +7,7 @@ date: 2021-12-30
 tags: [en, licensed]
 task: OCR Text Detection & Recognition
 language: en
-edition: Spark NLP for Healthcare 3.3.0
+edition: Healthcare NLP 3.3.0
 spark_version: 3.0
 supported: true
 article_header:
@@ -96,7 +96,7 @@ val pipeline = new Pipeline()
 |---|---|
 |Model Name:|layoutlmv2_funsd|
 |Type:|ocr|
-|Compatibility:|Spark NLP for Healthcare 3.3.0+|
+|Compatibility:|Healthcare NLP 3.3.0+|
 |License:|Licensed|
 |Edition:|Official|
 |Language:|en|

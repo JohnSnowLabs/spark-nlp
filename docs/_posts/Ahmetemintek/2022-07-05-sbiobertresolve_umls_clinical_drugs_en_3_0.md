@@ -7,7 +7,7 @@ date: 2022-07-05
 tags: [entity_resolution, licensed, clinical, en]
 task: Entity Resolution
 language: en
-edition: Spark NLP for Healthcare 4.0.0
+edition: Healthcare NLP 4.0.0
 spark_version: 3.0
 supported: true
 article_header:
@@ -103,7 +103,7 @@ nlu.load("en.resolve.umls_clinical_drugs").predict("""She was immediately given 
 {:.table-model}
 |---|---|
 |Model Name:|sbiobertresolve_umls_clinical_drugs|
-|Compatibility:|Spark NLP for Healthcare 4.0.0+|
+|Compatibility:|Healthcare NLP 4.0.0+|
 |License:|Licensed|
 |Edition:|Official|
 |Input Labels:|[sentence_embeddings]|

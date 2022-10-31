@@ -7,7 +7,7 @@ date: 2022-03-22
 tags: [en, ner, clinical, licensed, bertfortokenclassification]
 task: Named Entity Recognition
 language: en
-edition: Spark NLP for Healthcare 3.3.4
+edition: Healthcare NLP 3.3.4
 spark_version: 3.0
 supported: true
 article_header:
@@ -159,7 +159,7 @@ nlu.load("en.ner.drug_development_trials").predict("""In June 2003, the median o
 {:.table-model}
 |---|---|
 |Model Name:|bert_token_classifier_drug_development_trials|
-|Compatibility:|Spark NLP for Healthcare 3.3.4+|
+|Compatibility:|Healthcare NLP 3.3.4+|
 |License:|Licensed|
 |Edition:|Official|
 |Input Labels:|[sentence, token]|

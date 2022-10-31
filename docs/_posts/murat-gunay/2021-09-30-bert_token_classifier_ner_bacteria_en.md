@@ -7,7 +7,7 @@ date: 2021-09-30
 tags: [bacteria, bertfortokenclassification, ner, en, licensed]
 task: Named Entity Recognition
 language: en
-edition: Spark NLP for Healthcare 3.2.2
+edition: Healthcare NLP 3.2.2
 spark_version: 2.4
 supported: true
 article_header:
@@ -116,7 +116,7 @@ sp. nov., with the type strain SMSP (T) (= NBRC 105244 (T) = DSM 22288 (T)).""")
 {:.table-model}
 |---|---|
 |Model Name:|bert_token_classifier_ner_bacteria|
-|Compatibility:|Spark NLP for Healthcare 3.2.2+|
+|Compatibility:|Healthcare NLP 3.2.2+|
 |License:|Licensed|
 |Edition:|Official|
 |Input Labels:|[sentence, token]|

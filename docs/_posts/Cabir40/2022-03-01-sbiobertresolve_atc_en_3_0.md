@@ -7,7 +7,7 @@ date: 2022-03-01
 tags: [atc, licensed, en, clinical, entity_resolution]
 task: Entity Resolution
 language: en
-edition: Spark NLP for Healthcare 3.4.1
+edition: Healthcare NLP 3.4.1
 spark_version: 3.0
 supported: true
 article_header:
@@ -168,7 +168,7 @@ val results = resolver_pipeline.fit(data).transform(data)
 {:.table-model}
 |---|---|
 |Model Name:|sbiobertresolve_atc|
-|Compatibility:|Spark NLP for Healthcare 3.4.1+|
+|Compatibility:|Healthcare NLP 3.4.1+|
 |License:|Licensed|
 |Edition:|Official|
 |Input Labels:|[sentence_embeddings]|

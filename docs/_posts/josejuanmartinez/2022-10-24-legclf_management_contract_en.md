@@ -7,7 +7,7 @@ date: 2022-10-24
 tags: [en, legal, classification, document, agreement, contract, licensed]
 task: Text Classification
 language: en
-edition: Spark NLP for Legal 1.0.0
+edition: Legal NLP 1.0.0
 spark_version: 3.0
 supported: true
 article_header:
@@ -93,7 +93,7 @@ result = model.transform(df)
 {:.table-model}
 |---|---|
 |Model Name:|legclf_management_contract|
-|Compatibility:|Spark NLP for Legal 1.0.0+|
+|Compatibility:|Legal NLP 1.0.0+|
 |License:|Licensed|
 |Edition:|Official|
 |Input Labels:|[sentence_embeddings]|

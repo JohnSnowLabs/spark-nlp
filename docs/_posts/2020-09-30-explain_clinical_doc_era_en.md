@@ -6,7 +6,7 @@ name: explain_clinical_doc_era
 date: 2020-09-30
 task: [Named Entity Recognition, Assertion Status, Relation Extraction, Pipeline Healthcare]
 language: en
-edition: Spark NLP for Healthcare 2.6.0
+edition: Healthcare NLP 2.6.0
 spark_version: 2.4
 tags: [pipeline, en, licensed, clinical]
 supported: true
@@ -89,7 +89,7 @@ The output is a dictionary with the following keys: ``'sentences'``, ``'clinical
 |---|---|
 |Model Name:|explain_clinical_doc_era|
 |Type:|pipeline|
-|Compatibility:|Spark NLP for Healthcare 2.6.0 +|
+|Compatibility:|Healthcare NLP 2.6.0 +|
 |License:|Licensed|
 |Edition:|Official|
 |Language:|[en]|

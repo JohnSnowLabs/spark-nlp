@@ -7,7 +7,7 @@ date: 2022-06-06
 tags: [licensed, classifier, rct, clinical, en]
 task: Entity Resolution
 language: en
-edition: Spark NLP for Healthcare 3.4.2
+edition: Healthcare NLP 3.4.2
 spark_version: 3.0
 supported: true
 article_header:
@@ -65,7 +65,7 @@ val result = pipeline.annotate("""Abstract:Based on the American Society of Anes
 |---|---|
 |Model Name:|bert_sequence_classifier_binary_rct_biobert_pipeline|
 |Type:|pipeline|
-|Compatibility:|Spark NLP for Healthcare 3.4.2+|
+|Compatibility:|Healthcare NLP 3.4.2+|
 |License:|Licensed|
 |Edition:|Official|
 |Language:|en|

@@ -7,7 +7,7 @@ date: 2021-07-02
 tags: [entity_resolution, licensed, en, clinical]
 task: Entity Resolution
 language: en
-edition: Spark NLP for Healthcare 3.1.0
+edition: Healthcare NLP 3.1.0
 spark_version: 3.0
 supported: true
 article_header:
@@ -113,7 +113,7 @@ nlu.load("en.resolve.icdo.base").predict("""The patient is a very pleasant 61-ye
 {:.table-model}
 |---|---|
 |Model Name:|sbiobertresolve_icdo_base|
-|Compatibility:|Spark NLP for Healthcare 3.1.0+|
+|Compatibility:|Healthcare NLP 3.1.0+|
 |License:|Licensed|
 |Edition:|Official|
 |Input Labels:|[sbert_embeddings]|

@@ -7,7 +7,7 @@ date: 2021-08-11
 tags: [licensed, clinical, en, sentence_detection]
 task: Sentence Detection
 language: en
-edition: Spark NLP for Healthcare 3.2.0
+edition: Healthcare NLP 3.2.0
 spark_version: 3.0
 supported: true
 article_header:
@@ -117,7 +117,7 @@ Size: Prostate gland measures 10x1.1x 4.9 cm (LS x AP x TS). Estimated volume is
 {:.table-model}
 |---|---|
 |Model Name:|sentence_detector_dl_healthcare|
-|Compatibility:|Spark NLP for Healthcare 3.2.0+|
+|Compatibility:|Healthcare NLP 3.2.0+|
 |License:|Licensed|
 |Edition:|Official|
 |Input Labels:|[document]|

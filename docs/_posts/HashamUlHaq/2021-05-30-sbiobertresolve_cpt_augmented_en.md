@@ -7,7 +7,7 @@ date: 2021-05-30
 tags: [licensed, entity_resolution, en, clinical]
 task: Entity Resolution
 language: en
-edition: Spark NLP for Healthcare 3.0.4
+edition: Healthcare NLP 3.0.4
 spark_version: 3.0
 supported: true
 article_header:
@@ -111,7 +111,7 @@ nlu.load("en.resolve.cpt.augmented").predict("""This is an 82 - year-old male wi
 {:.table-model}
 |---|---|
 |Model Name:|sbiobertresolve_cpt_augmented|
-|Compatibility:|Spark NLP for Healthcare 3.0.4+|
+|Compatibility:|Healthcare NLP 3.0.4+|
 |License:|Licensed|
 |Edition:|Official|
 |Input Labels:|[sentence_embeddings]|

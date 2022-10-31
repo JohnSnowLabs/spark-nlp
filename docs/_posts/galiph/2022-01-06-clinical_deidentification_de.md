@@ -7,7 +7,7 @@ date: 2022-01-06
 tags: [deidentification, licensed, pipeline, de]
 task: Pipeline Healthcare
 language: de
-edition: Spark NLP for Healthcare 3.3.4
+edition: Healthcare NLP 3.3.4
 spark_version: 2.4
 supported: true
 article_header:
@@ -74,7 +74,7 @@ Mathias Farber ist 56 Jahre alt und hat zu viel Wasser in den Beinen.
 |---|---|
 |Model Name:|clinical_deidentification|
 |Type:|pipeline|
-|Compatibility:|Spark NLP for Healthcare 3.3.4+|
+|Compatibility:|Healthcare NLP 3.3.4+|
 |License:|Licensed|
 |Edition:|Official|
 |Language:|de|

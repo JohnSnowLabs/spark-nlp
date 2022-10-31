@@ -7,7 +7,7 @@ date: 2022-04-25
 tags: [licensed, en, entity_resolution, clinical, rxnorm]
 task: Entity Resolution
 language: en
-edition: Spark NLP for Healthcare 3.5.1
+edition: Healthcare NLP 3.5.1
 spark_version: 2.4
 supported: true
 article_header:
@@ -101,7 +101,7 @@ nlu.load("en.resolve.rxnorm_action_treatment").predict("""coumadin 5 mg""")
 {:.table-model}
 |---|---|
 |Model Name:|sbiobertresolve_rxnorm_action_treatment|
-|Compatibility:|Spark NLP for Healthcare 3.5.1+|
+|Compatibility:|Healthcare NLP 3.5.1+|
 |License:|Licensed|
 |Edition:|Official|
 |Input Labels:|[sentence_embeddings]|
