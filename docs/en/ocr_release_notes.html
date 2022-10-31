@@ -531,16 +531,158 @@
             <i class="far fa-edit"></i></a></div><meta itemprop="headline" content="Spark OCR release notes"><meta itemprop="author" content=""/><div class="js-article-content"><div class="docs-wrapper">
 <div class="layout--article"><!-- start custom article top snippet -->
 
-<!-- end custom article top snippet --><div class="article__content" itemprop="articleBody"><h2 id="3140">3.14.0</h2>
+<!-- end custom article top snippet --><div class="article__content" itemprop="articleBody"><h2 id="420">4.2.0</h2>
+
+<p>Release date: 31-10-2022</p>
+
+<p>We are glad to announce that Spark OCR 4.2.0 has been released. This is mostly a compatibility release to ensure compatibility of Spark OCR against Spark NLP 4.2.1, and Spark NLP Healthcare 4.2.1.</p>
+
+<h4 id="improvements">Improvements</h4>
+<ul>
+  <li>Improved memory consumption and performance in the training of Visual NER models.</li>
+</ul>
+
+<h4 id="new-features">New Features</h4>
+<ul>
+  <li>PdfToForm new param: useFullyQualifiedName, added capability to return fully qualified key names.</li>
+</ul>
+
+<h4 id="new-or-updated-notebooks">New or Updated Notebooks</h4>
+<ul>
+  <li><a href="https://github.com/JohnSnowLabs/spark-ocr-workshop/blob/master/jupyter/SparkOcrProcessMultiplepageScannedPDF.ipynb">SparkOcrProcessMultiplepageScannedPDF.ipynb</a> has been added to show how to serve a multi-page document processing pipeline.</li>
+  <li><a href="https://github.com/JohnSnowLabs/spark-ocr-workshop/blob/4.2.0-release-candidate/jupyter/FormRecognition/SparkOcrDigitalFormRecognition.ipynb">SparkOcrDigitalFormRecognition.ipynb</a> has been updated to show utilization of useFullyQualifiedName parameter.</li>
+</ul>
+
+<h2 id="410">4.1.0</h2>
+
+<p>Release date: 22-09-2022</p>
+
+<h4 id="overview">Overview</h4>
+
+<p>We are glad to announce that Spark OCR 4.1.0 has been released!
+This release comes with new features, enhancements, fixes and more!.</p>
+
+<h4 id="new-features-1">New Features</h4>
+<ul>
+  <li>
+    <p>DicomSplitter: new annotator that helps to distribute and split Dicom files into multiple frames. It supports multiple strategies, similar to our PdfToImage annotator. It enables parallel processing of different frames and keeps memory utilization bounded. For big datasets, or memory constrained environments, it enables Streaming Mode to process frames 1-by-1, resulting in very low memory requirements.</p>
+  </li>
+  <li>DicomToImageV2: new annotator that supports loading images from Dicom files/frames, without loading Dicom files into memory. Targeted to datasets containing big Dicom files.</li>
+  <li>This is an example on how to use the two above mentioned annotators to process images, coming from your big Dicom files in a memory constrained setting,</li>
+</ul>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>        splitter = DicomSplitter()
+
+
+        splitter.setInputCol("path")
+        splitter.setOutputCol("frames")
+        splitter.setSplitNumBatch(2)
+        splitter.setPartitionNum(2)
+
+        dicom = DicomToImageV2()
+        dicom.setInputCols(["path", "frames"])
+        dicom.setOutputCol("image")
+
+        pipeline = PipelineModel(stages=[
+            splitter,
+            dicom
+        ])
+</code></pre></div></div>
+
+<ul>
+  <li>New image pre-processing annotators: ImageHomogenizeLight, ImageRemoveBackground, ImageEnhanceContrast, ImageRemoveGlare. For examples on how to use them, and their amazing results check this notebook: <a href="https://github.com/JohnSnowLabs/spark-ocr-workshop/blob/master/jupyter/SparkOcrImagePreprocessing.ipynb">SparkOcrImagePreprocessing.ipynb</a>.</li>
+</ul>
+
+<h4 id="improvements-1">Improvements</h4>
+<ul>
+  <li>VisualDocumentClassifierV2 training has been improved for more efficient memory utilization.</li>
+  <li>Library dependencies have been updated to remove security vulnerabilities.</li>
+</ul>
+
+<h4 id="bug-fixes">Bug Fixes</h4>
+<ul>
+  <li>The infamous “ImportError: No module named resource” bug that was affecting Windows users has been fixed.</li>
+  <li>Some issues while loading images using AlabReader have been fixed.</li>
+</ul>
+
+<h2 id="402">4.0.2</h2>
+
+<p>Release date: 12-09-2022</p>
+
+<h4 id="overview-1">Overview</h4>
+
+<p>We are glad to announce that Spark OCR 4.0.2 has been released!
+This release comes with new features, fixes and more!.</p>
+
+<h4 id="new-features-2">New Features</h4>
+
+<ul>
+  <li>VisualDocumentClassifierV2 is now trainable! Continuing with the effort to make all the most useful models easily trainable, we added training capabilities to this annotator.</li>
+  <li>Added support for Simplified Chinese.</li>
+  <li>Added new ‘PdfToForm’ annotator, capable of extracting forms from digital PDFs. This is different from previously introduced VisualDocumentNER annotator in that this new annotator works only on digital documents, as opposite to the scanned forms handled by VisualDocumentNER. PdfToForm is complementary to VisualDocumentNER.</li>
+</ul>
+
+<h4 id="improvements-2">Improvements</h4>
+
+<ul>
+  <li>Support for multi-frame dicom has been added.</li>
+  <li>Added the missing load()​ method in ImageToTextV2.</li>
+</ul>
+
+<h4 id="new-notebooks">New Notebooks</h4>
+
+<ul>
+  <li>We added two new notebooks for VisualDocumentClassifierV2, a <a href="https://github.com/JohnSnowLabs/spark-ocr-workshop/blob/master/jupyter/VisualDocumentClassifierTraining/Spark-ocr%20visual%20doc%20classifier%20v2%20preprocessing%20on%20databricks.ipynb">preprocessing notebook</a>, useful when you’re dealing with large datasets, and a <a href="https://github.com/JohnSnowLabs/spark-ocr-workshop/blob/master/jupyter/VisualDocumentClassifierTraining/SparkOCRVisualDocumentClassifierv2Training.ipynb">fine-tuning notebook</a>.</li>
+  <li>We added a <a href="https://github.com/JohnSnowLabs/spark-ocr-workshop/blob/master/jupyter/FormRecognition/SparkOcrDigitalFormRecognition.ipynb">new sample notebook</a> showing how to extract forms from digital PDF documents.</li>
+  <li>We added a <a href="https://github.com/JohnSnowLabs/spark-ocr-workshop/blob/master/jupyter/TextRecognition/SparkOcrImageToText-Chinese.ipynb">new sample notebook</a> explaining how to use Simplified Chinese OCR.</li>
+</ul>
+
+<h2 id="400">4.0.0</h2>
+
+<p>Release date: 16-07-2022</p>
+
+<h4 id="overview-2">Overview</h4>
+
+<p>We are very glad to announce that Spark OCR 4.0.0 has been released!
+This release comes with new models, new functionality, bug fixes, and compatibility with 4.0.0 versions of Spark NLP and Spark NLP for Healthcare.</p>
+
+<h4 id="new-features-3">New Features</h4>
+<ul>
+  <li>New DicomMetadataDeidentifier class to help deidentifying metadata of dicom files. Example Notebook.</li>
+  <li>New helper function display_dicom() to help displaying DICOM files in notebooks.</li>
+  <li>New DicomDrawRegions that can clean burned pixels for removing PHI.</li>
+  <li>Improved support for DICOM files containing 12bit images.</li>
+</ul>
+
+<h4 id="bug-fixes-1">Bug Fixes</h4>
+<ul>
+  <li>Fixes on the Visual NER Finetuning process including VisualDocumentNERv2 and AlabReader.</li>
+  <li>Improved exception handling for VisualDocumentClassifier models.</li>
+</ul>
+
+<h4 id="new-models">New Models</h4>
+<ul>
+  <li>New LayoutLMv3 based Visual Document NER: layoutlmv3_finetuned_funsd.</li>
+  <li>Improved handwritten detection ocr_base_handwritten_v2.</li>
+  <li>VisualDocumentClassifierV2: layoutlmv2_rvl_cdip_40k. This model adds more data compared to layoutlmv2_rvl_cdip_1500, and achieves an accuracy of 88%.</li>
+</ul>
+
+<h4 id="compatibility-updates">Compatibility Updates</h4>
+<ul>
+  <li>Deprecated Spark 2.3 and Spark 2.4 support.</li>
+  <li>Tested compatibility with Spark-NLP and Spark NLP for Healthcare 4.0.0.</li>
+</ul>
+
+<h2 id="3140">3.14.0</h2>
 
 <p>Release date: 13-06-2022</p>
 
-<h4 id="overview">Overview</h4>
+<h4 id="overview-3">Overview</h4>
 
 <p>We are glad to announce that Spark OCR 3.14.0 has been released!.
 This release focuses around Visual Document Classification models, native Image Preprocessing on the JVM, and bug fixes.</p>
 
-<h4 id="new-features">New Features</h4>
+<h4 id="new-features-4">New Features</h4>
 
 <ul>
   <li>VisualDocumentClassifierv2:
@@ -560,7 +702,7 @@ This release focuses around Visual Document Classification models, native Image 
   </li>
 </ul>
 
-<h4 id="new-notebooks">New notebooks</h4>
+<h4 id="new-notebooks-1">New notebooks</h4>
 
 <ul>
   <li><a href="https://github.com/JohnSnowLabs/spark-ocr-workshop/blob/3.14.0-release-candidate/jupyter/SparkOCRVisualDocumentClassifierv2.ipynb">SparkOCRVisualDocumentClassifierv2.ipynb</a>, example of Visual Document Classification using multimodal (text + visual) features.</li>
