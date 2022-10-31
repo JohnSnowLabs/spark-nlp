@@ -48,23 +48,23 @@ Deidentification NER (Spanish) is a Named Entity Recognition model that annotate
 {% include programmingLanguageSelectScalaPythonNLU.html %}
 
 ```python
-documentAssembler = DocumentAssembler()\
+documentAssembler = nlp.DocumentAssembler()\
 .setInputCol("text")\
 .setOutputCol("document")
 
-sentenceDetector = SentenceDetectorDLModel.pretrained("sentence_detector_dl","xx")\
+sentenceDetector = nlp.SentenceDetectorDLModel.pretrained("sentence_detector_dl","xx")\
 .setInputCols(["document"])\
 .setOutputCol("sentence")
 
-tokenizer = Tokenizer()\
+tokenizer = nlp.Tokenizer()\
 .setInputCols(["sentence"])\
 .setOutputCol("token")
 
-embeddings = WordEmbeddingsModel.pretrained("embeddings_sciwiki_300d","es","clinical/models")\
+embeddings = nlp.WordEmbeddingsModel.pretrained("embeddings_sciwiki_300d","es","clinical/models")\
 	.setInputCols(["sentence","token"])\
 	.setOutputCol("word_embeddings")
 
-clinical_ner = MedicalNerModel.pretrained("ner_deid_subentity", "es", "clinical/models")\
+clinical_ner = medical.NerModel.pretrained("ner_deid_subentity", "es", "clinical/models")\
 .setInputCols(["sentence","token","word_embeddings"])\
 .setOutputCol("ner")
 
@@ -79,28 +79,28 @@ text = ['''
 Antonio Pérez Juan, nacido en Cadiz, España. Aún no estaba vacunado, se infectó con Covid-19 el dia 14/03/2020 y tuvo que ir al Hospital. Fue tratado con anticuerpos monoclonales en la Clinica San Carlos.
 ''']
 
-df = spark.createDataFrame([text]).toDF("text")
+data = spark.createDataFrame([text]).toDF("text")
 
 results = nlpPipeline.fit(data).transform(data)
 ```
 ```scala
-val documentAssembler = new DocumentAssembler()
+val documentAssembler = new nlp.DocumentAssembler()
 .setInputCol("text")
 .setOutputCol("document")
 
-val sentenceDetector = SentenceDetectorDLModel.pretrained("sentence_detector_dl_healthcare","xx")
+val sentenceDetector = nlp.SentenceDetectorDLModel.pretrained("sentence_detector_dl_healthcare","xx")
 .setInputCols(Array("document"))
 .setOutputCol("sentence")
 
-val tokenizer = new Tokenizer()
+val tokenizer = new nlp.Tokenizer()
 .setInputCols(Array("sentence"))
 .setOutputCol("token")
 
-val embeddings = WordEmbeddingsModel.pretrained("embeddings_sciwiki_300d","es","clinical/models")
+val embeddings = nlp.WordEmbeddingsModel.pretrained("embeddings_sciwiki_300d","es","clinical/models")
 .setInputCols(Array("sentence", "token"))
 .setOutputCol("embeddings")
 
-val clinical_ner = MedicalNerModel.pretrained("ner_deid_subentity", "es", "clinical/models")
+val clinical_ner = medical.NerModel.pretrained("ner_deid_subentity", "es", "clinical/models")
 .setInputCols(Array("sentence","token","embeddings"))
 .setOutputCol("ner")
 
@@ -108,7 +108,7 @@ val pipeline = new Pipeline().setStages(Array(documentAssembler, sentenceDetecto
 
 val text = """Antonio Pérez Juan, nacido en Cadiz, España. Aún no estaba vacunado, se infectó con Covid-19 el dia 14/03/2020 y tuvo que ir al Hospital. Fue tratado con anticuerpos monoclonales en la Clinica San Carlos."""
 
-val df = Seq(text).toDS.toDF("text")
+val data = Seq(text).toDS.toDF("text")
 
 val results = pipeline.fit(data).transform(data)
 ```

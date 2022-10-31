@@ -136,7 +136,7 @@ class LightPipelineTestSpec extends AnyFlatSpec {
       mapAnnotations.values.foreach { annotations =>
         annotations.foreach { annotation =>
           assert(annotation.isInstanceOf[Annotation])
-          assert(annotation.begin >= 0)
+          assert(annotation.asInstanceOf[Annotation].begin >= 0)
         }
       }
     }
@@ -177,7 +177,7 @@ class LightPipelineTestSpec extends AnyFlatSpec {
         assert(annotations.nonEmpty)
         annotations.foreach { annotation =>
           assert(annotation.isInstanceOf[Annotation])
-          assert(annotation.begin >= 0)
+          assert(annotation.asInstanceOf[Annotation].begin >= 0)
         }
       }
     }
@@ -210,6 +210,14 @@ class LightPipelineTestSpec extends AnyFlatSpec {
     }
 
     assert(t1 > t2)
+  }
+
+  it should "raise an error when using a wrong input size" taggedAs FastTest in {
+    val lightPipeline = new LightPipeline(fixtureWithNormalizer.model)
+
+    assertThrows[UnsupportedOperationException] {
+      lightPipeline.fullAnnotate(Array("1", "2", "3"), Array("1", "2"))
+    }
   }
 
 }

@@ -2,6 +2,12 @@ package com.johnsnowlabs.nlp.embeddings
 
 import com.johnsnowlabs.ml.tensorflow._
 import com.johnsnowlabs.ml.tensorflow.sentencepiece._
+import com.johnsnowlabs.ml.util.LoadExternalModel.{
+  loadSentencePieceAsset,
+  modelSanityCheck,
+  notSupportedEngineError
+}
+import com.johnsnowlabs.ml.util.ModelEngine
 import com.johnsnowlabs.nlp._
 import com.johnsnowlabs.nlp.annotators.common._
 import com.johnsnowlabs.nlp.serialization.MapFeature
@@ -10,8 +16,6 @@ import org.apache.spark.broadcast.Broadcast
 import org.apache.spark.ml.param.{IntArrayParam, IntParam}
 import org.apache.spark.ml.util.Identifiable
 import org.apache.spark.sql.{DataFrame, SparkSession}
-
-import java.io.File
 
 /** The CamemBERT model was proposed in CamemBERT: a Tasty French Language Model by Louis Martin,
   * Benjamin Muller, Pedro Javier Ortiz Suárez, Yoann Dupont, Laurent Romary, Éric Villemonte de
@@ -89,18 +93,17 @@ import java.io.File
   *   embeddingsFinisher
   * ))
   *
-  * val data = Seq("This is a sentence.").toDF("text")
+  * val data = Seq("C'est une phrase.").toDF("text")
   * val result = pipeline.fit(data).transform(data)
   *
   * result.selectExpr("explode(finished_embeddings) as result").show(5, 80)
   * +--------------------------------------------------------------------------------+
   * |                                                                          result|
   * +--------------------------------------------------------------------------------+
-  * |[-2.3497989177703857,0.480538547039032,-0.3238905668258667,-1.612930893898010...|
-  * |[-2.1357314586639404,0.32984697818756104,-0.6032363176345825,-1.6791689395904...|
-  * |[-1.8244884014129639,-0.27088963985443115,-1.059438943862915,-0.9817547798156...|
-  * |[-1.1648050546646118,-0.4725411534309387,-0.5938255786895752,-1.5780693292617...|
-  * |[-0.9125322699546814,0.4563939869403839,-0.3975459933280945,-1.81611204147338...|
+  * |[0.08442357927560806,-0.12863239645957947,-0.03835778683423996,0.200479581952...|
+  * |[0.048462312668561935,0.12637358903884888,-0.27429091930389404,-0.07516729831...|
+  * |[0.02690504491329193,0.12104076147079468,0.012526623904705048,-0.031543646007...|
+  * |[0.05877285450696945,-0.08773420006036758,-0.06381352990865707,0.122621834278...|
   * +--------------------------------------------------------------------------------+
   * }}}
   *
@@ -133,7 +136,8 @@ class CamemBertEmbeddings(override val uid: String)
     with WriteSentencePieceModel
     with HasEmbeddingsProperties
     with HasStorageRef
-    with HasCaseSensitiveProperties {
+    with HasCaseSensitiveProperties
+    with HasEngine {
 
   def this() = this(Identifiable.randomUID("CAMEMBERT_EMBEDDINGS"))
 
@@ -330,7 +334,7 @@ trait ReadablePretrainedCamemBertModel
     super.pretrained(name, lang, remoteLoc)
 }
 
-trait ReadCamemBertTensorflowModel extends ReadTensorflowModel with ReadSentencePieceModel {
+trait ReadCamemBertDLModel extends ReadTensorflowModel with ReadSentencePieceModel {
   this: ParamsAndFeaturesReadable[CamemBertEmbeddings] =>
 
   override val tfFile: String = "camembert_tensorflow"
@@ -345,40 +349,43 @@ trait ReadCamemBertTensorflowModel extends ReadTensorflowModel with ReadSentence
 
   addReader(readTensorflow)
 
-  def loadSavedModel(tfModelPath: String, spark: SparkSession): CamemBertEmbeddings = {
+  def loadSavedModel(modelPath: String, spark: SparkSession): CamemBertEmbeddings = {
 
-    val f = new File(tfModelPath)
-    val savedModel = new File(tfModelPath, "saved_model.pb")
-    require(f.exists, s"Folder $tfModelPath not found")
-    require(f.isDirectory, s"File $tfModelPath is not folder")
-    require(
-      savedModel.exists(),
-      s"savedModel file saved_model.pb not found in folder $tfModelPath")
-    val sppModelPath = tfModelPath + "/assets"
-    val sppModel = new File(sppModelPath, "sentencepiece.bpe.model")
-    require(
-      sppModel.exists(),
-      s"SentencePiece model sentencepiece.bpe.model not found in folder $sppModelPath")
+    val (localModelPath, detectedEngine) = modelSanityCheck(modelPath)
 
-    val (wrapper, signatures) =
-      TensorflowWrapper.read(tfModelPath, zipped = false, useBundle = true)
-    val spp = SentencePieceWrapper.read(sppModel.toString)
+    val spModel = loadSentencePieceAsset(localModelPath, "sentencepiece.bpe.model")
 
-    val _signatures = signatures match {
-      case Some(s) => s
-      case None => throw new Exception("Cannot load signature definitions from model!")
+    /*Universal parameters for all engines*/
+    val annotatorModel = new CamemBertEmbeddings()
+
+    annotatorModel.set(annotatorModel.engine, detectedEngine)
+
+    detectedEngine match {
+      case ModelEngine.tensorflow =>
+        val (wrapper, signatures) =
+          TensorflowWrapper.read(localModelPath, zipped = false, useBundle = true)
+
+        val _signatures = signatures match {
+          case Some(s) => s
+          case None => throw new Exception("Cannot load signature definitions from model!")
+        }
+
+        /** the order of setSignatures is important if we use getSignatures inside
+          * setModelIfNotSet
+          */
+        annotatorModel
+          .setSignatures(_signatures)
+          .setModelIfNotSet(spark, wrapper, spModel)
+
+      case _ =>
+        throw new Exception(notSupportedEngineError)
     }
 
-    /** the order of setSignatures is important if we use getSignatures inside setModelIfNotSet */
-    new CamemBertEmbeddings()
-      .setSignatures(_signatures)
-      .setModelIfNotSet(spark, wrapper, spp)
+    annotatorModel
   }
 }
 
 /** This is the companion object of [[CamemBertEmbeddings]]. Please refer to that class for the
   * documentation.
   */
-object CamemBertEmbeddings
-    extends ReadablePretrainedCamemBertModel
-    with ReadCamemBertTensorflowModel
+object CamemBertEmbeddings extends ReadablePretrainedCamemBertModel with ReadCamemBertDLModel

@@ -19,27 +19,11 @@ data:
         - subtitle: Infer Meaning & Intent - Live Demos & Notebooks 
           activemenu: infer_meaning_intent
       source: yes
-      source: 
-        - title: Text summarization
-          id: summarize_text
-          image: 
-              src: /assets/images/Document_Classification.svg
-          image2: 
-              src: /assets/images/Document_Classification_f.svg
-          excerpt: Summarize text to make it shorter while retaining meaning.
-          actions:
-          - text: Live Demo
-            type: normal
-            url:  https://demo.johnsnowlabs.com/public/TEXT_SUMMARIZATION/
-          - text: Colab
-            type: blue_btn
-            url:  https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/T5TRANSFORMER.ipynb
+      source:         
         - title:  Understand intent and actions in general commands
           id: understand_intent_and_actions_in_general_commands
           image: 
               src: /assets/images/Split_Clean_Text.svg
-          image2: 
-              src: /assets/images/Split_Clean_Text_f.svg
           excerpt: Extract intents in general commands related to music, restaurants, movies.
           actions:
           - text: Live Demo
@@ -52,8 +36,6 @@ data:
           id: infer_word_meaning_from_context
           image: 
               src: /assets/images/Grammar_Analysis.svg
-          image2: 
-              src: /assets/images/Grammar_Analysis_f.svg
           excerpt: Compare the meaning of words in two different sentences and evaluate ambiguous pronouns.
           actions:
           - text: Live Demo
@@ -66,8 +48,6 @@ data:
           id: assess_relationship_between_two_sentences
           image: 
               src: /assets/images/Spell_Checking.svg
-          image2: 
-              src: /assets/images/Spell_Checking_f.svg
           excerpt: Evaluate the relationship between two sentences or text fragments to identify things such as contradictions, entailments and premises & hypotheses
           actions:
           - text: Live Demo
@@ -80,8 +60,6 @@ data:
           id: detect_similar_sentences
           image: 
               src: /assets/images/Detect_similar_sentences.svg
-          image2: 
-              src: /assets/images/Detect_similar_sentences_f.svg
           excerpt: Automatically compute the similarity between two sentences using Spark NLP Universal Sentence Embeddings.
           actions:
           - text: Live Demo
@@ -95,8 +73,6 @@ data:
           id: automatically_answer_questions
           image: 
               src: /assets/images/spelling.svg
-          image2: 
-              src: /assets/images/spelling_f.svg
           excerpt: Automatically generate answers to questions with & without context
           actions:
           - text: Live Demo
@@ -109,8 +85,6 @@ data:
           id: understand_questions_about_airline_traffic
           image: 
               src: /assets/images/Detect_diagnosis_and_procedures.svg
-          image2: 
-              src: /assets/images/Detect_diagnosis_and_procedures_f.svg
           excerpt: Automatically detect key entities related to airline traffic, such as departure and arrival times and locations.
           actions:
           - text: Live Demo
@@ -123,8 +97,6 @@ data:
           id: extract_graphs_from_text 
           image: 
               src: /assets/images/Extract_Graphs_in_a_Text.svg
-          image2: 
-              src: /assets/images/Extract_Graphs_in_a_Text_f.svg
           excerpt: This demo shows how knowledge graphs entities and relations can be extracted from texts.
           actions:
           - text: Live Demo
@@ -137,8 +109,6 @@ data:
           id: sql_query_generation  
           image: 
               src: /assets/images/Sql_query_generation.svg
-          image2: 
-              src: /assets/images/Sql_query_generation_f.svg
           excerpt: This demo shows how to generate SQL code from natural language text.
           actions:
           - text: Live Demo
@@ -146,19 +116,17 @@ data:
             url: https://demo.johnsnowlabs.com/public/T5_SQL/ 
           - text: Colab
             type: blue_btn
-            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/T5_SQL.ipynb
-        - title: Text Generation with GPT-2
-          id: text_generation_with_gpt2  
+            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/T5_SQL.ipynb  
+        - title: Coreference Resolution
+          id: coreference_resolution  
           image: 
-              src: /assets/images/Text_Generation_gpt2.svg
-          image2: 
-              src: /assets/images/Text_Generation_gpt2_f.svg
-          excerpt: This demo shows how to generate text using GPT-2 Transformer.
+              src: /assets/images/Sql_query_generation.svg
+          excerpt: This demo shows how to identify expressions that refer to the same entity in a text.
           actions:
           - text: Live Demo
             type: normal
-            url: https://demo.johnsnowlabs.com/public/GPT2_TRANSFORMER/
+            url: https://demo.johnsnowlabs.com/public/COREFERENCE_RESOLUTION/
           - text: Colab
             type: blue_btn
-            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Public/16.GPT2_Transformer_In_Spark_NLP.ipynb
+            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/public/COREFERENCE_RESOLUTION.ipynb
 ---

@@ -37,19 +37,19 @@ This model was imported from Hugging Face (https://huggingface.co/shahrukhx01/qu
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
 ```python
-documentAssembler = DocumentAssembler()\
+documentAssembler = nlp.DocumentAssembler()\
 .setInputCol("text")\
 .setOutputCol("document")
 
-sentenceDetector = SentenceDetectorDLModel.pretrained() \
+sentenceDetector = nlp.SentenceDetectorDLModel.pretrained() \
 .setInputCols(["document"]) \
 .setOutputCol("sentence")
 
-tokenizer = Tokenizer()\
+tokenizer = nlp.Tokenizer()\
 .setInputCols("sentence")\
 .setOutputCol("token")
 
-seq = BertForSequenceClassification.pretrained('bert_sequence_classifier_question_statement', 'en')\
+seq = nlp.BertForSequenceClassification.pretrained('bert_sequence_classifier_question_statement', 'en')\
 .setInputCols(["token", "sentence"])\
 .setOutputCol("label")\
 .setCaseSensitive(True)
@@ -70,22 +70,24 @@ My Dad said: How’s the new car? Have you seen the flower holder in the center 
 To summarize, we thought a flower vase was an XXX item…
 In our defense, this is a picture of a VW Beetle flower holder."""]
 
-res = p_model.transform(spark.createDataFrame(pd.DataFrame({'text': test_sentences})))
+import pandas as pd
+data=spark.createDataFrame(pd.DataFrame({'text': test_sentences}))
+res = pipeline.fit(data).transform(data)
 ```
 ```scala
-val documentAssembler = new DocumentAssembler()
+val documentAssembler = new nlp.DocumentAssembler()
 .setInputCol("text")
 .setOutputCol("document")
 
-val sentenceDetector = SentenceDetectorDLModel.pretrained()
+val sentenceDetector = nlp.SentenceDetectorDLModel.pretrained()
 .setInputCols(Array("document"))
 .setOutputCol("sentence")
 
-val tokenizer = new Tokenizer()
+val tokenizer = new nlp.Tokenizer()
 .setInputCols("sentence")
 .setOutputCol("token")
 
-val seq = BertForSequenceClassification.pretrained("bert_sequence_classifier_question_statement", "en")
+val seq = nlp.BertForSequenceClassification.pretrained("bert_sequence_classifier_question_statement", "en")
 .setInputCols(Array("token", "sentence"))
 .setOutputCol("label")
 .setCaseSensitive(True)

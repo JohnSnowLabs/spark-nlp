@@ -24,8 +24,6 @@ data:
           id: company_normalization_edgar_crunchbase_databases 
           image: 
               src: /assets/images/Company_Normalization.svg
-          image2: 
-              src: /assets/images/Company_Normalization_f.svg
           excerpt: These models normalize versions of Company Names using Edgar and Crunchbase databases conventions.
           actions:
           - text: Live Demo
@@ -38,8 +36,6 @@ data:
           id: augment_company_names_public_information   
           image: 
               src: /assets/images/Augment_Company_Names_Public_Information.svg
-          image2: 
-              src: /assets/images/Augment_Company_Names_Public_Information_f.svg
           excerpt: These models aim to augment NER with information from external sources.
           actions:
           - text: Live Demo
@@ -47,5 +43,17 @@ data:
             url: https://demo.johnsnowlabs.com/finance/FIN_LEG_COMPANY_AUGMENTATION 
           - text: Colab
             type: blue_btn
-            url:              
+            url:       
+        - title: Financial Graph Visualization 
+          id: financial_graph_visualization   
+          image: 
+              src: /assets/images/Financial_Graph_Visualization.svg
+          excerpt: Use different models from Spark NLP for Finance, as NER, Relation Extraction, Entity Resolution and Chunk Mappers, to create your own Financial Graphs.
+          actions:
+          - text: Live Demo
+            type: normal
+            url: https://demo.johnsnowlabs.com/finance/NEO4J/
+          - text: Colab
+            type: blue_btn
+            url:        
 ---

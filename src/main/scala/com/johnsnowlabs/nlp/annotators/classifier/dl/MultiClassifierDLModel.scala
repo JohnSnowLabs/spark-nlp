@@ -138,7 +138,8 @@ class MultiClassifierDLModel(override val uid: String)
     with HasSimpleAnnotate[MultiClassifierDLModel]
     with WriteTensorflowModel
     with HasStorageRef
-    with ParamsAndFeaturesWritable {
+    with ParamsAndFeaturesWritable
+    with HasEngine {
   def this() = this(Identifiable.randomUID("MultiClassifierDLModel"))
 
   /** Output annotator type : SENTENCE_EMBEDDINGS
@@ -225,7 +226,8 @@ class MultiClassifierDLModel(override val uid: String)
       val encoder = new ClassifierDatasetEncoder(datasetParams.get.get)
 
       _model = Some(
-        spark.sparkContext.broadcast(new TensorflowMultiClassifier(tf, encoder, Verbose.Silent)))
+        spark.sparkContext.broadcast(
+          new TensorflowMultiClassifier(tf, encoder, None, Verbose.Silent)))
     }
     this
   }

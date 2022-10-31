@@ -8,7 +8,7 @@ tags: [en, finance, ner, headers, splitting, sections, licensed]
 task: Named Entity Recognition
 language: en
 edition: Spark NLP for Finance 1.0.0
-spark_version: 3.2
+spark_version: 3.0
 supported: true
 article_header:
   type: cover
@@ -43,28 +43,29 @@ For more information about long document splitting, see [this](https://github.co
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
+
 ```python
-documentAssembler = DocumentAssembler()\
+documentAssembler = nlp.DocumentAssembler()\
         .setInputCol("text")\
         .setOutputCol("document")
         
-sentenceDetector = SentenceDetectorDLModel.pretrained("sentence_detector_dl","xx")\
+sentenceDetector = nlp.SentenceDetectorDLModel.pretrained("sentence_detector_dl","xx")\
         .setInputCols(["document"])\
         .setOutputCol("sentence")
 
-tokenizer = Tokenizer()\
+tokenizer = nlp.Tokenizer()\
         .setInputCols(["sentence"])\
         .setOutputCol("token")
 
-embeddings = BertEmbeddings.pretrained("bert_embeddings_sec_bert_base","en") \
+embeddings = nlp.BertEmbeddings.pretrained("bert_embeddings_sec_bert_base","en") \
     .setInputCols(["sentence", "token"]) \
     .setOutputCol("embeddings")
 
-ner_model = FinanceNerModel.pretrained('finner_headers', 'en', 'finance/models')\
+ner_model = finance.NerModel.pretrained('finner_headers', 'en', 'finance/models')\
         .setInputCols(["sentence", "token", "embeddings"])\
         .setOutputCol("ner")
 
-ner_converter = NerConverter()\
+ner_converter = nlp.NerConverter()\
         .setInputCols(["sentence","token","ner"])\
         .setOutputCol("ner_chunk")
 
@@ -173,12 +174,11 @@ In-house annotations on 10-k filings
 ## Benchmarking
 
 ```bash
-label	 tp	 fp	 fn	 prec	 rec	 f1
-I-HEADER	 2835	 9	 8	 0.9968355	 0.99718606	 0.9970107
-B-SUBHEADER	 963	 135	 131	 0.8770492	 0.88025594	 0.87864965
-I-SUBHEADER	 2573	 219	 152	 0.9215616	 0.9442202	 0.9327533
-B-HEADER	 425	 1	 1	 0.9976526	 0.9976526	 0.9976526
-tp: 6796 fp: 364 fn: 292 labels: 4
-Macro-average	 prec: 0.94827473, rec: 0.9548287, f1: 0.95154047
-Micro-average	 prec: 0.949162, rec: 0.9588036, f1: 0.9539584
-```
+label            tp      fp      fn      prec         rec          f1
+I-HEADER         2835    9       8       0.996835     0.9971860    0.9970107
+B-SUBHEADER      963     135     131     0.877049     0.8802559    0.87864965
+I-SUBHEADER      2573    219     152     0.921561     0.9442202    0.9327533
+B-HEADER         425     1       1       0.997652     0.9976526    0.9976526
+Macro-average    6796    364     292     0.948274     0.9548287    0.95154047
+Micro-average    6796    364     292     0.949162     0.9588036    0.9539584
+``` 

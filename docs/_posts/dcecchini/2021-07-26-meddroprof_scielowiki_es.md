@@ -30,7 +30,7 @@ NER model that detects professions and occupations in Spanish texts. Trained wit
 
 {:.btn-box}
 [Live Demo](https://demo.johnsnowlabs.com/healthcare/NER_PROFESSIONS_ES/){:.button.button-orange}
-[Open in Colab](https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/1.Clinical_Named_Entity_Recognition_Model.ipynb){:.button.button-orange.button-orange-trans.co.button-icon}
+[Open in Colab](https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/NER_PROFESSIONS_ES.ipynb){:.button.button-orange.button-orange-trans.co.button-icon}
 [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/meddroprof_scielowiki_es_3.1.3_3.0_1627328955264.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
 
 
@@ -46,68 +46,73 @@ NER model that detects professions and occupations in Spanish texts. Trained wit
 
 ```python
 document_assembler = DocumentAssembler()\
-        .setInputCol('text')\
-        .setOutputCol('document')
+    .setInputCol("text")\
+    .setOutputCol("document")
 
 sentence = SentenceDetector() \
-    .setInputCols(["document"]) \
+    .setInputCols("document") \
     .setOutputCol("sentence")
 
 tokenizer = Tokenizer() \
-    .setInputCols(["sentence"]) \
+    .setInputCols("sentence") \
     .setOutputCol("token")
 
-embedings_stage = WordEmbeddingsModel.pretrained("embeddings_scielowiki_300d", "es", "clinical/models")\
-        .setInputCols(["document","token"])\
-        .setOutputCol("word_embeddings")
+word_embeddings = WordEmbeddingsModel.pretrained("embeddings_scielowiki_300d", "es", "clinical/models")\
+    .setInputCols(["document", "token"])\
+    .setOutputCol("embeddings")
 
 clinical_ner = MedicalNerModel.pretrained("meddroprof_scielowiki", "es", "clinical/models")\
-        .setInputCols(["sentence", "token", "embeddings"])\
-        .setOutputCol("ner")
+    .setInputCols(["sentence", "token", "embeddings"])\
+    .setOutputCol("ner")
 
 ner_converter = NerConverter() \
-    .setInputCols(['document', 'token', 'ner']) \
-    .setOutputCol('ner_chunk')
+    .setInputCols(["sentence", "token", "ner"]) \
+    .setOutputCol("ner_chunk")
 
 pipeline = Pipeline(stages=[
-    document_assembler, 
-    sentence,
-    tokenizer,
-    embedings_stage,
-    clinical_ner,
-    ner_converter
-])
+                        document_assembler, 
+                        sentence,
+                        tokenizer,
+                        word_embeddings,
+                        clinical_ner,
+                        ner_converter])
 
-example = spark.createDataFrame(pd.DataFrame({'text': ["""La paciente es la mayor de 2 hermanos, tiene un hermano de 13 años estudiando 1o ESO. Sus padres son ambos ATS , trabajan en diferentes centros de salud estudiando 1o ESO"""]}))
+sample_text = """La paciente es la mayor de 2 hermanos, tiene un hermano de 13 años estudiando 1o ESO. Sus padres son ambos ATS , trabajan en diferentes centros de salud estudiando 1o ESO"""
 
-result = pipeline.fit(example).transform(example)
+df = spark.createDataFrame([[sample_text]]).toDF("text")
+result = pipeline.fit(df).transform(df)
 ```
 ```scala
 val document_assembler = new DocumentAssembler()
-        .setInputCol('text')
-        .setOutputCol('document')
+    .setInputCol("text")
+    .setOutputCol("document")
 
 val sentence = new SentenceDetector() 
-    .setInputCols(["document"]) 
+    .setInputCols("document") 
     .setOutputCol("sentence")
 
 val tokenizer = new Tokenizer() 
-    .setInputCols(["sentence"]) 
+    .setInputCols("sentence") 
     .setOutputCol("token")
 
-val embedings_stage = WordEmbeddingsModel.pretrained("embeddings_scielowiki_300d", "es", "clinical/models")
-        .setInputCols(["document","token"])
-        .setOutputCol("word_embeddings")
+val word_embeddings = WordEmbeddingsModel.pretrained("embeddings_scielowiki_300d", "es", "clinical/models")
+    .setInputCols(Array("document", "token"))
+    .setOutputCol("word_embeddings")
 
 val clinical_ner = MedicalNerModel.pretrained("meddroprof_scielowiki", "es", "clinical/models")
-        .setInputCols(["sentence", "token", "embeddings"])
-        .setOutputCol("ner")
+    .setInputCols(Array("sentence", "token", "embeddings"))
+    .setOutputCol("ner")
 
 val ner_converter = new NerConverter() 
-    .setInputCols(['document', 'token', 'ner']) 
-    .setOutputCol('ner_chunk')
+    .setInputCols(Array("sentence", "token", "ner")) 
+    .setOutputCol("ner_chunk")
 
-val pipeline = new Pipeline().setStages(Array(document_assembler, sentence, tokenizer, embedings_stage, clinical_ner, ner_converter))
+val pipeline = new Pipeline().setStages(Array(document_assembler, 
+                                              sentence, 
+                                              tokenizer, 
+                                              word_embeddings, 
+                                              clinical_ner, 
+                                              ner_converter))
 
 val data = Seq("""La paciente es la mayor de 2 hermanos, tiene un hermano de 13 años estudiando 1o ESO. Sus padres son ambos ATS , trabajan en diferentes centros de salud estudiando 1o ESO""").toDS.toDF("text")
 
@@ -120,44 +125,14 @@ val result = pipeline.fit(data).transform(data)
 
 
 ```bash
-+--------------------+----------+-------------------+
-|                text|     token|         prediction|
-+--------------------+----------+-------------------+
-|La paciente es la...|        La|                  O|
-|La paciente es la...|  paciente|                  O|
-|La paciente es la...|        es|                  O|
-|La paciente es la...|        la|                  O|
-|La paciente es la...|     mayor|                  O|
-|La paciente es la...|        de|                  O|
-|La paciente es la...|         2|                  O|
-|La paciente es la...|  hermanos|                  O|
-|La paciente es la...|         ,|                  O|
-|La paciente es la...|     tiene|                  O|
-|La paciente es la...|        un|                  O|
-|La paciente es la...|   hermano|                  O|
-|La paciente es la...|        de|                  O|
-|La paciente es la...|        13|                  O|
-|La paciente es la...|      años|                  O|
-|La paciente es la...|estudiando|B-SITUACION_LABORAL|
-|La paciente es la...|        1o|I-SITUACION_LABORAL|
-|La paciente es la...|       ESO|I-SITUACION_LABORAL|
-|La paciente es la...|         .|                  O|
-|La paciente es la...|       Sus|                  O|
-|La paciente es la...|    padres|                  O|
-|La paciente es la...|       son|                  O|
-|La paciente es la...|     ambos|                  O|
-|La paciente es la...|       ATS|        B-PROFESION|
-|La paciente es la...|         ,|                  O|
-|La paciente es la...|  trabajan|        B-PROFESION|
-|La paciente es la...|        en|        I-PROFESION|
-|La paciente es la...|diferentes|        I-PROFESION|
-|La paciente es la...|   centros|        I-PROFESION|
-|La paciente es la...|        de|        I-PROFESION|
-|La paciente es la...|     salud|        I-PROFESION|
-|La paciente es la...|estudiando|B-SITUACION_LABORAL|
-|La paciente es la...|        1o|I-SITUACION_LABORAL|
-|La paciente es la...|       ESO|I-SITUACION_LABORAL|
-+--------------------+----------+-------------------+
++---------------------------------------+-----------------+
+|chunk                                  |ner_label        |
++---------------------------------------+-----------------+
+|estudiando 1o ESO                      |SITUACION_LABORAL|
+|ATS                                    |PROFESION        |
+|trabajan en diferentes centros de salud|PROFESION        |
+|estudiando 1o ESO                      |SITUACION_LABORAL|
++---------------------------------------+-----------------+
 ```
 
 

@@ -100,7 +100,7 @@ val pipelineModel = pipeline.fit(trainingData)
 {%- endcapture -%}
 
 {%- capture python_api_link -%}
-[NorvigSweetingApproach](/api/python/reference/autosummary/sparknlp/annotator/spell_check/norvig_sweeting/index.html#sparknlp.annotator.spell_check.norvig_sweeting.NorvigSweetingApproach)
+[NorvigSweetingApproach](/api/python/reference/autosummary/python/sparknlp/annotator/spell_check/norvig_sweeting/index.html#sparknlp.annotator.spell_check.norvig_sweeting.NorvigSweetingApproach)
 {%- endcapture -%}
 
 {%- capture source_link -%}

@@ -17,9 +17,10 @@ from sparknlp.common import *
 
 
 class SpanBertCorefModel(AnnotatorModel,
-                     HasEmbeddingsProperties,
-                     HasCaseSensitiveProperties,
-                     HasStorageRef):
+                         HasEmbeddingsProperties,
+                         HasCaseSensitiveProperties,
+                         HasStorageRef,
+                         HasEngine):
     """
     A coreference resolution model based on SpanBert.
 
@@ -39,10 +40,13 @@ class SpanBertCorefModel(AnnotatorModel,
     pretrained models please see the `Models Hub
     <https://nlp.johnsnowlabs.com/models?q=coref>`__.
 
+    For extended examples of usage, see the
+    `Spark NLP Workshop <https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/jupyter/annotation/english/coreference-resolution/Coreference_Resolution_SpanBertCorefModel.ipynb>`__.
+
     ====================== ======================
     Input Annotation types Output Annotation type
     ====================== ======================
-    ``DOCUMENT, TOKEN`     ``DEPENDENCY``
+    ``DOCUMENT, TOKEN``    ``DEPENDENCY``
     ====================== ======================
 
     Parameters
@@ -52,13 +56,14 @@ class SpanBertCorefModel(AnnotatorModel,
     maxSegmentLength
         Maximum segment length
     textGenre
-        Text genre.  One of the following values:
-        "bc", // Broadcast conversation, default
-        "bn", // Broadcast news
-        "nw", // News wire
-        "pt", // Pivot text: Old Testament and New Testament text
-        "tc", // Telephone conversation
-        "wb" // Web data
+        Text genre. One of the following values:
+
+        | "bc", // Broadcast conversation, default
+        | "bn", // Broadcast news
+        | "nw", // News wire
+        | "pt", // Pivot text: Old Testament and New Testament text
+        | "tc", // Telephone conversation
+        | "wb" // Web data
 
     Examples
     --------
@@ -89,7 +94,7 @@ class SpanBertCorefModel(AnnotatorModel,
     ...     ["John told Mary he would like to borrow a book from her."]
     ... ]).toDF("text")
     >>> results = pipeline.fit(data).transform(data))
-    >>> results\
+    >>> results \\
     ...     .selectExpr("explode(corefs) AS coref")
     ...     .selectExpr("coref.result as token", "coref.metadata")
     ...     .show(truncate=False)
@@ -111,14 +116,14 @@ class SpanBertCorefModel(AnnotatorModel,
                               typeConverter=TypeConverters.toInt)
 
     maxSegmentLength = Param(Params._dummy(),
-                              "maxSegmentLength",
-                              "Max segment length",
-                              typeConverter=TypeConverters.toInt)
+                             "maxSegmentLength",
+                             "Max segment length",
+                             typeConverter=TypeConverters.toInt)
 
     textGenre = Param(Params._dummy(),
-                             "textGenre",
-                             "Text genre, one of ('bc', 'bn', 'mz', 'nw', 'pt','tc', 'wb')",
-                             typeConverter=TypeConverters.toString)
+                      "textGenre",
+                      "Text genre, one of ('bc', 'bn', 'mz', 'nw', 'pt','tc', 'wb')",
+                      typeConverter=TypeConverters.toString)
 
     configProtoBytes = Param(Params._dummy(),
                              "configProtoBytes",
@@ -156,13 +161,13 @@ class SpanBertCorefModel(AnnotatorModel,
         return self._set(maxSegmentLength=value)
 
     def setTextGenre(self, value):
-        """ Text genre, one of the following values:
-            `bc`: Broadcast conversation, default
-            `bn: Broadcast news
-            `nw`: News wire
-            `pt`: Pivot text: Old Testament and New Testament text
-            `tc`: Telephone conversation
-            `wb`: Web data
+        """ Sets the text genre, one of the following values:
+            | "bc" : Broadcast conversation, default
+            | "bn"  Broadcast news
+            | "nw" : News wire
+            | "pt" : Pivot text: Old Testament and New Testament text
+            | "tc" : Telephone conversation
+            | "wb" : Web data
 
         Parameters
         ----------
@@ -224,4 +229,3 @@ class SpanBertCorefModel(AnnotatorModel,
         """
         from sparknlp.pretrained import ResourceDownloader
         return ResourceDownloader.downloadModel(SpanBertCorefModel, name, lang, remote_loc)
-

@@ -127,7 +127,7 @@ result.select("label.result").show(false)
 {%- endcapture -%}
 
 {%- capture python_api_link -%}
-[LongformerForTokenClassification](/api/python/reference/autosummary/sparknlp/annotator/classifier_dl/longformer_for_token_classification/index.html#sparknlp.annotator.classifier_dl.longformer_for_token_classification.LongformerForTokenClassification)
+[LongformerForTokenClassification](/api/python/reference/autosummary/python/sparknlp/annotator/classifier_dl/longformer_for_token_classification/index.html#sparknlp.annotator.classifier_dl.longformer_for_token_classification.LongformerForTokenClassification)
 {%- endcapture -%}
 
 {%- capture source_link -%}

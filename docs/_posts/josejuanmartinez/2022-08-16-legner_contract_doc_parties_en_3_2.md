@@ -8,7 +8,7 @@ tags: [en, legal, ner, agreements, licensed]
 task: Named Entity Recognition
 language: en
 edition: Spark NLP for Legal 1.0.0
-spark_version: 3.2
+spark_version: 3.0
 supported: true
 article_header:
   type: cover
@@ -42,28 +42,29 @@ Other models can be found to detect other parts of the document, as Headers/Subh
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
+
 ```python
-documentAssembler = DocumentAssembler()\
+documentAssembler = nlp.DocumentAssembler()\
         .setInputCol("text")\
         .setOutputCol("document")
         
-sentenceDetector = SentenceDetectorDLModel.pretrained("sentence_detector_dl","xx")\
+sentenceDetector = nlp.SentenceDetectorDLModel.pretrained("sentence_detector_dl","xx")\
         .setInputCols(["document"])\
         .setOutputCol("sentence")
 
-tokenizer = Tokenizer()\
+tokenizer = nlp.Tokenizer()\
         .setInputCols(["sentence"])\
         .setOutputCol("token")
 
-embeddings = RoBertaEmbeddings.pretrained("roberta_embeddings_legal_roberta_base", "en") \
+embeddings = nlp.RoBertaEmbeddings.pretrained("roberta_embeddings_legal_roberta_base", "en") \
         .setInputCols("sentence", "token") \
         .setOutputCol("embeddings")\
 
-ner_model = LegalNerModel.pretrained('legner_contract_doc_parties', 'en', 'legal/models')\
+ner_model = legal.NerModel.pretrained('legner_contract_doc_parties', 'en', 'legal/models')\
         .setInputCols(["sentence", "token", "embeddings"])\
         .setOutputCol("ner")
 
-ner_converter = NerConverter()\
+ner_converter = nlp.NerConverter()\
         .setInputCols(["sentence","token","ner"])\
         .setOutputCol("ner_chunk")
 
@@ -210,12 +211,12 @@ Manual annotations on CUAD dataset
 ## Benchmarking
 
 ```bash
-label	 tp	 fp	 fn	 prec	 rec	 f1
-I-PARTY	 262	 20	 61	 0.92907804	 0.8111455	 0.8661157
-B-EFFDATE	 22	 4	 9	 0.84615386	 0.7096774	 0.77192986
-B-DOC	 38	 4	 12	 0.9047619	 0.76	 0.82608694
-I-EFFDATE	 95	 9	 19	 0.91346157	 0.8333333	 0.8715596
-I-DOC	 93	 12	 5	 0.8857143	 0.9489796	 0.9162561
-B-PARTY	 88	 10	 29	 0.8979592	 0.75213677	 0.81860465
-B-ALIAS	 64	 7	 14	 0.90140843	 0.82051283	 0.8590604
+label       tp     fp    fn    prec          rec           f1
+I-PARTY     262    20    61    0.92907804    0.8111455     0.8661157
+B-EFFDATE   22     4     9     0.84615386    0.7096774     0.77192986
+B-DOC       38     4     12    0.9047619     0.76          0.82608694
+I-EFFDATE   95     9     19    0.91346157    0.8333333     0.8715596
+I-DOC       93     12    5     0.8857143     0.9489796     0.9162561
+B-PARTY     88     10    29    0.8979592     0.75213677    0.81860465
+B-ALIAS     64     7     14    0.90140843    0.82051283    0.8590604
 ```

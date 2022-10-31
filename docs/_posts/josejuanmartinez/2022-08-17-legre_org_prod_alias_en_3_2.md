@@ -8,7 +8,7 @@ tags: [en, legal, re, relations, licensed]
 task: Relation Extraction
 language: en
 edition: Spark NLP for Legal 1.0.0
-spark_version: 3.2
+spark_version: 3.0
 supported: true
 article_header:
   type: cover
@@ -38,28 +38,29 @@ This model can be used to extract Aliases of Companies or Product names. An "Ali
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
+
 ```python
-documentAssembler = DocumentAssembler()\
+documentAssembler = nlp.DocumentAssembler()\
         .setInputCol("text")\
         .setOutputCol("document")
 
-tokenizer = Tokenizer()\
+tokenizer = nlp.Tokenizer()\
         .setInputCols(["document"])\
         .setOutputCol("token")
 
-embeddings = BertEmbeddings.pretrained("bert_embeddings_sec_bert_base","en") \
+embeddings = nlp.BertEmbeddings.pretrained("bert_embeddings_sec_bert_base","en") \
         .setInputCols(["document", "token"]) \
         .setOutputCol("embeddings")
 
-ner_model = LegalNerModel.pretrained("legner_orgs_prods_alias", "en", "legal/models")\
+ner_model = legal.NerModel.pretrained("legner_orgs_prods_alias", "en", "legal/models")\
         .setInputCols(["document", "token", "embeddings"])\
         .setOutputCol("ner")
 
-ner_converter = NerConverter()\
+ner_converter = nlp.NerConverter()\
         .setInputCols(["document","token","ner"])\
         .setOutputCol("ner_chunk")
 
-reDL = RelationExtractionDLModel()\
+reDL = legal.RelationExtractionDLModel()\
     .pretrained("legre_org_prod_alias", "en", "legal/models")\
     .setPredictionThreshold(0.1)\
     .setInputCols(["ner_chunk", "document"])\
@@ -67,7 +68,6 @@ reDL = RelationExtractionDLModel()\
 
 nlpPipeline = Pipeline(stages=[
         documentAssembler,
-        sentenceDetector,
         tokenizer,
         embeddings,
         ner_model,
@@ -115,13 +115,10 @@ Manual annotations on CUAD dataset and 10K filings
 ## Benchmarking
 
 ```bash
-Relation           Recall Precision        F1   Support
-
-has_alias           0.920     1.000     0.958        50
-has_collective_alias     1.000     0.750     0.857         6
-no_rel              1.000     0.957     0.978        44
-
-Avg.                0.973     0.902     0.931
-
-Weighted Avg.       0.960     0.966     0.961
+label                    Recall    Precision   F1       Support
+has_alias                0.920     1.000       0.958    50
+has_collective_alias     1.000     0.750       0.857     6
+no_rel                   1.000     0.957       0.978    44
+Avg.                     0.973     0.902       0.931     -
+Weighted-Avg.            0.960     0.966       0.961     -
 ```

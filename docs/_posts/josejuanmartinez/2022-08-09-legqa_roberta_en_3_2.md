@@ -8,7 +8,7 @@ tags: [en, legal, qa, licensed]
 task: Question Answering
 language: en
 edition: Spark NLP for Legal 1.0.0
-spark_version: 3.2
+spark_version: 3.0
 supported: true
 article_header:
   type: cover
@@ -34,18 +34,20 @@ Legal RoBerta-based Question Answering model, trained on squad-v2, finetuned on 
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
-```python
-document_assembler = MultiDocumentAssembler() \ 
-.setInputCols(["question", "context"]) \
-.setOutputCols(["document_question", "document_context"])
 
-spanClassifier = RoBertaForQuestionAnswering.pretrained("legqa_roberta","en", "legal/models") \
+```python
+
+documentAssembler = nlp.MultiDocumentAssembler()\
+        .setInputCols(["question", "context"])\
+        .setOutputCols(["document_question", "document_context"])
+
+spanClassifier = nlp.RoBertaForQuestionAnswering.pretrained("legqa_roberta","en", "legal/models") \
 .setInputCols(["document_question", "document_context"]) \
 .setOutputCol("answer") \
 .setCaseSensitive(True)
 
 pipeline = Pipeline().setStages([
-document_assembler,
+documentAssembler,
 spanClassifier
 ])
 

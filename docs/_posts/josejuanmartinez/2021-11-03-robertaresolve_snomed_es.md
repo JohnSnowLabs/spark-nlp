@@ -36,15 +36,15 @@ Use any `MedicalNer` Model from our ModelsHub that detects, for example, diagnos
 {% include programmingLanguageSelectScalaPythonNLU.html %}
 ```python
 ...
-c2doc = Chunk2Doc() \
+c2doc = nlp.Chunk2Doc() \
 .setInputCols("ner_chunk") \
 .setOutputCol("sentence")
 
-chunk_tokenizer = Tokenizer()\
+chunk_tokenizer = nlp.Tokenizer()\
 .setInputCols("sentence")\
 .setOutputCol("token")
 
-chunk_word_embeddings = RoBertaEmbeddings.pretrained("roberta_base_biomedical", "es")\
+chunk_word_embeddings = nlp.RoBertaEmbeddings.pretrained("roberta_base_biomedical", "es")\
 .setInputCols(["sentence", "token"])\
 .setOutputCol("ner_chunk_word_embeddings")
 
@@ -53,7 +53,7 @@ chunk_embeddings = SentenceEmbeddings() \
 .setOutputCol("ner_chunk_embeddings") \
 .setPoolingStrategy("AVERAGE")
 
-er = SentenceEntityResolverModel.pretrained("robertaresolve_snomed", "es", "clinical/models")\
+er = medical.SentenceEntityResolverModel.pretrained("robertaresolve_snomed", "es", "clinical/models")\
 .setInputCols(["sentence", "ner_chunk_embeddings"]) \
 .setOutputCol("snomed_code") \
 .setDistanceFunction("EUCLIDEAN")
@@ -77,15 +77,15 @@ result = p_model.transform(spark.createDataFrame(pd.DataFrame({'text': [test_sen
 
 ```scala
 ...
-val c2doc = new Chunk2Doc()
+val c2doc = new nlp.Chunk2Doc()
 .setInputCols(Array("ner_chunk"))
 .setOutputCol("sentence")    
 
-val chunk_tokenizer = new Tokenizer()
+val chunk_tokenizer = new nlp.Tokenizer()
 .setInputCols("sentence")
 .setOutputCol("token")
 
-val chunk_word_embeddings = RoBertaEmbeddings.pretrained("roberta_base_biomedical", "es")
+val chunk_word_embeddings = nlp.RoBertaEmbeddings.pretrained("roberta_base_biomedical", "es")
 .setInputCols(Array("sentence", "token"))
 .setOutputCol("ner_chunk_word_embeddings")
 
@@ -94,7 +94,7 @@ val chunk_embeddings = new SentenceEmbeddings()
 .setOutputCol("ner_chunk_embeddings")
 .setPoolingStrategy("AVERAGE")
 
-val er = SentenceEntityResolverModel.pretrained("robertaresolve_snomed", "es", "clinical/models")
+val er = medical.SentenceEntityResolverModel.pretrained("robertaresolve_snomed", "es", "clinical/models")
 .setInputCols(Array("sentence", "ner_chunk_embeddings"))
 .setOutputCol("snomed_code")
 .setDistanceFunction("EUCLIDEAN")

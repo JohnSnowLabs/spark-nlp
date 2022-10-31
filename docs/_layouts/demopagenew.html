@@ -69,8 +69,8 @@ full_width: true
                     {%- include snippets/get-nav-url.html path=_action.url -%}
                     {%- assign _url = __return -%}
                     {%- assign _type = _action.type | default: 'outline-info' -%}
-                    <li><a id="{{ child.id }}" class="btn button--{{ _type }} button--pill button--lg"
-                        href="{{ _url }}">{{ _action.text }}</a></li>
+                    <li><a id="{{ child.id }}" class="{% if _action.url == site.baseurl %}disable {% endif %}btn button--{{ _type }} button--pill button--lg"
+                        href="{% if _action.url == site.baseurl %}#{%- else -%}{{ _url }}{% endif %}">{{ _action.text }}</a></li>
                     {%- endfor -%}
                   </ul>
                   {%- endif -%}                

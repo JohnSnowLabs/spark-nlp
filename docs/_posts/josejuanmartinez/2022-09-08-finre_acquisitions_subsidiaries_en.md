@@ -8,7 +8,7 @@ tags: [en, finance, re, relations, acquisitions, subsidiaries, licensed]
 task: Relation Extraction
 language: en
 edition: Spark NLP for Finance 1.0.0
-spark_version: 3.2
+spark_version: 3.0
 supported: true
 article_header:
   type: cover
@@ -36,77 +36,78 @@ The aim of this model is to retrieve acquisition or subsidiary relationships bet
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
+
 ```python
-documentAssembler = DocumentAssembler()\
+documentAssembler = nlp.DocumentAssembler()\
         .setInputCol("text")\
         .setOutputCol("document")
 
-sentence_detector = SentenceDetectorDLModel.pretrained("sentence_detector_dl", "en")\
+sentence_detector = nlp.SentenceDetectorDLModel.pretrained("sentence_detector_dl", "en")\
         .setInputCols(["document"])\
         .setOutputCol("sentence")
         
-tokenizer = Tokenizer()\
+tokenizer = nlp.Tokenizer()\
         .setInputCols(["sentence"])\
         .setOutputCol("token")
 
-# ==========
-# This is needed only to filter relation pairs using RENerChunksFilter (see below)
-# ==========
-pos = PerceptronModel.pretrained("pos_anc", 'en')\
+# ===========
+# This is needed only to filter relation pairs using finance.RENerChunksFilter (see below)
+# ===========
+pos = nlp.PerceptronModel.pretrained("pos_anc", 'en')\
           .setInputCols("sentence", "token")\
           .setOutputCol("pos")
 
-depency_parser = DependencyParserModel.pretrained("dependency_conllu", "en") \
+depency_parser = nlp.DependencyParserModel.pretrained("dependency_conllu", "en") \
     .setInputCols(["sentence", "pos", "token"]) \
     .setOutputCol("dependencies")
-# ==========
+# ===========
 
-# ==========
+# ===========
 # USE ANY NERMODEL WHICH RETRIEVES ORG
   We recommend `finner_orgs_prods_alias` because it retrieves also companies Aliases (as "AWS" in the sentence "Amazon Web Services (AWS)")
-# ==========
-bert_embeddings= BertEmbeddings.pretrained("bert_embeddings_sec_bert_base","en")\
+# ===========
+bert_embeddings= nlp.BertEmbeddings.pretrained("bert_embeddings_sec_bert_base","en")\
         .setInputCols(["sentence", "token"])\
         .setOutputCol("bert_embeddings")
 
-ner_model_org= FinanceNerModel.pretrained("finner_orgs_prods_alias", "en", "finance/models")\
+ner_model_org= finance.NerModel.pretrained("finner_orgs_prods_alias", "en", "finance/models")\
         .setInputCols(["sentence", "token", "bert_embeddings"])\
         .setOutputCol("ner_cuad")
 
-ner_converter_org = NerConverter()\
+ner_converter_org = nlp.NerConverter()\
         .setInputCols(["sentence","token","ner_cuad"])\
         .setOutputCol("ner_chunk_org")\
         .setWhiteList(['ORG', 'PRODUCT', 'ALIAS'])
 
-# ==========
+# ===========
 # USE ANY NERMODEL WHICH RETRIEVES DATES. 
   In this example, we will go for big accuracy with large Roberta Ontonotes mode
-# ==========
-roberta_embeddings = RoBertaEmbeddings.pretrained('roberta_large', 'en')\
+# ===========
+roberta_embeddings = nlp.RoBertaEmbeddings.pretrained('roberta_large', 'en')\
       .setInputCols(["token", "sentence"])\
       .setOutputCol("roberta_embeddings")
 
-ner_model_onto = NerDLModel.pretrained('ner_ontonotes_roberta_large', 'en') \
+ner_model_onto = nlp.NerDLModel.pretrained('ner_ontonotes_roberta_large', 'en') \
     .setInputCols(['sentence', 'token', 'roberta_embeddings']) \
     .setOutputCol('ner_onto')
 
-# ==========
+# ===========
 
-ner_converter_onto = NerConverter()\
+ner_converter_onto = nlp.NerConverter()\
         .setInputCols(["sentence","token","ner_onto"])\
         .setOutputCol("ner_chunk_onto")\
         .setWhiteList(["DATE"])
 
-chunk_merger = ChunkMergeApproach()\
+chunk_merger = finance.ChunkMergeApproach()\
         .setInputCols('ner_chunk_org', "ner_chunk_onto")\
         .setOutputCol('ner_chunk')
 
-re_ner_chunk_filter = RENerChunksFilter() \
+re_ner_chunk_filter = finance.RENerChunksFilter() \
     .setInputCols(["ner_chunk", "dependencies"])\
     .setOutputCol("re_ner_chunk")\
     .setRelationPairs(["DATE-ORG", "DATE-ALIAS", "DATE-PRODUCT", "ORG-ORG"])
 
-re_Model = RelationExtractionDLModel.pretrained("finre_acquisitions_subsidiaries", "en", "finance/models")\
+re_Model = finance.RelationExtractionDLModel.pretrained("finre_acquisitions_subsidiaries", "en", "finance/models")\
         .setInputCols(["re_ner_chunk", "sentence"])\
         .setOutputCol("relations")\
         .setPredictionThreshold(0.5)
@@ -141,16 +142,16 @@ light_model.fullAnnotate("""On January 15, 2020, Cadence acquired all of the out
 ## Results
 
 ```bash
-relation	entity1	entity1_begin	entity1_end	chunk1	entity2	entity2_begin	entity2_end	chunk2	confidence
-0	was_acquired	DATE	3	18	January 15, 2020	ORG	21	27	Cadence	0.9996277
-1	was_acquired	DATE	3	18	January 15, 2020	ORG	71	85	AWR Corporation	0.9994985
-2	was_acquired	DATE	3	18	January 15, 2020	ALIAS	89	91	AWR	0.99967
-3	was_acquired_by	ORG	21	27	Cadence	ORG	71	85	AWR Corporation	0.7940858
-4	was_acquired	DATE	99	114	February 6, 2020	ORG	117	123	Cadence	0.999689
-5	was_acquired	DATE	99	114	February 6, 2020	ORG	172	195	Integrand Software, Inc.	0.99955875
-6	was_acquired	DATE	99	114	February 6, 2020	ALIAS	199	207	Integrand	0.99918574
-7	was_acquired_by	ORG	117	123	Cadence	ORG	172	195	Integrand Software, Inc.	0.6435062
-...
+relation        entity1 entity1_begin	entity1_end   chunk1             entity2     entity2_begin   entity2_end  chunk2                    confidence
+was_acquired	DATE	3               18            January 15, 2020   ORG	     21	             27           Cadence                   0.99962
+was_acquired	DATE	3               18            January 15, 2020   ORG	     71	             85           AWR Corporation           0.99949
+was_acquired	DATE	3               18            January 15, 2020   ALIAS	     89	             91           AWR                       0.99967
+was_acquired_by ORG     21              27            Cadence            ORG	     71	             85           AWR Corporation           0.79408
+was_acquired	DATE	99              114           February 6, 2020   ORG	     117             123          Cadence                   0.99968
+was_acquired	DATE	99              114           February 6, 2020   ORG	     172             195          Integrand Software, Inc.  0.99955
+was_acquired	DATE	99              114           February 6, 2020   ALIAS	     199             207          Integrand                 0.99918
+was_acquired_by ORG     117             123           Cadence            ORG	     172             195          Integrand Software, Inc.  0.64350
+...     
 ```
 
 {:.model-param}
@@ -173,14 +174,11 @@ Manual annotations on CUAD dataset, 10K filings and Wikidata
 ## Benchmarking
 
 ```bash
-Relation           Recall Precision        F1   Support
-
-is_subsidiary_of     0.836     0.924     0.878       146
-no_rel              0.968     0.932     0.950       684
-was_acquired        0.936     0.944     0.940       218
-was_acquired_by     0.857     0.911     0.883       168
-
-Avg.                0.899     0.928     0.913
-
-Weighted Avg.       0.931     0.931     0.930
+label               Recall    Precision    F1       Support
+is_subsidiary_of    0.836     0.924        0.878    146
+no_rel              0.968     0.932        0.950    684
+was_acquired        0.936     0.944        0.940    218
+was_acquired_by     0.857     0.911        0.883    168
+Avg.                0.899     0.928        0.913     -
+Weighted-Avg.       0.931     0.931        0.930     -
 ```

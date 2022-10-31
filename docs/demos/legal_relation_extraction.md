@@ -24,8 +24,6 @@ data:
           id: legal_zero_shot_relation_extraction   
           image: 
               src: /assets/images/Legal_Zero-shot_Relation_Extraction.svg
-          image2: 
-              src: /assets/images/Legal_Zero-shot_Relation_Extraction_f.svg
           excerpt: This demo shows how you can carry out Relation Extraction without training any model, just with some textual examples.
           actions:
           - text: Live Demo
@@ -38,8 +36,6 @@ data:
           id: extract_relations_between_parties_agreement  
           image: 
               src: /assets/images/Extract_Relations_between_Parties.svg
-          image2: 
-              src: /assets/images/Extract_Relations_between_Parties_f.svg
           excerpt: This model uses Deep Learning Name Entity Recognition and a Relation Extraction models to extract the document type (DOC), the Effective Date (EFFDATE), the PARTIES in an agreement and their ALIAS (separate and collectively).
           actions:
           - text: Live Demo
@@ -52,13 +48,23 @@ data:
           id: extract_syntactic_relationships_legal_sentences    
           image: 
               src: /assets/images/Extract_Syntactic_Relationships_in_Legal_sentences.svg
-          image2: 
-              src: /assets/images/Extract_Syntactic_Relationships_in_Legal_sentences_f.svg
           excerpt: This demo shows how legal sentence elements can be accessed using syntactic relationships (dependency parser).
           actions:
           - text: Live Demo
             type: normal
             url: https://demo.johnsnowlabs.com/legal/LEGPIPE_RE/
+          - text: Colab
+            type: blue_btn
+            url:
+        - title: Extract Entities in Indemnification Clauses 
+          id: extract_entities_indemnification_clauses    
+          image: 
+              src: /assets/images/Extract_Entities_in_Indemnification_Clauses.svg
+          excerpt: This demo shows how to extract the Subject (who), Action (verb), Object (what) and Indirect Object (to whom) in Indemnification clauses.
+          actions:
+          - text: Live Demo
+            type: normal
+            url: https://demo.johnsnowlabs.com/legal/LEGALRE_INDEMNIFICATION/
           - text: Colab
             type: blue_btn
             url:             

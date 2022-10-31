@@ -100,7 +100,7 @@ result.select("label.result").show(false)
 {%- endcapture -%}
 
 {%- capture python_api_link -%}
-[LongformerForQuestionAnswering](/api/python/reference/autosummary/sparknlp/annotator/classifier_dl/longformer_for_question_answering/index.html#sparknlp.annotator.classifier_dl.longformer_for_question_answering.LongformerForQuestionAnswering)
+[LongformerForQuestionAnswering](/api/python/reference/autosummary/python/sparknlp/annotator/classifier_dl/longformer_for_question_answering/index.html#sparknlp.annotator.classifier_dl.longformer_for_question_answering.LongformerForQuestionAnswering)
 {%- endcapture -%}
 
 {%- capture source_link -%}

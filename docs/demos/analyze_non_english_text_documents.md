@@ -24,8 +24,6 @@ data:
           id: pdf-to-text-non-english-text
           image: 
               src: /assets/images/Healthcare_PDFText(NonEnglishText).svg
-          image2: 
-              src: /assets/images/Healthcare_PDFText(NonEnglishText)_f.svg
           excerpt: Extract non-English text from generated/selectable PDF documents and keep the original structure of the document by using our out-of-the-box Spark OCR library.
           actions:
           - text: Live Demo
@@ -38,8 +36,6 @@ data:
           id: image-to-text-non-english-text
           image: 
               src: /assets/images/Healthcare_ImagetoText.svg
-          image2: 
-              src: /assets/images/Healthcare_ImagetoText_f.svg
           excerpt: Recognize non-English text in images and scanned PDF documents by using our out-of-the-box Spark OCR library.
           actions:
           - text: Live Demo
@@ -52,8 +48,6 @@ data:
           id: docx-to-text-non-english-text
           image: 
               src: /assets/images/Healthcare_DOCXtoText.svg
-          image2: 
-              src: /assets/images/Healthcare_DOCXtoText_f.svg
           excerpt: Extract non-English text from Word documents using out out-of-the-box Spark OCR library.
           actions:
           - text: Live Demo

@@ -203,6 +203,12 @@ class NerCrfApproach(override val uid: String)
     "externalFeatures",
     "Additional dictionary to use for features")
 
+  /** Level of verbosity during training (Default: `Verbose.Silent.id`)
+    *
+    * @group param
+    */
+  val verbose = new IntParam(this, "verbose", "Level of verbosity during training")
+
   /** L2 regularization coefficient
     *
     * @group setParam
@@ -232,6 +238,19 @@ class NerCrfApproach(override val uid: String)
     * @group setParam
     */
   def setIncludeConfidence(c: Boolean): this.type = set(includeConfidence, c)
+
+  /** Level of verbosity during training (Default: `Verbose.Silent.id`)
+    *
+    * @group setParam
+    */
+  def setVerbose(verbose: Int): this.type = set(this.verbose, verbose)
+
+  /** Level of verbosity during training (Default: `Verbose.Silent.id`)
+    *
+    * @group setParam
+    */
+  def setVerbose(verbose: Verbose.Level): this.type =
+    set(this.verbose, verbose.id)
 
   /** L2 regularization coefficient
     *

@@ -14,7 +14,8 @@ class NerModel:
     def __init__(self, session=None, dummy_tags=None, use_contrib=True, use_gpu_device=0):
 
         tf.disable_v2_behavior()
-
+        tf.enable_v2_tensorshape()
+        
         self.word_repr = None
         self.word_embeddings = None
         self.session = session

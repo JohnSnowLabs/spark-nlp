@@ -19,6 +19,11 @@ use_language_switcher: "Python-Scala-Java"
 
 Pretrained VIT  model, adapted from Hugging Face and curated to provide scalability and production-readiness using Spark NLP.`image_classifier_vit_autotrain_fashion_mnist__base` is a English model originally trained by abhishek.
 
+
+## Predicted Entities
+
+`Coat`, `Shirt`, `Sneaker`, `Sandal`, `T - shirt / top`, `Bag`, `Trouser`, `Dress`, `Ankle boot`, `Pullover`
+
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>
 <button class="button button-orange" disabled>Open in Colab</button>

@@ -38,30 +38,30 @@ Deidentification NER (Portuguese) is a Named Entity Recognition model that annot
 {% include programmingLanguageSelectScalaPythonNLU.html %}
 
 ```python
-documentAssembler = DocumentAssembler()\
+documentAssembler = nlp.DocumentAssembler()\
     .setInputCol("text")\
     .setOutputCol("document")
 
-sentenceDetector = SentenceDetectorDLModel.pretrained("sentence_detector_dl","xx")\
+sentenceDetector = nlp.SentenceDetectorDLModel.pretrained("sentence_detector_dl","xx")\
     .setInputCols(["document"])\
     .setOutputCol("sentence")
 
 
-tokenizer = Tokenizer()\
+tokenizer = nlp.Tokenizer()\
     .setInputCols(["sentence"])\
     .setOutputCol("token")
 
 
-embeddings = WordEmbeddingsModel.pretrained("w2v_cc_300d", "pt")\
+embeddings = nlp.WordEmbeddingsModel.pretrained("w2v_cc_300d", "pt")\
     .setInputCols(["sentence","token"])\
     .setOutputCol("word_embeddings")
 
 
-clinical_ner = MedicalNerModel.pretrained("ner_deid_generic", "pt", "clinical/models")\
+clinical_ner = medical.NerModel.pretrained("ner_deid_generic", "pt", "clinical/models")\
     .setInputCols(["sentence","token","word_embeddings"])\
     .setOutputCol("ner")
 
-ner_converter = NerConverter()\
+ner_converter = nlp.NerConverter()\
     .setInputCols(["sentence","token","ner"])\
     .setOutputCol("ner_chunk")
 
@@ -92,27 +92,27 @@ data = spark.createDataFrame([text]).toDF("text")
 result = nlpPipeline.fit(data).transform(data)
 ```
 ```scala
-val documentAssembler = new DocumentAssembler()
+val documentAssembler = new nlp.DocumentAssembler()
 	.setInputCol("text")
 	.setOutputCol("document")
 
-val sentenceDetector = SentenceDetectorDLModel.pretrained("sentence_detector_dl","xx")
+val sentenceDetector = nlp.SentenceDetectorDLModel.pretrained("sentence_detector_dl","xx")
 	.setInputCols(Array("document"))
 	.setOutputCol("sentence")
 
-val tokenizer = new Tokenizer()
+val tokenizer = new nlp.Tokenizer()
 	.setInputCols(Array("sentence"))
 	.setOutputCol("token")
 
-embeddings = WordEmbeddingsModel.pretrained("w2v_cc_300d", "pt")
+embeddings = nlp.WordEmbeddingsModel.pretrained("w2v_cc_300d", "pt")
 	.setInputCols(Array("sentence","token"))
 	.setOutputCol("word_embeddings")
 
-clinical_ner = MedicalNerModel.pretrained("ner_deid_generic", "pt", "clinical/models")
+clinical_ner = medical.NerModel.pretrained("ner_deid_generic", "pt", "clinical/models")
 	.setInputCols(Array("sentence","token","word_embeddings"))
 	.setOutputCol("ner")
 
-val ner_converter = new NerConverter()
+val ner_converter = new nlp.NerConverter()
 	.setInputCols(Array("sentence", "token", "ner"))
 	.setOutputCol("ner_chunk")
 

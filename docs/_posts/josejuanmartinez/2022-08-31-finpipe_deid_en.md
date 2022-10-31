@@ -8,7 +8,7 @@ tags: [en, financial, deid, deidentification, licensed]
 task: De-identification
 language: en
 edition: Spark NLP for Finance 1.0.0
-spark_version: 3.2
+spark_version: 3.0
 supported: true
 recommended: true
 article_header:
@@ -45,6 +45,7 @@ You can carry out both masking and obfuscation with this pipeline, on the follow
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
+
 ```python
 from sparknlp.pretrained import PretrainedPipeline
 
@@ -159,26 +160,26 @@ In-house annotations on legal and financial documents, Ontonotes, Conll 2003, Fi
 
 ## Included Models
 
-- DocumentAssembler
-- SentenceDetectorDLModel
-- TokenizerModel
-- RoBertaEmbeddings
-- BertEmbeddings
-- FinanceNerModel
-- NerConverter
-- FinanceNerModel
-- NerConverter
-- FinanceNerModel
-- NerConverterInternalModel
-- FinanceNerModel
-- NerConverterInternalModel
+- nlp.DocumentAssembler
+- nlp.SentenceDetectorDLModel
+- nlp.TokenizerModel
+- nlp.RoBertaEmbeddings
+- nlp.BertEmbeddings
+- finance.NerModel
+- nlp.NerConverter
+- finance.NerModel
+- nlp.NerConverter
+- finance.NerModel
+- finance.NerConverterInternalModel
+- finance.NerModel
+- finance.NerConverterInternalModel
 - ContextualParserModel
 - ContextualParserModel
-- RegexMatcherModel
-- RegexMatcherModel
+- nlp.RegexMatcherModel
+- nlp.RegexMatcherModel
 - ChunkMergeModel
-- DeIdentificationModel
-- DeIdentificationModel
-- DeIdentificationModel
-- DeIdentificationModel
+- finance.DeIdentificationModel
+- finance.DeIdentificationModel
+- finance.DeIdentificationModel
+- finance.DeIdentificationModel
 - Finisher

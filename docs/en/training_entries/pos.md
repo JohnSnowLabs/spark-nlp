@@ -90,7 +90,7 @@ posDf.selectExpr("explode(tags) as tags").show(false)
 {%- endcapture -%}
 
 {%- capture python_api_link -%}
-[POS](/api/python/reference/autosummary/sparknlp/training/pos/index.html#sparknlp.training.pos.POS)
+[POS](/api/python/reference/autosummary/python/sparknlp/training/pos/index.html#sparknlp.training.pos.POS)
 {%- endcapture -%}
 
 {%- capture source_link -%}

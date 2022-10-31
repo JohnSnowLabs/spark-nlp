@@ -8,7 +8,7 @@ tags: [en, finance, sentiment, classification, sentiment_analysis, licensed]
 task: Sentiment Analysis
 language: en
 edition: Spark NLP for Finance 1.0.0
-spark_version: 3.2
+spark_version: 3.0
 supported: true
 article_header:
   type: cover
@@ -34,24 +34,32 @@ This model is a pre-trained NLP model to analyze sentiment of financial text. It
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
-```python
-documentAssembler = DocumentAssembler() \
-    .setInputCols(["text"]) \
-    .setOutputCols("document")
 
-tokenizer = Tokenizer() \
+```python
+documentAssembler = nlp.DocumentAssembler() \
+    .setInputCol("text") \
+    .setOutputCol("document")
+
+tokenizer = nlp.Tokenizer() \
     .setInputCols("document") \
     .setOutputCol("token")
 
-classifier = RoBertaForSequenceClassification.pretrained("finclf_distilroberta_sentiment_analysis","en", "finance/models") \
+classifier = nlp.RoBertaForSequenceClassification.pretrained("finclf_distilroberta_sentiment_analysis","en", "finance/models") \
     .setInputCols(["document", "token"]) \
     .setOutputCol("class")
+
+
+nlpPipeline = Pipeline(
+      stages = [
+          documentAssembler,
+          tokenizer,
+          classifier])
     
 
 # couple of simple examples
 example = spark.createDataFrame([["Stocks rallied and the British pound gained."]]).toDF("text")
 
-result = pipeline.fit(example).transform(example)
+result = nlpPipeline.fit(example).transform(example)
 
 # result is a DataFrame
 result.select("text", "class.result").show()
@@ -92,13 +100,11 @@ In-house financial documents and Financial PhraseBank by Malo et al. (2014)
 ## Benchmarking
 
 ```bash
-              precision    recall  f1-score   support
-
+       label  precision    recall  f1-score   support
     positive       0.77      0.88      0.81       253
     negative       0.86      0.85      0.88       133
      neutral       0.93      0.86      0.90       584
-
-    accuracy                           0.86       970
-   macro avg       0.85      0.86      0.85       970
-weighted avg       0.87      0.86      0.87       970
+    accuracy         -         -       0.86       970
+   macro-avg       0.85      0.86      0.85       970
+weighted-avg       0.87      0.86      0.87       970
 ```

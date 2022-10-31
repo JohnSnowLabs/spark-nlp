@@ -17,7 +17,8 @@ from sparknlp.common import *
 
 class XlmRoBertaForQuestionAnswering(AnnotatorModel,
                                      HasCaseSensitiveProperties,
-                                     HasBatchedAnnotate):
+                                     HasBatchedAnnotate,
+                                     HasEngine):
     """XlmRoBertaForQuestionAnswering can load XLM-RoBERTa Models with a span classification head on top for extractive
     question-answering tasks like SQuAD (a linear layer on top of the hidden-states output to compute span start
     logits and span end logits).

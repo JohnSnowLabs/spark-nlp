@@ -8,7 +8,7 @@ tags: [en, finance, companies, crunchbase, licensed]
 task: Entity Resolution
 language: en
 edition: Spark NLP for Finance 1.0.0
-spark_version: 3.2
+spark_version: 3.0
 supported: true
 article_header:
   type: cover
@@ -36,16 +36,17 @@ Then, you can use the CrunchBase Chunk Mapper to get information about that comp
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
+
 ```python
-documentAssembler = DocumentAssembler()\
+documentAssembler = nlp.DocumentAssembler()\
       .setInputCol("text")\
       .setOutputCol("ner_chunk")
 
-embeddings = UniversalSentenceEncoder.pretrained("tfhub_use", "en") \
+embeddings = nlp.UniversalSentenceEncoder.pretrained("tfhub_use", "en") \
       .setInputCols("ner_chunk") \
       .setOutputCol("sentence_embeddings")
     
-resolver = SentenceEntityResolverModel.pretrained("finel_crunchbase_companynames", "en", "finance/models") \
+resolver = finance.SentenceEntityResolverModel.pretrained("finel_crunchbase_companynames", "en", "finance/models") \
       .setInputCols(["ner_chunk", "sentence_embeddings"]) \
       .setOutputCol("name")\
       .setDistanceFunction("EUCLIDEAN")

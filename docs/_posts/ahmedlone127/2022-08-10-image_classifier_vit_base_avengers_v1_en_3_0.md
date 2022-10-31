@@ -19,6 +19,11 @@ use_language_switcher: "Python-Scala-Java"
 
 Pretrained VIT  model, adapted from Hugging Face and curated to provide scalability and production-readiness using Spark NLP.`image_classifier_vit_base_avengers_v1` is a English model originally trained by dingusagar.
 
+
+## Predicted Entities
+
+`Thor`, `Captain America`, `Captain Marvel`, `Falcon Avengers`, `Vision Avengers`, `Bucky Barnes`, `Loki`, `Black Widow`, `Iron Man`, `Black Panther`, `Docter Strage`, `Scarlet Witch`, `Ant Man`, `Hulk`, `Spider Man`, `Hawkeye Avengers`
+
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>
 <button class="button button-orange" disabled>Open in Colab</button>

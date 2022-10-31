@@ -27,9 +27,9 @@ class NerApproach(Params):
     entities = Param(Params._dummy(), "entities", "Entities to recognize", TypeConverters.toListString)
 
     minEpochs = Param(Params._dummy(), "minEpochs", "Minimum number of epochs to train", TypeConverters.toInt)
+
     maxEpochs = Param(Params._dummy(), "maxEpochs", "Maximum number of epochs to train", TypeConverters.toInt)
 
-    verbose = Param(Params._dummy(), "verbose", "Level of verbosity during training", TypeConverters.toInt)
     randomSeed = Param(Params._dummy(), "randomSeed", "Random seed", TypeConverters.toInt)
 
     def setLabelColumn(self, value):
@@ -71,16 +71,6 @@ class NerApproach(Params):
             Maximum number of epochs to train
         """
         return self._set(maxEpochs=epochs)
-
-    def setVerbose(self, verboseValue):
-        """Sets level of verbosity during training.
-
-        Parameters
-        ----------
-        verboseValue : int
-            Level of verbosity
-        """
-        return self._set(verbose=verboseValue)
 
     def setRandomSeed(self, seed):
         """Sets random seed for shuffling.

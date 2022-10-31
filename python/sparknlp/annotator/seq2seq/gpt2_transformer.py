@@ -16,7 +16,7 @@
 from sparknlp.common import *
 
 
-class GPT2Transformer(AnnotatorModel, HasBatchedAnnotate):
+class GPT2Transformer(AnnotatorModel, HasBatchedAnnotate, HasEngine):
     """GPT2: the OpenAI Text-To-Text Transformer
 
     GPT-2 is a large transformer-based language model with 1.5 billion parameters, trained on a dataset of 8 million
@@ -357,4 +357,3 @@ class GPT2Transformer(AnnotatorModel, HasBatchedAnnotate):
         """
         from sparknlp.pretrained import ResourceDownloader
         return ResourceDownloader.downloadModel(GPT2Transformer, name, lang, remote_loc)
-

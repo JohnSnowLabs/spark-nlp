@@ -13,13 +13,13 @@
 #  limitations under the License.
 """Contains classes for RoBertaForTokenClassification."""
 
-
 from sparknlp.common import *
 
 
 class RoBertaForTokenClassification(AnnotatorModel,
                                     HasCaseSensitiveProperties,
-                                    HasBatchedAnnotate):
+                                    HasBatchedAnnotate,
+                                    HasEngine):
     """RoBertaForTokenClassification can load RoBerta Models with a token
     classification head on top (a linear layer on top of the hidden-states
     output) e.g. for Named-Entity-Recognition (NER) tasks.
@@ -183,4 +183,3 @@ class RoBertaForTokenClassification(AnnotatorModel,
         """
         from sparknlp.pretrained import ResourceDownloader
         return ResourceDownloader.downloadModel(RoBertaForTokenClassification, name, lang, remote_loc)
-

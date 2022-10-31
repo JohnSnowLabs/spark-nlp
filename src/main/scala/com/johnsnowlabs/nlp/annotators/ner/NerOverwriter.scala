@@ -16,9 +16,13 @@
 
 package com.johnsnowlabs.nlp.annotators.ner
 
+import com.johnsnowlabs.nlp.serialization.MapFeature
 import com.johnsnowlabs.nlp.{Annotation, AnnotatorModel, HasSimpleAnnotate}
 import org.apache.spark.ml.param.{Param, StringArrayParam}
 import org.apache.spark.ml.util.{DefaultParamsReadable, Identifiable}
+
+import java.util
+import scala.collection.JavaConverters._
 
 /** Overwrites entities of specified strings.
   *
@@ -92,8 +96,8 @@ import org.apache.spark.ml.util.{DefaultParamsReadable, Identifiable}
   * val nerOverwriter = new NerOverwriter()
   *   .setInputCols("ner")
   *   .setOutputCol("ner_overwritten")
-  *   .setStopWords(Array("Million"))
-  *   .setNewResult("B-CARDINAL")
+  *   .setNerWords(Array("Million"))
+  *   .setNerNewEntity,("B-CARDINAL")
   *
   * nerOverwriter.transform(result).selectExpr("explode(ner_overwritten)").show(false)
   * +---------------------------------------------------------+
@@ -155,66 +159,93 @@ class NerOverwriter(override val uid: String)
     *
     * @group param
     */
-  val stopWords: StringArrayParam =
-    new StringArrayParam(this, "stopWords", "The words to be filtered out.")
+  val nerWords: StringArrayParam =
+    new StringArrayParam(
+      this,
+      "nerWords",
+      "The words to be filtered out to replace the current NER entity with a new NER Entity")
 
   /** The words to be filtered out.
     *
     * @group setParam
     */
-  def setStopWords(value: Array[String]): this.type = set(stopWords, value)
+  def setNerWords(value: Array[String]): this.type = set(nerWords, value)
 
   /** The words to be filtered out.
     *
     * @group getParam
     */
-  def getStopWords: Array[String] = $(stopWords)
+  def getNerWords: Array[String] = $(nerWords)
 
   /** New NER class to overwrite
     *
     * @group param
     */
-  val newResult: Param[String] = new Param(this, "newResult", "New NER class to overwrite")
+  val newNerEntity: Param[String] = new Param(this, "newNerEntity", "New NER label to overwrite")
 
   /** New NER class to overwrite
     *
     * @group setParam
     */
-  def setNewResult(r: String): this.type = {
-    set(newResult, r)
+  def setNewNerEntity(r: String): this.type = {
+    set(newNerEntity, r)
   }
 
   /** New NER class to overwrite
     *
     * @group getParam
     */
-  def getNewResult: String = $(newResult)
+  def getNewNerEntity: String = $(newNerEntity)
 
-  setDefault(newResult -> "I-OVERWRITE")
+  val replaceEntities: MapFeature[String, String] =
+    new MapFeature[String, String](this, "replaceEntities")
+
+  def setReplaceEntities(w: Map[String, String]): this.type = set(replaceEntities, w)
+
+  // for Python access
+  /** @group setParam */
+  def setReplaceEntities(w: util.HashMap[String, String]): this.type = {
+
+    val ws = w.asScala.toMap
+    set(replaceEntities, ws)
+  }
+
+  def getReplaceEntities: Map[String, String] = {
+    if (!replaceEntities.isSet) {
+      Map.empty[String, String]
+    } else {
+      $$(replaceEntities)
+    }
+  }
+
+  setDefault(newNerEntity -> "I-OVERWRITE", nerWords -> Array())
 
   override def annotate(annotations: Seq[Annotation]): Seq[Annotation] = {
 
-    var annotationsOverwritten = annotations
-
-    annotationsOverwritten.map { tokenAnnotation =>
-      val stopWordsSet = $(stopWords).toSet
-      if (stopWordsSet.contains(tokenAnnotation.metadata("word"))) {
-        Annotation(
-          outputAnnotatorType,
-          tokenAnnotation.begin,
-          tokenAnnotation.end,
-          $(newResult),
-          tokenAnnotation.metadata)
-      } else {
-        Annotation(
-          outputAnnotatorType,
-          tokenAnnotation.begin,
-          tokenAnnotation.end,
-          tokenAnnotation.result,
-          tokenAnnotation.metadata)
+    val annotationsOverwritten = annotations
+    val replace = getReplaceEntities
+    annotationsOverwritten
+      .map { tokenAnnotation =>
+        val nerWordsSet = $(nerWords).toSet
+        if (nerWordsSet.contains(tokenAnnotation.metadata("word"))) {
+          Annotation(
+            outputAnnotatorType,
+            tokenAnnotation.begin,
+            tokenAnnotation.end,
+            $(newNerEntity),
+            tokenAnnotation.metadata)
+        } else {
+          Annotation(
+            outputAnnotatorType,
+            tokenAnnotation.begin,
+            tokenAnnotation.end,
+            tokenAnnotation.result,
+            tokenAnnotation.metadata)
+        }
       }
-
-    }
+      .map { ann =>
+        ann.copy(result = replace.getOrElse(ann.result, ann.result))
+      }
 
   }
 

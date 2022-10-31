@@ -8,7 +8,7 @@ tags: [en, legal, ner, whereas, licensed]
 task: Named Entity Recognition
 language: en
 edition: Spark NLP for Legal 1.0.0
-spark_version: 3.2
+spark_version: 3.0
 supported: true
 article_header:
   type: cover
@@ -34,28 +34,29 @@ This is a Legal NER Model, able to process WHEREAS clauses, to detect the SUBJEC
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
+
 ```python
-documentAssembler = DocumentAssembler()\
+documentAssembler = nlp.DocumentAssembler()\
         .setInputCol("text")\
         .setOutputCol("document")
         
-sentenceDetector = SentenceDetectorDLModel.pretrained("sentence_detector_dl","xx")\
+sentenceDetector = nlp.SentenceDetectorDLModel.pretrained("sentence_detector_dl","xx")\
         .setInputCols(["document"])\
         .setOutputCol("sentence")
 
-tokenizer = Tokenizer()\
+tokenizer = nlp.Tokenizer()\
         .setInputCols(["sentence"])\
         .setOutputCol("token")
 
-embeddings = RoBertaEmbeddings.pretrained("roberta_embeddings_legal_roberta_base","en") \
+embeddings = nlp.RoBertaEmbeddings.pretrained("roberta_embeddings_legal_roberta_base","en") \
     .setInputCols(["sentence", "token"]) \
     .setOutputCol("embeddings")
 
-ner_model = LegalNerModel.pretrained('legner_whereas', 'en', 'legal/models')\
+ner_model = legal.NerModel.pretrained('legner_whereas', 'en', 'legal/models')\
         .setInputCols(["sentence", "token", "embeddings"])\
         .setOutputCol("ner")
 
-ner_converter = NerConverter()\
+ner_converter = nlp.NerConverter()\
         .setInputCols(["sentence","token","ner"])\
         .setOutputCol("ner_chunk")
 
@@ -202,14 +203,13 @@ Manual annotations on CUAD dataset
 ## Benchmarking
 
 ```bash
-label	 tp	 fp	 fn	 prec	 rec	 f1
-B-WHEREAS_SUBJECT	 191	 14	 15	 0.9317073	 0.92718446	 0.9294404
-I-WHEREAS_ACTION	 202	 38	 59	 0.84166664	 0.77394634	 0.8063872
-I-WHEREAS_SUBJECT	 52	 8	 16	 0.8666667	 0.7647059	 0.8125
-B-WHEREAS_OBJECT	 101	 63	 68	 0.61585367	 0.5976331	 0.6066066
-B-WHEREAS_ACTION	 152	 19	 16	 0.8888889	 0.9047619	 0.89675516
-I-WHEREAS_OBJECT	 361	 194	 194	 0.65045047	 0.65045047	 0.65045047
-tp: 1059 fp: 336 fn: 368 labels: 6
-Macro-average	 prec: 0.7992056, rec: 0.76978034, f1: 0.784217
-Micro-average	 prec: 0.7591398, rec: 0.74211633, f1: 0.75053155
+label                tp      fp     fn      prec          rec            f1
+B-WHEREAS_SUBJECT    191     14     15      0.9317073     0.92718446     0.9294404
+I-WHEREAS_ACTION     202     38     59      0.84166664    0.77394634     0.8063872
+I-WHEREAS_SUBJECT    52      8      16      0.8666667     0.7647059      0.8125
+B-WHEREAS_OBJECT     101     63     68      0.61585367    0.5976331      0.6066066
+B-WHEREAS_ACTION     152     19     16      0.8888889     0.9047619      0.89675516
+I-WHEREAS_OBJECT     361     194    194     0.65045047    0.65045047     0.65045047
+Macro-average	     1059    336    368     0.7992056     0.76978034     0.784217
+Micro-average	     1059    336    368     0.7591398     0.74211633     0.75053155
 ```

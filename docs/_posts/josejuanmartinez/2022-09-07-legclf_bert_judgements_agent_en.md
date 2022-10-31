@@ -8,7 +8,7 @@ tags: [en, legal, judgements, agent, echr, licensed]
 task: Text Classification
 language: en
 edition: Spark NLP for Legal 1.0.0
-spark_version: 3.2
+spark_version: 3.0
 supported: true
 article_header:
   type: cover
@@ -36,21 +36,22 @@ The classes are listed below. Please check the [original paper](https://arxiv.or
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
+
 ```python
 text_list = ["""The applicant further noted that his placement in the home had already lasted more than eight years and that his hopes of leaving one day were futile , as the decision had to be approved by his guardian.""".lower(),
              """The Court observes that the situation was subsequently presented differently before the Riga Regional Court , the applicant having submitted , in the context of her appeal , a certificate prepared at her request by a psychologist on 16 December 2008 , that is , after the first - instance judgment . This document indicated that , while the child 's young age prevented her from expressing a preference as to her place of residence , an immediate separation from her mother was to be ruled out on account of the likelihood of psychological trauma ( see paragraph 22 above ).""".lower()
              ]
              
 # Test classifier in Spark NLP pipeline
-document_assembler = DocumentAssembler() \
+document_assembler = nlp.DocumentAssembler() \
     .setInputCol('text') \
     .setOutputCol('document')
 
-tokenizer = Tokenizer()\
+tokenizer = nlp.Tokenizer()\
     .setInputCols(['document'])\
     .setOutputCol("token")
 
-clf_model = LegalBertForSequenceClassification.pretrained("legclf_bert_judgements_agent", "en", "legal/models")\
+clf_model = legal.BertForSequenceClassification.pretrained("legclf_bert_judgements_agent", "en", "legal/models")\
     .setInputCols(['document','token'])\
     .setOutputCol("class")\
     .setCaseSensitive(True)\
@@ -68,6 +69,8 @@ empty_df = spark.createDataFrame([['']]).toDF("text")
 model = clf_pipeline.fit(empty_df)
 
 light_model = LightPipeline(model)
+
+import pandas as pd
 
 df = spark.createDataFrame(pd.DataFrame({"text" : text_list}))
 
@@ -115,16 +118,14 @@ Basedf on https://arxiv.org/pdf/2208.06178.pdf with in-house postprocessing
 ## Benchmarking
 
 ```bash
-                      precision    recall  f1-score   support
-
+             label  precision    recall  f1-score   support
          APPLICANT       0.91      0.89      0.90       238
 COMMISSION/CHAMBER       0.80      1.00      0.89        20
               ECHR       0.92      0.96      0.94       870
              OTHER       0.95      0.90      0.93       940
              STATE       0.91      0.94      0.92       205
-     THIRD PARTIES       0.96      0.92      0.94        26
-
-          accuracy                           0.93      2299
-         macro avg       0.91      0.94      0.92      2299
-      weighted avg       0.93      0.93      0.93      2299
+     THIRD_PARTIES       0.96      0.92      0.94        26
+          accuracy         -         -       0.93      2299
+         macro-avg       0.91      0.94      0.92      2299
+      weighted-avg       0.93      0.93      0.93      2299
 ```

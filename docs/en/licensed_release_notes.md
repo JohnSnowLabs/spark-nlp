@@ -11,298 +11,447 @@ sidebar:
     nav: sparknlp-healthcare
 ---
 
-## 4.1.0
+<div class="h3-box" markdown="1">
+
+## 4.2.1
 
 #### Highlights
 
-+ Zero-Shot NER model to extract entities with no training dataset
-+ 7 new clinical NER models in Spanish
-+ 8 new clinical classification models in English and German related to public health topics (depression, covid sentiment, health mentions)
-+ New pretrained chunk mapper model (`drug_ade_mapper`) to map drugs with their corresponding adverse drug events
-+ A new pretrained resolver pipeline (`medication_resolver_pipeline`) to extract medications and resolve their adverse reactions (ADE), RxNorm, UMLS, NDC, SNOMED CT codes and action/treatments in clinical text with a single line of code.
-+ Updated NER profiling pretrained pipelines with new NER models to allow running 64 clinical NER models at once
-+ Core improvements and bug fixes
++ Creating new chunks with `NerConverterInternal` by merging chunks by skipping stopwords in between.
++ Adding relation direction to `RelationExtraction` models to make the relations direction-aware. 
++ Using proper regional date formats in the `DeIdentification` module.
++ Being able to play with different date formats in `DateNormalizer` output.
++ New `Replacer` annotator to replace chunks with their normalized versions (`DateNormalizer') in documents.
++ New `ModelTracer` helper class to generate and add model UID and timestamps of the stages in a pipeline
++ Added entity source and labels to the `AssertionFilterer` metadata
++ New chunk mapper and sentence entity resolver models and a pipeline for CVX
++ Updated clinical NER models with new labels
++ New Certification Training notebooks for the `johnsnowlabs` library
 + New and updated notebooks
-+ 20+ new clinical models and pipelines added & updated in total
++ 6 new clinical models and pipelines added & updated in total
 
-#### Zero-Shot NER model to Extract Entities With No Training Dataset
+</div><div class="h3-box" markdown="1">
 
-We are releasing the first of its kind Zero-Shot NER model that can detect any named entities without using any annotated dataset to train a model. It allows extracting entities by crafting appropriate prompts to query **any RoBERTa Question Answering model**.
+#### Creating New Chunks with `NerConverterInternal` by Merging Chunks by Skipping Stopwords in Between.
 
-See [Models Hub Page](https://nlp.johnsnowlabs.com/2022/08/29/zero_shot_ner_roberta_en.html) for more details.
-
-*Example* :
+`NerConverterInternal`'s new `setIgnoreStopWords` parameter allows merging between chunks with the same label, ignoring stopwords and punctuations.
 
 ```python
-...
-zero_shot_ner = ZeroShotNerModel.pretrained("zero_shot_ner_roberta", "en", "clincial/models")\
-    .setInputCols(["sentence", "token"])\
-    .setOutputCol("zero_shot_ner")\
-    .setEntityDefinitions(
-        {
-            "PROBLEM": ["What is the disease?", "What is his symptom?", "What is her disease?", "What is his disease?",
-                        "What is the problem?" ,"What does a patient suffer", 'What was the reason that the patient is admitted to the clinic?'],
-            "DRUG": ["Which drug?", "Which is the drug?", "What is the drug?", "Which drug does he use?", "Which drug does she use?", "Which drug do I use?", "Which drug is prescribed for a symptom?"],
-            "ADMISSION_DATE": ["When did patient admitted to a clinic?"],
-            "PATIENT_AGE": ["How old is the patient?",'What is the age of the patient?']
-        })\
-...
-
-sample_text = ["The doctor pescribed Majezik for my severe headache.",
-               "The patient was admitted to the hospital for his colon cancer.",
-               "27 years old patient was admitted to clinic on Sep 1st by Dr. X for a right-sided pleural effusion for thoracentesis."]
+txt = """ The qualified manufacturers for this starting material are:
+Alpha Chemicals Pvt LTD
+17, R K Industry House, Walbhat Rd, Goregaon – 400063
+Mumbai, Maharashtra, India
+Beta Chemical Co., Ltd
+Huan Cheng Xi Lu 3111hao Hai Guan Da Ting
+Shanghai, China """
 ```
-
-*Results* :
-
-```bash
-+------------------------------------------------+--------------+----------+
-|                                           chunk|     ner_label|confidence|
-+------------------------------------------------+--------------+----------+
-|                                         Majezik|          DRUG|0.64671576|
-|                                 severe headache|       PROBLEM| 0.5526346|
-|                                    colon cancer|       PROBLEM| 0.8898498|
-|                                    27 years old|   PATIENT_AGE| 0.6943085|
-|                                         Sep 1st|ADMISSION_DATE|0.95646095|
-|a right-sided pleural effusion for thoracentesis|       PROBLEM|0.50026613|
-+------------------------------------------------+--------------+----------+
-```
-
-
-
-
-
-#### 7 New Clinical NER Models in Spanish
-
-+ We are releasing 4 new `MedicalNerModel` and 3 new `MedicalBertForTokenClassifier` NER models in Spanish.
-
-| model name                                          	| description                                                                	| predicted entities          	|
-|-----------------------------------------------------	|----------------------------------------------------------------------------	|-----------------------------	|
-| [ner_negation_uncertainty](https://nlp.johnsnowlabs.com/2022/08/13/ner_negation_uncertainty_es_3_0.html)                            	| This model detects relevant entities from Spanish medical texts            	| `NEG` `UNC` `USCO` `NSCO`   	|
-| [disease_mentions_tweet](https://nlp.johnsnowlabs.com/2022/08/14/disease_mentions_tweet_es_3_0.html)                              	| This model detects disease mentions in Spanish tweets                      	| `ENFERMEDAD`                	|
-| [ner_clinical_trials_abstracts](https://nlp.johnsnowlabs.com/2022/08/12/ner_clinical_trials_abstracts_es_3_0.html)                       	| This model detects relevant entities from Spanish clinical trial abstracts 	| `CHEM` `DISO` `PROC`        	|
-| [ner_pharmacology](https://nlp.johnsnowlabs.com/2022/08/13/ner_pharmacology_es_3_0.html)                                    	| This model detects pharmacological entities from Spanish medical texts     	| `PROTEINAS` `NORMALIZABLES` 	|
-| [bert_token_classifier_ner_clinical_trials_abstracts](https://nlp.johnsnowlabs.com/2022/08/11/bert_token_classifier_ner_clinical_trials_abstracts_es_3_0.html) 	| This model detects relevant entities from Spanish clinical trial abstracts 	| `CHEM` `DISO` `PROC`        	|
-| [bert_token_classifier_negation_uncertainty](https://nlp.johnsnowlabs.com/2022/08/11/bert_token_classifier_negation_uncertainty_es_3_0.html)          	| This model detects relevant entities from Spanish medical texts            	| `NEG` `NSCO` `UNC` `USCO`   	|
-| [bert_token_classifier_pharmacology](https://nlp.johnsnowlabs.com/2022/08/11/bert_token_classifier_pharmacology_es_3_0.html)                  	| This model detects pharmacological entities from Spanish medical texts     	| `PROTEINAS` `NORMALIZABLES` 	|
-
-
-*Example* :
+*Example for default:*
 
 ```python
-...
-ner = MedicalNerModel.pretrained('ner_clinical_trials_abstracts', "es", "clinical/models") \
-	.setInputCols(["sentence", "token", "embeddings"]) \
-	.setOutputCol("ner")
-
-example_text=  """"Efecto de la suplementación con ácido fólico sobre los niveles de homocisteína total en pacientes en hemodiálisis. La hiperhomocisteinemia es un marcador de riesgo independiente de morbimortalidad cardiovascular. Hemos prospectivamente reducir los niveles de homocisteína total (tHcy) mediante suplemento con ácido fólico y vitamina B6 (pp), valorando su posible correlación con dosis de diálisis, función  residual y parámetros nutricionales.""""
-
+NerConverterInternal()\
+    .setInputCols(["sentence", "token", "ner_deid"])\
+    .setOutputCol("chunk_deid")\
+    .setGreedyMode(True)\
+    .setWhiteList(['LOCATION'])
 ```
 
-*Results* :
+*Results:*
 
 ```bash
-+-----------------------------+---------+
-|chunk                        |ner_label|
-+-----------------------------+---------+
-|suplementación               |PROC     |
-|ácido fólico                 |CHEM     |
-|niveles de homocisteína      |PROC     |
-|hemodiálisis                 |PROC     |
-|hiperhomocisteinemia         |DISO     |
-|niveles de homocisteína total|PROC     |
-|tHcy                         |PROC     |
-|ácido fólico                 |CHEM     |
-|vitamina B6                  |CHEM     |
-|pp                           |CHEM     |
-|diálisis                     |PROC     |
-|función  residual            |PROC     |
-+-----------------------------+---------+
+| chunks                   | entities | begin | end |
+|:-------------------------|:---------|------:|----:|
+| R K Industry House       | LOCATION |    90 | 107 |
+| Walbhat                  | LOCATION |   110 | 116 |
+| Mumbai                   | LOCATION |   141 | 146 |
+| Maharashtra              | LOCATION |   149 | 159 |
+| India                    | LOCATION |   162 | 166 |
+| Huan Cheng Xi Lu 3111hao | LOCATION |   191 | 214 |
+| Shanghai                 | LOCATION |   234 | 241 |
+| China                    | LOCATION |   244 | 248 |
 ```
 
-
-#### 8 New Clinical Classification Models in English and German Related to Public Health Topics (Depression, Covid Sentiment, Health Mentions)
-
-+ We are releasing 8 new `MedicalBertForSequenceClassification` models to classify text from social media data in English and German related to public health topics (depression, covid sentiment, health mentions)
-
-| model name                                           	| description                                                                                                                                        	| predicted entities                          	|
-|------------------------------------------------------	|----------------------------------------------------------------------------------------------------------------------------------------------------	|---------------------------------------------	|
-| [bert_sequence_classifier_depression_binary](https://nlp.johnsnowlabs.com/2022/08/10/bert_sequence_classifier_depression_binary_en_3_0.html)           	| This model classifies whether a social media text expresses depression or not.                                                                     	| `no-depression` `depression`                	|
-| [bert_sequence_classifier_health_mentions_gbert_large](https://nlp.johnsnowlabs.com/2022/08/10/bert_sequence_classifier_health_mentions_gbert_large_de_3_0.html) 	| This GBERT-large based model classifies public health mentions in German social media text.                                                        	| `non-health` `health-related`               	|
-| [bert_sequence_classifier_health_mentions_medbert](https://nlp.johnsnowlabs.com/2022/08/10/bert_sequence_classifier_health_mentions_medbert_de_3_0.html)     	| This German-MedBERT based model classifies public health mentions in German social media text.                                                     	| `non-health` `health-related`               	|
-| [bert_sequence_classifier_health_mentions_gbert](https://nlp.johnsnowlabs.com/2022/08/10/bert_sequence_classifier_health_mentions_gbert_de_3_0.html)       	| This GBERT-large based model classifies public health mentions in German social media text.                                                        	| `non-health` `health-related`               	|
-| [bert_sequence_classifier_health_mentions_bert](https://nlp.johnsnowlabs.com/2022/08/10/bert_sequence_classifier_health_mentions_bert_de_3_0.html)        	| This bert-base-german based model classifies public health mentions in German social media text.                                                   	| `non-health` `health-related`               	|
-| [bert_sequence_classifier_depression_twitter](https://nlp.johnsnowlabs.com/2022/08/09/bert_sequence_classifier_depression_twitter_en_3_0.html)          	| This PHS-BERT based model classifies whether tweets contain depressive text or not.                                                                	| `depression` `no-depression`                	|
-| [bert_sequence_classifier_depression](https://nlp.johnsnowlabs.com/2022/08/09/bert_sequence_classifier_depression_en_3_0.html)                  	| This PHS-BERT based model classifies depression level of social media text into three levels.                                                      	| `no-depression` `minimum` `high-depression` 	|
-| [bert_sequence_classifier_covid_sentiment](https://nlp.johnsnowlabs.com/2022/08/01/bert_sequence_classifier_covid_sentiment_en_3_0.html)             	| This BioBERT based sentiment analysis model classifies whether a tweet contains positive, negative, or neutral sentiments about COVID-19 pandemic. 	| `neutral` `positive` `negative`             	|
-
-*Example* :
+*Example for setting setIgnoreStopWords parameter:*
 
 ```python
-...
-sequenceClassifier = MedicalBertForSequenceClassification.pretrained("bert_sequence_classifier_depression_twitter", "en", "clinical/models")\
-     .setInputCols(["document","token"])\
-     .setOutputCol("class")
-
-example_text = ["Do what makes you happy, be with who makes you smile, laugh as much as you breathe, and love as long as you live!",
-                "Everything is a lie, everyone is fake, I'm so tired of living"]
+NerConverterInternal()\
+    .setInputCols(["sentence", "token", "ner_deid"])\
+    .setOutputCol("chunk_deid")\
+    .setGreedyMode(True)\
+    .setWhiteList(['LOCATION'])\
+    .setIgnoreStopWords(['\n', ',', "and", 'or', '.'])
 ```
 
-
-*Results* :
+*Results:*
 
 ```bash
-+------------------------------------------------------------------------------------------------------------------+---------------+
- |text                                                                                                             |result         |
- +-----------------------------------------------------------------------------------------------------------------+---------------+
- |Do what makes you happy, be with who makes you smile, laugh as much as you breathe, and love as long as you live!|[no-depression]|
- |Everything is a lie, everyone is fake, I am so tired of living.                                                  |[depression]   |
- +-----------------------------------------------------------------------------------------------------------------+---------------+
+| chunks                     | entities | begin | end |
+|:---------------------------|:---------|------:|----:|
+| R K Industry House Walbhat | LOCATION |    90 | 116 |
+| Mumbai Maharashtra India   | LOCATION |   141 | 166 |
+| Huan Cheng Xi Lu 3111hao   | LOCATION |   191 | 214 |
+| Shanghai China             | LOCATION |   234 | 248 |
 ```
 
-#### New Pretrained Chunk Mapper Model (`drug_ade_mapper`) to Map Drugs With Their Corresponding Adverse Drug Events
+</div><div class="prev_ver h3-box" markdown="1">
 
-We are releasing new `drug_ade_mapper` pretrained chunk mapper model to map drugs with their corresponding adverse drug events.
+#### Adding Relation Direction to  `RelationExtraction` Models to Make the Relations Direction-aware.
 
-See [Models Hub Page](https://nlp.johnsnowlabs.com/2022/08/23/drug_ade_mapper_en.html) for more details.
+We have a new `setRelationDirectionCol` parameter that is used during training with a new separate column that specified relationship directions. The column should contain one of the following values:
 
-*Example* :
+ - `rightwards`: The first entity in the text is also the first argument of the relation (as well as the second entity in the text is the second argument). In other words, the relation arguments are ordered *left to right* in the text.
+ - `leftwards`: The first entity in the text is the second argument of the relation (and the second entity in the text is the first argument).
+ - `both`: Order doesn't matter (relation is symmetric).
+
+In our test cases, it was observed that **the accuracy increased significantly** when we just add `setRelationDirectionCol` parameter by keeping the other parameter as they are.
+
+*Example:*
+
+```bash
++--------------------+---------+---------+--------------------+----+----------+
+|              chunk1|   label1|   label2|              chunk2| rel|   rel_dir|
++--------------------+---------+---------+--------------------+----+----------+
+|expected long ter...|treatment|treatment|         a picc line|   O|      both|
+|    light-headedness|  problem|  problem|         diaphoresis| PIP|rightwards|
+| po pain medications|treatment|  problem|            his pain|TrAP| leftwards|
+|bilateral pleural...|  problem|  problem|increased work of...| PIP|rightwards|
+|    her urine output|     test|  problem|           decreased|TeRP|rightwards|
+|his psychiatric i...|  problem|  problem|his neurologic in...| PIP|rightwards|
+|   white blood cells|     test|     test|     red blood cells|   O|      both|
+|            chloride|     test|     test|                 bun|   O|      both|
+|     further work-up|     test|  problem|his neurologic co...|TeCP|rightwards|
+|         four liters|treatment|     test|      blood pressure|   O|      both|
++--------------------+---------+---------+--------------------+----+----------+
+```
 
 ```python
-...
-chunkMapper = ChunkMapperModel.pretrained("drug_ade_mapper", "en", "clinical/models")\
-      .setInputCols(["ner_chunk"])\
-      .setOutputCol("mappings")\
-      .setRels(["ADE"])
-...
-
-sample_text = "The patient was prescribed 1000 mg fish oil and multivitamins. She was discharged on zopiclone and ambrisentan."
+re_approach_with_dir = RelationExtractionApproach()\
+    .setInputCols(["embeddings", "pos_tags", "train_ner_chunks", "dependencies"])\
+    .setOutputCol("relations")\
+    .setLabelColumn("rel")\
+    ...
+    .setRelationDirectionCol("rel_dir")
 ```
 
-*Results* :
+</div><div class="prev_ver h3-box" markdown="1">
+
+#### Using Proper Regional date Formats in  `DeIdentification` Module
+
+You can specify the format for date entities that will be shifted to the new date or converted to a year.
+
+```python
+de_identification = DeIdentification() \
+    .setInputCols(["ner_chunk", "token", "sentence"]) \
+    .setOutputCol("dei_id") \
+    .setRegion('us') # 'eu' for Europe
+```
+
+</div><div class="prev_ver h3-box" markdown="1">
+
+#### Being Able to Play With Different Date Formats in `DateNormalizer` Output
+
+Now we can customize the normalized date formats in the output of `DateNormalizer` by using the new `setOutputDateformat` parameter. There are two options to do that; `us` for `MM/DD/YYYY`, `eu` for `DD/MM/YYYY` formats.
+
+*Example:*
+
+```python
+date_normalizer_us = DateNormalizer()\
+    .setInputCols('date_chunk')\
+    .setOutputCol('normalized_date_us')\
+    .setOutputDateformat('us')
+
+date_normalizer_eu = DateNormalizer()\
+    .setInputCols('date_chunk')\
+    .setOutputCol('normalized_date_eu')\
+    .setOutputDateformat('eu')
+
+sample_text = ['She was last seen in the clinic on Jan 30, 2018, by Dr. Y.',
+               'Chris Brown was discharged on 12Mar2021',
+               'We reviewed the pathology obtained on 13.04.1999.']
+```
+
+*Results:*
 
 ```bash
-+----------------+------------+-------------------------------------------------------------------------------------------+
-|ner_chunk       |ade_mappings|all_relations                                                                              |
-+----------------+------------+-------------------------------------------------------------------------------------------+
-|1000 mg fish oil|Dizziness   |Myocardial infarction:::Nausea                                                             |
-|multivitamins   |Erythema    |Acne:::Dry skin:::Skin burning sensation:::Inappropriate schedule of product administration|
-|zopiclone       |Vomiting    |Malaise:::Drug interaction:::Asthenia:::Hyponatraemia                                      |
-|ambrisentan     |Dyspnoea    |Therapy interrupted:::Death:::Dizziness:::Drug ineffective                                 |
-+----------------+------------+-------------------------------------------------------------------------------------------+
++----------------------------------------------------------+------------+------------------+------------------+
+|text                                                      |date_chunk  |normalized_date_eu|normalized_date_us|
++----------------------------------------------------------+------------+------------------+------------------+
+|She was last seen in the clinic on Jan 30, 2018, by Dr. Y.|Jan 30, 2018|30/01/2018        |01/30/2018        |
+|Chris Brown was discharged on 12Mar2021                   |12Mar2021   |12/03/2021        |03/20/2021        |
+|We reviewed the pathology obtained on 13.04.1999.         |13.04.1999  |13/04/1999        |04/13/1999        |
++----------------------------------------------------------+------------+------------------+------------------+
 ```
 
+</div><div class="prev_ver h3-box" markdown="1">
 
-#### A New Pretrained Resolver Pipeline (`medication_resolver_pipeline`) to Extract Medications and Resolve Their Adverse Reactions (ADE), RxNorm, UMLS, NDC, SNOMED CT Codes and Action/Treatments in Clinical Text.
+#### New `Replacer` Annotator To Replace Chunks With Their Normalized Versions (`DateNormalizer`) In Documents
 
-We are releasing the `medication_resolver_pipeline` pretrained pipeline to extract medications and resolve their adverse reactions (ADE), RxNorm, UMLS, NDC, SNOMED CT codes and action/treatments in clinical text with a single line of code.
+We have a new `Replacer` annotator that returns the original document by replacing it with the normalized version of the original chunks.
 
-Also, you can use `medication_resolver_transform_pipeline` to use transform method of Spark.
+*Example:*
 
-See [Models Hub Page](https://nlp.johnsnowlabs.com/2022/09/01/medication_resolver_pipeline_en.html) for more details.
+```python
+date_normalizer = DateNormalizer()\
+    .setInputCols('date_chunk')\
+    .setOutputCol('normalized_date')\
+
+replacer = Replacer()\
+    .setInputCols(["normalized_date","document"])\
+    .setOutputCol("replaced_document")
+
+sample_text = ['She was last seen in the clinic on Jan 30, 2018, by Dr. Y.',
+               'Chris Brown was discharged on 12Mar2021',
+               'We reviewed the pathology obtained on 13.04.1999.']
+```
+
+*Results:*
+
+```bash
++----------------------------------------------------------+---------------+--------------------------------------------------------+
+|text                                                      |normalized_date|replaced_document                                       |
++----------------------------------------------------------+---------------+--------------------------------------------------------+
+|She was last seen in the clinic on Jan 30, 2018, by Dr. Y.|2018/01/30     |She was last seen in the clinic on 2018/01/30, by Dr. Y.|
+|Chris Brown was discharged on 12Mar2021                   |2021/03/12     |Chris Brown was discharged on 2021/03/12                |
+|We reviewed the pathology obtained on 13.04.1999.         |1999/04/13     |We reviewed the pathology obtained on 1999/04/13.       |
++----------------------------------------------------------+---------------+--------------------------------------------------------+
+```
+</div><div class="prev_ver h3-box" markdown="1">
+
+#### New `ModelTracer` Helper Class to Generate and Add Model UID and Timestamps of the Stages in a Pipeline
+
+`ModelTracer` allows to track the UIDs and timestamps of each stage of a pipeline.
+
+*Example:*
+
+```python
+from sparknlp_jsl.modelTracer import ModelTracer
+...
+pipeline = Pipeline(
+    stages=[
+        documentAssembler,
+        tokenizer,
+        tokenClassifier,
+        ])
+
+df = pipeline.fit(data).transform(data)
+
+result = ModelTracer().addUidCols(pipeline = pipeline, df = df)
+result.show(truncate=False)
+```
+
+*Results:*
+
+```bash
++----+--------+-----+---+----------------------------------------------------------------------+--------------------------------------------------------------+----------------------------------------------------------------------------------+
+|text|document|token|ner|documentassembler_model_uid                                           |tokenizer_model_uid                                           |bert_for_token_classification_model_uid                                           |
++----+--------+-----+---+----------------------------------------------------------------------+--------------------------------------------------------------+----------------------------------------------------------------------------------+
+|... |...     |...  |...|{uid -> DocumentAssembler_a666efd1d789, timestamp -> 2022-10-21_11:34}|{uid -> Tokenizer_01fbad79f069, timestamp -> 2022-10-21_11:34}|{uid -> BERT_FOR_TOKEN_CLASSIFICATION_675a6a750b89, timestamp -> 2022-10-21_11:34}|
++----+--------+-----+---+----------------------------------------------------------------------+--------------------------------------------------------------+----------------------------------------------------------------------------------+
+```
+
+</div><div class="prev_ver h3-box" markdown="1">
+
+#### Added Entity Source and Labels to the `AssertionFilterer` Metadata
+
+Now the `AssertionFilterer` annotator returns the entity source and assertion labels in the metadata.
+
+*Example:*
+```python
+assertionFilterer = AssertionFilterer() \
+    .setInputCols(["sentence","ner_chunk","assertion"]) \
+    .setOutputCol("filtered") \
+    .setCriteria("assertion") \
+    .setWhiteList(["Absent"])
+text = "Patient has a headache for the last 2 weeks, no alopecia noted."
+```
+*Results:*
+```bash
+# before v4.2.1
++-----------------------------------------------------------------------------------------------------+
+|filtered                                                                                             |
++-----------------------------------------------------------------------------------------------------+
+|[{chunk, 48, 55, alopecia, {entity -> PROBLEM, sentence -> 0, chunk -> 1, confidence -> 0.9988}, []}]|
++-----------------------------------------------------------------------------------------------------+
+
+# v4.2.1
++---------------------------------------------------------------------------------------------------------------------------------------------------+
+|filtered                                                                                                                                           |
++---------------------------------------------------------------------------------------------------------------------------------------------------+
+|[{chunk, 48, 55, alopecia, {chunk -> 1, confidence -> 0.9987, ner_source -> ner_chunk, assertion -> Absent, entity -> PROBLEM, sentence -> 0}, []}]|
++---------------------------------------------------------------------------------------------------------------------------------------------------+
+```
+
+</div><div class="prev_ver h3-box" markdown="1">
+
+#### New Chunk Mapper and Sentence Entity Resolver Models And A Pipeline for CVX  
+
++ We are releasing 2 new chunk mapper models to map entities to their corresponding CVX codes, vaccine names and CPT codes. There are 3 types of vaccine names mapped; `short_name`, `full_name` and `trade_name`
+
+| model name      | description                                                                             |
+|-----------------|-----------------------------------------------------------------------------------------|
+| [cvx_name_mapper](https://nlp.johnsnowlabs.com/2022/10/12/cvx_name_mapper_en.html) | Mapping vaccine products to their corresponding CVX codes, vaccine names and CPT codes. |
+| [cvx_code_mapper](https://nlp.johnsnowlabs.com/2022/10/12/cvx_code_mapper_en.html) | Mapping CVX codes to their corresponding vaccine names and CPT codes.          |
 
 
-*Example* :
+*Example:*
+
+```python
+chunkerMapper = ChunkMapperModel\
+    .pretrained("cvx_name_mapper", "en", "clinical/models")\
+    .setInputCols(["ner_chunk"])\
+    .setOutputCol("mappings")\
+    .setRels(["cvx_code", "short_name", "full_name", "trade_name", "cpt_code"])
+
+data = spark.createDataFrame([['DTaP'], ['MYCOBAX'], ['cholera, live attenuated']]).toDF('text')
+```
+
+*Results:*
+
+```bash
++--------------------------+--------+--------------------------+-------------------------------------------------------------+------------+--------+
+|chunk                     |cvx_code|short_name                |full_name                                                    |trade_name  |cpt_code|
++--------------------------+--------+--------------------------+-------------------------------------------------------------+------------+--------+
+|[DTaP]                    |[20]    |[DTaP]                    |[diphtheria, tetanus toxoids and acellular pertussis vaccine]|[ACEL-IMUNE]|[90700] |
+|[MYCOBAX]                 |[19]    |[BCG]                     |[Bacillus Calmette-Guerin vaccine]                           |[MYCOBAX]   |[90585] |
+|[cholera, live attenuated]|[174]   |[cholera, live attenuated]|[cholera, live attenuated]                                   |[VAXCHORA]  |[90625] |
++--------------------------+--------+--------------------------+-------------------------------------------------------------+------------+--------+
+```
+
++ `sbiobertresolve_cvx`: This sentence entity resolver model maps vaccine entities to CVX codes using `sbiobert_base_cased_mli` Sentence Bert Embeddings. Additionally, this model returns status of the vaccine (Active/Inactive/Pending/Non-US) in `all_k_aux_labels` column.
+
+*Example:*
+
+```python
+cvx_resolver = SentenceEntityResolverModel.pretrained("sbiobertresolve_cvx", "en", "clinical/models")\
+    .setInputCols(["ner_chunk", "sbert_embeddings"])\
+    .setOutputCol("cvx_code")\
+    .setDistanceFunction("EUCLIDEAN")
+
+result = light_model.fullAnnotate(["Sinovac", "Moderna", "BIOTHRAX"])
+```
+
+*Results:*
+
+```bash
++----------+--------+-------------------------------------------------------+--------+
+|ner_chunk |cvx_code|resolved_text                                          |Status  |
++----------+--------+-------------------------------------------------------+--------+
+|Sinovac   |511     |COVID-19 IV Non-US Vaccine (CoronaVac, Sinovac)        |Non-US  |
+|Moderna   |227     |COVID-19, mRNA, LNP-S, PF, pediatric 50 mcg/0.5 mL dose|Inactive|
+|BIOTHRAX  |24      |anthrax                                                |Active  |
++----------+--------+-------------------------------------------------------+--------+
+```
+
++ `cvx_resolver_pipeline`: This pretrained pipeline maps entities with their corresponding CVX codes.
+
+*Example:*
 
 ```python
 from sparknlp.pretrained import PretrainedPipeline
 
-sample_text = """The patient was prescribed Amlodopine Vallarta 10-320mg, Eviplera.
-                 The other patient is given Lescol 40 MG and Everolimus 1.5 mg tablet."""
+resolver_pipeline = PretrainedPipeline("cvx_resolver_pipeline", "en", "clinical/models")
 
-med_pipeline = PretrainedPipeline("medication_resolver_pipeline", "en", "clinical/models")
-med_pipeline.annotate(sample_text)
-
-med_transform_pipeline = PretrainedPipeline("medication_resolver_transform_pipeline", "en", "clinical/models")
-med_transform_pipeline.transform(spark.createDataFrame([[sample_text]]).toDF("text"))
+text= "The patient has a history of influenza vaccine, tetanus and DTaP"
+result = resolver_pipeline.fullAnnotate(text)
 ```
 
-*Results* :
+*Results:*
 
 ```bash
-| chunk                        | ner_label   | ADE                         |   RxNorm | Action                     | Treatment                                  | UMLS     | SNOMED_CT   | NDC_Product   | NDC_Package   |
-|:-----------------------------|:------------|:----------------------------|---------:|:---------------------------|:-------------------------------------------|:---------|:------------|:--------------|:--------------|
-| Amlodopine Vallarta 10-320mg | DRUG        | Gynaecomastia               |   722131 | NONE                       | NONE                                       | C1949334 | 425838008   | 00093-7693    | 00093-7693-56 |
-| Eviplera                     | DRUG        | Anxiety                     |   217010 | Inhibitory Bone Resorption | Osteoporosis                               | C0720318 | NONE        | NONE          | NONE          |
-| Lescol 40 MG                 | DRUG        | NONE                        |   103919 | Hypocholesterolemic        | Heterozygous Familial Hypercholesterolemia | C0353573 | NONE        | 00078-0234    | 00078-0234-05 |
-| Everolimus 1.5 mg tablet     | DRUG        | Acute myocardial infarction |  2056895 | NONE                       | NONE                                       | C4723581 | NONE        | 00054-0604    | 00054-0604-21 |
++-----------------+---------+--------+
+|chunk            |ner_chunk|cvx_code|
++-----------------+---------+--------+
+|influenza vaccine|Vaccine  |160     |
+|tetanus          |Vaccine  |35      |
+|DTaP             |Vaccine  |20      |
++-----------------+---------+--------+
 ```
 
-#### Updated NER Profiling Pretrained Pipelines With New NER Models to Allow Running 64 Clinical NER Models at Once
+</div><div class="prev_ver h3-box" markdown="1">
 
-We have upadated `ner_profiling_clinical` and `ner_profiling_biobert` pretrained pipelines with the new NER models. When you run these pipelines over your text, now you will end up with the predictions coming out of **64 clinical NER models in `ner_profiling_clinical`** and **22 clinical NER models in `ner_profiling_biobert`** results.
+#### Updated Clinical NER Models With New Labels
 
-You can check [ner_profiling_clinical](https://nlp.johnsnowlabs.com/2022/08/30/ner_profiling_clinical_en.html) and [ner_profiling_biobert](https://nlp.johnsnowlabs.com/2022/08/28/ner_profiling_biobert_en.html) Models Hub pages for more details and the NER model lists that these pipelines include.
+`ner_jsl` and `ner_covid_trials` models were updated with the new label called "**Vaccine_Name**".
 
+*Example:*
 
-#### Core Improvements and Bug Fixes
+```python
+...
+jsl_ner = MedicalNerModel.pretrained("ner_jsl", "en", "clinical/models") \
+		.setInputCols(["sentence", "token", "embeddings"]) \
+		.setOutputCol("jsl_ner")
+...
 
-+ Updated HCC module (`from sparknlp_jsl.functions import profile`) with the new changes in HCC score calculation functions.
-+ `AnnotationToolJsonReader`, `NerDLMetrics` and `StructuredDeidentification`: These annotators can be used on Spark 3.0 now.
-+ `NerDLMetrics`:
-  - Added `case_sensitive` parameter and case sensitivity issue in tokens is solved.
-  - Added `drop_o` parameter to `computeMetricsFromDF` method and `dropO` parameter in `NerDLMetrics` class is **deprecated**.
-+ `MedicalNerModel`: Inconsistent NER model results between different versions issue is solved.
-+ `AssertionDLModel`: Unindexed chunks will be ignored by the `AssertionDLModel` instead of raising an exception.
-+ `ContextualParserApproach`: These two issues are solved when using `ruleScope: "document"` configuration:
-  - Wrong index computations of chunks after matching sub-tokens.
-  - Including sub-token matches even though `completeMatchRegex: "true"`.
+sample_text= """The patient is a 21-day-old Caucasian male here for 2 days, there is no side effect observed after the influenza vaccine"""
+```
 
+*Results:*
+
+```bash
+|chunks            |   begin |   end | entities       |
+|------------------|--------:|------:|:---------------|
+|21-day-old        |      18 |    27 | Age            |
+|Caucasian         |      29 |    37 | Race_Ethnicity |
+|male              |      39 |    42 | Gender         |
+|for 2 days        |      49 |    58 | Duration       |
+|influenza vaccine |     100 |   116 | Vaccine_Name   |
+```
+
+</div><div class="prev_ver h3-box" markdown="1">
+
+#### New Certification Training Notebooks for the `johnsnowlabs` Library
+
+Now we have 46 new [Healtcare Certification Training notebooks](https://github.com/JohnSnowLabs/spark-nlp-workshop/tree/master/tutorials/Certification_Trainings_JSL/Healthcare) for the users who want to use the new `johnsnowlabs` library.
+
+</div><div class="prev_ver h3-box" markdown="1">
 
 #### New and Updated Notebooks
 
-+ We have a new [Zero-Shot Clinical NER Notebook](https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/1.6.ZeroShot_Clinical_NER.ipynb) to show how to use zero-shot NER model.
-+ We have updated [Medicare Risk Adjustment Score Calculation Notebook](https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/3.1.Calculate_Medicare_Risk_Adjustment_Score.ipynb) with the new changes in HCC score calculation functions.
-+ We have updated these notebooks with the new updates in NER profiling pretrained pipelines:
-  - [Clinical Named Entity Recognition Model Notebook](https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/1.Clinical_Named_Entity_Recognition_Model.ipynb)
-  - [Pretrained Clinical Pipelines Notebook](https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/11.Pretrained_Clinical_Pipelines.ipynb)
-  - [Pretrained NER Profiling Pipelines Notebook](https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/11.2.Pretrained_NER_Profiling_Pipelines.ipynb)
-+ We have updated [Clinical Assertion Model Notebook](https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/2.Clinical_Assertion_Model.ipynb) according to the bug fix in the training section.
-+ We moved all Azure/AWS/Databricks notebooks to `products` folder in [spark-nlp-worksop](https://github.com/JohnSnowLabs/spark-nlp-workshop/tree/master/products) repo.
++ New [Coreference Resolution](https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/29.Coreference_Resolution_with_Clinical_NER_Models.ipynb) notebook to find other references of clinical entities in a document.
 
-#### 20+ New Clinical Models and Pipelines Added & Updated in Total
++ Updated [Clinical Name Entity Recognition Model](https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/1.Clinical_Named_Entity_Recognition_Model.ipynb) notebook with the new feature `setIgnoreStopWords` parameter and `ModelTracer` module.
 
-+ `zero_shot_ner_roberta`
-+ `medication_resolver_pipeline`
-+ `medication_resolver_transform_pipeline`
-+ `ner_profiling_clinical`
-+ `ner_profiling_biobert`
-+ `drug_ade_mapper`
-+ `ner_negation_uncertainty`
-+ `disease_mentions_tweet`
-+ `ner_clinical_trials_abstracts`
-+ `ner_pharmacology`
-+ `bert_token_classifier_ner_clinical_trials_abstracts`
-+ `bert_token_classifier_negation_uncertainty`
-+ `bert_token_classifier_pharmacology`
-+ `bert_sequence_classifier_depression_binary`
-+ `bert_sequence_classifier_health_mentions_gbert_large`
-+ `bert_sequence_classifier_health_mentions_medbert`
-+ `bert_sequence_classifier_health_mentions_gbert`
-+ `bert_sequence_classifier_health_mentions_bert`
-+ `bert_sequence_classifier_depression_twitter`
-+ `bert_sequence_classifier_depression`
-+ `bert_sequence_classifier_covid_sentiment`
++ Updated [Clinical Assertion Model](https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/2.Clinical_Assertion_Model.ipynb) notebook with the new changes in `AssertionFilterer` improvement.
+
++ Updated [Clinical Deidentification](https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/4.Clinical_DeIdentification.ipynb) notebook with the new `setRegion` parameter in `DeIdentification`.
+
++ Updated [Clinical Relation Extraction](https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/10.Clinical_Relation_Extraction.ipynb) notebook with the new `setRelationDirectionCol` parameter in `RelationExtractionApproach`.
+
++ Updated [Date Normalizer](https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/25.Date_Normalizer.ipynb) notebook with the new `setOutputDateformat` parameter in `DateNormalizer` and `Replacer` annotator.
+
++ Updated 25 Certification Training [Public notebooks](https://github.com/JohnSnowLabs/spark-nlp-workshop/tree/master/tutorials/Certification_Trainings/Public) and 47 Certification Training [Healthcare notebooks](https://github.com/JohnSnowLabs/spark-nlp-workshop/tree/master/tutorials/Certification_Trainings/Healthcare) with the latest updates in the libraries.
+
++ Updated 6 Databricks [Public notebooks](https://github.com/JohnSnowLabs/spark-nlp-workshop/tree/master/products/databricks/public) and 14 Databricks [Healthcare notebooks](https://github.com/JohnSnowLabs/spark-nlp-workshop/tree/master/products/databricks/healthcare) with the latest updates in the libraries and 4 new Databricks notebooks created.
 
 
+</div><div class="prev_ver h3-box" markdown="1">
+
+#### 6 New Clinical Models and Pipelines Added & Updated in Total
+
++ `cvx_code_mapper`
++ `cvx_name_mapper`
++ `sbiobertresolve_cvx`
++ `cvx_resolver_pipeline`
++ `ner_jsl`
++ `ner_covid_trials`
 
 
-
-<div class="prev_ver h3-box" markdown="1">
+</div><div class="prev_ver h3-box" markdown="1">
 
 ## Previous versions
 
 </div>
 <ul class="pagination">
     <li>
-        <a href="spark_nlp_healthcare_versions/release_notes_4_0_2">Versions 4.0.2</a>
+        <a href="spark_nlp_healthcare_versions/release_notes_4_2_0">Versions 4.2.0</a>
     </li>
     <li>
-        <strong>Versions 4.1.0</strong>
+        <strong>Versions 4.2.1</strong>
     </li>
 </ul>
 <ul class="pagination owl-carousel pagination_big">
-    <li class="active"><a href="/licensed_release_notes">4.1.0</a></li>
+    <li class="active"><a href="spark_nlp_healthcare_versions/release_notes_4_2_1">4.2.1</a></li>
+    <li><a href="spark_nlp_healthcare_versions/release_notes_4_2_0">4.2.0</a></li>
+    <li><a href="spark_nlp_healthcare_versions/release_notes_4_1_0">4.1.0</a></li>
     <li><a href="spark_nlp_healthcare_versions/release_notes_4_0_2">4.0.2</a></li>
     <li><a href="spark_nlp_healthcare_versions/release_notes_4_0_0">4.0.0</a></li>
     <li><a href="spark_nlp_healthcare_versions/release_notes_3_5_3">3.5.3</a></li>

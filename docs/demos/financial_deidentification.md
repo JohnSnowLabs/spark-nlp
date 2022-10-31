@@ -26,8 +26,6 @@ data:
           id: financial_deidentification 
           image: 
               src: /assets/images/Financial_Deidentification.svg
-          image2: 
-              src: /assets/images/Financial_Deidentification_f.svg
           excerpt: This demo shows how to deidentify / mask / obfuscate financial data to be compliant with data privacy regulations as GDPR and CCPA.
           actions:
           - text: Live Demo
@@ -35,5 +33,5 @@ data:
             url: https://demo.johnsnowlabs.com/finance/DEID_FIN/
           - text: Colab
             type: blue_btn
-            url: https://nlp.johnsnowlabs.com/  
+            url:    
 ---

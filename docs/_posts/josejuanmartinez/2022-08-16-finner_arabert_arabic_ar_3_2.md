@@ -8,7 +8,7 @@ tags: [ar, financial, licensed]
 task: Named Entity Recognition
 language: ar
 edition: Spark NLP for Finance 1.0.0
-spark_version: 3.2
+spark_version: 3.0
 supported: true
 article_header:
   type: cover
@@ -58,20 +58,23 @@ CURR (currency)
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
+
 ```python
-documentAssembler = DocumentAssembler()\
+documentAssembler = nlp.DocumentAssembler()\
   .setInputCol("text")\
   .setOutputCol("document")
 
-tokeniz = Tokenizer()\
+tokenizer = nlp.Tokenizer()\
   .setInputCols("document")\
   .setOutputCol("token")
   
-tokenClassifier = FinanceBertForTokenClassification.pretrained("finner_arabert_arabic", "ar", "finance/models")\
+tokenClassifier = finance.BertForTokenClassification.pretrained("finner_arabert_arabic", "ar", "finance/models")\
   .setInputCols("token", "document")\
   .setOutputCol("label")
   
 pipeline = Pipeline(stages=[documentAssembler, tokenizer, tokenClassifier])
+
+import pandas as pd
 
 example = spark.createDataFrame(pd.DataFrame({'text': ["""أمثلة:
 جامعة بيرزيت وبالتعاون مع مؤسسة ادوارد سعيد تنظم مهرجان للفن الشعبي سيبدأ الساعة الرابعة عصرا، بتاريخ 16/5/2016.
@@ -171,8 +174,7 @@ https://ontology.birzeit.edu/Wojood/
 ## Benchmarking
 
 ```bash
-             precision    recall  f1-score   support
-
+       label  precision    recall  f1-score   support
   B-CARDINAL       0.93      0.87      0.80        19
       B-DATE       0.88      0.93      0.90       106
      B-EVENT       1.00      0.86      0.92        14
@@ -197,8 +199,7 @@ https://ontology.birzeit.edu/Wojood/
       I-PERS       0.94      1.00      0.97        60
    I-WEBSITE       0.94      1.00      0.97        15
            O       0.98      0.97      0.98      3062
-
-    accuracy                           0.95      4468
-   macro avg       0.83      0.81      0.81      4468
-weighted avg       0.95      0.95      0.95      4468
+    accuracy         -         -       0.95      4468
+   macro-avg       0.83      0.81      0.81      4468
+weighted-avg       0.95      0.95      0.95      4468
 ```

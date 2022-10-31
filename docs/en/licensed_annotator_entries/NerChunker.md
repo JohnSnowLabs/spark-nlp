@@ -2,58 +2,54 @@
 NerChunker
 {%- endcapture -%}
 
-{%- capture description -%}
+{%- capture model -%}
+model
+{%- endcapture -%}
+
+{%- capture model_description -%}
 Extracts phrases that fits into a known pattern using the NER tags. Useful for entity groups with neighboring tokens
 when there is no pretrained NER model to address certain issues. A Regex needs to be provided to extract the tokens
 between entities.
 {%- endcapture -%}
 
-{%- capture input_anno -%}
+{%- capture model_input_anno -%}
 DOCUMENT, NAMED_ENTITY
 {%- endcapture -%}
 
-{%- capture output_anno -%}
+{%- capture model_output_anno -%}
 CHUNK
 {%- endcapture -%}
 
-{%- capture python_example -%}
-import sparknlp
-from sparknlp.base import *
-from sparknlp.common import *
-from sparknlp.annotator import *
-from sparknlp.training import *
-import sparknlp_jsl
-from sparknlp_jsl.base import *
-from sparknlp_jsl.annotator import *
-from pyspark.ml import Pipeline
+{%- capture model_python_medical -%}
+from johnsnowlabs import * 
 # Defining pipeline stages for NER
 data= spark.createDataFrame([["She has cystic cyst on her kidney."]]).toDF("text")
 
-documentAssembler= DocumentAssembler() \
+documentAssembler= nlp.DocumentAssembler() \
   .setInputCol("text") \
   .setOutputCol("document")
 
-sentenceDetector= SentenceDetector() \
+sentenceDetector= nlp.SentenceDetector() \
   .setInputCols(["document"]) \
   .setOutputCol("sentence") \
   .setUseAbbreviations(False)
 
-tokenizer= Tokenizer() \
+tokenizer= nlp.Tokenizer() \
   .setInputCols(["sentence"]) \
   .setOutputCol("token")
 
-embeddings = WordEmbeddingsModel.pretrained("embeddings_clinical", "en", "clinical/models") \
+embeddings = nlp.WordEmbeddingsModel.pretrained("embeddings_clinical", "en", "clinical/models") \
   .setInputCols(["sentence","token"]) \
   .setOutputCol("embeddings") \
   .setCaseSensitive(False)
 
-ner = MedicalNerModel.pretrained("ner_radiology", "en", "clinical/models") \
+ner = medical.NerModel.pretrained("ner_radiology", "en", "clinical/models") \
   .setInputCols(["sentence","token","embeddings"]) \
   .setOutputCol("ner") \
   .setIncludeConfidence(True)
 
 # Define the NerChunker to combine to chunks
-chunker = NerChunker() \
+chunker = medical.NerChunker() \
   .setInputCols(["sentence","ner"]) \
   .setOutputCol("ner_chunk") \
   .setRegexParsers(["<ImagingFindings>.*<BodyPart>"])
@@ -93,35 +89,124 @@ result.select("ner_chunk.result").show(truncate=False)
 +---------------------------+
 {%- endcapture -%}
 
-{%- capture scala_example -%}
+
+{%- capture model_python_legal -%}
+from johnsnowlabs import * 
+# Defining pipeline stages for NER
+
+
+documentAssembler= nlp.DocumentAssembler() \
+  .setInputCol("text") \
+  .setOutputCol("document")
+
+sentenceDetector= nlp.SentenceDetector() \
+  .setInputCols(["document"]) \
+  .setOutputCol("sentence") \
+  .setUseAbbreviations(False)
+
+tokenizer= nlp.Tokenizer() \
+  .setInputCols(["sentence"]) \
+  .setOutputCol("token")
+
+embeddings = nlp.WordEmbeddingsModel.pretrained("embeddings_clinical", "en", "clinical/models") \
+  .setInputCols(["sentence","token"]) \
+  .setOutputCol("embeddings") \
+  .setCaseSensitive(False)
+
+ner_model = legal.NerModel.pretrained("legner_orgs_prods_alias", "en", "legal/models")\
+  .setInputCols(["sentence", "token", "embeddings"])\
+  .setOutputCol("ner")
+
+# Define the NerChunker to combine to chunks
+chunker = legal.NerChunker() \
+  .setInputCols(["sentence","ner"]) \
+  .setOutputCol("ner_chunk") \
+  .setRegexParsers(["<ImagingFindings>.*<BodyPart>"])
+
+pipeline= Pipeline(stages=[
+  documentAssembler,
+  sentenceDetector,
+  tokenizer,
+  embeddings,
+  ner_model,
+  chunker
+])
+{%- endcapture -%}
+
+{%- capture model_python_finance -%}
+from johnsnowlabs import * 
+# Defining pipeline stages for NER
+
+
+documentAssembler= nlp.DocumentAssembler() \
+  .setInputCol("text") \
+  .setOutputCol("document")
+
+sentenceDetector= nlp.SentenceDetector() \
+  .setInputCols(["document"]) \
+  .setOutputCol("sentence") \
+  .setUseAbbreviations(False)
+
+tokenizer= nlp.Tokenizer() \
+  .setInputCols(["sentence"]) \
+  .setOutputCol("token")
+
+embeddings = nlp.WordEmbeddingsModel.pretrained("embeddings_clinical", "en", "clinical/models") \
+  .setInputCols(["sentence","token"]) \
+  .setOutputCol("embeddings") \
+  .setCaseSensitive(False)
+
+ner_model = finance.NerModel.pretrained("finner_orgs_prods_alias","en","finance/models")\
+  .setInputCols(["sentence", "token", "embeddings"]) \
+  .setOutputCol("ner")
+
+# Define the NerChunker to combine to chunks
+chunker = finance.NerChunker() \
+  .setInputCols(["sentence","ner"]) \
+  .setOutputCol("ner_chunk") \
+  .setRegexParsers(["<ImagingFindings>.*<BodyPart>"])
+
+pipeline= Pipeline(stages=[
+  documentAssembler,
+  sentenceDetector,
+  tokenizer,
+  embeddings,
+  ner_model,
+  chunker
+])
+{%- endcapture -%}
+
+
+{%- capture model_scala_medical -%}
+from johnsnowlabs import * 
 // Defining pipeline stages for NER
 val data= Seq("She has cystic cyst on her kidney.").toDF("text")
 
-val documentAssembler=new DocumentAssembler()
+val documentAssembler=new nlp.DocumentAssembler()
   .setInputCol("text")
   .setOutputCol("document")
 
-val sentenceDetector=new SentenceDetector()
+val sentenceDetector=new nlp.SentenceDetector()
   .setInputCols("document")
   .setOutputCol("sentence")
-  .setUseAbbreviations(false)
+  .setUseAbbreviations(False)
 
-val tokenizer=new Tokenizer()
-  .setInputCols(Array("sentence"))
+val tokenizer=new nlp.Tokenizer()
+  .setInputCols("sentence")
   .setOutputCol("token")
 
-val embeddings = WordEmbeddingsModel.pretrained("embeddings_clinical", "en", "clinical/models")
-  .setInputCols("sentence","token")
+val embeddings = nlp.WordEmbeddingsModel.pretrained("embeddings_clinical", "en", "clinical/models")
+  .setInputCols(Array("sentence","token"))
   .setOutputCol("embeddings")
-  .setCaseSensitive(false)
+  .setCaseSensitive(False)
 
-val ner = MedicalNerModel.pretrained("ner_radiology", "en", "clinical/models")
-  .setInputCols("sentence","token","embeddings")
+val ner = medical.NerModel.pretrained("ner_radiology", "en", "clinical/models")
+  .setInputCols(Array("sentence","token","embeddings"))
   .setOutputCol("ner")
-  .setIncludeConfidence(true)
+  .setIncludeConfidence(True)
 
 // Define the NerChunker to combine to chunks
-val chunker = new NerChunker()
+val chunker = new medical.NerChunker()
   .setInputCols(Array("sentence","ner"))
   .setOutputCol("ner_chunk")
   .setRegexParsers(Array("<ImagingFindings>.<BodyPart>"))
@@ -162,15 +247,107 @@ val result = pipeline.fit(data).transform(data)
 //
 {%- endcapture -%}
 
-{%- capture api_link -%}
+
+{%- capture model_scala_legal -%}
+from johnsnowlabs import * 
+// Defining pipeline stages for NER
+val documentAssembler=new nlp.DocumentAssembler()
+  .setInputCol("text")
+  .setOutputCol("document")
+
+val sentenceDetector=new nlp.SentenceDetector()
+  .setInputCols("document")
+  .setOutputCol("sentence")
+  .setUseAbbreviations(False)
+
+val tokenizer=new nlp.Tokenizer()
+  .setInputCols("sentence")
+  .setOutputCol("token")
+
+val embeddings = nlp.WordEmbeddingsModel.pretrained("embeddings_clinical", "en", "clinical/models")
+  .setInputCols(Array("sentence","token"))
+  .setOutputCol("embeddings")
+  .setCaseSensitive(False)
+
+val ner_model = legal.NerModel.pretrained("legner_orgs_prods_alias", "en", "legal/models")\
+  .setInputCols(Array("sentence", "token", "embeddings"))\
+  .setOutputCol("ner")
+
+// Define the NerChunker to combine to chunks
+val chunker = new legal.NerChunker()
+  .setInputCols(Array("sentence","ner"))
+  .setOutputCol("ner_chunk")
+  .setRegexParsers(Array("<ImagingFindings>.<BodyPart>"))
+
+val pipeline=new Pipeline().setStages(Array(
+  documentAssembler,
+  sentenceDetector,
+  tokenizer,
+  embeddings,
+  ner_model,
+  chunker
+))
+{%- endcapture -%}
+
+
+{%- capture model_scala_finance -%}
+from johnsnowlabs import * 
+// Defining pipeline stages for NER
+val documentAssembler=new nlp.DocumentAssembler()
+  .setInputCol("text")
+  .setOutputCol("document")
+
+val sentenceDetector=new nlp.SentenceDetector()
+  .setInputCols("document")
+  .setOutputCol("sentence")
+  .setUseAbbreviations(False)
+
+val tokenizer=new nlp.Tokenizer()
+  .setInputCols("sentence")
+  .setOutputCol("token")
+
+val embeddings = nlp.WordEmbeddingsModel.pretrained("embeddings_clinical", "en", "clinical/models")
+  .setInputCols(Array("sentence","token"))
+  .setOutputCol("embeddings")
+  .setCaseSensitive(False)
+
+val ner_model = finance.NerModel.pretrained("finner_orgs_prods_alias","en","finance/models")\
+  .setInputCols(Array("sentence", "token", "embeddings")) \
+  .setOutputCol("ner")
+
+// Define the NerChunker to combine to chunks
+val chunker = new finance.NerChunker()
+  .setInputCols(Array("sentence","ner"))
+  .setOutputCol("ner_chunk")
+  .setRegexParsers(Array("<ImagingFindings>.<BodyPart>"))
+
+val pipeline=new Pipeline().setStages(Array(
+  documentAssembler,
+  sentenceDetector,
+  tokenizer,
+  embeddings,
+  ner_model,
+  chunker
+))
+{%- endcapture -%}
+
+
+{%- capture model_api_link -%}
 [NerChunker](https://nlp.johnsnowlabs.com/licensed/api/com/johnsnowlabs/nlp/annotators/ner/NerChunker)
 {%- endcapture -%}
 
-{% include templates/licensed_anno_template.md
+
+
+{% include templates/licensed_approach_model_medical_fin_leg_template.md
 title=title
-description=description
-input_anno=input_anno
-output_anno=output_anno
-python_example=python_example
-scala_example=scala_example
-api_link=api_link%}
+model=model
+model_description=model_description
+model_input_anno=model_input_anno
+model_output_anno=model_output_anno
+model_python_medical=model_python_medical
+model_python_legal=model_python_legal
+model_python_finance=model_python_finance
+model_scala_medical=model_scala_medical
+model_scala_legal=model_scala_legal
+model_scala_finance=model_scala_finance
+model_api_link=model_api_link%}

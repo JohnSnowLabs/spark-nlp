@@ -17,10 +17,10 @@
 package com.johnsnowlabs.ml.tensorflow
 
 import com.johnsnowlabs.ml.tensorflow.sign.{ModelSignatureConstants, ModelSignatureManager}
+import com.johnsnowlabs.nlp._
 import com.johnsnowlabs.nlp.annotators.cv.feature_extractor.Preprocessor
 import com.johnsnowlabs.nlp.annotators.cv.util.io.ImageIOUtils
 import com.johnsnowlabs.nlp.annotators.cv.util.transform.ImageResizeUtils
-import com.johnsnowlabs.nlp._
 
 import scala.collection.JavaConverters._
 
@@ -41,7 +41,7 @@ class TensorflowViTClassifier(
   private def sessionWarmup(): Unit = {
     val image =
       ImageIOUtils.loadImage(getClass.getResourceAsStream("/image/ox.JPEG"))
-    val bytes = ImageIOUtils.bufferedImageToByte(image)
+    val bytes = ImageIOUtils.bufferedImageToByte(image.get)
     val preprocessor =
       Preprocessor(
         do_normalize = true,

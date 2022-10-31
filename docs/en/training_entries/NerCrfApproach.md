@@ -142,7 +142,7 @@ val pipelineModel = pipeline.fit(trainingData)
 {%- endcapture -%}
 
 {%- capture python_api_link -%}
-[NerCrfApproach](/api/python/reference/autosummary/sparknlp/annotator/ner/ner_crf/index.html#sparknlp.annotator.ner.ner_crf.NerCrfApproach)
+[NerCrfApproach](/api/python/reference/autosummary/python/sparknlp/annotator/ner/ner_crf/index.html#sparknlp.annotator.ner.ner_crf.NerCrfApproach)
 {%- endcapture -%}
 
 {%- capture source_link -%}

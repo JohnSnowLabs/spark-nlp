@@ -57,17 +57,15 @@ trait HasBatchedAnnotateImage[M <: Model[M]] {
             row
               .getAs[Seq[Row]](inputCol)
               .map(r =>
-                (
-                  AnnotationImage(
-                    r.getString(0),
-                    r.getString(1),
-                    r.getInt(2),
-                    r.getInt(3),
-                    r.getInt(4),
-                    r.getInt(5),
-                    r.getAs(6),
-                    r.getMap[String, String](7))
-                ))
+                AnnotationImage(
+                  r.getString(0),
+                  r.getString(1),
+                  r.getInt(2),
+                  r.getInt(3),
+                  r.getInt(4),
+                  r.getInt(5),
+                  r.getAs(6),
+                  r.getMap[String, String](7)))
           })
         })
         val outputAnnotations = batchAnnotate(inputAnnotations)
@@ -87,9 +85,6 @@ trait HasBatchedAnnotateImage[M <: Model[M]] {
     * @return
     *   any number of annotations processed for every batch of input annotations. Not necessary
     *   one to one relationship
-    *
-    * IMPORTANT: !MUST! return sequences of equal lengths !! IMPORTANT: !MUST! return sentences
-    * that belong to the same original row !! (challenging)
     */
   def batchAnnotate(batchedAnnotations: Seq[Array[AnnotationImage]]): Seq[Seq[Annotation]]
 

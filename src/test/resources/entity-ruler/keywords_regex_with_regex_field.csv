@@ -1,0 +1,3 @@
+PERSON|\w+\s\w+|true
+PERSON|\w+-\w+|true
+LOCATION|Winterfell|false

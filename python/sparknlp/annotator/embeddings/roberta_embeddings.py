@@ -13,7 +13,6 @@
 #  limitations under the License.
 """Contains classes for RoBertaEmbeddings."""
 
-
 from sparknlp.common import *
 
 
@@ -21,7 +20,8 @@ class RoBertaEmbeddings(AnnotatorModel,
                         HasEmbeddingsProperties,
                         HasCaseSensitiveProperties,
                         HasStorageRef,
-                        HasBatchedAnnotate):
+                        HasBatchedAnnotate,
+                        HasEngine):
     """Creates word embeddings using RoBERTa.
 
     The RoBERTa model was proposed in `RoBERTa: A Robustly Optimized BERT
@@ -231,4 +231,3 @@ class RoBertaEmbeddings(AnnotatorModel,
         """
         from sparknlp.pretrained import ResourceDownloader
         return ResourceDownloader.downloadModel(RoBertaEmbeddings, name, lang, remote_loc)
-

@@ -8,7 +8,7 @@ tags: [en, legal, classification, clauses, licensed]
 task: Text Classification
 language: en
 edition: Spark NLP for Legal 1.0.0
-spark_version: 3.2
+spark_version: 3.0
 supported: true
 article_header:
   type: cover
@@ -43,16 +43,17 @@ This model can be combined with any of the other 200+ Legal Clauses Classifiers 
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
+
 ```python
-documentAssembler = DocumentAssembler() \
+documentAssembler = nlp.DocumentAssembler() \
      .setInputCol("clause_text") \
      .setOutputCol("document")
   
-embeddings = BertSentenceEmbeddings.pretrained("sent_bert_base_cased", "en") \
+embeddings = nlp.BertSentenceEmbeddings.pretrained("sent_bert_base_cased", "en") \
       .setInputCols("document") \
       .setOutputCol("sentence_embeddings")
 
-docClassifier = ClassifierDLModel.pretrained("legclf_notices_clause", "en", "legal/models")\
+docClassifier = nlp.ClassifierDLModel.pretrained("legclf_notices_clause", "en", "legal/models")\
     .setInputCols(["sentence_embeddings"])\
     .setOutputCol("category")
     
@@ -102,13 +103,10 @@ Legal documents, scrapped from the Internet, and classified in-house
 ## Benchmarking
 
 ```bash
-              precision    recall  f1-score   support
-
+       label  precision    recall  f1-score   support
      notices       0.96      0.97      0.97       191
        other       0.99      0.99      0.99       529
-
-    accuracy                           0.98       720
-   macro avg       0.98      0.98      0.98       720
-weighted avg       0.98      0.98      0.98       720
-
+    accuracy         -         -       0.98       720
+   macro-avg       0.98      0.98      0.98       720
+weighted-avg       0.98      0.98      0.98       720
 ```

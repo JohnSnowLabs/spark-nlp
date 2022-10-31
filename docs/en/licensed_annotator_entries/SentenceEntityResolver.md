@@ -2,6 +2,14 @@
 SentenceEntityResolver
 {%- endcapture -%}
 
+{%- capture approach -%}
+approach
+{%- endcapture -%}
+
+{%- capture model -%}
+model
+{%- endcapture -%}
+
 {%- capture model_description -%}
 The model transforms a dataset with Input Annotation type SENTENCE_EMBEDDINGS, coming from e.g.
 [BertSentenceEmbeddings](/docs/en/transformers#bertsentenceembeddings)
@@ -20,47 +28,39 @@ SENTENCE_EMBEDDINGS
 ENTITY
 {%- endcapture -%}
 
-{%- capture model_python_example -%}
-import sparknlp
-from sparknlp.base import *
-from sparknlp.common import *
-from sparknlp.annotator import *
-from sparknlp.training import *
-import sparknlp_jsl
-from sparknlp_jsl.base import *
-from sparknlp_jsl.annotator import *
-from pyspark.ml import Pipeline
+{%- capture model_python_medical -%}
+from johnsnowlabs import * 
 # Resolving CPT
 # First define pipeline stages to extract entities
-documentAssembler = DocumentAssembler() \
+documentAssembler = nlp.DocumentAssembler() \
     .setInputCol("text") \
     .setOutputCol("document")
-sentenceDetector = SentenceDetectorDLModel.pretrained() \
+sentenceDetector = nlp.SentenceDetectorDLModel.pretrained() \
     .setInputCols(["document"]) \
     .setOutputCol("sentence")
-tokenizer = Tokenizer() \
+tokenizer = nlp.Tokenizer() \
     .setInputCols(["sentence"]) \
     .setOutputCol("token")
-word_embeddings = WordEmbeddingsModel.pretrained("embeddings_clinical", "en", "clinical/models") \
+word_embeddings = nlp.WordEmbeddingsModel.pretrained("embeddings_clinical", "en", "clinical/models") \
     .setInputCols(["sentence", "token"]) \
     .setOutputCol("embeddings")
-clinical_ner = MedicalNerModel.pretrained("jsl_ner_wip_clinical", "en", "clinical/models") \
+clinical_ner = medical.NerModel.pretrained("jsl_ner_wip_clinical", "en", "clinical/models") \
     .setInputCols(["sentence", "token", "embeddings"]) \
     .setOutputCol("ner")
-ner_converter = NerConverter() \
+ner_converter = nlp.NerConverter() \
     .setInputCols(["sentence", "token", "ner"]) \
     .setOutputCol("ner_chunk") \
     .setWhiteList(["Test","Procedure"])
-c2doc = Chunk2Doc() \
+c2doc = nlp.Chunk2Doc() \
     .setInputCols(["ner_chunk"]) \
     .setOutputCol("ner_chunk_doc")
-sbert_embedder = BertSentenceEmbeddings \
+sbert_embedder = nlp.BertSentenceEmbeddings \
     .pretrained("sbiobert_base_cased_mli","en","clinical/models") \
     .setInputCols(["ner_chunk_doc"]) \
     .setOutputCol("sbert_embeddings")
 
 # Then the resolver is defined on the extracted entities and sentence embeddings
-cpt_resolver = SentenceEntityResolverModel.pretrained("sbiobertresolve_cpt_procedures_augmented","en", "clinical/models") \
+cpt_resolver = medical.SentenceEntityResolverModel.pretrained("sbiobertresolve_cpt_procedures_augmented","en", "clinical/models") \
     .setInputCols(["ner_chunk", "sbert_embeddings"]) \
     .setOutputCol("cpt_code") \
     .setDistanceFunction("EUCLIDEAN")
@@ -100,39 +100,40 @@ sbert_outputs = sbert_pipeline_cpt.fit(data_ner).transform(data)
 #
 {%- endcapture -%}
 
-{%- capture model_scala_example -%}
+{%- capture model_scala_medical -%}
+from johnsnowlabs import * 
 // Resolving CPT
 // First define pipeline stages to extract entities
-val documentAssembler = new DocumentAssembler()
+val documentAssembler = new nlp.DocumentAssembler()
   .setInputCol("text")
   .setOutputCol("document")
-val sentenceDetector = SentenceDetectorDLModel.pretrained()
+val sentenceDetector = nlp.SentenceDetectorDLModel.pretrained()
   .setInputCols("document")
   .setOutputCol("sentence")
-val tokenizer = new Tokenizer()
+val tokenizer = new nlp.Tokenizer()
   .setInputCols("sentence")
   .setOutputCol("token")
-val word_embeddings = WordEmbeddingsModel.pretrained("embeddings_clinical", "en", "clinical/models")
-  .setInputCols("sentence", "token")
+val word_embeddings = nlp.WordEmbeddingsModel.pretrained("embeddings_clinical", "en", "clinical/models")
+  .setInputCols(Array("sentence", "token"))
   .setOutputCol("embeddings")
-val clinical_ner = MedicalNerModel.pretrained("jsl_ner_wip_clinical", "en", "clinical/models")
-  .setInputCols("sentence", "token", "embeddings")
+val clinical_ner = medical.NerModel.pretrained("jsl_ner_wip_clinical", "en", "clinical/models")
+  .setInputCols(Array("sentence", "token", "embeddings"))
   .setOutputCol("ner")
-val ner_converter = new NerConverter()
-  .setInputCols("sentence", "token", "ner")
+val ner_converter = new nlp.NerConverter()
+  .setInputCols(array("sentence", "token", "ner"))
   .setOutputCol("ner_chunk")
   .setWhiteList("Test","Procedure")
-val c2doc = new Chunk2Doc()
+val c2doc = new nlp.Chunk2Doc()
   .setInputCols("ner_chunk")
   .setOutputCol("ner_chunk_doc")
-val sbert_embedder = BertSentenceEmbeddings
+val sbert_embedder = nlp.BertSentenceEmbeddings
   .pretrained("sbiobert_base_cased_mli","en","clinical/models")
   .setInputCols("ner_chunk_doc")
   .setOutputCol("sbert_embeddings")
 
 // Then the resolver is defined on the extracted entities and sentence embeddings
-val cpt_resolver = SentenceEntityResolverModel.pretrained("sbiobertresolve_cpt_procedures_augmented","en", "clinical/models")
-  .setInputCols("ner_chunk", "sbert_embeddings")
+val cpt_resolver = medical.SentenceEntityResolverModel.pretrained("sbiobertresolve_cpt_procedures_augmented","en", "clinical/models")
+  .setInputCols(Array("ner_chunk", "sbert_embeddings"))
   .setOutputCol("cpt_code")
   .setDistanceFunction("EUCLIDEAN")
 val sbert_pipeline_cpt = new Pipeline().setStages(Array(
@@ -170,6 +171,254 @@ val sbert_pipeline_cpt = new Pipeline().setStages(Array(
 //
 {%- endcapture -%}
 
+
+
+{%- capture model_python_legal -%}
+from johnsnowlabs import * 
+
+documentAssembler = nlp.DocumentAssembler()\
+        .setInputCol("text")\
+        .setOutputCol("document")
+        
+sentenceDetector = nlp.SentenceDetectorDLModel.pretrained("sentence_detector_dl","xx")\
+        .setInputCols(["document"])\
+        .setOutputCol("sentence")
+
+tokenizer = nlp.Tokenizer()\
+        .setInputCols(["sentence"])\
+        .setOutputCol("token")
+
+embeddings = nlp.BertEmbeddings.pretrained("bert_embeddings_sec_bert_base","en") \
+    .setInputCols(["sentence", "token"]) \
+    .setOutputCol("embeddings")
+
+ner_model = legal.NerModel.pretrained("legner_orgs_prods_alias", "en", "legal/models")\
+        .setInputCols(["sentence", "token", "embeddings"])\
+        .setOutputCol("ner")
+        
+ner_converter = nlp.NerConverter()\
+        .setInputCols(["sentence","token","ner"])\
+        .setOutputCol("ner_chunk")
+
+chunk2doc = nlp.Chunk2Doc()\
+        .setInputCols("ner_chunk")\
+        .setOutputCol("ner_chunk_doc")
+
+sentence_embeddings = nlp.UniversalSentenceEncoder.pretrained("tfhub_use", "en") \
+      .setInputCols("ner_chunk_doc") \
+      .setOutputCol("sentence_embeddings")
+    
+resolver = legal.SentenceEntityResolverModel.pretrained("legel_edgar_company_name", "en", "legal/models")\
+      .setInputCols(["text", "sentence_embeddings"]) \
+      .setOutputCol("resolution")\
+      .setDistanceFunction("EUCLIDEAN")
+
+nlpPipeline = Pipeline(stages=[
+        documentAssembler,
+        sentenceDetector,
+        tokenizer,
+        embeddings,
+        ner_model,
+        ner_converter,
+        chunk2doc,
+        sentence_embeddings,
+        resolver
+])
+
+result = pipeline.fit(data).transform(data)
+
+{%- endcapture -%}
+
+{%- capture model_scala_legal -%}
+from johnsnowlabs import * 
+val documentAssembler = new nlp.DocumentAssembler()
+  .setInputCol("text")
+  .setOutputCol("document")
+
+val sentenceDetector = nlp.SentenceDetectorDLModel
+    .pretrained("sentence_detector_dl","xx") 
+    .setInputCols("document")
+    .setOutputCol("sentence") 
+
+
+val tokenizer = new nlp.Tokenizer()
+  .setInputCols("sentence")
+  .setOutputCol("token")
+
+ 
+val embeddings = nlp.BertEmbeddings
+   .pretrained("bert_embeddings_sec_bert_base", "en")
+   .setInputCols(Array("sentence", "token"))
+   .setOutputCol("embeddings")
+
+
+val ner_model = legal.NerModel
+    .pretrained("legner_orgs_prods_alias", "en", "legal/models") 
+    .setInputCols(Array("sentence", "token","embeddings")) 
+    .setOutputCol("ner")
+
+
+val ner_converter = new nlp.NerConverter() 
+    .setInputCols(Array("sentence", "token", "ner")) 
+    .setOutputCol("ner_chunk")
+
+val chunk2doc = new nlp.Chunk2Doc() 
+    .setInputCols("ner_chunk") 
+    .setOutputCol("ner_chunk_doc")
+
+val sentence_embeddings = nlp.UniversalSentenceEncoder
+    .pretrained("tfhub_use", "en") 
+    .setInputCols("ner_chunk_doc") 
+    .setOutputCol("sentence_embeddings")
+
+val resolver = legal.SentenceEntityResolverModel
+    .pretrained("legel_edgar_company_name", "en", "legal/models")
+    .setInputCols(Array("text", "sentence_embeddings")) 
+    .setOutputCol("resolution")
+    .setDistanceFunction("EUCLIDEAN")
+
+
+val pipeline = new Pipeline().setStages(Array(
+  documentAssembler,
+  sentenceDetector,
+  tokenizer,
+  embeddings,
+  ner_model,
+  ner_converter,
+  chunk2doc,
+  sentence_embeddings,
+  resolver
+))
+
+val result = pipeline.fit(data).transform(data)
+
+{%- endcapture -%}
+
+
+{%- capture model_python_finance -%}
+from johnsnowlabs import * 
+
+documentAssembler = nlp.DocumentAssembler()\
+        .setInputCol("text")\
+        .setOutputCol("document")
+        
+sentenceDetector = nlp.SentenceDetectorDLModel.pretrained("sentence_detector_dl","xx")\
+        .setInputCols(["document"])\
+        .setOutputCol("sentence")
+
+tokenizer = nlp.Tokenizer()\
+        .setInputCols(["sentence"])\
+        .setOutputCol("token")
+
+embeddings = nlp.BertEmbeddings.pretrained("bert_embeddings_sec_bert_base","en") \
+    .setInputCols(["sentence", "token"]) \
+    .setOutputCol("embeddings")
+
+ner_model = finance.NerModel.pretrained("finner_orgs_prods_alias", "en", "finance/models")\
+        .setInputCols(["sentence", "token", "embeddings"])\
+        .setOutputCol("ner")
+        
+ner_converter = nlp.NerConverter()\
+        .setInputCols(["sentence","token","ner"])\
+        .setOutputCol("ner_chunk")
+
+chunk2doc = nlp.Chunk2Doc()\
+        .setInputCols("ner_chunk")\
+        .setOutputCol("ner_chunk_doc")
+
+sentence_embeddings = nlp.UniversalSentenceEncoder.pretrained("tfhub_use", "en") \
+      .setInputCols("ner_chunk_doc") \
+      .setOutputCol("sentence_embeddings")
+    
+resolver = finance.SentenceEntityResolverModel.pretrained("finel_edgar_company_name", "en", "finance/models")\
+      .setInputCols(["text", "sentence_embeddings"]) \
+      .setOutputCol("resolution")\
+      .setDistanceFunction("EUCLIDEAN")
+
+nlpPipeline = Pipeline(stages=[
+        documentAssembler,
+        sentenceDetector,
+        tokenizer,
+        embeddings,
+        ner_model,
+        ner_converter,
+        chunk2doc,
+        sentence_embeddings,
+        resolver
+])
+
+result = pipeline.fit(data).transform(data)
+
+{%- endcapture -%}
+
+
+{%- capture model_scala_finance -%}
+from johnsnowlabs import * 
+val documentAssembler = new nlp.DocumentAssembler()
+  .setInputCol("text")
+  .setOutputCol("document")
+
+val sentenceDetector = nlp.SentenceDetectorDLModel
+    .pretrained("sentence_detector_dl","xx") 
+    .setInputCols("document")
+    .setOutputCol("sentence") 
+
+
+val tokenizer = new nlp.Tokenizer()
+  .setInputCols("sentence")
+  .setOutputCol("token")
+
+ 
+val embeddings = nlp.BertEmbeddings
+   .pretrained("bert_embeddings_sec_bert_base", "en")
+   .setInputCols(Array("sentence", "token"))
+   .setOutputCol("embeddings")
+
+
+val ner_model = finance.NerModel
+    .pretrained("finner_orgs_prods_alias", "en", "finance/models") 
+    .setInputCols(Array("sentence", "token","embeddings")) 
+    .setOutputCol("ner")
+
+
+val ner_converter = new nlp.NerConverter() 
+    .setInputCols(Array("sentence", "token", "ner")) 
+    .setOutputCol("ner_chunk")
+
+val chunk2doc = new nlp.Chunk2Doc() 
+    .setInputCols("ner_chunk") 
+    .setOutputCol("ner_chunk_doc")
+
+val sentence_embeddings = nlp.UniversalSentenceEncoder
+    .pretrained("tfhub_use", "en") 
+    .setInputCols("ner_chunk_doc") 
+    .setOutputCol("sentence_embeddings")
+
+val resolver = finance.SentenceEntityResolverModel
+    .pretrained("finel_edgar_company_name", "en", "finance/models")
+    .setInputCols(Array("text", "sentence_embeddings")) 
+    .setOutputCol("resolution")
+    .setDistanceFunction("EUCLIDEAN")
+
+
+val pipeline = new Pipeline().setStages(Array(
+  documentAssembler,
+  sentenceDetector,
+  tokenizer,
+  embeddings,
+  ner_model,
+  ner_converter,
+  chunk2doc,
+  sentence_embeddings,
+  resolver
+))
+
+val result = pipeline.fit(data).transform(data)
+
+
+{%- endcapture -%}
+
+
 {%- capture model_api_link -%}
 [SentenceEntityResolverModel](https://nlp.johnsnowlabs.com/licensed/api/com/johnsnowlabs/nlp/annotators/resolution/SentenceEntityResolverModel)
 {%- endcapture -%}
@@ -193,27 +442,20 @@ SENTENCE_EMBEDDINGS
 ENTITY
 {%- endcapture -%}
 
-{%- capture approach_python_example -%}
-import sparknlp
-from sparknlp.base import *
-from sparknlp.common import *
-from sparknlp.annotator import *
-from sparknlp.training import *
-import sparknlp_jsl
-from sparknlp_jsl.base import *
-from sparknlp_jsl.annotator import *
-from pyspark.ml import Pipeline
+{%- capture approach_python_medical -%}
+from johnsnowlabs import * 
+
 # Training a SNOMED resolution model using BERT sentence embeddings
 # Define pre-processing pipeline for training data. It needs consists of columns for the normalized training data and their labels.
-documentAssembler = DocumentAssembler() \
+documentAssembler = nlp.DocumentAssembler() \
   .setInputCol("normalized_text") \
   .setOutputCol("document")
 
-sentenceDetector = SentenceDetector()\
+sentenceDetector = nlp.SentenceDetector()\
   .setInputCols(["document"])\
   .setOutputCol("sentence")
 
-bertEmbeddings = BertSentenceEmbeddings.pretrained("sent_biobert_pubmed_base_cased") \
+bertEmbeddings = nlp.BertSentenceEmbeddings.pretrained("sent_biobert_pubmed_base_cased") \
   .setInputCols(["sentence"]) \
   .setOutputCol("bert_embeddings")
 
@@ -226,7 +468,7 @@ snomedTrainingModel = snomedTrainingPipeline.fit(data)
 snomedData = snomedTrainingModel.transform(data).cache()
 
 # Then the Resolver can be trained with
-bertExtractor = SentenceEntityResolverApproach() \
+bertExtractor = medical.SentenceEntityResolverApproach() \
   .setNeighbours(25) \
   .setThreshold(1000) \
   .setInputCols(["bert_embeddings"]) \
@@ -240,18 +482,99 @@ snomedModel = bertExtractor.fit(snomedData)
 
 {%- endcapture -%}
 
-{%- capture approach_scala_example -%}
+{%- capture approach_python_legal -%}
+from johnsnowlabs import * 
+
+# Training a SNOMED resolution model using BERT sentence embeddings
+# Define pre-processing pipeline for training data. It needs consists of columns for the normalized training data and their labels.
+documentAssembler = nlp.DocumentAssembler() \
+  .setInputCol("normalized_text") \
+  .setOutputCol("document")
+
+sentenceDetector = nlp.SentenceDetector()\
+  .setInputCols(["document"])\
+  .setOutputCol("sentence")
+
+bertEmbeddings = nlp.BertSentenceEmbeddings.pretrained("sent_biobert_pubmed_base_cased") \
+  .setInputCols(["sentence"]) \
+  .setOutputCol("bert_embeddings")
+
+snomedTrainingPipeline = Pipeline(stages=[
+  documentAssembler,
+  sentenceDetector,
+  bertEmbeddings
+])
+snomedTrainingModel = snomedTrainingPipeline.fit(data)
+snomedData = snomedTrainingModel.transform(data).cache()
+
+# Then the Resolver can be trained with
+bertExtractor = legal.SentenceEntityResolverApproach() \
+  .setNeighbours(25) \
+  .setThreshold(1000) \
+  .setInputCols(["bert_embeddings"]) \
+  .setNormalizedCol("normalized_text") \
+  .setLabelCol("label") \
+  .setOutputCol("snomed_code") \
+  .setDistanceFunction("EUCLIDIAN") \
+  .setCaseSensitive(False)
+
+snomedModel = bertExtractor.fit(snomedData)
+
+{%- endcapture -%}
+
+{%- capture approach_python_finance -%}
+from johnsnowlabs import * 
+
+# Training a SNOMED resolution model using BERT sentence embeddings
+# Define pre-processing pipeline for training data. It needs consists of columns for the normalized training data and their labels.
+documentAssembler = nlp.DocumentAssembler() \
+  .setInputCol("normalized_text") \
+  .setOutputCol("document")
+
+sentenceDetector = nlp.SentenceDetector()\
+  .setInputCols(["document"])\
+  .setOutputCol("sentence")
+
+bertEmbeddings = nlp.BertSentenceEmbeddings.pretrained("sent_biobert_pubmed_base_cased") \
+  .setInputCols(["sentence"]) \
+  .setOutputCol("bert_embeddings")
+
+snomedTrainingPipeline = Pipeline(stages=[
+  documentAssembler,
+  sentenceDetector,
+  bertEmbeddings
+])
+snomedTrainingModel = snomedTrainingPipeline.fit(data)
+snomedData = snomedTrainingModel.transform(data).cache()
+
+# Then the Resolver can be trained with
+bertExtractor = finance.SentenceEntityResolverApproach() \
+  .setNeighbours(25) \
+  .setThreshold(1000) \
+  .setInputCols(["bert_embeddings"]) \
+  .setNormalizedCol("normalized_text") \
+  .setLabelCol("label") \
+  .setOutputCol("snomed_code") \
+  .setDistanceFunction("EUCLIDIAN") \
+  .setCaseSensitive(False)
+
+snomedModel = bertExtractor.fit(snomedData)
+
+{%- endcapture -%}
+
+{%- capture approach_scala_medical -%}
+from johnsnowlabs import * 
 // Training a SNOMED resolution model using BERT sentence embeddings
 // Define pre-processing pipeline for training data. It needs consists of columns for the normalized training data and their labels.
-val documentAssembler = new DocumentAssembler()
+val documentAssembler = new nlp.DocumentAssembler()
    .setInputCol("normalized_text")
    .setOutputCol("document")
 
-val sentenceDetector = SentenceDetector()
+val sentenceDetector = nlp.SentenceDetector()
   .setInputCols("document")
   .setOutputCol("sentence")
 
- val bertEmbeddings = BertSentenceEmbeddings.pretrained("sent_biobert_pubmed_base_cased")
+ val bertEmbeddings = nlp.BertSentenceEmbeddings.pretrained("sent_biobert_pubmed_base_cased")
    .setInputCols("sentence")
    .setOutputCol("bert_embeddings")
  val snomedTrainingPipeline = new Pipeline().setStages(Array(
@@ -263,7 +586,83 @@ val sentenceDetector = SentenceDetector()
  val snomedData = snomedTrainingModel.transform(data).cache()
 
 // Then the Resolver can be trained with
-val bertExtractor = new SentenceEntityResolverApproach()
+val bertExtractor = new medical.SentenceEntityResolverApproach()
+  .setNeighbours(25)
+  .setThreshold(1000)
+  .setInputCols("bert_embeddings")
+  .setNormalizedCol("normalized_text")
+  .setLabelCol("label")
+  .setOutputCol("snomed_code")
+  .setDistanceFunction("EUCLIDIAN")
+  .setCaseSensitive(false)
+
+val snomedModel = bertExtractor.fit(snomedData)
+
+{%- endcapture -%}
+
+{%- capture approach_scala_legal -%}
+from johnsnowlabs import * 
+// Training a SNOMED resolution model using BERT sentence embeddings
+// Define pre-processing pipeline for training data. It needs consists of columns for the normalized training data and their labels.
+val documentAssembler = new nlp.DocumentAssembler()
+   .setInputCol("normalized_text")
+   .setOutputCol("document")
+
+val sentenceDetector = nlp.SentenceDetector()
+  .setInputCols("document")
+  .setOutputCol("sentence")
+
+ val bertEmbeddings = nlp.BertSentenceEmbeddings.pretrained("sent_biobert_pubmed_base_cased")
+   .setInputCols("sentence")
+   .setOutputCol("bert_embeddings")
+ val snomedTrainingPipeline = new Pipeline().setStages(Array(
+   documentAssembler,
+   sentenceDetector,
+   bertEmbeddings
+ ))
+ val snomedTrainingModel = snomedTrainingPipeline.fit(data)
+ val snomedData = snomedTrainingModel.transform(data).cache()
+
+// Then the Resolver can be trained with
+val bertExtractor = new legal.SentenceEntityResolverApproach()
+  .setNeighbours(25)
+  .setThreshold(1000)
+  .setInputCols("bert_embeddings")
+  .setNormalizedCol("normalized_text")
+  .setLabelCol("label")
+  .setOutputCol("snomed_code")
+  .setDistanceFunction("EUCLIDIAN")
+  .setCaseSensitive(false)
+
+val snomedModel = bertExtractor.fit(snomedData)
+
+{%- endcapture -%}
+
+{%- capture approach_scala_finance -%}
+from johnsnowlabs import * 
+// Training a SNOMED resolution model using BERT sentence embeddings
+// Define pre-processing pipeline for training data. It needs consists of columns for the normalized training data and their labels.
+val documentAssembler = new nlp.DocumentAssembler()
+   .setInputCol("normalized_text")
+   .setOutputCol("document")
+
+val sentenceDetector = nlp.SentenceDetector()
+  .setInputCols("document")
+  .setOutputCol("sentence")
+
+ val bertEmbeddings = nlp.BertSentenceEmbeddings.pretrained("sent_biobert_pubmed_base_cased")
+   .setInputCols("sentence")
+   .setOutputCol("bert_embeddings")
+ val snomedTrainingPipeline = new Pipeline().setStages(Array(
+   documentAssembler,
+   sentenceDetector,
+   bertEmbeddings
+ ))
+ val snomedTrainingModel = snomedTrainingPipeline.fit(data)
+ val snomedData = snomedTrainingModel.transform(data).cache()
+
+// Then the Resolver can be trained with
+val bertExtractor = new finance.SentenceEntityResolverApproach()
   .setNeighbours(25)
   .setThreshold(1000)
   .setInputCols("bert_embeddings")
@@ -282,18 +681,31 @@ val snomedModel = bertExtractor.fit(snomedData)
 {%- endcapture -%}
 
 
-{% include templates/licensed_approach_model_template.md
+
+
+
+{% include templates/licensed_approach_model_medical_fin_leg_template.md
 title=title
+model=model
+approach=approach
 model_description=model_description
 model_input_anno=model_input_anno
 model_output_anno=model_output_anno
-model_python_example=model_python_example
-model_scala_example=model_scala_example
+model_python_medical=model_python_medical
+model_scala_medical=model_scala_medical
+model_python_legal=model_python_legal
+model_scala_legal=model_scala_legal
+model_python_finance=model_python_finance
+model_scala_finance=model_scala_finance
 model_api_link=model_api_link
 approach_description=approach_description
 approach_input_anno=approach_input_anno
 approach_output_anno=approach_output_anno
-approach_python_example=approach_python_example
-approach_scala_example=approach_scala_example
+approach_python_medical=approach_python_medical
+approach_python_legal=approach_python_legal
+approach_python_finance=approach_python_finance
+approach_scala_medical=approach_scala_medical
+approach_scala_legal=approach_scala_legal
+approach_scala_finance=approach_scala_finance
 approach_api_link=approach_api_link
 %}

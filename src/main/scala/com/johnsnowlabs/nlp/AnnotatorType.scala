@@ -17,6 +17,7 @@
 package com.johnsnowlabs.nlp
 
 object AnnotatorType {
+  val AUDIO = "audio"
   val DOCUMENT = "document"
   val IMAGE = "image"
   val TOKEN = "token"
@@ -35,5 +36,7 @@ object AnnotatorType {
   val LABELED_DEPENDENCY = "labeled_dependency"
   val LANGUAGE = "language"
   val NODE = "node"
+  val TABLE = "table"
   val DUMMY = "dummy"
+
 }

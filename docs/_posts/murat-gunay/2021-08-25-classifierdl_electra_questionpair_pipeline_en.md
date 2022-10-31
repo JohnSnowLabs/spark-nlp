@@ -4,7 +4,7 @@ title: Question Pair Classifier Pipeline
 author: John Snow Labs
 name: classifierdl_electra_questionpair_pipeline
 date: 2021-08-25
-tags: [quora, question_pair, public, en, open_source]
+tags: [quora, question_pair, public, en, open_source, pipeline]
 task: Text Classification
 language: en
 edition: Spark NLP 3.2.0
@@ -20,8 +20,8 @@ use_language_switcher: "Python-Scala-Java"
 This pre-trained pipeline identifies whether the two question sentences are semantically repetitive or different.
 
 {:.btn-box}
-<button class="button button-orange" disabled>Live Demo</button>
-<button class="button button-orange" disabled>Open in Colab</button>
+[Live Demo](https://demo.johnsnowlabs.com/public/CLASSIFICATION_QUESTIONPAIR/){:.button.button-orange}
+[Open in Colab](https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/CLASSIFICATION_QUESTIONPAIRS.ipynb){:.button.button-orange.button-orange-trans.co.button-icon}
 [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/classifierdl_electra_questionpair_pipeline_en_3.2.0_2.4_1629892687975.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
 
 ## How to use
@@ -30,13 +30,18 @@ This pre-trained pipeline identifies whether the two question sentences are sema
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
+
 ```python
-python pipeline = PretrainedPipeline("classifierdl_electra_questionpair_pipeline", "en")
+from sparknlp.pretrained import PretrainedPipeline
+
+pipeline = PretrainedPipeline("classifierdl_electra_questionpair_pipeline", "en")
 
 result1 = pipeline.fullAnnotate("q1: What is your favorite movie? q2: Which movie do you like most?")
 result2 = pipeline.fullAnnotate("q1: What is your favorite movie? q2: Which movie genre would you like to watch?")
 ```
 ```scala
+import com.johnsnowlabs.nlp.pretrained.PretrainedPipeline
+
 val pipeline = new PretrainedPipeline("classifierdl_electra_questionpair_pipeline", "en")
 
 val result1 = pipeline.fullAnnotate("q1: What is your favorite movie? q2: Which movie do you like most?")(0)
@@ -47,8 +52,8 @@ val result2 = pipeline.fullAnnotate("q1: What is your favorite movie? q2: Which 
 ## Results
 
 ```bash
-['almost_same']
-['not_same']
+result1 --> ['almost_same']
+result2 --> ['not_same']
 ```
 
 {:.model-param}

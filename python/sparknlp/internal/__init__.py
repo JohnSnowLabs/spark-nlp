@@ -413,13 +413,39 @@ class _NerDLGraphBuilder(ExtendedJavaWrapper):
             dataset, input_col, label_col)
 
 
-class _ResourceHelper(ExtendedJavaWrapper):
+class _ResourceHelper_moveFile(ExtendedJavaWrapper):
     def __init__(self, local_file, hdfs_file):
-        super(_ResourceHelper, self).__init__(
+        super(_ResourceHelper_moveFile, self).__init__(
             "com.johnsnowlabs.nlp.util.io.ResourceHelper.moveFile", local_file, hdfs_file)
+
+
+class _ResourceHelper_validFile(ExtendedJavaWrapper):
+    def __init__(self, path):
+        super(_ResourceHelper_validFile, self).__init__(
+            "com.johnsnowlabs.nlp.util.io.ResourceHelper.validFile", path)
 
 class _ViTForImageClassification(ExtendedJavaWrapper):
     def __init__(self, path, jspark):
         super(_ViTForImageClassification, self).__init__(
-            "com.johnsnowlabs.nlp.annotators.cv.ViTForImageClassification.loadSavedModel", path,
+            "com.johnsnowlabs.nlp.annotators.cv.ViTForImageClassification.loadSavedModel", path, jspark)
+
+
+class _Wav2Vec2ForCTC(ExtendedJavaWrapper):
+    def __init__(self, path, jspark):
+        super(_Wav2Vec2ForCTC, self).__init__(
+            "com.johnsnowlabs.nlp.annotators.audio.Wav2Vec2ForCTC.loadSavedModel", path, jspark)
+
+
+class _CamemBertForTokenClassification(ExtendedJavaWrapper):
+    def __init__(self, path, jspark):
+        super(_CamemBertForTokenClassification, self).__init__(
+            "com.johnsnowlabs.nlp.annotators.classifier.dl.CamemBertForTokenClassification.loadSavedModel", path,
+            jspark)
+
+
+class _TapasForQuestionAnsweringLoader(ExtendedJavaWrapper):
+    def __init__(self, path, jspark):
+        super(_TapasForQuestionAnsweringLoader, self).__init__(
+            "com.johnsnowlabs.nlp.annotators.classifier.dl.TapasForQuestionAnswering.loadSavedModel",
+            path,
             jspark)

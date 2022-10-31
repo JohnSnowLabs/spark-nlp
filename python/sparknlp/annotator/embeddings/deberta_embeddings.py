@@ -20,7 +20,8 @@ class DeBertaEmbeddings(AnnotatorModel,
                         HasEmbeddingsProperties,
                         HasCaseSensitiveProperties,
                         HasStorageRef,
-                        HasBatchedAnnotate):
+                        HasBatchedAnnotate,
+                        HasEngine):
     """The DeBERTa model was proposed in DeBERTa: Decoding-enhanced BERT with
     Disentangled Attention by Pengcheng He, Xiaodong Liu, Jianfeng Gao, Weizhu
     Chen It is based on Google’s BERT model released in 2018 and Facebook’s
@@ -216,4 +217,3 @@ class DeBertaEmbeddings(AnnotatorModel,
         """
         from sparknlp.pretrained import ResourceDownloader
         return ResourceDownloader.downloadModel(DeBertaEmbeddings, name, lang, remote_loc)
-

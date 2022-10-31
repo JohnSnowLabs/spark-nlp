@@ -2,6 +2,14 @@
 ContextualParser
 {%- endcapture -%}
 
+{%- capture approach -%}
+approach
+{%- endcapture -%}
+
+{%- capture model -%}
+model
+{%- endcapture -%}
+
 {%- capture model_description -%}
 Extracts entity from a document based on user defined rules. Rule matching is based on a RegexMatcher defined in a
 JSON file. In this file, regex is defined that you want to match along with the information that will output on
@@ -37,16 +45,8 @@ DOCUMENT, TOKEN
 CHUNK
 {%- endcapture -%}
 
-{%- capture approach_python_example -%}
-import sparknlp
-from sparknlp.base import *
-from sparknlp.common import *
-from sparknlp.annotator import *
-from sparknlp.training import *
-import sparknlp_jsl
-from sparknlp_jsl.base import *
-from sparknlp_jsl.annotator import *
-from pyspark.ml import Pipeline
+{%- capture approach_python_medical -%}
+from johnsnowlabs import *
 # An example JSON file `regex_token.json` can look like this:
 #
 # {
@@ -59,22 +59,22 @@ from pyspark.ml import Pipeline
 # Which means to extract the stage code on a sentence level.
 # An example pipeline could then be defined like this
 # Pipeline could then be defined like this
-documentAssembler = DocumentAssembler() \
+documentAssembler = nlp.DocumentAssembler() \
   .setInputCol("text") \
   .setOutputCol("document")
 
-sentenceDetector = SentenceDetector() \
+sentenceDetector = nlp.SentenceDetector() \
   .setInputCols(["document"]) \
   .setOutputCol("sentence")
 
-tokenizer = Tokenizer() \
+tokenizer = nlp.Tokenizer() \
   .setInputCols(["sentence"]) \
   .setOutputCol("token")
 
 # Define the parser (json file needs to be provided)
 data = spark.createDataFrame([["A patient has liver metastases pT1bN0M0 and the T5 primary site may be colon or... "]]).toDF("text")
 
-contextualParser = ContextualParserApproach() \
+contextualParser = medical.ContextualParserApproach() \
   .setInputCols(["sentence", "token"]) \
   .setOutputCol("entity") \
   .setJsonPath("/path/to/regex_token.json") \
@@ -103,7 +103,94 @@ result.selectExpr("explode(entity)").show(5, truncate=False)
 +-------------------------------------------------------------------------------------------------------------------------+
 {%- endcapture -%}
 
-{%- capture approach_scala_example -%}
+{%- capture approach_python_legal -%}
+from johnsnowlabs import *
+# An example JSON file `regex_token.json` can look like this:
+#
+# {
+#    "entity": "Stage",
+#    "ruleScope": "sentence",
+#    "regex": "[cpyrau]?[T][0-9X?][a-z^cpyrau]",
+#    "matchScope": "token"
+#  }
+#
+# Which means to extract the stage code on a sentence level.
+# An example pipeline could then be defined like this
+# Pipeline could then be defined like this
+documentAssembler = nlp.DocumentAssembler() \
+  .setInputCol("text") \
+  .setOutputCol("document")
+
+sentenceDetector = nlp.SentenceDetector() \
+  .setInputCols(["document"]) \
+  .setOutputCol("sentence")
+
+tokenizer = nlp.Tokenizer() \
+  .setInputCols(["sentence"]) \
+  .setOutputCol("token")
+
+# Define the parser (json file needs to be provided)
+
+contextualParser = legal.ContextualParserApproach() \
+  .setInputCols(["sentence", "token"]) \
+  .setOutputCol("entity") \
+  .setJsonPath("/path/to/regex_token.json") \
+  .setCaseSensitive(True) \
+  .setContextMatch(False)
+
+pipeline = Pipeline(stages=[
+    documentAssembler,
+    sentenceDetector,
+    tokenizer,
+    contextualParser
+  ])
+{%- endcapture -%}
+
+{%- capture approach_python_finance -%}
+from johnsnowlabs import *
+# An example JSON file `regex_token.json` can look like this:
+#
+# {
+#    "entity": "Stage",
+#    "ruleScope": "sentence",
+#    "regex": "[cpyrau]?[T][0-9X?][a-z^cpyrau]",
+#    "matchScope": "token"
+#  }
+#
+# Which means to extract the stage code on a sentence level.
+# An example pipeline could then be defined like this
+# Pipeline could then be defined like this
+documentAssembler = nlp.DocumentAssembler() \
+  .setInputCol("text") \
+  .setOutputCol("document")
+
+sentenceDetector = nlp.SentenceDetector() \
+  .setInputCols(["document"]) \
+  .setOutputCol("sentence")
+
+tokenizer = nlp.Tokenizer() \
+  .setInputCols(["sentence"]) \
+  .setOutputCol("token")
+
+# Define the parser (json file needs to be provided)
+
+contextualParser = finance.ContextualParserApproach() \
+  .setInputCols(["sentence", "token"]) \
+  .setOutputCol("entity") \
+  .setJsonPath("/path/to/regex_token.json") \
+  .setCaseSensitive(True) \
+  .setContextMatch(False)
+
+pipeline = Pipeline(stages=[
+    documentAssembler,
+    sentenceDetector,
+    tokenizer,
+    contextualParser
+  ])
+{%- endcapture -%}
+
+{%- capture approach_scala_medical -%}
+from johnsnowlabs import * 
 // An example JSON file `regex_token.json` can look like this:
 //
 // {
@@ -115,21 +202,21 @@ result.selectExpr("explode(entity)").show(5, truncate=False)
 //
 // Which means to extract the stage code on a sentence level.
 // An example pipeline could then be defined like this
-val documentAssembler = new DocumentAssembler()
+val documentAssembler = new nlp.DocumentAssembler()
   .setInputCol("text")
   .setOutputCol("document")
 
-val sentenceDetector = new SentenceDetector()
+val sentenceDetector = new nlp.SentenceDetector()
   .setInputCols("document")
   .setOutputCol("sentence")
 
-val tokenizer = new Tokenizer()
+val tokenizer = new nlp.Tokenizer()
   .setInputCols("sentence")
   .setOutputCol("token")
 
 // Define the parser (json file needs to be provided)
 val data = Seq("A patient has liver metastases pT1bN0M0 and the T5 primary site may be colon or... ").toDF("text")
-val contextualParser = new ContextualParserApproach()
+val contextualParser = new medical.ContextualParserApproach()
   .setInputCols(Array("sentence", "token"))
   .setOutputCol("entity")
   .setJsonPath("/path/to/regex_token.json")
@@ -159,13 +246,97 @@ val result = pipeline.fit(data).transform(data)
 //
 {%- endcapture -%}
 
+{%- capture approach_scala_legal -%}
+from johnsnowlabs import * 
+// An example JSON file `regex_token.json` can look like this:
+//
+// {
+//    "entity": "Stage",
+//    "ruleScope": "sentence",
+//    "regex": "[cpyrau]?[T][0-9X?][a-z^cpyrau]",
+//    "matchScope": "token"
+//  }
+//
+// Which means to extract the stage code on a sentence level.
+// An example pipeline could then be defined like this
+val documentAssembler = new nlp.DocumentAssembler()
+  .setInputCol("text")
+  .setOutputCol("document")
+
+val sentenceDetector = new nlp.SentenceDetector()
+  .setInputCols("document")
+  .setOutputCol("sentence")
+
+val tokenizer = new nlp.Tokenizer()
+  .setInputCols("sentence")
+  .setOutputCol("token")
+
+// Define the parser (json file needs to be provided)
+val data = Seq("A patient has liver metastases pT1bN0M0 and the T5 primary site may be colon or... ").toDF("text")
+val contextualParser = new legal.ContextualParserApproach()
+  .setInputCols(Array("sentence", "token"))
+  .setOutputCol("entity")
+  .setJsonPath("/path/to/regex_token.json")
+  .setCaseSensitive(true)
+  .setContextMatch(false)
+val pipeline = new Pipeline().setStages(Array(
+    documentAssembler,
+    sentenceDetector,
+    tokenizer,
+    contextualParser
+  ))
+{%- endcapture -%}
+
+{%- capture approach_scala_finance -%}
+from johnsnowlabs import * 
+// An example JSON file `regex_token.json` can look like this:
+//
+// {
+//    "entity": "Stage",
+//    "ruleScope": "sentence",
+//    "regex": "[cpyrau]?[T][0-9X?][a-z^cpyrau]",
+//    "matchScope": "token"
+//  }
+//
+// Which means to extract the stage code on a sentence level.
+// An example pipeline could then be defined like this
+val documentAssembler = new nlp.DocumentAssembler()
+  .setInputCol("text")
+  .setOutputCol("document")
+
+val sentenceDetector = new nlp.SentenceDetector()
+  .setInputCols("document")
+  .setOutputCol("sentence")
+
+val tokenizer = new nlp.Tokenizer()
+  .setInputCols("sentence")
+  .setOutputCol("token")
+
+// Define the parser (json file needs to be provided)
+val data = Seq("A patient has liver metastases pT1bN0M0 and the T5 primary site may be colon or... ").toDF("text")
+val contextualParser = new finance.ContextualParserApproach()
+  .setInputCols(Array("sentence", "token"))
+  .setOutputCol("entity")
+  .setJsonPath("/path/to/regex_token.json")
+  .setCaseSensitive(true)
+  .setContextMatch(false)
+val pipeline = new Pipeline().setStages(Array(
+    documentAssembler,
+    sentenceDetector,
+    tokenizer,
+    contextualParser
+  ))
+{%- endcapture -%}
+
 {%- capture approach_api_link -%}
 [ContextualParserApproach](https://nlp.johnsnowlabs.com/licensed/api/com/johnsnowlabs/nlp/annotators/context/ContextualParserApproach)
 {%- endcapture -%}
 
 
-{% include templates/licensed_approach_model_template.md
+{% include templates/licensed_approach_model_medical_fin_leg_template.md
 title=title
+model=model
+approach=approach
 model_description=model_description
 model_input_anno=model_input_anno
 model_output_anno=model_output_anno
@@ -173,7 +344,11 @@ model_api_link=model_api_link
 approach_description=approach_description
 approach_input_anno=approach_input_anno
 approach_output_anno=approach_output_anno
-approach_python_example=approach_python_example
-approach_scala_example=approach_scala_example
+approach_python_medical=approach_python_medical
+approach_python_legal=approach_python_legal
+approach_python_finance=approach_python_finance
+approach_scala_medical=approach_scala_medical
+approach_scala_legal=approach_scala_legal
+approach_scala_finance=approach_scala_finance
 approach_api_link=approach_api_link
 %}

@@ -31,6 +31,7 @@ trait SparkSessionTest extends BeforeAndAfterAll { this: Suite =>
   val documentAssembler = new DocumentAssembler()
   val sentenceDetector = new SentenceDetector()
   val tokenizer = new Tokenizer()
+  val tokenizerWithSentence = new Tokenizer()
   val emptyDataSet: Dataset[_] = PipelineModels.dummyDataset
   val pipeline = new Pipeline()
 
@@ -42,7 +43,6 @@ trait SparkSessionTest extends BeforeAndAfterAll { this: Suite =>
     tokenizerPipeline.setStages(Array(documentAssembler, tokenizer))
 
     sentenceDetector.setInputCols("document").setOutputCol("sentence")
-    val tokenizerWithSentence = new Tokenizer()
     tokenizerWithSentence.setInputCols("sentence").setOutputCol("token")
     tokenizerWithSentencePipeline.setStages(
       Array(documentAssembler, sentenceDetector, tokenizerWithSentence))

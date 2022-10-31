@@ -1,5 +1,5 @@
 
-<div class="tabs-box" markdown="1">
+<div class="tabs-box tabs-new" markdown="1">
 
 ## {{include.title}}
 
@@ -36,17 +36,23 @@
 
 <summary class="button"><b>Show Example</b></summary>
 
-<div class="tabs-box" markdown="1">
+<div class="tabs-box tabs-new" markdown="1">
 
 {% include programmingLanguageSelectScalaPython.html %}
+
+<div class="tabs-box-medic-inner highlighter-rouge language-python active" markdown="1">
 
 ```python
 {{include.approach_python_example}}
 ```
 
+</div>
+<div class="tabs-box-medic-inner highlighter-rouge language-scala" markdown="1">
+
 ```scala
 {{include.approach_scala_example}}
 ```
+</div>
 
 </div>
 
@@ -87,17 +93,24 @@
 
 <summary class="button"><b>Show Example</b></summary>
 
-<div class="tabs-box" markdown="1">
+<div class="tabs-box tabs-new" markdown="1">
 
 {% include programmingLanguageSelectScalaPython.html %}
+
+<div class="tabs-box-medic-inner highlighter-rouge language-python active" markdown="1">
 
 ```python
 {{include.model_python_example}}
 ```
 
+</div>
+<div class="tabs-box-medic-inner highlighter-rouge language-scala" markdown="1">
+
 ```scala
 {{include.model_scala_example}}
 ```
+
+</div>
 
 </div>
 

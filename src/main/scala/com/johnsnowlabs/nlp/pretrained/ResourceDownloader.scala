@@ -16,7 +16,9 @@
 
 package com.johnsnowlabs.nlp.pretrained
 
+import com.johnsnowlabs.client.aws.AWSGateway
 import com.johnsnowlabs.nlp.annotators._
+import com.johnsnowlabs.nlp.annotators.audio.Wav2Vec2ForCTC
 import com.johnsnowlabs.nlp.annotators.classifier.dl._
 import com.johnsnowlabs.nlp.annotators.coref.SpanBertCorefModel
 import com.johnsnowlabs.nlp.annotators.cv.ViTForImageClassification
@@ -39,12 +41,17 @@ import com.johnsnowlabs.nlp.annotators.ws.WordSegmenterModel
 import com.johnsnowlabs.nlp.embeddings._
 import com.johnsnowlabs.nlp.pretrained.ResourceType.ResourceType
 import com.johnsnowlabs.nlp.util.io.{OutputHelper, ResourceHelper}
-import com.johnsnowlabs.nlp.{DocumentAssembler, pretrained}
+import com.johnsnowlabs.nlp.{DocumentAssembler, TableAssembler, pretrained}
 import com.johnsnowlabs.util._
 import org.apache.hadoop.fs.FileSystem
+import org.apache.spark.SparkFiles
 import org.apache.spark.ml.util.DefaultParamsReadable
 import org.apache.spark.ml.{PipelineModel, PipelineStage}
+import org.slf4j.LoggerFactory
 
+import java.io.File
+import java.net.URI
+import java.nio.file.Paths
 import scala.collection.mutable
 import scala.collection.mutable.ListBuffer
 import scala.concurrent.ExecutionContext.Implicits.global
@@ -75,6 +82,8 @@ trait ResourceDownloader {
 }
 
 object ResourceDownloader {
+
+  private val logger = LoggerFactory.getLogger(this.getClass.toString)
 
   val fileSystem: FileSystem = OutputHelper.getFileSystem
 
@@ -418,7 +427,7 @@ object ResourceDownloader {
     *   path of downloaded resource
     */
   def downloadResource(request: ResourceRequest): String = {
-    val f = Future {
+    val future = Future {
       if (request.folder.equals(publicLoc)) {
         publicDownloader.download(request)
       } else if (request.folder.startsWith("@")) {
@@ -435,24 +444,24 @@ object ResourceDownloader {
       }
     }
 
-    var download_finished = false
+    var downloadFinished = false
     var path: Option[String] = None
-    val file_size = getDownloadSize(request)
+    val fileSize = getDownloadSize(request)
     require(
-      !file_size.equals("-1"),
+      !fileSize.equals("-1"),
       s"Can not find ${request.name} inside ${request.folder} to download. Please make sure the name and location are correct!")
     println(request.name + " download started this may take some time.")
-    println("Approximate size to download " + file_size)
+    println("Approximate size to download " + fileSize)
 
-    var nextc = 0
-    while (!download_finished) {
-      nextc += 1
-      f.onComplete {
+    while (!downloadFinished) {
+      future.onComplete {
         case Success(value) =>
-          download_finished = true
+          downloadFinished = true
           path = value
-        case Failure(_) =>
-          download_finished = true
+        case Failure(exception) =>
+          println(s"Error: ${exception.getMessage}")
+          logger.error(exception.getMessage)
+          downloadFinished = true
           path = None
       }
       Thread.sleep(1000)
@@ -555,6 +564,27 @@ object ResourceDownloader {
 
     }
   }
+
+  /** Downloads the provided S3 path to a local temporary directory and returns the location of
+    * the folder.
+    *
+    * @param path
+    *   S3 URL to the resource
+    * @return
+    *   URI of the local path to the temporary folder of the resource
+    */
+  def downloadS3Directory(path: String): URI = {
+
+    val (bucketName, keyPrefix) = ResourceHelper.parseS3URI(path)
+
+    val tmpDirectory = SparkFiles.getRootDirectory()
+
+    val awsGateway = new AWSGateway()
+    awsGateway.downloadFilesFromDirectory(bucketName, keyPrefix, new File(tmpDirectory))
+
+    Paths.get(tmpDirectory, keyPrefix).toUri
+  }
+
 }
 
 object ResourceType extends Enumeration {
@@ -648,7 +678,11 @@ object PythonResourceDownloader {
     "RoBertaForQuestionAnswering" -> RoBertaForQuestionAnswering,
     "XlmRoBertaForQuestionAnswering" -> XlmRoBertaForQuestionAnswering,
     "SpanBertCorefModel" -> SpanBertCorefModel,
-    "ViTForImageClassification" -> ViTForImageClassification)
+    "ViTForImageClassification" -> ViTForImageClassification,
+    "Wav2Vec2ForCTC" -> Wav2Vec2ForCTC,
+    "CamemBertForTokenClassification" -> CamemBertForTokenClassification,
+    "TableAssembler" -> TableAssembler,
+    "TapasForQuestionAnswering" -> TapasForQuestionAnswering)
 
   def downloadModel(
       readerStr: String,

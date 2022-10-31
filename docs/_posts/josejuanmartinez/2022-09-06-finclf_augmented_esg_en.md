@@ -8,7 +8,7 @@ tags: [en, financial, esg, classification, licensed]
 task: Text Classification
 language: en
 edition: Spark NLP for Finance 1.0.0
-spark_version: 3.2
+spark_version: 3.0
 supported: true
 recommended: true
 article_header:
@@ -37,16 +37,17 @@ If you look for generic version, only returning Environment, Social or Governanc
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
+
 ```python
-document_assembler = DocumentAssembler() \
+document_assembler = nlp.DocumentAssembler() \
     .setInputCol('text') \
     .setOutputCol('document')
 
-tokenizer = Tokenizer() \
+tokenizer = nlp.Tokenizer() \
     .setInputCols(['document']) \
     .setOutputCol('token')
 
-sequenceClassifier = FinanceBertForSequenceClassification.pretrained("finclf_augmented_esg", "en", "finance/models"))\
+sequenceClassifier = finance.BertForSequenceClassification.pretrained("finclf_augmented_esg", "en", "finance/models")\
   .setInputCols(["document",'token'])\
   .setOutputCol("class")
 
@@ -105,36 +106,34 @@ In-house annotations from scrapped annual reports and tweets about ESG
 ## Benchmarking
 
 ```bash
-                                              precision    recall  f1-score   support
-
-Business_Ethics                                   0.73      0.80      0.76        10
-Data_Security                                     1.00      0.89      0.94         9
-Access_And_Affordability                          1.00      1.00      1.00        15
-Business_Model_Resilience                         1.00      1.00      1.00        12
-Competitive_Behavior                              0.92      1.00      0.96        12
-Critical_Incident_Risk_Management                 0.92      1.00      0.96        11
-Customer_Welfare                                  0.85      1.00      0.92        11
-Director_Removal                                  0.91      1.00      0.95        10
-Employee_Engagement_Inclusion_And_Diversity       1.00      1.00      1.00        11
-Employee_Health_And_Safety                        1.00      1.00      1.00        10
-Human_Rights_And_Community_Relations              0.94      1.00      0.97        16
-Labor_Practices                                   0.71      0.53      0.61        19
-Management_Of_Legal_And_Regulatory_Framework      1.00      0.95      0.97        19
-Physical_Impacts_Of_Climate_Change                0.93      1.00      0.97        14
-Product_Quality_And_Safety                        1.00      1.00      1.00        14
-Product_Design_And_Lifecycle_Management           1.00      1.00      1.00        18
-Selling_Practices_And_Product_Labeling            1.00      1.00      1.00        17
-Supply_Chain_Management                           0.89      1.00      0.94         8
-Systemic_Risk_Management                          1.00      0.86      0.92        14
-Waste_And_Hazardous_Materials_Management          0.88      1.00      0.93        14
-Water_And_Wastewater_Management                   1.00      1.00      1.00         8
-Air_Quality                                       1.00      1.00      1.00        16
-Customer_Privacy                                  1.00      0.93      0.97        15
-Ecological_Impacts                                1.00      1.00      1.00        16
-Energy_Management                                 1.00      0.91      0.95        11
-GHG_Emissions                                     1.00      0.91      0.95        11
-
-    accuracy                                                          0.95       330
-   macro avg                                      0.95      0.95      0.95       330
-weighted avg                                      0.95      0.95      0.95       330
+label                                             precision     recall       f1-score      support
+Business_Ethics                                   0.73          0.80         0.76          10
+Data_Security                                     1.00          0.89         0.94           9
+Access_And_Affordability                          1.00          1.00         1.00          15
+Business_Model_Resilience                         1.00          1.00         1.00          12
+Competitive_Behavior                              0.92          1.00         0.96          12
+Critical_Incident_Risk_Management                 0.92          1.00         0.96          11
+Customer_Welfare                                  0.85          1.00         0.92          11
+Director_Removal                                  0.91          1.00         0.95          10
+Employee_Engagement_Inclusion_And_Diversity       1.00          1.00         1.00          11
+Employee_Health_And_Safety                        1.00          1.00         1.00          10
+Human_Rights_And_Community_Relations              0.94          1.00         0.97          16
+Labor_Practices                                   0.71          0.53         0.61          19
+Management_Of_Legal_And_Regulatory_Framework      1.00          0.95         0.97          19
+Physical_Impacts_Of_Climate_Change                0.93          1.00         0.97          14
+Product_Quality_And_Safety                        1.00          1.00         1.00          14
+Product_Design_And_Lifecycle_Management           1.00          1.00         1.00          18
+Selling_Practices_And_Product_Labeling            1.00          1.00         1.00          17
+Supply_Chain_Management                           0.89          1.00         0.94           8
+Systemic_Risk_Management                          1.00          0.86         0.92          14
+Waste_And_Hazardous_Materials_Management          0.88          1.00         0.93          14
+Water_And_Wastewater_Management                   1.00          1.00         1.00           8
+Air_Quality                                       1.00          1.00         1.00          16
+Customer_Privacy                                  1.00          0.93         0.97          15
+Ecological_Impacts                                1.00          1.00         1.00          16
+Energy_Management                                 1.00          0.91         0.95          11
+GHG_Emissions                                     1.00          0.91         0.95          11
+accuracy                                            -             -          0.95         330
+macro-avg                                         0.95          0.95         0.95         330
+weighted-avg                                      0.95          0.95         0.95         330
 ```

@@ -8,7 +8,7 @@ tags: [en, finance, classification, 10k, annual, reports, sec, filings, licensed
 task: Text Classification
 language: en
 edition: Spark NLP for Finance 1.0.0
-spark_version: 3.2
+spark_version: 3.0
 supported: true
 article_header:
   type: cover
@@ -41,16 +41,17 @@ Take into consideration the embeddings of this model allows up to 512 tokens. If
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
+
 ```python
-documentAssembler = DocumentAssembler() \
+documentAssembler = nlp.DocumentAssembler() \
      .setInputCol("text") \
      .setOutputCol("document")
 
-useEmbeddings = UniversalSentenceEncoder.pretrained() \
+useEmbeddings = nlp.UniversalSentenceEncoder.pretrained() \
     .setInputCols("document") \
     .setOutputCol("sentence_embeddings")
 
-docClassifier = ClassifierDLModel.pretrained("finclf_market_risk_item", "en", "finance/models")\
+docClassifier = nlp.ClassifierDLModel.pretrained("finclf_market_risk_item", "en", "finance/models")\
     .setInputCols(["sentence_embeddings"])\
     .setOutputCol("category")
     
@@ -100,12 +101,10 @@ Weak labelling on documents from Edgar database
 ## Benchmarking
 
 ```bash
-              precision    recall  f1-score   support
-
+       label  precision    recall  f1-score   support
  market_risk       0.79      0.82      0.81        74
        other       0.81      0.77      0.79        71
-
-    accuracy                           0.80       145
-   macro avg       0.80      0.80      0.80       145
-weighted avg       0.80      0.80      0.80       145
+    accuracy        -         -        0.80       145
+   macro-avg       0.80      0.80      0.80       145
+weighted-avg       0.80      0.80      0.80       145
 ```
