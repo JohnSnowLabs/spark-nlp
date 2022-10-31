@@ -80,22 +80,10 @@ annotation-lab:
         url: /docs/en/alab/import
       - title: Tasks
         url: /docs/en/alab/tasks
-      - title: Annotation
-        url: /docs/en/alab/annotation
-      - title: Preannotations with Spark NLP
-        url: /docs/en/alab/preannotations
       - title: Active Learning
         url: /docs/en/alab/active_learning
       - title: Visual NER
         url: /docs/en/alab/visual_ner
-      - title: Annotation Settings
-        url: /docs/en/alab/settings
-      - title: Annotation Customizations
-        url: /docs/en/alab/annotation_screen_customization
-      - title: Analytics
-        url: /docs/en/alab/analytics
-      - title: Annotation Export
-        url: /docs/en/alab/export
       - title: Workflow Setup
         url: /docs/en/alab/workflow
       - title: Security and Privacy
@@ -110,6 +98,20 @@ annotation-lab:
             url: /docs/en/alab/embeddings
           - title: Rules
             url: /docs/en/alab/rules
+      - subtitle: Annotation
+        children:
+          - title: Manual annotation
+            url: /docs/en/alab/annotation
+          - title: Pre-annotation
+            url: /docs/en/alab/preannotation
+          - title: Audit Trail
+            url: /docs/en/alab/audit_trail
+          - title: Productivity
+            url: /docs/en/alab/productivity
+          - title: Configuration
+            url: /docs/en/alab/annotation_configurations
+          - title: Export
+            url: /docs/en/alab/export
       - subtitle: Administration
         children:
           - title: User Management
