@@ -93,27 +93,27 @@ df = spark.createDataFrame([text]).toDF("text")
 results = nlpPipeline.fit(df).transform(df)
 ```
 ```scala
-val documentAssembler = new nlp.DocumentAssembler()
+val documentAssembler = new DocumentAssembler()
         .setInputCol("text")
         .setOutputCol("document")
 
 
-val sentenceDetector = nlp.SentenceDetectorDLModel.pretrained("sentence_detector_dl_healthcare","xx")
+val sentenceDetector = SentenceDetectorDLModel.pretrained("sentence_detector_dl_healthcare","xx")
         .setInputCols(Array("document"))
         .setOutputCol("sentence")
 
 
-val tokenizer = new nlp.Tokenizer()
+val tokenizer = new Tokenizer()
         .setInputCols(Array("sentence"))
         .setOutputCol("token")
 
 
-val embeddings = nlp.WordEmbeddingsModel.pretrained("embeddings_sciwiki_300d","es","clinical/models")
+val embeddings = WordEmbeddingsModel.pretrained("embeddings_sciwiki_300d","es","clinical/models")
     .setInputCols(Array("sentence", "token"))
     .setOutputCol("embeddings")
 
 
-val clinical_ner = medical.NerModel.pretrained("ner_deid_subentity_augmented", "es", "clinical/models")
+val clinical_ner = MedicalNerModel.pretrained("ner_deid_subentity_augmented", "es", "clinical/models")
         .setInputCols(Array("sentence","token","embeddings"))
         .setOutputCol("ner")
 

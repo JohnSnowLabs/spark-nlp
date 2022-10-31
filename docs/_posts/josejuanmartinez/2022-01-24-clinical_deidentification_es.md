@@ -31,7 +31,7 @@ This pipeline is trained with sciwiki_300d embeddings and can be used to deident
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
 ```python
-from sparknlp.pretrained import PretrainedPipeline
+from johnsnowlabs import *
 
 deid_pipeline = PretrainedPipeline("clinical_deidentification", "es", "clinical/models")
 
