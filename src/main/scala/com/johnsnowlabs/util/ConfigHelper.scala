@@ -56,6 +56,7 @@ object ConfigHelper {
   val awsExternalRegion = "spark.jsl.settings.aws.region"
 
   val storageTmpDir = "spark.jsl.settings.storage.cluster_tmp_dir"
+  val externalClusterStorageURI = "spark.jsl.settings.storage.uri"
 
   val serializationMode = "spark.jsl.settings.annotatorSerializationFormat"
   val useBroadcast = "spark.jsl.settings.useBroadcastForFeatures"

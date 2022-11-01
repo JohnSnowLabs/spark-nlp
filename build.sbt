@@ -136,6 +136,11 @@ lazy val testDependencies = Seq(
 lazy val utilDependencies = Seq(
   typesafe,
   rocksdbjni,
+  minIO % Provided
+    exclude ("com.fasterxml.jackson.core", "jackson-annotations")
+    exclude ("com.fasterxml.jackson.core", "jackson-databind")
+    exclude ("com.fasterxml.jackson.core", "jackson-core")
+    exclude ("commons-configuration", "commons-configuration"),
   awsjavasdkbundle
     exclude ("com.fasterxml.jackson.core", "jackson-annotations")
     exclude ("com.fasterxml.jackson.core", "jackson-databind")
@@ -144,7 +149,8 @@ lazy val utilDependencies = Seq(
   liblevenshtein
     exclude ("com.google.guava", "guava")
     exclude ("org.apache.commons", "commons-lang3"),
-  greex)
+  greex
+)
 
 lazy val typedDependencyParserDependencies = Seq(junit)
 

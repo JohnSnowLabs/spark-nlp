@@ -17,6 +17,7 @@
 package com.johnsnowlabs.nlp.util.io
 
 import com.johnsnowlabs.client.aws.AWSGateway
+import com.johnsnowlabs.client.minio.MinIOGateway
 import com.johnsnowlabs.util.{ConfigHelper, ConfigLoader}
 import org.apache.hadoop.fs.{FileSystem, Path}
 import org.apache.spark.SparkFiles
@@ -100,23 +101,28 @@ object OutputHelper {
         historyLog = Array()
       }
 
-      if (outputLogsPath.startsWith("s3")) {
-        val sourceFilePath = targetPath.toString
-        val s3Bucket = outputLogsPath.replace("s3://", "").split("/").head
-        val s3Path = "s3:/" + outputLogsPath.substring(s"s3://$s3Bucket".length) + "/"
-
-        storeFileInS3(sourceFilePath, s3Bucket, s3Path)
-      } else if (getLogsFolder.startsWith("s3")) {
-        val sourceFilePath = targetPath.toString
-        val s3Bucket = ConfigLoader.getConfigStringValue(ConfigHelper.awsExternalS3BucketKey)
-        val s3Path = ConfigLoader.getConfigStringValue(ConfigHelper.annotatorLogFolder) + "/"
-
-        storeFileInS3(sourceFilePath, s3Bucket, s3Path)
-      }
+      if (isEndpointPresent) exportLogFileToMinIO(outputLogsPath)
+      else exportLogFileToS3(outputLogsPath)
 
     } catch {
       case e: Exception =>
         println(s"Warning couldn't export log on DBFS or S3 because of error: ${e.getMessage}")
+    }
+  }
+
+  private def exportLogFileToS3(outputLogsPath: String): Unit = {
+    if (outputLogsPath.startsWith("s3")) {
+      val sourceFilePath = targetPath.toString
+      val s3Bucket = outputLogsPath.replace("s3://", "").split("/").head
+      val s3Path = "s3:/" + outputLogsPath.substring(s"s3://$s3Bucket".length) + "/"
+
+      storeFileInS3(sourceFilePath, s3Bucket, s3Path)
+    } else if (getLogsFolder.startsWith("s3")) {
+      val sourceFilePath = targetPath.toString
+      val s3Bucket = ConfigLoader.getConfigStringValue(ConfigHelper.awsExternalS3BucketKey)
+      val s3Path = ConfigLoader.getConfigStringValue(ConfigHelper.annotatorLogFolder) + "/"
+
+      storeFileInS3(sourceFilePath, s3Bucket, s3Path)
     }
   }
 
@@ -125,6 +131,23 @@ object OutputHelper {
     val s3FilePath = s"""${s3Path.substring("s3://".length)}${sourceFilePath.split("/").last}"""
 
     awsGateway.copyInputStreamToS3(s3Bucket, s3FilePath, sourceFilePath)
+  }
+
+  private def exportLogFileToMinIO(outputLogsPath: String): Unit = {
+    if (outputLogsPath.startsWith("s3")) {
+      val sourceFilePath = targetPath.toString
+      val fileName = sourceFilePath.split("/").last
+      val bucket = outputLogsPath.replace("s3://", "").split("/").head
+      val bucketPath = outputLogsPath.substring(s"s3://$bucket".length) + "/"
+
+      val minIOGateway = new MinIOGateway()
+      minIOGateway.copyResourceToMinIO(s"$bucketPath$fileName", bucket, sourceFilePath)
+    }
+  }
+
+  def isEndpointPresent: Boolean = {
+    val endpoint = ConfigLoader.getConfigStringValue(ConfigHelper.externalClusterStorageURI)
+    endpoint != ""
   }
 
 }
