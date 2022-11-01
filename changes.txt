@@ -1,4 +1,2 @@
-docs/en/licensed_version_compatibility.md
-docs/en/version_compatibility.md
-docs/en/licensed_version_compatibility.md
-docs/en/version_compatibility.md
+docs/_posts/josejuanmartinez/2022-09-08-finre_acquisitions_subsidiaries_en.md
+docs/_posts/josejuanmartinez/2022-09-08-finre_acquisitions_subsidiaries_en.md
