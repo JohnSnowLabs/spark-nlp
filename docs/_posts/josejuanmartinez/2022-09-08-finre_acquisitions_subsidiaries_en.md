@@ -1,6 +1,6 @@
 ---
 layout: model
-title: Acquisitions / Subsidiaries Relation Extraction
+title: Acquisitions / Subsidiaries Relation Extraction (sm, Bidirectional)
 author: John Snow Labs
 name: finre_acquisitions_subsidiaries
 date: 2022-09-08
@@ -17,7 +17,9 @@ use_language_switcher: "Python-Scala-Java"
 
 ## Description
 
-This model is a WIP model, what means it's on early stage and will be improved as more data comes in from in-house annotations.
+This model is a `sm` model without meaningful directions in the relations (the model was not trained to understand if the direction of the relation is from left to right or right to left).
+
+There are bigger models in Models Hub trained also with directed relationships.
 
 The aim of this model is to retrieve acquisition or subsidiary relationships between Organizations, included when the acquisition was carried out ("was_acquired") and by whom ("was_acquired_by"). Subsidiaries are tagged with the relationship "is_subsidiary_of".
 
