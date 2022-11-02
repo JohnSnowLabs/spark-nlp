@@ -72,46 +72,6 @@ annotation-lab:
         url: /docs/en/alab/quickstart
       - title: Installation
         url: /docs/en/alab/install
-      - title: Tasks
-        url: /docs/en/alab/tasks
-      - title: Annotation
-        url: /docs/en/alab/annotation
-      - title: Preannotations with Spark NLP
-        url: /docs/en/alab/preannotations
-      - title: Analytics
-        url: /docs/en/alab/analytics
-      - title: Workflow Setup
-        url: /docs/en/alab/workflow
-      - title: Security and Privacy
-        url: /docs/en/alab/security
-      - subtitle: Project
-        children:
-          - title: Dashboard
-            url: /docs/en/alab/project_dashboard
-          - title: Project Creation
-            url: /docs/en/alab/project_creation
-          - title: Configuration 
-            url: /docs/en/alab/project_configuration
-          - title: Visual NER 
-            url: /docs/en/alab/visual_ner           
-          - title: Annotation Settings 
-            url: /docs/en/alab/settings
-          - title: Annotation Customizations 
-            url: /docs/en/alab/annotation_screen_customization
-          - title: Import Tasks 
-            url: /docs/en/alab/import   
-          - title: Export Annotations 
-            url: /docs/en/alab/export                                                 
-      - subtitle: Model Training
-        children:
-          - title: Model Training Parameters
-            url: /docs/en/alab/training_configurations
-          - title: Active Learning
-            url: /docs/en/alab/active_learning            
-          - title: Transfer Learning
-            url: /docs/en/alab/transfer_learning
-
-      
       - subtitle: Resources – Models and Rules
         children:
           - title: Models Hub
@@ -122,6 +82,42 @@ annotation-lab:
             url: /docs/en/alab/embeddings
           - title: Rules
             url: /docs/en/alab/rules
+      - subtitle: Project
+        children:
+          - title: Dashboard
+            url: /docs/en/alab/project_dashboard
+          - title: Project Creation
+            url: /docs/en/alab/project_creation
+          - title: Configuration
+            url: /docs/en/alab/project_configuration
+          - title: Import Tasks
+            url: /docs/en/alab/import
+          - title: Tasks
+            url: /docs/en/alab/tasks
+          - title: Workflow Setup
+            url: /docs/en/alab/workflow
+      - subtitle: Annotation
+        children:
+          - title: Manual annotation
+            url: /docs/en/alab/annotation
+          - title: Pre-annotation
+            url: /docs/en/alab/preannotation
+          - title: Audit Trail
+            url: /docs/en/alab/audit_trail
+          - title: Productivity
+            url: /docs/en/alab/productivity
+          - title: Configuration
+            url: /docs/en/alab/annotation_configurations
+          - title: Export
+            url: /docs/en/alab/export
+      - subtitle: Model Training
+        children:
+          - title: Model Training Parameters
+            url: /docs/en/alab/training_configurations
+          - title: Active Learning
+            url: /docs/en/alab/active_learning
+          - title: Transfer Learning
+            url: /docs/en/alab/transfer_learning
       - subtitle: Administration
         children:
           - title: User Management
@@ -138,6 +134,10 @@ annotation-lab:
             url: /docs/en/alab/infrastructure
           - title: Cluster Management
             url: /docs/en/alab/cluster_management
+      - title: Visual NER
+        url: /docs/en/alab/visual_ner
+      - title: Security and Privacy
+        url: /docs/en/alab/security
       - title: Video Tutorials
         url: /docs/en/alab/tutorials
       - title: Release Notes
