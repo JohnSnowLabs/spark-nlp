@@ -1,4 +1,4 @@
-docs/_posts/josejuanmartinez/2022-08-12-legre_contract_doc_parties_en_3_2.md
-docs/_posts/josejuanmartinez/2022-09-28-finre_work_experience_en.md
-docs/_posts/josejuanmartinez/2022-08-12-legre_contract_doc_parties_en_3_2.md
-docs/_posts/josejuanmartinez/2022-09-28-finre_work_experience_en.md
+docs/_data/navigation.yml
+docs/en/alab_module.md
+docs/_data/navigation.yml
+docs/en/alab_module.md
