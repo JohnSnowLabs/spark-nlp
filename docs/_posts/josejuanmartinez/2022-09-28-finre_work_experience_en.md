@@ -1,6 +1,6 @@
 ---
 layout: model
-title: Financial Relation Extraction (Work Experience)
+title: Financial Relation Extraction (Work Experience, Sm, Bidirectional)
 author: John Snow Labs
 name: finre_work_experience
 date: 2022-09-28
@@ -18,6 +18,8 @@ use_language_switcher: "Python-Scala-Java"
 ## Description
 
 This model allows you to analyzed present and past job positions of people, extracting relations between PERSON, ORG, ROLE and DATE. This model requires an NER with the mentioned entities, as `finner_org_per_role` and can also be combined with `finassertiondl_past_roles` to detect if the entities are mentioned to have happened in the PAST or not (although you can also infer that from the relations as `had_role_until`).
+
+This model is a `sm` model without meaningful directions in the relations (the model was not trained to understand if the direction of the relation is from left to right or right to left). There are bigger models in Models Hub trained also with directed relationships.
 
 ## Predicted Entities
 
@@ -52,7 +54,7 @@ embeddings = nlp.BertEmbeddings.pretrained("bert_embeddings_sec_bert_base","en")
         .setInputCols(["sentence", "token"]) \
         .setOutputCol("embeddings")
 
-ner_model = finance.NerModel.pretrained('finner_org_per_role', 'en', 'finance/models')\
+ner_model = finance.NerModel.pretrained('finner_org_per_role_date', 'en', 'finance/models')\
         .setInputCols(["sentence", "token", "embeddings"])\
         .setOutputCol("ner")
 
@@ -61,18 +63,18 @@ ner_converter = nlp.NerConverter()\
         .setOutputCol("ner_chunk")
 
 pos = nlp.PerceptronModel.pretrained()\
-    .setInputCols(["sentence", "token"])\
-    .setOutputCol("pos")
+        .setInputCols(["sentence", "token"])\
+        .setOutputCol("pos")
     
 dependency_parser = nlp.DependencyParserModel().pretrained("dependency_conllu", "en")\
-    .setInputCols(["sentence", "pos", "token"])\
-    .setOutputCol("dependencies")
+        .setInputCols(["sentence", "pos", "token"])\
+        .setOutputCol("dependencies")
 
 re_ner_chunk_filter = finance.RENerChunksFilter()\
-    .setInputCols(["ner_chunk", "dependencies"])\
-    .setOutputCol("re_ner_chunk")\
-    .setRelationPairs(["PERSON-ROLE, ORG-ROLE, DATE-ROLE, PERSON-ORG"])\
-    .setMaxSyntacticDistance(5)
+        .setInputCols(["ner_chunk", "dependencies"])\
+        .setOutputCol("re_ner_chunk")\
+        .setRelationPairs(["PERSON-ROLE, ORG-ROLE, DATE-ROLE, PERSON-ORG"])\
+        .setMaxSyntacticDistance(5)
 
 re_Model = finance.RelationExtractionDLModel.pretrained("finre_work_experience", "en", "finance/models")\
         .setInputCols(["re_ner_chunk", "sentence"])\
