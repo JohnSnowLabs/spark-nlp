@@ -1,4 +1,2 @@
-docs/_data/navigation.yml
-docs/en/alab_module.md
-docs/_data/navigation.yml
-docs/en/alab_module.md
+docs/_posts/josejuanmartinez/2022-09-08-finre_acquisitions_subsidiaries_en.md
+docs/_posts/josejuanmartinez/2022-09-08-finre_acquisitions_subsidiaries_en.md
