@@ -56,41 +56,6 @@ Detector support following labels:
 
 {% include programmingLanguageSelectScalaPython.html %}
 
-```scala
-import com.johnsnowlabs.ocr.transformers.*
-import com.johnsnowlabs.ocr.OcrContext.implicits._
-
-val imagePath = "path to image"
-
-// Read image file as binary file
-val df = spark.read
-  .format("binaryFile")
-  .load(imagePath)
-  .asImage("image")
-
-// Define transformer for detect signature
-val signature_detector = ImageHandwrittenDetector
-  .pretrained("image_signature_detector_gsa0628", "en", "public/ocr/models")
-  .setInputCol("image")
-  .setOutputCol("signature_regions")
-
-val draw_regions = new ImageDrawRegions()
-  .setInputCol("image")
-  .setInputRegionsCol("signature_regions")
-  .setOutputCol("image_with_regions")
-
-
-pipeline = PipelineModel(stages=[
-    binary_to_image,
-    signature_detector,
-    draw_regions
-])
-
-val data = pipeline.transform(df)
-
-data.storeImage("image_with_regions")
-```
-
 ```python
 from pyspark.ml import PipelineModel
 from sparkocr.transformers import *
@@ -127,6 +92,41 @@ pipeline = PipelineModel(stages=[
 data = pipeline.transform(df)
 
 display_images(data, "image_with_regions")
+```
+
+```scala
+import com.johnsnowlabs.ocr.transformers.*
+import com.johnsnowlabs.ocr.OcrContext.implicits._
+
+val imagePath = "path to image"
+
+// Read image file as binary file
+val df = spark.read
+  .format("binaryFile")
+  .load(imagePath)
+  .asImage("image")
+
+// Define transformer for detect signature
+val signature_detector = ImageHandwrittenDetector
+  .pretrained("image_signature_detector_gsa0628", "en", "public/ocr/models")
+  .setInputCol("image")
+  .setOutputCol("signature_regions")
+
+val draw_regions = new ImageDrawRegions()
+  .setInputCol("image")
+  .setInputRegionsCol("signature_regions")
+  .setOutputCol("image_with_regions")
+
+
+pipeline = PipelineModel(stages=[
+    binary_to_image,
+    signature_detector,
+    draw_regions
+])
+
+val data = pipeline.transform(df)
+
+data.storeImage("image_with_regions")
 ```
 
 </div>
@@ -176,47 +176,6 @@ It's based on CRAFT network architecture.
 
 {% include programmingLanguageSelectScalaPython.html %}
 
-```scala
-import com.johnsnowlabs.ocr.transformers.*
-import com.johnsnowlabs.ocr.OcrContext.implicits._
-
-val imagePath = "path to image"
-
-// Read image file as binary file
-val df = spark.read
-  .format("binaryFile")
-  .load(imagePath)
-  .asImage("image")
-
-// Define transformer for detect text
-val text_detector = ImageTextDetector
-  .pretrained("text_detection_v1", "en", "clinical/ocr")
-  .setInputCol("image")
-  .setOutputCol("text_regions")
-
-val draw_regions = new ImageTextDetector()
-  .setInputCol("image")
-  .setInputRegionsCol("text_regions")
-  .setOutputCol("image_with_regions")
-  .setSizeThreshold(10)
-  .setScoreThreshold(0.9)
-  .setLinkThreshold(0.4)
-  .setTextThreshold(0.2)
-  .setWidth(1512)
-  .setHeight(2016)
-
-
-pipeline = PipelineModel(stages=[
-    binary_to_image,
-    text_detector,
-    draw_regions
-])
-
-val data = pipeline.transform(df)
-
-data.storeImage("image_with_regions")
-```
-
 ```python
 from pyspark.ml import PipelineModel
 from sparkocr.transformers import *
@@ -259,6 +218,47 @@ pipeline = PipelineModel(stages=[
 data = pipeline.transform(df)
 
 display_images(data, "image_with_regions")
+```
+
+```scala
+import com.johnsnowlabs.ocr.transformers.*
+import com.johnsnowlabs.ocr.OcrContext.implicits._
+
+val imagePath = "path to image"
+
+// Read image file as binary file
+val df = spark.read
+  .format("binaryFile")
+  .load(imagePath)
+  .asImage("image")
+
+// Define transformer for detect text
+val text_detector = ImageTextDetector
+  .pretrained("text_detection_v1", "en", "clinical/ocr")
+  .setInputCol("image")
+  .setOutputCol("text_regions")
+
+val draw_regions = new ImageTextDetector()
+  .setInputCol("image")
+  .setInputRegionsCol("text_regions")
+  .setOutputCol("image_with_regions")
+  .setSizeThreshold(10)
+  .setScoreThreshold(0.9)
+  .setLinkThreshold(0.4)
+  .setTextThreshold(0.2)
+  .setWidth(1512)
+  .setHeight(2016)
+
+
+pipeline = PipelineModel(stages=[
+    binary_to_image,
+    text_detector,
+    draw_regions
+])
+
+val data = pipeline.transform(df)
+
+data.storeImage("image_with_regions")
 ```
 
 </div>
@@ -309,10 +309,6 @@ Currently, it's available only on Python side.
 
 {% include programmingLanguageSelectScalaPython.html %}
 
-```scala
-not implemented
-```
-
 ```python
 from pyspark.ml import PipelineModel
 from sparkocr.transformers import *
@@ -353,6 +349,10 @@ pipeline = PipelineModel(stages=[
 data = pipeline.transform(df)
 
 display_images(data, "image_with_regions")
+```
+
+```scala
+not implemented
 ```
 
 </div>

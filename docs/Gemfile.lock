@@ -297,7 +297,7 @@ DEPENDENCIES
   elasticsearch (~> 7.10)
   github-pages (= 227)
   jekyll (~> 3.9)
-  nokogiri (>= 1.13.8)
+  nokogiri (>= 1.13.9)
   wdm (~> 0.1.0)
   webrick
 

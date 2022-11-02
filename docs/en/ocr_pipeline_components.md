@@ -60,25 +60,6 @@ NOTE: For setting parameters use `setParamName` method.
 
 {% include programmingLanguageSelectScalaPython.html %}
 
-```scala
-import com.johnsnowlabs.ocr.transformers.PdfToText
-
-val pdfPath = "path to pdf with text layout"
-
-// Read PDF file as binary file
-val df = spark.read.format("binaryFile").load(pdfPath)
-
-val transformer = new PdfToText()
-  .setInputCol("content")
-  .setOutputCol("text")
-  .setPageNumCol("pagenum")
-  .setSplitPage(true)
-
-val data = transformer.transform(df)
-
-data.select("pagenum", "text").show()
-```
-
 ```python
 from sparkocr.transformers import *
 
@@ -94,6 +75,25 @@ transformer = PdfToText() \
   .setSplitPage(True)
 
 data = transformer.transform(df)
+
+data.select("pagenum", "text").show()
+```
+
+```scala
+import com.johnsnowlabs.ocr.transformers.PdfToText
+
+val pdfPath = "path to pdf with text layout"
+
+// Read PDF file as binary file
+val df = spark.read.format("binaryFile").load(pdfPath)
+
+val transformer = new PdfToText()
+  .setInputCol("content")
+  .setOutputCol("text")
+  .setPageNumCol("pagenum")
+  .setSplitPage(true)
+
+val data = transformer.transform(df)
 
 data.select("pagenum", "text").show()
 ```
@@ -163,25 +163,6 @@ Number of partitions should be equal to number of cores/executors.
 
 {% include programmingLanguageSelectScalaPython.html %}
 
-```scala
-import com.johnsnowlabs.ocr.transformers.PdfToImage
-
-val pdfPath = "path to pdf"
-
-// Read PDF file as binary file
-val df = spark.read.format("binaryFile").load(pdfPath)
-
-val pdfToImage = new PdfToImage()
- .setInputCol("content")
- .setOutputCol("text")
- .setPageNumCol("pagenum")
- .setSplitPage(true)
-
-val data =  pdfToImage.transform(df)
-
-data.select("pagenum", "text").show()
-```
-
 ```python
 from sparkocr.transformers import *
 
@@ -197,6 +178,25 @@ pdfToImage = PdfToImage() \
  .setSplitPage(True)
 
 data =  pdfToImage.transform(df)
+
+data.select("pagenum", "text").show()
+```
+
+```scala
+import com.johnsnowlabs.ocr.transformers.PdfToImage
+
+val pdfPath = "path to pdf"
+
+// Read PDF file as binary file
+val df = spark.read.format("binaryFile").load(pdfPath)
+
+val pdfToImage = new PdfToImage()
+ .setInputCol("content")
+ .setOutputCol("text")
+ .setPageNumCol("pagenum")
+ .setSplitPage(true)
+
+val data =  pdfToImage.transform(df)
 
 data.select("pagenum", "text").show()
 ```
@@ -235,31 +235,6 @@ Read images and store them as single page PDF documents.
 
 {% include programmingLanguageSelectScalaPython.html %}
 
-```scala
-import com.johnsnowlabs.ocr.transformers._
-
-val imagePath = "path to image"
-
-// Read image file as binary file
-val df = spark.read.format("binaryFile").load(imagePath)
-
-// Define transformer for convert to Image struct
-val binaryToImage = new BinaryToImage()
-  .setInputCol("content")
-  .setOutputCol("image")
-
-// Define transformer for store to PDF
-val imageToPdf = new ImageToPdf()
-  .setInputCol("image")
-  .setOutputCol("content")
-
-// Call transformers
-val image_df = binaryToImage.transform(df)
-val pdf_df =  pdfToImage.transform(image_df)
-
-pdf_df.select("content").show()
-```
-
 ```python
 from sparkocr.transformers import *
 
@@ -281,6 +256,31 @@ imageToPdf = ImageToPdf() \
 # Call transformers
 image_df = binaryToImage.transform(df)
 pdf_df =  pdfToImage.transform(image_df)
+
+pdf_df.select("content").show()
+```
+
+```scala
+import com.johnsnowlabs.ocr.transformers._
+
+val imagePath = "path to image"
+
+// Read image file as binary file
+val df = spark.read.format("binaryFile").load(imagePath)
+
+// Define transformer for convert to Image struct
+val binaryToImage = new BinaryToImage()
+  .setInputCol("content")
+  .setOutputCol("image")
+
+// Define transformer for store to PDF
+val imageToPdf = new ImageToPdf()
+  .setInputCol("image")
+  .setOutputCol("content")
+
+// Call transformers
+val image_df = binaryToImage.transform(df)
+val pdf_df =  pdfToImage.transform(image_df)
 
 pdf_df.select("content").show()
 ```
@@ -322,6 +322,49 @@ Read PDF document, run OCR and render results to PDF document.
 <div class="tabs-box tabs-new pt0" markdown="1">
 
 {% include programmingLanguageSelectScalaPython.html %}
+
+```python
+from sparkocr.transformers import *
+
+pdfPath = "path to pdf"
+
+# Read PDF file as binary file
+df = spark.read.format("binaryFile").load(pdfPath)
+
+pdf_to_image = PdfToImage() \
+    .setInputCol("content") \
+    .setOutputCol("image_raw")
+
+binarizer = ImageBinarizer() \
+    .setInputCol("image_raw") \
+    .setOutputCol("image") \
+    .setThreshold(130)
+
+ocr = ImageToText() \
+    .setInputCol("image") \
+    .setOutputCol("text") \
+    .setIgnoreResolution(False) \
+    .setPageSegMode(PageSegmentationMode.SPARSE_TEXT) \
+    .setConfidenceThreshold(60)
+
+textToPdf = TextToPdf() \
+    .setInputCol("positions") \
+    .setInputImage("image") \
+    .setOutputCol("pdf")
+
+pipeline = PipelineModel(stages=[
+    pdf_to_image,
+    binarizer,
+    ocr,
+    textToPdf
+])
+
+result = pipeline.transform(df).collect()
+
+# Store to file for debug
+with open("test.pdf", "wb") as file:
+    file.write(result[0].pdf)
+```
 
 ```scala
 import org.apache.spark.ml.Pipeline
@@ -376,49 +419,6 @@ fos.close()
 println(tmpFile)
 ```
 
-```python
-from sparkocr.transformers import *
-
-pdfPath = "path to pdf"
-
-# Read PDF file as binary file
-df = spark.read.format("binaryFile").load(pdfPath)
-
-pdf_to_image = PdfToImage() \
-    .setInputCol("content") \
-    .setOutputCol("image_raw")
-
-binarizer = ImageBinarizer() \
-    .setInputCol("image_raw") \
-    .setOutputCol("image") \
-    .setThreshold(130)
-
-ocr = ImageToText() \
-    .setInputCol("image") \
-    .setOutputCol("text") \
-    .setIgnoreResolution(False) \
-    .setPageSegMode(PageSegmentationMode.SPARSE_TEXT) \
-    .setConfidenceThreshold(60)
-
-textToPdf = TextToPdf() \
-    .setInputCol("positions") \
-    .setInputImage("image") \
-    .setOutputCol("pdf")
-
-pipeline = PipelineModel(stages=[
-    pdf_to_image,
-    binarizer,
-    ocr,
-    textToPdf
-])
-
-result = pipeline.transform(df).collect()
-
-# Store to file for debug
-with open("test.pdf", "wb") as file:
-    file.write(result[0].pdf)
-```
-
 </div>
 
 ### PdfAssembler
@@ -448,6 +448,46 @@ muliplepage PDF document.
 <div class="tabs-box tabs-new pt0" markdown="1">
 
 {% include programmingLanguageSelectScalaPython.html %}
+
+```python
+from pyspark.ml import PipelineModel
+
+from sparkocr.transformers import *
+
+pdfPath = "path to pdf"
+
+# Read PDF file as binary file
+df = spark.read.format("binaryFile").load(pdfPath)
+
+pdf_to_image = PdfToImage() \
+        .setInputCol("content") \
+        .setOutputCol("image") \
+        .setKeepInput(True)
+    
+# Run OCR and render results to PDF
+ocr = ImageToTextPdf() \
+    .setInputCol("image") \
+    .setOutputCol("pdf_page")
+
+# Assemble multipage PDF
+pdf_assembler = PdfAssembler() \
+    .setInputCol("pdf_page") \
+    .setOutputCol("pdf")
+
+pipeline = PipelineModel(stages=[
+    pdf_to_image,
+    ocr,
+    pdf_assembler
+])
+
+pdf = pipeline.transform(df)
+
+pdfContent = pdf.select("pdf").collect().head.getAs[Array[Byte]](0)
+
+# store pdf to file
+with open("test.pdf", "wb") as file:
+    file.write(pdfContent[0].pdf) 
+```
 
 ```scala
 import java.io.FileOutputStream
@@ -495,46 +535,6 @@ fos.close()
 println(tmpFile)
 ```
 
-```python
-from pyspark.ml import PipelineModel
-
-from sparkocr.transformers import *
-
-pdfPath = "path to pdf"
-
-# Read PDF file as binary file
-df = spark.read.format("binaryFile").load(pdfPath)
-
-pdf_to_image = PdfToImage() \
-        .setInputCol("content") \
-        .setOutputCol("image") \
-        .setKeepInput(True)
-    
-# Run OCR and render results to PDF
-ocr = ImageToTextPdf() \
-    .setInputCol("image") \
-    .setOutputCol("pdf_page")
-
-# Assemble multipage PDF
-pdf_assembler = PdfAssembler() \
-    .setInputCol("pdf_page") \
-    .setOutputCol("pdf")
-
-pipeline = PipelineModel(stages=[
-    pdf_to_image,
-    ocr,
-    pdf_assembler
-])
-
-pdf = pipeline.transform(df)
-
-pdfContent = pdf.select("pdf").collect().head.getAs[Array[Byte]](0)
-
-# store pdf to file
-with open("test.pdf", "wb") as file:
-    file.write(pdfContent[0].pdf) 
-```
-
 </div>
 
 ### PdfDrawRegions
@@ -572,6 +572,73 @@ with open("test.pdf", "wb") as file:
 <div class="tabs-box tabs-new pt0" markdown="1">
 
 {% include programmingLanguageSelectScalaPython.html %}
+
+```python
+from pyspark.ml import Pipeline
+
+from sparkocr.transformers import *
+from sparknlp.annotator import *
+from sparknlp.base import *
+
+pdfPath = "path to pdf"
+
+# Read PDF file as binary file
+df = spark.read.format("binaryFile").load(pdfPath)
+
+pdf_to_text = PdfToText() \
+    .setInputCol("content") \
+    .setOutputCol("text") \
+    .setPageNumCol("page") \
+    .setSplitPage(False)
+
+document_assembler = DocumentAssembler() \
+    .setInputCol("text") \
+    .setOutputCol("document")
+
+sentence_detector = SentenceDetector() \
+    .setInputCols(["document"]) \
+    .setOutputCol("sentence")
+
+tokenizer = Tokenizer() \
+    .setInputCols(["sentence"]) \
+    .setOutputCol("token")
+
+entity_extractor = TextMatcher() \
+    .setInputCols("sentence", "token") \
+    .setEntities("./sparkocr/resources/test-chunks.txt", ReadAs.TEXT) \
+    .setOutputCol("entity")
+
+position_finder = PositionFinder() \
+    .setInputCols("entity") \
+    .setOutputCol("coordinates") \
+    .setPageMatrixCol("positions") \
+    .setMatchingWindow(10) \
+    .setPadding(2)
+
+draw = PdfDrawRegions() \
+    .setInputRegionsCol("coordinates") \
+    .setOutputCol("pdf_with_regions") \
+    .setInputCol("content") \
+    .setLineWidth(1)
+
+pipeline = Pipeline(stages=[
+    pdf_to_text,
+    document_assembler,
+    sentence_detector,
+    tokenizer,
+    entity_extractor,
+    position_finder,
+    draw
+])
+
+pdfWithRegions = pipeline.fit(df).transform(df)
+
+pdfContent = pdfWithRegions.select("pdf_regions").collect().head.getAs[Array[Byte]](0)
+
+# store to pdf to tmp file
+with open("test.pdf", "wb") as file:
+    file.write(pdfContent[0].pdf_regions) 
+```
 
 ```scala
 import java.io.FileOutputStream
@@ -643,73 +710,6 @@ fos.close()
 println(tmpFile)
 ```
 
-```python
-from pyspark.ml import Pipeline
-
-from sparkocr.transformers import *
-from sparknlp.annotator import *
-from sparknlp.base import *
-
-pdfPath = "path to pdf"
-
-# Read PDF file as binary file
-df = spark.read.format("binaryFile").load(pdfPath)
-
-pdf_to_text = PdfToText() \
-    .setInputCol("content") \
-    .setOutputCol("text") \
-    .setPageNumCol("page") \
-    .setSplitPage(False)
-
-document_assembler = DocumentAssembler() \
-    .setInputCol("text") \
-    .setOutputCol("document")
-
-sentence_detector = SentenceDetector() \
-    .setInputCols(["document"]) \
-    .setOutputCol("sentence")
-
-tokenizer = Tokenizer() \
-    .setInputCols(["sentence"]) \
-    .setOutputCol("token")
-
-entity_extractor = TextMatcher() \
-    .setInputCols("sentence", "token") \
-    .setEntities("./sparkocr/resources/test-chunks.txt", ReadAs.TEXT) \
-    .setOutputCol("entity")
-
-position_finder = PositionFinder() \
-    .setInputCols("entity") \
-    .setOutputCol("coordinates") \
-    .setPageMatrixCol("positions") \
-    .setMatchingWindow(10) \
-    .setPadding(2)
-
-draw = PdfDrawRegions() \
-    .setInputRegionsCol("coordinates") \
-    .setOutputCol("pdf_with_regions") \
-    .setInputCol("content") \
-    .setLineWidth(1)
-
-pipeline = Pipeline(stages=[
-    pdf_to_text,
-    document_assembler,
-    sentence_detector,
-    tokenizer,
-    entity_extractor,
-    position_finder,
-    draw
-])
-
-pdfWithRegions = pipeline.fit(df).transform(df)
-
-pdfContent = pdfWithRegions.select("pdf_regions").collect().head.getAs[Array[Byte]](0)
-
-# store to pdf to tmp file
-with open("test.pdf", "wb") as file:
-    file.write(pdfContent[0].pdf_regions) 
-```
-
 </div>
 
 Results:
@@ -754,6 +754,30 @@ As output generate column with tables and tables text chunks coordinates (rows/c
 
 {% include programmingLanguageSelectScalaPython.html %}
 
+```python
+from pyspark.ml import Pipeline
+
+from sparkocr.transformers import *
+from sparknlp.annotator import *
+from sparknlp.base import *
+
+pdfPath = "path to pdf"
+
+# Read PDF file as binary file
+df = spark.read.format("binaryFile").load(pdfPath)
+
+pdf_to_text_table = PdfToTextTable()
+pdf_to_text_table.setInputCol("content")
+pdf_to_text_table.setOutputCol("table")
+pdf_to_text_table.setPageIndex(1)
+pdf_to_text_table.setMethod("basic")
+
+table = pdf_to_text_table.transform(df)
+
+# Show first row
+table.select(table["table.chunks"].getItem(1)["chunkText"]).show(1, False)
+```
+
 ```scala
 import java.io.FileOutputStream
 import java.nio.file.Files
@@ -777,30 +801,6 @@ val pdfToTextTable = new PdfToTextTable()
 table = pdfToTextTable.transform(df)
 
 // Show first row
-table.select(table["table.chunks"].getItem(1)["chunkText"]).show(1, False)
-```
-
-```python
-from pyspark.ml import Pipeline
-
-from sparkocr.transformers import *
-from sparknlp.annotator import *
-from sparknlp.base import *
-
-pdfPath = "path to pdf"
-
-# Read PDF file as binary file
-df = spark.read.format("binaryFile").load(pdfPath)
-
-pdf_to_text_table = PdfToTextTable()
-pdf_to_text_table.setInputCol("content")
-pdf_to_text_table.setOutputCol("table")
-pdf_to_text_table.setPageIndex(1)
-pdf_to_text_table.setMethod("basic")
-
-table = pdf_to_text_table.transform(df)
-
-# Show first row
 table.select(table["table.chunks"].getItem(1)["chunkText"]).show(1, False)
 ```
 
@@ -852,23 +852,6 @@ NOTE: For setting parameters use `setParamName` method.
 
 {% include programmingLanguageSelectScalaPython.html %}
 
-```scala
-import com.johnsnowlabs.ocr.transformers.DocToText
-
-val docPath = "path to docx with text layout"
-
-// Read DOCX file as binary file
-val df = spark.read.format("binaryFile").load(docPath)
-
-val transformer = new DocToText()
-  .setInputCol("content")
-  .setOutputCol("text")
-
-val data = transformer.transform(df)
-
-data.select("pagenum", "text").show()
-```
-
 ```python
 from sparkocr.transformers import *
 
@@ -882,6 +865,23 @@ transformer = DocToText() \
   .setOutputCol("text") 
 
 data = transformer.transform(df)
+
+data.select("pagenum", "text").show()
+```
+
+```scala
+import com.johnsnowlabs.ocr.transformers.DocToText
+
+val docPath = "path to docx with text layout"
+
+// Read DOCX file as binary file
+val df = spark.read.format("binaryFile").load(docPath)
+
+val transformer = new DocToText()
+  .setInputCol("content")
+  .setOutputCol("text")
+
+val data = transformer.transform(df)
 
 data.select("pagenum", "text").show()
 ```
@@ -918,23 +918,6 @@ NOTE: For setting parameters use `setParamName` method.
 
 {% include programmingLanguageSelectScalaPython.html %}
 
-```scala
-import com.johnsnowlabs.ocr.transformers.DocToTextTable
-
-val docPath = "path to docx with text layout"
-
-// Read DOCX file as binary file
-val df = spark.read.format("binaryFile").load(docPath)
-
-val transformer = new DocToTextTable()
-  .setInputCol("content")
-  .setOutputCol("tables")
-
-val data = transformer.transform(df)
-
-data.select("tables").show()
-```
-
 ```python
 from sparkocr.transformers import *
 
@@ -948,6 +931,23 @@ transformer = DocToTextTable() \
   .setOutputCol("tables") 
 
 data = transformer.transform(df)
+
+data.select("tables").show()
+```
+
+```scala
+import com.johnsnowlabs.ocr.transformers.DocToTextTable
+
+val docPath = "path to docx with text layout"
+
+// Read DOCX file as binary file
+val df = spark.read.format("binaryFile").load(docPath)
+
+val transformer = new DocToTextTable()
+  .setInputCol("content")
+  .setOutputCol("tables")
+
+val data = transformer.transform(df)
 
 data.select("tables").show()
 ```
@@ -984,23 +984,6 @@ NOTE: For setting parameters use `setParamName` method.
 
 {% include programmingLanguageSelectScalaPython.html %}
 
-```scala
-import com.johnsnowlabs.ocr.transformers.DocToPdf
-
-val docPath = "path to docx with text layout"
-
-// Read DOCX file as binary file
-val df = spark.read.format("binaryFile").load(docPath)
-
-val transformer = new DocToPdf()
-  .setInputCol("content")
-  .setOutputCol("pdf")
-
-val data = transformer.transform(df)
-
-data.select("pdf").show()
-```
-
 ```python
 from sparkocr.transformers import *
 
@@ -1014,6 +997,23 @@ transformer = DocToPdf() \
   .setOutputCol("pdf") 
 
 data = transformer.transform(df)
+
+data.select("pdf").show()
+```
+
+```scala
+import com.johnsnowlabs.ocr.transformers.DocToPdf
+
+val docPath = "path to docx with text layout"
+
+// Read DOCX file as binary file
+val df = spark.read.format("binaryFile").load(docPath)
+
+val transformer = new DocToPdf()
+  .setInputCol("content")
+  .setOutputCol("pdf")
+
+val data = transformer.transform(df)
 
 data.select("pdf").show()
 ```
@@ -1050,23 +1050,6 @@ NOTE: For setting parameters use `setParamName` method.
 
 {% include programmingLanguageSelectScalaPython.html %}
 
-```scala
-import com.johnsnowlabs.ocr.transformers.PptToTextTable
-
-val docPath = "path to docx with text layout"
-
-// Read PPT file as binary file
-val df = spark.read.format("binaryFile").load(docPath)
-
-val transformer = new PptToTextTable()
-  .setInputCol("content")
-  .setOutputCol("tables")
-
-val data = transformer.transform(df)
-
-data.select("tables").show()
-```
-
 ```python
 from sparkocr.transformers import *
 
@@ -1080,6 +1063,23 @@ transformer = PptToTextTable() \
   .setOutputCol("tables") 
 
 data = transformer.transform(df)
+
+data.select("tables").show()
+```
+
+```scala
+import com.johnsnowlabs.ocr.transformers.PptToTextTable
+
+val docPath = "path to docx with text layout"
+
+// Read PPT file as binary file
+val df = spark.read.format("binaryFile").load(docPath)
+
+val transformer = new PptToTextTable()
+  .setInputCol("content")
+  .setOutputCol("tables")
+
+val data = transformer.transform(df)
 
 data.select("tables").show()
 ```
@@ -1116,23 +1116,6 @@ NOTE: For setting parameters use `setParamName` method.
 
 {% include programmingLanguageSelectScalaPython.html %}
 
-```scala
-import com.johnsnowlabs.ocr.transformers.PptToPdf
-
-val docPath = "path to docx with text layout"
-
-// Read PPT file as binary file
-val df = spark.read.format("binaryFile").load(docPath)
-
-val transformer = new PptToPdf()
-  .setInputCol("content")
-  .setOutputCol("pdf")
-
-val data = transformer.transform(df)
-
-data.select("pdf").show()
-```
-
 ```python
 from sparkocr.transformers import *
 
@@ -1146,6 +1129,23 @@ transformer = PptToPdf() \
   .setOutputCol("pdf") 
 
 data = transformer.transform(df)
+
+data.select("pdf").show()
+```
+
+```scala
+import com.johnsnowlabs.ocr.transformers.PptToPdf
+
+val docPath = "path to docx with text layout"
+
+// Read PPT file as binary file
+val df = spark.read.format("binaryFile").load(docPath)
+
+val transformer = new PptToPdf()
+  .setInputCol("content")
+  .setOutputCol("pdf")
+
+val data = transformer.transform(df)
 
 data.select("pdf").show()
 ```
@@ -1183,24 +1183,6 @@ data.select("pdf").show()
 
 {% include programmingLanguageSelectScalaPython.html %}
 
-```scala
-import com.johnsnowlabs.ocr.transformers.DicomToImage
-
-val dicomPath = "path to dicom files"
-
-// Read dicom file as binary file
-val df = spark.read.format("binaryFile").load(dicomPath)
-
-val dicomToImage = new DicomToImage()
-  .setInputCol("content")
-  .setOutputCol("image")
-  .setMetadataCol("meta")
-
-val data = dicomToImage.transform(df)
-
-data.select("image", "pagenum", "meta").show()
-```
-
 ```python
 from sparkocr.transformers import *
 
@@ -1215,6 +1197,24 @@ dicomToImage = DicomToImage() \
   .setMetadataCol("meta")
 
 data = dicomToImage.transform(df)
+
+data.select("image", "pagenum", "meta").show()
+```
+
+```scala
+import com.johnsnowlabs.ocr.transformers.DicomToImage
+
+val dicomPath = "path to dicom files"
+
+// Read dicom file as binary file
+val df = spark.read.format("binaryFile").load(dicomPath)
+
+val dicomToImage = new DicomToImage()
+  .setInputCol("content")
+  .setOutputCol("image")
+  .setMetadataCol("meta")
+
+val data = dicomToImage.transform(df)
 
 data.select("image", "pagenum", "meta").show()
 ```
@@ -1249,26 +1249,6 @@ data.select("image", "pagenum", "meta").show()
 
 {% include programmingLanguageSelectScalaPython.html %}
 
-```scala
-import com.johnsnowlabs.ocr.transformers.ImageToDicom
-
-val imagePath = "path to image file"
-
-// Read image file as binary file
-val df = spark.read
-  .format("binaryFile")
-  .load(imagePath)
-  .asImage("image")
-
-val imageToDicom = new ImageToDicom()
-  .setInputCol("image")
-  .setOutputCol("dicom")
-
-val data = imageToDicom.transform(df)
-
-data.select("dicom").show()
-```
-
 ```python
 from sparkocr.transformers import *
 
@@ -1288,6 +1268,26 @@ imageToDicom = ImageToDicom() \
   .setOutputCol("dicom")
 
 data = imageToDicom.transform(image_df)
+
+data.select("dicom").show()
+```
+
+```scala
+import com.johnsnowlabs.ocr.transformers.ImageToDicom
+
+val imagePath = "path to image file"
+
+// Read image file as binary file
+val df = spark.read
+  .format("binaryFile")
+  .load(imagePath)
+  .asImage("image")
+
+val imageToDicom = new ImageToDicom()
+  .setInputCol("image")
+  .setOutputCol("dicom")
+
+val data = imageToDicom.transform(df)
 
 data.select("dicom").show()
 ```
@@ -1324,23 +1324,6 @@ Next section describes the transformers for image pre-processing: scaling, binar
 
 {% include programmingLanguageSelectScalaPython.html %}
 
-```scala
-import com.johnsnowlabs.ocr.transformers.BinaryToImage
-
-val imagePath = "path to image"
-
-// Read image file as binary file
-val df = spark.read.format("binaryFile").load(imagePath)
-
-val binaryToImage = new BinaryToImage()
-  .setInputCol("content")
-  .setOutputCol("image")
-
-val data = binaryToImage.transform(df)
-
-data.select("image").show()
-```
-
 ```python
 from sparkocr.transformers import *
 
@@ -1354,6 +1337,23 @@ binaryToImage = BinaryToImage() \
   .setOutputCol("image")
 
 data = binaryToImage.transform(df)
+
+data.select("image").show()
+```
+
+```scala
+import com.johnsnowlabs.ocr.transformers.BinaryToImage
+
+val imagePath = "path to image"
+
+// Read image file as binary file
+val df = spark.read.format("binaryFile").load(imagePath)
+
+val binaryToImage = new BinaryToImage()
+  .setInputCol("content")
+  .setOutputCol("image")
+
+val data = binaryToImage.transform(df)
 
 data.select("image").show()
 ```
@@ -1411,31 +1411,6 @@ one of the methods with params:
 
 {% include programmingLanguageSelectScalaPython.html %}
 
-```scala
-import com.johnsnowlabs.ocr.transformers.GPUImageTransformer
-import com.johnsnowlabs.ocr.OcrContext.implicits._
-
-val imagePath = "path to image"
-
-// Read image file as binary file
-val df = spark.read
-  .format("binaryFile")
-  .load(imagePath)
-  .asImage("image")
-
-val transformer = new GPUImageTransformer()
-  .setInputCol("image")
-  .setOutputCol("transformed_image")
-  .addHuangTransform()
-  .addScalingTransform(3)
-  .addDilateTransform(2, 2)
-  .setImageType(ImageType.TYPE_BYTE_BINARY)
-
-val data = transformer.transform(df)
-
-data.storeImage("transformed_image")
-```
-
 ```python
 from sparkocr.transformers import *
 from sparkocr.enums import ImageType
@@ -1468,6 +1443,31 @@ pipeline = PipelineModel(stages=[
 result = pipeline.transform(df)
 
 display_images(result, "transformed_image")
+```
+
+```scala
+import com.johnsnowlabs.ocr.transformers.GPUImageTransformer
+import com.johnsnowlabs.ocr.OcrContext.implicits._
+
+val imagePath = "path to image"
+
+// Read image file as binary file
+val df = spark.read
+  .format("binaryFile")
+  .load(imagePath)
+  .asImage("image")
+
+val transformer = new GPUImageTransformer()
+  .setInputCol("image")
+  .setOutputCol("transformed_image")
+  .addHuangTransform()
+  .addScalingTransform(3)
+  .addDilateTransform(2, 2)
+  .setImageType(ImageType.TYPE_BYTE_BINARY)
+
+val data = transformer.transform(df)
+
+data.storeImage("transformed_image")
 ```
 
 </div>
@@ -1503,6 +1503,27 @@ display_images(result, "transformed_image")
 
 {% include programmingLanguageSelectScalaPython.html %}
 
+```python
+from sparkocr.transformers import *
+
+imagePath = "path to image"
+
+# Read image file as binary file
+df = spark.read \
+  .format("binaryFile") \
+  .load(imagePath) \
+  .asImage("image")
+
+binirizer = ImageBinarizer() \
+  .setInputCol("image") \
+  .setOutputCol("binary_image") \
+  .setThreshold(100)
+
+data = binirizer.transform(df)
+
+data.show()
+```
+
 ```scala
 import com.johnsnowlabs.ocr.transformers.ImageBinarizer
 import com.johnsnowlabs.ocr.OcrContext.implicits._
@@ -1523,27 +1544,6 @@ val binirizer = new ImageBinarizer()
 val data = binirizer.transform(df)
 
 data.storeImage("binary_image")
-```
-
-```python
-from sparkocr.transformers import *
-
-imagePath = "path to image"
-
-# Read image file as binary file
-df = spark.read \
-  .format("binaryFile") \
-  .load(imagePath) \
-  .asImage("image")
-
-binirizer = ImageBinarizer() \
-  .setInputCol("image") \
-  .setOutputCol("binary_image") \
-  .setThreshold(100)
-
-data = binirizer.transform(df)
-
-data.show()
 ```
 
 </div>
@@ -1597,41 +1597,6 @@ Supported Methods:
 
 {% include programmingLanguageSelectScalaPython.html %}
 
-```scala
-import com.johnsnowlabs.ocr.transformers.*
-import com.johnsnowlabs.ocr.OcrContext.implicits._
-
-val imagePath = "path to image"
-
-// Read image file as binary file
-val df = spark.read
-  .format("binaryFile")
-  .load(imagePath)
-  .asImage("image")
-
-val binirizer = new ImageAdaptiveBinarizer()
-  .setInputCol("image")
-  .setOutputCol("binary_image")
-  .setWidth(100)
-  .setScale(1.1)
-
-val data = binirizer.transform(df)
-
-data.storeImage("binary_image")
-
-
-
-
-
-
-
-
-
-
-
-
-```
-
 ```python
 from pyspark.ml import PipelineModel
 
@@ -1665,6 +1630,29 @@ result = pipeline.transform(df)
 for r in result.select("image", "corrected_image").collect():
     display_image(r.image)
     display_image(r.corrected_image)
+```
+
+```scala
+import com.johnsnowlabs.ocr.transformers.*
+import com.johnsnowlabs.ocr.OcrContext.implicits._
+
+val imagePath = "path to image"
+
+// Read image file as binary file
+val df = spark.read
+  .format("binaryFile")
+  .load(imagePath)
+  .asImage("image")
+
+val binirizer = new ImageAdaptiveBinarizer()
+  .setInputCol("image")
+  .setOutputCol("binary_image")
+  .setWidth(100)
+  .setScale(1.1)
+
+val data = binirizer.transform(df)
+
+data.storeImage("binary_image")
 ```
 
 </div>
@@ -1715,10 +1703,6 @@ Supported methods:
 
 {% include programmingLanguageSelectScalaPython.html %}
 
-```scala
-// Implemented only for Python
-```
-
 ```python
 from pyspark.ml import PipelineModel
 
@@ -1752,6 +1736,10 @@ result = pipeline.transform(df)
 for r in result.select("image", "corrected_image").collect():
     display_image(r.image)
     display_image(r.corrected_image)
+```
+
+```scala
+// Implemented only for Python
 ```
 
 </div>
@@ -1801,6 +1789,26 @@ It supports keeping original ratio of image by padding the image in case fixed o
 
 {% include programmingLanguageSelectScalaPython.html %}
 
+```python
+from sparkocr.transformers import *
+
+imagePath = "path to image"
+
+# Read image file as binary file
+df = spark.read \
+  .format("binaryFile") \
+  .load(imagePath) \
+  .asImage("image")
+
+transformer = ImageScaler() \
+  .setInputCol("image") \
+  .setOutputCol("scaled_image") \
+  .setScaleFactor(0.5)
+
+data = transformer.transform(df)
+data.show()
+```
+
 ```scala
 import com.johnsnowlabs.ocr.transformers.ImageScaler
 import com.johnsnowlabs.ocr.OcrContext.implicits._
@@ -1820,26 +1828,6 @@ val transformer = new ImageScaler()
 
 val data = transformer.transform(df)
 data.storeImage("scaled_image")
-```
-
-```python
-from sparkocr.transformers import *
-
-imagePath = "path to image"
-
-# Read image file as binary file
-df = spark.read \
-  .format("binaryFile") \
-  .load(imagePath) \
-  .asImage("image")
-
-transformer = ImageScaler() \
-  .setInputCol("image") \
-  .setOutputCol("scaled_image") \
-  .setScaleFactor(0.5)
-
-data = transformer.transform(df)
-data.show()
 ```
 
 </div>
@@ -1875,6 +1863,26 @@ data.show()
 
 {% include programmingLanguageSelectScalaPython.html %}
 
+```python
+from sparkocr.transformers import *
+
+imagePath = "path to image"
+
+# Read image file as binary file
+df = spark.read \
+  .format("binaryFile") \
+  .load(imagePath) \
+  .asImage("image")
+
+transformer = ImageAdaptiveScaler() \
+  .setInputCol("image") \
+  .setOutputCol("scaled_image") \
+  .setDesiredSize(34)
+
+data = transformer.transform(df)
+data.show()
+```
+
 ```scala
 import com.johnsnowlabs.ocr.transformers.ImageAdaptiveScaler
 import com.johnsnowlabs.ocr.OcrContext.implicits._
@@ -1894,26 +1902,6 @@ val transformer = new ImageAdaptiveScaler()
 
 val data = transformer.transform(df)
 data.storeImage("scaled_image")
-```
-
-```python
-from sparkocr.transformers import *
-
-imagePath = "path to image"
-
-# Read image file as binary file
-df = spark.read \
-  .format("binaryFile") \
-  .load(imagePath) \
-  .asImage("image")
-
-transformer = ImageAdaptiveScaler() \
-  .setInputCol("image") \
-  .setOutputCol("scaled_image") \
-  .setDesiredSize(34)
-
-data = transformer.transform(df)
-data.show()
 ```
 
 </div>
@@ -1954,27 +1942,6 @@ data.show()
 
 {% include programmingLanguageSelectScalaPython.html %}
 
-```scala
-import com.johnsnowlabs.ocr.transformers.ImageSkewCorrector
-import com.johnsnowlabs.ocr.OcrContext.implicits._
-
-val imagePath = "path to image"
-
-// Read image file as binary file
-val df = spark.read
-  .format("binaryFile")
-  .load(imagePath)
-  .asImage("image")
-
-val transformer = new ImageSkewCorrector()
-  .setInputCol("image")
-  .setOutputCol("corrected_image")
-  .setAutomaticSkewCorrection(true)
-
-val data = transformer.transform(df)
-data.storeImage("corrected_image")
-```
-
 ```python
 from pyspark.ml import PipelineModel
 from sparkocr.transformers import *
@@ -2006,6 +1973,27 @@ pipeline = PipelineModel(stages=[
 data = pipeline.transform(df)
 
 display_images(data, "corrected_image")
+```
+
+```scala
+import com.johnsnowlabs.ocr.transformers.ImageSkewCorrector
+import com.johnsnowlabs.ocr.OcrContext.implicits._
+
+val imagePath = "path to image"
+
+// Read image file as binary file
+val df = spark.read
+  .format("binaryFile")
+  .load(imagePath)
+  .asImage("image")
+
+val transformer = new ImageSkewCorrector()
+  .setInputCol("image")
+  .setOutputCol("corrected_image")
+  .setAutomaticSkewCorrection(true)
+
+val data = transformer.transform(df)
+data.storeImage("corrected_image")
 ```
 
 </div>
