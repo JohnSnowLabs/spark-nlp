@@ -130,6 +130,8 @@ sparknlp-healthcare:
         url: /docs/en/evaluation
       - title: Utility & Helper Modules
         url: /docs/en/utility_helper_modules
+      - title: Annotation Lab Module
+        url: /docs/en/alab_module
       - title: Serving Spark NLP&#58 SynapseML
         url: /docs/en/licensed_serving_spark_nlp_via_api_synapseml
       - title: Serving Spark NLP&#58 FastAPI
