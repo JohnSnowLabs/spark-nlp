@@ -46,9 +46,14 @@ For upgrading to the latest version of the Annotation Lab, use:
 wget https://setup.johnsnowlabs.com/annotationlab/upgrade.sh -O - | sudo bash -s --
 ```
 
+> **NOTE:**  The install/upgrade script displays the login credentials for the admin user on the terminal.
+
+
 After running the install/upgrade script the Annotation Lab is available at http://INSTANCE_IP  or https://INSTANCE_IP 
 
-The install/upgrade script displays the login credentials for the admin user on the terminal. 
+<img class="image image--xl image__shadow" src="/assets/images/annotation_lab/4.1.0/loginScreenALAB.png" style="width:100%;"/>
+
+We have an aesthetically pleasing Login Page with a section highlighting the key features of Annotation Lab. Sign-In page highlights main features of Annotation Lab with animated GIFs.
 
 ## Deploy on the AWS Marketplace
 
