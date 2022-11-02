@@ -24,6 +24,7 @@ body {
 
 .article__content p {
 	margin-top: 0;
+	text-align: justify;
 }
 
 h1,h2,h3,h4 {
@@ -1009,6 +1010,17 @@ ol.list1 {
 				border: none;
 				letter-spacing: -0.5px;
 			}
+			.toc-subtitle {
+				font-weight: 500;
+				padding: 10px 13px 0;
+				font-size: 15px;
+				line-height: 22px;
+				border: none;
+				font-family: 'Montserrat', sans-serif;
+				color: #bbbbbb;
+				border: none;
+				letter-spacing: -0.5px;
+			}
 			.toc-h2 {
 				padding-left: 5px;				
 				a {
@@ -1025,6 +1037,12 @@ ol.list1 {
 				&.active a {
 					color: $color-blue;
 					font-weight: bold;
+				}
+				&.subtitle_item {
+					padding-left: 15px;
+					a {
+						font-size: 13px;
+					}
 				}
 			}
 		}
@@ -2305,6 +2323,15 @@ code {
 .btn-block {
 	padding: 20px 0;
 	margin: 0 !important;
+}
+
+.btn-flex {
+	display: flex;
+
+	a {
+		min-width: 180px;
+		margin-right: 10px;
+	}
 }
 
 .go_next,
