@@ -21,10 +21,10 @@ This is a Legal Relation Extraction model, which can be used after the NER Model
 
 As an output, you will get the relations linking the different concepts together, if such relation exists. The list of relations is:
 
-dated_as: A Document has an Effective Date
-has_alias: The Alias of a Party all along the document
-has_collective_alias: An Alias hold by several parties at the same time
-signed_by: Between a Party and the document they signed
+- dated_as: A Document has an Effective Date
+- has_alias: The Alias of a Party all along the document
+- has_collective_alias: An Alias hold by several parties at the same time
+- signed_by: Between a Party and the document they signed
 
 This is a `md` model with Unidirectional Relations, meaning that the model retrieves in chunk1 the left side of the relation (source), and in chunk2 the right side (target).
 
@@ -43,6 +43,7 @@ This is a `md` model with Unidirectional Relations, meaning that the model retri
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
+
 ```python
 document_assembler = nlp.DocumentAssembler()\
   .setInputCol("text")\
