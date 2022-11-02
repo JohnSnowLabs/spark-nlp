@@ -47,37 +47,37 @@ This model is a `sm` model without meaningful directions in the relations (the m
 
 ```python
 documentAssembler = nlp.DocumentAssembler()\
-        .setInputCol("text")\
-        .setOutputCol("document")
+    .setInputCol("text")\
+    .setOutputCol("document")
 
 tokenizer = nlp.Tokenizer()\
-        .setInputCols("document")\
-        .setOutputCol("token")
+    .setInputCols("document")\
+    .setOutputCol("token")
 
 embeddings = nlp.BertEmbeddings.pretrained("bert_base_uncased_legal", "en") \
-        .setInputCols("document", "token") \
-        .setOutputCol("embeddings")
+    .setInputCols("document", "token") \
+    .setOutputCol("embeddings")
 
 ner_model = legal.NerModel.pretrained('legner_contract_doc_parties', 'en', 'legal/models')\
-        .setInputCols(["document", "token", "embeddings"])\
-        .setOutputCol("ner")
+    .setInputCols(["document", "token", "embeddings"])\
+    .setOutputCol("ner")
 
 ner_converter = nlp.NerConverter()\
-        .setInputCols(["document","token","ner"])\
-        .setOutputCol("ner_chunk")
+    .setInputCols(["document","token","ner"])\
+    .setOutputCol("ner_chunk")
 
 reDL = legal.RelationExtractionDLModel().pretrained('legre_contract_doc_parties', 'en', 'legal/models')\
-        .setPredictionThreshold(0.5)\
-        .setInputCols(["ner_chunk", "document"])\
-        .setOutputCol("relations")
+    .setPredictionThreshold(0.5)\
+    .setInputCols(["ner_chunk", "document"])\
+    .setOutputCol("relations")
 
 nlpPipeline = Pipeline(stages=[
-        documentAssembler,
-        tokenizer,
-        embeddings,
-        ner_model,
-        ner_converter,
-        reDL
+    documentAssembler,
+    tokenizer,
+    embeddings,
+    ner_model,
+    ner_converter,
+    reDL
 ])
     
 text='''
