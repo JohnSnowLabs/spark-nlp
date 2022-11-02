@@ -39,47 +39,47 @@ This model is a `sm` model without meaningful directions in the relations (the m
 
 ```python
 document_assembler = nlp.DocumentAssembler()\
-        .setInputCol("text")\
-        .setOutputCol("document")
-        
+    .setInputCol("text")\
+    .setOutputCol("document")
+
 sentence_detector = nlp.SentenceDetectorDLModel.pretrained("sentence_detector_dl","en")\
-        .setInputCols(["document"])\
-        .setOutputCol("sentence")\
-        
+    .setInputCols(["document"])\
+    .setOutputCol("sentence")\
+
 tokenizer = nlp.Tokenizer()\
-        .setInputCols(["sentence"])\
-        .setOutputCol("token")
+    .setInputCols(["sentence"])\
+    .setOutputCol("token")
 
 embeddings = nlp.BertEmbeddings.pretrained("bert_embeddings_sec_bert_base","en") \
-        .setInputCols(["sentence", "token"]) \
-        .setOutputCol("embeddings")
+    .setInputCols(["sentence", "token"]) \
+    .setOutputCol("embeddings")
 
 ner_model = finance.NerModel.pretrained('finner_org_per_role_date', 'en', 'finance/models')\
-        .setInputCols(["sentence", "token", "embeddings"])\
-        .setOutputCol("ner")
+    .setInputCols(["sentence", "token", "embeddings"])\
+    .setOutputCol("ner")
 
 ner_converter = nlp.NerConverter()\
-        .setInputCols(["sentence","token","ner"])\
-        .setOutputCol("ner_chunk")
+    .setInputCols(["sentence","token","ner"])\
+    .setOutputCol("ner_chunk")
 
 pos = nlp.PerceptronModel.pretrained()\
-        .setInputCols(["sentence", "token"])\
-        .setOutputCol("pos")
-    
+    .setInputCols(["sentence", "token"])\
+    .setOutputCol("pos")
+
 dependency_parser = nlp.DependencyParserModel().pretrained("dependency_conllu", "en")\
-        .setInputCols(["sentence", "pos", "token"])\
-        .setOutputCol("dependencies")
+    .setInputCols(["sentence", "pos", "token"])\
+    .setOutputCol("dependencies")
 
 re_ner_chunk_filter = finance.RENerChunksFilter()\
-        .setInputCols(["ner_chunk", "dependencies"])\
-        .setOutputCol("re_ner_chunk")\
-        .setRelationPairs(["PERSON-ROLE, ORG-ROLE, DATE-ROLE, PERSON-ORG"])\
-        .setMaxSyntacticDistance(5)
+    .setInputCols(["ner_chunk", "dependencies"])\
+    .setOutputCol("re_ner_chunk")\
+    .setRelationPairs(["PERSON-ROLE, ORG-ROLE, DATE-ROLE, PERSON-ORG"])\
+    .setMaxSyntacticDistance(5)
 
 re_Model = finance.RelationExtractionDLModel.pretrained("finre_work_experience", "en", "finance/models")\
-        .setInputCols(["re_ner_chunk", "sentence"])\
-        .setOutputCol("relations")\
-        .setPredictionThreshold(0.5)
+    .setInputCols(["re_ner_chunk", "sentence"])\
+    .setOutputCol("relations")\
+    .setPredictionThreshold(0.5)
 
 pipeline = Pipeline(stages=[
     document_assembler, 
@@ -91,7 +91,8 @@ pipeline = Pipeline(stages=[
     pos,
     dependency_parser,
     re_ner_chunk_filter,
-    re_Model])
+    re_Model
+])
 
 empty_df = spark.createDataFrame([['']]).toDF("text")
 
