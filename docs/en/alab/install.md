@@ -46,9 +46,14 @@ For upgrading to the latest version of the Annotation Lab, use:
 wget https://setup.johnsnowlabs.com/annotationlab/upgrade.sh -O - | sudo bash -s --
 ```
 
+> **NOTE:**  The install/upgrade script displays the login credentials for the admin user on the terminal.
+
+
 After running the install/upgrade script the Annotation Lab is available at http://INSTANCE_IP  or https://INSTANCE_IP 
 
-The install/upgrade script displays the login credentials for the admin user on the terminal. 
+<img class="image image--xl image__shadow" src="/assets/images/annotation_lab/4.1.0/loginScreenALAB.png" style="width:100%;"/>
+
+We have an aesthetically pleasing Login Page with a section highlighting the key features of Annotation Lab. Sign-In page highlights main features of Annotation Lab with animated GIFs.
 
 ## Deploy on the AWS Marketplace
 
@@ -105,84 +110,6 @@ You can provide a proxy to use for external communications. To do that add
 
 commands inside `annotationlab-installer.sh` and `annotationlab-updater.sh` files.
 
-### Backup and restore
-
-#### Backup
-
-You can enable daily backups by adding several variables with --set option to helm command in `annotationlab-updater.sh`:
-
-```bash
-backup.enable=true
-backup.files=true
-backup.s3_access_key="<ACCESS_KEY>"
-backup.s3_secret_key="<SECRET_KEY>"
-backup.s3_bucket_fullpath="<FULL_PATH>"
-```
-
-`<ACCESS_KEY>` - your access key for AWS S3 access
-`<SECRET_KEY>` - your secret key for AWS S3 access
-`<FULL_PATH>` - full path to your backup in s3 bucket (f.e. s3://example.com/path/to/my/backup/dir)
-
-
-Notice: Files backups enabled by default. If you don't need to backup files, you have to change
-
-```bash
-backup.files=true
-```
-to
-
-```bash
-backup.files=false
-```
-
-**Configure Backup from the UI**
-
-Backup can also be configured by admin user from the UI. Goto Settings > Backup and set the parameters.
-
-<img class="image image--xl" src="/assets/images/annotation_lab/3.1.0/backupRestoreUI.png" style="width:100%; align:center; box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);"/>
-
-
-#### Restore 
-
-**Database**
-
-To restore annotationlab from backup you need new clear installation of annotationlab. Do it with 'annotationlab-install.sh'. Now, download latest backup from your s3 bucket and move and archive to `restore/database/` directory. Next go to the `restore/database/` directory and execute script 'restore_all_databases.sh' with name of your backup archive as argument.
- 
-For example:
-
-```
-cd restore/database/
-sudo ./restore_all_databases.sh 2022-04-14-annotationlab-all-databases.tar.xz
-```
-
-*Notice:* You need `xz` and `bash` installed to execute this script.
-*Notice:* This script works only with backups created by annotationlab backup system.
-*Notice:* Run this scripts with `sudo` command
-
-After database restore complete you can check logs in `restore_log` directory created by restore script.
-
-**Files**
-
-Download your files backup and move it to `restore/files` directory. Go to `restore/files` directory and execute script 'restore_files.sh' with name of your backup archive as argument. For example:
-
-```
-cd restore/files/
-sudo ./restore_files.sh 2022-04-14-annotationlab-files.tar
-```
-
-*Notice:* You need `bash` installed to execute this script.
-
-*Notice:* This script works only with backups created by annotationlab backup system.
-
-*Notice:* Run this scripts with `sudo` command
-
-**Reboot**
-
-After restoring database and files, reboot AnnotationLab:
-
-```
-sudo reboot
-```
 
 ## Recommended Configurations
 
