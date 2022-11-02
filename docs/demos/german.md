@@ -79,5 +79,17 @@ data:
             url: https://demo.johnsnowlabs.com/healthcare/DEID_PHI_TEXT_DE/
           - text: Colab
             type: blue_btn
-            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/4.1.Clinical_Deidentification_in_German.ipynb             
+            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/4.1.Clinical_Deidentification_in_German.ipynb 
+        - title: Classify Public Health Mentions in German
+          id: classify_public_health_mentions_de          
+          image: 
+              src: /assets/images/Classify_Public_Health_Mentions.svg
+          excerpt: This model classify public health mentions in social media text.
+          actions:
+          - text: Live Demo
+            type: normal
+            url: https://demo.johnsnowlabs.com/healthcare/PUBLIC_HEALTH_MENTIONS_DE/
+          - text: Colab
+            type: blue_btn
+            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/PUBLIC_HEALTH_MENTIONS_DE.ipynb           
 ---

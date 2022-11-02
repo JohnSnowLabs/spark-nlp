@@ -56,4 +56,28 @@ data:
           - text: Colab
             type: blue_btn
             url: 
+        - title: Classify Document into their Legal Type  
+          id: classify_document_legal_type       
+          image: 
+              src: /assets/images/Classify_Document_into_their_Legal_Type.svg
+          excerpt: This demo shows how to classify long texts / documents into a subsample of 8 different types.
+          actions:
+          - text: Live Demo
+            type: normal
+            url: https://demo.johnsnowlabs.com/legal/CLASSIFY_LEGAL_DOCUMENTS/
+          - text: Colab
+            type: blue_btn
+            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/legal/CLASSIFY_LEGAL_DOCUMENTS.ipynb
+        - title: Classify Swiss Judgements Documents  
+          id: classify_swiss_judgements_documents       
+          image: 
+              src: /assets/images/Classify_Swiss_Judgements_Documents.svg
+          excerpt: This demo shows how to classify Swiss Judgements documents in English, German, French, Italian into Civil Law, Insurance Law, Public Law, Social Law, Penal Law or Other.
+          actions:
+          - text: Live Demo
+            type: normal
+            url: https://demo.johnsnowlabs.com/legal/LEGCLF_SWISS_JUDGEMENTS/
+          - text: Colab
+            type: blue_btn
+            url: 
 ---
