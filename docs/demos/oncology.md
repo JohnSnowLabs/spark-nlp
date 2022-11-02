@@ -66,17 +66,113 @@ data:
             url: https://demo.johnsnowlabs.com/healthcare/NER_BIOMARKER/
           - text: Colab
             type: blue_btn
-            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/NER_BIOMARKER.ipynb  
-        - title: Detect Oncological Concepts
-          id: detect_oncological_concepts   
+            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/NER_BIOMARKER.ipynb        
+        - title: Detect Relation Extraction between Granular Oncological entity types
+          id: detect_relation_extraction_granular_oncological_entity_types   
           image: 
-              src: /assets/images/Detect_Oncological_Concepts.svg
-          excerpt: Automatically identify oncological concepts from clinical text.
+              src: /assets/images/Detect_Relation_Extraction_between_Granular_Oncological_entity_types.svg
+          excerpt: This demo shows how to identify relations between Clinical entities, Tumor mentions, Anatomical entities, Tests, and their results using pretrained Oncology Relation Extraction (RE) models.
           actions:
           - text: Live Demo
             type: normal
-            url: https://demo.johnsnowlabs.com/healthcare/NER_ONCOLOGY/
+            url: https://demo.johnsnowlabs.com/healthcare/RE_ONCOLOGY_GRANULAR/
           - text: Colab
             type: blue_btn
-            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/27.Oncology_Model.ipynb
+            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings_JSL/Healthcare/27.Oncology_Model.ipynb
+        - title: Detect Relation Extraction between different Oncological entity types
+          id: detect_relation_extraction_different_oncological_entity_types   
+          image: 
+              src: /assets/images/Detect_Relation_Extraction_between_different_Oncological_entity_types.svg
+          excerpt: This demo shows how to identify relations between Biomarkers, Anatomical Entities, Tumor Size, Tumor Finding, Date, Clinical Entities, Tests, and their corresponding results using pretrained Oncology Relation Extraction (RE) models.
+          actions:
+          - text: Live Demo
+            type: normal
+            url: https://demo.johnsnowlabs.com/healthcare/RE_ONCOLOGY/
+          - text: Colab
+            type: blue_btn
+            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings_JSL/Healthcare/27.Oncology_Model.ipynb
+        - title: Identify oncology entities related to treatments different from clinical texts
+          id: identify_oncology_entities_related_treatments_different_clinical_texts   
+          image: 
+              src: /assets/images/Identify_oncology_entities_related_to_treatments_different_from_clinical_texts.svg
+          excerpt: This demo shows how to extract entities related to Oncology Therapies, Mentions of Treatments, posology information, Tumor Size, and Cancer Therapies using four pretrained Spark NLP clinical models.
+          actions:
+          - text: Live Demo
+            type: normal
+            url: https://demo.johnsnowlabs.com/healthcare/NER_ONCOLOGY_TREATMENT/
+          - text: Colab
+            type: blue_btn
+            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings_JSL/Healthcare/27.Oncology_Model.ipynb
+        - title: Identify Oncology Tests, Biomarkers and their Results
+          id: identify_oncology_tests_biomarkers_their_results   
+          image: 
+              src: /assets/images/Identify_Oncology_Tests.svg
+          excerpt: This demo shows how to extract entities’ Pathology Tests, Imaging Tests, mentions of Biomarkers, and their results from oncology texts using pretrained Spark NLP clinical models.
+          actions:
+          - text: Live Demo
+            type: normal
+            url: https://demo.johnsnowlabs.com/healthcare/NER_ONCOLOGY_TESTS/
+          - text: Colab
+            type: blue_btn
+            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings_JSL/Healthcare/27.Oncology_Model.ipynb
+        - title: Identify Oncology Entities Related to Diagnosis from Clinical Texts
+          id: identify_oncology_entities_related_diagnosis_clinical_texts   
+          image: 
+              src: /assets/images/Identify_Oncology_Entities_Related_to_Diagnosis_from_Clinical_Text.svg
+          excerpt: This demo shows how to extract more than 40 Oncology-related entities including those related to Cancer diagnosis, Staging information, Tumors, Lymph Nodes, and Metastases.
+          actions:
+          - text: Live Demo
+            type: normal
+            url: https://demo.johnsnowlabs.com/healthcare/NER_ONCOLOGY_DIAGNOSIS/
+          - text: Colab
+            type: blue_btn
+            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings_JSL/Healthcare/27.Oncology_Model.ipynb
+        - title: Identify Demographic Information from Oncology Texts
+          id: identify_demographic_information_from_oncology_texts   
+          image: 
+              src: /assets/images/Identify_Demographic_Information_from_Oncology_Text.svg
+          excerpt: This demo shows how to extract Demographic information, Age, Gender, and Smoking status from oncology texts.
+          actions:
+          - text: Live Demo
+            type: normal
+            url: https://demo.johnsnowlabs.com/healthcare/NER_ONCOLOGY_DEMOGRAPHICS/
+          - text: Colab
+            type: blue_btn
+            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings_JSL/Healthcare/27.Oncology_Model.ipynb
+        - title: Identify Anatomical Entities from Clinical Texts
+          id: identify_anatomical_entities_from_clinical_texts   
+          image: 
+              src: /assets/images/Іdentify_Anatomical_Entities_from_Clinical_Text.svg
+          excerpt: This demo shows how to extract anatomical entities using unspecific labels or granular labels from clinical texts.
+          actions:
+          - text: Live Demo
+            type: normal
+            url: https://demo.johnsnowlabs.com/healthcare/NER_ONCOLOGY_ANATOMY/
+          - text: Colab
+            type: blue_btn
+            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings_JSL/Healthcare/27.Oncology_Model.ipynb
+        - title: Detect Assertion Status from Demographic Entities
+          id: detect_assertion_status_from_demographic_entities   
+          image: 
+              src: /assets/images/Detect_Assertion_Status_from_Demographic_Entities.svg
+          excerpt: This demo shows how to detect if a demographic entity refers to the patient or to someone else.
+          actions:
+          - text: Live Demo
+            type: normal
+            url: https://demo.johnsnowlabs.com/healthcare/ASSERTION_ONCOLOGY_DEMOGRAPHIC/
+          - text: Colab
+            type: blue_btn
+            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings_JSL/Healthcare/27.Oncology_Model.ipynb
+        - title: Detect Assertion Status from Clinics Entities 
+          id: detect_assertion_status_from_clinics_entities   
+          image: 
+              src: /assets/images/Detect_Assertion_Status_from_Clinics_Entities.svg
+          excerpt: This demo shows how to detect the assertion status of entities related to oncology (including diagnoses, therapies, and tests).
+          actions:
+          - text: Live Demo
+            type: normal
+            url: https://demo.johnsnowlabs.com/healthcare/ASSERTION_ONCOLOGY_CLINICS/
+          - text: Colab
+            type: blue_btn
+            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings_JSL/Healthcare/27.Oncology_Model.ipynb
 ---
