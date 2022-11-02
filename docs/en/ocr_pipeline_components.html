@@ -660,24 +660,6 @@
     <p><button data-type="python" class="tab-li tab-li-second active">Python</button><button data-type="scala" class="tab-li tab-li-second">Scala</button></p>
 </div>
 
-  <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="nn">com.johnsnowlabs.ocr.transformers.PdfToText</span>
-
-<span class="k">val</span> <span class="nv">pdfPath</span> <span class="k">=</span> <span class="s">"path to pdf with text layout"</span>
-
-<span class="c1">// Read PDF file as binary file</span>
-<span class="k">val</span> <span class="nv">df</span> <span class="k">=</span> <span class="nv">spark</span><span class="o">.</span><span class="py">read</span><span class="o">.</span><span class="py">format</span><span class="o">(</span><span class="s">"binaryFile"</span><span class="o">).</span><span class="py">load</span><span class="o">(</span><span class="n">pdfPath</span><span class="o">)</span>
-
-<span class="k">val</span> <span class="nv">transformer</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">PdfToText</span><span class="o">()</span>
-  <span class="o">.</span><span class="py">setInputCol</span><span class="o">(</span><span class="s">"content"</span><span class="o">)</span>
-  <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"text"</span><span class="o">)</span>
-  <span class="o">.</span><span class="py">setPageNumCol</span><span class="o">(</span><span class="s">"pagenum"</span><span class="o">)</span>
-  <span class="o">.</span><span class="py">setSplitPage</span><span class="o">(</span><span class="kc">true</span><span class="o">)</span>
-
-<span class="k">val</span> <span class="nv">data</span> <span class="k">=</span> <span class="nv">transformer</span><span class="o">.</span><span class="py">transform</span><span class="o">(</span><span class="n">df</span><span class="o">)</span>
-
-<span class="nv">data</span><span class="o">.</span><span class="py">select</span><span class="o">(</span><span class="s">"pagenum"</span><span class="o">,</span> <span class="s">"text"</span><span class="o">).</span><span class="py">show</span><span class="o">()</span>
-</code></pre></div>  </div>
-
   <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">sparkocr.transformers</span> <span class="kn">import</span> <span class="o">*</span>
 
 <span class="n">pdfPath</span> <span class="o">=</span> <span class="s">"path to pdf with text layout"</span>
@@ -694,6 +676,24 @@
 <span class="n">data</span> <span class="o">=</span> <span class="n">transformer</span><span class="p">.</span><span class="n">transform</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
 
 <span class="n">data</span><span class="p">.</span><span class="n">select</span><span class="p">(</span><span class="s">"pagenum"</span><span class="p">,</span> <span class="s">"text"</span><span class="p">).</span><span class="n">show</span><span class="p">()</span>
+</code></pre></div>  </div>
+
+  <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="nn">com.johnsnowlabs.ocr.transformers.PdfToText</span>
+
+<span class="k">val</span> <span class="nv">pdfPath</span> <span class="k">=</span> <span class="s">"path to pdf with text layout"</span>
+
+<span class="c1">// Read PDF file as binary file</span>
+<span class="k">val</span> <span class="nv">df</span> <span class="k">=</span> <span class="nv">spark</span><span class="o">.</span><span class="py">read</span><span class="o">.</span><span class="py">format</span><span class="o">(</span><span class="s">"binaryFile"</span><span class="o">).</span><span class="py">load</span><span class="o">(</span><span class="n">pdfPath</span><span class="o">)</span>
+
+<span class="k">val</span> <span class="nv">transformer</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">PdfToText</span><span class="o">()</span>
+  <span class="o">.</span><span class="py">setInputCol</span><span class="o">(</span><span class="s">"content"</span><span class="o">)</span>
+  <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"text"</span><span class="o">)</span>
+  <span class="o">.</span><span class="py">setPageNumCol</span><span class="o">(</span><span class="s">"pagenum"</span><span class="o">)</span>
+  <span class="o">.</span><span class="py">setSplitPage</span><span class="o">(</span><span class="kc">true</span><span class="o">)</span>
+
+<span class="k">val</span> <span class="nv">data</span> <span class="k">=</span> <span class="nv">transformer</span><span class="o">.</span><span class="py">transform</span><span class="o">(</span><span class="n">df</span><span class="o">)</span>
+
+<span class="nv">data</span><span class="o">.</span><span class="py">select</span><span class="o">(</span><span class="s">"pagenum"</span><span class="o">,</span> <span class="s">"text"</span><span class="o">).</span><span class="py">show</span><span class="o">()</span>
 </code></pre></div>  </div>
 
 </div>
@@ -865,24 +865,6 @@ Number of partitions should be equal to number of cores/executors.</p>
     <p><button data-type="python" class="tab-li tab-li-second active">Python</button><button data-type="scala" class="tab-li tab-li-second">Scala</button></p>
 </div>
 
-  <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="nn">com.johnsnowlabs.ocr.transformers.PdfToImage</span>
-
-<span class="k">val</span> <span class="nv">pdfPath</span> <span class="k">=</span> <span class="s">"path to pdf"</span>
-
-<span class="c1">// Read PDF file as binary file</span>
-<span class="k">val</span> <span class="nv">df</span> <span class="k">=</span> <span class="nv">spark</span><span class="o">.</span><span class="py">read</span><span class="o">.</span><span class="py">format</span><span class="o">(</span><span class="s">"binaryFile"</span><span class="o">).</span><span class="py">load</span><span class="o">(</span><span class="n">pdfPath</span><span class="o">)</span>
-
-<span class="k">val</span> <span class="nv">pdfToImage</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">PdfToImage</span><span class="o">()</span>
- <span class="o">.</span><span class="py">setInputCol</span><span class="o">(</span><span class="s">"content"</span><span class="o">)</span>
- <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"text"</span><span class="o">)</span>
- <span class="o">.</span><span class="py">setPageNumCol</span><span class="o">(</span><span class="s">"pagenum"</span><span class="o">)</span>
- <span class="o">.</span><span class="py">setSplitPage</span><span class="o">(</span><span class="kc">true</span><span class="o">)</span>
-
-<span class="k">val</span> <span class="nv">data</span> <span class="k">=</span>  <span class="nv">pdfToImage</span><span class="o">.</span><span class="py">transform</span><span class="o">(</span><span class="n">df</span><span class="o">)</span>
-
-<span class="nv">data</span><span class="o">.</span><span class="py">select</span><span class="o">(</span><span class="s">"pagenum"</span><span class="o">,</span> <span class="s">"text"</span><span class="o">).</span><span class="py">show</span><span class="o">()</span>
-</code></pre></div>  </div>
-
   <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">sparkocr.transformers</span> <span class="kn">import</span> <span class="o">*</span>
 
 <span class="n">pdfPath</span> <span class="o">=</span> <span class="s">"path to pdf"</span>
@@ -899,6 +881,24 @@ Number of partitions should be equal to number of cores/executors.</p>
 <span class="n">data</span> <span class="o">=</span>  <span class="n">pdfToImage</span><span class="p">.</span><span class="n">transform</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
 
 <span class="n">data</span><span class="p">.</span><span class="n">select</span><span class="p">(</span><span class="s">"pagenum"</span><span class="p">,</span> <span class="s">"text"</span><span class="p">).</span><span class="n">show</span><span class="p">()</span>
+</code></pre></div>  </div>
+
+  <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="nn">com.johnsnowlabs.ocr.transformers.PdfToImage</span>
+
+<span class="k">val</span> <span class="nv">pdfPath</span> <span class="k">=</span> <span class="s">"path to pdf"</span>
+
+<span class="c1">// Read PDF file as binary file</span>
+<span class="k">val</span> <span class="nv">df</span> <span class="k">=</span> <span class="nv">spark</span><span class="o">.</span><span class="py">read</span><span class="o">.</span><span class="py">format</span><span class="o">(</span><span class="s">"binaryFile"</span><span class="o">).</span><span class="py">load</span><span class="o">(</span><span class="n">pdfPath</span><span class="o">)</span>
+
+<span class="k">val</span> <span class="nv">pdfToImage</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">PdfToImage</span><span class="o">()</span>
+ <span class="o">.</span><span class="py">setInputCol</span><span class="o">(</span><span class="s">"content"</span><span class="o">)</span>
+ <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"text"</span><span class="o">)</span>
+ <span class="o">.</span><span class="py">setPageNumCol</span><span class="o">(</span><span class="s">"pagenum"</span><span class="o">)</span>
+ <span class="o">.</span><span class="py">setSplitPage</span><span class="o">(</span><span class="kc">true</span><span class="o">)</span>
+
+<span class="k">val</span> <span class="nv">data</span> <span class="k">=</span>  <span class="nv">pdfToImage</span><span class="o">.</span><span class="py">transform</span><span class="o">(</span><span class="n">df</span><span class="o">)</span>
+
+<span class="nv">data</span><span class="o">.</span><span class="py">select</span><span class="o">(</span><span class="s">"pagenum"</span><span class="o">,</span> <span class="s">"text"</span><span class="o">).</span><span class="py">show</span><span class="o">()</span>
 </code></pre></div>  </div>
 
 </div>
@@ -967,30 +967,6 @@ column and create multipage PDF document.</p>
     <p><button data-type="python" class="tab-li tab-li-second active">Python</button><button data-type="scala" class="tab-li tab-li-second">Scala</button></p>
 </div>
 
-  <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="nn">com.johnsnowlabs.ocr.transformers._</span>
-
-<span class="k">val</span> <span class="nv">imagePath</span> <span class="k">=</span> <span class="s">"path to image"</span>
-
-<span class="c1">// Read image file as binary file</span>
-<span class="k">val</span> <span class="nv">df</span> <span class="k">=</span> <span class="nv">spark</span><span class="o">.</span><span class="py">read</span><span class="o">.</span><span class="py">format</span><span class="o">(</span><span class="s">"binaryFile"</span><span class="o">).</span><span class="py">load</span><span class="o">(</span><span class="n">imagePath</span><span class="o">)</span>
-
-<span class="c1">// Define transformer for convert to Image struct</span>
-<span class="k">val</span> <span class="nv">binaryToImage</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">BinaryToImage</span><span class="o">()</span>
-  <span class="o">.</span><span class="py">setInputCol</span><span class="o">(</span><span class="s">"content"</span><span class="o">)</span>
-  <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"image"</span><span class="o">)</span>
-
-<span class="c1">// Define transformer for store to PDF</span>
-<span class="k">val</span> <span class="nv">imageToPdf</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">ImageToPdf</span><span class="o">()</span>
-  <span class="o">.</span><span class="py">setInputCol</span><span class="o">(</span><span class="s">"image"</span><span class="o">)</span>
-  <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"content"</span><span class="o">)</span>
-
-<span class="c1">// Call transformers</span>
-<span class="k">val</span> <span class="nv">image_df</span> <span class="k">=</span> <span class="nv">binaryToImage</span><span class="o">.</span><span class="py">transform</span><span class="o">(</span><span class="n">df</span><span class="o">)</span>
-<span class="k">val</span> <span class="nv">pdf_df</span> <span class="k">=</span>  <span class="nv">pdfToImage</span><span class="o">.</span><span class="py">transform</span><span class="o">(</span><span class="n">image_df</span><span class="o">)</span>
-
-<span class="nv">pdf_df</span><span class="o">.</span><span class="py">select</span><span class="o">(</span><span class="s">"content"</span><span class="o">).</span><span class="py">show</span><span class="o">()</span>
-</code></pre></div>  </div>
-
   <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">sparkocr.transformers</span> <span class="kn">import</span> <span class="o">*</span>
 
 <span class="n">pdfPath</span> <span class="o">=</span> <span class="s">"path to pdf"</span>
@@ -1013,6 +989,30 @@ column and create multipage PDF document.</p>
 <span class="n">pdf_df</span> <span class="o">=</span>  <span class="n">pdfToImage</span><span class="p">.</span><span class="n">transform</span><span class="p">(</span><span class="n">image_df</span><span class="p">)</span>
 
 <span class="n">pdf_df</span><span class="p">.</span><span class="n">select</span><span class="p">(</span><span class="s">"content"</span><span class="p">).</span><span class="n">show</span><span class="p">()</span>
+</code></pre></div>  </div>
+
+  <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="nn">com.johnsnowlabs.ocr.transformers._</span>
+
+<span class="k">val</span> <span class="nv">imagePath</span> <span class="k">=</span> <span class="s">"path to image"</span>
+
+<span class="c1">// Read image file as binary file</span>
+<span class="k">val</span> <span class="nv">df</span> <span class="k">=</span> <span class="nv">spark</span><span class="o">.</span><span class="py">read</span><span class="o">.</span><span class="py">format</span><span class="o">(</span><span class="s">"binaryFile"</span><span class="o">).</span><span class="py">load</span><span class="o">(</span><span class="n">imagePath</span><span class="o">)</span>
+
+<span class="c1">// Define transformer for convert to Image struct</span>
+<span class="k">val</span> <span class="nv">binaryToImage</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">BinaryToImage</span><span class="o">()</span>
+  <span class="o">.</span><span class="py">setInputCol</span><span class="o">(</span><span class="s">"content"</span><span class="o">)</span>
+  <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"image"</span><span class="o">)</span>
+
+<span class="c1">// Define transformer for store to PDF</span>
+<span class="k">val</span> <span class="nv">imageToPdf</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">ImageToPdf</span><span class="o">()</span>
+  <span class="o">.</span><span class="py">setInputCol</span><span class="o">(</span><span class="s">"image"</span><span class="o">)</span>
+  <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"content"</span><span class="o">)</span>
+
+<span class="c1">// Call transformers</span>
+<span class="k">val</span> <span class="nv">image_df</span> <span class="k">=</span> <span class="nv">binaryToImage</span><span class="o">.</span><span class="py">transform</span><span class="o">(</span><span class="n">df</span><span class="o">)</span>
+<span class="k">val</span> <span class="nv">pdf_df</span> <span class="k">=</span>  <span class="nv">pdfToImage</span><span class="o">.</span><span class="py">transform</span><span class="o">(</span><span class="n">image_df</span><span class="o">)</span>
+
+<span class="nv">pdf_df</span><span class="o">.</span><span class="py">select</span><span class="o">(</span><span class="s">"content"</span><span class="o">).</span><span class="py">show</span><span class="o">()</span>
 </code></pre></div>  </div>
 
 </div>
@@ -1100,6 +1100,48 @@ column and create multipage PDF document.</p>
     <p><button data-type="python" class="tab-li tab-li-second active">Python</button><button data-type="scala" class="tab-li tab-li-second">Scala</button></p>
 </div>
 
+  <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">sparkocr.transformers</span> <span class="kn">import</span> <span class="o">*</span>
+
+<span class="n">pdfPath</span> <span class="o">=</span> <span class="s">"path to pdf"</span>
+
+<span class="c1"># Read PDF file as binary file
+</span><span class="n">df</span> <span class="o">=</span> <span class="n">spark</span><span class="p">.</span><span class="n">read</span><span class="p">.</span><span class="nb">format</span><span class="p">(</span><span class="s">"binaryFile"</span><span class="p">).</span><span class="n">load</span><span class="p">(</span><span class="n">pdfPath</span><span class="p">)</span>
+
+<span class="n">pdf_to_image</span> <span class="o">=</span> <span class="n">PdfToImage</span><span class="p">()</span> \
+    <span class="p">.</span><span class="n">setInputCol</span><span class="p">(</span><span class="s">"content"</span><span class="p">)</span> \
+    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"image_raw"</span><span class="p">)</span>
+
+<span class="n">binarizer</span> <span class="o">=</span> <span class="n">ImageBinarizer</span><span class="p">()</span> \
+    <span class="p">.</span><span class="n">setInputCol</span><span class="p">(</span><span class="s">"image_raw"</span><span class="p">)</span> \
+    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"image"</span><span class="p">)</span> \
+    <span class="p">.</span><span class="n">setThreshold</span><span class="p">(</span><span class="mi">130</span><span class="p">)</span>
+
+<span class="n">ocr</span> <span class="o">=</span> <span class="n">ImageToText</span><span class="p">()</span> \
+    <span class="p">.</span><span class="n">setInputCol</span><span class="p">(</span><span class="s">"image"</span><span class="p">)</span> \
+    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"text"</span><span class="p">)</span> \
+    <span class="p">.</span><span class="n">setIgnoreResolution</span><span class="p">(</span><span class="bp">False</span><span class="p">)</span> \
+    <span class="p">.</span><span class="n">setPageSegMode</span><span class="p">(</span><span class="n">PageSegmentationMode</span><span class="p">.</span><span class="n">SPARSE_TEXT</span><span class="p">)</span> \
+    <span class="p">.</span><span class="n">setConfidenceThreshold</span><span class="p">(</span><span class="mi">60</span><span class="p">)</span>
+
+<span class="n">textToPdf</span> <span class="o">=</span> <span class="n">TextToPdf</span><span class="p">()</span> \
+    <span class="p">.</span><span class="n">setInputCol</span><span class="p">(</span><span class="s">"positions"</span><span class="p">)</span> \
+    <span class="p">.</span><span class="n">setInputImage</span><span class="p">(</span><span class="s">"image"</span><span class="p">)</span> \
+    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"pdf"</span><span class="p">)</span>
+
+<span class="n">pipeline</span> <span class="o">=</span> <span class="n">PipelineModel</span><span class="p">(</span><span class="n">stages</span><span class="o">=</span><span class="p">[</span>
+    <span class="n">pdf_to_image</span><span class="p">,</span>
+    <span class="n">binarizer</span><span class="p">,</span>
+    <span class="n">ocr</span><span class="p">,</span>
+    <span class="n">textToPdf</span>
+<span class="p">])</span>
+
+<span class="n">result</span> <span class="o">=</span> <span class="n">pipeline</span><span class="p">.</span><span class="n">transform</span><span class="p">(</span><span class="n">df</span><span class="p">).</span><span class="n">collect</span><span class="p">()</span>
+
+<span class="c1"># Store to file for debug
+</span><span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s">"test.pdf"</span><span class="p">,</span> <span class="s">"wb"</span><span class="p">)</span> <span class="k">as</span> <span class="nb">file</span><span class="p">:</span>
+    <span class="nb">file</span><span class="p">.</span><span class="n">write</span><span class="p">(</span><span class="n">result</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="n">pdf</span><span class="p">)</span>
+</code></pre></div>  </div>
+
   <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="nn">org.apache.spark.ml.Pipeline</span>
 <span class="k">import</span> <span class="nn">com.johnsnowlabs.ocr.transformers._</span>
 
@@ -1150,48 +1192,6 @@ column and create multipage PDF document.</p>
 <span class="nv">fos</span><span class="o">.</span><span class="py">write</span><span class="o">(</span><span class="n">pdfContent</span><span class="o">)</span>
 <span class="nv">fos</span><span class="o">.</span><span class="py">close</span><span class="o">()</span>
 <span class="nf">println</span><span class="o">(</span><span class="n">tmpFile</span><span class="o">)</span>
-</code></pre></div>  </div>
-
-  <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">sparkocr.transformers</span> <span class="kn">import</span> <span class="o">*</span>
-
-<span class="n">pdfPath</span> <span class="o">=</span> <span class="s">"path to pdf"</span>
-
-<span class="c1"># Read PDF file as binary file
-</span><span class="n">df</span> <span class="o">=</span> <span class="n">spark</span><span class="p">.</span><span class="n">read</span><span class="p">.</span><span class="nb">format</span><span class="p">(</span><span class="s">"binaryFile"</span><span class="p">).</span><span class="n">load</span><span class="p">(</span><span class="n">pdfPath</span><span class="p">)</span>
-
-<span class="n">pdf_to_image</span> <span class="o">=</span> <span class="n">PdfToImage</span><span class="p">()</span> \
-    <span class="p">.</span><span class="n">setInputCol</span><span class="p">(</span><span class="s">"content"</span><span class="p">)</span> \
-    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"image_raw"</span><span class="p">)</span>
-
-<span class="n">binarizer</span> <span class="o">=</span> <span class="n">ImageBinarizer</span><span class="p">()</span> \
-    <span class="p">.</span><span class="n">setInputCol</span><span class="p">(</span><span class="s">"image_raw"</span><span class="p">)</span> \
-    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"image"</span><span class="p">)</span> \
-    <span class="p">.</span><span class="n">setThreshold</span><span class="p">(</span><span class="mi">130</span><span class="p">)</span>
-
-<span class="n">ocr</span> <span class="o">=</span> <span class="n">ImageToText</span><span class="p">()</span> \
-    <span class="p">.</span><span class="n">setInputCol</span><span class="p">(</span><span class="s">"image"</span><span class="p">)</span> \
-    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"text"</span><span class="p">)</span> \
-    <span class="p">.</span><span class="n">setIgnoreResolution</span><span class="p">(</span><span class="bp">False</span><span class="p">)</span> \
-    <span class="p">.</span><span class="n">setPageSegMode</span><span class="p">(</span><span class="n">PageSegmentationMode</span><span class="p">.</span><span class="n">SPARSE_TEXT</span><span class="p">)</span> \
-    <span class="p">.</span><span class="n">setConfidenceThreshold</span><span class="p">(</span><span class="mi">60</span><span class="p">)</span>
-
-<span class="n">textToPdf</span> <span class="o">=</span> <span class="n">TextToPdf</span><span class="p">()</span> \
-    <span class="p">.</span><span class="n">setInputCol</span><span class="p">(</span><span class="s">"positions"</span><span class="p">)</span> \
-    <span class="p">.</span><span class="n">setInputImage</span><span class="p">(</span><span class="s">"image"</span><span class="p">)</span> \
-    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"pdf"</span><span class="p">)</span>
-
-<span class="n">pipeline</span> <span class="o">=</span> <span class="n">PipelineModel</span><span class="p">(</span><span class="n">stages</span><span class="o">=</span><span class="p">[</span>
-    <span class="n">pdf_to_image</span><span class="p">,</span>
-    <span class="n">binarizer</span><span class="p">,</span>
-    <span class="n">ocr</span><span class="p">,</span>
-    <span class="n">textToPdf</span>
-<span class="p">])</span>
-
-<span class="n">result</span> <span class="o">=</span> <span class="n">pipeline</span><span class="p">.</span><span class="n">transform</span><span class="p">(</span><span class="n">df</span><span class="p">).</span><span class="n">collect</span><span class="p">()</span>
-
-<span class="c1"># Store to file for debug
-</span><span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s">"test.pdf"</span><span class="p">,</span> <span class="s">"wb"</span><span class="p">)</span> <span class="k">as</span> <span class="nb">file</span><span class="p">:</span>
-    <span class="nb">file</span><span class="p">.</span><span class="n">write</span><span class="p">(</span><span class="n">result</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="n">pdf</span><span class="p">)</span>
 </code></pre></div>  </div>
 
 </div>
@@ -1263,6 +1263,45 @@ muliplepage PDF document.</p>
     <p><button data-type="python" class="tab-li tab-li-second active">Python</button><button data-type="scala" class="tab-li tab-li-second">Scala</button></p>
 </div>
 
+  <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">pyspark.ml</span> <span class="kn">import</span> <span class="n">PipelineModel</span>
+
+<span class="kn">from</span> <span class="nn">sparkocr.transformers</span> <span class="kn">import</span> <span class="o">*</span>
+
+<span class="n">pdfPath</span> <span class="o">=</span> <span class="s">"path to pdf"</span>
+
+<span class="c1"># Read PDF file as binary file
+</span><span class="n">df</span> <span class="o">=</span> <span class="n">spark</span><span class="p">.</span><span class="n">read</span><span class="p">.</span><span class="nb">format</span><span class="p">(</span><span class="s">"binaryFile"</span><span class="p">).</span><span class="n">load</span><span class="p">(</span><span class="n">pdfPath</span><span class="p">)</span>
+
+<span class="n">pdf_to_image</span> <span class="o">=</span> <span class="n">PdfToImage</span><span class="p">()</span> \
+        <span class="p">.</span><span class="n">setInputCol</span><span class="p">(</span><span class="s">"content"</span><span class="p">)</span> \
+        <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"image"</span><span class="p">)</span> \
+        <span class="p">.</span><span class="n">setKeepInput</span><span class="p">(</span><span class="bp">True</span><span class="p">)</span>
+    
+<span class="c1"># Run OCR and render results to PDF
+</span><span class="n">ocr</span> <span class="o">=</span> <span class="n">ImageToTextPdf</span><span class="p">()</span> \
+    <span class="p">.</span><span class="n">setInputCol</span><span class="p">(</span><span class="s">"image"</span><span class="p">)</span> \
+    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"pdf_page"</span><span class="p">)</span>
+
+<span class="c1"># Assemble multipage PDF
+</span><span class="n">pdf_assembler</span> <span class="o">=</span> <span class="n">PdfAssembler</span><span class="p">()</span> \
+    <span class="p">.</span><span class="n">setInputCol</span><span class="p">(</span><span class="s">"pdf_page"</span><span class="p">)</span> \
+    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"pdf"</span><span class="p">)</span>
+
+<span class="n">pipeline</span> <span class="o">=</span> <span class="n">PipelineModel</span><span class="p">(</span><span class="n">stages</span><span class="o">=</span><span class="p">[</span>
+    <span class="n">pdf_to_image</span><span class="p">,</span>
+    <span class="n">ocr</span><span class="p">,</span>
+    <span class="n">pdf_assembler</span>
+<span class="p">])</span>
+
+<span class="n">pdf</span> <span class="o">=</span> <span class="n">pipeline</span><span class="p">.</span><span class="n">transform</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
+
+<span class="n">pdfContent</span> <span class="o">=</span> <span class="n">pdf</span><span class="p">.</span><span class="n">select</span><span class="p">(</span><span class="s">"pdf"</span><span class="p">).</span><span class="n">collect</span><span class="p">().</span><span class="n">head</span><span class="p">.</span><span class="n">getAs</span><span class="p">[</span><span class="n">Array</span><span class="p">[</span><span class="n">Byte</span><span class="p">]](</span><span class="mi">0</span><span class="p">)</span>
+
+<span class="c1"># store pdf to file
+</span><span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s">"test.pdf"</span><span class="p">,</span> <span class="s">"wb"</span><span class="p">)</span> <span class="k">as</span> <span class="nb">file</span><span class="p">:</span>
+    <span class="nb">file</span><span class="p">.</span><span class="n">write</span><span class="p">(</span><span class="n">pdfContent</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="n">pdf</span><span class="p">)</span> 
+</code></pre></div>  </div>
+
   <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="nn">java.io.FileOutputStream</span>
 <span class="k">import</span> <span class="nn">java.nio.file.Files</span>
 
@@ -1306,45 +1345,6 @@ muliplepage PDF document.</p>
 <span class="nv">fos</span><span class="o">.</span><span class="py">write</span><span class="o">(</span><span class="n">pdfContent</span><span class="o">)</span>
 <span class="nv">fos</span><span class="o">.</span><span class="py">close</span><span class="o">()</span>
 <span class="nf">println</span><span class="o">(</span><span class="n">tmpFile</span><span class="o">)</span>
-</code></pre></div>  </div>
-
-  <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">pyspark.ml</span> <span class="kn">import</span> <span class="n">PipelineModel</span>
-
-<span class="kn">from</span> <span class="nn">sparkocr.transformers</span> <span class="kn">import</span> <span class="o">*</span>
-
-<span class="n">pdfPath</span> <span class="o">=</span> <span class="s">"path to pdf"</span>
-
-<span class="c1"># Read PDF file as binary file
-</span><span class="n">df</span> <span class="o">=</span> <span class="n">spark</span><span class="p">.</span><span class="n">read</span><span class="p">.</span><span class="nb">format</span><span class="p">(</span><span class="s">"binaryFile"</span><span class="p">).</span><span class="n">load</span><span class="p">(</span><span class="n">pdfPath</span><span class="p">)</span>
-
-<span class="n">pdf_to_image</span> <span class="o">=</span> <span class="n">PdfToImage</span><span class="p">()</span> \
-        <span class="p">.</span><span class="n">setInputCol</span><span class="p">(</span><span class="s">"content"</span><span class="p">)</span> \
-        <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"image"</span><span class="p">)</span> \
-        <span class="p">.</span><span class="n">setKeepInput</span><span class="p">(</span><span class="bp">True</span><span class="p">)</span>
-    
-<span class="c1"># Run OCR and render results to PDF
-</span><span class="n">ocr</span> <span class="o">=</span> <span class="n">ImageToTextPdf</span><span class="p">()</span> \
-    <span class="p">.</span><span class="n">setInputCol</span><span class="p">(</span><span class="s">"image"</span><span class="p">)</span> \
-    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"pdf_page"</span><span class="p">)</span>
-
-<span class="c1"># Assemble multipage PDF
-</span><span class="n">pdf_assembler</span> <span class="o">=</span> <span class="n">PdfAssembler</span><span class="p">()</span> \
-    <span class="p">.</span><span class="n">setInputCol</span><span class="p">(</span><span class="s">"pdf_page"</span><span class="p">)</span> \
-    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"pdf"</span><span class="p">)</span>
-
-<span class="n">pipeline</span> <span class="o">=</span> <span class="n">PipelineModel</span><span class="p">(</span><span class="n">stages</span><span class="o">=</span><span class="p">[</span>
-    <span class="n">pdf_to_image</span><span class="p">,</span>
-    <span class="n">ocr</span><span class="p">,</span>
-    <span class="n">pdf_assembler</span>
-<span class="p">])</span>
-
-<span class="n">pdf</span> <span class="o">=</span> <span class="n">pipeline</span><span class="p">.</span><span class="n">transform</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
-
-<span class="n">pdfContent</span> <span class="o">=</span> <span class="n">pdf</span><span class="p">.</span><span class="n">select</span><span class="p">(</span><span class="s">"pdf"</span><span class="p">).</span><span class="n">collect</span><span class="p">().</span><span class="n">head</span><span class="p">.</span><span class="n">getAs</span><span class="p">[</span><span class="n">Array</span><span class="p">[</span><span class="n">Byte</span><span class="p">]](</span><span class="mi">0</span><span class="p">)</span>
-
-<span class="c1"># store pdf to file
-</span><span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s">"test.pdf"</span><span class="p">,</span> <span class="s">"wb"</span><span class="p">)</span> <span class="k">as</span> <span class="nb">file</span><span class="p">:</span>
-    <span class="nb">file</span><span class="p">.</span><span class="n">write</span><span class="p">(</span><span class="n">pdfContent</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="n">pdf</span><span class="p">)</span> 
 </code></pre></div>  </div>
 
 </div>
@@ -1436,6 +1436,72 @@ muliplepage PDF document.</p>
     <p><button data-type="python" class="tab-li tab-li-second active">Python</button><button data-type="scala" class="tab-li tab-li-second">Scala</button></p>
 </div>
 
+  <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">pyspark.ml</span> <span class="kn">import</span> <span class="n">Pipeline</span>
+
+<span class="kn">from</span> <span class="nn">sparkocr.transformers</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">sparknlp.annotator</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">sparknlp.base</span> <span class="kn">import</span> <span class="o">*</span>
+
+<span class="n">pdfPath</span> <span class="o">=</span> <span class="s">"path to pdf"</span>
+
+<span class="c1"># Read PDF file as binary file
+</span><span class="n">df</span> <span class="o">=</span> <span class="n">spark</span><span class="p">.</span><span class="n">read</span><span class="p">.</span><span class="nb">format</span><span class="p">(</span><span class="s">"binaryFile"</span><span class="p">).</span><span class="n">load</span><span class="p">(</span><span class="n">pdfPath</span><span class="p">)</span>
+
+<span class="n">pdf_to_text</span> <span class="o">=</span> <span class="n">PdfToText</span><span class="p">()</span> \
+    <span class="p">.</span><span class="n">setInputCol</span><span class="p">(</span><span class="s">"content"</span><span class="p">)</span> \
+    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"text"</span><span class="p">)</span> \
+    <span class="p">.</span><span class="n">setPageNumCol</span><span class="p">(</span><span class="s">"page"</span><span class="p">)</span> \
+    <span class="p">.</span><span class="n">setSplitPage</span><span class="p">(</span><span class="bp">False</span><span class="p">)</span>
+
+<span class="n">document_assembler</span> <span class="o">=</span> <span class="n">DocumentAssembler</span><span class="p">()</span> \
+    <span class="p">.</span><span class="n">setInputCol</span><span class="p">(</span><span class="s">"text"</span><span class="p">)</span> \
+    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"document"</span><span class="p">)</span>
+
+<span class="n">sentence_detector</span> <span class="o">=</span> <span class="n">SentenceDetector</span><span class="p">()</span> \
+    <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"document"</span><span class="p">])</span> \
+    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"sentence"</span><span class="p">)</span>
+
+<span class="n">tokenizer</span> <span class="o">=</span> <span class="n">Tokenizer</span><span class="p">()</span> \
+    <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"sentence"</span><span class="p">])</span> \
+    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"token"</span><span class="p">)</span>
+
+<span class="n">entity_extractor</span> <span class="o">=</span> <span class="n">TextMatcher</span><span class="p">()</span> \
+    <span class="p">.</span><span class="n">setInputCols</span><span class="p">(</span><span class="s">"sentence"</span><span class="p">,</span> <span class="s">"token"</span><span class="p">)</span> \
+    <span class="p">.</span><span class="n">setEntities</span><span class="p">(</span><span class="s">"./sparkocr/resources/test-chunks.txt"</span><span class="p">,</span> <span class="n">ReadAs</span><span class="p">.</span><span class="n">TEXT</span><span class="p">)</span> \
+    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"entity"</span><span class="p">)</span>
+
+<span class="n">position_finder</span> <span class="o">=</span> <span class="n">PositionFinder</span><span class="p">()</span> \
+    <span class="p">.</span><span class="n">setInputCols</span><span class="p">(</span><span class="s">"entity"</span><span class="p">)</span> \
+    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"coordinates"</span><span class="p">)</span> \
+    <span class="p">.</span><span class="n">setPageMatrixCol</span><span class="p">(</span><span class="s">"positions"</span><span class="p">)</span> \
+    <span class="p">.</span><span class="n">setMatchingWindow</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span> \
+    <span class="p">.</span><span class="n">setPadding</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+
+<span class="n">draw</span> <span class="o">=</span> <span class="n">PdfDrawRegions</span><span class="p">()</span> \
+    <span class="p">.</span><span class="n">setInputRegionsCol</span><span class="p">(</span><span class="s">"coordinates"</span><span class="p">)</span> \
+    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"pdf_with_regions"</span><span class="p">)</span> \
+    <span class="p">.</span><span class="n">setInputCol</span><span class="p">(</span><span class="s">"content"</span><span class="p">)</span> \
+    <span class="p">.</span><span class="n">setLineWidth</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+
+<span class="n">pipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">(</span><span class="n">stages</span><span class="o">=</span><span class="p">[</span>
+    <span class="n">pdf_to_text</span><span class="p">,</span>
+    <span class="n">document_assembler</span><span class="p">,</span>
+    <span class="n">sentence_detector</span><span class="p">,</span>
+    <span class="n">tokenizer</span><span class="p">,</span>
+    <span class="n">entity_extractor</span><span class="p">,</span>
+    <span class="n">position_finder</span><span class="p">,</span>
+    <span class="n">draw</span>
+<span class="p">])</span>
+
+<span class="n">pdfWithRegions</span> <span class="o">=</span> <span class="n">pipeline</span><span class="p">.</span><span class="n">fit</span><span class="p">(</span><span class="n">df</span><span class="p">).</span><span class="n">transform</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
+
+<span class="n">pdfContent</span> <span class="o">=</span> <span class="n">pdfWithRegions</span><span class="p">.</span><span class="n">select</span><span class="p">(</span><span class="s">"pdf_regions"</span><span class="p">).</span><span class="n">collect</span><span class="p">().</span><span class="n">head</span><span class="p">.</span><span class="n">getAs</span><span class="p">[</span><span class="n">Array</span><span class="p">[</span><span class="n">Byte</span><span class="p">]](</span><span class="mi">0</span><span class="p">)</span>
+
+<span class="c1"># store to pdf to tmp file
+</span><span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s">"test.pdf"</span><span class="p">,</span> <span class="s">"wb"</span><span class="p">)</span> <span class="k">as</span> <span class="nb">file</span><span class="p">:</span>
+    <span class="nb">file</span><span class="p">.</span><span class="n">write</span><span class="p">(</span><span class="n">pdfContent</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="n">pdf_regions</span><span class="p">)</span> 
+</code></pre></div>  </div>
+
   <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="nn">java.io.FileOutputStream</span>
 <span class="k">import</span> <span class="nn">java.nio.file.Files</span>
 
@@ -1503,72 +1569,6 @@ muliplepage PDF document.</p>
 <span class="nv">fos</span><span class="o">.</span><span class="py">write</span><span class="o">(</span><span class="n">pdfContent</span><span class="o">)</span>
 <span class="nv">fos</span><span class="o">.</span><span class="py">close</span><span class="o">()</span>
 <span class="nf">println</span><span class="o">(</span><span class="n">tmpFile</span><span class="o">)</span>
-</code></pre></div>  </div>
-
-  <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">pyspark.ml</span> <span class="kn">import</span> <span class="n">Pipeline</span>
-
-<span class="kn">from</span> <span class="nn">sparkocr.transformers</span> <span class="kn">import</span> <span class="o">*</span>
-<span class="kn">from</span> <span class="nn">sparknlp.annotator</span> <span class="kn">import</span> <span class="o">*</span>
-<span class="kn">from</span> <span class="nn">sparknlp.base</span> <span class="kn">import</span> <span class="o">*</span>
-
-<span class="n">pdfPath</span> <span class="o">=</span> <span class="s">"path to pdf"</span>
-
-<span class="c1"># Read PDF file as binary file
-</span><span class="n">df</span> <span class="o">=</span> <span class="n">spark</span><span class="p">.</span><span class="n">read</span><span class="p">.</span><span class="nb">format</span><span class="p">(</span><span class="s">"binaryFile"</span><span class="p">).</span><span class="n">load</span><span class="p">(</span><span class="n">pdfPath</span><span class="p">)</span>
-
-<span class="n">pdf_to_text</span> <span class="o">=</span> <span class="n">PdfToText</span><span class="p">()</span> \
-    <span class="p">.</span><span class="n">setInputCol</span><span class="p">(</span><span class="s">"content"</span><span class="p">)</span> \
-    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"text"</span><span class="p">)</span> \
-    <span class="p">.</span><span class="n">setPageNumCol</span><span class="p">(</span><span class="s">"page"</span><span class="p">)</span> \
-    <span class="p">.</span><span class="n">setSplitPage</span><span class="p">(</span><span class="bp">False</span><span class="p">)</span>
-
-<span class="n">document_assembler</span> <span class="o">=</span> <span class="n">DocumentAssembler</span><span class="p">()</span> \
-    <span class="p">.</span><span class="n">setInputCol</span><span class="p">(</span><span class="s">"text"</span><span class="p">)</span> \
-    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"document"</span><span class="p">)</span>
-
-<span class="n">sentence_detector</span> <span class="o">=</span> <span class="n">SentenceDetector</span><span class="p">()</span> \
-    <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"document"</span><span class="p">])</span> \
-    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"sentence"</span><span class="p">)</span>
-
-<span class="n">tokenizer</span> <span class="o">=</span> <span class="n">Tokenizer</span><span class="p">()</span> \
-    <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"sentence"</span><span class="p">])</span> \
-    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"token"</span><span class="p">)</span>
-
-<span class="n">entity_extractor</span> <span class="o">=</span> <span class="n">TextMatcher</span><span class="p">()</span> \
-    <span class="p">.</span><span class="n">setInputCols</span><span class="p">(</span><span class="s">"sentence"</span><span class="p">,</span> <span class="s">"token"</span><span class="p">)</span> \
-    <span class="p">.</span><span class="n">setEntities</span><span class="p">(</span><span class="s">"./sparkocr/resources/test-chunks.txt"</span><span class="p">,</span> <span class="n">ReadAs</span><span class="p">.</span><span class="n">TEXT</span><span class="p">)</span> \
-    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"entity"</span><span class="p">)</span>
-
-<span class="n">position_finder</span> <span class="o">=</span> <span class="n">PositionFinder</span><span class="p">()</span> \
-    <span class="p">.</span><span class="n">setInputCols</span><span class="p">(</span><span class="s">"entity"</span><span class="p">)</span> \
-    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"coordinates"</span><span class="p">)</span> \
-    <span class="p">.</span><span class="n">setPageMatrixCol</span><span class="p">(</span><span class="s">"positions"</span><span class="p">)</span> \
-    <span class="p">.</span><span class="n">setMatchingWindow</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span> \
-    <span class="p">.</span><span class="n">setPadding</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
-
-<span class="n">draw</span> <span class="o">=</span> <span class="n">PdfDrawRegions</span><span class="p">()</span> \
-    <span class="p">.</span><span class="n">setInputRegionsCol</span><span class="p">(</span><span class="s">"coordinates"</span><span class="p">)</span> \
-    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"pdf_with_regions"</span><span class="p">)</span> \
-    <span class="p">.</span><span class="n">setInputCol</span><span class="p">(</span><span class="s">"content"</span><span class="p">)</span> \
-    <span class="p">.</span><span class="n">setLineWidth</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
-
-<span class="n">pipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">(</span><span class="n">stages</span><span class="o">=</span><span class="p">[</span>
-    <span class="n">pdf_to_text</span><span class="p">,</span>
-    <span class="n">document_assembler</span><span class="p">,</span>
-    <span class="n">sentence_detector</span><span class="p">,</span>
-    <span class="n">tokenizer</span><span class="p">,</span>
-    <span class="n">entity_extractor</span><span class="p">,</span>
-    <span class="n">position_finder</span><span class="p">,</span>
-    <span class="n">draw</span>
-<span class="p">])</span>
-
-<span class="n">pdfWithRegions</span> <span class="o">=</span> <span class="n">pipeline</span><span class="p">.</span><span class="n">fit</span><span class="p">(</span><span class="n">df</span><span class="p">).</span><span class="n">transform</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
-
-<span class="n">pdfContent</span> <span class="o">=</span> <span class="n">pdfWithRegions</span><span class="p">.</span><span class="n">select</span><span class="p">(</span><span class="s">"pdf_regions"</span><span class="p">).</span><span class="n">collect</span><span class="p">().</span><span class="n">head</span><span class="p">.</span><span class="n">getAs</span><span class="p">[</span><span class="n">Array</span><span class="p">[</span><span class="n">Byte</span><span class="p">]](</span><span class="mi">0</span><span class="p">)</span>
-
-<span class="c1"># store to pdf to tmp file
-</span><span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s">"test.pdf"</span><span class="p">,</span> <span class="s">"wb"</span><span class="p">)</span> <span class="k">as</span> <span class="nb">file</span><span class="p">:</span>
-    <span class="nb">file</span><span class="p">.</span><span class="n">write</span><span class="p">(</span><span class="n">pdfContent</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="n">pdf_regions</span><span class="p">)</span> 
 </code></pre></div>  </div>
 
 </div>
@@ -1672,6 +1672,29 @@ As output generate column with tables and tables text chunks coordinates (rows/c
     <p><button data-type="python" class="tab-li tab-li-second active">Python</button><button data-type="scala" class="tab-li tab-li-second">Scala</button></p>
 </div>
 
+  <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">pyspark.ml</span> <span class="kn">import</span> <span class="n">Pipeline</span>
+
+<span class="kn">from</span> <span class="nn">sparkocr.transformers</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">sparknlp.annotator</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">sparknlp.base</span> <span class="kn">import</span> <span class="o">*</span>
+
+<span class="n">pdfPath</span> <span class="o">=</span> <span class="s">"path to pdf"</span>
+
+<span class="c1"># Read PDF file as binary file
+</span><span class="n">df</span> <span class="o">=</span> <span class="n">spark</span><span class="p">.</span><span class="n">read</span><span class="p">.</span><span class="nb">format</span><span class="p">(</span><span class="s">"binaryFile"</span><span class="p">).</span><span class="n">load</span><span class="p">(</span><span class="n">pdfPath</span><span class="p">)</span>
+
+<span class="n">pdf_to_text_table</span> <span class="o">=</span> <span class="n">PdfToTextTable</span><span class="p">()</span>
+<span class="n">pdf_to_text_table</span><span class="p">.</span><span class="n">setInputCol</span><span class="p">(</span><span class="s">"content"</span><span class="p">)</span>
+<span class="n">pdf_to_text_table</span><span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"table"</span><span class="p">)</span>
+<span class="n">pdf_to_text_table</span><span class="p">.</span><span class="n">setPageIndex</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">pdf_to_text_table</span><span class="p">.</span><span class="n">setMethod</span><span class="p">(</span><span class="s">"basic"</span><span class="p">)</span>
+
+<span class="n">table</span> <span class="o">=</span> <span class="n">pdf_to_text_table</span><span class="p">.</span><span class="n">transform</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
+
+<span class="c1"># Show first row
+</span><span class="n">table</span><span class="p">.</span><span class="n">select</span><span class="p">(</span><span class="n">table</span><span class="p">[</span><span class="s">"table.chunks"</span><span class="p">].</span><span class="n">getItem</span><span class="p">(</span><span class="mi">1</span><span class="p">)[</span><span class="s">"chunkText"</span><span class="p">]).</span><span class="n">show</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="bp">False</span><span class="p">)</span>
+</code></pre></div>  </div>
+
   <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="nn">java.io.FileOutputStream</span>
 <span class="k">import</span> <span class="nn">java.nio.file.Files</span>
 
@@ -1695,29 +1718,6 @@ As output generate column with tables and tables text chunks coordinates (rows/c
 
 <span class="c1">// Show first row</span>
 <span class="nv">table</span><span class="o">.</span><span class="py">select</span><span class="o">(</span><span class="n">table</span><span class="o">[</span><span class="err">"</span><span class="kt">table.chunks</span><span class="err">"</span><span class="o">].</span><span class="py">getItem</span><span class="o">(</span><span class="mi">1</span><span class="o">)[</span><span class="err">"</span><span class="kt">chunkText</span><span class="err">"</span><span class="o">]).</span><span class="py">show</span><span class="o">(</span><span class="mi">1</span><span class="o">,</span> <span class="nc">False</span><span class="o">)</span>
-</code></pre></div>  </div>
-
-  <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">pyspark.ml</span> <span class="kn">import</span> <span class="n">Pipeline</span>
-
-<span class="kn">from</span> <span class="nn">sparkocr.transformers</span> <span class="kn">import</span> <span class="o">*</span>
-<span class="kn">from</span> <span class="nn">sparknlp.annotator</span> <span class="kn">import</span> <span class="o">*</span>
-<span class="kn">from</span> <span class="nn">sparknlp.base</span> <span class="kn">import</span> <span class="o">*</span>
-
-<span class="n">pdfPath</span> <span class="o">=</span> <span class="s">"path to pdf"</span>
-
-<span class="c1"># Read PDF file as binary file
-</span><span class="n">df</span> <span class="o">=</span> <span class="n">spark</span><span class="p">.</span><span class="n">read</span><span class="p">.</span><span class="nb">format</span><span class="p">(</span><span class="s">"binaryFile"</span><span class="p">).</span><span class="n">load</span><span class="p">(</span><span class="n">pdfPath</span><span class="p">)</span>
-
-<span class="n">pdf_to_text_table</span> <span class="o">=</span> <span class="n">PdfToTextTable</span><span class="p">()</span>
-<span class="n">pdf_to_text_table</span><span class="p">.</span><span class="n">setInputCol</span><span class="p">(</span><span class="s">"content"</span><span class="p">)</span>
-<span class="n">pdf_to_text_table</span><span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"table"</span><span class="p">)</span>
-<span class="n">pdf_to_text_table</span><span class="p">.</span><span class="n">setPageIndex</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
-<span class="n">pdf_to_text_table</span><span class="p">.</span><span class="n">setMethod</span><span class="p">(</span><span class="s">"basic"</span><span class="p">)</span>
-
-<span class="n">table</span> <span class="o">=</span> <span class="n">pdf_to_text_table</span><span class="p">.</span><span class="n">transform</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
-
-<span class="c1"># Show first row
-</span><span class="n">table</span><span class="p">.</span><span class="n">select</span><span class="p">(</span><span class="n">table</span><span class="p">[</span><span class="s">"table.chunks"</span><span class="p">].</span><span class="n">getItem</span><span class="p">(</span><span class="mi">1</span><span class="p">)[</span><span class="s">"chunkText"</span><span class="p">]).</span><span class="n">show</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="bp">False</span><span class="p">)</span>
 </code></pre></div>  </div>
 
 </div>
@@ -1803,22 +1803,6 @@ As output generate column with tables and tables text chunks coordinates (rows/c
     <p><button data-type="python" class="tab-li tab-li-second active">Python</button><button data-type="scala" class="tab-li tab-li-second">Scala</button></p>
 </div>
 
-  <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="nn">com.johnsnowlabs.ocr.transformers.DocToText</span>
-
-<span class="k">val</span> <span class="nv">docPath</span> <span class="k">=</span> <span class="s">"path to docx with text layout"</span>
-
-<span class="c1">// Read DOCX file as binary file</span>
-<span class="k">val</span> <span class="nv">df</span> <span class="k">=</span> <span class="nv">spark</span><span class="o">.</span><span class="py">read</span><span class="o">.</span><span class="py">format</span><span class="o">(</span><span class="s">"binaryFile"</span><span class="o">).</span><span class="py">load</span><span class="o">(</span><span class="n">docPath</span><span class="o">)</span>
-
-<span class="k">val</span> <span class="nv">transformer</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">DocToText</span><span class="o">()</span>
-  <span class="o">.</span><span class="py">setInputCol</span><span class="o">(</span><span class="s">"content"</span><span class="o">)</span>
-  <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"text"</span><span class="o">)</span>
-
-<span class="k">val</span> <span class="nv">data</span> <span class="k">=</span> <span class="nv">transformer</span><span class="o">.</span><span class="py">transform</span><span class="o">(</span><span class="n">df</span><span class="o">)</span>
-
-<span class="nv">data</span><span class="o">.</span><span class="py">select</span><span class="o">(</span><span class="s">"pagenum"</span><span class="o">,</span> <span class="s">"text"</span><span class="o">).</span><span class="py">show</span><span class="o">()</span>
-</code></pre></div>  </div>
-
   <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">sparkocr.transformers</span> <span class="kn">import</span> <span class="o">*</span>
 
 <span class="n">docPath</span> <span class="o">=</span> <span class="s">"path to docx with text layout"</span>
@@ -1833,6 +1817,22 @@ As output generate column with tables and tables text chunks coordinates (rows/c
 <span class="n">data</span> <span class="o">=</span> <span class="n">transformer</span><span class="p">.</span><span class="n">transform</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
 
 <span class="n">data</span><span class="p">.</span><span class="n">select</span><span class="p">(</span><span class="s">"pagenum"</span><span class="p">,</span> <span class="s">"text"</span><span class="p">).</span><span class="n">show</span><span class="p">()</span>
+</code></pre></div>  </div>
+
+  <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="nn">com.johnsnowlabs.ocr.transformers.DocToText</span>
+
+<span class="k">val</span> <span class="nv">docPath</span> <span class="k">=</span> <span class="s">"path to docx with text layout"</span>
+
+<span class="c1">// Read DOCX file as binary file</span>
+<span class="k">val</span> <span class="nv">df</span> <span class="k">=</span> <span class="nv">spark</span><span class="o">.</span><span class="py">read</span><span class="o">.</span><span class="py">format</span><span class="o">(</span><span class="s">"binaryFile"</span><span class="o">).</span><span class="py">load</span><span class="o">(</span><span class="n">docPath</span><span class="o">)</span>
+
+<span class="k">val</span> <span class="nv">transformer</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">DocToText</span><span class="o">()</span>
+  <span class="o">.</span><span class="py">setInputCol</span><span class="o">(</span><span class="s">"content"</span><span class="o">)</span>
+  <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"text"</span><span class="o">)</span>
+
+<span class="k">val</span> <span class="nv">data</span> <span class="k">=</span> <span class="nv">transformer</span><span class="o">.</span><span class="py">transform</span><span class="o">(</span><span class="n">df</span><span class="o">)</span>
+
+<span class="nv">data</span><span class="o">.</span><span class="py">select</span><span class="o">(</span><span class="s">"pagenum"</span><span class="o">,</span> <span class="s">"text"</span><span class="o">).</span><span class="py">show</span><span class="o">()</span>
 </code></pre></div>  </div>
 
 </div>
@@ -1899,22 +1899,6 @@ As output generate column with tables and tables text chunks coordinates (rows/c
     <p><button data-type="python" class="tab-li tab-li-second active">Python</button><button data-type="scala" class="tab-li tab-li-second">Scala</button></p>
 </div>
 
-  <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="nn">com.johnsnowlabs.ocr.transformers.DocToTextTable</span>
-
-<span class="k">val</span> <span class="nv">docPath</span> <span class="k">=</span> <span class="s">"path to docx with text layout"</span>
-
-<span class="c1">// Read DOCX file as binary file</span>
-<span class="k">val</span> <span class="nv">df</span> <span class="k">=</span> <span class="nv">spark</span><span class="o">.</span><span class="py">read</span><span class="o">.</span><span class="py">format</span><span class="o">(</span><span class="s">"binaryFile"</span><span class="o">).</span><span class="py">load</span><span class="o">(</span><span class="n">docPath</span><span class="o">)</span>
-
-<span class="k">val</span> <span class="nv">transformer</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">DocToTextTable</span><span class="o">()</span>
-  <span class="o">.</span><span class="py">setInputCol</span><span class="o">(</span><span class="s">"content"</span><span class="o">)</span>
-  <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"tables"</span><span class="o">)</span>
-
-<span class="k">val</span> <span class="nv">data</span> <span class="k">=</span> <span class="nv">transformer</span><span class="o">.</span><span class="py">transform</span><span class="o">(</span><span class="n">df</span><span class="o">)</span>
-
-<span class="nv">data</span><span class="o">.</span><span class="py">select</span><span class="o">(</span><span class="s">"tables"</span><span class="o">).</span><span class="py">show</span><span class="o">()</span>
-</code></pre></div>  </div>
-
   <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">sparkocr.transformers</span> <span class="kn">import</span> <span class="o">*</span>
 
 <span class="n">docPath</span> <span class="o">=</span> <span class="s">"path to docx with text layout"</span>
@@ -1929,6 +1913,22 @@ As output generate column with tables and tables text chunks coordinates (rows/c
 <span class="n">data</span> <span class="o">=</span> <span class="n">transformer</span><span class="p">.</span><span class="n">transform</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
 
 <span class="n">data</span><span class="p">.</span><span class="n">select</span><span class="p">(</span><span class="s">"tables"</span><span class="p">).</span><span class="n">show</span><span class="p">()</span>
+</code></pre></div>  </div>
+
+  <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="nn">com.johnsnowlabs.ocr.transformers.DocToTextTable</span>
+
+<span class="k">val</span> <span class="nv">docPath</span> <span class="k">=</span> <span class="s">"path to docx with text layout"</span>
+
+<span class="c1">// Read DOCX file as binary file</span>
+<span class="k">val</span> <span class="nv">df</span> <span class="k">=</span> <span class="nv">spark</span><span class="o">.</span><span class="py">read</span><span class="o">.</span><span class="py">format</span><span class="o">(</span><span class="s">"binaryFile"</span><span class="o">).</span><span class="py">load</span><span class="o">(</span><span class="n">docPath</span><span class="o">)</span>
+
+<span class="k">val</span> <span class="nv">transformer</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">DocToTextTable</span><span class="o">()</span>
+  <span class="o">.</span><span class="py">setInputCol</span><span class="o">(</span><span class="s">"content"</span><span class="o">)</span>
+  <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"tables"</span><span class="o">)</span>
+
+<span class="k">val</span> <span class="nv">data</span> <span class="k">=</span> <span class="nv">transformer</span><span class="o">.</span><span class="py">transform</span><span class="o">(</span><span class="n">df</span><span class="o">)</span>
+
+<span class="nv">data</span><span class="o">.</span><span class="py">select</span><span class="o">(</span><span class="s">"tables"</span><span class="o">).</span><span class="py">show</span><span class="o">()</span>
 </code></pre></div>  </div>
 
 </div>
@@ -1995,22 +1995,6 @@ As output generate column with tables and tables text chunks coordinates (rows/c
     <p><button data-type="python" class="tab-li tab-li-second active">Python</button><button data-type="scala" class="tab-li tab-li-second">Scala</button></p>
 </div>
 
-  <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="nn">com.johnsnowlabs.ocr.transformers.DocToPdf</span>
-
-<span class="k">val</span> <span class="nv">docPath</span> <span class="k">=</span> <span class="s">"path to docx with text layout"</span>
-
-<span class="c1">// Read DOCX file as binary file</span>
-<span class="k">val</span> <span class="nv">df</span> <span class="k">=</span> <span class="nv">spark</span><span class="o">.</span><span class="py">read</span><span class="o">.</span><span class="py">format</span><span class="o">(</span><span class="s">"binaryFile"</span><span class="o">).</span><span class="py">load</span><span class="o">(</span><span class="n">docPath</span><span class="o">)</span>
-
-<span class="k">val</span> <span class="nv">transformer</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">DocToPdf</span><span class="o">()</span>
-  <span class="o">.</span><span class="py">setInputCol</span><span class="o">(</span><span class="s">"content"</span><span class="o">)</span>
-  <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"pdf"</span><span class="o">)</span>
-
-<span class="k">val</span> <span class="nv">data</span> <span class="k">=</span> <span class="nv">transformer</span><span class="o">.</span><span class="py">transform</span><span class="o">(</span><span class="n">df</span><span class="o">)</span>
-
-<span class="nv">data</span><span class="o">.</span><span class="py">select</span><span class="o">(</span><span class="s">"pdf"</span><span class="o">).</span><span class="py">show</span><span class="o">()</span>
-</code></pre></div>  </div>
-
   <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">sparkocr.transformers</span> <span class="kn">import</span> <span class="o">*</span>
 
 <span class="n">docPath</span> <span class="o">=</span> <span class="s">"path to docx with text layout"</span>
@@ -2025,6 +2009,22 @@ As output generate column with tables and tables text chunks coordinates (rows/c
 <span class="n">data</span> <span class="o">=</span> <span class="n">transformer</span><span class="p">.</span><span class="n">transform</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
 
 <span class="n">data</span><span class="p">.</span><span class="n">select</span><span class="p">(</span><span class="s">"pdf"</span><span class="p">).</span><span class="n">show</span><span class="p">()</span>
+</code></pre></div>  </div>
+
+  <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="nn">com.johnsnowlabs.ocr.transformers.DocToPdf</span>
+
+<span class="k">val</span> <span class="nv">docPath</span> <span class="k">=</span> <span class="s">"path to docx with text layout"</span>
+
+<span class="c1">// Read DOCX file as binary file</span>
+<span class="k">val</span> <span class="nv">df</span> <span class="k">=</span> <span class="nv">spark</span><span class="o">.</span><span class="py">read</span><span class="o">.</span><span class="py">format</span><span class="o">(</span><span class="s">"binaryFile"</span><span class="o">).</span><span class="py">load</span><span class="o">(</span><span class="n">docPath</span><span class="o">)</span>
+
+<span class="k">val</span> <span class="nv">transformer</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">DocToPdf</span><span class="o">()</span>
+  <span class="o">.</span><span class="py">setInputCol</span><span class="o">(</span><span class="s">"content"</span><span class="o">)</span>
+  <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"pdf"</span><span class="o">)</span>
+
+<span class="k">val</span> <span class="nv">data</span> <span class="k">=</span> <span class="nv">transformer</span><span class="o">.</span><span class="py">transform</span><span class="o">(</span><span class="n">df</span><span class="o">)</span>
+
+<span class="nv">data</span><span class="o">.</span><span class="py">select</span><span class="o">(</span><span class="s">"pdf"</span><span class="o">).</span><span class="py">show</span><span class="o">()</span>
 </code></pre></div>  </div>
 
 </div>
@@ -2091,22 +2091,6 @@ As output generate column with tables and tables text chunks coordinates (rows/c
     <p><button data-type="python" class="tab-li tab-li-second active">Python</button><button data-type="scala" class="tab-li tab-li-second">Scala</button></p>
 </div>
 
-  <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="nn">com.johnsnowlabs.ocr.transformers.PptToTextTable</span>
-
-<span class="k">val</span> <span class="nv">docPath</span> <span class="k">=</span> <span class="s">"path to docx with text layout"</span>
-
-<span class="c1">// Read PPT file as binary file</span>
-<span class="k">val</span> <span class="nv">df</span> <span class="k">=</span> <span class="nv">spark</span><span class="o">.</span><span class="py">read</span><span class="o">.</span><span class="py">format</span><span class="o">(</span><span class="s">"binaryFile"</span><span class="o">).</span><span class="py">load</span><span class="o">(</span><span class="n">docPath</span><span class="o">)</span>
-
-<span class="k">val</span> <span class="nv">transformer</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">PptToTextTable</span><span class="o">()</span>
-  <span class="o">.</span><span class="py">setInputCol</span><span class="o">(</span><span class="s">"content"</span><span class="o">)</span>
-  <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"tables"</span><span class="o">)</span>
-
-<span class="k">val</span> <span class="nv">data</span> <span class="k">=</span> <span class="nv">transformer</span><span class="o">.</span><span class="py">transform</span><span class="o">(</span><span class="n">df</span><span class="o">)</span>
-
-<span class="nv">data</span><span class="o">.</span><span class="py">select</span><span class="o">(</span><span class="s">"tables"</span><span class="o">).</span><span class="py">show</span><span class="o">()</span>
-</code></pre></div>  </div>
-
   <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">sparkocr.transformers</span> <span class="kn">import</span> <span class="o">*</span>
 
 <span class="n">docPath</span> <span class="o">=</span> <span class="s">"path to docx with text layout"</span>
@@ -2121,6 +2105,22 @@ As output generate column with tables and tables text chunks coordinates (rows/c
 <span class="n">data</span> <span class="o">=</span> <span class="n">transformer</span><span class="p">.</span><span class="n">transform</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
 
 <span class="n">data</span><span class="p">.</span><span class="n">select</span><span class="p">(</span><span class="s">"tables"</span><span class="p">).</span><span class="n">show</span><span class="p">()</span>
+</code></pre></div>  </div>
+
+  <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="nn">com.johnsnowlabs.ocr.transformers.PptToTextTable</span>
+
+<span class="k">val</span> <span class="nv">docPath</span> <span class="k">=</span> <span class="s">"path to docx with text layout"</span>
+
+<span class="c1">// Read PPT file as binary file</span>
+<span class="k">val</span> <span class="nv">df</span> <span class="k">=</span> <span class="nv">spark</span><span class="o">.</span><span class="py">read</span><span class="o">.</span><span class="py">format</span><span class="o">(</span><span class="s">"binaryFile"</span><span class="o">).</span><span class="py">load</span><span class="o">(</span><span class="n">docPath</span><span class="o">)</span>
+
+<span class="k">val</span> <span class="nv">transformer</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">PptToTextTable</span><span class="o">()</span>
+  <span class="o">.</span><span class="py">setInputCol</span><span class="o">(</span><span class="s">"content"</span><span class="o">)</span>
+  <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"tables"</span><span class="o">)</span>
+
+<span class="k">val</span> <span class="nv">data</span> <span class="k">=</span> <span class="nv">transformer</span><span class="o">.</span><span class="py">transform</span><span class="o">(</span><span class="n">df</span><span class="o">)</span>
+
+<span class="nv">data</span><span class="o">.</span><span class="py">select</span><span class="o">(</span><span class="s">"tables"</span><span class="o">).</span><span class="py">show</span><span class="o">()</span>
 </code></pre></div>  </div>
 
 </div>
@@ -2187,22 +2187,6 @@ As output generate column with tables and tables text chunks coordinates (rows/c
     <p><button data-type="python" class="tab-li tab-li-second active">Python</button><button data-type="scala" class="tab-li tab-li-second">Scala</button></p>
 </div>
 
-  <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="nn">com.johnsnowlabs.ocr.transformers.PptToPdf</span>
-
-<span class="k">val</span> <span class="nv">docPath</span> <span class="k">=</span> <span class="s">"path to docx with text layout"</span>
-
-<span class="c1">// Read PPT file as binary file</span>
-<span class="k">val</span> <span class="nv">df</span> <span class="k">=</span> <span class="nv">spark</span><span class="o">.</span><span class="py">read</span><span class="o">.</span><span class="py">format</span><span class="o">(</span><span class="s">"binaryFile"</span><span class="o">).</span><span class="py">load</span><span class="o">(</span><span class="n">docPath</span><span class="o">)</span>
-
-<span class="k">val</span> <span class="nv">transformer</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">PptToPdf</span><span class="o">()</span>
-  <span class="o">.</span><span class="py">setInputCol</span><span class="o">(</span><span class="s">"content"</span><span class="o">)</span>
-  <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"pdf"</span><span class="o">)</span>
-
-<span class="k">val</span> <span class="nv">data</span> <span class="k">=</span> <span class="nv">transformer</span><span class="o">.</span><span class="py">transform</span><span class="o">(</span><span class="n">df</span><span class="o">)</span>
-
-<span class="nv">data</span><span class="o">.</span><span class="py">select</span><span class="o">(</span><span class="s">"pdf"</span><span class="o">).</span><span class="py">show</span><span class="o">()</span>
-</code></pre></div>  </div>
-
   <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">sparkocr.transformers</span> <span class="kn">import</span> <span class="o">*</span>
 
 <span class="n">docPath</span> <span class="o">=</span> <span class="s">"path to PPT with text layout"</span>
@@ -2217,6 +2201,22 @@ As output generate column with tables and tables text chunks coordinates (rows/c
 <span class="n">data</span> <span class="o">=</span> <span class="n">transformer</span><span class="p">.</span><span class="n">transform</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
 
 <span class="n">data</span><span class="p">.</span><span class="n">select</span><span class="p">(</span><span class="s">"pdf"</span><span class="p">).</span><span class="n">show</span><span class="p">()</span>
+</code></pre></div>  </div>
+
+  <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="nn">com.johnsnowlabs.ocr.transformers.PptToPdf</span>
+
+<span class="k">val</span> <span class="nv">docPath</span> <span class="k">=</span> <span class="s">"path to docx with text layout"</span>
+
+<span class="c1">// Read PPT file as binary file</span>
+<span class="k">val</span> <span class="nv">df</span> <span class="k">=</span> <span class="nv">spark</span><span class="o">.</span><span class="py">read</span><span class="o">.</span><span class="py">format</span><span class="o">(</span><span class="s">"binaryFile"</span><span class="o">).</span><span class="py">load</span><span class="o">(</span><span class="n">docPath</span><span class="o">)</span>
+
+<span class="k">val</span> <span class="nv">transformer</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">PptToPdf</span><span class="o">()</span>
+  <span class="o">.</span><span class="py">setInputCol</span><span class="o">(</span><span class="s">"content"</span><span class="o">)</span>
+  <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"pdf"</span><span class="o">)</span>
+
+<span class="k">val</span> <span class="nv">data</span> <span class="k">=</span> <span class="nv">transformer</span><span class="o">.</span><span class="py">transform</span><span class="o">(</span><span class="n">df</span><span class="o">)</span>
+
+<span class="nv">data</span><span class="o">.</span><span class="py">select</span><span class="o">(</span><span class="s">"pdf"</span><span class="o">).</span><span class="py">show</span><span class="o">()</span>
 </code></pre></div>  </div>
 
 </div>
@@ -2295,23 +2295,6 @@ As output generate column with tables and tables text chunks coordinates (rows/c
     <p><button data-type="python" class="tab-li tab-li-second active">Python</button><button data-type="scala" class="tab-li tab-li-second">Scala</button></p>
 </div>
 
-  <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="nn">com.johnsnowlabs.ocr.transformers.DicomToImage</span>
-
-<span class="k">val</span> <span class="nv">dicomPath</span> <span class="k">=</span> <span class="s">"path to dicom files"</span>
-
-<span class="c1">// Read dicom file as binary file</span>
-<span class="k">val</span> <span class="nv">df</span> <span class="k">=</span> <span class="nv">spark</span><span class="o">.</span><span class="py">read</span><span class="o">.</span><span class="py">format</span><span class="o">(</span><span class="s">"binaryFile"</span><span class="o">).</span><span class="py">load</span><span class="o">(</span><span class="n">dicomPath</span><span class="o">)</span>
-
-<span class="k">val</span> <span class="nv">dicomToImage</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">DicomToImage</span><span class="o">()</span>
-  <span class="o">.</span><span class="py">setInputCol</span><span class="o">(</span><span class="s">"content"</span><span class="o">)</span>
-  <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"image"</span><span class="o">)</span>
-  <span class="o">.</span><span class="py">setMetadataCol</span><span class="o">(</span><span class="s">"meta"</span><span class="o">)</span>
-
-<span class="k">val</span> <span class="nv">data</span> <span class="k">=</span> <span class="nv">dicomToImage</span><span class="o">.</span><span class="py">transform</span><span class="o">(</span><span class="n">df</span><span class="o">)</span>
-
-<span class="nv">data</span><span class="o">.</span><span class="py">select</span><span class="o">(</span><span class="s">"image"</span><span class="o">,</span> <span class="s">"pagenum"</span><span class="o">,</span> <span class="s">"meta"</span><span class="o">).</span><span class="py">show</span><span class="o">()</span>
-</code></pre></div>  </div>
-
   <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">sparkocr.transformers</span> <span class="kn">import</span> <span class="o">*</span>
 
 <span class="n">dicomPath</span> <span class="o">=</span> <span class="s">"path to dicom files"</span>
@@ -2327,6 +2310,23 @@ As output generate column with tables and tables text chunks coordinates (rows/c
 <span class="n">data</span> <span class="o">=</span> <span class="n">dicomToImage</span><span class="p">.</span><span class="n">transform</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
 
 <span class="n">data</span><span class="p">.</span><span class="n">select</span><span class="p">(</span><span class="s">"image"</span><span class="p">,</span> <span class="s">"pagenum"</span><span class="p">,</span> <span class="s">"meta"</span><span class="p">).</span><span class="n">show</span><span class="p">()</span>
+</code></pre></div>  </div>
+
+  <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="nn">com.johnsnowlabs.ocr.transformers.DicomToImage</span>
+
+<span class="k">val</span> <span class="nv">dicomPath</span> <span class="k">=</span> <span class="s">"path to dicom files"</span>
+
+<span class="c1">// Read dicom file as binary file</span>
+<span class="k">val</span> <span class="nv">df</span> <span class="k">=</span> <span class="nv">spark</span><span class="o">.</span><span class="py">read</span><span class="o">.</span><span class="py">format</span><span class="o">(</span><span class="s">"binaryFile"</span><span class="o">).</span><span class="py">load</span><span class="o">(</span><span class="n">dicomPath</span><span class="o">)</span>
+
+<span class="k">val</span> <span class="nv">dicomToImage</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">DicomToImage</span><span class="o">()</span>
+  <span class="o">.</span><span class="py">setInputCol</span><span class="o">(</span><span class="s">"content"</span><span class="o">)</span>
+  <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"image"</span><span class="o">)</span>
+  <span class="o">.</span><span class="py">setMetadataCol</span><span class="o">(</span><span class="s">"meta"</span><span class="o">)</span>
+
+<span class="k">val</span> <span class="nv">data</span> <span class="k">=</span> <span class="nv">dicomToImage</span><span class="o">.</span><span class="py">transform</span><span class="o">(</span><span class="n">df</span><span class="o">)</span>
+
+<span class="nv">data</span><span class="o">.</span><span class="py">select</span><span class="o">(</span><span class="s">"image"</span><span class="o">,</span> <span class="s">"pagenum"</span><span class="o">,</span> <span class="s">"meta"</span><span class="o">).</span><span class="py">show</span><span class="o">()</span>
 </code></pre></div>  </div>
 
 </div>
@@ -2397,25 +2397,6 @@ As output generate column with tables and tables text chunks coordinates (rows/c
     <p><button data-type="python" class="tab-li tab-li-second active">Python</button><button data-type="scala" class="tab-li tab-li-second">Scala</button></p>
 </div>
 
-  <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="nn">com.johnsnowlabs.ocr.transformers.ImageToDicom</span>
-
-<span class="k">val</span> <span class="nv">imagePath</span> <span class="k">=</span> <span class="s">"path to image file"</span>
-
-<span class="c1">// Read image file as binary file</span>
-<span class="k">val</span> <span class="nv">df</span> <span class="k">=</span> <span class="nv">spark</span><span class="o">.</span><span class="py">read</span>
-  <span class="o">.</span><span class="py">format</span><span class="o">(</span><span class="s">"binaryFile"</span><span class="o">)</span>
-  <span class="o">.</span><span class="py">load</span><span class="o">(</span><span class="n">imagePath</span><span class="o">)</span>
-  <span class="o">.</span><span class="py">asImage</span><span class="o">(</span><span class="s">"image"</span><span class="o">)</span>
-
-<span class="k">val</span> <span class="nv">imageToDicom</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">ImageToDicom</span><span class="o">()</span>
-  <span class="o">.</span><span class="py">setInputCol</span><span class="o">(</span><span class="s">"image"</span><span class="o">)</span>
-  <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"dicom"</span><span class="o">)</span>
-
-<span class="k">val</span> <span class="nv">data</span> <span class="k">=</span> <span class="nv">imageToDicom</span><span class="o">.</span><span class="py">transform</span><span class="o">(</span><span class="n">df</span><span class="o">)</span>
-
-<span class="nv">data</span><span class="o">.</span><span class="py">select</span><span class="o">(</span><span class="s">"dicom"</span><span class="o">).</span><span class="py">show</span><span class="o">()</span>
-</code></pre></div>  </div>
-
   <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">sparkocr.transformers</span> <span class="kn">import</span> <span class="o">*</span>
 
 <span class="n">imagePath</span> <span class="o">=</span> <span class="s">"path to image file"</span>
@@ -2436,6 +2417,25 @@ As output generate column with tables and tables text chunks coordinates (rows/c
 <span class="n">data</span> <span class="o">=</span> <span class="n">imageToDicom</span><span class="p">.</span><span class="n">transform</span><span class="p">(</span><span class="n">image_df</span><span class="p">)</span>
 
 <span class="n">data</span><span class="p">.</span><span class="n">select</span><span class="p">(</span><span class="s">"dicom"</span><span class="p">).</span><span class="n">show</span><span class="p">()</span>
+</code></pre></div>  </div>
+
+  <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="nn">com.johnsnowlabs.ocr.transformers.ImageToDicom</span>
+
+<span class="k">val</span> <span class="nv">imagePath</span> <span class="k">=</span> <span class="s">"path to image file"</span>
+
+<span class="c1">// Read image file as binary file</span>
+<span class="k">val</span> <span class="nv">df</span> <span class="k">=</span> <span class="nv">spark</span><span class="o">.</span><span class="py">read</span>
+  <span class="o">.</span><span class="py">format</span><span class="o">(</span><span class="s">"binaryFile"</span><span class="o">)</span>
+  <span class="o">.</span><span class="py">load</span><span class="o">(</span><span class="n">imagePath</span><span class="o">)</span>
+  <span class="o">.</span><span class="py">asImage</span><span class="o">(</span><span class="s">"image"</span><span class="o">)</span>
+
+<span class="k">val</span> <span class="nv">imageToDicom</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">ImageToDicom</span><span class="o">()</span>
+  <span class="o">.</span><span class="py">setInputCol</span><span class="o">(</span><span class="s">"image"</span><span class="o">)</span>
+  <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"dicom"</span><span class="o">)</span>
+
+<span class="k">val</span> <span class="nv">data</span> <span class="k">=</span> <span class="nv">imageToDicom</span><span class="o">.</span><span class="py">transform</span><span class="o">(</span><span class="n">df</span><span class="o">)</span>
+
+<span class="nv">data</span><span class="o">.</span><span class="py">select</span><span class="o">(</span><span class="s">"dicom"</span><span class="o">).</span><span class="py">show</span><span class="o">()</span>
 </code></pre></div>  </div>
 
 </div>
@@ -2504,22 +2504,6 @@ As output generate column with tables and tables text chunks coordinates (rows/c
     <p><button data-type="python" class="tab-li tab-li-second active">Python</button><button data-type="scala" class="tab-li tab-li-second">Scala</button></p>
 </div>
 
-  <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="nn">com.johnsnowlabs.ocr.transformers.BinaryToImage</span>
-
-<span class="k">val</span> <span class="nv">imagePath</span> <span class="k">=</span> <span class="s">"path to image"</span>
-
-<span class="c1">// Read image file as binary file</span>
-<span class="k">val</span> <span class="nv">df</span> <span class="k">=</span> <span class="nv">spark</span><span class="o">.</span><span class="py">read</span><span class="o">.</span><span class="py">format</span><span class="o">(</span><span class="s">"binaryFile"</span><span class="o">).</span><span class="py">load</span><span class="o">(</span><span class="n">imagePath</span><span class="o">)</span>
-
-<span class="k">val</span> <span class="nv">binaryToImage</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">BinaryToImage</span><span class="o">()</span>
-  <span class="o">.</span><span class="py">setInputCol</span><span class="o">(</span><span class="s">"content"</span><span class="o">)</span>
-  <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"image"</span><span class="o">)</span>
-
-<span class="k">val</span> <span class="nv">data</span> <span class="k">=</span> <span class="nv">binaryToImage</span><span class="o">.</span><span class="py">transform</span><span class="o">(</span><span class="n">df</span><span class="o">)</span>
-
-<span class="nv">data</span><span class="o">.</span><span class="py">select</span><span class="o">(</span><span class="s">"image"</span><span class="o">).</span><span class="py">show</span><span class="o">()</span>
-</code></pre></div>  </div>
-
   <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">sparkocr.transformers</span> <span class="kn">import</span> <span class="o">*</span>
 
 <span class="n">imagePath</span> <span class="o">=</span> <span class="s">"path to image"</span>
@@ -2534,6 +2518,22 @@ As output generate column with tables and tables text chunks coordinates (rows/c
 <span class="n">data</span> <span class="o">=</span> <span class="n">binaryToImage</span><span class="p">.</span><span class="n">transform</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
 
 <span class="n">data</span><span class="p">.</span><span class="n">select</span><span class="p">(</span><span class="s">"image"</span><span class="p">).</span><span class="n">show</span><span class="p">()</span>
+</code></pre></div>  </div>
+
+  <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="nn">com.johnsnowlabs.ocr.transformers.BinaryToImage</span>
+
+<span class="k">val</span> <span class="nv">imagePath</span> <span class="k">=</span> <span class="s">"path to image"</span>
+
+<span class="c1">// Read image file as binary file</span>
+<span class="k">val</span> <span class="nv">df</span> <span class="k">=</span> <span class="nv">spark</span><span class="o">.</span><span class="py">read</span><span class="o">.</span><span class="py">format</span><span class="o">(</span><span class="s">"binaryFile"</span><span class="o">).</span><span class="py">load</span><span class="o">(</span><span class="n">imagePath</span><span class="o">)</span>
+
+<span class="k">val</span> <span class="nv">binaryToImage</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">BinaryToImage</span><span class="o">()</span>
+  <span class="o">.</span><span class="py">setInputCol</span><span class="o">(</span><span class="s">"content"</span><span class="o">)</span>
+  <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"image"</span><span class="o">)</span>
+
+<span class="k">val</span> <span class="nv">data</span> <span class="k">=</span> <span class="nv">binaryToImage</span><span class="o">.</span><span class="py">transform</span><span class="o">(</span><span class="n">df</span><span class="o">)</span>
+
+<span class="nv">data</span><span class="o">.</span><span class="py">select</span><span class="o">(</span><span class="s">"image"</span><span class="o">).</span><span class="py">show</span><span class="o">()</span>
 </code></pre></div>  </div>
 
 </div>
@@ -2666,30 +2666,6 @@ one of the methods with params:</p>
     <p><button data-type="python" class="tab-li tab-li-second active">Python</button><button data-type="scala" class="tab-li tab-li-second">Scala</button></p>
 </div>
 
-  <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="nn">com.johnsnowlabs.ocr.transformers.GPUImageTransformer</span>
-<span class="k">import</span> <span class="nn">com.johnsnowlabs.ocr.OcrContext.implicits._</span>
-
-<span class="k">val</span> <span class="nv">imagePath</span> <span class="k">=</span> <span class="s">"path to image"</span>
-
-<span class="c1">// Read image file as binary file</span>
-<span class="k">val</span> <span class="nv">df</span> <span class="k">=</span> <span class="nv">spark</span><span class="o">.</span><span class="py">read</span>
-  <span class="o">.</span><span class="py">format</span><span class="o">(</span><span class="s">"binaryFile"</span><span class="o">)</span>
-  <span class="o">.</span><span class="py">load</span><span class="o">(</span><span class="n">imagePath</span><span class="o">)</span>
-  <span class="o">.</span><span class="py">asImage</span><span class="o">(</span><span class="s">"image"</span><span class="o">)</span>
-
-<span class="k">val</span> <span class="nv">transformer</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">GPUImageTransformer</span><span class="o">()</span>
-  <span class="o">.</span><span class="py">setInputCol</span><span class="o">(</span><span class="s">"image"</span><span class="o">)</span>
-  <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"transformed_image"</span><span class="o">)</span>
-  <span class="o">.</span><span class="py">addHuangTransform</span><span class="o">()</span>
-  <span class="o">.</span><span class="py">addScalingTransform</span><span class="o">(</span><span class="mi">3</span><span class="o">)</span>
-  <span class="o">.</span><span class="py">addDilateTransform</span><span class="o">(</span><span class="mi">2</span><span class="o">,</span> <span class="mi">2</span><span class="o">)</span>
-  <span class="o">.</span><span class="py">setImageType</span><span class="o">(</span><span class="nv">ImageType</span><span class="o">.</span><span class="py">TYPE_BYTE_BINARY</span><span class="o">)</span>
-
-<span class="k">val</span> <span class="nv">data</span> <span class="k">=</span> <span class="nv">transformer</span><span class="o">.</span><span class="py">transform</span><span class="o">(</span><span class="n">df</span><span class="o">)</span>
-
-<span class="nv">data</span><span class="o">.</span><span class="py">storeImage</span><span class="o">(</span><span class="s">"transformed_image"</span><span class="o">)</span>
-</code></pre></div>  </div>
-
   <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">sparkocr.transformers</span> <span class="kn">import</span> <span class="o">*</span>
 <span class="kn">from</span> <span class="nn">sparkocr.enums</span> <span class="kn">import</span> <span class="n">ImageType</span>
 <span class="kn">from</span> <span class="nn">sparkocr.utils</span> <span class="kn">import</span> <span class="n">display_images</span>
@@ -2721,6 +2697,30 @@ one of the methods with params:</p>
 <span class="n">result</span> <span class="o">=</span> <span class="n">pipeline</span><span class="p">.</span><span class="n">transform</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
 
 <span class="n">display_images</span><span class="p">(</span><span class="n">result</span><span class="p">,</span> <span class="s">"transformed_image"</span><span class="p">)</span>
+</code></pre></div>  </div>
+
+  <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="nn">com.johnsnowlabs.ocr.transformers.GPUImageTransformer</span>
+<span class="k">import</span> <span class="nn">com.johnsnowlabs.ocr.OcrContext.implicits._</span>
+
+<span class="k">val</span> <span class="nv">imagePath</span> <span class="k">=</span> <span class="s">"path to image"</span>
+
+<span class="c1">// Read image file as binary file</span>
+<span class="k">val</span> <span class="nv">df</span> <span class="k">=</span> <span class="nv">spark</span><span class="o">.</span><span class="py">read</span>
+  <span class="o">.</span><span class="py">format</span><span class="o">(</span><span class="s">"binaryFile"</span><span class="o">)</span>
+  <span class="o">.</span><span class="py">load</span><span class="o">(</span><span class="n">imagePath</span><span class="o">)</span>
+  <span class="o">.</span><span class="py">asImage</span><span class="o">(</span><span class="s">"image"</span><span class="o">)</span>
+
+<span class="k">val</span> <span class="nv">transformer</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">GPUImageTransformer</span><span class="o">()</span>
+  <span class="o">.</span><span class="py">setInputCol</span><span class="o">(</span><span class="s">"image"</span><span class="o">)</span>
+  <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"transformed_image"</span><span class="o">)</span>
+  <span class="o">.</span><span class="py">addHuangTransform</span><span class="o">()</span>
+  <span class="o">.</span><span class="py">addScalingTransform</span><span class="o">(</span><span class="mi">3</span><span class="o">)</span>
+  <span class="o">.</span><span class="py">addDilateTransform</span><span class="o">(</span><span class="mi">2</span><span class="o">,</span> <span class="mi">2</span><span class="o">)</span>
+  <span class="o">.</span><span class="py">setImageType</span><span class="o">(</span><span class="nv">ImageType</span><span class="o">.</span><span class="py">TYPE_BYTE_BINARY</span><span class="o">)</span>
+
+<span class="k">val</span> <span class="nv">data</span> <span class="k">=</span> <span class="nv">transformer</span><span class="o">.</span><span class="py">transform</span><span class="o">(</span><span class="n">df</span><span class="o">)</span>
+
+<span class="nv">data</span><span class="o">.</span><span class="py">storeImage</span><span class="o">(</span><span class="s">"transformed_image"</span><span class="o">)</span>
 </code></pre></div>  </div>
 
 </div>
@@ -2800,6 +2800,26 @@ one of the methods with params:</p>
     <p><button data-type="python" class="tab-li tab-li-second active">Python</button><button data-type="scala" class="tab-li tab-li-second">Scala</button></p>
 </div>
 
+  <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">sparkocr.transformers</span> <span class="kn">import</span> <span class="o">*</span>
+
+<span class="n">imagePath</span> <span class="o">=</span> <span class="s">"path to image"</span>
+
+<span class="c1"># Read image file as binary file
+</span><span class="n">df</span> <span class="o">=</span> <span class="n">spark</span><span class="p">.</span><span class="n">read</span> \
+  <span class="p">.</span><span class="nb">format</span><span class="p">(</span><span class="s">"binaryFile"</span><span class="p">)</span> \
+  <span class="p">.</span><span class="n">load</span><span class="p">(</span><span class="n">imagePath</span><span class="p">)</span> \
+  <span class="p">.</span><span class="n">asImage</span><span class="p">(</span><span class="s">"image"</span><span class="p">)</span>
+
+<span class="n">binirizer</span> <span class="o">=</span> <span class="n">ImageBinarizer</span><span class="p">()</span> \
+  <span class="p">.</span><span class="n">setInputCol</span><span class="p">(</span><span class="s">"image"</span><span class="p">)</span> \
+  <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"binary_image"</span><span class="p">)</span> \
+  <span class="p">.</span><span class="n">setThreshold</span><span class="p">(</span><span class="mi">100</span><span class="p">)</span>
+
+<span class="n">data</span> <span class="o">=</span> <span class="n">binirizer</span><span class="p">.</span><span class="n">transform</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
+
+<span class="n">data</span><span class="p">.</span><span class="n">show</span><span class="p">()</span>
+</code></pre></div>  </div>
+
   <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="nn">com.johnsnowlabs.ocr.transformers.ImageBinarizer</span>
 <span class="k">import</span> <span class="nn">com.johnsnowlabs.ocr.OcrContext.implicits._</span>
 
@@ -2819,26 +2839,6 @@ one of the methods with params:</p>
 <span class="k">val</span> <span class="nv">data</span> <span class="k">=</span> <span class="nv">binirizer</span><span class="o">.</span><span class="py">transform</span><span class="o">(</span><span class="n">df</span><span class="o">)</span>
 
 <span class="nv">data</span><span class="o">.</span><span class="py">storeImage</span><span class="o">(</span><span class="s">"binary_image"</span><span class="o">)</span>
-</code></pre></div>  </div>
-
-  <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">sparkocr.transformers</span> <span class="kn">import</span> <span class="o">*</span>
-
-<span class="n">imagePath</span> <span class="o">=</span> <span class="s">"path to image"</span>
-
-<span class="c1"># Read image file as binary file
-</span><span class="n">df</span> <span class="o">=</span> <span class="n">spark</span><span class="p">.</span><span class="n">read</span> \
-  <span class="p">.</span><span class="nb">format</span><span class="p">(</span><span class="s">"binaryFile"</span><span class="p">)</span> \
-  <span class="p">.</span><span class="n">load</span><span class="p">(</span><span class="n">imagePath</span><span class="p">)</span> \
-  <span class="p">.</span><span class="n">asImage</span><span class="p">(</span><span class="s">"image"</span><span class="p">)</span>
-
-<span class="n">binirizer</span> <span class="o">=</span> <span class="n">ImageBinarizer</span><span class="p">()</span> \
-  <span class="p">.</span><span class="n">setInputCol</span><span class="p">(</span><span class="s">"image"</span><span class="p">)</span> \
-  <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"binary_image"</span><span class="p">)</span> \
-  <span class="p">.</span><span class="n">setThreshold</span><span class="p">(</span><span class="mi">100</span><span class="p">)</span>
-
-<span class="n">data</span> <span class="o">=</span> <span class="n">binirizer</span><span class="p">.</span><span class="n">transform</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
-
-<span class="n">data</span><span class="p">.</span><span class="n">show</span><span class="p">()</span>
 </code></pre></div>  </div>
 
 </div>
@@ -2951,40 +2951,6 @@ one of the methods with params:</p>
     <p><button data-type="python" class="tab-li tab-li-second active">Python</button><button data-type="scala" class="tab-li tab-li-second">Scala</button></p>
 </div>
 
-  <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="nn">com.johnsnowlabs.ocr.transformers.</span><span class="o">*</span>
-<span class="k">import</span> <span class="nn">com.johnsnowlabs.ocr.OcrContext.implicits._</span>
-
-<span class="k">val</span> <span class="nv">imagePath</span> <span class="k">=</span> <span class="s">"path to image"</span>
-
-<span class="c1">// Read image file as binary file</span>
-<span class="k">val</span> <span class="nv">df</span> <span class="k">=</span> <span class="nv">spark</span><span class="o">.</span><span class="py">read</span>
-  <span class="o">.</span><span class="py">format</span><span class="o">(</span><span class="s">"binaryFile"</span><span class="o">)</span>
-  <span class="o">.</span><span class="py">load</span><span class="o">(</span><span class="n">imagePath</span><span class="o">)</span>
-  <span class="o">.</span><span class="py">asImage</span><span class="o">(</span><span class="s">"image"</span><span class="o">)</span>
-
-<span class="k">val</span> <span class="nv">binirizer</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">ImageAdaptiveBinarizer</span><span class="o">()</span>
-  <span class="o">.</span><span class="py">setInputCol</span><span class="o">(</span><span class="s">"image"</span><span class="o">)</span>
-  <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"binary_image"</span><span class="o">)</span>
-  <span class="o">.</span><span class="py">setWidth</span><span class="o">(</span><span class="mi">100</span><span class="o">)</span>
-  <span class="o">.</span><span class="py">setScale</span><span class="o">(</span><span class="mf">1.1</span><span class="o">)</span>
-
-<span class="k">val</span> <span class="nv">data</span> <span class="k">=</span> <span class="nv">binirizer</span><span class="o">.</span><span class="py">transform</span><span class="o">(</span><span class="n">df</span><span class="o">)</span>
-
-<span class="nv">data</span><span class="o">.</span><span class="py">storeImage</span><span class="o">(</span><span class="s">"binary_image"</span><span class="o">)</span>
-
-
-
-
-
-
-
-
-
-
-
-
-</code></pre></div>  </div>
-
   <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">pyspark.ml</span> <span class="kn">import</span> <span class="n">PipelineModel</span>
 
 <span class="kn">from</span> <span class="nn">sparkocr.transformers</span> <span class="kn">import</span> <span class="o">*</span>
@@ -3017,6 +2983,28 @@ one of the methods with params:</p>
 <span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="n">result</span><span class="p">.</span><span class="n">select</span><span class="p">(</span><span class="s">"image"</span><span class="p">,</span> <span class="s">"corrected_image"</span><span class="p">).</span><span class="n">collect</span><span class="p">():</span>
     <span class="n">display_image</span><span class="p">(</span><span class="n">r</span><span class="p">.</span><span class="n">image</span><span class="p">)</span>
     <span class="n">display_image</span><span class="p">(</span><span class="n">r</span><span class="p">.</span><span class="n">corrected_image</span><span class="p">)</span>
+</code></pre></div>  </div>
+
+  <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="nn">com.johnsnowlabs.ocr.transformers.</span><span class="o">*</span>
+<span class="k">import</span> <span class="nn">com.johnsnowlabs.ocr.OcrContext.implicits._</span>
+
+<span class="k">val</span> <span class="nv">imagePath</span> <span class="k">=</span> <span class="s">"path to image"</span>
+
+<span class="c1">// Read image file as binary file</span>
+<span class="k">val</span> <span class="nv">df</span> <span class="k">=</span> <span class="nv">spark</span><span class="o">.</span><span class="py">read</span>
+  <span class="o">.</span><span class="py">format</span><span class="o">(</span><span class="s">"binaryFile"</span><span class="o">)</span>
+  <span class="o">.</span><span class="py">load</span><span class="o">(</span><span class="n">imagePath</span><span class="o">)</span>
+  <span class="o">.</span><span class="py">asImage</span><span class="o">(</span><span class="s">"image"</span><span class="o">)</span>
+
+<span class="k">val</span> <span class="nv">binirizer</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">ImageAdaptiveBinarizer</span><span class="o">()</span>
+  <span class="o">.</span><span class="py">setInputCol</span><span class="o">(</span><span class="s">"image"</span><span class="o">)</span>
+  <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"binary_image"</span><span class="o">)</span>
+  <span class="o">.</span><span class="py">setWidth</span><span class="o">(</span><span class="mi">100</span><span class="o">)</span>
+  <span class="o">.</span><span class="py">setScale</span><span class="o">(</span><span class="mf">1.1</span><span class="o">)</span>
+
+<span class="k">val</span> <span class="nv">data</span> <span class="k">=</span> <span class="nv">binirizer</span><span class="o">.</span><span class="py">transform</span><span class="o">(</span><span class="n">df</span><span class="o">)</span>
+
+<span class="nv">data</span><span class="o">.</span><span class="py">storeImage</span><span class="o">(</span><span class="s">"binary_image"</span><span class="o">)</span>
 </code></pre></div>  </div>
 
 </div>
@@ -3132,9 +3120,6 @@ the weighted mean for the local neighborhood of a pixel subtracted by a constant
     <p><button data-type="python" class="tab-li tab-li-second active">Python</button><button data-type="scala" class="tab-li tab-li-second">Scala</button></p>
 </div>
 
-  <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// Implemented only for Python</span>
-</code></pre></div>  </div>
-
   <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">pyspark.ml</span> <span class="kn">import</span> <span class="n">PipelineModel</span>
 
 <span class="kn">from</span> <span class="nn">sparkocr.transformers</span> <span class="kn">import</span> <span class="o">*</span>
@@ -3167,6 +3152,9 @@ the weighted mean for the local neighborhood of a pixel subtracted by a constant
 <span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="n">result</span><span class="p">.</span><span class="n">select</span><span class="p">(</span><span class="s">"image"</span><span class="p">,</span> <span class="s">"corrected_image"</span><span class="p">).</span><span class="n">collect</span><span class="p">():</span>
     <span class="n">display_image</span><span class="p">(</span><span class="n">r</span><span class="p">.</span><span class="n">image</span><span class="p">)</span>
     <span class="n">display_image</span><span class="p">(</span><span class="n">r</span><span class="p">.</span><span class="n">corrected_image</span><span class="p">)</span>
+</code></pre></div>  </div>
+
+  <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// Implemented only for Python</span>
 </code></pre></div>  </div>
 
 </div>
@@ -3273,6 +3261,25 @@ It supports keeping original ratio of image by padding the image in case fixed o
     <p><button data-type="python" class="tab-li tab-li-second active">Python</button><button data-type="scala" class="tab-li tab-li-second">Scala</button></p>
 </div>
 
+  <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">sparkocr.transformers</span> <span class="kn">import</span> <span class="o">*</span>
+
+<span class="n">imagePath</span> <span class="o">=</span> <span class="s">"path to image"</span>
+
+<span class="c1"># Read image file as binary file
+</span><span class="n">df</span> <span class="o">=</span> <span class="n">spark</span><span class="p">.</span><span class="n">read</span> \
+  <span class="p">.</span><span class="nb">format</span><span class="p">(</span><span class="s">"binaryFile"</span><span class="p">)</span> \
+  <span class="p">.</span><span class="n">load</span><span class="p">(</span><span class="n">imagePath</span><span class="p">)</span> \
+  <span class="p">.</span><span class="n">asImage</span><span class="p">(</span><span class="s">"image"</span><span class="p">)</span>
+
+<span class="n">transformer</span> <span class="o">=</span> <span class="n">ImageScaler</span><span class="p">()</span> \
+  <span class="p">.</span><span class="n">setInputCol</span><span class="p">(</span><span class="s">"image"</span><span class="p">)</span> \
+  <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"scaled_image"</span><span class="p">)</span> \
+  <span class="p">.</span><span class="n">setScaleFactor</span><span class="p">(</span><span class="mf">0.5</span><span class="p">)</span>
+
+<span class="n">data</span> <span class="o">=</span> <span class="n">transformer</span><span class="p">.</span><span class="n">transform</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
+<span class="n">data</span><span class="p">.</span><span class="n">show</span><span class="p">()</span>
+</code></pre></div>  </div>
+
   <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="nn">com.johnsnowlabs.ocr.transformers.ImageScaler</span>
 <span class="k">import</span> <span class="nn">com.johnsnowlabs.ocr.OcrContext.implicits._</span>
 
@@ -3291,25 +3298,6 @@ It supports keeping original ratio of image by padding the image in case fixed o
 
 <span class="k">val</span> <span class="nv">data</span> <span class="k">=</span> <span class="nv">transformer</span><span class="o">.</span><span class="py">transform</span><span class="o">(</span><span class="n">df</span><span class="o">)</span>
 <span class="nv">data</span><span class="o">.</span><span class="py">storeImage</span><span class="o">(</span><span class="s">"scaled_image"</span><span class="o">)</span>
-</code></pre></div>  </div>
-
-  <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">sparkocr.transformers</span> <span class="kn">import</span> <span class="o">*</span>
-
-<span class="n">imagePath</span> <span class="o">=</span> <span class="s">"path to image"</span>
-
-<span class="c1"># Read image file as binary file
-</span><span class="n">df</span> <span class="o">=</span> <span class="n">spark</span><span class="p">.</span><span class="n">read</span> \
-  <span class="p">.</span><span class="nb">format</span><span class="p">(</span><span class="s">"binaryFile"</span><span class="p">)</span> \
-  <span class="p">.</span><span class="n">load</span><span class="p">(</span><span class="n">imagePath</span><span class="p">)</span> \
-  <span class="p">.</span><span class="n">asImage</span><span class="p">(</span><span class="s">"image"</span><span class="p">)</span>
-
-<span class="n">transformer</span> <span class="o">=</span> <span class="n">ImageScaler</span><span class="p">()</span> \
-  <span class="p">.</span><span class="n">setInputCol</span><span class="p">(</span><span class="s">"image"</span><span class="p">)</span> \
-  <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"scaled_image"</span><span class="p">)</span> \
-  <span class="p">.</span><span class="n">setScaleFactor</span><span class="p">(</span><span class="mf">0.5</span><span class="p">)</span>
-
-<span class="n">data</span> <span class="o">=</span> <span class="n">transformer</span><span class="p">.</span><span class="n">transform</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
-<span class="n">data</span><span class="p">.</span><span class="n">show</span><span class="p">()</span>
 </code></pre></div>  </div>
 
 </div>
@@ -3389,6 +3377,25 @@ It supports keeping original ratio of image by padding the image in case fixed o
     <p><button data-type="python" class="tab-li tab-li-second active">Python</button><button data-type="scala" class="tab-li tab-li-second">Scala</button></p>
 </div>
 
+  <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">sparkocr.transformers</span> <span class="kn">import</span> <span class="o">*</span>
+
+<span class="n">imagePath</span> <span class="o">=</span> <span class="s">"path to image"</span>
+
+<span class="c1"># Read image file as binary file
+</span><span class="n">df</span> <span class="o">=</span> <span class="n">spark</span><span class="p">.</span><span class="n">read</span> \
+  <span class="p">.</span><span class="nb">format</span><span class="p">(</span><span class="s">"binaryFile"</span><span class="p">)</span> \
+  <span class="p">.</span><span class="n">load</span><span class="p">(</span><span class="n">imagePath</span><span class="p">)</span> \
+  <span class="p">.</span><span class="n">asImage</span><span class="p">(</span><span class="s">"image"</span><span class="p">)</span>
+
+<span class="n">transformer</span> <span class="o">=</span> <span class="n">ImageAdaptiveScaler</span><span class="p">()</span> \
+  <span class="p">.</span><span class="n">setInputCol</span><span class="p">(</span><span class="s">"image"</span><span class="p">)</span> \
+  <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"scaled_image"</span><span class="p">)</span> \
+  <span class="p">.</span><span class="n">setDesiredSize</span><span class="p">(</span><span class="mi">34</span><span class="p">)</span>
+
+<span class="n">data</span> <span class="o">=</span> <span class="n">transformer</span><span class="p">.</span><span class="n">transform</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
+<span class="n">data</span><span class="p">.</span><span class="n">show</span><span class="p">()</span>
+</code></pre></div>  </div>
+
   <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="nn">com.johnsnowlabs.ocr.transformers.ImageAdaptiveScaler</span>
 <span class="k">import</span> <span class="nn">com.johnsnowlabs.ocr.OcrContext.implicits._</span>
 
@@ -3407,25 +3414,6 @@ It supports keeping original ratio of image by padding the image in case fixed o
 
 <span class="k">val</span> <span class="nv">data</span> <span class="k">=</span> <span class="nv">transformer</span><span class="o">.</span><span class="py">transform</span><span class="o">(</span><span class="n">df</span><span class="o">)</span>
 <span class="nv">data</span><span class="o">.</span><span class="py">storeImage</span><span class="o">(</span><span class="s">"scaled_image"</span><span class="o">)</span>
-</code></pre></div>  </div>
-
-  <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">sparkocr.transformers</span> <span class="kn">import</span> <span class="o">*</span>
-
-<span class="n">imagePath</span> <span class="o">=</span> <span class="s">"path to image"</span>
-
-<span class="c1"># Read image file as binary file
-</span><span class="n">df</span> <span class="o">=</span> <span class="n">spark</span><span class="p">.</span><span class="n">read</span> \
-  <span class="p">.</span><span class="nb">format</span><span class="p">(</span><span class="s">"binaryFile"</span><span class="p">)</span> \
-  <span class="p">.</span><span class="n">load</span><span class="p">(</span><span class="n">imagePath</span><span class="p">)</span> \
-  <span class="p">.</span><span class="n">asImage</span><span class="p">(</span><span class="s">"image"</span><span class="p">)</span>
-
-<span class="n">transformer</span> <span class="o">=</span> <span class="n">ImageAdaptiveScaler</span><span class="p">()</span> \
-  <span class="p">.</span><span class="n">setInputCol</span><span class="p">(</span><span class="s">"image"</span><span class="p">)</span> \
-  <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"scaled_image"</span><span class="p">)</span> \
-  <span class="p">.</span><span class="n">setDesiredSize</span><span class="p">(</span><span class="mi">34</span><span class="p">)</span>
-
-<span class="n">data</span> <span class="o">=</span> <span class="n">transformer</span><span class="p">.</span><span class="n">transform</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
-<span class="n">data</span><span class="p">.</span><span class="n">show</span><span class="p">()</span>
 </code></pre></div>  </div>
 
 </div>
@@ -3523,26 +3511,6 @@ It supports keeping original ratio of image by padding the image in case fixed o
     <p><button data-type="python" class="tab-li tab-li-second active">Python</button><button data-type="scala" class="tab-li tab-li-second">Scala</button></p>
 </div>
 
-  <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="nn">com.johnsnowlabs.ocr.transformers.ImageSkewCorrector</span>
-<span class="k">import</span> <span class="nn">com.johnsnowlabs.ocr.OcrContext.implicits._</span>
-
-<span class="k">val</span> <span class="nv">imagePath</span> <span class="k">=</span> <span class="s">"path to image"</span>
-
-<span class="c1">// Read image file as binary file</span>
-<span class="k">val</span> <span class="nv">df</span> <span class="k">=</span> <span class="nv">spark</span><span class="o">.</span><span class="py">read</span>
-  <span class="o">.</span><span class="py">format</span><span class="o">(</span><span class="s">"binaryFile"</span><span class="o">)</span>
-  <span class="o">.</span><span class="py">load</span><span class="o">(</span><span class="n">imagePath</span><span class="o">)</span>
-  <span class="o">.</span><span class="py">asImage</span><span class="o">(</span><span class="s">"image"</span><span class="o">)</span>
-
-<span class="k">val</span> <span class="nv">transformer</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">ImageSkewCorrector</span><span class="o">()</span>
-  <span class="o">.</span><span class="py">setInputCol</span><span class="o">(</span><span class="s">"image"</span><span class="o">)</span>
-  <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"corrected_image"</span><span class="o">)</span>
-  <span class="o">.</span><span class="py">setAutomaticSkewCorrection</span><span class="o">(</span><span class="kc">true</span><span class="o">)</span>
-
-<span class="k">val</span> <span class="nv">data</span> <span class="k">=</span> <span class="nv">transformer</span><span class="o">.</span><span class="py">transform</span><span class="o">(</span><span class="n">df</span><span class="o">)</span>
-<span class="nv">data</span><span class="o">.</span><span class="py">storeImage</span><span class="o">(</span><span class="s">"corrected_image"</span><span class="o">)</span>
-</code></pre></div>  </div>
-
   <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">pyspark.ml</span> <span class="kn">import</span> <span class="n">PipelineModel</span>
 <span class="kn">from</span> <span class="nn">sparkocr.transformers</span> <span class="kn">import</span> <span class="o">*</span>
 <span class="kn">from</span> <span class="nn">sparkocr.utils</span> <span class="kn">import</span> <span class="n">display_images</span>
@@ -3573,6 +3541,26 @@ It supports keeping original ratio of image by padding the image in case fixed o
 <span class="n">data</span> <span class="o">=</span> <span class="n">pipeline</span><span class="p">.</span><span class="n">transform</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
 
 <span class="n">display_images</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="s">"corrected_image"</span><span class="p">)</span>
+</code></pre></div>  </div>
+
+  <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="nn">com.johnsnowlabs.ocr.transformers.ImageSkewCorrector</span>
+<span class="k">import</span> <span class="nn">com.johnsnowlabs.ocr.OcrContext.implicits._</span>
+
+<span class="k">val</span> <span class="nv">imagePath</span> <span class="k">=</span> <span class="s">"path to image"</span>
+
+<span class="c1">// Read image file as binary file</span>
+<span class="k">val</span> <span class="nv">df</span> <span class="k">=</span> <span class="nv">spark</span><span class="o">.</span><span class="py">read</span>
+  <span class="o">.</span><span class="py">format</span><span class="o">(</span><span class="s">"binaryFile"</span><span class="o">)</span>
+  <span class="o">.</span><span class="py">load</span><span class="o">(</span><span class="n">imagePath</span><span class="o">)</span>
+  <span class="o">.</span><span class="py">asImage</span><span class="o">(</span><span class="s">"image"</span><span class="o">)</span>
+
+<span class="k">val</span> <span class="nv">transformer</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">ImageSkewCorrector</span><span class="o">()</span>
+  <span class="o">.</span><span class="py">setInputCol</span><span class="o">(</span><span class="s">"image"</span><span class="o">)</span>
+  <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"corrected_image"</span><span class="o">)</span>
+  <span class="o">.</span><span class="py">setAutomaticSkewCorrection</span><span class="o">(</span><span class="kc">true</span><span class="o">)</span>
+
+<span class="k">val</span> <span class="nv">data</span> <span class="k">=</span> <span class="nv">transformer</span><span class="o">.</span><span class="py">transform</span><span class="o">(</span><span class="n">df</span><span class="o">)</span>
+<span class="nv">data</span><span class="o">.</span><span class="py">storeImage</span><span class="o">(</span><span class="s">"corrected_image"</span><span class="o">)</span>
 </code></pre></div>  </div>
 
 </div>

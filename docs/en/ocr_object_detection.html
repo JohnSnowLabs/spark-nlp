@@ -629,40 +629,6 @@ It’s based on Cascade Region-based CNN network.</p>
     <p><button data-type="python" class="tab-li tab-li-second active">Python</button><button data-type="scala" class="tab-li tab-li-second">Scala</button></p>
 </div>
 
-  <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="nn">com.johnsnowlabs.ocr.transformers.</span><span class="o">*</span>
-<span class="k">import</span> <span class="nn">com.johnsnowlabs.ocr.OcrContext.implicits._</span>
-
-<span class="k">val</span> <span class="nv">imagePath</span> <span class="k">=</span> <span class="s">"path to image"</span>
-
-<span class="c1">// Read image file as binary file</span>
-<span class="k">val</span> <span class="nv">df</span> <span class="k">=</span> <span class="nv">spark</span><span class="o">.</span><span class="py">read</span>
-  <span class="o">.</span><span class="py">format</span><span class="o">(</span><span class="s">"binaryFile"</span><span class="o">)</span>
-  <span class="o">.</span><span class="py">load</span><span class="o">(</span><span class="n">imagePath</span><span class="o">)</span>
-  <span class="o">.</span><span class="py">asImage</span><span class="o">(</span><span class="s">"image"</span><span class="o">)</span>
-
-<span class="c1">// Define transformer for detect signature</span>
-<span class="k">val</span> <span class="nv">signature_detector</span> <span class="k">=</span> <span class="nc">ImageHandwrittenDetector</span>
-  <span class="o">.</span><span class="py">pretrained</span><span class="o">(</span><span class="s">"image_signature_detector_gsa0628"</span><span class="o">,</span> <span class="s">"en"</span><span class="o">,</span> <span class="s">"public/ocr/models"</span><span class="o">)</span>
-  <span class="o">.</span><span class="py">setInputCol</span><span class="o">(</span><span class="s">"image"</span><span class="o">)</span>
-  <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"signature_regions"</span><span class="o">)</span>
-
-<span class="k">val</span> <span class="nv">draw_regions</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">ImageDrawRegions</span><span class="o">()</span>
-  <span class="o">.</span><span class="py">setInputCol</span><span class="o">(</span><span class="s">"image"</span><span class="o">)</span>
-  <span class="o">.</span><span class="py">setInputRegionsCol</span><span class="o">(</span><span class="s">"signature_regions"</span><span class="o">)</span>
-  <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"image_with_regions"</span><span class="o">)</span>
-
-
-<span class="n">pipeline</span> <span class="k">=</span> <span class="nc">PipelineModel</span><span class="o">(</span><span class="n">stages</span><span class="o">=[</span>
-    <span class="kt">binary_to_image</span>,
-    <span class="kt">signature_detector</span>,
-    <span class="kt">draw_regions</span>
-<span class="o">])</span>
-
-<span class="k">val</span> <span class="nv">data</span> <span class="k">=</span> <span class="nv">pipeline</span><span class="o">.</span><span class="py">transform</span><span class="o">(</span><span class="n">df</span><span class="o">)</span>
-
-<span class="nv">data</span><span class="o">.</span><span class="py">storeImage</span><span class="o">(</span><span class="s">"image_with_regions"</span><span class="o">)</span>
-</code></pre></div>  </div>
-
   <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">pyspark.ml</span> <span class="kn">import</span> <span class="n">PipelineModel</span>
 <span class="kn">from</span> <span class="nn">sparkocr.transformers</span> <span class="kn">import</span> <span class="o">*</span>
 
@@ -698,6 +664,40 @@ It’s based on Cascade Region-based CNN network.</p>
 <span class="n">data</span> <span class="o">=</span> <span class="n">pipeline</span><span class="p">.</span><span class="n">transform</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
 
 <span class="n">display_images</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="s">"image_with_regions"</span><span class="p">)</span>
+</code></pre></div>  </div>
+
+  <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="nn">com.johnsnowlabs.ocr.transformers.</span><span class="o">*</span>
+<span class="k">import</span> <span class="nn">com.johnsnowlabs.ocr.OcrContext.implicits._</span>
+
+<span class="k">val</span> <span class="nv">imagePath</span> <span class="k">=</span> <span class="s">"path to image"</span>
+
+<span class="c1">// Read image file as binary file</span>
+<span class="k">val</span> <span class="nv">df</span> <span class="k">=</span> <span class="nv">spark</span><span class="o">.</span><span class="py">read</span>
+  <span class="o">.</span><span class="py">format</span><span class="o">(</span><span class="s">"binaryFile"</span><span class="o">)</span>
+  <span class="o">.</span><span class="py">load</span><span class="o">(</span><span class="n">imagePath</span><span class="o">)</span>
+  <span class="o">.</span><span class="py">asImage</span><span class="o">(</span><span class="s">"image"</span><span class="o">)</span>
+
+<span class="c1">// Define transformer for detect signature</span>
+<span class="k">val</span> <span class="nv">signature_detector</span> <span class="k">=</span> <span class="nc">ImageHandwrittenDetector</span>
+  <span class="o">.</span><span class="py">pretrained</span><span class="o">(</span><span class="s">"image_signature_detector_gsa0628"</span><span class="o">,</span> <span class="s">"en"</span><span class="o">,</span> <span class="s">"public/ocr/models"</span><span class="o">)</span>
+  <span class="o">.</span><span class="py">setInputCol</span><span class="o">(</span><span class="s">"image"</span><span class="o">)</span>
+  <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"signature_regions"</span><span class="o">)</span>
+
+<span class="k">val</span> <span class="nv">draw_regions</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">ImageDrawRegions</span><span class="o">()</span>
+  <span class="o">.</span><span class="py">setInputCol</span><span class="o">(</span><span class="s">"image"</span><span class="o">)</span>
+  <span class="o">.</span><span class="py">setInputRegionsCol</span><span class="o">(</span><span class="s">"signature_regions"</span><span class="o">)</span>
+  <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"image_with_regions"</span><span class="o">)</span>
+
+
+<span class="n">pipeline</span> <span class="k">=</span> <span class="nc">PipelineModel</span><span class="o">(</span><span class="n">stages</span><span class="o">=[</span>
+    <span class="kt">binary_to_image</span>,
+    <span class="kt">signature_detector</span>,
+    <span class="kt">draw_regions</span>
+<span class="o">])</span>
+
+<span class="k">val</span> <span class="nv">data</span> <span class="k">=</span> <span class="nv">pipeline</span><span class="o">.</span><span class="py">transform</span><span class="o">(</span><span class="n">df</span><span class="o">)</span>
+
+<span class="nv">data</span><span class="o">.</span><span class="py">storeImage</span><span class="o">(</span><span class="s">"image_with_regions"</span><span class="o">)</span>
 </code></pre></div>  </div>
 
 </div>
@@ -812,46 +812,6 @@ It’s based on CRAFT network architecture.</p>
     <p><button data-type="python" class="tab-li tab-li-second active">Python</button><button data-type="scala" class="tab-li tab-li-second">Scala</button></p>
 </div>
 
-  <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="nn">com.johnsnowlabs.ocr.transformers.</span><span class="o">*</span>
-<span class="k">import</span> <span class="nn">com.johnsnowlabs.ocr.OcrContext.implicits._</span>
-
-<span class="k">val</span> <span class="nv">imagePath</span> <span class="k">=</span> <span class="s">"path to image"</span>
-
-<span class="c1">// Read image file as binary file</span>
-<span class="k">val</span> <span class="nv">df</span> <span class="k">=</span> <span class="nv">spark</span><span class="o">.</span><span class="py">read</span>
-  <span class="o">.</span><span class="py">format</span><span class="o">(</span><span class="s">"binaryFile"</span><span class="o">)</span>
-  <span class="o">.</span><span class="py">load</span><span class="o">(</span><span class="n">imagePath</span><span class="o">)</span>
-  <span class="o">.</span><span class="py">asImage</span><span class="o">(</span><span class="s">"image"</span><span class="o">)</span>
-
-<span class="c1">// Define transformer for detect text</span>
-<span class="k">val</span> <span class="nv">text_detector</span> <span class="k">=</span> <span class="nc">ImageTextDetector</span>
-  <span class="o">.</span><span class="py">pretrained</span><span class="o">(</span><span class="s">"text_detection_v1"</span><span class="o">,</span> <span class="s">"en"</span><span class="o">,</span> <span class="s">"clinical/ocr"</span><span class="o">)</span>
-  <span class="o">.</span><span class="py">setInputCol</span><span class="o">(</span><span class="s">"image"</span><span class="o">)</span>
-  <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"text_regions"</span><span class="o">)</span>
-
-<span class="k">val</span> <span class="nv">draw_regions</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">ImageTextDetector</span><span class="o">()</span>
-  <span class="o">.</span><span class="py">setInputCol</span><span class="o">(</span><span class="s">"image"</span><span class="o">)</span>
-  <span class="o">.</span><span class="py">setInputRegionsCol</span><span class="o">(</span><span class="s">"text_regions"</span><span class="o">)</span>
-  <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"image_with_regions"</span><span class="o">)</span>
-  <span class="o">.</span><span class="py">setSizeThreshold</span><span class="o">(</span><span class="mi">10</span><span class="o">)</span>
-  <span class="o">.</span><span class="py">setScoreThreshold</span><span class="o">(</span><span class="mf">0.9</span><span class="o">)</span>
-  <span class="o">.</span><span class="py">setLinkThreshold</span><span class="o">(</span><span class="mf">0.4</span><span class="o">)</span>
-  <span class="o">.</span><span class="py">setTextThreshold</span><span class="o">(</span><span class="mf">0.2</span><span class="o">)</span>
-  <span class="o">.</span><span class="py">setWidth</span><span class="o">(</span><span class="mi">1512</span><span class="o">)</span>
-  <span class="o">.</span><span class="py">setHeight</span><span class="o">(</span><span class="mi">2016</span><span class="o">)</span>
-
-
-<span class="n">pipeline</span> <span class="k">=</span> <span class="nc">PipelineModel</span><span class="o">(</span><span class="n">stages</span><span class="o">=[</span>
-    <span class="kt">binary_to_image</span>,
-    <span class="kt">text_detector</span>,
-    <span class="kt">draw_regions</span>
-<span class="o">])</span>
-
-<span class="k">val</span> <span class="nv">data</span> <span class="k">=</span> <span class="nv">pipeline</span><span class="o">.</span><span class="py">transform</span><span class="o">(</span><span class="n">df</span><span class="o">)</span>
-
-<span class="nv">data</span><span class="o">.</span><span class="py">storeImage</span><span class="o">(</span><span class="s">"image_with_regions"</span><span class="o">)</span>
-</code></pre></div>  </div>
-
   <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">pyspark.ml</span> <span class="kn">import</span> <span class="n">PipelineModel</span>
 <span class="kn">from</span> <span class="nn">sparkocr.transformers</span> <span class="kn">import</span> <span class="o">*</span>
 
@@ -893,6 +853,46 @@ It’s based on CRAFT network architecture.</p>
 <span class="n">data</span> <span class="o">=</span> <span class="n">pipeline</span><span class="p">.</span><span class="n">transform</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
 
 <span class="n">display_images</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="s">"image_with_regions"</span><span class="p">)</span>
+</code></pre></div>  </div>
+
+  <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="nn">com.johnsnowlabs.ocr.transformers.</span><span class="o">*</span>
+<span class="k">import</span> <span class="nn">com.johnsnowlabs.ocr.OcrContext.implicits._</span>
+
+<span class="k">val</span> <span class="nv">imagePath</span> <span class="k">=</span> <span class="s">"path to image"</span>
+
+<span class="c1">// Read image file as binary file</span>
+<span class="k">val</span> <span class="nv">df</span> <span class="k">=</span> <span class="nv">spark</span><span class="o">.</span><span class="py">read</span>
+  <span class="o">.</span><span class="py">format</span><span class="o">(</span><span class="s">"binaryFile"</span><span class="o">)</span>
+  <span class="o">.</span><span class="py">load</span><span class="o">(</span><span class="n">imagePath</span><span class="o">)</span>
+  <span class="o">.</span><span class="py">asImage</span><span class="o">(</span><span class="s">"image"</span><span class="o">)</span>
+
+<span class="c1">// Define transformer for detect text</span>
+<span class="k">val</span> <span class="nv">text_detector</span> <span class="k">=</span> <span class="nc">ImageTextDetector</span>
+  <span class="o">.</span><span class="py">pretrained</span><span class="o">(</span><span class="s">"text_detection_v1"</span><span class="o">,</span> <span class="s">"en"</span><span class="o">,</span> <span class="s">"clinical/ocr"</span><span class="o">)</span>
+  <span class="o">.</span><span class="py">setInputCol</span><span class="o">(</span><span class="s">"image"</span><span class="o">)</span>
+  <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"text_regions"</span><span class="o">)</span>
+
+<span class="k">val</span> <span class="nv">draw_regions</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">ImageTextDetector</span><span class="o">()</span>
+  <span class="o">.</span><span class="py">setInputCol</span><span class="o">(</span><span class="s">"image"</span><span class="o">)</span>
+  <span class="o">.</span><span class="py">setInputRegionsCol</span><span class="o">(</span><span class="s">"text_regions"</span><span class="o">)</span>
+  <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"image_with_regions"</span><span class="o">)</span>
+  <span class="o">.</span><span class="py">setSizeThreshold</span><span class="o">(</span><span class="mi">10</span><span class="o">)</span>
+  <span class="o">.</span><span class="py">setScoreThreshold</span><span class="o">(</span><span class="mf">0.9</span><span class="o">)</span>
+  <span class="o">.</span><span class="py">setLinkThreshold</span><span class="o">(</span><span class="mf">0.4</span><span class="o">)</span>
+  <span class="o">.</span><span class="py">setTextThreshold</span><span class="o">(</span><span class="mf">0.2</span><span class="o">)</span>
+  <span class="o">.</span><span class="py">setWidth</span><span class="o">(</span><span class="mi">1512</span><span class="o">)</span>
+  <span class="o">.</span><span class="py">setHeight</span><span class="o">(</span><span class="mi">2016</span><span class="o">)</span>
+
+
+<span class="n">pipeline</span> <span class="k">=</span> <span class="nc">PipelineModel</span><span class="o">(</span><span class="n">stages</span><span class="o">=[</span>
+    <span class="kt">binary_to_image</span>,
+    <span class="kt">text_detector</span>,
+    <span class="kt">draw_regions</span>
+<span class="o">])</span>
+
+<span class="k">val</span> <span class="nv">data</span> <span class="k">=</span> <span class="nv">pipeline</span><span class="o">.</span><span class="py">transform</span><span class="o">(</span><span class="n">df</span><span class="o">)</span>
+
+<span class="nv">data</span><span class="o">.</span><span class="py">storeImage</span><span class="o">(</span><span class="s">"image_with_regions"</span><span class="o">)</span>
 </code></pre></div>  </div>
 
 </div>
@@ -1009,9 +1009,6 @@ Currently, it’s available only on Python side.</p>
     <p><button data-type="python" class="tab-li tab-li-second active">Python</button><button data-type="scala" class="tab-li tab-li-second">Scala</button></p>
 </div>
 
-  <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">not</span> <span class="n">implemented</span>
-</code></pre></div>  </div>
-
   <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">pyspark.ml</span> <span class="kn">import</span> <span class="n">PipelineModel</span>
 <span class="kn">from</span> <span class="nn">sparkocr.transformers</span> <span class="kn">import</span> <span class="o">*</span>
 
@@ -1051,6 +1048,9 @@ Currently, it’s available only on Python side.</p>
 <span class="n">data</span> <span class="o">=</span> <span class="n">pipeline</span><span class="p">.</span><span class="n">transform</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
 
 <span class="n">display_images</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="s">"image_with_regions"</span><span class="p">)</span>
+</code></pre></div>  </div>
+
+  <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">not</span> <span class="n">implemented</span>
 </code></pre></div>  </div>
 
 </div>
