@@ -59,14 +59,14 @@ pos = nlp.PerceptronModel.pretrained("pos_anc", 'en')\
           .setInputCols("sentence", "token")\
           .setOutputCol("pos")
 
-depency_parser = nlp.DependencyParserModel.pretrained("dependency_conllu", "en") \
+dependency_parser = nlp.DependencyParserModel.pretrained("dependency_conllu", "en") \
     .setInputCols(["sentence", "pos", "token"]) \
     .setOutputCol("dependencies")
 # ===========
 
 # ===========
 # USE ANY NERMODEL WHICH RETRIEVES ORG
-  We recommend `finner_orgs_prods_alias` because it retrieves also companies Aliases (as "AWS" in the sentence "Amazon Web Services (AWS)")
+# We recommend `finner_orgs_prods_alias` because it retrieves also companies Aliases (as "AWS" in the sentence "Amazon Web Services (AWS)")
 # ===========
 bert_embeddings= nlp.BertEmbeddings.pretrained("bert_embeddings_sec_bert_base","en")\
         .setInputCols(["sentence", "token"])\
@@ -81,27 +81,16 @@ ner_converter_org = nlp.NerConverter()\
         .setOutputCol("ner_chunk_org")\
         .setWhiteList(['ORG', 'PRODUCT', 'ALIAS'])
 
-# ===========
-# USE ANY NERMODEL WHICH RETRIEVES DATES. 
-  In this example, we will go for big accuracy with large Roberta Ontonotes mode
-# ===========
-roberta_embeddings = nlp.RoBertaEmbeddings.pretrained('roberta_large', 'en')\
-      .setInputCols(["token", "sentence"])\
-      .setOutputCol("roberta_embeddings")
+ner_model_dates = finance.NerModel.pretrained('finner_sec_dates', 'en', 'finance/models')\
+        .setInputCols(["sentence", "token", "bert_embeddings"])\
+        .setOutputCol("ner_dates")
 
-ner_model_onto = nlp.NerDLModel.pretrained('ner_ontonotes_roberta_large', 'en') \
-    .setInputCols(['sentence', 'token', 'roberta_embeddings']) \
-    .setOutputCol('ner_onto')
-
-# ===========
-
-ner_converter_onto = nlp.NerConverter()\
-        .setInputCols(["sentence","token","ner_onto"])\
-        .setOutputCol("ner_chunk_onto")\
-        .setWhiteList(["DATE"])
+ner_converter_dates = nlp.NerConverter()\
+        .setInputCols(["sentence","token","ner_dates"])\
+        .setOutputCol("ner_chunk_dates")\
 
 chunk_merger = finance.ChunkMergeApproach()\
-        .setInputCols('ner_chunk_org', "ner_chunk_onto")\
+        .setInputCols('ner_chunk_org', "ner_chunk_dates")\
         .setOutputCol('ner_chunk')
 
 re_ner_chunk_filter = finance.RENerChunksFilter() \
@@ -119,13 +108,12 @@ pipeline = Pipeline(stages=[
         sentence_detector,
         tokenizer,
         bert_embeddings,
-        pos,
         ner_model_org,
-        depency_parser,
-        ner_converter_org,
-        roberta_embeddings,
-        ner_model_onto,
-        ner_converter_onto,
+        ner_converter_org,      
+        ner_model_dates,
+        ner_converter_dates,
+        pos,
+        dependency_parser,        
         chunk_merger,
         re_ner_chunk_filter,
         re_Model
