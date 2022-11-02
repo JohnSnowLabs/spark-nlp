@@ -39,9 +39,9 @@ On the header of the Labeling area, you can find the list of labels defined for 
 ## Labeling Widgets
 ### Completions
 
-A completion is a list of annotations manually defined by a user for a given task. After annotating a task is completed (e.g., all entities highlighted in the text, or one or more classes is assigned to the task in the case of classification projects) user clicks on the _Save_ button to save their progress or _Submit_ button to submit the completion.
+A completion is a list of annotations manually defined by a user for a given task. After completing annotation on a task (e.g., all entities highlighted in the text, or one or more classes is assigned to the task in the case of classification projects) user clicks on the _Save_ button to save their progress or _Submit_ button to submit the completion.
 
-Starting from <bl>Annotation Lab 1.2.0</bl>, we introduced the idea of submitting completion. In the past, annotators could change or delete completions without any restriction. From now on, a submitted completion is no longer editable, and we cannot delete it. Creating a new copy of the submitted completion is the only option to edit it. An annotator can modify or delete their completions only if completions are not submitted yet.
+A submitted completion is no longer editable, and the user cannot delete it. Creating a new copy of the submitted completion is the only option to edit it. An annotator can modify or delete their completions only if completions are not submitted yet.
 
 <img class="image image__shadow" src="/assets/images/annotation_lab/4.1.0/completion_submit.png" style="width:100%;"/>
 
@@ -53,9 +53,9 @@ It is an important to ensure a complete audit trail of all user actions. Annotat
 
 ### Predictions
 
-A prediction is a list of annotations created automatically by <bl>Spark NLP</bl> pre-trained [models](https://nlp.johnsnowlabs.com/docs/en/alab/models) or from the [rules](https://nlp.johnsnowlabs.com/docs/en/alab/rules). We can create predictions using the _Pre-Annotate_ button from the <es>Tasks</es> page. Predictions are read-only, which means users can see the predictions but cannot modify those.
+A prediction is a list of annotations created automatically by <bl>Spark NLP</bl> pre-trained [models](https://nlp.johnsnowlabs.com/docs/en/alab/models) or from the [rules](https://nlp.johnsnowlabs.com/docs/en/alab/rules). A project owner/manager can create predictions using the _Pre-Annotate_ button from the <es>Tasks</es> page. Predictions are read-only, which means users can see the predictions but cannot modify those.
 
-To reuse predictions to bootstrap the annotation process, users can copy it to a new completion. This new completion bootstrapped from the prediction is editable.
+To reuse a prediction to bootstrap the annotation process, users can copy it to a new completion. This new completion bootstrapped from the prediction is editable.
 
 <img class="image image__shadow image__align--center" src="/assets/images/annotation_lab/4.1.0/prediction.png" style="width:40%;"/>
 
@@ -63,7 +63,7 @@ To reuse predictions to bootstrap the annotation process, users can copy it to a
 
 ### Confidence
 
-From version <bl>3.3.0</bl>, running pre-annotations on a text project provides one extra piece of information for the automatic annotations - the confidence score. This score shows the confidence the model has for each of the labeled chunks. It is calculated based on the benchmarking information of the model used to pre-annotate and the score of each prediction. The confidence score is available when working on <es>Named Entity Recognition</es>, <es>Relation Extraction</es>, <es>Assertion</es>, and <es>Classification</es> projects and is also generated when using [Rules](https://nlp.johnsnowlabs.com/docs/en/alab/rules).
+From version <bl>3.3.0</bl>, running pre-annotations on a text project provides one extra piece of information for the automatic annotations - the confidence score. This score shows the confidence the model has for each of the labeled chunks it predicts. It is calculated based on the benchmarking information of the model used to pre-annotate and the score of each prediction. The confidence score is available when working on <es>Named Entity Recognition</es>, <es>Relation Extraction</es>, <es>Assertion</es>, and <es>Classification</es> projects and is also generated when using [Rules](https://nlp.johnsnowlabs.com/docs/en/alab/rules).
 
 <img class="image image__shadow" src="/assets/images/annotation_lab/4.1.0/confidence.png" style="width:100%;"/>
 
@@ -105,7 +105,7 @@ To delete the label from the text, we first click on the text on the labeling ed
 
 #### Trim leading and ending special characters in annotated chunks
 
-When annotating text, it is possible and probable that the annotation is not very precise and the chunks contain leading/trailing spaces and punctuation marks. As of version 2.8.0 all the leading/trailing spaces and punctuation marks are excluded by default. The labeling editor settings now have a new configuration option that can be used to enable/disable this feature if necessary.
+When annotating text, it is possible and probable that the annotation is not very precise and the chunks contain leading/trailing spaces and punctuation marks. By default all the leading/trailing spaces and punctuation marks are excluded from the annotated chunk. The labeling editor settings has a new configuration option that can be used to enable/disable this feature if necessary.
 
 ![trim_spaces_punctuations](/assets/images/annotation_lab/4.1.0/trimming_characters.gif)
 

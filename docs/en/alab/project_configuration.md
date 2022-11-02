@@ -20,15 +20,20 @@ For customizing a predefined configuration, click on the corresponding link in t
 After you finish editing the labels you want to define for your project click the “Save” button.
 
 ### Project templates 
-We currently support multiple predefined project configurations. The most popular ones are **Text Classification** and **Named Entity Recognition**. Create a setup from scratch or customize a predefined one according to your needs.
+
+We currently support multiple predefined project configurations. The most popular ones are **Text Classification**, **Named Entity Recognition** and **Visual NER**. 
+
+**Content Type**
+
+The first step when creating a new project or customizing an existing one is to choose what content you need to annotate. Five content types are currently supported: `Audio`, `HTML`, `Image`, `PDF` and `Text`. For each content type a list of available templates is available. You can pick any one of those as a starting point in your project configuration. 
 
 
- <img class="image image--xl image__shadow" src="/assets/images/annotation_lab/4.1.0/template.jpg" style="width:100%"/>
+ <img class="image image--xl image__shadow" src="/assets/images/annotation_lab/4.2.0/template.png" style="width:100%"/>
 
  
-For customizing a predefined configuration, click on the corresponding link in the table above and then navigate to the Labeling config widget and manually edit/update it to contain the labels you need. 
+For customizing a predefined configuration, choose a `Content Type` and then a template from the list. Then navigate to the `Customize Labels` tab and manually edit/update the configuration to contain the labels you need. 
  
-After you finish editing the labels you want to define for your project click the “Save” button. 
+After you finish editing the labels click the “Save” button. 
 
 ### NER Labeling
 Named Entity Recognition (NER) refers to the identification and classification of entities mentioned in unstructured text into pre-defined categories such as person names, organizations, locations, medical codes, time expressions, quantities, monetary values, percentages, etc.
@@ -38,10 +43,10 @@ The **Annotation Lab** offers support for two types of labels:
 -	Simple labels for NER or assertion models;
 -	Binary relations for relation extraction models. 
 
-<img class="image image--xl image__shadow" src="/assets/images/annotation_lab/4.1.0/NER_template.png" style="width:100%;"/>
+<img class="image image--xl image__shadow" src="/assets/images/annotation_lab/4.2.0/NER_Template.png" style="width:100%;"/>
  
 ### Assertion Labels 
-The syntax for defining an Assertion Status label is the same as for the NER labels, with an additional attribute - **assertion** which should be set to true (see example below). This is convention defined by Annotation Lab users which we exploited for identifying the labels to include in the training and prediction of Assertion Models.
+The syntax for defining an Assertion Status label is the same as for the NER labels, with an additional attribute - **assertion** which should be set to true (see example below). This convention is defined by Annotation Lab users which we exploited for identifying the labels to include in the training and prediction of Assertion Models.
 A simple Labeling Config with Assertion Status defined should look like the following:
 
 ```bash
@@ -58,10 +63,10 @@ A simple Labeling Config with Assertion Status defined should look like the foll
 </View>
 </View>
 ```
-Notice assertion="true" in **Absent** and **Past** labels, which marks each of those labels as Assertion Status Labels.
+> **NOTE:**  Notice assertion="true" in **Absent** and **Past** labels, which marks each of those labels as Assertion Status Labels.
 
 ### Relation Extraction 
-The Annotation Lab also offers support for relation extraction. Relations are introduced by simply specifying their label in the project configuration. 
+Annotation Lab also offers support for relation extraction. Relations are introduced by simply specifying their label in the project configuration. 
 
 ```bash
 <Relations>

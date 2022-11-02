@@ -17,7 +17,7 @@ The **Tasks** screen shows a list of all documents that have been imported into 
 
 Under each task you can see meta data about the task: the time of import, the user who imported the task and the annotators and reviewers assigned to the task. 
 
-<img class="image image__shadow" src="/assets/images/annotation_lab/1.6.0/tasks_annotator.png" style="width:100%;"/>
+<img class="image image__shadow" src="/assets/images/annotation_lab/4.2.0/tasks.png" style="width:100%;"/>
 
 
 ## Task Assignment 

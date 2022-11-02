@@ -72,7 +72,7 @@ annotation-lab:
         url: /docs/en/alab/quickstart
       - title: Installation
         url: /docs/en/alab/install
-      - subtitle: Resources – Models and Rules
+      - subtitle: Resources Hub
         children:
           - title: Models Hub
             url: /docs/en/alab/models_hub

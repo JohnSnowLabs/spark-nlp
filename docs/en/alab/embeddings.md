@@ -13,7 +13,7 @@ sidebar:
     nav: annotation-lab
 ---
 
-All the embeddings available in the Annotation Lab are listed on this page. General information about the embeddings like the name, version, source, and date of upload/download is viewable. Like models, any compatible embeddings can be downloaded from [NLP Models Hub](https://nlp.johnsnowlabs.com/models). By default, `glove_100d`, `bert_base_cased`, `tfhub_use` embeddings are included in every fresh installation of Annotation Lab.
+All the embeddings available in the Annotation Lab are listed on this page. General information about the embeddings like the name, version, source, and date of upload/download is available. Like models, any compatible embeddings can be downloaded from [NLP Models Hub](https://nlp.johnsnowlabs.com/models). By default, `glove_100d`, `bert_base_cased`, `tfhub_use` embeddings are included in every fresh installation of Annotation Lab.
 
 <img class="image image__shadow image__align--center" src="/assets/images/annotation_lab/4.1.0/embeddings.png" style="width:100%;" />
 

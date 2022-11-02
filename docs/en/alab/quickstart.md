@@ -23,8 +23,8 @@ sidebar:
 ## Lightning fast annotation - for FREE
 
 A highly efficient annotation tool for all enterprise teams who need to:
-- annotate documents;
-- build ML models & get them to production;
+- annotate text, PDF and image documents;
+- build NLP models & get them to production;
 
 All that **without writing a line of code**!
 
@@ -95,17 +95,26 @@ All that **without writing a line of code**!
 
 ## Quick Intro
 
-Annotation Lab is a robust solution that enables customers to annotate their data and train/tune DL models in a simple, fast, and efficient project-based workflow without writing a line of code. It also supports multi-model data annotation.
+Annotation Lab is a Free End-to-End No-Code platform for document labeling and AI/ML model training. It enables domain experts (e.g. nurses, doctors, lawyers, accountants, investors, etc.) to extract meaningful facts from text documents, images or PDFs and train models that will automatically predict those facts on new documents. This is done by using state-of-the-art Spark NLP pre-trained models or by tuning models to better handle specific use cases.
 
-**Features:**
+Based on an auto-scaling architecture powered by Kubernetes, it can scale to many teams and projects. Enterprise-grade security is provided for free including support for air-gap environments, zero data sharing, role-based access, full audit trails, MFA, and identity provider integrations. It allows powerful experiments for model training and finetuning, model testing, and model deployment as API endpoints.
+There is no limitation on the number of users, projects, tasks, models, or trainings that can be run with this subscription.
 
-- Human-in-the-loop AI
-- High productivity annotation UI with keyboard shortcuts and pre-annotations
-- Pre-annotate tasks using the latest Spark NLP models for classification, NER, assertion status and relation models
-- Pre-annotate PDF and image tasks with Visual NER models
-- Support for annotating text, images, video, audio and HTML
-- Annotate entities, relationships, assertion status, classification, normalization and more
-- Increase inter-annotator agreement with guidelines, reviews and comparison of versions
-- Define projects, users with fine-grained project specific authorization controls for role-based access and permissions
-- Customize workflow and tags
-- Audit trail of tasks and completions
+Healthcare and Visual features are available via BYOL.
+
+**Included Features:**
+
+- Annotation support for Text, Image, Audio, Video and HTML content;
+- High productivity annotation UI with keyboard shortcuts and pre-annotations;
+- Support for text annotation in 250+ languages;
+- Out-of-the-box support for the following NLP tasks: Classification, Named Entity Recognition, Assertion Status, and Relation Extraction;
+- Support for projects and teams: 30+ project templates; unlimited projects and users, project import, export and cloning, project grouping;
+- Task assignment, tagging, and comments; duplicate tasks identification; task searching and filtering;
+- Consensus analysis and Inter Annotator Agreement charts;
+- Performance dashboards;
+- Enterprise-level security and privacy: role-based access control, role-based views, annotation versioning, full audit trail, Single Sign on;
+- AI-Assisted Annotation: never start from scratch but reuse existing models to pre-annotate tasks with the latest Spark NLP models for classification, NER, assertion status, and relation detection;
+- Full Models Hub integration: you can explore available models and embeddings, download them with the click of a button and reuse those in your project configuration.
+- Train Classification, NER, and Assertion Status models: use default parameters or easily tune them on the UI for different experiments;
+- Active Learning automatically trains new versions of your models once new annotations are available;
+- API access to all features for easy integration into custom data analysis pipelines;
