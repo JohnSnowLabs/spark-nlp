@@ -8,7 +8,7 @@ tags: [en, legal, classification, clauses, licensed]
 task: Text Classification
 language: en
 edition: Spark NLP for Legal 1.0.0
-spark_version: 3.2
+spark_version: 3.0
 supported: true
 article_header:
   type: cover
@@ -43,6 +43,7 @@ This model can be combined with any of the other 200+ Legal Clauses Classifiers 
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
+
 ```python
 documentAssembler = nlp.DocumentAssembler() \
      .setInputCol("clause_text") \
@@ -102,13 +103,10 @@ Legal documents, scrapped from the Internet, and classified in-house
 ## Benchmarking
 
 ```bash
-                   precision    recall  f1-score   support
-
+            label   precision    recall  f1-score   support
 legal-proceedings       0.96      0.79      0.87        29
             other       0.95      0.99      0.97       106
-
-         accuracy                           0.95       135
-        macro avg       0.95      0.89      0.92       135
-     weighted avg       0.95      0.95      0.95       135
-
+         accuracy         -         -       0.95       135
+        macro-avg       0.95      0.89      0.92       135
+     weighted-avg       0.95      0.95      0.95       135
 ```

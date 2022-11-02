@@ -8,7 +8,7 @@ tags: [en, finance, companies, crunchbase, data, augmentation, licensed]
 task: Chunk Mapping
 language: en
 edition: Spark NLP for Finance 1.0.0
-spark_version: 3.2
+spark_version: 3.0
 supported: true
 article_header:
   type: cover
@@ -36,6 +36,7 @@ This model only contains information up to 2015.
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
+
 ```python
 document_assembler = nlp.DocumentAssembler()\
       .setInputCol('text')\

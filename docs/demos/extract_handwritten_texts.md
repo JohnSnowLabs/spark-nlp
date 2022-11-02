@@ -23,8 +23,6 @@ data:
           id: extract-signatures-new
           image: 
               src: /assets/images/Extract_Signatures_new.svg
-          image2: 
-              src: /assets/images/Extract_Signatures_new_f.svg
           excerpt: This demo shows how handwritten signatures can be extracted from image/pdf documents using Spark OCR.
           actions:
           - text: Live Demo
@@ -37,8 +35,6 @@ data:
           id: detect-handwritten-entities 
           image: 
               src: /assets/images/Detect_Handwritten_entities.svg
-          image2: 
-              src: /assets/images/Detect_Handwritten_entities_f.svg
           excerpt: This demo shows how entities can be detected in image or pdf documents using Spark OCR.
           actions:
           - text: Live Demo

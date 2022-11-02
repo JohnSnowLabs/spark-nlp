@@ -108,7 +108,7 @@ result.select("label.result").show(false)
 {%- endcapture -%}
 
 {%- capture python_api_link -%}
-[CamemBertForTokenClassification](/api/python/reference/autosummary/sparknlp/annotator/classifier_dl/camembert_for_token_classification/index.html#sparknlp.annotator.classifier_dl.camembert_for_token_classification.CamemBertForTokenClassification)
+[CamemBertForTokenClassification](/api/python/reference/autosummary/python/sparknlp/annotator/classifier_dl/camembert_for_token_classification/index.html#sparknlp.annotator.classifier_dl.camembert_for_token_classification.CamemBertForTokenClassification)
 {%- endcapture -%}
 
 {%- capture source_link -%}

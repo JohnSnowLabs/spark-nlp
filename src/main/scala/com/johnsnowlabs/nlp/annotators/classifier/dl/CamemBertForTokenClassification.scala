@@ -22,16 +22,20 @@ import com.johnsnowlabs.ml.tensorflow.sentencepiece.{
   SentencePieceWrapper,
   WriteSentencePieceModel
 }
+import com.johnsnowlabs.ml.util.LoadExternalModel.{
+  loadSentencePieceAsset,
+  loadTextAsset,
+  modelSanityCheck,
+  notSupportedEngineError
+}
+import com.johnsnowlabs.ml.util.ModelEngine
 import com.johnsnowlabs.nlp._
 import com.johnsnowlabs.nlp.annotators.common._
 import com.johnsnowlabs.nlp.serialization.MapFeature
-import com.johnsnowlabs.nlp.util.io.{ExternalResource, ReadAs, ResourceHelper}
 import org.apache.spark.broadcast.Broadcast
 import org.apache.spark.ml.param.{IntArrayParam, IntParam}
 import org.apache.spark.ml.util.Identifiable
 import org.apache.spark.sql.SparkSession
-
-import java.io.File
 
 /** CamemBertForTokenClassification can load CamemBERT Models with a token classification head on
   * top (a linear layer on top of the hidden-states output) e.g. for Named-Entity-Recognition
@@ -119,7 +123,8 @@ class CamemBertForTokenClassification(override val uid: String)
     with HasBatchedAnnotate[CamemBertForTokenClassification]
     with WriteTensorflowModel
     with WriteSentencePieceModel
-    with HasCaseSensitiveProperties {
+    with HasCaseSensitiveProperties
+    with HasEngine {
 
   /** Annotator reference id. Used to identify elements in metadata or to refer to this annotator
     * type
@@ -330,45 +335,40 @@ trait ReadCamemBertForTokenTensorflowModel
 
   addReader(readTensorflow)
 
-  def loadSavedModel(
-      tfModelPath: String,
-      spark: SparkSession): CamemBertForTokenClassification = {
-    val f = new File(tfModelPath)
-    val savedModel = new File(tfModelPath, "saved_model.pb")
-    require(f.exists, s"Folder $tfModelPath not found")
-    require(f.isDirectory, s"File $tfModelPath is not folder")
-    require(
-      savedModel.exists(),
-      s"savedModel file saved_model.pb not found in folder $tfModelPath")
-    val sppModelPath = tfModelPath + "/assets"
-    val sppModel = new File(sppModelPath, "sentencepiece.bpe.model")
-    require(
-      sppModel.exists(),
-      s"SentencePiece model sentencepiece.bpe.model not found in folder $sppModelPath")
+  def loadSavedModel(modelPath: String, spark: SparkSession): CamemBertForTokenClassification = {
 
-    val labelsPath = new File(tfModelPath + "/assets", "labels.txt")
-    require(
-      labelsPath.exists(),
-      s"Labels file labels.txt not found in folder $tfModelPath/assets/")
+    val (localModelPath, detectedEngine) = modelSanityCheck(modelPath)
 
-    val labelsResource =
-      new ExternalResource(labelsPath.getAbsolutePath, ReadAs.TEXT, Map("format" -> "text"))
-    val labels = ResourceHelper.parseLines(labelsResource).zipWithIndex.toMap
+    val spModel = loadSentencePieceAsset(localModelPath, "sentencepiece.bpe.model")
+    val labels = loadTextAsset(localModelPath, "labels.txt").zipWithIndex.toMap
 
-    val (wrapper, signatures) =
-      TensorflowWrapper.read(tfModelPath, zipped = false, useBundle = true)
-    val spp = SentencePieceWrapper.read(sppModel.toString)
+    val annotatorModel = new CamemBertForTokenClassification()
+      .setLabels(labels)
 
-    val _signatures = signatures match {
-      case Some(s) => s
-      case None => throw new Exception("Cannot load signature definitions from model!")
+    annotatorModel.set(annotatorModel.engine, detectedEngine)
+
+    detectedEngine match {
+      case ModelEngine.tensorflow =>
+        val (wrapper, signatures) =
+          TensorflowWrapper.read(localModelPath, zipped = false, useBundle = true)
+
+        val _signatures = signatures match {
+          case Some(s) => s
+          case None => throw new Exception("Cannot load signature definitions from model!")
+        }
+
+        /** the order of setSignatures is important if we use getSignatures inside
+          * setModelIfNotSet
+          */
+        annotatorModel
+          .setSignatures(_signatures)
+          .setModelIfNotSet(spark, wrapper, spModel)
+
+      case _ =>
+        throw new Exception(notSupportedEngineError)
     }
 
-    /** the order of setSignatures is important if we use getSignatures inside setModelIfNotSet */
-    new CamemBertForTokenClassification()
-      .setLabels(labels)
-      .setSignatures(_signatures)
-      .setModelIfNotSet(spark, wrapper, spp)
+    annotatorModel
   }
 }
 

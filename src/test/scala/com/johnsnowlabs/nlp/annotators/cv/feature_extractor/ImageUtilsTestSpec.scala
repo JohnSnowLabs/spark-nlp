@@ -42,7 +42,7 @@ class ImageUtilsTestSpec extends AnyFlatSpec {
     JsonParser.parseObject[Preprocessor](preprocessorConfigJsonContent)
 
   val imageBufferedImage: BufferedImage =
-    ImageIOUtils.loadImage("src/test/resources/image/egyptian_cat.jpeg")
+    ImageIOUtils.loadImage("src/test/resources/image/egyptian_cat.jpeg").get
   val isGray: Boolean =
     imageBufferedImage.getColorModel.getColorSpace.getType == ColorSpace.TYPE_GRAY
   val hasAlpha: Boolean = imageBufferedImage.getColorModel.hasAlpha
@@ -101,7 +101,7 @@ class ImageUtilsTestSpec extends AnyFlatSpec {
 
   "ImageResizeUtils" should "read preprocessor_config.json file" taggedAs FastTest in {
     val preprocessorConfig =
-      Preprocessor.loadPreprocessorConfig(preprocessorConfigPath.getAbsolutePath)
+      Preprocessor.loadPreprocessorConfig(preprocessorConfigJsonContent)
 
     assert(preprocessorConfig.feature_extractor_type == "ViTFeatureExtractor")
     assert(preprocessorConfig.image_mean sameElements Array(0.5d, 0.5d, 0.5d))

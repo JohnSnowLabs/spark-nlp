@@ -8,7 +8,7 @@ tags: [en, legal, deid, deidentification, licensed]
 task: De-identification
 language: en
 edition: Spark NLP for Legal 1.0.0
-spark_version: 3.2
+spark_version: 3.0
 supported: true
 recommended: true
 article_header:
@@ -45,6 +45,7 @@ You can carry out both masking and obfuscation with this pipeline, on the follow
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
+
 ```python
 from sparknlp.pretrained import PretrainedPipeline
 

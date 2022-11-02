@@ -8,7 +8,7 @@ tags: [en, finance, ner, licensed]
 task: Named Entity Recognition
 language: en
 edition: Spark NLP for Finance 1.0.0
-spark_version: 3.2
+spark_version: 3.0
 supported: true
 article_header:
   type: cover
@@ -38,6 +38,7 @@ This is an NER model trained on SEC 10K documents, aimed to extract the followin
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
+
 ```python
 documentAssembler = nlp.DocumentAssembler()\
         .setInputCol("text")\
@@ -120,17 +121,15 @@ SEC 10-K filings with in-house annotations
 ## Benchmarking
 
 ```bash
-Total test loss: 400.4720	Avg test loss: 4.5508
-label	 tp	 fp	 fn	 prec	 rec	 f1
-B-PERSON	 254	 20	 56	 0.9270073	 0.81935483	 0.86986303
-I-ORG	 1161	 133	 231	 0.8972179	 0.8340517	 0.8644826
-B-DATE	 202	 15	 14	 0.9308756	 0.9351852	 0.9330255
-I-DATE	 302	 29	 12	 0.9123867	 0.96178347	 0.93643415
-B-ROLE	 219	 21	 47	 0.9125	 0.8233083	 0.8656126
-B-ORG	 674	 92	 163	 0.87989557	 0.80525684	 0.84092325
-I-ROLE	 260	 26	 68	 0.90909094	 0.79268295	 0.8469055
-I-PERSON	 501	 34	 94	 0.9364486	 0.8420168	 0.88672566
-tp: 3573 fp: 370 fn: 685 labels: 8
-Macro-average	 prec: 0.91317785, rec: 0.851705, f1: 0.8813709
-Micro-average	 prec: 0.9061628, rec: 0.83912635, f1: 0.8713572
+label              tp     fp    fn        prec           rec            f1
+B-PERSON           254    20    56        0.9270073      0.81935483     0.86986303
+I-ORG              1161   133   231       0.8972179      0.8340517      0.8644826
+B-DATE             202    15    14        0.9308756      0.9351852      0.9330255
+I-DATE             302    29    12        0.9123867      0.96178347     0.93643415
+B-ROLE             219    21    47        0.9125         0.8233083      0.8656126
+B-ORG              674    92    163       0.87989557     0.80525684     0.84092325
+I-ROLE             260    26    68        0.90909094     0.79268295     0.8469055
+I-PERSON           501    34	94        0.9364486      0.8420168      0.88672566
+Macro-average      3573   370   685       0.91317785     0.851705       0.8813709
+Micro-average      3573   370   685       0.9061628      0.83912635     0.8713572
 ```

@@ -38,7 +38,7 @@ class TensorflowWav2Vec2ForCTC(
 
   private def sessionWarmup(): Unit = {
     val bufferedSource =
-      scala.io.Source.fromInputStream(getClass.getResourceAsStream("/audio/audi_floats.csv"))
+      scala.io.Source.fromInputStream(getClass.getResourceAsStream("/audio/audio_floats.csv"))
 
     val rawFloats = bufferedSource
       .getLines()

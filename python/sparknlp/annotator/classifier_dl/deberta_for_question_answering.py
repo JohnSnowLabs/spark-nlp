@@ -17,7 +17,8 @@ from sparknlp.common import *
 
 class DeBertaForQuestionAnswering(AnnotatorModel,
                                   HasCaseSensitiveProperties,
-                                  HasBatchedAnnotate):
+                                  HasBatchedAnnotate,
+                                  HasEngine):
     """DeBertaForQuestionAnswering can load DeBERTa Models with a span classification head on top for extractive
     question-answering tasks like SQuAD (a linear layer on top of the hidden-states output to compute span start
     logits and span end logits).

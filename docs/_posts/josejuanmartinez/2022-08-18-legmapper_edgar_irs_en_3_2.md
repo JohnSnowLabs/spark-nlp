@@ -8,7 +8,7 @@ tags: [en, legal, companies, edgar, data, augmentation, irs, licensed]
 task: Chunk Mapping
 language: en
 edition: Spark NLP for Legal 1.0.0
-spark_version: 3.2
+spark_version: 3.0
 supported: true
 article_header:
   type: cover
@@ -40,6 +40,7 @@ This Chunk Mapper model allows you to, given a detected IRS with any NER model, 
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
+
 ```python
 document_assembler = nlp.DocumentAssembler()\
       .setInputCol('text')\

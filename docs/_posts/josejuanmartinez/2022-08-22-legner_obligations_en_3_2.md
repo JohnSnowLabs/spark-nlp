@@ -8,7 +8,7 @@ tags: [en, legal, ner, obligations, agreements, licensed]
 task: Named Entity Recognition
 language: en
 edition: Spark NLP for Legal 1.0.0
-spark_version: 3.2
+spark_version: 3.0
 supported: true
 article_header:
   type: cover
@@ -40,6 +40,7 @@ The object is usually very diverse (will provide with technology? documents? peo
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
+
 ```python
 from johnsnowlabs import *
 
@@ -123,8 +124,7 @@ In-house annotated documents on CUAD dataset
 ## Benchmarking
 
 ```bash
-                              precision    recall  f1-score   support
-
+                       label  precision    recall  f1-score   support
                 B-OBLIGATION       0.61      0.44      0.51        93
          B-OBLIGATION_ACTION       0.88      0.89      0.89        85
 B-OBLIGATION_INDIRECT_OBJECT       0.69      0.71      0.70        34
@@ -133,8 +133,7 @@ B-OBLIGATION_INDIRECT_OBJECT       0.69      0.71      0.70        34
          I-OBLIGATION_ACTION       0.80      0.79      0.79       167
         I-OBLIGATION_SUBJECT       0.75      0.43      0.55        14
                            O       0.87      0.84      0.85      2395
-
-                    accuracy                           0.81      4126
-                   macro avg       0.76      0.72      0.73      4126
-                weighted avg       0.81      0.81      0.81      4126
+                    accuracy         -         -       0.81      4126
+                   macro-avg       0.76      0.72      0.73      4126
+                weighted-avg       0.81      0.81      0.81      4126
 ```

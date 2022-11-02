@@ -120,7 +120,7 @@ result.select("checked.result").show(false)
 {%- endcapture -%}
 
 {%- capture model_python_api_link -%}
-[ContextSpellCheckerModel](/api/python/reference/autosummary/sparknlp/annotator/spell_check/context_spell_checker/index.html#sparknlp.annotator.spell_check.context_spell_checker.ContextSpellCheckerModel)
+[ContextSpellCheckerModel](/api/python/reference/autosummary/python/sparknlp/annotator/spell_check/context_spell_checker/index.html#sparknlp.annotator.spell_check.context_spell_checker.ContextSpellCheckerModel)
 {%- endcapture -%}
 
 {%- capture model_source_link -%}
@@ -239,7 +239,7 @@ val pipelineModel = pipeline.fit(dataset)
 {%- endcapture -%}
 
 {%- capture approach_python_api_link -%}
-[ContextSpellCheckerApproach](/api/python/reference/autosummary/sparknlp/annotator/spell_check/context_spell_checker/index.html#sparknlp.annotator.spell_check.context_spell_checker.ContextSpellCheckerApproach)
+[ContextSpellCheckerApproach](/api/python/reference/autosummary/python/sparknlp/annotator/spell_check/context_spell_checker/index.html#sparknlp.annotator.spell_check.context_spell_checker.ContextSpellCheckerApproach)
 {%- endcapture -%}
 
 {%- capture approach_source_link -%}

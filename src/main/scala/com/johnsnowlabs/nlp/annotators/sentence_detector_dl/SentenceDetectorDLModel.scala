@@ -146,7 +146,8 @@ class SentenceDetectorDLModel(override val uid: String)
     with HasSimpleAnnotate[SentenceDetectorDLModel]
     with HasStorageRef
     with ParamsAndFeaturesWritable
-    with WriteTensorflowModel {
+    with WriteTensorflowModel
+    with HasEngine {
 
   def this() = this(Identifiable.randomUID("SentenceDetectorDLModel"))
 

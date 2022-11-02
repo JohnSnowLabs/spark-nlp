@@ -17,18 +17,21 @@
 package com.johnsnowlabs.nlp.embeddings
 
 import com.johnsnowlabs.ml.tensorflow._
+import com.johnsnowlabs.ml.util.LoadExternalModel.{
+  loadTextAsset,
+  modelSanityCheck,
+  notSupportedEngineError
+}
+import com.johnsnowlabs.ml.util.ModelEngine
 import com.johnsnowlabs.nlp._
 import com.johnsnowlabs.nlp.annotators.common._
 import com.johnsnowlabs.nlp.annotators.tokenizer.wordpiece.{BasicTokenizer, WordpieceEncoder}
 import com.johnsnowlabs.nlp.serialization.MapFeature
-import com.johnsnowlabs.nlp.util.io.{ExternalResource, ReadAs, ResourceHelper}
 import com.johnsnowlabs.storage.HasStorageRef
 import org.apache.spark.broadcast.Broadcast
 import org.apache.spark.ml.param.{BooleanParam, IntArrayParam, IntParam}
 import org.apache.spark.ml.util.Identifiable
 import org.apache.spark.sql.{DataFrame, SparkSession}
-
-import java.io.File
 
 /** Sentence-level embeddings using BERT. BERT (Bidirectional Encoder Representations from
   * Transformers) provides dense vector representations for natural language by using a deep,
@@ -150,7 +153,8 @@ class BertSentenceEmbeddings(override val uid: String)
     with WriteTensorflowModel
     with HasEmbeddingsProperties
     with HasStorageRef
-    with HasCaseSensitiveProperties {
+    with HasCaseSensitiveProperties
+    with HasEngine {
 
   def this() = this(Identifiable.randomUID("BERT_SENTENCE_EMBEDDINGS"))
 
@@ -419,7 +423,7 @@ trait ReadablePretrainedBertSentenceModel
     super.pretrained(name, lang, remoteLoc)
 }
 
-trait ReadBertSentenceTensorflowModel extends ReadTensorflowModel {
+trait ReadBertSentenceDLModel extends ReadTensorflowModel {
   this: ParamsAndFeaturesReadable[BertSentenceEmbeddings] =>
 
   override val tfFile: String = "bert_sentence_tensorflow"
@@ -435,35 +439,40 @@ trait ReadBertSentenceTensorflowModel extends ReadTensorflowModel {
 
   addReader(readTensorflow)
 
-  def loadSavedModel(folder: String, spark: SparkSession): BertSentenceEmbeddings = {
+  def loadSavedModel(modelPath: String, spark: SparkSession): BertSentenceEmbeddings = {
 
-    val f = new File(folder)
-    val savedModel = new File(folder, "saved_model.pb")
-    require(f.exists, s"Folder $folder not found")
-    require(f.isDirectory, s"File $folder is not folder")
-    require(savedModel.exists(), s"savedModel file saved_model.pb not found in folder $folder")
+    val (localModelPath, detectedEngine) = modelSanityCheck(modelPath)
 
-    val vocab = new File(folder + "/assets", "vocab.txt")
-    require(f.exists, s"Folder $folder not found")
-    require(f.isDirectory, s"File $folder is not folder")
-    require(vocab.exists(), s"Vocabulary file vocab.txt not found in folder $folder")
+    val vocabs = loadTextAsset(localModelPath, "vocab.txt").zipWithIndex.toMap
 
-    val vocabResource =
-      new ExternalResource(vocab.getAbsolutePath, ReadAs.TEXT, Map("format" -> "text"))
-    val words = ResourceHelper.parseLines(vocabResource).zipWithIndex.toMap
+    /*Universal parameters for all engines*/
+    val annotatorModel = new BertSentenceEmbeddings()
+      .setVocabulary(vocabs)
 
-    val (wrapper, signatures) = TensorflowWrapper.read(folder, zipped = false, useBundle = true)
+    annotatorModel.set(annotatorModel.engine, detectedEngine)
 
-    val _signatures = signatures match {
-      case Some(s) => s
-      case None => throw new Exception("Cannot load signature definitions from model!")
+    detectedEngine match {
+      case ModelEngine.tensorflow =>
+        val (wrapper, signatures) =
+          TensorflowWrapper.read(localModelPath, zipped = false, useBundle = true)
+
+        val _signatures = signatures match {
+          case Some(s) => s
+          case None => throw new Exception("Cannot load signature definitions from model!")
+        }
+
+        /** the order of setSignatures is important if we use getSignatures inside
+          * setModelIfNotSet
+          */
+        annotatorModel
+          .setSignatures(_signatures)
+          .setModelIfNotSet(spark, wrapper)
+
+      case _ =>
+        throw new Exception(notSupportedEngineError)
     }
 
-    /** the order of setSignatures is important if we use getSignatures inside setModelIfNotSet */
-    new BertSentenceEmbeddings()
-      .setVocabulary(words)
-      .setSignatures(_signatures)
-      .setModelIfNotSet(spark, wrapper)
+    annotatorModel
   }
 }
 
@@ -472,4 +481,4 @@ trait ReadBertSentenceTensorflowModel extends ReadTensorflowModel {
   */
 object BertSentenceEmbeddings
     extends ReadablePretrainedBertSentenceModel
-    with ReadBertSentenceTensorflowModel
+    with ReadBertSentenceDLModel

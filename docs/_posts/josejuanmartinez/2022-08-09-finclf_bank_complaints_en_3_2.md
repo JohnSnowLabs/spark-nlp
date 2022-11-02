@@ -8,7 +8,7 @@ tags: [en, finance, bank, classification, licensed]
 task: Text Classification
 language: en
 edition: Spark NLP for Finance 1.0.0
-spark_version: 3.2
+spark_version: 3.0
 supported: true
 article_header:
   type: cover
@@ -34,6 +34,7 @@ This model classifies Bank-related texts into different 7 different categories, 
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
+
 ```python
 document_assembler = nlp.DocumentAssembler() \
     .setInputCol("text") \
@@ -90,18 +91,15 @@ https://www.consumerfinance.gov/data-research/consumer-complaints/#download-the-
 ## Benchmarking
 
 ```bash
-                             precision    recall  f1-score   support
-
+                      label  precision    recall  f1-score   support
                    Accounts       0.77      0.73      0.75       490
-               Credit Cards       0.75      0.68      0.72       461
-           Credit Reporting       0.73      0.81      0.76       488
-            Debt Collection       0.72      0.72      0.72       459
+               Credit_Cards       0.75      0.68      0.72       461
+           Credit_Reporting       0.73      0.81      0.76       488
+            Debt_Collection       0.72      0.72      0.72       459
                       Loans       0.78      0.78      0.78       472
-Money Transfer and Currency       0.82      0.84      0.83       482
+Money_Transfer_and_Currency       0.82      0.84      0.83       482
                    Mortgage       0.87      0.87      0.87       488
-
-                   accuracy                           0.78      3340
-                  macro avg       0.78      0.78      0.78      3340
-               weighted avg       0.78      0.78      0.78      3340
-
+                   accuracy         -         -       0.78      3340
+                  macro-avg       0.78      0.78      0.78      3340
+               weighted-avg       0.78      0.78      0.78      3340
 ```

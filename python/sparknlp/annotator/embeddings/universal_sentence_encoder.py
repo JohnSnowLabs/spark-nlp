@@ -13,14 +13,14 @@
 #  limitations under the License.
 """Contains classes for the UniversalSentenceEncoder."""
 
-
 from sparknlp.common import *
 
 
 class UniversalSentenceEncoder(AnnotatorModel,
                                HasEmbeddingsProperties,
                                HasStorageRef,
-                               HasBatchedAnnotate):
+                               HasBatchedAnnotate,
+                               HasEngine):
     """The Universal Sentence Encoder encodes text into high dimensional vectors
     that can be used for text classification, semantic similarity, clustering
     and other natural language tasks.
@@ -205,4 +205,3 @@ class UniversalSentenceEncoder(AnnotatorModel,
         """
         from sparknlp.pretrained import ResourceDownloader
         return ResourceDownloader.downloadModel(UniversalSentenceEncoder, name, lang, remote_loc)
-

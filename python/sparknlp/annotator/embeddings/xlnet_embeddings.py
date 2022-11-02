@@ -13,7 +13,6 @@
 #  limitations under the License.
 """Contains classes for XlnetEmbeddings."""
 
-
 from sparknlp.common import *
 
 
@@ -21,7 +20,8 @@ class XlnetEmbeddings(AnnotatorModel,
                       HasEmbeddingsProperties,
                       HasCaseSensitiveProperties,
                       HasStorageRef,
-                      HasBatchedAnnotate):
+                      HasBatchedAnnotate,
+                      HasEngine):
     """XlnetEmbeddings (XLNet): Generalized Autoregressive Pretraining for
     Language Understanding
 
@@ -235,4 +235,3 @@ class XlnetEmbeddings(AnnotatorModel,
         """
         from sparknlp.pretrained import ResourceDownloader
         return ResourceDownloader.downloadModel(XlnetEmbeddings, name, lang, remote_loc)
-

@@ -16,7 +16,7 @@
 from sparknlp.common import *
 
 
-class MarianTransformer(AnnotatorModel, HasBatchedAnnotate):
+class MarianTransformer(AnnotatorModel, HasBatchedAnnotate, HasEngine):
     """MarianTransformer: Fast Neural Machine Translation
 
     Marian is an efficient, free Neural Machine Translation framework written in
@@ -247,4 +247,3 @@ class MarianTransformer(AnnotatorModel, HasBatchedAnnotate):
         """
         from sparknlp.pretrained import ResourceDownloader
         return ResourceDownloader.downloadModel(MarianTransformer, name, lang, remote_loc)
-

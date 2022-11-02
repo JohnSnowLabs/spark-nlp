@@ -8,7 +8,7 @@ tags: [en, legal, whereas, licensed]
 task: [Named Entity Recognition, Part of Speech Tagging, Dependency Parser, Relation Extraction]
 language: en
 edition: Spark NLP for Legal 1.0.0
-spark_version: 3.2
+spark_version: 3.0
 supported: true
 article_header:
   type: cover
@@ -38,6 +38,7 @@ The difficulty of these entities is that they are totally free-text, with OBJECT
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
+
 ```python
 from johnsnowlabs import *
 

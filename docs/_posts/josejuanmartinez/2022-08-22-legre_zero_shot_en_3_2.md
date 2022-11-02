@@ -8,7 +8,7 @@ tags: [en, legal, re, zero, shot, zero_shot, licensed]
 task: Relation Extraction
 language: en
 edition: Spark NLP for Legal 1.0.0
-spark_version: 3.2
+spark_version: 3.0
 supported: true
 article_header:
   type: cover
@@ -48,6 +48,7 @@ re_model.setRelationalCategories({
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
+
 ```python
 documentAssembler = nlp.DocumentAssembler()\
   .setInputCol("text")\

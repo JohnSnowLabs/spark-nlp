@@ -19,7 +19,8 @@ from sparknlp.common import *
 class LongformerForSequenceClassification(AnnotatorModel,
                                           HasCaseSensitiveProperties,
                                           HasBatchedAnnotate,
-                                          HasClassifierActivationProperties):
+                                          HasClassifierActivationProperties,
+                                          HasEngine):
     """LongformerForSequenceClassification can load Longformer Models with sequence classification/regression head on
     top (a linear layer on top of the pooled output) e.g. for multi-class document classification tasks.
 
@@ -209,4 +210,3 @@ class LongformerForSequenceClassification(AnnotatorModel,
         """
         from sparknlp.pretrained import ResourceDownloader
         return ResourceDownloader.downloadModel(LongformerForSequenceClassification, name, lang, remote_loc)
-

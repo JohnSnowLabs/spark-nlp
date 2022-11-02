@@ -111,7 +111,7 @@ val pipelineModel = pipeline.fit(dataset)
 {%- endcapture -%}
 
 {%- capture python_api_link -%}
-[ContextSpellCheckerApproach](/api/python/reference/autosummary/sparknlp/annotator/spell_check/context_spell_checker/index.html#sparknlp.annotator.spell_check.context_spell_checker.ContextSpellCheckerApproach)
+[ContextSpellCheckerApproach](/api/python/reference/autosummary/python/sparknlp/annotator/spell_check/context_spell_checker/index.html#sparknlp.annotator.spell_check.context_spell_checker.ContextSpellCheckerApproach)
 {%- endcapture -%}
 
 {%- capture source_link -%}

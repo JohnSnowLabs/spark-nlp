@@ -8,7 +8,7 @@ tags: [en, finance, companies, crunchbase, licensed]
 task: Entity Resolution
 language: en
 edition: Spark NLP for Finance 1.0.0
-spark_version: 3.2
+spark_version: 3.0
 supported: true
 article_header:
   type: cover
@@ -36,6 +36,7 @@ Then, you can use the CrunchBase Chunk Mapper to get information about that comp
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
+
 ```python
 documentAssembler = nlp.DocumentAssembler()\
       .setInputCol("text")\

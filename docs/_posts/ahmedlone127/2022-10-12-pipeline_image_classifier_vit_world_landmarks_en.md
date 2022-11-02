@@ -19,6 +19,11 @@ use_language_switcher: "Python-Scala-Java"
 
 Pretrained VIT  model, adapted from Hugging Face and curated to provide scalability and production-readiness using Spark NLP.`image_classifier_vit_world_landmarks` is a English model originally trained by mmgyorke.
 
+
+## Predicted Entities
+
+`la sagrada familia`, `leaning tower of pisa`, `arc de triomphe`, `taj mahal`, `big ben`
+
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>
 <button class="button button-orange" disabled>Open in Colab</button>

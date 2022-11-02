@@ -146,7 +146,7 @@ result.selectExpr("explode(sentencesDL.result) as sentencesDL").show(false)
 {%- endcapture -%}
 
 {%- capture model_python_api_link -%}
-[SentenceDetectorDLModel](/api/python/reference/autosummary/sparknlp/annotator/sentence/sentence_detector_dl/index.html#sparknlp.annotator.sentence.sentence_detector_dl.SentenceDetectorDLModel)
+[SentenceDetectorDLModel](/api/python/reference/autosummary/python/sparknlp/annotator/sentence/sentence_detector_dl/index.html#sparknlp.annotator.sentence.sentence_detector_dl.SentenceDetectorDLModel)
 {%- endcapture -%}
 
 {%- capture model_source_link -%}
@@ -250,7 +250,7 @@ val model = pipeline.fit(trainingData)
 {%- endcapture -%}
 
 {%- capture approach_python_api_link -%}
-[SentenceDetectorDLApproach](/api/python/reference/autosummary/sparknlp/annotator/sentence/sentence_detector_dl/index.html#sparknlp.annotator.sentence.sentence_detector_dl.SentenceDetectorDLApproach)
+[SentenceDetectorDLApproach](/api/python/reference/autosummary/python/sparknlp/annotator/sentence/sentence_detector_dl/index.html#sparknlp.annotator.sentence.sentence_detector_dl.SentenceDetectorDLApproach)
 {%- endcapture -%}
 
 {%- capture approach_source_link -%}

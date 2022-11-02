@@ -85,7 +85,7 @@ result.select("output").show(false)
 {%- endcapture -%}
 
 {%- capture python_api_link -%}
-[Finisher](/api/python/reference/autosummary/sparknlp/base/finisher/index.html#sparknlp.base.finisher.Finisher)
+[Finisher](/api/python/reference/autosummary/python/sparknlp/base/finisher/index.html#sparknlp.base.finisher.Finisher)
 {%- endcapture -%}
 
 {%- capture source_link -%}

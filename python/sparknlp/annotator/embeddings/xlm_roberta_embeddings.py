@@ -20,7 +20,8 @@ class XlmRoBertaEmbeddings(AnnotatorModel,
                            HasEmbeddingsProperties,
                            HasCaseSensitiveProperties,
                            HasStorageRef,
-                           HasBatchedAnnotate):
+                           HasBatchedAnnotate,
+                           HasEngine):
     """The XLM-RoBERTa model was proposed in `Unsupervised Cross-lingual
     Representation Learning at Scale` by Alexis Conneau, Kartikay Khandelwal,
     Naman Goyal, Vishrav Chaudhary, Guillaume Wenzek, Francisco Guzman, Edouard
@@ -230,4 +231,3 @@ class XlmRoBertaEmbeddings(AnnotatorModel,
         """
         from sparknlp.pretrained import ResourceDownloader
         return ResourceDownloader.downloadModel(XlmRoBertaEmbeddings, name, lang, remote_loc)
-

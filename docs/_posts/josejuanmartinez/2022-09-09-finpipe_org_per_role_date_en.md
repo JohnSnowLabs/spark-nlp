@@ -8,7 +8,7 @@ tags: [en, financial, licensed]
 task: Named Entity Recognition
 language: en
 edition: Spark NLP for Finance 1.0.0
-spark_version: 3.2
+spark_version: 3.0
 supported: true
 article_header:
   type: cover
@@ -34,6 +34,7 @@ This is a pretrained pipeline to extract Companies (ORG), People (PERSON), Job t
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
+
 ```python
 from johnsnowlabs import *
 

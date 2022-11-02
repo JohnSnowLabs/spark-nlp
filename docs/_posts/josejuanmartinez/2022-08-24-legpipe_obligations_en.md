@@ -8,7 +8,7 @@ tags: [en, legal, obligations, licensed]
 task: [Named Entity Recognition, Part of Speech Tagging, Dependency Parser]
 language: en
 edition: Spark NLP for Legal 1.0.0
-spark_version: 3.2
+spark_version: 3.0
 supported: true
 article_header:
   type: cover
@@ -40,6 +40,7 @@ This model does not include a Sentence Detector, it executes everything at docum
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
+
 ```python
 from johnsnowlabs import *
 

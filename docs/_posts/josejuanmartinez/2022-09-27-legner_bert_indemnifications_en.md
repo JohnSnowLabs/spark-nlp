@@ -34,17 +34,18 @@ This is a Legal Named Entity Recognition Model to identify the Subject (who), Ac
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
+
 ```python
-documentAssembler = DocumentAssembler()\
+documentAssembler = nlp.DocumentAssembler()\
         .setInputCol("text")\
         .setOutputCol("document")
 
-sentencizer = SentenceDetectorDLModel\
+sentencizer = nlp.SentenceDetectorDLModel\
         .pretrained("sentence_detector_dl", "en") \
         .setInputCols(["document"])\
         .setOutputCol("sentence")
                       
-tokenizer = Tokenizer()\
+tokenizer = nlp.Tokenizer()\
         .setInputCols(["sentence"])\
         .setOutputCol("token")
 
@@ -53,7 +54,7 @@ tokenClassifier = legal.BertForTokenClassification.pretrained("legner_bert_indem
   .setOutputCol("label")\
   .setCaseSensitive(True)
 
-ner_converter = NerConverter()\
+ner_converter = nlp.NerConverter()\
     .setInputCols(["sentence","token","label"])\
     .setOutputCol("ner_chunk")
     
@@ -127,8 +128,7 @@ In-house annotated examples from CUAD legal dataset
 ## Benchmarking
 
 ```bash
-                                   precision    recall  f1-score   support
-
+                            label  precision    recall  f1-score   support
                 B-INDEMNIFICATION       0.91      0.89      0.90        36
          B-INDEMNIFICATION_ACTION       0.92      0.71      0.80        17
 B-INDEMNIFICATION_INDIRECT_OBJECT       0.88      0.88      0.88        40
@@ -137,8 +137,7 @@ B-INDEMNIFICATION_INDIRECT_OBJECT       0.88      0.88      0.88        40
          I-INDEMNIFICATION_ACTION       0.81      0.87      0.84        15
 I-INDEMNIFICATION_INDIRECT_OBJECT       1.00      0.53      0.69        17
                                 O       0.97      0.91      0.94       510
-
-                         accuracy                           0.88       654
-                        macro avg       0.71      0.61      0.81       654
-                     weighted avg       0.95      0.88      0.91       654
+                         accuracy        -          -       0.88       654
+                        macro-avg       0.71      0.61      0.81       654
+                     weighted-avg       0.95      0.88      0.91       654
 ```

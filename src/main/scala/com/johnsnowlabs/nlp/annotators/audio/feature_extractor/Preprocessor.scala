@@ -16,12 +16,9 @@
 
 package com.johnsnowlabs.nlp.annotators.audio.feature_extractor
 
-import com.johnsnowlabs.nlp.util.io.ResourceHelper
 import com.johnsnowlabs.util.JsonParser
 import org.json4s.jackson.JsonMethods
 import org.json4s.{JNothing, JValue}
-
-import scala.io.Source
 
 private[johnsnowlabs] case class Preprocessor(
     do_normalize: Boolean = true,
@@ -67,11 +64,7 @@ private[johnsnowlabs] object Preprocessor {
     schemaCorrect
   }
 
-  def loadPreprocessorConfig(preprocessorConfigPath: String): Preprocessor = {
-    val preprocessorConfigStream =
-      ResourceHelper.getResourceStream(preprocessorConfigPath)
-    val preprocessorConfigJsonContent =
-      Source.fromInputStream(preprocessorConfigStream).mkString
+  def loadPreprocessorConfig(preprocessorConfigJsonContent: String): Preprocessor = {
 
     val preprocessorJsonErrorMsg =
       s"""The schema of preprocessor_config.json file is incorrect. It should look like this:         

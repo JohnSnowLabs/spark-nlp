@@ -67,11 +67,20 @@ defer(function () { // load inital language
 
 if((document.querySelectorAll('.model-wrap').length !== 0) || (document.querySelectorAll('.tabs-new').length !== 0)) {
 
-    let tabLi = document.querySelectorAll('.tabs-new .tab-li'),
-        tabLiTopF = document.querySelectorAll('.top_tab_li');
+    let tabLi = document.querySelectorAll('.tabs-new .tab-li');
+
+    if((document.querySelectorAll('.model-wrap').length !== 0)) {
+        tabLi = document.querySelectorAll('.model-wrap .tab-li');
+    } 
+    
+    let tabLiTopF = document.querySelectorAll('.top_tab_li'),
+        pythonInner = document.querySelectorAll('.python-inner');
 
     tabLiTopF.forEach(e => {        
         e.nextElementSibling.classList.add('active');
+    });
+    pythonInner.forEach(e => {
+        e.firstElementChild.classList.remove('language-python');
     });
 
     tabLi.forEach(element => {
@@ -81,7 +90,7 @@ if((document.querySelectorAll('.model-wrap').length !== 0) || (document.querySel
                 tabLiInner = element.parentNode.querySelectorAll('.tab-li'),
                 tabBoxInner = element.parentNode.parentNode.parentNode.querySelectorAll('.highlighter-rouge');
             
-            //remove active class
+            //remove active class from NLU
             tabBoxInner.forEach(item => {
                 item.classList.remove('active');
                 if(item.classList.contains('nlu-block')) {
@@ -223,6 +232,49 @@ if(document.querySelectorAll('.tab-li-inner').length !== 0) {
                     }                    
                 });
                 break;
+                default:              
+              }
+        });
+    });
+}
+
+//Forth tabs
+if(document.querySelectorAll('.tab-jsl').length !== 0) {
+    let tabLiForth = document.querySelectorAll('.tab-jsl');
+
+    tabLiForth.forEach(element => {
+        element.addEventListener('click', function(e) {
+            e.preventDefault();
+            let tabAttribute = element.getAttribute('data-type'),
+                tabLiInner = element.parentNode.querySelectorAll('.tab-jsl'),
+                tabBoxInner = element.parentNode.parentNode.parentNode.querySelectorAll('.python-inner');
+            
+
+            //remove active class
+            tabBoxInner.forEach(item => {
+                item.classList.remove('active');
+            });
+            tabLiInner.forEach(el => {
+                el.classList.remove('active');
+            });
+            element.classList.add('active');
+    
+            //add active class
+            switch (tabAttribute) {
+                case "spark-nlp-jsl":
+                    tabBoxInner.forEach(item => {
+                        if(item.classList.contains('python-johnsnowlabs')) {
+                            item.classList.add('active');
+                        }                    
+                    });
+                    break;
+                case "johnsnowlabs":
+                    tabBoxInner.forEach(item => {
+                        if(item.classList.contains('python-spark-nlp-jsl')) {
+                            item.classList.add('active');
+                        }                    
+                    });
+                  break;
                 default:              
               }
         });

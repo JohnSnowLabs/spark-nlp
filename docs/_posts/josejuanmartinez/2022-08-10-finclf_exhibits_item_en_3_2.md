@@ -8,7 +8,7 @@ tags: [en, finance, classification, 10k, annual, reports, sec, filings, licensed
 task: Text Classification
 language: en
 edition: Spark NLP for Finance 1.0.0
-spark_version: 3.2
+spark_version: 3.0
 supported: true
 article_header:
   type: cover
@@ -41,6 +41,7 @@ Take into consideration the embeddings of this model allows up to 512 tokens. If
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
+
 ```python
 documentAssembler = nlp.DocumentAssembler() \
      .setInputCol("text") \
@@ -100,12 +101,10 @@ Weak labelling on documents from Edgar database
 ## Benchmarking
 
 ```bash
-              precision    recall  f1-score   support
-
+       label  precision    recall  f1-score   support
     exhibits       0.94      0.83      0.88        18
        other       0.88      0.95      0.91        22
-
-    accuracy                           0.90        40
-   macro avg       0.91      0.89      0.90        40
-weighted avg       0.90      0.90      0.90        40
+    accuracy        -         -        0.90        40
+   macro-avg       0.91      0.89      0.90        40
+weighted-avg       0.90      0.90      0.90        40
 ```

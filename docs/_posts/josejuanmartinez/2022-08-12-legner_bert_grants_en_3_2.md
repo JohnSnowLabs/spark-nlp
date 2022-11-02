@@ -8,7 +8,7 @@ tags: [en, legal, ner, grants, permissions, licenses, licensed]
 task: Named Entity Recognition
 language: en
 edition: Spark NLP for Legal 1.0.0
-spark_version: 3.2
+spark_version: 3.0
 supported: true
 article_header:
   type: cover
@@ -34,6 +34,7 @@ This model aims to detect License grants / permissions in agreements, provided b
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
+
 ```python
 documentAssembler = nlp.DocumentAssembler()\
   .setInputCol("text")\
@@ -127,15 +128,13 @@ Manual annotations on CUAD dataset
 ## Benchmarking
 
 ```bash
-                              precision    recall  f1-score   support
-
+                       label  precision    recall  f1-score   support
                 B-PERMISSION       0.88      0.79      0.83        38
 B-PERMISSION_INDIRECT_OBJECT       0.85      0.94      0.89        36
         B-PERMISSION_SUBJECT       0.89      0.85      0.87        40
                 I-PERMISSION       0.80      0.69      0.74       342
                            O       0.94      0.97      0.95      1827
-
-                    accuracy                           0.92      2292
-                   macro avg       0.85      0.81      0.86      2292
-                weighted avg       0.91      0.92      0.91      2292
+                    accuracy         -         -       0.92      2292
+                   macro-avg       0.85      0.81      0.86      2292
+                weighted-avg       0.91      0.92      0.91      2292
 ```

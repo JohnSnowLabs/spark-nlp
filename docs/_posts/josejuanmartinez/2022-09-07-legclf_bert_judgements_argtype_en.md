@@ -8,7 +8,7 @@ tags: [en, legal, judgements, argument, echr, licensed]
 task: Text Classification
 language: en
 edition: Spark NLP for Legal 1.0.0
-spark_version: 3.2
+spark_version: 3.0
 supported: true
 article_header:
   type: cover
@@ -45,6 +45,7 @@ The classes are listed below. Please check the [original paper](https://arxiv.or
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
+
 ```python
 text_list = ["""Indeed, given that the expectation of protection of private life may be reduced on account of the public functions exercised, the Court considers that, in order to ensure a fair balancing of the interests at stake, the domestic courts, in assessing the facts submitted for their examination, ought to have taken into account the potential impact of the Prince's status as Head of State, and to have attempted, in that context, to determine the parts of the impugned article that belonged to the strictly private domain and what fell within the public sphere.""",
              """Article 8 requires that the domestic authorities should strike a fair balance between the interests of the child and those of the parents, and that, in the balancing process, particular importance should be attached to the best interests of the child, which, depending on their nature and seriousness, may override those of the parents. In particular, a parent can not be entitled under Article 8 to have such measures taken as would harm the child's health and development ( see Sahin, cited above, § 66, and Sommerfeld, cited above, § 64 )."""]
@@ -130,18 +131,16 @@ Basedf on https://arxiv.org/pdf/2208.06178.pdf with in-house postprocessing
 ## Benchmarking
 
 ```bash
-                            precision    recall  f1-score   support
-
-         APPLICATION CASE       0.85      0.83      0.84       983
-            DECISION ECHR       0.82      0.86      0.84       103
-              LEGAL BASIS       0.61      0.50      0.55        40
-       LEGITIMATE PURPOSE       0.94      0.88      0.91        17
+                    label  precision    recall  f1-score   support
+         APPLICATION_CASE       0.85      0.83      0.84       983
+            DECISION_ECHR       0.82      0.86      0.84       103
+              LEGAL_BASIS       0.61      0.50      0.55        40
+       LEGITIMATE_PURPOSE       0.94      0.88      0.91        17
 NECESSITY/PROPORTIONALITY       0.62      0.66      0.64       207
-         NON CONTESTATION       0.64      0.69      0.67        13
+         NON_CONTESTATION       0.64      0.69      0.67        13
                     OTHER       0.97      0.97      0.97      2557
-          PRECEDENTS ECHR       0.80      0.85      0.83       262
-
-                 accuracy                           0.91      4182
-                macro avg       0.78      0.78      0.78      4182
-             weighted avg       0.91      0.91      0.91      4182
+          PRECEDENTS_ECHR       0.80      0.85      0.83       262
+                 accuracy         -         -       0.91      4182
+                macro-avg       0.78      0.78      0.78      4182
+             weighted-avg       0.91      0.91      0.91      4182
 ```

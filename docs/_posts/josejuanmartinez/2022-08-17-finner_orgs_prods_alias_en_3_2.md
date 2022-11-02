@@ -8,7 +8,7 @@ tags: [en, finance, ner, licensed]
 task: Named Entity Recognition
 language: en
 edition: Spark NLP for Finance 1.0.0
-spark_version: 3.2
+spark_version: 3.0
 supported: true
 recommended: true
 article_header:
@@ -35,6 +35,7 @@ This is a large Named Entity Recognition model, trained with a subset of generic
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
+
 ```python
 documentAssembler = nlp.DocumentAssembler()\
         .setInputCol("text")\
@@ -117,15 +118,15 @@ ConLL-2003, FinSec ConLL, a subset of Ontonotes, In-house corpora
 ## Benchmarking
 
 ```bash
-Total test loss: 143.3721	Avg test loss: 2.1723
-label	 tp	 fp	 fn	 prec	 rec	 f1
-I-ORG	 12853	 2621	 2685	 0.8306191	 0.82719785	 0.828905
-B-PRODUCT	 2306	 697	 932	 0.76789874	 0.712168	 0.7389841
-I-ALIAS	 14	 6	 13	 0.7	 0.5185185	 0.59574467
-B-ORG	 8967	 2078	 2311	 0.81186056	 0.79508775	 0.80338657
-I-PRODUCT	 2336	 803	 1091	 0.74418604	 0.68164575	 0.7115443
-B-ALIAS	 76	 14	 22	 0.84444445	 0.7755102	 0.80851066
-tp: 26552 fp: 6219 fn: 7054 labels: 6
-Macro-average	 prec: 0.78316814, rec: 0.7183547, f1: 0.7493626
-Micro-average	 prec: 0.8102285, rec: 0.790097, f1: 0.80003613
+label           tp     fp     fn      prec          rec           f1
+I-ORG           12853   2621  2685    0.8306191     0.82719785    0.828905
+B-PRODUCT       2306    697   932     0.76789874    0.712168      0.7389841
+I-ALIAS         14      6     13      0.7           0.5185185     0.59574467
+B-ORG           8967    2078  2311    0.81186056    0.79508775    0.80338657
+I-PRODUCT       2336    803   1091    0.74418604    0.68164575    0.7115443
+B-ALIAS         76      14    22      0.84444445    0.7755102     0.80851066
+Macro-average   26552   6219  7054    0.78316814    0.7183547     0.7493626
+Micro-average   26552   6219  7054    0.8102285     0.790097      0.80003613
 ```
+
+

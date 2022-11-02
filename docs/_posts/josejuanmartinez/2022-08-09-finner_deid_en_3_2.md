@@ -8,7 +8,7 @@ tags: [en, finance, ner, deid, licensed]
 task: [De-identification, Named Entity Recognition]
 language: en
 edition: Spark NLP for Finance 1.0.0
-spark_version: 3.2
+spark_version: 3.0
 supported: true
 article_header:
   type: cover
@@ -34,6 +34,7 @@ This is a NER model which allows you to detect some generic entities that may re
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
+
 ```python
 documentAssembler = nlp.DocumentAssembler()\
         .setInputCol("text")\

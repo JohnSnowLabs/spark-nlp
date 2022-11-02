@@ -60,6 +60,26 @@ case class Annotation(
     s"Annotation(type: $annotatorType, begin: $begin, end: $end, result: $result)"
   }
 
+  def getAnnotatorType: String = {
+    annotatorType
+  }
+
+  def getBegin: Int = {
+    begin
+  }
+
+  def getEnd: Int = {
+    end
+  }
+
+  def getResult: String = {
+    result
+  }
+
+  def getMetadata: Map[String, String] = {
+    metadata
+  }
+
 }
 
 case class JavaAnnotation(
@@ -69,7 +89,29 @@ case class JavaAnnotation(
     result: String,
     metadata: java.util.Map[String, String],
     embeddings: Array[Float] = Array.emptyFloatArray)
-    extends IAnnotation
+    extends IAnnotation {
+
+  def getAnnotatorType: String = {
+    annotatorType
+  }
+
+  def getBegin: Int = {
+    begin
+  }
+
+  def getEnd: Int = {
+    end
+  }
+
+  def getResult: String = {
+    result
+  }
+
+  def getMetadata: java.util.Map[String, String] = {
+    metadata
+  }
+
+}
 
 object Annotation {
 

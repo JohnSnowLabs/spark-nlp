@@ -246,7 +246,7 @@ result.selectExpr("explode(finished_embeddings) as result").show(5, 80)
 {%- endcapture -%}
 
 {%- capture python_api_link -%}
-[CamemBertEmbeddings](/api/python/reference/autosummary/sparknlp/annotator/embeddings/camembert_embeddings/index.html#sparknlp.annotator.embeddings.camembert_embeddings.CamemBertEmbeddings)
+[CamemBertEmbeddings](/api/python/reference/autosummary/python/sparknlp/annotator/embeddings/camembert_embeddings/index.html#sparknlp.annotator.embeddings.camembert_embeddings.CamemBertEmbeddings)
 {%- endcapture -%}
 
 {%- capture source_link -%}

@@ -176,7 +176,7 @@ class SentimentDLApproach(AnnotatorApproach, EvaluationDLParams, ClassifierEncod
         )
 
 
-class SentimentDLModel(AnnotatorModel, HasStorageRef):
+class SentimentDLModel(AnnotatorModel, HasStorageRef, HasEngine):
     """SentimentDL, an annotator for multi-class sentiment analysis.
 
     In natural language processing, sentiment analysis is the task of
@@ -337,4 +337,3 @@ class SentimentDLModel(AnnotatorModel, HasStorageRef):
         """
         from sparknlp.pretrained import ResourceDownloader
         return ResourceDownloader.downloadModel(SentimentDLModel, name, lang, remote_loc)
-

@@ -19,6 +19,11 @@ use_language_switcher: "Python-Scala-Java"
 
 Pretrained VIT  model, adapted from Hugging Face and curated to provide scalability and production-readiness using Spark NLP.`image_classifier_vit_iiif_manuscript_` is a English model originally trained by davanstrien.
 
+
+## Predicted Entities
+
+`3rd upper flyleaf verso`, `Blank leaf recto`, `3rd lower flyleaf verso`, `2nd lower flyleaf verso`, `2nd upper flyleaf verso`, `flyleaf`, `1st upper flyleaf verso`, `1st lower flyleaf verso`, `fol`, `cover`, `Lower flyleaf verso`, `Blank leaf verso`, `Upper flyleaf verso`
+
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>
 <button class="button button-orange" disabled>Open in Colab</button>

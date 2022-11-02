@@ -8,7 +8,7 @@ tags: [en, finance, ner, job, titles, jobs, roles, licensed]
 task: Named Entity Recognition
 language: en
 edition: Spark NLP for Finance 1.0.0
-spark_version: 3.2
+spark_version: 3.0
 supported: true
 recommended: true
 article_header:
@@ -35,6 +35,7 @@ This is a Financial nlp.BertForTokenClassification NER model aimed to extract Jo
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
+
 ```python
 from johnsnowlabs import *
 
@@ -128,12 +129,9 @@ In-house annotations on Wikidata, CUAD dataset, Financial 10-K documents and Res
 ## Benchmarking
 
 ```bash
-Total test loss: 29.2454	Avg test loss: 0.5518
-label	 tp	 fp	 fn	 prec	 rec	 f1
-B-ROLE	 3553	 174	 262	 0.95331365	 0.9313237	 0.9421904
-I-ROLE	 4868	 250	 243	 0.9511528	 0.95245546	 0.9518037
-tp: 8421 fp: 424 fn: 505 labels: 2
-Macro-average	 prec: 0.9522332, rec: 0.9418896, f1: 0.9470331
-Micro-average	 prec: 0.9520633, rec: 0.9434237, f1: 0.94772375
-
+label             tp     fp    fn    prec        rec          f1
+B-ROLE            3553   174   262   0.95331365	 0.9313237    0.9421904
+I-ROLE            4868   250   243   0.9511528	 0.95245546   0.9518037
+Macro-average     8421   424   505   0.9522332   0.9418896    0.9470331
+Micro-average     8421   424   505   0.9520633   0.9434237    0.94772375
 ```
