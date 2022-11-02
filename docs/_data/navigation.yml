@@ -134,8 +134,6 @@ annotation-lab:
             url: /docs/en/alab/infrastructure
           - title: Cluster Management
             url: /docs/en/alab/cluster_management
-      - title: Visual NER
-        url: /docs/en/alab/visual_ner
       - title: Security and Privacy
         url: /docs/en/alab/security
       - title: Video Tutorials

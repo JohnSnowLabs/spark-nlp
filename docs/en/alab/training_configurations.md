@@ -142,6 +142,40 @@ The trained classification models are also available on the Spark NLP pipeline c
 
 <img class="image image__shadow" src="/assets/images/annotation_lab/4.1.0/classification_pipeline.png" style="width:80%;"/>
 
+## Visual NER Training And Preannotation
+
+With release 3.4.0 came support for Visual NER Automated Preannotation and Model Training. 
+
+### Visual NER Training Support
+
+Version 3.4.0 of the Annotation Lab offers the ability to train Visual NER models, apply active learning for automatic model training, and preannotate image-based tasks with existing models in order to accelerate annotation work.
+
+#### License Requirements
+
+Visual NER annotation, training and preannotation features are dependent on the presence of a Spark OCR license. Floating or airgap licenses with scope ocr: inference and ocr: training are required for preannotation and training respectively.
+![licenseVisualNER](https://user-images.githubusercontent.com/33893292/181743592-62b705d5-5730-4225-9541-e1d96d997e7d.png)
+
+### Model Training
+
+The training feature for Visual NER projects can be activated from the Setup page via the “Train Now” button (See 1). From the Training Settings sections, users can tune the training parameters (e.g. Epoch, Batch) and choose the tasks to use for training the Visual NER model (See 3).
+
+Information on the training progress is shown in the top right corner of the Model Training tab (See 2). Users can check detailed information regarding the success or failure of the last training.
+
+Training Failure can occur because of:
+* Insufficient number of completions
+* Poor quality of completions
+* Insufficient CPU and Memory
+* Wrong training parameters
+
+![VisualNERTraining](https://user-images.githubusercontent.com/33893292/181743623-c3c62d98-7cda-41a1-9d4f-0951a35b8027.png)
+
+When triggering the training, users can choose to immediately deploy the model or just train it without deploying. If immediate deployment is chosen, then the labeling config is updated with references to the new model so that it will be used for preannotations.
+
+![VisualNERConfig](https://user-images.githubusercontent.com/33893292/181781047-0d1e68ea-a88d-40d2-a557-11b81a459aaa.png)
+
+#### Training Server Specification
+
+The minimal required training configuration is 64 GB RAM, 16 Core CPU for Visual NER Training.
 
 ## Mixed Projects 
 
