@@ -24,19 +24,21 @@ es {
 }
 </style>
 
-## Analytic Charts
+## Analytics Charts
 
-By default, the Analytics page is disabled. Users can request <es>admin</es> user to enable the Analytics page. The request is created on the [Analytics Permission](/docs/en/alab/analytics_permission) page of the <es>admin</es> user’s account. Once the <es>admin</es> user approves the request, users can then access the Analytics page.
+By default, the Analytics page is disabled for every project because computing the analytical charts is a resource-intensive task and might temporarily influence the responsiveness of the application, especially when triggered in parallel with other training/preannotation jobs. However, users can file a request to enable the Analytics page which can be approved by any [admin user](docs/en/alab/user_management#user-groups). The request is published on the [Analytics Requests](/docs/en/alab/analytics_permission) page, visible to any <es>admin</es> user. Once the <es>admin</es> user approves the request, any team member can access the Analytics page.
 
 <img class="image image__shadow" src="/assets/images/annotation_lab/4.1.0/analytics/enable_analytics.gif" style="width:100%;"/>
 
-A refresh button is present on the top-right corner of the Analytics page. The Analytics charts doesn't automatically reflect the changes made by the annotators (like creating tasks, adding new completion, etc.). Using this refresh button, we can update the charts.
+A refresh button is present on the top-right corner of the Analytics page. The Analytics charts doesn't automatically reflect the changes made by the annotators (like creating tasks, adding new completion, etc.). Updating the analytics to reflect the latest changes can be done using the refresh button.
 
 <img class="image image__shadow" src="/assets/images/annotation_lab/4.1.0/analytics/refresh.png" style="width:100%;"/>
 
-### Tasks
+### Task Analytics
 
-To access Tasks, navigate on the first tab of the <es>Analytics</es> Dashboard, called <bl>Tasks</bl>. Below are the charts included in the Tasks section.
+To access Task Analytics, navigate on the first tab of the <es>Analytics</es> Dashboard, called <bl>Tasks</bl>. The following blog post explains how to [Improve Annotation Quality using Task Analytics in the Annotation Lab](https://www.johnsnowlabs.com/improving-annotation-quality-using-analytics-in-the-annotation-lab/). 
+
+Below are the charts included in the Tasks section.
 
 **Total number of task in the Project**
 
@@ -86,7 +88,10 @@ To access Tasks, navigate on the first tab of the <es>Analytics</es> Dashboard, 
 
 ### Team Productivity
 
-To access Team Productivity, navigate on the second tab of the <es>Analytics</es> Dashboard, called <bl>Team Productivity</bl>. Below are the charts included in the Team Productivity section.
+To access Team Productivity charts, navigate on the second tab of the <es>Analytics</es> Dashboard, called <bl>Team Productivity</bl>. The following blog post explains how to [Keep Track of Your Team Productivity in the Annotation Lab](https://www.johnsnowlabs.com/keep-track-of-your-team-productivity-in-the-annotation-lab/). 
+
+Below are the charts included in the Team Productivity section.
+
 
 **Total number of completions in the Project**
 
@@ -125,6 +130,9 @@ Inter Annotator Agreement charts can be used by <es>Annotators</es>, <es>Reviewe
 To access IAA charts, navigate on the third tab of the <es>Analytics</es> Dashboard of NER projects, called <bl>Inter-Annotator Agreement</bl>. Several charts should appear on the screen with a default selection of annotators to compare. The dropdown selections on top-left corner of each chart allow you to change annotators for comparison purposes. It is also possible to download the data generated for some chart in CSV format by clicking the download button just below the dropdown selectors.
 
 > **Note:** Only the <es>Submitted</es> and <es>starred (Ground Truth)</es> completions are used to render these charts.
+
+
+The following blog post explains how your team can [Reach Consensus Faster by Using IAA Charts in the Annotation Lab](https://www.johnsnowlabs.com/reach-consensus-faster-by-using-iaa-charts-in-the-annotation-lab/).
 
 Below are the charts included in the Inter-Annotator Agreement section.
 

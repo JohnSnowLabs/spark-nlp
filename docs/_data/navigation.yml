@@ -94,7 +94,7 @@ annotation-lab:
             url: /docs/en/alab/import
           - title: Tasks
             url: /docs/en/alab/tasks
-          - title: Workflow Setup
+          - title: Workflows
             url: /docs/en/alab/workflow
       - subtitle: Annotation
         children:

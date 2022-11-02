@@ -21,9 +21,9 @@ A **Project Owner** or a **Manager** can use the completed tasks (completions) f
 Users can perform multiple training jobs at the same time, depending on the available resources/license(s). Users can opt to create new training jobs independently from already running training/pre-annotation/OCR jobs. If resources/licenses are available when pressing the `Train Model` button a new training server is launched.
 
 ## Named Entity Recognition Projects
-Named Entity Recognition (NER) projects usually include several labels. When the annotation team has generated a relevant sample of training data/examples for each one of the labels the Project Owner/Manager can use this data to train an DL model which can then be used to predict the labels on new tasks. 
+Named Entity Recognition (NER) projects usually include multiple labels. When the annotation team has generated a relevant sample of training data/examples for each one of the labels the Project Owner/Manager can use this data to train a new DL model which can then be used to predict the labels on new tasks. 
 
-The NER models can be easily trained as illustrated below. 
+The NER models can be easily trained without writing a line of code, by following the as illustrated below. 
 
 <img class="image image__shadow" src="/assets/images/annotation_lab/4.1.0/train_setup_label.png" style="width:80%;"/>
 
@@ -37,19 +37,21 @@ When triggering the training, users are prompted to choose either to immediately
 
 It is possible to download training logs by clicking on the download logs icon (see item 8 on the above image) of the recently trained NER model which includes information like training parameters and TF graph used along with precision, recall, f1 score, etc.
 
-## Training parameters
+### Training parameters
 
-In Annotation Lab, for mixed projects containing multiple types of annotations in a single project like classifications, NER, and assertion status, multiple trainings were triggered at the same time using the same system resources and Spark NLP resources. In this case, the training component could fail because of resource limitations.
+In Annotation Lab, for mixed projects containing multiple types of annotations in a single project like classifications, NER, and assertion status, if multiple trainings were triggered at the same time using the same system resources and Spark NLP resources, the training component could fail because of resource limitations.
 
-In order to improve the usability of the system, dropdown options can be used to choose which type of training to run next. The project Owner or Manager of a project can scroll down to Training Settings and choose the training type. The drop-down gives a list of possible training types for that particular project based on defined Labeling Config. Another drop-down also lists available embeddings which can be used for training the model.
+In order to improve the usability of the system, dropdown options can be used to choose which type of training to run next. The project Owner or Manager of a project can scroll down to Training Settings and choose the training type. The drop-down gives a list of possible training types for that particular project based on its actual configuration. A second drop-down lists available embeddings which can be used for training the model.
 
 <img class="image image__shadow" src="/assets/images/annotation_lab/4.1.0/trainingparameters.png" style="width:80%;"/>
 
-It is possible to tune the most common training parameters (Validation split ratio, Epoch, Learning rate, Decay, Dropout, and Batch) by editing their values in Training Parameters.
+It is possible to tune the most common training parameters (Number of Epochs, Learning rate, Decay, Dropout, and Batch) by editing their values in Training Parameters.
+
+Test/Train data for a model can be randomly selected based on the Validation Split value or can be set using Test/Train tags. The later option is very useful when conducting experiments that require testing and training data to be the same on each run. 
 
 It is also possible to train a model by using a sublist of tasks with predefined tags. This is done by specifying the targeted Tags on the Training Parameters (last option).
 
-The Annotation Lab also includes additional filtering options for the training dataset based on the status of completions, either all submitted completions cab be used for training or only the reviewed ones.
+Annotation Lab also includes additional filtering options for the training dataset based on the status of completions, either all submitted completions can be used for training or only the reviewed ones.
 
 ## Custom Training Script
 If users want to change the default Training script present within the Annotation Lab, they can upload their own training pipeline. In the Train Page, project owners can upload the training scripts. At the moment we are supporting custom training script just for NER projects.
@@ -58,17 +60,17 @@ If users want to change the default Training script present within the Annotatio
 
 ## Selection of Completions
 During the annotation project lifetime, normally not all tasks/completions are ready to be used as a training dataset. This is why the training process selects completions based on their status:
-- Filter tasks by tags (if defined in Training Parameters window, otherwise all tasks are considered)
+- Filter tasks by tags (if defined in Training Parameters widget, otherwise all tasks are considered)
 - For completed tasks, completions to be taken into account are also selected based on the following criteria:
   - If a task has a completion accepted by a reviewer this is selected for training and all others are ignored
   - Completions rejected by a Reviewer are not used for training
-  - If no reviewer is assigned to a task that has multiple submitted completions the most recent completion is selected for training purpose
+  - If no reviewer is assigned to a task that has multiple submitted completions the completion to use for training purpose is the one created by the user with the [highest priority](/docs/en/alab/project_creation#adding-team-members). 
 
 ## Assertion Status Projects
 
-NER configurations for the healthcare domain are often mixed with Assertion Status labels. In this case Annotation Lab offers support for training both types of models in one go. After the training is complete, the models will be listed in the Spark NLP Pipeline Config. Hovering mouse over the model name in the Spark NLP pipeline Config, the user can see more information about the model such as when it was trained and if the training was manually initiated or by the Active Learning process.
+NER configurations for the healthcare domain are often mixed with Assertion Status labels. In this case, Annotation Lab offers support for training both types of models in one go. After the training is complete, the models will be listed in the Spark NLP Pipeline Config. Hovering mouse over the model name in the Spark NLP pipeline Config, the user can see more information about the model such as when it was trained and if the training was manually initiated or by the Active Learning process.
 
-Once the model(s) has been trained, the project configuration will be automatically updated to reference the new model for prediction. Notice below, for the Assertion Status **<Label>** tag the addition of model attribute to indicate which model will be used for task pre-annotation for this label.
+Once the model(s) has been trained, the project configuration will be automatically updated to reference the new model for prediction. Notice below, for the Assertion Status **Label** tag the addition of model attribute to indicate which model will be used for task pre-annotation for this label.
 
 ```bash
     <Label value="Absent" assertion="true" model="assertion_jsl_annotation_manual.model"/>
@@ -76,14 +78,16 @@ Once the model(s) has been trained, the project configuration will be automatica
 ```
 
 It is not possible to mark a label as an Assertion Status label and use a NER model to predict it. A validation error is shown in the Interface Preview in case an invalid Assertion model is used.
+
 <img class="image image__shadow" src="/assets/images/annotation_lab/1.6.0/as_notification.png" style="width:70%;"/>
 
 The Annotation Lab only allows the use of one single Assertion Status model in the same project.
+
 <img class="image image__shadow" src="/assets/images/annotation_lab/1.6.0/one_as.png" style="width:70%;"/>
 
 
 ## Classification Project Models Training
-Annotation Lab supports two types of classification training **Single Choice Classification** and **Multi-Choice Classification**. For doing so, it uses three important attributes of the **<Choices>** tag to drive the Classification Models training and pre-annotation. Those are **name**, **choice** and **train**.
+Annotation Lab supports two types of classification training **Single Choice Classification** and **Multi-Choice Classification**. For doing so, it uses three important attributes of the **Choices** tag to drive the Classification Models training and pre-annotation. Those are **name**, **choice** and **train**.
 
 ### Attribute name
 The attribute name allows the naming of the different choices present in the project configuration, and thus the training of separate models based on the same project annotations. For example, in the sample configuration illustrated below, the name="age" attribute, tells the system to only consider age-related classification information when training an Age Classifier. The value specified by the name attribute is also used to name the resulting Classification model (classification_age_annotation_manual).
@@ -117,7 +121,7 @@ The choice attribute specifies the type of model that will be trained: multiple 
 ```
 ### Attribute train
 Annotation Lab restricts the training of two or more Classification Models at the same time. If there are multiple Classification categories in a project (like the one above), only the category whose name comes first in alphabetical order will be trained by default. In the above example, based on the value of the name attribute, we conclude that the Age classifier model is trained.
-The model to be trained can also be specified by setting the train="true" attribute for the targeted <Choices> tag (like the one defined in Gender category below).
+The model to be trained can also be specified by setting the train="true" attribute for the targeted **Choices** tag (like the one defined in Gender category below).
 
 ```bash
 <View>
@@ -138,7 +142,7 @@ The model to be trained can also be specified by setting the train="true" attrib
   </Choices>
 </View>
 ```
-The trained classification models are also available on the Spark NLP pipeline config list.
+The trained classification models are available to reuse in any project and can be added on step 3 of the [Project Configuration](/docs/en/alab/project_configuration#ner-labeling) wizard. 
 
 <img class="image image__shadow" src="/assets/images/annotation_lab/4.1.0/classification_pipeline.png" style="width:80%;"/>
 
@@ -152,7 +156,7 @@ Version 3.4.0 of the Annotation Lab offers the ability to train Visual NER model
 
 #### License Requirements
 
-Visual NER annotation, training and preannotation features are dependent on the presence of a Spark OCR license. Floating or airgap licenses with scope ocr: inference and ocr: training are required for preannotation and training respectively.
+Visual NER annotation, training and preannotation features are dependent on the presence of a [Visual NLP](/docs/en/ocr) license. Licenses with scope ocr: inference and ocr: training are required for preannotation and training respectively.
 ![licenseVisualNER](https://user-images.githubusercontent.com/33893292/181743592-62b705d5-5730-4225-9541-e1d96d997e7d.png)
 
 ### Model Training
@@ -182,9 +186,10 @@ The minimal required training configuration is 64 GB RAM, 16 Core CPU for Visual
 If a project is set up to include Classification, Named Entity Recognition and Assertion Status labels and the three kinds of annotations are present in the training data, it is possible to train three models: one for Named Entity Recognition, one for Assertion Status, and one for Classification at the same time. The training logs from all three trainings can be downloaded at once by clicking the download button present in the Training section of the Setup Page. The newly trained models will be added to the Spark NLP pipeline config.
 
 
-## Train German and Spanish Models
+## Support for European Languagues
 
-In earlier versions of the Annotation Lab, users could download German/Spanish pretrained models from the NLP Models Hub and use them for pre-annotation. From this version, Annotation Lab also offers support for training/tuning German and Spanish models.
+Users can download English, German, Spanish, Portuguese, Italian, Danish and Romanian pretrained models from the NLP Models Hub and use them for pre-annotation. 
+Annotation Lab also offers support for training/tuning models in the above languages.
 
 
 

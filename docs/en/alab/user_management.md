@@ -29,7 +29,7 @@ Annotation Lab stores basic information for each user. Such as the _First Name_,
 
 ## User Groups
 
-Currently, two user groups are available: _Annotators_ and _UserAdmins_. By default, a new user gets added to the _Annotators_ group. It means the user will not have access to any admin features. Such as user management or other settings.
+Currently, two user groups are available: _Annotators_ and _UserAdmins_. By default, a new user gets added to the _Annotators_ group. It means the user will not have access to any admin features, such as user management or other settings.
 
 <img class="image image__shadow" src="/assets/images/annotation_lab/4.1.0/user_group.png" style="width:110%;"/>
 

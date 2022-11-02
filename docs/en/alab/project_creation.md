@@ -52,9 +52,11 @@ When defining the project team, a project owner has access to three distinct rol
 
 To add a user to your project team, select your Project, then from the left side menu access the `Setup` option and then the `Team` option. On the `Add Team Member` page that opens, start typing the name of a user in the available text box. This will populate a list of available users having the username start with the characters you typed. From the dropdown select the user you want to add to your team. Select a role for the user and click on the “Add to team” button.
 
-In the `Add Team Member` page users can add/remove/update the team members even in the case of a large number of members. The team members are displayed in a tabular view. Each member has a priority assigned to them for CONLL export which can be changed by dragging users across the list.
-
 ![teamMembers](https://user-images.githubusercontent.com/46840490/193060010-3394cccd-93ab-40a8-8479-98155ea8b417.gif)
+
+In the `Add Team Member` page users can add/remove/update the team members even in the case of a large number of members. The team members are displayed in a tabular view. Each member has a **priority** assigned to them for CONLL export which can be changed by dragging users across the list.
+
+> **NOTE:** The priority assigned for users in the `Add Team Member` page is taken into account by the Model Training script for differentiating among the available ground truth completions (when more than one is available for a task) in view of choosing the higer priority completion which will be used for model training.
 
 
 ### Project Configuration

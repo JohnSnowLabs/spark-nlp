@@ -14,9 +14,9 @@ sidebar:
 ---
 
 Annotation Lab supports the Transfer Learning feature offered by [Spark NLP for Healthcare 3.1.2](https://nlp.johnsnowlabs.com/docs/en/licensed_release_notes#support-for-fine-tuning-of-ner-models). 
-This feature is available for project manages and project owners, but only if a valid Spark NLP for Healthcare license is loaded into the Annotation Lab. 
+This feature is available for project manages and project owners, but only if a valid Healthcare NLP license is loaded into the Annotation Lab. 
 
-In this case, the feature can be activated for any project by navigating to the Setup->Training & Active Learning. It requires the presence of a `base model` trained with [MedicalNERModel](https://nlp.johnsnowlabs.com/docs/en/licensed_release_notes#1-medicalnermodel-annotator).
+In this case, the feature can be activated for any project by navigating to the Train page. It requires the presence of a `base model` trained with [MedicalNERModel](https://nlp.johnsnowlabs.com/docs/en/licensed_release_notes#1-medicalnermodel-annotator).
 
 If a MedicalNER model is available on the Models Hub section of the Annotation Lab, it can be chosen as a starting point of the training process. This means the `base model` will be Fine Tuned with the new training data.
 

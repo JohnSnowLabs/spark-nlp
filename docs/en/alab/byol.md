@@ -13,7 +13,7 @@ sidebar:
   nav: annotation-lab
 ---
 
-By default, the Annotation Lab allows access to community pre-trained models and embeddings. Those are available on the **Models Hub** page. To gain access to licensed resources (e.g. pre-trained models and embeddings) _admin_ user can import a Spark NLP for Healthcare license which will activate additional features:
+By default, the Annotation Lab allows access to community pre-trained models and embeddings. Those are available on the **Models Hub** page. To gain access to licensed resources (e.g. pre-trained models and embeddings) _admin_ user can import a license (Healthcare or Visual NLP) which will activate additional features:
 
 - Access to licensed models for pre-annotation
 - Access to healthcare embeddings
@@ -26,18 +26,18 @@ Once a valid license is uploaded, all the licensed (Healthcare and Visual NLP) m
 
 ## Support for Floating Licenses
 
-Annotation Lab now supports floating licenses with different scopes (_ocr: training_, _ocr: inference_, _healthcare: inference_, _healthcare: training_). Depending on the scope of the available license, users can perform model training and/or deploy pre-annotation servers.
-Licenses are a must have for training Spark NLP for Healthcare models and deploying Spark NLP for Healthcare models as pre-annotation servers.
+Annotation Lab supports floating licenses with different scopes (_ocr: training_, _ocr: inference_, _healthcare: inference_, _healthcare: training_). Depending on the scope of the available license, users can perform model training and/or deploy pre-annotation servers.
+Licenses are a must for training Healthcare models and deploying Healthcare models as pre-annotation servers.
 Floating licenses can be acquired on self-service via [my.JohnSnowLabs.com](https://my.johnsnowlabs.com/).
 
 One floating license is bound to only one server (pre-annotation server, OCR server, training job) at a time. To run multiple model training jobs and/or pre-annotations servers, users must provide multiple floating licenses.
 
 Annotation Lab supports either floating licenses or air-gapped licenses. Mixing floating and air-gapped licenses on the same Annotation Lab instance is not allowed.
 
-### Usage of Spark NLP for Healthcare licenses
+### Usage of Healthcare NLP Licenses
 
 The number of available floating licenses can influence the creation of multiple training and pre-annotation servers. For example, to deploy 5 pre-annotation servers using Spark NLP for Healthcare models or embeddings, across 5 different projects, you will need 5 floating licenses.
 
 Since one floating license can only be used for one server, it is not possible to deploy a pre-annotation server and then trigger training from the same project when only one license is available. In this case, the pre-annotation server has to be deleted first, and then the training can be started.
 
-Those restrictions do not apply when using airgap licenses or when using Spark NLP models and embeddings.
+Those restrictions do not apply when using Spark NLP models and embeddings.

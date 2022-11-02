@@ -24,9 +24,9 @@ es {
 }
 </style>
 
-Annotation Lab offers out-of-the-box support for <es>Named Entity Recognition</es>, <es>Classification</es>, and <es>Assertion Status</es> preannotations. These are extremely useful for bootstrapping any annotation project as the annotation team does not need to start the labeling from scratch but can leverage the existing knowledge transfer from domain experts to models. This way, the annotation efforts are significantly reduced.
+Annotation Lab offers out-of-the-box support for <es>Named Entity Recognition</es>, <es>Classification</es>, <es>Assertion Status</es>, and <es>Relations</es> preannotations. These are extremely useful for bootstrapping any annotation project as the annotation team does not need to start the labeling from scratch but can leverage the existing knowledge transfer from domain experts to models. This way, the annotation efforts are significantly reduced.
 
-To run pre-annotation on one or several tasks, the <es>Project Owner</es> or the <es>Manager</es> must select the target tasks and click on the _Pre-Annotate_ Button from the top right side of the <es>Tasks</es> page. It will display a popup with information regarding the last deployment of the model server with the list of models deployed and the labels they predict.
+To run pre-annotation on one or several tasks, the <es>Project Owner</es> or the <es>Manager</es> must select the target tasks and click on the `Pre-Annotate` button from the top right side of the <es>Tasks</es> page. It will display a popup with information regarding the last deployment of the model server with the list of models deployed and the labels they predict.
 
 <img class="image image__shadow" src="/assets/images/annotation_lab/4.1.0/preannotation_ner.gif" style="width:100%;"/>
 
@@ -38,17 +38,17 @@ If needed, users can deploy the models defined in the current project (based on 
 
 Since <bl>Annotation Lab 3.0.0</bl>, multiple preannotation servers are available to preannotate the tasks of a project. The dialog box that opens when clicking the _Pre-Annotate_ button on the <es>Tasks</es> page now lists available model servers in the options. <es>Project Owners</es> or <es>Managers</es> can now select the server to use. On selecting a model server, information about the configuration deployed on the server is shown on the popup so users can make an informed decision on which server to use. 
 
-Incase the target preannotation server does not exist, the dialog box also offers the option to deploy a new server with the current project's configuration. If this option is selected and enough resources are available (infrastructure capacity and a license if required) the server is deployed, and preannotation can be started. If there are no free resources, users can delete one or several existing servers from <es>Clusters</es> page under the <es>Settings</es> menu.
+In case a preannotation server does not exist for the current project, the dialog box also offers the option to deploy a new server with the current project's configuration. If this option is selected and enough resources are available (infrastructure capacity and a license if required) the server is deployed, and preannotation can be started. If there are no free resources, users can delete one or several existing servers from <es>Clusters</es> page under the <es>Settings</es> menu.
 
 ![preannotation_dialog](https://user-images.githubusercontent.com/26042994/161700555-1a46ef82-1ed4-41b8-b518-9c97767b1469.gif)
 
 Concurrency is not only supported between preannotation servers but also between training and preannotation. Users can have training running on one project and preannotation running on another project at the same time.
 
-## Approaches
+## Preannotation Approaches
 
 ### Pretrained Models
 
-On the <es>Predefined Labels</es> step of the <es>Project Configuration</es> page we can find the list of available models with their respective prediction labels. By selecting the relevant labels for your project and clicking the _Add Label_ button you can add the predefined labels to your project and take advantage of the Spark NLP auto labeling capabilities. 
+On the <es>Predefined Labels</es> step of the <es>Project Configuration</es> page we can find the list of available models with their respective prediction labels. By selecting the relevant labels for your project and clicking the `Add Label` button you can add the predefined labels to your project configuration and take advantage of the Spark NLP auto labeling capabilities. 
 
 In the example below, we are reusing the `ner_posology` model that comes with 7 labels related to drugs.
 
@@ -56,17 +56,21 @@ In the example below, we are reusing the `ner_posology` model that comes with 7 
 
 <br />
 
+In the same manner classification, assertion status or relation models can be added to the project configuration and used for preannotation purpose. 
+
 ### Rules
 
-Preannotation of NER projects can also be done using <es>Rules</es>. Rules are used to speed up the manual annotation process. Once a rule is defined, it is available for use in any project. However, for defining and running the rules we will need a <bl>Spark NLP for Healthcare</bl> license.
+Preannotation of NER projects can also be done using <es>Rules</es>. Rules are used to speed up the manual annotation process. Once a rule is defined, it is available for use in any project. However, for defining and running the rules we will need a <bl>[Healthcare NLP](/docs/en/licensed_install)</bl> license.
 
 In the example below, we are reusing the available rules for preannotation.
 
 <img class="image image__shadow" src="/assets/images/annotation_lab/4.1.0/available_rules.png" style="width:100%;"/>
 
+Read more on how to create rules and reuse them to speed up the annotation process [here](https://medium.com/annotation-lab/using-rules-to-jump-start-text-annotation-projects-1-3-john-snow-labs-8277a9c7fbcb). 
+
 ## Text Preannotation
 
-Preannotation is available for projects with text contents as the tasks. When you setup a project to use existing Spark NLP models for pre-annotation, you can run the designated models on all of your tasks by pressing the _Pre-Annotate_ button on the top-right corner of the <es>Tasks</es> page.
+Preannotation is available for projects with text contents as the tasks. When you setup a project to use existing Spark NLP models for pre-annotation, you can run the designated models on all of your tasks by pressing the `Pre-Annotate` button on the top-right corner of the <es>Tasks</es> page.
  
 <img class="image image__shadow" src="/assets/images/annotation_lab/4.1.0/text_preannotation.png" style="width:100%;"/>
 
@@ -74,7 +78,7 @@ As a result, all predicted labels for a given task will be available in the <es>
 
 ## Visual Preannotation
 
-For running pre-annotation on one or several tasks, the <es>Project Owner</es> or the <es>Manager</es> must select the target tasks and can click on the _Pre-Annotate_ button from the upper right side of the <es>Tasks</es> Page. It will display a popup with information regarding the last deployment of the model server, including the list of models deployed and the labels they predict.
+For running pre-annotation on one or several tasks, the <es>Project Owner</es> or the <es>Manager</es> must select the target tasks and can click on the `Pre-Annotate` button from the upper right side of the <es>Tasks</es> Page. It will display a popup with information regarding the last deployment of the model server, including the list of models deployed and the labels they predict.
 
 <img class="image image__shadow" src="/assets/images/annotation_lab/4.1.0/visual_ner_preannotation.gif" style="width:100%;"/>
 
@@ -87,7 +91,6 @@ For running pre-annotation on one or several tasks, the <es>Project Owner</es> o
 
 Loading too many models in the preannotation server is not memory efficient and may not be practically required. Starting from version <bl>1.8.0</bl>, Annotation Lab supports maximum of five different models to be used for the preannotation server deployment.
 
-Another restriction for the server deployment is that two models trained on different embeddings cannot be used together in the same project.
-The Labeling Config will throw validation errors in any of the cases above, and we cannot save the configuration preventing preannotation server deployment.
+Another restriction for Annotation Lab versions older than 4.2.0 is that two models trained on different embeddings cannot be used together in the same project. The Labeling Config will throw validation errors in any of the cases above, and we cannot save the configuration preventing preannotation server deployment.
 
 <img class="image image__shadow" src="/assets/images/annotation_lab/4.1.0/5_models.png" style="width:100%;"/>

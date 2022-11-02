@@ -35,7 +35,7 @@ For customizing a predefined configuration, choose a `Content Type` and then a t
  
 After you finish editing the labels click the “Save” button. 
 
-### NER Labeling
+### Named Entity Recognition
 Named Entity Recognition (NER) refers to the identification and classification of entities mentioned in unstructured text into pre-defined categories such as person names, organizations, locations, medical codes, time expressions, quantities, monetary values, percentages, etc.
 
 

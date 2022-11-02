@@ -24,12 +24,13 @@ Under each task you can see meta data about the task: the time of import, the us
 
 Project Owners/Managers can assign tasks to annotator(s) and reviewer(s) in order to better plan/distribute project work. Annotators and Reviewers can only view tasks that are assigned to them which means there is no chance of accidental work overlap.
  
-For assigning a task to an annotator, from the task page select one or more tasks and from the Assign dropdown choose an annotator. 
-You can only assign a task to annotators that have already been added to the project. For adding an annotator to the project, go to the Setup page and share the project with the annotator by giving him/her the update right.
+For assigning a task to an annotator, from the task page select one or more tasks and from the `Assign` dropdown choose an annotator. 
 
 <img class="image image__shadow" src="/assets/images/annotation_lab/4.1.0/task_assignment.gif" style="width:100%;"/>
 
-When upgrading from an older version of the Annotation Lab, the annotators will no longer have access to the tasks they worked on unless they will be assigned to those explicitely by the admin user who created the project. Once they are assigned, they can resume work and no information will be lost.
+You can only assign a task to annotators that have already been added to the project team. For adding an annotator to the project team, select your project and navigate to the `Setup>Team` menu item. On the `Add Team Member` page, search for the user you want to add, select the role you want to assign to him/her and click on `Add To Team` button. 
+
+> **NOTE:** When upgrading from an older version of the Annotation Lab, the annotators will no longer have access to the tasks they worked on unless they are assigned to those explicitely by the admin user who created the project. Once they are assigned, they can resume work and no information is lost.
 
 ## Task Status
 
@@ -93,18 +94,20 @@ The number of tasks visible on the screeen is customizable by selecting the pred
 
 <img class="image image__shadow" src="/assets/images/annotation_lab/4.1.0/task_filters.gif" style="width:100%;"/>
 
-## Search tasks by label:token
-Annotation Lab supports the identification of tasks based on the annotations they include. 
-Currently supported search queries:
-- label: ABC -> returns all tasks that have at least one completion containing a chunk with label ABC
-- label: ABC=DEF -> returns all tasks that have at least one completion containing the text DEF labeled as ABC
-- choice: Mychoice -> returns all tasks that have at least one completion which classified as Mychoice
+## Task Search by Text, Label and Choice
+
+Annotation Lab offers advanced search features that help users identify the tasks they need based on the text or based on the annotations defined so far. Currently supported search queries are:
+- text: patient -> returns all tasks which contain the string "patient";
+- label: ABC -> returns all tasks that have at least one completion containing a chunk with label ABC;
+- label: ABC=DEF -> returns all tasks that have at least one completion containing the text DEF labeled as ABC;
+- choice: Sport -> returns all tasks that have at least one completion which classified the task as Sport;
+- choice: Sport,Politics -> returns all tasks that have at least one completion containing multiple choices Sport and Politics.
 
 Search functionality is case insensitive, thus the following queries `label: ABC=DEF` , `label: Abc=Def` or `label: abc=def` are considered equivalent.
 
-### Example:
+**Example:**
 
-Consider a system with 3 tasks which are annotated as below:
+Consider a project with 3 tasks which are annotated as below:
 
 <img class="image image__shadow" src="/assets/images/annotation_lab/4.1.0/task_search_task1.png" style="width:100%;"/>
 <img class="image image__shadow" src="/assets/images/annotation_lab/4.1.0/task_search_task2.png" style="width:100%;"/>
@@ -118,12 +121,12 @@ Search-query "label:WORK_OF_ART" will list as result Task 1 and Task 2.
 
 <img class="image image__shadow" src="/assets/images/annotation_lab/4.1.0/task_search_work_of_art.png" style="width:100%;"/>
 
-Search-query "label:PERSON=Leonardo" will listas result Task 1.
+Search-query "label:PERSON=Leonardo" will list as result Task 1.
 
 <img class="image image__shadow" src="/assets/images/annotation_lab/4.1.0/task_search_person_leonardo.png" style="width:100%;"/>
 
 ## Comments
 
-Comment can be added to each task by Project Owner or Manager. This is done by clicking the _View comments_ present on the rightmost side of each Task in the Tasks List page. It is important to notice that these comments are visible to everyone who can view the particular task.
+Comments can be added to each task by any team member. This is done by clicking the `_View comments_` link present on the rightmost side of each Task in the Tasks List page. It is important to notice that these comments are visible to everyone who can view the particular task.
 
 <img class="image image__shadow" src="/assets/images/annotation_lab/4.1.0/task_comment.png" style="width:100%;"/>

@@ -39,7 +39,7 @@ On the header of the Labeling area, you can find the list of labels defined for 
 ## Labeling Widgets
 ### Completions
 
-A completion is a list of annotations manually defined by a user for a given task. After completing annotation on a task (e.g., all entities highlighted in the text, or one or more classes is assigned to the task in the case of classification projects) user clicks on the _Save_ button to save their progress or _Submit_ button to submit the completion.
+A completion is a list of annotations manually defined by a user for a given task. After completing annotation on a task (e.g., all entities highlighted in the text, or one or more classes is assigned to the task in the case of classification projects) user clicks on the `Save` button to save their progress or `Submit` button to submit the completion.
 
 A submitted completion is no longer editable, and the user cannot delete it. Creating a new copy of the submitted completion is the only option to edit it. An annotator can modify or delete their completions only if completions are not submitted yet.
 
@@ -53,7 +53,7 @@ It is an important to ensure a complete audit trail of all user actions. Annotat
 
 ### Predictions
 
-A prediction is a list of annotations created automatically by <bl>Spark NLP</bl> pre-trained [models](https://nlp.johnsnowlabs.com/docs/en/alab/models) or from the [rules](https://nlp.johnsnowlabs.com/docs/en/alab/rules). A project owner/manager can create predictions using the _Pre-Annotate_ button from the <es>Tasks</es> page. Predictions are read-only, which means users can see the predictions but cannot modify those.
+A prediction is a list of annotations created automatically by <bl>Spark NLP</bl> pre-trained [models](https://nlp.johnsnowlabs.com/docs/en/alab/models) or from the [rules](https://nlp.johnsnowlabs.com/docs/en/alab/rules). A project owner/manager can create predictions using the `Pre-Annotate` button from the <es>Tasks</es> page. Predictions are read-only, which means users can see the predictions but cannot modify those.
 
 To reuse a prediction to bootstrap the annotation process, users can copy it to a new completion. This new completion bootstrapped from the prediction is editable.
 
@@ -77,7 +77,7 @@ The Annotations widget has two sections.
 
 <bl>Regions</bl> - Gives a list overview of all annotated chunks. When you click on any annotation, it gets automatically highlighted in the labeling editor. We can edit or remove annotations from here.
 
-<bl>Relations</bl> - Lists all the relations that have been labeled. When the user moves the mouse over any one relation, it is highlighted in the labeling editor.
+<bl>Relations</bl> - Lists all the relations that have been created. When the user moves the mouse over any one relation, it is highlighted in the labeling editor.
 
 <br />
 
@@ -123,13 +123,12 @@ To add an assertion label to an extracted entity, select the assertion label and
 
 Creating relations with the Annotation Lab is very simple. First, click on any one labeled entity, then press the <es>r</es> key and click on the second labeled entity.
 
-<img class="image image__shadow" src="/assets/images/annotation_lab/4.1.0/relation_mapping.png" style="width:100%;"/>
+<img class="image image__shadow" src="/assets/images/annotation_lab/4.2.0/rel_ann.gif" style="width:100%;"/>
 
 You can add a label to the relation, change its direction or delete it using the contextual menu displayed next to the relation arrow or from the relation box.
 
-<img class="image image__shadow" src="/assets/images/annotation_lab/2.3.0/relations.gif" style="width:50%;"/>
 
-<img class="image image__shadow" src="/assets/images/annotation_lab/relations2.png" style="width:50%;"/>
+<img class="image image__shadow" src="/assets/images/annotation_lab/relations2.png" style="width:40%;"/>
 
 <br />
 
@@ -141,18 +140,18 @@ From version <bl>2.8.0</bl>, Annotation Lab supports cross-page NER annotation f
 
 <br />
 
-## Visual Annotation
+## Visual NER Annotation
 
-Annotating text included in image documents (e.g., scanned documents) is a common usecase in many verticals but comes with several challenges. With the <es>Visual NER</es> labeling config, we aim to ease the work of annotators by allowing them to select text from an image and assign the corresponding label to it.
+Annotating text included in image documents (e.g., scanned documents) is a common use case in many verticals but comes with several challenges. With the <es>Visual NER</es> labeling config, we aim to ease the work of annotators by allowing them to select text from an image and assign the corresponding label to it.
 
-This feature is powered by <bl>Spark OCR</bl> library; hence a valid Spark OCR license is required to get access to it.
+This feature is powered by <bl>Visual NLP</bl> library; hence a valid [Visual NLP](/docs/en/ocr) license is required to get access to it.
 
 Here is how we can use it:
 
-1. Upload a valid <bl>Spark OCR</bl> license. See how to do this [here](/docs/en/alab/byol).
-2. Create a new project, specify a name for your project, add team members if necessary, and from the list of predefined templates (Default Project Configs) choose _Visual NER labeling_ under _PER-REGION_ content type.
-3. Update the configuration if necessary. This might be useful if you want to use other labels than the currently defined ones. Click the _Save Config_ button. While saving the project, a confirmation dialog is displayed to ask if you want to deploy the OCR pipeline. Select _Yes_ from the confirmation dialog.
-4. Import the tasks you want to annotate (images).
+1. Upload a valid <bl>[Visual NLP](/docs/en/ocr)</bl> license. See how to do this [here](/docs/en/alab/byol).
+2. Create a new project, specify a name for your project, add team members if necessary, and from the list of predefined templates (Default Project Configs) choose `Visual NER Labeling` under **IMAGE** content type.
+3. Update the configuration if necessary. This might be useful if you want to use other labels than the default ones. Click the `Save Config` button. While saving the project, a confirmation dialog is displayed to ask if you want to deploy the OCR pipeline. Select `Yes` from the confirmation dialog.
+4. Import the tasks you want to annotate (images or PDF documents).
 5. Start annotating text on top of the image by clicking on the text tokens, or by drawing bounding boxes on top of chunks or image areas.
 6. Export annotations in your preferred format.
 
@@ -162,7 +161,7 @@ The entire process is illustrated below:
 
 ### Support for multi-page PDF documents
 
-When a valid Spark OCR license is available, Annotation Lab offers support for multi-page PDF annotation. We can import, annotate, and export multi-page PDF files easily.
+When a valid Visual NLP license is available, Annotation Lab offers support for multi-page PDF annotation. We can import, annotate, and export multi-page PDF files easily.
 
 Users have two options for importing a new PDF file into the Visual NER project:
 1. Import PDF file from local storage.
@@ -176,8 +175,8 @@ After import, the task becomes available on the <es>Tasks</es> Page. The title o
 
 ### Support for multiple OCR servers
 
-Just like [Preannotation](/docs/en/alab/preannotation) servers, <bl>Annotation Lab 3.0.0</bl> also supports deployment of multiple OCR servers. If a user has uploaded a Spark OCR airgap or floating license, <es>OCR inference</es> is enabled. 
+Just like for [Preannotation](/docs/en/alab/preannotation) servers, Annotation Lab supports deployment of multiple OCR servers. If a user has uploaded a [Visual NLP](/docs/en/ocr) license, <es>OCR inference</es> is enabled. 
 
-To work on a Visual NER project, users have to deploy at least one OCR server. Any OCR server can perform preannotation. To select the OCR server, users need to go to the <es>Import</es> page, click on the OCR Server button on the top-right corner and from the popup, choose one of the available OCR servers. If no suitable OCR server is present, you can create a new server selecting the _Create Server_ option.
+To work on a Visual NER project, users have to deploy at least one OCR server. Any OCR server can perform preannotation. To select the OCR server, users need to go to the <es>Import</es> page, click on the OCR Server button on the top-right corner and from the popup, choose one of the available OCR servers. If no suitable OCR server is present, you can create a new server by selecting the `Create Server` option and then clicking on the `Deploy` button.
 
 <img class="image image__shadow" src="/assets/images/annotation_lab/4.1.0/ocr_server.gif" style="width:100%;"/>

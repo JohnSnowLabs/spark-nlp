@@ -15,7 +15,7 @@ sidebar:
 
 ### Management of Preannotation and Training Servers
 
-Annotation Lab 3.0.0 gives users the ability to view the list of all active servers. Any user can access the _Clusters_ page by navigating to `Settings > Clusters`. This page provides the following details.
+Annotation Lab gives users the ability to view the list of all active servers. Any user can access the _Clusters_ page by navigating to `Settings > Clusters`. This page provides the following details.
 
 - A summary of the status/limitations of the current infrastructure to run Spark NLP for Healthcare training jobs and/or pre-annotation servers.
 - Ability to delete a server and free up resources when required, so that another training job and/or pre-annotation server can be started.
@@ -29,7 +29,7 @@ Annotation Lab 3.0.0 gives users the ability to view the list of all active serv
 
 ![server_page](/assets/images/annotation_lab/4.1.0/server_management.gif)
 
-By default, only 1 server can be initialized for either pre-annotation or training even if there are multiple licenses present. To enable more than 1 servers to be initialized we need to update the below configuration parameter in `annotationlab-updater.sh` script inside the artifacts folder and then re-run it.
+By default, only 1 server can be initialized for either pre-annotation or training even if there are multiple licenses present. To enable more than 1 servers to be initialized update the below configuration parameter in `annotationlab-updater.sh` script inside the artifacts folder and then re-run it.
 
 ```bash
 model_server.count=<NUMBER_OF_SERVER_TO_INITIALIZE>
