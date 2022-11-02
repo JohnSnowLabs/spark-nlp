@@ -6,7 +6,7 @@ seotitle: Annotation Lab | John Snow Labs
 title: Project Creation
 permalink: /docs/en/alab/project_creation
 key: docs-training
-modify_date: "2022-10-19"
+modify_date: "2022-11-01"
 use_language_switcher: "Python-Scala"
 show_nav: true
 sidebar:
@@ -14,17 +14,22 @@ sidebar:
 ---
 
 ## New project 
-You can create a new project using a creation wizard which will guide users through each step of the project creation and configuration. Those are illustrated below:
-
-**Project Description**
 
 Every project in Annotation Lab should have the following information:
-
 - a unique name and a short description;
 - a team of annotators, reviewers and a manager who will collaborate on the project;
 - a configuration which specifies the type of annotations that will be created.
 
-To create a new project, click on the Create Project button on the Home Page and choose a name for it. The project can include a short description and annotation instructions/guidelines.
+You can create a new project using the dedicated wizard which will guide users through each step of the project creation and configuration process. Those steps are illustrated below. 
+
+### Project Description
+
+To open the project creation wizard click on the `+ New Project` button on the `Projects Dashboard`, then provide the following information:
+- a unique name or title;
+- a sampling type which will define how the tasks assigned to annotators/reviewers will be served - randomly or sequentially;
+- a short description that helps users quickly grasp the main purpose of the project;
+- instructions for annotators or Annotation Guidelines which will help annotators and reviewers generate high quality annotations.  
+
 
 ![Description](https://user-images.githubusercontent.com/46840490/193200891-d2098f36-c300-4693-924d-168801ae5acd.png)
 
@@ -32,25 +37,30 @@ Reserved words cannot be used as project names. The use of keywords like count, 
 
 <img class="image image--xl image__shadow" src="/assets/images/annotation_lab/4.1.0/reserved.gif" style="width:100%;"/>
 
-**Adding Team Members**
+
+### Adding Team Members
 
 When working in teams, projects can be shared with other team members.
 
-The user who creates a project is called a Project Owner. He/She has complete visibility and ownership of the project for its entire lifecycle. If the Project Owner is removed from the user database, then all his/her projects are transfered to a new project owner. The Project Owner can edit the project configuration, can import/export tasks, can create a project team that will work on his project and can access project analytics.
-When defining the project team, a project owner has access to three distinct roles: Annotator, Reviewer, and Manager. These are very useful for most of the workflows that our users follow.
+The user who creates a project is called a `Project Owner`. He/She has complete visibility and ownership of the project for its entire lifecycle. If the `Project Owner` is removed from the user database, then all his/her projects are transfered to a new project owner. The `Project Owner` can edit the project configuration, can import/export tasks, can create a project team that will work on his project and can access project analytics.
 
-- An Annotator is able to see the tasks which have been assigned to him or her and can create annotations on the documents.
-- The Reviewer is able to see the work of the annotators and approve it or reject in case he finds issues that need to be solved.
-- The Manager is able to see the work of the Annotators and of the Reviewers and he can assign tasks to team members. This is useful for eliminating work overlap and for a better management of the work load.
+When defining the project team, a project owner has access to three distinct roles: `Annotator`, `Reviewer`, and `Manager`. These are very useful for most of the workflows that our users follow.
 
-To add a user to your project team, navigate to the Project Setup page. On the Manage Project Team tab, start typing the name of a user in the available text box. This will populate a list of available users having the username start with the characters you typed. From the dropdown select the user you want to add to your team. Select a role for the user and click on the “Add to team” button.
+- An `Annotator` is able to see the tasks which have been assigned to him or her and can create annotations on the documents.
+- The `Reviewer` is able to see the work of the annotators and approve it or reject in case he finds issues that need to be solved.
+- The `Manager` is able to see the work of the `Annotators` and of the `Reviewers` and he can assign tasks to team members. This is useful for eliminating work overlap and for a better management of the work load.
 
-In the Project Team page users can add/remove/update the team members even in the case of a large number of members. The team members are displayed in a tabular view. Each member has a priority assigned to them for CONLL export which can be changed by dragging them across the list.
+To add a user to your project team, select your Project, then from the left side menu access the `Setup` option and then the `Team` option. On the `Add Team Member` page that opens, start typing the name of a user in the available text box. This will populate a list of available users having the username start with the characters you typed. From the dropdown select the user you want to add to your team. Select a role for the user and click on the “Add to team” button.
+
+In the `Add Team Member` page users can add/remove/update the team members even in the case of a large number of members. The team members are displayed in a tabular view. Each member has a priority assigned to them for CONLL export which can be changed by dragging users across the list.
+
 ![teamMembers](https://user-images.githubusercontent.com/46840490/193060010-3394cccd-93ab-40a8-8479-98155ea8b417.gif)
 
-**Project Configuration**
 
-The Project Configuration itself is a multi-step process. The wizard will guide users through each step and provide information and hints for each step.
+### Project Configuration
+
+The Project Configuration itself is a multi-step process. The wizard will guide users through each step while providing useful information and hints for all available options.
+
 ![projectConfiguration](https://user-images.githubusercontent.com/46840490/193033349-534cc2ab-2e5a-4caa-a050-0ee650949b21.gif)
 
 ## Clone
@@ -59,15 +69,18 @@ You can create a copy of a project, by using the Clone option. The option to clo
 <img class="image image--xl image__shadow" src="/assets/images/annotation_lab/4.1.0/dashboardCloneImportExport.png" style="width:100%;"/>
   
 ## Export  
-Entire Projects can be exported. The option to export the project is listed in the kebab menu of each project. All project-related items such as tasks, project configuration, project members, task assignments, and comments are included in the export file.
+
+Projects can be exported. The option to export a project is listed in the kebab menu of each project. All project-related items such as tasks, project configuration, project members, task assignments, and comments are included in the export file.
 
 > **NOTE:**  Project export does not contain the model trained in the project as models are independent and not attached to a particular project.
   
 ## Import  
-The project can be imported by uploading the zip in the upload dialog box. When the project is imported back to ALAB, all the item can be seen as it was present when exported. 
+
+A project can be imported by uploading the project zip archive in the upload dialog box. When the project is imported back to Annotation Lab, all elements of the original project configuration will be included in the new copy. 
   
 ## Project Grouping
-As the number of projects can grow significantly over time, for an easier management and organization of those, the Annotation Lab allows project grouping. As such, it is possible to assign a project to an existing group or to a new group. Each group can be assigned a color which will be used to highlight projects included in that group. Once a project is assigned to a group, the group name proceeds the name of the project. At any time a project can be remove from one group and added to another group.
+
+As the number of projects can grow significantly over time, for an easier management and organization of those,  Annotation Lab allows project grouping. As such, a project owner can assign a group to one or several of his/her projects. Each group can be assigned a color which will be used to highlight projects included in that group. Once a project is assigned to a group, the group name proceeds the name of the project on the project tile. At any time a project can be remove from one group and added to another group.
 
 The list of visible projects can be filtered based on group name, or using the search functionality which applies to both group name and project name. 
 

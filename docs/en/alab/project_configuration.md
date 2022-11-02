@@ -3,19 +3,19 @@ layout: docs
 comment: no
 header: true
 seotitle: Annotation Lab | John Snow Labs
-title: Configuration
+title: Project Configuration
 permalink: /docs/en/alab/project_configuration
 key: docs-training
-modify_date: "2022-10-13"
+modify_date: "2022-11-01"
 use_language_switcher: "Python-Scala"
 show_nav: true
 sidebar:
     nav: annotation-lab
 ---
 
-We currently support multiple predefined project configurations. The most popular ones are Text Classification, Named Entity Recognition (NER) and  Visual NER . Create a setup from scratch or customize a predefined one according to your needs.
+Annotation Lab currently supports multiple predefined project configurations. The most popular ones are `Text Classification`, `Named Entity Recognition` (NER) and  `Visual NER`. Create a setup from scratch or customize a predefined one according to your needs.
 
-For customizing a predefined configuration, click on the corresponding link in the table above and then navigate to the Labeling configuration tab and manually edit or update it to contain the labels you need.
+For customizing a predefined configuration, click on the corresponding link in the table above and then navigate to the Labeling configuration tab and manually edit or update it to contain the labels you want.
 
 After you finish editing the labels you want to define for your project click the “Save” button.
 
