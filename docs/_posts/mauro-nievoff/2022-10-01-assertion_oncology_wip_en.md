@@ -34,6 +34,7 @@ This model detects the assertion status of entities related to oncology (includi
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
+
 ```python
 document_assembler = DocumentAssembler()\
     .setInputCol("text")\
@@ -103,7 +104,7 @@ val ner_converter = new NerConverter()
     .setWhiteList(Array("Cancer_Dx", "Tumor_Finding", "Cancer_Surgery", "Chemotherapy", "Pathology_Test", "Imaging_Test"))
 
 val clinical_assertion = AssertionDLModel.pretrained("assertion_oncology_wip","en","clinical/models")
-    .setInputCols("sentence","ner_chunk","embeddings")
+    .setInputCols(Array("sentence","ner_chunk","embeddings"))
     .setOutputCol("assertion")
         
 val pipeline = new Pipeline().setStages(Array(document_assembler,
@@ -114,7 +115,7 @@ val pipeline = new Pipeline().setStages(Array(document_assembler,
                                               ner_converter,
                                               assertion))
 
-val data = Seq("The patient is suspected to have breast cancer. Family history is positive for other cancers. The result of the biopsy was positive.").toDF("text")
+val data = Seq("""The patient is suspected to have breast cancer. Family history is positive for other cancers. The result of the biopsy was positive.""").toDF("text")
 
 val result = pipeline.fit(data).transform(data)
 ```
@@ -158,6 +159,6 @@ Hypothetical       0.67    0.61      0.64    182.0
         Past       0.91    0.93      0.92   1583.0
     Possible       0.59    0.59      0.59     51.0
      Present       0.89    0.89      0.89   1645.0
-   macro avg       0.77    0.77      0.77   3759.0
-weighted avg       0.88    0.88      0.88   3759.0
+   macro-avg       0.77    0.77      0.77   3759.0
+weighted-avg       0.88    0.88      0.88   3759.0
 ```
