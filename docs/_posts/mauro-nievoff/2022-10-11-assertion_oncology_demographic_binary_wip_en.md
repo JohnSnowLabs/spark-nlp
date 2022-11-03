@@ -34,6 +34,7 @@ This model detects if a demographic entity refers to the patient or to someone e
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
+
 ```python
 document_assembler = DocumentAssembler()\
     .setInputCol("text")\
@@ -102,7 +103,7 @@ val ner_converter = new NerConverter()
     .setWhiteList(Array("Age", "Gender"))
 
 val clinical_assertion = AssertionDLModel.pretrained("assertion_oncology_demographic_binary_wip","en","clinical/models")
-    .setInputCols("sentence","ner_chunk","embeddings")
+    .setInputCols(Array("sentence","ner_chunk","embeddings"))
     .setOutputCol("assertion")
         
 val pipeline = new Pipeline().setStages(Array(document_assembler,
@@ -113,7 +114,7 @@ val pipeline = new Pipeline().setStages(Array(document_assembler,
                                               ner_converter,
                                               assertion))
 
-val data = Seq("One sister was diagnosed with breast cancer at the age of 40.").toDF("text")
+val data = Seq("""One sister was diagnosed with breast cancer at the age of 40.""").toDF("text")
 
 val result = pipeline.fit(data).transform(data)
 
@@ -153,6 +154,6 @@ In-house annotated oncology case reports.
        label  precision  recall  f1-score  support
      Patient       0.93    0.86      0.89     29.0
 Someone_Else       0.88    0.93      0.90     30.0
-   macro avg       0.90    0.90      0.90     59.0
-weighted avg       0.90    0.90      0.90     59.0
+   macro-avg       0.90    0.90      0.90     59.0
+weighted-avg       0.90    0.90      0.90     59.0
 ```
