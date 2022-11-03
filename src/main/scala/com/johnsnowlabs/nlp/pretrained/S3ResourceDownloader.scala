@@ -17,7 +17,7 @@
 package com.johnsnowlabs.nlp.pretrained
 
 import com.amazonaws.services.s3.model.ObjectMetadata
-import com.johnsnowlabs.client.aws.AWSGateway
+import com.johnsnowlabs.client.aws.{AWSGateway, S3Util}
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
 import com.johnsnowlabs.util.FileHelper
 import org.apache.commons.io.IOUtils
@@ -78,7 +78,7 @@ class S3ResourceDownloader(
   override def download(request: ResourceRequest): Option[String] = {
     val link = resolveLink(request)
     link.flatMap { resource =>
-      val s3FilePath = awsGateway.getS3File(s3Path, request.folder, resource.fileName)
+      val s3FilePath = S3Util.getS3File(s3Path, request.folder, resource.fileName)
       if (!awsGateway.doesS3ObjectExist(bucket, s3FilePath)) {
         None
       } else {

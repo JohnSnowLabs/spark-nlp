@@ -112,11 +112,8 @@ object OutputHelper {
 
   private def exportLogFileToS3(outputLogsPath: String): Unit = {
     if (outputLogsPath.startsWith("s3")) {
-      val sourceFilePath = targetPath.toString
-      val s3Bucket = outputLogsPath.replace("s3://", "").split("/").head
-      val s3Path = "s3:/" + outputLogsPath.substring(s"s3://$s3Bucket".length) + "/"
-
-      storeFileInS3(sourceFilePath, s3Bucket, s3Path)
+      val awsGateway = new AWSGateway()
+      awsGateway.copyFileToS3(outputLogsPath, targetPath.toString)
     } else if (getLogsFolder.startsWith("s3")) {
       val sourceFilePath = targetPath.toString
       val s3Bucket = ConfigLoader.getConfigStringValue(ConfigHelper.awsExternalS3BucketKey)
@@ -135,19 +132,51 @@ object OutputHelper {
 
   private def exportLogFileToMinIO(outputLogsPath: String): Unit = {
     if (outputLogsPath.startsWith("s3")) {
-      val sourceFilePath = targetPath.toString
-      val fileName = sourceFilePath.split("/").last
-      val bucket = outputLogsPath.replace("s3://", "").split("/").head
-      val bucketPath = outputLogsPath.substring(s"s3://$bucket".length) + "/"
-
       val minIOGateway = new MinIOGateway()
-      minIOGateway.copyResourceToMinIO(s"$bucketPath$fileName", bucket, sourceFilePath)
+      minIOGateway.copyFileToMinIO(outputLogsPath, targetPath.toString)
     }
   }
 
   def isEndpointPresent: Boolean = {
     val endpoint = ConfigLoader.getConfigStringValue(ConfigHelper.externalClusterStorageURI)
     endpoint != ""
+  }
+
+  def copyFilesToExternalStorage(files: List[File], externalPath: String): Unit = {
+    if (isEndpointPresent) {
+      copyFilesToMinIO(files, externalPath)
+    } else copyFilesToS3(files, externalPath)
+  }
+
+  def copyFilesToS3(files: List[File], s3Path: String): Unit = {
+    val awsGateway = new AWSGateway()
+    println(s"Copying ${files.length} files to S3 $s3Path ...")
+    files.foreach(file => awsGateway.copyFileToS3(s3Path, file.getPath))
+  }
+
+  def copyFilesToMinIO(files: List[File], minIOPath: String): Unit = {
+    val minIOGateway = new MinIOGateway()
+    println(s"Copying ${files.length} files to MinIO $minIOPath ...")
+    files.foreach(file => minIOGateway.copyFileToMinIO(minIOPath, file.getPath))
+  }
+
+  def downloadFilesFromExternalStorage(externalPath: String, destinationPath: String): Unit = {
+    if (isEndpointPresent) {
+      downloadFilesFromMinIO(externalPath, destinationPath)
+    } else downloadFilesFromS3(externalPath, destinationPath)
+  }
+
+  def downloadFilesFromS3(s3Path: String, destinationPath: String): Unit = {
+    val awsGateway = new AWSGateway()
+    println(s"Downloading files From S3 $s3Path ...")
+    awsGateway.downloadFilesFromDirectory(s3Path, destinationPath)
+  }
+
+  def downloadFilesFromMinIO(minIOPath: String, destinationPath: String): Unit = {
+    val minIOGateway = new MinIOGateway()
+    println(s"Downloading files From MinIO $minIOPath ...")
+    fileSystem.mkdirs(new Path(destinationPath))
+    minIOGateway.downloadFilesFromDirectory(minIOPath, destinationPath)
   }
 
 }

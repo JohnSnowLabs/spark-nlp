@@ -16,6 +16,7 @@
 
 package com.johnsnowlabs.storage
 
+import com.johnsnowlabs.nlp.util.io.{OutputHelper, ResourceHelper}
 import org.apache.hadoop.fs.{FileSystem, FileUtil, Path}
 import org.apache.spark.sql.SparkSession
 import org.apache.spark.{SparkContext, SparkFiles}
@@ -88,25 +89,14 @@ object StorageHelper {
           source,
           new Path(RocksDBConnection.getLocalPath(clusterFileName)),
           sparkContext)
-      case _ => copyIndexToCluster(source, clusterFilePath, sparkContext)
-    }
-  }
-
-  private def copyIndexToCluster(sourcePath: Path, dst: Path, spark: SparkContext): String = {
-    if (!new File(SparkFiles.get(dst.getName)).exists()) {
-      val srcFS = sourcePath.getFileSystem(spark.hadoopConfiguration)
-      val dstFS = dst.getFileSystem(spark.hadoopConfiguration)
-
-      if (srcFS.getScheme == "file") {
-        val src = sourcePath
-        dstFS.copyFromLocalFile(false, true, src, dst)
-      } else {
-        FileUtil.copy(srcFS, sourcePath, dstFS, dst, false, true, spark.hadoopConfiguration)
+      case _ => {
+        if (clusterFilePath.toString.startsWith("s3")) {
+          copyIndexExternalStorage(source.toString, clusterFilePath.toString)
+        } else {
+          copyIndexToCluster(source, clusterFilePath, sparkContext)
+        }
       }
-
-      spark.addFile(dst.toString, recursive = true)
     }
-    dst.toString
   }
 
   private def copyIndexToLocal(source: Path, destination: Path, context: SparkContext): Unit = {
@@ -117,6 +107,37 @@ object StorageHelper {
     val fs = source.getFileSystem(context.hadoopConfiguration)
     if (!fs.exists(destination))
       fs.copyFromLocalFile(false, true, source, destination)
+  }
+
+  private def copyIndexExternalStorage(sourcePath: String, s3Path: String): Unit = {
+    val sourceFiles = ResourceHelper.listLocalFiles(sourcePath)
+    OutputHelper.copyFilesToExternalStorage(sourceFiles, s3Path)
+  }
+
+  private def copyIndexToCluster(
+      sourcePath: Path,
+      destination: Path,
+      spark: SparkContext): String = {
+    if (!new File(SparkFiles.get(destination.getName)).exists()) {
+      val srcFS = sourcePath.getFileSystem(spark.hadoopConfiguration)
+      val dstFS = destination.getFileSystem(spark.hadoopConfiguration)
+
+      if (srcFS.getScheme == "file") {
+        val src = sourcePath
+        dstFS.copyFromLocalFile(false, true, src, destination)
+      } else {
+        FileUtil.copy(
+          srcFS,
+          sourcePath,
+          dstFS,
+          destination,
+          false,
+          true,
+          spark.hadoopConfiguration)
+      }
+      spark.addFile(destination.toString, recursive = true)
+    }
+    destination.toString
   }
 
 }

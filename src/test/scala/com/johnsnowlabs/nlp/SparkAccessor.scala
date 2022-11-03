@@ -27,6 +27,12 @@ object SparkAccessor {
     .config("spark.driver.maxResultSize", "0")
     .config("spark.kryoserializer.buffer.max", "200M")
     .config("spark.serializer", "org.apache.spark.serializer.KryoSerializer")
+    .config("spark.jsl.settings.aws.credentials.access_key_id", "Q3AM3UQ867SPQQA43P2F")
+    .config(
+      "spark.jsl.settings.aws.credentials.secret_access_key",
+      "zuf+tfteSlswRu7BJ86wekitnifILbZam1KYY3TG")
+    .config("spark.jsl.settings.storage.uri", "https://play.min.io")
+    .config("spark.jsl.settings.storage.cluster_tmp_dir", "s3://test.danilo/indexStorage/")
     .getOrCreate()
 
   val benchmarkSpark: SparkSession = SparkSession

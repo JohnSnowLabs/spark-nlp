@@ -16,6 +16,9 @@
 
 package com.johnsnowlabs.storage
 
+import com.johnsnowlabs.client.aws.S3Util
+import com.johnsnowlabs.nlp.util.io.OutputHelper
+import com.johnsnowlabs.util.{ConfigHelper, ConfigLoader}
 import org.apache.hadoop.fs.Path
 import org.apache.spark.SparkFiles
 import org.rocksdb.{CompressionType, Options, RocksDB}
@@ -48,7 +51,7 @@ final class RocksDBConnection private (path: String) extends AutoCloseable {
     } else if (new File(path).exists()) {
       path
     } else {
-      val localFromClusterPath = SparkFiles.get(path)
+      val localFromClusterPath = getLocalFromClusterPath
       require(
         new File(localFromClusterPath).exists(),
         s"Storage not found under given ref: $path\n" +
@@ -64,6 +67,21 @@ final class RocksDBConnection private (path: String) extends AutoCloseable {
           "appropriate ref. ")
       localFromClusterPath
     }
+  }
+
+  private def getLocalFromClusterPath: String = {
+    var localFromClusterPath = SparkFiles.get(path)
+    val storageTmpDir = ConfigLoader.getConfigStringValue(ConfigHelper.storageTmpDir)
+    if (storageTmpDir.startsWith("s3") && !new File(localFromClusterPath).exists()) {
+      val s3Path = s"$storageTmpDir/${localFromClusterPath.split("/").last}"
+      OutputHelper.downloadFilesFromExternalStorage(s3Path, localFromClusterPath)
+      if (!OutputHelper.isEndpointPresent) {
+        val (_, localFilesPath) = S3Util.extractBucketAndKeyPrefixFromS3Path(s3Path)
+        localFromClusterPath = s"$localFromClusterPath/$localFilesPath"
+      }
+    }
+
+    localFromClusterPath
   }
 
   def connectReadWrite: RocksDB = {

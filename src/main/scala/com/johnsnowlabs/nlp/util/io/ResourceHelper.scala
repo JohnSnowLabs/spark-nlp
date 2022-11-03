@@ -654,6 +654,7 @@ object ResourceHelper {
         }
       case "dbfs" if path.startsWith("dbfs:") =>
         Option(new File(path.replace("dbfs:", "/dbfs/")).listFiles())
+      case "file" => Option(new File(path.replace("file:", "")).listFiles())
       case _ => Option(new File(path).listFiles())
     }
 

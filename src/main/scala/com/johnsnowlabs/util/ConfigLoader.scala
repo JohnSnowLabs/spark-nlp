@@ -58,8 +58,9 @@ object ConfigLoader {
 
   private def getConfigInfo(property: String, defaultValue: String): Map[String, String] = {
     if (property == ConfigHelper.storageTmpDir) {
-      val path = ConfigHelper.getConfigValueOrElse(property, defaultValue)
-      val tmpLocation = path + "/" + UUID.randomUUID().toString.takeRight(12) + "_cdx"
+      val storageTmpDir = ConfigHelper.getConfigValueOrElse(property, defaultValue)
+      val path = if (storageTmpDir.last == '/') storageTmpDir else s"$storageTmpDir/"
+      val tmpLocation = s"$path${UUID.randomUUID().toString.takeRight(12)}_cdx"
       Map(property -> tmpLocation)
     } else {
       Map(property -> ConfigHelper.getConfigValueOrElse(property, defaultValue))

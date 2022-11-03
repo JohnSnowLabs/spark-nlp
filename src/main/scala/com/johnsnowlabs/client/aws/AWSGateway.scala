@@ -18,12 +18,7 @@ package com.johnsnowlabs.client.aws
 
 import com.amazonaws.auth.{AWSCredentials, AWSStaticCredentialsProvider}
 import com.amazonaws.services.pi.model.InvalidArgumentException
-import com.amazonaws.services.s3.model.{
-  GetObjectRequest,
-  ObjectMetadata,
-  PutObjectResult,
-  S3Object
-}
+import com.amazonaws.services.s3.model.{GetObjectRequest, ObjectMetadata, PutObjectResult, S3Object}
 import com.amazonaws.services.s3.transfer.{Transfer, TransferManagerBuilder}
 import com.amazonaws.services.s3.{AmazonS3, AmazonS3ClientBuilder}
 import com.amazonaws.{AmazonClientException, AmazonServiceException, ClientConfiguration}
@@ -91,7 +86,7 @@ class AWSGateway(
   }
 
   def getMetadata(s3Path: String, folder: String, bucket: String): List[ResourceMetadata] = {
-    val metaFile = getS3File(s3Path, folder, "metadata.json")
+    val metaFile = S3Util.getS3File(s3Path, folder, "metadata.json")
     val obj = getObjectFromS3(bucket, metaFile)
     val metadata = ResourceMetadata.readResources(obj.getObjectContent)
     metadata
@@ -109,13 +104,6 @@ class AWSGateway(
         val client = getAmazonS3Client(credentials)
         client.getObject(bucket, key)
     }
-  }
-
-  def getS3File(parts: String*): String = {
-    parts
-      .map(part => part.stripSuffix("/"))
-      .filter(part => part.nonEmpty)
-      .mkString("/")
   }
 
   def doesS3ObjectExist(bucket: String, s3FilePath: String): Boolean = {
@@ -143,7 +131,7 @@ class AWSGateway(
       fileName: String,
       bucket: String): Option[Long] = {
     try {
-      val s3FilePath = getS3File(s3Path, folder, fileName)
+      val s3FilePath = S3Util.getS3File(s3Path, folder, fileName)
       val meta = client.getObjectMetadata(bucket, s3FilePath)
       Some(meta.getContentLength)
     } catch {
@@ -159,6 +147,13 @@ class AWSGateway(
     client.putObject(bucket, s3FilePath, sourceFile)
   }
 
+  def copyFileToS3(s3Path: String, sourceFilePath: String): PutObjectResult = {
+    val (s3Bucket, _) = S3Util.extractBucketAndKeyPrefixFromS3Path(s3Path)
+    val s3FilePath = S3Util.buildS3FilePath(s3Path, sourceFilePath)
+
+    copyInputStreamToS3(s3Bucket, s3FilePath, sourceFilePath)
+  }
+
   def copyInputStreamToS3(
       bucket: String,
       s3FilePath: String,
@@ -166,6 +161,11 @@ class AWSGateway(
     val fileSystem = FileSystem.get(ResourceHelper.spark.sparkContext.hadoopConfiguration)
     val inputStream = fileSystem.open(new Path(sourceFilePath))
     client.putObject(bucket, s3FilePath, inputStream, new ObjectMetadata())
+  }
+
+  def downloadFilesFromDirectory(s3Path: String, destinationPath: String): Unit = {
+    val (s3Bucket, filesPath) = S3Util.extractBucketAndKeyPrefixFromS3Path(s3Path)
+    downloadFilesFromDirectory(s3Bucket, filesPath, new File(destinationPath))
   }
 
   def downloadFilesFromDirectory(
