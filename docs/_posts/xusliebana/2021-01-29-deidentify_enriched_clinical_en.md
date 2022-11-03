@@ -90,11 +90,9 @@ obfuscation = DeIdentificationModel.pretrained("deidentify_enriched_clinical", "
 
 nlp_pipeline = Pipeline(stages=[documentAssembler, sentenceDetector, tokenizer, word_embeddings, clinical_ner, ner_converter, obfuscation]) 
 
-model = nlpPipeline.fit(spark.createDataFrame([['']]).toDF("text"))
-
 data = spark.createDataFrame([["""A . Record date : 2093-01-13 , David Hale , M.D . , Name : Hendrickson , Ora MR . # 7194334 Date : 01/13/93 PCP : Oliveira , 25 years-old , Record date : 2079-11-09 . Cocke County Baptist Hospital . 0295 Keats Street"""]]).toDF("text")
 
-result = model.transform(data)
+result = nlpPipeline.fit(data).transform(data)
 
 ```
 ```scala
@@ -131,7 +129,7 @@ val nlpPipeline = new Pipeline().setStages(Array(documentAssembler, sentenceDete
 
 val data = Seq("""A . Record date : 2093-01-13 , David Hale , M.D . , Name : Hendrickson , Ora MR . # 7194334 Date : 01/13/93 PCP : Oliveira , 25 years-old , Record date : 2079-11-09 . Cocke County Baptist Hospital . 0295 Keats Street""").toDS.toDF("text")
 
-val result = pipeline.fit(data).transform(data)
+val result = nlpPipeline.fit(data).transform(data)
 
 ```
 
