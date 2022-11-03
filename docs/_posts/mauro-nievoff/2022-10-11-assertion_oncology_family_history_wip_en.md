@@ -34,6 +34,7 @@ This model detects entities refering to the family history.
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
+
 ```python
 document_assembler = DocumentAssembler()\
     .setInputCol("text")\
@@ -102,7 +103,7 @@ val ner_converter = new NerConverter()
     .setWhiteList(Array("Cancer_Dx"))
 
 val clinical_assertion = AssertionDLModel.pretrained("assertion_oncology_family_history_wip","en","clinical/models")
-    .setInputCols("sentence","ner_chunk","embeddings")
+    .setInputCols(Array("sentence","ner_chunk","embeddings"))
     .setOutputCol("assertion")
         
 val pipeline = new Pipeline().setStages(Array(document_assembler,
@@ -113,7 +114,7 @@ val pipeline = new Pipeline().setStages(Array(document_assembler,
                                               ner_converter,
                                               assertion))
 
-val data = Seq("Her family history is positive for breast cancer in her maternal aunt.").toDF("text")
+val data = Seq("""Her family history is positive for breast cancer in her maternal aunt.""").toDF("text")
 
 val result = pipeline.fit(data).transform(data)
 ```
@@ -152,6 +153,6 @@ In-house annotated oncology case reports.
          label  precision  recall  f1-score  support
 Family_History       0.88    0.96      0.92     24.0
          Other       0.96    0.90      0.93     29.0
-     macro avg       0.92    0.93      0.92     53.0
-  weighted avg       0.93    0.92      0.92     53.0
+     macro-avg       0.92    0.93      0.92     53.0
+  weighted-avg       0.93    0.92      0.92     53.0
 ```
