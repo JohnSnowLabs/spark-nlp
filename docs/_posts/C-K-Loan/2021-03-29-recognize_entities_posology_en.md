@@ -46,7 +46,7 @@ annotations.keys()
 ```
 ```scala
 
-val pipeline = new PretrainedPipeline('recognize_entities_posology', 'en', 'clinical/models')
+val pipeline = new PretrainedPipeline("recognize_entities_posology", "en", "clinical/models")
 val result = pipeline.fullAnnotate("The patient was perscriped 50MG penicilin for is headache")(0)
 
 ```
