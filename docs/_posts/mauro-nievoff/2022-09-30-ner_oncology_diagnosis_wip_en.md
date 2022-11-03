@@ -34,6 +34,7 @@ This model extracts entities related to cancer diagnosis, such as Metastasis, Hi
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
+
 ```python
 document_assembler = DocumentAssembler()\
     .setInputCol("text")\
