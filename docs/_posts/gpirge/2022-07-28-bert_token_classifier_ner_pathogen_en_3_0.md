@@ -86,7 +86,7 @@ val tokenizer = new Tokenizer()
 
 val tokenClassifier = MedicalBertForTokenClassifier.pretrained("bert_token_classifier_ner_pathogen", "en", "clinical/models")
     .setInputCols(Array("token", 'sentence'))
-    .setOutputCol("label")\
+    .setOutputCol("label")
     .setCaseSensitive(True)
 
 val ner_converter = new NerConverter()
