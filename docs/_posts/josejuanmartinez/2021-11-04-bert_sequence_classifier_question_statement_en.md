@@ -37,19 +37,19 @@ This model was imported from Hugging Face (https://huggingface.co/shahrukhx01/qu
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
 ```python
-documentAssembler = nlp.DocumentAssembler()\
+documentAssembler = DocumentAssembler()\
 .setInputCol("text")\
 .setOutputCol("document")
 
-sentenceDetector = nlp.SentenceDetectorDLModel.pretrained() \
+sentenceDetector = SentenceDetectorDLModel.pretrained() \
 .setInputCols(["document"]) \
 .setOutputCol("sentence")
 
-tokenizer = nlp.Tokenizer()\
+tokenizer = Tokenizer()\
 .setInputCols("sentence")\
 .setOutputCol("token")
 
-seq = nlp.BertForSequenceClassification.pretrained('bert_sequence_classifier_question_statement', 'en')\
+seq = BertForSequenceClassification.pretrained('bert_sequence_classifier_question_statement', 'en')\
 .setInputCols(["token", "sentence"])\
 .setOutputCol("label")\
 .setCaseSensitive(True)
@@ -75,19 +75,19 @@ data=spark.createDataFrame(pd.DataFrame({'text': test_sentences}))
 res = pipeline.fit(data).transform(data)
 ```
 ```scala
-val documentAssembler = new nlp.DocumentAssembler()
+val documentAssembler = new DocumentAssembler()
 .setInputCol("text")
 .setOutputCol("document")
 
-val sentenceDetector = nlp.SentenceDetectorDLModel.pretrained()
+val sentenceDetector = SentenceDetectorDLModel.pretrained()
 .setInputCols(Array("document"))
 .setOutputCol("sentence")
 
-val tokenizer = new nlp.Tokenizer()
+val tokenizer = new Tokenizer()
 .setInputCols("sentence")
 .setOutputCol("token")
 
-val seq = nlp.BertForSequenceClassification.pretrained("bert_sequence_classifier_question_statement", "en")
+val seq = BertForSequenceClassification.pretrained("bert_sequence_classifier_question_statement", "en")
 .setInputCols(Array("token", "sentence"))
 .setOutputCol("label")
 .setCaseSensitive(True)

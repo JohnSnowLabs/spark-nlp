@@ -105,27 +105,27 @@ data = spark.createDataFrame([text]).toDF("text")
 result = nlpPipeline.fit(data).transform(data)
 ```
 ```scala
-val documentAssembler = new nlp.DocumentAssembler()
+val documentAssembler = new DocumentAssembler()
 	.setInputCol("text")
 	.setOutputCol("document")
 
-val sentenceDetector = nlp.SentenceDetectorDLModel.pretrained("sentence_detector_dl","xx")
+val sentenceDetector = SentenceDetectorDLModel.pretrained("sentence_detector_dl","xx")
 	.setInputCols(Array("document"))
 	.setOutputCol("sentence")
 
-val tokenizer = new nlp.Tokenizer()
+val tokenizer = new Tokenizer()
 	.setInputCols(Array("sentence"))
 	.setOutputCol("token")
 
-embeddings = nlp.WordEmbeddingsModel.pretrained("w2v_cc_300d", "pt")
+embeddings = WordEmbeddingsModel.pretrained("w2v_cc_300d", "pt")
 	.setInputCols(Array("sentence","token"))
 	.setOutputCol("word_embeddings")
 
-clinical_ner = medical.NerModel.pretrained("ner_deid_subentity", "pt", "clinical/models")
+clinical_ner = MedicalNerModel.pretrained("ner_deid_subentity", "pt", "clinical/models")
 	.setInputCols(Array("sentence","token","word_embeddings"))
 	.setOutputCol("ner")
 
-val ner_converter = new nlp.NerConverter()
+val ner_converter = new NerConverter()
 	.setInputCols(Array("sentence", "token", "ner"))
 	.setOutputCol("ner_chunk")
 

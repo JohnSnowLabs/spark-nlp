@@ -79,19 +79,19 @@ data = spark.createDataFrame(test_sentences).toDF("text")
 res = pipeline.fit(data).transform(data)
 ```
 ```scala
-val documentAssembler = new nlp.DocumentAssembler()
+val documentAssembler = new DocumentAssembler()
 .setInputCol("text")
 .setOutputCol("document")
 
-val sentenceDetector = nlp.SentenceDetectorDLModel.pretrained()
+val sentenceDetector = SentenceDetectorDLModel.pretrained()
 .setInputCols(Array("document"))
 .setOutputCol("sentence")
 
-val tokenizer = new nlp.Tokenizer()
+val tokenizer = new Tokenizer()
 .setInputCols("sentence")
 .setOutputCol("token")
 
-val seq = nlp.BertForSequenceClassification.pretrained("bert_sequence_classifier_question_statement_clinical", "en", "clinical/models")
+val seq = BertForSequenceClassification.pretrained("bert_sequence_classifier_question_statement_clinical", "en", "clinical/models")
 .setInputCols(Array("token", "sentence"))
 .setOutputCol("label")
 .setCaseSensitive(True)
