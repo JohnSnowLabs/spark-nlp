@@ -21,7 +21,7 @@ We call "obligation" to any sentence in the text stating that a Party (OBLIGATIO
 
 This model requires `legner_obligations` as an NER in the pipeline.It's a `md` model with Unidirectional Relations, meaning that the model retrieves in chunk1 the left side of the relation (source), and in chunk2 the right side (target).
 
-This is a Deep Learning model, meaning only semantics are taking into account, not grammatical structures. If you want to parse the relations using a grammatical dependency tree, please feel free to use this other model: https://nlp.johnsnowlabs.com/2022/08/24/legpipe_obligations_en.html
+This is a Deep Learning model, meaning only semantics are taking into account, not grammatical structures. If you want to parse the relations using a grammatical dependency tree, please feel free to use [this other model](https://nlp.johnsnowlabs.com/2022/08/24/legpipe_obligations_en.html)
 
 ## Predicted Entities
 
