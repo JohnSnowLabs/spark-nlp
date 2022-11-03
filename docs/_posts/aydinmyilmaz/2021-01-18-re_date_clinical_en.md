@@ -44,8 +44,8 @@ Use as part of an nlp pipeline with the following stages: DocumentAssembler, Sen
 
 ```python
 documenter = DocumentAssembler()\
-		.setInputCol("text")\
-		.setOutputCol("document")
+    .setInputCol("text")\
+    .setOutputCol("document")
 
 sentencer = SentenceDetector()\
     .setInputCols(["document"])\
@@ -77,7 +77,7 @@ dependency_parser = DependencyParserModel()\
     .setInputCols(["sentences", "pos_tags", "tokens"])\
     .setOutputCol("dependencies")
 
-re_model = RelationExtractionModel().pretrained("re_date_clinical", "en", 'clinical/models')\
+re_model = RelationExtractionModel().pretrained("re_date_clinical", "en", "clinical/models")\
     .setInputCols(["embeddings", "pos_tags", "ner_chunks", "dependencies"])\
     .setOutputCol("relations")\
     .setMaxSyntacticDistance(3)\
@@ -93,8 +93,8 @@ annotations = light_pipeline.fullAnnotate('''This 73 y/o patient had CT on 1/12/
 
 ```scala
 val documenter = new DocumentAssembler()
-		.setInputCol("text")
-		.setOutputCol("document")
+    .setInputCol("text")
+    .setOutputCol("document")
 
 val sentencer = new SentenceDetector()
     .setInputCols(["document"])
@@ -127,7 +127,7 @@ val dependency_parser = DependencyParserModel()
     .setOutputCol("dependencies")
 
 val re_model = RelationExtractionModel()
-        .pretrained("re_date", "en", 'clinical/models')
+        .pretrained("re_date", "en", "clinical/models")
         .setInputCols(Array("embeddings", "pos_tags", "ner_chunks", "dependencies"))
         .setOutputCol("relations")
         .setMaxSyntacticDistance(3) #default: 0 
@@ -138,7 +138,7 @@ val nlpPipeline = new Pipeline().setStages(Array(documenter, sentencer,tokenizer
 
 val result = pipeline.fit(Seq.empty[String]).transform(data)
 
-val annotations = light_pipeline.fullAnnotate('''This 73 y/o patient had CT on 1/12/95, with progressive memory and cognitive decline since 8/11/94.''')
+val annotations = light_pipeline.fullAnnotate("""This 73 y/o patient had CT on 1/12/95, with progressive memory and cognitive decline since 8/11/94.""")
 ```
 
 </div>
