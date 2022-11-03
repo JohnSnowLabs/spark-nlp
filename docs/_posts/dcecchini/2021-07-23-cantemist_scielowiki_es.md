@@ -78,14 +78,14 @@ pipeline = Pipeline(stages=[
     ner_converter
 ])
 
-example = spark.createDataFrame(pd.DataFrame({'text': ["""Anamnesis Paciente de 37 años de edad sin antecedentes patológicos ni quirúrgicos de interés. En diciembre de 2012 consultó al Servicio de Urgencias por un cuadro de cefalea aguda e hipostesia del hemicuerpo izquierdo de 15 días de evolución refractario a tratamiento. Exploración neurológica sin focalidad; fondo de ojo: papiledema unilateral. Se solicitaron una TC del SNC, que objetiva una LOE frontal derecha con afectación aparente del cuerpo calloso, y una RM del SNC, que muestra un extenso proceso expansivo intraparenquimatoso frontal derecho que infiltra la rodilla del cuerpo calloso, mal delimitada y sin componente necrótico. Tras la administración de contraste se apreciaban diferentes realces parcheados en la lesión, pero sin definirse una cápsula con aumento del flujo sanguíneo en la lesión, características compatibles con linfoma o astrocitoma anaplásico . El 3 de enero de 2013 se efectúa biopsia intraoperatoria, con diagnóstico histológico de astrocitoma anaplásico GIII"""]}))
+data = spark.createDataFrame([["""Anamnesis Paciente de 37 años de edad sin antecedentes patológicos ni quirúrgicos de interés. En diciembre de 2012 consultó al Servicio de Urgencias por un cuadro de cefalea aguda e hipostesia del hemicuerpo izquierdo de 15 días de evolución refractario a tratamiento. Exploración neurológica sin focalidad; fondo de ojo: papiledema unilateral. Se solicitaron una TC del SNC, que objetiva una LOE frontal derecha con afectación aparente del cuerpo calloso, y una RM del SNC, que muestra un extenso proceso expansivo intraparenquimatoso frontal derecho que infiltra la rodilla del cuerpo calloso, mal delimitada y sin componente necrótico. Tras la administración de contraste se apreciaban diferentes realces parcheados en la lesión, pero sin definirse una cápsula con aumento del flujo sanguíneo en la lesión, características compatibles con linfoma o astrocitoma anaplásico . El 3 de enero de 2013 se efectúa biopsia intraoperatoria, con diagnóstico histológico de astrocitoma anaplásico GIII"""]]).toDF("text")
 
-result = pipeline.fit(example).transform(example)
+result = pipeline.fit(data).transform(data)
 ```
 ```scala
 val document_assembler = new DocumentAssembler()
-    .setInputCol('text')
-    .setOutputCol('document')
+    .setInputCol("text")
+    .setOutputCol("document")
 
 val sentence = new SentenceDetector() 
     .setInputCols("document") 
@@ -104,8 +104,8 @@ val clinical_ner = MedicalNerModel.pretrained("cantemist_scielowiki", "es", "cli
     .setOutputCol("ner")
 
 val ner_converter = new NerConverter() 
-    .setInputCols(Array('document', 'token', 'ner')) 
-    .setOutputCol('ner_chunk')
+    .setInputCols(Array("document", "token", "ner")) 
+    .setOutputCol("ner_chunk")
 
 val pipeline = new Pipeline().setStages(Array(document_assembler, sentence, tokenizer, embedings_stage, clinical_ner, ner_converter))
 
