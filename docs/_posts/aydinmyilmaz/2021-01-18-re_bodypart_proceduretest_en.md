@@ -49,8 +49,8 @@ Use as part of an nlp pipeline with the following stages: DocumentAssembler, Sen
 ```python
 
 documenter = DocumentAssembler()\
-	.setInputCol("text")\
-	.setOutputCol("document")
+    .setInputCol("text")\
+    .setOutputCol("document")
 
 sentencer = SentenceDetector()\
     .setInputCols(["document"])\
@@ -84,7 +84,7 @@ dependency_parser = DependencyParserModel()\
     .setOutputCol("dependencies")
 
 re_model = RelationExtractionModel()\
-    .pretrained("re_bodypart_proceduretest", "en", 'clinical/models')\
+    .pretrained("re_bodypart_proceduretest", "en", "clinical/models")\
     .setInputCols(["embeddings", "pos_tags", "ner_chunks", "dependencies"])\
     .setOutputCol("relations")\
     .setMaxSyntacticDistance(4)\
@@ -101,8 +101,8 @@ annotations = light_pipeline.fullAnnotate('''TECHNIQUE IN DETAIL: After informed
 ```scala
 
 val documenter = new DocumentAssembler()
-	.setInputCol("text")
-	.setOutputCol("document")
+    .setInputCol("text")
+    .setOutputCol("document")
 
 val sentencer = new SentenceDetector()
     .setInputCols("document")
@@ -134,7 +134,7 @@ val dependency_parser = DependencyParserModel()
     .setInputCols(Array("sentences", "pos_tags", "tokens"))
     .setOutputCol("dependencies")
 
-val re_model = RelationExtractionModel().pretrained("re_bodypart_proceduretest", "en", 'clinical/models')
+val re_model = RelationExtractionModel().pretrained("re_bodypart_proceduretest", "en", "clinical/models")
     .setInputCols(Array("embeddings", "pos_tags", "ner_chunks", "dependencies"))
     .setOutputCol("relations")
     .setMaxSyntacticDistance(4) #default: 0
@@ -145,7 +145,7 @@ val nlpPipeline = new Pipeline().setStages(Array(documenter, sentencer,tokenizer
 
 val result = pipeline.fit(Seq.empty[String]).transform(data)
 
-val annotations = light_pipeline.fullAnnotate('''TECHNIQUE IN DETAIL: After informed consent was obtained from the patient and his mother, the chest was scanned with portable ultrasound.''')
+val annotations = light_pipeline.fullAnnotate("""TECHNIQUE IN DETAIL: After informed consent was obtained from the patient and his mother, the chest was scanned with portable ultrasound.""")
 ```
 
 </div>
