@@ -49,22 +49,22 @@ tokenizer = Tokenizer()\
 	.setOutputCol("token")
 
 word_embeddings = WordEmbeddingsModel.pretrained("embeddings_clinical", "en", "clinical/models")\
-    .setInputCols(["sentence", "token"])\
-    .setOutputCol("embeddings")
+	.setInputCols(["sentence", "token"])\
+	.setOutputCol("embeddings")
 
 radiology_ner = NerDLModel.pretrained("ner_radiology", "en", "clinical/models") \
-    .setInputCols(["sentence", "token", "embeddings"]) \
-    .setOutputCol("ner")
+	.setInputCols(["sentence", "token", "embeddings"]) \
+	.setOutputCol("ner")
 
 ner_converter = NerConverter() \
-    .setInputCols(["sentence", "token", "ner"]) \
-    .setOutputCol("entities")
+	.setInputCols(["sentence", "token", "ner"]) \
+	.setOutputCol("entities")
 
 nlpPipeline = Pipeline(stages=[document_assembler, sentence_detector, tokenizer, word_embeddings, radiology_ner, ner_converter])
 
-model = nlpPipeline.fit(spark.createDataFrame([[""]]).toDF("text"))
+data = spark.createDataFrame([["Bilateral breast ultrasound was subsequently performed, which demonstrated an ovoid mass measuring approximately 0.5 x 0.5 x 0.4 cm in diameter located within the anteromedial aspect of the left shoulder. This mass demonstrates isoechoic echotexture to the adjacent muscle, with no evidence of internal color flow. This may represent benign fibrous tissue or a lipoma."]]).toDF("text")
 
-results = model.transform(spark.createDataFrame([["Bilateral breast ultrasound was subsequently performed, which demonstrated an ovoid mass measuring approximately 0.5 x 0.5 x 0.4 cm in diameter located within the anteromedial aspect of the left shoulder. This mass demonstrates isoechoic echotexture to the adjacent muscle, with no evidence of internal color flow. This may represent benign fibrous tissue or a lipoma."]]).toDF("text"))
+results = nlpPipeline.fit(data).transform(data)
 ```
 
 ```scala
@@ -81,21 +81,22 @@ val tokenizer = new Tokenizer()
 	.setOutputCol("token")
 
 val word_embeddings = WordEmbeddingsModel.pretrained("embeddings_clinical", "en", "clinical/models")
-    .setInputCols(Array("sentence", "token"))
-    .setOutputCol("embeddings")
+	.setInputCols(Array("sentence", "token"))
+	.setOutputCol("embeddings")
 
 val radiology_ner = NerDLModel().pretrained("ner_radiology", "en", "clinical/models")
-    .setInputCols(Array("sentence", "token", "embeddings"))
-    .setOutputCol("ner")
+	.setInputCols(Array("sentence", "token", "embeddings"))
+	.setOutputCol("ner")
 
 val ner_converter = new NerConverter() 
-  .setInputCols(Array("sentence", "token", "ner"))
-  .setOutputCol("entities")
+	.setInputCols(Array("sentence", "token", "ner"))
+	.setOutputCol("entities")
 
 val nlpPipeline = new Pipeline().setStages(Array(document_assembler, sentence_detector, tokenizer, word_embeddings, radiology_ner, ner_converter))
 
-val result = pipeline.fit(Seq.empty[String]).transform(data)
+val data = Seq("""Bilateral breast ultrasound was subsequently performed, which demonstrated an ovoid mass measuring approximately 0.5 x 0.5 x 0.4 cm in diameter located within the anteromedial aspect of the left shoulder. This mass demonstrates isoechoic echotexture to the adjacent muscle, with no evidence of internal color flow. This may represent benign fibrous tissue or a lipoma.""").toDS.toDF("text")
 
+val result = nlpPipeline.fit(data).transform(data)
 ```
 
 
