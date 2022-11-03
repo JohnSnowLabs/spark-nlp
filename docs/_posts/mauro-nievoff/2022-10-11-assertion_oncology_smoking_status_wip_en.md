@@ -102,7 +102,7 @@ val ner_converter = new NerConverter()
     .setWhiteList(Array("Smoking_Status"))
 
 val clinical_assertion = AssertionDLModel.pretrained("assertion_oncology_smoking_status_wip","en","clinical/models")
-    .setInputCols("sentence","ner_chunk","embeddings")
+    .setInputCols(Array("sentence","ner_chunk","embeddings"))
     .setOutputCol("assertion")
         
 val pipeline = new Pipeline().setStages(Array(document_assembler,
@@ -113,7 +113,7 @@ val pipeline = new Pipeline().setStages(Array(document_assembler,
                                               ner_converter,
                                               assertion))
 
-val data = Seq("The patient quit smoking three years ago.").toDF("text")
+val data = Seq("""The patient quit smoking three years ago.""").toDF("text")
 
 val result = pipeline.fit(data).transform(data)
 ```
@@ -152,6 +152,6 @@ In-house annotated oncology case reports.
       Absent       0.58    0.94      0.71     16.0
         Past       0.88    0.65      0.75     23.0
      Present       0.80    0.57      0.67     14.0
-   macro avg       0.75    0.72      0.71     53.0
-weighted avg       0.77    0.72      0.72     53.0
+   macro-avg       0.75    0.72      0.71     53.0
+weighted-avg       0.77    0.72      0.72     53.0
 ```
