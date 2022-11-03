@@ -38,6 +38,7 @@ This is a Deep Learning model, meaning only semantics are taking into account, n
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
+
 ```python
 document_assembler = nlp.DocumentAssembler()\
     .setInputCol("text")\
