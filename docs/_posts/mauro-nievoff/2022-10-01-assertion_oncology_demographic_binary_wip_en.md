@@ -57,7 +57,8 @@ ner = MedicalNerModel.pretrained("ner_oncology_wip", "en", "clinical/models") \
 
 ner_converter = NerConverter() \
     .setInputCols(["sentence", "token", "ner"]) \
-    .setOutputCol("ner_chunk")    .setWhiteList(["Age", "Gender"])
+    .setOutputCol("ner_chunk")\
+    .setWhiteList(["Age", "Gender"])
     
 assertion = AssertionDLModel.pretrained("assertion_oncology_demographic_binary_wip", "en", "clinical/models") \
     .setInputCols(["sentence", "ner_chunk", "embeddings"]) \
@@ -153,6 +154,6 @@ In-house annotated oncology case reports.
        label  precision  recall  f1-score  support
      Patient       0.94    0.94      0.94     32.0
 Someone_Else       0.92    0.92      0.92     24.0
-   macro avg       0.93    0.93      0.93     56.0
-weighted avg       0.93    0.93      0.93     56.0
+   macro-avg       0.93    0.93      0.93     56.0
+weighted-avg       0.93    0.93      0.93     56.0
 ```
