@@ -3,7 +3,7 @@ layout: docs
 comment: no
 header: true
 seotitle: Annotation Lab | John Snow Labs
-title: Training Configuratations  
+title: Train New Model  
 permalink: /docs/en/alab/training_configurations
 key: docs-training
 modify_date: "2022-10-21"
@@ -13,29 +13,39 @@ sidebar:
     nav: annotation-lab
 ---
 
-A **Project Owner** or a **Manager** can use the completed tasks (completions) from a project to train a new Spark NLP model. The training feature can be found on the train page. The Train page is a part of the Project Menu. It guide users on each step. Users can follow a step-wise wizard view or a synthesis view for initiating the training of a model. During the training, a progress bar is shown to give users basic information on the status of the training process.
+A **Project Owner** or a **Manager** can use the completed tasks (completions) from a project to train a new Spark NLP model. The training feature can be found on the train page, accessible from the Project Menu. The training process can be triggered via a three step wizard that guides users and offers useful hints. Users can also opt for a synthesis view for initiating the training of a model. During the training, a progress bar is shown to give users basic information on the status of the training process.
 
 ![trainingProcessGIF](https://user-images.githubusercontent.com/45035063/193196897-fc20b3c6-920b-46cf-91d4-1b4c70dbf28b.gif)
 
 ## Deploy a new training job
 Users can perform multiple training jobs at the same time, depending on the available resources/license(s). Users can opt to create new training jobs independently from already running training/pre-annotation/OCR jobs. If resources/licenses are available when pressing the `Train Model` button a new training server is launched.
+The running servers can be seen by visiting the [Clusters](docs/en/alab/cluster_management) page.
 
-## Named Entity Recognition Projects
-Named Entity Recognition (NER) projects usually include multiple labels. When the annotation team has generated a relevant sample of training data/examples for each one of the labels the Project Owner/Manager can use this data to train a new DL model which can then be used to predict the labels on new tasks. 
+<img class="image image__shadow" src="/assets/images/annotation_lab/4.2.0/clusters.png" style="width:100%;"/>
 
-The NER models can be easily trained without writing a line of code, by following the as illustrated below. 
+## Named Entity Recognition
 
-<img class="image image__shadow" src="/assets/images/annotation_lab/4.1.0/train_setup_label.png" style="width:80%;"/>
+For training a good Named Entity Recognition (NER) model, a relevant number of annotations must exist for all labels included in the project configuration. The recommendation is to have minimum 40-50 examples for each entity. Once this requirement is met, for training a new model users need to navigate to the Train page for the current project and follow some very simple steps:
+1. Select the type of model to train - Open source/Healthcare - and the embeddings to use;
+2. Define the training parameters and the train/test data split;
+3. Optionally turn on the Active Learning feature;
+4. Click the `Train Model` button.
 
-<img class="image image__shadow" src="/assets/images/annotation_lab/4.1.0/train_setup_pipeline.png" style="width:80%;"/>
 
-<img class="image image__shadow" src="/assets/images/annotation_lab/4.1.0/train_setup_model.png" style="width:100%;"/>
+<img class="image image__shadow" src="/assets/images/annotation_lab/4.2.0/visual_ner_train_3_1.png" style="width:100%;"/>
 
-The "Train Now" button (item 5) can be used to trigger training of a new model. Information on the training progress is shown in the page. Here the user can get indications on the success or failure message depending on how the last training ended.
+When triggering the training, users are prompted to choose either to immediately deploy models or just do training. If immediate deployment is chosen, then the Labeling config is updated according to the name of the new model. Notice how the name of the original model used for preannotations is replaced with the name of the new model in the configuration below.
 
-When triggering the training, users are prompted to choose either to immediately deploy models or just do training. If immediate deployment is chosen, then the Labeling config is updated according to the name of the new model (item 1 on the above image).
+<img class="image image__shadow" src="/assets/images/annotation_lab/4.2.0/before_after.png" style="width:100%;"/>
 
-It is possible to download training logs by clicking on the download logs icon (see item 8 on the above image) of the recently trained NER model which includes information like training parameters and TF graph used along with precision, recall, f1 score, etc.
+
+Information on the overall training progress is shown in the page. User can get indications on the success or failure of the training as well as check the live training logs (by pressing the `Show Logs` button).
+
+<img class="image image__shadow" src="/assets/images/annotation_lab/4.2.0/visual_ner_train_4.png" style="width:100%;"/>
+
+Once the training is finished, it is possible to download the training logs by clicking on the download logs icon  of the recently trained NER model which includes information like training parameters and TF graph used along with precision, recall, f1 score, etc.
+
+<img class="image image__shadow" src="/assets/images/annotation_lab/4.2.0/training_logs.png" style="width:100%;"/>
 
 ### Training parameters
 
@@ -53,22 +63,22 @@ It is also possible to train a model by using a sublist of tasks with predefined
 
 Annotation Lab also includes additional filtering options for the training dataset based on the status of completions, either all submitted completions can be used for training or only the reviewed ones.
 
-## Custom Training Script
+### Custom Training Script
 If users want to change the default Training script present within the Annotation Lab, they can upload their own training pipeline. In the Train Page, project owners can upload the training scripts. At the moment we are supporting custom training script just for NER projects.
 
 <img class="image image__shadow" src="/assets/images/annotation_lab/4.1.0/customScript.png" style="width:80%;"/>
 
-## Selection of Completions
+### Selection of Completions
 During the annotation project lifetime, normally not all tasks/completions are ready to be used as a training dataset. This is why the training process selects completions based on their status:
 - Filter tasks by tags (if defined in Training Parameters widget, otherwise all tasks are considered)
 - For completed tasks, completions to be taken into account are also selected based on the following criteria:
-  - If a task has a completion accepted by a reviewer this is selected for training and all others are ignored
-  - Completions rejected by a Reviewer are not used for training
+  - If a task has a completion accepted by a reviewer this is selected for training and all others are ignored;
+  - Completions rejected by a Reviewer are not used for training;
   - If no reviewer is assigned to a task that has multiple submitted completions the completion to use for training purpose is the one created by the user with the [highest priority](/docs/en/alab/project_creation#adding-team-members). 
 
-## Assertion Status Projects
+## Assertion Status
 
-NER configurations for the healthcare domain are often mixed with Assertion Status labels. In this case, Annotation Lab offers support for training both types of models in one go. After the training is complete, the models will be listed in the Spark NLP Pipeline Config. Hovering mouse over the model name in the Spark NLP pipeline Config, the user can see more information about the model such as when it was trained and if the training was manually initiated or by the Active Learning process.
+NER configurations for the healthcare domain are often mixed with Assertion Status labels. In this case, Annotation Lab offers support for training both types of models in one go. After the training is complete, the models will be listed in the Pretrained Labels section of the Project Configuration. Information such as the source of the model and time of training will be displayed as well. 
 
 Once the model(s) has been trained, the project configuration will be automatically updated to reference the new model for prediction. Notice below, for the Assertion Status **Label** tag the addition of model attribute to indicate which model will be used for task pre-annotation for this label.
 
@@ -79,15 +89,15 @@ Once the model(s) has been trained, the project configuration will be automatica
 
 It is not possible to mark a label as an Assertion Status label and use a NER model to predict it. A validation error is shown in the Interface Preview in case an invalid Assertion model is used.
 
-<img class="image image__shadow" src="/assets/images/annotation_lab/1.6.0/as_notification.png" style="width:70%;"/>
+<img class="image image__shadow" src="/assets/images/annotation_lab/1.6.0/as_notification.png" style="width:90%;"/>
 
 The Annotation Lab only allows the use of one single Assertion Status model in the same project.
 
-<img class="image image__shadow" src="/assets/images/annotation_lab/1.6.0/one_as.png" style="width:70%;"/>
+<img class="image image__shadow" src="/assets/images/annotation_lab/1.6.0/one_as.png" style="width:90%;"/>
 
 
-## Classification Project Models Training
-Annotation Lab supports two types of classification training **Single Choice Classification** and **Multi-Choice Classification**. For doing so, it uses three important attributes of the **Choices** tag to drive the Classification Models training and pre-annotation. Those are **name**, **choice** and **train**.
+## Classification 
+Annotation Lab supports two types of classification training: **Single Choice Classification** and **Multi-Choice Classification**. For doing so, it uses three important attributes of the **Choices** tag to drive the Classification Models training and pre-annotation. Those are **name**, **choice** and **train**.
 
 ### Attribute name
 The attribute name allows the naming of the different choices present in the project configuration, and thus the training of separate models based on the same project annotations. For example, in the sample configuration illustrated below, the name="age" attribute, tells the system to only consider age-related classification information when training an Age Classifier. The value specified by the name attribute is also used to name the resulting Classification model (classification_age_annotation_manual).

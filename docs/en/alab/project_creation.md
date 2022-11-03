@@ -33,7 +33,9 @@ To open the project creation wizard click on the `+ New Project` button on the `
 
 ![Description](https://user-images.githubusercontent.com/46840490/193200891-d2098f36-c300-4693-924d-168801ae5acd.png)
 
-Reserved words cannot be used as project names. The use of keywords like count, permission, or name as project names generated UI glitches. To avoid such issues, these keywords are no longer accepted as project names.
+
+> **NOTE:** Reserved words cannot be used as project names. The use of keywords like count, permission, or name as project names generated UI glitches. To avoid such issues, these keywords are no longer accepted as project names.
+
 
 <img class="image image--xl image__shadow" src="/assets/images/annotation_lab/4.1.0/reserved.gif" style="width:100%;"/>
 
@@ -42,7 +44,7 @@ Reserved words cannot be used as project names. The use of keywords like count, 
 
 When working in teams, projects can be shared with other team members.
 
-The user who creates a project is called a `Project Owner`. He/She has complete visibility and ownership of the project for its entire lifecycle. If the `Project Owner` is removed from the user database, then all his/her projects are transfered to a new project owner. The `Project Owner` can edit the project configuration, can import/export tasks, can create a project team that will work on his project and can access project analytics.
+The user who creates a project is called a `Project Owner`. He/she has complete visibility and ownership of the project for its entire lifecycle. If the `Project Owner` is removed from the user database, then all his/her projects are transfered to a new project owner. The `Project Owner` can edit the project configuration, can import/export tasks, can create a project team that will work on his project and can access project analytics.
 
 When defining the project team, a project owner has access to three distinct roles: `Annotator`, `Reviewer`, and `Manager`. These are very useful for most of the workflows that our users follow.
 
@@ -50,13 +52,13 @@ When defining the project team, a project owner has access to three distinct rol
 - The `Reviewer` is able to see the work of the annotators and approve it or reject in case he finds issues that need to be solved.
 - The `Manager` is able to see the work of the `Annotators` and of the `Reviewers` and he can assign tasks to team members. This is useful for eliminating work overlap and for a better management of the work load.
 
-To add a user to your project team, select your Project, then from the left side menu access the `Setup` option and then the `Team` option. On the `Add Team Member` page that opens, start typing the name of a user in the available text box. This will populate a list of available users having the username start with the characters you typed. From the dropdown select the user you want to add to your team. Select a role for the user and click on the “Add to team” button.
+To add a user to your project team, select your Project, then from the left side menu access the `Setup` option and then the `Team` option. On the `Add Team Member` page that opens, start typing the name of a user in the available text box. This will populate a list of available users having the username start with the characters you typed. From the dropdown select the user you want to add to your team. Select a role for the user and click on the `Add to team` button.
 
 ![teamMembers](https://user-images.githubusercontent.com/46840490/193060010-3394cccd-93ab-40a8-8479-98155ea8b417.gif)
 
-In the `Add Team Member` page users can add/remove/update the team members even in the case of a large number of members. The team members are displayed in a tabular view. Each member has a **priority** assigned to them for CONLL export which can be changed by dragging users across the list.
+In the `Add Team Member` page users can add/remove/update the team members even in the case of a large number of members. The team members are displayed in a tabular view. Each member has a **priority** assigned to them for CONLL export which can be changed by dragging users across the list. 
 
-> **NOTE:** The priority assigned for users in the `Add Team Member` page is taken into account by the Model Training script for differentiating among the available ground truth completions (when more than one is available for a task) in view of choosing the higer priority completion which will be used for model training.
+> **NOTE:** The priority assigned for users in the `Add Team Member` page is taken into account by the Model Training script for differentiating among the available ground truth completions (when more than one is available for a task) in view of choosing the higer priority completion which will be used for model training. Learn more [here](/docs/en/alab/training_configurations#selection-of-completions).
 
 
 ### Project Configuration
