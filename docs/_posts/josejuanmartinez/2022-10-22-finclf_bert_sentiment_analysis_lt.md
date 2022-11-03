@@ -21,7 +21,7 @@ This is a Lithuanian Sentiment Analysis Text Classifier, which will retrieve if 
 
 ## Predicted Entities
 
-`APPLICANT`, `COMMISSION/CHAMBER`, `ECHR`, `OTHER`, `STATE`, `THIRD PARTIES`
+`POS`,`NEG`
 
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>
