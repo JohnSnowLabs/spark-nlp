@@ -75,8 +75,8 @@ result = pipeline.fit(data).transform(data)
 ```
 ```scala
 val documenter = new DocumentAssembler() 
-    .setInputCol("text") 
-    .setOutputCol("document")
+  .setInputCol("text") 
+  .setOutputCol("document")
 
 val sentenceDetector = SentenceDetectorDLModel.pretrained()
   .setInputCols("document")
@@ -87,16 +87,16 @@ val tokenizer = new Tokenizer()
   .setOutputCol("token")
 
 val word_embeddings = RoBertaEmbeddings.pretrained("roberta_base_biomedical", "es")
-	.setInputCols(["sentence","token"])
-	.setOutputCol("embeddings")
+  .setInputCols(Array("sentence","token"))
+  .setOutputCol("embeddings")
 
 val ner_model = MedicalNerModel.pretrained("ner_negation_uncertainty", "es", "clinical/models")
-    .setInputCols(Array("sentence", "token", "embeddings"))
-    .setOutputCol("ner")
+  .setInputCols(Array("sentence", "token", "embeddings"))
+  .setOutputCol("ner")
 
 val ner_converter = new NerConverter()
-    .setInputCols(Array("sentence", "token", "ner"))
-    .setOutputCol("ner_chunk")
+  .setInputCols(Array("sentence", "token", "ner"))
+  .setOutputCol("ner_chunk")
 
 val pipeline = new Pipeline().setStages(Array(documenter, sentenceDetector, tokenizer, word_embeddings, ner_model, ner_converter))
 
