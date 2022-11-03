@@ -43,17 +43,44 @@ In the table below, `re_bodypart_directions` RE model, its labels, optimal NER m
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
+
 ```python
+
+documenter = DocumentAssembler()\
+		.setInputCol("text")\
+		.setOutputCol("document")
+
+sentencer = SentenceDetector()\
+    .setInputCols(["document"])\
+    .setOutputCol("sentences")
+
+tokenizer = Tokenizer()\
+    .setInputCols(["sentences"])\
+    .setOutputCol("tokens")
 
 words_embedder = WordEmbeddingsModel()\
     .pretrained("embeddings_clinical", "en", "clinical/models")\
     .setInputCols(["sentences", "tokens"])\
     .setOutputCol("embeddings")
 
-ner_tagger = sparknlp.annotators.NerDLModel()\
+pos_tagger = PerceptronModel()\
+    .pretrained("pos_clinical", "en", "clinical/models") \
+    .setInputCols(["sentences", "tokens"])\
+    .setOutputCol("pos_tags")
+
+ner_tagger = MedicalNerModel()\
     .pretrained("jsl_ner_wip_greedy_clinical","en","clinical/models")\
     .setInputCols("sentences", "tokens", "embeddings")\
-    .setOutputCol("ner_tags")    
+    .setOutputCol("ner_tags")
+
+ner_chunker = NerConverterInternal()\
+    .setInputCols(["sentences", "tokens", "ner_tags"])\
+    .setOutputCol("ner_chunks")
+
+dependency_parser = DependencyParserModel()\
+    .pretrained("dependency_conllu", "en")\
+    .setInputCols(["sentences", "pos_tags", "tokens"])\
+    .setOutputCol("dependencies")    
 
 pair_list = ['direction-internal_organ_or_component', 'internal_organ_or_component-direction']
 
@@ -65,22 +92,48 @@ re_model = RelationExtractionModel().pretrained("re_bodypart_directions","en","c
 
 
 pipeline = Pipeline(stages=[documenter, sentencer, tokenizer, words_embedder, pos_tagger, ner_tagger, ner_chunker, dependency_parser, re_model])
+
 model = pipeline.fit(spark.createDataFrame([[""]]).toDF("text"))
 
 results = LightPipeline(model).fullAnnotate(''' MRI demonstrated infarction in the upper brain stem , left cerebellum and  right basil ganglia ''')
 ```
 
 ```scala
-...
+val documenter = new DocumentAssembler()
+	.setInputCol("text")
+	.setOutputCol("document")
+
+val sentencer = new SentenceDetector()
+    .setInputCols("document")
+    .setOutputCol("sentences")
+
+val tokenizer = new Tokenizer()
+    .setInputCols("sentences")
+    .setOutputCol("tokens")
+
 val words_embedder = WordEmbeddingsModel()
     .pretrained("embeddings_clinical", "en", "clinical/models")
     .setInputCols(Array("sentences", "tokens"))
     .setOutputCol("embeddings")
 
+val pos_tagger = PerceptronModel()
+    .pretrained("pos_clinical", "en", "clinical/models")
+    .setInputCols(Array("sentences", "tokens"))
+    .setOutputCol("pos_tags")
+
 val ner_tagger = sparknlp.annotators.NerDLModel()
     .pretrained("jsl_ner_wip_greedy_clinical","en","clinical/models")
     .setInputCols("sentences", "tokens", "embeddings")
-    .setOutputCol("ner_tags")    
+    .setOutputCol("ner_tags")
+
+val ner_chunker = new NerConverterInternal()
+    .setInputCols(Array("sentences", "tokens", "ner_tags"))
+    .setOutputCol("ner_chunks")
+
+val dependency_parser = DependencyParserModel()
+    .pretrained("dependency_conllu", "en")
+    .setInputCols(Array("sentences", "pos_tags", "tokens"))
+    .setOutputCol("dependencies")  
 
 val pair_list = Array('direction-internal_organ_or_component', 'internal_organ_or_component-direction')
 
@@ -91,7 +144,12 @@ val re_model = RelationExtractionModel().pretrained("re_bodypart_directions","en
     .setRelationPairs(pair_list)
 
 val nlpPipeline = new Pipeline().setStages(Array(documenter, sentencer, tokenizer, words_embedder, pos_tagger, ner_tagger, ner_chunker, dependency_parser, re_model))
-val result = pipeline.fit(Seq.empty[String]).transform(data)
+
+val text = ''' MRI demonstrated infarction in the upper brain stem , left cerebellum and  right basil ganglia '''
+
+val data = Seq(text).toDS.toDF("text")
+
+val results = pipeline.fit(data).transform(data)
 
 ```
 

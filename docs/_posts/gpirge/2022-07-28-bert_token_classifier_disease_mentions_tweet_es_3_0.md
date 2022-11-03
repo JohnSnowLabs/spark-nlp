@@ -65,6 +65,8 @@ pipeline =  Pipeline(stages=[
                       tokenClassifier,
                       ner_converter])
 
+import pandas as pd                      
+
 model = pipeline.fit(spark.createDataFrame(pd.DataFrame({'text': ['']})))
 
 data = spark.createDataFrame(["El diagnóstico fueron varios. Principal: Neumonía en el pulmón derecho. Sinusitis de caballo, Faringitis aguda e infección de orina, también elevada. Gripe No. Estuvo hablando conmigo, sin exagerar, mas de media hora, dándome ánimo y fuerza y que sabe, porque ha visto"], StringType()).toDF("text")

@@ -65,8 +65,7 @@ pipeline = Pipeline(stages=[document_assembler,
                             ner,
                             ner_converter])
 
-data = spark.createDataFrame([["Two years ago, the patient presented with a tumor in her left breast and adenopathies. She was diagnosed with invasive ductal carcinoma.
-Last week she was also found to have a lung metastasis."]]).toDF("text")
+data = spark.createDataFrame([["Two years ago, the patient presented with a tumor in her left breast and adenopathies. She was diagnosed with invasive ductal carcinoma.Last week she was also found to have a lung metastasis."]]).toDF("text")
 
 result = pipeline.fit(data).transform(data)
 ```

@@ -60,7 +60,7 @@ ner_converter = NerConverter()\
 	.setInputCols(["sentence", "token", "ner"])\
 	.setOutputCol("ner_chunk")
 
-pipeline = pipeline(stages=[
+pipeline = Pipeline(stages=[
 	document_assembler,
 	sentenceDetectorDL,
 	tokenizer,

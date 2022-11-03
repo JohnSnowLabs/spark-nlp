@@ -66,6 +66,9 @@ pipeline =  Pipeline(stages=[
                       tokenClassifier,
                       ner_converter])
 
+
+import pandas as pd
+
 model = pipeline.fit(spark.createDataFrame(pd.DataFrame({'text': ['']})))
 
 

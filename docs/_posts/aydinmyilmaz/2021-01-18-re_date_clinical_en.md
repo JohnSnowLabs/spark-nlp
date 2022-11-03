@@ -41,18 +41,50 @@ Use as part of an nlp pipeline with the following stages: DocumentAssembler, Sen
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
+
 ```python
-ner_tagger = sparknlp.annotators.NerDLModel().pretrained("jsl_ner_wip_greedy_clinical","en","clinical/models")\ 
-  .setInputCols("sentences", "tokens", "embeddings")\ 
-  .setOutputCol("ner_tags")
+documenter = DocumentAssembler()\
+		.setInputCol("text")\
+		.setOutputCol("document")
 
-re_model = RelationExtractionModel()
-.pretrained("re_date", "en", 'clinical/models')
-.setInputCols(["embeddings", "pos_tags", "ner_chunks", "dependencies"])
-.setOutputCol("relations")
-.setMaxSyntacticDistance(3)\ #default: 0 .setPredictionThreshold(0.9)\ #default: 0.5 .setRelationPairs(["test-date", "symptom-date"]) # Possible relation pairs. Default: All Relations.
+sentencer = SentenceDetector()\
+    .setInputCols(["document"])\
+    .setOutputCol("sentences")
 
-nlp_pipeline = Pipeline(stages=[documenter, sentencer,tokenizer, words_embedder, pos_tagger, ner_tagger, ner_chunker, dependency_parser,re_model])
+tokenizer = Tokenizer()\
+    .setInputCols(["sentences"])\
+    .setOutputCol("tokens")
+  
+word_embeddings = WordEmbeddingsModel.pretrained("embeddings_clinical", "en", "clinical/models")\
+    .setInputCols(["sentences", "tokens"])\
+    .setOutputCol("embeddings")
+
+pos_tagger = PerceptronModel()\
+    .pretrained("pos_clinical", "en", "clinical/models") \
+    .setInputCols(["sentences", "tokens"])\
+    .setOutputCol("pos_tags")
+
+ner_tagger = MedicalNerModel().pretrained("jsl_ner_wip_greedy_clinical","en","clinical/models")\
+    .setInputCols("sentences", "tokens", "embeddings")\
+    .setOutputCol("ner_tags")
+
+ner_chunker = NerConverterInternal()\
+    .setInputCols(["sentences", "tokens", "ner_tags"])\
+    .setOutputCol("ner_chunks")
+
+dependency_parser = DependencyParserModel()\
+    .pretrained("dependency_conllu", "en")\
+    .setInputCols(["sentences", "pos_tags", "tokens"])\
+    .setOutputCol("dependencies")
+
+re_model = RelationExtractionModel().pretrained("re_date_clinical", "en", 'clinical/models')\
+    .setInputCols(["embeddings", "pos_tags", "ner_chunks", "dependencies"])\
+    .setOutputCol("relations")\
+    .setMaxSyntacticDistance(3)\
+    .setPredictionThreshold(0.9)\
+    .setRelationPairs(["test-date", "symptom-date"]) # Possible relation pairs. Default: All Relations.
+
+nlp_pipeline = Pipeline(stages=[documenter, sentencer,tokenizer, word_embeddings, pos_tagger, ner_tagger, ner_chunker, dependency_parser, re_model])
 
 light_pipeline = LightPipeline(nlp_pipeline.fit(spark.createDataFrame([['']]).toDF("text")))
 
@@ -60,10 +92,39 @@ annotations = light_pipeline.fullAnnotate('''This 73 y/o patient had CT on 1/12/
 ```
 
 ```scala
-...
-val ner_tagger = sparknlp.annotators.NerDLModel().pretrained("jsl_ner_wip_greedy_clinical","en","clinical/models")
-      .setInputCols("sentences", "tokens", "embeddings")
-      .setOutputCol("ner_tags")
+val documenter = new DocumentAssembler()
+		.setInputCol("text")
+		.setOutputCol("document")
+
+val sentencer = new SentenceDetector()
+    .setInputCols(["document"])
+    .setOutputCol("sentences")
+
+val tokenizer = new Tokenizer()
+    .setInputCols("sentences")
+    .setOutputCol("tokens")
+  
+val word_embeddings = WordEmbeddingsModel.pretrained("embeddings_clinical", "en", "clinical/models")
+    .setInputCols(Array("sentences", "tokens"))
+    .setOutputCol("embeddings")
+
+val pos_tagger = PerceptronModel()
+    .pretrained("pos_clinical", "en", "clinical/models")
+    .setInputCols(Array("sentences", "tokens"))
+    .setOutputCol("pos_tags")
+
+val ner_tagger = MedicalNerModel().pretrained("jsl_ner_wip_greedy_clinical","en","clinical/models")
+    .setInputCols(Array("sentences", "tokens", "embeddings"))
+    .setOutputCol("ner_tags")
+
+val ner_chunker = new NerConverterInternal()
+    .setInputCols(Array("sentences", "tokens", "ner_tags"))
+    .setOutputCol("ner_chunks")
+
+val dependency_parser = DependencyParserModel()
+    .pretrained("dependency_conllu", "en")
+    .setInputCols(Array("sentences", "pos_tags", "tokens"))
+    .setOutputCol("dependencies")
 
 val re_model = RelationExtractionModel()
         .pretrained("re_date", "en", 'clinical/models')
@@ -73,7 +134,7 @@ val re_model = RelationExtractionModel()
         .setPredictionThreshold(0.9) #default: 0.5 
         .setRelationPairs(Array("test-date", "symptom-date")) # Possible relation pairs. Default: All Relations.
 
-val nlpPipeline = new Pipeline().setStages(Array(documenter, sentencer,tokenizer, words_embedder, pos_tagger, ner_tagger, ner_chunker, dependency_parser,re_model))
+val nlpPipeline = new Pipeline().setStages(Array(documenter, sentencer,tokenizer, word_embeddings, pos_tagger, ner_tagger, ner_chunker, dependency_parser, re_model))
 
 val result = pipeline.fit(Seq.empty[String]).transform(data)
 

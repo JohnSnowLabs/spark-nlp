@@ -71,7 +71,7 @@ re_ner_chunk_filter = RENerChunksFilter()\
     .setInputCols(["ner_chunk", "dependencies"])\
     .setOutputCol("re_ner_chunk")\
     .setMaxSyntacticDistance(10)\
-    .setRelationPairs([""Tumor_Finding-Site_Breast", "Site_Breast-Tumor_Finding", "Tumor_Finding-Anatomical_Site", "Anatomical_Site-Tumor_Finding""])
+    .setRelationPairs(["Tumor_Finding-Site_Breast", "Site_Breast-Tumor_Finding", "Tumor_Finding-Anatomical_Site", "Anatomical_Site-Tumor_Finding"])
 
 re_model = RelationExtractionDLModel.pretrained("redl_oncology_location_biobert_wip", "en", "clinical/models")\
     .setInputCols(["re_ner_chunk", "sentence"])\

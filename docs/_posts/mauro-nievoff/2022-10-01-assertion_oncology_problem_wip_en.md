@@ -57,7 +57,8 @@ ner = MedicalNerModel.pretrained("ner_oncology_wip", "en", "clinical/models") \
 
 ner_converter = NerConverter() \
     .setInputCols(["sentence", "token", "ner"]) \
-    .setOutputCol("ner_chunk")    .setWhiteList(["Cancer_Dx""])
+    .setOutputCol("ner_chunk").setWhiteList(["Cancer_Dx"])
+    
     
 assertion = AssertionDLModel.pretrained("assertion_oncology_problem_wip", "en", "clinical/models") \
     .setInputCols(["sentence", "ner_chunk", "embeddings"]) \
@@ -100,7 +101,7 @@ val ner = MedicalNerModel.pretrained("ner_oncology_wip", "en", "clinical/models"
 val ner_converter = new NerConverter()
     .setInputCols(Array("sentence", "token", "ner"))
     .setOutputCol("ner_chunk")
-    .setWhiteList(Array("Cancer_Dx""))
+    .setWhiteList(Array("Cancer_Dx"))
 
 val clinical_assertion = AssertionDLModel.pretrained("assertion_oncology_problem_wip","en","clinical/models")
     .setInputCols("sentence","ner_chunk","embeddings")
