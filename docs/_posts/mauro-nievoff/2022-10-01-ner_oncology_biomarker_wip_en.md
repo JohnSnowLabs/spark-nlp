@@ -26,7 +26,7 @@ This model extracts mentions of biomarkers and biomarker results from oncology t
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>
 [Open in Colab](https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/27.Oncology_Model.ipynb){:.button.button-orange.button-orange-trans.co.button-icon}
-[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/ner_oncology_biomarker_wip_en_4.0.0_3.0_1664584581032.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
+[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/ner_oncology_biomarker_wip_en_4.2.0_3.0_1664584581032.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
 
 ## How to use
 
