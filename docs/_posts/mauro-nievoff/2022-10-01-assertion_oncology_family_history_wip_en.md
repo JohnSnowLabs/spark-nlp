@@ -114,7 +114,7 @@ val pipeline = new Pipeline().setStages(Array(document_assembler,
                                               ner_converter,
                                               assertion))
 
-val data = Seq("Her family history is positive for breast cancer in her maternal aunt.").toDF("text")
+val data = Seq("""Her family history is positive for breast cancer in her maternal aunt.""").toDF("text")
 
 val result = pipeline.fit(data).transform(data)
 ```
@@ -152,6 +152,6 @@ In-house annotated oncology case reports.
          label  precision  recall  f1-score  support
 Family_History       0.94    0.84      0.89     37.0
          Other       0.91    0.97      0.94     62.0
-     macro avg       0.92    0.90      0.91     99.0
-  weighted avg       0.92    0.92      0.92     99.0
+     macro-avg       0.92    0.90      0.91     99.0
+  weighted-avg       0.92    0.92      0.92     99.0
 ```
