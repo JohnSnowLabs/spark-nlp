@@ -93,7 +93,9 @@ re_model = RelationExtractionModel().pretrained("re_bodypart_directions","en","c
 
 pipeline = Pipeline(stages=[documenter, sentencer, tokenizer, words_embedder, pos_tagger, ner_tagger, ner_chunker, dependency_parser, re_model])
 
-model = pipeline.fit(spark.createDataFrame([[""]]).toDF("text"))
+data = spark.createDataFrame([[" MRI demonstrated infarction in the upper brain stem , left cerebellum and  right basil ganglia "]]).toDF("text")
+
+model = pipeline.fit(data).transform(data)
 
 results = LightPipeline(model).fullAnnotate(''' MRI demonstrated infarction in the upper brain stem , left cerebellum and  right basil ganglia ''')
 ```
