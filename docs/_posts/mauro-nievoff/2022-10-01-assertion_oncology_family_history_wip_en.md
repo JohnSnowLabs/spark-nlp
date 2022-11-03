@@ -34,6 +34,7 @@ This model detects entities refering to the family history.
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
+
 ```python
 document_assembler = DocumentAssembler()\
     .setInputCol("text")\
@@ -102,7 +103,7 @@ val ner_converter = new NerConverter()
     .setWhiteList(Array("Cancer_Dx"))
 
 val clinical_assertion = AssertionDLModel.pretrained("assertion_oncology_family_history_wip","en","clinical/models")
-    .setInputCols("sentence","ner_chunk","embeddings")
+    .setInputCols(Array("sentence","ner_chunk","embeddings"))
     .setOutputCol("assertion")
         
 val pipeline = new Pipeline().setStages(Array(document_assembler,
