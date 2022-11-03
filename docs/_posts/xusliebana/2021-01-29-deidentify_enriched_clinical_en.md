@@ -99,8 +99,8 @@ result = model.transform(data)
 ```
 ```scala
 val documentAssembler = new DocumentAssembler()
-    .setInputCol('text')
-    .setOutputCol('document')
+    .setInputCol("text")
+    .setOutputCol("document")
 
 val sentenceDetector = new SentenceDetector()
     .setInputCols("document")
@@ -129,7 +129,7 @@ val obfuscation = DeIdentificationModel.pretrained("deidentify_enriched_clinical
 
 val nlpPipeline = new Pipeline().setStages(Array(documentAssembler, sentenceDetector, tokenizer, word_embeddings, clinical_ner, ner_converter, obfuscation))
 
-val data = Seq("A . Record date : 2093-01-13 , David Hale , M.D . , Name : Hendrickson , Ora MR . # 7194334 Date : 01/13/93 PCP : Oliveira , 25 years-old , Record date : 2079-11-09 . Cocke County Baptist Hospital . 0295 Keats Street").toDS.toDF("text")
+val data = Seq("""A . Record date : 2093-01-13 , David Hale , M.D . , Name : Hendrickson , Ora MR . # 7194334 Date : 01/13/93 PCP : Oliveira , 25 years-old , Record date : 2079-11-09 . Cocke County Baptist Hospital . 0295 Keats Street""").toDS.toDF("text")
 
 val result = pipeline.fit(data).transform(data)
 
@@ -139,9 +139,7 @@ val result = pipeline.fit(data).transform(data)
 {:.nlu-block}
 ```python
 import nlu
-nlu.load("en.de_identify.clinical").predict("""
-A . Record date : 2093-01-13 , David Hale , M.D . , Name : Hendrickson , Ora MR . # 7194334 Date : 01/13/93 PCP : Oliveira , 25 years-old , Record date : 2079-11-09 . Cocke County Baptist Hospital . 0295 Keats Street
-""")
+nlu.load("en.de_identify.clinical").predict("""A . Record date : 2093-01-13 , David Hale , M.D . , Name : Hendrickson , Ora MR . # 7194334 Date : 01/13/93 PCP : Oliveira , 25 years-old , Record date : 2079-11-09 . Cocke County Baptist Hospital . 0295 Keats Street""")
 ```
 
 </div>
