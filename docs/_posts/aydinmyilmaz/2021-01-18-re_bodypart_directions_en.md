@@ -145,7 +145,7 @@ val re_model = RelationExtractionModel().pretrained("re_bodypart_directions","en
 
 val nlpPipeline = new Pipeline().setStages(Array(documenter, sentencer, tokenizer, words_embedder, pos_tagger, ner_tagger, ner_chunker, dependency_parser, re_model))
 
-val text = ''' MRI demonstrated infarction in the upper brain stem , left cerebellum and  right basil ganglia '''
+val text = """ MRI demonstrated infarction in the upper brain stem , left cerebellum and  right basil ganglia """
 
 val data = Seq(text).toDS.toDF("text")
 
