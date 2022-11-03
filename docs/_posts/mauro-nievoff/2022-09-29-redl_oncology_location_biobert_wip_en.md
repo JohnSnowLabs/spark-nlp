@@ -34,6 +34,7 @@ Use relation pairs to include only the combinations of entities that are relevan
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
+
 ```python
 document_assembler = DocumentAssembler()\
     .setInputCol("text")\
@@ -147,7 +148,7 @@ val pipeline = new Pipeline().setStages(Array(document_assembler,
                             re_ner_chunk_filter,
                             re_model))
 
-val data = Seq("In April 2011, she first noticed a lump in her right breast.").toDS.toDF("text")
+val data = Seq("""In April 2011, she first noticed a lump in her right breast.""").toDS.toDF("text")
 
 val result = pipeline.fit(data).transform(data)
 ```
