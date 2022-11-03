@@ -65,13 +65,12 @@ pipeline =  Pipeline(stages=[
                       tokenClassifier,
                       ner_converter])
 
-import pandas as pd                      
+                 
+data = spark.createDataFrame([["""El diagnóstico fueron varios. Principal: Neumonía en el pulmón derecho. Sinusitis de caballo, Faringitis aguda e infección de orina, también elevada. Gripe No. Estuvo hablando conmigo, sin exagerar, mas de media hora, dándome ánimo y fuerza y que sabe, porque ha visto."""]]).toDF("text")
 
-model = pipeline.fit(spark.createDataFrame(pd.DataFrame({'text': ['']})))
 
-data = spark.createDataFrame(["El diagnóstico fueron varios. Principal: Neumonía en el pulmón derecho. Sinusitis de caballo, Faringitis aguda e infección de orina, también elevada. Gripe No. Estuvo hablando conmigo, sin exagerar, mas de media hora, dándome ánimo y fuerza y que sabe, porque ha visto"], StringType()).toDF("text")
+result = pipeline.fit(data).transform(data)
 
-result = model.transform(data)
 ```
 ```scala
 val documentAssembler = new DocumentAssembler()
@@ -105,7 +104,7 @@ val pipeline =  new Pipeline().setStages(Array(
 
 val data = Seq(Array("El diagnóstico fueron varios. Principal: Neumonía en el pulmón derecho. Sinusitis de caballo, Faringitis aguda e infección de orina, también elevada. Gripe No. Estuvo hablando conmigo, sin exagerar, mas de media hora, dándome ánimo y fuerza y que sabe, porque ha visto")).toDS().toDF("text")
 
-val result = model.fit(data).transform(data)
+val result = pipeline.fit(data).transform(data)
 ```
 </div>
 
