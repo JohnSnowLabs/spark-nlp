@@ -47,8 +47,8 @@ In the table below, `re_bodypart_directions` RE model, its labels, optimal NER m
 ```python
 
 documenter = DocumentAssembler()\
-		.setInputCol("text")\
-		.setOutputCol("document")
+     .setInputCol("text")\
+     .setOutputCol("document")
 
 sentencer = SentenceDetector()\
     .setInputCols(["document"])\
@@ -100,8 +100,8 @@ results = LightPipeline(model).fullAnnotate(''' MRI demonstrated infarction in t
 
 ```scala
 val documenter = new DocumentAssembler()
-	.setInputCol("text")
-	.setOutputCol("document")
+    .setInputCol("text")
+    .setOutputCol("document")
 
 val sentencer = new SentenceDetector()
     .setInputCols("document")
@@ -135,7 +135,7 @@ val dependency_parser = DependencyParserModel()
     .setInputCols(Array("sentences", "pos_tags", "tokens"))
     .setOutputCol("dependencies")  
 
-val pair_list = Array('direction-internal_organ_or_component', 'internal_organ_or_component-direction')
+val pair_list = Array("direction-internal_organ_or_component", "internal_organ_or_component-direction")
 
 val re_model = RelationExtractionModel().pretrained("re_bodypart_directions","en","clinical/models")
     .setInputCols(Array("embeddings", "pos_tags", "ner_chunks", "dependencies"))
