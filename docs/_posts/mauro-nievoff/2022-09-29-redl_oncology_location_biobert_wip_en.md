@@ -126,14 +126,14 @@ val dependency_parser = DependencyParserModel.pretrained("dependency_conllu", "e
     .setOutputCol("dependencies")
 
 val re_ner_chunk_filter = new RENerChunksFilter()
-     .setInputCols("ner_chunk", "dependencies")
+     .setInputCols(Array("ner_chunk", "dependencies"))
      .setOutputCol("re_ner_chunk")
      .setMaxSyntacticDistance(10)
      .setRelationPairs(Array("Tumor_Finding-Site_Breast", "Site_Breast-Tumor_Finding","Tumor_Finding-Anatomical_Site", "Anatomical_Site-Tumor_Finding"))
 
 val re_model = RelationExtractionDLModel.pretrained("redl_oncology_location_biobert_wip", "en", "clinical/models")
       .setPredictionThreshold(0.5f)
-      .setInputCols("re_ner_chunk", "sentence")
+      .setInputCols(Array("re_ner_chunk", "sentence"))
       .setOutputCol("relation_extraction")
 
 val pipeline = new Pipeline().setStages(Array(document_assembler,
