@@ -1,2 +1,4 @@
-docs/_posts/josejuanmartinez/2022-10-22-finclf_bert_sentiment_analysis_lt.md
-docs/_posts/josejuanmartinez/2022-10-22-finclf_bert_sentiment_analysis_lt.md
+docs/assets/images/alab.png
+docs/en/alab_module.md
+docs/assets/images/alab.png
+docs/en/alab_module.md
