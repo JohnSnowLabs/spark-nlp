@@ -116,7 +116,7 @@ val pipeline = new Pipeline().setStages(Array(document_assembler,
                                               ner_converter,
                                               assertion))
 
-val data = Seq("The patient was diagnosed with breast cancer. Her family history is positive for other cancers.").toDF("text")
+val data = Seq("""The patient was diagnosed with breast cancer. Her family history is positive for other cancers.""").toDF("text")
 
 val result = pipeline.fit(data).transform(data)
 ```
@@ -158,6 +158,6 @@ In-house annotated oncology case reports.
 Hypothetical       0.81    0.77      0.79     77.0
     Possible       0.62    0.61      0.62     54.0
      Present       0.78    0.79      0.78    155.0
-   macro avg       0.75    0.81      0.77    448.0
-weighted avg       0.80    0.79      0.79    448.0
+   macro-avg       0.75    0.81      0.77    448.0
+weighted-avg       0.80    0.79      0.79    448.0
 ```
