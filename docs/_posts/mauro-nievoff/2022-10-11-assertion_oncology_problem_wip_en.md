@@ -102,7 +102,7 @@ val ner_converter = new NerConverter()
     .setWhiteList(Array("Cancer_Dx"))
 
 val clinical_assertion = AssertionDLModel.pretrained("assertion_oncology_problem_wip","en","clinical/models")
-    .setInputCols("sentence","ner_chunk","embeddings")
+    .setInputCols(Array("sentence","ner_chunk","embeddings"))
     .setOutputCol("assertion")
         
 val pipeline = new Pipeline().setStages(Array(document_assembler,
@@ -113,7 +113,7 @@ val pipeline = new Pipeline().setStages(Array(document_assembler,
                                               ner_converter,
                                               assertion))
 
-val data = Seq("The patient was diagnosed with breast cancer. Her family history is positive for other cancers.").toDF("text")
+val data = Seq("""The patient was diagnosed with breast cancer. Her family history is positive for other cancers.""").toDF("text")
 
 val result = pipeline.fit(data).transform(data)
 ```
@@ -154,6 +154,6 @@ In-house annotated oncology case reports.
 Hypothetical_Or_Absent       0.87    0.81      0.84    310.0
        Medical_History       0.76    0.86      0.81    304.0
               Possible       0.71    0.61      0.65     92.0
-             macro avg       0.77    0.76      0.76    718.0
-          weighted avg       0.80    0.80      0.80    718.0
+             macro-avg       0.77    0.76      0.76    718.0
+          weighted-avg       0.80    0.80      0.80    718.0
 ```
