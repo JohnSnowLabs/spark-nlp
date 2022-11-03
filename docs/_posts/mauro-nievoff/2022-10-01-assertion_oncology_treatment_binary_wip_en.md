@@ -34,6 +34,7 @@ This model detects the assertion status of oncology treatment entities. The mode
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
+
 ```python
 document_assembler = DocumentAssembler()\
     .setInputCol("text")\
@@ -102,7 +103,7 @@ val ner_converter = new NerConverter()
     .setWhiteList(Array("Cancer_Surgery", "Chemotherapy"))
 
 val clinical_assertion = AssertionDLModel.pretrained("assertion_oncology_treatment_binary_wip","en","clinical/models")
-    .setInputCols("sentence","ner_chunk","embeddings")
+    .setInputCols(Array("sentence","ner_chunk","embeddings"))
     .setOutputCol("assertion")
         
 val pipeline = new Pipeline().setStages(Array(document_assembler,
@@ -113,7 +114,7 @@ val pipeline = new Pipeline().setStages(Array(document_assembler,
                                               ner_converter,
                                               assertion))
 
-val data = Seq("The patient underwent a mastectomy two years ago. We recommend to start chemotherapy.").toDF("text")
+val data = Seq("""The patient underwent a mastectomy two years ago. We recommend to start chemotherapy.""").toDF("text")
 
 val result = pipeline.fit(data).transform(data)
 
@@ -155,6 +156,6 @@ In-house annotated oncology case reports.
                  label  precision  recall  f1-score  support
 Hypothetical_Or_Absent       0.76    0.77      0.76    128.0
        Present_Or_Past       0.75    0.73      0.74    118.0
-             macro avg       0.75    0.75      0.75    246.0
-          weighted avg       0.75    0.75      0.75    246.0
+             macro-avg       0.75    0.75      0.75    246.0
+          weighted-avg       0.75    0.75      0.75    246.0
 ```
