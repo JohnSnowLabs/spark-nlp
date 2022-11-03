@@ -44,8 +44,8 @@ In the table below, `re_bodypart_problem` RE model, its labels, optimal NER mode
 ```python
 
 documenter = DocumentAssembler()\
-	.setInputCol("text")\
-	.setOutputCol("document")
+    .setInputCol("text")\
+    .setOutputCol("document")
 
 sentencer = SentenceDetector()\
     .setInputCols(["document"])\
@@ -92,8 +92,8 @@ results = LightPipeline(model).fullAnnotate('''No neurologic deficits other than
 
 ```scala
 val documenter = new DocumentAssembler()
-	.setInputCol("text")
-	.setOutputCol("document")
+    .setInputCol("text")
+    .setOutputCol("document")
 
 val sentencer = new SentenceDetector()
     .setInputCols("document")
@@ -129,13 +129,13 @@ val dependency_parser = DependencyParserModel()
 val reModel = RelationExtractionModel().pretrained("re_bodypart_problem","en","clinical/models")
     .setInputCols(Array("embeddings","ner_chunks","pos_tags","dependencies"))
     .setOutput("relations")
-    .setRelationPairs(Array('symptom-external_body_part_or_region'))
+    .setRelationPairs(Array("symptom-external_body_part_or_region"))
 
 val nlpPipeline = new Pipeline().setStages(Array(documenter, sentencer, tokenizer, word_embeddings, pos_tagger, ner_tagger, ner_chunker, dependency_parser, reModel))
 
 val result = pipeline.fit(Seq.empty[String]).transform(data)
 
-val results = LightPipeline(model).fullAnnotate('''No neurologic deficits other than some numbness in his left hand.''')
+val results = LightPipeline(model).fullAnnotate("""No neurologic deficits other than some numbness in his left hand.""")
 ```
 
 </div>
