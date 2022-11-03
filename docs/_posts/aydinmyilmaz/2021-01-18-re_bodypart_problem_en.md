@@ -85,7 +85,9 @@ reModel = RelationExtractionModel.pretrained("re_bodypart_problem","en","clinica
 
 pipeline = Pipeline(stages=[documenter, sentencer, tokenizer, word_embeddings, pos_tagger, ner_tagger, ner_chunker, dependency_parser, reModel])
 
-model = pipeline.fit(spark.createDataFrame([[""]]).toDF("text"))
+data = spark.createDataFrame([["No neurologic deficits other than some numbness in his left hand."]]).toDF("text")
+
+model = pipeline.fit(data).transform(data)
 
 results = LightPipeline(model).fullAnnotate('''No neurologic deficits other than some numbness in his left hand.''')
 ```
