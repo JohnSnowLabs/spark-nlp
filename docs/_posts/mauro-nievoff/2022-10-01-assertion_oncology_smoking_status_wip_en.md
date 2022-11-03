@@ -34,6 +34,7 @@ This model detects the assertion status of the Smoking_Status entity. It classif
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
+
 ```python
 document_assembler = DocumentAssembler()\
     .setInputCol("text")\
@@ -102,7 +103,7 @@ val ner_converter = new NerConverter()
     .setWhiteList(Array("Smoking_Status"))
 
 val clinical_assertion = AssertionDLModel.pretrained("assertion_oncology_smoking_status_wip","en","clinical/models")
-    .setInputCols("sentence","ner_chunk","embeddings")
+    .setInputCols(Array("sentence","ner_chunk","embeddings"))
     .setOutputCol("assertion")
         
 val pipeline = new Pipeline().setStages(Array(document_assembler,
@@ -113,7 +114,7 @@ val pipeline = new Pipeline().setStages(Array(document_assembler,
                                               ner_converter,
                                               assertion))
 
-val data = Seq("The patient quit smoking three years ago.").toDF("text")
+val data = Seq("""The patient quit smoking three years ago.""").toDF("text")
 
 val result = pipeline.fit(data).transform(data)
 ```
@@ -152,6 +153,6 @@ In-house annotated oncology case reports.
       Absent       0.75    1.00      0.86     12.0
         Past       0.78    0.93      0.85     15.0
      Present       1.00    0.46      0.63     13.0
-   macro avg       0.84    0.80      0.78     40.0
-weighted avg       0.84    0.80      0.78     40.0
+   macro-avg       0.84    0.80      0.78     40.0
+weighted-avg       0.84    0.80      0.78     40.0
 ```
