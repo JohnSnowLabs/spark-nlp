@@ -76,11 +76,9 @@ ner_model,
 ner_converter   
 ])
 
-model = pipeline.fit(spark.createDataFrame([[""]]).toDF("text"))
-
 data = spark.createDataFrame([["""Mulher de 23 anos, de Capinota, Cochabamba, Bolívia. Ela está no nosso país há quatro anos. Frequentou o departamento de emergência obstétrica onde foi encontrada grávida de 37 semanas, com um colo dilatado de 5 cm e membranas rompidas. O obstetra de emergência realizou um teste de estreptococos negativo e solicitou um hemograma, glucose, bioquímica básica, HBV, HCV e serologia da sífilis."""]]).toDF("text")
 
-result = model.transform(data)
+result = pipeline.fit(data).transform(data)
 ```
 ```scala
 val document_assembler = new DocumentAssembler()
@@ -88,11 +86,11 @@ val document_assembler = new DocumentAssembler()
 .setOutputCol("document")
 
 val sentence_detector = SentenceDetectorDLModel.pretrained("sentence_detector_dl", "xx")
-.setInputCols("document")
+.setInputCols(Array("document"))
 .setOutputCol("sentence")
 
 val tokenizer = new Tokenizer()
-.setInputCols("sentence")
+.setInputCols(Array("sentence"))
 .setOutputCol("token")
 
 val embeddings = RoBertaEmbeddings.pretrained("roberta_embeddings_BR_BERTo","pt")
@@ -107,7 +105,7 @@ val ner_converter = new NerConverter()
 .setInputCols(Array("sentence", "token", "ner"))
 .setOutputCol("ner_chunk")
 
-val pipeline = new PipelineModel().setStages(Array(document_assembler, 
+val pipeline = new Pipeline().setStages(Array(document_assembler, 
 sentence_detector,
 tokenizer,
 embeddings,
