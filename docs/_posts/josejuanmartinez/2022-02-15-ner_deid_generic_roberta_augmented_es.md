@@ -97,27 +97,27 @@ df = spark.createDataFrame([text]).toDF("text")
 results = nlpPipeline.fit(df).transform(df)
 ```
 ```scala
-val documentAssembler = new nlp.DocumentAssembler()
+val documentAssembler = new DocumentAssembler()
 .setInputCol("text")
 .setOutputCol("document")
 
 
-val sentenceDetector = nlp.SentenceDetectorDLModel.pretrained("sentence_detector_dl","xx")
+val sentenceDetector = SentenceDetectorDLModel.pretrained("sentence_detector_dl","xx")
 .setInputCols(Array("document"))
 .setOutputCol("sentence")
 
 
-val tokenizer = new nlp.Tokenizer()
+val tokenizer = new Tokenizer()
 .setInputCols(Array("sentence"))
 .setOutputCol("token")
 
 
-roberta_embeddings = nlp.RoBertaEmbeddings.pretrained("roberta_base_biomedical", "es")
+roberta_embeddings = RoBertaEmbeddings.pretrained("roberta_base_biomedical", "es")
 .setInputCols(Array("sentence", "token"))
 .setOutputCol("embeddings")
 
 
-clinical_ner = medical.NerModel.pretrained("ner_deid_generic_augmented", "es", "clinical/models")
+clinical_ner = MedicalNerModel.pretrained("ner_deid_generic_augmented", "es", "clinical/models")
 .setInputCols(Array("sentence","token","embeddings"))
 .setOutputCol("ner")
 
@@ -131,7 +131,7 @@ val text = "Antonio Miguel Martínez, un varón de 35 años de edad, de profesi�
 val df = Seq(text).toDF("text")
 
 
-val results = pipeline.fit(data).transform(data)
+val results = pipeline.fit(df).transform(df)
 ```
 
 
