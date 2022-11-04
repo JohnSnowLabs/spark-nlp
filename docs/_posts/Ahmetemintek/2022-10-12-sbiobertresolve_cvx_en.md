@@ -7,7 +7,7 @@ date: 2022-10-12
 tags: [entity_resolution, cvx, clinical, en, licensed]
 task: Entity Resolution
 language: en
-edition: Spark NLP for Healthcare 4.1.0
+edition: Spark NLP for Healthcare 4.2.1
 spark_version: 3.0
 supported: true
 article_header:
@@ -26,7 +26,7 @@ This model maps vaccine entities to CVX codes using sbiobert_base_cased_mli Sent
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>
 [Open in Colab](https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/3.Clinical_Entity_Resolvers.ipynb){:.button.button-orange.button-orange-trans.co.button-icon}
-[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/sbiobertresolve_cvx_en_4.1.0_3.0_1665597761894.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
+[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/sbiobertresolve_cvx_en_4.2.1_3.0_1665597761894.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
 
 ## How to use
 
@@ -94,7 +94,7 @@ val documentAssembler = new DocumentAssembler()
 {:.table-model}
 |---|---|
 |Model Name:|sbiobertresolve_cvx|
-|Compatibility:|Spark NLP for Healthcare 4.1.0+|
+|Compatibility:|Spark NLP for Healthcare 4.2.1+|
 |License:|Licensed|
 |Edition:|Official|
 |Input Labels:|[bert_embeddings]|
