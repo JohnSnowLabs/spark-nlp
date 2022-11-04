@@ -78,7 +78,7 @@ val documentAssembler = new DocumentAssembler()
 
 val sbert_embedder = BertSentenceEmbeddings
 .pretrained("sbiobert_base_cased_mli", "en", "clinical/models")
-.setInputCols("ner_chunk")
+.setInputCols(Array("ner_chunk"))
 .setOutputCol("sbert_embeddings")
 
 val icdo_resolver = SentenceEntityResolverModel
@@ -89,7 +89,7 @@ val icdo_resolver = SentenceEntityResolverModel
 
 val chunkerMapper = ChunkMapperModel
 .pretrained("icdo_snomed_mapper", "en", "clinical/models")
-.setInputCols("icdo_code")
+.setInputCols(Array("icdo_code"))
 .setOutputCol("snomed_mappings")
 .setRels(Array("snomed_code"))
 
