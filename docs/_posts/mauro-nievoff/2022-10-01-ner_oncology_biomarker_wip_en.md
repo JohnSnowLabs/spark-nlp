@@ -7,7 +7,7 @@ date: 2022-10-01
 tags: [licensed, clinical, oncology, en, ner, biomarker]
 task: Named Entity Recognition
 language: en
-edition: Spark NLP for Healthcare 4.2.0
+edition: Spark NLP for Healthcare 4.0.0
 spark_version: 3.0
 supported: true
 article_header:
@@ -26,7 +26,7 @@ This model extracts mentions of biomarkers and biomarker results from oncology t
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>
 [Open in Colab](https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/27.Oncology_Model.ipynb){:.button.button-orange.button-orange-trans.co.button-icon}
-[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/ner_oncology_biomarker_wip_en_4.2.0_3.0_1664584581032.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
+[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/ner_oncology_biomarker_wip_en_4.0.0_3.0_1664584581032.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
 
 ## How to use
 
@@ -140,7 +140,7 @@ val result = pipeline.fit(data).transform(data)
 {:.table-model}
 |---|---|
 |Model Name:|ner_oncology_biomarker_wip|
-|Compatibility:|Spark NLP for Healthcare 4.2.0+|
+|Compatibility:|Spark NLP for Healthcare 4.0.0+|
 |License:|Licensed|
 |Edition:|Official|
 |Input Labels:|[sentence, token, embeddings]|
