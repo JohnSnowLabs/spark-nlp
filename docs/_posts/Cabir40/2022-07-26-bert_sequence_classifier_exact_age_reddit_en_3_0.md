@@ -67,7 +67,7 @@ val documenter = new DocumentAssembler()
     .setOutputCol("document")
 
 val tokenizer = new Tokenizer()
-    .setInputCols(Array("sentences"))
+    .setInputCols(Array("document"))
     .setOutputCol("token")
 
 val sequenceClassifier = MedicalBertForSequenceClassification.pretrained("bert_sequence_classifier_exact_age_reddit", "en", "clinical/models")
