@@ -75,7 +75,7 @@ chunk_merger = finance.ChunkMergeApproach()\
         .setInputCols('ner_chunk_org', "ner_chunk_date")\
         .setOutputCol('ner_chunk')
 
-reDL = finance.RelationExtractionDLModel().pretrained('finre_acquisitions_subsidiaries_md', 'en', 'finance/models')\
+reDL = finance.RelationExtractionDLModel().pretrained('finre_acquisitions_subsidiary_md', 'en', 'finance/models')\
     .setInputCols(["ner_chunk", "sentence"])\
     .setOutputCol("relations")
 
