@@ -76,11 +76,9 @@ ner_model,
 ner_converter   
 ])
 
-model = pipeline.fit(spark.createDataFrame([[""]]).toDF("text"))
-
 data = spark.createDataFrame([["""Uma rapariga de 16 anos com um historial pessoal de asma apresentou ao departamento de dermatologia com lesões cutâneas assintomáticas que tinham estado presentes durante 2 meses. A paciente tinha sido tratada com creme corticosteróide devido a uma suspeita inicial de eczema atópico, apesar do qual apresentava um crescimento progressivo marcado das lesões. Tinha um gato doméstico que ela nunca tinha levado ao veterinário. O exame físico revelou placas em forma de anel com uma borda periférica activa na parte superior das costas e nos aspectos laterais do pescoço e da face. Cultura local obtida por raspagem de tapete isolado Trichophyton rubrum. Com base em dados clínicos e cultura, foi estabelecido o diagnóstico de tinea incognito."""]]).toDF("text")
 
-result = model.transform(data)
+result = pipeline.fit(data).transform(data)
 ```
 ```scala
 val document_assembler = new DocumentAssembler()
@@ -88,11 +86,11 @@ val document_assembler = new DocumentAssembler()
 .setOutputCol("document")
 
 val sentence_detector = SentenceDetectorDLModel.pretrained("sentence_detector_dl", "xx")
-.setInputCols("document")
+.setInputCols(Array("document"))
 .setOutputCol("sentence")
 
 val tokenizer = new Tokenizer()
-.setInputCols("sentence")
+.setInputCols(Array("sentence"))
 .setOutputCol("token")
 
 val embeddings = WordEmbeddingsModel.pretrained("w2v_cc_300d","pt")
@@ -107,7 +105,7 @@ val ner_converter = new NerConverter()
 .setInputCols(Array("sentence", "token", "ner"))
 .setOutputCol("ner_chunk")
 
-val pipeline = new PipelineModel().setStages(Array(document_assembler, 
+val pipeline = new Pipeline().setStages(Array(document_assembler, 
 sentence_detector,
 tokenizer,
 embeddings,
