@@ -64,7 +64,7 @@ val document_assembler = new DocumentAssembler()
 .setOutputCol("chunk")
 
 val chunkerMapper = ChunkMapperModel.pretrained("drug_brandname_ndc_mapper", "en", "clinical/models")
-.setInputCols("chunk")
+.setInputCols(Array("chunk"))
 .setOutputCol("ndc")
 .setRels(Array("Strength_NDC"))
 .setLowerCase(True)
