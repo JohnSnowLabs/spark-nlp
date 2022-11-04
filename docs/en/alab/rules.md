@@ -60,3 +60,9 @@ Users can import rules from the Rules page. The rules can be both _dictionary_ b
 To export any rule, the user need to select the available rules and click on _Export Rules_ button. Rules are then downloaded as a zip file. The zip file contains the JSON file for each rule. These exported rules can again be imported to Annotation Lab.
 
 ![RulesExport](/assets/images/annotation_lab/4.1.0/export_rules.gif)
+
+
+The following blog posts explain how to create and use rules for jump starting your annotation projects:
+- [Using Rules to Jump Start Text Annotation Projects](https://medium.com/annotation-lab/using-rules-to-jump-start-text-annotation-projects-1-3-john-snow-labs-8277a9c7fbcb)
+- [Using Rules and Pretrained Models in Text Annotation Projects](https://medium.com/annotation-lab/using-rules-and-pretrained-models-in-text-annotation-projects-2-3-1c6708d6c42d)
+- [Training and tuning models based on Rule-based annotation of text documents](https://medium.com/annotation-lab/training-and-tuning-models-based-on-rule-based-annotation-of-text-documents-3-3-3bc89214d7b4)
