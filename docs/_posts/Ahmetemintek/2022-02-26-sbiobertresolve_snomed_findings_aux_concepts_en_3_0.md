@@ -47,7 +47,7 @@ sentenceDetector = SentenceDetectorDLModel.pretrained()\
       .setOutputCol("sentence")
 
 tokenizer = Tokenizer() \
-      .setInputCols(["document"]) \
+      .setInputCols(["sentence"]) \
       .setOutputCol("token")
 
 word_embeddings = WordEmbeddingsModel.pretrained("embeddings_clinical","en", "clinical/models")\
@@ -99,11 +99,11 @@ val documentAssembler = DocumentAssembler()
       .setOutputCol("document")
 
 val sentenceDetector = SentenceDetectorDLModel.pretrained()
-      .setInputCols("document")
+      .setInputCols(Array("document"))
       .setOutputCol("sentence")
 
 val tokenizer = Tokenizer() 
-      .setInputCols("document") 
+      .setInputCols(Array("sentence"))
       .setOutputCol("token")
 
 val word_embeddings = WordEmbeddingsModel.pretrained("embeddings_clinical","en", "clinical/models")

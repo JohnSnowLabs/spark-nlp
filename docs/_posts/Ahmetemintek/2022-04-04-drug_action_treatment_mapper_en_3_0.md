@@ -49,11 +49,11 @@ tokenizer = Tokenizer()\
     .setOutputCol("token")
 
 ner =  MedicalBertForTokenClassifier.pretrained("bert_token_classifier_drug_development_trials", "en", "clinical/models")\
-    .setInputCols("token","sentence")\
+    .setInputCols(["token","sentence"])\
     .setOutputCol("ner")
 
 nerconverter = NerConverterInternal()\
-    .setInputCols("sentence", "token", "ner")\
+    .setInputCols(["sentence", "token", "ner"])\
     .setOutputCol("drug")
 
 chunkerMapper = ChunkMapperModel.pretrained("drug_action_treatment_mapper", "en", "clinical/models") \
@@ -81,7 +81,7 @@ val document_assembler = DocumentAssembler()
     .setOutputCol("document")
 
 val sentence_detector = SentenceDetector()
-    .setInputCols("document")
+    .setInputCols(Array("document"))
     .setOutputCol("sentence")
 
 val tokenizer = Tokenizer()
@@ -89,7 +89,7 @@ val tokenizer = Tokenizer()
     .setOutputCol("token")
 
 val ner =  MedicalBertForTokenClassifier.pretrained("bert_token_classifier_drug_development_trials", "en", "clinical/models")
-    .setInputCols("token","sentence")
+    .setInputCols(Array("token","sentence"))
     .setOutputCol("ner")
 
 val nerconverter = NerConverterInternal()
