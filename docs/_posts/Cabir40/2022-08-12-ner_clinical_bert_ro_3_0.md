@@ -68,13 +68,10 @@ word_embeddings,
 clinical_ner,
 ner_converter])
 
-model = nlpPipeline.fit(spark.createDataFrame([[""]]).toDF("text"))
+data = spark.createDataFrame([[""" Solicitare: Angio CT cardio-toracic Dg. de trimitere Atrezie de valva pulmonara. Hipoplazie VS. Atrezie VAV stang. Anastomoza Glenn. Sp. Tromboza la nivelul anastomozei. Trimis de: Sectia Clinica Cardiologie (dr. Sue T.) Procedura Aparat GE Revolution HD. Branula albastra montata la nivelul membrului superior drept. Scout. Se administreaza 30 ml Iomeron 350 cu flux 2.2 ml/s, urmate de 20 ml ser fiziologic cu acelasi flux. Se efectueaza o examinare angio-CT cardiotoracica cu achizitii secventiale prospective la o frecventa cardiaca medie de 100/min."""]]).toDF("text")
 
-sample_text = """ Solicitare: Angio CT cardio-toracic Dg. de trimitere Atrezie de valva pulmonara. Hipoplazie VS. Atrezie VAV stang. Anastomoza Glenn. Sp. Tromboza la nivelul anastomozei. Trimis de: Sectia Clinica Cardiologie (dr. Sue T.) Procedura Aparat GE Revolution HD. Branula albastra montata la nivelul membrului superior drept. Scout. Se administreaza 30 ml Iomeron 350 cu flux 2.2 ml/s, urmate de 20 ml ser fiziologic cu acelasi flux. Se efectueaza o examinare angio-CT cardiotoracica cu achizitii secventiale prospective la o frecventa cardiaca medie de 100/min."""
+result = nlpPipeline.fit(data).transform(data)
 
-data = spark.createDataFrame([[sample_text]]).toDF("text")
-
-result = model.transform(data)
 ```
 ```scala
 val document_assembler = new DocumentAssembler()
@@ -82,11 +79,11 @@ val document_assembler = new DocumentAssembler()
 .setOutputCol("document")
 
 val sentence_detector = SentenceDetectorDLModel.pretrained("sentence_detector_dl", "xx")
-.setInputCols("document")
+.setInputCols(Array("document"))
 .setOutputCol("sentence")
 
 val tokenizer = new Tokenizer()
-.setInputCols("sentence")
+.setInputCols(Array("sentence"))
 .setOutputCol("token")
 
 val embeddings = BertEmbeddings.pretrained("bert_base_cased", "ro")
