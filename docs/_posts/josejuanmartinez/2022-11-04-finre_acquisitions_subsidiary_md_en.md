@@ -136,11 +136,11 @@ In-house annotations on SEC 10K filings, Wikidata and data augmentation.
 ## Benchmarking
 
 ```bash
-label Recall Precision        F1   Support
+label                    Recall Precision    F1      Support
 has_acquisition_date     0.992     0.992     0.992       124
-is_subsidiary_of     0.864     0.927     0.895        59
-other               0.999     0.998     0.998       982
-was_acquired_by     0.985     0.964     0.974       135
-Avg.                0.960     0.970     0.965 1372
-Weighted-Avg.       0.991     0.991     0.991 1372
+is_subsidiary_of         0.864     0.927     0.895        59
+other                    0.999     0.998     0.998       982
+was_acquired_by          0.985     0.964     0.974       135
+Avg.                     0.960     0.970     0.965      1372
+Weighted-Avg.            0.991     0.991     0.991      1372
 ```
