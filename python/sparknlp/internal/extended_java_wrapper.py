@@ -16,6 +16,7 @@
 from pyspark import SparkContext
 from pyspark.ml.wrapper import JavaWrapper
 from pyspark.sql import DataFrame
+import re
 
 
 class ExtendedJavaWrapper(JavaWrapper):
@@ -53,7 +54,8 @@ class ExtendedJavaWrapper(JavaWrapper):
         return java_array
 
     def spark_version(self):
-        spark_version = self.sc.version.split(".")
+        cleaned_version = re.findall(r'(?:(\d+\.(?:\d+\.)*\d+))', self.sc.version)
+        spark_version = cleaned_version[0].split(".")
         return int("".join(spark_version))
 
     def getDataFrame(self, spark, jdf):
