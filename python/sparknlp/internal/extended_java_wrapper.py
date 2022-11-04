@@ -16,7 +16,7 @@
 from pyspark import SparkContext
 from pyspark.ml.wrapper import JavaWrapper
 from pyspark.sql import DataFrame
-import re
+from distutils.version import LooseVersion
 
 
 class ExtendedJavaWrapper(JavaWrapper):
@@ -54,12 +54,10 @@ class ExtendedJavaWrapper(JavaWrapper):
         return java_array
 
     def spark_version(self):
-        cleaned_version = re.findall(r'(?:(\d+\.(?:\d+\.)*\d+))', self.sc.version)
-        spark_version = cleaned_version[0].split(".")
-        return int("".join(spark_version))
+        return self.sc.version
 
     def getDataFrame(self, spark, jdf):
-        if self.spark_version() >= 330:
+        if LooseVersion(self.spark_version()) >= LooseVersion("3.3.0"):
             return DataFrame(jdf, spark._getActiveSessionOrCreate())
         else:
             return DataFrame(jdf, spark._wrapped)
