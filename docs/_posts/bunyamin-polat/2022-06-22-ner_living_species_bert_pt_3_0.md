@@ -105,7 +105,7 @@ val ner_converter = new NerConverter()
 .setInputCols(Array("sentence", "token", "ner"))
 .setOutputCol("ner_chunk")
 
-val pipeline = new PipelineModel().setStages(Array(document_assembler, 
+val pipeline = new Pipeline().setStages(Array(document_assembler, 
 sentence_detector,
 tokenizer,
 embeddings,
