@@ -79,11 +79,11 @@ val documentAssembler = new DocumentAssembler()
 		.setOutputCol("document")
 
 val sentenceDetector = new SentenceDetector()
-		.setInputCols("document") 
+		.setInputCols(Array("document"))
 		.setOutputCol("sentence")
 
 val tokenizer = new Tokenizer()
-		.setInputCols("sentence")
+		.setInputCols(Array("sentence"))
 		.setOutputCol("token")
 	
 val embeddings = WordEmbeddingsModel.pretrained("hebrew_cc_300d", "he",)
