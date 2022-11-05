@@ -7,7 +7,7 @@ date: 2022-11-04
 tags: [licensed, en, oncology, clinical]
 task: Named Entity Recognition
 language: en
-edition: Spark NLP for Healthcare 4.1.0
+edition: Spark NLP for Healthcare 4.2.2
 spark_version: 3.0
 supported: true
 article_header:
