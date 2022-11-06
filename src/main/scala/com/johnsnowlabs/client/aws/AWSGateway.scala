@@ -18,7 +18,12 @@ package com.johnsnowlabs.client.aws
 
 import com.amazonaws.auth.{AWSCredentials, AWSStaticCredentialsProvider}
 import com.amazonaws.services.pi.model.InvalidArgumentException
-import com.amazonaws.services.s3.model.{GetObjectRequest, ObjectMetadata, PutObjectResult, S3Object}
+import com.amazonaws.services.s3.model.{
+  GetObjectRequest,
+  ObjectMetadata,
+  PutObjectResult,
+  S3Object
+}
 import com.amazonaws.services.s3.transfer.{Transfer, TransferManagerBuilder}
 import com.amazonaws.services.s3.{AmazonS3, AmazonS3ClientBuilder}
 import com.amazonaws.{AmazonClientException, AmazonServiceException, ClientConfiguration}

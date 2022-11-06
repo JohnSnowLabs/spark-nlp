@@ -78,7 +78,7 @@ object Dependencies {
   val tensorflowM1 = "com.johnsnowlabs.nlp" %% "tensorflow-m1" % tensorflowVersion
   val tensorflowLinuxAarch64 = "com.johnsnowlabs.nlp" %% "tensorflow-aarch64" % tensorflowVersion
 
-  val minIOVersion = "8.4.3"
+  val minIOVersion = "8.4.5"
   val minIO = "io.minio" % "minio" % minIOVersion
 
   /** ------- Dependencies end  ------- */
