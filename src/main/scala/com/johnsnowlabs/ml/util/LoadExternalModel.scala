@@ -26,7 +26,7 @@ import scala.io.Source
 object LoadExternalModel {
 
   val notSupportedEngineError: String =
-    "Your imported model is not supported. Please make sure you" +
+    "Your imported model is not supported. Please make sure you " +
       s"follow provided notebooks to import external models into Spark NLP: " +
       s"https://github.com/JohnSnowLabs/spark-nlp/discussions/5669"
 
