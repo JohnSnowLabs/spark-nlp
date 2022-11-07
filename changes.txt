@@ -1,4 +1,8 @@
-docs/assets/images/annotation_lab/4.2.0/visual_ner_train_3_1.png
-docs/assets/images/annotation_lab/4.2.0/visual_ner_train_4.png
-docs/assets/images/annotation_lab/4.2.0/visual_ner_train_3_1.png
-docs/assets/images/annotation_lab/4.2.0/visual_ner_train_4.png
+docs/_posts/josejuanmartinez/2022-09-06-finner_financial_small_en.md
+docs/_posts/josejuanmartinez/2022-10-19-finner_financial_medium_en.md
+docs/_posts/josejuanmartinez/2022-10-19-finner_financial_small_en.md
+docs/_posts/josejuanmartinez/2022-10-20-finner_financial_large_en.md
+docs/_posts/josejuanmartinez/2022-09-06-finner_financial_small_en.md
+docs/_posts/josejuanmartinez/2022-10-19-finner_financial_medium_en.md
+docs/_posts/josejuanmartinez/2022-10-19-finner_financial_small_en.md
+docs/_posts/josejuanmartinez/2022-10-20-finner_financial_large_en.md

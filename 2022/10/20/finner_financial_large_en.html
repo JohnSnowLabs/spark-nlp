@@ -11,7 +11,7 @@
     })(window,document,'script','dataLayer','GTM-59JLR64');</script>
 <!-- End Google Tag Manager --><title>Financial NER (lg, Large)</title><meta property="og:title" content=""/>
 
-<meta name="description" content="DescriptionThis is a lg (large) version of a financial model, trained with more generic labels than the other versions of the model (md, lg, …) you can find in Models Hub.The aim of this model is to detect the main pieces of financial information in annual reports of companies, more specifically this model is being ...">
+<meta name="description" content="DescriptionThis is a lg (large) version of a financial model, trained with more generic labels than the other versions of the model (md, lg, …) you can find in Models Hub.Please note this model requires some tokenization configuration to extract the currency (see python snippet below).The aim of this model is to det...">
 <link rel="canonical" href="/2022/10/20/finner_financial_large_en.html"><link rel="alternate" type="application/rss+xml" title="Spark NLP" href="/feed.xml"><!-- start favicons snippet, use https://realfavicongenerator.net/ -->
 <!---->
 <!-- <link rel="apple-touch-icon" sizes="180x180" href="/fav.ico"> -->
@@ -421,6 +421,8 @@
 
 <p>This is a <code class="language-plaintext highlighter-rouge">lg</code> (large) version of a financial model, trained with more generic labels than the other versions of the model (<code class="language-plaintext highlighter-rouge">md</code>, <code class="language-plaintext highlighter-rouge">lg</code>, …) you can find in Models Hub.</p>
 
+<p>Please note this model requires some tokenization configuration to extract the currency (see python snippet below).</p>
+
 <p>The aim of this model is to detect the main pieces of financial information in annual reports of companies, more specifically this model is being trained with 10K filings.</p>
 
 <p>The currently available entities are:</p>
@@ -468,7 +470,8 @@
 
 <span class="n">tokenizer</span> <span class="o">=</span> <span class="n">nlp</span><span class="p">.</span><span class="n">Tokenizer</span><span class="p">()</span>\
     <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"sentence"</span><span class="p">])</span>\
-    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"token"</span><span class="p">)</span>
+    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"token"</span><span class="p">)</span>\
+    <span class="p">.</span><span class="n">setContextChars</span><span class="p">([</span><span class="s">'.'</span><span class="p">,</span> <span class="s">','</span><span class="p">,</span> <span class="s">';'</span><span class="p">,</span> <span class="s">':'</span><span class="p">,</span> <span class="s">'!'</span><span class="p">,</span> <span class="s">'?'</span><span class="p">,</span> <span class="s">'*'</span><span class="p">,</span> <span class="s">'-'</span><span class="p">,</span> <span class="s">'('</span><span class="p">,</span> <span class="s">')'</span><span class="p">,</span> <span class="s">'”'</span><span class="p">,</span> <span class="s">'’'</span><span class="p">,</span> <span class="s">'$'</span><span class="p">,</span><span class="s">'€'</span><span class="p">])</span>
 
 <span class="n">embeddings</span> <span class="o">=</span> <span class="n">nlp</span><span class="p">.</span><span class="n">BertEmbeddings</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"bert_embeddings_sec_bert_base"</span><span class="p">,</span> <span class="s">"en"</span><span class="p">)</span> \
   <span class="p">.</span><span class="n">setInputCols</span><span class="p">(</span><span class="s">"sentence"</span><span class="p">,</span> <span class="s">"token"</span><span class="p">)</span> \
@@ -479,7 +482,7 @@
     <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"sentence"</span><span class="p">,</span> <span class="s">"token"</span><span class="p">,</span> <span class="s">"embeddings"</span><span class="p">])</span>\
     <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"ner"</span><span class="p">)</span>\
 
-<span class="n">ner_converter</span> <span class="o">=</span> <span class="n">finance</span><span class="p">.</span><span class="n">NerConverter</span><span class="p">()</span>\
+<span class="n">ner_converter</span> <span class="o">=</span> <span class="n">nlp</span><span class="p">.</span><span class="n">NerConverter</span><span class="p">()</span>\
     <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"sentence"</span><span class="p">,</span> <span class="s">"token"</span><span class="p">,</span> <span class="s">"ner"</span><span class="p">])</span>\
     <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"ner_chunk"</span><span class="p">)</span>
 
