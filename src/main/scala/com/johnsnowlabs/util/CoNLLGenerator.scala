@@ -93,7 +93,7 @@ object CoNLLGenerator {
     import newPOSDataset.sparkSession.implicits._ // for row casting
     newPOSDataset.flatMap(row => {
       val newColumns: ArrayBuffer[(String, String, String, String)] = ArrayBuffer()
-      val columns = ((row._1 zip row._2), row._3.map(_._2.toInt), row._4).zipped.map {
+      val columns = ((row._1 zip row._2), row._3.filter(_._1=="sentence").map(_._2.toInt), row._4).zipped.map {
         case (a, b, c) => (a._1, a._2, b, c)
       }
       var sentenceId = 1
