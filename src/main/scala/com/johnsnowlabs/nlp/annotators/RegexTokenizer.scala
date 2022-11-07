@@ -21,6 +21,8 @@ import com.johnsnowlabs.nlp.{Annotation, AnnotatorModel, HasSimpleAnnotate}
 import org.apache.spark.ml.param.{BooleanParam, IntParam, Param, ParamValidators}
 import org.apache.spark.ml.util.{DefaultParamsReadable, Identifiable}
 
+import scala.util.matching.Regex
+
 /** A tokenizer that splits text by a regex pattern.
   *
   * The pattern needs to be set with `setPattern` and this sets the delimiting pattern or how the
@@ -275,9 +277,10 @@ class RegexTokenizer(override val uid: String)
       val tokens = re
         .split(str)
         .map { token =>
+          curPos = str.indexOf(token, curPos)
           val indexedTokens =
             IndexedToken(token, text.start + curPos, text.start + curPos + token.length - 1)
-          curPos += token.length + 1
+          curPos += token.length
           indexedTokens
         }
         .filter(t =>
