@@ -19,6 +19,8 @@ use_language_switcher: "Python-Scala-Java"
 
 This is a `sm` (small) version of a financial model, trained with more generic labels than the other versions of the model (`md`, `lg`, ...) you can find in Models Hub.
 
+Please note this model requires some tokenization configuration to extract the currency (see python snippet below).
+
 The aim of this model is to detect the main pieces of financial information in annual reports of companies, more specifically this model is being trained with 10K filings.
 
 The currently available entities are:
@@ -62,7 +64,8 @@ sentence_detector = nlp.SentenceDetectorDLModel.pretrained("sentence_detector_dl
 
 tokenizer = nlp.Tokenizer()\
     .setInputCols(["sentence"])\
-    .setOutputCol("token")
+    .setOutputCol("token")\
+    .setContextChars(['.', ',', ';', ':', '!', '?', '*', '-', '(', ')', '”', '’', '$','€'])
 
 embeddings = nlp.BertEmbeddings.pretrained("bert_embeddings_sec_bert_base", "en") \
   .setInputCols("sentence", "token") \
