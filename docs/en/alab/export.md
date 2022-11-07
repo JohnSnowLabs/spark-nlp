@@ -3,7 +3,7 @@ layout: docs
 comment: no
 header: true
 seotitle: Annotation Lab | John Snow Labs
-title: Export
+title: Annotations Export
 permalink: /docs/en/alab/export
 key: docs-training
 modify_date: "2022-10-31"
@@ -30,7 +30,7 @@ pre {
 
 Annotations can be exported in various format for storage and later use. You can export the annotations applied to the tasks of any project by going to the <bl>Tasks</bl> page and clicking on the `Export` button on the top-right corner of this page. You will be navigated to the Export page and from there you can select the format and configure the export options to export the annotations to a file/s.
 
-## Supported Formats
+## Supported Formats for Text Projects
 
 The completions and predictions are stored in a database for fast search and access. Completions and predictions can be exported into the formats described below.
 
@@ -799,6 +799,16 @@ insulin -X- _ O
 Users can specify if only starred completions should be included in the output file by checking the _Only ground truth_ option before generating the export.
 
 <br />
+
+## Supported Formats for Visual NER Projects
+
+The process of annotations export from Visual NER projects is similar to that of text projects. 
+
+<img class="image image__shadow" src="/assets/images/annotation_lab/4.1.0/export_visual_ner_project.gif" style="width:100%;"/>
+
+When exporting the Visual NER annotations users have two additional formats available: <bl>COCO</bl> and <bl>VOC</bl>. 
+For Visual NER projects, the image documents annotated as part of each task are included in the project export archive under the images folder.
+
 
 ### COCO
 
@@ -1807,8 +1817,3 @@ If this option is enabled then only the tasks having ground truth in the complet
 
 Previous versions of the Annotation Lab only allowed the export of tasks that contained completions. From version <bl>2.8.0</bl> on, the tasks without any completions can be exported as this can be necessary for cloning projects. In the case where only tasks with completions are required in the export, users can enable the _Exclude tasks without Completions_ option on the Export page.
 
-## Export of Visual NER projects
-
-The process for exporting Visual NER project is similar to that of other projects. However, when exporting the Visual NER project we have option to export in two more formats: <bl>COCO</bl> and <bl>VOC</bl>. Also, when exporting Visual NER projects, the image documents present in the project will also be exported under the images folder.
-
-<img class="image image__shadow" src="/assets/images/annotation_lab/4.1.0/export_visual_ner_project.gif" style="width:100%;"/>
