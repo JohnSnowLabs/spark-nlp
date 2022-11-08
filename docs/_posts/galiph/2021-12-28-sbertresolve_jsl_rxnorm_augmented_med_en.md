@@ -53,7 +53,7 @@ rxnorm_pipelineModel = PipelineModel(
         documentAssembler,
         sbert_embedder,
         rxnorm_resolver])
-light_model = LightPipeline(pipelineModel)
+light_model = LightPipeline(rxnorm_pipelineModel)
 
 result = light_model.fullAnnotate(["Coumadin 5 mg", "aspirin", "Neurontin 300", "avandia 4 mg"])
 ```
@@ -73,7 +73,7 @@ val rxnorm_resolver = SentenceEntityResolverModel.pretrained("sbertresolve_jsl_r
 
 val rxnorm_pipelineModel = new PipelineModel().setStages(Array(documentAssembler, sbert_embedder, rxnorm_resolver))
 
-val light_model = LightPipeline(pipelineModel)
+val light_model = LightPipeline(rxnorm_pipelineModel)
 
 val result = light_model.fullAnnotate(Array("Coumadin 5 mg", "aspirin", "Neurontin 300", "avandia 4 mg"))
 ```
