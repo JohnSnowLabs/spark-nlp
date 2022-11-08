@@ -37,29 +37,42 @@ This is a `md` model with Unidirectional Relations, meaning that the model retri
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
 ```python
-document_assembler = nlp.DocumentAssembler()\
-    .setInputCol("text")\
-    .setOutputCol("document")
+documentAssembler = nlp.DocumentAssembler()\
+        .setInputCol("text")\
+        .setOutputCol("document")
 
-sentence_detector = nlp.SentenceDetectorDLModel.pretrained("sentence_detector_dl","en")\
-    .setInputCols(["document"])\
-    .setOutputCol("sentence")\
-
+sentencizer = nlp.SentenceDetectorDLModel\
+        .pretrained("sentence_detector_dl", "en") \
+        .setInputCols(["document"])\
+        .setOutputCol("sentence")                     
+                     
 tokenizer = nlp.Tokenizer()\
-    .setInputCols(["sentence"])\
-    .setOutputCol("token")
+        .setInputCols(["sentence"])\
+        .setOutputCol("token")
 
-embeddings = nlp.BertEmbeddings.pretrained("bert_embeddings_sec_bert_base","en") \
-    .setInputCols(["sentence", "token"]) \
-    .setOutputCol("embeddings")
+bert_embeddings= nlp.BertEmbeddings.pretrained("bert_embeddings_sec_bert_base","en")\
+        .setInputCols(["sentence", "token"])\
+        .setOutputCol("bert_embeddings")
 
-ner_model = finance.NerModel.pretrained('finner_org_per_role_date', 'en', 'finance/models')\
-    .setInputCols(["sentence", "token", "embeddings"])\
-    .setOutputCol("ner")
+ner_model_date = finance.NerModel.pretrained("finner_sec_dates", "en", "finance/models")\
+        .setInputCols(["sentence", "token", "bert_embeddings"])\
+        .setOutputCol("ner_dates")
+
+ner_converter_date = nlp.NerConverter()\
+        .setInputCols(["sentence","token","ner_dates"])\
+        .setOutputCol("ner_chunk_date")
+
+ner_model = finance.NerModel.pretrained("finner_org_per_role_date", "en", "finance/models")\
+        .setInputCols(["sentence", "token", "bert_embeddings"])\
+        .setOutputCol("ner_orgs")
 
 ner_converter = nlp.NerConverter()\
-    .setInputCols(["sentence","token","ner"])\
-    .setOutputCol("ner_chunk")
+        .setInputCols(["sentence","token","ner_orgs"])\
+        .setOutputCol("ner_chunk_org")
+
+chunk_merger = finance.ChunkMergeApproach()\
+        .setInputCols('ner_chunk_org', "ner_chunk_date")\
+        .setOutputCol('ner_chunk')
 
 pos = nlp.PerceptronModel.pretrained()\
     .setInputCols(["sentence", "token"])\
@@ -69,31 +82,32 @@ dependency_parser = nlp.DependencyParserModel().pretrained("dependency_conllu", 
     .setInputCols(["sentence", "pos", "token"])\
     .setOutputCol("dependencies")
 
-re_ner_chunk_filter = finance.RENerChunksFilter()\
+re_filter = finance.RENerChunksFilter()\
     .setInputCols(["ner_chunk", "dependencies"])\
     .setOutputCol("re_ner_chunk")\
-    .setRelationPairs(["PERSON-ROLE, ORG-ROLE, DATE-ROLE, PERSON-ORG"])\
-    .setMaxSyntacticDistance(5)
+    .setRelationPairs(["PERSON-ROLE", "PERSON-ORG", "ORG-ROLE", "DATE-ROLE"])\
+    .setMaxSyntacticDistance(10)
 
-re_model = finance.RelationExtractionDLModel.pretrained("finre_work_experience_md", "en", "finance/models")\
+reDL = finance.RelationExtractionDLModel()\
+    .pretrained("finre_work_experience_md","en", "finance/models")\
     .setInputCols(["re_ner_chunk", "sentence"])\
     .setOutputCol("relations")\
-    .setPredictionThreshold(0.5)
+    .setPredictionThreshold(0.85)
 
-pipeline = nlp.Pipeline(stages=[
-        document_assembler, 
-        sentence_detector,
+nlpPipeline = Pipeline(stages=[
+        documentAssembler,
+        sentencizer,
         tokenizer,
-        embeddings,
+        bert_embeddings,
+        ner_model_date,
+        ner_converter_date,
         ner_model,
         ner_converter,
+        chunk_merger,
         pos,
         dependency_parser,
-        re_ner_chunk_filter,
-        re_model
-])
-
-
+        re_filter,
+        reDL])
 
 text = """We have experienced significant changes in our senior management team over the past several years, including the appointments of Mark Schmitz as our Executive Vice President and Chief Operating Officer in 2019."""
 
