@@ -40,7 +40,7 @@ export const addNamingConventions = (title) => {
     const content = data[cleanedValue];
     if (content) {
       acc.push(
-        <Tooltip label={content}>
+        <Tooltip label={content} key={value}>
           <span style={{ borderBottom: '2px dotted' }}>{value}</span>
         </Tooltip>
       );
@@ -54,7 +54,7 @@ export const addNamingConventions = (title) => {
   }, []);
 };
 
-export const products = {
+const oldToNewProduct = {
   'Spark NLP': 'Spark NLP',
   'Spark NLP for Healthcare': 'Healthcare NLP',
   'Spark OCR': 'Visual NLP',
@@ -62,11 +62,15 @@ export const products = {
   'Spark NLP for Legal': 'Legal NLP',
 };
 
+export const products = Object.values(oldToNewProduct);
+
 export const productDisplayName = (edition) => {
-  for (const [key, value] of Object.entries(products).reverse()) {
-    if (edition.includes(key)) {
-      return edition.replace(key, value);
+  if (typeof edition === 'string') {
+    for (const [key, value] of Object.entries(oldToNewProduct).reverse()) {
+      if (edition.includes(key)) {
+        return edition.replace(key, value);
+      }
     }
   }
-  return edition
+  return edition;
 };
