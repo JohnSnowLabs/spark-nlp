@@ -94,27 +94,27 @@ import pandas as pd
 res = p_model.transform(spark.createDataFrame(pd.DataFrame({'text': [test_sentence]})))
 ```
 ```scala
-val documentAssembler = new nlp.DocumentAssembler()
+val documentAssembler = new DocumentAssembler()
 .setInputCol("text")
 .setOutputCol("document")
 
-val sentenceDetector = nlp.SentenceDetectorDLModel.pretrained()
+val sentenceDetector = SentenceDetectorDLModel.pretrained()
 .setInputCols(Array("document"))
 .setOutputCol("sentence")
 
-val tokenizer = new nlp.Tokenizer()
+val tokenizer = new Tokenizer()
 .setInputCols("sentence")
 .setOutputCol("token")
 
-val embeddings = nlp.RoBertaEmbeddings.pretrained("roberta_base_biomedical", "es")
+val embeddings = RoBertaEmbeddings.pretrained("roberta_base_biomedical", "es")
 .setInputCols(Array("sentence", "token"))
 .setOutputCol("embeddings")
 
-val ner = medical.NerModel.pretrained("roberta_ner_diag_proc", "es", "clinical/models")
+val ner = MedicalNerModel.pretrained("roberta_ner_diag_proc", "es", "clinical/models")
 .setInputCols(Array("sentence", "token", "embeddings"))
 .setOutputCol("ner")
 
-val ner_converter = new nlp.NerConverter()
+val ner_converter = new NerConverter()
 .setInputCols(Array("sentence", "token", "ner"))
 .setOutputCol("ner_chunk")
 

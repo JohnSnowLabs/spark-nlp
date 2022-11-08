@@ -32,7 +32,7 @@ This pipeline is trained with `w2v_cc_300d` portuguese embeddings and can be use
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
 ```python
-from sparknlp.pretrained import PretrainedPipeline
+from johnsnowlabs import *
 
 deid_pipeline = PretrainedPipeline("clinical_deidentification", "pt", "clinical/models")
 

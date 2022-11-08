@@ -68,4 +68,5 @@ export const productDisplayName = (edition) => {
       return edition.replace(key, value);
     }
   }
+  return edition
 };

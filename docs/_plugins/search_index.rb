@@ -21,10 +21,25 @@ class Version < Array
   end
 end
 
+def edition_name(old_product)
+  old_to_new_product_name = {
+    'Spark NLP for Legal'=> 'Legal NLP',
+    'Spark NLP for Finance'=> 'Finance NLP',
+    'Spark OCR'=> 'Visual NLP',
+    'Spark NLP for Healthcare'=> 'Healthcare NLP',
+  }
+  old_to_new_product_name.each do |key, value|
+    if old_product.include? key
+      return old_product.sub(key, value)
+    end
+  end
+  old_product
+end
+
 def compatible_editions(editions, model_editions, edition)
   return edition if edition.to_s.empty?
 
-  outdated_editions = ['Spark NLP 2.1', 'Spark NLP for Healthcare 2.0']
+  outdated_editions = ['Spark NLP 2.1', 'Healthcare NLP 2.0']
   return edition if outdated_editions.include? edition
 
   def to_product_name(edition)
@@ -186,7 +201,7 @@ class Extractor
             end.join.delete_suffix('.').delete_suffix(')')
           end
         end.compact.uniq
-      end 
+      end
     end
     nil
   end
@@ -261,6 +276,7 @@ Jekyll::Hooks.register :posts, :pre_render do |post|
   if doc_type.nil?
     doc_type = post.data['tags'].include?('pipeline') ? 'pipeline' : 'model'
   end
+  post.data['edition'] = edition_name(post.data['edition'])
 
   models_json[post.url] = {
     title: post.data['title'],

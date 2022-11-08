@@ -34,7 +34,7 @@ The PHI information will be masked and obfuscated in the resulting text. The pip
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
 ```python
-from sparknlp.pretrained import PretrainedPipeline
+from johnsnowlabs import *
 
 deid_pipeline = PretrainedPipeline("clinical_deidentification_augmented", "es", "clinical/models")
 

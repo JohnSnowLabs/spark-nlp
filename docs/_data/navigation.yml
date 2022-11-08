@@ -112,7 +112,7 @@ annotation-lab:
             url: /docs/en/alab/export
       - subtitle: Model Training
         children:
-          - title: Model Training Parameters
+          - title: No-Code Model Training
             url: /docs/en/alab/training_configurations
           - title: Active Learning
             url: /docs/en/alab/active_learning
@@ -156,8 +156,6 @@ sparknlp-healthcare:
         url: /docs/en/evaluation
       - title: Utility & Helper Modules
         url: /docs/en/utility_helper_modules
-      - title: Annotation Lab Module
-        url: /docs/en/alab_module
       - title: Serving Spark NLP&#58 SynapseML
         url: /docs/en/licensed_serving_spark_nlp_via_api_synapseml
       - title: Serving Spark NLP&#58 FastAPI
