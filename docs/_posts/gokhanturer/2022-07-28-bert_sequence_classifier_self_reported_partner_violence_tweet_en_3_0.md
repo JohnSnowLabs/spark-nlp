@@ -74,7 +74,7 @@ val sequenceClassifier = MedicalBertForSequenceClassification.pretrained("bert_s
   .setInputCols(Array("document","token"))
   .setOutputCol("class")
 
-val pipeline = new Pipeline.setStages(Array(document_assembler, tokenizer, sequenceClassifier))
+val pipeline = new Pipeline().setStages(Array(document_assembler, tokenizer, sequenceClassifier))
 
 # couple of simple examples
 val example = Seq(Array("I am fed up with this toxic relation.I hate my husband.",
