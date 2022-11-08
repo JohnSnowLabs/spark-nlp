@@ -41,3 +41,25 @@ class RegexMatcherTestSpec(unittest.TestCase):
         assembled = document_assembler.transform(self.data)
         regex_matcher.fit(assembled).transform(assembled).show()
 
+
+@pytest.mark.fast
+class RegexMatcherWithStringTestSpec(unittest.TestCase):
+    def setUp(self):
+        # This implicitly sets up py4j for us
+        self.data = SparkContextForTest.spark.createDataFrame(
+            [["My first sentence with the first rule. This is my second sentence with ceremonies rule."]], ["text"])
+
+    def runTest(self):
+        document_assembler = DocumentAssembler() \
+            .setInputCol("text") \
+            .setOutputCol("document")
+
+        rules = ["the\\s\\w+,followed by 'the'", "ceremonies,ceremony"]
+        regex_matcher = RegexMatcher() \
+            .setInputCols(['document']) \
+            .setStrategy("MATCH_ALL") \
+            .setRules(rules) \
+            .setDelimiter(",") \
+            .setOutputCol("regex")
+        assembled = document_assembler.transform(self.data)
+        regex_matcher.fit(assembled).transform(assembled).select("regex").show()
