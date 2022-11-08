@@ -104,7 +104,7 @@ val tokenizer = Tokenizer()
 .setInputCols(Array("sentence")) 
 .setOutputCol("token")
 
-val word_embeddings = WordEmbeddingsModel.pretrained('embeddings_clinical','en', 'clinical/models')
+val word_embeddings = WordEmbeddingsModel.pretrained("embeddings_clinical","en", "clinical/models")
 .setInputCols(Array("sentence", "token"))
 .setOutputCol("embeddings")
 
@@ -115,7 +115,7 @@ val rad_ner = MedicalNerModel.pretrained("ner_radiology", "en", "clinical/models
 val rad_ner_converter = NerConverter() 
 .setInputCols(Array("sentence", "token", "ner")) 
 .setOutputCol("ner_chunk")
-.setWhiteList(Array(Test'))
+.setWhiteList(Array("Test"))
 
 val chunk2doc = Chunk2Doc() 
 .setInputCols("ner_chunk") 

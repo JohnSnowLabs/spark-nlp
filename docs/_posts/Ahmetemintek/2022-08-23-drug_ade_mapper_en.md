@@ -100,7 +100,7 @@ val word_embeddings = WordEmbeddingsModel.pretrained("embeddings_clinical", "en"
       .setOutputCol("embeddings")
 
 #NER model to detect drug in the text
-val ner = MedicalNerModel.pretrained('ner_posology_greedy', 'en', 'clinical/models') 
+val ner = MedicalNerModel.pretrained("ner_posology_greedy", "en", "clinical/models") 
       .setInputCols(Array("sentence", "token", "embeddings"))
       .setOutputCol("ner")
 
