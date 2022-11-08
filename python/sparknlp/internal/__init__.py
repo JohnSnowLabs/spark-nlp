@@ -295,6 +295,10 @@ class _CoNLLGeneratorExport(ExtendedJavaWrapper):
             super(_CoNLLGeneratorExport, self).__init__("com.johnsnowlabs.util.CoNLLGenerator.exportConllFiles",
                                                         spark._jsparkSession, target, pipeline, output_path)
 
+    def __init__(self, dataframe, output_path, metadata_sentence_key):
+        super(_CoNLLGeneratorExport, self).__init__("com.johnsnowlabs.util.CoNLLGenerator.exportConllFilesFromField", dataframe,
+                                                    output_path, metadata_sentence_key)
+
     def __init__(self, dataframe, output_path):
         super(_CoNLLGeneratorExport, self).__init__("com.johnsnowlabs.util.CoNLLGenerator.exportConllFiles", dataframe,
                                                     output_path)
