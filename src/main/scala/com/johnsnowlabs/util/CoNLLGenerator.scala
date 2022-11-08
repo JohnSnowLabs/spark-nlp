@@ -83,7 +83,7 @@ object CoNLLGenerator {
       .coalesce(1)
       .write
       .format("com.databricks.spark.csv")
-      .options(scala.collection.Map("delimiter" -> " ", "emptyValue" -> "", "escape" -> "\n"))
+      .options(scala.collection.Map("delimiter" -> " ", "emptyValue" -> ""))
       .save(outputPath)
   }
 
