@@ -1,8 +1,4 @@
-docs/_data/navigation.yml
-docs/en/alab_module.md
-docs/en/ocr_pipeline_components.md
-docs/en/utility_helper_modules.md
-docs/_data/navigation.yml
-docs/en/alab_module.md
-docs/en/ocr_pipeline_components.md
-docs/en/utility_helper_modules.md
+docs/_frontend/src/models/ModelItem/utils.js
+docs/_plugins/search_index.rb
+docs/_frontend/src/models/ModelItem/utils.js
+docs/_plugins/search_index.rb
