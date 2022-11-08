@@ -17,7 +17,7 @@ use_language_switcher: "Python-Scala-Java"
 
 ## Description
 
-This model allows you to analyzed present and past job positions of people, extracting relations between PERSON, ORG, ROLE and DATE. This model requires an NER with the mentioned entities, as `finner_org_per_role` and can also be combined with `finassertiondl_past_roles` to detect if the entities are mentioned to have happened in the PAST or not (although you can also infer that from the relations as `had_role_until`).
+This model allows you to analyzed present and past job positions of people, extracting relations between PERSON, ORG, ROLE and DATE. This model requires an NER with the mentioned entities, as `finner_org_per_role_date` and can also be combined with `finassertiondl_past_roles` to detect if the entities are mentioned to have happened in the PAST or not (although you can also infer that from the relations as `had_role_until`).
 
 ## Predicted Entities
 
@@ -52,7 +52,7 @@ embeddings = nlp.BertEmbeddings.pretrained("bert_embeddings_sec_bert_base","en")
         .setInputCols(["sentence", "token"]) \
         .setOutputCol("embeddings")
 
-ner_model = finance.NerModel.pretrained('finner_org_per_role', 'en', 'finance/models')\
+ner_model = finance.NerModel.pretrained('finner_org_per_role_date', 'en', 'finance/models')\
         .setInputCols(["sentence", "token", "embeddings"])\
         .setOutputCol("ner")
 
