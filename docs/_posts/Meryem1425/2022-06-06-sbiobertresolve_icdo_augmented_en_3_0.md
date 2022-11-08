@@ -88,11 +88,9 @@ sbert_embedder,
 resolver
 ])
 
-model = resolver_pipeline.fit(spark.createDataFrame([[""]]).toDF("text"))
+data = spark.createDataFrame([["""TRAF6 is a putative oncogene in a variety of cancers including  urothelial cancer , and malignant melanoma. WWP2 appears to regulate the expression of the well characterized tumor and tensin homolog (PTEN) in endometroid adenocarcinoma and squamous cell carcinoma."""]]).toDF("text")
 
-data = spark.createDataFrame([["TRAF6 is a putative oncogene in a variety of cancers including  urothelial cancer , and malignant melanoma. WWP2 appears to regulate the expression of the well characterized tumor and tensin homolog (PTEN) in endometroid adenocarcinoma and squamous cell carcinoma."]]).toDF("text")
-
-result = model.transform(data)
+result = resolver_pipeline.fit(data).transform(data)
 ```
 ```scala
 val document_assembler = new DocumentAssembler()
@@ -100,11 +98,11 @@ val document_assembler = new DocumentAssembler()
 .setOutputCol("document")
 
 val sentenceDetectorDL = SentenceDetectorDLModel.pretrained("sentence_detector_dl_healthcare", "en", "clinical/models")
-.setInputCols("document")
+.setInputCols(Array("document"))
 .setOutputCol("sentence")
 
 val tokenizer = new Tokenizer()
-.setInputCols("sentence")
+.setInputCols(Array("sentence"))
 .setOutputCol("token")
 
 val word_embeddings = WordEmbeddingsModel.pretrained("embeddings_clinical", "en", "clinical/models")
@@ -134,7 +132,7 @@ val resolver = SentenceEntityResolverModel.pretrained("sbiobertresolve_icdo_augm
 .setOutputCol("resolution")
 .setDistanceFunction("EUCLIDEAN")
 
-val resolver_pipeline = new PipelineModel().setStages(Array(document_assembler, 
+val resolver_pipeline = new Pipeline().setStages(Array(document_assembler, 
 sentenceDetectorDL, 
 tokenizer, 
 word_embeddings, 

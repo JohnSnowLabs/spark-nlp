@@ -63,7 +63,7 @@ tokenizer = Tokenizer()\
   .setOutputCol("token")
 
 tokenClassifier = MedicalBertForTokenClassifier.pretrained("bert_token_classifier_ner_jsl", "en", "clinical/models")\
-  .setInputCols("token", "sentence")\
+  .setInputCols(["token", "sentence"])\
   .setOutputCol("ner")\
   .setCaseSensitive(True)
 
@@ -91,7 +91,7 @@ val documentAssembler = new DocumentAssembler()
 	.setOutputCol("document")
 
 val sentenceDetector = SentenceDetectorDLModel.pretrained("sentence_detector_dl_healthcare","en","clinical/models")
-	.setInputCols("document")
+	.setInputCols(Array("document"))
 	.setOutputCol("sentence")
 
 val tokenizer = new Tokenizer()
