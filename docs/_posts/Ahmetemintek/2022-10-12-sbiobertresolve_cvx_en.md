@@ -39,40 +39,40 @@ documentAssembler = DocumentAssembler()\
  .setInputCol("text")\
  .setOutputCol("ner_chunk")
 
- sbert_embedder = BertSentenceEmbeddings.pretrained("sbiobert_base_cased_mli", "en", "clinical/models")\
+sbert_embedder = BertSentenceEmbeddings.pretrained("sbiobert_base_cased_mli", "en", "clinical/models")\
  .setInputCols(["ner_chunk"])\
  .setOutputCol("sbert_embeddings")
 
- cvx_resolver = SentenceEntityResolverModel.pretrained("sbiobertresolve_cvx", "en", "clinical/models")\
+cvx_resolver = SentenceEntityResolverModel.pretrained("sbiobertresolve_cvx", "en", "clinical/models")\
  .setInputCols(["ner_chunk", "sbert_embeddings"])\
  .setOutputCol("cvx_code")\
  .setDistanceFunction("EUCLIDEAN")
 
- pipelineModel = PipelineModel( stages = [ documentAssembler, sbert_embedder, cvx_resolver ])
+pipelineModel = PipelineModel( stages = [ documentAssembler, sbert_embedder, cvx_resolver ])
 
- light_model = LightPipeline(pipelineModel)
+light_model = LightPipeline(pipelineModel)
 
- result = light_model.fullAnnotate(["Sinovac", "Moderna", "BIOTHRAX"])
+result = light_model.fullAnnotate(["Sinovac", "Moderna", "BIOTHRAX"])
 ```
 ```scala
 val documentAssembler = new DocumentAssembler()
  .setInputCol("text")
  .setOutputCol("ner_chunk")
 
- val sbert_embedder = BertSentenceEmbeddings.pretrained("sbiobert_base_cased_mli", "en","clinical/models")
+val sbert_embedder = BertSentenceEmbeddings.pretrained("sbiobert_base_cased_mli", "en","clinical/models")
  .setInputCols(Array("ner_chunk"))
  .setOutputCol("sbert_embeddings")
 
- val cvx_resolver = SentenceEntityResolverModel.pretrained("sbiobertresolve_cvx", "en", "clinical/models")
+val cvx_resolver = SentenceEntityResolverModel.pretrained("sbiobertresolve_cvx", "en", "clinical/models")
  .setInputCols(Array("ner_chunk", "sbert_embeddings"))
  .setOutputCol("cvx_code")
  .setDistanceFunction("EUCLIDEAN")
 
- val cvx_pipelineModel = new PipelineModel().setStages(Array(documentAssembler, sbert_embedder, cvx_resolver))
+val cvx_pipelineModel = new PipelineModel().setStages(Array(documentAssembler, sbert_embedder, cvx_resolver))
 
- val light_model = LightPipeline(cvx_pipelineModel)
+val light_model = LightPipeline(cvx_pipelineModel)
 
- val result = light_model.fullAnnotate(Array("Sinovac", "Moderna", "BIOTHRAX"))
+val result = light_model.fullAnnotate(Array("Sinovac", "Moderna", "BIOTHRAX"))
 ```
 </div>
 

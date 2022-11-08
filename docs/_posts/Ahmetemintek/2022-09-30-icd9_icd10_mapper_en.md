@@ -36,12 +36,12 @@ This pretrained model maps ICD-9-CM codes to corresponding ICD-10-CM codes
 {% include programmingLanguageSelectScalaPythonNLU.html %}
 ```python
 document_assembler = DocumentAssembler()\
-      .setInputCol('text')\
-      .setOutputCol('doc')
+      .setInputCol("text")\
+      .setOutputCol("doc")
 
 chunk_assembler = Doc2Chunk()\
-      .setInputCols(['doc'])\
-      .setOutputCol('ner_chunk')
+      .setInputCols(["doc"])\
+      .setOutputCol("ner_chunk")
  
 chunkerMapper = ChunkMapperModel\
     .pretrained("icd9_icd10_mapper", "en", "clinical/models")\
@@ -69,11 +69,11 @@ val documentAssembler = new DocumentAssembler()
         .setOutputCol("ner_chunk")
 
 val chunk_assembler = new Doc2Chunk()
-        .setInputCols(Array("doc"))\
+        .setInputCols(Array("doc"))
         .setOutputCol("ner_chunk")
 
 val chunkerMapper = ChunkMapperModel.pretrained("icd9_icd10_mapper", "en","clinical/models")
-        .setInputCols(Array("icd10cm_code"))
+        .setInputCols(Array("ner_chunk"))
         .setOutputCol("mappings")
         .setRels(Array("icd10_code"))
         
