@@ -56,7 +56,7 @@ ner_model = MedicalNerModel.pretrained("ner_clinical", "en", "clinical/models")\
     .setOutputCol("clinical_ner")
 
 ner_model_converter = NerConverterInternal()\
-    .setInputCols("sentence", "token", "clinical_ner")\
+    .setInputCols(["sentence", "token", "clinical_ner"])\
     .setOutputCol("ner_chunk")
 
 
@@ -107,7 +107,7 @@ val ner_model = MedicalNerModel
       .setOutputCol("clinical_ner")
 
 val ner_model_converter = new NerConverterInternal()
-      .setInputCols("sentence", "token", "clinical_ner")
+      .setInputCols(Array("sentence", "token", "clinical_ner"))
       .setOutputCol("ner_chunk")
 
 val chunkerMapper = ChunkMapperModel
