@@ -20,6 +20,7 @@ import org.apache.spark.ml.PipelineModel
 import org.apache.spark.sql.functions._
 import org.apache.spark.sql.{DataFrame, Dataset, SparkSession}
 
+import org.apache.commons.lang.StringEscapeUtils.escapeJava
 import scala.collection.mutable.ArrayBuffer
 import scala.util.Try
 
@@ -82,7 +83,7 @@ object CoNLLGenerator {
       .coalesce(1)
       .write
       .format("com.databricks.spark.csv")
-      .options(scala.collection.Map("delimiter" -> " ", "emptyValue" -> ""))
+      .options(scala.collection.Map("delimiter" -> " ", "emptyValue" -> "", "escape" -> "\n"))
       .save(outputPath)
   }
 
@@ -93,9 +94,11 @@ object CoNLLGenerator {
     import newPOSDataset.sparkSession.implicits._ // for row casting
     newPOSDataset.flatMap(row => {
       val newColumns: ArrayBuffer[(String, String, String, String)] = ArrayBuffer()
-      val columns = ((row._1 zip row._2), row._3.filter(_._1=="sentence").map(_._2.toInt), row._4).zipped.map {
-        case (a, b, c) => (a._1, a._2, b, c)
-      }
+      val columns =
+        ((row._1 zip row._2), row._3.filter(_._1 == "sentence").map(_._2.toInt), row._4).zipped
+          .map { case (a, b, c) =>
+            (a._1, a._2, b, c)
+          }
       var sentenceId = 1
       newColumns.append(("", "", "", ""))
       newColumns.append(("-DOCSTART-", "-X-", "-X-", "O"))
@@ -105,7 +108,7 @@ object CoNLLGenerator {
           newColumns.append(("", "", "", ""))
           sentenceId = a._3
         }
-        newColumns.append((a._1, a._2, a._2, a._4))
+        newColumns.append((escapeJava(a._1), a._2, a._2, a._4))
       })
       newColumns
     })

@@ -217,7 +217,8 @@ class CoNLLGeneratorTestSpec extends AnyFlatSpec {
   }
 
   "The generator" should "work even if token metadata has non-ints" in {
-    val df = ResourceHelper.spark.read.load("src/test/resources/conllgenerator/conllgenerator_nonint_token_metadata.parquet")
+    val df = ResourceHelper.spark.read.load(
+      "src/test/resources/conllgenerator/conllgenerator_nonint_token_metadata.parquet")
 
     CoNLLGenerator.exportConllFiles(df, "./noninttokens")
   }
