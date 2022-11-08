@@ -30,14 +30,14 @@ CRAFT: Character-Region Awareness For Text detection, is designed with a convolu
 
 ## How to use
 
-text_detector = ImageTextDetector.pretrained("text_detection_v", "en", "clinical/ocr")
+text_detector = ImageTextDetector.pretrained("text_detection_v1", "en", "clinical/ocr")
 text_detector.setInputCol("image")
 text_detector.setOutputCol("text_regions")
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
 ```python
-text_detector = ImageTextDetector.pretrained("text_detection_v", "en", "clinical/ocr")
+text_detector = ImageTextDetector.pretrained("text_detection_v1", "en", "clinical/ocr")
 text_detector.setInputCol("image")
 text_detector.setOutputCol("text_regions")
 ```
