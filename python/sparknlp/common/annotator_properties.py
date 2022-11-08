@@ -69,9 +69,6 @@ class AnnotatorProperties(Params):
                     f"Which should be columns from the following annotators: {self.inputAnnotatorTypes}")
         else:
             expected_columns = expected_columns + len(self.optionalInputAnnotatorTypes)
-            print(f"expected_columns: {expected_columns}")
-            print(f"actual_columns: {actual_columns}")
-            print(f"len(self.inputAnnotatorTypes): {actual_columns}")
             if not (actual_columns == len(self.inputAnnotatorTypes) or actual_columns == expected_columns):
                 raise TypeError(
                     f"setInputCols in {self.uid} expecting at least {len(self.inputAnnotatorTypes)} columns. "
