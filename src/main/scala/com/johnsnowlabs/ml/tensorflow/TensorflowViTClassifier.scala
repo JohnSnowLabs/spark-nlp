@@ -127,9 +127,13 @@ class TensorflowViTClassifier(
         val logits = tag(encoded, activation)
 
         batch.zip(logits).map { case (image, score) =>
-          val label =
-            tags.find(_._2 == score.zipWithIndex.maxBy(_._1)._2).map(_._1).getOrElse("NA")
 
+          var label =
+            tags.find(_._2 == score.zipWithIndex.maxBy(_._1)._2).map(_._1).getOrElse("NA")
+          if (label=="NA"){
+            label =
+              tags.find(_._2 == score.zipWithIndex.maxBy(_._1)._2.toString).map(_._1).getOrElse("NA")
+          }
           val meta = score.zipWithIndex.flatMap(x =>
             Map(tags.take(10).find(_._2 == x._2).map(_._1).toString -> x._1.toString))
 
