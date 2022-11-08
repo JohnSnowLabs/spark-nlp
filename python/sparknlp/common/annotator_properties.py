@@ -46,19 +46,37 @@ class AnnotatorProperties(Params):
             Input columns for the annotator
         """
         if type(value[0]) == str or type(value[0]) == list:
-            expected_columns = len(self.inputAnnotatorTypes) + len(self.optionalInputAnnotatorTypes)
-            if expected_columns == 1:
-                if len(value) == 1 and type(value[0]) == list:
-                    return self._set(inputCols=[value[0][0]])
-                else:
-                    return self._set(inputCols=[value[0]])
+            self.inputColsValidation(value)
+            if len(value) == 1 and type(value[0]) == list:
+                return self._set(inputCols=value[0])
             else:
-                if len(value) == 1 and type(value[0]) == list:
-                    return self._set(inputCols=value[0])
-                else:
-                    return self._set(inputCols=list(value))
+                return self._set(inputCols=list(value))
         else:
-            TypeError("InputCols datatype not supported. It must be either str or list")
+            raise TypeError("InputCols datatype not supported. It must be either str or list")
+
+    def inputColsValidation(self, value):
+        actual_columns = len(value)
+        if type(value[0]) == list:
+            actual_columns = len(value[0])
+
+        expected_columns = len(self.inputAnnotatorTypes)
+
+        if len(self.optionalInputAnnotatorTypes) == 0:
+            if actual_columns != expected_columns:
+                raise TypeError(
+                    f"setInputCols in {self.uid} expecting {expected_columns} columns. "
+                    f"Provided column amount: {actual_columns}. "
+                    f"Which should be columns from the following annotators: {self.inputAnnotatorTypes}")
+        else:
+            expected_columns = expected_columns + len(self.optionalInputAnnotatorTypes)
+            print(f"expected_columns: {expected_columns}")
+            print(f"actual_columns: {actual_columns}")
+            print(f"len(self.inputAnnotatorTypes): {actual_columns}")
+            if not (actual_columns == len(self.inputAnnotatorTypes) or actual_columns == expected_columns):
+                raise TypeError(
+                    f"setInputCols in {self.uid} expecting at least {len(self.inputAnnotatorTypes)} columns. "
+                    f"Provided column amount: {actual_columns}. "
+                    f"Which should be columns from at least the following annotators: {self.inputAnnotatorTypes}")
 
     def getInputCols(self):
         """Gets current column names of input annotations."""
@@ -95,4 +113,3 @@ class AnnotatorProperties(Params):
         RecursivePipeline.
         """
         return self.getOrDefault(self.lazyAnnotator)
-

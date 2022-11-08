@@ -179,6 +179,7 @@ class Lemmatizer(AnnotatorApproach):
             opts["valueDelimiter"] = value_delimiter
         return self._set(dictionary=ExternalResource(path, read_as, opts))
 
+
 class LemmatizerModel(AnnotatorModel):
     """Instantiated Model of the Lemmatizer.
 
@@ -214,6 +215,8 @@ class LemmatizerModel(AnnotatorModel):
     ...     .setOutputCol("lemma")
     """
     name = "LemmatizerModel"
+
+    inputAnnotatorTypes = [AnnotatorType.TOKEN]
 
     def __init__(self, classname="com.johnsnowlabs.nlp.annotators.LemmatizerModel", java_model=None):
         super(LemmatizerModel, self).__init__(

@@ -14,6 +14,7 @@
 
 from sparknlp.common import *
 from sparknlp.annotator.classifier_dl import BertForQuestionAnswering
+from sparknlp.common.annotator_type import AnnotatorType
 
 
 class TapasForQuestionAnswering(BertForQuestionAnswering):
@@ -110,6 +111,8 @@ class TapasForQuestionAnswering(BertForQuestionAnswering):
     """
 
     name = "TapasForQuestionAnswering"
+
+    inputAnnotatorTypes = [AnnotatorType.TABLE, AnnotatorType.DOCUMENT]
 
     @keyword_only
     def __init__(self, classname="com.johnsnowlabs.nlp.annotators.classifier.dl.TapasForQuestionAnswering",

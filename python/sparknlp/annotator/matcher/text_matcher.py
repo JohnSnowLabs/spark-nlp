@@ -15,6 +15,7 @@
 
 
 from sparknlp.common import *
+from sparknlp.common.annotator_type import AnnotatorType
 
 
 class TextMatcher(AnnotatorApproach):
@@ -89,6 +90,8 @@ class TextMatcher(AnnotatorApproach):
     --------
     BigTextMatcher : to match large amounts of text
     """
+
+    inputAnnotatorTypes = [AnnotatorType.DOCUMENT, AnnotatorType.TOKEN]
 
     entities = Param(Params._dummy(),
                      "entities",

@@ -14,6 +14,7 @@
 """Contains classes concerning AlbertEmbeddings."""
 
 from sparknlp.common import *
+from sparknlp.common.annotator_type import AnnotatorType
 
 
 class AlbertEmbeddings(AnnotatorModel,
@@ -153,6 +154,8 @@ class AlbertEmbeddings(AnnotatorModel,
     """
 
     name = "AlbertEmbeddings"
+
+    inputAnnotatorTypes = [AnnotatorType.DOCUMENT, AnnotatorType.TOKEN]
 
     configProtoBytes = Param(Params._dummy(),
                              "configProtoBytes",

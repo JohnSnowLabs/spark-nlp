@@ -14,6 +14,7 @@
 """Contains classes for AlbertForTokenClassification."""
 
 from sparknlp.common import *
+from sparknlp.common.annotator_type import AnnotatorType
 
 
 class AlbertForTokenClassification(AnnotatorModel,
@@ -95,6 +96,8 @@ class AlbertForTokenClassification(AnnotatorModel,
     """
 
     name = "AlbertForTokenClassification"
+
+    inputAnnotatorTypes = [AnnotatorType.DOCUMENT, AnnotatorType.TOKEN]
 
     maxSentenceLength = Param(Params._dummy(),
                               "maxSentenceLength",

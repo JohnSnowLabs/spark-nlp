@@ -128,6 +128,8 @@ class EntityRulerApproach(AnnotatorApproach, HasStorage):
 
     inputAnnotatorTypes = [AnnotatorType.DOCUMENT]
 
+    optionalInputAnnotatorTypes = [AnnotatorType.TOKEN]
+
     patternsResource = Param(Params._dummy(),
                              "patternsResource",
                              "Resource in JSON or CSV format to map entities to patterns",

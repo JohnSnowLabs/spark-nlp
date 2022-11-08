@@ -14,6 +14,7 @@
 """Contains classes for DistilBertEmbeddings."""
 
 from sparknlp.common import *
+from sparknlp.common.annotator_type import AnnotatorType
 
 
 class DistilBertEmbeddings(AnnotatorModel,
@@ -144,6 +145,8 @@ class DistilBertEmbeddings(AnnotatorModel,
     """
 
     name = "DistilBertEmbeddings"
+
+    inputAnnotatorTypes = [AnnotatorType.DOCUMENT, AnnotatorType.TOKEN]
 
     maxSentenceLength = Param(Params._dummy(),
                               "maxSentenceLength",

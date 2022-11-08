@@ -15,6 +15,7 @@
 
 
 from sparknlp.common import *
+from sparknlp.common.annotator_type import AnnotatorType
 
 
 class WordEmbeddings(AnnotatorApproach, HasEmbeddingsProperties, HasStorage):
@@ -113,6 +114,8 @@ class WordEmbeddings(AnnotatorApproach, HasEmbeddingsProperties, HasStorage):
     """
 
     name = "WordEmbeddings"
+
+    inputAnnotatorTypes = [AnnotatorType.DOCUMENT, AnnotatorType.TOKEN]
 
     writeBufferSize = Param(Params._dummy(),
                             "writeBufferSize",
@@ -249,7 +252,10 @@ class WordEmbeddingsModel(AnnotatorModel, HasEmbeddingsProperties, HasStorageMod
     """
 
     name = "WordEmbeddingsModel"
+
     databases = ['EMBEDDINGS']
+
+    inputAnnotatorTypes = [AnnotatorType.DOCUMENT, AnnotatorType.TOKEN]
 
     readCacheSize = Param(Params._dummy(),
                           "readCacheSize",

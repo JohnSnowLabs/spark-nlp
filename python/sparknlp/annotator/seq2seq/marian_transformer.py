@@ -14,6 +14,7 @@
 """Contains classes for the MarianTransformer."""
 
 from sparknlp.common import *
+from sparknlp.common.annotator_type import AnnotatorType
 
 
 class MarianTransformer(AnnotatorModel, HasBatchedAnnotate, HasEngine):
@@ -119,6 +120,8 @@ class MarianTransformer(AnnotatorModel, HasBatchedAnnotate, HasEngine):
     """
 
     name = "MarianTransformer"
+
+    inputAnnotatorTypes = [AnnotatorType.DOCUMENT]
 
     configProtoBytes = Param(Params._dummy(),
                              "configProtoBytes",

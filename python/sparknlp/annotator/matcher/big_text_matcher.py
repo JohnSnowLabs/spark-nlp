@@ -83,7 +83,7 @@ class BigTextMatcher(AnnotatorApproach, HasStorage):
     +--------------------------------------------------------------------+
     """
 
-    inputAnnotatorTypes = [AnnotatorType.TOKEN]
+    inputAnnotatorTypes = [AnnotatorType.DOCUMENT, AnnotatorType.TOKEN]
 
     entities = Param(Params._dummy(),
                      "entities",

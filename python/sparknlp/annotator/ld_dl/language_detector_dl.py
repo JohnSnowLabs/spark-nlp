@@ -14,6 +14,7 @@
 """Contains classes for LanguageDetectorDL."""
 
 from sparknlp.common import *
+from sparknlp.common.annotator_type import AnnotatorType
 
 
 class LanguageDetectorDL(AnnotatorModel, HasStorageRef, HasEngine):
@@ -96,6 +97,8 @@ class LanguageDetectorDL(AnnotatorModel, HasStorageRef, HasEngine):
     +------+
     """
     name = "LanguageDetectorDL"
+
+    inputAnnotatorTypes = [AnnotatorType.DOCUMENT]
 
     def __init__(self, classname="com.johnsnowlabs.nlp.annotators.ld.dl.LanguageDetectorDL", java_model=None):
         super(LanguageDetectorDL, self).__init__(
