@@ -51,7 +51,7 @@ hcpcs_resolver = SentenceEntityResolverModel\
 .setOutputCol("hcpcs_code")\
 .setDistanceFunction("EUCLIDEAN")
 
-hcpcs_pipelineModel = PipelineModel(
+hcpcs_pipeline  = Pipeline(
 stages = [
 documentAssembler,
 sbert_embedder,
@@ -59,7 +59,7 @@ hcpcs_resolver])
 
 data = spark.createDataFrame([["Breast prosthesis, mastectomy bra, with integrated breast prosthesis form, unilateral, any size, any type"]]).toDF("text")
 
-results = hcpcs_pipelineModel.fit(data).transform(data)
+results = hcpcs_pipeline.fit(data).transform(data)
 ```
 ```scala
 val documentAssembler = new DocumentAssembler()
