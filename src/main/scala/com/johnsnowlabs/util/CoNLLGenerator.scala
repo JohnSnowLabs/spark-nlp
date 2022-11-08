@@ -27,28 +27,28 @@ import scala.util.Try
 object CoNLLGenerator {
 
   def exportConllFiles(
-                        spark: SparkSession,
-                        filesPath: String,
-                        pipelineModel: PipelineModel,
-                        outputPath: String): Unit = {
+      spark: SparkSession,
+      filesPath: String,
+      pipelineModel: PipelineModel,
+      outputPath: String): Unit = {
     import spark.implicits._ // for toDS and toDF
     val data = spark.sparkContext.wholeTextFiles(filesPath).toDS.toDF("filename", "text")
     exportConllFiles(data, pipelineModel, outputPath)
   }
 
   def exportConllFiles(
-                        spark: SparkSession,
-                        filesPath: String,
-                        pipelinePath: String,
-                        outputPath: String): Unit = {
+      spark: SparkSession,
+      filesPath: String,
+      pipelinePath: String,
+      outputPath: String): Unit = {
     val model = PipelineModel.load(pipelinePath)
     exportConllFiles(spark, filesPath, model, outputPath)
   }
 
   def exportConllFiles(
-                        data: DataFrame,
-                        pipelineModel: PipelineModel,
-                        outputPath: String): Unit = {
+      data: DataFrame,
+      pipelineModel: PipelineModel,
+      outputPath: String): Unit = {
     val POSdataset = pipelineModel.transform(data)
     exportConllFilesFromField(POSdataset, outputPath, "sentence")
   }
@@ -62,7 +62,10 @@ object CoNLLGenerator {
     exportConllFilesFromField(data, outputPath, "sentence")
   }
 
-  def exportConllFilesFromField(data: DataFrame, outputPath: String, metadataSentenceKey: String): Unit = {
+  def exportConllFilesFromField(
+      data: DataFrame,
+      outputPath: String,
+      metadataSentenceKey: String): Unit = {
     import data.sparkSession.implicits._ // for udf
     var dfWithNER = data
     // if data does not contain ner column, add "O" as default
@@ -92,14 +95,17 @@ object CoNLLGenerator {
   }
 
   def makeConLLFormat(
-                       newPOSDataset: Dataset[
-                         (Array[String], Array[String], Array[(String, String)], Array[String])], metadataSentenceKey: String = "sentence")
-  : Dataset[(String, String, String, String)] = {
+      newPOSDataset: Dataset[
+        (Array[String], Array[String], Array[(String, String)], Array[String])],
+      metadataSentenceKey: String = "sentence"): Dataset[(String, String, String, String)] = {
     import newPOSDataset.sparkSession.implicits._ // for row casting
     newPOSDataset.flatMap(row => {
       val newColumns: ArrayBuffer[(String, String, String, String)] = ArrayBuffer()
       val columns =
-        ((row._1 zip row._2), row._3.filter(_._1 == metadataSentenceKey).map(_._2.toInt), row._4).zipped
+        (
+          (row._1 zip row._2),
+          row._3.filter(_._1 == metadataSentenceKey).map(_._2.toInt),
+          row._4).zipped
           .map { case (a, b, c) =>
             (a._1, a._2, b, c)
           }
