@@ -12,7 +12,6 @@
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
 """Contains classes for DeBertaEmbeddings."""
-from build.lib.sparknlp.common.annotator_type import AnnotatorType
 from sparknlp.common import *
 
 
