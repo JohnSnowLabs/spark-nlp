@@ -69,8 +69,8 @@ text_list = ['A little bright light for an otherwise dark week. Thanks researche
              'People with a history of severe allergic reaction to any component of the vaccine should not take.', 
              '43 million doses of vaccines administrated worldwide...Production capacity of CHINA to reach 4 b']
 
- data = spark.createDataFrame(text_list, StringType()).toDF("text")
- result = pipeline.fit(data).transform(data)
+data = spark.createDataFrame(text_list, StringType()).toDF("text")
+result = pipeline.fit(data).transform(data)
 ```
 
 ```scala
@@ -79,7 +79,7 @@ val documenter = new DocumentAssembler()
     .setOutputCol("sentence")
 
 val tokenizer = new Tokenizer()
-    .setInputCols("sentence")
+    .setInputCols(Array("sentence"))
     .setOutputCol("token")
 
 val embeddings = BertEmbeddings.pretrained("bert_embeddings_phs_bert", "en")
