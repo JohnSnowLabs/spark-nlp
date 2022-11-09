@@ -17,7 +17,7 @@ use_language_switcher: "Python-Scala-Java"
 
 ## Description
 
-This is a Legal Relation Extraction Model to identify the Subject (who), Action (web), Object(the indemnification) and Indirect Object (to whom) from confidentiality clauses. This model requires `legner_confidentiality` as an NER in the pipeline. It's a `md` model with Unidirectional Relations, meaning that the model retrieves in chunk1 the left side of the relation (source), and in chunk2 the right side (target).
+This is a Legal Relation Extraction Model to identify the Subject (who), Action (what), Object(the confidentiality) and Indirect Object (to whom) from confidentiality clauses. This model requires `legner_confidentiality` as an NER in the pipeline. It's a `md` model with Unidirectional Relations, meaning that the model retrieves in chunk1 the left side of the relation (source), and in chunk2 the right side (target).
 
 ## Predicted Entities
 
