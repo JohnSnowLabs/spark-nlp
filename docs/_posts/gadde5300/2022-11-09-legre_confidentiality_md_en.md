@@ -75,7 +75,7 @@ re_filter = legal.RENerChunksFilter()\
     .setInputCols(["ner_chunk", "dependencies"])\
     .setOutputCol("re_ner_chunks")\
     .setMaxSyntacticDistance(10)\
-    .setRelationPairs(['CONFIDENTIALITY_ACTION-CONFIDENTIALITY_SUBJECT','CONFIDENTIALITY_ACTION-CONFIDENTIALITY'])
+    .setRelationPairs(['CONFIDENTIALITY_ACTION-CONFIDENTIALITY_SUBJECT','CONFIDENTIALITY_ACTION-CONFIDENTIALITY','CONFIDENTIALITY_SUBJECT-CONFIDENTIALITY_INDIRECT_OBJECT'])
 
 reDL = legal.RelationExtractionDLModel.pretrained("legre_confidentiality_md", "en", "legal/models") \
     .setPredictionThreshold(0.5) \
