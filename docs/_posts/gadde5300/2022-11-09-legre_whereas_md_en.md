@@ -17,9 +17,7 @@ use_language_switcher: "Python-Scala-Java"
 
 ## Description
 
-This is a Relation Extraction model to infer relations between elements in WHEREAS clauses, more specifically the SUBJECT, the ACTION and the OBJECT. There are two relations possible: `has_subject` and `has_object`.
-
-You can also use `legpipe_whereas` which includes this model and its NER and also depedency parsing, to carry out chunk extraction using grammatical features (the dependency tree). This model requires `legner_whereas` as an NER in the pipeline. It's a `md` model with Unidirectional Relations, meaning that the model retrieves in chunk1 the left side of the relation (source), and in chunk2 the right side (target).
+This is a Relation Extraction model to infer relations between elements in WHEREAS clauses, more specifically the SUBJECT, the ACTION and the OBJECT. There are two relations possible: `has_subject` and `has_object`. You can also use `legpipe_whereas` which includes this model and its NER and also depedency parsing, to carry out chunk extraction using grammatical features (the dependency tree). This model requires `legner_whereas` as an NER in the pipeline. It's a `md` model with Unidirectional Relations, meaning that the model retrieves in chunk1 the left side of the relation (source), and in chunk2 the right side (target).
 
 ## Predicted Entities
 
@@ -37,7 +35,8 @@ You can also use `legpipe_whereas` which includes this model and its NER and als
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
 ```python
- documentAssembler = nlp.DocumentAssembler()\
+
+documentAssembler = nlp.DocumentAssembler()\
   .setInputCol("text")\
   .setOutputCol("document")
 
@@ -49,26 +48,48 @@ embeddings = nlp.RoBertaEmbeddings.pretrained("roberta_embeddings_legal_roberta_
     .setInputCols(["document", "token"]) \
     .setOutputCol("embeddings")
 
-ner_model = legal.NerModel.pretrained('legner_confidentiality', 'en', 'legal/models') \
-        .setInputCols(["document", "token", "embeddings"]) \
+ner_model = legal.NerModel.pretrained('legner_whereas', 'en', 'legal/models')\
+        .setInputCols(["document", "token", "embeddings"])\
         .setOutputCol("ner")
 
-ner_converter = nlp.NerConverter() \
-        .setInputCols(["document","token","ner"]) \
+ner_converter = nlp.NerConverter()\
+        .setInputCols(["document","token","ner"])\
         .setOutputCol("ner_chunk")
 
-reDL = legal.RelationExtractionDLModel.pretrained("legre_indemnifications_md", "en", "legal/models") \
-    .setPredictionThreshold(0.5) \
-    .setInputCols(["ner_chunk", "document"]) \
+reDL = legal.RelationExtractionDLModel\
+    .pretrained("legre_whereas_md", "en", "legal/models")\
+    .setPredictionThreshold(0.9)\
+    .setInputCols(["ner_chunk", "document"])\
     .setOutputCol("relations")
     
-pipeline = Pipeline(stages=[documentAssembler, tokenizer, embeddings, ner_model, ner_converter, reDL])
+pipeline = Pipeline(stages=[
+    documentAssembler,
+    tokenizer,
+    embeddings,
+    ner_model,
+    ner_converter,
+    reDL
+])
 
-text = "Each party will promptly return to the other upon request any Confidential Information of the other party then in its possession or under its control."
+empty_df = spark.createDataFrame([[""]]).toDF("text")
+
+model = pipeline.fit(empty_df)
+
+text = """
+Central Expressway, Suite 200, Dallas, TX 75080.
+
+Background
+
+The Supplier wishes to appoint the Distributor as its non-exclusive distributor for the promotion and sale of the Products within the Territory (both as defined below), and the Distributor wishes to promote and sell the Products within the Territory on the terms of this agreement.
+
+Agreed terms
+
+1. """
 
 data = spark.createDataFrame([[text]]).toDF("text")
 model = pipeline.fit(data)
 res = model.transform(data)
+
 ```
 
 </div>
