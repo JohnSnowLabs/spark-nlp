@@ -3,14 +3,14 @@ layout: docs
 comment: no
 header: true
 seotitle: Annotation Lab | John Snow Labs
-title: Export
+title: Annotations Export
 permalink: /docs/en/alab/export
 key: docs-training
 modify_date: "2022-10-31"
 use_language_switcher: "Python-Scala"
 show_nav: true
 sidebar:
-    nav: annotation-lab
+  nav: annotation-lab
 ---
 
 <style>
@@ -18,17 +18,25 @@ bl {
   font-weight: 400;
 }
 
+es {
+  font-weight: 400;
+  font-style: italic;
+}
+
 pre {
   max-height: 500px;
 }
 </style>
 
-## Supported Formats
+Annotations can be exported in various format for storage and later use. You can export the annotations applied to the tasks of any project by going to the <bl>Tasks</bl> page and clicking on the `Export` button on the top-right corner of this page. You will be navigated to the Export page and from there you can select the format and configure the export options to export the annotations to a file/s.
+
+## Supported Formats for Text Projects
 
 The completions and predictions are stored in a database for fast search and access. Completions and predictions can be exported into the formats described below.
 
 ### JSON
-You can convert and export the completions and predictions to JSON format using the JSON option on the Export page. 
+
+You can convert and export the completions and predictions to JSON format using the JSON option on the Export page.
 The obtained format is the following:
 
 ```bash
@@ -718,11 +726,19 @@ The obtained format is the following:
 ]
 ```
 
+<br />
+
 ### CSV
+
 Results are stored in a comma-separated tabular file with column names specified by "from_name" and "to_name" values.
 
+<br />
+
 ### TSV
-Results are stored in a tab-separated tabular file with column names specified by "from_name" and  "to_name" values.
+
+Results are stored in a tab-separated tabular file with column names specified by "from_name" and "to_name" values.
+
+<br />
 
 ### CoNLL2003
 
@@ -782,6 +798,1009 @@ insulin -X- _ O
 
 Users can specify if only starred completions should be included in the output file by checking the _Only ground truth_ option before generating the export.
 
+<br />
+
+## Supported Formats for Visual NER Projects
+
+The process of annotations export from Visual NER projects is similar to that of text projects. 
+
+<img class="image image__shadow" src="/assets/images/annotation_lab/4.1.0/export_visual_ner_project.gif" style="width:100%;"/>
+
+When exporting the Visual NER annotations users have two additional formats available: <bl>COCO</bl> and <bl>VOC</bl>. 
+For Visual NER projects, the image documents annotated as part of each task are included in the project export archive under the images folder.
+
+
+### COCO
+
+The COCO format is a specific JSON structure dictating how labels and metadata are saved for an image dataset. It is a large-scale object detection, segmentation, and captioning dataset. Exporting in COCO format is available for Visual NER projects only.
+
+Below is a sample format:
+
+```bash
+{
+  "images": [
+    {
+      "width": 6.588235294117647,
+      "height": 0.9396786905122766,
+      "id": 0,
+      "file_name": [
+        "/images/19/0160023239a-1655481445_0.png",
+        "/images/19/0160023239a-1655481445_1.png"
+      ]
+    }
+  ],
+  "categories": [
+    {
+      "id": 0,
+      "name": "OGSContractNumber",
+      "supercategory": "OGSContractNumber"
+    },
+    {
+      "id": 1,
+      "name": "Contractor",
+      "supercategory": "Contractor"
+    },
+    {
+      "id": 2,
+      "name": "FederalID",
+      "supercategory": "FederalID"
+    },
+    {
+      "id": 3,
+      "name": "VendorID",
+      "supercategory": "VendorID"
+    },
+    {
+      "id": 4,
+      "name": "Title",
+      "supercategory": "Title"
+    },
+    {
+      "id": 5,
+      "name": "AwardNumber",
+      "supercategory": "AwardNumber"
+    },
+    {
+      "id": 6,
+      "name": "ContractPeriod",
+      "supercategory": "ContractPeriod"
+    },
+    {
+      "id": 7,
+      "name": "BidOpeningDate",
+      "supercategory": "BidOpeningDate"
+    },
+    {
+      "id": 8,
+      "name": "DateOfIssue",
+      "supercategory": "DateOfIssue"
+    },
+    {
+      "id": 9,
+      "name": "SpecificationReference",
+      "supercategory": "SpecificationReference"
+    },
+    {
+      "id": 10,
+      "name": "GroupNumber",
+      "supercategory": "GroupNumber"
+    }
+  ],
+  "annotations": [
+    {
+      "id": 0,
+      "image_id": 0,
+      "category_id": 0,
+      "segmentation": [],
+      "bbox": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "ignore": 0,
+      "iscrowd": 0,
+      "area": 0,
+      "text": "PC69434",
+      "pageNumber": 2
+    },
+    {
+      "id": 1,
+      "image_id": 0,
+      "category_id": 0,
+      "segmentation": [],
+      "bbox": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "ignore": 0,
+      "iscrowd": 0,
+      "area": 0,
+      "text": "PC69435",
+      "pageNumber": 2
+    },
+    {
+      "id": 2,
+      "image_id": 0,
+      "category_id": 0,
+      "segmentation": [],
+      "bbox": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "ignore": 0,
+      "iscrowd": 0,
+      "area": 0,
+      "text": "PC69436",
+      "pageNumber": 2
+    },
+    {
+      "id": 3,
+      "image_id": 0,
+      "category_id": 1,
+      "segmentation": [],
+      "bbox": [
+        1,
+        0,
+        1,
+        0
+      ],
+      "ignore": 0,
+      "iscrowd": 0,
+      "area": 0,
+      "text": "Cream-O-Land Dairies, LLC",
+      "pageNumber": 2
+    },
+    {
+      "id": 4,
+      "image_id": 0,
+      "category_id": 1,
+      "segmentation": [],
+      "bbox": [
+        1,
+        0,
+        1,
+        0
+      ],
+      "ignore": 0,
+      "iscrowd": 0,
+      "area": 0,
+      "text": "Hudson Valley Fresh Dairy, LLC",
+      "pageNumber": 2
+    },
+    {
+      "id": 5,
+      "image_id": 0,
+      "category_id": 1,
+      "segmentation": [],
+      "bbox": [
+        1,
+        0,
+        1,
+        0
+      ],
+      "ignore": 0,
+      "iscrowd": 0,
+      "area": 0,
+      "text": "Upstate Niagara Inc.",
+      "pageNumber": 2
+    },
+    {
+      "id": 6,
+      "image_id": 0,
+      "category_id": 2,
+      "segmentation": [],
+      "bbox": [
+        3,
+        0,
+        0,
+        0
+      ],
+      "ignore": 0,
+      "iscrowd": 0,
+      "area": 0,
+      "text": "223629742",
+      "pageNumber": 2
+    },
+    {
+      "id": 7,
+      "image_id": 0,
+      "category_id": 2,
+      "segmentation": [],
+      "bbox": [
+        3,
+        0,
+        0,
+        0
+      ],
+      "ignore": 0,
+      "iscrowd": 0,
+      "area": 0,
+      "text": "461053272",
+      "pageNumber": 2
+    },
+    {
+      "id": 8,
+      "image_id": 0,
+      "category_id": 2,
+      "segmentation": [],
+      "bbox": [
+        3,
+        0,
+        0,
+        0
+      ],
+      "ignore": 0,
+      "iscrowd": 0,
+      "area": 0,
+      "text": "160845625",
+      "pageNumber": 2
+    },
+    {
+      "id": 9,
+      "image_id": 0,
+      "category_id": 3,
+      "segmentation": [],
+      "bbox": [
+        5,
+        0,
+        0,
+        0
+      ],
+      "ignore": 0,
+      "iscrowd": 0,
+      "area": 0,
+      "text": "1100070111",
+      "pageNumber": 2
+    },
+    {
+      "id": 10,
+      "image_id": 0,
+      "category_id": 3,
+      "segmentation": [],
+      "bbox": [
+        5,
+        0,
+        0,
+        0
+      ],
+      "ignore": 0,
+      "iscrowd": 0,
+      "area": 0,
+      "text": "1100212977",
+      "pageNumber": 2
+    },
+    {
+      "id": 11,
+      "image_id": 0,
+      "category_id": 3,
+      "segmentation": [],
+      "bbox": [
+        5,
+        0,
+        0,
+        0
+      ],
+      "ignore": 0,
+      "iscrowd": 0,
+      "area": 0,
+      "text": "1000014941",
+      "pageNumber": 2
+    },
+    {
+      "id": 12,
+      "image_id": 0,
+      "category_id": 1,
+      "segmentation": [],
+      "bbox": [
+        4,
+        0,
+        0,
+        0
+      ],
+      "ignore": 0,
+      "iscrowd": 0,
+      "area": 0,
+      "text": "Cream-O-Land - LLC",
+      "pageNumber": 2
+    },
+    {
+      "id": 13,
+      "image_id": 0,
+      "category_id": 0,
+      "segmentation": [],
+      "bbox": [
+        5,
+        0,
+        0,
+        0
+      ],
+      "ignore": 0,
+      "iscrowd": 0,
+      "area": 0,
+      "text": "PC69434",
+      "pageNumber": 2
+    },
+    {
+      "id": 14,
+      "image_id": 0,
+      "category_id": 1,
+      "segmentation": [],
+      "bbox": [
+        4,
+        0,
+        0,
+        0
+      ],
+      "ignore": 0,
+      "iscrowd": 0,
+      "area": 0,
+      "text": "Hudson Valley Fresh Dairy, LLC",
+      "pageNumber": 2
+    },
+    {
+      "id": 15,
+      "image_id": 0,
+      "category_id": 0,
+      "segmentation": [],
+      "bbox": [
+        5,
+        0,
+        0,
+        0
+      ],
+      "ignore": 0,
+      "iscrowd": 0,
+      "area": 0,
+      "text": "PC69435",
+      "pageNumber": 2
+    },
+    {
+      "id": 16,
+      "image_id": 0,
+      "category_id": 0,
+      "segmentation": [],
+      "bbox": [
+        5,
+        0,
+        0,
+        0
+      ],
+      "ignore": 0,
+      "iscrowd": 0,
+      "area": 0,
+      "text": "PC69436",
+      "pageNumber": 2
+    },
+    {
+      "id": 17,
+      "image_id": 0,
+      "category_id": 1,
+      "segmentation": [],
+      "bbox": [
+        4,
+        0,
+        0,
+        0
+      ],
+      "ignore": 0,
+      "iscrowd": 0,
+      "area": 0,
+      "text": "Upstate Niagara Cooperative, Inc.",
+      "pageNumber": 2
+    },
+    {
+      "id": 18,
+      "image_id": 0,
+      "category_id": 1,
+      "segmentation": [],
+      "bbox": [
+        4,
+        0,
+        0,
+        0
+      ],
+      "ignore": 0,
+      "iscrowd": 0,
+      "area": 0,
+      "text": "; Upstate Niagara Cooperative,",
+      "pageNumber": 2
+    },
+    {
+      "id": 19,
+      "image_id": 0,
+      "category_id": 0,
+      "segmentation": [],
+      "bbox": [
+        5,
+        0,
+        0,
+        0
+      ],
+      "ignore": 0,
+      "iscrowd": 0,
+      "area": 0,
+      "text": "PC69436",
+      "pageNumber": 2
+    },
+    {
+      "id": 20,
+      "image_id": 0,
+      "category_id": 4,
+      "segmentation": [],
+      "bbox": [
+        3,
+        0,
+        1,
+        0
+      ],
+      "ignore": 0,
+      "iscrowd": 0,
+      "area": 0,
+      "text": "Milk, Fluid (Statewide)",
+      "pageNumber": 1
+    },
+    {
+      "id": 21,
+      "image_id": 0,
+      "category_id": 5,
+      "segmentation": [],
+      "bbox": [
+        2,
+        0,
+        0,
+        0
+      ],
+      "ignore": 0,
+      "iscrowd": 0,
+      "area": 0,
+      "text": "23239",
+      "pageNumber": 1
+    },
+    {
+      "id": 22,
+      "image_id": 0,
+      "category_id": 6,
+      "segmentation": [],
+      "bbox": [
+        2,
+        0,
+        2,
+        0
+      ],
+      "ignore": 0,
+      "iscrowd": 0,
+      "area": 0,
+      "text": "September 21, 2021 Through September 20, 2026",
+      "pageNumber": 1
+    },
+    {
+      "id": 23,
+      "image_id": 0,
+      "category_id": 7,
+      "segmentation": [],
+      "bbox": [
+        2,
+        0,
+        0,
+        0
+      ],
+      "ignore": 0,
+      "iscrowd": 0,
+      "area": 0,
+      "text": "June 10, 2021",
+      "pageNumber": 1
+    },
+    {
+      "id": 24,
+      "image_id": 0,
+      "category_id": 8,
+      "segmentation": [],
+      "bbox": [
+        2,
+        0,
+        1,
+        0
+      ],
+      "ignore": 0,
+      "iscrowd": 0,
+      "area": 0,
+      "text": "September 14, 2021",
+      "pageNumber": 1
+    },
+    {
+      "id": 27,
+      "image_id": 0,
+      "category_id": 10,
+      "segmentation": [],
+      "bbox": [
+        2,
+        0,
+        0,
+        0
+      ],
+      "ignore": 0,
+      "iscrowd": 0,
+      "area": 0,
+      "text": "Group",
+      "pageNumber": 1
+    },
+    {
+      "id": 29,
+      "image_id": 0,
+      "category_id": 4,
+      "segmentation": [],
+      "bbox": [
+        3,
+        0,
+        1,
+        0
+      ],
+      "ignore": 0,
+      "iscrowd": 0,
+      "area": 0,
+      "text": "Milk, Fluid (Statewide)",
+      "pageNumber": 1
+    },
+    {
+      "id": 30,
+      "image_id": 0,
+      "category_id": 5,
+      "segmentation": [],
+      "bbox": [
+        2,
+        0,
+        0,
+        0
+      ],
+      "ignore": 0,
+      "iscrowd": 0,
+      "area": 0,
+      "text": "23239",
+      "pageNumber": 1
+    },
+    {
+      "id": 31,
+      "image_id": 0,
+      "category_id": 6,
+      "segmentation": [],
+      "bbox": [
+        2,
+        0,
+        2,
+        0
+      ],
+      "ignore": 0,
+      "iscrowd": 0,
+      "area": 0,
+      "text": "September 21, 2021 Through September 20, 2026",
+      "pageNumber": 1
+    },
+    {
+      "id": 32,
+      "image_id": 0,
+      "category_id": 6,
+      "segmentation": [],
+      "bbox": [
+        2,
+        0,
+        0,
+        0
+      ],
+      "ignore": 0,
+      "iscrowd": 0,
+      "area": 0,
+      "text": "June 10, 2021",
+      "pageNumber": 1
+    },
+    {
+      "id": 33,
+      "image_id": 0,
+      "category_id": 6,
+      "segmentation": [],
+      "bbox": [
+        2,
+        0,
+        1,
+        0
+      ],
+      "ignore": 0,
+      "iscrowd": 0,
+      "area": 0,
+      "text": "September 14, 2021",
+      "pageNumber": 1
+    },
+    {
+      "id": 34,
+      "image_id": 0,
+      "category_id": 5,
+      "segmentation": [],
+      "bbox": [
+        2,
+        0,
+        0,
+        0
+      ],
+      "ignore": 0,
+      "iscrowd": 0,
+      "area": 0,
+      "text": "23239",
+      "pageNumber": 1
+    },
+    {
+      "id": 35,
+      "image_id": 0,
+      "category_id": 0,
+      "segmentation": [],
+      "bbox": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "ignore": 0,
+      "iscrowd": 0,
+      "area": 0,
+      "text": "PC69434",
+      "pageNumber": 2
+    },
+    {
+      "id": 36,
+      "image_id": 0,
+      "category_id": 1,
+      "segmentation": [],
+      "bbox": [
+        1,
+        0,
+        1,
+        0
+      ],
+      "ignore": 0,
+      "iscrowd": 0,
+      "area": 0,
+      "text": "Cream-O-Land Dairies, LLC",
+      "pageNumber": 2
+    },
+    {
+      "id": 38,
+      "image_id": 0,
+      "category_id": 3,
+      "segmentation": [],
+      "bbox": [
+        5,
+        0,
+        0,
+        0
+      ],
+      "ignore": 0,
+      "iscrowd": 0,
+      "area": 0,
+      "text": "1100070111",
+      "pageNumber": 2
+    },
+    {
+      "id": 39,
+      "image_id": 0,
+      "category_id": 0,
+      "segmentation": [],
+      "bbox": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "ignore": 0,
+      "iscrowd": 0,
+      "area": 0,
+      "text": "PC69435",
+      "pageNumber": 2
+    },
+    {
+      "id": 41,
+      "image_id": 0,
+      "category_id": 2,
+      "segmentation": [],
+      "bbox": [
+        3,
+        0,
+        0,
+        0
+      ],
+      "ignore": 0,
+      "iscrowd": 0,
+      "area": 0,
+      "text": "461053272",
+      "pageNumber": 2
+    },
+    {
+      "id": 43,
+      "image_id": 0,
+      "category_id": 0,
+      "segmentation": [],
+      "bbox": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "ignore": 0,
+      "iscrowd": 0,
+      "area": 0,
+      "text": "PC69436",
+      "pageNumber": 2
+    },
+    {
+      "id": 45,
+      "image_id": 0,
+      "category_id": 2,
+      "segmentation": [],
+      "bbox": [
+        3,
+        0,
+        0,
+        0
+      ],
+      "ignore": 0,
+      "iscrowd": 0,
+      "area": 0,
+      "text": "160845625",
+      "pageNumber": 2
+    },
+    {
+      "id": 47,
+      "image_id": 0,
+      "category_id": 1,
+      "segmentation": [],
+      "bbox": [
+        4,
+        0,
+        0,
+        0
+      ],
+      "ignore": 0,
+      "iscrowd": 0,
+      "area": 0,
+      "text": "Cream-O-Land",
+      "pageNumber": 2
+    },
+    {
+      "id": 49,
+      "image_id": 0,
+      "category_id": 0,
+      "segmentation": [],
+      "bbox": [
+        5,
+        0,
+        0,
+        0
+      ],
+      "ignore": 0,
+      "iscrowd": 0,
+      "area": 0,
+      "text": "PC69434",
+      "pageNumber": 2
+    }
+  ],
+  "info": {
+    "year": 2022,
+    "version": "1.0",
+    "contributor": "Annotation Lab Converter"
+  }
+}
+```
+
+<br />
+
+### Pascal VOC XML
+
+Pascal Visual Object Classes(VOC) is an XML file that contains the image details, bounding box details, classes, pose, truncated, and other data. For each image of the task there will be an XML annotation file. Exporting in VOC format is available for Visual NER projects only.
+
+Below is a sample format:
+
+```xml
+<?xml version="1.0" encoding="utf-8"?>
+<annotation>
+    <folder>images</folder>
+    <filename>0160023239a-1655481445_0.png</filename>
+    <source>
+        <database>ALABDB</database>
+    </source>
+    <owner>
+        <name>AnnotationLab</name>
+    </owner>
+    <size>
+        <width>2550</width>
+        <height>3299</height>
+        <depth>1</depth>
+    </size>
+    <segmented>0</segmented>
+    <object>
+        <name>Title</name>
+        <pose>Unspecified</pose>
+        <truncated>0</truncated>
+        <difficult>0</difficult>
+        <bndbox>
+            <xmin>1305</xmin>
+            <ymin>660</ymin>
+            <xmax>1780</xmax>
+            <ymax>703</ymax>
+        </bndbox>
+    </object>
+    <object>
+        <name>AwardNumber</name>
+        <pose>Unspecified</pose>
+        <truncated>0</truncated>
+        <difficult>0</difficult>
+        <bndbox>
+            <xmin>973</xmin>
+            <ymin>791</ymin>
+            <xmax>1099</xmax>
+            <ymax>834</ymax>
+        </bndbox>
+    </object>
+    <object>
+        <name>ContractPeriod</name>
+        <pose>Unspecified</pose>
+        <truncated>0</truncated>
+        <difficult>0</difficult>
+        <bndbox>
+            <xmin>974</xmin>
+            <ymin>903</ymin>
+            <xmax>2038</xmax>
+            <ymax>946</ymax>
+        </bndbox>
+    </object>
+    <object>
+        <name>BidOpeningDate</name>
+        <pose>Unspecified</pose>
+        <truncated>0</truncated>
+        <difficult>0</difficult>
+        <bndbox>
+            <xmin>974</xmin>
+            <ymin>1013</ymin>
+            <xmax>1263</xmax>
+            <ymax>1054</ymax>
+        </bndbox>
+    </object>
+    <object>
+        <name>DateOfIssue</name>
+        <pose>Unspecified</pose>
+        <truncated>0</truncated>
+        <difficult>0</difficult>
+        <bndbox>
+            <xmin>974</xmin>
+            <ymin>1124</ymin>
+            <xmax>1393</xmax>
+            <ymax>1166</ymax>
+        </bndbox>
+    </object>
+    <object>
+        <name>SpecificationReference</name>
+        <pose>Unspecified</pose>
+        <truncated>0</truncated>
+        <difficult>0</difficult>
+        <bndbox>
+            <xmin>973</xmin>
+            <ymin>1235</ymin>
+            <xmax>1729</xmax>
+            <ymax>1277</ymax>
+        </bndbox>
+    </object>
+    <object>
+        <name>GroupNumber</name>
+        <pose>Unspecified</pose>
+        <truncated>0</truncated>
+        <difficult>0</difficult>
+        <bndbox>
+            <xmin>974</xmin>
+            <ymin>660</ymin>
+            <xmax>1248</xmax>
+            <ymax>702</ymax>
+        </bndbox>
+    </object>
+    <object>
+        <name>GroupNumber</name>
+        <pose>Unspecified</pose>
+        <truncated>0</truncated>
+        <difficult>0</difficult>
+        <bndbox>
+            <xmin>974</xmin>
+            <ymin>660</ymin>
+            <xmax>1108</xmax>
+            <ymax>702</ymax>
+        </bndbox>
+    </object>
+    <object>
+        <name>AwardNumber</name>
+        <pose>Unspecified</pose>
+        <truncated>0</truncated>
+        <difficult>0</difficult>
+        <bndbox>
+            <xmin>1125</xmin>
+            <ymin>660</ymin>
+            <xmax>1248</xmax>
+            <ymax>694</ymax>
+        </bndbox>
+    </object>
+    <object>
+        <name>Title</name>
+        <pose>Unspecified</pose>
+        <truncated>0</truncated>
+        <difficult>0</difficult>
+        <bndbox>
+            <xmin>1304</xmin>
+            <ymin>660</ymin>
+            <xmax>1780</xmax>
+            <ymax>703</ymax>
+        </bndbox>
+    </object>
+    <object>
+        <name>AwardNumber</name>
+        <pose>Unspecified</pose>
+        <truncated>0</truncated>
+        <difficult>0</difficult>
+        <bndbox>
+            <xmin>974</xmin>
+            <ymin>791</ymin>
+            <xmax>1097</xmax>
+            <ymax>825</ymax>
+        </bndbox>
+    </object>
+    <object>
+        <name>ContractPeriod</name>
+        <pose>Unspecified</pose>
+        <truncated>0</truncated>
+        <difficult>0</difficult>
+        <bndbox>
+            <xmin>974</xmin>
+            <ymin>902</ymin>
+            <xmax>2038</xmax>
+            <ymax>945</ymax>
+        </bndbox>
+    </object>
+    <object>
+        <name>ContractPeriod</name>
+        <pose>Unspecified</pose>
+        <truncated>0</truncated>
+        <difficult>0</difficult>
+        <bndbox>
+            <xmin>974</xmin>
+            <ymin>1013</ymin>
+            <xmax>1264</xmax>
+            <ymax>1054</ymax>
+        </bndbox>
+    </object>
+    <object>
+        <name>ContractPeriod</name>
+        <pose>Unspecified</pose>
+        <truncated>0</truncated>
+        <difficult>0</difficult>
+        <bndbox>
+            <xmin>974</xmin>
+            <ymin>1124</ymin>
+            <xmax>1393</xmax>
+            <ymax>1166</ymax>
+        </bndbox>
+    </object>
+    <object>
+        <name>AwardNumber</name>
+        <pose>Unspecified</pose>
+        <truncated>0</truncated>
+        <difficult>0</difficult>
+        <bndbox>
+            <xmin>791</xmin>
+            <ymin>2246</ymin>
+            <xmax>903</xmax>
+            <ymax>2276</ymax>
+        </bndbox>
+    </object>
+</annotation>
+```
+
 ## Export Options
 
 <img class="image image__shadow" src="/assets/images/annotation_lab/4.1.0/annotation_export.png" style="width:100%;"/>
@@ -797,3 +1816,4 @@ If this option is enabled then only the tasks having ground truth in the complet
 **Exclude tasks without Completions**
 
 Previous versions of the Annotation Lab only allowed the export of tasks that contained completions. From version <bl>2.8.0</bl> on, the tasks without any completions can be exported as this can be necessary for cloning projects. In the case where only tasks with completions are required in the export, users can enable the _Exclude tasks without Completions_ option on the Export page.
+
