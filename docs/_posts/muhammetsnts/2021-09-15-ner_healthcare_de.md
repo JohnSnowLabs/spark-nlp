@@ -50,9 +50,9 @@ document_assembler = DocumentAssembler()\
 		.setInputCol("text")\
 		.setOutputCol("document")
 
-sentence_detector = SentenceDetectorDLModel.pretrained("sentence_detector_dl_healthcare", "en", "clinical/models") \
-		.setInputCols(["document"]) \
-		.setOutputCol("sentence")
+sentence_detector = SentenceDetector()\
+    .setInputCols(["document"])\
+    .setOutputCol("sentence")
 
 tokenizer = Tokenizer()\
 		.setInputCols(["sentence"])\
@@ -83,9 +83,9 @@ val document_assembler = new DocumentAssembler()
 		.setInputCol("text")
 		.setOutputCol("document")
 
-val sentence_detector = SentenceDetectorDLModel.pretrained("sentence_detector_dl_healthcare","en","clinical/models")
-		.setInputCols(Array("document"))
-		.setOutputCol("sentence")
+val sentence_detector = new SentenceDetector()
+    .setInputCols(Array("document"))
+    .setOutputCol("sentence")
 
 val tokenizer = new Tokenizer()
 		.setInputCols(Array("sentence"))
