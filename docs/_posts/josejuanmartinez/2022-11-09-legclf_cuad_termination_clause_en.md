@@ -54,7 +54,7 @@ embeddings = nlp.BertSentenceEmbeddings.pretrained("sent_bert_base_cased", "en")
       .setInputCols("document") \
       .setOutputCol("sentence_embeddings")
 
-docClassifier = nlp.ClassifierDLModel.pretrained("legclf_cuad_warranty_clause", "en", "legal/models")\
+docClassifier = nlp.ClassifierDLModel.pretrained("legclf_cuad_termination_clause", "en", "legal/models")\
     .setInputCols(["sentence_embeddings"])\
     .setOutputCol("category")
     
