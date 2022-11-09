@@ -36,6 +36,30 @@ This model maps extracted medical entities to ICD10-CM codes using `sbiobert_bas
 {% include programmingLanguageSelectScalaPythonNLU.html %}
 ```python
 ...
+document_assembler = DocumentAssembler()\
+.setInputCol("text")\
+.setOutputCol("document")
+
+sentence_detector = SentenceDetector()\
+.setInputCols(["document"])\
+.setOutputCol("sentence")
+
+tokenizer = Tokenizer()\
+.setInputCols(["sentence"])\
+.setOutputCol("token")
+
+word_embeddings = WordEmbeddingsModel.pretrained("embeddings_clinical", "en", "clinical/models")\
+.setInputCols(["sentence", "token"])\
+.setOutputCol("embeddings")
+
+clinical_ner = MedicalNerModel.pretrained("ner_clinical", "en", "clinical/models") \
+.setInputCols(["sentence", "token", "embeddings"]) \
+.setOutputCol("ner")
+
+ner_converter = NerConverter() \
+.setInputCols(["sentence", "token", "ner"]) \
+.setOutputCol("ner_chunk")
+
 chunk2doc = Chunk2Doc().setInputCols("ner_chunk").setOutputCol("ner_chunk_doc")
 
 sbert_embedder = BertSentenceEmbeddings\
@@ -57,8 +81,32 @@ results = nlpPipeline.fit(data_ner).transform(data_ner)
 ```
 ```scala
 ...
+val document_assembler = new DocumentAssembler() 
+.setInputCol("text") 
+.setOutputCol("document")
 
-val chunk2doc = Chunk2Doc().setInputCols("ner_chunk").setOutputCol("ner_chunk_doc")
+val sentence_detector = new SentenceDetector()
+.setInputCols(Array("document"))
+.setOutputCol("sentence")
+
+val tokenizer = new Tokenizer()
+.setInputCols(Array("sentence"))
+.setOutputCol("token")
+
+val word_embeddings = WordEmbeddingsModel.pretrained("embeddings_clinical", "en", "clinical/models")
+.setInputCols(Array("sentence", "token"))
+.setOutputCol("embeddings")
+
+val clinical_ner = MedicalNerModel.pretrained("ner_clinical", "en", "clinical/models")
+.setInputCols(Array("sentence", "token", "embeddings")) 
+.setOutputCol("ner")
+
+val ner_converter = new NerConverter()
+.setInputCols(Array("sentence", "token", "ner"))
+.setOutputCol("ner_chunk")
+
+
+val chunk2doc = new Chunk2Doc().setInputCols("ner_chunk").setOutputCol("ner_chunk_doc")
 
 val sbert_embedder = BertSentenceEmbeddings
 .pretrained("sbiobert_base_cased_mli","en","clinical/models")

@@ -55,7 +55,7 @@ bert_pipeline_icd = Pipeline(stages = [document_assembler, sbert_embedder, icd10
 
 data = spark.createDataFrame([["bladder cancer"]]).toDF("text")
 
-results = bert_pipeline_icd.fit.transform(data)
+results = bert_pipeline_icd.fit(data).transform(data)
 ```
 ```scala
 val document_assembler = DocumentAssembler()

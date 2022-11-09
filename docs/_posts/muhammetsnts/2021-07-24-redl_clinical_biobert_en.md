@@ -117,11 +117,11 @@ val documenter = new DocumentAssembler()
 .setOutputCol("document")
 
 val sentencer = new SentenceDetector()
-.setInputCols("document")
+.setInputCols(Array("document"))
 .setOutputCol("sentences")
 
 val tokenizer = new Tokenizer()
-.setInputCols("sentences")
+.setInputCols(Array("sentences"))
 .setOutputCol("tokens")
 
 val pos_tagger = PerceptronModel()

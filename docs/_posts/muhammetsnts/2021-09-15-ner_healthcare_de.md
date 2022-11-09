@@ -46,6 +46,18 @@ This model can be used to detect clinical entities in medical text in German lan
 
 ```python
 ...
+document_assembler = DocumentAssembler()\
+		.setInputCol("text")\
+		.setOutputCol("document")
+
+sentence_detector = SentenceDetectorDLModel.pretrained("sentence_detector_dl_healthcare", "en", "clinical/models") \
+		.setInputCols(["document"]) \
+		.setOutputCol("sentence")
+
+tokenizer = Tokenizer()\
+		.setInputCols(["sentence"])\
+		.setOutputCol("token")
+
 word_embeddings = WordEmbeddingsModel.pretrained("w2v_cc_300d","de","clinical/models")\
    .setInputCols(["sentence","token"])\
    .setOutputCol("embeddings")
@@ -53,24 +65,46 @@ word_embeddings = WordEmbeddingsModel.pretrained("w2v_cc_300d","de","clinical/mo
 clinical_ner = MedicalNerModel.pretrained("ner_healthcare", "de", "clinical/models") \
   .setInputCols(["sentence", "token", "embeddings"]) \
   .setOutputCol("ner")
+
+clinical_ner_converter = NerConverter() \
+	.setInputCols(["sentence", "token", "ner"]) \
+	.setOutputCol("ner_chunk")
+
 ...
 nlp_pipeline = Pipeline(stages=[document_assembler, sentence_detector, tokenizer, word_embeddings, clinical_ner, clinical_ner_converter])
 
-model = nlpPipeline.fit(spark.createDataFrame([[""]]).toDF("text"))
+data = spark.createDataFrame([["Das Kleinzellige Bronchialkarzinom (Kleinzelliger Lungenkrebs, SCLC) ist Hernia femoralis, Akne, einseitig, ein hochmalignes bronchogenes Karzinom, das überwiegend im Zentrum der Lunge, in einem Hauptbronchus entsteht. Die mittlere Prävalenz wird auf 1/20.000 geschätzt."]]).toDF("text")
 
-results = model.transform(spark.createDataFrame([["Das Kleinzellige Bronchialkarzinom (Kleinzelliger Lungenkrebs, SCLC) ist Hernia femoralis, Akne, einseitig, ein hochmalignes bronchogenes Karzinom, das überwiegend im Zentrum der Lunge, in einem Hauptbronchus entsteht. Die mittlere Prävalenz wird auf 1/20.000 geschätzt."]], ["text"]))
+result = nlp_pipeline.fit(data).transform(data)
 ```
 ```scala
 ...
-val embeddings_clinical = WordEmbeddingsModel.pretrained("w2v_cc_300d","de", "clinical/models")
+val document_assembler = new DocumentAssembler()
+		.setInputCol("text")
+		.setOutputCol("document")
+
+val sentence_detector = SentenceDetectorDLModel.pretrained("sentence_detector_dl_healthcare","en","clinical/models")
+		.setInputCols(Array("document"))
+		.setOutputCol("sentence")
+
+val tokenizer = new Tokenizer()
+		.setInputCols(Array("sentence"))
+		.setOutputCol("token")
+
+val word_embeddings = WordEmbeddingsModel.pretrained("w2v_cc_300d","de", "clinical/models")
    .setInputCols(["sentence", "token"])
    .setOutputCol("embeddings")
 
-val ner = MedicalNerModel.pretrained("ner_healthcare", "de", "clinical/models") 
+val clinical_ner = MedicalNerModel.pretrained("ner_healthcare", "de", "clinical/models") 
   .setInputCols("sentence", "token", "embeddings")
   .setOutputCol("ner")
+
+val clinical_ner_converter = new NerConverter()
+		.setInputCols(Array("sentence", "token", "ner"))
+		.setOutputCol("ner_chunk")
+
 ...
-val pipeline = new Pipeline().setStages(Array(document_assembler, sentence_detector, tokenizer, embeddings_clinical, ner, ner_converter))
+val pipeline = new Pipeline().setStages(Array(document_assembler, sentence_detector, tokenizer, word_embeddings, clinical_ner, clinical_ner_converter))
 
 val data = Seq("""Das Kleinzellige Bronchialkarzinom (Kleinzelliger Lungenkrebs, SCLC) ist Hernia femoralis, Akne, einseitig, ein hochmalignes bronchogenes Karzinom, das überwiegend im Zentrum der Lunge, in einem Hauptbronchus entsteht. Die mittlere Prävalenz wird auf 1/20.000 geschätzt.""").toDS.toDF("text")
 

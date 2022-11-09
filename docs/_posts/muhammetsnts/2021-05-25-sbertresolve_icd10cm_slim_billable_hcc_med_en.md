@@ -43,7 +43,7 @@ sbert_embedder = BertSentenceEmbeddings\
 .setInputCols(["ner_chunk"])\
 .setOutputCol("sbert_embeddings")
 icd10_resolver = SentenceEntityResolverModel.pretrained("sbertresolve_icd10cm_slim_billable_hcc_med","en", "clinical/models") \
-.setInputCols(["document", "sbert_embeddings"]) \
+.setInputCols(["ner_chunk", "sbert_embeddings"]) \
 .setOutputCol("icd10cm_code")\
 .setDistanceFunction("EUCLIDEAN").setReturnCosineDistances(True)
 bert_pipeline_icd = PipelineModel(stages = [document_assembler, sbert_embedder, icd10_resolver])
@@ -52,20 +52,23 @@ model = bert_pipeline_icd.fit(spark.createDataFrame([["bladder cancer"]]).toDF("
 results = model.transform(data)
 ```
 ```scala
-val document_assembler = DocumentAssembler()\
-.setInputCol("text")\
+val document_assembler = DocumentAssembler()
+.setInputCol("text")
 .setOutputCol("document")
-val sbert_embedder = BertSentenceEmbeddings\
-.pretrained("sbert_jsl_medium_uncased","en","clinical/models")\
-.setInputCols(["document"])\
+val sbert_embedder = BertSentenceEmbeddings
+.pretrained("sbert_jsl_medium_uncased","en","clinical/models")
+.setInputCols(["document"])
 .setOutputCol("sbert_embeddings")
-val icd10_resolver = SentenceEntityResolverModel.pretrained("sbertresolve_icd10cm_slim_billable_hcc_med","en", "clinical/models") \
-.setInputCols(["document", "sbert_embeddings"]) \
-.setOutputCol("icd10cm_code")\
-.setDistanceFunction("EUCLIDEAN")\
+val icd10_resolver = SentenceEntityResolverModel.pretrained("sbertresolve_icd10cm_slim_billable_hcc_med","en", "clinical/models") 
+.setInputCols(["document", "sbert_embeddings"]) 
+.setOutputCol("icd10cm_code")
+.setDistanceFunction("EUCLIDEAN")
 .setReturnCosineDistances(True)
-val bert_pipeline_icd = new Pipeline().setStages(Array(document_assembler, sbert_embedder, icd10_resolver))
-val result = bert_pipeline_icd.fit(Seq.empty["bladder cancer"].toDS.toDF("text")).transform(data)
+val bert_pipeline_icd = new PipelineModel().setStages(Array(document_assembler, sbert_embedder, icd10_resolver))
+
+val data = Seq("bladder cancer").toDS.toDF("text")
+
+val result = bert_pipeline_icd.fit(data).transform(data)
 ```
 
 
