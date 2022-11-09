@@ -35,34 +35,52 @@ This model requires `legner_bert_grants` as an NER in the pipeline. It's a `md` 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
 ```python
- documentAssembler = nlp.DocumentAssembler()\
+documentAssembler = nlp.DocumentAssembler()\
   .setInputCol("text")\
   .setOutputCol("document")
-
+  
+sentencizer = nlp.SentenceDetectorDLModel\
+        .pretrained("sentence_detector_dl", "en") \
+        .setInputCols(["document"])\
+        .setOutputCol("sentence")
+        
 tokenizer = nlp.Tokenizer()\
-  .setInputCols("document")\
-  .setOutputCol("token")
-
-embeddings = nlp.RoBertaEmbeddings.pretrained("roberta_embeddings_legal_roberta_base","en") \
-    .setInputCols(["document", "token"]) \
-    .setOutputCol("embeddings")
-
-ner_model = legal.NerModel.pretrained('legner_confidentiality', 'en', 'legal/models') \
-        .setInputCols(["document", "token", "embeddings"]) \
-        .setOutputCol("ner")
-
+        .setInputCols("sentence")\
+        .setOutputCol("token")
+        
+pos_tagger = nlp.PerceptronModel()\
+    .pretrained() \
+    .setInputCols(["sentence", "token"])\
+    .setOutputCol("pos_tags")
+    
+dependency_parser = nlp.DependencyParserModel() \
+    .pretrained("dependency_conllu", "en") \
+    .setInputCols(["sentence", "pos_tags", "token"]) \
+    .setOutputCol("dependencies")
+    
+ner_model = tokenClassifier = legal.BertForTokenClassification.pretrained("legner_bert_grants", "en", "legal/models")\
+  .setInputCols("token", "sentence")\
+  .setOutputCol("ner")\
+  .setCaseSensitive(True)
+        
 ner_converter = nlp.NerConverter() \
-        .setInputCols(["document","token","ner"]) \
+        .setInputCols(["sentence","token","ner"]) \
         .setOutputCol("ner_chunk")
-
-reDL = legal.RelationExtractionDLModel.pretrained("legre_confidentiality_md", "en", "legal/models") \
-    .setPredictionThreshold(0.5) \
+        
+re_filter = legal.RENerChunksFilter()\
+    .setInputCols(["ner_chunk", "dependencies"])\
+    .setOutputCol("re_ner_chunks")\
+    .setMaxSyntacticDistance(10)\
+    .setRelationPairs(['PERMISSION_SUBJECT-PERMISSION_INDIRECT_OBJECT','PERMISSION_INDIRECT_OBJECT-PERMISSION'])
+    
+reDL = legal.RelationExtractionDLModel.pretrained("legre_grants_md", "en", "legal/models") \
+    .setPredictionThreshold(0.9) \
     .setInputCols(["ner_chunk", "document"]) \
     .setOutputCol("relations")
-    
-pipeline = Pipeline(stages=[documentAssembler, tokenizer, embeddings, ner_model, ner_converter, reDL])
 
-text = "Each party will promptly return to the other upon request any Confidential Information of the other party then in its possession or under its control."
+pipeline = Pipeline(stages=[documentAssembler,sentencizer, tokenizer,pos_tagger,dependency_parser, ner_model, ner_converter,re_filter, reDL])
+
+text = """Appointment  Subject to payment of the Annual Minimum Commitment ("AMC"  - defined herein), Diversinet hereby grants to Reseller an exclusive, non- transferable and non-assignable right to market, sell, and sub-license those Diversinet products listed in Schedule 2 (the "Products") within the  territory listed in Schedule 3 (the "Territory") to Canadian headquartered companies, and governmental and broader public sector entities located  in Canada. """
 
 data = spark.createDataFrame([[text]]).toDF("text")
 model = pipeline.fit(data)
