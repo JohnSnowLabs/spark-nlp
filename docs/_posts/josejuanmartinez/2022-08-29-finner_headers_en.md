@@ -26,7 +26,7 @@ This model has been trained on 10-K filings, with the following HEADER and SUBHE
 - 1., 2., 2.1, etc. are SUBHEADERS
 - Other kind of short section names are also SUBHEADERS
 
-For more information about long document splitting, see [this](https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Finance/1.Tokenization_Splitting.ipynb) workshop entry.
+For more information about long document splitting, see [this](https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings_JSL/Finance/1.Tokenization_Splitting.ipynb) workshop entry.
 
 ## Predicted Entities
 
