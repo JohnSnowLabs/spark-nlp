@@ -58,12 +58,12 @@ posology_ner_model = MedicalNerModel()\
 .setOutputCol("ner")
 
 ner_converter = NerConverterInternal()\
-.setInputCols("sentences", "tokens", "ner")\
+.setInputCols(["sentences", "tokens", "ner"])\
 .setOutputCol("ner_chunks")
 
 pos_tager = PerceptronModel()\
 .pretrained("pos_clinical", "en", "clinical/models")\
-.setInputCols("sentences", "tokens")\
+.setInputCols(["sentences", "tokens"])\
 .setOutputCol("pos_tags")
 
 dependency_parser = DependencyParserModel()\
@@ -96,7 +96,7 @@ ner_converter,
 pos_tager,
 dependency_parser,
 drug_chunk_embeddings,
-rxnorm_re
+rxnorm_resolver
 ])
 
 sampleText = ["The patient was given metformin 500 mg, 2.5 mg of coumadin and then ibuprofen.",
@@ -108,54 +108,54 @@ results = rxnorm_weighted_pipeline_re.fit(data_df).transform(data_df)
 
 ```
 ```scala
-val documenter = DocumentAssembler() \
-.setInputCol("text") \
+val documenter = DocumentAssembler() 
+.setInputCol("text") 
 .setOutputCol("documents")
 
-val sentence_detector = SentenceDetector() \
-.setInputCols("documents") \
+val sentence_detector = SentenceDetector() 
+.setInputCols("documents") 
 .setOutputCol("sentences")
 
-val tokenizer = Tokenizer() \
-.setInputCols("sentences") \
+val tokenizer = Tokenizer() 
+.setInputCols("sentences") 
 .setOutputCol("tokens")
 
-val embeddings = WordEmbeddingsModel() \
-.pretrained("embeddings_clinical", "en", "clinical/models")\
-.setInputCols(Array("sentences", "tokens"))\
+val embeddings = WordEmbeddingsModel() 
+.pretrained("embeddings_clinical", "en", "clinical/models")
+.setInputCols(Array("sentences", "tokens"))
 .setOutputCol("embeddings")
 
-val posology_ner_model = MedicalNerModel()\
-.pretrained("ner_posology_large", "en", "clinical/models")\
-.setInputCols(Array("sentences", "tokens", "embeddings"))\
+val posology_ner_model = MedicalNerModel()
+.pretrained("ner_posology_large", "en", "clinical/models")
+.setInputCols(Array("sentences", "tokens", "embeddings"))
 .setOutputCol("ner")
 
-val ner_converter = NerConverterInternal()\
-.setInputCols("sentences", "tokens", "ner")\
+val ner_converter = NerConverterInternal()
+.setInputCols(Array("sentences", "tokens", "ner"))
 .setOutputCol("ner_chunks")
 
-val pos_tager = PerceptronModel()\
-.pretrained("pos_clinical", "en", "clinical/models")\
-.setInputCols("sentences", "tokens")\
+val pos_tager = PerceptronModel()
+.pretrained("pos_clinical", "en", "clinical/models")
+.setInputCols(Array("sentences", "tokens"))
 .setOutputCol("pos_tags")
 
-val dependency_parser = DependencyParserModel()\
-.pretrained("dependency_conllu", "en")\
-.setInputCols(Array("sentences", "pos_tags", "tokens"))\
+val dependency_parser = DependencyParserModel()
+.pretrained("dependency_conllu", "en")
+.setInputCols(Array("sentences", "pos_tags", "tokens"))
 .setOutputCol("dependencies")
 
-val drug_chunk_embeddings = EntityChunkEmbeddings()\
-.pretrained("sbiobert_base_cased_mli","en","clinical/models")\
-.setInputCols(Array("ner_chunks", "dependencies"))\
-.setOutputCol("drug_chunk_embeddings")\
-.setMaxSyntacticDistance(3)\
-.setTargetEntities({"DRUG": ["STRENGTH", "ROUTE", "FORM"]})\
-.setEntityWeights({"DRUG": 0.8, "STRENGTH": 0.2, "ROUTE": 0.2, "FORM": 0.2})
+val drug_chunk_embeddings = EntityChunkEmbeddings()
+.pretrained("sbiobert_base_cased_mli","en","clinical/models")
+.setInputCols(Array("ner_chunks", "dependencies"))
+.setOutputCol("drug_chunk_embeddings")
+.setMaxSyntacticDistance(3)
+.setTargetEntities({"DRUG": ["STRENGTH", "ROUTE", "FORM"]})
+.setEntityWeights({"DRUG": 0.8, "STRENGTH": 0.2, "ROUTE": 0.2, "FORM": 0.2}
 
-val rxnorm_resolver = SentenceEntityResolverModel\
-.pretrained("sbiobertresolve_rxnorm_augmented_re", "en", "clinical/models")\
-.setInputCols(Array("drug_chunk_embeddings"))\
-.setOutputCol("rxnorm_code")\
+val rxnorm_resolver = SentenceEntityResolverModel
+.pretrained("sbiobertresolve_rxnorm_augmented_re", "en", "clinical/models")
+.setInputCols(Array("drug_chunk_embeddings"))
+.setOutputCol("rxnorm_code")
 .setDistanceFunction("EUCLIDEAN")
 
 val rxnorm_weighted_pipeline_re = new PipelineModel().setStages(Array(documenter, sentence_detector, tokenizer, embeddings, posology_ner_model, 
@@ -165,6 +165,8 @@ val light_model = LightPipeline(rxnorm_weighted_pipeline_re)
 
 vat sampleText = Array("The patient was given metformin 500 mg, 2.5 mg of coumadin and then ibuprofen.",
 "The patient was given metformin 400 mg, coumadin 5 mg, coumadin, amlodipine 10 MG")
+
+val results = rxnorm_weighted_pipeline_re.fit(sampleText).transform(sampleText)
 
 ```
 
