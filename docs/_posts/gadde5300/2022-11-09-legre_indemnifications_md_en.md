@@ -35,34 +35,69 @@ This is a Relation Extraction model to group the different entities extracted wi
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
 ```python
- documentAssembler = nlp.DocumentAssembler()\
-  .setInputCol("text")\
-  .setOutputCol("document")
+documentAssembler = nlp.DocumentAssembler()\
+        .setInputCol("text")\
+        .setOutputCol("document")
 
+sentencizer = nlp.SentenceDetectorDLModel\
+        .pretrained("sentence_detector_dl", "en") \
+        .setInputCols(["document"])\
+        .setOutputCol("sentence")
+                      
 tokenizer = nlp.Tokenizer()\
-  .setInputCols("document")\
-  .setOutputCol("token")
+        .setInputCols(["sentence"])\
+        .setOutputCol("token")
 
-embeddings = nlp.RoBertaEmbeddings.pretrained("roberta_embeddings_legal_roberta_base","en") \
-    .setInputCols(["document", "token"]) \
-    .setOutputCol("embeddings")
+tokenClassifier = legal.BertForTokenClassification.pretrained("legner_bert_indemnifications", "en", "legal/models")\
+  .setInputCols("token", "sentence")\
+  .setOutputCol("label")\
+  .setCaseSensitive(True)
 
-ner_model = legal.NerModel.pretrained('legner_confidentiality', 'en', 'legal/models') \
-        .setInputCols(["document", "token", "embeddings"]) \
-        .setOutputCol("ner")
+ner_converter = nlp.NerConverter()\
+    .setInputCols(["sentence","token","label"])\
+    .setOutputCol("ner_chunk")
 
-ner_converter = nlp.NerConverter() \
-        .setInputCols(["document","token","ner"]) \
-        .setOutputCol("ner_chunk")
+# ONLY NEEDED IF YOU WANT TO FILTER RELATION PAIRS OR SYNTACTIC DISTANCE
+# =================
+pos_tagger = nlp.PerceptronModel()\
+    .pretrained() \
+    .setInputCols(["sentence", "token"])\
+    .setOutputCol("pos_tags")
+
+dependency_parser = nlp.DependencyParserModel() \
+    .pretrained("dependency_conllu", "en") \
+    .setInputCols(["sentence", "pos_tags", "token"]) \
+    .setOutputCol("dependencies")
+
+#Set a filter on pairs of named entities which will be treated as relation candidates
+re_filter = legal.RENerChunksFilter()\
+    .setInputCols(["ner_chunk", "dependencies"])\
+    .setOutputCol("re_ner_chunks")\
+    .setMaxSyntacticDistance(5)\
+    .setRelationPairs(['INDEMNIFICATION_SUBJECT-INDEMNIFICATION_ACTION', 'INDEMNIFICATION_SUBJECT-INDEMNIFICATION_INDIRECT_OBJECT', 'INDEMNIFICATION_ACTION-INDEMNIFICATION'])
+# =================
 
 reDL = legal.RelationExtractionDLModel.pretrained("legre_indemnifications_md", "en", "legal/models") \
-    .setPredictionThreshold(0.5) \
+    .setPredictionThreshold(0.9) \
     .setInputCols(["ner_chunk", "document"]) \
     .setOutputCol("relations")
-    
-pipeline = Pipeline(stages=[documentAssembler, tokenizer, embeddings, ner_model, ner_converter, reDL])
 
-text = "Each party will promptly return to the other upon request any Confidential Information of the other party then in its possession or under its control."
+nlpPipeline = Pipeline(stages=[
+        documentAssembler,
+        sentencizer,
+        tokenizer,
+        tokenClassifier,
+        ner_converter,
+        pos_tagger,
+        dependency_parser,
+        re_filter,
+        reDL])
+
+empty_data = spark.createDataFrame([[""]]).toDF("text")
+
+model = nlpPipeline.fit(empty_data)
+
+text='''The Company shall indemnify and hold harmless HOC against any losses, claims, damages or liabilities to which it may become subject under the 1933 Act or otherwise, insofar as such losses, claims, damages or liabilities (or actions in respect thereof) arise out of or are based upon '''
 
 data = spark.createDataFrame([[text]]).toDF("text")
 model = pipeline.fit(data)
