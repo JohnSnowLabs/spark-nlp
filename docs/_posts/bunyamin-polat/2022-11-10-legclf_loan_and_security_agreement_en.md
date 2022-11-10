@@ -88,7 +88,7 @@ result = model.transform(df)
 |[loan-and-security-agreement]|
 |[other]|
 |[other]|
-|[loan-and-security-agreementt]|
+|[loan-and-security-agreement]|
 
 ```
 
