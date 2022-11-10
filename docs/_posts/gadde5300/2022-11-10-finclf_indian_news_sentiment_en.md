@@ -1,6 +1,6 @@
 ---
 layout: model
-title: Financial Indian News Sentiment Analysis (Light)
+title: Financial Indian News Sentiment Analysis (Small)
 author: John Snow Labs
 name: finclf_indian_news_sentiment
 date: 2022-11-10
@@ -17,7 +17,7 @@ use_language_switcher: "Python-Scala-Java"
 
 ## Description
 
-This is a light version of Indian News Sentiment Analysis Text Classifier, which will retrieve if a text is either expression a Positive Emotion or a Negative one.
+This is a `sm` version of Indian News Sentiment Analysis Text Classifier, which will retrieve if a text is either expression a Positive Emotion or a Negative one.
 
 ## Predicted Entities
 
