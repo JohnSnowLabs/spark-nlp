@@ -13,6 +13,7 @@
 #  limitations under the License.
 """Contains classes for the Chunker."""
 from sparknlp.common import *
+from sparknlp.common.annotator_type import AnnotatorType
 
 
 class Chunker(AnnotatorModel):
@@ -100,6 +101,7 @@ class Chunker(AnnotatorModel):
     --------
     PerceptronModel : for Part-Of-Speech tagging
     """
+    inputAnnotatorTypes = [AnnotatorType.DOCUMENT, AnnotatorType.POS]
 
     regexParsers = Param(Params._dummy(),
                          "regexParsers",

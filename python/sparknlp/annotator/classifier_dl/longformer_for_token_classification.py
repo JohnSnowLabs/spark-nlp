@@ -14,6 +14,7 @@
 """Contains classes for LongformerForTokenClassification."""
 
 from sparknlp.common import *
+from sparknlp.common.annotator_type import AnnotatorType
 
 
 class LongformerForTokenClassification(AnnotatorModel,
@@ -92,6 +93,8 @@ class LongformerForTokenClassification(AnnotatorModel,
     """
 
     name = "LongformerForTokenClassification"
+
+    inputAnnotatorTypes = [AnnotatorType.DOCUMENT, AnnotatorType.TOKEN]
 
     maxSentenceLength = Param(Params._dummy(),
                               "maxSentenceLength",

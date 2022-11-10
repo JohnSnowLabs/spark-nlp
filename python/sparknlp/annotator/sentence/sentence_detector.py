@@ -14,6 +14,7 @@
 """Contains classes for the SentenceDetector."""
 
 from sparknlp.common import *
+from sparknlp.common.annotator_type import AnnotatorType
 
 
 class SentenceDetectorParams:
@@ -162,6 +163,8 @@ class SentenceDetector(AnnotatorModel, SentenceDetectorParams):
 
     name = 'SentenceDetector'
 
+    inputAnnotatorTypes = [AnnotatorType.DOCUMENT]
+
     # this one is exclusive to this detector
     detectLists = Param(Params._dummy(),
                         "detectLists",
@@ -284,3 +287,6 @@ class SentenceDetector(AnnotatorModel, SentenceDetectorParams):
             minLength=0,
             maxLength=99999
         )
+
+    def getInputAnnotatorTypes(self):
+        return self.inputAnnotatorTypes

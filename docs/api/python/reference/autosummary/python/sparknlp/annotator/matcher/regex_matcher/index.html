@@ -6,7 +6,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
 
-    <title>python.sparknlp.annotator.matcher.regex_matcher &#8212; Spark NLP 4.2.2 documentation</title>
+    <title>python.sparknlp.annotator.matcher.regex_matcher &#8212; Spark NLP 4.2.3 documentation</title>
   <script>
     document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
     document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
@@ -434,7 +434,7 @@
 <table class="autosummary longtable table autosummary">
 <tbody>
 <tr class="row-odd"><td><p><a class="reference internal" href="#python.sparknlp.annotator.matcher.regex_matcher.RegexMatcher" title="python.sparknlp.annotator.matcher.regex_matcher.RegexMatcher"><code class="xref py py-obj docutils literal notranslate"><span class="pre">RegexMatcher</span></code></a></p></td>
-<td><p>Uses a reference file to match a set of regular expressions and associate</p></td>
+<td><p>Uses rules to match a set of regular expressions and associate them with a</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#python.sparknlp.annotator.matcher.regex_matcher.RegexMatcherModel" title="python.sparknlp.annotator.matcher.regex_matcher.RegexMatcherModel"><code class="xref py py-obj docutils literal notranslate"><span class="pre">RegexMatcherModel</span></code></a></p></td>
 <td><p>Instantiated model of the RegexMatcher.</p></td>
@@ -444,10 +444,15 @@
 <dl class="py class">
 <dt class="sig sig-object py" id="python.sparknlp.annotator.matcher.regex_matcher.RegexMatcher">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">RegexMatcher</span></span><a class="reference internal" href="../../../../../../../modules/python/sparknlp/annotator/matcher/regex_matcher.html#RegexMatcher"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#python.sparknlp.annotator.matcher.regex_matcher.RegexMatcher" title="Permalink to this definition">#</a></dt>
-<dd><p>Uses a reference file to match a set of regular expressions and associate
-them with a provided identifier.</p>
-<p>A dictionary of predefined regular expressions must be provided with
-<a class="reference internal" href="#python.sparknlp.annotator.matcher.regex_matcher.RegexMatcher.setExternalRules" title="python.sparknlp.annotator.matcher.regex_matcher.RegexMatcher.setExternalRules"><code class="xref py py-meth docutils literal notranslate"><span class="pre">setExternalRules()</span></code></a>. The dictionary can be set in the form of a
+<dd><p>Uses rules to match a set of regular expressions and associate them with a
+provided identifier.</p>
+<p>A rule consists of a regex pattern and an identifier, delimited by a character of
+choice. An example could be <cite>“d{4}/dd/dd,date”</cite> which will match
+strings like <cite>“1970/01/01”</cite> to the identifier <cite>“date”</cite>.</p>
+<p>Rules must be provided by either <a class="reference internal" href="#python.sparknlp.annotator.matcher.regex_matcher.RegexMatcher.setRules" title="python.sparknlp.annotator.matcher.regex_matcher.RegexMatcher.setRules"><code class="xref py py-meth docutils literal notranslate"><span class="pre">setRules()</span></code></a> (followed by
+<a class="reference internal" href="#python.sparknlp.annotator.matcher.regex_matcher.RegexMatcher.setDelimiter" title="python.sparknlp.annotator.matcher.regex_matcher.RegexMatcher.setDelimiter"><code class="xref py py-meth docutils literal notranslate"><span class="pre">setDelimiter()</span></code></a>) or an external file.</p>
+<p>To use an external file, a dictionary of predefined regular expressions must be
+provided with <a class="reference internal" href="#python.sparknlp.annotator.matcher.regex_matcher.RegexMatcher.setExternalRules" title="python.sparknlp.annotator.matcher.regex_matcher.RegexMatcher.setExternalRules"><code class="xref py py-meth docutils literal notranslate"><span class="pre">setExternalRules()</span></code></a>. The dictionary can be set in the form of a
 delimited text file.</p>
 <p>Pretrained pipelines are available for this module, see <a class="reference external" href="https://nlp.johnsnowlabs.com/docs/en/pipelines">Pipelines</a>.</p>
 <p>For extended examples of usage, see the <a class="reference external" href="https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Public/2.Text_Preprocessing_with_SparkNLP_Annotators_Transformers.ipynb">Spark NLP Workshop</a>.</p>
@@ -468,6 +473,10 @@ delimited text file.</p>
 <dd class="field-odd"><dl class="simple">
 <dt><strong>strategy</strong></dt><dd><p>Can be either MATCH_FIRST|MATCH_ALL|MATCH_COMPLETE, by default
 “MATCH_ALL”</p>
+</dd>
+<dt><strong>rules</strong></dt><dd><p>Regex rules to match the identifier with</p>
+</dd>
+<dt><strong>delimiter</strong></dt><dd><p>Delimiter for rules provided with setRules</p>
 </dd>
 <dt><strong>externalRules</strong></dt><dd><p>external resource to rules, needs ‘delimiter’ in options</p>
 </dd>
@@ -527,6 +536,7 @@ delimited text file.</p>
 <dt class="sig sig-object py" id="python.sparknlp.annotator.matcher.regex_matcher.RegexMatcher.setExternalRules">
 <span class="sig-name descname"><span class="pre">setExternalRules</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">delimiter</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">read_as</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">ReadAs.TEXT</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">options</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">{'format':</span> <span class="pre">'text'}</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../../modules/python/sparknlp/annotator/matcher/regex_matcher.html#RegexMatcher.setExternalRules"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#python.sparknlp.annotator.matcher.regex_matcher.RegexMatcher.setExternalRules" title="Permalink to this definition">#</a></dt>
 <dd><p>Sets external resource to rules, needs ‘delimiter’ in options.</p>
+<p>Only one of either parameter <cite>rules</cite> or <cite>externalRules</cite> must be set.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><dl class="simple">
@@ -537,6 +547,47 @@ delimited text file.</p>
 <dt><strong>read_as</strong><span class="classifier">str, optional</span></dt><dd><p>How to read the file, by default ReadAs.TEXT</p>
 </dd>
 <dt><strong>options</strong><span class="classifier">dict, optional</span></dt><dd><p>Options to read the resource, by default {“format”: “text”}</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="python.sparknlp.annotator.matcher.regex_matcher.RegexMatcher.setRules">
+<span class="sig-name descname"><span class="pre">setRules</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../../modules/python/sparknlp/annotator/matcher/regex_matcher.html#RegexMatcher.setRules"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#python.sparknlp.annotator.matcher.regex_matcher.RegexMatcher.setRules" title="Permalink to this definition">#</a></dt>
+<dd><p>Sets the regex rules to match the identifier with.</p>
+<p>The rules must consist of a regex pattern and an identifier for that pattern. The regex
+pattern and the identifier must be delimited by a character that will also have to set with
+<cite>setDelimiter</cite>.</p>
+<p>Only one of either parameter <cite>rules</cite> or <cite>externalRules</cite> must be set.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>value</strong><span class="classifier">List[str]</span></dt><dd><p>List of rules</p>
+</dd>
+</dl>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">regexMatcher</span> <span class="o">=</span> <span class="n">RegexMatcher</span><span class="p">()</span> \
+<span class="gp">... </span>    <span class="o">.</span><span class="n">setRules</span><span class="p">([</span><span class="s2">&quot;\d</span><span class="si">{4}</span><span class="s2">\/\d\d\/\d\d,date&quot;</span><span class="p">,</span> <span class="s2">&quot;\d</span><span class="si">{2}</span><span class="s2">\/\d\d\/\d\d,short_date&quot;</span><span class="p">])</span> \
+<span class="gp">... </span>    <span class="o">.</span><span class="n">setDelimiter</span><span class="p">(</span><span class="s2">&quot;,&quot;</span><span class="p">)</span> \
+<span class="gp">... </span>    <span class="o">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s2">&quot;sentence&quot;</span><span class="p">])</span> \
+<span class="gp">... </span>    <span class="o">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s2">&quot;regex&quot;</span><span class="p">)</span> \
+<span class="gp">... </span>    <span class="o">.</span><span class="n">setStrategy</span><span class="p">(</span><span class="s2">&quot;MATCH_ALL&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="python.sparknlp.annotator.matcher.regex_matcher.RegexMatcher.setDelimiter">
+<span class="sig-name descname"><span class="pre">setDelimiter</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../../modules/python/sparknlp/annotator/matcher/regex_matcher.html#RegexMatcher.setDelimiter"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#python.sparknlp.annotator.matcher.regex_matcher.RegexMatcher.setDelimiter" title="Permalink to this definition">#</a></dt>
+<dd><p>Sets the delimiter for rules.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>value</strong><span class="classifier">str</span></dt><dd><p>Delimiter for the rules</p>
 </dd>
 </dl>
 </dd>
@@ -637,6 +688,24 @@ For training your own model, please see the documentation of that class.</p>
          </code>
         </a>
        </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#python.sparknlp.annotator.matcher.regex_matcher.RegexMatcher.setRules">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           RegexMatcher.setRules()
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#python.sparknlp.annotator.matcher.regex_matcher.RegexMatcher.setDelimiter">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           RegexMatcher.setDelimiter()
+          </span>
+         </code>
+        </a>
+       </li>
       </ul>
      </li>
      <li class="toc-h4 nav-item toc-entry">
@@ -661,6 +730,16 @@ For training your own model, please see the documentation of that class.</p>
        <li class="toc-h5 nav-item toc-entry">
         <a class="reference internal nav-link" href="#python.sparknlp.annotator.matcher.regex_matcher.RegexMatcher.setExternalRules">
          setExternalRules
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#python.sparknlp.annotator.matcher.regex_matcher.RegexMatcher.setRules">
+         setRules
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#python.sparknlp.annotator.matcher.regex_matcher.RegexMatcher.setDelimiter">
+         setDelimiter
         </a>
        </li>
       </ul>

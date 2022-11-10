@@ -269,7 +269,7 @@ class DependencyMaker(tagger: Tagger) extends Serializable {
   }
 
   def train(sentences: List[Sentence], seed: Int): Float = {
-    val rand = new util.Random(seed)
+    val rand = new scala.util.Random(seed)
     rand.shuffle(sentences).map(s => trainSentence(s)).sum / sentences.length
   }
 

@@ -79,7 +79,7 @@ There are two types of Annotators:
 {% include templates/anno_table_entry.md path="" name="NorvigSweeting Spellchecker" summary="Retrieves tokens and makes corrections automatically if not found in an English dictionary."%}
 {% include templates/anno_table_entry.md path="" name="POSTagger (Part of speech tagger)" summary="Averaged Perceptron model to tag words part-of-speech."%}
 {% include templates/anno_table_entry.md path="" name="RecursiveTokenizer" summary="Tokenizes raw text recursively based on a handful of definable rules."%}
-{% include templates/anno_table_entry.md path="" name="RegexMatcher" summary="Uses a reference file to match a set of regular expressions and associate them with a provided identifier."%}
+{% include templates/anno_table_entry.md path="" name="RegexMatcher" summary="Uses rules to match a set of regular expressions and associate them with a provided identifier."%}
 {% include templates/anno_table_entry.md path="" name="RegexTokenizer" summary="A tokenizer that splits text by a regex pattern."%}
 {% include templates/anno_table_entry.md path="" name="SentenceDetector" summary="Annotator that detects sentence boundaries using regular expressions."%}
 {% include templates/anno_table_entry.md path="" name="SentenceDetectorDL" summary="Detects sentence boundaries using a deep learning approach."%}
