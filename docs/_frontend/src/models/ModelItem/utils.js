@@ -31,6 +31,15 @@ const data = {
     'Even smaller than small. Uses a very reduced size of embeddings to provide with better performance.',
   tuned:
     'Model finetuned by John Snow Labs on public and inhouse datasets, to provide better accuracy.',
+  unidirectional: [
+    'This model was trained to take into account the direction of the relation. ',
+    <em>chunk1</em>,
+    ' will always be the source of the relation, ',
+    <em>chunk2</em>,
+    ' the target.',
+  ],
+  bidirectional:
+    'This model was not trained to take into consideration the direction of the relation, meaning that it can return relations from left to right or right to left indistinctly.',
 };
 
 export const addNamingConventions = (title) => {
