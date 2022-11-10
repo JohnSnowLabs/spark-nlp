@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>python.sparknlp.base.doc2_chunk &#8212; Spark NLP 4.2.2 documentation</title>
+    <title>python.sparknlp.base.doc2_chunk &#8212; Spark NLP 4.2.3 documentation</title>
   <script>
     document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
     document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
@@ -300,6 +300,8 @@
 
 <span class="kn">from</span> <span class="nn">pyspark</span> <span class="kn">import</span> <span class="n">keyword_only</span>
 <span class="kn">from</span> <span class="nn">pyspark.ml.param</span> <span class="kn">import</span> <span class="n">TypeConverters</span><span class="p">,</span> <span class="n">Params</span><span class="p">,</span> <span class="n">Param</span>
+
+<span class="kn">from</span> <span class="nn">sparknlp.common.annotator_type</span> <span class="kn">import</span> <span class="n">AnnotatorType</span>
 <span class="kn">from</span> <span class="nn">sparknlp.internal</span> <span class="kn">import</span> <span class="n">AnnotatorTransformer</span>
 
 <span class="kn">from</span> <span class="nn">sparknlp.common</span> <span class="kn">import</span> <span class="n">AnnotatorProperties</span>
@@ -369,6 +371,7 @@
 <span class="sd">    --------</span>
 <span class="sd">    Chunk2Doc : for converting `CHUNK` annotations to `DOCUMENT`</span>
 <span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">inputAnnotatorTypes</span> <span class="o">=</span> <span class="p">[</span><span class="n">AnnotatorType</span><span class="o">.</span><span class="n">DOCUMENT</span><span class="p">]</span>
 
     <span class="n">chunkCol</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;chunkCol&quot;</span><span class="p">,</span> <span class="s2">&quot;column that contains string. Must be part of DOCUMENT&quot;</span><span class="p">,</span> <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toString</span><span class="p">)</span>
     <span class="n">startCol</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;startCol&quot;</span><span class="p">,</span> <span class="s2">&quot;column that has a reference of where chunk begins&quot;</span><span class="p">,</span> <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toString</span><span class="p">)</span>

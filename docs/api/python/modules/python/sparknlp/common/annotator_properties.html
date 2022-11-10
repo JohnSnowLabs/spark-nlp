@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>python.sparknlp.common.annotator_properties &#8212; Spark NLP 4.2.2 documentation</title>
+    <title>python.sparknlp.common.annotator_properties &#8212; Spark NLP 4.2.3 documentation</title>
   <script>
     document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
     document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
@@ -302,14 +302,20 @@
 
 
 <div class="viewcode-block" id="AnnotatorProperties"><a class="viewcode-back" href="../../../../reference/autosummary/python/sparknlp/common/annotator_properties/index.html#python.sparknlp.common.annotator_properties.AnnotatorProperties">[docs]</a><span class="k">class</span> <span class="nc">AnnotatorProperties</span><span class="p">(</span><span class="n">Params</span><span class="p">):</span>
+
+    <span class="n">inputAnnotatorTypes</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">optionalInputAnnotatorTypes</span> <span class="o">=</span> <span class="p">[]</span>
+
     <span class="n">inputCols</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
                       <span class="s2">&quot;inputCols&quot;</span><span class="p">,</span>
                       <span class="s2">&quot;previous annotations columns, if renamed&quot;</span><span class="p">,</span>
                       <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toListString</span><span class="p">)</span>
+
     <span class="n">outputCol</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
                       <span class="s2">&quot;outputCol&quot;</span><span class="p">,</span>
                       <span class="s2">&quot;output annotation column. can be left default.&quot;</span><span class="p">,</span>
                       <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toString</span><span class="p">)</span>
+
     <span class="n">lazyAnnotator</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
                           <span class="s2">&quot;lazyAnnotator&quot;</span><span class="p">,</span>
                           <span class="s2">&quot;Whether this AnnotatorModel acts as lazy in RecursivePipelines&quot;</span><span class="p">,</span>
@@ -324,10 +330,35 @@
 <span class="sd">        *value : str</span>
 <span class="sd">            Input columns for the annotator</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">value</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span> <span class="ow">and</span> <span class="nb">type</span><span class="p">(</span><span class="n">value</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="o">==</span> <span class="nb">list</span><span class="p">:</span>
-            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">inputCols</span><span class="o">=</span><span class="n">value</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+        <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">value</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="o">==</span> <span class="nb">str</span> <span class="ow">or</span> <span class="nb">type</span><span class="p">(</span><span class="n">value</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="o">==</span> <span class="nb">list</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">inputColsValidation</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">value</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span> <span class="ow">and</span> <span class="nb">type</span><span class="p">(</span><span class="n">value</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="o">==</span> <span class="nb">list</span><span class="p">:</span>
+                <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">inputCols</span><span class="o">=</span><span class="n">value</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">inputCols</span><span class="o">=</span><span class="nb">list</span><span class="p">(</span><span class="n">value</span><span class="p">))</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">inputCols</span><span class="o">=</span><span class="nb">list</span><span class="p">(</span><span class="n">value</span><span class="p">))</span></div>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;InputCols datatype not supported. It must be either str or list&quot;</span><span class="p">)</span></div>
+
+    <span class="k">def</span> <span class="nf">inputColsValidation</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="n">actual_columns</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
+        <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">value</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="o">==</span> <span class="nb">list</span><span class="p">:</span>
+            <span class="n">actual_columns</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">value</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+
+        <span class="n">expected_columns</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">inputAnnotatorTypes</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">optionalInputAnnotatorTypes</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">actual_columns</span> <span class="o">!=</span> <span class="n">expected_columns</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span>
+                    <span class="sa">f</span><span class="s2">&quot;setInputCols in </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">uid</span><span class="si">}</span><span class="s2"> expecting </span><span class="si">{</span><span class="n">expected_columns</span><span class="si">}</span><span class="s2"> columns. &quot;</span>
+                    <span class="sa">f</span><span class="s2">&quot;Provided column amount: </span><span class="si">{</span><span class="n">actual_columns</span><span class="si">}</span><span class="s2">. &quot;</span>
+                    <span class="sa">f</span><span class="s2">&quot;Which should be columns from the following annotators: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">inputAnnotatorTypes</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">expected_columns</span> <span class="o">=</span> <span class="n">expected_columns</span> <span class="o">+</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">optionalInputAnnotatorTypes</span><span class="p">)</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="p">(</span><span class="n">actual_columns</span> <span class="o">==</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">inputAnnotatorTypes</span><span class="p">)</span> <span class="ow">or</span> <span class="n">actual_columns</span> <span class="o">==</span> <span class="n">expected_columns</span><span class="p">):</span>
+                <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span>
+                    <span class="sa">f</span><span class="s2">&quot;setInputCols in </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">uid</span><span class="si">}</span><span class="s2"> expecting at least </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">inputAnnotatorTypes</span><span class="p">)</span><span class="si">}</span><span class="s2"> columns. &quot;</span>
+                    <span class="sa">f</span><span class="s2">&quot;Provided column amount: </span><span class="si">{</span><span class="n">actual_columns</span><span class="si">}</span><span class="s2">. &quot;</span>
+                    <span class="sa">f</span><span class="s2">&quot;Which should be columns from at least the following annotators: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">inputAnnotatorTypes</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 
 <div class="viewcode-block" id="AnnotatorProperties.getInputCols"><a class="viewcode-back" href="../../../../reference/autosummary/python/sparknlp/common/annotator_properties/index.html#python.sparknlp.common.annotator_properties.AnnotatorProperties.getInputCols">[docs]</a>    <span class="k">def</span> <span class="nf">getInputCols</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Gets current column names of input annotations.&quot;&quot;&quot;</span>
@@ -364,7 +395,6 @@
 <span class="sd">        RecursivePipeline.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">getOrDefault</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">lazyAnnotator</span><span class="p">)</span></div></div>
-
 </pre></div>
 
             </article>
