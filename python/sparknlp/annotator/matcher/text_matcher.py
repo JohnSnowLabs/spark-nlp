@@ -121,6 +121,7 @@ class TextMatcher(AnnotatorApproach):
     @keyword_only
     def __init__(self):
         super(TextMatcher, self).__init__(classname="com.johnsnowlabs.nlp.annotators.TextMatcher")
+        self._setDefault(inputCols=[AnnotatorType.DOCUMENT, AnnotatorType.TOKEN])
         self._setDefault(caseSensitive=True)
         self._setDefault(mergeOverlapping=False)
 
@@ -181,6 +182,7 @@ class TextMatcher(AnnotatorApproach):
         """
         return self._set(buildFromTokens=b)
 
+
 class TextMatcherModel(AnnotatorModel):
     """Instantiated model of the TextMatcher.
 
@@ -203,6 +205,8 @@ class TextMatcherModel(AnnotatorModel):
         Whether the TextMatcher should take the CHUNK from TOKEN or not
     """
     name = "TextMatcherModel"
+
+    inputAnnotatorTypes = [AnnotatorType.DOCUMENT, AnnotatorType.TOKEN]
 
     mergeOverlapping = Param(Params._dummy(),
                              "mergeOverlapping",
