@@ -34,6 +34,7 @@ This is a medium version of NER model that extracts PER(Person), LOC(Location), 
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
+
 ```python
 document_assembler = nlp.DocumentAssembler()\
     .setInputCol("text")\
