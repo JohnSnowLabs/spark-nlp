@@ -1,4 +1,2 @@
-docs/_posts/josejuanmartinez/2022-08-24-legre_whereas_en.md
-docs/_posts/josejuanmartinez/2022-09-28-legre_indemnifications_en.md
-docs/_posts/josejuanmartinez/2022-08-24-legre_whereas_en.md
-docs/_posts/josejuanmartinez/2022-09-28-legre_indemnifications_en.md
+docs/_posts/gadde5300/2022-10-18-legre_confidentiality_en.md
+docs/_posts/gadde5300/2022-10-18-legre_confidentiality_en.md
