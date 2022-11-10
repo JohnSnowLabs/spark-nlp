@@ -34,6 +34,7 @@ This is a small version of NER model that extracts only PER(Person), LOC(Locatio
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
+
 ```python
 document_assembler = nlp.DocumentAssembler()\
     .setInputCol("text")\
@@ -72,7 +73,7 @@ pipeline = Pipeline(stages=[
 
 model = pipeline.fit(spark.createDataFrame([[""]]).toDF("text"))
 
-data = spark.createDataFrame([["""Prezentul ordin se publică în Monitorul Oficial al României, Partea I. Ministrul sănătății, Sorina Pintea București, 28 februarie 2019.""]])
+data = spark.createDataFrame([["""Prezentul ordin se publică în Monitorul Oficial al României, Partea I. Ministrul sănătății, Sorina Pintea București, 28 februarie 2019.""]]).toDF("text")
                              
 result = model.transform(data)
 ```
