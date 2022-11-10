@@ -28,10 +28,17 @@ CHUNK
 {%- endcapture -%}
 
 {%- capture approach_description -%}
-Uses a reference file to match a set of regular expressions and associate them with a provided identifier.
+Uses rules to match a set of regular expressions and associate them with a provided
+identifier.
 
-A dictionary of predefined regular expressions must be provided with `setExternalRules`.
-The dictionary can be set as a delimited text file.
+A rule consists of a regex pattern and an identifier, delimited by a character of choice. An
+example could be `"\d{4}\/\d\d\/\d\d,date"` which will match strings like `"1970/01/01"` to the
+identifier `"date"`.
+
+Rules must be provided by either `setRules` (followed by `setDelimiter`) or an external file.
+
+To use an external file, a dictionary of predefined regular expressions must be provided with
+`setExternalRules`. The dictionary can be set as a delimited text file.
 
 Pretrained pipelines are available for this module, see [Pipelines](https://nlp.johnsnowlabs.com/docs/en/pipelines).
 

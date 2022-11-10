@@ -13,17 +13,23 @@
 #  limitations under the License.
 """Contains classes for the RegexMatcher."""
 
-
 from sparknlp.common import *
 from sparknlp.common.annotator_type import AnnotatorType
 
 
 class RegexMatcher(AnnotatorApproach):
-    """Uses a reference file to match a set of regular expressions and associate
-    them with a provided identifier.
+    """Uses rules to match a set of regular expressions and associate them with a
+    provided identifier.
 
-    A dictionary of predefined regular expressions must be provided with
-    :meth:`.setExternalRules`. The dictionary can be set in the form of a
+    A rule consists of a regex pattern and an identifier, delimited by a character of
+    choice. An example could be `"\\d{4}\\/\\d\\d\\/\\d\\d,date"` which will match
+    strings like `"1970/01/01"` to the identifier `"date"`.
+
+    Rules must be provided by either :meth:`.setRules` (followed by
+    :meth:`.setDelimiter`) or an external file.
+
+    To use an external file, a dictionary of predefined regular expressions must be
+    provided with :meth:`.setExternalRules`. The dictionary can be set in the form of a
     delimited text file.
 
     Pretrained pipelines are available for this module, see `Pipelines
@@ -43,6 +49,10 @@ class RegexMatcher(AnnotatorApproach):
     strategy
         Can be either MATCH_FIRST|MATCH_ALL|MATCH_COMPLETE, by default
         "MATCH_ALL"
+    rules
+        Regex rules to match the identifier with
+    delimiter
+        Delimiter for rules provided with setRules
     externalRules
         external resource to rules, needs 'delimiter' in options
 
@@ -91,6 +101,14 @@ class RegexMatcher(AnnotatorApproach):
                           "externalRules",
                           "external resource to rules, needs 'delimiter' in options",
                           typeConverter=TypeConverters.identity)
+    rules = Param(Params._dummy(),
+                  "rules",
+                  "Regex rules to match the identifier with",
+                  typeConverter=TypeConverters.toListString)
+    delimiter = Param(Params._dummy(),
+                      "delimiter",
+                      "Delimiter for rules",
+                      typeConverter=TypeConverters.toString)
 
     @keyword_only
     def __init__(self):
@@ -114,6 +132,9 @@ class RegexMatcher(AnnotatorApproach):
     def setExternalRules(self, path, delimiter, read_as=ReadAs.TEXT, options={"format": "text"}):
         """Sets external resource to rules, needs 'delimiter' in options.
 
+        Only one of either parameter `rules` or `externalRules` must be set.
+
+
         Parameters
         ----------
         path : str
@@ -129,6 +150,41 @@ class RegexMatcher(AnnotatorApproach):
         if "delimiter" not in opts:
             opts["delimiter"] = delimiter
         return self._set(externalRules=ExternalResource(path, read_as, opts))
+
+    def setRules(self, value):
+        """Sets the regex rules to match the identifier with.
+
+        The rules must consist of a regex pattern and an identifier for that pattern. The regex
+        pattern and the identifier must be delimited by a character that will also have to set with
+        `setDelimiter`.
+
+        Only one of either parameter `rules` or `externalRules` must be set.
+
+         Examples
+         --------
+        >>> regexMatcher = RegexMatcher() \\
+        ...     .setRules(["\\d{4}\\/\\d\\d\\/\\d\\d,date", "\\d{2}\\/\\d\\d\\/\\d\\d,short_date"]) \\
+        ...     .setDelimiter(",") \\
+        ...     .setInputCols(["sentence"]) \\
+        ...     .setOutputCol("regex") \\
+        ...     .setStrategy("MATCH_ALL")
+
+        Parameters
+        ----------
+        value : List[str]
+             List of rules
+        """
+        return self._set(rules=value)
+
+    def setDelimiter(self, value):
+        """Sets the delimiter for rules.
+
+        Parameters
+        ----------
+        value : str
+             Delimiter for the rules
+        """
+        return self._set(delimiter=value)
 
     def _create_model(self, java_model):
         return RegexMatcherModel(java_model=java_model)
@@ -160,4 +216,3 @@ class RegexMatcherModel(AnnotatorModel):
         )
 
     name = "RegexMatcherModel"
-
