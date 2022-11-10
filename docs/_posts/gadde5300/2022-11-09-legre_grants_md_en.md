@@ -75,7 +75,7 @@ re_filter = legal.RENerChunksFilter()\
     
 reDL = legal.RelationExtractionDLModel.pretrained("legre_grants_md", "en", "legal/models") \
     .setPredictionThreshold(0.9) \
-    .setInputCols(["ner_chunk", "document"]) \
+    .setInputCols(["re_ner_chunks", "document"]) \
     .setOutputCol("relations")
 
 pipeline = Pipeline(stages=[documentAssembler,sentencizer, tokenizer,pos_tagger,dependency_parser, ner_model, ner_converter,re_filter, reDL])
@@ -92,15 +92,13 @@ res = model.transform(data)
 ## Results
 
 ```bash
-+-------------+--------------------------+-------------+-----------+----------------------------------------------------------------------------+--------------------------+-------------+-----------+----------------------------------------------------------------------------+----------+
-|relation     |entity1                   |entity1_begin|entity1_end|chunk1                                                                      |entity2                   |entity2_begin|entity2_end|chunk2                                                                      |confidence|
-+-------------+--------------------------+-------------+-----------+----------------------------------------------------------------------------+--------------------------+-------------+-----------+----------------------------------------------------------------------------+----------+
-|allows       |PERMISSION_SUBJECT        |92           |101        |Diversinet                                                                  |PERMISSION_INDIRECT_OBJECT|120          |127        |Reseller                                                                    |0.99999297|
-|is_allowed_to|PERMISSION_SUBJECT        |92           |101        |Diversinet                                                                  |PERMISSION                |132          |145        |exclusive, non                                                              |0.97158235|
-|is_allowed_to|PERMISSION_INDIRECT_OBJECT|120          |127        |Reseller                                                                    |PERMISSION                |132          |145        |exclusive, non                                                              |0.9999945 |
-|is_allowed_to|PERMISSION_INDIRECT_OBJECT|120          |127        |Reseller                                                                    |PERMISSION                |148          |223        |transferable and non-assignable right to market, sell, and sub-license those|0.99987125|
-|is_allowed_to|PERMISSION                |148          |223        |transferable and non-assignable right to market, sell, and sub-license those|PERMISSION                |132          |145        |exclusive, non                                                              |0.9956748 |
-+-------------+--------------------------+-------------+-----------+----------------------------------------------------------------------------+--------------------------+-------------+-----------+----------------------------------------------------------------------------+----------+
++-------------+--------------------------+-------------+-----------+----------+--------------------------+-------------+-----------+----------------------------------------------------------------------------+----------+
+|relation     |entity1                   |entity1_begin|entity1_end|chunk1    |entity2                   |entity2_begin|entity2_end|chunk2                                                                      |confidence|
++-------------+--------------------------+-------------+-----------+----------+--------------------------+-------------+-----------+----------------------------------------------------------------------------+----------+
+|allows       |PERMISSION_SUBJECT        |92           |101        |Diversinet|PERMISSION_INDIRECT_OBJECT|120          |127        |Reseller                                                                    |0.99999297|
+|is_allowed_to|PERMISSION_INDIRECT_OBJECT|120          |127        |Reseller  |PERMISSION                |132          |145        |exclusive, non                                                              |0.9999945 |
+|is_allowed_to|PERMISSION_INDIRECT_OBJECT|120          |127        |Reseller  |PERMISSION                |148          |223        |transferable and non-assignable right to market, sell, and sub-license those|0.99987125|
++-------------+--------------------------+-------------+-----------+----------+--------------------------+-------------+-----------+----------------------------------------------------------------------------+----------+
 
 ```
 
