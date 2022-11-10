@@ -457,34 +457,34 @@
 
 <span class="n">ner_converter</span> <span class="o">=</span> <span class="n">NerConverter</span><span class="p">()</span> \
     <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"sentence"</span><span class="p">,</span> <span class="s">"token"</span><span class="p">,</span> <span class="s">"ner"</span><span class="p">])</span> \
-    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"ner_chunk"</span><span class="p">)</span>    <span class="p">.</span><span class="n">setWhiteList</span><span class="p">([</span><span class="s">"Cancer_Dx""])
+    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"ner_chunk"</span><span class="p">)</span>    <span class="p">.</span><span class="n">setWhiteList</span><span class="p">([</span><span class="s">"Cancer_Dx"</span><span class="p">])</span>
     
-assertion = AssertionDLModel.pretrained("</span><span class="n">assertion_oncology_problem_wip</span><span class="s">", "</span><span class="n">en</span><span class="s">", "</span><span class="n">clinical</span><span class="o">/</span><span class="n">models</span><span class="s">") </span><span class="se">\
-</span><span class="s">    .setInputCols(["</span><span class="n">sentence</span><span class="s">", "</span><span class="n">ner_chunk</span><span class="s">", "</span><span class="n">embeddings</span><span class="s">"]) </span><span class="se">\
-</span><span class="s">    .setOutputCol("</span><span class="n">assertion</span><span class="s">")
+<span class="n">assertion</span> <span class="o">=</span> <span class="n">AssertionDLModel</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"assertion_oncology_problem_wip"</span><span class="p">,</span> <span class="s">"en"</span><span class="p">,</span> <span class="s">"clinical/models"</span><span class="p">)</span> \
+    <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"sentence"</span><span class="p">,</span> <span class="s">"ner_chunk"</span><span class="p">,</span> <span class="s">"embeddings"</span><span class="p">])</span> \
+    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"assertion"</span><span class="p">)</span>
         
-pipeline = Pipeline(stages=[document_assembler,
-                            sentence_detector,
-                            tokenizer,
-                            word_embeddings,
-                            ner,
-                            ner_converter,
-                            assertion])
+<span class="n">pipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">(</span><span class="n">stages</span><span class="o">=</span><span class="p">[</span><span class="n">document_assembler</span><span class="p">,</span>
+                            <span class="n">sentence_detector</span><span class="p">,</span>
+                            <span class="n">tokenizer</span><span class="p">,</span>
+                            <span class="n">word_embeddings</span><span class="p">,</span>
+                            <span class="n">ner</span><span class="p">,</span>
+                            <span class="n">ner_converter</span><span class="p">,</span>
+                            <span class="n">assertion</span><span class="p">])</span>
 
-data = spark.createDataFrame([["</span><span class="n">The</span> <span class="n">patient</span> <span class="n">was</span> <span class="n">diagnosed</span> <span class="k">with</span> <span class="n">breast</span> <span class="n">cancer</span><span class="p">.</span> <span class="n">Her</span> <span class="n">family</span> <span class="n">history</span> <span class="ow">is</span> <span class="n">positive</span> <span class="k">for</span> <span class="n">other</span> <span class="n">cancers</span><span class="p">.</span><span class="s">"]]).toDF("</span><span class="n">text</span><span class="s">")
+<span class="n">data</span> <span class="o">=</span> <span class="n">spark</span><span class="p">.</span><span class="n">createDataFrame</span><span class="p">([[</span><span class="s">"The patient was diagnosed with breast cancer. Her family history is positive for other cancers."</span><span class="p">]]).</span><span class="n">toDF</span><span class="p">(</span><span class="s">"text"</span><span class="p">)</span>
 
-result = pipeline.fit(data).transform(data)
-</span></code></pre></div>  </div>
+<span class="n">result</span> <span class="o">=</span> <span class="n">pipeline</span><span class="p">.</span><span class="n">fit</span><span class="p">(</span><span class="n">data</span><span class="p">).</span><span class="n">transform</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+</code></pre></div>  </div>
   <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">val</span> <span class="nv">document_assembler</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">DocumentAssembler</span><span class="o">()</span>
     <span class="o">.</span><span class="py">setInputCol</span><span class="o">(</span><span class="s">"text"</span><span class="o">)</span>
     <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"document"</span><span class="o">)</span>
     
 <span class="k">val</span> <span class="nv">sentence_detector</span> <span class="k">=</span> <span class="nv">SentenceDetectorDLModel</span><span class="o">.</span><span class="py">pretrained</span><span class="o">(</span><span class="s">"sentence_detector_dl_healthcare"</span><span class="o">,</span><span class="s">"en"</span><span class="o">,</span><span class="s">"clinical/models"</span><span class="o">)</span>
-    <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="s">"document"</span><span class="o">)</span>
+    <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="s">"document"</span><span class="o">))</span>
     <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"sentence"</span><span class="o">)</span>
     
 <span class="k">val</span> <span class="nv">tokenizer</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">Tokenizer</span><span class="o">()</span>
-    <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="s">"sentence"</span><span class="o">)</span>
+    <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="s">"sentence"</span><span class="o">))</span>
     <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"token"</span><span class="o">)</span>
     
 <span class="k">val</span> <span class="nv">word_embeddings</span> <span class="k">=</span> <span class="nc">WordEmbeddingsModel</span><span class="o">().</span><span class="py">pretrained</span><span class="o">(</span><span class="s">"embeddings_clinical"</span><span class="o">,</span> <span class="s">"en"</span><span class="o">,</span> <span class="s">"clinical/models"</span><span class="o">)</span>
@@ -498,21 +498,21 @@ result = pipeline.fit(data).transform(data)
 <span class="k">val</span> <span class="nv">ner_converter</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">NerConverter</span><span class="o">()</span>
     <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="s">"sentence"</span><span class="o">,</span> <span class="s">"token"</span><span class="o">,</span> <span class="s">"ner"</span><span class="o">))</span>
     <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"ner_chunk"</span><span class="o">)</span>
-    <span class="o">.</span><span class="py">setWhiteList</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="s">"Cancer_Dx""))
+    <span class="o">.</span><span class="py">setWhiteList</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="s">"Cancer_Dx"</span><span class="o">))</span>
 
-val clinical_assertion = AssertionDLModel.pretrained("</span><span class="n">assertion_oncology_problem_wip</span><span class="s">","</span><span class="n">en</span><span class="s">","</span><span class="n">clinical</span><span class="o">/</span><span class="n">models</span><span class="s">")
-    .setInputCols("</span><span class="n">sentence</span><span class="s">","</span><span class="n">ner_chunk</span><span class="s">","</span><span class="n">embeddings</span><span class="s">")
-    .setOutputCol("</span><span class="n">assertion</span><span class="s">")
+<span class="k">val</span> <span class="nv">clinical_assertion</span> <span class="k">=</span> <span class="nv">AssertionDLModel</span><span class="o">.</span><span class="py">pretrained</span><span class="o">(</span><span class="s">"assertion_oncology_problem_wip"</span><span class="o">,</span><span class="s">"en"</span><span class="o">,</span><span class="s">"clinical/models"</span><span class="o">)</span>
+    <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="s">"sentence"</span><span class="o">,</span><span class="s">"ner_chunk"</span><span class="o">,</span><span class="s">"embeddings"</span><span class="o">))</span>
+    <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"assertion"</span><span class="o">)</span>
         
-val pipeline = new Pipeline().setStages(Array(document_assembler,
-                                              sentence_detector,
-                                              tokenizer,
-                                              word_embeddings,
-                                              ner,
-                                              ner_converter,
-                                              assertion))
+<span class="k">val</span> <span class="nv">pipeline</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">Pipeline</span><span class="o">().</span><span class="py">setStages</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="n">document_assembler</span><span class="o">,</span>
+                                              <span class="n">sentence_detector</span><span class="o">,</span>
+                                              <span class="n">tokenizer</span><span class="o">,</span>
+                                              <span class="n">word_embeddings</span><span class="o">,</span>
+                                              <span class="n">ner</span><span class="o">,</span>
+                                              <span class="n">ner_converter</span><span class="o">,</span>
+                                              <span class="n">assertion</span><span class="o">))</span>
 
-val data = Seq("</span><span class="nc">The</span> <span class="n">patient</span> <span class="n">was</span> <span class="n">diagnosed</span> <span class="k">with</span> <span class="n">breast</span> <span class="n">cancer</span><span class="o">.</span> <span class="nc">Her</span> <span class="n">family</span> <span class="n">history</span> <span class="n">is</span> <span class="n">positive</span> <span class="k">for</span> <span class="n">other</span> <span class="n">cancers</span><span class="o">.</span><span class="s">").toDF("</span><span class="n">text</span><span class="err">"</span><span class="o">)</span>
+<span class="k">val</span> <span class="nv">data</span> <span class="k">=</span> <span class="nc">Seq</span><span class="o">(</span><span class="s">"""The patient was diagnosed with breast cancer. Her family history is positive for other cancers."""</span><span class="o">).</span><span class="py">toDF</span><span class="o">(</span><span class="s">"text"</span><span class="o">)</span>
 
 <span class="k">val</span> <span class="nv">result</span> <span class="k">=</span> <span class="nv">pipeline</span><span class="o">.</span><span class="py">fit</span><span class="o">(</span><span class="n">data</span><span class="o">).</span><span class="py">transform</span><span class="o">(</span><span class="n">data</span><span class="o">)</span>
 </code></pre></div>  </div>
@@ -576,8 +576,8 @@ val data = Seq("</span><span class="nc">The</span> <span class="n">patient</span
 Hypothetical_Or_Absent       0.87    0.81      0.84    310.0
        Medical_History       0.76    0.86      0.81    304.0
               Possible       0.71    0.61      0.65     92.0
-             macro avg       0.77    0.76      0.76    718.0
-          weighted avg       0.80    0.80      0.80    718.0
+             macro-avg       0.77    0.76      0.76    718.0
+          weighted-avg       0.80    0.80      0.80    718.0
 </code></pre></div></div>
 </div><div class="d-print-none"><footer class="article__footer"><meta itemprop="dateModified" content="2022-10-11T00:00:00+00:00"><!-- start custom article footer snippet -->
 

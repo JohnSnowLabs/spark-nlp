@@ -11,7 +11,7 @@
     })(window,document,'script','dataLayer','GTM-59JLR64');</script>
 <!-- End Google Tag Manager --><title>Detect tumor morphology in Spanish texts</title><meta property="og:title" content=""/>
 
-<meta name="description" content="DescriptionDetect tumor morphology entities in Spanish text.Predicted EntitiesMORFOLOGIA_NEOPLASIA, OLive DemoOpen in ColabDownloadHow to use         PythonScalaNLU  document_assembler = DocumentAssembler()\        .setInputCol('text')\        .setOutputCol('document')sentence = SentenceDetector() \    .setInputCols...">
+<meta name="description" content="DescriptionDetect tumor morphology entities in Spanish text.Predicted EntitiesMORFOLOGIA_NEOPLASIA, OLive DemoOpen in ColabDownloadHow to use         PythonScalaNLU  document_assembler = DocumentAssembler()\    .setInputCol('text')\    .setOutputCol('document')sentence = SentenceDetector() \    .setInputCols(["docum...">
 <link rel="canonical" href="/2021/07/23/cantemist_scielowiki_es.html"><link rel="alternate" type="application/rss+xml" title="Spark NLP" href="/feed.xml"><!-- start favicons snippet, use https://realfavicongenerator.net/ -->
 <!---->
 <!-- <link rel="apple-touch-icon" sizes="180x180" href="/fav.ico"> -->
@@ -437,8 +437,8 @@
 </div>
 
   <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">document_assembler</span> <span class="o">=</span> <span class="n">DocumentAssembler</span><span class="p">()</span>\
-        <span class="p">.</span><span class="n">setInputCol</span><span class="p">(</span><span class="s">'text'</span><span class="p">)</span>\
-        <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">'document'</span><span class="p">)</span>
+    <span class="p">.</span><span class="n">setInputCol</span><span class="p">(</span><span class="s">'text'</span><span class="p">)</span>\
+    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">'document'</span><span class="p">)</span>
 
 <span class="n">sentence</span> <span class="o">=</span> <span class="n">SentenceDetector</span><span class="p">()</span> \
     <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"document"</span><span class="p">])</span> \
@@ -449,12 +449,12 @@
     <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"token"</span><span class="p">)</span>
 
 <span class="n">embedings_stage</span> <span class="o">=</span> <span class="n">WordEmbeddingsModel</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"embeddings_scielowiki_300d"</span><span class="p">,</span> <span class="s">"es"</span><span class="p">,</span> <span class="s">"clinical/models"</span><span class="p">)</span>\
-        <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"document"</span><span class="p">,</span><span class="s">"token"</span><span class="p">])</span>\
-        <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"word_embeddings"</span><span class="p">)</span>
+    <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"document"</span><span class="p">,</span><span class="s">"token"</span><span class="p">])</span>\
+    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"word_embeddings"</span><span class="p">)</span>
 
 <span class="n">clinical_ner</span> <span class="o">=</span> <span class="n">MedicalNerModel</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"cantemist_scielowiki"</span><span class="p">,</span> <span class="s">"es"</span><span class="p">,</span> <span class="s">"clinical/models"</span><span class="p">)</span>\
-        <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"sentence"</span><span class="p">,</span> <span class="s">"token"</span><span class="p">,</span> <span class="s">"embeddings"</span><span class="p">])</span>\
-        <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"ner"</span><span class="p">)</span>
+    <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"sentence"</span><span class="p">,</span> <span class="s">"token"</span><span class="p">,</span> <span class="s">"word_embeddings"</span><span class="p">])</span>\
+    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"ner"</span><span class="p">)</span>
 
 <span class="n">ner_converter</span> <span class="o">=</span> <span class="n">NerConverter</span><span class="p">()</span> \
     <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">'document'</span><span class="p">,</span> <span class="s">'token'</span><span class="p">,</span> <span class="s">'ner'</span><span class="p">])</span> \
@@ -469,33 +469,33 @@
     <span class="n">ner_converter</span>
 <span class="p">])</span>
 
-<span class="n">example</span> <span class="o">=</span> <span class="n">spark</span><span class="p">.</span><span class="n">createDataFrame</span><span class="p">(</span><span class="n">pd</span><span class="p">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s">'text'</span><span class="p">:</span> <span class="p">[</span><span class="s">"""Anamnesis Paciente de 37 años de edad sin antecedentes patológicos ni quirúrgicos de interés. En diciembre de 2012 consultó al Servicio de Urgencias por un cuadro de cefalea aguda e hipostesia del hemicuerpo izquierdo de 15 días de evolución refractario a tratamiento. Exploración neurológica sin focalidad; fondo de ojo: papiledema unilateral. Se solicitaron una TC del SNC, que objetiva una LOE frontal derecha con afectación aparente del cuerpo calloso, y una RM del SNC, que muestra un extenso proceso expansivo intraparenquimatoso frontal derecho que infiltra la rodilla del cuerpo calloso, mal delimitada y sin componente necrótico. Tras la administración de contraste se apreciaban diferentes realces parcheados en la lesión, pero sin definirse una cápsula con aumento del flujo sanguíneo en la lesión, características compatibles con linfoma o astrocitoma anaplásico . El 3 de enero de 2013 se efectúa biopsia intraoperatoria, con diagnóstico histológico de astrocitoma anaplásico GIII"""</span><span class="p">]}))</span>
+<span class="n">data</span> <span class="o">=</span> <span class="n">spark</span><span class="p">.</span><span class="n">createDataFrame</span><span class="p">([[</span><span class="s">"""Anamnesis Paciente de 37 años de edad sin antecedentes patológicos ni quirúrgicos de interés. En diciembre de 2012 consultó al Servicio de Urgencias por un cuadro de cefalea aguda e hipostesia del hemicuerpo izquierdo de 15 días de evolución refractario a tratamiento. Exploración neurológica sin focalidad; fondo de ojo: papiledema unilateral. Se solicitaron una TC del SNC, que objetiva una LOE frontal derecha con afectación aparente del cuerpo calloso, y una RM del SNC, que muestra un extenso proceso expansivo intraparenquimatoso frontal derecho que infiltra la rodilla del cuerpo calloso, mal delimitada y sin componente necrótico. Tras la administración de contraste se apreciaban diferentes realces parcheados en la lesión, pero sin definirse una cápsula con aumento del flujo sanguíneo en la lesión, características compatibles con linfoma o astrocitoma anaplásico . El 3 de enero de 2013 se efectúa biopsia intraoperatoria, con diagnóstico histológico de astrocitoma anaplásico GIII"""</span><span class="p">]]).</span><span class="n">toDF</span><span class="p">(</span><span class="s">"text"</span><span class="p">)</span>
 
-<span class="n">result</span> <span class="o">=</span> <span class="n">pipeline</span><span class="p">.</span><span class="n">fit</span><span class="p">(</span><span class="n">example</span><span class="p">).</span><span class="n">transform</span><span class="p">(</span><span class="n">example</span><span class="p">)</span>
+<span class="n">result</span> <span class="o">=</span> <span class="n">pipeline</span><span class="p">.</span><span class="n">fit</span><span class="p">(</span><span class="n">data</span><span class="p">).</span><span class="n">transform</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
 </code></pre></div>  </div>
   <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">val</span> <span class="nv">document_assembler</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">DocumentAssembler</span><span class="o">()</span>
-        <span class="o">.</span><span class="py">setInputCol</span><span class="o">(</span><span class="ss">'tex</span><span class="n">t</span><span class="o">')</span>
-        <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="ss">'documen</span><span class="n">t</span><span class="o">')</span>
+    <span class="o">.</span><span class="py">setInputCol</span><span class="o">(</span><span class="s">"text"</span><span class="o">)</span>
+    <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"document"</span><span class="o">)</span>
 
 <span class="k">val</span> <span class="nv">sentence</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">SentenceDetector</span><span class="o">()</span> 
-    <span class="o">.</span><span class="py">setInputCols</span><span class="o">([</span><span class="err">"</span><span class="kt">document</span><span class="err">"</span><span class="o">])</span> 
+    <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="s">"document"</span><span class="o">)</span> 
     <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"sentence"</span><span class="o">)</span>
 
 <span class="k">val</span> <span class="nv">tokenizer</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">Tokenizer</span><span class="o">()</span> 
-    <span class="o">.</span><span class="py">setInputCols</span><span class="o">([</span><span class="err">"</span><span class="kt">sentence</span><span class="err">"</span><span class="o">])</span> 
+    <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="s">"sentence"</span><span class="o">)</span> 
     <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"token"</span><span class="o">)</span>
 
 <span class="k">val</span> <span class="nv">embedings_stage</span> <span class="k">=</span> <span class="nv">WordEmbeddingsModel</span><span class="o">.</span><span class="py">pretrained</span><span class="o">(</span><span class="s">"embeddings_scielowiki_300d"</span><span class="o">,</span> <span class="s">"es"</span><span class="o">,</span> <span class="s">"clinical/models"</span><span class="o">)</span>
-        <span class="o">.</span><span class="py">setInputCols</span><span class="o">([</span><span class="err">"</span><span class="kt">document</span><span class="err">"</span>,<span class="err">"</span><span class="kt">token</span><span class="err">"</span><span class="o">])</span>
-        <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"word_embeddings"</span><span class="o">)</span>
+    <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="s">"document"</span><span class="o">,</span><span class="s">"token"</span><span class="o">))</span>
+    <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"word_embeddings"</span><span class="o">)</span>
 
 <span class="k">val</span> <span class="nv">clinical_ner</span> <span class="k">=</span> <span class="nv">MedicalNerModel</span><span class="o">.</span><span class="py">pretrained</span><span class="o">(</span><span class="s">"cantemist_scielowiki"</span><span class="o">,</span> <span class="s">"es"</span><span class="o">,</span> <span class="s">"clinical/models"</span><span class="o">)</span>
-        <span class="o">.</span><span class="py">setInputCols</span><span class="o">([</span><span class="err">"</span><span class="kt">sentence</span><span class="err">"</span>, <span class="err">"</span><span class="kt">token</span><span class="err">"</span>, <span class="err">"</span><span class="kt">embeddings</span><span class="err">"</span><span class="o">])</span>
-        <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"ner"</span><span class="o">)</span>
+    <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="s">"sentence"</span><span class="o">,</span> <span class="s">"token"</span><span class="o">,</span> <span class="s">"word_embeddings"</span><span class="o">))</span>
+    <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"ner"</span><span class="o">)</span>
 
 <span class="k">val</span> <span class="nv">ner_converter</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">NerConverter</span><span class="o">()</span> 
-    <span class="o">.</span><span class="py">setInputCols</span><span class="o">([</span><span class="kt">'document'</span>, <span class="kt">'token'</span>, <span class="kt">'ner'</span><span class="o">])</span> 
-    <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="ss">'ner_chun</span><span class="n">k</span><span class="o">')</span>
+    <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="s">"document"</span><span class="o">,</span> <span class="s">"token"</span><span class="o">,</span> <span class="s">"ner"</span><span class="o">))</span> 
+    <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"ner_chunk"</span><span class="o">)</span>
 
 <span class="k">val</span> <span class="nv">pipeline</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">Pipeline</span><span class="o">().</span><span class="py">setStages</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="n">document_assembler</span><span class="o">,</span> <span class="n">sentence</span><span class="o">,</span> <span class="n">tokenizer</span><span class="o">,</span> <span class="n">embedings_stage</span><span class="o">,</span> <span class="n">clinical_ner</span><span class="o">,</span> <span class="n">ner_converter</span><span class="o">))</span>
 
@@ -683,7 +683,7 @@
     </tr>
     <tr>
       <td>Compatibility:</td>
-      <td>Healthcare NLP 3.1.2+</td>
+      <td>Spark NLP for Healthcare 3.1.2+</td>
     </tr>
     <tr>
       <td>License:</td>
@@ -742,9 +742,6 @@ accuracy               -         -      0.99     288649
 macro-avg              0.92      0.82   0.87     288649 
 weighted-avg           0.99      0.99   0.99     288649 
 </code></pre></div></div>
-<!--stackedit_data:
-eyJoaXN0b3J5IjpbMTMzMTg1MzcyMF19
--->
 </div><div class="d-print-none"><footer class="article__footer"><meta itemprop="dateModified" content="2021-07-23T00:00:00+00:00"><!-- start custom article footer snippet -->
 
 <!-- end custom article footer snippet --></footer>

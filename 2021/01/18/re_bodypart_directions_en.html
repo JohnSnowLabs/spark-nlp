@@ -456,16 +456,42 @@
   <div class="top_tab_li">   
     <p><button data-type="python" class="tab-li code-selector-active python-button">Python</button><button data-type="scala" class="tab-li code-selector-un-active scala-button">Scala</button><button data-type="nlu" class="tab-li code-selector-un-active nlu-button">NLU</button></p>
 </div>
-  <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+
+  <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">documenter</span> <span class="o">=</span> <span class="n">DocumentAssembler</span><span class="p">()</span>\
+     <span class="p">.</span><span class="n">setInputCol</span><span class="p">(</span><span class="s">"text"</span><span class="p">)</span>\
+     <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"document"</span><span class="p">)</span>
+
+<span class="n">sentencer</span> <span class="o">=</span> <span class="n">SentenceDetector</span><span class="p">()</span>\
+    <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"document"</span><span class="p">])</span>\
+    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"sentences"</span><span class="p">)</span>
+
+<span class="n">tokenizer</span> <span class="o">=</span> <span class="n">Tokenizer</span><span class="p">()</span>\
+    <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"sentences"</span><span class="p">])</span>\
+    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"tokens"</span><span class="p">)</span>
+
 <span class="n">words_embedder</span> <span class="o">=</span> <span class="n">WordEmbeddingsModel</span><span class="p">()</span>\
     <span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"embeddings_clinical"</span><span class="p">,</span> <span class="s">"en"</span><span class="p">,</span> <span class="s">"clinical/models"</span><span class="p">)</span>\
     <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"sentences"</span><span class="p">,</span> <span class="s">"tokens"</span><span class="p">])</span>\
     <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"embeddings"</span><span class="p">)</span>
 
-<span class="n">ner_tagger</span> <span class="o">=</span> <span class="n">sparknlp</span><span class="p">.</span><span class="n">annotators</span><span class="p">.</span><span class="n">NerDLModel</span><span class="p">()</span>\
+<span class="n">pos_tagger</span> <span class="o">=</span> <span class="n">PerceptronModel</span><span class="p">()</span>\
+    <span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"pos_clinical"</span><span class="p">,</span> <span class="s">"en"</span><span class="p">,</span> <span class="s">"clinical/models"</span><span class="p">)</span> \
+    <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"sentences"</span><span class="p">,</span> <span class="s">"tokens"</span><span class="p">])</span>\
+    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"pos_tags"</span><span class="p">)</span>
+
+<span class="n">ner_tagger</span> <span class="o">=</span> <span class="n">MedicalNerModel</span><span class="p">()</span>\
     <span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"jsl_ner_wip_greedy_clinical"</span><span class="p">,</span><span class="s">"en"</span><span class="p">,</span><span class="s">"clinical/models"</span><span class="p">)</span>\
     <span class="p">.</span><span class="n">setInputCols</span><span class="p">(</span><span class="s">"sentences"</span><span class="p">,</span> <span class="s">"tokens"</span><span class="p">,</span> <span class="s">"embeddings"</span><span class="p">)</span>\
-    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"ner_tags"</span><span class="p">)</span>    
+    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"ner_tags"</span><span class="p">)</span>
+
+<span class="n">ner_chunker</span> <span class="o">=</span> <span class="n">NerConverterInternal</span><span class="p">()</span>\
+    <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"sentences"</span><span class="p">,</span> <span class="s">"tokens"</span><span class="p">,</span> <span class="s">"ner_tags"</span><span class="p">])</span>\
+    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"ner_chunks"</span><span class="p">)</span>
+
+<span class="n">dependency_parser</span> <span class="o">=</span> <span class="n">DependencyParserModel</span><span class="p">()</span>\
+    <span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"dependency_conllu"</span><span class="p">,</span> <span class="s">"en"</span><span class="p">)</span>\
+    <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"sentences"</span><span class="p">,</span> <span class="s">"pos_tags"</span><span class="p">,</span> <span class="s">"tokens"</span><span class="p">])</span>\
+    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"dependencies"</span><span class="p">)</span>    
 
 <span class="n">pair_list</span> <span class="o">=</span> <span class="p">[</span><span class="s">'direction-internal_organ_or_component'</span><span class="p">,</span> <span class="s">'internal_organ_or_component-direction'</span><span class="p">]</span>
 
@@ -477,23 +503,49 @@
 
 
 <span class="n">pipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">(</span><span class="n">stages</span><span class="o">=</span><span class="p">[</span><span class="n">documenter</span><span class="p">,</span> <span class="n">sentencer</span><span class="p">,</span> <span class="n">tokenizer</span><span class="p">,</span> <span class="n">words_embedder</span><span class="p">,</span> <span class="n">pos_tagger</span><span class="p">,</span> <span class="n">ner_tagger</span><span class="p">,</span> <span class="n">ner_chunker</span><span class="p">,</span> <span class="n">dependency_parser</span><span class="p">,</span> <span class="n">re_model</span><span class="p">])</span>
+
 <span class="n">model</span> <span class="o">=</span> <span class="n">pipeline</span><span class="p">.</span><span class="n">fit</span><span class="p">(</span><span class="n">spark</span><span class="p">.</span><span class="n">createDataFrame</span><span class="p">([[</span><span class="s">""</span><span class="p">]]).</span><span class="n">toDF</span><span class="p">(</span><span class="s">"text"</span><span class="p">))</span>
 
 <span class="n">results</span> <span class="o">=</span> <span class="n">LightPipeline</span><span class="p">(</span><span class="n">model</span><span class="p">).</span><span class="n">fullAnnotate</span><span class="p">(</span><span class="s">''' MRI demonstrated infarction in the upper brain stem , left cerebellum and  right basil ganglia '''</span><span class="p">)</span>
 </code></pre></div>  </div>
 
-  <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">...</span>
+  <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">val</span> <span class="nv">documenter</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">DocumentAssembler</span><span class="o">()</span>
+    <span class="o">.</span><span class="py">setInputCol</span><span class="o">(</span><span class="s">"text"</span><span class="o">)</span>
+    <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"document"</span><span class="o">)</span>
+
+<span class="k">val</span> <span class="nv">sentencer</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">SentenceDetector</span><span class="o">()</span>
+    <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="s">"document"</span><span class="o">)</span>
+    <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"sentences"</span><span class="o">)</span>
+
+<span class="k">val</span> <span class="nv">tokenizer</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">Tokenizer</span><span class="o">()</span>
+    <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="s">"sentences"</span><span class="o">)</span>
+    <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"tokens"</span><span class="o">)</span>
+
 <span class="k">val</span> <span class="nv">words_embedder</span> <span class="k">=</span> <span class="nc">WordEmbeddingsModel</span><span class="o">()</span>
     <span class="o">.</span><span class="py">pretrained</span><span class="o">(</span><span class="s">"embeddings_clinical"</span><span class="o">,</span> <span class="s">"en"</span><span class="o">,</span> <span class="s">"clinical/models"</span><span class="o">)</span>
     <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="s">"sentences"</span><span class="o">,</span> <span class="s">"tokens"</span><span class="o">))</span>
     <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"embeddings"</span><span class="o">)</span>
 
+<span class="k">val</span> <span class="nv">pos_tagger</span> <span class="k">=</span> <span class="nc">PerceptronModel</span><span class="o">()</span>
+    <span class="o">.</span><span class="py">pretrained</span><span class="o">(</span><span class="s">"pos_clinical"</span><span class="o">,</span> <span class="s">"en"</span><span class="o">,</span> <span class="s">"clinical/models"</span><span class="o">)</span>
+    <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="s">"sentences"</span><span class="o">,</span> <span class="s">"tokens"</span><span class="o">))</span>
+    <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"pos_tags"</span><span class="o">)</span>
+
 <span class="k">val</span> <span class="nv">ner_tagger</span> <span class="k">=</span> <span class="nv">sparknlp</span><span class="o">.</span><span class="py">annotators</span><span class="o">.</span><span class="py">NerDLModel</span><span class="o">()</span>
     <span class="o">.</span><span class="py">pretrained</span><span class="o">(</span><span class="s">"jsl_ner_wip_greedy_clinical"</span><span class="o">,</span><span class="s">"en"</span><span class="o">,</span><span class="s">"clinical/models"</span><span class="o">)</span>
     <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="s">"sentences"</span><span class="o">,</span> <span class="s">"tokens"</span><span class="o">,</span> <span class="s">"embeddings"</span><span class="o">)</span>
-    <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"ner_tags"</span><span class="o">)</span>    
+    <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"ner_tags"</span><span class="o">)</span>
 
-<span class="k">val</span> <span class="nv">pair_list</span> <span class="k">=</span> <span class="nc">Array</span><span class="o">(</span><span class="ss">'direction</span><span class="o">-</span><span class="n">internal_organ_or_component</span><span class="o">',</span> <span class="ss">'internal_organ_or_component</span><span class="o">-</span><span class="n">direction</span><span class="o">')</span>
+<span class="k">val</span> <span class="nv">ner_chunker</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">NerConverterInternal</span><span class="o">()</span>
+    <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="s">"sentences"</span><span class="o">,</span> <span class="s">"tokens"</span><span class="o">,</span> <span class="s">"ner_tags"</span><span class="o">))</span>
+    <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"ner_chunks"</span><span class="o">)</span>
+
+<span class="k">val</span> <span class="nv">dependency_parser</span> <span class="k">=</span> <span class="nc">DependencyParserModel</span><span class="o">()</span>
+    <span class="o">.</span><span class="py">pretrained</span><span class="o">(</span><span class="s">"dependency_conllu"</span><span class="o">,</span> <span class="s">"en"</span><span class="o">)</span>
+    <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="s">"sentences"</span><span class="o">,</span> <span class="s">"pos_tags"</span><span class="o">,</span> <span class="s">"tokens"</span><span class="o">))</span>
+    <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"dependencies"</span><span class="o">)</span>  
+
+<span class="k">val</span> <span class="nv">pair_list</span> <span class="k">=</span> <span class="nc">Array</span><span class="o">(</span><span class="s">"direction-internal_organ_or_component"</span><span class="o">,</span> <span class="s">"internal_organ_or_component-direction"</span><span class="o">)</span>
 
 <span class="k">val</span> <span class="nv">re_model</span> <span class="k">=</span> <span class="nc">RelationExtractionModel</span><span class="o">().</span><span class="py">pretrained</span><span class="o">(</span><span class="s">"re_bodypart_directions"</span><span class="o">,</span><span class="s">"en"</span><span class="o">,</span><span class="s">"clinical/models"</span><span class="o">)</span>
     <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="s">"embeddings"</span><span class="o">,</span> <span class="s">"pos_tags"</span><span class="o">,</span> <span class="s">"ner_chunks"</span><span class="o">,</span> <span class="s">"dependencies"</span><span class="o">))</span>
@@ -502,7 +554,12 @@
     <span class="o">.</span><span class="py">setRelationPairs</span><span class="o">(</span><span class="n">pair_list</span><span class="o">)</span>
 
 <span class="k">val</span> <span class="nv">nlpPipeline</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">Pipeline</span><span class="o">().</span><span class="py">setStages</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="n">documenter</span><span class="o">,</span> <span class="n">sentencer</span><span class="o">,</span> <span class="n">tokenizer</span><span class="o">,</span> <span class="n">words_embedder</span><span class="o">,</span> <span class="n">pos_tagger</span><span class="o">,</span> <span class="n">ner_tagger</span><span class="o">,</span> <span class="n">ner_chunker</span><span class="o">,</span> <span class="n">dependency_parser</span><span class="o">,</span> <span class="n">re_model</span><span class="o">))</span>
-<span class="k">val</span> <span class="nv">result</span> <span class="k">=</span> <span class="nv">pipeline</span><span class="o">.</span><span class="py">fit</span><span class="o">(</span><span class="nv">Seq</span><span class="o">.</span><span class="py">empty</span><span class="o">[</span><span class="kt">String</span><span class="o">]).</span><span class="py">transform</span><span class="o">(</span><span class="n">data</span><span class="o">)</span>
+
+<span class="k">val</span> <span class="nv">text</span> <span class="k">=</span> <span class="s">""" MRI demonstrated infarction in the upper brain stem , left cerebellum and  right basil ganglia """</span>
+
+<span class="k">val</span> <span class="nv">data</span> <span class="k">=</span> <span class="nc">Seq</span><span class="o">(</span><span class="n">text</span><span class="o">).</span><span class="py">toDS</span><span class="o">.</span><span class="py">toDF</span><span class="o">(</span><span class="s">"text"</span><span class="o">)</span>
+
+<span class="k">val</span> <span class="nv">results</span> <span class="k">=</span> <span class="nv">pipeline</span><span class="o">.</span><span class="py">fit</span><span class="o">(</span><span class="n">data</span><span class="o">).</span><span class="py">transform</span><span class="o">(</span><span class="n">data</span><span class="o">)</span>
 
 </code></pre></div>  </div>
 
@@ -572,10 +629,9 @@
 
 <h2 id="benchmarking">Benchmarking</h2>
 
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>| relation | recall | precision | f1   |
-|----------|--------|-----------|------|
-| 0        | 0.87   | 0.9       | 0.88 |
-| 1        | 0.99   | 0.99      | 0.99 |
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>label  recall  precision  f1   
+0      0.87    0.9        0.88 
+1      0.99    0.99       0.99 
 </code></pre></div></div>
 </div><div class="d-print-none"><footer class="article__footer"><meta itemprop="dateModified" content="2021-01-18T00:00:00+00:00"><!-- start custom article footer snippet -->
 

@@ -435,6 +435,7 @@
   <div class="top_tab_li">   
     <p><button data-type="python" class="tab-li code-selector-active python-button">Python</button><button data-type="scala" class="tab-li code-selector-un-active scala-button">Scala</button><button data-type="nlu" class="tab-li code-selector-un-active nlu-button">NLU</button></p>
 </div>
+
   <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">document_assembler</span> <span class="o">=</span> <span class="n">DocumentAssembler</span><span class="p">()</span>\
     <span class="p">.</span><span class="n">setInputCol</span><span class="p">(</span><span class="s">"text"</span><span class="p">)</span>\
     <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"document"</span><span class="p">)</span>
@@ -457,7 +458,7 @@
 
 <span class="n">ner_converter</span> <span class="o">=</span> <span class="n">NerConverter</span><span class="p">()</span> \
     <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"sentence"</span><span class="p">,</span> <span class="s">"token"</span><span class="p">,</span> <span class="s">"ner"</span><span class="p">])</span> \
-    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"ner_chunk"</span><span class="p">)</span>    <span class="p">.</span><span class="n">setWhiteList</span><span class="p">([</span><span class="s">"Cancer_Dx"", "</span><span class="n">Tumor_Finding</span><span class="s">""</span><span class="p">,</span> <span class="s">"Cancer_Surgery"", "</span><span class="n">Chemotherapy</span><span class="s">""</span><span class="p">,</span> <span class="s">"Pathology_Test"", "</span><span class="n">Imaging_Test</span><span class="s">""</span><span class="p">])</span>
+    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"ner_chunk"</span><span class="p">)</span>    <span class="p">.</span><span class="n">setWhiteList</span><span class="p">([</span><span class="s">"Cancer_Dx"</span><span class="p">,</span> <span class="s">"Tumor_Finding"</span><span class="p">,</span> <span class="s">"Cancer_Surgery"</span><span class="p">,</span> <span class="s">"Chemotherapy"</span><span class="p">,</span> <span class="s">"Pathology_Test"</span><span class="p">,</span> <span class="s">"Imaging_Test"</span><span class="p">])</span>
     
 <span class="n">assertion</span> <span class="o">=</span> <span class="n">AssertionDLModel</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"assertion_oncology_wip"</span><span class="p">,</span> <span class="s">"en"</span><span class="p">,</span> <span class="s">"clinical/models"</span><span class="p">)</span> \
     <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"sentence"</span><span class="p">,</span> <span class="s">"ner_chunk"</span><span class="p">,</span> <span class="s">"embeddings"</span><span class="p">])</span> \
@@ -480,11 +481,11 @@
     <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"document"</span><span class="o">)</span>
     
 <span class="k">val</span> <span class="nv">sentence_detector</span> <span class="k">=</span> <span class="nv">SentenceDetectorDLModel</span><span class="o">.</span><span class="py">pretrained</span><span class="o">(</span><span class="s">"sentence_detector_dl_healthcare"</span><span class="o">,</span><span class="s">"en"</span><span class="o">,</span><span class="s">"clinical/models"</span><span class="o">)</span>
-    <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="s">"document"</span><span class="o">)</span>
+    <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="s">"document"</span><span class="o">))</span>
     <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"sentence"</span><span class="o">)</span>
     
 <span class="k">val</span> <span class="nv">tokenizer</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">Tokenizer</span><span class="o">()</span>
-    <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="s">"sentence"</span><span class="o">)</span>
+    <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="s">"sentence"</span><span class="o">))</span>
     <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"token"</span><span class="o">)</span>
     
 <span class="k">val</span> <span class="nv">word_embeddings</span> <span class="k">=</span> <span class="nc">WordEmbeddingsModel</span><span class="o">().</span><span class="py">pretrained</span><span class="o">(</span><span class="s">"embeddings_clinical"</span><span class="o">,</span> <span class="s">"en"</span><span class="o">,</span> <span class="s">"clinical/models"</span><span class="o">)</span>
@@ -498,10 +499,10 @@
 <span class="k">val</span> <span class="nv">ner_converter</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">NerConverter</span><span class="o">()</span>
     <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="s">"sentence"</span><span class="o">,</span> <span class="s">"token"</span><span class="o">,</span> <span class="s">"ner"</span><span class="o">))</span>
     <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"ner_chunk"</span><span class="o">)</span>
-    <span class="o">.</span><span class="py">setWhiteList</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="s">"Cancer_Dx"", "</span><span class="nc">Tumor_Finding</span><span class="s">""</span><span class="o">,</span> <span class="s">"Cancer_Surgery"", "</span><span class="nc">Chemotherapy</span><span class="s">""</span><span class="o">,</span> <span class="s">"Pathology_Test"", "</span><span class="nc">Imaging_Test</span><span class="s">""</span><span class="o">))</span>
+    <span class="o">.</span><span class="py">setWhiteList</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="s">"Cancer_Dx"</span><span class="o">,</span> <span class="s">"Tumor_Finding"</span><span class="o">,</span> <span class="s">"Cancer_Surgery"</span><span class="o">,</span> <span class="s">"Chemotherapy"</span><span class="o">,</span> <span class="s">"Pathology_Test"</span><span class="o">,</span> <span class="s">"Imaging_Test"</span><span class="o">))</span>
 
 <span class="k">val</span> <span class="nv">clinical_assertion</span> <span class="k">=</span> <span class="nv">AssertionDLModel</span><span class="o">.</span><span class="py">pretrained</span><span class="o">(</span><span class="s">"assertion_oncology_wip"</span><span class="o">,</span><span class="s">"en"</span><span class="o">,</span><span class="s">"clinical/models"</span><span class="o">)</span>
-    <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="s">"sentence"</span><span class="o">,</span><span class="s">"ner_chunk"</span><span class="o">,</span><span class="s">"embeddings"</span><span class="o">)</span>
+    <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="s">"sentence"</span><span class="o">,</span><span class="s">"ner_chunk"</span><span class="o">,</span><span class="s">"embeddings"</span><span class="o">))</span>
     <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"assertion"</span><span class="o">)</span>
         
 <span class="k">val</span> <span class="nv">pipeline</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">Pipeline</span><span class="o">().</span><span class="py">setStages</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="n">document_assembler</span><span class="o">,</span>
@@ -512,7 +513,7 @@
                                               <span class="n">ner_converter</span><span class="o">,</span>
                                               <span class="n">assertion</span><span class="o">))</span>
 
-<span class="k">val</span> <span class="nv">data</span> <span class="k">=</span> <span class="nc">Seq</span><span class="o">(</span><span class="s">"The patient is suspected to have lung cancer. Family history is positive for other cancers. The result of the biopsy was positive."</span><span class="o">).</span><span class="py">toDF</span><span class="o">(</span><span class="s">"text"</span><span class="o">)</span>
+<span class="k">val</span> <span class="nv">data</span> <span class="k">=</span> <span class="nc">Seq</span><span class="o">(</span><span class="s">"""The patient is suspected to have lung cancer. Family history is positive for other cancers. The result of the biopsy was positive."""</span><span class="o">).</span><span class="py">toDF</span><span class="o">(</span><span class="s">"text"</span><span class="o">)</span>
 
 <span class="k">val</span> <span class="nv">result</span> <span class="k">=</span> <span class="nv">pipeline</span><span class="o">.</span><span class="py">fit</span><span class="o">(</span><span class="n">data</span><span class="o">).</span><span class="py">transform</span><span class="o">(</span><span class="n">data</span><span class="o">)</span>
 
@@ -581,8 +582,8 @@ Hypothetical       0.65    0.57      0.61    229.0
         Past       0.90    0.91      0.91   2124.0
     Possible       0.64    0.61      0.63     85.0
      Present       0.87    0.88      0.88   2121.0
-   macro avg       0.78    0.76      0.77   4967.0
-weighted avg       0.87    0.87      0.87   4967.0
+   macro-avg       0.78    0.76      0.77   4967.0
+weighted-avg       0.87    0.87      0.87   4967.0
 </code></pre></div></div>
 </div><div class="d-print-none"><footer class="article__footer"><meta itemprop="dateModified" content="2022-10-11T00:00:00+00:00"><!-- start custom article footer snippet -->
 
