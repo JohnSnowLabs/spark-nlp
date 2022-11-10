@@ -45,7 +45,6 @@ In the table below, `re_bodypart_directions` RE model, its labels, optimal NER m
 {% include programmingLanguageSelectScalaPythonNLU.html %}
 
 ```python
-
 documenter = DocumentAssembler()\
      .setInputCol("text")\
      .setOutputCol("document")
@@ -194,8 +193,7 @@ Trained on data gathered and manually annotated by John Snow Labs
 ## Benchmarking
 
 ```bash
-| relation | recall | precision | f1   |
-|----------|--------|-----------|------|
-| 0        | 0.87   | 0.9       | 0.88 |
-| 1        | 0.99   | 0.99      | 0.99 |
+label  recall  precision  f1   
+0      0.87    0.9        0.88 
+1      0.99    0.99       0.99 
 ```
