@@ -23,16 +23,16 @@ import org.scalatest.flatspec.AnyFlatSpec
 import java.nio.charset.StandardCharsets
 import java.nio.file.{Files, Paths}
 
-class CoNNLGeneratorBatchNERDLTestSpec extends AnyFlatSpec {
+class CoNLLGeneratorBatchNERDLTestSpec extends AnyFlatSpec {
   ResourceHelper.spark // for toDS and toDF
 
-  def formatCoNNL(
+  def formatCoNLL(
       firstname: String,
       lastname: String,
       verb: String,
       proposition: String,
       company: String,
-      country: String) = {
+      country: String): String = {
     s"""
        |$firstname PER
        |$lastname PER
@@ -44,7 +44,7 @@ class CoNNLGeneratorBatchNERDLTestSpec extends AnyFlatSpec {
        |""".stripMargin
   }
 
-  "The (dataframe, pipelinemodel, outputpath) generator" should "make the right CoNNL file" taggedAs SlowTest in {
+  "The (dataframe, pipelinemodel, outputpath) generator" should "make the right CoNLL file" taggedAs SlowTest in {
 
     val firstnames = Array(
       "Liam",
@@ -102,14 +102,14 @@ class CoNNLGeneratorBatchNERDLTestSpec extends AnyFlatSpec {
           proposition <- propositions.take(i);
           company <- company.take(i);
           country <- country.take(i))
-          yield formatCoNNL(firstname, lastname, verb, proposition, company, country)
+          yield formatCoNLL(firstname, lastname, verb, proposition, company, country)
       }
 
       val prefix = "-DOCSTART- O\n"
       val suffix = "\n"
 
       Files.write(
-        Paths.get(s"./tmp_ner_fake_connl_$i.txt"),
+        Paths.get(s"./tmp_ner_fake_conll_$i.txt"),
         (prefix + nerTagsDatasetStr.mkString + suffix)
           .getBytes(StandardCharsets.UTF_8))
     }
