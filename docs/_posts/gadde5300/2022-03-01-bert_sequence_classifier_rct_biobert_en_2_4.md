@@ -7,7 +7,7 @@ date: 2022-03-01
 tags: [licensed, sequence_classification, bert, en, rct]
 task: Text Classification
 language: en
-edition: Spark NLP for Healthcare 3.4.1
+edition: Healthcare NLP 3.4.1
 spark_version: 2.4
 supported: true
 article_header:
@@ -125,7 +125,7 @@ nlu.load("en.med_ner.clinical_trials").predict("""Previous attempts to prevent a
 {:.table-model}
 |---|---|
 |Model Name:|bert_sequence_classifier_rct_biobert|
-|Compatibility:|Spark NLP for Healthcare 3.4.1+|
+|Compatibility:|Healthcare NLP 3.4.1+|
 |License:|Licensed|
 |Edition:|Official|
 |Input Labels:|[document, token]|

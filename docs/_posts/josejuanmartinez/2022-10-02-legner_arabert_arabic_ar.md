@@ -7,7 +7,7 @@ date: 2022-10-02
 tags: [ar, legal, licensed]
 task: Named Entity Recognition
 language: ar
-edition: Spark NLP for Legal 1.0.0
+edition: Legal NLP 1.0.0
 spark_version: 3.0
 supported: true
 article_header:
@@ -154,7 +154,7 @@ result = pipeline.fit(example).transform(example)
 {:.table-model}
 |---|---|
 |Model Name:|legner_arabert_arabic|
-|Compatibility:|Spark NLP for Legal 1.0.0+|
+|Compatibility:|Legal NLP 1.0.0+|
 |License:|Licensed|
 |Edition:|Official|
 |Input Labels:|[sentence, token]|

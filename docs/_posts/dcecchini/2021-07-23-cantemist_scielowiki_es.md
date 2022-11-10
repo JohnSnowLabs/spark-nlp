@@ -7,7 +7,7 @@ date: 2021-07-23
 tags: [ner, licensed, oncology, es]
 task: Named Entity Recognition
 language: es
-edition: Spark NLP for Healthcare 3.1.2
+edition: Healthcare NLP 3.1.2
 spark_version: 3.0
 supported: true
 article_header:
@@ -294,7 +294,7 @@ val result = pipeline.fit(data).transform(data)
 {:.table-model}
 |---|---|
 |Model Name:|cantemist_scielowiki|
-|Compatibility:|Spark NLP for Healthcare 3.1.2+|
+|Compatibility:|Healthcare NLP 3.1.2+|
 |License:|Licensed|
 |Edition:|Official|
 |Input Labels:|[sentence, token, word_embeddings]|

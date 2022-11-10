@@ -7,7 +7,7 @@ date: 2021-11-05
 tags: [question, statement, clinical, en, licensed]
 task: Text Classification
 language: en
-edition: Spark NLP for Healthcare 3.3.2
+edition: Healthcare NLP 3.3.2
 spark_version: 3.0
 supported: true
 article_header:
@@ -145,7 +145,7 @@ Your progesterone report is perfectly normal. We expect this result on day 23rd 
 {:.table-model}
 |---|---|
 |Model Name:|bert_sequence_classifier_question_statement_clinical|
-|Compatibility:|Spark NLP for Healthcare 3.3.2+|
+|Compatibility:|Healthcare NLP 3.3.2+|
 |License:|Licensed|
 |Edition:|Official|
 |Input Labels:|[token, sentence]|

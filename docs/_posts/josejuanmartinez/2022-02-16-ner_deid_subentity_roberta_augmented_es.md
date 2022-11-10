@@ -7,7 +7,7 @@ date: 2022-02-16
 tags: [deid, es, licensed]
 task: De-identification
 language: es
-edition: Spark NLP for Healthcare 3.3.4
+edition: Healthcare NLP 3.3.4
 spark_version: 3.0
 supported: true
 article_header:
@@ -219,7 +219,7 @@ Antonio Miguel Martínez, varón de de 35 años de edad, de profesión auxiliar 
 {:.table-model}
 |---|---|
 |Model Name:|ner_deid_subentity_roberta_augmented|
-|Compatibility:|Spark NLP for Healthcare 3.3.4+|
+|Compatibility:|Healthcare NLP 3.3.4+|
 |License:|Licensed|
 |Edition:|Official|
 |Input Labels:|[sentence, token, embeddings]|

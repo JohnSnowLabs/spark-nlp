@@ -7,7 +7,7 @@ date: 2022-08-30
 tags: [en, legal, classification, clauses, edgar, ledgar, licensed]
 task: Text Classification
 language: en
-edition: Spark NLP for Legal 1.0.0
+edition: Legal NLP 1.0.0
 spark_version: 3.0
 supported: true
 recommended: true
@@ -92,7 +92,7 @@ result["class"]
 {:.table-model}
 |---|---|
 |Model Name:|legmulticlf_edgar|
-|Compatibility:|Spark NLP for Legal 1.0.0+|
+|Compatibility:|Legal NLP 1.0.0+|
 |License:|Licensed|
 |Edition:|Official|
 |Input Labels:|[sentence_embeddings]|

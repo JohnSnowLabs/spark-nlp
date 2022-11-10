@@ -7,7 +7,7 @@ date: 2022-05-11
 tags: [chunk_mapper, en, licensed, ndc, clinical]
 task: Chunk Mapping
 language: en
-edition: Spark NLP for Healthcare 3.5.1
+edition: Healthcare NLP 3.5.1
 spark_version: 3.0
 supported: true
 article_header:
@@ -109,7 +109,7 @@ nlu.load("en.map_entity.drug_brand_to_ndc").predict("""Put your text here.""")
 {:.table-model}
 |---|---|
 |Model Name:|drug_brandname_ndc_mapper|
-|Compatibility:|Spark NLP for Healthcare 3.5.1+|
+|Compatibility:|Healthcare NLP 3.5.1+|
 |License:|Licensed|
 |Edition:|Official|
 |Input Labels:|[chunk]|

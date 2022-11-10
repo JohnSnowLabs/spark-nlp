@@ -7,7 +7,7 @@ date: 2022-09-28
 tags: [work, experience, en, licensed]
 task: Relation Extraction
 language: en
-edition: Spark NLP for Finance 1.0.0
+edition: Finance NLP 1.0.0
 spark_version: 3.0
 supported: true
 article_header:
@@ -130,7 +130,7 @@ has_role	    PERSON	87	101	Daniel Schwartz	ROLE	120	137	Executive Chairman	0.792
 {:.table-model}
 |---|---|
 |Model Name:|finre_work_experience|
-|Compatibility:|Spark NLP for Finance 1.0.0+|
+|Compatibility:|Finance NLP 1.0.0+|
 |License:|Licensed|
 |Edition:|Official|
 |Language:|en|

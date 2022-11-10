@@ -7,7 +7,7 @@ date: 2021-04-19
 tags: [en, relation_extraction, licensed, clinical]
 task: Relation Extraction
 language: en
-edition: Spark NLP for Healthcare 2.7.1
+edition: Healthcare NLP 2.7.1
 spark_version: 2.4
 supported: true
 article_header:
@@ -78,7 +78,7 @@ annotations = light_pipeline.fullAnnotate(''''Targeted biopsy of this lesion for
 |---|---|
 |Model Name:|re_test_problem_finding|
 |Type:|re|
-|Compatibility:|Spark NLP for Healthcare 2.7.1+|
+|Compatibility:|Healthcare NLP 2.7.1+|
 |License:|Licensed|
 |Edition:|Official|
 |Input Labels:|[embeddings, pos_tags, train_ner_chunks, dependencies]|

@@ -7,7 +7,7 @@ date: 2022-08-24
 tags: [en, legal, re, relations, licensed]
 task: Relation Extraction
 language: en
-edition: Spark NLP for Legal 1.0.0
+edition: Legal NLP 1.0.0
 spark_version: 3.0
 supported: true
 article_header:
@@ -100,7 +100,7 @@ has_subject WHEREAS_SUBJECT            11          21 VerticalNet WHEREAS_OBJECT
 |---|---|
 |Model Name:|legre_whereas|
 |Type:|legal|
-|Compatibility:|Spark NLP for Legal 1.0.0+|
+|Compatibility:|Legal NLP 1.0.0+|
 |License:|Licensed|
 |Edition:|Official|
 |Language:|en|

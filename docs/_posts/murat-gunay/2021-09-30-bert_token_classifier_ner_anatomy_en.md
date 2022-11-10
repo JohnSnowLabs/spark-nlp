@@ -7,7 +7,7 @@ date: 2021-09-30
 tags: [anatomy, bertfortokenclassification, en, licensed, ner]
 task: Named Entity Recognition
 language: en
-edition: Spark NLP for Healthcare 3.2.2
+edition: Healthcare NLP 3.2.2
 spark_version: 2.4
 supported: true
 article_header:
@@ -125,7 +125,7 @@ nlu.load("en.classify.token_bert.ner_anatomy").predict("""This is an 11-year-old
 {:.table-model}
 |---|---|
 |Model Name:|bert_token_classifier_ner_anatomy|
-|Compatibility:|Spark NLP for Healthcare 3.2.2+|
+|Compatibility:|Healthcare NLP 3.2.2+|
 |License:|Licensed|
 |Edition:|Official|
 |Input Labels:|[sentence, token]|

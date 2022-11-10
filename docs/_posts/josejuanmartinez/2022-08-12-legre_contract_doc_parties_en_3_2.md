@@ -7,7 +7,7 @@ date: 2022-08-12
 tags: [en, legal, re, relations, agreements, licensed]
 task: Relation Extraction
 language: en
-edition: Spark NLP for Legal 1.0.0
+edition: Legal NLP 1.0.0
 spark_version: 3.0
 supported: true
 article_header:
@@ -118,7 +118,7 @@ has_collective_alias   ALIAS           517         530                      Buye
 |---|---|
 |Model Name:|legre_contract_doc_parties|
 |Type:|legal|
-|Compatibility:|Spark NLP for Legal 1.0.0+|
+|Compatibility:|Legal NLP 1.0.0+|
 |License:|Licensed|
 |Edition:|Official|
 |Language:|en|

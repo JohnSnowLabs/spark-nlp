@@ -7,7 +7,7 @@ date: 2022-01-24
 tags: [deid, es, licensed]
 task: De-identification
 language: es
-edition: Spark NLP for Healthcare 3.4.0
+edition: Healthcare NLP 3.4.0
 spark_version: 3.0
 supported: true
 article_header:
@@ -272,7 +272,7 @@ Reinaldo Manjón Malo Barcelona Servicio de Endocrinología y Nutrición Valenci
 |---|---|
 |Model Name:|clinical_deidentification|
 |Type:|pipeline|
-|Compatibility:|Spark NLP for Healthcare 3.4.0+|
+|Compatibility:|Healthcare NLP 3.4.0+|
 |License:|Licensed|
 |Edition:|Official|
 |Language:|es|

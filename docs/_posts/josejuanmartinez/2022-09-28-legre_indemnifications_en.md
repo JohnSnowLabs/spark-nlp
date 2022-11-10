@@ -7,7 +7,7 @@ date: 2022-09-28
 tags: [en, legal, re, indemnification, licensed]
 task: Relation Extraction
 language: en
-edition: Spark NLP for Legal 1.0.0
+edition: Legal NLP 1.0.0
 spark_version: 3.0
 supported: true
 article_header:
@@ -127,7 +127,7 @@ relation	entity1	entity1_begin	entity1_end	chunk1	entity2	entity2_begin	entity2_
 {:.table-model}
 |---|---|
 |Model Name:|legre_indemnifications|
-|Compatibility:|Spark NLP for Legal 1.0.0+|
+|Compatibility:|Legal NLP 1.0.0+|
 |License:|Licensed|
 |Edition:|Official|
 |Language:|en|

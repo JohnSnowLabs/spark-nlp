@@ -7,7 +7,7 @@ date: 2022-09-27
 tags: [licensed, clinical, oncology, en, relation_extraction, temporal]
 task: Relation Extraction
 language: en
-edition: Spark NLP for Healthcare 4.0.0
+edition: Healthcare NLP 4.0.0
 spark_version: 3.0
 supported: true
 article_header:
@@ -161,7 +161,7 @@ three years ago    Relative_Date        mastectomy  Cancer_Surgery           O  
 |---|---|
 |Model Name:|re_oncology_temporal_wip|
 |Type:|re|
-|Compatibility:|Spark NLP for Healthcare 4.0.0+|
+|Compatibility:|Healthcare NLP 4.0.0+|
 |License:|Licensed|
 |Edition:|Official|
 |Input Labels:|[embeddings, pos_tags, train_ner_chunks, dependencies]|

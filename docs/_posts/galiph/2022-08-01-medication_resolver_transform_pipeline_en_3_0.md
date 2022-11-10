@@ -7,7 +7,7 @@ date: 2022-08-01
 tags: [resolver, ndc, snomed, rxnorm, umls, en, licensed]
 task: Pipeline Healthcare
 language: en
-edition: Spark NLP for Healthcare 4.0.0
+edition: Healthcare NLP 4.0.0
 spark_version: 3.0
 supported: true
 article_header:
@@ -76,7 +76,7 @@ val result = medication_resolver_pipeline.fit(data).transform(data)
 |---|---|
 |Model Name:|medication_resolver_transform_pipeline|
 |Type:|pipeline|
-|Compatibility:|Spark NLP for Healthcare 4.0.0+|
+|Compatibility:|Healthcare NLP 4.0.0+|
 |License:|Licensed|
 |Edition:|Official|
 |Language:|en|

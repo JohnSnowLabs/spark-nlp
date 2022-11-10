@@ -7,7 +7,7 @@ date: 2021-11-04
 tags: [ner, clinical, es, licensed]
 task: Named Entity Recognition
 language: es
-edition: Spark NLP for Healthcare 3.3.0
+edition: Healthcare NLP 3.3.0
 spark_version: 3.0
 supported: true
 article_header:
@@ -179,7 +179,7 @@ nlu.load("es.med_ner.roberta_ner_diag_proc").predict("""Mujer de 28 años con an
 {:.table-model}
 |---|---|
 |Model Name:|roberta_ner_diag_proc|
-|Compatibility:|Spark NLP for Healthcare 3.3.0+|
+|Compatibility:|Healthcare NLP 3.3.0+|
 |License:|Licensed|
 |Edition:|Official|
 |Input Labels:|[sentence, token, embeddings]|

@@ -7,7 +7,7 @@ date: 2022-03-21
 tags: [licensed, ner, deid, en]
 task: Named Entity Recognition
 language: en
-edition: Spark NLP for Healthcare 3.4.1
+edition: Healthcare NLP 3.4.1
 spark_version: 3.0
 supported: true
 article_header:
@@ -67,7 +67,7 @@ pipeline.annotate("A. Record date : 2093-01-13, David Hale, M.D. Name : Hendrick
 |---|---|
 |Model Name:|bert_token_classifier_ner_deid_pipeline|
 |Type:|pipeline|
-|Compatibility:|Spark NLP for Healthcare 3.4.1+|
+|Compatibility:|Healthcare NLP 3.4.1+|
 |License:|Licensed|
 |Edition:|Official|
 |Language:|en|

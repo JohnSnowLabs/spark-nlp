@@ -7,7 +7,7 @@ date: 2022-08-30
 tags: [en, finance, ner, job, titles, jobs, roles, licensed]
 task: Named Entity Recognition
 language: en
-edition: Spark NLP for Finance 1.0.0
+edition: Finance NLP 1.0.0
 spark_version: 3.0
 supported: true
 recommended: true
@@ -112,7 +112,7 @@ result_df.show(50, truncate=100)
 |---|---|
 |Model Name:|finner_bert_roles|
 |Type:|finance|
-|Compatibility:|Spark NLP for Finance 1.0.0+|
+|Compatibility:|Finance NLP 1.0.0+|
 |License:|Licensed|
 |Edition:|Official|
 |Input Labels:|[sentence, token]|

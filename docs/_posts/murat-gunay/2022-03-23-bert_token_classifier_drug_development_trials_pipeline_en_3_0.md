@@ -7,7 +7,7 @@ date: 2022-03-23
 tags: [licensed, ner, clinical, bertfortokenclassification, en]
 task: Named Entity Recognition
 language: en
-edition: Spark NLP for Healthcare 3.4.1
+edition: Healthcare NLP 3.4.1
 spark_version: 3.0
 supported: true
 article_header:
@@ -90,7 +90,7 @@ pipeline.fullAnnotate("In June 2003, the median overall survival  with and witho
 |---|---|
 |Model Name:|bert_token_classifier_drug_development_trials_pipeline|
 |Type:|pipeline|
-|Compatibility:|Spark NLP for Healthcare 3.4.1+|
+|Compatibility:|Healthcare NLP 3.4.1+|
 |License:|Licensed|
 |Edition:|Official|
 |Language:|en|

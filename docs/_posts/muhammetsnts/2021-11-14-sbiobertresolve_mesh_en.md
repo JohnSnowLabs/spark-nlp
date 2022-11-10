@@ -7,7 +7,7 @@ date: 2021-11-14
 tags: [mesh, entity_resolution, licensed, en, clinical]
 task: Entity Resolution
 language: en
-edition: Spark NLP for Healthcare 3.3.2
+edition: Healthcare NLP 3.3.2
 spark_version: 2.4
 supported: true
 article_header:
@@ -140,7 +140,7 @@ nlu.load("en.resolve.mesh").predict("""She was admitted to the hospital with che
 {:.table-model}
 |---|---|
 |Model Name:|sbiobertresolve_mesh|
-|Compatibility:|Spark NLP for Healthcare 3.3.2+|
+|Compatibility:|Healthcare NLP 3.3.2+|
 |License:|Licensed|
 |Edition:|Official|
 |Input Labels:|[sentence_embeddings]|

@@ -7,7 +7,7 @@ date: 2021-09-16
 tags: [ner, ner_jsl, en, licensed]
 task: Named Entity Recognition
 language: en
-edition: Spark NLP for Healthcare 3.2.0
+edition: Healthcare NLP 3.2.0
 spark_version: 2.4
 supported: true
 article_header:
@@ -165,7 +165,7 @@ nlu.load("en.classify.token_bert.ner_jsl").predict("""The patient is a 21-day-ol
 {:.table-model}
 |---|---|
 |Model Name:|bert_token_classifier_ner_jsl|
-|Compatibility:|Spark NLP for Healthcare 3.2.0+|
+|Compatibility:|Healthcare NLP 3.2.0+|
 |License:|Licensed|
 |Edition:|Official|
 |Input Labels:|[sentence, token]|

@@ -7,7 +7,7 @@ date: 2022-10-25
 tags: [sec, 10k, en, licensed]
 task: Named Entity Recognition
 language: en
-edition: Spark NLP for Finance 1.0.0
+edition: Finance NLP 1.0.0
 spark_version: 3.0
 supported: true
 article_header:
@@ -135,7 +135,7 @@ result.select(F.explode(F.arrays_zip('ner_chunk.result', 'ner_chunk.metadata')).
 {:.table-model}
 |---|---|
 |Model Name:|finner_sec_10k_summary|
-|Compatibility:|Spark NLP for Finance 1.0.0+|
+|Compatibility:|Finance NLP 1.0.0+|
 |License:|Licensed|
 |Edition:|Official|
 |Input Labels:|[sentence, token, embeddings]|

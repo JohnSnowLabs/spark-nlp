@@ -7,7 +7,7 @@ date: 2021-11-24
 tags: [ner, licensed, en, clinical, entity_resolver]
 task: Entity Resolution
 language: en
-edition: Spark NLP for Healthcare 3.3.2
+edition: Healthcare NLP 3.3.2
 spark_version: 2.4
 supported: true
 article_header:
@@ -102,7 +102,7 @@ val annotations = light_pipeline.fullAnnotate("medication")
 {:.table-model}
 |---|---|
 |Model Name:|sbertresolve_ner_model_finder|
-|Compatibility:|Spark NLP for Healthcare 3.3.2+|
+|Compatibility:|Healthcare NLP 3.3.2+|
 |License:|Licensed|
 |Edition:|Official|
 |Input Labels:|[sbert_embeddings]|

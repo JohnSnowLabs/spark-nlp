@@ -7,7 +7,7 @@ date: 2022-09-27
 tags: [en, licensed]
 task: Assertion Status
 language: en
-edition: Spark NLP for Legal 1.0.0
+edition: Legal NLP 1.0.0
 spark_version: 3.0
 supported: true
 article_header:
@@ -89,7 +89,7 @@ Conditions and Warranties,4,28,DOC,POSSIBLE
 {:.table-model}
 |---|---|
 |Model Name:|legassertion_time|
-|Compatibility:|Spark NLP for Legal 1.0.0+|
+|Compatibility:|Legal NLP 1.0.0+|
 |License:|Licensed|
 |Edition:|Official|
 |Input Labels:|[document, doc_chunk, embeddings]|

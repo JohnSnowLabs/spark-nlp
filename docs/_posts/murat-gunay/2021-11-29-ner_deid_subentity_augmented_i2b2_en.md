@@ -7,7 +7,7 @@ date: 2021-11-29
 tags: [deid, ner, phi, deidentification, licensed, i2b2, en]
 task: Named Entity Recognition
 language: en
-edition: Spark NLP for Healthcare 3.3.2
+edition: Healthcare NLP 3.3.2
 spark_version: 2.4
 supported: true
 article_header:
@@ -112,7 +112,7 @@ nlu.load("en.med_ner.deid_subentity_augmented_i2b2").predict("""A. Record date :
 {:.table-model}
 |---|---|
 |Model Name:|ner_deid_subentity_augmented_i2b2|
-|Compatibility:|Spark NLP for Healthcare 3.3.2+|
+|Compatibility:|Healthcare NLP 3.3.2+|
 |License:|Licensed|
 |Edition:|Official|
 |Input Labels:|[sentence, token, embeddings]|

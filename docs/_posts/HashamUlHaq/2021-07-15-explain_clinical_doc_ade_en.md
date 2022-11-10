@@ -7,7 +7,7 @@ date: 2021-07-15
 tags: [licensed, clinical, en, pipeline]
 task: [Named Entity Recognition, Text Classification, Relation Extraction, Pipeline Healthcare]
 language: en
-edition: Spark NLP for Healthcare 3.1.2
+edition: Healthcare NLP 3.1.2
 spark_version: 3.0
 supported: true
 recommended: true
@@ -78,7 +78,7 @@ Relations:
 |---|---|
 |Model Name:|explain_clinical_doc_ade|
 |Type:|pipeline|
-|Compatibility:|Spark NLP for Healthcare 3.1.2+|
+|Compatibility:|Healthcare NLP 3.1.2+|
 |License:|Licensed|
 |Edition:|Official|
 |Language:|en|
