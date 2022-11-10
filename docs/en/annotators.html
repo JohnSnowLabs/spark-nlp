@@ -746,7 +746,7 @@ in the DataFrames.</li>
       </tr>
       <tr>
         <td><a href="#regexmatcher">RegexMatcher</a></td>
-        <td>Uses a reference file to match a set of regular expressions and associate them with a provided identifier.</td>
+        <td>Uses rules to match a set of regular expressions and associate them with a provided identifier.</td>
         <td>Opensource</td>
       </tr>
       <tr>
@@ -6437,10 +6437,17 @@ For usage and examples see the documentation of the main class.</p>
 
   <div class="h3-box approach-content">
 
-    <p>Uses a reference file to match a set of regular expressions and associate them with a provided identifier.</p>
+    <p>Uses rules to match a set of regular expressions and associate them with a provided
+identifier.</p>
 
-    <p>A dictionary of predefined regular expressions must be provided with <code class="language-plaintext highlighter-rouge">setExternalRules</code>.
-The dictionary can be set as a delimited text file.</p>
+    <p>A rule consists of a regex pattern and an identifier, delimited by a character of choice. An
+example could be <code class="language-plaintext highlighter-rouge">"\d{4}\/\d\d\/\d\d,date"</code> which will match strings like <code class="language-plaintext highlighter-rouge">"1970/01/01"</code> to the
+identifier <code class="language-plaintext highlighter-rouge">"date"</code>.</p>
+
+    <p>Rules must be provided by either <code class="language-plaintext highlighter-rouge">setRules</code> (followed by <code class="language-plaintext highlighter-rouge">setDelimiter</code>) or an external file.</p>
+
+    <p>To use an external file, a dictionary of predefined regular expressions must be provided with
+<code class="language-plaintext highlighter-rouge">setExternalRules</code>. The dictionary can be set as a delimited text file.</p>
 
     <p>Pretrained pipelines are available for this module, see <a href="https://nlp.johnsnowlabs.com/docs/en/pipelines">Pipelines</a>.</p>
 

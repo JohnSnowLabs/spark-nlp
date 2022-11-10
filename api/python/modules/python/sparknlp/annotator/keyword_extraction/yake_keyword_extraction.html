@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>python.sparknlp.annotator.keyword_extraction.yake_keyword_extraction &#8212; Spark NLP 4.2.2 documentation</title>
+    <title>python.sparknlp.annotator.keyword_extraction.yake_keyword_extraction &#8212; Spark NLP 4.2.3 documentation</title>
   <script>
     document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
     document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
@@ -300,6 +300,7 @@
 
 
 <span class="kn">from</span> <span class="nn">sparknlp.common</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">sparknlp.common.annotator_type</span> <span class="kn">import</span> <span class="n">AnnotatorType</span>
 
 
 <div class="viewcode-block" id="YakeKeywordExtraction"><a class="viewcode-back" href="../../../../../reference/autosummary/python/sparknlp/annotator/keyword_extraction/yake_keyword_extraction/index.html#python.sparknlp.annotator.keyword_extraction.yake_keyword_extraction.YakeKeywordExtraction">[docs]</a><span class="k">class</span> <span class="nc">YakeKeywordExtraction</span><span class="p">(</span><span class="n">AnnotatorModel</span><span class="p">):</span>
@@ -436,6 +437,8 @@
 <span class="sd">    +---------------------+-------------------+</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;YakeKeywordExtraction&quot;</span>
+
+    <span class="n">inputAnnotatorTypes</span> <span class="o">=</span> <span class="p">[</span><span class="n">AnnotatorType</span><span class="o">.</span><span class="n">TOKEN</span><span class="p">]</span>
 
     <span class="nd">@keyword_only</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>

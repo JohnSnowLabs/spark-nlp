@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>python.sparknlp.annotator.token.chunk_tokenizer &#8212; Spark NLP 4.2.2 documentation</title>
+    <title>python.sparknlp.annotator.token.chunk_tokenizer &#8212; Spark NLP 4.2.3 documentation</title>
   <script>
     document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
     document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
@@ -300,6 +300,7 @@
 
 <span class="kn">from</span> <span class="nn">sparknlp.common</span> <span class="kn">import</span> <span class="o">*</span>
 <span class="kn">from</span> <span class="nn">sparknlp.annotator.token.tokenizer</span> <span class="kn">import</span> <span class="n">Tokenizer</span><span class="p">,</span> <span class="n">TokenizerModel</span>
+<span class="kn">from</span> <span class="nn">sparknlp.common.annotator_type</span> <span class="kn">import</span> <span class="n">AnnotatorType</span>
 
 
 <div class="viewcode-block" id="ChunkTokenizer"><a class="viewcode-back" href="../../../../../reference/autosummary/python/sparknlp/annotator/token/chunk_tokenizer/index.html#python.sparknlp.annotator.token.chunk_tokenizer.ChunkTokenizer">[docs]</a><span class="k">class</span> <span class="nc">ChunkTokenizer</span><span class="p">(</span><span class="n">Tokenizer</span><span class="p">):</span>
@@ -364,12 +365,15 @@
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">name</span> <span class="o">=</span> <span class="s1">&#39;ChunkTokenizer&#39;</span>
 
+    <span class="n">inputAnnotatorTypes</span> <span class="o">=</span> <span class="p">[</span><span class="n">AnnotatorType</span><span class="o">.</span><span class="n">CHUNK</span><span class="p">]</span>
+
     <span class="nd">@keyword_only</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="nb">super</span><span class="p">(</span><span class="n">Tokenizer</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">classname</span><span class="o">=</span><span class="s2">&quot;com.johnsnowlabs.nlp.annotators.ChunkTokenizer&quot;</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">_create_model</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">java_model</span><span class="p">):</span>
         <span class="k">return</span> <span class="n">ChunkTokenizerModel</span><span class="p">(</span><span class="n">java_model</span><span class="o">=</span><span class="n">java_model</span><span class="p">)</span></div>
+
 
 <div class="viewcode-block" id="ChunkTokenizerModel"><a class="viewcode-back" href="../../../../../reference/autosummary/python/sparknlp/annotator/token/chunk_tokenizer/index.html#python.sparknlp.annotator.token.chunk_tokenizer.ChunkTokenizerModel">[docs]</a><span class="k">class</span> <span class="nc">ChunkTokenizerModel</span><span class="p">(</span><span class="n">TokenizerModel</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Instantiated model of the ChunkTokenizer.</span>
@@ -388,6 +392,8 @@
 <span class="sd">    None</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">name</span> <span class="o">=</span> <span class="s1">&#39;ChunkTokenizerModel&#39;</span>
+
+    <span class="n">inputAnnotatorTypes</span> <span class="o">=</span> <span class="p">[</span><span class="n">AnnotatorType</span><span class="o">.</span><span class="n">CHUNK</span><span class="p">]</span>
 
     <span class="nd">@keyword_only</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">classname</span><span class="o">=</span><span class="s2">&quot;com.johnsnowlabs.nlp.annotators.ChunkTokenizerModel&quot;</span><span class="p">,</span> <span class="n">java_model</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
