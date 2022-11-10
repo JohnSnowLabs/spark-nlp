@@ -9,9 +9,9 @@
     j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
     })(window,document,'script','dataLayer','GTM-59JLR64');</script>
-<!-- End Google Tag Manager --><title>Legal Indemnification Relation Extraction</title><meta property="og:title" content=""/>
+<!-- End Google Tag Manager --><title>Legal Indemnification Relation Extraction (sm, Bidirectional)</title><meta property="og:title" content=""/>
 
-<meta name="description" content="DescriptionThis is a Relation Extraction model to group the different entities extracted with the Indemnification NER model (see legner_bert_indemnifications in Models Hub).Predicted Entitiesis_indemnification_subject, is_indemnification_object, is_indemnification_indobjectLive DemoOpen in ColabDownloadHow to use   ...">
+<meta name="description" content="DescriptionThis is a Relation Extraction model to group the different entities extracted with the Indemnification NER model (see legner_bert_indemnifications in Models Hub). This model is a sm model without meaningful directions in the relations (the model was not trained to understand if the direction of the relati...">
 <link rel="canonical" href="/2022/09/28/legre_indemnifications_en.html"><link rel="alternate" type="application/rss+xml" title="Spark NLP" href="/feed.xml"><!-- start favicons snippet, use https://realfavicongenerator.net/ -->
 <!---->
 <!-- <link rel="apple-touch-icon" sizes="180x180" href="/fav.ico"> -->
@@ -414,12 +414,14 @@
             </a>
         </div><ul class="right-col menu"><li><i class="far fa-user"></i> <span>John Snow Labs</span></li><li><i class="far fa-calendar-alt"></i> <span>Sep 28, 2022</span>
             </li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2022-09-28T00:00:00+00:00"></div><header class="main-docs have_subtitle">
-          <h1>Legal Indemnification Relation Extraction</h1><div class="top-subtitle mont"></div></header></div><meta itemprop="headline" content="Legal Indemnification Relation Extraction"><div class="article__info tags_box clearfix"><ul class="left-col menu"><li>en</li><li>legal</li><li>re</li><li>indemnification</li><li>licensed</li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2022-09-28T00:00:00+00:00">
+          <h1>Legal Indemnification Relation Extraction (sm, Bidirectional)</h1><div class="top-subtitle mont"></div></header></div><meta itemprop="headline" content="Legal Indemnification Relation Extraction (sm, Bidirectional)"><div class="article__info tags_box clearfix"><ul class="left-col menu"><li>en</li><li>legal</li><li>re</li><li>indemnification</li><li>licensed</li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2022-09-28T00:00:00+00:00">
     <meta itemprop="keywords" content="en,legal,re,indemnification,licensed"><div class="js-article-content"><div class="model-wrap"><div class="layout--article"><!-- start custom article top snippet -->
 
 <!-- end custom article top snippet --><div class="article__content" itemprop="articleBody"><h2 id="description">Description</h2>
 
-<p>This is a Relation Extraction model to group the different entities extracted with the Indemnification NER model (see <code class="language-plaintext highlighter-rouge">legner_bert_indemnifications</code> in Models Hub).</p>
+<p>This is a Relation Extraction model to group the different entities extracted with the Indemnification NER model (see <code class="language-plaintext highlighter-rouge">legner_bert_indemnifications</code> in Models Hub). This model is a <code class="language-plaintext highlighter-rouge">sm</code> model without meaningful directions in the relations (the model was not trained to understand if the direction of the relation is from left to right or right to left).</p>
+
+<p>There are bigger models in Models Hub trained also with directed relationships.</p>
 
 <h2 id="predicted-entities">Predicted Entities</h2>
 
@@ -530,7 +532,7 @@
     </tr>
     <tr>
       <td>Compatibility:</td>
-      <td>Spark NLP for Legal 1.0.0+</td>
+      <td>Legal NLP 1.0.0+</td>
     </tr>
     <tr>
       <td>License:</td>

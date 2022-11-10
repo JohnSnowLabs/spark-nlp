@@ -9,7 +9,7 @@
     j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
     })(window,document,'script','dataLayer','GTM-59JLR64');</script>
-<!-- End Google Tag Manager --><title>Legal Relation Extraction (Whereas)</title><meta property="og:title" content=""/>
+<!-- End Google Tag Manager --><title>Legal Relation Extraction (Whereas, sm, Bidirectional))</title><meta property="og:title" content=""/>
 
 <meta name="description" content="DescriptionThis is a Relation Extraction model to infer relations between elements in WHEREAS clauses, more specifically the SUBJECT, the ACTION and the OBJECT. There are two relations possible: has_subject and has_object.You can also use legpipe_whereas which includes this model and its NER and also depedency parsi...">
 <link rel="canonical" href="/2022/08/24/legre_whereas_en.html"><link rel="alternate" type="application/rss+xml" title="Spark NLP" href="/feed.xml"><!-- start favicons snippet, use https://realfavicongenerator.net/ -->
@@ -414,7 +414,7 @@
             </a>
         </div><ul class="right-col menu"><li><i class="far fa-user"></i> <span>John Snow Labs</span></li><li><i class="far fa-calendar-alt"></i> <span>Aug 24, 2022</span>
             </li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2022-08-24T00:00:00+00:00"></div><header class="main-docs have_subtitle">
-          <h1>Legal Relation Extraction (Whereas)</h1><div class="top-subtitle mont"></div></header></div><meta itemprop="headline" content="Legal Relation Extraction (Whereas)"><div class="article__info tags_box clearfix"><ul class="left-col menu"><li>en</li><li>legal</li><li>re</li><li>relations</li><li>licensed</li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2022-08-24T00:00:00+00:00">
+          <h1>Legal Relation Extraction (Whereas, sm, Bidirectional))</h1><div class="top-subtitle mont"></div></header></div><meta itemprop="headline" content="Legal Relation Extraction (Whereas, sm, Bidirectional))"><div class="article__info tags_box clearfix"><ul class="left-col menu"><li>en</li><li>legal</li><li>re</li><li>relations</li><li>licensed</li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2022-08-24T00:00:00+00:00">
     <meta itemprop="keywords" content="en,legal,re,relations,licensed"><div class="js-article-content"><div class="model-wrap"><div class="layout--article"><!-- start custom article top snippet -->
 
 <!-- end custom article top snippet --><div class="article__content" itemprop="articleBody"><h2 id="description">Description</h2>
@@ -422,6 +422,10 @@
 <p>This is a Relation Extraction model to infer relations between elements in WHEREAS clauses, more specifically the SUBJECT, the ACTION and the OBJECT. There are two relations possible: <code class="language-plaintext highlighter-rouge">has_subject</code> and <code class="language-plaintext highlighter-rouge">has_object</code>.</p>
 
 <p>You can also use <code class="language-plaintext highlighter-rouge">legpipe_whereas</code> which includes this model and its NER and also depedency parsing, to carry out chunk extraction using grammatical features (the dependency tree).</p>
+
+<p>This model is a <code class="language-plaintext highlighter-rouge">sm</code> model without meaningful directions in the relations (the model was not trained to understand if the direction of the relation is from left to right or right to left).</p>
+
+<p>There are bigger models in Models Hub trained also with directed relationships.</p>
 
 <h2 id="predicted-entities">Predicted Entities</h2>
 
@@ -506,7 +510,7 @@ has_subject WHEREAS_SUBJECT            11          21 VerticalNet WHEREAS_OBJECT
     </tr>
     <tr>
       <td>Compatibility:</td>
-      <td>Spark NLP for Legal 1.0.0+</td>
+      <td>Legal NLP 1.0.0+</td>
     </tr>
     <tr>
       <td>License:</td>
