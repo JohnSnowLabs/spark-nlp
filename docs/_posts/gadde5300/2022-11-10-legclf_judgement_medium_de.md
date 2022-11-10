@@ -17,7 +17,7 @@ use_language_switcher: "Python-Scala-Java"
 
 ## Description
 
-This is a heavy version of German Legal Judgement Text Classifier written in German legal writing style "Urteilsstil" (judgement style), which will retrieve if a text is either conclusion, definition, other or subsumption .
+This is a `md` version of German Legal Judgement Text Classifier written in German legal writing style "Urteilsstil" (judgement style), which will retrieve if a text is either conclusion, definition, other or subsumption .
 
 ## Predicted Entities
 
