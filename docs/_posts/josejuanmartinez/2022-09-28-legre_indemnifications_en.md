@@ -1,6 +1,6 @@
 ---
 layout: model
-title: Legal Indemnification Relation Extraction
+title: Legal Indemnification Relation Extraction (sm, Bidirectional)
 author: John Snow Labs
 name: legre_indemnifications
 date: 2022-09-28
@@ -17,7 +17,9 @@ use_language_switcher: "Python-Scala-Java"
 
 ## Description
 
-This is a Relation Extraction model to group the different entities extracted with the Indemnification NER model (see `legner_bert_indemnifications` in Models Hub).
+This is a Relation Extraction model to group the different entities extracted with the Indemnification NER model (see `legner_bert_indemnifications` in Models Hub). This model is a `sm` model without meaningful directions in the relations (the model was not trained to understand if the direction of the relation is from left to right or right to left).
+
+There are bigger models in Models Hub trained also with directed relationships.
 
 ## Predicted Entities
 
