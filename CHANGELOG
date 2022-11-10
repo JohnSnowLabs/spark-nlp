@@ -1,4 +1,35 @@
 ========
+4.2.3
+========
+----------------
+New Features & Enhancements
+----------------
+* Implement a new control over number of accepted columns in Python. This will sync the behavior between Scala and Python where user sets more columns than allowed inside setInputCols
+* Adding metadata sentence key parameter in order to select which metadata field to use as sentence for CoNLLGenerator annotator
+* Include escaping in CoNLLGenerator annotator when writing to csv and preserve special char tokens
+* Add documentation for new `IAnnotation` feature for Scala users
+* Add rules and delimiter parameters to RegexMatcher annotator to support string as input in addition to a file
+```python
+regexMatcher = RegexMatcher() \
+      .setRules(["\\d{4}\\/\\d\\d\\/\\d\\d,date", "\\d{2}\\/\\d\\d\\/\\d\\d,short_date"]) \
+      .setDelimiter(",") \
+      .setInputCols(["sentence"]) \
+      .setOutputCol("regex") \
+      .setStrategy("MATCH_ALL")
+```
+*
+
+----------------
+Bug Fixes
+----------------
+* Fix NotSerializableException when WordEmbeddings is used over K8s cluster while `setEnableInMemoryStorage` is set to `true`
+* Fix a bug in RegexTokenizer annotator when it outputs the wrong indexes if the pattern includes splits that are not followed by a space
+* Fix training modul failing on EMR due to a bad Apache Spark version detection. The following classes were fixed: `CoNLL()`, `CoNLLU()`, `POS()`, and `PubTator()`
+* Fix a bug in CoNLLGenerator annotator where token has non-int metadata
+* Fix the wrong SentencePiece model's name required for DeBertaForQuestionAnswering and DeBertaEmbeddings when importing models
+* Fix `NaNs` result in some ViTForImageClassification models/pipelines
+
+========
 4.2.2
 ========
 ----------------
