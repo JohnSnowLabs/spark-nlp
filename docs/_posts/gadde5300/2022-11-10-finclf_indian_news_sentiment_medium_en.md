@@ -17,7 +17,7 @@ use_language_switcher: "Python-Scala-Java"
 
 ## Description
 
-This is a heavy version of Indian News Sentiment Analysis Text Classifier, which will retrieve if a text is either expression a Positive Emotion or a Negative one.
+This is a `md` version of Indian News Sentiment Analysis Text Classifier, which will retrieve if a text is either expression a Positive Emotion or a Negative one.
 
 ## Predicted Entities
 
