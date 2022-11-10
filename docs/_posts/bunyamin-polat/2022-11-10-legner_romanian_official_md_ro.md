@@ -1,6 +1,6 @@
 ---
 layout: model
-title: Named Entity Recognition in Romanian Official Documents
+title: Named Entity Recognition in Romanian Official Documents (Medium)
 author: John Snow Labs
 name: legner_romanian_official_md
 date: 2022-11-10
