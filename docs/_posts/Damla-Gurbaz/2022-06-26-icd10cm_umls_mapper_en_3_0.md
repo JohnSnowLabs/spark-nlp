@@ -77,7 +77,7 @@ val documentAssembler = new DocumentAssembler()
 
 val sbert_embedder = BertSentenceEmbeddings
 .pretrained("sbiobert_base_cased_mli", "en", "clinical/models")
-.setInputCols("ner_chunk")
+.setInputCols(Array("ner_chunk"))
 .setOutputCol("sbert_embeddings")
 
 val icd10cm_resolver = SentenceEntityResolverModel
@@ -88,7 +88,7 @@ val icd10cm_resolver = SentenceEntityResolverModel
 
 val chunkerMapper = ChunkMapperModel
 .pretrained("icd10cm_umls_mapper", "en", "clinical/models")
-.setInputCols("rxnorm_code")
+.setInputCols(Array("rxnorm_code"))
 .setOutputCol("umls_mappings")
 .setRels(Array("umls_code"))
 

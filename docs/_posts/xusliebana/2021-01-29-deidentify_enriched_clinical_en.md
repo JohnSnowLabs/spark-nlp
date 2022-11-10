@@ -6,7 +6,7 @@ name: deidentify_enriched_clinical
 date: 2021-01-29
 task: De-identification
 language: en
-edition: Healthcare NLP 2.7.2
+edition: Spark NLP for Healthcare 2.7.2
 spark_version: 2.4
 tags: [deidentify, en, obfuscation, licensed]
 supported: true
@@ -57,43 +57,87 @@ Deidentify (Large) is a deidentification model. It identifies instances of prote
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
-```python
-nlpPipeline = Pipeline(stages=[documentAssembler, sentenceDetector, tokenizer, word_embeddings, clinical_ner, ner_converter])
 
-text ='''
-A . Record date : 2093-01-13 , David Hale , M.D . , Name : Hendrickson , Ora MR . # 7194334 Date : 01/13/93 PCP : Oliveira , 25 years-old , Record date : 2079-11-09 . Cocke County Baptist Hospital . 0295 Keats Street
-'''
-result = model.transform(spark.createDataFrame([[text]]).toDF("text"))
+```python
+documentAssembler = DocumentAssembler()\
+    .setInputCol('text')\
+    .setOutputCol('document')
+
+sentenceDetector = SentenceDetector() \
+    .setInputCols(["document"]) \
+    .setOutputCol("sentence")
+
+tokenizer = Tokenizer() \
+    .setInputCols(["sentence"]) \
+    .setOutputCol("token")
+
+word_embeddings = WordEmbeddingsModel.pretrained("embeddings_clinical", "en", "clinical/models")\
+  	.setInputCols(["sentence", "token"])\
+  	.setOutputCol("embeddings")
+
+clinical_ner = MedicalNerModel.pretrained("ner_clinical", "en", "clinical/models") \
+	.setInputCols(["sentence", "token", "embeddings"]) \
+	.setOutputCol("ner")
+
+ner_converter = NerConverter() \
+  	.setInputCols(["sentence", "token", "ner"]) \
+  	.setOutputCol("ner_chunk")
 
 obfuscation = DeIdentificationModel.pretrained("deidentify_enriched_clinical", "en", "clinical/models") \
-.setInputCols(["sentence", "token", "ner_chunk"]) \
-.setOutputCol("obfuscated") \
-.setMode("obfuscate")
+	.setInputCols(["sentence", "token", "ner_chunk"]) \
+	.setOutputCol("obfuscated") \
+	.setMode("obfuscate")
 
-obfusated_text = obfuscation.transform(result)
+nlp_pipeline = Pipeline(stages=[documentAssembler, sentenceDetector, tokenizer, word_embeddings, clinical_ner, ner_converter, obfuscation]) 
+
+data = spark.createDataFrame([["""A . Record date : 2093-01-13 , David Hale , M.D . , Name : Hendrickson , Ora MR . # 7194334 Date : 01/13/93 PCP : Oliveira , 25 years-old , Record date : 2079-11-09 . Cocke County Baptist Hospital . 0295 Keats Street"""]]).toDF("text")
+
+result = nlpPipeline.fit(data).transform(data)
 
 ```
 ```scala
-val nlpPipeline = new Pipeline().setStages(Array(documentAssembler, sentenceDetector, tokenizer, embeddings, clinical_sensitive_entities, nerConverter, de_identification))
+val documentAssembler = new DocumentAssembler()
+    .setInputCol("text")
+    .setOutputCol("document")
 
-val data = Seq("A . Record date : 2093-01-13 , David Hale , M.D . , Name : Hendrickson , Ora MR . # 7194334 Date : 01/13/93 PCP : Oliveira , 25 years-old , Record date : 2079-11-09 . Cocke County Baptist Hospital . 0295 Keats Street").toDF("text")
-val result = pipeline.fit(data).transform(data)
+val sentenceDetector = new SentenceDetector()
+    .setInputCols("document")
+    .setOutputCol("sentence")
+
+val tokenizer = new Tokenizer()
+    .setInputCols("sentence")
+    .setOutputCol("token")
+
+val word_embeddings = WordEmbeddingsModel.pretrained("embeddings_clinical", "en", "clinical/models")
+  	.setInputCols(Array("sentence", "token"))
+  	.setOutputCol("embeddings")
+
+val clinical_ner = MedicalNerModel.pretrained("ner_clinical", "en", "clinical/models")
+	.setInputCols(Array("sentence", "token", "embeddings"))
+	.setOutputCol("ner")
+
+val ner_converter = new NerConverter()
+  	.setInputCols(Array("sentence", "token", "ner"))
+  	.setOutputCol("ner_chunk")
 
 val obfuscation = DeIdentificationModel.pretrained("deidentify_enriched_clinical", "en", "clinical/models")
-.setInputCols(Array("sentence", "token", "ner_chunk"))
-.setOutputCol("obfuscated")
-.setMode("obfuscate")
+	.setInputCols(Array("sentence", "token", "ner_chunk"))
+	.setOutputCol("obfuscated")
+	.setMode("obfuscate")
 
-val obfusatedText = obfuscation.transform(result)
+val nlpPipeline = new Pipeline().setStages(Array(documentAssembler, sentenceDetector, tokenizer, word_embeddings, clinical_ner, ner_converter, obfuscation))
+
+val data = Seq("""A . Record date : 2093-01-13 , David Hale , M.D . , Name : Hendrickson , Ora MR . # 7194334 Date : 01/13/93 PCP : Oliveira , 25 years-old , Record date : 2079-11-09 . Cocke County Baptist Hospital . 0295 Keats Street""").toDS.toDF("text")
+
+val result = nlpPipeline.fit(data).transform(data)
+
 ```
 
 
 {:.nlu-block}
 ```python
 import nlu
-nlu.load("en.de_identify.clinical").predict("""
-A . Record date : 2093-01-13 , David Hale , M.D . , Name : Hendrickson , Ora MR . # 7194334 Date : 01/13/93 PCP : Oliveira , 25 years-old , Record date : 2079-11-09 . Cocke County Baptist Hospital . 0295 Keats Street
-""")
+nlu.load("en.de_identify.clinical").predict("""A . Record date : 2093-01-13 , David Hale , M.D . , Name : Hendrickson , Ora MR . # 7194334 Date : 01/13/93 PCP : Oliveira , 25 years-old , Record date : 2079-11-09 . Cocke County Baptist Hospital . 0295 Keats Street""")
 ```
 
 </div>

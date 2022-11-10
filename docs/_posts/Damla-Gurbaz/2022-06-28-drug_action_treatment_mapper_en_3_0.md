@@ -68,7 +68,7 @@ chunkerMapper_action = ChunkMapperModel.pretrained("drug_action_treatment_mapper
 .setRels(["action"])\
 .setLowerCase(True)
 
-chunkerMapper_treatment = ChunkMapperModel.pretrained("drug_action_treatment_mapper", , "en", "clinical/models")\
+chunkerMapper_treatment = ChunkMapperModel.pretrained("drug_action_treatment_mapper", "en", "clinical/models")\
 .setInputCols(["ner_chunk"])\
 .setOutputCol("treatment_mappings")\
 .setRels(["treatment"])\
@@ -126,7 +126,7 @@ val chunkerMapper_action = ChunkMapperModel.pretrained("drug_action_treatment_ma
 .setRels(Array("action"))
 .setLowerCase(True)
 
-val chunkerMapper_treatment = ChunkMapperModel.pretrained("drug_action_treatment_mapper", , "en", "clinical/models")
+val chunkerMapper_treatment = ChunkMapperModel.pretrained("drug_action_treatment_mapper", "en", "clinical/models")
 .setInputCols(Array("ner_chunk"))
 .setOutputCol("treatment_mappings")
 .setRels(Array("treatment"))

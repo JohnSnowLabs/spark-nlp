@@ -34,6 +34,7 @@ This model detects the assertion status of entities related to response to treat
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
+
 ```python
 document_assembler = DocumentAssembler()\
     .setInputCol("text")\
@@ -57,7 +58,7 @@ ner = MedicalNerModel.pretrained("ner_oncology_wip", "en", "clinical/models") \
 
 ner_converter = NerConverter() \
     .setInputCols(["sentence", "token", "ner"]) \
-    .setOutputCol("ner_chunk")    .setWhiteList(["Response_To_Treatment""])
+    .setOutputCol("ner_chunk")    .setWhiteList(["Response_To_Treatment"])
     
 assertion = AssertionDLModel.pretrained("assertion_oncology_response_to_treatment_wip", "en", "clinical/models") \
     .setInputCols(["sentence", "ner_chunk", "embeddings"]) \
@@ -81,11 +82,11 @@ val document_assembler = new DocumentAssembler()
     .setOutputCol("document")
     
 val sentence_detector = SentenceDetectorDLModel.pretrained("sentence_detector_dl_healthcare","en","clinical/models")
-    .setInputCols("document")
+    .setInputCols(Array("document"))
     .setOutputCol("sentence")
     
 val tokenizer = new Tokenizer()
-    .setInputCols("sentence")
+    .setInputCols(Array("sentence"))
     .setOutputCol("token")
     
 val word_embeddings = WordEmbeddingsModel().pretrained("embeddings_clinical", "en", "clinical/models")
@@ -99,10 +100,10 @@ val ner = MedicalNerModel.pretrained("ner_oncology_wip", "en", "clinical/models"
 val ner_converter = new NerConverter()
     .setInputCols(Array("sentence", "token", "ner"))
     .setOutputCol("ner_chunk")
-    .setWhiteList(Array("Response_To_Treatment""))
+    .setWhiteList(Array("Response_To_Treatment"))
 
 val clinical_assertion = AssertionDLModel.pretrained("assertion_oncology_response_to_treatment_wip","en","clinical/models")
-    .setInputCols("sentence","ner_chunk","embeddings")
+    .setInputCols(Array("sentence","ner_chunk","embeddings"))
     .setOutputCol("assertion")
         
 val pipeline = new Pipeline().setStages(Array(document_assembler,
@@ -113,7 +114,7 @@ val pipeline = new Pipeline().setStages(Array(document_assembler,
                                               ner_converter,
                                               assertion))
 
-val data = Seq("The patient presented no evidence of recurrence.").toDF("text")
+val data = Seq("""The patient presented no evidence of recurrence.""").toDF("text")
 
 val result = pipeline.fit(data).transform(data)
 
@@ -152,6 +153,6 @@ In-house annotated oncology case reports.
                  label  precision  recall  f1-score  support
 Hypothetical_Or_Absent       0.82    0.90      0.86     61.0
        Present_Or_Past       0.89    0.80      0.84     61.0
-             macro avg       0.86    0.85      0.85    122.0
-          weighted avg       0.86    0.85      0.85    122.0
+             macro-avg       0.86    0.85      0.85    122.0
+          weighted-avg       0.86    0.85      0.85    122.0
 ```

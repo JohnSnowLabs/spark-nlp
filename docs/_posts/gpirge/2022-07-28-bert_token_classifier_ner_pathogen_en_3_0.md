@@ -66,11 +66,10 @@ pipeline = Pipeline(stages=[
 ])
 
 
-model = pipeline.fit(spark.createDataFrame(pd.DataFrame({'text': ['']})))
+data = spark.createDataFrame([["""Racecadotril is an antisecretory medication and it has better tolerability than loperamide. Diarrhea is the condition of having loose, liquid or watery bowel movements each day. Signs of dehydration often begin with loss of the normal stretchiness of the skin. This can progress to loss of skin color, a fast heart rate as it becomes more severe; while it has been speculated that rabies virus, Lyssavirus and Ephemerovirus could be transmitted through aerosols, studies have concluded that this is only feasible in limited conditions."""]]).toDF("text")
 
-data = spark.createDataFrame(["""Racecadotril is an antisecretory medication and it has better tolerability than loperamide. Diarrhea is the condition of having loose, liquid or watery bowel movements each day. Signs of dehydration often begin with loss of the normal stretchiness of the skin. This can progress to loss of skin color, a fast heart rate as it becomes more severe; while it has been speculated that rabies virus, Lyssavirus and Ephemerovirus could be transmitted through aerosols, studies have concluded that this is only feasible in limited conditions."""], StringType()).toDF("text")
+result = pipeline.fit(data).transform(data)
 
-result = model.transform(data)
 ```
 ```scala
 val documenter = new DocumentAssembler() 
@@ -87,7 +86,7 @@ val tokenizer = new Tokenizer()
 
 val tokenClassifier = MedicalBertForTokenClassifier.pretrained("bert_token_classifier_ner_pathogen", "en", "clinical/models")
     .setInputCols(Array("token", 'sentence'))
-    .setOutputCol("label")\
+    .setOutputCol("label")
     .setCaseSensitive(True)
 
 val ner_converter = new NerConverter()

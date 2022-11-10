@@ -72,7 +72,6 @@ pipeline = Pipeline(stages=[
     ner_converter   
     ])
 
-model = pipeline.fit(spark.createDataFrame([[""]]).toDF("text"))
 
 data = spark.createDataFrame([["""In The High Court Of Judicature At Madras 
 
@@ -107,7 +106,7 @@ For Petitioner :  Mr.  K.Sudarsanam for M/s.  Surithi Associates
 
 For Respondents:  Mr.  Mohd.Fiary Hussain for R1"""]])
                              
-result = model.transform(data)
+result = pipeline.fit(data).transform(data)
 ```
 ```scala
 val document_assembler = new DocumentAssembler()
@@ -116,11 +115,11 @@ val document_assembler = new DocumentAssembler()
     .setCleanupMode("shrink")
 
 val sentence_detector = SentenceDetectorDLModel.pretrained("sentence_detector_dl", "en")
-    .setInputCols("document")
+    .setInputCols(Array("document"))
     .setOutputCol("sentence")
 
 val tokenizer = new Tokenizer()
-    .setInputCols("sentence")
+    .setInputCols(Array("sentence"))
     .setOutputCol("token")
 
 val embeddings = BertEmbeddings.pretrained("bert_base_cased", "en")
@@ -137,7 +136,7 @@ val ner_converter = new NerConverter()
     .setInputCols(Array("sentence", "token", "ner"))
     .setOutputCol("ner_chunk")
 
-val pipeline = new PipelineModel().setStages(Array(
+val pipeline = new Pipeline().setStages(Array(
     document_assembler,
     sentence_detector,
     tokenizer,
