@@ -76,7 +76,7 @@ re_filter = finance.RENerChunksFilter()\
     .setRelationPairs(["PERSON-ROLE", "PERSON-ORG", "ORG-ROLE", "DATE-ROLE"])
                             
 reDL = finance.RelationExtractionDLModel()\
-    .load(f'finre_work_experience_md')\
+    .pretrained('finre_work_experience_md','en','finance/models')\
     .setInputCols(["re_ner_chunk", "sentence"])\
     .setOutputCol("relations")
 
