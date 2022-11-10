@@ -14,6 +14,7 @@
 """Contains classes for the NorvigSweeting spell checker."""
 
 from sparknlp.common import *
+from sparknlp.common.annotator_type import AnnotatorType
 
 
 class NorvigSweetingApproach(AnnotatorApproach):
@@ -114,6 +115,8 @@ class NorvigSweetingApproach(AnnotatorApproach):
     SymmetricDeleteApproach : for an alternative approach to spell checking
     ContextSpellCheckerApproach : for a DL based approach
     """
+    inputAnnotatorTypes = [AnnotatorType.TOKEN]
+
     dictionary = Param(Params._dummy(),
                        "dictionary",
                        "dictionary needs 'tokenPattern' regex in dictionary for separating words",
@@ -242,6 +245,7 @@ class NorvigSweetingApproach(AnnotatorApproach):
     def _create_model(self, java_model):
         return NorvigSweetingModel(java_model=java_model)
 
+
 class NorvigSweetingModel(AnnotatorModel):
     """This annotator retrieves tokens and makes corrections automatically if
     not found in an English dictionary.
@@ -321,6 +325,8 @@ class NorvigSweetingModel(AnnotatorModel):
     ContextSpellCheckerModel : for a DL based approach
     """
     name = "NorvigSweetingModel"
+
+    inputAnnotatorTypes = [AnnotatorType.TOKEN]
 
     def __init__(self, classname="com.johnsnowlabs.nlp.annotators.spell.norvig.NorvigSweetingModel", java_model=None):
         super(NorvigSweetingModel, self).__init__(

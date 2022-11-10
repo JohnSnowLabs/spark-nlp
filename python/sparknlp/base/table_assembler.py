@@ -13,6 +13,7 @@
 #  limitations under the License.
 """Contains classes for the TableAssembler."""
 from sparknlp.common import *
+from sparknlp.common.annotator_type import AnnotatorType
 
 
 class TableAssembler(AnnotatorModel):
@@ -79,6 +80,8 @@ class TableAssembler(AnnotatorModel):
     +-----------------------------------------------+
 """
     name = "TableAssembler"
+
+    inputAnnotatorTypes = [AnnotatorType.DOCUMENT]
 
     inputFormat = Param(
         Params._dummy(),

@@ -12,7 +12,6 @@
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
 """Contains classes for DeBertaForSequenceClassification."""
-
 from sparknlp.common import *
 
 
@@ -97,6 +96,8 @@ class DeBertaForSequenceClassification(AnnotatorModel,
     +--------------------+
     """
     name = "DeBertaForSequenceClassification"
+
+    inputAnnotatorTypes = [AnnotatorType.DOCUMENT, AnnotatorType.TOKEN]
 
     maxSentenceLength = Param(Params._dummy(),
                               "maxSentenceLength",

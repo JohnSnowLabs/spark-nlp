@@ -13,6 +13,7 @@
 #  limitations under the License.
 
 from sparknlp.common import *
+from sparknlp.common.annotator_type import AnnotatorType
 
 
 class XlmRoBertaForQuestionAnswering(AnnotatorModel,
@@ -86,6 +87,8 @@ class XlmRoBertaForQuestionAnswering(AnnotatorModel,
     +--------------------+
     """
     name = "XlmRoBertaForQuestionAnswering"
+
+    inputAnnotatorTypes = [AnnotatorType.DOCUMENT, AnnotatorType.DOCUMENT]
 
     maxSentenceLength = Param(Params._dummy(),
                               "maxSentenceLength",

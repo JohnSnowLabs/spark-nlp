@@ -15,6 +15,7 @@
 
 
 from sparknlp.common import *
+from sparknlp.common.annotator_type import AnnotatorType
 
 
 class Tokenizer(AnnotatorApproach):
@@ -87,6 +88,10 @@ class Tokenizer(AnnotatorApproach):
     +-----------------------------------------------------------------------+
     """
 
+    name = 'Tokenizer'
+
+    inputAnnotatorTypes = [AnnotatorType.DOCUMENT]
+
     targetPattern = Param(Params._dummy(),
                           "targetPattern",
                           "pattern to grab from text as token candidates. Defaults \S+",
@@ -146,8 +151,6 @@ class Tokenizer(AnnotatorApproach):
                       "maxLength",
                       "Set the maximum allowed length for each token",
                       typeConverter=TypeConverters.toInt)
-
-    name = 'Tokenizer'
 
     @keyword_only
     def __init__(self):
@@ -429,6 +432,7 @@ class Tokenizer(AnnotatorApproach):
     def _create_model(self, java_model):
         return TokenizerModel(java_model=java_model)
 
+
 class TokenizerModel(AnnotatorModel):
     """Tokenizes raw text into word pieces, tokens. Identifies tokens with
     tokenization open standards. A few rules will help customizing it if
@@ -452,6 +456,8 @@ class TokenizerModel(AnnotatorModel):
         Character list used to separate from the inside of tokens
     """
     name = "TokenizerModel"
+
+    inputAnnotatorTypes = [AnnotatorType.DOCUMENT]
 
     exceptions = Param(Params._dummy(),
                        "exceptions",
