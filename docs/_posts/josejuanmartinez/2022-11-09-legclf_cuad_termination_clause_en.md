@@ -50,9 +50,9 @@ documentAssembler = nlp.DocumentAssembler() \
      .setInputCol("clause_text") \
      .setOutputCol("document")
   
-embeddings = nlp.BertSentenceEmbeddings.pretrained("sent_bert_base_cased", "en") \
-      .setInputCols("document") \
-      .setOutputCol("sentence_embeddings")
+embeddings = UniversalSentenceEncoder.pretrained("tfhub_use", "en") \
+    .setInputCols("document") \
+    .setOutputCol("sentence_embeddings")
 
 docClassifier = nlp.ClassifierDLModel.pretrained("legclf_cuad_termination_clause", "en", "legal/models")\
     .setInputCols(["sentence_embeddings"])\
