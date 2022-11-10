@@ -40,40 +40,40 @@ We highly recommend using it with `finner_financial_large`.
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
 ```python
-documentAssembler = DocumentAssembler()\
+documentAssembler = nlp.DocumentAssembler()\
         .setInputCol("text")\
         .setOutputCol("document")
 
-sentencizer = SentenceDetectorDLModel\
+sentencizer = nlp.SentenceDetectorDLModel\
         .pretrained("sentence_detector_dl", "en") \
         .setInputCols(["document"])\
         .setOutputCol("sentence")
                       
-tokenizer = Tokenizer()\
+tokenizer = nlp.Tokenizer()\
         .setInputCols(["sentence"])\
         .setOutputCol("token")\
         .setContextChars(['.', ',', ';', ':', '!', '?', '*', '-', '(', ')', '”', '’', '$','€'])
 
-bert_embeddings= BertEmbeddings.pretrained("bert_embeddings_sec_bert_base","en")\
+bert_embeddings= nlp.BertEmbeddings.pretrained("bert_embeddings_sec_bert_base","en")\
         .setInputCols(["sentence", "token"])\
         .setOutputCol("bert_embeddings")
 
-ner_model = finance.FinanceNerModel.pretrained("finner_financial_large", "en", "finance/models")\
+ner_model = finance.NerModel.pretrained("finner_financial_large", "en", "finance/models")\
     .setInputCols(["sentence", "token", "bert_embeddings"])\
     .setOutputCol("ner")\
 
-ner_converter = NerConverter()\
+ner_converter = nlp.NerConverter()\
     .setInputCols(["sentence", "token", "ner"])\
     .setOutputCol("ner_chunk")
 
 # ===========
 # This is needed only to filter relation pairs using finance.RENerChunksFilter (see below)
 # ===========
-pos = PerceptronModel.pretrained("pos_anc", 'en')\
+pos = nlp.PerceptronModel.pretrained("pos_anc", 'en')\
           .setInputCols("sentence", "token")\
           .setOutputCol("pos")
 
-dependency_parser = DependencyParserModel.pretrained("dependency_conllu", "en") \
+dependency_parser = nlp.DependencyParserModel.pretrained("dependency_conllu", "en") \
     .setInputCols(["sentence", "pos", "token"]) \
     .setOutputCol("dependencies")
 
@@ -95,12 +95,11 @@ re_ner_chunk_filter = finance.RENerChunksFilter() \
 
 # ===========
 
-reDL = RelationExtractionDLModel()\
-    .pretrained(ffinre_financial_small', 'en', 'finance/models')\
+reDL = finance.RelationExtractionDLModel.pretrained('finre_financial_small', 'en', 'finance/models')\
     .setInputCols(["re_ner_chunk", "sentence"])\
     .setOutputCol("relations")
 
-nlpPipeline = Pipeline(stages=[
+pipeline = Pipeline(stages=[
         documentAssembler,
         sentencizer,
         tokenizer,
@@ -116,7 +115,7 @@ text = "In the third quarter of fiscal 2021, we received net proceeds of $342.7 
 
 data = spark.createDataFrame([[text]]).toDF("text")
 
-model = nlpPipeline.fit(data)
+model = pipeline.fit(data)
 
 results = model.transform(data)
 
