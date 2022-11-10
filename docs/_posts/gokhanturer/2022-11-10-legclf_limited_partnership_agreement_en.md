@@ -1,6 +1,6 @@
 ---
 layout: model
-title: Legal Limited Partnership-agreement Agreement Document Classifier (Longformer)
+title: Legal Limited Partnership Agreement Document Classifier (Longformer)
 author: John Snow Labs
 name: legclf_limited_partnership_agreement
 date: 2022-11-10
@@ -38,6 +38,7 @@ If not, let us know and we can carry out another approach for you: getting chunk
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
+
 ```python
 
 document_assembler = nlp.DocumentAssembler()\
