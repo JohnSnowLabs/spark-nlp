@@ -79,7 +79,7 @@ re_filter = legal.RENerChunksFilter()\
 
 reDL = legal.RelationExtractionDLModel.pretrained("legre_indemnifications_md", "en", "legal/models") \
     .setPredictionThreshold(0.9) \
-    .setInputCols(["ner_chunk", "document"]) \
+    .setInputCols(["re_ner_chunks", "document"]) \
     .setOutputCol("relations")
 
 nlpPipeline = Pipeline(stages=[
