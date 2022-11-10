@@ -7,7 +7,7 @@ date: 2022-07-27
 tags: [relation_extraction, licensed, clinical, en]
 task: Relation Extraction
 language: en
-edition: Spark NLP for Healthcare 3.5.0
+edition: Healthcare NLP 3.5.0
 spark_version: 3.0
 supported: true
 article_header:
@@ -140,7 +140,7 @@ val result = pipeline.fit(data).transform(data)
 |---|---|
 |Model Name:|re_ade_conversational|
 |Type:|re|
-|Compatibility:|Spark NLP for Healthcare 3.5.0+|
+|Compatibility:|Healthcare NLP 3.5.0+|
 |License:|Licensed|
 |Edition:|Official|
 |Input Labels:|[embeddings, pos_tags, train_ner_chunks, dependencies]|

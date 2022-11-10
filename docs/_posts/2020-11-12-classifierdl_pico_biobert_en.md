@@ -6,7 +6,7 @@ name: classifierdl_pico_biobert
 date: 2020-11-12
 task: Text Classification
 language: en
-edition: Spark NLP for Healthcare 2.6.2
+edition: Healthcare NLP 2.6.2
 spark_version: 2.4
 tags: [classifier, en, licensed, clinical]
 supported: true
@@ -98,7 +98,7 @@ A dictionary containing class labels for each sentence.
 |---|---|
 |Model Name:|classifierdl_pico_biobert|
 |Type:|ClassifierDLModel|
-|Compatibility:|Spark NLP for Healthcare 2.6.2 +|
+|Compatibility:|Healthcare NLP 2.6.2 +|
 |Edition:|Official|
 |License:|Licensed|
 |Input Labels:|[sentence_embeddings]|

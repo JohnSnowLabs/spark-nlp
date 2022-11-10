@@ -7,7 +7,7 @@ date: 2022-03-03
 tags: [deidentification, pipeline, de, licensed]
 task: Pipeline Healthcare
 language: de
-edition: Spark NLP for Healthcare 3.4.1
+edition: Healthcare NLP 3.4.1
 spark_version: 3.0
 supported: true
 article_header:
@@ -132,7 +132,7 @@ Adresse : Klingelhöferring 31206
 |---|---|
 |Model Name:|clinical_deidentification|
 |Type:|pipeline|
-|Compatibility:|Spark NLP for Healthcare 3.4.1+|
+|Compatibility:|Healthcare NLP 3.4.1+|
 |License:|Licensed|
 |Edition:|Official|
 |Language:|de|

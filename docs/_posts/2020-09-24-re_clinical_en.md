@@ -8,7 +8,7 @@ language: en
 repository: clinical/models
 date: 2020-09-24
 task: Relation Extraction
-edition: Spark NLP for Healthcare 2.5.5
+edition: Healthcare NLP 2.5.5
 spark_version: 2.4
 tags: [clinical,licensed,relation extraction,en]
 supported: true

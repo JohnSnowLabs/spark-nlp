@@ -7,7 +7,7 @@ date: 2021-07-24
 tags: [relation_extraction, en, licensed, clinical]
 task: Relation Extraction
 language: en
-edition: Spark NLP for Healthcare 3.0.3
+edition: Healthcare NLP 3.0.3
 spark_version: 2.4
 supported: true
 article_header:
@@ -193,7 +193,7 @@ nlu.load("en.relation.humen_phenotype_gene").predict("""She has a retinal degene
 {:.table-model}
 |---|---|
 |Model Name:|redl_human_phenotype_gene_biobert|
-|Compatibility:|Spark NLP for Healthcare 3.0.3+|
+|Compatibility:|Healthcare NLP 3.0.3+|
 |License:|Licensed|
 |Edition:|Official|
 |Language:|en|

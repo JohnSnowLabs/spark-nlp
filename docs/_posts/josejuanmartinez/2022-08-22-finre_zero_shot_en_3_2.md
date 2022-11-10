@@ -7,7 +7,7 @@ date: 2022-08-22
 tags: [en, finance, re, zero, shot, zero_shot, licensed]
 task: Relation Extraction
 language: en
-edition: Spark NLP for Finance 1.0.0
+edition: Finance NLP 1.0.0
 spark_version: 3.0
 supported: true
 article_header:
@@ -164,7 +164,7 @@ results.selectExpr("explode(relations) as relation").show(truncate=False)
 |---|---|
 |Model Name:|finre_zero_shot|
 |Type:|finance|
-|Compatibility:|Spark NLP for Finance 1.0.0+|
+|Compatibility:|Finance NLP 1.0.0+|
 |License:|Licensed|
 |Edition:|Official|
 |Language:|en|

@@ -6,7 +6,7 @@ name: re_bodypart_problem
 date: 2021-01-18
 task: Relation Extraction
 language: en
-edition: Spark NLP for Healthcare 2.7.1
+edition: Healthcare NLP 2.7.1
 spark_version: 2.4
 tags: [en, clinical, relation_extraction, licensed]
 supported: true

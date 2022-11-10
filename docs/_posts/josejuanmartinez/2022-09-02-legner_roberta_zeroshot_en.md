@@ -7,7 +7,7 @@ date: 2022-09-02
 tags: [en, legal, ner, zero, shot, zeroshot, licensed]
 task: Named Entity Recognition
 language: en
-edition: Spark NLP for Legal 1.0.0
+edition: Legal NLP 1.0.0
 spark_version: 3.0
 supported: true
 recommended: true
@@ -117,7 +117,7 @@ res.select(F.explode(F.arrays_zip(res.ner_chunk.result, res.ner_chunk.begin, res
 |---|---|
 |Model Name:|legner_roberta_zeroshot|
 |Type:|legal|
-|Compatibility:|Spark NLP for Legal 1.0.0+|
+|Compatibility:|Legal NLP 1.0.0+|
 |License:|Licensed|
 |Edition:|Official|
 |Input Labels:|[document_question, document_context]|

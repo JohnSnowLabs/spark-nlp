@@ -7,7 +7,7 @@ date: 2022-09-09
 tags: [en, financial, licensed]
 task: Named Entity Recognition
 language: en
-edition: Spark NLP for Finance 1.0.0
+edition: Finance NLP 1.0.0
 spark_version: 3.0
 supported: true
 article_header:
@@ -71,7 +71,7 @@ since (O)
 |---|---|
 |Model Name:|finpipe_org_per_role_date|
 |Type:|pipeline|
-|Compatibility:|Spark NLP for Finance 1.0.0+|
+|Compatibility:|Finance NLP 1.0.0+|
 |License:|Licensed|
 |Edition:|Official|
 |Language:|en|

@@ -7,7 +7,7 @@ date: 2022-07-28
 tags: [sequence_classification, bert, classifier, clinical, en, licensed, public_health, partner_violence, tweet]
 task: Text Classification
 language: en
-edition: Spark NLP for Healthcare 4.0.0
+edition: Healthcare NLP 4.0.0
 spark_version: 3.0
 supported: true
 article_header:
@@ -102,7 +102,7 @@ val result = pipeline.fit(example).transform(example)
 {:.table-model}
 |---|---|
 |Model Name:|bert_sequence_classifier_self_reported_partner_violence_tweet|
-|Compatibility:|Spark NLP for Healthcare 4.0.0+|
+|Compatibility:|Healthcare NLP 4.0.0+|
 |License:|Licensed|
 |Edition:|Official|
 |Input Labels:|[document, token]|

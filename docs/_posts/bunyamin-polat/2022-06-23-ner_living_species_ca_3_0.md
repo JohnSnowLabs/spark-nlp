@@ -7,7 +7,7 @@ date: 2022-06-23
 tags: [ca, ner, clinical, licensed]
 task: Named Entity Recognition
 language: ca
-edition: Spark NLP for Healthcare 3.5.3
+edition: Healthcare NLP 3.5.3
 spark_version: 3.0
 supported: true
 article_header:
@@ -158,7 +158,7 @@ nlu.load("ca.med_ner.living_species").predict("""Dona de 47 anys al·lèrgica al
 {:.table-model}
 |---|---|
 |Model Name:|ner_living_species|
-|Compatibility:|Spark NLP for Healthcare 3.5.3+|
+|Compatibility:|Healthcare NLP 3.5.3+|
 |License:|Licensed|
 |Edition:|Official|
 |Input Labels:|[sentence, token, embeddings]|

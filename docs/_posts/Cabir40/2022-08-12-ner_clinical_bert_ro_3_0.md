@@ -7,7 +7,7 @@ date: 2022-08-12
 tags: [licensed, clinical, ro, ner, bert]
 task: Named Entity Recognition
 language: ro
-edition: Spark NLP for Healthcare 4.0.2
+edition: Healthcare NLP 4.0.2
 spark_version: 3.0
 supported: true
 recommended: true
@@ -155,7 +155,7 @@ nlu.load("ro.embed.clinical.bert.base_cased").predict(""" Solicitare: Angio CT c
 {:.table-model}
 |---|---|
 |Model Name:|ner_clinical_bert|
-|Compatibility:|Spark NLP for Healthcare 4.0.2+|
+|Compatibility:|Healthcare NLP 4.0.2+|
 |License:|Licensed|
 |Edition:|Official|
 |Input Labels:|[sentence, token, embeddings]|

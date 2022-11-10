@@ -7,7 +7,7 @@ date: 2022-06-23
 tags: [gl, ner, clinical, licensed]
 task: Named Entity Recognition
 language: gl
-edition: Spark NLP for Healthcare 3.5.3
+edition: Healthcare NLP 3.5.3
 spark_version: 3.0
 supported: true
 article_header:
@@ -151,7 +151,7 @@ nlu.load("gl.med_ner.living_species").predict("""Muller de 45 anos, sen antecede
 {:.table-model}
 |---|---|
 |Model Name:|ner_living_species|
-|Compatibility:|Spark NLP for Healthcare 3.5.3+|
+|Compatibility:|Healthcare NLP 3.5.3+|
 |License:|Licensed|
 |Edition:|Official|
 |Input Labels:|[sentence, token, embeddings]|

@@ -7,7 +7,7 @@ date: 2022-09-30
 tags: [icd10cm, icd9cm, licensed, en, clinical, pipeline, chunk_mapping]
 task: Pipeline Healthcare
 language: en
-edition: Spark NLP for Healthcare 4.1.0
+edition: Healthcare NLP 4.1.0
 spark_version: 3.0
 supported: true
 article_header:
@@ -61,7 +61,7 @@ val result= pipeline.fullAnnotate('Z833 A0100 A000')
 |---|---|
 |Model Name:|icd10_icd9_mapping|
 |Type:|pipeline|
-|Compatibility:|Spark NLP for Healthcare 4.1.0+|
+|Compatibility:|Healthcare NLP 4.1.0+|
 |License:|Licensed|
 |Edition:|Official|
 |Language:|en|

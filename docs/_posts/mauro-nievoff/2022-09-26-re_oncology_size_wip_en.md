@@ -7,7 +7,7 @@ date: 2022-09-26
 tags: [licensed, clinical, oncology, relation_extraction, en]
 task: Relation Extraction
 language: en
-edition: Spark NLP for Healthcare 4.0.0
+edition: Healthcare NLP 4.0.0
 spark_version: 3.0
 supported: true
 article_header:
@@ -158,7 +158,7 @@ val result = pipeline.fit(data).transform(data)
 |---|---|
 |Model Name:|re_oncology_size_wip|
 |Type:|re|
-|Compatibility:|Spark NLP for Healthcare 4.0.0+|
+|Compatibility:|Healthcare NLP 4.0.0+|
 |License:|Licensed|
 |Edition:|Official|
 |Input Labels:|[embeddings, pos_tags, train_ner_chunks, dependencies]|

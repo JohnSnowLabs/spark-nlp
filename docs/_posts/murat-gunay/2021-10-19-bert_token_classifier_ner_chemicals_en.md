@@ -7,7 +7,7 @@ date: 2021-10-19
 tags: [berfortokenclassification, ner, chemicals, en, licensed]
 task: Named Entity Recognition
 language: en
-edition: Spark NLP for Healthcare 3.3.0
+edition: Healthcare NLP 3.3.0
 spark_version: 2.4
 supported: true
 article_header:
@@ -114,7 +114,7 @@ nlu.load("en.classify.token_bert.ner_chemical").predict("""The results have show
 {:.table-model}
 |---|---|
 |Model Name:|bert_token_classifier_ner_chemicals|
-|Compatibility:|Spark NLP for Healthcare 3.3.0+|
+|Compatibility:|Healthcare NLP 3.3.0+|
 |License:|Licensed|
 |Edition:|Official|
 |Input Labels:|[sentence, token]|

@@ -7,7 +7,7 @@ date: 2022-06-26
 tags: [rxnorm, umls, chunk_mapper, clinical, licensed, en]
 task: Chunk Mapping
 language: en
-edition: Spark NLP for Healthcare 3.5.3
+edition: Healthcare NLP 3.5.3
 spark_version: 3.0
 supported: true
 article_header:
@@ -127,7 +127,7 @@ nlu.load("en.rxnorm_to_umls").predict("""amlodipine 5 MG""")
 {:.table-model}
 |---|---|
 |Model Name:|rxnorm_umls_mapper|
-|Compatibility:|Spark NLP for Healthcare 3.5.3+|
+|Compatibility:|Healthcare NLP 3.5.3+|
 |License:|Licensed|
 |Edition:|Official|
 |Input Labels:|[rxnorm_code]|
