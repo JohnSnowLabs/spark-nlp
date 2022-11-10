@@ -58,7 +58,7 @@ dependency_parser = nlp.DependencyParserModel() \
     .setInputCols(["sentence", "pos_tags", "token"]) \
     .setOutputCol("dependencies")
     
-ner_model = tokenClassifier = legal.BertForTokenClassification.pretrained("legner_bert_grants", "en", "legal/models")\
+ner_model = legal.BertForTokenClassification.pretrained("legner_bert_grants", "en", "legal/models")\
   .setInputCols("token", "sentence")\
   .setOutputCol("ner")\
   .setCaseSensitive(True)
