@@ -312,7 +312,7 @@ trait ReadDeBertaForQATensorflowModel extends ReadTensorflowModel with ReadSente
 
     val (localModelPath, detectedEngine) = modelSanityCheck(modelPath)
 
-    val spModel = loadSentencePieceAsset(localModelPath, "spiece.model")
+    val spModel = loadSentencePieceAsset(localModelPath, "spm.model")
 
     /*Universal parameters for all engines*/
     val annotatorModel = new DeBertaForQuestionAnswering()
