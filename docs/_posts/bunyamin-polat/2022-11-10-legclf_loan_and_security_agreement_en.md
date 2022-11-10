@@ -38,18 +38,28 @@ If not, let us know and we can carry out another approach for you: getting chunk
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
-```python
 
-document_assembler = nlp.DocumentAssembler() 
-     .setInputCol("text")     .setOutputCol("document")
+```python
+document_assembler = nlp.DocumentAssembler()\
+     .setInputCol("text")\
+     .setOutputCol("document")
      
-tokenizer = nlp.Tokenizer()     .setInputCols(["document"])     .setOutputCol("token")
+tokenizer = nlp.Tokenizer()\
+    .setInputCols(["document"])\
+    .setOutputCol("token")
      
-embeddings = nlp.LongformerEmbeddings.pretrained("legal_longformer_base", "en")    .setInputCols("document", "token")    .setOutputCol("embeddings")
+embeddings = nlp.LongformerEmbeddings.pretrained("legal_longformer_base", "en")\
+    .setInputCols("document", "token")\
+    .setOutputCol("embeddings")
     
-sentence_embeddings = nlp.SentenceEmbeddings()    .setInputCols(["document", "embeddings"])    .setOutputCol("sentence_embeddings")    .setPoolingStrategy("AVERAGE")
+sentence_embeddings = nlp.SentenceEmbeddings()\
+    .setInputCols(["document", "embeddings"])\
+    .setOutputCol("sentence_embeddings")\
+    .setPoolingStrategy("AVERAGE")
     
-doc_classifier = nlp.ClassifierDLModel.pretrained("legclf_loan_and_security_agreement", "en", "legal/models")    .setInputCols(["sentence_embeddings"])    .setOutputCol("category")
+doc_classifier = nlp.ClassifierDLModel.pretrained("legclf_loan_and_security_agreement", "en", "legal/models")\
+    .setInputCols(["sentence_embeddings"])\
+    .setOutputCol("category")
     
 nlpPipeline = nlp.Pipeline(stages=[
     document_assembler, 
