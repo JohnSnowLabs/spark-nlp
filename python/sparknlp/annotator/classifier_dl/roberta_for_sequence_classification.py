@@ -14,6 +14,7 @@
 """Contains classes for RoBertaForSequenceClassification."""
 
 from sparknlp.common import *
+from sparknlp.common.annotator_type import AnnotatorType
 
 
 class RoBertaForSequenceClassification(AnnotatorModel,
@@ -100,6 +101,8 @@ class RoBertaForSequenceClassification(AnnotatorModel,
     +--------------------+
     """
     name = "RoBertaForSequenceClassification"
+
+    inputAnnotatorTypes = [AnnotatorType.DOCUMENT, AnnotatorType.TOKEN]
 
     maxSentenceLength = Param(Params._dummy(),
                               "maxSentenceLength",

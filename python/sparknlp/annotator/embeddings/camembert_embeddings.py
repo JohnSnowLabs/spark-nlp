@@ -14,6 +14,7 @@
 """Contains classes for CamemBertEmbeddings."""
 
 from sparknlp.common import *
+from sparknlp.common.annotator_type import AnnotatorType
 
 
 class CamemBertEmbeddings(AnnotatorModel,
@@ -131,6 +132,8 @@ class CamemBertEmbeddings(AnnotatorModel,
         """
 
     name = "CamemBertEmbeddings"
+
+    inputAnnotatorTypes = [AnnotatorType.DOCUMENT, AnnotatorType.TOKEN]
 
     configProtoBytes = Param(
         Params._dummy(),

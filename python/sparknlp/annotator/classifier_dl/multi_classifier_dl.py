@@ -16,6 +16,7 @@
 from sparknlp.annotator.param import EvaluationDLParams, ClassifierEncoder
 from sparknlp.annotator.classifier_dl import ClassifierDLModel
 from sparknlp.common import *
+from sparknlp.common.annotator_type import AnnotatorType
 
 
 class MultiClassifierDLApproach(AnnotatorApproach, EvaluationDLParams, ClassifierEncoder):
@@ -143,6 +144,7 @@ class MultiClassifierDLApproach(AnnotatorApproach, EvaluationDLParams, Classifie
     ClassifierDLApproach : for single-class classification
     SentimentDLApproach : for sentiment analysis
     """
+    inputAnnotatorTypes = [AnnotatorType.SENTENCE_EMBEDDINGS]
 
     shufflePerEpoch = Param(Params._dummy(), "shufflePerEpoch", "whether to shuffle the training data on each Epoch",
                             TypeConverters.toBoolean)
@@ -289,6 +291,8 @@ class MultiClassifierDLModel(AnnotatorModel, HasStorageRef, HasEngine):
     SentimentDLModel : for sentiment analysis
     """
     name = "MultiClassifierDLModel"
+
+    inputAnnotatorTypes = [AnnotatorType.SENTENCE_EMBEDDINGS]
 
     def __init__(self, classname="com.johnsnowlabs.nlp.annotators.classifier.dl.MultiClassifierDLModel",
                  java_model=None):

@@ -14,6 +14,7 @@
 """Contains classes for LongformerEmbeddings."""
 
 from sparknlp.common import *
+from sparknlp.common.annotator_type import AnnotatorType
 
 
 class LongformerEmbeddings(AnnotatorModel,
@@ -134,6 +135,8 @@ class LongformerEmbeddings(AnnotatorModel,
     +--------------------------------------------------------------------------------+
     """
     name = "LongformerEmbeddings"
+
+    inputAnnotatorTypes = [AnnotatorType.DOCUMENT, AnnotatorType.TOKEN]
 
     maxSentenceLength = Param(Params._dummy(),
                               "maxSentenceLength",

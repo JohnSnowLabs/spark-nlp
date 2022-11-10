@@ -14,6 +14,7 @@
 """Contains classes for LongformerForSequenceClassification."""
 
 from sparknlp.common import *
+from sparknlp.common.annotator_type import AnnotatorType
 
 
 class LongformerForSequenceClassification(AnnotatorModel,
@@ -100,6 +101,8 @@ class LongformerForSequenceClassification(AnnotatorModel,
     +--------------------+
     """
     name = "LongformerForSequenceClassification"
+
+    inputAnnotatorTypes = [AnnotatorType.DOCUMENT, AnnotatorType.TOKEN]
 
     maxSentenceLength = Param(Params._dummy(),
                               "maxSentenceLength",

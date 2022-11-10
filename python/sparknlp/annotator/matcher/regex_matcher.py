@@ -15,6 +15,7 @@
 
 
 from sparknlp.common import *
+from sparknlp.common.annotator_type import AnnotatorType
 
 
 class RegexMatcher(AnnotatorApproach):
@@ -80,6 +81,8 @@ class RegexMatcher(AnnotatorApproach):
     +--------------------------------------------------------------------------------------------+
     """
 
+    inputAnnotatorTypes = [AnnotatorType.DOCUMENT]
+
     strategy = Param(Params._dummy(),
                      "strategy",
                      "MATCH_FIRST|MATCH_ALL|MATCH_COMPLETE",
@@ -130,6 +133,7 @@ class RegexMatcher(AnnotatorApproach):
     def _create_model(self, java_model):
         return RegexMatcherModel(java_model=java_model)
 
+
 class RegexMatcherModel(AnnotatorModel):
     """Instantiated model of the RegexMatcher.
 
@@ -146,6 +150,8 @@ class RegexMatcherModel(AnnotatorModel):
     ----------
     None
     """
+
+    inputAnnotatorTypes = [AnnotatorType.DOCUMENT]
 
     def __init__(self, classname="com.johnsnowlabs.nlp.annotators.RegexMatcherModel", java_model=None):
         super(RegexMatcherModel, self).__init__(

@@ -14,6 +14,7 @@
 """Contains classes for BertForSequenceClassification."""
 
 from sparknlp.common import *
+from sparknlp.common.annotator_type import AnnotatorType
 
 
 class BertForSequenceClassification(AnnotatorModel,
@@ -100,6 +101,8 @@ class BertForSequenceClassification(AnnotatorModel,
     +--------------------+
     """
     name = "BertForSequenceClassification"
+
+    inputAnnotatorTypes = [AnnotatorType.DOCUMENT, AnnotatorType.TOKEN]
 
     maxSentenceLength = Param(Params._dummy(),
                               "maxSentenceLength",

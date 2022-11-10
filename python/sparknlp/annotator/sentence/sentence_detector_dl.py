@@ -14,6 +14,7 @@
 """Contains classes for SentenceDetectorDl."""
 
 from sparknlp.common import *
+from sparknlp.common.annotator_type import AnnotatorType
 
 
 class SentenceDetectorDLApproach(AnnotatorApproach):
@@ -93,6 +94,8 @@ class SentenceDetectorDLApproach(AnnotatorApproach):
     """
 
     name = "SentenceDetectorDLApproach"
+
+    inputAnnotatorTypes = [AnnotatorType.DOCUMENT]
 
     modelArchitecture = Param(Params._dummy(),
                               "modelArchitecture",
@@ -297,6 +300,8 @@ class SentenceDetectorDLModel(AnnotatorModel, HasEngine):
     +----------------------------+
     """
     name = "SentenceDetectorDLModel"
+
+    inputAnnotatorTypes = [AnnotatorType.DOCUMENT]
 
     modelArchitecture = Param(Params._dummy(), "modelArchitecture", "Model architecture (CNN)",
                               typeConverter=TypeConverters.toString)

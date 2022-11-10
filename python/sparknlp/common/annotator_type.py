@@ -11,14 +11,27 @@
 #  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
-"""Module of common base classes for Spark NLP annotators."""
-from sparknlp.common.annotator_approach import *
-from sparknlp.common.annotator_model import *
-from sparknlp.common.annotator_properties import *
-from sparknlp.common.coverage_result import *
-from sparknlp.common.properties import *
-from sparknlp.common.read_as import *
-from sparknlp.common.recursive_annotator_approach import *
-from sparknlp.common.storage import *
-from sparknlp.common.utils import *
-from sparknlp.common.annotator_type import *
+
+
+class AnnotatorType(object):
+    AUDIO = "audio"
+    DOCUMENT = "document"
+    IMAGE = "image"
+    TOKEN = "token"
+    WORDPIECE = "wordpiece"
+    WORD_EMBEDDINGS = "word_embeddings"
+    SENTENCE_EMBEDDINGS = "sentence_embeddings"
+    CATEGORY = "category"
+    DATE = "date"
+    ENTITY = "entity"
+    SENTIMENT = "sentiment"
+    POS = "pos"
+    CHUNK = "chunk"
+    NAMED_ENTITY = "named_entity"
+    NEGEX = "negex"
+    DEPENDENCY = "dependency"
+    LABELED_DEPENDENCY = "labeled_dependency"
+    LANGUAGE = "language"
+    NODE = "node"
+    TABLE = "table"
+    DUMMY = "dummy"

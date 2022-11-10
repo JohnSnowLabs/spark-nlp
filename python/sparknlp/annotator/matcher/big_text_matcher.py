@@ -15,6 +15,7 @@
 
 from sparknlp.common import *
 from sparknlp.annotator.matcher.text_matcher import TextMatcherModel
+from sparknlp.common.annotator_type import AnnotatorType
 
 
 class BigTextMatcher(AnnotatorApproach, HasStorage):
@@ -81,6 +82,8 @@ class BigTextMatcher(AnnotatorApproach, HasStorage):
     |[chunk, 53, 59, laborum, [sentence -> 0, chunk -> 1], []]           |
     +--------------------------------------------------------------------+
     """
+
+    inputAnnotatorTypes = [AnnotatorType.DOCUMENT, AnnotatorType.TOKEN]
 
     entities = Param(Params._dummy(),
                      "entities",
@@ -182,6 +185,7 @@ class BigTextMatcherModel(AnnotatorModel, HasStorageModel):
     """
     name = "BigTextMatcherModel"
     databases = ['TMVOCAB', 'TMEDGES', 'TMNODES']
+    inputAnnotatorTypes = [AnnotatorType.TOKEN]
 
     caseSensitive = Param(Params._dummy(),
                           "caseSensitive",

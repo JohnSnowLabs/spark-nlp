@@ -12,7 +12,6 @@
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
 """Contains classes for DeBertaEmbeddings."""
-
 from sparknlp.common import *
 
 
@@ -132,6 +131,8 @@ class DeBertaEmbeddings(AnnotatorModel,
     """
 
     name = "DeBertaEmbeddings"
+
+    inputAnnotatorTypes = [AnnotatorType.DOCUMENT, AnnotatorType.TOKEN]
 
     configProtoBytes = Param(Params._dummy(),
                              "configProtoBytes",
