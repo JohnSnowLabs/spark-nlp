@@ -58,7 +58,7 @@ ner_converter = nlp.NerConverter()\
     .setOutputCol("ner_chunk")
 
 re_model = legal.RelationExtractionDLModel()\
-    .load("legre_obligations_md", "en", "legal/models")\
+    .pretrained("legre_obligations_md", "en", "legal/models")\
     .setPredictionThreshold(0.5)\
     .setInputCols(["ner_chunk", "document"])\
     .setOutputCol("relations")
