@@ -34,36 +34,11 @@ If not, let us know and we can carry out another approach for you: getting chunk
 
 ## How to use
 
-documentAssembler = nlp.DocumentAssembler() \
-     .setInputCol("text") \
-     .setOutputCol("document")
-tokenizer = nlp.Tokenizer()\
-     .setInputCols(["document"])\
-     .setOutputCol("token")
-embeddings = nlp.LongformerEmbeddings.pretrained("legal_longformer_base", "en")\
-    .setInputCols("document", "token") \
-    .setOutputCol("embeddings")
-sembeddings = nlp.SentenceEmbeddings()\
-    .setInputCols(["document", "embeddings"]) \
-    .setOutputCol("sentence_embeddings") \
-    .setPoolingStrategy("AVERAGE")
-docClassifier = nlp.ClassifierDLModel.pretrained("legclf_stockholder_agreement", "en", "legal/models")\
-    .setInputCols(["sentence_embeddings"])\
-    .setOutputCol("category")
-    
-nlpPipeline = nlp.Pipeline(stages=[
-    documentAssembler, 
-    tokenizer,
-    embeddings,
-    sembeddings,
-    docClassifier])
- 
-df = spark.createDataFrame([["YOUR TEXT HERE"]]).toDF("text")
-model = nlpPipeline.fit(df)
-result = model.transform(df)
+
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
+
 ```python
 documentAssembler = nlp.DocumentAssembler() \
      .setInputCol("text") \
