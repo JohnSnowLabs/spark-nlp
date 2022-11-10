@@ -7,7 +7,7 @@ date: 2022-11-04
 tags: [licensed, en, oncology, clinical]
 task: Named Entity Recognition
 language: en
-edition: Spark NLP for Healthcare 4.2.2
+edition: Spark NLP for Healthcare 4.2.1
 spark_version: 3.0
 supported: true
 article_header:
@@ -22,7 +22,7 @@ This pipeline includes Named-Entity Recognition, Assertion Status, Relation Extr
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>
 [Open in Colab](https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/27.Oncology_Model.ipynb){:.button.button-orange.button-orange-trans.co.button-icon}
-[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/oncology_diagnosis_pipeline_en_4.1.0_3.0_1667569522240.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
+[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/oncology_diagnosis_pipeline_en_4.2.1_3.0_1667569522240.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
 
 ## How to use
 
@@ -154,7 +154,7 @@ val result = pipeline.fullAnnotate("""Two years ago, the patient presented with 
 |---|---|
 |Model Name:|oncology_diagnosis_pipeline|
 |Type:|pipeline|
-|Compatibility:|Spark NLP for Healthcare 4.1.0+|
+|Compatibility:|Spark NLP for Healthcare 4.2.1+|
 |License:|Licensed|
 |Edition:|Official|
 |Language:|en|
