@@ -7,7 +7,7 @@ date: 2021-03-29
 tags: [ner, named_entity_recognition, pos, parts_of_speech, posology, ner_posology, pipeline, en, licensed]
 task: [Named Entity Recognition, Part of Speech Tagging]
 language: en
-edition: Spark NLP for Healthcare 3.0.0
+edition: Healthcare NLP 3.0.0
 spark_version: 3.0
 supported: true
 article_header:
@@ -33,20 +33,16 @@ This pipeline detects drugs, dosage, form, frequency, duration, route, and drug 
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
-
 ```python
-from sparknlp.pretrained import PretrainedPipeline
-
-pipeline = PretrainedPipeline('recognize_entities_posology', 'en', 'clinical/models')
-
-annotations =  pipeline.fullAnnotate("""The patient was perscriped 50MG penicilin for is headache""")[0]
-
+from sparknlp.pretrained import PretrainedPipelinein
+pipeline = PretrainedPipeline('recognize_entities_posology', lang = 'en')
+annotations =  pipeline.fullAnnotate(""The patient was perscriped 50MG penicilin for is headache"")[0]
 annotations.keys()
 
 ```
 ```scala
 
-val pipeline = new PretrainedPipeline("recognize_entities_posology", "en", "clinical/models")
+val pipeline = new PretrainedPipeline("recognize_entities_posology", lang = "en")
 val result = pipeline.fullAnnotate("The patient was perscriped 50MG penicilin for is headache")(0)
 
 ```
@@ -86,7 +82,7 @@ result_df
 |---|---|
 |Model Name:|recognize_entities_posology|
 |Type:|pipeline|
-|Compatibility:|Spark NLP for Healthcare 3.0.0+|
+|Compatibility:|Healthcare NLP 3.0.0+|
 |License:|Licensed|
 |Edition:|Official|
 |Language:|en|
@@ -99,3 +95,4 @@ result_df
 - WordEmbeddingsModel
 - NerDLModel
 - NerConverter
+

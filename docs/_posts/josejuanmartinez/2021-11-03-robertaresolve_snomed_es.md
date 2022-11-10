@@ -7,7 +7,7 @@ date: 2021-11-03
 tags: [embeddings, es, snomed, entity_resolution, clinical, licensed]
 task: Entity Resolution
 language: es
-edition: Spark NLP for Healthcare 3.3.0
+edition: Healthcare NLP 3.3.0
 spark_version: 3.0
 supported: true
 article_header:
@@ -154,7 +154,7 @@ nlu.load("es.resolve.snomed").predict("""Mujer de 28 años con antecedentes de d
 {:.table-model}
 |---|---|
 |Model Name:|robertaresolve_snomed|
-|Compatibility:|Spark NLP for Healthcare 3.3.0+|
+|Compatibility:|Healthcare NLP 3.3.0+|
 |License:|Licensed|
 |Edition:|Official|
 |Input Labels:|[ner_chunk_doc, sentence_embeddings]|

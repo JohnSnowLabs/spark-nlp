@@ -7,7 +7,7 @@ date: 2021-08-28
 tags: [rxnorm, en, licensed, clinical]
 task: Entity Resolution
 language: en
-edition: Spark NLP for Healthcare 3.1.3
+edition: Healthcare NLP 3.1.3
 spark_version: 2.4
 supported: true
 article_header:
@@ -100,7 +100,7 @@ nlu.load("en.resolve.rxnorm.disposition").predict("""alizapride 25 mg/ml""")
 {:.table-model}
 |---|---|
 |Model Name:|sbertresolve_rxnorm_disposition|
-|Compatibility:|Spark NLP for Healthcare 3.1.3+|
+|Compatibility:|Healthcare NLP 3.1.3+|
 |License:|Licensed|
 |Edition:|Official|
 |Input Labels:|[ner_chunk, sbert_embeddings]|

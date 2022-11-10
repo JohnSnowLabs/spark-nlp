@@ -7,7 +7,7 @@ date: 2022-03-03
 tags: [deid, es, licensed]
 task: De-identification
 language: es
-edition: Spark NLP for Healthcare 3.4.1
+edition: Healthcare NLP 3.4.1
 spark_version: 2.4
 supported: true
 recommended: true
@@ -274,7 +274,7 @@ Francisco José Roca Bermúdez Hospital 12 de Octubre Servicio de Endocrinologí
 |---|---|
 |Model Name:|clinical_deidentification_augmented|
 |Type:|pipeline|
-|Compatibility:|Spark NLP for Healthcare 3.4.1+|
+|Compatibility:|Healthcare NLP 3.4.1+|
 |License:|Licensed|
 |Edition:|Official|
 |Language:|es|

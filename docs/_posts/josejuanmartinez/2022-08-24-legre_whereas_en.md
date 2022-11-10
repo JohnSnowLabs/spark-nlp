@@ -1,13 +1,13 @@
 ---
 layout: model
-title: Legal Relation Extraction (Whereas)
+title: Legal Relation Extraction (Whereas, sm, Bidirectional))
 author: John Snow Labs
 name: legre_whereas
 date: 2022-08-24
 tags: [en, legal, re, relations, licensed]
 task: Relation Extraction
 language: en
-edition: Spark NLP for Legal 1.0.0
+edition: Legal NLP 1.0.0
 spark_version: 3.0
 supported: true
 article_header:
@@ -20,6 +20,10 @@ use_language_switcher: "Python-Scala-Java"
 This is a Relation Extraction model to infer relations between elements in WHEREAS clauses, more specifically the SUBJECT, the ACTION and the OBJECT. There are two relations possible: `has_subject` and `has_object`.
 
 You can also use `legpipe_whereas` which includes this model and its NER and also depedency parsing, to carry out chunk extraction using grammatical features (the dependency tree).
+
+This model is a `sm` model without meaningful directions in the relations (the model was not trained to understand if the direction of the relation is from left to right or right to left).
+
+There are bigger models in Models Hub trained also with directed relationships.
 
 ## Predicted Entities
 
@@ -100,7 +104,7 @@ has_subject WHEREAS_SUBJECT            11          21 VerticalNet WHEREAS_OBJECT
 |---|---|
 |Model Name:|legre_whereas|
 |Type:|legal|
-|Compatibility:|Spark NLP for Legal 1.0.0+|
+|Compatibility:|Legal NLP 1.0.0+|
 |License:|Licensed|
 |Edition:|Official|
 |Language:|en|

@@ -42,7 +42,6 @@ In the table below, `re_bodypart_problem` RE model, its labels, optimal NER mode
 {% include programmingLanguageSelectScalaPythonNLU.html %}
 
 ```python
-
 documenter = DocumentAssembler()\
     .setInputCol("text")\
     .setOutputCol("document")
@@ -172,9 +171,7 @@ Trained on custom datasets annotated internally
 ## Benchmarking
 
 ```bash
-| relation | recall | precision |
-|----------|--------|-----------|
-| 0        | 0.72   | 0.82      |
-| 1        | 0.94   | 0.91      |
-
+label  recall  precision
+0      0.72    0.82     
+1      0.94    0.91     
 ```

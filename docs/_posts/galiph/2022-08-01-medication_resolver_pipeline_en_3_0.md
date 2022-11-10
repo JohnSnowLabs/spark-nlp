@@ -7,7 +7,7 @@ date: 2022-08-01
 tags: [resolver, rxnorm, umls, snomed, ndc, en, licensed]
 task: Pipeline Healthcare
 language: en
-edition: Spark NLP for Healthcare 4.0.0
+edition: Healthcare NLP 4.0.0
 spark_version: 3.0
 supported: true
 article_header:
@@ -74,7 +74,7 @@ The other patient is given Lescol 40 MG and Lidoderm 0.05 MG/MG, triazolam 0.125
 |---|---|
 |Model Name:|medication_resolver_pipeline|
 |Type:|pipeline|
-|Compatibility:|Spark NLP for Healthcare 4.0.0+|
+|Compatibility:|Healthcare NLP 4.0.0+|
 |License:|Licensed|
 |Edition:|Official|
 |Language:|en|

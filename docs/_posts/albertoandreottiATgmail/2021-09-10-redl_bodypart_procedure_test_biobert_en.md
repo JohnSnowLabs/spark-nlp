@@ -7,7 +7,7 @@ date: 2021-09-10
 tags: [relation_extraction, en, clinical, dl, licensed]
 task: Relation Extraction
 language: en
-edition: Spark NLP for Healthcare 3.0.3
+edition: Healthcare NLP 3.0.3
 spark_version: 2.4
 supported: true
 article_header:
@@ -190,7 +190,7 @@ nlu.load("en.relation.bodypart.procedure").predict("""TECHNIQUE IN DETAIL: After
 {:.table-model}
 |---|---|
 |Model Name:|redl_bodypart_procedure_test_biobert_en_3.0.3_2.4|
-|Compatibility:|Spark NLP for Healthcare 3.0.3+|
+|Compatibility:|Healthcare NLP 3.0.3+|
 |License:|Licensed|
 |Edition:|Official|
 |Language:|en|

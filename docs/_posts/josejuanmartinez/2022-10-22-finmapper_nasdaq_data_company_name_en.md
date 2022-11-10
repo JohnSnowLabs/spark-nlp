@@ -7,7 +7,7 @@ date: 2022-10-22
 tags: [en, finance, companies, nasdaq, ticker, licensed]
 task: Chunk Mapping
 language: en
-edition: Spark NLP for Finance 1.0.0
+edition: Finance NLP 1.0.0
 spark_version: 3.0
 supported: true
 article_header:
@@ -112,7 +112,7 @@ Row(annotatorType='labeled_dependency', begin=0, end=11, relation='category' res
 {:.table-model}
 |---|---|
 |Model Name:|finmapper_nasdaq_data_company_name|
-|Compatibility:|Spark NLP for Finance 1.0.0+|
+|Compatibility:|Finance NLP 1.0.0+|
 |License:|Licensed|
 |Edition:|Official|
 |Input Labels:|[ner_chunk]|

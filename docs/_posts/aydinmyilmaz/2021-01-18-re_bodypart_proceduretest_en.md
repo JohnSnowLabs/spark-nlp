@@ -47,7 +47,6 @@ Use as part of an nlp pipeline with the following stages: DocumentAssembler, Sen
 {% include programmingLanguageSelectScalaPythonNLU.html %}
 
 ```python
-
 documenter = DocumentAssembler()\
     .setInputCol("text")\
     .setOutputCol("document")
@@ -180,9 +179,9 @@ Trained on data gathered and manually annotated by John Snow Labs
 ## Benchmarking
 
 ```bash
-| relation | recall | precision | f1   |
-|----------|--------|-----------|------|
-| 0        | 0.55   | 0.35      | 0.43 |
-| 1        | 0.73   | 0.86      | 0.79 |
+label  recall  precision  f1   
+0      0.55    0.35       0.43 
+1      0.73    0.86       0.79 
 
 ```
+

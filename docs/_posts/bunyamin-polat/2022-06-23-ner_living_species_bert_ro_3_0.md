@@ -7,7 +7,7 @@ date: 2022-06-23
 tags: [ro, ner, clinical, licensed, bert]
 task: Named Entity Recognition
 language: ro
-edition: Spark NLP for Healthcare 3.5.3
+edition: Healthcare NLP 3.5.3
 spark_version: 3.0
 supported: true
 article_header:
@@ -150,7 +150,7 @@ nlu.load("ro.med_ner.living_species.bert").predict("""O femeie în vârstă de 2
 {:.table-model}
 |---|---|
 |Model Name:|ner_living_species_bert|
-|Compatibility:|Spark NLP for Healthcare 3.5.3+|
+|Compatibility:|Healthcare NLP 3.5.3+|
 |License:|Licensed|
 |Edition:|Official|
 |Input Labels:|[sentence, token, embeddings]|

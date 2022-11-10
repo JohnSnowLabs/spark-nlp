@@ -7,7 +7,7 @@ date: 2022-04-01
 tags: [en, chunkmapper, chunkmapping, normalizer, sectionheader, licensed, clinical]
 task: Chunk Mapping
 language: en
-edition: Spark NLP for Healthcare 3.5.0
+edition: Healthcare NLP 3.5.0
 spark_version: 3.0
 supported: true
 article_header:
@@ -179,7 +179,7 @@ GENERAL REVIEW Right pleural effusion, firm nodules, diffuse scattered throughou
 {:.table-model}
 |---|---|
 |Model Name:|normalized_section_header_mapper|
-|Compatibility:|Spark NLP for Healthcare 3.5.0+|
+|Compatibility:|Healthcare NLP 3.5.0+|
 |License:|Licensed|
 |Edition:|Official|
 |Input Labels:|[ner_chunk]|

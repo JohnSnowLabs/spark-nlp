@@ -7,7 +7,7 @@ date: 2022-09-08
 tags: [en, finance, companies, tickers, nasdaq, licensed]
 task: Entity Resolution
 language: en
-edition: Spark NLP for Finance 1.0.0
+edition: Finance NLP 1.0.0
 spark_version: 3.0
 supported: true
 article_header:
@@ -79,7 +79,7 @@ lp.fullAnnotate("apple")
 |---|---|
 |Model Name:|finel_names2tickers|
 |Type:|finance|
-|Compatibility:|Spark NLP for Finance 1.0.0+|
+|Compatibility:|Finance NLP 1.0.0+|
 |License:|Licensed|
 |Edition:|Official|
 |Input Labels:|[sentence_embeddings]|

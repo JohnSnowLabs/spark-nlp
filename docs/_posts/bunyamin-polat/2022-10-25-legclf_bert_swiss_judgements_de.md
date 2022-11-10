@@ -7,7 +7,7 @@ date: 2022-10-25
 tags: [de, legal, licensed, sequence_classification]
 task: Text Classification
 language: de
-edition: Spark NLP for Legal 1.0.0
+edition: Legal NLP 1.0.0
 spark_version: 3.0
 supported: true
 article_header:
@@ -79,7 +79,7 @@ result = clf_pipeline.fit(data).transform(data)
 {:.table-model}
 |---|---|
 |Model Name:|legclf_bert_swiss_judgements|
-|Compatibility:|Spark NLP for Legal 1.0.0+|
+|Compatibility:|Legal NLP 1.0.0+|
 |License:|Licensed|
 |Edition:|Official|
 |Input Labels:|[document, token]|

@@ -7,7 +7,7 @@ date: 2022-06-28
 tags: [licensed, clinical, en, ner, pathogen, medical_condition, medicine]
 task: Named Entity Recognition
 language: en
-edition: Spark NLP for Healthcare 4.0.0
+edition: Healthcare NLP 4.0.0
 spark_version: 3.0
 supported: true
 article_header:
@@ -142,7 +142,7 @@ nlu.load("en.med_ner.pathogen").predict("""Racecadotril is an antisecretory medi
 {:.table-model}
 |---|---|
 |Model Name:|ner_pathogen|
-|Compatibility:|Spark NLP for Healthcare 4.0.0+|
+|Compatibility:|Healthcare NLP 4.0.0+|
 |License:|Licensed|
 |Edition:|Official|
 |Input Labels:|[sentence, token, embeddings]|

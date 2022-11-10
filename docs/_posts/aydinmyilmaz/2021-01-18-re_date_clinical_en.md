@@ -127,12 +127,12 @@ val dependency_parser = DependencyParserModel()
     .setOutputCol("dependencies")
 
 val re_model = RelationExtractionModel()
-        .pretrained("re_date", "en", "clinical/models")
-        .setInputCols(Array("embeddings", "pos_tags", "ner_chunks", "dependencies"))
-        .setOutputCol("relations")
-        .setMaxSyntacticDistance(3) #default: 0 
-        .setPredictionThreshold(0.9) #default: 0.5 
-        .setRelationPairs(Array("test-date", "symptom-date")) # Possible relation pairs. Default: All Relations.
+    .pretrained("re_date", "en", "clinical/models")
+    .setInputCols(Array("embeddings", "pos_tags", "ner_chunks", "dependencies"))
+    .setOutputCol("relations")
+    .setMaxSyntacticDistance(3) #default: 0 
+    .setPredictionThreshold(0.9) #default: 0.5 
+    .setRelationPairs(Array("test-date", "symptom-date")) # Possible relation pairs. Default: All Relations.
 
 val nlpPipeline = new Pipeline().setStages(Array(documenter, sentencer,tokenizer, word_embeddings, pos_tagger, ner_tagger, ner_chunker, dependency_parser, re_model))
 
@@ -174,8 +174,7 @@ Trained on data gathered and manually annotated by John Snow Labs
 ## Benchmarking
 
 ```bash
-| relation | recall | precision | f1   |
-|----------|--------|-----------|------|
-| 0        | 0.74   | 0.71      | 0.72 |
-| 1        | 0.94   | 0.95      | 0.94 |
+label recall  precision  f1   
+0     0.74    0.71       0.72
+1     0.94    0.95       0.94
 ```

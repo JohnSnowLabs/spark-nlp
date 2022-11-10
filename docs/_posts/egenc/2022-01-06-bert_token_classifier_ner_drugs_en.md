@@ -7,7 +7,7 @@ date: 2022-01-06
 tags: [drug, berfortokenclassification, ner, en, licensed]
 task: Named Entity Recognition
 language: en
-edition: Spark NLP for Healthcare 3.3.4
+edition: Healthcare NLP 3.3.4
 spark_version: 2.4
 supported: true
 article_header:
@@ -139,7 +139,7 @@ nlu.load("en.classify.token_bert.ner_drugs").predict("""The human KCNJ9 (Kir 3.3
 {:.table-model}
 |---|---|
 |Model Name:|bert_token_classifier_ner_drugs|
-|Compatibility:|Spark NLP for Healthcare 3.3.4+|
+|Compatibility:|Healthcare NLP 3.3.4+|
 |License:|Licensed|
 |Edition:|Official|
 |Input Labels:|[sentence, token]|

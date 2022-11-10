@@ -18,12 +18,10 @@ use_language_switcher: "Python-Scala-Java"
 
 ## Description
 
-
 Detect tumor morphology entities in Spanish text.
 
 
 ## Predicted Entities
-
 
 `MORFOLOGIA_NEOPLASIA`, `O`
 
@@ -338,6 +336,3 @@ accuracy               -         -      0.99     288649
 macro-avg              0.92      0.82   0.87     288649 
 weighted-avg           0.99      0.99   0.99     288649 
 ```
-<!--stackedit_data:
-eyJoaXN0b3J5IjpbMTMzMTg1MzcyMF19
--->

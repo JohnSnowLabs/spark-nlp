@@ -7,7 +7,7 @@ date: 2022-08-30
 tags: [en, legal, companies, edgar, licensed]
 task: Entity Resolution
 language: en
-edition: Spark NLP for Legal 1.0.0
+edition: Legal NLP 1.0.0
 spark_version: 3.0
 supported: true
 article_header:
@@ -79,7 +79,7 @@ lp.fullAnnotate("CONTACT GOLD")
 |---|---|
 |Model Name:|legel_edgar_irs|
 |Type:|legal|
-|Compatibility:|Spark NLP for Legal 1.0.0+|
+|Compatibility:|Legal NLP 1.0.0+|
 |License:|Licensed|
 |Edition:|Official|
 |Input Labels:|[sentence_embeddings]|

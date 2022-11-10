@@ -6,7 +6,7 @@ import { products, productDisplayName } from '../ModelItem/utils';
 const removeAloneEditions = (editions) => {
   const groups = {};
   editions.forEach((edition) => {
-    const m = edition.match(/^(.*?) \d\.\d$/);
+    const m = edition.match(/^(.*?) \d+\.\d+$/);
     if (m) {
       const [, name] = m;
       if (groups[name]) {
@@ -19,7 +19,7 @@ const removeAloneEditions = (editions) => {
 
   const result = [];
   editions.forEach((edition) => {
-    const m = edition.match(/^(.*?)( )?(\d\.\d)?$/);
+    const m = edition.match(/^(.*?)( )?(\d+\.\d+)?$/);
     if (m) {
       const [, name, , version] = m;
       if (version && groups[name] == 1) {
@@ -33,21 +33,22 @@ const removeAloneEditions = (editions) => {
 
 const compareEditions = (a, b) => {
   const getPriority = (edition) => {
-    const m = edition.match(/^(.*?)( )?(\d\.\d)?$/);
+    const m = edition.match(/^(.*?)( )?(\d+)\.(\d+)?$/);
     let name = edition,
       space,
-      version;
+      major,
+      minor;
     if (m) {
-      [, name, space, version] = m;
+      [, name, space, major, minor] = m;
     }
     let priority;
-    const productKeys = Object.keys(products);
-    const index = productKeys.indexOf(name);
+    const index = products.indexOf(name);
     if (index !== -1) {
       if (name === edition) {
-        priority = index - productKeys.length;
+        priority = index - products.length;
       } else {
         priority = index;
+        priority -= (Number(major) * 1000 + Number(minor)) / 10000;
       }
     } else {
       priority = 999;
@@ -56,6 +57,7 @@ const compareEditions = (a, b) => {
   };
   return getPriority(a) - getPriority(b);
 };
+
 const FilterForm = ({ onSubmit, isLoading, meta, params }) => {
   let tasks = [];
   let languages = [];
@@ -144,31 +146,24 @@ const FilterForm = ({ onSubmit, isLoading, meta, params }) => {
           {
             key: 1,
             name: 'edition',
-            value: edition,
+            value: productDisplayName(edition),
             className: 'filter-form__select filter-form__select--edition',
             disabled: isLoading,
             onChange: (e) => {
               onSubmit({ edition: e.target.value });
             },
-            renderValue: (edition) => {
-              return productDisplayName(edition);
-            },
           },
           editions
             .map((edition) => {
-              if (edition in products) {
-                let new_edition = `All ${products[edition]} versions`;
+              if (products.includes(edition)) {
+                let new_edition = `All ${edition} versions`;
                 return e(
                   'option',
                   { key: new_edition, value: edition },
                   new_edition
                 );
               } else {
-                return e(
-                  'option',
-                  { key: edition, value: edition },
-                  productDisplayName(edition)
-                );
+                return e('option', { key: edition, value: edition }, edition);
               }
             })
             .reduce(

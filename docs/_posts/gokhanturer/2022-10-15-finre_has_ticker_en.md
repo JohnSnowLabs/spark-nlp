@@ -7,7 +7,7 @@ date: 2022-10-15
 tags: [en, finance, re, has_ticker, licensed]
 task: Relation Extraction
 language: en
-edition: Spark NLP for Finance 1.0.0
+edition: Finance NLP 1.0.0
 spark_version: 3.0
 supported: true
 article_header:
@@ -133,7 +133,7 @@ light_model.fullAnnotate(text)
 {:.table-model}
 |---|---|
 |Model Name:|finre_has_ticker|
-|Compatibility:|Spark NLP for Finance 1.0.0+|
+|Compatibility:|Finance NLP 1.0.0+|
 |License:|Licensed|
 |Edition:|Official|
 |Language:|en|

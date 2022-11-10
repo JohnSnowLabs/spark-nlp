@@ -7,7 +7,7 @@ date: 2021-08-28
 tags: [ner, clinical, en, licensed]
 task: Named Entity Recognition
 language: en
-edition: Spark NLP for Healthcare 3.2.0
+edition: Healthcare NLP 3.2.0
 spark_version: 2.4
 supported: true
 article_header:
@@ -152,7 +152,7 @@ A 28-year-old female with a history of gestational diabetes mellitus diagnosed e
 {:.table-model}
 |---|---|
 |Model Name:|bert_token_classifier_ner_clinical|
-|Compatibility:|Spark NLP for Healthcare 3.2.0+|
+|Compatibility:|Healthcare NLP 3.2.0+|
 |License:|Licensed|
 |Edition:|Official|
 |Input Labels:|[sentence, token]|

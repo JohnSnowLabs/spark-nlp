@@ -7,7 +7,7 @@ date: 2022-06-26
 tags: [clinical, licensed, icd10cm, chunk_mapper, en, snomed]
 task: Chunk Mapping
 language: en
-edition: Spark NLP for Healthcare 3.5.3
+edition: Healthcare NLP 3.5.3
 spark_version: 3.0
 supported: true
 article_header:
@@ -120,7 +120,7 @@ nlu.load("en.snomed_to_icd10cm").predict("""Radiating chest pain""")
 {:.table-model}
 |---|---|
 |Model Name:|snomed_icd10cm_mapper|
-|Compatibility:|Spark NLP for Healthcare 3.5.3+|
+|Compatibility:|Healthcare NLP 3.5.3+|
 |License:|Licensed|
 |Edition:|Official|
 |Input Labels:|[snomed_code]|

@@ -7,7 +7,7 @@ date: 2021-08-26
 tags: [icd10cm, entity_resolution, licensed, en]
 task: Entity Resolution
 language: en
-edition: Spark NLP for Healthcare 3.1.3
+edition: Healthcare NLP 3.1.3
 spark_version: 2.4
 supported: true
 article_header:
@@ -104,7 +104,7 @@ nlu.load("en.resolve.icd10cm.slim_billable_hcc_med").predict("""bladder cancer""
 {:.table-model}
 |---|---|
 |Model Name:|sbertresolve_icd10cm_slim_billable_hcc_med|
-|Compatibility:|Spark NLP for Healthcare 3.1.3+|
+|Compatibility:|Healthcare NLP 3.1.3+|
 |License:|Licensed|
 |Edition:|Official|
 |Input Labels:|[ner_chunk, sbert_embeddings]|

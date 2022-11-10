@@ -7,7 +7,7 @@ date: 2022-07-25
 tags: [licensed, english, clinical, ner, oncology, cancer, biomarker, en]
 task: Named Entity Recognition
 language: en
-edition: Spark NLP for Healthcare 3.5.0
+edition: Healthcare NLP 3.5.0
 spark_version: 3.0
 supported: true
 published: false
@@ -152,7 +152,7 @@ nlu.load("en.med_ner.oncology_wip").predict("""She then sought medical attention
 {:.table-model}
 |---|---|
 |Model Name:|ner_oncology_wip|
-|Compatibility:|Spark NLP for Healthcare 3.5.0+|
+|Compatibility:|Healthcare NLP 3.5.0+|
 |License:|Licensed|
 |Edition:|Official|
 |Input Labels:|[sentence, token, embeddings]|

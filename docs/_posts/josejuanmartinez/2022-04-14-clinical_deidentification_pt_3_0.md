@@ -7,7 +7,7 @@ date: 2022-04-14
 tags: [deid, deidentification, pt, licensed]
 task: [De-identification, Pipeline Healthcare]
 language: pt
-edition: Spark NLP for Healthcare 3.4.1
+edition: Healthcare NLP 3.4.1
 spark_version: 3.0
 supported: true
 recommended: false
@@ -226,7 +226,7 @@ Referido por: Carlos Melo - Avenida Dos Aliados, 56, 22 Espanha E-mail: maria.pr
 |---|---|
 |Model Name:|clinical_deidentification|
 |Type:|pipeline|
-|Compatibility:|Spark NLP for Healthcare 3.4.1+|
+|Compatibility:|Healthcare NLP 3.4.1+|
 |License:|Licensed|
 |Edition:|Official|
 |Language:|pt|

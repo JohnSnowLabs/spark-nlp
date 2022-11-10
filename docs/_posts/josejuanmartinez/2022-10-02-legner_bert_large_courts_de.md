@@ -7,7 +7,7 @@ date: 2022-10-02
 tags: [de, legal, ner, laws, court, licensed]
 task: Named Entity Recognition
 language: de
-edition: Spark NLP for Legal 1.0.0
+edition: Legal NLP 1.0.0
 spark_version: 3.0
 supported: true
 article_header:
@@ -136,7 +136,7 @@ result.select(F.explode(F.arrays_zip('ner_chunk.result', 'ner_chunk.metadata')).
 {:.table-model}
 |---|---|
 |Model Name:|legner_bert_large_courts|
-|Compatibility:|Spark NLP for Legal 1.0.0+|
+|Compatibility:|Legal NLP 1.0.0+|
 |License:|Licensed|
 |Edition:|Official|
 |Input Labels:|[document, token]|
