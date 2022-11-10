@@ -1,6 +1,6 @@
 ---
 layout: model
-title: German Legal Judgement Classifier (Light)
+title: German Legal Judgement Classifier (Small)
 author: John Snow Labs
 name: legclf_judgement
 date: 2022-11-10
@@ -17,7 +17,7 @@ use_language_switcher: "Python-Scala-Java"
 
 ## Description
 
-This is a light version of German Legal Judgement Text Classifier written in German legal writing style "Urteilsstil" (judgement style), which will retrieve if a text is either conclusion, definition, other or subsumption .
+This is a `sm` version of German Legal Judgement Text Classifier written in German legal writing style "Urteilsstil" (judgement style), which will retrieve if a text is either conclusion, definition, other or subsumption .
 
 ## Predicted Entities
 
