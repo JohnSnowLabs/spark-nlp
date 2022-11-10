@@ -34,6 +34,7 @@ This is a large version NER model that extracts following 14 entities from Roman
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
+
 ```python
 document_assembler = nlp.DocumentAssembler()\
     .setInputCol("text")\
