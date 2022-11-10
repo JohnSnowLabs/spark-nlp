@@ -1,6 +1,6 @@
 ---
 layout: model
-title: Legal Relation Extraction (Confidentiality)
+title: Legal Relation Extraction (Confidentiality, sm, Bidirectional)
 author: John Snow Labs
 name: legre_confidentiality
 date: 2022-10-18
@@ -19,6 +19,10 @@ use_language_switcher: "Python-Scala-Java"
 
 This is a Legal Relation Extraction Model to identify the Subject (who), Action (web), Object(the indemnification) and Indirect Object (to whom) from confidentiality clauses.
 
+This model is a `sm` model without meaningful directions in the relations (the model was not trained to understand if the direction of the relation is from left to right or right to left).
+
+There are bigger models in Models Hub trained also with directed relationships.
+
 ## Predicted Entities
 
 `is_confidentiality_indobject`, `is_confidentiality_object`, `is_confidentiality_subject`
@@ -35,36 +39,54 @@ This is a Legal Relation Extraction Model to identify the Subject (who), Action 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
 ```python
-
 documentAssembler = nlp.DocumentAssembler()\
   .setInputCol("text")\
   .setOutputCol("document")
-
+  
+sentencizer = nlp.SentenceDetectorDLModel\
+        .pretrained("sentence_detector_dl", "en") \
+        .setInputCols(["document"])\
+        .setOutputCol("sentence")
+        
 tokenizer = nlp.Tokenizer()\
-  .setInputCols("document")\
-  .setOutputCol("token")
-
+        .setInputCols("sentence")\
+        .setOutputCol("token")
+        
+pos_tagger = nlp.PerceptronModel()\
+    .pretrained() \
+    .setInputCols(["sentence", "token"])\
+    .setOutputCol("pos_tags")
+    
+dependency_parser = nlp.DependencyParserModel() \
+    .pretrained("dependency_conllu", "en") \
+    .setInputCols(["sentence", "pos_tags", "token"]) \
+    .setOutputCol("dependencies")
+    
 embeddings = nlp.RoBertaEmbeddings.pretrained("roberta_embeddings_legal_roberta_base","en") \
-    .setInputCols(["document", "token"]) \
+    .setInputCols(["sentence", "token"]) \
     .setOutputCol("embeddings")
-
+    
 ner_model = legal.NerModel.pretrained('legner_confidentiality', 'en', 'legal/models') \
-        .setInputCols(["document", "token", "embeddings"]) \
+        .setInputCols(["sentence", "token", "embeddings"]) \
         .setOutputCol("ner")
-
+        
 ner_converter = nlp.NerConverter() \
-        .setInputCols(["document","token","ner"]) \
+        .setInputCols(["sentence","token","ner"]) \
         .setOutputCol("ner_chunk")
-
+        
+re_filter = legal.RENerChunksFilter()\
+    .setInputCols(["ner_chunk", "dependencies"])\
+    .setOutputCol("re_ner_chunks")\
+    .setMaxSyntacticDistance(10)\
+    .setRelationPairs(['CONFIDENTIALITY_ACTION-CONFIDENTIALITY_SUBJECT','CONFIDENTIALITY_ACTION-CONFIDENTIALITY','CONFIDENTIALITY_SUBJECT-CONFIDENTIALITY_INDIRECT_OBJECT'])
+    
 reDL = legal.RelationExtractionDLModel.pretrained("legre_confidentiality", "en", "legal/models") \
     .setPredictionThreshold(0.5) \
-    .setInputCols(["ner_chunk", "document"]) \
+    .setInputCols(["re_ner_chunks", "sentence"]) \
     .setOutputCol("relations")
     
-pipeline = Pipeline(stages=[documentAssembler, tokenizer, embeddings, ner_model, ner_converter, reDL])
-
+pipeline = Pipeline(stages=[documentAssembler,sentencizer, tokenizer,pos_tagger,dependency_parser, embeddings, ner_model, ner_converter,re_filter, reDL])
 text = "Each party will promptly return to the other upon request any Confidential Information of the other party then in its possession or under its control."
-
 data = spark.createDataFrame([[text]]).toDF("text")
 model = pipeline.fit(data)
 res = model.transform(data)
@@ -76,17 +98,13 @@ res = model.transform(data)
 
 ```bash
 
-|relation                    |entity1                        |entity1_begin|entity1_end|chunk1                  |entity2                        |entity2_begin|entity2_end|chunk2                  |confidence|
-|----------------------------|-------------------------------|-------------|-----------|------------------------|-------------------------------|-------------|-----------|------------------------|----------|
-|is_confidentiality_subject  |CONFIDENTIALITY_SUBJECT        |1            |10         |Each party              |CONFIDENTIALITY_ACTION         |12           |31         |will promptly return    |0.829208  |
-|is_confidentiality_indobject|CONFIDENTIALITY_SUBJECT        |1            |10         |Each party              |CONFIDENTIALITY_INDIRECT_OBJECT|40           |44         |other                   |0.9989385 |
-|is_confidentiality_object   |CONFIDENTIALITY_SUBJECT        |1            |10         |Each party              |CONFIDENTIALITY                |63           |86         |Confidential Information|0.9772866 |
-|is_confidentiality_indobject|CONFIDENTIALITY_SUBJECT        |1            |10         |Each party              |CONFIDENTIALITY_INDIRECT_OBJECT|95           |105        |other party             |0.9970458 |
-|is_confidentiality_indobject|CONFIDENTIALITY_ACTION         |12           |31         |will promptly return    |CONFIDENTIALITY_INDIRECT_OBJECT|40           |44         |other                   |0.99961615|
-|is_confidentiality_object   |CONFIDENTIALITY_ACTION         |12           |31         |will promptly return    |CONFIDENTIALITY                |63           |86         |Confidential Information|0.99497294|
-|is_confidentiality_indobject|CONFIDENTIALITY_ACTION         |12           |31         |will promptly return    |CONFIDENTIALITY_INDIRECT_OBJECT|95           |105        |other party             |0.9985304 |
-|is_confidentiality_object   |CONFIDENTIALITY_INDIRECT_OBJECT|40           |44         |other                   |CONFIDENTIALITY                |63           |86         |Confidential Information|0.93832284|
-|is_confidentiality_indobject|CONFIDENTIALITY                |63           |86         |Confidential Information|CONFIDENTIALITY_INDIRECT_OBJECT|95           |105        |other party             |0.9798117 |
++----------------------------+-----------------------+-------------+-----------+--------------------+-------------------------------+-------------+-----------+------------------------+----------+
+|relation                    |entity1                |entity1_begin|entity1_end|chunk1              |entity2                        |entity2_begin|entity2_end|chunk2                  |confidence|
++----------------------------+-----------------------+-------------+-----------+--------------------+-------------------------------+-------------+-----------+------------------------+----------+
+|is_confidentiality_subject  |CONFIDENTIALITY_SUBJECT|0            |9          |Each party          |CONFIDENTIALITY_ACTION         |11           |30         |will promptly return    |0.9745122 |
+|is_confidentiality_indobject|CONFIDENTIALITY_SUBJECT|0            |9          |Each party          |CONFIDENTIALITY_INDIRECT_OBJECT|39           |43         |other                   |0.89561754|
+|is_confidentiality_object   |CONFIDENTIALITY_ACTION |11           |30         |will promptly return|CONFIDENTIALITY                |62           |85         |Confidential Information|0.9981041 |
++----------------------------+-----------------------+-------------+-----------+--------------------+-------------------------------+-------------+-----------+------------------------+----------+
 ```
 
 {:.model-param}
