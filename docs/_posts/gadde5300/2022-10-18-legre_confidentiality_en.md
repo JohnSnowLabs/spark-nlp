@@ -82,7 +82,7 @@ re_filter = legal.RENerChunksFilter()\
     
 reDL = legal.RelationExtractionDLModel.pretrained("legre_confidentiality", "en", "legal/models") \
     .setPredictionThreshold(0.5) \
-    .setInputCols(["ner_chunk", "document"]) \
+    .setInputCols(["re_ner_chunks", "document"]) \
     .setOutputCol("relations")
     
 pipeline = Pipeline(stages=[documentAssembler,sentencizer, tokenizer,pos_tagger,dependency_parser, embeddings, ner_model, ner_converter,re_filter, reDL])
@@ -98,16 +98,13 @@ res = model.transform(data)
 
 ```bash
 
-+----------------------------+-------------------------------+-------------+-----------+--------------------+-------------------------------+-------------+-----------+------------------------+----------+
-|relation                    |entity1                        |entity1_begin|entity1_end|chunk1              |entity2                        |entity2_begin|entity2_end|chunk2                  |confidence|
-+----------------------------+-------------------------------+-------------+-----------+--------------------+-------------------------------+-------------+-----------+------------------------+----------+
-|is_confidentiality_subject  |CONFIDENTIALITY_SUBJECT        |0            |9          |Each party          |CONFIDENTIALITY_ACTION         |11           |30         |will promptly return    |0.9745122 |
-|is_confidentiality_indobject|CONFIDENTIALITY_SUBJECT        |0            |9          |Each party          |CONFIDENTIALITY_INDIRECT_OBJECT|39           |43         |other                   |0.89561754|
-|is_confidentiality_object   |CONFIDENTIALITY_SUBJECT        |0            |9          |Each party          |CONFIDENTIALITY                |62           |85         |Confidential Information|0.99950194|
-|is_confidentiality_indobject|CONFIDENTIALITY_ACTION         |11           |30         |will promptly return|CONFIDENTIALITY_INDIRECT_OBJECT|39           |43         |other                   |0.9995245 |
-|is_confidentiality_object   |CONFIDENTIALITY_ACTION         |11           |30         |will promptly return|CONFIDENTIALITY                |62           |85         |Confidential Information|0.9981041 |
-|is_confidentiality_object   |CONFIDENTIALITY_INDIRECT_OBJECT|39           |43         |other               |CONFIDENTIALITY                |62           |85         |Confidential Information|0.9248683 |
-+----------------------------+-------------------------------+-------------+-----------+--------------------+-------------------------------+-------------+-----------+------------------------+----------+
++----------------------------+-----------------------+-------------+-----------+--------------------+-------------------------------+-------------+-----------+------------------------+----------+
+|relation                    |entity1                |entity1_begin|entity1_end|chunk1              |entity2                        |entity2_begin|entity2_end|chunk2                  |confidence|
++----------------------------+-----------------------+-------------+-----------+--------------------+-------------------------------+-------------+-----------+------------------------+----------+
+|is_confidentiality_subject  |CONFIDENTIALITY_SUBJECT|0            |9          |Each party          |CONFIDENTIALITY_ACTION         |11           |30         |will promptly return    |0.9745122 |
+|is_confidentiality_indobject|CONFIDENTIALITY_SUBJECT|0            |9          |Each party          |CONFIDENTIALITY_INDIRECT_OBJECT|39           |43         |other                   |0.89561754|
+|is_confidentiality_object   |CONFIDENTIALITY_ACTION |11           |30         |will promptly return|CONFIDENTIALITY                |62           |85         |Confidential Information|0.9981041 |
++----------------------------+-----------------------+-------------+-----------+--------------------+-------------------------------+-------------+-----------+------------------------+----------+
 ```
 
 {:.model-param}
