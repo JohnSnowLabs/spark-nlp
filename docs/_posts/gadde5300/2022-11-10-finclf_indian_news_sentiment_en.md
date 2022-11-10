@@ -1,6 +1,6 @@
 ---
 layout: model
-title: Financial Indian News Sentiment Analysis (Light)
+title: Financial Indian News Sentiment Analysis (Medium)
 author: John Snow Labs
 name: finclf_indian_news_sentiment
 date: 2022-11-10
@@ -17,7 +17,7 @@ use_language_switcher: "Python-Scala-Java"
 
 ## Description
 
-This is a light version of Indian News Sentiment Analysis Text Classifier, which will retrieve if a text is either expression a Positive Emotion or a Negative one.
+This is a heavy version of Indian News Sentiment Analysis Text Classifier, which will retrieve if a text is either expression a Positive Emotion or a Negative one.
 
 ## Predicted Entities
 
@@ -26,7 +26,7 @@ This is a light version of Indian News Sentiment Analysis Text Classifier, which
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>
 <button class="button button-orange" disabled>Open in Colab</button>
-[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/finance/models/finclf_indian_news_sentiment_en_1.0.0_3.0_1668056771128.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
+[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/finance/models/finclf_indian_news_sentiment_en_1.0.0_3.0_1668058147121.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
 
 ## How to use
 
@@ -36,6 +36,7 @@ This is a light version of Indian News Sentiment Analysis Text Classifier, which
 {% include programmingLanguageSelectScalaPythonNLU.html %}
 ```python
  
+
 document_assembler = nlp.DocumentAssembler() \
                 .setInputCol("text") \
                 .setOutputCol("document")
@@ -44,29 +45,19 @@ tokenizer = nlp.Tokenizer() \
                 .setInputCols(["document"]) \
                 .setOutputCol("token")
       
-embeddings = nlp.BertEmbeddings.pretrained("bert_embeddings_sec_bert_base","en") \
-        .setInputCols(["document", "token"]) \
-        .setOutputCol("embeddings")
-
-sembeddings = nlp.SentenceEmbeddings()\
-    .setInputCols(["document", "embeddings"]) \
-    .setOutputCol("sentence_embeddings") \
-    .setPoolingStrategy("AVERAGE")
-
-classsifierdl = finance.ClassifierDLModel.pretrained("finclf_indian_news_sentiment", "en", "finance/models")\
-                .setInputCols(["sentence_embeddings"])\
-                .setOutputCol("label")
+classifierdl = finance.BertForSequenceClassification.pretrained("finclf_indian_news_sentiment_medium","en", "finance/models")\
+    .setInputCols(["document", "token"])\
+    .setOutputCol("label")
 
 bert_clf_pipeline = Pipeline(stages=[document_assembler,
                                      tokenizer,
-                                     embeddings,
-                                     sembeddings,
-                                     classsifierdl])
+                                     classifierdl])
 
 text = ["Eliminating shadow economy to have positive impact on GDP : Arun Jaitley"]
 empty_df = spark.createDataFrame([[""]]).toDF("text")
 model = bert_clf_pipeline.fit(empty_df)
 res = model.transform(spark.createDataFrame([text]).toDF("text"))
+
 
 ```
 
@@ -92,10 +83,12 @@ res = model.transform(spark.createDataFrame([text]).toDF("text"))
 |Compatibility:|Finance NLP 1.0.0+|
 |License:|Licensed|
 |Edition:|Official|
-|Input Labels:|[sentence_embeddings]|
-|Output Labels:|[label]|
+|Input Labels:|[document, token]|
+|Output Labels:|[class]|
 |Language:|en|
-|Size:|23.6 MB|
+|Size:|412.3 MB|
+|Case sensitive:|true|
+|Max sentence length:|128|
 
 ## References
 
@@ -107,11 +100,11 @@ An in-house augmented version of [this dataset](https://www.kaggle.com/datasets/
 
               precision    recall  f1-score   support
 
-    NEGATIVE       0.75      0.78      0.76     21441
-    POSITIVE       0.73      0.69      0.71     18449
+    NEGATIVE       0.85      0.86      0.86     10848
+    POSITIVE       0.83      0.83      0.83      9202
 
-    accuracy                           0.74     39890
-   macro avg       0.74      0.74      0.74     39890
-weighted avg       0.74      0.74      0.74     39890
+    accuracy                           0.84     20050
+   macro avg       0.84      0.84      0.84     20050
+weighted avg       0.84      0.84      0.84     20050
 
 ```
