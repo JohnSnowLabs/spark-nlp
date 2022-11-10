@@ -15,6 +15,8 @@
 
 from pyspark import keyword_only
 from pyspark.ml.param import TypeConverters, Params, Param
+
+from sparknlp.common.annotator_type import AnnotatorType
 from sparknlp.internal import AnnotatorTransformer
 
 from sparknlp.common import AnnotatorProperties
@@ -94,6 +96,9 @@ class TokenAssembler(AnnotatorTransformer, AnnotatorProperties):
     """
 
     name = "TokenAssembler"
+
+    inputAnnotatorTypes = [AnnotatorType.DOCUMENT, AnnotatorType.TOKEN]
+
     preservePosition = Param(Params._dummy(), "preservePosition", "whether to preserve the actual position of the tokens or reduce them to one space", typeConverter=TypeConverters.toBoolean)
 
     @keyword_only

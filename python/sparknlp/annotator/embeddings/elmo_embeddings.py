@@ -14,6 +14,7 @@
 """Contains classes for ElmoEmbeddings."""
 
 from sparknlp.common import *
+from sparknlp.common.annotator_type import AnnotatorType
 
 
 class ElmoEmbeddings(AnnotatorModel,
@@ -138,6 +139,8 @@ class ElmoEmbeddings(AnnotatorModel,
     """
 
     name = "ElmoEmbeddings"
+
+    inputAnnotatorTypes = [AnnotatorType.DOCUMENT, AnnotatorType.TOKEN]
 
     batchSize = Param(Params._dummy(),
                       "batchSize",

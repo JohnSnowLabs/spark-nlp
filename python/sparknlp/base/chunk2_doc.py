@@ -14,6 +14,8 @@
 """Contains classes for Chunk2Doc."""
 
 from pyspark import keyword_only
+
+from sparknlp.common.annotator_type import AnnotatorType
 from sparknlp.internal import AnnotatorTransformer
 
 from sparknlp.common import AnnotatorProperties
@@ -71,6 +73,8 @@ class Chunk2Doc(AnnotatorTransformer, AnnotatorProperties):
     """
 
     name = "Chunk2Doc"
+
+    inputAnnotatorTypes = [AnnotatorType.CHUNK]
 
     @keyword_only
     def __init__(self):

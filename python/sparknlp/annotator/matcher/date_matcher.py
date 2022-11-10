@@ -14,6 +14,7 @@
 """Contains classes for the DateMatcher."""
 
 from sparknlp.common import *
+from sparknlp.common.annotator_type import AnnotatorType
 
 
 class DateMatcherUtils(Params):
@@ -159,6 +160,7 @@ class DateMatcherUtils(Params):
         """
         return self._set(anchorDateDay=value)
 
+
 class DateMatcher(AnnotatorModel, DateMatcherUtils):
     """Matches standard date formats into a provided format
     Reads from different forms of date and time expressions and converts them
@@ -250,6 +252,8 @@ class DateMatcher(AnnotatorModel, DateMatcherUtils):
     """
 
     name = "DateMatcher"
+
+    inputAnnotatorTypes = [AnnotatorType.DOCUMENT]
 
     @keyword_only
     def __init__(self):

@@ -14,6 +14,7 @@
 """Contains classes for the UniversalSentenceEncoder."""
 
 from sparknlp.common import *
+from sparknlp.common.annotator_type import AnnotatorType
 
 
 class UniversalSentenceEncoder(AnnotatorModel,
@@ -119,6 +120,8 @@ class UniversalSentenceEncoder(AnnotatorModel,
     """
 
     name = "UniversalSentenceEncoder"
+
+    inputAnnotatorTypes = [AnnotatorType.DOCUMENT]
 
     loadSP = Param(Params._dummy(), "loadSP",
                    "Whether to load SentencePiece ops file which is required only by multi-lingual models. "

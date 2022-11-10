@@ -14,6 +14,7 @@
 """Contains classes for the DependencyParser."""
 
 from sparknlp.common import *
+from sparknlp.common.annotator_type import AnnotatorType
 
 
 class DependencyParserApproach(AnnotatorApproach):
@@ -94,6 +95,9 @@ class DependencyParserApproach(AnnotatorApproach):
     --------
     TypedDependencyParserApproach : to extract labels for the dependencies
     """
+
+    inputAnnotatorTypes = [AnnotatorType.DOCUMENT, AnnotatorType.POS, AnnotatorType.TOKEN]
+
     dependencyTreeBank = Param(Params._dummy(),
                                "dependencyTreeBank",
                                "Dependency treebank source files",
@@ -158,6 +162,7 @@ class DependencyParserApproach(AnnotatorApproach):
 
     def _create_model(self, java_model):
         return DependencyParserModel(java_model=java_model)
+
 
 class DependencyParserModel(AnnotatorModel):
     """Unlabeled parser that finds a grammatical relation between two words in a
@@ -249,6 +254,8 @@ class DependencyParserModel(AnnotatorModel):
     TypedDependencyParserMdoel : to extract labels for the dependencies
     """
     name = "DependencyParserModel"
+
+    inputAnnotatorTypes = [AnnotatorType.DOCUMENT, AnnotatorType.POS, AnnotatorType.TOKEN]
 
     perceptron = Param(Params._dummy(),
                        "perceptron",

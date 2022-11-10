@@ -13,6 +13,7 @@
 #  limitations under the License.
 """Contains classes for the Stemmer."""
 from sparknlp.common import *
+from sparknlp.common.annotator_type import AnnotatorType
 
 
 class Stemmer(AnnotatorModel):
@@ -62,6 +63,8 @@ class Stemmer(AnnotatorModel):
     |[peter, piper, employe, ar, pick, peck, of, pickl, pepper, .]|
     +-------------------------------------------------------------+
     """
+
+    inputAnnotatorTypes = [AnnotatorType.TOKEN]
 
     language = Param(Params._dummy(), "language", "stemmer algorithm", typeConverter=TypeConverters.toString)
 

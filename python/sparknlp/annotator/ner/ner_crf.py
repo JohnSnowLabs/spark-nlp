@@ -15,6 +15,7 @@
 
 from sparknlp.common import *
 from sparknlp.annotator.ner.ner_approach import NerApproach
+from sparknlp.common.annotator_type import AnnotatorType
 
 
 class NerCrfApproach(AnnotatorApproach, NerApproach):
@@ -129,6 +130,8 @@ class NerCrfApproach(AnnotatorApproach, NerApproach):
     NerDLApproach : for a deep learning based approach
     NerConverter : to further process the results
     """
+
+    inputAnnotatorTypes = [AnnotatorType.DOCUMENT, AnnotatorType.TOKEN, AnnotatorType.POS, AnnotatorType.WORD_EMBEDDINGS]
 
     l2 = Param(Params._dummy(), "l2", "L2 regularization coefficient", TypeConverters.toFloat)
 
@@ -248,6 +251,7 @@ class NerCrfApproach(AnnotatorApproach, NerApproach):
             includeConfidence=False
         )
 
+
 class NerCrfModel(AnnotatorModel):
     """Extracts Named Entities based on a CRF Model.
 
@@ -343,6 +347,8 @@ class NerCrfModel(AnnotatorModel):
     NerConverter : to further process the results
     """
     name = "NerCrfModel"
+
+    inputAnnotatorTypes = [AnnotatorType.DOCUMENT, AnnotatorType.TOKEN, AnnotatorType.POS, AnnotatorType.WORD_EMBEDDINGS]
 
     includeConfidence = Param(Params._dummy(), "includeConfidence",
                               "external features is a delimited text. needs 'delimiter' in options",

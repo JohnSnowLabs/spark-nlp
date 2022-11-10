@@ -13,6 +13,7 @@
 #  limitations under the License.
 """Contains classes for GraphExtraction."""
 from sparknlp.common import *
+from sparknlp.common.annotator_type import AnnotatorType
 
 
 class GraphExtraction(AnnotatorModel):
@@ -141,6 +142,10 @@ class GraphExtraction(AnnotatorModel):
     GraphFinisher : to output the paths in a more generic format, like RDF
     """
     name = "GraphExtraction"
+
+    inputAnnotatorTypes = [AnnotatorType.DOCUMENT, AnnotatorType.TOKEN, AnnotatorType.NAMED_ENTITY]
+
+    optionalInputAnnotatorTypes = [AnnotatorType.DEPENDENCY, AnnotatorType.LABELED_DEPENDENCY]
 
     relationshipTypes = Param(Params._dummy(),
                               "relationshipTypes",

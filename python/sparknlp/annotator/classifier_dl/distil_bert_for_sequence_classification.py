@@ -14,6 +14,7 @@
 """Contains classes for DistilBertForSequenceClassification."""
 
 from sparknlp.common import *
+from sparknlp.common.annotator_type import AnnotatorType
 
 
 class DistilBertForSequenceClassification(AnnotatorModel,
@@ -100,6 +101,8 @@ class DistilBertForSequenceClassification(AnnotatorModel,
     +--------------------+
     """
     name = "DistilBertForSequenceClassification"
+
+    inputAnnotatorTypes = [AnnotatorType.DOCUMENT, AnnotatorType.TOKEN]
 
     maxSentenceLength = Param(Params._dummy(),
                               "maxSentenceLength",

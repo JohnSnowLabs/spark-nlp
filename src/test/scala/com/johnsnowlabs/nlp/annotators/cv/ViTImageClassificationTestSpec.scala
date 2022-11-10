@@ -174,13 +174,13 @@ class ViTImageClassificationTestSpec extends AnyFlatSpec {
     assert(predictions(1)("class").isEmpty)
 
     val predictionsFullAnnotate = lightPipeline.fullAnnotate(images)
-    assert(predictions(0)("image_assembler").nonEmpty)
-    assert(predictions(0)("class").nonEmpty)
-    assert(predictions(1)("image_assembler").isEmpty)
-    assert(predictions(1)("class").isEmpty)
+    assert(predictionsFullAnnotate(0)("image_assembler").nonEmpty)
+    assert(predictionsFullAnnotate(0)("class").nonEmpty)
+    assert(predictionsFullAnnotate(1)("image_assembler").isEmpty)
+    assert(predictionsFullAnnotate(1)("class").isEmpty)
   }
 
-  it should "work for mix inputs" in {
+  it should "work for mix inputs" taggedAs SlowTest in {
     val pipeline = setUpImageClassifierPipeline()
     val pipelineModel = pipeline.fit(imageDF)
     val lightPipeline = new LightPipeline(pipelineModel)

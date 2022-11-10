@@ -15,6 +15,7 @@
 
 
 from sparknlp.common import *
+from sparknlp.common.annotator_type import AnnotatorType
 
 
 class Word2VecApproach(AnnotatorApproach, HasStorageRef, HasEnableCachingProperties):
@@ -100,6 +101,7 @@ class Word2VecApproach(AnnotatorApproach, HasStorageRef, HasEnableCachingPropert
     >>> dataset = spark.read.text(path).toDF("text")
     >>> pipelineModel = pipeline.fit(dataset)
     """
+    inputAnnotatorTypes = [AnnotatorType.TOKEN]
 
     vectorSize = Param(Params._dummy(),
                        "vectorSize",
@@ -213,6 +215,7 @@ class Word2VecApproach(AnnotatorApproach, HasStorageRef, HasEnableCachingPropert
     def _create_model(self, java_model):
         return Word2VecModel(java_model=java_model)
 
+
 class Word2VecModel(AnnotatorModel, HasStorageRef, HasEmbeddingsProperties):
     """Word2Vec model that creates vector representations of words in a text
     corpus.
@@ -294,6 +297,8 @@ class Word2VecModel(AnnotatorModel, HasStorageRef, HasEmbeddingsProperties):
     +--------------------------------------------------------------------------------+
     """
     name = "Word2VecModel"
+
+    inputAnnotatorTypes = [AnnotatorType.TOKEN]
 
     vectorSize = Param(Params._dummy(),
                        "vectorSize",

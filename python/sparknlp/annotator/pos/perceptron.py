@@ -14,6 +14,7 @@
 """Contains classes for the Perceptron Annotator."""
 
 from sparknlp.common import *
+from sparknlp.common.annotator_type import AnnotatorType
 
 
 class PerceptronApproach(AnnotatorApproach):
@@ -99,6 +100,9 @@ class PerceptronApproach(AnnotatorApproach):
     |[NNP, NNP, CD, JJ, NNP, NNP, ,, MD, VB, DT, CD, .]|
     +--------------------------------------------------+
     """
+
+    inputAnnotatorTypes = [AnnotatorType.TOKEN, AnnotatorType.DOCUMENT]
+
     posCol = Param(Params._dummy(),
                    "posCol",
                    "column of Array of POS tags that match tokens",
@@ -149,6 +153,7 @@ class PerceptronApproach(AnnotatorApproach):
 
     def _create_model(self, java_model):
         return PerceptronModel(java_model=java_model)
+
 
 class PerceptronModel(AnnotatorModel):
     """Averaged Perceptron model to tag words part-of-speech. Sets a POS tag to
@@ -223,6 +228,8 @@ class PerceptronModel(AnnotatorModel):
     +-------------------------------------------+
     """
     name = "PerceptronModel"
+
+    inputAnnotatorTypes = [AnnotatorType.TOKEN, AnnotatorType.DOCUMENT]
 
     def __init__(self, classname="com.johnsnowlabs.nlp.annotators.pos.perceptron.PerceptronModel", java_model=None):
         super(PerceptronModel, self).__init__(
