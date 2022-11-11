@@ -380,7 +380,7 @@
   "54": {
     "id": "54",
     "title": "Finance NLP Release Notes",
-    "content": "Releases log Finance NLP 1.0.0 on Medium Finance NLP 1.1.0 on Medium Slack - Join #finance channel",
+    "content": "Releases log Finance NLP 1.0.0 on Medium Finance NLP 1.1.0 on Medium Finance NLP 1.2.0 on Medium Slack - Join #finance channel",
     "url": "/docs/en/financial_release_notes",
     "relUrl": "/docs/en/financial_release_notes"
   },
@@ -394,7 +394,7 @@
   "56": {
     "id": "56",
     "title": "Version Compatibility",
-    "content": "Finance NLP Spark NLP 1.0.0 4.2.0 1.1.0 4.2.0, 4.2.1 Finance NLP Visual NLP 1.0.0 4.0.0 1.1.0 4.0.0",
+    "content": "Finance NLP Spark NLP 1.0.0 4.2.0 1.1.0 4.2.0, 4.2.1 1.2.0 4.2.0, 4.2.1, 4.2.2 Finance NLP Visual NLP 1.0.0 4.0.0 1.1.0 4.0.0 1.2.0 4.0.0",
     "url": "/docs/en/financial_version_compatibility",
     "relUrl": "/docs/en/financial_version_compatibility"
   },
@@ -576,7 +576,7 @@
   "82": {
     "id": "82",
     "title": "Legal NLP Release Notes",
-    "content": "Releases log Legal NLP 1.0.0 on Medium Legal NLP 1.1.0 on Medium Slack - Join #legal channel",
+    "content": "Releases log Legal NLP 1.0.0 on Medium Legal NLP 1.1.0 on Medium Legal NLP 1.2.0 on Medium Slack - Join #legal channel",
     "url": "/docs/en/legal_release_notes",
     "relUrl": "/docs/en/legal_release_notes"
   },
@@ -597,7 +597,7 @@
   "85": {
     "id": "85",
     "title": "Version Compatibility",
-    "content": "Legal NLP Spark NLP 1.0.0 4.2.0 1.1.0 4.2.0, 4.2.1 Legal NLP Visual NLP 1.0.0 4.0.0 1.1.0 4.0.0",
+    "content": "Legal NLP Spark NLP 1.0.0 4.2.0 1.1.0 4.2.0, 4.2.1 1.2.0 4.2.0, 4.2.1, 4.2.2 Legal NLP Visual NLP 1.0.0 4.0.0 1.1.0 4.0.0 1.2.0 4.0.0",
     "url": "/docs/en/legal_version_compatibility",
     "relUrl": "/docs/en/legal_version_compatibility"
   },
