@@ -1,6 +1,6 @@
 ---
 layout: model
-title: Legal Termination Clause Binary Classifier (CUAD dataset)
+title: Legal Termination Clause Binary Classifier (CUAD dataset, USE version)
 author: John Snow Labs
 name: legclf_cuad_termination_clause
 date: 2022-11-09
@@ -18,6 +18,8 @@ use_language_switcher: "Python-Scala-Java"
 ## Description
 
 This model is a Binary Classifier (True, False) for the `termination` clause type. To use this model, make sure you provide enough context as an input. Adding Sentence Splitters to the pipeline will make the model see only sentences, not the whole text, so it's better to skip it, unless you want to do Binary Classification as sentence level.
+
+This version was trained with Universal Sentence Encoder. There is another version using Sentence Bert, called `legclf_sbert_cuad_termination_clause`
 
 If you have big legal documents, and you want to look for clauses, we recommend you to split the documents using any of the techniques available in our Spark NLP for Legal Workshop Tokenization & Splitting Tutorial (link [here](https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings_JSL/Legal/1.Tokenization_Splitting.ipynb)), namely:
 - Paragraph splitting (by multiline);
