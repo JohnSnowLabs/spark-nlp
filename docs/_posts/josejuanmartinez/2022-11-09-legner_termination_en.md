@@ -35,6 +35,7 @@ This is a NER model which extracts information from Termination Clauses, like th
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
 ```python
+documentAssembler = nlp.DocumentAssembler() \
         .setInputCol("text")\
         .setOutputCol("document")
         

@@ -40,7 +40,7 @@ If not, let us know and we can carry out another approach for you: getting chunk
 {% include programmingLanguageSelectScalaPythonNLU.html %}
 
 ```python
-document_assembler = nlp.DocumentAssembler() 
+document_assembler = nlp.DocumentAssembler()\
      .setInputCol("text")\
      .setOutputCol("document")
 
