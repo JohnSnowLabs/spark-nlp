@@ -69,12 +69,7 @@ res.select('sentence', 'category.result').show(truncate=100)
 +----------------------------------------------------------------------------------------------------+----------+
 |                                                                                            sentence|    result|
 +----------------------------------------------------------------------------------------------------+----------+
-|TeliaSonera TLSN said the offer is in line with its strategy to increase its ownership in core bu...|[positive]|
-|STORA ENSO , NORSKE SKOG , M-REAL , UPM-KYMMENE Credit Suisse First Boston ( CFSB ) raised the fa...|[negative]|
-|Clothing retail chain Sepp+ñl+ñ 's sales increased by 8 % to EUR 155.2 mn , and operating profit ...|[positive]|
-|KESKO CORPORATION STOCK EXCHANGE RELEASE 28.02.2008 AT 09.30 1 ( 1 ) Kesko Corporation and Aspo p...| [neutral]|
-|The OMX Helsinki 25 index was up 0.92 pct at 2,518.67 and the Helsinki CAP portfolio index was 0....|[positive]|
-|Tiimari operates 194 stores in six countries -- including its core Finnish market -- and generate...| [neutral]|
+|In our opinion, the consolidated financial statements referred to above present fairly..............|[positive]|
 +----------------------------------------------------------------------------------------------------+----------+
 ```
 
