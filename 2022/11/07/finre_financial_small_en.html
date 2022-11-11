@@ -9,10 +9,10 @@
     j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
     })(window,document,'script','dataLayer','GTM-59JLR64');</script>
-<!-- End Google Tag Manager --><title>Legal Relation Extraction (Confidentiality, md, Unidirectional)</title><meta property="og:title" content=""/>
+<!-- End Google Tag Manager --><title>Financial Relation Extraction on 10K filings (Small)</title><meta property="og:title" content=""/>
 
-<meta name="description" content="DescriptionThis is a Legal Relation Extraction Model to identify the Subject (who), Action (what), Object(the confidentiality) and Indirect Object (to whom) from confidentiality clauses. This model requires legner_confidentiality as an NER in the pipeline. It’s a md model with Unidirectional Relations, meaning that ...">
-<link rel="canonical" href="/2022/11/09/legre_confidentiality_md_en.html"><link rel="alternate" type="application/rss+xml" title="Spark NLP" href="/feed.xml"><!-- start favicons snippet, use https://realfavicongenerator.net/ -->
+<meta name="description" content="DescriptionThis model extracts relations between amounts, counts, percentages, dates and the financial entities extracted with one of these models:finner_financial_smallfinner_financial_mediumfinner_financial_largeWe highly recommend using it with finner_financial_large.Predicted Entitieshas_amount, has_amount_date,...">
+<link rel="canonical" href="/2022/11/07/finre_financial_small_en.html"><link rel="alternate" type="application/rss+xml" title="Spark NLP" href="/feed.xml"><!-- start favicons snippet, use https://realfavicongenerator.net/ -->
 <!---->
 <!-- <link rel="apple-touch-icon" sizes="180x180" href="/fav.ico"> -->
 
@@ -408,26 +408,31 @@
 
 <!-- end custom main top snippet --><article><script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script><div class="article__header"><div class="header-author"><div class="article__info clearfix"><div class="left-col">
             <a class="edit-on-github-btn" target="_blank" rel="alternate"
-               href="https://github.com/johnsnowlabs/spark-nlp/tree/master/docs/_posts/gadde5300/2022-11-09-legre_confidentiality_md_en.md">
+               href="https://github.com/johnsnowlabs/spark-nlp/tree/master/docs/_posts/josejuanmartinez/2022-11-07-finre_financial_small_en.md">
               <span class="fab fa-github"></span>
               <span class="edit-on-github-label">Edit on GitHub</span>
             </a>
-        </div><ul class="right-col menu"><li><i class="far fa-user"></i> <span>John Snow Labs</span></li><li><i class="far fa-calendar-alt"></i> <span>Nov 09, 2022</span>
-            </li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2022-11-09T00:00:00+00:00"></div><header class="main-docs have_subtitle">
-          <h1>Legal Relation Extraction (Confidentiality, md, Unidirectional)</h1><div class="top-subtitle mont"></div></header></div><meta itemprop="headline" content="Legal Relation Extraction (Confidentiality, md, Unidirectional)"><div class="article__info tags_box clearfix"><ul class="left-col menu"><li>en</li><li>legal</li><li>licensed</li><li>confidentiality</li><li>re</li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2022-11-09T00:00:00+00:00">
-    <meta itemprop="keywords" content="en,legal,licensed,confidentiality,re"><div class="js-article-content"><div class="model-wrap"><div class="layout--article"><!-- start custom article top snippet -->
+        </div><ul class="right-col menu"><li><i class="far fa-user"></i> <span>John Snow Labs</span></li><li><i class="far fa-calendar-alt"></i> <span>Nov 07, 2022</span>
+            </li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2022-11-07T00:00:00+00:00"></div><header class="main-docs have_subtitle">
+          <h1>Financial Relation Extraction on 10K filings (Small)</h1><div class="top-subtitle mont"></div></header></div><meta itemprop="headline" content="Financial Relation Extraction on 10K filings (Small)"><div class="article__info tags_box clearfix"><ul class="left-col menu"><li>financial</li><li>10k</li><li>filings</li><li>en</li><li>licensed</li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2022-11-07T00:00:00+00:00">
+    <meta itemprop="keywords" content="financial,10k,filings,en,licensed"><div class="js-article-content"><div class="model-wrap"><div class="layout--article"><!-- start custom article top snippet -->
 
 <!-- end custom article top snippet --><div class="article__content" itemprop="articleBody"><h2 id="description">Description</h2>
 
-<p>This is a Legal Relation Extraction Model to identify the Subject (who), Action (what), Object(the confidentiality) and Indirect Object (to whom) from confidentiality clauses. This model requires <code class="language-plaintext highlighter-rouge">legner_confidentiality</code> as an NER in the pipeline. It’s a <code class="language-plaintext highlighter-rouge">md</code> model with Unidirectional Relations, meaning that the model retrieves in chunk1 the left side of the relation (source), and in chunk2 the right side (target).</p>
+<p>This model extracts relations between amounts, counts, percentages, dates and the financial entities extracted with one of these models:
+<code class="language-plaintext highlighter-rouge">finner_financial_small</code>
+<code class="language-plaintext highlighter-rouge">finner_financial_medium</code>
+<code class="language-plaintext highlighter-rouge">finner_financial_large</code></p>
+
+<p>We highly recommend using it with <code class="language-plaintext highlighter-rouge">finner_financial_large</code>.</p>
 
 <h2 id="predicted-entities">Predicted Entities</h2>
 
-<p><code class="language-plaintext highlighter-rouge">is_confidentiality_indobject</code>, <code class="language-plaintext highlighter-rouge">is_confidentiality_object</code>, <code class="language-plaintext highlighter-rouge">is_confidentiality_subject</code></p>
+<p><code class="language-plaintext highlighter-rouge">has_amount</code>, <code class="language-plaintext highlighter-rouge">has_amount_date</code>, <code class="language-plaintext highlighter-rouge">has_percentage_date</code>, <code class="language-plaintext highlighter-rouge">has_percentage</code>, <code class="language-plaintext highlighter-rouge">other</code></p>
 
 <p class="btn-box"><button class="button button-orange" disabled="">Live Demo</button>
 <button class="button button-orange" disabled="">Open in Colab</button>
-<a href="https://s3.amazonaws.com/auxdata.johnsnowlabs.com/legal/models/legre_confidentiality_md_en_1.0.0_3.0_1668006317769.zip" class="button button-orange button-orange-trans arr button-icon">Download</a></p>
+<a href="https://s3.amazonaws.com/auxdata.johnsnowlabs.com/finance/models/finre_financial_small_en_1.0.0_3.0_1667815219417.zip" class="button button-orange button-orange-trans arr button-icon">Download</a></p>
 
 <h2 id="how-to-use">How to use</h2>
 
@@ -435,73 +440,97 @@
   <div class="top_tab_li">   
     <p><button data-type="python" class="tab-li code-selector-active python-button">Python</button><button data-type="scala" class="tab-li code-selector-un-active scala-button">Scala</button><button data-type="nlu" class="tab-li code-selector-un-active nlu-button">NLU</button></p>
 </div>
-  <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
-<span class="n">documentAssembler</span> <span class="o">=</span> <span class="n">nlp</span><span class="p">.</span><span class="n">DocumentAssembler</span><span class="p">()</span>\
-  <span class="p">.</span><span class="n">setInputCol</span><span class="p">(</span><span class="s">"text"</span><span class="p">)</span>\
-  <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"document"</span><span class="p">)</span>
+  <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">documentAssembler</span> <span class="o">=</span> <span class="n">nlp</span><span class="p">.</span><span class="n">DocumentAssembler</span><span class="p">()</span>\
+        <span class="p">.</span><span class="n">setInputCol</span><span class="p">(</span><span class="s">"text"</span><span class="p">)</span>\
+        <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"document"</span><span class="p">)</span>
 
 <span class="n">sentencizer</span> <span class="o">=</span> <span class="n">nlp</span><span class="p">.</span><span class="n">SentenceDetectorDLModel</span>\
         <span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"sentence_detector_dl"</span><span class="p">,</span> <span class="s">"en"</span><span class="p">)</span> \
         <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"document"</span><span class="p">])</span>\
         <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"sentence"</span><span class="p">)</span>
-
+                      
 <span class="n">tokenizer</span> <span class="o">=</span> <span class="n">nlp</span><span class="p">.</span><span class="n">Tokenizer</span><span class="p">()</span>\
-        <span class="p">.</span><span class="n">setInputCols</span><span class="p">(</span><span class="s">"sentence"</span><span class="p">)</span>\
-        <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"token"</span><span class="p">)</span>
+        <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"sentence"</span><span class="p">])</span>\
+        <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"token"</span><span class="p">)</span>\
+        <span class="p">.</span><span class="n">setContextChars</span><span class="p">([</span><span class="s">'.'</span><span class="p">,</span> <span class="s">','</span><span class="p">,</span> <span class="s">';'</span><span class="p">,</span> <span class="s">':'</span><span class="p">,</span> <span class="s">'!'</span><span class="p">,</span> <span class="s">'?'</span><span class="p">,</span> <span class="s">'*'</span><span class="p">,</span> <span class="s">'-'</span><span class="p">,</span> <span class="s">'('</span><span class="p">,</span> <span class="s">')'</span><span class="p">,</span> <span class="s">'”'</span><span class="p">,</span> <span class="s">'’'</span><span class="p">,</span> <span class="s">'$'</span><span class="p">,</span><span class="s">'€'</span><span class="p">])</span>
 
-<span class="n">pos_tagger</span> <span class="o">=</span> <span class="n">nlp</span><span class="p">.</span><span class="n">PerceptronModel</span><span class="p">()</span>\
-    <span class="p">.</span><span class="n">pretrained</span><span class="p">()</span> \
-    <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"sentence"</span><span class="p">,</span> <span class="s">"token"</span><span class="p">])</span>\
-    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"pos_tags"</span><span class="p">)</span>
+<span class="n">bert_embeddings</span><span class="o">=</span> <span class="n">nlp</span><span class="p">.</span><span class="n">BertEmbeddings</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"bert_embeddings_sec_bert_base"</span><span class="p">,</span><span class="s">"en"</span><span class="p">)</span>\
+        <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"sentence"</span><span class="p">,</span> <span class="s">"token"</span><span class="p">])</span>\
+        <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"bert_embeddings"</span><span class="p">)</span>
 
-<span class="n">dependency_parser</span> <span class="o">=</span> <span class="n">nlp</span><span class="p">.</span><span class="n">DependencyParserModel</span><span class="p">()</span> \
-    <span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"dependency_conllu"</span><span class="p">,</span> <span class="s">"en"</span><span class="p">)</span> \
-    <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"sentence"</span><span class="p">,</span> <span class="s">"pos_tags"</span><span class="p">,</span> <span class="s">"token"</span><span class="p">])</span> \
+<span class="n">ner_model</span> <span class="o">=</span> <span class="n">finance</span><span class="p">.</span><span class="n">NerModel</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"finner_financial_large"</span><span class="p">,</span> <span class="s">"en"</span><span class="p">,</span> <span class="s">"finance/models"</span><span class="p">)</span>\
+    <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"sentence"</span><span class="p">,</span> <span class="s">"token"</span><span class="p">,</span> <span class="s">"bert_embeddings"</span><span class="p">])</span>\
+    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"ner"</span><span class="p">)</span>\
+
+<span class="n">ner_converter</span> <span class="o">=</span> <span class="n">nlp</span><span class="p">.</span><span class="n">NerConverter</span><span class="p">()</span>\
+    <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"sentence"</span><span class="p">,</span> <span class="s">"token"</span><span class="p">,</span> <span class="s">"ner"</span><span class="p">])</span>\
+    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"ner_chunk"</span><span class="p">)</span>
+
+<span class="c1"># ===========
+# This is needed only to filter relation pairs using finance.RENerChunksFilter (see below)
+# ===========
+</span><span class="n">pos</span> <span class="o">=</span> <span class="n">nlp</span><span class="p">.</span><span class="n">PerceptronModel</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"pos_anc"</span><span class="p">,</span> <span class="s">'en'</span><span class="p">)</span>\
+          <span class="p">.</span><span class="n">setInputCols</span><span class="p">(</span><span class="s">"sentence"</span><span class="p">,</span> <span class="s">"token"</span><span class="p">)</span>\
+          <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"pos"</span><span class="p">)</span>
+
+<span class="n">dependency_parser</span> <span class="o">=</span> <span class="n">nlp</span><span class="p">.</span><span class="n">DependencyParserModel</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"dependency_conllu"</span><span class="p">,</span> <span class="s">"en"</span><span class="p">)</span> \
+    <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"sentence"</span><span class="p">,</span> <span class="s">"pos"</span><span class="p">,</span> <span class="s">"token"</span><span class="p">])</span> \
     <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"dependencies"</span><span class="p">)</span>
 
-<span class="n">embeddings</span> <span class="o">=</span> <span class="n">nlp</span><span class="p">.</span><span class="n">RoBertaEmbeddings</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"roberta_embeddings_legal_roberta_base"</span><span class="p">,</span><span class="s">"en"</span><span class="p">)</span> \
-    <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"sentence"</span><span class="p">,</span> <span class="s">"token"</span><span class="p">])</span> \
-    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"embeddings"</span><span class="p">)</span>
 
-<span class="n">ner_model</span> <span class="o">=</span> <span class="n">legal</span><span class="p">.</span><span class="n">NerModel</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">'legner_confidentiality'</span><span class="p">,</span> <span class="s">'en'</span><span class="p">,</span> <span class="s">'legal/models'</span><span class="p">)</span> \
-        <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"sentence"</span><span class="p">,</span> <span class="s">"token"</span><span class="p">,</span> <span class="s">"embeddings"</span><span class="p">])</span> \
-        <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"ner"</span><span class="p">)</span>
+<span class="n">ENTITIES</span> <span class="o">=</span> <span class="p">[</span><span class="s">'PROFIT'</span><span class="p">,</span> <span class="s">'PROFIT_INCREASE'</span><span class="p">,</span> <span class="s">'PROFIT_DECLINE'</span><span class="p">,</span> <span class="s">'CF'</span><span class="p">,</span> <span class="s">'CF_INCREASE'</span><span class="p">,</span> <span class="s">'CF_DECREASE'</span><span class="p">,</span> <span class="s">'LIABILITY'</span><span class="p">,</span> <span class="s">'EXPENSE'</span><span class="p">,</span> <span class="s">'EXPENSE_INCREASE'</span><span class="p">,</span> <span class="s">'EXPENSE_DECREASE'</span><span class="p">]</span>
 
-<span class="n">ner_converter</span> <span class="o">=</span> <span class="n">nlp</span><span class="p">.</span><span class="n">NerConverter</span><span class="p">()</span> \
-        <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"sentence"</span><span class="p">,</span><span class="s">"token"</span><span class="p">,</span><span class="s">"ner"</span><span class="p">])</span> \
-        <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"ner_chunk"</span><span class="p">)</span>
+<span class="n">ENTITY_PAIRS</span> <span class="o">=</span> <span class="p">[</span><span class="sa">f</span><span class="s">"</span><span class="si">{</span><span class="n">x</span><span class="si">}</span><span class="s">-AMOUNT"</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">ENTITIES</span><span class="p">]</span>
+<span class="n">ENTITY_PAIRS</span><span class="p">.</span><span class="n">extend</span><span class="p">([</span><span class="sa">f</span><span class="s">"</span><span class="si">{</span><span class="n">x</span><span class="si">}</span><span class="s">-COUNT"</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">ENTITIES</span><span class="p">])</span>
+<span class="n">ENTITY_PAIRS</span><span class="p">.</span><span class="n">extend</span><span class="p">([</span><span class="sa">f</span><span class="s">"</span><span class="si">{</span><span class="n">x</span><span class="si">}</span><span class="s">-PERCENTAGE"</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">ENTITIES</span><span class="p">])</span>
+<span class="n">ENTITY_PAIRS</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s">"AMOUNT-FISCAL_YEAR"</span><span class="p">)</span>
+<span class="n">ENTITY_PAIRS</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s">"AMOUNT-DATE"</span><span class="p">)</span>
+<span class="n">ENTITY_PAIRS</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s">"AMOUNT-CURRENCY"</span><span class="p">)</span>
 
-<span class="n">re_filter</span> <span class="o">=</span> <span class="n">legal</span><span class="p">.</span><span class="n">RENerChunksFilter</span><span class="p">()</span>\
+<span class="n">re_ner_chunk_filter</span> <span class="o">=</span> <span class="n">finance</span><span class="p">.</span><span class="n">RENerChunksFilter</span><span class="p">()</span> \
     <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"ner_chunk"</span><span class="p">,</span> <span class="s">"dependencies"</span><span class="p">])</span>\
-    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"re_ner_chunks"</span><span class="p">)</span>\
-    <span class="p">.</span><span class="n">setMaxSyntacticDistance</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>\
-    <span class="p">.</span><span class="n">setRelationPairs</span><span class="p">([</span><span class="s">'CONFIDENTIALITY_ACTION-CONFIDENTIALITY_SUBJECT'</span><span class="p">,</span><span class="s">'CONFIDENTIALITY_ACTION-CONFIDENTIALITY'</span><span class="p">,</span><span class="s">'CONFIDENTIALITY_SUBJECT-CONFIDENTIALITY_INDIRECT_OBJECT'</span><span class="p">])</span>
+    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"re_ner_chunk"</span><span class="p">)</span>\
+    <span class="p">.</span><span class="n">setRelationPairs</span><span class="p">(</span><span class="n">ENTITY_PAIRS</span><span class="p">)</span>\
+    <span class="p">.</span><span class="n">setMaxSyntacticDistance</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
 
-<span class="n">reDL</span> <span class="o">=</span> <span class="n">legal</span><span class="p">.</span><span class="n">RelationExtractionDLModel</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"legre_confidentiality_md"</span><span class="p">,</span> <span class="s">"en"</span><span class="p">,</span> <span class="s">"legal/models"</span><span class="p">)</span> \
-    <span class="p">.</span><span class="n">setPredictionThreshold</span><span class="p">(</span><span class="mf">0.5</span><span class="p">)</span> \
-    <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"re_ner_chunks"</span><span class="p">,</span> <span class="s">"sentence"</span><span class="p">])</span> \
+<span class="c1"># ===========
+</span>
+<span class="n">reDL</span> <span class="o">=</span> <span class="n">finance</span><span class="p">.</span><span class="n">RelationExtractionDLModel</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">'finre_financial_small'</span><span class="p">,</span> <span class="s">'en'</span><span class="p">,</span> <span class="s">'finance/models'</span><span class="p">)</span>\
+    <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"re_ner_chunk"</span><span class="p">,</span> <span class="s">"sentence"</span><span class="p">])</span>\
     <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"relations"</span><span class="p">)</span>
-    
-<span class="n">pipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">(</span><span class="n">stages</span><span class="o">=</span><span class="p">[</span><span class="n">documentAssembler</span><span class="p">,</span><span class="n">sentencizer</span><span class="p">,</span> <span class="n">tokenizer</span><span class="p">,</span><span class="n">pos_tagger</span><span class="p">,</span><span class="n">dependency_parser</span><span class="p">,</span> <span class="n">embeddings</span><span class="p">,</span> <span class="n">ner_model</span><span class="p">,</span> <span class="n">ner_converter</span><span class="p">,</span><span class="n">re_filter</span><span class="p">,</span> <span class="n">reDL</span><span class="p">])</span>
 
-<span class="n">text</span> <span class="o">=</span> <span class="s">"""Each party acknowledges that the other's Confidential Information contains valuable trade secret  and proprietary information of that party."""</span>
+<span class="n">pipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">(</span><span class="n">stages</span><span class="o">=</span><span class="p">[</span>
+        <span class="n">documentAssembler</span><span class="p">,</span>
+        <span class="n">sentencizer</span><span class="p">,</span>
+        <span class="n">tokenizer</span><span class="p">,</span>
+        <span class="n">bert_embeddings</span><span class="p">,</span>
+        <span class="n">ner_model</span><span class="p">,</span>
+        <span class="n">ner_converter</span><span class="p">,</span>
+        <span class="n">pos</span><span class="p">,</span>
+        <span class="n">dependency_parser</span><span class="p">,</span>
+        <span class="n">re_ner_chunk_filter</span><span class="p">,</span>
+        <span class="n">reDL</span><span class="p">])</span>
+
+<span class="n">text</span> <span class="o">=</span> <span class="s">"In the third quarter of fiscal 2021, we received net proceeds of $342.7 million, after deducting underwriters discounts and commissions and offering costs of $31.8 million, including  the exercise of the underwriters option to purchase additional shares. "</span>
 
 <span class="n">data</span> <span class="o">=</span> <span class="n">spark</span><span class="p">.</span><span class="n">createDataFrame</span><span class="p">([[</span><span class="n">text</span><span class="p">]]).</span><span class="n">toDF</span><span class="p">(</span><span class="s">"text"</span><span class="p">)</span>
+
 <span class="n">model</span> <span class="o">=</span> <span class="n">pipeline</span><span class="p">.</span><span class="n">fit</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
-<span class="n">res</span> <span class="o">=</span> <span class="n">model</span><span class="p">.</span><span class="n">transform</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+
+<span class="n">results</span> <span class="o">=</span> <span class="n">model</span><span class="p">.</span><span class="n">transform</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+
 </code></pre></div>  </div>
 
 </div>
 
 <h2 id="results">Results</h2>
 
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>+--------------------------+----------------------+-------------+-----------+------------+-----------------------+-------------+-----------+-----------------------------------------+----------+
-|relation                  |entity1               |entity1_begin|entity1_end|chunk1      |entity2                |entity2_begin|entity2_end|chunk2                                   |confidence|
-+--------------------------+----------------------+-------------+-----------+------------+-----------------------+-------------+-----------+-----------------------------------------+----------+
-|is_confidentiality_subject|CONFIDENTIALITY_ACTION|11           |22         |acknowledges|CONFIDENTIALITY_SUBJECT|0            |9          |Each party                               |0.67629266|
-|is_confidentiality_object |CONFIDENTIALITY_ACTION|11           |22         |acknowledges|CONFIDENTIALITY        |41           |64         |Confidential Information                 |0.99151576|
-|is_confidentiality_object |CONFIDENTIALITY_ACTION|11           |22         |acknowledges|CONFIDENTIALITY        |84           |124        |trade secret  and proprietary information|0.98372066|
-+--------------------------+----------------------+-------------+-----------+------------+-----------------------+-------------+-----------+-----------------------------------------+----------+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>   relation   entity1 entity1_begin entity1_end                          chunk1 entity2 entity2_begin entity2_end         chunk2 confidence
+ has_amount        CF            49          60                    net proceeds  AMOUNT            66          78  342.7 million  0.9999101
+ has_amount  CURRENCY            65          65                               <span class="nv">$ </span> AMOUNT            66          78  342.7 million  0.9925425
+ has_amount   EXPENSE           125         154  commissions and offering costs  AMOUNT           160         171   31.8 million  0.9997677
+ has_amount  CURRENCY           159         159                               <span class="nv">$ </span> AMOUNT           160         171   31.8 million   0.998896
+
 </code></pre></div></div>
 
 <h2 class="model-param" id="model-information">Model Information</h2>
@@ -510,11 +539,11 @@
   <tbody>
     <tr>
       <td>Model Name:</td>
-      <td>legre_confidentiality_md</td>
+      <td>finre_financial_small</td>
     </tr>
     <tr>
       <td>Compatibility:</td>
-      <td>Legal NLP 1.0.0+</td>
+      <td>Finance NLP 1.0.0+</td>
     </tr>
     <tr>
       <td>License:</td>
@@ -530,29 +559,27 @@
     </tr>
     <tr>
       <td>Size:</td>
-      <td>402.3 MB</td>
+      <td>405.7 MB</td>
     </tr>
   </tbody>
 </table>
 
 <h2 id="references">References</h2>
 
-<p>Manual annotations on CUAD dataset</p>
+<p>In-house annotations of 10K filings.</p>
 
 <h2 id="benchmarking">Benchmarking</h2>
 
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Relation                            Recall    Precision  F1          Support 
-
-is_confidentiality_indobject         0.960     1.000     0.980        25 
-is_confidentiality_object            1.000     0.933     0.966        56
-is_confidentiality_subject           0.935     1.000     0.967        31
-other                                0.989     1.000     0.994        88
-
-Avg.                                 0.971     0.983     0.977
-
-Weighted Avg.                        0.980     0.981     0.980
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Relation           Recall Precision        F1   Support
+has_amount          0.997     0.997     0.997       670
+has_amount_date     0.996     0.994     0.995       470
+has_percentage      1.000     1.000     1.000        87
+has_percentage_date     0.985     1.000     0.993        68
+other               1.000     1.000     1.000       205
+Avg.                0.996     0.998     0.997 1583
+Weighted-Avg.       0.997     0.997     0.997 1583
 </code></pre></div></div>
-</div><div class="d-print-none"><footer class="article__footer"><meta itemprop="dateModified" content="2022-11-09T00:00:00+00:00"><!-- start custom article footer snippet -->
+</div><div class="d-print-none"><footer class="article__footer"><meta itemprop="dateModified" content="2022-11-07T00:00:00+00:00"><!-- start custom article footer snippet -->
 
 <!-- end custom article footer snippet --></footer>
 
@@ -891,7 +918,7 @@ hr.code-selector-underlie {
 
 }
 
-</style><div class="article__section-navigator clearfix"><div class="previous nav_link"><span>PREVIOUS</span><a href="/2022/11/08/finre_work_experience_md_en.html">Financial Relation Extraction (Work Experience, Medium, Unidirectional)</a></div><div class="next nav_link"><span>NEXT</span><a href="/2022/11/09/legre_grants_md_en.html">Legal Relation Extraction (Grants, md, Unidirectional)</a></div></div></div>
+</style><div class="article__section-navigator clearfix"><div class="previous nav_link"><span>PREVIOUS</span><a href="/2022/11/04/finclf_auditor_sentiment_analysis_en.html">Sentiment Analysis on Auditors' Reports</a></div><div class="next nav_link"><span>NEXT</span><a href="/2022/11/08/finre_acquisitions_subsidiaries_md_en.html">Acquisitions / Subsidiaries Relation Extraction (md, Unidirectional)</a></div></div></div>
 
 </div>
 </div>
