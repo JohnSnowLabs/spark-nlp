@@ -7,7 +7,7 @@ date: 2022-03-03
 tags: [deidentification, en, licensed, pipeline, clinical]
 task: Pipeline Healthcare
 language: en
-edition: Spark NLP for Healthcare 3.4.1
+edition: Healthcare NLP 3.4.1
 spark_version: 3.0
 supported: true
 recommended: true
@@ -126,7 +126,7 @@ Phone 74 617 042, 1407 west stassney lane, Edmonton, E-MAIL: Carliss@hotmail.com
 |---|---|
 |Model Name:|clinical_deidentification|
 |Type:|pipeline|
-|Compatibility:|Spark NLP for Healthcare 3.4.1+|
+|Compatibility:|Healthcare NLP 3.4.1+|
 |License:|Licensed|
 |Edition:|Official|
 |Language:|en|

@@ -14,13 +14,15 @@
 """Contains classes for XlmRoBertaEmbeddings."""
 
 from sparknlp.common import *
+from sparknlp.common.annotator_type import AnnotatorType
 
 
 class XlmRoBertaEmbeddings(AnnotatorModel,
                            HasEmbeddingsProperties,
                            HasCaseSensitiveProperties,
                            HasStorageRef,
-                           HasBatchedAnnotate):
+                           HasBatchedAnnotate,
+                           HasEngine):
     """The XLM-RoBERTa model was proposed in `Unsupervised Cross-lingual
     Representation Learning at Scale` by Alexis Conneau, Kartikay Khandelwal,
     Naman Goyal, Vishrav Chaudhary, Guillaume Wenzek, Francisco Guzman, Edouard
@@ -146,6 +148,8 @@ class XlmRoBertaEmbeddings(AnnotatorModel,
 
     name = "XlmRoBertaEmbeddings"
 
+    inputAnnotatorTypes = [AnnotatorType.DOCUMENT, AnnotatorType.TOKEN]
+
     maxSentenceLength = Param(Params._dummy(),
                               "maxSentenceLength",
                               "Max sentence length to process",
@@ -230,4 +234,3 @@ class XlmRoBertaEmbeddings(AnnotatorModel,
         """
         from sparknlp.pretrained import ResourceDownloader
         return ResourceDownloader.downloadModel(XlmRoBertaEmbeddings, name, lang, remote_loc)
-

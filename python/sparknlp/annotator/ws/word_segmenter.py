@@ -14,6 +14,7 @@
 """Contains classes for the WordSegmenter."""
 
 from sparknlp.common import *
+from sparknlp.common.annotator_type import AnnotatorType
 
 
 class WordSegmenterApproach(AnnotatorApproach):
@@ -98,6 +99,8 @@ class WordSegmenterApproach(AnnotatorApproach):
     >>> pipelineModel = pipeline.fit(trainingDataSet)
     """
     name = "WordSegmenterApproach"
+
+    inputAnnotatorTypes = [AnnotatorType.DOCUMENT]
 
     posCol = Param(Params._dummy(),
                    "posCol",
@@ -319,6 +322,8 @@ class WordSegmenterModel(AnnotatorModel):
     +--------------------------------------------------------+
     """
     name = "WordSegmenterModel"
+
+    inputAnnotatorTypes = [AnnotatorType.DOCUMENT]
 
     enableRegexTokenizer = Param(Params._dummy(),
                                  "enableRegexTokenizer",

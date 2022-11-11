@@ -7,7 +7,7 @@ date: 2021-11-16
 tags: [en, licensed, clinical, relation_extraction]
 task: Relation Extraction
 language: en
-edition: Spark NLP for Healthcare 3.3.2
+edition: Healthcare NLP 3.3.2
 spark_version: 3.0
 supported: true
 article_header:
@@ -190,7 +190,7 @@ nlu.load("en.extract_relation.nihss").predict("""There , her initial NIHSS score
 {:.table-model}
 |---|---|
 |Model Name:|redl_nihss_biobert|
-|Compatibility:|Spark NLP for Healthcare 3.3.2+|
+|Compatibility:|Healthcare NLP 3.3.2+|
 |License:|Licensed|
 |Edition:|Official|
 |Language:|en|

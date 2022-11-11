@@ -7,7 +7,7 @@ date: 2022-03-31
 tags: [licensed, clinical, en, ner, assertion, relation_extraction, radiology]
 task: Pipeline Healthcare
 language: en
-edition: Spark NLP for Healthcare 3.4.2
+edition: Healthcare NLP 3.4.2
 spark_version: 3.0
 supported: true
 article_header:
@@ -95,7 +95,7 @@ val result = pipeline.fullAnnotate("""Bilateral breast ultrasound was subsequent
 |---|---|
 |Model Name:|explain_clinical_doc_radiology|
 |Type:|pipeline|
-|Compatibility:|Spark NLP for Healthcare 3.4.2+|
+|Compatibility:|Healthcare NLP 3.4.2+|
 |License:|Licensed|
 |Edition:|Official|
 |Language:|en|

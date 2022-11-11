@@ -15,6 +15,8 @@
 
 from pyspark import keyword_only
 from pyspark.ml.param import TypeConverters, Params, Param
+
+from sparknlp.common.annotator_type import AnnotatorType
 from sparknlp.internal import AnnotatorTransformer
 
 from sparknlp.common import AnnotatorProperties
@@ -84,6 +86,7 @@ class Doc2Chunk(AnnotatorTransformer, AnnotatorProperties):
     --------
     Chunk2Doc : for converting `CHUNK` annotations to `DOCUMENT`
     """
+    inputAnnotatorTypes = [AnnotatorType.DOCUMENT]
 
     chunkCol = Param(Params._dummy(), "chunkCol", "column that contains string. Must be part of DOCUMENT", typeConverter=TypeConverters.toString)
     startCol = Param(Params._dummy(), "startCol", "column that has a reference of where chunk begins", typeConverter=TypeConverters.toString)

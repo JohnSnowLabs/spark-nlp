@@ -19,6 +19,11 @@ use_language_switcher: "Python-Scala-Java"
 
 Pretrained VIT  model, adapted from Hugging Face and curated to provide scalability and production-readiness using Spark NLP.`image_classifier_vit_baseball_stadium_foods` is a English model originally trained by nateraw.
 
+
+## Predicted Entities
+
+`nachos`, `popcorn`, `cotton candy`, `hot dog`, `hamburger`
+
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>
 <button class="button button-orange" disabled>Open in Colab</button>

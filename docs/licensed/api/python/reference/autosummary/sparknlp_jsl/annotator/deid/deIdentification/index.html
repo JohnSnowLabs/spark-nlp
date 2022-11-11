@@ -655,6 +655,11 @@ fixed_length_chars: Replace the obfuscated entity with a masking sequence compos
 <span class="sig-name descname"><span class="pre">region</span></span><a class="reference internal" href="../../../../../../modules/sparknlp_jsl/annotator/deid/deIdentification.html#DeIdentification.region"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.deid.deIdentification.DeIdentification.region" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
+<dl class="py attribute">
+<dt class="sig sig-object py" id="sparknlp_jsl.annotator.deid.deIdentification.DeIdentification.unnormalizedDateMode">
+<span class="sig-name descname"><span class="pre">unnormalizedDateMode</span></span><a class="reference internal" href="../../../../../../modules/sparknlp_jsl/annotator/deid/deIdentification.html#DeIdentification.unnormalizedDateMode"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.deid.deIdentification.DeIdentification.unnormalizedDateMode" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp_jsl.annotator.deid.deIdentification.DeIdentification.getBlackList">
 <span class="sig-name descname"><span class="pre">getBlackList</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../modules/sparknlp_jsl/annotator/deid/deIdentification.html#DeIdentification.getBlackList"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.deid.deIdentification.DeIdentification.getBlackList" title="Permalink to this definition">#</a></dt>
@@ -1031,8 +1036,21 @@ s : list</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><dl class="simple">
-<dt><strong>s</strong><span class="classifier">str</span></dt><dd><p>Whether to use regex.</p>
+<dt><strong>s</strong><span class="classifier">str</span></dt><dd><p>Whether to use region.</p>
 </dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp_jsl.annotator.deid.deIdentification.DeIdentification.setUnnormalizedDateMode">
+<span class="sig-name descname"><span class="pre">setUnnormalizedDateMode</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">s</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../modules/sparknlp_jsl/annotator/deid/deIdentification.html#DeIdentification.setUnnormalizedDateMode"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.deid.deIdentification.DeIdentification.setUnnormalizedDateMode" title="Permalink to this definition">#</a></dt>
+<dd><p>Sets mask or obfuscate</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>s</strong><span class="classifier">str</span></dt><dd></dd>
 </dl>
 </dd>
 </dl>
@@ -1309,6 +1327,11 @@ fixed_length_chars: Replace the obfuscated entity with a masking sequence compos
 <dl class="py attribute">
 <dt class="sig sig-object py" id="sparknlp_jsl.annotator.deid.deIdentification.DeIdentificationModel.region">
 <span class="sig-name descname"><span class="pre">region</span></span><a class="reference internal" href="../../../../../../modules/sparknlp_jsl/annotator/deid/deIdentification.html#DeIdentificationModel.region"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.deid.deIdentification.DeIdentificationModel.region" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="sparknlp_jsl.annotator.deid.deIdentification.DeIdentificationModel.unnormalizedDateMode">
+<span class="sig-name descname"><span class="pre">unnormalizedDateMode</span></span><a class="reference internal" href="../../../../../../modules/sparknlp_jsl/annotator/deid/deIdentification.html#DeIdentificationModel.unnormalizedDateMode"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.deid.deIdentification.DeIdentificationModel.unnormalizedDateMode" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
@@ -1642,6 +1665,19 @@ WHen setting to ‘false’ then the date will be mask to &lt;DATE&gt;</p>
 </dd></dl>
 
 <dl class="py method">
+<dt class="sig sig-object py" id="sparknlp_jsl.annotator.deid.deIdentification.DeIdentificationModel.setUnnormalizedDateMode">
+<span class="sig-name descname"><span class="pre">setUnnormalizedDateMode</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">s</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../modules/sparknlp_jsl/annotator/deid/deIdentification.html#DeIdentificationModel.setUnnormalizedDateMode"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.deid.deIdentification.DeIdentificationModel.setUnnormalizedDateMode" title="Permalink to this definition">#</a></dt>
+<dd><p>Sets mask or obfuscate</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>s</strong><span class="classifier">str</span></dt><dd></dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
 <dt class="sig sig-object py" id="sparknlp_jsl.annotator.deid.deIdentification.DeIdentificationModel.pretrained">
 <em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">pretrained</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lang</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'en'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">remote_loc</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../modules/sparknlp_jsl/annotator/deid/deIdentification.html#DeIdentificationModel.pretrained"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.deid.deIdentification.DeIdentificationModel.pretrained" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
@@ -1939,6 +1975,15 @@ WHen setting to ‘false’ then the date will be mask to &lt;DATE&gt;</p>
         </a>
        </li>
        <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.deid.deIdentification.DeIdentification.unnormalizedDateMode">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           DeIdentification.unnormalizedDateMode
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
         <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.deid.deIdentification.DeIdentification.getBlackList">
          <code class="docutils literal notranslate">
           <span class="pre">
@@ -2177,6 +2222,15 @@ WHen setting to ‘false’ then the date will be mask to &lt;DATE&gt;</p>
          <code class="docutils literal notranslate">
           <span class="pre">
            DeIdentification.setRegion()
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.deid.deIdentification.DeIdentification.setUnnormalizedDateMode">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           DeIdentification.setUnnormalizedDateMode()
           </span>
          </code>
         </a>
@@ -2427,6 +2481,15 @@ WHen setting to ‘false’ then the date will be mask to &lt;DATE&gt;</p>
         </a>
        </li>
        <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.deid.deIdentification.DeIdentificationModel.unnormalizedDateMode">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           DeIdentificationModel.unnormalizedDateMode
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
         <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.deid.deIdentification.DeIdentificationModel.getBlackList">
          <code class="docutils literal notranslate">
           <span class="pre">
@@ -2643,6 +2706,15 @@ WHen setting to ‘false’ then the date will be mask to &lt;DATE&gt;</p>
         </a>
        </li>
        <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.deid.deIdentification.DeIdentificationModel.setUnnormalizedDateMode">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           DeIdentificationModel.setUnnormalizedDateMode()
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
         <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.deid.deIdentification.DeIdentificationModel.pretrained">
          <code class="docutils literal notranslate">
           <span class="pre">
@@ -2794,6 +2866,11 @@ WHen setting to ‘false’ then the date will be mask to &lt;DATE&gt;</p>
         </a>
        </li>
        <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.deid.deIdentification.DeIdentification.unnormalizedDateMode">
+         unnormalizedDateMode
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
         <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.deid.deIdentification.DeIdentification.getBlackList">
          getBlackList
         </a>
@@ -2926,6 +3003,11 @@ WHen setting to ‘false’ then the date will be mask to &lt;DATE&gt;</p>
        <li class="toc-h5 nav-item toc-entry">
         <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.deid.deIdentification.DeIdentification.setRegion">
          setRegion
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.deid.deIdentification.DeIdentification.setUnnormalizedDateMode">
+         setUnnormalizedDateMode
         </a>
        </li>
       </ul>
@@ -3066,6 +3148,11 @@ WHen setting to ‘false’ then the date will be mask to &lt;DATE&gt;</p>
         </a>
        </li>
        <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.deid.deIdentification.DeIdentificationModel.unnormalizedDateMode">
+         unnormalizedDateMode
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
         <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.deid.deIdentification.DeIdentificationModel.getBlackList">
          getBlackList
         </a>
@@ -3183,6 +3270,11 @@ WHen setting to ‘false’ then the date will be mask to &lt;DATE&gt;</p>
        <li class="toc-h5 nav-item toc-entry">
         <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.deid.deIdentification.DeIdentificationModel.setRegion">
          setRegion
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.deid.deIdentification.DeIdentificationModel.setUnnormalizedDateMode">
+         setUnnormalizedDateMode
         </a>
        </li>
        <li class="toc-h5 nav-item toc-entry">

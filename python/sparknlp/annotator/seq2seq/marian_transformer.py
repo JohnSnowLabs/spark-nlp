@@ -14,9 +14,10 @@
 """Contains classes for the MarianTransformer."""
 
 from sparknlp.common import *
+from sparknlp.common.annotator_type import AnnotatorType
 
 
-class MarianTransformer(AnnotatorModel, HasBatchedAnnotate):
+class MarianTransformer(AnnotatorModel, HasBatchedAnnotate, HasEngine):
     """MarianTransformer: Fast Neural Machine Translation
 
     Marian is an efficient, free Neural Machine Translation framework written in
@@ -119,6 +120,8 @@ class MarianTransformer(AnnotatorModel, HasBatchedAnnotate):
     """
 
     name = "MarianTransformer"
+
+    inputAnnotatorTypes = [AnnotatorType.DOCUMENT]
 
     configProtoBytes = Param(Params._dummy(),
                              "configProtoBytes",
@@ -247,4 +250,3 @@ class MarianTransformer(AnnotatorModel, HasBatchedAnnotate):
         """
         from sparknlp.pretrained import ResourceDownloader
         return ResourceDownloader.downloadModel(MarianTransformer, name, lang, remote_loc)
-

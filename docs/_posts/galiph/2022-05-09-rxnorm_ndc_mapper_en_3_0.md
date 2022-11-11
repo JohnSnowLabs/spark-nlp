@@ -7,7 +7,7 @@ date: 2022-05-09
 tags: [chunk_mapper, ndc, rxnorm, licensed, en, clinical]
 task: Chunk Mapping
 language: en
-edition: Spark NLP for Healthcare 3.5.1
+edition: Healthcare NLP 3.5.1
 spark_version: 3.0
 supported: true
 article_header:
@@ -149,7 +149,7 @@ nlu.load("en.rxnorm_to_ndc").predict("""Product NDC""")
 {:.table-model}
 |---|---|
 |Model Name:|rxnorm_ndc_mapper|
-|Compatibility:|Spark NLP for Healthcare 3.5.1+|
+|Compatibility:|Healthcare NLP 3.5.1+|
 |License:|Licensed|
 |Edition:|Official|
 |Input Labels:|[chunk]|

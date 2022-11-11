@@ -7,7 +7,7 @@ date: 2022-07-25
 tags: [en, ner, clinical, licensed, bertfortokenclasification]
 task: Named Entity Recognition
 language: en
-edition: Spark NLP for Healthcare 4.0.0
+edition: Healthcare NLP 4.0.0
 spark_version: 3.0
 supported: true
 article_header:
@@ -68,11 +68,9 @@ pipeline = Pipeline(stages=[
     ner_converter   
     ])
 
-model = pipeline.fit(spark.createDataFrame([[""]]).toDF("text"))
-
 data = spark.createDataFrame([["""The possibilities that these cardiovascular findings might be the result of non-selective inhibition of monoamine oxidase or of amphetamine and metamphetamine are discussed. The results have shown that the degradation product p-choloroaniline is not a significant factor in chlorhexidine-digluconate associated erosive cystitis. A high percentage of kanamycin - colistin and povidone-iodine irrigations were associated with erosive cystitis and suggested a possible complication with human usage."""]]).toDF("text")
 
-result = model.transform(data)
+result = pipeline.fit(data).transform(data)
 ```
 ```scala
 val document_assembler = new DocumentAssembler()
@@ -80,11 +78,11 @@ val document_assembler = new DocumentAssembler()
     .setOutputCol("document")
 
 val sentence_detector = SentenceDetectorDLModel.pretrained("sentence_detector_dl_healthcare", "en", "clinical/models")
-    .setInputCols("document")
+    .setInputCols(Array("document"))
     .setOutputCol("sentence")
 
 val tokenizer = new Tokenizer()
-    .setInputCols("sentence")
+    .setInputCols(Array("sentence"))
     .setOutputCol("token")
 
 val ner_model = MedicalBertForTokenClassifier.pretrained("bert_token_classifier_ner_bc5cdr_chemicals", "en", "clinical/models")
@@ -97,7 +95,7 @@ val ner_converter = new NerConverter()
     .setInputCols(Array("sentence", "token", "ner"))
     .setOutputCol("ner_chunk")
 
-val pipeline = new PipelineModel().setStages(Array(document_assembler, 
+val pipeline = new Pipeline().setStages(Array(document_assembler, 
                                                    sentence_detector,
                                                    tokenizer,
                                                    ner_model,
@@ -105,7 +103,7 @@ val pipeline = new PipelineModel().setStages(Array(document_assembler,
 
 val data = Seq("""The possibilities that these cardiovascular findings might be the result of non-selective inhibition of monoamine oxidase or of amphetamine and metamphetamine are discussed. The results have shown that the degradation product p-choloroaniline is not a significant factor in chlorhexidine-digluconate associated erosive cystitis. A high percentage of kanamycin - colistin and povidone-iodine irrigations were associated with erosive cystitis and suggested a possible complication with human usage.""").toDS.toDF("text")
 
-val result = model.fit(data).transform(data)
+val result = pipeline.fit(data).transform(data)
 ```
 </div>
 
@@ -131,7 +129,7 @@ val result = model.fit(data).transform(data)
 {:.table-model}
 |---|---|
 |Model Name:|bert_token_classifier_ner_bc5cdr_chemicals|
-|Compatibility:|Spark NLP for Healthcare 4.0.0+|
+|Compatibility:|Healthcare NLP 4.0.0+|
 |License:|Licensed|
 |Edition:|Official|
 |Input Labels:|[sentence, token]|

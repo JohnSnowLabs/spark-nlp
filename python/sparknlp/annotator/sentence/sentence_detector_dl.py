@@ -13,8 +13,8 @@
 #  limitations under the License.
 """Contains classes for SentenceDetectorDl."""
 
-
 from sparknlp.common import *
+from sparknlp.common.annotator_type import AnnotatorType
 
 
 class SentenceDetectorDLApproach(AnnotatorApproach):
@@ -94,6 +94,8 @@ class SentenceDetectorDLApproach(AnnotatorApproach):
     """
 
     name = "SentenceDetectorDLApproach"
+
+    inputAnnotatorTypes = [AnnotatorType.DOCUMENT]
 
     modelArchitecture = Param(Params._dummy(),
                               "modelArchitecture",
@@ -198,7 +200,8 @@ class SentenceDetectorDLApproach(AnnotatorApproach):
     def __init__(self, classname="com.johnsnowlabs.nlp.annotators.sentence_detector_dl.SentenceDetectorDLApproach"):
         super(SentenceDetectorDLApproach, self).__init__(classname=classname)
 
-class SentenceDetectorDLModel(AnnotatorModel):
+
+class SentenceDetectorDLModel(AnnotatorModel, HasEngine):
     """Annotator that detects sentence boundaries using a deep learning approach.
 
     Instantiated Model of the :class:`.SentenceDetectorDLApproach`.
@@ -297,6 +300,8 @@ class SentenceDetectorDLModel(AnnotatorModel):
     +----------------------------+
     """
     name = "SentenceDetectorDLModel"
+
+    inputAnnotatorTypes = [AnnotatorType.DOCUMENT]
 
     modelArchitecture = Param(Params._dummy(), "modelArchitecture", "Model architecture (CNN)",
                               typeConverter=TypeConverters.toString)
@@ -457,4 +462,3 @@ class SentenceDetectorDLModel(AnnotatorModel):
         """
         from sparknlp.pretrained import ResourceDownloader
         return ResourceDownloader.downloadModel(SentenceDetectorDLModel, name, lang, remote_loc)
-

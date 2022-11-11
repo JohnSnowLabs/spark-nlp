@@ -284,20 +284,31 @@ class _ClearCache(ExtendedJavaWrapper):
                                           language, remote_loc)
 
 
-class _CoNLLGeneratorExport(ExtendedJavaWrapper):
+class _CoNLLGeneratorExportFromTargetAndPipeline(ExtendedJavaWrapper):
     def __init__(self, spark, target, pipeline, output_path):
         if type(pipeline) == PipelineModel:
             pipeline = pipeline._to_java()
+        elif type(pipeline) == str:
+            pipeline = PipelineModel.load(pipeline)._to_java()
         if type(target) == DataFrame:
-            super(_CoNLLGeneratorExport, self).__init__("com.johnsnowlabs.util.CoNLLGenerator.exportConllFiles",
+            super(_CoNLLGeneratorExportFromTargetAndPipeline, self).__init__("com.johnsnowlabs.util.CoNLLGenerator.exportConllFiles",
                                                         target._jdf, pipeline, output_path)
         else:
-            super(_CoNLLGeneratorExport, self).__init__("com.johnsnowlabs.util.CoNLLGenerator.exportConllFiles",
+            super(_CoNLLGeneratorExportFromTargetAndPipeline, self).__init__("com.johnsnowlabs.util.CoNLLGenerator.exportConllFiles",
                                                         spark._jsparkSession, target, pipeline, output_path)
 
+
+class _CoNLLGeneratorExportFromDataFrameAndField(ExtendedJavaWrapper):
+
+    def __init__(self, dataframe, output_path, metadata_sentence_key):
+        super(_CoNLLGeneratorExportFromDataFrameAndField, self).__init__(
+            "com.johnsnowlabs.util.CoNLLGenerator.exportConllFilesFromField", dataframe, output_path, metadata_sentence_key)
+
+
+class _CoNLLGeneratorExportFromDataFrame(ExtendedJavaWrapper):
     def __init__(self, dataframe, output_path):
-        super(_CoNLLGeneratorExport, self).__init__("com.johnsnowlabs.util.CoNLLGenerator.exportConllFiles", dataframe,
-                                                    output_path)
+        super(_CoNLLGeneratorExportFromDataFrame, self).__init__("com.johnsnowlabs.util.CoNLLGenerator.exportConllFiles",
+                                                                 dataframe, output_path)
 
 
 class _CoverageResult(ExtendedJavaWrapper):

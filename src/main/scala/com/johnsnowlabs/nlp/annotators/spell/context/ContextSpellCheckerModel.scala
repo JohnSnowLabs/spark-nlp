@@ -131,7 +131,8 @@ class ContextSpellCheckerModel(override val uid: String)
     with WeightedLevenshtein
     with WriteTensorflowModel
     with ParamsAndFeaturesWritable
-    with HasTransducerFeatures {
+    with HasTransducerFeatures
+    with HasEngine {
 
   private val logger = LoggerFactory.getLogger("ContextSpellCheckerModel")
 

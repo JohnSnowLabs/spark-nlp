@@ -22,20 +22,22 @@ import com.johnsnowlabs.ml.tensorflow.{
   TensorflowWrapper,
   WriteTensorflowModel
 }
+import com.johnsnowlabs.ml.util.LoadExternalModel.{
+  loadJsonStringAsset,
+  modelSanityCheck,
+  notSupportedEngineError
+}
+import com.johnsnowlabs.ml.util.ModelEngine
 import com.johnsnowlabs.nlp.AnnotatorType.{AUDIO, DOCUMENT}
 import com.johnsnowlabs.nlp._
 import com.johnsnowlabs.nlp.annotators.audio.feature_extractor.Preprocessor
 import com.johnsnowlabs.nlp.serialization.MapFeature
-import com.johnsnowlabs.nlp.util.io.ResourceHelper
 import org.apache.spark.broadcast.Broadcast
 import org.apache.spark.ml.param.IntArrayParam
 import org.apache.spark.ml.util.Identifiable
 import org.apache.spark.sql.SparkSession
 import org.json4s._
 import org.json4s.jackson.JsonMethods._
-
-import java.io.File
-import scala.io.Source
 
 /** Wav2Vec2 Model with a language modeling head on top for Connectionist Temporal Classification
   * (CTC). Wav2Vec2 was proposed in wav2vec 2.0: A Framework for Self-Supervised Learning of
@@ -124,7 +126,8 @@ class Wav2Vec2ForCTC(override val uid: String)
     extends AnnotatorModel[Wav2Vec2ForCTC]
     with HasBatchedAnnotateAudio[Wav2Vec2ForCTC]
     with HasAudioFeatureProperties
-    with WriteTensorflowModel {
+    with WriteTensorflowModel
+    with HasEngine {
 
   /** Annotator reference id. Used to identify elements in metadata or to refer to this annotator
     * type
@@ -311,49 +314,23 @@ trait ReadWav2Vec2ForAudioTensorflowModel extends ReadTensorflowModel {
 
   addReader(readTensorflow)
 
-  def loadSavedModel(tfModelPath: String, spark: SparkSession): Wav2Vec2ForCTC = {
+  def loadSavedModel(modelPath: String, spark: SparkSession): Wav2Vec2ForCTC = {
 
-    val f = new File(tfModelPath)
-    val savedModel = new File(tfModelPath, "saved_model.pb")
+    val (localModelPath, detectedEngine) = modelSanityCheck(modelPath)
 
-    require(f.exists, s"Folder $tfModelPath not found")
-    require(f.isDirectory, s"File $tfModelPath is not folder")
-    require(
-      savedModel.exists(),
-      s"savedModel file saved_model.pb not found in folder $tfModelPath")
-
-    val vocabPath = new File(tfModelPath + "/assets", "vocab.json")
-    require(
-      vocabPath.exists(),
-      s"Labels file vocab.json not found in folder $tfModelPath/assets/")
-
-    val vocabStream = ResourceHelper.getResourceStream(vocabPath.getAbsolutePath)
-    val vocabJsonContent = Source.fromInputStream(vocabStream).mkString
+    val vocabJsonContent = loadJsonStringAsset(localModelPath, "vocab.json")
     val vocabJsonMap =
       parse(vocabJsonContent, useBigIntForLong = true).values
         .asInstanceOf[Map[String, BigInt]]
 
-    val preprocessorConfigPath = new File(tfModelPath + "/assets", "preprocessor_config.json")
-    require(
-      preprocessorConfigPath.exists(),
-      s"Labels file preprocessor_config.json not found in folder $tfModelPath/assets/")
-
+    val preprocessorConfigJsonContent =
+      loadJsonStringAsset(localModelPath, "preprocessor_config.json")
     val preprocessorConfig =
-      Preprocessor.loadPreprocessorConfig(preprocessorConfigPath.getAbsolutePath)
+      Preprocessor.loadPreprocessorConfig(preprocessorConfigJsonContent)
 
-    val (wrapper, signatures) =
-      TensorflowWrapper.read(tfModelPath, zipped = false, useBundle = true)
-
-    val _signatures = signatures match {
-      case Some(s) => s
-      case None => throw new Exception("Cannot load signature definitions from model!")
-    }
-
-    /** the order of setSignatures is important if we use getSignatures inside setModelIfNotSet */
-    new Wav2Vec2ForCTC()
+    /*Universal parameters for all engines*/
+    val annotatorModel = new Wav2Vec2ForCTC()
       .setVocabulary(vocabJsonMap)
-      .setSignatures(_signatures)
-      .setModelIfNotSet(spark, wrapper)
       .setDoNormalize(preprocessorConfig.do_normalize)
       .setFeatureSize(preprocessorConfig.feature_size)
       .setPaddingSide(preprocessorConfig.padding_side)
@@ -361,6 +338,30 @@ trait ReadWav2Vec2ForAudioTensorflowModel extends ReadTensorflowModel {
       .setReturnAttentionMask(preprocessorConfig.return_attention_mask)
       .setSamplingRate(preprocessorConfig.sampling_rate)
 
+    annotatorModel.set(annotatorModel.engine, detectedEngine)
+
+    detectedEngine match {
+      case ModelEngine.tensorflow =>
+        val (wrapper, signatures) =
+          TensorflowWrapper.read(localModelPath, zipped = false, useBundle = true)
+
+        val _signatures = signatures match {
+          case Some(s) => s
+          case None => throw new Exception("Cannot load signature definitions from model!")
+        }
+
+        /** the order of setSignatures is important if we use getSignatures inside
+          * setModelIfNotSet
+          */
+        annotatorModel
+          .setSignatures(_signatures)
+          .setModelIfNotSet(spark, wrapper)
+
+      case _ =>
+        throw new Exception(notSupportedEngineError)
+    }
+
+    annotatorModel
   }
 }
 

@@ -7,7 +7,7 @@ date: 2022-10-27
 tags: [en, legal, licensed, sequence_classification]
 task: Text Classification
 language: en
-edition: Spark NLP for Legal 1.0.0
+edition: Legal NLP 1.0.0
 spark_version: 3.0
 supported: true
 article_header:
@@ -55,11 +55,10 @@ clf_pipeline = Pipeline(stages=[
     tokenizer,
     clf_model   
 ])
-model = clf_pipeline.fit(spark.createDataFrame([[""]]).toDF("text"))
 
 data = spark.createDataFrame([["""Facts of fact: A. The Canton Police arrested X._ on 2. January 2007 due to suspicion of having committed an intrusive bull. In the trial of the trial 3. In January 2007, he agreed to have, together with a complicient, carried out a rubbish steel in a Jeans store in the fountain. After that, the investigative judge opened to him orally, he took him into investigative detention for the risk of collusion and continuation. X._ renounced a written and justified order, but desired a review of the investigation by the president of the Canton Court. by 4. In January 2007, the investigative judge submitted the documents to the president of the Canton Court with the request to withdraw the complaint and maintain the investigative detention. X._ requested to withdraw the investigative detention and immediately release him into freedom. He may be released under conditions or conditions. At its disposal of 5. In January 2007, the president of the Canton Court stated that the urgent offence was suspected in relation to the authorized invasion of the Jeans business and other invasions already occurred during a previous imprisonment. The risk of collusion is not accepted, but the recurrence forecast is extremely disadvantaged, therefore there is a risk of continuation. This is the request of the investigative judge - this is according to the instructions of 23. May 2006 (GG 2006 2; www.kgsz.ch) was not authorized to order investigative detention - to carry out and to confirm the investigative detention. At its disposal of 5. In January 2007, the president of the Canton Court stated that the urgent offence was suspected in relation to the authorized invasion of the Jeans business and other invasions already occurred during a previous imprisonment. The risk of collusion is not accepted, but the recurrence forecast is extremely disadvantaged, therefore there is a risk of continuation. This is the request of the investigative judge - this is according to the instructions of 23. May 2006 (GG 2006 2; www.kgsz.ch) was not authorized to order investigative detention - to carry out and to confirm the investigative detention. B. With complaint in criminal cases of 5. February 2007 requested X._: 1. It should be noted that the order GP 2007 3 of the Canton Court President of the Canton of Schwyz of 5. January 2007 is invalid and the complainant must be immediately released from prison. 2nd Eventually the order GP 2007 3 of the Canton Court President of the Canton of Schwyz of 5. January 2007 shall be repealed and the complainant shall be immediately released from investigative detention. and 3. Subeventual is the complainant due to the violation of the cantonal Swiss law by the instructions of the Canton Court of Schwyz of 23. May 2006 immediately released from the detention. Fourth All under cost and compensation consequences at the expense of the complainant.” Fourth All under cost and compensation consequences at the expense of the complainant.” C. The investigative judge requires in his judgment that “there must be established that the investigative detention was ordered by the investigative authority in accordance with the law and that the appeal submitted by the Court of Appeal with the approval of the request for responsibility and the confirmation of the investigative detention (Decree of the President of the Canton Court of 5 January 2007) has been legally rejected.” Insofar as X._ requires his immediate release, the complaint must be rejected. The President of the Canton Court asks to reject the complaint insofar as it is necessary. X._ requires unpaid legal assistance and defence and completes in its response to the complaint."""]]).toDF("text")
 
-result = model.transform(data)
+result = clf_pipeline.fit(data).transform(data)
 ```
 
 </div>
@@ -80,7 +79,7 @@ result = model.transform(data)
 {:.table-model}
 |---|---|
 |Model Name:|legclf_bert_swiss_judgements|
-|Compatibility:|Spark NLP for Legal 1.0.0+|
+|Compatibility:|Legal NLP 1.0.0+|
 |License:|Licensed|
 |Edition:|Official|
 |Input Labels:|[document, token]|

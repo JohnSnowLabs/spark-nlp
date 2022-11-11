@@ -7,7 +7,7 @@ date: 2022-09-02
 tags: [en, finance, ner, zero, shot, zeroshot, licensed]
 task: Named Entity Recognition
 language: en
-edition: Spark NLP for Finance 1.0.0
+edition: Finance NLP 1.0.0
 spark_version: 3.0
 supported: true
 recommended: true
@@ -114,7 +114,7 @@ res.select(F.explode(F.arrays_zip(res.ner_chunk.result, res.ner_chunk.begin, res
 |---|---|
 |Model Name:|finner_roberta_zeroshot|
 |Type:|finance|
-|Compatibility:|Spark NLP for Finance 1.0.0+|
+|Compatibility:|Finance NLP 1.0.0+|
 |License:|Licensed|
 |Edition:|Official|
 |Input Labels:|[document_question, document_context]|

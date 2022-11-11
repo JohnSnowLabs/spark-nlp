@@ -14,12 +14,15 @@
 """Contains classes concerning AlbertEmbeddings."""
 
 from sparknlp.common import *
+from sparknlp.common.annotator_type import AnnotatorType
+
 
 class AlbertEmbeddings(AnnotatorModel,
                        HasEmbeddingsProperties,
                        HasCaseSensitiveProperties,
                        HasStorageRef,
-                       HasBatchedAnnotate):
+                       HasBatchedAnnotate,
+                       HasEngine):
     """ALBERT: A Lite Bert For Self-Supervised Learning Of Language
     Representations - Google Research, Toyota Technological Institute at Chicago
 
@@ -152,6 +155,8 @@ class AlbertEmbeddings(AnnotatorModel,
 
     name = "AlbertEmbeddings"
 
+    inputAnnotatorTypes = [AnnotatorType.DOCUMENT, AnnotatorType.TOKEN]
+
     configProtoBytes = Param(Params._dummy(),
                              "configProtoBytes",
                              "ConfigProto from tensorflow, serialized into byte array. Get with config_proto.SerializeToString()",
@@ -236,4 +241,3 @@ class AlbertEmbeddings(AnnotatorModel,
         """
         from sparknlp.pretrained import ResourceDownloader
         return ResourceDownloader.downloadModel(AlbertEmbeddings, name, lang, remote_loc)
-

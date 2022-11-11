@@ -14,15 +14,15 @@
 """Contains classes for CamemBertEmbeddings."""
 
 from sparknlp.common import *
+from sparknlp.common.annotator_type import AnnotatorType
 
 
-class CamemBertEmbeddings(
-    AnnotatorModel,
-    HasEmbeddingsProperties,
-    HasCaseSensitiveProperties,
-    HasStorageRef,
-    HasBatchedAnnotate,
-):
+class CamemBertEmbeddings(AnnotatorModel,
+                          HasEmbeddingsProperties,
+                          HasCaseSensitiveProperties,
+                          HasStorageRef,
+                          HasBatchedAnnotate,
+                          HasEngine):
     """The CamemBERT model was proposed in CamemBERT: a Tasty French Language Model by
         Louis Martin, Benjamin Muller, Pedro Javier Ortiz Suárez, Yoann Dupont, Laurent
         Romary, Éric Villemonte de la Clergerie, Djamé Seddah, and Benoît Sagot.
@@ -132,6 +132,8 @@ class CamemBertEmbeddings(
         """
 
     name = "CamemBertEmbeddings"
+
+    inputAnnotatorTypes = [AnnotatorType.DOCUMENT, AnnotatorType.TOKEN]
 
     configProtoBytes = Param(
         Params._dummy(),

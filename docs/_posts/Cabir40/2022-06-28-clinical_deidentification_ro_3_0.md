@@ -7,7 +7,7 @@ date: 2022-06-28
 tags: [licensed, clinical, ro, deid, deidentification]
 task: Pipeline Healthcare
 language: ro
-edition: Spark NLP for Healthcare 4.0.0
+edition: Healthcare NLP 4.0.0
 spark_version: 3.0
 supported: true
 article_header:
@@ -114,7 +114,7 @@ Centrul Medical de Evaluare si Recuperare pentru Copii si Tineri Cristian Serban
 |---|---|
 |Model Name:|clinical_deidentification|
 |Type:|pipeline|
-|Compatibility:|Spark NLP for Healthcare 4.0.0+|
+|Compatibility:|Healthcare NLP 4.0.0+|
 |License:|Licensed|
 |Edition:|Official|
 |Language:|ro|

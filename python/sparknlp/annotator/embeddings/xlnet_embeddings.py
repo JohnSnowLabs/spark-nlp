@@ -13,15 +13,16 @@
 #  limitations under the License.
 """Contains classes for XlnetEmbeddings."""
 
-
 from sparknlp.common import *
+from sparknlp.common.annotator_type import AnnotatorType
 
 
 class XlnetEmbeddings(AnnotatorModel,
                       HasEmbeddingsProperties,
                       HasCaseSensitiveProperties,
                       HasStorageRef,
-                      HasBatchedAnnotate):
+                      HasBatchedAnnotate,
+                      HasEngine):
     """XlnetEmbeddings (XLNet): Generalized Autoregressive Pretraining for
     Language Understanding
 
@@ -151,6 +152,8 @@ class XlnetEmbeddings(AnnotatorModel,
 
     name = "XlnetEmbeddings"
 
+    inputAnnotatorTypes = [AnnotatorType.DOCUMENT, AnnotatorType.TOKEN]
+
     configProtoBytes = Param(Params._dummy(),
                              "configProtoBytes",
                              "ConfigProto from tensorflow, serialized into byte array. Get with config_proto.SerializeToString()",
@@ -235,4 +238,3 @@ class XlnetEmbeddings(AnnotatorModel,
         """
         from sparknlp.pretrained import ResourceDownloader
         return ResourceDownloader.downloadModel(XlnetEmbeddings, name, lang, remote_loc)
-

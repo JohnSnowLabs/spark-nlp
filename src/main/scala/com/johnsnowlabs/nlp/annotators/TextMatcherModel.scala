@@ -139,7 +139,7 @@ class TextMatcherModel(override val uid: String)
     */
   def getBuildFromTokens: Boolean = $(buildFromTokens)
 
-  setDefault(inputCols, Array(TOKEN))
+  setDefault(inputCols, Array(DOCUMENT, TOKEN))
   setDefault(mergeOverlapping, false)
   setDefault(entityValue, "entity")
 

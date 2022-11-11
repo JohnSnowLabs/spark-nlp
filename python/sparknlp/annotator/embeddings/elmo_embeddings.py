@@ -14,9 +14,14 @@
 """Contains classes for ElmoEmbeddings."""
 
 from sparknlp.common import *
+from sparknlp.common.annotator_type import AnnotatorType
 
 
-class ElmoEmbeddings(AnnotatorModel, HasEmbeddingsProperties, HasCaseSensitiveProperties, HasStorageRef):
+class ElmoEmbeddings(AnnotatorModel,
+                     HasEmbeddingsProperties,
+                     HasCaseSensitiveProperties,
+                     HasStorageRef,
+                     HasEngine):
     """Word embeddings from ELMo (Embeddings from Language Models), a language
     model trained on the 1 Billion Word Benchmark.
 
@@ -135,6 +140,8 @@ class ElmoEmbeddings(AnnotatorModel, HasEmbeddingsProperties, HasCaseSensitivePr
 
     name = "ElmoEmbeddings"
 
+    inputAnnotatorTypes = [AnnotatorType.DOCUMENT, AnnotatorType.TOKEN]
+
     batchSize = Param(Params._dummy(),
                       "batchSize",
                       "Batch size. Large values allows faster processing but requires more memory.",
@@ -241,4 +248,3 @@ class ElmoEmbeddings(AnnotatorModel, HasEmbeddingsProperties, HasCaseSensitivePr
         """
         from sparknlp.pretrained import ResourceDownloader
         return ResourceDownloader.downloadModel(ElmoEmbeddings, name, lang, remote_loc)
-

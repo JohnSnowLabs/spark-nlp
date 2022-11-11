@@ -13,14 +13,15 @@
 #  limitations under the License.
 """Contains classes for the UniversalSentenceEncoder."""
 
-
 from sparknlp.common import *
+from sparknlp.common.annotator_type import AnnotatorType
 
 
 class UniversalSentenceEncoder(AnnotatorModel,
                                HasEmbeddingsProperties,
                                HasStorageRef,
-                               HasBatchedAnnotate):
+                               HasBatchedAnnotate,
+                               HasEngine):
     """The Universal Sentence Encoder encodes text into high dimensional vectors
     that can be used for text classification, semantic similarity, clustering
     and other natural language tasks.
@@ -120,6 +121,8 @@ class UniversalSentenceEncoder(AnnotatorModel,
 
     name = "UniversalSentenceEncoder"
 
+    inputAnnotatorTypes = [AnnotatorType.DOCUMENT]
+
     loadSP = Param(Params._dummy(), "loadSP",
                    "Whether to load SentencePiece ops file which is required only by multi-lingual models. "
                    "This is not changeable after it's set with a pretrained model nor it is compatible with Windows.",
@@ -205,4 +208,3 @@ class UniversalSentenceEncoder(AnnotatorModel,
         """
         from sparknlp.pretrained import ResourceDownloader
         return ResourceDownloader.downloadModel(UniversalSentenceEncoder, name, lang, remote_loc)
-

@@ -14,12 +14,14 @@
 """Contains classes for LongformerForSequenceClassification."""
 
 from sparknlp.common import *
+from sparknlp.common.annotator_type import AnnotatorType
 
 
 class LongformerForSequenceClassification(AnnotatorModel,
                                           HasCaseSensitiveProperties,
                                           HasBatchedAnnotate,
-                                          HasClassifierActivationProperties):
+                                          HasClassifierActivationProperties,
+                                          HasEngine):
     """LongformerForSequenceClassification can load Longformer Models with sequence classification/regression head on
     top (a linear layer on top of the pooled output) e.g. for multi-class document classification tasks.
 
@@ -99,6 +101,8 @@ class LongformerForSequenceClassification(AnnotatorModel,
     +--------------------+
     """
     name = "LongformerForSequenceClassification"
+
+    inputAnnotatorTypes = [AnnotatorType.DOCUMENT, AnnotatorType.TOKEN]
 
     maxSentenceLength = Param(Params._dummy(),
                               "maxSentenceLength",
@@ -209,4 +213,3 @@ class LongformerForSequenceClassification(AnnotatorModel,
         """
         from sparknlp.pretrained import ResourceDownloader
         return ResourceDownloader.downloadModel(LongformerForSequenceClassification, name, lang, remote_loc)
-

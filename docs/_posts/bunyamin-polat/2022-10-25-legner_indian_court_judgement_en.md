@@ -7,7 +7,7 @@ date: 2022-10-25
 tags: [en, legal, ner, licensed]
 task: Named Entity Recognition
 language: en
-edition: Spark NLP for Legal 1.0.0
+edition: Legal NLP 1.0.0
 spark_version: 3.0
 supported: true
 article_header:
@@ -72,8 +72,6 @@ pipeline = Pipeline(stages=[
     ner_converter   
     ])
 
-model = pipeline.fit(spark.createDataFrame([[""]]).toDF("text"))
-
 data = spark.createDataFrame([["""Let fresh bailable warrant of Rs.20,000/- (Rupees Twenty Thousand) be issued through Superintendent of Police, Dhar to the respondents No.1 Sikandar and No.2 Aziz for a date to be fixed by the Registry to secure the presence of the respondents No.1 and 2, made returnable within six weeks.
 P.K.Jaiswal)  Judge                  
 (Jarat Kumar Jain) Judge ns.
@@ -81,7 +79,7 @@ W.P.No.1361/2013
 14/12/2015              
 Parties through their Counsel."""]])
                              
-result = model.transform(data)
+result = pipeline.fit(data).transform(data)
 ```
 ```scala
 val document_assembler = new DocumentAssembler()
@@ -90,11 +88,11 @@ val document_assembler = new DocumentAssembler()
     .setCleanupMode("shrink")
 
 val sentence_detector = SentenceDetectorDLModel.pretrained("sentence_detector_dl", "en")
-    .setInputCols("document")
+    .setInputCols(Array("document"))
     .setOutputCol("sentence")
 
 val tokenizer = new Tokenizer()
-    .setInputCols("sentence")
+    .setInputCols(Array("sentence"))
     .setOutputCol("token")
 
 val embeddings = BertEmbeddings.pretrained("bert_base_cased", "en")
@@ -111,7 +109,7 @@ val ner_converter = new NerConverter()
     .setInputCols(Array("sentence", "token", "ner"))
     .setOutputCol("ner_chunk")
 
-val pipeline = new PipelineModel().setStages(Array(
+val pipeline = new Pipeline().setStages(Array(
     document_assembler,
     sentence_detector,
     tokenizer,
@@ -152,7 +150,7 @@ val result = pipeline.fit(data).transform(data)
 {:.table-model}
 |---|---|
 |Model Name:|legner_indian_court_judgement|
-|Compatibility:|Spark NLP for Legal 1.0.0+|
+|Compatibility:|Legal NLP 1.0.0+|
 |License:|Licensed|
 |Edition:|Official|
 |Input Labels:|[sentence, token, embeddings]|

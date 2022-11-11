@@ -7,7 +7,7 @@ date: 2021-11-03
 tags: [embeddings, es, snomed, entity_resolution, clinical, licensed]
 task: Entity Resolution
 language: es
-edition: Spark NLP for Healthcare 3.3.0
+edition: Healthcare NLP 3.3.0
 spark_version: 3.0
 supported: true
 article_header:
@@ -48,7 +48,7 @@ chunk_word_embeddings = nlp.RoBertaEmbeddings.pretrained("roberta_base_biomedica
 .setInputCols(["sentence", "token"])\
 .setOutputCol("ner_chunk_word_embeddings")
 
-chunk_embeddings = SentenceEmbeddings() \
+chunk_embeddings = nlp.SentenceEmbeddings() \
 .setInputCols(["sentence", "ner_chunk_word_embeddings"]) \
 .setOutputCol("ner_chunk_embeddings") \
 .setPoolingStrategy("AVERAGE")
@@ -77,15 +77,15 @@ result = p_model.transform(spark.createDataFrame(pd.DataFrame({'text': [test_sen
 
 ```scala
 ...
-val c2doc = new nlp.Chunk2Doc()
+val c2doc = new Chunk2Doc()
 .setInputCols(Array("ner_chunk"))
 .setOutputCol("sentence")    
 
-val chunk_tokenizer = new nlp.Tokenizer()
+val chunk_tokenizer = new Tokenizer()
 .setInputCols("sentence")
 .setOutputCol("token")
 
-val chunk_word_embeddings = nlp.RoBertaEmbeddings.pretrained("roberta_base_biomedical", "es")
+val chunk_word_embeddings = RoBertaEmbeddings.pretrained("roberta_base_biomedical", "es")
 .setInputCols(Array("sentence", "token"))
 .setOutputCol("ner_chunk_word_embeddings")
 
@@ -94,12 +94,12 @@ val chunk_embeddings = new SentenceEmbeddings()
 .setOutputCol("ner_chunk_embeddings")
 .setPoolingStrategy("AVERAGE")
 
-val er = medical.SentenceEntityResolverModel.pretrained("robertaresolve_snomed", "es", "clinical/models")
+val er = SentenceEntityResolverModel.pretrained("robertaresolve_snomed", "es", "clinical/models")
 .setInputCols(Array("sentence", "ner_chunk_embeddings"))
 .setOutputCol("snomed_code")
 .setDistanceFunction("EUCLIDEAN")
 
-val snomed_pipeline = new PipelineModel().setStages(Array(
+val snomed_pipeline = new Pipeline().setStages(Array(
 c2doc,
 chunk_tokenizer,
 chunk_word_embeddings,
@@ -154,7 +154,7 @@ nlu.load("es.resolve.snomed").predict("""Mujer de 28 años con antecedentes de d
 {:.table-model}
 |---|---|
 |Model Name:|robertaresolve_snomed|
-|Compatibility:|Spark NLP for Healthcare 3.3.0+|
+|Compatibility:|Healthcare NLP 3.3.0+|
 |License:|Licensed|
 |Edition:|Official|
 |Input Labels:|[ner_chunk_doc, sentence_embeddings]|

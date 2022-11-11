@@ -7,7 +7,7 @@ date: 2022-08-17
 tags: [en, legal, re, relations, licensed]
 task: Relation Extraction
 language: en
-edition: Spark NLP for Legal 1.0.0
+edition: Legal NLP 1.0.0
 spark_version: 3.0
 supported: true
 article_header:
@@ -102,7 +102,7 @@ has_alias	ORG	64	92	Hitachi Capital America Corp.	ALIAS	96	102	Hitachi	0.9983972
 |---|---|
 |Model Name:|legre_org_prod_alias|
 |Type:|legal|
-|Compatibility:|Spark NLP for Legal 1.0.0+|
+|Compatibility:|Legal NLP 1.0.0+|
 |License:|Licensed|
 |Edition:|Official|
 |Language:|en|

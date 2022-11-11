@@ -7,7 +7,7 @@ date: 2022-08-15
 tags: [licensed, clinical, ro, deidentification, phi, generic, bert]
 task: Named Entity Recognition
 language: ro
-edition: Spark NLP for Healthcare 4.0.2
+edition: Healthcare NLP 4.0.2
 spark_version: 3.0
 supported: true
 recommended: true
@@ -144,7 +144,7 @@ val results = pipeline.fit(data).transform(data)
 {:.table-model}
 |---|---|
 |Model Name:|ner_deid_generic_bert|
-|Compatibility:|Spark NLP for Healthcare 4.0.2+|
+|Compatibility:|Healthcare NLP 4.0.2+|
 |License:|Licensed|
 |Edition:|Official|
 |Input Labels:|[sentence, token, embeddings]|

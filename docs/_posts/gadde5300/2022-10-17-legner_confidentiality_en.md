@@ -7,7 +7,7 @@ date: 2022-10-17
 tags: [legal, en, ner, licensed, confidentiality]
 task: Named Entity Recognition
 language: en
-edition: Spark NLP for Legal 1.0.0
+edition: Legal NLP 1.0.0
 spark_version: 3.0
 supported: true
 article_header:
@@ -89,7 +89,7 @@ result = nlpPipeline.fit(data).transform(data)
 {:.table-model}
 |---|---|
 |Model Name:|legner_confidentiality|
-|Compatibility:|Spark NLP for Legal 1.0.0+|
+|Compatibility:|Legal NLP 1.0.0+|
 |License:|Licensed|
 |Edition:|Official|
 |Input Labels:|[sentence, token, embeddings]|

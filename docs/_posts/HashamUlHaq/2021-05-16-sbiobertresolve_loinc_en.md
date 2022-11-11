@@ -7,7 +7,7 @@ date: 2021-05-16
 tags: [entity_resolution, clinical, licensed, en]
 task: Entity Resolution
 language: en
-edition: Spark NLP for Healthcare 3.0.4
+edition: Healthcare NLP 3.0.4
 spark_version: 3.0
 supported: true
 article_header:
@@ -91,7 +91,7 @@ nlu.load("en.resolve.loinc").predict("""A 28-year-old female with a history of g
 {:.table-model}
 |---|---|
 |Model Name:|sbiobertresolve_loinc|
-|Compatibility:|Spark NLP for Healthcare 3.0.4+|
+|Compatibility:|Healthcare NLP 3.0.4+|
 |License:|Licensed|
 |Edition:|Official|
 |Input Labels:|[sentence_embeddings]|

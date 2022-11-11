@@ -7,7 +7,7 @@ date: 2022-10-11
 tags: [licensed, clinical, oncology, en, assertion]
 task: Assertion Status
 language: en
-edition: Spark NLP for Healthcare 4.0.0
+edition: Healthcare NLP 4.0.0
 spark_version: 3.0
 supported: true
 article_header:
@@ -34,6 +34,7 @@ This model detects the assertion status of entities related to oncology (includi
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
+
 ```python
 document_assembler = DocumentAssembler()\
     .setInputCol("text")\
@@ -57,7 +58,7 @@ ner = MedicalNerModel.pretrained("ner_oncology_wip", "en", "clinical/models") \
 
 ner_converter = NerConverter() \
     .setInputCols(["sentence", "token", "ner"]) \
-    .setOutputCol("ner_chunk")    .setWhiteList(["Cancer_Dx"", "Tumor_Finding"", "Cancer_Surgery"", "Chemotherapy"", "Pathology_Test"", "Imaging_Test""])
+    .setOutputCol("ner_chunk")    .setWhiteList(["Cancer_Dx", "Tumor_Finding", "Cancer_Surgery", "Chemotherapy", "Pathology_Test", "Imaging_Test"])
     
 assertion = AssertionDLModel.pretrained("assertion_oncology_wip", "en", "clinical/models") \
     .setInputCols(["sentence", "ner_chunk", "embeddings"]) \
@@ -81,11 +82,11 @@ val document_assembler = new DocumentAssembler()
     .setOutputCol("document")
     
 val sentence_detector = SentenceDetectorDLModel.pretrained("sentence_detector_dl_healthcare","en","clinical/models")
-    .setInputCols("document")
+    .setInputCols(Array("document"))
     .setOutputCol("sentence")
     
 val tokenizer = new Tokenizer()
-    .setInputCols("sentence")
+    .setInputCols(Array("sentence"))
     .setOutputCol("token")
     
 val word_embeddings = WordEmbeddingsModel().pretrained("embeddings_clinical", "en", "clinical/models")
@@ -99,10 +100,10 @@ val ner = MedicalNerModel.pretrained("ner_oncology_wip", "en", "clinical/models"
 val ner_converter = new NerConverter()
     .setInputCols(Array("sentence", "token", "ner"))
     .setOutputCol("ner_chunk")
-    .setWhiteList(Array("Cancer_Dx"", "Tumor_Finding"", "Cancer_Surgery"", "Chemotherapy"", "Pathology_Test"", "Imaging_Test""))
+    .setWhiteList(Array("Cancer_Dx", "Tumor_Finding", "Cancer_Surgery", "Chemotherapy", "Pathology_Test", "Imaging_Test"))
 
 val clinical_assertion = AssertionDLModel.pretrained("assertion_oncology_wip","en","clinical/models")
-    .setInputCols("sentence","ner_chunk","embeddings")
+    .setInputCols(Array("sentence","ner_chunk","embeddings"))
     .setOutputCol("assertion")
         
 val pipeline = new Pipeline().setStages(Array(document_assembler,
@@ -113,7 +114,7 @@ val pipeline = new Pipeline().setStages(Array(document_assembler,
                                               ner_converter,
                                               assertion))
 
-val data = Seq("The patient is suspected to have lung cancer. Family history is positive for other cancers. The result of the biopsy was positive.").toDF("text")
+val data = Seq("""The patient is suspected to have lung cancer. Family history is positive for other cancers. The result of the biopsy was positive.""").toDF("text")
 
 val result = pipeline.fit(data).transform(data)
 
@@ -137,7 +138,7 @@ val result = pipeline.fit(data).transform(data)
 {:.table-model}
 |---|---|
 |Model Name:|assertion_oncology_wip|
-|Compatibility:|Spark NLP for Healthcare 4.0.0+|
+|Compatibility:|Healthcare NLP 4.0.0+|
 |License:|Licensed|
 |Edition:|Official|
 |Input Labels:|[document, chunk, embeddings]|
@@ -159,6 +160,6 @@ Hypothetical       0.65    0.57      0.61    229.0
         Past       0.90    0.91      0.91   2124.0
     Possible       0.64    0.61      0.63     85.0
      Present       0.87    0.88      0.88   2121.0
-   macro avg       0.78    0.76      0.77   4967.0
-weighted avg       0.87    0.87      0.87   4967.0
+   macro-avg       0.78    0.76      0.77   4967.0
+weighted-avg       0.87    0.87      0.87   4967.0
 ```

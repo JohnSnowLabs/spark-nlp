@@ -7,7 +7,7 @@ date: 2021-12-14
 tags: [en, licensed]
 task: OCR Text Detection & Recognition
 language: en
-edition: Spark NLP for Healthcare 3.0.0
+edition: Healthcare NLP 3.0.0
 spark_version: 2.4
 supported: true
 article_header:
@@ -51,7 +51,7 @@ text_detector.setOutputCol("text_regions")
 |---|---|
 |Model Name:|text_detection_v1|
 |Type:|ocr|
-|Compatibility:|Spark NLP for Healthcare 3.0.0+|
+|Compatibility:|Healthcare NLP 3.0.0+|
 |License:|Licensed|
 |Edition:|Official|
 |Output Labels:|[text_regions]|

@@ -41,6 +41,7 @@ class Wav2Vec2TestSetUp(unittest.TestCase):
 
         pipeline = Pipeline(stages=[audio_assembler, speech_to_text])
         self.model = pipeline.fit(self.data)
+        self.model.write().overwrite().save("./tmp_wav2vec2_pipeline_model")
 
 
 @pytest.mark.slow

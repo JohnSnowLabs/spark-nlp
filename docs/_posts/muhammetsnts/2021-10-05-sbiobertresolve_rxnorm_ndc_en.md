@@ -7,7 +7,7 @@ date: 2021-10-05
 tags: [licensed, clinical, en, ndc, rxnorm]
 task: Entity Resolution
 language: en
-edition: Spark NLP for Healthcare 3.2.3
+edition: Healthcare NLP 3.2.3
 spark_version: 2.4
 supported: true
 article_header:
@@ -107,7 +107,7 @@ nlu.load("en.resolve.rxnorm_ndc").predict("""activated charcoal 30000 mg powder 
 {:.table-model}
 |---|---|
 |Model Name:|sbiobertresolve_rxnorm_ndc|
-|Compatibility:|Spark NLP for Healthcare 3.2.3+|
+|Compatibility:|Healthcare NLP 3.2.3+|
 |License:|Licensed|
 |Edition:|Official|
 |Input Labels:|[sentence_embeddings]|

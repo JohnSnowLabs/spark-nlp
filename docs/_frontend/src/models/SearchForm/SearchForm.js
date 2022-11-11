@@ -1,7 +1,6 @@
+import { createElement as e, useState, useEffect } from 'react';
 import Spinner from '../Spinner';
 import './SearchForm.css';
-
-const { createElement: e, useState, useEffect } = React;
 
 const SearchForm = ({ onSubmit, isLoading, params }) => {
   const [value, setValue] = useState('');

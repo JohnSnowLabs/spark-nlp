@@ -7,7 +7,7 @@ date: 2022-09-07
 tags: [en, finance, classification, tickets, licensed]
 task: Image Classification
 language: en
-edition: Spark NLP for Finance 1.0.0
+edition: Finance NLP 1.0.0
 spark_version: 3.0
 supported: true
 recommended: true
@@ -23,7 +23,7 @@ This is a ViT (Visual Transformer) model, which can be used to carry out Binary 
 - COCO
 - In-house annotated receipts 
 
-You can use this model to filter out non-tickets from a folder of images or mobile pictures, and then use Spark OCR to extract information using the layout and the text features.
+You can use this model to filter out non-tickets from a folder of images or mobile pictures, and then use Visual NLP to extract information using the layout and the text features.
 
 ## Predicted Entities
 
@@ -83,7 +83,7 @@ result.select("class.result").show(1, False)
 {:.table-model}
 |---|---|
 |Model Name:|finvisualclf_vit_tickets|
-|Compatibility:|Spark NLP for Finance 1.0.0+|
+|Compatibility:|Finance NLP 1.0.0+|
 |License:|Licensed|
 |Edition:|Official|
 |Input Labels:|[image_assembler]|

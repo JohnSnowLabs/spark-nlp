@@ -7,7 +7,7 @@ date: 2022-03-21
 tags: [licensed, ner, clinical, berfortokenclassification, chemprot, en]
 task: Named Entity Recognition
 language: en
-edition: Spark NLP for Healthcare 3.4.1
+edition: Healthcare NLP 3.4.1
 spark_version: 3.0
 supported: true
 article_header:
@@ -62,7 +62,7 @@ pipeline.annotate("Keratinocyte growth factor and acidic fibroblast growth facto
 |---|---|
 |Model Name:|bert_token_classifier_ner_chemprot_pipeline|
 |Type:|pipeline|
-|Compatibility:|Spark NLP for Healthcare 3.4.1+|
+|Compatibility:|Healthcare NLP 3.4.1+|
 |License:|Licensed|
 |Edition:|Official|
 |Language:|en|

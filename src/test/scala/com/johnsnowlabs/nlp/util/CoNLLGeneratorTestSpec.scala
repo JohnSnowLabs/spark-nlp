@@ -17,7 +17,6 @@
 package com.johnsnowlabs.nlp.util
 
 import com.johnsnowlabs.nlp.Finisher
-import com.johnsnowlabs.nlp.annotators.ner.dl.NerDLModel
 import com.johnsnowlabs.nlp.pretrained.PretrainedPipeline
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
 import com.johnsnowlabs.tags.SlowTest
@@ -47,23 +46,6 @@ class CoNLLGeneratorTestSpec extends AnyFlatSpec {
     val testing = Seq(
       (1, "Google is a famous company"),
       (2, "Peter Parker is a super heroe")).toDS.toDF("_id", "text")
-
-    val resultNoNER = ourPipelineModelNoNER.transform(testing)
-
-    val ner = NerDLModel
-      .pretrained("ner_dl")
-      .setInputCols(Array("document", "token", "embeddings"))
-      .setOutputCol("ner")
-
-    val finisherWithNER = new Finisher()
-      .setInputCols("token", "pos", "ner")
-      .setIncludeMetadata(true)
-
-    val ourPipelineModelWithNER = new Pipeline()
-      .setStages(Array(preModel, ner, finisherWithNER))
-      .fit(Seq("").toDF("text"))
-
-    val resultWithNER = ourPipelineModelWithNER.transform(testing)
 
     // TODO: read this from a file?
     // this is what the generator output should be
@@ -111,21 +93,6 @@ class CoNLLGeneratorTestSpec extends AnyFlatSpec {
 
     val resultNoNER = ourPipelineModelNoNER.transform(testing)
 
-    val ner = NerDLModel
-      .pretrained("ner_dl")
-      .setInputCols(Array("document", "token", "embeddings"))
-      .setOutputCol("ner")
-
-    val finisherWithNER = new Finisher()
-      .setInputCols("token", "pos", "ner")
-      .setIncludeMetadata(true)
-
-    val ourPipelineModelWithNER = new Pipeline()
-      .setStages(Array(preModel, ner, finisherWithNER))
-      .fit(Seq("").toDF("text"))
-
-    val resultWithNER = ourPipelineModelWithNER.transform(testing)
-
     // TODO: read this from a file?
     // this is what the generator output should be
     val testText =
@@ -158,31 +125,16 @@ class CoNLLGeneratorTestSpec extends AnyFlatSpec {
   "The generator" should "make the right file with ners when appropriate" taggedAs SlowTest in {
     val preModel = PretrainedPipeline("explain_document_dl", lang = "en").model
 
-    val finisherNoNER = new Finisher()
-      .setInputCols("token", "pos")
-      .setIncludeMetadata(true)
-
-    val ourPipelineModelNoNER = new Pipeline()
-      .setStages(Array(preModel, finisherNoNER))
-      .fit(Seq("").toDF("text"))
-
     val testing = Seq(
       (1, "Google is a famous company"),
       (2, "Peter Parker is a super heroe")).toDS.toDF("_id", "text")
-
-    val resultNoNER = ourPipelineModelNoNER.transform(testing)
-
-    val ner = NerDLModel
-      .pretrained("ner_dl")
-      .setInputCols(Array("document", "token", "embeddings"))
-      .setOutputCol("ner")
 
     val finisherWithNER = new Finisher()
       .setInputCols("token", "pos", "ner")
       .setIncludeMetadata(true)
 
     val ourPipelineModelWithNER = new Pipeline()
-      .setStages(Array(preModel, ner, finisherWithNER))
+      .setStages(Array(preModel, finisherWithNER))
       .fit(Seq("").toDF("text"))
 
     val resultWithNER = ourPipelineModelWithNER.transform(testing)
@@ -216,4 +168,10 @@ class CoNLLGeneratorTestSpec extends AnyFlatSpec {
     assert(fileContents == testNERText)
   }
 
+  "The generator" should "work even if token metadata has non-ints" in {
+    val df = ResourceHelper.spark.read.load(
+      "src/test/resources/conllgenerator/conllgenerator_nonint_token_metadata.parquet")
+
+    CoNLLGenerator.exportConllFiles(df, "./noninttokens")
+  }
 }

@@ -14,12 +14,14 @@
 """Contains classes for the SpanBertCorefModel."""
 
 from sparknlp.common import *
+from sparknlp.common.annotator_type import AnnotatorType
 
 
 class SpanBertCorefModel(AnnotatorModel,
-                     HasEmbeddingsProperties,
-                     HasCaseSensitiveProperties,
-                     HasStorageRef):
+                         HasEmbeddingsProperties,
+                         HasCaseSensitiveProperties,
+                         HasStorageRef,
+                         HasEngine):
     """
     A coreference resolution model based on SpanBert.
 
@@ -109,20 +111,22 @@ class SpanBertCorefModel(AnnotatorModel,
 
     name = "SpanBertCorefModel"
 
+    inputAnnotatorTypes = [AnnotatorType.DOCUMENT, AnnotatorType.TOKEN]
+
     maxSentenceLength = Param(Params._dummy(),
                               "maxSentenceLength",
                               "Max sentence length to process",
                               typeConverter=TypeConverters.toInt)
 
     maxSegmentLength = Param(Params._dummy(),
-                              "maxSegmentLength",
-                              "Max segment length",
-                              typeConverter=TypeConverters.toInt)
+                             "maxSegmentLength",
+                             "Max segment length",
+                             typeConverter=TypeConverters.toInt)
 
     textGenre = Param(Params._dummy(),
-                             "textGenre",
-                             "Text genre, one of ('bc', 'bn', 'mz', 'nw', 'pt','tc', 'wb')",
-                             typeConverter=TypeConverters.toString)
+                      "textGenre",
+                      "Text genre, one of ('bc', 'bn', 'mz', 'nw', 'pt','tc', 'wb')",
+                      typeConverter=TypeConverters.toString)
 
     configProtoBytes = Param(Params._dummy(),
                              "configProtoBytes",
@@ -228,4 +232,3 @@ class SpanBertCorefModel(AnnotatorModel,
         """
         from sparknlp.pretrained import ResourceDownloader
         return ResourceDownloader.downloadModel(SpanBertCorefModel, name, lang, remote_loc)
-

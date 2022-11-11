@@ -7,7 +7,7 @@ date: 2021-09-04
 tags: [en, licensed]
 task: OCR Table Detection & Recognition
 language: en
-edition: Spark OCR 3.0.0
+edition: Visual NLP 3.0.0
 spark_version: 3.0
 supported: true
 article_header:
@@ -68,7 +68,7 @@ val tableDetector = ImageTableDetector
 |---|---|
 |Model Name:|ocr_table_detection_general_model|
 |Type:|ocr|
-|Compatibility:|Spark OCR 3.0.0+|
+|Compatibility:|Visual NLP 3.0.0+|
 |License:|Licensed|
 |Edition:|Official|
 |Output Labels:|[table regions]|
