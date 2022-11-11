@@ -1,13 +1,13 @@
 ---
 layout: model
-title: Company Name Normalization to Edgar Database
+title: Company Name Normalization using Edgar Database
 author: John Snow Labs
 name: finel_edgar_company_name
 date: 2022-08-30
 tags: [en, finance, companies, edgar, licensed]
 task: Entity Resolution
 language: en
-edition: Spark NLP for Finance 1.0.0
+edition: Finance NLP 1.0.0
 spark_version: 3.0
 supported: true
 article_header:
@@ -46,7 +46,7 @@ embeddings = nlp.UniversalSentenceEncoder.pretrained("tfhub_use", "en") \
     
 resolver = finance.SentenceEntityResolverModel.pretrained("finel_edgar_company_name", "en", "finance/models")\
       .setInputCols(["ner_chunk", "sentence_embeddings"]) \
-      .setOutputCol("irs_code")\
+      .setOutputCol("normalized")\
       .setDistanceFunction("EUCLIDEAN")
 
 pipelineModel = PipelineModel(
@@ -79,7 +79,7 @@ lp.fullAnnotate("CONTACT GOLD")
 |---|---|
 |Model Name:|finel_edgar_company_name|
 |Type:|finance|
-|Compatibility:|Spark NLP for Finance 1.0.0+|
+|Compatibility:|Finance NLP 1.0.0+|
 |License:|Licensed|
 |Edition:|Official|
 |Input Labels:|[sentence_embeddings]|

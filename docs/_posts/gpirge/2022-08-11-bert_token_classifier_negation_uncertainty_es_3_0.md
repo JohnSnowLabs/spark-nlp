@@ -7,7 +7,7 @@ date: 2022-08-11
 tags: [es, clinical, licensed, token_classification, bert, ner, negation, uncertainty, linguistics]
 task: Named Entity Recognition
 language: es
-edition: Spark NLP for Healthcare 4.0.2
+edition: Healthcare NLP 4.0.2
 spark_version: 3.0
 supported: true
 article_header:
@@ -129,7 +129,7 @@ val result = pipeline.fit(data).transform(data)
 {:.table-model}
 |---|---|
 |Model Name:|bert_token_classifier_negation_uncertainty|
-|Compatibility:|Spark NLP for Healthcare 4.0.2+|
+|Compatibility:|Healthcare NLP 4.0.2+|
 |License:|Licensed|
 |Edition:|Official|
 |Input Labels:|[sentence, token]|

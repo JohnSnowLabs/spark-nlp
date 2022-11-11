@@ -16,15 +16,15 @@
 
 package com.johnsnowlabs.nlp.annotators
 
-import com.johnsnowlabs.nlp.{Annotation, AnnotatorBuilder}
-import com.johnsnowlabs.tags.FastTest
-import com.johnsnowlabs.nlp.base._
-import org.apache.spark.sql.{Dataset, Row}
-import org.scalatest.flatspec.AnyFlatSpec
 import com.johnsnowlabs.nlp.AnnotatorType.CHUNK
 import com.johnsnowlabs.nlp.annotators.sbd.pragmatic.SentenceDetector
+import com.johnsnowlabs.nlp.base._
 import com.johnsnowlabs.nlp.util.io.{ExternalResource, ReadAs, ResourceHelper}
+import com.johnsnowlabs.nlp.{Annotation, AnnotatorBuilder}
+import com.johnsnowlabs.tags.FastTest
 import org.apache.spark.ml.Pipeline
+import org.apache.spark.sql.{Dataset, Row}
+import org.scalatest.flatspec.AnyFlatSpec
 
 import scala.language.reflectiveCalls
 
@@ -62,38 +62,37 @@ trait RegexMatcherBehaviors { this: AnyFlatSpec =>
 //      }
 //    }
 
+    import ResourceHelper.spark.implicits._
+
+    val sampleDataset = ResourceHelper.spark
+      .createDataFrame(Seq((
+        1,
+        "My first sentence with the first rule. This is my second sentence with ceremonies rule.")))
+      .toDF("id", "text")
+
+    val expectedChunks = Array(
+      Annotation(
+        CHUNK,
+        23,
+        31,
+        "the first",
+        Map("sentence" -> "0", "chunk" -> "0", "identifier" -> "followed by 'the'")),
+      Annotation(
+        CHUNK,
+        71,
+        80,
+        "ceremonies",
+        Map("sentence" -> "1", "chunk" -> "0", "identifier" -> "ceremony")))
+
+    val documentAssembler = new DocumentAssembler().setInputCol("text").setOutputCol("document")
+    val sentence = new SentenceDetector().setInputCols("document").setOutputCol("sentence")
+
+    val rulesFile = "src/test/resources/regex-matcher/rules.txt"
+    val externalResource = ExternalResource(rulesFile, ReadAs.TEXT, Map("delimiter" -> ","))
+
     it should "respect begin and end based on each sentence" taggedAs FastTest in {
-      import ResourceHelper.spark.implicits._
-
-      val sampleDataset = ResourceHelper.spark
-        .createDataFrame(Seq(
-          (1, "My first sentence with the first rule. This is my second sentence with ceremonies rule.")))
-        .toDF("id", "text")
-
-      val expectedChunks = Array(
-        Annotation(
-          CHUNK,
-          23,
-          31,
-          "the first",
-          Map("sentence" -> "0", "chunk" -> "0", "identifier" -> "followed by 'the'")),
-        Annotation(
-          CHUNK,
-          71,
-          80,
-          "ceremonies",
-          Map("sentence" -> "1", "chunk" -> "0", "identifier" -> "ceremony")))
-
-      val documentAssembler = new DocumentAssembler().setInputCol("text").setOutputCol("document")
-
-      val sentence = new SentenceDetector().setInputCols("document").setOutputCol("sentence")
-
       val regexMatcher = new RegexMatcher()
-        .setExternalRules(
-          ExternalResource(
-            "src/test/resources/regex-matcher/rules.txt",
-            ReadAs.TEXT,
-            Map("delimiter" -> ",")))
+        .setExternalRules(externalResource)
         .setInputCols(Array("sentence"))
         .setOutputCol("regex")
         .setStrategy(strategy)
@@ -112,5 +111,72 @@ trait RegexMatcherBehaviors { this: AnyFlatSpec =>
 
       assert(regexChunks sameElements expectedChunks)
     }
+
+    it should "be able to accept rules as string arrays" taggedAs FastTest in {
+      val delimiter = ","
+      val ruleStrings = rules.map(t => t._1 + "," + t._2)
+
+      val regexMatcher = new RegexMatcher()
+        .setRules(ruleStrings)
+        .setDelimiter(delimiter)
+        .setInputCols(Array("sentence"))
+        .setOutputCol("regex")
+        .setStrategy(strategy)
+
+      val pipeline = new Pipeline().setStages(Array(documentAssembler, sentence, regexMatcher))
+
+      val results = pipeline.fit(sampleDataset).transform(sampleDataset)
+
+      val regexChunks = results
+        .select("regex")
+        .as[Seq[Annotation]]
+        .collect
+        .flatMap(_.toSeq)
+        .toSeq
+        .toArray
+
+      assert(regexChunks sameElements expectedChunks)
+    }
+
+    it should "throw exceptions for externalRules and rules conflicts" taggedAs FastTest in {
+      val ruleStrings = Array("")
+      intercept[IllegalArgumentException] {
+        new RegexMatcher()
+          .setRules(ruleStrings)
+          .setExternalRules(externalResource)
+          .setInputCols(Array("sentence"))
+          .setOutputCol("regex")
+          .setStrategy(strategy)
+      }
+
+      intercept[IllegalArgumentException] {
+        new RegexMatcher()
+          .setExternalRules(externalResource)
+          .setRules(ruleStrings)
+          .setInputCols(Array("sentence"))
+          .setOutputCol("regex")
+          .setStrategy(strategy)
+      }
+    }
+
+    it should "throw exceptions for malformed rules" taggedAs FastTest in {
+      val regexMatcher = new RegexMatcher()
+        .setDelimiter(",")
+        .setInputCols(Array("sentence"))
+        .setOutputCol("regex")
+        .setStrategy(strategy)
+
+      intercept[IllegalArgumentException] {
+        regexMatcher
+          .setRules(Array("1,2,3"))
+          .train(dataset, None)
+      }
+      intercept[IllegalArgumentException] {
+        regexMatcher
+          .setRules(Array("1"))
+          .train(dataset, None)
+      }
+    }
+
   }
 }

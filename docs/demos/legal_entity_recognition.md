@@ -127,5 +127,17 @@ data:
             url: https://demo.johnsnowlabs.com/legal/LEGALNER_LAW_MONEY/
           - text: Colab
             type: blue_btn
-            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Legal/4.NER_and_ZeroShot.ipynb 
+            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Legal/4.NER_and_ZeroShot.ipynb
+        - title: Extract Entities in English Indian Court Judgements 
+          id: extract_entities_english_indian_court_judgements   
+          image: 
+              src: /assets/images/Extract_Entities_in_English_Indian_Court_Judgements.svg
+          excerpt: This demo shows how to extract entities from Indian Court Preamble and Judgement documents LAWYER, JUDGE, COURT, WITNESS, RESPONDENT, PETITIONER etc.
+          actions:
+          - text: Live Demo
+            type: normal
+            url: https://demo.johnsnowlabs.com/legal/LEGNER_INDIAN_COURT/
+          - text: Colab
+            type: blue_btn
+            url: 
 ---

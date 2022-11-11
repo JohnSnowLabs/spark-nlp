@@ -6,37 +6,32 @@ seotitle: Annotation Lab | John Snow Labs
 title: API Integration
 permalink: /docs/en/alab/api
 key: docs-training
-modify_date: "2021-09-22"
+modify_date: "2022-10-13"
 use_language_switcher: "Python-Scala"
 show_nav: true
 sidebar:
-    nav: annotation-lab
+  nav: annotation-lab
 ---
 
-All features offered by the Annotation Lab via UI are also accessible via API. The complete API documentation is available on the SWAGGER page of the Annotation Lab. This can be accessed via UI by clicking on the documentation icon on the left lower side of the screen as shown in the image below:
+All features provided by the Annotation Lab via UI are also accessible via API. The complete API documentation is available on the SWAGGER page of the Annotation Lab. It is available under Settings > API Integration.
 
-<img class="image image--xl" src="/assets/images/annotation_lab/2.1.0/API access.png" style="width:60%; align:center; box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);"/>
+<img class="image image__shadow" src="/assets/images/annotation_lab/4.1.0/swagger.png" style="width:100%;"/>
 
-<img class="image image--xl" src="/assets/images/annotation_lab/2.1.0/swagger.png" style="width:100%; align:center; box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);"/>
+Concrete query examples are provided for each available endpoint.
 
-Concrete query examples are provided for each available endpoint. 
-
-<img class="image image--xl" src="/assets/images/annotation_lab/2.1.0/list_of_projects.png" style="width:100%; align:center; box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);"/>
-
-
+<img class="image image__shadow" src="/assets/images/annotation_lab/4.1.0/list_of_projects.png" style="width:100%;"/>
 
 ## Example of creating a new project via API
 
 ### Get Client Secret
 
-Get CLIENT_ID and CLIENT_SECRET by following the steps illustrated in the video.
+Get `CLIENT_ID` and `CLIENT_SECRET` by following the steps illustrated in the video.
 
 <div class="cell cell--12 cell--lg-6 cell--sm-12"><div class="video-item">{%- include extensions/youtube.html id='5dIh8xwW0UY' -%}<div class="video-descr">Annotation Lab: Collect the Client Secret </div></div></div>
 
 ### Call API endpoint
 
-For creating a new project via API you can use the following python script. 
-
+For creating a new project via API you can use the following python script.
 
 ```python
 import requests
@@ -97,5 +92,3 @@ def create_project():
 create_project()
 
 ```
-
-

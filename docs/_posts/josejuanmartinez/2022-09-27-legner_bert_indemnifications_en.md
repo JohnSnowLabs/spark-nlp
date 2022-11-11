@@ -7,7 +7,7 @@ date: 2022-09-27
 tags: [indemnifications, en, licensed]
 task: Named Entity Recognition
 language: en
-edition: Spark NLP for Legal 1.0.0
+edition: Legal NLP 1.0.0
 spark_version: 3.0
 supported: true
 article_header:
@@ -111,7 +111,7 @@ res = lmodel.annotate(text)
 {:.table-model}
 |---|---|
 |Model Name:|legner_bert_indemnifications|
-|Compatibility:|Spark NLP for Legal 1.0.0+|
+|Compatibility:|Legal NLP 1.0.0+|
 |License:|Licensed|
 |Edition:|Official|
 |Input Labels:|[sentence, token]|

@@ -259,7 +259,7 @@ package object annotator {
 
   type BertEmbeddings = com.johnsnowlabs.nlp.embeddings.BertEmbeddings
 
-  object BertEmbeddings extends ReadablePretrainedBertModel with ReadBertTensorflowModel
+  object BertEmbeddings extends ReadablePretrainedBertModel with ReadBertDLModel
 
   type SentenceEmbeddings = com.johnsnowlabs.nlp.embeddings.SentenceEmbeddings
 
@@ -275,11 +275,11 @@ package object annotator {
 
   type UniversalSentenceEncoder = com.johnsnowlabs.nlp.embeddings.UniversalSentenceEncoder
 
-  object UniversalSentenceEncoder extends ReadablePretrainedUSEModel with ReadUSETensorflowModel
+  object UniversalSentenceEncoder extends ReadablePretrainedUSEModel with ReadUSEDLModel
 
   type ElmoEmbeddings = com.johnsnowlabs.nlp.embeddings.ElmoEmbeddings
 
-  object ElmoEmbeddings extends ReadablePretrainedElmoModel with ReadElmoTensorflowModel
+  object ElmoEmbeddings extends ReadablePretrainedElmoModel with ReadElmoDLModel
 
   type ClassifierDLApproach = com.johnsnowlabs.nlp.annotators.classifier.dl.ClassifierDLApproach
 
@@ -293,11 +293,11 @@ package object annotator {
 
   type AlbertEmbeddings = com.johnsnowlabs.nlp.embeddings.AlbertEmbeddings
 
-  object AlbertEmbeddings extends ReadablePretrainedAlbertModel with ReadAlbertTensorflowModel
+  object AlbertEmbeddings extends ReadablePretrainedAlbertModel with ReadAlbertDLModel
 
   type XlnetEmbeddings = com.johnsnowlabs.nlp.embeddings.XlnetEmbeddings
 
-  object XlnetEmbeddings extends ReadablePretrainedXlnetModel with ReadXlnetTensorflowModel
+  object XlnetEmbeddings extends ReadablePretrainedXlnetModel with ReadXlnetDLModel
 
   type SentimentDLApproach = com.johnsnowlabs.nlp.annotators.classifier.dl.SentimentDLApproach
 
@@ -323,7 +323,7 @@ package object annotator {
 
   object BertSentenceEmbeddings
       extends ReadablePretrainedBertSentenceModel
-      with ReadBertSentenceTensorflowModel
+      with ReadBertSentenceDLModel
 
   type MultiClassifierDLApproach =
     com.johnsnowlabs.nlp.annotators.classifier.dl.MultiClassifierDLApproach
@@ -377,19 +377,15 @@ package object annotator {
 
   type DistilBertEmbeddings = com.johnsnowlabs.nlp.embeddings.DistilBertEmbeddings
 
-  object DistilBertEmbeddings
-      extends ReadablePretrainedDistilBertModel
-      with ReadDistilBertTensorflowModel
+  object DistilBertEmbeddings extends ReadablePretrainedDistilBertModel with ReadDistilBertDLModel
 
   type RoBertaEmbeddings = com.johnsnowlabs.nlp.embeddings.RoBertaEmbeddings
 
-  object RoBertaEmbeddings extends ReadablePretrainedRobertaModel with ReadRobertaTensorflowModel
+  object RoBertaEmbeddings extends ReadablePretrainedRobertaModel with ReadRobertaDLModel
 
   type XlmRoBertaEmbeddings = com.johnsnowlabs.nlp.embeddings.XlmRoBertaEmbeddings
 
-  object XlmRoBertaEmbeddings
-      extends ReadablePretrainedXlmRobertaModel
-      with ReadXlmRobertaTensorflowModel
+  object XlmRoBertaEmbeddings extends ReadablePretrainedXlmRobertaModel with ReadXlmRobertaDLModel
 
   type BertForTokenClassification =
     com.johnsnowlabs.nlp.annotators.classifier.dl.BertForTokenClassification
@@ -415,13 +411,13 @@ package object annotator {
 
   object RoBertaSentenceEmbeddings
       extends ReadablePretrainedRobertaSentenceModel
-      with ReadRobertaSentenceTensorflowModel
+      with ReadRobertaSentenceDLModel
 
   type XlmRoBertaSentenceEmbeddings = com.johnsnowlabs.nlp.embeddings.XlmRoBertaSentenceEmbeddings
 
   object XlmRoBertaSentenceEmbeddings
       extends ReadablePretrainedXlmRobertaSentenceModel
-      with ReadXlmRobertaSentenceTensorflowModel
+      with ReadXlmRobertaSentenceDLModel
 
   type RoBertaForTokenClassification =
     com.johnsnowlabs.nlp.annotators.classifier.dl.RoBertaForTokenClassification
@@ -537,7 +533,7 @@ package object annotator {
 
   type DeBertaEmbeddings = com.johnsnowlabs.nlp.embeddings.DeBertaEmbeddings
 
-  object DeBertaEmbeddings extends ReadablePretrainedDeBertaModel with ReadDeBertaTensorflowModel
+  object DeBertaEmbeddings extends ReadablePretrainedDeBertaModel with ReadDeBertaDLModel
 
   type DeBertaForSequenceClassification =
     com.johnsnowlabs.nlp.annotators.classifier.dl.DeBertaForSequenceClassification
@@ -555,9 +551,7 @@ package object annotator {
 
   type CamemBertEmbeddings = com.johnsnowlabs.nlp.embeddings.CamemBertEmbeddings
 
-  object CamemBertEmbeddings
-      extends ReadablePretrainedCamemBertModel
-      with ReadCamemBertTensorflowModel
+  object CamemBertEmbeddings extends ReadablePretrainedCamemBertModel with ReadCamemBertDLModel
 
   type SpanBertCorefModel = com.johnsnowlabs.nlp.annotators.coref.SpanBertCorefModel
 

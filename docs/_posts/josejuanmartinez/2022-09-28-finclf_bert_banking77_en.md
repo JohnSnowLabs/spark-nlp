@@ -7,7 +7,7 @@ date: 2022-09-28
 tags: [en, finance, bank, topic, classification, modeling, licensed]
 task: Text Classification
 language: en
-edition: Spark NLP for Finance 1.0.0
+edition: Finance NLP 1.0.0
 spark_version: 3.0
 supported: true
 article_header:
@@ -155,7 +155,7 @@ result = pipeline.fit(example).transform(example)
 {:.table-model}
 |---|---|
 |Model Name:|finclf_bert_banking77|
-|Compatibility:|Spark NLP for Finance 1.0.0+|
+|Compatibility:|Finance NLP 1.0.0+|
 |License:|Licensed|
 |Edition:|Official|
 |Input Labels:|[document, token]|

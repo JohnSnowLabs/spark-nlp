@@ -131,7 +131,8 @@ class ClassifierDLModel(override val uid: String)
     with HasSimpleAnnotate[ClassifierDLModel]
     with WriteTensorflowModel
     with HasStorageRef
-    with ParamsAndFeaturesWritable {
+    with ParamsAndFeaturesWritable
+    with HasEngine {
   def this() = this(Identifiable.randomUID("ClassifierDLModel"))
 
   /** Output annotator type : SENTENCE_EMBEDDINGS

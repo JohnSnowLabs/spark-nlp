@@ -7,7 +7,7 @@ date: 2022-02-15
 tags: [deid, es, licensed]
 task: De-identification
 language: es
-edition: Spark NLP for Healthcare 3.3.4
+edition: Healthcare NLP 3.3.4
 spark_version: 2.4
 supported: true
 article_header:
@@ -95,27 +95,27 @@ df = spark.createDataFrame([text]).toDF("text")
 results = nlpPipeline.fit(df).transform(df)
 ```
 ```scala
-val documentAssembler = new nlp.DocumentAssembler()
+val documentAssembler = new DocumentAssembler()
         .setInputCol("text")
         .setOutputCol("document")
 
 
-val sentenceDetector = nlp.SentenceDetectorDLModel.pretrained("sentence_detector_dl","xx")
+val sentenceDetector = SentenceDetectorDLModel.pretrained("sentence_detector_dl","xx")
         .setInputCols(Array("document"))
         .setOutputCol("sentence")
 
 
-val tokenizer = new nlp.Tokenizer()
+val tokenizer = new Tokenizer()
         .setInputCols(Array("sentence"))
         .setOutputCol("token")
 
 
-embeddings = nlp.WordEmbeddingsModel.pretrained("embeddings_sciwiki_300d","es","clinical/models")
+embeddings = WordEmbeddingsModel.pretrained("embeddings_sciwiki_300d","es","clinical/models")
 	.setInputCols(Array("sentence","token"))
 	.setOutputCol("word_embeddings")
 
 
-clinical_ner = medical.NerModel.pretrained("ner_deid_generic_augmented", "es", "clinical/models")
+clinical_ner = MedicalNerModel.pretrained("ner_deid_generic_augmented", "es", "clinical/models")
         .setInputCols(Array("sentence","token","word_embeddings"))
         .setOutputCol("ner")
 
@@ -129,7 +129,7 @@ val text = "Antonio Miguel Martínez, un varón de 35 años de edad, de profesi�
 val df = Seq(text).toDF("text")
 
 
-val results = pipeline.fit(data).transform(data)
+val results = pipeline.fit(df).transform(df)
 ```
 </div>
 
@@ -207,7 +207,7 @@ val results = pipeline.fit(data).transform(data)
 {:.table-model}
 |---|---|
 |Model Name:|ner_deid_generic_augmented|
-|Compatibility:|Spark NLP for Healthcare 3.3.4+|
+|Compatibility:|Healthcare NLP 3.3.4+|
 |License:|Licensed|
 |Edition:|Official|
 |Input Labels:|[sentence, token, word_embeddings]|

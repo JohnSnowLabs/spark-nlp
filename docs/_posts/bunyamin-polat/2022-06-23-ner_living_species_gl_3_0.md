@@ -7,7 +7,7 @@ date: 2022-06-23
 tags: [gl, ner, clinical, licensed]
 task: Named Entity Recognition
 language: gl
-edition: Spark NLP for Healthcare 3.5.3
+edition: Healthcare NLP 3.5.3
 spark_version: 3.0
 supported: true
 article_header:
@@ -76,11 +76,9 @@ ner_model,
 ner_converter   
 ])
 
-model = pipeline.fit(spark.createDataFrame([[""]]).toDF("text"))
-
 data = spark.createDataFrame([["""Muller de 45 anos, sen antecedentes médicos de interese, que foi remitida á consulta de dermatoloxía de urxencias por lesións faciales de tres semanas de evolución. A paciente non presentaba lesións noutras localizaciones nin outra clínica de interese. No seu centro de saúde prescribíronlle corticoides tópicos ante a sospeita de picaduras de artrópodos e unha semana despois, antivirales orais baixo o diagnóstico de posible infección herpética. As lesións interferían de forma notable na súa vida persoal e profesional xa que traballaba de face ao púbico. Unha semana máis tarde o diagnóstico foi confirmado ao resultar o cultivo positivo a Staphylococcus aureus."""]]).toDF("text")
 
-result = model.transform(data)
+result = pipeline.fit(data).transform(data)
 ```
 ```scala
 
@@ -89,11 +87,11 @@ val document_assembler = new DocumentAssembler()
 .setOutputCol("document")
 
 val sentence_detector = SentenceDetectorDLModel.pretrained("sentence_detector_dl", "xx")
-.setInputCols("document")
+.setInputCols(Array("document"))
 .setOutputCol("sentence")
 
 val tokenizer = new Tokenizer()
-.setInputCols("sentence")
+.setInputCols(Array("sentence"))
 .setOutputCol("token")
 
 val embeddings = WordEmbeddingsModel.pretrained("w2v_cc_300d","gl")
@@ -108,7 +106,7 @@ val ner_converter = new NerConverter()
 .setInputCols(Array("sentence", "token", "ner"))
 .setOutputCol("ner_chunk")
 
-val pipeline = new PipelineModel().setStages(Array(document_assembler, 
+val pipeline = new Pipeline().setStages(Array(document_assembler, 
 sentence_detector,
 tokenizer,
 embeddings,
@@ -117,7 +115,7 @@ ner_converter))
 
 val data = Seq("""Muller de 45 anos, sen antecedentes médicos de interese, que foi remitida á consulta de dermatoloxía de urxencias por lesións faciales de tres semanas de evolución. A paciente non presentaba lesións noutras localizaciones nin outra clínica de interese. No seu centro de saúde prescribíronlle corticoides tópicos ante a sospeita de picaduras de artrópodos e unha semana despois, antivirales orais baixo o diagnóstico de posible infección herpética. As lesións interferían de forma notable na súa vida persoal e profesional xa que traballaba de face ao púbico. Unha semana máis tarde o diagnóstico foi confirmado ao resultar o cultivo positivo a Staphylococcus aureus.""").toDS.toDF("text")
 
-val result = pipeline .fit(data).transform(data)
+val result = pipeline.fit(data).transform(data)
 ```
 
 
@@ -151,7 +149,7 @@ nlu.load("gl.med_ner.living_species").predict("""Muller de 45 anos, sen antecede
 {:.table-model}
 |---|---|
 |Model Name:|ner_living_species|
-|Compatibility:|Spark NLP for Healthcare 3.5.3+|
+|Compatibility:|Healthcare NLP 3.5.3+|
 |License:|Licensed|
 |Edition:|Official|
 |Input Labels:|[sentence, token, embeddings]|

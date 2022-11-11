@@ -14,11 +14,13 @@
 """Contains classes for AlbertForTokenClassification."""
 
 from sparknlp.common import *
+from sparknlp.common.annotator_type import AnnotatorType
 
 
 class AlbertForTokenClassification(AnnotatorModel,
                                    HasCaseSensitiveProperties,
-                                   HasBatchedAnnotate):
+                                   HasBatchedAnnotate,
+                                   HasEngine):
     """AlbertForTokenClassification can load ALBERT Models with a token
     classification head on top (a linear layer on top of the hidden-states
     output) e.g. for Named-Entity-Recognition (NER) tasks.
@@ -94,6 +96,8 @@ class AlbertForTokenClassification(AnnotatorModel,
     """
 
     name = "AlbertForTokenClassification"
+
+    inputAnnotatorTypes = [AnnotatorType.DOCUMENT, AnnotatorType.TOKEN]
 
     maxSentenceLength = Param(Params._dummy(),
                               "maxSentenceLength",
@@ -186,4 +190,3 @@ class AlbertForTokenClassification(AnnotatorModel,
         """
         from sparknlp.pretrained import ResourceDownloader
         return ResourceDownloader.downloadModel(AlbertForTokenClassification, name, lang, remote_loc)
-

@@ -7,7 +7,7 @@ date: 2022-03-21
 tags: [licensed, ner, clinical, deid, de]
 task: Named Entity Recognition
 language: de
-edition: Spark NLP for Healthcare 3.4.1
+edition: Healthcare NLP 3.4.1
 spark_version: 3.0
 supported: true
 article_header:
@@ -65,7 +65,7 @@ pipeline.annotate("Michael Berger wird am Morgen des 12 Dezember 2018 ins St. El
 |---|---|
 |Model Name:|ner_deid_generic_pipeline|
 |Type:|pipeline|
-|Compatibility:|Spark NLP for Healthcare 3.4.1+|
+|Compatibility:|Healthcare NLP 3.4.1+|
 |License:|Licensed|
 |Edition:|Official|
 |Language:|de|

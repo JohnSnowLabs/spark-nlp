@@ -14,11 +14,13 @@ sidebar:
 <div class="h3-box" markdown="1">
 
 
-| Finance NLP	 | Spark NLP (Public) |
+| Finance NLP	 | Spark NLP  |
 |--------------|--------------------|
 | 1.0.0        | 4.2.0              |
+| 1.1.0     | 4.2.0, 4.2.1       |
 
 
-| Finance NLP	 | Visual NLP (Spark OCR) |
-|--------------|----------------------------|
-| 1.0.0        | 4.0.0                      |
+| Finance NLP	  | Visual NLP |
+|---------------|-------------|
+| 1.0.0         | 4.0.0       |
+| 1.1.0        | 4.0.0          |

@@ -28,6 +28,8 @@
     "@floating-ui/react-dom-interactions": "^0.6.3",
     "classnames": "^2.3.1",
     "downshift": "^6.1.7",
-    "preact": "^10.7.0"
+    "preact": "^10.7.0",
+    "react": "17",
+    "react-dom": "17"
   }
 }

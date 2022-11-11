@@ -7,7 +7,7 @@ date: 2022-06-22
 tags: [es, ner, clinical, licensed, bert]
 task: Named Entity Recognition
 language: es
-edition: Spark NLP for Healthcare 3.5.3
+edition: Healthcare NLP 3.5.3
 spark_version: 3.0
 supported: true
 article_header:
@@ -71,11 +71,9 @@ ner_model,
 ner_converter   
 ])
 
-model = pipeline.fit(spark.createDataFrame([[""]]).toDF("text"))
-
 data = spark.createDataFrame([["""Lactante varón de dos años. Antecedentes familiares sin interés. Antecedentes personales: Embarazo, parto y periodo neonatal normal. En seguimiento por alergia a legumbres, diagnosticado con diez meses por reacción urticarial generalizada con lentejas y garbanzos, con dieta de exclusión a legumbres desde entonces. En ésta visita la madre describe episodios de eritema en zona maxilar derecha con afectación ocular ipsilateral que se resuelve en horas tras la administración de corticoides. Le ha ocurrido en 5-6 ocasiones, en relación con la ingesta de alimentos previamente tolerados. Exploración complementaria: Cacahuete, ac(ige)19.2 Ku.arb/l. Resultados: Ante la sospecha clínica de Síndrome de Frey, se tranquiliza a los padres, explicándoles la naturaleza del cuadro y se cita para revisión anual."""]]).toDF("text")
 
-result = model.transform(data)
+result = pipeline.fit(data).transform(data)
 ```
 ```scala
 val document_assembler = new DocumentAssembler()
@@ -102,7 +100,7 @@ val ner_converter = new NerConverter()
 .setInputCols(Array("sentence", "token", "ner"))
 .setOutputCol("ner_chunk")
 
-val pipeline = new PipelineModel().setStages(Array(document_assembler, 
+val pipeline = new Pipeline().setStages(Array(document_assembler, 
 sentence_detector,
 tokenizer,
 embeddings,
@@ -149,7 +147,7 @@ nlu.load("es.med_ner.living_species.bert").predict("""Lactante varón de dos añ
 {:.table-model}
 |---|---|
 |Model Name:|ner_living_species_bert|
-|Compatibility:|Spark NLP for Healthcare 3.5.3+|
+|Compatibility:|Healthcare NLP 3.5.3+|
 |License:|Licensed|
 |Edition:|Official|
 |Input Labels:|[sentence, token, embeddings]|

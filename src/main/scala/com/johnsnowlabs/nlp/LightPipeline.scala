@@ -17,10 +17,12 @@
 package com.johnsnowlabs.nlp
 
 import com.johnsnowlabs.nlp.annotators.cv.util.io.ImageIOUtils
+import com.johnsnowlabs.nlp.util.io.ResourceHelper
 import org.apache.spark.ml.{PipelineModel, Transformer}
 import org.apache.spark.sql.{DataFrame, Dataset}
 
 import scala.collection.JavaConverters._
+import scala.util.{Failure, Success, Try}
 
 class LightPipeline(val pipelineModel: PipelineModel, parseEmbeddingsVectors: Boolean = false) {
 
@@ -34,28 +36,36 @@ class LightPipeline(val pipelineModel: PipelineModel, parseEmbeddingsVectors: Bo
 
   def transform(dataFrame: Dataset[_]): DataFrame = pipelineModel.transform(dataFrame)
 
-  def fullAnnotate(targets: Array[String]): Array[Map[String, Seq[Annotation]]] = {
+  def fullAnnotate(targets: Array[String]): Array[Map[String, Seq[IAnnotation]]] = {
     targets.par
       .map(target => fullAnnotate(target))
       .toArray
   }
 
-  def fullAnnotate(target: String, optionalTarget: String = ""): Map[String, Seq[Annotation]] = {
-    fullAnnotateInternal(target, optionalTarget).mapValues(_.map(_.asInstanceOf[Annotation]))
+  def fullAnnotate(target: String, optionalTarget: String = ""): Map[String, Seq[IAnnotation]] = {
+    if (target.contains("/") && ResourceHelper.validFile(target)) {
+      fullAnnotateImage(target)
+    } else {
+      fullAnnotateInternal(target, optionalTarget)
+    }
   }
 
   def fullAnnotate(
       targets: Array[String],
-      optionalTargets: Array[String]): Array[Map[String, Seq[Annotation]]] = {
+      optionalTargets: Array[String]): Array[Map[String, Seq[IAnnotation]]] = {
 
     if (targets.length != optionalTargets.length) {
       throw new UnsupportedOperationException(
         "targets and optionalTargets must be of the same length")
     }
 
-    (targets zip optionalTargets).par.map { case (target, optionalTarget) =>
-      fullAnnotate(target, optionalTarget)
-    }.toArray
+    if (targets.head.contains("/") && ResourceHelper.validFile(targets.head)) {
+      targets.par.map(target => fullAnnotateImage(target)).toArray
+    } else {
+      (targets zip optionalTargets).par.map { case (target, optionalTarget) =>
+        fullAnnotate(target, optionalTarget)
+      }.toArray
+    }
   }
 
   def fullAnnotateImage(pathToImages: Array[String]): Array[Map[String, Seq[IAnnotation]]] = {
@@ -289,36 +299,40 @@ class LightPipeline(val pipelineModel: PipelineModel, parseEmbeddingsVectors: Bo
     inputCols
   }
 
-  def fullAnnotateJava(target: String): java.util.Map[String, java.util.List[JavaAnnotation]] = {
+  def fullAnnotateJava(target: String): java.util.Map[String, java.util.List[IAnnotation]] = {
     fullAnnotate(target)
       .mapValues(_.map { annotation =>
-        JavaAnnotation(
-          annotation.annotatorType,
-          annotation.begin,
-          annotation.end,
-          annotation.result,
-          annotation.metadata.asJava)
+        castToJavaAnnotation(annotation)
       }.asJava)
       .asJava
   }
 
   def fullAnnotateJava(
       target: String,
-      optionalTarget: String): java.util.Map[String, java.util.List[JavaAnnotation]] = {
+      optionalTarget: String): java.util.Map[String, java.util.List[IAnnotation]] = {
     fullAnnotate(target, optionalTarget)
       .mapValues(_.map { annotation =>
+        castToJavaAnnotation(annotation)
+      }.asJava)
+      .asJava
+  }
+
+  private def castToJavaAnnotation(annotation: IAnnotation): IAnnotation = {
+    Try(annotation.asInstanceOf[Annotation]) match {
+      case Success(annotation) => {
         JavaAnnotation(
           annotation.annotatorType,
           annotation.begin,
           annotation.end,
           annotation.result,
           annotation.metadata.asJava)
-      }.asJava)
-      .asJava
+      }
+      case Failure(_) => annotation
+    }
   }
 
   def fullAnnotateJava(targets: java.util.ArrayList[String])
-      : java.util.List[java.util.Map[String, java.util.List[JavaAnnotation]]] = {
+      : java.util.List[java.util.Map[String, java.util.List[IAnnotation]]] = {
     targets.asScala.par
       .map(target => fullAnnotateJava(target))
       .toList
@@ -328,7 +342,7 @@ class LightPipeline(val pipelineModel: PipelineModel, parseEmbeddingsVectors: Bo
   def fullAnnotateJava(
       targets: java.util.ArrayList[String],
       optionalTargets: java.util.ArrayList[String])
-      : java.util.List[java.util.Map[String, java.util.List[JavaAnnotation]]] = {
+      : java.util.List[java.util.Map[String, java.util.List[IAnnotation]]] = {
     (targets.asScala zip optionalTargets.asScala).par
       .map { case (target, optionalTarget) =>
         fullAnnotateJava(target, optionalTarget)
@@ -375,7 +389,8 @@ class LightPipeline(val pipelineModel: PipelineModel, parseEmbeddingsVectors: Bo
   }
 
   def annotate(target: String, optionalTarget: String = ""): Map[String, Seq[String]] = {
-    fullAnnotate(target, optionalTarget).mapValues(_.map { annotation =>
+    fullAnnotate(target, optionalTarget).mapValues(_.map { iAnnotation =>
+      val annotation = iAnnotation.asInstanceOf[Annotation]
       annotation.annotatorType match {
         case AnnotatorType.WORD_EMBEDDINGS | AnnotatorType.SENTENCE_EMBEDDINGS
             if parseEmbeddingsVectors =>

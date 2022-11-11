@@ -7,7 +7,7 @@ date: 2021-03-31
 tags: [ner, clinical, licensed, en]
 task: Named Entity Recognition
 language: en
-edition: Spark NLP for Healthcare 3.0.0
+edition: Healthcare NLP 3.0.0
 spark_version: 3.0
 supported: true
 article_header:
@@ -186,7 +186,7 @@ nlu.load("en.med_ner.jsl.wip.clinical.greedy").predict("""The patient is a 21-da
 {:.table-model}
 |---|---|
 |Model Name:|jsl_ner_wip_greedy_clinical|
-|Compatibility:|Spark NLP for Healthcare 3.0.0+|
+|Compatibility:|Healthcare NLP 3.0.0+|
 |License:|Licensed|
 |Edition:|Official|
 |Input Labels:|[sentence, token, embeddings]|

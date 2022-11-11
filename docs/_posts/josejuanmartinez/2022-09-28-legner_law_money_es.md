@@ -7,7 +7,7 @@ date: 2022-09-28
 tags: [es, legal, ner, laws, money, licensed]
 task: Named Entity Recognition
 language: es
-edition: Spark NLP for Legal 1.0.0
+edition: Legal NLP 1.0.0
 spark_version: 3.0
 supported: true
 article_header:
@@ -91,7 +91,7 @@ artículo 24 de la Constitución Española (LAW)
 {:.table-model}
 |---|---|
 |Model Name:|legner_law_money|
-|Compatibility:|Spark NLP for Legal 1.0.0+|
+|Compatibility:|Legal NLP 1.0.0+|
 |License:|Licensed|
 |Edition:|Official|
 |Input Labels:|[document, token]|

@@ -1,13 +1,13 @@
 ---
 layout: model
-title: Legal Obligations Clause Binary Classifier (CUAD dataset)
+title: Legal Obligations Clause Binary Classifier
 author: John Snow Labs
 name: legclf_cuad_obligations_clause
 date: 2022-09-20
 tags: [en, legal, classification, clauses, obligations, licensed]
 task: Text Classification
 language: en
-edition: Spark NLP for Legal 1.0.0
+edition: Legal NLP 1.0.0
 spark_version: 3.0
 supported: true
 article_header:
@@ -19,7 +19,7 @@ use_language_switcher: "Python-Scala-Java"
 
 This model is a Binary Classifier (True, False) for the `obligations` clause type. To use this model, make sure you provide enough context as an input. Adding Sentence Splitters to the pipeline will make the model see only sentences, not the whole text, so it's better to skip it, unless you want to do Binary Classification as sentence level.
 
-If you have big legal documents, and you want to look for clauses, we recommend you to split the documents using any of the techniques available in our Spark NLP for Legal Workshop Tokenization & Splitting Tutorial (link [here](https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Legal/1.Tokenization_Splitting.ipynb)), namely:
+If you have big legal documents, and you want to look for clauses, we recommend you to split the documents using any of the techniques available in our Legal NLP Workshop Tokenization & Splitting Tutorial (link [here](https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings_JSL/Legal/1.Tokenization_Splitting.ipynb)), namely:
 - Paragraph splitting (by multiline);
 - Splitting by headers / subheaders;
 - etc.
@@ -27,8 +27,6 @@ If you have big legal documents, and you want to look for clauses, we recommend 
 Take into consideration the embeddings of this model allows up to 512 tokens. If you have more than that, consider splitting in smaller pieces (you can also check the same tutorial link provided above).
 
 This model can be combined with any of the other 200+ Legal Clauses Classifiers you will find in Models Hub, getting as an output a series of True/False values for each of the legal clause model you have added.
-
-The difference between his model and others with the same title is the dataset it was trained on.
 
 ## Predicted Entities
 
@@ -91,7 +89,7 @@ result = model.transform(df)
 |---|---|
 |Model Name:|legclf_cuad_obligations_clause|
 |Type:|legal|
-|Compatibility:|Spark NLP for Legal 1.0.0+|
+|Compatibility:|Legal NLP 1.0.0+|
 |License:|Licensed|
 |Edition:|Official|
 |Input Labels:|[sentence_embeddings]|

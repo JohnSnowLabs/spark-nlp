@@ -7,7 +7,7 @@ date: 2022-10-22
 tags: [lt, legal, classification, sentiment, analysis, licensed]
 task: Text Classification
 language: lt
-edition: Spark NLP for Finance 1.0.0
+edition: Finance NLP 1.0.0
 spark_version: 3.0
 supported: true
 article_header:
@@ -21,7 +21,7 @@ This is a Lithuanian Sentiment Analysis Text Classifier, which will retrieve if 
 
 ## Predicted Entities
 
-`APPLICANT`, `COMMISSION/CHAMBER`, `ECHR`, `OTHER`, `STATE`, `THIRD PARTIES`
+`POS`,`NEG`
 
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>
@@ -82,7 +82,7 @@ result.select("text", "class.result").show(truncate=False)
 {:.table-model}
 |---|---|
 |Model Name:|finclf_bert_sentiment_analysis|
-|Compatibility:|Spark NLP for Finance 1.0.0+|
+|Compatibility:|Finance NLP 1.0.0+|
 |License:|Licensed|
 |Edition:|Official|
 |Input Labels:|[document, token]|

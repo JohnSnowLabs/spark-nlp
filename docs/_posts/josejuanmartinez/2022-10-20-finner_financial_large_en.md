@@ -7,7 +7,7 @@ date: 2022-10-20
 tags: [en, finance, ner, annual, reports, 10k, filings, licensed]
 task: Named Entity Recognition
 language: en
-edition: Spark NLP for Finance 1.0.0
+edition: Finance NLP 1.0.0
 spark_version: 3.0
 supported: true
 article_header:
@@ -68,7 +68,7 @@ sentence_detector = nlp.SentenceDetectorDLModel.pretrained("sentence_detector_dl
 
 tokenizer = nlp.Tokenizer()\
     .setInputCols(["sentence"])\
-    .setOutputCol("token")
+    .setOutputCol("token")\
     .setContextChars(['.', ',', ';', ':', '!', '?', '*', '-', '(', ')', '”', '’', '$','€'])
 
 embeddings = nlp.BertEmbeddings.pretrained("bert_embeddings_sec_bert_base", "en") \
@@ -172,7 +172,7 @@ result.select(F.explode(F.arrays_zip('ner_chunk.result', 'ner_chunk.metadata')).
 {:.table-model}
 |---|---|
 |Model Name:|finner_financial_large|
-|Compatibility:|Spark NLP for Finance 1.0.0+|
+|Compatibility:|Finance NLP 1.0.0+|
 |License:|Licensed|
 |Edition:|Official|
 |Input Labels:|[sentence, token, embeddings]|

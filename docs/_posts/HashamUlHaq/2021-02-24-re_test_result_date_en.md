@@ -7,7 +7,7 @@ date: 2021-02-24
 tags: [licensed, en, clinical, relation_extraction]
 task: Relation Extraction
 language: en
-edition: Spark NLP for Healthcare 2.7.4
+edition: Healthcare NLP 2.7.4
 spark_version: 2.4
 supported: true
 article_header:
@@ -95,7 +95,7 @@ nlu.load("en.relation.test_result_date").predict("""He was advised chest X-ray o
 |---|---|
 |Model Name:|re_test_result_date|
 |Type:|re|
-|Compatibility:|Spark NLP for Healthcare 2.7.4+|
+|Compatibility:|Healthcare NLP 2.7.4+|
 |License:|Licensed|
 |Edition:|Official|
 |Input Labels:|[embeddings, pos_tags, train_ner_chunks, dependencies]|

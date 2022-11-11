@@ -15,6 +15,7 @@
 
 
 from sparknlp.common import *
+from sparknlp.common.annotator_type import AnnotatorType
 
 
 class ViveknSentimentApproach(AnnotatorApproach):
@@ -96,6 +97,9 @@ class ViveknSentimentApproach(AnnotatorApproach):
     |[negative]     |
     +---------------+
     """
+
+    inputAnnotatorTypes = [AnnotatorType.TOKEN, AnnotatorType.DOCUMENT]
+
     sentimentCol = Param(Params._dummy(),
                          "sentimentCol",
                          "column with the sentiment result of every row. Must be 'positive' or 'negative'",

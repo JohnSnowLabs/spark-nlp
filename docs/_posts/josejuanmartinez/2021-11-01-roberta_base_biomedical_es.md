@@ -57,15 +57,15 @@ tokenizer,
 roberta_embeddings])
 ```
 ```scala
-val documentAssembler = new nlp.DocumentAssembler()
+val documentAssembler = new DocumentAssembler()
 .setInputCol("term")
 .setOutputCol("document")
 
-val tokenizer = new nlp.Tokenizer()
+val tokenizer = new Tokenizer()
 .setInputCols("document")
 .setOutputCol("token")
 
-val roberta_embeddings = nlp.RoBertaEmbeddings.pretrained("roberta_base_biomedical", "es")
+val roberta_embeddings = RoBertaEmbeddings.pretrained("roberta_base_biomedical", "es")
 .setInputCols(Array("document", "token"))
 .setOutputCol("roberta_embeddings")
 

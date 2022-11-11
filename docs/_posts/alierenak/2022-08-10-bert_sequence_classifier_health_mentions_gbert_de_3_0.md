@@ -7,7 +7,7 @@ date: 2022-08-10
 tags: [public_health, de, licensed, sequence_classification, health_mention]
 task: Text Classification
 language: de
-edition: Spark NLP for Healthcare 4.0.2
+edition: Healthcare NLP 4.0.2
 spark_version: 3.0
 supported: true
 article_header:
@@ -99,7 +99,7 @@ val result = pipeline.fit(data).transform(data)
 {:.table-model}
 |---|---|
 |Model Name:|bert_sequence_classifier_health_mentions_gbert|
-|Compatibility:|Spark NLP for Healthcare 4.0.2+|
+|Compatibility:|Healthcare NLP 4.0.2+|
 |License:|Licensed|
 |Edition:|Official|
 |Input Labels:|[document, token]|

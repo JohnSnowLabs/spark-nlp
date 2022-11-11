@@ -14,13 +14,15 @@
 """Contains classes for BertSentenceEmbeddings."""
 
 from sparknlp.common import *
+from sparknlp.common.annotator_type import AnnotatorType
 
 
 class BertSentenceEmbeddings(AnnotatorModel,
                              HasEmbeddingsProperties,
                              HasCaseSensitiveProperties,
                              HasStorageRef,
-                             HasBatchedAnnotate):
+                             HasBatchedAnnotate,
+                             HasEngine):
     """Sentence-level embeddings using BERT. BERT (Bidirectional Encoder
     Representations from Transformers) provides dense vector representations for
     natural language by using a deep, pre-trained neural network with the
@@ -128,6 +130,8 @@ class BertSentenceEmbeddings(AnnotatorModel,
 
     name = "BertSentenceEmbeddings"
 
+    inputAnnotatorTypes = [AnnotatorType.DOCUMENT]
+
     maxSentenceLength = Param(Params._dummy(),
                               "maxSentenceLength",
                               "Max sentence length to process",
@@ -229,4 +233,3 @@ class BertSentenceEmbeddings(AnnotatorModel,
         """
         from sparknlp.pretrained import ResourceDownloader
         return ResourceDownloader.downloadModel(BertSentenceEmbeddings, name, lang, remote_loc)
-

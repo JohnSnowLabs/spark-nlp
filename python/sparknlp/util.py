@@ -23,9 +23,13 @@ def get_config_path():
 
 class CoNLLGenerator:
     @staticmethod
-    def exportConllFiles(spark, files_path, pipeline, output_path):
-        _internal._CoNLLGeneratorExport(spark, files_path, pipeline, output_path).apply()
-
-    @staticmethod
-    def exportConllFiles(dataframe, output_path):
-        _internal._CoNLLGeneratorExport(dataframe, output_path).apply()
+    def exportConllFiles(*args):
+        num_args = len(args)
+        if num_args == 2:
+            _internal._CoNLLGeneratorExportFromDataFrame(*args).apply()
+        elif num_args == 3:
+            _internal._CoNLLGeneratorExportFromDataFrameAndField(*args).apply()
+        elif num_args == 4:
+            _internal._CoNLLGeneratorExportFromTargetAndPipeline(*args).apply()
+        else:
+            raise NotImplementedError(f"No exportConllFiles alternative takes {num_args} parameters")

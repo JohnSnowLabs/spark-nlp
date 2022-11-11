@@ -13,9 +13,10 @@ sidebar:
 
 <div class="h3-box" markdown="1">
 
-## 1.0.0
+## Releases log
 
 - [Finance NLP 1.0.0 on Medium](https://medium.com/spark-nlp/spark-nlp-for-finance-is-released-cfa3cc7b9faa)
+- [Finance NLP 1.1.0 on Medium](https://medium.com/spark-nlp/finance-nlp-1-1-0-for-spark-nlp-has-been-released-9adf8339fe0a)
 - [Slack](https://www.johnsnowlabs.com/slack-redirect/) - Join `#finance` channel
 
 </div>

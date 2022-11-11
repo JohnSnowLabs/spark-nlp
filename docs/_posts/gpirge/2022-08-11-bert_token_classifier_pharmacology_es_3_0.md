@@ -7,7 +7,7 @@ date: 2022-08-11
 tags: [es, clinical, licensed, token_classification, bert, ner, pharmacology]
 task: Named Entity Recognition
 language: es
-edition: Spark NLP for Healthcare 4.0.2
+edition: Healthcare NLP 4.0.2
 spark_version: 3.0
 supported: true
 article_header:
@@ -66,12 +66,11 @@ pipeline =  Pipeline(stages=[
                       tokenClassifier,
                       ner_converter])
 
-model = pipeline.fit(spark.createDataFrame(pd.DataFrame({'text': ['']})))
+                          
+data = spark.createDataFrame([["""Se realiza analítica destacando creatinkinasa 736 UI, LDH 545 UI, urea 63 mg/dl, CA 19.9 64,1 U/ml. Inmunofenotípicamente el tumor expresó vimentina, S-100, HMB-45 y actina. Se instauró el tratamiento con quimioterapia (Cisplatino, Interleukina II, Dacarbacina e Interferon alfa)."""]]).toDF("text")
 
+result = pipeline.fit(data).transform(data)
 
-data = spark.createDataFrame(["Se realiza analítica destacando creatinkinasa 736 UI, LDH 545 UI, urea 63 mg/dl, CA 19.9 64,1 U/ml. Inmunofenotípicamente el tumor expresó vimentina, S-100, HMB-45 y actina. Se instauró el tratamiento con quimioterapia (Cisplatino, Interleukina II, Dacarbacina e Interferon alfa)."], StringType()).toDF("text")
-                              
-result = model.transform(data)
 ```
 ```scala
 val documentAssembler = new DocumentAssembler()
@@ -105,7 +104,7 @@ val pipeline =  new Pipeline().setStages(Array(
 
 val data = Seq(Array("Se realiza analítica destacando creatinkinasa 736 UI, LDH 545 UI, urea 63 mg/dl, CA 19.9 64,1 U/ml. Inmunofenotípicamente el tumor expresó vimentina, S-100, HMB-45 y actina. Se instauró el tratamiento con quimioterapia (Cisplatino, Interleukina II, Dacarbacina e Interferon alfa).")).toDS().toDF("text")
 
-val result = model.fit(data).transform(data)
+val result = pipeline.fit(data).transform(data)
 ```
 </div>
 
@@ -136,7 +135,7 @@ val result = model.fit(data).transform(data)
 {:.table-model}
 |---|---|
 |Model Name:|bert_token_classifier_pharmacology|
-|Compatibility:|Spark NLP for Healthcare 4.0.2+|
+|Compatibility:|Healthcare NLP 4.0.2+|
 |License:|Licensed|
 |Edition:|Official|
 |Input Labels:|[sentence, token]|

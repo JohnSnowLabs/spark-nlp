@@ -14,11 +14,13 @@
 """Contains classes for BertForTokenClassification."""
 
 from sparknlp.common import *
+from sparknlp.common.annotator_type import AnnotatorType
 
 
 class BertForTokenClassification(AnnotatorModel,
                                  HasCaseSensitiveProperties,
-                                 HasBatchedAnnotate):
+                                 HasBatchedAnnotate,
+                                 HasEngine):
     """BertForTokenClassification can load Bert Models with a token
     classification head on top (a linear layer on top of the hidden-states
     output) e.g. for Named-Entity-Recognition (NER) tasks.
@@ -92,6 +94,8 @@ class BertForTokenClassification(AnnotatorModel,
     +------------------------------------------------------------------------------------+
     """
     name = "BertForTokenClassification"
+
+    inputAnnotatorTypes = [AnnotatorType.DOCUMENT, AnnotatorType.TOKEN]
 
     maxSentenceLength = Param(Params._dummy(),
                               "maxSentenceLength",
@@ -184,4 +188,3 @@ class BertForTokenClassification(AnnotatorModel,
         """
         from sparknlp.pretrained import ResourceDownloader
         return ResourceDownloader.downloadModel(BertForTokenClassification, name, lang, remote_loc)
-

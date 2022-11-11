@@ -29,8 +29,8 @@ class AnnotationAudio:
         Associated metadata for this annotation
     """
 
-    def __init__(self, annotator_type, result, metadata):
-        self.annotator_type = annotator_type
+    def __init__(self, annotatorType, result, metadata):
+        self.annotatorType = annotatorType
         self.result = result
         self.metadata = metadata
 
@@ -48,11 +48,11 @@ class AnnotationAudio:
         AnnotationAudio
             Newly created AnnotationAudio
         """
-        return AnnotationAudio(self.annotator_type, result, self.metadata)
+        return AnnotationAudio(self.annotatorType, result, self.metadata)
 
     def __str__(self):
         return "AnnotationAudio(%s, %s, %s)" % (
-            self.annotator_type,
+            self.annotatorType,
             str(self.result),
             str(self.metadata)
         )

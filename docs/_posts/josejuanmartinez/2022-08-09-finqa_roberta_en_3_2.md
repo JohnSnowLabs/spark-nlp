@@ -7,7 +7,7 @@ date: 2022-08-09
 tags: [en, finance, qa, licensed]
 task: Question Answering
 language: en
-edition: Spark NLP for Finance 1.0.0
+edition: Finance NLP 1.0.0
 spark_version: 3.0
 supported: true
 article_header:
@@ -70,7 +70,7 @@ result.select('answer.result').show()
 {:.table-model}
 |---|---|
 |Model Name:|finqa_roberta|
-|Compatibility:|Spark NLP for Finance 1.0.0+|
+|Compatibility:|Finance NLP 1.0.0+|
 |License:|Licensed|
 |Edition:|Official|
 |Input Labels:|[question, context]|

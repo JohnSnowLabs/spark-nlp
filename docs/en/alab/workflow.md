@@ -3,27 +3,30 @@ layout: docs
 comment: no
 header: true
 seotitle: Annotation Lab | John Snow Labs
-title: Workflow Setup
+title: Workflows
 permalink: /docs/en/alab/workflow
 key: docs-training
-modify_date: "2020-11-18"
+modify_date: "2022-11-02"
 use_language_switcher: "Python-Scala"
 show_nav: true
 sidebar:
-    nav: annotation-lab
+  nav: annotation-lab
 ---
 
-When a team of people work together on a large annotation project, the tasks can be organized into a multi-step workflow for an easier management of the team collaboration. This is also necessary when the project has strict requirements on the labels: e.g. the same document must be labeled by multiple annotators; the annotations must be checked by a senior annotator.
+When a team of people collaborate on a large annotation project, the work can be organized into multi-step workflows for an easier management of each team member's responsabilities. This is also necessary when the project has strict requirements such as the same document must be labeled by multiple annotators; the annotations must be checked by a senior annotator.
 
-In this situation, a workflow can be setup using the task tagging functionality provided by the Annotation Lab. Then can be used for splitting work across the team but also for differentiating between first-level annotators and second-level reviewers.  
+The default workflow supported by the Annotation Lab involves task assignment to one or multiple Annotators and to maximum one Reviewer. In the majority of projects having one annotator working on a task and then one reviewer checking the work done by the annotator is sufficient. 
 
+> **NOTE:** In NER projects, we recommend that in the early stages of a project, a batch of 50 - 100 content rich tasks should be assigned to all annotators for checking the Inter Annotator Agreement (IAA). This is a best practice to follow in order to quickly identify the difference in annotations as a complementary way to ensure high agreement and completeness across team. 
 
-<img class="image image--xl" src="/assets/images/annotation_lab/tags.png" style="width:100%; align:center; box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);"/>
-
-
-A full audit trail is kept on each action performed by all actors. Each saved entry is stored along with an authenticated user and a time stamp, and the user interface includes a visual comparison between versions.
+> **NOTE:** When multiple annotators are assigned to a task, multiple ground truth completions will be created for that task. The way Annotation Lab prioritises the ground truth completion used for model training and CONLL export is via the priority assigned for each user in the Team (see [Project Configuration](/docs/en/alab/project_creation#adding-team-members)). 
 
 
-To add a tag, select a task and press Tags > Add more. Tasks can be filtered by tags, making it easier to identify, for example, which documents are completed and which ones need to be reviewed.
- 
-<img class="image image--xl" src="/assets/images/annotation_lab/tags2.png" style="width:100%; align:center; box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);"/>
+When more complex workflows need to be implemented, this is possible using the task tagging functionality provided by the Annotation Lab. Tags can be used for splitting work across the team but also for differentiating between first-level annotators and second-level reviewers.
+
+<img class="image image__shadow" src="/assets/images/annotation_lab/4.1.0/tags.png" style="width:100%;"/>
+
+
+To add a tag, select a task and press _Tags > Add More_. Tasks can be filtered by tags, making it easier to identify, for example, which documents are completed and which ones need to be reviewed.
+
+<img class="image image__shadow" src="/assets/images/annotation_lab/4.1.0/tag_assign.png" style="width:100%;"/>

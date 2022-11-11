@@ -12,13 +12,13 @@
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
 """Contains classes for CamemBertForTokenClassification."""
-
 from sparknlp.common import *
 
 
 class CamemBertForTokenClassification(AnnotatorModel,
                                       HasCaseSensitiveProperties,
-                                      HasBatchedAnnotate):
+                                      HasBatchedAnnotate,
+                                      HasEngine):
     """CamemBertForTokenClassification can load CamemBERT Models with a token
     classification head on top (a linear layer on top of the hidden-states
     output) e.g. for Named-Entity-Recognition (NER) tasks.
@@ -89,6 +89,8 @@ class CamemBertForTokenClassification(AnnotatorModel,
     +------------------------------+
     """
     name = "CamemBertForTokenClassification"
+
+    inputAnnotatorTypes = [AnnotatorType.DOCUMENT, AnnotatorType.TOKEN]
 
     maxSentenceLength = Param(Params._dummy(),
                               "maxSentenceLength",

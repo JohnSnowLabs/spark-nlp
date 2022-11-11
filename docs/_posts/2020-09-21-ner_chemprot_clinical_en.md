@@ -6,7 +6,7 @@ name: ner_chemprot_clinical
 date: 2020-09-21
 task: Named Entity Recognition
 language: en
-edition: Spark NLP for Healthcare 2.6.0
+edition: Healthcare NLP 2.6.0
 spark_version: 2.4
 tags: [ner, en, clinical, licensed]
 supported: true
@@ -91,7 +91,7 @@ nlu.load("en.med_ner.chemprot.clinical").predict("""Keratinocyte growth factor a
 |---|---|
 |Model Name:|ner_chemprot_clinical|
 |Type:|ner|
-|Compatibility:|Spark NLP for Healthcare 2.6.0 +|
+|Compatibility:|Healthcare NLP 2.6.0 +|
 |Edition:|Official|
 |License:|Licensed|
 |Input Labels:|[sentence, token, embeddings]|
