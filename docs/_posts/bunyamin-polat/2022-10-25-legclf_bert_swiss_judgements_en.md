@@ -104,7 +104,7 @@ Training data is available [here](https://zenodo.org/record/7109926#.Y1gJwexBw8E
 | penal-law     | 0.97      | 0.94   | 0.96     | 1140    |
 | public-law    | 0.94      | 0.97   | 0.95     | 1551    |
 | social-law    | 0.98      | 0.94   | 0.96     | 970     |
-| accuracy                           | 0.96     | 5971    |
+| accuracy      |   -       |   -    | 0.96     | 5971    |
 | macro-avg     | 0.95      | 0.95   | 0.95     | 5971    |
 | weighted-avg  | 0.96      | 0.96   | 0.96     | 5971    |
 ```
