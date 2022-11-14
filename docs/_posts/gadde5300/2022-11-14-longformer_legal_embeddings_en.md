@@ -1,0 +1,65 @@
+---
+layout: model
+title: English Longformer Embeddings (from Narrative)
+author: John Snow Labs
+name: longformer_legal_embeddings
+date: 2022-11-14
+tags: [longformer, en, english, embeddings, transformer, open_source, tensorflow]
+task: Embeddings
+language: en
+edition: Spark NLP 4.2.1
+spark_version: 3.0
+supported: true
+engine: tensorflow
+article_header:
+  type: cover
+use_language_switcher: "Python-Scala-Java"
+---
+
+## Description
+
+Pretrained Longformer Embeddings model, adapted from Hugging Face and curated to provide scalability and production-readiness using Spark NLP. `legal-longformer-base-4096-spanish ` is a English model originally trained by `Narrative`.
+
+{:.btn-box}
+<button class="button button-orange" disabled>Live Demo</button>
+<button class="button button-orange" disabled>Open in Colab</button>
+[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/longformer_legal_embeddings_en_4.2.1_3.0_1668438367394.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
+
+## How to use
+
+
+
+<div class="tabs-box" markdown="1">
+{% include programmingLanguageSelectScalaPythonNLU.html %}
+```python
+ embeddings = LongformerEmbeddings\
+.pretrained("longformer_legal_embeddings","en")\
+.setInputCols(["document", "token"])\
+.setOutputCol("embeddings")
+```
+```scala
+val embeddings = LongformerEmbeddings.pretrained("longformer_legal_embeddings","en")
+.setInputCols("document", "token") 
+.setOutputCol("embeddings")
+```
+</div>
+
+{:.model-param}
+## Model Information
+
+{:.table-model}
+|---|---|
+|Model Name:|longformer_legal_embeddings|
+|Compatibility:|Spark NLP 4.2.1+|
+|License:|Open Source|
+|Edition:|Official|
+|Input Labels:|[sentence, token]|
+|Output Labels:|[embeddings]|
+|Language:|en|
+|Size:|564.0 MB|
+|Case sensitive:|true|
+|Max sentence length:|4096|
+
+## References
+
+https://huggingface.co/Narrativa/legal-longformer-base-4096-spanish
