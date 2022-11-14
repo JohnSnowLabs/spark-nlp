@@ -1,10 +1,10 @@
-FROM ruby:2.7
+FROM ruby:3.1
 WORKDIR /app
 
 SHELL ["/bin/bash", "-o", "pipefail", "-c"]
-COPY docs/Gemfile ./Gemfile
-COPY docs/Gemfile.lock ./Gemfile.lock
-COPY docs/_frontend ./_frontend
+COPY Gemfile ./Gemfile
+COPY Gemfile.lock ./Gemfile.lock
+COPY _frontend ./_frontend
 
 RUN curl -sL https://deb.nodesource.com/setup_14.x | bash -\
   && apt-get update -qq && apt-get install -qq --no-install-recommends \

@@ -424,7 +424,10 @@ end
 
 Jekyll::Hooks.register :site, :post_render do |site|
   is_incremental = site.config['incremental']
-  force_reindex = editions_changed?(editions)
+  new_editions = editions_changed?(editions)
+  if not ENV['FORCE'] and new_editions
+    raise ('Found new editions. Full build is required.')
+  end
   bulk_indexer = BulkIndexer.new(client)
 
   uniq_to_models_mapping.each do |uniq, items|
