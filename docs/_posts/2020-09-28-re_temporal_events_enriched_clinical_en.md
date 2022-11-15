@@ -121,7 +121,7 @@ val dependency_parser = DependencyParserModel().pretrained("dependency_conllu", 
     .setOutputCol("dependencies")
 
 val clinical_re_Model = RelationExtractionModel()
-    .pretrained("re_temporal_events_enriched_clinical", "en", 'clinical/models')
+    .pretrained("re_temporal_events_enriched_clinical", "en", "clinical/models")
     .setInputCols("embeddings", "pos_tags", "ner_chunks", "dependencies")
     .setOutputCol("relations")
     .setMaxSyntacticDistance(4)
