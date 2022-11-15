@@ -9,10 +9,10 @@
     j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
     })(window,document,'script','dataLayer','GTM-59JLR64');</script>
-<!-- End Google Tag Manager --><title>Legal Swiss Judgements Classification (Italian)</title><meta property="og:title" content=""/>
+<!-- End Google Tag Manager --><title>Detect Oncology-Specific Entities</title><meta property="og:title" content=""/>
 
-<meta name="description" content="DescriptionThis model is a Bert-based model that can be used to classify Swiss Judgement documents in Italian language into the following 6 classes according to their case area. It has been trained with SOTA approach.Predicted Entitiespublic law, civil law, insurance law, social law, penal law, otherLive DemoOpen in...">
-<link rel="canonical" href="/2022/10/27/legclf_bert_swiss_judgements_it.html"><link rel="alternate" type="application/rss+xml" title="Spark NLP" href="/feed.xml"><!-- start favicons snippet, use https://realfavicongenerator.net/ -->
+<meta name="description" content="DescriptionThis model extracts more than 40 oncology-related entities, including therapies, tests and staging.Predicted EntitiesHistological_Type, Direction, Staging, Cancer_Score, Imaging_Test, Cycle_Number, Tumor_Finding, Site_Lymph_Node, Invasion, Response_To_Treatment, Smoking_Status, Tumor_Size, Cycle_Count, Ad...">
+<link rel="canonical" href="/2022/10/25/ner_oncology_en.html"><link rel="alternate" type="application/rss+xml" title="Spark NLP" href="/feed.xml"><!-- start favicons snippet, use https://realfavicongenerator.net/ -->
 <!---->
 <!-- <link rel="apple-touch-icon" sizes="180x180" href="/fav.ico"> -->
 
@@ -408,26 +408,26 @@
 
 <!-- end custom main top snippet --><article><script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script><div class="article__header"><div class="header-author"><div class="article__info clearfix"><div class="left-col">
             <a class="edit-on-github-btn" target="_blank" rel="alternate"
-               href="https://github.com/johnsnowlabs/spark-nlp/tree/master/docs/_posts/bunyamin-polat/2022-10-27-legclf_bert_swiss_judgements_it.md">
+               href="https://github.com/johnsnowlabs/spark-nlp/tree/master/docs/_posts/mauro-nievoff/2022-10-25-ner_oncology_en.md">
               <span class="fab fa-github"></span>
               <span class="edit-on-github-label">Edit on GitHub</span>
             </a>
-        </div><ul class="right-col menu"><li><i class="far fa-user"></i> <span>John Snow Labs</span></li><li><i class="far fa-calendar-alt"></i> <span>Oct 27, 2022</span>
-            </li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2022-10-27T00:00:00+00:00"></div><header class="main-docs have_subtitle">
-          <h1>Legal Swiss Judgements Classification (Italian)</h1><div class="top-subtitle mont"></div></header></div><meta itemprop="headline" content="Legal Swiss Judgements Classification (Italian)"><div class="article__info tags_box clearfix"><ul class="left-col menu"><li>it</li><li>legal</li><li>licensed</li><li>sequence_classification</li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2022-10-27T00:00:00+00:00">
-    <meta itemprop="keywords" content="it,legal,licensed,sequence_classification"><div class="js-article-content"><div class="model-wrap"><div class="layout--article"><!-- start custom article top snippet -->
+        </div><ul class="right-col menu"><li><i class="far fa-user"></i> <span>John Snow Labs</span></li><li><i class="far fa-calendar-alt"></i> <span>Oct 25, 2022</span>
+            </li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2022-10-25T00:00:00+00:00"></div><header class="main-docs have_subtitle">
+          <h1>Detect Oncology-Specific Entities</h1><div class="top-subtitle mont"></div></header></div><meta itemprop="headline" content="Detect Oncology-Specific Entities"><div class="article__info tags_box clearfix"><ul class="left-col menu"><li>licensed</li><li>clinical</li><li>oncology</li><li>en</li><li>ner</li><li>biomarker</li><li>treatment</li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2022-10-25T00:00:00+00:00">
+    <meta itemprop="keywords" content="licensed,clinical,oncology,en,ner,biomarker,treatment"><div class="js-article-content"><div class="model-wrap"><div class="layout--article"><!-- start custom article top snippet -->
 
 <!-- end custom article top snippet --><div class="article__content" itemprop="articleBody"><h2 id="description">Description</h2>
 
-<p>This model is a Bert-based model that can be used to classify Swiss Judgement documents in Italian language into the following 6 classes according to their case area. It has been trained with SOTA approach.</p>
+<p>This model extracts more than 40 oncology-related entities, including therapies, tests and staging.</p>
 
 <h2 id="predicted-entities">Predicted Entities</h2>
 
-<p><code class="language-plaintext highlighter-rouge">public law</code>, <code class="language-plaintext highlighter-rouge">civil law</code>, <code class="language-plaintext highlighter-rouge">insurance law</code>, <code class="language-plaintext highlighter-rouge">social law</code>, <code class="language-plaintext highlighter-rouge">penal law</code>, <code class="language-plaintext highlighter-rouge">other</code></p>
+<p><code class="language-plaintext highlighter-rouge">Histological_Type</code>, <code class="language-plaintext highlighter-rouge">Direction</code>, <code class="language-plaintext highlighter-rouge">Staging</code>, <code class="language-plaintext highlighter-rouge">Cancer_Score</code>, <code class="language-plaintext highlighter-rouge">Imaging_Test</code>, <code class="language-plaintext highlighter-rouge">Cycle_Number</code>, <code class="language-plaintext highlighter-rouge">Tumor_Finding</code>, <code class="language-plaintext highlighter-rouge">Site_Lymph_Node</code>, <code class="language-plaintext highlighter-rouge">Invasion</code>, <code class="language-plaintext highlighter-rouge">Response_To_Treatment</code>, <code class="language-plaintext highlighter-rouge">Smoking_Status</code>, <code class="language-plaintext highlighter-rouge">Tumor_Size</code>, <code class="language-plaintext highlighter-rouge">Cycle_Count</code>, <code class="language-plaintext highlighter-rouge">Adenopathy</code>, <code class="language-plaintext highlighter-rouge">Age</code>, <code class="language-plaintext highlighter-rouge">Biomarker_Result</code>, <code class="language-plaintext highlighter-rouge">Unspecific_Therapy</code>, <code class="language-plaintext highlighter-rouge">Site_Breast</code>, <code class="language-plaintext highlighter-rouge">Chemotherapy</code>, <code class="language-plaintext highlighter-rouge">Targeted_Therapy</code>, <code class="language-plaintext highlighter-rouge">Radiotherapy</code>, <code class="language-plaintext highlighter-rouge">Performance_Status</code>, <code class="language-plaintext highlighter-rouge">Pathology_Test</code>, <code class="language-plaintext highlighter-rouge">Site_Other_Body_Part</code>, <code class="language-plaintext highlighter-rouge">Cancer_Surgery</code>, <code class="language-plaintext highlighter-rouge">Line_Of_Therapy</code>, <code class="language-plaintext highlighter-rouge">Pathology_Result</code>, <code class="language-plaintext highlighter-rouge">Hormonal_Therapy</code>, <code class="language-plaintext highlighter-rouge">Site_Bone</code>, <code class="language-plaintext highlighter-rouge">Biomarker</code>, <code class="language-plaintext highlighter-rouge">Immunotherapy</code>, <code class="language-plaintext highlighter-rouge">Cycle_Day</code>, <code class="language-plaintext highlighter-rouge">Frequency</code>, <code class="language-plaintext highlighter-rouge">Route</code>, <code class="language-plaintext highlighter-rouge">Duration</code>, <code class="language-plaintext highlighter-rouge">Death_Entity</code>, <code class="language-plaintext highlighter-rouge">Metastasis</code>, <code class="language-plaintext highlighter-rouge">Site_Liver</code>, <code class="language-plaintext highlighter-rouge">Cancer_Dx</code>, <code class="language-plaintext highlighter-rouge">Grade</code>, <code class="language-plaintext highlighter-rouge">Date</code>, <code class="language-plaintext highlighter-rouge">Site_Lung</code>, <code class="language-plaintext highlighter-rouge">Site_Brain</code>, <code class="language-plaintext highlighter-rouge">Relative_Date</code>, <code class="language-plaintext highlighter-rouge">Race_Ethnicity</code>, <code class="language-plaintext highlighter-rouge">Gender</code>, <code class="language-plaintext highlighter-rouge">Oncogene</code>, <code class="language-plaintext highlighter-rouge">Dosage</code>, <code class="language-plaintext highlighter-rouge">Radiation_Dose</code></p>
 
 <p class="btn-box"><button class="button button-orange" disabled="">Live Demo</button>
-<button class="button button-orange" disabled="">Open in Colab</button>
-<a href="https://s3.amazonaws.com/auxdata.johnsnowlabs.com/legal/models/legclf_bert_swiss_judgements_it_1.0.0_3.0_1666866260601.zip" class="button button-orange button-orange-trans arr button-icon">Download</a></p>
+<a href="https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/27.Oncology_Model.ipynb" class="button button-orange button-orange-trans co button-icon">Open in Colab</a>
+<a href="https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/ner_oncology_en_4.0.0_3.0_1666718178718.zip" class="button button-orange button-orange-trans arr button-icon">Download</a></p>
 
 <h2 id="how-to-use">How to use</h2>
 
@@ -435,41 +435,111 @@
   <div class="top_tab_li">   
     <p><button data-type="python" class="tab-li code-selector-active python-button">Python</button><button data-type="scala" class="tab-li code-selector-un-active scala-button">Scala</button><button data-type="nlu" class="tab-li code-selector-un-active nlu-button">NLU</button></p>
 </div>
+  <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">document_assembler</span> <span class="o">=</span> <span class="n">DocumentAssembler</span><span class="p">()</span>\
+    <span class="p">.</span><span class="n">setInputCol</span><span class="p">(</span><span class="s">"text"</span><span class="p">)</span>\
+    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"document"</span><span class="p">)</span>
 
-  <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">document_assembler</span> <span class="o">=</span> <span class="n">nlp</span><span class="p">.</span><span class="n">DocumentAssembler</span><span class="p">()</span>\
-    <span class="p">.</span><span class="n">setInputCol</span><span class="p">(</span><span class="s">'text'</span><span class="p">)</span>\
-    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">'document'</span><span class="p">)</span>
+<span class="n">sentence_detector</span> <span class="o">=</span> <span class="n">SentenceDetectorDLModel</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"sentence_detector_dl_healthcare"</span><span class="p">,</span><span class="s">"en"</span><span class="p">,</span><span class="s">"clinical/models"</span><span class="p">)</span>\
+    <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"document"</span><span class="p">])</span>\
+    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"sentence"</span><span class="p">)</span>
 
-<span class="n">tokenizer</span> <span class="o">=</span> <span class="n">nlp</span><span class="p">.</span><span class="n">Tokenizer</span><span class="p">()</span>\
-    <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">'document'</span><span class="p">])</span>\
-    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">'token'</span><span class="p">)</span>
+<span class="n">tokenizer</span> <span class="o">=</span> <span class="n">Tokenizer</span><span class="p">()</span> \
+    <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"sentence"</span><span class="p">])</span> \
+    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"token"</span><span class="p">)</span>
 
-<span class="n">clf_model</span> <span class="o">=</span> <span class="n">legal</span><span class="p">.</span><span class="n">BertForSequenceClassification</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">'legclf_bert_swiss_judgements'</span><span class="p">,</span> <span class="s">'it'</span><span class="p">,</span> <span class="s">'legal/models'</span><span class="p">)</span>\
-    <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">'document'</span><span class="p">,</span> <span class="s">'token'</span><span class="p">])</span>\
-    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">'class'</span><span class="p">)</span>\
-    <span class="p">.</span><span class="n">setCaseSensitive</span><span class="p">(</span><span class="bp">True</span><span class="p">)</span>\
-    <span class="p">.</span><span class="n">setMaxSentenceLength</span><span class="p">(</span><span class="mi">512</span><span class="p">)</span>
+<span class="n">word_embeddings</span> <span class="o">=</span> <span class="n">WordEmbeddingsModel</span><span class="p">().</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"embeddings_clinical"</span><span class="p">,</span> <span class="s">"en"</span><span class="p">,</span> <span class="s">"clinical/models"</span><span class="p">)</span>\
+    <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"sentence"</span><span class="p">,</span> <span class="s">"token"</span><span class="p">])</span> \
+    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"embeddings"</span><span class="p">)</span>                
 
-<span class="n">clf_pipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">(</span><span class="n">stages</span><span class="o">=</span><span class="p">[</span>
-    <span class="n">document_assembler</span><span class="p">,</span> 
-    <span class="n">tokenizer</span><span class="p">,</span>
-    <span class="n">clf_model</span>   
-<span class="p">])</span>
+<span class="n">ner</span> <span class="o">=</span> <span class="n">MedicalNerModel</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"ner_oncology"</span><span class="p">,</span> <span class="s">"en"</span><span class="p">,</span> <span class="s">"clinical/models"</span><span class="p">)</span> \
+    <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"sentence"</span><span class="p">,</span> <span class="s">"token"</span><span class="p">,</span> <span class="s">"embeddings"</span><span class="p">])</span> \
+    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"ner"</span><span class="p">)</span>
 
-<span class="n">data</span> <span class="o">=</span> <span class="n">spark</span><span class="p">.</span><span class="n">createDataFrame</span><span class="p">([[</span><span class="s">"""Attualità: A. Disponibile dal 21. Nell'ottobre del 2004, l'Allianza di assicurazioni svizzere (in prosieguo: Allianz) ha messo in atto il R._ (geb. 1965) per le conseguenze di un incidente del 23. Nel mese di marzo del 2001 le prestazioni sono ritornate al 31. Nel mese di marzo del 2004 si è presentato la decisione del 6. Nel luglio del 2005 è stato arrestato. A. A disposizione del 21. Nell'ottobre del 2004, l'Allianza di assicurazioni svizzere (in prosieguo: Allianz) ha messo in atto il R._ (geb. 1965) per le conseguenze di un incidente del 23. Nel mese di marzo del 2001 le prestazioni sono ritornate al 31. Nel mese di marzo del 2004 si è presentato la decisione del 6. Nel luglio del 2005 è stato arrestato. di B. Il 7. Nel novembre 2005 R._ ha presentato una denuncia contro la decisione di interrogatorio al Tribunale amministrativo del Cantone di Schwyz. Con la lettera del 9. Nel novembre del 2005, il vicepresidente del Tribunale amministrativo ha informato gli assicurati che la denuncia è stata presentata in ritardo secondo la legge cantonale massiccia, il motivo per cui non è possibile procedere, e gli ha dato l'opportunità di pronunciarsi. Con l’ingresso del 15. Nel novembre 2005 R._ ha presentato una richiesta di ripristino del termine di reclamo. Con la decisione del 6. Nel dicembre 2005 il Tribunale amministrativo non ha presentato la denuncia. di B. Il 7. Nel novembre 2005 R._ ha presentato una denuncia contro la decisione di interrogatorio al Tribunale amministrativo del Cantone di Schwyz. Con la lettera del 9. Nel novembre del 2005, il vicepresidente del Tribunale amministrativo ha informato gli assicurati che la denuncia è stata presentata in ritardo secondo la legge cantonale massiccia, il motivo per cui non è possibile procedere, e gli ha dato l'opportunità di pronunciarsi. Con l’ingresso del 15. Nel novembre 2005 R._ ha presentato una richiesta di ripristino del termine di reclamo. Con la decisione del 6. Nel dicembre 2005 il Tribunale amministrativo non ha presentato la denuncia. C. Con un ricorso al Tribunale amministrativo, R._ chiede alla causa principale che, annullando la decisione pregiudiziale, il tribunale cantonale sia obbligato a presentare il ricorso del 7. di entrare nel novembre 2005. Dal punto di vista procedurale, il giudice può presentare la richiesta giuridica di aderire agli atti pregiudiziali e di ordinare un secondo cambio di scrittura. Il Tribunale amministrativo del Cantone di Schwyz e l'Alleanza concludono il ricorso alla Corte amministrativa. L’Ufficio federale per la salute rinuncia ad una consultazione."""</span><span class="p">]]).</span><span class="n">toDF</span><span class="p">(</span><span class="s">"text"</span><span class="p">)</span>
+<span class="n">ner_converter</span> <span class="o">=</span> <span class="n">NerConverter</span><span class="p">()</span> \
+    <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"sentence"</span><span class="p">,</span> <span class="s">"token"</span><span class="p">,</span> <span class="s">"ner"</span><span class="p">])</span> \
+    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"ner_chunk"</span><span class="p">)</span>
+<span class="n">pipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">(</span><span class="n">stages</span><span class="o">=</span><span class="p">[</span><span class="n">document_assembler</span><span class="p">,</span>
+                            <span class="n">sentence_detector</span><span class="p">,</span>
+                            <span class="n">tokenizer</span><span class="p">,</span>
+                            <span class="n">word_embeddings</span><span class="p">,</span>
+                            <span class="n">ner</span><span class="p">,</span>
+                            <span class="n">ner_converter</span><span class="p">])</span>
 
-<span class="n">result</span> <span class="o">=</span> <span class="n">clf_pipeline</span><span class="p">.</span><span class="n">fit</span><span class="p">(</span><span class="n">data</span><span class="p">).</span><span class="n">transform</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+<span class="n">data</span> <span class="o">=</span> <span class="n">spark</span><span class="p">.</span><span class="n">createDataFrame</span><span class="p">([[</span><span class="s">"The had previously undergone a left mastectomy and an axillary lymph node dissection for a left breast cancer twenty years ago.
+The tumor was positive for ER and PR. Postoperatively, radiotherapy was administered to the residual breast.
+The cancer recurred as a right lung metastasis 13 years later. The patient underwent a regimen consisting of adriamycin (60 mg/m2) and cyclophosphamide (600 mg/m2) over six courses, as first line therapy."</span><span class="p">]]).</span><span class="n">toDF</span><span class="p">(</span><span class="s">"text"</span><span class="p">)</span>
+
+<span class="n">result</span> <span class="o">=</span> <span class="n">pipeline</span><span class="p">.</span><span class="n">fit</span><span class="p">(</span><span class="n">data</span><span class="p">).</span><span class="n">transform</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
 </code></pre></div>  </div>
+  <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">val</span> <span class="nv">document_assembler</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">DocumentAssembler</span><span class="o">()</span>
+    <span class="o">.</span><span class="py">setInputCol</span><span class="o">(</span><span class="s">"text"</span><span class="o">)</span>
+    <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"document"</span><span class="o">)</span>
+    
+<span class="k">val</span> <span class="nv">sentence_detector</span> <span class="k">=</span> <span class="nv">SentenceDetectorDLModel</span><span class="o">.</span><span class="py">pretrained</span><span class="o">(</span><span class="s">"sentence_detector_dl_healthcare"</span><span class="o">,</span><span class="s">"en"</span><span class="o">,</span><span class="s">"clinical/models"</span><span class="o">)</span>
+    <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="s">"document"</span><span class="o">)</span>
+    <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"sentence"</span><span class="o">)</span>
+    
+<span class="k">val</span> <span class="nv">tokenizer</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">Tokenizer</span><span class="o">()</span>
+    <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="s">"sentence"</span><span class="o">)</span>
+    <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"token"</span><span class="o">)</span>
+    
+<span class="k">val</span> <span class="nv">word_embeddings</span> <span class="k">=</span> <span class="nc">WordEmbeddingsModel</span><span class="o">().</span><span class="py">pretrained</span><span class="o">(</span><span class="s">"embeddings_clinical"</span><span class="o">,</span> <span class="s">"en"</span><span class="o">,</span> <span class="s">"clinical/models"</span><span class="o">)</span>
+    <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="s">"sentence"</span><span class="o">,</span> <span class="s">"token"</span><span class="o">))</span>
+    <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"embeddings"</span><span class="o">)</span>                
+    
+<span class="k">val</span> <span class="nv">ner</span> <span class="k">=</span> <span class="nv">MedicalNerModel</span><span class="o">.</span><span class="py">pretrained</span><span class="o">(</span><span class="s">"ner_oncology"</span><span class="o">,</span> <span class="s">"en"</span><span class="o">,</span> <span class="s">"clinical/models"</span><span class="o">)</span>
+    <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="s">"sentence"</span><span class="o">,</span> <span class="s">"token"</span><span class="o">,</span> <span class="s">"embeddings"</span><span class="o">))</span>
+    <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"ner"</span><span class="o">)</span>
+    
+<span class="k">val</span> <span class="nv">ner_converter</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">NerConverter</span><span class="o">()</span>
+    <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="s">"sentence"</span><span class="o">,</span> <span class="s">"token"</span><span class="o">,</span> <span class="s">"ner"</span><span class="o">))</span>
+    <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"ner_chunk"</span><span class="o">)</span>
 
+        
+<span class="k">val</span> <span class="nv">pipeline</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">Pipeline</span><span class="o">().</span><span class="py">setStages</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="n">document_assembler</span><span class="o">,</span>
+                            <span class="n">sentence_detector</span><span class="o">,</span>
+                            <span class="n">tokenizer</span><span class="o">,</span>
+                            <span class="n">word_embeddings</span><span class="o">,</span>
+                            <span class="n">ner</span><span class="o">,</span>
+                            <span class="n">ner_converter</span><span class="o">))</span>    
+
+<span class="k">val</span> <span class="nv">data</span> <span class="k">=</span> <span class="nc">Seq</span><span class="o">(</span><span class="s">"The had previously undergone a left mastectomy and an axillary lymph node dissection for a left breast cancer twenty years ago.
+The tumor was positive for ER and PR. Postoperatively, radiotherapy was administered to the residual breast.
+The cancer recurred as a right lung metastasis 13 years later. The patient underwent a regimen consisting of adriamycin (60 mg/m2) and cyclophosphamide (600 mg/m2) over six courses, as first line therapy."</span><span class="o">).</span><span class="py">toDS</span><span class="o">.</span><span class="py">toDF</span><span class="o">(</span><span class="s">"text"</span><span class="o">)</span>
+
+<span class="k">val</span> <span class="nv">result</span> <span class="k">=</span> <span class="nv">pipeline</span><span class="o">.</span><span class="py">fit</span><span class="o">(</span><span class="n">data</span><span class="o">).</span><span class="py">transform</span><span class="o">(</span><span class="n">data</span><span class="o">)</span>
+
+</code></pre></div>  </div>
 </div>
 
 <h2 id="results">Results</h2>
 
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>+----------------------------------------------------------------------------------------------------+-------------+
-|                                                                                            document|        class|
-+----------------------------------------------------------------------------------------------------+-------------+
-|Attualità: A. Disponibile dal 21. Nell<span class="s1">'ottobre del 2004, l'</span>Allianza di assicurazioni svizzere <span class="o">(</span><span class="k">in</span>...|insurance law|
-+----------------------------------------------------------------------------------------------------+-------------+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>| chunk                          | ner_label             |
+|:-------------------------------|:----------------------|
+| left                           | Direction             |
+| mastectomy                     | Cancer_Surgery        |
+| axillary lymph node dissection | Cancer_Surgery        |
+| left                           | Direction             |
+| breast cancer                  | Cancer_Dx             |
+| twenty years ago               | Relative_Date         |
+| tumor                          | Tumor_Finding         |
+| positive                       | Biomarker_Result      |
+| ER                             | Biomarker             |
+| PR                             | Biomarker             |
+| radiotherapy                   | Radiotherapy          |
+| breast                         | Site_Breast           |
+| cancer                         | Cancer_Dx             |
+| recurred                       | Response_To_Treatment |
+| right                          | Direction             |
+| lung                           | Site_Lung             |
+| metastasis                     | Metastasis            |
+| 13 years later                 | Relative_Date         |
+| adriamycin                     | Chemotherapy          |
+| 60 mg/m2                       | Dosage                |
+| cyclophosphamide               | Chemotherapy          |
+| 600 mg/m2                      | Dosage                |
+| six courses                    | Cycle_Count           |
+| first line                     | Line_Of_Therapy       |
 </code></pre></div></div>
 
 <h2 class="model-param" id="model-information">Model Information</h2>
@@ -478,11 +548,11 @@
   <tbody>
     <tr>
       <td>Model Name:</td>
-      <td>legclf_bert_swiss_judgements</td>
+      <td>ner_oncology</td>
     </tr>
     <tr>
       <td>Compatibility:</td>
-      <td>Legal NLP 1.0.0+</td>
+      <td>Spark NLP for Healthcare 4.0.0+</td>
     </tr>
     <tr>
       <td>License:</td>
@@ -494,50 +564,87 @@
     </tr>
     <tr>
       <td>Input Labels:</td>
-      <td>[document, token]</td>
+      <td>[sentence, token, embeddings]</td>
     </tr>
     <tr>
       <td>Output Labels:</td>
-      <td>[class]</td>
+      <td>[ner]</td>
     </tr>
     <tr>
       <td>Language:</td>
-      <td>it</td>
+      <td>en</td>
     </tr>
     <tr>
       <td>Size:</td>
-      <td>392.9 MB</td>
+      <td>34.6 MB</td>
     </tr>
     <tr>
-      <td>Case sensitive:</td>
-      <td>true</td>
-    </tr>
-    <tr>
-      <td>Max sentence length:</td>
-      <td>512</td>
+      <td>Dependencies:</td>
+      <td>embeddings_clinical</td>
     </tr>
   </tbody>
 </table>
 
 <h2 id="references">References</h2>
 
-<p>Training data is available <a href="https://zenodo.org/record/7109926#.Y1gJwexBw8E">here</a>.</p>
+<p>In-house annotated oncology case reports.</p>
 
 <h2 id="benchmarking">Benchmarking</h2>
 
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>| label         | precision | recall | f1-score | support |
-|---------------|-----------|--------|----------|---------|
-| civil-law     | 0.90      | 0.93   | 0.92     | 1144    |
-| insurance-law | 0.93      | 0.96   | 0.95     | 1034    |
-| other         | 0.88      | 0.44   | 0.58     | 32      |
-| penal-law     | 0.91      | 0.95   | 0.93     | 1219    |
-| public-law    | 0.93      | 0.88   | 0.90     | 1433    |
-| social-law    | 0.96      | 0.92   | 0.94     | 924     |
-| accuracy      |   -       |   -    | 0.92     | 5786    |
-| macro-avg     | 0.92      | 0.85   | 0.87     | 5786    |
-| weighted-avg  | 0.92      | 0.92   | 0.92     | 5786    |
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>                label    tp   fp   fn  total  precision  recall   f1
+    Histological_Type   339   75  114    453       0.82    0.75 0.78
+            Direction   832  163  152    984       0.84    0.85 0.84
+              Staging   229   31   29    258       0.88    0.89 0.88
+         Cancer_Score    37    8   25     62       0.82    0.60 0.69
+         Imaging_Test  2027  214  177   2204       0.90    0.92 0.91
+         Cycle_Number    73   29   24     97       0.72    0.75 0.73
+        Tumor_Finding  1114   64  143   1257       0.95    0.89 0.91
+      Site_Lymph_Node   491   53   60    551       0.90    0.89 0.90
+             Invasion   158   36   23    181       0.81    0.87 0.84
+Response_To_Treatment   431  149  165    596       0.74    0.72 0.73
+       Smoking_Status    66   18    2     68       0.79    0.97 0.87
+           Tumor_Size  1050  112   79   1129       0.90    0.93 0.92
+          Cycle_Count   177   62   53    230       0.74    0.77 0.75
+           Adenopathy    67   12   29     96       0.85    0.70 0.77
+                  Age   930   33   19    949       0.97    0.98 0.97
+     Biomarker_Result  1160  169  285   1445       0.87    0.80 0.84
+   Unspecific_Therapy   198   86   80    278       0.70    0.71 0.70
+          Site_Breast   125   15   22    147       0.89    0.85 0.87
+         Chemotherapy   814   55   65    879       0.94    0.93 0.93
+     Targeted_Therapy   195   27   33    228       0.88    0.86 0.87
+         Radiotherapy   276   29   34    310       0.90    0.89 0.90
+   Performance_Status   121   17   14    135       0.88    0.90 0.89
+       Pathology_Test   888  296  162   1050       0.75    0.85 0.79
+ Site_Other_Body_Part   909  275  592   1501       0.77    0.61 0.68
+       Cancer_Surgery   693  119  126    819       0.85    0.85 0.85
+      Line_Of_Therapy   101   11    5    106       0.90    0.95 0.93
+     Pathology_Result   655  279  487   1142       0.70    0.57 0.63
+     Hormonal_Therapy   169    4   16    185       0.98    0.91 0.94
+            Site_Bone   264   81   49    313       0.77    0.84 0.80
+            Biomarker  1259  238  256   1515       0.84    0.83 0.84
+        Immunotherapy   103   47   25    128       0.69    0.80 0.74
+            Cycle_Day   200   36   48    248       0.85    0.81 0.83
+            Frequency   354   27   73    427       0.93    0.83 0.88
+                Route    91   15   22    113       0.86    0.81 0.83
+             Duration   625  161  136    761       0.80    0.82 0.81
+         Death_Entity    34    2    4     38       0.94    0.89 0.92
+           Metastasis   353   18   17    370       0.95    0.95 0.95
+           Site_Liver   189   64   45    234       0.75    0.81 0.78
+            Cancer_Dx  1301  103   93   1394       0.93    0.93 0.93
+                Grade   190   27   46    236       0.88    0.81 0.84
+                 Date   807   21   24    831       0.97    0.97 0.97
+            Site_Lung   469  110   90    559       0.81    0.84 0.82
+           Site_Brain   221   64   58    279       0.78    0.79 0.78
+        Relative_Date  1211  401  111   1322       0.75    0.92 0.83
+       Race_Ethnicity    57    8    5     62       0.88    0.92 0.90
+               Gender  1247   17    7   1254       0.99    0.99 0.99
+             Oncogene   345   83  104    449       0.81    0.77 0.79
+               Dosage   900   30  160   1060       0.97    0.85 0.90
+       Radiation_Dose   108    5   18    126       0.96    0.86 0.90
+            macro_avg 24653 3999 4406  29059       0.85    0.84 0.84
+            micro_avg 24653 3999 4406  29059       0.86    0.85 0.85
 </code></pre></div></div>
-</div><div class="d-print-none"><footer class="article__footer"><meta itemprop="dateModified" content="2022-10-27T00:00:00+00:00"><!-- start custom article footer snippet -->
+</div><div class="d-print-none"><footer class="article__footer"><meta itemprop="dateModified" content="2022-10-25T00:00:00+00:00"><!-- start custom article footer snippet -->
 
 <!-- end custom article footer snippet --></footer>
 
@@ -876,7 +983,7 @@ hr.code-selector-underlie {
 
 }
 
-</style><div class="article__section-navigator clearfix"><div class="previous nav_link"><span>PREVIOUS</span><a href="/2022/10/27/legclf_bert_swiss_judgements_fr.html">Legal Swiss Judgements Classification (French)</a></div><div class="next nav_link"><span>NEXT</span><a href="/2022/10/28/sbiobertresolve_icd10pcs_augmented_en.html">Sentence Entity Resolver for ICD-10-PCS (Augmented)</a></div></div></div>
+</style><div class="article__section-navigator clearfix"><div class="previous nav_link"><span>PREVIOUS</span><a href="/2022/10/25/ner_oncology_diagnosis_en.html">Detect Entities Related to Cancer Diagnosis</a></div><div class="next nav_link"><span>NEXT</span><a href="/2022/10/25/ner_oncology_posology_en.html">Extract Cancer Therapies and Granular Posology Information</a></div></div></div>
 
 </div>
 </div>

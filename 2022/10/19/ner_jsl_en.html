@@ -9,10 +9,10 @@
     j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
     })(window,document,'script','dataLayer','GTM-59JLR64');</script>
-<!-- End Google Tag Manager --><title>Legal Swiss Judgements Classification (Italian)</title><meta property="og:title" content=""/>
+<!-- End Google Tag Manager --><title>Detect Clinical Entities (ner_jsl)</title><meta property="og:title" content=""/>
 
-<meta name="description" content="DescriptionThis model is a Bert-based model that can be used to classify Swiss Judgement documents in Italian language into the following 6 classes according to their case area. It has been trained with SOTA approach.Predicted Entitiespublic law, civil law, insurance law, social law, penal law, otherLive DemoOpen in...">
-<link rel="canonical" href="/2022/10/27/legclf_bert_swiss_judgements_it.html"><link rel="alternate" type="application/rss+xml" title="Spark NLP" href="/feed.xml"><!-- start favicons snippet, use https://realfavicongenerator.net/ -->
+<meta name="description" content="DescriptionPretrained named entity recognition deep learning model for clinical terminology. The SparkNLP deep learning model (MedicalNerModel) is inspired by a former state-of-the-art model for NER: Chiu &amp; Nicols, Named Entity Recognition with Bidirectional LSTM-CNN. This model is the official version of jsl_ne...">
+<link rel="canonical" href="/2022/10/19/ner_jsl_en.html"><link rel="alternate" type="application/rss+xml" title="Spark NLP" href="/feed.xml"><!-- start favicons snippet, use https://realfavicongenerator.net/ -->
 <!---->
 <!-- <link rel="apple-touch-icon" sizes="180x180" href="/fav.ico"> -->
 
@@ -408,26 +408,26 @@
 
 <!-- end custom main top snippet --><article><script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script><div class="article__header"><div class="header-author"><div class="article__info clearfix"><div class="left-col">
             <a class="edit-on-github-btn" target="_blank" rel="alternate"
-               href="https://github.com/johnsnowlabs/spark-nlp/tree/master/docs/_posts/bunyamin-polat/2022-10-27-legclf_bert_swiss_judgements_it.md">
+               href="https://github.com/johnsnowlabs/spark-nlp/tree/master/docs/_posts/Ahmetemintek/2022-10-19-ner_jsl_en.md">
               <span class="fab fa-github"></span>
               <span class="edit-on-github-label">Edit on GitHub</span>
             </a>
-        </div><ul class="right-col menu"><li><i class="far fa-user"></i> <span>John Snow Labs</span></li><li><i class="far fa-calendar-alt"></i> <span>Oct 27, 2022</span>
-            </li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2022-10-27T00:00:00+00:00"></div><header class="main-docs have_subtitle">
-          <h1>Legal Swiss Judgements Classification (Italian)</h1><div class="top-subtitle mont"></div></header></div><meta itemprop="headline" content="Legal Swiss Judgements Classification (Italian)"><div class="article__info tags_box clearfix"><ul class="left-col menu"><li>it</li><li>legal</li><li>licensed</li><li>sequence_classification</li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2022-10-27T00:00:00+00:00">
-    <meta itemprop="keywords" content="it,legal,licensed,sequence_classification"><div class="js-article-content"><div class="model-wrap"><div class="layout--article"><!-- start custom article top snippet -->
+        </div><ul class="right-col menu"><li><i class="far fa-user"></i> <span>John Snow Labs</span></li><li><i class="far fa-calendar-alt"></i> <span>Oct 19, 2022</span>
+            </li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2022-10-19T00:00:00+00:00"></div><header class="main-docs have_subtitle">
+          <h1>Detect Clinical Entities (ner_jsl)</h1><div class="top-subtitle mont"></div></header></div><meta itemprop="headline" content="Detect Clinical Entities (ner_jsl)"><div class="article__info tags_box clearfix"><ul class="left-col menu"><li>ner</li><li>licensed</li><li>en</li><li>clinical</li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2022-10-19T00:00:00+00:00">
+    <meta itemprop="keywords" content="ner,licensed,en,clinical"><div class="js-article-content"><div class="model-wrap"><div class="layout--article"><!-- start custom article top snippet -->
 
 <!-- end custom article top snippet --><div class="article__content" itemprop="articleBody"><h2 id="description">Description</h2>
 
-<p>This model is a Bert-based model that can be used to classify Swiss Judgement documents in Italian language into the following 6 classes according to their case area. It has been trained with SOTA approach.</p>
+<p>Pretrained named entity recognition deep learning model for clinical terminology. The SparkNLP deep learning model (MedicalNerModel) is inspired by a former state-of-the-art model for NER: Chiu &amp; Nicols, Named Entity Recognition with Bidirectional LSTM-CNN. This model is the official version of jsl_ner_wip_clinical model.</p>
 
 <h2 id="predicted-entities">Predicted Entities</h2>
 
-<p><code class="language-plaintext highlighter-rouge">public law</code>, <code class="language-plaintext highlighter-rouge">civil law</code>, <code class="language-plaintext highlighter-rouge">insurance law</code>, <code class="language-plaintext highlighter-rouge">social law</code>, <code class="language-plaintext highlighter-rouge">penal law</code>, <code class="language-plaintext highlighter-rouge">other</code></p>
+<p><code class="language-plaintext highlighter-rouge">Injury_or_Poisoning</code>, <code class="language-plaintext highlighter-rouge">Direction</code>, <code class="language-plaintext highlighter-rouge">Test</code>, <code class="language-plaintext highlighter-rouge">Admission_Discharge</code>, <code class="language-plaintext highlighter-rouge">Death_Entity</code>, <code class="language-plaintext highlighter-rouge">Relationship_Status</code>, <code class="language-plaintext highlighter-rouge">Duration</code>, <code class="language-plaintext highlighter-rouge">Respiration</code>, <code class="language-plaintext highlighter-rouge">Hyperlipidemia</code>, <code class="language-plaintext highlighter-rouge">Birth_Entity</code>, <code class="language-plaintext highlighter-rouge">Age</code>, <code class="language-plaintext highlighter-rouge">Labour_Delivery</code>, <code class="language-plaintext highlighter-rouge">Family_History_Header</code>, <code class="language-plaintext highlighter-rouge">BMI</code>, <code class="language-plaintext highlighter-rouge">Temperature</code>, <code class="language-plaintext highlighter-rouge">Alcohol</code>, <code class="language-plaintext highlighter-rouge">Kidney_Disease</code>, <code class="language-plaintext highlighter-rouge">Oncological</code>, <code class="language-plaintext highlighter-rouge">Medical_History_Header</code>, <code class="language-plaintext highlighter-rouge">Cerebrovascular_Disease</code>, <code class="language-plaintext highlighter-rouge">Oxygen_Therapy</code>, <code class="language-plaintext highlighter-rouge">O2_Saturation</code>, <code class="language-plaintext highlighter-rouge">Psychological_Condition</code>, <code class="language-plaintext highlighter-rouge">Heart_Disease</code>, <code class="language-plaintext highlighter-rouge">Employment</code>, <code class="language-plaintext highlighter-rouge">Obesity</code>, <code class="language-plaintext highlighter-rouge">Disease_Syndrome_Disorder</code>, <code class="language-plaintext highlighter-rouge">Pregnancy</code>, <code class="language-plaintext highlighter-rouge">ImagingFindings</code>, <code class="language-plaintext highlighter-rouge">Procedure</code>, <code class="language-plaintext highlighter-rouge">Medical_Device</code>, <code class="language-plaintext highlighter-rouge">Race_Ethnicity</code>, <code class="language-plaintext highlighter-rouge">Section_Header</code>, <code class="language-plaintext highlighter-rouge">Symptom</code>, <code class="language-plaintext highlighter-rouge">Treatment</code>, <code class="language-plaintext highlighter-rouge">Substance</code>, <code class="language-plaintext highlighter-rouge">Route</code>, <code class="language-plaintext highlighter-rouge">Drug_Ingredient</code>, <code class="language-plaintext highlighter-rouge">Blood_Pressure</code>, <code class="language-plaintext highlighter-rouge">Diet</code>, <code class="language-plaintext highlighter-rouge">External_body_part_or_region</code>, <code class="language-plaintext highlighter-rouge">LDL</code>, <code class="language-plaintext highlighter-rouge">VS_Finding</code>, <code class="language-plaintext highlighter-rouge">Allergen</code>, <code class="language-plaintext highlighter-rouge">EKG_Findings</code>, <code class="language-plaintext highlighter-rouge">Imaging_Technique</code>, <code class="language-plaintext highlighter-rouge">Triglycerides</code>, <code class="language-plaintext highlighter-rouge">RelativeTime</code>, <code class="language-plaintext highlighter-rouge">Gender</code>, <code class="language-plaintext highlighter-rouge">Pulse</code>, <code class="language-plaintext highlighter-rouge">Social_History_Header</code>, <code class="language-plaintext highlighter-rouge">Substance_Quantity</code>, <code class="language-plaintext highlighter-rouge">Diabetes</code>, <code class="language-plaintext highlighter-rouge">Modifier</code>, <code class="language-plaintext highlighter-rouge">Internal_organ_or_component</code>, <code class="language-plaintext highlighter-rouge">Clinical_Dept</code>, <code class="language-plaintext highlighter-rouge">Form</code>, <code class="language-plaintext highlighter-rouge">Drug_BrandName</code>, <code class="language-plaintext highlighter-rouge">Strength</code>, <code class="language-plaintext highlighter-rouge">Fetus_NewBorn</code>, <code class="language-plaintext highlighter-rouge">RelativeDate</code>, <code class="language-plaintext highlighter-rouge">Height</code>, <code class="language-plaintext highlighter-rouge">Test_Result</code>, <code class="language-plaintext highlighter-rouge">Sexually_Active_or_Sexual_Orientation</code>, <code class="language-plaintext highlighter-rouge">Frequency</code>, <code class="language-plaintext highlighter-rouge">Time</code>, <code class="language-plaintext highlighter-rouge">Weight</code>, <code class="language-plaintext highlighter-rouge">Vaccine</code>, <code class="language-plaintext highlighter-rouge">Vaccine_Name</code>, <code class="language-plaintext highlighter-rouge">Vital_Signs_Header</code>, <code class="language-plaintext highlighter-rouge">Communicable_Disease</code>, <code class="language-plaintext highlighter-rouge">Dosage</code>, <code class="language-plaintext highlighter-rouge">Overweight</code>, <code class="language-plaintext highlighter-rouge">Hypertension</code>, <code class="language-plaintext highlighter-rouge">HDL</code>, <code class="language-plaintext highlighter-rouge">Total_Cholesterol</code>, <code class="language-plaintext highlighter-rouge">Smoking</code>, <code class="language-plaintext highlighter-rouge">Date</code></p>
 
-<p class="btn-box"><button class="button button-orange" disabled="">Live Demo</button>
-<button class="button button-orange" disabled="">Open in Colab</button>
-<a href="https://s3.amazonaws.com/auxdata.johnsnowlabs.com/legal/models/legclf_bert_swiss_judgements_it_1.0.0_3.0_1666866260601.zip" class="button button-orange button-orange-trans arr button-icon">Download</a></p>
+<p class="btn-box"><a href="https://demo.johnsnowlabs.com/healthcare/NER_JSL/" class="button button-orange">Live Demo</a>
+<a href="https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/1.Clinical_Named_Entity_Recognition_Model.ipynb" class="button button-orange button-orange-trans co button-icon">Open in Colab</a>
+<a href="https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/ner_jsl_en_4.2.0_3.0_1666181370373.zip" class="button button-orange button-orange-trans arr button-icon">Download</a></p>
 
 <h2 id="how-to-use">How to use</h2>
 
@@ -435,41 +435,112 @@
   <div class="top_tab_li">   
     <p><button data-type="python" class="tab-li code-selector-active python-button">Python</button><button data-type="scala" class="tab-li code-selector-un-active scala-button">Scala</button><button data-type="nlu" class="tab-li code-selector-un-active nlu-button">NLU</button></p>
 </div>
+  <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">documentAssembler</span> <span class="o">=</span> <span class="n">DocumentAssembler</span><span class="p">()</span>\
+    <span class="p">.</span><span class="n">setInputCol</span><span class="p">(</span><span class="s">"text"</span><span class="p">)</span>\
+    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"document"</span><span class="p">)</span>
 
-  <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">document_assembler</span> <span class="o">=</span> <span class="n">nlp</span><span class="p">.</span><span class="n">DocumentAssembler</span><span class="p">()</span>\
-    <span class="p">.</span><span class="n">setInputCol</span><span class="p">(</span><span class="s">'text'</span><span class="p">)</span>\
-    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">'document'</span><span class="p">)</span>
+<span class="n">sentenceDetector</span> <span class="o">=</span> <span class="n">SentenceDetectorDLModel</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"sentence_detector_dl_healthcare"</span><span class="p">,</span><span class="s">"en"</span><span class="p">,</span><span class="s">"clinical/models"</span><span class="p">)</span> \
+    <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"document"</span><span class="p">])</span> \
+    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"sentence"</span><span class="p">)</span> 
 
-<span class="n">tokenizer</span> <span class="o">=</span> <span class="n">nlp</span><span class="p">.</span><span class="n">Tokenizer</span><span class="p">()</span>\
-    <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">'document'</span><span class="p">])</span>\
-    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">'token'</span><span class="p">)</span>
+<span class="n">tokenizer</span> <span class="o">=</span> <span class="n">Tokenizer</span><span class="p">()</span>\
+    <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"sentence"</span><span class="p">])</span>\
+    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"token"</span><span class="p">)</span>
 
-<span class="n">clf_model</span> <span class="o">=</span> <span class="n">legal</span><span class="p">.</span><span class="n">BertForSequenceClassification</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">'legclf_bert_swiss_judgements'</span><span class="p">,</span> <span class="s">'it'</span><span class="p">,</span> <span class="s">'legal/models'</span><span class="p">)</span>\
-    <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">'document'</span><span class="p">,</span> <span class="s">'token'</span><span class="p">])</span>\
-    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">'class'</span><span class="p">)</span>\
-    <span class="p">.</span><span class="n">setCaseSensitive</span><span class="p">(</span><span class="bp">True</span><span class="p">)</span>\
-    <span class="p">.</span><span class="n">setMaxSentenceLength</span><span class="p">(</span><span class="mi">512</span><span class="p">)</span>
+<span class="n">word_embeddings</span> <span class="o">=</span> <span class="n">WordEmbeddingsModel</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"embeddings_clinical"</span><span class="p">,</span> <span class="s">"en"</span><span class="p">,</span> <span class="s">"clinical/models"</span><span class="p">)</span>\
+    <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"sentence"</span><span class="p">,</span> <span class="s">"token"</span><span class="p">])</span>\
+    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"embeddings"</span><span class="p">)</span>
 
-<span class="n">clf_pipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">(</span><span class="n">stages</span><span class="o">=</span><span class="p">[</span>
-    <span class="n">document_assembler</span><span class="p">,</span> 
+<span class="n">ner</span> <span class="o">=</span> <span class="n">MedicalNerModel</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"ner_jsl"</span><span class="p">,</span><span class="s">"en"</span><span class="p">,</span><span class="s">"clinical/models"</span><span class="p">)</span>\
+    <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"sentence"</span><span class="p">,</span><span class="s">"token"</span><span class="p">,</span><span class="s">"embeddings"</span><span class="p">])</span>\
+    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"ner"</span><span class="p">)</span>\
+    <span class="p">.</span><span class="n">setLabelCasing</span><span class="p">(</span><span class="s">"upper"</span><span class="p">)</span>
+    
+<span class="n">ner_converter</span> <span class="o">=</span> <span class="n">NerConverter</span><span class="p">()</span> \
+    <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"sentence"</span><span class="p">,</span> <span class="s">"token"</span><span class="p">,</span> <span class="s">"ner"</span><span class="p">])</span> \
+    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"ner_chunk"</span><span class="p">)</span>
+
+<span class="n">ner_pipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">(</span><span class="n">stages</span><span class="o">=</span><span class="p">[</span>
+    <span class="n">documentAssembler</span><span class="p">,</span> 
+    <span class="n">sentenceDetector</span><span class="p">,</span>
     <span class="n">tokenizer</span><span class="p">,</span>
-    <span class="n">clf_model</span>   
-<span class="p">])</span>
+    <span class="n">word_embeddings</span><span class="p">,</span>
+    <span class="n">ner</span><span class="p">,</span>
+    <span class="n">ner_converter</span><span class="p">])</span>
 
-<span class="n">data</span> <span class="o">=</span> <span class="n">spark</span><span class="p">.</span><span class="n">createDataFrame</span><span class="p">([[</span><span class="s">"""Attualità: A. Disponibile dal 21. Nell'ottobre del 2004, l'Allianza di assicurazioni svizzere (in prosieguo: Allianz) ha messo in atto il R._ (geb. 1965) per le conseguenze di un incidente del 23. Nel mese di marzo del 2001 le prestazioni sono ritornate al 31. Nel mese di marzo del 2004 si è presentato la decisione del 6. Nel luglio del 2005 è stato arrestato. A. A disposizione del 21. Nell'ottobre del 2004, l'Allianza di assicurazioni svizzere (in prosieguo: Allianz) ha messo in atto il R._ (geb. 1965) per le conseguenze di un incidente del 23. Nel mese di marzo del 2001 le prestazioni sono ritornate al 31. Nel mese di marzo del 2004 si è presentato la decisione del 6. Nel luglio del 2005 è stato arrestato. di B. Il 7. Nel novembre 2005 R._ ha presentato una denuncia contro la decisione di interrogatorio al Tribunale amministrativo del Cantone di Schwyz. Con la lettera del 9. Nel novembre del 2005, il vicepresidente del Tribunale amministrativo ha informato gli assicurati che la denuncia è stata presentata in ritardo secondo la legge cantonale massiccia, il motivo per cui non è possibile procedere, e gli ha dato l'opportunità di pronunciarsi. Con l’ingresso del 15. Nel novembre 2005 R._ ha presentato una richiesta di ripristino del termine di reclamo. Con la decisione del 6. Nel dicembre 2005 il Tribunale amministrativo non ha presentato la denuncia. di B. Il 7. Nel novembre 2005 R._ ha presentato una denuncia contro la decisione di interrogatorio al Tribunale amministrativo del Cantone di Schwyz. Con la lettera del 9. Nel novembre del 2005, il vicepresidente del Tribunale amministrativo ha informato gli assicurati che la denuncia è stata presentata in ritardo secondo la legge cantonale massiccia, il motivo per cui non è possibile procedere, e gli ha dato l'opportunità di pronunciarsi. Con l’ingresso del 15. Nel novembre 2005 R._ ha presentato una richiesta di ripristino del termine di reclamo. Con la decisione del 6. Nel dicembre 2005 il Tribunale amministrativo non ha presentato la denuncia. C. Con un ricorso al Tribunale amministrativo, R._ chiede alla causa principale che, annullando la decisione pregiudiziale, il tribunale cantonale sia obbligato a presentare il ricorso del 7. di entrare nel novembre 2005. Dal punto di vista procedurale, il giudice può presentare la richiesta giuridica di aderire agli atti pregiudiziali e di ordinare un secondo cambio di scrittura. Il Tribunale amministrativo del Cantone di Schwyz e l'Alleanza concludono il ricorso alla Corte amministrativa. L’Ufficio federale per la salute rinuncia ad una consultazione."""</span><span class="p">]]).</span><span class="n">toDF</span><span class="p">(</span><span class="s">"text"</span><span class="p">)</span>
+<span class="n">empty_data</span> <span class="o">=</span> <span class="n">spark</span><span class="p">.</span><span class="n">createDataFrame</span><span class="p">([[</span><span class="s">""</span><span class="p">]]).</span><span class="n">toDF</span><span class="p">(</span><span class="s">"text"</span><span class="p">)</span>
 
-<span class="n">result</span> <span class="o">=</span> <span class="n">clf_pipeline</span><span class="p">.</span><span class="n">fit</span><span class="p">(</span><span class="n">data</span><span class="p">).</span><span class="n">transform</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+<span class="n">ner_model</span> <span class="o">=</span> <span class="n">ner_pipeline</span><span class="p">.</span><span class="n">fit</span><span class="p">(</span><span class="n">empty_data</span><span class="p">)</span>
+
+<span class="n">data</span> <span class="o">=</span> <span class="n">spark</span><span class="p">.</span><span class="n">createDataFrame</span><span class="p">([[</span><span class="s">"""The patient is a 21-day-old Caucasian male here for 2 days of congestion - mom has been suctioning yellow discharge from the patient's nares, plus she has noticed some mild problems with his breathing while feeding (but negative for any perioral cyanosis or retractions). Additionally, there is no side effect observed after Influenza vaccine. One day ago, mom also noticed a tactile temperature and gave the patient Tylenol. Baby also has had some decreased p.o. intake. His normal breast-feeding is down from 20 minutes q.2h. to 5 to 10 minutes secondary to his respiratory congestion. He sleeps well, but has been more tired and has been fussy over the past 2 days. The parents noticed no improvement with albuterol treatments given in the ER. His urine output has also decreased; normally he has 8 to 10 wet and 5 dirty diapers per 24 hours, now he has down to 4 wet diapers per 24 hours. Mom denies any diarrhea. His bowel movements are yellow colored and soft in nature.
+"""</span><span class="p">]]).</span><span class="n">toDF</span><span class="p">(</span><span class="s">"text"</span><span class="p">)</span>
+
+
+<span class="n">result</span> <span class="o">=</span> <span class="n">ner_model</span><span class="p">.</span><span class="n">transform</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
 </code></pre></div>  </div>
+  <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">val</span> <span class="nv">documentAssembler</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">DocumentAssembler</span><span class="o">()</span>
+        <span class="o">.</span><span class="py">setInputCol</span><span class="o">(</span><span class="s">"text"</span><span class="o">)</span>
+        <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"document"</span><span class="o">)</span>
 
+<span class="k">val</span> <span class="nv">sentenceDetector</span> <span class="k">=</span> <span class="nv">SentenceDetectorDLModel</span><span class="o">.</span><span class="py">pretrained</span><span class="o">(</span><span class="s">"sentence_detector_dl_healthcare"</span><span class="o">,</span><span class="s">"en"</span><span class="o">,</span><span class="s">"clinical/models"</span><span class="o">)</span>
+        <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="s">"document"</span><span class="o">)</span> 
+        <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"sentence"</span><span class="o">)</span>
+
+<span class="k">val</span> <span class="nv">tokenizer</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">Tokenizer</span><span class="o">()</span>
+        <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="s">"sentence"</span><span class="o">)</span>
+        <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"token"</span><span class="o">)</span>
+
+<span class="k">val</span> <span class="nv">embeddings</span> <span class="k">=</span> <span class="nv">WordEmbeddingsModel</span><span class="o">.</span><span class="py">pretrained</span><span class="o">(</span><span class="s">"embeddings_clinical"</span><span class="o">,</span> <span class="s">"en"</span><span class="o">,</span> <span class="s">"clinical/models"</span><span class="o">)</span>
+        <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="s">"sentence"</span><span class="o">,</span> <span class="s">"token"</span><span class="o">))</span>
+        <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"embeddings"</span><span class="o">)</span>
+
+<span class="k">val</span> <span class="nv">jsl_ner</span> <span class="k">=</span> <span class="nv">MedicalNerModel</span><span class="o">.</span><span class="py">pretrained</span><span class="o">(</span><span class="s">"ner_jsl"</span><span class="o">,</span> <span class="s">"en"</span><span class="o">,</span> <span class="s">"clinical/models"</span><span class="o">)</span>
+        <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="s">"sentence"</span><span class="o">,</span> <span class="s">"token"</span><span class="o">,</span> <span class="s">"embeddings"</span><span class="o">))</span>
+        <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"jsl_ner"</span><span class="o">)</span>
+
+<span class="k">val</span> <span class="nv">jsl_ner_converter</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">NerConverter</span><span class="o">()</span>
+        <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="s">"sentence"</span><span class="o">,</span> <span class="s">"token"</span><span class="o">,</span> <span class="s">"jsl_ner"</span><span class="o">))</span>
+        <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"ner_chunk"</span><span class="o">)</span>
+
+<span class="k">val</span> <span class="nv">jsl_ner_pipeline</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">Pipeline</span><span class="o">().</span><span class="py">setStages</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span>
+            <span class="n">documentAssembler</span><span class="o">,</span> 
+            <span class="n">sentenceDetector</span><span class="o">,</span> 
+            <span class="n">tokenizer</span><span class="o">,</span> 
+            <span class="n">embeddings</span><span class="o">,</span> 
+            <span class="n">jsl_ner</span><span class="o">,</span> 
+            <span class="n">jsl_ner_converter</span><span class="o">))</span>
+
+
+<span class="k">val</span> <span class="nv">data</span> <span class="k">=</span> <span class="nc">Seq</span><span class="o">(</span><span class="s">"""The patient is a 21-day-old Caucasian male here for 2 days of congestion - mom has been suctioning yellow discharge from the patient's nares, plus she has noticed some mild problems with his breathing while feeding (but negative for any perioral cyanosis or retractions). Additionally, there is no side effect observed after Influenza vaccine. One day ago, mom also noticed a tactile temperature and gave the patient Tylenol. Baby also has had some decreased p.o. intake. His normal breast-feeding is down from 20 minutes q.2h. to 5 to 10 minutes secondary to his respiratory congestion. He sleeps well, but has been more tired and has been fussy over the past 2 days. The parents noticed no improvement with albuterol treatments given in the ER. His urine output has also decreased; normally he has 8 to 10 wet and 5 dirty diapers per 24 hours, now he has down to 4 wet diapers per 24 hours. Mom denies any diarrhea. His bowel movements are yellow colored and soft in nature."""</span><span class="o">).</span><span class="py">toDS</span><span class="o">.</span><span class="py">toDF</span><span class="o">(</span><span class="s">"text"</span><span class="o">)</span>
+
+<span class="k">val</span> <span class="nv">result</span> <span class="k">=</span> <span class="nv">jsl_ner_pipeline</span><span class="o">.</span><span class="py">fit</span><span class="o">(</span><span class="n">data</span><span class="o">).</span><span class="py">transform</span><span class="o">(</span><span class="n">data</span><span class="o">)</span>
+</code></pre></div>  </div>
 </div>
 
 <h2 id="results">Results</h2>
 
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>+----------------------------------------------------------------------------------------------------+-------------+
-|                                                                                            document|        class|
-+----------------------------------------------------------------------------------------------------+-------------+
-|Attualità: A. Disponibile dal 21. Nell<span class="s1">'ottobre del 2004, l'</span>Allianza di assicurazioni svizzere <span class="o">(</span><span class="k">in</span>...|insurance law|
-+----------------------------------------------------------------------------------------------------+-------------+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>|    | chunks                                    |   begin |   end |   sentence_id | entities                     |
+|---:|:------------------------------------------|--------:|------:|--------------:|:-----------------------------|
+|  0 | 21-day-old                                |      18 |    27 |             0 | Age                          |
+|  1 | Caucasian                                 |      29 |    37 |             0 | Race_Ethnicity               |
+|  2 | male                                      |      39 |    42 |             0 | Gender                       |
+|  3 | 2 days                                    |      53 |    58 |             0 | Duration                     |
+|  4 | congestion                                |      63 |    72 |             0 | Symptom                      |
+|  5 | mom                                       |      76 |    78 |             0 | Gender                       |
+|  6 | suctioning yellow discharge               |      89 |   115 |             0 | Symptom                      |
+|  7 | nares                                     |     136 |   140 |             0 | External_body_part_or_region |
+|  8 | she                                       |     148 |   150 |             0 | Gender                       |
+|  9 | mild                                      |     169 |   172 |             0 | Modifier                     |
+| 10 | problems with his breathing <span class="k">while </span>feeding |     174 |   214 |             0 | Symptom                      |
+| 11 | perioral cyanosis                         |     238 |   254 |             0 | Symptom                      |
+| 12 | retractions                               |     259 |   269 |             0 | Symptom                      |
+| 13 | Influenza vaccine                         |     326 |   342 |             1 | Vaccine_Name                 |
+| 14 | One day ago                               |     345 |   355 |             2 | RelativeDate                 |
+| 15 | mom                                       |     358 |   360 |             2 | Gender                       |
+| 16 | tactile temperature                       |     377 |   395 |             2 | Symptom                      |
+| 17 | Tylenol                                   |     418 |   424 |             2 | Drug_BrandName               |
+| 18 | Baby                                      |     427 |   430 |             3 | Age                          |
+| 19 | decreased p.o                             |     450 |   462 |             3 | Symptom                      |
 </code></pre></div></div>
 
 <h2 class="model-param" id="model-information">Model Information</h2>
@@ -478,11 +549,11 @@
   <tbody>
     <tr>
       <td>Model Name:</td>
-      <td>legclf_bert_swiss_judgements</td>
+      <td>ner_jsl</td>
     </tr>
     <tr>
       <td>Compatibility:</td>
-      <td>Legal NLP 1.0.0+</td>
+      <td>Spark NLP for Healthcare 4.2.0+</td>
     </tr>
     <tr>
       <td>License:</td>
@@ -494,50 +565,112 @@
     </tr>
     <tr>
       <td>Input Labels:</td>
-      <td>[document, token]</td>
+      <td>[sentence, token, embeddings]</td>
     </tr>
     <tr>
       <td>Output Labels:</td>
-      <td>[class]</td>
+      <td>[ner]</td>
     </tr>
     <tr>
       <td>Language:</td>
-      <td>it</td>
+      <td>en</td>
     </tr>
     <tr>
       <td>Size:</td>
-      <td>392.9 MB</td>
-    </tr>
-    <tr>
-      <td>Case sensitive:</td>
-      <td>true</td>
-    </tr>
-    <tr>
-      <td>Max sentence length:</td>
-      <td>512</td>
+      <td>15.2 MB</td>
     </tr>
   </tbody>
 </table>
 
 <h2 id="references">References</h2>
 
-<p>Training data is available <a href="https://zenodo.org/record/7109926#.Y1gJwexBw8E">here</a>.</p>
+<p>Trained on data gathered and manually annotated by John Snow Labs. https://www.johnsnowlabs.com/data/</p>
 
 <h2 id="benchmarking">Benchmarking</h2>
 
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>| label         | precision | recall | f1-score | support |
-|---------------|-----------|--------|----------|---------|
-| civil-law     | 0.90      | 0.93   | 0.92     | 1144    |
-| insurance-law | 0.93      | 0.96   | 0.95     | 1034    |
-| other         | 0.88      | 0.44   | 0.58     | 32      |
-| penal-law     | 0.91      | 0.95   | 0.93     | 1219    |
-| public-law    | 0.93      | 0.88   | 0.90     | 1433    |
-| social-law    | 0.96      | 0.92   | 0.94     | 924     |
-| accuracy      |   -       |   -    | 0.92     | 5786    |
-| macro-avg     | 0.92      | 0.85   | 0.87     | 5786    |
-| weighted-avg  | 0.92      | 0.92   | 0.92     | 5786    |
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>              label     tp    fp    fn  total  precision recall     f1
+          VS_Finding  207.0  37.0  26.0  233.0    0.8484 0.8884 0.8679
+           Direction 3642.0 418.0 264.0 3906.0     0.897 0.9324 0.9144
+         Respiration   58.0   5.0   4.0   62.0    0.9206 0.9355  0.928
+Cerebrovascular_D...   93.0  20.0  12.0  105.0     0.823 0.8857 0.8532
+Family_History_He...   77.0   1.0   1.0   78.0    0.9872 0.9872 0.9872
+       Heart_Disease  453.0  47.0  50.0  503.0     0.906 0.9006 0.9033
+     ImagingFindings   85.0  35.0 101.0  186.0    0.7083  0.457 0.5556
+        RelativeTime  156.0  36.0  50.0  206.0    0.8125 0.7573 0.7839
+            Strength  648.0  24.0  27.0  675.0    0.9643   0.96 0.9621
+             Smoking  115.0   8.0   3.0  118.0     0.935 0.9746 0.9544
+      Medical_Device 3167.0 368.0 283.0 3450.0    0.8959  0.918 0.9068
+            Allergen    1.0   0.0   8.0    9.0       1.0 0.1111    0.2
+        EKG_Findings   36.0  13.0  33.0   69.0    0.7347 0.5217 0.6102
+               Pulse  119.0  14.0   6.0  125.0    0.8947  0.952 0.9225
+Psychological_Con...  117.0  14.0  15.0  132.0    0.8931 0.8864 0.8897
+       Triglycerides    4.0   1.0   0.0    4.0       0.8    1.0 0.8889
+          Overweight    3.0   0.0   0.0    3.0       1.0    1.0    1.0
+             Obesity   40.0   1.0   1.0   41.0    0.9756 0.9756 0.9756
+ Admission_Discharge  307.0  26.0   5.0  312.0    0.9219  0.984 0.9519
+                 HDL    3.0   0.0   1.0    4.0       1.0   0.75 0.8571
+            Diabetes  117.0   3.0   3.0  120.0     0.975  0.975  0.975
+      Section_Header 3327.0 103.0 109.0 3436.0      0.97 0.9683 0.9691
+                 Age  556.0  22.0  31.0  587.0    0.9619 0.9472 0.9545
+       O2_Saturation   28.0   3.0   6.0   34.0    0.9032 0.8235 0.8615
+      Kidney_Disease   97.0  10.0  19.0  116.0    0.9065 0.8362   0.87
+                Test 2603.0 391.0 357.0 2960.0    0.8694 0.8794 0.8744
+Communicable_Disease   22.0   6.0   6.0   28.0    0.7857 0.7857 0.7857
+        Hypertension  144.0   5.0   5.0  149.0    0.9664 0.9664 0.9664
+External_body_par... 2401.0 228.0 378.0 2779.0    0.9133  0.864 0.8879
+      Oxygen_Therapy   69.0  14.0  10.0   79.0    0.8313 0.8734 0.8519
+            Modifier 2229.0 304.0 354.0 2583.0      0.88  0.863 0.8714
+         Test_Result 1169.0 165.0 187.0 1356.0    0.8763 0.8621 0.8691
+                 BMI    5.0   3.0   1.0    6.0     0.625 0.8333 0.7143
+     Labour_Delivery   66.0  15.0  17.0   83.0    0.8148 0.7952 0.8049
+          Employment  220.0  16.0  37.0  257.0    0.9322  0.856 0.8925
+       Fetus_NewBorn   53.0  16.0  23.0   76.0    0.7681 0.6974  0.731
+       Clinical_Dept  843.0  69.0  53.0  896.0    0.9243 0.9408 0.9325
+                Time   28.0   8.0  11.0   39.0    0.7778 0.7179 0.7467
+           Procedure 2893.0 326.0 307.0 3200.0    0.8987 0.9041 0.9014
+                Diet   29.0   3.0  18.0   47.0    0.9063  0.617 0.7342
+         Oncological  419.0  41.0  36.0  455.0    0.9109 0.9209 0.9158
+                 LDL    3.0   0.0   1.0    4.0       1.0   0.75 0.8571
+             Symptom 6559.0 876.0 908.0 7467.0    0.8822 0.8784 0.8803
+         Temperature   86.0   7.0   3.0   89.0    0.9247 0.9663 0.9451
+  Vital_Signs_Header  191.0  25.0  19.0  210.0    0.8843 0.9095 0.8967
+   Total_Cholesterol   13.0   3.0   7.0   20.0    0.8125   0.65 0.7222
+ Relationship_Status   52.0   5.0   2.0   54.0    0.9123  0.963 0.9369
+      Blood_Pressure  132.0  15.0  11.0  143.0     0.898 0.9231 0.9103
+ Injury_or_Poisoning  500.0  64.0  86.0  586.0    0.8865 0.8532 0.8696
+     Drug_Ingredient 1505.0 128.0  91.0 1596.0    0.9216  0.943 0.9322
+           Treatment  134.0  21.0  25.0  159.0    0.8645 0.8428 0.8535
+           Pregnancy   89.0  23.0  20.0  109.0    0.7946 0.8165 0.8054
+             Vaccine    7.0   2.0   2.0    9.0    0.7778 0.7778 0.7778
+Disease_Syndrome_... 2684.0 383.0 344.0 3028.0    0.8751 0.8864 0.8807
+              Height   22.0   3.0   1.0   23.0      0.88 0.9565 0.9167
+           Frequency  604.0  74.0  67.0  671.0    0.8909 0.9001 0.8955
+               Route  783.0  89.0  64.0  847.0    0.8979 0.9244  0.911
+            Duration  352.0  83.0  41.0  393.0    0.8092 0.8957 0.8502
+        Death_Entity   41.0   3.0   3.0   44.0    0.9318 0.9318 0.9318
+Internal_organ_or... 5915.0 811.0 713.0 6628.0    0.8794 0.8924 0.8859
+        Vaccine_Name    5.0   0.0   3.0    8.0       1.0  0.625 0.7692
+             Alcohol   72.0   4.0   6.0   78.0    0.9474 0.9231 0.9351
+  Substance_Quantity    3.0   4.0   0.0    3.0    0.4286    1.0    0.6
+                Date  544.0  26.0  17.0  561.0    0.9544 0.9697  0.962
+      Hyperlipidemia   44.0   4.0   0.0   44.0    0.9167    1.0 0.9565
+Social_History_He...   93.0   3.0   4.0   97.0    0.9688 0.9588 0.9637
+   Imaging_Technique   59.0   4.0  31.0   90.0    0.9365 0.6556 0.7712
+      Race_Ethnicity  113.0   0.0   0.0  113.0       1.0    1.0    1.0
+      Drug_BrandName  819.0  53.0  41.0  860.0    0.9392 0.9523 0.9457
+        RelativeDate  530.0  86.0  89.0  619.0    0.8604 0.8562 0.8583
+              Gender 5414.0  55.0  47.0 5461.0    0.9899 0.9914 0.9907
+                Form  204.0  24.0  35.0  239.0    0.8947 0.8536 0.8737
+              Dosage  211.0  21.0  48.0  259.0    0.9095 0.8147 0.8595
+Medical_History_H...  105.0   7.0   2.0  107.0    0.9375 0.9813 0.9589
+        Birth_Entity    4.0   0.0   2.0    6.0       1.0 0.6667    0.8
+           Substance   72.0  14.0  12.0   84.0    0.8372 0.8571 0.8471
+Sexually_Active_o...    7.0   0.0   0.0    7.0       1.0    1.0    1.0
+              Weight   77.0   8.0  11.0   88.0    0.9059  0.875 0.8902
+               macro    -      -    -      -         -       -  0.8674
+               micro    -      -    -      -         -       -  0.9054
 </code></pre></div></div>
-</div><div class="d-print-none"><footer class="article__footer"><meta itemprop="dateModified" content="2022-10-27T00:00:00+00:00"><!-- start custom article footer snippet -->
+</div><div class="d-print-none"><footer class="article__footer"><meta itemprop="dateModified" content="2022-10-19T00:00:00+00:00"><!-- start custom article footer snippet -->
 
 <!-- end custom article footer snippet --></footer>
 
@@ -876,7 +1009,7 @@ hr.code-selector-underlie {
 
 }
 
-</style><div class="article__section-navigator clearfix"><div class="previous nav_link"><span>PREVIOUS</span><a href="/2022/10/27/legclf_bert_swiss_judgements_fr.html">Legal Swiss Judgements Classification (French)</a></div><div class="next nav_link"><span>NEXT</span><a href="/2022/10/28/sbiobertresolve_icd10pcs_augmented_en.html">Sentence Entity Resolver for ICD-10-PCS (Augmented)</a></div></div></div>
+</style><div class="article__section-navigator clearfix"><div class="previous nav_link"><span>PREVIOUS</span><a href="/2022/10/19/ner_covid_trials_en.html">Extract Entities in Covid Trials</a></div><div class="next nav_link"><span>NEXT</span><a href="/2022/10/19/legre_warranty_en.html">Legal Relation Extraction (Warranty)</a></div></div></div>
 
 </div>
 </div>

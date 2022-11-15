@@ -9,10 +9,10 @@
     j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
     })(window,document,'script','dataLayer','GTM-59JLR64');</script>
-<!-- End Google Tag Manager --><title>Legal Swiss Judgements Classification (Italian)</title><meta property="og:title" content=""/>
+<!-- End Google Tag Manager --><title>Oncology Pipeline for Biomarkers</title><meta property="og:title" content=""/>
 
-<meta name="description" content="DescriptionThis model is a Bert-based model that can be used to classify Swiss Judgement documents in Italian language into the following 6 classes according to their case area. It has been trained with SOTA approach.Predicted Entitiespublic law, civil law, insurance law, social law, penal law, otherLive DemoOpen in...">
-<link rel="canonical" href="/2022/10/27/legclf_bert_swiss_judgements_it.html"><link rel="alternate" type="application/rss+xml" title="Spark NLP" href="/feed.xml"><!-- start favicons snippet, use https://realfavicongenerator.net/ -->
+<meta name="description" content="DescriptionThis pipeline includes Named-Entity Recognition, Assertion Status and Relation Extraction models to extract information from oncology texts. This pipeline focuses on entities related to biomarkers.Live DemoOpen in ColabDownloadHow to use         PythonScalaNLU  from sparknlp.pretrained import PretrainedPi...">
+<link rel="canonical" href="/2022/11/04/oncology_biomarker_pipeline_en.html"><link rel="alternate" type="application/rss+xml" title="Spark NLP" href="/feed.xml"><!-- start favicons snippet, use https://realfavicongenerator.net/ -->
 <!---->
 <!-- <link rel="apple-touch-icon" sizes="180x180" href="/fav.ico"> -->
 
@@ -408,26 +408,22 @@
 
 <!-- end custom main top snippet --><article><script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script><div class="article__header"><div class="header-author"><div class="article__info clearfix"><div class="left-col">
             <a class="edit-on-github-btn" target="_blank" rel="alternate"
-               href="https://github.com/johnsnowlabs/spark-nlp/tree/master/docs/_posts/bunyamin-polat/2022-10-27-legclf_bert_swiss_judgements_it.md">
+               href="https://github.com/johnsnowlabs/spark-nlp/tree/master/docs/_posts/mauro-nievoff/2022-11-04-oncology_biomarker_pipeline_en.md">
               <span class="fab fa-github"></span>
               <span class="edit-on-github-label">Edit on GitHub</span>
             </a>
-        </div><ul class="right-col menu"><li><i class="far fa-user"></i> <span>John Snow Labs</span></li><li><i class="far fa-calendar-alt"></i> <span>Oct 27, 2022</span>
-            </li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2022-10-27T00:00:00+00:00"></div><header class="main-docs have_subtitle">
-          <h1>Legal Swiss Judgements Classification (Italian)</h1><div class="top-subtitle mont"></div></header></div><meta itemprop="headline" content="Legal Swiss Judgements Classification (Italian)"><div class="article__info tags_box clearfix"><ul class="left-col menu"><li>it</li><li>legal</li><li>licensed</li><li>sequence_classification</li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2022-10-27T00:00:00+00:00">
-    <meta itemprop="keywords" content="it,legal,licensed,sequence_classification"><div class="js-article-content"><div class="model-wrap"><div class="layout--article"><!-- start custom article top snippet -->
+        </div><ul class="right-col menu"><li><i class="far fa-user"></i> <span>John Snow Labs</span></li><li><i class="far fa-calendar-alt"></i> <span>Nov 04, 2022</span>
+            </li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2022-11-04T00:00:00+00:00"></div><header class="main-docs have_subtitle">
+          <h1>Oncology Pipeline for Biomarkers</h1><div class="top-subtitle mont"></div></header></div><meta itemprop="headline" content="Oncology Pipeline for Biomarkers"><div class="article__info tags_box clearfix"><ul class="left-col menu"><li>licensed</li><li>en</li><li>oncology</li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2022-11-04T00:00:00+00:00">
+    <meta itemprop="keywords" content="licensed,en,oncology"><div class="js-article-content"><div class="model-wrap"><div class="layout--article"><!-- start custom article top snippet -->
 
 <!-- end custom article top snippet --><div class="article__content" itemprop="articleBody"><h2 id="description">Description</h2>
 
-<p>This model is a Bert-based model that can be used to classify Swiss Judgement documents in Italian language into the following 6 classes according to their case area. It has been trained with SOTA approach.</p>
-
-<h2 id="predicted-entities">Predicted Entities</h2>
-
-<p><code class="language-plaintext highlighter-rouge">public law</code>, <code class="language-plaintext highlighter-rouge">civil law</code>, <code class="language-plaintext highlighter-rouge">insurance law</code>, <code class="language-plaintext highlighter-rouge">social law</code>, <code class="language-plaintext highlighter-rouge">penal law</code>, <code class="language-plaintext highlighter-rouge">other</code></p>
+<p>This pipeline includes Named-Entity Recognition, Assertion Status and Relation Extraction models to extract information from oncology texts. This pipeline focuses on entities related to biomarkers.</p>
 
 <p class="btn-box"><button class="button button-orange" disabled="">Live Demo</button>
-<button class="button button-orange" disabled="">Open in Colab</button>
-<a href="https://s3.amazonaws.com/auxdata.johnsnowlabs.com/legal/models/legclf_bert_swiss_judgements_it_1.0.0_3.0_1666866260601.zip" class="button button-orange button-orange-trans arr button-icon">Download</a></p>
+<a href="https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/27.Oncology_Model.ipynb" class="button button-orange button-orange-trans co button-icon">Open in Colab</a>
+<a href="https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/oncology_biomarker_pipeline_en_4.2.2_3.0_1667581643291.zip" class="button button-orange button-orange-trans arr button-icon">Download</a></p>
 
 <h2 id="how-to-use">How to use</h2>
 
@@ -435,41 +431,149 @@
   <div class="top_tab_li">   
     <p><button data-type="python" class="tab-li code-selector-active python-button">Python</button><button data-type="scala" class="tab-li code-selector-un-active scala-button">Scala</button><button data-type="nlu" class="tab-li code-selector-un-active nlu-button">NLU</button></p>
 </div>
+  <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">sparknlp.pretrained</span> <span class="kn">import</span> <span class="n">PretrainedPipeline</span>
 
-  <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">document_assembler</span> <span class="o">=</span> <span class="n">nlp</span><span class="p">.</span><span class="n">DocumentAssembler</span><span class="p">()</span>\
-    <span class="p">.</span><span class="n">setInputCol</span><span class="p">(</span><span class="s">'text'</span><span class="p">)</span>\
-    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">'document'</span><span class="p">)</span>
+<span class="n">pipeline</span> <span class="o">=</span> <span class="n">PretrainedPipeline</span><span class="p">(</span><span class="s">"oncology_biomarker_pipeline"</span><span class="p">,</span> <span class="s">"en"</span><span class="p">,</span> <span class="s">"clinical/models"</span><span class="p">)</span>
 
-<span class="n">tokenizer</span> <span class="o">=</span> <span class="n">nlp</span><span class="p">.</span><span class="n">Tokenizer</span><span class="p">()</span>\
-    <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">'document'</span><span class="p">])</span>\
-    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">'token'</span><span class="p">)</span>
-
-<span class="n">clf_model</span> <span class="o">=</span> <span class="n">legal</span><span class="p">.</span><span class="n">BertForSequenceClassification</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">'legclf_bert_swiss_judgements'</span><span class="p">,</span> <span class="s">'it'</span><span class="p">,</span> <span class="s">'legal/models'</span><span class="p">)</span>\
-    <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">'document'</span><span class="p">,</span> <span class="s">'token'</span><span class="p">])</span>\
-    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">'class'</span><span class="p">)</span>\
-    <span class="p">.</span><span class="n">setCaseSensitive</span><span class="p">(</span><span class="bp">True</span><span class="p">)</span>\
-    <span class="p">.</span><span class="n">setMaxSentenceLength</span><span class="p">(</span><span class="mi">512</span><span class="p">)</span>
-
-<span class="n">clf_pipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">(</span><span class="n">stages</span><span class="o">=</span><span class="p">[</span>
-    <span class="n">document_assembler</span><span class="p">,</span> 
-    <span class="n">tokenizer</span><span class="p">,</span>
-    <span class="n">clf_model</span>   
-<span class="p">])</span>
-
-<span class="n">data</span> <span class="o">=</span> <span class="n">spark</span><span class="p">.</span><span class="n">createDataFrame</span><span class="p">([[</span><span class="s">"""Attualità: A. Disponibile dal 21. Nell'ottobre del 2004, l'Allianza di assicurazioni svizzere (in prosieguo: Allianz) ha messo in atto il R._ (geb. 1965) per le conseguenze di un incidente del 23. Nel mese di marzo del 2001 le prestazioni sono ritornate al 31. Nel mese di marzo del 2004 si è presentato la decisione del 6. Nel luglio del 2005 è stato arrestato. A. A disposizione del 21. Nell'ottobre del 2004, l'Allianza di assicurazioni svizzere (in prosieguo: Allianz) ha messo in atto il R._ (geb. 1965) per le conseguenze di un incidente del 23. Nel mese di marzo del 2001 le prestazioni sono ritornate al 31. Nel mese di marzo del 2004 si è presentato la decisione del 6. Nel luglio del 2005 è stato arrestato. di B. Il 7. Nel novembre 2005 R._ ha presentato una denuncia contro la decisione di interrogatorio al Tribunale amministrativo del Cantone di Schwyz. Con la lettera del 9. Nel novembre del 2005, il vicepresidente del Tribunale amministrativo ha informato gli assicurati che la denuncia è stata presentata in ritardo secondo la legge cantonale massiccia, il motivo per cui non è possibile procedere, e gli ha dato l'opportunità di pronunciarsi. Con l’ingresso del 15. Nel novembre 2005 R._ ha presentato una richiesta di ripristino del termine di reclamo. Con la decisione del 6. Nel dicembre 2005 il Tribunale amministrativo non ha presentato la denuncia. di B. Il 7. Nel novembre 2005 R._ ha presentato una denuncia contro la decisione di interrogatorio al Tribunale amministrativo del Cantone di Schwyz. Con la lettera del 9. Nel novembre del 2005, il vicepresidente del Tribunale amministrativo ha informato gli assicurati che la denuncia è stata presentata in ritardo secondo la legge cantonale massiccia, il motivo per cui non è possibile procedere, e gli ha dato l'opportunità di pronunciarsi. Con l’ingresso del 15. Nel novembre 2005 R._ ha presentato una richiesta di ripristino del termine di reclamo. Con la decisione del 6. Nel dicembre 2005 il Tribunale amministrativo non ha presentato la denuncia. C. Con un ricorso al Tribunale amministrativo, R._ chiede alla causa principale che, annullando la decisione pregiudiziale, il tribunale cantonale sia obbligato a presentare il ricorso del 7. di entrare nel novembre 2005. Dal punto di vista procedurale, il giudice può presentare la richiesta giuridica di aderire agli atti pregiudiziali e di ordinare un secondo cambio di scrittura. Il Tribunale amministrativo del Cantone di Schwyz e l'Alleanza concludono il ricorso alla Corte amministrativa. L’Ufficio federale per la salute rinuncia ad una consultazione."""</span><span class="p">]]).</span><span class="n">toDF</span><span class="p">(</span><span class="s">"text"</span><span class="p">)</span>
-
-<span class="n">result</span> <span class="o">=</span> <span class="n">clf_pipeline</span><span class="p">.</span><span class="n">fit</span><span class="p">(</span><span class="n">data</span><span class="p">).</span><span class="n">transform</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+<span class="n">pipeline</span><span class="p">.</span><span class="n">fullAnnotate</span><span class="p">(</span><span class="s">"Immunohistochemistry was negative for thyroid transcription factor-1 and napsin A. The test was positive for ER and PR, and negative for HER2."</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
 </code></pre></div>  </div>
+  <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="nn">com.johnsnowlabs.nlp.pretrained.PretrainedPipeline</span>
 
+<span class="k">val</span> <span class="nv">pipeline</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">PretrainedPipeline</span><span class="o">(</span><span class="s">"oncology_biomarker_pipeline"</span><span class="o">,</span> <span class="s">"en"</span><span class="o">,</span> <span class="s">"clinical/models"</span><span class="o">)</span>
+
+<span class="k">val</span> <span class="nv">result</span> <span class="k">=</span> <span class="nv">pipeline</span><span class="o">.</span><span class="py">fullAnnotate</span><span class="o">(</span><span class="s">"""Immunohistochemistry was negative for thyroid transcription factor-1 and napsin A. The test was positive for ER and PR, and negative for HER2."""</span><span class="o">)(</span><span class="mi">0</span><span class="o">)</span>
+
+</code></pre></div>  </div>
 </div>
 
 <h2 id="results">Results</h2>
 
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>+----------------------------------------------------------------------------------------------------+-------------+
-|                                                                                            document|        class|
-+----------------------------------------------------------------------------------------------------+-------------+
-|Attualità: A. Disponibile dal 21. Nell<span class="s1">'ottobre del 2004, l'</span>Allianza di assicurazioni svizzere <span class="o">(</span><span class="k">in</span>...|insurance law|
-+----------------------------------------------------------------------------------------------------+-------------+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">********************</span> ner_oncology_wip results <span class="k">********************</span>
+
+| chunk                          | ner_label        |
+|:-------------------------------|:-----------------|
+| negative                       | Biomarker_Result |
+| thyroid transcription factor-1 | Biomarker        |
+| napsin                         | Biomarker        |
+| positive                       | Biomarker_Result |
+| ER                             | Biomarker        |
+| PR                             | Biomarker        |
+| negative                       | Biomarker_Result |
+| HER2                           | Oncogene         |
+
+
+<span class="k">********************</span> ner_oncology_biomarker_wip results <span class="k">********************</span>
+
+| chunk                          | ner_label        |
+|:-------------------------------|:-----------------|
+| negative                       | Biomarker_Result |
+| thyroid transcription factor-1 | Biomarker        |
+| napsin A                       | Biomarker        |
+| positive                       | Biomarker_Result |
+| ER                             | Biomarker        |
+| PR                             | Biomarker        |
+| negative                       | Biomarker_Result |
+| HER2                           | Biomarker        |
+
+
+<span class="k">********************</span> ner_oncology_test_wip results <span class="k">********************</span>
+
+| chunk                          | ner_label        |
+|:-------------------------------|:-----------------|
+| Immunohistochemistry           | Pathology_Test   |
+| negative                       | Biomarker_Result |
+| thyroid transcription factor-1 | Biomarker        |
+| napsin A                       | Biomarker        |
+| positive                       | Biomarker_Result |
+| ER                             | Biomarker        |
+| PR                             | Biomarker        |
+| negative                       | Biomarker_Result |
+| HER2                           | Oncogene         |
+
+
+<span class="k">********************</span> ner_biomarker results <span class="k">********************</span>
+
+| chunk                          | ner_label             |
+|:-------------------------------|:----------------------|
+| Immunohistochemistry           | Test                  |
+| negative                       | Biomarker_Measurement |
+| thyroid transcription factor-1 | Biomarker             |
+| napsin A                       | Biomarker             |
+| positive                       | Biomarker_Measurement |
+| ER                             | Biomarker             |
+| PR                             | Biomarker             |
+| negative                       | Biomarker_Measurement |
+| HER2                           | Biomarker             |
+
+
+<span class="k">********************</span> assertion_oncology_wip results <span class="k">********************</span>
+
+| chunk                          | ner_label      | assertion   |
+|:-------------------------------|:---------------|:------------|
+| Immunohistochemistry           | Pathology_Test | Past        |
+| thyroid transcription factor-1 | Biomarker      | Present     |
+| napsin A                       | Biomarker      | Present     |
+| ER                             | Biomarker      | Present     |
+| PR                             | Biomarker      | Present     |
+| HER2                           | Oncogene       | Present     |
+
+
+<span class="k">********************</span> assertion_oncology_test_binary_wip results <span class="k">********************</span>
+
+| chunk                          | ner_label      | assertion       |
+|:-------------------------------|:---------------|:----------------|
+| Immunohistochemistry           | Pathology_Test | Medical_History |
+| thyroid transcription factor-1 | Biomarker      | Medical_History |
+| napsin A                       | Biomarker      | Medical_History |
+| ER                             | Biomarker      | Medical_History |
+| PR                             | Biomarker      | Medical_History |
+| HER2                           | Oncogene       | Medical_History |
+
+
+<span class="k">********************</span> re_oncology_wip results <span class="k">********************</span>
+
+| chunk1               | entity1          | chunk2                         | entity2          | relation      |
+|:---------------------|:-----------------|:-------------------------------|:-----------------|:--------------|
+| Immunohistochemistry | Pathology_Test   | negative                       | Biomarker_Result | O             |
+| negative             | Biomarker_Result | thyroid transcription factor-1 | Biomarker        | is_related_to |
+| negative             | Biomarker_Result | napsin A                       | Biomarker        | is_related_to |
+| positive             | Biomarker_Result | ER                             | Biomarker        | is_related_to |
+| positive             | Biomarker_Result | PR                             | Biomarker        | is_related_to |
+| positive             | Biomarker_Result | HER2                           | Oncogene         | O             |
+| ER                   | Biomarker        | negative                       | Biomarker_Result | O             |
+| PR                   | Biomarker        | negative                       | Biomarker_Result | O             |
+| negative             | Biomarker_Result | HER2                           | Oncogene         | is_related_to |
+
+
+<span class="k">********************</span> re_oncology_granular_wip results <span class="k">********************</span>
+
+| chunk1               | entity1          | chunk2                         | entity2          | relation      |
+|:---------------------|:-----------------|:-------------------------------|:-----------------|:--------------|
+| Immunohistochemistry | Pathology_Test   | negative                       | Biomarker_Result | O             |
+| negative             | Biomarker_Result | thyroid transcription factor-1 | Biomarker        | is_finding_of |
+| negative             | Biomarker_Result | napsin A                       | Biomarker        | is_finding_of |
+| positive             | Biomarker_Result | ER                             | Biomarker        | is_finding_of |
+| positive             | Biomarker_Result | PR                             | Biomarker        | is_finding_of |
+| positive             | Biomarker_Result | HER2                           | Oncogene         | is_finding_of |
+| ER                   | Biomarker        | negative                       | Biomarker_Result | O             |
+| PR                   | Biomarker        | negative                       | Biomarker_Result | O             |
+| negative             | Biomarker_Result | HER2                           | Oncogene         | is_finding_of |
+
+
+<span class="k">********************</span> re_oncology_biomarker_result_wip results <span class="k">********************</span>
+
+| chunk1               | entity1          | chunk2                         | entity2          | relation      |
+|:---------------------|:-----------------|:-------------------------------|:-----------------|:--------------|
+| Immunohistochemistry | Pathology_Test   | negative                       | Biomarker_Result | is_finding_of |
+| negative             | Biomarker_Result | thyroid transcription factor-1 | Biomarker        | is_finding_of |
+| negative             | Biomarker_Result | napsin A                       | Biomarker        | is_finding_of |
+| positive             | Biomarker_Result | ER                             | Biomarker        | is_finding_of |
+| positive             | Biomarker_Result | PR                             | Biomarker        | is_finding_of |
+| positive             | Biomarker_Result | HER2                           | Oncogene         | O             |
+| ER                   | Biomarker        | negative                       | Biomarker_Result | O             |
+| PR                   | Biomarker        | negative                       | Biomarker_Result | O             |
+| negative             | Biomarker_Result | HER2                           | Oncogene         | is_finding_of |
+
 </code></pre></div></div>
 
 <h2 class="model-param" id="model-information">Model Information</h2>
@@ -478,11 +582,15 @@
   <tbody>
     <tr>
       <td>Model Name:</td>
-      <td>legclf_bert_swiss_judgements</td>
+      <td>oncology_biomarker_pipeline</td>
+    </tr>
+    <tr>
+      <td>Type:</td>
+      <td>pipeline</td>
     </tr>
     <tr>
       <td>Compatibility:</td>
-      <td>Legal NLP 1.0.0+</td>
+      <td>Spark NLP for Healthcare 4.2.2+</td>
     </tr>
     <tr>
       <td>License:</td>
@@ -493,51 +601,42 @@
       <td>Official</td>
     </tr>
     <tr>
-      <td>Input Labels:</td>
-      <td>[document, token]</td>
-    </tr>
-    <tr>
-      <td>Output Labels:</td>
-      <td>[class]</td>
-    </tr>
-    <tr>
       <td>Language:</td>
-      <td>it</td>
+      <td>en</td>
     </tr>
     <tr>
       <td>Size:</td>
-      <td>392.9 MB</td>
-    </tr>
-    <tr>
-      <td>Case sensitive:</td>
-      <td>true</td>
-    </tr>
-    <tr>
-      <td>Max sentence length:</td>
-      <td>512</td>
+      <td>1.7 GB</td>
     </tr>
   </tbody>
 </table>
 
-<h2 id="references">References</h2>
+<h2 id="included-models">Included Models</h2>
 
-<p>Training data is available <a href="https://zenodo.org/record/7109926#.Y1gJwexBw8E">here</a>.</p>
-
-<h2 id="benchmarking">Benchmarking</h2>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>| label         | precision | recall | f1-score | support |
-|---------------|-----------|--------|----------|---------|
-| civil-law     | 0.90      | 0.93   | 0.92     | 1144    |
-| insurance-law | 0.93      | 0.96   | 0.95     | 1034    |
-| other         | 0.88      | 0.44   | 0.58     | 32      |
-| penal-law     | 0.91      | 0.95   | 0.93     | 1219    |
-| public-law    | 0.93      | 0.88   | 0.90     | 1433    |
-| social-law    | 0.96      | 0.92   | 0.94     | 924     |
-| accuracy      |   -       |   -    | 0.92     | 5786    |
-| macro-avg     | 0.92      | 0.85   | 0.87     | 5786    |
-| weighted-avg  | 0.92      | 0.92   | 0.92     | 5786    |
-</code></pre></div></div>
-</div><div class="d-print-none"><footer class="article__footer"><meta itemprop="dateModified" content="2022-10-27T00:00:00+00:00"><!-- start custom article footer snippet -->
+<ul>
+  <li>DocumentAssembler</li>
+  <li>SentenceDetectorDLModel</li>
+  <li>TokenizerModel</li>
+  <li>WordEmbeddingsModel</li>
+  <li>MedicalNerModel</li>
+  <li>NerConverter</li>
+  <li>MedicalNerModel</li>
+  <li>NerConverter</li>
+  <li>MedicalNerModel</li>
+  <li>NerConverter</li>
+  <li>MedicalNerModel</li>
+  <li>NerConverter</li>
+  <li>ChunkMergeModel</li>
+  <li>ChunkMergeModel</li>
+  <li>AssertionDLModel</li>
+  <li>AssertionDLModel</li>
+  <li>PerceptronModel</li>
+  <li>DependencyParserModel</li>
+  <li>RelationExtractionModel</li>
+  <li>RelationExtractionModel</li>
+  <li>RelationExtractionModel</li>
+</ul>
+</div><div class="d-print-none"><footer class="article__footer"><meta itemprop="dateModified" content="2022-11-04T00:00:00+00:00"><!-- start custom article footer snippet -->
 
 <!-- end custom article footer snippet --></footer>
 
@@ -876,7 +975,7 @@ hr.code-selector-underlie {
 
 }
 
-</style><div class="article__section-navigator clearfix"><div class="previous nav_link"><span>PREVIOUS</span><a href="/2022/10/27/legclf_bert_swiss_judgements_fr.html">Legal Swiss Judgements Classification (French)</a></div><div class="next nav_link"><span>NEXT</span><a href="/2022/10/28/sbiobertresolve_icd10pcs_augmented_en.html">Sentence Entity Resolver for ICD-10-PCS (Augmented)</a></div></div></div>
+</style><div class="article__section-navigator clearfix"><div class="previous nav_link"><span>PREVIOUS</span><a href="/2022/11/04/finclf_auditor_sentiment_analysis_en.html">Sentiment Analysis on Auditors' Reports</a></div><div class="next nav_link"><span>NEXT</span><a href="/2022/11/04/oncology_diagnosis_pipeline_en.html">Oncology Pipeline for Diagnosis Entities</a></div></div></div>
 
 </div>
 </div>
