@@ -2,10 +2,10 @@
 layout: docs
 header: true
 seotitle: Spark NLP for Healthcare | John Snow Labs
-title: Spark NLP for Healthcare Release Notes
-permalink: /docs/en/licensed_release_notes
+title: Spark NLP for Healthcare Release Notes 4.2.2
+permalink: /docs/en/spark_nlp_healthcare_versions/release_notes_4_2_2
 key: docs-licensed-release-notes
-modify_date: 2021-07-14
+modify_date: 2022-11-15
 show_nav: true
 sidebar:
     nav: sparknlp-healthcare
@@ -27,9 +27,7 @@ sidebar:
 + New and updated notebooks
 + 22 new clinical models and pipelines added & updated in total
 
-
-</div><div class="prev_ver h3-box" markdown="1">
-
+</div><div class="h3-box" markdown="1">
 
 #### Fine-Tuning Relation Extraction Models With Your Data
 
@@ -53,7 +51,6 @@ reApproach_finetune = RelationExtractionApproach()\
     .setPretrainedModelPath("existing_RE_MODEL_path")\
     .setOverrideExistingLabels(False)
 ```
-
 
 </div><div class="prev_ver h3-box" markdown="1">
 
@@ -134,9 +131,7 @@ text = """ Mother states that he does smoke, there is a family hx of alcohol on 
 +-------------+-------------------+
 ```
 
-
 </div><div class="prev_ver h3-box" markdown="1">
-
 
 
 #### Improved Oncology NER Models And 4 New Pretrained Pipelines
@@ -213,7 +208,6 @@ text = "The patient underwent a left mastectomy for a left breast cancer two mon
 </div><div class="prev_ver h3-box" markdown="1">
 
 
-
 #### New Chunk Mapper Models to Map Entities (phrases) to Their Corresponding ICD-10-CM Codes As Well As Clinical Abbreviations to Their Definitions
 
 We have 2 new chunk mapper models:
@@ -249,6 +243,7 @@ text = """A 35-year-old male with a history of primary leiomyosarcoma of neck, g
 ```
 
 </div><div class="prev_ver h3-box" markdown="1">
+
 
 
 #### New ICD-10-PCS Sentence Entity Resolver Model and ICD-10-CM Resolver Pipeline
@@ -311,7 +306,6 @@ text = "A 28-year-old female with a history of gestational diabetes mellitus dia
 
 </div><div class="prev_ver h3-box" markdown="1">
 
-
 #### New Utility & Helper Modules Documentation Page
 
 We have a new [utility & helper modules documentation page](https://nlp.johnsnowlabs.com/docs/en/utility_helper_modules) that you can find the documentations of Spark NLP for Healthcare modules with examples.
@@ -330,8 +324,8 @@ We have a new [utility & helper modules documentation page](https://nlp.johnsnow
 
 + Updated [Adverse Drug Event ADE NER and Classifier](https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/16.Adverse_Drug_Event_ADE_NER_and_Classifier.ipynb) notebook with the new models and improvement.
 
-
 </div><div class="prev_ver h3-box" markdown="1">
+
 
 #### 22 New Clinical Models and Pipelines Added & Updated in Total
 
@@ -364,63 +358,65 @@ For all Spark NLP for healthcare models, please check: [Models Hub Page](https:/
 
 </div><div class="prev_ver h3-box" markdown="1">
 
-## Previous versions
+## Versions
 
 </div>
+
 <ul class="pagination">
     <li>
-        <a href="spark_nlp_healthcare_versions/release_notes_4_2_0">Versions 4.2.1</a>
+        <a href="release_notes_4_2_2">Version 4.2.2</a>
     </li>
     <li>
-        <strong>Versions 4.2.2</strong>
+        <strong>Version 4.2.2</strong>
     </li>
 </ul>
 <ul class="pagination owl-carousel pagination_big">
-    <li class="active"><a href="spark_nlp_healthcare_versions/release_notes_4_2_2">4.2.2</a></li>
-    <li><a href="spark_nlp_healthcare_versions/release_notes_4_2_1">4.2.1</a></li>
-    <li><a href="spark_nlp_healthcare_versions/release_notes_4_2_0">4.2.0</a></li>
-    <li><a href="spark_nlp_healthcare_versions/release_notes_4_1_0">4.1.0</a></li>
-    <li><a href="spark_nlp_healthcare_versions/release_notes_4_0_2">4.0.2</a></li>
-    <li><a href="spark_nlp_healthcare_versions/release_notes_4_0_0">4.0.0</a></li>
-    <li><a href="spark_nlp_healthcare_versions/release_notes_3_5_3">3.5.3</a></li>
-    <li><a href="spark_nlp_healthcare_versions/release_notes_3_5_2">3.5.2</a></li>
-    <li><a href="spark_nlp_healthcare_versions/release_notes_3_5_1">3.5.1</a></li>
-    <li><a href="spark_nlp_healthcare_versions/release_notes_3_5_0">3.5.0</a></li>
-    <li><a href="spark_nlp_healthcare_versions/release_notes_3_4_2">3.4.2</a></li>
-    <li><a href="spark_nlp_healthcare_versions/release_notes_3_4_1">3.4.1</a></li>
-    <li><a href="spark_nlp_healthcare_versions/release_notes_3_4_0">3.4.0</a></li>
-    <li><a href="spark_nlp_healthcare_versions/release_notes_3_3_4">3.3.4</a></li>
-    <li><a href="spark_nlp_healthcare_versions/release_notes_3_3_2">3.3.2</a></li>
-    <li><a href="spark_nlp_healthcare_versions/release_notes_3_3_1">3.3.1</a></li>
-    <li><a href="spark_nlp_healthcare_versions/release_notes_3_3_0">3.3.0</a></li>
-    <li><a href="spark_nlp_healthcare_versions/release_notes_3_2_3">3.2.3</a></li>
-    <li><a href="spark_nlp_healthcare_versions/release_notes_3_2_2">3.2.2</a></li>
-    <li><a href="spark_nlp_healthcare_versions/release_notes_3_2_1">3.2.1</a></li>
-    <li><a href="spark_nlp_healthcare_versions/release_notes_3_2_0">3.2.0</a></li>
-    <li><a href="spark_nlp_healthcare_versions/release_notes_3_1_3">3.1.3</a></li>
-    <li><a href="spark_nlp_healthcare_versions/release_notes_3_1_2">3.1.2</a></li>
-    <li><a href="spark_nlp_healthcare_versions/release_notes_3_1_1">3.1.1</a></li>
-    <li><a href="spark_nlp_healthcare_versions/release_notes_3_1_0">3.1.0</a></li>
-    <li><a href="spark_nlp_healthcare_versions/release_notes_3_0_3">3.0.3</a></li>
-    <li><a href="spark_nlp_healthcare_versions/release_notes_3_0_2">3.0.2</a></li>
-    <li><a href="spark_nlp_healthcare_versions/release_notes_3_0_1">3.0.1</a></li>
-    <li><a href="spark_nlp_healthcare_versions/release_notes_3_0_0">3.0.0</a></li>
-    <li><a href="spark_nlp_healthcare_versions/release_notes_2_7_6">2.7.6</a></li>
-    <li><a href="spark_nlp_healthcare_versions/release_notes_2_7_5">2.7.5</a></li>
-    <li><a href="spark_nlp_healthcare_versions/release_notes_2_7_4">2.7.4</a></li>
-    <li><a href="spark_nlp_healthcare_versions/release_notes_2_7_3">2.7.3</a></li>
-    <li><a href="spark_nlp_healthcare_versions/release_notes_2_7_2">2.7.2</a></li>
-    <li><a href="spark_nlp_healthcare_versions/release_notes_2_7_1">2.7.1</a></li>
-    <li><a href="spark_nlp_healthcare_versions/release_notes_2_7_0">2.7.0</a></li>
-    <li><a href="spark_nlp_healthcare_versions/release_notes_2_6_2">2.6.2</a></li>
-    <li><a href="spark_nlp_healthcare_versions/release_notes_2_6_0">2.6.0</a></li>
-    <li><a href="spark_nlp_healthcare_versions/release_notes_2_5_5">2.5.5</a></li>
-    <li><a href="spark_nlp_healthcare_versions/release_notes_2_5_3">2.5.3</a></li>
-    <li><a href="spark_nlp_healthcare_versions/release_notes_2_5_2">2.5.2</a></li>
-    <li><a href="spark_nlp_healthcare_versions/release_notes_2_5_0">2.5.0</a></li>
-    <li><a href="spark_nlp_healthcare_versions/release_notes_2_4_6">2.4.6</a></li>
-    <li><a href="spark_nlp_healthcare_versions/release_notes_2_4_5">2.4.5</a></li>
-    <li><a href="spark_nlp_healthcare_versions/release_notes_2_4_2">2.4.2</a></li>
-    <li><a href="spark_nlp_healthcare_versions/release_notes_2_4_1">2.4.1</a></li>
-    <li><a href="spark_nlp_healthcare_versions/release_notes_2_4_0">2.4.0</a></li>
+    <li class="active"><a href="release_notes_4_2_2">4.2.2</a></li>
+    <li><a href="release_notes_4_2_1">4.2.1</a></li>
+    <li><a href="release_notes_4_2_0">4.2.0</a></li>
+    <li><a href="release_notes_4_1_0">4.1.0</a></li>
+    <li><a href="release_notes_4_0_2">4.0.2</a></li>
+    <li><a href="release_notes_4_0_0">4.0.0</a></li>
+    <li><a href="release_notes_3_5_3">3.5.3</a></li>
+    <li><a href="release_notes_3_5_2">3.5.2</a></li>
+    <li><a href="release_notes_3_5_2">3.5.2</a></li>
+    <li><a href="release_notes_3_5_1">3.5.1</a></li>
+    <li><a href="release_notes_3_5_0">3.5.0</a></li>
+    <li><a href="release_notes_3_4_2">3.4.2</a></li>
+    <li><a href="release_notes_3_4_1">3.4.1</a></li>
+    <li><a href="release_notes_3_4_0">3.4.0</a></li>
+    <li><a href="release_notes_3_3_4">3.3.4</a></li>
+    <li><a href="release_notes_3_3_2">3.3.2</a></li>
+    <li><a href="release_notes_3_3_1">3.3.1</a></li>
+    <li><a href="release_notes_3_3_0">3.3.0</a></li>
+    <li><a href="release_notes_3_2_3">3.2.3</a></li>
+    <li><a href="release_notes_3_2_2">3.2.2</a></li>
+    <li><a href="release_notes_3_2_1">3.2.1</a></li>
+    <li><a href="release_notes_3_2_0">3.2.0</a></li>
+    <li><a href="release_notes_3_1_3">3.1.3</a></li>
+    <li><a href="release_notes_3_1_2">3.1.2</a></li>
+    <li><a href="release_notes_3_1_1">3.1.1</a></li>
+    <li><a href="release_notes_3_1_0">3.1.0</a></li>
+    <li><a href="release_notes_3_0_3">3.0.3</a></li>
+    <li><a href="release_notes_3_0_2">3.0.2</a></li>
+    <li><a href="release_notes_3_0_1">3.0.1</a></li>
+    <li><a href="release_notes_3_0_0">3.0.0</a></li>
+    <li><a href="release_notes_2_7_6">2.7.6</a></li>
+    <li><a href="release_notes_2_7_5">2.7.5</a></li>
+    <li><a href="release_notes_2_7_4">2.7.4</a></li>
+    <li><a href="release_notes_2_7_3">2.7.3</a></li>
+    <li><a href="release_notes_2_7_2">2.7.2</a></li>
+    <li><a href="release_notes_2_7_1">2.7.1</a></li>
+    <li><a href="release_notes_2_7_0">2.7.0</a></li>
+    <li><a href="release_notes_2_6_2">2.6.2</a></li>
+    <li><a href="release_notes_2_6_0">2.6.0</a></li>
+    <li><a href="release_notes_2_5_5">2.5.5</a></li>
+    <li><a href="release_notes_2_5_3">2.5.3</a></li>
+    <li><a href="release_notes_2_5_2">2.5.2</a></li>
+    <li><a href="release_notes_2_5_0">2.5.0</a></li>
+    <li><a href="release_notes_2_4_6">2.4.6</a></li>
+    <li><a href="release_notes_2_4_5">2.4.5</a></li>
+    <li><a href="release_notes_2_4_2">2.4.2</a></li>
+    <li><a href="release_notes_2_4_1">2.4.1</a></li>
+    <li><a href="release_notes_2_4_0">2.4.0</a></li>
 </ul>
