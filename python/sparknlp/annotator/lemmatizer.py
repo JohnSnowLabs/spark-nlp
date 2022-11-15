@@ -13,6 +13,7 @@
 #  limitations under the License.
 """Contains classes for the Lemmatizer."""
 from sparknlp.common import *
+from sparknlp.common.annotator_type import AnnotatorType
 
 
 class Lemmatizer(AnnotatorApproach):
@@ -86,6 +87,8 @@ class Lemmatizer(AnnotatorApproach):
     |[Peter, Pipers, employees, are, pick, peck, of, pickle, pepper, .]|
     +------------------------------------------------------------------+
     """
+    inputAnnotatorTypes = [AnnotatorType.TOKEN]
+
     dictionary = Param(Params._dummy(),
                        "dictionary",
                        "lemmatizer external dictionary." +
@@ -176,6 +179,7 @@ class Lemmatizer(AnnotatorApproach):
             opts["valueDelimiter"] = value_delimiter
         return self._set(dictionary=ExternalResource(path, read_as, opts))
 
+
 class LemmatizerModel(AnnotatorModel):
     """Instantiated Model of the Lemmatizer.
 
@@ -211,6 +215,8 @@ class LemmatizerModel(AnnotatorModel):
     ...     .setOutputCol("lemma")
     """
     name = "LemmatizerModel"
+
+    inputAnnotatorTypes = [AnnotatorType.TOKEN]
 
     def __init__(self, classname="com.johnsnowlabs.nlp.annotators.LemmatizerModel", java_model=None):
         super(LemmatizerModel, self).__init__(

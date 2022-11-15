@@ -7,7 +7,7 @@ date: 2022-06-06
 tags: [licensed, clinical, en, icdo, entity_resolution]
 task: Entity Resolution
 language: en
-edition: Spark NLP for Healthcare 3.5.2
+edition: Healthcare NLP 3.5.2
 spark_version: 3.0
 supported: true
 article_header:
@@ -178,7 +178,7 @@ nlu.load("en.resolve.icdo_augmented").predict("""TRAF6 is a putative oncogene in
 {:.table-model}
 |---|---|
 |Model Name:|sbiobertresolve_icdo_augmented|
-|Compatibility:|Spark NLP for Healthcare 3.5.2+|
+|Compatibility:|Healthcare NLP 3.5.2+|
 |License:|Licensed|
 |Edition:|Official|
 |Input Labels:|[sentence_embeddings]|

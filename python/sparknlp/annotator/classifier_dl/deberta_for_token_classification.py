@@ -14,6 +14,7 @@
 """Contains classes for DeBertaForTokenClassification."""
 
 from sparknlp.common import *
+from sparknlp.common.annotator_type import AnnotatorType
 
 
 class DeBertaForTokenClassification(AnnotatorModel,
@@ -93,6 +94,8 @@ class DeBertaForTokenClassification(AnnotatorModel,
     +------------------------------------------------------------------------------------+
     """
     name = "DeBertaForTokenClassification"
+
+    inputAnnotatorTypes = [AnnotatorType.DOCUMENT, AnnotatorType.TOKEN]
 
     maxSentenceLength = Param(Params._dummy(),
                               "maxSentenceLength",

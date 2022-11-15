@@ -14,6 +14,7 @@
 """Contains classes for the NerOverwriter."""
 
 from sparknlp.common import *
+from sparknlp.common.annotator_type import AnnotatorType
 
 
 class NerOverwriter(AnnotatorModel):
@@ -114,6 +115,8 @@ class NerOverwriter(AnnotatorModel):
     +---------------------------------------------------------+
     """
     name = "NerOverwriter"
+
+    inputAnnotatorTypes = [AnnotatorType.NAMED_ENTITY]
 
     @keyword_only
     def __init__(self):

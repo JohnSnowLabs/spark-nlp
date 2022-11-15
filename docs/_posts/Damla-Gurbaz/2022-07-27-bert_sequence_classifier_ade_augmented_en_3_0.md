@@ -7,7 +7,7 @@ date: 2022-07-27
 tags: [clinical, licensed, public_health, ade, classifier, sequence_classification, en]
 task: Text Classification
 language: en
-edition: Spark NLP for Healthcare 4.0.0
+edition: Healthcare NLP 4.0.0
 spark_version: 3.0
 supported: true
 article_header:
@@ -100,7 +100,7 @@ val result = pipeline.fit(data).transform(data)
 {:.table-model}
 |---|---|
 |Model Name:|bert_sequence_classifier_ade_augmented|
-|Compatibility:|Spark NLP for Healthcare 4.0.0+|
+|Compatibility:|Healthcare NLP 4.0.0+|
 |License:|Licensed|
 |Edition:|Official|
 |Input Labels:|[document, token]|

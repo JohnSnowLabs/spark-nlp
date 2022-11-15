@@ -7,7 +7,7 @@ date: 2022-01-06
 tags: [deid, ner, de, licensed]
 task: Named Entity Recognition
 language: de
-edition: Spark NLP for Healthcare 3.3.4
+edition: Healthcare NLP 3.3.4
 spark_version: 2.4
 supported: true
 article_header:
@@ -145,7 +145,7 @@ in Bad Kissingen eingeliefert. Herr Berger ist 76 Jahre alt und hat zu viel Wass
 {:.table-model}
 |---|---|
 |Model Name:|ner_deid_generic|
-|Compatibility:|Spark NLP for Healthcare 3.3.4+|
+|Compatibility:|Healthcare NLP 3.3.4+|
 |License:|Licensed|
 |Edition:|Official|
 |Input Labels:|[sentence, token, embeddings]|

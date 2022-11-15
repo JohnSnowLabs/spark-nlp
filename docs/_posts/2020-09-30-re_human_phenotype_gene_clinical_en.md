@@ -6,7 +6,7 @@ name: re_human_phenotype_gene_clinical
 date: 2020-09-30
 task: Relation Extraction
 language: en
-edition: Spark NLP for Healthcare 2.6.0
+edition: Healthcare NLP 2.6.0
 spark_version: 2.4
 tags: [re, en, licensed, clinical]
 supported: true
@@ -166,7 +166,7 @@ val result = pipeline.fit(data).transform(data)
 |---|---|
 |Model Name:|re_human_phenotype_gene_clinical|
 |Type:|re|
-|Compatibility:|Spark NLP for Healthcare 2.6.0 +|
+|Compatibility:|Healthcare NLP 2.6.0 +|
 |Edition:|Official|
 |License:|Licensed|
 |Input Labels:|[embeddings, pos_tags, ner_chunks, dependencies]|

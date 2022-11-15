@@ -7,7 +7,7 @@ date: 2021-09-30
 tags: [adverse, ade, bertfortokenclassification, ner, en, licensed]
 task: Named Entity Recognition
 language: en
-edition: Spark NLP for Healthcare 3.2.2
+edition: Healthcare NLP 3.2.2
 spark_version: 2.4
 supported: true
 article_header:
@@ -125,7 +125,7 @@ nlu.load("en.classify.token_bert.ner_ade").predict("""Been taking Lipitor for 15
 {:.table-model}
 |---|---|
 |Model Name:|bert_token_classifier_ner_ade|
-|Compatibility:|Spark NLP for Healthcare 3.2.2+|
+|Compatibility:|Healthcare NLP 3.2.2+|
 |License:|Licensed|
 |Edition:|Official|
 |Input Labels:|[sentence, token]|

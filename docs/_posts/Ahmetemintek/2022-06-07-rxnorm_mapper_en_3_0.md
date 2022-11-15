@@ -7,7 +7,7 @@ date: 2022-06-07
 tags: [en, rxnorm, licensed, chunk_mapper]
 task: Chunk Mapping
 language: en
-edition: Spark NLP for Healthcare 3.5.0
+edition: Healthcare NLP 3.5.0
 spark_version: 3.0
 supported: true
 article_header:
@@ -150,7 +150,7 @@ nlu.load("en.map_entity.rxnorm_resolver").predict("""The patient was given Zyrte
 {:.table-model}
 |---|---|
 |Model Name:|rxnorm_mapper|
-|Compatibility:|Spark NLP for Healthcare 3.5.0+|
+|Compatibility:|Healthcare NLP 3.5.0+|
 |License:|Licensed|
 |Edition:|Official|
 |Input Labels:|[posology_ner_chunk]|

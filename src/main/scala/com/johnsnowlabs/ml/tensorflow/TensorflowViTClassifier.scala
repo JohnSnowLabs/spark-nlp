@@ -128,8 +128,16 @@ class TensorflowViTClassifier(
 
         batch.zip(logits).map { case (image, score) =>
           val label =
-            tags.find(_._2 == score.zipWithIndex.maxBy(_._1)._2).map(_._1).getOrElse("NA")
-
+            tags
+              .find(_._2 == score.zipWithIndex.maxBy(_._1)._2)
+              .map(_._1)
+              .getOrElse(
+                tags
+                  .find(
+                    _._2 == score.zipWithIndex.maxBy(_._1)._2.toString
+                  ) // TODO: We shouldn't compare unrelated types: BigInt and String
+                  .map(_._1)
+                  .getOrElse("NA"))
           val meta = score.zipWithIndex.flatMap(x =>
             Map(tags.take(10).find(_._2 == x._2).map(_._1).toString -> x._1.toString))
 

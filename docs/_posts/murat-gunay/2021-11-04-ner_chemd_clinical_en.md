@@ -7,7 +7,7 @@ date: 2021-11-04
 tags: [chemdner, chemd, ner, clinical, en, licensed]
 task: Named Entity Recognition
 language: en
-edition: Spark NLP for Healthcare 3.3.0
+edition: Healthcare NLP 3.3.0
 spark_version: 2.4
 supported: true
 article_header:
@@ -144,7 +144,7 @@ nlu.load("en.med_ner.chemd").predict("""Isolation, Structure Elucidation, and Ir
 {:.table-model}
 |---|---|
 |Model Name:|ner_chemd_clinical|
-|Compatibility:|Spark NLP for Healthcare 3.3.0+|
+|Compatibility:|Healthcare NLP 3.3.0+|
 |License:|Licensed|
 |Edition:|Official|
 |Input Labels:|[sentence, token, embeddings]|

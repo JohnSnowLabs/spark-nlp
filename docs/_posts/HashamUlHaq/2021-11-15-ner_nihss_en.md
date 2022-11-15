@@ -7,7 +7,7 @@ date: 2021-11-15
 tags: [ner, en, licensed, clinical]
 task: Named Entity Recognition
 language: en
-edition: Spark NLP for Healthcare 3.3.2
+edition: Healthcare NLP 3.3.2
 spark_version: 3.0
 supported: true
 article_header:
@@ -160,7 +160,7 @@ nlu.load("en.med_ner.nihss").predict("""Abdomen , soft , nontender . NIH stroke 
 {:.table-model}
 |---|---|
 |Model Name:|ner_nihss|
-|Compatibility:|Spark NLP for Healthcare 3.3.2+|
+|Compatibility:|Healthcare NLP 3.3.2+|
 |License:|Licensed|
 |Edition:|Official|
 |Input Labels:|[sentence, token, embeddings]|

@@ -14,6 +14,7 @@
 """Contains classes for the GPT2Transformer."""
 
 from sparknlp.common import *
+from sparknlp.common.annotator_type import AnnotatorType
 
 
 class GPT2Transformer(AnnotatorModel, HasBatchedAnnotate, HasEngine):
@@ -134,6 +135,8 @@ class GPT2Transformer(AnnotatorModel, HasBatchedAnnotate, HasEngine):
     """
 
     name = "GPT2Transformer"
+
+    inputAnnotatorTypes = [AnnotatorType.DOCUMENT]
 
     task = Param(Params._dummy(), "task", "Transformer's task, e.g. 'is it true that'>",
                  typeConverter=TypeConverters.toString)

@@ -7,7 +7,7 @@ date: 2021-10-10
 tags: [rxnorm, entity_resolution, licensed, clinical, en]
 task: Entity Resolution
 language: en
-edition: Spark NLP for Healthcare 3.2.3
+edition: Healthcare NLP 3.2.3
 spark_version: 2.4
 supported: true
 article_header:
@@ -165,7 +165,7 @@ p.o. daily , Prevacid 30 mg daily , Avandia 4 mg daily , norvasc 10 mg daily , l
 {:.table-model}
 |---|---|
 |Model Name:|sbiobertresolve_rxnorm|
-|Compatibility:|Spark NLP for Healthcare 3.2.3+|
+|Compatibility:|Healthcare NLP 3.2.3+|
 |License:|Licensed|
 |Edition:|Official|
 |Input Labels:|[sentence_embeddings]|

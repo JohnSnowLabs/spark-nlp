@@ -7,7 +7,7 @@ date: 2021-07-12
 tags: [licensed, clinical, en, relation_extraction, ade]
 task: Relation Extraction
 language: en
-edition: Spark NLP for Healthcare 3.1.2
+edition: Healthcare NLP 3.1.2
 spark_version: 3.0
 supported: true
 article_header:
@@ -203,7 +203,7 @@ nlu.load("en.relation.adverse_drug_events.clinical").predict("""Been taking Lipi
 |---|---|
 |Model Name:|re_ade_clinical|
 |Type:|re|
-|Compatibility:|Spark NLP for Healthcare 3.1.2+|
+|Compatibility:|Healthcare NLP 3.1.2+|
 |License:|Licensed|
 |Edition:|Official|
 |Input Labels:|[embeddings, pos_tags, train_ner_chunks, dependencies]|

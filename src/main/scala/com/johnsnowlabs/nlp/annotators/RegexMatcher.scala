@@ -21,16 +21,22 @@ import com.johnsnowlabs.nlp.AnnotatorType.{CHUNK, DOCUMENT}
 import com.johnsnowlabs.nlp.annotators.param.ExternalResourceParam
 import com.johnsnowlabs.nlp.util.io.{ExternalResource, ReadAs, ResourceHelper}
 import org.apache.spark.ml.PipelineModel
-import org.apache.spark.ml.param.Param
+import org.apache.spark.ml.param.{Param, StringArrayParam}
 import org.apache.spark.ml.util.{DefaultParamsReadable, Identifiable}
 import org.apache.spark.sql.Dataset
 
-/** Uses a reference file to match a set of regular expressions and associate them with a provided
+/** Uses rules to match a set of regular expressions and associate them with a provided
   * identifier.
   *
-  * A dictionary of predefined regular expressions must be provided with `setExternalRules`. The
-  * dictionary can be set in either in the form of a delimited text file or directly as an
-  * [[com.johnsnowlabs.nlp.util.io.ExternalResource ExternalResource]].
+  * A rule consists of a regex pattern and an identifier, delimited by a character of choice. An
+  * example could be `\d{4}\/\d\d\/\d\d,date` which will match strings like `"1970/01/01"` to the
+  * identifier `"date"`.
+  *
+  * Rules must be provided by either `setRules` (followed by `setDelimiter`) or an external file.
+  *
+  * To use an external file, a dictionary of predefined regular expressions must be provided with
+  * `setExternalRules`. The dictionary can be set in either in the form of a delimited text file
+  * or directly as an [[com.johnsnowlabs.nlp.util.io.ExternalResource ExternalResource]].
   *
   * Pretrained pipelines are available for this module, see
   * [[https://nlp.johnsnowlabs.com/docs/en/pipelines Pipelines]].
@@ -117,14 +123,26 @@ class RegexMatcher(override val uid: String) extends AnnotatorApproach[RegexMatc
     */
   override val inputAnnotatorTypes: Array[AnnotatorType] = Array(DOCUMENT)
 
-  /** external resource to rules, needs 'delimiter' in options
+  /** Rules with regex pattern and identifiers for matching
+    * @group param
+    */
+  val rules: StringArrayParam =
+    new StringArrayParam(this, "rules", "Rules with regex pattern and identifiers for matching")
+
+  /** Delimiter for rules provided with setRules
+    *
+    * @group param
+    */
+  val delimiter: Param[String] = new Param[String](this, "delimiter", "Delimiter for the rules")
+
+  /** External resource to rules, needs 'delimiter' in options
     *
     * @group param
     */
   val externalRules: ExternalResourceParam = new ExternalResourceParam(
     this,
     "externalRules",
-    "external resource to rules, needs 'delimiter' in options")
+    "External resource to rules, needs 'delimiter' in options")
 
   /** Strategy for which to match the expressions (Default: `"MATCH_ALL"`). Possible values are:
     *   - MATCH_ALL brings one-to-many results
@@ -144,6 +162,9 @@ class RegexMatcher(override val uid: String) extends AnnotatorApproach[RegexMatc
 
   /** External dictionary already in the form of [[ExternalResource]], for which the Map member
     * `options` has `"delimiter"` defined.
+    *
+    * Note that only either externalRules or rules can be set at once.
+    *
     * ==Example==
     * {{{
     * val regexMatcher = new RegexMatcher()
@@ -163,11 +184,18 @@ class RegexMatcher(override val uid: String) extends AnnotatorApproach[RegexMatc
     require(
       value.options.contains("delimiter"),
       "RegexMatcher requires 'delimiter' option to be set in ExternalResource")
+    require(get(rules).isEmpty, "Only either parameter externalRules or rules should be set.")
+    require(
+      get(this.delimiter).isEmpty,
+      "Parameter delimiter should only be set with parameter rules. " +
+        "Please provide the delimiter in the ExternalResource.")
     set(externalRules, value)
   }
 
   /** External dictionary to be used by the lemmatizer, which needs `delimiter` set for parsing
-    * the resource
+    * the resource.
+    *
+    * Note that only either externalRules or rules can be set at once.
     *
     * @group setParam
     */
@@ -175,8 +203,13 @@ class RegexMatcher(override val uid: String) extends AnnotatorApproach[RegexMatc
       path: String,
       delimiter: String,
       readAs: ReadAs.Format = ReadAs.TEXT,
-      options: Map[String, String] = Map("format" -> "text")): this.type =
+      options: Map[String, String] = Map("format" -> "text")): this.type = {
+    require(get(rules).isEmpty, "Only either parameter externalRules or rules should be set.")
+    require(
+      get(this.delimiter).isEmpty,
+      "Parameter delimiter should only be set with parameter rules.")
     set(externalRules, ExternalResource(path, readAs, options ++ Map("delimiter" -> delimiter)))
+  }
 
   /** Strategy for which to match the expressions (Default: `"MATCH_ALL"`)
     *
@@ -193,17 +226,73 @@ class RegexMatcher(override val uid: String) extends AnnotatorApproach[RegexMatc
     *
     * @group getParam
     */
-  def getStrategy: String = $(strategy).toString
+  def getStrategy: String = $(strategy)
+
+  /** Sets the regex rules to match the identifier with.
+    *
+    * The rules must consist of a regex pattern and an identifier for that pattern. The regex
+    * pattern and the identifier must be delimited by a character that will also have to set with
+    * `setDelimiter`.
+    *
+    * Only one of either parameter `rules` or `externalRules` must be set.
+    *
+    * ==Example==
+    * {{{
+    * val regexMatcher = new RegexMatcher()
+    *   .setRules(Array("\d{4}\/\d\d\/\d\d,date", "\d{2}\/\d\d\/\d\d,date_short")
+    *   .setDelimiter(",")
+    *   .setInputCols("sentence")
+    *   .setOutputCol("regex")
+    *   .setStrategy("MATCH_ALL")
+    * }}}
+    *
+    * @group setParam
+    * @param value
+    *   Array of rules
+    */
+  def setRules(value: Array[String]): this.type = {
+    require(
+      get(externalRules).isEmpty,
+      "Only either parameter rules or externalRules should be set.")
+    set(rules, value)
+  }
+
+  /** Sets the regex rules to match the identifier with.
+    *
+    * Note that only either externalRules or rules can be set at once.
+    *
+    * @group setParam
+    * @param value
+    *   Array of rules and identifiers as tuples
+    */
+  def setDelimiter(value: String): this.type = {
+    require(
+      get(externalRules).isEmpty,
+      "Only either parameter rules or externalRules should be set.")
+    set(delimiter, value)
+  }
 
   override def train(
       dataset: Dataset[_],
       recursivePipeline: Option[PipelineModel]): RegexMatcherModel = {
-    val processedRules = ResourceHelper.parseTupleText($(externalRules))
+    val processedRules: Array[(String, String)] =
+      if (get(externalRules).nonEmpty) ResourceHelper.parseTupleText($(externalRules))
+      else {
+        val delim = getOrDefault(delimiter)
+        getOrDefault(rules).map { rule =>
+          rule.split(delim) match {
+            case Array(pattern, identifier) => (pattern, identifier)
+            case a: Array[String] =>
+              throw new IllegalArgumentException(
+                s"Expected 2-tuple after splitting, but got ${a.length} for '$rule'")
+          }
+        }
+      }
+
     new RegexMatcherModel()
       .setExternalRules(processedRules)
       .setStrategy($(strategy))
   }
-
 }
 
 /** This is the companion object of [[RegexMatcher]]. Please refer to that class for the

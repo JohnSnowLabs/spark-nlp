@@ -7,7 +7,7 @@ date: 2021-06-25
 tags: [ner, en, clinical, licensed]
 task: Named Entity Recognition
 language: en
-edition: Spark NLP for Healthcare 3.1.0
+edition: Healthcare NLP 3.1.0
 spark_version: 3.0
 supported: true
 article_header:
@@ -164,7 +164,7 @@ nlu.load("en.med_ner.genetic_variants").predict("""The mutation pattern of mitoc
 {:.table-model}
 |---|---|
 |Model Name:|ner_genetic_variants|
-|Compatibility:|Spark NLP for Healthcare 3.1.0+|
+|Compatibility:|Healthcare NLP 3.1.0+|
 |License:|Licensed|
 |Edition:|Official|
 |Input Labels:|[sentence, token, embeddings]|

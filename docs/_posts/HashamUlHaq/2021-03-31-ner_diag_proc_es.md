@@ -7,7 +7,7 @@ date: 2021-03-31
 tags: [ner, clinical, licensed, es]
 task: Named Entity Recognition
 language: es
-edition: Spark NLP for Healthcare 3.0.0
+edition: Healthcare NLP 3.0.0
 spark_version: 3.0
 supported: true
 article_header:
@@ -130,7 +130,7 @@ nlu.load("es.med_ner").predict("""HISTORIA DE ENFERMEDAD ACTUAL: El Sr. Smith es
 {:.table-model}
 |---|---|
 |Model Name:|ner_diag_proc|
-|Compatibility:|Spark NLP for Healthcare 3.0.0+|
+|Compatibility:|Healthcare NLP 3.0.0+|
 |License:|Licensed|
 |Edition:|Official|
 |Input Labels:|[sentence, token, embeddings]|

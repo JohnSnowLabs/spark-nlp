@@ -7,7 +7,7 @@ date: 2021-12-20
 tags: [ner, clinical, drugprot, en, licensed]
 task: Named Entity Recognition
 language: en
-edition: Spark NLP for Healthcare 3.3.4
+edition: Healthcare NLP 3.3.4
 spark_version: 3.0
 supported: true
 article_header:
@@ -143,7 +143,7 @@ nlu.load("en.med_ner.drugprot_clinical").predict("""Anabolic effects of clenbute
 {:.table-model}
 |---|---|
 |Model Name:|ner_drugprot_clinical|
-|Compatibility:|Spark NLP for Healthcare 3.3.4+|
+|Compatibility:|Healthcare NLP 3.3.4+|
 |License:|Licensed|
 |Edition:|Official|
 |Input Labels:|[sentence, token, embeddings]|

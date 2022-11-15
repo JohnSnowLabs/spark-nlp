@@ -7,7 +7,7 @@ date: 2021-03-31
 tags: [ner, clinical, licensed, en]
 task: Named Entity Recognition
 language: en
-edition: Spark NLP for Healthcare 3.0.0
+edition: Healthcare NLP 3.0.0
 spark_version: 3.0
 supported: true
 article_header:
@@ -127,7 +127,7 @@ nlu.load("en.med_ner.drugs").predict("""The human KCNJ9 (Kir 3.3, GIRK3) is a me
 {:.table-model}
 |---|---|
 |Model Name:|ner_drugs|
-|Compatibility:|Spark NLP for Healthcare 3.0.0+|
+|Compatibility:|Healthcare NLP 3.0.0+|
 |License:|Licensed|
 |Edition:|Official|
 |Input Labels:|[sentence, token, embeddings]|

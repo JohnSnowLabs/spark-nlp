@@ -7,7 +7,7 @@ date: 2022-03-22
 tags: [licensed, ner, healthcare, treatment, problem, test, en, clinical]
 task: Named Entity Recognition
 language: en
-edition: Spark NLP for Healthcare 3.4.1
+edition: Healthcare NLP 3.4.1
 spark_version: 3.0
 supported: true
 article_header:
@@ -89,7 +89,7 @@ pipeline.fullAnnotate("A 28-year-old female with a history of gestational diabet
 |---|---|
 |Model Name:|ner_healthcare_pipeline|
 |Type:|pipeline|
-|Compatibility:|Spark NLP for Healthcare 3.4.1+|
+|Compatibility:|Healthcare NLP 3.4.1+|
 |License:|Licensed|
 |Edition:|Official|
 |Language:|en|

@@ -3,9 +3,9 @@
         <head>
           <meta http-equiv="X-UA-Compatible" content="IE=edge" />
           <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-          <title>Spark NLP 4.2.2 ScalaDoc  - com.johnsnowlabs.nlp.annotators</title>
-          <meta name="description" content="Spark NLP 4.2.2 ScalaDoc - com.johnsnowlabs.nlp.annotators" />
-          <meta name="keywords" content="Spark NLP 4.2.2 ScalaDoc com.johnsnowlabs.nlp.annotators" />
+          <title>Spark NLP 4.2.3 ScalaDoc  - com.johnsnowlabs.nlp.annotators</title>
+          <meta name="description" content="Spark NLP 4.2.3 ScalaDoc - com.johnsnowlabs.nlp.annotators" />
+          <meta name="keywords" content="Spark NLP 4.2.3 ScalaDoc com.johnsnowlabs.nlp.annotators" />
           <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
           
       
@@ -28,7 +28,7 @@
         </head>
         <body>
       <div id="search">
-        <span id="doc-title">Spark NLP 4.2.2 ScalaDoc<span id="doc-version"></span></span>
+        <span id="doc-title">Spark NLP 4.2.3 ScalaDoc<span id="doc-version"></span></span>
         <span class="close-results"><span class="left">&lt;</span> Back</span>
         <div id="textfilter">
           <span class="input">
@@ -571,8 +571,8 @@
                         <a href="RecursiveTokenizerModel.html" title="Instantiated model of the RecursiveTokenizer.">RecursiveTokenizerModel</a>
                       </li><li class="current-entities indented4">
                         <a class="object" href="RegexMatcher$.html" title="This is the companion object of RegexMatcher."></a>
-                        <a class="class" href="RegexMatcher.html" title="Uses a reference file to match a set of regular expressions and associate them with a provided identifier."></a>
-                        <a href="RegexMatcher.html" title="Uses a reference file to match a set of regular expressions and associate them with a provided identifier.">RegexMatcher</a>
+                        <a class="class" href="RegexMatcher.html" title="Uses rules to match a set of regular expressions and associate them with a provided identifier."></a>
+                        <a href="RegexMatcher.html" title="Uses rules to match a set of regular expressions and associate them with a provided identifier.">RegexMatcher</a>
                       </li><li class="current-entities indented4">
                         <a class="object" href="RegexMatcherModel$.html" title=""></a>
                         <a class="class" href="RegexMatcherModel.html" title="Instantiated model of the RegexMatcher."></a>
@@ -1638,14 +1638,16 @@ of the main class.
         <span class="kind">class</span>
       </span>
       <span class="symbol">
-        <a title="Uses a reference file to match a set of regular expressions and associate them with a provided identifier." href="RegexMatcher.html"><span class="name">RegexMatcher</span></a><span class="result"> extends <a href="../AnnotatorApproach.html" class="extype" name="com.johnsnowlabs.nlp.AnnotatorApproach">AnnotatorApproach</a>[<a href="RegexMatcherModel.html" class="extype" name="com.johnsnowlabs.nlp.annotators.RegexMatcherModel">RegexMatcherModel</a>]</span>
+        <a title="Uses rules to match a set of regular expressions and associate them with a provided identifier." href="RegexMatcher.html"><span class="name">RegexMatcher</span></a><span class="result"> extends <a href="../AnnotatorApproach.html" class="extype" name="com.johnsnowlabs.nlp.AnnotatorApproach">AnnotatorApproach</a>[<a href="RegexMatcherModel.html" class="extype" name="com.johnsnowlabs.nlp.annotators.RegexMatcherModel">RegexMatcherModel</a>]</span>
       </span>
       
-      <p class="shortcomment cmt">Uses a reference file to match a set of regular expressions and associate them with a provided
-identifier.</p><div class="fullcomment"><div class="comment cmt"><p>Uses a reference file to match a set of regular expressions and associate them with a provided
-identifier.</p><p>A dictionary of predefined regular expressions must be provided with <code>setExternalRules</code>. The
-dictionary can be set in either in the form of a delimited text file or directly as an
-<a href="../util/io/ExternalResource.html" class="extype" name="com.johnsnowlabs.nlp.util.io.ExternalResource">ExternalResource</a>.</p><p>Pretrained pipelines are available for this module, see
+      <p class="shortcomment cmt">Uses rules to match a set of regular expressions and associate them with a provided
+identifier.</p><div class="fullcomment"><div class="comment cmt"><p>Uses rules to match a set of regular expressions and associate them with a provided
+identifier.</p><p>A rule consists of a regex pattern and an identifier, delimited by a character of choice. An
+example could be <code>\d{4}\/\d\d\/\d\d,date</code> which will match strings like <code>&quot;1970/01/01&quot;</code> to the
+identifier <code>&quot;date&quot;</code>.</p><p>Rules must be provided by either <code>setRules</code> (followed by <code>setDelimiter</code>) or an external file.</p><p>To use an external file, a dictionary of predefined regular expressions must be provided with
+<code>setExternalRules</code>. The dictionary can be set in either in the form of a delimited text file
+or directly as an <a href="../util/io/ExternalResource.html" class="extype" name="com.johnsnowlabs.nlp.util.io.ExternalResource">ExternalResource</a>.</p><p>Pretrained pipelines are available for this module, see
 <a href="https://nlp.johnsnowlabs.com/docs/en/pipelines" target="_blank">Pipelines</a>.</p><p>For extended examples of usage, see the
 <a href="https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Public/2.Text_Preprocessing_with_SparkNLP_Annotators_Transformers.ipynb" target="_blank">Spark NLP Workshop</a>
 and the

@@ -7,7 +7,7 @@ date: 2022-08-29
 tags: [ner, zero_shot, licensed, clinical, en, roberta]
 task: Named Entity Recognition
 language: en
-edition: Spark NLP for Healthcare 4.0.2
+edition: Healthcare NLP 4.0.2
 spark_version: 3.0
 supported: true
 recommended: true
@@ -167,7 +167,7 @@ val result = pipeline.fit(data).transform(data)
 {:.table-model}
 |---|---|
 |Model Name:|zero_shot_ner_roberta|
-|Compatibility:|Spark NLP for Healthcare 4.0.2+|
+|Compatibility:|Healthcare NLP 4.0.2+|
 |License:|Licensed|
 |Edition:|Official|
 |Input Labels:|[document_question, document_context]|

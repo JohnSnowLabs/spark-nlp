@@ -7,7 +7,7 @@ date: 2022-07-29
 tags: [es, ner, clinical, licensed]
 task: Named Entity Recognition
 language: es
-edition: Spark NLP for Healthcare 4.0.0
+edition: Healthcare NLP 4.0.0
 spark_version: 3.0
 supported: true
 article_header:
@@ -144,7 +144,7 @@ nlu.load("es.med_ner.living_species.300").predict("""Lactante varón de dos año
 {:.table-model}
 |---|---|
 |Model Name:|ner_living_species_300|
-|Compatibility:|Spark NLP for Healthcare 4.0.0+|
+|Compatibility:|Healthcare NLP 4.0.0+|
 |License:|Licensed|
 |Edition:|Official|
 |Input Labels:|[sentence, token, embeddings]|

@@ -15,6 +15,7 @@
 
 from sparknlp.common import *
 from sparknlp.annotator.matcher.date_matcher import DateMatcherUtils
+from sparknlp.common.annotator_type import AnnotatorType
 
 
 class MultiDateMatcher(AnnotatorModel, DateMatcherUtils):
@@ -93,6 +94,8 @@ class MultiDateMatcher(AnnotatorModel, DateMatcherUtils):
     """
 
     name = "MultiDateMatcher"
+
+    inputAnnotatorTypes = [AnnotatorType.DOCUMENT]
 
     @keyword_only
     def __init__(self):

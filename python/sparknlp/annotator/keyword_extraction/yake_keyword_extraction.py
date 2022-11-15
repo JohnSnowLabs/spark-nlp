@@ -15,6 +15,7 @@
 
 
 from sparknlp.common import *
+from sparknlp.common.annotator_type import AnnotatorType
 
 
 class YakeKeywordExtraction(AnnotatorModel):
@@ -151,6 +152,8 @@ class YakeKeywordExtraction(AnnotatorModel):
     +---------------------+-------------------+
     """
     name = "YakeKeywordExtraction"
+
+    inputAnnotatorTypes = [AnnotatorType.TOKEN]
 
     @keyword_only
     def __init__(self):

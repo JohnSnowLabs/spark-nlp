@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>python.sparknlp.annotator.stemmer &#8212; Spark NLP 4.2.2 documentation</title>
+    <title>python.sparknlp.annotator.stemmer &#8212; Spark NLP 4.2.3 documentation</title>
   <script>
     document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
     document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
@@ -298,6 +298,7 @@
 <span class="c1">#  limitations under the License.</span>
 <span class="sd">&quot;&quot;&quot;Contains classes for the Stemmer.&quot;&quot;&quot;</span>
 <span class="kn">from</span> <span class="nn">sparknlp.common</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">sparknlp.common.annotator_type</span> <span class="kn">import</span> <span class="n">AnnotatorType</span>
 
 
 <div class="viewcode-block" id="Stemmer"><a class="viewcode-back" href="../../../../reference/autosummary/python/sparknlp/annotator/stemmer/index.html#python.sparknlp.annotator.stemmer.Stemmer">[docs]</a><span class="k">class</span> <span class="nc">Stemmer</span><span class="p">(</span><span class="n">AnnotatorModel</span><span class="p">):</span>
@@ -347,6 +348,8 @@
 <span class="sd">    |[peter, piper, employe, ar, pick, peck, of, pickl, pepper, .]|</span>
 <span class="sd">    +-------------------------------------------------------------+</span>
 <span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">inputAnnotatorTypes</span> <span class="o">=</span> <span class="p">[</span><span class="n">AnnotatorType</span><span class="o">.</span><span class="n">TOKEN</span><span class="p">]</span>
 
     <span class="n">language</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;language&quot;</span><span class="p">,</span> <span class="s2">&quot;stemmer algorithm&quot;</span><span class="p">,</span> <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toString</span><span class="p">)</span>
 

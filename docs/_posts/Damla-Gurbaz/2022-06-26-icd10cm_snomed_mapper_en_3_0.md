@@ -7,7 +7,7 @@ date: 2022-06-26
 tags: [icd10cm, snomed, clinical, en, chunk_mapper, licensed]
 task: Chunk Mapping
 language: en
-edition: Spark NLP for Healthcare 3.5.3
+edition: Healthcare NLP 3.5.3
 spark_version: 3.0
 supported: true
 article_header:
@@ -73,7 +73,7 @@ val documentAssembler = new DocumentAssembler()
 .setOutputCol("ner_chunk")
 
 val sbert_embedder = BertSentenceEmbeddings.pretrained("sbiobert_base_cased_mli", "en", "clinical/models")
-.setInputCols("ner_chunk")
+.setInputCols(Array("ner_chunk"))
 .setOutputCol("sbert_embeddings")
 
 val icd_resolver = SentenceEntityResolverModel.pretrained("sbiobertresolve_icd10cm_augmented_billable_hcc", "en", "clinical/models")
@@ -82,7 +82,7 @@ val icd_resolver = SentenceEntityResolverModel.pretrained("sbiobertresolve_icd10
 .setDistanceFunction("EUCLIDEAN")
 
 val chunkerMapper = ChunkMapperModel.pretrained("icd10cm_snomed_mapper", "en","clinical/models")
-.setInputCols("icd10cm_code")
+.setInputCols(Array("icd10cm_code"))
 .setOutputCol("mappings")
 .setRels(Array("snomed_code"))
 
@@ -122,7 +122,7 @@ nlu.load("en.icd10cm_to_snomed").predict("""Diabetes Mellitus""")
 {:.table-model}
 |---|---|
 |Model Name:|icd10cm_snomed_mapper|
-|Compatibility:|Spark NLP for Healthcare 3.5.3+|
+|Compatibility:|Healthcare NLP 3.5.3+|
 |License:|Licensed|
 |Edition:|Official|
 |Input Labels:|[icd10_code]|

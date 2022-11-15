@@ -14,6 +14,7 @@
 """Contains classes for the ContextSpellChecker."""
 
 from sparknlp.common import *
+from sparknlp.common.annotator_type import AnnotatorType
 
 
 class ContextSpellCheckerApproach(AnnotatorApproach):
@@ -137,6 +138,8 @@ class ContextSpellCheckerApproach(AnnotatorApproach):
     """
 
     name = "ContextSpellCheckerApproach"
+
+    inputAnnotatorTypes = [AnnotatorType.TOKEN]
 
     languageModelClasses = Param(Params._dummy(),
                                  "languageModelClasses",
@@ -569,6 +572,8 @@ class ContextSpellCheckerModel(AnnotatorModel, HasEngine):
     NorvigSweetingModel, SymmetricDeleteModel: For alternative approaches to spell checking
     """
     name = "ContextSpellCheckerModel"
+
+    inputAnnotatorTypes = [AnnotatorType.TOKEN]
 
     wordMaxDistance = Param(Params._dummy(),
                             "wordMaxDistance",

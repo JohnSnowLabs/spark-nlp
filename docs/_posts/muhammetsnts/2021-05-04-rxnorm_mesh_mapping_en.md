@@ -7,7 +7,7 @@ date: 2021-05-04
 tags: [rxnorm, mesh, en, licensed]
 task: Pipeline Healthcare
 language: en
-edition: Spark NLP for Healthcare 3.0.2
+edition: Healthcare NLP 3.0.2
 spark_version: 3.0
 supported: true
 article_header:
@@ -79,7 +79,7 @@ Note:
 |---|---|
 |Model Name:|rxnorm_mesh_mapping|
 |Type:|pipeline|
-|Compatibility:|Spark NLP for Healthcare 3.0.2+|
+|Compatibility:|Healthcare NLP 3.0.2+|
 |License:|Licensed|
 |Edition:|Official|
 |Language:|en|

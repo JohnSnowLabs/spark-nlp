@@ -14,6 +14,7 @@
 """Contains classes for XlnetEmbeddings."""
 
 from sparknlp.common import *
+from sparknlp.common.annotator_type import AnnotatorType
 
 
 class XlnetEmbeddings(AnnotatorModel,
@@ -150,6 +151,8 @@ class XlnetEmbeddings(AnnotatorModel,
     """
 
     name = "XlnetEmbeddings"
+
+    inputAnnotatorTypes = [AnnotatorType.DOCUMENT, AnnotatorType.TOKEN]
 
     configProtoBytes = Param(Params._dummy(),
                              "configProtoBytes",

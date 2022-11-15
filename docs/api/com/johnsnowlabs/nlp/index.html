@@ -3,9 +3,9 @@
         <head>
           <meta http-equiv="X-UA-Compatible" content="IE=edge" />
           <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-          <title>Spark NLP 4.2.2 ScalaDoc  - com.johnsnowlabs.nlp</title>
-          <meta name="description" content="Spark NLP 4.2.2 ScalaDoc - com.johnsnowlabs.nlp" />
-          <meta name="keywords" content="Spark NLP 4.2.2 ScalaDoc com.johnsnowlabs.nlp" />
+          <title>Spark NLP 4.2.3 ScalaDoc  - com.johnsnowlabs.nlp</title>
+          <meta name="description" content="Spark NLP 4.2.3 ScalaDoc - com.johnsnowlabs.nlp" />
+          <meta name="keywords" content="Spark NLP 4.2.3 ScalaDoc com.johnsnowlabs.nlp" />
           <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
           
       
@@ -28,7 +28,7 @@
         </head>
         <body>
       <div id="search">
-        <span id="doc-title">Spark NLP 4.2.2 ScalaDoc<span id="doc-version"></span></span>
+        <span id="doc-title">Spark NLP 4.2.3 ScalaDoc<span id="doc-version"></span></span>
         <span class="close-results"><span class="left">&lt;</span> Back</span>
         <div id="textfilter">
           <span class="input">
@@ -419,8 +419,8 @@
                         <a href="HasSimpleAnnotate.html" title="">HasSimpleAnnotate</a>
                       </li><li class="current-entities indented3">
                         <span class="separator"></span>
-                        <a class="trait" href="IAnnotation.html" title=""></a>
-                        <a href="IAnnotation.html" title="">IAnnotation</a>
+                        <a class="trait" href="IAnnotation.html" title="IAnnotation trait is used to abstract the annotator's output for each NLP tasks available in Spark NLP."></a>
+                        <a href="IAnnotation.html" title="IAnnotation trait is used to abstract the annotator's output for each NLP tasks available in Spark NLP.">IAnnotation</a>
                       </li><li class="current-entities indented3">
                         <a class="object" href="ImageAssembler$.html" title="This is the companion object of ImageAssembler."></a>
                         <a class="class" href="ImageAssembler.html" title="Prepares images read by Spark into a format that is processable by Spark NLP."></a>
@@ -1350,7 +1350,7 @@ intermediate steps trained PipelineModel's
       </span>
       
       
-    </li><li name="com.johnsnowlabs.nlp.IAnnotation" visbl="pub" class="indented0 " data-isabs="true" fullComment="no" group="Ungrouped">
+    </li><li name="com.johnsnowlabs.nlp.IAnnotation" visbl="pub" class="indented0 " data-isabs="true" fullComment="yes" group="Ungrouped">
       <a id="IAnnotationextendsAnyRef"></a><a id="IAnnotation:IAnnotation"></a>
       <span class="permalink">
       <a href="../../../com/johnsnowlabs/nlp/IAnnotation.html" title="Permalink">
@@ -1362,10 +1362,47 @@ intermediate steps trained PipelineModel's
         <span class="kind">trait</span>
       </span>
       <span class="symbol">
-        <a title="" href="IAnnotation.html"><span class="name">IAnnotation</span></a><span class="result"> extends <span class="extype" name="scala.AnyRef">AnyRef</span></span>
+        <a title="IAnnotation trait is used to abstract the annotator's output for each NLP tasks available in Spark NLP." href="IAnnotation.html"><span class="name">IAnnotation</span></a><span class="result"> extends <span class="extype" name="scala.AnyRef">AnyRef</span></span>
       </span>
       
-      
+      <p class="shortcomment cmt">IAnnotation trait is used to abstract the annotator's output for each NLP tasks available in
+Spark NLP.</p><div class="fullcomment"><div class="comment cmt"><p>IAnnotation trait is used to abstract the annotator's output for each NLP tasks available in
+Spark NLP.</p><p>Currently Spark NLP supports three types of outputs:</p><ul><li>Text Output: <a href="Annotation.html" class="extype" name="com.johnsnowlabs.nlp.Annotation">com.johnsnowlabs.nlp.Annotation</a></li><li>Image Output: <a href="AnnotationImage.html" class="extype" name="com.johnsnowlabs.nlp.AnnotationImage">com.johnsnowlabs.nlp.AnnotationImage</a></li><li>Audio Output: <a href="AnnotationAudio.html" class="extype" name="com.johnsnowlabs.nlp.AnnotationAudio">com.johnsnowlabs.nlp.AnnotationAudio</a></li></ul><p>LightPipeline models in Java/Scala returns an IAnnotation collection. All of these outputs are
+structs with the required data types to represent Text, Image and Audio.</p><p>If one wants to access the data as Annotation, AnnotationImage or AnnotationAudio, one just
+needs casting to the desired output.</p><h4>Example</h4><pre><span class="kw">import</span> com.johnsnowlabs.nlp.annotators.cv.ViTForImageClassification
+<span class="kw">import</span> org.apache.spark.ml.Pipeline
+<span class="kw">import</span> com.johnsnowlabs.nlp.annotators.Tokenizer
+<span class="kw">import</span> com.johnsnowlabs.nlp.annotators.sbd.pragmatic.SentenceDetector
+<span class="kw">import</span> com.johnsnowlabs.nlp.ImageAssembler
+<span class="kw">import</span> com.johnsnowlabs.nlp.LightPipeline
+<span class="kw">import</span> com.johnsnowlabs.util.PipelineModels
+
+<span class="kw">val</span> imageDf = spark.read
+ .format(<span class="lit">"image"</span>)
+ .option(<span class="lit">"dropInvalid"</span>, value = <span class="kw">true</span>)
+ .load(<span class="lit">"./images"</span>)
+
+<span class="kw">val</span> imageAssembler = <span class="kw">new</span> ImageAssembler()
+  .setInputCol(<span class="lit">"image"</span>)
+  .setOutputCol(<span class="lit">"image_assembler"</span>)
+
+<span class="kw">val</span> imageClassifier = ViTForImageClassification
+.pretrained()
+.setInputCols(<span class="lit">"image_assembler"</span>)
+.setOutputCol(<span class="lit">"class"</span>)
+
+<span class="kw">val</span> pipeline: Pipeline = <span class="kw">new</span> Pipeline().setStages(<span class="std">Array</span>(imageAssembler, imageClassifier))
+
+<span class="kw">val</span> vitModel = pipeline.fit(imageDf)
+<span class="kw">val</span> lightPipeline = <span class="kw">new</span> LightPipeline(vitModel)
+<span class="kw">val</span> predictions = lightPipeline.fullAnnotate(<span class="lit">"./images/hen.JPEG"</span>)
+
+<span class="kw">val</span> result = predictions.flatMap(prediction <span class="kw">=&gt;</span> prediction._2.map {
+    <span class="kw">case</span> annotationText: Annotation <span class="kw">=&gt;</span>
+      annotationText
+    <span class="kw">case</span> annotationImage: AnnotationImage <span class="kw">=&gt;</span>
+      annotationImage
+})</pre></div></div>
     </li><li name="com.johnsnowlabs.nlp.ImageAssembler" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="ImageAssemblerextendsTransformerwithDefaultParamsWritablewithHasOutputAnnotatorTypewithHasOutputAnnotationCol"></a><a id="ImageAssembler:ImageAssembler"></a>
       <span class="permalink">

@@ -7,7 +7,7 @@ date: 2021-11-05
 tags: [ner, en, clinical, licensed]
 task: Named Entity Recognition
 language: en
-edition: Spark NLP for Healthcare 3.3.2
+edition: Healthcare NLP 3.3.2
 spark_version: 3.0
 supported: true
 article_header:
@@ -148,7 +148,7 @@ nlu.load("en.med_ner.covid_trials").predict("""In December 2019 , a group of pat
 {:.table-model}
 |---|---|
 |Model Name:|ner_covid_trials|
-|Compatibility:|Spark NLP for Healthcare 3.3.2|
+|Compatibility:|Healthcare NLP 3.3.2|
 |License:|Licensed|
 |Edition:|Official|
 |Input Labels:|[sentence, token, embeddings]|

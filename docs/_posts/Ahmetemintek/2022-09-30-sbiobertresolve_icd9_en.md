@@ -7,7 +7,7 @@ date: 2022-09-30
 tags: [entity_resolution, en, licensed, icd9, clinical]
 task: Entity Resolution
 language: en
-edition: Spark NLP for Healthcare 4.1.0
+edition: Healthcare NLP 4.1.0
 spark_version: 3.0
 supported: true
 article_header:
@@ -161,7 +161,7 @@ only showing top 5 rows
 {:.table-model}
 |---|---|
 |Model Name:|sbiobertresolve_icd9|
-|Compatibility:|Spark NLP for Healthcare 4.1.0+|
+|Compatibility:|Healthcare NLP 4.1.0+|
 |License:|Licensed|
 |Edition:|Official|
 |Input Labels:|[sentence_embeddings]|

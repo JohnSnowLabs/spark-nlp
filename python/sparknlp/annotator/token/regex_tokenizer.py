@@ -15,6 +15,7 @@
 
 
 from sparknlp.common import *
+from sparknlp.common.annotator_type import AnnotatorType
 
 
 class RegexTokenizer(AnnotatorModel):
@@ -80,6 +81,8 @@ class RegexTokenizer(AnnotatorModel):
     """
 
     name = "RegexTokenizer"
+
+    inputAnnotatorTypes = [AnnotatorType.DOCUMENT]
 
     @keyword_only
     def __init__(self):

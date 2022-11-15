@@ -14,6 +14,7 @@
 """Contains classes for the SpanBertCorefModel."""
 
 from sparknlp.common import *
+from sparknlp.common.annotator_type import AnnotatorType
 
 
 class SpanBertCorefModel(AnnotatorModel,
@@ -109,6 +110,8 @@ class SpanBertCorefModel(AnnotatorModel,
     """
 
     name = "SpanBertCorefModel"
+
+    inputAnnotatorTypes = [AnnotatorType.DOCUMENT, AnnotatorType.TOKEN]
 
     maxSentenceLength = Param(Params._dummy(),
                               "maxSentenceLength",

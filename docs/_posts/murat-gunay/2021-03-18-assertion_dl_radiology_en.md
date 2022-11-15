@@ -7,7 +7,7 @@ date: 2021-03-18
 tags: [assertion, en, licensed, radiology, clinical]
 task: Assertion Status
 language: en
-edition: Spark NLP for Healthcare 2.7.4
+edition: Healthcare NLP 2.7.4
 spark_version: 2.4
 supported: true
 article_header:
@@ -151,7 +151,7 @@ INTERPRETATION: There has been interval development of a moderate left-sided pne
 {:.table-model}
 |---|---|
 |Model Name:|assertion_dl_radiology|
-|Compatibility:|Spark NLP for Healthcare 2.7.4+|
+|Compatibility:|Healthcare NLP 2.7.4+|
 |License:|Licensed|
 |Edition:|Official|
 |Input Labels:|[document, chunk, embeddings]|

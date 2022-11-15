@@ -7,7 +7,7 @@ date: 2022-05-10
 tags: [licensed, en, clinical, entity_resolution, cpt]
 task: Entity Resolution
 language: en
-edition: Spark NLP for Healthcare 3.5.1
+edition: Healthcare NLP 3.5.1
 spark_version: 3.0
 supported: true
 article_header:
@@ -195,7 +195,7 @@ At this time, chest tube placement for drainage of the fluid occurred and thorac
 {:.table-model}
 |---|---|
 |Model Name:|sbiobertresolve_cpt_procedures_measurements_augmented|
-|Compatibility:|Spark NLP for Healthcare 3.5.1+|
+|Compatibility:|Healthcare NLP 3.5.1+|
 |License:|Licensed|
 |Edition:|Official|
 |Input Labels:|[sentence_embeddings]|

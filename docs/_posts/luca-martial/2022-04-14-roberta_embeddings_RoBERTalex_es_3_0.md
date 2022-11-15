@@ -18,7 +18,7 @@ use_language_switcher: "Python-Scala-Java"
 
 ## Description
 
-Pretrained RoBERTa Embeddings model, uploaded to Hugging Face, adapted and imported into Spark NLP. `RoBERTalex` is a Spanish model orginally trained by `BSC-TeMU`.
+RoBERTa Legal Embeddings, trained by `PlanTL-GOB-ES`. 
 
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>

@@ -7,7 +7,7 @@ date: 2022-06-30
 tags: [en, clinical, licensed, ade, pipeline]
 task: Pipeline Healthcare
 language: en
-edition: Spark NLP for Healthcare 4.0.0
+edition: Healthcare NLP 4.0.0
 spark_version: 3.0
 supported: true
 article_header:
@@ -77,7 +77,7 @@ Relations:
 |---|---|
 |Model Name:|explain_clinical_doc_ade|
 |Type:|pipeline|
-|Compatibility:|Spark NLP for Healthcare 4.0.0+|
+|Compatibility:|Healthcare NLP 4.0.0+|
 |License:|Licensed|
 |Edition:|Official|
 |Language:|en|

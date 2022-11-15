@@ -15,6 +15,7 @@
 
 from sparknlp.common import *
 from sparknlp.annotator.token.tokenizer import Tokenizer, TokenizerModel
+from sparknlp.common.annotator_type import AnnotatorType
 
 
 class ChunkTokenizer(Tokenizer):
@@ -79,12 +80,15 @@ class ChunkTokenizer(Tokenizer):
     """
     name = 'ChunkTokenizer'
 
+    inputAnnotatorTypes = [AnnotatorType.CHUNK]
+
     @keyword_only
     def __init__(self):
         super(Tokenizer, self).__init__(classname="com.johnsnowlabs.nlp.annotators.ChunkTokenizer")
 
     def _create_model(self, java_model):
         return ChunkTokenizerModel(java_model=java_model)
+
 
 class ChunkTokenizerModel(TokenizerModel):
     """Instantiated model of the ChunkTokenizer.
@@ -103,6 +107,8 @@ class ChunkTokenizerModel(TokenizerModel):
     None
     """
     name = 'ChunkTokenizerModel'
+
+    inputAnnotatorTypes = [AnnotatorType.CHUNK]
 
     @keyword_only
     def __init__(self, classname="com.johnsnowlabs.nlp.annotators.ChunkTokenizerModel", java_model=None):

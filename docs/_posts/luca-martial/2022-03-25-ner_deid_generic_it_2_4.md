@@ -7,7 +7,7 @@ date: 2022-03-25
 tags: [deid, it, licensed]
 task: Named Entity Recognition
 language: it
-edition: Spark NLP for Healthcare 3.4.2
+edition: Healthcare NLP 3.4.2
 spark_version: 2.4
 supported: true
 article_header:
@@ -178,7 +178,7 @@ nlu.load("it.med_ner.deid_generic").predict("""Ho visto Gastone Montanariello (4
 {:.table-model}
 |---|---|
 |Model Name:|ner_deid_generic|
-|Compatibility:|Spark NLP for Healthcare 3.4.2+|
+|Compatibility:|Healthcare NLP 3.4.2+|
 |License:|Licensed|
 |Edition:|Official|
 |Input Labels:|[sentence, token, embeddings]|

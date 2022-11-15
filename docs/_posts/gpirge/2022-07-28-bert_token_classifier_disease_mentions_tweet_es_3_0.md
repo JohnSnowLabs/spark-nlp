@@ -7,7 +7,7 @@ date: 2022-07-28
 tags: [es, clinical, licensed, public_health, ner, token_classification, disease, tweet]
 task: Named Entity Recognition
 language: es
-edition: Spark NLP for Healthcare 4.0.0
+edition: Healthcare NLP 4.0.0
 spark_version: 3.0
 supported: true
 article_header:
@@ -65,11 +65,12 @@ pipeline =  Pipeline(stages=[
                       tokenClassifier,
                       ner_converter])
 
-model = pipeline.fit(spark.createDataFrame(pd.DataFrame({'text': ['']})))
+                 
+data = spark.createDataFrame([["""El diagnóstico fueron varios. Principal: Neumonía en el pulmón derecho. Sinusitis de caballo, Faringitis aguda e infección de orina, también elevada. Gripe No. Estuvo hablando conmigo, sin exagerar, mas de media hora, dándome ánimo y fuerza y que sabe, porque ha visto."""]]).toDF("text")
 
-data = spark.createDataFrame(["El diagnóstico fueron varios. Principal: Neumonía en el pulmón derecho. Sinusitis de caballo, Faringitis aguda e infección de orina, también elevada. Gripe No. Estuvo hablando conmigo, sin exagerar, mas de media hora, dándome ánimo y fuerza y que sabe, porque ha visto"], StringType()).toDF("text")
 
-result = model.transform(data)
+result = pipeline.fit(data).transform(data)
+
 ```
 ```scala
 val documentAssembler = new DocumentAssembler()
@@ -103,7 +104,7 @@ val pipeline =  new Pipeline().setStages(Array(
 
 val data = Seq(Array("El diagnóstico fueron varios. Principal: Neumonía en el pulmón derecho. Sinusitis de caballo, Faringitis aguda e infección de orina, también elevada. Gripe No. Estuvo hablando conmigo, sin exagerar, mas de media hora, dándome ánimo y fuerza y que sabe, porque ha visto")).toDS().toDF("text")
 
-val result = model.fit(data).transform(data)
+val result = pipeline.fit(data).transform(data)
 ```
 </div>
 
@@ -127,7 +128,7 @@ val result = model.fit(data).transform(data)
 {:.table-model}
 |---|---|
 |Model Name:|bert_token_classifier_disease_mentions_tweet|
-|Compatibility:|Spark NLP for Healthcare 4.0.0+|
+|Compatibility:|Healthcare NLP 4.0.0+|
 |License:|Licensed|
 |Edition:|Official|
 |Input Labels:|[sentence, token]|

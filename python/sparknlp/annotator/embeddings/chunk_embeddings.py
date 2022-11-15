@@ -14,6 +14,7 @@
 """Contains classes for ChunkEmbeddings"""
 
 from sparknlp.common import *
+from sparknlp.common.annotator_type import AnnotatorType
 
 
 class ChunkEmbeddings(AnnotatorModel):
@@ -97,6 +98,8 @@ class ChunkEmbeddings(AnnotatorModel):
     """
 
     name = "ChunkEmbeddings"
+
+    inputAnnotatorTypes = [AnnotatorType.CHUNK, AnnotatorType.WORD_EMBEDDINGS]
 
     @keyword_only
     def __init__(self):

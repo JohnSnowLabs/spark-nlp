@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>python.sparknlp.annotator.sentence.sentence_detector &#8212; Spark NLP 4.2.2 documentation</title>
+    <title>python.sparknlp.annotator.sentence.sentence_detector &#8212; Spark NLP 4.2.3 documentation</title>
   <script>
     document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
     document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
@@ -299,6 +299,7 @@
 <span class="sd">&quot;&quot;&quot;Contains classes for the SentenceDetector.&quot;&quot;&quot;</span>
 
 <span class="kn">from</span> <span class="nn">sparknlp.common</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">sparknlp.common.annotator_type</span> <span class="kn">import</span> <span class="n">AnnotatorType</span>
 
 
 <div class="viewcode-block" id="SentenceDetectorParams"><a class="viewcode-back" href="../../../../../reference/autosummary/python/sparknlp/annotator/sentence/sentence_detector/index.html#python.sparknlp.annotator.sentence.sentence_detector.SentenceDetectorParams">[docs]</a><span class="k">class</span> <span class="nc">SentenceDetectorParams</span><span class="p">:</span>
@@ -447,6 +448,8 @@
 
     <span class="n">name</span> <span class="o">=</span> <span class="s1">&#39;SentenceDetector&#39;</span>
 
+    <span class="n">inputAnnotatorTypes</span> <span class="o">=</span> <span class="p">[</span><span class="n">AnnotatorType</span><span class="o">.</span><span class="n">DOCUMENT</span><span class="p">]</span>
+
     <span class="c1"># this one is exclusive to this detector</span>
     <span class="n">detectLists</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
                         <span class="s2">&quot;detectLists&quot;</span><span class="p">,</span>
@@ -567,8 +570,11 @@
             <span class="n">customBoundsStrategy</span><span class="o">=</span><span class="s2">&quot;none&quot;</span><span class="p">,</span>
             <span class="n">explodeSentences</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
             <span class="n">minLength</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
-            <span class="n">maxLength</span><span class="o">=</span><span class="mi">99999</span></div>
+            <span class="n">maxLength</span><span class="o">=</span><span class="mi">99999</span>
         <span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">getInputAnnotatorTypes</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">inputAnnotatorTypes</span></div>
 </pre></div>
 
             </article>

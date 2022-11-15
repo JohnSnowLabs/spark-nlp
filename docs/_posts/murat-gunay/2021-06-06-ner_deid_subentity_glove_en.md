@@ -7,7 +7,7 @@ date: 2021-06-06
 tags: [ner, deid, licensed, en, glove, clinical]
 task: Named Entity Recognition
 language: en
-edition: Spark NLP for Healthcare 3.0.4
+edition: Healthcare NLP 3.0.4
 spark_version: 3.0
 supported: true
 article_header:
@@ -125,7 +125,7 @@ val result = nlpPipeline.fit(Seq.empty["A. Record date : 2093-01-13, David Hale,
 {:.table-model}
 |---|---|
 |Model Name:|ner_deid_subentity_glove|
-|Compatibility:|Spark NLP for Healthcare 3.0.4+|
+|Compatibility:|Healthcare NLP 3.0.4+|
 |License:|Licensed|
 |Edition:|Official|
 |Input Labels:|[sentence, token, embeddings]|

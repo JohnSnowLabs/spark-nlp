@@ -7,7 +7,7 @@ date: 2022-09-27
 tags: [en, licensed]
 task: Assertion Status
 language: en
-edition: Spark NLP for Finance 1.0.0
+edition: Finance NLP 1.0.0
 spark_version: 3.0
 supported: true
 article_header:
@@ -91,7 +91,7 @@ Atlantic Inc,31,42,ORG,FUTURE
 {:.table-model}
 |---|---|
 |Model Name:|finassertion_time|
-|Compatibility:|Spark NLP for Finance 1.0.0+|
+|Compatibility:|Finance NLP 1.0.0+|
 |License:|Licensed|
 |Edition:|Official|
 |Input Labels:|[document, doc_chunk, embeddings]|

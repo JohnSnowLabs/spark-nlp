@@ -7,7 +7,7 @@ date: 2021-09-01
 tags: [licensed, clinical, en, ner]
 task: Named Entity Recognition
 language: en
-edition: Spark NLP for Healthcare 3.1.3
+edition: Healthcare NLP 3.1.3
 spark_version: 3.0
 supported: true
 article_header:
@@ -142,7 +142,7 @@ nlu.load("en.med_ner.posology.experimental").predict("""Y-90 Humanized Anti-Tac:
 {:.table-model}
 |---|---|
 |Model Name:|ner_posology_experimental|
-|Compatibility:|Spark NLP for Healthcare 3.1.3+|
+|Compatibility:|Healthcare NLP 3.1.3+|
 |License:|Licensed|
 |Edition:|Official|
 |Input Labels:|[sentence, token, embeddings]|

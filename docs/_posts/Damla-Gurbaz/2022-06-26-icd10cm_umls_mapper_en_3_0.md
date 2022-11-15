@@ -7,7 +7,7 @@ date: 2022-06-26
 tags: [icd10cm, umls, chunk_mapper, clinical, licensed, en]
 task: Chunk Mapping
 language: en
-edition: Spark NLP for Healthcare 3.5.3
+edition: Healthcare NLP 3.5.3
 spark_version: 3.0
 supported: true
 article_header:
@@ -77,7 +77,7 @@ val documentAssembler = new DocumentAssembler()
 
 val sbert_embedder = BertSentenceEmbeddings
 .pretrained("sbiobert_base_cased_mli", "en", "clinical/models")
-.setInputCols("ner_chunk")
+.setInputCols(Array("ner_chunk"))
 .setOutputCol("sbert_embeddings")
 
 val icd10cm_resolver = SentenceEntityResolverModel
@@ -88,7 +88,7 @@ val icd10cm_resolver = SentenceEntityResolverModel
 
 val chunkerMapper = ChunkMapperModel
 .pretrained("icd10cm_umls_mapper", "en", "clinical/models")
-.setInputCols("rxnorm_code")
+.setInputCols(Array("rxnorm_code"))
 .setOutputCol("umls_mappings")
 .setRels(Array("umls_code"))
 
@@ -127,7 +127,7 @@ nlu.load("en.icd10cm_to_umls").predict("""Neonatal skin infection""")
 {:.table-model}
 |---|---|
 |Model Name:|icd10cm_umls_mapper|
-|Compatibility:|Spark NLP for Healthcare 3.5.3+|
+|Compatibility:|Healthcare NLP 3.5.3+|
 |License:|Licensed|
 |Edition:|Official|
 |Input Labels:|[icd10cm_code]|

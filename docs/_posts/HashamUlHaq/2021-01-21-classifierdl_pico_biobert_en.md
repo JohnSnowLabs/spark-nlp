@@ -6,7 +6,7 @@ name: classifierdl_pico_biobert
 date: 2021-01-21
 task: Text Classification
 language: en
-edition: Spark NLP for Healthcare 2.7.1
+edition: Healthcare NLP 2.7.1
 spark_version: 2.4
 tags: [en, licensed, clinical, classifier]
 supported: true

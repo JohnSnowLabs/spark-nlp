@@ -346,6 +346,7 @@ trait ReadViTForImageTensorflowModel extends ReadTensorflowModel {
 
     val (localModelPath, detectedEngine) = modelSanityCheck(modelPath)
 
+    // TODO: sometimes results in [String, BigInt] where BigInt is actually a string
     val labelJsonContent = loadJsonStringAsset(localModelPath, "labels.json")
     val labelJsonMap =
       parse(labelJsonContent, useBigIntForLong = true).values

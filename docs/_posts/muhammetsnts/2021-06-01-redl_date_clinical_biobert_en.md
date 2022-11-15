@@ -7,7 +7,7 @@ date: 2021-06-01
 tags: [licensed, en, clinical, relation_extraction]
 task: Relation Extraction
 language: en
-edition: Spark NLP for Healthcare 3.0.3
+edition: Healthcare NLP 3.0.3
 spark_version: 3.0
 supported: true
 article_header:
@@ -188,7 +188,7 @@ nlu.load("en.relation.date").predict("""This 73 y/o patient had CT on 1/12/95, w
 {:.table-model}
 |---|---|
 |Model Name:|redl_date_clinical_biobert|
-|Compatibility:|Spark NLP for Healthcare 3.0.3+|
+|Compatibility:|Healthcare NLP 3.0.3+|
 |License:|Licensed|
 |Edition:|Official|
 |Language:|en|

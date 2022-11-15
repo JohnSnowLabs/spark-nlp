@@ -7,7 +7,7 @@ date: 2022-04-04
 tags: [en, chunkmapping, chunkmapper, drug, action, treatment, licensed]
 task: Chunk Mapping
 language: en
-edition: Spark NLP for Healthcare 3.4.2
+edition: Healthcare NLP 3.4.2
 spark_version: 3.0
 supported: true
 article_header:
@@ -140,7 +140,7 @@ Cureent Medications: Diprivan, Proventil
 {:.table-model}
 |---|---|
 |Model Name:|drug_action_treatment_mapper|
-|Compatibility:|Spark NLP for Healthcare 3.4.2+|
+|Compatibility:|Healthcare NLP 3.4.2+|
 |License:|Licensed|
 |Edition:|Official|
 |Input Labels:|[ner_chunk]|

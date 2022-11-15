@@ -7,7 +7,7 @@ date: 2022-10-25
 tags: [it, legal, licensed, sequence_classification]
 task: Text Classification
 language: it
-edition: Spark NLP for Legal 1.0.0
+edition: Legal NLP 1.0.0
 spark_version: 3.0
 supported: true
 article_header:
@@ -56,11 +56,9 @@ clf_pipeline = Pipeline(stages=[
     clf_model   
 ])
 
-model = pipeline.fit(spark.createDataFrame([[""]]).toDF("text"))
-
 data = spark.createDataFrame([["""Attualità: A. Disponibile dal 21. Nell'ottobre del 2004, l'Allianza di assicurazioni svizzere (in prosieguo: Allianz) ha messo in atto il R._ (geb. 1965) per le conseguenze di un incidente del 23. Nel mese di marzo del 2001 le prestazioni sono ritornate al 31. Nel mese di marzo del 2004 si è presentato la decisione del 6. Nel luglio del 2005 è stato arrestato. A. A disposizione del 21. Nell'ottobre del 2004, l'Allianza di assicurazioni svizzere (in prosieguo: Allianz) ha messo in atto il R._ (geb. 1965) per le conseguenze di un incidente del 23. Nel mese di marzo del 2001 le prestazioni sono ritornate al 31. Nel mese di marzo del 2004 si è presentato la decisione del 6. Nel luglio del 2005 è stato arrestato. di B. Il 7. Nel novembre 2005 R._ ha presentato una denuncia contro la decisione di interrogatorio al Tribunale amministrativo del Cantone di Schwyz. Con la lettera del 9. Nel novembre del 2005, il vicepresidente del Tribunale amministrativo ha informato gli assicurati che la denuncia è stata presentata in ritardo secondo la legge cantonale massiccia, il motivo per cui non è possibile procedere, e gli ha dato l'opportunità di pronunciarsi. Con l’ingresso del 15. Nel novembre 2005 R._ ha presentato una richiesta di ripristino del termine di reclamo. Con la decisione del 6. Nel dicembre 2005 il Tribunale amministrativo non ha presentato la denuncia. di B. Il 7. Nel novembre 2005 R._ ha presentato una denuncia contro la decisione di interrogatorio al Tribunale amministrativo del Cantone di Schwyz. Con la lettera del 9. Nel novembre del 2005, il vicepresidente del Tribunale amministrativo ha informato gli assicurati che la denuncia è stata presentata in ritardo secondo la legge cantonale massiccia, il motivo per cui non è possibile procedere, e gli ha dato l'opportunità di pronunciarsi. Con l’ingresso del 15. Nel novembre 2005 R._ ha presentato una richiesta di ripristino del termine di reclamo. Con la decisione del 6. Nel dicembre 2005 il Tribunale amministrativo non ha presentato la denuncia. C. Con un ricorso al Tribunale amministrativo, R._ chiede alla causa principale che, annullando la decisione pregiudiziale, il tribunale cantonale sia obbligato a presentare il ricorso del 7. di entrare nel novembre 2005. Dal punto di vista procedurale, il giudice può presentare la richiesta giuridica di aderire agli atti pregiudiziali e di ordinare un secondo cambio di scrittura. Il Tribunale amministrativo del Cantone di Schwyz e l'Alleanza concludono il ricorso alla Corte amministrativa. L’Ufficio federale per la salute rinuncia ad una consultazione."""]]).toDF("text")
 
-result = model.transform(data)
+result = clf_pipeline.fit(data).transform(data)
 
 ```
 
@@ -82,7 +80,7 @@ result = model.transform(data)
 {:.table-model}
 |---|---|
 |Model Name:|legclf_bert_swiss_judgements|
-|Compatibility:|Spark NLP for Legal 1.0.0+|
+|Compatibility:|Legal NLP 1.0.0+|
 |License:|Licensed|
 |Edition:|Official|
 |Input Labels:|[document, token]|

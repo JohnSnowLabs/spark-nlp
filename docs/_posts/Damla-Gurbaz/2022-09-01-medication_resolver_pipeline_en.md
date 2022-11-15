@@ -7,7 +7,7 @@ date: 2022-09-01
 tags: [resolver, snomed, umls, rxnorm, ndc, ade, en, licensed, pipeline]
 task: Pipeline Healthcare
 language: en
-edition: Spark NLP for Healthcare 4.0.2
+edition: Healthcare NLP 4.0.2
 spark_version: 3.0
 supported: true
 recommended: true
@@ -71,7 +71,7 @@ val result = med_resolver_pipeline.fullAnnotate("""The patient was prescribed Am
 |---|---|
 |Model Name:|medication_resolver_pipeline|
 |Type:|pipeline|
-|Compatibility:|Spark NLP for Healthcare 4.0.2+|
+|Compatibility:|Healthcare NLP 4.0.2+|
 |License:|Licensed|
 |Edition:|Official|
 |Language:|en|

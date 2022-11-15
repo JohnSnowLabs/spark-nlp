@@ -7,7 +7,7 @@ date: 2022-09-30
 tags: [en, licensed, icd10, icd9, chunk_mapping]
 task: Chunk Mapping
 language: en
-edition: Spark NLP for Healthcare 4.1.0
+edition: Healthcare NLP 4.1.0
 spark_version: 3.0
 supported: true
 article_header:
@@ -117,7 +117,7 @@ val result= pipeline.fit(data).transform(data)
 {:.table-model}
 |---|---|
 |Model Name:|icd10_icd9_mapper|
-|Compatibility:|Spark NLP for Healthcare 4.1.0+|
+|Compatibility:|Healthcare NLP 4.1.0+|
 |License:|Licensed|
 |Edition:|Official|
 |Input Labels:|[ner_chunk]|

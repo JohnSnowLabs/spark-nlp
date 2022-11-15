@@ -7,7 +7,7 @@ date: 2021-06-22
 tags: [licensed, en, clinical, entity_resolution]
 task: Entity Resolution
 language: en
-edition: Spark NLP for Healthcare 3.1.0
+edition: Healthcare NLP 3.1.0
 spark_version: 3.0
 supported: true
 article_header:
@@ -158,7 +158,7 @@ nlu.load("en.resolve.icdo_augmented").predict("""The patient is a very pleasant 
 {:.table-model}
 |---|---|
 |Model Name:|sbiobertresolve_icdo_augmented|
-|Compatibility:|Spark NLP for Healthcare 3.1.0+|
+|Compatibility:|Healthcare NLP 3.1.0+|
 |License:|Licensed|
 |Edition:|Official|
 |Input Labels:|[sentence_embeddings]|

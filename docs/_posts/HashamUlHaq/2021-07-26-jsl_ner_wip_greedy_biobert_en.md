@@ -7,7 +7,7 @@ date: 2021-07-26
 tags: [ner, licensed, clinical, en]
 task: Named Entity Recognition
 language: en
-edition: Spark NLP for Healthcare 3.1.3
+edition: Healthcare NLP 3.1.3
 spark_version: 3.0
 supported: true
 article_header:
@@ -181,7 +181,7 @@ val result = jsl_ner_pipeline.fit(data).transform(data)
 {:.table-model}
 |---|---|
 |Model Name:|jsl_ner_wip_greedy_biobert|
-|Compatibility:|Spark NLP for Healthcare 3.1.3+|
+|Compatibility:|Healthcare NLP 3.1.3+|
 |License:|Licensed|
 |Edition:|Official|
 |Input Labels:|[sentence, token, embeddings]|

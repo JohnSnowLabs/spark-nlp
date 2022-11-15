@@ -7,7 +7,7 @@ date: 2022-07-01
 tags: [licenced, clinical, ro, ner, w2v, licensed]
 task: Named Entity Recognition
 language: ro
-edition: Spark NLP for Healthcare 4.0.0
+edition: Healthcare NLP 4.0.0
 spark_version: 3.0
 supported: true
 article_header:
@@ -157,7 +157,7 @@ nlu.load("ro.med_ner.clinical").predict(""" Solicitare: Angio CT cardio-toracic 
 {:.table-model}
 |---|---|
 |Model Name:|ner_clinical|
-|Compatibility:|Spark NLP for Healthcare 4.0.0+|
+|Compatibility:|Healthcare NLP 4.0.0+|
 |License:|Licensed|
 |Edition:|Official|
 |Input Labels:|[sentence, token, embeddings]|

@@ -7,7 +7,7 @@ date: 2021-05-16
 tags: [entity_resolution, clinical, licensed, en]
 task: Entity Resolution
 language: en
-edition: Spark NLP for Healthcare 3.0.4
+edition: Healthcare NLP 3.0.4
 spark_version: 3.0
 supported: true
 article_header:
@@ -156,7 +156,7 @@ nlu.load("en.resolve.snomed.findings_int").predict("""This is an 82 - year-old m
 {:.table-model}
 |---|---|
 |Model Name:|sbiobertresolve_snomed_findings_int|
-|Compatibility:|Spark NLP for Healthcare 3.0.4+|
+|Compatibility:|Healthcare NLP 3.0.4+|
 |License:|Licensed|
 |Edition:|Official|
 |Input Labels:|[ner_chunk, sbert_embeddings]|

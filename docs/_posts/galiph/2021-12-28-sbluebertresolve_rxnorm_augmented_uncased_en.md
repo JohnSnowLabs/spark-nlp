@@ -7,7 +7,7 @@ date: 2021-12-28
 tags: [en, clinical, entity_resolution, licensed]
 task: Entity Resolution
 language: en
-edition: Spark NLP for Healthcare 3.3.4
+edition: Healthcare NLP 3.3.4
 spark_version: 2.4
 supported: true
 article_header:
@@ -96,7 +96,7 @@ val result = light_model.fullAnnotate(Array("Coumadin 5 mg", "aspirin", "avandia
 {:.table-model}
 |---|---|
 |Model Name:|sbluebertresolve_rxnorm_augmented_uncased|
-|Compatibility:|Spark NLP for Healthcare 3.3.4+|
+|Compatibility:|Healthcare NLP 3.3.4+|
 |License:|Licensed|
 |Edition:|Official|
 |Input Labels:|[sentence_embeddings]|

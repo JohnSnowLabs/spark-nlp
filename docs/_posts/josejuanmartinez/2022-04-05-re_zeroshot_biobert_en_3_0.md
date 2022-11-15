@@ -7,7 +7,7 @@ date: 2022-04-05
 tags: [zero, shot, zero_shot, en, licensed]
 task: Relation Extraction
 language: en
-edition: Spark NLP for Healthcare 3.5.0
+edition: Healthcare NLP 3.5.0
 spark_version: 3.0
 supported: true
 article_header:
@@ -17,7 +17,7 @@ use_language_switcher: "Python-Scala-Java"
 
 ## Description
 
-Zero-shot Relation Extraction to extract relations between clinical entities with no training dataset, just pretrained BioBert embeddings (included in the model). This model requires Spark NLP for Healthcare 3.5.0. 
+Zero-shot Relation Extraction to extract relations between clinical entities with no training dataset, just pretrained BioBert embeddings (included in the model). This model requires Healthcare NLP 3.5.0. 
 
 Take a look at how it works in the "Open in Colab" section below.
 
@@ -227,7 +227,7 @@ nlu.load("en.relation.zeroshot_biobert").predict("""Paracetamol can alleviate he
 {:.table-model}
 |---|---|
 |Model Name:|re_zeroshot_biobert|
-|Compatibility:|Spark NLP for Healthcare 3.5.0+|
+|Compatibility:|Healthcare NLP 3.5.0+|
 |License:|Licensed|
 |Edition:|Official|
 |Language:|en|

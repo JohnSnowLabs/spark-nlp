@@ -7,7 +7,7 @@ date: 2022-02-01
 tags: [en, entity_resolution, clinical, licensed]
 task: Entity Resolution
 language: en
-edition: Spark NLP for Healthcare 3.3.4
+edition: Healthcare NLP 3.3.4
 spark_version: 3.0
 supported: true
 article_header:
@@ -150,7 +150,7 @@ nlu.load("en.resolve.clinical_abbreviation_acronym").predict("""Gravid with esti
 {:.table-model}
 |---|---|
 |Model Name:|sbiobertresolve_clinical_abbreviation_acronym|
-|Compatibility:|Spark NLP for Healthcare 3.3.4+|
+|Compatibility:|Healthcare NLP 3.3.4+|
 |License:|Licensed|
 |Edition:|Official|
 |Input Labels:|[sentence_embeddings]|

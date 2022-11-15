@@ -14,6 +14,7 @@
 """Contains classes for SymmetricDelete."""
 
 from sparknlp.common import *
+from sparknlp.common.annotator_type import AnnotatorType
 
 
 class SymmetricDeleteApproach(AnnotatorApproach):
@@ -92,6 +93,8 @@ class SymmetricDeleteApproach(AnnotatorApproach):
     NorvigSweetingApproach : for an alternative approach to spell checking
     ContextSpellCheckerApproach : for a DL based approach
     """
+    inputAnnotatorTypes = [AnnotatorType.TOKEN]
+
     corpus = Param(Params._dummy(),
                    "corpus",
                    "folder or file with text that teaches about the language",
@@ -188,6 +191,7 @@ class SymmetricDeleteApproach(AnnotatorApproach):
     def _create_model(self, java_model):
         return SymmetricDeleteModel(java_model=java_model)
 
+
 class SymmetricDeleteModel(AnnotatorModel):
     """Symmetric Delete spelling correction algorithm.
 
@@ -258,6 +262,8 @@ class SymmetricDeleteModel(AnnotatorModel):
     ContextSpellCheckerModel : for a DL based approach
     """
     name = "SymmetricDeleteModel"
+
+    inputAnnotatorTypes = [AnnotatorType.TOKEN]
 
     def __init__(self, classname="com.johnsnowlabs.nlp.annotators.spell.symmetric.SymmetricDeleteModel",
                  java_model=None):
