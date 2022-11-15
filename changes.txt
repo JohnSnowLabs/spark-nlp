@@ -1,2 +1,6 @@
-docs/_posts/gokhanturer/2022-11-15-ner_sdoh_slim_wip_en.md
-docs/_posts/gokhanturer/2022-11-15-ner_sdoh_slim_wip_en.md
+docs/en/licensed_release_notes.md
+docs/en/licensed_version_compatibility.md
+docs/en/spark_nlp_healthcare_versions/release_notes_4_2_2.md
+docs/en/licensed_release_notes.md
+docs/en/licensed_version_compatibility.md
+docs/en/spark_nlp_healthcare_versions/release_notes_4_2_2.md
