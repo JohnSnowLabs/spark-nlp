@@ -40,14 +40,14 @@ This model is trained to generate contextual sentence embeddings of input senten
 
 ```python
 sbiobert_embeddings = BertSentenceEmbeddings\
-.pretrained("sbert_jsl_medium_umls_uncased","en","clinicalmodels")\
+.pretrained("sbert_jsl_medium_umls_uncased","en","clinical/models")\
 .setInputCols(["sentence"])\
 .setOutputCol("sbert_embeddings")
 ```
 ```scala
 val sbiobert_embeddings = BertSentenceEmbeddings
 .pretrained("sbert_jsl_medium_umls_uncased","en","clinical/models")
-.setInputCols(Array("sentence"))
+.setInputCols("sentence")
 .setOutputCol("sbert_embeddings")
 ```
 

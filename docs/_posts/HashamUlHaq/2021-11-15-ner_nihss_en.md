@@ -45,31 +45,62 @@ The National Institutes of Health Stroke Scale (NIHSS) is a 15-item neurologic e
 {% include programmingLanguageSelectScalaPythonNLU.html %}
 
 ```python
-...
+document_assembler = DocumentAssembler()\
+	.setInputCol("text")\
+	.setOutputCol("document")
+
+sentence_detector = SentenceDetectorDLModel.pretrained("sentence_detector_dl_healthcare", "en", "clinical/models") \
+	.setInputCols(["document"]) \
+	.setOutputCol("sentence")
+
+tokenizer = Tokenizer()\
+	.setInputCols(["sentence"])\
+	.setOutputCol("token")
+ 
 embeddings_clinical = WordEmbeddingsModel.pretrained('embeddings_clinical', 'en', 'clinical/models') \
-.setInputCols(['sentence', 'token']) \
-.setOutputCol('embeddings')
+    .setInputCols(['sentence', 'token']) \
+    .setOutputCol('embeddings')
 
 clinical_ner = MedicalNerModel.pretrained("ner_nihss", "en", "clinical/models") \
-.setInputCols(["sentence", "token", "embeddings"]) \
-.setOutputCol("ner")
-...
-nlpPipeline = Pipeline(stages=[document_assembler, sentence_detector, tokenizer, embeddings_clinical,  clinical_ner, ner_converter])
+    .setInputCols(["sentence", "token", "embeddings"]) \
+    .setOutputCol("ner")
+
+ner_converter = NerConverter() \
+    .setInputCols(["sentence", "token", "ner"]) \
+    .setOutputCol("entities")
+
+nlpPipeline = Pipeline(stages=[document_assembler, sentence_detector, tokenizer, embeddings_clinical, clinical_ner, ner_converter])
 
 model = nlpPipeline.fit(spark.createDataFrame([[""]]).toDF("text"))
 
 results = model.transform(spark.createDataFrame([["Abdomen , soft , nontender . NIH stroke scale on presentation was 23 to 24 for , one for consciousness , two for month and year and two for eye / grip , one to two for gaze , two for face , eight for motor , one for limited ataxia , one to two for sensory , three for best language and two for attention . On the neurologic examination the patient was intermittently"]], ["text"]))
 ```
 ```scala
-...
+
+val document_assembler = new DocumentAssembler()
+	.setInputCol("text")
+	.setOutputCol("document")
+
+val sentence_detector = SentenceDetectorDLModel.pretrained("sentence_detector_dl_healthcare", "en", "clinical/models")
+	.setInputCols("document")
+	.setOutputCol("sentence")
+
+val tokenizer = new Tokenizer()
+	.setInputCols("sentence")
+	.setOutputCol("token")
+
 val embeddings_clinical = WordEmbeddingsModel.pretrained("embeddings_clinical", "en", "clinical/models")
-.setInputCols(["sentence", "token"])
-.setOutputCol("embeddings")
+    .setInputCols(Array("sentence", "token"))
+    .setOutputCol("embeddings")
 
 val ner = MedicalNerModel.pretrained("ner_nihss", "en", "clinical/models") 
-.setInputCols("sentence", "token", "embeddings")
-.setOutputCol("ner")
-...
+    .setInputCols(Array("sentence", "token", "embeddings"))
+    .setOutputCol("ner")
+
+val ner_converter = new NerConverter()
+    .setInputCols(Array("sentence", "token", "ner"))
+    .setOutputCol("entities")
+
 val pipeline = new Pipeline().setStages(Array(document_assembler, sentence_detector, tokenizer, embeddings_clinical, ner, ner_converter))
 
 val data = Seq("""Abdomen , soft , nontender . NIH stroke scale on presentation was 23 to 24 for , one for consciousness , two for month and year and two for eye / grip , one to two for gaze , two for face , eight for motor , one for limited ataxia , one to two for sensory , three for best language and two for attention . On the neurologic examination the patient was intermittently""").toDS.toDF("text")
@@ -79,6 +110,7 @@ val result = pipeline.fit(data).transform(data)
 
 
 {:.nlu-block}
+
 ```python
 import nlu
 nlu.load("en.med_ner.nihss").predict("""Abdomen , soft , nontender . NIH stroke scale on presentation was 23 to 24 for , one for consciousness , two for month and year and two for eye / grip , one to two for gaze , two for face , eight for motor , one for limited ataxia , one to two for sensory , three for best language and two for attention . On the neurologic examination the patient was intermittently""")

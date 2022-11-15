@@ -30,14 +30,15 @@ This pretrained pipeline is built on the top of [ner_deid_subentity](https://nlp
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
+
 ```python
-pipeline = PretrainedPipeline("ner_deid_subentity_pipeline", "en", "clinical/models")
+pipeline = PretrainedPipeline("ner_deid_subentity_pipeline", "de", "clinical/models")
 
 
 pipeline.annotate("Michael Berger wird am Morgen des 12 Dezember 2018 ins St. Elisabeth-Krankenhaus in Bad Kissingen eingeliefert. Herr Berger ist 76 Jahre alt und hat zu viel Wasser in den Beinen.")
 ```
 ```scala
-val pipeline = new PretrainedPipeline("ner_deid_subentity_pipeline", "en", "clinical/models")
+val pipeline = new PretrainedPipeline("ner_deid_subentity_pipeline", "de", "clinical/models")
 
 
 pipeline.annotate("Michael Berger wird am Morgen des 12 Dezember 2018 ins St. Elisabeth-Krankenhaus in Bad Kissingen eingeliefert. Herr Berger ist 76 Jahre alt und hat zu viel Wasser in den Beinen.")

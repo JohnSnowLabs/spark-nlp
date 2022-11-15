@@ -34,30 +34,69 @@ This model can be used to detect symptoms, treatments and other entities in medi
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
+
 ```python
-...
+
+document_assembler = DocumentAssembler() \
+    .setInputCol("text") \
+    .setOutputCol("document")
+
+sentence_detector = SentenceDetectorDLModel.pretrained("sentence_detector_dl_healthcare","en","clinical/models")\
+    .setInputCols(["document"])\
+    .setOutputCol("sentence")
+
+tokenizer = Tokenizer() \
+    .setInputCols("sentence") \
+    .setOutputCol("token")
+
 word_embeddings = WordEmbeddingsModel.pretrained("w2v_cc_300d","de","clinical/models")\
    .setInputCols(["sentence","token"])\
    .setOutputCol("embeddings")
-clinical_ner = MedicalNerModel.pretrained("ner_healthcare_slim", "de", "clinical/models") \
+
+clinical_ner = MedicalNerModel.pretrained("ner_healthcare", "de", "clinical/models") \
   .setInputCols(["sentence", "token", "embeddings"]) \
   .setOutputCol("ner")
-...
+
+clinical_ner_converter = NerConverter() \
+    .setInputCols(["sentence", "token", "ner"]) \
+    .setOutputCol("entities")
+
 nlp_pipeline = Pipeline(stages=[document_assembler, sentence_detector, tokenizer, word_embeddings, clinical_ner, clinical_ner_converter])
+
 light_pipeline = LightPipeline(nlp_pipeline.fit(spark.createDataFrame([['']]).toDF("text")))
+
 annotations = light_pipeline.fullAnnotate("Das Kleinzellige Bronchialkarzinom (Kleinzelliger Lungenkrebs, SCLC) ist ein hochmalignes bronchogenes Karzinom")
 ```
 ```scala
-...
+
+val document_assembler = new DocumentAssembler()
+    .setInputCol("text")
+    .setOutputCol("document")
+
+val sentence_detector = SentenceDetectorDLModel.pretrained("sentence_detector_dl_healthcare","en","clinical/models")
+    .setInputCols("document")
+    .setOutputCol("sentence")
+
+val tokenizer = new Tokenizer()
+    .setInputCols("sentence")
+    .setOutputCol("token")
+
 val word_embeddings = WordEmbeddingsModel.pretrained("w2v_cc_300d","de","clinical/models")
-   .setInputCols(Array("sentence","token"))
-   .setOutputCol("embeddings")
+    .setInputCols(Array("sentence","token"))
+    .setOutputCol("embeddings")
+
 val ner = MedicalNerModel.pretrained("ner_healthcare_slim", "de", "clinical/models") 
-  .setInputCols("sentence", "token", "embeddings") 
-  .setOutputCol("ner")
-...
+    .setInputCols(Array("sentence", "token", "embeddings")) 
+    .setOutputCol("ner")
+
+val clinical_ner_converter = new NerConverter()
+    .setInputCols(Array("sentence", "token", "ner"))
+    .setOutputCol("entities")
+
 val pipeline = new Pipeline().setStages(Array(document_assembler, sentence_detector, tokenizer, word_embeddings, ner, clinical_ner_converter))
+
 val data = Seq("Das Kleinzellige Bronchialkarzinom (Kleinzelliger Lungenkrebs, SCLC) ist ein hochmalignes bronchogenes Karzinom").toDF("text")
+
 val result = pipeline.fit(data).transform(data)
 ```
 </div>
@@ -65,25 +104,16 @@ val result = pipeline.fit(data).transform(data)
 ## Results
 
 ```bash
-+----+-------------------+---------+---------+--------------------------+
-|    | chunk             |   begin |   end   | entity                   |
-+====+===================+=========+=========+==========================+
-|  0 | Kleinzellige      |      4  |    15   | MEDICAL_SPECIFICATION    |
-+----+-------------------+---------+---------+--------------------------+
-|  1 | Bronchialkarzinom |      17 |   33    | MEDICAL_CONDITION        |
-+----+-------------------+---------+---------+--------------------------+
-|  2 | Kleinzelliger     |      36 |    48   | MEDICAL_SPECIFICATION    |
-+----+-------------------+---------+---------+--------------------------+
-|  3 | Lungenkrebs       |      50 |   60    | MEDICAL_CONDITION        |
-+----+-------------------+---------+---------+--------------------------+
-|  4 | SCLC              |      63 |   66    | MEDICAL_CONDITION        |
-+----+-------------------+---------+---------+--------------------------+
-|  5 | hochmalignes      |      77 |    88   | MEASUREMENT              |
-+----+-------------------+---------+---------+--------------------------+
-|  6 | bronchogenes      |      90 |   101   | BODY_PART                |
-+----+-------------------+---------+---------+--------------------------+
-|  7 | Karzinom          |     103 |   110   | MEDICAL_CONDITION        |
-+----+-------------------+---------+---------+--------------------------+
++-----------------+---------------------+-----+---+
+|chunk            |ner_label            |begin|end|
++-----------------+---------------------+-----+---+
+|Kleinzellige     |MEASUREMENT          |4    |15 |
+|Bronchialkarzinom|MEDICAL_CONDITION    |17   |33 |
+|Kleinzelliger    |MEDICAL_SPECIFICATION|36   |48 |
+|Lungenkrebs      |MEDICAL_CONDITION    |50   |60 |
+|SCLC             |MEDICAL_CONDITION    |63   |66 |
+|Karzinom         |MEDICAL_CONDITION    |103  |110|
++-----------------+---------------------+-----+---+
 ```
 
 {:.model-param}

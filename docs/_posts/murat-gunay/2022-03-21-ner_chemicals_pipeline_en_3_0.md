@@ -30,6 +30,7 @@ This pretrained pipeline is built on the top of [ner_chemicals](https://nlp.john
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
+
 ```python
 pipeline = PretrainedPipeline("ner_chemicals_pipeline", "en", "clinical/models")
 

@@ -37,60 +37,52 @@ Relate scale items and their measurements according to NIHSS guidelines.
 ## How to use
 
 
-
-
-
-
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
 
 ```python
 documenter = DocumentAssembler()\
-.setInputCol("text")\
-.setOutputCol("document")
+    .setInputCol("text")\
+    .setOutputCol("document")
 
 sentencer = SentenceDetector()\
-.setInputCols(["document"])\
-.setOutputCol("sentences")
+    .setInputCols(["document"])\
+    .setOutputCol("sentences")
 
 tokenizer = sparknlp.annotators.Tokenizer()\
-.setInputCols(["sentences"])\
-.setOutputCol("tokens")
+    .setInputCols(["sentences"])\
+    .setOutputCol("tokens")
 
-pos_tagger = PerceptronModel()\
-.pretrained("pos_clinical", "en", "clinical/models") \
-.setInputCols(["sentences", "tokens"])\
-.setOutputCol("pos_tags")
+pos_tagger = PerceptronModel().pretrained("pos_clinical", "en", "clinical/models") \
+    .setInputCols(["sentences", "tokens"])\
+    .setOutputCol("pos_tags")
 
-words_embedder = WordEmbeddingsModel() \
-.pretrained("embeddings_clinical", "en", "clinical/models") \
-.setInputCols(["sentences", "tokens"]) \
-.setOutputCol("embeddings")
+words_embedder = WordEmbeddingsModel().pretrained("embeddings_clinical", "en", "clinical/models") \
+    .setInputCols(["sentences", "tokens"]) \
+    .setOutputCol("embeddings")
 
 ner_tagger = MedicalNerModel.pretrained("ner_nihss", "en", "clinical/models")\
-.setInputCols("sentences", "tokens", "embeddings")\
-.setOutputCol("ner_tags") 
+    .setInputCols("sentences", "tokens", "embeddings")\
+    .setOutputCol("ner_tags") 
 
 ner_converter = NerConverter() \
-.setInputCols(["sentences", "tokens", "ner_tags"]) \
-.setOutputCol("ner_chunks")
+    .setInputCols(["sentences", "tokens", "ner_tags"]) \
+    .setOutputCol("ner_chunks")
 
-dependency_parser = DependencyParserModel() \
-.pretrained("dependency_conllu", "en") \
-.setInputCols(["sentences", "pos_tags", "tokens"]) \
-.setOutputCol("dependencies")
+dependency_parser = DependencyParserModel().pretrained("dependency_conllu", "en") \
+    .setInputCols(["sentences", "pos_tags", "tokens"]) \
+    .setOutputCol("dependencies")
 
 # Set a filter on pairs of named entities which will be treated as relation candidates
 re_ner_chunk_filter = RENerChunksFilter() \
-.setInputCols(["ner_chunks", "dependencies"])\
-.setMaxSyntacticDistance(10)\
-.setOutputCol("re_ner_chunks")
+    .setInputCols(["ner_chunks", "dependencies"])\
+    .setMaxSyntacticDistance(10)\
+    .setOutputCol("re_ner_chunks")
 
-re_model = RelationExtractionDLModel()\
-.pretrained('redl_nihss_biobert', 'en', "clinical/models") \
-.setPredictionThreshold(0.5)\
-.setInputCols(["re_ner_chunks", "sentences"]) \
-.setOutputCol("relations")
+re_model = RelationExtractionDLModel().pretrained('redl_nihss_biobert', 'en', "clinical/models") \
+    .setPredictionThreshold(0.5)\
+    .setInputCols(["re_ner_chunks", "sentences"]) \
+    .setOutputCol("relations")
 
 pipeline = Pipeline(stages=[documenter, sentencer, tokenizer, pos_tagger, words_embedder, ner_tagger, ner_converter, dependency_parser, re_ner_chunk_filter, re_model])
 
@@ -98,55 +90,51 @@ text= "There , her initial NIHSS score was 4 , as recorded by the ED physicians 
 
 p_model = pipeline.fit(spark.createDataFrame([[text]]).toDF("text"))
 
-result = p_model.transform(data)
+result = p_model.transform(spark.createDataFrame(pd.DataFrame({'text': [text]})))
 ```
 ```scala
 val documenter = new DocumentAssembler() 
-.setInputCol("text") 
-.setOutputCol("document")
+    .setInputCol("text") 
+    .setOutputCol("document")
 
 val sentencer = new SentenceDetector()
-.setInputCols("document")
-.setOutputCol("sentences")
+    .setInputCols("document")
+    .setOutputCol("sentences")
 
 val tokenizer = new Tokenizer()
-.setInputCols("sentences")
-.setOutputCol("tokens")
+    .setInputCols("sentences")
+    .setOutputCol("tokens")
 
-val pos_tagger = PerceptronModel()
-.pretrained("pos_clinical", "en", "clinical/models") 
-.setInputCols(Array("sentences", "tokens"))
-.setOutputCol("pos_tags")
+val pos_tagger = PerceptronModel().pretrained("pos_clinical", "en", "clinical/models") 
+    .setInputCols(Array("sentences", "tokens"))
+    .setOutputCol("pos_tags")
 
-val words_embedder = WordEmbeddingsModel()
-.pretrained("embeddings_clinical", "en", "clinical/models")
-.setInputCols(Array("sentences", "tokens"))
-.setOutputCol("embeddings")
+val words_embedder = WordEmbeddingsModel().pretrained("embeddings_clinical", "en", "clinical/models")
+    .setInputCols(Array("sentences", "tokens"))
+    .setOutputCol("embeddings")
 
 val ner_tagger = MedicalNerModel.pretrained("ner_nihss", "en", "clinical/models")
-.setInputCols(Array("sentences", "tokens", "embeddings"))
-.setOutputCol("ner_tags") 
+    .setInputCols(Array("sentences", "tokens", "embeddings"))
+    .setOutputCol("ner_tags") 
 
 val ner_converter = new NerConverter()
-.setInputCols(Array("sentences", "tokens", "ner_tags"))
-.setOutputCol("ner_chunks")
+    .setInputCols(Array("sentences", "tokens", "ner_tags"))
+    .setOutputCol("ner_chunks")
 
-val dependency_parser = DependencyParserModel()
-.pretrained("dependency_conllu", "en")
-.setInputCols(Array("sentences", "pos_tags", "tokens"))
-.setOutputCol("dependencies")
+val dependency_parser = DependencyParserModel().pretrained("dependency_conllu", "en")
+    .setInputCols(Array("sentences", "pos_tags", "tokens"))
+    .setOutputCol("dependencies")
 
 // Set a filter on pairs of named entities which will be treated as relation candidates
-val re_ner_chunk_filter = RENerChunksFilter()
-.setInputCols(Array("ner_chunks", "dependencies"))
-.setMaxSyntacticDistance(10)
-.setOutputCol("re_ner_chunks")
+val re_ner_chunk_filter = new RENerChunksFilter()
+    .setInputCols(Array("ner_chunks", "dependencies"))
+    .setMaxSyntacticDistance(10)
+    .setOutputCol("re_ner_chunks")
 
-val re_model = RelationExtractionDLModel()
-.pretrained("redl_nihss_biobert", "en", "clinical/models")
-.setPredictionThreshold(0.5)
-.setInputCols(Array("re_ner_chunks", "sentences"))
-.setOutputCol("relations")
+val re_model = RelationExtractionDLModel().pretrained("redl_nihss_biobert", "en", "clinical/models")
+    .setPredictionThreshold(0.5)
+    .setInputCols(Array("re_ner_chunks", "sentences"))
+    .setOutputCol("relations")
 
 val pipeline = new Pipeline().setStages(Array(documenter, sentencer, tokenizer, pos_tagger, words_embedder, ner_tagger, ner_converter, dependency_parser, re_ner_chunk_filter, re_model))
 
