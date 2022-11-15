@@ -34,6 +34,7 @@ This model extracts terminology-related entities to `Social Determinants of Heal
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
+
 ```python
 documentAssembler = DocumentAssembler()\
         .setInputCol("text")\
