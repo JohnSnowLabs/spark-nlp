@@ -7,7 +7,7 @@ date: 2022-11-15
 tags: [longformer, es, spanish, embeddings, transformer, open_source, tensorflow]
 task: Embeddings
 language: es
-edition: Spark NLP 4.2.0
+edition: Spark NLP 4.2.1
 spark_version: 3.0
 supported: true
 engine: tensorflow
