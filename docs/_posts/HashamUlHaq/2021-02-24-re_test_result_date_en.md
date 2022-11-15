@@ -116,7 +116,7 @@ val pos_tagger = PerceptronModel().pretrained("pos_clinical", "en", "clinical/mo
     .setInputCols(Array("sentences", "tokens"))
     .setOutputCol("pos_tags")
 
-val ner_tagger = MedicalNerModel().pretrained('jsl_ner_wip_clinical',"en","clinical/models")
+val ner_tagger = MedicalNerModel().pretrained("jsl_ner_wip_clinical","en","clinical/models")
     .setInputCols(Array("sentences", "tokens", "embeddings"))
     .setOutputCol("ner_tags")
 
@@ -128,7 +128,7 @@ val dependency_parser = DependencyParserModel().pretrained("dependency_conllu", 
     .setInputCols(Array("sentences", "pos_tags", "tokens"))
     .setOutputCol("dependencies")
 
-val re_model = RelationExtractionModel().pretrained("re_test_result_date", "en", 'clinical/models')
+val re_model = RelationExtractionModel().pretrained("re_test_result_date", "en", "clinical/models")
     .setInputCols(Array("embeddings", "pos_tags", "ner_chunks", "dependencies"))
     .setOutputCol("relations")
     .setMaxSyntacticDistance(4)
