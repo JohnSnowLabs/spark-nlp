@@ -69,7 +69,7 @@ val tokenizer = new Tokenizer()
     .setInputCols("document")
     .setOutputCol("token")
 
-val biobert_embeddings = BertEmbeddings().pretrained('biobert_pubmed_base_cased')
+val biobert_embeddings = BertEmbeddings().pretrained("biobert_pubmed_base_cased")
     .setInputCols(Array("document","token"))
     .setOutputCol("bert_embeddings")
 
