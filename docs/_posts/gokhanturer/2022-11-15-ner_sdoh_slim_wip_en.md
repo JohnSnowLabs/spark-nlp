@@ -98,7 +98,7 @@ val ner_converter = new NerConverter()
     .setInputCols(Array("sentence", "token", "ner"))
     .setOutputCol("ner_chunk")
 
-val pipeline = new PipelineModel().setStages(Array(document_assembler, 
+val nlpPipeline = new PipelineModel().setStages(Array(document_assembler, 
                                                    sentence_detector,
                                                    tokenizer,
                                                    clinical_embeddings,
@@ -107,7 +107,7 @@ val pipeline = new PipelineModel().setStages(Array(document_assembler,
 
 val data = Seq("""Mother states that there is a family hx of alcohol on both maternal and paternal sides of the family, maternal grandfather who died of alcohol related complications and paternal grandmother with severe alcoholism. Pts own drinking began at age 16, had a DUI at age 17 after totaling a new car that his mother bought for him, he was married.""").toDS.toDF("text")
 
-val result = model.fit(data).transform(data)
+val result = nlpPipeline.fit(data).transform(data)
 ```
 </div>
 
