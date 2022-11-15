@@ -72,7 +72,7 @@ text = [""" Mother states that he does smoke, there is a family hx of alcohol on
 
 data = spark.createDataFrame([text]).toDF("text")
 
-result = nlpPipelineçfit(data).transform(data)
+result = nlpPipeline.fit(data).transform(data)
 ```
 ```scala
 val document_assembler = new DocumentAssembler()
