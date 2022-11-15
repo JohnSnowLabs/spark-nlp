@@ -48,7 +48,7 @@ tokenizer = Tokenizer()\
         .setInputCols(["sentence"])\
         .setOutputCol("token")
 
-clinical_embeddings = WordEmbeddingsModel.pretrained('embeddings_clinical', "en", "clinical/models")\
+clinical_embeddings = WordEmbeddingsModel.pretrained("embeddings_clinical", "en", "clinical/models")\
         .setInputCols(["sentence", "token"])\
         .setOutputCol("embeddings")
 
@@ -86,12 +86,14 @@ val tokenizer = new Tokenizer()
     .setInputCols("sentence")
     .setOutputCol("token")
 
-val ner_model = BertForTokenClassification.pretrained("sdoh_slim_wipe" "en", "clinical/models")
-    .setInputCols(Array("sentence", "token"))
-    .setOutputCol("ner")
-    .setCaseSensitive(True)
-    .setMaxSentenceLength(512)
+val clinical_embeddings = WordEmbeddingsModel.pretrained("embeddings_clinical", "en", "clinical/models")
+        .setInputCols(Array("sentence", "token"))
+        .setOutputCol("embeddings")
 
+val ner_model = MedicalNerModel.pretrained("sdoh_slim_wip", "en", "clinical/models")
+        .setInputCols(Array("sentence", "token", "embeddings"))
+        .setOutputCol("ner")
+        
 val ner_converter = new NerConverter()
     .setInputCols(Array("sentence", "token", "ner"))
     .setOutputCol("ner_chunk")
@@ -99,6 +101,7 @@ val ner_converter = new NerConverter()
 val pipeline = new PipelineModel().setStages(Array(document_assembler, 
                                                    sentence_detector,
                                                    tokenizer,
+                                                   clinical_embeddings,
                                                    ner_model,
                                                    ner_converter))
 
@@ -210,7 +213,7 @@ Manuel annotations have been made over [MTSamples](https://mtsamples.com/) and [
 ## Benchmarking
 
 ```bash
-                 label      precision  recall  f1-score   support
+                  label    precision  recall  f1-score   support
 B-Childhood_Development       1.00      1.00      1.00         1
            B-Disability       0.91      0.93      0.92        57
         B-Family_Member       0.93      0.98      0.95      2412
