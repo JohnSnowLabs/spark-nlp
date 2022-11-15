@@ -18,7 +18,7 @@ use_language_switcher: "Python-Scala-Java"
 
 ## Description
 
-Pretrained Longformer Embeddings model, adapted from Hugging Face and curated to provide scalability and production-readiness using Spark NLP. `legal-longformer-base-4096-spanish ` is a Spanish model originally trained by `Narrative`.
+Pretrained Longformer Embeddings model, adapted from Hugging Face and curated to provide scalability and production-readiness using Spark NLP. `legal-longformer-base-4096-spanish` is a Spanish model originally trained by `Narrative`.
 
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>
