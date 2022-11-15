@@ -132,10 +132,10 @@ val dependency_parser = DependencyParserModel()
     .setOutputCol("dependencies")
 
 val clinical_re_Model = RelationExtractionModel()
-    .pretrained("re_human_phenotype_gene_clinical", "en", 'clinical/models')
+    .pretrained("re_human_phenotype_gene_clinical", "en", "clinical/models")
     .setInputCols(Array("embeddings", "pos_tags", "ner_chunks", "dependencies"))
     .setOutputCol("relations")
-    .setRelationPairs(Array("hp-gene",'gene-hp'))
+    .setRelationPairs(Array("hp-gene","gene-hp"))
     .setMaxSyntacticDistance(4)
 
 val pipeline = new Pipeline().setStages(Array(document_assembler, sentence_detector, tokenizer, word_embeddings, pos_tagger, ner_tagger, ner_converter, dependency_parser, clinical_re_Model))
