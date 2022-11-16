@@ -257,7 +257,7 @@
   <h1>Source code for sparknlp_jsl.annotator.assertion.assertionDL</h1><div class="highlight"><pre>
 <span></span><span class="kn">from</span> <span class="nn">sparknlp.common</span> <span class="kn">import</span> <span class="o">*</span>
 
-<div class="viewcode-block" id="AssertionDLApproach"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/assertion/assertionDL/index.html#sparknlp_jsl.annotator.assertion.assertionDL.AssertionDLApproach">[docs]</a><span class="k">class</span> <span class="nc">AssertionDLApproach</span><span class="p">(</span><span class="n">AnnotatorApproach</span><span class="p">):</span>
+<div class="viewcode-block" id="AssertionDLApproach"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/assertion/assertionDL/index.html#sparknlp_jsl.annotator.assertion.assertionDL.AssertionDLApproach">[docs]</a><span class="k">class</span> <span class="nc">AssertionDLApproach</span><span class="p">(</span><span class="n">AnnotatorApproach</span><span class="p">,</span> <span class="n">HasEngine</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Train a Assertion Model algorithm using deep learning.</span>
 <span class="sd">    from extracted entities and text. AssertionLogRegModel requires DOCUMENT, CHUNK and WORD_EMBEDDINGS type</span>
 <span class="sd">    annotator inputs, which can be obtained by e.g a</span>
@@ -621,8 +621,8 @@
 <span class="sd">        value : [int, int]</span>
 <span class="sd">            Left and right offset if the scope window. Offsets must be non-negative values</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">assert</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">value</span><span class="p">)</span> <span class="ow">is</span> <span class="nb">list</span><span class="p">)</span>
-        <span class="k">assert</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">value</span><span class="p">)</span> <span class="o">==</span> <span class="mi">2</span><span class="p">)</span>
+        <span class="k">assert</span> <span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">value</span><span class="p">)</span> <span class="ow">is</span> <span class="nb">list</span><span class="p">)</span>
+        <span class="k">assert</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">value</span><span class="p">)</span> <span class="o">==</span> <span class="mi">2</span><span class="p">)</span>
 
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">scopeWindow</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
 
@@ -735,7 +735,6 @@
 <div class="viewcode-block" id="AssertionDLModel.setConfigProtoBytes"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/assertion/assertionDL/index.html#sparknlp_jsl.annotator.assertion.assertionDL.AssertionDLModel.setConfigProtoBytes">[docs]</a>    <span class="k">def</span> <span class="nf">setConfigProtoBytes</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">configProtoBytes</span><span class="o">=</span><span class="n">b</span><span class="p">)</span></div>
 
-
 <div class="viewcode-block" id="AssertionDLModel.setIncludeConfidence"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/assertion/assertionDL/index.html#sparknlp_jsl.annotator.assertion.assertionDL.AssertionDLModel.setIncludeConfidence">[docs]</a>    <span class="k">def</span> <span class="nf">setIncludeConfidence</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Sets if you waht to include confidence scores in annotation metadata.</span>
 
@@ -772,7 +771,6 @@
         <span class="kn">from</span> <span class="nn">sparknlp_jsl.pretrained</span> <span class="kn">import</span> <span class="n">InternalResourceDownloader</span>
         <span class="k">return</span> <span class="n">InternalResourceDownloader</span><span class="o">.</span><span class="n">downloadModel</span><span class="p">(</span><span class="n">AssertionDLModel</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">lang</span><span class="p">,</span> <span class="n">remote_loc</span><span class="p">,</span>
                                                         <span class="n">j_dwn</span><span class="o">=</span><span class="s1">&#39;InternalsPythonResourceDownloader&#39;</span><span class="p">)</span></div></div>
-
 </pre></div>
 
             </article>

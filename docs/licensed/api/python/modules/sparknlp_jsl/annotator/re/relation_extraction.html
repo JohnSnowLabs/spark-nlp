@@ -378,6 +378,14 @@
                          <span class="s2">&quot;Custom relation labels&quot;</span><span class="p">,</span>
                          <span class="n">TypeConverters</span><span class="o">.</span><span class="n">identity</span><span class="p">)</span></div>
 
+<div class="viewcode-block" id="RelationExtractionApproach.pretrainedModelPath"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/re/relation_extraction/index.html#sparknlp_jsl.annotator.re.relation_extraction.RelationExtractionApproach.pretrainedModelPath">[docs]</a>    <span class="n">pretrainedModelPath</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;pretrainedModelPath&quot;</span><span class="p">,</span>
+                                <span class="s2">&quot;Path to an already trained RelationExtractionModel, which is used as a starting point for training the new model.&quot;</span><span class="p">,</span>
+                                <span class="n">TypeConverters</span><span class="o">.</span><span class="n">toString</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="RelationExtractionApproach.overrideExistingLabels"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/re/relation_extraction/index.html#sparknlp_jsl.annotator.re.relation_extraction.RelationExtractionApproach.overrideExistingLabels">[docs]</a>    <span class="n">overrideExistingLabels</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;overrideExistingLabels&quot;</span><span class="p">,</span>
+                                 <span class="s2">&quot;Whether to override already learned labels when using a pretrained model to initialize the new model. Default is &#39;true&#39;.&quot;</span><span class="p">,</span>
+                                 <span class="n">TypeConverters</span><span class="o">.</span><span class="n">toBoolean</span><span class="p">)</span></div>
+
 <div class="viewcode-block" id="RelationExtractionApproach.setFromEntity"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/re/relation_extraction/index.html#sparknlp_jsl.annotator.re.relation_extraction.RelationExtractionApproach.setFromEntity">[docs]</a>    <span class="k">def</span> <span class="nf">setFromEntity</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">begin_col</span><span class="p">,</span> <span class="n">end_col</span><span class="p">,</span> <span class="n">label_col</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Sets from entity</span>
 
@@ -433,10 +441,32 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">relationDirectionCol</span><span class="o">=</span><span class="n">col</span><span class="p">)</span></div>
 
+<div class="viewcode-block" id="RelationExtractionApproach.setPretrainedModelPath"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/re/relation_extraction/index.html#sparknlp_jsl.annotator.re.relation_extraction.RelationExtractionApproach.setPretrainedModelPath">[docs]</a>    <span class="k">def</span> <span class="nf">setPretrainedModelPath</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Sets location of pretrained model.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        value : str</span>
+<span class="sd">           Path to an already trained pretrainedModelPath, which is used as a starting point for training the new model.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">pretrainedModelPath</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="RelationExtractionApproach.setОverrideExistingLabels"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/re/relation_extraction/index.html#sparknlp_jsl.annotator.re.relation_extraction.RelationExtractionApproach.setОverrideExistingLabels">[docs]</a>    <span class="k">def</span> <span class="nf">setОverrideExistingLabels</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Sets whether to override already learned tags when using a pretrained model to initialize the new model. Default is &#39;true&#39;</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        value : bool</span>
+<span class="sd">            Whether to override already learned labels when using a pretrained model to initialize the new model. Default is &#39;true&#39;</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">overrideExistingLabels</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
 
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">classname</span><span class="o">=</span><span class="s2">&quot;com.johnsnowlabs.nlp.annotators.re.RelationExtractionApproach&quot;</span><span class="p">):</span>
-        <span class="nb">super</span><span class="p">(</span><span class="n">RelationExtractionApproach</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">classname</span><span class="o">=</span><span class="n">classname</span><span class="p">)</span></div>
-
+        <span class="nb">super</span><span class="p">(</span><span class="n">RelationExtractionApproach</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">classname</span><span class="o">=</span><span class="n">classname</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_setDefault</span><span class="p">(</span>
+            <span class="n">pretrainedModelPath</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span>
+            <span class="n">overrideExistingLabels</span><span class="o">=</span><span class="kc">True</span></div>
+        <span class="p">)</span>
 
 <div class="viewcode-block" id="RelationExtractionModel"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/re/relation_extraction/index.html#sparknlp_jsl.annotator.re.relation_extraction.RelationExtractionModel">[docs]</a><span class="k">class</span> <span class="nc">RelationExtractionModel</span><span class="p">(</span><span class="n">AnnotatorModel</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
