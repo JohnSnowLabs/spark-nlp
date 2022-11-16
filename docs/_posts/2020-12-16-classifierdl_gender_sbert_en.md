@@ -43,18 +43,18 @@ document_assembler = DocumentAssembler()\
     .setInputCol("text")\
     .setOutputCol("document")
 
-sbert_embedder = BertSentenceEmbeddings.pretrained("sbiobert_base_cased_mli", 'en', 'clinical/models')\
+sbert_embedder = BertSentenceEmbeddings.pretrained("sbiobert_base_cased_mli", "en", "clinical/models")\
     .setInputCols(["document"])\
     .setOutputCol("sentence_embeddings")\
     .setMaxSentenceLength(512)
 
-gender_classifier = ClassifierDLModel.pretrained( 'classifierdl_gender_sbert', 'en', 'clinical/models') \
+gender_classifier = ClassifierDLModel.pretrained("classifierdl_gender_sbert", "en", "clinical/models") \
     .setInputCols(["document", "sentence_embeddings"]) \
     .setOutputCol("class")
 
 nlp_pipeline = Pipeline(stages=[document_assembler, sbert_embedder, gender_classifier])
 
-light_pipeline = LightPipeline(nlp_pipeline.fit(spark.createDataFrame([['']]).toDF("text")))
+light_pipeline = LightPipeline(nlp_pipeline.fit(spark.createDataFrame([[""]]).toDF("text")))
 
 annotations = light_pipeline.fullAnnotate("""social history: shows that  does not smoke cigarettes or drink alcohol, lives in a nursing home. family history: shows a family history of breast cancer.""")
 
@@ -119,12 +119,10 @@ This model is trained on more than four thousands clinical documents (radiology 
 ## Benchmarking
 ```bash
 label           precision    recall    f1-score   support
-
 Female           0.9224      0.8954    0.9087       239
 Male             0.7895      0.8468    0.8171       124
 Unknown          0.8077      0.7778    0.7925        54
-
-accuracy                               0.8657       417
+accuracy          -           -        0.8657       417
 macro-avg        0.8399      0.8400    0.8394       417
-weighted -avg    0.8680      0.8657    0.8664       417
+weighted-avg     0.8680      0.8657    0.8664       417
 ```
