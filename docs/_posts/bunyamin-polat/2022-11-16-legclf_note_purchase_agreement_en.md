@@ -1,6 +1,6 @@
 ---
 layout: model
-title: Legal Letter Agreement Document Classifier (Longformer)
+title: Legal Note Purchase Agreement Document Classifier (Longformer)
 author: John Snow Labs
 name: legclf_note_purchase_agreement
 date: 2022-11-16
