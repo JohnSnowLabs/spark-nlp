@@ -92,7 +92,7 @@ val classifier = ClassifierDLModel.pretrained("classifierdl_ade_biobert", "en", 
 
 val pipeline = new Pipeline().setStages(Array(document_assembler, tokenizer, embeddings, sentence_embeddings, classifier))
 
-val data = Seq("""I feel a bit drowsy & have a little blurred vision after taking an insulin""", """I feel great after taking tylenol""").toDS().toDF("text")
+val data = Seq("""I feel a bit drowsy & have a little blurred vision after taking an insulin, I feel great after taking tylenol""").toDS().toDF("text")
 
 val result = pipeline.fit(data).transform(data)
 ```
@@ -138,11 +138,9 @@ Trained on a custom dataset comprising of CADEC, DRUG-AE and Twimed.
 ## Benchmarking
 
 ```bash
-			    precision    recall  f1-score   support
-
+label            precision    recall  f1-score   support
 False       	  0.96        0.94      0.95      6923
-True       		  0.71        0.79      0.75      1359
-
+True       	  0.71        0.79      0.75      1359
 micro-avg         0.91        0.91      0.91      8282
 macro-avg         0.83        0.86      0.85      8282
 weighted-avg      0.92        0.91      0.91      8282
