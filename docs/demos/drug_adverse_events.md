@@ -19,7 +19,19 @@ data:
         - subtitle: Drugs & Adverse Events - Live Demos & Notebooks
           activemenu: drug_adverse_events
       source: yes
-      source:           
+      source: 
+        - title: Explore Adverse Drug Events with Spark NLP Models
+          id: explore_adverse_drug_events_spark_nlp_models   
+          image: 
+              src: /assets/images/Explore_Adverse_Drug.svg
+          excerpt: This demo shows how detect adverse reactions of drugs in reviews, tweets, and medical text using Spark NLP Healthcare NER, Sequence Classification, Assertion Status, and Relation Extraction models.
+          actions:
+          - text: Live Demo
+            type: normal
+            url: https://demo.johnsnowlabs.com/healthcare/ADE/
+          - text: Colab
+            type: blue_btn
+            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings_JSL/Healthcare/16.Adverse_Drug_Event_ADE_NER_and_Classifier.ipynb         
         - title: Detect drugs and prescriptions
           id: detect_drugs_and_prescriptions
           image: 
