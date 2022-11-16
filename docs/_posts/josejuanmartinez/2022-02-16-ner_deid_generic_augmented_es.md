@@ -10,6 +10,7 @@ language: es
 edition: Healthcare NLP 3.3.4
 spark_version: 3.0
 supported: true
+annotator: MedicalNerModel
 article_header:
   type: cover
 use_language_switcher: "Python-Scala-Java"

@@ -10,6 +10,7 @@ edition: Spark NLP for Healthcare 2.7.1
 spark_version: 2.4
 tags: [en, deidentify, ner, clinical, licensed]
 supported: true
+annotator: MedicalNerModel
 article_header:
 type: cover
 use_language_switcher: "Python-Scala-Java"

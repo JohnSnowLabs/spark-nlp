@@ -10,6 +10,7 @@ language: en
 edition: Spark NLP for Healthcare 4.1.0
 spark_version: [3.0, 3.2]
 supported: true
+annotator: T5Transformer
 article_header:
   type: cover
 use_language_switcher: "Python-Scala-Java"

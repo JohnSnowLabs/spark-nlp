@@ -10,6 +10,7 @@ edition: Spark NLP 2.7.2
 spark_version: 2.4
 tags: [spelling, spellchecker, clinical, orthographic, spell_checker, medical_spell_checker, spelling_corrector, en, licensed]
 supported: true
+annotator: SpellCheckModel
 article_header:
 type: cover
 use_language_switcher: "Python-Scala-Java"

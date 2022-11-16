@@ -11,6 +11,7 @@ edition: Spark NLP 3.3.2
 spark_version: 2.4
 supported: true
 recommended: true
+annotator: BertForTokenClassification
 article_header:
 type: cover
 use_language_switcher: "Python-Scala-Java"
