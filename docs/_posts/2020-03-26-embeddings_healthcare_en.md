@@ -12,6 +12,7 @@ edition: Healthcare NLP 2.4.4
 spark_version: 2.4
 tags: [licensed,clinical,embeddings,en]
 supported: true
+annotator: WordEmbeddingsModel
 article_header:
 type: cover
 use_language_switcher: "Python-Scala-Java"

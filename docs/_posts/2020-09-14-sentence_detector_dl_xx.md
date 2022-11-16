@@ -12,6 +12,7 @@ edition: Spark NLP 2.6.2
 spark_version: 2.4
 tags: [open_source,sentence_detection,xx]
 supported: true
+annotator: SentenceDetectorDLModel
 article_header:
 type: cover
 use_language_switcher: "Python-Scala-Java"
