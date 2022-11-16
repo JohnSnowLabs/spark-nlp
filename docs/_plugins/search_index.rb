@@ -343,7 +343,8 @@ Jekyll::Hooks.register :posts, :post_render do |post|
     deprecated: deprecated,
     body: body,
     url: post.url,
-    recommended: recommended
+    recommended: recommended,
+    annotator: post.data['annotator']
   }
 
   uniq = "#{post.data['name']}_#{post.data['language']}"
@@ -443,6 +444,9 @@ unless ENV['ELASTICSEARCH_URL'].to_s.empty?
             },
             "recommended": {
               "type": "boolean"
+            },
+            "annotator": {
+              "type": "keyword"
             }
         }
       }
