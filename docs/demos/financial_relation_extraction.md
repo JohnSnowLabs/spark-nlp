@@ -68,4 +68,16 @@ data:
           - text: Colab
             type: blue_btn
             url:
+        - title: Financial Relation Extraction on 10K filings 
+          id: financial_relation_extraction_10k_filings  
+          image: 
+              src: /assets/images/Financial_Relation.svg
+          excerpt: This model extracts relations between amounts, counts, percentages, dates and the financial entities extracted with `finner_financial` models.
+          actions:
+          - text: Live Demo
+            type: normal
+            url: https://demo.johnsnowlabs.com/finance/FINRE_10k_FILINGS/
+          - text: Colab
+            type: blue_btn
+            url:
 ---

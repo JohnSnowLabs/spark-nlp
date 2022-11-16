@@ -140,4 +140,16 @@ data:
           - text: Colab
             type: blue_btn
             url: 
+        - title: Named Entity Recognition in Romanian Official Documents 
+          id: named_entity_recognition_romanian_official_documents   
+          image: 
+              src: /assets/images/Named_Entity_Recognition.svg
+          excerpt: This demo shows how you can extract the standard four entities (ORG, PER, LOC, DATE) and more 10 entities (DECISION, DECREE, DIRECTIVE, EMERGENCY_ORDINANCE, LAW, ORDER, ORDINANCE, REGULATION, REPORT and TREATY) from Romanian official documents.
+          actions:
+          - text: Live Demo
+            type: normal
+            url: https://demo.johnsnowlabs.com/legal/LEGNER_ROMANIAN_OFFICIAL/
+          - text: Colab
+            type: blue_btn
+            url:
 ---

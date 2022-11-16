@@ -450,6 +450,7 @@ Now we have 46 new [Healtcare Certification Training notebooks](https://github.c
     </li>
 </ul>
 <ul class="pagination owl-carousel pagination_big">
+    <li><a href="release_notes_4_2_2">4.2.2</a></li>
     <li class="active"><a href="release_notes_4_2_1">4.2.1</a></li>
     <li><a href="release_notes_4_2_0">4.2.0</a></li>
     <li><a href="release_notes_4_1_0">4.1.0</a></li>
