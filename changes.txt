@@ -1,6 +1,2 @@
-docs/en/licensed_release_notes.md
-docs/en/licensed_version_compatibility.md
-docs/en/spark_nlp_healthcare_versions/release_notes_4_2_2.md
-docs/en/licensed_release_notes.md
-docs/en/licensed_version_compatibility.md
-docs/en/spark_nlp_healthcare_versions/release_notes_4_2_2.md
+docs/_posts/2020-09-14-sentence_detector_dl_xx.md
+docs/_posts/2020-09-14-sentence_detector_dl_xx.md
