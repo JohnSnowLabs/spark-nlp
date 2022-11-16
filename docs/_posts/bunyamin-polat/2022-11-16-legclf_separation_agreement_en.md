@@ -1,10 +1,10 @@
 ---
 layout: model
-title: Legal Seperation Agreement Document Classifier (Longformer)
+title: Legal Separation Agreement Document Classifier (Longformer)
 author: John Snow Labs
 name: legclf_separation_agreement
 date: 2022-11-16
-tags: [en, legal, classification, agreement, seperation, licensed]
+tags: [en, legal, classification, agreement, separation, licensed]
 task: Text Classification
 language: en
 edition: Legal NLP 1.0.0
