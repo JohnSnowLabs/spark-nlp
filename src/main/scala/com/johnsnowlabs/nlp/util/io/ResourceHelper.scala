@@ -760,4 +760,15 @@ object ResourceHelper {
 
     (bucketName, key)
   }
+
+  def parseGCPStorageURI(gcpStorageURI: String): (String, String) = {
+    val prefix = "gs://"
+    val bucketName = gcpStorageURI.substring(prefix.length).split("/").head
+    val storagePath = gcpStorageURI.substring((prefix + bucketName).length + 1)
+
+    require(bucketName.nonEmpty, "GCP Storage bucket name is empty!")
+
+    (bucketName, storagePath)
+  }
+
 }

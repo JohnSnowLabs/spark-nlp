@@ -18,6 +18,7 @@ package com.johnsnowlabs.nlp.pretrained
 
 import com.amazonaws.services.s3.model.ObjectMetadata
 import com.johnsnowlabs.client.aws.AWSGateway
+import com.johnsnowlabs.client.gcp.GCPGateway
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
 import com.johnsnowlabs.util.FileHelper
 import org.apache.commons.io.IOUtils
@@ -43,11 +44,15 @@ class S3ResourceDownloader(
     mutable.Map[String, RepositoryMetadata]()
   val cachePath = new Path(cacheFolder)
 
-  if (!cacheFolder.startsWith("s3") && !fileSystem.exists(cachePath)) {
+  if (!doesCacheFolderInCloud && !fileSystem.exists(cachePath)) {
     fileSystem.mkdirs(cachePath)
   }
 
   lazy val awsGateway = new AWSGateway(region = region, credentialsType = credentialsType)
+
+  def doesCacheFolderInCloud(): Boolean = {
+    cacheFolder.startsWith("s3") || cacheFolder.startsWith("gs")
+  }
 
   def downloadMetadataIfNeed(folder: String): List[ResourceMetadata] = {
     val lastState = repoFolder2Metadata.get(folder)
@@ -82,14 +87,26 @@ class S3ResourceDownloader(
       if (!awsGateway.doesS3ObjectExist(bucket, s3FilePath)) {
         None
       } else {
-        if (cachePath.toString.startsWith("s3")) {
-          val destinationS3URI = cachePath.toString.replace("s3:", "s3a:")
-          val sourceS3URI = s"s3a://$bucket/$s3FilePath"
-          val destinationKey = unzipInS3(sourceS3URI, destinationS3URI, ResourceHelper.spark)
-          Option(destinationKey)
-        } else {
-          val destinationFile = new Path(cachePath.toString, resource.fileName)
-          downloadAndUnzipFile(destinationFile, resource, s3FilePath)
+
+        val s3Path = "^s3.*".r
+        val gcpStoragePath = "^gs.*".r
+
+        cachePath.toString match {
+          case s3Path() => {
+            val destinationS3URI = cachePath.toString.replace("s3:", "s3a:")
+            val sourceS3URI = s"s3a://$bucket/$s3FilePath"
+            val destinationKey = unzipInS3(sourceS3URI, destinationS3URI, ResourceHelper.spark)
+            Option(destinationKey)
+          }
+          case gcpStoragePath() => {
+            val sourceS3URI = s"s3a://$bucket/$s3FilePath"
+            val destination = unzipInGCPStorage(sourceS3URI, cachePath.toString)
+            Option(destination)
+          }
+          case _ => {
+            val destinationFile = new Path(cachePath.toString, resource.fileName)
+            downloadAndUnzipFile(destinationFile, resource, s3FilePath)
+          }
         }
       }
     }
@@ -142,6 +159,43 @@ class S3ResourceDownloader(
     }
 
     destinationS3URI + "/" + modelName
+  }
+
+  private def unzipInGCPStorage(sourceS3URI: String, destinationGCPStorageURI: String): String = {
+
+    val (sourceBucketName, sourceKey) = ResourceHelper.parseS3URI(sourceS3URI)
+    val (destinationBucketName, destinationStoragePath) =
+      ResourceHelper.parseGCPStorageURI(destinationGCPStorageURI)
+
+    val zippedModel = awsGateway.getS3Object(sourceBucketName, sourceKey)
+    val zipInputStream = new ZipInputStream(zippedModel.getObjectContent)
+    var zipEntry = zipInputStream.getNextEntry
+
+    val gcpGateway = new GCPGateway()
+
+    val zipFile = sourceKey.split("/").last
+    val modelName = zipFile.substring(0, zipFile.indexOf(".zip"))
+
+    println(s"Uploading model $modelName to GCP Storage URI: $destinationGCPStorageURI")
+
+    while (zipEntry != null) {
+      if (!zipEntry.isDirectory) {
+        val outputStream = new ByteArrayOutputStream()
+        IOUtils.copy(zipInputStream, outputStream)
+        val inputStream = new ByteArrayInputStream(outputStream.toByteArray)
+
+        val destinationGCPStoragePath = s"$destinationStoragePath/$modelName/${zipEntry.getName}"
+
+        gcpGateway.copyFileToGCPStorage(
+          destinationBucketName,
+          destinationGCPStoragePath,
+          inputStream)
+
+      }
+      zipEntry = zipInputStream.getNextEntry
+    }
+
+    destinationGCPStorageURI + "/" + modelName
   }
 
   def downloadAndUnzipFile(
