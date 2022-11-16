@@ -7,11 +7,13 @@ import styles from './Sidebar.module.css';
 const Sidebar = ({ meta, params, onSubmit }) => {
   let tags = [];
   let predictedEntities = [];
+  let annotators = [];
   if (
     Array.isArray(meta?.aggregations?.tags) &&
-    Array.isArray(meta?.aggregations?.predictedEntities)
+    Array.isArray(meta?.aggregations?.predictedEntities) &&
+    Array.isArray(meta?.aggregations?.annotators)
   ) {
-    ({ tags, predictedEntities } = meta.aggregations);
+    ({ annotators, tags, predictedEntities } = meta.aggregations);
   }
 
   return (
@@ -47,6 +49,17 @@ const Sidebar = ({ meta, params, onSubmit }) => {
           initialSelectedItems={params.predicted_entities || []}
           onChange={(values) => {
             onSubmit({ predicted_entities: values });
+          }}
+        />
+      </div>
+
+      <div className={styles.control}>
+        <Combobox
+          label="Annotator class"
+          items={annotators}
+          initialSelectedItems={params.annotators || []}
+          onChange={(values) => {
+            onSubmit({ annotator: values });
           }}
         />
       </div>
