@@ -44,4 +44,16 @@ data:
           - text: Colab
             type: blue_btn
             url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/public/QUESTION_ANSWERING_OPEN_BOOK.ipynb
+        - title: Question Generation with T5  
+          id: question_generation_t5
+          image: 
+              src: /assets/images/Question_Generation_with_T5.svg
+          excerpt: This model is a question generator which takes an answer and context as an input, and generates a question as an output.
+          actions:
+          - text: Live Demo
+            type: normal
+            url: https://demo.johnsnowlabs.com/public/QUESTION_GENERATION_WITH_T5/
+          - text: Colab
+            type: blue_btn
+            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/public/QUESTION_GENERATION_WITH_T5.ipynb
 ---

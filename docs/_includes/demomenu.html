@@ -75,10 +75,13 @@
             <a href="/oncology">Oncology</a>
           </li>
           <li {% if _section.secheader %} {% for child in _section.secheader %} {% if child.activemenu == "resolve_entities_codes" %} class="active"  {% endif %} {% endfor %} {% endif %} >
-            <a href="/resolve_entities_codes">Resolve Entities to Codes</a>
+            <a href="/resolve_entities_codes">Resolve Entities to Terminology Codes</a>
           </li>
           <li {% if _section.secheader %} {% for child in _section.secheader %} {% if child.activemenu == "databricks_solution_accelerators" %} class="active"  {% endif %} {% endfor %} {% endif %} >
             <a href="/databricks_solution_accelerators">Databricks Solution Accelerators</a>
+          </li>
+          <li {% if _section.secheader %} {% for child in _section.secheader %} {% if child.activemenu == "public_health" %} class="active"  {% endif %} {% endfor %} {% endif %} >
+            <a href="/public_health">Vaccines &amp; Public Health</a>
           </li>
         </ul> 
         <ul class="acc-top"><li class="acc-top-item">Biomedical NLP<i class="fas fa-chevron-down"></i></li></ul>
@@ -91,9 +94,6 @@
           </li>
           <li {% if _section.secheader %} {% for child in _section.secheader %} {% if child.activemenu == "biomedical_research" %} class="active"  {% endif %} {% endfor %} {% endif %} >
             <a href="/biomedical_research">Biomedical Research</a>
-          </li>
-          <li {% if _section.secheader %} {% for child in _section.secheader %} {% if child.activemenu == "public_health" %} class="active"  {% endif %} {% endfor %} {% endif %} >
-            <a href="/public_health">Vaccines &amp; Public Health</a>
           </li>
         </ul> 
         <ul class="acc-top"><li class="acc-top-item">Medical NLP: World Languages<i class="fas fa-chevron-down"></i></li></ul>
