@@ -18,6 +18,10 @@ use_language_switcher: "Python-Scala-Java"
 
 ## Description
 
+IMPORTANT: Don't run this model on the whole legal agreement. Instead:
+- Split by paragraphs. You can use [notebook 1](https://github.com/JohnSnowLabs/spark-nlp-workshop/tree/master/tutorials/Certification_Trainings_JSL) in Finance or Legal as inspiration;
+- Use the `legclf_termination_clause` Text Classifier to select only these paragraphs; 
+
 This is a NER model which extracts information from Termination Clauses, like the subject (Who? Which party?) the action (verb) the object (What?) and the Indirect Object (to Whom?).
 
 ## Predicted Entities

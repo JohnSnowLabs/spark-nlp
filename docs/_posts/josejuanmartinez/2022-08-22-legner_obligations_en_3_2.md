@@ -17,6 +17,10 @@ use_language_switcher: "Python-Scala-Java"
 
 ## Description
 
+IMPORTANT: Don't run this model on the whole legal agreement. Instead:
+- Split by paragraphs. You can use [notebook 1](https://github.com/JohnSnowLabs/spark-nlp-workshop/tree/master/tutorials/Certification_Trainings_JSL) in Finance or Legal as inspiration;
+- Use the `legclf_cuad_obligations_clause` Text Classifier to select only these paragraphs; 
+
 This Name Entity Recognition model is aimed to extract what the different parties of an agreement commit to do. We call it "obligations", but could also be called "commitments" or "agreemeents".
 
 This model extracts the subject (who commits to doing what), the action (the verb - will provide, shall sign...) and the object (what subject will provide, what subject shall sign, etc). Also, if the recipient of the obligation is a third party (a subject will provide to the Company X ...), then that third party (Company X) will be extracted as an indirect object.
