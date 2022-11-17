@@ -18,6 +18,10 @@ use_language_switcher: "Python-Scala-Java"
 
 ## Description
 
+IMPORTANT: Don't run this model on the whole financial report. Instead:
+- Split by paragraphs;
+- Use the `finclf_form_10k_summary_item` Text Classifier to select only these paragraps;
+
 This Financial NER Model is aimed to process the first summary page of 10K filings and extract the information about the Company submitting the filing, trading data, address / phones, CFN, IRS, etc.
 
 This is another version of `finner_10k_summary` trained with better financial embeddings (`bert_embeddings_sec_bert_base`)

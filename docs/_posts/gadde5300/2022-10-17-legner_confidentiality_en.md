@@ -17,6 +17,9 @@ use_language_switcher: "Python-Scala-Java"
 ---
 
 ## Description
+IMPORTANT: Don't run this model on the whole legal agreement. Instead:
+- Split by paragraphs. You can use [notebook 1](https://github.com/JohnSnowLabs/spark-nlp-workshop/tree/master/tutorials/Certification_Trainings_JSL) in Finance or Legal as inspiration;
+- Use the `legclf_cuad_confidentiality_clause` Text Classifier to select only these paragraphs; 
 
 This is a Legal Named Entity Recognition Model to identify the Subject (who), Action (web), Object(the indemnification) and Indirect Object (to whom) from Confidentiality clauses.
 

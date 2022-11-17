@@ -18,6 +18,10 @@ use_language_switcher: "Python-Scala-Java"
 
 ## Description
 
+IMPORTANT: Don't run this model on the whole legal agreement. Instead:
+- Split by paragraphs. You can use [notebook 1](https://github.com/JohnSnowLabs/spark-nlp-workshop/tree/master/tutorials/Certification_Trainings_JSL) in Finance or Legal as inspiration;
+- Use the `legclf_cuad_whereas_clause` Text Classifier to select only these paragraphs; 
+
 This is a Relation Extraction model to infer relations between elements in WHEREAS clauses, more specifically the SUBJECT, the ACTION and the OBJECT. There are two relations possible: `has_subject` and `has_object`.
 
 You can also use `legpipe_whereas` which includes this model and its NER and also depedency parsing, to carry out chunk extraction using grammatical features (the dependency tree).

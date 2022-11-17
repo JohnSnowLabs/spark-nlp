@@ -18,6 +18,10 @@ use_language_switcher: "Python-Scala-Java"
 
 ## Description
 
+IMPORTANT: Don't run this model on the whole legal agreement. Instead:
+- Split by paragraphs. You can use [notebook 1](https://github.com/JohnSnowLabs/spark-nlp-workshop/tree/master/tutorials/Certification_Trainings_JSL) in Finance or Legal as inspiration;
+- Use the `legclf_cuad_obligations_clause` Text Classifier to select only these paragraphs; 
+
 This is a Pretrained Pipeline to process agreements, more specifically the sentences where all the obligations of the parties are expressed (what they agreed upon in the contract).
 
 This pipeline returns:

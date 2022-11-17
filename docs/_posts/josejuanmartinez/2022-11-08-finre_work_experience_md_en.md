@@ -18,6 +18,10 @@ use_language_switcher: "Python-Scala-Java"
 
 ## Description
 
+IMPORTANT: Don't run this model on the whole financial report. Instead:
+- Split by paragraphs. You can use [notebook 1](https://github.com/JohnSnowLabs/spark-nlp-workshop/tree/master/tutorials/Certification_Trainings_JSL) in Finance or Legal as inspiration;
+- Use the `finclf_work_experience_item` Text Classifier to select only these paragraphs; 
+
 This is a `md` (medium) version of `finre_work_experience` model, trained with more data and with **unidirectional relation extractions**, meaning now the direction of the arrow matters: it goes from the source (`chunk1`) to the target (`chunk2`).
 
 This model allows you to analyzed present and past job positions of people, extracting relations between PERSON, ORG, ROLE and DATE. This model requires an NER with the mentioned entities, as `finner_org_per_role_date` and can also be combined with `finassertiondl_past_roles` to detect if the entities are mentioned to have happened in the PAST or not (although you can also infer that from the relations as `had_role_until`).
