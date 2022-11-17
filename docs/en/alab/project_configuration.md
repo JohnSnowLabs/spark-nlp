@@ -65,6 +65,45 @@ A simple Labeling Config with Assertion Status defined should look like the foll
 ```
 > **NOTE:**  Notice assertion="true" in **Absent** and **Past** labels, which marks each of those labels as Assertion Status Labels.
 
+
+### Classification
+The choices tag is used as part of the classification projects to create a group of choices. It can be used for a single or multiple-class classification. According to the parameters used along with the choices tag, annotators can select single or multiple choices.
+
+**Parameters**
+
+The Choices tag supports the following parameters/attributes:
+
+Param|  Type|   Default|    Description|
+--- |----   |---    |---    |
+required|   `boolean`|    `false`|Verify if a choice is selected
+requiredMessage |`string`   |   |Show a message if the required validation fails
+choice  |`single` \| `multiple`     |`single` |Allow user to select single or multiple answer
+showInline  |`boolean`      |`false` |Show choices in a single visual line
+perRegion   |`boolean`      | |Use this attribute to select an option for a specific region rather than the entire task
+
+
+```bash
+<!--text classification labeling config-->
+<View>
+  <Text name="text" value="$text"/>
+  <Choices name="surprise" toName="text" choice="single" required='true' requiredMessage='Please select choice'>
+    <Choice value="surprise"/>
+    <Choice value="sadness"/>
+    <Choice value="fear"/>
+    <Choice value="joy"/>
+  </Choices>
+</View>
+```
+
+![choices-example](https://user-images.githubusercontent.com/45035063/196096241-c155f4cb-df5c-4b1c-a19b-0a5e349a756e.gif)
+
+
+When using the `perRegion` attribute, choices can be defined for each chunk annotation as shown below:
+
+![perRegion](https://user-images.githubusercontent.com/45035063/197151637-fa9034b1-0d09-4658-b1bb-7c47e68f435c.gif)
+
+
+
 ### Relation Extraction 
 Annotation Lab also offers support for relation extraction. Relations are introduced by simply specifying their label in the project configuration. 
 
