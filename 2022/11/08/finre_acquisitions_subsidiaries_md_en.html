@@ -11,7 +11,7 @@
     })(window,document,'script','dataLayer','GTM-59JLR64');</script>
 <!-- End Google Tag Manager --><title>Acquisitions / Subsidiaries Relation Extraction (md, Unidirectional)</title><meta property="og:title" content=""/>
 
-<meta name="description" content="DescriptionThis model is a md model, meaning that the directions in the relations are meaningful: chunk1 is the source of the relation, chunk2 is the target.The aim of this model is to retrieve acquisition or subsidiary relationships between Organizations, included when the acquisition was carried out (“was_acquired...">
+<meta name="description" content="DescriptionIMPORTANT: Don’t run this model on the whole financial report. Instead:  Split by paragraphs;  Use the finclf_acquisitions_item Text Classifier to select only these paragraphs;This model is a md model, meaning that the directions in the relations are meaningful: chunk1 is the source of the relation, chunk...">
 <link rel="canonical" href="/2022/11/08/finre_acquisitions_subsidiaries_md_en.html"><link rel="alternate" type="application/rss+xml" title="Spark NLP" href="/feed.xml"><!-- start favicons snippet, use https://realfavicongenerator.net/ -->
 <!---->
 <!-- <link rel="apple-touch-icon" sizes="180x180" href="/fav.ico"> -->
@@ -418,6 +418,12 @@
     <meta itemprop="keywords" content="acquisition,subsidiaries,en,licensed"><div class="js-article-content"><div class="model-wrap"><div class="layout--article"><!-- start custom article top snippet -->
 
 <!-- end custom article top snippet --><div class="article__content" itemprop="articleBody"><h2 id="description">Description</h2>
+
+<p>IMPORTANT: Don’t run this model on the whole financial report. Instead:</p>
+<ul>
+  <li>Split by paragraphs;</li>
+  <li>Use the <code class="language-plaintext highlighter-rouge">finclf_acquisitions_item</code> Text Classifier to select only these paragraphs;</li>
+</ul>
 
 <p>This model is a <code class="language-plaintext highlighter-rouge">md</code> model, meaning that the directions in the relations are meaningful: <code class="language-plaintext highlighter-rouge">chunk1</code> is the source of the relation, <code class="language-plaintext highlighter-rouge">chunk2</code> is the target.</p>
 

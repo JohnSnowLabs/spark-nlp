@@ -11,7 +11,7 @@
     })(window,document,'script','dataLayer','GTM-59JLR64');</script>
 <!-- End Google Tag Manager --><title>Financial Relation Extraction (Work Experience, Sm, Bidirectional)</title><meta property="og:title" content=""/>
 
-<meta name="description" content="DescriptionThis model allows you to analyzed present and past job positions of people, extracting relations between PERSON, ORG, ROLE and DATE. This model requires an NER with the mentioned entities, as finner_org_per_role and can also be combined with finassertiondl_past_roles to detect if the entities are mentione...">
+<meta name="description" content="DescriptionIMPORTANT: Don’t run this model on the whole financial report. Instead:  Split by paragraphs. You can use notebook 1 in Finance or Legal as inspiration;  Use the finclf_work_experience_item Text Classifier to select only these paragraphs;This model allows you to analyzed present and past job positions of ...">
 <link rel="canonical" href="/2022/09/28/finre_work_experience_en.html"><link rel="alternate" type="application/rss+xml" title="Spark NLP" href="/feed.xml"><!-- start favicons snippet, use https://realfavicongenerator.net/ -->
 <!---->
 <!-- <link rel="apple-touch-icon" sizes="180x180" href="/fav.ico"> -->
@@ -418,6 +418,12 @@
     <meta itemprop="keywords" content="work,experience,en,licensed"><div class="js-article-content"><div class="model-wrap"><div class="layout--article"><!-- start custom article top snippet -->
 
 <!-- end custom article top snippet --><div class="article__content" itemprop="articleBody"><h2 id="description">Description</h2>
+
+<p>IMPORTANT: Don’t run this model on the whole financial report. Instead:</p>
+<ul>
+  <li>Split by paragraphs. You can use <a href="https://github.com/JohnSnowLabs/spark-nlp-workshop/tree/master/tutorials/Certification_Trainings_JSL">notebook 1</a> in Finance or Legal as inspiration;</li>
+  <li>Use the <code class="language-plaintext highlighter-rouge">finclf_work_experience_item</code> Text Classifier to select only these paragraphs;</li>
+</ul>
 
 <p>This model allows you to analyzed present and past job positions of people, extracting relations between PERSON, ORG, ROLE and DATE. This model requires an NER with the mentioned entities, as <code class="language-plaintext highlighter-rouge">finner_org_per_role</code> and can also be combined with <code class="language-plaintext highlighter-rouge">finassertiondl_past_roles</code> to detect if the entities are mentioned to have happened in the PAST or not (although you can also infer that from the relations as <code class="language-plaintext highlighter-rouge">had_role_until</code>).</p>
 

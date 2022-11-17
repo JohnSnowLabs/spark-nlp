@@ -11,7 +11,7 @@
     })(window,document,'script','dataLayer','GTM-59JLR64');</script>
 <!-- End Google Tag Manager --><title>Legal Relation Extraction (Parties, Alias, Dates, Document Type) (Md, Undirectional)</title><meta property="og:title" content=""/>
 
-<meta name="description" content="DescriptionThis is a Legal Relation Extraction model, which can be used after the NER Model for extracting Parties, Document Types, Effective Dates and Aliases, called legner_contract_doc_parties.As an output, you will get the relations linking the different concepts together, if such relation exists. The list of re...">
+<meta name="description" content="DescriptionIMPORTANT: Don’t run this model on the whole legal agreement. Instead:  Split by paragraphs. You can use notebook 1 in Finance or Legal as inspiration;  Use the legclf_introduction_clause Text Classifier to select only these paragraphs;  This is a Legal Relation Extraction model, which can be used after t...">
 <link rel="canonical" href="/2022/11/02/legre_contract_doc_parties_md_en.html"><link rel="alternate" type="application/rss+xml" title="Spark NLP" href="/feed.xml"><!-- start favicons snippet, use https://realfavicongenerator.net/ -->
 <!---->
 <!-- <link rel="apple-touch-icon" sizes="180x180" href="/fav.ico"> -->
@@ -418,8 +418,12 @@
     <meta itemprop="keywords" content="en,legal,licensed,re,agreements"><div class="js-article-content"><div class="model-wrap"><div class="layout--article"><!-- start custom article top snippet -->
 
 <!-- end custom article top snippet --><div class="article__content" itemprop="articleBody"><h2 id="description">Description</h2>
-
-<p>This is a Legal Relation Extraction model, which can be used after the NER Model for extracting Parties, Document Types, Effective Dates and Aliases, called legner_contract_doc_parties.</p>
+<p>IMPORTANT: Don’t run this model on the whole legal agreement. Instead:</p>
+<ul>
+  <li>Split by paragraphs. You can use <a href="https://github.com/JohnSnowLabs/spark-nlp-workshop/tree/master/tutorials/Certification_Trainings_JSL">notebook 1</a> in Finance or Legal as inspiration;</li>
+  <li>Use the <code class="language-plaintext highlighter-rouge">legclf_introduction_clause</code> Text Classifier to select only these paragraphs;</li>
+  <li>This is a Legal Relation Extraction model, which can be used after the NER Model for extracting Parties, Document Types, Effective Dates and Aliases, called legner_contract_doc_parties.</li>
+</ul>
 
 <p>As an output, you will get the relations linking the different concepts together, if such relation exists. The list of relations is:</p>
 

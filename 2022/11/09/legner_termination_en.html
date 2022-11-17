@@ -11,7 +11,7 @@
     })(window,document,'script','dataLayer','GTM-59JLR64');</script>
 <!-- End Google Tag Manager --><title>Extract Information from Termination Clauses (Small)</title><meta property="og:title" content=""/>
 
-<meta name="description" content="DescriptionThis is a NER model which extracts information from Termination Clauses, like the subject (Who? Which party?) the action (verb) the object (What?) and the Indirect Object (to Whom?).Predicted EntitiesTERMINATION_SUBJECT, TERMINATION_ACTION, TERMINATION_OBJECT, TERMINATION_INDIRECT_OBJECTLive DemoOpen in C...">
+<meta name="description" content="DescriptionIMPORTANT: Don’t run this model on the whole legal agreement. Instead:  Split by paragraphs. You can use notebook 1 in Finance or Legal as inspiration;  Use the legclf_termination_clause Text Classifier to select only these paragraphs;This is a NER model which extracts information from Termination Clauses...">
 <link rel="canonical" href="/2022/11/09/legner_termination_en.html"><link rel="alternate" type="application/rss+xml" title="Spark NLP" href="/feed.xml"><!-- start favicons snippet, use https://realfavicongenerator.net/ -->
 <!---->
 <!-- <link rel="apple-touch-icon" sizes="180x180" href="/fav.ico"> -->
@@ -418,6 +418,12 @@
     <meta itemprop="keywords" content="termination,en,licensed"><div class="js-article-content"><div class="model-wrap"><div class="layout--article"><!-- start custom article top snippet -->
 
 <!-- end custom article top snippet --><div class="article__content" itemprop="articleBody"><h2 id="description">Description</h2>
+
+<p>IMPORTANT: Don’t run this model on the whole legal agreement. Instead:</p>
+<ul>
+  <li>Split by paragraphs. You can use <a href="https://github.com/JohnSnowLabs/spark-nlp-workshop/tree/master/tutorials/Certification_Trainings_JSL">notebook 1</a> in Finance or Legal as inspiration;</li>
+  <li>Use the <code class="language-plaintext highlighter-rouge">legclf_termination_clause</code> Text Classifier to select only these paragraphs;</li>
+</ul>
 
 <p>This is a NER model which extracts information from Termination Clauses, like the subject (Who? Which party?) the action (verb) the object (What?) and the Indirect Object (to Whom?).</p>
 

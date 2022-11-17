@@ -11,7 +11,7 @@
     })(window,document,'script','dataLayer','GTM-59JLR64');</script>
 <!-- End Google Tag Manager --><title>Financial 10K Filings NER</title><meta property="og:title" content=""/>
 
-<meta name="description" content="DescriptionThis Financial NER Model is aimed to process the first summary page of 10K filings and extract the information about the Company submitting the filing, trading data, address / phones, CFN, IRS, etc.Predicted EntitiesADDRESS, CFN, FISCAL_YEAR, IRS, ORG, PHONE, STATE, STOCK_EXCHANGE, TICKER, TITLE_CLASS, TI...">
+<meta name="description" content="DescriptionIMPORTANT: Don’t run this model on the whole financial report. Instead:  Split by paragraphs;  Use the finclf_form_10k_summary_item Text Classifier to select only these paragraphs;This Financial NER Model is aimed to process the first summary page of 10K filings and extract the information about the Compa...">
 <link rel="canonical" href="/2022/08/17/finner_10k_summary_en_3_2.html"><link rel="alternate" type="application/rss+xml" title="Spark NLP" href="/feed.xml"><!-- start favicons snippet, use https://realfavicongenerator.net/ -->
 <!---->
 <!-- <link rel="apple-touch-icon" sizes="180x180" href="/fav.ico"> -->
@@ -418,6 +418,12 @@
     <meta itemprop="keywords" content="en,finance,ner,annual,reports,10k,filings,licensed"><div class="js-article-content"><div class="model-wrap"><div class="layout--article"><!-- start custom article top snippet -->
 
 <!-- end custom article top snippet --><div class="article__content" itemprop="articleBody"><h2 id="description">Description</h2>
+
+<p>IMPORTANT: Don’t run this model on the whole financial report. Instead:</p>
+<ul>
+  <li>Split by paragraphs;</li>
+  <li>Use the <code class="language-plaintext highlighter-rouge">finclf_form_10k_summary_item</code> Text Classifier to select only these paragraphs;</li>
+</ul>
 
 <p>This Financial NER Model is aimed to process the first summary page of 10K filings and extract the information about the Company submitting the filing, trading data, address / phones, CFN, IRS, etc.</p>
 

@@ -11,7 +11,7 @@
     })(window,document,'script','dataLayer','GTM-59JLR64');</script>
 <!-- End Google Tag Manager --><title>Financial Relation Extraction (Work Experience, Medium, Unidirectional)</title><meta property="og:title" content=""/>
 
-<meta name="description" content="DescriptionThis is a md (medium) version of finre_work_experience model, trained with more data and with unidirectional relation extractions, meaning now the direction of the arrow matters: it goes from the source (chunk1) to the target (chunk2).This model allows you to analyzed present and past job positions of peo...">
+<meta name="description" content="DescriptionIMPORTANT: Don’t run this model on the whole financial report. Instead:  Split by paragraphs. You can use notebook 1 in Finance or Legal as inspiration;  Use the finclf_work_experience_item Text Classifier to select only these paragraphs;This is a md (medium) version of finre_work_experience model, traine...">
 <link rel="canonical" href="/2022/11/08/finre_work_experience_md_en.html"><link rel="alternate" type="application/rss+xml" title="Spark NLP" href="/feed.xml"><!-- start favicons snippet, use https://realfavicongenerator.net/ -->
 <!---->
 <!-- <link rel="apple-touch-icon" sizes="180x180" href="/fav.ico"> -->
@@ -418,6 +418,12 @@
     <meta itemprop="keywords" content="work,experience,role,en,licensed"><div class="js-article-content"><div class="model-wrap"><div class="layout--article"><!-- start custom article top snippet -->
 
 <!-- end custom article top snippet --><div class="article__content" itemprop="articleBody"><h2 id="description">Description</h2>
+
+<p>IMPORTANT: Don’t run this model on the whole financial report. Instead:</p>
+<ul>
+  <li>Split by paragraphs. You can use <a href="https://github.com/JohnSnowLabs/spark-nlp-workshop/tree/master/tutorials/Certification_Trainings_JSL">notebook 1</a> in Finance or Legal as inspiration;</li>
+  <li>Use the <code class="language-plaintext highlighter-rouge">finclf_work_experience_item</code> Text Classifier to select only these paragraphs;</li>
+</ul>
 
 <p>This is a <code class="language-plaintext highlighter-rouge">md</code> (medium) version of <code class="language-plaintext highlighter-rouge">finre_work_experience</code> model, trained with more data and with <strong>unidirectional relation extractions</strong>, meaning now the direction of the arrow matters: it goes from the source (<code class="language-plaintext highlighter-rouge">chunk1</code>) to the target (<code class="language-plaintext highlighter-rouge">chunk2</code>).</p>
 
