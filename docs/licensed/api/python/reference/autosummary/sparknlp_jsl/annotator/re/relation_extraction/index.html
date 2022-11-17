@@ -270,6 +270,7 @@
 <li class="toctree-l1 has-children"><a class="reference internal" href="../../deid/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp_jsl.annotator.deid</span></code></a><input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-5"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="../../deid/deIdentification/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp_jsl.annotator.deid.deIdentification</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../deid/doccument_hashcoder/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp_jsl.annotator.deid.doccument_hashcoder</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../deid/name_obfuscator/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp_jsl.annotator.deid.name_obfuscator</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../deid/reIdentification/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp_jsl.annotator.deid.reIdentification</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../deid/replacer/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp_jsl.annotator.deid.replacer</span></code></a></li>
 </ul>
@@ -497,6 +498,16 @@ To start training, see the parameters that need to be set in the Parameters sect
 <span class="sig-name descname"><span class="pre">customLabels</span></span><a class="reference internal" href="../../../../../../modules/sparknlp_jsl/annotator/re/relation_extraction.html#RelationExtractionApproach.customLabels"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.re.relation_extraction.RelationExtractionApproach.customLabels" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
+<dl class="py attribute">
+<dt class="sig sig-object py" id="sparknlp_jsl.annotator.re.relation_extraction.RelationExtractionApproach.pretrainedModelPath">
+<span class="sig-name descname"><span class="pre">pretrainedModelPath</span></span><a class="reference internal" href="../../../../../../modules/sparknlp_jsl/annotator/re/relation_extraction.html#RelationExtractionApproach.pretrainedModelPath"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.re.relation_extraction.RelationExtractionApproach.pretrainedModelPath" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="sparknlp_jsl.annotator.re.relation_extraction.RelationExtractionApproach.overrideExistingLabels">
+<span class="sig-name descname"><span class="pre">overrideExistingLabels</span></span><a class="reference internal" href="../../../../../../modules/sparknlp_jsl/annotator/re/relation_extraction.html#RelationExtractionApproach.overrideExistingLabels"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.re.relation_extraction.RelationExtractionApproach.overrideExistingLabels" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp_jsl.annotator.re.relation_extraction.RelationExtractionApproach.setFromEntity">
 <span class="sig-name descname"><span class="pre">setFromEntity</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">begin_col</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">end_col</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">label_col</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../modules/sparknlp_jsl/annotator/re/relation_extraction.html#RelationExtractionApproach.setFromEntity"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.re.relation_extraction.RelationExtractionApproach.setFromEntity" title="Permalink to this definition">#</a></dt>
@@ -555,6 +566,34 @@ To start training, see the parameters that need to be set in the Parameters sect
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><dl class="simple">
 <dt><strong>col</strong><span class="classifier">str</span></dt><dd><p>Column contains the relation direction values</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp_jsl.annotator.re.relation_extraction.RelationExtractionApproach.setPretrainedModelPath">
+<span class="sig-name descname"><span class="pre">setPretrainedModelPath</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../modules/sparknlp_jsl/annotator/re/relation_extraction.html#RelationExtractionApproach.setPretrainedModelPath"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.re.relation_extraction.RelationExtractionApproach.setPretrainedModelPath" title="Permalink to this definition">#</a></dt>
+<dd><p>Sets location of pretrained model.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>value</strong><span class="classifier">str</span></dt><dd><p>Path to an already trained pretrainedModelPath, which is used as a starting point for training the new model.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp_jsl.annotator.re.relation_extraction.RelationExtractionApproach.setverrideExistingLabels">
+<span class="sig-name descname"><span class="pre">setОverrideExistingLabels</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../modules/sparknlp_jsl/annotator/re/relation_extraction.html#RelationExtractionApproach.setОverrideExistingLabels"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.re.relation_extraction.RelationExtractionApproach.setverrideExistingLabels" title="Permalink to this definition">#</a></dt>
+<dd><p>Sets whether to override already learned tags when using a pretrained model to initialize the new model. Default is ‘true’</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>value</strong><span class="classifier">bool</span></dt><dd><p>Whether to override already learned labels when using a pretrained model to initialize the new model. Default is ‘true’</p>
 </dd>
 </dl>
 </dd>
@@ -1067,6 +1106,24 @@ To start training, see the parameters that need to be set in the Parameters sect
         </a>
        </li>
        <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.re.relation_extraction.RelationExtractionApproach.pretrainedModelPath">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           RelationExtractionApproach.pretrainedModelPath
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.re.relation_extraction.RelationExtractionApproach.overrideExistingLabels">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           RelationExtractionApproach.overrideExistingLabels
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
         <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.re.relation_extraction.RelationExtractionApproach.setFromEntity">
          <code class="docutils literal notranslate">
           <span class="pre">
@@ -1098,6 +1155,24 @@ To start training, see the parameters that need to be set in the Parameters sect
          <code class="docutils literal notranslate">
           <span class="pre">
            RelationExtractionApproach.setRelationDirectionCol()
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.re.relation_extraction.RelationExtractionApproach.setPretrainedModelPath">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           RelationExtractionApproach.setPretrainedModelPath()
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.re.relation_extraction.RelationExtractionApproach.setverrideExistingLabels">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           RelationExtractionApproach.setОverrideExistingLabels()
           </span>
          </code>
         </a>
@@ -1292,6 +1367,16 @@ To start training, see the parameters that need to be set in the Parameters sect
         </a>
        </li>
        <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.re.relation_extraction.RelationExtractionApproach.pretrainedModelPath">
+         pretrainedModelPath
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.re.relation_extraction.RelationExtractionApproach.overrideExistingLabels">
+         overrideExistingLabels
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
         <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.re.relation_extraction.RelationExtractionApproach.setFromEntity">
          setFromEntity
         </a>
@@ -1309,6 +1394,16 @@ To start training, see the parameters that need to be set in the Parameters sect
        <li class="toc-h5 nav-item toc-entry">
         <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.re.relation_extraction.RelationExtractionApproach.setRelationDirectionCol">
          setRelationDirectionCol
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.re.relation_extraction.RelationExtractionApproach.setPretrainedModelPath">
+         setPretrainedModelPath
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.re.relation_extraction.RelationExtractionApproach.setverrideExistingLabels">
+         setОverrideExistingLabels
         </a>
        </li>
       </ul>

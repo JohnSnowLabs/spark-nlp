@@ -11,6 +11,7 @@ spark_version: 2.4
 deprecated: true
 tags: [open_source, embeddings, xx]
 supported: true
+annotator: UniversalSentenceEncoder
 article_header:
   type: cover
 use_language_switcher: "Python-Scala-Java"

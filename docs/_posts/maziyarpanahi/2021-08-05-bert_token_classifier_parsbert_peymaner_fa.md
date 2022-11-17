@@ -10,6 +10,7 @@ language: fa
 edition: Spark NLP 3.2.0
 spark_version: 2.4
 supported: true
+annotator: BertForTokenClassification
 article_header:
 type: cover
 use_language_switcher: "Python-Scala-Java"

@@ -10,6 +10,7 @@ task: Spell Check
 language: en
 edition: Spark NLP 2.0.2
 spark_version: 2.4
+annotator: NorvigSweetingModel
 article_header:
 type: cover
 use_language_switcher: "Python-Scala-Java"

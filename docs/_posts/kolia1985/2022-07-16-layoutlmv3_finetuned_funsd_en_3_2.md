@@ -10,6 +10,7 @@ language: en
 edition: Visual NLP 3.14.0
 spark_version: 3.2
 supported: true
+annotator: VisualDocumentNERv21
 article_header:
   type: cover
 use_language_switcher: "Python-Scala-Java"

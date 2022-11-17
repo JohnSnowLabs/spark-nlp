@@ -10,6 +10,7 @@ language: en
 edition: Healthcare NLP 3.1.3
 spark_version: 2.4
 supported: true
+annotator: SentenceEntityResolverModel
 article_header:
 type: cover
 use_language_switcher: "Python-Scala-Java"

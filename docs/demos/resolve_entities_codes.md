@@ -1,7 +1,7 @@
 ---
 layout: demopagenew
-title: Resolve Entities to Codes - Clinical NLP Demos & Notebooks
-seotitle: 'Clinical NLP: Resolve Entities to Codes - John Snow Labs'
+title: Resolve Entities to Terminology Codes - Clinical NLP Demos & Notebooks
+seotitle: 'Clinical NLP: Resolve Entities to Terminology Codes - John Snow Labs'
 subtitle: Run 300+ live demos and notebooks
 full_width: true
 permalink: /resolve_entities_codes
@@ -16,7 +16,7 @@ data:
   sections:  
     - secheader: yes
       secheader:
-        - subtitle: Resolve Entities to Codes - Live Demos & Notebooks
+        - subtitle: Resolve Entities to Terminology Codes - Live Demos & Notebooks
           activemenu: resolve_entities_codes
       source: yes
       source: 

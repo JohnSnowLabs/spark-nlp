@@ -10,6 +10,7 @@ language: pt
 edition: Spark NLP 3.4.2
 spark_version: 3.0
 supported: true
+annotator: DistilBertEmbeddings
 article_header:
 type: cover
 use_language_switcher: "Python-Scala-Java"

@@ -245,6 +245,8 @@ class BulkIndexer
 end
 
 editions = Set.new
+# Add the editions that are absent in the existing models yet
+editions << 'Visual NLP 4.2'
 uniq_to_models_mapping = {}
 uniq_for_indexing = Set.new
 name_language_editions_sparkversion_to_models_mapping = {}

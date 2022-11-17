@@ -10,6 +10,7 @@ edition: Healthcare NLP 2.7.3
 spark_version: 2.4
 tags: [licensed, clinical, en, relation_extraction]
 supported: true
+annotator: RelationExtractionDLModel
 article_header:
 type: cover
 use_language_switcher: "Python-Scala-Java"

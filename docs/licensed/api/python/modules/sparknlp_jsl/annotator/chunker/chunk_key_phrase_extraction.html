@@ -258,7 +258,7 @@
 <span></span><span class="kn">from</span> <span class="nn">sparknlp.common</span> <span class="kn">import</span> <span class="o">*</span>
 <span class="kn">from</span> <span class="nn">sparknlp.annotator.embeddings.bert_sentence_embeddings</span> <span class="kn">import</span> <span class="n">BertSentenceEmbeddings</span>
 
-<div class="viewcode-block" id="ChunkKeyPhraseExtraction"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/chunker/chunk_key_phrase_extraction/index.html#sparknlp_jsl.annotator.chunker.chunk_key_phrase_extraction.ChunkKeyPhraseExtraction">[docs]</a><span class="k">class</span> <span class="nc">ChunkKeyPhraseExtraction</span><span class="p">(</span><span class="n">BertSentenceEmbeddings</span><span class="p">):</span>
+<div class="viewcode-block" id="ChunkKeyPhraseExtraction"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/chunker/chunk_key_phrase_extraction/index.html#sparknlp_jsl.annotator.chunker.chunk_key_phrase_extraction.ChunkKeyPhraseExtraction">[docs]</a><span class="k">class</span> <span class="nc">ChunkKeyPhraseExtraction</span><span class="p">(</span><span class="n">BertSentenceEmbeddings</span><span class="p">,</span> <span class="n">HasEngine</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Chunk KeyPhrase Extraction uses Bert Sentence Embeddings to determine the most relevant key phrases describing a</span>
 <span class="sd">    text. The input to the model consists of chunk annotations and sentence or document annotation. The model compares</span>
