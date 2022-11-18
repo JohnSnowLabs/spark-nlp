@@ -1,6 +1,4 @@
-docs/_includes/programmingLanguageSelectPythons.html
-docs/_sass/custom.scss
-docs/en/tab_example.md
-docs/_includes/programmingLanguageSelectPythons.html
-docs/_sass/custom.scss
-docs/en/tab_example.md
+docs/en/licensed_release_notes.md
+docs/en/spark_nlp_healthcare_versions/release_notes_4_2_2.md
+docs/en/licensed_release_notes.md
+docs/en/spark_nlp_healthcare_versions/release_notes_4_2_2.md

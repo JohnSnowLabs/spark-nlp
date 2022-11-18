@@ -574,6 +574,7 @@
     <span class="p">.</span><span class="n">setPretrainedModelPath</span><span class="p">(</span><span class="s">"existing_RE_MODEL_path"</span><span class="p">)</span>\
     <span class="p">.</span><span class="n">setOverrideExistingLabels</span><span class="p">(</span><span class="bp">False</span><span class="p">)</span>
 </code></pre></div>  </div>
+  <p>You can check <a href="https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/10.4.Resume_RelationExtractionApproach_Training.ipynb">Resume RelationExtractionApproach Training Notebook</a> for more examples.</p>
 
 </div>
 <div class="prev_ver h3-box">
@@ -686,62 +687,62 @@
     </thead>
     <tbody>
       <tr>
-        <td><a href="https://nlp.johnsnowlabs.com/2022/10/25/ner_oncology_anatomy_general.html">ner_oncology_anatomy_general</a></td>
+        <td><a href="https://nlp.johnsnowlabs.com/2022/10/25/ner_oncology_anatomy_general_en.html">ner_oncology_anatomy_general</a></td>
         <td>Extracting anatomical entities.</td>
         <td><code class="language-plaintext highlighter-rouge">Anatomical_Site</code>, <code class="language-plaintext highlighter-rouge">Direction</code></td>
       </tr>
       <tr>
-        <td><a href="https://nlp.johnsnowlabs.com/2022/10/25/ner_oncology_anatomy_granular.html">ner_oncology_anatomy_granular</a></td>
+        <td><a href="https://nlp.johnsnowlabs.com/2022/10/25/ner_oncology_anatomy_granular_en.html">ner_oncology_anatomy_granular</a></td>
         <td>Extracting anatomical entities using granular labels.</td>
         <td><code class="language-plaintext highlighter-rouge">Direction</code>, <code class="language-plaintext highlighter-rouge">Site_Lymph_Node</code>, <code class="language-plaintext highlighter-rouge">Site_Breast</code>, <code class="language-plaintext highlighter-rouge">Site_Other_Body_Part</code>, <code class="language-plaintext highlighter-rouge">Site_Bone</code>, <code class="language-plaintext highlighter-rouge">Site_Liver</code>, <code class="language-plaintext highlighter-rouge">Site_Lung</code>, <code class="language-plaintext highlighter-rouge">Site_Brain</code></td>
       </tr>
       <tr>
-        <td><a href="https://nlp.johnsnowlabs.com/2022/10/25/ner_oncology_biomarker.html">ner_oncology_biomarker</a></td>
+        <td><a href="https://nlp.johnsnowlabs.com/2022/10/25/ner_oncology_biomarker_en.html">ner_oncology_biomarker</a></td>
         <td>Extracting biomarkers and their results.</td>
         <td><code class="language-plaintext highlighter-rouge">Biomarker</code>, <code class="language-plaintext highlighter-rouge">Biomarker_Result</code></td>
       </tr>
       <tr>
-        <td><a href="https://nlp.johnsnowlabs.com/2022/10/25/ner_oncology_demographics.html">ner_oncology_demographics</a></td>
+        <td><a href="https://nlp.johnsnowlabs.com/2022/10/25/ner_oncology_demographics_en.html">ner_oncology_demographics</a></td>
         <td>Extracting demographic information, including smoking status.</td>
         <td><code class="language-plaintext highlighter-rouge">Age</code>, <code class="language-plaintext highlighter-rouge">Gender</code>, <code class="language-plaintext highlighter-rouge">Smoking_Status</code>, <code class="language-plaintext highlighter-rouge">Race_Ethnicity</code></td>
       </tr>
       <tr>
-        <td><a href="https://nlp.johnsnowlabs.com/2022/10/25/ner_oncology_diagnosis.html">ner_oncology_diagnosis</a></td>
+        <td><a href="https://nlp.johnsnowlabs.com/2022/10/25/ner_oncology_diagnosis_en.html">ner_oncology_diagnosis</a></td>
         <td>Extracting entities related to cancer diagnosis, including the presence of metastasis.</td>
         <td><code class="language-plaintext highlighter-rouge">Grade</code>, <code class="language-plaintext highlighter-rouge">Staging</code>, <code class="language-plaintext highlighter-rouge">Tumor_Size</code>, <code class="language-plaintext highlighter-rouge">Adenopathy</code>, <code class="language-plaintext highlighter-rouge">Pathology_Result</code>, <code class="language-plaintext highlighter-rouge">Histological_Type</code>, <code class="language-plaintext highlighter-rouge">Metastasis</code>, <code class="language-plaintext highlighter-rouge">Cancer_Score</code>, <code class="language-plaintext highlighter-rouge">Cancer_Dx</code>, <code class="language-plaintext highlighter-rouge">Invasion</code>, <code class="language-plaintext highlighter-rouge">Tumor_Finding</code>, <code class="language-plaintext highlighter-rouge">Performance_Status</code></td>
       </tr>
       <tr>
-        <td><a href="https://nlp.johnsnowlabs.com/2022/10/25/ner_oncology.html">ner_oncology</a></td>
+        <td><a href="https://nlp.johnsnowlabs.com/2022/10/25/ner_oncology_en.html">ner_oncology</a></td>
         <td>Extracting more than 40 oncology-related entities.</td>
         <td><code class="language-plaintext highlighter-rouge">Histological_Type</code>, <code class="language-plaintext highlighter-rouge">Direction</code>, <code class="language-plaintext highlighter-rouge">Staging</code>, <code class="language-plaintext highlighter-rouge">Cancer_Score</code>, <code class="language-plaintext highlighter-rouge">Imaging_Test</code>, <code class="language-plaintext highlighter-rouge">Cycle_Number</code>, <code class="language-plaintext highlighter-rouge">Tumor_Finding</code>, <code class="language-plaintext highlighter-rouge">Site_Lymph_Node</code>, <code class="language-plaintext highlighter-rouge">Invasion</code>, <code class="language-plaintext highlighter-rouge">Response_To_Treatment</code>, <code class="language-plaintext highlighter-rouge">Smoking_Status</code>, <code class="language-plaintext highlighter-rouge">Tumor_Size</code>, <code class="language-plaintext highlighter-rouge">Cycle_Count</code>, <code class="language-plaintext highlighter-rouge">Adenopathy</code>, <code class="language-plaintext highlighter-rouge">Age</code>, <code class="language-plaintext highlighter-rouge">Biomarker_Result</code>, <code class="language-plaintext highlighter-rouge">Unspecific_Therapy</code>, <code class="language-plaintext highlighter-rouge">Site_Breast</code>, <code class="language-plaintext highlighter-rouge">Chemotherapy</code>, <code class="language-plaintext highlighter-rouge">Targeted_Therapy</code>, <code class="language-plaintext highlighter-rouge">Radiotherapy</code>, <code class="language-plaintext highlighter-rouge">Performance_Status</code>, <code class="language-plaintext highlighter-rouge">Pathology_Test</code>, <code class="language-plaintext highlighter-rouge">Site_Other_Body_Part</code>, <code class="language-plaintext highlighter-rouge">Cancer_Surgery</code>, <code class="language-plaintext highlighter-rouge">Line_Of_Therapy</code>, <code class="language-plaintext highlighter-rouge">Pathology_Result</code>, <code class="language-plaintext highlighter-rouge">Hormonal_Therapy</code>, <code class="language-plaintext highlighter-rouge">Site_Bone</code>, <code class="language-plaintext highlighter-rouge">Biomarker</code>, <code class="language-plaintext highlighter-rouge">Immunotherapy</code>, <code class="language-plaintext highlighter-rouge">Cycle_Day</code>, <code class="language-plaintext highlighter-rouge">Frequency</code>, <code class="language-plaintext highlighter-rouge">Route</code>, <code class="language-plaintext highlighter-rouge">Duration</code>, <code class="language-plaintext highlighter-rouge">Death_Entity</code>, <code class="language-plaintext highlighter-rouge">Metastasis</code>, <code class="language-plaintext highlighter-rouge">Site_Liver</code>, <code class="language-plaintext highlighter-rouge">Cancer_Dx</code>, <code class="language-plaintext highlighter-rouge">Grade</code>, <code class="language-plaintext highlighter-rouge">Date</code>, <code class="language-plaintext highlighter-rouge">Site_Lung</code>, <code class="language-plaintext highlighter-rouge">Site_Brain</code>, <code class="language-plaintext highlighter-rouge">Relative_Date</code>, <code class="language-plaintext highlighter-rouge">Race_Ethnicity</code>, <code class="language-plaintext highlighter-rouge">Gender</code>, <code class="language-plaintext highlighter-rouge">Oncogene</code>, <code class="language-plaintext highlighter-rouge">Dosage</code>, <code class="language-plaintext highlighter-rouge">Radiation_Dose</code></td>
       </tr>
       <tr>
-        <td><a href="https://nlp.johnsnowlabs.com/2022/10/25/ner_oncology_posology.html">ner_oncology_posology</a></td>
+        <td><a href="https://nlp.johnsnowlabs.com/2022/10/25/ner_oncology_posology_en.html">ner_oncology_posology</a></td>
         <td>This model extracts oncology specific posology information and cancer therapies.</td>
         <td><code class="language-plaintext highlighter-rouge">Cycle_Number</code>, <code class="language-plaintext highlighter-rouge">Cycle_Count</code>, <code class="language-plaintext highlighter-rouge">Radiotherapy</code>, <code class="language-plaintext highlighter-rouge">Cancer_Surgery</code>, <code class="language-plaintext highlighter-rouge">Cycle_Day</code>, <code class="language-plaintext highlighter-rouge">Frequency</code>, <code class="language-plaintext highlighter-rouge">Route</code>, <code class="language-plaintext highlighter-rouge">Cancer_Therapy</code>, <code class="language-plaintext highlighter-rouge">Duration</code>, <code class="language-plaintext highlighter-rouge">Dosage</code>, <code class="language-plaintext highlighter-rouge">Radiation_Dose</code></td>
       </tr>
       <tr>
-        <td><a href="https://nlp.johnsnowlabs.com/2022/10/25/ner_oncology_unspecific_posology.html">ner_oncology_unspecific_posology</a></td>
+        <td><a href="https://nlp.johnsnowlabs.com/2022/10/25/ner_oncology_unspecific_posology_en.html">ner_oncology_unspecific_posology</a></td>
         <td>Extracting any mention of cancer therapies and posology information using general labels</td>
         <td><code class="language-plaintext highlighter-rouge">Cancer_Therapy</code>, <code class="language-plaintext highlighter-rouge">Posology_Information</code></td>
       </tr>
       <tr>
-        <td><a href="https://nlp.johnsnowlabs.com/2022/10/25/ner_oncology_response_to_treatment.html">ner_oncology_response_to_treatment_wip</a></td>
+        <td><a href="https://nlp.johnsnowlabs.com/2022/10/25/ner_oncology_response_to_treatment_en.html">ner_oncology_response_to_treatment_wip</a></td>
         <td>Extracting entities related to the patient’s response to cancer treatment.</td>
         <td><code class="language-plaintext highlighter-rouge">Response_To_Treatment</code>, <code class="language-plaintext highlighter-rouge">Size_Trend</code>, <code class="language-plaintext highlighter-rouge">Line_Of_Therapy</code></td>
       </tr>
       <tr>
-        <td><a href="https://nlp.johnsnowlabs.com/2022/10/25/ner_oncology_therapy.html">ner_oncology_therapy</a></td>
+        <td><a href="https://nlp.johnsnowlabs.com/2022/10/25/ner_oncology_therapy_en.html">ner_oncology_therapy</a></td>
         <td>Extracting entities related to cancer therapies, including posology entities and response to treatment, using granular labels.</td>
         <td><code class="language-plaintext highlighter-rouge">Response_To_Treatment</code>, <code class="language-plaintext highlighter-rouge">Line_Of_Therapy</code>, <code class="language-plaintext highlighter-rouge">Cancer_Surgery</code>, <code class="language-plaintext highlighter-rouge">Radiotherapy</code>, <code class="language-plaintext highlighter-rouge">Immunotherapy</code>, <code class="language-plaintext highlighter-rouge">Targeted_Therapy</code>, <code class="language-plaintext highlighter-rouge">Hormonal_Therapy</code>, <code class="language-plaintext highlighter-rouge">Chemotherapy</code>, <code class="language-plaintext highlighter-rouge">Unspecific_Therapy</code>, <code class="language-plaintext highlighter-rouge">Route</code>, <code class="language-plaintext highlighter-rouge">Duration</code>, <code class="language-plaintext highlighter-rouge">Cycle_Count</code>, <code class="language-plaintext highlighter-rouge">Dosage</code>, <code class="language-plaintext highlighter-rouge">Frequency</code>, <code class="language-plaintext highlighter-rouge">Cycle_Number</code>, <code class="language-plaintext highlighter-rouge">Cycle_Day</code>, <code class="language-plaintext highlighter-rouge">Radiation_Dose</code></td>
       </tr>
       <tr>
-        <td><a href="https://nlp.johnsnowlabs.com/2022/10/25/ner_oncology_test.html">ner_oncology_test</a></td>
+        <td><a href="https://nlp.johnsnowlabs.com/2022/10/25/ner_oncology_test_en.html">ner_oncology_test</a></td>
         <td>Extracting mentions of oncology-related tests.</td>
         <td><code class="language-plaintext highlighter-rouge">Oncogene</code>, <code class="language-plaintext highlighter-rouge">Biomarker</code>, <code class="language-plaintext highlighter-rouge">Biomarker_Result</code>, <code class="language-plaintext highlighter-rouge">Imaging_Test</code>, <code class="language-plaintext highlighter-rouge">Pathology_Test</code></td>
       </tr>
       <tr>
-        <td><a href="https://nlp.johnsnowlabs.com/2022/10/25/ner_oncology_tnm.html">ner_oncology_tnm</a></td>
+        <td><a href="https://nlp.johnsnowlabs.com/2022/10/25/ner_oncology_tnm_en.html">ner_oncology_tnm</a></td>
         <td>Extracting mentions related to TNM staging.</td>
         <td><code class="language-plaintext highlighter-rouge">Lymph_Node</code>, <code class="language-plaintext highlighter-rouge">Staging</code>, <code class="language-plaintext highlighter-rouge">Lymph_Node_Modifier</code>, <code class="language-plaintext highlighter-rouge">Tumor_Description</code>, <code class="language-plaintext highlighter-rouge">Tumor</code>, <code class="language-plaintext highlighter-rouge">Metastasis</code>, <code class="language-plaintext highlighter-rouge">Cancer_Dx</code></td>
       </tr>
@@ -757,19 +758,19 @@
     </thead>
     <tbody>
       <tr>
-        <td><a href="https://nlp.johnsnowlabs.com/2022/11/03/oncology_general_pipeline.html">oncology_general_pipeline</a></td>
+        <td><a href="https://nlp.johnsnowlabs.com/2022/11/03/oncology_general_pipeline_en.html">oncology_general_pipeline</a></td>
         <td>Includes Named-Entity Recognition, Assertion Status and Relation Extraction models to extract information from oncology texts. This pipeline extracts diagnoses, treatments, tests, anatomical references and demographic entities.</td>
       </tr>
       <tr>
-        <td><a href="https://nlp.johnsnowlabs.com/2022/11/04/oncology_biomarker_pipeline.html">oncology_biomarker_pipeline</a></td>
+        <td><a href="https://nlp.johnsnowlabs.com/2022/11/04/oncology_biomarker_pipeline_en.html">oncology_biomarker_pipeline</a></td>
         <td>Includes Named-Entity Recognition, Assertion Status and Relation Extraction models to extract information from oncology texts. This pipeline focuses on entities related to biomarkers</td>
       </tr>
       <tr>
-        <td><a href="https://nlp.johnsnowlabs.com/2022/11/04/oncology_diagnosis_pipeline.html">oncology_diagnosis_pipeline</a></td>
+        <td><a href="https://nlp.johnsnowlabs.com/2022/11/04/oncology_diagnosis_pipeline_en.html">oncology_diagnosis_pipeline</a></td>
         <td>Includes Named-Entity Recognition, Assertion Status, Relation Extraction and Entity Resolution models to extract information from oncology texts. This pipeline focuses on entities related to oncological diagnosis.</td>
       </tr>
       <tr>
-        <td><a href="https://nlp.johnsnowlabs.com/2022/11/04/oncology_therapy_pipeline.html">oncology_therapy_pipeline</a></td>
+        <td><a href="https://nlp.johnsnowlabs.com/2022/11/04/oncology_therapy_pipeline_en.html">oncology_therapy_pipeline</a></td>
         <td>Includes Named-Entity Recognition and Assertion Status models to extract information from oncology texts. This pipeline focuses on entities related to therapies.</td>
       </tr>
     </tbody>
