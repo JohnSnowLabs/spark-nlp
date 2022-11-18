@@ -25,10 +25,20 @@ import scala.io.Source
 
 object LoadExternalModel {
 
-  val notSupportedEngineError: String =
-    "Your imported model is not supported. Please make sure you " +
-      s"follow provided notebooks to import external models into Spark NLP: " +
-      s"https://github.com/JohnSnowLabs/spark-nlp/discussions/5669"
+  val notSupportedEngineError: String = {
+    s"""Your imported model is either not supported or not correctly structured.
+       |For importing a TensorFlow model the directory must have the following structure:
+       |
+       |├── assets/
+       |    ├── your-assets-are-here
+       |├── saved_model.pb
+       |└── variables/
+       |    ├── variables.data-00000-of-00001
+       |    └── variables.index
+       |
+       |Please make sure you follow provided notebooks to import external models into Spark NLP:
+       |https://github.com/JohnSnowLabs/spark-nlp/discussions/5669""".stripMargin
+  }
 
   def detectEngine(modelPath: String): String = {
 
