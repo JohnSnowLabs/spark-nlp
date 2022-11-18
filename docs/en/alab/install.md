@@ -315,13 +315,13 @@ $ ./annotationlab-updater.sh
 
 ## OpenShift
 
-We can also use the operator framework to install Annotation Lab application on the OpenShift cluster. The Annotation Lab can be found under the <bl>OperatorHub</bl>.
+Annotation Lab can also be installed using the operator framework on an OpenShift cluster. The Annotation Lab operator can be found under the <bl>OperatorHub</bl>.
 
 <br />
 
 ### Find and select
 
-The <bl>OperatorHub</bl> have a list of large number of operators that can be installed into our cluster. Search for Annotation Lab operator which could be found under AI/Machine Learning category and select it.
+The <bl>OperatorHub</bl> has a large list of operators that can be installed into your cluster. Search for Annotation Lab operator under AI/Machine Learning category and select it.
 
 <img class="image image__shadow" src="/assets/images/annotation_lab/Select-Operator.png" style="width:100%;"/>
 
@@ -329,19 +329,22 @@ The <bl>OperatorHub</bl> have a list of large number of operators that can be in
 
 ### Install
 
-On the right-navigation panel that opens up after selecting the Annotation Lab operator we get some basic information about this operator. On the top-left corner of this panel there is an `Install` button. Click on this button to start the installation process.
+Some basic information about this operator is provided on the navigation panel that opens after selecting Annotation Lab on the previous step. 
+
+> **NOTE:** Make sure you have defined shared storage such as `efs/nfs/cephfs` prior to installing the Annotation Lab Operator.
+
+Click on the `Install` button located on the top-left corner of this panel to start the installation process.
 
 <img class="image image__shadow" src="/assets/images/annotation_lab/Install-Operator.png" style="width:100%;"/>
 
-After successful installation of the Annotation Lab operator, you can access this operator by going to the <bl>Installed Operators</bl> page.
+After successful installation of the Annotation Lab operator, you can access it by navigating to the <bl>Installed Operators</bl> page.
 
-> **NOTE:** Make sure we have shared storage like `efs/nfs/cephfs` prior Annotaion Lab Operator installation.
 
 <br />
 
 ### Create Instance
 
-Next step is to create a cluster instance of the Annotation Lab. For this select the Annotation Lab operator under the <bl>Installed Operators</bl> page and then switch to _Annotationlab_ tab. On this section click on `Create Annotationlab` button to spawn a new instance of Annotation Lab.
+Next step is to create a cluster instance of the Annotation Lab. For this, select the Annotation Lab operator under the <bl>Installed Operators</bl> page and then switch to _Annotationlab_ tab. On this section, click on `Create Annotationlab` button to spawn a new instance of Annotation Lab.
 
 <img class="image image__shadow" src="/assets/images/annotation_lab/Create-Instance.png" style="width:100%;"/>
 
