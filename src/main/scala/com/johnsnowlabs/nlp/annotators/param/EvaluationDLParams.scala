@@ -62,7 +62,8 @@ trait EvaluationDLParams extends Params {
   val outputLogsPath =
     new Param[String](this, "outputLogsPath", "Folder path to save training logs")
 
-  /** Path to test dataset. If set, it is used to calculate statistics on it during training.
+  /** Path to a parquet file of a test dataset. If set, it is used to calculate statistics on it
+    * during training.
     *
     * @group param
     */
@@ -114,7 +115,30 @@ trait EvaluationDLParams extends Params {
   def setOutputLogsPath(path: String): this.type =
     set(this.outputLogsPath, path)
 
-  /** Path to test dataset. If set, it is used to calculate statistics on it during training.
+  /** Path to a parquet file of a test dataset. If set, it is used to calculate statistics on it
+    * during training.
+    *
+    * The parquet file must be a dataframe that has the same columns as the model that is being
+    * trained. For example, if the model needs as input `DOCUMENT`, `TOKEN`, `WORD_EMBEDDINGS`
+    * (Features) and `NAMED_ENTITY` (label) then these columns also need to be present while
+    * saving the dataframe. The pre-processing steps for the training dataframe should also be
+    * applied to the test dataframe.
+    *
+    * An example on how to create such a parquet file could be:
+    *
+    * {{{
+    * // assuming preProcessingPipeline
+    * val Array(train, test) = data.randomSplit(Array(0.8, 0.2))
+    *
+    * preProcessingPipeline
+    *   .fit(test)
+    *   .transform(test)
+    *   .write
+    *   .mode("overwrite")
+    *   .parquet("test_data")
+    *
+    * annotator.setTestDataset("test_data")
+    * }}}
     *
     * @group setParam
     */
@@ -124,7 +148,32 @@ trait EvaluationDLParams extends Params {
       options: Map[String, String] = Map("format" -> "parquet")): this.type =
     set(testDataset, ExternalResource(path, readAs, options))
 
-  /** Path to test dataset. If set, it is used to calculate statistics on it during training.
+  /** ExternalResource to a parquet file of a test dataset. If set, it is used to calculate
+    * statistics on it during training.
+    *
+    * When using an ExternalResource, only parquet files are accepted for this function.
+    *
+    * The parquet file must be a dataframe that has the same columns as the model that is being
+    * trained. For example, if the model needs as input `DOCUMENT`, `TOKEN`, `WORD_EMBEDDINGS`
+    * (Features) and `NAMED_ENTITY` (label) then these columns also need to be present while
+    * saving the dataframe. The pre-processing steps for the training dataframe should also be
+    * applied to the test dataframe.
+    *
+    * An example on how to create such a parquet file could be:
+    *
+    * {{{
+    * // assuming preProcessingPipeline
+    * val Array(train, test) = data.randomSplit(Array(0.8, 0.2))
+    *
+    * preProcessingPipeline
+    *   .fit(test)
+    *   .transform(test)
+    *   .write
+    *   .mode("overwrite")
+    *   .parquet("test_data")
+    *
+    * annotator.setTestDataset("test_data")
+    * }}}
     *
     * @group setParam
     */

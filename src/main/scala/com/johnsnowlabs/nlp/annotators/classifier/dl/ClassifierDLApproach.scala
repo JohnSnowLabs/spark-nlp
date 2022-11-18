@@ -46,6 +46,37 @@ import scala.util.Random
   *     [[com.johnsnowlabs.nlp.embeddings.SentenceEmbeddings SentenceEmbeddings]] can be used for
   *     the `inputCol`.
   *
+  * Setting a test dataset to monitor model metrics can be done with `.setTestDataset`. The method
+  * expects a path to a parquet file containing a dataframe that has the same required columns as
+  * the training dataframe. The pre-processing steps for the training dataframe should also be
+  * applied to the test dataframe. The following example will show how to create the test dataset:
+  *
+  * {{{
+  * val documentAssembler = new DocumentAssembler()
+  *   .setInputCol("text")
+  *   .setOutputCol("document")
+  *
+  * val embeddings = UniversalSentenceEncoder.pretrained()
+  *   .setInputCols("document")
+  *   .setOutputCol("sentence_embeddings")
+  *
+  * val preProcessingPipeline = new Pipeline().setStages(Array(documentAssembler, embeddings))
+  *
+  * val Array(train, test) = data.randomSplit(Array(0.8, 0.2))
+  * preProcessingPipeline
+  *   .fit(test)
+  *   .transform(test)
+  *   .write
+  *   .mode("overwrite")
+  *   .parquet("test_data")
+  *
+  * val classifier = new ClassifierDLApproach()
+  *   .setInputCols("sentence_embeddings")
+  *   .setOutputCol("category")
+  *   .setLabelColumn("label")
+  *   .setTestDataset("test_data")
+  * }}}
+  *
   * For extended examples of usage, see the Spark NLP Workshop
   * [[https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/scala/training/Train%20Multi-Class%20Text%20Classification%20on%20News%20Articles.scala [1]]]
   * [[https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Public/5.Text_Classification_with_ClassifierDL.ipynb [2]]]
