@@ -313,7 +313,66 @@ $ ./annotationlab-updater.sh
 
 <br />
 
-### Work over proxy
+## OpenShift
+
+Annotation Lab can also be installed using the operator framework on an OpenShift cluster. The Annotation Lab operator can be found under the <bl>OperatorHub</bl>.
+
+<br />
+
+### Find and select
+
+The <bl>OperatorHub</bl> has a large list of operators that can be installed into your cluster. Search for Annotation Lab operator under AI/Machine Learning category and select it.
+
+<img class="image image__shadow" src="/assets/images/annotation_lab/Select-Operator.png" style="width:100%;"/>
+
+<br />
+
+### Install
+
+Some basic information about this operator is provided on the navigation panel that opens after selecting Annotation Lab on the previous step. 
+
+> **NOTE:** Make sure you have defined shared storage such as `efs/nfs/cephfs` prior to installing the Annotation Lab Operator.
+
+Click on the `Install` button located on the top-left corner of this panel to start the installation process.
+
+<img class="image image__shadow" src="/assets/images/annotation_lab/Install-Operator.png" style="width:100%;"/>
+
+After successful installation of the Annotation Lab operator, you can access it by navigating to the <bl>Installed Operators</bl> page.
+
+
+<br />
+
+### Create Instance
+
+Next step is to create a cluster instance of the Annotation Lab. For this, select the Annotation Lab operator under the <bl>Installed Operators</bl> page and then switch to _Annotationlab_ tab. On this section, click on `Create Annotationlab` button to spawn a new instance of Annotation Lab.
+
+<img class="image image__shadow" src="/assets/images/annotation_lab/Create-Instance.png" style="width:100%;"/>
+
+**Define shared Storage Class**
+
+Update the `storageClass` property in the YAML configuration to define the storage class to one of `efs`, `nfs`, or `cephfs` depending upon what storage you set up before Annotation Lab operator installation.
+
+<img class="image image__shadow" src="/assets/images/annotation_lab/Define-StorageClass.png" style="width:100%;"/>
+
+**Define domain name**
+
+Update the `host` property in the YAML configuration to define the required domain name to use instead of the default hostname `annotationlab` as shown in the image below.
+
+<img class="image image__shadow" src="/assets/images/annotation_lab/Define-Hostname.png" style="width:100%;"/>
+
+Click on `Create` button once you have made all the necessary changes. This will also set up all the necessary resources to run the instance in addition to standing up the services themselves.
+
+<br />
+
+### View Resources
+
+After the instance is successfully created we can visit its page to view all the resources as well as supporting resources like the secrets, configuration maps, etc that were created.
+
+<img class="image image__shadow" src="/assets/images/annotation_lab/View-Resources.png" style="width:100%;"/>
+
+Now, we can access the Annotation Lab from the provided domain name or also from the location defined for this service under the `Networking > Routes` page
+
+## Work over proxy
 
 **Custom CA certificate**
 
