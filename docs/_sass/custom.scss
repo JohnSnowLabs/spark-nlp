@@ -1818,7 +1818,7 @@ a.btn1.small {
 	margin: 0;
 }
 
-.tab-header {
+/* .tab-header {
 	display: flex;
 	flex-wrap: wrap;
 	justify-content: center;
@@ -1876,7 +1876,7 @@ a.btn1.small {
 
 .tab-header-inner {
 	margin: 0 -15px;
-}
+} */
 
 .main-big {
 	width: 100%;
@@ -2641,18 +2641,25 @@ code {
 		}
 	}
 	.top_tab_li .tab-jsl {
-		min-width: 165px;
+		min-width: 170px;
 		font-size: 16px;
 		padding: 10px;
+		background: #fff;
+		border: 1px solid #0098DA;
+		margin-right: 15px;
 		&.active,
 		&:hover {					
-			background: #3e4095;
-			border-color: #3e4095;
+			background: #0098DA;
 		}
 	}
 	.highlighter-rouge {
 		padding: 10px;
 		background: #e2f5fe;
+		&.python-inner-wrapper {
+			border-top: 1px solid #E5E9EA;
+			margin-top: 10px;
+		}
+		&.python-inner-wrapper,
 		&.tabs-wrapper {
 			background: none;
 			padding: 15px 0 0;
@@ -3404,10 +3411,10 @@ code {
 	.sponsor figure {
 		padding: 20px !important;
 	}
-	.tab-header button {
+	/* .tab-header button {
 		margin: 10px;
 		min-width: 220px;
-	}
+	} */
 	.tabcontent h3 {
 		margin: 35px 0;
 	}
@@ -3620,7 +3627,13 @@ code {
 @media (max-width: 660px) {
 	.nlp_content_item {
 		width: 47%;
-	}	
+	}		
+	.tabs-box .top_tab_li .tab-li {
+		min-width: 150px;
+		font-weight: 500;
+		font-size: 18px;
+		padding: 10px;
+	}
 }
 
 @media (max-width: 600px) {
@@ -3659,12 +3672,6 @@ code {
 		font-size: 14px;
 		line-height: 18px;
 		padding: 5px;
-	}
-	.tabs-box .top_tab_li .tab-li {
-		min-width: 150px;
-		font-weight: 500;
-		font-size: 18px;
-		padding: 10px;
 	}
 }
 
@@ -3757,11 +3764,11 @@ code {
 		line-height: 18px;
 		padding: 10px 15px;
 	}
-	.tab-header button {
+	/* .tab-header button {
 		line-height: 46px;
 		font-size: 14px;
 		min-width: 43%;
-	}
+	} */
 	.demopage {
 		.section-row {
 			padding: 0;
@@ -3842,6 +3849,7 @@ code {
 	}
 	.tabs-box .top_tab_li .tab-jsl {
 		min-width: 132px;
+		margin-right: 9px;
 	}
 	.docs-wrapper h2 {
 		font-weight: bold;
@@ -3869,13 +3877,13 @@ code {
 		font-size: 16px;
 		line-height: 24px;
 	}
-	.tab-header button strong {
+	/* .tab-header button strong {
 		font-size: 10px;
 		line-height: 12px;
 		&:after {
 			margin-top: -9px;
 		}
-	}
+	} */
 }
 
 
