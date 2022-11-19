@@ -114,7 +114,18 @@ text ="""Been taking Lipitor for 15 years , have experienced severe fatigue a lo
 annotations = light_pipeline.fullAnnotate(text)
 ```
 ```scala
-...
+val document_assembler = new DocumentAssembler()
+    .setInputCol("text")
+    .setOutputCol("document")
+         
+val sentence_detector = new SentenceDetector()
+    .setInputCols("document")
+    .setOutputCol("sentences")
+
+val tokenizer = new Tokenizer()
+    .setInputCols("sentences")
+    .setOutputCol("tokens")
+
 val words_embedder = WordEmbeddingsModel()
     .pretrained("embeddings_clinical", "en", "clinical/models")
     .setInputCols(Array("sentences", "tokens"))

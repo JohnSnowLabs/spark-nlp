@@ -83,7 +83,7 @@ clinical_ner])
 text = ["J'ai vu en consultation Michel Martinez (49 ans) adressé au Centre Hospitalier De Plaisir pour un diabète mal contrôlé avec des symptômes datant de Mars 2015."]
 
 
-df = spark.createDataFrame([text]).toDF("text")
+data = spark.createDataFrame([text]).toDF("text")
 
 
 results = nlpPipeline.fit(data).transform(data)
@@ -95,12 +95,12 @@ val documentAssembler = new DocumentAssembler()
 
 
 val sentenceDetector = SentenceDetectorDLModel.pretrained("sentence_detector_dl", "xx")
-.setInputCols("document")
+.setInputCols(Array("document"))
 .setOutputCol("sentence")
 
 
 val tokenizer = new Tokenizer()
-.setInputCols("sentence")
+.setInputCols(Array("sentence"))
 .setOutputCol("token")
 
 

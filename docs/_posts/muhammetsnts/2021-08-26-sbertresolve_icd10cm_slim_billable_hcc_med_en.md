@@ -36,7 +36,7 @@ Outputs 7-digit billable ICD codes. In the result, look for aux_label parameter 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
 ```python
-documentAssembler = DocumentAssembler()\
+document_assembler = DocumentAssembler()\
 .setInputCol("text")\
 .setOutputCol("ner_chunk")
 
@@ -47,7 +47,7 @@ sbert_embedder = BertSentenceEmbeddings\
 
 icd10_resolver = SentenceEntityResolverModel\
 .pretrained("sbertresolve_icd10cm_slim_billable_hcc_med","en", "clinical/models") \
-.setInputCols(["document", "sbert_embeddings"]) \
+.setInputCols(["ner_chunk", "sbert_embeddings"]) \
 .setOutputCol("icd10cm_code")\
 .setDistanceFunction("EUCLIDEAN")\
 .setReturnCosineDistances(True)
@@ -61,16 +61,16 @@ results = bert_pipeline_icd.fit(data).transform(data)
 ```scala
 val document_assembler = DocumentAssembler()
 .setInputCol("text")
-.setOutputCol("document")
+.setOutputCol("ner_chunk")
 
 val sbert_embedder = BertSentenceEmbeddings
 .pretrained("sbert_jsl_medium_uncased","en","clinical/models")
-.setInputCols(Array("document"))
+.setInputCols(Array("ner_chunk"))
 .setOutputCol("sbert_embeddings")
 
 val icd10_resolver = SentenceEntityResolverModel
 .pretrained("sbertresolve_icd10cm_slim_billable_hcc_med","en", "clinical/models") 
-.setInputCols(Array("document", "sbert_embeddings")) 
+.setInputCols(Array("ner_chunk", "sbert_embeddings")) 
 .setOutputCol("icd10cm_code")
 .setDistanceFunction("EUCLIDEAN")
 .setReturnCosineDistances(True)

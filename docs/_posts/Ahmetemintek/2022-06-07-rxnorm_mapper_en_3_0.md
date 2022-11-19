@@ -75,39 +75,38 @@ posology_ner_converter,
 chunkerMapper])
 
 
-test_data = spark.createDataFrame([["The patient was given Zyrtec 10 MG, Adapin 10 MG Oral Capsule, Septi-Soothe 0.5 Topical Spray"]]).toDF("text")
+data = spark.createDataFrame([["The patient was given Zyrtec 10 MG, Adapin 10 MG Oral Capsule, Septi-Soothe 0.5 Topical Spray"]]).toDF("text")
+result = mapper_pipeline.fit(data).transform(data) 
 
-mapper_model = mapper_pipeline.fit(test_data)
-res= mapper_model.transform(test_data)
 ```
 ```scala
-val document_assembler = new DocumentAssembler()\
-.setInputCol("text")\
+val document_assembler = new DocumentAssembler()
+.setInputCol("text")
 .setOutputCol("document")
 
-val sentence_detector = new SentenceDetector()\
-.setInputCols(Array("document"))\
+val sentence_detector = new SentenceDetector()
+.setInputCols(Array("document"))
 .setOutputCol("sentence")
 
-val tokenizer = new Tokenizer()\
-.setInputCols("sentence")\
+val tokenizer = new Tokenizer()
+.setInputCols("sentence")
 .setOutputCol("token")
 
-val word_embeddings = WordEmbeddingsModel.pretrained("embeddings_clinical", "en", "clinical/models")\
-.setInputCols(Array("sentence", "token"))\
+val word_embeddings = WordEmbeddingsModel.pretrained("embeddings_clinical", "en", "clinical/models")
+.setInputCols(Array("sentence", "token"))
 .setOutputCol("embeddings")
 
-val posology_ner_model = MedicalNerModel.pretrained("ner_posology_greedy", "en", "clinical/models")\
-.setInputCols(Array("sentence", "token", "embeddings"))\
+val posology_ner_model = MedicalNerModel.pretrained("ner_posology_greedy", "en", "clinical/models")
+.setInputCols(Array("sentence", "token", "embeddings"))
 .setOutputCol("posology_ner")
 
-val posology_ner_converter = new NerConverterInternal()\
-.setInputCols("sentence", "token", "posology_ner")\
+val posology_ner_converter = new NerConverterInternal()
+.setInputCols("sentence", "token", "posology_ner")
 .setOutputCol("ner_chunk")
 
-val chunkerMapper = ChunkMapperModel.pretrained("rxnorm_mapper", "en", "clinical/models")\
-.setInputCols(Array("ner_chunk"))\
-.setOutputCol("mappings")\
+val chunkerMapper = ChunkMapperModel.pretrained("rxnorm_mapper", "en", "clinical/models")
+.setInputCols(Array("ner_chunk"))
+.setOutputCol("mappings")
 .setRel("rxnorm_code") 
 
 val mapper_pipeline = new Pipeline().setStages(Array(
@@ -122,7 +121,7 @@ chunkerMapper))
 val senetence= "The patient was given Zyrtec 10 MG, Adapin 10 MG Oral Capsule, Septi-Soothe 0.5 Topical Spray"
 val data = Seq(senetence).toDF("text")
 
-val result = pipeline.fit(data).transform(data) 
+val result = mapper_pipeline.fit(data).transform(data) 
 ```
 
 

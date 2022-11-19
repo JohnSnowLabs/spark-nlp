@@ -68,13 +68,13 @@ tokenizer,
 tokenClassifier, 
 ner_converter])
 
-p_model = pipeline.fit(spark.createDataFrame(pd.DataFrame({'text': ['']})))
-
-test_sentence = """Based on these genetic and phenotypic properties, we propose that strain SMSP (T) represents \
+data = spark.createDataFrame([[ """Based on these genetic and phenotypic properties, we propose that strain SMSP (T) represents \
 a novel species of the genus Methanoregula, for which we propose the name Methanoregula formicica \
 sp. nov., with the type strain SMSP (T) (= NBRC 105244 (T) = DSM 22288 (T))."""
+]]).toDF("text")
 
-result = p_model.transform(spark.createDataFrame(pd.DataFrame({'text': [test_sentence]})))
+result = pipeline.fit(data).transform(data)
+
 ```
 ```scala
 val documentAssembler = new DocumentAssembler()
@@ -96,7 +96,9 @@ val ner_converter = new NerConverter()
 
 val pipeline =  new Pipeline().setStages(Array(documentAssembler, tokenizer, tokenClassifier, ner_converter))
 
-val data = Seq("""Both the erbA IRES and the erbA/myb virus constructs transformed erythroid cells after infection of bone marrow or blastoderm cultures. The erbA/myb IRES virus exhibited a 5-10-fold higher transformed colony forming efficiency than the erbA IRES virus in the blastoderm assay.""").toDS.toDF("text")
+val data = Seq("""Based on these genetic and phenotypic properties, we propose that strain SMSP (T) represents \
+a novel species of the genus Methanoregula, for which we propose the name Methanoregula formicica \
+sp. nov., with the type strain SMSP (T) (= NBRC 105244 (T) = DSM 22288 (T)).""").toDS.toDF("text")
 
 
 val result = pipeline.fit(data).transform(data)

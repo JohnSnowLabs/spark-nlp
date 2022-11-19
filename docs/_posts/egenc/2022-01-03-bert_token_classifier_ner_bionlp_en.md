@@ -68,11 +68,9 @@ tokenizer,
 tokenClassifier, 
 ner_converter])
 
-p_model = pipeline.fit(spark.createDataFrame(pd.DataFrame({'text': ['']})))
+data = spark.createDataFrame([["""Both the erbA IRES and the erbA/myb virus constructs transformed erythroid cells after infection of bone marrow or blastoderm cultures. The erbA/myb IRES virus exhibited a 5-10-fold higher transformed colony forming efficiency than the erbA IRES virus in the blastoderm assay."""]]).toDF("text")
 
-test_sentence = """Both the erbA IRES and the erbA/myb virus constructs transformed erythroid cells after infection of bone marrow or blastoderm cultures. The erbA/myb IRES virus exhibited a 5-10-fold higher transformed colony forming efficiency than the erbA IRES virus in the blastoderm assay."""
-
-result = p_model.transform(spark.createDataFrame(pd.DataFrame({'text': [test_sentence]})))
+result = pipeline.fit(data).transform(data)
 ```
 ```scala
 val documentAssembler = new DocumentAssembler()

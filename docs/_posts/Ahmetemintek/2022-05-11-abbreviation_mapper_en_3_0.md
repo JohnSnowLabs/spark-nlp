@@ -115,7 +115,7 @@ val abbr_converter = NerConverter()
 .setOutputCol("abbr_ner_chunk")
 
 val chunkerMapper = ChunkMapperModel.pretrained("abbreviation_mapper", "en", "clinical/models")
-.setInputCols("abbr_ner_chunk")
+.setInputCols(Array("abbr_ner_chunk"))
 .setOutputCol("mappings")
 .setRel("definition") 
 
@@ -137,7 +137,7 @@ HIV: Negative. One-Hour Glucose: 117. Group B strep has not been done as yet."""
 
 val data = Seq(test_sentence).toDS.toDF("text")
 
-val res= pipeline.fit(data).transform(data)
+val result= pipeline.fit(data).transform(data)
 ```
 
 

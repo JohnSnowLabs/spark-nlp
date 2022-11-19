@@ -104,13 +104,9 @@ dependency_parser,
 events_re_ner_chunk_filter,
 events_re_Model])
 
-text ="This 73 y/o patient had CT on 1/12/95, with progressive memory and cognitive decline since 8/11/94."
+data = spark.createDataFrame([['''This 73 y/o patient had CT on 1/12/95, with progressive memory and cognitive decline since 8/11/94.''']]).toDF("text")
 
-data = spark.createDataFrame([[text]]).toDF("text")
-
-p_model = pipeline.fit(data)
-
-result = p_model.transform(data)
+result = pipeline.fit(data).transform(data)
 ```
 ```scala
 ...
@@ -119,11 +115,11 @@ val documenter = new DocumentAssembler()
 .setOutputCol("document")
 
 val sentencer = new SentenceDetector()
-.setInputCols("document")
+.setInputCols(Array("document"))
 .setOutputCol("sentences")
 
 val tokenizer = new Tokenizer()
-.setInputCols("sentences")
+.setInputCols(Array("sentences"))
 .setOutputCol("tokens")
 
 val words_embedder = WordEmbeddingsModel.pretrained("embeddings_clinical", "en", "clinical/models")

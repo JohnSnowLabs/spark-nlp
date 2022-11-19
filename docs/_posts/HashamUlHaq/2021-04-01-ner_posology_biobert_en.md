@@ -37,20 +37,34 @@ Detect Drug, Dosage and administration instructions in text using pretraiend NER
 
 ## How to use
 
-
-
-
-
-
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
 
 ```python
-...
-embeddings_clinical = BertEmbeddings.pretrained("biobert_pubmed_base_cased").setInputCols(["sentence", "token"]).setOutputCol("embeddings")
+document_assembler = DocumentAssembler()\
+    .setInputCol("text")\
+    .setOutputCol("document")
+         
+sentence_detector = SentenceDetector()\
+    .setInputCols(["document"])\
+    .setOutputCol("sentence")
 
-clinical_ner = MedicalNerModel.pretrained("ner_posology_biobert", "en", "clinical/models").setInputCols(["sentence", "token", "embeddings"]).setOutputCol("ner")
-...
+tokenizer = Tokenizer()\
+    .setInputCols(["sentence"])\
+    .setOutputCol("token")
+
+embeddings_clinical = BertEmbeddings.pretrained("biobert_pubmed_base_cased")\
+    .setInputCols(["sentence", "token"])\
+    .setOutputCol("embeddings")
+
+clinical_ner = MedicalNerModel.pretrained("ner_posology_biobert", "en", "clinical/models")\
+    .setInputCols(["sentence", "token", "embeddings"])\
+    .setOutputCol("ner")
+
+ner_converter = NerConverter()\
+ 	  .setInputCols(["sentence", "token", "ner"])\
+ 	  .setOutputCol("ner_chunk")
+    
 nlpPipeline = Pipeline(stages=[document_assembler, sentence_detector, tokenizer, embeddings_clinical, clinical_ner, ner_converter])
 
 model = nlpPipeline.fit(spark.createDataFrame([[""]]).toDF("text"))
@@ -58,18 +72,33 @@ model = nlpPipeline.fit(spark.createDataFrame([[""]]).toDF("text"))
 results = model.transform(spark.createDataFrame([["EXAMPLE_TEXT"]]).toDF("text"))
 ```
 ```scala
-...
+val document_assembler = new DocumentAssembler()
+    .setInputCol("text")
+    .setOutputCol("document")
+         
+val sentence_detector = new SentenceDetector()
+    .setInputCols("document")
+    .setOutputCol("sentence")
+
+val tokenizer = new Tokenizer()
+    .setInputCols("sentence")
+    .setOutputCol("token")
+
 val embeddings_clinical = BertEmbeddings.pretrained("biobert_pubmed_base_cased")
-.setInputCols(Array("sentence", "token"))
-.setOutputCol("embeddings")
+    .setInputCols(Array("sentence", "token"))
+    .setOutputCol("embeddings")
 
 val ner = MedicalNerModel.pretrained("ner_posology_biobert", "en", "clinical/models")
-.setInputCols(Array("sentence", "token", "embeddings"))
-.setOutputCol("ner")
-...
+    .setInputCols(Array("sentence", "token", "embeddings"))
+    .setOutputCol("ner")
+
+val ner_converter = new NerConverter()
+ 	.setInputCols(Array("sentence", "token", "ner"))
+ 	.setOutputCol("ner_chunk")
+
 val pipeline = new Pipeline().setStages(Array(document_assembler, sentence_detector, tokenizer, embeddings_clinical, ner, ner_converter))
 
-val result = pipeline.fit(Seq.empty[String]).transform(data)
+val result = pipeline.fit(data).transform(data)
 ```
 
 

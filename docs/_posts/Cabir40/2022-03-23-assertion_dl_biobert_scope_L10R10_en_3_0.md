@@ -105,12 +105,12 @@ val documentAssembler = new DocumentAssembler()
 
 
 val sentenceDetector = SentenceDetectorDLModel.pretrained()
-    .setInputCols("document") 
+    .setInputCols(Array("document"))
     .setOutputCol("sentence") 
 
 
 val tokenizer = new Tokenizer()
-    .setInputCols("sentence")
+    .setInputCols(Array("sentence"))
     .setOutputCol("token")
 
 

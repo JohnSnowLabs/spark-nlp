@@ -101,9 +101,9 @@ pipeline = Pipeline(stages=[documenter, sentencer, tokenizer, pos_tagger, words_
 
 text ="No neurologic deficits other than some numbness in his left hand."
 
-p_model = pipeline.fit(spark.createDataFrame([[text]]).toDF("text"))
+data = spark.createDataFrame([[text]]).toDF("text")
 
-result = p_model.transform(data)
+result = pipeline.fit(data).transform(data)
 ```
 ```scala
 ...

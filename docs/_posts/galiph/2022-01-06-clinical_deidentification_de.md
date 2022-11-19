@@ -37,7 +37,7 @@ from sparknlp.pretrained import PretrainedPipeline
 
 deid_pipeline = PretrainedPipeline("clinical_deidentification", "de", "clinical/models")
 
-text = """Michael Berger wird am Morgen des 12 Dezember 2018 ins St. Elisabeth-Krankenhaus
+sample = """Michael Berger wird am Morgen des 12 Dezember 2018 ins St. Elisabeth-Krankenhaus
 in Bad Kissingen eingeliefert. Herr Berger ist 76 Jahre alt und hat zu viel Wasser in den Beinen."""
 
 result = deid_pipe.annotate(sample)
@@ -51,8 +51,8 @@ import com.johnsnowlabs.nlp.pretrained.PretrainedPipeline
 
 val deid_pipeline = PretrainedPipeline("clinical_deidentification","de","clinical/models")
 
-val sample = "Michael Berger wird am Morgen des 12 Dezember 2018 ins St. Elisabeth-Krankenhaus
-in Bad Kissingen eingeliefert. Herr Berger ist 76 Jahre alt und hat zu viel Wasser in den Beinen."
+val sample = """Michael Berger wird am Morgen des 12 Dezember 2018 ins St. Elisabeth-Krankenhaus
+in Bad Kissingen eingeliefert. Herr Berger ist 76 Jahre alt und hat zu viel Wasser in den Beinen."""
 
 val result = deid_pipe.annotate(sample)
 ```

@@ -65,11 +65,9 @@ ner_converter = NerConverter()\
 
 pipeline =  Pipeline(stages=[documentAssembler, tokenizer, tokenClassifier, ner_converter])
 
-p_model = pipeline.fit(spark.createDataFrame(pd.DataFrame({'text': ['']})))
+data = spark.createDataFrame([["""The results have shown that the product p - choloroaniline is not a significant factor in chlorhexidine - digluconate associated erosive cystitis. "A high percentage of kanamycin - colistin and povidone - iodine irrigations were associated with erosive cystitis."""]]).toDF("text")
 
-test_sentence = """The results have shown that the product p - choloroaniline is not a significant factor in chlorhexidine - digluconate associated erosive cystitis. "A high percentage of kanamycin - colistin and povidone - iodine irrigations were associated with erosive cystitis."""
-
-result = p_model.transform(spark.createDataFrame(pd.DataFrame({'text': [test_sentence]})))
+result = pipeline.fit(data).transform(data)
 ```
 ```scala
 val documentAssembler = new DocumentAssembler()

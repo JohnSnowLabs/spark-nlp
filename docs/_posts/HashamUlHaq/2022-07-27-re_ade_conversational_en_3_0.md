@@ -31,19 +31,17 @@ This model is capable of Relating Drugs and adverse reactions caused by them in 
 
 ## How to use
 
-
-
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
 
 ```python
-documenter = sparknlp.DocumentAssembler()\
+documenter = DocumentAssembler()\
     .setInputCol("text")\
     .setOutputCol("sentences")
 
-tokenizer = sparknlp.annotators.Tokenizer()\
+tokenizer = Tokenizer()\
     .setInputCols(["sentences"])\
-    .setOutputCol("tokens")\
+    .setOutputCol("tokens")
 
 words_embedder = WordEmbeddingsModel() \
     .pretrained("embeddings_clinical", "en", "clinical/models") \
@@ -84,7 +82,14 @@ text ="""19.32 day 20 rivaroxaban diary. still residual aches and pains; only ha
 annotations = light_pipeline.fullAnnotate(text)
 ```
 ```scala
-...
+val documenter = new DocumentAssembler()
+    .setInputCol("text")
+    .setOutputCol("sentences")
+
+val tokenizer = new Tokenizer()
+    .setInputCols("sentences")
+    .setOutputCol("tokens")
+
 val words_embedder = WordEmbeddingsModel()
     .pretrained("embeddings_clinical", "en", "clinical/models")
     .setInputCols(Array("sentences", "tokens"))

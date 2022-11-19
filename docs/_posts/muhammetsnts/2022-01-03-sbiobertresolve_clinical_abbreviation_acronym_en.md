@@ -81,13 +81,15 @@ sentence_chunk_embeddings,
 abbr_resolver
 ])
 
-model = resolver_pipeline.fit(spark.createDataFrame([['']]).toDF("text"))
+text = "The patient admitted from the IR for aggressive irrigation of the Miami pouch. DISCHARGE DIAGNOSES: 1. A 58-year-old female with a history of stage 2 squamous cell carcinoma of the cervix status post total pelvic exenteration in 1991."
 
-sample_text = "The patient admitted from the IR for aggressive irrigation of the Miami pouch. DISCHARGE DIAGNOSES: 1. A 58-year-old female with a history of stage 2 squamous cell carcinoma of the cervix status post total pelvic exenteration in 1991."
-abbr_result = model.transform(spark.createDataFrame([[text]]).toDF('text'))
+sample_text = spark.createDataFrame([[text]]).toDF('text')
+
+abbr_result = resolver_pipeline.fit(sample_text).transform(sample_text)
+
 ```
 ```scala
-val document_assembler = DocumentAssembler()\
+val document_assembler = DocumentAssembler()
 .setInputCol("text")
 .setOutputCol("document")
 
@@ -124,6 +126,7 @@ val abbr_resolver = SentenceEntityResolverModel.pretrained("sbiobertresolve_clin
 val resolver_pipeline = new Pipeline().setStages(document_assembler, tokenizer, word_embeddings, clinical_ner, ner_converter, sentence_chunk_embeddings, abbr_resolver)
 
 val sample_text = Seq("The patient admitted from the IR for aggressive irrigation of the Miami pouch. DISCHARGE DIAGNOSES: 1. A 58-year-old female with a history of stage 2 squamous cell carcinoma of the cervix status post total pelvic exenteration in 1991.").toDF("text")
+
 val abbr_result = resolver_pipeline.fit(sample_text).transform(sample_text)
 ```
 

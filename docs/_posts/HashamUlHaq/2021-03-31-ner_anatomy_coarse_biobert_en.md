@@ -35,30 +35,67 @@ An NER model to extract all types of anatomical references in text using "biober
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
+
 ```python
-...
+document_assembler = DocumentAssembler()\
+    .setInputCol("text")\
+    .setOutputCol("document")
+         
+sentence_detector = SentenceDetector()\
+    .setInputCols(["document"])\
+    .setOutputCol("sentence")
+
+tokenizer = Tokenizer()\
+    .setInputCols(["sentence"])\
+    .setOutputCol("token")
+
 embeddings = BertEmbeddings.pretrained("biobert_pubmed_base_cased", "en") \
-.setInputCols("sentence", "token") \
-.setOutputCol("embeddings")
+    .setInputCols("sentence", "token") \
+    .setOutputCol("embeddings")
+
 clinical_ner = MedicalNerModel.pretrained("ner_anatomy_coarse_biobert", "en", "clinical/models") \
-.setInputCols(["sentence", "token", "embeddings"]) \
-.setOutputCol("ner")
-...
+    .setInputCols(["sentence", "token", "embeddings"]) \
+    .setOutputCol("ner")
+
+ner_converter = NerConverter()\
+ 	.setInputCols(["sentence", "token", "ner"])\
+ 	.setOutputCol("ner_chunk")
+
 nlp_pipeline = Pipeline(stages=[document_assembler, sentence_detector, tokenizer, embeddings, clinical_ner, ner_converter])
-model = nlpPipeline.fit(spark.createDataFrame([["content in the lung tissue"]]).toDF("text"))
-results = model.transform(data)
+
+model = nlp_pipeline.fit(spark.createDataFrame([[""]]).toDF("text"))
+
+results = model.transform(spark.createDataFrame([["content in the lung tissue"]], ["text"]))
 ```
 ```scala
-...
+val document_assembler = new DocumentAssembler()
+    .setInputCol("text")
+    .setOutputCol("document")
+         
+val sentence_detector = new SentenceDetector()
+    .setInputCols("document")
+    .setOutputCol("sentence")
+
+val tokenizer = new Tokenizer()
+    .setInputCols("sentence")
+    .setOutputCol("token")
+
 val embeddings = BertEmbeddings.pretrained("biobert_pubmed_base_cased", "en")
-.setInputCols(Array("sentence", "token"))
-.setOutputCol("embeddings")
-val ner = MedicalNerModel.pretrained("ner_anatomy_coarse_biobert", "en", "clinical/models") \
-.setInputCols(["sentence", "token", "embeddings"]) \
-.setOutputCol("ner")
-...
+    .setInputCols(Array("sentence", "token"))
+    .setOutputCol("embeddings")
+
+val ner = MedicalNerModel.pretrained("ner_anatomy_coarse_biobert", "en", "clinical/models")
+    .setInputCols(Array("sentence", "token", "embeddings"))
+    .setOutputCol("ner")
+
+val ner_converter = new NerConverter()
+ 	.setInputCols(Array("sentence", "token", "ner"))
+ 	.setOutputCol("ner_chunk")
+
 val pipeline = new Pipeline().setStages(Array(document_assembler, sentence_detector, tokenizer, embeddings, ner, ner_converter))
-val data = Seq("content in the lung tissue").toDF("text")
+
+val data = Seq("""content in the lung tissue""").toDS().toDF("text")
+
 val result = pipeline.fit(data).transform(data)
 ```
 

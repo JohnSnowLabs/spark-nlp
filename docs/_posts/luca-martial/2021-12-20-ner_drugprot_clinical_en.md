@@ -46,33 +46,67 @@ This model detects chemical compounds/drugs and genes/proteins in medical text a
 
 ```python
 ...
+document_assembler = DocumentAssembler()\
+.setInputCol("text")\
+.setOutputCol("document")
+
+sentence_detector = SentenceDetector()\
+.setInputCols(["document"])\
+.setOutputCol("sentences")
+
+tokenizer = Tokenizer()\
+.setInputCols(["sentences"])\
+.setOutputCol("tokens")
+
 embeddings_clinical = WordEmbeddingsModel.pretrained("embeddings_clinical", "en", "clinical/models")\
-.setInputCols(["sentence", "token"])\
+.setInputCols(["sentences", "tokens"])\
 .setOutputCol("embeddings")
 
 clinical_ner = MedicalNerModel.pretrained("ner_drugprot_clinical", "en", "clinical/models")\
-.setInputCols(["sentence", "token", "embeddings"])\
+.setInputCols(["sentences", "tokens", "embeddings"])\
 .setOutputCol("ner")
+
+ner_converter = NerConverter()\
+.setInputCols(["sentences", "tokens", "ner"])\
+.setOutputCol("ner_chunks")
+
 
 nlpPipeline = Pipeline(stages=[document_assembler, sentence_detector, tokenizer, embeddings_clinical, clinical_ner, ner_converter])
 
-model = nlpPipeline.fit(spark.createDataFrame([[""]]).toDF("text"))
-
 EXAMPLE_TEXT = "Anabolic effects of clenbuterol on skeletal muscle are mediated by beta 2-adrenoceptor activation."
 
-results = model.transform(spark.createDataFrame([[EXAMPLE_TEXT]]).toDF("text"))
+data = spark.createDataFrame([[EXAMPLE_TEXT]]).toDF("text")
+
+results = nlpPipeline.fit(data).transform(data)
 ```
 ```scala
 ...
+val document_assembler = new DocumentAssembler() 
+.setInputCol("text") 
+.setOutputCol("document")
+
+val sentence_detector = new SentenceDetector()
+.setInputCols(Array("document"))
+.setOutputCol("sentences")
+
+val tokenizer = new Tokenizer()
+.setInputCols(Array("sentences"))
+.setOutputCol("tokens")
+
 val embeddings_clinical = WordEmbeddingsModel.pretrained("embeddings_clinical", "en", "clinical/models")
-.setInputCols(Array("sentence", "token"))
+.setInputCols(Array("sentences", "tokens"))
 .setOutputCol("embeddings")
 
-val ner = MedicalNerModel.pretrained("ner_drugprot_clinical", "en", "clinical/models")
-.setInputCols(Array("sentence", "token", "embeddings"))
+val clinical_ner = MedicalNerModel.pretrained("ner_drugprot_clinical", "en", "clinical/models")
+.setInputCols(Array("sentences", "tokens", "embeddings"))
 .setOutputCol("ner")
 
-val pipeline = new Pipeline().setStages(Array(document_assembler, sentence_detector, tokenizer, embeddings_clinical, ner, ner_converter))
+val ner_converter = new NerConverter()
+.setInputCols(Array("sentences", "tokens", "ner"))
+.setOutputCol("ner_chunks")
+
+
+val pipeline = new Pipeline().setStages(Array(document_assembler, sentence_detector, tokenizer, embeddings_clinical, clinical_ner, ner_converter))
 
 val data = Seq("""Anabolic effects of clenbuterol on skeletal muscle are mediated by beta 2-adrenoceptor activation.""").toDS.toDF("text")
 

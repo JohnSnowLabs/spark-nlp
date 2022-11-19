@@ -24,7 +24,7 @@ We sticked to official annotation guideline (AG) for 2014 i2b2 Deid challenge wh
 
 ## Predicted Entities
 
-`AGE`, `CONTACT`, `DATE`, `ID`, `LOCATION`, `NAME`, `PROFESSION`.
+`AGE`, `CONTACT`, `DATE`, `ID`, `LOCATION`, `NAME`, `PROFESSION`, `HEALTHPLAN`, `URL`.
 
 {:.btn-box}
 [Live Demo](https://demo.johnsnowlabs.com/healthcare/NER_DEMOGRAPHICS){:.button.button-orange}
@@ -39,16 +39,32 @@ We sticked to official annotation guideline (AG) for 2014 i2b2 Deid challenge wh
 {% include programmingLanguageSelectScalaPythonNLU.html %}
 
 ```python
-...
-word_embeddings = WordEmbeddingsModel.pretrained("embeddings_clinical", "en", "clinical/models")\
-.setInputCols(["sentence", "token"])\
-.setOutputCol("embeddings")
 
-model = MedicalNerModel.pretrained("ner_deid_large","en","clinical/models") \
-.setInputCols("sentence","token","embeddings") \
-.setOutputCol("ner")
-...
-nlp_pipeline = Pipeline(stages=[document_assembler, sentence_detector, tokenizer, word_embeddings, model, ner_converter])    
+document_assembler = DocumentAssembler() \
+    .setInputCol("text") \
+    .setOutputCol("document")
+
+sentence_detector = SentenceDetectorDLModel.pretrained("sentence_detector_dl_healthcare","en","clinical/models")\
+    .setInputCols(["document"])\
+    .setOutputCol("sentence")
+
+tokenizer = Tokenizer() \
+    .setInputCols("sentence") \
+    .setOutputCol("token")
+
+word_embeddings = WordEmbeddingsModel.pretrained("embeddings_clinical", "en", "clinical/models")\
+    .setInputCols(["sentence", "token"])\
+    .setOutputCol("embeddings")
+
+ner = MedicalNerModel.pretrained("ner_deid_large","en","clinical/models") \
+    .setInputCols("sentence","token","embeddings") \
+    .setOutputCol("ner")
+
+ner_converter = NerConverter() \
+    .setInputCols(["sentence", "token", "ner"]) \
+    .setOutputCol("entities")
+
+nlp_pipeline = Pipeline(stages=[document_assembler, sentence_detector, tokenizer, word_embeddings, ner, ner_converter])    
 
 light_pipeline = LightPipeline(nlp_pipeline.fit(spark.createDataFrame([['']]).toDF("text")))
 
@@ -57,24 +73,46 @@ input_text = ["""HISTORY OF PRESENT ILLNESS: Mr. Smith is a 60-year-old white ma
 result = pipeline_model.transform(spark.createDataFrame([input_text], ["text"]))
 ```
 ```scala
-...
+val document_assembler = new DocumentAssembler()
+    .setInputCol("text")
+    .setOutputCol("document")
+
+val sentence_detector = SentenceDetectorDLModel.pretrained("sentence_detector_dl_healthcare","en","clinical/models")
+    .setInputCols("document")
+    .setOutputCol("sentence")
+
+val tokenizer = new Tokenizer()
+    .setInputCols("sentence")
+    .setOutputCol("token")
+
 val word_embeddings = WordEmbeddingsModel.pretrained("embeddings_clinical", "en", "clinical/models")
-.setInputCols(Array("sentence", "token"))
-.setOutputCol("embeddings")
-val model = MedicalNerModel.pretrained("ner_deid_large","en","clinical/models")
-.setInputCols("sentence","token","embeddings")
-.setOutputCol("ner")
-...
-val pipeline = new Pipeline().setStages(Array(document_assembler, sentence_detector, tokenizer, word_embeddings, model, ner_converter))
+    .setInputCols(Array("sentence", "token"))
+    .setOutputCol("embeddings")
+
+val ner = MedicalNerModel.pretrained("ner_deid_large","en","clinical/models")
+    .setInputCols(Array("sentence","token","embeddings"))
+    .setOutputCol("ner")
+
+ner_converter = new NerConverter()
+    .setInputCols(Array("sentence", "token", "ner"))
+    .setOutputCol("entities")
+
+val pipeline = new Pipeline().setStages(Array(document_assembler, sentence_detector, tokenizer, word_embeddings, ner, ner_converter))
+
 val data = Seq("HISTORY OF PRESENT ILLNESS: Mr. Smith is a 60-year-old white male veteran with multiple comorbidities, who has a history of bladder cancer diagnosed approximately two years ago by the VA Hospital. He underwent a resection there. He was to be admitted to the Day Hospital for cystectomy. He was seen in Urology Clinic and Radiology Clinic on 02/04/2003. HOSPITAL COURSE: Mr. Smith presented to the Day Hospital in anticipation for Urology surgery. On evaluation, EKG, echocardiogram was abnormal, a Cardiology consult was obtained. A cardiac adenosine stress MRI was then proceeded, same was positive for inducible ischemia, mild-to-moderate inferolateral subendocardial infarction with peri-infarct ischemia. In addition, inducible ischemia seen in the inferior lateral septum. Mr. Smith underwent a left heart catheterization, which revealed two vessel coronary artery disease. The RCA, proximal was 95% stenosed and the distal 80% stenosed. The mid LAD was 85% stenosed and the distal LAD was 85% stenosed. There was four Multi-Link Vision bare metal stents placed to decrease all four lesions to 0%. Following intervention, Mr. Smith was admitted to 7 Ardmore Tower under Cardiology Service under the direction of Dr. Hart. Mr. Smith had a noncomplicated post-intervention hospital course. He was stable for discharge home on 02/07/2003 with instructions to take Plavix daily for one month and Urology is aware of the same.").toDF("text")
+
 val result = pipeline.fit(data).transform(data)
 ```
 
 
 {:.nlu-block}
+
 ```python
+
 import nlu
+
 nlu.load("en.med_ner.deid.large").predict("""HISTORY OF PRESENT ILLNESS: Mr. Smith is a 60-year-old white male veteran with multiple comorbidities, who has a history of bladder cancer diagnosed approximately two years ago by the VA Hospital. He underwent a resection there. He was to be admitted to the Day Hospital for cystectomy. He was seen in Urology Clinic and Radiology Clinic on 02/04/2003.	HOSPITAL COURSE: Mr. Smith presented to the Day Hospital in anticipation for Urology surgery. On evaluation, EKG, echocardiogram was abnormal, a Cardiology consult was obtained. A cardiac adenosine stress MRI was then proceeded, same was positive for inducible ischemia, mild-to-moderate inferolateral subendocardial infarction with peri-infarct ischemia. In addition, inducible ischemia seen in the inferior lateral septum. Mr. Smith underwent a left heart catheterization, which revealed two vessel coronary artery disease. The RCA, proximal was 95% stenosed and the distal 80% stenosed. The mid LAD was 85% stenosed and the distal LAD was 85% stenosed. There was four Multi-Link Vision bare metal stents placed to decrease all four lesions to 0%. Following intervention, Mr. Smith was admitted to 7 Ardmore Tower under Cardiology Service under the direction of Dr. Hart. Mr. Smith had a noncomplicated post-intervention hospital course. He was stable for discharge home on 02/07/2003 with instructions to take Plavix daily for one month and Urology is aware of the same.""")
+
 ```
 
 </div>
@@ -85,18 +123,17 @@ nlu.load("en.med_ner.deid.large").predict("""HISTORY OF PRESENT ILLNESS: Mr. Smi
 +---------------+---------+
 |chunk          |ner_label|
 +---------------+---------+
-|Smith          |PATIENT  |
-|Smith          |PATIENT  |
-|VA Hospital    |HOSPITAL |
-|Day Hospital   |HOSPITAL |
+|Smith          |NAME     |
+|VA Hospital    |LOCATION |
+|Day Hospital   |LOCATION |
 |02/04/2003     |DATE     |
-|Smith          |PATIENT  |
-|Day Hospital   |HOSPITAL |
-|Smith          |PATIENT  |
-|Smith          |PATIENT  |
-|7 Ardmore Tower|STREET   |
-|Hart           |DOCTOR   |
-|Smith          |PATIENT  |
+|Smith          |NAME     |
+|Day Hospital   |LOCATION |
+|Smith          |NAME     |
+|Smith          |NAME     |
+|7 Ardmore Tower|LOCATION |
+|Hart           |NAME     |
+|Smith          |NAME     |
 |02/07/2003     |DATE     |
 +---------------+---------+
 ```

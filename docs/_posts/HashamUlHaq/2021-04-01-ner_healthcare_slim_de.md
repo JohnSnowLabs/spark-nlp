@@ -35,27 +35,67 @@ Detect clinical entities in German text using pretrained NER model
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
+
 ```python
 
-...
-embeddings_clinical = WordEmbeddingsModel.pretrained("w2v_cc_300d", "de", "clinical/models")  .setInputCols(["sentence", "token"])  .setOutputCol("embeddings")
-clinical_ner = MedicalNerModel.pretrained("ner_healthcare_slim", "de", "clinical/models")   .setInputCols(["sentence", "token", "embeddings"])   .setOutputCol("ner")
-...
+document_assembler = DocumentAssembler()\
+		.setInputCol("text")\
+		.setOutputCol("document")
+
+sentence_detector = SentenceDetectorDLModel.pretrained("sentence_detector_dl_healthcare", "en", "clinical/models") \
+		.setInputCols(["document"]) \
+		.setOutputCol("sentence")
+
+tokenizer = Tokenizer()\
+		.setInputCols(["sentence"])\
+		.setOutputCol("token")
+  
+embeddings_clinical = WordEmbeddingsModel.pretrained("w2v_cc_300d", "de", "clinical/models")\
+    .setInputCols(["sentence", "token"])\
+    .setOutputCol("embeddings")
+
+clinical_ner = MedicalNerModel.pretrained("ner_healthcare_slim", "de", "clinical/models")\
+    .setInputCols(["sentence", "token", "embeddings"])\
+    .setOutputCol("ner")
+
+ner_converter = NerConverter() \
+    .setInputCols(["sentence", "token", "ner"]) \
+    .setOutputCol("entities")
+
 nlpPipeline = Pipeline(stages=[document_assembler, sentence_detector, tokenizer, embeddings_clinical, clinical_ner, ner_converter])
+
 model = nlpPipeline.fit(spark.createDataFrame([[""]]).toDF("text"))
+
 results = model.transform(spark.createDataFrame([["EXAMPLE_TEXT"]]).toDF("text"))
 ```
 ```scala
 
-...
+val document_assembler = new DocumentAssembler()
+	.setInputCol("text")
+	.setOutputCol("document")
+
+val sentence_detector = SentenceDetectorDLModel.pretrained("sentence_detector_dl_healthcare", "en", "clinical/models")
+	.setInputCols("document")
+	.setOutputCol("sentence")
+
+val tokenizer = new Tokenizer()
+	.setInputCols("sentence")
+	.setOutputCol("token")
+
 val embeddings_clinical = WordEmbeddingsModel.pretrained("w2v_cc_300d", "de", "clinical/models")
-.setInputCols(Array("sentence", "token"))
-.setOutputCol("embeddings")
+    .setInputCols(Array("sentence", "token"))
+    .setOutputCol("embeddings")
+
 val ner = MedicalNerModel.pretrained("ner_healthcare_slim", "de", "clinical/models")
-.setInputCols(Array("sentence", "token", "embeddings"))
-.setOutputCol("ner")
-...
+    .setInputCols(Array("sentence", "token", "embeddings"))
+    .setOutputCol("ner")
+
+val ner_converter = new NerConverter()
+    .setInputCols(Array("sentence", "token", "ner"))
+    .setOutputCol("entities")
+
 val pipeline = new Pipeline().setStages(Array(document_assembler, sentence_detector, tokenizer, embeddings_clinical, ner, ner_converter))
+
 val result = pipeline.fit(Seq.empty[String]).transform(data)
 ```
 

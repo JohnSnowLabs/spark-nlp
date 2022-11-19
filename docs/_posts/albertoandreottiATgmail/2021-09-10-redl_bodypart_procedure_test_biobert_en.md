@@ -99,11 +99,9 @@ re_model = RelationExtractionDLModel()\
 
 pipeline = Pipeline(stages=[documenter, sentencer, tokenizer, pos_tagger, words_embedder, ner_tagger, ner_converter, dependency_parser, re_ner_chunk_filter, re_model])
 
-text ="TECHNIQUE IN DETAIL: After informed consent was obtained from the patient and his mother, the chest was scanned with portable ultrasound."
+data = spark.createDataFrame([['''TECHNIQUE IN DETAIL: After informed consent was obtained from the patient and his mother, the chest was scanned with portable ultrasound.''']]).toDF("text")
 
-p_model = pipeline.fit(spark.createDataFrame([[text]]).toDF("text"))
-
-result = p_model.transform(data)
+result = pipeline.fit(data).transform(data)
 ```
 ```scala
 ...
@@ -112,11 +110,11 @@ val documenter = new DocumentAssembler()
 .setOutputCol("document")
 
 val sentencer = new SentenceDetector()
-.setInputCols("document")
+.setInputCols(Array("document"))
 .setOutputCol("sentences")
 
 val tokenizer = new Tokenizer()
-.setInputCols("sentences")
+.setInputCols(Array("sentences"))
 .setOutputCol("tokens")
 
 val pos_tagger = PerceptronModel()

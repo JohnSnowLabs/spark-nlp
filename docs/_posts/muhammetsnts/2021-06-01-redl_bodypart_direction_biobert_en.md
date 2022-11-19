@@ -103,11 +103,10 @@ re_model = RelationExtractionDLModel()\
 
 pipeline = Pipeline(stages=[documenter, sentencer, tokenizer, pos_tagger, words_embedder, ner_tagger, ner_converter, dependency_parser, re_ner_chunk_filter, re_model])
 
-text ="MRI demonstrated infarction in the upper brain stem , left cerebellum and  right basil ganglia"
+data = spark.createDataFrame([[''' MRI demonstrated infarction in the upper brain stem , left cerebellum and  right basil ganglia ''']]).toDF("text")
 
-p_model = pipeline.fit(spark.createDataFrame([[text]]).toDF("text"))
+result = pipeline.fit(data).transform(data)
 
-result = p_model.transform(data)
 ```
 ```scala
 ...
@@ -116,11 +115,11 @@ val documenter = new DocumentAssembler()
 .setOutputCol("document")
 
 val sentencer = new SentenceDetector()
-.setInputCols("document")
+.setInputCols(Array("document"))
 .setOutputCol("sentences")
 
 val tokenizer = new Tokenizer()
-.setInputCols("sentences")
+.setInputCols(Array("sentences"))
 .setOutputCol("tokens")
 
 val pos_tagger = PerceptronModel()

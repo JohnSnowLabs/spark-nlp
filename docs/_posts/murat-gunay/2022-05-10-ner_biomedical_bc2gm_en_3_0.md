@@ -82,7 +82,7 @@ ner_converter = NerConverter()\
 	.setOutputCol("ner_chunk")
 
 nlpPipeline = Pipeline(stages=[
-	document_aAssembler,
+	document_assembler,
 	sentenceDetectorDL,
 	tokenizer,
 	word_embeddings,
@@ -101,11 +101,11 @@ val document_assembler = new DocumentAssembler()
 	
 val sentenceDetectorDL =
 SentenceDetectorDLModel.pretrained("sentenceetectorl_healthcare", "en", "clinical/models")
-	.setInputCols("document")
+	.setInputCols(Array("document"))
 	.setOutputCol("sentence")
 
 val tokenizer = new Tokenizer()
-	.setInputCols("sentence")
+	.setInputCols(Array("sentence"))
 	.setOutputCol("token")
 
 val word_embeddings = WordEmbeddingsModel.pretrained("embeddings_clinical" ,"en", "clinical/models")
@@ -122,7 +122,7 @@ val ner_converter = new NerConverter()
 
 val pipeline = new Pipeline().setStages(Array(
 	document_assembler, 
-	sentenceD_detectorDL, 
+	sentenceDetectorDL, 
 	tokenizer, 
 	word_embeddings, 
 	ner, 

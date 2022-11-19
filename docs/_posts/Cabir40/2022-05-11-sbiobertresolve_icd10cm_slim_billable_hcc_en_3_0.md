@@ -101,12 +101,9 @@ sbert_embedder,
 icd_resolver
 ])
 
+data = spark.createDataFrame([["""A 28-year-old female with a history of gestational diabetes mellitus diagnosed eight years prior to presentation and subsequent type two diabetes mellitus (T2DM), one prior episode of HTG-induced pancreatitis three years prior to presentation, associated with acute hepatitis and obesity , presented with a one-week history of polyuria, polydipsia, poor appetite, and vomiting. Two weeks prior to presentation, she was treated with a five-day course of amoxicillin for a respiratory tract infection."""]]).toDF("text")
 
-model = resolver_pipeline.fit(spark.createDataFrame([[""]]).toDF("text"))
-
-data = spark.createDataFrame([["A 28-year-old female with a history of gestational diabetes mellitus diagnosed eight years prior to presentation and subsequent type two diabetes mellitus (T2DM), one prior episode of HTG-induced pancreatitis three years prior to presentation, associated with acute hepatitis and obesity , presented with a one-week history of polyuria, polydipsia, poor appetite, and vomiting. Two weeks prior to presentation, she was treated with a five-day course of amoxicillin for a respiratory tract infection."]]).toDF("text")
-
-result = model.transform(data)
+result = resolver_pipeline.fit(data).transform(data)
 ```
 ```scala
 val document_assembler = new DocumentAssembler()
@@ -115,12 +112,12 @@ val document_assembler = new DocumentAssembler()
 
 
 val sentenceDetectorDL = SentenceDetectorDLModel.pretrained("sentence_detector_dl_healthcare", "en", "clinical/models")
-.setInputCols("document")
+.setInputCols(Array("document"))
 .setOutputCol("sentence")
 
 
 val tokenizer = new Tokenizer()
-.setInputCols("sentence")
+.setInputCols(Array("sentence"))
 .setOutputCol("token")
 
 
@@ -141,12 +138,12 @@ val ner_converter = new NerConverterInternal()
 
 
 val c2doc = new Chunk2Doc()
-.setInputCols("ner_chunk")
+.setInputCols(Array("ner_chunk"))
 .setOutputCol("ner_chunk_doc") 
 
 
 val sbert_embedder = BertSentenceEmbeddings.pretrained("sbiobert_base_cased_mli", "en", "clinical/models")
-.setInputCols("ner_chunk_doc")
+.setInputCols(Array("ner_chunk_doc"))
 .setOutputCol("sentence_embeddings")
 .setCaseSensitive(False)
 

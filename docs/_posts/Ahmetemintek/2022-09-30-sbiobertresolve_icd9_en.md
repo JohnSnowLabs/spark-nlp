@@ -91,45 +91,45 @@ results = nlpPipeline.fit(data).transform(data)
 
 ```
 ```scala
-val document_assembler = new DocumentAssembler()\
-  .setInputCol("text")\
+val document_assembler = new DocumentAssembler()
+  .setInputCol("text")
   .setOutputCol("document")
 
 
-val sentence_detector = SentenceDetectorDLModel.pretrained("sentence_detector_dl_healthcare","en","clinical/models")\
-  .setInputCols(Array("document"))\
+val sentence_detector = SentenceDetectorDLModel.pretrained("sentence_detector_dl_healthcare","en","clinical/models")
+  .setInputCols(Array("document"))
   .setOutputCol("sentence")
 
-val tokenizer = new Tokenizer()\
-  .setInputCols(Array("sentence"))\
+val tokenizer = new Tokenizer()
+  .setInputCols(Array("sentence"))
   .setOutputCol("token")
 
 
-val word_embeddings = WordEmbeddingsModel.pretrained("embeddings_clinical", "en", "clinical/models")\
-  .setInputCols(Array("sentence","token"))\
+val word_embeddings = WordEmbeddingsModel.pretrained("embeddings_clinical", "en", "clinical/models")
+  .setInputCols(Array("sentence","token"))
   .setOutputCol("embeddings")
 
 
-val clinical_ner = MedicalNerModel.pretrained("ner_clinical", "en", "clinical/models")\
-  .setInputCols(Array("sentence","token","embeddings"))\
+val clinical_ner = MedicalNerModel.pretrained("ner_clinical", "en", "clinical/models")
+  .setInputCols(Array("sentence","token","embeddings"))
   .setOutputCol("ner")
 
-val ner_converter = new NerConverter()\
-  .setInputCols(Array("sentence","token","ner"))\
-  .setOutputCol("ner_chunk")\
+val ner_converter = new NerConverter()
+  .setInputCols(Array("sentence","token","ner"))
+  .setOutputCol("ner_chunk")
   .setWhiteList(Array("PROBLEM"))
 
 val chunk2doc = new Chunk2Doc().setInputCols("ner_chunk").setOutputCol("ner_chunk_doc")
 
-val sbert_embedder = BertSentenceEmbeddings\
-  .pretrained("sbiobert_base_cased_mli","en","clinical/models")\
-  .setInputCols(Array("ner_chunk_doc"))\
+val sbert_embedder = BertSentenceEmbeddings
+  .pretrained("sbiobert_base_cased_mli","en","clinical/models")
+  .setInputCols(Array("ner_chunk_doc"))
   .setOutputCol("sbert_embeddings")
 
-val icd9_resolver = SentenceEntityResolverModel\
-  .pretrained("sbiobertresolve_icd9","en", "clinical/models") \
-  .setInputCols(Array("ner_chunk", "sbert_embeddings")) \
-  .setOutputCol("resolution")\
+val icd9_resolver = SentenceEntityResolverModel
+  .pretrained("sbiobertresolve_icd9","en", "clinical/models") 
+  .setInputCols(Array("ner_chunk", "sbert_embeddings")) 
+  .setOutputCol("resolution")
   .setDistanceFunction("EUCLIDEAN")
 
 val pipeline = new Pipeline().setStages(Array(document_assembler, sentence_detector, tokenizer, word_embeddings, clinical_ner, ner_converter, chunk2doc, sbert_embedder, icd9_resolver))

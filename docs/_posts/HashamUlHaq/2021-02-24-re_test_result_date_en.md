@@ -48,26 +48,103 @@ In the table below, `re_test_result_date` RE model, its labels, optimal NER mode
 {% include programmingLanguageSelectScalaPythonNLU.html %}
 
 ```python
-ner_tagger = sparknlp.annotators.NerDLModel()\
-.pretrained('jsl_ner_wip_clinical',"en","clinical/models")\
-.setInputCols("sentences", "tokens", "embeddings")\
-.setOutputCol("ner_tags") 
+document_assembler = DocumentAssembler()\
+	.setInputCol("text")\
+	.setOutputCol("document")
 
-re_model = RelationExtractionModel()\
-.pretrained("re_test_result_date", "en", 'clinical/models')\
-.setInputCols(["embeddings", "pos_tags", "ner_chunks", "dependencies"])\
-.setOutputCol("relations")\
-.setMaxSyntacticDistance(4)\ #default: 0
-.setPredictionThreshold(0.9)\ #default: 0.5
-.setRelationPairs(["external_body_part_or_region-test"]) # Possible relation pairs. Default: All Relations.
+sentencer = SentenceDetector()\
+    .setInputCols(["document"])\
+    .setOutputCol("sentences")
 
-nlp_pipeline = Pipeline(stages=[ documenter, sentencer,tokenizer, words_embedder, pos_tagger,  clinical_ner_tagger,ner_chunker, dependency_parser,re_model])
+tokenizer = Tokenizer()\
+    .setInputCols(["sentences"])\
+    .setOutputCol("tokens")
+  
+word_embeddings = WordEmbeddingsModel.pretrained("embeddings_clinical", "en", "clinical/models")\
+    .setInputCols(["sentences", "tokens"])\
+    .setOutputCol("embeddings")
+
+pos_tagger = PerceptronModel()\
+    .pretrained("pos_clinical", "en", "clinical/models") \
+    .setInputCols(["sentences", "tokens"])\
+    .setOutputCol("pos_tags")
+
+ner_tagger = MedicalNerModel().pretrained('jsl_ner_wip_clinical',"en","clinical/models")\
+    .setInputCols("sentences", "tokens", "embeddings")\
+    .setOutputCol("ner_tags")
+
+ner_chunker = NerConverterInternal()\
+    .setInputCols(["sentences", "tokens", "ner_tags"])\
+    .setOutputCol("ner_chunks")
+
+dependency_parser = DependencyParserModel()\
+    .pretrained("dependency_conllu", "en")\
+    .setInputCols(["sentences", "pos_tags", "tokens"])\
+    .setOutputCol("dependencies")
+
+re_model = RelationExtractionModel().pretrained("re_test_result_date", "en", 'clinical/models')\
+    .setInputCols(["embeddings", "pos_tags", "ner_chunks", "dependencies"])\
+    .setOutputCol("relations")\
+    .setMaxSyntacticDistance(4)\
+    .setPredictionThreshold(0.9)\
+    .setRelationPairs(["external_body_part_or_region-test"])# Possible relation pairs. Default: All Relations.
+
+nlp_pipeline = Pipeline(stages=[document_assembler, sentencer, tokenizer, word_embeddings, pos_tagger, ner_tagger, ner_chunker, dependency_parser, re_model])
 
 light_pipeline = LightPipeline(nlp_pipeline.fit(spark.createDataFrame([['']]).toDF("text")))
 
-annotations = light_pipeline.fullAnnotate(''''He was advised chest X-ray or CT scan after checking his SpO2 which was <= 93%''')
+results = light_pipeline.fullAnnotate("""He was advised chest X-ray or CT scan after checking his SpO2 which was <= 93%""")
 ```
 
+```scala
+val document_assembler = new DocumentAssembler()
+	.setInputCol("text")
+	.setOutputCol("document")
+
+val sentencer = new SentenceDetector()
+    .setInputCols("document")
+    .setOutputCol("sentences")
+
+val tokenizer = new Tokenizer()
+    .setInputCols("sentences")
+    .setOutputCol("tokens")
+  
+val word_embeddings = WordEmbeddingsModel.pretrained("embeddings_clinical", "en", "clinical/models")
+    .setInputCols(Array("sentences", "tokens"))
+    .setOutputCol("embeddings")
+
+val pos_tagger = PerceptronModel().pretrained("pos_clinical", "en", "clinical/models")
+    .setInputCols(Array("sentences", "tokens"))
+    .setOutputCol("pos_tags")
+
+val ner_tagger = MedicalNerModel().pretrained("jsl_ner_wip_clinical","en","clinical/models")
+    .setInputCols(Array("sentences", "tokens", "embeddings"))
+    .setOutputCol("ner_tags")
+
+val ner_chunker = new NerConverterInternal()
+    .setInputCols(Array("sentences", "tokens", "ner_tags"))
+    .setOutputCol("ner_chunks")
+
+val dependency_parser = DependencyParserModel().pretrained("dependency_conllu", "en")
+    .setInputCols(Array("sentences", "pos_tags", "tokens"))
+    .setOutputCol("dependencies")
+
+val re_model = RelationExtractionModel().pretrained("re_test_result_date", "en", "clinical/models")
+    .setInputCols(Array("embeddings", "pos_tags", "ner_chunks", "dependencies"))
+    .setOutputCol("relations")
+    .setMaxSyntacticDistance(4)
+    .setPredictionThreshold(0.9)
+    .setRelationPairs("external_body_part_or_region-test")# Possible relation pairs. Default: All Relations.
+
+val nlp_pipeline = new Pipeline().setStages(Array(document_assembler, sentencer, tokenizer, word_embeddings, pos_tagger, ner_tagger, ner_chunker, dependency_parser, re_model))
+
+val text = """He was advised chest X-ray or CT scan after checking his SpO2 which was <= 93%"""
+
+val data = Seq(text).toDS.toDF("text")
+
+val results = pipeline.fit(data).transform(data)
+
+```
 
 
 {:.nlu-block}

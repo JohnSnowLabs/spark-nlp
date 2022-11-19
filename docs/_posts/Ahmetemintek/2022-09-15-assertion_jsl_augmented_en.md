@@ -75,14 +75,13 @@ nlpPipeline = Pipeline(stages=[
     clinical_assertion
     ])
 
-empty_data = spark.createDataFrame([[""]]).toDF("text")
-
-model = nlpPipeline.fit(empty_data)
 
 text = """Patient had a headache for the last 2 weeks, and appears anxious when she walks fast. No alopecia noted. She denies pain. Her father is paralyzed and it is a stressor for her. She was bullied by her boss and got antidepressant. We prescribed sleeping pills for her current insomnia"""
 
+data = spark.createDataFrame([[text]]).toDF('text')
 
-result = model.transform(spark.createDataFrame([[text]]).toDF('text'))
+result = nlpPipeline.fit(data).transform(data)
+
 ```
 ```scala
 val documentAssembler = new DocumentAssembler()
@@ -122,7 +121,7 @@ val nlpPipeline = Pipeline().setStages(Array(documentAssembler,
     ner_converter,
     clinical_assertion))
 
-val text= Seq("Patient had a headache for the last 2 weeks, and appears anxious when she walks fast. No alopecia noted. She denies pain. Her father is paralyzed and it is a stressor for her. She was bullied by her boss and got antidepressant. We prescribed sleeping pills for her current insomnia").toDS.toDF("text")
+val data= Seq("Patient had a headache for the last 2 weeks, and appears anxious when she walks fast. No alopecia noted. She denies pain. Her father is paralyzed and it is a stressor for her. She was bullied by her boss and got antidepressant. We prescribed sleeping pills for her current insomnia").toDS.toDF("text")
 
 val result = nlpPipeline.fit(data).transform(data)
 

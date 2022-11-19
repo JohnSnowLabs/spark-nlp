@@ -55,7 +55,7 @@ tokenizer = Tokenizer()\
 		.setOutputCol("token")
 	
 embeddings = BertEmbeddings.pretrained("biobert_pubmed_base_cased")\
-		.setInputCols(["sentence",  "token"]) \ 
+		.setInputCols(["sentence",  "token"]) \
 		.setOutputCol("embeddings")
 		
 jsl_ner = MedicalNerModel.pretrained("ner_jsl_biobert", "en", "clinical/models") \

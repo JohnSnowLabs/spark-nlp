@@ -75,7 +75,7 @@ resolver = SentenceEntityResolverModel.pretrained("sbiobertresolve_loinc_cased",
 .setOutputCol("resolution")\
 .setDistanceFunction("EUCLIDEAN")
 
-pipeline_loinc = Pipeline(stages = [
+pipeline = Pipeline(stages = [
 documentAssembler, 
 sentenceDetector, 
 tokenizer,  
@@ -87,49 +87,48 @@ sbert_embedder,
 resolver
 ])
 
-test = 'The patient is a 22-year-old female with a history of obesity. She has a BMI of 33.5 kg/m2, aspartate aminotransferase 64, and alanine aminotransferase 126. Her hemoglobin is 8.2%.'
-model = pipeline_loinc.fit(spark.createDataFrame([['']]).toDF("text"))
+data = spark.createDataFrame([["""The patient is a 22-year-old female with a history of obesity. She has a BMI of 33.5 kg/m2, aspartate aminotransferase 64, and alanine aminotransferase 126. Her hemoglobin is 8.2%."""]]).toDF("text")
 
-sparkDF = spark.createDataFrame([[test]]).toDF("text")
-result = model.transform(sparkDF)
+result = pipeline.fit(data).transform(data)
+
 ```
 ```scala
-val documentAssembler = DocumentAssembler()\
-.setInputCol("text")\
+val documentAssembler = DocumentAssembler()
+.setInputCol("text")
 .setOutputCol("document")
 
-val sentenceDetector = SentenceDetectorDLModel.pretrained()\
-.setInputCols(Array("document"))\
+val sentenceDetector = SentenceDetectorDLModel.pretrained()
+.setInputCols(Array("document"))
 .setOutputCol("sentence")
 
-val tokenizer = Tokenizer() \
-.setInputCols(Array("document")) \
+val tokenizer = Tokenizer() 
+.setInputCols(Array("sentence")) 
 .setOutputCol("token")
 
-val word_embeddings = WordEmbeddingsModel.pretrained('embeddings_clinical','en', 'clinical/models')\
-.setInputCols(Array("sentence", "token"))\
+val word_embeddings = WordEmbeddingsModel.pretrained("embeddings_clinical","en", "clinical/models")
+.setInputCols(Array("sentence", "token"))
 .setOutputCol("embeddings")
 
-val rad_ner = MedicalNerModel.pretrained("ner_radiology", "en", "clinical/models") \
-.setInputCols(Array("sentence", "token", "embeddings")) \
+val rad_ner = MedicalNerModel.pretrained("ner_radiology", "en", "clinical/models") 
+.setInputCols(Array("sentence", "token", "embeddings")) 
 .setOutputCol("ner")
 
-val rad_ner_converter = NerConverter() \
-.setInputCols(Array("sentence", "token", "ner")) \
-.setOutputCol("ner_chunk")\
-.setWhiteList(Array(Test'))
+val rad_ner_converter = NerConverter() 
+.setInputCols(Array("sentence", "token", "ner")) 
+.setOutputCol("ner_chunk")
+.setWhiteList(Array("Test"))
 
-val chunk2doc = Chunk2Doc() \
-.setInputCols("ner_chunk") \
+val chunk2doc = Chunk2Doc() 
+.setInputCols("ner_chunk") 
 .setOutputCol("ner_chunk_doc")
 
-val sbert_embedder = BertSentenceEmbeddings.pretrained("sbiobert_base_cased_mli","en","clinical/models")\
-.setInputCols(Array("ner_chunk_doc"))\
-.setOutputCol("sbert_embeddings")\
+val sbert_embedder = BertSentenceEmbeddings.pretrained("sbiobert_base_cased_mli","en","clinical/models")
+.setInputCols(Array("ner_chunk_doc"))
+.setOutputCol("sbert_embeddings")
 .setCaseSensitive(True)
 
-val resolver = SentenceEntityResolverModel.pretrained("sbiobertresolve_loinc_cased", "en", "clinical/models") \
-.setInputCols(Array("ner_chunk", "sbert_embeddings"))\
+val resolver = SentenceEntityResolverModel.pretrained("sbiobertresolve_loinc_cased", "en", "clinical/models") 
+.setInputCols(Array("ner_chunk", "sbert_embeddings"))
 .setOutputCol("resolution")\
 .setDistanceFunction("EUCLIDEAN")
 

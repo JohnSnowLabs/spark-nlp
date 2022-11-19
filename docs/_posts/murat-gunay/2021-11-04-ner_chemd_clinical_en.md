@@ -43,41 +43,64 @@ This model is trained with `clinical_embeddings` to extract the names of chemica
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
+
 ```python
-...
+documentAssembler = DocumentAssembler()\
+    .setInputCol("text")\
+    .setOutputCol("document")
+
+sentenceDetector = SentenceDetector() \
+    .setInputCols(["document"]) \
+    .setOutputCol("sentence")
+
+tokenizer = Tokenizer() \
+    .setInputCols(["sentence"]) \
+    .setOutputCol("token")
+
 word_embeddings = WordEmbeddingsModel.pretrained("embeddings_clinical", "en", "clinical/models")\
-.setInputCols(["sentence", "token"])\
-.setOutputCol("embeddings")
+    .setInputCols(["sentence", "token"])\
+    .setOutputCol("embeddings")
 
 chemd_ner = MedicalNerModel.pretrained('ner_chemd_clinical', 'en', 'clinical/models') \
-.setInputCols(["sentence", "token", "embeddings"]) \
-.setOutputCol("ner")
+    .setInputCols(["sentence", "token", "embeddings"]) \
+    .setOutputCol("ner")
 
 ner_converter = NerConverter()\
-.setInputCols(["sentence", "token", "ner"])\
-.setOutputCol("ner_chunk")
+    .setInputCols(["sentence", "token", "ner"])\
+    .setOutputCol("ner_chunk")
 
-nlpPipeline = Pipeline(stages=[documentAssembler, sentenceDetector, tokenizer, embeddings_clinical,  chemd_ner, ner_converter])
+nlpPipeline = Pipeline(stages=[documentAssembler, sentenceDetector, tokenizer, word_embeddings, chemd_ner, ner_converter])
 
 empty_data = spark.createDataFrame([[""]]).toDF("text")
 
 chemd_model = nlpPipeline.fit(empty_data)
 
-results = model.transform(spark.createDataFrame(pd.DataFrame({"text": ["""Isolation, Structure Elucidation, and Iron-Binding Properties of Lystabactins, Siderophores Isolated from a Marine Pseudoalteromonas sp. The marine bacterium Pseudoalteromonas sp. S2B, isolated from the Gulf of Mexico after the Deepwater Horizon oil spill, was found to produce lystabactins A, B, and C (1-3), three new siderophores. The structures were elucidated through mass spectrometry, amino acid analysis, and NMR. The lystabactins are composed of serine (Ser), asparagine (Asn), two formylated/hydroxylated ornithines (FOHOrn), dihydroxy benzoic acid (Dhb), and a very unusual nonproteinogenic amino acid, 4,8-diamino-3-hydroxyoctanoic acid (LySta). The iron-binding properties of the compounds were investigated through a spectrophotometric competition."""]})))
+results = chemd_model.transform(spark.createDataFrame(pd.DataFrame({"text": ["""Isolation, Structure Elucidation, and Iron-Binding Properties of Lystabactins, Siderophores Isolated from a Marine Pseudoalteromonas sp. The marine bacterium Pseudoalteromonas sp. S2B, isolated from the Gulf of Mexico after the Deepwater Horizon oil spill, was found to produce lystabactins A, B, and C (1-3), three new siderophores. The structures were elucidated through mass spectrometry, amino acid analysis, and NMR. The lystabactins are composed of serine (Ser), asparagine (Asn), two formylated/hydroxylated ornithines (FOHOrn), dihydroxy benzoic acid (Dhb), and a very unusual nonproteinogenic amino acid, 4,8-diamino-3-hydroxyoctanoic acid (LySta). The iron-binding properties of the compounds were investigated through a spectrophotometric competition."""]})))
 ```
 ```scala
-...
+val documentAssembler = new DocumentAssembler()
+    .setInputCol("text")
+    .setOutputCol("document")
+
+val sentenceDetector = new SentenceDetector()
+    .setInputCols("document")
+    .setOutputCol("sentence")
+
+val tokenizer = new Tokenizer()
+    .setInputCols("sentence")
+    .setOutputCol("token")
+
 val word_embeddings = WordEmbeddingsModel.pretrained("embeddings_clinical", "en", "clinical/models")
-.setInputCols(Array("sentence", "token"))
-.setOutputCol("embeddings")
+    .setInputCols(Array("sentence", "token"))
+    .setOutputCol("embeddings")
 
 val chemd_ner = MedicalNerModel.pretrained("ner_chemd_clinical", "en", "clinical/models")
-.setInputCols(Array("sentence", "token", "embeddings"))
-.setOutputCol("ner")
+    .setInputCols(Array("sentence", "token", "embeddings"))
+    .setOutputCol("ner")
 
 val ner_converter = NerConverter()
-.setInputCols(Array("sentence", "token", "ner"))
-.setOutputCol("ner_chunk")
+    .setInputCols(Array("sentence", "token", "ner"))
+    .setOutputCol("ner_chunk")
 
 val nlpPipeline = new Pipeline().setStages(Array(document_assembler, sentence_detector, tokenizer, word_embeddings, chemd_ner, ner_converter))
 

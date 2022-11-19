@@ -59,14 +59,14 @@ rxnorm_ndc_resolver])
 
 data = spark.createDataFrame([["activated charcoal 30000 mg powder for oral suspension"]]).toDF("text")
 
-res = rxnorm_ndc_pipelin.fit(data).transform(data)
+res = rxnorm_ndc_pipeline.fit(data).transform(data)
 ```
 ```scala
 val documentAssembler = DocumentAssembler()
 .setInputCol("text")
 .setOutputCol("ner_chunk")
 
-val sbert_embedder = BertSentenceEmbeddings\
+val sbert_embedder = BertSentenceEmbeddings
 .pretrained("sbiobert_base_cased_mli", "en","clinical/models")
 .setInputCols(Array("ner_chunk")
 .setOutputCol("sentence_embeddings")

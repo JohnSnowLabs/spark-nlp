@@ -58,7 +58,7 @@ tokenizer = Tokenizer()\
 .setInputCols("sentence")\
 .setOutputCol("token")
 
-tokenClassifier = BertForTokenClassification.pretrained("bert_token_classifier_ner_jsl_slim", "en", "clinical/models")\
+tokenClassifier = MedicalBertForTokenClassifier.pretrained("bert_token_classifier_ner_jsl_slim", "en", "clinical/models")\
 .setInputCols("token", "sentence")\
 .setOutputCol("ner")\
 .setCaseSensitive(True)
@@ -74,11 +74,12 @@ pipeline =  Pipeline(stages=[
 		       tokenClassifier,
 		       ner_converter])
 						       
-model = pipeline.fit(spark.createDataFrame([[""]]).toDF("text"))
 
 sample_text = """HISTORY: 30-year-old female presents for digital bilateral mammography secondary to a soft tissue lump palpated by the patient in the upper right shoulder. The patient has a family history of breast cancer within her mother at age 58. Patient denies personal history of breast cancer."""
 
-result = model.transform(spark.createDataFrame([[sample_text]]).toDF("text"))
+data = spark.createDataFrame([[sample_text]]).toDF("text")
+
+result = pipeline.fit(data).transform(data)
 ```
 ```scala
 val documentAssembler = new DocumentAssembler()
@@ -86,7 +87,7 @@ val documentAssembler = new DocumentAssembler()
 	.setOutputCol("document")
 
 val sentenceDetector = SentenceDetectorDLModel.pretrained("sentence_detector_dl_healthcare","en","clinical/models")
-	.setInputCols("document")
+	.setInputCols(Array("document"))
 	.setOutputCol("sentence")
 
 val tokenizer = new Tokenizer()
@@ -109,9 +110,9 @@ val pipeline =  new Pipeline().setStages(Array(
 				tokenClassifier,
 				ner_converter))
 												
-val sample_text = Seq("""HISTORY: 30-year-old female presents for digital bilateral mammography secondary to a soft tissue lump palpated by the patient in the upper right shoulder. The patient has a family history of breast cancer within her mother at age 58. Patient denies personal history of breast cancer.""").toDS.toDF("text")
+val data = Seq("""HISTORY: 30-year-old female presents for digital bilateral mammography secondary to a soft tissue lump palpated by the patient in the upper right shoulder. The patient has a family history of breast cancer within her mother at age 58. Patient denies personal history of breast cancer.""").toDS.toDF("text")
 
-val result = pipeline.fit(sample_text).transform(sample_text)
+val result = pipeline.fit(data).transform(data)
 ```
 
 

@@ -42,25 +42,107 @@ In the table below, `re_test_problem_finding` RE model, its labels, optimal NER 
 {% include programmingLanguageSelectScalaPythonNLU.html %}
 
 ```python
-ner_tagger = sparknlp.annotators.NerDLModel()\
+documenter = DocumentAssembler()\
+		.setInputCol("text")\
+		.setOutputCol("document")
+
+sentencer = SentenceDetector()\
+    .setInputCols(["document"])\
+    .setOutputCol("sentences")
+
+tokenizer = Tokenizer()\
+    .setInputCols(["sentences"])\
+    .setOutputCol("tokens")
+  
+words_embedder = WordEmbeddingsModel.pretrained("embeddings_clinical", "en", "clinical/models")\
+    .setInputCols(["sentences", "tokens"])\
+    .setOutputCol("embeddings")
+
+pos_tagger = PerceptronModel()\
+    .pretrained("pos_clinical", "en", "clinical/models") \
+    .setInputCols(["sentences", "tokens"])\
+    .setOutputCol("pos_tags")
+
+ner_tagger = MedicalNerModel()\
     .pretrained('jsl_ner_wip_clinical',"en","clinical/models")\
     .setInputCols("sentences", "tokens", "embeddings")\
     .setOutputCol("ner_tags") 
+
+ner_chunker = NerConverterInternal()\
+    .setInputCols(["sentences", "tokens", "ner_tags"])\
+    .setOutputCol("ner_chunks")
+
+dependency_parser = DependencyParserModel()\
+    .pretrained("dependency_conllu", "en")\
+    .setInputCols(["sentences", "pos_tags", "tokens"])\
+    .setOutputCol("dependencies")
 
 re_model = RelationExtractionModel()\
     .pretrained("re_test_problem_finding", "en", 'clinical/models')\
     .setInputCols(["embeddings", "pos_tags", "ner_chunks", "dependencies"])\
     .setOutputCol("relations")\
-    .setMaxSyntacticDistance(4)\ #default: 0
-    .setPredictionThreshold(0.9)\ #default: 0.5
-    .setRelationPairs(["procedure-symptom"]) # Possible relation pairs. Default: All Relations.
+    .setMaxSyntacticDistance(4)\
+    .setPredictionThreshold(0.9)\
+    .setRelationPairs(["procedure-symptom"])
 
-nlp_pipeline = Pipeline(stages=[ documenter, sentencer,tokenizer, words_embedder, pos_tagger,  clinical_ner_tagger,ner_chunker, dependency_parser,re_model])
+nlp_pipeline = Pipeline(stages=[documenter, sentencer, tokenizer, words_embedder, pos_tagger, ner_tagger, ner_chunker, dependency_parser, re_model])
 
 light_pipeline = LightPipeline(nlp_pipeline.fit(spark.createDataFrame([['']]).toDF("text")))
 
-annotations = light_pipeline.fullAnnotate(''''Targeted biopsy of this lesion for histological correlation should be considered.'')
+annotations = light_pipeline.fullAnnotate("""Targeted biopsy of this lesion for histological correlation should be considered.""")
 ```
+```scala
+val documenter = new DocumentAssembler()
+		.setInputCol("text")
+		.setOutputCol("document")
+
+val sentencer = new SentenceDetector()
+    .setInputCols("document")
+    .setOutputCol("sentences")
+
+val tokenizer = new Tokenizer()
+    .setInputCols("sentences")
+    .setOutputCol("tokens")
+  
+val words_embedder = WordEmbeddingsModel.pretrained("embeddings_clinical", "en", "clinical/models")
+    .setInputCols(Array("sentences", "tokens"))
+    .setOutputCol("embeddings")
+
+val pos_tagger = PerceptronModel()
+    .pretrained("pos_clinical", "en", "clinical/models")
+    .setInputCols(Array("sentences", "tokens"))
+    .setOutputCol("pos_tags")
+
+val ner_tagger = MedicalNerModel()
+    .pretrained("jsl_ner_wip_clinical","en","clinical/models")
+    .setInputCols(Array("sentences", "tokens", "embeddings"))
+    .setOutputCol("ner_tags") 
+
+val ner_chunker = new NerConverterInternal()
+    .setInputCols(Array("sentences", "tokens", "ner_tags"))
+    .setOutputCol("ner_chunks")
+
+val dependency_parser = DependencyParserModel()
+    .pretrained("dependency_conllu", "en")
+    .setInputCols(("sentences", "pos_tags", "tokens"))
+    .setOutputCol("dependencies")
+
+val re_model = RelationExtractionModel()
+    .pretrained("re_test_problem_finding", "en", "clinical/models")
+    .setInputCols(Array("embeddings", "pos_tags", "ner_chunks", "dependencies"))
+    .setOutputCol("relations")
+    .setMaxSyntacticDistance(4)
+    .setPredictionThreshold(0.9)
+    .setRelationPairs("procedure-symptom")
+
+val nlp_pipeline = new Pipeline().setStagesArray(documenter, sentencer, tokenizer, words_embedder, pos_tagger, ner_tagger, ner_chunker, dependency_parser, re_model))
+
+val data = Seq("""Targeted biopsy of this lesion for histological correlation should be considered.""").toDS.toDF("text")
+
+val result = pipeline.fit(data).transform(data)
+```
+
+
 
 </div>
 
