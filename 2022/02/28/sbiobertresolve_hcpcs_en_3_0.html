@@ -451,7 +451,7 @@ codes using ‘sbiobert_base_cased_mli’ sentence embeddings.</p>
 <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"hcpcs_code"</span><span class="p">)</span>\
 <span class="p">.</span><span class="n">setDistanceFunction</span><span class="p">(</span><span class="s">"EUCLIDEAN"</span><span class="p">)</span>
 
-<span class="n">hcpcs_pipelineModel</span> <span class="o">=</span> <span class="n">PipelineModel</span><span class="p">(</span>
+<span class="n">hcpcs_pipeline</span>  <span class="o">=</span> <span class="n">Pipeline</span><span class="p">(</span>
 <span class="n">stages</span> <span class="o">=</span> <span class="p">[</span>
 <span class="n">documentAssembler</span><span class="p">,</span>
 <span class="n">sbert_embedder</span><span class="p">,</span>
@@ -459,7 +459,7 @@ codes using ‘sbiobert_base_cased_mli’ sentence embeddings.</p>
 
 <span class="n">data</span> <span class="o">=</span> <span class="n">spark</span><span class="p">.</span><span class="n">createDataFrame</span><span class="p">([[</span><span class="s">"Breast prosthesis, mastectomy bra, with integrated breast prosthesis form, unilateral, any size, any type"</span><span class="p">]]).</span><span class="n">toDF</span><span class="p">(</span><span class="s">"text"</span><span class="p">)</span>
 
-<span class="n">results</span> <span class="o">=</span> <span class="n">hcpcs_pipelineModel</span><span class="p">.</span><span class="n">fit</span><span class="p">(</span><span class="n">data</span><span class="p">).</span><span class="n">transform</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+<span class="n">results</span> <span class="o">=</span> <span class="n">hcpcs_pipeline</span><span class="p">.</span><span class="n">fit</span><span class="p">(</span><span class="n">data</span><span class="p">).</span><span class="n">transform</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
 </code></pre></div>  </div>
   <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">val</span> <span class="nv">documentAssembler</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">DocumentAssembler</span><span class="o">()</span>
 <span class="o">.</span><span class="py">setInputCol</span><span class="o">(</span><span class="s">"text"</span><span class="o">)</span>

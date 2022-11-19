@@ -11,7 +11,7 @@
     })(window,document,'script','dataLayer','GTM-59JLR64');</script>
 <!-- End Google Tag Manager --><title>Recognize Posology Pipeline</title><meta property="og:title" content=""/>
 
-<meta name="description" content="DescriptionThis pipeline detects drugs, dosage, form, frequency, duration, route, and drug strength in text.Predicted EntitiesDRUG, STRENGTH, DURATION, FREQUENCY, FORM, DOSAGE, ROUTE.Live DemoOpen in ColabDownloadHow to use         PythonScalaNLU  from sparknlp.pretrained import PretrainedPipelineinpipeline = Pretra...">
+<meta name="description" content="DescriptionThis pipeline detects drugs, dosage, form, frequency, duration, route, and drug strength in text.Predicted EntitiesDRUG, STRENGTH, DURATION, FREQUENCY, FORM, DOSAGE, ROUTE.Live DemoOpen in ColabDownloadHow to use         PythonScalaNLU  from sparknlp.pretrained import PretrainedPipelinepipeline = Pretrain...">
 <link rel="canonical" href="/2021/03/29/recognize_entities_posology_en.html"><link rel="alternate" type="application/rss+xml" title="Spark NLP" href="/feed.xml"><!-- start favicons snippet, use https://realfavicongenerator.net/ -->
 <!---->
 <!-- <link rel="apple-touch-icon" sizes="180x180" href="/fav.ico"> -->
@@ -434,21 +434,25 @@
   <div class="top_tab_li">   
     <p><button data-type="python" class="tab-li code-selector-active python-button">Python</button><button data-type="scala" class="tab-li code-selector-un-active scala-button">Scala</button><button data-type="nlu" class="tab-li code-selector-un-active nlu-button">NLU</button></p>
 </div>
-  <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">sparknlp.pretrained</span> <span class="kn">import</span> <span class="n">PretrainedPipelinein</span>
-<span class="n">pipeline</span> <span class="o">=</span> <span class="n">PretrainedPipeline</span><span class="p">(</span><span class="s">'recognize_entities_posology'</span><span class="p">,</span> <span class="n">lang</span> <span class="o">=</span> <span class="s">'en'</span><span class="p">)</span>
-<span class="n">annotations</span> <span class="o">=</span>  <span class="n">pipeline</span><span class="p">.</span><span class="n">fullAnnotate</span><span class="p">(</span><span class="s">""</span><span class="n">The</span> <span class="n">patient</span> <span class="n">was</span> <span class="n">perscriped</span> <span class="mi">50</span><span class="n">MG</span> <span class="n">penicilin</span> <span class="k">for</span> <span class="ow">is</span> <span class="n">headache</span><span class="s">""</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+
+  <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">sparknlp.pretrained</span> <span class="kn">import</span> <span class="n">PretrainedPipeline</span>
+
+<span class="n">pipeline</span> <span class="o">=</span> <span class="n">PretrainedPipeline</span><span class="p">(</span><span class="s">'recognize_entities_posology'</span><span class="p">,</span> <span class="s">'en'</span><span class="p">,</span> <span class="s">'clinical/models'</span><span class="p">)</span>
+
+<span class="n">annotations</span> <span class="o">=</span>  <span class="n">pipeline</span><span class="p">.</span><span class="n">fullAnnotate</span><span class="p">(</span><span class="s">"""The patient was perscriped 50MG penicilin for is headache"""</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+
 <span class="n">annotations</span><span class="p">.</span><span class="n">keys</span><span class="p">()</span>
 
 </code></pre></div>  </div>
   <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
-<span class="k">val</span> <span class="nv">pipeline</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">PretrainedPipeline</span><span class="o">(</span><span class="s">"recognize_entities_posology"</span><span class="o">,</span> <span class="n">lang</span> <span class="k">=</span> <span class="s">"en"</span><span class="o">)</span>
-<span class="k">val</span> <span class="nv">result</span> <span class="k">=</span> <span class="nv">pipeline</span><span class="o">.</span><span class="py">fullAnnotate</span><span class="o">(</span><span class="s">"The patient was perscriped 50MG penicilin for is headache"</span><span class="o">)(</span><span class="mi">0</span><span class="o">)</span>
+<span class="k">val</span> <span class="nv">pipeline</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">PretrainedPipeline</span><span class="o">(</span><span class="s">"recognize_entities_posology"</span><span class="o">,</span> <span class="s">"en"</span><span class="o">,</span> <span class="s">"clinical/models"</span><span class="o">)</span>
+<span class="k">val</span> <span class="nv">result</span> <span class="k">=</span> <span class="nv">pipeline</span><span class="o">.</span><span class="py">fullAnnotate</span><span class="o">(</span><span class="s">"""The patient was perscriped 50MG penicilin for is headache"""</span><span class="o">)(</span><span class="mi">0</span><span class="o">)</span>
 
 </code></pre></div>  </div>
 
   <div class="language-python nlu-block highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">nlu</span>
 
-<span class="n">result_df</span> <span class="o">=</span> <span class="n">nlu</span><span class="p">.</span><span class="n">load</span><span class="p">(</span><span class="s">'ner.posology'</span><span class="p">).</span><span class="n">predict</span><span class="p">(</span><span class="s">"The patient was perscriped 50MG penicilin for is headache"</span><span class="p">)</span>
+<span class="n">result_df</span> <span class="o">=</span> <span class="n">nlu</span><span class="p">.</span><span class="n">load</span><span class="p">(</span><span class="s">'ner.posology'</span><span class="p">).</span><span class="n">predict</span><span class="p">(</span><span class="s">"""The patient was perscriped 50MG penicilin for is headache"""</span><span class="p">)</span>
 <span class="n">result_df</span>
 
 </code></pre></div>  </div>
@@ -485,7 +489,7 @@
     </tr>
     <tr>
       <td>Compatibility:</td>
-      <td>Healthcare NLP 3.0.0+</td>
+      <td>Spark NLP for Healthcare 3.0.0+</td>
     </tr>
     <tr>
       <td>License:</td>
@@ -512,7 +516,6 @@
   <li>NerDLModel</li>
   <li>NerConverter</li>
 </ul>
-
 </div><div class="d-print-none"><footer class="article__footer"><meta itemprop="dateModified" content="2021-03-29T00:00:00+00:00"><!-- start custom article footer snippet -->
 
 <!-- end custom article footer snippet --></footer>

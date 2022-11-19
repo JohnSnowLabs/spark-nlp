@@ -429,7 +429,7 @@
 
 <h2 id="how-to-use">How to use</h2>
 
-<p>text_detector = ImageTextDetector.pretrained(“text_detection_v”, “en”, “clinical/ocr”)
+<p>text_detector = ImageTextDetector.pretrained(“text_detection_v1”, “en”, “clinical/ocr”)
 text_detector.setInputCol(“image”)
 text_detector.setOutputCol(“text_regions”)</p>
 
@@ -437,7 +437,7 @@ text_detector.setOutputCol(“text_regions”)</p>
   <div class="top_tab_li">   
     <p><button data-type="python" class="tab-li code-selector-active python-button">Python</button><button data-type="scala" class="tab-li code-selector-un-active scala-button">Scala</button><button data-type="nlu" class="tab-li code-selector-un-active nlu-button">NLU</button></p>
 </div>
-  <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">text_detector</span> <span class="o">=</span> <span class="n">ImageTextDetector</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"text_detection_v"</span><span class="p">,</span> <span class="s">"en"</span><span class="p">,</span> <span class="s">"clinical/ocr"</span><span class="p">)</span>
+  <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">text_detector</span> <span class="o">=</span> <span class="n">ImageTextDetector</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"text_detection_v1"</span><span class="p">,</span> <span class="s">"en"</span><span class="p">,</span> <span class="s">"clinical/ocr"</span><span class="p">)</span>
 <span class="n">text_detector</span><span class="p">.</span><span class="n">setInputCol</span><span class="p">(</span><span class="s">"image"</span><span class="p">)</span>
 <span class="n">text_detector</span><span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"text_regions"</span><span class="p">)</span>
 </code></pre></div>  </div>
