@@ -83,7 +83,7 @@ result.selectExpr("chunk.result", "chunk.annotatorType").show(false)
 {%- endcapture -%}
 
 {%- capture python_api_link -%}
-[Doc2Chunk](/api/python/reference/autosummary/sparknlp/base/doc2_chunk/index.html#sparknlp.base.doc2_chunk.Doc2Chunk)
+[Doc2Chunk](/api/python/reference/autosummary/python/sparknlp/base/doc2_chunk/index.html#sparknlp.base.doc2_chunk.Doc2Chunk)
 {%- endcapture -%}
 
 {%- capture source_link -%}

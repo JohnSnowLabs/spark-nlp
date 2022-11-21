@@ -18,6 +18,7 @@ import sys
 from sparknlp.annotator.param import EvaluationDLParams
 from sparknlp.common import *
 from sparknlp.annotator.ner.ner_approach import NerApproach
+from sparknlp.common.annotator_type import AnnotatorType
 
 
 class NerDLApproach(AnnotatorApproach, NerApproach, EvaluationDLParams):
@@ -157,6 +158,8 @@ class NerDLApproach(AnnotatorApproach, NerApproach, EvaluationDLParams):
     NerCrfApproach : for a generic CRF approach
     NerConverter : to further process the results
     """
+
+    inputAnnotatorTypes = [AnnotatorType.DOCUMENT, AnnotatorType.TOKEN, AnnotatorType.WORD_EMBEDDINGS]
 
     lr = Param(Params._dummy(), "lr", "Learning Rate", TypeConverters.toFloat)
 
@@ -364,7 +367,7 @@ class NerDLApproach(AnnotatorApproach, NerApproach, EvaluationDLParams):
         )
 
 
-class NerDLModel(AnnotatorModel, HasStorageRef, HasBatchedAnnotate):
+class NerDLModel(AnnotatorModel, HasStorageRef, HasBatchedAnnotate, HasEngine):
     """This Named Entity recognition annotator is a generic NER model based on
     Neural Networks.
 
@@ -467,6 +470,8 @@ class NerDLModel(AnnotatorModel, HasStorageRef, HasBatchedAnnotate):
     """
     name = "NerDLModel"
 
+    inputAnnotatorTypes = [AnnotatorType.DOCUMENT, AnnotatorType.TOKEN, AnnotatorType.WORD_EMBEDDINGS]
+
     def __init__(self, classname="com.johnsnowlabs.nlp.annotators.ner.dl.NerDLModel", java_model=None):
         super(NerDLModel, self).__init__(
             classname=classname,
@@ -545,4 +550,3 @@ class NerDLModel(AnnotatorModel, HasStorageRef, HasBatchedAnnotate):
         """
         from sparknlp.pretrained import ResourceDownloader
         return ResourceDownloader.downloadModel(NerDLModel, name, lang, remote_loc)
-

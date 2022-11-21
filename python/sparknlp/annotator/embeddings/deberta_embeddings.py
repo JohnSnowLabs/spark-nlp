@@ -12,7 +12,6 @@
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
 """Contains classes for DeBertaEmbeddings."""
-
 from sparknlp.common import *
 
 
@@ -20,7 +19,8 @@ class DeBertaEmbeddings(AnnotatorModel,
                         HasEmbeddingsProperties,
                         HasCaseSensitiveProperties,
                         HasStorageRef,
-                        HasBatchedAnnotate):
+                        HasBatchedAnnotate,
+                        HasEngine):
     """The DeBERTa model was proposed in DeBERTa: Decoding-enhanced BERT with
     Disentangled Attention by Pengcheng He, Xiaodong Liu, Jianfeng Gao, Weizhu
     Chen It is based on Google’s BERT model released in 2018 and Facebook’s
@@ -132,6 +132,8 @@ class DeBertaEmbeddings(AnnotatorModel,
 
     name = "DeBertaEmbeddings"
 
+    inputAnnotatorTypes = [AnnotatorType.DOCUMENT, AnnotatorType.TOKEN]
+
     configProtoBytes = Param(Params._dummy(),
                              "configProtoBytes",
                              "ConfigProto from tensorflow, serialized into byte array. Get with config_proto.SerializeToString()",
@@ -216,4 +218,3 @@ class DeBertaEmbeddings(AnnotatorModel,
         """
         from sparknlp.pretrained import ResourceDownloader
         return ResourceDownloader.downloadModel(DeBertaEmbeddings, name, lang, remote_loc)
-

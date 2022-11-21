@@ -15,6 +15,7 @@
 
 
 from sparknlp.common import *
+from sparknlp.common.annotator_type import AnnotatorType
 
 
 class TypedDependencyParserApproach(AnnotatorApproach):
@@ -98,6 +99,9 @@ class TypedDependencyParserApproach(AnnotatorApproach):
     >>> emptyDataSet = spark.createDataFrame([[""]]).toDF("text")
     >>> pipelineModel = pipeline.fit(emptyDataSet)
     """
+
+    inputAnnotatorTypes = [AnnotatorType.DOCUMENT, AnnotatorType.POS, AnnotatorType.DEPENDENCY]
+
     conll2009 = Param(Params._dummy(),
                       "conll2009",
                       "Path to file with CoNLL 2009 format",
@@ -165,6 +169,7 @@ class TypedDependencyParserApproach(AnnotatorApproach):
 
     def _create_model(self, java_model):
         return TypedDependencyParserModel(java_model=java_model)
+
 
 class TypedDependencyParserModel(AnnotatorModel):
     """Labeled parser that finds a grammatical relation between two words in a
@@ -257,6 +262,8 @@ class TypedDependencyParserModel(AnnotatorModel):
     """
 
     name = "TypedDependencyParserModel"
+
+    inputAnnotatorTypes = [AnnotatorType.DOCUMENT, AnnotatorType.POS, AnnotatorType.DEPENDENCY]
 
     trainOptions = Param(Params._dummy(),
                          "trainOptions",

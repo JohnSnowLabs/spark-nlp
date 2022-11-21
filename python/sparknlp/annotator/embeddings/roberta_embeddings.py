@@ -13,15 +13,16 @@
 #  limitations under the License.
 """Contains classes for RoBertaEmbeddings."""
 
-
 from sparknlp.common import *
+from sparknlp.common.annotator_type import AnnotatorType
 
 
 class RoBertaEmbeddings(AnnotatorModel,
                         HasEmbeddingsProperties,
                         HasCaseSensitiveProperties,
                         HasStorageRef,
-                        HasBatchedAnnotate):
+                        HasBatchedAnnotate,
+                        HasEngine):
     """Creates word embeddings using RoBERTa.
 
     The RoBERTa model was proposed in `RoBERTa: A Robustly Optimized BERT
@@ -147,6 +148,8 @@ class RoBertaEmbeddings(AnnotatorModel,
 
     name = "RoBertaEmbeddings"
 
+    inputAnnotatorTypes = [AnnotatorType.DOCUMENT, AnnotatorType.TOKEN]
+
     maxSentenceLength = Param(Params._dummy(),
                               "maxSentenceLength",
                               "Max sentence length to process",
@@ -231,4 +234,3 @@ class RoBertaEmbeddings(AnnotatorModel,
         """
         from sparknlp.pretrained import ResourceDownloader
         return ResourceDownloader.downloadModel(RoBertaEmbeddings, name, lang, remote_loc)
-

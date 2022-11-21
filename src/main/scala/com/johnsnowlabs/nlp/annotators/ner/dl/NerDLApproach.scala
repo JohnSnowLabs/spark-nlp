@@ -16,19 +16,18 @@
 
 package com.johnsnowlabs.nlp.annotators.ner.dl
 
-import com.johnsnowlabs.client.aws.AWSGateway
 import com.johnsnowlabs.ml.crf.TextSentenceLabels
 import com.johnsnowlabs.ml.tensorflow._
 import com.johnsnowlabs.nlp.AnnotatorType.{DOCUMENT, NAMED_ENTITY, TOKEN, WORD_EMBEDDINGS}
 import com.johnsnowlabs.nlp.annotators.common.{NerTagged, WordpieceEmbeddingsSentence}
 import com.johnsnowlabs.nlp.annotators.ner.{ModelMetrics, NerApproach, Verbose}
 import com.johnsnowlabs.nlp.annotators.param.EvaluationDLParams
+import com.johnsnowlabs.nlp.pretrained.ResourceDownloader
 import com.johnsnowlabs.nlp.util.io.{OutputHelper, ResourceHelper}
 import com.johnsnowlabs.nlp.{AnnotatorApproach, AnnotatorType, ParamsAndFeaturesWritable}
 import com.johnsnowlabs.storage.HasStorageRef
 import org.apache.commons.io.IOUtils
 import org.apache.commons.lang.SystemUtils
-import org.apache.spark.SparkFiles
 import org.apache.spark.ml.PipelineModel
 import org.apache.spark.ml.param._
 import org.apache.spark.ml.util.{DefaultParamsReadable, Identifiable}
@@ -634,22 +633,10 @@ trait WithGraphResolver {
   private def getFiles(localGraphPath: Option[String]): Seq[String] = {
     var files: Seq[String] = List()
 
-    if (localGraphPath.isDefined && localGraphPath.get.startsWith("s3://")) {
+    if (localGraphPath.isDefined && localGraphPath.get
+        .startsWith("s3://")) { // TODO: Might be able to remove this condition
 
-      val (bucketName, keyPrefix) = ResourceHelper.parseS3URI(localGraphPath.get)
-
-      require(
-        bucketName != "",
-        "S3 bucket name is not define. Please define it with parameter setS3BucketName")
-
-      var tmpDirectory = SparkFiles.getRootDirectory()
-
-      val awsGateway = new AWSGateway()
-      awsGateway.downloadFilesFromDirectory(bucketName, keyPrefix, new File(tmpDirectory))
-
-      if (OutputHelper.getFileSystem.getScheme == "dbfs") {
-        tmpDirectory = s"$tmpDirectory/$keyPrefix"
-      } else tmpDirectory = s"file:/$tmpDirectory/$keyPrefix"
+      val tmpDirectory = ResourceDownloader.downloadS3Directory(localGraphPath.get).getPath
 
       files = ResourceHelper.listLocalFiles(tmpDirectory).map(_.getAbsolutePath)
     } else {

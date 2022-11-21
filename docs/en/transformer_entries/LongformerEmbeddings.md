@@ -45,7 +45,7 @@ WORD_EMBEDDINGS
 {%- endcapture -%}
 
 {%- capture python_api_link -%}
-[LongformerEmbeddings](/api/python/reference/autosummary/sparknlp/annotator/embeddings/longformer_embeddings/index.html#sparknlp.annotator.embeddings.longformer_embeddings.LongformerEmbeddings)
+[LongformerEmbeddings](/api/python/reference/autosummary/python/sparknlp/annotator/embeddings/longformer_embeddings/index.html#sparknlp.annotator.embeddings.longformer_embeddings.LongformerEmbeddings)
 {%- endcapture -%}
 
 {%- capture source_link -%}

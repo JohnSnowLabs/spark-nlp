@@ -108,7 +108,7 @@ result.select("label.result").show(false)
 {%- endcapture -%}
 
 {%- capture python_api_link -%}
-[XlmRoBertaForSequenceClassification](/api/python/reference/autosummary/sparknlp/annotator/classifier_dl/xlm_roberta_for_sequence_classification/index.html#sparknlp.annotator.classifier_dl.xlm_roberta_for_sequence_classification.XlmRoBertaForSequenceClassification)
+[XlmRoBertaForSequenceClassification](/api/python/reference/autosummary/python/sparknlp/annotator/classifier_dl/xlm_roberta_for_sequence_classification/index.html#sparknlp.annotator.classifier_dl.xlm_roberta_for_sequence_classification.XlmRoBertaForSequenceClassification)
 {%- endcapture -%}
 
 {%- capture source_link -%}

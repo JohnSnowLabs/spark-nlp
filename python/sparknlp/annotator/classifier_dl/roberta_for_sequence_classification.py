@@ -13,14 +13,15 @@
 #  limitations under the License.
 """Contains classes for RoBertaForSequenceClassification."""
 
-
 from sparknlp.common import *
+from sparknlp.common.annotator_type import AnnotatorType
 
 
 class RoBertaForSequenceClassification(AnnotatorModel,
                                        HasCaseSensitiveProperties,
                                        HasBatchedAnnotate,
-                                       HasClassifierActivationProperties):
+                                       HasClassifierActivationProperties,
+                                       HasEngine):
     """RoBertaForSequenceClassification can load RoBERTa Models with sequence classification/regression head on
     top (a linear layer on top of the pooled output) e.g. for multi-class document classification tasks.
 
@@ -100,6 +101,8 @@ class RoBertaForSequenceClassification(AnnotatorModel,
     +--------------------+
     """
     name = "RoBertaForSequenceClassification"
+
+    inputAnnotatorTypes = [AnnotatorType.DOCUMENT, AnnotatorType.TOKEN]
 
     maxSentenceLength = Param(Params._dummy(),
                               "maxSentenceLength",
@@ -210,4 +213,3 @@ class RoBertaForSequenceClassification(AnnotatorModel,
         """
         from sparknlp.pretrained import ResourceDownloader
         return ResourceDownloader.downloadModel(RoBertaForSequenceClassification, name, lang, remote_loc)
-

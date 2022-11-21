@@ -13,11 +13,13 @@
 #  limitations under the License.
 
 from sparknlp.common import *
+from sparknlp.common.annotator_type import AnnotatorType
 
 
 class LongformerForQuestionAnswering(AnnotatorModel,
-                                 HasCaseSensitiveProperties,
-                                 HasBatchedAnnotate):
+                                     HasCaseSensitiveProperties,
+                                     HasBatchedAnnotate,
+                                     HasEngine):
     """LongformerForQuestionAnswering can load Longformer Models with a span classification head on top for extractive
     question-answering tasks like SQuAD (a linear layer on top of the hidden-states output to compute span start
     logits and span end logits).
@@ -85,6 +87,8 @@ class LongformerForQuestionAnswering(AnnotatorModel,
     +--------------------+
     """
     name = "LongformerForQuestionAnswering"
+
+    inputAnnotatorTypes = [AnnotatorType.DOCUMENT, AnnotatorType.DOCUMENT]
 
     maxSentenceLength = Param(Params._dummy(),
                               "maxSentenceLength",

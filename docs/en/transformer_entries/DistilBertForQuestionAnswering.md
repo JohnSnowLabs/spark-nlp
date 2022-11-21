@@ -100,7 +100,7 @@ result.select("label.result").show(false)
 {%- endcapture -%}
 
 {%- capture python_api_link -%}
-[DistilBertForQuestionAnswering](/api/python/reference/autosummary/sparknlp/annotator/classifier_dl/distil_bert_for_question_answering/index.html#sparknlp.annotator.classifier_dl.distil_bert_for_question_answering.DistilBertForQuestionAnswering)
+[DistilBertForQuestionAnswering](/api/python/reference/autosummary/python/sparknlp/annotator/classifier_dl/distil_bert_for_question_answering/index.html#sparknlp.annotator.classifier_dl.distil_bert_for_question_answering.DistilBertForQuestionAnswering)
 {%- endcapture -%}
 
 {%- capture source_link -%}

@@ -14,6 +14,7 @@
 """Contains classes for the SentimentDetector."""
 
 from sparknlp.common import *
+from sparknlp.common.annotator_type import AnnotatorType
 
 
 class SentimentDetector(AnnotatorApproach):
@@ -97,6 +98,9 @@ class SentimentDetector(AnnotatorApproach):
     --------
     ViveknSentimentApproach : for an alternative approach to sentiment extraction
     """
+
+    inputAnnotatorTypes = [AnnotatorType.TOKEN, AnnotatorType.DOCUMENT]
+
     dictionary = Param(Params._dummy(),
                        "dictionary",
                        "path for dictionary to sentiment analysis",
@@ -160,6 +164,7 @@ class SentimentDetector(AnnotatorApproach):
     def _create_model(self, java_model):
         return SentimentDetectorModel(java_model=java_model)
 
+
 class SentimentDetectorModel(AnnotatorModel):
     """Rule based sentiment detector, which calculates a score based on
     predefined keywords.
@@ -184,6 +189,8 @@ class SentimentDetectorModel(AnnotatorModel):
     None
     """
     name = "SentimentDetectorModel"
+
+    inputAnnotatorTypes = [AnnotatorType.TOKEN, AnnotatorType.DOCUMENT]
 
     positiveMultiplier = Param(Params._dummy(),
                                "positiveMultiplier",

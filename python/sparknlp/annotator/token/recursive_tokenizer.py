@@ -14,6 +14,7 @@
 """Contains classes for the RecursiveTokenizer."""
 
 from sparknlp.common import *
+from sparknlp.common.annotator_type import AnnotatorType
 
 
 class RecursiveTokenizer(AnnotatorApproach):
@@ -81,6 +82,8 @@ class RecursiveTokenizer(AnnotatorApproach):
     +------------------------------------------------------------------+
     """
     name = 'RecursiveTokenizer'
+
+    inputAnnotatorTypes = [AnnotatorType.DOCUMENT]
 
     prefixes = Param(Params._dummy(),
                      "prefixes",
@@ -171,6 +174,7 @@ class RecursiveTokenizer(AnnotatorApproach):
     def _create_model(self, java_model):
         return RecursiveTokenizerModel(java_model=java_model)
 
+
 class RecursiveTokenizerModel(AnnotatorModel):
     """Instantiated model of the RecursiveTokenizer.
 
@@ -188,6 +192,8 @@ class RecursiveTokenizerModel(AnnotatorModel):
     None
     """
     name = 'RecursiveTokenizerModel'
+
+    inputAnnotatorTypes = [AnnotatorType.DOCUMENT]
 
     def __init__(self, classname="com.johnsnowlabs.nlp.annotators.RecursiveTokenizerModel", java_model=None):
         super(RecursiveTokenizerModel, self).__init__(

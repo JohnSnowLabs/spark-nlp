@@ -13,11 +13,13 @@
 #  limitations under the License.
 
 from sparknlp.common import *
+from sparknlp.common.annotator_type import AnnotatorType
 
 
 class XlmRoBertaForQuestionAnswering(AnnotatorModel,
                                      HasCaseSensitiveProperties,
-                                     HasBatchedAnnotate):
+                                     HasBatchedAnnotate,
+                                     HasEngine):
     """XlmRoBertaForQuestionAnswering can load XLM-RoBERTa Models with a span classification head on top for extractive
     question-answering tasks like SQuAD (a linear layer on top of the hidden-states output to compute span start
     logits and span end logits).
@@ -85,6 +87,8 @@ class XlmRoBertaForQuestionAnswering(AnnotatorModel,
     +--------------------+
     """
     name = "XlmRoBertaForQuestionAnswering"
+
+    inputAnnotatorTypes = [AnnotatorType.DOCUMENT, AnnotatorType.DOCUMENT]
 
     maxSentenceLength = Param(Params._dummy(),
                               "maxSentenceLength",

@@ -102,7 +102,7 @@ val pipelineDF = pipeline.fit(imageDF).transform(imageDF)
 {%- endcapture -%}
 
 {%- capture python_api_link -%}
-[ViTForImageClassification](/api/python/reference/autosummary/sparknlp/annotator/cv/vit_for_image_classification/index.html#sparknlp.annotator.cv.vit_for_image_classification.ViTForImageClassification)
+[ViTForImageClassification](/api/python/reference/autosummary/python/sparknlp/annotator/cv/vit_for_image_classification/index.html#sparknlp.annotator.cv.vit_for_image_classification.ViTForImageClassification)
 {%- endcapture -%}
 
 {%- capture source_link -%}

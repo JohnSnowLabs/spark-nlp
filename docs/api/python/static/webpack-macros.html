@@ -10,20 +10,22 @@
     href="{{ pathto('static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2', 1) }}">
   <link rel="preload" as="font" type="font/woff2" crossorigin
     href="{{ pathto('static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2', 1) }}">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="{{ pathto('static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2', 1) }}">
 {% endmacro %}
 
 {% macro head_pre_assets() %}
   <!-- Loaded before other Sphinx assets -->
-  <link href="{{ pathto('static/styles/theme.css', 1) }}?digest=9b1a4fa89bdd0e95b23b" rel="stylesheet">
-<link href="{{ pathto('static/styles/pydata-sphinx-theme.css', 1) }}?digest=9b1a4fa89bdd0e95b23b" rel="stylesheet">
+  <link href="{{ pathto('static/styles/theme.css', 1) }}?digest=1e1de1a1873e13ef5536" rel="stylesheet">
+<link href="{{ pathto('static/styles/pydata-sphinx-theme.css', 1) }}?digest=1e1de1a1873e13ef5536" rel="stylesheet">
 {% endmacro %}
 
 {% macro head_js_preload() %}
   <!-- Pre-loaded scripts that we'll load fully later -->
-  <link rel="preload" as="script" href="{{ pathto('static/scripts/pydata-sphinx-theme.js', 1) }}?digest=9b1a4fa89bdd0e95b23b">
+  <link rel="preload" as="script" href="{{ pathto('static/scripts/pydata-sphinx-theme.js', 1) }}?digest=1e1de1a1873e13ef5536">
 {% endmacro %}
 
 {% macro body_post() %}
   <!-- Scripts loaded after <body> so the DOM is not blocked -->
-  <script src="{{ pathto('static/scripts/pydata-sphinx-theme.js', 1) }}?digest=9b1a4fa89bdd0e95b23b"></script>
+  <script src="{{ pathto('static/scripts/pydata-sphinx-theme.js', 1) }}?digest=1e1de1a1873e13ef5536"></script>
 {% endmacro %}

@@ -78,7 +78,7 @@ root
 {%- endcapture -%}
 
 {%- capture python_api_link -%}
-[ImageAssembler](/api/python/reference/autosummary/sparknlp/base/image_assembler/index.html#sparknlp.base.image_assembler.ImageAssembler)
+[ImageAssembler](/api/python/reference/autosummary/python/sparknlp/base/image_assembler/index.html#sparknlp.base.image_assembler.ImageAssembler)
 {%- endcapture -%}
 
 {%- capture source_link -%}

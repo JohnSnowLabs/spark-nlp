@@ -26,8 +26,6 @@ data:
           id: lorem 
           image: 
               src: /assets/images/Analyze_sentiment_in_financial_news.svg
-          image2: 
-              src: /assets/images/Analyze_sentiment_in_financial_news_f.svg
           excerpt: This demo shows how sentiment can be identified (neutral, positive or negative) in financial news.
           actions:
           - text: Live Demo

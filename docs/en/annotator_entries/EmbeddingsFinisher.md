@@ -158,7 +158,7 @@ resultWithSize.show(5, 80)
 {%- endcapture -%}
 
 {%- capture python_api_link -%}
-[EmbeddingsFinisher](/api/python/reference/autosummary/sparknlp/base/embeddings_finisher/index.html#sparknlp.base.embeddings_finisher.EmbeddingsFinisher)
+[EmbeddingsFinisher](/api/python/reference/autosummary/python/sparknlp/base/embeddings_finisher/index.html#sparknlp.base.embeddings_finisher.EmbeddingsFinisher)
 {%- endcapture -%}
 
 {%- capture source_link -%}

@@ -14,9 +14,10 @@
 """Contains classes for LanguageDetectorDL."""
 
 from sparknlp.common import *
+from sparknlp.common.annotator_type import AnnotatorType
 
 
-class LanguageDetectorDL(AnnotatorModel, HasStorageRef):
+class LanguageDetectorDL(AnnotatorModel, HasStorageRef, HasEngine):
     """Language Identification and Detection by using CNN and RNN architectures
     in TensorFlow.
 
@@ -96,6 +97,8 @@ class LanguageDetectorDL(AnnotatorModel, HasStorageRef):
     +------+
     """
     name = "LanguageDetectorDL"
+
+    inputAnnotatorTypes = [AnnotatorType.DOCUMENT]
 
     def __init__(self, classname="com.johnsnowlabs.nlp.annotators.ld.dl.LanguageDetectorDL", java_model=None):
         super(LanguageDetectorDL, self).__init__(
@@ -193,4 +196,3 @@ class LanguageDetectorDL(AnnotatorModel, HasStorageRef):
         """
         from sparknlp.pretrained import ResourceDownloader
         return ResourceDownloader.downloadModel(LanguageDetectorDL, name, lang, remote_loc)
-

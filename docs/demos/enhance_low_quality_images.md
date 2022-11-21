@@ -24,8 +24,6 @@ data:
           id: remove_background_noise_from_scanned_documents
           image: 
               src: /assets/images/remove_bg.svg
-          image2: 
-              src: /assets/images/remove_bg_f.svg
           excerpt: Removing the background noise in a scanned document will highly improve the results of the OCR. Spark OCR is the only library that allows you to finetune the image preprocessing for excellent OCR results.
           actions:
           - text: Live Demo
@@ -38,8 +36,6 @@ data:
           id: correct_skewness_in_scanned_documents
           image: 
               src: /assets/images/correct.svg
-          image2: 
-              src: /assets/images/correct_f.svg
           excerpt: Correct the skewness of your scanned documents will highly improve the results of the OCR. Spark OCR is the only library that allows you to finetune the image preprocessing for excellent OCR results.
           actions:
           - text: Live Demo
@@ -52,8 +48,6 @@ data:
           id: recognize_text_in_natural_scenes
           image: 
               src: /assets/images/Frame.svg
-          image2: 
-              src: /assets/images/Frame_f.svg
           excerpt: By using image segmentation and preprocessing techniques Spark OCR recognizes and extracts text from natural scenes.
           actions:
           - text: Live Demo
@@ -66,8 +60,6 @@ data:
           id: enhance_faxes_scanned_documents
           image: 
               src: /assets/images/Healthcare_Enhancelowquality.svg
-          image2: 
-              src: /assets/images/Healthcare_Enhancelowquality_f.svg
           excerpt: Improve quality of (old) faxes/scanned documents using Spark OCR.
           actions:
           - text: Live Demo
@@ -80,8 +72,6 @@ data:
           id: enhance_photo_documents
           image: 
               src: /assets/images/Healthcare_EnhancePhotoofDocuments.svg
-          image2: 
-              src: /assets/images/Healthcare_EnhancePhotoofDocuments_f.svg
           excerpt: Improve quality of documents in image format using Spark OCR.
           actions:
           - text: Live Demo

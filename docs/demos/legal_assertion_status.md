@@ -26,8 +26,6 @@ data:
           id: identify_competitors_text   
           image: 
               src: /assets/images/Identify_Competitors_in_a_text.svg
-          image2: 
-              src: /assets/images/Identify_Competitors_in_a_text_f.svg
           excerpt: This model uses Assertion Status to identify if a PRODUCT or an ORG is mentioned to be a competitor.
           actions:
           - text: Live Demo

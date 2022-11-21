@@ -31,6 +31,15 @@ const data = {
     'Even smaller than small. Uses a very reduced size of embeddings to provide with better performance.',
   tuned:
     'Model finetuned by John Snow Labs on public and inhouse datasets, to provide better accuracy.',
+  unidirectional: [
+    'This model was trained to take into account the direction of the relation. ',
+    <em>chunk1</em>,
+    ' will always be the source of the relation, ',
+    <em>chunk2</em>,
+    ' the target.',
+  ],
+  bidirectional:
+    'This model was not trained to take into consideration the direction of the relation, meaning that it can return relations from left to right or right to left indistinctly.',
 };
 
 export const addNamingConventions = (title) => {
@@ -40,7 +49,7 @@ export const addNamingConventions = (title) => {
     const content = data[cleanedValue];
     if (content) {
       acc.push(
-        <Tooltip label={content}>
+        <Tooltip label={content} key={value}>
           <span style={{ borderBottom: '2px dotted' }}>{value}</span>
         </Tooltip>
       );
@@ -54,7 +63,7 @@ export const addNamingConventions = (title) => {
   }, []);
 };
 
-export const products = {
+const oldToNewProduct = {
   'Spark NLP': 'Spark NLP',
   'Spark NLP for Healthcare': 'Healthcare NLP',
   'Spark OCR': 'Visual NLP',
@@ -62,10 +71,15 @@ export const products = {
   'Spark NLP for Legal': 'Legal NLP',
 };
 
+export const products = Object.values(oldToNewProduct);
+
 export const productDisplayName = (edition) => {
-  for (const [key, value] of Object.entries(products).reverse()) {
-    if (edition.includes(key)) {
-      return edition.replace(key, value);
+  if (typeof edition === 'string') {
+    for (const [key, value] of Object.entries(oldToNewProduct).reverse()) {
+      if (edition.includes(key)) {
+        return edition.replace(key, value);
+      }
     }
   }
+  return edition;
 };

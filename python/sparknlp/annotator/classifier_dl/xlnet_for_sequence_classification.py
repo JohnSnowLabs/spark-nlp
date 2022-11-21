@@ -14,12 +14,14 @@
 """Contains classes for XlnetForSequenceClassification."""
 
 from sparknlp.common import *
+from sparknlp.common.annotator_type import AnnotatorType
 
 
 class XlnetForSequenceClassification(AnnotatorModel,
                                      HasCaseSensitiveProperties,
                                      HasBatchedAnnotate,
-                                     HasClassifierActivationProperties):
+                                     HasClassifierActivationProperties,
+                                     HasEngine):
     """XlnetForSequenceClassification can load XLNet Models with sequence classification/regression head on
     top (a linear layer on top of the pooled output) e.g. for multi-class document classification tasks.
 
@@ -99,6 +101,8 @@ class XlnetForSequenceClassification(AnnotatorModel,
     +--------------------+
     """
     name = "XlnetForSequenceClassification"
+
+    inputAnnotatorTypes = [AnnotatorType.DOCUMENT, AnnotatorType.TOKEN]
 
     maxSentenceLength = Param(Params._dummy(),
                               "maxSentenceLength",
@@ -209,4 +213,3 @@ class XlnetForSequenceClassification(AnnotatorModel,
         """
         from sparknlp.pretrained import ResourceDownloader
         return ResourceDownloader.downloadModel(XlnetForSequenceClassification, name, lang, remote_loc)
-

@@ -14,12 +14,14 @@
 """Contains classes for BertForSequenceClassification."""
 
 from sparknlp.common import *
+from sparknlp.common.annotator_type import AnnotatorType
 
 
 class BertForSequenceClassification(AnnotatorModel,
                                     HasCaseSensitiveProperties,
                                     HasBatchedAnnotate,
-                                    HasClassifierActivationProperties):
+                                    HasClassifierActivationProperties,
+                                    HasEngine):
     """BertForSequenceClassification can load Bert Models with sequence classification/regression head on top
     (a linear layer on top of the pooled output) e.g. for multi-class document classification tasks.
 
@@ -99,6 +101,8 @@ class BertForSequenceClassification(AnnotatorModel,
     +--------------------+
     """
     name = "BertForSequenceClassification"
+
+    inputAnnotatorTypes = [AnnotatorType.DOCUMENT, AnnotatorType.TOKEN]
 
     maxSentenceLength = Param(Params._dummy(),
                               "maxSentenceLength",
@@ -209,4 +213,3 @@ class BertForSequenceClassification(AnnotatorModel,
         """
         from sparknlp.pretrained import ResourceDownloader
         return ResourceDownloader.downloadModel(BertForSequenceClassification, name, lang, remote_loc)
-

@@ -14,11 +14,13 @@
 """Contains classes for DeBertaForTokenClassification."""
 
 from sparknlp.common import *
+from sparknlp.common.annotator_type import AnnotatorType
 
 
 class DeBertaForTokenClassification(AnnotatorModel,
                                     HasCaseSensitiveProperties,
-                                    HasBatchedAnnotate):
+                                    HasBatchedAnnotate,
+                                    HasEngine):
     """DeBertaForTokenClassification can load DeBERTa v2&v3 Models with a token
     classification head on top (a linear layer on top of the hidden-states
     output) e.g. for Named-Entity-Recognition (NER) tasks.
@@ -92,6 +94,8 @@ class DeBertaForTokenClassification(AnnotatorModel,
     +------------------------------------------------------------------------------------+
     """
     name = "DeBertaForTokenClassification"
+
+    inputAnnotatorTypes = [AnnotatorType.DOCUMENT, AnnotatorType.TOKEN]
 
     maxSentenceLength = Param(Params._dummy(),
                               "maxSentenceLength",

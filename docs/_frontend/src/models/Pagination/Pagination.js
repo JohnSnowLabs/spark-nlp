@@ -1,4 +1,4 @@
-const { createElement: e } = React;
+import { createElement as e } from 'react';
 import './Pagination.css';
 
 const Pagination = ({ page, totalPages, onChange }) => {

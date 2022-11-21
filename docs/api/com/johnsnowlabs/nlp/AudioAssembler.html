@@ -3,9 +3,9 @@
         <head>
           <meta http-equiv="X-UA-Compatible" content="IE=edge" />
           <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-          <title>Spark NLP 4.2.0 ScalaDoc  - com.johnsnowlabs.nlp.AudioAssembler</title>
-          <meta name="description" content="Spark NLP 4.2.0 ScalaDoc - com.johnsnowlabs.nlp.AudioAssembler" />
-          <meta name="keywords" content="Spark NLP 4.2.0 ScalaDoc com.johnsnowlabs.nlp.AudioAssembler" />
+          <title>Spark NLP 4.2.3 ScalaDoc  - com.johnsnowlabs.nlp.AudioAssembler</title>
+          <meta name="description" content="Spark NLP 4.2.3 ScalaDoc - com.johnsnowlabs.nlp.AudioAssembler" />
+          <meta name="keywords" content="Spark NLP 4.2.3 ScalaDoc com.johnsnowlabs.nlp.AudioAssembler" />
           <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
           
       
@@ -28,7 +28,7 @@
         </head>
         <body>
       <div id="search">
-        <span id="doc-title">Spark NLP 4.2.0 ScalaDoc<span id="doc-version"></span></span>
+        <span id="doc-title">Spark NLP 4.2.3 ScalaDoc<span id="doc-version"></span></span>
         <span class="close-results"><span class="left">&lt;</span> Back</span>
         <div id="textfilter">
           <span class="input">
@@ -327,6 +327,10 @@
                         <a href="HasEnableCachingProperties.html" title="">HasEnableCachingProperties</a>
                       </li><li class="current-entities indented3">
                         <span class="separator"></span>
+                        <a class="trait" href="HasEngine.html" title=""></a>
+                        <a href="HasEngine.html" title="">HasEngine</a>
+                      </li><li class="current-entities indented3">
+                        <span class="separator"></span>
                         <a class="trait" href="HasFeatures.html" title=""></a>
                         <a href="HasFeatures.html" title="">HasFeatures</a>
                       </li><li class="current-entities indented3">
@@ -367,8 +371,8 @@
                         <a href="HasSimpleAnnotate.html" title="">HasSimpleAnnotate</a>
                       </li><li class="current-entities indented3">
                         <span class="separator"></span>
-                        <a class="trait" href="IAnnotation.html" title=""></a>
-                        <a href="IAnnotation.html" title="">IAnnotation</a>
+                        <a class="trait" href="IAnnotation.html" title="IAnnotation trait is used to abstract the annotator's output for each NLP tasks available in Spark NLP."></a>
+                        <a href="IAnnotation.html" title="IAnnotation trait is used to abstract the annotator's output for each NLP tasks available in Spark NLP.">IAnnotation</a>
                       </li><li class="current-entities indented3">
                         <a class="object" href="ImageAssembler$.html" title="This is the companion object of ImageAssembler."></a>
                         <a class="class" href="ImageAssembler.html" title="Prepares images read by Spark into a format that is processable by Spark NLP."></a>
@@ -462,8 +466,7 @@ needed to process audio.</p><p>Input col is a single record that contains the ra
 <span class="kw">val</span> pipeline = <span class="kw">new</span> Pipeline().setStages(<span class="std">Array</span>(audioAssembler))
 <span class="kw">val</span> pipelineDF = pipeline.fit(imageDF).transform(wavDf)
 pipelineDF.printSchema()
-root</pre><p>TODO:</p><ul><li>support various file formats</li><li>output into float array</li><li>handle stereo
-</li></ul></div><div class="toggleContainer block">
+root</pre></div><div class="toggleContainer block">
           <span class="toggle">
             Linear Supertypes
           </span>
@@ -1074,7 +1077,7 @@ root</pre><p>TODO:</p><ul><li>support various file formats</li><li>output into f
         <span class="name">inputCol</span><span class="result">: <span class="extype" name="org.apache.spark.ml.param.Param">Param</span>[<span class="extype" name="scala.Predef.String">String</span>]</span>
       </span>
       
-      <p class="shortcomment cmt">Input column of raw floats of the processed audio
+      <p class="shortcomment cmt">Input column of raw float or double of the processed audio
 </p>
     </li><li name="org.apache.spark.ml.param.Params#isDefined" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="isDefined(param:org.apache.spark.ml.param.Param[_]):Boolean"></a><a id="isDefined(Param[_]):Boolean"></a>

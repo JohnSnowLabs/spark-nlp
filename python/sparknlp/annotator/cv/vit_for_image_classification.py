@@ -15,11 +15,13 @@
 """Contains classes concerning ViTForImageClassification."""
 
 from sparknlp.common import *
+from sparknlp.common.annotator_type import AnnotatorType
 
 
 class ViTForImageClassification(AnnotatorModel,
                                 HasBatchedAnnotateImage,
-                                HasImageFeatureProperties):
+                                HasImageFeatureProperties,
+                                HasEngine):
     """Vision Transformer (ViT) for image classification.
 
     ViT is a transformer based alternative to the convolutional neural networks usually
@@ -102,6 +104,8 @@ class ViTForImageClassification(AnnotatorModel,
 
     """
     name = "ViTForImageClassification"
+
+    inputAnnotatorTypes = [AnnotatorType.IMAGE]
 
     configProtoBytes = Param(Params._dummy(),
                              "configProtoBytes",
