@@ -144,6 +144,8 @@ annotation-lab:
         url: /docs/en/alab/security
       - title: Video Tutorials
         url: /docs/en/alab/tutorials
+      - title: Troubleshooting
+        url: /docs/en/alab/troubleshooting
       - title: Release Notes
         url: /docs/en/alab/release_notes
 
