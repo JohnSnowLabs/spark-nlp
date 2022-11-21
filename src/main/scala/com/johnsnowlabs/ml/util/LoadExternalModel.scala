@@ -26,11 +26,11 @@ import scala.io.Source
 object LoadExternalModel {
 
   val notSupportedEngineError: String = {
-    s"""Your imported model is either not supported or not correctly structured.
-       |For importing a TensorFlow model the directory must have the following structure:
+    s"""Your imported model is either not supported or not correctly imported.
+       |A typical imported TensorFlow SavedModel has the following structure:
        |
        |├── assets/
-       |    ├── your-assets-are-here
+       |    ├── your-assets-are-here (vocab, sp model, labels, etc.)
        |├── saved_model.pb
        |└── variables/
        |    ├── variables.data-00000-of-00001
