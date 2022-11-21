@@ -7,9 +7,10 @@ date: 2021-07-12
 tags: [licensed, clinical, en, relation_extraction, ade]
 task: Relation Extraction
 language: en
-edition: Spark NLP for Healthcare 3.1.2
+edition: Healthcare NLP 3.1.2
 spark_version: 3.0
 supported: true
+annotator: RelationExtractionModel
 article_header:
 type: cover
 use_language_switcher: "Python-Scala-Java"
@@ -113,7 +114,18 @@ text ="""Been taking Lipitor for 15 years , have experienced severe fatigue a lo
 annotations = light_pipeline.fullAnnotate(text)
 ```
 ```scala
-...
+val document_assembler = new DocumentAssembler()
+    .setInputCol("text")
+    .setOutputCol("document")
+         
+val sentence_detector = new SentenceDetector()
+    .setInputCols("document")
+    .setOutputCol("sentences")
+
+val tokenizer = new Tokenizer()
+    .setInputCols("sentences")
+    .setOutputCol("tokens")
+
 val words_embedder = WordEmbeddingsModel()
     .pretrained("embeddings_clinical", "en", "clinical/models")
     .setInputCols(Array("sentences", "tokens"))
@@ -192,7 +204,7 @@ nlu.load("en.relation.adverse_drug_events.clinical").predict("""Been taking Lipi
 |---|---|
 |Model Name:|re_ade_clinical|
 |Type:|re|
-|Compatibility:|Spark NLP for Healthcare 3.1.2+|
+|Compatibility:|Healthcare NLP 3.1.2+|
 |License:|Licensed|
 |Edition:|Official|
 |Input Labels:|[embeddings, pos_tags, train_ner_chunks, dependencies]|

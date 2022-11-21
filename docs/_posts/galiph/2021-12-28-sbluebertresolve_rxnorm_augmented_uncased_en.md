@@ -7,9 +7,10 @@ date: 2021-12-28
 tags: [en, clinical, entity_resolution, licensed]
 task: Entity Resolution
 language: en
-edition: Spark NLP for Healthcare 3.3.4
+edition: Healthcare NLP 3.3.4
 spark_version: 2.4
 supported: true
+annotator: SentenceEntityResolverModel
 article_header:
   type: cover
 use_language_switcher: "Python-Scala-Java"
@@ -53,27 +54,27 @@ rxnorm_pipelineModel = PipelineModel(
         documentAssembler,
         sbert_embedder,
         rxnorm_resolver])
-light_model = LightPipeline(pipelineModel)
+light_model = LightPipeline(rxnorm_pipelineModel)
 
 result = light_model.fullAnnotate(["Coumadin 5 mg", "aspirin", "Neurontin 300", "avandia 4 mg"])
 ```
 ```scala
-val documentAssembler = DocumentAssembler()\
-      .setInputCol("text")\
+val documentAssembler = DocumentAssembler()
+      .setInputCol("text")
       .setOutputCol("ner_chunk")
       
-val sbert_embedder = BertSentenceEmbeddings.pretrained("sbluebert_base_uncased_mli", "en", "clinical/models")\
-      .setInputCols("ner_chunk")\
+val sbert_embedder = BertSentenceEmbeddings.pretrained("sbluebert_base_uncased_mli", "en", "clinical/models")
+      .setInputCols(Array("ner_chunk"))
       .setOutputCol("sbert_embeddings")
     
-val rxnorm_resolver = SentenceEntityResolverModel.pretrained("sbluebertresolve_rxnorm_augmented_uncased", "en", "clinical/models") \
-      .setInputCols(Array("ner_chunk", "sbert_embeddings")) \
-      .setOutputCol("rxnorm_code")\
+val rxnorm_resolver = SentenceEntityResolverModel.pretrained("sbluebertresolve_rxnorm_augmented_uncased", "en", "clinical/models") 
+      .setInputCols(Array("ner_chunk", "sbert_embeddings")) 
+      .setOutputCol("rxnorm_code")
       .setDistanceFunction("EUCLIDEAN")
 
 val rxnorm_pipelineModel = new PipelineModel().setStages(Array(documentAssembler, sbert_embedder, rxnorm_resolver))
 
-val light_model = LightPipeline(pipelineModel)
+val light_model = LightPipeline(rxnorm_pipelineModel)
 
 val result = light_model.fullAnnotate(Array("Coumadin 5 mg", "aspirin", "avandia 4 mg"))
 ```
@@ -96,7 +97,7 @@ val result = light_model.fullAnnotate(Array("Coumadin 5 mg", "aspirin", "avandia
 {:.table-model}
 |---|---|
 |Model Name:|sbluebertresolve_rxnorm_augmented_uncased|
-|Compatibility:|Spark NLP for Healthcare 3.3.4+|
+|Compatibility:|Healthcare NLP 3.3.4+|
 |License:|Licensed|
 |Edition:|Official|
 |Input Labels:|[sentence_embeddings]|

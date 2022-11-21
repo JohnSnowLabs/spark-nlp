@@ -7,9 +7,10 @@ date: 2021-05-02
 tags: [snomed, icd10cm, en, licensed]
 task: Pipeline Healthcare
 language: en
-edition: Spark NLP for Healthcare 3.0.2
+edition: Healthcare NLP 3.0.2
 spark_version: 3.0
 supported: true
+annotator: PipelineModel
 article_header:
 type: cover
 use_language_switcher: "Python-Scala-Java"
@@ -66,7 +67,7 @@ nlu.load("en.map_entity.snomed_to_icd10cm.pipe").predict("""721617001 733187009 
 |---|---|
 |Model Name:|snomed_icd10cm_mapping|
 |Type:|pipeline|
-|Compatibility:|Spark NLP for Healthcare 3.0.2+|
+|Compatibility:|Healthcare NLP 3.0.2+|
 |License:|Licensed|
 |Edition:|Official|
 |Language:|en|

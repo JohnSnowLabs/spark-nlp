@@ -7,9 +7,10 @@ date: 2022-06-26
 tags: [chunk_mapper, ndc, clinical, licensed, en]
 task: Chunk Mapping
 language: en
-edition: Spark NLP for Healthcare 3.5.3
+edition: Healthcare NLP 3.5.3
 spark_version: 3.0
 supported: true
+annotator: ChunkMapperModel
 article_header:
 type: cover
 use_language_switcher: "Python-Scala-Java"
@@ -64,7 +65,7 @@ val document_assembler = new DocumentAssembler()
 .setOutputCol("chunk")
 
 val chunkerMapper = ChunkMapperModel.pretrained("drug_brandname_ndc_mapper", "en", "clinical/models")
-.setInputCols("chunk")
+.setInputCols(Array("chunk"))
 .setOutputCol("ndc")
 .setRels(Array("Strength_NDC"))
 .setLowerCase(True)
@@ -104,7 +105,7 @@ nlu.load("en.map_entity.drug_brand_to_ndc").predict("""Put your text here.""")
 {:.table-model}
 |---|---|
 |Model Name:|drug_brandname_ndc_mapper|
-|Compatibility:|Spark NLP for Healthcare 3.5.3+|
+|Compatibility:|Healthcare NLP 3.5.3+|
 |License:|Licensed|
 |Edition:|Official|
 |Input Labels:|[chunk]|

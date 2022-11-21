@@ -7,9 +7,10 @@ date: 2021-04-01
 tags: [pipeline, en, licensed, clinical]
 task: Pipeline Healthcare
 language: en
-edition: Spark NLP for Healthcare 3.0.0
+edition: Healthcare NLP 3.0.0
 spark_version: 3.0
 supported: true
+annotator: PipelineModel
 article_header:
 type: cover
 use_language_switcher: "Python-Scala-Java"
@@ -73,7 +74,7 @@ nlu.load("en.explain_doc.era").predict("""She is admitted to The John Hopkins Ho
 |---|---|
 |Model Name:|explain_clinical_doc_era|
 |Type:|pipeline|
-|Compatibility:|Spark NLP for Healthcare 3.0.0+|
+|Compatibility:|Healthcare NLP 3.0.0+|
 |License:|Licensed|
 |Edition:|Official|
 |Language:|en|

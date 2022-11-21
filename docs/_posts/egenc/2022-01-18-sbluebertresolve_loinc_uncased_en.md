@@ -7,9 +7,10 @@ date: 2022-01-18
 tags: [loinc, licensed, clinical, entity_resolution, en]
 task: Entity Resolution
 language: en
-edition: Spark NLP for Healthcare 3.3.4
+edition: Healthcare NLP 3.3.4
 spark_version: 2.4
 supported: true
+annotator: SentenceEntityResolverModel
 article_header:
 type: cover
 use_language_switcher: "Python-Scala-Java"
@@ -169,7 +170,7 @@ nlu.load("en.resolve.loinc_uncased").predict("""The patient is a 22-year-old fem
 {:.table-model}
 |---|---|
 |Model Name:|sbluebertresolve_loinc_uncased|
-|Compatibility:|Spark NLP for Healthcare 3.3.4+|
+|Compatibility:|Healthcare NLP 3.3.4+|
 |License:|Licensed|
 |Edition:|Official|
 |Input Labels:|[sentence_embeddings]|

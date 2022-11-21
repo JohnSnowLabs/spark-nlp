@@ -7,9 +7,10 @@ date: 2021-07-12
 tags: [relation_extraction, en, clinical, licensed, ade, biobert]
 task: Relation Extraction
 language: en
-edition: Spark NLP for Healthcare 3.1.2
+edition: Healthcare NLP 3.1.2
 spark_version: 3.0
 supported: true
+annotator: RelationExtractionDLModel
 article_header:
 type: cover
 use_language_switcher: "Python-Scala-Java"
@@ -35,11 +36,6 @@ This model is an end-to-end trained BioBERT model, capable of Relating Drugs and
 
 
 ## How to use
-
-
-
-
-
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
@@ -149,7 +145,7 @@ val dependency_parser = DependencyParserModel()
     .setOutputCol("dependencies")
 
 // Set a filter on pairs of named entities which will be treated as relation candidates
-val re_ner_chunk_filter = RENerChunksFilter()
+val re_ner_chunk_filter = new RENerChunksFilter()
     .setInputCols(Array("ner_chunks", "dependencies"))
     .setMaxSyntacticDistance(10)
     .setOutputCol("re_ner_chunks")
@@ -207,7 +203,7 @@ nlu.load("en.relation.adverse_drug_events.clinical.biobert").predict("""Been tak
 {:.table-model}
 |---|---|
 |Model Name:|redl_ade_biobert|
-|Compatibility:|Spark NLP for Healthcare 3.1.2+|
+|Compatibility:|Healthcare NLP 3.1.2+|
 |License:|Licensed|
 |Edition:|Official|
 |Input Labels:|[redl_ner_chunks, document]|

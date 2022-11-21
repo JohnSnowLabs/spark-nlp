@@ -7,9 +7,10 @@ date: 2022-01-03
 tags: [rxnorm, licensed, en, clinical, entity_resolution]
 task: Entity Resolution
 language: en
-edition: Spark NLP for Healthcare 3.3.1
+edition: Healthcare NLP 3.3.1
 spark_version: 2.4
 supported: true
+annotator: SentenceEntityResolverModel
 article_header:
 type: cover
 use_language_switcher: "Python-Scala-Java"
@@ -107,7 +108,7 @@ nlu.load("en.resolve.rxnen.med_ner.deid_subentityorm_augmented").predict("""Coum
 {:.table-model}
 |---|---|
 |Model Name:|sbiobertresolve_rxnorm_augmented|
-|Compatibility:|Spark NLP for Healthcare 3.3.1+|
+|Compatibility:|Healthcare NLP 3.3.1+|
 |License:|Licensed|
 |Edition:|Official|
 |Input Labels:|[sentence_embeddings]|

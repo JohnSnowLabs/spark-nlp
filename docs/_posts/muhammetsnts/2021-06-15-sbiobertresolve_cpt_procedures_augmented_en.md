@@ -7,9 +7,10 @@ date: 2021-06-15
 tags: [cpt, lincensed, en, clinical, licensed]
 task: Entity Resolution
 language: en
-edition: Spark NLP for Healthcare 3.1.0
+edition: Healthcare NLP 3.1.0
 spark_version: 3.0
 supported: true
+annotator: SentenceEntityResolverModel
 article_header:
 type: cover
 use_language_switcher: "Python-Scala-Java"
@@ -102,7 +103,7 @@ nlu.load("en.resolve.cpt.procedures_augmented").predict("""heart surgery""")
 {:.table-model}
 |---|---|
 |Model Name:|sbiobertresolve_cpt_procedures_augmented|
-|Compatibility:|Spark NLP for Healthcare 3.1.0+|
+|Compatibility:|Healthcare NLP 3.1.0+|
 |License:|Licensed|
 |Edition:|Official|
 |Input Labels:|[sentence_embeddings]|

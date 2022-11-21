@@ -7,9 +7,10 @@ date: 2021-09-15
 tags: [spell, spell_checker, clinical, en, licensed, drug]
 task: Spell Check
 language: en
-edition: Spark NLP for Healthcare 3.2.2
+edition: Healthcare NLP 3.2.2
 spark_version: 3.0
 supported: true
+annotator: NorvigSweetingModel
 article_header:
 type: cover
 use_language_switcher: "Python-Scala-Java"
@@ -103,7 +104,7 @@ Corrected text : You have to take Neutracare and colforsinum and a bit of fluoro
 {:.table-model}
 |---|---|
 |Model Name:|spellcheck_drug_norvig|
-|Compatibility:|Spark NLP for Healthcare 3.2.2+|
+|Compatibility:|Healthcare NLP 3.2.2+|
 |License:|Licensed|
 |Edition:|Official|
 |Input Labels:|[token]|

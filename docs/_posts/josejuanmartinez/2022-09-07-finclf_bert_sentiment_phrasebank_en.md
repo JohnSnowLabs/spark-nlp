@@ -7,8 +7,8 @@ date: 2022-09-07
 tags: [en, finance, sentiment, classification, sentiment_analysis, licensed]
 task: Sentiment Analysis
 language: en
-edition: Spark NLP for Finance 1.0.0
-spark_version: 3.2
+edition: Finance NLP 1.0.0
+spark_version: 3.0
 supported: true
 article_header:
   type: cover
@@ -34,6 +34,7 @@ This model is a pre-trained NLP model to analyze sentiment of financial text. It
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
+
 ```python
 document_assembler = nlp.DocumentAssembler() \
     .setInputCol('text') \
@@ -81,7 +82,7 @@ result.select("text", "class.result").show()
 |---|---|
 |Model Name:|finclf_bert_sentiment_phrasebank|
 |Type:|finance|
-|Compatibility:|Spark NLP for Finance 1.0.0+|
+|Compatibility:|Finance NLP 1.0.0+|
 |License:|Licensed|
 |Edition:|Official|
 |Input Labels:|[document, token]|
@@ -98,13 +99,11 @@ In-house financial documents and Financial PhraseBank by Malo et al. (2014)
 ## Benchmarking
 
 ```bash
-              precision    recall  f1-score   support
-
+       label  precision    recall  f1-score   support
     positive       0.76      0.89      0.82       253
     negative       0.87      0.86      0.87       133
      neutral       0.94      0.87      0.90       584
-
-    accuracy                           0.87       970
-   macro avg       0.86      0.87      0.86       970
-weighted avg       0.88      0.87      0.88       970
+    accuracy         -         -       0.87       970
+   macro-avg       0.86      0.87      0.86       970
+weighted-avg       0.88      0.87      0.88       970
 ```

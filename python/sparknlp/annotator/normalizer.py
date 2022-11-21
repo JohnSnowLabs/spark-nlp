@@ -13,6 +13,7 @@
 #  limitations under the License.
 """Contains classes for the Normalizer."""
 from sparknlp.common import *
+from sparknlp.common.annotator_type import AnnotatorType
 
 
 class Normalizer(AnnotatorApproach):
@@ -78,6 +79,7 @@ class Normalizer(AnnotatorApproach):
     |[john, and, peter, are, brothers, however, they, dont, support, each, other, that, much]|
     +----------------------------------------------------------------------------------------+
     """
+    inputAnnotatorTypes = [AnnotatorType.TOKEN]
 
     cleanupPatterns = Param(Params._dummy(),
                             "cleanupPatterns",
@@ -201,6 +203,7 @@ class NormalizerModel(AnnotatorModel):
     lowercase
         whether to convert strings to lowercase
     """
+    inputAnnotatorTypes = [AnnotatorType.TOKEN]
 
     cleanupPatterns = Param(Params._dummy(),
                             "cleanupPatterns",

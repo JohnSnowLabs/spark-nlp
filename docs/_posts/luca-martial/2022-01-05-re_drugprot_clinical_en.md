@@ -7,9 +7,10 @@ date: 2022-01-05
 tags: [relation_extraction, clinical, en, licensed]
 task: Relation Extraction
 language: en
-edition: Spark NLP for Healthcare 3.3.4
+edition: Healthcare NLP 3.3.4
 spark_version: 3.0
 supported: true
+annotator: RelationExtractionModel
 article_header:
 type: cover
 use_language_switcher: "Python-Scala-Java"
@@ -203,7 +204,7 @@ nlu.load("en.relation.drugprot.clinical").predict("""Lipid specific activation o
 |---|---|
 |Model Name:|re_drugprot_clinical|
 |Type:|re|
-|Compatibility:|Spark NLP for Healthcare 3.3.4+|
+|Compatibility:|Healthcare NLP 3.3.4+|
 |License:|Licensed|
 |Edition:|Official|
 |Input Labels:|[embeddings, pos_tags, train_ner_chunks, dependencies]|

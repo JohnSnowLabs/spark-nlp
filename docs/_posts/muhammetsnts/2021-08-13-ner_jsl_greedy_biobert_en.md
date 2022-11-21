@@ -7,9 +7,10 @@ date: 2021-08-13
 tags: [ner, licensed, en]
 task: Named Entity Recognition
 language: en
-edition: Spark NLP for Healthcare 3.2.0
+edition: Healthcare NLP 3.2.0
 spark_version: 2.4
 supported: true
+annotator: MedicalNerModel
 article_header:
 type: cover
 use_language_switcher: "Python-Scala-Java"
@@ -189,7 +190,7 @@ nlu.load("en.med_ner.jsl_greedy_biobert").predict("""The patient is a 21-day-old
 {:.table-model}
 |---|---|
 |Model Name:|ner_jsl_greedy_biobert|
-|Compatibility:|Spark NLP for Healthcare 3.2.0+|
+|Compatibility:|Healthcare NLP 3.2.0+|
 |License:|Licensed|
 |Edition:|Official|
 |Input Labels:|[sentence, token, embeddings]|

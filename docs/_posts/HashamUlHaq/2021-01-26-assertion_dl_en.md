@@ -6,10 +6,11 @@ name: assertion_dl
 date: 2021-01-26
 task: Assertion Status
 language: en
-edition: Spark NLP for Healthcare 2.7.2
+edition: Healthcare NLP 2.7.2
 spark_version: 2.4
 tags: [assertion, en, licensed, clinical]
 supported: true
+annotator: AssertionDLModel
 article_header:
 type: cover
 use_language_switcher: "Python-Scala-Java"
@@ -34,34 +35,35 @@ Assign assertion status to clinical entities extracted by NER based on their con
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
+
 ```python
 documentAssembler = DocumentAssembler()\
-.setInputCol("text")\
-.setOutputCol("document")
+    .setInputCol("text")\
+    .setOutputCol("document")
 
 sentenceDetector = SentenceDetector()\
-.setInputCols(["document"])\
-.setOutputCol("sentence")
+    .setInputCols(["document"])\
+    .setOutputCol("sentence")
 
 tokenizer = Tokenizer()\
-.setInputCols(["sentence"])\
-.setOutputCol("token")
+    .setInputCols(["sentence"])\
+    .setOutputCol("token")
 
 word_embeddings = WordEmbeddingsModel.pretrained("embeddings_clinical", "en", "clinical/models")\
-.setInputCols(["sentence", "token"])\
-.setOutputCol("embeddings")
+    .setInputCols(["sentence", "token"])\
+    .setOutputCol("embeddings")
 
-clinical_ner = NerDLModel.pretrained("ner_clinical", "en", "clinical/models") \
-.setInputCols(["sentence", "token", "embeddings"]) \
-.setOutputCol("ner")
+clinical_ner = MedicalNerModel.pretrained("ner_clinical", "en", "clinical/models") \
+    .setInputCols(["sentence", "token", "embeddings"]) \
+    .setOutputCol("ner")
 
 ner_converter = NerConverter() \
-.setInputCols(["sentence", "token", "ner"]) \
-.setOutputCol("ner_chunk")
+    .setInputCols(["sentence", "token", "ner"]) \
+    .setOutputCol("ner_chunk")
 
 clinical_assertion = AssertionDLModel.pretrained("assertion_dl", "en", "clinical/models") \
-.setInputCols(["sentence", "ner_chunk", "embeddings"]) \
-.setOutputCol("assertion")
+    .setInputCols(["sentence", "ner_chunk", "embeddings"]) \
+    .setOutputCol("assertion")
 
 nlpPipeline = Pipeline(stages=[
 documentAssembler, 
@@ -80,7 +82,52 @@ model = nlpPipeline.fit(data)
 result = model.transform(data)
 ```
 
+```scala
+val documentAssembler = new DocumentAssembler()
+    .setInputCol("text")
+    .setOutputCol("document")
 
+val sentenceDetector = new SentenceDetector()
+    .setInputCols("document")
+    .setOutputCol("sentence")
+
+val tokenizer = new Tokenizer()
+    .setInputCols("sentence")
+    .setOutputCol("token")
+
+val word_embeddings = WordEmbeddingsModel.pretrained("embeddings_clinical", "en", "clinical/models")
+    .setInputCols(Array("sentence", "token"))
+    .setOutputCol("embeddings")
+
+val clinical_ner = MedicalNerModel.pretrained("ner_clinical", "en", "clinical/models")
+    .setInputCols(Array("sentence", "token", "embeddings"))
+    .setOutputCol("ner")
+
+val ner_converter = new NerConverter()
+    .setInputCols(Array("sentence", "token", "ner"))
+    .setOutputCol("ner_chunk")
+
+val clinical_assertion = AssertionDLModel.pretrained("assertion_dl", "en", "clinical/models")
+    .setInputCols(Array("sentence", "ner_chunk", "embeddings"))
+    .setOutputCol("assertion")
+
+val nlpPipeline = new Pipeline().setStages(Array(
+documentAssembler, 
+sentenceDetector,
+tokenizer,
+word_embeddings,
+clinical_ner,
+ner_converter,
+clinical_assertion
+))
+
+val text = """The human KCNJ9 (Kir 3.3, GIRK3) is a member of the G-protein-activated inwardly rectifying potassium (GIRK) channel family.', 'Here we describe the genomicorganization of the KCNJ9 locus on chromosome 1q21-23 as a candidate gene forType II diabetes mellitus in the Pima Indian population.', 'The gene spansapproximately 7.6 kb and contains one noncoding and two coding exons separated byapproximately 2.2 and approximately 2.6 kb introns, respectively.', 'We identified14 single nucleotide polymorphisms (SNPs), including one that predicts aVal366Ala substitution, and an 8 base-pair', '(bp) insertion/deletion.', 'Ourexpression studies revealed the presence of the transcript in various humantissues including pancreas, and two major insulin-responsive tissues: fat andskeletal muscle.', 'The characterization of the KCNJ9 gene should facilitate furtherstudies on the function of the KCNJ9 protein and allow evaluation of thepotential role of the locus in Type II diabetes."""
+
+
+val data = Seq(text).toDS.toDF("text")
+
+val results = pipeline.fit(data).transform(data)
+```
 
 {:.nlu-block}
 ```python

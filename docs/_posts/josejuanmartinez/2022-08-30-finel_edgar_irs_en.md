@@ -7,9 +7,10 @@ date: 2022-08-30
 tags: [en, finance, companies, edgar, licensed]
 task: Entity Resolution
 language: en
-edition: Spark NLP for Finance 1.0.0
-spark_version: 3.2
+edition: Finance NLP 1.0.0
+spark_version: 3.0
 supported: true
+annotator: SentenceEntityResolverModel
 article_header:
   type: cover
 use_language_switcher: "Python-Scala-Java"
@@ -34,6 +35,7 @@ This is an Entity Linking / Entity Resolution model, which allows you to retriev
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
+
 ```python
 documentAssembler = nlp.DocumentAssembler()\
       .setInputCol("text")\
@@ -78,7 +80,7 @@ lp.fullAnnotate("CONTACT GOLD")
 |---|---|
 |Model Name:|finel_edgar_irs|
 |Type:|finance|
-|Compatibility:|Spark NLP for Finance 1.0.0+|
+|Compatibility:|Finance NLP 1.0.0+|
 |License:|Licensed|
 |Edition:|Official|
 |Input Labels:|[sentence_embeddings]|

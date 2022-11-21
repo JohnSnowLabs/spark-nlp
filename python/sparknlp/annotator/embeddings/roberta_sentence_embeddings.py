@@ -13,15 +13,16 @@
 #  limitations under the License.
 """Contains classes for RoBertaSentenceEmbeddings."""
 
-
 from sparknlp.common import *
+from sparknlp.common.annotator_type import AnnotatorType
 
 
 class RoBertaSentenceEmbeddings(AnnotatorModel,
                                 HasEmbeddingsProperties,
                                 HasCaseSensitiveProperties,
                                 HasStorageRef,
-                                HasBatchedAnnotate):
+                                HasBatchedAnnotate,
+                                HasEngine):
     """Sentence-level embeddings using RoBERTa. The RoBERTa model was proposed in RoBERTa: A Robustly Optimized BERT
     Pretraining Approach  by Yinhan Liu, Myle Ott, Naman Goyal, Jingfei Du, Mandar Joshi, Danqi Chen, Omer Levy,
     Mike Lewis, Luke Zettlemoyer, Veselin Stoyanov. It is based on Google's BERT model released in 2018. It builds on
@@ -115,6 +116,8 @@ class RoBertaSentenceEmbeddings(AnnotatorModel,
 
     name = "RoBertaSentenceEmbeddings"
 
+    inputAnnotatorTypes = [AnnotatorType.DOCUMENT]
+
     maxSentenceLength = Param(Params._dummy(),
                               "maxSentenceLength",
                               "Max sentence length to process",
@@ -199,4 +202,3 @@ class RoBertaSentenceEmbeddings(AnnotatorModel,
         """
         from sparknlp.pretrained import ResourceDownloader
         return ResourceDownloader.downloadModel(RoBertaSentenceEmbeddings, name, lang, remote_loc)
-

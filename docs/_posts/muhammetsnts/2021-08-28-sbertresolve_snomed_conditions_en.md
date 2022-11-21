@@ -7,9 +7,10 @@ date: 2021-08-28
 tags: [snomed, licensed, en, clinical]
 task: Entity Resolution
 language: en
-edition: Spark NLP for Healthcare 3.1.3
+edition: Healthcare NLP 3.1.3
 spark_version: 2.4
 supported: true
+annotator: SentenceEntityResolverModel
 article_header:
 type: cover
 use_language_switcher: "Python-Scala-Java"
@@ -101,7 +102,7 @@ nlu.load("en.resolve.snomed_conditions").predict("""Put your text here.""")
 {:.table-model}
 |---|---|
 |Model Name:|sbertresolve_snomed_conditions|
-|Compatibility:|Spark NLP for Healthcare 3.1.3+|
+|Compatibility:|Healthcare NLP 3.1.3+|
 |License:|Licensed|
 |Edition:|Official|
 |Input Labels:|[ner_chunk, sbert_embeddings]|

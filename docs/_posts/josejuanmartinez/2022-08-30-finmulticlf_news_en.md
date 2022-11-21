@@ -7,9 +7,10 @@ date: 2022-08-30
 tags: [en, finance, classification, news, licensed]
 task: Text Classification
 language: en
-edition: Spark NLP for Finance 1.0.0
-spark_version: 3.2
+edition: Finance NLP 1.0.0
+spark_version: 3.0
 supported: true
+annotator: MultiClassifierDLModel
 article_header:
   type: cover
 use_language_switcher: "Python-Scala-Java"
@@ -45,6 +46,7 @@ The available classes are:
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
+
 ```python
 documentAssembler = nlp.DocumentAssembler() \
     .setInputCol("text") \
@@ -96,7 +98,7 @@ results = lmodel.annotate(text)
 {:.table-model}
 |---|---|
 |Model Name:|finmulticlf_news|
-|Compatibility:|Spark NLP for Finance 1.0.0+|
+|Compatibility:|Finance NLP 1.0.0+|
 |License:|Licensed|
 |Edition:|Official|
 |Input Labels:|[embeddings]|

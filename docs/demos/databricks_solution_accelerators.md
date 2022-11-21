@@ -64,8 +64,6 @@ data:
           id: toxicity_detection_gaming
           image: 
               src: /assets/images/Extract_public_companies_key_data_10_filings.svg
-          image2: 
-              src: /assets/images/Extract_public_companies_key_data_10_filings_f.svg
           excerpt: Foster healthier gaming communities with real-time detection of toxic language.
           actions:
           - text: Databricks Notebook

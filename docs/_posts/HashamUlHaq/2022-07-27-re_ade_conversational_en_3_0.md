@@ -7,9 +7,10 @@ date: 2022-07-27
 tags: [relation_extraction, licensed, clinical, en]
 task: Relation Extraction
 language: en
-edition: Spark NLP for Healthcare 3.5.0
+edition: Healthcare NLP 3.5.0
 spark_version: 3.0
 supported: true
+annotator: RelationExtractionModel
 article_header:
   type: cover
 use_language_switcher: "Python-Scala-Java"
@@ -30,19 +31,17 @@ This model is capable of Relating Drugs and adverse reactions caused by them in 
 
 ## How to use
 
-
-
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
 
 ```python
-documenter = sparknlp.DocumentAssembler()\
+documenter = DocumentAssembler()\
     .setInputCol("text")\
     .setOutputCol("sentences")
 
-tokenizer = sparknlp.annotators.Tokenizer()\
+tokenizer = Tokenizer()\
     .setInputCols(["sentences"])\
-    .setOutputCol("tokens")\
+    .setOutputCol("tokens")
 
 words_embedder = WordEmbeddingsModel() \
     .pretrained("embeddings_clinical", "en", "clinical/models") \
@@ -83,7 +82,14 @@ text ="""19.32 day 20 rivaroxaban diary. still residual aches and pains; only ha
 annotations = light_pipeline.fullAnnotate(text)
 ```
 ```scala
-...
+val documenter = new DocumentAssembler()
+    .setInputCol("text")
+    .setOutputCol("sentences")
+
+val tokenizer = new Tokenizer()
+    .setInputCols("sentences")
+    .setOutputCol("tokens")
+
 val words_embedder = WordEmbeddingsModel()
     .pretrained("embeddings_clinical", "en", "clinical/models")
     .setInputCols(Array("sentences", "tokens"))
@@ -140,7 +146,7 @@ val result = pipeline.fit(data).transform(data)
 |---|---|
 |Model Name:|re_ade_conversational|
 |Type:|re|
-|Compatibility:|Spark NLP for Healthcare 3.5.0+|
+|Compatibility:|Healthcare NLP 3.5.0+|
 |License:|Licensed|
 |Edition:|Official|
 |Input Labels:|[embeddings, pos_tags, train_ner_chunks, dependencies]|

@@ -7,9 +7,10 @@ date: 2022-06-26
 tags: [abbreviation, definition, licensed, clinical, en, chunk_mapper]
 task: Chunk Mapping
 language: en
-edition: Spark NLP for Healthcare 3.5.3
+edition: Healthcare NLP 3.5.3
 spark_version: 3.0
 supported: true
+annotator: ChunkMapperModel
 article_header:
 type: cover
 use_language_switcher: "Python-Scala-Java"
@@ -165,7 +166,7 @@ HIV: Negative. One-Hour Glucose: 117. Group B strep has not been done as yet."""
 {:.table-model}
 |---|---|
 |Model Name:|abbreviation_mapper|
-|Compatibility:|Spark NLP for Healthcare 3.5.3+|
+|Compatibility:|Healthcare NLP 3.5.3+|
 |License:|Licensed|
 |Edition:|Official|
 |Input Labels:|[abbr_ner_chunk]|

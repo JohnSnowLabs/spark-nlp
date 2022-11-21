@@ -7,8 +7,8 @@ date: 2022-08-09
 tags: [en, financial, ner, ticker, trading, licensed]
 task: Named Entity Recognition
 language: en
-edition: Spark NLP for Finance 1.0.0
-spark_version: 3.2
+edition: Finance NLP 1.0.0
+spark_version: 3.0
 supported: true
 article_header:
   type: cover
@@ -36,6 +36,7 @@ This is a light version of the model, trained on Tweets. You can find heavier mo
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
+
 ```python
 document_assembler = nlp.DocumentAssembler()\
     .setInputCol("text")\
@@ -100,7 +101,7 @@ result.select(F.explode(F.arrays_zip('ner_chunk.result', 'ner_chunk.metadata')).
 |---|---|
 |Model Name:|finner_ticker|
 |Type:|finance|
-|Compatibility:|Spark NLP for Finance 1.0.0+|
+|Compatibility:|Finance NLP 1.0.0+|
 |License:|Licensed|
 |Edition:|Official|
 |Input Labels:|[sentence, token, embeddings]|
@@ -115,11 +116,9 @@ Original dataset (https://www.kaggle.com/omermetinn/tweets-about-the-top-compani
 ## Benchmarking
 
 ```bash
-              precision    recall  f1-score   support
-
+       label  precision    recall  f1-score   support
       TICKER       0.97      0.96      0.97      9823
-
-   micro avg       0.97      0.96      0.97      9823
-   macro avg       0.97      0.96      0.97      9823
-weighted avg       0.97      0.96      0.97      9823
+   micro-avg       0.97      0.96      0.97      9823
+   macro-avg       0.97      0.96      0.97      9823
+weighted-avg       0.97      0.96      0.97      9823
 ```

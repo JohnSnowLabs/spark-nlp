@@ -7,9 +7,10 @@ date: 2021-06-01
 tags: [licensed, en, clinical, relation_extraction]
 task: Relation Extraction
 language: en
-edition: Spark NLP for Healthcare 3.0.3
+edition: Healthcare NLP 3.0.3
 spark_version: 3.0
 supported: true
+annotator: RelationExtractionDLModel
 article_header:
 type: cover
 use_language_switcher: "Python-Scala-Java"
@@ -100,9 +101,9 @@ pipeline = Pipeline(stages=[documenter, sentencer, tokenizer, pos_tagger, words_
 
 text ="No neurologic deficits other than some numbness in his left hand."
 
-p_model = pipeline.fit(spark.createDataFrame([[text]]).toDF("text"))
+data = spark.createDataFrame([[text]]).toDF("text")
 
-result = p_model.transform(data)
+result = pipeline.fit(data).transform(data)
 ```
 ```scala
 ...
@@ -190,7 +191,7 @@ nlu.load("en.relation.bodypart.problem").predict("""No neurologic deficits other
 {:.table-model}
 |---|---|
 |Model Name:|redl_bodypart_problem_biobert|
-|Compatibility:|Spark NLP for Healthcare 3.0.3+|
+|Compatibility:|Healthcare NLP 3.0.3+|
 |License:|Licensed|
 |Edition:|Official|
 |Language:|en|

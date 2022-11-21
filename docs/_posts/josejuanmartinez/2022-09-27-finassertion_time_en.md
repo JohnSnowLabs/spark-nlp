@@ -7,9 +7,10 @@ date: 2022-09-27
 tags: [en, licensed]
 task: Assertion Status
 language: en
-edition: Spark NLP for Finance 1.0.0
+edition: Finance NLP 1.0.0
 spark_version: 3.0
 supported: true
+annotator: AssertionDLModel
 article_header:
   type: cover
 use_language_switcher: "Python-Scala-Java"
@@ -34,6 +35,7 @@ This is an Assertion Status Model aimed to detect temporality (PRESENT, PAST, FU
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
+
 ```python
 # YOUR NER HERE
 # ...
@@ -45,7 +47,7 @@ chunk_converter = ChunkConverter() \
     .setInputCols(["entity"]) \
     .setOutputCol("ner_chunk")
 
-assertion = fin.AssertionDLModel.pretrained("finassertion_time", "en", "finance/models")\
+assertion = finance.AssertionDLModel.pretrained("finassertion_time", "en", "finance/models")\
     .setInputCols(["sentence", "ner_chunk", "embeddings"]) \
     .setOutputCol("assertion")
     
@@ -90,7 +92,7 @@ Atlantic Inc,31,42,ORG,FUTURE
 {:.table-model}
 |---|---|
 |Model Name:|finassertion_time|
-|Compatibility:|Spark NLP for Finance 1.0.0+|
+|Compatibility:|Finance NLP 1.0.0+|
 |License:|Licensed|
 |Edition:|Official|
 |Input Labels:|[document, doc_chunk, embeddings]|
@@ -105,12 +107,12 @@ In-house annotations on financial and legal corpora
 ## Benchmarking
 
 ```bash
-label	 tp	 fp	 fn	 prec	 rec	 f1
-PRESENT	 201	 11	 16	 0.9481132	 0.92626727	 0.937063
-POSSIBLE	 171	 3	 6	 0.98275864	 0.9661017	 0.9743589
-FUTURE	 119	 6	 4	 0.952	 0.96747965	 0.95967746
-PAST	 270	 16	 10	 0.9440559	 0.96428573	 0.9540636
-tp: 761 fp: 36 fn: 36 labels: 4
-Macro-average	 prec: 0.9567319, rec: 0.9560336, f1: 0.95638263
-Micro-average	 prec: 0.9548306, rec: 0.9548306, f1: 0.9548306
+label            tp    fp   fn   prec         rec          f1
+PRESENT          201   11   16   0.9481132    0.92626727   0.937063
+POSSIBLE         171   3    6    0.98275864   0.9661017    0.9743589
+FUTURE           119   6    4    0.952        0.96747965   0.95967746
+PAST             270   16   10   0.9440559    0.96428573   0.9540636
+Macro-average    761   36   36   0.9567319    0.9560336    0.95638263
+Micro-average    761   36   36   0.9548306    0.9548306    0.9548306
 ```
+

@@ -7,9 +7,10 @@ date: 2022-06-30
 tags: [licenced, clinical, ro, ner, bert, licensed]
 task: Named Entity Recognition
 language: ro
-edition: Spark NLP for Healthcare 4.0.0
+edition: Healthcare NLP 4.0.0
 spark_version: 3.0
 supported: true
+annotator: MedicalNerModel
 article_header:
 type: cover
 use_language_switcher: "Python-Scala-Java"
@@ -36,11 +37,11 @@ Extract clinical entities from Romanian clinical texts. This model is trained us
 {% include programmingLanguageSelectScalaPythonNLU.html %}
 
 ```python
-documentAssembler = DocumentAssembler()\
+document_assembler = DocumentAssembler()\
 .setInputCol("text")\
 .setOutputCol("document")
 
-sentenceDetector = SentenceDetectorDLModel.pretrained("sentence_detector_dl", "xx")\
+sentence_detector = SentenceDetectorDLModel.pretrained("sentence_detector_dl", "xx")\
 .setInputCols(["document"])\
 .setOutputCol("sentence")
 
@@ -49,7 +50,7 @@ tokenizer = Tokenizer()\
 .setOutputCol("token")
 
 word_embeddings = BertEmbeddings.pretrained("bert_base_cased", "ro") \
-.setInputCols("sentence", "token") \
+.setInputCols(["sentence", "token"]) \
 .setOutputCol("embeddings")
 
 clinical_ner = MedicalNerModel.pretrained("ner_clinical_bert","ro","clinical/models")\
@@ -61,20 +62,18 @@ ner_converter = NerConverter()\
 .setOutputCol("ner_chunk")
 
 nlpPipeline = Pipeline(stages=[
-documentAssembler,
-sentenceDetector,
+document_assembler,
+sentence_detector,
 tokenizer,
 word_embeddings,
 clinical_ner,
 ner_converter])
 
-model = nlpPipeline.fit(spark.createDataFrame([[""]]).toDF("text"))
-
 sample_text = """ Solicitare: Angio CT cardio-toracic Dg. de trimitere Atrezie de valva pulmonara. Hipoplazie VS. Atrezie VAV stang. Anastomoza Glenn. Sp. Tromboza la nivelul anastomozei. Trimis de: Sectia Clinica Cardiologie (dr. Sue T.) Procedura Aparat GE Revolution HD. Branula albastra montata la nivelul membrului superior drept. Scout. Se administreaza 30 ml Iomeron 350 cu flux 2.2 ml/s, urmate de 20 ml ser fiziologic cu acelasi flux. Se efectueaza o examinare angio-CT cardiotoracica cu achizitii secventiale prospective la o frecventa cardiaca medie de 100/min."""
 
 data = spark.createDataFrame([[sample_text]]).toDF("text")
 
-result = model.transform(data)
+result = nlpPipeline.fit(data).transform(data)
 ```
 ```scala
 val document_assembler = new DocumentAssembler()
@@ -82,18 +81,18 @@ val document_assembler = new DocumentAssembler()
 .setOutputCol("document")
 
 val sentence_detector = SentenceDetectorDLModel.pretrained("sentence_detector_dl", "xx")
-.setInputCols("document")
+.setInputCols(Array("document"))
 .setOutputCol("sentence")
 
 val tokenizer = new Tokenizer()
-.setInputCols("sentence")
+.setInputCols(Array("sentence"))
 .setOutputCol("token")
 
-val embeddings = BertEmbeddings.pretrained("bert_base_cased", "ro")
+val word_embeddings = BertEmbeddings.pretrained("bert_base_cased", "ro")
 .setInputCols(Array("sentence", "token"))
 .setOutputCol("embeddings")
 
-val ner_model = MedicalNerModel.pretrained("ner_clinical_bert", "ro", "clinical/models")
+val clinical_ner = MedicalNerModel.pretrained("ner_clinical_bert", "ro", "clinical/models")
 .setInputCols(Array("sentence", "token", "embeddings"))
 .setOutputCol("ner")
 
@@ -101,11 +100,11 @@ val ner_converter = new NerConverter()
 .setInputCols(Array("sentence", "token", "ner"))
 .setOutputCol("ner_chunk")
 
-val pipeline = new PipelineModel().setStages(Array(document_assembler, 
+val pipeline = new Pipeline().setStages(Array(document_assembler, 
 sentence_detector,
 tokenizer,
-embeddings,
-ner_model,
+word_embeddings,
+clinical_ner,
 ner_converter))
 
 val data = Seq("""Solicitare: Angio CT cardio-toracic Dg. de trimitere Atrezie de valva pulmonara. Hipoplazie VS. Atrezie VAV stang. Anastomoza Glenn. Sp. Tromboza la nivelul anastomozei. Trimis de: Sectia Clinica Cardiologie (dr. Sue T.) Procedura Aparat GE Revolution HD. Branula albastra montata la nivelul membrului superior drept. Scout. Se administreaza 30 ml Iomeron 350 cu flux 2.2 ml/s, urmate de 20 ml ser fiziologic cu acelasi flux. Se efectueaza o examinare angio-CT cardiotoracica cu achizitii secventiale prospective la o frecventa cardiaca medie de 100/min.""").toDS.toDF("text")
@@ -157,7 +156,7 @@ nlu.load("ro.embed.clinical.bert.base_cased").predict(""" Solicitare: Angio CT c
 {:.table-model}
 |---|---|
 |Model Name:|ner_clinical_bert|
-|Compatibility:|Spark NLP for Healthcare 4.0.0+|
+|Compatibility:|Healthcare NLP 4.0.0+|
 |License:|Licensed|
 |Edition:|Official|
 |Input Labels:|[sentence, token, embeddings]|

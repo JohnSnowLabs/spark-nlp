@@ -7,9 +7,10 @@ date: 2022-02-08
 tags: [bert, sequence_classification, en, licensed]
 task: Text Classification
 language: en
-edition: Spark NLP for Healthcare 3.4.1
+edition: Healthcare NLP 3.4.1
 spark_version: 3.0
 supported: true
+annotator: MedicalDistilBertForSequenceClassification
 article_header:
 type: cover
 use_language_switcher: "Python-Scala-Java"
@@ -81,13 +82,13 @@ data = spark.createDataFrame([["I felt a bit drowsy and had blurred vision after
 result = pipeline.fit(data).transform(data)
 ```
 ```scala
-val documenter = new DocumentAssembler() 
+val document_assembler = new DocumentAssembler() 
 .setInputCol("text") 
 .setOutputCol("document")
 
 
 val tokenizer = new Tokenizer()
-.setInputCols("sentences")
+.setInputCols(Array("document"))
 .setOutputCol("token")
 
 
@@ -96,7 +97,7 @@ val sequenceClassifier = MedicalDistilBertForSequenceClassification.pretrained("
 .setOutputCol("class")
 
 
-val pipeline = new Pipeline().setStages(Array(documenter, tokenizer, sequenceClassifier))
+val pipeline = new Pipeline().setStages(Array(document_assembler, tokenizer, sequenceClassifier))
 
 
 val data = Seq("I felt a bit drowsy and had blurred vision after taking Aspirin.").toDF("text")
@@ -134,7 +135,7 @@ nlu.load("en.classify.ade.seq_distilbert").predict("""I felt a bit drowsy and ha
 {:.table-model}
 |---|---|
 |Model Name:|distilbert_sequence_classifier_ade|
-|Compatibility:|Spark NLP for Healthcare 3.4.1+|
+|Compatibility:|Healthcare NLP 3.4.1+|
 |License:|Licensed|
 |Edition:|Official|
 |Input Labels:|[document, token]|

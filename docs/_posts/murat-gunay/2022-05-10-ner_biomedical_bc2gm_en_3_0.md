@@ -7,7 +7,7 @@ date: 2022-05-10
 tags: [bc2gm, ner, biomedical, gene_protein, gene, protein, en, licensed, clinical]
 task: Named Entity Recognition
 language: en
-edition: Spark NLP for Healthcare 3.5.1
+edition: Healthcare NLP 3.5.1
 spark_version: 3.0
 supported: true
 article_header:
@@ -82,7 +82,7 @@ ner_converter = NerConverter()\
 	.setOutputCol("ner_chunk")
 
 nlpPipeline = Pipeline(stages=[
-	document_aAssembler,
+	document_assembler,
 	sentenceDetectorDL,
 	tokenizer,
 	word_embeddings,
@@ -101,11 +101,11 @@ val document_assembler = new DocumentAssembler()
 	
 val sentenceDetectorDL =
 SentenceDetectorDLModel.pretrained("sentenceetectorl_healthcare", "en", "clinical/models")
-	.setInputCols("document")
+	.setInputCols(Array("document"))
 	.setOutputCol("sentence")
 
 val tokenizer = new Tokenizer()
-	.setInputCols("sentence")
+	.setInputCols(Array("sentence"))
 	.setOutputCol("token")
 
 val word_embeddings = WordEmbeddingsModel.pretrained("embeddings_clinical" ,"en", "clinical/models")
@@ -122,7 +122,7 @@ val ner_converter = new NerConverter()
 
 val pipeline = new Pipeline().setStages(Array(
 	document_assembler, 
-	sentenceD_detectorDL, 
+	sentenceDetectorDL, 
 	tokenizer, 
 	word_embeddings, 
 	ner, 
@@ -166,7 +166,7 @@ nlu.load("en.med_ner.biomedical_bc2gm").predict("""Immunohistochemical staining 
 {:.table-model}
 |---|---|
 |Model Name:|ner_biomedical_bc2gm|
-|Compatibility:|Spark NLP for Healthcare 3.5.1+|
+|Compatibility:|Healthcare NLP 3.5.1+|
 |License:|Licensed|
 |Edition:|Official|
 |Input Labels:|[sentence, token, embeddings]|

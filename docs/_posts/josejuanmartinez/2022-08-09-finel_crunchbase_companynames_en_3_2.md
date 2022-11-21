@@ -7,8 +7,8 @@ date: 2022-08-09
 tags: [en, finance, companies, crunchbase, licensed]
 task: Entity Resolution
 language: en
-edition: Spark NLP for Finance 1.0.0
-spark_version: 3.2
+edition: Finance NLP 1.0.0
+spark_version: 3.0
 supported: true
 article_header:
   type: cover
@@ -36,6 +36,7 @@ Then, you can use the CrunchBase Chunk Mapper to get information about that comp
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
+
 ```python
 documentAssembler = nlp.DocumentAssembler()\
       .setInputCol("text")\
@@ -81,7 +82,7 @@ lp.fullAnnotate("Shwrm")
 |---|---|
 |Model Name:|finel_crunchbase_companynames|
 |Type:|finance|
-|Compatibility:|Spark NLP for Finance 1.0.0+|
+|Compatibility:|Finance NLP 1.0.0+|
 |License:|Licensed|
 |Edition:|Official|
 |Input Labels:|[sentence_embeddings]|

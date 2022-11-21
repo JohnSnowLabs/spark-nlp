@@ -10,6 +10,7 @@ language: en
 edition: Spark NLP 4.2.1
 spark_version: 3.0
 supported: true
+annotator: PipelineModel
 article_header:
   type: cover
 use_language_switcher: "Python-Scala-Java"
@@ -18,6 +19,16 @@ use_language_switcher: "Python-Scala-Java"
 ## Description
 
 Pretrained VIT  model, adapted from Hugging Face and curated to provide scalability and production-readiness using Spark NLP.`image_classifier_vit_vc_bantai__withoutAMBI_adunest_v2` is a English model originally trained by AykeeSalazar.
+
+
+## Predicted Entities
+
+`nonViolation`, `publicDrinking`, `publicSmoking`
+
+
+## Predicted Entities
+
+`Public Drinking`, `Public Smoking`, `non-violation`
 
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>

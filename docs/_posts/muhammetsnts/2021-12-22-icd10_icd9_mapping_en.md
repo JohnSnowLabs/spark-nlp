@@ -7,9 +7,10 @@ date: 2021-12-22
 tags: [icd10, icd9, en, clinical, licensed, code_mapping]
 task: Pipeline Healthcare
 language: en
-edition: Spark NLP for Healthcare 3.3.4
+edition: Healthcare NLP 3.3.4
 spark_version: 2.4
 supported: true
+annotator: PipelineModel
 article_header:
   type: cover
 use_language_switcher: "Python-Scala-Java"
@@ -74,7 +75,7 @@ Note:
 |---|---|
 |Model Name:|icd10_icd9_mapping|
 |Type:|pipeline|
-|Compatibility:|Spark NLP for Healthcare 3.3.4+|
+|Compatibility:|Healthcare NLP 3.3.4+|
 |License:|Licensed|
 |Edition:|Official|
 |Language:|en|

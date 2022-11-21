@@ -7,9 +7,10 @@ date: 2022-09-27
 tags: [ru, licensed]
 task: Named Entity Recognition
 language: ru
-edition: Spark NLP for Finance 1.0.0
+edition: Finance NLP 1.0.0
 spark_version: 3.0
 supported: true
+annotator: FinanceBertForTokenClassification
 article_header:
   type: cover
 use_language_switcher: "Python-Scala-Java"
@@ -61,16 +62,17 @@ SOC - Social - Social object (Children, Elder people, Workers of X sector, ...)
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
+
 ```python
-document_assembler = DocumentAssembler()\
+document_assembler = nlp.DocumentAssembler()\
     .setInputCol("text")\
     .setOutputCol("document")
 
-sentencerDL = SentenceDetectorDLModel.pretrained("sentence_detector_dl", "ru") \
+sentencerDL = nlp.SentenceDetectorDLModel.pretrained("sentence_detector_dl", "ru") \
     .setInputCols(["document"])\
     .setOutputCol("sentence")
 
-tokenizer = Tokenizer()\
+tokenizer = nlp.Tokenizer()\
     .setInputCols(["sentence"])\
     .setOutputCol("token")
 
@@ -78,7 +80,7 @@ ner_model = finance.BertForTokenClassification.pretrained("finner_bert_rufacts",
     .setInputCols(["sentence", "token"])\
     .setOutputCol("ner")
 
-ner_converter = NerConverter()\
+ner_converter = nlp.NerConverter()\
     .setInputCols(["sentence", "token", "ner"])\
     .setOutputCol("ner_chunk")
 
@@ -125,7 +127,7 @@ result.select(F.explode(F.arrays_zip('ner_chunk.result', 'ner_chunk.metadata')).
 {:.table-model}
 |---|---|
 |Model Name:|finner_bert_rufacts|
-|Compatibility:|Spark NLP for Finance 1.0.0+|
+|Compatibility:|Finance NLP 1.0.0+|
 |License:|Licensed|
 |Edition:|Official|
 |Input Labels:|[sentence, token]|
@@ -142,25 +144,23 @@ https://github.com/dialogue-evaluation/RuREBus
 ## Benchmarking
 
 ```bash
-             precision    recall  f1-score   support
-
-       B-MET     0.7440    0.7440    0.7440       250
-       I-MET     0.8301    0.7704    0.7991       945
-       B-BIN     0.7248    0.7850    0.7537       614
-       B-ACT     0.6052    0.5551    0.5791       254
-       I-ACT     0.7215    0.6244    0.6695       892
-       B-ECO     0.6892    0.6813    0.6852       524
-       I-ECO     0.6750    0.6899    0.6824       861
-       B-CMP     0.8405    0.8354    0.8379       164
-       I-CMP     0.2000    0.0714    0.1053        14
-      B-INST     0.7152    0.7019    0.7085       161
-      I-INST     0.7560    0.7114    0.7330       440
-       B-SOC     0.5547    0.6698    0.6068       212
-       I-SOC     0.6178    0.7087    0.6601       381
-       B-QUA     0.6167    0.7303    0.6687       152
-       I-QUA     0.7333    0.4400    0.5500        25
-
-   micro avg     0.7107    0.7017    0.7062      5927
-   macro avg     0.6610    0.6337    0.6413      5927
-weighted avg     0.7136    0.7017    0.7059      5927
+       label    precision    recall  f1-score   support
+       B-MET       0.7440    0.7440    0.7440       250
+       I-MET       0.8301    0.7704    0.7991       945
+       B-BIN       0.7248    0.7850    0.7537       614
+       B-ACT       0.6052    0.5551    0.5791       254
+       I-ACT       0.7215    0.6244    0.6695       892
+       B-ECO       0.6892    0.6813    0.6852       524
+       I-ECO       0.6750    0.6899    0.6824       861
+       B-CMP       0.8405    0.8354    0.8379       164
+       I-CMP       0.2000    0.0714    0.1053        14
+      B-INST       0.7152    0.7019    0.7085       161
+      I-INST       0.7560    0.7114    0.7330       440
+       B-SOC       0.5547    0.6698    0.6068       212
+       I-SOC       0.6178    0.7087    0.6601       381
+       B-QUA       0.6167    0.7303    0.6687       152
+       I-QUA       0.7333    0.4400    0.5500        25
+   micro-avg       0.7107    0.7017    0.7062      5927
+   macro-avg       0.6610    0.6337    0.6413      5927
+weighted-avg       0.7136    0.7017    0.7059      5927
 ```

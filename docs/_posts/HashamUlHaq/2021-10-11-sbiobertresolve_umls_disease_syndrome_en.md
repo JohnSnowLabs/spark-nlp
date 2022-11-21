@@ -7,9 +7,10 @@ date: 2021-10-11
 tags: [entity_resolution, licensed, clinical, en]
 task: Entity Resolution
 language: en
-edition: Spark NLP for Healthcare 3.2.3
+edition: Healthcare NLP 3.2.3
 spark_version: 3.0
 supported: true
+annotator: SentenceEntityResolverModel
 article_header:
 type: cover
 use_language_switcher: "Python-Scala-Java"
@@ -112,7 +113,7 @@ nlu.load("en.resolve.umls_disease_syndrome").predict("""A 28-year-old female wit
 {:.table-model}
 |---|---|
 |Model Name:|sbiobertresolve_umls_disease_syndrome|
-|Compatibility:|Spark NLP for Healthcare 3.2.3+|
+|Compatibility:|Healthcare NLP 3.2.3+|
 |License:|Licensed|
 |Edition:|Official|
 |Input Labels:|[sentence_chunk_embeddings]|

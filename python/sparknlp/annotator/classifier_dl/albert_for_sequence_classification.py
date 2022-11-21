@@ -14,12 +14,14 @@
 """Contains classes concerning AlbertForSequenceClassification."""
 
 from sparknlp.common import *
+from sparknlp.common.annotator_type import AnnotatorType
 
 
 class AlbertForSequenceClassification(AnnotatorModel,
                                       HasCaseSensitiveProperties,
                                       HasBatchedAnnotate,
-                                      HasClassifierActivationProperties):
+                                      HasClassifierActivationProperties,
+                                      HasEngine):
     """AlbertForSequenceClassification can load Albert Models with sequence classification/regression head on
     top (a linear layer on top of the pooled output) e.g. for multi-class document classification tasks.
 
@@ -99,6 +101,8 @@ class AlbertForSequenceClassification(AnnotatorModel,
     +--------------------+
     """
     name = "AlbertForSequenceClassification"
+
+    inputAnnotatorTypes = [AnnotatorType.DOCUMENT, AnnotatorType.TOKEN]
 
     maxSentenceLength = Param(Params._dummy(),
                               "maxSentenceLength",
@@ -209,4 +213,3 @@ class AlbertForSequenceClassification(AnnotatorModel,
         """
         from sparknlp.pretrained import ResourceDownloader
         return ResourceDownloader.downloadModel(AlbertForSequenceClassification, name, lang, remote_loc)
-

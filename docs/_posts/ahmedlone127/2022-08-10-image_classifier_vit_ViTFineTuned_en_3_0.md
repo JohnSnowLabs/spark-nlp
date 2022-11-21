@@ -10,6 +10,7 @@ language: en
 edition: Spark NLP 4.1.0
 spark_version: 3.0
 supported: true
+annotator: ViTForImageClassification
 article_header:
   type: cover
 use_language_switcher: "Python-Scala-Java"
@@ -18,6 +19,11 @@ use_language_switcher: "Python-Scala-Java"
 ## Description
 
 Pretrained VIT  model, adapted from Hugging Face and curated to provide scalability and production-readiness using Spark NLP.`image_classifier_vit_ViTFineTuned` is a English model originally trained by pthpth.
+
+
+## Predicted Entities
+
+`white_bread`, `brown_bread`, `cracker`, `aluminium_foil`, `linen`, `wool`, `corduroy`, `wood`, `lettuce_leaf`, `cotton`, `cork`
 
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>

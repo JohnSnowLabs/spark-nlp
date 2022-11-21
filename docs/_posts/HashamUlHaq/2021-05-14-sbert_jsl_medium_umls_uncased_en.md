@@ -7,7 +7,7 @@ date: 2021-05-14
 tags: [embeddings, clinical, licensed, en]
 task: Embeddings
 language: en
-edition: Spark NLP for Healthcare 3.0.3
+edition: Healthcare NLP 3.0.3
 spark_version: 3.0
 supported: true
 article_header:
@@ -40,14 +40,14 @@ This model is trained to generate contextual sentence embeddings of input senten
 
 ```python
 sbiobert_embeddings = BertSentenceEmbeddings\
-.pretrained("sbert_jsl_medium_umls_uncased","en","clinicalmodels")\
+.pretrained("sbert_jsl_medium_umls_uncased","en","clinical/models")\
 .setInputCols(["sentence"])\
 .setOutputCol("sbert_embeddings")
 ```
 ```scala
 val sbiobert_embeddings = BertSentenceEmbeddings
 .pretrained("sbert_jsl_medium_umls_uncased","en","clinical/models")
-.setInputCols(Array("sentence"))
+.setInputCols("sentence")
 .setOutputCol("sbert_embeddings")
 ```
 
@@ -76,7 +76,7 @@ Gives a 768 dimensional vector representation of the sentence.
 {:.table-model}
 |---|---|
 |Model Name:|sbert_jsl_medium_umls_uncased|
-|Compatibility:|Spark NLP for Healthcare 3.0.3+|
+|Compatibility:|Healthcare NLP 3.0.3+|
 |License:|Licensed|
 |Edition:|Official|
 |Language:|en|

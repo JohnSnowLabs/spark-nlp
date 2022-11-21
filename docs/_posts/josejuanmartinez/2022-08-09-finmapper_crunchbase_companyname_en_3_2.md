@@ -7,8 +7,8 @@ date: 2022-08-09
 tags: [en, finance, companies, crunchbase, data, augmentation, licensed]
 task: Chunk Mapping
 language: en
-edition: Spark NLP for Finance 1.0.0
-spark_version: 3.2
+edition: Finance NLP 1.0.0
+spark_version: 3.0
 supported: true
 article_header:
   type: cover
@@ -36,6 +36,7 @@ This model only contains information up to 2015.
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
+
 ```python
 document_assembler = nlp.DocumentAssembler()\
       .setInputCol('text')\
@@ -97,7 +98,7 @@ res= model.transform(test_data)
 |---|---|
 |Model Name:|finmapper_crunchbase_companyname|
 |Type:|finance|
-|Compatibility:|Spark NLP for Finance 1.0.0+|
+|Compatibility:|Finance NLP 1.0.0+|
 |License:|Licensed|
 |Edition:|Official|
 |Input Labels:|[ner_chunk]|

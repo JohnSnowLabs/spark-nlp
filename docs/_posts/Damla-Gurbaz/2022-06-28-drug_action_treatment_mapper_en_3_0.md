@@ -7,9 +7,10 @@ date: 2022-06-28
 tags: [drug, action, treatment, chunk_mapper, clinical, licensed, en]
 task: Chunk Mapping
 language: en
-edition: Spark NLP for Healthcare 3.5.3
+edition: Healthcare NLP 3.5.3
 spark_version: 3.0
 supported: true
+annotator: ChunkMapperModel
 article_header:
 type: cover
 use_language_switcher: "Python-Scala-Java"
@@ -68,7 +69,7 @@ chunkerMapper_action = ChunkMapperModel.pretrained("drug_action_treatment_mapper
 .setRels(["action"])\
 .setLowerCase(True)
 
-chunkerMapper_treatment = ChunkMapperModel.pretrained("drug_action_treatment_mapper", , "en", "clinical/models")\
+chunkerMapper_treatment = ChunkMapperModel.pretrained("drug_action_treatment_mapper", "en", "clinical/models")\
 .setInputCols(["ner_chunk"])\
 .setOutputCol("treatment_mappings")\
 .setRels(["treatment"])\
@@ -126,7 +127,7 @@ val chunkerMapper_action = ChunkMapperModel.pretrained("drug_action_treatment_ma
 .setRels(Array("action"))
 .setLowerCase(True)
 
-val chunkerMapper_treatment = ChunkMapperModel.pretrained("drug_action_treatment_mapper", , "en", "clinical/models")
+val chunkerMapper_treatment = ChunkMapperModel.pretrained("drug_action_treatment_mapper", "en", "clinical/models")
 .setInputCols(Array("ner_chunk"))
 .setOutputCol("treatment_mappings")
 .setRels(Array("treatment"))
@@ -179,7 +180,7 @@ nlu.load("en.map_entity.drug_to_action_treatment").predict("""The patient is a 7
 {:.table-model}
 |---|---|
 |Model Name:|drug_action_treatment_mapper|
-|Compatibility:|Spark NLP for Healthcare 3.5.3+|
+|Compatibility:|Healthcare NLP 3.5.3+|
 |License:|Licensed|
 |Edition:|Official|
 |Input Labels:|[ner_chunk]|

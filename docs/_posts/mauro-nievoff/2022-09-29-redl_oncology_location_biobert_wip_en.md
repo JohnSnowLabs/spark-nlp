@@ -7,9 +7,10 @@ date: 2022-09-29
 tags: [licensed, clinical, oncology, en, relation_extraction, anatomy]
 task: Relation Extraction
 language: en
-edition: Spark NLP for Healthcare 4.1.0
+edition: Healthcare NLP 4.1.0
 spark_version: 3.0
 supported: true
+annotator: RelationExtractionDLModel
 article_header:
   type: cover
 use_language_switcher: "Python-Scala-Java"
@@ -34,6 +35,7 @@ Use relation pairs to include only the combinations of entities that are relevan
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
+
 ```python
 document_assembler = DocumentAssembler()\
     .setInputCol("text")\
@@ -71,7 +73,7 @@ re_ner_chunk_filter = RENerChunksFilter()\
     .setInputCols(["ner_chunk", "dependencies"])\
     .setOutputCol("re_ner_chunk")\
     .setMaxSyntacticDistance(10)\
-    .setRelationPairs([""Tumor_Finding-Site_Breast", "Site_Breast-Tumor_Finding", "Tumor_Finding-Anatomical_Site", "Anatomical_Site-Tumor_Finding""])
+    .setRelationPairs(["Tumor_Finding-Site_Breast", "Site_Breast-Tumor_Finding", "Tumor_Finding-Anatomical_Site", "Anatomical_Site-Tumor_Finding"])
 
 re_model = RelationExtractionDLModel.pretrained("redl_oncology_location_biobert_wip", "en", "clinical/models")\
     .setInputCols(["re_ner_chunk", "sentence"])\
@@ -98,11 +100,11 @@ val document_assembler = new DocumentAssembler()
     .setOutputCol("document")
     
 val sentence_detector = SentenceDetectorDLModel.pretrained("sentence_detector_dl_healthcare","en","clinical/models")
-    .setInputCols("document")
+    .setInputCols(Array("document"))
     .setOutputCol("sentence")
     
 val tokenizer = new Tokenizer()
-    .setInputCols("sentence")
+    .setInputCols(Array("sentence"))
     .setOutputCol("token")
     
 val word_embeddings = WordEmbeddingsModel().pretrained("embeddings_clinical", "en", "clinical/models")
@@ -126,14 +128,14 @@ val dependency_parser = DependencyParserModel.pretrained("dependency_conllu", "e
     .setOutputCol("dependencies")
 
 val re_ner_chunk_filter = new RENerChunksFilter()
-     .setInputCols("ner_chunk", "dependencies")
+     .setInputCols(Array("ner_chunk", "dependencies"))
      .setOutputCol("re_ner_chunk")
      .setMaxSyntacticDistance(10)
      .setRelationPairs(Array("Tumor_Finding-Site_Breast", "Site_Breast-Tumor_Finding","Tumor_Finding-Anatomical_Site", "Anatomical_Site-Tumor_Finding"))
 
 val re_model = RelationExtractionDLModel.pretrained("redl_oncology_location_biobert_wip", "en", "clinical/models")
       .setPredictionThreshold(0.5f)
-      .setInputCols("re_ner_chunk", "sentence")
+      .setInputCols(Array("re_ner_chunk", "sentence"))
       .setOutputCol("relation_extraction")
 
 val pipeline = new Pipeline().setStages(Array(document_assembler,
@@ -147,7 +149,7 @@ val pipeline = new Pipeline().setStages(Array(document_assembler,
                             re_ner_chunk_filter,
                             re_model))
 
-val data = Seq("In April 2011, she first noticed a lump in her right breast.").toDS.toDF("text")
+val data = Seq("""In April 2011, she first noticed a lump in her right breast.""").toDS.toDF("text")
 
 val result = pipeline.fit(data).transform(data)
 ```
@@ -167,7 +169,7 @@ val result = pipeline.fit(data).transform(data)
 {:.table-model}
 |---|---|
 |Model Name:|redl_oncology_location_biobert_wip|
-|Compatibility:|Spark NLP for Healthcare 4.1.0+|
+|Compatibility:|Healthcare NLP 4.1.0+|
 |License:|Licensed|
 |Edition:|Official|
 |Language:|en|

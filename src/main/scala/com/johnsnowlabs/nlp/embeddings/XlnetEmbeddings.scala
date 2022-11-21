@@ -18,6 +18,12 @@ package com.johnsnowlabs.nlp.embeddings
 
 import com.johnsnowlabs.ml.tensorflow._
 import com.johnsnowlabs.ml.tensorflow.sentencepiece._
+import com.johnsnowlabs.ml.util.LoadExternalModel.{
+  loadSentencePieceAsset,
+  modelSanityCheck,
+  notSupportedEngineError
+}
+import com.johnsnowlabs.ml.util.ModelEngine
 import com.johnsnowlabs.nlp._
 import com.johnsnowlabs.nlp.annotators.common._
 import com.johnsnowlabs.nlp.serialization.MapFeature
@@ -26,8 +32,6 @@ import org.apache.spark.broadcast.Broadcast
 import org.apache.spark.ml.param.{IntArrayParam, IntParam}
 import org.apache.spark.ml.util.Identifiable
 import org.apache.spark.sql.{DataFrame, SparkSession}
-
-import java.io.File
 
 /** XlnetEmbeddings (XLNet): Generalized Autoregressive Pretraining for Language Understanding
   *
@@ -169,7 +173,8 @@ class XlnetEmbeddings(override val uid: String)
     with WriteSentencePieceModel
     with HasEmbeddingsProperties
     with HasStorageRef
-    with HasCaseSensitiveProperties {
+    with HasCaseSensitiveProperties
+    with HasEngine {
 
   /** Annotator reference id. Used to identify elements in metadata or to refer to this annotator
     * type
@@ -359,7 +364,7 @@ trait ReadablePretrainedXlnetModel
     super.pretrained(name, lang, remoteLoc)
 }
 
-trait ReadXlnetTensorflowModel extends ReadTensorflowModel with ReadSentencePieceModel {
+trait ReadXlnetDLModel extends ReadTensorflowModel with ReadSentencePieceModel {
   this: ParamsAndFeaturesReadable[XlnetEmbeddings] =>
 
   override val tfFile: String = "xlnet_tensorflow"
@@ -373,39 +378,43 @@ trait ReadXlnetTensorflowModel extends ReadTensorflowModel with ReadSentencePiec
 
   addReader(readTensorflow)
 
-  def loadSavedModel(tfModelPath: String, spark: SparkSession): XlnetEmbeddings = {
+  def loadSavedModel(modelPath: String, spark: SparkSession): XlnetEmbeddings = {
 
-    val f = new File(tfModelPath)
-    val sppModelPath = tfModelPath + "/assets"
-    val savedModel = new File(tfModelPath, "saved_model.pb")
-    val sppModel = new File(sppModelPath, "spiece.model")
+    val (localModelPath, detectedEngine) = modelSanityCheck(modelPath)
 
-    require(f.exists, s"Folder $tfModelPath not found")
-    require(f.isDirectory, s"File $tfModelPath is not folder")
-    require(
-      savedModel.exists(),
-      s"savedModel file saved_model.pb not found in folder $tfModelPath")
-    require(
-      sppModel.exists(),
-      s"SentencePiece model spiece.model not found in folder $sppModelPath")
+    val spModel = loadSentencePieceAsset(localModelPath, "spiece.model")
 
-    val (wrapper, signatures) =
-      TensorflowWrapper.read(tfModelPath, zipped = false, useBundle = true)
-    val spp = SentencePieceWrapper.read(sppModel.toString)
+    /*Universal parameters for all engines*/
+    val annotatorModel = new XlnetEmbeddings()
 
-    val _signatures = signatures match {
-      case Some(s) => s
-      case None => throw new Exception("Cannot load signature definitions from model!")
+    annotatorModel.set(annotatorModel.engine, detectedEngine)
+
+    detectedEngine match {
+      case ModelEngine.tensorflow =>
+        val (wrapper, signatures) =
+          TensorflowWrapper.read(localModelPath, zipped = false, useBundle = true)
+
+        val _signatures = signatures match {
+          case Some(s) => s
+          case None => throw new Exception("Cannot load signature definitions from model!")
+        }
+
+        /** the order of setSignatures is important if we use getSignatures inside
+          * setModelIfNotSet
+          */
+        annotatorModel
+          .setSignatures(_signatures)
+          .setModelIfNotSet(spark, wrapper, spModel)
+
+      case _ =>
+        throw new Exception(notSupportedEngineError)
     }
 
-    new XlnetEmbeddings()
-      .setSignatures(_signatures)
-      .setModelIfNotSet(spark, wrapper, spp)
-
+    annotatorModel
   }
 }
 
 /** This is the companion object of [[XlnetEmbeddings]]. Please refer to that class for the
   * documentation.
   */
-object XlnetEmbeddings extends ReadablePretrainedXlnetModel with ReadXlnetTensorflowModel
+object XlnetEmbeddings extends ReadablePretrainedXlnetModel with ReadXlnetDLModel

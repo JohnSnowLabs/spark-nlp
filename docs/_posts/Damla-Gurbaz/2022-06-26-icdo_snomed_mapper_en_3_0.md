@@ -7,9 +7,10 @@ date: 2022-06-26
 tags: [icdo, snomed, chunk_mapper, clinical, licensed, en]
 task: Chunk Mapping
 language: en
-edition: Spark NLP for Healthcare 3.5.3
+edition: Healthcare NLP 3.5.3
 spark_version: 3.0
 supported: true
+annotator: ChunkMapperModel
 article_header:
 type: cover
 use_language_switcher: "Python-Scala-Java"
@@ -78,7 +79,7 @@ val documentAssembler = new DocumentAssembler()
 
 val sbert_embedder = BertSentenceEmbeddings
 .pretrained("sbiobert_base_cased_mli", "en", "clinical/models")
-.setInputCols("ner_chunk")
+.setInputCols(Array("ner_chunk"))
 .setOutputCol("sbert_embeddings")
 
 val icdo_resolver = SentenceEntityResolverModel
@@ -89,7 +90,7 @@ val icdo_resolver = SentenceEntityResolverModel
 
 val chunkerMapper = ChunkMapperModel
 .pretrained("icdo_snomed_mapper", "en", "clinical/models")
-.setInputCols("icdo_code")
+.setInputCols(Array("icdo_code"))
 .setOutputCol("snomed_mappings")
 .setRels(Array("snomed_code"))
 
@@ -128,7 +129,7 @@ nlu.load("en.icdo_to_snomed").predict("""Hepatocellular Carcinoma""")
 {:.table-model}
 |---|---|
 |Model Name:|icdo_snomed_mapper|
-|Compatibility:|Spark NLP for Healthcare 3.5.3+|
+|Compatibility:|Healthcare NLP 3.5.3+|
 |License:|Licensed|
 |Edition:|Official|
 |Input Labels:|[icdo_code]|

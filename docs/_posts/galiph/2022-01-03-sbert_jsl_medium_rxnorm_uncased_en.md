@@ -7,9 +7,10 @@ date: 2022-01-03
 tags: [embeddings, clinical, licensed, en]
 task: Embeddings
 language: en
-edition: Spark NLP for Healthcare 3.3.4
+edition: Healthcare NLP 3.3.4
 spark_version: 2.4
 supported: true
+annotator: BertSentenceEmbeddings
 article_header:
 type: cover
 use_language_switcher: "Python-Scala-Java"
@@ -35,8 +36,8 @@ This model maps sentences & documents to a 512-dimensional dense vector space by
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
 ```python
-sentence_embeddings = BertSentenceEmbeddings.pretrained("sbert_jsl_medium_rxnorm_uncased", "en", "clinical/models")
-.setInputCols(Array("sentence"))
+sentence_embeddings = BertSentenceEmbeddings.pretrained("sbert_jsl_medium_rxnorm_uncased", "en", "clinical/models")\
+.setInputCols("sentence")\
 .setOutputCol("sbert_embeddings")
 ```
 ```scala
@@ -66,7 +67,7 @@ Gives a 512-dimensional vector representation of the sentence.
 {:.table-model}
 |---|---|
 |Model Name:|sbert_jsl_medium_rxnorm_uncased|
-|Compatibility:|Spark NLP for Healthcare 3.3.4+|
+|Compatibility:|Healthcare NLP 3.3.4+|
 |License:|Licensed|
 |Edition:|Official|
 |Language:|en|

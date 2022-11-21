@@ -7,9 +7,10 @@ date: 2021-09-24
 tags: [ner, bert, en, licensed]
 task: Named Entity Recognition
 language: en
-edition: Spark NLP for Healthcare 3.2.0
+edition: Healthcare NLP 3.2.0
 spark_version: 2.4
 supported: true
+annotator: MedicalBertForTokenClassifier
 article_header:
 type: cover
 use_language_switcher: "Python-Scala-Java"
@@ -147,7 +148,7 @@ nlu.load("en.classify.token_bert.ner_jsl_slim").predict("""HISTORY: 30-year-old 
 {:.table-model}
 |---|---|
 |Model Name:|bert_token_classifier_ner_jsl_slim|
-|Compatibility:|Spark NLP for Healthcare 3.2.0+|
+|Compatibility:|Healthcare NLP 3.2.0+|
 |License:|Licensed|
 |Edition:|Official|
 |Input Labels:|[sentence, token]|

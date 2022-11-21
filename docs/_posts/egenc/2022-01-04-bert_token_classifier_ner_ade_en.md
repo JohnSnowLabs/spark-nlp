@@ -7,9 +7,10 @@ date: 2022-01-04
 tags: [ner, bertfortokenclassification, adverse, ade, licensed, en]
 task: Named Entity Recognition
 language: en
-edition: Spark NLP for Healthcare 3.4.0
+edition: Healthcare NLP 3.4.0
 spark_version: 2.4
 supported: true
+annotator: MedicalBertForTokenClassifier
 article_header:
 type: cover
 use_language_switcher: "Python-Scala-Java"
@@ -65,11 +66,10 @@ ner_converter = NerConverter() \
 
 pipeline = Pipeline(stages=[documentAssembler, tokenizer, tokenClassifier, ner_converter])
 
-p_model = pipeline.fit(spark.createDataFrame(pd.DataFrame({'text': ['']})))
+data = spark.createDataFrame([["""Both the erbA IRES and the erbA/myb virus constructs transformed erythroid cells after infection of bone marrow or blastoderm cultures. The erbA/myb IRES virus exhibited a 5-10-fold higher transformed colony forming efficiency than the erbA IRES virus in the blastoderm assay."""
+]]).toDF("text")
 
-test_sentence = """Both the erbA IRES and the erbA/myb virus constructs transformed erythroid cells after infection of bone marrow or blastoderm cultures. The erbA/myb IRES virus exhibited a 5-10-fold higher transformed colony forming efficiency than the erbA IRES virus in the blastoderm assay."""
-
-result = p_model.transform(spark.createDataFrame(pd.DataFrame({'text': [test_sentence]})))
+result = pipeline.fit(data).transform(data)
 ```
 ```scala
 val document_assembler = new DocumentAssembler()
@@ -129,7 +129,7 @@ nlu.load("en.classify.token_bert.ner_ade").predict("""Both the erbA IRES and the
 {:.table-model}
 |---|---|
 |Model Name:|bert_token_classifier_ner_ade|
-|Compatibility:|Spark NLP for Healthcare 3.4.0+|
+|Compatibility:|Healthcare NLP 3.4.0+|
 |License:|Licensed|
 |Edition:|Official|
 |Input Labels:|[sentence, token]|

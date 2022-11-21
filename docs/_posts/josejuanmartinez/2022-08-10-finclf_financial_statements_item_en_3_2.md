@@ -7,8 +7,8 @@ date: 2022-08-10
 tags: [en, finance, classification, 10k, annual, reports, sec, filings, licensed]
 task: Text Classification
 language: en
-edition: Spark NLP for Finance 1.0.0
-spark_version: 3.2
+edition: Finance NLP 1.0.0
+spark_version: 3.0
 supported: true
 article_header:
   type: cover
@@ -19,7 +19,7 @@ use_language_switcher: "Python-Scala-Java"
 
 This model is a Binary Classifier (True, False) for the `financial_statements` item type of 10K Annual Reports. To use this model, make sure you provide enough context as an input. Adding Sentence Splitters to the pipeline will make the model see only sentences, not the whole text, so it's better to skip it, unless you want to do Binary Classification as sentence level.
 
-If you have big financial documents, and you want to look for clauses, we recommend you to split the documents using any of the techniques available in our Spark NLP for Finance Workshop Tokenization & Splitting Tutorial (link [here](https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Finance/1.Tokenization_Splitting.ipynb)), namely:
+If you have big financial documents, and you want to look for clauses, we recommend you to split the documents using any of the techniques available in our Finance NLP Workshop Tokenization & Splitting Tutorial (link [here](https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings_JSL/Finance/1.Tokenization_Splitting.ipynb)), namely:
 - Paragraph splitting (by multiline);
 - Splitting by headers / subheaders;
 - etc.
@@ -41,6 +41,7 @@ Take into consideration the embeddings of this model allows up to 512 tokens. If
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
+
 ```python
 documentAssembler = nlp.DocumentAssembler() \
      .setInputCol("text") \
@@ -85,7 +86,7 @@ result = model.transform(df)
 {:.table-model}
 |---|---|
 |Model Name:|finclf_financial_statements_item|
-|Compatibility:|Spark NLP for Finance 1.0.0+|
+|Compatibility:|Finance NLP 1.0.0+|
 |License:|Licensed|
 |Edition:|Official|
 |Input Labels:|[sentence_embeddings]|
@@ -100,12 +101,10 @@ Weak labelling on documents from Edgar database
 ## Benchmarking
 
 ```bash
-                      precision    recall  f1-score   support
-
+               label  precision    recall  f1-score   support
 financial_statements       0.86      0.96      0.91      1204
                other       0.96      0.85      0.90      1254
-
-            accuracy                           0.90      2458
-           macro avg       0.91      0.91      0.90      2458
-        weighted avg       0.91      0.90      0.90      2458
+            accuracy        -         -        0.90      2458
+           macro-avg       0.91      0.91      0.90      2458
+        weighted-avg       0.91      0.90      0.90      2458
 ```

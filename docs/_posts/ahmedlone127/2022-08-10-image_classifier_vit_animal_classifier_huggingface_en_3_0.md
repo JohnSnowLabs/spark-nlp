@@ -10,6 +10,7 @@ language: en
 edition: Spark NLP 4.1.0
 spark_version: 3.0
 supported: true
+annotator: ViTForImageClassification
 article_header:
   type: cover
 use_language_switcher: "Python-Scala-Java"
@@ -18,6 +19,16 @@ use_language_switcher: "Python-Scala-Java"
 ## Description
 
 Pretrained VIT  model, adapted from Hugging Face and curated to provide scalability and production-readiness using Spark NLP.`image_classifier_vit_animal_classifier_huggingface` is a English model originally trained by vivekRahul.
+
+
+## Predicted Entities
+
+`lion`, `tiger`, `dog`, `cat`, `elephant`
+
+
+## Predicted Entities
+
+`cat`, `dog`, `snake`, `tiger`
 
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>

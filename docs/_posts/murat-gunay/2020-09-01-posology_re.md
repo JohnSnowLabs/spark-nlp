@@ -6,7 +6,7 @@ name: posology_re
 date: 2020-09-01
 task: Relation Extraction
 language: en
-edition: Spark NLP for Healthcare 2.5.5
+edition: Healthcare NLP 2.5.5
 spark_version: 2.4
 tags: [re, en, clinical, licensed, relation extraction]
 supported: true
@@ -32,8 +32,17 @@ This model extracts relations between posology-related terminology.
 {% include programmingLanguageSelectScalaPython.html %}
 
 ```python
+document_assembler = DocumentAssembler()\
+    .setInputCol("text")\
+    .setOutputCol("document")
 
-...
+sentence_detector = SentenceDetector() \
+    .setInputCols(["document"]) \
+    .setOutputCol("sentences")
+
+tokenizer = Tokenizer() \
+    .setInputCols(["sentences"]) \
+    .setOutputCol("tokens")
 
 words_embedder = WordEmbeddingsModel()\
     .pretrained("embeddings_clinical", "en", "clinical/models")\
@@ -78,7 +87,17 @@ result = light_pipeline.fullAnnotate("The patient was prescribed 1 unit of Advil
 ```
 
 ```scala
-...
+val document_assembler = new DocumentAssembler()
+    .setInputCol("text")
+    .setOutputCol("document")
+
+sentence_detector = SentenceDetector()
+    .setInputCols("document")
+    .setOutputCol("sentences")
+
+tokenizer = Tokenizer()
+    .setInputCols("sentences")
+    .setOutputCol("tokens")
 
 val words_embedder = WordEmbeddingsModel()
     .pretrained("embeddings_clinical", "en", "clinical/models")
@@ -92,7 +111,7 @@ val pos_tagger = PerceptronModel()
 
 val ner_tagger = MedicalNerModel()
     .pretrained("ner_posology", "en", "clinical/models")
-    .setInputCols("sentences", "tokens", "embeddings")
+    .setInputCols(Array("sentences", "tokens", "embeddings"))
     .setOutputCol("ner_tags")    
 
 val ner_chunker = new NerConverterInternal()
@@ -112,7 +131,7 @@ val re_Model = RelationExtractionModel()
 
 val pipeline = new Pipeline().setStages(Array(document_assembler, sentence_detector, tokenizer, words_embedder, pos_tagger, ner_tagger, ner_chunker, dependecy_parser, re_Model))
 
-val data = Seq("The patient was prescribed 1 unit of Advil for 5 days after meals. The patient was also given 1 unit of Metformin daily. He was seen by the endocrinology service and she was discharged on 40 units of insulin glargine at night, 12 units of insulin lispro with meals, and metformin 1000 mg two times a day.").toDF("text")
+val data = Seq("The patient was prescribed 1 unit of Advil for 5 days after meals. The patient was also given 1 unit of Metformin daily. He was seen by the endocrinology service and she was discharged on 40 units of insulin glargine at night, 12 units of insulin lispro with meals, and metformin 1000 mg two times a day.").toDS.toDF("text")
 
 val result = pipeline.fit(data).transform(data)
 ```
@@ -140,7 +159,7 @@ val result = pipeline.fit(data).transform(data)
 {:.table-model}
 |---|---|
 |Model Name:|posology_re|
-|Compatibility:|Spark NLP for Healthcare 2.5.5+|
+|Compatibility:|Healthcare NLP 2.5.5+|
 |Edition:|Official|
 |License:|Licensed|
 |Language:|[en]|

@@ -136,7 +136,7 @@ class LightPipelineTestSpec extends AnyFlatSpec {
       mapAnnotations.values.foreach { annotations =>
         annotations.foreach { annotation =>
           assert(annotation.isInstanceOf[Annotation])
-          assert(annotation.begin >= 0)
+          assert(annotation.asInstanceOf[Annotation].begin >= 0)
         }
       }
     }
@@ -177,7 +177,7 @@ class LightPipelineTestSpec extends AnyFlatSpec {
         assert(annotations.nonEmpty)
         annotations.foreach { annotation =>
           assert(annotation.isInstanceOf[Annotation])
-          assert(annotation.begin >= 0)
+          assert(annotation.asInstanceOf[Annotation].begin >= 0)
         }
       }
     }

@@ -14,6 +14,7 @@
 """Contains classes for SentenceEmbeddings."""
 
 from sparknlp.common import *
+from sparknlp.common.annotator_type import AnnotatorType
 
 
 class SentenceEmbeddings(AnnotatorModel, HasEmbeddingsProperties, HasStorageRef):
@@ -93,6 +94,8 @@ class SentenceEmbeddings(AnnotatorModel, HasEmbeddingsProperties, HasStorageRef)
     """
 
     name = "SentenceEmbeddings"
+
+    inputAnnotatorTypes = [AnnotatorType.DOCUMENT, AnnotatorType.WORD_EMBEDDINGS]
 
     @keyword_only
     def __init__(self):

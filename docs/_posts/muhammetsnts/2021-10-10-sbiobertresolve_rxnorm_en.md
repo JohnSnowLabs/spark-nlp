@@ -7,7 +7,7 @@ date: 2021-10-10
 tags: [rxnorm, entity_resolution, licensed, clinical, en]
 task: Entity Resolution
 language: en
-edition: Spark NLP for Healthcare 3.2.3
+edition: Healthcare NLP 3.2.3
 spark_version: 2.4
 supported: true
 article_header:
@@ -36,6 +36,31 @@ This model maps clinical entities and concepts (like drugs/ingredients) to RxNor
 {% include programmingLanguageSelectScalaPythonNLU.html %}
 ```python
 ...
+document_assembler = DocumentAssembler()\
+		.setInputCol("text")\
+		.setOutputCol("document")
+
+sentence_detector = SentenceDetectorDLModel.pretrained("sentence_detector_dl_healthcare", "en", "clinical/models") \
+		.setInputCols(["document"]) \
+		.setOutputCol("sentence")
+
+tokenizer = Tokenizer()\
+		.setInputCols(["sentence"])\
+		.setOutputCol("token")
+	
+word_embeddings = WordEmbeddingsModel.pretrained("embeddings_clinical", "en", "clinical/models")\
+		.setInputCols(["sentence", "token"])\
+		.setOutputCol("embeddings")
+
+clinical_ner = MedicalNerModel.pretrained("ner_jsl", "en", "clinical/models") \
+		.setInputCols(["sentence", "token", "embeddings"]) \
+		.setOutputCol("jsl_ner")
+
+ner_converter = NerConverter() \
+		.setInputCols(["sentence", "token", "jsl_ner"]) \
+		.setOutputCol("ner_chunk")
+
+
 chunk2doc = Chunk2Doc().setInputCols("ner_chunk").setOutputCol("ner_chunk_doc")
 
 sbert_embedder = BertSentenceEmbeddings\
@@ -58,7 +83,31 @@ results = nlpPipeline.fit(data).transform(data)
 ```
 ```scala
 ...
-val chunk2doc = Chunk2Doc().setInputCols("ner_chunk").setOutputCol("ner_chunk_doc")
+val document_assembler = new DocumentAssembler()
+		.setInputCol("text")
+		.setOutputCol("document")
+
+val sentence_detector = SentenceDetectorDLModel.pretrained("sentence_detector_dl_healthcare","en","clinical/models")
+		.setInputCols(Array("document"))
+		.setOutputCol("sentence")
+
+val tokenizer = new Tokenizer()
+		.setInputCols(Array("sentence"))
+		.setOutputCol("token")
+	
+val word_embeddings = WordEmbeddingsModel.pretrained("embeddings_clinical", "en", "clinical/models")
+		.setInputCols(Array("sentence", "token"))
+	    	.setOutputCol("embeddings")
+
+val clinical_ner = MedicalNerModel.pretrained("ner_jsl", "en", "clinical/models")
+		.setInputCols(Array("sentence", "token", "embeddings"))
+		.setOutputCol("jsl_ner")
+
+val ner_converter = new NerConverter()
+		.setInputCols(Array("sentence", "token", "jsl_ner"))
+		.setOutputCol("ner_chunk")
+
+val chunk2doc = new Chunk2Doc().setInputCols("ner_chunk").setOutputCol("ner_chunk_doc")
 
 val sbert_embedder = BertSentenceEmbeddings
 .pretrained("sbiobert_base_cased_mli","en","clinical/models")
@@ -116,7 +165,7 @@ p.o. daily , Prevacid 30 mg daily , Avandia 4 mg daily , norvasc 10 mg daily , l
 {:.table-model}
 |---|---|
 |Model Name:|sbiobertresolve_rxnorm|
-|Compatibility:|Spark NLP for Healthcare 3.2.3+|
+|Compatibility:|Healthcare NLP 3.2.3+|
 |License:|Licensed|
 |Edition:|Official|
 |Input Labels:|[sentence_embeddings]|

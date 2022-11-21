@@ -1,4 +1,79 @@
 ========
+4.2.3
+========
+----------------
+New Features & Enhancements
+----------------
+* Implement a new control over number of accepted columns in Python. This will sync the behavior between Scala and Python where user sets more columns than allowed inside setInputCols
+* Adding metadata sentence key parameter in order to select which metadata field to use as sentence for CoNLLGenerator annotator
+* Include escaping in CoNLLGenerator annotator when writing to csv and preserve special char tokens
+* Add documentation for new `IAnnotation` feature for Scala users
+* Add rules and delimiter parameters to RegexMatcher annotator to support string as input in addition to a file
+```python
+regexMatcher = RegexMatcher() \
+      .setRules(["\\d{4}\\/\\d\\d\\/\\d\\d,date", "\\d{2}\\/\\d\\d\\/\\d\\d,short_date"]) \
+      .setDelimiter(",") \
+      .setInputCols(["sentence"]) \
+      .setOutputCol("regex") \
+      .setStrategy("MATCH_ALL")
+```
+*
+
+----------------
+Bug Fixes
+----------------
+* Fix NotSerializableException when WordEmbeddings is used over K8s cluster while `setEnableInMemoryStorage` is set to `true`
+* Fix a bug in RegexTokenizer annotator when it outputs the wrong indexes if the pattern includes splits that are not followed by a space
+* Fix training modul failing on EMR due to a bad Apache Spark version detection. The following classes were fixed: `CoNLL()`, `CoNLLU()`, `POS()`, and `PubTator()`
+* Fix a bug in CoNLLGenerator annotator where token has non-int metadata
+* Fix the wrong SentencePiece model's name required for DeBertaForQuestionAnswering and DeBertaEmbeddings when importing models
+* Fix `NaNs` result in some ViTForImageClassification models/pipelines
+
+========
+4.2.2
+========
+----------------
+New Features & Enhancements
+----------------
+
+* Add support for importing TensorFlow SavedModel from remote storages like DBFS, S3, and HDFS
+* Add support for `fullAnnotate` in `LightPipeline` for path of images in Scala
+* Add `fullAnnotate` method in `PretrainedPipeline` for Scala
+* Add `fullAnnotateJava` method in `PretrainedPipeline` for Java
+* Add `fullAnnotateImage` to `PretrainedPipeline` for Scala
+* Add `fullAnnotateImageJava` to `PretrainedPipeline` for Java
+* Add support for QA in `fullAnnotate` method in `PretrainedPipeline`
+* Add `Predicted Entities` to all Vision Transformers (ViT) models and pipelines
+
+----------------
+Bug Fixes
+----------------
+* Unify `annotatorType` name in Python and Scala for Spark schema in Annotation, AnnotationImage and AnnotationAudio
+* Fix missing indexes in `RecursiveTokenizer` annotator
+
+========
+4.2.1
+========
+----------------
+New Features & Enhancements
+----------------
+
+* Support for multi-lingual WordSegmenter. Add `enableRegexTokenizer` feature in WordSegmenter to support word segmentation within mixed and multi-lingual content https://github.com/JohnSnowLabs/spark-nlp/pull/12854
+* Add support for Audio/ASR (Wav2Vec2) support to LightPipeline https://github.com/JohnSnowLabs/spark-nlp/pull/12895
+* Add support for Double type in addition to Float type to AudioAssembler annotator https://github.com/JohnSnowLabs/spark-nlp/pull/12904
+* Improve error handling in fullAnnotateImage for LightPipeline https://github.com/JohnSnowLabs/spark-nlp/pull/12868
+
+* Add SpanBertCoref annotator to all docs https://github.com/JohnSnowLabs/spark-nlp/pull/12889
+
+----------------
+Bug Fixes
+----------------
+
+* Fix feeding `fullAnnotate` in Lightpipeline with a list that started to fail in 4.2.0 release
+* Fix exception in ContextSpellCheckerModel when updateVocabClass is used with append set to true https://github.com/JohnSnowLabs/spark-nlp/pull/12875
+* Fix exception in Chunker annotator https://github.com/JohnSnowLabs/spark-nlp/pull/12901
+
+========
 4.2.0
 ========
 ----------------

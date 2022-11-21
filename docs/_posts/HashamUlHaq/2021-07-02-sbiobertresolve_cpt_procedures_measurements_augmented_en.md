@@ -7,9 +7,10 @@ date: 2021-07-02
 tags: [licensed, en, entity_resolution, clinical]
 task: Entity Resolution
 language: en
-edition: Spark NLP for Healthcare 3.1.0
+edition: Healthcare NLP 3.1.0
 spark_version: 3.0
 supported: true
+annotator: SentenceEntityResolverModel
 article_header:
 type: cover
 use_language_switcher: "Python-Scala-Java"
@@ -107,7 +108,7 @@ nlu.load("en.resolve.cpt.procedures_measurements").predict("""calcium score""")
 {:.table-model}
 |---|---|
 |Model Name:|sbiobertresolve_cpt_procedures_measurements_augmented|
-|Compatibility:|Spark NLP for Healthcare 3.1.0+|
+|Compatibility:|Healthcare NLP 3.1.0+|
 |License:|Licensed|
 |Edition:|Official|
 |Input Labels:|[sbert_embeddings]|

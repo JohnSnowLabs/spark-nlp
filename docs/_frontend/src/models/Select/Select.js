@@ -1,6 +1,5 @@
+import { createElement as e, Children } from 'react';
 import './Select.css';
-
-const { createElement: e, Children } = React;
 
 const Select = ({
   name,

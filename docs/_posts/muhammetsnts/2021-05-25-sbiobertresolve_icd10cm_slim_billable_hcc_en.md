@@ -7,7 +7,7 @@ date: 2021-05-25
 tags: [icd10cm, slim, licensed, en]
 task: Entity Resolution
 language: en
-edition: Spark NLP for Healthcare 3.0.3
+edition: Healthcare NLP 3.0.3
 spark_version: 3.0
 supported: true
 article_header:
@@ -103,7 +103,7 @@ nlu.load("en.resolve.icd10cm.slim_billable_hcc").predict("""sbiobertresolve_icd1
 {:.table-model}
 |---|---|
 |Model Name:|sbiobertresolve_icd10cm_slim_billable_hcc|
-|Compatibility:|Spark NLP for Healthcare 3.0.3+|
+|Compatibility:|Healthcare NLP 3.0.3+|
 |License:|Licensed|
 |Edition:|Official|
 |Input Labels:|[sentence_embeddings]|

@@ -1,15 +1,16 @@
 ---
 layout: model
-title: Legal Indemnification Relation Extraction
+title: Legal Indemnification Relation Extraction (sm, Bidirectional)
 author: John Snow Labs
 name: legre_indemnifications
 date: 2022-09-28
 tags: [en, legal, re, indemnification, licensed]
 task: Relation Extraction
 language: en
-edition: Spark NLP for Legal 1.0.0
+edition: Legal NLP 1.0.0
 spark_version: 3.0
 supported: true
+annotator: RelationExtractionDLModel
 article_header:
   type: cover
 use_language_switcher: "Python-Scala-Java"
@@ -17,7 +18,13 @@ use_language_switcher: "Python-Scala-Java"
 
 ## Description
 
-This is a Relation Extraction model to group the different entities extracted with the Indemnification NER model (see `legner_bert_indemnifications` in Models Hub).
+IMPORTANT: Don't run this model on the whole legal agreement. Instead:
+- Split by paragraphs. You can use [notebook 1](https://github.com/JohnSnowLabs/spark-nlp-workshop/tree/master/tutorials/Certification_Trainings_JSL) in Finance or Legal as inspiration;
+- Use the `legclf_indemnification_clause` Text Classifier to select only these paragraphs; 
+
+This is a Relation Extraction model to group the different entities extracted with the Indemnification NER model (see `legner_bert_indemnifications` in Models Hub). This model is a `sm` model without meaningful directions in the relations (the model was not trained to understand if the direction of the relation is from left to right or right to left).
+
+There are bigger models in Models Hub trained also with directed relationships.
 
 ## Predicted Entities
 
@@ -34,17 +41,18 @@ This is a Relation Extraction model to group the different entities extracted wi
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
+
 ```python
-documentAssembler = DocumentAssembler()\
+documentAssembler = nlp.DocumentAssembler()\
         .setInputCol("text")\
         .setOutputCol("document")
 
-sentencizer = SentenceDetectorDLModel\
+sentencizer = nlp.SentenceDetectorDLModel\
         .pretrained("sentence_detector_dl", "en") \
         .setInputCols(["document"])\
         .setOutputCol("sentence")
                       
-tokenizer = Tokenizer()\
+tokenizer = nlp.Tokenizer()\
         .setInputCols(["sentence"])\
         .setOutputCol("token")
 
@@ -53,24 +61,24 @@ tokenClassifier = legal.BertForTokenClassification.pretrained("legner_bert_indem
   .setOutputCol("label")\
   .setCaseSensitive(True)
 
-ner_converter = NerConverter()\
+ner_converter = nlp.NerConverter()\
     .setInputCols(["sentence","token","label"])\
     .setOutputCol("ner_chunk")
 
 # ONLY NEEDED IF YOU WANT TO FILTER RELATION PAIRS OR SYNTACTIC DISTANCE
 # =================
-pos_tagger = PerceptronModel()\
+pos_tagger = nlp.PerceptronModel()\
     .pretrained() \
     .setInputCols(["sentence", "token"])\
     .setOutputCol("pos_tags")
 
-dependency_parser = DependencyParserModel() \
+dependency_parser = nlp.DependencyParserModel() \
     .pretrained("dependency_conllu", "en") \
     .setInputCols(["sentence", "pos_tags", "token"]) \
     .setOutputCol("dependencies")
 
 #Set a filter on pairs of named entities which will be treated as relation candidates
-re_filter = RENerChunksFilter()\
+re_filter = legal.RENerChunksFilter()\
     .setInputCols(["ner_chunk", "dependencies"])\
     .setOutputCol("re_ner_chunks")\
     .setMaxSyntacticDistance(20)\
@@ -126,7 +134,7 @@ relation	entity1	entity1_begin	entity1_end	chunk1	entity2	entity2_begin	entity2_
 {:.table-model}
 |---|---|
 |Model Name:|legre_indemnifications|
-|Compatibility:|Spark NLP for Legal 1.0.0+|
+|Compatibility:|Legal NLP 1.0.0+|
 |License:|Licensed|
 |Edition:|Official|
 |Language:|en|
@@ -139,14 +147,11 @@ In-house annotated examples from CUAD legal dataset
 ## Benchmarking
 
 ```bash
-Relation           Recall Precision        F1   Support
-
+                       label    Recall Precision        F1   Support
 is_indemnification_indobject     0.966     1.000     0.982        29
-is_indemnification_object     0.929     0.929     0.929        42
-is_indemnification_subject     0.931     0.931     0.931        29
-no_rel              0.950     0.941     0.945       100
-
-Avg.                0.944     0.950     0.947
-
-Weighted Avg.       0.945     0.945     0.945
+is_indemnification_object        0.929     0.929     0.929        42
+is_indemnification_subject       0.931     0.931     0.931        29
+no_rel                           0.950     0.941     0.945       100
+Avg.                             0.944     0.950     0.947        -
+Weighted-Avg.                    0.945     0.945     0.945        -
 ```

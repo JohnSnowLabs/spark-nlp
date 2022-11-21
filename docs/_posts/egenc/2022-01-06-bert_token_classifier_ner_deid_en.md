@@ -7,9 +7,10 @@ date: 2022-01-06
 tags: [licensed, berfortokenclassification, deid, en]
 task: Named Entity Recognition
 language: en
-edition: Spark NLP for Healthcare 3.3.4
+edition: Healthcare NLP 3.3.4
 spark_version: 2.4
 supported: true
+annotator: MedicalBertForTokenClassifier
 article_header:
 type: cover
 use_language_switcher: "Python-Scala-Java"
@@ -53,11 +54,11 @@ documentAssembler = DocumentAssembler()\
 .setOutputCol("document")
 
 tokenizer = Tokenizer()\
-.setInputCols("document")\
+.setInputCols(["document"])\
 .setOutputCol("token")
 
 tokenClassifier = MedicalBertForTokenClassifier.pretrained("bert_token_classifier_ner_deid", "en", "clinical/models")\
-.setInputCols("token", "document")\
+.setInputCols(["token", "document"])\
 .setOutputCol("ner")\
 .setCaseSensitive(True)
 
@@ -67,11 +68,10 @@ ner_converter = NerConverter()\
 
 pipeline =  Pipeline(stages=[documentAssembler, tokenizer, tokenClassifier, ner_converter])
 
-p_model = pipeline.fit(spark.createDataFrame(pd.DataFrame({'text': ['']})))
+data = spark.createDataFrame([["""A. Record date : 2093-01-13, David Hale, M.D. Name : Hendrickson, Ora MR. # 7194334. PCP : Oliveira, non-smoking. Cocke County Baptist Hospital. 0295 Keats Street. Phone +1 (302) 786-5227. Patient's complaints first surfaced when he started working for Brothers Coal-Mine."""]]).toDF("text")
 
-test_sentence = """A. Record date : 2093-01-13, David Hale, M.D. Name : Hendrickson, Ora MR. # 7194334. PCP : Oliveira, non-smoking. Cocke County Baptist Hospital. 0295 Keats Street. Phone +1 (302) 786-5227. Patient's complaints first surfaced when he started working for Brothers Coal-Mine."""
+result = pipeline.fit(data).transform(data)
 
-result = p_model.transform(spark.createDataFrame(pd.DataFrame({'text': [test_sentence]})))
 ```
 ```scala
 val documentAssembler = new DocumentAssembler()
@@ -135,7 +135,7 @@ nlu.load("en.classify.token_bert.ner_deid").predict("""A. Record date : 2093-01-
 {:.table-model}
 |---|---|
 |Model Name:|bert_token_classifier_ner_deid|
-|Compatibility:|Spark NLP for Healthcare 3.3.4+|
+|Compatibility:|Healthcare NLP 3.3.4+|
 |License:|Licensed|
 |Edition:|Official|
 |Input Labels:|[sentence, token]|

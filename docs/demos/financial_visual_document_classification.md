@@ -24,8 +24,6 @@ data:
           id: classify_financial_documents_image_level  
           image: 
               src: /assets/images/Classify_Financial_Documents_at_Image_Level.svg
-          image2: 
-              src: /assets/images/Classify_Financial_Documents_at_Image_Level_f.svg
           excerpt: This demo shows how to classify finance documents using text and layout data with the new features offered by Spark OCR.
           actions:
           - text: Live Demo

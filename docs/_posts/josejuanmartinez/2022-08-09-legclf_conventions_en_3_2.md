@@ -7,8 +7,8 @@ date: 2022-08-09
 tags: [es, legal, conventions, classification, en, licensed]
 task: Text Classification
 language: en
-edition: Spark NLP for Legal 1.0.0
-spark_version: 3.2
+edition: Legal NLP 1.0.0
+spark_version: 3.0
 supported: true
 article_header:
   type: cover
@@ -89,7 +89,7 @@ result = pipeline.fit(data).transform(data)
 {:.table-model}
 |---|---|
 |Model Name:|legclf_conventions|
-|Compatibility:|Spark NLP for Legal 1.0.0+|
+|Compatibility:|Legal NLP 1.0.0+|
 |License:|Licensed|
 |Edition:|Official|
 |Input Labels:|[document, token]|
@@ -106,8 +106,8 @@ This model was originally trained with 3799 legal texts (see the original work [
 ## Benchmarking
 
 ```bash
-label        precision	recall	f1-score	support
-accuracy	     -		        0.90      	 120
-macro avg	    0.90	0.91	0.90	     120
-weighted avg	0.90	0.90	0.90	     120
-```
+label            precision  recall   f1-score  support
+accuracy           -          -      0.90      120
+macro-avg        0.90       0.91     0.90      120
+weighted-avg     0.90       0.90     0.90      120
+```     

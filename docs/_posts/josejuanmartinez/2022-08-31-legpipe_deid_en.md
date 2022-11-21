@@ -7,10 +7,11 @@ date: 2022-08-31
 tags: [en, legal, deid, deidentification, licensed]
 task: De-identification
 language: en
-edition: Spark NLP for Legal 1.0.0
-spark_version: 3.2
+edition: Legal NLP 1.0.0
+spark_version: 3.0
 supported: true
 recommended: true
+annotator: PipelineModel
 article_header:
   type: cover
 use_language_switcher: "Python-Scala-Java"
@@ -45,6 +46,7 @@ You can carry out both masking and obfuscation with this pipeline, on the follow
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
+
 ```python
 from sparknlp.pretrained import PretrainedPipeline
 
@@ -166,7 +168,7 @@ Source: SESA CO.., 11/7/2016
 |---|---|
 |Model Name:|legpipe_deid|
 |Type:|pipeline|
-|Compatibility:|Spark NLP for Legal 1.0.0+|
+|Compatibility:|Legal NLP 1.0.0+|
 |License:|Licensed|
 |Edition:|Official|
 |Language:|en|

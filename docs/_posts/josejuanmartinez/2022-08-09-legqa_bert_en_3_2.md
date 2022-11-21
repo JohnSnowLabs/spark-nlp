@@ -7,8 +7,8 @@ date: 2022-08-09
 tags: [en, legal, qa, licensed]
 task: Question Answering
 language: en
-edition: Spark NLP for Legal 1.0.0
-spark_version: 3.2
+edition: Legal NLP 1.0.0
+spark_version: 3.0
 supported: true
 article_header:
   type: cover
@@ -34,6 +34,7 @@ Legal Bert-based Question Answering model, trained on squad-v2, finetuned on pro
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
+
 ```python
 documentAssembler = nlp.MultiDocumentAssembler()\
         .setInputCols(["question", "context"])\
@@ -70,7 +71,7 @@ result.select('answer.result').show()
 {:.table-model}
 |---|---|
 |Model Name:|legqa_bert|
-|Compatibility:|Spark NLP for Legal 1.0.0+|
+|Compatibility:|Legal NLP 1.0.0+|
 |License:|Licensed|
 |Edition:|Official|
 |Input Labels:|[document_question, document_context]|

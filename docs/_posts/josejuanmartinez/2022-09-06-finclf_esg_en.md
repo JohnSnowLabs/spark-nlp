@@ -7,8 +7,8 @@ date: 2022-09-06
 tags: [en, financial, esg, classification, licensed]
 task: Text Classification
 language: en
-edition: Spark NLP for Finance 1.0.0
-spark_version: 3.2
+edition: Finance NLP 1.0.0
+spark_version: 3.0
 supported: true
 article_header:
   type: cover
@@ -36,6 +36,7 @@ If you look for an augmented version of this model, with more fine-grain vertica
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
+
 ```python
 document_assembler = nlp.DocumentAssembler() \
     .setInputCol('text') \
@@ -87,7 +88,7 @@ result.select("text", "class.result").show()
 |---|---|
 |Model Name:|finclf_esg|
 |Type:|finance|
-|Compatibility:|Spark NLP for Finance 1.0.0+|
+|Compatibility:|Finance NLP 1.0.0+|
 |License:|Licensed|
 |Edition:|Official|
 |Input Labels:|[document, token]|
@@ -104,13 +105,11 @@ In-house annotations from scrapped annual reports and tweets about ESG
 ## Benchmarking
 
 ```bash
-              precision    recall  f1-score   support
-
-Environmental      0.99      0.97      0.98        97
-Social             0.95      0.96      0.95       162
-Governance         0.91      0.90      0.91        71
-
-    accuracy                           0.95       330
-   macro avg       0.95      0.94      0.95       330
-weighted avg       0.95      0.95      0.95       330
-```
+        label   precision    recall  f1-score   support
+Environmental        0.99      0.97      0.98        97
+       Social        0.95      0.96      0.95       162
+   Governance        0.91      0.90      0.91        71
+     accuracy          -         -       0.95       330
+    macro-avg        0.95      0.94      0.95       330
+ weighted-avg        0.95      0.95      0.95       330
+```  

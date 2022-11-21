@@ -7,9 +7,10 @@ date: 2021-06-01
 tags: [licensed, en, clinical, relation_extraction]
 task: Relation Extraction
 language: en
-edition: Spark NLP for Healthcare 3.0.3
+edition: Healthcare NLP 3.0.3
 spark_version: 3.0
 supported: true
+annotator: RelationExtractionDLModel
 article_header:
 type: cover
 use_language_switcher: "Python-Scala-Java"
@@ -103,13 +104,9 @@ dependency_parser,
 events_re_ner_chunk_filter,
 events_re_Model])
 
-text ="This 73 y/o patient had CT on 1/12/95, with progressive memory and cognitive decline since 8/11/94."
+data = spark.createDataFrame([['''This 73 y/o patient had CT on 1/12/95, with progressive memory and cognitive decline since 8/11/94.''']]).toDF("text")
 
-data = spark.createDataFrame([[text]]).toDF("text")
-
-p_model = pipeline.fit(data)
-
-result = p_model.transform(data)
+result = pipeline.fit(data).transform(data)
 ```
 ```scala
 ...
@@ -118,11 +115,11 @@ val documenter = new DocumentAssembler()
 .setOutputCol("document")
 
 val sentencer = new SentenceDetector()
-.setInputCols("document")
+.setInputCols(Array("document"))
 .setOutputCol("sentences")
 
 val tokenizer = new Tokenizer()
-.setInputCols("sentences")
+.setInputCols(Array("sentences"))
 .setOutputCol("tokens")
 
 val words_embedder = WordEmbeddingsModel.pretrained("embeddings_clinical", "en", "clinical/models")
@@ -192,7 +189,7 @@ nlu.load("en.relation.date").predict("""This 73 y/o patient had CT on 1/12/95, w
 {:.table-model}
 |---|---|
 |Model Name:|redl_date_clinical_biobert|
-|Compatibility:|Spark NLP for Healthcare 3.0.3+|
+|Compatibility:|Healthcare NLP 3.0.3+|
 |License:|Licensed|
 |Edition:|Official|
 |Language:|en|

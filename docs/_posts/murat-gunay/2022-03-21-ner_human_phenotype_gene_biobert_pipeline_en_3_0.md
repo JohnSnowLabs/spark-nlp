@@ -7,9 +7,10 @@ date: 2022-03-21
 tags: [licensed, ner, clinical, gene, en]
 task: Named Entity Recognition
 language: en
-edition: Spark NLP for Healthcare 3.4.1
+edition: Healthcare NLP 3.4.1
 spark_version: 3.0
 supported: true
+annotator: PipelineModel
 article_header:
   type: cover
 use_language_switcher: "Python-Scala-Java"
@@ -63,7 +64,7 @@ pipeline.annotate("Here we presented a case (BS type) of a 17 years old female p
 |---|---|
 |Model Name:|ner_human_phenotype_gene_biobert_pipeline|
 |Type:|pipeline|
-|Compatibility:|Spark NLP for Healthcare 3.4.1+|
+|Compatibility:|Healthcare NLP 3.4.1+|
 |License:|Licensed|
 |Edition:|Official|
 |Language:|en|

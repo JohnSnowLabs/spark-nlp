@@ -7,9 +7,10 @@ date: 2021-09-24
 tags: [ner, ner_profiling, clinical, licensed, en]
 task: Pipeline Healthcare
 language: en
-edition: Spark NLP for Healthcare 3.2.3
+edition: Healthcare NLP 3.2.3
 spark_version: 2.4
 supported: true
+annotator: PipelineModel
 article_header:
 type: cover
 use_language_switcher: "Python-Scala-Java"
@@ -118,7 +119,7 @@ ner_events_admission_clinical_chunks :  ['gestational diabetes mellitus', 'eight
 |---|---|
 |Model Name:|ner_profiling_clinical|
 |Type:|pipeline|
-|Compatibility:|Spark NLP for Healthcare 3.2.3+|
+|Compatibility:|Healthcare NLP 3.2.3+|
 |License:|Licensed|
 |Edition:|Official|
 |Language:|en|

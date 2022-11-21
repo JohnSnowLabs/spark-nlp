@@ -7,9 +7,10 @@ date: 2022-05-11
 tags: [en, abbreviation, definition, licensed, clinical,  chunk_mapper]
 task: Chunk Mapping
 language: en
-edition: Spark NLP for Healthcare 3.5.1
+edition: Healthcare NLP 3.5.1
 spark_version: 3.0
 supported: true
+annotator: ChunkMapperModel
 article_header:
 type: cover
 use_language_switcher: "Python-Scala-Java"
@@ -114,7 +115,7 @@ val abbr_converter = NerConverter()
 .setOutputCol("abbr_ner_chunk")
 
 val chunkerMapper = ChunkMapperModel.pretrained("abbreviation_mapper", "en", "clinical/models")
-.setInputCols("abbr_ner_chunk")
+.setInputCols(Array("abbr_ner_chunk"))
 .setOutputCol("mappings")
 .setRel("definition") 
 
@@ -136,7 +137,7 @@ HIV: Negative. One-Hour Glucose: 117. Group B strep has not been done as yet."""
 
 val data = Seq(test_sentence).toDS.toDF("text")
 
-val res= pipeline.fit(data).transform(data)
+val result= pipeline.fit(data).transform(data)
 ```
 
 
@@ -171,7 +172,7 @@ HIV: Negative. One-Hour Glucose: 117. Group B strep has not been done as yet."""
 {:.table-model}
 |---|---|
 |Model Name:|abbreviation_mapper|
-|Compatibility:|Spark NLP for Healthcare 3.5.1+|
+|Compatibility:|Healthcare NLP 3.5.1+|
 |License:|Licensed|
 |Edition:|Official|
 |Input Labels:|[abbr_ner_chunk]|

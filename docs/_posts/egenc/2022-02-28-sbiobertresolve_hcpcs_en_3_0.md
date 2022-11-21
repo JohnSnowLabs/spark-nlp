@@ -7,9 +7,10 @@ date: 2022-02-28
 tags: [hcpcs, resolver, en, licensed]
 task: Entity Resolution
 language: en
-edition: Spark NLP for Healthcare 3.4.0
+edition: Healthcare NLP 3.4.0
 spark_version: 3.0
 supported: true
+annotator: SentenceEntityResolverModel
 article_header:
 type: cover
 use_language_switcher: "Python-Scala-Java"
@@ -51,7 +52,7 @@ hcpcs_resolver = SentenceEntityResolverModel\
 .setOutputCol("hcpcs_code")\
 .setDistanceFunction("EUCLIDEAN")
 
-hcpcs_pipelineModel = PipelineModel(
+hcpcs_pipeline  = Pipeline(
 stages = [
 documentAssembler,
 sbert_embedder,
@@ -59,7 +60,7 @@ hcpcs_resolver])
 
 data = spark.createDataFrame([["Breast prosthesis, mastectomy bra, with integrated breast prosthesis form, unilateral, any size, any type"]]).toDF("text")
 
-results = hcpcs_pipelineModel.fit(data).transform(data)
+results = hcpcs_pipeline.fit(data).transform(data)
 ```
 ```scala
 val documentAssembler = new DocumentAssembler()
@@ -109,7 +110,7 @@ nlu.load("en.resolve.hcpcs").predict("""Breast prosthesis, mastectomy bra, with 
 {:.table-model}
 |---|---|
 |Model Name:|sbiobertresolve_hcpcs|
-|Compatibility:|Spark NLP for Healthcare 3.4.0+|
+|Compatibility:|Healthcare NLP 3.4.0+|
 |License:|Licensed|
 |Edition:|Official|
 |Input Labels:|[sentence_embeddings]|

@@ -7,9 +7,10 @@ date: 2022-01-03
 tags: [abbreviation, entity_resolver, licensed, en, clinical, acronym]
 task: Entity Resolution
 language: en
-edition: Spark NLP for Healthcare 3.3.4
+edition: Healthcare NLP 3.3.4
 spark_version: 2.4
 supported: true
+annotator: SentenceEntityResolverModel
 article_header:
 type: cover
 use_language_switcher: "Python-Scala-Java"
@@ -80,13 +81,15 @@ sentence_chunk_embeddings,
 abbr_resolver
 ])
 
-model = resolver_pipeline.fit(spark.createDataFrame([['']]).toDF("text"))
+text = "The patient admitted from the IR for aggressive irrigation of the Miami pouch. DISCHARGE DIAGNOSES: 1. A 58-year-old female with a history of stage 2 squamous cell carcinoma of the cervix status post total pelvic exenteration in 1991."
 
-sample_text = "The patient admitted from the IR for aggressive irrigation of the Miami pouch. DISCHARGE DIAGNOSES: 1. A 58-year-old female with a history of stage 2 squamous cell carcinoma of the cervix status post total pelvic exenteration in 1991."
-abbr_result = model.transform(spark.createDataFrame([[text]]).toDF('text'))
+sample_text = spark.createDataFrame([[text]]).toDF('text')
+
+abbr_result = resolver_pipeline.fit(sample_text).transform(sample_text)
+
 ```
 ```scala
-val document_assembler = DocumentAssembler()\
+val document_assembler = DocumentAssembler()
 .setInputCol("text")
 .setOutputCol("document")
 
@@ -123,6 +126,7 @@ val abbr_resolver = SentenceEntityResolverModel.pretrained("sbiobertresolve_clin
 val resolver_pipeline = new Pipeline().setStages(document_assembler, tokenizer, word_embeddings, clinical_ner, ner_converter, sentence_chunk_embeddings, abbr_resolver)
 
 val sample_text = Seq("The patient admitted from the IR for aggressive irrigation of the Miami pouch. DISCHARGE DIAGNOSES: 1. A 58-year-old female with a history of stage 2 squamous cell carcinoma of the cervix status post total pelvic exenteration in 1991.").toDF("text")
+
 val abbr_result = resolver_pipeline.fit(sample_text).transform(sample_text)
 ```
 
@@ -151,7 +155,7 @@ nlu.load("en.resolve.clinical_abbreviation_acronym").predict("""The patient admi
 {:.table-model}
 |---|---|
 |Model Name:|sbiobertresolve_clinical_abbreviation_acronym|
-|Compatibility:|Spark NLP for Healthcare 3.3.4+|
+|Compatibility:|Healthcare NLP 3.3.4+|
 |License:|Licensed|
 |Edition:|Official|
 |Input Labels:|[sentence_embeddings]|

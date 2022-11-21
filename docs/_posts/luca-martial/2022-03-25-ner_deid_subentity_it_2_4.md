@@ -7,9 +7,10 @@ date: 2022-03-25
 tags: [deid, it, licensed]
 task: Named Entity Recognition
 language: it
-edition: Spark NLP for Healthcare 3.4.2
+edition: Healthcare NLP 3.4.2
 spark_version: 2.4
 supported: true
+annotator: MedicalNerModel
 article_header:
 type: cover
 use_language_switcher: "Python-Scala-Java"
@@ -82,7 +83,7 @@ clinical_ner])
 text = ["Ho visto Gastone Montanariello (49 anni) riferito all' Ospedale San Camillo per diabete mal controllato con sintomi risalenti a marzo 2015."]
 
 
-df = spark.createDataFrame([text]).toDF("text")
+data = spark.createDataFrame([text]).toDF("text")
 
 
 results = nlpPipeline.fit(data).transform(data)
@@ -94,12 +95,12 @@ val documentAssembler = new DocumentAssembler()
 
 
 val sentenceDetector = SentenceDetectorDLModel.pretrained("sentence_detector_dl", "xx")
-.setInputCols("document")
+.setInputCols(Array("document"))
 .setOutputCol("sentence")
 
 
 val tokenizer = new Tokenizer()
-.setInputCols("sentence")
+.setInputCols(Array("sentence"))
 .setOutputCol("token")
 
 
@@ -178,7 +179,7 @@ nlu.load("it.med_ner.deid_subentity").predict("""Ho visto Gastone Montanariello 
 {:.table-model}
 |---|---|
 |Model Name:|ner_deid_subentity|
-|Compatibility:|Spark NLP for Healthcare 3.4.2+|
+|Compatibility:|Healthcare NLP 3.4.2+|
 |License:|Licensed|
 |Edition:|Official|
 |Input Labels:|[sentence, token, embeddings]|

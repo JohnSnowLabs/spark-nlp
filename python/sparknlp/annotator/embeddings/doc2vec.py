@@ -14,6 +14,7 @@
 """Contains classes for Doc2Vec."""
 
 from sparknlp.common import *
+from sparknlp.common.annotator_type import AnnotatorType
 
 
 class Doc2VecApproach(AnnotatorApproach, HasStorageRef, HasEnableCachingProperties):
@@ -99,6 +100,7 @@ class Doc2VecApproach(AnnotatorApproach, HasStorageRef, HasEnableCachingProperti
     >>> dataset = spark.read.text(path).toDF("text")
     >>> pipelineModel = pipeline.fit(dataset)
     """
+    inputAnnotatorTypes = [AnnotatorType.TOKEN]
 
     vectorSize = Param(Params._dummy(),
                        "vectorSize",
@@ -212,6 +214,7 @@ class Doc2VecApproach(AnnotatorApproach, HasStorageRef, HasEnableCachingProperti
     def _create_model(self, java_model):
         return Doc2VecModel(java_model=java_model)
 
+
 class Doc2VecModel(AnnotatorModel, HasStorageRef, HasEmbeddingsProperties):
     """Word2Vec model that creates vector representations of words in a text
     corpus.
@@ -293,6 +296,8 @@ class Doc2VecModel(AnnotatorModel, HasStorageRef, HasEmbeddingsProperties):
     +--------------------------------------------------------------------------------+
     """
     name = "Doc2VecModel"
+
+    inputAnnotatorTypes = [AnnotatorType.TOKEN]
 
     vectorSize = Param(Params._dummy(),
                        "vectorSize",

@@ -7,8 +7,8 @@ date: 2022-08-16
 tags: [en, legal, ner, agreements, licensed]
 task: Named Entity Recognition
 language: en
-edition: Spark NLP for Legal 1.0.0
-spark_version: 3.2
+edition: Legal NLP 1.0.0
+spark_version: 3.0
 supported: true
 article_header:
   type: cover
@@ -16,6 +16,10 @@ use_language_switcher: "Python-Scala-Java"
 ---
 
 ## Description
+
+IMPORTANT: Don't run this model on the whole legal agreement. Instead:
+- Split by paragraphs. You can use [notebook 1](https://github.com/JohnSnowLabs/spark-nlp-workshop/tree/master/tutorials/Certification_Trainings_JSL) in Finance or Legal as inspiration;
+- Use the `legclf_introduction_clause` Text Classifier to select only these paragraphs; 
 
 This is a Legal NER Model, aimed to process the first page of the agreements when information can be found about:
 - Parties of the contract/agreement;
@@ -42,6 +46,7 @@ Other models can be found to detect other parts of the document, as Headers/Subh
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
+
 ```python
 documentAssembler = nlp.DocumentAssembler()\
         .setInputCol("text")\
@@ -195,7 +200,7 @@ res = model.transform(spark.createDataFrame([text]).toDF("text"))
 |---|---|
 |Model Name:|legner_contract_doc_parties|
 |Type:|legal|
-|Compatibility:|Spark NLP for Legal 1.0.0+|
+|Compatibility:|Legal NLP 1.0.0+|
 |License:|Licensed|
 |Edition:|Official|
 |Input Labels:|[sentence, token, embeddings]|
@@ -210,12 +215,12 @@ Manual annotations on CUAD dataset
 ## Benchmarking
 
 ```bash
-label	 tp	 fp	 fn	 prec	 rec	 f1
-I-PARTY	 262	 20	 61	 0.92907804	 0.8111455	 0.8661157
-B-EFFDATE	 22	 4	 9	 0.84615386	 0.7096774	 0.77192986
-B-DOC	 38	 4	 12	 0.9047619	 0.76	 0.82608694
-I-EFFDATE	 95	 9	 19	 0.91346157	 0.8333333	 0.8715596
-I-DOC	 93	 12	 5	 0.8857143	 0.9489796	 0.9162561
-B-PARTY	 88	 10	 29	 0.8979592	 0.75213677	 0.81860465
-B-ALIAS	 64	 7	 14	 0.90140843	 0.82051283	 0.8590604
+label       tp     fp    fn    prec          rec           f1
+I-PARTY     262    20    61    0.92907804    0.8111455     0.8661157
+B-EFFDATE   22     4     9     0.84615386    0.7096774     0.77192986
+B-DOC       38     4     12    0.9047619     0.76          0.82608694
+I-EFFDATE   95     9     19    0.91346157    0.8333333     0.8715596
+I-DOC       93     12    5     0.8857143     0.9489796     0.9162561
+B-PARTY     88     10    29    0.8979592     0.75213677    0.81860465
+B-ALIAS     64     7     14    0.90140843    0.82051283    0.8590604
 ```

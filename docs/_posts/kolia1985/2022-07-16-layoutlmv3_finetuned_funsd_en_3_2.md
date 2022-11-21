@@ -7,9 +7,10 @@ date: 2022-07-16
 tags: [en, licensed]
 task: Named Entity Recognition
 language: en
-edition: Spark OCR 3.14.0
+edition: Visual NLP 3.14.0
 spark_version: 3.2
 supported: true
+annotator: VisualDocumentNERv21
 article_header:
   type: cover
 use_language_switcher: "Python-Scala-Java"
@@ -56,7 +57,7 @@ ocr = ImageToHocr()\
 |---|---|
 |Model Name:|layoutlmv3_finetuned_funsd|
 |Type:|ocr|
-|Compatibility:|Spark OCR 3.14.0+|
+|Compatibility:|Visual NLP 3.14.0+|
 |License:|Licensed|
 |Edition:|Official|
 |Language:|en|

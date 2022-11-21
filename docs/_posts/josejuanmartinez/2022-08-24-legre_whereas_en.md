@@ -1,15 +1,16 @@
 ---
 layout: model
-title: Legal Relation Extraction (Whereas)
+title: Legal Relation Extraction (Whereas, sm, Bidirectional))
 author: John Snow Labs
 name: legre_whereas
 date: 2022-08-24
 tags: [en, legal, re, relations, licensed]
 task: Relation Extraction
 language: en
-edition: Spark NLP for Legal 1.0.0
-spark_version: 3.2
+edition: Legal NLP 1.0.0
+spark_version: 3.0
 supported: true
+annotator: RelationExtractionDLModel
 article_header:
   type: cover
 use_language_switcher: "Python-Scala-Java"
@@ -17,9 +18,17 @@ use_language_switcher: "Python-Scala-Java"
 
 ## Description
 
+IMPORTANT: Don't run this model on the whole legal agreement. Instead:
+- Split by paragraphs. You can use [notebook 1](https://github.com/JohnSnowLabs/spark-nlp-workshop/tree/master/tutorials/Certification_Trainings_JSL) in Finance or Legal as inspiration;
+- Use the `legclf_cuad_whereas_clause` Text Classifier to select only these paragraphs; 
+
 This is a Relation Extraction model to infer relations between elements in WHEREAS clauses, more specifically the SUBJECT, the ACTION and the OBJECT. There are two relations possible: `has_subject` and `has_object`.
 
 You can also use `legpipe_whereas` which includes this model and its NER and also depedency parsing, to carry out chunk extraction using grammatical features (the dependency tree).
+
+This model is a `sm` model without meaningful directions in the relations (the model was not trained to understand if the direction of the relation is from left to right or right to left).
+
+There are bigger models in Models Hub trained also with directed relationships.
 
 ## Predicted Entities
 
@@ -36,6 +45,7 @@ You can also use `legpipe_whereas` which includes this model and its NER and als
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
+
 ```python
 documentAssembler = nlp.DocumentAssembler()\
   .setInputCol("text")\
@@ -99,7 +109,7 @@ has_subject WHEREAS_SUBJECT            11          21 VerticalNet WHEREAS_OBJECT
 |---|---|
 |Model Name:|legre_whereas|
 |Type:|legal|
-|Compatibility:|Spark NLP for Legal 1.0.0+|
+|Compatibility:|Legal NLP 1.0.0+|
 |License:|Licensed|
 |Edition:|Official|
 |Language:|en|
@@ -112,13 +122,10 @@ Manual annotations on CUAD dataset
 ## Benchmarking
 
 ```bash
-Relation           Recall Precision        F1   Support
-
-has_object          0.946     0.981     0.964        56
-has_subject         0.952     0.988     0.969        83
-no_rel              1.000     0.970     0.985       161
-
-Avg.                0.966     0.980     0.973
-
-Weighted Avg.       0.977     0.977     0.977
+label               Recall    Precision  F1          Support
+has_object          0.946     0.981      0.964        56
+has_subject         0.952     0.988      0.969        83
+no_rel              1.000     0.970      0.985       161
+Avg.                0.966     0.980      0.973        -
+Weighted-Avg.       0.977     0.977      0.977        -
 ```

@@ -6,7 +6,7 @@ name: re_human_phenotype_gene_clinical
 date: 2020-09-30
 task: Relation Extraction
 language: en
-edition: Spark NLP for Healthcare 2.6.0
+edition: Healthcare NLP 2.6.0
 spark_version: 2.4
 tags: [re, en, licensed, clinical]
 supported: true
@@ -47,32 +47,101 @@ In the table below, `re_human_phenotype_gene_clinical` RE model, its labels, opt
 
 ```python
 ...
+document_assembler = DocumentAssembler()\
+		.setInputCol("text")\
+		.setOutputCol("document")
+
+sentence_detector = SentenceDetector()\
+    .setInputCols(["document"])\
+    .setOutputCol("sentences")
+
+tokenizer = Tokenizer()\
+    .setInputCols(["sentences"])\
+    .setOutputCol("tokens")
+
+word_embeddings = WordEmbeddingsModel.pretrained("embeddings_clinical", "en", "clinical/models")\
+    .setInputCols(["sentences", "tokens"])\
+    .setOutputCol("embeddings")
+
+pos_tagger = PerceptronModel()\
+    .pretrained("pos_clinical", "en", "clinical/models") \
+    .setInputCols(["sentences", "tokens"])\
+    .setOutputCol("pos_tags")
+
+ner_tagger = MedicalNerModel.pretrained("ner_clinical", "en", "clinical/models")\
+    .setInputCols("sentences", "tokens", "embeddings")\
+    .setOutputCol("ner_tags")
+
+ner_converter = NerConverter() \
+    .setInputCols(["sentences", "tokens", "ner_tags"]) \
+    .setOutputCol("ner_chunks")
+
+dependency_parser = DependencyParserModel()\
+    .pretrained("dependency_conllu", "en")\
+    .setInputCols(["sentences", "pos_tags", "tokens"])\
+    .setOutputCol("dependencies")
+
 clinical_re_Model = RelationExtractionModel()\
     .pretrained("re_human_phenotype_gene_clinical", "en", 'clinical/models')\
     .setInputCols(["embeddings", "pos_tags", "ner_chunks", "dependencies"])\
     .setOutputCol("relations")\
     .setRelationPairs(["hp-gene",'gene-hp'])\
     .setMaxSyntacticDistance(4)
-nlp_pipeline = Pipeline(stages=[document_assembler, sentence_detector, tokenizer, pos_tagger, dependecy_parser, word_embeddings, clinical_ner, ner_converter, clinical_re_Model])
+
+nlp_pipeline = Pipeline(stages=[document_assembler, sentence_detector, tokenizer, word_embeddings, pos_tagger, ner_tagger, ner_converter, dependecy_parser, clinical_re_Model])
 
 light_pipeline = LightPipeline(nlp_pipeline.fit(spark.createDataFrame([['']]).toDF("text")))
+
 annotations = light_pipeline.fullAnnotate("""Bilateral colobomatous microphthalmia and developmental delay in whom genetic studies identified a homozygous TENM3""")
 
 ```
 
 ```scala
-...
+val document_assembler = new DocumentAssembler()
+		.setInputCol("text"
+		.setOutputCol("document")
+
+val sentence_detector = new SentenceDetector()
+    .setInputCols("document")
+    .setOutputCol("sentences")
+
+val tokenizer = new Tokenizer()
+    .setInputCols("sentences")
+    .setOutputCol("tokens")
+
+val word_embeddings = WordEmbeddingsModel.pretrained("embeddings_clinical", "en", "clinical/models")
+    .setInputCols(Array("sentences", "tokens"))
+    .setOutputCol("embeddings")
+
+val pos_tagger = PerceptronModel()
+    .pretrained("pos_clinical", "en", "clinical/models")
+    .setInputCols(Array("sentences", "tokens"))
+    .setOutputCol("pos_tags")
+
+val ner_tagger = MedicalNerModel.pretrained("ner_clinical", "en", "clinical/models")
+    .setInputCols(Array("sentences", "tokens", "embeddings"))
+    .setOutputCol("ner_tags")
+
+val ner_converter = new NerConverter()
+    .setInputCols(Array("sentences", "tokens", "ner_tags"))
+    .setOutputCol("ner_chunks")
+
+val dependency_parser = DependencyParserModel()
+    .pretrained("dependency_conllu", "en")
+    .setInputCols(Array("sentences", "pos_tags", "tokens"))
+    .setOutputCol("dependencies")
 
 val clinical_re_Model = RelationExtractionModel()
-    .pretrained("re_human_phenotype_gene_clinical", "en", 'clinical/models')
+    .pretrained("re_human_phenotype_gene_clinical", "en", "clinical/models")
     .setInputCols(Array("embeddings", "pos_tags", "ner_chunks", "dependencies"))
     .setOutputCol("relations")
-    .setRelationPairs(Array("hp-gene",'gene-hp'))
+    .setRelationPairs(Array("hp-gene","gene-hp"))
     .setMaxSyntacticDistance(4)
 
-val pipeline = new Pipeline().setStages(Array(document_assembler, sentence_detector, tokenizer, pos_tagger, dependecy_parser, word_embeddings, clinical_ner, ner_converter, clinical_re_Model))
+val pipeline = new Pipeline().setStages(Array(document_assembler, sentence_detector, tokenizer, word_embeddings, pos_tagger, ner_tagger, ner_converter, dependency_parser, clinical_re_Model))
 
-val data = Seq("Bilateral colobomatous microphthalmia and developmental delay in whom genetic studies identified a homozygous TENM3").toDF("text")
+val data = Seq("""Bilateral colobomatous microphthalmia and developmental delay in whom genetic studies identified a homozygous TENM3""").toDS().toDF("text")
+
 val result = pipeline.fit(data).transform(data)
 ```
 
@@ -97,7 +166,7 @@ val result = pipeline.fit(data).transform(data)
 |---|---|
 |Model Name:|re_human_phenotype_gene_clinical|
 |Type:|re|
-|Compatibility:|Spark NLP for Healthcare 2.6.0 +|
+|Compatibility:|Healthcare NLP 2.6.0 +|
 |Edition:|Official|
 |License:|Licensed|
 |Input Labels:|[embeddings, pos_tags, ner_chunks, dependencies]|

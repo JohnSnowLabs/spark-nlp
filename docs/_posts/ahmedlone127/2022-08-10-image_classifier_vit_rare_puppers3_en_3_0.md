@@ -10,6 +10,7 @@ language: en
 edition: Spark NLP 4.1.0
 spark_version: 3.0
 supported: true
+annotator: ViTForImageClassification
 article_header:
   type: cover
 use_language_switcher: "Python-Scala-Java"
@@ -18,6 +19,11 @@ use_language_switcher: "Python-Scala-Java"
 ## Description
 
 Pretrained VIT  model, adapted from Hugging Face and curated to provide scalability and production-readiness using Spark NLP.`image_classifier_vit_rare_puppers3` is a English model originally trained by Samlit.
+
+
+## Predicted Entities
+
+`Marcelle Lender doing the Bolero in Chilperic`, `Moulin Rouge_ La Goulue - Henri Toulouse-Lautrec`, `Salon at the Rue des Moulins - Henri de Toulouse-Lautrec`, `aristide bruant - Henri de Toulouse-Lautrec`
 
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>

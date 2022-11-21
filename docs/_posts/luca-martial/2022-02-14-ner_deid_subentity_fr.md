@@ -7,9 +7,10 @@ date: 2022-02-14
 tags: [deid, fr, licensed]
 task: De-identification
 language: fr
-edition: Spark NLP for Healthcare 3.4.1
+edition: Healthcare NLP 3.4.1
 spark_version: 3.0
 supported: true
+annotator: MedicalNerModel
 article_header:
 type: cover
 use_language_switcher: "Python-Scala-Java"
@@ -166,7 +167,7 @@ nlu.load("fr.med_ner.deid_subentity").predict("""J'ai vu en consultation Michel 
 {:.table-model}
 |---|---|
 |Model Name:|ner_deid_subentity|
-|Compatibility:|Spark NLP for Healthcare 3.4.1+|
+|Compatibility:|Healthcare NLP 3.4.1+|
 |License:|Licensed|
 |Edition:|Official|
 |Input Labels:|[sentence, token, embeddings]|

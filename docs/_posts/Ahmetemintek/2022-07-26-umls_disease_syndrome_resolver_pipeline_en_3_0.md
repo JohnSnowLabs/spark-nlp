@@ -7,9 +7,10 @@ date: 2022-07-26
 tags: [en, licensed, umls, pipeline]
 task: Pipeline Healthcare
 language: en
-edition: Spark NLP for Healthcare 4.0.0
+edition: Healthcare NLP 4.0.0
 spark_version: 3.0
 supported: true
+annotator: PipelineModel
 article_header:
   type: cover
 use_language_switcher: "Python-Scala-Java"
@@ -64,7 +65,7 @@ val pipeline.annotate("A 34-year-old female with a history of poor appetite, ges
 |---|---|
 |Model Name:|umls_disease_syndrome_resolver_pipeline|
 |Type:|pipeline|
-|Compatibility:|Spark NLP for Healthcare 4.0.0+|
+|Compatibility:|Healthcare NLP 4.0.0+|
 |License:|Licensed|
 |Edition:|Official|
 |Language:|en|

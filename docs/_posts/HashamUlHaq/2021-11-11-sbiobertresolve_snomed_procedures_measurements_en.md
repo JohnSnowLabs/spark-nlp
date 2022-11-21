@@ -7,9 +7,10 @@ date: 2021-11-11
 tags: [en, entity_resolution, licensed, clinical]
 task: Entity Resolution
 language: en
-edition: Spark NLP for Healthcare 3.3.0
+edition: Healthcare NLP 3.3.0
 spark_version: 3.0
 supported: true
+annotator: SentenceEntityResolverModel
 article_header:
   type: cover
 use_language_switcher: "Python-Scala-Java"
@@ -98,7 +99,7 @@ val result = l_model.fullAnnotate(Array("coronary calcium score", "heart surgery
 {:.table-model}
 |---|---|
 |Model Name:|sbiobertresolve_snomed_procedures_measurements|
-|Compatibility:|Spark NLP for Healthcare 3.3.0+|
+|Compatibility:|Healthcare NLP 3.3.0+|
 |License:|Licensed|
 |Edition:|Official|
 |Input Labels:|[sentence_chunk_embeddings]|

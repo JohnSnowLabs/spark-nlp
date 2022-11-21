@@ -7,9 +7,10 @@ date: 2022-03-21
 tags: [licensed, ner, clinical, drug, en]
 task: [Named Entity Recognition, Pipeline Healthcare]
 language: en
-edition: Spark NLP for Healthcare 3.4.1
+edition: Healthcare NLP 3.4.1
 spark_version: 3.0
 supported: true
+annotator: PipelineModel
 article_header:
   type: cover
 use_language_switcher: "Python-Scala-Java"
@@ -95,7 +96,7 @@ pipeline.fullAnnotate("The patient is a 30-year-old female with a long history o
 |---|---|
 |Model Name:|ner_posology_small_pipeline|
 |Type:|pipeline|
-|Compatibility:|Spark NLP for Healthcare 3.4.1+|
+|Compatibility:|Healthcare NLP 3.4.1+|
 |License:|Licensed|
 |Edition:|Official|
 |Language:|en|

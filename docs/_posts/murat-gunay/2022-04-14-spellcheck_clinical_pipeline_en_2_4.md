@@ -7,9 +7,10 @@ date: 2022-04-14
 tags: [spellcheck, medical, medical_spell_checker, spell_corrector, spell_pipeline, en, licensed, clinical]
 task: Spell Check
 language: en
-edition: Spark NLP for Healthcare 3.4.1
+edition: Healthcare NLP 3.4.1
 spark_version: 2.4
 supported: true
+annotator: PipelineModel
 article_header:
   type: cover
 use_language_switcher: "Python-Scala-Java"
@@ -97,7 +98,7 @@ pipeline.fullAnnotate(example)
 |---|---|
 |Model Name:|spellcheck_clinical_pipeline|
 |Type:|pipeline|
-|Compatibility:|Spark NLP for Healthcare 3.4.1+|
+|Compatibility:|Healthcare NLP 3.4.1+|
 |License:|Licensed|
 |Edition:|Official|
 |Language:|en|

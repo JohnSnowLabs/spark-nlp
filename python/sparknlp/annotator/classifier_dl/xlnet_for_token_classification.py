@@ -13,13 +13,14 @@
 #  limitations under the License.
 """Contains classes for XlnetForTokenClassification."""
 
-
 from sparknlp.common import *
+from sparknlp.common.annotator_type import AnnotatorType
 
 
 class XlnetForTokenClassification(AnnotatorModel,
                                   HasCaseSensitiveProperties,
-                                  HasBatchedAnnotate):
+                                  HasBatchedAnnotate,
+                                  HasEngine):
     """XlnetForTokenClassification can load XLNet Models with a token
     classification head on top (a linear layer on top of the hidden-states
     output) e.g. for Named-Entity-Recognition (NER) tasks.
@@ -92,6 +93,8 @@ class XlnetForTokenClassification(AnnotatorModel,
     """
 
     name = "XlnetForTokenClassification"
+
+    inputAnnotatorTypes = [AnnotatorType.DOCUMENT, AnnotatorType.TOKEN]
 
     maxSentenceLength = Param(Params._dummy(),
                               "maxSentenceLength",
@@ -184,4 +187,3 @@ class XlnetForTokenClassification(AnnotatorModel,
         """
         from sparknlp.pretrained import ResourceDownloader
         return ResourceDownloader.downloadModel(XlnetForTokenClassification, name, lang, remote_loc)
-

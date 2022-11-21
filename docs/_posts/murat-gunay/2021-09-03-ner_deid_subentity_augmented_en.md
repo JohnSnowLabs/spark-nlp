@@ -7,9 +7,10 @@ date: 2021-09-03
 tags: [deid, ner, en, i2b2, licensed]
 task: Named Entity Recognition
 language: en
-edition: Spark NLP for Healthcare 3.2.0
+edition: Healthcare NLP 3.2.0
 spark_version: 2.4
 supported: true
+annotator: MedicalNerModel
 article_header:
 type: cover
 use_language_switcher: "Python-Scala-Java"
@@ -162,7 +163,7 @@ nlu.load("en.med_ner.deid.subentity_augmented").predict("""A. Record date : 2093
 {:.table-model}
 |---|---|
 |Model Name:|ner_deid_subentity_augmented|
-|Compatibility:|Spark NLP for Healthcare 3.2.0+|
+|Compatibility:|Healthcare NLP 3.2.0+|
 |License:|Licensed|
 |Edition:|Official|
 |Input Labels:|[sentence, token, embeddings]|

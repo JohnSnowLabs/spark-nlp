@@ -7,8 +7,8 @@ date: 2022-08-17
 tags: [en, finance, assertion, status, competitors, licensed]
 task: Assertion Status
 language: en
-edition: Spark NLP for Finance 1.0.0
-spark_version: 3.2
+edition: Finance NLP 1.0.0
+spark_version: 3.0
 supported: true
 article_header:
   type: cover
@@ -34,6 +34,7 @@ This models allows you to identify ORG and PRODUCTS mentioned in the text to be 
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
+
 ```python
 # Annotator that transforms a text column from dataframe into an Annotation ready for NLP
 
@@ -109,7 +110,7 @@ model.transform(spark.createDataFrame([[text]]).toDF("text")).select(F.explode(F
 |---|---|
 |Model Name:|finassertion_competitors|
 |Type:|finance|
-|Compatibility:|Spark NLP for Finance 1.0.0+|
+|Compatibility:|Finance NLP 1.0.0+|
 |License:|Licensed|
 |Edition:|Official|
 |Input Labels:|[document, doc_chunk, embeddings]|
@@ -124,10 +125,9 @@ In-house annotations from 10K Filings
 ## Benchmarking
 
 ```bash
-label	 tp	 fp	 fn	 prec	 rec	 f1
-NO_COMPETITOR	 158	 0	 1	 1.0	 0.9937107	 0.9968454
-COMPETITOR	 25	 1	 0	 0.96153843	 1.0	 0.98039216
-tp: 183 fp: 1 fn: 1 labels: 2
-Macro-average	 prec: 0.9807692, rec: 0.9968554, f1: 0.9887469
-Micro-average	 prec: 0.9945652, rec: 0.9945652, f1: 0.9945652
-```
+label             tp     fp    fn   prec        rec          f1
+NO_COMPETITOR     158    0     1    1.0         0.9937107    0.9968454
+COMPETITOR        25     1     0    0.9615384   1.0          0.9803921
+Macro-average     183    1     1    0.9807692   0.9968554    0.9887469
+Micro-average     183    1     1    0.9945652   0.9945652    0.9945652
+``` 

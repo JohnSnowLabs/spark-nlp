@@ -7,9 +7,10 @@ date: 2022-10-02
 tags: [de, legal, ner, laws, court, licensed]
 task: Named Entity Recognition
 language: de
-edition: Spark NLP for Legal 1.0.0
+edition: Legal NLP 1.0.0
 spark_version: 3.0
 supported: true
+annotator: BertForTokenClassification
 article_header:
   type: cover
 use_language_switcher: "Python-Scala-Java"
@@ -59,6 +60,7 @@ German Named Entity Recognition model, trained using large German Base Bert mode
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
+
 ```python
 document_assembler = nlp.DocumentAssembler()\
     .setInputCol("text")\
@@ -135,7 +137,7 @@ result.select(F.explode(F.arrays_zip('ner_chunk.result', 'ner_chunk.metadata')).
 {:.table-model}
 |---|---|
 |Model Name:|legner_bert_large_courts|
-|Compatibility:|Spark NLP for Legal 1.0.0+|
+|Compatibility:|Legal NLP 1.0.0+|
 |License:|Licensed|
 |Edition:|Official|
 |Input Labels:|[document, token]|
@@ -158,9 +160,7 @@ Court decisions from 2017 and 2018 were selected for the dataset, published onli
 ## Benchmarking
 
 ```bash
-+---------------+-------+------------+------+-------------+-----+------------+
-| Macro-average | prec: | 0.9361195, | rec: | 0.92941516, | f1: | 0.93681455 |
-+---------------+-------+------------+------+-------------+-----+------------+
-| Micro-average | prec: | 0.9856711, | rec: | 0.9857456,  | f1: | 0.9851656  |
-+---------------+-------+------------+------+-------------+-----+------------+
+        label        prec         rec          f1
+Macro-average   0.9361195   0.9294152   0.9368145
+Micro-average   0.9856711   0.9857456   0.9851656 
 ```

@@ -7,9 +7,10 @@ date: 2022-09-09
 tags: [en, finance, companies, tickers, nasdaq, licensed]
 task: Entity Resolution
 language: en
-edition: Spark NLP for Finance 1.0.0
-spark_version: 3.2
+edition: Finance NLP 1.0.0
+spark_version: 3.0
 supported: true
+annotator: SentenceEntityResolverModel
 article_header:
   type: cover
 use_language_switcher: "Python-Scala-Java"
@@ -34,6 +35,7 @@ This is an Entity Resolution / Entity Linking model, which is able to provide Co
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
+
 ```python
 documentAssembler = nlp.DocumentAssembler()\
       .setInputCol("text")\
@@ -79,7 +81,7 @@ lp.fullAnnotate("unit")
 |---|---|
 |Model Name:|finel_tickers2names|
 |Type:|finance|
-|Compatibility:|Spark NLP for Finance 1.0.0+|
+|Compatibility:|Finance NLP 1.0.0+|
 |License:|Licensed|
 |Edition:|Official|
 |Input Labels:|[sentence_embeddings]|

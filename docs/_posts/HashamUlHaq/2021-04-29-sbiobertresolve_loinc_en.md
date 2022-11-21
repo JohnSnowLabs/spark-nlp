@@ -7,7 +7,7 @@ date: 2021-04-29
 tags: [en, licensed, clinical, entity_resolution]
 task: Entity Resolution
 language: en
-edition: Spark NLP for Healthcare 3.0.0
+edition: Healthcare NLP 3.0.0
 spark_version: 3.0
 supported: true
 article_header:
@@ -34,20 +34,49 @@ LOINC codes - per input NER entity
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
+
 ```python
-...
-chunk2doc = Chunk2Doc().setInputCols("ner_chunk").setOutputCol("ner_chunk_doc")
+documentAssembler = DocumentAssembler()\
+    .setInputCol('text')\
+    .setOutputCol('document')
 
-sbert_embedder = BertSentenceEmbeddings\
-.pretrained("sbiobert_base_cased_mli","en","clinical/models")\
-.setInputCols(["ner_chunk_doc"])\
-.setOutputCol("sbert_embeddings")
+sentenceDetector = SentenceDetector() \
+    .setInputCols(["document"]) \
+    .setOutputCol("sentence")
 
-resolver = SentenceEntityResolverModel\
-.pretrained("sbiobertresolve_loinc","en", "clinical/models") \
-.setInputCols(["ner_chunk", "sbert_embeddings"]) \
-.setOutputCol("resolution")\
-.setDistanceFunction("EUCLIDEAN")
+tokenizer = Tokenizer() \
+    .setInputCols(["sentence"]) \
+    .setOutputCol("token")
+
+stopwords = StopWordsCleaner.pretrained()\
+    .setInputCols("token")\
+    .setOutputCol("cleanTokens")\
+    .setCaseSensitive(False)
+
+word_embeddings = WordEmbeddingsModel.pretrained("embeddings_clinical", "en", "clinical/models")\
+    .setInputCols(["sentence", "cleanTokens"])\
+    .setOutputCol("embeddings")
+
+clinical_ner = MedicalNerModel.pretrained("ner_clinical", "en", "clinical/models") \
+    .setInputCols(["sentence", "token", "embeddings"]) \
+    .setOutputCol("ner")
+
+ner_converter = NerConverter() \
+    .setInputCols(["sentence", "cleanTokens", "ner"]) \
+    .setOutputCol("ner_chunk")
+
+chunk2doc = Chunk2Doc()\
+    .setInputCols("ner_chunk")\
+    .setOutputCol("ner_chunk_doc")
+
+sbert_embedder = BertSentenceEmbeddings.pretrained("sbiobert_base_cased_mli","en","clinical/models")\
+    .setInputCols(["ner_chunk_doc"])\
+    .setOutputCol("sbert_embeddings")
+
+resolver = SentenceEntityResolverModel.pretrained("sbiobertresolve_loinc","en", "clinical/models") \
+    .setInputCols(["ner_chunk", "sbert_embeddings"]) \
+    .setOutputCol("resolution")\
+    .setDistanceFunction("EUCLIDEAN")
 
 pipeline_loinc = Pipeline(stages = [documentAssembler, sentenceDetector, tokenizer, stopwords, word_embeddings, clinical_ner, ner_converter, chunk2doc, sbert_embedder, resolver])
 
@@ -56,8 +85,55 @@ data = spark.createDataFrame([["""A 28-year-old female with a history of gestati
 results = pipeline_loinc.fit(data).transform(data)
 
 ```
+```scala
+val documentAssembler = new DocumentAssembler()
+    .setInputCol("text")
+    .setOutputCol("document")
 
+val sentenceDetector = new SentenceDetector()
+    .setInputCols("document")
+    .setOutputCol("sentence")
 
+val tokenizer = new Tokenizer()
+    .setInputCols("sentence")
+    .setOutputCol("token")
+
+val stopwords = StopWordsCleaner.pretrained()
+    .setInputCols("token")
+    .setOutputCol("cleanTokens")
+    .setCaseSensitive(False)
+
+val word_embeddings = WordEmbeddingsModel.pretrained("embeddings_clinical", "en", "clinical/models")
+    .setInputCols(Array("sentence", "cleanTokens"))
+    .setOutputCol("embeddings")
+
+val clinical_ner = MedicalNerModel.pretrained("ner_clinical", "en", "clinical/models")
+    .setInputCols(Array("sentence", "token", "embeddings"))
+    .setOutputCol("ner")
+
+val ner_converter = new NerConverter() 
+    .setInputCols(Array("sentence", "cleanTokens", "ner"))
+    .setOutputCol("ner_chunk")
+
+val chunk2doc = new Chunk2Doc()
+    .setInputCols("ner_chunk")
+    .setOutputCol("ner_chunk_doc")
+
+val sbert_embedder = BertSentenceEmbeddings.pretrained("sbiobert_base_cased_mli","en","clinical/models")
+    .setInputCols("ner_chunk_doc"])
+    .setOutputCol("sbert_embeddings")
+
+val resolver = SentenceEntityResolverModel.pretrained("sbiobertresolve_loinc","en", "clinical/models")
+    .setInputCols(Array("ner_chunk", "sbert_embeddings"))
+    .setOutputCol("resolution")
+    .setDistanceFunction("EUCLIDEAN")
+
+val pipeline_loinc = new Pipeline().setStages(Array(documentAssembler, sentenceDetector, tokenizer, stopwords, word_embeddings, clinical_ner, ner_converter, chunk2doc, sbert_embedder, resolver))
+
+val data = Seq("""A 28-year-old female with a history of gestational diabetes mellitus diagnosed eight years prior to presentation and subsequent type two diabetes mellitus (T2DM), one prior episode of HTG-induced pancreatitis three years prior to presentation, associated with an acute hepatitis, and obesity with a body mass index (BMI) of 33.5 kg/m2, presented with a one-week history of polyuria, polydipsia, poor appetite, and vomiting.""").toDS().toDF("text")
+
+val results = pipeline_loinc.fit(data).transform(data)
+```
 
 {:.nlu-block}
 ```python
@@ -93,7 +169,7 @@ nlu.load("en.resolve.loinc").predict("""A 28-year-old female with a history of g
 {:.table-model}
 |---|---|
 |Model Name:|sbiobertresolve_loinc|
-|Compatibility:|Spark NLP for Healthcare 3.0.0+|
+|Compatibility:|Healthcare NLP 3.0.0+|
 |License:|Licensed|
 |Edition:|Official|
 |Input Labels:|[sentence_embeddings]|

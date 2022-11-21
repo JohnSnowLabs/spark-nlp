@@ -51,7 +51,7 @@ SENTENCE_EMBEDDINGS
 {%- endcapture -%}
 
 {%- capture python_api_link -%}
-[XlmRoBertaSentenceEmbeddings](/api/python/reference/autosummary/sparknlp/annotator/embeddings/xlm_roberta_sentence_embeddings/index.html#sparknlp.annotator.embeddings.xlm_roberta_sentence_embeddings.XlmRoBertaSentenceEmbeddings)
+[XlmRoBertaSentenceEmbeddings](/api/python/reference/autosummary/python/sparknlp/annotator/embeddings/xlm_roberta_sentence_embeddings/index.html#sparknlp.annotator.embeddings.xlm_roberta_sentence_embeddings.XlmRoBertaSentenceEmbeddings)
 {%- endcapture -%}
 
 {%- capture api_link -%}

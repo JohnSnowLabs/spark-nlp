@@ -7,9 +7,10 @@ date: 2022-06-29
 tags: [licensed, clinical, en, pathogen, ner, medicine, medical_condition, pipeline]
 task: Pipeline Healthcare
 language: en
-edition: Spark NLP for Healthcare 4.0.0
+edition: Healthcare NLP 4.0.0
 spark_version: 3.0
 supported: true
+annotator: PipelineModel
 article_header:
 type: cover
 use_language_switcher: "Python-Scala-Java"
@@ -78,7 +79,7 @@ nlu.load("en.med_ner.pathogen.pipeline").predict("""Racecadotril is an antisecre
 |---|---|
 |Model Name:|ner_pathogen_pipeline|
 |Type:|pipeline|
-|Compatibility:|Spark NLP for Healthcare 4.0.0+|
+|Compatibility:|Healthcare NLP 4.0.0+|
 |License:|Licensed|
 |Edition:|Official|
 |Language:|en|

@@ -7,9 +7,10 @@ date: 2022-04-04
 tags: [en, chunkmapping, chunkmapper, drug, action, treatment, licensed]
 task: Chunk Mapping
 language: en
-edition: Spark NLP for Healthcare 3.4.2
+edition: Healthcare NLP 3.4.2
 spark_version: 3.0
 supported: true
+annotator: ChunkMapperModel
 article_header:
 type: cover
 use_language_switcher: "Python-Scala-Java"
@@ -49,11 +50,11 @@ tokenizer = Tokenizer()\
     .setOutputCol("token")
 
 ner =  MedicalBertForTokenClassifier.pretrained("bert_token_classifier_drug_development_trials", "en", "clinical/models")\
-    .setInputCols("token","sentence")\
+    .setInputCols(["token","sentence"])\
     .setOutputCol("ner")
 
 nerconverter = NerConverterInternal()\
-    .setInputCols("sentence", "token", "ner")\
+    .setInputCols(["sentence", "token", "ner"])\
     .setOutputCol("drug")
 
 chunkerMapper = ChunkMapperModel.pretrained("drug_action_treatment_mapper", "en", "clinical/models") \
@@ -81,7 +82,7 @@ val document_assembler = DocumentAssembler()
     .setOutputCol("document")
 
 val sentence_detector = SentenceDetector()
-    .setInputCols("document")
+    .setInputCols(Array("document"))
     .setOutputCol("sentence")
 
 val tokenizer = Tokenizer()
@@ -89,7 +90,7 @@ val tokenizer = Tokenizer()
     .setOutputCol("token")
 
 val ner =  MedicalBertForTokenClassifier.pretrained("bert_token_classifier_drug_development_trials", "en", "clinical/models")
-    .setInputCols("token","sentence")
+    .setInputCols(Array("token","sentence"))
     .setOutputCol("ner")
 
 val nerconverter = NerConverterInternal()
@@ -140,7 +141,7 @@ Cureent Medications: Diprivan, Proventil
 {:.table-model}
 |---|---|
 |Model Name:|drug_action_treatment_mapper|
-|Compatibility:|Spark NLP for Healthcare 3.4.2+|
+|Compatibility:|Healthcare NLP 3.4.2+|
 |License:|Licensed|
 |Edition:|Official|
 |Input Labels:|[ner_chunk]|

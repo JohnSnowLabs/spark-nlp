@@ -7,9 +7,10 @@ date: 2022-07-20
 tags: [en, licensed]
 task: OCR Document Classification
 language: en
-edition: Spark OCR 3.14.0
+edition: Visual NLP 3.14.0
 spark_version: 3.0
 supported: true
+annotator: VisualDocumentClassifierv2
 article_header:
   type: cover
 use_language_switcher: "Python-Scala-Java"
@@ -96,7 +97,7 @@ This model uses LayoutLMv2 to classify documents. It was trained on subset of RV
 |---|---|
 |Model Name:|layoutlmv2_rvl_cdip_40k|
 |Type:|ocr|
-|Compatibility:|Spark OCR 3.14.0+|
+|Compatibility:|Visual NLP 3.14.0+|
 |License:|Licensed|
 |Edition:|Official|
 |Language:|en|

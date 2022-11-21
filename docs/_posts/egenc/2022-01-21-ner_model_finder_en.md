@@ -7,9 +7,10 @@ date: 2022-01-21
 tags: [pretrainedpipeline, clinical, ner, en, licensed]
 task: Pipeline Healthcare
 language: en
-edition: Spark NLP for Healthcare 3.3.2
+edition: Healthcare NLP 3.3.2
 spark_version: 2.4
 supported: true
+annotator: PipelineModel
 article_header:
   type: cover
 use_language_switcher: "Python-Scala-Java"
@@ -57,7 +58,7 @@ val result = ner_pipeline.annotate("medication")
 |---|---|
 |Model Name:|ner_model_finder|
 |Type:|pipeline|
-|Compatibility:|Spark NLP for Healthcare 3.3.2+|
+|Compatibility:|Healthcare NLP 3.3.2+|
 |License:|Licensed|
 |Edition:|Official|
 |Language:|en|

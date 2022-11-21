@@ -10,6 +10,7 @@ language: en
 edition: Spark NLP 3.3.3
 spark_version: 3.0
 supported: true
+annotator: BertEmbeddings
 article_header:
 type: cover
 use_language_switcher: "Python-Scala-Java"
@@ -35,38 +36,38 @@ Electra model fine tuned on MeDAL, a large dataset on abbreviation disambiguatio
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
 ```python
-documentAssembler= nlp.DocumentAssembler()\
+documentAssembler= DocumentAssembler()\
 .setInputCol("text")\
 .setOutputCol("document")
 
-sentenceDetector = nlp.SentenceDetector()\
+sentenceDetector = SentenceDetector()\
 .setInputCols(["document"])\
 .setOutputCol("sentence")
 
-tokenizer= nlp.Tokenizer()\
+tokenizer= Tokenizer()\
 .setInputCols(["sentence"])\
 .setOutputCol("token")
 
-embeddings = nlp.BertEmbeddings.pretrained("electra_medal_acronym", "en") \
+embeddings = BertEmbeddings.pretrained("electra_medal_acronym", "en") \
 .setInputCols("sentence", "token") \
 .setOutputCol("embeddings")
 
 nlpPipeline= Pipeline(stages=[documentAssembler, sentenceDetector, tokenizer, embeddings])
 ```
 ```scala
-val documentAssembler = new nlp.DocumentAssembler()
+val documentAssembler = new DocumentAssembler()
 .setInputCol("text")
 .setOutputCol("document")
 
-val sentenceDetector = new nlp.SentenceDetector()
+val sentenceDetector = new SentenceDetector()
 .setInputCols(Array("document"))
 .setOutputCol("sentence")
 
-val tokenizer = new nlp.Tokenizer()
+val tokenizer = new Tokenizer()
 .setInputCols(Array("sentence"))
 .setOutputCol("token")
 
-val embeddings = nlp.BertEmbeddings.pretrained("electra_medal_acronym", "en") 
+val embeddings = BertEmbeddings.pretrained("electra_medal_acronym", "en") 
 .setInputCols("sentence", "token")
 .setOutputCol("embeddings")
 

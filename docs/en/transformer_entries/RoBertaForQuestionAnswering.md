@@ -100,7 +100,7 @@ result.select("label.result").show(false)
 {%- endcapture -%}
 
 {%- capture python_api_link -%}
-[RoBertaForQuestionAnswering](/api/python/reference/autosummary/sparknlp/annotator/classifier_dl/roberta_for_question_answering/index.html#sparknlp.annotator.classifier_dl.roberta_for_question_answering.RoBertaForQuestionAnswering)
+[RoBertaForQuestionAnswering](/api/python/reference/autosummary/python/sparknlp/annotator/classifier_dl/roberta_for_question_answering/index.html#sparknlp.annotator.classifier_dl.roberta_for_question_answering.RoBertaForQuestionAnswering)
 {%- endcapture -%}
 
 {%- capture source_link -%}

@@ -16,6 +16,7 @@
 from sparknlp.annotator.param import EvaluationDLParams, ClassifierEncoder
 from sparknlp.base import DocumentAssembler
 from sparknlp.common import *
+from sparknlp.common.annotator_type import AnnotatorType
 
 
 class ClassifierDLApproach(AnnotatorApproach, EvaluationDLParams, ClassifierEncoder):
@@ -114,6 +115,7 @@ class ClassifierDLApproach(AnnotatorApproach, EvaluationDLParams, ClassifierEnco
     MultiClassifierDLApproach : for multi-class classification
     SentimentDLApproach : for sentiment analysis
     """
+    inputAnnotatorTypes = [AnnotatorType.SENTENCE_EMBEDDINGS]
 
     dropout = Param(Params._dummy(), "dropout", "Dropout coefficient", TypeConverters.toFloat)
 
@@ -145,7 +147,7 @@ class ClassifierDLApproach(AnnotatorApproach, EvaluationDLParams, ClassifierEnco
         )
 
 
-class ClassifierDLModel(AnnotatorModel, HasStorageRef):
+class ClassifierDLModel(AnnotatorModel, HasStorageRef, HasEngine):
     """ClassifierDL for generic Multi-class Text Classification.
 
     ClassifierDL uses the state-of-the-art Universal Sentence Encoder as an
@@ -235,6 +237,8 @@ class ClassifierDLModel(AnnotatorModel, HasStorageRef):
 
     name = "ClassifierDLModel"
 
+    inputAnnotatorTypes = [AnnotatorType.SENTENCE_EMBEDDINGS]
+
     def __init__(self, classname="com.johnsnowlabs.nlp.annotators.classifier.dl.ClassifierDLModel", java_model=None):
         super(ClassifierDLModel, self).__init__(
             classname=classname,
@@ -280,4 +284,3 @@ class ClassifierDLModel(AnnotatorModel, HasStorageRef):
         """
         from sparknlp.pretrained import ResourceDownloader
         return ResourceDownloader.downloadModel(ClassifierDLModel, name, lang, remote_loc)
-

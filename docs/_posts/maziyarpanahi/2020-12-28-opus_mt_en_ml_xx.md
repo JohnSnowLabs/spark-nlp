@@ -10,6 +10,7 @@ edition: Spark NLP 2.7.0
 spark_version: 2.4
 tags: [open_source, seq2seq, translation, en, ml, xx]
 supported: true
+annotator: MarianTransformer
 article_header:
 type: cover
 use_language_switcher: "Python-Scala-Java"

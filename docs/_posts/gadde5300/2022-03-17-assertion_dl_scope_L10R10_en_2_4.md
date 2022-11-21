@@ -7,9 +7,10 @@ date: 2022-03-17
 tags: [clinical, en, assertion, licensed]
 task: Assertion Status
 language: en
-edition: Spark NLP for Healthcare 3.4.2
+edition: Healthcare NLP 3.4.2
 spark_version: 2.4
 supported: true
+annotator: AssertionDLModel
 article_header:
   type: cover
 use_language_switcher: "Python-Scala-Java"
@@ -151,7 +152,7 @@ val result = pipeline.fit(data).transform(data)
 {:.table-model}
 |---|---|
 |Model Name:|assertion_dl_scope_L10R10|
-|Compatibility:|Spark NLP for Healthcare 3.4.2+|
+|Compatibility:|Healthcare NLP 3.4.2+|
 |License:|Licensed|
 |Edition:|Official|
 |Input Labels:|[document, chunk, embeddings]|

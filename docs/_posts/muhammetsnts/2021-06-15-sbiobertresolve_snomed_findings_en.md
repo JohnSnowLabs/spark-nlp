@@ -7,9 +7,10 @@ date: 2021-06-15
 tags: [en, licensed, entity_resolution, clinical]
 task: Entity Resolution
 language: en
-edition: Spark NLP for Healthcare 3.1.0
+edition: Healthcare NLP 3.1.0
 spark_version: 3.0
 supported: true
+annotator: SentenceEntityResolverModel
 article_header:
 type: cover
 use_language_switcher: "Python-Scala-Java"
@@ -112,7 +113,7 @@ nlu.load("en.resolve.snomed.findings").predict("""This is an 82 - year-old male 
 {:.table-model}
 |---|---|
 |Model Name:|sbiobertresolve_snomed_findings|
-|Compatibility:|Spark NLP for Healthcare 3.1.0+|
+|Compatibility:|Healthcare NLP 3.1.0+|
 |License:|Licensed|
 |Edition:|Official|
 |Input Labels:|[ner_chunk, sbert_embeddings]|

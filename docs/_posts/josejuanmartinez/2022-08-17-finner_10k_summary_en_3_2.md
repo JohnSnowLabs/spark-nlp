@@ -7,8 +7,8 @@ date: 2022-08-17
 tags: [en, finance, ner, annual, reports, 10k, filings, licensed]
 task: Named Entity Recognition
 language: en
-edition: Spark NLP for Finance 1.0.0
-spark_version: 3.2
+edition: Finance NLP 1.0.0
+spark_version: 3.0
 supported: true
 article_header:
   type: cover
@@ -16,6 +16,10 @@ use_language_switcher: "Python-Scala-Java"
 ---
 
 ## Description
+
+IMPORTANT: Don't run this model on the whole financial report. Instead:
+- Split by paragraphs;
+- Use the `finclf_form_10k_summary_item` Text Classifier to select only these paragraphs;
 
 This Financial NER Model is aimed to process the first summary page of 10K filings and extract the information about the Company submitting the filing, trading data, address / phones, CFN, IRS, etc.
 
@@ -34,6 +38,7 @@ This Financial NER Model is aimed to process the first summary page of 10K filin
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
+
 ```python
 document_assembler = nlp.DocumentAssembler()\
     .setInputCol("text")\
@@ -134,7 +139,7 @@ result.select(F.explode(F.arrays_zip('ner_chunk.result', 'ner_chunk.metadata')).
 |---|---|
 |Model Name:|finner_10k_summary|
 |Type:|finance|
-|Compatibility:|Spark NLP for Finance 1.0.0+|
+|Compatibility:|Finance NLP 1.0.0+|
 |License:|Licensed|
 |Edition:|Official|
 |Input Labels:|[sentence, token, embeddings]|
@@ -149,8 +154,7 @@ Manual annotations on 10-K Filings
 ## Benchmarking
 
 ```bash
-                      precision    recall  f1-score   support
-
+              label  precision    recall  f1-score   support
       B-TITLE_CLASS       1.00      1.00      1.00        15
       I-TITLE_CLASS       1.00      1.00      1.00        21
               B-ORG       0.84      0.66      0.74        62

@@ -7,9 +7,10 @@ date: 2021-09-23
 tags: [ner, ner_profiling, clinical, licensed, en]
 task: Pipeline Healthcare
 language: en
-edition: Spark NLP for Healthcare 3.2.3
+edition: Healthcare NLP 3.2.3
 spark_version: 2.4
 supported: true
+annotator: PipelineModel
 article_header:
 type: cover
 use_language_switcher: "Python-Scala-Java"
@@ -91,7 +92,7 @@ sentence :  ['A 28-year-old female with a history of gestational diabetes mellit
 |---|---|
 |Model Name:|ner_profiling_biobert|
 |Type:|pipeline|
-|Compatibility:|Spark NLP for Healthcare 3.2.3+|
+|Compatibility:|Healthcare NLP 3.2.3+|
 |License:|Licensed|
 |Edition:|Official|
 |Language:|en|

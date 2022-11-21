@@ -7,9 +7,10 @@ date: 2022-09-21
 tags: [xx, licensed]
 task: OCR Object Detection
 language: xx
-edition: Spark OCR 4.0.0
+edition: Visual NLP 4.0.0
 spark_version: 3.2
 supported: true
+annotator: VisualDocumentNERv21
 article_header:
   type: cover
 use_language_switcher: "Python-Scala-Java"
@@ -118,7 +119,7 @@ results.withColumn('filename', path_array.getItem(f.size(path_array)- 1)) \
 |---|---|
 |Model Name:|visualner_receipts|
 |Type:|ocr|
-|Compatibility:|Spark OCR 4.0.0+|
+|Compatibility:|Visual NLP 4.0.0+|
 |License:|Licensed|
 |Edition:|Official|
 |Language:|xx|

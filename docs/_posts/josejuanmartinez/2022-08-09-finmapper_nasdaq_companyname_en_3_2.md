@@ -7,8 +7,8 @@ date: 2022-08-09
 tags: [en, finance, companies, tickers, nasdaq, data, augmentation, licensed]
 task: Chunk Mapping
 language: en
-edition: Spark NLP for Finance 1.0.0
-spark_version: 3.2
+edition: Finance NLP 1.0.0
+spark_version: 3.0
 supported: true
 article_header:
   type: cover
@@ -34,6 +34,7 @@ This model allows you to, given an extracted name of a company, get information 
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
+
 ```python
 
 document_assembler = nlp.DocumentAssembler()\
@@ -99,7 +100,7 @@ res.select('mappings').collect()
 |---|---|
 |Model Name:|finmapper_nasdaq_companyname|
 |Type:|finance|
-|Compatibility:|Spark NLP for Finance 1.0.0+|
+|Compatibility:|Finance NLP 1.0.0+|
 |License:|Licensed|
 |Edition:|Official|
 |Input Labels:|[ner_chunk]|

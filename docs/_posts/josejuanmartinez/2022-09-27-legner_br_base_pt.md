@@ -7,9 +7,10 @@ date: 2022-09-27
 tags: [pt, licensed]
 task: Named Entity Recognition
 language: pt
-edition: Spark NLP for Legal 1.0.0
+edition: Legal NLP 1.0.0
 spark_version: 3.0
 supported: true
+annotator: LegalNerModel
 article_header:
   type: cover
 use_language_switcher: "Python-Scala-Java"
@@ -48,24 +49,25 @@ You can find different versions of this model in Models Hub:
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
+
 ```python
-document_assembler = DocumentAssembler() \
+document_assembler = nlp.DocumentAssembler() \
     .setInputCol('text') \
     .setOutputCol('document')
 
-tokenizer = Tokenizer() \
+tokenizer = nlp.Tokenizer() \
     .setInputCols(['document']) \
     .setOutputCol('token')
 
-embeddings = BertEmbeddings.pretrained("bert_portuguese_base_cased", "pt")\
+embeddings = nlp.BertEmbeddings.pretrained("bert_portuguese_base_cased", "pt")\
     .setInputCols("document", "token") \
     .setOutputCol("embeddings")
 
-ner_model = LegalNerModel.pretrained('legner_br_base', 'pt', 'legal/models') \
+ner_model = legal.NerModel.pretrained('legner_br_base', 'pt', 'legal/models') \
     .setInputCols(['document', 'token', 'embeddings']) \
     .setOutputCol('ner')
 
-ner_converter = NerConverter() \
+ner_converter = nlp.NerConverter() \
     .setInputCols(['document', 'token', 'ner']) \
     .setOutputCol('ner_chunk')
 
@@ -203,7 +205,7 @@ result = pipeline.fit(example).transform(example)
 {:.table-model}
 |---|---|
 |Model Name:|legner_br_base|
-|Compatibility:|Spark NLP for Legal 1.0.0+|
+|Compatibility:|Legal NLP 1.0.0+|
 |License:|Licensed|
 |Edition:|Official|
 |Input Labels:|[sentence, token, embeddings]|

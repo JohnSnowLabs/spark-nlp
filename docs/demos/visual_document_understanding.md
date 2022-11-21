@@ -24,8 +24,6 @@ data:
           id: classify_visual_documents
           image: 
               src: /assets/images/Classify_visual_documents.svg
-          image2: 
-              src: /assets/images/Classify_visual_documents_f.svg
           excerpt: Classify documents using text and layout data with the new features offered by Spark OCR.
           actions:
           - text: Live Demo
@@ -38,8 +36,6 @@ data:
           id: extract-data-from-foundationone-sequencing-reports
           image: 
               src: /assets/images/correct.svg
-          image2: 
-              src: /assets/images/correct_f.svg
           excerpt: Extract patient, genomic and biomarker information from FoundationOne Sequencing Reports.
           actions:
           - text: Live Demo
@@ -52,8 +48,6 @@ data:
           id: recognize_entities_in_scanned_pdfs
           image: 
               src: /assets/images/Recognize_text_in_natural_scenes.svg
-          image2: 
-              src: /assets/images/Recognize_text_in_natural_scenes_f.svg
           excerpt: 'End-to-end example of regular NER pipeline: import scanned images from cloud storage, preprocess them for improving their quality, recognize text using Spark OCR, correct the spelling mistakes for improving OCR results and finally run NER for extracting entities.'
           actions:
           - text: Live Demo
@@ -66,8 +60,6 @@ data:
           id: extract_brands_from_visual_documents 
           image: 
               src: /assets/images/Extract_brands_from_visual_documents.svg
-          image2: 
-              src: /assets/images/Extract_brands_from_visual_documents_f.svg
           excerpt: This demo shows how brands from image can be detected using Spark OCR.
           actions:
           - text: Live Demo

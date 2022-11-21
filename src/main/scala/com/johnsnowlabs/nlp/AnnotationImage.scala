@@ -66,6 +66,34 @@ case class AnnotationImage(
     }
   }
 
+  def getAnnotatorType: String = {
+    annotatorType
+  }
+
+  def getOrigin: String = {
+    origin
+  }
+
+  def getHeight: Int = {
+    height
+  }
+
+  def getWidth: Int = {
+    width
+  }
+
+  def getChannels: Int = {
+    nChannels
+  }
+
+  def getMode: Int = {
+    mode
+  }
+
+  def getMetadata: Map[String, String] = {
+    metadata
+  }
+
 }
 
 object AnnotationImage {

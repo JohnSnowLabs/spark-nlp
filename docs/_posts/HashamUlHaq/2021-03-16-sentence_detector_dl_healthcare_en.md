@@ -7,9 +7,10 @@ date: 2021-03-16
 tags: [en, sentence_detection, licensed, clinical]
 task: Sentence Detection
 language: en
-edition: Spark NLP for Healthcare 2.7.0
+edition: Healthcare NLP 2.7.0
 spark_version: 2.4
 supported: true
+annotator: SentenceDetectorDLModel
 article_header:
 type: cover
 use_language_switcher: "Python-Scala-Java"
@@ -85,7 +86,7 @@ nlu.load("en.detect_sentence.clinical").predict("""He was given boluses of MS04 
 {:.table-model}
 |---|---|
 |Model Name:|sentence_detector_dl_healthcare|
-|Compatibility:|Spark NLP for Healthcare 2.7.0+|
+|Compatibility:|Healthcare NLP 2.7.0+|
 |License:|Licensed|
 |Edition:|Official|
 |Input Labels:|[document]|

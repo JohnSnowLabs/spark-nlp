@@ -14,6 +14,7 @@
 """Contains classes for BertEmbeddings."""
 
 from sparknlp.common import *
+from sparknlp.common.annotator_type import AnnotatorType
 
 
 class BertEmbeddings(AnnotatorModel,
@@ -129,6 +130,8 @@ class BertEmbeddings(AnnotatorModel,
     """
 
     name = "BertEmbeddings"
+
+    inputAnnotatorTypes = [AnnotatorType.DOCUMENT, AnnotatorType.TOKEN]
 
     maxSentenceLength = Param(Params._dummy(),
                               "maxSentenceLength",

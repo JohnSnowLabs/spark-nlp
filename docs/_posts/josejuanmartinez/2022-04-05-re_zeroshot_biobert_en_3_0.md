@@ -7,9 +7,10 @@ date: 2022-04-05
 tags: [zero, shot, zero_shot, en, licensed]
 task: Relation Extraction
 language: en
-edition: Spark NLP for Healthcare 3.5.0
+edition: Healthcare NLP 3.5.0
 spark_version: 3.0
 supported: true
+annotator: ZeroShotRelationExtractionModel
 article_header:
 type: cover
 use_language_switcher: "Python-Scala-Java"
@@ -17,7 +18,7 @@ use_language_switcher: "Python-Scala-Java"
 
 ## Description
 
-Zero-shot Relation Extraction to extract relations between clinical entities with no training dataset, just pretrained BioBert embeddings (included in the model). This model requires Spark NLP for Healthcare 3.5.0. 
+Zero-shot Relation Extraction to extract relations between clinical entities with no training dataset, just pretrained BioBert embeddings (included in the model). This model requires Healthcare NLP 3.5.0. 
 
 Take a look at how it works in the "Open in Colab" section below.
 
@@ -117,51 +118,51 @@ results\
 ```scala
 val data = spark.createDataFrame(Seq("Paracetamol can alleviate headache or sickness. An MRI test can be used to find cancer.")).toDF("text")
 
-val documenter = new nlp.DocumentAssembler()
+val documenter = new DocumentAssembler()
     .setInputCol("text")
     .setOutputCol("document")
 
 
-val tokenizer = new nlp.Tokenizer()
+val tokenizer = new Tokenizer()
     .setInputCols("document")
     .setOutputCol("tokens")
 
 
-val sentencer = new nlp.SentenceDetector()
+val sentencer = new SentenceDetector()
     .setInputCols("document")
     .setOutputCol("sentences")
 
 
-val words_embedder = nlp.WordEmbeddingsModel()
+val words_embedder = WordEmbeddingsModel()
     .pretrained("embeddings_clinical", "en", "clinical/models")
     .setInputCols(Array("sentences", "tokens"))
     .setOutputCol("embeddings")
 
 
-val pos_tagger = nlp.PerceptronModel()
+val pos_tagger = PerceptronModel()
     .pretrained("pos_clinical", "en", "clinical/models")
     .setInputCols(Array("sentences", "tokens"))
     .setOutputCol("pos_tags")
 
 
-val ner_tagger = medical.NerModel()
+val ner_tagger = MedicalNerModel()
     .pretrained("ner_clinical", "en", "clinical/models")
     .setInputCols(Array("sentences", "tokens", "embeddings"))
     .setOutputCol("ner_tags")
 
 
-val ner_converter = new nlp.NerConverter()
+val ner_converter = new NerConverter()
     .setInputCols(Array("sentences", "tokens", "ner_tags"))
     .setOutputCol("ner_chunks")
 
 
-val dependency_parser = nlp.DependencyParserModel()
+val dependency_parser = DependencyParserModel()
     .pretrained("dependency_conllu", "en")
     .setInputCols(Array("document", "pos_tags", "tokens"))
     .setOutputCol("dependencies")
 
 
-val re_ner_chunk_filter = new medical.RENerChunksFilter()
+val re_ner_chunk_filter = new RENerChunksFilter()
     .setRelationPairs(Array("problem-test","problem-treatment"))
     .setMaxSyntacticDistance(4)
     .setDocLevelRelations(false)
@@ -169,7 +170,7 @@ val re_ner_chunk_filter = new medical.RENerChunksFilter()
     .setOutputCol("re_ner_chunks")
 
 
-val re_model = medical.ZeroShotRelationExtractionModel.pretrained("re_zeroshot_biobert", "en", "clinical/models")
+val re_model = ZeroShotRelationExtractionModel.pretrained("re_zeroshot_biobert", "en", "clinical/models")
     .setInputCols(Array("re_ner_chunks", "sentences"))
     .setOutputCol("relations")
     .setMultiLabel(false)
@@ -227,7 +228,7 @@ nlu.load("en.relation.zeroshot_biobert").predict("""Paracetamol can alleviate he
 {:.table-model}
 |---|---|
 |Model Name:|re_zeroshot_biobert|
-|Compatibility:|Spark NLP for Healthcare 3.5.0+|
+|Compatibility:|Healthcare NLP 3.5.0+|
 |License:|Licensed|
 |Edition:|Official|
 |Language:|en|

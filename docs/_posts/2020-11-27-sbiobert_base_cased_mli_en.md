@@ -6,10 +6,11 @@ name: sbiobert_base_cased_mli
 date: 2020-11-27
 task: Embeddings
 language: en
-edition: Spark NLP for Healthcare 2.6.4
+edition: Healthcare NLP 2.6.4
 spark_version: 2.4
 tags: [embeddings, en, licensed]
 supported: true
+annotator: BertSentenceEmbeddings
 article_header:
 type: cover
 use_language_switcher: "Python-Scala-Java"

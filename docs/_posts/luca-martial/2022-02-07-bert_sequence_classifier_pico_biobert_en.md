@@ -7,9 +7,10 @@ date: 2022-02-07
 tags: [bert, sequence_classification, en, licensed]
 task: Text Classification
 language: en
-edition: Spark NLP for Healthcare 3.4.1
+edition: Healthcare NLP 3.4.1
 spark_version: 3.0
 supported: true
+annotator: MedicalBertForSequenceClassification
 article_header:
 type: cover
 use_language_switcher: "Python-Scala-Java"
@@ -76,10 +77,10 @@ val documenter = new DocumentAssembler()
 .setOutputCol("document")
 
 val tokenizer = new Tokenizer()
-.setInputCols("sentences")
+.setInputCols(Array("document"))
 .setOutputCol("token")
 
-val sequenceClassifier = MedicalBertForSequenceClassification.pretrained("bert_sequence_classifier_pico", "en", "clinical/models")
+val sequenceClassifier = MedicalBertForSequenceClassification.pretrained("bert_sequence_classifier_pico_biobert", "en", "clinical/models")
 .setInputCols(Array("document","token"))
 .setOutputCol("class")
 
@@ -119,7 +120,7 @@ nlu.load("en.classify.pico.seq_biobert").predict("""To compare the results of re
 {:.table-model}
 |---|---|
 |Model Name:|bert_sequence_classifier_pico_biobert|
-|Compatibility:|Spark NLP for Healthcare 3.4.1+|
+|Compatibility:|Healthcare NLP 3.4.1+|
 |License:|Licensed|
 |Edition:|Official|
 |Input Labels:|[document, token]|

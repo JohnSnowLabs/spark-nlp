@@ -7,9 +7,10 @@ date: 2021-09-29
 tags: [entity_resolution, hcpcs, licensed, en, clinical]
 task: Entity Resolution
 language: en
-edition: Spark NLP for Healthcare 3.2.3
+edition: Healthcare NLP 3.2.3
 spark_version: 2.4
 supported: true
+annotator: SentenceEntityResolverModel
 article_header:
 type: cover
 use_language_switcher: "Python-Scala-Java"
@@ -109,7 +110,7 @@ nlu.load("en.resolve.hcpcs").predict("""Breast prosthesis, mastectomy bra, with 
 {:.table-model}
 |---|---|
 |Model Name:|sbiobertresolve_hcpcs|
-|Compatibility:|Spark NLP for Healthcare 3.2.3+|
+|Compatibility:|Healthcare NLP 3.2.3+|
 |License:|Licensed|
 |Edition:|Official|
 |Input Labels:|[sentence_embeddings]|

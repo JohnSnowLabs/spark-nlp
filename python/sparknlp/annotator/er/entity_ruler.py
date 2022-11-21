@@ -14,6 +14,7 @@
 """Contains classes for the EntityRuler."""
 
 from sparknlp.common import *
+from sparknlp.common.annotator_type import AnnotatorType
 
 
 class EntityRulerApproach(AnnotatorApproach, HasStorage):
@@ -125,6 +126,10 @@ class EntityRulerApproach(AnnotatorApproach, HasStorage):
     """
     name = "EntityRulerApproach"
 
+    inputAnnotatorTypes = [AnnotatorType.DOCUMENT]
+
+    optionalInputAnnotatorTypes = [AnnotatorType.TOKEN]
+
     patternsResource = Param(Params._dummy(),
                              "patternsResource",
                              "Resource in JSON or CSV format to map entities to patterns",
@@ -225,6 +230,8 @@ class EntityRulerModel(AnnotatorModel, HasStorageModel):
     """
     name = "EntityRulerModel"
     database = ['ENTITY_PATTERNS']
+    inputAnnotatorTypes = [AnnotatorType.DOCUMENT]
+    optionalInputAnnotatorTypes = [AnnotatorType.TOKEN]
 
     def __init__(self, classname="com.johnsnowlabs.nlp.annotators.er.EntityRulerModel", java_model=None):
         super(EntityRulerModel, self).__init__(

@@ -7,10 +7,11 @@ date: 2022-06-21
 tags: [deid, deidentification, pt, licensed]
 task: [De-identification, Pipeline Healthcare]
 language: pt
-edition: Spark NLP for Healthcare 3.5.0
+edition: Healthcare NLP 3.5.0
 spark_version: 3.0
 supported: true
 recommended: true
+annotator: PipelineModel
 article_header:
   type: cover
 use_language_switcher: "Python-Scala-Java"
@@ -32,7 +33,7 @@ This pipeline is trained with `w2v_cc_300d` portuguese embeddings and can be use
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
 ```python
-from sparknlp.pretrained import PretrainedPipeline
+from johnsnowlabs import *
 
 deid_pipeline = PretrainedPipeline("clinical_deidentification", "pt", "clinical/models")
 
@@ -225,7 +226,7 @@ Referido por: Carlos Melo - Avenida Dos Aliados, 56, 22 Espanha E-mail: maria.pr
 |---|---|
 |Model Name:|clinical_deidentification|
 |Type:|pipeline|
-|Compatibility:|Spark NLP for Healthcare 3.5.0+|
+|Compatibility:|Healthcare NLP 3.5.0+|
 |License:|Licensed|
 |Edition:|Official|
 |Language:|pt|

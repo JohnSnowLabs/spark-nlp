@@ -7,9 +7,10 @@ date: 2021-05-05
 tags: [en, licensed, clinical, entity_resolution]
 task: Entity Resolution
 language: en
-edition: Spark NLP for Healthcare 3.0.2
+edition: Healthcare NLP 3.0.2
 spark_version: 3.0
 supported: true
+annotator: SentenceEntityResolverModel
 article_header:
 type: cover
 use_language_switcher: "Python-Scala-Java"
@@ -93,7 +94,7 @@ nlu.load("en.resolve.HPO").predict("""These disorders include cancer, bipolar di
 {:.table-model}
 |---|---|
 |Model Name:|sbiobertresolve_HPO|
-|Compatibility:|Spark NLP for Healthcare 3.0.2+|
+|Compatibility:|Healthcare NLP 3.0.2+|
 |License:|Licensed|
 |Edition:|Official|
 |Input Labels:|[sentence_embeddings]|

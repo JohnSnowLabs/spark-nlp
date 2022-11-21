@@ -7,9 +7,10 @@ date: 2021-09-16
 tags: [icd10gm, en, clinical, licensed, de]
 task: Entity Resolution
 language: de
-edition: Spark NLP for Healthcare 3.2.2
+edition: Healthcare NLP 3.2.2
 spark_version: 2.4
 supported: true
+annotator: SentenceEntityResolverModel
 article_header:
 type: cover
 use_language_switcher: "Python-Scala-Java"
@@ -96,7 +97,7 @@ nlu.load("de.resolve.icd10gm").predict("""Put your text here.""")
 {:.table-model}
 |---|---|
 |Model Name:|sbertresolve_icd10gm|
-|Compatibility:|Spark NLP for Healthcare 3.2.2+|
+|Compatibility:|Healthcare NLP 3.2.2+|
 |License:|Licensed|
 |Edition:|Official|
 |Input Labels:|[sentence_embeddings]|

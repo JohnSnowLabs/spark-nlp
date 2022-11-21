@@ -20,6 +20,7 @@ import org.apache.spark.ml.PipelineModel
 import org.apache.spark.sql.functions._
 import org.apache.spark.sql.{DataFrame, Dataset, SparkSession}
 
+import org.apache.commons.lang.StringEscapeUtils.escapeJava
 import scala.collection.mutable.ArrayBuffer
 import scala.util.Try
 
@@ -49,7 +50,7 @@ object CoNLLGenerator {
       pipelineModel: PipelineModel,
       outputPath: String): Unit = {
     val POSdataset = pipelineModel.transform(data)
-    exportConllFiles(POSdataset, outputPath)
+    exportConllFilesFromField(POSdataset, outputPath, "sentence")
   }
 
   def exportConllFiles(data: DataFrame, pipelinePath: String, outputPath: String): Unit = {
@@ -58,6 +59,13 @@ object CoNLLGenerator {
   }
 
   def exportConllFiles(data: DataFrame, outputPath: String): Unit = {
+    exportConllFilesFromField(data, outputPath, "sentence")
+  }
+
+  def exportConllFilesFromField(
+      data: DataFrame,
+      outputPath: String,
+      metadataSentenceKey: String): Unit = {
     import data.sparkSession.implicits._ // for udf
     var dfWithNER = data
     // if data does not contain ner column, add "O" as default
@@ -77,7 +85,7 @@ object CoNLLGenerator {
     val newPOSDataset = dfWithNER
       .select("finished_token", "finished_pos", "finished_token_metadata", "finished_ner")
       .as[(Array[String], Array[String], Array[(String, String)], Array[String])]
-    val CoNLLDataset = makeConLLFormat(newPOSDataset)
+    val CoNLLDataset = makeConLLFormat(newPOSDataset, metadataSentenceKey)
     CoNLLDataset
       .coalesce(1)
       .write
@@ -88,14 +96,19 @@ object CoNLLGenerator {
 
   def makeConLLFormat(
       newPOSDataset: Dataset[
-        (Array[String], Array[String], Array[(String, String)], Array[String])])
-      : Dataset[(String, String, String, String)] = {
+        (Array[String], Array[String], Array[(String, String)], Array[String])],
+      metadataSentenceKey: String = "sentence"): Dataset[(String, String, String, String)] = {
     import newPOSDataset.sparkSession.implicits._ // for row casting
     newPOSDataset.flatMap(row => {
       val newColumns: ArrayBuffer[(String, String, String, String)] = ArrayBuffer()
-      val columns = ((row._1 zip row._2), row._3.map(_._2.toInt), row._4).zipped.map {
-        case (a, b, c) => (a._1, a._2, b, c)
-      }
+      val columns =
+        (
+          (row._1 zip row._2),
+          row._3.filter(_._1 == metadataSentenceKey).map(_._2.toInt),
+          row._4).zipped
+          .map { case (a, b, c) =>
+            (a._1, a._2, b, c)
+          }
       var sentenceId = 1
       newColumns.append(("", "", "", ""))
       newColumns.append(("-DOCSTART-", "-X-", "-X-", "O"))
@@ -105,7 +118,7 @@ object CoNLLGenerator {
           newColumns.append(("", "", "", ""))
           sentenceId = a._3
         }
-        newColumns.append((a._1, a._2, a._2, a._4))
+        newColumns.append((escapeJava(a._1), a._2, a._2, a._4))
       })
       newColumns
     })

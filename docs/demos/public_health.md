@@ -1,6 +1,7 @@
 ---
 layout: demopagenew
-title: Spark NLP in Action
+title: Vaccines & Public Health - Biomedical NLP Demos & Notebooks
+seotitle: 'Biomedical NLP: Vaccines & Public Health - John Snow Labs'
 subtitle: Run 300+ live demos and notebooks
 full_width: true
 permalink: /public_health
@@ -13,12 +14,9 @@ show_edit_on_github: false
 show_date: false
 data:
   sections:  
-    - title: Spark NLP for Finance
-      excerpt: Public Health
-      secheader: yes
+    - secheader: yes
       secheader:
-        - title: Spark NLP for Finance
-          subtitle: Public Health
+        - subtitle: Vaccines & Public Health - Live Demos & Notebooks
           activemenu: public_health
       source: yes
       source:
@@ -81,7 +79,7 @@ data:
             url: https://demo.johnsnowlabs.com/healthcare/PUBLIC_HEALTH_NER_DISEASE_ES/
           - text: Colab
             type: blue_btn
-            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/PUBLIC_HEALTH_MB4TC.ipynb
+            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/PUBLIC_HEALTH_NER_DISEASE_ES.ipynb
         - title: Classify Stress - Tweet 
           id: classify_stress_tweet        
           image: 

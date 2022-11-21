@@ -7,9 +7,10 @@ date: 2022-05-27
 tags: [licensed, clinical, rct, classifier, en]
 task: Text Classification
 language: en
-edition: Spark NLP for Healthcare 3.4.2
+edition: Healthcare NLP 3.4.2
 spark_version: 3.0
 supported: true
+annotator: ClassifierDLModel
 article_header:
   type: cover
 use_language_switcher: "Python-Scala-Java"
@@ -105,7 +106,7 @@ val result = use_clf_pipeline.fit(data).transform(data)
 {:.table-model}
 |---|---|
 |Model Name:|rct_binary_classifier_use|
-|Compatibility:|Spark NLP for Healthcare 3.4.2+|
+|Compatibility:|Healthcare NLP 3.4.2+|
 |License:|Licensed|
 |Edition:|Official|
 |Input Labels:|[sentence_embeddings]|

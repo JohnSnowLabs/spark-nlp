@@ -7,9 +7,10 @@ date: 2022-03-10
 tags: [cellular, ner, bert_token_classifier, en, licensed, clinical]
 task: Named Entity Recognition
 language: en
-edition: Spark NLP for Healthcare 3.4.1
+edition: Healthcare NLP 3.4.1
 spark_version: 2.4
 supported: true
+annotator: PipelineModel
 article_header:
   type: cover
 use_language_switcher: "Python-Scala-Java"
@@ -83,7 +84,7 @@ cellular_pipeline.fullAnnotate("Detection of various other intracellular signali
 |---|---|
 |Model Name:|bert_token_classifier_ner_cellular_pipeline|
 |Type:|pipeline|
-|Compatibility:|Spark NLP for Healthcare 3.4.1+|
+|Compatibility:|Healthcare NLP 3.4.1+|
 |License:|Licensed|
 |Edition:|Official|
 |Language:|en|

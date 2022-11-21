@@ -7,8 +7,8 @@ date: 2022-08-18
 tags: [en, legal, companies, edgar, data, augmentation, licensed]
 task: Chunk Mapping
 language: en
-edition: Spark NLP for Legal 1.0.0
-spark_version: 3.2
+edition: Legal NLP 1.0.0
+spark_version: 3.0
 supported: true
 article_header:
   type: cover
@@ -42,6 +42,7 @@ IMPORTANT: Chunk Mappers work with exact matches, so before using Chunk Mapping,
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
+
 ```python
 documentAssembler = nlp.DocumentAssembler()\
         .setInputCol("text")\
@@ -143,7 +144,7 @@ print(json.dumps(json_dict))
 |---|---|
 |Model Name:|legmapper_edgar_companyname|
 |Type:|legal|
-|Compatibility:|Spark NLP for Legal 1.0.0+|
+|Compatibility:|Legal NLP 1.0.0+|
 |License:|Licensed|
 |Edition:|Official|
 |Input Labels:|[ner_chunk]|

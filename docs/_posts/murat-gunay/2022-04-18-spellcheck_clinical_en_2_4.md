@@ -7,9 +7,10 @@ date: 2022-04-18
 tags: [spellcheck, medical, medical_spellchecker, spell_checker, spelling_corrector, en, licensed, clinical]
 task: Spell Check
 language: en
-edition: Spark NLP for Healthcare 3.4.2
+edition: Healthcare NLP 3.4.2
 spark_version: 2.4
 supported: true
+annotator: SpellCheckModel
 article_header:
 type: cover
 use_language_switcher: "Python-Scala-Java"
@@ -147,7 +148,7 @@ light_pipeline = LightPipeline(pipeline.fit(spark.createDataFrame([[""")
 {:.table-model}
 |---|---|
 |Model Name:|spellcheck_clinical|
-|Compatibility:|Spark NLP for Healthcare 3.4.2+|
+|Compatibility:|Healthcare NLP 3.4.2+|
 |License:|Licensed|
 |Edition:|Official|
 |Input Labels:|[token]|

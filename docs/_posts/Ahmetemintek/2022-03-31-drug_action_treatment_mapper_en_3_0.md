@@ -7,9 +7,10 @@ date: 2022-03-31
 tags: [en, chunkmapping, chunkmapper, drug, action, treatment, licensed]
 task: Chunk Mapping
 language: en
-edition: Spark NLP for Healthcare 3.5.0
+edition: Healthcare NLP 3.5.0
 spark_version: 3.0
 supported: true
+annotator: ChunkMapperModel
 article_header:
 type: cover
 use_language_switcher: "Python-Scala-Java"
@@ -82,7 +83,7 @@ val document_assembler = DocumentAssembler()
 .setOutputCol("document")
 
 val sentence_detector = SentenceDetector()
-.setInputCols("document")
+.setInputCols(Array("document"))
 .setOutputCol("sentence")
 
 val tokenizer = Tokenizer()
@@ -105,7 +106,7 @@ val chunkerMapper = ChunkMapperModel.pretrained("drug_action_treatment_mapper", 
 val pipeline =  new Pipeline().setStages(Array(document_assembler, sentence_detector, tokenizer, ner, nerconverter, chunkerMapper ))
 
 
-val text_data = Seq("The patient is a 71-year-old female patient of Dr. X. and she was given Aklis and Dermovate.
+val test_data = Seq("The patient is a 71-year-old female patient of Dr. X. and she was given Aklis and Dermovate.
 Cureent Medications: Diprivan, Proventil").toDF("text")
 
 
@@ -143,7 +144,7 @@ Cureent Medications: Diprivan, Proventil
 {:.table-model}
 |---|---|
 |Model Name:|drug_action_treatment_mapper|
-|Compatibility:|Spark NLP for Healthcare 3.5.0+|
+|Compatibility:|Healthcare NLP 3.5.0+|
 |License:|Licensed|
 |Edition:|Official|
 |Input Labels:|[ner_chunk]|

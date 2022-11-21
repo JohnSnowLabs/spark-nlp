@@ -22,16 +22,16 @@ import com.johnsnowlabs.ml.tensorflow.{
   TensorflowWrapper,
   WriteTensorflowModel
 }
+import com.johnsnowlabs.ml.util.LoadExternalModel.{modelSanityCheck, notSupportedEngineError}
+import com.johnsnowlabs.ml.util.ModelEngine
 import com.johnsnowlabs.nlp.AnnotatorType.{DOCUMENT, SENTENCE_EMBEDDINGS}
-import com.johnsnowlabs.nlp.annotators.common.SentenceSplit
 import com.johnsnowlabs.nlp._
+import com.johnsnowlabs.nlp.annotators.common.SentenceSplit
 import com.johnsnowlabs.storage.HasStorageRef
 import org.apache.spark.broadcast.Broadcast
 import org.apache.spark.ml.param.{BooleanParam, IntArrayParam, IntParam}
 import org.apache.spark.ml.util.Identifiable
 import org.apache.spark.sql.{DataFrame, SparkSession}
-
-import java.io.File
 
 /** The Universal Sentence Encoder encodes text into high dimensional vectors that can be used for
   * text classification, semantic similarity, clustering and other natural language tasks.
@@ -143,7 +143,8 @@ class UniversalSentenceEncoder(override val uid: String)
     with HasBatchedAnnotate[UniversalSentenceEncoder]
     with HasEmbeddingsProperties
     with HasStorageRef
-    with WriteTensorflowModel {
+    with WriteTensorflowModel
+    with HasEngine {
 
   /** Annotator reference id. Used to identify elements in metadata or to refer to this annotator
     * type
@@ -323,7 +324,7 @@ trait ReadablePretrainedUSEModel
     super.pretrained(name, lang, remoteLoc)
 }
 
-trait ReadUSETensorflowModel extends ReadTensorflowModel {
+trait ReadUSEDLModel extends ReadTensorflowModel {
   this: ParamsAndFeaturesReadable[UniversalSentenceEncoder] =>
 
   /*Needs to point to an actual folder rather than a .pb file*/
@@ -342,32 +343,45 @@ trait ReadUSETensorflowModel extends ReadTensorflowModel {
   addReader(readTensorflow)
 
   def loadSavedModel(
-      folder: String,
+      modelPath: String,
       spark: SparkSession,
       loadSP: Boolean = false): UniversalSentenceEncoder = {
-    val f = new File(folder)
-    val savedModel = new File(folder, "saved_model.pb")
 
-    require(f.exists, s"Folder $folder not found")
-    require(f.isDirectory, s"File $folder is not folder")
-    require(savedModel.exists(), s"savedModel file saved_model.pb not found in folder $folder")
+    val (localModelPath, detectedEngine) = modelSanityCheck(modelPath)
 
-    val wrapper =
-      TensorflowWrapper.readWithSP(
-        folder,
-        zipped = false,
-        useBundle = true,
-        tags = Array("serve"),
-        initAllTables = true,
-        loadSP = loadSP)
-
-    new UniversalSentenceEncoder()
+    /*Universal parameters for all engines*/
+    val annotatorModel = new UniversalSentenceEncoder()
       .setLoadSP(loadSP)
-      .setModelIfNotSet(spark, wrapper)
+
+    annotatorModel.set(annotatorModel.engine, detectedEngine)
+
+    detectedEngine match {
+      case ModelEngine.tensorflow =>
+        val wrapper =
+          TensorflowWrapper.readWithSP(
+            localModelPath,
+            zipped = false,
+            useBundle = true,
+            tags = Array("serve"),
+            initAllTables = true,
+            loadSP = loadSP)
+
+        /** the order of setSignatures is important if we use getSignatures inside
+          * setModelIfNotSet
+          */
+        annotatorModel
+          .setModelIfNotSet(spark, wrapper)
+
+      case _ =>
+        throw new Exception(notSupportedEngineError)
+    }
+
+    annotatorModel
+
   }
 }
 
 /** This is the companion object of [[UniversalSentenceEncoder]]. Please refer to that class for
   * the documentation.
   */
-object UniversalSentenceEncoder extends ReadablePretrainedUSEModel with ReadUSETensorflowModel
+object UniversalSentenceEncoder extends ReadablePretrainedUSEModel with ReadUSEDLModel

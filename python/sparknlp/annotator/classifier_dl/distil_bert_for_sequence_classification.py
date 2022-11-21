@@ -14,12 +14,14 @@
 """Contains classes for DistilBertForSequenceClassification."""
 
 from sparknlp.common import *
+from sparknlp.common.annotator_type import AnnotatorType
 
 
 class DistilBertForSequenceClassification(AnnotatorModel,
                                           HasCaseSensitiveProperties,
                                           HasBatchedAnnotate,
-                                          HasClassifierActivationProperties):
+                                          HasClassifierActivationProperties,
+                                          HasEngine):
     """DistilBertForSequenceClassification can load DistilBERT Models with sequence classification/regression head on
     top (a linear layer on top of the pooled output) e.g. for multi-class document classification tasks.
 
@@ -99,6 +101,8 @@ class DistilBertForSequenceClassification(AnnotatorModel,
     +--------------------+
     """
     name = "DistilBertForSequenceClassification"
+
+    inputAnnotatorTypes = [AnnotatorType.DOCUMENT, AnnotatorType.TOKEN]
 
     maxSentenceLength = Param(Params._dummy(),
                               "maxSentenceLength",
@@ -209,4 +213,3 @@ class DistilBertForSequenceClassification(AnnotatorModel,
         """
         from sparknlp.pretrained import ResourceDownloader
         return ResourceDownloader.downloadModel(DistilBertForSequenceClassification, name, lang, remote_loc)
-

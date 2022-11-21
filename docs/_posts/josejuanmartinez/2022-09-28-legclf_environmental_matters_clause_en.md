@@ -7,9 +7,10 @@ date: 2022-09-28
 tags: [en, legal, classification, clauses, licensed]
 task: Text Classification
 language: en
-edition: Spark NLP for Legal 1.0.0
+edition: Legal NLP 1.0.0
 spark_version: 3.0
 supported: true
+annotator: ClassifierDLModel
 article_header:
   type: cover
 use_language_switcher: "Python-Scala-Java"
@@ -19,7 +20,7 @@ use_language_switcher: "Python-Scala-Java"
 
 This model is a Binary Classifier (True, False) for the `environmental-matters` clause type. To use this model, make sure you provide enough context as an input. Adding Sentence Splitters to the pipeline will make the model see only sentences, not the whole text, so it's better to skip it, unless you want to do Binary Classification as sentence level.
 
-If you have big legal documents, and you want to look for clauses, we recommend you to split the documents using any of the techniques available in our Spark NLP for Legal Workshop Tokenization & Splitting Tutorial (link [here](https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Legal/1.Tokenization_Splitting.ipynb)), namely:
+If you have big legal documents, and you want to look for clauses, we recommend you to split the documents using any of the techniques available in our Legal NLP Workshop Tokenization & Splitting Tutorial (link [here](https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings_JSL/Legal/1.Tokenization_Splitting.ipynb)), namely:
 - Paragraph splitting (by multiline);
 - Splitting by headers / subheaders;
 - etc.
@@ -43,16 +44,17 @@ This model can be combined with any of the other 200+ Legal Clauses Classifiers 
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
+
 ```python
-documentAssembler = DocumentAssembler() \
+documentAssembler = nlp.DocumentAssembler() \
      .setInputCol("clause_text") \
      .setOutputCol("document")
   
-embeddings = BertSentenceEmbeddings.pretrained("sent_bert_base_cased", "en") \
+embeddings = nlp.BertSentenceEmbeddings.pretrained("sent_bert_base_cased", "en") \
       .setInputCols("document") \
       .setOutputCol("sentence_embeddings")
 
-docClassifier = ClassifierDLModel.pretrained("legclf_environmental_matters_clause", "en", "legal/models")\
+docClassifier = nlp.ClassifierDLModel.pretrained("legclf_environmental_matters_clause", "en", "legal/models")\
     .setInputCols(["sentence_embeddings"])\
     .setOutputCol("category")
     
@@ -87,7 +89,7 @@ result = model.transform(df)
 {:.table-model}
 |---|---|
 |Model Name:|legclf_environmental_matters_clause|
-|Compatibility:|Spark NLP for Legal 1.0.0+|
+|Compatibility:|Legal NLP 1.0.0+|
 |License:|Licensed|
 |Edition:|Official|
 |Input Labels:|[sentence_embeddings]|
@@ -102,13 +104,10 @@ Legal documents, scrapped from the Internet, and classified in-house
 ## Benchmarking
 
 ```bash
-                       precision    recall  f1-score   support
-
+                label  precision    recall  f1-score   support
 environmental-matters       0.95      0.86      0.90        21
                 other       0.94      0.98      0.96        48
-
-             accuracy                           0.94        69
-            macro avg       0.94      0.92      0.93        69
-         weighted avg       0.94      0.94      0.94        69
-
+             accuracy         -         -       0.94        69
+            macro-avg       0.94      0.92      0.93        69
+         weighted-avg       0.94      0.94      0.94        69
 ```

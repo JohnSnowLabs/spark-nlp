@@ -7,8 +7,8 @@ date: 2022-08-22
 tags: [en, legal, ner, obligations, agreements, licensed]
 task: Named Entity Recognition
 language: en
-edition: Spark NLP for Legal 1.0.0
-spark_version: 3.2
+edition: Legal NLP 1.0.0
+spark_version: 3.0
 supported: true
 article_header:
   type: cover
@@ -16,6 +16,10 @@ use_language_switcher: "Python-Scala-Java"
 ---
 
 ## Description
+
+IMPORTANT: Don't run this model on the whole legal agreement. Instead:
+- Split by paragraphs. You can use [notebook 1](https://github.com/JohnSnowLabs/spark-nlp-workshop/tree/master/tutorials/Certification_Trainings_JSL) in Finance or Legal as inspiration;
+- Use the `legclf_cuad_obligations_clause` Text Classifier to select only these paragraphs; 
 
 This Name Entity Recognition model is aimed to extract what the different parties of an agreement commit to do. We call it "obligations", but could also be called "commitments" or "agreemeents".
 
@@ -40,6 +44,7 @@ The object is usually very diverse (will provide with technology? documents? peo
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
+
 ```python
 from johnsnowlabs import *
 
@@ -106,7 +111,7 @@ res = p_model.transform(spark.createDataFrame([[text]]).toDF("text"))
 |---|---|
 |Model Name:|legner_obligations|
 |Type:|legal|
-|Compatibility:|Spark NLP for Legal 1.0.0+|
+|Compatibility:|Legal NLP 1.0.0+|
 |License:|Licensed|
 |Edition:|Official|
 |Input Labels:|[sentence, token]|
@@ -123,8 +128,7 @@ In-house annotated documents on CUAD dataset
 ## Benchmarking
 
 ```bash
-                              precision    recall  f1-score   support
-
+                       label  precision    recall  f1-score   support
                 B-OBLIGATION       0.61      0.44      0.51        93
          B-OBLIGATION_ACTION       0.88      0.89      0.89        85
 B-OBLIGATION_INDIRECT_OBJECT       0.69      0.71      0.70        34
@@ -133,8 +137,7 @@ B-OBLIGATION_INDIRECT_OBJECT       0.69      0.71      0.70        34
          I-OBLIGATION_ACTION       0.80      0.79      0.79       167
         I-OBLIGATION_SUBJECT       0.75      0.43      0.55        14
                            O       0.87      0.84      0.85      2395
-
-                    accuracy                           0.81      4126
-                   macro avg       0.76      0.72      0.73      4126
-                weighted avg       0.81      0.81      0.81      4126
+                    accuracy         -         -       0.81      4126
+                   macro-avg       0.76      0.72      0.73      4126
+                weighted-avg       0.81      0.81      0.81      4126
 ```

@@ -7,9 +7,10 @@ date: 2022-04-13
 tags: [deid, deidentification, pt, licensed, clinical]
 task: De-identification
 language: pt
-edition: Spark NLP for Healthcare 3.4.2
+edition: Healthcare NLP 3.4.2
 spark_version: 3.0
 supported: true
+annotator: MedicalNerModel
 article_header:
 type: cover
 use_language_switcher: "Python-Scala-Java"
@@ -92,27 +93,27 @@ data = spark.createDataFrame([text]).toDF("text")
 result = nlpPipeline.fit(data).transform(data)
 ```
 ```scala
-val documentAssembler = new nlp.DocumentAssembler()
+val documentAssembler = new DocumentAssembler()
 	.setInputCol("text")
 	.setOutputCol("document")
 
-val sentenceDetector = nlp.SentenceDetectorDLModel.pretrained("sentence_detector_dl","xx")
+val sentenceDetector = SentenceDetectorDLModel.pretrained("sentence_detector_dl","xx")
 	.setInputCols(Array("document"))
 	.setOutputCol("sentence")
 
-val tokenizer = new nlp.Tokenizer()
+val tokenizer = new Tokenizer()
 	.setInputCols(Array("sentence"))
 	.setOutputCol("token")
 
-embeddings = nlp.WordEmbeddingsModel.pretrained("w2v_cc_300d", "pt")
+embeddings = WordEmbeddingsModel.pretrained("w2v_cc_300d", "pt")
 	.setInputCols(Array("sentence","token"))
 	.setOutputCol("word_embeddings")
 
-clinical_ner = medical.NerModel.pretrained("ner_deid_generic", "pt", "clinical/models")
+clinical_ner = MedicalNerModel.pretrained("ner_deid_generic", "pt", "clinical/models")
 	.setInputCols(Array("sentence","token","word_embeddings"))
 	.setOutputCol("ner")
 
-val ner_converter = new nlp.NerConverter()
+val ner_converter = new NerConverter()
 	.setInputCols(Array("sentence", "token", "ner"))
 	.setOutputCol("ner_chunk")
 
@@ -132,7 +133,7 @@ Doutora: Maria Santos"""
 
 val df = Seq(text).toDF("text")
 
-val results = pipeline.fit(data).transform(data)
+val results = pipeline.fit(df).transform(df)
 ```
 
 
@@ -183,7 +184,7 @@ Doutora: Maria Santos
 {:.table-model}
 |---|---|
 |Model Name:|ner_deid_generic|
-|Compatibility:|Spark NLP for Healthcare 3.4.2+|
+|Compatibility:|Healthcare NLP 3.4.2+|
 |License:|Licensed|
 |Edition:|Official|
 |Input Labels:|[sentence, token, embeddings]|

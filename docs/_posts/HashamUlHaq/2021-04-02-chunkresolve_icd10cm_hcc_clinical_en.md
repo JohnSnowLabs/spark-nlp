@@ -7,9 +7,10 @@ date: 2021-04-02
 tags: [entity_resolution, clinical, licensed, en]
 task: Entity Resolution
 language: en
-edition: Spark NLP for Healthcare 3.0.0
+edition: Healthcare NLP 3.0.0
 spark_version: 3.0
 deprecated: true
+annotator: ChunkEntityResolverModel
 article_header:
   type: cover
 use_language_switcher: "Python-Scala-Java"
@@ -81,7 +82,7 @@ val result = pipeline.fit(data).transform(data)
 {:.table-model}
 |---|---|
 |Model Name:|chunkresolve_icd10cm_hcc_clinical|
-|Compatibility:|Spark NLP for Healthcare 3.0.0+|
+|Compatibility:|Healthcare NLP 3.0.0+|
 |License:|Licensed|
 |Edition:|Official|
 |Input Labels:|[token, chunk_embeddings]|

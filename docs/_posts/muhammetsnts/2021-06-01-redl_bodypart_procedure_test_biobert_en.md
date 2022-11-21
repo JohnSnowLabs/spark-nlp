@@ -7,9 +7,10 @@ date: 2021-06-01
 tags: [licensed, en, relation_extraction, clinical]
 task: Relation Extraction
 language: en
-edition: Spark NLP for Healthcare 3.0.3
+edition: Healthcare NLP 3.0.3
 spark_version: 3.0
 supported: true
+annotator: RelationExtractionDLModel
 article_header:
 type: cover
 use_language_switcher: "Python-Scala-Java"
@@ -100,9 +101,9 @@ pipeline = Pipeline(stages=[documenter, sentencer, tokenizer, pos_tagger, words_
 
 text ="TECHNIQUE IN DETAIL: After informed consent was obtained from the patient and his mother, the chest was scanned with portable ultrasound."
 
-p_model = pipeline.fit(spark.createDataFrame([[text]]).toDF("text"))
+data = spark.createDataFrame([[text]]).toDF("text")
 
-result = p_model.transform(data)
+result = pipeline.fit(data).transform(data)
 ```
 ```scala
 ...
@@ -111,11 +112,11 @@ val documenter = new DocumentAssembler()
 .setOutputCol("document")
 
 val sentencer = new SentenceDetector()
-.setInputCols("document")
+.setInputCols(Array("document"))
 .setOutputCol("sentences")
 
 val tokenizer = new Tokenizer()
-.setInputCols("sentences")
+.setInputCols(Array("sentences"))
 .setOutputCol("tokens")
 
 val pos_tagger = PerceptronModel()
@@ -190,7 +191,7 @@ nlu.load("en.relation.bodypart.procedure").predict("""TECHNIQUE IN DETAIL: After
 {:.table-model}
 |---|---|
 |Model Name:|redl_bodypart_procedure_test_biobert|
-|Compatibility:|Spark NLP for Healthcare 3.0.3+|
+|Compatibility:|Healthcare NLP 3.0.3+|
 |License:|Licensed|
 |Edition:|Official|
 |Language:|en|

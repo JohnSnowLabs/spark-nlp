@@ -7,9 +7,10 @@ date: 2022-10-02
 tags: [de, legal, ner, laws, court, licensed]
 task: Named Entity Recognition
 language: de
-edition: Spark NLP for Legal 1.0.0
+edition: Legal NLP 1.0.0
 spark_version: 3.0
 supported: true
+annotator: LegalNerModel
 article_header:
   type: cover
 use_language_switcher: "Python-Scala-Java"
@@ -59,6 +60,7 @@ German Named Entity Recognition model, trained using a Deep Learning architectur
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
+
 ```python
 ...
 word_embeddings = nlp.WordEmbeddingsModel.pretrained("w2v_cc_300d",'de','clinical/models')\
@@ -113,7 +115,7 @@ result = legal_light_model.fullAnnotate('''Jedoch wird der Verkehr darin nahelie
 {:.table-model}
 |---|---|
 |Model Name:|legner_courts|
-|Compatibility:|Spark NLP for Legal 1.0.0+|
+|Compatibility:|Legal NLP 1.0.0+|
 |License:|Licensed|
 |Edition:|Official|
 |Input Labels:|[sentence, token, embeddings]|
@@ -134,9 +136,7 @@ Court decisions from 2017 and 2018 were selected for the dataset, published onli
 ## Benchmarking
 
 ```bash
-+---------------+-------+------------+------+-------------+-----+------------+
-| Macro-average | prec: | 0.9210195, | rec: | 0.91861916, | f1: | 0.91981775 |
-+---------------+-------+------------+------+-------------+-----+------------+
-| Micro-average | prec: | 0.9833763, | rec: | 0.9837547,  | f1: | 0.9835655  |
-+---------------+-------+------------+------+-------------+-----+------------+
+        label        prec         rec          f1
+Macro-average   0.9210195   0.9186192   0.9198177
+Micro-average   0.9833763   0.9837547   0.9835655 
 ```

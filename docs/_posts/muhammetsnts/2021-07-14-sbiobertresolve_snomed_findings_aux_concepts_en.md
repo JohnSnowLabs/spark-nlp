@@ -7,9 +7,10 @@ date: 2021-07-14
 tags: [snomed, licensed, en, clinical]
 task: Entity Resolution
 language: en
-edition: Spark NLP for Healthcare 3.1.2
+edition: Healthcare NLP 3.1.2
 spark_version: 3.0
 supported: true
+annotator: SentenceEntityResolverModel
 article_header:
   type: cover
 use_language_switcher: "Python-Scala-Java"
@@ -95,7 +96,7 @@ val result = snomed_lp.fullAnnotate("atherosclerosis")
 {:.table-model}
 |---|---|
 |Model Name:|sbiobertresolve_snomed_findings_aux_concepts|
-|Compatibility:|Spark NLP for Healthcare 3.1.2+|
+|Compatibility:|Healthcare NLP 3.1.2+|
 |License:|Licensed|
 |Edition:|Official|
 |Input Labels:|[sentence_embeddings]|

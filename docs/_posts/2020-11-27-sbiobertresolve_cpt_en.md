@@ -7,10 +7,11 @@ language: en
 repository: clinical/models
 date: 2020-11-27
 task: Entity Resolution
-edition: Spark NLP for Healthcare 2.6.4
+edition: Healthcare NLP 2.6.4
 spark_version: 2.4
 tags: [clinical,entity_resolution,en]
 supported: true
+annotator: SentenceEntityResolverModel
 article_header:
 type: cover
 use_language_switcher: "Python-Scala-Java"

@@ -7,9 +7,10 @@ date: 2022-09-09
 tags: [en, financial, licensed]
 task: Named Entity Recognition
 language: en
-edition: Spark NLP for Finance 1.0.0
-spark_version: 3.2
+edition: Finance NLP 1.0.0
+spark_version: 3.0
 supported: true
+annotator: PipelineModel
 article_header:
   type: cover
 use_language_switcher: "Python-Scala-Java"
@@ -34,6 +35,7 @@ This is a pretrained pipeline to extract Companies (ORG), People (PERSON), Job t
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
+
 ```python
 from johnsnowlabs import *
 
@@ -70,7 +72,7 @@ since (O)
 |---|---|
 |Model Name:|finpipe_org_per_role_date|
 |Type:|pipeline|
-|Compatibility:|Spark NLP for Finance 1.0.0+|
+|Compatibility:|Finance NLP 1.0.0+|
 |License:|Licensed|
 |Edition:|Official|
 |Language:|en|

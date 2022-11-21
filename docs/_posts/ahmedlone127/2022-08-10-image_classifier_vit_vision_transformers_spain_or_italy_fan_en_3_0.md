@@ -10,6 +10,7 @@ language: en
 edition: Spark NLP 4.1.0
 spark_version: 3.0
 supported: true
+annotator: ViTForImageClassification
 article_header:
   type: cover
 use_language_switcher: "Python-Scala-Java"
@@ -18,6 +19,11 @@ use_language_switcher: "Python-Scala-Java"
 ## Description
 
 Pretrained VIT  model, adapted from Hugging Face and curated to provide scalability and production-readiness using Spark NLP.`image_classifier_vit_vision_transformers_spain_or_italy_fan` is a English model originally trained by jeffboudier.
+
+
+## Predicted Entities
+
+`italy soccer fan`, `spain soccer fan`
 
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>

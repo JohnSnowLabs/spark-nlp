@@ -7,9 +7,10 @@ date: 2022-07-08
 tags: [deidentification, word2vec, phi, generic, ner, ro, licensed]
 task: Named Entity Recognition
 language: ro
-edition: Spark NLP for Healthcare 3.5.0
+edition: Healthcare NLP 3.5.0
 spark_version: 3.0
 supported: true
+annotator: MedicalNerModel
 article_header:
   type: cover
 use_language_switcher: "Python-Scala-Java"
@@ -41,41 +42,41 @@ This NER model is trained with a combination of custom datasets with several dat
 
 ```python
 documentAssembler = DocumentAssembler()\
-         .setInputCol("text")\
-         .setOutputCol("document")
+        .setInputCol("text")\
+        .setOutputCol("document")
          
- sentenceDetector = SentenceDetector()\
-         .setInputCols(["document"])\
-         .setOutputCol("sentence")
+sentenceDetector = SentenceDetector()\
+        .setInputCols(["document"])\
+        .setOutputCol("sentence")
 
- tokenizer = Tokenizer()\
-         .setInputCols(["sentence"])\
-         .setOutputCol("token")
+tokenizer = Tokenizer()\
+        .setInputCols(["sentence"])\
+        .setOutputCol("token")
 
- embeddings = WordEmbeddingsModel.pretrained("w2v_cc_300d","ro")\
+embeddings = WordEmbeddingsModel.pretrained("w2v_cc_300d","ro")\
  	.setInputCols(["sentence","token"])\
  	.setOutputCol("word_embeddings")
 
- clinical_ner = MedicalNerModel.pretrained("ner_deid_generic", "ro", "clinical/models")\
+clinical_ner = MedicalNerModel.pretrained("ner_deid_generic", "ro", "clinical/models")\
  	.setInputCols(["sentence","token","word_embeddings"])\
  	.setOutputCol("ner")
 
- ner_converter = NerConverter()\
+ner_converter = NerConverter()\
  	.setInputCols(["sentence", "token", "ner"])\
  	.setOutputCol("ner_chunk")
      
- nlpPipeline = Pipeline(stages=[documentAssembler, sentenceDetector, tokenizer, embeddings, clinical_ner, ner_converter])
+nlpPipeline = Pipeline(stages=[documentAssembler, sentenceDetector, tokenizer, embeddings, clinical_ner, ner_converter])
 
- text = """ Spitalul Pentru Ochi de Deal, Drumul Oprea Nr. 972 Vaslui, 737405 România
- Tel: +40(235)413773
- Data setului de analize: 25 May 2022 15:36:00
- Nume si Prenume : BUREAN MARIA, Varsta: 77
- Medic : Agota Evelyn Tımar
- C.N.P : 2450502264401"""
+text = """ Spitalul Pentru Ochi de Deal, Drumul Oprea Nr. 972 Vaslui,737405 România
+Tel: +40(235)413773
+Data setului de analize: 25 May 2022 15:36:00
+Nume si Prenume : BUREAN MARIA, Varsta: 77
+Medic : Agota Evelyn Tımar
+C.N.P : 2450502264401"""
 
- data = spark.createDataFrame([[text]]).toDF("text")
+data = spark.createDataFrame([[text]]).toDF("text")
 
- results = nlpPipeline.fit(data).transform(data)
+results = nlpPipeline.fit(data).transform(data)
 ```
 ```scala
 val documentAssembler = new DocumentAssembler()
@@ -142,7 +143,7 @@ val results = pipeline.fit(data).transform(data)
 {:.table-model}
 |---|---|
 |Model Name:|ner_deid_generic|
-|Compatibility:|Spark NLP for Healthcare 3.5.0+|
+|Compatibility:|Healthcare NLP 3.5.0+|
 |License:|Licensed|
 |Edition:|Official|
 |Input Labels:|[sentence, token, embeddings]|

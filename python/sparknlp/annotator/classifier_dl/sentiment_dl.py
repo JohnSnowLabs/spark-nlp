@@ -15,6 +15,7 @@
 
 from sparknlp.annotator.param import EvaluationDLParams, ClassifierEncoder
 from sparknlp.common import *
+from sparknlp.common.annotator_type import AnnotatorType
 
 
 class SentimentDLApproach(AnnotatorApproach, EvaluationDLParams, ClassifierEncoder):
@@ -114,6 +115,8 @@ class SentimentDLApproach(AnnotatorApproach, EvaluationDLParams, ClassifierEncod
     >>> pipelineModel = pipeline.fit(smallCorpus)
     """
 
+    inputAnnotatorTypes = [AnnotatorType.SENTENCE_EMBEDDINGS]
+
     dropout = Param(Params._dummy(), "dropout", "Dropout coefficient", TypeConverters.toFloat)
 
     threshold = Param(Params._dummy(), "threshold",
@@ -176,7 +179,7 @@ class SentimentDLApproach(AnnotatorApproach, EvaluationDLParams, ClassifierEncod
         )
 
 
-class SentimentDLModel(AnnotatorModel, HasStorageRef):
+class SentimentDLModel(AnnotatorModel, HasStorageRef, HasEngine):
     """SentimentDL, an annotator for multi-class sentiment analysis.
 
     In natural language processing, sentiment analysis is the task of
@@ -258,6 +261,8 @@ class SentimentDLModel(AnnotatorModel, HasStorageRef):
     """
     name = "SentimentDLModel"
 
+    inputAnnotatorTypes = [AnnotatorType.SENTENCE_EMBEDDINGS]
+
     def __init__(self, classname="com.johnsnowlabs.nlp.annotators.classifier.dl.SentimentDLModel", java_model=None):
         super(SentimentDLModel, self).__init__(
             classname=classname,
@@ -337,4 +342,3 @@ class SentimentDLModel(AnnotatorModel, HasStorageRef):
         """
         from sparknlp.pretrained import ResourceDownloader
         return ResourceDownloader.downloadModel(SentimentDLModel, name, lang, remote_loc)
-

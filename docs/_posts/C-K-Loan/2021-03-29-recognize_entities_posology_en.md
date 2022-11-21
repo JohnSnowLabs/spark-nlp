@@ -10,6 +10,7 @@ language: en
 edition: Spark NLP for Healthcare 3.0.0
 spark_version: 3.0
 supported: true
+annotator: PipelineModel
 article_header:
 type: cover
 use_language_switcher: "Python-Scala-Java"
@@ -33,17 +34,21 @@ This pipeline detects drugs, dosage, form, frequency, duration, route, and drug 
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
+
 ```python
-from sparknlp.pretrained import PretrainedPipelinein
-pipeline = PretrainedPipeline('recognize_entities_posology', lang = 'en')
-annotations =  pipeline.fullAnnotate(""The patient was perscriped 50MG penicilin for is headache"")[0]
+from sparknlp.pretrained import PretrainedPipeline
+
+pipeline = PretrainedPipeline('recognize_entities_posology', 'en', 'clinical/models')
+
+annotations =  pipeline.fullAnnotate("""The patient was perscriped 50MG penicilin for is headache""")[0]
+
 annotations.keys()
 
 ```
 ```scala
 
-val pipeline = new PretrainedPipeline("recognize_entities_posology", lang = "en")
-val result = pipeline.fullAnnotate("The patient was perscriped 50MG penicilin for is headache")(0)
+val pipeline = new PretrainedPipeline("recognize_entities_posology", "en", "clinical/models")
+val result = pipeline.fullAnnotate("""The patient was perscriped 50MG penicilin for is headache""")(0)
 
 ```
 
@@ -51,7 +56,7 @@ val result = pipeline.fullAnnotate("The patient was perscriped 50MG penicilin fo
 ```python
 import nlu
 
-result_df = nlu.load('ner.posology').predict("The patient was perscriped 50MG penicilin for is headache")
+result_df = nlu.load('ner.posology').predict("""The patient was perscriped 50MG penicilin for is headache""")
 result_df
 
 ```

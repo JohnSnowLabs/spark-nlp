@@ -7,9 +7,10 @@ date: 2021-06-06
 tags: [deid, clinical, glove, licensed, ner, en]
 task: Named Entity Recognition
 language: en
-edition: Spark NLP for Healthcare 3.0.4
+edition: Healthcare NLP 3.0.4
 spark_version: 3.0
 supported: true
+annotator: MedicalNerModel
 article_header:
   type: cover
 use_language_switcher: "Python-Scala-Java"
@@ -36,11 +37,23 @@ We sticked to official annotation guideline (AG) for 2014 i2b2 Deid challenge wh
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
+
 ```python
-...
+document_assembler = DocumentAssembler()\
+      .setInputCol("text")\
+      .setOutputCol("document")
+
+sentence_detector = SentenceDetector() \
+      .setInputCols(["document"]) \
+      .setOutputCol("sentence")
+
+tokenizer = Tokenizer() \
+      .setInputCols(["sentence"]) \
+      .setOutputCol("token")
+
 glove_embeddings = WordEmbeddingsModel.pretrained('glove_100d') \
-        .setInputCols(['sentence', 'token']) \
-        .setOutputCol('embeddings')
+      .setInputCols(['sentence', 'token']) \
+      .setOutputCol('embeddings')
 
 deid_ner = MedicalNerModel.pretrained("ner_deid_generic_glove", "en", "clinical/models") \
       .setInputCols(["sentence", "token", "embeddings"]) \
@@ -51,15 +64,27 @@ ner_converter = NerConverter()\
       .setOutputCol("ner_chunk")
 
 nlpPipeline = Pipeline(stages=[document_assembler, sentence_detector, tokenizer, glove_embeddings, deid_ner, ner_converter])
+
 model = nlpPipeline.fit(spark.createDataFrame([[""]]).toDF("text"))
 
 results = model.transform(spark.createDataFrame(pd.DataFrame({"text": ["""A. Record date : 2093-01-13, David Hale, M.D., Name : Hendrickson, Ora MR. # 7194334 Date : 01/13/93 PCP : Oliveira, 25 -year-old, Record date : 1-11-2000. Cocke County Baptist Hospital. 0295 Keats Street. Phone +1 (302) 786-5227."""]})))
 ```
 ```scala
-...
+val document_assembler = new DocumentAssembler()
+      .setInputCol("text")
+      .setOutputCol("document")
+
+val sentence_detector = new SentenceDetector()
+      .setInputCols("document")
+      .setOutputCol("sentence")
+
+val tokenizer = new Tokenizer()
+      .setInputCols("sentence")
+      .setOutputCol("token")
+
 val glove_embeddings = WordEmbeddingsModel.pretrained("glove_100d") 
-        .setInputCols(Array("sentence', 'token")) 
-        .setOutputCol("embeddings")
+      .setInputCols(Array("sentence', 'token")) 
+      .setOutputCol("embeddings")
 
 val deid_ner = MedicalNerModel.pretrained("ner_deid_generic_glove", "en", "clinical/models") 
       .setInputCols(Array("sentence", "token", "embeddings")) 
@@ -70,9 +95,8 @@ val ner_converter = NerConverter()
       .setOutputCol("ner_chunk")
 
 val nlpPipeline = new Pipeline().setStages(Array(document_assembler, sentence_detector, tokenizer, glove_embeddings, deid_ner, ner_converter))
-val model = nlpPipeline.fit(spark.createDataFrame([[""]]).toDF("text"))
 
-val result = pipeline.fit(Seq.empty["A. Record date : 2093-01-13, David Hale, M.D., Name : Hendrickson, Ora MR. # 7194334 Date : 01/13/93 PCP : Oliveira, 25 -year-old, Record date : 1-11-2000. Cocke County Baptist Hospital. 0295 Keats Street. Phone +1 (302) 786-5227."].toDS.toDF("text")).transform(data)
+val result = nlpPipeline.fit(Seq.empty["A. Record date : 2093-01-13, David Hale, M.D., Name : Hendrickson, Ora MR. # 7194334 Date : 01/13/93 PCP : Oliveira, 25 -year-old, Record date : 1-11-2000. Cocke County Baptist Hospital. 0295 Keats Street. Phone +1 (302) 786-5227."].toDS.toDF("text")).transform(data)
 ```
 </div>
 
@@ -102,7 +126,7 @@ val result = pipeline.fit(Seq.empty["A. Record date : 2093-01-13, David Hale, M.
 {:.table-model}
 |---|---|
 |Model Name:|ner_deid_generic_glove|
-|Compatibility:|Spark NLP for Healthcare 3.0.4+|
+|Compatibility:|Healthcare NLP 3.0.4+|
 |License:|Licensed|
 |Edition:|Official|
 |Input Labels:|[sentence, token, embeddings]|

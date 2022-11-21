@@ -7,9 +7,10 @@ date: 2022-06-27
 tags: [rxnorm, ndc, chunk_mapper, licensed, clinical, en]
 task: Chunk Mapping
 language: en
-edition: Spark NLP for Healthcare 3.5.3
+edition: Healthcare NLP 3.5.3
 spark_version: 3.0
 supported: true
+annotator: ChunkMapperModel
 article_header:
 type: cover
 use_language_switcher: "Python-Scala-Java"
@@ -128,7 +129,7 @@ nlu.load("en.rxnorm_to_ndc").predict("""doxycycline hyclate 50 MG Oral Tablet"""
 {:.table-model}
 |---|---|
 |Model Name:|rxnorm_ndc_mapper|
-|Compatibility:|Spark NLP for Healthcare 3.5.3+|
+|Compatibility:|Healthcare NLP 3.5.3+|
 |License:|Licensed|
 |Edition:|Official|
 |Input Labels:|[chunk]|

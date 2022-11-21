@@ -7,9 +7,10 @@ date: 2022-03-31
 tags: [licensed, clinical, relation_extraction, body_part, directions, en]
 task: Relation Extraction
 language: en
-edition: Spark NLP for Healthcare 3.4.1
+edition: Healthcare NLP 3.4.1
 spark_version: 3.0
 supported: true
+annotator: PipelineModel
 article_header:
   type: cover
 use_language_switcher: "Python-Scala-Java"
@@ -81,7 +82,7 @@ pipeline.fullAnnotate("MRI demonstrated infarction in the upper brain stem , lef
 |---|---|
 |Model Name:|re_bodypart_directions_pipeline|
 |Type:|pipeline|
-|Compatibility:|Spark NLP for Healthcare 3.4.1+|
+|Compatibility:|Healthcare NLP 3.4.1+|
 |License:|Licensed|
 |Edition:|Official|
 |Language:|en|

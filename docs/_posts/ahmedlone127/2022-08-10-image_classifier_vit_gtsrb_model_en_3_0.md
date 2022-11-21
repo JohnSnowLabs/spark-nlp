@@ -10,6 +10,7 @@ language: en
 edition: Spark NLP 4.1.0
 spark_version: 3.0
 supported: true
+annotator: ViTForImageClassification
 article_header:
   type: cover
 use_language_switcher: "Python-Scala-Java"
@@ -18,6 +19,11 @@ use_language_switcher: "Python-Scala-Java"
 ## Description
 
 Pretrained VIT  model, adapted from Hugging Face and curated to provide scalability and production-readiness using Spark NLP.`image_classifier_vit_gtsrb_model` is a English model originally trained by bazyl.
+
+
+## Predicted Entities
+
+`Children crossing`, `Double curve`, `Road work`, `Yield`, `Beware of ice/snow`, `Speed limit (70km/h)`, `Bicycles crossing`, `Roundabout mandatory`, `Speed limit (30km/h)`, `Keep left`, `Dangerous curve left`, `No vehicles`, `End of no passing`, `Bumpy road`, `Speed limit (50km/h)`, `Turn left ahead`, `Speed limit (20km/h)`, `General caution`, `Speed limit (100km/h)`, `End speed + passing limits`, `Go straight or right`, `Dangerous curve right`, `Speed limit (80km/h)`, `Slippery road`, `Turn right ahead`, `No passing veh over 3.5 tons`, `Speed limit (60km/h)`, `Pedestrians`, `Right-of-way at intersection`, `Priority road`, `End of speed limit (80km/h)`, `Road narrows on the right`, `No entry`, `Stop`, `Wild animals crossing`, `Veh > 3.5 tons prohibited`, `End no passing veh > 3.5 tons`, `Go straight or left`, `Speed limit (120km/h)`, `Ahead only`, `Keep right`, `Traffic signals`, `No passing`
 
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>

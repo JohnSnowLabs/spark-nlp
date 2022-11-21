@@ -7,9 +7,10 @@ date: 2021-11-04
 tags: [ner, clinical, es, licensed]
 task: Named Entity Recognition
 language: es
-edition: Spark NLP for Healthcare 3.3.0
+edition: Healthcare NLP 3.3.0
 spark_version: 3.0
 supported: true
+annotator: MedicalNerModel
 article_header:
 type: cover
 use_language_switcher: "Python-Scala-Java"
@@ -94,27 +95,27 @@ import pandas as pd
 res = p_model.transform(spark.createDataFrame(pd.DataFrame({'text': [test_sentence]})))
 ```
 ```scala
-val documentAssembler = new nlp.DocumentAssembler()
+val documentAssembler = new DocumentAssembler()
 .setInputCol("text")
 .setOutputCol("document")
 
-val sentenceDetector = nlp.SentenceDetectorDLModel.pretrained()
+val sentenceDetector = SentenceDetectorDLModel.pretrained()
 .setInputCols(Array("document"))
 .setOutputCol("sentence")
 
-val tokenizer = new nlp.Tokenizer()
+val tokenizer = new Tokenizer()
 .setInputCols("sentence")
 .setOutputCol("token")
 
-val embeddings = nlp.RoBertaEmbeddings.pretrained("roberta_base_biomedical", "es")
+val embeddings = RoBertaEmbeddings.pretrained("roberta_base_biomedical", "es")
 .setInputCols(Array("sentence", "token"))
 .setOutputCol("embeddings")
 
-val ner = medical.NerModel.pretrained("roberta_ner_diag_proc", "es", "clinical/models")
+val ner = MedicalNerModel.pretrained("roberta_ner_diag_proc", "es", "clinical/models")
 .setInputCols(Array("sentence", "token", "embeddings"))
 .setOutputCol("ner")
 
-val ner_converter = new nlp.NerConverter()
+val ner_converter = new NerConverter()
 .setInputCols(Array("sentence", "token", "ner"))
 .setOutputCol("ner_chunk")
 
@@ -179,7 +180,7 @@ nlu.load("es.med_ner.roberta_ner_diag_proc").predict("""Mujer de 28 años con an
 {:.table-model}
 |---|---|
 |Model Name:|roberta_ner_diag_proc|
-|Compatibility:|Spark NLP for Healthcare 3.3.0+|
+|Compatibility:|Healthcare NLP 3.3.0+|
 |License:|Licensed|
 |Edition:|Official|
 |Input Labels:|[sentence, token, embeddings]|

@@ -7,9 +7,10 @@ date: 2022-09-30
 tags: [en, clinical, chunk_mapping, icd9, icd10, licensed]
 task: Chunk Mapping
 language: en
-edition: Spark NLP for Healthcare 4.1.0
+edition: Healthcare NLP 4.1.0
 spark_version: 3.0
 supported: true
+annotator: ChunkMapperModel
 article_header:
   type: cover
 use_language_switcher: "Python-Scala-Java"
@@ -36,12 +37,12 @@ This pretrained model maps ICD-9-CM codes to corresponding ICD-10-CM codes
 {% include programmingLanguageSelectScalaPythonNLU.html %}
 ```python
 document_assembler = DocumentAssembler()\
-      .setInputCol('text')\
-      .setOutputCol('doc')
+      .setInputCol("text")\
+      .setOutputCol("doc")
 
 chunk_assembler = Doc2Chunk()\
-      .setInputCols(['doc'])\
-      .setOutputCol('ner_chunk')
+      .setInputCols(["doc"])\
+      .setOutputCol("ner_chunk")
  
 chunkerMapper = ChunkMapperModel\
     .pretrained("icd9_icd10_mapper", "en", "clinical/models")\
@@ -68,12 +69,12 @@ val documentAssembler = new DocumentAssembler()
         .setInputCol("text")
         .setOutputCol("ner_chunk")
 
-val chunk_assembler = new Doc2Chunk()\
-        .setInputCols(["doc"])\
+val chunk_assembler = new Doc2Chunk()
+        .setInputCols(Array("doc"))
         .setOutputCol("ner_chunk")
 
 val chunkerMapper = ChunkMapperModel.pretrained("icd9_icd10_mapper", "en","clinical/models")
-        .setInputCols("icd10cm_code")
+        .setInputCols(Array("ner_chunk"))
         .setOutputCol("mappings")
         .setRels(Array("icd10_code"))
         
@@ -104,7 +105,7 @@ val result= pipeline.fit(data).transform(data)
 {:.table-model}
 |---|---|
 |Model Name:|icd9_icd10_mapper|
-|Compatibility:|Spark NLP for Healthcare 4.1.0+|
+|Compatibility:|Healthcare NLP 4.1.0+|
 |License:|Licensed|
 |Edition:|Official|
 |Input Labels:|[ner_chunk]|

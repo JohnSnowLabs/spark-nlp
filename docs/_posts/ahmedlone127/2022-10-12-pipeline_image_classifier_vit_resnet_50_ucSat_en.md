@@ -10,6 +10,7 @@ language: en
 edition: Spark NLP 4.2.1
 spark_version: 3.0
 supported: true
+annotator: PipelineModel
 article_header:
   type: cover
 use_language_switcher: "Python-Scala-Java"
@@ -18,6 +19,11 @@ use_language_switcher: "Python-Scala-Java"
 ## Description
 
 Pretrained VIT  model, adapted from Hugging Face and curated to provide scalability and production-readiness using Spark NLP.`image_classifier_vit_resnet_50_ucSat` is a English model originally trained by YKXBCi.
+
+
+## Predicted Entities
+
+`buildings`, `denseresidential`, `storagetanks`, `tenniscourt`, `parkinglot`, `golfcourse`, `intersection`, `harbor`, `river`, `runway`, `mediumresidential`, `chaparral`, `freeway`, `overpass`, `mobilehomepark`, `baseballdiamond`, `agricultural`, `airplane`, `sparseresidential`, `forest`, `beach`
 
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>

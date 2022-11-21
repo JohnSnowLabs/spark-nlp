@@ -7,8 +7,8 @@ date: 2022-08-18
 tags: [en, finance, companies, edgar, data, augmentation, licensed]
 task: Chunk Mapping
 language: en
-edition: Spark NLP for Finance 1.0.0
-spark_version: 3.2
+edition: Finance NLP 1.0.0
+spark_version: 3.0
 supported: true
 article_header:
   type: cover
@@ -42,6 +42,7 @@ IMPORTANT: Chunk Mappers work with exact matches, so before using Chunk Mapping,
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
+
 ```python
 documentAssembler = nlp.DocumentAssembler()\
         .setInputCol("text")\
@@ -143,7 +144,7 @@ print(json.dumps(json_dict))
 |---|---|
 |Model Name:|finmapper_edgar_companyname|
 |Type:|finance|
-|Compatibility:|Spark NLP for Finance 1.0.0+|
+|Compatibility:|Finance NLP 1.0.0+|
 |License:|Licensed|
 |Edition:|Official|
 |Input Labels:|[ner_chunk]|

@@ -7,15 +7,20 @@ date: 2022-08-24
 tags: [en, legal, whereas, licensed]
 task: [Named Entity Recognition, Part of Speech Tagging, Dependency Parser, Relation Extraction]
 language: en
-edition: Spark NLP for Legal 1.0.0
-spark_version: 3.2
+edition: Legal NLP 1.0.0
+spark_version: 3.0
 supported: true
+annotator: Pipeline
 article_header:
   type: cover
 use_language_switcher: "Python-Scala-Java"
 ---
 
 ## Description
+
+IMPORTANT: Don't run this model on the whole legal agreement. Instead:
+- Split by paragraphs. You can use [notebook 1](https://github.com/JohnSnowLabs/spark-nlp-workshop/tree/master/tutorials/Certification_Trainings_JSL) in Finance or Legal as inspiration;
+- Use the `legclf_cuad_whereas_clause` Text Classifier to select only these paragraphs; 
 
 This is a Pretrained Pipeline to show extraction of whereas clauses (Subject, Action and Object), and also the relationships between them, using two approaches:
 - A Semantic Relation Extraction Model;
@@ -38,6 +43,7 @@ The difficulty of these entities is that they are totally free-text, with OBJECT
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
+
 ```python
 from johnsnowlabs import *
 
@@ -84,7 +90,7 @@ dependency_vis.display(pipeline_result[0], #should be the results of a single ex
 |---|---|
 |Model Name:|legpipe_whereas|
 |Type:|pipeline|
-|Compatibility:|Spark NLP for Legal 1.0.0+|
+|Compatibility:|Legal NLP 1.0.0+|
 |License:|Licensed|
 |Edition:|Official|
 |Language:|en|

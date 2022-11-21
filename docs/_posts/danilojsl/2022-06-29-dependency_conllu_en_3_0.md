@@ -10,6 +10,7 @@ language: en
 edition: Spark NLP 3.4.4
 spark_version: 3.0
 supported: true
+annotator: DependencyParserModel
 article_header:
 type: cover
 use_language_switcher: "Python-Scala-Java"
@@ -39,7 +40,7 @@ Relations among the words are illustrated above the sentence with directed, labe
 {:.btn-box}
 [Live Demo](https://demo.johnsnowlabs.com/public/GRAMMAR_EN/){:.button.button-orange}
 [Open in Colab](https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/GRAMMAR_EN.ipynb){:.button.button-orange.button-orange-trans.co.button-icon}
-[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/dependency_conllu_en_3.0.0_3.0_1616860290925.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
+[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/dependency_conllu_en_3.4.4_3.0_1656845289670.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
 
 ## How to use
 

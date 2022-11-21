@@ -7,9 +7,10 @@ date: 2022-06-28
 tags: [sequence_classification, bert, en, licensed, stress, mental, public_health]
 task: Text Classification
 language: en
-edition: Spark NLP for Healthcare 4.0.0
+edition: Healthcare NLP 4.0.0
 spark_version: 3.0
 supported: true
+annotator: MedicalBertForSequenceClassification
 article_header:
 type: cover
 use_language_switcher: "Python-Scala-Java"
@@ -103,7 +104,7 @@ nlu.load("en.classify.stress").predict("""No place in my city has shelter space 
 {:.table-model}
 |---|---|
 |Model Name:|bert_sequence_classifier_stress|
-|Compatibility:|Spark NLP for Healthcare 4.0.0+|
+|Compatibility:|Healthcare NLP 4.0.0+|
 |License:|Licensed|
 |Edition:|Official|
 |Input Labels:|[document, token]|

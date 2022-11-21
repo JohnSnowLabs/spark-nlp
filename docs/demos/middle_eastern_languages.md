@@ -24,8 +24,6 @@ data:
           id: recognize_entities_in_turkish_text
           image: 
               src: /assets/images/Flag_of_Turkey.png
-          image2: 
-              src: /assets/images/Flag_of_Turkey.png
           excerpt: Recognize Persons, Locations and Organization entities using an out of the box pretrained Deep Learning model and multi-lingual Bert word embeddings.
           actions:
           - text: Live Demo
@@ -37,8 +35,6 @@ data:
         - title: Recognize entities in Arabic text 
           id: recognize_entities_in_arabic_text
           image: 
-              src: /assets/images/arab.jpg
-          image2: 
               src: /assets/images/arab.jpg
           excerpt: Recognize Persons, Locations and Organization entities using an out of the box pretrained Deep Learning model and language specific embeddings. 
           actions:
@@ -52,8 +48,6 @@ data:
           id: recognize_entities_in_urdu_text
           image: 
               src: /assets/images/Flag_of_Pakistan.png
-          image2: 
-              src: /assets/images/Flag_of_Pakistan.png
           excerpt: Recognize Persons, Locations and other entities using an out of the box pretrained Deep Learning model and language specific embeddings.
           actions:
           - text: Live Demo
@@ -65,8 +59,6 @@ data:
         - title: Analyze sentiment in Urdu movie reviews
           id: analyze_sentiment_in_urdu_movie_reviews
           image: 
-              src: /assets/images/Flag_of_Pakistan.png
-          image2: 
               src: /assets/images/Flag_of_Pakistan.png
           excerpt: Detect the general sentiment expressed in a movie review or tweet by using our pretrained Spark NLP sentiment analysis model for Urdu language.
           actions:
@@ -80,8 +72,6 @@ data:
           id: recognize_entities_in_persian_text
           image: 
               src: /assets/images/Flag_of_Iran.png
-          image2: 
-              src: /assets/images/Flag_of_Iran.png
           excerpt: Recognize Persons, Locations and Organization entities using an out of the box pretrained Deep Learning model and language specific embeddings. 
           actions:
           - text: Live Demo
@@ -93,8 +83,6 @@ data:
         - title: Recognize entities in Hebrew text 
           id: recognize_entities_in_hebrew_text
           image: 
-              src: /assets/images/Israel.jpg
-          image2: 
               src: /assets/images/Israel.jpg
           excerpt: Recognize Persons, Locations and Organization entities using an out of the box pretrained Deep Learning model and language specific embeddings.
           actions:
@@ -108,8 +96,6 @@ data:
           id: turkish_news_classifier
           image: 
               src: /assets/images/Healthcare_TurkishNewsClassifier.svg
-          image2: 
-              src: /assets/images/Healthcare_TurkishNewsClassifier_f.svg
           excerpt: Classify Turkish news text using our pre-trained model
           actions:
           - text: Live Demo
@@ -122,8 +108,6 @@ data:
           id: turkish_cyberbullying_detection
           image: 
               src: /assets/images/Turkish_Cyberbullying_Detection.svg
-          image2: 
-              src: /assets/images/Turkish_Cyberbullying_Detection_c.svg
           excerpt: This demo shows how cyberbullying content can be automatically detected in Turkish text using Classifier DL model. 
           actions:
           - text: Live Demo
@@ -136,8 +120,6 @@ data:
           id: analyze_sentiment_turkish_texts 
           image: 
               src: /assets/images/Analyze_sentiment_in_Turkish_texts.svg
-          image2: 
-              src: /assets/images/Analyze_sentiment_in_Turkish_texts_f.svg
           excerpt: This demo shows how sentiment can be identified (positive or negative) in Turkish texts.
           actions:
           - text: Live Demo
@@ -150,8 +132,6 @@ data:
           id: urdu_news_classifier  
           image: 
               src: /assets/images/Urdu_news_classifier.svg
-          image2: 
-              src: /assets/images/Urdu_news_classifier_f.svg
           excerpt: This demo shows how to classify Urdu news into different categories, such as Science, Entertainment, etc.
           actions:
           - text: Live Demo
@@ -164,8 +144,6 @@ data:
           id: urdu_fake_news_classifier
           image: 
               src: /assets/images/Urdu_fake_news.svg
-          image2: 
-              src: /assets/images/Urdu_fake_news_f.svg
           excerpt: This demo shows how to detect fake Urdu news.
           actions:
           - text: Live Demo
@@ -178,8 +156,6 @@ data:
           id: lemmatizer_middle_mastern_languages 
           image: 
               src: /assets/images/Lemmatizer_for_Middle_Eastern_Languages.svg
-          image2: 
-              src: /assets/images/Lemmatizer_for_Middle_Eastern_Languages_f.svg
           excerpt: This demo shows how to lemmatize documents of Middle Eastern languages.
           actions:
           - text: Live Demo

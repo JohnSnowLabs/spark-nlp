@@ -7,7 +7,7 @@ date: 2022-02-26
 tags: [snomed, licensed, en, clinical, aux, ct]
 task: Entity Resolution
 language: en
-edition: Spark NLP for Healthcare 3.1.2
+edition: Healthcare NLP 3.1.2
 spark_version: 3.0
 supported: true
 article_header:
@@ -47,7 +47,7 @@ sentenceDetector = SentenceDetectorDLModel.pretrained()\
       .setOutputCol("sentence")
 
 tokenizer = Tokenizer() \
-      .setInputCols(["document"]) \
+      .setInputCols(["sentence"]) \
       .setOutputCol("token")
 
 word_embeddings = WordEmbeddingsModel.pretrained("embeddings_clinical","en", "clinical/models")\
@@ -99,11 +99,11 @@ val documentAssembler = DocumentAssembler()
       .setOutputCol("document")
 
 val sentenceDetector = SentenceDetectorDLModel.pretrained()
-      .setInputCols("document")
+      .setInputCols(Array("document"))
       .setOutputCol("sentence")
 
 val tokenizer = Tokenizer() 
-      .setInputCols("document") 
+      .setInputCols(Array("sentence"))
       .setOutputCol("token")
 
 val word_embeddings = WordEmbeddingsModel.pretrained("embeddings_clinical","en", "clinical/models")
@@ -168,7 +168,7 @@ val result= nlpPipeline.fit(df).transform(df)
 {:.table-model}
 |---|---|
 |Model Name:|sbiobertresolve_snomed_findings_aux_concepts|
-|Compatibility:|Spark NLP for Healthcare 3.1.2+|
+|Compatibility:|Healthcare NLP 3.1.2+|
 |License:|Licensed|
 |Edition:|Official|
 |Input Labels:|[ner_chunk, sbert_embeddings]|

@@ -7,9 +7,10 @@ date: 2022-01-06
 tags: [ner, bertfortokenclassification, en, licensed]
 task: Named Entity Recognition
 language: en
-edition: Spark NLP for Healthcare 3.3.4
+edition: Healthcare NLP 3.3.4
 spark_version: 2.4
 supported: true
+annotator: MedicalBertForTokenClassifier
 article_header:
 type: cover
 use_language_switcher: "Python-Scala-Java"
@@ -57,7 +58,7 @@ tokenizer = Tokenizer()\
 .setInputCols("sentence")\
 .setOutputCol("token")
 
-tokenClassifier = BertForTokenClassification.pretrained("bert_token_classifier_ner_jsl_slim", "en", "clinical/models")\
+tokenClassifier = MedicalBertForTokenClassifier.pretrained("bert_token_classifier_ner_jsl_slim", "en", "clinical/models")\
 .setInputCols("token", "sentence")\
 .setOutputCol("ner")\
 .setCaseSensitive(True)
@@ -73,11 +74,12 @@ pipeline =  Pipeline(stages=[
 		       tokenClassifier,
 		       ner_converter])
 						       
-model = pipeline.fit(spark.createDataFrame([[""]]).toDF("text"))
 
 sample_text = """HISTORY: 30-year-old female presents for digital bilateral mammography secondary to a soft tissue lump palpated by the patient in the upper right shoulder. The patient has a family history of breast cancer within her mother at age 58. Patient denies personal history of breast cancer."""
 
-result = model.transform(spark.createDataFrame([[sample_text]]).toDF("text"))
+data = spark.createDataFrame([[sample_text]]).toDF("text")
+
+result = pipeline.fit(data).transform(data)
 ```
 ```scala
 val documentAssembler = new DocumentAssembler()
@@ -85,7 +87,7 @@ val documentAssembler = new DocumentAssembler()
 	.setOutputCol("document")
 
 val sentenceDetector = SentenceDetectorDLModel.pretrained("sentence_detector_dl_healthcare","en","clinical/models")
-	.setInputCols("document")
+	.setInputCols(Array("document"))
 	.setOutputCol("sentence")
 
 val tokenizer = new Tokenizer()
@@ -108,9 +110,9 @@ val pipeline =  new Pipeline().setStages(Array(
 				tokenClassifier,
 				ner_converter))
 												
-val sample_text = Seq("""HISTORY: 30-year-old female presents for digital bilateral mammography secondary to a soft tissue lump palpated by the patient in the upper right shoulder. The patient has a family history of breast cancer within her mother at age 58. Patient denies personal history of breast cancer.""").toDS.toDF("text")
+val data = Seq("""HISTORY: 30-year-old female presents for digital bilateral mammography secondary to a soft tissue lump palpated by the patient in the upper right shoulder. The patient has a family history of breast cancer within her mother at age 58. Patient denies personal history of breast cancer.""").toDS.toDF("text")
 
-val result = pipeline.fit(sample_text).transform(sample_text)
+val result = pipeline.fit(data).transform(data)
 ```
 
 
@@ -151,7 +153,7 @@ nlu.load("en.classify.token_bert.ner_jsl_slim").predict("""HISTORY: 30-year-old 
 {:.table-model}
 |---|---|
 |Model Name:|bert_token_classifier_ner_jsl_slim|
-|Compatibility:|Spark NLP for Healthcare 3.3.4+|
+|Compatibility:|Healthcare NLP 3.3.4+|
 |License:|Licensed|
 |Edition:|Official|
 |Input Labels:|[sentence, token]|

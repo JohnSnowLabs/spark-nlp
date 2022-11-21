@@ -7,9 +7,10 @@ date: 2022-06-29
 tags: [berttokenclassifier, bert, biobert, en, ner, licensed]
 task: Named Entity Recognition
 language: en
-edition: Spark NLP for Healthcare 3.5.3
+edition: Healthcare NLP 3.5.3
 spark_version: 3.0
 supported: true
+annotator: MedicalBertForTokenClassifier
 article_header:
 type: cover
 use_language_switcher: "Python-Scala-Java"
@@ -145,7 +146,7 @@ nlu.load("en.med_ner.clinical_trials_abstracts").predict("""This open-label, par
 {:.table-model}
 |---|---|
 |Model Name:|bert_token_classifier_ner_clinical_trials_abstracts|
-|Compatibility:|Spark NLP for Healthcare 3.5.3+|
+|Compatibility:|Healthcare NLP 3.5.3+|
 |License:|Licensed|
 |Edition:|Official|
 |Input Labels:|[sentence, token]|

@@ -7,9 +7,10 @@ date: 2022-03-23
 tags: [licensed, ner, clinical, bertfortokenclassification, en]
 task: Named Entity Recognition
 language: en
-edition: Spark NLP for Healthcare 3.4.1
+edition: Healthcare NLP 3.4.1
 spark_version: 3.0
 supported: true
+annotator: PipelineModel
 article_header:
   type: cover
 use_language_switcher: "Python-Scala-Java"
@@ -95,7 +96,7 @@ only showing top 20 rows
 |---|---|
 |Model Name:|bert_token_classifier_ner_jsl_pipeline|
 |Type:|pipeline|
-|Compatibility:|Spark NLP for Healthcare 3.4.1+|
+|Compatibility:|Healthcare NLP 3.4.1+|
 |License:|Licensed|
 |Edition:|Official|
 |Language:|en|

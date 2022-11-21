@@ -88,7 +88,7 @@ result.selectExpr("regexToken.result").show(false)
 {%- endcapture -%}
 
 {%- capture python_api_link -%}
-[RegexTokenizer](/api/python/reference/autosummary/sparknlp/annotator/token/regex_tokenizer/index.html#sparknlp.annotator.token.regex_tokenizer.RegexTokenizer)
+[RegexTokenizer](/api/python/reference/autosummary/python/sparknlp/annotator/token/regex_tokenizer/index.html#sparknlp.annotator.token.regex_tokenizer.RegexTokenizer)
 {%- endcapture -%}
 
 {%- capture source_link -%}

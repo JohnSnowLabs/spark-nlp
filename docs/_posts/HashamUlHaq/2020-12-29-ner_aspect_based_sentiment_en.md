@@ -10,6 +10,7 @@ edition: Spark NLP 2.6.2
 spark_version: 2.4
 tags: [sentiment, open_source, en, ner]
 supported: true
+annotator: MedicalNerModel
 article_header:
 type: cover
 use_language_switcher: "Python-Scala-Java"

@@ -7,9 +7,10 @@ date: 2022-08-30
 tags: [en, legal, companies, edgar, licensed]
 task: Entity Resolution
 language: en
-edition: Spark NLP for Legal 1.0.0
-spark_version: 3.2
+edition: Legal NLP 1.0.0
+spark_version: 3.0
 supported: true
+annotator: SentenceEntityResolverModel
 article_header:
   type: cover
 use_language_switcher: "Python-Scala-Java"
@@ -34,6 +35,7 @@ This is an Entity Linking / Entity Resolution model, which allows you to retriev
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
+
 ```python
 documentAssembler = nlp.DocumentAssembler()\
       .setInputCol("text")\
@@ -78,7 +80,7 @@ lp.fullAnnotate("CONTACT GOLD")
 |---|---|
 |Model Name:|legel_edgar_irs|
 |Type:|legal|
-|Compatibility:|Spark NLP for Legal 1.0.0+|
+|Compatibility:|Legal NLP 1.0.0+|
 |License:|Licensed|
 |Edition:|Official|
 |Input Labels:|[sentence_embeddings]|

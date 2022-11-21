@@ -10,6 +10,7 @@ language: en
 edition: Spark NLP 4.1.0
 spark_version: 3.0
 supported: true
+annotator: ViTForImageClassification
 article_header:
   type: cover
 use_language_switcher: "Python-Scala-Java"
@@ -18,6 +19,11 @@ use_language_switcher: "Python-Scala-Java"
 ## Description
 
 Pretrained VIT  model, adapted from Hugging Face and curated to provide scalability and production-readiness using Spark NLP.`image_classifier_vit_age_classifier` is a English model originally trained by ibombonato.
+
+
+## Predicted Entities
+
+`60-70`, `40-50`, `70-80`, `80-90`, `10-20`, `50-60`, `90-100`, `30-40`, `0-10`, `20-30`
 
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>

@@ -16,6 +16,7 @@
 from sparknlp.annotator.param import EvaluationDLParams, ClassifierEncoder
 from sparknlp.annotator.classifier_dl import ClassifierDLModel
 from sparknlp.common import *
+from sparknlp.common.annotator_type import AnnotatorType
 
 
 class MultiClassifierDLApproach(AnnotatorApproach, EvaluationDLParams, ClassifierEncoder):
@@ -143,6 +144,7 @@ class MultiClassifierDLApproach(AnnotatorApproach, EvaluationDLParams, Classifie
     ClassifierDLApproach : for single-class classification
     SentimentDLApproach : for sentiment analysis
     """
+    inputAnnotatorTypes = [AnnotatorType.SENTENCE_EMBEDDINGS]
 
     shufflePerEpoch = Param(Params._dummy(), "shufflePerEpoch", "whether to shuffle the training data on each Epoch",
                             TypeConverters.toBoolean)
@@ -192,7 +194,7 @@ class MultiClassifierDLApproach(AnnotatorApproach, EvaluationDLParams, Classifie
         )
 
 
-class MultiClassifierDLModel(AnnotatorModel, HasStorageRef):
+class MultiClassifierDLModel(AnnotatorModel, HasStorageRef, HasEngine):
     """MultiClassifierDL for Multi-label Text Classification.
 
     MultiClassifierDL Bidirectional GRU with Convolution model we have built
@@ -290,6 +292,8 @@ class MultiClassifierDLModel(AnnotatorModel, HasStorageRef):
     """
     name = "MultiClassifierDLModel"
 
+    inputAnnotatorTypes = [AnnotatorType.SENTENCE_EMBEDDINGS]
+
     def __init__(self, classname="com.johnsnowlabs.nlp.annotators.classifier.dl.MultiClassifierDLModel",
                  java_model=None):
         super(MultiClassifierDLModel, self).__init__(
@@ -354,4 +358,3 @@ class MultiClassifierDLModel(AnnotatorModel, HasStorageRef):
         """
         from sparknlp.pretrained import ResourceDownloader
         return ResourceDownloader.downloadModel(MultiClassifierDLModel, name, lang, remote_loc)
-

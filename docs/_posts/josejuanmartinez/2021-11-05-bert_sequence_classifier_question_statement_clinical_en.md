@@ -7,9 +7,10 @@ date: 2021-11-05
 tags: [question, statement, clinical, en, licensed]
 task: Text Classification
 language: en
-edition: Spark NLP for Healthcare 3.3.2
+edition: Healthcare NLP 3.3.2
 spark_version: 3.0
 supported: true
+annotator: BertForSequenceClassification
 article_header:
 type: cover
 use_language_switcher: "Python-Scala-Java"
@@ -79,19 +80,19 @@ data = spark.createDataFrame(test_sentences).toDF("text")
 res = pipeline.fit(data).transform(data)
 ```
 ```scala
-val documentAssembler = new nlp.DocumentAssembler()
+val documentAssembler = new DocumentAssembler()
 .setInputCol("text")
 .setOutputCol("document")
 
-val sentenceDetector = nlp.SentenceDetectorDLModel.pretrained()
+val sentenceDetector = SentenceDetectorDLModel.pretrained()
 .setInputCols(Array("document"))
 .setOutputCol("sentence")
 
-val tokenizer = new nlp.Tokenizer()
+val tokenizer = new Tokenizer()
 .setInputCols("sentence")
 .setOutputCol("token")
 
-val seq = nlp.BertForSequenceClassification.pretrained("bert_sequence_classifier_question_statement_clinical", "en", "clinical/models")
+val seq = BertForSequenceClassification.pretrained("bert_sequence_classifier_question_statement_clinical", "en", "clinical/models")
 .setInputCols(Array("token", "sentence"))
 .setOutputCol("label")
 .setCaseSensitive(True)
@@ -145,7 +146,7 @@ Your progesterone report is perfectly normal. We expect this result on day 23rd 
 {:.table-model}
 |---|---|
 |Model Name:|bert_sequence_classifier_question_statement_clinical|
-|Compatibility:|Spark NLP for Healthcare 3.3.2+|
+|Compatibility:|Healthcare NLP 3.3.2+|
 |License:|Licensed|
 |Edition:|Official|
 |Input Labels:|[token, sentence]|

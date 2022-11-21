@@ -7,9 +7,10 @@ date: 2022-06-24
 tags: [rxnorm, umls, chunk_mapper, en, licensed]
 task: Chunk Mapping
 language: en
-edition: Spark NLP for Healthcare 3.5.3
+edition: Healthcare NLP 3.5.3
 spark_version: 3.0
 supported: true
+annotator: ChunkMapperModel
 article_header:
 type: cover
 use_language_switcher: "Python-Scala-Java"
@@ -71,7 +72,7 @@ result = lp.fullAnnotate(["amlodipine 5 MG", "hydrochlorothiazide 25 MG"])
 ```
 ```scala
 val documentAssembler = new DocumentAssembler()
-.setInputCol("text")\
+.setInputCol("text")
 .setOutputCol("ner_chunk")
 
 val sbert_embedder = BertSentenceEmbeddings
@@ -125,7 +126,7 @@ nlu.load("en.rxnorm_to_umls").predict("""hydrochlorothiazide 25 MG""")
 {:.table-model}
 |---|---|
 |Model Name:|rxnorm_umls_mapper|
-|Compatibility:|Spark NLP for Healthcare 3.5.3+|
+|Compatibility:|Healthcare NLP 3.5.3+|
 |License:|Licensed|
 |Edition:|Official|
 |Input Labels:|[rxnorm_code]|

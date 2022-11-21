@@ -7,9 +7,10 @@ date: 2022-01-18
 tags: [mesh, entity_resolution, clinical, en, licensed]
 task: Entity Resolution
 language: en
-edition: Spark NLP for Healthcare 3.3.2
+edition: Healthcare NLP 3.3.2
 spark_version: 2.4
 supported: true
+annotator: SentenceEntityResolverModel
 article_header:
 type: cover
 use_language_switcher: "Python-Scala-Java"
@@ -56,7 +57,7 @@ documentAssembler,
 sbert_embedder,
 mesh_resolver])
 
-data = spark.createDataFrame([["""She was admitted to the hospital with chest pain and found to have bilateral pleural effusion, the right greater than the left. We reviewed the pathology obtained from the pericardectomy in March 2006, which was diagnostic of mesothelioma. At this time, chest tube placement for drainage of the fluid occurred and thoracoscopy with fluid biopsies, which were performed, which revealed malignant mesothelioma."""]]).toDF("text"))
+data = spark.createDataFrame([["""She was admitted to the hospital with chest pain and found to have bilateral pleural effusion, the right greater than the left. We reviewed the pathology obtained from the pericardectomy in March 2006, which was diagnostic of mesothelioma. At this time, chest tube placement for drainage of the fluid occurred and thoracoscopy with fluid biopsies, which were performed, which revealed malignant mesothelioma."""]]).toDF("text")
 
 result = mesh_pipeline.fit(data).transform(data)
 ```
@@ -66,13 +67,13 @@ val documentAssembler = DocumentAssembler()
 .setOutputCol("ner_chunk")
 
 val sbert_embedder = BertSentenceEmbeddings
-.pretrained('sbiobert_base_cased_mli', 'en','clinical/models')
-.setInputCols(["ner_chunk"])
+.pretrained("sbiobert_base_cased_mli", "en", "clinical/models")
+.setInputCols(Array("ner_chunk"))
 .setOutputCol("sbert_embeddings")
 .setCaseSensitive(False)
 
 val mesh_resolver = SentenceEntityResolverModel.pretrained("sbiobertresolve_mesh","en", "clinical/models")
-.setInputCols(["ner_chunk", "sbert_embeddings"])
+.setInputCols(Array("ner_chunk", "sbert_embeddings"))
 .setOutputCol("mesh_code")
 .setDistanceFunction("EUCLIDEAN")
 
@@ -82,7 +83,7 @@ documentAssembler,
 sbert_embedder,
 mesh_resolver])
 
-val data = spark.createDataFrame([["""She was admitted to the hospital with chest pain and found to have bilateral pleural effusion, the right greater than the left. We reviewed the pathology obtained from the pericardectomy in March 2006, which was diagnostic of mesothelioma. At this time, chest tube placement for drainage of the fluid occurred and thoracoscopy with fluid biopsies, which were performed, which revealed malignant mesothelioma."""]]).toDF("text"))
+val data = spark.createDataFrame([["""She was admitted to the hospital with chest pain and found to have bilateral pleural effusion, the right greater than the left. We reviewed the pathology obtained from the pericardectomy in March 2006, which was diagnostic of mesothelioma. At this time, chest tube placement for drainage of the fluid occurred and thoracoscopy with fluid biopsies, which were performed, which revealed malignant mesothelioma."""]]).toDF("text")
 
 val result = mesh_pipeline.fit(data).transform(data)
 ```
@@ -121,7 +122,7 @@ nlu.load("en.resolve.mesh").predict("""She was admitted to the hospital with che
 {:.table-model}
 |---|---|
 |Model Name:|sbiobertresolve_mesh|
-|Compatibility:|Spark NLP for Healthcare 3.3.2+|
+|Compatibility:|Healthcare NLP 3.3.2+|
 |License:|Licensed|
 |Edition:|Official|
 |Input Labels:|[sentence_embeddings]|

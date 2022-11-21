@@ -7,9 +7,10 @@ date: 2021-04-01
 tags: [ner, clinical, licensed, en]
 task: Named Entity Recognition
 language: en
-edition: Spark NLP for Healthcare 3.0.0
+edition: Healthcare NLP 3.0.0
 spark_version: 3.0
 supported: true
+annotator: MedicalNerModel
 article_header:
 type: cover
 use_language_switcher: "Python-Scala-Java"
@@ -34,28 +35,66 @@ Detect adverse drug events in tweets, reviews, and medical text using pretrained
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
-```python
 
-...
-embeddings_clinical = BertEmbeddings.pretrained("biobert_pubmed_base_cased")  .setInputCols(["sentence", "token"])  .setOutputCol("embeddings")
-clinical_ner = MedicalNerModel.pretrained("ner_ade_biobert", "en", "clinical/models")   .setInputCols(["sentence", "token", "embeddings"])   .setOutputCol("ner")
-...
+```python
+document_assembler = DocumentAssembler()\
+    .setInputCol("text")\
+    .setOutputCol("document")
+         
+sentence_detector = SentenceDetector()\
+    .setInputCols(["document"])\
+    .setOutputCol("sentence")
+
+tokenizer = Tokenizer()\
+    .setInputCols(["sentence"])\
+    .setOutputCol("token")
+
+embeddings_clinical = BertEmbeddings.pretrained("biobert_pubmed_base_cased")\
+    .setInputCols(["sentence", "token"])\
+    .setOutputCol("embeddings")
+
+clinical_ner = MedicalNerModel.pretrained("ner_ade_biobert", "en", "clinical/models")\
+    .setInputCols(["sentence", "token", "embeddings"])\
+    .setOutputCol("ner")
+
+ner_converter = NerConverter()\
+ 	.setInputCols(["sentence", "token", "ner"])\
+ 	.setOutputCol("ner_chunk")
+
 nlpPipeline = Pipeline(stages=[document_assembler, sentence_detector, tokenizer, embeddings_clinical, clinical_ner, ner_converter])
+
 model = nlpPipeline.fit(spark.createDataFrame([[""]]).toDF("text"))
+
 results = model.transform(spark.createDataFrame([["EXAMPLE_TEXT"]]).toDF("text"))
 ```
 ```scala
+val document_assembler = new DocumentAssembler()
+    .setInputCol("text")
+    .setOutputCol("document")
+         
+val sentence_detector = new SentenceDetector()
+    .setInputCols("document")
+    .setOutputCol("sentence")
 
-...
+val tokenizer = new Tokenizer()
+    .setInputCols("sentence")
+    .setOutputCol("token")
+
 val embeddings_clinical = BertEmbeddings.pretrained("biobert_pubmed_base_cased")
-.setInputCols(Array("sentence", "token"))
-.setOutputCol("embeddings")
+    .setInputCols(Array("sentence", "token"))
+    .setOutputCol("embeddings")
+
+val ner_converter = new NerConverter()
+ 	.setInputCols(Array("sentence", "token", "ner"))
+ 	.setOutputCol("ner_chunk")
+
 val ner = MedicalNerModel.pretrained("ner_ade_biobert", "en", "clinical/models")
-.setInputCols(Array("sentence", "token", "embeddings"))
-.setOutputCol("ner")
-...
+    .setInputCols(Array("sentence", "token", "embeddings"))
+    .setOutputCol("ner")
+
 val pipeline = new Pipeline().setStages(Array(document_assembler, sentence_detector, tokenizer, embeddings_clinical, ner, ner_converter))
-val result = pipeline.fit(Seq.empty[String]).transform(data)
+
+val result = pipeline.fit(data).transform(data)
 ```
 
 
@@ -73,7 +112,7 @@ nlu.load("en.med_ner.ade_biobert").predict("""Put your text here.""")
 {:.table-model}
 |---|---|
 |Model Name:|ner_ade_biobert|
-|Compatibility:|Spark NLP for Healthcare 3.0.0+|
+|Compatibility:|Healthcare NLP 3.0.0+|
 |License:|Licensed|
 |Edition:|Official|
 |Input Labels:|[sentence, token, embeddings]|
@@ -84,15 +123,15 @@ nlu.load("en.med_ner.ade_biobert").predict("""Put your text here.""")
 ## Benchmarking
 
 ```bash
-precision    recall  f1-score   support
+label             precision    recall  f1-score   support
 
-B-ADE       0.48      0.82      0.60      3582
-B-DRUG       0.87      0.65      0.75     11763
-I-ADE       0.48      0.76      0.59      4309
-I-DRUG       0.95      0.28      0.43      7654
-O       0.97      0.98      0.97    303457
+B-ADE               0.48       0.82      0.60      3582
+B-DRUG              0.87       0.65      0.75     11763
+I-ADE               0.48       0.76      0.59      4309
+I-DRUG              0.95       0.28      0.43      7654
+O                   0.97       0.98      0.97    303457
 
-accuracy                           0.95    330765
-macro avg       0.75      0.70      0.67    330765
-weighted avg       0.95      0.95      0.94    330765
+accuracy                                 0.95    330765
+macro-avg           0.75       0.70      0.67    330765
+weighted-avg        0.95       0.95      0.94    330765
 ```
