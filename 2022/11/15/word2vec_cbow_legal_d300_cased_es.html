@@ -9,10 +9,10 @@
     j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
     })(window,document,'script','dataLayer','GTM-59JLR64');</script>
-<!-- End Google Tag Manager --><title>Social Determinants of Health (slim)</title><meta property="og:title" content=""/>
+<!-- End Google Tag Manager --><title>Spanish CBOW Legal Fast Text Embeddings (Cased, D300)</title><meta property="og:title" content=""/>
 
-<meta name="description" content="DescriptionThis model extracts terminology related to Social Determinants of Health  from various kinds of biomedical documents.Predicted EntitiesHousing, Smoking, Substance_Frequency, Childhood_Development, Age, Other_Disease, Employment, Marital_Status, Diet, Disability, Mental_Health, Alcohol, Substance_Quantity,...">
-<link rel="canonical" href="/2022/11/15/ner_sdoh_slim_wip_en.html"><link rel="alternate" type="application/rss+xml" title="Spark NLP" href="/feed.xml"><!-- start favicons snippet, use https://realfavicongenerator.net/ -->
+<meta name="description" content="DescriptionWord Embeddings lookup annotator that maps tokens to vectors. In CBOW the distributed representations of context (or surrounding words) are combined to predict the word in the middle.Live DemoOpen in ColabDownloadHow to use         PythonScalaNLU   model = WordEmbeddingsModel.pretrained("word2vec_cbow_leg...">
+<link rel="canonical" href="/2022/11/15/word2vec_cbow_legal_d300_cased_es.html"><link rel="alternate" type="application/rss+xml" title="Spark NLP" href="/feed.xml"><!-- start favicons snippet, use https://realfavicongenerator.net/ -->
 <!---->
 <!-- <link rel="apple-touch-icon" sizes="180x180" href="/fav.ico"> -->
 
@@ -408,26 +408,22 @@
 
 <!-- end custom main top snippet --><article><script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script><div class="article__header"><div class="header-author"><div class="article__info clearfix"><div class="left-col">
             <a class="edit-on-github-btn" target="_blank" rel="alternate"
-               href="https://github.com/johnsnowlabs/spark-nlp/tree/master/docs/_posts/gokhanturer/2022-11-15-ner_sdoh_slim_wip_en.md">
+               href="https://github.com/johnsnowlabs/spark-nlp/tree/master/docs/_posts/gadde5300/2022-11-15-word2vec_cbow_legal_d300_cased_es.md">
               <span class="fab fa-github"></span>
               <span class="edit-on-github-label">Edit on GitHub</span>
             </a>
         </div><ul class="right-col menu"><li><i class="far fa-user"></i> <span>John Snow Labs</span></li><li><i class="far fa-calendar-alt"></i> <span>Nov 15, 2022</span>
             </li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2022-11-15T00:00:00+00:00"></div><header class="main-docs have_subtitle">
-          <h1>Social Determinants of Health (slim)</h1><div class="top-subtitle mont"></div></header></div><meta itemprop="headline" content="Social Determinants of Health (slim)"><div class="article__info tags_box clearfix"><ul class="left-col menu"><li>en</li><li>licensed</li><li>sdoh</li><li>social_determinants</li><li>public_health</li><li>clinical</li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2022-11-15T00:00:00+00:00">
-    <meta itemprop="keywords" content="en,licensed,sdoh,social_determinants,public_health,clinical"><div class="js-article-content"><div class="model-wrap"><div class="layout--article"><!-- start custom article top snippet -->
+          <h1>Spanish CBOW Legal Fast Text Embeddings (Cased, D300)</h1><div class="top-subtitle mont"></div></header></div><meta itemprop="headline" content="Spanish CBOW Legal Fast Text Embeddings (Cased, D300)"><div class="article__info tags_box clearfix"><ul class="left-col menu"><li>fasttext</li><li>es</li><li>spanish</li><li>embeddings</li><li>open_source</li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2022-11-15T00:00:00+00:00">
+    <meta itemprop="keywords" content="fasttext,es,spanish,embeddings,open_source"><div class="js-article-content"><div class="model-wrap"><div class="layout--article"><!-- start custom article top snippet -->
 
 <!-- end custom article top snippet --><div class="article__content" itemprop="articleBody"><h2 id="description">Description</h2>
 
-<p>This model extracts terminology related to <code class="language-plaintext highlighter-rouge">Social Determinants of Health </code> from various kinds of biomedical documents.</p>
-
-<h2 id="predicted-entities">Predicted Entities</h2>
-
-<p><code class="language-plaintext highlighter-rouge">Housing</code>, <code class="language-plaintext highlighter-rouge">Smoking</code>, <code class="language-plaintext highlighter-rouge">Substance_Frequency</code>, <code class="language-plaintext highlighter-rouge">Childhood_Development</code>, <code class="language-plaintext highlighter-rouge">Age</code>, <code class="language-plaintext highlighter-rouge">Other_Disease</code>, <code class="language-plaintext highlighter-rouge">Employment</code>, <code class="language-plaintext highlighter-rouge">Marital_Status</code>, <code class="language-plaintext highlighter-rouge">Diet</code>, <code class="language-plaintext highlighter-rouge">Disability</code>, <code class="language-plaintext highlighter-rouge">Mental_Health</code>, <code class="language-plaintext highlighter-rouge">Alcohol</code>, <code class="language-plaintext highlighter-rouge">Substance_Quantity</code>, <code class="language-plaintext highlighter-rouge">Family_Member</code>, <code class="language-plaintext highlighter-rouge">Race_Ethnicity</code>, <code class="language-plaintext highlighter-rouge">Gender</code>, <code class="language-plaintext highlighter-rouge">Geographic_Entity</code>, <code class="language-plaintext highlighter-rouge">Sexual_Orientation</code>, <code class="language-plaintext highlighter-rouge">Substance_Use</code></p>
+<p>Word Embeddings lookup annotator that maps tokens to vectors. In CBOW the distributed representations of context (or surrounding words) are combined to predict the word in the middle.</p>
 
 <p class="btn-box"><button class="button button-orange" disabled="">Live Demo</button>
 <button class="button button-orange" disabled="">Open in Colab</button>
-<a href="https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/ner_sdoh_slim_wip_en_4.2.1_3.0_1668524622964.zip" class="button button-orange button-orange-trans arr button-icon">Download</a></p>
+<a href="https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/word2vec_cbow_legal_d300_cased_es_4.2.1_3.0_1668534832632.zip" class="button button-orange button-orange-trans arr button-icon">Download</a></p>
 
 <h2 id="how-to-use">How to use</h2>
 
@@ -435,161 +431,19 @@
   <div class="top_tab_li">   
     <p><button data-type="python" class="tab-li code-selector-active python-button">Python</button><button data-type="scala" class="tab-li code-selector-un-active scala-button">Scala</button><button data-type="nlu" class="tab-li code-selector-un-active nlu-button">NLU</button></p>
 </div>
+  <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code> 
+<span class="n">model</span> <span class="o">=</span> <span class="n">WordEmbeddingsModel</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"word2vec_cbow_legal_d300_cased"</span><span class="p">,</span><span class="s">"es"</span><span class="p">)</span>\
+	            <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"document"</span><span class="p">,</span><span class="s">"token"</span><span class="p">])</span>\
+	            <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"word_embeddings"</span><span class="p">)</span>
 
-  <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">documentAssembler</span> <span class="o">=</span> <span class="n">DocumentAssembler</span><span class="p">()</span>\
-        <span class="p">.</span><span class="n">setInputCol</span><span class="p">(</span><span class="s">"text"</span><span class="p">)</span>\
-        <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"document"</span><span class="p">)</span>
-        
-<span class="n">sentenceDetector</span> <span class="o">=</span> <span class="n">SentenceDetectorDLModel</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"sentence_detector_dl"</span><span class="p">,</span><span class="s">"xx"</span><span class="p">)</span>\
-        <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"document"</span><span class="p">])</span>\
-        <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"sentence"</span><span class="p">)</span>
-
-<span class="n">tokenizer</span> <span class="o">=</span> <span class="n">Tokenizer</span><span class="p">()</span>\
-        <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"sentence"</span><span class="p">])</span>\
-        <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"token"</span><span class="p">)</span>
-
-<span class="n">clinical_embeddings</span> <span class="o">=</span> <span class="n">WordEmbeddingsModel</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"embeddings_clinical"</span><span class="p">,</span> <span class="s">"en"</span><span class="p">,</span> <span class="s">"clinical/models"</span><span class="p">)</span>\
-        <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"sentence"</span><span class="p">,</span> <span class="s">"token"</span><span class="p">])</span>\
-        <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"embeddings"</span><span class="p">)</span>
-
-<span class="n">ner_model</span> <span class="o">=</span> <span class="n">MedicalNerModel</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"ner_sdoh_slim_wip"</span><span class="p">,</span> <span class="s">"en"</span><span class="p">,</span> <span class="s">"clinical/models"</span><span class="p">)</span>\
-        <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"sentence"</span><span class="p">,</span> <span class="s">"token"</span><span class="p">,</span> <span class="s">"embeddings"</span><span class="p">])</span>\
-        <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"ner"</span><span class="p">)</span>
-
-<span class="n">ner_converter</span> <span class="o">=</span> <span class="n">NerConverter</span><span class="p">()</span>\
-        <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"sentence"</span><span class="p">,</span><span class="s">"token"</span><span class="p">,</span><span class="s">"ner"</span><span class="p">])</span>\
-        <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"ner_chunk"</span><span class="p">)</span>
-
-<span class="n">nlpPipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">(</span><span class="n">stages</span><span class="o">=</span><span class="p">[</span>
-        <span class="n">documentAssembler</span><span class="p">,</span>
-        <span class="n">sentenceDetector</span><span class="p">,</span>
-        <span class="n">tokenizer</span><span class="p">,</span>
-        <span class="n">clinical_embeddings</span><span class="p">,</span>
-        <span class="n">ner_model</span><span class="p">,</span>
-        <span class="n">ner_converter</span><span class="p">]</span>
-
-<span class="n">text</span> <span class="o">=</span> <span class="p">[</span><span class="s">""" Mother states that he does smoke, there is a family hx of alcohol on both maternal and paternal sides of the family, maternal grandfather who died of alcohol related complications and paternal grandmother with severe alcoholism. Pts own drinking began at age 16, living in LA, had a DUI at age 17 after totaling a new car that his mother bought for him, he was married. """</span><span class="p">]</span>
-
-<span class="n">data</span> <span class="o">=</span> <span class="n">spark</span><span class="p">.</span><span class="n">createDataFrame</span><span class="p">([</span><span class="n">text</span><span class="p">]).</span><span class="n">toDF</span><span class="p">(</span><span class="s">"text"</span><span class="p">)</span>
-
-<span class="n">result</span> <span class="o">=</span> <span class="n">nlpPipeline</span><span class="p">.</span><span class="n">fit</span><span class="p">(</span><span class="n">data</span><span class="p">).</span><span class="n">transform</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
 </code></pre></div>  </div>
-  <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">val</span> <span class="nv">document_assembler</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">DocumentAssembler</span><span class="o">()</span>
-    <span class="o">.</span><span class="py">setInputCol</span><span class="o">(</span><span class="s">"text"</span><span class="o">)</span>
-    <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"document"</span><span class="o">)</span>
+  <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+<span class="k">val</span> <span class="nv">model</span> <span class="k">=</span> <span class="nv">WordEmbeddingsModel</span><span class="o">.</span><span class="py">pretrained</span><span class="o">(</span><span class="s">"word2vec_cbow_legal_d300_cased"</span><span class="o">,</span><span class="s">"es"</span><span class="o">)</span>
+	                <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="s">"document"</span><span class="o">,</span><span class="s">"token"</span><span class="o">)</span>
+	                <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"word_embeddings"</span><span class="o">)</span>
 
-<span class="k">val</span> <span class="nv">sentence_detector</span> <span class="k">=</span> <span class="nv">SentenceDetectorDLModel</span><span class="o">.</span><span class="py">pretrained</span><span class="o">(</span><span class="s">"sentence_detector_dl"</span><span class="o">,</span> <span class="s">"xx"</span><span class="o">)</span>
-    <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="s">"document"</span><span class="o">)</span>
-    <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"sentence"</span><span class="o">)</span>
-
-<span class="k">val</span> <span class="nv">tokenizer</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">Tokenizer</span><span class="o">()</span>
-    <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="s">"sentence"</span><span class="o">)</span>
-    <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"token"</span><span class="o">)</span>
-
-<span class="k">val</span> <span class="nv">clinical_embeddings</span> <span class="k">=</span> <span class="nv">WordEmbeddingsModel</span><span class="o">.</span><span class="py">pretrained</span><span class="o">(</span><span class="s">"embeddings_clinical"</span><span class="o">,</span> <span class="s">"en"</span><span class="o">,</span> <span class="s">"clinical/models"</span><span class="o">)\</span>
-    <span class="o">.</span><span class="py">setInputCols</span><span class="o">([</span><span class="err">"</span><span class="kt">sentence</span><span class="err">"</span>, <span class="err">"</span><span class="kt">token</span><span class="err">"</span><span class="o">])\</span>
-    <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"embeddings"</span><span class="o">)</span>
-
-<span class="k">val</span> <span class="nv">ner_model</span> <span class="k">=</span> <span class="nv">MedicalNerModel</span><span class="o">.</span><span class="py">pretrained</span><span class="o">(</span><span class="s">"ner_sdoh_slim_wip"</span><span class="o">,</span> <span class="s">"en"</span><span class="o">,</span> <span class="s">"clinical/models"</span><span class="o">)\</span>
-    <span class="o">.</span><span class="py">setInputCols</span><span class="o">([</span><span class="err">"</span><span class="kt">sentence</span><span class="err">"</span>, <span class="err">"</span><span class="kt">token</span><span class="err">"</span>, <span class="err">"</span><span class="kt">embeddings</span><span class="err">"</span><span class="o">])\</span>
-
-<span class="k">val</span> <span class="nv">ner_converter</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">NerConverter</span><span class="o">()</span>
-    <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="s">"sentence"</span><span class="o">,</span> <span class="s">"token"</span><span class="o">,</span> <span class="s">"ner"</span><span class="o">))</span>
-    <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"ner_chunk"</span><span class="o">)</span>
-
-<span class="k">val</span> <span class="nv">nlpPipeline</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">PipelineModel</span><span class="o">().</span><span class="py">setStages</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="n">document_assembler</span><span class="o">,</span> 
-                                                   <span class="n">sentence_detector</span><span class="o">,</span>
-                                                   <span class="n">tokenizer</span><span class="o">,</span>
-                                                   <span class="n">clinical_embeddings</span><span class="o">,</span>
-                                                   <span class="n">ner_model</span><span class="o">,</span>
-                                                   <span class="n">ner_converter</span><span class="o">))</span>
-
-<span class="k">val</span> <span class="nv">data</span> <span class="k">=</span> <span class="nc">Seq</span><span class="o">(</span><span class="s">"""Mother states that there is a family hx of alcohol on both maternal and paternal sides of the family, maternal grandfather who died of alcohol related complications and paternal grandmother with severe alcoholism. Pts own drinking began at age 16, had a DUI at age 17 after totaling a new car that his mother bought for him, he was married."""</span><span class="o">).</span><span class="py">toDS</span><span class="o">.</span><span class="py">toDF</span><span class="o">(</span><span class="s">"text"</span><span class="o">)</span>
-
-<span class="k">val</span> <span class="nv">result</span> <span class="k">=</span> <span class="nv">nlpPipeline</span><span class="o">.</span><span class="py">fit</span><span class="o">(</span><span class="n">data</span><span class="o">).</span><span class="py">transform</span><span class="o">(</span><span class="n">data</span><span class="o">)</span>
 </code></pre></div>  </div>
 </div>
-
-<h2 id="results">Results</h2>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>+-------------+-------------------+
-|        token|          ner_label|
-+-------------+-------------------+
-|       Mother|    B-Family_Member|
-|       states|                  O|
-|         that|                  O|
-|           he|           B-Gender|
-|         does|                  O|
-|        smoke|          B-Smoking|
-|            ,|                  O|
-|        there|                  O|
-|           is|                  O|
-|            a|                  O|
-|       family|                  O|
-|           hx|                  O|
-|           of|                  O|
-|      alcohol|          B-Alcohol|
-|           on|                  O|
-|         both|                  O|
-|     maternal|    B-Family_Member|
-|          and|                  O|
-|     paternal|    B-Family_Member|
-|        sides|                  O|
-|           of|                  O|
-|          the|                  O|
-|       family|                  O|
-|            ,|                  O|
-|     maternal|    B-Family_Member|
-|  grandfather|    B-Family_Member|
-|          <span class="nb">who</span>|                  O|
-|         died|                  O|
-|           of|                  O|
-|      alcohol|          B-Alcohol|
-|      related|                  O|
-|complications|                  O|
-|          and|                  O|
-|     paternal|    B-Family_Member|
-|  grandmother|    B-Family_Member|
-|         with|                  O|
-|       severe|          B-Alcohol|
-|   alcoholism|          I-Alcohol|
-|            .|                  O|
-|          Pts|                  O|
-|          own|                  O|
-|     drinking|          B-Alcohol|
-|        began|                  O|
-|           at|                  O|
-|          age|              B-Age|
-|           16|              I-Age|
-|            ,|                  O|
-|       living|                  O|
-|           <span class="k">in</span>|                  O|
-|           LA|B-Geographic_Entity|
-|            ,|                  O|
-|          had|                  O|
-|            a|                  O|
-|          DUI|                  O|
-|           at|                  O|
-|          age|                  O|
-|           17|                  O|
-|        after|                  O|
-|     totaling|                  O|
-|            a|                  O|
-|          new|                  O|
-|          car|                  O|
-|         that|                  O|
-|          his|           B-Gender|
-|       mother|    B-Family_Member|
-|       bought|                  O|
-|          <span class="k">for</span>|                  O|
-|          him|           B-Gender|
-|            ,|                  O|
-|           he|           B-Gender|
-|          was|                  O|
-|      married|   B-Marital_Status|
-|            .|                  O|
-+-------------+-------------------+
-</code></pre></div></div>
 
 <h2 class="model-param" id="model-information">Model Information</h2>
 
@@ -597,15 +451,19 @@
   <tbody>
     <tr>
       <td>Model Name:</td>
-      <td>ner_sdoh_slim_wip</td>
+      <td>word2vec_cbow_legal_d300_cased</td>
+    </tr>
+    <tr>
+      <td>Type:</td>
+      <td>embeddings</td>
     </tr>
     <tr>
       <td>Compatibility:</td>
-      <td>Healthcare NLP 4.2.1+</td>
+      <td>Spark NLP 4.2.1+</td>
     </tr>
     <tr>
       <td>License:</td>
-      <td>Licensed</td>
+      <td>Open Source</td>
     </tr>
     <tr>
       <td>Edition:</td>
@@ -613,72 +471,34 @@
     </tr>
     <tr>
       <td>Input Labels:</td>
-      <td>[sentence, token, embeddings]</td>
+      <td>[document, token]</td>
     </tr>
     <tr>
       <td>Output Labels:</td>
-      <td>[ner]</td>
+      <td>[embeddings]</td>
     </tr>
     <tr>
       <td>Language:</td>
-      <td>en</td>
+      <td>es</td>
     </tr>
     <tr>
       <td>Size:</td>
-      <td>2.8 MB</td>
+      <td>1.1 GB</td>
+    </tr>
+    <tr>
+      <td>Case sensitive:</td>
+      <td>false</td>
+    </tr>
+    <tr>
+      <td>Dimension:</td>
+      <td>300</td>
     </tr>
   </tbody>
 </table>
 
 <h2 id="references">References</h2>
 
-<p>Manuel annotations have been made over <a href="https://mtsamples.com/">MTSamples</a> and <a href="https://physionet.org/content/mimiciii/1.4/">MIMIC </a> datasets.</p>
-
-<h2 id="benchmarking">Benchmarking</h2>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>                  label    precision   recall   f1-score  support
-                  B-Age       0.93      0.90      0.91       277
-              B-Alcohol       0.90      0.88      0.89       410
-B-Childhood_Development       1.00      1.00      1.00         1
-                 B-Diet       1.00      1.00      1.00         6
-           B-Disability       0.96      0.95      0.96        57
-           B-Employment       0.91      0.79      0.85      1926
-        B-Family_Member       0.93      0.97      0.95      2412
-               B-Gender       0.97      0.99      0.98      6161
-    B-Geographic_Entity       0.81      0.79      0.80        82
-              B-Housing       0.82      0.73      0.77       183
-       B-Marital_Status       0.93      0.91      0.92       184
-        B-Mental_Health       0.85      0.72      0.78       487
-        B-Other_Disease       0.77      0.82      0.79       381
-       B-Race_Ethnicity       0.91      0.94      0.93        34
-   B-Sexual_Orientation       0.75      0.90      0.82        10
-              B-Smoking       0.96      0.96      0.96       209
-  B-Substance_Frequency       0.92      0.88      0.90        88
-   B-Substance_Quantity       0.83      0.79      0.81        72
-        B-Substance_Use       0.80      0.82      0.81       213
-                  I-Age       0.91      0.95      0.93       589
-              I-Alcohol       0.80      0.77      0.79       159
-I-Childhood_Development       1.00      1.00      1.00         3
-                 I-Diet       1.00      0.89      0.94         9
-           I-Disability       1.00      0.53      0.70        15
-           I-Employment       0.77      0.62      0.69       369
-        I-Family_Member       0.79      0.84      0.81       138
-               I-Gender       0.57      0.88      0.69       231
-    I-Geographic_Entity       1.00      0.85      0.92        13
-              I-Housing       0.86      0.83      0.84       362
-       I-Marital_Status       1.00      0.18      0.31        11
-        I-Mental_Health       0.81      0.47      0.59       241
-        I-Other_Disease       0.75      0.74      0.75       256
-       I-Race_Ethnicity       1.00      1.00      1.00        15
-              I-Smoking       0.90      0.93      0.91        46
-  I-Substance_Frequency       0.85      0.73      0.79        75
-   I-Substance_Quantity       0.84      0.88      0.86       174
-        I-Substance_Use       0.86      0.84      0.85       182
-                      O       0.99      0.99      0.99    148829
-               accuracy         -         -       0.98    164910
-              macro_avg       0.89      0.83      0.85    164910
-           weighted_avg       0.98      0.98      0.98    164910
-</code></pre></div></div>
+<p>https://zenodo.org/record/5036147#.Y3Op0XZBxD-</p>
 </div><div class="d-print-none"><footer class="article__footer"><meta itemprop="dateModified" content="2022-11-15T00:00:00+00:00"><!-- start custom article footer snippet -->
 
 <!-- end custom article footer snippet --></footer>
@@ -1018,7 +838,7 @@ hr.code-selector-underlie {
 
 }
 
-</style><div class="article__section-navigator clearfix"><div class="previous nav_link"><span>PREVIOUS</span><a href="/2022/11/15/word2vec_skipgram_legal_d50_uncased_es.html">Spanish Skipgram Legal Fast Text Embeddings (Uncased, D50)</a></div><div class="next nav_link"><span>NEXT</span><a href="/2022/11/21/roberta_base_bne_conll_ner_spark_nlp_es.html">Spanish Named Entity Recognition, (RoBERTa base trained with data from the National Library of Spain (BNE) and CONLL 2003 data), by the TEMU Unit of the BSC-CNS</a></div></div></div>
+</style><div class="article__section-navigator clearfix"><div class="previous nav_link"><span>PREVIOUS</span><a href="/2022/11/15/word2vec_cbow_legal_d100_uncased_es.html">Spanish CBOW Legal Fast Text Embeddings (Uncased, D100)</a></div><div class="next nav_link"><span>NEXT</span><a href="/2022/11/15/word2vec_cbow_legal_d300_uncased_es.html">Spanish CBOW Legal Fast Text Embeddings (Uncased, D300)</a></div></div></div>
 
 </div>
 </div>
