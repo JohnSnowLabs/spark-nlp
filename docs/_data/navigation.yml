@@ -134,6 +134,8 @@ annotation-lab:
             url: /docs/en/alab/infrastructure
           - title: Cluster Management
             url: /docs/en/alab/cluster_management
+      - title: Healthcare NLP Integration
+        url: /docs/en/alab/healthcare
       - title: Security and Privacy
         url: /docs/en/alab/security
       - title: Video Tutorials
