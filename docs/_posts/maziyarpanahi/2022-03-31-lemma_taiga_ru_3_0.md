@@ -37,19 +37,16 @@ document = DocumentAssembler()\
 .setInputCol("text")\ 
 .setOutputCol("document")
 
-sentence = SentenceDetectorDLModel.pretrained("sentence_detector_dl", "xx")\ 
-.setInputCols(["document"])\ 
-.setOutputCol("sentence")
 
 tokenizer = Tokenizer()\ 
 .setInputCols(["sentence"])\ 
 .setOutputCol("token") 
 
 lemma = LemmatizerModel.pretrained("lemma_taiga", "ru")\ 
-.setInputCols(["sentence", "token"])\ 
+.setInputCols(["token"])\ 
 .setOutputCol("lemma")
 
-pipeline = Pipeline(stages=[document, sentence, tokenizer, lemma])
+pipeline = Pipeline(stages=[document, tokenizer, lemma])
 
 data = spark.createDataFrame([["I love Spark NLP"]]).toDF("text")
 
@@ -63,19 +60,16 @@ val document = new DocumentAssembler()
 .setInputCol("text")
 .setOutputCol("document")
 
-val sentence = SentenceDetectorDLModel.pretrained("sentence_detector_dl", "xx")
-.setInputCols("document")
-.setOutputCol("sentence")
 
 val tokenizer = new Tokenizer() 
 .setInputCols("sentence") 
 .setOutputCol("token")
 
 val lemma = LemmatizerModel.pretrained("lemma_taiga", "ru")
-.setInputCols("sentence", "token")
+.setInputCols("token")
 .setOutputCol("lemma")
 
-val pipeline = new Pipeline().setStages(Array(document, sentence, tokenizer, lemma))
+val pipeline = new Pipeline().setStages(Array(document, tokenizer, lemma))
 
 val data = Seq("I love Spark NLP").toDF("text")
 
