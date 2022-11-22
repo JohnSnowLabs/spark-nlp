@@ -118,7 +118,7 @@ annotation-lab:
             url: /docs/en/alab/active_learning
           - title: Transfer Learning
             url: /docs/en/alab/transfer_learning
-      - subtitle: Evaluation
+      - subtitle: Model Testing
         children:
           - title: Test Project Configuration
             url: /docs/en/alab/test_project_configuration

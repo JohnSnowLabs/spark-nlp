@@ -21,5 +21,5 @@ To evaluate a project, the project's configuration need to contain pre-defined l
 
 <img class="image image__shadow" src="/assets/images/annotation_lab/4.2.0/testSteps.gif" style="width:100%;"/>
 
-> **Note:** Project evaluation can only be triggered if the deployment has a valid healthcare air-gapped license. 
+> **Note:** Model evaluation can only be triggered if the deployment has a valid healthcare air-gapped license. 
 
