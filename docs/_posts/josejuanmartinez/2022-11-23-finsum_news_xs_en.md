@@ -41,12 +41,12 @@ document_assembler = nlp.DocumentAssembler() \
 
 t5 = nlp.T5Transformer() \
     .pretrained("finsum_news_xs" ,"en", "finance/models") \
-    .setTask("summarize:")\
+    .setTask("summarize:")\ # or 'summarization'
     .setMaxOutputLength(512)\
     .setInputCols(["documents"]) \
     .setOutputCol("summaries")
 
-data_df = spark.createDataFrame([["FTX is expected to make its debut appearance Tuesday in Delaware bankruptcy court, where its new management is expected to recount events leading up to the cryptocurrency platform’s sudden collapse and explain the steps it has since taken to secure customer funds and other assets."]]).toDF("text")
+data_df = spark.createDataFrame([["Deere Grows Sales 37% as Shipments Rise. Farm equipment supplier forecasts higher sales in year ahead, lifted by price increases and infrastructure investments. Deere & Co. said its fiscal fourth-quarter sales surged 37% as supply constraints eased and the company shipped more of its farm and construction equipment. The Moline, Ill.-based company, the largest supplier of farm equipment in the U.S., said demand held up as it raised prices on farm equipment, and forecast sales gains in the year ahead. Chief Executive John May cited strong demand and increased investment in infrastructure projects as the Biden administration ramps up spending. Elevated crop prices have kept farmers interested in new machinery even as their own production expenses increase."]]).toDF("text")
 
 pipeline = Pipeline().setStages([document_assembler, t5])
 results = pipeline.fit(data_df).transform(data_df)
@@ -58,7 +58,7 @@ results.select("summaries.result").show(truncate=False)
 ## Results
 
 ```bash
-FTX to Make Debut in Delaware Bankruptcy Court Tuesday.
+Deere & Co. said its fiscal fourth-quarter sales surged 37% as supply constraints eased and the company shipped more farm and construction equipment. Deere & Co. said its fiscal fourth-quarter sales surged 37% as supply constraints eased and the company shipped more farm and construction equipment.
 ```
 
 {:.model-param}
