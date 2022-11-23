@@ -3,10 +3,10 @@ layout: docs
 comment: no
 header: true
 seotitle: Annotation Lab | John Snow Labs
-title: Healthcare NLP Integration
+title: NLP Libraries Integration
 permalink: /docs/en/alab/healthcare
 key: docs-training
-modify_date: "2022-11-19"
+modify_date: "2022-11-23"
 use_language_switcher: "Python-Scala"
 show_nav: true
 sidebar:
@@ -46,9 +46,11 @@ pre {
 }
 </style>
 
-Spark NLP for Healthcare now has an easy to use module for interacting with Annotation Lab with minimal code. In this section, you can find the instructions for performing specific operations using the annotation lab module of the Spark NLP for Healthcare library. You can execute these instructions in the Jupyter notebook or any other notebook of your preference.
+ <a href="/docs/en/licensed_install">Healthcare NLP</a> provides an easy to use module for interacting with Annotation Lab with minimal code. In this section, you can find the instructions for performing specific operations using the annotation lab module of the <a href="/docs/en/licensed_install">Healthcare NLP</a> library. You can execute these instructions in a python notebook (Jupyter, Colab, Kaggle, etc.).
 
-Before trying out the instructions in the following sub-sections, you will need to perform some initial set up to configure the Spark NLP for Healthcare library and start a spark session.
+Before running the instructions described in the following sub-sections, some initial environment setup needs to be performed in order to configure the Healthcare NLP library and start a Spark session.
+
+> **NOTE:** For using this integration a Healthcare, Finance and/or Legal NLP License key is requirend. If you do not have one, you can get it <a href="https://www.johnsnowlabs.com/install/"> here</a>.  
 
 ```py
 import json
@@ -68,7 +70,7 @@ locals().update(license_keys)
 os.environ.update(license_keys)
 ```
 
-> **NOTE:** Upload widget is only available when the cell has been executed in the current browser session. Please rerun this cell to enable.
+> **NOTE:** The license upload widget is only available when the cell has been executed in the current browser session. Please rerun this cell to enable.
 
 {:.shell-output}
 
@@ -147,17 +149,14 @@ Version v3.1.2
 Master local[*]
 AppName Spark NLP Licensed
 ```
-
-**Using already exported JSON to generate training data - _No Credentials Required_**
+{:.info}
+**Using already exported JSON to generate training data - _No Annotation Lab Credentials Required_**
 
 ```py
 # import the module
 from sparknlp_jsl.alab import AnnotationLab
 alab = AnnotationLab()
 ```
-
-**Start with an already exported JSON.**
-
 ```sh
 # downloading demo json
 !wget https://raw.githubusercontent.com/JohnSnowLabs/spark-nlp-workshop/master/tutorials/Annotation_Lab/data/alab_demo.json
@@ -181,11 +180,11 @@ alab_demo.json      100%[===================>]  64.98K  --.-KB/s    in 0.01s
 ## Generating training data for different models
 
 {:.info}
-No Alab Credentials required. Only exported JSON is required.
+**_No Annotation Lab Credentials Required_. Only the exported JSON is used.**
 
 ### Classification Model
 
-Here, we will generate data for training a classification model.
+The following snippet shows how to generate data for training a classification model.
 
 ```py
 alab.get_classification_data(
@@ -218,7 +217,7 @@ Processing 14 annotation(s).
 
 ### NER Model
 
-Here, we will convert the JSON export into a CoNLL format suitable for training an NER model.
+The JSON export must be converted into a CoNLL format suitable for training an NER model.
 
 ```py
 alab.get_conll_data(
@@ -315,7 +314,7 @@ Printing first 30 lines of CoNLL for inspection:
 
 ### Assertion Model
 
-Here, we will convert the JSON export into a dataframe suitable for training an assertion model.
+The JSON export is converted into a dataframe, suitable for training an assertion model.
 
 ```py
 alab.get_assertion_data(
@@ -397,7 +396,7 @@ Processing Task ID# 1
 
 ### Relation Extraction Model
 
-Here, we will convert the JSON export into a dataframe suitable for training a relation extraction model.
+The JSON export is converted into a dataframe suitable for training a relation extraction model.
 
 ```py
 alab.get_relation_extraction_data(
@@ -487,12 +486,12 @@ Total annotated NER labels processed: 28
 
 </div>
 
-## Generate JSON containing Pre-annotations using a Spark NLP pipeline
+## Generate Pre-annotations using Spark NLP pipelines
 
 {:.info}
-No Alab Credentials required.
+**No Annotation Lab credentials are required.**
 
-Define Spark NLP for Healthcare pipeline
+The first step is to define the Healthcare NLP pipeline. The same procedure can be followed for Legal and Finance NLP pipelines. 
 
 ```py
 document = DocumentAssembler()\
@@ -602,7 +601,7 @@ results = lmodel.fullAnnotate(task_list)
 # results = pipeline_model.transform(spark.createDataFrame(pd.DataFrame({'text': task_list}))).collect()
 ```
 
-**Generate Pre-annotation JSON using pipeline results**
+**Generate pre-annotation JSON using pipeline results**
 
 ```py
 pre_annotations, summary = alab.generate_preannotations(
@@ -644,7 +643,7 @@ pre_annotations, summary = alab.generate_preannotations(
 Processing 2 Annotations.
 ```
 
-Generated JSON. This can be uploaded directly via UI or via [API](https://nlp.johnsnowlabs.com/docs/en/alab/healthcare#upload-pre-annotations-to-annotation-lab).
+The Generated JSON can be uploaded to Annotation Lab to particular project directly via UI or via [API](https://nlp.johnsnowlabs.com/docs/en/alab/healthcare#upload-pre-annotations-to-annotation-lab).
 
 ```sh
 pre_annotations
@@ -1251,7 +1250,7 @@ pre_annotations
   'id': 1}]
 ```
 
-A Summary is also generated. This summary can be used to [setup project configuration](https://nlp.johnsnowlabs.com/docs/en/alab/healthcare#set-configuration-using-summary-generated-at-the-pre-annotation-step).
+An annotation summary is also generated that can be used to [setup and configure a new project](/docs/en/alab/healthcare#set-configuration-using-summary-generated-at-the-pre-annotation-step).
 
 {:.shell-output}
 
@@ -1278,7 +1277,7 @@ A Summary is also generated. This summary can be used to [setup project configur
 ## Interacting with Annotation Lab
 
 {:.info}
-Credentials required
+**Credentials are required for the following actions.**
 
 **Set Credentials**
 
@@ -1298,7 +1297,7 @@ alab.set_credentials(
     # required: password
     password=password,
 
-    # required: secret for you alab instance (every alab installation has a different secret)
+    # required: secret for you Annotation Lab instance (every Annotation Lab installation has a different secret)
     client_secret=client_secret,
 
     # required: http(s) url for you annotation lab
@@ -1319,7 +1318,7 @@ alab.get_all_projects()
 
 ```sh
 Operation completed successfully. Response code: 200
-{'has_next': True,
+{'has_next': False,
  'has_prev': False,
  'items': [{'creation_date': 'Thu, 29 Sep 2022 18:01:07 GMT',
    'group_color': None,
@@ -1345,570 +1344,6 @@ Operation completed successfully. Response code: 200
    'project_name': 'testing101',
    'resource_id': 'b1388775-9a3b-436e-b1cc-ea36bab44699',
    'total_tasks': 9},
-  {'creation_date': 'Tue, 27 Sep 2022 03:08:21 GMT',
-   'group_color': None,
-   'group_id': None,
-   'group_name': None,
-   'owner': 'hasham',
-   'owner_id': 'ba60df4b-7192-47ca-aa92-759fa577a617',
-   'project_description': '',
-   'project_id': 1116,
-   'project_members': ['hasham'],
-   'project_name': 'testing1',
-   'resource_id': '3340d328-91b5-47a5-b694-502a949b1367',
-   'total_tasks': 0},
-  {'creation_date': 'Sun, 04 Sep 2022 00:15:56 GMT',
-   'group_color': None,
-   'group_id': None,
-   'group_name': None,
-   'owner': 'hasham',
-   'owner_id': 'ba60df4b-7192-47ca-aa92-759fa577a617',
-   'project_description': '',
-   'project_id': 1053,
-   'project_members': ['hasham', 'halil.saglamlar'],
-   'project_name': 'dummy',
-   'resource_id': '2aff5afc-7ef3-47d5-b84d-aed3e062a8d5',
-   'total_tasks': 20},
-  {'creation_date': 'Wed, 27 Jul 2022 16:14:11 GMT',
-   'group_color': None,
-   'group_id': None,
-   'group_name': None,
-   'owner': 'luca.martial',
-   'owner_id': 'e104d8b1-15d7-4a30-97df-1344a8c3c52f',
-   'project_description': '',
-   'project_id': 970,
-   'project_members': ['luca.martial', 'hasham'],
-   'project_name': 'alab_module',
-   'resource_id': '0e07ae56-29f8-4c56-906a-4abb93848381',
-   'total_tasks': 3},
-  {'creation_date': 'Fri, 15 Jul 2022 14:05:55 GMT',
-   'group_color': None,
-   'group_id': None,
-   'group_name': None,
-   'owner': 'hasham',
-   'owner_id': 'ba60df4b-7192-47ca-aa92-759fa577a617',
-   'project_description': '',
-   'project_id': 957,
-   'project_members': ['hasham', 'jay', 'nabin'],
-   'project_name': 'RE_ADE_Conversational',
-   'resource_id': 'c762134f-8467-4248-ba48-c88f864e742f',
-   'total_tasks': 1045},
-  {'creation_date': 'Mon, 25 Apr 2022 08:16:11 GMT',
-   'group_color': None,
-   'group_id': None,
-   'group_name': None,
-   'owner': 'ciprian',
-   'owner_id': '54b92e23-a857-4e76-b0e4-b49e085c4614',
-   'project_description': '',
-   'project_id': 841,
-   'project_members': ['pranab', 'nabin', 'vijaya@kognitic.com'],
-   'project_name': 'Kognitic',
-   'resource_id': 'a4fc6141-39aa-4ed0-82be-fcffc641c4df',
-   'total_tasks': 102},
-  {'creation_date': 'Mon, 11 Apr 2022 17:55:09 GMT',
-   'group_color': None,
-   'group_id': None,
-   'group_name': None,
-   'owner': 'hasham',
-   'owner_id': 'ba60df4b-7192-47ca-aa92-759fa577a617',
-   'project_description': '',
-   'project_id': 819,
-   'project_members': [],
-   'project_name': 'bms_citeline_ph3',
-   'resource_id': '6fcb9e65-045d-43b6-94dd-8256da7ed3d6',
-   'total_tasks': 674},
-  {'creation_date': 'Tue, 22 Mar 2022 19:00:20 GMT',
-   'group_color': None,
-   'group_id': None,
-   'group_name': None,
-   'owner': 'hasham',
-   'owner_id': 'ba60df4b-7192-47ca-aa92-759fa577a617',
-   'project_description': '',
-   'project_id': 790,
-   'project_members': [],
-   'project_name': 'lot_demo_bms',
-   'resource_id': '8b136ab6-aab5-468e-830a-251fef3be528',
-   'total_tasks': 11},
-  {'creation_date': 'Tue, 22 Mar 2022 03:47:53 GMT',
-   'group_color': None,
-   'group_id': None,
-   'group_name': None,
-   'owner': 'hasham',
-   'owner_id': 'ba60df4b-7192-47ca-aa92-759fa577a617',
-   'project_description': '',
-   'project_id': 788,
-   'project_members': [],
-   'project_name': 'bms_citeline',
-   'resource_id': '0a229a5f-f055-412f-bc5c-2c70e43b93a1',
-   'total_tasks': 674},
-  {'creation_date': 'Mon, 17 Jan 2022 19:02:42 GMT',
-   'group_color': None,
-   'group_id': None,
-   'group_name': None,
-   'owner': 'hasham',
-   'owner_id': 'ba60df4b-7192-47ca-aa92-759fa577a617',
-   'project_description': '',
-   'project_id': 681,
-   'project_members': [],
-   'project_name': 'Internal_NER_JSL_Annotations',
-   'resource_id': '8c7f4ffb-ce3d-44cc-b482-a0edce3688d7',
-   'total_tasks': 1000},
-  {'creation_date': 'Mon, 17 Jan 2022 14:56:57 GMT',
-   'group_color': None,
-   'group_id': None,
-   'group_name': None,
-   'owner': 'pranab',
-   'owner_id': 'daa1630c-0cbb-4e32-855c-6e351a0ebef6',
-   'project_description': '',
-   'project_id': 679,
-   'project_members': ['amit', 'angel'],
-   'project_name': 'NER_JSL_PRANAB_CLONE',
-   'resource_id': '530642ab-6715-4647-a910-1287662933fd',
-   'total_tasks': 299},
-  {'creation_date': 'Wed, 12 Jan 2022 15:01:58 GMT',
-   'group_color': None,
-   'group_id': None,
-   'group_name': None,
-   'owner': 'hasham',
-   'owner_id': 'ba60df4b-7192-47ca-aa92-759fa577a617',
-   'project_description': '',
-   'project_id': 673,
-   'project_members': [],
-   'project_name': 'bms_demo',
-   'resource_id': '55b1052b-5cf5-4a9d-b6b7-00a5e516e18d',
-   'total_tasks': 206},
-  {'creation_date': 'Wed, 29 Dec 2021 17:40:35 GMT',
-   'group_color': None,
-   'group_id': None,
-   'group_name': None,
-   'owner': 'hasham',
-   'owner_id': 'ba60df4b-7192-47ca-aa92-759fa577a617',
-   'project_description': '',
-   'project_id': 657,
-   'project_members': [],
-   'project_name': 'Internal_Abbreviation_Project',
-   'resource_id': 'a0ad3b4d-bff2-4238-b9f1-db16f0d72967',
-   'total_tasks': 2847},
-  {'creation_date': 'Wed, 01 Dec 2021 12:31:53 GMT',
-   'group_color': None,
-   'group_id': None,
-   'group_name': None,
-   'owner': 'mauro',
-   'owner_id': '7b6048c8-f923-46e4-9011-2c749e3c2c93',
-   'project_description': '',
-   'project_id': 634,
-   'project_members': [],
-   'project_name': 'COVID_Clinical_Trials_Round_2',
-   'resource_id': '80ac9546-9344-4b71-ad90-7252d20b7d94',
-   'total_tasks': 0},
-  {'creation_date': 'Fri, 26 Nov 2021 21:42:02 GMT',
-   'group_color': None,
-   'group_id': None,
-   'group_name': None,
-   'owner': 'hasham',
-   'owner_id': 'ba60df4b-7192-47ca-aa92-759fa577a617',
-   'project_description': '',
-   'project_id': 632,
-   'project_members': ['luca.martial'],
-   'project_name': 'demo_100',
-   'resource_id': '54c33f63-f56e-4d30-ac8e-ccce036f31ae',
-   'total_tasks': 50},
-  {'creation_date': 'Tue, 02 Nov 2021 21:55:59 GMT',
-   'group_color': None,
-   'group_id': None,
-   'group_name': None,
-   'owner': 'hasham',
-   'owner_id': 'ba60df4b-7192-47ca-aa92-759fa577a617',
-   'project_description': '',
-   'project_id': 616,
-   'project_members': [],
-   'project_name': 'Optum_PhaseI_MTSamples',
-   'resource_id': '45bbc554-94c7-4750-a716-a8e36923475a',
-   'total_tasks': 0},
-  {'creation_date': 'Mon, 25 Oct 2021 19:23:50 GMT',
-   'group_color': None,
-   'group_id': None,
-   'group_name': None,
-   'owner': 'ahmet',
-   'owner_id': '96c249a7-8496-482b-834e-3cc2417c3df6',
-   'project_description': '',
-   'project_id': 605,
-   'project_members': [],
-   'project_name': 'annotate',
-   'resource_id': 'a6b52d97-7735-4f65-98b0-f9801801f8af',
-   'total_tasks': 3},
-  {'creation_date': 'Tue, 05 Oct 2021 22:22:20 GMT',
-   'group_color': None,
-   'group_id': None,
-   'group_name': None,
-   'owner': 'hasham',
-   'owner_id': 'ba60df4b-7192-47ca-aa92-759fa577a617',
-   'project_description': '',
-   'project_id': 575,
-   'project_members': [],
-   'project_name': 'BMS_Drug_Dev_Endpoint',
-   'resource_id': 'dbd636dc-3e0f-43a7-95e1-59bbe7d5aa13',
-   'total_tasks': 200},
-  {'creation_date': 'Mon, 13 Sep 2021 08:14:37 GMT',
-   'group_color': None,
-   'group_id': None,
-   'group_name': None,
-   'owner': 'hasham',
-   'owner_id': 'ba60df4b-7192-47ca-aa92-759fa577a617',
-   'project_description': '',
-   'project_id': 543,
-   'project_members': [],
-   'project_name': 'BMS_drug_dev',
-   'resource_id': '460be549-9df6-40b7-88ac-76957bd1b532',
-   'total_tasks': 1101},
-  {'creation_date': 'Tue, 24 Aug 2021 18:21:20 GMT',
-   'group_color': None,
-   'group_id': None,
-   'group_name': None,
-   'owner': 'hasham',
-   'owner_id': 'ba60df4b-7192-47ca-aa92-759fa577a617',
-   'project_description': '',
-   'project_id': 513,
-   'project_members': [],
-   'project_name': 'BMS_Annotation_Diag_track_2',
-   'resource_id': '7d7fbc76-bb4b-4e46-b0d5-783817b9c1b7',
-   'total_tasks': 958},
-  {'creation_date': 'Tue, 17 Aug 2021 15:44:44 GMT',
-   'group_color': None,
-   'group_id': None,
-   'group_name': None,
-   'owner': 'hasham',
-   'owner_id': 'ba60df4b-7192-47ca-aa92-759fa577a617',
-   'project_description': '',
-   'project_id': 509,
-   'project_members': [],
-   'project_name': 'BMS_Annotation_Trt_Track_cycle_treatment_fix',
-   'resource_id': 'a3fc5c30-368b-4620-9038-ceefa60aa3c8',
-   'total_tasks': 303},
-  {'creation_date': 'Thu, 12 Aug 2021 13:56:16 GMT',
-   'group_color': None,
-   'group_id': None,
-   'group_name': None,
-   'owner': 'hasham',
-   'owner_id': 'ba60df4b-7192-47ca-aa92-759fa577a617',
-   'project_description': '',
-   'project_id': 507,
-   'project_members': [],
-   'project_name': 'BMS_Annotation_Diag_track',
-   'resource_id': '8393a9c7-8fd4-4abe-9933-324ea6a1c13d',
-   'total_tasks': 958},
-  {'creation_date': 'Thu, 12 Aug 2021 13:46:11 GMT',
-   'group_color': None,
-   'group_id': None,
-   'group_name': None,
-   'owner': 'hasham',
-   'owner_id': 'ba60df4b-7192-47ca-aa92-759fa577a617',
-   'project_description': '',
-   'project_id': 506,
-   'project_members': [],
-   'project_name': 'BMS_Test',
-   'resource_id': 'd07562c8-799d-4b4b-832f-0f21c836f7e2',
-   'total_tasks': 1074},
-  {'creation_date': 'Sat, 17 Jul 2021 08:14:50 GMT',
-   'group_color': None,
-   'group_id': None,
-   'group_name': None,
-   'owner': 'hasham',
-   'owner_id': 'ba60df4b-7192-47ca-aa92-759fa577a617',
-   'project_description': '',
-   'project_id': 491,
-   'project_members': ['luca.martial'],
-   'project_name': 'Internal_COVID_Clinical_Trials_Data',
-   'resource_id': 'c3254044-98f9-43eb-8eee-ece3f44963fd',
-   'total_tasks': 100},
-  {'creation_date': 'Mon, 05 Jul 2021 16:22:25 GMT',
-   'group_color': None,
-   'group_id': None,
-   'group_name': None,
-   'owner': 'hasham',
-   'owner_id': 'ba60df4b-7192-47ca-aa92-759fa577a617',
-   'project_description': '',
-   'project_id': 486,
-   'project_members': [],
-   'project_name': 'Internal_Biomarkers_Pubmed',
-   'resource_id': 'add20481-358b-46dd-b798-e5d71067d262',
-   'total_tasks': 200},
-  {'creation_date': 'Sat, 03 Jul 2021 15:25:40 GMT',
-   'group_color': None,
-   'group_id': None,
-   'group_name': None,
-   'owner': 'hasham',
-   'owner_id': 'ba60df4b-7192-47ca-aa92-759fa577a617',
-   'project_description': "This is a combined project of GE's annotations for phase 1.  It contains Train, Dev, Test set, as well as the new data they provided.",
-   'project_id': 485,
-   'project_members': [],
-   'project_name': 'GE_PhaseI_Combined_All_Sets',
-   'resource_id': '5afd962a-a37c-4be3-86da-c0115cfa2807',
-   'total_tasks': 52},
-  {'creation_date': 'Sat, 03 Jul 2021 14:55:41 GMT',
-   'group_color': None,
-   'group_id': None,
-   'group_name': None,
-   'owner': 'hasham',
-   'owner_id': 'ba60df4b-7192-47ca-aa92-759fa577a617',
-   'project_description': "These are sentences sampled from JSL WIP Ner. The main purpose was to merge it with customer's data to make the model more robust. Since the AG is different and this data is already annotated for JSL WIP , this data is not to be used with that model. It can have other uses.",
-   'project_id': 484,
-   'project_members': [],
-   'project_name': 'GE_Project_JSL_WIP_Fixed_by_Andrie_for_GE_BP_Only',
-   'resource_id': '948878a2-480e-4ce0-8e75-6fde90a32d6e',
-   'total_tasks': 50},
-  {'creation_date': 'Sun, 03 Jan 2021 22:53:47 GMT',
-   'group_color': None,
-   'group_id': None,
-   'group_name': None,
-   'owner': 'veysel',
-   'owner_id': '7803c2e3-c0cc-4463-a0cb-bbb103b2a55e',
-   'project_description': '',
-   'project_id': 360,
-   'project_members': [],
-   'project_name': 'Radiology_Project_15_mt',
-   'resource_id': 'bd250266-cab2-4684-a13e-4b322f2e9929',
-   'total_tasks': 73},
-  {'creation_date': 'Thu, 31 Dec 2020 14:27:40 GMT',
-   'group_color': None,
-   'group_id': None,
-   'group_name': None,
-   'owner': 'veysel',
-   'owner_id': '7803c2e3-c0cc-4463-a0cb-bbb103b2a55e',
-   'project_description': '',
-   'project_id': 353,
-   'project_members': [],
-   'project_name': 'Radiology_Project_14_mt',
-   'resource_id': '8493c018-e085-4515-952d-79cb6c7875dc',
-   'total_tasks': 100},
-  {'creation_date': 'Thu, 31 Dec 2020 14:19:52 GMT',
-   'group_color': None,
-   'group_id': None,
-   'group_name': None,
-   'owner': 'veysel',
-   'owner_id': '7803c2e3-c0cc-4463-a0cb-bbb103b2a55e',
-   'project_description': '',
-   'project_id': 352,
-   'project_members': [],
-   'project_name': 'Radiology_Project_13_mt',
-   'resource_id': 'f9d1bbd5-63f5-49a2-b459-3a1739df36dc',
-   'total_tasks': 98},
-  {'creation_date': 'Mon, 21 Dec 2020 21:05:57 GMT',
-   'group_color': None,
-   'group_id': None,
-   'group_name': None,
-   'owner': 'veysel',
-   'owner_id': '7803c2e3-c0cc-4463-a0cb-bbb103b2a55e',
-   'project_description': '',
-   'project_id': 317,
-   'project_members': [],
-   'project_name': 'Radiology_Project_7_cxr',
-   'resource_id': 'f839ca19-fb43-417b-a046-d2cf5b5f916b',
-   'total_tasks': 120},
-  {'creation_date': 'Mon, 21 Dec 2020 19:00:00 GMT',
-   'group_color': None,
-   'group_id': None,
-   'group_name': None,
-   'owner': 'veysel',
-   'owner_id': '7803c2e3-c0cc-4463-a0cb-bbb103b2a55e',
-   'project_description': '',
-   'project_id': 316,
-   'project_members': [],
-   'project_name': 'Radiology_Project_12_cxr',
-   'resource_id': '07a98fbd-51aa-43dd-81b5-33f8b9686173',
-   'total_tasks': 180},
-  {'creation_date': 'Mon, 21 Dec 2020 18:58:05 GMT',
-   'group_color': None,
-   'group_id': None,
-   'group_name': None,
-   'owner': 'veysel',
-   'owner_id': '7803c2e3-c0cc-4463-a0cb-bbb103b2a55e',
-   'project_description': '',
-   'project_id': 315,
-   'project_members': [],
-   'project_name': 'Radiology_Project_11_cxr',
-   'resource_id': '1fe15547-0716-4ab7-9fc0-cec5eea82838',
-   'total_tasks': 120},
-  {'creation_date': 'Mon, 21 Dec 2020 18:56:50 GMT',
-   'group_color': None,
-   'group_id': None,
-   'group_name': None,
-   'owner': 'veysel',
-   'owner_id': '7803c2e3-c0cc-4463-a0cb-bbb103b2a55e',
-   'project_description': '',
-   'project_id': 314,
-   'project_members': [],
-   'project_name': 'Radiology_Project_10_cxr',
-   'resource_id': 'e6131f4b-47d0-4f8b-a9f1-6d6284b0a30d',
-   'total_tasks': 120},
-  {'creation_date': 'Mon, 21 Dec 2020 18:54:09 GMT',
-   'group_color': None,
-   'group_id': None,
-   'group_name': None,
-   'owner': 'veysel',
-   'owner_id': '7803c2e3-c0cc-4463-a0cb-bbb103b2a55e',
-   'project_description': '',
-   'project_id': 313,
-   'project_members': [],
-   'project_name': 'Radiology_Project_9_cxr',
-   'resource_id': 'af8099cc-84d9-45fb-a444-06c2ae9e7541',
-   'total_tasks': 120},
-  {'creation_date': 'Mon, 21 Dec 2020 16:56:26 GMT',
-   'group_color': None,
-   'group_id': None,
-   'group_name': None,
-   'owner': 'veysel',
-   'owner_id': '7803c2e3-c0cc-4463-a0cb-bbb103b2a55e',
-   'project_description': '',
-   'project_id': 312,
-   'project_members': [],
-   'project_name': 'Radiology_Project_8_cxr',
-   'resource_id': 'b98ca5cf-310b-4b5b-a15b-87944b8be749',
-   'total_tasks': 120},
-  {'creation_date': 'Mon, 21 Dec 2020 16:46:24 GMT',
-   'group_color': None,
-   'group_id': None,
-   'group_name': None,
-   'owner': 'veysel',
-   'owner_id': '7803c2e3-c0cc-4463-a0cb-bbb103b2a55e',
-   'project_description': '',
-   'project_id': 310,
-   'project_members': [],
-   'project_name': 'Radiology_Project_6_cxr',
-   'resource_id': '454c0b9b-b595-4a43-b178-3bff36767b4f',
-   'total_tasks': 120},
-  {'creation_date': 'Mon, 21 Dec 2020 15:43:58 GMT',
-   'group_color': '#fd8c0a',
-   'group_id': 9,
-   'group_name': 'Radiology_Project',
-   'owner': 'mauro',
-   'owner_id': '7b6048c8-f923-46e4-9011-2c749e3c2c93',
-   'project_description': '',
-   'project_id': 309,
-   'project_members': [],
-   'project_name': 'Radiology_Project_5_cxr',
-   'resource_id': '06f6b178-dc4a-472c-aee6-c93ad10b0e84',
-   'total_tasks': 120},
-  {'creation_date': 'Mon, 07 Dec 2020 00:49:28 GMT',
-   'group_color': None,
-   'group_id': None,
-   'group_name': None,
-   'owner': 'veysel',
-   'owner_id': '7803c2e3-c0cc-4463-a0cb-bbb103b2a55e',
-   'project_description': '',
-   'project_id': 291,
-   'project_members': [],
-   'project_name': 'Radiology_Project_4_meas',
-   'resource_id': '2325594c-29f1-4d4c-ab07-fa7307e0dd47',
-   'total_tasks': 84},
-  {'creation_date': 'Wed, 02 Dec 2020 19:55:39 GMT',
-   'group_color': None,
-   'group_id': None,
-   'group_name': None,
-   'owner': 'veysel',
-   'owner_id': '7803c2e3-c0cc-4463-a0cb-bbb103b2a55e',
-   'project_description': '',
-   'project_id': 288,
-   'project_members': [],
-   'project_name': 'Radiology_Project_2_ge_text',
-   'resource_id': 'ad4a0e9e-564f-46db-9f73-82ae538802aa',
-   'total_tasks': 40},
-  {'creation_date': 'Wed, 02 Dec 2020 19:04:10 GMT',
-   'group_color': None,
-   'group_id': None,
-   'group_name': None,
-   'owner': 'veysel',
-   'owner_id': '7803c2e3-c0cc-4463-a0cb-bbb103b2a55e',
-   'project_description': '',
-   'project_id': 287,
-   'project_members': [],
-   'project_name': 'Radiology_Project_3_mt',
-   'resource_id': '5af309c1-4ffb-4aed-a077-d0ed604e8b05',
-   'total_tasks': 141},
-  {'creation_date': 'Wed, 02 Dec 2020 13:45:24 GMT',
-   'group_color': '#fd8c0a',
-   'group_id': 9,
-   'group_name': 'Radiology_Project',
-   'owner': 'mauro',
-   'owner_id': '7b6048c8-f923-46e4-9011-2c749e3c2c93',
-   'project_description': '',
-   'project_id': 285,
-   'project_members': [],
-   'project_name': 'Radiology_Project_1_cxr',
-   'resource_id': '3bae7966-2145-4c6c-ad90-dce1420fd030',
-   'total_tasks': 88},
-  {'creation_date': 'Fri, 27 Nov 2020 11:54:06 GMT',
-   'group_color': '#c58d59',
-   'group_id': 8,
-   'group_name': 'MIMIC',
-   'owner': 'mauro',
-   'owner_id': '7b6048c8-f923-46e4-9011-2c749e3c2c93',
-   'project_description': '',
-   'project_id': 271,
-   'project_members': [],
-   'project_name': 'MIMIC_Batch1_Andrei',
-   'resource_id': 'f0d83c90-ab11-43bb-8ad6-29044d18f492',
-   'total_tasks': 100},
-  {'creation_date': 'Fri, 27 Nov 2020 11:52:31 GMT',
-   'group_color': '#c58d59',
-   'group_id': 8,
-   'group_name': 'MIMIC',
-   'owner': 'mauro',
-   'owner_id': '7b6048c8-f923-46e4-9011-2c749e3c2c93',
-   'project_description': '',
-   'project_id': 270,
-   'project_members': [],
-   'project_name': 'MIMIC_Batch1_Shalla',
-   'resource_id': 'f665dfb7-c8a8-407b-ba04-f9051ec1078d',
-   'total_tasks': 100},
-  {'creation_date': 'Wed, 25 Nov 2020 16:32:12 GMT',
-   'group_color': '#c58d59',
-   'group_id': 8,
-   'group_name': 'MIMIC',
-   'owner': 'mauro',
-   'owner_id': '7b6048c8-f923-46e4-9011-2c749e3c2c93',
-   'project_description': '',
-   'project_id': 157,
-   'project_members': [],
-   'project_name': 'MIMIC_Batch1_Rebecca',
-   'resource_id': 'd3180589-fde5-4497-b156-64f35d623fc2',
-   'total_tasks': 100},
-  {'creation_date': 'Wed, 25 Nov 2020 16:27:35 GMT',
-   'group_color': '#c58d59',
-   'group_id': 8,
-   'group_name': 'MIMIC',
-   'owner': 'mauro',
-   'owner_id': '7b6048c8-f923-46e4-9011-2c749e3c2c93',
-   'project_description': '',
-   'project_id': 156,
-   'project_members': [],
-   'project_name': 'MIMIC_Batch1',
-   'resource_id': 'ae4db43a-ae4f-47b1-ba77-d7d2220892c9',
-   'total_tasks': 100},
-  {'creation_date': 'Wed, 25 Nov 2020 16:13:20 GMT',
-   'group_color': '#c58d59',
-   'group_id': 8,
-   'group_name': 'MIMIC',
-   'owner': 'mauro',
-   'owner_id': '7b6048c8-f923-46e4-9011-2c749e3c2c93',
-   'project_description': '',
-   'project_id': 154,
-   'project_members': [],
-   'project_name': 'MIMIC_Batch1_Ciprian',
-   'resource_id': '71ad67b5-be69-422e-b4e3-25c9b9cf75e6',
-   'total_tasks': 100},
-  {'creation_date': 'Fri, 06 Nov 2020 12:09:43 GMT',
-   'group_color': '#dbdf2e',
-   'group_id': 10,
-   'group_name': 'MT_Samples',
-   'owner': 'mauro',
-   'owner_id': '7b6048c8-f923-46e4-9011-2c749e3c2c93',
-   'project_description': '',
-   'project_id': 127,
-   'project_members': [],
-   'project_name': 'Internal_Batch5_A_Mauro',
-   'resource_id': '2578a602-ba2b-4611-8754-0f687ca280a3',
-   'total_tasks': 96},
   {'creation_date': 'Fri, 06 Nov 2020 12:08:02 GMT',
    'group_color': '#dbdf2e',
    'group_id': 10,
@@ -1918,13 +1353,13 @@ Operation completed successfully. Response code: 200
    'project_description': '',
    'project_id': 126,
    'project_members': [],
-   'project_name': 'Internal_Batch5_B_Rebecca',
+   'project_name': 'PathologyReports',
    'resource_id': '7ed36c55-db19-48e0-bc56-4b2114f9a251',
    'total_tasks': 97}],
- 'iter_pages': [1, 2],
- 'next_num': 2,
+ 'iter_pages': [1],
+ 'next_num': None,
  'prev_num': None,
- 'total_count': 66}
+ 'total_count': 3}
 ```
 
 <br />
