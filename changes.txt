@@ -1,4 +1,8 @@
 docs/_data/navigation.yml
-docs/en/alab/troubleshooting.md
+docs/assets/images/annotation_lab/4.2.0/test.png
+docs/assets/images/annotation_lab/4.2.0/testSteps.gif
+docs/en/alab/test_project_configuration.md
 docs/_data/navigation.yml
-docs/en/alab/troubleshooting.md
+docs/assets/images/annotation_lab/4.2.0/test.png
+docs/assets/images/annotation_lab/4.2.0/testSteps.gif
+docs/en/alab/test_project_configuration.md
