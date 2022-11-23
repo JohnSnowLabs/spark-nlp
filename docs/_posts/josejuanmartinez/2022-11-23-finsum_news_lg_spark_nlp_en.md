@@ -41,7 +41,7 @@ document_assembler = nlp.DocumentAssembler() \
 
 t5 = nlp.T5Transformer() \
     .pretrained("finsum_news_lg_spark_nlp" ,"en", "finance/models") \
-    .setTask("summarize")\
+    .setTask("summarization")\
     .setMaxOutputLength(512)\
     .setInputCols(["documents"]) \
     .setOutputCol("summaries")
