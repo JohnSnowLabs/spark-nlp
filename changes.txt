@@ -1,4 +1,4 @@
 docs/_data/navigation.yml
-docs/en/alab/healthcare.md
+docs/en/alab/troubleshooting.md
 docs/_data/navigation.yml
-docs/en/alab/healthcare.md
+docs/en/alab/troubleshooting.md
