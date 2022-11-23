@@ -3,7 +3,7 @@ layout: docs
 comment: no
 header: true
 seotitle: Annotation Lab | John Snow Labs
-title: Troubleshooting
+title: FAQ
 permalink: /docs/en/alab/troubleshooting
 key: docs-training
 modify_date: "2022-11-20"
@@ -57,7 +57,52 @@ Useful knowledge basebase for troubleshooting some of the common issues and tips
 
 <br />
 
-### Uninstall Kubernetes during faulty install
+
+<Element name="faq">
+
+<details markdown="1">
+<summary>1. How to deploy multiple preannotation/training servers in parallel?</summary>
+
+By default the Annotation Lab installation is configured to use only one model server. If you want to allow the deployment of multiple model servers (e.g. up to 3), open the `annotationlab-upgrader.sh` script located under the `artifacts` folder of your Annotation Lab installation directory. Update the below configuration properties in the `annotaionlab-upgrader.sh` script for deploying upto 3 model servers.
+
+```sh
+--set airflow.model_server.count=3
+--set model_server.count=3
+```
+Save the file and re-run this script for the changes to take effect.
+</details>
+
+<details markdown="1">
+<summary>2. How can I access the API documentation?</summary>
+
+API documentation is included in the Annotation Lab setup. So you will need to first set up Annotation Lab. Only _admin_ user can view the API documentation available under `Settings > API Integration`.
+
+</details>
+
+<details markdown="1">
+<summary>3. Can I upload/download tasks/data using API?</summary>
+
+Yes, it is possible to perform both the upload and download operations using API. There is import and export API for those operations. You can get more details about it from the API documentation.
+
+</details>
+
+<details markdown="1">
+<summary>4. Can the user who created a project/task be assigned annotation/review tasks?</summary>
+
+The project owner has by default all permissions (annotator, reviewer, manager). So we do not need to explicitly assign the annotator or reviewer role to the owner for the tasks.
+
+</details>
+
+<details markdown="1">
+<summary>5. Can I download the swagger API documentation?</summary>
+
+No. At present you can only access the API documentation directly from the API integration page under `Settings > API Integration`.
+
+</details>
+
+<details markdown="1">
+
+<summary>6. How to uninstall Kubernetes during faulty install and re-install Annotation Lab?</summary>
 
 If you have access to backend CLI then you can follow the steps below to fix faulty installation issue.
 
@@ -114,50 +159,5 @@ export ADMIN_PASSWORD=$(kubectl get secret annotationlab-keyclo-admincreds --tem
 
 #############################################################################
 ```
-
-<br />
-
-<Element name="faq">
-<div class="anchor">FAQ</div>
-
-<details markdown="1">
-<summary>1. How to deploy multiple preannotation/training servers in parallel?</summary>
-
-By default the Annotation Lab installation is configured to use only one model server. If you want to allow the deployment of multiple model servers (e.g. up to 3), open the `annotationlab-upgrader.sh` script located under the `artifacts` folder of your Annotation Lab installation directory. Update the below configuration properties in the `annotaionlab-upgrader.sh` script for deploying upto 3 model servers.
-
-```sh
---set airflow.model_server.count=3
---set model_server.count=3
-```
-Save the file and re-run this script for the changes to take effect.
 </details>
-
-<details markdown="1">
-<summary>2. How can I access the API documentation?</summary>
-
-API documentation is included in the Annotation Lab setup. So you will need to first set up Annotation Lab. Only _admin_ user can view the API documentation available under `Settings > API Integration`.
-
-</details>
-
-<details markdown="1">
-<summary>3. Can I upload/download tasks/data using API?</summary>
-
-Yes, it is possible to perform both the upload and download operations using API. There is import and export API for those operations. You can get more details about it from the API documentation.
-
-</details>
-
-<details markdown="1">
-<summary>4. Can the user who created a project/task be assigned annotation/review tasks?</summary>
-
-The project owner has by default all permissions (annotator, reviewer, manager). So we do not need to explicitly assign the annotator or reviewer role to the owner for the tasks.
-
-</details>
-
-<details markdown="1">
-<summary>5. Can I download the swagger API documentation?</summary>
-
-No. At present you can only access the API documentation directly from the API integration page under `Settings > API Integration`.
-
-</details>
-
 </Element>
