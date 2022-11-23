@@ -1,2 +1,4 @@
-docs/_posts/cayorodriguez/2022-11-22-pipeline_bsc_roberta_base_bne_es.md
-docs/_posts/cayorodriguez/2022-11-22-pipeline_bsc_roberta_base_bne_es.md
+docs/_data/navigation.yml
+docs/en/alab/healthcare.md
+docs/_data/navigation.yml
+docs/en/alab/healthcare.md
