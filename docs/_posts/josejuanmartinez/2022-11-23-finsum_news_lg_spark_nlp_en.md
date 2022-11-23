@@ -58,7 +58,7 @@ results.select("summaries.result").show(truncate=False)
 ## Results
 
 ```bash
-FTX to make debut appearance Tuesday in Delaware bankruptcy court, where new management expected to recount events leading up to sudden collapse and explain steps taken to secure customer funds and other assets
+FTX to Make Debut in Delaware Bankruptcy Court Tuesday.
 ```
 
 {:.model-param}
