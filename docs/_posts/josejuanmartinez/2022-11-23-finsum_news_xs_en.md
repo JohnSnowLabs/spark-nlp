@@ -41,7 +41,7 @@ document_assembler = nlp.DocumentAssembler() \
 
 t5 = nlp.T5Transformer() \
     .pretrained("finsum_news_xs" ,"en", "finance/models") \
-    .setTask("summarization")\
+    .setTask("summarize:")\
     .setMaxOutputLength(512)\
     .setInputCols(["documents"]) \
     .setOutputCol("summaries")
