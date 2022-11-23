@@ -26,20 +26,7 @@ Pretrained Basic NLP pipeline,  by TEMU-BSC for PlanTL-GOB-ES, with Tokenization
 
 ## How to use
 
-import sparknlp
-spark = sparknlp.start()
 
-from sparknlp.annotator import *
-from sparknlp.base import *
-pipeline = PretrainedPipeline("pipeline_bsc_roberta_base_bne", "es", "@cayorodriguez")
-from sparknlp.base import LightPipeline
-
-light_model = LightPipeline(pipeline)
-text = "La Reserva Federal de el Gobierno de EE UU aprueba una de las mayorores subidas de tipos de interés desde 1994."
-light_result = light_model.annotate(text)
-
-
-result = pipeline.annotate(""Veo al hombre de los Estados Unidos con el telescopio"")
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
