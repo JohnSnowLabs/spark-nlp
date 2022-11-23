@@ -118,6 +118,8 @@ annotation-lab:
             url: /docs/en/alab/active_learning
           - title: Transfer Learning
             url: /docs/en/alab/transfer_learning
+          - title: Test Project Configuration
+            url: /docs/en/alab/test_project_configuration
       - subtitle: Administration
         children:
           - title: User Management
