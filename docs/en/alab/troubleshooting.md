@@ -59,7 +59,7 @@ Useful knowledge basebase for troubleshooting some of the common issues and tips
 
 ### Uninstall Kubernetes during faulty install
 
-If you have access to backend CLI then you can follow the steps below to fix faulty installation issue
+If you have access to backend CLI then you can follow the steps below to fix faulty installation issue.
 
 1. Go to /usr/local/bin
 
@@ -121,17 +121,15 @@ export ADMIN_PASSWORD=$(kubectl get secret annotationlab-keyclo-admincreds --tem
 <div class="anchor">FAQ</div>
 
 <details markdown="1">
-<summary>1. How to deploy multiple models?</summary>
+<summary>1. How to deploy multiple preannotation/training servers in parallel?</summary>
 
-By default the Annotation Lab installation is configured to use only one model server. If you want to deploy multiple model servers then you will need to make some configuration updates to the `annotaionlab-upgrader.sh` script under the `artifacts` folder of your Annotation Lab installation directory. After that you will need to re-run this script for the changes to take effect.
-
-Update the below configuration properties in the `annotaionlab-upgrader.sh` script for deploying upto 3 model servers.
+By default the Annotation Lab installation is configured to use only one model server. If you want to allow the deployment of multiple model servers (e.g. up to 3), open the `annotationlab-upgrader.sh` script located under the `artifacts` folder of your Annotation Lab installation directory. Update the below configuration properties in the `annotaionlab-upgrader.sh` script for deploying upto 3 model servers.
 
 ```sh
 --set airflow.model_server.count=3
 --set model_server.count=3
 ```
-
+Save the file and re-run this script for the changes to take effect.
 </details>
 
 <details markdown="1">
