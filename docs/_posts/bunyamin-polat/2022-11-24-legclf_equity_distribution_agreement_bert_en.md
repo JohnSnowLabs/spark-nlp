@@ -36,6 +36,7 @@ Unlike the Longformer model, this model is lighter in terms of inference time.
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
+
 ```python
 
 document_assembler = nlp.DocumentAssembler()\
@@ -107,7 +108,7 @@ equity-distribution-agreement       0.90      0.97      0.94        38
                         other       0.98      0.94      0.96        65
 
                      accuracy                           0.95       103
-                    macro avg       0.94      0.96      0.95       103
-                 weighted avg       0.95      0.95      0.95       103
+                    macro-avg       0.94      0.96      0.95       103
+                 weighted-avg       0.95      0.95      0.95       103
 
 ```
