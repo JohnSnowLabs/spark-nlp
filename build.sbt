@@ -144,8 +144,9 @@ lazy val utilDependencies = Seq(
   liblevenshtein
     exclude ("com.google.guava", "guava")
     exclude ("org.apache.commons", "commons-lang3")
-    exclude ("com.google.code.findbugs", "annotations"),
-  gcpStorage, //% Provided
+    exclude ("com.google.code.findbugs", "annotations")
+    exclude ("org.slf4j", "slf4j-api"),
+  gcpStorage,
   greex
 )
 
