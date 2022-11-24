@@ -11,7 +11,7 @@ edition: Legal NLP 1.0.0
 spark_version: 3.0
 supported: true
 article_header:
-  type: cover
+type: cover
 use_language_switcher: "Python-Scala-Java"
 ---
 
@@ -36,6 +36,7 @@ Unlike the Longformer model, this model is lighter in terms of inference time.
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
+
 ```python
 
 document_assembler = nlp.DocumentAssembler()\
@@ -107,7 +108,7 @@ loan-agreement       0.72      0.97      0.82        29
          other       0.97      0.73      0.83        41
 
       accuracy                           0.83        70
-     macro avg       0.84      0.85      0.83        70
-  weighted avg       0.86      0.83      0.83        70
+     macro-avg       0.84      0.85      0.83        70
+  weighted-avg       0.86      0.83      0.83        70
 
 ```
