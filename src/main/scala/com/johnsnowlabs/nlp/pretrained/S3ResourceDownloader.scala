@@ -95,12 +95,20 @@ class S3ResourceDownloader(
           case s3Path() => {
             val destinationS3URI = cachePath.toString.replace("s3:", "s3a:")
             val sourceS3URI = s"s3a://$bucket/$s3FilePath"
-            val destinationKey = unzipInS3(sourceS3URI, destinationS3URI, ResourceHelper.spark)
+            val destinationKey = unzipInExternalCloudStorage(
+              ResourceHelper.spark,
+              sourceS3URI,
+              destinationS3URI,
+              "S3")
             Option(destinationKey)
           }
           case gcpStoragePath() => {
             val sourceS3URI = s"s3a://$bucket/$s3FilePath"
-            val destination = unzipInGCPStorage(sourceS3URI, cachePath.toString)
+            val destination = unzipInExternalCloudStorage(
+              ResourceHelper.spark,
+              sourceS3URI,
+              cachePath.toString,
+              "GCP")
             Option(destination)
           }
           case _ => {
@@ -112,20 +120,68 @@ class S3ResourceDownloader(
     }
   }
 
-  private def unzipInS3(
+  private def unzipInExternalCloudStorage(
+      sparkSession: SparkSession,
       sourceS3URI: String,
-      destinationS3URI: String,
-      sparkSession: SparkSession): String = {
+      destinationStorageURI: String,
+      destinationCloud: String) = {
 
     val (sourceBucketName, sourceKey) = ResourceHelper.parseS3URI(sourceS3URI)
-    val (destinationBucketName, destinationKey) = ResourceHelper.parseS3URI(destinationS3URI)
+    val zippedModel = awsGateway.getS3Object(sourceBucketName, sourceKey)
+    val zipInputStream = new ZipInputStream(zippedModel.getObjectContent)
+    var zipEntry = zipInputStream.getNextEntry
 
-    val accessKeyId =
+    val zipFile = sourceKey.split("/").last
+    val modelName = zipFile.substring(0, zipFile.indexOf(".zip"))
+
+    println(s"Uploading model $modelName to external Cloud Storage URI: $destinationStorageURI")
+    while (zipEntry != null) {
+      if (!zipEntry.isDirectory) {
+        val outputStream = new ByteArrayOutputStream()
+        IOUtils.copy(zipInputStream, outputStream)
+        val inputStream = new ByteArrayInputStream(outputStream.toByteArray)
+
+        if (destinationCloud == "S3") {
+          val (awsGatewayDestination, destinationBucketName, destinationKey) =
+            getS3Config(sparkSession, destinationStorageURI)
+          val fileName = s"$modelName/${zipEntry.getName}"
+          val destinationS3Path = destinationKey + "/" + fileName
+
+          awsGatewayDestination.client.putObject(
+            destinationBucketName,
+            destinationS3Path,
+            inputStream,
+            new ObjectMetadata())
+
+        } else {
+          val (gcpGateway, destinationBucketName, destinationStoragePath) = getGCPStorageConfig(
+            destinationStorageURI)
+          val destinationGCPStoragePath =
+            s"$destinationStoragePath/$modelName/${zipEntry.getName}"
+
+          gcpGateway.copyFileToGCPStorage(
+            destinationBucketName,
+            destinationGCPStoragePath,
+            inputStream)
+        }
+
+      }
+      zipEntry = zipInputStream.getNextEntry
+    }
+    destinationStorageURI + "/" + modelName
+  }
+
+  private def getS3Config(sparkSession: SparkSession, destinationS3URI: String) = {
+    var accessKeyId =
       sparkSession.sparkContext.hadoopConfiguration.get("fs.s3a.access.key")
-    val secretAccessKey =
+    var secretAccessKey =
       sparkSession.sparkContext.hadoopConfiguration.get("fs.s3a.secret.key")
-    val sessionToken =
+    var sessionToken =
       sparkSession.sparkContext.hadoopConfiguration.get("fs.s3a.session.token")
+
+    if (accessKeyId == null) accessKeyId = ""
+    if (secretAccessKey == null) secretAccessKey = ""
+    if (sessionToken == null) sessionToken = ""
 
     if (accessKeyId == "" && secretAccessKey == "") {
       throw new IllegalAccessException(
@@ -133,69 +189,17 @@ class S3ResourceDownloader(
     }
     val awsGatewayDestination = new AWSGateway(accessKeyId, secretAccessKey, sessionToken)
 
-    val zippedModel = awsGateway.getS3Object(sourceBucketName, sourceKey)
-    val zipInputStream = new ZipInputStream(zippedModel.getObjectContent)
-    var zipEntry = zipInputStream.getNextEntry
+    val (destinationBucketName, destinationKey) = ResourceHelper.parseS3URI(destinationS3URI)
 
-    val zipFile = sourceKey.split("/").last
-    val modelName = zipFile.substring(0, zipFile.indexOf(".zip"))
-
-    println(s"Uploading model $modelName to S3URI: $destinationS3URI")
-    while (zipEntry != null) {
-      if (!zipEntry.isDirectory) {
-        val fileName = s"$modelName/${zipEntry.getName}"
-        val destinationS3Path = destinationKey + "/" + fileName
-        val outputStream = new ByteArrayOutputStream()
-        IOUtils.copy(zipInputStream, outputStream)
-        val inputStream = new ByteArrayInputStream(outputStream.toByteArray)
-
-        awsGatewayDestination.client.putObject(
-          destinationBucketName,
-          destinationS3Path,
-          inputStream,
-          new ObjectMetadata())
-      }
-      zipEntry = zipInputStream.getNextEntry
-    }
-
-    destinationS3URI + "/" + modelName
+    (awsGatewayDestination, destinationBucketName, destinationKey)
   }
 
-  private def unzipInGCPStorage(sourceS3URI: String, destinationGCPStorageURI: String): String = {
-
-    val (sourceBucketName, sourceKey) = ResourceHelper.parseS3URI(sourceS3URI)
+  private def getGCPStorageConfig(destinationGCPStorageURI: String) = {
+    val gcpGateway = new GCPGateway()
     val (destinationBucketName, destinationStoragePath) =
       ResourceHelper.parseGCPStorageURI(destinationGCPStorageURI)
 
-    val zippedModel = awsGateway.getS3Object(sourceBucketName, sourceKey)
-    val zipInputStream = new ZipInputStream(zippedModel.getObjectContent)
-    var zipEntry = zipInputStream.getNextEntry
-
-    val gcpGateway = new GCPGateway()
-
-    val zipFile = sourceKey.split("/").last
-    val modelName = zipFile.substring(0, zipFile.indexOf(".zip"))
-
-    println(s"Uploading model $modelName to GCP Storage URI: $destinationGCPStorageURI")
-
-    while (zipEntry != null) {
-      if (!zipEntry.isDirectory) {
-        val outputStream = new ByteArrayOutputStream()
-        IOUtils.copy(zipInputStream, outputStream)
-        val inputStream = new ByteArrayInputStream(outputStream.toByteArray)
-
-        val destinationGCPStoragePath = s"$destinationStoragePath/$modelName/${zipEntry.getName}"
-
-        gcpGateway.copyFileToGCPStorage(
-          destinationBucketName,
-          destinationGCPStoragePath,
-          inputStream)
-
-      }
-      zipEntry = zipInputStream.getNextEntry
-    }
-
-    destinationGCPStorageURI + "/" + modelName
+    (gcpGateway, destinationBucketName, destinationStoragePath)
   }
 
   def downloadAndUnzipFile(
