@@ -14,7 +14,6 @@
 """Contains classes for the GPT2Transformer."""
 
 from sparknlp.common import *
-from sparknlp.common.annotator_type import AnnotatorType
 
 
 class GPT2Transformer(AnnotatorModel, HasBatchedAnnotate, HasEngine):

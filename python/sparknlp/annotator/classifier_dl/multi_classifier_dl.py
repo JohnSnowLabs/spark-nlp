@@ -16,7 +16,6 @@
 from sparknlp.annotator.param import EvaluationDLParams, ClassifierEncoder
 from sparknlp.annotator.classifier_dl import ClassifierDLModel
 from sparknlp.common import *
-from sparknlp.common.annotator_type import AnnotatorType
 
 
 class MultiClassifierDLApproach(AnnotatorApproach, EvaluationDLParams, ClassifierEncoder):

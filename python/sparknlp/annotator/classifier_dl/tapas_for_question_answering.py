@@ -14,7 +14,6 @@
 
 from sparknlp.common import *
 from sparknlp.annotator.classifier_dl import BertForQuestionAnswering
-from sparknlp.common.annotator_type import AnnotatorType
 
 
 class TapasForQuestionAnswering(BertForQuestionAnswering):

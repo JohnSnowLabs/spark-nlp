@@ -15,7 +15,6 @@
 
 from sparknlp.common import *
 from sparknlp.annotator.matcher.text_matcher import TextMatcherModel
-from sparknlp.common.annotator_type import AnnotatorType
 
 
 class BigTextMatcher(AnnotatorApproach, HasStorage):
@@ -162,6 +161,7 @@ class BigTextMatcher(AnnotatorApproach, HasStorage):
         tokenizer_model._transfer_params_to_java()
         return self._set(tokenizer_model._java_obj)
 
+
 class BigTextMatcherModel(AnnotatorModel, HasStorageModel):
     """Instantiated model of the BigTextMatcher.
 
@@ -185,7 +185,7 @@ class BigTextMatcherModel(AnnotatorModel, HasStorageModel):
     """
     name = "BigTextMatcherModel"
     databases = ['TMVOCAB', 'TMEDGES', 'TMNODES']
-    inputAnnotatorTypes = [AnnotatorType.TOKEN]
+    inputAnnotatorTypes = [AnnotatorType.DOCUMENT, AnnotatorType.TOKEN]
 
     caseSensitive = Param(Params._dummy(),
                           "caseSensitive",
