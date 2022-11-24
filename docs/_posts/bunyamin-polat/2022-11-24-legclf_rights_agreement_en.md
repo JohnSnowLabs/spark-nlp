@@ -38,6 +38,7 @@ If not, let us know and we can carry out another approach for you: getting chunk
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
+
 ```python
 
 document_assembler = nlp.DocumentAssembler()\
@@ -120,7 +121,7 @@ Legal documents, scrapped from the Internet, and classified in-house + SEC docum
 rights-agreement       0.94      0.97      0.95        30
 
         accuracy                           0.97       120
-       macro avg       0.96      0.97      0.97       120
-    weighted avg       0.98      0.97      0.98       120
+       macro-avg       0.96      0.97      0.97       120
+    weighted-avg       0.98      0.97      0.98       120
 
 ```
