@@ -48,21 +48,22 @@ This model is a Binary Classifier (True, False) for the `expiration-date` clause
              .setInputCol("clause_text") \
              .setOutputCol("document")
 
-        embeddings = nlp.BertSentenceEmbeddings.pretrained("sent_bert_base_cased", "en") \
-              .setInputCols("document") \
-              .setOutputCol("sentence_embeddings") 
-        docClassifier = legal.ClassifierDLModel.pretrained("legclf_expiration_date_clause", "en", "legal/models")\
-            .setInputCols(["sentence_embeddings"])\
-            .setOutputCol("category")
+embeddings = nlp.BertSentenceEmbeddings.pretrained("sent_bert_base_cased", "en") \
+      .setInputCols("document") \
+      .setOutputCol("sentence_embeddings") 
+      
+docClassifier = legal.ClassifierDLModel.pretrained("legclf_expiration_date_clause", "en", "legal/models")\
+    .setInputCols(["sentence_embeddings"])\
+    .setOutputCol("category")
 
-        nlpPipeline = nlp.Pipeline(stages=[
-            documentAssembler, 
-            embeddings,
-            docClassifier])
+nlpPipeline = nlp.Pipeline(stages=[
+    documentAssembler, 
+    embeddings,
+    docClassifier])
 
-        df = spark.createDataFrame([["YOUR TEXT HERE"]]).toDF("clause_text")
-        model = nlpPipeline.fit(df)
-        result = model.transform(df)
+df = spark.createDataFrame([["YOUR TEXT HERE"]]).toDF("clause_text")
+model = nlpPipeline.fit(df)
+result = model.transform(df)
 ```
 
 </div>
