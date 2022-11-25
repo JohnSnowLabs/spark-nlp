@@ -52,7 +52,7 @@ This model is a Binary Classifier (True, False) for the `subcontracting` clause 
           .setInputCols("document") \
           .setOutputCol("sentence_embeddings")
 
-    docClassifier = legal.ClassifierDLModel.pretrained("subcontracting", "en", "legal/models")\
+    docClassifier = legal.ClassifierDLModel.pretrained("legclf_subcontracting_clause", "en", "legal/models")\
         .setInputCols(["sentence_embeddings"])\
         .setOutputCol("category")
 
