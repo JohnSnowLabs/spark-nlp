@@ -4,7 +4,7 @@ title: Legal Securities Purchase Agreement Document Classifier (Bert Sentence Em
 author: John Snow Labs
 name: legclf_securities_purchase_agreement_bert
 date: 2022-11-25
-tags: [en, legal, classification, securities_purchase, rights, licensed, bert]
+tags: [en, legal, classification, agreement, securities_purchase, licensed, bert]
 task: Text Classification
 language: en
 edition: Legal NLP 1.0.0
