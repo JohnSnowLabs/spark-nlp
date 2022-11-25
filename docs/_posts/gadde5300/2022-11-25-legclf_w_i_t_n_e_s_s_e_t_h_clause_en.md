@@ -52,7 +52,7 @@ embeddings = nlp.BertSentenceEmbeddings.pretrained("sent_bert_base_cased", "en")
       .setInputCols("document") \
       .setOutputCol("sentence_embeddings")
 
-docClassifier = nlp.ClassifierDLModel.pretrained("w_i_t_n_e_s_s_e_t_h", "en", "legal/models")\
+docClassifier = nlp.ClassifierDLModel.pretrained("legclf_w_i_t_n_e_s_s_e_t_h_clause", "en", "legal/models")\
     .setInputCols(["sentence_embeddings"])\
     .setOutputCol("category")
     
