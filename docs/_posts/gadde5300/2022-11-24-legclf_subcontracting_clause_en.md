@@ -85,3 +85,14 @@ result = model.transform(df)
 ## References
 
 Legal documents, scrapped from the Internet, and classified in-house
+
+## Benchmarking
+
+                precision    recall  f1-score   support
+
+         other       1.00      0.97      0.99        39
+subcontracting       0.97      1.00      0.98        28
+
+      accuracy                           0.99        67
+     macro avg       0.98      0.99      0.98        67
+  weighted avg       0.99      0.99      0.99        67
