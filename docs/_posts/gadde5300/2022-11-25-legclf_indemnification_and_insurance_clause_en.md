@@ -44,26 +44,26 @@ This model is a Binary Classifier (True, False) for the `indemnification-and-ins
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
 ```python
- documentAssembler = nlp.DocumentAssembler() \
+documentAssembler = nlp.DocumentAssembler() \
              .setInputCol("clause_text") \
              .setOutputCol("document")
 
-        embeddings = nlp.BertSentenceEmbeddings.pretrained("sent_bert_base_cased", "en") \
-              .setInputCols("document") \
-              .setOutputCol("sentence_embeddings")
+embeddings = nlp.BertSentenceEmbeddings.pretrained("sent_bert_base_cased", "en") \
+      .setInputCols("document") \
+      .setOutputCol("sentence_embeddings")
 
-        docClassifier = legal.ClassifierDLModel.pretrained("legclf_indemnification_and_insurance_clause", "en", "legal/models")\
-            .setInputCols(["sentence_embeddings"])\
-            .setOutputCol("category")
+docClassifier = legal.ClassifierDLModel.pretrained("legclf_indemnification_and_insurance_clause", "en", "legal/models")\
+    .setInputCols(["sentence_embeddings"])\
+    .setOutputCol("category")
 
-        nlpPipeline = nlp.Pipeline(stages=[
-            documentAssembler, 
-            embeddings,
-            docClassifier])
+nlpPipeline = nlp.Pipeline(stages=[
+    documentAssembler, 
+    embeddings,
+    docClassifier])
 
-        df = spark.createDataFrame([["YOUR TEXT HERE"]]).toDF("clause_text")
-        model = nlpPipeline.fit(df)
-        result = model.transform(df)
+df = spark.createDataFrame([["YOUR TEXT HERE"]]).toDF("clause_text")
+model = nlpPipeline.fit(df)
+result = model.transform(df)
 ```
 
 </div>
