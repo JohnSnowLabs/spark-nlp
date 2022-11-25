@@ -4,14 +4,14 @@ title: Legal Trust Agreement Document Classifier (Bert Sentence Embeddings)
 author: John Snow Labs
 name: legclf_trust_agreement_bert
 date: 2022-11-25
-tags: [en, legal, classification, agreement, transition_services, licensed, bert]
+tags: [en, legal, classification, agreement, trust, licensed, bert]
 task: Text Classification
 language: en
 edition: Legal NLP 1.0.0
 spark_version: 3.0
 supported: true
 article_header:
-  type: cover
+type: cover
 use_language_switcher: "Python-Scala-Java"
 ---
 
@@ -36,6 +36,7 @@ Unlike the Longformer model, this model is lighter in terms of inference time.
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
+
 ```python
 
 document_assembler = nlp.DocumentAssembler()\
@@ -107,7 +108,7 @@ Legal documents, scrapped from the Internet, and classified in-house + SEC docum
 trust-agreement       0.82      0.95      0.88        39
 
        accuracy                           0.92       121
-      macro avg       0.90      0.93      0.91       121
-   weighted avg       0.92      0.92      0.92       121
+      macro-avg       0.90      0.93      0.91       121
+   weighted-avg       0.92      0.92      0.92       121
 
 ```
