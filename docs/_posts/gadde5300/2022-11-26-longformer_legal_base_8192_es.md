@@ -1,6 +1,6 @@
 ---
 layout: model
-title: Spanish Legal Longformer Embeddings (from mrm8488)
+title: Spanish Legal Longformer Embeddings (8192 tokens, from mrm8488)
 author: John Snow Labs
 name: longformer_legal_base_8192
 date: 2022-11-26
@@ -60,7 +60,7 @@ val embeddings = LongformerEmbeddings.pretrained("longformer_legal_base_8192","e
 |Language:|es|
 |Size:|575.8 MB|
 |Case sensitive:|true|
-|Max sentence length:|4096|
+|Max sentence length:|8192|
 
 ## References
 
