@@ -207,9 +207,10 @@ object ResourceHelper {
         "https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/jupyter/training/english/dl-ner/mfa_ner_graphs_s3.ipynb")
       throw awsE
     case e: Exception =>
+      val copyToLocalErrorMessage: String =
+        "Please make sure the provided path exists and is accessible while keeping in mind only file:/, hdfs:/, dbfs:/ and s3:/ protocols are supported at the moment."
       println(
-        s"Could not create temporary local directory for provided path $path. " +
-          "Please note that only file:/, hdfs:/, dbfs:/ and s3:/ protocols are supported.")
+        s"$e \n Therefore, could not create temporary local directory for provided path $path. $copyToLocalErrorMessage")
       throw e
   }
 
