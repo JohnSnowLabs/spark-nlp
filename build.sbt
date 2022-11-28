@@ -143,8 +143,12 @@ lazy val utilDependencies = Seq(
     exclude ("commons-configuration", "commons-configuration"),
   liblevenshtein
     exclude ("com.google.guava", "guava")
-    exclude ("org.apache.commons", "commons-lang3"),
-  greex)
+    exclude ("org.apache.commons", "commons-lang3")
+    exclude ("com.google.code.findbugs", "annotations")
+    exclude ("org.slf4j", "slf4j-api"),
+  gcpStorage,
+  greex
+)
 
 lazy val typedDependencyParserDependencies = Seq(junit)
 

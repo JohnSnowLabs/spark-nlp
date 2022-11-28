@@ -64,6 +64,9 @@ object ConfigHelper {
   val hadoopAwsVersion: String = "3.3.1"
   val awsJavaSdkVersion: String = "1.11.901"
 
+  // Stores info for integration with GCP
+  val gcpProjectId = "spark.jsl.settings.gcp.project_id"
+
   def getConfigValueOrElse(property: String, defaultValue: String): String = {
     sparkSession.conf.get(property, defaultValue)
   }

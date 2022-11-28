@@ -46,7 +46,7 @@ tokenizer = Tokenizer()\
 .setOutputCol("token") 
 
 lemma = LemmatizerModel.pretrained("lemma_nynorsk", "no")\ 
-.setInputCols(["sentence", "token"])\ 
+.setInputCols(["token"])\
 .setOutputCol("lemma")
 
 pipeline = Pipeline(stages=[document, sentence, tokenizer, lemma])
@@ -70,7 +70,7 @@ val tokenizer = new Tokenizer()
 .setOutputCol("token")
 
 val lemma = LemmatizerModel.pretrained("lemma_nynorsk", "no")
-.setInputCols("sentence", "token")
+.setInputCols("token")
 .setOutputCol("lemma")
 
 val pipeline = new Pipeline().setStages(Array(document, sentence, tokenizer, lemma))

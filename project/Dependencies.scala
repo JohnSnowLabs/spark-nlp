@@ -78,5 +78,8 @@ object Dependencies {
   val tensorflowM1 = "com.johnsnowlabs.nlp" %% "tensorflow-m1" % tensorflowVersion
   val tensorflowLinuxAarch64 = "com.johnsnowlabs.nlp" %% "tensorflow-aarch64" % tensorflowVersion
 
+  val gcpStorageVersion = "2.15.0"
+  val gcpStorage = "com.google.cloud" % "google-cloud-storage" % gcpStorageVersion
+
   /** ------- Dependencies end  ------- */
 }
