@@ -83,7 +83,7 @@ import scala.util.Random
   *   .mode("overwrite")
   *   .parquet("test_data")
   *
-  * val mulitClassifier = new MultiClassifierDLApproach()
+  * val multiClassifier = new MultiClassifierDLApproach()
   *   .setInputCols("sentence_embeddings")
   *   .setOutputCol("category")
   *   .setLabelColumn("label")
