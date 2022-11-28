@@ -455,11 +455,11 @@
       <span class="p">.</span><span class="n">setInputCols</span><span class="p">(</span><span class="s">"document"</span><span class="p">)</span> \
       <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"sentence_embeddings"</span><span class="p">)</span>
 
-<span class="n">docClassifier</span> <span class="o">=</span> <span class="n">nlp</span><span class="p">.</span><span class="n">ClassifierDLModel</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"legclf_obligations_absolute_clause"</span><span class="p">,</span> <span class="s">"en"</span><span class="p">,</span> <span class="s">"legal/models"</span><span class="p">)</span>\
+<span class="n">docClassifier</span> <span class="o">=</span> <span class="n">legal</span><span class="p">.</span><span class="n">ClassifierDLModel</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"legclf_obligations_absolute_clause"</span><span class="p">,</span> <span class="s">"en"</span><span class="p">,</span> <span class="s">"legal/models"</span><span class="p">)</span>\
     <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"sentence_embeddings"</span><span class="p">])</span>\
     <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"category"</span><span class="p">)</span>
     
-<span class="n">nlpPipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">(</span><span class="n">stages</span><span class="o">=</span><span class="p">[</span>
+<span class="n">nlpPipeline</span> <span class="o">=</span> <span class="n">nlp</span><span class="p">.</span><span class="n">Pipeline</span><span class="p">(</span><span class="n">stages</span><span class="o">=</span><span class="p">[</span>
     <span class="n">documentAssembler</span><span class="p">,</span> 
     <span class="n">embeddings</span><span class="p">,</span>
     <span class="n">docClassifier</span><span class="p">])</span>
@@ -536,8 +536,8 @@
  obligations       0.88      0.79      0.83        95
        other       0.88      0.93      0.90       152
     accuracy         -         -       0.88       247
-   macro avg       0.88      0.86      0.87       247
-weighted avg       0.88      0.88      0.88       247
+   macro-avg       0.88      0.86      0.87       247
+weighted-avg       0.88      0.88      0.88       247
 </code></pre></div></div>
 </div><div class="d-print-none"><footer class="article__footer"><meta itemprop="dateModified" content="2022-09-20T00:00:00+00:00"><!-- start custom article footer snippet -->
 

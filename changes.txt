@@ -1,2 +1,2 @@
-docs/demos/oncology.md
-docs/demos/oncology.md
+docs/_posts/josejuanmartinez/2022-09-20-legclf_cuad_obligations_clause_en.md
+docs/_posts/josejuanmartinez/2022-09-20-legclf_cuad_obligations_clause_en.md
