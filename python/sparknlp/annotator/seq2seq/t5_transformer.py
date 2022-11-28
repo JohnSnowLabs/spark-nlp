@@ -14,7 +14,6 @@
 """Contains classes for the T5Transformer."""
 
 from sparknlp.common import *
-from sparknlp.common.annotator_type import AnnotatorType
 
 
 class T5Transformer(AnnotatorModel, HasBatchedAnnotate, HasEngine):

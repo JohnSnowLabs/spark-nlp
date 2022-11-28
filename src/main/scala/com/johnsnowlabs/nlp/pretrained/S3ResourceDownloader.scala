@@ -18,6 +18,7 @@ package com.johnsnowlabs.nlp.pretrained
 
 import com.amazonaws.services.s3.model.ObjectMetadata
 import com.johnsnowlabs.client.aws.AWSGateway
+import com.johnsnowlabs.client.gcp.GCPGateway
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
 import com.johnsnowlabs.util.FileHelper
 import org.apache.commons.io.IOUtils
@@ -43,11 +44,15 @@ class S3ResourceDownloader(
     mutable.Map[String, RepositoryMetadata]()
   val cachePath = new Path(cacheFolder)
 
-  if (!cacheFolder.startsWith("s3") && !fileSystem.exists(cachePath)) {
+  if (!doesCacheFolderInCloud && !fileSystem.exists(cachePath)) {
     fileSystem.mkdirs(cachePath)
   }
 
   lazy val awsGateway = new AWSGateway(region = region, credentialsType = credentialsType)
+
+  def doesCacheFolderInCloud(): Boolean = {
+    cacheFolder.startsWith("s3") || cacheFolder.startsWith("gs")
+  }
 
   def downloadMetadataIfNeed(folder: String): List[ResourceMetadata] = {
     val lastState = repoFolder2Metadata.get(folder)
@@ -82,40 +87,46 @@ class S3ResourceDownloader(
       if (!awsGateway.doesS3ObjectExist(bucket, s3FilePath)) {
         None
       } else {
-        if (cachePath.toString.startsWith("s3")) {
-          val destinationS3URI = cachePath.toString.replace("s3:", "s3a:")
-          val sourceS3URI = s"s3a://$bucket/$s3FilePath"
-          val destinationKey = unzipInS3(sourceS3URI, destinationS3URI, ResourceHelper.spark)
-          Option(destinationKey)
-        } else {
-          val destinationFile = new Path(cachePath.toString, resource.fileName)
-          downloadAndUnzipFile(destinationFile, resource, s3FilePath)
+
+        val s3Path = "^s3.*".r
+        val gcpStoragePath = "^gs.*".r
+
+        cachePath.toString match {
+          case s3Path() => {
+            val destinationS3URI = cachePath.toString.replace("s3:", "s3a:")
+            val sourceS3URI = s"s3a://$bucket/$s3FilePath"
+            val destinationKey = unzipInExternalCloudStorage(
+              ResourceHelper.spark,
+              sourceS3URI,
+              destinationS3URI,
+              "S3")
+            Option(destinationKey)
+          }
+          case gcpStoragePath() => {
+            val sourceS3URI = s"s3a://$bucket/$s3FilePath"
+            val destination = unzipInExternalCloudStorage(
+              ResourceHelper.spark,
+              sourceS3URI,
+              cachePath.toString,
+              "GCP")
+            Option(destination)
+          }
+          case _ => {
+            val destinationFile = new Path(cachePath.toString, resource.fileName)
+            downloadAndUnzipFile(destinationFile, resource, s3FilePath)
+          }
         }
       }
     }
   }
 
-  private def unzipInS3(
+  private def unzipInExternalCloudStorage(
+      sparkSession: SparkSession,
       sourceS3URI: String,
-      destinationS3URI: String,
-      sparkSession: SparkSession): String = {
+      destinationStorageURI: String,
+      destinationCloud: String) = {
 
     val (sourceBucketName, sourceKey) = ResourceHelper.parseS3URI(sourceS3URI)
-    val (destinationBucketName, destinationKey) = ResourceHelper.parseS3URI(destinationS3URI)
-
-    val accessKeyId =
-      sparkSession.sparkContext.hadoopConfiguration.get("fs.s3a.access.key")
-    val secretAccessKey =
-      sparkSession.sparkContext.hadoopConfiguration.get("fs.s3a.secret.key")
-    val sessionToken =
-      sparkSession.sparkContext.hadoopConfiguration.get("fs.s3a.session.token")
-
-    if (accessKeyId == "" && secretAccessKey == "") {
-      throw new IllegalAccessException(
-        "Using S3 as cachePath requires to define access.key and secret.key hadoop configuration")
-    }
-    val awsGatewayDestination = new AWSGateway(accessKeyId, secretAccessKey, sessionToken)
-
     val zippedModel = awsGateway.getS3Object(sourceBucketName, sourceKey)
     val zipInputStream = new ZipInputStream(zippedModel.getObjectContent)
     var zipEntry = zipInputStream.getNextEntry
@@ -123,25 +134,72 @@ class S3ResourceDownloader(
     val zipFile = sourceKey.split("/").last
     val modelName = zipFile.substring(0, zipFile.indexOf(".zip"))
 
-    println(s"Uploading model $modelName to S3URI: $destinationS3URI")
+    println(s"Uploading model $modelName to external Cloud Storage URI: $destinationStorageURI")
     while (zipEntry != null) {
       if (!zipEntry.isDirectory) {
-        val fileName = s"$modelName/${zipEntry.getName}"
-        val destinationS3Path = destinationKey + "/" + fileName
         val outputStream = new ByteArrayOutputStream()
         IOUtils.copy(zipInputStream, outputStream)
         val inputStream = new ByteArrayInputStream(outputStream.toByteArray)
 
-        awsGatewayDestination.client.putObject(
-          destinationBucketName,
-          destinationS3Path,
-          inputStream,
-          new ObjectMetadata())
+        if (destinationCloud == "S3") {
+          val (awsGatewayDestination, destinationBucketName, destinationKey) =
+            getS3Config(sparkSession, destinationStorageURI)
+          val fileName = s"$modelName/${zipEntry.getName}"
+          val destinationS3Path = destinationKey + "/" + fileName
+
+          awsGatewayDestination.client.putObject(
+            destinationBucketName,
+            destinationS3Path,
+            inputStream,
+            new ObjectMetadata())
+
+        } else {
+          val (gcpGateway, destinationBucketName, destinationStoragePath) = getGCPStorageConfig(
+            destinationStorageURI)
+          val destinationGCPStoragePath =
+            s"$destinationStoragePath/$modelName/${zipEntry.getName}"
+
+          gcpGateway.copyFileToGCPStorage(
+            destinationBucketName,
+            destinationGCPStoragePath,
+            inputStream)
+        }
+
       }
       zipEntry = zipInputStream.getNextEntry
     }
+    destinationStorageURI + "/" + modelName
+  }
 
-    destinationS3URI + "/" + modelName
+  private def getS3Config(sparkSession: SparkSession, destinationS3URI: String) = {
+    var accessKeyId =
+      sparkSession.sparkContext.hadoopConfiguration.get("fs.s3a.access.key")
+    var secretAccessKey =
+      sparkSession.sparkContext.hadoopConfiguration.get("fs.s3a.secret.key")
+    var sessionToken =
+      sparkSession.sparkContext.hadoopConfiguration.get("fs.s3a.session.token")
+
+    if (accessKeyId == null) accessKeyId = ""
+    if (secretAccessKey == null) secretAccessKey = ""
+    if (sessionToken == null) sessionToken = ""
+
+    if (accessKeyId == "" && secretAccessKey == "") {
+      throw new IllegalAccessException(
+        "Using S3 as cachePath requires to define access.key and secret.key hadoop configuration")
+    }
+    val awsGatewayDestination = new AWSGateway(accessKeyId, secretAccessKey, sessionToken)
+
+    val (destinationBucketName, destinationKey) = ResourceHelper.parseS3URI(destinationS3URI)
+
+    (awsGatewayDestination, destinationBucketName, destinationKey)
+  }
+
+  private def getGCPStorageConfig(destinationGCPStorageURI: String) = {
+    val gcpGateway = new GCPGateway()
+    val (destinationBucketName, destinationStoragePath) =
+      ResourceHelper.parseGCPStorageURI(destinationGCPStorageURI)
+
+    (gcpGateway, destinationBucketName, destinationStoragePath)
   }
 
   def downloadAndUnzipFile(

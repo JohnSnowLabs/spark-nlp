@@ -13,7 +13,6 @@
 #  limitations under the License.
 """Contains classes for the StopWordsCleaner."""
 from sparknlp.common import *
-from sparknlp.common.annotator_type import AnnotatorType
 
 
 class StopWordsCleaner(AnnotatorModel):
