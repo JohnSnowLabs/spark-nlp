@@ -43,6 +43,31 @@ class MultiClassifierDLApproach(AnnotatorApproach, EvaluationDLParams, Classifie
     :class:`.BertSentenceEmbeddings`, :class:`.SentenceEmbeddings` or other
     sentence embeddings.
 
+    Setting a test dataset to monitor model metrics can be done with
+    ``.setTestDataset``. The method expects a path to a parquet file containing a
+    dataframe that has the same required columns as the training dataframe. The
+    pre-processing steps for the training dataframe should also be applied to the test
+    dataframe. The following example will show how to create the test dataset:
+
+    >>> documentAssembler = DocumentAssembler() \\
+    ...     .setInputCol("text") \\
+    ...     .setOutputCol("document")
+    >>> embeddings = UniversalSentenceEncoder.pretrained() \\
+    ...     .setInputCols(["document"]) \\
+    ...     .setOutputCol("sentence_embeddings")
+    >>> preProcessingPipeline = Pipeline().setStages([documentAssembler, embeddings])
+    >>> (train, test) = data.randomSplit([0.8, 0.2])
+    >>> preProcessingPipeline \\
+    ...     .fit(test) \\
+    ...     .transform(test)
+    ...     .write \\
+    ...     .mode("overwrite") \\
+    ...     .parquet("test_data")
+    >>> mulitClassifier = MultiClassifierDLApproach() \\
+    ...     .setInputCols(["sentence_embeddings"]) \\
+    ...     .setOutputCol("category") \\
+    ...     .setLabelColumn("label") \\
+    ...     .setTestDataset("test_data")
 
     For extended examples of usage, see the `Spark NLP Workshop <https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/jupyter/training/english/classification/MultiClassifierDL_train_multi_label_E2E_challenge_classifier.ipynb>`__.
 
@@ -54,32 +79,39 @@ class MultiClassifierDLApproach(AnnotatorApproach, EvaluationDLParams, Classifie
 
     Parameters
     ----------
-    lr
-        Learning Rate, by default 0.001
     batchSize
         Batch size, by default 64
-    maxEpochs
-        Maximum number of epochs to train, by default 10
     configProtoBytes
         ConfigProto from tensorflow, serialized into byte array.
-    validationSplit
-        Choose the proportion of training dataset to be validated against the
-        model on each Epoch. The value should be between 0.0 and 1.0 and by
-        default it is 0.0 and off, by default 0.0
     enableOutputLogs
         Whether to use stdout in addition to Spark logs, by default False
-    outputLogsPath
-        Folder path to save training logs
+    enableOutputLogs
+        Whether to use stdout in addition to Spark logs.
+    evaluationLogExtended
+        Whether logs for validation to be extended: it displays time and evaluation of
+        each label. Default is False.
     labelColumn
         Column with label per each token
-    verbose
-        Level of verbosity during training
+    lr
+        Learning Rate, by default 0.001
+    maxEpochs
+        Maximum number of epochs to train, by default 10
+    outputLogsPath
+        Folder path to save training logs
     randomSeed
         Random seed, by default 44
     shufflePerEpoch
         whether to shuffle the training data on each Epoch, by default False
+    testDataset
+        Path to test dataset. If set used to calculate statistic on it during training.
     threshold
         The minimum threshold for each label to be accepted, by default 0.5
+    validationSplit
+        Choose the proportion of training dataset to be validated against the
+        model on each Epoch. The value should be between 0.0 and 1.0 and by
+        default it is 0.0 and off, by default 0.0
+    verbose
+        Level of verbosity during training
 
     Notes
     -----

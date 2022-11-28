@@ -42,6 +42,37 @@ class NerDLApproach(AnnotatorApproach, NerApproach, EvaluationDLParams):
     - a WordEmbeddingsModel (any embeddings can be chosen, e.g. BertEmbeddings
       for BERT based embeddings).
 
+    Setting a test dataset to monitor model metrics can be done with
+    ``.setTestDataset``. The method expects a path to a parquet file containing a
+    dataframe that has the same required columns as the training dataframe. The
+    pre-processing steps for the training dataframe should also be applied to the test
+    dataframe. The following example will show how to create the test dataset with a
+    CoNLL dataset:
+
+    >>> documentAssembler = DocumentAssembler() \\
+    ...     .setInputCol("text") \\
+    ...     .setOutputCol("document")
+    >>> embeddings = WordEmbeddingsModel \\
+    ...     .pretrained() \\
+    ...     .setInputCols(["document", "token"]) \\
+    ...     .setOutputCol("embeddings")
+    >>> preProcessingPipeline = Pipeline().setStages([documentAssembler, embeddings])
+    >>> conll = CoNLL()
+    >>> (train, test) = conll \\
+    ...     .readDataset(spark, "src/test/resources/conll2003/eng.train") \\
+    ...     .randomSplit([0.8, 0.2])
+    >>> preProcessingPipeline \\
+    ...     .fit(test) \\
+    ...     .transform(test)
+    ...     .write \\
+    ...     .mode("overwrite") \\
+    ...     .parquet("test_data")
+    >>> tagger = NerDLApproach() \\
+    ...     .setInputCols(["document", "token", "embeddings"]) \\
+    ...     .setLabelColumn("label") \\
+    ...     .setOutputCol("ner") \\
+    ...     .setTestDataset("test_data")
+
     For extended examples of usage, see the `Spark NLP Workshop <https://github.com/JohnSnowLabs/spark-nlp-workshop/tree/master/jupyter/training/english/dl-ner>`__.
 
     ==================================== ======================
@@ -87,8 +118,8 @@ class NerDLApproach(AnnotatorApproach, NerApproach, EvaluationDLParams):
     evaluationLogExtended
         Whether logs for validation to be extended, by default False.
     testDataset
-        Path to test dataset. If set used to calculate statistic on it during
-        training.
+        Path to a parquet file of a test dataset. If set, it is used to calculate
+        statistics on it during training.
     includeConfidence
         whether to include confidence scores in annotation metadata, by default
         False

@@ -29,6 +29,32 @@ class ClassifierDLApproach(AnnotatorApproach, EvaluationDLParams, ClassifierEnco
 
     For instantiated/pretrained models, see :class:`.ClassifierDLModel`.
 
+    Setting a test dataset to monitor model metrics can be done with
+    ``.setTestDataset``. The method expects a path to a parquet file containing a
+    dataframe that has the same required columns as the training dataframe. The
+    pre-processing steps for the training dataframe should also be applied to the test
+    dataframe. The following example will show how to create the test dataset:
+
+    >>> documentAssembler = DocumentAssembler() \\
+    ...     .setInputCol("text") \\
+    ...     .setOutputCol("document")
+    >>> embeddings = UniversalSentenceEncoder.pretrained() \\
+    ...     .setInputCols(["document"]) \\
+    ...     .setOutputCol("sentence_embeddings")
+    >>> preProcessingPipeline = Pipeline().setStages([documentAssembler, embeddings])
+    >>> (train, test) = data.randomSplit([0.8, 0.2])
+    >>> preProcessingPipeline \\
+    ...     .fit(test) \\
+    ...     .transform(test)
+    ...     .write \\
+    ...     .mode("overwrite") \\
+    ...     .parquet("test_data")
+    >>> classifier = ClassifierDLApproach() \\
+    ...     .setInputCols(["sentence_embeddings"]) \\
+    ...     .setOutputCol("category") \\
+    ...     .setLabelColumn("label") \\
+    ...     .setTestDataset("test_data")
+
     For extended examples of usage, see the Spark NLP Workshop
     `Spark NLP Workshop  <https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Public/5.Text_Classification_with_ClassifierDL.ipynb>`__.
 
@@ -40,30 +66,35 @@ class ClassifierDLApproach(AnnotatorApproach, EvaluationDLParams, ClassifierEnco
 
     Parameters
     ----------
-    lr
-        Learning Rate, by default 0.005
     batchSize
         Batch size, by default 64
-    dropout
-        Dropout coefficient, by default 0.5
-    maxEpochs
-        Maximum number of epochs to train, by default 30
     configProtoBytes
         ConfigProto from tensorflow, serialized into byte array.
+    dropout
+        Dropout coefficient, by default 0.5
+    enableOutputLogs
+        Whether to use stdout in addition to Spark logs, by default False
+    evaluationLogExtended
+        Whether logs for validation to be extended: it displays time and evaluation of
+        each label. Default is False.
+    labelColumn
+        Column with label per each token
+    lr
+        Learning Rate, by default 0.005
+    maxEpochs
+        Maximum number of epochs to train, by default 30
+    outputLogsPath
+        Folder path to save training logs
+    randomSeed
+        Random seed for shuffling
+    testDataset
+        Path to test dataset. If set used to calculate statistic on it during training.
     validationSplit
         Choose the proportion of training dataset to be validated against the
         model on each Epoch. The value should be between 0.0 and 1.0 and by
         default it is 0.0 and off.
-    enableOutputLogs
-        Whether to use stdout in addition to Spark logs, by default False
-    outputLogsPath
-        Folder path to save training logs
-    labelColumn
-        Column with label per each token
     verbose
         Level of verbosity during training
-    randomSeed
-        Random seed for shuffling
 
     Notes
     -----

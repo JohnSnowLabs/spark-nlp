@@ -97,8 +97,26 @@ class EvaluationDLParams(ParamsGettersSetters):
         return self._set(outputLogsPath=p)
 
     def setTestDataset(self, path, read_as=ReadAs.SPARK, options={"format": "parquet"}):
-        """Sets Path to test dataset. If set used to calculate statistic on it
-        during training.
+        """Path to a parquet file of a test dataset. If set, it is used to calculate
+        statistics on it during training.
+
+        The parquet file must be a dataframe that has the same columns as the model that
+        is being trained. For example, if the model needs as input `DOCUMENT`, `TOKEN`,
+        `WORD_EMBEDDINGS` (Features) and `NAMED_ENTITY` (label) then these columns also
+        need to be present while saving the dataframe. The pre-processing steps for the
+        training dataframe should also be applied to the test dataframe.
+
+        An example on how to create such a parquet file could be:
+
+        >>> # assuming preProcessingPipeline
+        >>> (train, test) = data.randomSplit([0.8, 0.2])
+        >>> preProcessingPipeline
+        ...     .fit(test)
+        ...     .transform(test)
+        ...     .write
+        ...     .mode("overwrite")
+        ...     .parquet("test_data")
+        >>> annotator.setTestDataset("test_data")
 
         Parameters
         ----------
