@@ -25,12 +25,42 @@ import scala.io.Source
 
 object LoadExternalModel {
 
-  val notSupportedEngineError: String =
-    "Your imported model is not supported. Please make sure you " +
-      s"follow provided notebooks to import external models into Spark NLP: " +
-      s"https://github.com/JohnSnowLabs/spark-nlp/discussions/5669"
+  val notSupportedEngineError: String = {
+    s"""Your imported model is either not supported or not correctly imported.
+       |
+       |A typical imported TensorFlow SavedModel has the following structure:
+       |
+       |├── assets/
+       |    ├── your-assets-are-here (vocab, sp model, labels, etc.)
+       |├── saved_model.pb
+       |└── variables/
+       |    ├── variables.data-00000-of-00001
+       |    └── variables.index
+       |
+       |Please make sure you follow provided notebooks to import external models into Spark NLP:
+       |https://github.com/JohnSnowLabs/spark-nlp/discussions/5669""".stripMargin
+  }
 
-  def detectEngine(modelPath: String): String = {
+  def isTensorFlowModel(modelPath: String): Boolean = {
+    val tfSavedModel = new File(modelPath, ModelEngine.tensorflowModelName)
+    tfSavedModel.exists()
+
+  }
+
+  def isOnnxModel(modelPath: String, isEncoderDecoder: Boolean = false): Boolean = {
+
+    if (isEncoderDecoder) {
+      val onnxEncoderModel = new File(modelPath, ModelEngine.onnxEncoderModel)
+      val onnxDecoderModel = new File(modelPath, ModelEngine.onnxDecoderModel)
+      onnxEncoderModel.exists() && onnxDecoderModel.exists()
+    } else {
+      val onnxModel = new File(modelPath, ModelEngine.onnxModelName)
+      onnxModel.exists()
+    }
+
+  }
+
+  def detectEngine(modelPath: String, isEncoderDecoder: Boolean = false): String = {
 
     /** Check if the path is correct */
     val f = new File(modelPath)
@@ -44,12 +74,10 @@ object LoadExternalModel {
     require(assetsPathFile.isDirectory, s"Folder $assetsPath is not folder")
 
     /*TensorFlow required model's name*/
-    val tfSavedModel = new File(modelPath, ModelEngine.tensorflowModelName)
-    val tfSavedModelExist = tfSavedModel.exists()
+    val tfSavedModelExist = isTensorFlowModel(modelPath)
 
     /*ONNX required model's name*/
-    val onnxModel = new File(modelPath, ModelEngine.onnxModelName)
-    val onnxModelExist = onnxModel.exists()
+    val onnxModelExist = isOnnxModel(modelPath, isEncoderDecoder)
 
     if (tfSavedModelExist) {
       ModelEngine.tensorflow
@@ -73,10 +101,10 @@ object LoadExternalModel {
     * @return
     *   URL to the local path of the folder
     */
-  def modelSanityCheck(path: String): (String, String) = {
+  def modelSanityCheck(path: String, isEncoderDecoder: Boolean = false): (String, String) = {
     val localPath: String = ResourceHelper.copyToLocal(path)
 
-    (localPath, detectEngine(localPath))
+    (localPath, detectEngine(localPath, isEncoderDecoder))
   }
 
   def loadTextAsset(assetPath: String, assetName: String): Array[String] = {
