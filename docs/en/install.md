@@ -169,13 +169,12 @@ Make sure the following prerequisites are met:
 1. An M1 compiled java version needs to be installed. For example to install the Zulu
     Java 11 JDK head to [Download Azul JDKs](https://www.azul.com/downloads/?version=java-11-lts&os=macos&architecture=arm-64-bit&package=jdk) and install that java version.
 
-    Running `java -version` should produce a result, which contains `aarch64`
-    or `mixed mode` as the architecture:
+    To check if the installed java environment is running natively on arm64 and not
+    rosetta, you can run the following commands in your shell:
+
     ```shell
-    johnsnow@m1mac ~ % java -version
-    openjdk version "11.0.13" 2021-10-19 LTS
-    OpenJDK Runtime Environment Zulu11.52+13-CA (build 11.0.13+8-LTS)
-    OpenJDK 64-Bit Server VM Zulu11.52+13-CA (build 11.0.13+8-LTS, mixed mode)
+    johnsnow@m1mac ~ % cat $(which java) | file -
+    /dev/stdin: Mach-O 64-bit executable arm64
     ```
 
     The environment variable `JAVA_HOME` should also be set to this java version. You
@@ -183,7 +182,7 @@ Make sure the following prerequisites are met:
     you can set it by adding `export JAVA_HOME=$(/usr/libexec/java_home)` to your
     `~/.zshrc` file.
 
-### Scala and Java
+### Scala and Java for M1
 
 Adding Spark NLP to your Scala or Java project is easy:
 
@@ -213,14 +212,13 @@ libraryDependencies += "com.johnsnowlabs.nlp" %% "spark-nlp-m1" % "4.2.3"
 
 If everything went well, you can now start Spark NLP with the `m1` flag set to `true`:
 
-
 ```scala
 import com.johnsnowlabs.nlp.SparkNLP
 
 val spark = SparkNLP.start(m1 = true)
 ```
 
-### Python
+### Python for M1
 
 First, make sure you have a recent Python 3 installation.
 
