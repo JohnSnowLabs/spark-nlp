@@ -8,8 +8,8 @@ app:
 
 source:
     fn: spark-nlp-4.2.4.tar.gz
-    url: https://files.pythonhosted.org/packages/09/81/d5644f8ff89839da85b1ef70cf38ca0cab2fc12041d724c5e794a47c14f5/spark-nlp-4.2.3.tar.gz
-    sha256: 430aa24d0e325138140ef92b6e7c4c797838e9eee14aaf636af08276956549f9
+    url: https://files.pythonhosted.org/packages/b1/ab/349d8f0ecbf431046470827c065d0a045d113d6dae166a1b6c576b0ad21b/spark-nlp-4.2.4.tar.gz
+    sha256: 1093f7a9d184ab0a02cce75874e0c8e853810ba06e49d4404f1a240c00a5fef1
 build:
   noarch: generic
   number: 0
