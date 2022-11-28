@@ -40,6 +40,9 @@ class NerConverter(AnnotatorModel):
     whiteList
         If defined, list of entities to process. The rest will be ignored. Do
         not include IOB prefix on labels
+    preservePosition
+        Whether to preserve the original position of the tokens in the original document
+        or use the modified tokens, by default `True`
 
     Examples
     --------
@@ -77,11 +80,21 @@ class NerConverter(AnnotatorModel):
     """
     name = 'NerConverter'
 
+    inputAnnotatorTypes = [AnnotatorType.DOCUMENT, AnnotatorType.TOKEN,
+                           AnnotatorType.NAMED_ENTITY]
+
     whiteList = Param(
         Params._dummy(),
         "whiteList",
         "If defined, list of entities to process. The rest will be ignored. Do not include IOB prefix on labels",
         typeConverter=TypeConverters.toListString
+    )
+
+    preservePosition = Param(
+        Params._dummy(),
+        "preservePosition",
+        "Whether to preserve the original position of the tokens in the original document or use the modified tokens",
+        typeConverter=TypeConverters.toBoolean
     )
 
     def setWhiteList(self, entities):
@@ -97,7 +110,20 @@ class NerConverter(AnnotatorModel):
         """
         return self._set(whiteList=entities)
 
+    def setPreservePosition(self, value):
+        """
+        Whether to preserve the original position of the tokens in the original document
+        or use the modified tokens, by default `True`.
+
+        Parameters
+        ----------
+        value : bool
+            Whether to preserve the original position of the tokens in the original
+            document or use the modified tokens
+        """
+        return self._set(preservePosition=value)
+
     @keyword_only
     def __init__(self):
-        super(NerConverter, self).__init__(classname="com.johnsnowlabs.nlp.annotators.ner.NerConverter")
-
+        super(NerConverter, self).__init__(
+            classname="com.johnsnowlabs.nlp.annotators.ner.NerConverter")
