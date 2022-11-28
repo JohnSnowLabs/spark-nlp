@@ -3,9 +3,9 @@
         <head>
           <meta http-equiv="X-UA-Compatible" content="IE=edge" />
           <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-          <title>Spark NLP 4.2.3 ScalaDoc  - com.johnsnowlabs.nlp.annotators.classifier.dl.ClassifierEncoder</title>
-          <meta name="description" content="Spark NLP 4.2.3 ScalaDoc - com.johnsnowlabs.nlp.annotators.classifier.dl.ClassifierEncoder" />
-          <meta name="keywords" content="Spark NLP 4.2.3 ScalaDoc com.johnsnowlabs.nlp.annotators.classifier.dl.ClassifierEncoder" />
+          <title>Spark NLP 4.2.4 ScalaDoc  - com.johnsnowlabs.nlp.annotators.classifier.dl.ClassifierEncoder</title>
+          <meta name="description" content="Spark NLP 4.2.4 ScalaDoc - com.johnsnowlabs.nlp.annotators.classifier.dl.ClassifierEncoder" />
+          <meta name="keywords" content="Spark NLP 4.2.4 ScalaDoc com.johnsnowlabs.nlp.annotators.classifier.dl.ClassifierEncoder" />
           <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
           
       
@@ -28,7 +28,7 @@
         </head>
         <body>
       <div id="search">
-        <span id="doc-title">Spark NLP 4.2.3 ScalaDoc<span id="doc-version"></span></span>
+        <span id="doc-title">Spark NLP 4.2.4 ScalaDoc<span id="doc-version"></span></span>
         <span class="close-results"><span class="left">&lt;</span> Back</span>
         <div id="textfilter">
           <span class="input">
@@ -1771,8 +1771,22 @@ Default is false.
         <span class="name">setTestDataset</span><span class="params">(<span name="er">er: <a href="../../../util/io/ExternalResource.html" class="extype" name="com.johnsnowlabs.nlp.util.io.ExternalResource">ExternalResource</a></span>)</span><span class="result">: <a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.classifier.dl.ClassifierEncoder">ClassifierEncoder</a>.this.type</span>
       </span>
       
-      <p class="shortcomment cmt">Path to test dataset.</p><div class="fullcomment"><div class="comment cmt"><p>Path to test dataset. If set, it is used to calculate statistics on it during training.
-</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="../../param/EvaluationDLParams.html" class="extype" name="com.johnsnowlabs.nlp.annotators.param.EvaluationDLParams">EvaluationDLParams</a></dd></dl></div>
+      <p class="shortcomment cmt">ExternalResource to a parquet file of a test dataset.</p><div class="fullcomment"><div class="comment cmt"><p>ExternalResource to a parquet file of a test dataset. If set, it is used to calculate
+statistics on it during training.</p><p>When using an ExternalResource, only parquet files are accepted for this function.</p><p>The parquet file must be a dataframe that has the same columns as the model that is being
+trained. For example, if the model needs as input <code>DOCUMENT</code>, <code>TOKEN</code>, <code>WORD_EMBEDDINGS</code>
+(Features) and <code>NAMED_ENTITY</code> (label) then these columns also need to be present while
+saving the dataframe. The pre-processing steps for the training dataframe should also be
+applied to the test dataframe.</p><p>An example on how to create such a parquet file could be:</p><pre><span class="cmt">// assuming preProcessingPipeline</span>
+<span class="kw">val</span> <span class="std">Array</span>(train, test) = data.randomSplit(<span class="std">Array</span>(<span class="num">0.8</span>, <span class="num">0.2</span>))
+
+preProcessingPipeline
+  .fit(test)
+  .transform(test)
+  .write
+  .mode(<span class="lit">"overwrite"</span>)
+  .parquet(<span class="lit">"test_data"</span>)
+
+annotator.setTestDataset(<span class="lit">"test_data"</span>)</pre></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="../../param/EvaluationDLParams.html" class="extype" name="com.johnsnowlabs.nlp.annotators.param.EvaluationDLParams">EvaluationDLParams</a></dd></dl></div>
     </li><li name="com.johnsnowlabs.nlp.annotators.param.EvaluationDLParams#setTestDataset" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="setParam">
       <a id="setTestDataset(path:String,readAs:com.johnsnowlabs.nlp.util.io.ReadAs.Format,options:Map[String,String]):EvaluationDLParams.this.type"></a><a id="setTestDataset(String,Format,Map[String,String]):ClassifierEncoder.this.type"></a>
       <span class="permalink">
@@ -1788,8 +1802,22 @@ Default is false.
         <span class="name">setTestDataset</span><span class="params">(<span name="path">path: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="readAs">readAs: <a href="../../../util/io/ReadAs$.html#Format=com.johnsnowlabs.nlp.util.io.ReadAs.Value" class="extmbr" name="com.johnsnowlabs.nlp.util.io.ReadAs.Format">Format</a> = <span class="symbol"><span class="name"><a href="../../../../../index.html">ReadAs.SPARK</a></span></span></span>, <span name="options">options: <span class="extype" name="scala.Predef.Map">Map</span>[<span class="extype" name="scala.Predef.String">String</span>, <span class="extype" name="scala.Predef.String">String</span>] = <span class="symbol">Map(&quot;format&quot; -&gt; &quot;parquet&quot;)</span></span>)</span><span class="result">: <a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.classifier.dl.ClassifierEncoder">ClassifierEncoder</a>.this.type</span>
       </span>
       
-      <p class="shortcomment cmt">Path to test dataset.</p><div class="fullcomment"><div class="comment cmt"><p>Path to test dataset. If set, it is used to calculate statistics on it during training.
-</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="../../param/EvaluationDLParams.html" class="extype" name="com.johnsnowlabs.nlp.annotators.param.EvaluationDLParams">EvaluationDLParams</a></dd></dl></div>
+      <p class="shortcomment cmt">Path to a parquet file of a test dataset.</p><div class="fullcomment"><div class="comment cmt"><p>Path to a parquet file of a test dataset. If set, it is used to calculate statistics on it
+during training.</p><p>The parquet file must be a dataframe that has the same columns as the model that is being
+trained. For example, if the model needs as input <code>DOCUMENT</code>, <code>TOKEN</code>, <code>WORD_EMBEDDINGS</code>
+(Features) and <code>NAMED_ENTITY</code> (label) then these columns also need to be present while
+saving the dataframe. The pre-processing steps for the training dataframe should also be
+applied to the test dataframe.</p><p>An example on how to create such a parquet file could be:</p><pre><span class="cmt">// assuming preProcessingPipeline</span>
+<span class="kw">val</span> <span class="std">Array</span>(train, test) = data.randomSplit(<span class="std">Array</span>(<span class="num">0.8</span>, <span class="num">0.2</span>))
+
+preProcessingPipeline
+  .fit(test)
+  .transform(test)
+  .write
+  .mode(<span class="lit">"overwrite"</span>)
+  .parquet(<span class="lit">"test_data"</span>)
+
+annotator.setTestDataset(<span class="lit">"test_data"</span>)</pre></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="../../param/EvaluationDLParams.html" class="extype" name="com.johnsnowlabs.nlp.annotators.param.EvaluationDLParams">EvaluationDLParams</a></dd></dl></div>
     </li><li name="com.johnsnowlabs.nlp.annotators.param.EvaluationDLParams#setValidationSplit" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="setParam">
       <a id="setValidationSplit(validationSplit:Float):EvaluationDLParams.this.type"></a><a id="setValidationSplit(Float):ClassifierEncoder.this.type"></a>
       <span class="permalink">
@@ -1876,7 +1904,8 @@ Default is false.
         <span class="name">testDataset</span><span class="result">: <a href="../../param/ExternalResourceParam.html" class="extype" name="com.johnsnowlabs.nlp.annotators.param.ExternalResourceParam">ExternalResourceParam</a></span>
       </span>
       
-      <p class="shortcomment cmt">Path to test dataset.</p><div class="fullcomment"><div class="comment cmt"><p>Path to test dataset. If set, it is used to calculate statistics on it during training.
+      <p class="shortcomment cmt">Path to a parquet file of a test dataset.</p><div class="fullcomment"><div class="comment cmt"><p>Path to a parquet file of a test dataset. If set, it is used to calculate statistics on it
+during training.
 </p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="../../param/EvaluationDLParams.html" class="extype" name="com.johnsnowlabs.nlp.annotators.param.EvaluationDLParams">EvaluationDLParams</a></dd></dl></div>
     </li><li name="org.apache.spark.ml.util.Identifiable#toString" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="toString():String"></a>
