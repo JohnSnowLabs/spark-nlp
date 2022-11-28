@@ -17,7 +17,7 @@ use_language_switcher: "Python-Scala-Java"
 
 ## Description
 
-This model extracts relations between amounts, counts, percentages, dates and the financial entities extracted with earning calls NER models.
+This model extracts relations between amounts, counts, percentages, dates and the financial entities extracted with any earning calls NER model, as `finner_earning_calls_sm` (shown in the example above). 
 
 ## Predicted Entities
 
@@ -53,7 +53,7 @@ bert_embeddings= nlp.BertEmbeddings.pretrained("bert_embeddings_sec_bert_base","
         .setInputCols(["sentence", "token"])\
         .setOutputCol("bert_embeddings")
 
-ner_model = finance.NerModel.pretrained("finner_financial_large", "en", "finance/models")\
+ner_model = finance.NerModel.pretrained("finner_earning_calls_sm", "en", "finance/models")\
     .setInputCols(["sentence", "token", "bert_embeddings"])\
     .setOutputCol("ner")\
 
