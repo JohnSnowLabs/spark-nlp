@@ -16,7 +16,6 @@
 from sparknlp.annotator.param import EvaluationDLParams, ClassifierEncoder
 from sparknlp.base import DocumentAssembler
 from sparknlp.common import *
-from sparknlp.common.annotator_type import AnnotatorType
 
 
 class ClassifierDLApproach(AnnotatorApproach, EvaluationDLParams, ClassifierEncoder):

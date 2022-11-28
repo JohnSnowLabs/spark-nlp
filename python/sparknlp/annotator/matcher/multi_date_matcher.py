@@ -15,7 +15,6 @@
 
 from sparknlp.common import *
 from sparknlp.annotator.matcher.date_matcher import DateMatcherUtils
-from sparknlp.common.annotator_type import AnnotatorType
 
 
 class MultiDateMatcher(AnnotatorModel, DateMatcherUtils):

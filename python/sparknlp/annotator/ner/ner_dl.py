@@ -18,7 +18,6 @@ import sys
 from sparknlp.annotator.param import EvaluationDLParams
 from sparknlp.common import *
 from sparknlp.annotator.ner.ner_approach import NerApproach
-from sparknlp.common.annotator_type import AnnotatorType
 
 
 class NerDLApproach(AnnotatorApproach, NerApproach, EvaluationDLParams):

@@ -14,7 +14,6 @@
 """Contains classes for the NerOverwriter."""
 
 from sparknlp.common import *
-from sparknlp.common.annotator_type import AnnotatorType
 
 
 class NerOverwriter(AnnotatorModel):

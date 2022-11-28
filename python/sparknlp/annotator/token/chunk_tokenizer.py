@@ -15,7 +15,6 @@
 
 from sparknlp.common import *
 from sparknlp.annotator.token.tokenizer import Tokenizer, TokenizerModel
-from sparknlp.common.annotator_type import AnnotatorType
 
 
 class ChunkTokenizer(Tokenizer):

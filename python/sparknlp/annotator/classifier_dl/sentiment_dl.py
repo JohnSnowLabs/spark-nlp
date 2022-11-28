@@ -15,7 +15,6 @@
 
 from sparknlp.annotator.param import EvaluationDLParams, ClassifierEncoder
 from sparknlp.common import *
-from sparknlp.common.annotator_type import AnnotatorType
 
 
 class SentimentDLApproach(AnnotatorApproach, EvaluationDLParams, ClassifierEncoder):
