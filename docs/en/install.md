@@ -160,7 +160,9 @@ If you are interested, there is a simple SBT project for Spark NLP to guide you 
 
 ## Installation for M1 Macs
 
-Starting from version 4.2.3, Spark NLP has experimental support for M1 macs.
+Starting from version 4.0.0, Spark NLP has experimental support for M1 macs. Note that
+at the moment, only the standard variant of the M1 is supported. Other variants (e.g.
+M1 Pro/Max/Ultra, M2) will most likely not work.
 
 Make sure the following prerequisites are met:
 
