@@ -62,7 +62,7 @@ class MultiClassifierDLApproach(AnnotatorApproach, EvaluationDLParams, Classifie
     ...     .write \\
     ...     .mode("overwrite") \\
     ...     .parquet("test_data")
-    >>> mulitClassifier = MultiClassifierDLApproach() \\
+    >>> multiClassifier = MultiClassifierDLApproach() \\
     ...     .setInputCols(["sentence_embeddings"]) \\
     ...     .setOutputCol("category") \\
     ...     .setLabelColumn("label") \\
