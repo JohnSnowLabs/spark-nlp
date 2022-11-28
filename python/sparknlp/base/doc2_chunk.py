@@ -16,10 +16,9 @@
 from pyspark import keyword_only
 from pyspark.ml.param import TypeConverters, Params, Param
 
-from sparknlp.common.annotator_type import AnnotatorType
 from sparknlp.internal import AnnotatorTransformer
 
-from sparknlp.common import AnnotatorProperties
+from sparknlp.common import AnnotatorProperties, AnnotatorType
 
 
 class Doc2Chunk(AnnotatorTransformer, AnnotatorProperties):

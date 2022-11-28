@@ -14,7 +14,6 @@
 """Contains classes for SentenceEmbeddings."""
 
 from sparknlp.common import *
-from sparknlp.common.annotator_type import AnnotatorType
 
 
 class SentenceEmbeddings(AnnotatorModel, HasEmbeddingsProperties, HasStorageRef):
