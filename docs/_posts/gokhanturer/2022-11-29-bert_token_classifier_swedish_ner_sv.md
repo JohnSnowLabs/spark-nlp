@@ -13,7 +13,9 @@ supported: true
 engine: tensorflow
 article_header:
   type: cover
-use_language_switcher: "Python-Scala-Java"
+use_language_switcher: 
+
+"Python-Scala-Java"
 ---
 
 ## Description
