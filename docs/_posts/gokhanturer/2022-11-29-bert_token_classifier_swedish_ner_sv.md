@@ -13,9 +13,7 @@ supported: true
 engine: tensorflow
 article_header:
   type: cover
-use_language_switcher: 
-
-"Python-Scala-Java"
+use_language_switcher: "Python-Scala-Java"
 ---
 
 ## Description
@@ -37,6 +35,7 @@ Pretrained BertForSequenceClassification model, adapted from Hugging Face and cu
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
+
 ```python
 documentAssembler = DocumentAssembler() \
     .setInputCols(["text"]) \
