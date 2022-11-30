@@ -112,9 +112,9 @@ pipeline = nlp.Pipeline(stages=[
 
 data = spark.createDataFrame([["""Adjusted EPS was ahead of our expectations at $ 1.21 , and free cash flow is also ahead of our expectations despite a $ 1.5 billion additional tax payment we made related to the R&D amortization."""]]).toDF("text")
 
-model = pipeline. Fit(data)
+model = pipeline.fit(data)
 
-result = model. Transform(data)
+result = model.transform(data)
 
 result. Select(F.explode(F.arrays_zip('ner_chunk.result', 'ner_chunk.metadata')).alias("cols")) \
                .select(F.expr("cols['0']").alias("text"),
