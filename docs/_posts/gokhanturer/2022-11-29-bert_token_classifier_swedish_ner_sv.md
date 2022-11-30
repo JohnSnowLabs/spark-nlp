@@ -46,10 +46,9 @@ tokenizer = Tokenizer() \
     .setOutputCol("token")
 
 tokenClassifier = BertForTokenClassification.pretrained("bert_token_classifier_swedish_ner","sv") \
-    .setInputCols(["document", "token"])     .setOutputCol("ner")
+    .setInputCols(["document", "token"]) \  
+    .setOutputCol("ner")
 
-
-    
 pipeline = Pipeline(stages=[documentAssembler, tokenizer, tokenClassifier])
 
 data = spark.createDataFrame([["PUT YOUR STRING HERE"]]).toDF("text")
@@ -58,8 +57,8 @@ result = pipeline.fit(data).transform(data)
 ```
 ```scala
 val documentAssembler = new DocumentAssembler() 
-      .setInputCols(Array("text")) 
-      .setOutputCols(Array("document"))
+    .setInputCols(Array("text")) 
+    .setOutputCols(Array("document"))
       
 val tokenizer = new Tokenizer()
     .setInputCols("document")
