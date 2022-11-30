@@ -112,7 +112,7 @@ model = pipeline.fit(data)
 
 result = model.transform(data)
 
-result. Select(F.explode(F.arrays_zip('ner_chunk.result', 'ner_chunk.metadata')).alias("cols")) \
+result.select(F.explode(F.arrays_zip('ner_chunk.result', 'ner_chunk.metadata')).alias("cols")) \
                .select(F.expr("cols['0']").alias("text"),
                        F.expr("cols['1']['entity']").alias("label")).show(200, truncate = False)
 ```
