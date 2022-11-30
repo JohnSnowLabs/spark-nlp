@@ -23,32 +23,33 @@ This model is called `Generic` as it has fewer labels in comparison with the `Sp
 Please note this model requires some tokenization configuration to extract the currency (see python snippet below).
 
 The currently available entities are:
-- AMOUNT
-- ASSET
-- ASSET_DECREASE
-- ASSET_INCREASE
-- CF
-- CF_INCREASE
-- COUNT
-- CURRENCY
-- DATE
-- EXPENSE
-- EXPENSE_DECREASE
-- EXPENSE_INCREASE
-- FCF
-- FISCAL_YEAR
-- KPI
-- KPI_DECREASE
-- KPI_INCREASE
-- LIABILITY
-- LIABILITY_DECREASE
-- LIABILITY_INCREASE
-- ORG
-- PERCENTAGE
-- PROFIT
-- PROFIT_DECLINE
-- PROFIT_INCREASE
-- TICKER
+- AMOUNT: Numeric amounts, not percentages
+- ASSET: Current or Fixed Asset
+- ASSET_DECREASE: Decrease in the asset possession/exposure
+- ASSET_INCREASE: Increase in the asset possession/exposure
+- CF: Total cash flow 
+- CF_DECREASE: Relative decrease in cash flow
+- CF_INCREASE: Relative increase in cash flow
+- COUNT:  Number of items (not monetary, not percentages).
+- CURRENCY: The currency of the amount
+- DATE: Generic dates in context where either it's not a fiscal year or it can't be asserted as such given the context
+- EXPENSE: An expense or loss
+- EXPENSE_DECREASE: A piece of information saying there was an expense decrease in that fiscal year
+- EXPENSE_INCREASE: A piece of information saying there was an expense increase in that fiscal year
+- FCF: Free Cash Flow
+- FISCAL_YEAR: A date which expresses which month the fiscal exercise was closed for a specific year
+- KPI: Key Performance Indicator, a quantifiable measure of performance over time for a specific objective
+- KPI_DECREASE: Relative decrease in a KPI
+- KPI_INCREASE: Relative increase in a KPI
+- LIABILITY:  Current or Long-Term Liability (not from stockholders)
+- LIABILITY_DECREASE: Relative decrease in liability
+- LIABILITY_INCREASE: Relative increase in liability
+- ORG: Mention to a company/organization name
+- PERCENTAGE: : Numeric amounts which are percentages
+- PROFIT: Profit or also Revenue
+- PROFIT_DECLINE: A piece of information saying there was a profit / revenue decrease in that fiscal year
+- PROFIT_INCREASE: A piece of information saying there was a profit / revenue increase in that fiscal year
+- TICKER: Trading symbol of the company
 
 You can also check for the Relation Extraction model which connects these entities together.
 
