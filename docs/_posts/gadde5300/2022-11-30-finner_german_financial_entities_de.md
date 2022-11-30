@@ -74,7 +74,7 @@ import pandas as pd
 p_model = pipeline.fit(spark.createDataFrame(pd.DataFrame({'text': ['']})))
 
 
-text = 'JDie Steuern vom Einkommen und Etrag in Hoehe von TEUR 11.621 (Vorjahr TEUR 8.915) betreffen das Umlaufvermoegen'
+text = 'Die Steuern vom Einkommen und Etrag in Hoehe von TEUR 11.621 (Vorjahr TEUR 8.915) betreffen das Umlaufvermoegen'
 
 res = p_model.transform(spark.createDataFrame([[text]]).toDF("text"))
 
@@ -94,7 +94,7 @@ result_df.show(50, truncate=100)
 +---------------+------------------+----------+
 |          token|             label|confidence|
 +---------------+------------------+----------+
-|           JDie|                 O|    0.9998|
+|            Die|                 O|    0.9998|
 |        Steuern|B-financial_entity|    0.9999|
 |            vom|I-financial_entity|       1.0|
 |      Einkommen|I-financial_entity|       1.0|
@@ -132,7 +132,7 @@ result_df.show(50, truncate=100)
 
 ## References
 
-https://huggingface.co/datasets/fabianrausch/financial-entities-values-augmented
+https://huggingface.co/datasets/fabianrausch/financial-entities-values-augmented and in house JSL corrections and data augmentation.
 
 ## Benchmarking
 
