@@ -137,14 +137,12 @@ https://huggingface.co/datasets/fabianrausch/financial-entities-values-augmented
 ## Benchmarking
 
 ```bash
-                    precision    recall  f1-score   support
-
+             label   precision    recall  f1-score   support
 B-financial_entity     0.9923    0.9983    0.9953      1813
  B-financial_value     1.0000    0.9920    0.9960      1369
 I-financial_entity     0.9962    0.9998    0.9980      4148
                  O     0.9998    0.9989    0.9994     16197
-
-          accuracy                         0.9986     23527
-         macro avg     0.9971    0.9972    0.9971     23527
-      weighted avg     0.9986    0.9986    0.9986     23527
+          accuracy          -         -    0.9986     23527
+         macro-avg     0.9971    0.9972    0.9971     23527
+      weighted-avg     0.9986    0.9986    0.9986     23527
 ```
