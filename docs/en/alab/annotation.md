@@ -6,11 +6,11 @@ seotitle: Annotation Lab | John Snow Labs
 title: Manual Annotation
 permalink: /docs/en/alab/annotation
 key: docs-training
-modify_date: "2022-10-26"
+modify_date: "2022-11-27"
 use_language_switcher: "Python-Scala"
 show_nav: true
 sidebar:
-    nav: annotation-lab
+  nav: annotation-lab
 ---
 
 <style>
@@ -37,6 +37,7 @@ On the header of the Labeling area, you can find the list of labels defined for 
 - Progress
 
 ## Labeling Widgets
+
 ### Completions
 
 A completion is a list of annotations manually defined by a user for a given task. After completing annotation on a task (e.g., all entities highlighted in the text, or one or more classes is assigned to the task in the case of classification projects) user clicks on the `Save` button to save their progress or `Submit` button to submit the completion.
@@ -127,7 +128,6 @@ Creating relations with the Annotation Lab is very simple. First, click on any o
 
 You can add a label to the relation, change its direction or delete it using the contextual menu displayed next to the relation arrow or from the relation box.
 
-
 <img class="image image__shadow" src="/assets/images/annotation_lab/relations2.png" style="width:40%;"/>
 
 <br />
@@ -135,7 +135,7 @@ You can add a label to the relation, change its direction or delete it using the
 #### Cross page Annotation
 
 From version <bl>2.8.0</bl>, Annotation Lab supports cross-page NER annotation for <es>Text</es> projects. It means that Annotators can annotate a chunk starting at the bottom of one page and finishing on the next page. This feature is also available for <es>Relations</es>. Previously, relations were created between chunks located on the same page. But now, relations can be created among tokens located on different pages. The way to do this is to first [change the pagination settings](/docs/en/alab/import#dynamic-task-pagination) to include the tokens to be linked on the same page, then create the relation annotation between the tokens and finally go back to the original pagination settings. The annotation is presented through connectors after updating the pagination.
-  
+
 <img class="image image__shadow" src="/assets/images/annotation_lab/4.1.0/crosspage_annotation.gif" style="width:100%;"/>
 
 <br />
@@ -155,7 +155,7 @@ Here is how we can use it:
 5. Start annotating text on top of the image by clicking on the text tokens, or by drawing bounding boxes on top of chunks or image areas.
 6. Export annotations in your preferred format.
 
-The entire process is illustrated below: 
+The entire process is illustrated below:
 
 <img class="image image__shadow" src="/assets/images/annotation_lab/4.1.0/visual_ner.gif" style="width:100%;"/>
 
@@ -164,6 +164,7 @@ The entire process is illustrated below:
 When a valid Visual NLP license is available, Annotation Lab offers support for multi-page PDF annotation. We can import, annotate, and export multi-page PDF files easily.
 
 Users have two options for importing a new PDF file into the Visual NER project:
+
 1. Import PDF file from local storage.
 2. Add a link to the PDF file in the file attribute.
 
@@ -171,11 +172,15 @@ Users have two options for importing a new PDF file into the Visual NER project:
 
 After import, the task becomes available on the <es>Tasks</es> Page. The title of the new task is the name of the imported file. On the labeling page, the PDF viewer has pagination support so that annotators can annotate on the PDF document one page at a time.
 
+Users can also jump to a specific page in multi-page task, instead of passing through all pages to reach a target section of a PDF document.
+
+<img class="image image__shadow" src="https://user-images.githubusercontent.com/26042994/203706994-ebb86f14-0a9c-4633-a4c9-8873ae613acb.gif" style="width:100%;"/>
+
 <br />
 
 ### Support for multiple OCR servers
 
-Just like for [Preannotation](/docs/en/alab/preannotation) servers, Annotation Lab supports deployment of multiple OCR servers. If a user has uploaded a [Visual NLP](/docs/en/ocr) license, <es>OCR inference</es> is enabled. 
+Just like for [Preannotation](/docs/en/alab/preannotation) servers, Annotation Lab supports deployment of multiple OCR servers. If a user has uploaded a [Visual NLP](/docs/en/ocr) license, <es>OCR inference</es> is enabled.
 
 To work on a Visual NER project, users have to deploy at least one OCR server. Any OCR server can perform preannotation. To select the OCR server, users need to go to the <es>Import</es> page, click on the OCR Server button on the top-right corner and from the popup, choose one of the available OCR servers. If no suitable OCR server is present, you can create a new server by selecting the `Create Server` option and then clicking on the `Deploy` button.
 

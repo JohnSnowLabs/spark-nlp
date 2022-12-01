@@ -10,7 +10,7 @@ modify_date: "2022-10-18"
 use_language_switcher: "Python-Scala"
 show_nav: true
 sidebar:
-    nav: annotation-lab
+  nav: annotation-lab
 ---
 
 <style>
@@ -20,9 +20,9 @@ es {
 }
 </style>
 
-Spark NLP for Healthcare supports rule-based annotations via the <es>ContextualParser</es> Annotator. Starting from version 2.5.0, Annotation Lab adds support for creating and using rules in the <es>NER</es> project. 
+Spark NLP for Healthcare supports rule-based annotations via the <es>ContextualParser</es> Annotator. Starting from version 2.5.0, Annotation Lab adds support for creating and using rules in the <es>NER</es> project.
 
-Users in the <es>UserAdmins</es> group can see and edit the available rules on the Rules page under the Models Hub menu. Users can create new rules using the _+ Add Rules_ button. Users can also import and export the rules.
+Users in the <es>Admins</es> group can see and edit the available rules on the Rules page under the Models Hub menu. Users can create new rules using the _+ Add Rules_ button. Users can also import and export the rules.
 
 <img class="image image__shadow" src="/assets/images/annotation_lab/4.1.0/rules.png" style="width:100%;"/>
 
@@ -61,8 +61,8 @@ To export any rule, the user need to select the available rules and click on _Ex
 
 ![RulesExport](/assets/images/annotation_lab/4.1.0/export_rules.gif)
 
-
 The following blog posts explain how to create and use rules for jump starting your annotation projects:
+
 - [Using Rules to Jump Start Text Annotation Projects](https://medium.com/annotation-lab/using-rules-to-jump-start-text-annotation-projects-1-3-john-snow-labs-8277a9c7fbcb)
 - [Using Rules and Pretrained Models in Text Annotation Projects](https://medium.com/annotation-lab/using-rules-and-pretrained-models-in-text-annotation-projects-2-3-1c6708d6c42d)
 - [Training and tuning models based on Rule-based annotation of text documents](https://medium.com/annotation-lab/training-and-tuning-models-based-on-rule-based-annotation-of-text-documents-3-3-3bc89214d7b4)
