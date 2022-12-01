@@ -41,11 +41,11 @@ document_assembler = nlp.DocumentAssembler() \
 
 t5 = nlp.T5Transformer() \
     .pretrained("finsum_news_headers_lg" ,"en", "finance/models") \
-    .setTask("summarize:")\ # or summarization
-    .setMaxOutputLength(512)\
+    .setTask("summarization") \
     .setInputCols(["documents"]) \
+    .setMaxOutputLength(512) \
     .setOutputCol("summaries")
-
+    
 data_df = spark.createDataFrame([["FTX is expected to make its debut appearance Tuesday in Delaware bankruptcy court, where its new management is expected to recount events leading up to the cryptocurrency platform’s sudden collapse and explain the steps it has since taken to secure customer funds and other assets."]]).toDF("text")
 
 pipeline = Pipeline().setStages([document_assembler, t5])
