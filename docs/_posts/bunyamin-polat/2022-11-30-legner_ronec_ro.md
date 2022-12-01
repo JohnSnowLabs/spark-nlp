@@ -1,6 +1,6 @@
 ---
 layout: model
-title: Named Entity Recognition on RONEC
+title: Legal Romanian NER (RONEC dataset)
 author: John Snow Labs
 name: legner_ronec
 date: 2022-11-30
