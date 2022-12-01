@@ -1,2 +1,12 @@
 docs/_posts/gadde5300/2022-10-17-legner_warranty_en.md
+docs/_posts/josejuanmartinez/2022-08-12-legner_bert_grants_en_3_2.md
+docs/_posts/josejuanmartinez/2022-08-12-legner_whereas_en_3_2.md
+docs/_posts/josejuanmartinez/2022-08-16-legner_contract_doc_parties_en_3_2.md
+docs/_posts/josejuanmartinez/2022-09-27-legner_bert_indemnifications_en.md
+docs/_posts/josejuanmartinez/2022-11-09-legner_termination_en.md
 docs/_posts/gadde5300/2022-10-17-legner_warranty_en.md
+docs/_posts/josejuanmartinez/2022-08-12-legner_bert_grants_en_3_2.md
+docs/_posts/josejuanmartinez/2022-08-12-legner_whereas_en_3_2.md
+docs/_posts/josejuanmartinez/2022-08-16-legner_contract_doc_parties_en_3_2.md
+docs/_posts/josejuanmartinez/2022-09-27-legner_bert_indemnifications_en.md
+docs/_posts/josejuanmartinez/2022-11-09-legner_termination_en.md

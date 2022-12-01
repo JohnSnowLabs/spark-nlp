@@ -9,7 +9,7 @@
     j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
     })(window,document,'script','dataLayer','GTM-59JLR64');</script>
-<!-- End Google Tag Manager --><title>Legal Warranty NER</title><meta property="og:title" content=""/>
+<!-- End Google Tag Manager --><title>Legal NER - Warranties (sm)</title><meta property="og:title" content=""/>
 
 <meta name="description" content="DescriptionIMPORTANT: Don’t run this model on the whole legal agreement. Instead:  Split by paragraphs. You can use notebook 1 in Finance or Legal as inspiration;  Use the legclf_warranty_clause Text Classifier to select only these paragraphs;This is a Legal Named Entity Recognition Model to identify the Subject (wh...">
 <link rel="canonical" href="/2022/10/17/legner_warranty_en.html"><link rel="alternate" type="application/rss+xml" title="Spark NLP" href="/feed.xml"><!-- start favicons snippet, use https://realfavicongenerator.net/ -->
@@ -414,7 +414,7 @@
             </a>
         </div><ul class="right-col menu"><li><i class="far fa-user"></i> <span>John Snow Labs</span></li><li><i class="far fa-calendar-alt"></i> <span>Oct 17, 2022</span>
             </li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2022-10-17T00:00:00+00:00"></div><header class="main-docs have_subtitle">
-          <h1>Legal Warranty NER</h1><div class="top-subtitle mont"></div></header></div><meta itemprop="headline" content="Legal Warranty NER"><div class="article__info tags_box clearfix"><ul class="left-col menu"><li>legal</li><li>en</li><li>ner</li><li>licensed</li><li>warranty</li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2022-10-17T00:00:00+00:00">
+          <h1>Legal NER - Warranties (sm)</h1><div class="top-subtitle mont"></div></header></div><meta itemprop="headline" content="Legal NER - Warranties (sm)"><div class="article__info tags_box clearfix"><ul class="left-col menu"><li>legal</li><li>en</li><li>ner</li><li>licensed</li><li>warranty</li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2022-10-17T00:00:00+00:00">
     <meta itemprop="keywords" content="legal,en,ner,licensed,warranty"><div class="js-article-content"><div class="model-wrap"><div class="layout--article"><!-- start custom article top snippet -->
 
 <!-- end custom article top snippet --><div class="article__content" itemprop="articleBody"><h2 id="description">Description</h2>
@@ -465,7 +465,7 @@
         <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"sentence"</span><span class="p">,</span><span class="s">"token"</span><span class="p">,</span><span class="s">"ner"</span><span class="p">])</span>\
         <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"ner_chunk"</span><span class="p">)</span>
 
-<span class="n">nlpPipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">(</span><span class="n">stages</span><span class="o">=</span><span class="p">[</span><span class="n">documentAssembler</span><span class="p">,</span><span class="n">sentenceDetector</span><span class="p">,</span><span class="n">tokenizer</span><span class="p">,</span><span class="n">embeddings</span><span class="p">,</span><span class="n">ner_model</span><span class="p">,</span><span class="n">ner_converter</span><span class="p">])</span>
+<span class="n">nlpPipeline</span> <span class="o">=</span> <span class="n">nlp</span><span class="p">.</span><span class="n">Pipeline</span><span class="p">(</span><span class="n">stages</span><span class="o">=</span><span class="p">[</span><span class="n">documentAssembler</span><span class="p">,</span><span class="n">sentenceDetector</span><span class="p">,</span><span class="n">tokenizer</span><span class="p">,</span><span class="n">embeddings</span><span class="p">,</span><span class="n">ner_model</span><span class="p">,</span><span class="n">ner_converter</span><span class="p">])</span>
 
 <span class="n">data</span> <span class="o">=</span> <span class="n">spark</span><span class="p">.</span><span class="n">createDataFrame</span><span class="p">([[</span><span class="s">"""8 . Representations and Warranties SONY hereby makes the following representations and warranties to PURCHASER , each of which shall be true and correct as of the date hereof and as of the Closing Date , and shall be unaffected by any investigation heretofore or hereafter made : 8.1 Power and Authority SONY has the right and power to enter into this IP Agreement and to transfer the Transferred Patents and to grant the license set forth in Section 3.1 ."""</span><span class="p">]]).</span><span class="n">toDF</span><span class="p">(</span><span class="s">"text"</span><span class="p">)</span>
 

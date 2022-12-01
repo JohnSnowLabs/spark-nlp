@@ -9,9 +9,9 @@
     j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
     })(window,document,'script','dataLayer','GTM-59JLR64');</script>
-<!-- End Google Tag Manager --><title>Legal NER - License Grant Clauses</title><meta property="og:title" content=""/>
+<!-- End Google Tag Manager --><title>Legal NER - License / Permission Clauses (Bert, sm)</title><meta property="og:title" content=""/>
 
-<meta name="description" content="DescriptionThis model aims to detect License grants / permissions in agreements, provided by a Subject (PERMISSION_SUBJECT) to a Recipient (PERMISSION_INDIRECT_OBJECT). THe permission itself is in PERMISSION tag.Predicted EntitiesPERMISSION, PERMISSION_SUBJECT, PERMISSION_OBJECT, PERMISSION_INDIRECT_OBJECTLive DemoO...">
+<meta name="description" content="DescriptionThis model aims to detect License grants / permissions in agreements, provided by a Subject (PERMISSION_SUBJECT) to a Recipient (PERMISSION_INDIRECT_OBJECT). THe permission itself is in PERMISSION tag.There is a lighter (non-transformer based) version of this model available as legner_grants_md.Predicted ...">
 <link rel="canonical" href="/2022/08/12/legner_bert_grants_en_3_2.html"><link rel="alternate" type="application/rss+xml" title="Spark NLP" href="/feed.xml"><!-- start favicons snippet, use https://realfavicongenerator.net/ -->
 <!---->
 <!-- <link rel="apple-touch-icon" sizes="180x180" href="/fav.ico"> -->
@@ -414,12 +414,14 @@
             </a>
         </div><ul class="right-col menu"><li><i class="far fa-user"></i> <span>John Snow Labs</span></li><li><i class="far fa-calendar-alt"></i> <span>Aug 12, 2022</span>
             </li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2022-08-12T00:00:00+00:00"></div><header class="main-docs have_subtitle">
-          <h1>Legal NER - License Grant Clauses</h1><div class="top-subtitle mont"></div></header></div><meta itemprop="headline" content="Legal NER - License Grant Clauses"><div class="article__info tags_box clearfix"><ul class="left-col menu"><li>en</li><li>legal</li><li>ner</li><li>grants</li><li>permissions</li><li>licenses</li><li>licensed</li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2022-08-12T00:00:00+00:00">
+          <h1>Legal NER - License / Permission Clauses (Bert, sm)</h1><div class="top-subtitle mont"></div></header></div><meta itemprop="headline" content="Legal NER - License / Permission Clauses (Bert, sm)"><div class="article__info tags_box clearfix"><ul class="left-col menu"><li>en</li><li>legal</li><li>ner</li><li>grants</li><li>permissions</li><li>licenses</li><li>licensed</li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2022-08-12T00:00:00+00:00">
     <meta itemprop="keywords" content="en,legal,ner,grants,permissions,licenses,licensed"><div class="js-article-content"><div class="model-wrap"><div class="layout--article"><!-- start custom article top snippet -->
 
 <!-- end custom article top snippet --><div class="article__content" itemprop="articleBody"><h2 id="description">Description</h2>
 
 <p>This model aims to detect License grants / permissions in agreements, provided by a Subject (PERMISSION_SUBJECT) to a Recipient (PERMISSION_INDIRECT_OBJECT). THe permission itself is in PERMISSION tag.</p>
+
+<p>There is a lighter (non-transformer based) version of this model available as <code class="language-plaintext highlighter-rouge">legner_grants_md</code>.</p>
 
 <h2 id="predicted-entities">Predicted Entities</h2>
 
@@ -449,7 +451,7 @@
   <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"label"</span><span class="p">)</span>\
   <span class="p">.</span><span class="n">setCaseSensitive</span><span class="p">(</span><span class="bp">True</span><span class="p">)</span>
 
-<span class="n">pipeline</span> <span class="o">=</span>  <span class="n">Pipeline</span><span class="p">(</span><span class="n">stages</span><span class="o">=</span><span class="p">[</span>
+<span class="n">pipeline</span> <span class="o">=</span>  <span class="n">nlp</span><span class="p">.</span><span class="n">Pipeline</span><span class="p">(</span><span class="n">stages</span><span class="o">=</span><span class="p">[</span>
   <span class="n">documentAssembler</span><span class="p">,</span>
   <span class="n">tokenizer</span><span class="p">,</span>
   <span class="n">tokenClassifier</span>
