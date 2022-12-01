@@ -1,6 +1,6 @@
 ---
 layout: model
-title: Legal NER (Parties, Dates, Document Type)
+title: Legal NER (Parties, Dates, Document Type - sm)
 author: John Snow Labs
 name: legner_contract_doc_parties
 date: 2022-08-16
@@ -72,7 +72,7 @@ ner_converter = nlp.NerConverter()\
         .setInputCols(["sentence","token","ner"])\
         .setOutputCol("ner_chunk")
 
-nlpPipeline = Pipeline(stages=[
+nlpPipeline = nlp.Pipeline(stages=[
         documentAssembler,
         sentenceDetector,
         tokenizer,

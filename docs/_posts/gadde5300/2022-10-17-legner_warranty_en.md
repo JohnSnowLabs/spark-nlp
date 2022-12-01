@@ -1,6 +1,6 @@
 ---
 layout: model
-title: Legal Warranty NER
+title: Legal NER - Warranties (sm)
 author: John Snow Labs
 name: legner_warranty
 date: 2022-10-17
@@ -64,7 +64,7 @@ ner_converter = nlp.NerConverter()\
         .setInputCols(["sentence","token","ner"])\
         .setOutputCol("ner_chunk")
 
-nlpPipeline = Pipeline(stages=[documentAssembler,sentenceDetector,tokenizer,embeddings,ner_model,ner_converter])
+nlpPipeline = nlp.Pipeline(stages=[documentAssembler,sentenceDetector,tokenizer,embeddings,ner_model,ner_converter])
 
 data = spark.createDataFrame([["""8 . Representations and Warranties SONY hereby makes the following representations and warranties to PURCHASER , each of which shall be true and correct as of the date hereof and as of the Closing Date , and shall be unaffected by any investigation heretofore or hereafter made : 8.1 Power and Authority SONY has the right and power to enter into this IP Agreement and to transfer the Transferred Patents and to grant the license set forth in Section 3.1 ."""]]).toDF("text")
 

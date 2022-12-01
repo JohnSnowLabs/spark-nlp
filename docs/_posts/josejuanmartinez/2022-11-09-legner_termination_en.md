@@ -1,6 +1,6 @@
 ---
 layout: model
-title: Extract Information from Termination Clauses (Small)
+title: Extract Information from Termination Clauses (sm)
 author: John Snow Labs
 name: legner_termination
 date: 2022-11-09
@@ -64,7 +64,7 @@ ner_converter = nlp.NerConverter()\
         .setInputCols(["sentence","token","ner"])\
         .setOutputCol("ner_chunk")
 
-nlpPipeline = Pipeline(stages=[
+nlpPipeline = nlp.Pipeline(stages=[
         documentAssembler,
         sentenceDetector,
         tokenizer,
