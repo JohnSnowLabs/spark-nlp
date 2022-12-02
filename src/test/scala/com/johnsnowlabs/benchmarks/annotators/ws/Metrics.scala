@@ -1,5 +1,5 @@
 /*
- * Copyright 2017-2021 John Snow Labs
+ * Copyright 2017-2022 John Snow Labs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,4 +18,10 @@ package com.johnsnowlabs.benchmarks.annotators.ws
 
 case class Metrics(index: Int, precision: Double, recall: Double, fScore: Double)
 
-case class AccuracyByParameter(nIter: Int, freqT: Int, ambT: Double, precision: Double, recall: Double, fScore: Double)
+case class AccuracyByParameter(
+    nIter: Int,
+    freqT: Int,
+    ambT: Double,
+    precision: Double,
+    recall: Double,
+    fScore: Double)

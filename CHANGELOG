@@ -1,4 +1,390 @@
 ========
+4.2.4
+========
+----------------
+New Features & Enhancements
+----------------
+* Introduce support for GCP storage to be allowed as `cache_pretrained` directory for keeping all downloaded models and pipelines
+* Update to TensorFlow 2.7.4 with bug and CVEs fixes
+* Update documentation on how to use `testDataset` param in NerDLApproach, ClassifierDLApproach, MultiClassifierDLApproach, and SentimentDLApproach
+* Update installation instructions for Apple M1 chip
+* Improve error handling while importing external TensorFlow models into Spark NLP
+* Improve error messages when importing external models from remote storages like DBFS, S3, and HDFS
+* Add support for future decoder-encoder models (2 separate models)
+
+----------------
+Bug Fixes
+----------------
+* Add missing setPreservePosition in NerConverter
+* Add missing inputAnnotatorTypes to BigTextMatcher, ViveknSentimentModel, and NerConverter annotators
+* Fix all wrong example codes provided for LemmatizerModel in Models Hub
+* Fix provided notebook to import Longformer models from HF: https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/jupyter/transformers/HuggingFace%20in%20Spark%20NLP%20-%20Longformer.ipynb
+* Fix the t5_grammar_error_corrector model to be compatible with Spark NLP 4.0+
+
+
+========
+4.2.3
+========
+----------------
+New Features & Enhancements
+----------------
+* Implement a new control over number of accepted columns in Python. This will sync the behavior between Scala and Python where user sets more columns than allowed inside setInputCols
+* Adding metadata sentence key parameter in order to select which metadata field to use as sentence for CoNLLGenerator annotator
+* Include escaping in CoNLLGenerator annotator when writing to csv and preserve special char tokens
+* Add documentation for new `IAnnotation` feature for Scala users
+* Add rules and delimiter parameters to RegexMatcher annotator to support string as input in addition to a file
+```python
+regexMatcher = RegexMatcher() \
+      .setRules(["\\d{4}\\/\\d\\d\\/\\d\\d,date", "\\d{2}\\/\\d\\d\\/\\d\\d,short_date"]) \
+      .setDelimiter(",") \
+      .setInputCols(["sentence"]) \
+      .setOutputCol("regex") \
+      .setStrategy("MATCH_ALL")
+```
+
+----------------
+Bug Fixes
+----------------
+* Fix NotSerializableException when WordEmbeddings is used over K8s cluster while `setEnableInMemoryStorage` is set to `true`
+* Fix a bug in RegexTokenizer annotator when it outputs the wrong indexes if the pattern includes splits that are not followed by a space
+* Fix training modul failing on EMR due to a bad Apache Spark version detection. The following classes were fixed: `CoNLL()`, `CoNLLU()`, `POS()`, and `PubTator()`
+* Fix a bug in CoNLLGenerator annotator where token has non-int metadata
+* Fix the wrong SentencePiece model's name required for DeBertaForQuestionAnswering and DeBertaEmbeddings when importing models
+* Fix `NaNs` result in some ViTForImageClassification models/pipelines
+
+========
+4.2.2
+========
+----------------
+New Features & Enhancements
+----------------
+
+* Add support for importing TensorFlow SavedModel from remote storages like DBFS, S3, and HDFS
+* Add support for `fullAnnotate` in `LightPipeline` for path of images in Scala
+* Add `fullAnnotate` method in `PretrainedPipeline` for Scala
+* Add `fullAnnotateJava` method in `PretrainedPipeline` for Java
+* Add `fullAnnotateImage` to `PretrainedPipeline` for Scala
+* Add `fullAnnotateImageJava` to `PretrainedPipeline` for Java
+* Add support for QA in `fullAnnotate` method in `PretrainedPipeline`
+* Add `Predicted Entities` to all Vision Transformers (ViT) models and pipelines
+
+----------------
+Bug Fixes
+----------------
+* Unify `annotatorType` name in Python and Scala for Spark schema in Annotation, AnnotationImage and AnnotationAudio
+* Fix missing indexes in `RecursiveTokenizer` annotator
+
+========
+4.2.1
+========
+----------------
+New Features & Enhancements
+----------------
+
+* Support for multi-lingual WordSegmenter. Add `enableRegexTokenizer` feature in WordSegmenter to support word segmentation within mixed and multi-lingual content https://github.com/JohnSnowLabs/spark-nlp/pull/12854
+* Add support for Audio/ASR (Wav2Vec2) support to LightPipeline https://github.com/JohnSnowLabs/spark-nlp/pull/12895
+* Add support for Double type in addition to Float type to AudioAssembler annotator https://github.com/JohnSnowLabs/spark-nlp/pull/12904
+* Improve error handling in fullAnnotateImage for LightPipeline https://github.com/JohnSnowLabs/spark-nlp/pull/12868
+
+* Add SpanBertCoref annotator to all docs https://github.com/JohnSnowLabs/spark-nlp/pull/12889
+
+----------------
+Bug Fixes
+----------------
+
+* Fix feeding `fullAnnotate` in Lightpipeline with a list that started to fail in 4.2.0 release
+* Fix exception in ContextSpellCheckerModel when updateVocabClass is used with append set to true https://github.com/JohnSnowLabs/spark-nlp/pull/12875
+* Fix exception in Chunker annotator https://github.com/JohnSnowLabs/spark-nlp/pull/12901
+
+========
+4.2.0
+========
+----------------
+New Features & Enhancements
+----------------
+* **NEW:** Introducing **Wav2Vec2ForCTC** annotator in Spark NLP 🚀. `Wav2Vec2ForCTC` can load `Wav2Vec2` models for the Automatic Speech Recognition (ASR) task. Wav2Vec2 is a multi-modal model, that combines speech and text. It's the first multi-modal model of its kind we welcome in Spark NLP. This annotator is compatible with all the models trained/fine-tuned by using `Wav2Vec2ForCTC` for **PyTorch** or `TFWav2Vec2ForCTC` for **TensorFlow** models in HuggingFace 🤗 (https://github.com/JohnSnowLabs/spark-nlp/pull/12767)
+* **NEW:** Introducing **TapasForQuestionAnswering** annotator in Spark NLP 🚀. `TapasForQuestionAnswering` can load TAPAS Models with a cell selection head and optional aggregation head on top for question-answering tasks on tables (linear layers on top of the hidden-states output to compute logits and optional logits_aggregation), e.g. for SQA, WTQ or WikiSQL-supervised tasks. TAPAS is a BERT-based model specifically designed (and pre-trained) for answering questions about tabular data. This annotator is compatible with all the models trained/fine-tuned by using `TapasForQuestionAnswering` for **PyTorch** or `TFTapasForQuestionAnswering` for **TensorFlow** models in HuggingFace 🤗
+* **NEW:** Introducing **CamemBertForTokenClassification** annotator in Spark NLP 🚀. `CamemBertForTokenClassification` can load CamemBERT Models with a token classification head on top (a linear layer on top of the hidden-states output) e.g. for Named-Entity-Recognition (NER) tasks. This annotator is compatible with all the models trained/fine-tuned by using `CamembertForTokenClassification` for PyTorch or `TFCamembertForTokenClassification` for TensorFlow in HuggingFace 🤗
+(https://github.com/JohnSnowLabs/spark-nlp/pull/12752)
+* Implementing  `setTestDataset`  to evaluate metrics on an external dataset during training of Text Classifiers in Spark NLP. This feature is similar to NerDLApproach where metrics are calculated on each Epoch and have been added to the following multi-class/multi-label text classifier annotators: `ClassifierDLApproach`, `SentimentDLApproach`, and `MultiClassifierDLApproach` (https://github.com/JohnSnowLabs/spark-nlp/pull/12796)
+* Refactoring and improving `EntityRuler` annotator inference to up to 24x faster especially when used with a long list of labels/entities. We speed up the inference process by implementing the Aho-Corasick algorithm to match patterns in a string. This requires the following changes when using `EntityRuler` https://github.com/JohnSnowLabs/spark-nlp/pull/12634
+* Add support for S3 storage in the `cache_folder` where models are downloaded, extracted, and loaded from. Previously, we only supported all local file systems, HDFS, and DBFS. This new feature is especially useful for users on Kubernetes clusters with no access to HDFS or any other distributed file systems (https://github.com/JohnSnowLabs/spark-nlp/pull/12707)
+* Implementing `lookaround` functionalities in `DocumentNormalizer` annotator. Currently, `DocumentNormalizer` has both `lookahead` and `lookbehind` functionalities. To extend support for more complex normalizations, especially within the clinical text we are introducing the `lookaround` feature (https://github.com/JohnSnowLabs/spark-nlp/pull/12735)
+* Implementing `setReplaceEntities` param to `NerOverwriter` annotator to replace all the NER labels (entities) with the given new labels (entities) (https://github.com/JohnSnowLabs/spark-nlp/pull/12745)
+
+----------------
+Bug Fixes
+----------------
+* Fix a bug in generating the NerDL graph by using TF v2. The previous graph generated by the `TFGraphBuilder` annotator resulted in an exception when the length of the sequence was 1. This issue has been resolved and the new graphs created by `TFGraphBuilder` won't have this issue anymore (https://github.com/JohnSnowLabs/spark-nlp/pull/12636)
+* Fix a bug introduced in the 4.0.0 release between Transformer-based Word Embeddings annotators. In the 4.0.0 release, the following annotators were migrated to BatchAnnotate to improve their performance, especially on GPU. However, a bug was introduced in sentence indices which when it is combined with SentenceEmbeddings for Text Classifications tasks (ClassifierDLApproach, SentimentDLApproach, and ClassifierDLApproach) resulted in low accuracy: AlbertEmbeddings, CamemBertEmbeddings, DeBertaEmbeddings, DistilBertEmbeddings, LongformerEmbeddings, RoBertaEmbeddings, XlmRoBertaEmbeddings, and XlnetEmbeddings (https://github.com/JohnSnowLabs/spark-nlp/pull/12641)
+* Add support for a list of questions and context in LightPipline. Previously, only one context and question at a time were supported in LightPipeline for Question Answering annotators. We have added support to `fullAnnotate` and `annotate` to receive two lists of questions and contexts (https://github.com/JohnSnowLabs/spark-nlp/pull/12653)
+* Fix division by zero exception in the `GPT2Transformer` annotator when the `setDoSample` param was set to true (https://github.com/JohnSnowLabs/spark-nlp/pull/12661)
+
+========
+4.1.0
+========
+----------------
+New Features & Enhancements
+----------------
+* **NEW:** Introducing **ViTForImageClassification** annotator in Spark NLP 🚀. `ViTForImageClassification` can load Vision Transformer `ViT` Models with  an image classification head on top (a linear layer on top of the final hidden state of the [CLS] token) e.g. for ImageNet. This annotator is compatible with all the models trained/fine-tuned by using `ViTForImageClassification` for **PyTorch** or `TFViTForImageClassification` for **TensorFlow** models in HuggingFace 🤗
+* Provide support for AWS Graviton processors and ARM64 processors with architecture greater than ARMv8
+* Introducing **TFNerDLGraphBuilder** annotator. `TFNerDLGraphBuilder` can be used to automatically detect the parameters of a needed NerDL graph and generate the graph within a pipeline when the default NER graphs are not suitable for your training datasets.
+* Allow passing confidence scores from all XXXForTokenClassification annotators to NerConverter. From this release it is possible to access the confidence scores coming from the following annotators via NerConverter: AlbertForTokenClassification, BertForTokenClassification, DeBertaForTokenClassification, DistilBertForTokenClassification, LongformerForTokenClassification, RoBertaForTokenClassification, XlmRoBertaForTokenClassification, XlnetForTokenClassification, and DeBertaForTokenClassification
+* Introducing PushToHub Python class to easily push public models/pipelines to Models Hub
+* Introducing fullAnnotateImage to existing LightPipeline to support ImageAssembler and ViTForImageClassification annotators in a Spark NLP pipeline.
+
+========
+4.0.2
+========
+----------------
+New Features
+----------------
+
+* SentenceDetector now comes with a new parameter `customBoundsStrategy` for returning custom bounds https://github.com/JohnSnowLabs/spark-nlp/pull/10567
+
+----------------
+Bug Fixes
+----------------
+
+* Fix bug that attempts to create spark session on executors when using GraphExtraction https://github.com/JohnSnowLabs/spark-nlp/pull/9905
+
+========
+4.0.1
+========
+----------------
+New Features
+----------------
+* Full support for Apache Spark & PySpark 3.3.0
+* Add Apache Spark 3.3.0 to Google Colab and Kaggle setup scripts
+* New `-g` option for Google Colab and Kaggle setup on GPU device to upgrade `libcudnn8` to 8.1.0 to solve the issue on GPU
+* Support for Databricks Runtime 11.0
+
+----------------
+Bug Fixes
+----------------
+
+* Fix the error caused by PySpark 3.3.0 in CoNLL, CoNLLU, POS, and PubTator annotators as training helpers
+* Fix and re-upload Dependency and Type Dependency parser pre-trained models
+* Update pre-trained pipelines with issues on PySpark 3.2 and 3.3
+
+========
+4.0.0
+========
+----------------
+New Features & Enhancements
+----------------
+* **NEW:** Introducing **AlbertForQuestionAnswering** annotator in Spark NLP 🚀. `AlbertForQuestionAnswering` can load `ALBERT` Models with a span classification head on top for extractive question-answering tasks like SQuAD (a linear layer on top of the hidden-states output to compute span start logits and span end logits). This annotator is compatible with all the models trained/fine-tuned by using `AlbertForQuestionAnswering` for **PyTorch** or `TFAlbertForQuestionAnswering` for **TensorFlow** models in HuggingFace 🤗
+* **NEW:** Introducing **BertForQuestionAnswering** annotator in Spark NLP 🚀. `BertForQuestionAnswering` can load `BERT` & `ELECTRA` Models with a span classification head on top for extractive question-answering tasks like SQuAD (a linear layer on top of the hidden-states output to compute span start logits and span end logits). This annotator is compatible with all the models trained/fine-tuned by using `BertForQuestionAnswering` and `ElectraForQuestionAnswering` for **PyTorch** or `TFBertForQuestionAnswering` and `TFElectraForQuestionAnswering` for **TensorFlow** models in HuggingFace 🤗
+* **NEW:** Introducing **DeBertaForQuestionAnswering** annotator in Spark NLP 🚀. `DeBertaForQuestionAnswering` can load `DeBERTa` v2&v3 Models with a span classification head on top for extractive question-answering tasks like SQuAD (a linear layer on top of the hidden-states output to compute span start logits and span end logits). This annotator is compatible with all the models trained/fine-tuned by using `DebertaV2ForQuestionAnswering` for **PyTorch** or `TFDebertaV2ForQuestionAnswering` for **TensorFlow** models in HuggingFace 🤗
+* **NEW:** Introducing **DistilBertForQuestionAnswering** annotator in Spark NLP 🚀. `DistilBertForQuestionAnswering` can load `DistilBERT` Models with a span classification head on top for extractive question-answering tasks like SQuAD (a linear layer on top of the hidden-states output to compute span start logits and span end logits). This annotator is compatible with all the models trained/fine-tuned by using `DistilBertForQuestionAnswering` for **PyTorch** or `TFDistilBertForQuestionAnswering` for **TensorFlow** models in HuggingFace 🤗
+* **NEW:** Introducing **LongformerForQuestionAnswering** annotator in Spark NLP 🚀. `LongformerForQuestionAnswering` can load `Longformer` Models with a span classification head on top for extractive question-answering tasks like SQuAD (a linear layer on top of the hidden-states output to compute span start logits and span end logits). This annotator is compatible with all the models trained/fine-tuned by using `LongformerForQuestionAnswering` for **PyTorch** or `TFLongformerForQuestionAnswering` for **TensorFlow** models in HuggingFace 🤗
+* **NEW:** Introducing **RoBertaForQuestionAnswering** annotator in Spark NLP 🚀. `RoBertaForQuestionAnswering` can load `RoBERTa` Models with a span classification head on top for extractive question-answering tasks like SQuAD (a linear layer on top of the hidden-states output to compute span start logits and span end logits). This annotator is compatible with all the models trained/fine-tuned by using `RobertaForQuestionAnswering` for **PyTorch** or `TFRobertaForQuestionAnswering` for **TensorFlow** models in HuggingFace 🤗
+* **NEW:** Introducing **XlmRoBertaForQuestionAnswering** annotator in Spark NLP 🚀. `XlmRoBertaForQuestionAnswering` can load `XLM-RoBERTa` Models with a span classification head on top for extractive question-answering tasks like SQuAD (a linear layer on top of the hidden-states output to compute span start logits and span end logits). This annotator is compatible with all the models trained/fine-tuned by using `XLMRobertaForQuestionAnswering` for **PyTorch** or `TFXLMRobertaForQuestionAnswering` for **TensorFlow** models in HuggingFace 🤗
+* **NEW:** Introducing **MultiDocumentAssembler** annotator where multiple inputs require to be converted to DOCUMENT such as in XXXForQuestionAnswering annotators
+* Optimizing batch processing for transformer-based Word Embeddings on a GPU device. These optimizations result in performance improvements from +50% to +700% (more details in Benchmarks section)
+* **NEW:** Introducing **SpanBertCorefModel** annotator for Coreference Resolution on BERT and SpanBERT models based on [BERT for Coreference Resolution: Baselines and Analysis](https://arxiv.org/abs/1908.09091) paper. An implementation of a SpanBert based coreference resolution model.
+* Support for 2 inputs in LightPipeline for with MultiDocumentAssembler
+* Migrate T5Transformer to TensorFlow v2 architecture with re-uploading all the existing models
+* Official support for Apple silicon M1 on macOS devices. From Spark NLP 4.0.0 you can use `spark-nlp-m1` package that supports Apple silicon M1 on your macOS machine
+* Official support for Apache Spark and PySpark 3.2.x on Scala 2.12. Spark NLP by default is shipped for Spark 3.2.x and supports Spark/PySpark 3.0.x and 3.1.x in additions
+* Unifying all supported Apache Spark pacakges on Maven into `spark-nlp` for CPU, `spark-nlp-gpu` for GPU, and `spark-nlp-m1` for new Apple silicon M1 on macOS. The need for Apache Spark specific package like `spark-nlp-spark32` has been removed.
+* Adding a new param to sparknlp.start() function in Python and Scala for Apple silicon M1 on macOS (`m1=True`)
+* Update Colab, Kaggle, and SageMaker scripts
+* Add new default NerDL graph for xsmall DeBERTa embeddings model (384 dimensions)
+* Adding annotateJava method to PretrainedPipeline class in Java to facilitate the use of LightPipelines
+* Allow change of case sensitivity. Currently, user cannot set setCaseSensitive param. This allows users to change this value if the model was saved/uploaded with the wrong case sensitivity parameter. (BERT, ALBERT, DistilBERT, RoBERTa, DeBERTa, XLM-RoBERTa, and Longformer for XXXForSequenceClassitication and XXXForTokenClassification.
+* Keep accuracy in ClassifierDL and SentimentDL during the training between 0.0 and 1.0
+* Preserve the original form of the token in BPE Tokenizer used in RoBERTa annotators (used in embeddings, sequence and token classification)
+* Refactor the entire Python module in Spark NLP to make the development and maintenance easier
+* Refactor unit tests in Python and migrate to pytest
+* Welcoming 6x new Databricks runtimes to our Spark NLP family:
+  * Databricks 10.4 LTS
+  * Databricks 10.4 LTS ML
+  * Databricks 10.4 LTS ML GPU
+  * Databricks 10.5
+  * Databricks 10.5 ML
+  * Databricks 10.5 ML GPU
+* Welcoming a new EMR 6.x series to our Spark NLP family:
+  * EMR 6.6.0 (Apache Spark 3.2.0 / Hadoop 3.2.1)
+* Upgrade TensorFlow to 2.7.1 and start supporing Apple silicon M1
+* Upgrade RocksDB with new enhancements and support for Apple silicon M1
+* Upgrade SentencePiece tokenizer TF ops to 2.7.1
+* Upgrade SentencePiece JNI to v0.1.96 and provide support for Apple silicon M1 on macOS support
+* Upgrade to Scala 2.12.15
+
+----------------
+Bug Fixes
+----------------
+* Fix the default pre-trained model for DeBertaForTokenClassification in Scala and Python
+* Remove a requirement in DocumentNormalizer that consecutive stage processing can produce empty text annotations without breaking the pipeline
+* Fix WordSegmenterModel outputing wrong order of tokens. The regex that groups the tagging format was refactored to preserve the order of segmented outputs (tokens)
+* Fix encoding sentences not respecting the max sequence length given by a user in XlmRobertaSentenceEmbeddings
+* Fix encoding sentences by using SentencePiece to calculate the correct tokens indexing
+* Fix SentencePiece serialization issue when XlmRoBertaEmbeddings and XlmRoBertaSentenceEmbeddings annotators are used from a Fat JAR on GPU
+* Remove non-existing parameters from DocumentAssembler in Python
+
+----------------
+Backward Compatibility
+----------------
+* Deprecate support for Spark/PySpark 2.3, Spark/PySpark 2.4, and Scala 2.11 https://github.com/JohnSnowLabs/spark-nlp/pull/8319
+* The start() functions in Python and Scala will no longer have `spark23`, `spark24`, and `spark32` parameters. The default `sparknlp.start()` works on PySpark 3.0.x, 3.1.x, and 3.2.x without the need of any Spark related flags
+* Some models/pipelines which were trained or saved by using Spark and PySpark 2.3/2.4 will no longer work on Spark NLP 4.0.0
+* Remove json4s-ext dependency to allow the support for all Apache Spark major releases in one build
+
+========
+3.4.4
+========
+----------------
+New Features
+----------------
+* **NEW:** Introducing **DeBertaForTokenClassification** annotator in Spark NLP 🚀. `DeBertaForTokenClassification` can load DeBERTa v2&v3 models with a token classification head on top (a linear layer on top of the hidden-states output) e.g. for Named-Entity-Recognition (NER) tasks. This annotator is compatible with all the models trained/fine-tuned by using `DebertaV2ForTokenClassification` for **PyTorch** or `TFDebertaV2ForTokenClassification` for **TensorFlow** models in HuggingFace
+* **NEW:** Introducing **CamemBertEmbeddings** annotator in Spark NLP 🚀
+* Add support for BatchAnnotate to UniversalSentenceEncoder
+
+----------------
+Bug Fixes & Enhancements
+----------------
+* Optimizing Tokenizer performance up to 400% when there is exceptions list
+* Support latest PySpark releases in Colab, Kaggle, and SageMaker scripts
+* Removing trove4j dependency
+* Fix bug that caused get input/output/LazyAnnotator to return None
+* Fix DeBertaForSequenceClassification in Python failing to load pretrained models
+
+========
+3.4.3
+========
+----------------
+New Features
+----------------
+* **NEW:** Introducing **DeBertaForSequenceClassification** annotator in Spark NLP 🚀. `DeBertaForSequenceClassification` can load DeBERTa v2&v3 models with a sequence classification/regression head on top (a linear layer on top of the pooled output) e.g. for multi-class document classification tasks. This annotator is compatible with all the models trained/fine-tuned by using `DebertaForSequenceClassification` for **PyTorch** or `TFDebertaForSequenceClassification` for **TensorFlow** models in HuggingFace
+* New multi-label feature in all SequenceForClassification. The following annotators now have the option to switch to sigmoid activation function instead of softmax for the output layer: AlbertForSequenceClassification, BertForSequenceClassification, DeBertaForSequenceClassification, DistilBertForSequenceClassification, LongformerForSequenceClassification, RoBertaForSequenceClassification, XlmRoBertaForSequenceClassification, and XlnetForSequenceClassification
+* New minLength, maxLength, splitLength, customBounds, and useCustomBoundsOnly parameters in SentenceDetectorDL
+* New impossiblePenultimates feature in SentenceDetectorDLModel
+* New feature to set names for columns in CoNLLU class: textCol, documentCol, sentenceCol, formCol, uposCol, xposCol, and lemmaCol
+* New formCol and lemmaCol parameters in Lemmatizer annotator
+* Add new functionality to download and extract models from S3 via direct link
+
+----------------
+Bug Fixes & Enhancements
+----------------
+* Fix and train new English spell checker models for Spark NLP 3.4.1 on Spark 3.x and 2.x
+* Update SentenceDetector documentation
+* Add a missing notebook to demonstrate training a WordSegmenterApproach annotator for word segmentation
+
+
+========
+3.4.2
+========
+----------------
+New Features
+----------------
+* Introducing DeBertaEmbeddings annotator. DeBERTa (Decoding-enhanced BERT with disentangled attention) improves the BERT and RoBERTa models using two novel techniques. Compared to RoBERTa-Large, a DeBERTa model trained on half of the training data performs consistently better on a wide range of NLP tasks, achieving improvements on MNLI by +0.9% (90.2% vs. 91.1%), on SQuAD v2.0 by +2.3% (88.4% vs. 90.7%) and RACE by +3.6% (83.2% vs. 86.8%).
+This annotator is compatible with all the models trained/fine-tuned by using `DebertaV2Model` for **PyTorch** or `TFDebertaV2Model` for **TensorFlow** models (DeBERTa-v2 & DeBERTa-v3) in HuggingFace
+* Introducing a new param enableCaching in Doc2VecApproach and Word2VecApproach which if enabled speeds up the training
+* Support Databricks runtime 10.3, 10.3 ML, and 10.3 ML & GPU
+* Support EMR emr-5.34.0 and emr-6.5.0
+
+----------------
+Bug Fixes
+----------------
+* Fix bestModelMetric param when the set value was ignored https://github.com/JohnSnowLabs/spark-nlp/pull/6978
+
+
+========
+3.4.1
+========
+----------------
+New Features & Enhancements
+----------------
+* Implement TF Session warmup for MarianTransformer, T5Transformer, and GPT2Transformer annotators. The first inference for these annotators used to take between 15-20 seconds, now with the warmup session all the inferences including the first time will be the same https://github.com/JohnSnowLabs/spark-nlp/pull/6773
+* Add bestModelMetric param to choose between Micro-average or Macro-average for best model https://github.com/JohnSnowLabs/spark-nlp/pull/6749
+* Add trimWhitespace and preservePosition params to RegexTokenizer https://github.com/JohnSnowLabs/spark-nlp/pull/6806
+* Add a new `setSentenceMatchAdd` param to EntityRuler to match entities across documents/sentences and not just tokens https://github.com/JohnSnowLabs/spark-nlp/pull/6841
+* Add support spark32 and real_time_output flags in sparknlp.start() function at the same time https://github.com/JohnSnowLabs/spark-nlp/pull/6822
+
+----------------
+Bug Fixes
+----------------
+* Fix random NullPointerException when using TensorFlow models without Kyro serialization https://github.com/JohnSnowLabs/spark-nlp/pull/6741
+* Fix RecursiveTokenizerModel not being readable in a saved Pipeline https://github.com/JohnSnowLabs/spark-nlp/pull/6748
+* Fix ContextSpellCheckerApproach not being trained on Databricks https://github.com/JohnSnowLabs/spark-nlp/pull/6750
+* Fix ContextSpellCheckerModel wrong order of tokens it's used with Sentence Detectors https://github.com/JohnSnowLabs/spark-nlp/pull/6799
+* Fix GraphExtraction when fullAnnotate and document are used at the same time https://github.com/JohnSnowLabs/spark-nlp/pull/6845
+* Fix Word2VecModel being cast to Doc2VecModel by mistake https://github.com/JohnSnowLabs/spark-nlp/pull/6849
+* Fix broken sentence indexing in BertEmbeddings that impacted SentenceEmbeddings for text classification https://github.com/JohnSnowLabs/spark-nlp/pull/6867
+* Fix missing setExceotionsPath param in Tokenizer when it's used in Python https://github.com/JohnSnowLabs/spark-nlp/pull/6868
+* Fix the wrong metrics being mentioned when useBestModel was enabled. The documentation said Micro-averaged F1 but in fact, it was Macro-average F1. (this option is now available to choose which metric to be tracked)
+* Update broken slow unit tests https://github.com/JohnSnowLabs/spark-nlp/pull/6767
+
+
+========
+3.4.0
+========
+----------------
+Major features and improvements
+----------------
+* **NEW:** Introducing **GPT2Transformer** annotator in Spark NLP 🚀. OpenAI GPT2 - huggingface `TFGPT2LMHeadModel`
+* **NEW:** Introducing **RoBertaForSequenceClassification** annotator in Spark NLP 🚀. `RoBertaForSequenceClassification` can load RoBERTa Models with a sequence classification/regression head on top (a linear layer on top of the pooled output) e.g. for multi-class document classification tasks. This annotator is compatible with all the models trained/fine-tuned by using `RobertaForSequenceClassification` for **PyTorch** or `TFRobertaForSequenceClassification` for **TensorFlow** models in HuggingFace 🤗
+* **NEW:** Introducing **XlmRoBertaForSequenceClassification** annotator in Spark NLP 🚀. `XlmRoBertaForSequenceClassification` can load XLM-RoBERTa Models with a sequence classification/regression head on top (a linear layer on top of the pooled output) e.g. for multi-class document classification tasks. This annotator is compatible with all the models trained/fine-tuned by using `XLMRobertaForSequenceClassification` for **PyTorch** or `TFXLMRobertaForSequenceClassification` for **TensorFlow** models in HuggingFace 🤗
+* **NEW:** Introducing **LongformerForSequenceClassification** annotator in Spark NLP 🚀. `LongformerForSequenceClassification` can load ALBERT Models with a sequence classification/regression head on top (a linear layer on top of the pooled output) e.g. for multi-class document classification tasks. This annotator is compatible with all the models trained/fine-tuned by using `LongformerForSequenceClassification` for **PyTorch** or `TFLongformerForSequenceClassification` for **TensorFlow** models in HuggingFace 🤗
+* **NEW:** Introducing **AlbertForSequenceClassification** annotator in Spark NLP 🚀. `AlbertForSequenceClassification` can load ALBERT Models with a sequence classification/regression head on top (a linear layer on top of the pooled output) e.g. for multi-class document classification tasks. This annotator is compatible with all the models trained/fine-tuned by using `AlbertForSequenceClassification` for **PyTorch** or `TFAlbertForSequenceClassification` for **TensorFlow** models in HuggingFace 🤗
+* **NEW:** Introducing **XlnetForSequenceClassification** annotator in Spark NLP 🚀. `XlnetForSequenceClassification` can load XLNet Models with a sequence classification/regression head on top (a linear layer on top of the pooled output) e.g. for multi-class document classification tasks. This annotator is compatible with all the models trained/fine-tuned by using `XLNetForSequenceClassification` for **PyTorch** or `TFXLNetForSequenceClassification` for **TensorFlow** models in HuggingFace 🤗
+* **NEW:** Introducing trainable and distributed Word2Vec annotators based on Word2Vec in Spark ML
+* Support for Apache Spark and PySpark 3.2.x on Scala 2.12
+* Introducing `useBestModel` param in NerDLApproach annotator. This param in the NerDLApproach preserves and restores the model that has achieved the best performance at the end of the training. The priority is metrics from testDataset (micro F1), metrics from validationSplit (micro F1), and if none is set it will keep track of loss during the training
+* Welcoming 6x new Databricks runtimes to our Spark NLP family:
+  * Databricks 10.0
+  * Databricks 10.0 ML GPU
+  * Databricks 10.1
+  * Databricks 10.1 ML GPU
+  * Databricks 10.2
+  * Databricks 10.2 ML GPU
+* Welcoming 3x new EMR 6.x series to our Spark NLP family:
+  * EMR 5.33.1 (Apache Spark 2.4.7 / Hadoop 2.10.1)
+  * EMR 6.3.1 (Apache Spark 3.1.1 / Hadoop 3.2.1)
+  * EMR 6.4.0 (Apache Spark 3.1.2 / Hadoop 3.2.1)
+* Adding a new param to sparknlp.start() function in Python for Apache Spark 3.2.x (`spark32=True`)
+* Add new scripts/notebook to generate custom TensroFlow graphs for `ContextSpellCheckerApproach` annotator
+* Add a new `graphFolder` param to `ContextSpellCheckerApproach` annotator. This param allows to train ContextSpellChecker from a custom made TensorFlow graph
+* Support DBFS file system in `graphFolder` param. Starting Spark NLP 3.4.0 you can point NerDLApproach or ContextSpellCheckerApproach to a TF graph hosted on Databricks
+* Add new feature to all classifiers (`ForTokenClassification` and `ForSequenceClassification`) to retrieve classes from the pretrained models
+* Add `inputFormats` param to DateMatcher and MultiDateMatcher annotators. DateMatcher and MultiDateMatcher can now define a list of acceptable input formats via date patterns to search in the text. Consequently, the output format will be defining the output pattern for the unique output format.
+* Enable batch processing in T5Transformer and MarianTransformer annotators
+* Add Schema to `readDataset` in CoNLL() class
+
+----------------
+Bug Fixes
+----------------
+* Fix a race condition in a cluster mode when the accessing TF session is called as many times as the number of available cores on the Driver machine for the very first time. Loading a model multiple times result in disk activities and IO becomes a bottleneck for larger models especially on a machine(s) with slower disks) https://github.com/JohnSnowLabs/spark-nlp/pull/6575
+* Fix a performance issue introduced in the 3.3.3 release for T5Transformer and MarianTransformer annotators. While we added support for ignored tokens, accidentally we introduced a bug that degraded the performance for these two annotators (sometimes twice slower). Please do update to 3.4.0 if you are using any of these annotators. https://github.com/JohnSnowLabs/spark-nlp/pull/6605
+* Fix a bug in model resolution by not filtering based on the timestamp
+* Fix configProtoBytes param type in Python https://github.com/JohnSnowLabs/spark-nlp/pull/6549
+* Fix missing DefaultParamsReadable in RegexTokenizer annotator https://github.com/JohnSnowLabs/spark-nlp/pull/6653
+* Fix missing models `lemma_antbnc`, `sentiment_vivekn`, and `spellcheck_norvig` for Spark 3.x
+* Fix missing pipelines `clean_slang`, `check_spelling`, `match_chunks`, and `match_datetime` for Spark 3.x
+* Fix `saveModel` in TrainingHelper
+* Fix Keyword/Yake module naming in Scala https://github.com/JohnSnowLabs/spark-nlp/pull/6562
+
+----------------
+Backward Compatibility
+----------------
+
+* The parameter `dateFormat` in DateMatcher and MultiDateMatcher annotators has been renamed to `outputFormat`:
+
+```python=
+
+# previously
+.setDateFormat("yyyy/MM/dd")
+
+# after 3.4.0 release
+.setOutputFormat("yyyy/MM/dd")
+
+```
+
+* Deprecating xling TF Hub models for UniversalSentenceEncoder annotator (there are `CMLM` models available which outperform xling models with support for more languages)
+* Deprecating Finnish old BERT models (there are newer models available now)
+
+========
 3.3.4
 ========
 ----------------

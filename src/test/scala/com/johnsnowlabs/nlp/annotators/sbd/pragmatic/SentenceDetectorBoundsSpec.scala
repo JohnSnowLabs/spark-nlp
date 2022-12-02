@@ -1,5 +1,5 @@
 /*
- * Copyright 2017-2021 John Snow Labs
+ * Copyright 2017-2022 John Snow Labs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,7 +21,6 @@ import com.johnsnowlabs.nlp.util.io.ResourceHelper
 import com.johnsnowlabs.nlp.{Annotation, AnnotatorType, ContentProvider, DocumentAssembler}
 import com.johnsnowlabs.tags.FastTest
 import org.scalatest.flatspec.AnyFlatSpec
-
 
 class SentenceDetectorBoundsSpec extends AnyFlatSpec {
 
@@ -102,28 +101,69 @@ class SentenceDetectorBoundsSpec extends AnyFlatSpec {
       .setSplitLength(12)
 
     val doc = document.transform(df)
-    val sentenced = sd.transform(doc)
+    val sentenced = sd
+      .transform(doc)
       .select("sentence")
-      .as[Array[Annotation]].first
+      .as[Array[Annotation]]
+      .first
 
     assert(sentenced.length == expected.length)
-    assert(sentenced.zip(expected).forall(r => {
-      println(r._1.result)
-      println(r._2)
-      r._1.result == r._2
-    }))
-    assert(sentenced(0) == Annotation(AnnotatorType.DOCUMENT, 0, 11, "Hello world,", Map("sentence" -> "0"), Array.emptyFloatArray))
-    assert(sentenced(1) == Annotation(AnnotatorType.DOCUMENT, 13, 21, "this is a", Map("sentence" -> "1"), Array.emptyFloatArray))
-    assert(sentenced(2) == Annotation(AnnotatorType.DOCUMENT, 23, 26, "long", Map("sentence" -> "2"), Array.emptyFloatArray))
-    assert(sentenced(3) == Annotation(AnnotatorType.DOCUMENT, 28, 35, "sentence", Map("sentence" -> "3"), Array.emptyFloatArray))
-    assert(sentenced(4) == Annotation(AnnotatorType.DOCUMENT, 37, 57, "longerThanSplitLength", Map("sentence" -> "4"), Array.emptyFloatArray))
+    assert(
+      sentenced
+        .zip(expected)
+        .forall(r => {
+          println(r._1.result)
+          println(r._2)
+          r._1.result == r._2
+        }))
+    assert(
+      sentenced(0) == Annotation(
+        AnnotatorType.DOCUMENT,
+        0,
+        11,
+        "Hello world,",
+        Map("sentence" -> "0"),
+        Array.emptyFloatArray))
+    assert(
+      sentenced(1) == Annotation(
+        AnnotatorType.DOCUMENT,
+        13,
+        21,
+        "this is a",
+        Map("sentence" -> "1"),
+        Array.emptyFloatArray))
+    assert(
+      sentenced(2) == Annotation(
+        AnnotatorType.DOCUMENT,
+        23,
+        26,
+        "long",
+        Map("sentence" -> "2"),
+        Array.emptyFloatArray))
+    assert(
+      sentenced(3) == Annotation(
+        AnnotatorType.DOCUMENT,
+        28,
+        35,
+        "sentence",
+        Map("sentence" -> "3"),
+        Array.emptyFloatArray))
+    assert(
+      sentenced(4) == Annotation(
+        AnnotatorType.DOCUMENT,
+        37,
+        57,
+        "longerThanSplitLength",
+        Map("sentence" -> "4"),
+        Array.emptyFloatArray))
 
   }
 
   "SentenceDetector" should "correctly filters out sentences less or greater than maxLength and minLength" taggedAs FastTest in {
     import ResourceHelper.spark.implicits._
 
-    val sentence = "Small sentence. This is a normal sentence. This is a long sentence (longer than the maxLength)."
+    val sentence =
+      "Small sentence. This is a normal sentence. This is a long sentence (longer than the maxLength)."
 
     val df = Seq(sentence).toDF("text")
 
@@ -140,21 +180,135 @@ class SentenceDetectorBoundsSpec extends AnyFlatSpec {
       .setMaxLength(26)
 
     val doc = document.transform(df)
-    val sentenced = sd.transform(doc)
+    val sentenced = sd
+      .transform(doc)
       .select("sentence")
-      .as[Array[Annotation]].first
+      .as[Array[Annotation]]
+      .first
 
     assert(sentenced.length == expected.length)
-    assert(sentenced.zip(expected).forall(r => {
-      println(r._1.result)
-      println(r._2)
-      r._1.result == r._2
-    }))
-    assert(sentenced(0) == Annotation(AnnotatorType.DOCUMENT, 16, 41, "This is a normal sentence.", Map("sentence" -> "0"), Array.emptyFloatArray))
+    assert(
+      sentenced
+        .zip(expected)
+        .forall(r => {
+          println(r._1.result)
+          println(r._2)
+          r._1.result == r._2
+        }))
+    assert(
+      sentenced(0) == Annotation(
+        AnnotatorType.DOCUMENT,
+        16,
+        41,
+        "This is a normal sentence.",
+        Map("sentence" -> "0"),
+        Array.emptyFloatArray))
 
   }
 
-  private def checkBounds(text: String, bounds: Array[Sentence]) = {
+  "SentenceDetector" should "support different strategies for returning custom bounds" taggedAs FastTest in {
+    import ResourceHelper.spark.implicits._
+
+    def assertSentenceBounds(
+        sentences: String,
+        sd: SentenceDetector,
+        expected: Array[String]): Unit = {
+      val df = Seq(sentences).toDF("text")
+
+      val document = new DocumentAssembler()
+        .setInputCol("text")
+        .setOutputCol("document")
+      val doc = document.transform(df)
+
+      val sentenced = sd
+        .transform(doc)
+        .select("sentence.result")
+        .as[Array[String]]
+        .first
+
+      assert(sentenced.length == expected.length)
+      sentenced.zip(expected).foreach { case (actual, expected) => assert(actual == expected) }
+    }
+
+    // Default Strategy: "none", replace all custom bounds
+    val sdCustomOnly = new SentenceDetector()
+      .setInputCols(Array("document"))
+      .setOutputCol("sentence")
+      .setCustomBounds(Array("\\.", ";"))
+      .setUseCustomBoundsOnly(true)
+
+    val sentences =
+      "This is a sentence. This one uses custom bounds; As is this one;"
+
+    val expectedDefault =
+      Array("This is a sentence", "This one uses custom bounds", "As is this one")
+    assertSentenceBounds(sentences, sdCustomOnly, expectedDefault)
+
+    val sdMixed = new SentenceDetector()
+      .setInputCols(Array("document"))
+      .setOutputCol("sentence")
+      .setCustomBounds(Array(";"))
+
+    val expectedDefaultMixed =
+      Array("This is a sentence.", "This one uses custom bounds", "As is this one")
+    assertSentenceBounds(sentences, sdMixed, expectedDefaultMixed)
+
+    // Strategy: "append", append sentence bound to match
+    val sdCustomOnlyAppend = new SentenceDetector()
+      .setInputCols(Array("document"))
+      .setOutputCol("sentence")
+      .setCustomBounds(Array("\\.", ";"))
+      .setUseCustomBoundsOnly(true)
+      .setCustomBoundsStrategy("append")
+
+    val expectedAppend =
+      Array("This is a sentence.", "This one uses custom bounds;", "As is this one;")
+    assertSentenceBounds(sentences, sdCustomOnlyAppend, expectedAppend)
+
+    val sdMixedAppend = new SentenceDetector()
+      .setInputCols(Array("document"))
+      .setOutputCol("sentence")
+      .setCustomBounds(Array(";"))
+      .setCustomBoundsStrategy("append")
+
+    assertSentenceBounds(sentences, sdMixedAppend, expectedAppend)
+
+    // Strategy: "prepend", append sentence bound to match
+    val subHeaderList =
+      """
+        |1. This is a list
+        |1.1 This is a subpoint
+        |2. Second thing
+        |2.2 Second subthing""".stripMargin
+
+    val sdPrepend = new SentenceDetector()
+      .setInputCols(Array("document"))
+      .setOutputCol("sentence")
+      .setCustomBounds(Array(raw"\n[\d\.]+"))
+      .setUseCustomBoundsOnly(true)
+      .setCustomBoundsStrategy("prepend")
+
+    val expectedPrepend = Array(
+      "1. This is a list",
+      "1.1 This is a subpoint",
+      "2. Second thing",
+      "2.2 Second subthing")
+    assertSentenceBounds(subHeaderList, sdPrepend, expectedPrepend)
+
+  }
+
+  "SentenceDetector" should "throw an error if wrong custom bound strategy provided" taggedAs FastTest in {
+    intercept[IllegalArgumentException] {
+      new SentenceDetector()
+        .setInputCols(Array("document"))
+        .setOutputCol("sentence")
+        .setCustomBounds(Array("\\.", ";"))
+        .setUseCustomBoundsOnly(true)
+        .setCustomBoundsStrategy("no thanks.")
+    }
+  }
+
+  private def checkBounds(text: String, bounds: Array[Sentence]): Unit = {
     for (bound <- bounds) {
       assert(bound.content == text.substring(bound.start, bound.end + 1))
     }

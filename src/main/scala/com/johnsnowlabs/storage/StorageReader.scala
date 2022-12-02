@@ -1,5 +1,5 @@
 /*
- * Copyright 2017-2021 John Snow Labs
+ * Copyright 2017-2022 John Snow Labs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,6 +17,8 @@
 package com.johnsnowlabs.storage
 
 import com.johnsnowlabs.nlp.util.LruMap
+
+import scala.collection.mutable
 
 trait StorageReader[A] extends HasConnection {
 
@@ -58,6 +60,24 @@ trait StorageReader[A] extends HasConnection {
 
   def clear(): Unit = {
     lru.clear()
+  }
+
+  def exportStorageToMap(): Map[BytesKey, Array[Byte]] = {
+
+    val iterator = connection.getDb.newIterator()
+    val data = mutable.Map[BytesKey, Array[Byte]]()
+
+    iterator.seek("".getBytes())
+    while (iterator.isValid) {
+      val currentKey = iterator.key()
+      val currentValue = iterator.value()
+      data(new BytesKey(currentKey)) = currentValue
+      iterator.next()
+    }
+
+    iterator.close()
+
+    data.toMap
   }
 
 }

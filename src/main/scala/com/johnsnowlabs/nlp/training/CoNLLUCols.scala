@@ -1,5 +1,5 @@
 /*
- * Copyright 2017-2021 John Snow Labs
+ * Copyright 2017-2022 John Snow Labs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,9 +17,8 @@
 package com.johnsnowlabs.nlp.training
 
 object CoNLLUCols extends Enumeration {
-  /** CoNLL-U columns [[https://universaldependencies.org/format.html CoNLL-U format]]
-   *
-   **/
+
+  /** CoNLL-U columns [[https://universaldependencies.org/format.html CoNLL-U format]] */
   type Format
   val ID, FORM, LEMMA, UPOS, XPOS, FEATS, HEAD, DEPREL, DEPS, MISC = Value
 }

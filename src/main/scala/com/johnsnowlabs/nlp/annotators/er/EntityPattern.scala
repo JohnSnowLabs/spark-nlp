@@ -1,5 +1,5 @@
 /*
- * Copyright 2017-2021 John Snow Labs
+ * Copyright 2017-2022 John Snow Labs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,4 +16,10 @@
 
 package com.johnsnowlabs.nlp.annotators.er
 
-case class EntityPattern(label: String, patterns: Seq[String], id: Option[String] = None)
+case class EntityPattern(
+    label: String,
+    patterns: Seq[String],
+    id: Option[String] = None,
+    regex: Option[Boolean] = None)
+
+case class FlattenEntityPattern(entity: String, keyword: String, id: Option[String] = None)

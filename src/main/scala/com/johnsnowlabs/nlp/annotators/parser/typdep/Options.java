@@ -1,5 +1,5 @@
 /*
- * Copyright 2017-2021 John Snow Labs
+ * Copyright 2017-2022 John Snow Labs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -54,7 +54,7 @@ public class Options implements Serializable {
         this.rankSecondOrderTensor = options.rankSecondOrderTensor;
     }
 
-    static Options newInstance(Options options){
+    static Options newInstance(Options options) {
         //Copy factory
         return new Options(options);
     }

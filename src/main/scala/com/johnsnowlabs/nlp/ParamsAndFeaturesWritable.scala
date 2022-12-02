@@ -1,5 +1,5 @@
 /*
- * Copyright 2017-2021 John Snow Labs
+ * Copyright 2017-2022 John Snow Labs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,8 +20,12 @@ import org.apache.spark.ml.param.Params
 import org.apache.spark.ml.util.{DefaultParamsWritable, MLWriter}
 import org.apache.spark.sql.SparkSession
 
-class FeaturesWriter[T](annotatorWithFeatures: HasFeatures, baseWriter: MLWriter, onWritten: (String, SparkSession) => Unit)
-  extends MLWriter with HasFeatures {
+class FeaturesWriter[T](
+    annotatorWithFeatures: HasFeatures,
+    baseWriter: MLWriter,
+    onWritten: (String, SparkSession) => Unit)
+    extends MLWriter
+    with HasFeatures {
 
   override protected def saveImpl(path: String): Unit = {
     baseWriter.save(path)
@@ -44,8 +48,7 @@ trait ParamsAndFeaturesWritable extends DefaultParamsWritable with Params with H
     new FeaturesWriter(
       this,
       super.write,
-      (path: String, spark: SparkSession) => onWrite(path, spark)
-    )
+      (path: String, spark: SparkSession) => onWrite(path, spark))
   }
 
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright 2017-2021 John Snow Labs
+ * Copyright 2017-2022 John Snow Labs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -24,7 +24,9 @@ trait HasStorageReader extends HasStorageRef with HasCaseSensitiveProperties {
 
   @transient protected var readers: MMap[Database.Name, StorageReader[_]] = _
 
-  protected def createReader(database: Database.Name, connection: RocksDBConnection): StorageReader[_]
+  protected def createReader(
+      database: Database.Name,
+      connection: RocksDBConnection): StorageReader[_]
 
   protected def getReader[A](database: Database.Name): StorageReader[A] = {
     lazy val reader = createReader(database, createDatabaseConnection(database))

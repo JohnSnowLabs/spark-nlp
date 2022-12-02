@@ -1,5 +1,5 @@
 /*
- * Copyright 2017-2021 John Snow Labs
+ * Copyright 2017-2022 John Snow Labs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,7 +21,7 @@ import org.apache.spark.util.AccumulatorV2
 import scala.collection.mutable.{Map => MMap}
 
 class LongMapAccumulator(defaultMap: MMap[String, Long] = MMap.empty[String, Long])
-  extends AccumulatorV2[(String, Long), Map[String, Long]] {
+    extends AccumulatorV2[(String, Long), Map[String, Long]] {
 
   private var mmap = defaultMap
 

@@ -1,5 +1,5 @@
 /*
- * Copyright 2017-2021 John Snow Labs
+ * Copyright 2017-2022 John Snow Labs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,7 +21,6 @@ import com.johnsnowlabs.tags.FastTest
 import org.apache.spark.sql.{Dataset, Row}
 import org.scalatest.flatspec.AnyFlatSpec
 
-
 class StemmerTestSpec extends AnyFlatSpec with StemmerBehaviors {
 
   val stemmer = new Stemmer
@@ -31,7 +30,7 @@ class StemmerTestSpec extends AnyFlatSpec with StemmerBehaviors {
 
   val englishPhraseData: Dataset[Row] = DataBuilder.basicDataBuild(ContentProvider.englishPhrase)
 
-  "A full Stemmer pipeline with English content" should behave like fullStemmerPipeline(englishPhraseData)
-
+  "A full Stemmer pipeline with English content" should behave like fullStemmerPipeline(
+    englishPhraseData)
 
 }

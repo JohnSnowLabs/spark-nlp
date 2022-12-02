@@ -1,5 +1,5 @@
 /*
- * Copyright 2017-2021 John Snow Labs
+ * Copyright 2017-2022 John Snow Labs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -42,11 +42,14 @@ case class StorageLocator(database: String, storageRef: String, sparkSession: Sp
 
   val clusterFilePath: Path = {
     if (!getTmpLocation.startsWith("s3:/")) {
-      Path.mergePaths(new Path(fileSystem.getUri.toString + clusterTmpLocation), new Path("/" + clusterFileName))
+      Path.mergePaths(
+        new Path(fileSystem.getUri.toString + clusterTmpLocation),
+        new Path("/" + clusterFileName))
     } else new Path(clusterTmpLocation + "/" + clusterFileName)
   }
 
-  val destinationScheme: String = if (getTmpLocation.startsWith("s3:/")) "s3" else fileSystem.getScheme
+  val destinationScheme: String =
+    if (getTmpLocation.startsWith("s3:/")) "s3" else fileSystem.getScheme
 
   private def getTmpLocation: String = {
     ConfigLoader.getConfigStringValue(ConfigHelper.storageTmpDir)

@@ -1,5 +1,5 @@
 /*
- * Copyright 2017-2021 John Snow Labs
+ * Copyright 2017-2022 John Snow Labs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -25,10 +25,9 @@ object SparkAccessor {
     .master("local[*]")
     .config("spark.driver.memory", "16G")
     .config("spark.driver.maxResultSize", "0")
-    .config("spark.kryoserializer.buffer.max","200M")
-    .config("spark.serializer","org.apache.spark.serializer.KryoSerializer")
+    .config("spark.kryoserializer.buffer.max", "200M")
+    .config("spark.serializer", "org.apache.spark.serializer.KryoSerializer")
     .getOrCreate()
-
 
   val benchmarkSpark: SparkSession = SparkSession
     .builder()
@@ -36,7 +35,7 @@ object SparkAccessor {
     .master("local[*]")
     .config("spark.driver.memory", "16G")
     .config("spark.driver.maxResultSize", "0")
-    .config("spark.kryoserializer.buffer.max","200M")
-    .config("spark.serializer","org.apache.spark.serializer.KryoSerializer")
+    .config("spark.kryoserializer.buffer.max", "200M")
+    .config("spark.serializer", "org.apache.spark.serializer.KryoSerializer")
     .getOrCreate()
 }

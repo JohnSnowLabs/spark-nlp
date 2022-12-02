@@ -1,4 +1,4 @@
-#  Copyright 2017-2021 John Snow Labs
+#  Copyright 2017-2022 John Snow Labs
 #
 #  Licensed under the Apache License, Version 2.0 (the "License");
 #  you may not use this file except in compliance with the License.
@@ -11,6 +11,8 @@
 #  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
+"""Contains various utilities."""
+
 
 import sparknlp.internal as _internal
 
@@ -21,9 +23,13 @@ def get_config_path():
 
 class CoNLLGenerator:
     @staticmethod
-    def exportConllFiles(spark, files_path, pipeline, output_path):
-        _internal._CoNLLGeneratorExport(spark, files_path, pipeline, output_path).apply()
-
-    @staticmethod
-    def exportConllFiles(dataframe, output_path):
-        _internal._CoNLLGeneratorExport(dataframe, output_path).apply()
+    def exportConllFiles(*args):
+        num_args = len(args)
+        if num_args == 2:
+            _internal._CoNLLGeneratorExportFromDataFrame(*args).apply()
+        elif num_args == 3:
+            _internal._CoNLLGeneratorExportFromDataFrameAndField(*args).apply()
+        elif num_args == 4:
+            _internal._CoNLLGeneratorExportFromTargetAndPipeline(*args).apply()
+        else:
+            raise NotImplementedError(f"No exportConllFiles alternative takes {num_args} parameters")

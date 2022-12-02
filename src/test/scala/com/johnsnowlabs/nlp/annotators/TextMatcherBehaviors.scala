@@ -1,5 +1,5 @@
 /*
- * Copyright 2017-2021 John Snow Labs
+ * Copyright 2017-2022 John Snow Labs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -25,17 +25,19 @@ trait TextMatcherBehaviors { this: AnyFlatSpec =>
 
   def fullTextMatcher(dataset: => Dataset[Row]) {
     "An TextMatcher Annotator" should "successfully transform data" taggedAs FastTest in {
-      AnnotatorBuilder.withFullTextMatcher(dataset)
-        .collect().foreach {
-        row =>
-          row.getSeq[Row](3)
+      AnnotatorBuilder
+        .withFullTextMatcher(dataset)
+        .collect()
+        .foreach { row =>
+          row
+            .getSeq[Row](3)
             .map(Annotation(_))
             .foreach {
               case entity: Annotation if entity.annotatorType == "entity" =>
                 println(entity, entity.end)
               case _ => ()
             }
-      }
+        }
     }
   }
 }

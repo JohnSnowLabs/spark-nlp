@@ -1,5 +1,5 @@
 /*
- * Copyright 2017-2021 John Snow Labs
+ * Copyright 2017-2022 John Snow Labs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,18 +16,18 @@
 
 package com.johnsnowlabs.nlp.embeddings
 
-import java.nio.{ByteBuffer, ByteOrder}
-
 import com.johnsnowlabs.storage.{RocksDBConnection, StorageBatchWriter}
 
+import java.nio.{ByteBuffer, ByteOrder}
+
 class WordEmbeddingsWriter(
-                                override val connection: RocksDBConnection,
-                                caseSensitiveIndex: Boolean,
-                                dimension: Int,
-                                maxCacheSize: Int,
-                                writeBuffer: Int
-                          )
-  extends StorageBatchWriter[Array[Float]] with ReadsFromBytes {
+    override val connection: RocksDBConnection,
+    caseSensitiveIndex: Boolean,
+    dimension: Int,
+    maxCacheSize: Int,
+    writeBuffer: Int)
+    extends StorageBatchWriter[Array[Float]]
+    with ReadsFromBytes {
 
   override protected def writeBufferSize: Int = writeBuffer
 

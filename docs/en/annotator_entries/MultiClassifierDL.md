@@ -134,7 +134,7 @@ result.select("text", "classifications.result").show(false)
 {%- endcapture -%}
 
 {%- capture model_python_api_link -%}
-[MultiClassifierDLModel](https://nlp.johnsnowlabs.com/api/python/reference/autosummary/sparknlp.annotator.MultiClassifierDLModel.html)
+[MultiClassifierDLModel](/api/python/reference/autosummary/python/sparknlp/annotator/classifier_dl/multi_classifier_dl/index.html#sparknlp.annotator.classifier_dl.multi_classifier_dl.MultiClassifierDLModel)
 {%- endcapture -%}
 
 {%- capture model_source_link -%}
@@ -161,6 +161,37 @@ instances into precisely one of more than two classes; in the multi-label proble
 of the classes the instance can be assigned to.
 Formally, multi-label classification is the problem of finding a model that maps inputs x to binary vectors y
 (assigning a value of 0 or 1 for each element (label) in y).
+
+Setting a test dataset to monitor model metrics can be done with `.setTestDataset`. The method
+expects a path to a parquet file containing a dataframe that has the same required columns as
+the training dataframe. The pre-processing steps for the training dataframe should also be
+applied to the test dataframe. The following example will show how to create the test dataset:
+
+```
+val documentAssembler = new DocumentAssembler()
+  .setInputCol("text")
+  .setOutputCol("document")
+
+val embeddings = UniversalSentenceEncoder.pretrained()
+  .setInputCols("document")
+  .setOutputCol("sentence_embeddings")
+
+val preProcessingPipeline = new Pipeline().setStages(Array(documentAssembler, embeddings))
+
+val Array(train, test) = data.randomSplit(Array(0.8, 0.2))
+preProcessingPipeline
+  .fit(test)
+  .transform(test)
+  .write
+  .mode("overwrite")
+  .parquet("test_data")
+
+val multiClassifier = new MultiClassifierDLApproach()
+  .setInputCols("sentence_embeddings")
+  .setOutputCol("category")
+  .setLabelColumn("label")
+  .setTestDataset("test_data")
+```
 
 For extended examples of usage, see the [Spark NLP Workshop](https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/jupyter/training/english/classification/MultiClassifierDL_train_multi_label_E2E_challenge_classifier.ipynb)
 and the [MultiClassifierDLTestSpec](https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/classifier/dl/MultiClassifierDLTestSpec.scala).
@@ -309,7 +340,7 @@ val pipelineModel = pipeline.fit(smallCorpus)
 {%- endcapture -%}
 
 {%- capture approach_python_api_link -%}
-[MultiClassifierDLApproach](https://nlp.johnsnowlabs.com/api/python/reference/autosummary/sparknlp.annotator.MultiClassifierDLApproach.html)
+[MultiClassifierDLApproach](/api/python/reference/autosummary/python/sparknlp/annotator/classifier_dl/multi_classifier_dl/index.html#sparknlp.annotator.classifier_dl.multi_classifier_dl.MultiClassifierDLApproach)
 {%- endcapture -%}
 
 {%- capture approach_source_link -%}

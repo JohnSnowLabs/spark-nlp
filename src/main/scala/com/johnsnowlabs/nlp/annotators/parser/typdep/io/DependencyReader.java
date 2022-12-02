@@ -1,5 +1,5 @@
 /*
- * Copyright 2017-2021 John Snow Labs
+ * Copyright 2017-2022 John Snow Labs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -69,7 +69,7 @@ public abstract class DependencyReader {
         boolean hasLemma = false;
 
         for (int i = 1; i < length + 1; ++i) {
-            ConllData conllValues = sentence[i-1];
+            ConllData conllValues = sentence[i - 1];
             begins[i] = conllValues.getBegin();
             ends[i] = conllValues.getEnd();
             forms[i] = conllValues.getForm();
@@ -88,7 +88,7 @@ public abstract class DependencyReader {
             deprels[i] = conllValues.getDepRel();
 
         }
-        if (!hasLemma){
+        if (!hasLemma) {
             lemmas = null;
         }
 
@@ -100,6 +100,8 @@ public abstract class DependencyReader {
         reader = new BufferedReader(new InputStreamReader(new FileInputStream(file), StandardCharsets.UTF_8));
     }
 
-    public void close() throws IOException { if (reader != null) reader.close(); }
+    public void close() throws IOException {
+        if (reader != null) reader.close();
+    }
 
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright 2017-2021 John Snow Labs
+ * Copyright 2017-2022 John Snow Labs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -22,7 +22,10 @@ import org.apache.spark.ml.param.BooleanParam
 trait CanBeLazy {
   this: PipelineStage =>
 
-  val lazyAnnotator: BooleanParam = new BooleanParam(this, "lazyAnnotator", "Whether this AnnotatorModel acts as lazy in RecursivePipelines")
+  val lazyAnnotator: BooleanParam = new BooleanParam(
+    this,
+    "lazyAnnotator",
+    "Whether this AnnotatorModel acts as lazy in RecursivePipelines")
 
   def setLazyAnnotator(value: Boolean): this.type = set(lazyAnnotator, value)
 

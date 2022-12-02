@@ -1,5 +1,5 @@
 /*
- * Copyright 2017-2019 John Snow Labs
+ * Copyright 2017-2022 John Snow Labs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,13 +16,7 @@
 
 package com.johnsnowlabs.ml.crf
 
-case class CrfDataset
-(
-  instances: Seq[(InstanceLabels, Instance)],
-  metadata: DatasetMetadata
-)
+case class CrfDataset(instances: Seq[(InstanceLabels, Instance)], metadata: DatasetMetadata)
 
 case class InstanceLabels(labels: Seq[Int])
 case class Instance(items: Seq[SparseArray])
-
-

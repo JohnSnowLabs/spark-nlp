@@ -1,5 +1,5 @@
 /*
- * Copyright 2017-2021 John Snow Labs
+ * Copyright 2017-2022 John Snow Labs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,7 +17,9 @@
 package com.johnsnowlabs.nlp
 
 object AnnotatorType {
+  val AUDIO = "audio"
   val DOCUMENT = "document"
+  val IMAGE = "image"
   val TOKEN = "token"
   val WORDPIECE = "wordpiece"
   val WORD_EMBEDDINGS = "word_embeddings"
@@ -34,5 +36,7 @@ object AnnotatorType {
   val LABELED_DEPENDENCY = "labeled_dependency"
   val LANGUAGE = "language"
   val NODE = "node"
+  val TABLE = "table"
   val DUMMY = "dummy"
+
 }

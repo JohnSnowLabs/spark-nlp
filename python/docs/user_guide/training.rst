@@ -8,8 +8,8 @@ POS Dataset
 ===========
 
 In order to train a Part of Speech Tagger annotator
-(:class:`PerceptronApproach <sparknlp.annotator.PerceptronApproach>`), we need to
-get corpus data as a Spark dataframe. :class:`POS <sparknlp.training.POS>` reads a plain text file
+(:class:`.PerceptronApproach`), we need to
+get corpus data as a Spark dataframe. :class:`.POS` reads a plain text file
 and transforms it to a Spark dataset.
 
 **Input File Format**::
@@ -24,9 +24,9 @@ and transforms it to a Spark dataset.
 CoNLL Dataset
 =============
 
-In order to train a :class:`sparknlp.annotator.NerDLApproach` annotator, we need to get
+In order to train a :class:`.NerDLApproach` annotator, we need to get
 `CoNLL 2003 <https://www.clips.uantwerpen.be/conll2003/ner/>`_ format data
-as a Spark dataframe. :class:`sparknlp.training.CoNLL` reads a plain text file and transforms it to a Spark dataset.
+as a Spark dataframe. :class:`.CoNLL` reads a plain text file and transforms it to a Spark dataset.
 
 **Input File Format**::
 
@@ -50,9 +50,9 @@ as a Spark dataframe. :class:`sparknlp.training.CoNLL` reads a plain text file a
 CoNLLU Dataset
 ==============
 
-In order to train a :class:`DependencyParserApproach <sparknlp.annotator.DependencyParserApproach>` annotator, we need to get
+In order to train a :class:`.DependencyParserApproach` annotator, we need to get
 `CoNLL-U <https://universaldependencies.org/format.html>`_ format data
-as a Spark dataframe. :class:`CoNLLU <sparknlp.training.CoNLLU>` reads a plain text file and transforms it to a Spark dataset.
+as a Spark dataframe. :class:`.CoNLLU` reads a plain text file and transforms it to a Spark dataset.
 
 **Input File Format**::
 
@@ -76,8 +76,8 @@ as a Spark dataframe. :class:`CoNLLU <sparknlp.training.CoNLLU>` reads a plain t
 
 Spell Checkers Dataset
 ======================
-In order to train a :class:`NorvigSweetingApproach <sparknlp.annotator.NorvigSweetingApproach>` or
-:class:`SymmetricDeleteApproach <sparknlp.annotator.SymmetricDeleteApproach>`, we need to get corpus data as a spark
+In order to train a :class:`.NorvigSweetingApproach` or
+:class:`.SymmetricDeleteApproach`, we need to get corpus data as a spark
 dataframe. We can read any plain text file and transform it to a Spark dataset.
 
 **Example**
@@ -89,7 +89,7 @@ PubTator Dataset
 ================
 The PubTator format includes medical papers’ titles, abstracts, and tagged chunks
 (see PubTator Docs and MedMentions Docs for more information).
-We can create a Spark DataFrame from a PubTator text file with :class:`PubTator <sparknlp.training.PubTator>`.
+We can create a Spark DataFrame from a PubTator text file with :class:`.PubTator`.
 
 **Input File Format**::
 

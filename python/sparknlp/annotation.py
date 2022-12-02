@@ -1,4 +1,4 @@
-#  Copyright 2017-2021 John Snow Labs
+#  Copyright 2017-2022 John Snow Labs
 #
 #  Licensed under the Apache License, Version 2.0 (the "License");
 #  you may not use this file except in compliance with the License.
@@ -40,8 +40,8 @@ class Annotation:
         Embeddings vector where applicable
     """
 
-    def __init__(self, annotator_type, begin, end, result, metadata, embeddings):
-        self.annotator_type = annotator_type
+    def __init__(self, annotatorType, begin, end, result, metadata, embeddings):
+        self.annotatorType = annotatorType
         self.begin = begin
         self.end = end
         self.result = result
@@ -62,11 +62,11 @@ class Annotation:
         Annotation
             Newly created Annotation
         """
-        return Annotation(self.annotator_type, self.begin, self.end, result, self.metadata, self.embeddings)
+        return Annotation(self.annotatorType, self.begin, self.end, result, self.metadata, self.embeddings)
 
     def __str__(self):
         return "Annotation(%s, %i, %i, %s, %s)" % (
-            self.annotator_type,
+            self.annotatorType,
             self.begin,
             self.end,
             self.result,
@@ -75,6 +75,19 @@ class Annotation:
 
     def __repr__(self):
         return self.__str__()
+
+    def __eq__(self, other):
+        same_annotator_type = self.annotatorType == other.annotatorType
+        same_result = self.result == other.result
+        same_begin = self.begin == other.begin
+        same_end = self.end == other.end
+        same_metadata = dict(self.metadata) == other.metadata
+        same_embeddings = self.embeddings == other.embeddings
+
+        same_annotation = \
+            same_annotator_type and same_result and same_begin and same_end and same_metadata and same_embeddings
+
+        return same_annotation
 
     @staticmethod
     def dataType():
@@ -152,6 +165,5 @@ class Annotation:
             The new Row.
         """
         from pyspark.sql import Row
-        return Row(annotation.annotator_type, annotation.begin, annotation.end, annotation.result, annotation.metadata, annotation.embeddings)
-
-
+        return Row(annotation.annotatorType, annotation.begin, annotation.end, annotation.result, annotation.metadata,
+                   annotation.embeddings)

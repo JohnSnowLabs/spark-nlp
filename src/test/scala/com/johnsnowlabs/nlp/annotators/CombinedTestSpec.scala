@@ -1,5 +1,5 @@
 /*
- * Copyright 2017-2021 John Snow Labs
+ * Copyright 2017-2022 John Snow Labs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -25,11 +25,12 @@ import org.scalatest.flatspec.AnyFlatSpec
 class CombinedTestSpec extends AnyFlatSpec {
 
   "Simple combined annotators" should "successfully go through all transformations" taggedAs FastTest in {
-    val data = DataBuilder.basicDataBuild("This is my first sentence. This is your second list of words")
+    val data =
+      DataBuilder.basicDataBuild("This is my first sentence. This is your second list of words")
     val transformation = AnnotatorBuilder.withLemmaTaggedSentences(data)
     transformation
-      .collect().foreach {
-      row =>
+      .collect()
+      .foreach { row =>
         row.getSeq[Row](1).map(Annotation(_)).foreach { token =>
           // Document annotation
           assert(token.annotatorType == DOCUMENT)
@@ -42,6 +43,6 @@ class CombinedTestSpec extends AnyFlatSpec {
           // POS annotation
           assert(token.annotatorType == POS)
         }
-    }
+      }
   }
 }

@@ -139,7 +139,7 @@ result.selectExpr("explode(arrays_zip(sentence, sarcasm)) as out")
 {%- endcapture -%}
 
 {%- capture model_python_api_link -%}
-[ClassifierDLModel](https://nlp.johnsnowlabs.com/api/python/reference/autosummary/sparknlp.annotator.ClassifierDLModel.html)
+[ClassifierDLModel](/api/python/reference/autosummary/python/sparknlp/annotator/classifier_dl/classifier_dl/index.html#sparknlp.annotator.classifier_dl.classifier_dl.ClassifierDLModel)
 {%- endcapture -%}
 
 {%- capture model_source_link -%}
@@ -154,6 +154,38 @@ The ClassifierDL annotator uses a deep learning model (DNNs) we have built insid
 100 classes.
 
 For instantiated/pretrained models, see ClassifierDLModel.
+
+Setting a test dataset to monitor model metrics can be done with `.setTestDataset`. The
+method expects a path to a parquet file containing a dataframe that has the same
+required columns as the training dataframe. The pre-processing steps for the training
+dataframe should also be applied to the test dataframe. The following example will show
+how to create the test dataset:
+
+```
+val documentAssembler = new DocumentAssembler()
+  .setInputCol("text")
+  .setOutputCol("document")
+
+val embeddings = UniversalSentenceEncoder.pretrained()
+  .setInputCols("document")
+  .setOutputCol("sentence_embeddings")
+
+val preProcessingPipeline = new Pipeline().setStages(Array(documentAssembler, embeddings))
+
+val Array(train, test) = data.randomSplit(Array(0.8, 0.2))
+preProcessingPipeline
+  .fit(test)
+  .transform(test)
+  .write
+  .mode("overwrite")
+  .parquet("test_data")
+
+val classifier = new ClassifierDLApproach()
+  .setInputCols("sentence_embeddings")
+  .setOutputCol("category")
+  .setLabelColumn("label")
+  .setTestDataset("test_data")
+```
 
 For extended examples of usage, see the Spark NLP Workshop
 [[1] ](https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/scala/training/Train%20Multi-Class%20Text%20Classification%20on%20News%20Articles.scala)
@@ -268,7 +300,7 @@ val pipelineModel = pipeline.fit(smallCorpus)
 {%- endcapture -%}
 
 {%- capture approach_python_api_link -%}
-[ClassifierDLApproach](https://nlp.johnsnowlabs.com/api/python/reference/autosummary/sparknlp.annotator.ClassifierDLApproach.html)
+[ClassifierDLApproach](/api/python/reference/autosummary/python/sparknlp/annotator/classifier_dl/classifier_dl/index.html#sparknlp.annotator.classifier_dl.classifier_dl.ClassifierDLApproach)
 {%- endcapture -%}
 
 {%- capture approach_source_link -%}

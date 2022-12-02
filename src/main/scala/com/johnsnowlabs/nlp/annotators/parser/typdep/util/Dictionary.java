@@ -1,5 +1,5 @@
 /*
- * Copyright 2017-2021 John Snow Labs
+ * Copyright 2017-2022 John Snow Labs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,30 +16,27 @@
 
 package com.johnsnowlabs.nlp.annotators.parser.typdep.util;
 
-import gnu.trove.map.hash.TObjectIntHashMap;
-
 import java.io.Serializable;
+import java.util.HashMap;
 
-public class Dictionary implements Serializable
-{
+public class Dictionary implements Serializable {
 
     // Serialization
     private static final long serialVersionUID = 1;
 
-    private TObjectIntHashMap map;
+    private HashMap<String, Integer> map;
 
-    public TObjectIntHashMap getMap() {
+    public HashMap<String, Integer> getMap() {
         return map;
     }
 
-    public void setMap(TObjectIntHashMap map) {
+    public void setMap(HashMap<String, Integer> map) {
         this.map = map;
     }
 
     private int numEntries;
     private boolean growthStopped = false;
     private String mapAsString;
-
     public int getNumEntries() {
         return numEntries;
     }
@@ -59,28 +56,26 @@ public class Dictionary implements Serializable
     public void setMapAsString(String mapAsString) {
         this.mapAsString = mapAsString;
     }
-
     public String getMapAsString() {
         return mapAsString;
     }
 
-    private Dictionary (int capacity)
-    {
-        this.map = new TObjectIntHashMap(capacity);
+    private Dictionary(int capacity) {
+        this.map = new HashMap<>(capacity);
         numEntries = 0;
     }
 
-    Dictionary ()
-    {
-        this (10000);
+    Dictionary() {
+        this(10000);
     }
 
-    /** Return -1 (in old trove version) or 0 (in trove current verion) if entry isn't present. */
-    public int lookupIndex (Object entry)
-    {
+    /**
+     * Return -1 (in old trove version) or 0 (in trove current verion) if entry isn't present.
+     */
+    public int lookupIndex(String entry) {
         if (entry == null)
-            throw new IllegalArgumentException ("Can't lookup \"null\" in an Alphabet.");
-        int ret = map.get(entry);
+            throw new IllegalArgumentException("Can't lookup \"null\" in an Alphabet.");
+        int ret = (map.get(entry) == null) ? 0 : map.get(entry);
         if (ret <= 0 && !growthStopped) {
             numEntries++;
             ret = numEntries;
@@ -89,17 +84,15 @@ public class Dictionary implements Serializable
         return ret;
     }
 
-    public Object[] toArray () {
-        return map.keys();
+    public String[] newToArray () {
+        return map.keySet().toArray(new String[0]);
     }
 
-    public int dictionarySize()
-    {
+    public int dictionarySize() {
         return numEntries;
     }
 
-    void stopGrowth ()
-    {
+    void stopGrowth() {
         growthStopped = true;
     }
 

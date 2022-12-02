@@ -1,5 +1,5 @@
 /*
- * Copyright 2017-2021 John Snow Labs
+ * Copyright 2017-2022 John Snow Labs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,11 +16,11 @@
 
 package com.johnsnowlabs.storage
 
-import java.io.File
-
 import org.apache.hadoop.fs.Path
 import org.apache.spark.SparkFiles
 import org.rocksdb.{CompressionType, Options, RocksDB}
+
+import java.io.File
 
 final class RocksDBConnection private (path: String) extends AutoCloseable {
 
@@ -49,11 +49,19 @@ final class RocksDBConnection private (path: String) extends AutoCloseable {
       path
     } else {
       val localFromClusterPath = SparkFiles.get(path)
-      require(new File(localFromClusterPath).exists(), s"Storage not found under given ref: $path\n" +
-        s" This usually means:\n1. You have not loaded any storage under such ref or one of your Storage based annotators " +
-        s"has `includeStorage` set to false and must be loaded manually\n2." +
-        s" You are trying to use cluster mode without a proper shared filesystem.\n3. source was not provided to Storage creation" +
-        s"\n4. If you are trying to utilize Storage defined elsewhere, make sure it has the appropriate ref. ")
+      require(
+        new File(localFromClusterPath).exists(),
+        s"Storage not found under given ref: $path\n" +
+          "This usually means:\n" +
+          "1. You have not loaded any storage under such ref or one of your Storage based " +
+          "annotators has `includeStorage` set to false and must be loaded manually\n" +
+          "2. You are trying to use cluster mode without a proper shared filesystem.\n" +
+          "3. You are trying to use a Kubernetes cluster without a proper shared filesystem. " +
+          "In this case, try to enable the parameter to keep models in memory " +
+          "(setEnableInMemoryStorage) if available.\n" +
+          "4. Your source was not provided to storage creation\n" +
+          "5. If you are trying to utilize Storage defined elsewhere, make sure it has the " +
+          "appropriate ref. ")
       localFromClusterPath
     }
   }
@@ -72,8 +80,7 @@ final class RocksDBConnection private (path: String) extends AutoCloseable {
     if (RocksDBConnection.cache.contains(path)) {
       db = RocksDBConnection.cache(path).getDb
       db
-    }
-    else if (Option(db).isDefined)
+    } else if (Option(db).isDefined)
       db
     else {
       db = RocksDB.openReadOnly(getOptions, findLocalIndex)
@@ -116,7 +123,8 @@ object RocksDBConnection {
     scala.collection.mutable.Map.empty[String, RocksDBConnection]
 
   def getOrCreate(pathOrLocator: String): RocksDBConnection = {
-    if (cache.contains(pathOrLocator)) cache(pathOrLocator) else new RocksDBConnection(pathOrLocator)
+    if (cache.contains(pathOrLocator)) cache(pathOrLocator)
+    else new RocksDBConnection(pathOrLocator)
   }
 
   def getOrCreate(database: String, refName: String): RocksDBConnection = {
@@ -124,10 +132,13 @@ object RocksDBConnection {
     getOrCreate(combinedName)
   }
 
-  def getOrCreate(database: Database.Name, refName: String): RocksDBConnection = getOrCreate(database.toString, refName)
+  def getOrCreate(database: Database.Name, refName: String): RocksDBConnection =
+    getOrCreate(database.toString, refName)
 
   def getLocalPath(fileName: String): String = {
-    Path.mergePaths(new Path(SparkFiles.getRootDirectory()), new Path("/storage/"+fileName)).toString
+    Path
+      .mergePaths(new Path(SparkFiles.getRootDirectory()), new Path("/storage/" + fileName))
+      .toString
   }
 
 }

@@ -1,0 +1,7 @@
+{%- assign _pagetitle = include.article.pagetitle | default: layout.pagetitle -%}
+
+{%- if _pagetitle -%}
+  {%- assign __return = _pagetitle -%}
+{%- else -%}
+  {%- assign __return = nil -%}
+{%- endif -%}

@@ -1,0 +1,7 @@
+{%- assign _subtitle = include.article.subtitle | default: layout.subtitle -%}
+
+{%- if _subtitle -%}
+  {%- assign __return = _subtitle -%}
+{%- else -%}
+  {%- assign __return = nil -%}
+{%- endif -%}
