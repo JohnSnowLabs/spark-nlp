@@ -13,6 +13,7 @@ sidebar:
 
 <div class="h3-box" markdown="1">
 
+Legal NLP runs on top of `johnsnowlabs` library. Please find technical documentation [here](https://nlu.johnsnowlabs.com/docs/en/install).
 
 | Legal NLP	 | Spark NLP                         |
 |------------|-----------------------------------|
