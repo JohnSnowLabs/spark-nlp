@@ -3,9 +3,9 @@
         <head>
           <meta http-equiv="X-UA-Compatible" content="IE=edge" />
           <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-          <title>Spark NLP 4.2.2 ScalaDoc  - com.johnsnowlabs.nlp.annotators.ner</title>
-          <meta name="description" content="Spark NLP 4.2.2 ScalaDoc - com.johnsnowlabs.nlp.annotators.ner" />
-          <meta name="keywords" content="Spark NLP 4.2.2 ScalaDoc com.johnsnowlabs.nlp.annotators.ner" />
+          <title>Spark NLP 4.2.3 ScalaDoc  - com.johnsnowlabs.nlp.annotators.ner</title>
+          <meta name="description" content="Spark NLP 4.2.3 ScalaDoc - com.johnsnowlabs.nlp.annotators.ner" />
+          <meta name="keywords" content="Spark NLP 4.2.3 ScalaDoc com.johnsnowlabs.nlp.annotators.ner" />
           <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
           
       
@@ -28,7 +28,7 @@
         </head>
         <body>
       <div id="search">
-        <span id="doc-title">Spark NLP 4.2.2 ScalaDoc<span id="doc-version"></span></span>
+        <span id="doc-title">Spark NLP 4.2.3 ScalaDoc<span id="doc-version"></span></span>
         <span class="close-results"><span class="left">&lt;</span> Back</span>
         <div id="textfilter">
           <span class="input">
@@ -385,6 +385,22 @@
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="../index.html" class="extype" name="com.johnsnowlabs.nlp.annotators">annotators</a></dd></dl></div>
+    </li><li name="com.johnsnowlabs.nlp.annotators.params" visbl="pub" class="indented5 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="params"></a><a id="params:params"></a>
+      <span class="permalink">
+      <a href="../../../../../com/johnsnowlabs/nlp/annotators/params/index.html" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">package</span>
+      </span>
+      <span class="symbol">
+        <a title="" href="../params/index.html"><span class="name">params</span></a>
+      </span>
+      
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="../index.html" class="extype" name="com.johnsnowlabs.nlp.annotators">annotators</a></dd></dl></div>
     </li><li name="com.johnsnowlabs.nlp.annotators.qa" visbl="pub" class="indented5 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="qa"></a><a id="qa:qa"></a>
       <span class="permalink">
@@ -660,7 +676,7 @@ result.select(<span class="lit">"ner_chunk.result"</span>).show(truncate=<span c
 |[cystic cyst on her kidney]|
 +---------------------------+</pre></div></div>
     </li><li name="com.johnsnowlabs.nlp.annotators.ner.NerConverterInternal" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="NerConverterInternalextendsAnnotatorApproach[com.johnsnowlabs.nlp.annotators.ner.NerConverterInternalModel]"></a><a id="NerConverterInternal:NerConverterInternal"></a>
+      <a id="NerConverterInternalextendsAnnotatorApproach[com.johnsnowlabs.nlp.annotators.ner.NerConverterInternalModel]withSourceTrackingMetadataParamswithCheckLicense"></a><a id="NerConverterInternal:NerConverterInternal"></a>
       <span class="permalink">
       <a href="../../../../../com/johnsnowlabs/nlp/annotators/ner/NerConverterInternal.html" title="Permalink">
         <i class="material-icons"></i>
@@ -671,7 +687,7 @@ result.select(<span class="lit">"ner_chunk.result"</span>).show(truncate=<span c
         <span class="kind">class</span>
       </span>
       <span class="symbol">
-        <a title="Converts a IOB or IOB2 representation of NER to a user-friendly one, by associating the tokens of recognized entities and their label." href="NerConverterInternal.html"><span class="name">NerConverterInternal</span></a><span class="result"> extends <span class="extype" name="com.johnsnowlabs.nlp.AnnotatorApproach">AnnotatorApproach</span>[<a href="NerConverterInternalModel.html" class="extype" name="com.johnsnowlabs.nlp.annotators.ner.NerConverterInternalModel">NerConverterInternalModel</a>]</span>
+        <a title="Converts a IOB or IOB2 representation of NER to a user-friendly one, by associating the tokens of recognized entities and their label." href="NerConverterInternal.html"><span class="name">NerConverterInternal</span></a><span class="result"> extends <span class="extype" name="com.johnsnowlabs.nlp.AnnotatorApproach">AnnotatorApproach</span>[<a href="NerConverterInternalModel.html" class="extype" name="com.johnsnowlabs.nlp.annotators.ner.NerConverterInternalModel">NerConverterInternalModel</a>] with <a href="../params/SourceTrackingMetadataParams.html" class="extype" name="com.johnsnowlabs.nlp.annotators.params.SourceTrackingMetadataParams">SourceTrackingMetadataParams</a> with <span class="extype" name="com.johnsnowlabs.license.CheckLicense">CheckLicense</span></span>
       </span>
       
       <p class="shortcomment cmt">Converts a IOB or IOB2 representation of NER to a user-friendly one,
@@ -698,7 +714,7 @@ See also <a href="https://en.wikipedia.org/wiki/Inside%E2%80%93outside%E2%80%93b
 |{chunk, <span class="num">110</span>, <span class="num">119</span>, pneumonias, {entity -&gt; Diagnosis, sentence -&gt; <span class="num">0</span>, chunk -&gt; <span class="num">4</span>}, []}|
 +-----------------------------------------------------------------------------------+</pre></div><dl class="attributes block"> <dt>See also</dt><dd><span class="cmt"><p><a href="MedicalNerModel.html" class="extype" name="com.johnsnowlabs.nlp.annotators.ner.MedicalNerModel">MedicalNerModel</a></p></span></dd></dl></div>
     </li><li name="com.johnsnowlabs.nlp.annotators.ner.NerConverterInternalModel" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="NerConverterInternalModelextendsAnnotatorModel[com.johnsnowlabs.nlp.annotators.ner.NerConverterInternalModel]withHasSimpleAnnotate[com.johnsnowlabs.nlp.annotators.ner.NerConverterInternalModel]"></a><a id="NerConverterInternalModel:NerConverterInternalModel"></a>
+      <a id="NerConverterInternalModelextendsAnnotatorModel[com.johnsnowlabs.nlp.annotators.ner.NerConverterInternalModel]withHasSimpleAnnotate[com.johnsnowlabs.nlp.annotators.ner.NerConverterInternalModel]withSourceTrackingMetadataParamswithCheckLicense"></a><a id="NerConverterInternalModel:NerConverterInternalModel"></a>
       <span class="permalink">
       <a href="../../../../../com/johnsnowlabs/nlp/annotators/ner/NerConverterInternalModel.html" title="Permalink">
         <i class="material-icons"></i>
@@ -709,7 +725,7 @@ See also <a href="https://en.wikipedia.org/wiki/Inside%E2%80%93outside%E2%80%93b
         <span class="kind">class</span>
       </span>
       <span class="symbol">
-        <a title="Converts a IOB or IOB2 representation of NER to a user-friendly one, by associating the tokens of recognized entities and their label." href="NerConverterInternalModel.html"><span class="name">NerConverterInternalModel</span></a><span class="result"> extends <span class="extype" name="com.johnsnowlabs.nlp.AnnotatorModel">AnnotatorModel</span>[<a href="NerConverterInternalModel.html" class="extype" name="com.johnsnowlabs.nlp.annotators.ner.NerConverterInternalModel">NerConverterInternalModel</a>] with <span class="extype" name="com.johnsnowlabs.nlp.HasSimpleAnnotate">HasSimpleAnnotate</span>[<a href="NerConverterInternalModel.html" class="extype" name="com.johnsnowlabs.nlp.annotators.ner.NerConverterInternalModel">NerConverterInternalModel</a>]</span>
+        <a title="Converts a IOB or IOB2 representation of NER to a user-friendly one, by associating the tokens of recognized entities and their label." href="NerConverterInternalModel.html"><span class="name">NerConverterInternalModel</span></a><span class="result"> extends <span class="extype" name="com.johnsnowlabs.nlp.AnnotatorModel">AnnotatorModel</span>[<a href="NerConverterInternalModel.html" class="extype" name="com.johnsnowlabs.nlp.annotators.ner.NerConverterInternalModel">NerConverterInternalModel</a>] with <span class="extype" name="com.johnsnowlabs.nlp.HasSimpleAnnotate">HasSimpleAnnotate</span>[<a href="NerConverterInternalModel.html" class="extype" name="com.johnsnowlabs.nlp.annotators.ner.NerConverterInternalModel">NerConverterInternalModel</a>] with <a href="../params/SourceTrackingMetadataParams.html" class="extype" name="com.johnsnowlabs.nlp.annotators.params.SourceTrackingMetadataParams">SourceTrackingMetadataParams</a> with <span class="extype" name="com.johnsnowlabs.license.CheckLicense">CheckLicense</span></span>
       </span>
       
       <p class="shortcomment cmt">Converts a IOB or IOB2 representation of NER to a user-friendly one,

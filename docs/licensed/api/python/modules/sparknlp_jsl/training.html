@@ -6,31 +6,32 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>sparknlp_jsl.training &#8212; Spark NLP 4.0.0 documentation</title>
-  <script>
+  
+  
+  
+  <script data-cfasync="false">
     document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
     document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
   </script>
   
   <!-- Loaded before other Sphinx assets -->
-  <link href="../../static/styles/theme.css?digest=1e1de1a1873e13ef5536" rel="stylesheet">
-<link href="../../static/styles/pydata-sphinx-theme.css?digest=1e1de1a1873e13ef5536" rel="stylesheet">
+  <link href="../../static/styles/theme.css?digest=796348d33e8b1d947c94" rel="stylesheet">
+<link href="../../static/styles/bootstrap.css?digest=796348d33e8b1d947c94" rel="stylesheet">
+<link href="../../static/styles/pydata-sphinx-theme.css?digest=796348d33e8b1d947c94" rel="stylesheet">
 
   
-  <link rel="stylesheet"
-    href="../../static/vendor/fontawesome/6.1.2/css/all.min.css">
-  <link rel="preload" as="font" type="font/woff2" crossorigin
-    href="../../static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2">
-  <link rel="preload" as="font" type="font/woff2" crossorigin
-    href="../../static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2">
-  <link rel="preload" as="font" type="font/woff2" crossorigin
-    href="../../static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2">
+  <link href="../../static/vendor/fontawesome/6.1.2/css/all.min.css?digest=796348d33e8b1d947c94" rel="stylesheet">
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../../static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2">
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2">
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2">
 
     <link rel="stylesheet" type="text/css" href="../../static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="../../static/graphviz.css" />
     <link rel="stylesheet" type="text/css" href="../../static/css/custom.css" />
   
   <!-- Pre-loaded scripts that we'll load fully later -->
-  <link rel="preload" as="script" href="../../static/scripts/pydata-sphinx-theme.js?digest=1e1de1a1873e13ef5536">
+  <link rel="preload" as="script" href="../../static/scripts/bootstrap.js?digest=796348d33e8b1d947c94">
+<link rel="preload" as="script" href="../../static/scripts/pydata-sphinx-theme.js?digest=796348d33e8b1d947c94">
 
     <script data-url_root="../../" id="documentation_options" src="../../static/documentation_options.js"></script>
     <script src="../../static/jquery.js"></script>
@@ -49,6 +50,10 @@
   
   
   <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="180" data-default-mode="">
+
+  
+  
+  <a class="skip-link" href="#main-content">Skip to main content</a>
 
   
   <input type="checkbox" class="sidebar-toggle" name="__primary" id="__primary">
@@ -112,18 +117,18 @@
     </p>
     <ul id="navbar-main-elements" class="navbar-nav">
         
-                <li class="nav-item">
-                    <a class="nav-link" href="../../getting_started/index.html">
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../getting_started/index.html">
                         Getting Started
-                    </a>
-                </li>
+                      </a>
+                    </li>
                 
 
-                <li class="nav-item">
-                    <a class="nav-link" href="../../reference/index.html">
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../reference/index.html">
                         API Reference
-                    </a>
-                </li>
+                      </a>
+                    </li>
                 
     </ul>
 </nav>
@@ -132,19 +137,21 @@
     </div>
 
     <div id="navbar-end">
-      <div class="navbar-end-item navbar-end__search-button-container">
-        
-<button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" data-toggle="tooltip">
+      
+        <div class="navbar-end-item navbar-persistent--container">
+          
+<button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-toggle="tooltip">
   <i class="fa-solid fa-magnifying-glass"></i>
 </button>
-      </div>
+        </div>
+      
       
       <div class="navbar-end-item">
-        <span class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" data-toggle="tooltip">
-    <a class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></a>
-    <a class="theme-switch" data-mode="dark"><i class="fa-regular fa-moon"></i></a>
-    <a class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></a>
-</span>
+        <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-toggle="tooltip">
+    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
+    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
+    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
+</button>
       </div>
       
       <div class="navbar-end-item">
@@ -157,11 +164,13 @@
 
 
   
-  <div class="search-button-container--mobile">
-<button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" data-toggle="tooltip">
+  
+    <div class="navbar-persistent--mobile">
+<button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-toggle="tooltip">
   <i class="fa-solid fa-magnifying-glass"></i>
 </button>
-  </div>
+    </div>
+  
 
   
   <label class="sidebar-toggle secondary-toggle" for="__secondary">
@@ -191,18 +200,18 @@
     </p>
     <ul id="navbar-main-elements" class="navbar-nav">
         
-                <li class="nav-item">
-                    <a class="nav-link" href="../../getting_started/index.html">
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../getting_started/index.html">
                         Getting Started
-                    </a>
-                </li>
+                      </a>
+                    </li>
                 
 
-                <li class="nav-item">
-                    <a class="nav-link" href="../../reference/index.html">
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../reference/index.html">
                         API Reference
-                    </a>
-                </li>
+                      </a>
+                    </li>
                 
     </ul>
 </nav>
@@ -216,11 +225,11 @@
     <div class="sidebar-header-items__end">
       
       <div class="navbar-end-item">
-        <span class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" data-toggle="tooltip">
-    <a class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></a>
-    <a class="theme-switch" data-mode="dark"><i class="fa-regular fa-moon"></i></a>
-    <a class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></a>
-</span>
+        <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-toggle="tooltip">
+    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
+    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
+    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
+</button>
       </div>
       
       <div class="navbar-end-item">
@@ -240,8 +249,11 @@
     </div>
   </div>
 
+  
+  <div id="rtd-footer-container"></div>
+
       </div>
-      <main class="bd-main">
+      <main id="main-content" class="bd-main">
         
         
         <div class="bd-content">
@@ -255,8 +267,12 @@
             <article class="bd-article" role="main">
               
   <h1>Source code for sparknlp_jsl.training</h1><div class="highlight"><pre>
-<span></span><span class="kn">from</span> <span class="nn">pyspark.ml</span> <span class="kn">import</span> <span class="n">PipelineModel</span>
+<span></span><span class="kn">import</span> <span class="nn">pyspark.sql.types</span> <span class="k">as</span> <span class="nn">T</span>
+<span class="kn">import</span> <span class="nn">pyspark.sql.functions</span> <span class="k">as</span> <span class="nn">F</span>
+<span class="kn">from</span> <span class="nn">pyspark.ml</span> <span class="kn">import</span> <span class="n">PipelineModel</span>
 <span class="kn">from</span> <span class="nn">pyspark.sql</span> <span class="kn">import</span> <span class="n">DataFrame</span>
+
+<span class="kn">import</span> <span class="nn">sparknlp</span>
 <span class="kn">from</span> <span class="nn">sparknlp.internal</span> <span class="kn">import</span> <span class="n">ExtendedJavaWrapper</span>
 
 <span class="kn">from</span> <span class="nn">._tf_graph_builders.graph_builders</span> <span class="kn">import</span> <span class="n">TFGraphBuilderFactory</span>
@@ -413,6 +429,145 @@
                                               <span class="n">augmentation_mode</span><span class="p">,</span> <span class="n">synonym_source</span><span class="p">,</span> <span class="n">regex_parsers</span><span class="p">,</span>
                                               <span class="n">euclidean_distance_threshold</span><span class="p">,</span> <span class="n">cosine_distance_threshold</span><span class="p">,</span> <span class="n">synonym_limit</span><span class="p">,</span> <span class="n">casing_functions</span><span class="p">)</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">getDataFrame</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_spark</span><span class="p">,</span> <span class="n">jdf</span><span class="p">)</span></div></div>
+
+
+<div class="viewcode-block" id="REDatasetHelper"><a class="viewcode-back" href="../../reference/autosummary/sparknlp_jsl/training/index.html#sparknlp_jsl.training.REDatasetHelper">[docs]</a><span class="k">class</span> <span class="nc">REDatasetHelper</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Class to preprocess RE dataset loaded into Spark Dataframe.</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">    &gt;&gt;&gt; from sparknlp_jsl.training import REDatasetHelper</span>
+<span class="sd">    &gt;&gt;&gt; PATH = &quot;/content/i2b2_clinical_rel_dataset.csv&quot;</span>
+<span class="sd">    &gt;&gt;&gt; data = spark.read.option(&quot;header&quot;,&quot;true&quot;).format(&quot;csv&quot;).load(PATH)</span>
+<span class="sd">    &gt;&gt;&gt;</span>
+<span class="sd">    &gt;&gt;&gt; column_map = {</span>
+<span class="sd">            &quot;begin1&quot;: &quot;firstCharEnt1&quot;,</span>
+<span class="sd">            &quot;end1&quot;: &quot;lastCharEnt1&quot;,</span>
+<span class="sd">            &quot;begin2&quot;: &quot;firstCharEnt2&quot;,</span>
+<span class="sd">            &quot;end2&quot;: &quot;lastCharEnt2&quot;,</span>
+<span class="sd">            &quot;chunk1&quot;: &quot;chunk1&quot;,</span>
+<span class="sd">            &quot;chunk2&quot;: &quot;chunk2&quot;,</span>
+<span class="sd">            &quot;label1&quot;: &quot;label1&quot;,</span>
+<span class="sd">            &quot;label2&quot;: &quot;label2&quot;</span>
+<span class="sd">        }</span>
+<span class="sd">    &gt;&gt;&gt;</span>
+<span class="sd">    &gt;&gt;&gt; # apply preprocess function to dataframe</span>
+<span class="sd">    &gt;&gt;&gt; data = REDatasetHelper(data).create_annotation_column(column_map)</span>
+<span class="sd">    &gt;&gt;&gt; data.show(5)</span>
+<span class="sd">    +-------+-------------+--------------------+--------------------+-------+--------------------+------+----+-----+--------------------+------+----+---------+---------+------------+-------------+------------+-------------+-------------+-------------+-------------+</span>
+<span class="sd">    |dataset|       source|            txt_file|            sentence|sent_id|              chunk1|begin1|end1|  rel|              chunk2|begin2|end2|   label1|   label2|lastCharEnt1|firstCharEnt1|lastCharEnt2|firstCharEnt2|words_in_ent1|words_in_ent2|words_between|</span>
+<span class="sd">    +-------+-------------+--------------------+--------------------+-------+--------------------+------+----+-----+--------------------+------+----+---------+---------+------------+-------------+------------+-------------+-------------+-------------+-------------+</span>
+<span class="sd">    |   test|beth+partners|i2b2 2010 VA/test...|VITAL SIGNS - Tem...|     44|    respiratory rate|    12|  13|    O|          saturation|    17|  17|     test|     test|          64|           49|          84|           75|            2|            1|            3|</span>
+<span class="sd">    |   test|beth+partners|i2b2 2010 VA/test...|No lotions , crea...|    146|             lotions|     1|   1|TrNAP|           incisions|     7|   7|treatment|  problem|           9|            3|          42|           34|            1|            1|            5|</span>
+<span class="sd">    |  train|     partners|i2b2 2010 VA/conc...|Because of expect...|     43|expected long ter...|     2|   6|    O|         a picc line|     8|  10|treatment|treatment|          54|           11|          68|           58|            5|            3|            1|</span>
+<span class="sd">    |  train|     partners|i2b2 2010 VA/conc...|She states this l...|     21|    light-headedness|     3|   3|  PIP|         diaphoresis|    12|  12|  problem|  problem|          31|           16|          92|           82|            1|            1|            8|</span>
+<span class="sd">    |   test|beth+partners|i2b2 2010 VA/test...|Initial electroca...|     61|an inferior and r...|    38|  43|  PIP|1-mm st depressio...|    28|  34|  problem|  problem|         239|          196|         176|          145|            6|            7|            3|</span>
+<span class="sd">    +-------+-------------+--------------------+--------------------+-------+--------------------+------+----+-----+--------------------+------+----+---------+---------+------------+-------------+------------+-------------+-------------+-------------+-------------+</span>
+<span class="sd">    only showing top 5 rows</span>
+<span class="sd">    &gt;&gt;&gt; #   if data contains different splits, you can first preprocess then filter by dataset column.</span>
+<span class="sd">    &gt;&gt;&gt; train_data = data.where(&quot;dataset=&#39;train&#39;&quot;)</span>
+<span class="sd">    &gt;&gt;&gt; test_data = data.where(&quot;dataset=&#39;test&#39;&quot;)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">spark_df</span><span class="p">:</span> <span class="n">DataFrame</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">annotation_schema</span> <span class="o">=</span> <span class="n">T</span><span class="o">.</span><span class="n">ArrayType</span><span class="p">(</span><span class="n">T</span><span class="o">.</span><span class="n">StructType</span><span class="p">([</span>
+            <span class="n">T</span><span class="o">.</span><span class="n">StructField</span><span class="p">(</span><span class="s1">&#39;annotatorType&#39;</span><span class="p">,</span> <span class="n">T</span><span class="o">.</span><span class="n">StringType</span><span class="p">(),</span> <span class="kc">False</span><span class="p">),</span>
+            <span class="n">T</span><span class="o">.</span><span class="n">StructField</span><span class="p">(</span><span class="s1">&#39;begin&#39;</span><span class="p">,</span> <span class="n">T</span><span class="o">.</span><span class="n">IntegerType</span><span class="p">(),</span> <span class="kc">False</span><span class="p">),</span>
+            <span class="n">T</span><span class="o">.</span><span class="n">StructField</span><span class="p">(</span><span class="s1">&#39;end&#39;</span><span class="p">,</span> <span class="n">T</span><span class="o">.</span><span class="n">IntegerType</span><span class="p">(),</span> <span class="kc">False</span><span class="p">),</span>
+            <span class="n">T</span><span class="o">.</span><span class="n">StructField</span><span class="p">(</span><span class="s1">&#39;result&#39;</span><span class="p">,</span> <span class="n">T</span><span class="o">.</span><span class="n">StringType</span><span class="p">(),</span> <span class="kc">False</span><span class="p">),</span>
+            <span class="n">T</span><span class="o">.</span><span class="n">StructField</span><span class="p">(</span><span class="s1">&#39;metadata&#39;</span><span class="p">,</span> <span class="n">T</span><span class="o">.</span><span class="n">MapType</span><span class="p">(</span><span class="n">T</span><span class="o">.</span><span class="n">StringType</span><span class="p">(),</span> <span class="n">T</span><span class="o">.</span><span class="n">StringType</span><span class="p">()),</span> <span class="kc">False</span><span class="p">),</span>
+            <span class="n">T</span><span class="o">.</span><span class="n">StructField</span><span class="p">(</span><span class="s1">&#39;embeddings&#39;</span><span class="p">,</span> <span class="n">T</span><span class="o">.</span><span class="n">ArrayType</span><span class="p">(</span><span class="n">T</span><span class="o">.</span><span class="n">FloatType</span><span class="p">()),</span> <span class="kc">False</span><span class="p">)</span>
+        <span class="p">]))</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">data</span> <span class="o">=</span> <span class="n">spark_df</span>
+
+<div class="viewcode-block" id="REDatasetHelper.create_annotation_column"><a class="viewcode-back" href="../../reference/autosummary/sparknlp_jsl/training/index.html#sparknlp_jsl.training.REDatasetHelper.create_annotation_column">[docs]</a>    <span class="k">def</span> <span class="nf">create_annotation_column</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">column_map</span><span class="p">,</span>  <span class="n">ner_column_name</span><span class="o">=</span><span class="s2">&quot;train_ner_chunks&quot;</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        A method to create label column for RelationExtractionApproach</span>
+<span class="sd">        :param column_map: Required mapping between entity columns and dataset columns.</span>
+<span class="sd">        Required columns are: begin1, end1, chunk1, label1, begin2, end2, chunk2, label2</span>
+
+<span class="sd">        Examples</span>
+<span class="sd">        --------</span>
+<span class="sd">        # for dataset with following schema:</span>
+<span class="sd">        &gt;&gt;&gt; data.printSchema()</span>
+<span class="sd">        root</span>
+<span class="sd">         |-- sentence: string (nullable = true)</span>
+<span class="sd">         |-- chunk1: string (nullable = true)</span>
+<span class="sd">         |-- begin1: string (nullable = true)</span>
+<span class="sd">         |-- end1: string (nullable = true)</span>
+<span class="sd">         |-- rel: string (nullable = true)</span>
+<span class="sd">         |-- chunk2: string (nullable = true)</span>
+<span class="sd">         |-- begin2: string (nullable = true)</span>
+<span class="sd">         |-- end2: string (nullable = true)</span>
+<span class="sd">         |-- label1: string (nullable = true)</span>
+<span class="sd">         |-- label2: string (nullable = true)</span>
+<span class="sd">         |-- lastCharEnt1: string (nullable = true)</span>
+<span class="sd">         |-- firstCharEnt1: string (nullable = true)</span>
+<span class="sd">         |-- lastCharEnt2: string (nullable = true)</span>
+<span class="sd">         |-- firstCharEnt2: string (nullable = true)</span>
+
+<span class="sd">         #  map should be as follows:</span>
+<span class="sd">         &gt;&gt;&gt; column_map = {</span>
+<span class="sd">                &quot;begin1&quot;: &quot;firstCharEnt1&quot;,</span>
+<span class="sd">                &quot;end1&quot;: &quot;lastCharEnt1&quot;,</span>
+<span class="sd">                &quot;begin2&quot;: &quot;firstCharEnt2&quot;,</span>
+<span class="sd">                &quot;end2&quot;: &quot;lastCharEnt2&quot;,</span>
+<span class="sd">                &quot;chunk1&quot;: &quot;chunk1&quot;,</span>
+<span class="sd">                &quot;chunk2&quot;: &quot;chunk2&quot;,</span>
+<span class="sd">                &quot;label1&quot;: &quot;label1&quot;,</span>
+<span class="sd">                &quot;label2&quot;: &quot;label2&quot;</span>
+<span class="sd">            }</span>
+<span class="sd">        :param ner_column_name: a label column name for RelationExtractionApproach</span>
+<span class="sd">        :return: A new dataframe extended with ner chunk column.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">required_maps</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;begin1&quot;</span><span class="p">,</span> <span class="s2">&quot;end1&quot;</span><span class="p">,</span> <span class="s2">&quot;chunk1&quot;</span><span class="p">,</span> <span class="s2">&quot;label1&quot;</span><span class="p">,</span> <span class="s2">&quot;begin2&quot;</span><span class="p">,</span> <span class="s2">&quot;end2&quot;</span><span class="p">,</span> <span class="s2">&quot;chunk2&quot;</span><span class="p">,</span> <span class="s2">&quot;label2&quot;</span><span class="p">]</span>
+        <span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="n">required_maps</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">column_map</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">col</span><span class="p">)</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">col</span><span class="si">}</span><span class="s1"> value is None. Following columns should be mapped: </span><span class="si">{</span><span class="n">required_maps</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+
+        <span class="n">num_rows</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">count</span><span class="p">()</span>
+        <span class="n">cast_columns</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;begin1&quot;</span><span class="p">,</span> <span class="s2">&quot;end1&quot;</span><span class="p">,</span> <span class="s2">&quot;begin2&quot;</span><span class="p">,</span> <span class="s2">&quot;end2&quot;</span><span class="p">]</span>
+        <span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="n">cast_columns</span><span class="p">:</span>
+
+            <span class="c1">#  cast integer columns before creating ner chunks</span>
+            <span class="n">data_casted</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">withColumn</span><span class="p">(</span><span class="n">column_map</span><span class="p">[</span><span class="n">col</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">column_map</span><span class="p">[</span><span class="n">col</span><span class="p">]]</span><span class="o">.</span><span class="n">cast</span><span class="p">(</span><span class="n">T</span><span class="o">.</span><span class="n">IntegerType</span><span class="p">()))</span>
+            <span class="k">if</span> <span class="n">num_rows</span> <span class="o">==</span> <span class="n">data_casted</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">F</span><span class="o">.</span><span class="n">col</span><span class="p">(</span><span class="n">column_map</span><span class="p">[</span><span class="n">col</span><span class="p">])</span><span class="o">.</span><span class="n">isNull</span><span class="p">())</span><span class="o">.</span><span class="n">count</span><span class="p">():</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">column_map</span><span class="p">[</span><span class="n">col</span><span class="p">]</span><span class="si">}</span><span class="s1"> could not be casted as integer!&#39;</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">data</span> <span class="o">=</span> <span class="n">data_casted</span>
+
+        <span class="nd">@F</span><span class="o">.</span><span class="n">udf</span><span class="p">(</span><span class="n">returnType</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">annotation_schema</span><span class="p">)</span>
+        <span class="k">def</span> <span class="nf">create_train_annotations</span><span class="p">(</span><span class="n">begin1</span><span class="p">,</span> <span class="n">end1</span><span class="p">,</span> <span class="n">chunk1</span><span class="p">,</span> <span class="n">label1</span><span class="p">,</span> <span class="n">begin2</span><span class="p">,</span> <span class="n">end2</span><span class="p">,</span> <span class="n">chunk2</span><span class="p">,</span> <span class="n">label2</span><span class="p">):</span>
+
+            <span class="n">entity1</span> <span class="o">=</span> <span class="n">sparknlp</span><span class="o">.</span><span class="n">annotation</span><span class="o">.</span><span class="n">Annotation</span><span class="p">(</span>
+                <span class="s2">&quot;chunk&quot;</span><span class="p">,</span> <span class="n">begin1</span><span class="p">,</span> <span class="n">end1</span><span class="p">,</span> <span class="n">chunk1</span><span class="p">,</span> <span class="p">{</span><span class="s1">&#39;entity&#39;</span><span class="p">:</span> <span class="n">label1</span><span class="o">.</span><span class="n">upper</span><span class="p">(),</span> <span class="s1">&#39;sentence&#39;</span><span class="p">:</span> <span class="s1">&#39;0&#39;</span><span class="p">},</span> <span class="p">[])</span>
+            <span class="n">entity2</span> <span class="o">=</span> <span class="n">sparknlp</span><span class="o">.</span><span class="n">annotation</span><span class="o">.</span><span class="n">Annotation</span><span class="p">(</span>
+                <span class="s2">&quot;chunk&quot;</span><span class="p">,</span> <span class="n">begin2</span><span class="p">,</span> <span class="n">end2</span><span class="p">,</span> <span class="n">chunk2</span><span class="p">,</span> <span class="p">{</span><span class="s1">&#39;entity&#39;</span><span class="p">:</span> <span class="n">label2</span><span class="o">.</span><span class="n">upper</span><span class="p">(),</span> <span class="s1">&#39;sentence&#39;</span><span class="p">:</span> <span class="s1">&#39;0&#39;</span><span class="p">},</span> <span class="p">[])</span>
+
+            <span class="n">entity1</span><span class="o">.</span><span class="n">annotatorType</span> <span class="o">=</span> <span class="s2">&quot;chunk&quot;</span>
+            <span class="n">entity2</span><span class="o">.</span><span class="n">annotatorType</span> <span class="o">=</span> <span class="s2">&quot;chunk&quot;</span>
+
+            <span class="k">return</span> <span class="p">[</span><span class="n">entity1</span><span class="p">,</span> <span class="n">entity2</span><span class="p">]</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">withColumn</span><span class="p">(</span>
+            <span class="n">ner_column_name</span><span class="p">,</span>
+            <span class="n">create_train_annotations</span><span class="p">(</span>
+                <span class="n">column_map</span><span class="p">[</span><span class="s2">&quot;begin1&quot;</span><span class="p">],</span> <span class="n">column_map</span><span class="p">[</span><span class="s2">&quot;end1&quot;</span><span class="p">],</span> <span class="n">column_map</span><span class="p">[</span><span class="s2">&quot;chunk1&quot;</span><span class="p">],</span> <span class="n">column_map</span><span class="p">[</span><span class="s2">&quot;label1&quot;</span><span class="p">],</span>
+                <span class="n">column_map</span><span class="p">[</span><span class="s2">&quot;begin2&quot;</span><span class="p">],</span> <span class="n">column_map</span><span class="p">[</span><span class="s2">&quot;end2&quot;</span><span class="p">],</span> <span class="n">column_map</span><span class="p">[</span><span class="s2">&quot;chunk2&quot;</span><span class="p">],</span> <span class="n">column_map</span><span class="p">[</span><span class="s2">&quot;label2&quot;</span><span class="p">]</span>
+            <span class="p">)</span><span class="o">.</span><span class="n">alias</span><span class="p">(</span><span class="n">ner_column_name</span><span class="p">,</span> <span class="n">metadata</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;annotatorType&#39;</span><span class="p">:</span> <span class="s2">&quot;chunk&quot;</span><span class="p">})</span>
+        <span class="p">)</span>
+
+        <span class="n">drop_columns</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="n">required_maps</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">column_map</span><span class="p">[</span><span class="n">col</span><span class="p">]</span> <span class="o">!=</span> <span class="n">col</span><span class="p">:</span>
+                <span class="n">drop_columns</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">col</span><span class="p">)</span>
+
+        <span class="n">return_columns</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">columns</span><span class="p">)</span> <span class="o">-</span> <span class="nb">set</span><span class="p">(</span><span class="n">drop_columns</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">return_columns</span><span class="p">))</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span></div></div>
 </pre></div>
 
             </article>
@@ -461,7 +616,8 @@
   
     
   <!-- Scripts loaded after <body> so the DOM is not blocked -->
-  <script src="../../static/scripts/pydata-sphinx-theme.js?digest=1e1de1a1873e13ef5536"></script>
+  <script src="../../static/scripts/bootstrap.js?digest=796348d33e8b1d947c94"></script>
+<script src="../../static/scripts/pydata-sphinx-theme.js?digest=796348d33e8b1d947c94"></script>
 
   <footer class="bd-footer"><div class="bd-footer__inner container">
   
@@ -473,6 +629,16 @@
 
 </p>
 
+  </div>
+  
+  <div class="footer-item">
+    <p class="theme-version">
+    Built with the
+    <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">
+        PyData Sphinx Theme
+    </a>
+    0.12.0.
+</p>
   </div>
   
   <div class="footer-item">

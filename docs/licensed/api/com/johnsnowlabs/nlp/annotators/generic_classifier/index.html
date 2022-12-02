@@ -3,9 +3,9 @@
         <head>
           <meta http-equiv="X-UA-Compatible" content="IE=edge" />
           <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-          <title>Spark NLP 4.2.2 ScalaDoc  - com.johnsnowlabs.nlp.annotators.generic_classifier</title>
-          <meta name="description" content="Spark NLP 4.2.2 ScalaDoc - com.johnsnowlabs.nlp.annotators.generic classifier" />
-          <meta name="keywords" content="Spark NLP 4.2.2 ScalaDoc com.johnsnowlabs.nlp.annotators.generic classifier" />
+          <title>Spark NLP 4.2.3 ScalaDoc  - com.johnsnowlabs.nlp.annotators.generic_classifier</title>
+          <meta name="description" content="Spark NLP 4.2.3 ScalaDoc - com.johnsnowlabs.nlp.annotators.generic classifier" />
+          <meta name="keywords" content="Spark NLP 4.2.3 ScalaDoc com.johnsnowlabs.nlp.annotators.generic classifier" />
           <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
           
       
@@ -28,7 +28,7 @@
         </head>
         <body>
       <div id="search">
-        <span id="doc-title">Spark NLP 4.2.2 ScalaDoc<span id="doc-version"></span></span>
+        <span id="doc-title">Spark NLP 4.2.3 ScalaDoc<span id="doc-version"></span></span>
         <span class="close-results"><span class="left">&lt;</span> Back</span>
         <div id="textfilter">
           <span class="input">
@@ -345,6 +345,22 @@
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="../index.html" class="extype" name="com.johnsnowlabs.nlp.annotators">annotators</a></dd></dl></div>
+    </li><li name="com.johnsnowlabs.nlp.annotators.params" visbl="pub" class="indented5 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="params"></a><a id="params:params"></a>
+      <span class="permalink">
+      <a href="../../../../../com/johnsnowlabs/nlp/annotators/params/index.html" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">package</span>
+      </span>
+      <span class="symbol">
+        <a title="" href="../params/index.html"><span class="name">params</span></a>
+      </span>
+      
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="../index.html" class="extype" name="com.johnsnowlabs.nlp.annotators">annotators</a></dd></dl></div>
     </li><li name="com.johnsnowlabs.nlp.annotators.qa" visbl="pub" class="indented5 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="qa"></a><a id="qa:qa"></a>
       <span class="permalink">
@@ -472,7 +488,7 @@
       </span>
       
       <p class="shortcomment cmt">Trains a TensorFlow model for generic classification of feature vectors.</p><div class="fullcomment"><div class="comment cmt"><p>Trains a TensorFlow model for generic classification of feature vectors. It takes FEATURE_VECTOR annotations from
-<a href="../../FeaturesAssembler.html" class="extype" name="com.johnsnowlabs.nlp.FeaturesAssembler"><code>FeaturesAssembler</code></a> as input, classifies them and outputs CATEGORY annotations.
+<a href="../../../annotator/FeaturesAssembler.html" class="extype" name="com.johnsnowlabs.annotator.FeaturesAssembler"><code>FeaturesAssembler</code></a> as input, classifies them and outputs CATEGORY annotations.
 Please see the Parameters section for required training parameters.</p><p>For a more extensive example please see the
 <a href="https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/8.Generic_Classifier.ipynb" target="_blank">Spark NLP Workshop</a>.</p><h4>Example</h4><pre><span class="kw">val</span> features_asm = <span class="kw">new</span> FeaturesAssembler()
   .setInputCols(<span class="std">Array</span>(<span class="lit">"feature_1"</span>, <span class="lit">"feature_2"</span>, <span class="lit">"..."</span>, <span class="lit">"feature_n"</span>))
@@ -533,7 +549,7 @@ Please see the Parameters section for required training parameters.</p><p>For a 
       
       <p class="shortcomment cmt">Creates a generic single-label classifier which uses pre-generated Tensorflow graphs.</p><div class="fullcomment"><div class="comment cmt"><p>Creates a generic single-label classifier which uses pre-generated Tensorflow graphs.
 The model operates on FEATURE_VECTOR annotations which can be produced using FeatureAssembler.
-Requires the <a href="../../FeaturesAssembler.html" class="extype" name="com.johnsnowlabs.nlp.FeaturesAssembler">FeaturesAssembler</a> to create the input.
+Requires the <span class="extype" name="FeaturesAssembler">FeaturesAssembler</span> to create the input.
 </p></div><dl class="attributes block"> <dt>See also</dt><dd><span class="cmt"><p><a href="GenericClassifierApproach.html" class="extype" name="com.johnsnowlabs.nlp.annotators.generic_classifier.GenericClassifierApproach">GenericClassifierApproach</a> for an example and on how to define your own model</p></span></dd></dl></div>
     </li><li name="com.johnsnowlabs.nlp.annotators.generic_classifier.ReadablePretrainedGenericClassifier" visbl="pub" class="indented0 " data-isabs="true" fullComment="no" group="Ungrouped">
       <a id="ReadablePretrainedGenericClassifier[T&lt;:com.johnsnowlabs.nlp.annotators.generic_classifier.GenericClassifierModel]extendsParamsAndFeaturesReadable[T]withHasPretrained[T]"></a><a id="ReadablePretrainedGenericClassifier[T&lt;:GenericClassifierModel]:ReadablePretrainedGenericClassifier[T]"></a>
