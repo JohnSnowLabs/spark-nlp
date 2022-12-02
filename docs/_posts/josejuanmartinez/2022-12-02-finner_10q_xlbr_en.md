@@ -138,7 +138,7 @@ An in-house modified version of https://huggingface.co/datasets/nlpaueb/finer-13
 ## Benchmarking
 
 ```bash
-label         tp    fp     fn    prec     rec    f1
+label         tp    fp     fn    prec       rec       f1
 Macro-average 53613 10309 10243 0.8324958  0.8049274 0.8184795
 Micro-average 53613 10309 10243 0.8387253  0.8395922 0.8391586
 ```
