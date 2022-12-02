@@ -55,9 +55,9 @@ embeddings = nlp.BertEmbeddings.pretrained("bert_embeddings_sec_bert_base","en")
   .setOutputCol("embeddings")\
   .setMaxSentenceLength(512)
 
-nerTagger = finance.NerModel.pretrained('finner_xlbr', 'en', 'finance/models')\
+nerTagger = finance.NerModel.pretrained('finner_10q_xlbr', 'en', 'finance/models')\
    .setInputCols(["sentence", "token", "embeddings"])\
-   .setOutputCol("ner")\
+   .setOutputCol("ner")
               
 pipeline = Pipeline(stages=[documentAssembler,
                             sentence,
@@ -138,7 +138,7 @@ An in-house modified version of https://huggingface.co/datasets/nlpaueb/finer-13
 ## Benchmarking
 
 ```bash
-          label	       tp	  fp	         fn	       prec	              rec	       f1
-Macro-average 53613 10309 10243 0.83249587 0.8049274 0.81847954
-Micro-average 53613 10309 10243 0.8387253 0.8395922 0.8391586
+label	          tp	  fp   fn	     prec       rec	       f1
+Macro-average 53613 10309 10243 0.8324958  0.8049274 0.8184795
+Micro-average 53613 10309 10243 0.8387253  0.8395922 0.8391586
 ```
