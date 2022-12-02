@@ -1,4 +1,6 @@
-docs/en/financial_version_compatibility.md
-docs/en/legal_version_compatibility.md
-docs/en/financial_version_compatibility.md
-docs/en/legal_version_compatibility.md
+docs/en/licensed_release_notes.md
+docs/en/licensed_version_compatibility.md
+docs/en/spark_nlp_healthcare_versions/release_notes_4_2_3.md
+docs/en/licensed_release_notes.md
+docs/en/licensed_version_compatibility.md
+docs/en/spark_nlp_healthcare_versions/release_notes_4_2_3.md

@@ -533,396 +533,366 @@
 
 <!-- end custom article top snippet --><div class="article__content" itemprop="articleBody"><div class="h3-box">
 
-  <h2 id="section">4.2.2</h2>
+  <h2 id="section">4.2.3</h2>
 
   <h4 id="highlights">Highlights</h4>
 
   <ul>
-    <li>Fine-tuning Relation Extraction models with your data</li>
-    <li>Added Romanian support in deidentification annotator for data obfuscation</li>
-    <li>New SDOH (Social Determinants of Health) ner model</li>
-    <li>Improved oncology models and 4 pretrained pipelines</li>
-    <li>New chunk mapper models to map entities (phrases) to their corresponding ICD-10-CM codes as well as clinical abbreviations to their definitions</li>
-    <li>New ICD-10-PCS sentence entity resolver model and ICD-10-CM resolver pipeline</li>
-    <li>New utility &amp; helper modules documentation page</li>
+    <li>3 new chunk mapper models to mapping Drugs and Diseases from the KEGG Database as well as mapping abbreviations to their categories</li>
+    <li>New utility &amp; helper Relation Extraction modules to handle preprocess</li>
+    <li>New utility &amp; helper OCR modules to handle annotate</li>
+    <li>New utility &amp; helper NER log parser</li>
+    <li>Adding flexibility chunk merger prioritization</li>
+    <li>Core improvements and bug fixes</li>
     <li>New and updated notebooks</li>
-    <li>22 new clinical models and pipelines added &amp; updated in total</li>
+    <li>3 new clinical models and pipelines added &amp; updated in total</li>
   </ul>
 
 </div>
 <div class="prev_ver h3-box">
 
-  <h4 id="fine-tuning-relation-extraction-models-with-your-data">Fine-Tuning Relation Extraction Models With Your Data</h4>
-
-  <p>Instead of starting from scratch when training a new Relation Extraction model, you can train a new model by adding your new data to the pretrained model.</p>
-
-  <p>There are two new params in <code class="language-plaintext highlighter-rouge">RelationExtractionApproach</code> which allows you to initialize your model with the data from the pretrained model:</p>
+  <h4 id="new-hhunk-mapper-models-to-mapping-drugs-and-diseases-from-the-kegg-database-as-well-as-mapping-abbreviations-to-their-categories">3 New Hhunk Mapper Models to Mapping Drugs and Diseases from the KEGG Database as well as Mapping Abbreviations to Their Categories</h4>
 
   <ul>
-    <li><code class="language-plaintext highlighter-rouge">setPretrainedModelPath</code>: This parameter allows you to point the training process to an existing model.</li>
-    <li><code class="language-plaintext highlighter-rouge">setОverrideExistingLabels</code>: This parameter overrides the existing labels in the original model that are assigned the same output nodes in the new model. Default is True, when it is set to False the <code class="language-plaintext highlighter-rouge">RelationExtractionApproach</code> uses the existing labels and if it finds new ones it tries to assign them to unused output nodes.</li>
-  </ul>
-
-  <p><em>Example:</em></p>
-  <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">reApproach_finetune</span> <span class="o">=</span> <span class="n">RelationExtractionApproach</span><span class="p">()</span>\
-    <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"embeddings"</span><span class="p">,</span> <span class="s">"pos_tags"</span><span class="p">,</span> <span class="s">"train_ner_chunks"</span><span class="p">,</span> <span class="s">"dependencies"</span><span class="p">])</span>\
-    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"relations"</span><span class="p">)</span>\
-    <span class="p">.</span><span class="n">setLabelColumn</span><span class="p">(</span><span class="s">"rel"</span><span class="p">)</span>\
-    <span class="p">...</span>
-    <span class="p">.</span><span class="n">setFromEntity</span><span class="p">(</span><span class="s">"begin1i"</span><span class="p">,</span> <span class="s">"end1i"</span><span class="p">,</span> <span class="s">"label1"</span><span class="p">)</span>\
-    <span class="p">.</span><span class="n">setToEntity</span><span class="p">(</span><span class="s">"begin2i"</span><span class="p">,</span> <span class="s">"end2i"</span><span class="p">,</span> <span class="s">"label2"</span><span class="p">)</span>\
-    <span class="p">.</span><span class="n">setPretrainedModelPath</span><span class="p">(</span><span class="s">"existing_RE_MODEL_path"</span><span class="p">)</span>\
-    <span class="p">.</span><span class="n">setOverrideExistingLabels</span><span class="p">(</span><span class="bp">False</span><span class="p">)</span>
-</code></pre></div>  </div>
-  <p>You can check <a href="https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/10.4.Resume_RelationExtractionApproach_Training.ipynb">Resume RelationExtractionApproach Training Notebook</a> for more examples.</p>
-
-</div>
-<div class="prev_ver h3-box">
-
-  <h4 id="added-romanian-support-in-deidentification-annotator-for-data-obfuscation">Added Romanian Support in Deidentification Annotator For Data Obfuscation</h4>
-
-  <p>Deidentification annotator is now able to obfuscate entities (coming from a deid NER model) with fake data in Romanian language.</p>
-
-  <p><em>Example:</em></p>
-
-  <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">deid_obfuscated_faker</span> <span class="o">=</span> <span class="n">DeIdentification</span><span class="p">()</span>\
-    <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"sentence"</span><span class="p">,</span> <span class="s">"token"</span><span class="p">,</span> <span class="s">"ner_chunk"</span><span class="p">])</span> \
-    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"obfuscated"</span><span class="p">)</span> \
-    <span class="p">.</span><span class="n">setMode</span><span class="p">(</span><span class="s">"obfuscate"</span><span class="p">)</span>\
-    <span class="p">.</span><span class="n">setLanguage</span><span class="p">(</span><span class="s">'ro'</span><span class="p">)</span>\
-    <span class="p">.</span><span class="n">setObfuscateDate</span><span class="p">(</span><span class="bp">True</span><span class="p">)</span>\
-    <span class="p">.</span><span class="n">setObfuscateRefSource</span><span class="p">(</span><span class="s">'faker'</span><span class="p">)</span>
-
-<span class="n">text</span> <span class="o">=</span> <span class="s">"""Nume si Prenume : BUREAN MARIA, Varsta: 77 ,Spitalul Pentru Ochi de Deal, Drumul Oprea Nr. 972 Vaslui"""</span>
-</code></pre></div>  </div>
-
-  <p><em>Result:</em></p>
-
-  <table>
-    <thead>
-      <tr>
-        <th>Sentence</th>
-        <th>Masked with entity</th>
-        <th>Masked with Chars</th>
-        <th>Masked with Fixed Chars</th>
-        <th>Obfuscated</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td>Nume si Prenume : BUREAN MARIA, Varsta: 77 ,Spitalul Pentru Ochi de Deal, Drumul Oprea Nr. 972 Vaslui</td>
-        <td>Nume si Prenume : &lt;\PATIENT&gt;, Varsta: &lt;\AGE&gt; ,&lt;\HOSPITAL&gt;, &lt;\STREET&gt; &lt;\CITY&gt;</td>
-        <td>Nume si Prenume : <strong>**</strong><strong>**, Varsta: ** ,</strong><strong>**</strong><strong>**</strong><strong>**</strong><strong>**</strong>, <strong>**</strong><strong>**</strong><strong>**</strong> <em>**</em></td>
-        <td>Nume si Prenume : <strong>**, Varsta: **</strong> , <strong>**, **</strong> <em>**</em></td>
-        <td>Nume si Prenume : Claudia Crumble, Varsta: 18 ,LOS ANGELES AMBULATORY CARE CENTER, 706 north parrish avenue Piscataway</td>
-      </tr>
-    </tbody>
-  </table>
-
-</div>
-<div class="prev_ver h3-box">
-
-  <h4 id="new-sdoh-social-determinants-of-health-ner-model">New SDOH (Social Determinants of Health) NER Model</h4>
-  <ul>
-    <li>Social Determinants of Health(SDOH) are the socioeconomic factors under which people live, learn, work, worship, and play that determine their health outcomes.The World Health Organization also provides a definition of social determinants of health. Social determinants of health as the conditions in which people are born, grow, live, work and age. These circumstances are shaped by the distribution of money, power, and resources at global, national, and local levels.  Social determinants of health (SDOH) have a major impact on people’s health, well-being, and quality of life.</li>
-    <li>SDOH include lots of factors, also contribute to wide health disparities and inequities. In this project We have tried to define well these factors. The goal of this project is to train models for natural language processing focused on extracting terminology related to social determinants of health from various kinds of biomedical documents. This first model is Named Entity Recognition (NER) task.</li>
-    <li>The project is still ongoing and will mature over time and the number of sdoh factors (entities) will also be enriched. It will include other tasks as well.</li>
+    <li><code class="language-plaintext highlighter-rouge">kegg_disease_mapper</code>: This pretrained model maps diseases with their corresponding <code class="language-plaintext highlighter-rouge">category</code>, <code class="language-plaintext highlighter-rouge">description</code>, <code class="language-plaintext highlighter-rouge">icd10_code</code>, <code class="language-plaintext highlighter-rouge">icd11_code</code>, <code class="language-plaintext highlighter-rouge">mesh_code</code>, and hierarchical <code class="language-plaintext highlighter-rouge">brite_code</code>. This model was trained with the data from the KEGG database.</li>
   </ul>
 
   <p><em>Example:</em></p>
 
-  <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">ner_model</span> <span class="o">=</span> <span class="n">MedicalNerModel</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"sdoh_slim_wip"</span><span class="p">,</span> <span class="s">"en"</span><span class="p">,</span> <span class="s">"clinical/models"</span><span class="p">)</span>\
-        <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"sentence"</span><span class="p">,</span> <span class="s">"token"</span><span class="p">,</span> <span class="s">"embeddings"</span><span class="p">])</span>\
-        <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"ner"</span><span class="p">)</span>
-
-<span class="n">text</span> <span class="o">=</span> <span class="s">""" Mother states that he does smoke, there is a family hx of alcohol on both maternal and paternal sides of the family, maternal grandfather who died of alcohol related complications and paternal grandmother with severe alcoholism. Pts own drinking began at age 16, living in LA, had a DUI at age 17 after totaling a new car that his mother bought for him, he was married. """</span>
-</code></pre></div>  </div>
-
-  <p><em>Result:</em></p>
-
-  <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>+-------------+-------------------+
-|        token|          ner_label|
-+-------------+-------------------+
-|       Mother|    B-Family_Member|
-|           he|           B-Gender|
-|        smoke|          B-Smoking|
-|      alcohol|          B-Alcohol|
-|     maternal|    B-Family_Member|
-|     paternal|    B-Family_Member|
-|     maternal|    B-Family_Member|
-|  grandfather|    B-Family_Member|
-|      alcohol|          B-Alcohol|
-|     paternal|    B-Family_Member|
-|  grandmother|    B-Family_Member|
-|       severe|          B-Alcohol|
-|   alcoholism|          I-Alcohol|
-|     drinking|          B-Alcohol|
-|          age|              B-Age|
-|           16|              I-Age|
-|           LA|B-Geographic_Entity|
-|          age|              B-Age|
-|           17|              I-Age|
-|          his|           B-Gender|
-|       mother|    B-Family_Member|
-|          him|           B-Gender|
-|           he|           B-Gender|
-|      married|   B-Marital_Status|
-+-------------+-------------------+
-</code></pre></div>  </div>
-
-</div>
-<div class="prev_ver h3-box">
-
-  <h4 id="improved-oncology-ner-models-and-4-new-pretrained-pipelines">Improved Oncology NER Models And 4 New Pretrained Pipelines</h4>
-
-  <p>We are releasing the improved version of Oncological NER models (_wip) and 4 new pretrained oncological pipelines which are able to detect assertion status and relations between the extracted oncological entities.</p>
-
-  <table>
-    <thead>
-      <tr>
-        <th>NER model name (<code class="language-plaintext highlighter-rouge">MedicalNerModel</code>)</th>
-        <th>description</th>
-        <th>predicted entities</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><a href="https://nlp.johnsnowlabs.com/2022/10/25/ner_oncology_anatomy_general_en.html">ner_oncology_anatomy_general</a></td>
-        <td>Extracting anatomical entities.</td>
-        <td><code class="language-plaintext highlighter-rouge">Anatomical_Site</code>, <code class="language-plaintext highlighter-rouge">Direction</code></td>
-      </tr>
-      <tr>
-        <td><a href="https://nlp.johnsnowlabs.com/2022/10/25/ner_oncology_anatomy_granular_en.html">ner_oncology_anatomy_granular</a></td>
-        <td>Extracting anatomical entities using granular labels.</td>
-        <td><code class="language-plaintext highlighter-rouge">Direction</code>, <code class="language-plaintext highlighter-rouge">Site_Lymph_Node</code>, <code class="language-plaintext highlighter-rouge">Site_Breast</code>, <code class="language-plaintext highlighter-rouge">Site_Other_Body_Part</code>, <code class="language-plaintext highlighter-rouge">Site_Bone</code>, <code class="language-plaintext highlighter-rouge">Site_Liver</code>, <code class="language-plaintext highlighter-rouge">Site_Lung</code>, <code class="language-plaintext highlighter-rouge">Site_Brain</code></td>
-      </tr>
-      <tr>
-        <td><a href="https://nlp.johnsnowlabs.com/2022/10/25/ner_oncology_biomarker_en.html">ner_oncology_biomarker</a></td>
-        <td>Extracting biomarkers and their results.</td>
-        <td><code class="language-plaintext highlighter-rouge">Biomarker</code>, <code class="language-plaintext highlighter-rouge">Biomarker_Result</code></td>
-      </tr>
-      <tr>
-        <td><a href="https://nlp.johnsnowlabs.com/2022/10/25/ner_oncology_demographics_en.html">ner_oncology_demographics</a></td>
-        <td>Extracting demographic information, including smoking status.</td>
-        <td><code class="language-plaintext highlighter-rouge">Age</code>, <code class="language-plaintext highlighter-rouge">Gender</code>, <code class="language-plaintext highlighter-rouge">Smoking_Status</code>, <code class="language-plaintext highlighter-rouge">Race_Ethnicity</code></td>
-      </tr>
-      <tr>
-        <td><a href="https://nlp.johnsnowlabs.com/2022/10/25/ner_oncology_diagnosis_en.html">ner_oncology_diagnosis</a></td>
-        <td>Extracting entities related to cancer diagnosis, including the presence of metastasis.</td>
-        <td><code class="language-plaintext highlighter-rouge">Grade</code>, <code class="language-plaintext highlighter-rouge">Staging</code>, <code class="language-plaintext highlighter-rouge">Tumor_Size</code>, <code class="language-plaintext highlighter-rouge">Adenopathy</code>, <code class="language-plaintext highlighter-rouge">Pathology_Result</code>, <code class="language-plaintext highlighter-rouge">Histological_Type</code>, <code class="language-plaintext highlighter-rouge">Metastasis</code>, <code class="language-plaintext highlighter-rouge">Cancer_Score</code>, <code class="language-plaintext highlighter-rouge">Cancer_Dx</code>, <code class="language-plaintext highlighter-rouge">Invasion</code>, <code class="language-plaintext highlighter-rouge">Tumor_Finding</code>, <code class="language-plaintext highlighter-rouge">Performance_Status</code></td>
-      </tr>
-      <tr>
-        <td><a href="https://nlp.johnsnowlabs.com/2022/10/25/ner_oncology_en.html">ner_oncology</a></td>
-        <td>Extracting more than 40 oncology-related entities.</td>
-        <td><code class="language-plaintext highlighter-rouge">Histological_Type</code>, <code class="language-plaintext highlighter-rouge">Direction</code>, <code class="language-plaintext highlighter-rouge">Staging</code>, <code class="language-plaintext highlighter-rouge">Cancer_Score</code>, <code class="language-plaintext highlighter-rouge">Imaging_Test</code>, <code class="language-plaintext highlighter-rouge">Cycle_Number</code>, <code class="language-plaintext highlighter-rouge">Tumor_Finding</code>, <code class="language-plaintext highlighter-rouge">Site_Lymph_Node</code>, <code class="language-plaintext highlighter-rouge">Invasion</code>, <code class="language-plaintext highlighter-rouge">Response_To_Treatment</code>, <code class="language-plaintext highlighter-rouge">Smoking_Status</code>, <code class="language-plaintext highlighter-rouge">Tumor_Size</code>, <code class="language-plaintext highlighter-rouge">Cycle_Count</code>, <code class="language-plaintext highlighter-rouge">Adenopathy</code>, <code class="language-plaintext highlighter-rouge">Age</code>, <code class="language-plaintext highlighter-rouge">Biomarker_Result</code>, <code class="language-plaintext highlighter-rouge">Unspecific_Therapy</code>, <code class="language-plaintext highlighter-rouge">Site_Breast</code>, <code class="language-plaintext highlighter-rouge">Chemotherapy</code>, <code class="language-plaintext highlighter-rouge">Targeted_Therapy</code>, <code class="language-plaintext highlighter-rouge">Radiotherapy</code>, <code class="language-plaintext highlighter-rouge">Performance_Status</code>, <code class="language-plaintext highlighter-rouge">Pathology_Test</code>, <code class="language-plaintext highlighter-rouge">Site_Other_Body_Part</code>, <code class="language-plaintext highlighter-rouge">Cancer_Surgery</code>, <code class="language-plaintext highlighter-rouge">Line_Of_Therapy</code>, <code class="language-plaintext highlighter-rouge">Pathology_Result</code>, <code class="language-plaintext highlighter-rouge">Hormonal_Therapy</code>, <code class="language-plaintext highlighter-rouge">Site_Bone</code>, <code class="language-plaintext highlighter-rouge">Biomarker</code>, <code class="language-plaintext highlighter-rouge">Immunotherapy</code>, <code class="language-plaintext highlighter-rouge">Cycle_Day</code>, <code class="language-plaintext highlighter-rouge">Frequency</code>, <code class="language-plaintext highlighter-rouge">Route</code>, <code class="language-plaintext highlighter-rouge">Duration</code>, <code class="language-plaintext highlighter-rouge">Death_Entity</code>, <code class="language-plaintext highlighter-rouge">Metastasis</code>, <code class="language-plaintext highlighter-rouge">Site_Liver</code>, <code class="language-plaintext highlighter-rouge">Cancer_Dx</code>, <code class="language-plaintext highlighter-rouge">Grade</code>, <code class="language-plaintext highlighter-rouge">Date</code>, <code class="language-plaintext highlighter-rouge">Site_Lung</code>, <code class="language-plaintext highlighter-rouge">Site_Brain</code>, <code class="language-plaintext highlighter-rouge">Relative_Date</code>, <code class="language-plaintext highlighter-rouge">Race_Ethnicity</code>, <code class="language-plaintext highlighter-rouge">Gender</code>, <code class="language-plaintext highlighter-rouge">Oncogene</code>, <code class="language-plaintext highlighter-rouge">Dosage</code>, <code class="language-plaintext highlighter-rouge">Radiation_Dose</code></td>
-      </tr>
-      <tr>
-        <td><a href="https://nlp.johnsnowlabs.com/2022/10/25/ner_oncology_posology_en.html">ner_oncology_posology</a></td>
-        <td>This model extracts oncology specific posology information and cancer therapies.</td>
-        <td><code class="language-plaintext highlighter-rouge">Cycle_Number</code>, <code class="language-plaintext highlighter-rouge">Cycle_Count</code>, <code class="language-plaintext highlighter-rouge">Radiotherapy</code>, <code class="language-plaintext highlighter-rouge">Cancer_Surgery</code>, <code class="language-plaintext highlighter-rouge">Cycle_Day</code>, <code class="language-plaintext highlighter-rouge">Frequency</code>, <code class="language-plaintext highlighter-rouge">Route</code>, <code class="language-plaintext highlighter-rouge">Cancer_Therapy</code>, <code class="language-plaintext highlighter-rouge">Duration</code>, <code class="language-plaintext highlighter-rouge">Dosage</code>, <code class="language-plaintext highlighter-rouge">Radiation_Dose</code></td>
-      </tr>
-      <tr>
-        <td><a href="https://nlp.johnsnowlabs.com/2022/10/25/ner_oncology_unspecific_posology_en.html">ner_oncology_unspecific_posology</a></td>
-        <td>Extracting any mention of cancer therapies and posology information using general labels</td>
-        <td><code class="language-plaintext highlighter-rouge">Cancer_Therapy</code>, <code class="language-plaintext highlighter-rouge">Posology_Information</code></td>
-      </tr>
-      <tr>
-        <td><a href="https://nlp.johnsnowlabs.com/2022/10/25/ner_oncology_response_to_treatment_en.html">ner_oncology_response_to_treatment_wip</a></td>
-        <td>Extracting entities related to the patient’s response to cancer treatment.</td>
-        <td><code class="language-plaintext highlighter-rouge">Response_To_Treatment</code>, <code class="language-plaintext highlighter-rouge">Size_Trend</code>, <code class="language-plaintext highlighter-rouge">Line_Of_Therapy</code></td>
-      </tr>
-      <tr>
-        <td><a href="https://nlp.johnsnowlabs.com/2022/10/25/ner_oncology_therapy_en.html">ner_oncology_therapy</a></td>
-        <td>Extracting entities related to cancer therapies, including posology entities and response to treatment, using granular labels.</td>
-        <td><code class="language-plaintext highlighter-rouge">Response_To_Treatment</code>, <code class="language-plaintext highlighter-rouge">Line_Of_Therapy</code>, <code class="language-plaintext highlighter-rouge">Cancer_Surgery</code>, <code class="language-plaintext highlighter-rouge">Radiotherapy</code>, <code class="language-plaintext highlighter-rouge">Immunotherapy</code>, <code class="language-plaintext highlighter-rouge">Targeted_Therapy</code>, <code class="language-plaintext highlighter-rouge">Hormonal_Therapy</code>, <code class="language-plaintext highlighter-rouge">Chemotherapy</code>, <code class="language-plaintext highlighter-rouge">Unspecific_Therapy</code>, <code class="language-plaintext highlighter-rouge">Route</code>, <code class="language-plaintext highlighter-rouge">Duration</code>, <code class="language-plaintext highlighter-rouge">Cycle_Count</code>, <code class="language-plaintext highlighter-rouge">Dosage</code>, <code class="language-plaintext highlighter-rouge">Frequency</code>, <code class="language-plaintext highlighter-rouge">Cycle_Number</code>, <code class="language-plaintext highlighter-rouge">Cycle_Day</code>, <code class="language-plaintext highlighter-rouge">Radiation_Dose</code></td>
-      </tr>
-      <tr>
-        <td><a href="https://nlp.johnsnowlabs.com/2022/10/25/ner_oncology_test_en.html">ner_oncology_test</a></td>
-        <td>Extracting mentions of oncology-related tests.</td>
-        <td><code class="language-plaintext highlighter-rouge">Oncogene</code>, <code class="language-plaintext highlighter-rouge">Biomarker</code>, <code class="language-plaintext highlighter-rouge">Biomarker_Result</code>, <code class="language-plaintext highlighter-rouge">Imaging_Test</code>, <code class="language-plaintext highlighter-rouge">Pathology_Test</code></td>
-      </tr>
-      <tr>
-        <td><a href="https://nlp.johnsnowlabs.com/2022/10/25/ner_oncology_tnm_en.html">ner_oncology_tnm</a></td>
-        <td>Extracting mentions related to TNM staging.</td>
-        <td><code class="language-plaintext highlighter-rouge">Lymph_Node</code>, <code class="language-plaintext highlighter-rouge">Staging</code>, <code class="language-plaintext highlighter-rouge">Lymph_Node_Modifier</code>, <code class="language-plaintext highlighter-rouge">Tumor_Description</code>, <code class="language-plaintext highlighter-rouge">Tumor</code>, <code class="language-plaintext highlighter-rouge">Metastasis</code>, <code class="language-plaintext highlighter-rouge">Cancer_Dx</code></td>
-      </tr>
-    </tbody>
-  </table>
-
-  <table>
-    <thead>
-      <tr>
-        <th>Oncological Pipeline (<code class="language-plaintext highlighter-rouge">PretrainedPipeline</code>)</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><a href="https://nlp.johnsnowlabs.com/2022/11/03/oncology_general_pipeline_en.html">oncology_general_pipeline</a></td>
-        <td>Includes Named-Entity Recognition, Assertion Status and Relation Extraction models to extract information from oncology texts. This pipeline extracts diagnoses, treatments, tests, anatomical references and demographic entities.</td>
-      </tr>
-      <tr>
-        <td><a href="https://nlp.johnsnowlabs.com/2022/11/04/oncology_biomarker_pipeline_en.html">oncology_biomarker_pipeline</a></td>
-        <td>Includes Named-Entity Recognition, Assertion Status and Relation Extraction models to extract information from oncology texts. This pipeline focuses on entities related to biomarkers</td>
-      </tr>
-      <tr>
-        <td><a href="https://nlp.johnsnowlabs.com/2022/11/04/oncology_diagnosis_pipeline_en.html">oncology_diagnosis_pipeline</a></td>
-        <td>Includes Named-Entity Recognition, Assertion Status, Relation Extraction and Entity Resolution models to extract information from oncology texts. This pipeline focuses on entities related to oncological diagnosis.</td>
-      </tr>
-      <tr>
-        <td><a href="https://nlp.johnsnowlabs.com/2022/11/04/oncology_therapy_pipeline_en.html">oncology_therapy_pipeline</a></td>
-        <td>Includes Named-Entity Recognition and Assertion Status models to extract information from oncology texts. This pipeline focuses on entities related to therapies.</td>
-      </tr>
-    </tbody>
-  </table>
-
-  <p><em>Example:</em></p>
-  <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">sparknlp.pretrained</span> <span class="kn">import</span> <span class="n">PretrainedPipeline</span>
-
-<span class="n">pipeline</span> <span class="o">=</span> <span class="n">PretrainedPipeline</span><span class="p">(</span><span class="s">"oncology_general_pipeline"</span><span class="p">,</span> <span class="s">"en"</span><span class="p">,</span> <span class="s">"clinical/models"</span><span class="p">)</span>
-
-<span class="n">text</span> <span class="o">=</span> <span class="s">"The patient underwent a left mastectomy for a left breast cancer two months ago. The tumor is positive for ER and PR."</span>
-</code></pre></div>  </div>
-  <p><em>Result:</em></p>
-  <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">****</span> ner_oncology_wip results <span class="k">****</span>
-| chunk          | ner_label        |
-|:---------------|:-----------------|
-| left           | Direction        |
-| mastectomy     | Cancer_Surgery   |
-| left           | Direction        |
-| breast cancer  | Cancer_Dx        |
-| two months ago | Relative_Date    |
-| tumor          | Tumor_Finding    |
-| positive       | Biomarker_Result |
-| ER             | Biomarker        |
-| PR             | Biomarker        |
-
-<span class="k">****</span> assertion_oncology_wip results  <span class="k">****</span>
-| chunk         | ner_label      | assertion   |
-|:--------------|:---------------|:------------|
-| mastectomy    | Cancer_Surgery | Past        |
-| breast cancer | Cancer_Dx      | Present     |
-| tumor         | Tumor_Finding  | Present     |
-| ER            | Biomarker      | Present     |
-| PR            | Biomarker      | Present     |
-
-<span class="k">****</span> re_oncology_wip results <span class="k">****</span>
-| chunk1        | entity1          | chunk2         | entity2       | relation      |
-|:--------------|:-----------------|:---------------|:--------------|:--------------|
-| mastectomy    | Cancer_Surgery   | two months ago | Relative_Date | is_related_to |
-| breast cancer | Cancer_Dx        | two months ago | Relative_Date | is_related_to |
-| tumor         | Tumor_Finding    | ER             | Biomarker     | O             |
-| tumor         | Tumor_Finding    | PR             | Biomarker     | O             |
-| positive      | Biomarker_Result | ER             | Biomarker     | is_related_to |
-| positive      | Biomarker_Result | PR             | Biomarker     | is_related_to |
-</code></pre></div>  </div>
-
-</div>
-<div class="prev_ver h3-box">
-
-  <h4 id="new-chunk-mapper-models-to-map-entities-phrases-to-their-corresponding-icd-10-cm-codes-as-well-as-clinical-abbreviations-to-their-definitions">New Chunk Mapper Models to Map Entities (phrases) to Their Corresponding ICD-10-CM Codes As Well As Clinical Abbreviations to Their Definitions</h4>
-
-  <p>We have 2 new chunk mapper models:</p>
-
-  <ul>
-    <li>
-      <p><code class="language-plaintext highlighter-rouge">abbreviation_mapper_augmented</code> is an augmented version of the existing <code class="language-plaintext highlighter-rouge">abbreviation_mapper</code> model. It maps abbreviations and acronyms of medical regulatory activities to their definitions.</p>
-    </li>
-    <li>
-      <p><code class="language-plaintext highlighter-rouge">icd10cm_mapper</code> maps entities to corresponding ICD-10-CM codes.</p>
-    </li>
-  </ul>
-
-  <p><em>Example:</em></p>
-
-  <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">chunkerMapper</span> <span class="o">=</span> <span class="n">ChunkMapperModel</span>\
-    <span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"icd10cm_mapper"</span><span class="p">,</span> <span class="s">"en"</span><span class="p">,</span> <span class="s">"clinical/models"</span><span class="p">)</span>\
+  <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">chunkerMapper</span> <span class="o">=</span> <span class="n">ChunkMapperModel</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"kegg_disease_mapper"</span><span class="p">,</span> <span class="s">"en"</span><span class="p">,</span> <span class="s">"clinical/models"</span><span class="p">)</span>\
     <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"ner_chunk"</span><span class="p">])</span>\
     <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"mappings"</span><span class="p">)</span>\
-    <span class="p">.</span><span class="n">setRels</span><span class="p">([</span><span class="s">"icd10cm_code"</span><span class="p">])</span>
+    <span class="p">.</span><span class="n">setRels</span><span class="p">([</span><span class="s">"description"</span><span class="p">,</span> <span class="s">"category"</span><span class="p">,</span> <span class="s">"icd10_code"</span><span class="p">,</span> <span class="s">"icd11_code"</span><span class="p">,</span> <span class="s">"mesh_code"</span><span class="p">,</span> <span class="s">"brite_code"</span><span class="p">])</span>
 
-<span class="n">text</span> <span class="o">=</span> <span class="s">"""A 35-year-old male with a history of primary leiomyosarcoma of neck, gestational diabetes mellitus diagnosed eight years prior to presentation and presented with a one-week history of polydipsia, poor appetite, and vomiting."""</span>
+<span class="n">text</span><span class="o">=</span> <span class="s">"A 55-year-old female with a history of myopia, kniest dysplasia and prostate cancer. She was on glipizide , and dapagliflozin for congenital nephrogenic diabetes insipidus."</span>
 </code></pre></div>  </div>
 
   <p><em>Result:</em></p>
 
-  <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>+------------------------------+-------+------------+
-|ner_chunk                     |entity |icd10cm_code|
-+------------------------------+-------+------------+
-|primary leiomyosarcoma of neck|PROBLEM|C49.0       |
-|gestational diabetes mellitus |PROBLEM|O24.919     |
-|polydipsia                    |PROBLEM|R63.1       |
-|poor appetite                 |PROBLEM|R63.0       |
-|vomiting                      |PROBLEM|R11.10      |
-+------------------------------+-------+------------+
+  <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>+-----------------------------------------+--------------------------------------------------+-----------------------+----------+----------+---------+-----------------------+
+|                                ner_chunk|                                       description|               category|icd10_code|icd11_code|mesh_code|             brite_code|
++-----------------------------------------+--------------------------------------------------+-----------------------+----------+----------+---------+-----------------------+
+|                                   myopia|Myopia is the most common ocular disorder world...| Nervous system disease|     H52.1|    9D00.0|  D009216|            08402,08403|
+|                         kniest dysplasia|Kniest dysplasia is an autosomal dominant chond...|Congenital malformation|     Q77.7|    LD24.3|  C537207|            08402,08403|
+|                          prostate cancer|Prostate cancer constitutes a major health prob...|                 Cancer|       C61|      2C82|     NONE|08402,08403,08442,08441|
+|congenital nephrogenic diabetes insipidus|Nephrogenic diabetes insipidus <span class="o">(</span>NDI<span class="o">)</span> is charact...| Urinary system disease|     N25.1|   GB90.4A|  D018500|            08402,08403|
++-----------------------------------------+--------------------------------------------------+-----------------------+----------+----------+---------+-----------------------+
+</code></pre></div>  </div>
+
+  <ul>
+    <li><code class="language-plaintext highlighter-rouge">kegg_drug_mapper</code>: This pretrained model maps drugs with their corresponding <code class="language-plaintext highlighter-rouge">efficacy</code>, <code class="language-plaintext highlighter-rouge">molecular_weight</code> as well as <code class="language-plaintext highlighter-rouge">CAS</code>, <code class="language-plaintext highlighter-rouge">PubChem</code>, <code class="language-plaintext highlighter-rouge">ChEBI</code>, <code class="language-plaintext highlighter-rouge">LigandBox</code>, <code class="language-plaintext highlighter-rouge">NIKKAJI</code>, <code class="language-plaintext highlighter-rouge">PDB-CCD</code> codes. This model was trained with the data from the KEGG database.</li>
+  </ul>
+
+  <p><em>Example</em>:</p>
+
+  <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">chunkerMapper</span> <span class="o">=</span> <span class="n">ChunkMapperModel</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"kegg_drug_mapper"</span><span class="p">,</span> <span class="s">"en"</span><span class="p">,</span> <span class="s">"clinical/models"</span><span class="p">)</span>\
+    <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"ner_chunk"</span><span class="p">])</span>\
+    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"mappings"</span><span class="p">)</span>\
+    <span class="p">.</span><span class="n">setRels</span><span class="p">([</span><span class="s">"efficacy"</span><span class="p">,</span> <span class="s">"molecular_weight"</span><span class="p">,</span> <span class="s">"CAS"</span><span class="p">,</span> <span class="s">"PubChem"</span><span class="p">,</span> <span class="s">"ChEBI"</span><span class="p">,</span> <span class="s">"LigandBox"</span><span class="p">,</span> <span class="s">"NIKKAJI"</span><span class="p">,</span> <span class="s">"PDB-CCD"</span><span class="p">])</span>
+
+<span class="n">text</span><span class="o">=</span> <span class="s">"She is given OxyContin, folic acid, levothyroxine, Norvasc, aspirin, Neurontin"</span>
+</code></pre></div>  </div>
+
+  <p><em>Result</em>:</p>
+
+  <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>+-------------+--------------------------------------------------+----------------+----------+-----------+-------+---------+---------+-------+
+|    ner_chunk|                                          efficacy|molecular_weight|       CAS|    PubChem|  ChEBI|LigandBox|  NIKKAJI|PDB-CCD|
++-------------+--------------------------------------------------+----------------+----------+-----------+-------+---------+---------+-------+
+|    OxyContin|     Analgesic <span class="o">(</span>narcotic<span class="o">)</span>, Opioid receptor agonist|        351.8246|  124-90-3|  7847912.0| 7859.0|   D00847|J281.239H|   NONE|
+|   folic acid|Anti-anemic, Hematopoietic, Supplement <span class="o">(</span>folic a...|        441.3975|   59-30-3|  7847138.0|27470.0|   D00070|  J1.392G|    FOL|
+|levothyroxine|                     Replenisher <span class="o">(</span>thyroid hormone<span class="o">)</span>|          776.87|   51-48-9|9.6024815E7|18332.0|   D08125|  J4.118A|    T44|
+|      Norvasc|Antihypertensive, Vasodilator, Calcium channel ...|        408.8759|88150-42-9|5.1091781E7| 2668.0|   D07450| J33.383B|   NONE|
+|      aspirin|Analgesic, Anti-inflammatory, Antipyretic, Anti...|        180.1574|   50-78-2|  7847177.0|15365.0|   D00109|  J2.300K|    AIN|
+|    Neurontin|                     Anticonvulsant, Antiepileptic|        171.2368|60142-96-3|  7847398.0|42797.0|   D00332| J39.388F|    GBN|
++-------------+--------------------------------------------------+----------------+----------+-----------+-------+---------+---------+-------+
+</code></pre></div>  </div>
+
+  <ul>
+    <li><code class="language-plaintext highlighter-rouge">abbreviation_category_mapper</code>: This pretrained model maps abbreviations and acronyms of medical regulatory activities with their definitions and categories.
+Predicted categories: <code class="language-plaintext highlighter-rouge">general</code>, <code class="language-plaintext highlighter-rouge">problem</code>, <code class="language-plaintext highlighter-rouge">test</code>, <code class="language-plaintext highlighter-rouge">treatment</code>, <code class="language-plaintext highlighter-rouge">medical_condition</code>, <code class="language-plaintext highlighter-rouge">clinical_dept</code>, <code class="language-plaintext highlighter-rouge">drug</code>, <code class="language-plaintext highlighter-rouge">nursing</code>, <code class="language-plaintext highlighter-rouge">internal_organ_or_component</code>, <code class="language-plaintext highlighter-rouge">hospital_unit</code>, <code class="language-plaintext highlighter-rouge">drug_frequency</code>, <code class="language-plaintext highlighter-rouge">employment</code>, <code class="language-plaintext highlighter-rouge">procedure</code>.</li>
+  </ul>
+
+  <p><em>Example</em>:</p>
+  <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">chunkerMapper</span> <span class="o">=</span> <span class="n">ChunkMapperModel</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"abbreviation_category_mapper"</span><span class="p">,</span> <span class="s">"en"</span><span class="p">,</span> <span class="s">"clinical/models"</span><span class="p">)</span>\
+     <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"abbr_ner_chunk"</span><span class="p">])</span>\
+     <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"mappings"</span><span class="p">)</span>\
+     <span class="p">.</span><span class="n">setRels</span><span class="p">([</span><span class="s">"definition"</span><span class="p">,</span> <span class="s">"category"</span><span class="p">])</span>\
+
+<span class="n">text</span> <span class="o">=</span> <span class="p">[</span><span class="s">"""Gravid with estimated fetal weight of 6-6/12 pounds.
+         LABORATORY DATA: Laboratory tests include a CBC which is normal.
+         VDRL: Nonreactive
+         HIV: Negative. One-Hour Glucose: 117. Group B strep has not been done as yet."""</span><span class="p">]</span>
+
+</code></pre></div>  </div>
+
+  <p><em>Result</em>:</p>
+
+  <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>| chunk   | category          | definition                             |
+|:--------|:------------------|:---------------------------------------|
+| CBC     | general           | <span class="nb">complete </span>blood count                   |
+| VDRL    | clinical_dept     | Venereal Disease Research Laboratories |
+| HIV     | medical_condition | Human immunodeficiency virus           |
 </code></pre></div>  </div>
 
 </div>
 <div class="prev_ver h3-box">
 
-  <h4 id="new-icd-10-pcs-sentence-entity-resolver-model-and-icd-10-cm-resolver-pipeline">New ICD-10-PCS Sentence Entity Resolver Model and ICD-10-CM Resolver Pipeline</h4>
+  <h4 id="new-utility--helper-relation-extraction-modules-to-handle-preprocess">New Utility &amp; Helper Relation Extraction Modules to Handle Preprocess</h4>
 
-  <p>We are releasing new ICD-10-PCS resolver model and ICD-10-CM resolver pipeline:</p>
+  <p>This process is standard and training column should be same in all RE trainings. We can simplify this process with helper class. With proposed changes it can be done as follows:</p>
 
-  <ul>
-    <li><code class="language-plaintext highlighter-rouge">sbiobertresolve_icd10pcs_augmented</code> model maps extracted medical entities to ICD-10-PCS codes using <code class="language-plaintext highlighter-rouge">sbiobert_base_cased_mli</code> sentence bert embeddings. It trained on the augmented version of the dataset which is used in previous ICD-10-PCS resolver model.</li>
-  </ul>
+  <p><em>Example</em>:</p>
 
-  <p><em>Example:</em></p>
+  <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">sparknlp_jsl.training</span> <span class="kn">import</span> <span class="n">REDatasetHelper</span>
 
-  <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">icd10pcs_resolver</span> <span class="o">=</span> <span class="n">SentenceEntityResolverModel</span>\
-  <span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"sbiobertresolve_icd10pcs_augmented"</span><span class="p">,</span><span class="s">"en"</span><span class="p">,</span> <span class="s">"clinical/models"</span><span class="p">)</span> \
-  <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"ner_chunk"</span><span class="p">,</span> <span class="s">"sbert_embeddings"</span><span class="p">])</span> \
-  <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"resolution"</span><span class="p">)</span>\
-  <span class="p">.</span><span class="n">setDistanceFunction</span><span class="p">(</span><span class="s">"EUCLIDEAN"</span><span class="p">)</span>
+<span class="c1"># map entity columns to dataset columns
+</span><span class="n">column_map</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s">"begin1"</span><span class="p">:</span> <span class="s">"firstCharEnt1"</span><span class="p">,</span>
+    <span class="s">"end1"</span><span class="p">:</span> <span class="s">"lastCharEnt1"</span><span class="p">,</span>
+    <span class="s">"begin2"</span><span class="p">:</span> <span class="s">"firstCharEnt2"</span><span class="p">,</span>
+    <span class="s">"end2"</span><span class="p">:</span> <span class="s">"lastCharEnt2"</span><span class="p">,</span>
+    <span class="s">"chunk1"</span><span class="p">:</span> <span class="s">"chunk1"</span><span class="p">,</span>
+    <span class="s">"chunk2"</span><span class="p">:</span> <span class="s">"chunk2"</span><span class="p">,</span>
+    <span class="s">"label1"</span><span class="p">:</span> <span class="s">"label1"</span><span class="p">,</span>
+    <span class="s">"label2"</span><span class="p">:</span> <span class="s">"label2"</span>
+<span class="p">}</span>
 
-<span class="n">text</span> <span class="o">=</span> <span class="s">"Given the severity of her abdominal examination and her persistence of her symptoms, it is detected that need for laparoscopic appendectomy and possible open appendectomy as well as pyeloplasty. We recommend performing a mediastinoscopy"</span>
-
-</code></pre></div>  </div>
-
-  <p><em>Result:</em></p>
-
-  <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>+-------------------------+---------+-------------+------------------------------------+--------------------+
-|                ner_chunk|   entity|icd10pcs_code|                         resolutions|           all_codes|
-+-------------------------+---------+-------------+------------------------------------+--------------------+
-|    abdominal examination|     Test|      2W63XZZ|[traction of abdominal wall <span class="o">[</span>trac...|[2W63XZZ, BW40ZZZ...|
-|laparoscopic appendectomy|Procedure|      0DTJ8ZZ|[resection of appendix, endo <span class="o">[</span>res...|[0DTJ8ZZ, 0DT84ZZ...|
-|        open appendectomy|Procedure|      0DBJ0ZZ|[excision of appendix, open appro...|[0DBJ0ZZ, 0DTJ0ZZ...|
-|              pyeloplasty|Procedure|      0TS84ZZ|[reposition bilateral ureters, pe...|[0TS84ZZ, 0TS74ZZ...|
-|          mediastinoscopy|Procedure|      BB1CZZZ|[fluoroscopy of mediastinum <span class="o">[</span>fluo...|[BB1CZZZ, 0WJC4ZZ...|
-+-------------------------+---------+-------------+------------------------------------+--------------------+
-</code></pre></div>  </div>
-
-  <ul>
-    <li><code class="language-plaintext highlighter-rouge">icd10cm_resolver_pipeline</code> pretrained pipeline maps entities with their corresponding ICD-10-CM codes. You’ll just feed your text and it will return the corresponding ICD-10-CM codes.</li>
-  </ul>
-
-  <p><em>Example:</em></p>
-
-  <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">sparknlp.pretrained</span> <span class="kn">import</span> <span class="n">PretrainedPipeline</span>
-
-<span class="n">resolver_pipeline</span> <span class="o">=</span> <span class="n">PretrainedPipeline</span><span class="p">(</span><span class="s">"icd10cm_resolver_pipeline"</span><span class="p">,</span> <span class="s">"en"</span><span class="p">,</span> <span class="s">"clinical/models"</span><span class="p">)</span>
-
-<span class="n">text</span> <span class="o">=</span> <span class="s">"A 28-year-old female with a history of gestational diabetes mellitus diagnosed eight years and anisakiasis. Also, it was reported that fetal and neonatal hemorrhage"</span>
-</code></pre></div>  </div>
-
-  <p><em>Result:</em></p>
-
-  <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>+-----------------------------+---------+------------+
-|chunk                        |ner_chunk|icd10cm_code|
-+-----------------------------+---------+------------+
-|gestational diabetes mellitus|PROBLEM  |O24.919     |
-|anisakiasis                  |PROBLEM  |B81.0       |
-|fetal and neonatal hemorrhage|PROBLEM  |P545        |
-+-----------------------------+---------+------------+
+<span class="c1"># apply preprocess function to dataframe
+</span><span class="n">data</span> <span class="o">=</span> <span class="n">REDatasetHelper</span><span class="p">(</span><span class="n">data</span><span class="p">).</span><span class="n">create_annotation_column</span><span class="p">(</span>
+    <span class="n">column_map</span><span class="p">,</span>
+    <span class="n">ner_column_name</span><span class="o">=</span><span class="s">"train_ner_chunks"</span> <span class="c1"># optional, default train_ner_chunks
+</span><span class="p">)</span>
 </code></pre></div>  </div>
 
 </div>
 <div class="prev_ver h3-box">
 
-  <h4 id="new-utility--helper-modules-documentation-page">New Utility &amp; Helper Modules Documentation Page</h4>
+  <h4 id="new-utility--helper-ocr-modules-to-handle-annotations">New Utility &amp; Helper OCR Modules to Handle Annotations</h4>
 
-  <p>We have a new <a href="https://nlp.johnsnowlabs.com/docs/en/utility_helper_modules">utility &amp; helper modules documentation page</a> that you can find the documentations of Spark NLP for Healthcare modules with examples.</p>
+  <p>This modeule can generates an annotated PDF file using input PDF files. <code class="language-plaintext highlighter-rouge">style</code>:  PDF file proccess style that has 3 options;</p>
+  <ul>
+    <li><code class="language-plaintext highlighter-rouge">black_band</code>: Black bands over the chunks detected by NER pipeline.</li>
+    <li><code class="language-plaintext highlighter-rouge">bounding_box</code>: Colorful bounding boxes around the chunks detected by NER pipeline. Each color represents a different NER label.</li>
+    <li><code class="language-plaintext highlighter-rouge">highlight</code>: Colorful highlights over the chunks detected by NER pipeline. Each color represents a different NER label.</li>
+    <li>You can check <a href="https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/5.3.Spark_OCR_Utility_Module.ipynb">Spark OCR Utility Module</a> notebook for more examples.</li>
+  </ul>
+
+  <p><em>Example</em>:</p>
+
+  <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">sparknlp_jsl.utils.ocr_nlp_processor</span> <span class="kn">import</span>  <span class="n">ocr_entity_processor</span>
+
+<span class="n">path</span><span class="o">=</span><span class="s">'/*.pdf'</span>
+        
+<span class="n">box</span> <span class="o">=</span> <span class="s">"bounding_box"</span>
+<span class="n">ocr_entity_processor</span><span class="p">(</span><span class="n">spark</span><span class="o">=</span><span class="n">spark</span><span class="p">,</span><span class="n">file_path</span><span class="o">=</span><span class="n">path</span><span class="p">,</span><span class="n">ner_pipeline</span> <span class="o">=</span> <span class="n">nlp_model</span><span class="p">,</span><span class="n">chunk_col</span> <span class="o">=</span> <span class="s">"merged_chunk"</span><span class="p">,</span> <span class="n">black_list</span> <span class="o">=</span> <span class="p">[</span><span class="s">"AGE"</span><span class="p">,</span> <span class="s">"DATA"</span><span class="p">,</span> <span class="s">"PATIENT"</span><span class="p">],</span>
+                    <span class="n">style</span> <span class="o">=</span> <span class="n">box</span><span class="p">,</span> <span class="n">save_dir</span> <span class="o">=</span> <span class="s">"colored_box"</span><span class="p">,</span><span class="n">label</span><span class="o">=</span> <span class="bp">True</span><span class="p">,</span> <span class="n">label_color</span> <span class="o">=</span> <span class="s">"red"</span><span class="p">,</span><span class="n">color_chart_path</span> <span class="o">=</span> <span class="s">"label_colors.png"</span><span class="p">,</span> <span class="n">display_result</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+
+<span class="n">box</span> <span class="o">=</span> <span class="s">"highlight"</span>
+<span class="n">ocr_entity_processor</span><span class="p">(</span><span class="n">spark</span><span class="o">=</span><span class="n">spark</span><span class="p">,</span><span class="n">file_path</span><span class="o">=</span><span class="n">path</span><span class="p">,</span> <span class="n">ner_pipeline</span> <span class="o">=</span> <span class="n">nlp_model</span><span class="p">,</span> <span class="n">chunk_col</span> <span class="o">=</span> <span class="s">"merged_chunk"</span><span class="p">,</span> <span class="n">black_list</span> <span class="o">=</span> <span class="p">[</span><span class="s">"AGE"</span><span class="p">,</span> <span class="s">"DATE"</span><span class="p">,</span> <span class="s">"PATIENT"</span><span class="p">],</span>
+                    <span class="n">style</span> <span class="o">=</span> <span class="n">box</span><span class="p">,</span> <span class="n">save_dir</span> <span class="o">=</span> <span class="s">"colored_box"</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span> <span class="bp">True</span><span class="p">,</span> <span class="n">label_color</span> <span class="o">=</span> <span class="s">"red"</span><span class="p">,</span> <span class="n">color_chart_path</span> <span class="o">=</span> <span class="s">"label_colors.png"</span><span class="p">,</span> <span class="n">display_result</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+
+<span class="n">box</span> <span class="o">=</span> <span class="s">"black_band"</span>
+<span class="n">ocr_entity_processor</span><span class="p">(</span><span class="n">spark</span><span class="o">=</span><span class="n">spark</span><span class="p">,</span><span class="n">file_path</span><span class="o">=</span><span class="n">path</span><span class="p">,</span> <span class="n">ner_pipeline</span> <span class="o">=</span> <span class="n">nlp_modelchunk_col</span> <span class="o">=</span> <span class="s">"merged_chunk"</span><span class="p">,</span> 
+                     <span class="n">style</span> <span class="o">=</span> <span class="n">box</span><span class="p">,</span> <span class="n">save_dir</span> <span class="o">=</span> <span class="s">"black_band"</span><span class="p">,</span><span class="n">label</span><span class="o">=</span> <span class="bp">True</span><span class="p">,</span> <span class="n">label_color</span> <span class="o">=</span> <span class="s">"red"</span><span class="p">,</span> <span class="n">display_result</span> <span class="o">=</span> <span class="bp">True</span><span class="p">)</span>
+</code></pre></div>  </div>
+
+  <p><em>Results</em>:</p>
+
+  <ul>
+    <li><strong>Bounding box with labels and black list</strong></li>
+  </ul>
+
+  <p><img src="https://user-images.githubusercontent.com/64752006/205349180-8222ec38-8b43-44a2-abf2-def72fd82d68.png" alt="image" /></p>
+
+  <ul>
+    <li><strong>Highlight with labels and black_list</strong></li>
+  </ul>
+
+  <p><img src="https://user-images.githubusercontent.com/64752006/205343977-7f54eb4e-4a3c-4be2-8acf-2f0f3b7dd0f5.png" alt="image" /></p>
+
+  <ul>
+    <li><strong>black_band with labels</strong></li>
+  </ul>
+
+  <p><img src="https://user-images.githubusercontent.com/64752006/205343389-9563a9ce-f971-4865-b94f-4b0cc92e2bcc.png" alt="image" /></p>
+
+</div>
+<div class="prev_ver h3-box">
+
+  <h4 id="new-utility--helper-ner-log-parser">New Utility &amp; Helper NER Log Parser</h4>
+
+  <p><code class="language-plaintext highlighter-rouge">ner_utils</code>: This new module is used after NER training to calculate mertic chunkbase and plot training logs.</p>
+
+  <p><em>Example</em>:</p>
+  <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">nerTagger</span> <span class="o">=</span> <span class="n">NerDLApproach</span><span class="p">()</span>\
+              <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"sentence"</span><span class="p">,</span> <span class="s">"token"</span><span class="p">,</span> <span class="s">"embeddings"</span><span class="p">])</span>\
+              <span class="p">.</span><span class="n">setLabelColumn</span><span class="p">(</span><span class="s">"label"</span><span class="p">)</span>\
+              <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"ner"</span><span class="p">)</span>\
+              <span class="p">...</span>  
+              <span class="p">.</span><span class="n">setOutputLogsPath</span><span class="p">(</span><span class="s">'ner_logs'</span><span class="p">)</span>
+    
+<span class="n">ner_pipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">(</span><span class="n">stages</span><span class="o">=</span><span class="p">[</span><span class="n">glove_embeddings</span><span class="p">,</span>
+                                <span class="n">graph_builder</span><span class="p">,</span>
+                                <span class="n">nerTagger</span><span class="p">])</span>
+
+<span class="n">ner_model</span> <span class="o">=</span> <span class="n">ner_pipeline</span><span class="p">.</span><span class="n">fit</span><span class="p">(</span><span class="n">training_data</span><span class="p">)</span>
+
+</code></pre></div>  </div>
+
+  <ul>
+    <li><code class="language-plaintext highlighter-rouge">evaluate</code>: if verbose, returns overall performance, as well as performance per chunk type; otherwise, simply returns overall precision, recall, f1 scores</li>
+  </ul>
+
+  <p><em>Example</em>:</p>
+
+  <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">sparknlp_jsl.utils.ner_utils</span> <span class="kn">import</span> <span class="n">evaluate</span>
+
+<span class="n">metrics</span> <span class="o">=</span> <span class="n">evaluate</span><span class="p">(</span><span class="n">preds_df</span><span class="p">[</span><span class="s">'ground_truth'</span><span class="p">].</span><span class="n">values</span><span class="p">,</span> <span class="n">preds_df</span><span class="p">[</span><span class="s">'prediction'</span><span class="p">].</span><span class="n">values</span><span class="p">)</span>
+
+</code></pre></div>  </div>
+
+  <p><em>Result:</em></p>
+
+  <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>processed 14133 tokens with 1758 phrases<span class="p">;</span> found: 1779 phrases<span class="p">;</span> correct: 1475.
+accuracy:  83.45%<span class="p">;</span> <span class="o">(</span>non-O<span class="o">)</span>
+accuracy:  96.67%<span class="p">;</span> precision:  82.91%<span class="p">;</span> recall:  83.90%<span class="p">;</span> FB1:  83.40
+              LOC: precision:  91.41%<span class="p">;</span> recall:  85.69%<span class="p">;</span> FB1:  88.46  524
+             MISC: precision:  78.15%<span class="p">;</span> recall:  62.11%<span class="p">;</span> FB1:  69.21  151
+              ORG: precision:  61.86%<span class="p">;</span> recall:  74.93%<span class="p">;</span> FB1:  67.77  430
+              PER: precision:  90.80%<span class="p">;</span> recall:  93.58%<span class="p">;</span> FB1:  92.17  674
+</code></pre></div>  </div>
+
+  <ul>
+    <li><code class="language-plaintext highlighter-rouge">loss_plot</code>: Plots the figure of loss vs epochs</li>
+  </ul>
+
+  <p><em>Example</em>:</p>
+
+  <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">sparknlp_jsl.utils.ner_utils</span> <span class="kn">import</span> <span class="n">loss_plot</span>
+
+<span class="n">loss_plot</span><span class="p">(</span><span class="s">'./ner_logs/'</span><span class="o">+</span><span class="n">log_files</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+</code></pre></div>  </div>
+
+  <p><em>Results</em>:</p>
+
+  <p><img src="https://user-images.githubusercontent.com/64752006/205368367-f70bb792-b1ff-41cd-8ed5-8dee94f10aa8.png" alt="image" /></p>
+
+  <ul>
+    <li><code class="language-plaintext highlighter-rouge">get_charts</code> : Plots the figures of metrics ( precision, recall, f1) vs epochs</li>
+  </ul>
+
+  <p><em>Example</em>:</p>
+
+  <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">sparknlp_jsl.utils.ner_utils</span> <span class="kn">import</span> <span class="n">get_charts</span>
+
+<span class="n">get_charts</span><span class="p">(</span><span class="s">'./ner_logs/'</span><span class="o">+</span><span class="n">log_files</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+</code></pre></div>  </div>
+
+  <p><em>Results</em>:</p>
+
+  <p><img src="https://user-images.githubusercontent.com/64752006/205368210-f5ffb64c-8a22-4758-8423-ade6ac3ee8cd.png" alt="image" /></p>
+
+  <p><img src="https://user-images.githubusercontent.com/64752006/205368132-c86e7c2b-555e-4653-a799-c55cc5e9e9a0.png" alt="image" /></p>
+
+</div>
+<div class="prev_ver h3-box">
+
+  <h4 id="adding-flexibility-chunk-merger-prioritization">Adding Flexibility Chunk Merger Prioritization</h4>
+
+  <p><code class="language-plaintext highlighter-rouge">orderingFeatures</code>: Array of strings specifying the ordering features to use for overlapping entities. Possible values are ChunkBegin, ChunkLength, ChunkPrecedence, ChunkConfidence</p>
+
+  <p><code class="language-plaintext highlighter-rouge">selectionStrategy</code>: Whether to select annotations sequentially based on annotation order <code class="language-plaintext highlighter-rouge">Sequential</code> or using any other available strategy, currently only <code class="language-plaintext highlighter-rouge">DiverseLonger</code> are available.</p>
+
+  <p><code class="language-plaintext highlighter-rouge">defaultConfidence</code>: When ChunkConfidence ordering feature is included and a given annotation does not have any confidence the value of this param will be used.</p>
+
+  <p><code class="language-plaintext highlighter-rouge">chunkPrecedence</code>: When ChunkPrecedence ordering feature is used this param contains the comma separated fields in metadata that drive prioritization of overlapping annotations. When used by itself (empty chunkPrecedenceValuePrioritization) annotations will be prioritized based on number of metadata fields present. When used together with chunkPrecedenceValuePrioritization param it will prioritize based on the order of its values.</p>
+
+  <p><code class="language-plaintext highlighter-rouge">chunkPrecedenceValuePrioritization</code>: When ChunkPrecedence ordering feature is used this param contains an Array of comma separated values representing the desired order of prioritization for the VALUES in the metadata fields included from chunkPrecedence.</p>
+
+  <p><em>Example</em>:</p>
+
+  <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">text</span> <span class="o">=</span> <span class="s">"""A 63 years old man presents to the hospital with a history of recurrent infections 
+that include cellulitis, pneumonias, and upper respiratory tract infections..."""</span>
+
+<span class="o">+-------------------------------------------------------------------------------------+</span>
+<span class="o">|</span><span class="n">ner_deid_chunk</span>                                                                       <span class="o">|</span>
+<span class="o">+-------------------------------------------------------------------------------------+</span>
+<span class="o">|</span><span class="p">[{</span><span class="n">chunk</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">63</span><span class="p">,</span> <span class="p">{</span><span class="n">entity</span> <span class="o">-&gt;</span> <span class="n">AGE</span><span class="p">,</span> <span class="n">sentence</span> <span class="o">-&gt;</span> <span class="mi">0</span><span class="p">,</span> <span class="n">chunk</span> <span class="o">-&gt;</span> <span class="mi">0</span><span class="p">,</span> <span class="n">confidence</span> <span class="o">-&gt;</span> <span class="mf">0.9997</span><span class="p">}}]</span><span class="o">|</span>
+<span class="o">+-------------------------------------------------------------------------------------+</span>
+
+<span class="o">+----------------------------------------------------------------------------------------------------+</span>
+<span class="o">|</span><span class="n">jsl_ner_chunk</span>                                                                                       <span class="o">|</span>     
+<span class="o">+----------------------------------------------------------------------------------------------------+</span>
+<span class="o">|</span><span class="p">[{</span><span class="n">chunk</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">13</span><span class="p">,</span> <span class="mi">63</span> <span class="n">years</span> <span class="n">old</span><span class="p">,</span> <span class="p">{</span><span class="n">entity</span> <span class="o">-&gt;</span> <span class="n">Age</span><span class="p">,</span> <span class="n">sentence</span> <span class="o">-&gt;</span> <span class="mi">0</span><span class="p">,</span> <span class="n">chunk</span> <span class="o">-&gt;</span> <span class="mi">0</span><span class="p">,</span> <span class="n">confidence</span> <span class="o">-&gt;</span> <span class="mf">0.85873336</span><span class="p">}}]</span><span class="o">|</span>
+<span class="o">+----------------------------------------------------------------------------------------------------+</span>
+
+</code></pre></div>  </div>
+
+  <ul>
+    <li><strong>Merging overlapped chunks by considering their lenght</strong> <br />
+If we set <code class="language-plaintext highlighter-rouge">setOrderingFeatures(["ChunkLength"])</code> and <code class="language-plaintext highlighter-rouge">setSelectionStrategy("DiverseLonger")</code> parameters, the longest chunk will be prioritized in case of overlapping.</li>
+  </ul>
+
+  <p><em>Example</em>:</p>
+
+  <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">chunk_merger</span> <span class="o">=</span> <span class="n">ChunkMergeApproach</span><span class="p">()</span>\
+    <span class="p">.</span><span class="n">setInputCols</span><span class="p">(</span><span class="s">'ner_deid_chunk'</span><span class="p">,</span> <span class="s">"jsl_ner_chunk"</span><span class="p">)</span>\
+    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">'merged_ner_chunk'</span><span class="p">)</span>\
+    <span class="p">.</span><span class="n">setOrderingFeatures</span><span class="p">([</span><span class="s">"ChunkLength"</span><span class="p">])</span>\
+    <span class="p">.</span><span class="n">setSelectionStrategy</span><span class="p">(</span><span class="s">"DiverseLonger"</span><span class="p">)</span>
+</code></pre></div>  </div>
+
+  <p><em>Results</em>:</p>
+
+  <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>|begin|end|        chunk|         entity|
++-----+---+-------------+---------------+
+|    2| 13| 63 years old|            Age|
+|   15| 17|          man|         Gender|
+|   35| 42|     hospital|  Clinical_Dept|
+
+</code></pre></div>  </div>
+
+  <ul>
+    <li><strong>Merging overlapped chunks by considering custom values that we set</strong> <br />
+<code class="language-plaintext highlighter-rouge">setChunkPrecedence()</code> parameter contains an Array of comma separated values representing the desired order of prioritization for the VALUES in the metadata fields included from <code class="language-plaintext highlighter-rouge">setOrderingFeatures(["chunkPrecedence"])</code>.</li>
+  </ul>
+
+  <p><em>Example</em>:</p>
+
+  <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">chunk_merger</span> <span class="o">=</span> <span class="n">ChunkMergeApproach</span><span class="p">()</span>\
+    <span class="p">.</span><span class="n">setInputCols</span><span class="p">(</span><span class="s">'ner_deid_chunk'</span><span class="p">,</span> <span class="s">"jsl_ner_chunk"</span><span class="p">)</span>\
+    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">'merged_ner_chunk'</span><span class="p">)</span>\
+    <span class="p">.</span><span class="n">setMergeOverlapping</span><span class="p">(</span><span class="bp">True</span><span class="p">)</span> \
+    <span class="p">.</span><span class="n">setOrderingFeatures</span><span class="p">([</span><span class="s">"ChunkPrecedence"</span><span class="p">])</span> \
+    <span class="p">.</span><span class="n">setChunkPrecedence</span><span class="p">(</span><span class="s">'ner_deid_chunk,AGE'</span><span class="p">)</span> \
+<span class="c1">#    .setChunkPrecedenceValuePrioritization(["ner_deid_chunk,AGE", "jsl_ner_chunk,Age"]) 
+</span></code></pre></div>  </div>
+
+  <p><em>Results</em>:</p>
+
+  <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>|begin|end|        chunk|         entity|
++-----+---+-------------+---------------+
+|    2|  3|           63|            AGE|
+|   15| 17|          man|         Gender|
+|   35| 42|     hospital|  Clinical_Dept|
+
+</code></pre></div>  </div>
+
+  <p>You can check <a href="https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/7.Clinical_NER_Chunk_Merger.ipynb">NER Chunk Merger</a> notebook for more examples.</p>
+
+</div>
+<div class="prev_ver h3-box">
+
+  <h4 id="core-improvements-and-bug-fixes">Core improvements and bug fixes</h4>
+
+  <ul>
+    <li>AssertionDL IncludeConfidence() parameters default value set by True</li>
+    <li>Fixed NaN outputs in RelationExtraction</li>
+    <li>Fixed loadSavedModel method that we use for importing transformers into Spark NLP</li>
+    <li>Fixed replacer with setUseReplacement(True) parameter</li>
+    <li>Added overall confidence score to MedicalNerModel when setIncludeAllConfidenceScore is True</li>
+    <li>Fixed in InternalResourceDownloader showAvailableAnnotators</li>
+  </ul>
 
 </div>
 <div class="prev_ver h3-box">
@@ -931,47 +901,31 @@
 
   <ul>
     <li>
-      <p>New <a href="https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/10.4.Resume_RelationExtractionApproach_Training.ipynb">Resume RelationExtractionApproach Training</a> notebook train a model already trained on a different dataset.</p>
+      <p>New <a href="https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/5.3.Spark_OCR_Utility_Module.ipynb">Spark OCR Utility Module</a> notebook to help handle OCR process.</p>
     </li>
     <li>
-      <p>Updated <a href="https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/4.Clinical_DeIdentification.ipynb">Clinical Deidentification</a> notebook with day shifting feature in <code class="language-plaintext highlighter-rouge">DeIdentification</code>.</p>
+      <p>Updated <a href="https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/3.Clinical_Entity_Resolvers.ipynb">Clinical Entity Resolvers</a> notebook with <code class="language-plaintext highlighter-rouge">Assertion Filterer</code> example.</p>
     </li>
     <li>
-      <p>Updated <a href="https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/4.1.Clinical_Multi_Language_Deidentification.ipynb">Clinical Multi Language Deidentification</a> notebook with new Romanian obfuscation and faker improvement.</p>
+      <p>Updated <a href="https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/7.Clinical_NER_Chunk_Merger.ipynb">NER Chunk Merger</a> notebook with flexibility chunk merger prioritization example.</p>
     </li>
     <li>
-      <p>Updated <a href="https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/16.Adverse_Drug_Event_ADE_NER_and_Classifier.ipynb">Adverse Drug Event ADE NER and Classifier</a> notebook with the new models and improvement.</p>
+      <p>Updated <a href="https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/10.Clinical_Relation_Extraction.ipynb">Clinical Relation Extraction</a> notebook with new <code class="language-plaintext highlighter-rouge">REDatasetHelper</code> module.</p>
+    </li>
+    <li>
+      <p>Updated <a href="https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Annotation_Lab/Complete_ALab_Module_SparkNLP_JSL.ipynb">ALab Module SparkNLP JSL</a> notebook with new updates.</p>
     </li>
   </ul>
 
 </div>
 <div class="prev_ver h3-box">
 
-  <h4 id="new-clinical-models-and-pipelines-added--updated-in-total">22 New Clinical Models and Pipelines Added &amp; Updated in Total</h4>
+  <h4 id="new-clinical-models-and-pipelines-added--updated-in-total">3 New Clinical Models and Pipelines Added &amp; Updated in Total</h4>
 
   <ul>
-    <li><code class="language-plaintext highlighter-rouge">abbreviation_mapper_augmented</code></li>
-    <li><code class="language-plaintext highlighter-rouge">icd10cm_mapper</code></li>
-    <li><code class="language-plaintext highlighter-rouge">sbiobertresolve_icd10pcs_augmented</code></li>
-    <li><code class="language-plaintext highlighter-rouge">icd10cm_resolver_pipeline</code></li>
-    <li><code class="language-plaintext highlighter-rouge">oncology_biomarker_pipeline</code></li>
-    <li><code class="language-plaintext highlighter-rouge">oncology_diagnosis_pipeline</code></li>
-    <li><code class="language-plaintext highlighter-rouge">oncology_therapy_pipeline</code></li>
-    <li><code class="language-plaintext highlighter-rouge">oncology_general_pipeline</code></li>
-    <li><code class="language-plaintext highlighter-rouge">ner_oncology_anatomy_general</code></li>
-    <li><code class="language-plaintext highlighter-rouge">ner_oncology_anatomy_granular</code></li>
-    <li><code class="language-plaintext highlighter-rouge">ner_oncology_biomarker</code></li>
-    <li><code class="language-plaintext highlighter-rouge">ner_oncology_demographics</code></li>
-    <li><code class="language-plaintext highlighter-rouge">ner_oncology_diagnosis</code></li>
-    <li><code class="language-plaintext highlighter-rouge">ner_oncology</code></li>
-    <li><code class="language-plaintext highlighter-rouge">ner_oncology_posology</code></li>
-    <li><code class="language-plaintext highlighter-rouge">ner_oncology_response_to_treatment</code></li>
-    <li><code class="language-plaintext highlighter-rouge">ner_oncology_test</code></li>
-    <li><code class="language-plaintext highlighter-rouge">ner_oncology_therapy</code></li>
-    <li><code class="language-plaintext highlighter-rouge">ner_oncology_tnm</code></li>
-    <li><code class="language-plaintext highlighter-rouge">ner_oncology_unspecific_posology</code></li>
-    <li><code class="language-plaintext highlighter-rouge">sdoh_slim_wip</code></li>
-    <li><code class="language-plaintext highlighter-rouge">t5_base_pubmedqa</code></li>
+    <li><code class="language-plaintext highlighter-rouge">kegg_disease_mapper</code></li>
+    <li><code class="language-plaintext highlighter-rouge">kegg_drug_mapper</code></li>
+    <li><code class="language-plaintext highlighter-rouge">abbreviation_category_mapper</code></li>
   </ul>
 
   <p>For all Spark NLP for healthcare models, please check: <a href="https://nlp.johnsnowlabs.com/models?edition=Healthcare+NLP">Models Hub Page</a></p>
@@ -984,14 +938,15 @@
 </div>
 <ul class="pagination">
     <li>
-        <a href="spark_nlp_healthcare_versions/release_notes_4_2_0">Versions 4.2.1</a>
+        <a href="spark_nlp_healthcare_versions/release_notes_4_2_2">Versions 4.2.2</a>
     </li>
     <li>
-        <strong>Versions 4.2.2</strong>
+        <strong>Versions 4.2.3</strong>
     </li>
 </ul>
 <ul class="pagination owl-carousel pagination_big">
-    <li class="active"><a href="spark_nlp_healthcare_versions/release_notes_4_2_2">4.2.2</a></li>
+    <li class="active"><a href="spark_nlp_healthcare_versions/release_notes_4_2_3">4.2.3</a></li>
+    <li><a href="spark_nlp_healthcare_versions/release_notes_4_2_1">4.2.2</a></li>
     <li><a href="spark_nlp_healthcare_versions/release_notes_4_2_1">4.2.1</a></li>
     <li><a href="spark_nlp_healthcare_versions/release_notes_4_2_0">4.2.0</a></li>
     <li><a href="spark_nlp_healthcare_versions/release_notes_4_1_0">4.1.0</a></li>
@@ -1040,7 +995,7 @@
     <li><a href="spark_nlp_healthcare_versions/release_notes_2_4_0">2.4.0</a></li>
 </ul>
 </div><div class="d-print-none"><footer class="article__footer"><span class="footer_date">Last updated
-      <time itemprop="dateModified" datetime="2021-07-14T00:00:00+00:00">Jul 14, 2021</time>
+      <time itemprop="dateModified" datetime="2022-12-02T00:00:00+00:00">Dec 02, 2022</time>
     </span><!-- start custom article footer snippet -->
 
 <!-- end custom article footer snippet --></footer>
