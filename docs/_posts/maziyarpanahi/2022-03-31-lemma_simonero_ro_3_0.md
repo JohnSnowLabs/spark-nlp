@@ -10,6 +10,7 @@ language: ro
 edition: Spark NLP 3.4.3
 spark_version: 3.0
 supported: true
+annotator: LemmatizerModel
 article_header:
 type: cover
 use_language_switcher: "Python-Scala-Java"
@@ -45,7 +46,7 @@ tokenizer = Tokenizer()\
 .setOutputCol("token") 
 
 lemma = LemmatizerModel.pretrained("lemma_simonero", "ro")\ 
-.setInputCols(["sentence", "token"])\ 
+.setInputCols(["token"])\
 .setOutputCol("lemma")
 
 pipeline = Pipeline(stages=[document, sentence, tokenizer, lemma])
@@ -71,7 +72,7 @@ val tokenizer = new Tokenizer()
 .setOutputCol("token")
 
 val lemma = LemmatizerModel.pretrained("lemma_simonero", "ro")
-.setInputCols("sentence", "token")
+.setInputCols("token")
 .setOutputCol("lemma")
 
 val pipeline = new Pipeline().setStages(Array(document, sentence, tokenizer, lemma))

@@ -10,6 +10,7 @@ language: en
 edition: Healthcare NLP 3.4.2
 spark_version: 2.4
 supported: true
+annotator: AssertionDLModel
 article_header:
   type: cover
 use_language_switcher: "Python-Scala-Java"
@@ -102,12 +103,12 @@ val documentAssembler = new DocumentAssembler()
 
 
 val sentenceDetector = SentenceDetectorDLModel.pretrained()
-    .setInputCols("document") 
+    .setInputCols(Array("document"))
     .setOutputCol("sentence") 
 
 
 val tokenizer = new Tokenizer()
-    .setInputCols("sentence")
+    .setInputCols(Array("sentence"))
     .setOutputCol("token")
 
 

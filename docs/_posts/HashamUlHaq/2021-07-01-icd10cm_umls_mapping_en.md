@@ -10,6 +10,7 @@ language: en
 edition: Healthcare NLP 3.1.0
 spark_version: 2.4
 supported: true
+annotator: PipelineModel
 article_header:
 type: cover
 use_language_switcher: "Python-Scala-Java"
@@ -33,19 +34,19 @@ This pretrained pipeline maps ICD10CM codes to UMLS codes without using any text
 ```python
 from sparknlp.pretrained import PretrainedPipeline 
 pipeline = PretrainedPipeline( "icd10cm_umls_mapping","en","clinical/models")
-pipeline.annotate("M89.50 R82.2 R09.01")
+pipeline.annotate(["M8950", "R822", "R0901"])
 ```
 ```scala
 import com.johnsnowlabs.nlp.pretrained.PretrainedPipeline
 val pipeline = new PretrainedPipeline("icd10cm_umls_mapping","en","clinical/models")
-val result = pipeline.annotate("M89.50 R82.2 R09.01")
+val result = pipeline.annotate(["M8950", "R822", "R0901"])
 ```
 
 
 {:.nlu-block}
 ```python
 import nlu
-nlu.load("en.resolve.icd10cm.umls").predict("""M89.50 R82.2 R09.01""")
+nlu.load("en.resolve.icd10cm.umls").predict("""M8950 R822 R0901""")
 ```
 
 </div>

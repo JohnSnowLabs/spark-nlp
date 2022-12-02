@@ -10,6 +10,7 @@ language: en
 edition: Healthcare NLP 4.2.1
 spark_version: 3.0
 supported: true
+annotator: ChunkMapperModel
 article_header:
   type: cover
 use_language_switcher: "Python-Scala-Java"
@@ -65,12 +66,12 @@ val documentAssembler = new DocumentAssembler()
   .setInputCol("text")
   .setOutputCol("doc")
 
-val chunk_assembler = new Doc2Chunk()\
-  .setInputCols(["doc"])\
+val chunk_assembler = new Doc2Chunk()
+  .setInputCols(Array("doc"))
   .setOutputCol("ner_chunk")
 
 val chunkerMapper = ChunkMapperModel.pretrained("cvx_name_mapper", "en","clinical/models")
-  .setInputCols("ner_chunk")
+  .setInputCols(Array("ner_chunk"))
   .setOutputCol("mappings")
   .setRels(Array("cvx_code", "short_name", "full_name", "trade_name", "cpt_code"))
 

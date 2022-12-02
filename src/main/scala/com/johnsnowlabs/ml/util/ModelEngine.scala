@@ -21,5 +21,8 @@ object ModelEngine {
   val tensorflowModelName = "saved_model.pb"
   val onnx = "onnx"
   val onnxModelName = "model.onnx"
+  val onnxEncoderModel = "encoder_model.onnx"
+  val onnxDecoderModel = "decoder_model.onnx"
+  val onnxDecoderWithPastModel = "decoder_with_past_model.onnx"
   val unk = "unk"
 }

@@ -10,6 +10,7 @@ language: en
 edition: Healthcare NLP 3.3.3
 spark_version: 3.0
 supported: true
+annotator: SentenceEntityResolverModel
 article_header:
 type: cover
 use_language_switcher: "Python-Scala-Java"
@@ -30,49 +31,110 @@ This model maps clinical entities to UMLS CUI codes. It is trained on `2021AB` U
 
 ## How to use
 
-
-
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
+
 ```python
-...
-chunk2doc = Chunk2Doc().setInputCols("ner_chunk").setOutputCol("ner_chunk_doc")
+documentAssembler = DocumentAssembler()\
+    .setInputCol('text')\
+    .setOutputCol('document')
+
+sentenceDetector = SentenceDetector() \
+    .setInputCols(["document"]) \
+    .setOutputCol("sentence")
+
+tokenizer = Tokenizer() \
+    .setInputCols(["sentence"]) \
+    .setOutputCol("token")
+
+stopwords = StopWordsCleaner.pretrained()\
+    .setInputCols("token")\
+    .setOutputCol("cleanTokens")\
+    .setCaseSensitive(False)
+
+word_embeddings = WordEmbeddingsModel.pretrained("embeddings_clinical", "en", "clinical/models")\
+    .setInputCols(["sentence", "cleanTokens"])\
+    .setOutputCol("embeddings")
+
+
+clinical_ner = MedicalNerModel.pretrained("ner_clinical", "en", "clinical/models") \
+    .setInputCols(["sentence", "token", "embeddings"]) \
+    .setOutputCol("ner")
+
+ner_converter = NerConverter() \
+    .setInputCols(["sentence", "cleanTokens", "ner"]) \
+    .setOutputCol("ner_chunk")
+
+chunk2doc = Chunk2Doc()\
+    .setInputCols("ner_chunk")\
+    .setOutputCol("ner_chunk_doc")
 
 sbert_embedder = BertSentenceEmbeddings\
-.pretrained("sbiobert_base_cased_mli",'en','clinical/models')\
-.setInputCols(["ner_chunk_doc"])\
-.setOutputCol("sbert_embeddings").setCaseSensitive(False)
+    .pretrained("sbiobert_base_cased_mli",'en','clinical/models')\
+    .setInputCols(["ner_chunk_doc"])\
+    .setOutputCol("sbert_embeddings").setCaseSensitive(False)
 
 resolver = SentenceEntityResolverModel.pretrained("sbiobertresolve_umls_drug_substance","en", "clinical/models") \
-.setInputCols(["ner_chunk", "sbert_embeddings"]) \
-.setOutputCol("resolution")\
-.setDistanceFunction("EUCLIDEAN")
+    .setInputCols(["ner_chunk", "sbert_embeddings"]) \
+    .setOutputCol("resolution")\
+    .setDistanceFunction("EUCLIDEAN")
 
 pipeline = Pipeline(stages = [documentAssembler, sentenceDetector, tokenizer, stopwords, word_embeddings, clinical_ner, ner_converter, chunk2doc, sbert_embedder, resolver])
 
-data = spark.createDataFrame([['']]).toDF("text")
+data = spark.createDataFrame([[""]]).toDF("text")
 
 model = LightPipeline(pipeline.fit(data))
 
 results = model.fullAnnotate(['Dilaudid', 'Hydromorphone', 'Exalgo', 'Palladone', 'Hydrogen peroxide 30 mg', 'Neosporin Cream', 'Magnesium hydroxide 100mg/1ml', 'Metformin 1000 mg'])
 ```
 ```scala
-...
-val chunk2doc = Chunk2Doc().setInputCols("ner_chunk").setOutputCol("ner_chunk_doc")
-val sbert_embedder = BertSentenceEmbeddings.pretrained('sbiobert_base_cased_mli', 'en','clinical/models')\
-.setInputCols(["ner_chunk_doc"])\
-.setOutputCol("sbert_embeddings")
+val documentAssembler = new DocumentAssembler()
+    .setInputCol("text")
+    .setOutputCol("document")
 
-val resolver = SentenceEntityResolverModel.pretrained("sbiobertresolve_umls_drug_substance", "en", "clinical/models") \
-.setInputCols(["ner_chunk_doc", "sbert_embeddings"]) \
-.setOutputCol("resolution")\
-.setDistanceFunction("EUCLIDEAN")
+val sentenceDetector = new SentenceDetector()
+    .setInputCols("document")
+    .setOutputCol("sentence")
+
+val tokenizer = new Tokenizer()
+    .setInputCols("sentence")
+    .setOutputCol("token")
+
+val stopwords = StopWordsCleaner.pretrained()
+    .setInputCols("token")
+    .setOutputCol("cleanTokens")
+    .setCaseSensitive(False)
+
+val word_embeddings = WordEmbeddingsModel.pretrained("embeddings_clinical", "en", "clinical/models")
+    .setInputCols(Array("sentence", "cleanTokens"))
+    .setOutputCol("embeddings")
+
+val clinical_ner = MedicalNerModel.pretrained("ner_clinical", "en", "clinical/models")
+    .setInputCols(Array("sentence", "token", "embeddings"))
+    .setOutputCol("ner")
+
+val ner_converter = new NerConverter()
+    .setInputCols(Array("sentence", "cleanTokens", "ner"))
+    .setOutputCol("ner_chunk")
+
+val chunk2doc = new Chunk2Doc()
+    .setInputCols("ner_chunk")
+    .setOutputCol("ner_chunk_doc")
+
+val sbert_embedder = BertSentenceEmbeddings.pretrained("sbiobert_base_cased_mli", "en","clinical/models")
+    .setInputCols("ner_chunk_doc")
+    .setOutputCol("sbert_embeddings")
+
+val resolver = SentenceEntityResolverModel.pretrained("sbiobertresolve_umls_drug_substance", "en", "clinical/models")
+    .setInputCols(Array("ner_chunk_doc", "sbert_embeddings"))
+    .setOutputCol("resolution")
+    .setDistanceFunction("EUCLIDEAN")
 
 val p_model = new PipelineModel().setStages(Array(documentAssembler, sentenceDetector, tokenizer, stopwords, word_embeddings, clinical_ner, ner_converter, chunk2doc, sbert_embedder, resolver))
 
-val data = Seq(['Dilaudid', 'Hydromorphone', 'Exalgo', 'Palladone', 'Hydrogen peroxide 30 mg', 'Neosporin Cream', 'Magnesium hydroxide 100mg/1ml', 'Metformin 1000 mg']).toDF("text") 
+val data = Seq("""'Dilaudid', 'Hydromorphone', 'Exalgo', 'Palladone', 'Hydrogen peroxide 30 mg', 'Neosporin Cream', 'Magnesium hydroxide 100mg/1ml', 'Metformin 1000 mg'""").toDS().toDF("text") 
 
-val res = p_model.transform(data)
+val res = p_model.fit(data).transform(data)
 ```
 
 

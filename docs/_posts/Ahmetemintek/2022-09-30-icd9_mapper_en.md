@@ -10,6 +10,7 @@ language: en
 edition: Healthcare NLP 4.1.0
 spark_version: 3.0
 supported: true
+annotator: ChunkMapperModel
 article_header:
   type: cover
 use_language_switcher: "Python-Scala-Java"
@@ -59,22 +60,22 @@ mapper_pipeline = Pipeline(stages=[
 
 test_data = spark.createDataFrame([["24 completed weeks of gestation"]]).toDF("text")
 
-res= mapper_pipeline.fit(test_data).transform(test_data)
+result = mapper_pipeline.fit(test_data).transform(test_data)
 ```
 ```scala
-val document_assembler = DocumentAssembler()\
-    .setInputCol('text')\
-    .setOutputCol('doc')
+val document_assembler = DocumentAssembler()
+    .setInputCol("text")
+    .setOutputCol("doc")
 
-val chunk_assembler = Doc2Chunk()\
-    .setInputCols(['doc'])\
-    .setOutputCol('ner_chunk')
+val chunk_assembler = Doc2Chunk()
+    .setInputCols(Array("doc"))
+    .setOutputCol("ner_chunk")
  
-val chunkerMapper = ChunkMapperModel\
-    .pretrained("icd9_mapper", "en", "clinical/models")\
-    .setInputCols(["ner_chunk"])\
-    .setOutputCol("mappings")\
-    .setRels(["icd9_code"])
+val chunkerMapper = ChunkMapperModel
+    .pretrained("icd9_mapper", "en", "clinical/models")
+    .setInputCols(Array("ner_chunk"))
+    .setOutputCol("mappings")
+    .setRels(Array("icd9_code"))
 
 
 val mapper_pipeline = new Pipeline().setStages(Array(
@@ -83,9 +84,9 @@ val mapper_pipeline = new Pipeline().setStages(Array(
     chunkerMapper))
 
 
-val data = Seq("24 completed weeks of gestation").toDS.toDF("text")
+val test_data = Seq("24 completed weeks of gestation").toDS.toDF("text")
 
-val result = pipeline.fit(data).transform(data) 
+val result = mapper_pipeline.fit(test_data).transform(test_data) 
 ```
 </div>
 

@@ -10,6 +10,7 @@ language: en
 edition: Healthcare NLP 3.5.0
 spark_version: 3.0
 supported: true
+annotator: ChunkMapperModel
 article_header:
 type: cover
 use_language_switcher: "Python-Scala-Java"
@@ -82,7 +83,7 @@ val document_assembler = DocumentAssembler()
 .setOutputCol("document")
 
 val sentence_detector = SentenceDetector()
-.setInputCols("document")
+.setInputCols(Array("document"))
 .setOutputCol("sentence")
 
 val tokenizer = Tokenizer()
@@ -105,7 +106,7 @@ val chunkerMapper = ChunkMapperModel.pretrained("drug_action_treatment_mapper", 
 val pipeline =  new Pipeline().setStages(Array(document_assembler, sentence_detector, tokenizer, ner, nerconverter, chunkerMapper ))
 
 
-val text_data = Seq("The patient is a 71-year-old female patient of Dr. X. and she was given Aklis and Dermovate.
+val test_data = Seq("The patient is a 71-year-old female patient of Dr. X. and she was given Aklis and Dermovate.
 Cureent Medications: Diprivan, Proventil").toDF("text")
 
 

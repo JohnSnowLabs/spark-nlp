@@ -14,7 +14,6 @@
 """Contains classes for LanguageDetectorDL."""
 
 from sparknlp.common import *
-from sparknlp.common.annotator_type import AnnotatorType
 
 
 class LanguageDetectorDL(AnnotatorModel, HasStorageRef, HasEngine):

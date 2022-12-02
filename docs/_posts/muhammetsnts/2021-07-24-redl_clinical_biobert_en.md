@@ -10,6 +10,7 @@ language: en
 edition: Healthcare NLP 3.0.3
 spark_version: 2.4
 supported: true
+annotator: RelationExtractionDLModel
 article_header:
 type: cover
 use_language_switcher: "Python-Scala-Java"
@@ -117,11 +118,11 @@ val documenter = new DocumentAssembler()
 .setOutputCol("document")
 
 val sentencer = new SentenceDetector()
-.setInputCols("document")
+.setInputCols(Array("document"))
 .setOutputCol("sentences")
 
 val tokenizer = new Tokenizer()
-.setInputCols("sentences")
+.setInputCols(Array("sentences"))
 .setOutputCol("tokens")
 
 val pos_tagger = PerceptronModel()

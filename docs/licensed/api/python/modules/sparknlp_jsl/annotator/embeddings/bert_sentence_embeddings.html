@@ -259,7 +259,7 @@
 <span class="kn">from</span> <span class="nn">sparknlp.common</span> <span class="kn">import</span> <span class="o">*</span>
 
 
-<div class="viewcode-block" id="BertSentenceChunkEmbeddings"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/embeddings/bert_sentence_embeddings/index.html#sparknlp_jsl.annotator.embeddings.bert_sentence_embeddings.BertSentenceChunkEmbeddings">[docs]</a><span class="k">class</span> <span class="nc">BertSentenceChunkEmbeddings</span><span class="p">(</span><span class="n">BertSentenceEmbeddings</span><span class="p">):</span>
+<div class="viewcode-block" id="BertSentenceChunkEmbeddings"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/embeddings/bert_sentence_embeddings/index.html#sparknlp_jsl.annotator.embeddings.bert_sentence_embeddings.BertSentenceChunkEmbeddings">[docs]</a><span class="k">class</span> <span class="nc">BertSentenceChunkEmbeddings</span><span class="p">(</span><span class="n">BertSentenceEmbeddings</span><span class="p">,</span> <span class="n">HasEngine</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    BERT Sentence embeddings for chunk annotations which take into account the context of the sentence the chunk appeared in.</span>
 <span class="sd">    This is an extension of BertSentenceEmbeddings which combines the embedding of a chunk with the embedding of the</span>

@@ -11,6 +11,7 @@ edition: Healthcare NLP 4.0.2
 spark_version: 3.0
 supported: true
 recommended: true
+annotator: ZeroShotNerModel
 article_header:
   type: cover
 use_language_switcher: "Python-Scala-Java"
@@ -76,29 +77,29 @@ data = spark.createDataFrame(["Hellen works in London, Paris and Berlin. My name
 result = zero_shot_ner_model.transform(data)
 ```
 ```scala
-val documentAssembler = new DocumentAssembler()\
-    .setInputCol("text")\
+val documentAssembler = new DocumentAssembler()
+    .setInputCol("text")
     .setOutputCol("document")
 
-val sentenceDetector = new SentenceDetector() \
-    .setInputCols(Array("document")) \
+val sentenceDetector = new SentenceDetector() 
+    .setInputCols(Array("document")) 
     .setOutputCol("sentence")
 
-val tokenizer = new Tokenizer() \
-    .setInputCols(Array("sentence")) \
+val tokenizer = new Tokenizer() 
+    .setInputCols(Array("sentence")) 
     .setOutputCol("token")
     
-val zero_shot_ner = ZeroShotNerModel.pretrained("zero_shot_ner_roberta", "en", "clincial/models")\
-    .setInputCols(Array("sentence", "token"))\
-    .setOutputCol("zero_shot_ner")\
+val zero_shot_ner = ZeroShotNerModel.pretrained("zero_shot_ner_roberta", "en", "clincial/models")
+    .setInputCols(Array("sentence", "token"))
+    .setOutputCol("zero_shot_ner")
     .setEntityDefinitions(Map(
             "NAME"-> Array("What is his name?", "What is my name?", "What is her name?"),
             "CITY"-> Array("Which city?", "Which is the city?")
     ))
 
-val ner_converter = new NerConverter()\
-    .setInputCols(Array("sentence", "token", "zero_shot_ner"))\
-    .setOutputCol("ner_chunk")\
+val ner_converter = new NerConverter()
+    .setInputCols(Array("sentence", "token", "zero_shot_ner"))
+    .setOutputCol("ner_chunk")
 
 val pipeline = new .setStages(Array(
     documentAssembler, 

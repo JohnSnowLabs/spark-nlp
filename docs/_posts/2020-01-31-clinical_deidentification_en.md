@@ -12,6 +12,7 @@ edition: Healthcare NLP 2.4.0
 spark_version: 2.4
 tags: [pipeline, clinical, licensed]
 supported: true
+annotator: PipelineModel
 article_header:
    type: cover
 use_language_switcher: "Python-Scala-Java"

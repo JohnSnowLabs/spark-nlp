@@ -3,9 +3,9 @@
         <head>
           <meta http-equiv="X-UA-Compatible" content="IE=edge" />
           <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-          <title>Spark NLP 4.2.1 ScalaDoc  - com.johnsnowlabs.ml.tensorflow.TensorflowGenericClassifier</title>
-          <meta name="description" content="Spark NLP 4.2.1 ScalaDoc - com.johnsnowlabs.ml.tensorflow.TensorflowGenericClassifier" />
-          <meta name="keywords" content="Spark NLP 4.2.1 ScalaDoc com.johnsnowlabs.ml.tensorflow.TensorflowGenericClassifier" />
+          <title>Spark NLP 4.2.2 ScalaDoc  - com.johnsnowlabs.ml.tensorflow.TensorflowGenericClassifier</title>
+          <meta name="description" content="Spark NLP 4.2.2 ScalaDoc - com.johnsnowlabs.ml.tensorflow.TensorflowGenericClassifier" />
+          <meta name="keywords" content="Spark NLP 4.2.2 ScalaDoc com.johnsnowlabs.ml.tensorflow.TensorflowGenericClassifier" />
           <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
           
       
@@ -28,7 +28,7 @@
         </head>
         <body>
       <div id="search">
-        <span id="doc-title">Spark NLP 4.2.1 ScalaDoc<span id="doc-version"></span></span>
+        <span id="doc-title">Spark NLP 4.2.2 ScalaDoc<span id="doc-version"></span></span>
         <span class="close-results"><span class="left">&lt;</span> Back</span>
         <div id="textfilter">
           <span class="input">
@@ -744,9 +744,9 @@
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef → Any</dd></dl></div>
     </li><li name="com.johnsnowlabs.ml.tensorflow.TensorflowGenericClassifier#train" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="train(features:Array[Array[Float]],labels:Array[Array[Float]],batchSize:Int,epochsNumber:Int,learningRate:Float,validationSplit:Float,classWeights:Array[Float],dropout:Float,configProtoBytes:Option[Array[Byte]],uuid:String):Unit"></a><a id="train(Array[Array[Float]],Array[Array[Float]],Int,Int,Float,Float,Array[Float],Float,Option[Array[Byte]],String):Unit"></a>
+      <a id="train(features:Array[Array[Float]],labels:Array[Array[Float]],batchSize:Int,epochsNumber:Int,learningRate:Float,validationSplit:Float,classWeights:Array[Float],dropout:Float,configProtoBytes:Option[Array[Byte]],uuid:String,resumeTraining:Boolean):Unit"></a><a id="train(Array[Array[Float]],Array[Array[Float]],Int,Int,Float,Float,Array[Float],Float,Option[Array[Byte]],String,Boolean):Unit"></a>
       <span class="permalink">
-      <a href="../../../../com/johnsnowlabs/ml/tensorflow/TensorflowGenericClassifier.html#train(features:Array[Array[Float]],labels:Array[Array[Float]],batchSize:Int,epochsNumber:Int,learningRate:Float,validationSplit:Float,classWeights:Array[Float],dropout:Float,configProtoBytes:Option[Array[Byte]],uuid:String):Unit" title="Permalink">
+      <a href="../../../../com/johnsnowlabs/ml/tensorflow/TensorflowGenericClassifier.html#train(features:Array[Array[Float]],labels:Array[Array[Float]],batchSize:Int,epochsNumber:Int,learningRate:Float,validationSplit:Float,classWeights:Array[Float],dropout:Float,configProtoBytes:Option[Array[Byte]],uuid:String,resumeTraining:Boolean):Unit" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -755,7 +755,7 @@
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">train</span><span class="params">(<span name="features">features: <span class="extype" name="scala.Array">Array</span>[<span class="extype" name="scala.Array">Array</span>[<span class="extype" name="scala.Float">Float</span>]]</span>, <span name="labels">labels: <span class="extype" name="scala.Array">Array</span>[<span class="extype" name="scala.Array">Array</span>[<span class="extype" name="scala.Float">Float</span>]]</span>, <span name="batchSize">batchSize: <span class="extype" name="scala.Int">Int</span></span>, <span name="epochsNumber">epochsNumber: <span class="extype" name="scala.Int">Int</span></span>, <span name="learningRate">learningRate: <span class="extype" name="scala.Float">Float</span> = <span class="symbol">0.001f</span></span>, <span name="validationSplit">validationSplit: <span class="extype" name="scala.Float">Float</span> = <span class="symbol">0.0f</span></span>, <span name="classWeights">classWeights: <span class="extype" name="scala.Array">Array</span>[<span class="extype" name="scala.Float">Float</span>]</span>, <span name="dropout">dropout: <span class="extype" name="scala.Float">Float</span> = <span class="symbol">0.0f</span></span>, <span name="configProtoBytes">configProtoBytes: <span class="extype" name="scala.Option">Option</span>[<span class="extype" name="scala.Array">Array</span>[<span class="extype" name="scala.Byte">Byte</span>]] = <span class="symbol">None</span></span>, <span name="uuid">uuid: <span class="extype" name="scala.Predef.String">String</span> = <span class="symbol">Identifiable.randomUID(&quot;annotator&quot;)</span></span>)</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
+        <span class="name">train</span><span class="params">(<span name="features">features: <span class="extype" name="scala.Array">Array</span>[<span class="extype" name="scala.Array">Array</span>[<span class="extype" name="scala.Float">Float</span>]]</span>, <span name="labels">labels: <span class="extype" name="scala.Array">Array</span>[<span class="extype" name="scala.Array">Array</span>[<span class="extype" name="scala.Float">Float</span>]]</span>, <span name="batchSize">batchSize: <span class="extype" name="scala.Int">Int</span></span>, <span name="epochsNumber">epochsNumber: <span class="extype" name="scala.Int">Int</span></span>, <span name="learningRate">learningRate: <span class="extype" name="scala.Float">Float</span> = <span class="symbol">0.001f</span></span>, <span name="validationSplit">validationSplit: <span class="extype" name="scala.Float">Float</span> = <span class="symbol">0.0f</span></span>, <span name="classWeights">classWeights: <span class="extype" name="scala.Array">Array</span>[<span class="extype" name="scala.Float">Float</span>]</span>, <span name="dropout">dropout: <span class="extype" name="scala.Float">Float</span> = <span class="symbol">0.0f</span></span>, <span name="configProtoBytes">configProtoBytes: <span class="extype" name="scala.Option">Option</span>[<span class="extype" name="scala.Array">Array</span>[<span class="extype" name="scala.Byte">Byte</span>]] = <span class="symbol">None</span></span>, <span name="uuid">uuid: <span class="extype" name="scala.Predef.String">String</span> = <span class="symbol">Identifiable.randomUID(&quot;annotator&quot;)</span></span>, <span name="resumeTraining">resumeTraining: <span class="extype" name="scala.Boolean">Boolean</span> = <span class="symbol">false</span></span>)</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
       </span>
       
       

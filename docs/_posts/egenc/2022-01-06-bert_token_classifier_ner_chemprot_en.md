@@ -10,6 +10,7 @@ language: en
 edition: Healthcare NLP 3.3.4
 spark_version: 2.4
 supported: true
+annotator: MedicalBertForTokenClassifier
 article_header:
 type: cover
 use_language_switcher: "Python-Scala-Java"
@@ -64,11 +65,10 @@ ner_converter = NerConverter()\
 
 pipeline =  Pipeline(stages=[documentAssembler, tokenizer, tokenClassifier, ner_converter])
 
-p_model = pipeline.fit(spark.createDataFrame(pd.DataFrame({'text': ['']})))
+data = spark.createDataFrame([["""Keratinocyte growth factor and acidic fibroblast growth factor are mitogens for primary cultures of mammary epithelium."""
+]]).toDF("text")
 
-test_sentence = "Keratinocyte growth factor and acidic fibroblast growth factor are mitogens for primary cultures of mammary epithelium."
-
-result = p_model.transform(spark.createDataFrame(pd.DataFrame({'text': [test_sentence]})))
+result = pipeline.fit(data).transform(data)
 ```
 ```scala
 val documentAssembler = new DocumentAssembler()

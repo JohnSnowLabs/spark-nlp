@@ -10,6 +10,7 @@ edition: Spark NLP 2.7.1
 spark_version: 2.4
 tags: [open_source, t5, seq2seq, question_answering, en]
 supported: true
+annotator: T5Transformer
 article_header:
 type: cover
 use_language_switcher: "Python-Scala-Java"

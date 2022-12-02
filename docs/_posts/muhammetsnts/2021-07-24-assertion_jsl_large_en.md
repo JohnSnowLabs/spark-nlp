@@ -10,6 +10,7 @@ language: en
 edition: Healthcare NLP 3.1.2
 spark_version: 2.4
 supported: true
+annotator: AssertionDLModel
 article_header:
 type: cover
 use_language_switcher: "Python-Scala-Java"
@@ -46,6 +47,19 @@ The deep neural network architecture for assertion status detection in Spark NLP
 
 ```python
 ...
+
+documentAssembler = DocumentAssembler()\
+.setInputCol("text")\
+.setOutputCol("document")
+
+sentenceDetector = SentenceDetector()\
+.setInputCols(["document"])\
+.setOutputCol("sentence")
+
+tokenizer = Tokenizer()\
+.setInputCols(["sentence"])\
+.setOutputCol("token")
+
 word_embeddings = WordEmbeddingsModel.pretrained("embeddings_clinical", "en", "clinical/models")\
 .setInputCols(["sentence", "token"])\
 .setOutputCol("embeddings")
@@ -63,12 +77,26 @@ clinical_assertion = AssertionDLModel.pretrained("assertion_jsl_large", "en", "c
 .setOutputCol("assertion")
 
 nlpPipeline = Pipeline(stages=[documentAssembler, sentenceDetector, tokenizer, word_embeddings, clinical_ner, ner_converter, clinical_assertion])
-model = nlpPipeline.fit(spark.createDataFrame([[""]]).toDF("text"))
 
-result = model.transform(spark.createDataFrame([["The patient is a 21-day-old Caucasian male here for 2 days of congestion - mom has been suctioning yellow discharge from the patient's nares, plus she has noticed some mild problems with his breathing while feeding (but negative for any perioral cyanosis or retractions). One day ago, mom also noticed a tactile temperature and gave the patient Tylenol. Baby also has had some decreased p.o. intake. His normal breast-feeding is down from 20 minutes q.2h. to 5 to 10 minutes secondary to his respiratory congestion. He sleeps well, but has been more tired and has been fussy over the past 2 days. The parents noticed no improvement with albuterol treatments given in the ER. His urine output has also decreased; normally he has 8 to 10 wet and 5 dirty diapers per 24 hours, now he has down to 4 wet diapers per 24 hours. Mom denies any diarrhea. His bowel movements are yellow colored and soft in nature."]], ["text"])
+data = spark.createDataFrame([["The patient is a 21-day-old Caucasian male here for 2 days of congestion - mom has been suctioning yellow discharge from the patient's nares, plus she has noticed some mild problems with his breathing while feeding (but negative for any perioral cyanosis or retractions). One day ago, mom also noticed a tactile temperature and gave the patient Tylenol. Baby also has had some decreased p.o. intake. His normal breast-feeding is down from 20 minutes q.2h. to 5 to 10 minutes secondary to his respiratory congestion. He sleeps well, but has been more tired and has been fussy over the past 2 days. The parents noticed no improvement with albuterol treatments given in the ER. His urine output has also decreased; normally he has 8 to 10 wet and 5 dirty diapers per 24 hours, now he has down to 4 wet diapers per 24 hours. Mom denies any diarrhea. His bowel movements are yellow colored and soft in nature."]]).toDF("text")
+
+result = nlpPipeline.fit(data).transform(data)
+
 ```
 ```scala
 ...
+val documentAssembler = new DocumentAssembler() 
+.setInputCol("text") 
+.setOutputCol("document")
+
+val sentenceDetector = new SentenceDetector()
+.setInputCols(Array("document"))
+.setOutputCol("sentence")
+
+val tokenizer = new Tokenizer()
+.setInputCols(Array("sentence"))
+.setOutputCol("token")
+
 val word_embeddings = WordEmbeddingsModel.pretrained("embeddings_clinical", "en", "clinical/models")
 .setInputCols(Array("sentence", "token"))
 .setOutputCol("embeddings")

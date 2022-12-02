@@ -11,6 +11,7 @@ edition: Healthcare NLP 3.5.0
 spark_version: 3.0
 supported: true
 published: false
+annotator: MedicalNerModel
 article_header:
   type: cover
 use_language_switcher: "Python-Scala-Java"

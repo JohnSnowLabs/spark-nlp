@@ -16,7 +16,7 @@ sidebar:
 
 {% include programmingLanguageSelectScalaPythonNLU.html %}
 
-<div class="highlighter-rouge language-python" markdown="1">
+<div class="highlighter-rouge python-inner-wrapper language-python" markdown="1">
 {% include programmingLanguageSelectPythons.html %}
 
 <div class="python-inner python-spark-nlp-jsl" markdown="1">

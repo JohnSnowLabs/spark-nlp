@@ -10,6 +10,7 @@ language: it
 edition: Healthcare NLP 3.4.2
 spark_version: 2.4
 supported: true
+annotator: MedicalNerModel
 article_header:
 type: cover
 use_language_switcher: "Python-Scala-Java"
@@ -82,7 +83,7 @@ clinical_ner])
 text = ["Ho visto Gastone Montanariello (49 anni) riferito all' Ospedale San Camillo per diabete mal controllato con sintomi risalenti a marzo 2015."]
 
 
-df = spark.createDataFrame([text]).toDF("text")
+data = spark.createDataFrame([text]).toDF("text")
 
 
 results = nlpPipeline.fit(data).transform(data)

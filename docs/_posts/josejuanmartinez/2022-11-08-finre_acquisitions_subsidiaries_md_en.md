@@ -10,6 +10,7 @@ language: en
 edition: Finance NLP 1.0.0
 spark_version: 3.0
 supported: true
+annotator: RelationExtractionDLModel
 article_header:
   type: cover
 use_language_switcher: "Python-Scala-Java"
@@ -17,6 +18,10 @@ use_language_switcher: "Python-Scala-Java"
 
 ## Description
 
+IMPORTANT: Don't run this model on the whole financial report. Instead:
+- Split by paragraphs;
+- Use the `finclf_acquisitions_item` Text Classifier to select only these paragraphs;
+ 
 This model is a `md` model, meaning that the directions in the relations are meaningful: `chunk1` is the source of the relation, `chunk2` is the target.
 
 The aim of this model is to retrieve acquisition or subsidiary relationships between Organizations, included when the acquisition was carried out ("was_acquired") and by whom ("was_acquired_by"). Subsidiaries are tagged with the relationship "is_subsidiary_of".

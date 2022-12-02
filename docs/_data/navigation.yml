@@ -12,7 +12,7 @@ header:
     key: models
   - title: Demo
     url: /demos
-  - title: '<span style="color: #FF8A00;"><i class="fab fa-github fa-2x"></i></span>'
+  - title: '<span style="color: #FF8A00;"><i class = "fab fa-github fa-2x"></i></span>'
     url: https://github.com/JohnSnowLabs/spark-nlp
   - title: '<span style="color: #FF8A00;"><i class="fab fa-slack-hash fa-2x"></i></span>'
     url: https://www.johnsnowlabs.com/slack-redirect/
@@ -118,6 +118,8 @@ annotation-lab:
             url: /docs/en/alab/active_learning
           - title: Transfer Learning
             url: /docs/en/alab/transfer_learning
+          - title: Test Project Configuration
+            url: /docs/en/alab/test_project_configuration
       - subtitle: Administration
         children:
           - title: User Management
@@ -134,10 +136,14 @@ annotation-lab:
             url: /docs/en/alab/infrastructure
           - title: Cluster Management
             url: /docs/en/alab/cluster_management
+      - title: NLP Libraries Integration
+        url: /docs/en/alab/healthcare
       - title: Security and Privacy
         url: /docs/en/alab/security
       - title: Video Tutorials
         url: /docs/en/alab/tutorials
+      - title: FAQ
+        url: /docs/en/alab/troubleshooting
       - title: Release Notes
         url: /docs/en/alab/release_notes
 

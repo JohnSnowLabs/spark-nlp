@@ -10,6 +10,7 @@ language: en
 edition: Healthcare NLP 3.5.1
 spark_version: 3.0
 supported: true
+annotator: ChunkMapperModel
 article_header:
 type: cover
 use_language_switcher: "Python-Scala-Java"
@@ -59,12 +60,12 @@ rxnorm_resolver = SentenceEntityResolverModel.pretrained("sbiobertresolve_rxnorm
 .setOutputCol("rxnorm_code")\
 .setDistanceFunction("EUCLIDEAN")
 
-chunkerMapper_product = ChunkMapperModel.pretrained("rxnorm_ndc_mapper", "en", "clinical/models"))\
+chunkerMapper_product = ChunkMapperModel.pretrained("rxnorm_ndc_mapper", "en", "clinical/models")\
 .setInputCols(["rxnorm_code"])\
 .setOutputCol("Product NDC")\
 .setRel("Product NDC") 
 
-chunkerMapper_package = ChunkMapperModel.pretrained("rxnorm_ndc_mapper", "en", "clinical/models"))\
+chunkerMapper_package = ChunkMapperModel.pretrained("rxnorm_ndc_mapper", "en", "clinical/models")\
 .setInputCols(["rxnorm_code"])\
 .setOutputCol("Package NDC")\
 .setRel("Package NDC") 
@@ -84,11 +85,11 @@ result = lp.annotate(['doxepin hydrochloride 50 MG/ML', 'macadamia nut 100 MG/ML
 ```
 ```scala
 val document_assembler = new DocumentAssembler()
-.setInputCol("text")\
+.setInputCol("text")
 .setOutputCol("ner_chunk")
 
 val sbert_embedder = BertSentenceEmbeddings.pretrained("sbiobert_base_cased_mli", "en","clinical/models")
-.setInputCols("ner_chunk")
+.setInputCols(Array("ner_chunk"))
 .setOutputCol("sentence_embeddings")
 .setCaseSensitive(False)
 
@@ -97,13 +98,13 @@ val rxnorm_resolver = SentenceEntityResolverModel.pretrained("sbiobertresolve_rx
 .setOutputCol("rxnorm_code")
 .setDistanceFunction("EUCLIDEAN")
 
-val chunkerMapper_product = ChunkMapperModel.pretrained("rxnorm_ndc_mapper", "en", "clinical/models"))
-.setInputCols("rxnorm_code")
+val chunkerMapper_product = ChunkMapperModel.pretrained("rxnorm_ndc_mapper", "en", "clinical/models")
+.setInputCols(Array("rxnorm_code"))
 .setOutputCol("Product NDC")
 .setRel("Product NDC")  
 
-val chunkerMapper_package = ChunkMapperModel.pretrained("rxnorm_ndc_mapper", "en", "clinical/models"))
-.setInputCols("rxnorm_code")
+val chunkerMapper_package = ChunkMapperModel.pretrained("rxnorm_ndc_mapper", "en", "clinical/models")
+.setInputCols(Array("rxnorm_code"))
 .setOutputCol("Package NDC")
 .setRel("Package NDC") 
 

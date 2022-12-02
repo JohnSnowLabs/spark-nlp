@@ -10,6 +10,7 @@ language: en
 edition: Healthcare NLP 3.4.1
 spark_version: 3.0
 supported: true
+annotator: SentenceEntityResolverModel
 article_header:
   type: cover
 use_language_switcher: "Python-Scala-Java"
@@ -101,11 +102,11 @@ val document_assembler = DocumentAssembler()
       .setOutputCol("document")
 
 val sentenceDetectorDL = SentenceDetectorDLModel.pretrained("sentence_detector_dl_healthcare", "en", "clinical/models")
-      .setInputCols("document")
+      .setInputCols(Array("document"))
       .setOutputCol("sentence")
 
 val tokenizer = Tokenizer()
-      .setInputCols("sentence")
+      .setInputCols(Array("sentence"))
       .setOutputCol("token")
 
 val word_embeddings = WordEmbeddingsModel.pretrained("embeddings_clinical", "en", "clinical/models")
@@ -122,11 +123,11 @@ val ner_converter = NerConverterInternal()
       .setWhiteList(Array("DRUG"))
 
 val c2doc = Chunk2Doc()
-      .setInputCols("ner_chunk")
+      .setInputCols(Array("ner_chunk"))
       .setOutputCol("ner_chunk_doc") 
 
 val sbert_embedder = BertSentenceEmbeddings.pretrained("sbiobert_base_cased_mli", "en", "clinical/models")
-      .setInputCols("ner_chunk_doc")
+      .setInputCols(Array("ner_chunk_doc"))
       .setOutputCol("sentence_embeddings")
       .setCaseSensitive(False)
     

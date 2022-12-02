@@ -1,6 +1,6 @@
 ---
 layout: model
-title: Legal Indemnification NER (Bert, base)
+title: Legal Indemnification NER (Bert, sm)
 author: John Snow Labs
 name: legner_bert_indemnifications
 date: 2022-09-27
@@ -10,14 +10,20 @@ language: en
 edition: Legal NLP 1.0.0
 spark_version: 3.0
 supported: true
+annotator: LegalBertForTokenClassification
 article_header:
   type: cover
 use_language_switcher: "Python-Scala-Java"
 ---
 
 ## Description
+IMPORTANT: Don't run this model on the whole legal agreement. Instead:
+- Split by paragraphs. You can use [notebook 1](https://github.com/JohnSnowLabs/spark-nlp-workshop/tree/master/tutorials/Certification_Trainings_JSL) in Finance or Legal as inspiration;
+- Use the `legclf_indemnification_clause` Text Classifier to select only these paragraphs; 
 
 This is a Legal Named Entity Recognition Model to identify the Subject (who), Action (web), Object(the indemnification) and Indirect Object (to whom) from Indemnification clauses.
+
+There is a lighter (non-transformer based) model available in Models Hub as `legner_indemnifications_md`.
 
 ## Predicted Entities
 
@@ -58,7 +64,7 @@ ner_converter = nlp.NerConverter()\
     .setInputCols(["sentence","token","label"])\
     .setOutputCol("ner_chunk")
     
-nlpPipeline = Pipeline(stages=[
+nlpPipeline = nlp.Pipeline(stages=[
         documentAssembler,
         sentencizer,
         tokenizer,

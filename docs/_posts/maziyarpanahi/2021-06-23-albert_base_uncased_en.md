@@ -10,6 +10,7 @@ language: en
 edition: Spark NLP 3.1.1
 spark_version: 2.4
 supported: true
+annotator: AlBertEmbeddings
 article_header:
 type: cover
 use_language_switcher: "Python-Scala-Java"

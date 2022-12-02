@@ -10,6 +10,7 @@ language: en
 edition: Healthcare NLP 4.0.0
 spark_version: 3.0
 supported: true
+annotator: MedicalBertForSequenceClassification
 article_header:
   type: cover
 use_language_switcher: "Python-Scala-Java"
@@ -63,19 +64,19 @@ result = pipeline.fit(data).transform(data)
 result.select("text", "class.result").show(truncate=False)
 ```
 ```scala
-val documenter = new DocumentAssembler() 
+val document_assembler = new DocumentAssembler() 
     .setInputCol("text") 
     .setOutputCol("document")
 
 val tokenizer = new Tokenizer()
-    .setInputCols("sentences")
+    .setInputCols(Array("document"))
     .setOutputCol("token")
 
 val sequenceClassifier = MedicalBertForSequenceClassification.pretrained("bert_sequence_classifier_drug_reviews_webmd", "en", "clinical/models")
     .setInputCols(Array("document","token"))
     .setOutputCol("class")
 
-val pipeline = new Pipeline().setStages(Array(documenter, tokenizer, sequenceClassifier))
+val pipeline = new Pipeline().setStages(Array(document_assembler, tokenizer, sequenceClassifier))
 
 val data = Seq(Array("While it has worked for me, the sweating and chills especially at night when trying to sleep are very off putting and I am not sure if I will stick with it very much longer. My eyese no longer feel like there is something in them and my mouth is definitely not as dry as before but the side effects are too invasive for my liking.",
                      "I previously used Cheratussin but was now dispensed Guaifenesin AC as a cheaper alternative. This stuff does n t work as good as Cheratussin and taste like cherry flavored sugar water.")).toDS.toDF("text")

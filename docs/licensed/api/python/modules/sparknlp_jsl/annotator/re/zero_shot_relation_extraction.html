@@ -259,7 +259,7 @@
 <span class="kn">from</span> <span class="nn">sparknlp_jsl.annotator.classification.medical_bert_for_sequence_classification</span> <span class="kn">import</span> <span class="n">MedicalBertForSequenceClassification</span>
 
 
-<div class="viewcode-block" id="ZeroShotRelationExtractionModel"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/re/zero_shot_relation_extraction/index.html#sparknlp_jsl.annotator.re.zero_shot_relation_extraction.ZeroShotRelationExtractionModel">[docs]</a><span class="k">class</span> <span class="nc">ZeroShotRelationExtractionModel</span><span class="p">(</span><span class="n">MedicalBertForSequenceClassification</span><span class="p">):</span>
+<div class="viewcode-block" id="ZeroShotRelationExtractionModel"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/re/zero_shot_relation_extraction/index.html#sparknlp_jsl.annotator.re.zero_shot_relation_extraction.ZeroShotRelationExtractionModel">[docs]</a><span class="k">class</span> <span class="nc">ZeroShotRelationExtractionModel</span><span class="p">(</span><span class="n">MedicalBertForSequenceClassification</span><span class="p">,</span> <span class="n">HasEngine</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    ZeroShotRelationExtractionModel implements zero shot binary relations extraction by utilizing BERT transformer</span>
 <span class="sd">    models trained on the NLI (Natural Language Inference) task. The model inputs consists of documents/sentences and</span>
@@ -377,7 +377,7 @@
 
 <span class="sd">        &quot;&quot;&quot;</span>
 
-        <span class="bp">self</span><span class="o">.</span><span class="n">_call_java</span><span class="p">(</span><span class="s2">&quot;setRelationalCategories&quot;</span><span class="p">,</span><span class="n">categories</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_call_java</span><span class="p">(</span><span class="s2">&quot;setRelationalCategories&quot;</span><span class="p">,</span> <span class="n">categories</span><span class="p">)</span>
         <span class="k">return</span> <span class="bp">self</span></div>
 
     <span class="nd">@keyword_only</span>

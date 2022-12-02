@@ -10,6 +10,7 @@ edition: Spark NLP 2.4.4
 spark_version: 2.4
 tags: [pos, ru]
 supported: true
+annotator: PerceptronModel
 article_header:
 type: cover
 use_language_switcher: "Python-Scala-Java"

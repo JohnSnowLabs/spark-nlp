@@ -11,6 +11,7 @@ edition: Healthcare NLP 4.0.0
 spark_version: 3.0
 supported: true
 recommended: true
+annotator: MedicalBertForSequenceClassification
 article_header:
   type: cover
 use_language_switcher: "Python-Scala-Java"
@@ -64,19 +65,19 @@ result = pipeline.fit(data).transform(data)
 result.select("text", "class.result").show(truncate=False)
 ```
 ```scala
-val documenter = new DocumentAssembler() 
+val document_assembler = new DocumentAssembler() 
     .setInputCol("text") 
     .setOutputCol("document")
 
 val tokenizer = new Tokenizer()
-    .setInputCols("document")
+    .setInputCols(Array("document"))
     .setOutputCol("token")
 
 val sequenceClassifier = MedicalBertForSequenceClassification.pretrained("bert_sequence_classifier_self_reported_stress_tweet", "en", "clinical/models")
     .setInputCols(Array("document","token"))
     .setOutputCol("class")
 
-val pipeline = new Pipeline().setStages(Array(documenter, tokenizer, sequenceClassifier))
+val pipeline = new Pipeline().setStages(Array(document_assembler, tokenizer, sequenceClassifier))
 
 val data = Seq(Array("Do you feel stressed!", 
                      "I'm so stressed!",

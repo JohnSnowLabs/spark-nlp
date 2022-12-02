@@ -10,6 +10,7 @@ language: en
 edition: Healthcare NLP 3.4.1
 spark_version: 3.0
 supported: true
+annotator: MedicalDistilBertForSequenceClassification
 article_header:
 type: cover
 use_language_switcher: "Python-Scala-Java"
@@ -81,13 +82,13 @@ data = spark.createDataFrame([["I felt a bit drowsy and had blurred vision after
 result = pipeline.fit(data).transform(data)
 ```
 ```scala
-val documenter = new DocumentAssembler() 
+val document_assembler = new DocumentAssembler() 
 .setInputCol("text") 
 .setOutputCol("document")
 
 
 val tokenizer = new Tokenizer()
-.setInputCols("sentences")
+.setInputCols(Array("document"))
 .setOutputCol("token")
 
 
@@ -96,7 +97,7 @@ val sequenceClassifier = MedicalDistilBertForSequenceClassification.pretrained("
 .setOutputCol("class")
 
 
-val pipeline = new Pipeline().setStages(Array(documenter, tokenizer, sequenceClassifier))
+val pipeline = new Pipeline().setStages(Array(document_assembler, tokenizer, sequenceClassifier))
 
 
 val data = Seq("I felt a bit drowsy and had blurred vision after taking Aspirin.").toDF("text")

@@ -14,7 +14,6 @@
 """Contains classes for the UniversalSentenceEncoder."""
 
 from sparknlp.common import *
-from sparknlp.common.annotator_type import AnnotatorType
 
 
 class UniversalSentenceEncoder(AnnotatorModel,

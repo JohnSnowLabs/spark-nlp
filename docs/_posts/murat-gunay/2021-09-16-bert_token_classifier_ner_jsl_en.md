@@ -36,31 +36,26 @@ Pretrained named entity recognition deep learning model for clinical terminology
 
 ## How to use
 
-
-
-
-
-
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
 
 ```python
 documentAssembler = DocumentAssembler()\
-.setInputCol("text")\
-.setOutputCol("document")
+    .setInputCol("text")\
+    .setOutputCol("document")
 
 tokenizer = Tokenizer()\
-.setInputCols("document")\
-.setOutputCol("token")
+    .setInputCols("document")\
+    .setOutputCol("token")
 
 tokenClassifier = BertForTokenClassification.pretrained("bert_token_classifier_ner_jsl", "en", "clinical/models")\
-.setInputCols("token", "document")\
-.setOutputCol("ner")\
-.setCaseSensitive(True)
+    .setInputCols("token", "document")\
+    .setOutputCol("ner")\
+    .setCaseSensitive(True)
 
 ner_converter = NerConverter()\
-.setInputCols(["document","token","ner"])\
-.setOutputCol("ner_chunk")
+    .setInputCols(["document","token","ner"])\
+    .setOutputCol("ner_chunk")
 
 pipeline =  Pipeline(stages=[documentAssembler, tokenizer, tokenClassifier, ner_converter])
 
@@ -72,21 +67,21 @@ result = p_model.transform(spark.createDataFrame(pd.DataFrame({'text': [test_sen
 ```
 ```scala
 val documentAssembler = new DocumentAssembler()
-.setInputCol("text")
-.setOutputCol("document")
+    .setInputCol("text")
+    .setOutputCol("document")
 
 val tokenizer = new Tokenizer()
-.setInputCols("document")
-.setOutputCol("token")
+    .setInputCols("document")
+    .setOutputCol("token")
 
 val tokenClassifier = BertForTokenClassification.pretrained("bert_token_classifier_ner_jsl", "en", "clinical/models")
-.setInputCols("token", "document")
-.setOutputCol("ner")
-.setCaseSensitive(True)
+    .setInputCols(Array("token", "document"))
+    .setOutputCol("ner")
+    .setCaseSensitive(True)
 
 val ner_converter = new NerConverter()
-.setInputCols(Array("document","token","ner"))
-.setOutputCol("ner_chunk")
+    .setInputCols(Array("document","token","ner"))
+    .setOutputCol("ner_chunk")
 
 val pipeline =  new Pipeline().setStages(Array(documentAssembler, tokenizer, tokenClassifier, ner_converter))
 

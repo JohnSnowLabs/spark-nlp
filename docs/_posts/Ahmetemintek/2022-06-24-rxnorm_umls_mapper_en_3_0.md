@@ -10,6 +10,7 @@ language: en
 edition: Healthcare NLP 3.5.3
 spark_version: 3.0
 supported: true
+annotator: ChunkMapperModel
 article_header:
 type: cover
 use_language_switcher: "Python-Scala-Java"
@@ -71,7 +72,7 @@ result = lp.fullAnnotate(["amlodipine 5 MG", "hydrochlorothiazide 25 MG"])
 ```
 ```scala
 val documentAssembler = new DocumentAssembler()
-.setInputCol("text")\
+.setInputCol("text")
 .setOutputCol("ner_chunk")
 
 val sbert_embedder = BertSentenceEmbeddings

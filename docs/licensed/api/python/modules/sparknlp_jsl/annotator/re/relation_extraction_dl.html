@@ -259,7 +259,7 @@
 <span class="kn">from</span> <span class="nn">sparknlp.internal</span> <span class="kn">import</span> <span class="n">ExtendedJavaWrapper</span>
 
 
-<span class="k">class</span> <span class="nc">_RelationExtractionDLModelLoader</span><span class="p">(</span><span class="n">ExtendedJavaWrapper</span><span class="p">):</span>
+<span class="k">class</span> <span class="nc">_RelationExtractionDLModelLoader</span><span class="p">(</span><span class="n">ExtendedJavaWrapper</span><span class="p">,</span><span class="n">HasEngine</span><span class="p">):</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span> <span class="n">jspark</span><span class="p">):</span>
         <span class="nb">super</span><span class="p">(</span><span class="n">_RelationExtractionDLModelLoader</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
             <span class="s2">&quot;com.johnsnowlabs.nlp.annotators.re.RelationExtractionDLModel.loadSavedModel&quot;</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span> <span class="n">jspark</span><span class="p">)</span>

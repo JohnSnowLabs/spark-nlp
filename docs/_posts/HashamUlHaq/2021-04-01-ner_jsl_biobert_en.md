@@ -10,6 +10,7 @@ language: en
 edition: Healthcare NLP 3.0.0
 spark_version: 3.0
 supported: true
+annotator: MedicalNerModel
 article_header:
 type: cover
 use_language_switcher: "Python-Scala-Java"
@@ -54,7 +55,7 @@ tokenizer = Tokenizer()\
 		.setOutputCol("token")
 	
 embeddings = BertEmbeddings.pretrained("biobert_pubmed_base_cased")\
-		.setInputCols(["sentence",  "token"]) \ 
+		.setInputCols(["sentence",  "token"]) \
 		.setOutputCol("embeddings")
 		
 jsl_ner = MedicalNerModel.pretrained("ner_jsl_biobert", "en", "clinical/models") \

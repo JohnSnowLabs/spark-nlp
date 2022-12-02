@@ -14,7 +14,6 @@
 """Contains classes for the RegexMatcher."""
 
 from sparknlp.common import *
-from sparknlp.common.annotator_type import AnnotatorType
 
 
 class RegexMatcher(AnnotatorApproach):

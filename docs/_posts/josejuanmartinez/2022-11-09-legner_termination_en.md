@@ -1,6 +1,6 @@
 ---
 layout: model
-title: Extract Information from Termination Clauses (Small)
+title: Extract Information from Termination Clauses (sm)
 author: John Snow Labs
 name: legner_termination
 date: 2022-11-09
@@ -10,12 +10,17 @@ language: en
 edition: Legal NLP 1.0.0
 spark_version: 3.0
 supported: true
+annotator: FinanceNerModel
 article_header:
   type: cover
 use_language_switcher: "Python-Scala-Java"
 ---
 
 ## Description
+
+IMPORTANT: Don't run this model on the whole legal agreement. Instead:
+- Split by paragraphs. You can use [notebook 1](https://github.com/JohnSnowLabs/spark-nlp-workshop/tree/master/tutorials/Certification_Trainings_JSL) in Finance or Legal as inspiration;
+- Use the `legclf_termination_clause` Text Classifier to select only these paragraphs; 
 
 This is a NER model which extracts information from Termination Clauses, like the subject (Who? Which party?) the action (verb) the object (What?) and the Indirect Object (to Whom?).
 
@@ -59,7 +64,7 @@ ner_converter = nlp.NerConverter()\
         .setInputCols(["sentence","token","ner"])\
         .setOutputCol("ner_chunk")
 
-nlpPipeline = Pipeline(stages=[
+nlpPipeline = nlp.Pipeline(stages=[
         documentAssembler,
         sentenceDetector,
         tokenizer,

@@ -10,6 +10,7 @@ language: de
 edition: Healthcare NLP 3.3.4
 spark_version: 2.4
 supported: true
+annotator: MedicalNerModel
 article_header:
 type: cover
 use_language_switcher: "Python-Scala-Java"
@@ -46,7 +47,19 @@ Named Entity recognition annotator allows for a generic model to be trained by u
 
 ```python
 ...
-embeddings = WordEmbeddingsModel.pretrained("w2v_cc_300d","de","clinical/models")\
+document_assembler = DocumentAssembler()\
+.setInputCol("text")\
+.setOutputCol("document")
+
+sentence_detector = SentenceDetector()\
+.setInputCols(["document"])\
+.setOutputCol("sentence")
+
+tokenizer = Tokenizer()\
+.setInputCols(["sentence"])\
+.setOutputCol("token")
+
+word_embeddings = WordEmbeddingsModel.pretrained("w2v_cc_300d","de","clinical/models")\
 .setInputCols(["sentence", "token"])\
 .setOutputCol("embeddings")
 
@@ -60,15 +73,25 @@ ner_converter = NerConverter()\
 
 nlpPipeline = Pipeline(stages=[document_assembler, sentence_detector, tokenizer, word_embeddings, deid_ner, ner_converter])
 
-model = nlpPipeline.fit(spark.createDataFrame([[""]]).toDF("text"))
+data = spark.createDataFrame([["""Michael Berger wird am Morgen des 12 Dezember 2018 ins St. Elisabeth-Krankenhaus
+in Bad Kissingen eingeliefert. Herr Berger ist 76 Jahre alt und hat zu viel Wasser in den Beinen."""]]).toDF("text")
 
-text = """Michael Berger wird am Morgen des 12 Dezember 2018 ins St. Elisabeth-Krankenhaus
-in Bad Kissingen eingeliefert. Herr Berger ist 76 Jahre alt und hat zu viel Wasser in den Beinen."""
-
-result = model.transform(spark.createDataFrame([[text]], ["text"]))
+result = nlpPipeline.fit(data).transform(data)
 ```
 ```scala
 ...
+val document_assembler = new DocumentAssembler() 
+.setInputCol("text") 
+.setOutputCol("document")
+
+val sentence_detector = new SentenceDetector()
+.setInputCols(Array("document"))
+.setOutputCol("sentence")
+
+val tokenizer = new Tokenizer()
+.setInputCols(Array("sentence"))
+.setOutputCol("token")
+
 val word_embeddings = WordEmbeddingsModel.pretrained("w2v_cc_300d", "de", "clinical/models")
 .setInputCols(Array("sentence", "token"))
 .setOutputCol("embeddings")
@@ -83,9 +106,9 @@ val ner_converter = new NerConverter()
 
 val nlpPipeline = new Pipeline().setStages(Array(document_assembler, sentence_detector, tokenizer, word_embeddings, deid_ner, ner_converter))
 
-val result = Seq("""Michael Berger wird am Morgen des 12 Dezember 2018 ins St. Elisabeth-Krankenhausin Bad Kissingen eingeliefert. Herr Berger ist 76 Jahre alt und hat zu viel Wasser in den Beinen.""").toDS.toDF("text")
+val data = Seq("""Michael Berger wird am Morgen des 12 Dezember 2018 ins St. Elisabeth-Krankenhausin Bad Kissingen eingeliefert. Herr Berger ist 76 Jahre alt und hat zu viel Wasser in den Beinen.""").toDS.toDF("text")
 
-val model = nlpPipeline.fit(result).transform(result)
+val result = nlpPipeline.fit(data).transform(data)
 ```
 
 

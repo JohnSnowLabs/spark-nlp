@@ -14,7 +14,6 @@
 """Contains classes for Doc2Vec."""
 
 from sparknlp.common import *
-from sparknlp.common.annotator_type import AnnotatorType
 
 
 class Doc2VecApproach(AnnotatorApproach, HasStorageRef, HasEnableCachingProperties):
