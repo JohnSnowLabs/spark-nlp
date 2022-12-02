@@ -7,31 +7,32 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
 
     <title>sparknlp_jsl.training &#8212; Spark NLP 4.0.0 documentation</title>
-  <script>
+  
+  
+  
+  <script data-cfasync="false">
     document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
     document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
   </script>
   
   <!-- Loaded before other Sphinx assets -->
-  <link href="../../../../static/styles/theme.css?digest=1e1de1a1873e13ef5536" rel="stylesheet">
-<link href="../../../../static/styles/pydata-sphinx-theme.css?digest=1e1de1a1873e13ef5536" rel="stylesheet">
+  <link href="../../../../static/styles/theme.css?digest=796348d33e8b1d947c94" rel="stylesheet">
+<link href="../../../../static/styles/bootstrap.css?digest=796348d33e8b1d947c94" rel="stylesheet">
+<link href="../../../../static/styles/pydata-sphinx-theme.css?digest=796348d33e8b1d947c94" rel="stylesheet">
 
   
-  <link rel="stylesheet"
-    href="../../../../static/vendor/fontawesome/6.1.2/css/all.min.css">
-  <link rel="preload" as="font" type="font/woff2" crossorigin
-    href="../../../../static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2">
-  <link rel="preload" as="font" type="font/woff2" crossorigin
-    href="../../../../static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2">
-  <link rel="preload" as="font" type="font/woff2" crossorigin
-    href="../../../../static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2">
+  <link href="../../../../static/vendor/fontawesome/6.1.2/css/all.min.css?digest=796348d33e8b1d947c94" rel="stylesheet">
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2">
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2">
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2">
 
     <link rel="stylesheet" type="text/css" href="../../../../static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="../../../../static/graphviz.css" />
     <link rel="stylesheet" type="text/css" href="../../../../static/css/custom.css" />
   
   <!-- Pre-loaded scripts that we'll load fully later -->
-  <link rel="preload" as="script" href="../../../../static/scripts/pydata-sphinx-theme.js?digest=1e1de1a1873e13ef5536">
+  <link rel="preload" as="script" href="../../../../static/scripts/bootstrap.js?digest=796348d33e8b1d947c94">
+<link rel="preload" as="script" href="../../../../static/scripts/pydata-sphinx-theme.js?digest=796348d33e8b1d947c94">
 
     <script data-url_root="../../../../" id="documentation_options" src="../../../../static/documentation_options.js"></script>
     <script src="../../../../static/jquery.js"></script>
@@ -50,6 +51,10 @@
   
   
   <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="180" data-default-mode="">
+
+  
+  
+  <a class="skip-link" href="#main-content">Skip to main content</a>
 
   
   <input type="checkbox" class="sidebar-toggle" name="__primary" id="__primary">
@@ -113,18 +118,18 @@
     </p>
     <ul id="navbar-main-elements" class="navbar-nav">
         
-                <li class="nav-item">
-                    <a class="nav-link" href="../../../../getting_started/index.html">
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../../getting_started/index.html">
                         Getting Started
-                    </a>
-                </li>
+                      </a>
+                    </li>
                 
 
-                <li class="nav-item">
-                    <a class="nav-link" href="../../../index.html">
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../index.html">
                         API Reference
-                    </a>
-                </li>
+                      </a>
+                    </li>
                 
     </ul>
 </nav>
@@ -133,19 +138,21 @@
     </div>
 
     <div id="navbar-end">
-      <div class="navbar-end-item navbar-end__search-button-container">
-        
-<button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" data-toggle="tooltip">
+      
+        <div class="navbar-end-item navbar-persistent--container">
+          
+<button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-toggle="tooltip">
   <i class="fa-solid fa-magnifying-glass"></i>
 </button>
-      </div>
+        </div>
+      
       
       <div class="navbar-end-item">
-        <span class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" data-toggle="tooltip">
-    <a class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></a>
-    <a class="theme-switch" data-mode="dark"><i class="fa-regular fa-moon"></i></a>
-    <a class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></a>
-</span>
+        <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-toggle="tooltip">
+    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
+    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
+    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
+</button>
       </div>
       
       <div class="navbar-end-item">
@@ -158,11 +165,13 @@
 
 
   
-  <div class="search-button-container--mobile">
-<button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" data-toggle="tooltip">
+  
+    <div class="navbar-persistent--mobile">
+<button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-toggle="tooltip">
   <i class="fa-solid fa-magnifying-glass"></i>
 </button>
-  </div>
+    </div>
+  
 
   
   <label class="sidebar-toggle secondary-toggle" for="__secondary">
@@ -192,18 +201,18 @@
     </p>
     <ul id="navbar-main-elements" class="navbar-nav">
         
-                <li class="nav-item">
-                    <a class="nav-link" href="../../../../getting_started/index.html">
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../../getting_started/index.html">
                         Getting Started
-                    </a>
-                </li>
+                      </a>
+                    </li>
                 
 
-                <li class="nav-item">
-                    <a class="nav-link" href="../../../index.html">
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../index.html">
                         API Reference
-                    </a>
-                </li>
+                      </a>
+                    </li>
                 
     </ul>
 </nav>
@@ -217,11 +226,11 @@
     <div class="sidebar-header-items__end">
       
       <div class="navbar-end-item">
-        <span class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" data-toggle="tooltip">
-    <a class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></a>
-    <a class="theme-switch" data-mode="dark"><i class="fa-regular fa-moon"></i></a>
-    <a class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></a>
-</span>
+        <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-toggle="tooltip">
+    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
+    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
+    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
+</button>
       </div>
       
       <div class="navbar-end-item">
@@ -241,8 +250,11 @@
     </div>
   </div>
 
+  
+  <div id="rtd-footer-container"></div>
+
       </div>
-      <main class="bd-main">
+      <main id="main-content" class="bd-main">
         
         
         <div class="bd-content">
@@ -274,6 +286,9 @@
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#sparknlp_jsl.training.SynonymAugmentationUMLS" title="sparknlp_jsl.training.SynonymAugmentationUMLS"><code class="xref py py-obj docutils literal notranslate"><span class="pre">SynonymAugmentationUMLS</span></code></a></p></td>
 <td><p>Wrapper class for a Java companion object</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp_jsl.training.REDatasetHelper" title="sparknlp_jsl.training.REDatasetHelper"><code class="xref py py-obj docutils literal notranslate"><span class="pre">REDatasetHelper</span></code></a></p></td>
+<td><p>Class to preprocess RE dataset loaded into Spark Dataframe.</p></td>
 </tr>
 </tbody>
 </table>
@@ -375,6 +390,97 @@
 <dt class="sig sig-object py" id="sparknlp_jsl.training.SynonymAugmentationUMLS.augmentDataFrame">
 <span class="sig-name descname"><span class="pre">augmentDataFrame</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">corpus_df</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ner_pipeline</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">language</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'ENG'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">do_product</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">augmentation_mode</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'plain_text'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">synonym_source</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'umls'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">regex_parsers</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">euclidean_distance_threshold</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">10.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cosine_distance_threshold</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.25</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">synonym_limit</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">5</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">casing_functions</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../modules/sparknlp_jsl/training.html#SynonymAugmentationUMLS.augmentDataFrame"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.training.SynonymAugmentationUMLS.augmentDataFrame" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="sparknlp_jsl.training.REDatasetHelper">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">REDatasetHelper</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">spark_df</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://spark.apache.org/docs/latest/api/python/reference/pyspark.sql/api/pyspark.sql.DataFrame.html#pyspark.sql.DataFrame" title="(in PySpark vmaster)"><span class="pre">pyspark.sql.DataFrame</span></a></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../modules/sparknlp_jsl/training.html#REDatasetHelper"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.training.REDatasetHelper" title="Permalink to this definition">#</a></dt>
+<dd><p>Class to preprocess RE dataset loaded into Spark Dataframe.</p>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">sparknlp_jsl.training</span> <span class="kn">import</span> <span class="n">REDatasetHelper</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">PATH</span> <span class="o">=</span> <span class="s2">&quot;/content/i2b2_clinical_rel_dataset.csv&quot;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">data</span> <span class="o">=</span> <span class="n">spark</span><span class="o">.</span><span class="n">read</span><span class="o">.</span><span class="n">option</span><span class="p">(</span><span class="s2">&quot;header&quot;</span><span class="p">,</span><span class="s2">&quot;true&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s2">&quot;csv&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">PATH</span><span class="p">)</span>
+<span class="go">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">column_map</span> <span class="o">=</span> <span class="p">{</span>
+<span class="go">        &quot;begin1&quot;: &quot;firstCharEnt1&quot;,</span>
+<span class="go">        &quot;end1&quot;: &quot;lastCharEnt1&quot;,</span>
+<span class="go">        &quot;begin2&quot;: &quot;firstCharEnt2&quot;,</span>
+<span class="go">        &quot;end2&quot;: &quot;lastCharEnt2&quot;,</span>
+<span class="go">        &quot;chunk1&quot;: &quot;chunk1&quot;,</span>
+<span class="go">        &quot;chunk2&quot;: &quot;chunk2&quot;,</span>
+<span class="go">        &quot;label1&quot;: &quot;label1&quot;,</span>
+<span class="go">        &quot;label2&quot;: &quot;label2&quot;</span>
+<span class="go">    }</span>
+<span class="go">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># apply preprocess function to dataframe</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">data</span> <span class="o">=</span> <span class="n">REDatasetHelper</span><span class="p">(</span><span class="n">data</span><span class="p">)</span><span class="o">.</span><span class="n">create_annotation_column</span><span class="p">(</span><span class="n">column_map</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">data</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
+<span class="go">+-------+-------------+--------------------+--------------------+-------+--------------------+------+----+-----+--------------------+------+----+---------+---------+------------+-------------+------------+-------------+-------------+-------------+-------------+</span>
+<span class="go">|dataset|       source|            txt_file|            sentence|sent_id|              chunk1|begin1|end1|  rel|              chunk2|begin2|end2|   label1|   label2|lastCharEnt1|firstCharEnt1|lastCharEnt2|firstCharEnt2|words_in_ent1|words_in_ent2|words_between|</span>
+<span class="go">+-------+-------------+--------------------+--------------------+-------+--------------------+------+----+-----+--------------------+------+----+---------+---------+------------+-------------+------------+-------------+-------------+-------------+-------------+</span>
+<span class="go">|   test|beth+partners|i2b2 2010 VA/test...|VITAL SIGNS - Tem...|     44|    respiratory rate|    12|  13|    O|          saturation|    17|  17|     test|     test|          64|           49|          84|           75|            2|            1|            3|</span>
+<span class="go">|   test|beth+partners|i2b2 2010 VA/test...|No lotions , crea...|    146|             lotions|     1|   1|TrNAP|           incisions|     7|   7|treatment|  problem|           9|            3|          42|           34|            1|            1|            5|</span>
+<span class="go">|  train|     partners|i2b2 2010 VA/conc...|Because of expect...|     43|expected long ter...|     2|   6|    O|         a picc line|     8|  10|treatment|treatment|          54|           11|          68|           58|            5|            3|            1|</span>
+<span class="go">|  train|     partners|i2b2 2010 VA/conc...|She states this l...|     21|    light-headedness|     3|   3|  PIP|         diaphoresis|    12|  12|  problem|  problem|          31|           16|          92|           82|            1|            1|            8|</span>
+<span class="go">|   test|beth+partners|i2b2 2010 VA/test...|Initial electroca...|     61|an inferior and r...|    38|  43|  PIP|1-mm st depressio...|    28|  34|  problem|  problem|         239|          196|         176|          145|            6|            7|            3|</span>
+<span class="go">+-------+-------------+--------------------+--------------------+-------+--------------------+------+----+-----+--------------------+------+----+---------+---------+------------+-------------+------------+-------------+-------------+-------------+-------------+</span>
+<span class="go">only showing top 5 rows</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1">#   if data contains different splits, you can first preprocess then filter by dataset column.</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">train_data</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="s2">&quot;dataset=&#39;train&#39;&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">test_data</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="s2">&quot;dataset=&#39;test&#39;&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp_jsl.training.REDatasetHelper.create_annotation_column">
+<span class="sig-name descname"><span class="pre">create_annotation_column</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">column_map</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ner_column_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'train_ner_chunks'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../modules/sparknlp_jsl/training.html#REDatasetHelper.create_annotation_column"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.training.REDatasetHelper.create_annotation_column" title="Permalink to this definition">#</a></dt>
+<dd><p>A method to create label column for RelationExtractionApproach
+:param column_map: Required mapping between entity columns and dataset columns.
+Required columns are: begin1, end1, chunk1, label1, begin2, end2, chunk2, label2</p>
+<p class="rubric">Examples</p>
+<p># for dataset with following schema:
+&gt;&gt;&gt; data.printSchema()
+root</p>
+<blockquote>
+<div><p><a href="#id1"><span class="problematic" id="id2">|</span></a>– sentence: string (nullable = true)
+<a href="#id3"><span class="problematic" id="id4">|</span></a>– chunk1: string (nullable = true)
+<a href="#id5"><span class="problematic" id="id6">|</span></a>– begin1: string (nullable = true)
+<a href="#id7"><span class="problematic" id="id8">|</span></a>– end1: string (nullable = true)
+<a href="#id9"><span class="problematic" id="id10">|</span></a>– rel: string (nullable = true)
+<a href="#id11"><span class="problematic" id="id12">|</span></a>– chunk2: string (nullable = true)
+<a href="#id13"><span class="problematic" id="id14">|</span></a>– begin2: string (nullable = true)
+<a href="#id15"><span class="problematic" id="id16">|</span></a>– end2: string (nullable = true)
+<a href="#id17"><span class="problematic" id="id18">|</span></a>– label1: string (nullable = true)
+<a href="#id19"><span class="problematic" id="id20">|</span></a>– label2: string (nullable = true)
+<a href="#id21"><span class="problematic" id="id22">|</span></a>– lastCharEnt1: string (nullable = true)
+<a href="#id23"><span class="problematic" id="id24">|</span></a>– firstCharEnt1: string (nullable = true)
+<a href="#id25"><span class="problematic" id="id26">|</span></a>– lastCharEnt2: string (nullable = true)
+<a href="#id27"><span class="problematic" id="id28">|</span></a>– firstCharEnt2: string (nullable = true)</p>
+<p>#  map should be as follows:
+&gt;&gt;&gt; column_map = {</p>
+<blockquote>
+<div><blockquote>
+<div><p>“begin1”: “firstCharEnt1”,
+“end1”: “lastCharEnt1”,
+“begin2”: “firstCharEnt2”,
+“end2”: “lastCharEnt2”,
+“chunk1”: “chunk1”,
+“chunk2”: “chunk2”,
+“label1”: “label1”,
+“label2”: “label2”</p>
+</div></blockquote>
+<p>}</p>
+</div></blockquote>
+</div></blockquote>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>ner_column_name</strong> – a label column name for RelationExtractionApproach</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A new dataframe extended with ner chunk column.</p>
+</dd>
+</dl>
+</dd></dl>
 
 </dd></dl>
 
@@ -556,6 +662,26 @@
       </ul>
      </li>
      <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#sparknlp_jsl.training.REDatasetHelper">
+       <code class="docutils literal notranslate">
+        <span class="pre">
+         REDatasetHelper
+        </span>
+       </code>
+      </a>
+      <ul class="nav section-nav flex-column">
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.training.REDatasetHelper.create_annotation_column">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           REDatasetHelper.create_annotation_column()
+          </span>
+         </code>
+        </a>
+       </li>
+      </ul>
+     </li>
+     <li class="toc-h4 nav-item toc-entry">
       <a class="reference internal nav-link" href="#sparknlp_jsl.training.AnnotationToolJsonReader">
        AnnotationToolJsonReader
       </a>
@@ -633,6 +759,18 @@
        </li>
       </ul>
      </li>
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#sparknlp_jsl.training.REDatasetHelper">
+       REDatasetHelper
+      </a>
+      <ul class="nav section-nav flex-column">
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.training.REDatasetHelper.create_annotation_column">
+         create_annotation_column
+        </a>
+       </li>
+      </ul>
+     </li>
     </ul>
    </li>
   </ul>
@@ -678,7 +816,8 @@
   
     
   <!-- Scripts loaded after <body> so the DOM is not blocked -->
-  <script src="../../../../static/scripts/pydata-sphinx-theme.js?digest=1e1de1a1873e13ef5536"></script>
+  <script src="../../../../static/scripts/bootstrap.js?digest=796348d33e8b1d947c94"></script>
+<script src="../../../../static/scripts/pydata-sphinx-theme.js?digest=796348d33e8b1d947c94"></script>
 
   <footer class="bd-footer"><div class="bd-footer__inner container">
   
@@ -690,6 +829,16 @@
 
 </p>
 
+  </div>
+  
+  <div class="footer-item">
+    <p class="theme-version">
+    Built with the
+    <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">
+        PyData Sphinx Theme
+    </a>
+    0.12.0.
+</p>
   </div>
   
   <div class="footer-item">
