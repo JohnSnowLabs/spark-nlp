@@ -1,6 +1,6 @@
 ---
 layout: model
-title: Legal NER - License Grant Clauses
+title: Legal NER - License / Permission Clauses (Bert, sm)
 author: John Snow Labs
 name: legner_bert_grants
 date: 2022-08-12
@@ -18,6 +18,8 @@ use_language_switcher: "Python-Scala-Java"
 ## Description
 
 This model aims to detect License grants / permissions in agreements, provided by a Subject (PERMISSION_SUBJECT) to a Recipient (PERMISSION_INDIRECT_OBJECT). THe permission itself is in PERMISSION tag.
+
+There is a lighter (non-transformer based) version of this model available as `legner_grants_md`. 
 
 ## Predicted Entities
 
@@ -49,7 +51,7 @@ tokenClassifier = legal.BertForTokenClassification.pretrained("legner_bert_grant
   .setOutputCol("label")\
   .setCaseSensitive(True)
 
-pipeline =  Pipeline(stages=[
+pipeline =  nlp.Pipeline(stages=[
   documentAssembler,
   tokenizer,
   tokenClassifier

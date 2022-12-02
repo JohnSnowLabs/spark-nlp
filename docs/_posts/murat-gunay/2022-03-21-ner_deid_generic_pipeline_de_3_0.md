@@ -10,6 +10,7 @@ language: de
 edition: Healthcare NLP 3.4.1
 spark_version: 3.0
 supported: true
+annotator: PipelineModel
 article_header:
   type: cover
 use_language_switcher: "Python-Scala-Java"
@@ -30,14 +31,15 @@ This pretrained pipeline is built on the top of [ner_deid_generic](https://nlp.j
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
+
 ```python
-pipeline = PretrainedPipeline("ner_deid_generic_pipeline", "en", "clinical/models")
+pipeline = PretrainedPipeline("ner_deid_generic_pipeline", "de", "clinical/models")
 
 
 pipeline.annotate("Michael Berger wird am Morgen des 12 Dezember 2018 ins St. Elisabeth-Krankenhaus in Bad Kissingen eingeliefert. Herr Berger ist 76 Jahre alt und hat zu viel Wasser in den Beinen.")
 ```
 ```scala
-val pipeline = new PretrainedPipeline("ner_deid_generic_pipeline", "en", "clinical/models")
+val pipeline = new PretrainedPipeline("ner_deid_generic_pipeline", "de", "clinical/models")
 
 
 pipeline.annotate("Michael Berger wird am Morgen des 12 Dezember 2018 ins St. Elisabeth-Krankenhaus in Bad Kissingen eingeliefert. Herr Berger ist 76 Jahre alt und hat zu viel Wasser in den Beinen.")

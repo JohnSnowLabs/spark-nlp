@@ -10,6 +10,7 @@ language: en
 edition: Healthcare NLP 3.0.0
 spark_version: 3.0
 supported: true
+annotator: MedicalNerModel
 article_header:
 type: cover
 use_language_switcher: "Python-Scala-Java"
@@ -34,39 +35,70 @@ Pretrained named entity recognition deep learning model for anatomy terms. The S
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
+
 ```python
-...
+document_assembler = DocumentAssembler()\
+    .setInputCol("text")\
+    .setOutputCol("document")
+         
+sentence_detector = SentenceDetector()\
+    .setInputCols(["document"])\
+    .setOutputCol("sentence")
+
+tokenizer = Tokenizer()\
+    .setInputCols(["sentence"])\
+    .setOutputCol("token")
+
 word_embeddings = WordEmbeddingsModel.pretrained("embeddings_clinical", "en", "clinical/models")\
-.setInputCols(["sentence", "token"])\
-.setOutputCol("embeddings")
+    .setInputCols(["sentence", "token"])\
+    .setOutputCol("embeddings")
+
 clinical_ner = MedicalNerModel.pretrained("ner_anatomy", "en", "clinical/models") \
-.setInputCols(["sentence", "token", "embeddings"]) \
-.setOutputCol("ner")
-...
+    .setInputCols(["sentence", "token", "embeddings"]) \
+    .setOutputCol("ner")
+
+ner_converter = NerConverter()\
+ 	.setInputCols(["sentence", "token", "ner"])\
+ 	.setOutputCol("ner_chunk")
 
 nlpPipeline = Pipeline(stages=[document_assembler, sentence_detector, tokenizer, word_embeddings, clinical_ner, ner_converter])
 
-empty_data = spark.createDataFrame([[""]]).toDF("text")
-
-model = nlpPipeline.fit(empty_data)
+model = nlpPipeline.fit(spark.createDataFrame([[""]]).toDF("text"))
 
 results = model.transform(spark.createDataFrame([['This is an 11-year-old female who comes in for two different things. 1. She was seen by the allergist. No allergies present, so she stopped her Allegra, but she is still real congested and does a lot of snorting. They do not notice a lot of snoring at night though, but she seems to be always like that. 2. On her right great toe, she has got some redness and erythema. Her skin is kind of peeling a little bit, but it has been like that for about a week and a half now.\nGeneral: Well-developed female, in no acute distress, afebrile.\nHEENT: Sclerae and conjunctivae clear. Extraocular muscles intact. TMs clear. Nares patent. A little bit of swelling of the turbinates on the left. Oropharynx is essentially clear. Mucous membranes are moist.\nNeck: No lymphadenopathy.\nChest: Clear.\nAbdomen: Positive bowel sounds and soft.\nDermatologic: She has got redness along the lateral portion of her right great toe, but no bleeding or oozing. Some dryness of her skin. Her toenails themselves are very short and even on her left foot and her left great toe the toenails are very short.']], ["text"]))
 ```
 ```scala
-...
+val document_assembler = new DocumentAssembler()
+    .setInputCol("text")
+    .setOutputCol("document")
+         
+val sentence_detector = new SentenceDetector()
+    .setInputCols("document")
+    .setOutputCol("sentence")
+
+val tokenizer = new Tokenizer()
+    .setInputCols("sentence")
+    .setOutputCol("token")
+
 val word_embeddings = WordEmbeddingsModel.pretrained("embeddings_clinical", "en", "clinical/models")
-.setInputCols(Array("sentence", "token"))
-.setOutputCol("embeddings")
+    .setInputCols(Array("sentence", "token"))
+    .setOutputCol("embeddings")
+
 val ner = MedicalNerModel.pretrained("ner_anatomy", "en", "clinical/models")
-.setInputCols("sentence", "token", "embeddings")
-.setOutputCol("ner")
-...
+    .setInputCols(Array("sentence", "token", "embeddings"))
+    .setOutputCol("ner")
+
+val ner_converter = new NerConverter()
+ 	.setInputCols(Array("sentence", "token", "ner"))
+ 	.setOutputCol("ner_chunk")
 
 val pipeline = new Pipeline().setStages(Array(document_assembler, sentence_detector, tokenizer, word_embeddings, ner, ner_converter))
 
-val result = pipeline.fit(Seq.empty["This is an 11-year-old female who comes in for two different things. 1. She was seen by the allergist. No allergies present, so she stopped her Allegra, but she is still real congested and does a lot of snorting. They do not notice a lot of snoring at night though, but she seems to be always like that. 2. On her right great toe, she has got some redness and erythema. Her skin is kind of peeling a little bit, but it has been like that for about a week and a half now.
+val data = Seq("""This is an 11-year-old female who comes in for two different things. 1. She was seen by the allergist. No allergies present, so she stopped her Allegra, but she is still real congested and does a lot of snorting. They do not notice a lot of snoring at night though, but she seems to be always like that. 2. On her right great toe, she has got some redness and erythema. Her skin is kind of peeling a little bit, but it has been like that for about a week and a half now.
 General: Well-developed female, in no acute distress, afebrile.
-HEENT: Sclerae and conjunctivae clear. Extraocular muscles intact. TMs clear. Nares patent. A little bit of swelling of the turbinates on the left. Oropharynx is essentially clear. Mucous membranes are moist. Neck: No lymphadenopathy. Chest: Clear. Abdomen: Positive bowel sounds and soft. Dermatologic: She has got redness along the lateral portion of her right great toe, but no bleeding or oozing. Some dryness of her skin. Her toenails themselves are very short and even on her left foot and her left great toe the toenails are very short."].toDS.toDF("text")).transform(data)
+HEENT: Sclerae and conjunctivae clear. Extraocular muscles intact. TMs clear. Nares patent. A little bit of swelling of the turbinates on the left. Oropharynx is essentially clear. Mucous membranes are moist. Neck: No lymphadenopathy. Chest: Clear. Abdomen: Positive bowel sounds and soft. Dermatologic: She has got redness along the lateral portion of her right great toe, but no bleeding or oozing. Some dryness of her skin. Her toenails themselves are very short and even on her left foot and her left great toe the toenails are very short.""").toDS.toDF("text")
+
+val result = pipeline.fit(data).transform(data)
 ```
 
 

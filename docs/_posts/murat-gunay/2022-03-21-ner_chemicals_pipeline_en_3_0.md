@@ -10,6 +10,7 @@ language: en
 edition: Healthcare NLP 3.4.1
 spark_version: 3.0
 supported: true
+annotator: PipelineModel
 article_header:
   type: cover
 use_language_switcher: "Python-Scala-Java"
@@ -30,6 +31,7 @@ This pretrained pipeline is built on the top of [ner_chemicals](https://nlp.john
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
+
 ```python
 pipeline = PretrainedPipeline("ner_chemicals_pipeline", "en", "clinical/models")
 

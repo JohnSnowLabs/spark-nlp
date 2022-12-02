@@ -12,6 +12,7 @@ edition: Spark NLP 2.6.2
 spark_version: 2.4
 tags: [open_source,sentence_detection,xx]
 supported: true
+annotator: SentenceDetectorDLModel
 article_header:
 type: cover
 use_language_switcher: "Python-Scala-Java"
@@ -21,6 +22,47 @@ use_language_switcher: "Python-Scala-Java"
 ## Description
 
 SentenceDetectorDL (SDDL) is based on a general-purpose neural network model for sentence boundary detection. The task of sentence boundary detection is to identify sentences within a text. Many natural language processing tasks take a sentence as an input unit, such as part-of-speech tagging, dependency parsing, named entity recognition or machine translation.
+
+**Supported Languages**
+
+`bg Bulgarian`
+
+`bs Bosnian`
+
+`da Danish`
+
+`de German`
+
+`el Greek`
+
+`en English`
+
+`es Spanish`
+
+`fi Finnish`
+
+`fr French`
+
+`hr Croatian`
+
+`it Italian`
+
+`mk Macedonian`
+
+`nl Dutch`
+
+`pt Portuguese`
+
+`ro Romanian`
+
+`sq Albanian`
+
+`sr Serbian`
+
+`sv Swedish`
+
+`tr Turkish`
+
 
 
 {:.btn-box}

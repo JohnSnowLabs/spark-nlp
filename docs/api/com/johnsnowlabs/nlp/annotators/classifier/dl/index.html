@@ -3,9 +3,9 @@
         <head>
           <meta http-equiv="X-UA-Compatible" content="IE=edge" />
           <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-          <title>Spark NLP 4.2.3 ScalaDoc  - com.johnsnowlabs.nlp.annotators.classifier.dl</title>
-          <meta name="description" content="Spark NLP 4.2.3 ScalaDoc - com.johnsnowlabs.nlp.annotators.classifier.dl" />
-          <meta name="keywords" content="Spark NLP 4.2.3 ScalaDoc com.johnsnowlabs.nlp.annotators.classifier.dl" />
+          <title>Spark NLP 4.2.4 ScalaDoc  - com.johnsnowlabs.nlp.annotators.classifier.dl</title>
+          <meta name="description" content="Spark NLP 4.2.4 ScalaDoc - com.johnsnowlabs.nlp.annotators.classifier.dl" />
+          <meta name="keywords" content="Spark NLP 4.2.4 ScalaDoc com.johnsnowlabs.nlp.annotators.classifier.dl" />
           <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
           
       
@@ -28,7 +28,7 @@
         </head>
         <body>
       <div id="search">
-        <span id="doc-title">Spark NLP 4.2.3 ScalaDoc<span id="doc-version"></span></span>
+        <span id="doc-title">Spark NLP 4.2.4 ScalaDoc<span id="doc-version"></span></span>
         <span class="close-results"><span class="left">&lt;</span> Back</span>
         <div id="textfilter">
           <span class="input">
@@ -1024,7 +1024,32 @@ inside TensorFlow and supports up to 100 classes.</p><p>For instantiated/pretrai
     Float, or Double.</li><li><a href="../../../embeddings/UniversalSentenceEncoder.html" class="extype" name="com.johnsnowlabs.nlp.embeddings.UniversalSentenceEncoder">UniversalSentenceEncoder</a>,
     <a href="../../../embeddings/BertSentenceEmbeddings.html" class="extype" name="com.johnsnowlabs.nlp.embeddings.BertSentenceEmbeddings">BertSentenceEmbeddings</a>, or
     <a href="../../../embeddings/SentenceEmbeddings.html" class="extype" name="com.johnsnowlabs.nlp.embeddings.SentenceEmbeddings">SentenceEmbeddings</a> can be used for
-    the <code>inputCol</code>.</li></ul><p>For extended examples of usage, see the Spark NLP Workshop
+    the <code>inputCol</code>.</li></ul><p>Setting a test dataset to monitor model metrics can be done with <code>.setTestDataset</code>. The method
+expects a path to a parquet file containing a dataframe that has the same required columns as
+the training dataframe. The pre-processing steps for the training dataframe should also be
+applied to the test dataframe. The following example will show how to create the test dataset:</p><pre><span class="kw">val</span> documentAssembler = <span class="kw">new</span> DocumentAssembler()
+  .setInputCol(<span class="lit">"text"</span>)
+  .setOutputCol(<span class="lit">"document"</span>)
+
+<span class="kw">val</span> embeddings = UniversalSentenceEncoder.pretrained()
+  .setInputCols(<span class="lit">"document"</span>)
+  .setOutputCol(<span class="lit">"sentence_embeddings"</span>)
+
+<span class="kw">val</span> preProcessingPipeline = <span class="kw">new</span> Pipeline().setStages(<span class="std">Array</span>(documentAssembler, embeddings))
+
+<span class="kw">val</span> <span class="std">Array</span>(train, test) = data.randomSplit(<span class="std">Array</span>(<span class="num">0.8</span>, <span class="num">0.2</span>))
+preProcessingPipeline
+  .fit(test)
+  .transform(test)
+  .write
+  .mode(<span class="lit">"overwrite"</span>)
+  .parquet(<span class="lit">"test_data"</span>)
+
+<span class="kw">val</span> classifier = <span class="kw">new</span> ClassifierDLApproach()
+  .setInputCols(<span class="lit">"sentence_embeddings"</span>)
+  .setOutputCol(<span class="lit">"category"</span>)
+  .setLabelColumn(<span class="lit">"label"</span>)
+  .setTestDataset(<span class="lit">"test_data"</span>)</pre><p>For extended examples of usage, see the Spark NLP Workshop
 <a href="https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/scala/training/Train%20Multi-Class%20Text%20Classification%20on%20News%20Articles.scala" target="_blank">[1</a>]
 <a href="https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Public/5.Text_Classification_with_ClassifierDL.ipynb" target="_blank">[2</a>]
 and the
@@ -1736,7 +1761,32 @@ of finding a model that maps inputs x to binary vectors y (assigning a value of 
 each element (label) in y).</p><p><b>Notes</b>:</p><ul><li>This annotator requires an array of labels in type of String.</li><li><a href="../../../embeddings/UniversalSentenceEncoder.html" class="extype" name="com.johnsnowlabs.nlp.embeddings.UniversalSentenceEncoder">UniversalSentenceEncoder</a>,
     <a href="../../../embeddings/BertSentenceEmbeddings.html" class="extype" name="com.johnsnowlabs.nlp.embeddings.BertSentenceEmbeddings">BertSentenceEmbeddings</a>, or
     <a href="../../../embeddings/SentenceEmbeddings.html" class="extype" name="com.johnsnowlabs.nlp.embeddings.SentenceEmbeddings">SentenceEmbeddings</a> can be used for
-    the <code>inputCol</code>.</li></ul><p>For extended examples of usage, see the
+    the <code>inputCol</code>.</li></ul><p>Setting a test dataset to monitor model metrics can be done with <code>.setTestDataset</code>. The method
+expects a path to a parquet file containing a dataframe that has the same required columns as
+the training dataframe. The pre-processing steps for the training dataframe should also be
+applied to the test dataframe. The following example will show how to create the test dataset:</p><pre><span class="kw">val</span> documentAssembler = <span class="kw">new</span> DocumentAssembler()
+  .setInputCol(<span class="lit">"text"</span>)
+  .setOutputCol(<span class="lit">"document"</span>)
+
+<span class="kw">val</span> embeddings = UniversalSentenceEncoder.pretrained()
+  .setInputCols(<span class="lit">"document"</span>)
+  .setOutputCol(<span class="lit">"sentence_embeddings"</span>)
+
+<span class="kw">val</span> preProcessingPipeline = <span class="kw">new</span> Pipeline().setStages(<span class="std">Array</span>(documentAssembler, embeddings))
+
+<span class="kw">val</span> <span class="std">Array</span>(train, test) = data.randomSplit(<span class="std">Array</span>(<span class="num">0.8</span>, <span class="num">0.2</span>))
+preProcessingPipeline
+  .fit(test)
+  .transform(test)
+  .write
+  .mode(<span class="lit">"overwrite"</span>)
+  .parquet(<span class="lit">"test_data"</span>)
+
+<span class="kw">val</span> multiClassifier = <span class="kw">new</span> MultiClassifierDLApproach()
+  .setInputCols(<span class="lit">"sentence_embeddings"</span>)
+  .setOutputCol(<span class="lit">"category"</span>)
+  .setLabelColumn(<span class="lit">"label"</span>)
+  .setTestDataset(<span class="lit">"test_data"</span>)</pre><p>For extended examples of usage, see the
 <a href="https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/jupyter/training/english/classification/MultiClassifierDL_train_multi_label_E2E_challenge_classifier.ipynb" target="_blank">Spark NLP Workshop</a>
 and the
 <a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/classifier/dl/MultiClassifierDLTestSpec.scala" target="_blank">MultiClassifierDLTestSpec</a>.</p><h4>Example</h4><p>In this example, the training data has the form (Note: labels can be arbitrary)</p><pre>mr,ref
@@ -2978,7 +3028,32 @@ can be interpreted positively or negatively.</p><p>For the instantiated/pretrain
     negative sentiment as <code>&quot;negative&quot;</code> or <code>1</code>.</li><li><a href="../../../embeddings/UniversalSentenceEncoder.html" class="extype" name="com.johnsnowlabs.nlp.embeddings.UniversalSentenceEncoder">UniversalSentenceEncoder</a>,
     <a href="../../../embeddings/BertSentenceEmbeddings.html" class="extype" name="com.johnsnowlabs.nlp.embeddings.BertSentenceEmbeddings">BertSentenceEmbeddings</a>, or
     <a href="../../../embeddings/SentenceEmbeddings.html" class="extype" name="com.johnsnowlabs.nlp.embeddings.SentenceEmbeddings">SentenceEmbeddings</a> can be used for
-    the <code>inputCol</code>.</li></ul><p>For extended examples of usage, see the
+    the <code>inputCol</code>.</li></ul><p>Setting a test dataset to monitor model metrics can be done with <code>.setTestDataset</code>. The method
+expects a path to a parquet file containing a dataframe that has the same required columns as
+the training dataframe. The pre-processing steps for the training dataframe should also be
+applied to the test dataframe. The following example will show how to create the test dataset:</p><pre><span class="kw">val</span> documentAssembler = <span class="kw">new</span> DocumentAssembler()
+  .setInputCol(<span class="lit">"text"</span>)
+  .setOutputCol(<span class="lit">"document"</span>)
+
+<span class="kw">val</span> embeddings = UniversalSentenceEncoder.pretrained()
+  .setInputCols(<span class="lit">"document"</span>)
+  .setOutputCol(<span class="lit">"sentence_embeddings"</span>)
+
+<span class="kw">val</span> preProcessingPipeline = <span class="kw">new</span> Pipeline().setStages(<span class="std">Array</span>(documentAssembler, embeddings))
+
+<span class="kw">val</span> <span class="std">Array</span>(train, test) = data.randomSplit(<span class="std">Array</span>(<span class="num">0.8</span>, <span class="num">0.2</span>))
+preProcessingPipeline
+  .fit(test)
+  .transform(test)
+  .write
+  .mode(<span class="lit">"overwrite"</span>)
+  .parquet(<span class="lit">"test_data"</span>)
+
+<span class="kw">val</span> classifier = <span class="kw">new</span> SentimentDLApproach()
+  .setInputCols(<span class="lit">"sentence_embeddings"</span>)
+  .setOutputCol(<span class="lit">"sentiment"</span>)
+  .setLabelColumn(<span class="lit">"label"</span>)
+  .setTestDataset(<span class="lit">"test_data"</span>)</pre><p>For extended examples of usage, see the
 <a href="https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/jupyter/training/english/classification/SentimentDL_train_multiclass_sentiment_classifier.ipynb" target="_blank">Spark NLP Workshop</a>
 and the
 <a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/classifier/dl/SentimentDLTestSpec.scala" target="_blank">SentimentDLTestSpec</a>.</p><h4>Example</h4><p>In this example, <code>sentiment.csv</code> is in the form</p><pre>text,label

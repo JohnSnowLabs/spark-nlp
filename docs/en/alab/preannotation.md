@@ -6,11 +6,11 @@ seotitle: Annotation Lab | John Snow Labs
 title: Preannotation
 permalink: /docs/en/alab/preannotation
 key: docs-training
-modify_date: "2022-10-28"
+modify_date: "2022-12-01"
 use_language_switcher: "Python-Scala"
 show_nav: true
 sidebar:
-    nav: annotation-lab
+  nav: annotation-lab
 ---
 
 <style>
@@ -36,7 +36,7 @@ If needed, users can deploy the models defined in the current project (based on 
 
 <img class="image image__shadow image__align--center" src="/assets/images/annotation_lab/4.1.0/preannotate_dialog.png" style="width:40%;"/>
 
-Since <bl>Annotation Lab 3.0.0</bl>, multiple preannotation servers are available to preannotate the tasks of a project. The dialog box that opens when clicking the _Pre-Annotate_ button on the <es>Tasks</es> page now lists available model servers in the options. <es>Project Owners</es> or <es>Managers</es> can now select the server to use. On selecting a model server, information about the configuration deployed on the server is shown on the popup so users can make an informed decision on which server to use. 
+Since <bl>Annotation Lab 3.0.0</bl>, multiple preannotation servers are available to preannotate the tasks of a project. The dialog box that opens when clicking the _Pre-Annotate_ button on the <es>Tasks</es> page now lists available model servers in the options. <es>Project Owners</es> or <es>Managers</es> can now select the server to use. On selecting a model server, information about the configuration deployed on the server is shown on the popup so users can make an informed decision on which server to use.
 
 In case a preannotation server does not exist for the current project, the dialog box also offers the option to deploy a new server with the current project's configuration. If this option is selected and enough resources are available (infrastructure capacity and a license if required) the server is deployed, and preannotation can be started. If there are no free resources, users can delete one or several existing servers from <es>Clusters</es> page under the <es>Settings</es> menu.
 
@@ -48,7 +48,7 @@ Concurrency is not only supported between preannotation servers but also between
 
 ### Pretrained Models
 
-On the <es>Predefined Labels</es> step of the <es>Project Configuration</es> page we can find the list of available models with their respective prediction labels. By selecting the relevant labels for your project and clicking the `Add Label` button you can add the predefined labels to your project configuration and take advantage of the Spark NLP auto labeling capabilities. 
+On the <es>Predefined Labels</es> step of the <es>Project Configuration</es> page we can find the list of available models with their respective prediction labels. By selecting the relevant labels for your project and clicking the `Add Label` button you can add the predefined labels to your project configuration and take advantage of the Spark NLP auto labeling capabilities.
 
 In the example below, we are reusing the `ner_posology` model that comes with 7 labels related to drugs.
 
@@ -56,7 +56,13 @@ In the example below, we are reusing the `ner_posology` model that comes with 7 
 
 <br />
 
-In the same manner classification, assertion status or relation models can be added to the project configuration and used for preannotation purpose. 
+In the same manner classification, assertion status or relation models can be added to the project configuration and used for preannotation purpose.
+
+Starting from version 4.3.0, Finance and Legal models downloaded from the Models Hub can be used for pre-annotation of NER, assertion status and classification projects. Visual NER models can now be downloaded from the NLP Models Hub, and used for pre-annotating image-based documents. Once you download the models from the Models Hub page, you can see the model's label in the <es>Predefined Label</es> tab on the project configuration page.
+
+<img class="image image__shadow" src="https://user-images.githubusercontent.com/45035063/203519370-04cd1b4a-d02d-43ee-aa1b-3b6adf10ebb7.gif" style="width:100%;"/>
+
+<br />
 
 ### Rules
 
@@ -66,12 +72,12 @@ In the example below, we are reusing the available rules for preannotation.
 
 <img class="image image__shadow" src="/assets/images/annotation_lab/4.1.0/available_rules.png" style="width:100%;"/>
 
-Read more on how to create rules and reuse them to speed up the annotation process [here](https://medium.com/annotation-lab/using-rules-to-jump-start-text-annotation-projects-1-3-john-snow-labs-8277a9c7fbcb). 
+Read more on how to create rules and reuse them to speed up the annotation process [here](https://medium.com/annotation-lab/using-rules-to-jump-start-text-annotation-projects-1-3-john-snow-labs-8277a9c7fbcb).
 
 ## Text Preannotation
 
 Preannotation is available for projects with text contents as the tasks. When you setup a project to use existing Spark NLP models for pre-annotation, you can run the designated models on all of your tasks by pressing the `Pre-Annotate` button on the top-right corner of the <es>Tasks</es> page.
- 
+
 <img class="image image__shadow" src="/assets/images/annotation_lab/4.1.0/text_preannotation.png" style="width:100%;"/>
 
 As a result, all predicted labels for a given task will be available in the <es>Prediction</es> widget on the Labeling page. The predictions are not editable. You can only view and navigate those or compare those with older predictions. However, you can create a new completion based on a given prediction. All labels and relations from such a new completion are now editable.

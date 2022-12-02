@@ -10,6 +10,7 @@ language: en
 edition: Healthcare NLP 4.0.0
 spark_version: 3.0
 supported: true
+annotator: SentenceEntityResolverModel
 article_header:
   type: cover
 use_language_switcher: "Python-Scala-Java"
@@ -36,6 +37,31 @@ This model maps clinical entities to UMLS CUI codes. It is trained on 2022AA UML
 {% include programmingLanguageSelectScalaPythonNLU.html %}
 ```python
 ...
+document_assembler = DocumentAssembler()\
+      .setInputCol('text')\
+      .setOutputCol('document')
+
+sentence_detector = SentenceDetector()\
+      .setInputCols(["document"])\
+      .setOutputCol("sentence")
+
+tokenizer = Tokenizer()\
+      .setInputCols("sentence")\
+      .setOutputCol("token")
+
+word_embeddings = WordEmbeddingsModel.pretrained("embeddings_clinical", "en", "clinical/models")\
+      .setInputCols(["sentence", "token"])\
+      .setOutputCol("embeddings")
+
+ner_model = MedicalNerModel.pretrained("ner_clinical", "en", "clinical/models")\
+    .setInputCols(["sentence", "token", "embeddings"])\
+    .setOutputCol("clinical_ner")
+
+ner_model_converter = NerConverterInternal()\
+    .setInputCols(["sentence", "token", "clinical_ner"])\
+    .setOutputCol("ner_chunk")
+
+
 chunk2doc = Chunk2Doc().setInputCols("ner_chunk").setOutputCol("ner_chunk_doc")
 
 sbert_embedder = BertSentenceEmbeddings\
@@ -49,7 +75,7 @@ resolver = SentenceEntityResolverModel\
      .setOutputCol("resolution")\
      .setDistanceFunction("EUCLIDEAN")
 
-pipeline = Pipeline(stages = [documentAssembler, sentenceDetector, tokenizer, stopwords, word_embeddings, clinical_ner, ner_converter, chunk2doc, sbert_embedder, resolver])
+pipeline = Pipeline(stages = [document_assembler, sentence_detector, tokenizer, word_embeddings, ner_model, ner_model_converter, chunk2doc, sbert_embedder, resolver])
 
 data = spark.createDataFrame([["""She was immediately given hydrogen peroxide 30 mg to treat the infection on her leg, and has been advised Neosporin Cream for 5 days. She has a history of taking magnesium hydroxide 100mg/1ml and metformin 1000 mg."""]]).toDF("text")
 
@@ -57,6 +83,32 @@ results = pipeline.fit(data).transform(data)
 ```
 ```scala
 ...
+val document_assembler = new DocumentAssembler()
+      .setInputCol("text")
+      .setOutputCol("document")
+
+val sentence_detector = new SentenceDetector()
+      .setInputCols(Array("document"))
+      .setOutputCol("sentence")
+
+val tokenizer = new Tokenizer()
+      .setInputCols("sentence")
+      .setOutputCol("token")
+
+val word_embeddings = WordEmbeddingsModel
+      .pretrained("embeddings_clinical", "en", "clinical/models")
+      .setInputCols(Array("sentence", "token"))
+      .setOutputCol("embeddings")
+
+val ner_model = MedicalNerModel
+      .pretrained("ner_clinical", "en", "clinical/models")
+      .setInputCols(Array("sentence", "token", "embeddings"))
+      .setOutputCol("clinical_ner")
+
+val ner_model_converter = new NerConverterInternal()
+      .setInputCols(Array("sentence", "token", "clinical_ner"))
+      .setOutputCol("ner_chunk")
+
 val chunk2doc = Chunk2Doc().setInputCols("ner_chunk").setOutputCol("ner_chunk_doc")
 
 val sbert_embedder = BertSentenceEmbeddings
@@ -71,11 +123,11 @@ val resolver = SentenceEntityResolverModel
       .setOutputCol("resolution")
       .setDistanceFunction("EUCLIDEAN")
 
-val p_model = new Pipeline().setStages(Array(documentAssembler, sentenceDetector, tokenizer, stopwords, word_embeddings, clinical_ner, ner_converter, chunk2doc, sbert_embedder, resolver))
+val pipeline = new Pipeline().setStages(Array(document_assembler, sentence_detector, tokenizer, word_embeddings, ner_model, ner_model_converter, chunk2doc, sbert_embedder, resolver))
     
 val data = Seq("She was immediately given hydrogen peroxide 30 mg to treat the infection on her leg, and has been advised Neosporin Cream for 5 days. She has a history of taking magnesium hydroxide 100mg/1ml and metformin 1000 mg.").toDF("text") 
 
-val res = p_model.fit(data).transform(data)
+val res = pipeline.fit(data).transform(data)
 ```
 
 {:.nlu-block}

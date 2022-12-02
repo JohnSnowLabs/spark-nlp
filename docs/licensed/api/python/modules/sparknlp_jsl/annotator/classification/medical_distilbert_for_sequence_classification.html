@@ -259,7 +259,7 @@
 
 <div class="viewcode-block" id="MedicalDistilBertForSequenceClassification"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/classification/medical_distilbert_for_sequence_classification/index.html#sparknlp_jsl.annotator.classification.medical_distilbert_for_sequence_classification.MedicalDistilBertForSequenceClassification">[docs]</a><span class="k">class</span> <span class="nc">MedicalDistilBertForSequenceClassification</span><span class="p">(</span><span class="n">AnnotatorModel</span><span class="p">,</span>
                                                  <span class="n">HasCaseSensitiveProperties</span><span class="p">,</span>
-                                                 <span class="n">HasBatchedAnnotate</span><span class="p">):</span>
+                                                 <span class="n">HasBatchedAnnotate</span><span class="p">,</span> <span class="n">HasEngine</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 
 <span class="sd">    MedicalDistilBertForSequenceClassification can load DistilBERT Models with sequence classification/regression head on</span>
@@ -458,7 +458,8 @@
 <span class="sd">            The restored model</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="kn">from</span> <span class="nn">sparknlp_jsl.pretrained</span> <span class="kn">import</span> <span class="n">InternalResourceDownloader</span>
-        <span class="k">return</span> <span class="n">InternalResourceDownloader</span><span class="o">.</span><span class="n">downloadModel</span><span class="p">(</span><span class="n">MedicalDistilBertForSequenceClassification</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">lang</span><span class="p">,</span> <span class="n">remote_loc</span><span class="p">,</span>
+        <span class="k">return</span> <span class="n">InternalResourceDownloader</span><span class="o">.</span><span class="n">downloadModel</span><span class="p">(</span><span class="n">MedicalDistilBertForSequenceClassification</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">lang</span><span class="p">,</span>
+                                                        <span class="n">remote_loc</span><span class="p">,</span>
                                                         <span class="n">j_dwn</span><span class="o">=</span><span class="s1">&#39;InternalsPythonResourceDownloader&#39;</span><span class="p">)</span></div></div>
 </pre></div>
 

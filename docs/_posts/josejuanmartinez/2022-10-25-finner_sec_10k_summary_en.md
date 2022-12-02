@@ -10,12 +10,17 @@ language: en
 edition: Finance NLP 1.0.0
 spark_version: 3.0
 supported: true
+annotator: FinanceNerModel
 article_header:
   type: cover
 use_language_switcher: "Python-Scala-Java"
 ---
 
 ## Description
+
+IMPORTANT: Don't run this model on the whole financial report. Instead:
+- Split by paragraphs;
+- Use the `finclf_form_10k_summary_item` Text Classifier to select only these paragraps;
 
 This Financial NER Model is aimed to process the first summary page of 10K filings and extract the information about the Company submitting the filing, trading data, address / phones, CFN, IRS, etc.
 

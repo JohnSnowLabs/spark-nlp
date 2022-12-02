@@ -257,7 +257,7 @@
   <h1>Source code for sparknlp_jsl.annotator.generic_classifier.generic_classifier</h1><div class="highlight"><pre>
 <span></span><span class="kn">from</span> <span class="nn">sparknlp.common</span> <span class="kn">import</span> <span class="o">*</span>
 
-<div class="viewcode-block" id="GenericClassifierApproach"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/generic_classifier/generic_classifier/index.html#sparknlp_jsl.annotator.generic_classifier.generic_classifier.GenericClassifierApproach">[docs]</a><span class="k">class</span> <span class="nc">GenericClassifierApproach</span><span class="p">(</span><span class="n">AnnotatorApproach</span><span class="p">):</span>
+<div class="viewcode-block" id="GenericClassifierApproach"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/generic_classifier/generic_classifier/index.html#sparknlp_jsl.annotator.generic_classifier.generic_classifier.GenericClassifierApproach">[docs]</a><span class="k">class</span> <span class="nc">GenericClassifierApproach</span><span class="p">(</span><span class="n">AnnotatorApproach</span><span class="p">,</span><span class="n">HasEngine</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Trains a TensorFlow model for generic classification of feature vectors. It takes FEATURE_VECTOR annotations from</span>
 <span class="sd">    FeaturesAssembler` as input, classifies them and outputs CATEGORY annotations.</span>

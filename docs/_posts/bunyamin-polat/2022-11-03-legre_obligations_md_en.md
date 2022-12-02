@@ -10,12 +10,16 @@ language: en
 edition: Legal NLP 1.0.0
 spark_version: 3.0
 supported: true
+annotator: RelationExtractionDLModel
 article_header:
   type: cover
 use_language_switcher: "Python-Scala-Java"
 ---
 
 ## Description
+IMPORTANT: Don't run this model on the whole legal agreement. Instead:
+- Split by paragraphs. You can use [notebook 1](https://github.com/JohnSnowLabs/spark-nlp-workshop/tree/master/tutorials/Certification_Trainings_JSL) in Finance or Legal as inspiration;
+- Use the `legclf_cuad_obligations_clause` Text Classifier to select only these paragraphs; 
 
 We call "obligation" to any sentence in the text stating that a Party (OBLIGATION_SUBJECT) must do (OBLIGATION_ACITON) something (OBLIGATION_OBJECT) to other Party (OBLIGATION_INDIRECT_OBJECT). This model extracts relationships, connecting all of those parts of the sentence (subject with action, action with object, etc).
 

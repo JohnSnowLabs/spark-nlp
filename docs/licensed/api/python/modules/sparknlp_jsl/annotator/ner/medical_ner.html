@@ -262,7 +262,7 @@
 <span class="kn">from</span> <span class="nn">sparknlp.internal</span> <span class="kn">import</span> <span class="n">ExtendedJavaWrapper</span>
 <span class="kn">from</span> <span class="nn">sparknlp.annotator.param.evaluation_dl_params</span> <span class="kn">import</span> <span class="n">EvaluationDLParams</span>
 
-<div class="viewcode-block" id="MedicalNerApproach"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/ner/medical_ner/index.html#sparknlp_jsl.annotator.ner.medical_ner.MedicalNerApproach">[docs]</a><span class="k">class</span> <span class="nc">MedicalNerApproach</span><span class="p">(</span><span class="n">AnnotatorApproach</span><span class="p">,</span> <span class="n">sparknlp</span><span class="o">.</span><span class="n">annotators</span><span class="o">.</span><span class="n">NerApproach</span><span class="p">,</span><span class="n">EvaluationDLParams</span><span class="p">):</span>
+<div class="viewcode-block" id="MedicalNerApproach"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/ner/medical_ner/index.html#sparknlp_jsl.annotator.ner.medical_ner.MedicalNerApproach">[docs]</a><span class="k">class</span> <span class="nc">MedicalNerApproach</span><span class="p">(</span><span class="n">AnnotatorApproach</span><span class="p">,</span> <span class="n">sparknlp</span><span class="o">.</span><span class="n">annotators</span><span class="o">.</span><span class="n">NerApproach</span><span class="p">,</span><span class="n">EvaluationDLParams</span><span class="p">,</span><span class="n">HasEngine</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;This Named Entity recognition annotator allows to train generic NER model</span>
 <span class="sd">    based on Neural Networks.</span>
 
@@ -628,7 +628,7 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">logPrefix</span><span class="o">=</span><span class="n">s</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="MedicalNerApproach.setPretrainedModelPath"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/ner/medical_ner/index.html#sparknlp_jsl.annotator.ner.medical_ner.MedicalNerApproach.setPretrainedModelPath">[docs]</a>    <span class="k">def</span> <span class="nf">setPretrainedModelPath</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Sets folder path to save training logs.</span>
+        <span class="sd">&quot;&quot;&quot;Sets location of pretrained model.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>

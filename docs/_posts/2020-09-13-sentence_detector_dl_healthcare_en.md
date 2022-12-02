@@ -12,6 +12,7 @@ edition: Healthcare NLP 2.6.0
 spark_version: 2.4
 tags: [clinical,sentence_detection,en]
 supported: true
+annotator: SentenceDetectorDLModel
 article_header:
 type: cover
 use_language_switcher: "Python-Scala-Java"

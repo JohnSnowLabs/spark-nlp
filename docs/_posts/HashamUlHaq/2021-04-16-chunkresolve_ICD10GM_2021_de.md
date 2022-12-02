@@ -10,6 +10,7 @@ language: de
 edition: Healthcare NLP 3.0.0
 spark_version: 3.0
 deprecated: true
+annotator: ChunkEntityResolverModel
 article_header:
   type: cover
 use_language_switcher: "Python-Scala-Java"

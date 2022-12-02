@@ -10,6 +10,7 @@ language: en
 edition: Healthcare NLP 3.3.4
 spark_version: 2.4
 supported: true
+annotator: MedicalBertForTokenClassifier
 article_header:
 type: cover
 use_language_switcher: "Python-Scala-Java"
@@ -64,11 +65,9 @@ ner_converter = NerConverter()\
 
 pipeline =  Pipeline(stages=[documentAssembler, tokenizer, tokenClassifier, ner_converter])
 
-p_model = pipeline.fit(spark.createDataFrame(pd.DataFrame({'text': ['']})))
+data = spark.createDataFrame([["""The results have shown that the product p - choloroaniline is not a significant factor in chlorhexidine - digluconate associated erosive cystitis. "A high percentage of kanamycin - colistin and povidone - iodine irrigations were associated with erosive cystitis."""]]).toDF("text")
 
-test_sentence = """The results have shown that the product p - choloroaniline is not a significant factor in chlorhexidine - digluconate associated erosive cystitis. "A high percentage of kanamycin - colistin and povidone - iodine irrigations were associated with erosive cystitis."""
-
-result = p_model.transform(spark.createDataFrame(pd.DataFrame({'text': [test_sentence]})))
+result = pipeline.fit(data).transform(data)
 ```
 ```scala
 val documentAssembler = new DocumentAssembler()

@@ -10,6 +10,7 @@ language: en
 edition: Healthcare NLP 3.2.0
 spark_version: 2.4
 supported: true
+annotator: MedicalBertForTokenClassifier
 article_header:
 type: cover
 use_language_switcher: "Python-Scala-Java"
@@ -45,15 +46,26 @@ Pretrained named entity recognition deep learning model for Drugs. This model is
 {% include programmingLanguageSelectScalaPythonNLU.html %}
 
 ```python
-...
+documentAssembler = DocumentAssembler()\
+    .setInputCol("text")\
+    .setOutputCol("document")
+
+sentenceDetector = SentenceDetector() \
+    .setInputCols(["document"]) \
+    .setOutputCol("sentence")
+
+tokenizer = Tokenizer() \
+    .setInputCols(["sentence"]) \
+    .setOutputCol("token")
+
 tokenClassifier = BertForTokenClassification.pretrained("bert_token_classifier_ner_drugs", "en", "clinical/models")\
-.setInputCols("token", "sentence")\
-.setOutputCol("ner")\
-.setCaseSensitive(True)
+    .setInputCols("token", "sentence")\
+    .setOutputCol("ner")\
+    .setCaseSensitive(True)
 
 ner_converter = NerConverter()\
-.setInputCols(["sentence","token","ner"])\
-.setOutputCol("ner_chunk")
+    .setInputCols(["sentence","token","ner"])\
+    .setOutputCol("ner_chunk")
 
 pipeline =  Pipeline(stages=[documentAssembler, sentenceDetector, tokenizer, tokenClassifier, ner_converter])
 
@@ -64,15 +76,26 @@ test_sentence = """The human KCNJ9 (Kir 3.3, GIRK3) is a member of the G-protein
 result = model.transform(spark.createDataFrame(pd.DataFrame({'text': [test_sentence]})))
 ```
 ```scala
-...
+val documentAssembler = new DocumentAssembler()
+    .setInputCol("text")
+    .setOutputCol("document")
+
+val sentenceDetector = new SentenceDetector()
+    .setInputCols("document")
+    .setOutputCol("sentence")
+
+val tokenizer = new Tokenizer()
+    .setInputCols("sentence")
+    .setOutputCol("token")
+
 val tokenClassifier = BertForTokenClassification.pretrained("bert_token_classifier_ner_drugs", "en", "clinical/models")
-.setInputCols("token", "sentence")
-.setOutputCol("ner")
-.setCaseSensitive(True)
+    .setInputCols(Array("token", "sentence"))
+    .setOutputCol("ner")
+    .setCaseSensitive(True)
 
 val ner_converter = new NerConverter()
-.setInputCols(Array("sentence","token","ner"))
-.setOutputCol("ner_chunk")
+    .setInputCols(Array("sentence","token","ner"))
+    .setOutputCol("ner_chunk")
 
 val pipeline =  new Pipeline().setStages(Array(documentAssembler, sentenceDetector, tokenizer, tokenClassifier, ner_converter))
 
@@ -137,13 +160,13 @@ Trained on i2b2_med7 + FDA. https://www.i2b2.org/NLP/Medication
 
 
 ```bash
-label  precision    recall  f1-score   support
-B-DrugChem       0.99      0.99      0.99     97872
-I-DrugChem       0.99      0.99      0.99     54909
-O       1.00      1.00      1.00   1191109
-accuracy       -         -         1.00   1343890
-macro-avg       0.99      0.99      0.99   1343890
-weighted-avg       1.00      1.00      1.00   1343890
+label          precision    recall  f1-score   support
+B-DrugChem       0.99        0.99      0.99     97872
+I-DrugChem       0.99        0.99      0.99     54909
+O                1.00        1.00      1.00   1191109
+accuracy          -           -        1.00   1343890
+macro-avg        0.99        0.99      0.99   1343890
+weighted-avg     1.00        1.00      1.00   1343890
 ```
 <!--stackedit_data:
 eyJoaXN0b3J5IjpbLTIwMzU0ODgxMTNdfQ==

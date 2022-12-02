@@ -10,6 +10,7 @@ language: en
 edition: Healthcare NLP 3.3.4
 spark_version: 3.0
 supported: true
+annotator: SentenceEntityResolverModel
 article_header:
 type: cover
 use_language_switcher: "Python-Scala-Java"
@@ -30,43 +31,41 @@ This model maps clinical abbreviations and acronyms to their meanings using `sbi
 
 ## How to use
 
-
-
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
+
 ```python
 document_assembler = DocumentAssembler()\
-.setInputCol("text")\
-.setOutputCol("document")
+    .setInputCol("text")\
+    .setOutputCol("document")
 
 tokenizer = Tokenizer()\
-.setInputCols(["document"])\
-.setOutputCol("token")
+    .setInputCols(["document"])\
+    .setOutputCol("token")
 
 word_embeddings = WordEmbeddingsModel.pretrained("embeddings_clinical", "en", "clinical/models")\
-.setInputCols(["document", "token"])\
-.setOutputCol("word_embeddings")
+    .setInputCols(["document", "token"])\
+    .setOutputCol("word_embeddings")
 
 clinical_ner = MedicalNerModel.pretrained("ner_abbreviation_clinical", "en", "clinical/models") \
-.setInputCols(["document", "token", "word_embeddings"]) \
-.setOutputCol("ner")
+    .setInputCols(["document", "token", "word_embeddings"]) \
+    .setOutputCol("ner")
 
 ner_converter = NerConverterInternal() \
-.setInputCols(["document", "token", "ner"]) \
-.setOutputCol("ner_chunk")\
-.setWhiteList(['ABBR'])
+    .setInputCols(["document", "token", "ner"]) \
+    .setOutputCol("ner_chunk")\
+    .setWhiteList(['ABBR'])
 
 sentence_chunk_embeddings = BertSentenceChunkEmbeddings.pretrained("sbiobert_base_cased_mli", "en", "clinical/models")\
-.setInputCols(["document", "ner_chunk"])\
-.setOutputCol("sentence_embeddings")\
-.setChunkWeight(0.5)\
-.setCaseSensitive(True)
+    .setInputCols(["document", "ner_chunk"])\
+    .setOutputCol("sentence_embeddings")\
+    .setChunkWeight(0.5)\
+    .setCaseSensitive(True)
 
 abbr_resolver = SentenceEntityResolverModel.pretrained("sbiobertresolve_clinical_abbreviation_acronym", "en", "clinical/models") \
-.setInputCols(["ner_chunk", "sentence_embeddings"]) \
-.setOutputCol("abbr_meaning")\
-.setDistanceFunction("EUCLIDEAN")\
-
+    .setInputCols(["ner_chunk", "sentence_embeddings"]) \
+    .setOutputCol("abbr_meaning")\
+    .setDistanceFunction("EUCLIDEAN")\
 
 resolver_pipeline = Pipeline(
 stages = [
@@ -82,44 +81,46 @@ abbr_resolver
 model = resolver_pipeline.fit(spark.createDataFrame([['']]).toDF("text"))
 
 sample_text = "Gravid with estimated fetal weight of 6-6/12 pounds. LOWER EXTREMITIES: No edema. LABORATORY DATA: Laboratory tests include a CBC which is normal. Blood Type: AB positive. Rubella: Immune. VDRL: Nonreactive. Hepatitis C surface antigen: Negative. HIV: Negative. One-Hour Glucose: 117. Group B strep has not been done as yet."
-abbr_result = model.transform(spark.createDataFrame([[text]]).toDF('text'))
+
+abbr_result = model.transform(spark.createDataFrame([[sample_text]]).toDF('text'))
 ```
 ```scala
-val document_assembler = DocumentAssembler()\
-.setInputCol("text")
-.setOutputCol("document")
+val document_assembler = new DocumentAssembler()
+    .setInputCol("text")
+    .setOutputCol("document")
 
-val tokenizer = Tokenizer()
-.setInputCols(Array("document"))
-.setOutputCol("token")
+val tokenizer = new Tokenizer()
+    .setInputCols("document")
+    .setOutputCol("token")
 
 val word_embeddings = WordEmbeddingsModel.pretrained("embeddings_clinical", "en", "clinical/models")
-.setInputCols(Array("document", "token"))
-.setOutputCol("word_embeddings")
+    .setInputCols(Array("document", "token"))
+    .setOutputCol("word_embeddings")
 
 val clinical_ner = MedicalNerModel.pretrained("ner_abbreviation_clinical", "en", "clinical/models") 
-.setInputCols(Array("document", "token", "word_embeddings")) 
-.setOutputCol("ner")
+    .setInputCols(Array("document", "token", "word_embeddings")) 
+    .setOutputCol("ner")
 
-val ner_converter = NerConverterInternal() 
-.setInputCols(Array("document", "token", "ner")) 
-.setOutputCol("ner_chunk")
-.setWhiteList(Array("ABBR"))
+val ner_converter = new NerConverterInternal() 
+    .setInputCols(Array("document", "token", "ner")) 
+    .setOutputCol("ner_chunk")
+    .setWhiteList(Array("ABBR"))
 
 val sentence_chunk_embeddings = BertSentenceChunkEmbeddings.pretrained("sbiobert_base_cased_mli", "en", "clinical/models")
-.setInputCols(Array("document", "ner_chunk"))
-.setOutputCol("sentence_embeddings")
-.setChunkWeight(0.5)
-.setCaseSensitive(True)
+    .setInputCols(Array("document", "ner_chunk"))
+    .setOutputCol("sentence_embeddings")
+    .setChunkWeight(0.5)
+    .setCaseSensitive(True)
 
 val abbr_resolver = SentenceEntityResolverModel.pretrained("sbiobertresolve_clinical_abbreviation_acronym", "en", "clinical/models") 
-.setInputCols(Array("ner_chunk", "sentence_embeddings")) 
-.setOutputCol("abbr_meaning")
-.setDistanceFunction("EUCLIDEAN")
+    .setInputCols(Array("ner_chunk", "sentence_embeddings")) 
+    .setOutputCol("abbr_meaning")
+    .setDistanceFunction("EUCLIDEAN")
 
 val resolver_pipeline = new Pipeline().setStages(document_assembler, tokenizer, word_embeddings, clinical_ner, ner_converter, sentence_chunk_embeddings, abbr_resolver)
 
-val sample_text = Seq("Gravid with estimated fetal weight of 6-6/12 pounds. LOWER EXTREMITIES: No edema. LABORATORY DATA: Laboratory tests include a CBC which is normal. Blood Type: AB positive. Rubella: Immune. VDRL: Nonreactive. Hepatitis C surface antigen: Negative. HIV: Negative. One-Hour Glucose: 117. Group B strep has not been done as yet.").toDF("text")
+val sample_text = Seq("""Gravid with estimated fetal weight of 6-6/12 pounds. LOWER EXTREMITIES: No edema. LABORATORY DATA: Laboratory tests include a CBC which is normal. Blood Type: AB positive. Rubella: Immune. VDRL: Nonreactive. Hepatitis C surface antigen: Negative. HIV: Negative. One-Hour Glucose: 117. Group B strep has not been done as yet.""").toDS().toDF("text")
+
 val abbr_result = resolver_pipeline.fit(sample_text).transform(sample_text)
 ```
 

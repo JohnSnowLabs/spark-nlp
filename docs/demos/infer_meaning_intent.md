@@ -67,20 +67,7 @@ data:
             url: https://demo.johnsnowlabs.com/public/SENTENCE_SIMILARITY
           - text: Colab
             type: blue_btn
-            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/SENTENCE_SIMILARITY.ipynb
-        - title:  Automatically answer questions
-          hide: yes
-          id: automatically_answer_questions
-          image: 
-              src: /assets/images/spelling.svg
-          excerpt: Automatically generate answers to questions with & without context
-          actions:
-          - text: Live Demo
-            type: normal
-            url:  https://demo.johnsnowlabs.com/public/QUESTION_ANSWERING/
-          - text: Colab
-            type: blue_btn
-            url:  https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/T5TRANSFORMER.ipynb
+            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/SENTENCE_SIMILARITY.ipynb        
         - title: Understand questions about Airline Traffic
           id: understand_questions_about_airline_traffic
           image: 

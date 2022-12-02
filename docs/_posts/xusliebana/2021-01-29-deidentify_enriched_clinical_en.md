@@ -10,6 +10,7 @@ edition: Spark NLP for Healthcare 2.7.2
 spark_version: 2.4
 tags: [deidentify, en, obfuscation, licensed]
 supported: true
+annotator: DeIdentificationModel
 article_header:
 type: cover
 use_language_switcher: "Python-Scala-Java"

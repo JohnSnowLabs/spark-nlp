@@ -17,6 +17,7 @@ sidebar:
 
 - [Legal NLP 1.0.0 on Medium](https://medium.com/spark-nlp/spark-nlp-for-legal-1-0-0-over-300-new-state-of-the-art-models-in-multiple-languages-f3bae55c32e1)
 - [Legal NLP 1.1.0 on Medium](https://medium.com/@muhendisbp/legal-nlp-1-1-0-for-spark-nlp-has-been-released-89de7f099bdc)
+- [Legal NLP 1.2.0 on Medium](https://medium.com/spark-nlp/legal-nlp-1-2-0-for-spark-nlp-has-been-released-%EF%B8%8F-8d060b3391ef)
 - [Slack](https://www.johnsnowlabs.com/slack-redirect/) - Join `#legal` channel
 
 </div>

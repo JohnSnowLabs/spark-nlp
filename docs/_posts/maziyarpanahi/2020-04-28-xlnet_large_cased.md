@@ -10,6 +10,7 @@ edition: Spark NLP 2.5.0
 spark_version: 2.4
 tags: [embeddings, en, open_source]
 supported: true
+annotator: XlnetEmbeddings
 article_header:
 type: cover
 use_language_switcher: "Python-Scala-Java"

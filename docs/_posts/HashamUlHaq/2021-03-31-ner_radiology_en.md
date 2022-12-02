@@ -10,6 +10,7 @@ language: en
 edition: Healthcare NLP 3.0.0
 spark_version: 3.0
 supported: true
+annotator: MedicalNerModel
 article_header:
 type: cover
 use_language_switcher: "Python-Scala-Java"
@@ -34,28 +35,70 @@ Pretrained named entity recognition deep learning model for radiology related te
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
+
 ```python
-...
+document_assembler = DocumentAssembler()\
+    .setInputCol("text")\
+    .setOutputCol("document")
+         
+sentence_detector = SentenceDetector()\
+    .setInputCols(["document"])\
+    .setOutputCol("sentence")
+
+tokenizer = Tokenizer()\
+    .setInputCols(["sentence"])\
+    .setOutputCol("token")
+
+word_embeddings = WordEmbeddingsModel.pretrained("embeddings_clinical", "en", "clinical/models")\
+    .setInputCols(["sentence", "token"])\
+    .setOutputCol("embeddings")
+
 radiology_ner = MedicalNerModel.pretrained("ner_radiology", "en", "clinical/models") \
-.setInputCols(["sentence", "token", "embeddings"]) \
-.setOutputCol("ner")
-...
+    .setInputCols(["sentence", "token", "embeddings"]) \
+    .setOutputCol("ner")
+
+ner_converter = NerConverter()\
+ 	.setInputCols(["sentence", "token", "ner"])\
+ 	.setOutputCol("ner_chunk")
+
 nlpPipeline = Pipeline(stages=[document_assembler, sentence_detector, tokenizer, word_embeddings, radiology_ner, ner_converter])
 
-model = nlpPipeline.fit(spark.createDataFrame([['''Bilateral breast ultrasound was subsequently performed, which demonstrated an ovoid mass measuring approximately 0.5 x 0.5 x 0.4 cm in diameter located within the anteromedial aspect of the left shoulder. This mass demonstrates isoechoic echotexture to the adjacent muscle, with no evidence of internal color flow. This may represent benign fibrous tissue or a lipoma.''']]).toDF("text"))
+model = nlpPipeline.fit(spark.createDataFrame([[""]]).toDF("text"))
 
-results = model.transform(data)
+results = model.transform(spark.createDataFrame([["Bilateral breast ultrasound was subsequently performed, which demonstrated an ovoid mass measuring approximately 0.5 x 0.5 x 0.4 cm in diameter located within the anteromedial aspect of the left shoulder. This mass demonstrates isoechoic echotexture to the adjacent muscle, with no evidence of internal color flow. This may represent benign fibrous tissue or a lipoma."]], ["text"]))
+
 ```
 
 ```scala
-...
+val document_assembler = new DocumentAssembler()
+    .setInputCol("text")
+    .setOutputCol("document")
+         
+val sentence_detector = new SentenceDetector()
+    .setInputCols("document")
+    .setOutputCol("sentence")
+
+val tokenizer = new Tokenizer()
+    .setInputCols("sentence")
+    .setOutputCol("token")
+
+val embeddings_clinical = WordEmbeddingsModel.pretrained("embeddings_clinical", "en", "clinical/models")
+    .setInputCols(Array("sentence", "token"))
+    .setOutputCol("embeddings")
+
 val radiology_ner = MedicalNerModel().pretrained("ner_radiology", "en", "clinical/models")
-.setInputCols(Array("sentence", "token", "embeddings"))
-.setOutputCol("ner")
+    .setInputCols(Array("sentence", "token", "embeddings"))
+    .setOutputCol("ner")
+
+val ner_converter = new NerConverter()
+ 	.setInputCols(Array("sentence", "token", "ner"))
+ 	.setOutputCol("ner_chunk")
 
 val nlpPipeline = new Pipeline().setStages(Array(document_assembler, sentence_detector, tokenizer, word_embeddings, radiology_ner, ner_converter))
 
-val result = pipeline.fit(Seq.empty[String]).transform(data)
+val data = Seq("""Bilateral breast ultrasound was subsequently performed, which demonstrated an ovoid mass measuring approximately 0.5 x 0.5 x 0.4 cm in diameter located within the anteromedial aspect of the left shoulder. This mass demonstrates isoechoic echotexture to the adjacent muscle, with no evidence of internal color flow. This may represent benign fibrous tissue or a lipoma.""").toDS.toDF("text")
+
+val result = nlpPipeline.fit(data).transform(data)
 
 ```
 

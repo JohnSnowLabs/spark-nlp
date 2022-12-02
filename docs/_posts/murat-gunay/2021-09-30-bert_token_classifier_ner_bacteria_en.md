@@ -10,6 +10,7 @@ language: en
 edition: Healthcare NLP 3.2.2
 spark_version: 2.4
 supported: true
+annotator: MedicalBertForTokenClassifier
 article_header:
 type: cover
 use_language_switcher: "Python-Scala-Java"
@@ -45,15 +46,22 @@ Detect different types of species of bacteria in text using pretrained NER model
 {% include programmingLanguageSelectScalaPythonNLU.html %}
 
 ```python
-...
-tokenClassifier = BertForTokenClassification.pretrained("bert_token_classifier_ner_bacteria", "en", "clinical/models")\
-.setInputCols("token", "document")\
-.setOutputCol("ner")\
-.setCaseSensitive(True)
+documentAssembler = DocumentAssembler()\
+        .setInputCol("text")\
+        .setOutputCol("document")
+
+tokenizer = Tokenizer()\
+        .setInputCols(["document"])\
+        .setOutputCol("token")
+
+tokenClassifier = MedicalBertForTokenClassification.pretrained("bert_token_classifier_ner_bacteria", "en", "clinical/models")\
+        .setInputCols("token", "document")\
+        .setOutputCol("ner")\
+        .setCaseSensitive(True)
 
 ner_converter = NerConverter()\
-.setInputCols(["document","token","ner"])\
-.setOutputCol("ner_chunk")
+        .setInputCols(["document","token","ner"])\
+        .setOutputCol("ner_chunk")
 
 pipeline =  Pipeline(stages=[documentAssembler, tokenizer, tokenClassifier, ner_converter])
 
@@ -66,15 +74,22 @@ sp. nov., with the type strain SMSP (T) (= NBRC 105244 (T) = DSM 22288 (T))."""
 result = p_model.transform(spark.createDataFrame(pd.DataFrame({'text': [test_sentence]})))
 ```
 ```scala
-...
+val documentAssembler = new DocumentAssembler()
+        .setInputCol("text")
+        .setOutputCol("document")
+
+val tokenizer = new Tokenizer()
+        .setInputCols("document")
+        .setOutputCol("token")
+
 val tokenClassifier = BertForTokenClassification.pretrained("bert_token_classifier_ner_bacteria", "en", "clincal/models")
-.setInputCols("token", "document")
-.setOutputCol("ner")
-.setCaseSensitive(True)
+        .setInputCols(Array("token", "document"))
+        .setOutputCol("ner")
+        .setCaseSensitive(True)
 
 val ner_converter = new NerConverter()
-.setInputCols(Array("document","token","ner"))
-.setOutputCol("ner_chunk")
+        .setInputCols(Array("document","token","ner"))
+        .setOutputCol("ner_chunk")
 
 val pipeline =  new Pipeline().setStages(Array(documentAssembler, tokenizer, tokenClassifier, ner_converter))
 
@@ -136,12 +151,12 @@ Trained on a custom dataset by John Snow Labs.
 
 
 ```bash
-label  precision    recall  f1-score   support
-B-SPECIES       0.98      0.84      0.91       767
-I-SPECIES       0.99      0.84      0.91      1043
-accuracy       -         -         0.84      1810
-macro-avg       0.85      0.89      0.87      1810
-weighted-avg       0.99      0.84      0.91      1810
+label         precision    recall   f1-score   support
+B-SPECIES       0.98        0.84      0.91       767
+I-SPECIES       0.99        0.84      0.91      1043
+accuracy         -           -        0.84      1810
+macro-avg       0.85        0.89      0.87      1810
+weighted-avg    0.99        0.84      0.91      1810
 ```
 <!--stackedit_data:
 eyJoaXN0b3J5IjpbLTE1NDk5NTU3NjBdfQ==

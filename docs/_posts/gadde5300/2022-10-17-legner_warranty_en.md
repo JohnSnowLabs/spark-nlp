@@ -1,6 +1,6 @@
 ---
 layout: model
-title: Legal Warranty NER
+title: Legal NER - Warranties (sm)
 author: John Snow Labs
 name: legner_warranty
 date: 2022-10-17
@@ -10,12 +10,16 @@ language: en
 edition: Legal NLP 1.0.0
 spark_version: 3.0
 supported: true
+annotator: FinanceNerModel
 article_header:
   type: cover
 use_language_switcher: "Python-Scala-Java"
 ---
 
 ## Description
+IMPORTANT: Don't run this model on the whole legal agreement. Instead:
+- Split by paragraphs. You can use [notebook 1](https://github.com/JohnSnowLabs/spark-nlp-workshop/tree/master/tutorials/Certification_Trainings_JSL) in Finance or Legal as inspiration;
+- Use the `legclf_warranty_clause` Text Classifier to select only these paragraphs; 
 
 This is a Legal Named Entity Recognition Model to identify the Subject (who), Action (what), Object(the indemnification) and Indirect Object (to whom) from Warranty clauses.
 
@@ -60,7 +64,7 @@ ner_converter = nlp.NerConverter()\
         .setInputCols(["sentence","token","ner"])\
         .setOutputCol("ner_chunk")
 
-nlpPipeline = Pipeline(stages=[documentAssembler,sentenceDetector,tokenizer,embeddings,ner_model,ner_converter])
+nlpPipeline = nlp.Pipeline(stages=[documentAssembler,sentenceDetector,tokenizer,embeddings,ner_model,ner_converter])
 
 data = spark.createDataFrame([["""8 . Representations and Warranties SONY hereby makes the following representations and warranties to PURCHASER , each of which shall be true and correct as of the date hereof and as of the Closing Date , and shall be unaffected by any investigation heretofore or hereafter made : 8.1 Power and Authority SONY has the right and power to enter into this IP Agreement and to transfer the Transferred Patents and to grant the license set forth in Section 3.1 ."""]]).toDF("text")
 
@@ -107,7 +111,7 @@ In-house annotated examples from CUAD legal dataset
 ## Benchmarking
 
 ```bash
-                            precision    recall  f1-score   support
+                    label     precision    recall  f1-score   support
                 B-WARRANTY     0.8993    0.9178    0.9085       146
          B-WARRANTY_ACTION     1.0000    0.9318    0.9647        44
 B-WARRANTY_INDIRECT_OBJECT     1.0000    0.9474    0.9730        19
@@ -117,7 +121,7 @@ B-WARRANTY_INDIRECT_OBJECT     1.0000    0.9474    0.9730        19
 I-WARRANTY_INDIRECT_OBJECT     0.8333    0.8333    0.8333         6
         I-WARRANTY_SUBJECT     1.0000    0.9444    0.9714        36
                          O     0.9758    0.9772    0.9765      3381
-                  accuracy                         0.9698      5690
+                  accuracy        -        -       0.9698      5690
                  macro avg     0.9428    0.9407    0.9410      5690
               weighted avg     0.9700    0.9698    0.9698      5690
 ```

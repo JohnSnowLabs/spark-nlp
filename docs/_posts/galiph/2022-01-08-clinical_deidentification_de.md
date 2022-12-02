@@ -10,6 +10,7 @@ language: de
 edition: Healthcare NLP 3.4.0
 spark_version: 2.4
 supported: true
+annotator: PipelineModel
 article_header:
   type: cover
 use_language_switcher: "Python-Scala-Java"
@@ -47,7 +48,7 @@ Lizenznummer: B072RRE2I55
 Adresse : St.Johann-Straße 13 19300
 """
 
-result = deid_pipe.annotate(sample)
+result = deid_pipeline.annotate(sample)
 print("\n".join(result['masked']))
 print("\n".join(result['masked_with_chars']))
 print("\n".join(result['masked_fixed_length_chars']))
@@ -69,7 +70,7 @@ SSN : 13110587M565
 Lizenznummer: B072RRE2I55
 Adresse : St.Johann-Straße 13 19300"
 
-val result = deid_pipe.annotate(sample)
+val result = deid_pipeline.annotate(sample)
 ```
 </div>
 

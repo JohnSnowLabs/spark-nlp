@@ -88,11 +88,9 @@ resolver
 
 test = """The patient is a 22-year-old female with a history of obesity. She has a BMI of 33.5 kg/m2, aspartate aminotransferase 64, and alanine aminotransferase 126. Her hgba1c is 8.2%."""
 
-model = pipeline_loinc.fit(spark.createDataFrame([['']]).toDF("text"))
-
 sparkDF = spark.createDataFrame([[test]]).toDF("text")
 
-result = model.transform(sparkDF)
+result = pipeline_loinc.fit(sparkDF).transform(sparkDF)
 ```
 ```scala
 val documentAssembler = DocumentAssembler()
@@ -125,7 +123,7 @@ val chunk2doc = Chunk2Doc()
 .setOutputCol("ner_chunk_doc")
 
 val sbert_embedder = BertSentenceEmbeddings.pretrained("sbluebert_base_uncased_mli", "en", "clinical/models")
-.setInputCols("ner_chunk_doc")
+.setInputCols(Array("ner_chunk_doc"))
 .setOutputCol("sbert_embeddings")
 .setCaseSensitive(True)
 
@@ -138,7 +136,7 @@ val pipeline_loinc = new Pipeline().setStages(Array(documentAssembler, sentenceD
 
 val data = Seq("The patient is a 22-year-old female with a history of obesity. She has a BMI of 33.5 kg/m2, aspartate aminotransferase 64, and alanine aminotransferase 126. Her hgba1c is 8.2%.").toDF("text")
 
-val result = pipeline.fit(data).transform(data)
+val result = pipeline_loinc.fit(data).transform(data)
 ```
 
 

@@ -10,6 +10,7 @@ language: en
 edition: Healthcare NLP 4.0.2
 spark_version: 3.0
 supported: true
+annotator: MedicalBertForSequenceClassification
 article_header:
   type: cover
 use_language_switcher: "Python-Scala-Java"
@@ -61,19 +62,19 @@ result = pipeline.fit(data).transform(data)
 result.select("text", "class.result").show(truncate=False)
 ```
 ```scala
-val documenter = new DocumentAssembler() 
+val document_assembler = new DocumentAssembler() 
     .setInputCol("text") 
     .setOutputCol("document")
 
 val tokenizer = new Tokenizer()
-    .setInputCols("sentences")
+    .setInputCols(Array("document"))
     .setOutputCol("token")
 
 val sequenceClassifier = MedicalBertForSequenceClassification.pretrained("bert_sequence_classifier_treatment_changes_sentiment_tweet", "en", "clinical/models")
     .setInputCols(Array("document","token"))
     .setOutputCol("class")
 
-val pipeline = new Pipeline().setStages(Array(documenter, tokenizer, sequenceClassifier))
+val pipeline = new Pipeline().setStages(Array(document_assembler, tokenizer, sequenceClassifier))
 
 val data = Seq(Array("I love when they say things like this. I took that ambien instead of my thyroid pill.",
                       "I am a 30 year old man who is not overweight but is still on the verge of needing a Lipitor prescription.")).toDS.toDF("text")

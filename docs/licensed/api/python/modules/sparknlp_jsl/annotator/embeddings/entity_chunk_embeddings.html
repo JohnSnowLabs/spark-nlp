@@ -258,7 +258,7 @@
 <span></span><span class="kn">from</span> <span class="nn">sparknlp.annotator</span> <span class="kn">import</span> <span class="n">BertSentenceEmbeddings</span>
 <span class="kn">from</span> <span class="nn">sparknlp.common</span> <span class="kn">import</span> <span class="o">*</span>
 
-<div class="viewcode-block" id="EntityChunkEmbeddings"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/embeddings/entity_chunk_embeddings/index.html#sparknlp_jsl.annotator.embeddings.entity_chunk_embeddings.EntityChunkEmbeddings">[docs]</a><span class="k">class</span> <span class="nc">EntityChunkEmbeddings</span><span class="p">(</span><span class="n">BertSentenceEmbeddings</span><span class="p">):</span>
+<div class="viewcode-block" id="EntityChunkEmbeddings"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/embeddings/entity_chunk_embeddings/index.html#sparknlp_jsl.annotator.embeddings.entity_chunk_embeddings.EntityChunkEmbeddings">[docs]</a><span class="k">class</span> <span class="nc">EntityChunkEmbeddings</span><span class="p">(</span><span class="n">BertSentenceEmbeddings</span><span class="p">,</span> <span class="n">HasEngine</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Weighted average embeddings of multiple named entities chunk annotations</span>
 
 <span class="sd">    ====================== =======================</span>
@@ -375,7 +375,7 @@
 <span class="sd">            specify the weight of a entity which is related to specific target entity (e.g. &quot;DRUG:SYMPTOM&quot;: 0.3).</span>
 <span class="sd">            Entity names are case-insensitive.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_call_java</span><span class="p">(</span><span class="s2">&quot;setEntityWeights&quot;</span><span class="p">,</span><span class="n">weights</span><span class="p">)</span></div>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_call_java</span><span class="p">(</span><span class="s2">&quot;setEntityWeights&quot;</span><span class="p">,</span> <span class="n">weights</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="EntityChunkEmbeddings.setTargetEntities"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/embeddings/entity_chunk_embeddings/index.html#sparknlp_jsl.annotator.embeddings.entity_chunk_embeddings.EntityChunkEmbeddings.setTargetEntities">[docs]</a>    <span class="k">def</span> <span class="nf">setTargetEntities</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">entities</span><span class="o">=</span><span class="p">{}):</span>
         <span class="sd">&quot;&quot;&quot;Sets the target entities and maps them to their related entities. A target entity with an empty list of</span>
@@ -388,7 +388,7 @@
 <span class="sd">            entities is empty, then all non-target entities are considered.</span>
 <span class="sd">            Entity names are case insensitive.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_call_java</span><span class="p">(</span><span class="s2">&quot;setTargetEntities&quot;</span><span class="p">,</span><span class="n">entities</span><span class="p">)</span></div>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_call_java</span><span class="p">(</span><span class="s2">&quot;setTargetEntities&quot;</span><span class="p">,</span> <span class="n">entities</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="EntityChunkEmbeddings.setMaxSyntacticDistance"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/embeddings/entity_chunk_embeddings/index.html#sparknlp_jsl.annotator.embeddings.entity_chunk_embeddings.EntityChunkEmbeddings.setMaxSyntacticDistance">[docs]</a>    <span class="k">def</span> <span class="nf">setMaxSyntacticDistance</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">distance</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Sets the maximal syntactic distance between related entities. Default value is 2.</span>

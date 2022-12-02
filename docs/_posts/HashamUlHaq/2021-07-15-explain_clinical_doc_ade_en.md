@@ -11,6 +11,7 @@ edition: Healthcare NLP 3.1.2
 spark_version: 3.0
 supported: true
 recommended: true
+annotator: PipelineModel
 article_header:
   type: cover
 use_language_switcher: "Python-Scala-Java"
