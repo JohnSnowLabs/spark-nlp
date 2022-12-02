@@ -1,5 +1,5 @@
 /*
- * Copyright 2017-2021 John Snow Labs
+ * Copyright 2017-2022 John Snow Labs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,17 +16,17 @@
 
 package com.johnsnowlabs.ml.tensorflow
 
+import org.tensorflow.Tensor
 import org.tensorflow.ndarray.buffer._
 import org.tensorflow.ndarray.{Shape, StdArrays}
 import org.tensorflow.types._
-import org.tensorflow.Tensor
 
 import scala.collection.mutable
 import scala.collection.mutable.ArrayBuffer
 import scala.language.existentials
 
-/**
-  * This class is being used to initialize Tensors of different types and shapes for Tensorflow operations
+/** This class is being used to initialize Tensors of different types and shapes for Tensorflow
+  * operations
   */
 class TensorResources {
   private val tensors = ArrayBuffer[Tensor]()
@@ -35,6 +35,12 @@ class TensorResources {
     val result = obj match {
       case float: Float =>
         TFloat32.scalarOf(float)
+
+      case int: Int =>
+        TInt32.scalarOf(int)
+
+      case boolean: Boolean =>
+        TBool.scalarOf(boolean)
 
       case str: String =>
         TString.scalarOf(str)
@@ -54,6 +60,9 @@ class TensorResources {
       case tridimArray: Array[Array[Array[Float]]] =>
         TFloat32.tensorOf(StdArrays.ndCopyOf(tridimArray))
 
+      case quaddimArray: Array[Array[Array[Array[Float]]]] =>
+        TFloat32.tensorOf(StdArrays.ndCopyOf(quaddimArray))
+
       case array: Array[Int] =>
         TInt32.tensorOf(StdArrays.ndCopyOf(array))
 
@@ -71,21 +80,26 @@ class TensorResources {
     result
   }
 
-
   def createIntBufferTensor(shape: Array[Long], buf: IntDataBuffer): Tensor = {
-    val result = TInt32.tensorOf(Shape.of(shape:_*), buf)
+    val result = TInt32.tensorOf(Shape.of(shape: _*), buf)
     tensors.append(result)
     result
   }
 
   def createLongBufferTensor(shape: Array[Long], buf: LongDataBuffer): Tensor = {
-    val result = TInt64.tensorOf(Shape.of(shape:_*), buf)
+    val result = TInt64.tensorOf(Shape.of(shape: _*), buf)
     tensors.append(result)
     result
   }
 
   def createFloatBufferTensor(shape: Array[Long], buf: FloatDataBuffer): Tensor = {
-    val result = TFloat32.tensorOf(Shape.of(shape:_*), buf)
+    val result = TFloat32.tensorOf(Shape.of(shape: _*), buf)
+    tensors.append(result)
+    result
+  }
+
+  def createBooleanBufferTensor(shape: Array[Long], buf: BooleanDataBuffer): Tensor = {
+    val result = TBool.tensorOf(Shape.of(shape: _*), buf)
     tensors.append(result)
     result
   }
@@ -113,21 +127,25 @@ class TensorResources {
   def createFloatBuffer(dim: Int): FloatDataBuffer = {
     DataBuffers.ofFloats(dim)
   }
+
+  def createBooleanBuffer(dim: Int): BooleanDataBuffer = {
+    DataBuffers.ofBooleans(dim)
+  }
 }
 
 object TensorResources {
   // TODO all these implementations are not tested
 
   def calculateTensorSize(source: Tensor, size: Option[Int]): Int = {
-    size.getOrElse{
+    size.getOrElse {
       // Calculate real size from tensor shape
       val shape = source.shape()
-      shape.asArray.foldLeft(1L)(_*_).toInt
+      shape.asArray.foldLeft(1L)(_ * _).toInt
     }
   }
 
   def extractInts(source: Tensor, size: Option[Int] = None): Array[Int] = {
-    val realSize = calculateTensorSize(source ,size)
+    val realSize = calculateTensorSize(source, size)
     val buffer = Array.fill(realSize)(0)
     source.asRawTensor.data.asInts.read(buffer)
     buffer
@@ -137,14 +155,14 @@ object TensorResources {
     extractInts(source).head
 
   def extractLongs(source: Tensor, size: Option[Int] = None): Array[Long] = {
-    val realSize = calculateTensorSize(source ,size)
+    val realSize = calculateTensorSize(source, size)
     val buffer = Array.fill(realSize)(0L)
     source.asRawTensor.data.asLongs.read(buffer)
     buffer
   }
 
   def extractFloats(source: Tensor, size: Option[Int] = None): Array[Float] = {
-    val realSize = calculateTensorSize(source ,size)
+    val realSize = calculateTensorSize(source, size)
     val buffer = Array.fill(realSize)(0f)
     source.asRawTensor.data.asFloats.read(buffer)
     buffer

@@ -7,9 +7,10 @@ date: 2022-09-30
 tags: [en, licensed, clinical, resolver, chunk_mapping, pipeline, icd9cm]
 task: Pipeline Healthcare
 language: en
-edition: Spark NLP for Healthcare 4.1.0
+edition: Healthcare NLP 4.1.0
 spark_version: 3.0
 supported: true
+annotator: PipelineModel
 article_header:
   type: cover
 use_language_switcher: "Python-Scala-Java"
@@ -67,7 +68,7 @@ val result = med_resolver_pipeline.fullAnnotate("""A 28-year-old female with a h
 |---|---|
 |Model Name:|icd9_resolver_pipeline|
 |Type:|pipeline|
-|Compatibility:|Spark NLP for Healthcare 4.1.0+|
+|Compatibility:|Healthcare NLP 4.1.0+|
 |License:|Licensed|
 |Edition:|Official|
 |Language:|en|

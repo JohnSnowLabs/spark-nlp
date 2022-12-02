@@ -1,5 +1,5 @@
 /*
- * Copyright 2017-2021 John Snow Labs
+ * Copyright 2017-2022 John Snow Labs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,15 +16,15 @@
 
 package com.johnsnowlabs.ml.tensorflow.sentencepiece
 
-import java.io.{BufferedOutputStream, File, FileOutputStream}
-import java.nio.file.{Files, Paths}
-import java.util.UUID
-
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
 import org.apache.commons.lang.SystemUtils
 import org.apache.spark.SparkFiles
 import org.apache.spark.sql.SparkSession
 import org.tensorflow.TensorFlow
+
+import java.io.{BufferedOutputStream, File, FileOutputStream}
+import java.nio.file.{Files, Paths}
+import java.util.UUID
 
 object LoadSentencepiece {
   @transient var loadedToCluster = false
@@ -36,13 +36,15 @@ object LoadSentencepiece {
 
   lazy val sentencepiecePaths: Option[String] =
     if (SystemUtils.IS_OS_MAC || SystemUtils.IS_OS_MAC_OSX) {
-      val libWithExtension = lib + ".dylib"
+      val libWithArch = if (SystemUtils.OS_ARCH == "aarch64") lib + "_m1" else lib
+      val libWithExtension = libWithArch + ".dylib"
       Some(resourcePath("mac", libWithExtension))
     } else if (SystemUtils.IS_OS_WINDOWS) {
       val libWithExtension = lib + ".so"
       Some(resourcePath("win", libWithExtension))
     } else {
-      val libWithExtension = lib + ".so"
+      val libWithArch = if (SystemUtils.OS_ARCH == "aarch64") lib + "_aarch64" else lib
+      val libWithExtension = libWithArch + ".so"
       Some(resourcePath("linux", libWithExtension))
     }
 
@@ -70,8 +72,11 @@ object LoadSentencepiece {
   }
 
   def loadSPToCluster(spark: SparkSession): Unit = {
+
     /** NOT thread-safe. DRIVER only */
-    require(!SystemUtils.IS_OS_WINDOWS, "UniversalSentenceEncoder multi-lingual models are not supported on Windows.")
+    require(
+      !SystemUtils.IS_OS_WINDOWS,
+      "UniversalSentenceEncoder multi-lingual models are not supported on Windows.")
 
     if (!LoadSentencepiece.loadedToCluster && sentencepiecePaths.isDefined) {
       LoadSentencepiece.loadedToCluster = true
@@ -80,7 +85,9 @@ object LoadSentencepiece {
   }
 
   def loadSPToTensorflow(): Unit = {
-    require(!SystemUtils.IS_OS_WINDOWS, "UniversalSentenceEncoder multi-lingual models are not supported on Windows.")
+    require(
+      !SystemUtils.IS_OS_WINDOWS,
+      "UniversalSentenceEncoder multi-lingual models are not supported on Windows.")
 
     if (!LoadSentencepiece.loadedToTensorflow && sentencepiecePaths.isDefined) {
       LoadSentencepiece.loadedToTensorflow = true
@@ -92,7 +99,9 @@ object LoadSentencepiece {
   }
 
   def loadSPToTensorflowLocally(): Unit = {
-    require(!SystemUtils.IS_OS_WINDOWS, "UniversalSentenceEncoder multi-lingual models are not supported on Windows.")
+    require(
+      !SystemUtils.IS_OS_WINDOWS,
+      "UniversalSentenceEncoder multi-lingual models are not supported on Windows.")
 
     if (!LoadSentencepiece.loadedToTensorflow && sentencepiecePaths.isDefined) {
       LoadSentencepiece.loadedToTensorflow = true
@@ -102,8 +111,10 @@ object LoadSentencepiece {
       val inputStream = ResourceHelper.getResourceStream(uri.toString)
 
       // 1. Create tmp folder
-      val tmpFolder = Files.createTempDirectory(UUID.randomUUID().toString.takeRight(12) + "_sentencepiece")
-        .toAbsolutePath.toString
+      val tmpFolder = Files
+        .createTempDirectory(UUID.randomUUID().toString.takeRight(12) + "_sentencepiece")
+        .toAbsolutePath
+        .toString
 
       val spProcFile = new File(tmpFolder, getFileName(sentencepiecePaths.get))
 

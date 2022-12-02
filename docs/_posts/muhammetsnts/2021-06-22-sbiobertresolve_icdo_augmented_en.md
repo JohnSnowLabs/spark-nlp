@@ -7,11 +7,12 @@ date: 2021-06-22
 tags: [licensed, en, clinical, entity_resolution]
 task: Entity Resolution
 language: en
-edition: Spark NLP for Healthcare 3.1.0
+edition: Healthcare NLP 3.1.0
 spark_version: 3.0
 supported: true
+annotator: SentenceEntityResolverModel
 article_header:
-  type: cover
+type: cover
 use_language_switcher: "Python-Scala-Java"
 ---
 
@@ -38,38 +39,87 @@ ICD-O Codes and their normalized definition with `sbiobert_base_cased_mli ` embe
 {% include programmingLanguageSelectScalaPythonNLU.html %}
 ```python
 ...
+document_assembler = DocumentAssembler()\
+		.setInputCol("text")\
+		.setOutputCol("document")
+
+sentence_detector = SentenceDetectorDLModel.pretrained("sentence_detector_dl_healthcare", "en", "clinical/models") \
+		.setInputCols(["document"]) \
+		.setOutputCol("sentence")
+
+tokenizer = Tokenizer()\
+		.setInputCols(["sentence"])\
+		.setOutputCol("token")
+	
+word_embeddings = WordEmbeddingsModel.pretrained("embeddings_clinical", "en", "clinical/models")\
+		.setInputCols(["sentence", "token"])\
+		.setOutputCol("embeddings")
+
+clinical_ner = MedicalNerModel.pretrained("ner_jsl", "en", "clinical/models") \
+		.setInputCols(["sentence", "token", "embeddings"]) \
+		.setOutputCol("jsl_ner")
+
+ner_converter = NerConverter() \
+		.setInputCols(["sentence", "token", "jsl_ner"]) \
+		.setOutputCol("ner_chunk")
+
 chunk2doc = Chunk2Doc().setInputCols("ner_chunk").setOutputCol("ner_chunk_doc")
- 
+
 sbert_embedder = BertSentenceEmbeddings\
-     .pretrained("sbiobert_base_cased_mli","en","clinical/models")\
-     .setInputCols(["ner_chunk_doc"])\
-     .setOutputCol("sbert_embeddings")
- 
-icdo_resolver = SentenceEntityResolverModel.pretrained("sbiobertresolve_icdo_augmented","en", "clinical/models") \
-     .setInputCols(["ner_chunk", "sbert_embeddings"]) \
-     .setOutputCol("resolution")\
-     .setDistanceFunction("EUCLIDEAN")
+.pretrained("sbiobert_base_cased_mli","en","clinical/models")\
+.setInputCols(["ner_chunk_doc"])\
+.setOutputCol("sbert_embeddings")
+
+icdo_resolver = SentenceEntityResolverModel\
+.pretrained("sbiobertresolve_icdo_augmented","en", "clinical/models") \
+.setInputCols(["ner_chunk", "sbert_embeddings"]) \
+.setOutputCol("resolution")\
+.setDistanceFunction("EUCLIDEAN")
 
 nlpPipeline = Pipeline(stages=[document_assembler, sentence_detector, tokenizer, word_embeddings, clinical_ner, ner_converter, chunk2doc, sbert_embedder, icdo_resolver])
 
-empty_data = spark.createDataFrame([[""]]).toDF("text")
-model = nlpPipeline.fit(empty_data)
+data = spark.createDataFrame([["The patient is a very pleasant 61-year-old female with a strong family history of colon polyps. The patient reports her first polyps noted at the age of 50. We reviewed the pathology obtained from the pericardectomy in March 2006, which was diagnostic of mesothelioma. She also has history of several malignancies in the family. Her father died of a brain tumor at the age of 81. Her sister died at the age of 65 breast cancer. She has two maternal aunts with history of lung cancer both of whom were smoker. Also a paternal grandmother who was diagnosed with leukemia at 86 and a paternal grandfather who had B-cell lymphoma."]]).toDF("text")
 
-results = model.transform(spark.createDataFrame([["The patient is a very pleasant 61-year-old female with a strong family history of colon polyps. The patient reports her first polyps noted at the age of 50. We reviewed the pathology obtained from the pericardectomy in March 2006, which was diagnostic of mesothelioma. She also has history of several malignancies in the family. Her father died of a brain tumor at the age of 81. Her sister died at the age of 65 breast cancer. She has two maternal aunts with history of lung cancer both of whom were smoker. Also a paternal grandmother who was diagnosed with leukemia at 86 and a paternal grandfather who had B-cell lymphoma."]]).toDF("text"))
+results = nlpPipeline.fit(data).transform(data)
 ```
 ```scala
 ...
-chunk2doc = Chunk2Doc().setInputCols("ner_chunk").setOutputCol("ner_chunk_doc")
- 
+val document_assembler = new DocumentAssembler()
+		.setInputCol("text")
+		.setOutputCol("document")
+
+val sentence_detector = SentenceDetectorDLModel.pretrained("sentence_detector_dl_healthcare","en","clinical/models")
+		.setInputCols("document") 
+		.setOutputCol("sentence")
+
+val tokenizer = new Tokenizer()
+		.setInputCols("sentence")
+		.setOutputCol("token")
+	
+val word_embeddings = WordEmbeddingsModel.pretrained("embeddings_clinical", "en", "clinical/models")
+		.setInputCols(Array("sentence", "token"))
+	    	.setOutputCol("embeddings")
+
+val clinical_ner = MedicalNerModel.pretrained("ner_jsl", "en", "clinical/models")
+		.setInputCols(Array("sentence", "token", "embeddings"))
+		.setOutputCol("jsl_ner")
+
+val ner_converter = new NerConverter()
+		.setInputCols(Array("sentence", "token", "jsl_ner"))
+		.setOutputCol("ner_chunk")
+
+val chunk2doc = new Chunk2Doc().setInputCols("ner_chunk").setOutputCol("ner_chunk_doc")
+
 val sbert_embedder = BertSentenceEmbeddings
-     .pretrained("sbiobert_base_cased_mli","en","clinical/models")
-     .setInputCols(Array("ner_chunk_doc"))
-     .setOutputCol("sbert_embeddings")
- 
-val icdo_resolver = SentenceEntityResolverModel.pretrained("sbiobertresolve_icdo_augmented","en", "clinical/models")
-     .setInputCols(Array("ner_chunk", "sbert_embeddings"))
-     .setOutputCol("resolution")
-     .setDistanceFunction("EUCLIDEAN")
+.pretrained("sbiobert_base_cased_mli","en","clinical/models")
+.setInputCols(Array("ner_chunk_doc"))
+.setOutputCol("sbert_embeddings")
+
+val icdo_resolver = SentenceEntityResolverModel
+.pretrained("sbiobertresolve_icdo_augmented","en", "clinical/models")
+.setInputCols(Array("ner_chunk", "sbert_embeddings"))
+.setOutputCol("resolution")
+.setDistanceFunction("EUCLIDEAN")
 
 val pipeline = new Pipeline().setStages(Array(document_assembler, sentence_detector, tokenizer, word_embeddings, clinical_ner, ner_converter, chunk2doc, sbert_embedder, icdo_resolver))
 
@@ -77,6 +127,14 @@ val data = Seq("The patient is a very pleasant 61-year-old female with a strong 
 
 val result = pipeline.fit(data).transform(data)
 ```
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("en.resolve.icdo_augmented").predict("""The patient is a very pleasant 61-year-old female with a strong family history of colon polyps. The patient reports her first polyps noted at the age of 50. We reviewed the pathology obtained from the pericardectomy in March 2006, which was diagnostic of mesothelioma. She also has history of several malignancies in the family. Her father died of a brain tumor at the age of 81. Her sister died at the age of 65 breast cancer. She has two maternal aunts with history of lung cancer both of whom were smoker. Also a paternal grandmother who was diagnosed with leukemia at 86 and a paternal grandfather who had B-cell lymphoma.""")
+```
+
 </div>
 
 ## Results
@@ -101,7 +159,7 @@ val result = pipeline.fit(data).transform(data)
 {:.table-model}
 |---|---|
 |Model Name:|sbiobertresolve_icdo_augmented|
-|Compatibility:|Spark NLP for Healthcare 3.1.0+|
+|Compatibility:|Healthcare NLP 3.1.0+|
 |License:|Licensed|
 |Edition:|Official|
 |Input Labels:|[sentence_embeddings]|

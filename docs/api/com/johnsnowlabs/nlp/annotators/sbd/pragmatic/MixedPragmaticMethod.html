@@ -3,9 +3,9 @@
         <head>
           <meta http-equiv="X-UA-Compatible" content="IE=edge" />
           <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-          <title>Spark NLP 3.3.4 ScalaDoc  - com.johnsnowlabs.nlp.annotators.sbd.pragmatic.MixedPragmaticMethod</title>
-          <meta name="description" content="Spark NLP 3.3.4 ScalaDoc - com.johnsnowlabs.nlp.annotators.sbd.pragmatic.MixedPragmaticMethod" />
-          <meta name="keywords" content="Spark NLP 3.3.4 ScalaDoc com.johnsnowlabs.nlp.annotators.sbd.pragmatic.MixedPragmaticMethod" />
+          <title>Spark NLP 4.2.4 ScalaDoc  - com.johnsnowlabs.nlp.annotators.sbd.pragmatic.MixedPragmaticMethod</title>
+          <meta name="description" content="Spark NLP 4.2.4 ScalaDoc - com.johnsnowlabs.nlp.annotators.sbd.pragmatic.MixedPragmaticMethod" />
+          <meta name="keywords" content="Spark NLP 4.2.4 ScalaDoc com.johnsnowlabs.nlp.annotators.sbd.pragmatic.MixedPragmaticMethod" />
           <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
           
       
@@ -28,7 +28,7 @@
         </head>
         <body>
       <div id="search">
-        <span id="doc-title">Spark NLP 3.3.4 ScalaDoc<span id="doc-version"></span></span>
+        <span id="doc-title">Spark NLP 4.2.4 ScalaDoc<span id="doc-version"></span></span>
         <span class="close-results"><span class="left">&lt;</span> Back</span>
         <div id="textfilter">
           <span class="input">
@@ -203,8 +203,8 @@
                         <a href="RuleSymbols.html" title="Base Symbols that may be extended later on.">RuleSymbols</a>
                       </li><li class="current-entities indented6">
                         <a class="object" href="SentenceDetector$.html" title="This is the companion object of SentenceDetector."></a>
-                        <a class="class" href="SentenceDetector.html" title="Annotator that detects sentence boundaries using any provided approach."></a>
-                        <a href="SentenceDetector.html" title="Annotator that detects sentence boundaries using any provided approach.">SentenceDetector</a>
+                        <a class="class" href="SentenceDetector.html" title="Annotator that detects sentence boundaries using regular expressions."></a>
+                        <a href="SentenceDetector.html" title="Annotator that detects sentence boundaries using regular expressions.">SentenceDetector</a>
                       </li>
               </ul>
             </div>
@@ -284,9 +284,9 @@
         <div id="constructors" class="members">
               <h3>Instance Constructors</h3>
               <ol><li name="com.johnsnowlabs.nlp.annotators.sbd.pragmatic.MixedPragmaticMethod#&lt;init&gt;" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="&lt;init&gt;(useAbbreviations:Boolean,detectLists:Boolean,customBounds:Array[String]):com.johnsnowlabs.nlp.annotators.sbd.pragmatic.MixedPragmaticMethod"></a><a id="&lt;init&gt;:MixedPragmaticMethod"></a>
+      <a id="&lt;init&gt;(useAbbreviations:Boolean,detectLists:Boolean,customBounds:Array[String],transformStrategy:com.johnsnowlabs.nlp.util.regex.TransformStrategy.TransformStrategy):com.johnsnowlabs.nlp.annotators.sbd.pragmatic.MixedPragmaticMethod"></a><a id="&lt;init&gt;:MixedPragmaticMethod"></a>
       <span class="permalink">
-      <a href="../../../../../../com/johnsnowlabs/nlp/annotators/sbd/pragmatic/MixedPragmaticMethod.html#&lt;init&gt;(useAbbreviations:Boolean,detectLists:Boolean,customBounds:Array[String]):com.johnsnowlabs.nlp.annotators.sbd.pragmatic.MixedPragmaticMethod" title="Permalink">
+      <a href="../../../../../../com/johnsnowlabs/nlp/annotators/sbd/pragmatic/MixedPragmaticMethod.html#&lt;init&gt;(useAbbreviations:Boolean,detectLists:Boolean,customBounds:Array[String],transformStrategy:com.johnsnowlabs.nlp.util.regex.TransformStrategy.TransformStrategy):com.johnsnowlabs.nlp.annotators.sbd.pragmatic.MixedPragmaticMethod" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -295,7 +295,7 @@
         <span class="kind">new</span>
       </span>
       <span class="symbol">
-        <span class="name">MixedPragmaticMethod</span><span class="params">(<span name="useAbbreviations">useAbbreviations: <span class="extype" name="scala.Boolean">Boolean</span> = <span class="symbol">false</span></span>, <span name="detectLists">detectLists: <span class="extype" name="scala.Boolean">Boolean</span> = <span class="symbol">true</span></span>, <span name="customBounds">customBounds: <span class="extype" name="scala.Array">Array</span>[<span class="extype" name="scala.Predef.String">String</span>]</span>)</span>
+        <span class="name">MixedPragmaticMethod</span><span class="params">(<span name="useAbbreviations">useAbbreviations: <span class="extype" name="scala.Boolean">Boolean</span> = <span class="symbol">false</span></span>, <span name="detectLists">detectLists: <span class="extype" name="scala.Boolean">Boolean</span> = <span class="symbol">true</span></span>, <span name="customBounds">customBounds: <span class="extype" name="scala.Array">Array</span>[<span class="extype" name="scala.Predef.String">String</span>]</span>, <span name="transformStrategy">transformStrategy: <a href="../../../util/regex/TransformStrategy$.html#TransformStrategy=com.johnsnowlabs.nlp.util.regex.TransformStrategy.Value" class="extmbr" name="com.johnsnowlabs.nlp.util.regex.TransformStrategy.TransformStrategy">TransformStrategy</a> = <span class="symbol"><span class="name"><a href="../../../../../index.html">REPLACE_ALL_WITH_SYMBOL</a></span></span></span>)</span>
       </span>
       
       
@@ -460,12 +460,10 @@
         <span class="name">extractBounds</span><span class="params">(<span name="content">content: <span class="extype" name="scala.Predef.String">String</span></span>)</span><span class="result">: <span class="extype" name="scala.Array">Array</span>[<a href="../../common/Sentence.html" class="extype" name="com.johnsnowlabs.nlp.annotators.common.Sentence">Sentence</a>]</span>
       </span>
       
-      <p class="shortcomment cmt">this is a hardcoded order of operations
-considered to go from those most specific non-ambiguous cases
-down to those that are more general and can easily be ambiguous
-</p><div class="fullcomment"><div class="comment cmt"><p>this is a hardcoded order of operations
-considered to go from those most specific non-ambiguous cases
-down to those that are more general and can easily be ambiguous
+      <p class="shortcomment cmt">this is a hardcoded order of operations considered to go from those most specific
+non-ambiguous cases down to those that are more general and can easily be ambiguous
+</p><div class="fullcomment"><div class="comment cmt"><p>this is a hardcoded order of operations considered to go from those most specific
+non-ambiguous cases down to those that are more general and can easily be ambiguous
 </p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.sbd.pragmatic.MixedPragmaticMethod">MixedPragmaticMethod</a> → <a href="PragmaticMethod.html" class="extype" name="com.johnsnowlabs.nlp.annotators.sbd.pragmatic.PragmaticMethod">PragmaticMethod</a></dd></dl></div>
     </li><li name="scala.AnyRef#finalize" visbl="prt" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="finalize():Unit"></a>

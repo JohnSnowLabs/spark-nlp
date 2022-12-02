@@ -9,9 +9,10 @@ task: Embeddings
 language: xx
 edition: Spark NLP 3.0.0
 spark_version: 3.0
-supported: true
+deprecated: true
+annotator: UniversalSentenceEncoder
 article_header:
-  type: cover
+type: cover
 use_language_switcher: "Python-Scala-Java"
 ---
 
@@ -40,13 +41,13 @@ Note: This model only works on Linux and macOS operating systems and is not comp
 {% include programmingLanguageSelectScalaPythonNLU.html %}
 ```python
 embeddings = UniversalSentenceEncoder.pretrained("tfhub_use_multi_lg", "xx") \
-      .setInputCols("sentence") \
-      .setOutputCol("sentence_embeddings")
+.setInputCols("sentence") \
+.setOutputCol("sentence_embeddings")
 ```
 ```scala
 val embeddings = UniversalSentenceEncoder.pretrained("tfhub_use_multi_lg", "xx")
-      .setInputCols("sentence")
-      .setOutputCol("sentence_embeddings")
+.setInputCols("sentence")
+.setOutputCol("sentence_embeddings")
 ```
 
 {:.nlu-block}

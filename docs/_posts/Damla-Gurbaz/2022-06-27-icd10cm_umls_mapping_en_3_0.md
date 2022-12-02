@@ -7,11 +7,12 @@ date: 2022-06-27
 tags: [icd10cm, umls, pipeline, chunk_mapper, clinical, licensed, en]
 task: Pipeline Healthcare
 language: en
-edition: Spark NLP for Healthcare 3.5.3
+edition: Healthcare NLP 3.5.3
 spark_version: 3.0
 supported: true
+annotator: PipelineModel
 article_header:
-  type: cover
+type: cover
 use_language_switcher: "Python-Scala-Java"
 ---
 
@@ -44,6 +45,14 @@ val pipeline = new PretrainedPipeline("icd10cm_umls_mapping", "en", "clinical/mo
 
 val result = pipeline.fullAnnotate(Array("M8950", "R822", "R0901"))
 ```
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("en.resolve.icd10cm.umls").predict("""Put your text here.""")
+```
+
 </div>
 
 ## Results
@@ -63,7 +72,7 @@ val result = pipeline.fullAnnotate(Array("M8950", "R822", "R0901"))
 |---|---|
 |Model Name:|icd10cm_umls_mapping|
 |Type:|pipeline|
-|Compatibility:|Spark NLP for Healthcare 3.5.3+|
+|Compatibility:|Healthcare NLP 3.5.3+|
 |License:|Licensed|
 |Edition:|Official|
 |Language:|en|

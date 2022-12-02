@@ -7,9 +7,10 @@ date: 2022-07-25
 tags: [en, ner, clinical, licensed, bertfortokenclassification]
 task: Named Entity Recognition
 language: en
-edition: Spark NLP for Healthcare 4.0.0
+edition: Healthcare NLP 4.0.0
 spark_version: 3.0
 supported: true
+annotator: MedicalBertForTokenClassifier
 article_header:
   type: cover
 use_language_switcher: "Python-Scala-Java"
@@ -68,11 +69,9 @@ pipeline = Pipeline(stages=[
     ner_converter   
     ])
 
-model = pipeline.fit(spark.createDataFrame([[""]]).toDF("text"))
-
 data = spark.createDataFrame([["""Malignant cells often display defects in autophagy, an evolutionarily conserved pathway for degrading long-lived proteins and cytoplasmic organelles. However, as yet, there is no genetic evidence for a role of autophagy genes in tumor suppression. The beclin 1 autophagy gene is monoallelically deleted in 40 - 75 % of cases of human sporadic breast, ovarian, and prostate cancer."""]]).toDF("text")
 
-result = model.transform(data)
+result = pipeline.fit(data).transform(data)
 ```
 ```scala
 val document_assembler = new DocumentAssembler()
@@ -80,11 +79,11 @@ val document_assembler = new DocumentAssembler()
     .setOutputCol("document")
 
 val sentence_detector = SentenceDetectorDLModel.pretrained("sentence_detector_dl_healthcare", "en", "clinical/models")
-    .setInputCols("document")
+    .setInputCols(Array("document"))
     .setOutputCol("sentence")
 
 val tokenizer = new Tokenizer()
-    .setInputCols("sentence")
+    .setInputCols(Array("sentence"))
     .setOutputCol("token")
 
 val ner_model = MedicalBertForTokenClassifier.pretrained("bert_token_classifier_ner_anatem", "en", "clinical/models")
@@ -97,7 +96,7 @@ val ner_converter = new NerConverter()
     .setInputCols(Array("sentence", "token", "ner"))
     .setOutputCol("ner_chunk")
 
-val pipeline = new PipelineModel().setStages(Array(document_assembler, 
+val pipeline = new Pipeline().setStages(Array(document_assembler, 
                                                    sentence_detector,
                                                    tokenizer,
                                                    ner_model,
@@ -105,7 +104,7 @@ val pipeline = new PipelineModel().setStages(Array(document_assembler,
 
 val data = Seq("""Malignant cells often display defects in autophagy, an evolutionarily conserved pathway for degrading long-lived proteins and cytoplasmic organelles. However, as yet, there is no genetic evidence for a role of autophagy genes in tumor suppression. The beclin 1 autophagy gene is monoallelically deleted in 40 - 75 % of cases of human sporadic breast, ovarian, and prostate cancer.""").toDS.toDF("text")
 
-val result = model.fit(data).transform(data)
+val result = pipeline.fit(data).transform(data)
 ```
 </div>
 
@@ -130,7 +129,7 @@ val result = model.fit(data).transform(data)
 {:.table-model}
 |---|---|
 |Model Name:|bert_token_classifier_ner_anatem|
-|Compatibility:|Spark NLP for Healthcare 4.0.0+|
+|Compatibility:|Healthcare NLP 4.0.0+|
 |License:|Licensed|
 |Edition:|Official|
 |Input Labels:|[sentence, token]|

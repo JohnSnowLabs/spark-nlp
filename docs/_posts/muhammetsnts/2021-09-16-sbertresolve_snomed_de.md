@@ -7,11 +7,12 @@ date: 2021-09-16
 tags: [snomed, de, clinial, licensed]
 task: Entity Resolution
 language: de
-edition: Spark NLP for Healthcare 3.2.2
+edition: Healthcare NLP 3.2.2
 spark_version: 2.4
 supported: true
+annotator: SentenceEntityResolverModel
 article_header:
-  type: cover
+type: cover
 use_language_switcher: "Python-Scala-Java"
 ---
 
@@ -24,7 +25,7 @@ This model maps extracted medical entities to SNOMED codes for the German langua
 `SNOMED Codes`
 
 {:.btn-box}
-<button class="button button-orange" disabled>Live Demo</button>
+[Live Demo](https://demo.johnsnowlabs.com/healthcare/ER_SNOMED_DE/){:.button.button-orange}
 [Open in Colab](https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/14.German_Healthcare_Models.ipynb){:.button.button-orange.button-orange-trans.co.button-icon}
 [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/sbertresolve_snomed_de_3.2.2_2.4_1631826969583.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
 
@@ -36,43 +37,51 @@ This model maps extracted medical entities to SNOMED codes for the German langua
 {% include programmingLanguageSelectScalaPythonNLU.html %}
 ```python
 documentAssembler = DocumentAssembler()\
-      .setInputCol("text")\
-      .setOutputCol("ner_chunk")
+.setInputCol("text")\
+.setOutputCol("ner_chunk")
 
 sbert_embedder = BertSentenceEmbeddings.pretrained("sent_bert_base_cased", "de")\
-      .setInputCols(["ner_chunk"])\
-      .setOutputCol("sbert_embeddings")
+.setInputCols(["ner_chunk"])\
+.setOutputCol("sbert_embeddings")
 
 snomed_resolver = SentenceEntityResolverModel.pretrained("sbertresolve_snomed", "de", "clinical/models") \
-      .setInputCols(["ner_chunk", "sbert_embeddings"]) \
-      .setOutputCol("snomed_code")
+.setInputCols(["ner_chunk", "sbert_embeddings"]) \
+.setOutputCol("snomed_code")
 
 snomed_pipelineModel = PipelineModel(
-    stages = [
-        documentAssembler,
-        sbert_embedder,
-        snomed_resolver])
+stages = [
+documentAssembler,
+sbert_embedder,
+snomed_resolver])
 
 snomed_lp = LightPipeline(snomed_pipelineModel)
 
 ```
 ```scala
 val documentAssembler = DocumentAssembler()\
-      .setInputCol("text")\
-      .setOutputCol("ner_chunk")
+.setInputCol("text")\
+.setOutputCol("ner_chunk")
 
 val sbert_embedder = BertSentenceEmbeddings.pretrained("sent_bert_base_cased", "de")\
-      .setInputCols(["ner_chunk"])\
-      .setOutputCol("sbert_embeddings")
+.setInputCols(["ner_chunk"])\
+.setOutputCol("sbert_embeddings")
 
 val snomed_resolver = SentenceEntityResolverModel.pretrained("sbertresolve_snomed", "de", "clinical/models") \
-      .setInputCols(["ner_chunk", "sbert_embeddings"]) \
-      .setOutputCol("snomed_code")
+.setInputCols(["ner_chunk", "sbert_embeddings"]) \
+.setOutputCol("snomed_code")
 
 val snomed_pipelineModel = new PipelineModel().setStages(Array(documentAssembler, sbert_embedder, snomed_resolver))
 
 val snomed_lp = LightPipeline(snomed_pipelineModel)
 ```
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("de.resolve.snomed").predict("""Put your text here.""")
+```
+
 </div>
 
 ## Results
@@ -89,7 +98,7 @@ val snomed_lp = LightPipeline(snomed_pipelineModel)
 {:.table-model}
 |---|---|
 |Model Name:|sbertresolve_snomed|
-|Compatibility:|Spark NLP for Healthcare 3.2.2+|
+|Compatibility:|Healthcare NLP 3.2.2+|
 |License:|Licensed|
 |Edition:|Official|
 |Input Labels:|[sentence_embeddings]|

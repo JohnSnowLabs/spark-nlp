@@ -1,5 +1,5 @@
 /*
- * Copyright 2017-2021 John Snow Labs
+ * Copyright 2017-2022 John Snow Labs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,10 +19,9 @@ package com.johnsnowlabs.nlp
 import org.apache.spark.ml.{Model, PipelineModel}
 import org.apache.spark.sql.Dataset
 
-/** AnnotatorApproach'es may extend this trait in order to allow
- * RecursivePipelines to include intermediate
- * steps trained PipelineModel's
- * */
+/** AnnotatorApproach'es may extend this trait in order to allow RecursivePipelines to include
+  * intermediate steps trained PipelineModel's
+  */
 trait HasRecursiveFit[M <: Model[M]] {
 
   this: AnnotatorApproach[M] =>

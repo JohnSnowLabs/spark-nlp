@@ -7,10 +7,12 @@ date: 2021-01-08
 task: [Text Classification, Pipeline Public]
 language: en
 edition: Spark NLP 2.7.1
+spark_version: 2.4
 tags: [classifier, text_classification, pipeline, en, open_source]
 supported: true
+annotator: PipelineModel
 article_header:
-  type: cover
+type: cover
 use_language_switcher: "Python-Scala-Java"
 ---
 
@@ -28,7 +30,7 @@ Classify open-domain, fact-based questions into one of the following broad seman
 
 
 <div class="tabs-box" markdown="1">
-{% include programmingLanguageSelectScalaPython.html %}
+{% include programmingLanguageSelectScalaPythonNLU.html %}
 ```python
 from sparknlp.pretrained import PretrainedPipeline 
 pipeline = PretrainedPipeline("classifierdl_use_trec50_pipeline", lang = "en") 
@@ -39,6 +41,14 @@ import com.johnsnowlabs.nlp.pretrained.PretrainedPipeline
 val pipeline = new PretrainedPipeline("classifierdl_use_trec50_pipeline", lang = "en")
 
 ```
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("en.classify.trec50.component_list").predict("""Put your text here.""")
+```
+
 </div>
 
 ## Results

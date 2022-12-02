@@ -7,11 +7,12 @@ date: 2021-08-28
 tags: [rxnorm, en, licensed, clinical]
 task: Entity Resolution
 language: en
-edition: Spark NLP for Healthcare 3.1.3
+edition: Healthcare NLP 3.1.3
 spark_version: 2.4
 supported: true
+annotator: SentenceEntityResolverModel
 article_header:
-  type: cover
+type: cover
 use_language_switcher: "Python-Scala-Java"
 ---
 
@@ -36,46 +37,54 @@ Predicts RxNorm Codes, their normalized definition for each chunk, and dispositi
 {% include programmingLanguageSelectScalaPythonNLU.html %}
 ```python
 documentAssembler = DocumentAssembler()\
-      .setInputCol("text")\
-      .setOutputCol("ner_chunk")
+.setInputCol("text")\
+.setOutputCol("ner_chunk")
 
 sbert_embedder = BertSentenceEmbeddings.pretrained('sbert_jsl_medium_uncased', 'en','clinical/models')\
-      .setInputCols(["ner_chunk"])\
-      .setOutputCol("sbert_embeddings")
-    
+.setInputCols(["ner_chunk"])\
+.setOutputCol("sbert_embeddings")
+
 rxnorm_resolver = SentenceEntityResolverModel.pretrained("sbertresolve_rxnorm_disposition", "en", "clinical/models") \
-      .setInputCols(["ner_chunk", "sbert_embeddings"]) \
-      .setOutputCol("rxnorm_code")\
-      .setDistanceFunction("EUCLIDEAN")
+.setInputCols(["ner_chunk", "sbert_embeddings"]) \
+.setOutputCol("rxnorm_code")\
+.setDistanceFunction("EUCLIDEAN")
 
 rxnorm_pipelineModel = PipelineModel(
-    stages = [
-        documentAssembler,
-        sbert_embedder,
-        rxnorm_resolver])
+stages = [
+documentAssembler,
+sbert_embedder,
+rxnorm_resolver])
 
 rxnorm_lp = LightPipeline(rxnorm_pipelineModel)
-rxnorm_lp = LightPipeline(pipelineModel) result = rxnorm_lp.fullAnnotate("alizapride 25 mg/ml")
+result = rxnorm_lp.fullAnnotate("alizapride 25 mg/ml")
 ```
 ```scala
-val documentAssembler = DocumentAssembler()\
-      .setInputCol("text")\
-      .setOutputCol("ner_chunk")
+val documentAssembler = DocumentAssembler()
+.setInputCol("text")
+.setOutputCol("ner_chunk")
 
-val sbert_embedder = BertSentenceEmbeddings.pretrained('sbert_jsl_medium_uncased', 'en','clinical/models')\
-      .setInputCols(["ner_chunk"])\
-      .setOutputCol("sbert_embeddings")
+val sbert_embedder = BertSentenceEmbeddings.pretrained("sbert_jsl_medium_uncased", "en","clinical/models")
+.setInputCols(Array("ner_chunk"))
+.setOutputCol("sbert_embeddings")
 
-val rxnorm_resolver = SentenceEntityResolverModel.pretrained("sbertresolve_rxnorm_disposition", "en", "clinical/models") \
-      .setInputCols(["ner_chunk", "sbert_embeddings"]) \
-      .setOutputCol("rxnorm_code")\
-      .setDistanceFunction("EUCLIDEAN")
+val rxnorm_resolver = SentenceEntityResolverModel.pretrained("sbertresolve_rxnorm_disposition", "en", "clinical/models") 
+.setInputCols(Array("ner_chunk", "sbert_embeddings")) 
+.setOutputCol("rxnorm_code")
+.setDistanceFunction("EUCLIDEAN")
 
 val pipelineModel= new PipelineModel().setStages(Array(documentAssembler, sbert_embedder, rxnorm_resolver))
 
 val rxnorm_lp = LightPipeline(pipelineModel)
 val result = rxnorm_lp.fullAnnotate("alizapride 25 mg/ml")
 ```
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("en.resolve.rxnorm.disposition").predict("""alizapride 25 mg/ml""")
+```
+
 </div>
 
 ## Results
@@ -92,7 +101,7 @@ val result = rxnorm_lp.fullAnnotate("alizapride 25 mg/ml")
 {:.table-model}
 |---|---|
 |Model Name:|sbertresolve_rxnorm_disposition|
-|Compatibility:|Spark NLP for Healthcare 3.1.3+|
+|Compatibility:|Healthcare NLP 3.1.3+|
 |License:|Licensed|
 |Edition:|Official|
 |Input Labels:|[ner_chunk, sbert_embeddings]|

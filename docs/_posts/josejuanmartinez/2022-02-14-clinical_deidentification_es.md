@@ -7,9 +7,10 @@ date: 2022-02-14
 tags: [deid, es, licensed]
 task: De-identification
 language: es
-edition: Spark NLP for Healthcare 3.3.4
+edition: Healthcare NLP 3.3.4
 spark_version: 3.0
 supported: true
+annotator: PipelineModel
 article_header:
   type: cover
 use_language_switcher: "Python-Scala-Java"
@@ -31,7 +32,7 @@ This pipeline is trained with sciwiki_300d embeddings and can be used to deident
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
 ```python
-from sparknlp.pretrained import PretrainedPipeline
+from johnsnowlabs import *
 
 deid_pipeline = PretrainedPipeline("clinical_deidentification", "es", "clinical/models")
 
@@ -271,7 +272,7 @@ Reinaldo Manjón Malo Barcelona Servicio de Endocrinología y Nutrición Valenci
 |---|---|
 |Model Name:|clinical_deidentification|
 |Type:|pipeline|
-|Compatibility:|Spark NLP for Healthcare 3.3.4+|
+|Compatibility:|Healthcare NLP 3.3.4+|
 |License:|Licensed|
 |Edition:|Official|
 |Language:|es|
@@ -279,20 +280,20 @@ Reinaldo Manjón Malo Barcelona Servicio de Endocrinología y Nutrición Valenci
 
 ## Included Models
 
-- DocumentAssembler
-- SentenceDetectorDLModel
-- TokenizerModel
-- WordEmbeddingsModel
-- MedicalNerModel
-- NerConverter
+- nlp.DocumentAssembler
+- nlp.SentenceDetectorDLModel
+- nlp.TokenizerModel
+- nlp.WordEmbeddingsModel
+- medical.NerModel
+- nlp.NerConverter
 - ContextualParserModel
 - ContextualParserModel
 - ContextualParserModel
 - ContextualParserModel
 - ContextualParserModel
 - ChunkMergeModel
-- DeIdentificationModel
-- DeIdentificationModel
-- DeIdentificationModel
-- DeIdentificationModel
+- medical.DeIdentificationModel
+- medical.DeIdentificationModel
+- medical.DeIdentificationModel
+- medical.DeIdentificationModel
 - Finisher

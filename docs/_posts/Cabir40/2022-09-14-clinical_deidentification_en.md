@@ -7,9 +7,10 @@ date: 2022-09-14
 tags: [deidendification, deid, en, licensed, clinical, pipeline]
 task: Pipeline Healthcare
 language: en
-edition: Spark NLP for Healthcare 4.1.0
+edition: Healthcare NLP 4.1.0
 spark_version: 3.2
 supported: true
+annotator: PipelineModel
 article_header:
   type: cover
 use_language_switcher: "Python-Scala-Java"
@@ -105,7 +106,7 @@ Phone 0381-6762484, Budaörsi út 14., New brunswick, E-MAIL: Reba@google.com.
 |---|---|
 |Model Name:|clinical_deidentification|
 |Type:|pipeline|
-|Compatibility:|Spark NLP for Healthcare 4.1.0+|
+|Compatibility:|Healthcare NLP 4.1.0+|
 |License:|Licensed|
 |Edition:|Official|
 |Language:|en|

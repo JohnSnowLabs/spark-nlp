@@ -7,10 +7,12 @@ date: 2021-02-10
 task: Named Entity Recognition
 language: bn
 edition: Spark NLP 2.7.3
+spark_version: 2.4
 tags: [open_source, bn, ner]
 supported: true
+annotator: NerDLModel
 article_header:
-  type: cover
+type: cover
 use_language_switcher: "Python-Scala-Java"
 ---
 
@@ -20,7 +22,7 @@ Detect 4 different types of entities in Indian text.
 
 ## Predicted Entities
 
-`PER` - Person, `ORG` - Orgnanization, `LOC` - Location, `TIME` - Time/Year.
+`PER`, `ORG`, `LOC`, `TIME`
 
 {:.btn-box}
 [Live Demo](https://demo.johnsnowlabs.com/public/NER_BN/){:.button.button-orange}
@@ -36,12 +38,12 @@ Detect 4 different types of entities in Indian text.
 ```python
 ...
 embeddings = WordEmbeddingsModel.pretrained("bengali_cc_300d", "bn") \
-        .setInputCols(["sentence", "token"]) \
-        .setOutputCol("embeddings")
+.setInputCols(["sentence", "token"]) \
+.setOutputCol("embeddings")
 
 ner = NerDLModel.pretrained("bengaliner_cc_300d", "bn") \
-        .setInputCols(["document", "token", "embeddings"]) \
-        .setOutputCol("ner")
+.setInputCols(["document", "token", "embeddings"]) \
+.setOutputCol("ner")
 ...
 pipeline = Pipeline(stages=[document_assembler, tokenizer, embeddings, ner, ner_converter])
 example = spark.createDataFrame([['১৯৪৮ সালে ইয়াজউদ্দিন আহম্মেদ মুন্সিগঞ্জ উচ্চ বিদ্যালয় থেকে মেট্রিক পাশ করেন এবং ১৯৫০ সালে মুন্সিগঞ্জ হরগঙ্গা কলেজ থেকে ইন্টারমেডিয়েট পাশ করেন']], ["text"])
@@ -50,18 +52,26 @@ result = pipeline.fit(example).transform(example)
 ```scala
 ...
 val embeddings = WordEmbeddingsModel.pretrained("bengali_cc_300d", "bn") 
-          .setInputCols(Array("document", "token")) 
-          .setOutputCol("embeddings")
+.setInputCols(Array("document", "token")) 
+.setOutputCol("embeddings")
 
 val ner = NerDLModel.pretrained("bengaliner_cc_300d", "bn")
-        .setInputCols(Array("document", "token", "embeddings"))
-        .setOutputCol("ner")
+.setInputCols(Array("document", "token", "embeddings"))
+.setOutputCol("ner")
 ...
 val pipeline = new Pipeline().setStages(Array(document_assembler, sentence_detector, tokenizer, embeddings, ner, ner_converter))
 val data = Seq("১৯৪৮ সালে ইয়াজউদ্দিন আহম্মেদ মুন্সিগঞ্জ উচ্চ বিদ্যালয় থেকে মেট্রিক পাশ করেন এবং ১৯৫০ সালে মুন্সিগঞ্জ হরগঙ্গা কলেজ থেকে ইন্টারমেডিয়েট পাশ করেন").toDF("text")
 val result = pipeline.fit(data).transform(data)
 
 ```
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("bn.ner").predict("""১৯৪৮ সালে ইয়াজউদ্দিন আহম্মেদ মুন্সিগঞ্জ উচ্চ বিদ্যালয় থেকে মেট্রিক পাশ করেন এবং ১৯৫০ সালে মুন্সিগঞ্জ হরগঙ্গা কলেজ থেকে ইন্টারমেডিয়েট পাশ করেন""")
+```
+
 </div>
 
 ## Results

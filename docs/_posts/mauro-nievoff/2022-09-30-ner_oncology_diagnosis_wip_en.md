@@ -7,9 +7,10 @@ date: 2022-09-30
 tags: [licensed, clinical, oncology, en, ner]
 task: Named Entity Recognition
 language: en
-edition: Spark NLP for Healthcare 4.0.0
+edition: Healthcare NLP 4.0.0
 spark_version: 3.0
 supported: true
+annotator: MedicalNerModel
 article_header:
   type: cover
 use_language_switcher: "Python-Scala-Java"
@@ -34,6 +35,7 @@ This model extracts entities related to cancer diagnosis, such as Metastasis, Hi
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
+
 ```python
 document_assembler = DocumentAssembler()\
     .setInputCol("text")\
@@ -65,8 +67,7 @@ pipeline = Pipeline(stages=[document_assembler,
                             ner,
                             ner_converter])
 
-data = spark.createDataFrame([["Two years ago, the patient presented with a tumor in her left breast and adenopathies. She was diagnosed with invasive ductal carcinoma.
-Last week she was also found to have a lung metastasis."]]).toDF("text")
+data = spark.createDataFrame([["Two years ago, the patient presented with a tumor in her left breast and adenopathies. She was diagnosed with invasive ductal carcinoma.Last week she was also found to have a lung metastasis."]]).toDF("text")
 
 result = pipeline.fit(data).transform(data)
 ```
@@ -76,11 +77,11 @@ val document_assembler = new DocumentAssembler()
     .setOutputCol("document")
     
 val sentence_detector = SentenceDetectorDLModel.pretrained("sentence_detector_dl_healthcare","en","clinical/models")
-    .setInputCols("document")
+    .setInputCols(Array("document"))
     .setOutputCol("sentence")
     
 val tokenizer = new Tokenizer()
-    .setInputCols("sentence")
+    .setInputCols(Array("sentence"))
     .setOutputCol("token")
     
 val word_embeddings = WordEmbeddingsModel().pretrained("embeddings_clinical", "en", "clinical/models")
@@ -130,7 +131,7 @@ val result = pipeline.fit(data).transform(data)
 {:.table-model}
 |---|---|
 |Model Name:|ner_oncology_diagnosis_wip|
-|Compatibility:|Spark NLP for Healthcare 4.0.0+|
+|Compatibility:|Healthcare NLP 4.0.0+|
 |License:|Licensed|
 |Edition:|Official|
 |Input Labels:|[sentence, token, embeddings]|

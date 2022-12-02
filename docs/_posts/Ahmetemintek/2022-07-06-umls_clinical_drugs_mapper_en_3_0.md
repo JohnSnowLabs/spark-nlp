@@ -7,9 +7,10 @@ date: 2022-07-06
 tags: [umls, chunk_mapper, clinical, licensed, en]
 task: Chunk Mapping
 language: en
-edition: Spark NLP for Healthcare 4.0.0
+edition: Healthcare NLP 4.0.0
 spark_version: 3.0
 supported: true
+annotator: ChunkMapperModel
 article_header:
   type: cover
 use_language_switcher: "Python-Scala-Java"
@@ -56,7 +57,7 @@ ner_model = MedicalNerModel.pretrained("ner_clinical", "en", "clinical/models")\
     .setOutputCol("clinical_ner")
 
 ner_model_converter = NerConverterInternal()\
-    .setInputCols("sentence", "token", "clinical_ner")\
+    .setInputCols(["sentence", "token", "clinical_ner"])\
     .setOutputCol("ner_chunk")
 
 
@@ -81,39 +82,39 @@ sample_text="""She was immediately given hydrogen peroxide 30 mg, and has been a
                She has a history of taking magnesium hydroxide 100mg/1ml and metformin 1000 mg."""
 
 test_data = spark.createDataFrame([[sample_text]]).toDF("text")
-mapper_model = mapper_pipeline.fit(test_data).transform(test_data)
+result = mapper_pipeline.fit(test_data).transform(test_data)
 ```
 ```scala
-val document_assembler = new DocumentAssembler()\
-      .setInputCol("text")\
+val document_assembler = new DocumentAssembler()
+      .setInputCol("text")
       .setOutputCol("document")
 
-val sentence_detector = new SentenceDetector()\
-      .setInputCols(Array("document"))\
+val sentence_detector = new SentenceDetector()
+      .setInputCols(Array("document"))
       .setOutputCol("sentence")
 
-val tokenizer = new Tokenizer()\
-      .setInputCols("sentence")\
+val tokenizer = new Tokenizer()
+      .setInputCols("sentence")
       .setOutputCol("token")
 
 val word_embeddings = WordEmbeddingsModel
-      .pretrained("embeddings_clinical", "en", "clinical/models")\
-      .setInputCols(Array("sentence", "token"))\
+      .pretrained("embeddings_clinical", "en", "clinical/models")
+      .setInputCols(Array("sentence", "token"))
       .setOutputCol("embeddings")
 
 val ner_model = MedicalNerModel
-      .pretrained("ner_clinical", "en", "clinical/models")\
-      .setInputCols(Array("sentence", "token", "embeddings"))\
+      .pretrained("ner_clinical", "en", "clinical/models")
+      .setInputCols(Array("sentence", "token", "embeddings"))
       .setOutputCol("clinical_ner")
 
-val ner_model_converter = new NerConverterInternal()\
-      .setInputCols("sentence", "token", "clinical_ner")\
+val ner_model_converter = new NerConverterInternal()
+      .setInputCols(Array("sentence", "token", "clinical_ner"))
       .setOutputCol("ner_chunk")
 
 val chunkerMapper = ChunkMapperModel
-      .pretrained("umls_clinical_drugs_mapper", "en", "clinical/models")\
-      .setInputCols(Array("ner_chunk"))\
-      .setOutputCol("mappings")\
+      .pretrained("umls_clinical_drugs_mapper", "en", "clinical/models")
+      .setInputCols(Array("ner_chunk"))
+      .setOutputCol("mappings")
       .setRels(Array("umls_code")) 
 
 val mapper_pipeline = new Pipeline().setStages(Array(
@@ -126,9 +127,9 @@ val mapper_pipeline = new Pipeline().setStages(Array(
                                                   chunkerMapper))
 
 
-val data = Seq("She was immediately given hydrogen peroxide 30 mg, and has been advised Neosporin Cream for 5 days. She has a history of taking magnesium hydroxide 100mg/1ml and metformin 1000 mg.").toDF("text")
+val test_data = Seq("She was immediately given hydrogen peroxide 30 mg, and has been advised Neosporin Cream for 5 days. She has a history of taking magnesium hydroxide 100mg/1ml and metformin 1000 mg.").toDF("text")
 
-val result = pipeline.fit(data).transform(data) 
+val result = pipeline.fit(test_data).transform(test_data) 
 ```
 </div>
 
@@ -151,7 +152,7 @@ val result = pipeline.fit(data).transform(data)
 {:.table-model}
 |---|---|
 |Model Name:|umls_clinical_drugs_mapper|
-|Compatibility:|Spark NLP for Healthcare 4.0.0+|
+|Compatibility:|Healthcare NLP 4.0.0+|
 |License:|Licensed|
 |Edition:|Official|
 |Input Labels:|[ner_chunk]|

@@ -10,8 +10,9 @@ language: en
 edition: Spark NLP 3.1.2
 spark_version: 2.4
 supported: true
+annotator: XlnetEmbeddings
 article_header:
-  type: cover
+type: cover
 use_language_switcher: "Python-Scala-Java"
 ---
 
@@ -32,13 +33,13 @@ XLNet is a new unsupervised language representation learning method based on a n
 {% include programmingLanguageSelectScalaPythonNLU.html %}
 ```python
 embeddings = XlnetEmbeddings.pretrained("xlnet_base_cased", "en") \
-      .setInputCols("sentence", "token") \
-      .setOutputCol("embeddings")
+.setInputCols("sentence", "token") \
+.setOutputCol("embeddings")
 ```
 ```scala
 val embeddings = XlnetEmbeddings.pretrained("xlnet_base_cased", "en")
-      .setInputCols("sentence", "token")
-      .setOutputCol("embeddings")
+.setInputCols("sentence", "token")
+.setOutputCol("embeddings")
 ```
 
 {:.nlu-block}

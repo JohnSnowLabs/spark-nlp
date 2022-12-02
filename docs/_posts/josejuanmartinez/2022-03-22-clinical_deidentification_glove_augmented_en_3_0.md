@@ -1,15 +1,17 @@
 ---
 layout: model
-title: Clinical Deidentification (glove) with improved entities
+title: Clinical Deidentification (English, Glove, Augmented)
 author: John Snow Labs
 name: clinical_deidentification_glove_augmented
 date: 2022-03-22
 tags: [deid, deidentification, en, licensed]
 task: De-identification
 language: en
-edition: Spark NLP for Healthcare 3.4.1
+edition: Healthcare NLP 3.4.1
 spark_version: 3.0
 supported: true
+recommended: true
+annotator: PipelineModel
 article_header:
   type: cover
 use_language_switcher: "Python-Scala-Java"
@@ -33,7 +35,7 @@ It's different to `clinical_deidentification_glove` in the way it manages PHONE 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
 ```python
-from sparknlp.pretrained import PretrainedPipeline
+from johnsnowlabs import *
 deid_pipeline = PretrainedPipeline("clinical_deidentification_glove", "en", "clinical/models")
 
 deid_pipeline.annotate("Record date : 2093-01-13, David Hale, M.D. IP: 203.120.223.13. The driver's license no:A334455B. the SSN:324598674 and e-mail: hale@gmail.com. Name : Hendrickson, Ora MR. # 719435 Date : 01/13/93. PCP : Oliveira, 25 years-old. Record date : 2079-11-09, Patient's VIN : 1HGBH41JXMN109286.")
@@ -90,7 +92,7 @@ val result = pipeline.annotate("Record date : 2093-01-13, David Hale, M.D. IP: 2
 |---|---|
 |Model Name:|clinical_deidentification_glove_augmented|
 |Type:|pipeline|
-|Compatibility:|Spark NLP for Healthcare 3.4.1+|
+|Compatibility:|Healthcare NLP 3.4.1+|
 |License:|Licensed|
 |Edition:|Official|
 |Language:|en|
@@ -98,14 +100,14 @@ val result = pipeline.annotate("Record date : 2093-01-13, David Hale, M.D. IP: 2
 
 ## Included Models
 
-- DocumentAssembler
-- SentenceDetector
-- TokenizerModel
-- WordEmbeddingsModel
-- MedicalNerModel
-- NerConverterInternal
-- MedicalNerModel
-- NerConverterInternal
+- nlp.DocumentAssembler
+- nlp.SentenceDetector
+- nlp.TokenizerModel
+- nlp.WordEmbeddingsModel
+- medical.NerModel
+- medical.NerConverterInternal
+- medical.NerModel
+- medical.NerConverterInternal
 - ChunkMergeModel
 - ContextualParserModel
 - ContextualParserModel
@@ -118,8 +120,8 @@ val result = pipeline.annotate("Record date : 2093-01-13, David Hale, M.D. IP: 2
 - ContextualParserModel
 - ChunkMergeModel
 - ChunkMergeModel
-- DeIdentificationModel
-- DeIdentificationModel
-- DeIdentificationModel
-- DeIdentificationModel
+- medical.DeIdentificationModel
+- medical.DeIdentificationModel
+- medical.DeIdentificationModel
+- medical.DeIdentificationModel
 - Finisher

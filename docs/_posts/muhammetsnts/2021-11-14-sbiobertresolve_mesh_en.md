@@ -7,11 +7,11 @@ date: 2021-11-14
 tags: [mesh, entity_resolution, licensed, en, clinical]
 task: Entity Resolution
 language: en
-edition: Spark NLP for Healthcare 3.3.2
+edition: Healthcare NLP 3.3.2
 spark_version: 2.4
 supported: true
 article_header:
-  type: cover
+type: cover
 use_language_switcher: "Python-Scala-Java"
 ---
 
@@ -30,83 +30,89 @@ This model maps clinical entities to Medical Subject Heading (MeSH) codes using 
 
 ## How to use
 
-
+```sbiobertresolve_mesh``` resolver model must be used with ```sbiobert_base_cased_mli``` as embeddings ```ner_clinical``` as NER model. No need to set ```.setWhiteList()```.
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
 ```python
 ...
-
 c2doc = Chunk2Doc()\
-      .setInputCols("ner_chunk")\
-      .setOutputCol("ner_chunk_doc") 
+.setInputCols("ner_chunk")\
+.setOutputCol("ner_chunk_doc") 
 
-sbert_embedder = BertSentenceEmbeddings.pretrained('sbiobert_base_cased_mli', 'en','clinical/models')\
-      .setInputCols(["ner_chunk_doc"])\
-      .setOutputCol("sentence_embeddings")\
-      .setCaseSensitive(False)
+sbert_embedder = BertSentenceEmbeddings\
+.pretrained("sbiobert_base_cased_mli", "en","clinical/models")\
+.setInputCols(["ner_chunk_doc"])\
+.setOutputCol("sentence_embeddings")
 
-
-mesh_resolver = SentenceEntityResolverModel.pretrained("sbiobertresolve_mesh", "en", "clinical/models") \
-      .setInputCols(["ner_chunk", "sentence_embeddings"]) \
-      .setOutputCol("mesh_code")\
-      .setDistanceFunction("EUCLIDEAN")\
+mesh_resolver = SentenceEntityResolverModel\
+.pretrained("sbiobertresolve_mesh", "en", "clinical/models") \
+.setInputCols(["ner_chunk", "sentence_embeddings"]) \
+.setOutputCol("mesh_code")\
+.setDistanceFunction("EUCLIDEAN")\
 
 resolver_pipeline = Pipeline(
-    stages = [
-        document_assembler,
-        sentenceDetectorDL,
-        tokenizer,
-        word_embeddings,
-        clinical_ner,
-        ner_converter,
-        c2doc,
-        sbert_embedder,
-        mesh_resolver
-  ])
+stages = [
+document_assembler,
+sentenceDetectorDL,
+tokenizer,
+word_embeddings,
+clinical_ner,
+ner_converter,
+c2doc,
+sbert_embedder,
+mesh_resolver
+])
 
 
-model = resolver_pipeline.fit(spark.createDataFrame([['']]).toDF("text"))
-text = """She was admitted to the hospital with chest pain and found to have bilateral pleural effusion, the right greater than the left. We reviewed the pathology obtained from the pericardectomy in March 2006, which was diagnostic of mesothelioma. At this time, chest tube placement for drainage of the fluid occurred and thoracoscopy with fluid biopsies, which were performed, which revealed malignant mesothelioma."""
+data = spark.createDataFrame([["""She was admitted to the hospital with chest pain and found to have bilateral pleural effusion, the right greater than the left. We reviewed the pathology obtained from the pericardectomy in March 2006, which was diagnostic of mesothelioma. At this time, chest tube placement for drainage of the fluid occurred and thoracoscopy with fluid biopsies, which were performed, which revealed malignant mesothelioma."""]]).toDF("text"))
 
-result = model.transform(spark.createDataFrame([[text]]).toDF("text"))
+result = resolver_pipeline.fit(data).transform(data)
 
 ```
 ```scala
 ...
 
-val c2doc = Chunk2Doc()\
-      .setInputCols("ner_chunk")\
-      .setOutputCol("ner_chunk_doc") 
+val c2doc = Chunk2Doc()
+.setInputCols("ner_chunk")
+.setOutputCol("ner_chunk_doc") 
 
-val sbert_embedder = BertSentenceEmbeddings.pretrained('sbiobert_base_cased_mli', 'en','clinical/models')\
-      .setInputCols("ner_chunk_doc")\
-      .setOutputCol("sentence_embeddings")\
-      .setCaseSensitive(False)
+val sbert_embedder = BertSentenceEmbeddings
+.pretrained("sbiobert_base_cased_mli", "en","clinical/models")
+.setInputCols(Array("ner_chunk_doc"))
+.setOutputCol("sentence_embeddings")
 
-
-val mesh_resolver = SentenceEntityResolverModel.pretrained("sbiobertresolve_mesh", "en", "clinical/models") \
-      .setInputCols(Array("ner_chunk", "sentence_embeddings")) \
-      .setOutputCol("mesh_code")\
-      .setDistanceFunction("EUCLIDEAN")\
+val mesh_resolver = SentenceEntityResolverModel
+.pretrained("sbiobertresolve_mesh", "en", "clinical/models")
+.setInputCols(Array("ner_chunk", "sentence_embeddings"))
+.setOutputCol("mesh_code")
+.setDistanceFunction("EUCLIDEAN")
 
 val resolver_pipeline = new Pipeline(
-    stages = Array(
-        document_assembler,
-        sentenceDetectorDL,
-        tokenizer,
-        word_embeddings,
-        clinical_ner,
-        ner_converter,
-        c2doc,
-        sbert_embedder,
-        mesh_resolver))
+stages = Array(
+document_assembler,
+sentenceDetectorDL,
+tokenizer,
+word_embeddings,
+clinical_ner,
+ner_converter,
+c2doc,
+sbert_embedder,
+mesh_resolver))
 
 val data = Seq("She was admitted to the hospital with chest pain and found to have bilateral pleural effusion, the right greater than the left. We reviewed the pathology obtained from the pericardectomy in March 2006, which was diagnostic of mesothelioma. At this time, chest tube placement for drainage of the fluid occurred and thoracoscopy with fluid biopsies, which were performed, which revealed malignant mesothelioma.")
 
 val result = resolver_pipeline.fit.(data).transform(data)
 
 ```
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("en.resolve.mesh").predict("""She was admitted to the hospital with chest pain and found to have bilateral pleural effusion, the right greater than the left. We reviewed the pathology obtained from the pericardectomy in March 2006, which was diagnostic of mesothelioma. At this time, chest tube placement for drainage of the fluid occurred and thoracoscopy with fluid biopsies, which were performed, which revealed malignant mesothelioma.""")
+```
+
 </div>
 
 ## Results
@@ -134,7 +140,7 @@ val result = resolver_pipeline.fit.(data).transform(data)
 {:.table-model}
 |---|---|
 |Model Name:|sbiobertresolve_mesh|
-|Compatibility:|Spark NLP for Healthcare 3.3.2+|
+|Compatibility:|Healthcare NLP 3.3.2+|
 |License:|Licensed|
 |Edition:|Official|
 |Input Labels:|[sentence_embeddings]|

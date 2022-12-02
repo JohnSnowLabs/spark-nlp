@@ -7,11 +7,12 @@ date: 2022-06-27
 tags: [icdo, snomed, pipeline, chunk_mapper, clinical, licensed, en]
 task: Pipeline Healthcare
 language: en
-edition: Spark NLP for Healthcare 3.5.3
+edition: Healthcare NLP 3.5.3
 spark_version: 3.0
 supported: true
+annotator: PipelineModel
 article_header:
-  type: cover
+type: cover
 use_language_switcher: "Python-Scala-Java"
 ---
 
@@ -45,6 +46,14 @@ val pipeline= new PretrainedPipeline("icdo_snomed_mapping", "en", "clinical/mode
 
 val result= pipeline.fullAnnotate("8120/1 8170/3 8380/3")
 ```
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("en.map_entity.icdo_to_snomed.pipe").predict("""8120/1 8170/3 8380/3""")
+```
+
 </div>
 
 ## Results
@@ -62,7 +71,7 @@ val result= pipeline.fullAnnotate("8120/1 8170/3 8380/3")
 |---|---|
 |Model Name:|icdo_snomed_mapping|
 |Type:|pipeline|
-|Compatibility:|Spark NLP for Healthcare 3.5.3+|
+|Compatibility:|Healthcare NLP 3.5.3+|
 |License:|Licensed|
 |Edition:|Official|
 |Language:|en|

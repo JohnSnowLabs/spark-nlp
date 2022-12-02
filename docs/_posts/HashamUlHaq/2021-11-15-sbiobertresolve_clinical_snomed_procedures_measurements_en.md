@@ -7,11 +7,12 @@ date: 2021-11-15
 tags: [en, licensed, clinical, entity_resolution]
 task: Entity Resolution
 language: en
-edition: Spark NLP for Healthcare 3.3.2
+edition: Healthcare NLP 3.3.2
 spark_version: 3.0
 supported: true
+annotator: SentenceEntityResolverModel
 article_header:
-  type: cover
+type: cover
 use_language_switcher: "Python-Scala-Java"
 ---
 
@@ -37,44 +38,56 @@ This model maps medical entities to SNOMED codes using `sent_biobert_clinical_ba
 {% include programmingLanguageSelectScalaPythonNLU.html %}
 ```python
 documentAssembler = DocumentAssembler()\
-      .setInputCol("text")\
-      .setOutputCol("ner_chunk")
+.setInputCol("text")\
+.setOutputCol("ner_chunk")
 
-sbert_embedder = BertSentenceEmbeddings.pretrained("sent_biobert_clinical_base_cased", "en")\
-      .setInputCols(["ner_chunk"])\
-      .setOutputCol("sbert_embeddings")
+sbert_embedder = BertSentenceEmbeddings\
+.pretrained("sent_biobert_clinical_base_cased", "en")\
+.setInputCols(["ner_chunk"])\
+.setOutputCol("sbert_embeddings") 
 
-resolver = SentenceEntityResolverModel.pretrained("sbiobertresolve_clinical_snomed_procedures_measurements", "en", "clinical/models") \
-      .setInputCols(["ner_chunk", "sbert_embeddings"]) \
-      .setOutputCol("cpt_code")
+resolver = SentenceEntityResolverModel\
+.pretrained("sbiobertresolve_clinical_snomed_procedures_measurements", "en", "clinical/models") \
+.setInputCols(["ner_chunk", "sbert_embeddings"]) \
+.setOutputCol("cpt_code")
 
 pipelineModel = PipelineModel(
-    stages = [
-        documentAssembler,
-        sbert_embedder,
-        resolver])
+stages = [
+documentAssembler,
+sbert_embedder,
+resolver])
 
 l_model = LightPipeline(pipelineModel)
 result = l_model.fullAnnotate(['coronary calcium score', 'heart surgery', 'ct scan', 'bp value'])
 
 ```
 ```scala
-val document_assembler = DocumentAssembler()\
-  .setInputCol("text")\
-  .setOutputCol("ner_chunk")
+val document_assembler = DocumentAssembler()
+.setInputCol("text")
+.setOutputCol("ner_chunk")
 
-val sbert_embedder = BertSentenceEmbeddings.pretrained("sent_biobert_clinical_base_cased", "en")\
-     .setInputCols(["ner_chunk"])\
-     .setOutputCol("sbert_embeddings")
+val sbert_embedder = BertSentenceEmbeddings
+.pretrained("sent_biobert_clinical_base_cased", "en")
+.setInputCols(Array("ner_chunk"))
+.setOutputCol("sbert_embeddings")
 
-val resolver = SentenceEntityResolverModel.pretrained("sbiobertresolve_clinical_snomed_procedures_measurements", "en", "clinical/models) \
-     .setInputCols(["ner_chunk", "sbert_embeddings"]) \
-     .setOutputCol("cpt_code")
+val resolver = SentenceEntityResolverModel
+.pretrained("sbiobertresolve_clinical_snomed_procedures_measurements", "en", "clinical/models) 
+.setInputCols(Array("ner_chunk", "sbert_embeddings"))
+.setOutputCol("cpt_code")
 
 val pipelineModel= new PipelineModel().setStages(Array(document_assembler, sbert_embedder, resolver))
 val l_model = LightPipeline(pipelineModel)
-val result = l_model.fullAnnotate(['coronary calcium score', 'heart surgery', 'ct scan', 'bp value'])
+val result = l_model.fullAnnotate(Array("coronary calcium score", "heart surgery", "ct scan", "bp value"))
 ```
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("en.resolve.clinical_snomed_procedures_measurements").predict("""coronary calcium score""")
+```
+
 </div>
 
 ## Results
@@ -95,7 +108,7 @@ val result = l_model.fullAnnotate(['coronary calcium score', 'heart surgery', 'c
 {:.table-model}
 |---|---|
 |Model Name:|sbiobertresolve_clinical_snomed_procedures_measurements|
-|Compatibility:|Spark NLP for Healthcare 3.3.2+|
+|Compatibility:|Healthcare NLP 3.3.2+|
 |License:|Licensed|
 |Edition:|Official|
 |Input Labels:|[sentence_chunk_embeddings]|

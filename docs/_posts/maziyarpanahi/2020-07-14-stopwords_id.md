@@ -7,8 +7,10 @@ date: 2020-07-14 19:03:00 +0800
 task: Stop Words Removal
 language: id
 edition: Spark NLP 2.5.4
+spark_version: 2.4
 tags: [stopwords, id]
 supported: true
+annotator: StopWordsCleaner
 article_header:
   type: cover
 use_language_switcher: "Python-Scala-Java"

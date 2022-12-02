@@ -7,10 +7,12 @@ date: 2020-07-14 19:03:00 +0800
 task: Stop Words Removal
 language: ha
 edition: Spark NLP 2.5.4
+spark_version: 2.4
 tags: [stopwords, ha]
 supported: true
+annotator: StopWordsCleaner
 article_header:
-  type: cover
+type: cover
 use_language_switcher: "Python-Scala-Java"
 ---
 
@@ -33,8 +35,8 @@ This model removes 'stop words' from text. Stop words are words so common that t
 ```python
 ...
 stop_words = StopWordsCleaner.pretrained("stopwords_ha", "ha") \
-        .setInputCols(["token"]) \
-        .setOutputCol("cleanTokens")
+.setInputCols(["token"]) \
+.setOutputCol("cleanTokens")
 nlp_pipeline = Pipeline(stages=[document_assembler, tokenizer, stop_words])
 light_pipeline = LightPipeline(nlp_pipeline.fit(spark.createDataFrame([['']]).toDF("text")))
 results = light_pipeline.fullAnnotate("Ban da kasancewarsa sarkin arewa, John Snow likita ne na Ingilishi kuma jagora a ci gaban maganin sa barci da tsabtar lafiya.")
@@ -43,8 +45,8 @@ results = light_pipeline.fullAnnotate("Ban da kasancewarsa sarkin arewa, John Sn
 ```scala
 ...
 val stopWords = StopWordsCleaner.pretrained("stopwords_ha", "ha")
-        .setInputCols(Array("token"))
-        .setOutputCol("cleanTokens")
+.setInputCols(Array("token"))
+.setOutputCol("cleanTokens")
 val pipeline = new Pipeline().setStages(Array(document_assembler, tokenizer, stopWords))
 val data = Seq("Ban da kasancewarsa sarkin arewa, John Snow likita ne na Ingilishi kuma jagora a ci gaban maganin sa barci da tsabtar lafiya.").toDF("text")
 val result = pipeline.fit(data).transform(data)

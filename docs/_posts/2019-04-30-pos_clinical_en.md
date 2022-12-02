@@ -8,11 +8,13 @@ language: en
 repository: clinical/models
 date: 2019-04-30
 task: Part of Speech Tagging
-edition: Spark NLP for Healthcare 2.0.2
+edition: Healthcare NLP 2.0.2
+spark_version: 2.4
 tags: [clinical, licensed, pos,en]
 supported: true
+annotator: PerceptronModel
 article_header:
-   type: cover
+type: cover
 use_language_switcher: "Python-Scala-Java"
 ---
 
@@ -29,14 +31,14 @@ Sets a Part-Of-Speech tag to each word within a sentence.
 ## How to use 
 <div class="tabs-box" markdown="1">
 
-{% include programmingLanguageSelectScalaPython.html %}
+{% include programmingLanguageSelectScalaPythonNLU.html %}
 
 ```python
 ...
 pos = PerceptronModel.pretrained("pos_clinical","en","clinical/models")\
 	.setInputCols(["token","sentence"])\
 	.setOutputCol("pos")
-    
+
 pos_pipeline = Pipeline(stages=[document_assembler, sentence_detector, tokenizer, pos])
 light_pipeline = LightPipeline(pos_pipeline.fit(spark.createDataFrame([[""]]).toDF("text")))
 result = light_pipeline.fullAnnotate("""He was given boluses of MS04 with some effect, he has since been placed on a PCA - he take 80mg of oxycontin at home, his PCA dose is ~ 2 the morphine dose of the oxycontin, he has also received ativan for anxiety.""")
@@ -46,11 +48,19 @@ result = light_pipeline.fullAnnotate("""He was given boluses of MS04 with some e
 val pos = PerceptronModel.pretrained("pos_clinical","en","clinical/models")
 	.setInputCols("token","sentence")
 	.setOutputCol("pos")
-    
+
 val pipeline = new Pipeline().setStages(Array(document_assembler, sentence_detector, tokenizer, pos))
 val data = Seq("He was given boluses of MS04 with some effect, he has since been placed on a PCA - he take 80mg of oxycontin at home, his PCA dose is ~ 2 the morphine dose of the oxycontin, he has also received ativan for anxiety.").toDF("text")
 val result = pipeline.fit(data).transform(data)
 ```
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("en.pos.clinical").predict("""He was given boluses of MS04 with some effect, he has since been placed on a PCA - he take 80mg of oxycontin at home, his PCA dose is ~ 2 the morphine dose of the oxycontin, he has also received ativan for anxiety.""")
+```
+
 </div>
 
 {:.h2_title}
@@ -58,10 +68,10 @@ val result = pipeline.fit(data).transform(data)
 
 ```bash
 [Annotation(pos, 0, 1, NN, {'word': 'He'}),
- Annotation(pos, 3, 5, VBD, {'word': 'was'}),
- Annotation(pos, 7, 11, VVN, {'word': 'given'}),
- Annotation(pos, 13, 19, NNS, {'word': 'boluses'}),
- Annotation(pos, 21, 22, II, {'word': 'of'}),
+Annotation(pos, 3, 5, VBD, {'word': 'was'}),
+Annotation(pos, 7, 11, VVN, {'word': 'given'}),
+Annotation(pos, 13, 19, NNS, {'word': 'boluses'}),
+Annotation(pos, 21, 22, II, {'word': 'of'}),
 ...]
 ```
 

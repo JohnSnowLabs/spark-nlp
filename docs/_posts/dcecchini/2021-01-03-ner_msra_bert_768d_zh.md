@@ -7,8 +7,10 @@ date: 2021-01-03
 task: Named Entity Recognition
 language: zh
 edition: Spark NLP 2.7.0
+spark_version: 2.4
 tags: [zh, cn, ner, open_source]
 supported: true
+annotator: NerDLModel
 article_header:
   type: cover
 use_language_switcher: "Python-Scala-Java"
@@ -35,7 +37,14 @@ Persons-`PER`, Locations-`LOC`, Organizations-`ORG`.
 {% include programmingLanguageSelectScalaPythonNLU.html %}
 
 ```python
-...
+document_assembler = DocumentAssembler() \
+    .setInputCol("text") \
+    .setOutputCol("document")
+    
+sentence_detector = SentenceDetector()\
+    .setInputCols(["document"])\
+    .setOutputCol("sentence")
+
 word_segmenter = WordSegmenterModel.pretrained("wordseg_large", "zh")\
         .setInputCols(["sentence"])\
         .setOutputCol("token")
@@ -45,13 +54,24 @@ embeddings = BertEmbeddings.pretrained(name='bert_base_chinese', lang='zh')\
 ner = NerDLModel.pretrained("ner_msra_bert_768d", "zh") \
         .setInputCols(["document", "token", "embeddings"]) \
         .setOutputCol("ner")
-...
+ner_converter = NerConverter() \
+    .setInputCols(["sentence", "token", "ner"]) \
+    .setOutputCol("entities")
+
 pipeline = Pipeline(stages=[document_assembler, sentence_detector, word_segmenter, embeddings, ner, ner_converter])
 example = spark.createDataFrame([['马云在浙江省杭州市出生，是阿里巴巴集团的主要创始人。']], ["text"])
 result = pipeline.fit(example).transform(example)
 ```
 ```scala
-...
+
+val document_assembler = DocumentAssembler()
+        .setInputCol("text")
+        .setOutputCol("document")
+        
+val sentence_detector = SentenceDetector()\
+    .setInputCols(["document"])\
+    .setOutputCol("sentence")
+
 val word_segmenter = WordSegmenterModel.pretrained("wordseg_large", "zh")
         .setInputCols(Array("sentence"))
         .setOutputCol("token")
@@ -61,7 +81,10 @@ val embeddings = BertEmbeddings.pretrained(name='bert_base_chinese', lang='zh')
 val ner = NerDLModel.pretrained("ner_msra_bert_768d", "zh")
         .setInputCols(["document", "token", "embeddings"])
         .setOutputCol("ner")
-...
+val ner_converter = new NerConverter()
+  .setInputCols("sentence", "token", "ner")
+  .setOutputCol("entities")
+
 val pipeline = new Pipeline().setStages(Array(document_assembler, sentence_detector, word_segmenter, embeddings, ner, ner_converter))
 val data = Seq("马云在浙江省杭州市出生，是阿里巴巴集团的主要创始人。").toDF("text")
 val result = pipeline.fit(data).transform(data)

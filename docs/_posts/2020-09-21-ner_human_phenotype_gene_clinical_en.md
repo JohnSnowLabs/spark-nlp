@@ -6,11 +6,12 @@ name: ner_human_phenotype_gene_clinical
 date: 2020-09-21
 task: Named Entity Recognition
 language: en
-edition: Spark NLP for Healthcare 2.6.0
+edition: Healthcare NLP 2.6.0
+spark_version: 2.4
 tags: [ner, en, licensed, clinical]
 supported: true
 article_header:
-   type: cover
+type: cover
 use_language_switcher: "Python-Scala-Java"
 ---
 
@@ -28,17 +29,17 @@ Use as part of an nlp pipeline with the following stages: DocumentAssembler, Sen
 
 <div class="tabs-box" markdown="1">
 
-{% include programmingLanguageSelectScalaPython.html %}
+{% include programmingLanguageSelectScalaPythonNLU.html %}
 
 
 ```python
 ...
 word_embeddings = WordEmbeddingsModel.pretrained("embeddings_clinical", "en", "clinical/models")\
-  .setInputCols(["sentence", "token"])\
-  .setOutputCol("embeddings")
+.setInputCols(["sentence", "token"])\
+.setOutputCol("embeddings")
 clinical_ner = NerDLModel.pretrained("ner_human_phenotype_gene_clinical", "en", "clinical/models") \
-  .setInputCols(["sentence", "token", "embeddings"]) \
-  .setOutputCol("ner")
+.setInputCols(["sentence", "token", "embeddings"]) \
+.setOutputCol("ner")
 ...
 nlp_pipeline = Pipeline(stages=[document_assembler, sentence_detector, tokenizer, word_embeddings, clinical_ner, ner_converter])
 light_pipeline = LightPipeline(nlp_pipeline.fit(spark.createDataFrame([['']]).toDF("text")))
@@ -47,16 +48,24 @@ annotations = light_pipeline.fullAnnotate("Here we presented a case (BS type) of
 ```scala
 ...
 val word_embeddings = WordEmbeddingsModel.pretrained("embeddings_clinical", "en", "clinical/models")
-  .setInputCols(Array("sentence", "token"))
-  .setOutputCol("embeddings")
+.setInputCols(Array("sentence", "token"))
+.setOutputCol("embeddings")
 val ner = NerDLModel.pretrained("ner_human_phenotype_gene_clinical", "en", "clinical/models")
-  .setInputCols("sentence", "token", "embeddings") 
-  .setOutputCol("ner")
+.setInputCols("sentence", "token", "embeddings") 
+.setOutputCol("ner")
 ...
 val pipeline = new Pipeline().setStages(Array(document_assembler, sentence_detector, tokenizer, word_embeddings, ner, ner_converter))
 val data = Seq("Here we presented a case (BS type) of a 17 years old female presented with polyhydramnios, polyuria, nephrocalcinosis and hypokalemia, which was alleviated after treatment with celecoxib and vitamin D(3).").toDF("text")
 val result = pipeline.fit(data).transform(data)
 ```
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("en.med_ner.human_phenotype.gene_clinical").predict("""Here we presented a case (BS type) of a 17 years old female presented with polyhydramnios, polyuria, nephrocalcinosis and hypokalemia, which was alleviated after treatment with celecoxib and vitamin D(3).""")
+```
+
 </div>
 
 {:.h2_title}
@@ -84,7 +93,7 @@ val result = pipeline.fit(data).transform(data)
 |---|---|
 |Model Name:|ner_human_phenotype_gene_clinical|
 |Type:|ner|
-|Compatibility:|Spark NLP for Healthcare 2.6.0 +|
+|Compatibility:|Healthcare NLP 2.6.0 +|
 |Edition:|Official|
 |License:|Licensed|
 |Input Labels:|[sentence, token, embeddings]|

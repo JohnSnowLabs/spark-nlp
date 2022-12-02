@@ -7,11 +7,12 @@ date: 2021-09-24
 tags: [ner, ner_profiling, clinical, licensed, en]
 task: Pipeline Healthcare
 language: en
-edition: Spark NLP for Healthcare 3.2.3
+edition: Healthcare NLP 3.2.3
 spark_version: 2.4
 supported: true
+annotator: PipelineModel
 article_header:
-  type: cover
+type: cover
 use_language_switcher: "Python-Scala-Java"
 ---
 
@@ -46,6 +47,14 @@ val ner_profiling_pipeline = PretrainedPipeline('ner_profiling_clinical', 'en', 
 
 val result = ner_profiling_pipeline.annotate("A 28-year-old female with a history of gestational diabetes mellitus diagnosed eight years prior to presentation and subsequent type two diabetes mellitus ( T2DM ), one prior episode of HTG-induced pancreatitis three years prior to presentation , associated with an acute hepatitis , and obesity with a body mass index ( BMI ) of 33.5 kg/m2 , presented with a one-week history of polyuria , polydipsia , poor appetite , and vomiting .")
 ```
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("en.med_ner.profiling_clinical").predict("""A 28-year-old female with a history of gestational diabetes mellitus diagnosed eight years prior to presentation and subsequent type two diabetes mellitus ( T2DM ), one prior episode of HTG-induced pancreatitis three years prior to presentation , associated with an acute hepatitis , and obesity with a body mass index ( BMI ) of 33.5 kg/m2 , presented with a one-week history of polyuria , polydipsia , poor appetite , and vomiting .""")
+```
+
 </div>
 
 ## Results
@@ -110,7 +119,7 @@ ner_events_admission_clinical_chunks :  ['gestational diabetes mellitus', 'eight
 |---|---|
 |Model Name:|ner_profiling_clinical|
 |Type:|pipeline|
-|Compatibility:|Spark NLP for Healthcare 3.2.3+|
+|Compatibility:|Healthcare NLP 3.2.3+|
 |License:|Licensed|
 |Edition:|Official|
 |Language:|en|

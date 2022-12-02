@@ -4,12 +4,13 @@ title: BERT Sequence Classification - Classify into News Categories
 author: John Snow Labs
 name: bert_sequence_classifier_age_news
 date: 2021-11-07
-tags: [news, classification, bert_for_sequence_classification, en, open_source]
+tags: [news, classification, bert_for_sequence_classification, en, open_source, ag_news]
 task: Text Classification
 language: en
 edition: Spark NLP 3.3.2
 spark_version: 2.4
 supported: true
+annotator: BertForSequenceClassification
 article_header:
   type: cover
 use_language_switcher: "Python-Scala-Java"

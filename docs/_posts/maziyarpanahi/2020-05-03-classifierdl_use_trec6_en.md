@@ -9,10 +9,12 @@ repository: public/models
 date: 03/05/2020
 task: Text Classification
 edition: Spark NLP 2.5.0
+spark_version: 2.4
 tags: [classifier]
 supported: true
+annotator: ClassifierDLModel
 article_header:
-   type: cover
+type: cover
 use_language_switcher: "Python-Scala-Java"
 ---
 
@@ -34,14 +36,14 @@ Classify open-domain, fact-based questions into one of the following broad seman
 
 ```python
 documentAssembler = DocumentAssembler()\
-  .setInputCol("text")\
-  .setOutputCol("document")
+.setInputCol("text")\
+.setOutputCol("document")
 use = UniversalSentenceEncoder.pretrained(lang="en") \
-  .setInputCols(["document"])\
-  .setOutputCol("sentence_embeddings")
+.setInputCols(["document"])\
+.setOutputCol("sentence_embeddings")
 document_classifier = ClassifierDLModel.pretrained('classifierdl_use_trec6', 'en') \
-  .setInputCols(["document", "sentence_embeddings"]) \
-  .setOutputCol("class")
+.setInputCols(["document", "sentence_embeddings"]) \
+.setOutputCol("class")
 
 nlpPipeline = Pipeline(stages=[documentAssembler, use, document_classifier])
 light_pipeline = LightPipeline(nlp_pipeline.fit(spark.createDataFrame([['']]).toDF("text")))
@@ -51,14 +53,14 @@ annotations = light_pipeline.fullAnnotate('When did the construction of stone ci
 ```
 ```scala
 val documentAssembler = DocumentAssembler()
-  .setInputCol("text")
-  .setOutputCol("document")
+.setInputCol("text")
+.setOutputCol("document")
 val use = UniversalSentenceEncoder.pretrained(lang="en")
-  .setInputCols(Array("document"))
-  .setOutputCol("sentence_embeddings")
+.setInputCols(Array("document"))
+.setOutputCol("sentence_embeddings")
 val document_classifier = ClassifierDLModel.pretrained("classifierdl_use_trec6", "en")
-  .setInputCols(Array("document", "sentence_embeddings"))
-  .setOutputCol("class")
+.setInputCols(Array("document", "sentence_embeddings"))
+.setOutputCol("class")
 val pipeline = new Pipeline().setStages(Array(documentAssembler, use, document_classifier))
 
 val data = Seq("When did the construction of stone circles begin in the UK?").toDF("text")
@@ -110,16 +112,16 @@ This model is trained on the 6 class version of TREC dataset. http://search.r-pr
 {:.h2_title}
 ## Benchmarking
 ```bash
-              precision    recall  f1-score   support
+precision    recall  f1-score   support
 
-        ABBR       0.00      0.00      0.00        26
-        DESC       0.89      0.96      0.92       343
-        ENTY       0.86      0.86      0.86       391
-         HUM       0.91      0.90      0.91       366
-         LOC       0.88      0.91      0.89       233
-         NUM       0.94      0.94      0.94       274
+ABBR       0.00      0.00      0.00        26
+DESC       0.89      0.96      0.92       343
+ENTY       0.86      0.86      0.86       391
+HUM       0.91      0.90      0.91       366
+LOC       0.88      0.91      0.89       233
+NUM       0.94      0.94      0.94       274
 
-    accuracy                           0.89      1633
-   macro avg       0.75      0.76      0.75      1633
+accuracy                           0.89      1633
+macro avg       0.75      0.76      0.75      1633
 weighted avg       0.88      0.89      0.89      1633
 ```

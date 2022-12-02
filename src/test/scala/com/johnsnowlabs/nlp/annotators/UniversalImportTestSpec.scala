@@ -1,5 +1,5 @@
 /*
- * Copyright 2017-2021 John Snow Labs
+ * Copyright 2017-2022 John Snow Labs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -23,6 +23,7 @@ import org.scalatest.flatspec.AnyFlatSpec
 class UniversalImportTestSpec extends AnyFlatSpec {
 
   "A SentenceDetector" should "be imported automatically when accessing annotator pseudo package" taggedAs FastTest in {
+
     /** Now you can access all annotators by using this import here */
     import com.johnsnowlabs.nlp.annotator._
     require(!SparkAccessor.spark.sparkContext.isStopped)

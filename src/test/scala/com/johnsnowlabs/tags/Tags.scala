@@ -1,5 +1,5 @@
 /*
- * Copyright 2017-2021 John Snow Labs
+ * Copyright 2017-2022 John Snow Labs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,4 +20,3 @@ import org.scalatest.Tag
 
 object FastTest extends Tag("com.johnsnowlabs.tags.FastTest")
 object SlowTest extends Tag("com.johnsnowlabs.tags.SlowTest")
-

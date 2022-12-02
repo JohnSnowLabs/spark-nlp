@@ -7,9 +7,10 @@ date: 2022-10-01
 tags: [licensed, clinical, oncology, en, assertion]
 task: Assertion Status
 language: en
-edition: Spark NLP for Healthcare 4.1.0
+edition: Healthcare NLP 4.1.0
 spark_version: 3.0
 supported: true
+annotator: AssertionDLModel
 article_header:
   type: cover
 use_language_switcher: "Python-Scala-Java"
@@ -34,6 +35,7 @@ This model detects the assertion status of entities related to cancer diagnosis 
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
+
 ```python
 document_assembler = DocumentAssembler()\
     .setInputCol("text")\
@@ -57,7 +59,8 @@ ner = MedicalNerModel.pretrained("ner_oncology_wip", "en", "clinical/models") \
 
 ner_converter = NerConverter() \
     .setInputCols(["sentence", "token", "ner"]) \
-    .setOutputCol("ner_chunk")    .setWhiteList(["Cancer_Dx""])
+    .setOutputCol("ner_chunk").setWhiteList(["Cancer_Dx"])
+    
     
 assertion = AssertionDLModel.pretrained("assertion_oncology_problem_wip", "en", "clinical/models") \
     .setInputCols(["sentence", "ner_chunk", "embeddings"]) \
@@ -71,7 +74,7 @@ pipeline = Pipeline(stages=[document_assembler,
                             ner_converter,
                             assertion])
 
-data = spark.createDataFrame([["The patient was diagnosed with breast cancer. Her family history is positive for other cancers."]]).toDF("text")
+data = spark.createDataFrame([["""The patient was diagnosed with breast cancer. Her family history is positive for other cancers."""]]).toDF("text")
 
 result = pipeline.fit(data).transform(data)
 
@@ -82,11 +85,11 @@ val document_assembler = new DocumentAssembler()
     .setOutputCol("document")
     
 val sentence_detector = SentenceDetectorDLModel.pretrained("sentence_detector_dl_healthcare","en","clinical/models")
-    .setInputCols("document")
+    .setInputCols(Array("document"))
     .setOutputCol("sentence")
     
 val tokenizer = new Tokenizer()
-    .setInputCols("sentence")
+    .setInputCols(Array("sentence"))
     .setOutputCol("token")
     
 val word_embeddings = WordEmbeddingsModel().pretrained("embeddings_clinical", "en", "clinical/models")
@@ -100,10 +103,10 @@ val ner = MedicalNerModel.pretrained("ner_oncology_wip", "en", "clinical/models"
 val ner_converter = new NerConverter()
     .setInputCols(Array("sentence", "token", "ner"))
     .setOutputCol("ner_chunk")
-    .setWhiteList(Array("Cancer_Dx""))
+    .setWhiteList(Array("Cancer_Dx"))
 
 val clinical_assertion = AssertionDLModel.pretrained("assertion_oncology_problem_wip","en","clinical/models")
-    .setInputCols("sentence","ner_chunk","embeddings")
+    .setInputCols(Array("sentence","ner_chunk","embeddings"))
     .setOutputCol("assertion")
         
 val pipeline = new Pipeline().setStages(Array(document_assembler,
@@ -114,7 +117,7 @@ val pipeline = new Pipeline().setStages(Array(document_assembler,
                                               ner_converter,
                                               assertion))
 
-val data = Seq("The patient was diagnosed with breast cancer. Her family history is positive for other cancers.").toDF("text")
+val data = Seq("""The patient was diagnosed with breast cancer. Her family history is positive for other cancers.""").toDF("text")
 
 val result = pipeline.fit(data).transform(data)
 ```
@@ -135,7 +138,7 @@ val result = pipeline.fit(data).transform(data)
 {:.table-model}
 |---|---|
 |Model Name:|assertion_oncology_problem_wip|
-|Compatibility:|Spark NLP for Healthcare 4.1.0+|
+|Compatibility:|Healthcare NLP 4.1.0+|
 |License:|Licensed|
 |Edition:|Official|
 |Input Labels:|[document, chunk, embeddings]|
@@ -156,6 +159,6 @@ In-house annotated oncology case reports.
 Hypothetical       0.81    0.77      0.79     77.0
     Possible       0.62    0.61      0.62     54.0
      Present       0.78    0.79      0.78    155.0
-   macro avg       0.75    0.81      0.77    448.0
-weighted avg       0.80    0.79      0.79    448.0
+   macro-avg       0.75    0.81      0.77    448.0
+weighted-avg       0.80    0.79      0.79    448.0
 ```

@@ -1,16 +1,19 @@
 ---
 layout: model
-title: T5 text-to-text model (clinical)
+title: T5 Clinical Summarization / QA model
 author: John Snow Labs
 name: t5_base_mediqa_mnli
 date: 2021-02-19
 tags: [t5, licensed, clinical, en]
 supported: true
+recommended: true
 task: Summarization
 language: en
-edition: Spark NLP 2.7.4
+edition: Healthcare NLP 2.7.4
+spark_version: 2.4
+annotator: T5Transformer
 article_header:
-  type: cover
+type: cover
 use_language_switcher: "Python-Scala-Java"
 ---
 
@@ -35,31 +38,39 @@ document_assembler = DocumentAssembler()\
 .setOutputCol("documents")
 
 sentence_detector = SentenceDetectorDLModel().pretrained("sentence_detector_dl_healthcare","en","clinical/models")\
-  .setInputCols("documents")\
-  .setOutputCol("sentence")
-  
+.setInputCols("documents")\
+.setOutputCol("sentence")
+
 t5 = T5Transformer().pretrained("t5_base_mediqa_mnli", "en", "clinical/models") \
-  .setInputCols(["sentence"]) \
-  .setOutputCol("t5_output")\
-  .setTask("summarize medical questions:")\
-  .setMaxOutputLength(200)
-  
+.setInputCols(["sentence"]) \
+.setOutputCol("t5_output")\
+.setTask("summarize medical questions:")\
+.setMaxOutputLength(200)
+
 pipeline = Pipeline(stages=[
-    document_assembler, 
-    sentence_detector,
-    t5
+document_assembler, 
+sentence_detector,
+t5
 ])
 pipeline = Pipeline(stages=[
-    document_assembler, 
-    sentence_detector,
-    t5
+document_assembler, 
+sentence_detector,
+t5
 ])
 data = spark.createDataFrame([
-  [1, "content:SUBJECT: Normal physical traits but no period MESSAGE: I'm a 40 yr. old woman that has infantile reproductive organs and have never experienced a mensus. I have had Doctors look but they all say I just have infantile female reproductive organs. When I try to look for answers on the internet I cannot find anything. ALL my \"girly\" parts are normal. My organs never matured. Could you give me more information please. focus:all"]
+[1, "content:SUBJECT: Normal physical traits but no period MESSAGE: I'm a 40 yr. old woman that has infantile reproductive organs and have never experienced a mensus. I have had Doctors look but they all say I just have infantile female reproductive organs. When I try to look for answers on the internet I cannot find anything. ALL my \"girly\" parts are normal. My organs never matured. Could you give me more information please. focus:all"]
 ]).toDF('id', 'text')
 results = pipeline.fit(data).transform(data)
 results.select("t5_output.result").show(truncate=False)
 
+```
+
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("en.t5.mediqa").predict("""content:SUBJECT: Normal physical traits but no period MESSAGE: I'm a 40 yr. old woman that has infantile reproductive organs and have never experienced a mensus. I have had Doctors look but they all say I just have infantile female reproductive organs. When I try to look for answers on the internet I cannot find anything. ALL my \""")
 ```
 
 </div>
@@ -76,7 +87,7 @@ What are the treatments for mensus?, What are the treatments for infantile femal
 {:.table-model}
 |---|---|
 |Model Name:|t5_base_mediqa_mnli|
-|Compatibility:|Spark NLP 2.7.4+|
+|Compatibility:|Healthcare NLP 2.7.4+|
 |License:|Licensed|
 |Edition:|Official|
 |Language:|en|

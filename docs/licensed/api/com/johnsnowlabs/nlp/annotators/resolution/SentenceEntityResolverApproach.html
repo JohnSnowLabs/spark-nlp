@@ -3,9 +3,9 @@
         <head>
           <meta http-equiv="X-UA-Compatible" content="IE=edge" />
           <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-          <title>Spark NLP 3.3.4 ScalaDoc  - com.johnsnowlabs.nlp.annotators.resolution.SentenceEntityResolverApproach</title>
-          <meta name="description" content="Spark NLP 3.3.4 ScalaDoc - com.johnsnowlabs.nlp.annotators.resolution.SentenceEntityResolverApproach" />
-          <meta name="keywords" content="Spark NLP 3.3.4 ScalaDoc com.johnsnowlabs.nlp.annotators.resolution.SentenceEntityResolverApproach" />
+          <title>Spark NLP 4.2.2 ScalaDoc  - com.johnsnowlabs.nlp.annotators.resolution.SentenceEntityResolverApproach</title>
+          <meta name="description" content="Spark NLP 4.2.2 ScalaDoc - com.johnsnowlabs.nlp.annotators.resolution.SentenceEntityResolverApproach" />
+          <meta name="keywords" content="Spark NLP 4.2.2 ScalaDoc com.johnsnowlabs.nlp.annotators.resolution.SentenceEntityResolverApproach" />
           <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
           
       
@@ -28,7 +28,7 @@
         </head>
         <body>
       <div id="search">
-        <span id="doc-title">Spark NLP 3.3.4 ScalaDoc<span id="doc-version"></span></span>
+        <span id="doc-title">Spark NLP 4.2.2 ScalaDoc<span id="doc-version"></span></span>
         <span class="close-results"><span class="left">&lt;</span> Back</span>
         <div id="textfilter">
           <span class="input">
@@ -222,6 +222,10 @@
                         <a class="trait" href="ReadablePretrainedSentenceEntityResolver.html" title=""></a>
                         <a href="ReadablePretrainedSentenceEntityResolver.html" title="">ReadablePretrainedSentenceEntityResolver</a>
                       </li><li class="current-entities indented5">
+                        <a class="object" href="ResolverMerger$.html" title=""></a>
+                        <a class="class" href="ResolverMerger.html" title=""></a>
+                        <a href="ResolverMerger.html" title="">ResolverMerger</a>
+                      </li><li class="current-entities indented5">
                         <span class="separator"></span>
                         <a class="class" href="" title="Contains all the parameters and methods to train a SentenceEntityResolverModel."></a>
                         <a href="" title="Contains all the parameters and methods to train a SentenceEntityResolverModel.">SentenceEntityResolverApproach</a>
@@ -292,7 +296,12 @@ and see the <a href="https://nlp.johnsnowlabs.com/models?task=Entity+Resolution"
             Linear Supertypes
           </span>
           <div class="superTypes hiddenContent"><span class="extype" name="com.johnsnowlabs.license.CheckLicense">CheckLicense</span>, <span class="extype" name="com.johnsnowlabs.nlp.HasCaseSensitiveProperties">HasCaseSensitiveProperties</span>, <span class="extype" name="com.johnsnowlabs.nlp.ParamsAndFeaturesWritable">ParamsAndFeaturesWritable</span>, <span class="extype" name="com.johnsnowlabs.nlp.HasFeatures">HasFeatures</span>, <a href="params/SentenceResolverParams.html" class="extype" name="com.johnsnowlabs.nlp.annotators.resolution.params.SentenceResolverParams">SentenceResolverParams</a>, <span class="extype" name="com.johnsnowlabs.nlp.AnnotatorApproach">AnnotatorApproach</span>[<a href="SentenceEntityResolverModel.html" class="extype" name="com.johnsnowlabs.nlp.annotators.resolution.SentenceEntityResolverModel">SentenceEntityResolverModel</a>], <span class="extype" name="com.johnsnowlabs.nlp.CanBeLazy">CanBeLazy</span>, <span class="extype" name="org.apache.spark.ml.util.DefaultParamsWritable">DefaultParamsWritable</span>, <span class="extype" name="org.apache.spark.ml.util.MLWritable">MLWritable</span>, <span class="extype" name="com.johnsnowlabs.nlp.HasOutputAnnotatorType">HasOutputAnnotatorType</span>, <span class="extype" name="com.johnsnowlabs.nlp.HasOutputAnnotationCol">HasOutputAnnotationCol</span>, <span class="extype" name="com.johnsnowlabs.nlp.HasInputAnnotationCols">HasInputAnnotationCols</span>, <span class="extype" name="org.apache.spark.ml.Estimator">Estimator</span>[<a href="SentenceEntityResolverModel.html" class="extype" name="com.johnsnowlabs.nlp.annotators.resolution.SentenceEntityResolverModel">SentenceEntityResolverModel</a>], <span class="extype" name="org.apache.spark.ml.PipelineStage">PipelineStage</span>, <span class="extype" name="org.apache.spark.internal.Logging">Logging</span>, <span class="extype" name="org.apache.spark.ml.param.Params">Params</span>, <span class="extype" name="scala.Serializable">Serializable</span>, <span class="extype" name="java.io.Serializable">Serializable</span>, <span class="extype" name="org.apache.spark.ml.util.Identifiable">Identifiable</span>, <span class="extype" name="scala.AnyRef">AnyRef</span>, <span class="extype" name="scala.Any">Any</span></div>
-        </div></div>
+        </div><div class="toggleContainer block">
+            <span class="toggle">
+              Known Subclasses
+            </span>
+            <div class="subClasses hiddenContent"><a href="../../../finance/chunk_classification/resolution/SentenceEntityResolverApproach.html" class="extype" name="com.johnsnowlabs.finance.chunk_classification.resolution.SentenceEntityResolverApproach">SentenceEntityResolverApproach</a>, <a href="../../../legal/chunk_classification/resolution/SentenceEntityResolverApproach.html" class="extype" name="com.johnsnowlabs.legal.chunk_classification.resolution.SentenceEntityResolverApproach">SentenceEntityResolverApproach</a></div>
+          </div></div>
         
 
       <div id="mbrsel">
@@ -574,7 +583,8 @@ and see the <a href="https://nlp.johnsnowlabs.com/models?task=Entity+Resolution"
       </span>
       
       <p class="shortcomment cmt">Optional column with one extra label per document.</p><div class="fullcomment"><div class="comment cmt"><p>Optional column with one extra label per document. This extra label will be outputted later on in an additional
-column (Default: &quot;aux_label&quot;)</p></div></div>
+column (Default: &quot;aux_label&quot;)
+</p></div></div>
     </li><li name="com.johnsnowlabs.nlp.annotators.resolution.SentenceEntityResolverApproach#auxLabelMap" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
       <a id="auxLabelMap:com.johnsnowlabs.nlp.serialization.StructFeature[scala.collection.Map[String,String]]"></a><a id="auxLabelMap:StructFeature[Map[String,String]]"></a>
       <span class="permalink">
@@ -640,9 +650,9 @@ column (Default: &quot;aux_label&quot;)</p></div></div>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd><dt>Definition Classes</dt><dd>HasInputAnnotationCols</dd></dl></div>
     </li><li name="com.johnsnowlabs.license.CheckLicense#checkValidEnvironment" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="checkValidEnvironment(spark:Option[org.apache.spark.SparkContext]):Unit"></a><a id="checkValidEnvironment(Option[SparkContext]):Unit"></a>
+      <a id="checkValidEnvironment(spark:Option[org.apache.spark.sql.SparkSession]):Unit"></a><a id="checkValidEnvironment(Option[SparkSession]):Unit"></a>
       <span class="permalink">
-      <a href="../../../../../com/johnsnowlabs/nlp/annotators/resolution/SentenceEntityResolverApproach.html#checkValidEnvironment(spark:Option[org.apache.spark.SparkContext]):Unit" title="Permalink">
+      <a href="../../../../../com/johnsnowlabs/nlp/annotators/resolution/SentenceEntityResolverApproach.html#checkValidEnvironment(spark:Option[org.apache.spark.sql.SparkSession]):Unit" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -651,7 +661,7 @@ column (Default: &quot;aux_label&quot;)</p></div></div>
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">checkValidEnvironment</span><span class="params">(<span name="spark">spark: <span class="extype" name="scala.Option">Option</span>[<span class="extype" name="org.apache.spark.SparkContext">SparkContext</span>]</span>)</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
+        <span class="name">checkValidEnvironment</span><span class="params">(<span name="spark">spark: <span class="extype" name="scala.Option">Option</span>[<span class="extype" name="org.apache.spark.sql.SparkSession">SparkSession</span>]</span>)</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>CheckLicense</dd></dl></div>
@@ -672,9 +682,9 @@ column (Default: &quot;aux_label&quot;)</p></div></div>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>CheckLicense</dd></dl></div>
     </li><li name="com.johnsnowlabs.license.CheckLicense#checkValidScopeAndEnvironment" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="checkValidScopeAndEnvironment(scope:String,spark:Option[org.apache.spark.SparkContext],checkLp:Boolean):Unit"></a><a id="checkValidScopeAndEnvironment(String,Option[SparkContext],Boolean):Unit"></a>
+      <a id="checkValidScopeAndEnvironment(scope:String,spark:Option[org.apache.spark.sql.SparkSession],checkLp:Boolean):Unit"></a><a id="checkValidScopeAndEnvironment(String,Option[SparkSession],Boolean):Unit"></a>
       <span class="permalink">
-      <a href="../../../../../com/johnsnowlabs/nlp/annotators/resolution/SentenceEntityResolverApproach.html#checkValidScopeAndEnvironment(scope:String,spark:Option[org.apache.spark.SparkContext],checkLp:Boolean):Unit" title="Permalink">
+      <a href="../../../../../com/johnsnowlabs/nlp/annotators/resolution/SentenceEntityResolverApproach.html#checkValidScopeAndEnvironment(scope:String,spark:Option[org.apache.spark.sql.SparkSession],checkLp:Boolean):Unit" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -683,7 +693,23 @@ column (Default: &quot;aux_label&quot;)</p></div></div>
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">checkValidScopeAndEnvironment</span><span class="params">(<span name="scope">scope: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="spark">spark: <span class="extype" name="scala.Option">Option</span>[<span class="extype" name="org.apache.spark.SparkContext">SparkContext</span>]</span>, <span name="checkLp">checkLp: <span class="extype" name="scala.Boolean">Boolean</span></span>)</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
+        <span class="name">checkValidScopeAndEnvironment</span><span class="params">(<span name="scope">scope: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="spark">spark: <span class="extype" name="scala.Option">Option</span>[<span class="extype" name="org.apache.spark.sql.SparkSession">SparkSession</span>]</span>, <span name="checkLp">checkLp: <span class="extype" name="scala.Boolean">Boolean</span></span>)</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
+      </span>
+      
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>CheckLicense</dd></dl></div>
+    </li><li name="com.johnsnowlabs.license.CheckLicense#checkValidScopesAndEnvironment" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="checkValidScopesAndEnvironment(scopes:Seq[String],spark:Option[org.apache.spark.sql.SparkSession],checkLp:Boolean):Unit"></a><a id="checkValidScopesAndEnvironment(Seq[String],Option[SparkSession],Boolean):Unit"></a>
+      <span class="permalink">
+      <a href="../../../../../com/johnsnowlabs/nlp/annotators/resolution/SentenceEntityResolverApproach.html#checkValidScopesAndEnvironment(scopes:Seq[String],spark:Option[org.apache.spark.sql.SparkSession],checkLp:Boolean):Unit" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">checkValidScopesAndEnvironment</span><span class="params">(<span name="scopes">scopes: <span class="extype" name="scala.Seq">Seq</span>[<span class="extype" name="scala.Predef.String">String</span>]</span>, <span name="spark">spark: <span class="extype" name="scala.Option">Option</span>[<span class="extype" name="org.apache.spark.sql.SparkSession">SparkSession</span>]</span>, <span name="checkLp">checkLp: <span class="extype" name="scala.Boolean">Boolean</span></span>)</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>CheckLicense</dd></dl></div>
@@ -935,7 +961,8 @@ column (Default: &quot;aux_label&quot;)</p></div></div>
       </span>
       
       <p class="shortcomment cmt">Extracts a Map[String,String] where key=label and value=auxLabel from a dataset.</p><div class="fullcomment"><div class="comment cmt"><p>Extracts a Map[String,String] where key=label and value=auxLabel from a dataset.
-If either of one columns does not exist, it will return an empty map</p></div><dl class="paramcmts block"><dt class="param">dataset</dt><dd class="cmt"><p>from which we extract the column</p></dd><dt>returns</dt><dd class="cmt"><p>a Map[String,String]</p></dd></dl></div>
+If either of one columns does not exist, it will return an empty map
+</p></div><dl class="paramcmts block"><dt class="param">dataset</dt><dd class="cmt"><p>from which we extract the column</p></dd><dt>returns</dt><dd class="cmt"><p>a Map[String,String]</p></dd></dl></div>
     </li><li name="org.apache.spark.ml.param.Params#extractParamMap" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="extractParamMap():org.apache.spark.ml.param.ParamMap"></a><a id="extractParamMap():ParamMap"></a>
       <span class="permalink">
@@ -1023,9 +1050,9 @@ If either of one columns does not exist, it will return an empty map</p></div><d
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnnotatorApproach → Estimator</dd></dl></div>
     </li><li name="org.apache.spark.ml.Estimator#fit" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="fit(dataset:org.apache.spark.sql.Dataset[_],paramMaps:Array[org.apache.spark.ml.param.ParamMap]):Seq[M]"></a><a id="fit(Dataset[_],Array[ParamMap]):Seq[SentenceEntityResolverModel]"></a>
+      <a id="fit(dataset:org.apache.spark.sql.Dataset[_],paramMaps:Seq[org.apache.spark.ml.param.ParamMap]):Seq[M]"></a><a id="fit(Dataset[_],Seq[ParamMap]):Seq[SentenceEntityResolverModel]"></a>
       <span class="permalink">
-      <a href="../../../../../com/johnsnowlabs/nlp/annotators/resolution/SentenceEntityResolverApproach.html#fit(dataset:org.apache.spark.sql.Dataset[_],paramMaps:Array[org.apache.spark.ml.param.ParamMap]):Seq[M]" title="Permalink">
+      <a href="../../../../../com/johnsnowlabs/nlp/annotators/resolution/SentenceEntityResolverApproach.html#fit(dataset:org.apache.spark.sql.Dataset[_],paramMaps:Seq[org.apache.spark.ml.param.ParamMap]):Seq[M]" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -1034,7 +1061,7 @@ If either of one columns does not exist, it will return an empty map</p></div><d
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">fit</span><span class="params">(<span name="dataset">dataset: <span class="extype" name="org.apache.spark.sql.Dataset">Dataset</span>[_]</span>, <span name="paramMaps">paramMaps: <span class="extype" name="scala.Array">Array</span>[<span class="extype" name="org.apache.spark.ml.param.ParamMap">ParamMap</span>]</span>)</span><span class="result">: <span class="extype" name="scala.Seq">Seq</span>[<a href="SentenceEntityResolverModel.html" class="extype" name="com.johnsnowlabs.nlp.annotators.resolution.SentenceEntityResolverModel">SentenceEntityResolverModel</a>]</span>
+        <span class="name">fit</span><span class="params">(<span name="dataset">dataset: <span class="extype" name="org.apache.spark.sql.Dataset">Dataset</span>[_]</span>, <span name="paramMaps">paramMaps: <span class="extype" name="scala.Seq">Seq</span>[<span class="extype" name="org.apache.spark.ml.param.ParamMap">ParamMap</span>]</span>)</span><span class="result">: <span class="extype" name="scala.Seq">Seq</span>[<a href="SentenceEntityResolverModel.html" class="extype" name="com.johnsnowlabs.nlp.annotators.resolution.SentenceEntityResolverModel">SentenceEntityResolverModel</a>]</span>
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>Estimator</dd><dt>Annotations</dt><dd>
@@ -1185,7 +1212,8 @@ If either of one columns does not exist, it will return an empty map</p></div><d
         <span class="name">getAuxLabelCol</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.Option">Option</span>[<span class="extype" name="scala.Predef.String">String</span>]</span>
       </span>
       
-      <p class="shortcomment cmt">Optional column with one extra label per document.</p><div class="fullcomment"><div class="comment cmt"><p>Optional column with one extra label per document. This extra label will be outputted later on in an additional column</p></div></div>
+      <p class="shortcomment cmt">Optional column with one extra label per document.</p><div class="fullcomment"><div class="comment cmt"><p>Optional column with one extra label per document. This extra label will be outputted later on in an additional column
+</p></div></div>
     </li><li name="com.johnsnowlabs.nlp.annotators.resolution.SentenceEntityResolverApproach#getAuxLabelMap" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
       <a id="getAuxLabelMap():scala.collection.Map[String,String]"></a><a id="getAuxLabelMap():Map[String,String]"></a>
       <span class="permalink">
@@ -1316,7 +1344,8 @@ If either of one columns does not exist, it will return an empty map</p></div><d
         <span class="name">getLabelCol</span><span class="result">: <span class="extype" name="scala.Predef.String">String</span></span>
       </span>
       
-      <p class="shortcomment cmt">column name for the value we are trying to resolve</p>
+      <p class="shortcomment cmt">column name for the value we are trying to resolve
+</p>
     </li><li name="com.johnsnowlabs.nlp.CanBeLazy#getLazyAnnotator" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="getLazyAnnotator:Boolean"></a>
       <span class="permalink">
@@ -1380,7 +1409,8 @@ If either of one columns does not exist, it will return an empty map</p></div><d
         <span class="name">getNormalizedCol</span><span class="result">: <span class="extype" name="scala.Predef.String">String</span></span>
       </span>
       
-      <p class="shortcomment cmt">column name for the original, normalized description</p>
+      <p class="shortcomment cmt">column name for the original, normalized description
+</p>
     </li><li name="org.apache.spark.ml.param.Params#getOrDefault" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="getOrDefault[T](param:org.apache.spark.ml.param.Param[T]):T"></a><a id="getOrDefault[T](Param[T]):T"></a>
       <span class="permalink">
@@ -1445,7 +1475,8 @@ If either of one columns does not exist, it will return an empty map</p></div><d
       </span>
       
       <p class="shortcomment cmt">Whether to return all embeddings of all K candidates of the resolution.</p><div class="fullcomment"><div class="comment cmt"><p>Whether to return all embeddings of all K candidates of the resolution. Embeddings will be in the metadata.
-Increase in RAM usage to be expected</p></div></div>
+Increase in RAM usage to be expected
+</p></div></div>
     </li><li name="com.johnsnowlabs.nlp.annotators.resolution.SentenceEntityResolverApproach#getReturnCosineDistances" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="getParam">
       <a id="getReturnCosineDistances:Boolean"></a>
       <span class="permalink">
@@ -1462,7 +1493,8 @@ Increase in RAM usage to be expected</p></div></div>
       </span>
       
       <p class="shortcomment cmt">Whether to calculate and return cosine distances between a sentence and the k closest candidates.</p><div class="fullcomment"><div class="comment cmt"><p>Whether to calculate and return cosine distances between a sentence and the k closest candidates.
-Can improve accuracy but increases computation.</p></div></div>
+Can improve accuracy but increases computation.
+</p></div></div>
     </li><li name="com.johnsnowlabs.nlp.annotators.resolution.params.SentenceResolverParams#getThreshold" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="getThreshold:Double"></a>
       <span class="permalink">
@@ -1494,7 +1526,8 @@ Can improve accuracy but increases computation.</p></div></div>
         <span class="name">getUseAuxLabel</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.Boolean">Boolean</span></span>
       </span>
       
-      <p class="shortcomment cmt">Whether to use Aux Label or not</p>
+      <p class="shortcomment cmt">Whether to use Aux Label or not
+</p>
     </li><li name="org.apache.spark.ml.param.Params#hasDefault" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="hasDefault[T](param:org.apache.spark.ml.param.Param[T]):Boolean"></a><a id="hasDefault[T](Param[T]):Boolean"></a>
       <span class="permalink">
@@ -1593,7 +1626,9 @@ Can improve accuracy but increases computation.</p></div></div>
         <span class="name">inputAnnotatorTypes</span><span class="result">: <span class="extype" name="scala.Array">Array</span>[<span class="extype" name="scala.Predef.String">String</span>]</span>
       </span>
       
-      <p class="shortcomment cmt">Input annotator types: SENTENCE_EMBEDDINGS</p><div class="fullcomment"><div class="comment cmt"><p>Input annotator types: SENTENCE_EMBEDDINGS</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.resolution.SentenceEntityResolverApproach">SentenceEntityResolverApproach</a> → HasInputAnnotationCols</dd></dl></div>
+      <p class="shortcomment cmt">Input annotator types: SENTENCE_EMBEDDINGS
+</p><div class="fullcomment"><div class="comment cmt"><p>Input annotator types: SENTENCE_EMBEDDINGS
+</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.resolution.SentenceEntityResolverApproach">SentenceEntityResolverApproach</a> → HasInputAnnotationCols</dd></dl></div>
     </li><li name="com.johnsnowlabs.nlp.HasInputAnnotationCols#inputCols" visbl="prt" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="inputCols:org.apache.spark.ml.param.StringArrayParam"></a><a id="inputCols:StringArrayParam"></a>
       <span class="permalink">
@@ -1642,22 +1677,6 @@ Can improve accuracy but increases computation.</p></div></div>
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>Any</dd></dl></div>
-    </li><li name="com.johnsnowlabs.license.CheckLicense#isLp" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="isLp():Boolean"></a>
-      <span class="permalink">
-      <a href="../../../../../com/johnsnowlabs/nlp/annotators/resolution/SentenceEntityResolverApproach.html#isLp():Boolean" title="Permalink">
-        <i class="material-icons"></i>
-      </a>
-    </span>
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">def</span>
-      </span>
-      <span class="symbol">
-        <span class="name">isLp</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.Boolean">Boolean</span></span>
-      </span>
-      
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>CheckLicense</dd></dl></div>
     </li><li name="org.apache.spark.ml.param.Params#isSet" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="isSet(param:org.apache.spark.ml.param.Param[_]):Boolean"></a><a id="isSet(Param[_]):Boolean"></a>
       <span class="permalink">
@@ -1705,7 +1724,8 @@ Can improve accuracy but increases computation.</p></div></div>
         <span class="name">labelCol</span><span class="result">: <span class="extype" name="org.apache.spark.ml.param.Param">Param</span>[<span class="extype" name="scala.Predef.String">String</span>]</span>
       </span>
       
-      <p class="shortcomment cmt">column name for the value we are trying to resolve (Default: &quot;code&quot;)</p>
+      <p class="shortcomment cmt">column name for the value we are trying to resolve (Default: &quot;code&quot;)
+</p>
     </li><li name="com.johnsnowlabs.nlp.annotators.resolution.SentenceEntityResolverApproach#labelColumnName" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
       <a id="labelColumnName:String"></a>
       <span class="permalink">
@@ -2009,7 +2029,8 @@ Can improve accuracy but increases computation.</p></div></div>
         <span class="name">normalizedCol</span><span class="result">: <span class="extype" name="org.apache.spark.ml.param.Param">Param</span>[<span class="extype" name="scala.Predef.String">String</span>]</span>
       </span>
       
-      <p class="shortcomment cmt">column name for the original, normalized description</p>
+      <p class="shortcomment cmt">column name for the original, normalized description
+</p>
     </li><li name="com.johnsnowlabs.nlp.annotators.resolution.SentenceEntityResolverApproach#normalizedColumnName" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
       <a id="normalizedColumnName:String"></a>
       <span class="permalink">
@@ -2127,7 +2148,9 @@ Can improve accuracy but increases computation.</p></div></div>
         <span class="name">outputAnnotatorType</span><span class="result">: <a href="#AnnotatorType=String" class="extmbr" name="com.johnsnowlabs.nlp.annotators.resolution.SentenceEntityResolverApproach.AnnotatorType">AnnotatorType</a></span>
       </span>
       
-      <p class="shortcomment cmt">Output annotator types: ENTITY</p><div class="fullcomment"><div class="comment cmt"><p>Output annotator types: ENTITY</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.resolution.SentenceEntityResolverApproach">SentenceEntityResolverApproach</a> → HasOutputAnnotatorType</dd></dl></div>
+      <p class="shortcomment cmt">Output annotator types: ENTITY
+</p><div class="fullcomment"><div class="comment cmt"><p>Output annotator types: ENTITY
+</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.resolution.SentenceEntityResolverApproach">SentenceEntityResolverApproach</a> → HasOutputAnnotatorType</dd></dl></div>
     </li><li name="com.johnsnowlabs.nlp.HasOutputAnnotationCol#outputCol" visbl="prt" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="outputCol:org.apache.spark.ml.param.Param[String]"></a><a id="outputCol:Param[String]"></a>
       <span class="permalink">
@@ -2209,7 +2232,8 @@ Can improve accuracy but increases computation.</p></div></div>
       </span>
       
       <p class="shortcomment cmt">Whether to return all embeddings of all K candidates of the resolution.</p><div class="fullcomment"><div class="comment cmt"><p>Whether to return all embeddings of all K candidates of the resolution. Embeddings will be in the metadata.
-Increase in RAM usage to be expected (Default: false)</p></div></div>
+Increase in RAM usage to be expected (Default: false)
+</p></div></div>
     </li><li name="com.johnsnowlabs.nlp.annotators.resolution.SentenceEntityResolverApproach#returnCosineDistances" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="param">
       <a id="returnCosineDistances:org.apache.spark.ml.param.BooleanParam"></a><a id="returnCosineDistances:BooleanParam"></a>
       <span class="permalink">
@@ -2226,7 +2250,8 @@ Increase in RAM usage to be expected (Default: false)</p></div></div>
       </span>
       
       <p class="shortcomment cmt">Whether to calculate and return cosine distances between a sentence and the k closest candidates.</p><div class="fullcomment"><div class="comment cmt"><p>Whether to calculate and return cosine distances between a sentence and the k closest candidates.
-Can improve accuracy but increases computation (Default: true)</p></div></div>
+Can improve accuracy but increases computation (Default: true)
+</p></div></div>
     </li><li name="org.apache.spark.ml.util.MLWritable#save" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="save(path:String):Unit"></a><a id="save(String):Unit"></a>
       <span class="permalink">
@@ -2381,7 +2406,8 @@ Can improve accuracy but increases computation (Default: true)</p></div></div>
         <span class="name">setAuxLabelCol</span><span class="params">(<span name="c">c: <span class="extype" name="scala.Predef.String">String</span></span>)</span><span class="result">: <a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.resolution.SentenceEntityResolverApproach">SentenceEntityResolverApproach</a>.this.type</span>
       </span>
       
-      <p class="shortcomment cmt">Optional column with one extra label per document.</p><div class="fullcomment"><div class="comment cmt"><p>Optional column with one extra label per document. This extra label will be outputted later on in an additional column</p></div></div>
+      <p class="shortcomment cmt">Optional column with one extra label per document.</p><div class="fullcomment"><div class="comment cmt"><p>Optional column with one extra label per document. This extra label will be outputted later on in an additional column
+</p></div></div>
     </li><li name="com.johnsnowlabs.nlp.annotators.resolution.SentenceEntityResolverApproach#setAuxLabelMap" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
       <a id="setAuxLabelMap(m:scala.collection.Map[String,String]):SentenceEntityResolverApproach.this.type"></a><a id="setAuxLabelMap(Map[String,String]):SentenceEntityResolverApproach.this.type"></a>
       <span class="permalink">
@@ -2605,7 +2631,8 @@ Can improve accuracy but increases computation (Default: true)</p></div></div>
         <span class="name">setLabelCol</span><span class="params">(<span name="value">value: <span class="extype" name="scala.Predef.String">String</span></span>)</span><span class="result">: <a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.resolution.SentenceEntityResolverApproach">SentenceEntityResolverApproach</a>.this.type</span>
       </span>
       
-      <p class="shortcomment cmt">column name for the value we are trying to resolve</p>
+      <p class="shortcomment cmt">column name for the value we are trying to resolve
+</p>
     </li><li name="com.johnsnowlabs.nlp.CanBeLazy#setLazyAnnotator" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="setLazyAnnotator(value:Boolean):com.johnsnowlabs.nlp.CanBeLazy.&lt;refinement&gt;.type"></a><a id="setLazyAnnotator(Boolean):SentenceEntityResolverApproach.this.type"></a>
       <span class="permalink">
@@ -2669,7 +2696,8 @@ Can improve accuracy but increases computation (Default: true)</p></div></div>
         <span class="name">setNormalizedCol</span><span class="params">(<span name="value">value: <span class="extype" name="scala.Predef.String">String</span></span>)</span><span class="result">: <a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.resolution.SentenceEntityResolverApproach">SentenceEntityResolverApproach</a>.this.type</span>
       </span>
       
-      <p class="shortcomment cmt">column name for the original, normalized description</p>
+      <p class="shortcomment cmt">column name for the original, normalized description
+</p>
     </li><li name="com.johnsnowlabs.nlp.HasOutputAnnotationCol#setOutputCol" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="setOutputCol(value:String):HasOutputAnnotationCol.this.type"></a><a id="setOutputCol(String):SentenceEntityResolverApproach.this.type"></a>
       <span class="permalink">
@@ -2734,7 +2762,8 @@ Can improve accuracy but increases computation (Default: true)</p></div></div>
         <span class="name">setReturnAllKEmbeddings</span><span class="params">(<span name="b">b: <span class="extype" name="scala.Boolean">Boolean</span></span>)</span><span class="result">: <a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.resolution.SentenceEntityResolverApproach">SentenceEntityResolverApproach</a>.this.type</span>
       </span>
       
-      <p class="shortcomment cmt">Whether to return all embeddings of all K candidates of the resolution.</p><div class="fullcomment"><div class="comment cmt"><p>Whether to return all embeddings of all K candidates of the resolution. Embeddings will be in the metadata. Increase in RAM usage to be expected</p></div></div>
+      <p class="shortcomment cmt">Whether to return all embeddings of all K candidates of the resolution.</p><div class="fullcomment"><div class="comment cmt"><p>Whether to return all embeddings of all K candidates of the resolution. Embeddings will be in the metadata. Increase in RAM usage to be expected
+</p></div></div>
     </li><li name="com.johnsnowlabs.nlp.annotators.resolution.SentenceEntityResolverApproach#setReturnCosineDistances" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="setParam">
       <a id="setReturnCosineDistances(value:Boolean):SentenceEntityResolverApproach.this.type"></a><a id="setReturnCosineDistances(Boolean):SentenceEntityResolverApproach.this.type"></a>
       <span class="permalink">
@@ -2751,7 +2780,8 @@ Can improve accuracy but increases computation (Default: true)</p></div></div>
       </span>
       
       <p class="shortcomment cmt">Whether to calculate and return cosine distances between a sentence and the k closest candidates.</p><div class="fullcomment"><div class="comment cmt"><p>Whether to calculate and return cosine distances between a sentence and the k closest candidates.
-Can improve accuracy but increases computation.</p></div></div>
+Can improve accuracy but increases computation.
+</p></div></div>
     </li><li name="com.johnsnowlabs.nlp.annotators.resolution.params.SentenceResolverParams#setThreshold" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="setThreshold(dist:Double):SentenceResolverParams.this.type"></a><a id="setThreshold(Double):SentenceEntityResolverApproach.this.type"></a>
       <span class="permalink">
@@ -2783,7 +2813,8 @@ Can improve accuracy but increases computation.</p></div></div>
         <span class="name">setUseAuxLabel</span><span class="params">(<span name="b">b: <span class="extype" name="scala.Boolean">Boolean</span></span>)</span><span class="result">: <a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.resolution.SentenceEntityResolverApproach">SentenceEntityResolverApproach</a>.this.type</span>
       </span>
       
-      <p class="shortcomment cmt">Whether to use Aux Label or not</p>
+      <p class="shortcomment cmt">Whether to use Aux Label or not
+</p>
     </li><li name="scala.AnyRef#synchronized" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="synchronized[T0](x$1:=&gt;T0):T0"></a><a id="synchronized[T0](⇒T0):T0"></a>
       <span class="permalink">
@@ -2917,7 +2948,8 @@ in such a big KD-tree becomes impractical</p><p>This method is called inside the
         <span class="name">useAuxLabel</span><span class="result">: <span class="extype" name="org.apache.spark.ml.param.BooleanParam">BooleanParam</span></span>
       </span>
       
-      <p class="shortcomment cmt">Whether to use Aux Label or not (Default: false)</p>
+      <p class="shortcomment cmt">Whether to use Aux Label or not (Default: false)
+</p>
     </li><li name="com.johnsnowlabs.nlp.AnnotatorApproach#validate" visbl="prt" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="validate(schema:org.apache.spark.sql.types.StructType):Boolean"></a><a id="validate(StructType):Boolean"></a>
       <span class="permalink">

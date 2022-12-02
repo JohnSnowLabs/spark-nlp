@@ -1,4 +1,4 @@
-#  Copyright 2017-2021 John Snow Labs
+#  Copyright 2017-2022 John Snow Labs
 #
 #  Licensed under the Apache License, Version 2.0 (the "License");
 #  you may not use this file except in compliance with the License.
@@ -17,7 +17,9 @@ import subprocess
 import threading
 from pyspark.sql import SparkSession
 from sparknlp import annotator
-from sparknlp.base import DocumentAssembler, Finisher, EmbeddingsFinisher, TokenAssembler, Chunk2Doc, Doc2Chunk
+# Must be declared here one by one or else PretrainedPipeline will fail with AttributeError
+from sparknlp.base import DocumentAssembler, MultiDocumentAssembler, Finisher, EmbeddingsFinisher, TokenAssembler, \
+    Chunk2Doc, Doc2Chunk, AudioAssembler, GraphFinisher, ImageAssembler, TableAssembler
 from pyspark.conf import SparkConf
 from pyspark.context import SparkContext
 from pyspark.java_gateway import launch_gateway
@@ -53,14 +55,17 @@ sys.modules['com.johnsnowlabs.nlp.annotators.sentence_detector_dl'] = annotator
 sys.modules['com.johnsnowlabs.nlp.annotators.seq2seq'] = annotator
 sys.modules['com.johnsnowlabs.nlp.annotators.ws'] = annotator
 sys.modules['com.johnsnowlabs.nlp.annotators.er'] = annotator
+sys.modules['com.johnsnowlabs.nlp.annotators.coref'] = annotator
+sys.modules['com.johnsnowlabs.nlp.annotators.cv'] = annotator
+sys.modules['com.johnsnowlabs.nlp.annotators.audio'] = annotator
 
 annotators = annotator
 embeddings = annotator
 
 
 def start(gpu=False,
-          spark23=False,
-          spark24=False,
+          m1=False,
+          aarch64=False,
           memory="16G",
           cache_folder="",
           log_folder="",
@@ -72,18 +77,6 @@ def start(gpu=False,
     The default parameters would result in the equivalent of:
 
     .. code-block:: python
-        :param gpu: start Spark NLP with GPU
-        :param spark23: start Spark NLP on Apache Spark 2.3.x
-        :param spark24: start Spark NLP on Apache Spark 2.4.x
-        :param memory: set driver memory for SparkSession
-        :param cache_folder: The location to download and exctract pretrained Models and Pipelines
-        :param log_folder: The location to save logs from annotators during training such as NerDLApproach,
-            ClassifierDLApproach, SentimentDLApproach, MultiClassifierDLApproach, etc.
-        :param cluster_tmp_dir: The location to use on a cluster for temporarily files
-        :param output_level: int, optional
-            Output level for logs, by default 1
-        :param real_time_output:
-        :substitutions:
 
         SparkSession.builder \\
             .appName("Spark NLP") \\
@@ -99,14 +92,25 @@ def start(gpu=False,
     ----------
     gpu : bool, optional
         Whether to enable GPU acceleration (must be set up correctly), by default False
-    spark23 : bool, optional
-        Whether to use the Spark 2.3.x version of Spark NLP, by default False
-    spark24 : bool, optional
-        Whether to use the Spark 2.4.x version of Spark NLP, by default False
+    m1 : bool, optional
+        Whether to enable M1 support for macOS
+    aarch64 : bool, optional
+        Whether to enable Linux Aarch64 support
     memory : str, optional
         How much memory to allocate for the Spark driver, by default "16G"
+    cache_folder : str, optional
+        The location to download and extract pretrained Models and Pipelines. If not
+        set, it will be in the users home directory under `cache_pretrained`.
+    log_folder : str, optional
+        The location to use on a cluster for temporarily files such as unpacking indexes
+        for WordEmbeddings. By default, this locations is the location of
+        `hadoop.tmp.dir` set via Hadoop configuration for Apache Spark. NOTE: `S3` is
+        not supported and it must be local, HDFS, or DBFS.
+    cluster_tmp_dir : str, optional
+        The location to save logs from annotators during training. If not set, it will
+        be in the users home directory under `annotator_logs`.
     real_time_output : bool, optional
-        Whether to ouput in real time, by default False
+        Whether to output in real time, by default False
     output_level : int, optional
         Output level for logs, by default 1
 
@@ -116,7 +120,7 @@ def start(gpu=False,
         The initiated Spark session.
 
     """
-    current_version = "3.3.4"
+    current_version = "4.2.4"
 
     class SparkNLPConfig:
 
@@ -124,15 +128,13 @@ def start(gpu=False,
             self.master, self.app_name = "local[*]", "Spark NLP"
             self.serializer, self.serializer_max_buffer = "org.apache.spark.serializer.KryoSerializer", "2000M"
             self.driver_max_result_size = "0"
-            # Spark NLP on Apache Spark 3.0.x
-            self.maven_spark = "com.johnsnowlabs.nlp:spark-nlp_2.12:{}".format(current_version)
-            self.maven_gpu_spark = "com.johnsnowlabs.nlp:spark-nlp-gpu_2.12:{}".format(current_version)
-            # Spark NLP on Apache Spark 2.4.x
-            self.maven_spark24 = "com.johnsnowlabs.nlp:spark-nlp-spark24_2.11:{}".format(current_version)
-            self.maven_gpu_spark24 = "com.johnsnowlabs.nlp:spark-nlp-gpu-spark24_2.11:{}".format(current_version)
-            # Spark NLP on Apache Spark 2.3.x
-            self.maven_spark23 = "com.johnsnowlabs.nlp:spark-nlp-spark23_2.11:{}".format(current_version)
-            self.maven_gpu_spark23 = "com.johnsnowlabs.nlp:spark-nlp-gpu-spark23_2.11:{}".format(current_version)
+            # Spark NLP on CPU or GPU
+            self.maven_spark3 = "com.johnsnowlabs.nlp:spark-nlp_2.12:{}".format(current_version)
+            self.maven_gpu_spark3 = "com.johnsnowlabs.nlp:spark-nlp-gpu_2.12:{}".format(current_version)
+            # Spark NLP on M1
+            self.maven_m1 = "com.johnsnowlabs.nlp:spark-nlp-m1_2.12:{}".format(current_version)
+            # Spark NLP on Linux Aarch64
+            self.maven_aarch64 = "com.johnsnowlabs.nlp:spark-nlp-aarch64_2.12:{}".format(current_version)
 
     def start_without_realtime_output():
         builder = SparkSession.builder \
@@ -143,18 +145,14 @@ def start(gpu=False,
             .config("spark.kryoserializer.buffer.max", spark_nlp_config.serializer_max_buffer) \
             .config("spark.driver.maxResultSize", spark_nlp_config.driver_max_result_size)
 
-        if gpu and spark23:
-            builder.config("spark.jars.packages", spark_nlp_config.maven_gpu_spark23)
-        elif gpu and spark24:
-            builder.config("spark.jars.packages", spark_nlp_config.maven_gpu_spark24)
-        elif spark23:
-            builder.config("spark.jars.packages", spark_nlp_config.maven_spark23)
-        elif spark24:
-            builder.config("spark.jars.packages", spark_nlp_config.maven_spark24)
+        if m1:
+            builder.config("spark.jars.packages", spark_nlp_config.maven_m1)
+        elif aarch64:
+            builder.config("spark.jars.packages", spark_nlp_config.maven_aarch64)
         elif gpu:
-            builder.config("spark.jars.packages", spark_nlp_config.maven_gpu_spark)
+            builder.config("spark.jars.packages", spark_nlp_config.maven_gpu_spark3)
         else:
-            builder.config("spark.jars.packages", spark_nlp_config.maven_spark)
+            builder.config("spark.jars.packages", spark_nlp_config.maven_spark3)
 
         if cache_folder != '':
             builder.config("spark.jsl.settings.pretrained.cache_folder", cache_folder)
@@ -178,10 +176,14 @@ def start(gpu=False,
                 spark_conf.set("spark.kryoserializer.buffer.max", spark_nlp_config.serializer_max_buffer)
                 spark_conf.set("spark.driver.maxResultSize", spark_nlp_config.driver_max_result_size)
 
-                if gpu:
-                    spark_conf.set("spark.jars.packages", spark_nlp_config.maven_gpu_spark)
+                if m1:
+                    spark_conf.set("spark.jars.packages", spark_nlp_config.maven_m1)
+                elif aarch64:
+                    spark_conf.set("spark.jars.packages", spark_nlp_config.maven_aarch64)
+                elif gpu:
+                    spark_conf.set("spark.jars.packages", spark_nlp_config.maven_gpu_spark3)
                 else:
-                    spark_conf.set("spark.jars.packages", spark_nlp_config.maven_spark)
+                    spark_conf.set("spark.jars.packages", spark_nlp_config.maven_spark3)
 
                 if cache_folder != '':
                     spark_conf.config("spark.jsl.settings.pretrained.cache_folder", cache_folder)
@@ -239,21 +241,17 @@ def start(gpu=False,
     spark_nlp_config = SparkNLPConfig()
 
     if real_time_output:
-        if spark23 or spark24:
-            spark_session = start_without_realtime_output()
-            return spark_session
-        else:
-            # Available from Spark 3.0.x
-            class SparkRealTimeOutput:
+        # Available from Spark 3.0.x
+        class SparkRealTimeOutput:
 
-                def __init__(self):
-                    self.__spark_with_custom_gateway = start_with_realtime_output()
-                    self.spark_session = self.__spark_with_custom_gateway.spark_session
+            def __init__(self):
+                self.__spark_with_custom_gateway = start_with_realtime_output()
+                self.spark_session = self.__spark_with_custom_gateway.spark_session
 
-                def shutdown(self):
-                    self.__spark_with_custom_gateway.shutdown()
+            def shutdown(self):
+                self.__spark_with_custom_gateway.shutdown()
 
-            return SparkRealTimeOutput()
+        return SparkRealTimeOutput().spark_session
     else:
         spark_session = start_without_realtime_output()
         return spark_session
@@ -267,4 +265,4 @@ def version():
     str
         The current Spark NLP version.
     """
-    return '3.3.4'
+    return '4.2.4'

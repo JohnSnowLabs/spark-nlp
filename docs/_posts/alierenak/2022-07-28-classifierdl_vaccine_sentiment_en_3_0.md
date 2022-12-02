@@ -7,9 +7,10 @@ date: 2022-07-28
 tags: [public_health, en, licensed, vaccine_sentiment, classification]
 task: Sentiment Analysis
 language: en
-edition: Spark NLP for Healthcare 4.0.0
+edition: Healthcare NLP 4.0.0
 spark_version: 3.0
 supported: true
+annotator: ClassifierDLModel
 article_header:
   type: cover
 use_language_switcher: "Python-Scala-Java"
@@ -69,8 +70,8 @@ text_list = ['A little bright light for an otherwise dark week. Thanks researche
              'People with a history of severe allergic reaction to any component of the vaccine should not take.', 
              '43 million doses of vaccines administrated worldwide...Production capacity of CHINA to reach 4 b']
 
- data = spark.createDataFrame(text_list, StringType()).toDF("text")
- result = pipeline.fit(data).transform(data)
+data = spark.createDataFrame(text_list, StringType()).toDF("text")
+result = pipeline.fit(data).transform(data)
 ```
 
 ```scala
@@ -79,7 +80,7 @@ val documenter = new DocumentAssembler()
     .setOutputCol("sentence")
 
 val tokenizer = new Tokenizer()
-    .setInputCols("sentence")
+    .setInputCols(Array("sentence"))
     .setOutputCol("token")
 
 val embeddings = BertEmbeddings.pretrained("bert_embeddings_phs_bert", "en")
@@ -125,7 +126,7 @@ val result = bert_clf_pipeline.fit(data).transform(data)
 {:.table-model}
 |---|---|
 |Model Name:|classifierdl_vaccine_sentiment|
-|Compatibility:|Spark NLP for Healthcare 4.0.0+|
+|Compatibility:|Healthcare NLP 4.0.0+|
 |License:|Licensed|
 |Edition:|Official|
 |Input Labels:|[sentence_embeddings]|
@@ -140,13 +141,11 @@ Curated from several academic and in-house datasets.
 ## Benchmarking
 
 ```bash
-              precision    recall  f1-score   support
-
+       label  precision    recall  f1-score   support
      neutral       0.76      0.72      0.74      1008
     positive       0.80      0.79      0.80       966
     negative       0.76      0.81      0.78       916
-
-    accuracy                           0.77      2890
-   macro avg       0.77      0.77      0.77      2890
-weighted avg       0.77      0.77      0.77      2890
+    accuracy       -         -         0.77      2890
+   macro-avg       0.77      0.77      0.77      2890
+weighted-avg       0.77      0.77      0.77      2890
 ```

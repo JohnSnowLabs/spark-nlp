@@ -10,8 +10,9 @@ language: xx
 edition: Spark NLP 3.1.3
 spark_version: 2.4
 supported: true
+annotator: BertSentenceEmbeddings
 article_header:
-  type: cover
+type: cover
 use_language_switcher: "Python-Scala-Java"
 ---
 
@@ -37,13 +38,13 @@ The model extends the BERT transformer architecture that is why we use it with B
 {% include programmingLanguageSelectScalaPythonNLU.html %}
 ```python
 embeddings = BertSentenceEmbeddings.pretrained("sent_bert_use_cmlm_multi_base", "xx") \
-      .setInputCols("sentence") \
-      .setOutputCol("sentence_embeddings")
+.setInputCols("sentence") \
+.setOutputCol("sentence_embeddings")
 ```
 ```scala
 val embeddings = BertSentenceEmbeddings.pretrained("sent_bert_use_cmlm_multi_base", "xx")
-      .setInputCols("sentence")
-      .setOutputCol("sentence_embeddings")
+.setInputCols("sentence")
+.setOutputCol("sentence_embeddings")
 ```
 
 {:.nlu-block}

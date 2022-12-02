@@ -8,11 +8,13 @@ language: en
 repository: clinical/models
 date: 2020-03-26
 task: Embeddings
-edition: Spark NLP for Healthcare 2.4.4
+edition: Healthcare NLP 2.4.4
+spark_version: 2.4
 tags: [licensed,clinical,embeddings,en]
 supported: true
+annotator: WordEmbeddingsModel
 article_header:
-   type: cover
+type: cover
 use_language_switcher: "Python-Scala-Java"
 ---
 
@@ -34,7 +36,7 @@ https://www.nlm.nih.gov/databases/download/pubmed_medline.html
 ## How to use 
 <div class="tabs-box" markdown="1">
 
-{% include programmingLanguageSelectScalaPython.html %}
+{% include programmingLanguageSelectScalaPythonNLU.html %}
 
 ```python
 model = WordEmbeddingsModel.pretrained("embeddings_healthcare","en","clinical/models")\
@@ -47,6 +49,14 @@ val model = WordEmbeddingsModel.pretrained("embeddings_healthcare","en","clinica
 	.setInputCols("document","token")
 	.setOutputCol("word_embeddings")
 ```
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("en.embed.glove.healthcare").predict("""Put your text here.""")
+```
+
 </div>
 
 {:.h2_title}

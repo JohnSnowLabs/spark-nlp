@@ -7,9 +7,10 @@ date: 2022-08-28
 tags: [ner, ner_profiling, biobert, licensed, en]
 task: [Named Entity Recognition, Pipeline Healthcare]
 language: en
-edition: Spark NLP for Healthcare 4.0.2
+edition: Healthcare NLP 4.0.2
 spark_version: 3.0
 supported: true
+annotator: PipelineModel
 article_header:
   type: cover
 use_language_switcher: "Python-Scala-Java"
@@ -94,7 +95,7 @@ nlu.load("en.med_ner.profiling_biobert").predict("""A 28-year-old female with a 
 |---|---|
 |Model Name:|ner_profiling_biobert|
 |Type:|pipeline|
-|Compatibility:|Spark NLP for Healthcare 4.0.2+|
+|Compatibility:|Healthcare NLP 4.0.2+|
 |License:|Licensed|
 |Edition:|Official|
 |Language:|en|

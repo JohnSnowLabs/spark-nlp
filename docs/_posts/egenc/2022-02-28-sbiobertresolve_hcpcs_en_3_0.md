@@ -7,18 +7,19 @@ date: 2022-02-28
 tags: [hcpcs, resolver, en, licensed]
 task: Entity Resolution
 language: en
-edition: Spark NLP for Healthcare 3.4.0
+edition: Healthcare NLP 3.4.0
 spark_version: 3.0
 supported: true
+annotator: SentenceEntityResolverModel
 article_header:
-  type: cover
+type: cover
 use_language_switcher: "Python-Scala-Java"
 ---
 
 ## Description
 
 This model maps extracted medical entities to [Healthcare Common Procedure Coding System (HCPCS)](https://www.nlm.nih.gov/research/umls/sourcereleasedocs/current/HCPCS/index.html#:~:text=The%20Healthcare%20Common%20Procedure%20Coding,%2C%20supplies%2C%20products%20and%20services.)
- codes using 'sbiobert_base_cased_mli' sentence embeddings.
+codes using 'sbiobert_base_cased_mli' sentence embeddings.
 
 ## Predicted Entities
 
@@ -37,52 +38,60 @@ This model maps extracted medical entities to [Healthcare Common Procedure Codin
 {% include programmingLanguageSelectScalaPythonNLU.html %}
 ```python
 documentAssembler = DocumentAssembler()\
-      .setInputCol("text")\
-      .setOutputCol("ner_chunk")
+.setInputCol("text")\
+.setOutputCol("ner_chunk")
 
 sbert_embedder = BertSentenceEmbeddings\
-      .pretrained('sbiobert_base_cased_mli', 'en','clinical/models')\
-      .setInputCols(["ner_chunk"])\
-      .setOutputCol("sentence_embeddings")
-    
-hcpcs_resolver = SentenceEntityResolverModel\
-      .pretrained("sbiobertresolve_hcpcs", "en", "clinical/models") \
-      .setInputCols(["ner_chunk", "sentence_embeddings"]) \
-      .setOutputCol("hcpcs_code")\
-      .setDistanceFunction("EUCLIDEAN")
+.pretrained('sbiobert_base_cased_mli', 'en','clinical/models')\
+.setInputCols(["ner_chunk"])\
+.setOutputCol("sentence_embeddings")
 
-hcpcs_pipelineModel = PipelineModel(
-    stages = [
-        documentAssembler,
-        sbert_embedder,
-        hcpcs_resolver])
+hcpcs_resolver = SentenceEntityResolverModel\
+.pretrained("sbiobertresolve_hcpcs", "en", "clinical/models") \
+.setInputCols(["ner_chunk", "sentence_embeddings"]) \
+.setOutputCol("hcpcs_code")\
+.setDistanceFunction("EUCLIDEAN")
+
+hcpcs_pipeline  = Pipeline(
+stages = [
+documentAssembler,
+sbert_embedder,
+hcpcs_resolver])
 
 data = spark.createDataFrame([["Breast prosthesis, mastectomy bra, with integrated breast prosthesis form, unilateral, any size, any type"]]).toDF("text")
 
-results = hcpcs_pipelineModel.fit(data).transform(data)
+results = hcpcs_pipeline.fit(data).transform(data)
 ```
 ```scala
 val documentAssembler = new DocumentAssembler()
-      .setInputCol("text")
-      .setOutputCol("ner_chunk")
+.setInputCol("text")
+.setOutputCol("ner_chunk")
 
 val sbert_embedder = BertSentenceEmbeddings
-      .pretrained("sbiobert_base_cased_mli", "en","clinical/models")
-      .setInputCols(Array("ner_chunk"))
-      .setOutputCol("sentence_embeddings")
-    
+.pretrained("sbiobert_base_cased_mli", "en","clinical/models")
+.setInputCols(Array("ner_chunk"))
+.setOutputCol("sentence_embeddings")
+
 val hcpcs_resolver = SentenceEntityResolverModel
-      .pretrained("sbiobertresolve_hcpcs", "en", "clinical/models") 
-      .setInputCols(Array("ner_chunk", "sentence_embeddings")) 
-      .setOutputCol("hcpcs_code")
-      .setDistanceFunction("EUCLIDEAN")
+.pretrained("sbiobertresolve_hcpcs", "en", "clinical/models") 
+.setInputCols(Array("ner_chunk", "sentence_embeddings")) 
+.setOutputCol("hcpcs_code")
+.setDistanceFunction("EUCLIDEAN")
 
 val hcpcs_pipeline = new Pipeline().setStages(Array(documentAssembler, sbert_embedder, hcpcs_resolver))
-    
+
 val data = Seq("Breast prosthesis, mastectomy bra, with integrated breast prosthesis form, unilateral, any size, any type").toDF("text")    
 
 val results = hcpcs_pipeline.fit(data).transform(data)
 ```
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("en.resolve.hcpcs").predict("""Breast prosthesis, mastectomy bra, with integrated breast prosthesis form, unilateral, any size, any type""")
+```
+
 </div>
 
 ## Results
@@ -101,7 +110,7 @@ val results = hcpcs_pipeline.fit(data).transform(data)
 {:.table-model}
 |---|---|
 |Model Name:|sbiobertresolve_hcpcs|
-|Compatibility:|Spark NLP for Healthcare 3.4.0+|
+|Compatibility:|Healthcare NLP 3.4.0+|
 |License:|Licensed|
 |Edition:|Official|
 |Input Labels:|[sentence_embeddings]|

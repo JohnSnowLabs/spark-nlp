@@ -7,10 +7,12 @@ date: 2020-07-29 23:34:00 +0800
 task: Part of Speech Tagging
 language: da
 edition: Spark NLP 2.5.5
+spark_version: 2.4
 tags: [pos, da]
 supported: true
+annotator: PerceptronModel
 article_header:
-   type: cover
+type: cover
 use_language_switcher: "Python-Scala-Java"
 ---
 
@@ -33,8 +35,8 @@ This model annotates the part of speech of tokens in a text. The [parts of speec
 ```python
 ...
 pos = PerceptronModel.pretrained("pos_ud_ddt", "da") \
-    .setInputCols(["document", "token"]) \
-    .setOutputCol("pos")
+.setInputCols(["document", "token"]) \
+.setOutputCol("pos")
 nlp_pipeline = Pipeline(stages=[document_assembler, sentence_detector, tokenizer, pos])
 light_pipeline = LightPipeline(nlp_pipeline.fit(spark.createDataFrame([['']]).toDF("text")))
 results = light_pipeline.fullAnnotate("John Snow er bortset fra at være kongen i nord, en engelsk læge og en leder inden for udvikling af anæstesi og medicinsk hygiejne.")
@@ -43,8 +45,8 @@ results = light_pipeline.fullAnnotate("John Snow er bortset fra at være kongen 
 ```scala
 ...
 val pos = PerceptronModel.pretrained("pos_ud_ddt", "da")
-    .setInputCols(Array("document", "token"))
-    .setOutputCol("pos")
+.setInputCols(Array("document", "token"))
+.setOutputCol("pos")
 val pipeline = new Pipeline().setStages(Array(document_assembler, sentence_detector, tokenizer, pos))
 val data = Seq("John Snow er bortset fra at være kongen i nord, en engelsk læge og en leder inden for udvikling af anæstesi og medicinsk hygiejne.").toDF("text")
 val result = pipeline.fit(data).transform(data)

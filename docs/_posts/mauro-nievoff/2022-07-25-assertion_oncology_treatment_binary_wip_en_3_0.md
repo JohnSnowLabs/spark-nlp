@@ -7,10 +7,11 @@ date: 2022-07-25
 tags: [licensed, english, clinical, assertion, oncology, cancer, treatment, en]
 task: Assertion Status
 language: en
-edition: Spark NLP for Healthcare 3.5.0
+edition: Healthcare NLP 3.5.0
 spark_version: 3.0
 supported: true
 published: false
+annotator: AssertionDLModel
 article_header:
   type: cover
 use_language_switcher: "Python-Scala-Java"
@@ -84,11 +85,11 @@ val documentAssembler = new DocumentAssembler()
 		.setOutputCol("document")
 
 val sentenceDetector = SentenceDetectorDLModel.pretrained("sentence_detector_dl_healthcare", "en", "clinical/models")
-		.setInputCols("document") 
+		.setInputCols(Array("document"))
 		.setOutputCol("sentence")
 
 val tokenizer = new Tokenizer()
-		.setInputCols("sentence")
+		.setInputCols(Array("sentence"))
 		.setOutputCol("token")
 	
 val embeddings = WordEmbeddingsModel.pretrained("embeddings_clinical", "en", "clinical/models")
@@ -150,7 +151,7 @@ nlu.load("en.assert.oncology_treatment_binary_wip").predict("""The patient under
 {:.table-model}
 |---|---|
 |Model Name:|assertion_oncology_treatment_binary_wip|
-|Compatibility:|Spark NLP for Healthcare 3.5.0+|
+|Compatibility:|Healthcare NLP 3.5.0+|
 |License:|Licensed|
 |Edition:|Official|
 |Input Labels:|[document, chunk, embeddings]|

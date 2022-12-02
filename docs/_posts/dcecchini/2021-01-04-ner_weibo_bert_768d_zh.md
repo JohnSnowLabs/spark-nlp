@@ -7,8 +7,10 @@ date: 2021-01-04
 task: Named Entity Recognition
 language: zh
 edition: Spark NLP 2.7.0
+spark_version: 2.4
 tags: [zh, ner, open_source]
 supported: true
+annotator: NerDLModel
 article_header:
   type: cover
 use_language_switcher: "Python-Scala-Java"
@@ -42,7 +44,14 @@ This model uses the pre-trained `bert_base_chinese` embeddings model from `BertE
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
 ```python
-...
+document_assembler = DocumentAssembler() \
+    .setInputCol("text") \
+    .setOutputCol("document")
+    
+sentence_detector = SentenceDetector()\
+    .setInputCols(["document"])\
+    .setOutputCol("sentence")
+
 word_segmenter = WordSegmenterModel.pretrained("wordseg_large", "zh")\
         .setInputCols(["sentence"])\
         .setOutputCol("token")
@@ -59,7 +68,16 @@ result = pipeline.fit(example).transform(example)
 ```
 
 ```scala
-...
+
+val document_assembler = DocumentAssembler()
+        .setInputCol("text")
+        .setOutputCol("document")
+        
+val sentence_detector = SentenceDetector()\
+    .setInputCols(["document"])\
+    .setOutputCol("sentence")
+
+
 val word_segmenter = WordSegmenterModel.pretrained("wordseg_large", "zh")
      .setInputCols(Array("sentence"))
      .setOutputCol("token")

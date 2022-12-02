@@ -7,10 +7,12 @@ date: 2021-01-15
 task: [Embeddings, Sentiment Analysis, Pipeline Public]
 language: en
 edition: Spark NLP 2.7.1
+spark_version: 2.4
 tags: [sentiment, en, pipeline]
 supported: true
+annotator: PipelineModel
 article_header:
-  type: cover
+type: cover
 use_language_switcher: "Python-Scala-Java"
 ---
 
@@ -36,6 +38,14 @@ pipeline = PretrainedPipeline("analyze_sentimentdl_glove_imdb", lang = "en")
 ```scala
 import com.johnsnowlabs.nlp.pretrained.PretrainedPipeline
 val pipeline = new PretrainedPipeline("analyze_sentimentdl_glove_imdb", lang = "en")
+```
+
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("en.sentiment.glove").predict("""Put your text here.""")
 ```
 
 </div>

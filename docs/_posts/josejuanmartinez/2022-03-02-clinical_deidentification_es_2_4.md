@@ -7,7 +7,7 @@ date: 2022-03-02
 tags: [deid, es, licensed]
 task: De-identification
 language: es
-edition: Spark NLP for Healthcare 3.4.1
+edition: Healthcare NLP 3.4.1
 spark_version: 2.4
 supported: true
 article_header:
@@ -20,8 +20,8 @@ use_language_switcher: "Python-Scala-Java"
 This pipeline is trained with sciwiki_300d embeddings and can be used to deidentify PHI information from medical texts in Spanish. The PHI information will be masked and obfuscated in the resulting text. The pipeline can mask, fake or obfuscate the following entities: `AGE`, `DATE`, `PROFESSION`, `E-MAIL`, `USERNAME`, `LOCATION`, `DOCTOR`, `HOSPITAL`, `PATIENT`, `URL`, `IP`, `MEDICALRECORD`, `IDNUM`, `ORGANIZATION`, `PHONE`, `ZIP`, `ACCOUNT`, `SSN`, `PLATE`, `SEX` and `IPADDR`
 
 {:.btn-box}
-<button class="button button-orange" disabled>Live Demo</button>
-<button class="button button-orange" disabled>Open in Colab</button>
+[Live Demo](https://demo.johnsnowlabs.com/healthcare/DEID_PHI_TEXT_MULTI/){:.button.button-orange}
+[Open in Colab](https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/DEID_PHI_TEXT_MULTI.ipynb){:.button.button-orange.button-orange-trans.co.button-icon}
 [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/clinical_deidentification_es_3.4.1_2.4_1646246697330.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
 
 ## How to use
@@ -31,7 +31,7 @@ This pipeline is trained with sciwiki_300d embeddings and can be used to deident
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
 ```python
-from sparknlp.pretrained import PretrainedPipeline
+from johnsnowlabs import *
 
 deid_pipeline = PretrainedPipeline("clinical_deidentification", "es", "clinical/models")
 
@@ -273,7 +273,7 @@ Reinaldo Manjón Malo Barcelona Servicio de Endocrinología y Nutrición Valenci
 |---|---|
 |Model Name:|clinical_deidentification|
 |Type:|pipeline|
-|Compatibility:|Spark NLP for Healthcare 3.4.1+|
+|Compatibility:|Healthcare NLP 3.4.1+|
 |License:|Licensed|
 |Edition:|Official|
 |Language:|es|
@@ -281,20 +281,20 @@ Reinaldo Manjón Malo Barcelona Servicio de Endocrinología y Nutrición Valenci
 
 ## Included Models
 
-- DocumentAssembler
-- SentenceDetectorDLModel
-- TokenizerModel
-- WordEmbeddingsModel
-- MedicalNerModel
-- NerConverter
+- nlp.DocumentAssembler
+- nlp.SentenceDetectorDLModel
+- nlp.TokenizerModel
+- nlp.WordEmbeddingsModel
+- medical.NerModel
+- nlp.NerConverter
 - ContextualParserModel
 - ContextualParserModel
 - ContextualParserModel
 - ContextualParserModel
 - ContextualParserModel
 - ChunkMergeModel
-- DeIdentificationModel
-- DeIdentificationModel
-- DeIdentificationModel
-- DeIdentificationModel
+- medical.DeIdentificationModel
+- medical.DeIdentificationModel
+- medical.DeIdentificationModel
+- medical.DeIdentificationModel
 - Finisher

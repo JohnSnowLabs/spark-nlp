@@ -7,11 +7,12 @@ date: 2021-05-02
 tags: [snomed, icd10cm, en, licensed]
 task: Pipeline Healthcare
 language: en
-edition: Spark NLP for Healthcare 3.0.2
+edition: Healthcare NLP 3.0.2
 spark_version: 3.0
 supported: true
+annotator: PipelineModel
 article_header:
-  type: cover
+type: cover
 use_language_switcher: "Python-Scala-Java"
 ---
 
@@ -40,15 +41,23 @@ import com.johnsnowlabs.nlp.pretrained.PretrainedPipeline
 val pipeline = new PretrainedPipeline("icd10cm_snomed_mapping","en","clinical/models")
 val result = pipeline.annotate('721617001 733187009 109006')
 ```
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("en.map_entity.snomed_to_icd10cm.pipe").predict("""721617001 733187009 109006""")
+```
+
 </div>
 
 ## Results
 
 ```bash
 {'snomed': ['721617001', '733187009', '109006'],
- 'icd10cm': ['K22.70, C15.5',
-  'M89.59, M89.50, M96.89',
-  'F41.9, F40.10, F94.8, F93.0, F40.8, F93.8']}
+'icd10cm': ['K22.70, C15.5',
+'M89.59, M89.50, M96.89',
+'F41.9, F40.10, F94.8, F93.0, F40.8, F93.8']}
 ```
 
 {:.model-param}
@@ -58,7 +67,7 @@ val result = pipeline.annotate('721617001 733187009 109006')
 |---|---|
 |Model Name:|snomed_icd10cm_mapping|
 |Type:|pipeline|
-|Compatibility:|Spark NLP for Healthcare 3.0.2+|
+|Compatibility:|Healthcare NLP 3.0.2+|
 |License:|Licensed|
 |Edition:|Official|
 |Language:|en|

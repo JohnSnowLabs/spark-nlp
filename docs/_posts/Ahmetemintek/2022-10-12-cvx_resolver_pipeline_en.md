@@ -7,9 +7,10 @@ date: 2022-10-12
 tags: [en, licensed, clinical, resolver, chunk_mapping, cvx, pipeline]
 task: Pipeline Healthcare
 language: en
-edition: Spark NLP for Healthcare 4.1.0
+edition: Healthcare NLP 4.2.1
 spark_version: 3.0
 supported: true
+annotator: PipelineModel
 article_header:
   type: cover
 use_language_switcher: "Python-Scala-Java"
@@ -22,7 +23,7 @@ This pretrained pipeline maps entities with their corresponding CVX codes. Youâ€
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>
 <button class="button button-orange" disabled>Open in Colab</button>
-[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/cvx_resolver_pipeline_en_4.1.0_3.0_1665611325640.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
+[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/cvx_resolver_pipeline_en_4.2.1_3.0_1665611325640.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
 
 ## How to use
 
@@ -67,7 +68,7 @@ val result = resolver_pipeline.fullAnnotate("The patient has a history of influe
 |---|---|
 |Model Name:|cvx_resolver_pipeline|
 |Type:|pipeline|
-|Compatibility:|Spark NLP for Healthcare 4.1.0+|
+|Compatibility:|Healthcare NLP 4.2.1+|
 |License:|Licensed|
 |Edition:|Official|
 |Language:|en|

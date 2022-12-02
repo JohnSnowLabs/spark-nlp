@@ -7,11 +7,12 @@ date: 2022-01-03
 tags: [rxnorm, licensed, en, clinical, entity_resolution]
 task: Entity Resolution
 language: en
-edition: Spark NLP for Healthcare 3.3.1
+edition: Healthcare NLP 3.3.1
 spark_version: 2.4
 supported: true
+annotator: SentenceEntityResolverModel
 article_header:
-  type: cover
+type: cover
 use_language_switcher: "Python-Scala-Java"
 ---
 
@@ -30,31 +31,31 @@ This model maps clinical entities and concepts (like drugs/ingredients) to RxNor
 
 ## How to use
 
-
+```sbiobertresolve_rxnorm_augmented``` resolver model must be used with ```sbiobert_base_cased_mli``` as embeddings ```ner_posology``` as NER model. ```DRUG``` set in ```.setWhiteList()```.
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
 ```python
 documentAssembler = DocumentAssembler()\
-      .setInputCol("text")\
-      .setOutputCol("ner_chunk")
+.setInputCol("text")\
+.setOutputCol("ner_chunk")
 
 sbert_embedder = BertSentenceEmbeddings\
-      .pretrained("sbiobert_base_cased_mli", "en","clinical/models")\
-      .setInputCols(["ner_chunk"])\
-      .setOutputCol("sbert_embeddings")
-    
+.pretrained("sbiobert_base_cased_mli", "en","clinical/models")\
+.setInputCols(["ner_chunk"])\
+.setOutputCol("sbert_embeddings")
+
 rxnorm_resolver = SentenceEntityResolverModel\
-      .pretrained("sbiobertresolve_rxnorm_augmented", "en", "clinical/models")\
-      .setInputCols(["ner_chunk", "sbert_embeddings"])\
-      .setOutputCol("rxnorm_code")\
-      .setDistanceFunction("EUCLIDEAN")
+.pretrained("sbiobertresolve_rxnorm_augmented", "en", "clinical/models")\
+.setInputCols(["ner_chunk", "sbert_embeddings"])\
+.setOutputCol("rxnorm_code")\
+.setDistanceFunction("EUCLIDEAN")
 
 rxnorm_pipeline = Pipeline(
-    stages = [
-        documentAssembler,
-        sbert_embedder,
-        rxnorm_resolver])
+stages = [
+documentAssembler,
+sbert_embedder,
+rxnorm_resolver])
 
 light_model = LightPipeline(rxnorm_pipeline)
 
@@ -62,18 +63,18 @@ result = light_model.fullAnnotate(["Coumadin 5 mg", "aspirin", ""avandia 4 mg"])
 ```
 ```scala
 val documentAssembler = DocumentAssembler()
-      .setInputCol("text")
-      .setOutputCol("ner_chunk")
+.setInputCol("text")
+.setOutputCol("ner_chunk")
 
 val sbert_embedder = BertSentenceEmbeddings
-      .pretrained("sbiobert_base_cased_mli", "en","clinical/models")
-      .setInputCols(Array("ner_chunk"))
-      .setOutputCol("sbert_embeddings")
-    
+.pretrained("sbiobert_base_cased_mli", "en","clinical/models")
+.setInputCols(Array("ner_chunk"))
+.setOutputCol("sbert_embeddings")
+
 val rxnorm_resolver = SentenceEntityResolverModel.pretrained("sbiobertresolve_rxnorm_augmented_cased", "en", "clinical/models") \
-      .setInputCols(Array("ner_chunk", "sbert_embeddings")) \
-      .setOutputCol("rxnorm_code")\
-      .setDistanceFunction("EUCLIDEAN")
+.setInputCols(Array("ner_chunk", "sbert_embeddings")) \
+.setOutputCol("rxnorm_code")\
+.setDistanceFunction("EUCLIDEAN")
 
 val rxnorm_pipelineModel = new PipelineModel().setStages(Array(documentAssembler, sbert_embedder, rxnorm_resolver))
 
@@ -81,6 +82,14 @@ val light_model = LightPipeline(rxnorm_pipelineModel)
 
 val result = light_model.fullAnnotate(Array("Coumadin 5 mg", "aspirin", ""avandia 4 mg"))
 ```
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("en.resolve.rxnen.med_ner.deid_subentityorm_augmented").predict("""Coumadin 5 mg""")
+```
+
 </div>
 
 ## Results
@@ -99,7 +108,7 @@ val result = light_model.fullAnnotate(Array("Coumadin 5 mg", "aspirin", ""avandi
 {:.table-model}
 |---|---|
 |Model Name:|sbiobertresolve_rxnorm_augmented|
-|Compatibility:|Spark NLP for Healthcare 3.3.1+|
+|Compatibility:|Healthcare NLP 3.3.1+|
 |License:|Licensed|
 |Edition:|Official|
 |Input Labels:|[sentence_embeddings]|

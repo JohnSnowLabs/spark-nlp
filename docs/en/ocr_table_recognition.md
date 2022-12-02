@@ -14,8 +14,8 @@ sidebar:
 
 ## ImageTableDetector
 
-`ImageTableDetector` is a DL model for detect tables on the image.
-It based on CascadeTabNet which used Cascade mask Region-based CNN High-Resolution Network (Cascade mask R-CNN HRNet).
+`ImageTableDetector` is a DL model for detecting tables on the image.
+It's based on CascadeTabNet which used Cascade mask Region-based CNN High-Resolution Network (Cascade mask R-CNN HRNet).
 
 
 #### Input Columns
@@ -44,7 +44,7 @@ It based on CascadeTabNet which used Cascade mask Region-based CNN High-Resoluti
 
 **Example:**
 
-<div class="tabs-box pt0" markdown="1">
+<div class="tabs-box tabs-new pt0" markdown="1">
 
 {% include programmingLanguageSelectScalaPython.html %}
 
@@ -130,8 +130,8 @@ display_images(data, "image_with_regions")
 
 ## ImageTableCellDetector
 
-`ImageTableCellDetector` detect cells on image with table. It based on
-image processing algorithm by detecting horizontal and vertical lines.
+`ImageTableCellDetector` detect cells in a table image. It's based on an
+image processing algorithm that detects horizontal and vertical lines.
 
 Current implementation support few algorithm for extract cells:
  - ***CellDetectionAlgos.CONTOURS*** works only for bordered tables.
@@ -167,7 +167,7 @@ Current implementation support few algorithm for extract cells:
 
 **Example:**
 
-<div class="tabs-box pt0" markdown="1">
+<div class="tabs-box tabs-new pt0" markdown="1">
 
 {% include programmingLanguageSelectScalaPython.html %}
 
@@ -281,7 +281,7 @@ to _outputCol_ as TableContainer structure.
 
 **Example:**
 
-<div class="tabs-box pt0" markdown="1">
+<div class="tabs-box tabs-new pt0" markdown="1">
 
 {% include programmingLanguageSelectScalaPython.html %}
 

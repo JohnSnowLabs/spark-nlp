@@ -7,11 +7,11 @@ date: 2021-11-23
 tags: [loinc, entity_resolution, clinical, en, licensed]
 task: Entity Resolution
 language: en
-edition: Spark NLP for Healthcare 3.3.2
+edition: Healthcare NLP 3.3.2
 spark_version: 2.4
 supported: true
 article_header:
-  type: cover
+type: cover
 use_language_switcher: "Python-Scala-Java"
 ---
 
@@ -30,49 +30,112 @@ This model maps extracted clinical NER entities to LOINC codes using `sbiobert_b
 
 ## How to use
 
+```sbiobertresolve_loinc_augmented``` resolver model must be used with ```sbiobert_base_cased_mli``` as embeddings ```ner_jsl``` as NER model. ```Test, BMI, HDL, LDL, Medical_Device, Temperature,
+Total_Cholesterol, Triglycerides, Blood_Pressure``` set in ```.setWhiteList()```.
 
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
 ```python
+documentAssembler = DocumentAssembler()\
+.setInputCol("text")\
+.setOutputCol("document")
+
+sentenceDetector = SentenceDetectorDLModel.pretrained("sentence_detector_dl_healthcare","en","clinical/models")\
+.setInputCols("document")\
+.setOutputCol("sentence")
+
+tokenizer = Tokenizer() \
+.setInputCols(["document"]) \
+.setOutputCol("token")
+
+word_embeddings = WordEmbeddingsModel.pretrained('embeddings_clinical','en', 'clinical/models')\
+.setInputCols(["sentence", "token"])\
+.setOutputCol("embeddings")
+
+ner = MedicalNerModel.pretrained("ner_radiology", "en", "clinical/models") \
+.setInputCols(["sentence", "token", "embeddings"]) \
+.setOutputCol("ner")
+
+ner_converter = NerConverter() \
+.setInputCols(["sentence", "token", "ner"]) \
+.setOutputCol("ner_chunk")\
+.setWhiteList(['Test'])
+
 chunk2doc = Chunk2Doc().setInputCols("ner_chunk").setOutputCol("ner_chunk_doc")
 
 sbert_embedder = BertSentenceEmbeddings\
-     .pretrained("sbiobert_base_cased_mli","en","clinical/models")\
-     .setInputCols(["ner_chunk_doc"])\
-     .setOutputCol("sbert_embeddings")
+.pretrained("sbiobert_base_cased_mli","en","clinical/models")\
+.setInputCols(["ner_chunk_doc"])\
+.setOutputCol("sbert_embeddings")
+
 
 resolver = SentenceEntityResolverModel.pretrained("sbiobertresolve_loinc_augmented","en", "clinical/models") \
-     .setInputCols(["ner_chunk", "sbert_embeddings"]) \
-     .setOutputCol("loinc_code")\
-     .setDistanceFunction("EUCLIDEAN")
+.setInputCols(["ner_chunk", "sbert_embeddings"]) \
+.setOutputCol("loinc_code")\
+.setDistanceFunction("EUCLIDEAN")
 
-pipeline_loinc = Pipeline(stages = [documentAssembler, sentenceDetector, tokenizer, stopwords, word_embeddings, clinical_ner, ner_converter, chunk2doc, sbert_embedder, resolver])
+pipeline_loinc = Pipeline(stages = [documentAssembler, sentenceDetector, tokenizer, word_embeddings, ner, ner_converter, chunk2doc, sbert_embedder, resolver])
 
-model = pipeline_loinc.fit(spark.createDataFrame([["""The patient is a 22-year-old female with a history of obesity. She has a Body mass index (BMI) of 33.5 kg/m2, aspartate aminotransferase 64, and alanine aminotransferase 126. Her hgba1c is 8.2%."""]]).toDF("text"))
+data = spark.createDataFrame([["""The patient is a 22-year-old female with a history of obesity. She has a Body mass index (BMI) of 33.5 kg/m2, aspartate aminotransferase 64, and alanine aminotransferase 126. Her hgba1c is 8.2%."""]]).toDF("text")
 
-results = model.transform(data)
+results = pipeline_loinc.fit(data).transform(data)
 ```
 ```scala
-val documentAssembler = DocumentAssembler()\
-      .setInputCol("text")\
-      .setOutputCol("ner_chunk")
+val documentAssembler = DocumentAssembler()
+.setInputCol("text")
+.setOutputCol("document")
 
-val sbert_embedder = BertSentenceEmbeddings.pretrained("sbiobert_base_cased_mli", "en","clinical/models")\
-      .setInputCols("ner_chunk")\
-      .setOutputCol("sbert_embeddings")
-    
-val loinc_resolver = SentenceEntityResolverModel.pretrained("sbiobertresolve_loinc_augmented", "en", "clinical/models") \
-      .setInputCols(Array("ner_chunk", "sbert_embeddings")) \
-      .setOutputCol("loinc_code")\
-      .setDistanceFunction("EUCLIDEAN")
+val sentenceDetector = SentenceDetectorDLModel.pretrained("sentence_detector_dl_healthcare","en","clinical/models")
+.setInputCols("document")
+.setOutputCol("sentence")
 
-val loinc_pipelineModel = new PipelineModel().setStages(Array(documentAssembler, sbert_embedder, loinc_resolver))
+val tokenizer = Tokenizer() 
+.setInputCols(Array("document"))
+.setOutputCol("token")
+
+val word_embeddings = WordEmbeddingsModel.pretrained("embeddings_clinical","en", "clinical/models")
+.setInputCols(Array("sentence", "token"))
+.setOutputCol("embeddings")
+
+val ner = MedicalNerModel.pretrained("ner_radiology", "en", "clinical/models") 
+.setInputCols(Array("sentence", "token", "embeddings")) 
+.setOutputCol("ner")
+
+val ner_converter = NerConverter() 
+.setInputCols(Array("sentence", "token", "ner")) 
+.setOutputCol("ner_chunk")
+.setWhiteList(Array("Test"))
+
+val chunk2doc = Chunk2Doc() 
+.setInputCols("ner_chunk") 
+.setOutputCol("ner_chunk_doc")
+
+val sbert_embedder = BertSentenceEmbeddings
+.pretrained("sbiobert_base_cased_mli", "en","clinical/models")
+.setInputCols(Array("ner_chunk_doc"))
+.setOutputCol("sbert_embeddings")
+
+val resolver = SentenceEntityResolverModel
+.pretrained("sbiobertresolve_loinc_augmented", "en", "clinical/models") 
+.setInputCols(Array("ner_chunk", "sbert_embeddings")) 
+.setOutputCol("loinc_code")
+.setDistanceFunction("EUCLIDEAN")
+
+val pipeline_loinc = new Pipeline().setStages(Array(documentAssembler, sentenceDetector, tokenizer, word_embeddings, ner, ner_converter, chunk2doc, sbert_embedder, resolver))
 
 val data = Seq("The patient is a 22-year-old female with a history of obesity. She has a Body mass index (BMI) of 33.5 kg/m2, aspartate aminotransferase 64, and alanine aminotransferase 126. Her hgba1c is 8.2%.").toDF("text")
 
-val result = pipeline.fit(data).transform(data)
+val result = pipeline_loinc.fit(data).transform(data)
 ```
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("en.resolve.loinc.augmented").predict("""The patient is a 22-year-old female with a history of obesity. She has a Body mass index (BMI) of 33.5 kg/m2, aspartate aminotransferase 64, and alanine aminotransferase 126. Her hgba1c is 8.2%.""")
+```
+
 </div>
 
 ## Results
@@ -96,7 +159,7 @@ val result = pipeline.fit(data).transform(data)
 {:.table-model}
 |---|---|
 |Model Name:|sbiobertresolve_loinc_augmented|
-|Compatibility:|Spark NLP for Healthcare 3.3.2+|
+|Compatibility:|Healthcare NLP 3.3.2+|
 |License:|Licensed|
 |Edition:|Official|
 |Input Labels:|[sentence_embeddings]|

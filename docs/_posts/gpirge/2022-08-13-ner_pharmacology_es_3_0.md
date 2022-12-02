@@ -7,9 +7,10 @@ date: 2022-08-13
 tags: [es, clinical, licensed, ner, pharmacology, proteinas, normalizables]
 task: Named Entity Recognition
 language: es
-edition: Spark NLP for Healthcare 4.0.2
+edition: Healthcare NLP 4.0.2
 spark_version: 3.0
 supported: true
+annotator: MedicalNerModel
 article_header:
   type: cover
 use_language_switcher: "Python-Scala-Java"
@@ -60,7 +61,7 @@ ner_converter = NerConverter()\
 	.setInputCols(["sentence", "token", "ner"])\
 	.setOutputCol("ner_chunk")
 
-pipeline = pipeline(stages=[
+pipeline = Pipeline(stages=[
 	document_assembler,
 	sentenceDetectorDL,
 	tokenizer,
@@ -74,8 +75,8 @@ result = pipeline.fit(data).transform(data)
 ```
 ```scala
 val documenter = new DocumentAssembler() 
-    .setInputCol("text") 
-    .setOutputCol("document")
+  .setInputCol("text") 
+  .setOutputCol("document")
 
 val sentenceDetector = SentenceDetectorDLModel.pretrained()
   .setInputCols("document")
@@ -86,16 +87,16 @@ val tokenizer = new Tokenizer()
   .setOutputCol("token")
 
 val word_embeddings = RoBertaEmbeddings.pretrained("roberta_base_biomedical", "es")
-	.setInputCols(["sentence","token"])
-	.setOutputCol("embeddings")
+  .setInputCols(Array("sentence","token"))
+  .setOutputCol("embeddings")
 
 val ner_model = MedicalNerModel.pretrained("ner_pharmacology", "es", "clinical/models")
-    .setInputCols(Array("sentence", "token", "embeddings"))
-    .setOutputCol("ner")
+  .setInputCols(Array("sentence", "token", "embeddings"))
+  .setOutputCol("ner")
 
 val ner_converter = new NerConverter()
-    .setInputCols(Array("sentence", "token", "ner"))
-    .setOutputCol("ner_chunk")
+  .setInputCols(Array("sentence", "token", "ner"))
+  .setOutputCol("ner_chunk")
 
 val pipeline = new Pipeline().setStages(Array(documenter, sentenceDetector, tokenizer, word_embeddings, ner_model, ner_converter))
 
@@ -132,7 +133,7 @@ val result = pipeline.fit(data).transform(data)
 {:.table-model}
 |---|---|
 |Model Name:|ner_pharmacology|
-|Compatibility:|Spark NLP for Healthcare 4.0.2+|
+|Compatibility:|Healthcare NLP 4.0.2+|
 |License:|Licensed|
 |Edition:|Official|
 |Input Labels:|[sentence, token, embeddings]|

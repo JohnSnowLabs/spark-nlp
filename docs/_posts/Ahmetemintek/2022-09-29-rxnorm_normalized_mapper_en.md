@@ -7,9 +7,10 @@ date: 2022-09-29
 tags: [en, clinical, licensed, rxnorm, chunk_mapping]
 task: Chunk Mapping
 language: en
-edition: Spark NLP for Healthcare 4.1.0
+edition: Healthcare NLP 4.1.0
 spark_version: 3.0
 supported: true
+annotator: ChunkMapperModel
 article_header:
   type: cover
 use_language_switcher: "Python-Scala-Java"
@@ -56,7 +57,7 @@ posology_ner_model = MedicalNerModel.pretrained("ner_posology_greedy", "en", "cl
         .setOutputCol("posology_ner")
 
 posology_ner_converter = NerConverterInternal()\
-        .setInputCols("sentence", "token", "posology_ner")\
+        .setInputCols(["sentence", "token", "posology_ner"])\
         .setOutputCol("ner_chunk")
 
 chunkerMapper = ChunkMapperModel.pretrained("rxnorm_normalized_mapper", "en", "clinical/models")\
@@ -74,41 +75,40 @@ mapper_pipeline = Pipeline().setStages([
         chunkerMapper])
 
 
-test_data = spark.createDataFrame([["The patient was given Zyrtec 10 MG, Adapin 10 MG Oral Capsule, Septi-Soothe 0.5 Topical Spray"]]).toDF("text")
+data = spark.createDataFrame([["The patient was given Zyrtec 10 MG, Adapin 10 MG Oral Capsule, Septi-Soothe 0.5 Topical Spray"]]).toDF("text")
 
-mapper_model = mapper_pipeline.fit(test_data)
+result= mapper_pipeline.fit(data).transform(data)
 
-result= mapper_model.transform(test_data)
 ```
 ```scala
-val document_assembler = new DocumentAssembler()\
-        .setInputCol("text")\
+val document_assembler = new DocumentAssembler()
+        .setInputCol("text")
         .setOutputCol("document")
 
-val sentence_detector = new SentenceDetector()\
-        .setInputCols(["document"])\
+val sentence_detector = new SentenceDetector()
+        .setInputCols(Array("document"))
         .setOutputCol("sentence")
 
-val tokenizer = new Tokenizer()\
-        .setInputCols("sentence")\
+val tokenizer = new Tokenizer()
+        .setInputCols("sentence")
         .setOutputCol("token")
 
-val word_embeddings = WordEmbeddingsModel.pretrained("embeddings_clinical", "en", "clinical/models")\
-        .setInputCols(["sentence", "token"])\
+val word_embeddings = WordEmbeddingsModel.pretrained("embeddings_clinical", "en", "clinical/models")
+        .setInputCols(Array("sentence", "token"))
         .setOutputCol("embeddings")
 
-val posology_ner_model = MedicalNerModel.pretrained("ner_posology_greedy", "en", "clinical/models")\
-        .setInputCols(["sentence", "token", "embeddings"])\
+val posology_ner_model = MedicalNerModel.pretrained("ner_posology_greedy", "en", "clinical/models")
+        .setInputCols(Array("sentence", "token", "embeddings"))
         .setOutputCol("posology_ner")
 
-val posology_ner_converter = new NerConverterInternal()\
-        .setInputCols("sentence", "token", "posology_ner")\
+val posology_ner_converter = new NerConverterInternal()
+        .setInputCols(Array("sentence", "token", "posology_ner"))
         .setOutputCol("ner_chunk")
 
-val chunkerMapper = ChunkMapperModel.pretrained("rxnorm_normalized_mapper", "en", "clinical/models")\
-        .setInputCols(["ner_chunk"])\
-        .setOutputCol("mappings")\
-        .setRels(["rxnorm_code", "normalized_name"])
+val chunkerMapper = ChunkMapperModel.pretrained("rxnorm_normalized_mapper", "en", "clinical/models")
+        .setInputCols(Array("ner_chunk"))
+        .setOutputCol("mappings")
+        .setRels(Array("rxnorm_code", "normalized_name"))
 
 
 val mapper_pipeline = new Pipeline().setStages(Array(
@@ -123,7 +123,7 @@ val mapper_pipeline = new Pipeline().setStages(Array(
 
 val data = Seq("The patient was given Zyrtec 10 MG, Adapin 10 MG Oral Capsule, Septi-Soothe 0.5 Topical Spray").toDS.toDF("text")
 
-val result = pipeline.fit(data).transform(data) 
+val result = mapper_pipeline.fit(data).transform(data) 
 ```
 </div>
 
@@ -145,7 +145,7 @@ val result = pipeline.fit(data).transform(data)
 {:.table-model}
 |---|---|
 |Model Name:|rxnorm_normalized_mapper|
-|Compatibility:|Spark NLP for Healthcare 4.1.0+|
+|Compatibility:|Healthcare NLP 4.1.0+|
 |License:|Licensed|
 |Edition:|Official|
 |Input Labels:|[ner_chunk]|

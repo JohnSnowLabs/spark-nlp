@@ -7,9 +7,10 @@ date: 2022-09-27
 tags: [licensed, clinical, oncology, en, relation_extraction, temporal, test, biomarker, anatomy]
 task: Relation Extraction
 language: en
-edition: Spark NLP for Healthcare 4.0.0
+edition: Healthcare NLP 4.0.0
 spark_version: 3.0
 supported: true
+annotator: RelationExtractionModel
 article_header:
   type: cover
 use_language_switcher: "Python-Scala-Java"
@@ -93,11 +94,11 @@ val document_assembler = new DocumentAssembler()
     .setOutputCol("document")
     
 val sentence_detector = SentenceDetectorDLModel.pretrained("sentence_detector_dl_healthcare","en","clinical/models")
-    .setInputCols("document")
+    .setInputCols(Array("document"))
     .setOutputCol("sentence")
     
 val tokenizer = new Tokenizer()
-    .setInputCols("sentence")
+    .setInputCols(Array("sentence"))
     .setOutputCol("token")
     
 val word_embeddings = WordEmbeddingsModel().pretrained("embeddings_clinical", "en", "clinical/models")
@@ -158,7 +159,7 @@ mastectomy Cancer_Surgery two months ago Relative_Date is_date_of 0.91336143
 |---|---|
 |Model Name:|re_oncology_granular_wip|
 |Type:|re|
-|Compatibility:|Spark NLP for Healthcare 4.0.0+|
+|Compatibility:|Healthcare NLP 4.0.0+|
 |License:|Licensed|
 |Edition:|Official|
 |Input Labels:|[embeddings, pos_tags, train_ner_chunks, dependencies]|

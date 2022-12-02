@@ -8,9 +8,11 @@ language: en
 repository: clinical/models
 date: 2020-09-24
 task: Relation Extraction
-edition: Spark NLP for Healthcare 2.5.5
+edition: Healthcare NLP 2.5.5
+spark_version: 2.4
 tags: [clinical,licensed,relation extraction,en]
 supported: true
+annotator: RelationExtractionModel
 article_header:
    type: cover
 use_language_switcher: "Python-Scala-Java"
@@ -40,6 +42,14 @@ Relation Extraction model based on syntactic features using deep learning. Model
 
 {:.h2_title}
 ## How to use 
+
+In the table below, `re_clinical` RE model, its labels, optimal NER model, and meaningful relation pairs are illustrated.
+
+ |   RE MODEL  | RE MODEL LABES                        |   NER MODEL  | RE PAIRS                  |
+ |:-----------:|----------------------------------------|:------------:|---------------------------|
+ | re_clinical | TrIP,TrWP,TrCP,TrAP,TrAP,TeRP,TeCP,PIP | ner_clinical | [“No need to set pairs.”] |
+
+ 
 
 <div class="tabs-box" markdown="1">
 
@@ -109,22 +119,15 @@ Trained on data gathered and manually annotated by John Snow Labs
 https://portal.dbmi.hms.harvard.edu/projects/n2c2-nlp/
 
 ## Benchmarking
-The model has been validated against the posology dataset described in "Magge, Scotch, & Gonzalez-Hernandez, 2018".
 ```bash
        label  precision  recall  f1-score
- 
            O       0.96    0.93      0.94
         TeRP       0.91    0.94      0.92
          PIP       0.86    0.92      0.89
         TrAP       0.81    0.92      0.86
         TrCP       0.56    0.55      0.55
         TeCP       0.57    0.49      0.53
-        TrWP       0.29    0.02      0.03
-       TrNAP       0.47    0.31      0.37
-        TrIP       0.46    0.28      0.35
-
-    accuracy                         0.88
-   macro avg       0.65    0.59      0.60
-weighted avg       0.87    0.88      0.87 
+    accuracy        -       -        0.88
+   macro-avg       0.65    0.59      0.60
+weighted-avg       0.87    0.88      0.87 
 ```
-Magge, Scotch, Gonzalez-Hernandez (2018) collapsed DRUG-FORM and DRUG-ROUTE into a single relation.

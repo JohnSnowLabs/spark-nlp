@@ -11,626 +11,206 @@ sidebar:
     nav: spark-ocr
 ---
 
-## 3.9.0
+## 4.2.0
 
-Release date: 20-10-2021
-
-#### Overview
-
-Improve visualization and support Spark NLP. 
-
-#### New Features
-
-* Added [HocrTokenizer](ocr_pipeline_components#hocrtokenizer)
-* Added [HocrDocumentAssembler](ocr_pipeline_components#hocrdocumentassembler)
-* Added [ImageDrawAnnotations](ocr_pipeline_components#imagedrawannotations)
-* Added support Arabic language in ImageToText and ImageToHocr
-
-#### Enhancements
-
-* Added postprocessing to the [ImageTableDetector](ocr_table_recognition#imagetabledetector)
-* Added Spark NLP by default to spark session in start function
-* Changed default value for ignoreResolution param in [ImageToText](ocr_pipeline_components#imagetotext)
-* Updated license-validator. Added support floating license and set AWS keys from license.
-* Added 'whiteList' param to the [VisualDocumentNER](ocr_pipeline_components#visualdocumentner)
-
-#### New and updated notebooks
-
-* [Spark OCR HOCR](https://github.com/JohnSnowLabs/spark-ocr-workshop/blob/3.9.0/jupyter/SparkOcrHocr.ipynb)
-* [Visual Document NER](https://github.com/JohnSnowLabs/spark-ocr-workshop/blob/3.9.0/jupyter/SparkOCRVisualDocumentNer.ipynb)
+Release date: 31-10-2022
 
 
-## 3.8.0
+We are glad to announce that Spark OCR 4.2.0 has been released. This is mostly a compatibility release to ensure compatibility of Spark OCR against Spark NLP 4.2.1, and Spark NLP Healthcare 4.2.1.
 
-Release date: 14-09-2021
-
-#### Overview
-
-Support Microsoft PPT and PPTX documents.
+#### Improvements
+* Improved memory consumption and performance in the training of Visual NER models.
 
 #### New Features
+* PdfToForm new param: useFullyQualifiedName, added capability to return fully qualified key names.
 
-* Added [PptToPdf](ocr_pipeline_components#ppttopdf) transformer for convert PPT and PPTX slides to the PDF document.
-* Added [PptToTextTable](ocr_pipeline_components#ppttotexttable) transformer for extract tables from PPT and PPTX slides.
-
-
-#### New and updated notebooks
-
-* [Convert PPT to PDF](https://github.com/JohnSnowLabs/spark-ocr-workshop/blob/3.8.0/jupyter/SparkOcrPptToPdf.ipynb) (New)
-* [Extract tables from PPT](https://github.com/JohnSnowLabs/spark-ocr-workshop/blob/3.8.0/jupyter/SparkOcrPptToTextTable.ipynb) (New)
+#### New or Updated Notebooks
+* [SparkOcrProcessMultiplepageScannedPDF.ipynb](https://github.com/JohnSnowLabs/spark-ocr-workshop/blob/master/jupyter/SparkOcrProcessMultiplepageScannedPDF.ipynb) has been added to show how to serve a multi-page document processing pipeline.
+* [SparkOcrDigitalFormRecognition.ipynb](https://github.com/JohnSnowLabs/spark-ocr-workshop/blob/4.2.0-release-candidate/jupyter/FormRecognition/SparkOcrDigitalFormRecognition.ipynb) has been updated to show utilization of useFullyQualifiedName parameter.
 
 
-## 3.7.0
 
-Release date: 30-08-2021
+## 4.1.0
+
+Release date: 22-09-2022
 
 #### Overview
 
-Improve table recognition and render OCR results to the PDF with original image
-
-
-#### New Features
-
-* Added [ImageToTextPdf](ocr_pipeline_components#imagetotextpdf) transformer for store recognized text to the searchable
-PDF with original image
-* Added [PdfAssembler](ocr_pipeline_components#pdfassembler) for assemble multipage PDF document from single page PDF
-documents
-
-
-#### Enhancements
-
-* Added support dbfs for store models. This allow to use models on Databricks.
-* Improved [ImageTableCellDetector](ocr_table_recognition#imagetablecelldetector) algorithms
-* Added params for tune [ImageTableCellDetector](ocr_table_recognition#imagetablecelldetector) algorithms
-* Added possibility to render detected lines to the original image in [ImageTableCellDetector](ocr_table_recognition#imagetablecelldetector)
-* Added support store recognized results to CSV in [ImageCellsToTextTable](ocr_table_recognition#imagecellstotexttable)
-* Added [display_table](ocr_structures#displaytable) and [display_tables](ocr_structures#displaytables) functions
-* Added [display_pdf_file](ocr_structures#displaypdffile) function for display pdf in embedded pdf viewer
-* Updated license validator
-
-
-#### New and updated notebooks
-
-* [Process multiple page scanned PDF](https://github.com/JohnSnowLabs/spark-ocr-workshop/blob/3.7.0/jupyter/SparkOcrProcessMultiplepageScannedPDF.ipynb) (New)
-* [Image Table Detection example](https://github.com/JohnSnowLabs/spark-ocr-workshop/blob/3.7.0/jupyter/SparkOcrImageTableDetection.ipynb)
-* [Image Cell Recognition example](https://github.com/JohnSnowLabs/spark-ocr-workshop/blob/3.7.0/jupyter/SparkOcrImageTableCellRecognition.ipynb)
-* [Image Table Recognition](https://github.com/JohnSnowLabs/spark-ocr-workshop/blob/3.7.0/jupyter/SparkOcrImageTableRecognition.ipynb)
-* [Tables Recognition from PDF](https://github.com/JohnSnowLabs/spark-ocr-workshop/blob/3.7.0/jupyter/SparkOcrImageTableRecognitionPdf.ipynb)
-
-
-
-## 3.6.0
-
-Release date: 05-08-2021
-
-#### Overview
-
-Handwritten detection and improve visualization.
-
-
-#### New Features
-
-* Added [ImageHandwrittenDetector](ocr_object_detection#imagehandwrittendetector) for detect 'signature', 'date', 'name',
- 'title', 'address' and others handwritten text.
-* Added rendering labels and scores in [ImageDrawRegions](ocr_pipeline_components#imagedrawregions).
-* Added possibility to scale image to fixed size in [ImageScaler](ocr_pipeline_components#imagescaler)
- with keeping original ratio.
-
-
-#### Enhancements
-
-* Support new version of pip for installing python package
-* Added support string labels for detectors
-* Added an auto inferencing of the input shape for detector models
-* New license validator
-
-
-#### Bugfixes
-
-* Fixed display BGR images in display functions
-
-
-#### New and updated notebooks
-
-* [Image Signature Detection example](https://github.com/JohnSnowLabs/spark-ocr-workshop/blob/3.6.0/jupyter/SparkOcrImageSignatureDetection.ipynb)
-* [Image Handwritten Detection example](https://github.com/JohnSnowLabs/spark-ocr-workshop/blob/3.6.0/jupyter/SparkOcrImageHandwrittenDetection.ipynb)
-* [Image Scaler example](https://github.com/JohnSnowLabs/spark-ocr-workshop/blob/3.6.0/jupyter/SparkOcrImageScaler.ipynb)
-
-
-## 3.5.0
-
-Release date: 15-07-2021
-
-#### Overview
-
-Improve table detection and table recognition.
-
-More details please read in [Extract Tabular Data from PDF in Spark OCR](https://medium.com/spark-nlp/extract-tabular-data-from-pdf-in-spark-ocr-b02136bc0fcb)
-
-
-#### New Features
-
-* Added new method to [ImageTableCellDetector](ocr_table_recognition#imagetablecelldetector) which support 
-borderless tables and combined tables.
-* Added __Wolf__ and __Singh__ adaptive binarization methods to the [ImageAdaptiveThresholding](ocr_pipeline_components#imageadaptivethresholding).
-
-
-#### Enhancements
-
-* Added possibility to use different type of images as input for [ImageTableDetector](ocr_table_recognition#imagetabledetector).
-* Added [display_pdf](ocr_structures#displaypdf) and [display_images_horizontal](ocr_structures#displayimageshorizontal) util functions.
-
-#### New notebooks
-
-* [Tables Recognition from PDF](https://github.com/JohnSnowLabs/spark-ocr-workshop/blob/3.5.0/jupyter/SparkOcrImageTableRecognitionPdf.ipynb)
-* [Pdf de-identification on Databricks](https://github.com/JohnSnowLabs/spark-ocr-workshop/blob/3.5.0/databricks/python/SparkOcrDeIdentification.ipynb)
-* [Dicom de-identification on Databricks](https://github.com/JohnSnowLabs/spark-ocr-workshop/blob/3.5.0/databricks/python/SparkOCRDeIdentificationDicom.ipynb)
-
-
-## 3.4.0
-
-Release date: 30-06-2021
-
-#### Overview
-
-Signature Detection in image-based documents.
-
-More details please read in [Signature Detection in Spark OCR](https://medium.com/spark-nlp/signature-detection-in-spark-ocr-32f9e6f91e3c)
-
-#### New Features
-
-* [ImageSignatureDetector](ocr_object_detection#imagehandwrittendetector) is a DL model for detect signature on the image.
-
-
-#### New notebooks
-
-* [Image Signature Detection example](https://github.com/JohnSnowLabs/spark-ocr-workshop/blob/3.4.0/jupyter/SparkOcrImageSignatureDetection.ipynb)
-
-
-## 3.3.0
-
-Release date: 14-06-2021
-
-#### Overview
-
-Table detection and recognition for scanned documents.
-
-For table detection we added ___ImageTableDetector___. 
-It based on __CascadeTabNet__ which used _Cascade mask Region-based CNN High-Resolution Network_ (Cascade mask R-CNN HRNet).
-Model was pre-trained on the __COCO dataset__ and fine tuned on __ICDAR 2019__ competitions dataset for table detection. It demonstrates state of the art results for ICDAR 2013 and TableBank. And top results for ICDAR 2019.
-
-More details please read in [Table Detection & Extraction in Spark OCR](https://medium.com/spark-nlp/table-detection-extraction-in-spark-ocr-50765c6cedc9)
-
-#### New Features
-
-* [ImageTableDetector](ocr_table_recognition#imagetabledetector) is a DL model for detect tables on the image.
-* [ImageTableCellDetector](ocr_table_recognition#imagetablecelldetector) is a transformer for detect regions of cells in the table image.
-* [ImageCellsToTextTable](ocr_table_recognition#imagecellstotexttable) is a transformer for extract text from the detected cells.
-
-#### New notebooks
-
-* [Image Table Detection example](https://github.com/JohnSnowLabs/spark-ocr-workshop/blob/3.3.0/jupyter/SparkOcrImageTableDetection.ipynb)
-* [Image Cell Recognition example](https://github.com/JohnSnowLabs/spark-ocr-workshop/blob/3.3.0/jupyter/SparkOcrImageTableCellRecognition.ipynb)
-* [Image Table Recognition](https://github.com/JohnSnowLabs/spark-ocr-workshop/blob/3.3.0/jupyter/SparkOcrImageTableRecognition.ipynb)
-
-
-## 3.2.0
-
-Release date: 28-05-2021
-
-#### Overview
-
-Multi-modal visual document understanding, built on the LayoutLM architecture.
-It achieves new state-of-the-art accuracy in several downstream tasks,
-including form understanding and receipt understanding.
-
-
-#### New Features
-
-* [VisualDocumentNER](ocr_pipeline_components#visualdocumentner) is a DL model for NER problem using text and layout data.
-  Currently available pre-trained model on the SROIE dataset.
-
-
-#### Enhancements
-
-* Added support `SPARK_OCR_LICENSE` env key for read license.
-* Update dependencies and sync Spark versions with Spark NLP.
-
-
-#### Bugfixes
-
-* Fixed an issue that some ImageReaderSpi plugins are unavailable in the fat jar.
-
-#### New notebooks
-
-* [Visual Document NER](https://github.com/JohnSnowLabs/spark-ocr-workshop/blob/3.2.0/jupyter/SparkOCRVisualDocumentNer.ipynb)
-
-
-
-## 3.1.0
-
-Release date: 16-04-2021
-
-#### Overview
-
-Image processing on GPU. It is in 3..5 times faster than on CPU.
-
-More details please read in [GPU image preprocessing in Spark OCR](https://medium.com/spark-nlp/gpu-image-pre-processing-in-spark-ocr-3-1-0-6fc27560a9bb)
-
-
-#### New Features
-
-* [GPUImageTransformer](ocr_pipeline_components#gpuimagetransformer) with support: scaling, erosion, delation, Otsu and Huang thresholding.
-* Added [display_images](ocr_structures#displayimages) util function for display images from Spark DataFrame in Jupyter notebooks.
-
-#### Enhancements
-
-* Improve [display_image](ocr_structures#displayimage) util function.
-
-#### Bug fixes
-
-* Fixed issue with extra dependencies in [start](ocr_install#using-start-function) function
-
-#### New notebooks
-
-* [GPU image processing](https://github.com/JohnSnowLabs/spark-ocr-workshop/blob/3.1.0/jupyter/SparkOCRGPUOperations.ipynb)
-
-
-
-## 3.0.0
-
-Release date: 02-04-2021
-
-#### Overview
-
-We are very excited to release Spark OCR 3.0.0!
-
-Spark OCR 3.0.0 extends the support for Apache Spark 3.0.x and 3.1.x major releases on Scala 2.12 with both Hadoop 2.7. and 3.2. We will support all 4 major Apache Spark and PySpark releases of 2.3.x, 2.4.x, 3.0.x, and 3.1.x.
-
-Spark OCR started to support Tensorflow models. First model is [VisualDocumentClassifier](ocr_pipeline_components#visualdocumentclassifier).
-
-#### New Features
-
-* Support for Apache Spark and PySpark 3.0.x on Scala 2.12
-* Support for Apache Spark and PySpark 3.1.x on Scala 2.12
-* Support 9x new Databricks runtimes:
-  * Databricks 7.3
-  * Databricks 7.3 ML GPU
-  * Databricks 7.4
-  * Databricks 7.4 ML GPU
-  * Databricks 7.5
-  * Databricks 7.5 ML GPU
-  * Databricks 7.6
-  * Databricks 7.6 ML GPU
-  * Databricks 8.0
-  * Databricks 8.0 ML (there is no GPU in 8.0)
-  * Databricks 8.1
-* Support 2x new EMR 6.x: 
-  * EMR 6.1.0 (Apache Spark 3.0.0 / Hadoop 3.2.1)
-  * EMR 6.2.0 (Apache Spark 3.0.1 / Hadoop 3.2.1)
-* [VisualDocumentClassifier](ocr_pipeline_components#visualdocumentclassifier) model for classification documents using text and layout data.
-* Added support Vietnamese language.
-
-#### New notebooks
-
-* [Visual Document Classifier](https://github.com/JohnSnowLabs/spark-ocr-workshop/blob/master/jupyter/SparkOCRVisualDocumentClassifier.ipynb)
-
-
-
-## 1.11.0
-
-Release date: 25-02-2021
-
-#### Overview
-
-Support German, French, Spanish and Russian languages.
-Improving [PositionsFinder](ocr_pipeline_components#positionsfinder) and ImageToText for better support de-identification.
-
-#### New Features
-
-* Loading model data from S3 in [ImageToText](ocr_pipeline_components#imagetotext).
-* Added support German, French, Spanish, Russian languages in [ImageToText](ocr_pipeline_components#imagetotext).
-* Added different OCR model types: Base, Best, Fast in [ImageToText](ocr_pipeline_components#imagetotext).
-
-#### Enhancements
-
-* Added spaces symbols to the output positions in the [ImageToText](ocr_pipeline_components#imagetotext) transformer.
-* Eliminate python-levensthein from dependencies for simplify installation.
-
-#### Bugfixes
-
-* Fixed issue with extracting coordinates in  in [ImageToText](ocr_pipeline_components#imagetotext).
-* Fixed loading model data on cluster in yarn mode.
-
-#### New notebooks
-
-* [Languages Support](https://github.com/JohnSnowLabs/spark-ocr-workshop/blob/1.11.0/jupyter/SparkOcrLanguagesSupport.ipynb)
-* [Image DeIdentification](https://github.com/JohnSnowLabs/spark-ocr-workshop/blob/1.11.0/jupyter/SparkOcrImageDeIdentification.ipynb)
-
-
-## 1.10.0
-
-Release date: 20-01-2021
-
-#### Overview
-
-Support Microsoft Docx documents.
-
-#### New Features
-
-* Added [DocToText](ocr_pipeline_components#doctotext) transformer for extract text
-from DOCX documents.
-* Added [DocToTextTable](ocr_pipeline_components#doctotexttable) transformer for extract
-table data from DOCX documents.
-* Added [DocToPdf](ocr_pipeline_components#doctopdf) transformer for convert DOCX
- documents to PDF format.
-
-#### Bugfixes
-
-* Fixed issue with loading model data on some cluster configurations
-
-
-
-## 1.9.0
-
-Release date: 11-12-2020
-
-#### Overview
-
-Extension of  FoundationOne report parser and support HOCR output format.
-
-#### New Features
-
-* Added [ImageToHocr](ocr_pipeline_components#imagetohocr) transformer for recognize text from image and store it to HOCR format.
-* Added parsing gene lists from 'Appendix' in [FoundationOneReportParser](ocr_pipeline_components#foundationonereportparser) transformer.
-
-
-## 1.8.0
-
-Release date: 20-11-2020
-
-#### Overview
-
-Optimisation performance for processing multipage PDF documents.
-Support up to 10k pages per document.
-
-#### New Features
-
-* Added [ImageAdaptiveBinarizer](ocr_pipeline_components#imageadaptivebinarizer) Scala transformer with support:
-    - Gaussian local thresholding
-    - Otsu thresholding
-    - Sauvola local thresholding
-* Added possibility to split pdf to small documents for optimize processing in [PdfToImage](ocr_pipeline_components#pdftoimage).
-
-
-#### Enhancements
-
-* Added applying binarization in [PdfToImage](ocr_pipeline_components#pdftoimage) for optimize memory usage.
-* Added `pdfCoordinates` param to the [ImageToText](ocr_pipeline_components#imagetotext) transformer.
-* Added 'total_pages' field to the [PdfToImage](ocr_pipeline_components#pdftoimage) transformer.
-* Added different splitting strategies to the [PdfToImage](ocr_pipeline_components#pdftoimage) transformer.
-* Simplified paging [PdfToImage](ocr_pipeline_components#pdftoimage) when run it with splitting to small PDF.
-* Added params to the [PdfToText](ocr_pipeline_components#pdftotext) for disable extra functionality.
-* Added `master_url` param to the python [start](ocr_install#using-start-function) function.
-
-
-## 1.7.0
-
-Release date: 22-09-2020
-
-#### Overview
-
-Support Spark 2.3.3.
-
-#### Bugfixes
-
-* Restored read JPEG2000 image
-
-
-## 1.6.0
-
-Release date: 05-09-2020
-
-#### Overview
-
-Support parsing data from tables for selectable PDFs.
-
-
-#### New Features
-
-* Added [PdfToTextTable](ocr_pipeline_components#pdftotexttable) transformer for extract tables from Pdf document per each page.
-* Added [ImageCropper](ocr_pipeline_components#imagecropper) transformer for crop images.
-* Added [ImageBrandsToText](ocr_pipeline_components#imagebrandstotext) transformer for detect text in defined areas.
-
-
-## 1.5.0
-
-Release date: 22-07-2020
-
-#### Overview
-
-FoundationOne report parsing support.
-
-#### Enhancements
-
-* Optimized memory usage during image processing
-
-
-#### New Features
-
-* Added [FoundationOneReportParser](ocr_pipeline_components#foundationonereportparser) which support parsing patient info,
-genomic and biomarker findings.
-
-
-## 1.4.0
-
-Release date: 23-06-2020
-
-#### Overview
-
-Added support Dicom format and improved support image morphological operations.
-
-#### Enhancements
-
-* Updated [start](ocr_install#using-start-function) function. Improved support Spark NLP internal.
-* `ImageMorphologyOpening` and `ImageErosion` are removed.
-* Improved existing transformers for support de-identification Dicom documents.
-* Added possibility to draw filled rectangles to [ImageDrawRegions](ocr_pipeline_components#imagedrawregions).
-
-#### New Features
-
-* Support reading and writing Dicom documents.
-* Added [ImageMorphologyOperation](ocr_pipeline_components#imagemorphologyoperation) transformer which support:
- erosion, dilation, opening and closing operations.
+We are glad to announce that Spark OCR 4.1.0 has been released!
+This release comes with new features, enhancements, fixes and more!.
  
-#### Bugfixes
-
-* Fixed issue in [ImageToText](ocr_pipeline_components#imagetotext) related to extraction coordinates.
-
-
-## 1.3.0
-
-Release date: 22-05-2020
-
-#### Overview
-
-New functionality for de-identification problem.
-
-#### Enhancements
-
-* Renamed TesseractOCR to ImageToText. 
-* Simplified installation.
-* Added check license from `SPARK_NLP_LICENSE` env varibale.
 
 #### New Features
+* DicomSplitter: new annotator that helps to distribute and split Dicom files into multiple frames. It supports multiple strategies, similar to our PdfToImage annotator. It enables parallel processing of different frames and keeps memory utilization bounded. For big datasets, or memory constrained environments, it enables Streaming Mode to process frames 1-by-1, resulting in very low memory requirements.
 
-* Support storing for binaryFormat. Added support storing Image and PDF files.
-* Support selectable pdf for [TextToPdf](ocr_pipeline_components#texttopdf) transformer.
-* Added [UpdateTextPosition](ocr_pipeline_components#updatetextposition) transformer.
+* DicomToImageV2: new annotator that supports loading images from Dicom files/frames, without loading Dicom files into memory. Targeted to datasets containing big Dicom files.
+* This is an example on how to use the two above mentioned annotators to process images, coming from your big Dicom files in a memory constrained setting,
 
-
-## 1.2.0
-
-Release date: 08-04-2020
+```
+        splitter = DicomSplitter()
 
 
-#### Overview
+        splitter.setInputCol("path")
+        splitter.setOutputCol("frames")
+        splitter.setSplitNumBatch(2)
+        splitter.setPartitionNum(2)
 
-Improved support Databricks and processing selectable pdfs.
+        dicom = DicomToImageV2()
+        dicom.setInputCols(["path", "frames"])
+        dicom.setOutputCol("image")
 
-#### Enhancements
-
-* Adapted Spark OCR for run on Databricks.
-* Added rewriting positions in [ImageToText](ocr_pipeline_components#imagetotext) when run together with PdfToText.
-* Added 'positionsCol' param to [ImageToText](ocr_pipeline_components#imagetotext).
-* Improved support Spark NLP. Changed [start](/ocr_install#using-start-function) function.
-
-#### New Features
-
-* Added [showImage](ocr_structures#showimages) implicit to Dataframe for display images in Scala Databricks notebooks.
-* Added [display_images](ocr_structures#display_images) function for display images in Python Databricks notebooks.
-* Added propagation selectable pdf file in [TextToPdf](ocr_pipeline_components#texttopdf). Added 'inputContent' param to 'TextToPdf'.
+        pipeline = PipelineModel(stages=[
+            splitter,
+            dicom
+        ])
+```
 
 
-## 1.1.2
+* New image pre-processing annotators: ImageHomogenizeLight, ImageRemoveBackground, ImageEnhanceContrast, ImageRemoveGlare. For examples on how to use them, and their amazing results check this notebook: [SparkOcrImagePreprocessing.ipynb](https://github.com/JohnSnowLabs/spark-ocr-workshop/blob/master/jupyter/SparkOcrImagePreprocessing.ipynb).
+ 
 
-Release date: 09-03-2020
-
-#### Overview
-
-Minor improvements and fixes
-
-#### Enhancements
-
-* Improved messages during license validation
-
-#### Bugfixes
-
-* Fixed dependencies issue
+#### Improvements
+* VisualDocumentClassifierV2 training has been improved for more efficient memory utilization.
+* Library dependencies have been updated to remove security vulnerabilities.
 
 
-## 1.1.1
+#### Bug Fixes
+* The infamous "ImportError: No module named resource" bug that was affecting Windows users has been fixed.
+* Some issues while loading images using AlabReader have been fixed.
 
-Release date: 06-03-2020
+
+## 4.0.2
+
+Release date: 12-09-2022
 
 #### Overview
 
-Integration with license server.
-
-#### Enhancements
-
-* Added license validation. License can be set in following waysq:
-  - Environment variable. Set variable 'JSL_OCR_LICENSE'.
-  - System property. Set property 'jsl.sparkocr.settings.license'.
-  - Application.conf file. Set property 'jsl.sparkocr.settings.license'.
-* Added auto renew license using jsl license server.
-
-
-## 1.1.0
-
-Release date: 03-03-2020
-
-#### Overview
-
-This release contains improvements for preprocessing image before run OCR and
-added possibility to store results to PDF for keep original formatting.
+We are glad to announce that Spark OCR 4.0.2 has been released!
+This release comes with new features, fixes and more!.
 
 
 #### New Features
 
-* Added auto calculation maximum size of objects for removing in `ImageRemoveObjects`.
-  This improvement avoids to remove `.` and affect symbols with dots (`i`, `!`, `?`).
-  Added `minSizeFont` param to `ImageRemoveObjects` transformer for
-  activate this functional.
-* Added `ocrParams` parameter to `ImageToText` transformer for set any
-  ocr params.
-* Added extraction font size in `ImageToText`
-* Added `TextToPdf` transformer for render text with positions to pdf file.
+* VisualDocumentClassifierV2 is now trainable! Continuing with the effort to make all the most useful models easily trainable, we added training capabilities to this annotator.
+* Added support for Simplified Chinese.
+* Added new 'PdfToForm' annotator, capable of extracting forms from digital PDFs. This is different from previously introduced VisualDocumentNER annotator in that this new annotator works only on digital documents, as opposite to the scanned forms handled by VisualDocumentNER. PdfToForm is complementary to VisualDocumentNER.
+ 
 
+#### Improvements
 
-#### Enhancements
+* Support for multi-frame dicom has been added.
+* Added the missing load()​ method in ImageToTextV2.
 
-* Added setting resolution in `ImageToText`. And added `ignoreResolution` param with
-  default `true` value to `ImageToText` transformer for back compatibility.
-* Added parsing resolution from image metadata in `BinaryToImage` transformer.
-* Added storing resolution in `PrfToImage` transformer.
-* Added resolution field to Image schema.
-* Updated 'start' function for set 'PYSPARK_PYTHON' env variable.
-* Improve auto-scaling/skew correction:
-   - improved access to images values
-   - removing unnecessary copies of images
-   - adding more test cases
-   - improving auto-correlation in auto-scaling.
+ 
 
+#### New Notebooks
 
-## 1.0.0
+* We added two new notebooks for VisualDocumentClassifierV2, a [preprocessing notebook](https://github.com/JohnSnowLabs/spark-ocr-workshop/blob/master/jupyter/VisualDocumentClassifierTraining/Spark-ocr%20visual%20doc%20classifier%20v2%20preprocessing%20on%20databricks.ipynb), useful when you're dealing with large datasets, and a [fine-tuning notebook](https://github.com/JohnSnowLabs/spark-ocr-workshop/blob/master/jupyter/VisualDocumentClassifierTraining/SparkOCRVisualDocumentClassifierv2Training.ipynb).
+* We added a [new sample notebook](https://github.com/JohnSnowLabs/spark-ocr-workshop/blob/master/jupyter/FormRecognition/SparkOcrDigitalFormRecognition.ipynb) showing how to extract forms from digital PDF documents.
+* We added a [new sample notebook](https://github.com/JohnSnowLabs/spark-ocr-workshop/blob/master/jupyter/TextRecognition/SparkOcrImageToText-Chinese.ipynb) explaining how to use Simplified Chinese OCR.
 
-Release date: 12-02-2020
+ 
+
+## 4.0.0
+
+Release date: 16-07-2022
 
 #### Overview
 
-Spark NLP OCR functionality was reimplemented as set of Spark ML transformers and
-moved to separate Spark OCR library.
+We are very glad to announce that Spark OCR 4.0.0 has been released!
+This release comes with new models, new functionality, bug fixes, and compatibility with 4.0.0 versions of Spark NLP and Spark NLP for Healthcare.
 
+#### New Features
+* New DicomMetadataDeidentifier class to help deidentifying metadata of dicom files. Example Notebook.
+* New helper function display_dicom() to help displaying DICOM files in notebooks.
+* New DicomDrawRegions that can clean burned pixels for removing PHI.
+* Improved support for DICOM files containing 12bit images.
+
+#### Bug Fixes
+* Fixes on the Visual NER Finetuning process including VisualDocumentNERv2 and AlabReader.
+* Improved exception handling for VisualDocumentClassifier models.
+
+#### New Models
+* New LayoutLMv3 based Visual Document NER: layoutlmv3_finetuned_funsd.
+* Improved handwritten detection ocr_base_handwritten_v2.
+* VisualDocumentClassifierV2: layoutlmv2_rvl_cdip_40k. This model adds more data compared to layoutlmv2_rvl_cdip_1500, and achieves an accuracy of 88%.
+
+#### Compatibility Updates
+* Deprecated Spark 2.3 and Spark 2.4 support.
+* Tested compatibility with Spark-NLP and Spark NLP for Healthcare 4.0.0.
+
+
+## 3.14.0
+
+Release date: 13-06-2022
+
+#### Overview
+
+We are glad to announce that Spark OCR 3.14.0 has been released!.
+This release focuses around Visual Document Classification models, native Image Preprocessing on the JVM, and bug fixes.
 
 #### New Features
 
-* Added extraction coordinates of each symbol in ImageToText
-* Added ImageDrawRegions transformer
-* Added ImageToPdf transformer
-* Added ImageMorphologyOpening transformer
-* Added ImageRemoveObjects transformer
-* Added ImageAdaptiveThresholding transformer
+* VisualDocumentClassifierv2:
+  * New annotator for classifying documents based on multimodal(text + images) features.
+  
+* VisualDocumentClassifierv3: 
+  * New annotator for classifying documents based on image features.
+ 
+* ImageTransformer:
+  * New transformer that provides different image transformations on the JVM. Supported transforms are Scaling, Adaptive Thresholding, Median Blur, Dilation, Erosion, and Object Removal.
 
 
-#### Enhancements
+#### New notebooks
 
-* Reimplement main functionality as Spark ML transformers
-* Moved DrawRectangle functionality to PdfDrawRegions transformer
-* Added 'start' function with support SparkMonitor initialization
-* Moved PositionFinder to Spark OCR
++ [SparkOCRVisualDocumentClassifierv2.ipynb](https://github.com/JohnSnowLabs/spark-ocr-workshop/blob/3.14.0-release-candidate/jupyter/SparkOCRVisualDocumentClassifierv2.ipynb), example of Visual Document Classification using multimodal (text + visual) features.
++ [SparkOCRVisualDocumentClassifierv3.ipynb](https://github.com/JohnSnowLabs/spark-ocr-workshop/blob/3.14.0-release-candidate/jupyter/SparkOCRVisualDocumentClassifierv3.ipynb), example of Visual Document Classification using only visual features.
++ [SparkOCRCPUImageOperations.ipynb](https://github.com/JohnSnowLabs/spark-ocr-workshop/blob/3.14.0-release-candidate/jupyter/SparkOCRCPUImageOperations.ipynb), example of ImageTransformer.
 
 
-#### Bugfixes
+<div class="prev_ver h3-box" markdown="1">
 
-* Fixed bug with transforming complex pdf to image
+## Previous versions
+
+</div>
+
+<ul class="pagination">
+    <li>
+        <a href="spark_ocr_versions/release_notes_3_13_0">Versions 3.13.0</a>
+    </li>
+    <li>
+        <strong>Versions 3.14.0</strong>
+    </li>
+</ul>
+<ul class="pagination owl-carousel pagination_big">
+  <li class="active"><a href="spark_ocr_versions/release_notes_3_14_0">3.14.0</a></li>
+  <li><a href="spark_ocr_versions/release_notes_3_13_0">3.13.0</a></li>
+  <li><a href="spark_ocr_versions/release_notes_3_12_0">3.12.0</a></li>
+  <li><a href="spark_ocr_versions/release_notes_3_11_0">3.11.0</a></li>
+  <li><a href="spark_ocr_versions/release_notes_3_10_0">3.10.0</a></li>
+  <li><a href="spark_ocr_versions/release_notes_3_9_1">3.9.1</a></li>
+  <li><a href="spark_ocr_versions/release_notes_3_9_0">3.9.0</a></li>
+  <li><a href="spark_ocr_versions/release_notes_3_8_0">3.8.0</a></li>
+  <li><a href="spark_ocr_versions/release_notes_3_7_0">3.7.0</a></li>
+  <li><a href="spark_ocr_versions/release_notes_3_6_0">3.6.0</a></li>
+  <li><a href="spark_ocr_versions/release_notes_3_5_0">3.5.0</a></li>
+  <li><a href="spark_ocr_versions/release_notes_3_4_0">3.4.0</a></li>
+  <li><a href="spark_ocr_versions/release_notes_3_3_0">3.3.0</a></li>
+  <li><a href="spark_ocr_versions/release_notes_3_2_0">3.2.0</a></li>
+  <li><a href="spark_ocr_versions/release_notes_3_1_0">3.1.0</a></li>
+  <li><a href="spark_ocr_versions/release_notes_3_0_0">3.0.0</a></li>
+  <li><a href="spark_ocr_versions/release_notes_1_11_0">1.11.0</a></li>
+  <li><a href="spark_ocr_versions/release_notes_1_10_0">1.10.0</a></li>
+  <li><a href="spark_ocr_versions/release_notes_1_9_0">1.9.0</a></li>
+  <li><a href="spark_ocr_versions/release_notes_1_8_0">1.8.0</a></li>
+  <li><a href="spark_ocr_versions/release_notes_1_7_0">1.7.0</a></li>
+  <li><a href="spark_ocr_versions/release_notes_1_6_0">1.6.0</a></li>
+  <li><a href="spark_ocr_versions/release_notes_1_5_0">1.5.0</a></li>
+  <li><a href="spark_ocr_versions/release_notes_1_4_0">1.4.0</a></li>
+  <li><a href="spark_ocr_versions/release_notes_1_3_0">1.3.0</a></li>
+  <li><a href="spark_ocr_versions/release_notes_1_2_0">1.2.0</a></li>
+  <li><a href="spark_ocr_versions/release_notes_1_1_2">1.1.2</a></li>
+  <li><a href="spark_ocr_versions/release_notes_1_1_1">1.1.1</a></li>
+  <li><a href="spark_ocr_versions/release_notes_1_1_0">1.1.0</a></li>
+  <li><a href="spark_ocr_versions/release_notes_1_0_0">1.0.0</a></li>
+</ul>

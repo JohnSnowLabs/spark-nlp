@@ -7,11 +7,11 @@ date: 2021-05-25
 tags: [icd10cm, licensed, slim, en]
 task: Entity Resolution
 language: en
-edition: Spark NLP for Healthcare 3.0.3
+edition: Healthcare NLP 3.0.3
 spark_version: 3.0
 supported: true
 article_header:
-  type: cover
+type: cover
 use_language_switcher: "Python-Scala-Java"
 ---
 
@@ -26,7 +26,7 @@ Outputs 7-digit billable ICD codes. In the result, look for aux_label parameter 
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>
 [Open in Colab](https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/24.Improved_Entity_Resolvers_in_SparkNLP_with_sBert.ipynb){:.button.button-orange.button-orange-trans.co.button-icon}
-[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/sbertresolve_icd10cm_slim_billable_hcc_med_en_3.0.3_3.0_1621977523869.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
+[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/sbertresolve_icd10cm_slim_billable_hcc_med_en_3.0.3_2.4_1621977523869.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
 
 ## How to use
 
@@ -36,37 +36,48 @@ Outputs 7-digit billable ICD codes. In the result, look for aux_label parameter 
 {% include programmingLanguageSelectScalaPythonNLU.html %}
 ```python
 documentAssembler = DocumentAssembler()\
-      .setInputCol("text")\
-      .setOutputCol("ner_chunk")
+.setInputCol("text")\
+.setOutputCol("ner_chunk")
 sbert_embedder = BertSentenceEmbeddings\
-      .pretrained('sbert_jsl_medium_uncased', 'en','clinical/models')\
-      .setInputCols(["ner_chunk"])\
-      .setOutputCol("sbert_embeddings")
+.pretrained('sbert_jsl_medium_uncased', 'en','clinical/models')\
+.setInputCols(["ner_chunk"])\
+.setOutputCol("sbert_embeddings")
 icd10_resolver = SentenceEntityResolverModel.pretrained("sbertresolve_icd10cm_slim_billable_hcc_med","en", "clinical/models") \
-     .setInputCols(["document", "sbert_embeddings"]) \
-     .setOutputCol("icd10cm_code")\
-     .setDistanceFunction("EUCLIDEAN").setReturnCosineDistances(True)
+.setInputCols(["ner_chunk", "sbert_embeddings"]) \
+.setOutputCol("icd10cm_code")\
+.setDistanceFunction("EUCLIDEAN").setReturnCosineDistances(True)
 bert_pipeline_icd = PipelineModel(stages = [document_assembler, sbert_embedder, icd10_resolver])
 
 model = bert_pipeline_icd.fit(spark.createDataFrame([["bladder cancer"]]).toDF("text"))
 results = model.transform(data)
 ```
 ```scala
-val document_assembler = DocumentAssembler()\
-  .setInputCol("text")\
-  .setOutputCol("document")
-val sbert_embedder = BertSentenceEmbeddings\
-     .pretrained("sbert_jsl_medium_uncased","en","clinical/models")\
-     .setInputCols(["document"])\
-     .setOutputCol("sbert_embeddings")
-val icd10_resolver = SentenceEntityResolverModel.pretrained("sbertresolve_icd10cm_slim_billable_hcc_med","en", "clinical/models") \
-     .setInputCols(["document", "sbert_embeddings"]) \
-     .setOutputCol("icd10cm_code")\
-     .setDistanceFunction("EUCLIDEAN")\
-     .setReturnCosineDistances(True)
-val bert_pipeline_icd = new Pipeline().setStages(Array(document_assembler, sbert_embedder, icd10_resolver))
-val result = bert_pipeline_icd.fit(Seq.empty["bladder cancer"].toDS.toDF("text")).transform(data)
+val document_assembler = DocumentAssembler()
+.setInputCol("text")
+.setOutputCol("document")
+val sbert_embedder = BertSentenceEmbeddings
+.pretrained("sbert_jsl_medium_uncased","en","clinical/models")
+.setInputCols(["document"])
+.setOutputCol("sbert_embeddings")
+val icd10_resolver = SentenceEntityResolverModel.pretrained("sbertresolve_icd10cm_slim_billable_hcc_med","en", "clinical/models") 
+.setInputCols(["document", "sbert_embeddings"]) 
+.setOutputCol("icd10cm_code")
+.setDistanceFunction("EUCLIDEAN")
+.setReturnCosineDistances(True)
+val bert_pipeline_icd = new PipelineModel().setStages(Array(document_assembler, sbert_embedder, icd10_resolver))
+
+val data = Seq("bladder cancer").toDS.toDF("text")
+
+val result = bert_pipeline_icd.fit(data).transform(data)
 ```
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("en.resolve.icd10cm.slim_billable_hcc_med").predict("""bladder cancer""")
+```
+
 </div>
 
 ## Results
@@ -83,7 +94,7 @@ val result = bert_pipeline_icd.fit(Seq.empty["bladder cancer"].toDS.toDF("text")
 {:.table-model}
 |---|---|
 |Model Name:|sbertresolve_icd10cm_slim_billable_hcc_med|
-|Compatibility:|Spark NLP for Healthcare 3.0.3+|
+|Compatibility:|Healthcare NLP 3.0.3+|
 |License:|Licensed|
 |Edition:|Official|
 |Input Labels:|[ner_chunk, sbert_embeddings]|

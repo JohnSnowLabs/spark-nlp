@@ -7,9 +7,10 @@ date: 2022-08-09
 tags: [public_health, en, licensed, sequence_classification, mental_health, depression, twitter]
 task: Text Classification
 language: en
-edition: Spark NLP for Healthcare 4.0.2
+edition: Healthcare NLP 4.0.2
 spark_version: 3.0
 supported: true
+annotator: MedicalBertForSequenceClassification
 article_header:
   type: cover
 use_language_switcher: "Python-Scala-Java"
@@ -70,7 +71,7 @@ val documenter = new DocumentAssembler()
     .setOutputCol("document")
 
 val tokenizer = new Tokenizer()
-    .setInputCols("document")
+    .setInputCols(Array("document"))
     .setOutputCol("token")
 
 val sequenceClassifier = MedicalBertForSequenceClassification.pretrained("bert_sequence_classifier_depression_twitter", "en", "clinical/models")
@@ -105,7 +106,7 @@ val result = pipeline.fit(data).transform(data)
 {:.table-model}
 |---|---|
 |Model Name:|bert_sequence_classifier_depression_twitter|
-|Compatibility:|Spark NLP for Healthcare 4.0.2+|
+|Compatibility:|Healthcare NLP 4.0.2+|
 |License:|Licensed|
 |Edition:|Official|
 |Input Labels:|[document, token]|
@@ -126,6 +127,6 @@ Curated from several academic and in-house datasets.
         minimum       0.97      0.98      0.97      1411 
 high-depression       0.95      0.92      0.93       595 
        accuracy        -          -       0.96      2006 
-      macro avg       0.96      0.95      0.95      2006 
-   weighted avg       0.96      0.96      0.96      2006
+      macro-avg       0.96      0.95      0.95      2006 
+   weighted-avg       0.96      0.96      0.96      2006
 ```

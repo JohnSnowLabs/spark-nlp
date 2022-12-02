@@ -1,5 +1,5 @@
 /*
- * Copyright 2017-2021 John Snow Labs
+ * Copyright 2017-2022 John Snow Labs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,27 +20,35 @@ import com.johnsnowlabs.nlp.annotators.common.{IndexedToken, TokenPiece}
 import com.johnsnowlabs.nlp.annotators.tokenizer.moses.MosesTokenizer
 import com.johnsnowlabs.nlp.annotators.tokenizer.normalizer.MosesPunctNormalizer
 
-/**
-  * XLM Tokenizer
+/** XLM Tokenizer
   *
-  * @param merges                     Combinations of byte pairs with ranking
-  * @param vocab                      Mapping from byte pair to an id
-  * @param lang                       Language of the text (Currently only english supported)
-  * @param specialTokens              Special Tokens of the model to not split on
-  * @param doLowercaseAndRemoveAccent True for current supported model (v1.2.0), False for XLM-17 & 100
+  * @param merges
+  *   Combinations of byte pairs with ranking
+  * @param vocab
+  *   Mapping from byte pair to an id
+  * @param lang
+  *   Language of the text (Currently only english supported)
+  * @param specialTokens
+  *   Special Tokens of the model to not split on
+  * @param doLowercaseAndRemoveAccent
+  *   True for current supported model (v1.2.0), False for XLM-17 & 100
   */
 private[nlp] class XlmTokenizer(
-                                 merges: Map[(String, String), Int],
-                                 vocab: Map[String, Int],
-                                 specialTokens: SpecialTokens,
-                                 padWithSentenceTokens: Boolean = false,
-                                 lang: String = "en",
-                                 doLowercaseAndRemoveAccent: Boolean = true
-                               ) extends BpeTokenizer(merges, vocab, specialTokens, padWithSentenceTokens) {
+    merges: Map[(String, String), Int],
+    vocab: Map[String, Int],
+    specialTokens: SpecialTokens,
+    padWithSentenceTokens: Boolean = false,
+    lang: String = "en",
+    doLowercaseAndRemoveAccent: Boolean = true)
+    extends BpeTokenizer(
+      merges,
+      vocab,
+      specialTokens,
+      padWithSentenceTokens,
+      addPrefixSpace = false) {
   require(lang == "en", "Only English is supported currently.")
 
-  /**
-    * Lowercase and strips accents from a piece of text based on
+  /** Lowercase and strips accents from a piece of text based on
     * https://github.com/facebookresearch/XLM/blob/master/tools/lowercase_and_remove_accent.py
     */
   def lowercaseAndRemoveAccent(input: String): String = {
@@ -66,26 +74,28 @@ private[nlp] class XlmTokenizer(
   override def tokenizeSubText(text: String, indexOffset: Int): Array[IndexedToken] = {
     var indexedTokens: Array[IndexedToken] = Array()
     val mosesTokenized = mosesPipeline(text)
-    val processedText = if (doLowercaseAndRemoveAccent)
-      lowercaseAndRemoveAccent(mosesTokenized.mkString(" "))
-    else mosesTokenized.mkString(" ")
+    val processedText =
+      if (doLowercaseAndRemoveAccent)
+        lowercaseAndRemoveAccent(mosesTokenized.mkString(" "))
+      else mosesTokenized.mkString(" ")
 
     val textForIndexing = if (doLowercaseAndRemoveAccent) lowercaseAndRemoveAccent(text) else text
-    indexedTokens = processedText.split(" ").map((token: String) => {
-      val tokenTextIndex = textForIndexing.indexOf(token)
-      IndexedToken(
-        token,
-        indexOffset + tokenTextIndex,
-        indexOffset + tokenTextIndex + token.length - 1
-      ) // TODO: What if special characters were removed?
-    })
+    indexedTokens = processedText
+      .split(" ")
+      .map((token: String) => {
+        val tokenTextIndex = textForIndexing.indexOf(token)
+        IndexedToken(
+          token,
+          indexOffset + tokenTextIndex,
+          indexOffset + tokenTextIndex + token.length - 1
+        ) // TODO: What if special characters were removed?
+      })
     indexedTokens
   }
 
   override val appendForPieceId: Option[String] = Some("</w>")
 
-  override def bpe(indToken: IndexedToken
-                  ): Array[TokenPiece] = {
+  override def bpe(indToken: IndexedToken): Array[TokenPiece] = {
     val processedToken = preProcessTokenForBpe(indToken.token)
 
     var word: Array[String] = Array[String]()
@@ -96,8 +106,7 @@ private[nlp] class XlmTokenizer(
     // XLM Specific: append word end indicator
     if (pairs.isEmpty) {
       word = Array(processedToken)
-    }
-    else {
+    } else {
       pairs(pairs.length - 1) = pairs(pairs.length - 1) match {
         case (s, s1) => (s, s1 + "</w>")
       }
@@ -108,6 +117,6 @@ private[nlp] class XlmTokenizer(
       word = word.map(_.replace("</w>", ""))
     }
 
-    getTokenPieces(indToken, word, processedToken)
+    getTokenPieces(indToken, word)
   }
 }

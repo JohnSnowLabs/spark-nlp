@@ -7,11 +7,12 @@ date: 2021-03-31
 tags: [ner, clinical, licensed, en]
 task: Named Entity Recognition
 language: en
-edition: Spark NLP for Healthcare 3.0.0
+edition: Healthcare NLP 3.0.0
 spark_version: 3.0
 supported: true
+annotator: MedicalNerModel
 article_header:
-  type: cover
+type: cover
 use_language_switcher: "Python-Scala-Java"
 ---
 
@@ -34,32 +35,77 @@ An NER model to extract all types of anatomical references in text using "embedd
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
+
 ```python
-...
+document_assembler = DocumentAssembler()\
+    .setInputCol("text")\
+    .setOutputCol("document")
+         
+sentence_detector = SentenceDetector()\
+    .setInputCols(["document"])\
+    .setOutputCol("sentence")
+
+tokenizer = Tokenizer()\
+    .setInputCols(["sentence"])\
+    .setOutputCol("token")
+
 word_embeddings = WordEmbeddingsModel.pretrained("embeddings_clinical", "en", "clinical/models")\
-  .setInputCols(["sentence", "token"])\
-  .setOutputCol("embeddings")
+    .setInputCols(["sentence", "token"])\
+    .setOutputCol("embeddings")
+
 clinical_ner = MedicalNerModel.pretrained("ner_anatomy_coarse", "en", "clinical/models") \
-  .setInputCols(["sentence", "token", "embeddings"]) \
-  .setOutputCol("ner")
-...
+    .setInputCols(["sentence", "token", "embeddings"]) \
+    .setOutputCol("ner")
+
+ner_converter = NerConverter()\
+ 	.setInputCols(["sentence", "token", "ner"])\
+ 	.setOutputCol("ner_chunk")
+
 nlp_pipeline = Pipeline(stages=[document_assembler, sentence_detector, tokenizer, word_embeddings, clinical_ner, ner_converter])
-model = nlpPipeline.fit(spark.createDataFrame([["content in the lung tissue"]]).toDF("text"))
-results = model.transform(data)
+
+model = nlp_pipeline.fit(spark.createDataFrame([[""]]).toDF("text"))
+
+results = model.transform(spark.createDataFrame([["content in the lung tissue"]]).toDF("text"))
 ```
 ```scala
-...
+val document_assembler = new DocumentAssembler()
+    .setInputCol("text")
+    .setOutputCol("document")
+         
+val sentence_detector = new SentenceDetector()
+    .setInputCols("document")
+    .setOutputCol("sentence")
+
+val tokenizer = new Tokenizer()
+    .setInputCols("sentence")
+    .setOutputCol("token")
+
 val word_embeddings = WordEmbeddingsModel.pretrained("embeddings_clinical", "en", "clinical/models")
-  .setInputCols(Array("sentence", "token"))
-  .setOutputCol("embeddings")
-val ner = MedicalNerModel.pretrained("ner_anatomy_coarse", "en", "clinical/models") \
-  .setInputCols(["sentence", "token", "embeddings"]) \
-  .setOutputCol("ner")
-...
+    .setInputCols(Array("sentence", "token"))
+    .setOutputCol("embeddings")
+
+val ner = MedicalNerModel.pretrained("ner_anatomy_coarse", "en", "clinical/models")
+    .setInputCols(Array("sentence", "token", "embeddings"))
+    .setOutputCol("ner")
+
+val ner_converter = new NerConverter()
+ 	.setInputCols(Array("sentence", "token", "ner"))
+ 	.setOutputCol("ner_chunk")
+
 val pipeline = new Pipeline().setStages(Array(document_assembler, sentence_detector, tokenizer, word_embeddings, ner, ner_converter))
-val data = Seq("content in the lung tissue").toDF("text")
+
+val data = Seq("""content in the lung tissue""").toDS().toDF("text")
+
 val result = pipeline.fit(data).transform(data)
 ```
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("en.med_ner.anatomy.coarse").predict("""content in the lung tissue""")
+```
+
 </div>
 
 ## Results
@@ -76,7 +122,7 @@ val result = pipeline.fit(data).transform(data)
 {:.table-model}
 |---|---|
 |Model Name:|ner_anatomy_coarse|
-|Compatibility:|Spark NLP for Healthcare 3.0.0+|
+|Compatibility:|Healthcare NLP 3.0.0+|
 |License:|Licensed|
 |Edition:|Official|
 |Input Labels:|[sentence, token, embeddings]|

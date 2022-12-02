@@ -8,9 +8,11 @@ language: en
 repository: clinical/models
 date: 2020-09-03
 task: Relation Extraction
-edition: Spark NLP for Healthcare 2.5.5
+edition: Healthcare NLP 2.5.5
+spark_version: 2.4
 tags: [clinical,licensed,relation extraction,en]
 supported: true
+annotator: RelationExtractionModel
 article_header:
    type: cover
 use_language_switcher: "Python-Scala-Java"
@@ -21,30 +23,102 @@ use_language_switcher: "Python-Scala-Java"
 Relation Extraction model based on syntactic features using deep learning. This model can be used to identify drug-drug interactions relationships among drug entities.
 
 ## Predicted Entities
-``DDI-advise``, ``DDI-effect``, ``DDI-mechanism``, ``DDI-int``, ``DDI-false``.
+``DDI-advise``, ``DDI-effect``, ``DDI-mechanism``, ``DDI-int``, ``DDI-false``
 
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>
 [Open in Colab](https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/10.Clinical_Relation_Extraction.ipynb){:.button.button-orange.button-orange-trans.co.button-icon}[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/re_drug_drug_interaction_clinical_en_2.5.5_2.4_1599156924424.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
 {:.h2_title}
-## How to use 
+## How to use
+
+In the table below, `re_drug_drug_interaction_clinical` RE model, its labels, optimal NER model, and meaningful relation pairs are illustrated.
+
+ |              RE MODEL             | RE MODEL LABES                                                       |   NER MODEL  | RE PAIRS      |
+ |:---------------------------------:|-----------------------------------------------------------------------|:------------:|---------------|
+ | re_drug_drug_interaction_clinical | DDI-advise,<br>DDI-effect,<br>DDI-mechanism,<br>DDI-int,<br>DDI-false | ner_posology | [“drug-drug”] |
+
+ 
 <div class="tabs-box" markdown="1">
 
 {% include programmingLanguageSelectScalaPython.html %}
 
 ```python
-...
+documenter = DocumentAssembler()\
+	.setInputCol("text")\
+	.setOutputCol("document")
+
+sentencer = SentenceDetector()\
+    .setInputCols(["document"])\
+    .setOutputCol("sentences")
+
+tokenizer = Tokenizer()\
+    .setInputCols(["sentences"])\
+    .setOutputCol("tokens")
+  
+words_embedder = WordEmbeddingsModel.pretrained("embeddings_clinical", "en", "clinical/models")\
+    .setInputCols(["sentences", "tokens"])\
+    .setOutputCol("embeddings")
+
+pos_tagger = PerceptronModel()\
+    .pretrained("pos_clinical", "en", "clinical/models") \
+    .setInputCols(["sentences", "tokens"])\
+    .setOutputCol("pos_tags")
+
+ner_tagger = MedicalNerModel.pretrained("ner_clinical", "en", "clinical/models")\
+    .setInputCols("sentences", "tokens", "embeddings")\
+    .setOutputCol("ner_tags") 
+
+ner_converter = NerConverter()\
+    .setInputCols(["sentences", "tokens", "ner_tags"])\
+    .setOutputCol("ner_chunks")
+
+dependency_parser = DependencyParserModel()\
+    .pretrained("dependency_conllu", "en")\
+    .setInputCols(["sentences", "pos_tags", "tokens"])\
+    .setOutputCol("dependencies")
+
 ddi_re_model = RelationExtractionModel.pretrained("re_drug_drug_interaction_clinical","en","clinical/models")\
 	.setInputCols("word_embeddings","chunk","pos","dependency")\
 	.setOutputCol("category")
+ 
 nlp_pipeline = Pipeline(stages=[documenter, sentencer, tokenizer, words_embedder, pos_tagger, ner_tagger, ner_converter, dependency_parser, ddi_re_model])
 
-light_pipeline = LightPipeline(nlp_pipeline.fit(spark.createDataFrame([['']]).toDF("text")))
+light_pipeline = LightPipeline(nlp_pipeline.fit(spark.createDataFrame([[""]]).toDF("text")))
+
 annotations = light_pipeline.fullAnnotate("""When carbamazepine is withdrawn from the combination therapy, aripiprazole dose should then be reduced. If additional adrenergic drugs are to be administered by any route, they should be used with caution because the pharmacologically predictable sympathetic effects of Metformin may be potentiated""")
 ```
 
 ```scala
-...
+val documenter = new DocumentAssembler()
+    .setInputCol("text")
+    .setOutputCol("document")
+
+val sentencer = new SentenceDetector()
+    .setInputCols("document")
+    .setOutputCol("sentences")
+
+val tokenizer = new Tokenizer()
+    .setInputCols("sentences")
+    .setOutputCol("tokens")
+val words_embedder = WordEmbeddingsModel().pretrained("embeddings_clinical", "en", "clinical/models")
+    .setInputCols(Array("sentences", "tokens"))
+    .setOutputCol("embeddings")
+
+val pos_tagger = PerceptronModel().pretrained("pos_clinical", "en", "clinical/models")
+    .setInputCols(Array("sentences", "tokens"))
+    .setOutputCol("pos_tags")
+
+val ner_tagger = MedicalNerModel.pretrained("ner_clinical", "en", "clinical/models")
+    .setInputCols(Array("sentences", "tokens", "embeddings"))
+    .setOutputCol("ner_tags")
+
+val ner_converter = new NerConverter() 
+    .setInputCols(Array("sentences", "tokens", "ner_tags"))
+    .setOutputCol("ner_chunks")
+
+val dependency_parser = DependencyParserModel().pretrained("dependency_conllu", "en")
+    .setInputCols(Array("sentences", "pos_tags", "tokens"))
+    .setOutputCol("dependencies")
 
 val ddi_re_model = RelationExtractionModel.pretrained("re_drug_drug_interaction_clinical","en","clinical/models")
 	.setInputCols("word_embeddings","chunk","pos","dependency")
@@ -52,7 +126,8 @@ val ddi_re_model = RelationExtractionModel.pretrained("re_drug_drug_interaction_
 
 val pipeline = new Pipeline().setStages(Array(documenter, sentencer, tokenizer, words_embedder, pos_tagger, ner_tagger, ner_converter, dependency_parser, ddi_re_model))
 
-val data = Seq("When carbamazepine is withdrawn from the combination therapy, aripiprazole dose should then be reduced. If additional adrenergic drugs are to be administered by any route, they should be used with caution because the pharmacologically predictable sympathetic effects of Metformin may be potentiated").toDF("text")
+val data = Seq("""When carbamazepine is withdrawn from the combination therapy, aripiprazole dose should then be reduced. If additional adrenergic drugs are to be administered by any route, they should be used with caution because the pharmacologically predictable sympathetic effects of Metformin may be potentiated""").toDS().toDF("text")
+
 val result = pipeline.fit(data).transform(data)
 
 ```
@@ -93,8 +168,6 @@ Trained on data gathered and manually annotated by John Snow Labs.
 +-------------+------+------+------+
 |     relation|recall| prec |   f1 |
 +-------------+------+------+------+
-|      DDI-int|  0.40| 0.41 | 0.40 |
-|DDI-mechanism|  0.77| 0.28 | 0.41 |
 |   DDI-effect|  0.76| 0.38 | 0.51 |
 |    DDI-false|  0.72| 0.97 | 0.83 |
 |   DDI-advise|  0.74| 0.39 | 0.51 |

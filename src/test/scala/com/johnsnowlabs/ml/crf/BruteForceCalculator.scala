@@ -1,5 +1,5 @@
 /*
- * Copyright 2017-2019 John Snow Labs
+ * Copyright 2017-2022 John Snow Labs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,7 +17,6 @@
 package com.johnsnowlabs.ml.crf
 
 import scala.collection.mutable.ArrayBuffer
-
 
 class BruteForceCalculator(val metadata: DatasetMetadata, val fbCalculator: FbCalculator) {
 
@@ -47,8 +46,9 @@ class BruteForceCalculator(val metadata: DatasetMetadata, val fbCalculator: FbCa
 
     for (i <- 1 to instance.items.length) {
       expectation += paths
-        .filter(path => path(i-1) == transition.stateFrom
-          && path(i) == transition.stateTo)
+        .filter(path =>
+          path(i - 1) == transition.stateFrom
+            && path(i) == transition.stateTo)
         .map(path => getProbe(path))
         .sum
     }

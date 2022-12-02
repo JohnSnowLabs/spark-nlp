@@ -7,11 +7,12 @@ date: 2022-06-27
 tags: [licensed, clinical, en, ner]
 task: Pipeline Healthcare
 language: en
-edition: Spark NLP for Healthcare 3.5.3
+edition: Healthcare NLP 3.5.3
 spark_version: 3.0
 supported: true
+annotator: PipelineModel
 article_header:
-  type: cover
+type: cover
 use_language_switcher: "Python-Scala-Java"
 ---
 
@@ -44,6 +45,14 @@ val pipeline = new PretrainedPipeline("ner_clinical_trials_abstracts_pipeline", 
 
 val result = pipeline.fullAnnotate("""A one-year, randomised, multicentre trial comparing insulin glargine with NPH insulin in combination with oral agents in patients with type 2 diabetes. In a multicentre, open, randomised study, 570 patients with Type 2 diabetes, aged 34 - 80 years, were treated for 52 weeks with insulin glargine or NPH insulin given once daily at bedtime.""")
 ```
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("en.med_ner.clinical_trials_abstracts.pipe").predict("""A one-year, randomised, multicentre trial comparing insulin glargine with NPH insulin in combination with oral agents in patients with type 2 diabetes. In a multicentre, open, randomised study, 570 patients with Type 2 diabetes, aged 34 - 80 years, were treated for 52 weeks with insulin glargine or NPH insulin given once daily at bedtime.""")
+```
+
 </div>
 
 ## Results
@@ -79,7 +88,7 @@ val result = pipeline.fullAnnotate("""A one-year, randomised, multicentre trial 
 |---|---|
 |Model Name:|ner_clinical_trials_abstracts_pipeline|
 |Type:|pipeline|
-|Compatibility:|Spark NLP for Healthcare 3.5.3+|
+|Compatibility:|Healthcare NLP 3.5.3+|
 |License:|Licensed|
 |Edition:|Official|
 |Language:|en|

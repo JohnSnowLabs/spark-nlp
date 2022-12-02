@@ -1,5 +1,5 @@
 /*
- * Copyright 2017-2021 John Snow Labs
+ * Copyright 2017-2022 John Snow Labs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -37,15 +37,15 @@ class VersionSpec extends AnyFlatSpec {
     assert(!Version.isCompatible(Version(1, 2), Version(1, 2, 3)))
     assert(Version.isCompatible(Version(1, 2, 3), Version(1, 2, 3)))
     assert(Version.isCompatible(Version(1, 2, 3), Version(1, 2)))
-    assert(Version.isCompatible(Version(1,2,3), Version(1,2,2)))
-    assert(Version.isCompatible(Version(1,2,3,1), Version(1,2,2,8)))
-    assert(!Version.isCompatible(Version(1,2,1,5), Version(1,2,2,2)))
-    assert(Version.isCompatible(Version(2,3,4), Version(2,3)))
-    assert(Version.isCompatible(Version(2,4,4), Version(2,3)))
-    assert(Version.isCompatible(Version(2,3,4), Version(2)))
-    assert(Version.isCompatible(Version(2,4,4), Version(2)))
-    assert(Version.isCompatible(Version(2,4,4), Version(2,3,3)))
-    assert(!Version.isCompatible(Version(3), Version(2,3)))
+    assert(Version.isCompatible(Version(1, 2, 3), Version(1, 2, 2)))
+    assert(Version.isCompatible(Version(1, 2, 3, 1), Version(1, 2, 2, 8)))
+    assert(!Version.isCompatible(Version(1, 2, 1, 5), Version(1, 2, 2, 2)))
+    assert(Version.isCompatible(Version(2, 3, 4), Version(2, 3)))
+    assert(Version.isCompatible(Version(2, 4, 4), Version(2, 3)))
+    assert(Version.isCompatible(Version(2, 3, 4), Version(2)))
+    assert(Version.isCompatible(Version(2, 4, 4), Version(2)))
+    assert(Version.isCompatible(Version(2, 4, 4), Version(2, 3, 3)))
+    assert(!Version.isCompatible(Version(3), Version(2, 3)))
   }
 
 }

@@ -7,11 +7,12 @@ date: 2021-05-04
 tags: [snomed, umls, en, licensed]
 task: Pipeline Healthcare
 language: en
-edition: Spark NLP for Healthcare 3.0.2
+edition: Healthcare NLP 3.0.2
 spark_version: 3.0
 supported: true
+annotator: PipelineModel
 article_header:
-  type: cover
+type: cover
 use_language_switcher: "Python-Scala-Java"
 ---
 
@@ -22,7 +23,7 @@ This pretrained pipeline maps SNOMED codes to UMLS codes without using any text 
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>
 <button class="button button-orange" disabled>Open in Colab</button>
-[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/snomed_umls_mapping_en_3.0.2_3.0_1620131233138.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
+[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/snomed_umls_mapping_en_3.0.2_2.4_1620131233138.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
 
 ## How to use
 
@@ -31,7 +32,7 @@ This pretrained pipeline maps SNOMED codes to UMLS codes without using any text 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
 ```python
-from sparknlp.pretrained import PretrainedPipeline 
+from sparknlp.pretrained import PretrainedPipeline
 pipeline = PretrainedPipeline( 'snomed_umls_mapping','en','clinical/models')
 pipeline.annotate('733187009 449433008 51264003')
 ```
@@ -40,18 +41,26 @@ import com.johnsnowlabs.nlp.pretrained.PretrainedPipeline
 val pipeline = new  PretrainedPipeline( 'snomed_umls_mapping','en','clinical/models')
 val result = pipeline.annotate('733187009 449433008 51264003')
 ```
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("en.resolve.snomed.umls").predict("""733187009 449433008 51264003""")
+```
+
 </div>
 
 ## Results
 
 ```bash
 {'snomed': ['733187009', '449433008', '51264003'],
- 'umls': ['C4546029', 'C3164619', 'C0271267']}
+'umls': ['C4546029', 'C3164619', 'C0271267']}
 
 
 Note:
 
-|SNOMED      | Details                                                    | 
+|SNOMED      | Details                                                    |
 | ---------- | ----------------------------------------------------------:|
 | 733187009  | osteolysis following surgical procedure on skeletal system |
 | 449433008  | Diffuse stenosis of left pulmonary artery                  |
@@ -71,7 +80,7 @@ Note:
 |---|---|
 |Model Name:|snomed_umls_mapping|
 |Type:|pipeline|
-|Compatibility:|Spark NLP for Healthcare 3.0.2+|
+|Compatibility:|Healthcare NLP 3.0.2+|
 |License:|Licensed|
 |Edition:|Official|
 |Language:|en|

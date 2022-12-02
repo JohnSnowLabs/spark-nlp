@@ -7,9 +7,10 @@ date: 2022-03-21
 tags: [licensed, ner, clinical, berfortokenclassification, chemicals, en]
 task: Named Entity Recognition
 language: en
-edition: Spark NLP for Healthcare 3.4.1
+edition: Healthcare NLP 3.4.1
 spark_version: 3.0
 supported: true
+annotator: PipelineModel
 article_header:
   type: cover
 use_language_switcher: "Python-Scala-Java"
@@ -65,7 +66,7 @@ pipeline.annotate("The results have shown that the product p - choloroaniline is
 |---|---|
 |Model Name:|bert_token_classifier_ner_chemicals_pipeline|
 |Type:|pipeline|
-|Compatibility:|Spark NLP for Healthcare 3.4.1+|
+|Compatibility:|Healthcare NLP 3.4.1+|
 |License:|Licensed|
 |Edition:|Official|
 |Language:|en|

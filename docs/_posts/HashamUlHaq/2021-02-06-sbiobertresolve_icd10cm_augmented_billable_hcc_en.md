@@ -6,11 +6,13 @@ name: sbiobertresolve_icd10cm_augmented_billable_hcc
 date: 2021-02-06
 task: Entity Resolution
 language: en
-edition: Spark NLP for Healthcare 2.7.3
+edition: Healthcare NLP 2.7.3
+spark_version: 2.4
 tags: [licensed, clinical, en, entity_resolution]
 supported: true
+annotator: SentenceEntityResolverModel
 article_header:
-  type: cover
+type: cover
 use_language_switcher: "Python-Scala-Java"
 ---
 
@@ -34,42 +36,64 @@ For example, in the example shared `below the billable status is 1`, `hcc status
 ## How to use
 
 
+```sbiobertresolve_icd10cm_augmented_billable_hcc``` resolver model must be used with ```sbiobert_base_cased_mli``` as embeddings ```ner_clinical``` as NER model. ```PROBLEM``` set in ```.setWhiteList()```.
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
+
 ```python
 document_assembler = DocumentAssembler()\
-  .setInputCol("text")\
-  .setOutputCol("document")
-sbert_embedder = BertSentenceEmbeddings\
-     .pretrained("sbiobert_base_cased_mli","en","clinical/models")\
-     .setInputCols(["document"])\
-     .setOutputCol("sbert_embeddings")
-icd10_resolver = SentenceEntityResolverModel.pretrained("sbiobertresolve_icd10cm_augmented_billable_hcc","en", "clinical/models") \
-     .setInputCols(["document", "sbert_embeddings"]) \
-     .setOutputCol("icd10cm_code")\
-     .setDistanceFunction("EUCLIDEAN").setReturnCosineDistances(True)
-bert_pipeline_icd = PipelineModel(stages = [document_assembler, sbert_embedder, icd10_resolver])
+.setInputCol("text")\
+.setOutputCol("document")
 
-model = bert_pipeline_icd.fit(spark.createDataFrame([["metastatic lung cancer"]]).toDF("text"))
-results = model.transform(data)
+sbert_embedder = BertSentenceEmbeddings\
+.pretrained("sbiobert_base_cased_mli","en","clinical/models")\
+.setInputCols(["document"])\
+.setOutputCol("sbert_embeddings")
+
+icd10_resolver = SentenceEntityResolverModel\
+.pretrained("sbiobertresolve_icd10cm_augmented_billable_hcc","en", "clinical/models") \
+.setInputCols(["document", "sbert_embeddings"]) \
+.setOutputCol("icd10cm_code")\
+.setDistanceFunction("EUCLIDEAN").setReturnCosineDistances(True)
+
+bert_pipeline_icd = Pipeline(stages = [document_assembler, sbert_embedder, icd10_resolver])
+
+data = spark.createDataFrame([["metastatic lung cancer"]]).toDF("text")
+
+results = bert_pipeline_icd.fit(data).transform(data)
 ```
 
 ```scala
-val document_assembler = DocumentAssembler()\
-  .setInputCol("text")\
-  .setOutputCol("document")
-val sbert_embedder = BertSentenceEmbeddings\
-     .pretrained("sbiobert_base_cased_mli","en","clinical/models")\
-     .setInputCols(["document"])\
-     .setOutputCol("sbert_embeddings")
-val icd10_resolver = SentenceEntityResolverModel.pretrained("sbiobertresolve_icd10cm_augmented_billable_hcc","en", "clinical/models") \
-     .setInputCols(["document", "sbert_embeddings"]) \
-     .setOutputCol("icd10cm_code")\
-     .setDistanceFunction("EUCLIDEAN").setReturnCosineDistances(True)
+val document_assembler = DocumentAssembler()
+.setInputCol("text")
+.setOutputCol("document")
+
+val sbert_embedder = BertSentenceEmbeddings
+.pretrained("sbiobert_base_cased_mli","en","clinical/models")
+.setInputCols(Array("document"))
+.setOutputCol("sbert_embeddings")
+
+val icd10_resolver = SentenceEntityResolverModel
+.pretrained("sbiobertresolve_icd10cm_augmented_billable_hcc","en", "clinical/models") 
+.setInputCols(Array("document", "sbert_embeddings")) 
+.setOutputCol("icd10cm_code")
+.setDistanceFunction("EUCLIDEAN")
+.setReturnCosineDistances(True)
+
 val bert_pipeline_icd = new Pipeline().setStages(Array(document_assembler, sbert_embedder, icd10_resolver))
+
 val data = Seq("metastatic lung cancer").toDF("text")
-val result = pipeline.fit(data).transform(data)
+
+val result = bert_pipeline_icd.fit(data).transform(data)
+```
+
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("en.resolve.icd10cm.augmented_billable").predict("""metastatic lung cancer""")
 ```
 
 </div>
@@ -88,7 +112,7 @@ val result = pipeline.fit(data).transform(data)
 {:.table-model}
 |---|---|
 |Model Name:|sbiobertresolve_icd10cm_augmented_billable_hcc|
-|Compatibility:|Spark NLP for Healthcare 2.7.3+|
+|Compatibility:|Healthcare NLP 2.7.3+|
 |License:|Licensed|
 |Edition:|Official|
 |Input Labels:|[sentence_embeddings]|

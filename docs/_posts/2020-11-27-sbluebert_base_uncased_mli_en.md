@@ -6,11 +6,13 @@ name: sbluebert_base_uncased_mli
 date: 2020-11-27
 task: Embeddings
 language: en
-edition: Spark NLP for Healthcare 2.6.4
+edition: Healthcare NLP 2.6.4
+spark_version: 2.4
 tags: [embeddings, en, licensed]
 supported: true
+annotator: BertSentenceEmbeddings
 article_header:
-    type: cover
+type: cover
 use_language_switcher: "Python-Scala-Java"
 ---
 
@@ -29,25 +31,33 @@ This model is trained to generate contextual sentence embeddings of input senten
 ## How to use
 
 Use as part of an nlp pipeline with the following stages: DocumentAssembler, SentenceDetector, BertSentenceEmbeddings. The output of this model can be used in tasks like NER, Classification, Entity Resolution etc.
-    
+
 <div class="tabs-box" markdown="1">
 
-{% include programmingLanguageSelectScalaPython.html %}
+{% include programmingLanguageSelectScalaPythonNLU.html %}
 
 ```python
 sbiobert_embeddings = BertSentenceEmbeddings\
-     .pretrained("sbluebert_base_uncased_mli","en","clinical/models")\
-     .setInputCols(["ner_chunk_doc"])\
-     .setOutputCol("sbert_embeddings")
+.pretrained("sbluebert_base_uncased_mli","en","clinical/models")\
+.setInputCols(["ner_chunk_doc"])\
+.setOutputCol("sbert_embeddings")
 
 ```
 
 ```scala
 
 val sbiobert_embeddings = BertSentenceEmbeddings.pretrained("sbluebert_base_uncased_mli","en","clinical/models")
-    .setInputCols(Array("ner_chunk_doc"))
-    .setOutputCol("sbert_embeddings")
+.setInputCols(Array("ner_chunk_doc"))
+.setOutputCol("sbert_embeddings")
 
+```
+
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("en.embed_sentence.bluebert.mli").predict("""Put your text here.""")
 ```
 
 </div>

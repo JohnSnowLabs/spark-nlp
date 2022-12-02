@@ -1,5 +1,5 @@
 /*
- * Copyright 2017-2021 John Snow Labs
+ * Copyright 2017-2022 John Snow Labs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,8 +17,6 @@
 package com.johnsnowlabs.util
 
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
-import org.apache.hadoop.fs.FileSystem
-
 
 object ConfigHelper {
 
@@ -49,11 +47,11 @@ object ConfigHelper {
   val s3SocketTimeout = "spark.jsl.settings.pretrained.s3_socket_timeout"
 
   // Stores info for AWS S3 logging output when training models
-  val awsLogCredentials = "spark.jsl.settings.aws.credentials"
-  val awsExternalAccessKeyId: String = awsLogCredentials + ".access_key_id"
-  val awsExternalSecretAccessKey: String = awsLogCredentials + ".secret_access_key"
-  val awsExternalSessionToken: String = awsLogCredentials + ".session_token"
-  val awsExternalProfileName: String = awsLogCredentials + ".aws_profile_name"
+  val awsExternalCredentials = "spark.jsl.settings.aws.credentials"
+  val awsExternalAccessKeyId: String = awsExternalCredentials + ".access_key_id"
+  val awsExternalSecretAccessKey: String = awsExternalCredentials + ".secret_access_key"
+  val awsExternalSessionToken: String = awsExternalCredentials + ".session_token"
+  val awsExternalProfileName: String = awsExternalCredentials + ".aws_profile_name"
   val awsExternalS3BucketKey = "spark.jsl.settings.aws.s3_bucket"
   val awsExternalRegion = "spark.jsl.settings.aws.region"
 
@@ -62,12 +60,15 @@ object ConfigHelper {
   val serializationMode = "spark.jsl.settings.annotatorSerializationFormat"
   val useBroadcast = "spark.jsl.settings.useBroadcastForFeatures"
 
+  /** used only for internal unit tests */
+  val hadoopAwsVersion: String = "3.3.1"
+  val awsJavaSdkVersion: String = "1.11.901"
+
+  // Stores info for integration with GCP
+  val gcpProjectId = "spark.jsl.settings.gcp.project_id"
+
   def getConfigValueOrElse(property: String, defaultValue: String): String = {
     sparkSession.conf.get(property, defaultValue)
-  }
-
-  def getFileSystem: FileSystem = {
-    FileSystem.get(sparkSession.sparkContext.hadoopConfiguration)
   }
 
   def getHadoopTmpDir: String = {

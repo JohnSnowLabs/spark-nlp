@@ -7,9 +7,10 @@ date: 2022-07-06
 tags: [deidentification, bert, phi, ner, generic, ro, licensed]
 task: Named Entity Recognition
 language: ro
-edition: Spark NLP for Healthcare 3.5.0
+edition: Healthcare NLP 3.5.0
 spark_version: 3.0
 supported: true
+annotator: MedicalNerModel
 article_header:
   type: cover
 use_language_switcher: "Python-Scala-Java"
@@ -28,8 +29,8 @@ This NER model is trained with a combination of custom datasets with several dat
 `AGE`, `CONTACT`, `DATE`, `ID`, `LOCATION`, `NAME`, `PROFESSION`
 
 {:.btn-box}
-<button class="button button-orange" disabled>Live Demo</button>
-<button class="button button-orange" disabled>Open in Colab</button>
+[Live Demo](https://demo.johnsnowlabs.com/healthcare/DEID_PHI_TEXT_MULTI/){:.button.button-orange}
+[Open in Colab](https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/DEID_PHI_TEXT_MULTI.ipynb){:.button.button-orange.button-orange-trans.co.button-icon}
 [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/ner_deid_generic_bert_ro_3.5.0_3.0_1657112906624.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
 
 ## How to use
@@ -38,6 +39,7 @@ This NER model is trained with a combination of custom datasets with several dat
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
+
 ```python
 documentAssembler = DocumentAssembler()\
         .setInputCol("text")\
@@ -143,7 +145,7 @@ val results = pipeline.fit(data).transform(data)
 {:.table-model}
 |---|---|
 |Model Name:|ner_deid_generic_bert|
-|Compatibility:|Spark NLP for Healthcare 3.5.0+|
+|Compatibility:|Healthcare NLP 3.5.0+|
 |License:|Licensed|
 |Edition:|Official|
 |Input Labels:|[sentence, token, embeddings]|
@@ -159,8 +161,7 @@ val results = pipeline.fit(data).transform(data)
 ## Benchmarking
 
 ```bash
-              precision    recall  f1-score   support
-
+       label  precision    recall  f1-score   support
          AGE       0.95      0.97      0.96      1186
      CONTACT       0.99      0.98      0.98       366
         DATE       0.96      0.92      0.94      4518
@@ -168,8 +169,7 @@ val results = pipeline.fit(data).transform(data)
     LOCATION       0.91      0.90      0.90      1683
         NAME       0.93      0.96      0.94      2916
   PROFESSION       0.87      0.85      0.86       161
-
-   micro avg       0.94      0.94      0.94     11509
-   macro avg       0.94      0.94      0.94     11509
-weighted avg       0.95      0.94      0.94     11509
+   micro-avg       0.94      0.94      0.94     11509
+   macro-avg       0.94      0.94      0.94     11509
+weighted-avg       0.95      0.94      0.94     11509
 ```

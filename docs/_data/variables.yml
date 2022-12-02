@@ -27,6 +27,7 @@ default:
       show_readmore: false
       show_info: false
     show_title: true
+    show_subtitle: true
     show_edit_on_github: false
     show_date: true
     show_tags: true

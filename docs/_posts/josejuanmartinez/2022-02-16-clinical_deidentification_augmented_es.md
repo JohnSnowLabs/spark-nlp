@@ -7,9 +7,10 @@ date: 2022-02-16
 tags: [deid, es, licensed]
 task: De-identification
 language: es
-edition: Spark NLP for Healthcare 3.4.1
+edition: Healthcare NLP 3.4.1
 spark_version: 3.0
 supported: true
+annotator: PipelineModel
 article_header:
   type: cover
 use_language_switcher: "Python-Scala-Java"
@@ -33,7 +34,7 @@ The PHI information will be masked and obfuscated in the resulting text. The pip
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
 ```python
-from sparknlp.pretrained import PretrainedPipeline
+from johnsnowlabs import *
 
 deid_pipeline = PretrainedPipeline("clinical_deidentification_augmented", "es", "clinical/models")
 
@@ -273,7 +274,7 @@ Francisco José Roca Bermúdez Hospital 12 de Octubre Servicio de Endocrinologí
 |---|---|
 |Model Name:|clinical_deidentification_augmented|
 |Type:|pipeline|
-|Compatibility:|Spark NLP for Healthcare 3.4.1+|
+|Compatibility:|Healthcare NLP 3.4.1+|
 |License:|Licensed|
 |Edition:|Official|
 |Language:|es|
@@ -281,20 +282,20 @@ Francisco José Roca Bermúdez Hospital 12 de Octubre Servicio de Endocrinologí
 
 ## Included Models
 
-- DocumentAssembler
-- SentenceDetectorDLModel
-- TokenizerModel
-- WordEmbeddingsModel
-- MedicalNerModel
-- NerConverter
+- nlp.DocumentAssembler
+- nlp.SentenceDetectorDLModel
+- nlp.TokenizerModel
+- nlp.WordEmbeddingsModel
+- medical.NerModel
+- nlp.NerConverter
 - ContextualParserModel
 - ContextualParserModel
 - ContextualParserModel
 - ContextualParserModel
-- RegexMatcherModel
+- nlp.RegexMatcherModel
 - ChunkMergeModel
-- DeIdentificationModel
-- DeIdentificationModel
-- DeIdentificationModel
-- DeIdentificationModel
+- medical.DeIdentificationModel
+- medical.DeIdentificationModel
+- medical.DeIdentificationModel
+- medical.DeIdentificationModel
 - Finisher

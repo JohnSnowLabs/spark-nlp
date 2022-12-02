@@ -1,5 +1,5 @@
 /*
- * Copyright 2017-2021 John Snow Labs
+ * Copyright 2017-2022 John Snow Labs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,6 +16,7 @@
 
 package com.johnsnowlabs.ml.tensorflow
 
+import com.johnsnowlabs.nlp.annotators.classifier.dl.ClassifierMetrics
 import com.johnsnowlabs.nlp.annotators.ner.Verbose
 import com.johnsnowlabs.nlp.util.io.OutputHelper
 import com.johnsnowlabs.nlp.{Annotation, AnnotatorType}
@@ -25,11 +26,11 @@ import scala.collection.mutable
 import scala.util.Random
 
 class TensorflowSentiment(
-                           val tensorflow: TensorflowWrapper,
-                           val encoder: ClassifierDatasetEncoder,
-                           override val verboseLevel: Verbose.Value
-                         )
-  extends Serializable with Logging {
+    val tensorflow: TensorflowWrapper,
+    val encoder: ClassifierDatasetEncoder,
+    override val verboseLevel: Verbose.Value)
+    extends Serializable
+    with ClassifierMetrics {
 
   private val inputKey = "inputs:0"
   private val labelKey = "labels:0"
@@ -45,42 +46,37 @@ class TensorflowSentiment(
   private val initKey = "init_all_tables"
 
   def train(
-             inputs: Array[Array[Float]],
-             labels: Array[String],
-             lr: Float = 5e-3f,
-             batchSize: Int = 64,
-             dropout: Float = 0.5f,
-             startEpoch: Int = 0,
-             endEpoch: Int = 10,
-             configProtoBytes: Option[Array[Byte]] = None,
-             validationSplit: Float = 0.0f,
-             enableOutputLogs: Boolean = false,
-             outputLogsPath: String,
-             uuid: String = Identifiable.randomUID("sentimentdl")
-           ): Unit = {
+      inputs: (Array[Array[Float]], Array[String]),
+      testInputs: Option[(Array[Array[Float]], Array[String])],
+      lr: Float = 5e-3f,
+      batchSize: Int = 64,
+      dropout: Float = 0.5f,
+      startEpoch: Int = 0,
+      endEpoch: Int = 10,
+      configProtoBytes: Option[Array[Byte]] = None,
+      validationSplit: Float = 0.0f,
+      evaluationLogExtended: Boolean = false,
+      enableOutputLogs: Boolean = false,
+      outputLogsPath: String,
+      uuid: String = Identifiable.randomUID("sentimentdl")): Unit = {
 
     // Initialize
     if (startEpoch == 0)
-      tensorflow.createSession(configProtoBytes = configProtoBytes).runner.addTarget(initKey).run()
+      tensorflow
+        .createSession(configProtoBytes = configProtoBytes)
+        .runner
+        .addTarget(initKey)
+        .run()
 
-    val encodedLabels = encoder.encodeTags(labels)
-    val zippedInputsLabels = inputs.zip(encodedLabels).toSeq
-    val trainingDataset = Random.shuffle(zippedInputsLabels)
+    val (trainSet, validationSet, testSet) = buildDatasets(inputs, testInputs, validationSplit)
 
-    val sample: Int = (trainingDataset.length * validationSplit).toInt
-
-    val (trainDatasetSeq, validateDatasetSample) = if (validationSplit > 0f) {
-      val (trainingSample, trainingSet) = trainingDataset.splitAt(sample)
-      (trainingSet.toArray, trainingSample.toArray)
-    } else {
-      // No validationSplit has been set so just use the entire training Dataset
-      val emptyValid: Seq[(Array[Float], Array[Int])] = Seq((Array.empty, Array.empty))
-      (trainingDataset.toArray, emptyValid.toArray)
-    }
-
-    println(s"Training started - epochs: $endEpoch - learning_rate: $lr - batch_size: $batchSize - training_examples: ${trainDatasetSeq.length}")
-    outputLog(s"Training started - epochs: $endEpoch - learning_rate: $lr - batch_size: $batchSize - training_examples: ${trainDatasetSeq.length}",
-      uuid, enableOutputLogs, outputLogsPath)
+    println(
+      s"Training started - epochs: $endEpoch - learning_rate: $lr - batch_size: $batchSize - training_examples: ${trainSet.length}")
+    outputLog(
+      s"Training started - epochs: $endEpoch - learning_rate: $lr - batch_size: $batchSize - training_examples: ${trainSet.length}",
+      uuid,
+      enableOutputLogs,
+      outputLogsPath)
 
     for (epoch <- startEpoch until endEpoch) {
 
@@ -90,7 +86,7 @@ class TensorflowSentiment(
       var acc = 0f
       val learningRate = lr / (1 + dropout * epoch)
 
-      for (batch <- trainDatasetSeq.grouped(batchSize)) {
+      for (batch <- trainSet.grouped(batchSize)) {
         val tensors = new TensorResources()
 
         val inputArrays = batch.map(x => x._1)
@@ -98,11 +94,11 @@ class TensorflowSentiment(
 
         val inputTensor = tensors.createTensor(inputArrays)
         val labelTensor = tensors.createTensor(labelsArray)
-        val lrTensor = tensors.createTensor(learningRate.toFloat)
-        val dpTensor = tensors.createTensor(dropout.toFloat)
+        val lrTensor = tensors.createTensor(learningRate)
+        val dpTensor = tensors.createTensor(dropout)
 
         val calculated = tensorflow
-          .getSession(configProtoBytes = configProtoBytes)
+          .getTFSession(configProtoBytes = configProtoBytes)
           .runner
           .feed(inputKey, inputTensor)
           .feed(labelKey, labelTensor)
@@ -120,40 +116,93 @@ class TensorflowSentiment(
 
         tensors.clearTensors()
       }
-      acc /= (trainDatasetSeq.length / batchSize)
+      acc /= (trainSet.length / batchSize)
+      acc = acc.min(1.0f).max(0.0f)
+
+      val endTime = (System.nanoTime() - time) / 1e9
+      println(
+        f"Epoch ${epoch + 1}/$endEpoch - $endTime%.2fs - loss: $loss - acc: $acc - batches: $batches")
+      outputLog(
+        f"Epoch $epoch/$endEpoch - $endTime%.2fs - loss: $loss - acc: $acc - batches: $batches",
+        uuid,
+        enableOutputLogs,
+        outputLogsPath)
 
       if (validationSplit > 0.0) {
-        val validationAccuracy = measure(validateDatasetSample)
-        val endTime = (System.nanoTime() - time) / 1e9
-        println(f"Epoch ${epoch + 1}/$endEpoch - $endTime%.2fs - loss: $loss - acc: $acc - val_acc: $validationAccuracy - batches: $batches")
-        outputLog(f"Epoch $epoch/$endEpoch - $endTime%.2fs - loss: $loss - acc: $acc - val_acc: $validationAccuracy - batches: $batches", uuid, enableOutputLogs, outputLogsPath)
-      } else {
-        val endTime = (System.nanoTime() - time) / 1e9
-        println(f"Epoch ${epoch + 1}/$endEpoch - $endTime%.2fs - loss: $loss - acc: $acc - batches: $batches")
-        outputLog(f"Epoch $epoch/$endEpoch - $endTime%.2fs - loss: $loss - acc: $acc - batches: $batches", uuid, enableOutputLogs, outputLogsPath)
+        println(
+          s"Quality on validation dataset (${validationSplit * 100}%), validation examples = ${validationSet.length}")
+        outputLog(
+          s"Quality on validation dataset (${validationSplit * 100}%), validation examples = ${validationSet.length}",
+          uuid,
+          enableOutputLogs,
+          outputLogsPath)
+
+        measure(validationSet, extended = evaluationLogExtended, enableOutputLogs, outputLogsPath)
+      }
+
+      if (testSet.nonEmpty) {
+        println(s"Quality on test dataset: ")
+        outputLog("Quality on test dataset: ", uuid, enableOutputLogs, outputLogsPath)
+
+        measure(testSet, extended = evaluationLogExtended, enableOutputLogs, outputLogsPath)
       }
 
     }
 
     if (enableOutputLogs) {
-      OutputHelper.exportLogFileToS3()
+      OutputHelper.exportLogFile(outputLogsPath)
     }
   }
 
-  def predict(docs: Seq[(Int, Seq[Annotation])],
-              configProtoBytes: Option[Array[Byte]] = None,
-              threshold: Float = 0.6f,
-              thresholdLabel: String = "neutral"
-             ): Seq[Annotation] = {
+  private def buildDatasets(
+      inputs: (Array[Array[Float]], Array[String]),
+      testInputs: Option[(Array[Array[Float]], Array[String])],
+      validationSplit: Float): (
+      Array[(Array[Float], Array[Int])],
+      Array[(Array[Float], Array[Int])],
+      Array[(Array[Float], Array[Int])]) = {
+
+    val trainingDataset = Random.shuffle(encodeInputs(inputs).toSeq).toArray
+    val testDataset: Array[(Array[Float], Array[Int])] =
+      if (testInputs.isDefined) encodeInputs(testInputs.get) else Array.empty
+
+    val sample: Int = (trainingDataset.length * validationSplit).toInt
+
+    val (newTrainDataset, validateDatasetSample) = if (validationSplit > 0f) {
+      val (trainingSample, trainingSet) = trainingDataset.splitAt(sample)
+      (trainingSet, trainingSample)
+    } else {
+      // No validationSplit has been set so just use the entire training Dataset
+      val emptyValid: Array[(Array[Float], Array[Int])] = Array((Array.empty, Array.empty))
+      (trainingDataset, emptyValid)
+    }
+
+    (newTrainDataset, validateDatasetSample, testDataset)
+  }
+
+  private def encodeInputs(
+      inputs: (Array[Array[Float]], Array[String])): Array[(Array[Float], Array[Int])] = {
+
+    val (embeddings, labels) = inputs
+    val encodedLabels = encoder.encodeTags(labels)
+
+    embeddings.zip(encodedLabels)
+  }
+
+  def predict(
+      docs: Seq[(Int, Seq[Annotation])],
+      configProtoBytes: Option[Array[Byte]] = None,
+      threshold: Float = 0.6f,
+      thresholdLabel: String = "neutral"): Seq[Annotation] = {
 
     val tensors = new TensorResources()
 
-    //FixMe: implement batchSize
+    // FixMe: implement batchSize
 
     val inputs = encoder.extractSentenceEmbeddings(docs)
 
     val calculated = tensorflow
-      .getSession(configProtoBytes = configProtoBytes)
+      .getTFSession(configProtoBytes = configProtoBytes)
       .runner
       .feed(inputKey, tensors.createTensor(inputs))
       .fetch(predictionKey)
@@ -164,30 +213,31 @@ class TensorflowSentiment(
     tensors.clearTensors()
 
     docs.flatMap { sentence =>
-      sentence._2.zip(tagsName).map {
-        case (content, score) =>
-          val label = score.find(_._1 == score.maxBy(_._2)._1).map(_._1).getOrElse("NA")
-          val confidenceScore = score.find(_._1 == score.maxBy(_._2)._1).map(_._2).getOrElse(0.0f)
-          val finalLabel = if (confidenceScore >= threshold) label else thresholdLabel
+      sentence._2.zip(tagsName).map { case (content, score) =>
+        val label = score.find(_._1 == score.maxBy(_._2)._1).map(_._1).getOrElse("NA")
+        val confidenceScore = score.find(_._1 == score.maxBy(_._2)._1).map(_._2).getOrElse(0.0f)
+        val finalLabel = if (confidenceScore >= threshold) label else thresholdLabel
 
-          Annotation(
-            annotatorType = AnnotatorType.CATEGORY,
-            begin = content.begin,
-            end = content.end,
-            result = finalLabel,
-            metadata = Map("sentence" -> sentence._1.toString) ++ score.flatMap(x => Map(x._1 -> x._2.toString))
-          )
+        Annotation(
+          annotatorType = AnnotatorType.CATEGORY,
+          begin = content.begin,
+          end = content.end,
+          result = finalLabel,
+          metadata = Map("sentence" -> sentence._1.toString) ++ score.flatMap(x =>
+            Map(x._1 -> x._2.toString)))
       }
     }
 
   }
 
-  def internalPredict(inputs: Array[Array[Float]], configProtoBytes: Option[Array[Byte]] = None): Array[Int] = {
+  def internalPredict(
+      inputs: Array[Array[Float]],
+      configProtoBytes: Option[Array[Byte]] = None): Array[Int] = {
 
     val tensors = new TensorResources()
 
     val calculated = tensorflow
-      .getSession(configProtoBytes = configProtoBytes)
+      .getTFSession(configProtoBytes = configProtoBytes)
       .runner
       .feed(inputKey, tensors.createTensor(inputs))
       .fetch(predictionKey)
@@ -202,40 +252,60 @@ class TensorflowSentiment(
     predictedLabels
   }
 
-  def measure(labeled: Array[(Array[Float], Array[Int])],
-              batchSize: Int = 100
-             ): Float = {
+  def measure(
+      labeled: Array[(Array[Float], Array[Int])],
+      extended: Boolean = true,
+      enableOutputLogs: Boolean = false,
+      outputLogsPath: String,
+      batchSize: Int = 100): (Float, Float) = {
 
-    //ToDo: Add batch strategy
+    val started = System.nanoTime()
 
-    val correctGuess = mutable.Map[Int, Int]()
+    // ToDo: Add batch strategy
+
     val predicted = mutable.Map[Int, Int]()
     val correct = mutable.Map[Int, Int]()
 
+    val truePositives = mutable.Map[Int, Int]()
+    val falsePositives = mutable.Map[Int, Int]()
+    val falseNegatives = mutable.Map[Int, Int]()
+
     val originalEmbeddings = labeled.map(x => x._1)
-    val originalLabels = labeled.map(x => x._2).map { x => x.zipWithIndex.maxBy(_._1)._2 }
+    val originalLabels = labeled.map(x => x._2).map { x =>
+      x.zipWithIndex.maxBy(_._1)._2
+    }
 
     val predictedLabels = internalPredict(originalEmbeddings)
     val labeledPredicted = predictedLabels.zip(originalLabels)
 
-    for (i <- labeledPredicted) {
-      val predict = i._1
-      val original = i._2
+    for (label <- labeledPredicted) {
+      val predict = label._1
+      val original = label._2
 
       correct(original) = correct.getOrElse(original, 0) + 1
       predicted(predict) = predicted.getOrElse(predict, 0) + 1
 
       if (original == predict) {
-        correctGuess(original) = correctGuess.getOrElse(original, 0) + 1
+        truePositives(original) = truePositives.getOrElse(original, 0) + 1
+      } else {
+        falsePositives(predict) = falsePositives.getOrElse(predict, 0) + 1
+        falseNegatives(original) = falseNegatives.getOrElse(original, 0) + 1
       }
     }
 
+    val endTime = (System.nanoTime() - started) / 1e9
+    println(f"time to finish evaluation: $endTime%.2fs")
+
     val labels = (correct.keys ++ predicted.keys).toSeq.distinct
 
-    val correctlyPredicted = correctGuess.filterKeys(label => labels.contains(label)).values.sum
-    val totalOriginalLabels = correct.filterKeys(label => labels.contains(label)).values.sum
-
-    (correctlyPredicted.toFloat / totalOriginalLabels.toFloat) * 100
+    aggregatedMetrics(
+      labels.map(_.toString),
+      truePositives.map(tp => (tp._1.toString, tp._2)).toMap,
+      falsePositives.map(fp => (fp._1.toString, fp._2)).toMap,
+      falseNegatives.map(fn => (fn._1.toString, fn._2)).toMap,
+      extended,
+      enableOutputLogs,
+      outputLogsPath)
 
   }
 

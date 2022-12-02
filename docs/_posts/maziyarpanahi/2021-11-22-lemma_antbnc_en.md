@@ -10,8 +10,9 @@ language: en
 edition: Spark NLP 2.0.2
 spark_version: 2.4
 supported: true
+annotator: LemmatizerModel
 article_header:
-  type: cover
+type: cover
 use_language_switcher: "Python-Scala-Java"
 ---
 
@@ -19,6 +20,10 @@ use_language_switcher: "Python-Scala-Java"
 
 This model uses context and language knowledge to assign all forms and inflections of a word to a single root. This enables the pipeline to treat the past and present tense of a verb, for example, as the same word instead of two completely different words. The lemmatizer takes into consideration the context surrounding a word to determine which root is correct when the word form alone is ambiguous.
 
+{:.btn-box}
+<button class="button button-orange" disabled>Live Demo</button>
+<button class="button button-orange" disabled>Open in Colab</button>
+[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/lemma_antbnc_en_2.0.2_2.4_1556480454569.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
 
 ## How to use
 
@@ -31,31 +36,31 @@ from sparknlp.annotator import *
 from pyspark.ml import Pipeline
 
 documentAssembler = DocumentAssembler() \
-    .setInputCol("text") \
-    .setOutputCol("document")
+.setInputCol("text") \
+.setOutputCol("document")
 
 sentenceDetector = SentenceDetector() \
-    .setInputCols(["document"]) \
-    .setOutputCol("sentence")
+.setInputCols(["document"]) \
+.setOutputCol("sentence")
 
 tokenizer = Tokenizer() \
-    .setInputCols(["sentence"]) \
-    .setOutputCol("token")
+.setInputCols(["sentence"]) \
+.setOutputCol("token")
 
 lemmatizer = LemmatizerModel.pretrained() \
-    .setInputCols(["token"]) \
-    .setOutputCol("lemma")
+.setInputCols(["token"]) \
+.setOutputCol("lemma")
 
 pipeline = Pipeline() \
-    .setStages([
-      documentAssembler,
-      sentenceDetector,
-      tokenizer,
-      lemmatizer
-    ])
+.setStages([
+documentAssembler,
+sentenceDetector,
+tokenizer,
+lemmatizer
+])
 
 data = spark.createDataFrame([["Peter Pipers employees are picking pecks of pickled peppers."]]) \
-    .toDF("text")
+.toDF("text")
 
 result = pipeline.fit(data).transform(data)
 result.selectExpr("lemma.result").show(truncate=False)
@@ -69,36 +74,44 @@ import com.johnsnowlabs.nlp.annotators.Lemmatizer
 import org.apache.spark.ml.Pipeline
 
 val documentAssembler = new DocumentAssembler()
-  .setInputCol("text")
-  .setOutputCol("document")
+.setInputCol("text")
+.setOutputCol("document")
 
 val sentenceDetector = new SentenceDetector()
-  .setInputCols(Array("document"))
-  .setOutputCol("sentence")
+.setInputCols(Array("document"))
+.setOutputCol("sentence")
 
 val tokenizer = new Tokenizer()
-  .setInputCols(Array("sentence"))
-  .setOutputCol("token")
+.setInputCols(Array("sentence"))
+.setOutputCol("token")
 
 val lemmatizer = new Lemmatizer()
-  .setInputCols(Array("token"))
-  .setOutputCol("lemma")
-  .setDictionary("src/test/resources/lemma-corpus-small/lemmas_small.txt", "->", "\t")
+.setInputCols(Array("token"))
+.setOutputCol("lemma")
+.setDictionary("src/test/resources/lemma-corpus-small/lemmas_small.txt", "->", "\t")
 
 val pipeline = new Pipeline()
-  .setStages(Array(
-    documentAssembler,
-    sentenceDetector,
-    tokenizer,
-    lemmatizer
-  ))
+.setStages(Array(
+documentAssembler,
+sentenceDetector,
+tokenizer,
+lemmatizer
+))
 
 val data = Seq("Peter Pipers employees are picking pecks of pickled peppers.")
-  .toDF("text")
+.toDF("text")
 
 val result = pipeline.fit(data).transform(data)
 result.selectExpr("lemma.result").show(false)
 ```
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("en.lemma.antbnc").predict("""Peter Pipers employees are picking pecks of pickled peppers.""")
+```
+
 </div>
 
 ## Results

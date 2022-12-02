@@ -7,7 +7,7 @@ date: 2021-11-24
 tags: [ner, licensed, en, clinical, entity_resolver]
 task: Entity Resolution
 language: en
-edition: Spark NLP for Healthcare 3.3.2
+edition: Healthcare NLP 3.3.2
 spark_version: 2.4
 supported: true
 article_header:
@@ -40,13 +40,14 @@ documentAssembler = DocumentAssembler()\
     .setOutputCol("ner_chunk")
 
 
-sbert_embedder = BertSentenceEmbeddings.pretrained("sbert_jsl_medium_uncased","en","clinical/models")\
+sbert_embedder = BertSentenceEmbeddings\
+    .pretrained("sbert_jsl_medium_uncased","en","clinical/models")\
     .setInputCols(["ner_chunk"])\
-    .setOutputCol("sbert_embeddings")\
-    .setCaseSensitive(False)
+    .setOutputCol("sbert_embeddings")
 
 
-ner_model_finder = SentenceEntityResolverModel.pretrained("sbertresolve_ner_model_finder", "en", "clinical/models")\
+ner_model_finder = SentenceEntityResolverModel\
+    .pretrained("sbertresolve_ner_model_finder", "en", "clinical/models")\
     .setInputCols(["ner_chunk", "sbert_embeddings"])\
     .setOutputCol("model_names")\
     .setDistanceFunction("EUCLIDEAN")
@@ -60,20 +61,19 @@ annotations = light_pipeline.fullAnnotate("medication")
 
 ```
 ```scala
-val documentAssembler = DocumentAssembler()\
-    .setInputCol("text")\
+val documentAssembler = DocumentAssembler()
+    .setInputCol("text")
     .setOutputCol("ner_chunk")
 
-
-val sbert_embedder = BertSentenceEmbeddings.pretrained("sbert_jsl_medium_uncased","en","clinical/models")\
-    .setInputCols("ner_chunk")\
-    .setOutputCol("sbert_embeddings")\
-    .setCaseSensitive(False)
-
-
-val ner_model_finder = SentenceEntityResolverModel.pretrained("sbertresolve_ner_model_finder", "en", "clinical/models")\
-    .setInputCols(Array("ner_chunk", "sbert_embeddings"))\
-    .setOutputCol("model_names")\
+val sbert_embedder = BertSentenceEmbeddings
+    .pretrained("sbert_jsl_medium_uncased","en","clinical/models")
+    .setInputCols(Array("ner_chunk"))
+    .setOutputCol("sbert_embeddings")
+    
+val ner_model_finder = SentenceEntityResolverModel
+    .pretrained("sbertresolve_ner_model_finder", "en", "clinical/models")
+    .setInputCols(Array("ner_chunk", "sbert_embeddings"))
+    .setOutputCol("model_names")
     .setDistanceFunction("EUCLIDEAN")
 
     
@@ -102,7 +102,7 @@ val annotations = light_pipeline.fullAnnotate("medication")
 {:.table-model}
 |---|---|
 |Model Name:|sbertresolve_ner_model_finder|
-|Compatibility:|Spark NLP for Healthcare 3.3.2+|
+|Compatibility:|Healthcare NLP 3.3.2+|
 |License:|Licensed|
 |Edition:|Official|
 |Input Labels:|[sbert_embeddings]|

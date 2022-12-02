@@ -7,9 +7,10 @@ date: 2022-07-26
 tags: [licensed, clinical, en, classifier, sequence_classification, age, public_health]
 task: Text Classification
 language: en
-edition: Spark NLP for Healthcare 4.0.0
+edition: Healthcare NLP 4.0.0
 spark_version: 3.0
 supported: true
+annotator: MedicalBertForSequenceClassification
 article_header:
   type: cover
 use_language_switcher: "Python-Scala-Java"
@@ -24,8 +25,8 @@ This model is a [BioBERT based](https://github.com/dmis-lab/biobert) classifier 
 `self_report_age`, `no_report`
 
 {:.btn-box}
-<button class="button button-orange" disabled>Live Demo</button>
-<button class="button button-orange" disabled>Open in Colab</button>
+[Live Demo](https://demo.johnsnowlabs.com/healthcare/PUBLIC_HEALTH_AGE/){:.button.button-orange}
+[Open in Colab](https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/PUBLIC_HEALTH_MB4SC.ipynb){:.button.button-orange.button-orange-trans.co.button-icon}
 [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/bert_sequence_classifier_self_reported_age_tweet_en_4.0.0_3.0_1658852070357.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
 
 ## How to use
@@ -68,7 +69,7 @@ val documenter = new DocumentAssembler()
     .setOutputCol("document")
 
 val tokenizer = new Tokenizer()
-    .setInputCols("sentences")
+    .setInputCols(Array("document"))
     .setOutputCol("token")
 
 val sequenceClassifier = MedicalBertForSequenceClassification.pretrained("bert_sequence_classifier_self_reported_age_tweet", "en", "clinical/models")
@@ -101,7 +102,7 @@ val result = pipeline.fit(data).transform(data)
 {:.table-model}
 |---|---|
 |Model Name:|bert_sequence_classifier_self_reported_age_tweet|
-|Compatibility:|Spark NLP for Healthcare 4.0.0+|
+|Compatibility:|Healthcare NLP 4.0.0+|
 |License:|Licensed|
 |Edition:|Official|
 |Input Labels:|[document, token]|

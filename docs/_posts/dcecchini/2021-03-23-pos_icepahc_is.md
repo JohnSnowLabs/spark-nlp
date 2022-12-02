@@ -10,6 +10,7 @@ task: Part of Speech Tagging
 language: is
 edition: Spark NLP 2.7.5
 spark_version: 2.4
+annotator: PerceptronModel
 article_header:
   type: cover
 use_language_switcher: "Python-Scala-Java"
@@ -56,6 +57,10 @@ sentence_detector = SentenceDetector()\
   .setInputCols(["document"])\
   .setOutputCol("sentence")
 
+tokenizer = Tokenizer()\
+    .setInputCols("sentence")\
+    .setOutputCol("token")
+
 pos = PerceptronModel.pretrained("pos_icepahc", "is")\
   .setInputCols(["document", "token"])\
   .setOutputCol("pos")
@@ -63,6 +68,7 @@ pos = PerceptronModel.pretrained("pos_icepahc", "is")\
 pipeline = Pipeline(stages=[
   document_assembler,
   sentence_detector,
+  tokenizer,
   posTagger
 ])
 
@@ -78,11 +84,15 @@ val sentence_detector = SentenceDetector()
         .setInputCols(["document"])
 	.setOutputCol("sentence")
 
+val tokenizer = Tokenizer()\
+    .setInputCols("sentence")\
+    .setOutputCol("token")
+
 val pos = PerceptronModel.pretrained("pos_icepahc", "is")
         .setInputCols(Array("document", "token"))
         .setOutputCol("pos")
 
-val pipeline = new Pipeline().setStages(Array(document_assembler, sentence_detector, pos))
+val pipeline = new Pipeline().setStages(Array(document_assembler, sentence_detector,tokenizer, pos))
 
 val data = Seq("Númerið blikkaði á skjánum eins og einmana vekjaraklukka um nótt á níundu hæð í gamalli blokk í austurbæ Reykjavíkur .").toDF("text")
 val result = pipeline.fit(data).transform(data)

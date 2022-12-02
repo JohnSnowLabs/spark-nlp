@@ -7,10 +7,12 @@ date: 2021-01-03
 task: Word Segmentation
 language: ko
 edition: Spark NLP 2.7.0
+spark_version: 2.4
 tags: [open_source, word_segmentation, ko]
 supported: true
+annotator: WordSegmenterModel
 article_header:
-  type: cover
+type: cover
 use_language_switcher: "Python-Scala-Java"
 ---
 
@@ -35,24 +37,30 @@ Use as part of an nlp pipeline as a substitute of the Tokenizer stage.
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
 ```python
-...
+document_assembler = DocumentAssembler() \
+    .setInputCol("text") \
+    .setOutputCol("document")
+    
 word_segmenter = WordSegmenterModel.pretrained('wordseg_kaist_ud', 'ko')\
-        .setInputCols("document")\
-        .setOutputCol("token")
+.setInputCols("document")\
+.setOutputCol("token")
 pipeline = Pipeline(stages=[
-        document_assembler,
-        word_segmenter
-        ])
+document_assembler,
+word_segmenter
+])
 model = pipeline.fit(spark.createDataFrame([[""]]).toDF("text"))
 example = spark.createDataFrame([['비파를탄주하는그늙은명인의시는아름다운화음이었고완벽한음악으로순간적인조화를이룬세계의울림이었다.']], ["text"])
 result = model.transform(example)
 ```
 
 ```scala
-...
+val document_assembler = DocumentAssembler()
+        .setInputCol("text")
+        .setOutputCol("document")
+        
 val word_segmenter = WordSegmenterModel.pretrained("wordseg_kaist_ud", "ko")
-        .setInputCols("document")
-        .setOutputCol("token")
+.setInputCols("document")
+.setOutputCol("token")
 val pipeline = new Pipeline().setStages(Array(document_assembler, word_segmenter))
 val data = Seq("비파를탄주하는그늙은명인의시는아름다운화음이었고완벽한음악으로순간적인조화를이룬세계의울림이었다.").toDF("text")
 val result = pipeline.fit(data).transform(data)

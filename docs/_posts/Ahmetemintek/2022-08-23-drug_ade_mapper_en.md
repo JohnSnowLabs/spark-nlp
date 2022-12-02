@@ -7,9 +7,11 @@ date: 2022-08-23
 tags: [en, chunkmapping, chunkmapper, drug, ade, licensed]
 task: Chunk Mapping
 language: en
-edition: Spark NLP for Healthcare 4.0.2
+edition: Healthcare NLP 4.0.2
 spark_version: 3.0
 supported: true
+recommended: true
+annotator: ChunkMapperModel
 article_header:
   type: cover
 use_language_switcher: "Python-Scala-Java"
@@ -76,41 +78,41 @@ pipeline = Pipeline().setStages([document_assembler,
 text = ["""The patient was prescribed 1000 mg fish oil and multivitamins. 
             She was discharged on zopiclone and ambrisentan"""]
 
-test_data = spark.createDataFrame([text]).toDF("text")
+data = spark.createDataFrame([text]).toDF("text")
 
-model = pipeline.fit(test_data)
-res= model.transform(test_data)
+result= pipeline.fit(data).transform(data)
+
 ```
 ```scala
-val document_assembler = new DocumentAssembler()\
-      .setInputCol('text')\
-      .setOutputCol('document')
+val document_assembler = new DocumentAssembler()
+      .setInputCol("text")
+      .setOutputCol("document")
 
-val sentence_detector = new SentenceDetector()\
-      .setInputCols(["document"])\
+val sentence_detector = new SentenceDetector()
+      .setInputCols(Array("document"))
       .setOutputCol("sentence")
 
-val tokenizer = new Tokenizer()\
-      .setInputCols("sentence")\
+val tokenizer = new Tokenizer()
+      .setInputCols("sentence")
       .setOutputCol("token")
 
-val word_embeddings = WordEmbeddingsModel.pretrained("embeddings_clinical", "en", "clinical/models")\
-      .setInputCols(["sentence", "token"])\
+val word_embeddings = WordEmbeddingsModel.pretrained("embeddings_clinical", "en", "clinical/models")
+      .setInputCols(Array("sentence", "token"))
       .setOutputCol("embeddings")
 
 #NER model to detect drug in the text
-val ner = MedicalNerModel.pretrained('ner_posology_greedy', 'en', 'clinical/models') \
-      .setInputCols(["sentence", "token", "embeddings"]) \
+val ner = MedicalNerModel.pretrained("ner_posology_greedy", "en", "clinical/models") 
+      .setInputCols(Array("sentence", "token", "embeddings"))
       .setOutputCol("ner")
 
-val ner_chunk = new NerConverter() \
-      .setInputCols(["sentence", "token", "ner"]) \
-      .setOutputCol("ner_chunk")\
+val ner_chunk = new NerConverter() 
+      .setInputCols(Array("sentence", "token", "ner")) 
+      .setOutputCol("ner_chunk")
 
-val chunkMapper = ChunkMapperModel.pretrained("drug_ade_mapper", "en", "clinical/models")\
-      .setInputCols(["ner_chunk"])\
-      .setOutputCol("mappings")\
-      .setRels(["ADE"])
+val chunkMapper = ChunkMapperModel.pretrained("drug_ade_mapper", "en", "clinical/models")
+      .setInputCols(Array("ner_chunk"))
+      .setOutputCol("mappings")
+      .setRels(Array("ADE"))
 
 val pipeline = new Pipeline(stages = Array(
                                  document_assembler,
@@ -146,7 +148,7 @@ val result= pipeline.fit(data).transform(data)
 {:.table-model}
 |---|---|
 |Model Name:|drug_ade_mapper|
-|Compatibility:|Spark NLP for Healthcare 4.0.2+|
+|Compatibility:|Healthcare NLP 4.0.2+|
 |License:|Licensed|
 |Edition:|Official|
 |Input Labels:|[ner_pos_chunk]|

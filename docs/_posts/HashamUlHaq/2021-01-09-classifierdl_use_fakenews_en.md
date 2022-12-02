@@ -7,10 +7,12 @@ date: 2021-01-09
 task: Text Classification
 language: en
 edition: Spark NLP 2.7.1
+spark_version: 2.4
 tags: [open_source, en, classifier]
 supported: true
+annotator: ClassifierDLModel
 article_header:
-  type: cover
+type: cover
 use_language_switcher: "Python-Scala-Java"
 ---
 
@@ -35,28 +37,28 @@ Determine if news articles are Real or Fake.
 {% include programmingLanguageSelectScalaPythonNLU.html %}
 ```python
 document_assembler = DocumentAssembler()\
-  .setInputCol("text")\
-  .setOutputCol("document")
+.setInputCol("text")\
+.setOutputCol("document")
 use = UniversalSentenceEncoder.pretrained('tfhub_use', lang="en") \
-  .setInputCols(["document"])\
-  .setOutputCol("sentence_embeddings")
+.setInputCols(["document"])\
+.setOutputCol("sentence_embeddings")
 document_classifier = ClassifierDLModel.pretrained('classifierdl_use_fakenews', 'en') \
-  .setInputCols(["document", "sentence_embeddings"]) \
-  .setOutputCol("class")
+.setInputCols(["document", "sentence_embeddings"]) \
+.setOutputCol("class")
 nlpPipeline = Pipeline(stages=[document_assembler, use, document_classifier])
 light_pipeline = LightPipeline(nlp_pipeline.fit(spark.createDataFrame([['']]).toDF("text")))
 annotations = light_pipeline.fullAnnotate('Donald Trump a KGB Spy? 11/02/2016 In today’s video, Christopher Greene of AMTV reports Hillary Clinton')
 ```
 ```scala
 val documentAssembler = DocumentAssembler()
-  .setInputCol("text")
-  .setOutputCol("document")
+.setInputCol("text")
+.setOutputCol("document")
 val use = UniversalSentenceEncoder.pretrained(lang="en")
-  .setInputCols(Array("document"))
-  .setOutputCol("sentence_embeddings")
+.setInputCols(Array("document"))
+.setOutputCol("sentence_embeddings")
 val document_classifier = ClassifierDLModel.pretrained("classifierdl_use_fakenews", "en")
-  .setInputCols(Array("document", "sentence_embeddings"))
-  .setOutputCol("class")
+.setInputCols(Array("document", "sentence_embeddings"))
+.setOutputCol("class")
 val pipeline = new Pipeline().setStages(Array(documentAssembler, use, document_classifier))
 
 val data = Seq("Donald Trump a KGB Spy? 11/02/2016 In today’s video, Christopher Greene of AMTV reports Hillary Clinton").toDF("text")
@@ -106,12 +108,12 @@ This model is trained on the fake new classification challenge. https://raw.gith
 ## Benchmarking
 
 ```bash
-              precision    recall  f1-score   support
+precision    recall  f1-score   support
 
-        FAKE       0.86      0.89      0.88       626
-        REAL       0.89      0.86      0.87       634
+FAKE       0.86      0.89      0.88       626
+REAL       0.89      0.86      0.87       634
 
-    accuracy                           0.87      1260
-   macro avg       0.88      0.87      0.87      1260
+accuracy                           0.87      1260
+macro avg       0.88      0.87      0.87      1260
 weighted avg       0.88      0.87      0.87      1260
 ```

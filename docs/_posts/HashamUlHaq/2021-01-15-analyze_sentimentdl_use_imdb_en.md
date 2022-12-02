@@ -7,10 +7,12 @@ date: 2021-01-15
 task: [Embeddings, Sentiment Analysis, Pipeline Public]
 language: en
 edition: Spark NLP 2.7.1
+spark_version: 2.4
 tags: [en, pipeline, sentiment]
 supported: true
+annotator: PipelineModel
 article_header:
-  type: cover
+type: cover
 use_language_switcher: "Python-Scala-Java"
 ---
 

@@ -7,11 +7,12 @@ date: 2022-06-27
 tags: [snomed, umls, pipeline, chunk_mapper, clinical, licensed, en]
 task: Pipeline Healthcare
 language: en
-edition: Spark NLP for Healthcare 3.5.3
+edition: Healthcare NLP 3.5.3
 spark_version: 3.0
 supported: true
+annotator: PipelineModel
 article_header:
-  type: cover
+type: cover
 use_language_switcher: "Python-Scala-Java"
 ---
 
@@ -44,6 +45,14 @@ val pipeline = new PretrainedPipeline("snomed_umls_mapping", "en", "clinical/mod
 
 val result= pipeline.fullAnnotate("733187009 449433008 51264003")
 ```
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("en.resolve.snomed.umls").predict("""733187009 449433008 51264003""")
+```
+
 </div>
 
 ## Results
@@ -61,7 +70,7 @@ val result= pipeline.fullAnnotate("733187009 449433008 51264003")
 |---|---|
 |Model Name:|snomed_umls_mapping|
 |Type:|pipeline|
-|Compatibility:|Spark NLP for Healthcare 3.5.3+|
+|Compatibility:|Healthcare NLP 3.5.3+|
 |License:|Licensed|
 |Edition:|Official|
 |Language:|en|

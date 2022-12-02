@@ -12,13 +12,19 @@ sidebar:
     nav: spark-ocr
 ---
 
+<div class="h3-box" markdown="1">
+
 ## PDF processing
 
 Next section describes the transformers that deal with PDF files with the purpose of extracting text and image data from PDF files.
 
+</div><div class="h3-box" markdown="1">
+
 ### PdfToText
 
 `PDFToText` extracts text from selectable PDF (with text layout).
+
+</div><div class="h3-box" markdown="1">
 
 ##### Input Columns
 
@@ -28,18 +34,22 @@ Next section describes the transformers that deal with PDF files with the purpos
 | inputCol | string | text | binary representation of the PDF document |
 | originCol | string | path | path to the original file |
 
+</div><div class="h3-box" markdown="1">
+
 ##### Parameters
 
 {:.table-model-big}
 | Param name | Type | Default | Description |
 | --- | --- | --- | --- |
-| splitPage | bool | true | whether it needed to split document to pages |
-| textStripper | | TextStripperType.PDF_TEXT_STRIPPER | 
+| splitPage | bool | true | Whether it needed to split document to pages |
+| textStripper | | TextStripperType.PDF_TEXT_STRIPPER | Extract unstructured text
 | sort | bool | false | Sort text during extraction with TextStripperType.PDF_LAYOUT_STRIPPER |
 | partitionNum | int| 0 | Force repartition dataframe if set to value more than 0. |
 | onlyPageNum | bool | false | Extract only page numbers. |
 | extractCoordinates | bool | false | Extract coordinates and store to the `positions` column |
 | storeSplittedPdf | bool | false | Store one page pdf's for process it using PdfToImage. |
+
+</div><div class="h3-box" markdown="1">
 
 ##### Output Columns
 
@@ -56,9 +66,28 @@ NOTE: For setting parameters use `setParamName` method.
 **Example**
 
 
-<div class="tabs-box pt0" markdown="1">
+<div class="tabs-box tabs-new pt0" markdown="1">
 
 {% include programmingLanguageSelectScalaPython.html %}
+
+```python
+from sparkocr.transformers import *
+
+pdfPath = "path to pdf with text layout"
+
+# Read PDF file as binary file
+df = spark.read.format("binaryFile").load(pdfPath)
+
+transformer = PdfToText() \
+  .setInputCol("content") \
+  .setOutputCol("text") \
+  .setPageNumCol("pagenum") \
+  .setSplitPage(True)
+
+data = transformer.transform(df)
+
+data.select("pagenum", "text").show()
+```
 
 ```scala
 import com.johnsnowlabs.ocr.transformers.PdfToText
@@ -79,25 +108,6 @@ val data = transformer.transform(df)
 data.select("pagenum", "text").show()
 ```
 
-```python
-from sparkocr.transformers import *
-
-pdfPath = "path to pdf with text layout"
-
-# Read PDF file as binary file
-df = spark.read.format("binaryFile").load(pdfPath)
-
-transformer = PdfToText() \
-  .setInputCol("content") \
-  .setOutputCol("text") \
-  .setPageNumCol("pagenum") \
-  .setSplitPage(true)
-
-data = transformer.transform(df)
-
-data.select("pagenum", "text").show()
-```
-
 </div>
 
 
@@ -113,12 +123,16 @@ data.select("pagenum", "text").show()
 +-------+----------------------+
 ```
 
+</div><div class="h3-box" markdown="1">
+
 ### PdfToImage
 
 `PdfToImage` renders PDF to an image. To be used with scanned PDF documents.
 Output dataframe contains `total_pages` field with total number of pages.
-For process pdf with big number of pages prefer to split pdf by setting `splitNumBatch` param.
-Number of partitions should be equal number of cores/executors.
+For process pdf with a big number of pages prefer to split pdf by setting `splitNumBatch` param.
+Number of partitions should be equal to number of cores/executors.
+
+</div><div class="h3-box" markdown="1">
 
 ##### Input Columns
 
@@ -129,6 +143,7 @@ Number of partitions should be equal number of cores/executors.
 | originCol | string | path | path to the original file |
 | fallBackCol | string | text | extracted text from previous method for detect if need to run transformer as fallBack |
 
+</div><div class="h3-box" markdown="1">
 
 ##### Parameters
 
@@ -147,6 +162,7 @@ Number of partitions should be equal number of cores/executors.
 | partitionNumAfterSplit | int| 0 | Number of Spark RDD partitions after splitting pdf document (0 value - without repartition).|
 | splittingStategy | [SplittingStrategy](ocr_structures#splittingstrategy)| SplittingStrategy.FIXED_SIZE_OF_PARTITION | Splitting strategy. |
 
+</div><div class="h3-box" markdown="1">
 
 ##### Output Columns
 
@@ -159,9 +175,28 @@ Number of partitions should be equal number of cores/executors.
 
 **Example:**
 
-<div class="tabs-box pt0" markdown="1">
+<div class="tabs-box tabs-new pt0" markdown="1">
 
 {% include programmingLanguageSelectScalaPython.html %}
+
+```python
+from sparkocr.transformers import *
+
+pdfPath = "path to pdf"
+
+# Read PDF file as binary file
+df = spark.read.format("binaryFile").load(pdfPath)
+
+pdfToImage = PdfToImage() \
+ .setInputCol("content") \
+ .setOutputCol("text") \
+ .setPageNumCol("pagenum") \
+ .setSplitPage(True)
+
+data =  pdfToImage.transform(df)
+
+data.select("pagenum", "text").show()
+```
 
 ```scala
 import com.johnsnowlabs.ocr.transformers.PdfToImage
@@ -182,32 +217,15 @@ val data =  pdfToImage.transform(df)
 data.select("pagenum", "text").show()
 ```
 
-```python
-from sparkocr.transformers import *
-
-pdfPath = "path to pdf"
-
-# Read PDF file as binary file
-df = spark.read.format("binaryFile").load(pdfPath)
-
-pdfToImage = PdfToImage() \
- .setInputCol("content") \
- .setOutputCol("text") \
- .setPageNumCol("pagenum") \
- .setSplitPage(true)
-
-data =  pdfToImage.transform(df)
-
-data.select("pagenum", "text").show()
-```
-
-</div>
+</div></div><div class="h3-box" markdown="1">
 
 ### ImageToPdf
 
 `ImageToPdf` transform image to Pdf document.
 If dataframe contains few records for same origin path, it groups image by origin
 column and create multipage PDF document.
+
+</div><div class="h3-box" markdown="1">
 
 ##### Input Columns
 
@@ -217,6 +235,7 @@ column and create multipage PDF document.
 | inputCol | string | image | image struct ([Image schema](ocr_structures#image-schema))  |
 | originCol | string | path | path to the original file |
 
+</div><div class="h3-box" markdown="1">
 
 ##### Output Columns
 
@@ -228,37 +247,13 @@ column and create multipage PDF document.
 
 **Example:**
 
-Read images and store it as single page PDF documents.
+Read images and store them as single page PDF documents.
 
+</div><div class="h3-box" markdown="1">
 
-<div class="tabs-box pt0" markdown="1">
+<div class="tabs-box tabs-new pt0" markdown="1">
 
 {% include programmingLanguageSelectScalaPython.html %}
-
-```scala
-import com.johnsnowlabs.ocr.transformers._
-
-val imagePath = "path to image"
-
-// Read image file as binary file
-val df = spark.read.format("binaryFile").load(imagePath)
-
-// Define transformer for convert to Image struct
-val binaryToImage = new BinaryToImage()
-  .setInputCol("content")
-  .setOutputCol("image")
-
-// Define transformer for store to PDF
-val imageToPdf = new ImageToPdf()
-  .setInputCol("image")
-  .setOutputCol("content")
-
-// Call transformers
-val image_df = binaryToImage.transform(df)
-val pdf_df =  pdfToImage.transform(image_df)
-
-pdf_df.select("content").show()
-```
 
 ```python
 from sparkocr.transformers import *
@@ -285,14 +280,41 @@ pdf_df =  pdfToImage.transform(image_df)
 pdf_df.select("content").show()
 ```
 
-</div>
+```scala
+import com.johnsnowlabs.ocr.transformers._
+
+val imagePath = "path to image"
+
+// Read image file as binary file
+val df = spark.read.format("binaryFile").load(imagePath)
+
+// Define transformer for convert to Image struct
+val binaryToImage = new BinaryToImage()
+  .setInputCol("content")
+  .setOutputCol("image")
+
+// Define transformer for store to PDF
+val imageToPdf = new ImageToPdf()
+  .setInputCol("image")
+  .setOutputCol("content")
+
+// Call transformers
+val image_df = binaryToImage.transform(df)
+val pdf_df =  pdfToImage.transform(image_df)
+
+pdf_df.select("content").show()
+```
+
+</div></div><div class="h3-box" markdown="1">
 
 ### TextToPdf
 
-`TextToPdf` renders ocr results to PDF document as text layout. Each symbol will render to same position
-with same font size as in original image or PDF.
+`TextToPdf` renders ocr results to PDF document as text layout. Each symbol will render to the same position
+with the same font size as in original image or PDF.
 If dataframe contains few records for same origin path, it groups image by origin
 column and create multipage PDF document.
+
+</div><div class="h3-box" markdown="1">
 
 ##### Input Columns
 
@@ -305,6 +327,7 @@ column and create multipage PDF document.
 | originCol | string | path | path to the original file |
 | inputContent | string | content | column name with binary representation of original PDF file |
 
+</div><div class="h3-box" markdown="1">
 
 ##### Output Columns
 
@@ -318,10 +341,54 @@ column and create multipage PDF document.
 
 Read PDF document, run OCR and render results to PDF document.
 
+</div><div class="h3-box" markdown="1">
 
-<div class="tabs-box pt0" markdown="1">
+<div class="tabs-box tabs-new pt0" markdown="1">
 
 {% include programmingLanguageSelectScalaPython.html %}
+
+```python
+from sparkocr.transformers import *
+
+pdfPath = "path to pdf"
+
+# Read PDF file as binary file
+df = spark.read.format("binaryFile").load(pdfPath)
+
+pdf_to_image = PdfToImage() \
+    .setInputCol("content") \
+    .setOutputCol("image_raw")
+
+binarizer = ImageBinarizer() \
+    .setInputCol("image_raw") \
+    .setOutputCol("image") \
+    .setThreshold(130)
+
+ocr = ImageToText() \
+    .setInputCol("image") \
+    .setOutputCol("text") \
+    .setIgnoreResolution(False) \
+    .setPageSegMode(PageSegmentationMode.SPARSE_TEXT) \
+    .setConfidenceThreshold(60)
+
+textToPdf = TextToPdf() \
+    .setInputCol("positions") \
+    .setInputImage("image") \
+    .setOutputCol("pdf")
+
+pipeline = PipelineModel(stages=[
+    pdf_to_image,
+    binarizer,
+    ocr,
+    textToPdf
+])
+
+result = pipeline.transform(df).collect()
+
+# Store to file for debug
+with open("test.pdf", "wb") as file:
+    file.write(result[0].pdf)
+```
 
 ```scala
 import org.apache.spark.ml.Pipeline
@@ -376,55 +443,14 @@ fos.close()
 println(tmpFile)
 ```
 
-```python
-from sparkocr.transformers import *
-
-pdfPath = "path to pdf"
-
-# Read PDF file as binary file
-df = spark.read.format("binaryFile").load(pdfPath)
-
-pdf_to_image = PdfToImage() \
-    .setInputCol("content") \
-    .setOutputCol("image_raw")
-
-binarizer = ImageBinarizer() \
-    .setInputCol("image_raw") \
-    .setOutputCol("image") \
-    .setThreshold(130)
-
-ocr = ImageToText() \
-    .setInputCol("image") \
-    .setOutputCol("text") \
-    .setIgnoreResolution(False) \
-    .setPageSegMode(PageSegmentationMode.SPARSE_TEXT) \
-    .setConfidenceThreshold(60)
-
-textToPdf = TextToPdf() \
-    .setInputCol("positions") \
-    .setInputImage("image") \
-    .setOutputCol("pdf")
-
-pipeline = PipelineModel(stages=[
-    pdf_to_image,
-    binarizer,
-    ocr,
-    textToPdf
-])
-
-result = pipeline.transform(df).collect()
-
-# Store to file for debug
-with open("test.pdf", "wb") as file:
-    file.write(result[0].pdf)
-```
-
-</div>
+</div></div><div class="h3-box" markdown="1">
 
 ### PdfAssembler
 
 `PdfAssembler` group single page PDF documents by the filename and assemble
 muliplepage PDF document.
+
+</div><div class="h3-box" markdown="1">
 
 ##### Input Columns
 
@@ -435,6 +461,7 @@ muliplepage PDF document.
 | originCol | string | path | path to the original file |
 | pageNumCol | string | pagenum | for compatibility with another transformers |
 
+</div><div class="h3-box" markdown="1">
 
 ##### Output Columns
 
@@ -445,9 +472,49 @@ muliplepage PDF document.
 
 **Example:**
 
-<div class="tabs-box pt0" markdown="1">
+<div class="tabs-box tabs-new pt0" markdown="1">
 
 {% include programmingLanguageSelectScalaPython.html %}
+
+```python
+from pyspark.ml import PipelineModel
+
+from sparkocr.transformers import *
+
+pdfPath = "path to pdf"
+
+# Read PDF file as binary file
+df = spark.read.format("binaryFile").load(pdfPath)
+
+pdf_to_image = PdfToImage() \
+        .setInputCol("content") \
+        .setOutputCol("image") \
+        .setKeepInput(True)
+    
+# Run OCR and render results to PDF
+ocr = ImageToTextPdf() \
+    .setInputCol("image") \
+    .setOutputCol("pdf_page")
+
+# Assemble multipage PDF
+pdf_assembler = PdfAssembler() \
+    .setInputCol("pdf_page") \
+    .setOutputCol("pdf")
+
+pipeline = PipelineModel(stages=[
+    pdf_to_image,
+    ocr,
+    pdf_assembler
+])
+
+pdf = pipeline.transform(df)
+
+pdfContent = pdf.select("pdf").collect().head.getAs[Array[Byte]](0)
+
+# store pdf to file
+with open("test.pdf", "wb") as file:
+    file.write(pdfContent[0].pdf) 
+```
 
 ```scala
 import java.io.FileOutputStream
@@ -495,51 +562,13 @@ fos.close()
 println(tmpFile)
 ```
 
-```python
-from pyspark.ml import PipelineModel
-
-from sparkocr.transformers import *
-
-pdfPath = "path to pdf"
-
-# Read PDF file as binary file
-df = spark.read.format("binaryFile").load(pdfPath)
-
-pdf_to_image = PdfToImage() \
-        .setInputCol("content") \
-        .setOutputCol("image") \
-        .setKeepInput(True)
-    
-# Run OCR and render results to PDF
-ocr = ImageToTextPdf() \
-    .setInputCol("image") \
-    .setOutputCol("pdf_page")
-
-# Assemble multipage PDF
-pdf_assembler = PdfAssembler() \
-    .setInputCol("pdf_page") \
-    .setOutputCol("pdf")
-
-pipeline = PipelineModel(stages=[
-    pdf_to_image,
-    ocr,
-    pdf_assembler
-])
-
-pdf = pipeline.transform(df)
-
-pdfContent = pdf.select("pdf").collect().head.getAs[Array[Byte]](0)
-
-# store pdf to file
-with open("test.pdf", "wb") as file:
-    file.write(pdfContent[0].pdf) 
-```
-
-</div>
+</div></div><div class="h3-box" markdown="1">
 
 ### PdfDrawRegions
 
 `PdfDrawRegions` transformer for drawing regions to Pdf document.
+
+</div><div class="h3-box" markdown="1">
 
 ##### Input Columns
 
@@ -550,6 +579,7 @@ with open("test.pdf", "wb") as file:
 | originCol | string | path | path to the original file |
 | inputRegionsCol | string | region | input column which contain regions |
 
+</div><div class="h3-box" markdown="1">
 
 ##### Parameters
 
@@ -558,6 +588,7 @@ with open("test.pdf", "wb") as file:
 | --- | --- | --- | --- |
 | lineWidth | integer | 1 | line width for draw regions |
 
+</div><div class="h3-box" markdown="1">
 
 ##### Output Columns
 
@@ -569,9 +600,76 @@ with open("test.pdf", "wb") as file:
 
 **Example:**
 
-<div class="tabs-box pt0" markdown="1">
+<div class="tabs-box tabs-new pt0" markdown="1">
 
 {% include programmingLanguageSelectScalaPython.html %}
+
+```python
+from pyspark.ml import Pipeline
+
+from sparkocr.transformers import *
+from sparknlp.annotator import *
+from sparknlp.base import *
+
+pdfPath = "path to pdf"
+
+# Read PDF file as binary file
+df = spark.read.format("binaryFile").load(pdfPath)
+
+pdf_to_text = PdfToText() \
+    .setInputCol("content") \
+    .setOutputCol("text") \
+    .setPageNumCol("page") \
+    .setSplitPage(False)
+
+document_assembler = DocumentAssembler() \
+    .setInputCol("text") \
+    .setOutputCol("document")
+
+sentence_detector = SentenceDetector() \
+    .setInputCols(["document"]) \
+    .setOutputCol("sentence")
+
+tokenizer = Tokenizer() \
+    .setInputCols(["sentence"]) \
+    .setOutputCol("token")
+
+entity_extractor = TextMatcher() \
+    .setInputCols("sentence", "token") \
+    .setEntities("./sparkocr/resources/test-chunks.txt", ReadAs.TEXT) \
+    .setOutputCol("entity")
+
+position_finder = PositionFinder() \
+    .setInputCols("entity") \
+    .setOutputCol("coordinates") \
+    .setPageMatrixCol("positions") \
+    .setMatchingWindow(10) \
+    .setPadding(2)
+
+draw = PdfDrawRegions() \
+    .setInputRegionsCol("coordinates") \
+    .setOutputCol("pdf_with_regions") \
+    .setInputCol("content") \
+    .setLineWidth(1)
+
+pipeline = Pipeline(stages=[
+    pdf_to_text,
+    document_assembler,
+    sentence_detector,
+    tokenizer,
+    entity_extractor,
+    position_finder,
+    draw
+])
+
+pdfWithRegions = pipeline.fit(df).transform(df)
+
+pdfContent = pdfWithRegions.select("pdf_regions").collect().head.getAs[Array[Byte]](0)
+
+# store to pdf to tmp file
+with open("test.pdf", "wb") as file:
+    file.write(pdfContent[0].pdf_regions) 
+```
 
 ```scala
 import java.io.FileOutputStream
@@ -643,6 +741,57 @@ fos.close()
 println(tmpFile)
 ```
 
+</div></div><div class="h3-box" markdown="1">
+
+Results:
+
+![Result with regions](/assets/images/ocr/with_regions.png)
+
+</div><div class="h3-box" markdown="1">
+
+### PdfToTextTable
+
+Extract tables from Pdf document page.
+Input is a column with binary representation of PDF document.
+As output generate column with tables and tables text chunks coordinates (rows/cols).
+
+</div><div class="h3-box" markdown="1">
+
+##### Input Columns
+
+{:.table-model-big}
+| Param name | Type | Default | Column Data Description |
+| --- | --- | --- | --- |
+| inputCol | string | text | binary representation of the PDF document |
+| originCol | string | path | path to the original file |
+
+</div><div class="h3-box" markdown="1">
+
+##### Parameters
+
+{:.table-model-big}
+| Param name | Type | Default | Description |
+| --- | --- | --- | --- |
+| pageIndex | integer | -1 | Page index to extract Tables. |
+| guess | bool | false | A logical indicating whether to guess the locations of tables on each page. |
+| method | string | decide | Identifying the prefered method of table extraction: basic, spreadsheet. |
+
+</div><div class="h3-box" markdown="1">
+
+##### Output Columns
+
+{:.table-model-big}
+| Param name | Type | Default | Column Data Description |
+| --- | --- | --- | --- |
+| outputCol | TableContainer | tables | Extracted tables |
+
+
+**Example:**
+
+<div class="tabs-box tabs-new pt0" markdown="1">
+
+{% include programmingLanguageSelectScalaPython.html %}
+
 ```python
 from pyspark.ml import Pipeline
 
@@ -655,104 +804,17 @@ pdfPath = "path to pdf"
 # Read PDF file as binary file
 df = spark.read.format("binaryFile").load(pdfPath)
 
-pdf_to_text = PdfToText() \
-    .setInputCol("content") \
-    .setOutputCol("text") \
-    .setPageNumCol("page") \
-    .setSplitPage(False)
+pdf_to_text_table = PdfToTextTable()
+pdf_to_text_table.setInputCol("content")
+pdf_to_text_table.setOutputCol("table")
+pdf_to_text_table.setPageIndex(1)
+pdf_to_text_table.setMethod("basic")
 
-document_assembler = DocumentAssembler() \
-    .setInputCol("text") \
-    .setOutputCol("document")
+table = pdf_to_text_table.transform(df)
 
-sentence_detector = SentenceDetector() \
-    .setInputCols(["document"]) \
-    .setOutputCol("sentence")
-
-tokenizer = Tokenizer() \
-    .setInputCols(["sentence"]) \
-    .setOutputCol("token")
-
-entity_extractor = TextMatcher() \
-    .setInputCols("sentence", "token") \
-    .setEntities("./sparkocr/resources/test-chunks.txt", ReadAs.TEXT) \
-    .setOutputCol("entity")
-
-position_finder = PositionFinder() \
-    .setInputCols("entity") \
-    .setOutputCol("coordinates") \
-    .setPageMatrixCol("positions") \
-    .setMatchingWindow(10) \
-    .setPadding(2)
-
-draw = PdfDrawRegions() \
-    .setInputRegionsCol("coordinates") \
-    .setOutputCol("pdf_with_regions") \
-    .setInputCol("content") \
-    .setLineWidth(1)
-
-pipeline = Pipeline(stages=[
-    pdf_to_text,
-    document_assembler,
-    sentence_detector,
-    tokenizer,
-    entity_extractor,
-    position_finder,
-    draw
-])
-
-pdfWithRegions = pipeline.fit(df).transform(df)
-
-pdfContent = pdfWithRegions.select("pdf_regions").collect().head.getAs[Array[Byte]](0)
-
-# store to pdf to tmp file
-with open("test.pdf", "wb") as file:
-    file.write(pdfContent[0].pdf_regions) 
+# Show first row
+table.select(table["table.chunks"].getItem(1)["chunkText"]).show(1, False)
 ```
-
-</div>
-
-Results:
-
-![Result with regions](/assets/images/ocr/with_regions.png)
-
-### PdfToTextTable
-
-Extract tables from Pdf document page.
-Input is a column with binary representation of PDF document.
-As output generate column with tables and tables text chunks coordinates (rows/cols).
-
-##### Input Columns
-
-{:.table-model-big}
-| Param name | Type | Default | Column Data Description |
-| --- | --- | --- | --- |
-| inputCol | string | text | binary representation of the PDF document |
-| originCol | string | path | path to the original file |
-
-##### Parameters
-
-{:.table-model-big}
-| Param name | Type | Default | Description |
-| --- | --- | --- | --- |
-| pageIndex | integer | -1 | Page index to extract Tables. |
-| guess | bool | false | A logical indicating whether to guess the locations of tables on each page. |
-| method | string | decide | Identifying the prefered method of table extraction: basic, spreadsheet. |
-
-
-##### Output Columns
-
-{:.table-model-big}
-| Param name | Type | Default | Column Data Description |
-| --- | --- | --- | --- |
-| outputCol | TableContainer | tables | Extracted tables |
-
-
-**Example:**
-
-<div class="tabs-box pt0" markdown="1">
-
-{% include programmingLanguageSelectScalaPython.html %}
 
 ```scala
 import java.io.FileOutputStream
@@ -780,31 +842,7 @@ table = pdfToTextTable.transform(df)
 table.select(table["table.chunks"].getItem(1)["chunkText"]).show(1, False)
 ```
 
-```python
-from pyspark.ml import Pipeline
-
-from sparkocr.transformers import *
-from sparknlp.annotator import *
-from sparknlp.base import *
-
-pdfPath = "path to pdf"
-
-# Read PDF file as binary file
-df = spark.read.format("binaryFile").load(pdfPath)
-
-pdf_to_text_table = PdfToTextTable()
-pdf_to_text_table.setInputCol("content")
-pdf_to_text_table.setOutputCol("table")
-pdf_to_text_table.setPageIndex(1)
-pdf_to_text_table.setMethod("basic")
-
-table = pdf_to_text_table.transform(df)
-
-# Show first row
-table.select(table["table.chunks"].getItem(1)["chunkText"]).show(1, False)
-```
-
-</div>
+</div></div><div class="h3-box" markdown="1">
 
 Output:
 
@@ -816,14 +854,19 @@ Output:
 +------------------------------------------------------------------+
 ```
 
+</div><div class="h3-box" markdown="1">
 
 ## DOCX processing
 
 Next section describes the transformers that deal with DOCX files with the purpose of extracting text and table data from it.
 
+</div><div class="h3-box" markdown="1">
+
 ### DocToText
 
 `DocToText` extracts text from the DOCX document.
+
+</div><div class="h3-box" markdown="1">
 
 ##### Input Columns
 
@@ -832,6 +875,8 @@ Next section describes the transformers that deal with DOCX files with the purpo
 | --- | --- | --- | --- |
 | inputCol | string | text | binary representation of the DOCX document |
 | originCol | string | path | path to the original file |
+
+</div><div class="h3-box" markdown="1">
 
 ##### Output Columns
 
@@ -848,26 +893,9 @@ NOTE: For setting parameters use `setParamName` method.
 **Example**
 
 
-<div class="tabs-box pt0" markdown="1">
+<div class="tabs-box tabs-new pt0" markdown="1">
 
 {% include programmingLanguageSelectScalaPython.html %}
-
-```scala
-import com.johnsnowlabs.ocr.transformers.DocToText
-
-val docPath = "path to docx with text layout"
-
-// Read DOCX file as binary file
-val df = spark.read.format("binaryFile").load(docPath)
-
-val transformer = new DocToText()
-  .setInputCol("content")
-  .setOutputCol("text")
-
-val data = transformer.transform(df)
-
-data.select("pagenum", "text").show()
-```
 
 ```python
 from sparkocr.transformers import *
@@ -886,7 +914,24 @@ data = transformer.transform(df)
 data.select("pagenum", "text").show()
 ```
 
-</div>
+```scala
+import com.johnsnowlabs.ocr.transformers.DocToText
+
+val docPath = "path to docx with text layout"
+
+// Read DOCX file as binary file
+val df = spark.read.format("binaryFile").load(docPath)
+
+val transformer = new DocToText()
+  .setInputCol("content")
+  .setOutputCol("text")
+
+val data = transformer.transform(df)
+
+data.select("pagenum", "text").show()
+```
+
+</div></div><div class="h3-box" markdown="1">
 
 ### DocToTextTable
 
@@ -914,26 +959,9 @@ NOTE: For setting parameters use `setParamName` method.
 **Example**
 
 
-<div class="tabs-box pt0" markdown="1">
+<div class="tabs-box tabs-new pt0" markdown="1">
 
 {% include programmingLanguageSelectScalaPython.html %}
-
-```scala
-import com.johnsnowlabs.ocr.transformers.DocToTextTable
-
-val docPath = "path to docx with text layout"
-
-// Read DOCX file as binary file
-val df = spark.read.format("binaryFile").load(docPath)
-
-val transformer = new DocToTextTable()
-  .setInputCol("content")
-  .setOutputCol("tables")
-
-val data = transformer.transform(df)
-
-data.select("tables").show()
-```
 
 ```python
 from sparkocr.transformers import *
@@ -952,11 +980,30 @@ data = transformer.transform(df)
 data.select("tables").show()
 ```
 
-</div>
+```scala
+import com.johnsnowlabs.ocr.transformers.DocToTextTable
+
+val docPath = "path to docx with text layout"
+
+// Read DOCX file as binary file
+val df = spark.read.format("binaryFile").load(docPath)
+
+val transformer = new DocToTextTable()
+  .setInputCol("content")
+  .setOutputCol("tables")
+
+val data = transformer.transform(df)
+
+data.select("tables").show()
+```
+
+</div></div><div class="h3-box" markdown="1">
 
 ### DocToPdf
 
 `DocToPdf` convert DOCX document to PDF document.
+
+</div><div class="h3-box" markdown="1">
 
 ##### Input Columns
 
@@ -965,6 +1012,8 @@ data.select("tables").show()
 | --- | --- | --- | --- |
 | inputCol | string | text | binary representation of the DOCX document |
 | originCol | string | path | path to the original file |
+
+</div><div class="h3-box" markdown="1">
 
 ##### Output Columns
 
@@ -980,26 +1029,9 @@ NOTE: For setting parameters use `setParamName` method.
 **Example**
 
 
-<div class="tabs-box pt0" markdown="1">
+<div class="tabs-box tabs-new pt0" markdown="1">
 
 {% include programmingLanguageSelectScalaPython.html %}
-
-```scala
-import com.johnsnowlabs.ocr.transformers.DocToPdf
-
-val docPath = "path to docx with text layout"
-
-// Read DOCX file as binary file
-val df = spark.read.format("binaryFile").load(docPath)
-
-val transformer = new DocToPdf()
-  .setInputCol("content")
-  .setOutputCol("pdf")
-
-val data = transformer.transform(df)
-
-data.select("pdf").show()
-```
 
 ```python
 from sparkocr.transformers import *
@@ -1018,11 +1050,30 @@ data = transformer.transform(df)
 data.select("pdf").show()
 ```
 
-</div>
+```scala
+import com.johnsnowlabs.ocr.transformers.DocToPdf
+
+val docPath = "path to docx with text layout"
+
+// Read DOCX file as binary file
+val df = spark.read.format("binaryFile").load(docPath)
+
+val transformer = new DocToPdf()
+  .setInputCol("content")
+  .setOutputCol("pdf")
+
+val data = transformer.transform(df)
+
+data.select("pdf").show()
+```
+
+</div></div><div class="h3-box" markdown="1">
 
 ### PptToTextTable
 
 `PptToTextTable` extracts table data from the PPT and PPTX documents.
+
+</div><div class="h3-box" markdown="1">
 
 ##### Input Columns
 
@@ -1031,6 +1082,8 @@ data.select("pdf").show()
 | --- | --- | --- | --- |
 | inputCol | string | text | binary representation of the PPT document |
 | originCol | string | path | path to the original file |
+
+</div><div class="h3-box" markdown="1">
 
 ##### Output Columns
 
@@ -1046,26 +1099,9 @@ NOTE: For setting parameters use `setParamName` method.
 **Example**
 
 
-<div class="tabs-box pt0" markdown="1">
+<div class="tabs-box tabs-new pt0" markdown="1">
 
 {% include programmingLanguageSelectScalaPython.html %}
-
-```scala
-import com.johnsnowlabs.ocr.transformers.PptToTextTable
-
-val docPath = "path to docx with text layout"
-
-// Read PPT file as binary file
-val df = spark.read.format("binaryFile").load(docPath)
-
-val transformer = new PptToTextTable()
-  .setInputCol("content")
-  .setOutputCol("tables")
-
-val data = transformer.transform(df)
-
-data.select("tables").show()
-```
 
 ```python
 from sparkocr.transformers import *
@@ -1084,11 +1120,30 @@ data = transformer.transform(df)
 data.select("tables").show()
 ```
 
-</div>
+```scala
+import com.johnsnowlabs.ocr.transformers.PptToTextTable
+
+val docPath = "path to docx with text layout"
+
+// Read PPT file as binary file
+val df = spark.read.format("binaryFile").load(docPath)
+
+val transformer = new PptToTextTable()
+  .setInputCol("content")
+  .setOutputCol("tables")
+
+val data = transformer.transform(df)
+
+data.select("tables").show()
+```
+
+</div></div><div class="h3-box" markdown="1">
 
 ### PptToPdf
 
-`PptToPdf` convert PPT and PPTX document to PDF document.
+`PptToPdf` convert PPT and PPTX documents to PDF document.
+
+</div><div class="h3-box" markdown="1">
 
 ##### Input Columns
 
@@ -1097,6 +1152,8 @@ data.select("tables").show()
 | --- | --- | --- | --- |
 | inputCol | string | text | binary representation of the PPT document |
 | originCol | string | path | path to the original file |
+
+</div><div class="h3-box" markdown="1">
 
 ##### Output Columns
 
@@ -1112,26 +1169,9 @@ NOTE: For setting parameters use `setParamName` method.
 **Example**
 
 
-<div class="tabs-box pt0" markdown="1">
+<div class="tabs-box tabs-new pt0" markdown="1">
 
 {% include programmingLanguageSelectScalaPython.html %}
-
-```scala
-import com.johnsnowlabs.ocr.transformers.PptToPdf
-
-val docPath = "path to docx with text layout"
-
-// Read PPT file as binary file
-val df = spark.read.format("binaryFile").load(docPath)
-
-val transformer = new PptToPdf()
-  .setInputCol("content")
-  .setOutputCol("pdf")
-
-val data = transformer.transform(df)
-
-data.select("pdf").show()
-```
 
 ```python
 from sparkocr.transformers import *
@@ -1150,7 +1190,24 @@ data = transformer.transform(df)
 data.select("pdf").show()
 ```
 
-</div>
+```scala
+import com.johnsnowlabs.ocr.transformers.PptToPdf
+
+val docPath = "path to docx with text layout"
+
+// Read PPT file as binary file
+val df = spark.read.format("binaryFile").load(docPath)
+
+val transformer = new PptToPdf()
+  .setInputCol("content")
+  .setOutputCol("pdf")
+
+val data = transformer.transform(df)
+
+data.select("pdf").show()
+```
+
+</div></div><div class="h3-box" markdown="1">
 
 
 ## Dicom processing
@@ -1158,6 +1215,8 @@ data.select("pdf").show()
 ### DicomToImage
 
 `DicomToImage` transforms dicom object (loaded as binary file) to image struct.
+
+</div><div class="h3-box" markdown="1">
 
 ##### Input Columns
 
@@ -1167,6 +1226,7 @@ data.select("pdf").show()
 | inputCol | string | content | binary dicom object |
 | originCol | string | path | path to the original file |
 
+</div><div class="h3-box" markdown="1">
 
 ##### Output Columns
 
@@ -1179,27 +1239,9 @@ data.select("pdf").show()
 
 **Scala example:**
 
-<div class="tabs-box pt0" markdown="1">
+<div class="tabs-box tabs-new pt0" markdown="1">
 
 {% include programmingLanguageSelectScalaPython.html %}
-
-```scala
-import com.johnsnowlabs.ocr.transformers.DicomToImage
-
-val dicomPath = "path to dicom files"
-
-// Read dicom file as binary file
-val df = spark.read.format("binaryFile").load(dicomPath)
-
-val dicomToImage = new DicomToImage()
-  .setInputCol("content")
-  .setOutputCol("image")
-  .setMetadataCol("meta")
-
-val data = dicomToImage.transform(df)
-
-data.select("image", "pagenum", "meta").show()
-```
 
 ```python
 from sparkocr.transformers import *
@@ -1219,11 +1261,31 @@ data = dicomToImage.transform(df)
 data.select("image", "pagenum", "meta").show()
 ```
 
-</div>
+```scala
+import com.johnsnowlabs.ocr.transformers.DicomToImage
+
+val dicomPath = "path to dicom files"
+
+// Read dicom file as binary file
+val df = spark.read.format("binaryFile").load(dicomPath)
+
+val dicomToImage = new DicomToImage()
+  .setInputCol("content")
+  .setOutputCol("image")
+  .setMetadataCol("meta")
+
+val data = dicomToImage.transform(df)
+
+data.select("image", "pagenum", "meta").show()
+```
+
+</div></div><div class="h3-box" markdown="1">
 
 ### ImageToDicom
 
 `ImageToDicom` transforms image to Dicom document.
+
+</div><div class="h3-box" markdown="1">
 
 ##### Input Columns
 
@@ -1234,7 +1296,7 @@ data.select("image", "pagenum", "meta").show()
 | originCol | string | path | path to the original file |
 | metadataCol | string | metadata | dicom metatdata ( json formatted )  |
 
-
+</div><div class="h3-box" markdown="1">
 
 ##### Output Columns
 
@@ -1245,29 +1307,9 @@ data.select("image", "pagenum", "meta").show()
 
 **Scala example:**
 
-<div class="tabs-box pt0" markdown="1">
+<div class="tabs-box tabs-new pt0" markdown="1">
 
 {% include programmingLanguageSelectScalaPython.html %}
-
-```scala
-import com.johnsnowlabs.ocr.transformers.ImageToDicom
-
-val imagePath = "path to image file"
-
-// Read image file as binary file
-val df = spark.read
-  .format("binaryFile")
-  .load(imagePath)
-  .asImage("image")
-
-val imageToDicom = new ImageToDicom()
-  .setInputCol("image")
-  .setOutputCol("dicom")
-
-val data = imageToDicom.transform(df)
-
-data.select("dicom").show()
-```
 
 ```python
 from sparkocr.transformers import *
@@ -1292,15 +1334,39 @@ data = imageToDicom.transform(image_df)
 data.select("dicom").show()
 ```
 
-</div>
+```scala
+import com.johnsnowlabs.ocr.transformers.ImageToDicom
+
+val imagePath = "path to image file"
+
+// Read image file as binary file
+val df = spark.read
+  .format("binaryFile")
+  .load(imagePath)
+  .asImage("image")
+
+val imageToDicom = new ImageToDicom()
+  .setInputCol("image")
+  .setOutputCol("dicom")
+
+val data = imageToDicom.transform(df)
+
+data.select("dicom").show()
+```
+
+</div></div><div class="h3-box" markdown="1">
 
 ## Image pre-processing
 
 Next section describes the transformers for image pre-processing: scaling, binarization, skew correction, etc.
 
+</div><div class="h3-box" markdown="1">
+
 ### BinaryToImage
 
 `BinaryToImage` transforms image (loaded as binary file) to image struct.
+
+</div><div class="h3-box" markdown="1">
 
 ##### Input Columns
 
@@ -1310,6 +1376,7 @@ Next section describes the transformers for image pre-processing: scaling, binar
 | inputCol | string | content | binary representation of the image |
 | originCol | string | path | path to the original file |
 
+</div><div class="h3-box" markdown="1">
 
 ##### Output Columns
 
@@ -1320,26 +1387,9 @@ Next section describes the transformers for image pre-processing: scaling, binar
 
 **Scala example:**
 
-<div class="tabs-box pt0" markdown="1">
+<div class="tabs-box tabs-new pt0" markdown="1">
 
 {% include programmingLanguageSelectScalaPython.html %}
-
-```scala
-import com.johnsnowlabs.ocr.transformers.BinaryToImage
-
-val imagePath = "path to image"
-
-// Read image file as binary file
-val df = spark.read.format("binaryFile").load(imagePath)
-
-val binaryToImage = new BinaryToImage()
-  .setInputCol("content")
-  .setOutputCol("image")
-
-val data = binaryToImage.transform(df)
-
-data.select("image").show()
-```
 
 ```python
 from sparkocr.transformers import *
@@ -1358,20 +1408,37 @@ data = binaryToImage.transform(df)
 data.select("image").show()
 ```
 
-</div>
+```scala
+import com.johnsnowlabs.ocr.transformers.BinaryToImage
+
+val imagePath = "path to image"
+
+// Read image file as binary file
+val df = spark.read.format("binaryFile").load(imagePath)
+
+val binaryToImage = new BinaryToImage()
+  .setInputCol("content")
+  .setOutputCol("image")
+
+val data = binaryToImage.transform(df)
+
+data.select("image").show()
+```
+
+</div></div><div class="h3-box" markdown="1">
 
 ### GPUImageTransformer
 
 `GPUImageTransformer` allows to run image pre-processing operations on GPU.
 
-It supports following operations:
+It supports the following operations:
 - Scaling
 - Otsu thresholding
 - Huang thresholding
 - Erosion
 - Dilation
 
-`GPUImageTransformer` allows to add few operations. For add  operations need to call
+`GPUImageTransformer` allows to add few operations. To add operations you need to call
 one of the methods with params:
 
 {:.table-model-big}
@@ -1382,12 +1449,16 @@ one of the methods with params:
 |addDilateTransform| width, height | Computes the local maximum of a pixels rectangular neighborhood. The rectangles size is specified by its half-width and half-height. |
 |addErodeTransform| width, height | Computes the local minimum of a pixels rectangular neighborhood. The rectangles size is specified by its half-width and half-height|
 
+</div><div class="h3-box" markdown="1">
+
 ##### Input Columns
 
 {:.table-model-big}
 | Param name | Type | Default | Column Data Description |
 | --- | --- | --- | --- |
 | inputCol | string | image | image struct ([Image schema](ocr_structures#image-schema)) |
+
+</div><div class="h3-box" markdown="1">
 
 ##### Parameters
 
@@ -1396,6 +1467,8 @@ one of the methods with params:
 | --- | --- | --- | --- |
 | imageType | [ImageType](ocr_structures#imagetype) | `ImageType.TYPE_BYTE_BINARY` | Type of the output image |
 | gpuName   | string  | "" | GPU device name.|
+
+</div><div class="h3-box" markdown="1">
 
 ##### Output Columns
 
@@ -1407,34 +1480,9 @@ one of the methods with params:
 
 **Example:**
 
-<div class="tabs-box pt0" markdown="1">
+<div class="tabs-box tabs-new pt0" markdown="1">
 
 {% include programmingLanguageSelectScalaPython.html %}
-
-```scala
-import com.johnsnowlabs.ocr.transformers.GPUImageTransformer
-import com.johnsnowlabs.ocr.OcrContext.implicits._
-
-val imagePath = "path to image"
-
-// Read image file as binary file
-val df = spark.read
-  .format("binaryFile")
-  .load(imagePath)
-  .asImage("image")
-
-val transformer = new GPUImageTransformer()
-  .setInputCol("image")
-  .setOutputCol("transformed_image")
-  .addHuangTransform()
-  .addScalingTransform(3)
-  .addDilateTransform(2, 2)
-  .setImageType(ImageType.TYPE_BYTE_BINARY)
-
-val data = transformer.transform(df)
-
-data.storeImage("transformed_image")
-```
 
 ```python
 from sparkocr.transformers import *
@@ -1470,11 +1518,38 @@ result = pipeline.transform(df)
 display_images(result, "transformed_image")
 ```
 
-</div>
+```scala
+import com.johnsnowlabs.ocr.transformers.GPUImageTransformer
+import com.johnsnowlabs.ocr.OcrContext.implicits._
+
+val imagePath = "path to image"
+
+// Read image file as binary file
+val df = spark.read
+  .format("binaryFile")
+  .load(imagePath)
+  .asImage("image")
+
+val transformer = new GPUImageTransformer()
+  .setInputCol("image")
+  .setOutputCol("transformed_image")
+  .addHuangTransform()
+  .addScalingTransform(3)
+  .addDilateTransform(2, 2)
+  .setImageType(ImageType.TYPE_BYTE_BINARY)
+
+val data = transformer.transform(df)
+
+data.storeImage("transformed_image")
+```
+
+</div></div><div class="h3-box" markdown="1">
 
 ### ImageBinarizer
 
-`ImageBinarizer` transforms image to binary color schema by threshold.
+`ImageBinarizer` transforms image to binary color schema, based on threshold.
+
+</div><div class="h3-box" markdown="1">
 
 ##### Input Columns
 
@@ -1483,12 +1558,16 @@ display_images(result, "transformed_image")
 | --- | --- | --- | --- |
 | inputCol | string | image | image struct ([Image schema](ocr_structures#image-schema)) |
 
+</div><div class="h3-box" markdown="1">
+
 ##### Parameters
 
 {:.table-model-big}
 | Param name | Type | Default | Description |
 | --- | --- | --- | --- |
 | threshold | int | 170 |
+
+</div><div class="h3-box" markdown="1">
 
 ##### Output Columns
 
@@ -1499,9 +1578,30 @@ display_images(result, "transformed_image")
 
 **Example:**
 
-<div class="tabs-box pt0" markdown="1">
+<div class="tabs-box tabs-new pt0" markdown="1">
 
 {% include programmingLanguageSelectScalaPython.html %}
+
+```python
+from sparkocr.transformers import *
+
+imagePath = "path to image"
+
+# Read image file as binary file
+df = spark.read \
+  .format("binaryFile") \
+  .load(imagePath) \
+  .asImage("image")
+
+binirizer = ImageBinarizer() \
+  .setInputCol("image") \
+  .setOutputCol("binary_image") \
+  .setThreshold(100)
+
+data = binirizer.transform(df)
+
+data.show()
+```
 
 ```scala
 import com.johnsnowlabs.ocr.transformers.ImageBinarizer
@@ -1525,28 +1625,7 @@ val data = binirizer.transform(df)
 data.storeImage("binary_image")
 ```
 
-```python
-from sparkocr.transformers import *
-
-imagePath = "path to image"
-
-# Read image file as binary file
-df = spark.read \
-  .format("binaryFile") \
-  .load(imagePath) \
-  .asImage("image")
-
-binirizer = ImageBinarizer() \
-  .setInputCol("image") \
-  .setOutputCol("binary_image") \
-  .setThreshold(100)
-
-data = binirizer.transform(df)
-
-data.show()
-```
-
-</div>
+</div></div><div class="h3-box" markdown="1">
 
 **Original image:**
 
@@ -1556,15 +1635,18 @@ data.show()
 
 ![binarized](/assets/images/ocr/binarized.png)
 
+</div><div class="h3-box" markdown="1">
+
 ### ImageAdaptiveBinarizer
 
 Supported Methods:
-- OTSU
+- OTSU.  Returns a single intensity threshold that separate pixels into two classes, foreground and background.
 - Gaussian local thresholding. Thresholds the image using a locally adaptive threshold that is computed
  using a local square region centered on each pixel.  The threshold is equal to the gaussian weighted sum 
  of the surrounding pixels times the scale.
-- Sauvola
+- Sauvola. Is a Local thresholding technique that are useful for images where the background is not uniform.
 
+</div><div class="h3-box" markdown="1">
 
 #### Input Columns
 
@@ -1572,6 +1654,8 @@ Supported Methods:
 | Param name | Type | Default | Column Data Description |
 | --- | --- | --- | --- |
 | inputCol | string | image | image struct ([Image schema](ocr_structures#image-schema)) |
+
+</div><div class="h3-box" markdown="1">
 
 #### Parameters
 
@@ -1583,6 +1667,7 @@ Supported Methods:
 | scale | float | 1.1f | Scale factor used to adjust threshold. |
 | imageType | [ImageType](ocr_structures#imagetype) | `ImageType.TYPE_BYTE_BINARY` | Type of the output image |
 
+</div><div class="h3-box" markdown="1">
 
 #### Output Columns
 
@@ -1593,44 +1678,9 @@ Supported Methods:
 
 **Example:**
 
-<div class="tabs-box pt0" markdown="1">
+<div class="tabs-box tabs-new pt0" markdown="1">
 
 {% include programmingLanguageSelectScalaPython.html %}
-
-```scala
-import com.johnsnowlabs.ocr.transformers.*
-import com.johnsnowlabs.ocr.OcrContext.implicits._
-
-val imagePath = "path to image"
-
-// Read image file as binary file
-val df = spark.read
-  .format("binaryFile")
-  .load(imagePath)
-  .asImage("image")
-
-val binirizer = new ImageAdaptiveBinarizer()
-  .setInputCol("image")
-  .setOutputCol("binary_image")
-  .setWidth(100)
-  .setScale(1.1)
-
-val data = binirizer.transform(df)
-
-data.storeImage("binary_image")
-
-
-
-
-
-
-
-
-
-
-
-
-```
 
 ```python
 from pyspark.ml import PipelineModel
@@ -1667,7 +1717,30 @@ for r in result.select("image", "corrected_image").collect():
     display_image(r.corrected_image)
 ```
 
-</div>
+```scala
+import com.johnsnowlabs.ocr.transformers.*
+import com.johnsnowlabs.ocr.OcrContext.implicits._
+
+val imagePath = "path to image"
+
+// Read image file as binary file
+val df = spark.read
+  .format("binaryFile")
+  .load(imagePath)
+  .asImage("image")
+
+val binirizer = new ImageAdaptiveBinarizer()
+  .setInputCol("image")
+  .setOutputCol("binary_image")
+  .setWidth(100)
+  .setScale(1.1)
+
+val data = binirizer.transform(df)
+
+data.storeImage("binary_image")
+```
+
+</div></div><div class="h3-box" markdown="1">
 
 ### ImageAdaptiveThresholding
 
@@ -1683,12 +1756,16 @@ Supported methods:
  * ***WOLF***
  * ***SINGH***
  
+ </div><div class="h3-box" markdown="1">
+
 #### Input Columns
 
 {:.table-model-big}
 | Param name | Type | Default | Column Data Description |
 | --- | --- | --- | --- |
 | inputCol | string | image | image struct ([Image schema](ocr_structures#image-schema)) |
+
+</div><div class="h3-box" markdown="1">
 
 #### Parameters
 
@@ -1701,6 +1778,7 @@ Supported methods:
 | mode | string | | The mode parameter determines how the array borders are handled, where cval is the value when mode is equal to 'constant' |
 | cval | int | | Value to fill past edges of input if mode is 'constant'. |
 
+</div><div class="h3-box" markdown="1">
 
 #### Output Columns
 
@@ -1711,13 +1789,9 @@ Supported methods:
 
 **Example:**
 
-<div class="tabs-box pt0" markdown="1">
+<div class="tabs-box tabs-new pt0" markdown="1">
 
 {% include programmingLanguageSelectScalaPython.html %}
-
-```scala
-// Implemented only for Python
-```
 
 ```python
 from pyspark.ml import PipelineModel
@@ -1754,7 +1828,11 @@ for r in result.select("image", "corrected_image").collect():
     display_image(r.corrected_image)
 ```
 
-</div>
+```scala
+// Implemented only for Python
+```
+
+</div></div><div class="h3-box" markdown="1">
 
 **Original image:**
 
@@ -1764,11 +1842,14 @@ for r in result.select("image", "corrected_image").collect():
 
 ![binarized](/assets/images/ocr/adaptive_binarized.png)
 
+</div><div class="h3-box" markdown="1">
 
 ### ImageScaler
 
 `ImageScaler` scales image by provided scale factor or needed output size.
 It supports keeping original ratio of image by padding the image in case fixed output size.
+
+</div><div class="h3-box" markdown="1">
 
 #### Input Columns
 
@@ -1776,6 +1857,8 @@ It supports keeping original ratio of image by padding the image in case fixed o
 | Param name | Type | Default | Column Data Description |
 | --- | --- | --- | --- |
 | inputCol | string | image | image struct ([Image schema](ocr_structures#image-schema)) |
+
+</div><div class="h3-box" markdown="1">
 
 #### Parameters
 
@@ -1787,6 +1870,8 @@ It supports keeping original ratio of image by padding the image in case fixed o
 | width | int | 0 | Output width of image |
 | height | int | 0 | Outpu height of imgae |
 
+</div><div class="h3-box" markdown="1">
+
 #### Output Columns
 
 {:.table-model-big}
@@ -1797,9 +1882,29 @@ It supports keeping original ratio of image by padding the image in case fixed o
 
 **Example:**
 
-<div class="tabs-box pt0" markdown="1">
+<div class="tabs-box tabs-new pt0" markdown="1">
 
 {% include programmingLanguageSelectScalaPython.html %}
+
+```python
+from sparkocr.transformers import *
+
+imagePath = "path to image"
+
+# Read image file as binary file
+df = spark.read \
+  .format("binaryFile") \
+  .load(imagePath) \
+  .asImage("image")
+
+transformer = ImageScaler() \
+  .setInputCol("image") \
+  .setOutputCol("scaled_image") \
+  .setScaleFactor(0.5)
+
+data = transformer.transform(df)
+data.show()
+```
 
 ```scala
 import com.johnsnowlabs.ocr.transformers.ImageScaler
@@ -1822,6 +1927,45 @@ val data = transformer.transform(df)
 data.storeImage("scaled_image")
 ```
 
+</div></div><div class="h3-box" markdown="1">
+
+### ImageAdaptiveScaler
+
+`ImageAdaptiveScaler` detects font size and scales image for have desired font size.
+
+</div><div class="h3-box" markdown="1">
+
+#### Input Columns
+
+{:.table-model-big}
+| Param name | Type | Default | Column Data Description |
+| --- | --- | --- | --- |
+| inputCol | string | image | image struct ([Image schema](ocr_structures#image-schema)) |
+
+</div><div class="h3-box" markdown="1">
+
+#### Parameters
+
+{:.table-model-big}
+| Param name | Type | Default | Description |
+| --- | --- | --- | --- |
+| desiredSize | int | 34 | desired size of font in pixels |
+
+</div><div class="h3-box" markdown="1">
+
+#### Output Columns
+
+{:.table-model-big}
+| Param name | Type | Default | Column Data Description |
+| --- | --- | --- | --- |
+| outputCol | string | scaled_image | scaled image struct ([Image schema](ocr_structures#image-schema)) |
+
+**Example:**
+
+<div class="tabs-box tabs-new pt0" markdown="1">
+
+{% include programmingLanguageSelectScalaPython.html %}
+
 ```python
 from sparkocr.transformers import *
 
@@ -1833,47 +1977,14 @@ df = spark.read \
   .load(imagePath) \
   .asImage("image")
 
-transformer = ImageScaler() \
+transformer = ImageAdaptiveScaler() \
   .setInputCol("image") \
   .setOutputCol("scaled_image") \
-  .setScaleFactor(0.5)
+  .setDesiredSize(34)
 
 data = transformer.transform(df)
 data.show()
 ```
-
-</div>
-
-### ImageAdaptiveScaler
-
-`ImageAdaptiveScaler` detects font size and scales image for have desired font size.
-
-#### Input Columns
-
-{:.table-model-big}
-| Param name | Type | Default | Column Data Description |
-| --- | --- | --- | --- |
-| inputCol | string | image | image struct ([Image schema](ocr_structures#image-schema)) |
-
-#### Parameters
-
-{:.table-model-big}
-| Param name | Type | Default | Description |
-| --- | --- | --- | --- |
-| desiredSize | int | 34 | desired size of font in pixels |
-
-#### Output Columns
-
-{:.table-model-big}
-| Param name | Type | Default | Column Data Description |
-| --- | --- | --- | --- |
-| outputCol | string | scaled_image | scaled image struct ([Image schema](ocr_structures#image-schema)) |
-
-**Example:**
-
-<div class="tabs-box pt0" markdown="1">
-
-{% include programmingLanguageSelectScalaPython.html %}
 
 ```scala
 import com.johnsnowlabs.ocr.transformers.ImageAdaptiveScaler
@@ -1896,31 +2007,13 @@ val data = transformer.transform(df)
 data.storeImage("scaled_image")
 ```
 
-```python
-from sparkocr.transformers import *
-
-imagePath = "path to image"
-
-# Read image file as binary file
-df = spark.read \
-  .format("binaryFile") \
-  .load(imagePath) \
-  .asImage("image")
-
-transformer = ImageAdaptiveScaler() \
-  .setInputCol("image") \
-  .setOutputCol("scaled_image") \
-  .setDesiredSize(34)
-
-data = transformer.transform(df)
-data.show()
-```
-
-</div>
+</div></div><div class="h3-box" markdown="1">
 
 ### ImageSkewCorrector
 
 `ImageSkewCorrector` detects skew of the image and rotates it.
+
+</div><div class="h3-box" markdown="1">
 
 #### Input Columns
 
@@ -1928,6 +2021,8 @@ data.show()
 | Param name | Type | Default | Column Data Description |
 | --- | --- | --- | --- |
 | inputCol | string | image | image struct ([Image schema](ocr_structures#image-schema)) |
+
+</div><div class="h3-box" markdown="1">
 
 #### Parameters
 
@@ -1939,6 +2034,7 @@ data.show()
 | halfAngle | double | 5.0 | half the angle(in degrees) that will be considered for correction |
 | resolution | double | 1.0 | The step size(in degrees) that will be used for generating correction angle candidates |
 
+</div><div class="h3-box" markdown="1">
 
 #### Output Columns
 
@@ -1950,9 +2046,42 @@ data.show()
 
 **Example:**
 
-<div class="tabs-box pt0" markdown="1">
+<div class="tabs-box tabs-new pt0" markdown="1">
 
 {% include programmingLanguageSelectScalaPython.html %}
+
+```python
+from pyspark.ml import PipelineModel
+from sparkocr.transformers import *
+from sparkocr.utils import display_images
+
+imagePath = "path to image"
+
+# Read image file as binary file
+df = spark.read \
+    .format("binaryFile") \
+    .load(imagePath) 
+
+binary_to_image = BinaryToImage() \
+    .setInputCol("content") \
+    .setOutputCol("image")
+
+skew_corrector = ImageSkewCorrector() \
+    .setInputCol("image") \
+    .setOutputCol("corrected_image") \
+    .setAutomaticSkewCorrection(True)
+
+
+# Define pipeline
+pipeline = PipelineModel(stages=[
+    binary_to_image,
+    skew_corrector
+])
+
+data = pipeline.transform(df)
+
+display_images(data, "corrected_image")
+```
 
 ```scala
 import com.johnsnowlabs.ocr.transformers.ImageSkewCorrector
@@ -1975,27 +2104,7 @@ val data = transformer.transform(df)
 data.storeImage("corrected_image")
 ```
 
-```python
-from sparkocr.transformers import *
-
-val imagePath = "path to image"
-
-// Read image file as binary file
-val df = spark.read
-  .format("binaryFile")
-  .load(imagePath)
-  .asImage("image")
-
-val transformer = new ImageSkewCorrector()
-  .setInputCol("image")
-  .setOutputCol("corrected_image")
-  .setAutomaticSkewCorrection(true)
-
-val data = transformer.transform(df)
-data.show()
-```
-
-</div>
+</div></div><div class="h3-box" markdown="1">
 
 **Original image:**
 
@@ -2009,6 +2118,8 @@ data.show()
 
 `ImageNoiseScorer` computes noise score for each region.
 
+</div><div class="h3-box" markdown="1">
+
 #### Input Columns
 
 {:.table-model-big}
@@ -2017,12 +2128,16 @@ data.show()
 | inputCol | string | image | image struct ([Image schema](ocr_structures#image-schema)) |
 | inputRegionsCol | string | regions | regions |
 
+</div><div class="h3-box" markdown="1">
+
 #### Parameters
 
 {:.table-model-big}
 | Param name | Type | Default | Description |
 | --- | --- | --- | --- |
 | method | [NoiseMethod](ocr_structures#noisemethod) string | NoiseMethod.RATIO | method of computation noise score |
+
+</div><div class="h3-box" markdown="1">
 
 #### Output Columns
 
@@ -2034,9 +2149,47 @@ data.show()
 
 **Example:**
 
-<div class="tabs-box pt0" markdown="1">
+<div class="tabs-box tabs-new pt0" markdown="1">
 
 {% include programmingLanguageSelectScalaPython.html %}
+
+```python
+from pyspark.ml import PipelineModel
+
+from sparkocr.transformers import *
+from sparkocr.enums import NoiseMethod
+
+imagePath = "path to image"
+
+# Read image file as binary file
+df = spark.read \
+  .format("binaryFile") \
+  .load(imagePath) \
+  .asImage("image")
+
+# Define transformer for detect regions
+layoutAnalyzer = ImageLayoutAnalyzer() \
+  .setInputCol("image") \
+  .setOutputCol("regions")
+
+# Define transformer for compute noise level for each region
+noisescorer = ImageNoiseScorer() \
+  .setInputCol("image") \
+  .setOutputCol("noiselevel") \
+  .setInputRegionsCol("regions") \
+  .setMethod(NoiseMethod.VARIANCE)
+
+# Define pipeline
+pipeline = Pipeline()
+pipeline.setStages(Array(
+  layoutAnalyzer,
+  noisescorer
+))
+
+data = pipeline.transform(df)
+
+data.select("path", "noiselevel").show()
+```
 
 ```scala
 import org.apache.spark.ml.Pipeline
@@ -2079,45 +2232,7 @@ val data = modelPipeline.transform(df)
 data.select("path", "noiselevel").show()
 ```
 
-```python
-from pyspark.ml import PipelineModel
-
-from sparkocr.transformers import *
-from sparkocr.enums import NoiseMethod
-
-imagePath = "path to image"
-
-# Read image file as binary file
-df = spark.read \
-  .format("binaryFile") \
-  .load(imagePath) \
-  .asImage("image")
-
-# Define transformer for detect regions
-layoutAnalyzer = ImageLayoutAnalyzer() \
-  .setInputCol("image") \
-  .setOutputCol("regions")
-
-# Define transformer for compute noise level for each region
-noisescorer = ImageNoiseScorer() \
-  .setInputCol("image") \
-  .setOutputCol("noiselevel") \
-  .setInputRegionsCol("regions") \
-  .setMethod(NoiseMethod.VARIANCE)
-
-# Define pipeline
-pipeline = Pipeline()
-pipeline.setStages(Array(
-  layoutAnalyzer,
-  noisescorer
-))
-
-data = pipeline.transform(df)
-
-data.select("path", "noiselevel").show()
-```
-
-</div>
+</div></div><div class="h3-box" markdown="1">
 
 **Output:**
 
@@ -2130,16 +2245,20 @@ data.select("path", "noiselevel").show()
 
 ```
 
+</div><div class="h3-box" markdown="1">
+
 ### ImageRemoveObjects
 
 **python only**
 
-`ImageRemoveObjects` for remove background objects.
-It support removing:
-- objects less then elements of font with _minSizeFont_ size
-- objects less then _minSizeObject_
-- holes less then _minSizeHole_
-- objects more then _maxSizeObject_
+`ImageRemoveObjects` to remove background objects.
+It supports removing:
+- objects less than elements of font with _minSizeFont_ size
+- objects less than _minSizeObject_
+- holes less than _minSizeHole_
+- objects more than _maxSizeObject_
+
+</div><div class="h3-box" markdown="1">
 
 #### Input Columns
 
@@ -2147,6 +2266,8 @@ It support removing:
 | Param name | Type | Default | Column Data Description |
 | --- | --- | --- | --- |
 | inputCol | string | None | image struct ([Image schema](ocr_structures#image-schema)) |
+
+</div><div class="h3-box" markdown="1">
 
 #### Parameters
 
@@ -2163,6 +2284,8 @@ It support removing:
 
 [*] : _None_ value disables removing objects.
 
+</div><div class="h3-box" markdown="1">
+
 #### Output Columns
 
 {:.table-model-big}
@@ -2173,13 +2296,9 @@ It support removing:
 
 **Example:**
 
-<div class="tabs-box pt0" markdown="1">
+<div class="tabs-box tabs-new pt0" markdown="1">
 
 {% include programmingLanguageSelectScalaPython.html %}
-
-```scala
-// Implemented only for Python
-```
 
 ```python
 from pyspark.ml import PipelineModel
@@ -2209,7 +2328,11 @@ pipeline = PipelineModel(stages=[
 data = pipeline.transform(df)
 ```
 
-</div>
+```scala
+// Implemented only for Python
+```
+
+</div></div><div class="h3-box" markdown="1">
 
 ### ImageMorphologyOperation
 
@@ -2223,12 +2346,16 @@ It supports following operation:
 * Opening
 * Closing
 
+</div><div class="h3-box" markdown="1">
+
 #### Input Columns
 
 {:.table-model-big}
 | Param name | Type | Default | Column Data Description |
 | --- | --- | --- | --- |
 | inputCol | string | None | image struct ([Image schema](ocr_structures#image-schema)) |
+
+</div><div class="h3-box" markdown="1">
 
 #### Parameters
 
@@ -2239,6 +2366,7 @@ It supports following operation:
 | kernelShape | [KernelShape](ocr_structures#kernelshape) | KernelShape.DISK | Kernel shape. |
 | kernelSize | int | 1 | Kernel size in pixels. |
 
+</div><div class="h3-box" markdown="1">
 
 #### Output Columns
 
@@ -2250,13 +2378,9 @@ It supports following operation:
 
 **Example:**
 
-<div class="tabs-box pt0" markdown="1">
+<div class="tabs-box tabs-new pt0" markdown="1">
 
 {% include programmingLanguageSelectScalaPython.html %}
-
-```scala
-// Implemented only for Python
-```
 
 ```python
 from pyspark.ml import PipelineModel
@@ -2298,7 +2422,11 @@ for r in result.select("image", "corrected_image").collect():
     display_image(r.corrected_image)
 ```
 
-</div>
+```scala
+// Implemented only for Python
+```
+
+</div></div><div class="h3-box" markdown="1">
 
 **Original image:**
 
@@ -2308,9 +2436,13 @@ for r in result.select("image", "corrected_image").collect():
 
 ![opening](/assets/images/ocr/opening.png)
 
+</div><div class="h3-box" markdown="1">
+
 ### ImageCropper
 
 `ImageCropper`is a transformer for cropping image.
+
+</div><div class="h3-box" markdown="1">
 
 #### Input Columns
 
@@ -2318,6 +2450,8 @@ for r in result.select("image", "corrected_image").collect():
 | Param name | Type | Default | Column Data Description |
 | --- | --- | --- | --- |
 | inputCol | string | image | image struct ([Image schema](ocr_structures#image-schema)) |
+
+</div><div class="h3-box" markdown="1">
 
 #### Parameters
 
@@ -2327,6 +2461,7 @@ for r in result.select("image", "corrected_image").collect():
 | cropRectangle | Rectangle | Rectangle(0,0,0,0) | Image rectangle. |
 | cropSquareType | [CropSquareType](ocr_structures#cropsquaretype) | CropSquareType.TOP_LEFT | Type of square. |
 
+</div><div class="h3-box" markdown="1">
 
 #### Output Columns
 
@@ -2338,32 +2473,9 @@ for r in result.select("image", "corrected_image").collect():
 
 **Example:**
 
-<div class="tabs-box pt0" markdown="1">
+<div class="tabs-box tabs-new pt0" markdown="1">
 
 {% include programmingLanguageSelectScalaPython.html %}
-
-```scala
-import com.johnsnowlabs.ocr.transformers.ImageAdaptiveScaler
-import com.johnsnowlabs.ocr.OcrContext.implicits._
-import java.awt.Rectangle
-
-val imagePath = "path to image"
-
-// Read image file as binary file
-val df = spark.read
-  .format("binaryFile")
-  .load(imagePath)
-  .asImage("image")
-
-val rectangle: Rectangle = new Rectangle(0, 0, 200, 110)
-val cropper: ImageCropper = new ImageCropper()
-  .setInputCol("image")
-  .setOutputCol("cropped_image")
-  .setCropRectangle(rectangle)
-
-val data = transformer.transform(df)
-data.storeImage("cropped_image")
-```
 
 ```python
 from pyspark.ml import PipelineModel
@@ -2398,7 +2510,30 @@ for r in result.select("image", "cropped_image").collect():
     display_image(r.cropped_image)
 ```
 
-</div>
+```scala
+import com.johnsnowlabs.ocr.transformers.ImageAdaptiveScaler
+import com.johnsnowlabs.ocr.OcrContext.implicits._
+import java.awt.Rectangle
+
+val imagePath = "path to image"
+
+// Read image file as binary file
+val df = spark.read
+  .format("binaryFile")
+  .load(imagePath)
+  .asImage("image")
+
+val rectangle: Rectangle = new Rectangle(0, 0, 200, 110)
+val cropper: ImageCropper = new ImageCropper()
+  .setInputCol("image")
+  .setOutputCol("cropped_image")
+  .setCropRectangle(rectangle)
+
+val data = transformer.transform(df)
+data.storeImage("cropped_image")
+```
+
+</div></div><div class="h3-box" markdown="1">
 
 ### Splitting image to regions
 
@@ -2406,12 +2541,16 @@ for r in result.select("image", "cropped_image").collect():
 
 `ImageLayoutAnalyzer` analyzes the image and determines regions of text.
 
+</div><div class="h3-box" markdown="1">
+
 #### Input Columns
 
 {:.table-model-big}
 | Param name | Type | Default | Column Data Description |
 | --- | --- | --- | --- |
 | inputCol | string | image | image struct ([Image schema](ocr_structures#image-schema)) |
+
+</div><div class="h3-box" markdown="1">
 
 #### Parameters
 
@@ -2422,6 +2561,8 @@ for r in result.select("image", "cropped_image").collect():
 | pageIteratorLevel | [PageIteratorLevel](ocr_structures#pageiteratorlevel) | BLOCK | page iteration level |
 | ocrEngineMode | [EngineMode](ocr_structures#enginemode) | LSTM_ONLY | OCR engine mode |
 
+</div><div class="h3-box" markdown="1">
+
 #### Output Columns
 
 {:.table-model-big}
@@ -2431,33 +2572,9 @@ for r in result.select("image", "cropped_image").collect():
 
 **Example:**
 
-<div class="tabs-box pt0" markdown="1">
+<div class="tabs-box tabs-new pt0" markdown="1">
 
 {% include programmingLanguageSelectScalaPython.html %}
-
-```scala
-import org.apache.spark.ml.Pipeline
-
-import com.johnsnowlabs.ocr.transformers.{ImageSplitRegions, ImageLayoutAnalyzer}
-import com.johnsnowlabs.ocr.OcrContext.implicits._
-
-val imagePath = "path to image"
-
-// Read image file as binary file
-val df = spark.read
-  .format("binaryFile")
-  .load(imagePath)
-  .asImage("image")
-
-// Define transformer for detect regions
-val layoutAnalyzer = new ImageLayoutAnalyzer()
-  .setInputCol("image")
-  .setOutputCol("regions")
-
-val data = layoutAnalyzer.transform(df)
-
-data.show()
-```
 
 ```python
 from pyspark.ml import PipelineModel
@@ -2488,41 +2605,6 @@ data = pipeline.transform(df)
 data.show()
 ```
 
-</div>
-
-### ImageSplitRegions
-
-`ImageSplitRegions` splits image to regions.
-
-#### Input Columns
-
-{:.table-model-big}
-| Param name | Type | Default | Column Data Description |
-| --- | --- | --- | --- |
-| inputCol | string | image | image struct ([Image schema](ocr_structures#image-schema)) |
-| inputRegionsCol | string | region | array of [Coordinaties]ocr_structures#coordinate-schema)|
-
-
-#### Parameters
-
-{:.table-model-big}
-| Param name | Type | Default | Description |
-| --- | --- | --- | --- |
-| explodeCols | Array[string] | |Columns which need to explode |
-
-#### Output Columns
-
-{:.table-model-big}
-| Param name | Type | Default | Column Data Description |
-| --- | --- | --- | --- |
-| outputCol | string | region_image | image struct ([Image schema](ocr_structures#image-schema)) |
-
-**Example:**
-
-<div class="tabs-box pt0" markdown="1">
-
-{% include programmingLanguageSelectScalaPython.html %}
-
 ```scala
 import org.apache.spark.ml.Pipeline
 
@@ -2542,23 +2624,51 @@ val layoutAnalyzer = new ImageLayoutAnalyzer()
   .setInputCol("image")
   .setOutputCol("regions")
 
-val splitter = new ImageSplitRegions()
-  .setInputCol("image")
-  .setRegionCol("regions")
-  .setOutputCol("region_image")
+val data = layoutAnalyzer.transform(df)
 
-// Define pipeline
-val pipeline = new Pipeline()
-pipeline.setStages(Array(
-  layoutAnalyzer,
-  splitter
-))
-
-val modelPipeline = pipeline.fit(spark.emptyDataFrame)
-
-val data = pipeline.transform(df)
 data.show()
 ```
+
+</div></div><div class="h3-box" markdown="1">
+
+### ImageSplitRegions
+
+`ImageSplitRegions` splits image into regions.
+
+</div><div class="h3-box" markdown="1">
+
+#### Input Columns
+
+{:.table-model-big}
+| Param name | Type | Default | Column Data Description |
+| --- | --- | --- | --- |
+| inputCol | string | image | image struct ([Image schema](ocr_structures#image-schema)) |
+| inputRegionsCol | string | region | array of [Coordinaties]ocr_structures#coordinate-schema)|
+
+</div><div class="h3-box" markdown="1">
+
+#### Parameters
+
+{:.table-model-big}
+| Param name | Type | Default | Description |
+| --- | --- | --- | --- |
+| explodeCols | Array[string] | |Columns which need to explode |
+| rotated | boolean | False | Support rotated regions |
+
+</div><div class="h3-box" markdown="1">
+
+#### Output Columns
+
+{:.table-model-big}
+| Param name | Type | Default | Column Data Description |
+| --- | --- | --- | --- |
+| outputCol | string | region_image | image struct ([Image schema](ocr_structures#image-schema)) |
+
+**Example:**
+
+<div class="tabs-box tabs-new pt0" markdown="1">
+
+{% include programmingLanguageSelectScalaPython.html %}
 
 ```python
 from pyspark.ml import PipelineModel
@@ -2597,46 +2707,10 @@ data = pipeline.transform(df)
 data.show()
 ```
 
-</div>
-
-### ImageDrawAnnotations
-
-`ImageDrawAnnotations` draw annotations with label and score to the image.
-
-
-#### Input Columns
-
-{:.table-model-big}
-| Param name | Type | Default | Column Data Description |
-| --- | --- | --- | --- |
-| inputCol | string | image | image struct ([Image schema](ocr_structures#image-schema)) |
-| inputChunksCol | string | region | array of Annotation|
-
-
-#### Parameters
-
-{:.table-model-big}
-| Param name | Type | Default | Description |
-| --- | --- | --- | --- |
-| lineWidth | Int | 4 | Line width for draw rectangles |
-| fontSize | Int | 12 | Font size for render labels and score |
-| rectColor | Color | Color.black | Color of lines |
-
-#### Output Columns
-
-{:.table-model-big}
-| Param name | Type | Default | Column Data Description |
-| --- | --- | --- | --- |
-| outputCol | string | image_with_chunks | image struct ([Image schema](ocr_structures#image-schema)) |
-
-**Example:**
-
-<div class="tabs-box pt0" markdown="1">
-
-{% include programmingLanguageSelectScalaPython.html %}
-
 ```scala
-import com.johnsnowlabs.ocr.transformers.*
+import org.apache.spark.ml.Pipeline
+
+import com.johnsnowlabs.ocr.transformers.{ImageSplitRegions, ImageLayoutAnalyzer}
 import com.johnsnowlabs.ocr.OcrContext.implicits._
 
 val imagePath = "path to image"
@@ -2647,34 +2721,70 @@ val df = spark.read
   .load(imagePath)
   .asImage("image")
 
-val imageToHocr = new ImageToHocr()
+// Define transformer for detect regions
+val layoutAnalyzer = new ImageLayoutAnalyzer()
   .setInputCol("image")
-  .setOutputCol("hocr")
+  .setOutputCol("regions")
 
-val tokenizer = new HocrTokenizer()
-  .setInputCol("hocr")
-  .setOutputCol("token")
-
-val draw_annotations = new ImageDrawAnnotations()
+val splitter = new ImageSplitRegions()
   .setInputCol("image")
-  .setInputChunksCol("token")
-  .setOutputCol("image_with_annotations")
-  .setFilledRect(False)
-  .setFontSize(40)
-  .setRectColor(Color.red)
+  .setRegionCol("regions")
+  .setOutputCol("region_image")
 
-
+// Define pipeline
 val pipeline = new Pipeline()
 pipeline.setStages(Array(
-  imageToHocr,
-  tokenizer,
-  draw_annotations
+  layoutAnalyzer,
+  splitter
 ))
 
-val modelPipeline = pipeline.fit(df)
+val modelPipeline = pipeline.fit(spark.emptyDataFrame)
 
-val result =  modelPipeline.transform(df)
+val data = pipeline.transform(df)
+data.show()
 ```
+
+</div></div><div class="h3-box" markdown="1">
+
+### ImageDrawAnnotations
+
+`ImageDrawAnnotations` draw annotations with label and score to the image.
+
+</div><div class="h3-box" markdown="1">
+
+#### Input Columns
+
+{:.table-model-big}
+| Param name | Type | Default | Column Data Description |
+| --- | --- | --- | --- |
+| inputCol | string | image | image struct ([Image schema](ocr_structures#image-schema)) |
+| inputChunksCol | string | region | array of Annotation|
+
+</div><div class="h3-box" markdown="1">
+
+#### Parameters
+
+{:.table-model-big}
+| Param name | Type | Default | Description |
+| --- | --- | --- | --- |
+| lineWidth | Int | 4 | Line width for draw rectangles |
+| fontSize | Int | 12 | Font size for render labels and score |
+| rectColor | Color | Color.black | Color of lines |
+
+</div><div class="h3-box" markdown="1">
+
+#### Output Columns
+
+{:.table-model-big}
+| Param name | Type | Default | Column Data Description |
+| --- | --- | --- | --- |
+| outputCol | string | image_with_chunks | image struct ([Image schema](ocr_structures#image-schema)) |
+
+**Example:**
+
+<div class="tabs-box tabs-new pt0" markdown="1">
+
+{% include programmingLanguageSelectScalaPython.html %}
 
 ```python
 from pyspark.ml import PipelineModel
@@ -2719,11 +2829,54 @@ pipeline = PipelineModel(stages=[
 result = pipeline.transform(df)
 ```
 
-</div>
+```scala
+import com.johnsnowlabs.ocr.transformers.*
+import com.johnsnowlabs.ocr.OcrContext.implicits._
+
+val imagePath = "path to image"
+
+// Read image file as binary file
+val df = spark.read
+  .format("binaryFile")
+  .load(imagePath)
+  .asImage("image")
+
+val imageToHocr = new ImageToHocr()
+  .setInputCol("image")
+  .setOutputCol("hocr")
+
+val tokenizer = new HocrTokenizer()
+  .setInputCol("hocr")
+  .setOutputCol("token")
+
+val draw_annotations = new ImageDrawAnnotations()
+  .setInputCol("image")
+  .setInputChunksCol("token")
+  .setOutputCol("image_with_annotations")
+  .setFilledRect(False)
+  .setFontSize(40)
+  .setRectColor(Color.red)
+
+
+val pipeline = new Pipeline()
+pipeline.setStages(Array(
+  imageToHocr,
+  tokenizer,
+  draw_annotations
+))
+
+val modelPipeline = pipeline.fit(df)
+
+val result =  modelPipeline.transform(df)
+```
+
+</div></div><div class="h3-box" markdown="1">
 
 ### ImageDrawRegions
 
 `ImageDrawRegions` draw regions with label and score to the image.
+
+</div><div class="h3-box" markdown="1">
 
 #### Input Columns
 
@@ -2733,6 +2886,7 @@ result = pipeline.transform(df)
 | inputCol | string | image | image struct ([Image schema](ocr_structures#image-schema)) |
 | inputRegionsCol | string | region | array of [Coordinaties]ocr_structures#coordinate-schema)|
 
+</div><div class="h3-box" markdown="1">
 
 #### Parameters
 
@@ -2741,6 +2895,9 @@ result = pipeline.transform(df)
 | --- | --- | --- | --- |
 | lineWidth | Int | 4 | Line width for draw rectangles |
 | fontSize | Int | 12 | Font size for render labels and score |
+| rotated | boolean | False | Support rotated regions |
+
+</div><div class="h3-box" markdown="1">
 
 #### Output Columns
 
@@ -2751,9 +2908,45 @@ result = pipeline.transform(df)
 
 **Example:**
 
-<div class="tabs-box pt0" markdown="1">
+<div class="tabs-box tabs-new pt0" markdown="1">
 
 {% include programmingLanguageSelectScalaPython.html %}
+
+```python
+from pyspark.ml import PipelineModel
+from sparkocr.transformers import *
+
+imagePath = "path to image"
+
+# Read image file as binary file
+df = spark.read 
+    .format("binaryFile")
+    .load(imagePath)
+
+binary_to_image = BinaryToImage() \
+    .setInputCol("content") \
+    .setOutputCol("image")
+
+# Define transformer for detect regions
+layout_analyzer = ImageLayoutAnalyzer() \
+  .setInputCol("image") \
+  .setOutputCol("regions")
+
+draw = ImageDrawRegions() \
+  .setInputCol("image") \
+  .setRegionCol("regions") \
+  .setOutputCol("image_with_regions")
+
+# Define pipeline
+pipeline = PipelineModel(stages=[
+    binary_to_image,
+    layout_analyzer,
+    draw
+])
+
+data = pipeline.transform(df)
+data.show()
+```
 
 ```scala
 import org.apache.spark.ml.Pipeline
@@ -2792,53 +2985,20 @@ val data = pipeline.transform(df)
 data.show()
 ```
 
-```python
-from pyspark.ml import PipelineModel
-from sparkocr.transformers import *
-
-imagePath = "path to image"
-
-# Read image file as binary file
-df = spark.read 
-    .format("binaryFile")
-    .load(imagePath)
-
-binary_to_image = BinaryToImage() \
-    .setInputCol("content") \
-    .setOutputCol("image")
-
-# Define transformer for detect regions
-layout_analyzer = ImageLayoutAnalyzer() \
-  .setInputCol("image") \
-  .setOutputCol("regions")
-
-draw = ImageDrawRegions() \
-  .setInputCol("image") \
-  .setRegionCol("regions") \
-  .setOutputCol("image_with_regions")
-
-# Define pipeline
-pipeline = PipelineModel(stages=[
-    binary_to_image,
-    layout_analyzer,
-    draw
-])
-
-data = pipeline.transform(df)
-data.show()
-```
-
-</div>
+</div></div><div class="h3-box" markdown="1">
 
 ## Characters recognition
 
 Next section describes the estimators for OCR
+
+</div><div class="h3-box" markdown="1">
 
 ### ImageToText
 
 `ImageToText` runs OCR for input image, return recognized text
 to _outputCol_ and positions with font size to 'positionsCol' column.
 
+</div><div class="h3-box" markdown="1">
 
 #### Input Columns
 
@@ -2846,6 +3006,8 @@ to _outputCol_ and positions with font size to 'positionsCol' column.
 | Param name | Type | Default | Column Data Description |
 | --- | --- | --- | --- |
 | inputCol | string | image | image struct ([Image schema](ocr_structures#image-schema)) |
+
+</div><div class="h3-box" markdown="1">
 
 #### Parameters
 
@@ -2864,6 +3026,10 @@ to _outputCol_ and positions with font size to 'positionsCol' column.
 | modelType | [ModelType](ocr_structures#modeltype) | ModelType.BASE | Model type|
 | downloadModelData | bool | false | Download model data from JSL S3 |
 | withSpaces | bool | false | Include spaces to output positions.|
+| keepLayout | bool | false | Keep layout of text at result.|
+| outputSpaceCharacterWidth | int | 8 | Output space character width in pts for layout keeper.|
+
+</div><div class="h3-box" markdown="1">
 
 #### Output Columns
 
@@ -2875,30 +3041,9 @@ to _outputCol_ and positions with font size to 'positionsCol' column.
 
 **Example:**
 
-<div class="tabs-box pt0" markdown="1">
+<div class="tabs-box tabs-new pt0" markdown="1">
 
 {% include programmingLanguageSelectScalaPython.html %}
-
-```scala
-import com.johnsnowlabs.ocr.transformers.ImageToText
-import com.johnsnowlabs.ocr.OcrContext.implicits._
-
-val imagePath = "path to image"
-
-// Read image file as binary file
-val df = spark.read
-  .format("binaryFile")
-  .load(imagePath)
-  .asImage("image")
-
-val transformer = new ImageToText()
-  .setInputCol("image")
-  .setOutputCol("text")
-  .setOcrParams(Array("preserve_interword_spaces=1"))
-
-val data = transformer.transform(df)
-print(data.select("text").collect()[0].text)
-```
 
 ```python
 from pyspark.ml import PipelineModel
@@ -2930,7 +3075,28 @@ data = pipeline.transform(df)
 data.show()
 ```
 
-</div>
+```scala
+import com.johnsnowlabs.ocr.transformers.ImageToText
+import com.johnsnowlabs.ocr.OcrContext.implicits._
+
+val imagePath = "path to image"
+
+// Read image file as binary file
+val df = spark.read
+  .format("binaryFile")
+  .load(imagePath)
+  .asImage("image")
+
+val transformer = new ImageToText()
+  .setInputCol("image")
+  .setOutputCol("text")
+  .setOcrParams(Array("preserve_interword_spaces=1"))
+
+val data = transformer.transform(df)
+print(data.select("text").collect()[0].text)
+```
+
+</div></div><div class="h3-box" markdown="1">
 
 **Image:**
 
@@ -2947,10 +3113,130 @@ late ideas in other designers, and they borrow and adapt ideas from
 others. One could almost say they feed on and grow on ideas.
 ```
 
+</div><div class="h3-box" markdown="1">
+
+### ImageToTextV2
+
+`ImageToTextV2` is based on the transformers architecture, and combines CV and NLP
+ in one model. It is a visual encoder-decoder model. The Encoder is based on ViT, 
+ and the decoder on RoBERTa model.
+
+`ImageToTextV2` can work on CPU, but GPU is preferred in order to achieve acceptable performance.
+
+`ImageToTextV2` can receive regions representing single line texts, or regions coming from a text detection model.
+
+</div><div class="h3-box" markdown="1">
+
+#### Input Columns
+
+{:.table-model-big}
+| Param name | Type | Default | Column Data Description |
+| --- | --- | --- | --- |
+| inputCols | Array[string] | [image] | Can use as input image struct ([Image schema](ocr_structures#image-schema))  and regions. |
+
+</div><div class="h3-box" markdown="1">
+
+#### Parameters
+
+{:.table-model-big}
+| Param name | Type | Default | Description |
+| --- | --- | --- | --- |
+| lineTolerance | integer | 15 | Line tolerance in pixels. It's used for grouping text regions by lines. |
+| borderWidth | integer | 5 | A value of more than 0 enables to border text regions with width equal to the value of the parameter. |
+| spaceWidth | integer | 10 | A value of more than 0 enables to add white spaces between words on the image. |
+
+</div><div class="h3-box" markdown="1">
+
+#### Output Columns
+
+{:.table-model-big}
+| Param name | Type | Default | Column Data Description |
+| --- | --- | --- | --- |
+| outputCol | string | text | Recognized text |
+
+**Example:**
+
+<div class="tabs-box tabs-new pt0" markdown="1">
+
+{% include programmingLanguageSelectScalaPython.html %}
+
+```python
+from pyspark.ml import PipelineModel
+from sparkocr.transformers import *
+
+imagePath = "path to image"
+
+# Read image file as binary file
+df = spark.read 
+    .format("binaryFile")
+    .load(imagePath)
+
+binary_to_image = BinaryToImage() \
+    .setInputCol("content") \
+    .setOutputCol("image")
+
+text_detector = ImageTextDetectorV2 \
+    .pretrained("image_text_detector_v2", "en", "clinical/ocr") \
+    .setInputCol("image") \
+    .setOutputCol("text_regions") \
+    .setWithRefiner(True) \
+    .setSizeThreshold(20)
+
+ocr = ImageToTextV2.pretrained("ocr_base_printed", "en", "clinical/ocr") \
+    .setInputCols(["image", "text_regions"]) \
+    .setOutputCol("text")
+
+# Define pipeline
+pipeline = PipelineModel(stages=[
+    binary_to_image,
+    text_detector,
+    ocr
+])
+
+data = pipeline.transform(df)
+data.show()
+```
+
+```scala
+not implemented
+```
+
+</div></div><div class="h3-box" markdown="1">
+
+
+**Image:**
+
+![image](/assets/images/ocr/text_detection1.png)
+
+**Output:**
+
+```
+STARBUCKS STORE #10208
+11302 EUCLID AVENUE
+CLEVELAND, OH (216) 229-0749
+CHK 664290
+12/07/2014 06:43 PM
+1912003 DRAWER: 2. REG: 2
+VT PEP MOCHA 4.95
+SBUX CARD 4.95
+XXXXXXXXXXXX3228
+SUBTOTAL $4.95
+TOTAL $4.95
+CHANGE DUE $0.00
+---- CHECK CLOSED
+12/07/2014 06:43 PM
+SBUX CARD X3228 NEW BALANCE: 37.45
+CARD IS REGISTERED
+```
+
+</div><div class="h3-box" markdown="1">
+
 ### ImageToTextPdf
 
 `ImageToTextPdf` runs OCR for input image, render recognized text to 
 the PDF as an invisible text layout with an original image.
+
+</div><div class="h3-box" markdown="1">
 
 #### Input Columns
 
@@ -2961,6 +3247,7 @@ the PDF as an invisible text layout with an original image.
 | originCol | string | path | path to the original file |
 | pageNumCol | string | pagenum | for compatibility with another transformers |
 
+</div><div class="h3-box" markdown="1">
 
 #### Parameters
 
@@ -2969,6 +3256,8 @@ the PDF as an invisible text layout with an original image.
 | --- | --- | --- | --- |
 | ocrParams | array of strings | [] |Array of Ocr params in key=value format. |
 
+</div><div class="h3-box" markdown="1">
+
 #### Output Columns
 
 {:.table-model-big}
@@ -2976,29 +3265,9 @@ the PDF as an invisible text layout with an original image.
 | --- | --- | --- | --- |
 | outputCol | string | pdf | Recognized text rendered to PDF |
 
-<div class="tabs-box pt0" markdown="1">
+<div class="tabs-box tabs-new pt0" markdown="1">
 
 {% include programmingLanguageSelectScalaPython.html %}
-
-```scala
-import com.johnsnowlabs.ocr.transformers.*
-import com.johnsnowlabs.ocr.OcrContext.implicits._
-
-val imagePath = "path to image"
-
-// Read image file as binary file
-val df = spark.read
-  .format("binaryFile")
-  .load(imagePath)
-  .asImage("image")
-
-val transformer = new ImageToTextPdf()
-  .setInputCol("image")
-  .setOutputCol("pdf")
-
-val data = transformer.transform(df)
-data.show()
-```
 
 ```python
 from pyspark.ml import PipelineModel
@@ -3029,7 +3298,27 @@ data = pipeline.transform(df)
 data.show()
 ```
 
-</div>
+```scala
+import com.johnsnowlabs.ocr.transformers.*
+import com.johnsnowlabs.ocr.OcrContext.implicits._
+
+val imagePath = "path to image"
+
+// Read image file as binary file
+val df = spark.read
+  .format("binaryFile")
+  .load(imagePath)
+  .asImage("image")
+
+val transformer = new ImageToTextPdf()
+  .setInputCol("image")
+  .setOutputCol("pdf")
+
+val data = transformer.transform(df)
+data.show()
+```
+
+</div></div><div class="h3-box" markdown="1">
 
 
 ### ImageToHocr
@@ -3037,6 +3326,7 @@ data.show()
 `ImageToHocr` runs OCR for input image, return recognized text and bounding boxes
 to _outputCol_ column in HOCR format.
 
+</div><div class="h3-box" markdown="1">
 
 #### Input Columns
 
@@ -3044,6 +3334,8 @@ to _outputCol_ column in HOCR format.
 | Param name | Type | Default | Column Data Description |
 | --- | --- | --- | --- |
 | inputCol | string | image | image struct ([Image schema](ocr_structures#image-schema)) |
+
+</div><div class="h3-box" markdown="1">
 
 #### Parameters
 
@@ -3057,6 +3349,8 @@ to _outputCol_ column in HOCR format.
 | ignoreResolution | bool | true | Ignore resolution from metadata of image. |
 | ocrParams | array of strings | [] |Array of Ocr params in key=value format. |
 
+</div><div class="h3-box" markdown="1">
+
 #### Output Columns
 
 {:.table-model-big}
@@ -3066,29 +3360,9 @@ to _outputCol_ column in HOCR format.
 
 **Example:**
 
-<div class="tabs-box pt0" markdown="1">
+<div class="tabs-box tabs-new pt0" markdown="1">
 
 {% include programmingLanguageSelectScalaPython.html %}
-
-```scala
-import com.johnsnowlabs.ocr.transformers.ImageToHocr
-import com.johnsnowlabs.ocr.OcrContext.implicits._
-
-val imagePath = "path to image"
-
-// Read image file as binary file
-val df = spark.read
-  .format("binaryFile")
-  .load(imagePath)
-  .asImage("image")
-
-val transformer = new ImageToHocr()
-  .setInputCol("image")
-  .setOutputCol("hocr")
-
-val data = transformer.transform(df)
-print(data.select("hocr").collect()[0].hocr)
-```
 
 ```python
 from pyspark.ml import PipelineModel
@@ -3119,7 +3393,27 @@ data = pipeline.transform(df)
 data.show()
 ```
 
-</div>
+```scala
+import com.johnsnowlabs.ocr.transformers.ImageToHocr
+import com.johnsnowlabs.ocr.OcrContext.implicits._
+
+val imagePath = "path to image"
+
+// Read image file as binary file
+val df = spark.read
+  .format("binaryFile")
+  .load(imagePath)
+  .asImage("image")
+
+val transformer = new ImageToHocr()
+  .setInputCol("image")
+  .setOutputCol("hocr")
+
+val data = transformer.transform(df)
+print(data.select("hocr").collect()[0].hocr)
+```
+
+</div></div><div class="h3-box" markdown="1">
 
 **Image:**
 
@@ -3198,11 +3492,14 @@ data.show()
   </div>
 ```
 
+</div><div class="h3-box" markdown="1">
+
 ### ImageBrandsToText
 
 `ImageBrandsToText` runs OCR for specified brands of input image, return recognized text
 to _outputCol_ and positions with font size to 'positionsCol' column.
 
+</div><div class="h3-box" markdown="1">
 
 #### Input Columns
 
@@ -3210,6 +3507,8 @@ to _outputCol_ and positions with font size to 'positionsCol' column.
 | Param name | Type | Default | Column Data Description |
 | --- | --- | --- | --- |
 | inputCol | string | image | image struct ([Image schema](ocr_structures#image-schema)) |
+
+</div><div class="h3-box" markdown="1">
 
 #### Parameters
 
@@ -3225,6 +3524,8 @@ to _outputCol_ and positions with font size to 'positionsCol' column.
 | ocrParams | array of strings | [] |Array of Ocr params in key=value format. |
 | brandsCoords | string | | Json with coordinates of brands. | 
 
+</div><div class="h3-box" markdown="1">
+
 #### Output Columns
 
 {:.table-model-big}
@@ -3236,52 +3537,9 @@ to _outputCol_ and positions with font size to 'positionsCol' column.
 
 **Example:**
 
-<div class="tabs-box pt0" markdown="1">
+<div class="tabs-box tabs-new pt0" markdown="1">
 
 {% include programmingLanguageSelectScalaPython.html %}
-
-```scala
-import com.johnsnowlabs.ocr.transformers.ImageToText
-import com.johnsnowlabs.ocr.OcrContext.implicits._
-
-val imagePath = "path to image"
-
-// Read image file as binary file
-val df = spark.read
-  .format("binaryFile")
-  .load(imagePath)
-  .asImage("image")
-
-val transformer = new ImageBrandsToText()
-  .setInputCol("image")
-  .setOutputCol("text")
-  .setBrandsCoordsStr(
-        """
-          [
-             {
-                "name":"part_one",
-                "rectangle":{
-                   "x":286,
-                   "y":65,
-                   "width":542,
-                   "height":342
-                }
-             },
-             {
-                "name":"part_two",
-                "rectangle":{
-                   "x":828,
-                   "y":65,
-                   "width":1126,
-                   "height":329
-                }
-             }
-          ]
-          """.stripMargin)
-
-val data = transformer.transform(df)
-print(data.select("text").collect()[0].text)
-```
 
 ```python
 from pyspark.ml import PipelineModel
@@ -3332,15 +3590,62 @@ data = pipeline.transform(df)
 data.show()
 ```
 
-</div>
+```scala
+import com.johnsnowlabs.ocr.transformers.ImageToText
+import com.johnsnowlabs.ocr.OcrContext.implicits._
+
+val imagePath = "path to image"
+
+// Read image file as binary file
+val df = spark.read
+  .format("binaryFile")
+  .load(imagePath)
+  .asImage("image")
+
+val transformer = new ImageBrandsToText()
+  .setInputCol("image")
+  .setOutputCol("text")
+  .setBrandsCoordsStr(
+        """
+          [
+             {
+                "name":"part_one",
+                "rectangle":{
+                   "x":286,
+                   "y":65,
+                   "width":542,
+                   "height":342
+                }
+             },
+             {
+                "name":"part_two",
+                "rectangle":{
+                   "x":828,
+                   "y":65,
+                   "width":1126,
+                   "height":329
+                }
+             }
+          ]
+          """.stripMargin)
+
+val data = transformer.transform(df)
+print(data.select("text").collect()[0].text)
+```
+
+</div></div><div class="h3-box" markdown="1">
 
 ## Other
 
 Next section describes the extra transformers
 
+</div><div class="h3-box" markdown="1">
+
 ### PositionFinder
 
-`PositionFinder` find position of input text entities in original document.
+`PositionFinder` find the position of input text entities in the original document.
+
+</div><div class="h3-box" markdown="1">
 
 #### Input Columns
 
@@ -3349,6 +3654,8 @@ Next section describes the extra transformers
 | --- | --- | --- | --- |
 | inputCols | string | image | Input annotations columns |
 | pageMatrixCol | string | | Column name for Page Matrix schema |
+
+</div><div class="h3-box" markdown="1">
 
 #### Parameters
 
@@ -3359,6 +3666,8 @@ Next section describes the extra transformers
 | windowPageTolerance | boolean | true | whether or not to increase tolerance as page number grows |
 | padding | int | 5| padding for area |
 
+</div><div class="h3-box" markdown="1">
+
 #### Output Columns
 
 {:.table-model-big}
@@ -3368,10 +3677,64 @@ Next section describes the extra transformers
 
 **Example:**
 
-
-<div class="tabs-box pt0" markdown="1">
+<div class="tabs-box tabs-new pt0" markdown="1">
 
 {% include programmingLanguageSelectScalaPython.html %}
+
+```python
+from pyspark.ml import Pipeline
+
+from sparkocr.transformers import *
+from sparknlp.annotator import *
+from sparknlp.base import *
+
+pdfPath = "path to pdf"
+
+# Read PDF file as binary file
+df = spark.read.format("binaryFile").load(pdfPath)
+
+pdf_to_text = PdfToText() \
+    .setInputCol("content") \
+    .setOutputCol("text") \
+    .setPageNumCol("page") \
+    .setSplitPage(False)
+
+document_assembler = DocumentAssembler() \
+    .setInputCol("text") \
+    .setOutputCol("document")
+
+sentence_detector = SentenceDetector() \
+    .setInputCols(["document"]) \
+    .setOutputCol("sentence")
+
+tokenizer = Tokenizer() \
+    .setInputCols(["sentence"]) \
+    .setOutputCol("token")
+
+entity_extractor = TextMatcher() \
+    .setInputCols("sentence", "token") \
+    .setEntities("./sparkocr/resources/test-chunks.txt", ReadAs.TEXT) \
+    .setOutputCol("entity")
+
+position_finder = PositionFinder() \
+    .setInputCols("entity") \
+    .setOutputCol("coordinates") \
+    .setPageMatrixCol("positions") \
+    .setMatchingWindow(10) \
+    .setPadding(2)
+
+pipeline = Pipeline(stages=[
+    pdf_to_text,
+    document_assembler,
+    sentence_detector,
+    tokenizer,
+    entity_extractor,
+    position_finder
+])
+
+results = pipeline.fit(df).transform(df)
+results.show()
+```
 
 ```scala
 import com.johnsnowlabs.ocr.transformers._
@@ -3429,9 +3792,40 @@ val results = pipeline.fit(df).transform(df)
 results.show()
 ```
 
+</div></div><div class="h3-box" markdown="1">
+
+### UpdateTextPosition
+
+`UpdateTextPosition` update output text and keep old coordinates of original document.
+
+</div><div class="h3-box" markdown="1">
+
+#### Input Columns
+
+{:.table-model-big}
+| Param name | Type | Default | Column Data Description |
+| --- | --- | --- | --- |
+| inputCol | string | positions | Сolumn name with original positions struct |
+| InputText | string | replace_text | Column name for  New Text to replace Old one |
+
+</div><div class="h3-box" markdown="1">
+
+#### Output Columns
+
+{:.table-model-big}
+| Param name | Type | Default | Column Data Description |
+| --- | --- | --- | --- |
+| outputCol | string | output_positions | Name of output column for updated positions struct. |
+
+**Example:**
+
+
+<div class="tabs-box tabs-new pt0" markdown="1">
+
+{% include programmingLanguageSelectScalaPython.html %}
+
 ```python
 from pyspark.ml import Pipeline
-
 from sparkocr.transformers import *
 from sparknlp.annotator import *
 from sparknlp.base import *
@@ -3457,61 +3851,33 @@ sentence_detector = SentenceDetector() \
 
 tokenizer = Tokenizer() \
     .setInputCols(["sentence"]) \
-    .setOutputCol("token")
+    .setOutputCol("tokens")
 
-entity_extractor = TextMatcher() \
-    .setInputCols("sentence", "token") \
-    .setEntities("./sparkocr/resources/test-chunks.txt", ReadAs.TEXT) \
-    .setOutputCol("entity")
+spell = NorvigSweetingModel().pretrained("spellcheck_norvig", "en") \
+    .setInputCols("tokens") \
+    .setOutputCol("spell")
 
-position_finder = PositionFinder() \
-    .setInputCols("entity") \
-    .setOutputCol("coordinates") \
-    .setPageMatrixCol("positions") \
-    .setMatchingWindow(10) \
-    .setPadding(2)
+tokenAssem = TokenAssembler() \
+    .setInputCols("spell") \
+    .setOutputCol("newDocs")
+
+updatedText = UpdateTextPosition() \
+    .setInputCol("positions") \
+    .setOutputCol("output_positions") \
+    .setInputText("newDocs.result")
 
 pipeline = Pipeline(stages=[
-    pdf_to_text,
     document_assembler,
     sentence_detector,
     tokenizer,
-    entity_extractor,
-    position_finder
+    spell,
+    tokenAssem,
+    updatedText
 ])
 
 results = pipeline.fit(df).transform(df)
 results.show()
 ```
-
-</div>
-
-### UpdateTextPosition
-
-`UpdateTextPosition` update output text and keep old coordinates of original document.
-
-#### Input Columns
-
-{:.table-model-big}
-| Param name | Type | Default | Column Data Description |
-| --- | --- | --- | --- |
-| inputCol | string | positions | Сolumn name with original positions struct |
-| InputText | string | replace_text | Column name for  New Text to replace Old one |
-
-
-#### Output Columns
-
-{:.table-model-big}
-| Param name | Type | Default | Column Data Description |
-| --- | --- | --- | --- |
-| outputCol | string | output_positions | Name of output column for updated positions struct. |
-
-**Example:**
-
-
-<div class="tabs-box pt0" markdown="1">
-
-{% include programmingLanguageSelectScalaPython.html %}
 
 ```scala
 import com.johnsnowlabs.nlp.annotators.Tokenizer
@@ -3571,69 +3937,16 @@ val results = pipeline.fit(df).transform(df)
 results.show()
 ```
 
-```python
-from pyspark.ml import Pipeline
-from sparkocr.transformers import *
-from sparknlp.annotator import *
-from sparknlp.base import *
-
-pdfPath = "path to pdf"
-
-# Read PDF file as binary file
-df = spark.read.format("binaryFile").load(pdfPath)
-
-pdf_to_text = PdfToText() \
-    .setInputCol("content") \
-    .setOutputCol("text") \
-    .setPageNumCol("page") \
-    .setSplitPage(False)
-
-document_assembler = DocumentAssembler() \
-    .setInputCol("text") \
-    .setOutputCol("document")
-
-sentence_detector = SentenceDetector() \
-    .setInputCols(["document"]) \
-    .setOutputCol("sentence")
-
-tokenizer = Tokenizer() \
-    .setInputCols(["sentence"]) \
-    .setOutputCol("tokens")
-
-spell = NorvigSweetingModel().pretrained("spellcheck_norvig", "en") \
-    .setInputCols("tokens") \
-    .setOutputCol("spell")
-
-tokenAssem = TokenAssembler() \
-    .setInputCols("spell") \
-    .setOutputCol("newDocs")
-
-updatedText = UpdateTextPosition() \
-    .setInputCol("positions") \
-    .setOutputCol("output_positions") \
-    .setInputText("newDocs.result")
-
-pipeline = Pipeline(stages=[
-    document_assembler,
-    sentence_detector,
-    tokenizer,
-    spell,
-    tokenAssem,
-    updatedText
-])
-
-results = pipeline.fit(df).transform(df)
-results.show()
-```
-
-</div>
+</div></div><div class="h3-box" markdown="1">
 
 ### FoundationOneReportParser
 
 `FoundationOneReportParser` is a transformer for parsing FoundationOne reports.
-Current implementation support parsing patient info, genomic, biomarker findings and gene lists
+Current implementation supports parsing patient info, genomic, biomarker findings and gene lists
 from appendix.
 Output format is json.
+
+</div><div class="h3-box" markdown="1">
 
 #### Input Columns
 
@@ -3642,6 +3955,8 @@ Output format is json.
 | --- | --- | --- | --- |
 | inputCol | string | text | Сolumn name with text of report |
 | originCol | string | path | path to the original file |
+
+</div><div class="h3-box" markdown="1">
 
 #### Output Columns
 
@@ -3653,9 +3968,33 @@ Output format is json.
 **Example:**
 
 
-<div class="tabs-box pt0" markdown="1">
+<div class="tabs-box tabs-new pt0" markdown="1">
 
 {% include programmingLanguageSelectScalaPython.html %}
+
+```python
+from pyspark.ml import Pipeline
+from sparkocr.transformers import *
+from sparkocr.enums import TextStripperType
+
+
+pdfPath = "path to pdf"
+
+# Read PDF file as binary file
+df = spark.read.format("binaryFile").load(pdfPath)
+
+pdf_to_text = PdfToText()
+pdf_to_text.setInputCol("content")
+pdf_to_text.setOutputCol("text")
+pdf_to_text.setSplitPage(False)
+pdf_to_text.setTextStripper(TextStripperType.PDF_LAYOUT_TEXT_STRIPPER)
+
+genomic_parser = FoundationOneReportParser()
+genomic_parser.setInputCol("text")
+genomic_parser.setOutputCol("report")
+
+report = genomic_parser.transform(pdf_to_text.transform(df)).collect()
+```
 
 ```scala
 import com.johnsnowlabs.ocr.transformers._
@@ -3687,31 +4026,7 @@ val modelPipeline = pipeline.fit(df)
 val report =  modelPipeline.transform(df)
 ```
 
-```python
-from pyspark.ml import Pipeline
-from sparkocr.transformers import *
-from sparkocr.enums import TextStripperType
-
-
-pdfPath = "path to pdf"
-
-# Read PDF file as binary file
-df = spark.read.format("binaryFile").load(pdfPath)
-
-pdf_to_text = PdfToText()
-pdf_to_text.setInputCol("content")
-pdf_to_text.setOutputCol("text")
-pdf_to_text.setSplitPage(False)
-pdf_to_text.setTextStripper(TextStripperType.PDF_LAYOUT_TEXT_STRIPPER)
-
-genomic_parser = FoundationOneReportParser()
-genomic_parser.setInputCol("text")
-genomic_parser.setOutputCol("report")
-
-report = genomic_parser.transform(pdf_to_text.transform(df)).collect()
-```
-
-</div>
+</div></div><div class="h3-box" markdown="1">
 
 Output:
 
@@ -3758,11 +4073,15 @@ Output:
 }
 ```
 
+</div><div class="h3-box" markdown="1">
+
 ## HocrDocumentAssembler
 
 `HocrDocumentAssembler ` prepares data into a format that is processable by Spark NLP.
 
 **Output Annotator Type:** DOCUMENT
+
+</div><div class="h3-box" markdown="1">
 
 #### Input Columns
 
@@ -3771,7 +4090,7 @@ Output:
 | --- | --- | --- | --- |
 | inputCol | string | hocr | Сolumn name with HOCR of the document |
 
-
+</div><div class="h3-box" markdown="1">
 
 #### Output Columns
 
@@ -3784,41 +4103,9 @@ Output:
 **Example:**
 
 
-<div class="tabs-box pt0" markdown="1">
+<div class="tabs-box tabs-new pt0" markdown="1">
 
 {% include programmingLanguageSelectScalaPython.html %}
-
-```scala
-import com.johnsnowlabs.ocr.transformers.*
-import com.johnsnowlabs.ocr.OcrContext.implicits._
-
-val imagePath = "path to image"
-
-// Read image file as binary file
-val df = spark.read
-  .format("binaryFile")
-  .load(imagePath)
-  .asImage("image")
-
-val imageToHocr = new ImageToHocr()
-  .setInputCol("image")
-  .setOutputCol("hocr")
-
-val hocrDocumentAssembler = HocrDocumentAssembler()
-  .setInputCol("hocr")
-  .setOutputCol("document")
-
-val pipeline = new Pipeline()
-pipeline.setStages(Array(
-  imageToHocr,
-  hocrDocumentAssembler
-))
-
-val modelPipeline = pipeline.fit(df)
-
-val result =  modelPipeline.transform(df)
-result.select("document").show()
-```
 
 ```python
 from pyspark.ml import PipelineModel
@@ -3854,50 +4141,6 @@ result = pipeline.transform(df)
 result.select("document").show()
 ```
 
-</div>
-
-Output:
-
-```
-+--------------------------------------------------------------------+
-| document                                                           |
-+--------------------------------------------------------------------+
-| [[document, 0, 4392, Patient Nam Financial Numbe Random Hospital...|
-+--------------------------------------------------------------------+
-
-```
-
-
-## HocrTokenizer
-
-`HocrTokenizer` prepares into a format that is processable by Spark NLP.\
-HocrTokenizer puts to metadata coordinates and ocr confidence.
-
-**Output Annotator Type:** TOKEN
-
-#### Input Columns
-
-{:.table-model-big}
-| Param name | Type | Default | Column Data Description |
-| --- | --- | --- | --- |
-| inputCol | string | hocr | Сolumn name with HOCR of the document. |
-
-
-#### Output Columns
-
-{:.table-model-big}
-| Param name | Type | Default | Column Data Description |
-| --- | --- | --- | --- |
-| outputCol | string | token | Name of output column. |
-
-
-**Example:**
-
-
-<div class="tabs-box pt0" markdown="1">
-
-{% include programmingLanguageSelectScalaPython.html %}
-
 ```scala
 import com.johnsnowlabs.ocr.transformers.*
 import com.johnsnowlabs.ocr.OcrContext.implicits._
@@ -3914,21 +4157,69 @@ val imageToHocr = new ImageToHocr()
   .setInputCol("image")
   .setOutputCol("hocr")
 
-val tokenizer = HocrTokenizer()
+val hocrDocumentAssembler = HocrDocumentAssembler()
   .setInputCol("hocr")
-  .setOutputCol("token")
+  .setOutputCol("document")
 
 val pipeline = new Pipeline()
 pipeline.setStages(Array(
   imageToHocr,
-  tokenizer
+  hocrDocumentAssembler
 ))
 
 val modelPipeline = pipeline.fit(df)
 
 val result =  modelPipeline.transform(df)
-result.select("token").show()
+result.select("document").show()
 ```
+
+</div></div><div class="h3-box" markdown="1">
+
+Output:
+
+```
++--------------------------------------------------------------------+
+| document                                                           |
++--------------------------------------------------------------------+
+| [[document, 0, 4392, Patient Nam Financial Numbe Random Hospital...|
++--------------------------------------------------------------------+
+
+```
+
+</div><div class="h3-box" markdown="1">
+
+## HocrTokenizer
+
+`HocrTokenizer` prepares into a format that is processable by Spark NLP.\
+HocrTokenizer puts to metadata coordinates and ocr confidence.
+
+**Output Annotator Type:** TOKEN
+
+</div><div class="h3-box" markdown="1">
+
+#### Input Columns
+
+{:.table-model-big}
+| Param name | Type | Default | Column Data Description |
+| --- | --- | --- | --- |
+| inputCol | string | hocr | Сolumn name with HOCR of the document. |
+
+</div><div class="h3-box" markdown="1">
+
+#### Output Columns
+
+{:.table-model-big}
+| Param name | Type | Default | Column Data Description |
+| --- | --- | --- | --- |
+| outputCol | string | token | Name of output column. |
+
+
+**Example:**
+
+
+<div class="tabs-box tabs-new pt0" markdown="1">
+
+{% include programmingLanguageSelectScalaPython.html %}
 
 ```python
 from pyspark.ml import PipelineModel
@@ -3964,7 +4255,39 @@ result = pipeline.transform(df)
 result.select("token").show()
 ```
 
-</div>
+```scala
+import com.johnsnowlabs.ocr.transformers.*
+import com.johnsnowlabs.ocr.OcrContext.implicits._
+
+val imagePath = "path to image"
+
+// Read image file as binary file
+val df = spark.read
+  .format("binaryFile")
+  .load(imagePath)
+  .asImage("image")
+
+val imageToHocr = new ImageToHocr()
+  .setInputCol("image")
+  .setOutputCol("hocr")
+
+val tokenizer = HocrTokenizer()
+  .setInputCol("hocr")
+  .setOutputCol("token")
+
+val pipeline = new Pipeline()
+pipeline.setStages(Array(
+  imageToHocr,
+  tokenizer
+))
+
+val modelPipeline = pipeline.fit(df)
+
+val result =  modelPipeline.transform(df)
+result.select("token").show()
+```
+
+</div></div><div class="h3-box" markdown="1">
 
 Output:
 
@@ -3979,3 +4302,5 @@ Output:
 +--------------------------------------------------------------------+
 
 ```
+
+</div>

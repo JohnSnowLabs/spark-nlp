@@ -7,8 +7,10 @@ date: 2021-01-03
 task: Word Segmentation
 language: zh
 edition: Spark NLP 2.7.0
+spark_version: 2.4
 tags: [word_segmentation, cn, zh, open_source]
 supported: true
+annotator: WordSegmenterModel
 article_header:
   type: cover
 use_language_switcher: "Python-Scala-Java"
@@ -35,7 +37,10 @@ Use as part of an nlp pipeline as a substitute of the Tokenizer stage.
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
 ```python
-...
+document_assembler = DocumentAssembler() \
+    .setInputCol("text") \
+    .setOutputCol("document")
+
 word_segmenter = WordSegmenterModel.pretrained('wordseg_weibo', 'zh')\
         .setInputCols("document")\
         .setOutputCol("token")      
@@ -46,7 +51,11 @@ result = model.transform(example)
 ```
 
 ```scala
-...
+val document_assembler = DocumentAssembler()
+        .setInputCol("text")
+        .setOutputCol("document")
+        
+
 val word_segmenter = WordSegmenterModel.pretrained("wordseg_weibo", "zh")
         .setInputCols("document")
         .setOutputCol("token")

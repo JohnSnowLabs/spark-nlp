@@ -7,9 +7,10 @@ date: 2021-07-01
 tags: [rxnorm, mesh, en, licensed, pipeline]
 task: Pipeline Healthcare
 language: en
-edition: Spark NLP for Healthcare 3.1.0
+edition: Healthcare NLP 3.1.0
 spark_version: 2.4
 supported: true
+annotator: PipelineModel
 article_header:
   type: cover
 use_language_switcher: "Python-Scala-Java"
@@ -40,6 +41,14 @@ import com.johnsnowlabs.nlp.pretrained.PretrainedPipeline
 val pipeline = new PretrainedPipeline("rxnorm_mesh_mapping","en","clinical/models")
 val result = pipeline.annotate("1191 6809 47613")
 ```
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("en.resolve.rxnorm.mesh").predict("""1191 6809 47613""")
+```
+
 </div>
 
 ## Results
@@ -71,7 +80,7 @@ Note:
 |---|---|
 |Model Name:|rxnorm_mesh_mapping|
 |Type:|pipeline|
-|Compatibility:|Spark NLP for Healthcare 3.1.0+|
+|Compatibility:|Healthcare NLP 3.1.0+|
 |License:|Licensed|
 |Edition:|Official|
 |Language:|en|

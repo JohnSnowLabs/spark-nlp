@@ -3,9 +3,9 @@
         <head>
           <meta http-equiv="X-UA-Compatible" content="IE=edge" />
           <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-          <title>Spark NLP 3.3.4 ScalaDoc  - com.johnsnowlabs.ml.tensorflow.sign.ModelSignatureConstants</title>
-          <meta name="description" content="Spark NLP 3.3.4 ScalaDoc - com.johnsnowlabs.ml.tensorflow.sign.ModelSignatureConstants" />
-          <meta name="keywords" content="Spark NLP 3.3.4 ScalaDoc com.johnsnowlabs.ml.tensorflow.sign.ModelSignatureConstants" />
+          <title>Spark NLP 4.2.4 ScalaDoc  - com.johnsnowlabs.ml.tensorflow.sign.ModelSignatureConstants</title>
+          <meta name="description" content="Spark NLP 4.2.4 ScalaDoc - com.johnsnowlabs.ml.tensorflow.sign.ModelSignatureConstants" />
+          <meta name="keywords" content="Spark NLP 4.2.4 ScalaDoc com.johnsnowlabs.ml.tensorflow.sign.ModelSignatureConstants" />
           <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
           
       
@@ -28,7 +28,7 @@
         </head>
         <body>
       <div id="search">
-        <span id="doc-title">Spark NLP 3.3.4 ScalaDoc<span id="doc-version"></span></span>
+        <span id="doc-title">Spark NLP 4.2.4 ScalaDoc<span id="doc-version"></span></span>
         <span class="close-results"><span class="left">&lt;</span> Back</span>
         <div id="textfilter">
           <span class="input">
@@ -185,23 +185,13 @@
       </h4>
 
       
-          <div id="comment" class="fullcommenttop"><div class="comment cmt"><p>Based on BERT SavedModel reference, for instance:</p><p>signature_def['serving_default']:
-The given SavedModel SignatureDef contains the following input(s):</p><p>inputs['attention_mask'] tensor_info:
-dtype: DT_INT32
-shape: (-1, -1)
-name: serving_default_attention_mask:0</p><p>inputs['input_ids'] tensor_info:
-dtype: DT_INT32
-shape: (-1, -1)
-name: serving_default_input_ids:0</p><p>inputs['token_type_ids'] tensor_info:
-dtype: DT_INT32
-shape: (-1, -1)
-name: serving_default_token_type_ids:0</p><p>The given SavedModel SignatureDef contains the following output(s):</p><p>outputs['last_hidden_state'] tensor_info:
-dtype: DT_FLOAT
-shape: (-1, -1, 768)
-name: StatefulPartitionedCall:0</p><p>outputs['pooler_output'] tensor_info:
-dtype: DT_FLOAT
-shape: (-1, 768)
-name: StatefulPartitionedCall:1</p><p>Method name is: tensorflow/serving/predict*
+          <div id="comment" class="fullcommenttop"><div class="comment cmt"><p>Based on BERT SavedModel reference, for instance:</p><p>signature_def['serving_default']: The given SavedModel SignatureDef contains the following
+input(s):</p><p>inputs['attention_mask'] tensor_info: dtype: DT_INT32 shape: (-1, -1) name:
+serving_default_attention_mask:0</p><p>inputs['input_ids'] tensor_info: dtype: DT_INT32 shape: (-1, -1) name:
+serving_default_input_ids:0</p><p>inputs['token_type_ids'] tensor_info: dtype: DT_INT32 shape: (-1, -1) name:
+serving_default_token_type_ids:0</p><p>The given SavedModel SignatureDef contains the following output(s):</p><p>outputs['last_hidden_state'] tensor_info: dtype: DT_FLOAT shape: (-1, -1, 768) name:
+StatefulPartitionedCall:0</p><p>outputs['pooler_output'] tensor_info: dtype: DT_FLOAT shape: (-1, 768) name:
+StatefulPartitionedCall:1</p><p>Method name is: tensorflow/serving/predict*
 </p></div><div class="toggleContainer block">
           <span class="toggle">
             Linear Supertypes
@@ -472,7 +462,9 @@ name: StatefulPartitionedCall:1</p><p>Method name is: tensorflow/serving/predict
       
       <p class="shortcomment cmt">Retrieve signature patterns for a given provider
 </p><div class="fullcomment"><div class="comment cmt"><p>Retrieve signature patterns for a given provider
-</p></div><dl class="paramcmts block"><dt class="param">modelProvider</dt><dd class="cmt"><p>: the provider library that built the model and the signatures</p></dd><dt>returns</dt><dd class="cmt"><p>reference keys array of signature patterns for a given provider</p></dd></dl></div>
+</p></div><dl class="paramcmts block"><dt class="param">modelProvider</dt><dd class="cmt"><p>
+  : the provider library that built the model and the signatures</p></dd><dt>returns</dt><dd class="cmt"><p>
+  reference keys array of signature patterns for a given provider</p></dd></dl></div>
     </li><li name="scala.AnyRef#hashCode" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="hashCode():Int"></a>
       <span class="permalink">
@@ -710,6 +702,22 @@ name: StatefulPartitionedCall:1</p><p>Method name is: tensorflow/serving/predict
       </span>
       
       
+    </li><li name="com.johnsnowlabs.ml.tensorflow.sign.ModelSignatureConstants.AudioValuesInput" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="AudioValuesInput"></a><a id="AudioValuesInput:AudioValuesInput"></a>
+      <span class="permalink">
+      <a href="../../../../../com/johnsnowlabs/ml/tensorflow/sign/ModelSignatureConstants$$AudioValuesInput$.html" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">object</span>
+      </span>
+      <span class="symbol">
+        <a title="" href="ModelSignatureConstants$$AudioValuesInput$.html"><span class="name">AudioValuesInput</span></a><span class="result"> extends <a href="ModelSignatureConstants$$TFInfoNameMapper.html" class="extype" name="com.johnsnowlabs.ml.tensorflow.sign.ModelSignatureConstants.TFInfoNameMapper">TFInfoNameMapper</a> with <span class="extype" name="scala.Product">Product</span> with <span class="extype" name="scala.Serializable">Serializable</span></span>
+      </span>
+      
+      
     </li><li name="com.johnsnowlabs.ml.tensorflow.sign.ModelSignatureConstants.DType" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
       <a id="DType"></a><a id="DType:DType"></a>
       <span class="permalink">
@@ -739,6 +747,22 @@ name: StatefulPartitionedCall:1</p><p>Method name is: tensorflow/serving/predict
       </span>
       <span class="symbol">
         <a title="" href="ModelSignatureConstants$$DecoderAttentionMask$.html"><span class="name">DecoderAttentionMask</span></a><span class="result"> extends <a href="ModelSignatureConstants$$TFInfoNameMapper.html" class="extype" name="com.johnsnowlabs.ml.tensorflow.sign.ModelSignatureConstants.TFInfoNameMapper">TFInfoNameMapper</a> with <span class="extype" name="scala.Product">Product</span> with <span class="extype" name="scala.Serializable">Serializable</span></span>
+      </span>
+      
+      
+    </li><li name="com.johnsnowlabs.ml.tensorflow.sign.ModelSignatureConstants.DecoderEncoderAttentionMask" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="DecoderEncoderAttentionMask"></a><a id="DecoderEncoderAttentionMask:DecoderEncoderAttentionMask"></a>
+      <span class="permalink">
+      <a href="../../../../../com/johnsnowlabs/ml/tensorflow/sign/ModelSignatureConstants$$DecoderEncoderAttentionMask$.html" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">object</span>
+      </span>
+      <span class="symbol">
+        <a title="" href="ModelSignatureConstants$$DecoderEncoderAttentionMask$.html"><span class="name">DecoderEncoderAttentionMask</span></a><span class="result"> extends <a href="ModelSignatureConstants$$TFInfoNameMapper.html" class="extype" name="com.johnsnowlabs.ml.tensorflow.sign.ModelSignatureConstants.TFInfoNameMapper">TFInfoNameMapper</a> with <span class="extype" name="scala.Product">Product</span> with <span class="extype" name="scala.Serializable">Serializable</span></span>
       </span>
       
       
@@ -854,6 +878,22 @@ name: StatefulPartitionedCall:1</p><p>Method name is: tensorflow/serving/predict
       </span>
       
       
+    </li><li name="com.johnsnowlabs.ml.tensorflow.sign.ModelSignatureConstants.EndLogitsOutput" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="EndLogitsOutput"></a><a id="EndLogitsOutput:EndLogitsOutput"></a>
+      <span class="permalink">
+      <a href="../../../../../com/johnsnowlabs/ml/tensorflow/sign/ModelSignatureConstants$$EndLogitsOutput$.html" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">object</span>
+      </span>
+      <span class="symbol">
+        <a title="" href="ModelSignatureConstants$$EndLogitsOutput$.html"><span class="name">EndLogitsOutput</span></a><span class="result"> extends <a href="ModelSignatureConstants$$TFInfoNameMapper.html" class="extype" name="com.johnsnowlabs.ml.tensorflow.sign.ModelSignatureConstants.TFInfoNameMapper">TFInfoNameMapper</a> with <span class="extype" name="scala.Product">Product</span> with <span class="extype" name="scala.Serializable">Serializable</span></span>
+      </span>
+      
+      
     </li><li name="com.johnsnowlabs.ml.tensorflow.sign.ModelSignatureConstants.InputIds" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
       <a id="InputIds"></a><a id="InputIds:InputIds"></a>
       <span class="permalink">
@@ -950,6 +990,22 @@ name: StatefulPartitionedCall:1</p><p>Method name is: tensorflow/serving/predict
       </span>
       
       
+    </li><li name="com.johnsnowlabs.ml.tensorflow.sign.ModelSignatureConstants.PixelValuesInput" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="PixelValuesInput"></a><a id="PixelValuesInput:PixelValuesInput"></a>
+      <span class="permalink">
+      <a href="../../../../../com/johnsnowlabs/ml/tensorflow/sign/ModelSignatureConstants$$PixelValuesInput$.html" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">object</span>
+      </span>
+      <span class="symbol">
+        <a title="" href="ModelSignatureConstants$$PixelValuesInput$.html"><span class="name">PixelValuesInput</span></a><span class="result"> extends <a href="ModelSignatureConstants$$TFInfoNameMapper.html" class="extype" name="com.johnsnowlabs.ml.tensorflow.sign.ModelSignatureConstants.TFInfoNameMapper">TFInfoNameMapper</a> with <span class="extype" name="scala.Product">Product</span> with <span class="extype" name="scala.Serializable">Serializable</span></span>
+      </span>
+      
+      
     </li><li name="com.johnsnowlabs.ml.tensorflow.sign.ModelSignatureConstants.PoolerOutput" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
       <a id="PoolerOutput"></a><a id="PoolerOutput:PoolerOutput"></a>
       <span class="permalink">
@@ -1011,6 +1067,54 @@ name: StatefulPartitionedCall:1</p><p>Method name is: tensorflow/serving/predict
       </span>
       <span class="symbol">
         <a title="" href="ModelSignatureConstants$$ShapeDimList$.html"><span class="name">ShapeDimList</span></a><span class="result"> extends <a href="ModelSignatureConstants$$TFInfoDescriptor.html" class="extype" name="com.johnsnowlabs.ml.tensorflow.sign.ModelSignatureConstants.TFInfoDescriptor">TFInfoDescriptor</a> with <span class="extype" name="scala.Product">Product</span> with <span class="extype" name="scala.Serializable">Serializable</span></span>
+      </span>
+      
+      
+    </li><li name="com.johnsnowlabs.ml.tensorflow.sign.ModelSignatureConstants.StartLogitsOutput" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="StartLogitsOutput"></a><a id="StartLogitsOutput:StartLogitsOutput"></a>
+      <span class="permalink">
+      <a href="../../../../../com/johnsnowlabs/ml/tensorflow/sign/ModelSignatureConstants$$StartLogitsOutput$.html" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">object</span>
+      </span>
+      <span class="symbol">
+        <a title="" href="ModelSignatureConstants$$StartLogitsOutput$.html"><span class="name">StartLogitsOutput</span></a><span class="result"> extends <a href="ModelSignatureConstants$$TFInfoNameMapper.html" class="extype" name="com.johnsnowlabs.ml.tensorflow.sign.ModelSignatureConstants.TFInfoNameMapper">TFInfoNameMapper</a> with <span class="extype" name="scala.Product">Product</span> with <span class="extype" name="scala.Serializable">Serializable</span></span>
+      </span>
+      
+      
+    </li><li name="com.johnsnowlabs.ml.tensorflow.sign.ModelSignatureConstants.TapasLogitsAggregationOutput" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="TapasLogitsAggregationOutput"></a><a id="TapasLogitsAggregationOutput:TapasLogitsAggregationOutput"></a>
+      <span class="permalink">
+      <a href="../../../../../com/johnsnowlabs/ml/tensorflow/sign/ModelSignatureConstants$$TapasLogitsAggregationOutput$.html" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">object</span>
+      </span>
+      <span class="symbol">
+        <a title="" href="ModelSignatureConstants$$TapasLogitsAggregationOutput$.html"><span class="name">TapasLogitsAggregationOutput</span></a><span class="result"> extends <a href="ModelSignatureConstants$$TFInfoNameMapper.html" class="extype" name="com.johnsnowlabs.ml.tensorflow.sign.ModelSignatureConstants.TFInfoNameMapper">TFInfoNameMapper</a> with <span class="extype" name="scala.Product">Product</span> with <span class="extype" name="scala.Serializable">Serializable</span></span>
+      </span>
+      
+      
+    </li><li name="com.johnsnowlabs.ml.tensorflow.sign.ModelSignatureConstants.TapasLogitsOutput" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="TapasLogitsOutput"></a><a id="TapasLogitsOutput:TapasLogitsOutput"></a>
+      <span class="permalink">
+      <a href="../../../../../com/johnsnowlabs/ml/tensorflow/sign/ModelSignatureConstants$$TapasLogitsOutput$.html" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">object</span>
+      </span>
+      <span class="symbol">
+        <a title="" href="ModelSignatureConstants$$TapasLogitsOutput$.html"><span class="name">TapasLogitsOutput</span></a><span class="result"> extends <a href="ModelSignatureConstants$$TFInfoNameMapper.html" class="extype" name="com.johnsnowlabs.ml.tensorflow.sign.ModelSignatureConstants.TFInfoNameMapper">TFInfoNameMapper</a> with <span class="extype" name="scala.Product">Product</span> with <span class="extype" name="scala.Serializable">Serializable</span></span>
       </span>
       
       

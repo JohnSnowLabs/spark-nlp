@@ -7,9 +7,11 @@ date: 2022-07-29
 tags: [bert, licensed, en, clinical, classifier, sequence_classification, public_health, vaccine, tweet]
 task: Text Classification
 language: en
-edition: Spark NLP for Healthcare 4.0.0
+edition: Healthcare NLP 4.0.0
 spark_version: 3.0
 supported: true
+recommended: true
+annotator: MedicalBertForSequenceClassification
 article_header:
   type: cover
 use_language_switcher: "Python-Scala-Java"
@@ -24,8 +26,8 @@ Classification of tweets indicating self-reported COVID-19 vaccination status. T
 `Vaccine_chatter`, `Self_reports`
 
 {:.btn-box}
-<button class="button button-orange" disabled>Live Demo</button>
-<button class="button button-orange" disabled>Open in Colab</button>
+[Live Demo](https://demo.johnsnowlabs.com/healthcare/PUBLIC_HEALTH_VACCINE_STATUS/){:.button.button-orange}
+[Open in Colab](https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/PUBLIC_HEALTH_MB4SC.ipynb){:.button.button-orange.button-orange-trans.co.button-icon}
 [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/bert_sequence_classifier_self_reported_vaccine_status_tweet_en_4.0.0_3.0_1659076646646.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
 
 ## How to use
@@ -73,7 +75,7 @@ val sequenceClassifier = MedicalBertForSequenceClassification.pretrained("bert_s
   .setInputCols(Array("document","token"))
   .setOutputCol("class")
 
-val pipeline = new Pipeline.setStages(Array(document_assembler, tokenizer, sequenceClassifier))
+val pipeline = new Pipeline().setStages(Array(document_assembler, tokenizer, sequenceClassifier))
 
 # couple of simple examples
 val example = Seq(Array("I came to a point finally and i've vaccinated, didnt feel pain.Suggest everyone",
@@ -100,7 +102,7 @@ val result = pipeline.fit(example).transform(example)
 {:.table-model}
 |---|---|
 |Model Name:|bert_sequence_classifier_self_reported_vaccine_status_tweet|
-|Compatibility:|Spark NLP for Healthcare 4.0.0+|
+|Compatibility:|Healthcare NLP 4.0.0+|
 |License:|Licensed|
 |Edition:|Official|
 |Input Labels:|[document, token]|

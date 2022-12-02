@@ -13,6 +13,7 @@
   {%- endif -%}
 
   {%- assign _show_author = include.article.author -%}
+  {%- assign _show_github = page.layout == 'model' -%}
 
   {%- include snippets/assign.html target=site.data.variables.default.page.pageview
     source0=layout.pageview source1=page.pageview -%}
@@ -28,6 +29,17 @@
   {%- if _show_tags or _show_author or _show_date or _pageview -%}
     <div class="article__info clearfix">
 
+      {%- if _show_github -%}
+        {%- assign _github_path = site.repository | append: '/tree/' | append: site.repository_tree | append: '/'
+        | append: page.path | replace:'.html','.md' | replace:'//','/' -%}
+        <div class="left-col">
+            <a class="edit-on-github-btn" target="_blank" rel="alternate"
+               href="https://github.com/{{ _github_path }}">
+              <span class="fab fa-github"></span>
+              <span class="edit-on-github-label">Edit on GitHub</span>
+            </a>
+        </div>
+      {%- endif -%}
       {%- if _show_author or _show_date or _pageview -%}
         <ul class="right-col menu">
           {%- if _show_author  -%}
@@ -62,5 +74,5 @@
   {%- endif -%}
   {%- if include.article.date -%}
     <meta itemprop="datePublished" content="{{ include.article.date | date_to_xmlschema }}">
-  {%- endif -%}  
+  {%- endif -%}
 {%- endif -%}

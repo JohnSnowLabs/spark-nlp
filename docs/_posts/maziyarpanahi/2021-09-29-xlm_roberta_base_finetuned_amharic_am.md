@@ -10,6 +10,7 @@ language: am
 edition: Spark NLP 3.3.0
 spark_version: 3.0
 supported: true
+annotator: XlmRoBertaEmbeddings
 article_header:
   type: cover
 use_language_switcher: "Python-Scala-Java"
@@ -46,6 +47,14 @@ val embeddings = XlmRoBertaEmbeddings.pretrained("xlm_roberta_base_finetuned_amh
       .setInputCols("sentence", "token")
       .setOutputCol("embeddings")
 ```
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("am.embed.xlm_roberta").predict("""Put your text here.""")
+```
+
 </div>
 
 {:.model-param}

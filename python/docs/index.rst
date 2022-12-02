@@ -23,8 +23,8 @@ Spark NLP Documentation
 
 `Main Page <https://nlp.johnsnowlabs.com/>`_ | `GitHub <https://github.com/JohnSnowLabs/spark-nlp>`_ | `Issues <https://github.com/JohnSnowLabs/spark-nlp/issues>`_ | `Workshop <https://github.com/JohnSnowLabs/spark-nlp-workshop>`_ | `Models Hub <https://nlp.johnsnowlabs.com/models>`_
 
-Welcome to Spark NLP's Python documentation! This page contains information how to use the
-library with examples.
+Welcome to Spark NLP's Python documentation! This page contains information how
+to use the library with examples.
 
 *******
 Content

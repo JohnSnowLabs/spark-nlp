@@ -1,5 +1,5 @@
 /*
- * Copyright 2017-2021 John Snow Labs
+ * Copyright 2017-2022 John Snow Labs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,11 +16,11 @@
 
 package com.johnsnowlabs.nlp.annotators
 
-import com.johnsnowlabs.nlp.{Annotation, AnnotatorBuilder, SparkAccessor}
+import com.johnsnowlabs.nlp.{Annotation, AnnotatorBuilder, DocumentAssembler, SparkAccessor}
 import com.johnsnowlabs.tags.FastTest
-import org.apache.spark.sql.Row
+import org.apache.spark.ml.Pipeline
 import org.apache.spark.sql.functions.asc
-
+import org.apache.spark.sql.{DataFrame, Row, SparkSession}
 import org.scalatest.flatspec.AnyFlatSpec
 import org.scalatest.matchers.must.Matchers._
 import org.scalatest.matchers.should.Matchers.convertToAnyShouldWrapper
@@ -30,6 +30,43 @@ import scala.language.reflectiveCalls
 trait DocumentNormalizerBehaviors extends AnyFlatSpec {
 
   val DOC_NORMALIZER_BASE_DIR = "src/test/resources/doc-normalizer"
+
+  def runLookaroundDocNormPipeline(
+      action: String,
+      patterns: Array[String],
+      replacement: String = " ") = {
+    val dataset =
+      SparkAccessor.spark
+        .createDataFrame(
+          List(
+            (1, "10.2"),
+            (2, "9,53"),
+            (3, "11.01 mg"),
+            (4, "mg 11.01"),
+            (5, "14,220"),
+            (6, "Amoxiciline 4,5 mg for $10.35; Ibuprofen 5,5mg for $9.00.")))
+        .toDF("id", "text")
+
+    val annotated =
+      AnnotatorBuilder
+        .withDocumentNormalizer(
+          dataset = dataset,
+          action = action,
+          patterns = patterns,
+          replacement = replacement)
+
+    val normalizedDoc: Array[Annotation] = annotated
+      .select("normalizedDocument")
+      .collect
+      .flatMap {
+        _.getSeq[Row](0)
+      }
+      .map {
+        Annotation(_)
+      }
+
+    normalizedDoc
+  }
 
   def fixtureFilesHTML(action: String, patterns: Array[String], replacement: String = " ") = {
 
@@ -76,10 +113,7 @@ trait DocumentNormalizerBehaviors extends AnyFlatSpec {
 
     val annotated =
       AnnotatorBuilder
-        .withDocumentNormalizer(
-          dataset = dataset,
-          action = action,
-          patterns = patterns)
+        .withDocumentNormalizer(dataset = dataset, action = action, patterns = patterns)
 
     val normalizedDoc: Array[Annotation] = annotated
       .select("normalizedDocument")
@@ -107,10 +141,7 @@ trait DocumentNormalizerBehaviors extends AnyFlatSpec {
 
     val annotated =
       AnnotatorBuilder
-        .withDocumentNormalizer(
-          dataset = dataset,
-          action = action,
-          patterns = patterns)
+        .withDocumentNormalizer(dataset = dataset, action = action, patterns = patterns)
 
     val normalizedDoc: Array[Annotation] = annotated
       .select("normalizedDocument")
@@ -123,6 +154,43 @@ trait DocumentNormalizerBehaviors extends AnyFlatSpec {
       }
 
     normalizedDoc
+  }
+
+  "A DocumentNormalizer" should "annotate replacing , to . using iterative positive lookahead" taggedAs FastTest in {
+    val action = "lookaround"
+    val patterns = Array(".*\\d+(\\,)\\d+(?=\\s?mg).*")
+    val replacement = "."
+
+    val f = runLookaroundDocNormPipeline(action, patterns, replacement)(
+      5
+    ) // Amoxiciline 4,5 mg for $10.35; Ibuprofen 5,5mg for $9.00.
+
+    0 should equal(f.begin)
+    55 should equal(f.end)
+  }
+
+  "A DocumentNormalizer" should "annotate replacing . to , using positive lookahead" taggedAs FastTest in {
+    val action = "lookaround"
+    val patterns = Array(".*\\d+(\\.)\\d+(?= mg).*")
+    val replacement = ","
+
+    val f = runLookaroundDocNormPipeline(action, patterns, replacement)(2) // 11,01 mg
+
+    println(f)
+
+    0 should equal(f.begin)
+    7 should equal(f.end)
+  }
+
+  "A DocumentNormalizer" should "annotate replacing . to , using positive lookbehind" taggedAs FastTest in {
+    val action = "lookaround"
+    val patterns = Array(".*(?<=mg )\\d+(\\.)\\d+.*")
+    val replacement = ","
+
+    val f = runLookaroundDocNormPipeline(action, patterns, replacement)(3) // mg 11,01
+
+    0 should equal(f.begin)
+    7 should equal(f.end)
   }
 
   "A DocumentNormalizer" should "annotate with the correct indexes cleaning up all HTML tags" taggedAs FastTest in {
@@ -314,5 +382,48 @@ trait DocumentNormalizerBehaviors extends AnyFlatSpec {
 
     0 should equal(f.head.begin)
     396 should equal(f.head.end)
+  }
+
+  "A DocumentNormalizer" should "annotate with duplicated doc norm stages" taggedAs FastTest in {
+
+    val spark = SparkAccessor.spark
+
+    val data: DataFrame =
+      spark.createDataFrame(List(("Some title!", "<html>"))).toDF("title", "description")
+
+    data.show()
+
+    val documentAssembler = new DocumentAssembler()
+      .setInputCol("description")
+      .setOutputCol("document")
+
+    val tag_remover = new DocumentNormalizer()
+      .setInputCols("document")
+      .setOutputCol("tag_removed")
+      .setAction("clean")
+      .setPatterns(Array("<[^>]*>|&([a-z0-9]+|#[0-9]{1,6}|#x[0-9a-f]{1,6});"))
+      .setReplacement(" ")
+      .setPolicy("pretty_all")
+      .setLowercase(false)
+      .setEncoding("UTF-8")
+
+    val date_remover = new DocumentNormalizer()
+      .setInputCols("tag_removed")
+      .setOutputCol("dates_removed")
+      .setAction("clean")
+      .setPatterns(Array("""(\d{1,4}[\-|\/|\.]\d{1,4}[\-|\/|\.]\d{1,4})"""
+        + """|(\d{1,4}[\-|\/|\.]\d{1,4})"""
+        + """|(([Jj][anuary]+|[Ff][ebruary]+|[Mm][arch]+|[Aa][pril]+|[Mm][ay]|[Jj][une]+|[Jj][uly]+|[Aa][ugust]+|[Ss][eptember]+|[Oo][ctober]+|[Nn][ovember]+|[Dd][ecember]+)\.?\s\d{1,2}\,?\s\d{2,4})"""
+        + """|(\d{1,4}\,? ([Jj][anuary]+|[Ff][ebruary]+|[Mm][arch]+|[Aa][pril]+|[Mm][ay]|[Jj][une]+|[Jj][uly]+|[Aa][ugust]+|[Ss][eptember]+|[Oo][ctober]+|[Nn][ovember]+|[Dd][ecember]+)\.?\,? \d{1,4})"""))
+      .setReplacement("")
+      .setPolicy("pretty_all")
+      .setLowercase(false)
+      .setEncoding("UTF-8")
+
+    val docPatternRemoverPipeline =
+      new Pipeline().setStages(Array(documentAssembler, tag_remover, date_remover))
+
+    println(Annotation.apply(""))
+    docPatternRemoverPipeline.fit(data).transform(data).show(false)
   }
 }

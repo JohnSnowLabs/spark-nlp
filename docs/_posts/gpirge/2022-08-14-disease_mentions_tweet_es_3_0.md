@@ -7,9 +7,11 @@ date: 2022-08-14
 tags: [es, clinical, licensed, public_health, ner, disease, tweet]
 task: Named Entity Recognition
 language: es
-edition: Spark NLP for Healthcare 4.0.2
+edition: Healthcare NLP 4.0.2
 spark_version: 3.0
 supported: true
+recommended: true
+annotator: MedicalNerModel
 article_header:
   type: cover
 use_language_switcher: "Python-Scala-Java"
@@ -25,8 +27,8 @@ The model detects ENFERMEDAD.
 `ENFERMEDAD`
 
 {:.btn-box}
-<button class="button button-orange" disabled>Live Demo</button>
-<button class="button button-orange" disabled>Open in Colab</button>
+[Live Demo](https://demo.johnsnowlabs.com/healthcare/PUBLIC_HEALTH_NER_DISEASE_ES/){:.button.button-orange}
+[Open in Colab](https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/PUBLIC_HEALTH_MB4TC.ipynb){:.button.button-orange.button-orange-trans.co.button-icon}
 [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/disease_mentions_tweet_es_4.0.2_3.0_1660443994563.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
 
 ## How to use
@@ -60,7 +62,7 @@ ner_converter = NerConverter()\
 	.setInputCols(["sentence", "token", "ner"])\
 	.setOutputCol("ner_chunk")
 
-pipeline = pipeline(stages=[
+pipeline = Pipeline(stages=[
 	document_assembler,
 	sentenceDetectorDL,
 	tokenizer,
@@ -78,16 +80,16 @@ val documenter = new DocumentAssembler()
     .setOutputCol("document")
 
 val sentenceDetector = SentenceDetectorDLModel.pretrained()
-  .setInputCols("document")
-  .setOutputCol("sentence")
+    .setInputCols("document")
+    .setOutputCol("sentence")
 
 val tokenizer = new Tokenizer()
-  .setInputCols("sentence")
-  .setOutputCol("token")
+    .setInputCols("sentence")
+    .setOutputCol("token")
 
 val word_embeddings = WordEmbeddingsModel.pretrained("embeddings_scielo_300d","es","clinical/models")
-	.setInputCols(["sentence","token"])
-	.setOutputCol("embeddings")
+    .setInputCols(Array("sentence","token"))
+    .setOutputCol("embeddings")
 
 val ner_model = MedicalNerModel.pretrained("disease_mentions_tweet", "es", "clinical/models")
     .setInputCols(Array("sentence", "token", "embeddings"))
@@ -125,7 +127,7 @@ val result = pipeline.fit(data).transform(data)
 {:.table-model}
 |---|---|
 |Model Name:|disease_mentions_tweet|
-|Compatibility:|Spark NLP for Healthcare 4.0.2+|
+|Compatibility:|Healthcare NLP 4.0.2+|
 |License:|Licensed|
 |Edition:|Official|
 |Input Labels:|[sentence, token, embeddings]|

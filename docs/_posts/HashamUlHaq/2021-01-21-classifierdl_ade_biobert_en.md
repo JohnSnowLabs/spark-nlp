@@ -6,11 +6,13 @@ name: classifierdl_ade_biobert
 date: 2021-01-21
 task: Text Classification
 language: en
-edition: Spark NLP for Healthcare 2.7.1
+edition: Healthcare NLP 2.7.1
+spark_version: 2.4
 tags: [licensed, clinical, en, classifier]
 supported: true
+annotator: ClassifierDLModel
 article_header:
-  type: cover
+type: cover
 use_language_switcher: "Python-Scala-Java"
 ---
 
@@ -37,37 +39,71 @@ Classify text/sentence in two categories:
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
+
 ```python
-...
+document_assembler = DocumentAssembler()\
+    .setInputCol("text")\
+    .setOutputCol("document")
+         
+tokenizer = Tokenizer()\
+    .setInputCols(["sentence"])\
+    .setOutputCol("token")
+
 embeddings = BertEmbeddings.pretrained('biobert_pubmed_base_cased')\
     .setInputCols(["document", 'token'])\
     .setOutputCol("word_embeddings")
+
 sentence_embeddings = SentenceEmbeddings() \
-      .setInputCols(["document", "word_embeddings"]) \
-      .setOutputCol("sentence_embeddings") \
-      .setPoolingStrategy("AVERAGE")
+    .setInputCols(["document", "word_embeddings"]) \
+    .setOutputCol("sentence_embeddings") \
+    .setPoolingStrategy("AVERAGE")
+
 classifier = ClassifierDLModel.pretrained('classifierdl_ade_biobert', 'en', 'clinical/models')\
-    .setInputCols(['document', 'token', 'sentence_embeddings']).setOutputCol('class')
+    .setInputCols(['document', 'token', 'sentence_embeddings'])\
+    .setOutputCol('class')
+
 nlp_pipeline = Pipeline(stages=[document_assembler, tokenizer, embeddings, sentence_embeddings, classifier])
+
 light_pipeline = LightPipeline(nlp_pipeline.fit(spark.createDataFrame([['']]).toDF("text")))
+
 annotations = light_pipeline.fullAnnotate(["I feel a bit drowsy & have a little blurred vision after taking an insulin", "I feel great after taking tylenol"])
 ```
 
 ```scala
-...
-val embeddings = BertEmbeddings.pretrained('biobert_pubmed_base_cased')
-    .setInputCols(Array("document", 'token'))
-    .setOutputCol("word_embeddings")
-val sentence_embeddings = SentenceEmbeddings()
-      .setInputCols(Array("document", "word_embeddings"))
-      .setOutputCol("sentence_embeddings")
-      .setPoolingStrategy("AVERAGE")
-val classifier = ClassifierDLModel.pretrained('classifierdl_ade_biobert', 'en', 'clinical/models')
-    .setInputCols(Array('document', 'token', 'sentence_embeddings')).setOutputCol('class')
+val document_assembler = new DocumentAssembler()
+    .setInputCol("text")
+    .setOutputCol("document")
+         
+val tokenizer = new Tokenizer()
+    .setInputCols("sentence")
+    .setOutputCol("token")
+
+val embeddings = BertEmbeddings.pretrained("biobert_pubmed_base_cased")
+	.setInputCols(Array("document", "token"))
+	.setOutputCol("word_embeddings")
+
+val sentence_embeddings = new SentenceEmbeddings()
+	.setInputCols(Array("document", "word_embeddings"))
+	.setOutputCol("sentence_embeddings")
+	.setPoolingStrategy("AVERAGE")
+
+val classifier = ClassifierDLModel.pretrained("classifierdl_ade_biobert", "en", "clinical/models")
+	.setInputCols(Array("document", "token", "sentence_embeddings"))
+	.setOutputCol("class")
 
 val pipeline = new Pipeline().setStages(Array(document_assembler, tokenizer, embeddings, sentence_embeddings, classifier))
-val data = Seq("I feel a bit drowsy & have a little blurred vision after taking an insulin", "I feel great after taking tylenol").toDF("text")
+
+val data = Seq("""I feel a bit drowsy & have a little blurred vision after taking an insulin, I feel great after taking tylenol""").toDS().toDF("text")
+
 val result = pipeline.fit(data).transform(data)
+```
+
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("en.classify.ade.biobert").predict("""I feel a bit drowsy & have a little blurred vision after taking an insulin""")
 ```
 
 </div>
@@ -88,7 +124,7 @@ val result = pipeline.fit(data).transform(data)
 {:.table-model}
 |---|---|
 |Model Name:|classifierdl_ade_biobert|
-|Compatibility:|Spark NLP for Healthcare 2.7.1+|
+|Compatibility:|Healthcare NLP 2.7.1+|
 |License:|Licensed|
 |Edition:|Official|
 |Input Labels:|[sentence_embeddings]|
@@ -103,12 +139,10 @@ Trained on a custom dataset comprising of CADEC, DRUG-AE and Twimed.
 ## Benchmarking
 
 ```bash
-			  precision    recall  f1-score   support
-
-       False       0.96      0.94      0.95      6923
-        True       0.71      0.79      0.75      1359
-
-   micro avg       0.91      0.91      0.91      8282
-   macro avg       0.83      0.86      0.85      8282
-weighted avg       0.92      0.91      0.91      8282
+label            precision    recall  f1-score   support
+False       	  0.96        0.94      0.95      6923
+True       	  0.71        0.79      0.75      1359
+micro-avg         0.91        0.91      0.91      8282
+macro-avg         0.83        0.86      0.85      8282
+weighted-avg      0.92        0.91      0.91      8282
 ```

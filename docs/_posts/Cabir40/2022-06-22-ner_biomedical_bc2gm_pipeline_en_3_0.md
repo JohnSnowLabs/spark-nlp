@@ -7,11 +7,12 @@ date: 2022-06-22
 tags: [licensed, clinical, en, ner, bc2gm, gene_protein, gene, protein, biomedical]
 task: Pipeline Healthcare
 language: en
-edition: Spark NLP for Healthcare 3.5.3
+edition: Healthcare NLP 3.5.3
 spark_version: 3.0
 supported: true
+annotator: PipelineModel
 article_header:
-  type: cover
+type: cover
 use_language_switcher: "Python-Scala-Java"
 ---
 
@@ -44,6 +45,14 @@ val pipeline = new PretrainedPipeline("ner_biomedical_bc2gm_pipeline", "en", "cl
 
 val result = pipeline.fullAnnotate("""Immunohistochemical staining was positive for S-100 in all 9 cases stained, positive for HMB-45 in 9 (90%) of 10, and negative for cytokeratin in all 9 cases in which myxoid melanoma remained in the block after previous sections""")
 ```
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("en.med_ner.biomedical_bc2gm.pipeline").predict("""Immunohistochemical staining was positive for S-100 in all 9 cases stained, positive for HMB-45 in 9 (90%) of 10, and negative for cytokeratin in all 9 cases in which myxoid melanoma remained in the block after previous sections.""")
+```
+
 </div>
 
 ## Results
@@ -65,7 +74,7 @@ val result = pipeline.fullAnnotate("""Immunohistochemical staining was positive 
 |---|---|
 |Model Name:|ner_biomedical_bc2gm_pipeline|
 |Type:|pipeline|
-|Compatibility:|Spark NLP for Healthcare 3.5.3+|
+|Compatibility:|Healthcare NLP 3.5.3+|
 |License:|Licensed|
 |Edition:|Official|
 |Language:|en|

@@ -7,10 +7,12 @@ date: 2020-08-30
 task: Named Entity Recognition
 language: sv
 edition: Spark NLP 2.6.0
+spark_version: 2.4
 tags: [ner, sv, open_source]
 supported: true
+annotator: NerDLModel
 article_header:
-  type: cover
+type: cover
 use_language_switcher: "Python-Scala-Java"
 ---
 
@@ -36,11 +38,11 @@ Persons-`PER`, Locations-`LOC`, Organizations-`ORG`, Product-`PRO`, Date-`DATE`,
 ```python
 ...
 embeddings = WordEmbeddingsModel.pretrained("glove_100d") \
-    .setInputCols(["document", "token"]) \
-    .setOutputCol("embeddings")
+.setInputCols(["document", "token"]) \
+.setOutputCol("embeddings")
 ner_model = NerDLModel.pretrained("swedish_ner_6B_100", "sv") \
-        .setInputCols(["document", "token", "embeddings"]) \
-        .setOutputCol("ner")
+.setInputCols(["document", "token", "embeddings"]) \
+.setOutputCol("ner")
 ...        
 nlp_pipeline = Pipeline(stages=[document_assembler, sentence_detector, tokenizer, embeddings, ner_model, ner_converter])
 pipeline_model = nlp_pipeline.fit(spark.createDataFrame([['']]).toDF('text'))
@@ -51,11 +53,11 @@ result = pipeline_model.transform(spark.createDataFrame([['William Henry Gates I
 ```scala
 ...
 val embeddings = WordEmbeddingsModel.pretrained("glove_100d")
-    .setInputCols(Array("document", "token"))
-    .setOutputCol("embeddings")
+.setInputCols(Array("document", "token"))
+.setOutputCol("embeddings")
 val ner_model = NerDLModel.pretrained("swedish_ner_6B_100", "sv")
-        .setInputCols(Array("document", "token", "embeddings"))
-        .setOutputCol("ner")
+.setInputCols(Array("document", "token", "embeddings"))
+.setOutputCol("ner")
 ...
 val pipeline = new Pipeline().setStages(Array(document_assembler, sentence_detector, tokenizer, embeddings, ner_model, ner_converter))
 

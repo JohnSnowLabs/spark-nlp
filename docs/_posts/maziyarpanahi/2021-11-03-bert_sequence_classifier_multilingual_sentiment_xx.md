@@ -10,6 +10,7 @@ language: xx
 edition: Spark NLP 3.3.2
 spark_version: 3.0
 supported: true
+annotator: BertForSequenceClassification
 article_header:
   type: cover
 use_language_switcher: "Python-Scala-Java"
@@ -59,7 +60,7 @@ tokenizer = Tokenizer() \
     .setOutputCol('token')
 
 sequenceClassifier = BertForSequenceClassification \
-      .pretrained('bert_sequence_classifier_multilingual_sentiment', xx') \
+      .pretrained('bert_sequence_classifier_multilingual_sentiment', 'xx') \
       .setInputCols(['token', 'document']) \
       .setOutputCol('class') \
       .setCaseSensitive(False) \

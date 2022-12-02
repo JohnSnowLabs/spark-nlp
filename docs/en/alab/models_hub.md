@@ -3,52 +3,54 @@ layout: docs
 comment: no
 header: true
 seotitle: Annotation Lab | John Snow Labs
-title: NLP Models Hub
+title: Models Hub
 permalink: /docs/en/alab/models_hub
 key: docs-training
-modify_date: "2021-06-23"
+modify_date: "2022-12-01"
 use_language_switcher: "Python-Scala"
 show_nav: true
 sidebar:
-    nav: annotation-lab
+  nav: annotation-lab
 ---
 
-The Annotation Lab 1.8.0 offers a tight integration with [NLP Models Hub](https://nlp.johnsnowlabs.com/models). Any compatible NER model and Embeddings can be downloaded and made available to the Annotation Lab users for preannotations either from within the application or via manual upload. 
+Annotation Lab offers tight integration with [NLP Models Hub](https://nlp.johnsnowlabs.com/models). Any compatible model and embeddings can be downloaded and made available to the Annotation Lab users for pre-annotations either from within the application or via manual upload.
 
-Models Hub page can be accessed via the left navigation menu by users in the UserAdmins group.
+NLP Models HUB page is accessible from the left navigation panel by users in the _Admins_ group.
 
-<img class="image image--xl" src="/assets/images/annotation_lab/1.8.0/models_hub.png" style="width:100%; align:center; box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);"/>
+<img class="image image__shadow" src="/assets/images/annotation_lab/4.1.0/models_hub.png" style="width:100%;" />
 
+The Models Hub page lists all the pre-trained models and embeddings from NLP Models Hub that are compatible with the Spark NLP version present in the Annotation Lab.
 
-The Models Hub page has three tabs that hold information about models and embeddings.
+## Search
 
-## Models Hub Tab
-This tab lists all pretrained NER models and embeddings from NLP Models Hub which are compatible with Spark NLP 2.7.5 and which are defined for English language. By selecting one or multiple items from the grid view, users can download them to the Annotation Lab. The licensed/Healthcare models and embeddings are available to download only when a valid license is uploaded.
+Search features are offered to help users identify the models they need based on their names. Additional information such as Library Edition, task for which the model was build as well as publication date are also available on the model tile.
 
-One restriction that we impose on models download/upload relates to the available disk space. Any model download requires that the double of its size is available on the local storage. If not enough space is available the download cannot proceed.  
+<img class="image image__shadow" src="/assets/images/annotation_lab/4.2.0/search.png" style="width:100%;"/>
+
+Language of the model/embeddings is also available as well as a direct link to the model description page on the NLP Models Hub where you can get more details about the model and usage examples.
+
+## Filter
+
+Users can use the Edition filter to search models specific to an edition. It includes all supported NLP editions: Healthcare, Opensource, Legal, Finance, and Visual. When selecting one option, e.g. "Legal", users will be presented with all available models for that specific domain. This will ease the exploration of available models, which can then easily be downloaded and used within Annotation Lab projects.
+
+<img class="image image__shadow" src="https://user-images.githubusercontent.com/33893292/203566517-59c1b207-961a-40a4-88ac-ae532338be5e.gif" style="width:100%;"/>
+
+To make searching models/embeddings more efficient, Annotation Lab offers a Language filter. Users can select models/embeddings on the Models Hub page according to their language preference.
+
+<img class="image image__shadow" src="/assets/images/annotation_lab/4.1.0/model_language.png" style="width:100%;"/>
+
+## Download
+
+By selecting one or multiple models from the list, users can download those to the Annotation Lab. The licensed (Healthcare, Visual, Finance or Legal) models and embeddings are available to download only when a valid license is present.
+
+One restriction on models download/upload is related to the available disk space. Any model download requires that the double of its size is available on the local storage. If enough space is not available then the download cannot proceed.
 
 Disk usage view, search, and filter features are available on the upper section of the Models Hub page.
 
-<img class="image image--xl" src="/assets/images/annotation_lab/1.8.0/storage.png" style="width:100%; align:center; box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);"/>
+<img class="image image__shadow" src="/assets/images/annotation_lab/4.1.0/storage.png" style="width:50%;" />
 
+## Benchmarking
 
-## Available Models Tab
-All the models available in the Annotation Lab are listed in this tab. The models are either trained within the Annotation Lab, uploaded to Annotation Lab by admin users, or downloaded from NLP Models Hub. General information about the models like labels/categories and the source (downloaded or trained or uploaded) of the model can be viewed. It is possible to delete any model or redownload failed ones by using the overflow menu on the top right corner of each model.
+For the licensed models, benchmarking information is available on the Models Hub page. To check this click on the icon on the lower right side of the model tile. The benchmarking information can be used to guide the selection of the model you include in your project configuration.
 
-<img class="image image--xl" src="/assets/images/annotation_lab/1.8.0/re_download.png" style="width:60%; align:center; box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);"/>
-
-## Available Embeddings Tab
-This tab lists all embeddings available to the Annotation Lab together with information on their source and date of upload/download. Like models, any compatible embeddings can be downloaded from NLP Models Hub. By default, glove_100d embeddings are included in the deployment.
-
-
-
-
-## Custom Models/Embeddings Upload
-
-Custom NER models or embeddings can be uploaded using the Upload button present in the top right corner of the page. The labels predicted by the uploaded NER model need to be specified using the Model upload form.
-
-<img class="image image--xl" src="/assets/images/annotation_lab/1.8.0/upload_models.png" style="width:70%; align:center; box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);"/>
-
-The models& embeddings to upload need to be Spark NLP compatible. 
-
-All available models are listed in the Spark NLP Pipeline Config on the Setup Page of any project and are ready to be included in the Labeling Config for preannotation.
+<img class="image image__shadow" src="/assets/images/annotation_lab/4.2.0/benchmarking.png" style="width:100%;"/>

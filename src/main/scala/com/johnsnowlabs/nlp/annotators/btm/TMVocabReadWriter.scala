@@ -1,5 +1,5 @@
 /*
- * Copyright 2017-2021 John Snow Labs
+ * Copyright 2017-2022 John Snow Labs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,10 +19,10 @@ package com.johnsnowlabs.nlp.annotators.btm
 import com.johnsnowlabs.storage.{RocksDBConnection, StorageReadWriter}
 
 class TMVocabReadWriter(
-                         protected override val connection: RocksDBConnection,
-                         protected override val caseSensitiveIndex: Boolean
-                       )
-  extends TMVocabReader(connection, caseSensitiveIndex) with StorageReadWriter[Int] {
+    protected override val connection: RocksDBConnection,
+    protected override val caseSensitiveIndex: Boolean)
+    extends TMVocabReader(connection, caseSensitiveIndex)
+    with StorageReadWriter[Int] {
 
   override protected def writeBufferSize: Int = 10000
 

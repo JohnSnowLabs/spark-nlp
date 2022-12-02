@@ -7,11 +7,12 @@ date: 2022-06-27
 tags: [rxnorm, umls, pipeline, chunk_mapper, clinical, licensed, en]
 task: Pipeline Healthcare
 language: en
-edition: Spark NLP for Healthcare 3.5.3
+edition: Healthcare NLP 3.5.3
 spark_version: 3.0
 supported: true
+annotator: PipelineModel
 article_header:
-  type: cover
+type: cover
 use_language_switcher: "Python-Scala-Java"
 ---
 
@@ -44,6 +45,14 @@ val pipeline = new PretrainedPipeline("rxnorm_umls_mapping", "en", "clinical/mod
 
 val result= pipeline.fullAnnotate("1161611 315677")
 ```
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("en.resolve.rxnorm.umls").predict("""1161611 315677""")
+```
+
 </div>
 
 ## Results
@@ -61,7 +70,7 @@ val result= pipeline.fullAnnotate("1161611 315677")
 |---|---|
 |Model Name:|rxnorm_umls_mapping|
 |Type:|pipeline|
-|Compatibility:|Spark NLP for Healthcare 3.5.3+|
+|Compatibility:|Healthcare NLP 3.5.3+|
 |License:|Licensed|
 |Edition:|Official|
 |Language:|en|

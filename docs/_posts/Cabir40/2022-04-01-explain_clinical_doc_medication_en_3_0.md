@@ -7,9 +7,10 @@ date: 2022-04-01
 tags: [licensed, en, clinical, ner, assertion, relation_extraction, posology]
 task: Pipeline Healthcare
 language: en
-edition: Spark NLP for Healthcare 3.4.2
+edition: Healthcare NLP 3.4.2
 spark_version: 3.0
 supported: true
+annotator: PipelineModel
 article_header:
   type: cover
 use_language_switcher: "Python-Scala-Java"
@@ -96,7 +97,7 @@ val result = pipeline.fullAnnotate("""The patient is a 30-year-old female with a
 |---|---|
 |Model Name:|explain_clinical_doc_medication|
 |Type:|pipeline|
-|Compatibility:|Spark NLP for Healthcare 3.4.2+|
+|Compatibility:|Healthcare NLP 3.4.2+|
 |License:|Licensed|
 |Edition:|Official|
 |Language:|en|

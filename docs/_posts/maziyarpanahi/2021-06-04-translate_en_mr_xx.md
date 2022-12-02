@@ -11,22 +11,22 @@ edition: Spark NLP 3.1.0
 spark_version: 3.0
 supported: true
 article_header:
-  type: cover
+type: cover
 use_language_switcher: "Python-Scala-Java"
 ---
 
 ## Description
 
 Marian is an efficient, free Neural Machine Translation framework written in pure C++ with minimal dependencies. It is mainly being developed by the Microsoft Translator team. Many academic (most notably the University of Edinburgh and in the past the Adam Mickiewicz University in Poznań) and commercial contributors help with its development.
-            It is currently the engine behind the Microsoft Translator Neural Machine Translation services and being deployed by many companies, organizations and research projects (see below for an incomplete list).
+It is currently the engine behind the Microsoft Translator Neural Machine Translation services and being deployed by many companies, organizations and research projects (see below for an incomplete list).
 
-            source languages: en
+source languages: en
 
-            target languages: mr
+target languages: mr
 
 {:.btn-box}
-[Live Demo](https://demo.johnsnowlabs.com/public/TRANSLATION_MARIAN/){:.button.button-orange}
-[Open in Colab](https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/TRANSLATION_MARIAN.ipynb){:.button.button-orange.button-orange-trans.co.button-icon}
+[Live Demo](https://demo.johnsnowlabs.com/public/INDIAN_TRANSLATION_MARATHI/){:.button.button-orange}
+[Open in Colab](https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/TRANSLATION_PIPELINES_MODELS.ipynb){:.button.button-orange.button-orange-trans.co.button-icon}
 [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/translate_en_mr_xx_3.1.0_2.4_1622839654047.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
 
 ## How to use
@@ -35,15 +35,20 @@ Marian is an efficient, free Neural Machine Translation framework written in pur
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
+
 ```python
-from sparknlp.pretrained import PretrainedPipeline 
+from sparknlp.pretrained import PretrainedPipeline
+
 pipeline = PretrainedPipeline("translate_en_mr", lang = "xx") 
+
 pipeline.annotate("Your sentence to translate!")
 ```
 ```scala
 
 import com.johnsnowlabs.nlp.pretrained.PretrainedPipeline
+
 val pipeline = new PretrainedPipeline("translate_en_mr", lang = "xx")
+
 pipeline.annotate("Your sentence to translate!")
 ```
 
@@ -51,11 +56,22 @@ pipeline.annotate("Your sentence to translate!")
 ```python
 
 import nlu
-text = ["text to translate"]
+text = ["Your sentence to translate!"]
+
 translate_df = nlu.load('xx.English.translate_to.Marathi').predict(text, output_level='sentence')
 translate_df
 ```
 </div>
+
+## Results
+
+```bash
++------------------------------+--------------------------+
+|sentence                      |translation               |
++------------------------------+--------------------------+
+|Your sentence to translate!   |तू तुझ्या वाक्याचा अनुवाद करशील!  | 
++------------------------------+--------------------------+
+```
 
 {:.model-param}
 ## Model Information
@@ -71,7 +87,7 @@ translate_df
 
 ## Data Source
 
-[https://huggingface.co/Helsinki-NLP/opus-mt-en-mr](https://huggingface.co/Helsinki-NLP/opus-mt-en-mr)
+[https://github.com/Helsinki-NLP/OPUS-MT-train/tree/master/models](https://github.com/Helsinki-NLP/OPUS-MT-train/tree/master/models)
 
 ## Included Models
 

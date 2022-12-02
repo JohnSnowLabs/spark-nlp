@@ -1,5 +1,5 @@
 /*
- * Copyright 2017-2021 John Snow Labs
+ * Copyright 2017-2022 John Snow Labs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,7 +21,12 @@ import scala.collection.Map
 /** Word tag pair */
 case class TaggedWord(word: String, tag: String)
 
-case class IndexedTaggedWord(word: String, tag: String, begin: Int = 0, end: Int = 0,
-                             confidence: Option[Array[Map[String, String]]] = None, metadata: Map[String, String] = Map()) {
+case class IndexedTaggedWord(
+    word: String,
+    tag: String,
+    begin: Int = 0,
+    end: Int = 0,
+    confidence: Option[Array[Map[String, String]]] = None,
+    metadata: Map[String, String] = Map()) {
   def toTaggedWord: TaggedWord = TaggedWord(this.word, this.tag)
 }

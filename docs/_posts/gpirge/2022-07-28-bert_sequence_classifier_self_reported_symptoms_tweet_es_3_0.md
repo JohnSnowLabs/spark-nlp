@@ -7,9 +7,10 @@ date: 2022-07-28
 tags: [es, clinical, licensed, public_health, classifier, sequence_classification, covid_19, tweet, symptom]
 task: Text Classification
 language: es
-edition: Spark NLP for Healthcare 4.0.0
+edition: Healthcare NLP 4.0.0
 spark_version: 3.0
 supported: true
+annotator: MedicalBertForSequenceClassification
 article_header:
   type: cover
 use_language_switcher: "Python-Scala-Java"
@@ -25,8 +26,8 @@ This model is intended for direct use as a classification model and the target c
 `Lit-News_mentions`, `Self_reports`, `non-personal_reports`
 
 {:.btn-box}
-<button class="button button-orange" disabled>Live Demo</button>
-<button class="button button-orange" disabled>Open in Colab</button>
+[Live Demo](https://demo.johnsnowlabs.com/healthcare/PUBLIC_HEALTH_COVID_SYMPTOMS/){:.button.button-orange}
+[Open in Colab](https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/PUBLIC_HEALTH_MB4TC.ipynb){:.button.button-orange.button-orange-trans.co.button-icon}
 [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/bert_sequence_classifier_self_reported_symptoms_tweet_es_4.0.0_3.0_1659022252550.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
 
 ## How to use
@@ -108,7 +109,7 @@ val result = model.fit(data).transform(data)
 {:.table-model}
 |---|---|
 |Model Name:|bert_sequence_classifier_self_reported_symptoms_tweet|
-|Compatibility:|Spark NLP for Healthcare 4.0.0+|
+|Compatibility:|Healthcare NLP 4.0.0+|
 |License:|Licensed|
 |Edition:|Official|
 |Input Labels:|[document, token]|

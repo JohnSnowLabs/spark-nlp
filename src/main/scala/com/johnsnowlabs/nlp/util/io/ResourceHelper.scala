@@ -1,5 +1,5 @@
 /*
- * Copyright 2017-2021 John Snow Labs
+ * Copyright 2017-2022 John Snow Labs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,75 +16,149 @@
 
 package com.johnsnowlabs.nlp.util.io
 
+import com.amazonaws.AmazonServiceException
 import com.johnsnowlabs.nlp.annotators.Tokenizer
 import com.johnsnowlabs.nlp.annotators.common.{TaggedSentence, TaggedWord}
+import com.johnsnowlabs.nlp.pretrained.ResourceDownloader
 import com.johnsnowlabs.nlp.util.io.ReadAs._
 import com.johnsnowlabs.nlp.{DocumentAssembler, Finisher}
-import org.apache.hadoop.fs.{FileSystem, Path}
+import com.johnsnowlabs.util.ConfigHelper
+import org.apache.commons.io.{FileUtils, IOUtils}
+import org.apache.hadoop.fs.Path
 import org.apache.spark.ml.{Pipeline, PipelineModel}
 import org.apache.spark.sql.{DataFrame, Dataset, SparkSession}
 
 import java.io._
-import java.net.{URL, URLDecoder}
+import java.net.{URI, URL, URLDecoder}
+import java.nio.file
 import java.nio.file.{Files, Paths}
 import java.util.jar.JarFile
-import scala.collection.mutable.{ArrayBuffer, ListBuffer, Map => MMap}
+import scala.collection.mutable.{ArrayBuffer, Map => MMap}
 import scala.io.BufferedSource
+import scala.util.{Failure, Success, Try}
 
-/**
- * Helper one-place for IO management. Streams, source and external input should be handled from here
- */
+/** Helper one-place for IO management. Streams, source and external input should be handled from
+  * here
+  */
 object ResourceHelper {
 
   def getActiveSparkSession: SparkSession =
-    SparkSession.getActiveSession.getOrElse(SparkSession.builder()
-      .appName("SparkNLP Default Session")
+    SparkSession.getActiveSession.getOrElse(
+      SparkSession
+        .builder()
+        .appName("SparkNLP Default Session")
+        .master("local[*]")
+        .config("spark.driver.memory", "22G")
+        .config("spark.driver.maxResultSize", "0")
+        .config("spark.serializer", "org.apache.spark.serializer.KryoSerializer")
+        .config("spark.kryoserializer.buffer.max", "1000m")
+        .getOrCreate())
+
+  def getSparkSessionWithS3(
+      awsAccessKeyId: String,
+      awsSecretAccessKey: String,
+      hadoopAwsVersion: String = ConfigHelper.hadoopAwsVersion,
+      AwsJavaSdkVersion: String = ConfigHelper.awsJavaSdkVersion,
+      region: String = "us-east-1",
+      s3Impl: String = "org.apache.hadoop.fs.s3a.S3AFileSystem",
+      pathStyleAccess: Boolean = true,
+      credentialsProvider: String = "TemporaryAWSCredentialsProvider",
+      awsSessionToken: Option[String] = None): SparkSession = {
+
+    require(
+      SparkSession.getActiveSession.isEmpty,
+      "Spark session already running, can't apply new configuration for S3.")
+
+    val sparkSession = SparkSession
+      .builder()
+      .appName("SparkNLP Session with S3 Support")
       .master("local[*]")
       .config("spark.driver.memory", "22G")
-      .config("spark.driver.maxResultSize", "0")
       .config("spark.serializer", "org.apache.spark.serializer.KryoSerializer")
-      .config("spark.kryoserializer.buffer.max", "1000m")
-      .getOrCreate()
-    )
+      .config("spark.kryoserializer.buffer.max", "1000M")
+      .config("spark.driver.maxResultSize", "0")
+      .config(ConfigHelper.awsExternalAccessKeyId, awsAccessKeyId)
+      .config(ConfigHelper.awsExternalSecretAccessKey, awsSecretAccessKey)
+      .config(ConfigHelper.awsExternalRegion, region)
+      .config(
+        "spark.hadoop.fs.s3a.aws.credentials.provider",
+        s"org.apache.hadoop.fs.s3a.$credentialsProvider")
+      .config("spark.hadoop.fs.s3a.impl", s3Impl)
+      .config(
+        "spark.jars.packages",
+        "org.apache.hadoop:hadoop-aws:" + hadoopAwsVersion + ",com.amazonaws:aws-java-sdk:" + AwsJavaSdkVersion)
+      .config("spark.hadoop.fs.s3a.path.style.access", pathStyleAccess.toString)
+
+    if (credentialsProvider == "TemporaryAWSCredentialsProvider") {
+      require(
+        awsSessionToken.isDefined,
+        "AWS Session token needs to be provided for TemporaryAWSCredentialsProvider.")
+      sparkSession.config(ConfigHelper.awsExternalSessionToken, awsSessionToken.get)
+    }
+
+    sparkSession.getOrCreate()
+  }
 
   lazy val spark: SparkSession = getActiveSparkSession
 
   /** Structure for a SourceStream coming from compiled content */
   case class SourceStream(resource: String) {
-    val path = new Path(resource)
-    val fileSystem: FileSystem = FileSystem.get(path.toUri, spark.sparkContext.hadoopConfiguration)
-    if (!fileSystem.exists(path))
+
+    val (fileSystem, path) = OutputHelper.getFileSystem(resource)
+    if (!fileSystem.exists(path)) {
       throw new FileNotFoundException(s"file or folder: $resource not found")
+    }
+
     val pipe: Seq[InputStream] = {
+
       /** Check whether it exists in file system */
       val files = fileSystem.listFiles(path, true)
       val buffer = ArrayBuffer.empty[InputStream]
       while (files.hasNext) buffer.append(fileSystem.open(files.next().getPath))
       buffer
     }
+
     val openBuffers: Seq[BufferedSource] = pipe.map(pp => {
       new BufferedSource(pp)("UTF-8")
     })
+
     val content: Seq[Iterator[String]] = openBuffers.map(c => c.getLines())
 
-    def copyToLocal(prefix: String = "sparknlp_tmp_"): String = {
+    /** Copies the resource into a local temporary folder and returns the folders URI.
+      *
+      * @param prefix
+      *   Prefix for the temporary folder.
+      * @return
+      *   URI of the created temporary folder with the resource
+      */
+    def copyToLocal(prefix: String = "sparknlp_tmp_"): URI = {
       if (fileSystem.getScheme == "file")
-        return resource
+        return URI.create(resource)
 
-      val files = fileSystem.listFiles(path, false)
-      val dst: Path = new Path(Files.createTempDirectory(prefix).toUri)
+      val destination: file.Path = Files.createTempDirectory(prefix)
 
-      if (fileSystem.getScheme == "hdfs") {
-        while (files.hasNext) {
-          fileSystem.copyToLocalFile(files.next.getPath, dst)
-        }
-      } else {
-        while (files.hasNext) {
-          fileSystem.copyFromLocalFile(files.next.getPath, dst)
-        }
+      val destinationUri = fileSystem.getScheme match {
+        case "hdfs" =>
+          fileSystem.copyToLocalFile(false, path, new Path(destination.toUri), true)
+          if (fileSystem.getFileStatus(path).isDirectory)
+            Paths.get(destination.toString, path.getName).toUri
+          else destination.toUri
+        case "dbfs" =>
+          val dbfsPath = path.toString.replace("dbfs:/", "/dbfs/")
+          val sourceFile = new File(dbfsPath)
+          val targetFile = new File(destination.toString)
+          if (sourceFile.isFile) FileUtils.copyFileToDirectory(sourceFile, targetFile)
+          else FileUtils.copyDirectory(sourceFile, targetFile)
+          targetFile.toURI
+        case _ =>
+          val files = fileSystem.listFiles(path, false)
+          while (files.hasNext) {
+            fileSystem.copyFromLocalFile(files.next.getPath, new Path(destination.toUri))
+          }
+          destination.toUri
       }
 
-      dst.toString
+      destinationUri
     }
 
     def close(): Unit = {
@@ -94,18 +168,50 @@ object ResourceHelper {
   }
 
   private def fixTarget(path: String): String = {
-    val toSearch = s"^.*target\\${File.separator}.*scala-.*\\${File.separator}.*classes\\${File.separator}"
+    val toSearch =
+      s"^.*target\\${File.separator}.*scala-.*\\${File.separator}.*classes\\${File.separator}"
     if (path.matches(toSearch + ".*")) {
       path.replaceFirst(toSearch, "")
-    }
-    else {
+    } else {
       path
     }
   }
 
-  def copyToLocal(path: String): String = {
-    val resource = SourceStream(path)
-    resource.copyToLocal()
+  /** Copies the remote resource to a local temporary folder and returns its absolute path.
+    *
+    * Currently, file:/, s3:/, hdfs:/ and dbfs:/ are supported.
+    *
+    * If the file is already on the local file system just the absolute path will be returned
+    * instead.
+    * @param path
+    *   Path to the resource
+    * @return
+    *   Absolute path to the temporary or local folder of the resource
+    */
+  def copyToLocal(path: String): String = try {
+    val localUri =
+      if (path.startsWith("s3:/") || path.startsWith("s3a:/")) { // Download directly from S3
+        ResourceDownloader.downloadS3Directory(path)
+      } else { // Use Source Stream
+        val pathWithProtocol: String =
+          if (URI.create(path).getScheme == null) new File(path).toURI.toURL.toString else path
+        val resource = SourceStream(pathWithProtocol)
+        resource.copyToLocal()
+      }
+
+    new File(localUri).getAbsolutePath // Platform independent path
+  } catch {
+    case awsE: AmazonServiceException =>
+      println("Error while retrieving folder from S3. Make sure you have set the right " +
+        "access keys with proper permissions in your configuration. For an example please see " +
+        "https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/jupyter/training/english/dl-ner/mfa_ner_graphs_s3.ipynb")
+      throw awsE
+    case e: Exception =>
+      val copyToLocalErrorMessage: String =
+        "Please make sure the provided path exists and is accessible while keeping in mind only file:/, hdfs:/, dbfs:/ and s3:/ protocols are supported at the moment."
+      println(
+        s"$e \n Therefore, could not create temporary local directory for provided path $path. $copyToLocalErrorMessage")
+      throw e
   }
 
   /** NOT thread safe. Do not call from executors. */
@@ -135,7 +241,7 @@ object ResourceHelper {
 
     if (dirURL != null && dirURL.getProtocol.equals("file") && new File(dirURL.toURI).exists()) {
       /* A file path: easy enough */
-      return new File(dirURL.toURI).listFiles.sorted.map(_.getPath).map(fixTarget(_))
+      return new File(dirURL.toURI).listFiles.sorted.map(_.getPath).map(fixTarget)
     } else if (dirURL == null) {
       /* path not in resources and not in disk */
       throw new FileNotFoundException(path)
@@ -143,7 +249,8 @@ object ResourceHelper {
 
     if (dirURL.getProtocol.equals("jar")) {
       /* A JAR path */
-      val jarPath = dirURL.getPath.substring(5, dirURL.getPath.indexOf("!")) //strip out only the JAR file
+      val jarPath =
+        dirURL.getPath.substring(5, dirURL.getPath.indexOf("!")) // strip out only the JAR file
       val jar = new JarFile(URLDecoder.decode(jarPath, "UTF-8"))
       val entries = jar.entries()
       val result = new ArrayBuffer[String]()
@@ -155,7 +262,7 @@ object ResourceHelper {
 
       while (entries.hasMoreElements) {
         val name = entries.nextElement().getName.stripPrefix(File.separator)
-        if (name.startsWith(pathToCheck)) { //filter according to the path
+        if (name.startsWith(pathToCheck)) { // filter according to the path
           var entry = name.substring(pathToCheck.length())
           val checkSubdir = entry.indexOf("/")
           if (checkSubdir >= 0) {
@@ -173,33 +280,36 @@ object ResourceHelper {
     throw new UnsupportedOperationException(s"Cannot list files for URL $dirURL")
   }
 
-  /**
-   * General purpose key value parser from source
-   * Currently read only text files
-   *
-   * @return
-   */
-  def parseKeyValueText(
-                         er: ExternalResource
-                       ): Map[String, String] = {
+  /** General purpose key value parser from source Currently read only text files
+    *
+    * @return
+    */
+  def parseKeyValueText(er: ExternalResource): Map[String, String] = {
     er.readAs match {
       case TEXT =>
         val sourceStream = SourceStream(er.path)
-        val res = sourceStream.content.flatMap(c => c.map(line => {
-          val kv = line.split(er.options("delimiter"))
-          (kv.head.trim, kv.last.trim)
-        })).toMap
+        val res = sourceStream.content
+          .flatMap(c =>
+            c.map(line => {
+              val kv = line.split(er.options("delimiter"))
+              (kv.head.trim, kv.last.trim)
+            }))
+          .toMap
         sourceStream.close()
         res
       case SPARK =>
         import spark.implicits._
-        val dataset = spark.read.options(er.options).format(er.options("format"))
+        val dataset = spark.read
+          .options(er.options)
+          .format(er.options("format"))
           .options(er.options)
           .option("delimiter", er.options("delimiter"))
           .load(er.path)
           .toDF("key", "value")
         val keyValueStore = MMap.empty[String, String]
-        dataset.as[(String, String)].foreach { kv => keyValueStore(kv._1) = kv._2 }
+        dataset.as[(String, String)].foreach { kv =>
+          keyValueStore(kv._1) = kv._2
+        }
         keyValueStore.toMap
       case _ =>
         throw new Exception("Unsupported readAs")
@@ -211,16 +321,18 @@ object ResourceHelper {
       case TEXT =>
         val sourceStream = SourceStream(externalResource.path)
         val keyValueStore = MMap.empty[String, List[String]]
-        sourceStream.content.foreach(content => content.foreach { line => {
-          val keyValues = line.split(externalResource.options("delimiter"))
-          val key = keyValues.head
-          val value = keyValues.drop(1).toList
-          val storedValue = keyValueStore.get(key)
-          if (storedValue.isDefined && !storedValue.contains(value)) {
-            keyValueStore.update(key, storedValue.get ++ value)
-          } else keyValueStore(key) = value
-        }
-        })
+        sourceStream.content.foreach(content =>
+          content.foreach { line =>
+            {
+              val keyValues = line.split(externalResource.options("delimiter"))
+              val key = keyValues.head
+              val value = keyValues.drop(1).toList
+              val storedValue = keyValueStore.get(key)
+              if (storedValue.isDefined && !storedValue.contains(value)) {
+                keyValueStore.update(key, storedValue.get ++ value)
+              } else keyValueStore(key) = value
+            }
+          })
         sourceStream.close()
         keyValueStore.toMap
     }
@@ -231,29 +343,27 @@ object ResourceHelper {
       case TEXT =>
         val sourceStream = SourceStream(externalResource.path)
         val keyValueStore = MMap.empty[String, Array[Float]]
-        sourceStream.content.foreach(content => content.foreach { line => {
-          val keyValues = line.split(externalResource.options("delimiter"))
-          val key = keyValues.head
-          val value = keyValues.drop(1).map(x => x.toFloat)
-          if (value.length > 1) {
-            keyValueStore(key) = value
-          }
-        }
-        })
+        sourceStream.content.foreach(content =>
+          content.foreach { line =>
+            {
+              val keyValues = line.split(externalResource.options("delimiter"))
+              val key = keyValues.head
+              val value = keyValues.drop(1).map(x => x.toFloat)
+              if (value.length > 1) {
+                keyValueStore(key) = value
+              }
+            }
+          })
         sourceStream.close()
         keyValueStore.toMap
     }
   }
 
-  /**
-   * General purpose line parser from source
-   * Currently read only text files
-   *
-   * @return
-   */
-  def parseLines(
-                  er: ExternalResource
-                ): Array[String] = {
+  /** General purpose line parser from source Currently read only text files
+    *
+    * @return
+    */
+  def parseLines(er: ExternalResource): Array[String] = {
     er.readAs match {
       case TEXT =>
         val sourceStream = SourceStream(er.path)
@@ -262,21 +372,22 @@ object ResourceHelper {
         res
       case SPARK =>
         import spark.implicits._
-        spark.read.options(er.options).format(er.options("format")).load(er.path).as[String].collect
+        spark.read
+          .options(er.options)
+          .format(er.options("format"))
+          .load(er.path)
+          .as[String]
+          .collect
       case _ =>
         throw new Exception("Unsupported readAs")
     }
   }
 
-  /**
-   * General purpose line parser from source
-   * Currently read only text files
-   *
-   * @return
-   */
-  def parseLinesIterator(
-                          er: ExternalResource
-                        ): Seq[Iterator[String]] = {
+  /** General purpose line parser from source Currently read only text files
+    *
+    * @return
+    */
+  def parseLinesIterator(er: ExternalResource): Seq[Iterator[String]] = {
     er.readAs match {
       case TEXT =>
         val sourceStream = SourceStream(er.path)
@@ -286,22 +397,22 @@ object ResourceHelper {
     }
   }
 
-  /**
-   * General purpose tuple parser from source
-   * Currently read only text files
-   *
-   * @return
-   */
-  def parseTupleText(
-                      er: ExternalResource
-                    ): Array[(String, String)] = {
+  /** General purpose tuple parser from source Currently read only text files
+    *
+    * @return
+    */
+  def parseTupleText(er: ExternalResource): Array[(String, String)] = {
     er.readAs match {
       case TEXT =>
         val sourceStream = SourceStream(er.path)
-        val res = sourceStream.content.flatMap(c => c.filter(_.nonEmpty).map(line => {
-          val kv = line.split(er.options("delimiter")).map(_.trim)
-          (kv.head, kv.last)
-        })).toArray
+        val res = sourceStream.content
+          .flatMap(c =>
+            c.filter(_.nonEmpty)
+              .map(line => {
+                val kv = line.split(er.options("delimiter")).map(_.trim)
+                (kv.head, kv.last)
+              }))
+          .toArray
         sourceStream.close()
         res
       case SPARK =>
@@ -320,114 +431,128 @@ object ResourceHelper {
     }
   }
 
-  /**
-   * General purpose tuple parser from source
-   * Currently read only text files
-   *
-   * @return
-   */
-  def parseTupleSentences(
-                           er: ExternalResource
-                         ): Array[TaggedSentence] = {
+  /** General purpose tuple parser from source Currently read only text files
+    *
+    * @return
+    */
+  def parseTupleSentences(er: ExternalResource): Array[TaggedSentence] = {
     er.readAs match {
       case TEXT =>
         val sourceStream = SourceStream(er.path)
-        val result = sourceStream.content.flatMap(c => c.filter(_.nonEmpty).map(line => {
-          line.split("\\s+").filter(kv => {
-            val s = kv.split(er.options("delimiter").head)
-            s.length == 2 && s(0).nonEmpty && s(1).nonEmpty
-          }).map(kv => {
-            val p = kv.split(er.options("delimiter").head)
-            TaggedWord(p(0), p(1))
-          })
-        })).toArray
+        val result = sourceStream.content
+          .flatMap(c =>
+            c.filter(_.nonEmpty)
+              .map(line => {
+                line
+                  .split("\\s+")
+                  .filter(kv => {
+                    val s = kv.split(er.options("delimiter").head)
+                    s.length == 2 && s(0).nonEmpty && s(1).nonEmpty
+                  })
+                  .map(kv => {
+                    val p = kv.split(er.options("delimiter").head)
+                    TaggedWord(p(0), p(1))
+                  })
+              }))
+          .toArray
         sourceStream.close()
         result.map(TaggedSentence(_))
       case SPARK =>
         import spark.implicits._
         val dataset = spark.read.options(er.options).format(er.options("format")).load(er.path)
-        val result = dataset.as[String].filter(_.nonEmpty).map(line => {
-          line.split("\\s+").filter(kv => {
-            val s = kv.split(er.options("delimiter").head)
-            s.length == 2 && s(0).nonEmpty && s(1).nonEmpty
-          }).map(kv => {
-            val p = kv.split(er.options("delimiter").head)
-            TaggedWord(p(0), p(1))
+        val result = dataset
+          .as[String]
+          .filter(_.nonEmpty)
+          .map(line => {
+            line
+              .split("\\s+")
+              .filter(kv => {
+                val s = kv.split(er.options("delimiter").head)
+                s.length == 2 && s(0).nonEmpty && s(1).nonEmpty
+              })
+              .map(kv => {
+                val p = kv.split(er.options("delimiter").head)
+                TaggedWord(p(0), p(1))
+              })
           })
-        }).collect
+          .collect
         result.map(TaggedSentence(_))
       case _ =>
         throw new Exception("Unsupported readAs")
     }
   }
 
-  def parseTupleSentencesDS(
-                             er: ExternalResource
-                           ): Dataset[TaggedSentence] = {
+  def parseTupleSentencesDS(er: ExternalResource): Dataset[TaggedSentence] = {
     er.readAs match {
       case SPARK =>
         import spark.implicits._
         val dataset = spark.read.options(er.options).format(er.options("format")).load(er.path)
-        val result = dataset.as[String].filter(_.nonEmpty).map(line => {
-          line.split("\\s+").filter(kv => {
-            val s = kv.split(er.options("delimiter").head)
-            s.length == 2 && s(0).nonEmpty && s(1).nonEmpty
-          }).map(kv => {
-            val p = kv.split(er.options("delimiter").head)
-            TaggedWord(p(0), p(1))
+        val result = dataset
+          .as[String]
+          .filter(_.nonEmpty)
+          .map(line => {
+            line
+              .split("\\s+")
+              .filter(kv => {
+                val s = kv.split(er.options("delimiter").head)
+                s.length == 2 && s(0).nonEmpty && s(1).nonEmpty
+              })
+              .map(kv => {
+                val p = kv.split(er.options("delimiter").head)
+                TaggedWord(p(0), p(1))
+              })
           })
-        })
         result.map(TaggedSentence(_))
       case _ =>
-        throw new Exception("Unsupported readAs. If you're training POS with large dataset, consider PerceptronApproachDistributed")
+        throw new Exception(
+          "Unsupported readAs. If you're training POS with large dataset, consider PerceptronApproachDistributed")
     }
   }
 
-  /**
-   * For multiple values per keys, this optimizer flattens all values for keys to have constant access
-   */
+  /** For multiple values per keys, this optimizer flattens all values for keys to have constant
+    * access
+    */
   def flattenRevertValuesAsKeys(er: ExternalResource): Map[String, String] = {
     er.readAs match {
       case TEXT =>
         val m: MMap[String, String] = MMap()
         val sourceStream = SourceStream(er.path)
-        sourceStream.content.foreach(c => c.foreach(line => {
-          val kv = line.split(er.options("keyDelimiter")).map(_.trim)
-          if (kv.length > 1) {
-            val key = kv(0)
-            val values = kv(1).split(er.options("valueDelimiter")).map(_.trim)
-            values.foreach(m(_) = key)
-          }
-        }))
+        sourceStream.content.foreach(c =>
+          c.foreach(line => {
+            val kv = line.split(er.options("keyDelimiter")).map(_.trim)
+            if (kv.length > 1) {
+              val key = kv(0)
+              val values = kv(1).split(er.options("valueDelimiter")).map(_.trim)
+              values.foreach(m(_) = key)
+            }
+          }))
         sourceStream.close()
         m.toMap
       case SPARK =>
         import spark.implicits._
         val dataset = spark.read.options(er.options).format(er.options("format")).load(er.path)
         val valueAsKeys = MMap.empty[String, String]
-        dataset.as[String].foreach(line => {
-          val kv = line.split(er.options("keyDelimiter")).map(_.trim)
-          if (kv.length > 1) {
-            val key = kv(0)
-            val values = kv(1).split(er.options("valueDelimiter")).map(_.trim)
-            values.foreach(v => valueAsKeys(v) = key)
-          }
-        })
+        dataset
+          .as[String]
+          .foreach(line => {
+            val kv = line.split(er.options("keyDelimiter")).map(_.trim)
+            if (kv.length > 1) {
+              val key = kv(0)
+              val values = kv(1).split(er.options("valueDelimiter")).map(_.trim)
+              values.foreach(v => valueAsKeys(v) = key)
+            }
+          })
         valueAsKeys.toMap
       case _ =>
         throw new Exception("Unsupported readAs")
     }
   }
 
-  /**
-   * General purpose read saved Parquet
-   * Currently read only Parquet format
-   *
-   * @return
-   */
-  def readParquetSparkDataFrame(
-                                 er: ExternalResource
-                               ): DataFrame = {
+  /** General purpose read saved Parquet Currently read only Parquet format
+    *
+    * @return
+    */
+  def readSparkDataFrame(er: ExternalResource): DataFrame = {
     er.readAs match {
       case SPARK =>
         val dataset = spark.read.options(er.options).format(er.options("format")).load(er.path)
@@ -437,29 +562,33 @@ object ResourceHelper {
     }
   }
 
-  def getWordCount(externalResource: ExternalResource,
-                   wordCount: MMap[String, Long] = MMap.empty[String, Long].withDefaultValue(0),
-                   pipeline: Option[PipelineModel] = None
-                  ): MMap[String, Long] = {
+  def getWordCount(
+      externalResource: ExternalResource,
+      wordCount: MMap[String, Long] = MMap.empty[String, Long].withDefaultValue(0),
+      pipeline: Option[PipelineModel] = None): MMap[String, Long] = {
     externalResource.readAs match {
       case TEXT =>
         val sourceStream = SourceStream(externalResource.path)
         val regex = externalResource.options("tokenPattern").r
-        sourceStream.content.foreach(c => c.foreach { line => {
-          val words: List[String] = regex.findAllMatchIn(line).map(_.matched).toList
-          words.foreach(w =>
-            // Creates a Map of frequency words: word -> frequency based on ExternalResource
-            wordCount(w) += 1
-          )
-        }
-        })
+        sourceStream.content.foreach(c =>
+          c.foreach { line =>
+            {
+              val words: List[String] = regex.findAllMatchIn(line).map(_.matched).toList
+              words.foreach(w =>
+                // Creates a Map of frequency words: word -> frequency based on ExternalResource
+                wordCount(w) += 1)
+            }
+          })
         sourceStream.close()
         if (wordCount.isEmpty)
-          throw new FileNotFoundException("Word count dictionary for spell checker does not exist or is empty")
+          throw new FileNotFoundException(
+            "Word count dictionary for spell checker does not exist or is empty")
         wordCount
       case SPARK =>
         import spark.implicits._
-        val dataset = spark.read.options(externalResource.options).format(externalResource.options("format"))
+        val dataset = spark.read
+          .options(externalResource.options)
+          .format(externalResource.options("format"))
           .load(externalResource.path)
         val transformation = {
           if (pipeline.isDefined) {
@@ -483,10 +612,14 @@ object ResourceHelper {
         }
         val wordCount = MMap.empty[String, Long].withDefaultValue(0)
         transformation
-          .select("finished").as[String]
-          .foreach(text => text.split("--").foreach(t => {
-            wordCount(t) += 1
-          }))
+          .select("finished")
+          .as[String]
+          .foreach(text =>
+            text
+              .split("--")
+              .foreach(t => {
+                wordCount(t) += 1
+              }))
         wordCount
       case _ => throw new IllegalArgumentException("format not available for word count")
     }
@@ -502,26 +635,141 @@ object ResourceHelper {
   }
 
   def listLocalFiles(path: String): List[File] = {
-    val fileSystem = FileSystem.get(spark.sparkContext.hadoopConfiguration)
-    if (fileSystem.getScheme == "dbfs" || fileSystem.getScheme == "hdfs") {
-      val filesPath = Option(new File(path.replace("file:", "")).listFiles())
-      val files = filesPath.getOrElse(throw new FileNotFoundException(s"folder: $path not found"))
-      return files.toList
+
+    val fileSystem = OutputHelper.getFileSystem
+
+    val filesPath = fileSystem.getScheme match {
+      case "hdfs" =>
+        if (path.startsWith("file:")) {
+          Option(new File(path.replace("file:", "")).listFiles())
+        } else {
+          val filesIterator = fileSystem.listFiles(new Path(path), false)
+          val files: ArrayBuffer[File] = ArrayBuffer()
+
+          while (filesIterator.hasNext) {
+            val file = new File(filesIterator.next().getPath.toString)
+            files.append(file)
+          }
+
+          Option(files.toArray)
+        }
+      case "dbfs" if path.startsWith("dbfs:") =>
+        Option(new File(path.replace("dbfs:", "/dbfs/")).listFiles())
+      case _ => Option(new File(path).listFiles())
     }
-    val filesPath = Option(new File(path).listFiles())
+
     val files = filesPath.getOrElse(throw new FileNotFoundException(s"folder: $path not found"))
     files.toList
   }
 
-  def validFile(path: String): Boolean = {
-    val isValid = Files.exists(Paths.get(path))
-
-    if (isValid) {
-      isValid
-    } else {
-      throw new FileNotFoundException(path)
+  def getFileFromPath(pathToFile: String): File = {
+    val fileSystem = OutputHelper.getFileSystem
+    val filePath = fileSystem.getScheme match {
+      case "hdfs" =>
+        if (pathToFile.startsWith("file:")) {
+          new File(pathToFile.replace("file:", ""))
+        } else new File(pathToFile)
+      case "dbfs" if pathToFile.startsWith("dbfs:") =>
+        new File(pathToFile.replace("dbfs:", "/dbfs/"))
+      case _ => new File(pathToFile)
     }
 
+    filePath
+  }
+
+  def validFile(path: String): Boolean = {
+    var isValid = validLocalFile(path) match {
+      case Success(value) => value
+      case Failure(_) => false
+    }
+
+    if (!isValid) {
+      validHadoopFile(path) match {
+        case Success(value) => isValid = value
+        case Failure(_) => isValid = false
+      }
+    }
+
+    if (!isValid) {
+      validDbfsFile(path) match {
+        case Success(value) => isValid = value
+        case Failure(_) => isValid = false
+      }
+    }
+
+    isValid
+  }
+
+  private def validLocalFile(path: String): Try[Boolean] = Try {
+    Files.exists(Paths.get(path))
+  }
+
+  private def validHadoopFile(path: String): Try[Boolean] = Try {
+    val hadoopPath = new Path(path)
+    val fileSystem = OutputHelper.getFileSystem
+    fileSystem.exists(hadoopPath)
+  }
+
+  private def validDbfsFile(path: String): Try[Boolean] = Try {
+    getFileFromPath(path).exists()
+  }
+
+  def moveFile(sourceFile: String, destinationFile: String): Unit = {
+
+    val (sourceFileSystem, _) = OutputHelper.getFileSystem(sourceFile)
+
+    if (destinationFile.startsWith("s3:")) {
+      val s3Bucket = destinationFile.replace("s3://", "").split("/").head
+      val s3Path = "s3:/" + destinationFile.substring(s"s3://$s3Bucket".length)
+
+      if (sourceFileSystem.getScheme.equals("dbfs") || sourceFileSystem.getScheme.equals(
+          "hdfs")) {
+        val inputStream = getResourceStream(sourceFile)
+
+        val destinationFile = sourceFile.split("/").last
+        val tmpPath =
+          if (sourceFileSystem.getScheme.equals("dbfs")) new Path("dbfs:/tmp")
+          else new Path("hdfs:/tmp")
+        if (!sourceFileSystem.exists(tmpPath)) sourceFileSystem.mkdirs(tmpPath)
+        val sourceFilePath = tmpPath + "/" + destinationFile
+        val outputStream = sourceFileSystem.create(new Path(sourceFilePath))
+
+        val inputBytes = IOUtils.toByteArray(inputStream)
+        outputStream.write(inputBytes)
+        outputStream.close()
+
+        OutputHelper.storeFileInS3(sourceFilePath, s3Bucket, s3Path)
+      }
+
+    } else {
+
+      if (!sourceFileSystem.getScheme.equals("dbfs")) {
+        val source = new Path(s"file:///$sourceFile")
+        val destination = new Path(destinationFile)
+        sourceFileSystem.copyFromLocalFile(source, destination)
+      }
+    }
+
+  }
+
+  def parseS3URI(s3URI: String): (String, String) = {
+    val prefix = if (s3URI.startsWith("s3:")) "s3://" else "s3a://"
+    val bucketName = s3URI.substring(prefix.length).split("/").head
+    val key = s3URI.substring((prefix + bucketName).length + 1)
+
+    require(bucketName.nonEmpty, "S3 bucket name is empty!")
+
+    (bucketName, key)
+  }
+
+  def parseGCPStorageURI(gcpStorageURI: String): (String, String) = {
+    val prefix = "gs://"
+    val bucketName = gcpStorageURI.substring(prefix.length).split("/").head
+    val storagePath = gcpStorageURI.substring((prefix + bucketName).length + 1)
+
+    require(bucketName.nonEmpty, "GCP Storage bucket name is empty!")
+
+    (bucketName, storagePath)
   }
 
 }

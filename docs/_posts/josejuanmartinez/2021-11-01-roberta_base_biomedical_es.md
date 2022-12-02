@@ -11,13 +11,13 @@ edition: Spark NLP 3.3.0
 spark_version: 3.0
 supported: true
 article_header:
-  type: cover
+type: cover
 use_language_switcher: "Python-Scala-Java"
 ---
 
 ## Description
 
-Biomedical pretrained language model for Spanish, imported from Hugging Face (https://huggingface.co/PlanTL-GOB-ES/roberta-base-biomedical-es) to be used in SparkNLP using RobertaEmbeddings() transfformer class.
+Biomedical pretrained language model for Spanish with a `768 embeddings dimension`, imported from Hugging Face (https://huggingface.co/PlanTL-GOB-ES/roberta-base-biomedical-es) to be used in SparkNLP using RobertaEmbeddings() transfformer class.
 
 This model is a RoBERTa-based model trained on a biomedical corpus in Spanish collected from several sources (see dataset section). The training corpus has been tokenized using a byte version of Byte-Pair Encoding (BPE) used in the original RoBERTA model with a vocabulary size of 52,000 tokens. The pretraining consists of a masked language model training at the subword level following the approach employed for the RoBERTa base model with the same hyperparameters as in the original work. The training lasted a total of 48 hours with 16 NVIDIA V100 GPUs of 16GB DDRAM, using Adam optimizer with a peak learning rate of 0.0005 and an effective batch size of 2,048 sentences.
 
@@ -39,41 +39,49 @@ To see more details, please check the official page in Hugging Face: https://hug
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
 ```python
-documentAssembler = DocumentAssembler()\
-    .setInputCol("term")\
-    .setOutputCol("document")
+documentAssembler = nlp.DocumentAssembler()\
+.setInputCol("term")\
+.setOutputCol("document")
 
-tokenizer = Tokenizer()\
-    .setInputCols("document")\
-    .setOutputCol("token")
+tokenizer = nlp.Tokenizer()\
+.setInputCols("document")\
+.setOutputCol("token")
 
-roberta_embeddings = RoBertaEmbeddings.pretrained("roberta_base_biomedical", "es")\
-    .setInputCols(["document", "token"])\
-    .setOutputCol("roberta_embeddings")
+roberta_embeddings = nlp.RoBertaEmbeddings.pretrained("roberta_base_biomedical", "es")\
+.setInputCols(["document", "token"])\
+.setOutputCol("roberta_embeddings")
 
 pipeline = Pipeline(stages = [
-    documentAssembler,
-    tokenizer,
-    roberta_embeddings])
+documentAssembler,
+tokenizer,
+roberta_embeddings])
 ```
 ```scala
-val documentAssembler = DocumentAssembler()
-    .setInputCol("term")
-    .setOutputCol("document")
+val documentAssembler = new DocumentAssembler()
+.setInputCol("term")
+.setOutputCol("document")
 
-val tokenizer = Tokenizer()
-    .setInputCols("document")
-    .setOutputCol("token")
+val tokenizer = new Tokenizer()
+.setInputCols("document")
+.setOutputCol("token")
 
 val roberta_embeddings = RoBertaEmbeddings.pretrained("roberta_base_biomedical", "es")
-    .setInputCols(Array("document", "token"))
-    .setOutputCol("roberta_embeddings")
+.setInputCols(Array("document", "token"))
+.setOutputCol("roberta_embeddings")
 
 val pipeline = new Pipeline().setStages(Array(
-    documentAssembler,
-    tokenizer,
-    roberta_embeddings))
+documentAssembler,
+tokenizer,
+roberta_embeddings))
 ```
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("es.embed.roberta_base_biomedical").predict("""Put your text here.""")
+```
+
 </div>
 
 ## Results

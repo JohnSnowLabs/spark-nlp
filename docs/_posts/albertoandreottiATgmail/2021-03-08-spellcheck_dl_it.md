@@ -10,6 +10,7 @@ task: Spell Check
 language: it
 edition: Spark NLP 2.7.4
 spark_version: 2.4
+annotator: ContextSpellCheckerModel
 article_header:
   type: cover
 use_language_switcher: "Python-Scala-Java"

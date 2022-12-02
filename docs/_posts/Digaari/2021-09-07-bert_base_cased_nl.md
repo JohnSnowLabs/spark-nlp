@@ -10,6 +10,7 @@ language: nl
 edition: Spark NLP 3.2.2
 spark_version: 3.0
 supported: true
+annotator: BertEmbeddings
 article_header:
   type: cover
 use_language_switcher: "Python-Scala-Java"
@@ -48,6 +49,14 @@ val embeddings = BertEmbeddings.pretrained("bert_base_cased", "nl")
 
 val pipeline = new Pipeline().setStages(Array(document_assembler, sentence_detector, tokenizer, embeddings))
 ```
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("nl.embed.bert.base_cased").predict("""Put your text here.""")
+```
+
 </div>
 
 {:.model-param}

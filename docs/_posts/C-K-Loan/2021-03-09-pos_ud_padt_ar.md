@@ -10,6 +10,7 @@ language: ar
 edition: Spark NLP 3.0.0
 spark_version: 3.0
 supported: true
+annotator: PerceptronModel
 article_header:
   type: cover
 use_language_switcher: "Python-Scala-Java"
@@ -61,14 +62,19 @@ sentence_detector = SentenceDetector() \
   .setInputCols(["document"]) \
   .setOutputCol("sentence")
 
-pos = PerceptronModel.pretrained("pos_ud_padt", "ar") \
-  .setInputCols(["document", "token"]) \
+tokenizer = Tokenizer() \
+    .setInputCols("sentence") \
+    .setOutputCol("token")
+
+pos_tagger = PerceptronModel.pretrained("pos_ud_padt", "ar") \
+  .setInputCols(["sentence", "token"]) \
   .setOutputCol("pos")
 
 pipeline = Pipeline(stages=[
   document_assembler,
   sentence_detector,
-  posTagger
+  tokenizer,
+  pos_tagger
 ])
 
 example = spark.createDataFrame([['مرحبا من جون سنو مختبرات! ']], ["text"])
@@ -79,19 +85,23 @@ result = pipeline.fit(example).transform(example)
 ```
 ```scala
 
-val document_assembler = DocumentAssembler()
+val documentAssembler = DocumentAssembler()
         .setInputCol("text")
         .setOutputCol("document")
 
-val sentence_detector = SentenceDetector()
-        .setInputCols(["document"])
-.setOutputCol("sentence")
+val sentenceDetector = SentenceDetector()
+        .setInputCols("document")
+        .setOutputCol("sentence")
 
-val pos = PerceptronModel.pretrained("pos_ud_padt", "ar")
-        .setInputCols(Array("document", "token"))
+val tokenizer = new Tokenizer()
+    .setInputCols("sentence")
+    .setOutputCol("token")
+
+val posTagger = PerceptronModel.pretrained("pos_ud_padt", "ar")
+        .setInputCols("sentence", "token")
         .setOutputCol("pos")
 
-val pipeline = new Pipeline().setStages(Array(document_assembler, sentence_detector, pos))
+val pipeline = new Pipeline().setStages(Array(documentAssembler, sentenceDetector, tokenizer, posTagger))
 
 val data = Seq("مرحبا من جون سنو مختبرات! ").toDF("text")
 val result = pipeline.fit(data).transform(data)

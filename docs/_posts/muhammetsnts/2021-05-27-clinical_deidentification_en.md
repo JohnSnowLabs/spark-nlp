@@ -7,9 +7,10 @@ date: 2021-05-27
 tags: [deidentification, en, licensed, pipeline]
 task: De-identification
 language: en
-edition: Spark NLP for Healthcare 3.0.3
+edition: Healthcare NLP 3.0.3
 spark_version: 3.0
 supported: true
+annotator: PipelineModel
 article_header:
   type: cover
 use_language_switcher: "Python-Scala-Java"
@@ -88,7 +89,7 @@ val result = pipeline.annotate("Record date : 2093-01-13, David Hale, M.D. IP: 2
 |---|---|
 |Model Name:|clinical_deidentification|
 |Type:|pipeline|
-|Compatibility:|Spark NLP for Healthcare 3.0.3+|
+|Compatibility:|Healthcare NLP 3.0.3+|
 |License:|Licensed|
 |Edition:|Official|
 |Language:|en|

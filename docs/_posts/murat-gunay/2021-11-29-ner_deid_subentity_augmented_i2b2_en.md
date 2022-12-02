@@ -7,11 +7,12 @@ date: 2021-11-29
 tags: [deid, ner, phi, deidentification, licensed, i2b2, en]
 task: Named Entity Recognition
 language: en
-edition: Spark NLP for Healthcare 3.3.2
+edition: Healthcare NLP 3.3.2
 spark_version: 2.4
 supported: true
+annotator: MedicalNerModel
 article_header:
-  type: cover
+type: cover
 use_language_switcher: "Python-Scala-Java"
 ---
 
@@ -19,6 +20,8 @@ use_language_switcher: "Python-Scala-Java"
 
 Named Entity Recognition model that finds Protected Health Information (PHI) for deidentification purposes. 
 This NER model is trained with a reviewed version of the re-augmented 2014 i2b2 Deid dataset, and detects up to 23 entity types.
+
+We sticked to official annotation guideline (AG) for 2014 i2b2 Deid challenge while annotating new datasets for this model. All the details regarding the nuances and explanations for AG can be found here [https://www.ncbi.nlm.nih.gov/pmc/articles/PMC4978170/](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC4978170/)
 
 ## Predicted Entities
 
@@ -35,8 +38,20 @@ This NER model is trained with a reviewed version of the re-augmented 2014 i2b2 
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
+
 ```python
-...
+document_assembler = DocumentAssembler()\
+      .setInputCol("text")\
+      .setOutputCol("document")
+
+sentence_detector = SentenceDetector() \
+      .setInputCols(["document"]) \
+      .setOutputCol("sentence")
+
+tokenizer = Tokenizer() \
+      .setInputCols(["sentence"]) \
+      .setOutputCol("token")
+
 word_embeddings = WordEmbeddingsModel.pretrained("embeddings_clinical", "en", "clinical/models")\
       .setInputCols(["sentence", "token"])\
       .setOutputCol("embeddings")
@@ -50,12 +65,24 @@ ner_converter = NerConverter()\
       .setOutputCol("ner_chunk_subentity")
 
 nlpPipeline = Pipeline(stages=[document_assembler, sentence_detector, tokenizer, word_embeddings, deid_ner, ner_converter])
+
 model = nlpPipeline.fit(spark.createDataFrame([[""]]).toDF("text"))
 
 results = model.transform(spark.createDataFrame(pd.DataFrame({"text": ["""A. Record date : 2093-01-13, David Hale, M.D., Name : Hendrickson, Ora MR. # 7194334 Date : 01/13/93 PCP : Oliveira, 25 years old, Record date : 1-11-2000. Cocke County Baptist Hospital. 0295 Keats Street. Phone +1 (302) 786-5227. Patient's complaints first surfaced when he started working for Brothers Coal-Mine."""]})))
 ```
 ```scala
-...
+val document_assembler = new DocumentAssembler()
+      .setInputCol("text")
+      .setOutputCol("document")
+
+val sentence_detector = new SentenceDetector()
+      .setInputCols("document")
+      .setOutputCol("sentence")
+
+val tokenizer = new Tokenizer()
+      .setInputCols("sentence")
+      .setOutputCol("token")
+
 val word_embeddings = WordEmbeddingsModel.pretrained("embeddings_clinical", "en", "clinical/models")
       .setInputCols(Array("sentence", "token"))
       .setOutputCol("embeddings")
@@ -69,10 +96,17 @@ val ner_converter = NerConverter()
       .setOutputCol("ner_chunk_subentity")
 
 val nlpPipeline = new Pipeline().setStages(Array(document_assembler, sentence_detector, tokenizer, word_embeddings, deid_ner, ner_converter))
-val model = nlpPipeline.fit(spark.createDataFrame([[""]]).toDF("text"))
 
-val result = pipeline.fit(Seq.empty["A. Record date : 2093-01-13, David Hale, M.D., Name : Hendrickson, Ora MR. # 7194334 Date : 01/13/93 PCP : Oliveira, 25 years old, Record date : 1-11-2000. Cocke County Baptist Hospital. 0295 Keats Street. Phone +1 (302) 786-5227. Patient's complaints first surfaced when he started working for Brothers Coal-Mine."].toDS.toDF("text")).transform(data)
+val result = nlpPipeline.fit(Seq("""A. Record date : 2093-01-13, David Hale, M.D., Name : Hendrickson, Ora MR. # 7194334 Date : 01/13/93 PCP : Oliveira, 25 years old, Record date : 1-11-2000. Cocke County Baptist Hospital. 0295 Keats Street. Phone +1 (302) 786-5227. Patient's complaints first surfaced when he started working for Brothers Coal-Mine.""").toDS.toDF("text")).transform(data)
 ```
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("en.med_ner.deid_subentity_augmented_i2b2").predict("""A. Record date : 2093-01-13, David Hale, M.D., Name : Hendrickson, Ora MR. # 7194334 Date : 01/13/93 PCP : Oliveira, 25 years old, Record date : 1-11-2000. Cocke County Baptist Hospital. 0295 Keats Street. Phone +1 (302) 786-5227. Patient's complaints first surfaced when he started working for Brothers Coal-Mine.""")
+```
+
 </div>
 
 ## Results
@@ -102,7 +136,7 @@ val result = pipeline.fit(Seq.empty["A. Record date : 2093-01-13, David Hale, M.
 {:.table-model}
 |---|---|
 |Model Name:|ner_deid_subentity_augmented_i2b2|
-|Compatibility:|Spark NLP for Healthcare 3.3.2+|
+|Compatibility:|Healthcare NLP 3.3.2+|
 |License:|Licensed|
 |Edition:|Official|
 |Input Labels:|[sentence, token, embeddings]|
@@ -115,41 +149,30 @@ In-house annotations based on `2014 i2b2 Deid dataset`.
 
 ## Benchmarking
 
-(on official test set from 2014 i2b2 Deid)
+(on official test set from 2014 i2b2 Deid Data-set)
 
 ```bash
-+-------------+------+----+-----+------+---------+------+------+
-|       entity|    tp|  fp|   fn| total|precision|recall|    f1|
-+-------------+------+----+-----+------+---------+------+------+
-|      PATIENT|1543.0|74.0| 99.0|1642.0|   0.9542|0.9397|0.9469|
-|     HOSPITAL|1414.0|66.0|193.0|1607.0|   0.9554|0.8799|0.9161|
-|         DATE|5869.0|79.0|134.0|6003.0|   0.9867|0.9777|0.9822|
-| ORGANIZATION|  89.0|15.0| 60.0| 149.0|   0.8558|0.5973|0.7036|
-|         CITY| 301.0|62.0| 46.0| 347.0|   0.8292|0.8674|0.8479|
-|       STREET| 411.0| 1.0|  5.0| 416.0|   0.9976| 0.988|0.9928|
-|     USERNAME|  88.0| 0.0|  4.0|  92.0|      1.0|0.9565|0.9778|
-|       DEVICE|   9.0| 1.0|  1.0|  10.0|      0.9|   0.9|   0.9|
-|        IDNUM| 293.0|25.0| 22.0| 315.0|   0.9214|0.9302|0.9258|
-|        STATE| 165.0| 8.0| 42.0| 207.0|   0.9538|0.7971|0.8684|
-|          ZIP| 138.0| 3.0|  2.0| 140.0|   0.9787|0.9857|0.9822|
-|MEDICALRECORD| 423.0| 8.0| 26.0| 449.0|   0.9814|0.9421|0.9614|
-|        OTHER|  10.0| 0.0| 10.0|  20.0|      1.0|   0.5|0.6667|
-|   PROFESSION| 284.0|42.0| 56.0| 340.0|   0.8712|0.8353|0.8529|
-|        PHONE| 340.0|18.0| 17.0| 357.0|   0.9497|0.9524| 0.951|
-|      COUNTRY| 109.0|35.0| 21.0| 130.0|   0.7569|0.8385|0.7956|
-|       DOCTOR|3370.0|64.0|248.0|3618.0|   0.9814|0.9315|0.9558|
-|          AGE| 742.0|22.0| 29.0| 771.0|   0.9712|0.9624|0.9668|
-+-------------+------+----+-----+------+---------+------+------+
-
-+------------------+
-|             macro|
-+------------------+
-|0.8096816070245438|
-+------------------+
-
-+------------------+
-|             micro|
-+------------------+
-|0.9521127666771618|
-+------------------+
+label  precision    recall  f1-score   support
+AGE       0.96      0.96      0.96       764
+CITY       0.83      0.84      0.84       260
+COUNTRY       0.79      0.85      0.82       117
+DATE       0.97      0.97      0.97      4980
+DEVICE       0.88      0.88      0.88         8
+DOCTOR       0.94      0.88      0.91      1912
+HOSPITAL       0.91      0.83      0.87       875
+IDNUM       0.84      0.85      0.84       195
+LOCATION-OTHER       0.86      0.46      0.60        13
+MEDICALRECORD       0.98      0.95      0.96       422
+ORGANIZATION       0.83      0.59      0.69        82
+PATIENT       0.93      0.93      0.93       879
+PHONE       0.93      0.91      0.92       215
+PROFESSION       0.84      0.75      0.79       179
+STATE       0.95      0.86      0.90       190
+STREET       0.96      0.97      0.97       136
+USERNAME       1.00      0.96      0.98        92
+ZIP       0.98      0.99      0.98       140
+micro-avg       0.95      0.92      0.94     11459
+macro-avg       0.86      0.81      0.83     11459
+weighted-avg       0.95      0.92      0.93     11459
 ```
+`FAX` and `EMAIL` has been removed from official i2b2 test-set since there is not enough data to train in the official i2b2 train-set.

@@ -121,7 +121,7 @@ result.select("text", "sentiment.result").show(false)
 {%- endcapture -%}
 
 {%- capture model_python_api_link -%}
-[SentimentDLModel](https://nlp.johnsnowlabs.com/api/python/reference/autosummary/sparknlp.annotator.SentimentDLModel.html)
+[SentimentDLModel](/api/python/reference/autosummary/python/sparknlp/annotator/sentiment/sentiment_dl/index.html#sparknlp.annotator.sentiment.sentiment_dl.SentimentDLModel)
 {%- endcapture -%}
 
 {%- capture model_source_link -%}
@@ -144,6 +144,37 @@ For the instantiated/pretrained models, see SentimentDLModel.
     [BertSentenceEmbeddings](/docs/en/transformers#bertsentenceembeddings),
     [SentenceEmbeddings](/docs/en/annotators#sentenceembeddings) or other
     sentence based embeddings can be used
+
+Setting a test dataset to monitor model metrics can be done with `.setTestDataset`. The method
+expects a path to a parquet file containing a dataframe that has the same required columns as
+the training dataframe. The pre-processing steps for the training dataframe should also be
+applied to the test dataframe. The following example will show how to create the test dataset:
+
+```
+val documentAssembler = new DocumentAssembler()
+  .setInputCol("text")
+  .setOutputCol("document")
+
+val embeddings = UniversalSentenceEncoder.pretrained()
+  .setInputCols("document")
+  .setOutputCol("sentence_embeddings")
+
+val preProcessingPipeline = new Pipeline().setStages(Array(documentAssembler, embeddings))
+
+val Array(train, test) = data.randomSplit(Array(0.8, 0.2))
+preProcessingPipeline
+  .fit(test)
+  .transform(test)
+  .write
+  .mode("overwrite")
+  .parquet("test_data")
+
+val classifier = new SentimentDLApproach()
+  .setInputCols("sentence_embeddings")
+  .setOutputCol("sentiment")
+  .setLabelColumn("label")
+  .setTestDataset("test_data")
+```
 
 For extended examples of usage, see the [Spark NLP Workshop](https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/jupyter/training/english/classification/SentimentDL_train_multiclass_sentiment_classifier.ipynb)
 and the [SentimentDLTestSpec](https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/classifier/dl/SentimentDLTestSpec.scala).
@@ -252,7 +283,7 @@ val pipelineModel = pipeline.fit(smallCorpus)
 {%- endcapture -%}
 
 {%- capture approach_python_api_link -%}
-[SentimentDLApproach](https://nlp.johnsnowlabs.com/api/python/reference/autosummary/sparknlp.annotator.SentimentDLApproach.html)
+[SentimentDLApproach](/api/python/reference/autosummary/python/sparknlp/annotator/sentiment/sentiment_dl/index.html#sparknlp.annotator.sentiment.sentiment_dl.SentimentDLApproach)
 {%- endcapture -%}
 
 {%- capture approach_source_link -%}

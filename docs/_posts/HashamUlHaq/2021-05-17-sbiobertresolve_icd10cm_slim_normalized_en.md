@@ -7,9 +7,10 @@ date: 2021-05-17
 tags: [licensed, clinical, en, entity_resolution]
 task: Entity Resolution
 language: en
-edition: Spark NLP for Healthcare 3.0.4
+edition: Healthcare NLP 3.0.4
 spark_version: 3.0
 supported: true
+annotator: SentenceEntityResolverModel
 article_header:
   type: cover
 use_language_switcher: "Python-Scala-Java"
@@ -37,40 +38,46 @@ ICD10 CM Codes. In this model, synonyms having low cosine similarity to unnormal
 ```python
 document_assembler = DocumentAssembler().setInputCol("text").setOutputCol("document") 
 
-sbert_embedder = BertSentenceEmbeddings\ .pretrained("sbiobert_base_cased_mli","en","clinical/models")\
-.setInputCols(["document"])\
-.setOutputCol("sbert_embeddings") 
+sbert_embedder = BertSentenceEmbeddings.pretrained("sbiobert_base_cased_mli","en","clinical/models")\
+    .setInputCols(["document"])\
+    .setOutputCol("sbert_embeddings") 
 
-icd10_resolver = SentenceEntityResolverModel.pretrained("sbiobertresolve_icd10cm_slim_normalized","en", "clinical/models")\
-.setInputCols(["document", "sbert_embeddings"])\
-.setOutputCol("icd10cm_code")\
-.setDistanceFunction("EUCLIDEAN").setReturnCosineDistances(True) 
+icd10_resolver = SentenceEntityResolverModel\
+    .pretrained("sbiobertresolve_icd10cm_slim_normalized","en", "clinical/models")\
+    .setInputCols(["document", "sbert_embeddings"])\
+    .setOutputCol("icd10cm_code")\
+    .setDistanceFunction("EUCLIDEAN")\
+    .setReturnCosineDistances(True) 
 
-bert_pipeline_icd = PipelineModel(stages = [document_assembler, sbert_embedder, icd10_resolver])
+bert_pipeline_icd = Pipeline(stages = [document_assembler, sbert_embedder, icd10_resolver])
+
 data = spark.createDataFrame([["metastatic lung cancer"]]).toDF("text")
-model = bert_pipeline_icd.fit(data) 
-results = model.transform(data)
+
+results = bert_pipeline_icd.fit(data).transform(data)
 
 ```
 ```scala
-val document_assembler = DocumentAssembler()\
-  .setInputCol("text")\
-  .setOutputCol("document")
+val document_assembler = DocumentAssembler()
+    .setInputCol("text")
+    .setOutputCol("document")
 
-val sbert_embedder = BertSentenceEmbeddings\
-     .pretrained("sbiobert_base_cased_mli","en","clinical/models")\
-     .setInputCols(["document"])\
-     .setOutputCol("sbert_embeddings")
+val sbert_embedder = BertSentenceEmbeddings
+    .pretrained("sbiobert_base_cased_mli","en","clinical/models")
+    .setInputCols(Array("document"))
+    .setOutputCol("sbert_embeddings")
 
-val icd10_resolver = SentenceEntityResolverModel.pretrained("sbiobertresolve_icd10cm_augmented_billable_hcc","en", "clinical/models") \
-     .setInputCols(["document", "sbert_embeddings"]) \
-     .setOutputCol("icd10cm_code")\
-     .setDistanceFunction("EUCLIDEAN").setReturnCosineDistances(True)
+val icd10_resolver = SentenceEntityResolverModel
+    .pretrained("sbiobertresolve_icd10cm_augmented_billable_hcc","en", "clinical/models") 
+    .setInputCols(Array("document", "sbert_embeddings")) 
+    .setOutputCol("icd10cm_code")
+    .setDistanceFunction("EUCLIDEAN")
+    .setReturnCosineDistances(True)
 
 val bert_pipeline_icd = new Pipeline().setStages(Array(document_assembler, sbert_embedder, icd10_resolver))
+
 val data = Seq("metastatic lung cancer").toDF("text")
-val result = pipeline.fit(data).transform(data)
-val result = bert_pipeline_icd.fit(date).transform(data)
+
+val result = bert_pipeline_icd.fit(data).transform(data)
 ```
 </div>
 
@@ -89,7 +96,7 @@ val result = bert_pipeline_icd.fit(date).transform(data)
 {:.table-model}
 |---|---|
 |Model Name:|sbiobertresolve_icd10cm_slim_normalized|
-|Compatibility:|Spark NLP for Healthcare 3.0.4+|
+|Compatibility:|Healthcare NLP 3.0.4+|
 |License:|Licensed|
 |Edition:|Official|
 |Input Labels:|[sentence_embeddings]|

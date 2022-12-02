@@ -7,73 +7,113 @@ date: 2021-10-19
 tags: [berfortokenclassification, ner, chemprot, en, licensed]
 task: Named Entity Recognition
 language: en
-edition: Spark NLP for Healthcare 3.3.0
+edition: Healthcare NLP 3.3.0
 spark_version: 2.4
 supported: true
+annotator: MedicalBertForTokenClassifier
 article_header:
-  type: cover
+type: cover
 use_language_switcher: "Python-Scala-Java"
 ---
 
+
 ## Description
+
 
 Detect chemical compounds and genes in the medical text using the pretrained NER model. This model is trained with the `BertForTokenClassification` method from the `transformers` library and imported into Spark NLP.
 
+
 ## Predicted Entities
+
 
 `CHEMICAL`, `GENE-Y`, `GENE-N`
 
+
 {:.btn-box}
-<button class="button button-orange" disabled>Live Demo</button>
-[Open in Colab](https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/NER_BERT_TOKEN_CLASSIFIER.ipynb){:.button.button-orange.button-orange-trans.co.button-icon}
+[Live Demo](https://demo.johnsnowlabs.com/healthcare/NER_CHEMPROT_CLINICAL/){:.button.button-orange}
+[Open in Colab](https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/NER_CHEMPROT_CLINICAL.ipynb){:.button.button-orange.button-orange-trans.co.button-icon}
 [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/bert_token_classifier_ner_chemprot_en_3.3.0_2.4_1634644903577.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
+
 
 ## How to use
 
 
 
+
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
-```python
-...
 
-tokenClassifier = BertForTokenClassification.pretrained("bert_token_classifier_ner_chemprot", "en", "clinical/models")\
-  .setInputCols("token", "document")\
-  .setOutputCol("ner")\
-  .setCaseSensitive(True)
+```python
+document_assembler = DocumentAssembler()\
+    .setInputCol("text")\
+    .setOutputCol("document")
+
+tokenizer = Tokenizer()\
+    .setInputCols(["document"])\
+    .setOutputCol("token")
+
+tokenClassifier = MedicalBertForTokenClassifier.pretrained("bert_token_classifier_ner_chemprot", "en", "clinical/models")\
+    .setInputCols("token", "document")\
+    .setOutputCol("ner")\
+    .setCaseSensitive(True)
 
 ner_converter = NerConverter()\
-        .setInputCols(["document","token","ner"])\
-        .setOutputCol("ner_chunk")
-pipeline =  Pipeline(stages=[documentAssembler, tokenizer, tokenClassifier, ner_converter])
+    .setInputCols(["document","token","ner"])\
+    .setOutputCol("ner_chunk")
 
-p_model = pipeline.fit(spark.createDataFrame(pd.DataFrame({'text': ['']})))
+pipeline =  Pipeline(stages=[document_assembler, 
+                             tokenizer, 
+                             tokenClassifier, 
+                             ner_converter])
 
-test_sentence = "Keratinocyte growth factor and acidic fibroblast growth factor are mitogens for primary cultures of mammary epithelium."
+sample_text = "Keratinocyte growth factor and acidic fibroblast growth factor are mitogens for primary cultures of mammary epithelium."
 
-result = p_model.transform(spark.createDataFrame(pd.DataFrame({'text': [test_sentence]})))
+df = spark.createDataFrame([[sample_text]]).toDF("text")
+
+result = pipeline.fit(df).transform(df)
 ```
 ```scala
-...
+val document_assembler = new DocumentAssembler()
+    .setInputCol("text")
+    .setOutputCol("document")
 
-val tokenClassifier = BertForTokenClassification.pretrained("bert_token_classifier_ner_chemprot", "en", "clinical/models")
-  .setInputCols("token", "document")
-  .setOutputCol("ner")
-  .setCaseSensitive(True)
+val tokenizer = new Tokenizer()
+    .setInputCols("document")
+    .setOutputCol("token")
 
-val ner_converter = NerConverter()
-        .setInputCols(Array("document","token","ner"))
-        .setOutputCol("ner_chunk")
+val tokenClassifier = MedicalBertForTokenClassifier.pretrained("bert_token_classifier_ner_chemprot", "en", "clinical/models")
+    .setInputCols(Array("document","token"))
+    .setOutputCol("ner")
+    .setCaseSensitive(True)
 
-val pipeline =  new Pipeline().setStages(Array(documentAssembler, tokenizer, tokenClassifier, ner_converter))
+val ner_converter = new NerConverter()
+    .setInputCols(Array("document","token","ner"))
+    .setOutputCol("ner_chunk")
 
-val data = Seq("Keratinocyte growth factor and acidic fibroblast growth factor are mitogens for primary cultures of mammary epithelium.").toDF("text")
+val pipeline =  new Pipeline().setStages(Array(
+                      document_assembler, 
+                      tokenizer, 
+                      tokenClassifier, 
+                      ner_converter))
+
+val data = Seq("""Keratinocyte growth factor and acidic fibroblast growth factor are mitogens for primary cultures of mammary epithelium.""").toDS.toDF("text")
 
 val result = pipeline.fit(data).transform(data)
 ```
+
+
+{:.nlu-block}
+```python
+import nlu
+
+nlu.load("en.med_ner.chemprot.bert").predict("""Keratinocyte growth factor and acidic fibroblast growth factor are mitogens for primary cultures of mammary epithelium.""")
+```
+
 </div>
 
+
 ## Results
+
 
 ```bash
 +-------------------------------+---------+
@@ -82,16 +122,17 @@ val result = pipeline.fit(data).transform(data)
 |Keratinocyte growth factor     |GENE-Y   |
 |acidic fibroblast growth factor|GENE-Y   |
 +-------------------------------+---------+
-
 ```
+
 
 {:.model-param}
 ## Model Information
 
+
 {:.table-model}
 |---|---|
 |Model Name:|bert_token_classifier_ner_chemprot|
-|Compatibility:|Spark NLP for Healthcare 3.3.0+|
+|Compatibility:|Healthcare NLP 3.3.0+|
 |License:|Licensed|
 |Edition:|Official|
 |Input Labels:|[sentence, token]|
@@ -100,23 +141,25 @@ val result = pipeline.fit(data).transform(data)
 |Case sensitive:|true|
 |Max sentense length:|512|
 
+
 ## Data Source
+
 
 This model is trained on a [ChemProt corpus](https://biocreative.bioinformatics.udel.edu/).
 
+
 ## Benchmarking
 
+
 ```bash
-              precision    recall  f1-score   support
-
-  B-CHEMICAL       0.93      0.79      0.85      8649
-    B-GENE-N       0.63      0.56      0.59      2752
-    B-GENE-Y       0.82      0.73      0.77      5490
-  I-CHEMICAL       0.90      0.79      0.84      1313
-    I-GENE-N       0.72      0.62      0.67      1993
-    I-GENE-Y       0.81      0.72      0.77      2420
-
-    accuracy                           0.73     22617
-   macro avg       0.75      0.74      0.75     22617
-weighted avg       0.83      0.73      0.78     22617
+label       precision    recall  f1-score   support
+B-CHEMICAL     0.93      0.79      0.85      8649
+B-GENE-N       0.63      0.56      0.59      2752
+B-GENE-Y       0.82      0.73      0.77      5490
+I-CHEMICAL     0.90      0.79      0.84      1313
+I-GENE-N       0.72      0.62      0.67      1993
+I-GENE-Y       0.81      0.72      0.77      2420
+accuracy       -         -         0.73     22617
+macro-avg      0.75      0.74      0.75     22617
+weighted-avg   0.83      0.73      0.78     22617
 ```

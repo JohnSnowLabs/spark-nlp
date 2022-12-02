@@ -7,11 +7,12 @@ date: 2021-08-26
 tags: [en, licensed]
 task: Entity Resolution
 language: en
-edition: Spark NLP for Healthcare 3.1.3
+edition: Healthcare NLP 3.1.3
 spark_version: 2.4
 supported: true
+annotator: SentenceEntityResolverModel
 article_header:
-  type: cover
+type: cover
 use_language_switcher: "Python-Scala-Java"
 ---
 
@@ -36,38 +37,58 @@ Outputs 7-digit billable ICD codes. In the result, look for aux_label parameter 
 {% include programmingLanguageSelectScalaPythonNLU.html %}
 ```python
 document_assembler = DocumentAssembler()\
-  .setInputCol("text")\
-  .setOutputCol("document")
-sbert_embedder = BertSentenceEmbeddings\
-     .pretrained("sbiobert_base_cased_mli","en","clinical/models")\
-     .setInputCols(["document"])\
-     .setOutputCol("sbert_embeddings")
-icd10_resolver = SentenceEntityResolverModel.pretrained("sbiobertresolve_icd10cm_slim_billable_hcc ","en", "clinical/models") \
-     .setInputCols(["document", "sbert_embeddings"]) \
-     .setOutputCol("icd10cm_code")\
-     .setDistanceFunction("EUCLIDEAN")\
-     .setReturnCosineDistances(True)
-bert_pipeline_icd = PipelineModel(stages = [document_assembler, sbert_embedder, icd10_resolver])
+.setInputCol("text")\
+.setOutputCol("document")
 
-model = bert_pipeline_icd.fit(spark.createDataFrame([["bladder cancer"]]).toDF("text"))
-results = model.transform(data)
+sbert_embedder = BertSentenceEmbeddings\
+.pretrained("sbiobert_base_cased_mli","en","clinical/models")\
+.setInputCols(["document"])\
+.setOutputCol("sbert_embeddings")
+
+icd10_resolver = SentenceEntityResolverModel\
+.pretrained("sbiobertresolve_icd10cm_slim_billable_hcc ","en", "clinical/models") \
+.setInputCols(["document", "sbert_embeddings"]) \
+.setOutputCol("icd10cm_code")\
+.setDistanceFunction("EUCLIDEAN")\
+.setReturnCosineDistances(True)
+
+bert_pipeline_icd = Pipeline(stages = [document_assembler, sbert_embedder, icd10_resolver])
+
+data = spark.createDataFrame([["bladder cancer"]]).toDF("text")
+
+results = bert_pipeline_icd.fit(data).transform(data)
 ```
 ```scala
-val document_assembler = DocumentAssembler()\
-  .setInputCol("text")\
-  .setOutputCol("document")
-val sbert_embedder = BertSentenceEmbeddings\
-     .pretrained("sbiobert_base_cased_mli","en","clinical/models")\
-     .setInputCols(["document"])\
-     .setOutputCol("sbert_embeddings")
-val icd10_resolver = SentenceEntityResolverModel.pretrained("sbiobertresolve_icd10cm_slim_billable_hcc","en", "clinical/models") \
-     .setInputCols(["document", "sbert_embeddings"]) \
-     .setOutputCol("icd10cm_code")\
-     .setDistanceFunction("EUCLIDEAN").setReturnCosineDistances(True)
+val document_assembler = DocumentAssembler()
+.setInputCol("text")
+.setOutputCol("document")
+
+val sbert_embedder = BertSentenceEmbeddings
+.pretrained("sbiobert_base_cased_mli","en","clinical/models")
+.setInputCols(Array("document"))
+.setOutputCol("sbert_embeddings")
+
+val icd10_resolver = SentenceEntityResolverModel
+.pretrained("sbiobertresolve_icd10cm_slim_billable_hcc","en", "clinical/models") 
+.setInputCols(Array("document", "sbert_embeddings")) 
+.setOutputCol("icd10cm_code")
+.setDistanceFunction("EUCLIDEAN")
+.setReturnCosineDistances(True)
+
 val bert_pipeline_icd = new Pipeline().setStages(Array(document_assembler, sbert_embedder, icd10_resolver))
+
 val data = Seq("bladder cancer").toDF("text")
-val result = pipeline.fit(data).transform(data)
+
+val result = bert_pipeline_icd.fit(data).transform(data)
 ```
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("en.resolve.icd10cm.slim_billable_hcc").predict("""sbiobertresolve_icd10cm_slim_billable_hcc """)
+```
+
 </div>
 
 ## Results
@@ -84,7 +105,7 @@ val result = pipeline.fit(data).transform(data)
 {:.table-model}
 |---|---|
 |Model Name:|sbiobertresolve_icd10cm_slim_billable_hcc|
-|Compatibility:|Spark NLP for Healthcare 3.1.3+|
+|Compatibility:|Healthcare NLP 3.1.3+|
 |License:|Licensed|
 |Edition:|Official|
 |Input Labels:|[sentence_embeddings]|

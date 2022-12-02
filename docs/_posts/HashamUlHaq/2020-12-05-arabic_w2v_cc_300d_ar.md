@@ -7,10 +7,12 @@ date: 2020-12-05
 task: Embeddings
 language: ar
 edition: Spark NLP 2.7.0
+spark_version: 2.4
 tags: [embeddings, ar, open_source]
 supported: true
+annotator: WordEmbeddingsModel
 article_header:
-  type: cover
+type: cover
 use_language_switcher: "Python-Scala-Java"
 ---
 
@@ -37,8 +39,8 @@ Use as part of a pipeline after tokenization.
 ```python
 ...
 embeddings = WordEmbeddingsModel.pretrained("arabic_w2v_cc_300d", "ar") \
-        .setInputCols(["document", "token"]) \
-        .setOutputCol("embeddings")
+.setInputCols(["document", "token"]) \
+.setOutputCol("embeddings")
 nlp_pipeline = Pipeline(stages=[document_assembler, sentence_detector, tokenizer, embeddings])
 pipeline_model = nlp_pipeline.fit(spark.createDataFrame([[""]]).toDF("text"))
 result = pipeline_model.transform(spark.createDataFrame([['أنا أحب التعلم الآلي']], ["text"]))
@@ -46,8 +48,8 @@ result = pipeline_model.transform(spark.createDataFrame([['أنا أحب الت�
 ```scala
 ...
 val embeddings = WordEmbeddingsModel.pretrained("arabic_w2v_cc_300d", "ar") 
-        .setInputCols(Array("document", "token"))
-        .setOutputCol("embeddings")
+.setInputCols(Array("document", "token"))
+.setOutputCol("embeddings")
 val pipeline = new Pipeline().setStages(Array(document_assembler, sentence_detector, tokenizer, embeddings))
 val data = Seq("أنا أحب التعلم الآلي").toDF("text")
 val result = pipeline.fit(data).transform(data)

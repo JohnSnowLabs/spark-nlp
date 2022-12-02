@@ -7,7 +7,7 @@ date: 2022-03-03
 tags: [deidentification, pipeline, de, licensed]
 task: Pipeline Healthcare
 language: de
-edition: Spark NLP for Healthcare 3.4.1
+edition: Healthcare NLP 3.4.1
 spark_version: 3.0
 supported: true
 article_header:
@@ -47,7 +47,7 @@ Lizenznummer: B072RRE2I55
 Adresse : St.Johann-Straße 13 19300
 """
 
-result = deid_pipe.annotate(sample)
+result = deid_pipeline.annotate(sample)
 print("\n".join(result['masked']))
 print("\n".join(result['masked_with_chars']))
 print("\n".join(result['masked_fixed_length_chars']))
@@ -69,7 +69,7 @@ SSN : 13110587M565
 Lizenznummer: B072RRE2I55
 Adresse : St.Johann-Straße 13 19300"
 
-val result = deid_pipe.annotate(sample)
+val result = deid_pipeline.annotate(sample)
 ```
 </div>
 
@@ -132,7 +132,7 @@ Adresse : Klingelhöferring 31206
 |---|---|
 |Model Name:|clinical_deidentification|
 |Type:|pipeline|
-|Compatibility:|Spark NLP for Healthcare 3.4.1+|
+|Compatibility:|Healthcare NLP 3.4.1+|
 |License:|Licensed|
 |Edition:|Official|
 |Language:|de|

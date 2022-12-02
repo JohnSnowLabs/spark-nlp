@@ -7,9 +7,10 @@ date: 2022-10-12
 tags: [cvx, cpt, chunk_mapping, en, licensed, clinical]
 task: Chunk Mapping
 language: en
-edition: Spark NLP for Healthcare 4.1.0
+edition: Healthcare NLP 4.2.1
 spark_version: 3.0
 supported: true
+annotator: ChunkMapperModel
 article_header:
   type: cover
 use_language_switcher: "Python-Scala-Java"
@@ -26,7 +27,7 @@ This pretrained model maps CVX codes with their corresponding vaccine names and 
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>
 [Open in Colab](https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/26.Chunk_Mapping.ipynb){:.button.button-orange.button-orange-trans.co.button-icon}
-[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/cvx_code_mapper_en_4.1.0_3.0_1665598034618.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
+[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/cvx_code_mapper_en_4.2.1_3.0_1665598034618.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
 
 ## How to use
 
@@ -65,12 +66,12 @@ val documentAssembler = new DocumentAssembler()
      .setInputCol("text")
      .setOutputCol("doc")
 
-val chunk_assembler = new Doc2Chunk()\
-     .setInputCols(["doc"])\
+val chunk_assembler = new Doc2Chunk()
+     .setInputCols(Array("doc"))
      .setOutputCol("ner_chunk")
 
 val chunkerMapper = ChunkMapperModel.pretrained("cvx_code_mapper", "en","clinical/models")
-     .setInputCols("ner_chunk")
+     .setInputCols(Array("ner_chunk"))
      .setOutputCol("mappings")
      .setRels(Array("short_name", "full_name", "trade_name", "cpt_code"))
 
@@ -104,7 +105,7 @@ val result= pipeline.fit(data).transform(data)
 {:.table-model}
 |---|---|
 |Model Name:|cvx_code_mapper|
-|Compatibility:|Spark NLP for Healthcare 4.1.0+|
+|Compatibility:|Healthcare NLP 4.2.1+|
 |License:|Licensed|
 |Edition:|Official|
 |Input Labels:|[chunk]|

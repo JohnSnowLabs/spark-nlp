@@ -7,11 +7,12 @@ date: 2021-06-15
 tags: [snomed, en, clinical, licensed]
 task: Entity Resolution
 language: en
-edition: Spark NLP for Healthcare 3.1.0
+edition: Healthcare NLP 3.1.0
 spark_version: 3.0
 supported: true
+annotator: SentenceEntityResolverModel
 article_header:
-  type: cover
+type: cover
 use_language_switcher: "Python-Scala-Java"
 ---
 
@@ -30,50 +31,68 @@ Snomed Codes and their normalized definition with `sbiobert_base_cased_mli` embe
 
 ## How to use
 
+```sbiobertresolve_snomed_bodyStructure``` resolver model must be used with ```sbiobert_base_cased_mli``` as embeddings ```ner_jsl``` as NER model. ```Disease_Syndrome_Disorder, 
+External_body_part_or_region``` set in ```.setWhiteList()```.
+
+```sbiobertresolve_snomed_bodyStructure``` resolver model must be used with ```sbiobert_base_cased_mli``` as embeddings ```ner_jsl``` as NER model. No need to set ```.setWhiteList()```.
+
+Merge ner_jsl and ner_anatomy_coarse model chunks.
 
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
 ```python
 documentAssembler = DocumentAssembler()\
-      .setInputCol("text")\
-      .setOutputCol("ner_chunk")
+.setInputCol("text")\
+.setOutputCol("ner_chunk")
 
-jsl_sbert_embedder = BertSentenceEmbeddings.pretrained('sbiobert_base_cased_mli','en','clinical/models')\
-      .setInputCols(["ner_chunk"])\
-      .setOutputCol("sbert_embeddings")
+jsl_sbert_embedder = BertSentenceEmbeddings\
+.pretrained('sbiobert_base_cased_mli','en','clinical/models')\
+.setInputCols(["ner_chunk"])\
+.setOutputCol("sbert_embeddings")
 
-snomed_resolver = SentenceEntityResolverModel.pretrained("sbiobertresolve_snomed_bodyStructure, "en", "clinical/models) \
-      .setInputCols(["ner_chunk", "sbert_embeddings"]) \
-      .setOutputCol("snomed_code")
+snomed_resolver = SentenceEntityResolverModel\
+.pretrained("sbiobertresolve_snomed_bodyStructure, "en", "clinical/models) \
+.setInputCols(["ner_chunk", "sbert_embeddings"]) \
+.setOutputCol("snomed_code")
 
 snomed_pipelineModel = PipelineModel(
-    stages = [
-        documentAssembler,
-        jsl_sbert_embedder,
-        snomed_resolver])
+stages = [
+documentAssembler,
+jsl_sbert_embedder,
+snomed_resolver])
 
 snomed_lp = LightPipeline(snomed_pipelineModel)
 result = snomed_lp.fullAnnotate("Amputation stump")
 ```
 ```scala
-val document_assembler = DocumentAssembler()\
-  .setInputCol("text")\
-  .setOutputCol("ner_chunk")
+val document_assembler = DocumentAssembler()
+.setInputCol("text")
+.setOutputCol("ner_chunk")
 
-val sbert_embedder = BertSentenceEmbeddings.pretrained("sbiobert_base_cased_mli","en","clinical/models")\
-     .setInputCols(["ner_chunk"])\
-     .setOutputCol("sbert_embeddings")
+val sbert_embedder = BertSentenceEmbeddings
+.pretrained("sbiobert_base_cased_mli","en","clinical/models")
+.setInputCols(Array("ner_chunk"))
+.setOutputCol("sbert_embeddings")
 
-val snomed_resolver = SentenceEntityResolverModel.pretrained("sbiobertresolve_snomed_bodyStructure, "en", "clinical/models) \
-     .setInputCols(["ner_chunk", "sbert_embeddings"]) \
-     .setOutputCol("snomed_code")
+val snomed_resolver = SentenceEntityResolverModel
+.pretrained("sbiobertresolve_snomed_bodyStructure", "en", "clinical/models") 
+.setInputCols(Array("ner_chunk", "sbert_embeddings")) 
+.setOutputCol("snomed_code")
 
 val snomed_pipelineModel= new PipelineModel().setStages(Array(document_assembler, sbert_embedder, snomed_resolver))
 
 val snomed_lp = LightPipeline(snomed_pipelineModel)
 val result = snomed_lp.fullAnnotate("Amputation stump")
 ```
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("en.resolve.snomed_body_structure").predict("""sbiobertresolve_snomed_bodyStructure, """)
+```
+
 </div>
 
 ## Results
@@ -90,7 +109,7 @@ val result = snomed_lp.fullAnnotate("Amputation stump")
 {:.table-model}
 |---|---|
 |Model Name:|sbiobertresolve_snomed_bodyStructure|
-|Compatibility:|Spark NLP for Healthcare 3.1.0+|
+|Compatibility:|Healthcare NLP 3.1.0+|
 |License:|Licensed|
 |Edition:|Official|
 |Input Labels:|[sentence_embeddings]|

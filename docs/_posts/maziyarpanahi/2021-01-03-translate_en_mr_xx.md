@@ -7,10 +7,12 @@ date: 2021-01-03
 task: [Translation, Pipeline Public]
 language: xx
 edition: Spark NLP 2.7.0
+spark_version: 2.4
 tags: [open_source, seq2seq, translation, pipeline, en, mr, xx]
 supported: true
+annotator: PipelineModel
 article_header:
-  type: cover
+type: cover
 use_language_switcher: "Python-Scala-Java"
 ---
 
@@ -26,41 +28,54 @@ Note that this is a very computationally expensive module especially on larger s
 
 - target languages: `mr`
 
+
 {:.btn-box}
-<button class="button button-orange" disabled>Live Demo</button>
-<button class="button button-orange" disabled>Open in Colab</button>
+[Live Demo](https://demo.johnsnowlabs.com/public/INDIAN_TRANSLATION_MARATHI/){:.button.button-orange}
+[Open in Colab](https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/TRANSLATION_PIPELINES_MODELS.ipynb){:.button.button-orange.button-orange-trans.co.button-icon}
 [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/translate_en_mr_xx_2.7.0_2.4_1609687217108.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
 
 ## How to use
 
 
-
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
+
 ```python
-from sparknlp.pretrained import PretrainedPipeline 
+from sparknlp.pretrained import PretrainedPipeline
+
 pipeline = PretrainedPipeline("translate_en_mr", lang = "xx") 
-pipeline.annotate("Your sentence to translate!")
+
+result = pipeline.annotate("Your sentence to translate!")
 ```
 ```scala
-
 import com.johnsnowlabs.nlp.pretrained.PretrainedPipeline
 
 val pipeline = new PretrainedPipeline("translate_en_mr", lang = "xx")
 
-pipeline.annotate("Your sentence to translate!")
+val result = pipeline.annotate("Your sentence to translate!")
 ```
 
 {:.nlu-block}
 ```python
 import nlu
 
-text = ["text to translate"]
+text = ["Your sentence to translate!"]
 translate_df = nlu.load('xx.en.translate_to.mr').predict(text, output_level='sentence')
 translate_df
 ```
 
 </div>
+
+## Results
+
+```bash
++------------------------------+--------------------------+
+|sentence                      |translation               |
++------------------------------+--------------------------+
+|Your sentence to translate!   |तू तुझ्या वाक्याचा अनुवाद करशील!  | 
++------------------------------+--------------------------+
+```
+
 
 {:.model-param}
 ## Model Information
@@ -75,4 +90,4 @@ translate_df
 
 ## Data Source
 
-[https://huggingface.co/Helsinki-NLP/opus-mt-en-mr](https://huggingface.co/Helsinki-NLP/opus-mt-en-mr)
+[https://github.com/Helsinki-NLP/OPUS-MT-train/tree/master/models](https://github.com/Helsinki-NLP/OPUS-MT-train/tree/master/models)

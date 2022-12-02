@@ -10,6 +10,7 @@ language: en
 edition: Spark NLP 3.3.0
 spark_version: 3.0
 supported: true
+annotator: LongformerForTokenClassification
 article_header:
   type: cover
 use_language_switcher: "Python-Scala-Java"
@@ -24,7 +25,7 @@ use_language_switcher: "Python-Scala-Java"
 We used [TFLongformerForTokenClassification](https://huggingface.co/transformers/model_doc/longformer.html#tflongformerfortokenclassification) to train this model and used `LongformerForTokenClassification` annotator in Spark NLP 🚀 for prediction at scale!
 
 ## Predicted Entities
-
+`PER`, `LOC`, `ORG`, `MISC`
 
 
 {:.btn-box}

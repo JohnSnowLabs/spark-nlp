@@ -7,9 +7,10 @@ date: 2022-03-04
 tags: [deidentification, en, licensed, pipeline]
 task: Pipeline Healthcare
 language: en
-edition: Spark NLP for Healthcare 3.4.1
+edition: Healthcare NLP 3.4.1
 spark_version: 3.0
 supported: true
+annotator: PipelineModel
 article_header:
   type: cover
 use_language_switcher: "Python-Scala-Java"
@@ -101,7 +102,7 @@ Phone 0496 46 46 70, 3100 weston rd, Shattuck, E-MAIL: Freddi@hotmail.com.
 |---|---|
 |Model Name:|clinical_deidentification_glove|
 |Type:|pipeline|
-|Compatibility:|Spark NLP for Healthcare 3.4.1+|
+|Compatibility:|Healthcare NLP 3.4.1+|
 |License:|Licensed|
 |Edition:|Official|
 |Language:|en|

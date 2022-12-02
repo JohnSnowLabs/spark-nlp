@@ -11,7 +11,7 @@ edition: Spark NLP 3.2.2
 spark_version: 3.0
 supported: true
 article_header:
-  type: cover
+type: cover
 use_language_switcher: "Python-Scala-Java"
 ---
 
@@ -36,18 +36,26 @@ The National Library of Sweden / KBLab releases three pretrained language models
 {% include programmingLanguageSelectScalaPythonNLU.html %}
 ```python
 sent_embeddings = BertSentenceEmbeddings.pretrained("sent_bert_base_cased", "sv") \
-      .setInputCols("sentence") \
-      .setOutputCol("bert_sentence")
+.setInputCols("sentence") \
+.setOutputCol("bert_sentence")
 
 nlp_pipeline = Pipeline(stages=[document_assembler, sentence_detector, sent_embeddings ])
 ```
 ```scala
 val sent_embeddings = BertSentenceEmbeddings.pretrained("sent_bert_base_cased", "sv")
-      .setInputCols("sentence")
-      .setOutputCol("bert_sentence")
+.setInputCols("sentence")
+.setOutputCol("bert_sentence")
 
 val pipeline = new Pipeline().setStages(Array(document_assembler, sentence_detector, sent_embeddings ))
 ```
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("sv.embed_sentence.bert.base_cased").predict("""Put your text here.""")
+```
+
 </div>
 
 {:.model-param}

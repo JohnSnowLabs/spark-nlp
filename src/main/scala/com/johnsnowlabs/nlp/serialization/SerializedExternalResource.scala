@@ -1,5 +1,5 @@
 /*
- * Copyright 2017-2021 John Snow Labs
+ * Copyright 2017-2022 John Snow Labs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,10 +20,10 @@ import com.johnsnowlabs.nlp.annotators.param.SerializedAnnotatorComponent
 import com.johnsnowlabs.nlp.util.io.ExternalResource
 
 case class SerializedExternalResource(
-                                       path: String,
-                                       readAs: String,
-                                       options: Map[String, String] = Map("format" -> "text")
-                                     ) extends SerializedAnnotatorComponent[ExternalResource] {
+    path: String,
+    readAs: String,
+    options: Map[String, String] = Map("format" -> "text"))
+    extends SerializedAnnotatorComponent[ExternalResource] {
   override def deserialize: ExternalResource = {
     ExternalResource(path, readAs, options)
   }

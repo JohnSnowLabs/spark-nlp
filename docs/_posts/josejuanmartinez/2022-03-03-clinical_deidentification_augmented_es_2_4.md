@@ -7,9 +7,11 @@ date: 2022-03-03
 tags: [deid, es, licensed]
 task: De-identification
 language: es
-edition: Spark NLP for Healthcare 3.4.1
+edition: Healthcare NLP 3.4.1
 spark_version: 2.4
 supported: true
+recommended: true
+annotator: PipelineModel
 article_header:
   type: cover
 use_language_switcher: "Python-Scala-Java"
@@ -22,8 +24,8 @@ This pipeline is trained with sciwiki_300d embeddings and can be used to deident
 The PHI information will be masked and obfuscated in the resulting text. The pipeline can mask, fake or obfuscate the following entities: `AGE`, `DATE`, `PROFESSION`, `EMAIL`, `USERNAME`, `STREET`, `COUNTRY`, `CITY`, `DOCTOR`, `HOSPITAL`, `PATIENT`, `URL`, `MEDICALRECORD`, `IDNUM`, `ORGANIZATION`, `PHONE`, `ZIP`, `ACCOUNT`, `SSN`, `PLATE`, `SEX` and `IPADDR`
 
 {:.btn-box}
-<button class="button button-orange" disabled>Live Demo</button>
-<button class="button button-orange" disabled>Open in Colab</button>
+[Live Demo](https://demo.johnsnowlabs.com/healthcare/DEID_PHI_TEXT_MULTI/){:.button.button-orange}
+[Open in Colab](https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/DEID_PHI_TEXT_MULTI.ipynb){:.button.button-orange.button-orange-trans.co.button-icon}
 [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/clinical_deidentification_augmented_es_3.4.1_2.4_1646331074905.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
 
 ## How to use
@@ -33,7 +35,7 @@ The PHI information will be masked and obfuscated in the resulting text. The pip
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
 ```python
-from sparknlp.pretrained import PretrainedPipeline
+from johnsnowlabs import *
 
 deid_pipeline = PretrainedPipeline("clinical_deidentification_augmented", "es", "clinical/models")
 
@@ -273,7 +275,7 @@ Francisco José Roca Bermúdez Hospital 12 de Octubre Servicio de Endocrinologí
 |---|---|
 |Model Name:|clinical_deidentification_augmented|
 |Type:|pipeline|
-|Compatibility:|Spark NLP for Healthcare 3.4.1+|
+|Compatibility:|Healthcare NLP 3.4.1+|
 |License:|Licensed|
 |Edition:|Official|
 |Language:|es|
@@ -281,20 +283,20 @@ Francisco José Roca Bermúdez Hospital 12 de Octubre Servicio de Endocrinologí
 
 ## Included Models
 
-- DocumentAssembler
-- SentenceDetectorDLModel
-- TokenizerModel
-- WordEmbeddingsModel
-- MedicalNerModel
-- NerConverter
+- nlp.DocumentAssembler
+- nlp.SentenceDetectorDLModel
+- nlp.TokenizerModel
+- nlp.WordEmbeddingsModel
+- medical.NerModel
+- nlp.NerConverter
 - ContextualParserModel
 - ContextualParserModel
 - ContextualParserModel
 - ContextualParserModel
-- RegexMatcherModel
+- nlp.RegexMatcherModel
 - ChunkMergeModel
-- DeIdentificationModel
-- DeIdentificationModel
-- DeIdentificationModel
-- DeIdentificationModel
+- medical.DeIdentificationModel
+- medical.DeIdentificationModel
+- medical.DeIdentificationModel
+- medical.DeIdentificationModel
 - Finisher

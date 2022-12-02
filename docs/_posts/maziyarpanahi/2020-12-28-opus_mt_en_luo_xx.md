@@ -7,10 +7,12 @@ date: 2020-12-28
 task: Translation
 language: xx
 edition: Spark NLP 2.7.0
+spark_version: 2.4
 tags: [open_source, seq2seq, translation, en, luo, xx]
 supported: true
+annotator: MarianTransformer
 article_header:
-  type: cover
+type: cover
 use_language_switcher: "Python-Scala-Java"
 ---
 
@@ -36,16 +38,16 @@ It is currently the engine behind the Microsoft Translator Neural Machine Transl
 {% include programmingLanguageSelectScalaPythonNLU.html %}
 ```python
 documentAssembler = DocumentAssembler()\ 
- .setInputCol("text")\ 
- .setOutputCol("document")
+.setInputCol("text")\ 
+.setOutputCol("document")
 
- sentencerDL = SentenceDetectorDLModel.pretrained("sentence_detector_dl", "xx")\ 
- .setInputCols(["document"])\ 
- .setOutputCol("sentences")
+sentencerDL = SentenceDetectorDLModel.pretrained("sentence_detector_dl", "xx")\ 
+.setInputCols(["document"])\ 
+.setOutputCol("sentences")
 
- marian = MarianTransformer.pretrained("opus_mt_en_luo", "xx")\ 
- .setInputCols(["sentence"])\ 
- .setOutputCol("translation")
+marian = MarianTransformer.pretrained("opus_mt_en_luo", "xx")\ 
+.setInputCols(["sentence"])\ 
+.setOutputCol("translation")
 
 marian_pipeline = Pipeline(stages=[documentAssembler, sentencerDL, marian])
 light_pipeline = LightPipeline(marian_pipeline.fit(spark.createDataFrame([[""]]).toDF("text")))
@@ -54,12 +56,12 @@ result = light_pipeline.fullAnnotate(data)
 ```scala
 
 val documentAssembler = new DocumentAssembler()
-  .setInputCol("text")
-  .setOutputCol("document")
+.setInputCol("text")
+.setOutputCol("document")
 
 val sentence = SentenceDetectorDLModel.pretrained("sentence_detector_dl", "xx")
-  .setInputCols("document")
-  .setOutputCol("sentence")
+.setInputCols("document")
+.setOutputCol("sentence")
 
 val marian = MarianTransformer.pretrained("opus_mt_en_luo", "xx")
 .setInputCols(["sentence"])
@@ -94,4 +96,4 @@ opus_df
 
 ## Data Source
 
-[https://huggingface.co/Helsinki-NLP/opus-mt-en-luo](https://huggingface.co/Helsinki-NLP/opus-mt-en-luo)
+[https://github.com/Helsinki-NLP/OPUS-MT-train/tree/master/models](https://github.com/Helsinki-NLP/OPUS-MT-train/tree/master/models)

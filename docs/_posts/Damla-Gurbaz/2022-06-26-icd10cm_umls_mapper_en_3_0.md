@@ -7,11 +7,12 @@ date: 2022-06-26
 tags: [icd10cm, umls, chunk_mapper, clinical, licensed, en]
 task: Chunk Mapping
 language: en
-edition: Spark NLP for Healthcare 3.5.3
+edition: Healthcare NLP 3.5.3
 spark_version: 3.0
 supported: true
+annotator: ChunkMapperModel
 article_header:
-  type: cover
+type: cover
 use_language_switcher: "Python-Scala-Java"
 ---
 
@@ -36,33 +37,33 @@ This pretrained model maps ICD10CM codes to corresponding UMLS codes under the U
 {% include programmingLanguageSelectScalaPythonNLU.html %}
 ```python
 documentAssembler = DocumentAssembler()\
-      .setInputCol("text")\
-      .setOutputCol("ner_chunk")
+.setInputCol("text")\
+.setOutputCol("ner_chunk")
 
 sbert_embedder = BertSentenceEmbeddings\
-     .pretrained("sbiobert_base_cased_mli","en","clinical/models")\
-     .setInputCols(["ner_chunk"])\
-     .setOutputCol("sbert_embeddings")
- 
+.pretrained("sbiobert_base_cased_mli","en","clinical/models")\
+.setInputCols(["ner_chunk"])\
+.setOutputCol("sbert_embeddings")
+
 icd10cm_resolver = SentenceEntityResolverModel\
-     .pretrained("sbiobertresolve_icd10cm","en", "clinical/models") \
-     .setInputCols(["ner_chunk", "sbert_embeddings"]) \
-     .setOutputCol("icd10cm_code")\
-     .setDistanceFunction("EUCLIDEAN")
+.pretrained("sbiobertresolve_icd10cm","en", "clinical/models") \
+.setInputCols(["ner_chunk", "sbert_embeddings"]) \
+.setOutputCol("icd10cm_code")\
+.setDistanceFunction("EUCLIDEAN")
 
 chunkerMapper = ChunkMapperModel\
-      .pretrained("icd10cm_umls_mapper", "en", "clinical/models")\
-      .setInputCols(["icd10cm_code"])\
-      .setOutputCol("umls_mappings")\
-      .setRels(["umls_code"])
+.pretrained("icd10cm_umls_mapper", "en", "clinical/models")\
+.setInputCols(["icd10cm_code"])\
+.setOutputCol("umls_mappings")\
+.setRels(["umls_code"])
 
 
 pipeline = Pipeline(stages = [
-                      documentAssembler,
-                      sbert_embedder,
-                      icd10cm_resolver,
-                      chunkerMapper
-                      ])
+documentAssembler,
+sbert_embedder,
+icd10cm_resolver,
+chunkerMapper
+])
 
 model = pipeline.fit(spark.createDataFrame([[""]]).toDF("text"))
 
@@ -72,37 +73,45 @@ result = light_pipeline.fullAnnotate("Neonatal skin infection")
 ```
 ```scala
 val documentAssembler = new DocumentAssembler()
-       .setInputCol("text")
-       .setOutputCol("ner_chunk")
+.setInputCol("text")
+.setOutputCol("ner_chunk")
 
- val sbert_embedder = BertSentenceEmbeddings
-       .pretrained("sbiobert_base_cased_mli", "en", "clinical/models")
-       .setInputCols("ner_chunk")
-       .setOutputCol("sbert_embeddings")
+val sbert_embedder = BertSentenceEmbeddings
+.pretrained("sbiobert_base_cased_mli", "en", "clinical/models")
+.setInputCols(Array("ner_chunk"))
+.setOutputCol("sbert_embeddings")
 
- val icd10cm_resolver = SentenceEntityResolverModel
-       .pretrained("sbiobertresolve_icd10cm", "en", "clinical/models")
-       .setInputCols(Array("ner_chunk", "sbert_embeddings"))
-       .setOutputCol("rxnorm_code")
-       .setDistanceFunction("EUCLIDEAN")
+val icd10cm_resolver = SentenceEntityResolverModel
+.pretrained("sbiobertresolve_icd10cm", "en", "clinical/models")
+.setInputCols(Array("ner_chunk", "sbert_embeddings"))
+.setOutputCol("rxnorm_code")
+.setDistanceFunction("EUCLIDEAN")
 
- val chunkerMapper = ChunkMapperModel
-       .pretrained("icd10cm_umls_mapper", "en", "clinical/models")
-       .setInputCols("rxnorm_code")
-       .setOutputCol("umls_mappings")
-       .setRels(Array("umls_code"))
+val chunkerMapper = ChunkMapperModel
+.pretrained("icd10cm_umls_mapper", "en", "clinical/models")
+.setInputCols(Array("rxnorm_code"))
+.setOutputCol("umls_mappings")
+.setRels(Array("umls_code"))
 
- val pipeline = new Pipeline(stages = Array(
-                                documentAssembler,
-                                sbert_embedder,
-                                icd10cm_resolver,
-                                chunkerMapper
-                                ))
- 
- val data = Seq("Neonatal skin infection").toDS.toDF("text")
+val pipeline = new Pipeline(stages = Array(
+documentAssembler,
+sbert_embedder,
+icd10cm_resolver,
+chunkerMapper
+))
 
- val result= pipeline.fit(data).transform(data)
+val data = Seq("Neonatal skin infection").toDS.toDF("text")
+
+val result= pipeline.fit(data).transform(data)
 ```
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("en.icd10cm_to_umls").predict("""Neonatal skin infection""")
+```
+
 </div>
 
 ## Results
@@ -119,7 +128,7 @@ val documentAssembler = new DocumentAssembler()
 {:.table-model}
 |---|---|
 |Model Name:|icd10cm_umls_mapper|
-|Compatibility:|Spark NLP for Healthcare 3.5.3+|
+|Compatibility:|Healthcare NLP 3.5.3+|
 |License:|Licensed|
 |Edition:|Official|
 |Input Labels:|[icd10cm_code]|

@@ -7,11 +7,11 @@ date: 2021-04-01
 tags: [pipeline, en, licensed, clinical]
 task: Pipeline Healthcare
 language: en
-edition: Spark NLP for Healthcare 3.0.0
+edition: Healthcare NLP 3.0.0
 spark_version: 3.0
 supported: true
 article_header:
-  type: cover
+type: cover
 use_language_switcher: "Python-Scala-Java"
 ---
 
@@ -45,6 +45,16 @@ She was seen by the endocrinology service and discharged on 40 units of insulin 
 """)(0)
 
 ```
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("en.recognize_entities.posology").predict("""A 28-year-old female with a history of gestational diabetes mellitus, used to take metformin 1000 mg two times a day, presented with a one-week history of polyuria , polydipsia , poor appetite , and vomiting .
+She was seen by the endocrinology service and discharged on 40 units of insulin glargine at night, 12 units of insulin lispro with meals.
+""")
+```
+
 </div>
 
 ## Results
@@ -71,7 +81,7 @@ She was seen by the endocrinology service and discharged on 40 units of insulin 
 |---|---|
 |Model Name:|recognize_entities_posology|
 |Type:|pipeline|
-|Compatibility:|Spark NLP for Healthcare 3.0.0+|
+|Compatibility:|Healthcare NLP 3.0.0+|
 |License:|Licensed|
 |Edition:|Official|
 |Language:|en|

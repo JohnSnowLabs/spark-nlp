@@ -7,8 +7,10 @@ date: 2020-02-17 00:16:00 +0800
 task: Part of Speech Tagging
 language: es
 edition: Spark NLP 2.4.0
+spark_version: 2.4
 tags: [pos, es]
 supported: true
+annotator: PerceptronModel
 article_header:
    type: cover
 use_language_switcher: "Python-Scala-Java"

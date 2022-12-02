@@ -7,9 +7,10 @@ date: 2022-07-28
 tags: [licensed, clinical, en, ner, pathogen, medical_condition, medicine, berfortokenclassification]
 task: Named Entity Recognition
 language: en
-edition: Spark NLP for Healthcare 4.0.0
+edition: Healthcare NLP 4.0.0
 spark_version: 3.0
 supported: true
+annotator: MedicalBertForTokenClassifier
 article_header:
   type: cover
 use_language_switcher: "Python-Scala-Java"
@@ -34,6 +35,7 @@ This pretrained named entity recognition (NER) model is a deep learning model fo
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
+
 ```python
 document_assembler = DocumentAssembler() \
     .setInputCol('text') \
@@ -65,11 +67,10 @@ pipeline = Pipeline(stages=[
 ])
 
 
-model = pipeline.fit(spark.createDataFrame(pd.DataFrame({'text': ['']})))
+data = spark.createDataFrame([["""Racecadotril is an antisecretory medication and it has better tolerability than loperamide. Diarrhea is the condition of having loose, liquid or watery bowel movements each day. Signs of dehydration often begin with loss of the normal stretchiness of the skin. This can progress to loss of skin color, a fast heart rate as it becomes more severe; while it has been speculated that rabies virus, Lyssavirus and Ephemerovirus could be transmitted through aerosols, studies have concluded that this is only feasible in limited conditions."""]]).toDF("text")
 
-data = spark.createDataFrame(["""Racecadotril is an antisecretory medication and it has better tolerability than loperamide. Diarrhea is the condition of having loose, liquid or watery bowel movements each day. Signs of dehydration often begin with loss of the normal stretchiness of the skin. This can progress to loss of skin color, a fast heart rate as it becomes more severe; while it has been speculated that rabies virus, Lyssavirus and Ephemerovirus could be transmitted through aerosols, studies have concluded that this is only feasible in limited conditions."""], StringType()).toDF("text")
+result = pipeline.fit(data).transform(data)
 
-result = model.transform(data)
 ```
 ```scala
 val documenter = new DocumentAssembler() 
@@ -86,7 +87,7 @@ val tokenizer = new Tokenizer()
 
 val tokenClassifier = MedicalBertForTokenClassifier.pretrained("bert_token_classifier_ner_pathogen", "en", "clinical/models")
     .setInputCols(Array("token", 'sentence'))
-    .setOutputCol("label")\
+    .setOutputCol("label")
     .setCaseSensitive(True)
 
 val ner_converter = new NerConverter()
@@ -131,7 +132,7 @@ val result = pipeline.fit(data).transform(data)
 {:.table-model}
 |---|---|
 |Model Name:|bert_token_classifier_ner_pathogen|
-|Compatibility:|Spark NLP for Healthcare 4.0.0+|
+|Compatibility:|Healthcare NLP 4.0.0+|
 |License:|Licensed|
 |Edition:|Official|
 |Input Labels:|[sentence, token]|
@@ -144,10 +145,11 @@ val result = pipeline.fit(data).transform(data)
 ## Benchmarking
 
 ```bash
-         label  precision    recall  f1-score   support
-has_no_premise       0.86      0.83      0.85       379
-   has_premise       0.72      0.77      0.75       220
-      accuracy       -         -         0.81       599
-     macro-avg       0.79      0.80      0.80       599
-  weighted-avg       0.81      0.81      0.81       599
+           label  precision    recall  f1-score   support
+MedicalCondition       0.73      0.78      0.75        49
+        Medicine       0.95      0.95      0.95        38
+        Pathogen       0.77      0.91      0.83        11
+       micro-avg       0.82      0.86      0.84        98
+       macro-avg       0.82      0.88      0.84        98
+    weighted-avg       0.82      0.86      0.84        98
 ```

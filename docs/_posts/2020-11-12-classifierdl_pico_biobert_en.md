@@ -6,11 +6,13 @@ name: classifierdl_pico_biobert
 date: 2020-11-12
 task: Text Classification
 language: en
-edition: Spark NLP for Healthcare 2.6.2
+edition: Healthcare NLP 2.6.2
+spark_version: 2.4
 tags: [classifier, en, licensed, clinical]
 supported: true
+annotator: ClassifierDLModel
 article_header:
-   type: cover
+type: cover
 use_language_switcher: "Python-Scala-Java"
 ---
 
@@ -34,19 +36,19 @@ Use as part of an nlp pipeline with the following stages: DocumentAssembler, Sen
 
 <div class="tabs-box" markdown="1">
 
-{% include programmingLanguageSelectScalaPython.html %}
+{% include programmingLanguageSelectScalaPythonNLU.html %}
 
 ```python
 ...
 embeddings = BertEmbeddings.pretrained('biobert_pubmed_base_cased')\
-    .setInputCols(["document", 'token'])\
-    .setOutputCol("word_embeddings")
+.setInputCols(["document", 'token'])\
+.setOutputCol("word_embeddings")
 sentence_embeddings = SentenceEmbeddings() \
-      .setInputCols(["document", "word_embeddings"]) \
-      .setOutputCol("sentence_embeddings") \
-      .setPoolingStrategy("AVERAGE")
+.setInputCols(["document", "word_embeddings"]) \
+.setOutputCol("sentence_embeddings") \
+.setPoolingStrategy("AVERAGE")
 classifier = ClassifierDLModel.pretrained('classifierdl_pico_biobert', 'en', 'clinical/models')\
-    .setInputCols(['document', 'token', 'sentence_embeddings']).setOutputCol('class')
+.setInputCols(['document', 'token', 'sentence_embeddings']).setOutputCol('class')
 
 nlp_pipeline = Pipeline(stages=[document_assembler, tokenizer, embeddings, sentence_embeddings, classifier])
 light_pipeline = LightPipeline(nlp_pipeline.fit(spark.createDataFrame([['']]).toDF("text")))
@@ -57,19 +59,27 @@ annotations = light_pipeline.fullAnnotate(["""A total of 10 adult daily smokers 
 ```scala
 ...
 val embeddings = BertEmbeddings.pretrained('biobert_pubmed_base_cased')
-    .setInputCols(Array("document", 'token'))
-    .setOutputCol("word_embeddings")
+.setInputCols(Array("document", 'token'))
+.setOutputCol("word_embeddings")
 val sentence_embeddings = SentenceEmbeddings()
-      .setInputCols(Array("document", "word_embeddings"))
-      .setOutputCol("sentence_embeddings") 
-      .setPoolingStrategy("AVERAGE")
+.setInputCols(Array("document", "word_embeddings"))
+.setOutputCol("sentence_embeddings") 
+.setPoolingStrategy("AVERAGE")
 val classifier = ClassifierDLModel.pretrained('classifierdl_pico_biobert', 'en', 'clinical/models')
-    .setInputCols(Array('document', 'token', 'sentence_embeddings')).setOutputCol('class')
+.setInputCols(Array('document', 'token', 'sentence_embeddings')).setOutputCol('class')
 
 val pipeline = new Pipeline().setStages(Array(document_assembler, tokenizer, embeddings, sentence_embeddings, classifier))
 val data = Seq("A total of 10 adult daily smokers who reported at least one stressful event and coping episode and provided post-quit data.", "When carbamazepine is withdrawn from the combination therapy, aripiprazole dose should then be reduced.").toDF("text")
 val result = pipeline.fit(data).transform(data)
 ```
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("en.classify.pico").predict("""A total of 10 adult daily smokers who reported at least one stressful event and coping episode and provided post-quit data.""")
+```
+
 </div>
 
 {:.h2_title}
@@ -89,7 +99,7 @@ A dictionary containing class labels for each sentence.
 |---|---|
 |Model Name:|classifierdl_pico_biobert|
 |Type:|ClassifierDLModel|
-|Compatibility:|Spark NLP for Healthcare 2.6.2 +|
+|Compatibility:|Healthcare NLP 2.6.2 +|
 |Edition:|Official|
 |License:|Licensed|
 |Input Labels:|[sentence_embeddings]|

@@ -7,8 +7,10 @@ date: 2021-01-14
 task: Sentiment Analysis
 language: th
 edition: Spark NLP 2.7.1
+spark_version: 2.4
 tags: [sentiment, th, open_source]
 supported: true
+annotator: SentimentDLModel
 article_header:
   type: cover
 use_language_switcher: "Python-Scala-Java"
@@ -34,7 +36,10 @@ Use in the pipeline with the pretrained multi-language `UniversalSentenceEncoder
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
 ```python
-...
+document_assembler = DocumentAssembler() \
+    .setInputCol("text") \
+    .setOutputCol("document")
+
 use = UniversalSentenceEncoder.pretrained("tfhub_use_multi_lg", "xx") \
     .setInputCols(["document"])\
     .setOutputCol("sentence_embeddings")
@@ -48,7 +53,11 @@ result = pipeline.fit(example).transform(example)
 ```
 
 ```scala
-...
+
+val document_assembler = DocumentAssembler()
+        .setInputCol("text")
+        .setOutputCol("document")
+
 val use = UniversalSentenceEncoder.pretrained("tfhub_use_multi_lg", "xx")
     .setInputCols(Array("document")
     .setOutputCol("sentence_embeddings")

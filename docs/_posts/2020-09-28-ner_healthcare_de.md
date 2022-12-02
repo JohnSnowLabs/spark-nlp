@@ -6,9 +6,11 @@ name: ner_healthcare
 date: 2020-09-28
 task: Named Entity Recognition
 language: de
-edition: Spark NLP for Healthcare 2.6.0
+edition: Healthcare NLP 2.6.0
+spark_version: 2.4
 tags: [ner, clinical, de, licensed]
 supported: true
+annotator: MedicalNerModel
 article_header:
    type: cover
 use_language_switcher: "Python-Scala-Java"
@@ -94,7 +96,7 @@ val result = pipeline.fit(data).transform(data)
 |---|---|
 |Model Name:|ner_healthcare|
 |Type:|ner|
-|Compatibility:|Spark NLP for Healthcare 2.6.0 +|
+|Compatibility:|Healthcare NLP 2.6.0 +|
 |Edition:|Official|
 |License:|Licensed|
 |Input Labels:|[sentence, token, embeddings]|

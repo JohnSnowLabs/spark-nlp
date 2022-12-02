@@ -7,10 +7,12 @@ date: 2020-09-19
 task: Embeddings
 language: en
 edition: Spark NLP 2.6.2
+spark_version: 2.4
 tags: [embeddings, en, open_source]
 supported: true
+annotator: BertSentenceEmbeddings
 article_header:
-  type: cover
+type: cover
 use_language_switcher: "Python-Scala-Java"
 ---
 
@@ -31,8 +33,8 @@ This model contains a pre-trained weights of BioBERT, a language representation 
 ```python
 ...
 embeddings = BertSentenceEmbeddings.pretrained("sent_biobert_pmc_base_cased", "en") \
-      .setInputCols("sentence") \
-      .setOutputCol("sentence_embeddings")
+.setInputCols("sentence") \
+.setOutputCol("sentence_embeddings")
 nlp_pipeline = Pipeline(stages=[document_assembler, sentence_detector, embeddings])
 pipeline_model = nlp_pipeline.fit(spark.createDataFrame([[""]]).toDF("text"))
 result = pipeline_model.transform(spark.createDataFrame([['I hate cancer', "Antibiotics aren't painkiller"]], ["text"]))
@@ -41,8 +43,8 @@ result = pipeline_model.transform(spark.createDataFrame([['I hate cancer', "Anti
 ```scala
 ...
 val embeddings = BertSentenceEmbeddings.pretrained("sent_biobert_pmc_base_cased", "en")
-      .setInputCols("sentence")
-      .setOutputCol("sentence_embeddings")
+.setInputCols("sentence")
+.setOutputCol("sentence_embeddings")
 val pipeline = new Pipeline().setStages(Array(document_assembler, sentence_detector, embeddings))
 val data = Seq("I hate cancer, "Antibiotics aren't painkiller").toDF("text")
 val result = pipeline.fit(data).transform(data)
@@ -62,7 +64,7 @@ embeddings_df
 {:.h2_title}
 ## Results
 ```bash
-        sentence	                en_embed_sentence_biobert_pmc_base_cased_embeddings
+sentence	                en_embed_sentence_biobert_pmc_base_cased_embeddings
 
 	I hate cancer	                [0.34035101532936096, 0.04413360357284546, -0....
 	Antibiotics aren't painkiller	[0.4397204518318176, 0.066007100045681, -0.114...

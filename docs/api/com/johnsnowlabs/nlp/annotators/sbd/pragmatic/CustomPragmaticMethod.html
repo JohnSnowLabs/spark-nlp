@@ -3,9 +3,9 @@
         <head>
           <meta http-equiv="X-UA-Compatible" content="IE=edge" />
           <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-          <title>Spark NLP 3.3.4 ScalaDoc  - com.johnsnowlabs.nlp.annotators.sbd.pragmatic.CustomPragmaticMethod</title>
-          <meta name="description" content="Spark NLP 3.3.4 ScalaDoc - com.johnsnowlabs.nlp.annotators.sbd.pragmatic.CustomPragmaticMethod" />
-          <meta name="keywords" content="Spark NLP 3.3.4 ScalaDoc com.johnsnowlabs.nlp.annotators.sbd.pragmatic.CustomPragmaticMethod" />
+          <title>Spark NLP 4.2.4 ScalaDoc  - com.johnsnowlabs.nlp.annotators.sbd.pragmatic.CustomPragmaticMethod</title>
+          <meta name="description" content="Spark NLP 4.2.4 ScalaDoc - com.johnsnowlabs.nlp.annotators.sbd.pragmatic.CustomPragmaticMethod" />
+          <meta name="keywords" content="Spark NLP 4.2.4 ScalaDoc com.johnsnowlabs.nlp.annotators.sbd.pragmatic.CustomPragmaticMethod" />
           <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
           
       
@@ -28,7 +28,7 @@
         </head>
         <body>
       <div id="search">
-        <span id="doc-title">Spark NLP 3.3.4 ScalaDoc<span id="doc-version"></span></span>
+        <span id="doc-title">Spark NLP 4.2.4 ScalaDoc<span id="doc-version"></span></span>
         <span class="close-results"><span class="left">&lt;</span> Back</span>
         <div id="textfilter">
           <span class="input">
@@ -203,8 +203,8 @@
                         <a href="RuleSymbols.html" title="Base Symbols that may be extended later on.">RuleSymbols</a>
                       </li><li class="current-entities indented6">
                         <a class="object" href="SentenceDetector$.html" title="This is the companion object of SentenceDetector."></a>
-                        <a class="class" href="SentenceDetector.html" title="Annotator that detects sentence boundaries using any provided approach."></a>
-                        <a href="SentenceDetector.html" title="Annotator that detects sentence boundaries using any provided approach.">SentenceDetector</a>
+                        <a class="class" href="SentenceDetector.html" title="Annotator that detects sentence boundaries using regular expressions."></a>
+                        <a href="SentenceDetector.html" title="Annotator that detects sentence boundaries using regular expressions.">SentenceDetector</a>
                       </li>
               </ul>
             </div>
@@ -234,8 +234,8 @@
 
       
           <div id="comment" class="fullcommenttop"><div class="comment cmt"><p>Inspired on Kevin Dias, Ruby implementation: https://github.com/diasks2/pragmatic_segmenter
-This approach extracts sentence bounds by first formatting the data with <a href="RuleSymbols.html" class="extype" name="com.johnsnowlabs.nlp.annotators.sbd.pragmatic.RuleSymbols">RuleSymbols</a> and then extracting bounds
-with a strong RegexBased rule application
+This approach extracts sentence bounds by first formatting the data with <a href="RuleSymbols.html" class="extype" name="com.johnsnowlabs.nlp.annotators.sbd.pragmatic.RuleSymbols">RuleSymbols</a> and
+then extracting bounds with a strong RegexBased rule application
 </p></div><div class="toggleContainer block">
           <span class="toggle">
             Linear Supertypes
@@ -287,9 +287,9 @@ with a strong RegexBased rule application
         <div id="constructors" class="members">
               <h3>Instance Constructors</h3>
               <ol><li name="com.johnsnowlabs.nlp.annotators.sbd.pragmatic.CustomPragmaticMethod#&lt;init&gt;" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="&lt;init&gt;(customBounds:Array[String]):com.johnsnowlabs.nlp.annotators.sbd.pragmatic.CustomPragmaticMethod"></a><a id="&lt;init&gt;:CustomPragmaticMethod"></a>
+      <a id="&lt;init&gt;(customBounds:Array[String],transformStrategy:com.johnsnowlabs.nlp.util.regex.TransformStrategy.TransformStrategy):com.johnsnowlabs.nlp.annotators.sbd.pragmatic.CustomPragmaticMethod"></a><a id="&lt;init&gt;:CustomPragmaticMethod"></a>
       <span class="permalink">
-      <a href="../../../../../../com/johnsnowlabs/nlp/annotators/sbd/pragmatic/CustomPragmaticMethod.html#&lt;init&gt;(customBounds:Array[String]):com.johnsnowlabs.nlp.annotators.sbd.pragmatic.CustomPragmaticMethod" title="Permalink">
+      <a href="../../../../../../com/johnsnowlabs/nlp/annotators/sbd/pragmatic/CustomPragmaticMethod.html#&lt;init&gt;(customBounds:Array[String],transformStrategy:com.johnsnowlabs.nlp.util.regex.TransformStrategy.TransformStrategy):com.johnsnowlabs.nlp.annotators.sbd.pragmatic.CustomPragmaticMethod" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -298,7 +298,7 @@ with a strong RegexBased rule application
         <span class="kind">new</span>
       </span>
       <span class="symbol">
-        <span class="name">CustomPragmaticMethod</span><span class="params">(<span name="customBounds">customBounds: <span class="extype" name="scala.Array">Array</span>[<span class="extype" name="scala.Predef.String">String</span>]</span>)</span>
+        <span class="name">CustomPragmaticMethod</span><span class="params">(<span name="customBounds">customBounds: <span class="extype" name="scala.Array">Array</span>[<span class="extype" name="scala.Predef.String">String</span>]</span>, <span name="transformStrategy">transformStrategy: <a href="../../../util/regex/TransformStrategy$.html#TransformStrategy=com.johnsnowlabs.nlp.util.regex.TransformStrategy.Value" class="extmbr" name="com.johnsnowlabs.nlp.util.regex.TransformStrategy.TransformStrategy">TransformStrategy</a> = <span class="symbol"><span class="name"><a href="../../../../../index.html">REPLACE_ALL_WITH_SYMBOL</a></span></span></span>)</span>
       </span>
       
       

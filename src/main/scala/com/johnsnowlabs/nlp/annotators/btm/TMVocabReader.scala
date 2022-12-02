@@ -1,5 +1,5 @@
 /*
- * Copyright 2017-2021 John Snow Labs
+ * Copyright 2017-2022 John Snow Labs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,8 +18,10 @@ package com.johnsnowlabs.nlp.annotators.btm
 
 import com.johnsnowlabs.storage.{RocksDBConnection, StorageReader}
 
-class TMVocabReader(protected val connection: RocksDBConnection, protected val caseSensitiveIndex: Boolean)
-  extends StorageReader[Int] {
+class TMVocabReader(
+    protected val connection: RocksDBConnection,
+    protected val caseSensitiveIndex: Boolean)
+    extends StorageReader[Int] {
 
   override def emptyValue: Int = -1
 

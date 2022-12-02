@@ -7,9 +7,10 @@ date: 2021-04-29
 tags: [en, licensed, clinical, entity_resolution]
 task: Entity Resolution
 language: en
-edition: Spark NLP for Healthcare 3.0.0
+edition: Healthcare NLP 3.0.0
 spark_version: 3.0
 supported: true
+deprecated: true
 article_header:
   type: cover
 use_language_switcher: "Python-Scala-Java"
@@ -82,7 +83,7 @@ results = model.transform(data)
 {:.table-model}
 |---|---|
 |Model Name:|sbluebertresolve_loinc|
-|Compatibility:|Spark NLP for Healthcare 3.0.0+|
+|Compatibility:|Healthcare NLP 3.0.0+|
 |License:|Licensed|
 |Edition:|Official|
 |Input Labels:|[sentence_embeddings]|

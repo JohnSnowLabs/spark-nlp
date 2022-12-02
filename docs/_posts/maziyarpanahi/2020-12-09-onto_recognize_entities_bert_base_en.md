@@ -7,10 +7,12 @@ date: 2020-12-09
 task: [Named Entity Recognition, Sentence Detection, Embeddings, Pipeline Public]
 language: en
 edition: Spark NLP 2.7.0
+spark_version: 2.4
 tags: [pipeline, open_source, en]
 supported: true
+annotator: PipelineModel
 article_header:
-  type: cover
+type: cover
 use_language_switcher: "Python-Scala-Java"
 ---
 
@@ -90,9 +92,9 @@ ner_df[["entities", "entities_class"]]
 
 ## Included Models
 
- - DocumentAssembler
- - SentenceDetectorDLModel
- - Tokenizer
- - BertEmbeddings
- - NerDLModel
- - NerConverter
+- DocumentAssembler
+- SentenceDetectorDLModel
+- Tokenizer
+- BertEmbeddings
+- NerDLModel
+- NerConverter

@@ -7,11 +7,12 @@ date: 2021-12-24
 tags: [en, clinical, licensed, entity_resolution, loinc]
 task: Entity Resolution
 language: en
-edition: Spark NLP for Healthcare 3.3.4
+edition: Healthcare NLP 3.3.4
 spark_version: 2.4
 supported: true
+annotator: SentenceEntityResolverModel
 article_header:
-  type: cover
+type: cover
 use_language_switcher: "Python-Scala-Java"
 ---
 
@@ -24,7 +25,7 @@ This model maps extracted clinical NER entities to LOINC codes using `sbiobert_b
 `LOINC`
 
 {:.btn-box}
-<button class="button button-orange" disabled>Live Demo</button>
+[Live Demo](https://demo.johnsnowlabs.com/healthcare/ER_LOINC_AUGMENTED/){:.button.button-orange}
 [Open in Colab](https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/24.Improved_Entity_Resolvers_in_SparkNLP_with_sBert.ipynb){:.button.button-orange.button-orange-trans.co.button-icon}
 [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/sbiobertresolve_loinc_cased_en_3.3.4_2.4_1640374998947.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
 
@@ -36,101 +37,100 @@ This model maps extracted clinical NER entities to LOINC codes using `sbiobert_b
 {% include programmingLanguageSelectScalaPythonNLU.html %}
 ```python
 documentAssembler = DocumentAssembler()\
-      .setInputCol("text")\
-      .setOutputCol("document")
+.setInputCol("text")\
+.setOutputCol("document")
 
 sentenceDetector = SentenceDetectorDLModel.pretrained()\
-      .setInputCols(["document"])\
-      .setOutputCol("sentence")
+.setInputCols(["document"])\
+.setOutputCol("sentence")
 
 tokenizer = Tokenizer() \
-      .setInputCols(["sentence"]) \
-      .setOutputCol("token")
+.setInputCols(["sentence"]) \
+.setOutputCol("token")
 
 word_embeddings = WordEmbeddingsModel.pretrained('embeddings_clinical','en', 'clinical/models')\
-      .setInputCols(["sentence", "token"])\
-      .setOutputCol("embeddings")
+.setInputCols(["sentence", "token"])\
+.setOutputCol("embeddings")
 
 rad_ner = MedicalNerModel.pretrained("ner_radiology", "en", "clinical/models") \
-      .setInputCols(["sentence", "token", "embeddings"]) \
-      .setOutputCol("ner")
+.setInputCols(["sentence", "token", "embeddings"]) \
+.setOutputCol("ner")
 
 rad_ner_converter = NerConverter() \
-      .setInputCols(["sentence", "token", "ner"]) \
-      .setOutputCol("ner_chunk")\
-      .setWhiteList(['Test'])
+.setInputCols(["sentence", "token", "ner"]) \
+.setOutputCol("ner_chunk")\
+.setWhiteList(['Test'])
 
 chunk2doc = Chunk2Doc() \
-      .setInputCols("ner_chunk") \
-      .setOutputCol("ner_chunk_doc")
+.setInputCols("ner_chunk") \
+.setOutputCol("ner_chunk_doc")
 
 sbert_embedder = BertSentenceEmbeddings.pretrained("sbiobert_base_cased_mli","en","clinical/models")\
-      .setInputCols(["ner_chunk_doc"])\
-      .setOutputCol("sbert_embeddings")\
-      .setCaseSensitive(True)
+.setInputCols(["ner_chunk_doc"])\
+.setOutputCol("sbert_embeddings")\
+.setCaseSensitive(True)
 
 resolver = SentenceEntityResolverModel.pretrained("sbiobertresolve_loinc_cased", "en", "clinical/models") \
-      .setInputCols(["ner_chunk", "sbert_embeddings"])\
-      .setOutputCol("resolution")\
-      .setDistanceFunction("EUCLIDEAN")
+.setInputCols(["ner_chunk", "sbert_embeddings"])\
+.setOutputCol("resolution")\
+.setDistanceFunction("EUCLIDEAN")
 
-pipeline_loinc = Pipeline(stages = [
-    documentAssembler, 
-    sentenceDetector, 
-    tokenizer,  
-    word_embeddings, 
-    rad_ner, 
-    rad_ner_converter, 
-    chunk2doc, 
-    sbert_embedder, 
-    resolver
+pipeline = Pipeline(stages = [
+documentAssembler, 
+sentenceDetector, 
+tokenizer,  
+word_embeddings, 
+rad_ner, 
+rad_ner_converter, 
+chunk2doc, 
+sbert_embedder, 
+resolver
 ])
 
-test = 'The patient is a 22-year-old female with a history of obesity. She has a BMI of 33.5 kg/m2, aspartate aminotransferase 64, and alanine aminotransferase 126. Her hemoglobin is 8.2%.'
-model = pipeline_loinc.fit(spark.createDataFrame([['']]).toDF("text"))
+data = spark.createDataFrame([["""The patient is a 22-year-old female with a history of obesity. She has a BMI of 33.5 kg/m2, aspartate aminotransferase 64, and alanine aminotransferase 126. Her hemoglobin is 8.2%."""]]).toDF("text")
 
-sparkDF = spark.createDataFrame([[test]]).toDF("text")
-result = model.transform(sparkDF)
+result = pipeline.fit(data).transform(data)
+
 ```
 ```scala
-val documentAssembler = DocumentAssembler()\
-          .setInputCol("text")\
-          .setOutputCol("document")
+val documentAssembler = DocumentAssembler()
+.setInputCol("text")
+.setOutputCol("document")
 
-val sentenceDetector = SentenceDetectorDLModel.pretrained()\
-          .setInputCols(Array("document"))\
-          .setOutputCol("sentence")
+val sentenceDetector = SentenceDetectorDLModel.pretrained()
+.setInputCols(Array("document"))
+.setOutputCol("sentence")
 
-val tokenizer = Tokenizer() \
-          .setInputCols(Array("document")) \
-          .setOutputCol("token")
+val tokenizer = Tokenizer() 
+.setInputCols(Array("sentence")) 
+.setOutputCol("token")
 
-val word_embeddings = WordEmbeddingsModel.pretrained('embeddings_clinical','en', 'clinical/models')\
-          .setInputCols(Array("sentence", "token"))\
-          .setOutputCol("embeddings")
+val word_embeddings = WordEmbeddingsModel.pretrained("embeddings_clinical","en", "clinical/models")
+.setInputCols(Array("sentence", "token"))
+.setOutputCol("embeddings")
 
-val rad_ner = MedicalNerModel.pretrained("ner_radiology", "en", "clinical/models") \
-         .setInputCols(Array("sentence", "token", "embeddings")) \
-         .setOutputCol("ner")
+val rad_ner = MedicalNerModel.pretrained("ner_radiology", "en", "clinical/models") 
+.setInputCols(Array("sentence", "token", "embeddings")) 
+.setOutputCol("ner")
 
-val rad_ner_converter = NerConverter() \
-         .setInputCols(Array("sentence", "token", "ner")) \
-         .setOutputCol("ner_chunk")\
-         .setWhiteList(Array(Test'))
+val rad_ner_converter = NerConverter() 
+.setInputCols(Array("sentence", "token", "ner")) 
+.setOutputCol("ner_chunk")
+.setWhiteList(Array("Test"))
 
-val chunk2doc = Chunk2Doc() \
-        .setInputCols("ner_chunk") \
-        .setOutputCol("ner_chunk_doc")
+val chunk2doc = Chunk2Doc() 
+.setInputCols("ner_chunk") 
+.setOutputCol("ner_chunk_doc")
 
-val sbert_embedder = BertSentenceEmbeddings.pretrained("sbiobert_base_cased_mli","en","clinical/models")\
-        .setInputCols(Array("ner_chunk_doc"))\
-        .setOutputCol("sbert_embeddings")\
-        .setCaseSensitive(True)
+val sbert_embedder = BertSentenceEmbeddings.pretrained("sbiobert_base_cased_mli","en","clinical/models")
+.setInputCols(Array("ner_chunk_doc"))
+.setOutputCol("sbert_embeddings")
+.setCaseSensitive(True)
 
-val resolver = SentenceEntityResolverModel.pretrained("sbiobertresolve_loinc_cased", "en", "clinical/models") \
-        .setInputCols(Array("ner_chunk", "sbert_embeddings"))\
-        .setOutputCol("resolution")\
-        .setDistanceFunction("EUCLIDEAN")
+val resolver = SentenceEntityResolverModel.pretrained("sbiobertresolve_loinc_cased", "en", "clinical/models") 
+.setInputCols(Array("ner_chunk", "sbert_embeddings"))
+.setOutputCol("resolution")\
+.setDistanceFunction("EUCLIDEAN")
 
 val pipeline = new Pipeline().setStages(Array(documentAssembler, sentenceDetector, tokenizer, word_embeddings, rad_ner, rad_ner_converter, chunk2doc,  sbert_embedder, resolver))
 
@@ -140,6 +140,14 @@ val result = pipeline.fit(data).transform(data)
 
 
 ```
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("en.resolve.loinc_cased").predict("""The patient is a 22-year-old female with a history of obesity. She has a BMI of 33.5 kg/m2, aspartate aminotransferase 64, and alanine aminotransferase 126. Her hemoglobin is 8.2%.""")
+```
+
 </div>
 
 ## Results
@@ -163,7 +171,7 @@ val result = pipeline.fit(data).transform(data)
 {:.table-model}
 |---|---|
 |Model Name:|sbiobertresolve_loinc_cased|
-|Compatibility:|Spark NLP for Healthcare 3.3.4+|
+|Compatibility:|Healthcare NLP 3.3.4+|
 |License:|Licensed|
 |Edition:|Official|
 |Input Labels:|[sentence_embeddings]|

@@ -7,11 +7,12 @@ date: 2021-08-28
 tags: [snomed, licensed, en, clinical]
 task: Entity Resolution
 language: en
-edition: Spark NLP for Healthcare 3.1.3
+edition: Healthcare NLP 3.1.3
 spark_version: 2.4
 supported: true
+annotator: SentenceEntityResolverModel
 article_header:
-  type: cover
+type: cover
 use_language_switcher: "Python-Scala-Java"
 ---
 
@@ -36,47 +37,55 @@ Snomed Codes and their normalized definition with `sbert_jsl_medium_uncased ` em
 {% include programmingLanguageSelectScalaPythonNLU.html %}
 ```python
 documentAssembler = DocumentAssembler()\
-      .setInputCol("text")\
-      .setOutputCol("ner_chunk")
+.setInputCol("text")\
+.setOutputCol("ner_chunk")
 
 sbert_embedder = BertSentenceEmbeddings.pretrained('sbert_jsl_medium_uncased', 'en','clinical/models')\
-      .setInputCols(["ner_chunk"])\
-      .setOutputCol("sbert_embeddings")
-    
+.setInputCols(["ner_chunk"])\
+.setOutputCol("sbert_embeddings")
+
 snomed_resolver = SentenceEntityResolverModel.pretrained("sbertresolve_snomed_conditions", "en", "clinical/models") \
-      .setInputCols(["ner_chunk", "sbert_embeddings"]) \
-      .setOutputCol("snomed_code")\
-      .setDistanceFunction("EUCLIDEAN")
+.setInputCols(["ner_chunk", "sbert_embeddings"]) \
+.setOutputCol("snomed_code")\
+.setDistanceFunction("EUCLIDEAN")
 
 snomed_pipelineModel = PipelineModel(
-    stages = [
-        documentAssembler,
-        sbert_embedder,
-        snomed_resolver
-        ])
+stages = [
+documentAssembler,
+sbert_embedder,
+snomed_resolver
+])
 
 snomed_lp = LightPipeline(snomed_pipelineModel)
 result = snomed_lp.fullAnnotate("schizophrenia")
 ```
 ```scala
 val documentAssembler = DocumentAssembler()\
-      .setInputCol("text")\
-      .setOutputCol("ner_chunk")
+.setInputCol("text")\
+.setOutputCol("ner_chunk")
 
 val sbert_embedder = BertSentenceEmbeddings.pretrained('sbert_jsl_medium_uncased', 'en','clinical/models')\
-      .setInputCols("ner_chunk")\
-      .setOutputCol("sbert_embeddings")
-    
+.setInputCols("ner_chunk")\
+.setOutputCol("sbert_embeddings")
+
 val snomed_resolver = SentenceEntityResolverModel.pretrained("sbertresolve_snomed_conditions", "en", "clinical/models") \
-      .setInputCols(Array("ner_chunk", "sbert_embeddings")) \
-      .setOutputCol("snomed_code")\
-      .setDistanceFunction("EUCLIDEAN")
+.setInputCols(Array("ner_chunk", "sbert_embeddings")) \
+.setOutputCol("snomed_code")\
+.setDistanceFunction("EUCLIDEAN")
 
 val snomed_pipelineModel = new PipelineModel().setStages(Array(documentAssembler,sbert_embedder,snomed_resolver))
 
 val snomed_lp = LightPipeline(snomed_pipelineModel)
 val result = snomed_lp.fullAnnotate("schizophrenia")
 ```
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("en.resolve.snomed_conditions").predict("""Put your text here.""")
+```
+
 </div>
 
 ## Results
@@ -93,7 +102,7 @@ val result = snomed_lp.fullAnnotate("schizophrenia")
 {:.table-model}
 |---|---|
 |Model Name:|sbertresolve_snomed_conditions|
-|Compatibility:|Spark NLP for Healthcare 3.1.3+|
+|Compatibility:|Healthcare NLP 3.1.3+|
 |License:|Licensed|
 |Edition:|Official|
 |Input Labels:|[ner_chunk, sbert_embeddings]|

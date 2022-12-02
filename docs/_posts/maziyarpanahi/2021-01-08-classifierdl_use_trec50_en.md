@@ -7,10 +7,12 @@ date: 2021-01-08
 task: Text Classification
 language: en
 edition: Spark NLP 2.7.1
+spark_version: 2.4
 tags: [classifier, text_classification, en, open_source]
 supported: true
+annotator: ClassifierDLModel
 article_header:
-  type: cover
+type: cover
 use_language_switcher: "Python-Scala-Java"
 ---
 
@@ -35,14 +37,14 @@ Classify open-domain, fact-based questions into sub categories of the following 
 {% include programmingLanguageSelectScalaPythonNLU.html %}
 ```python
 documentAssembler = DocumentAssembler()\
-  .setInputCol("text")\
-  .setOutputCol("document")
+.setInputCol("text")\
+.setOutputCol("document")
 use = UniversalSentenceEncoder.pretrained(lang="en") \
-  .setInputCols(["document"])\
-  .setOutputCol("sentence_embeddings")
+.setInputCols(["document"])\
+.setOutputCol("sentence_embeddings")
 document_classifier = ClassifierDLModel.pretrained('classifierdl_use_trec50', 'en') \
-  .setInputCols(["document", "sentence_embeddings"]) \
-  .setOutputCol("class")
+.setInputCols(["document", "sentence_embeddings"]) \
+.setOutputCol("class")
 
 nlpPipeline = Pipeline(stages=[documentAssembler, use, document_classifier])
 light_pipeline = LightPipeline(nlp_pipeline.fit(spark.createDataFrame([['']]).toDF("text")))
@@ -51,14 +53,14 @@ annotations = light_pipeline.fullAnnotate('When did the construction of stone ci
 ```
 ```scala
 val documentAssembler = DocumentAssembler()
-  .setInputCol("text")
-  .setOutputCol("document")
+.setInputCol("text")
+.setOutputCol("document")
 val use = UniversalSentenceEncoder.pretrained(lang="en")
-  .setInputCols(Array("document"))
-  .setOutputCol("sentence_embeddings")
+.setInputCols(Array("document"))
+.setOutputCol("sentence_embeddings")
 val document_classifier = ClassifierDLModel.pretrained("classifierdl_use_trec50", "en")
-  .setInputCols(Array("document", "sentence_embeddings"))
-  .setOutputCol("class")
+.setInputCols(Array("document", "sentence_embeddings"))
+.setOutputCol("class")
 val pipeline = new Pipeline().setStages(Array(documentAssembler, use, document_classifier))
 
 val data = Seq("When did the construction of stone circles begin in the UK?").toDF("text")

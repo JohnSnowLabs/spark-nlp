@@ -7,10 +7,11 @@ date: 2022-06-21
 tags: [deid, deidentification, pt, licensed]
 task: [De-identification, Pipeline Healthcare]
 language: pt
-edition: Spark NLP for Healthcare 3.5.0
+edition: Healthcare NLP 3.5.0
 spark_version: 3.0
 supported: true
 recommended: true
+annotator: PipelineModel
 article_header:
   type: cover
 use_language_switcher: "Python-Scala-Java"
@@ -21,8 +22,8 @@ use_language_switcher: "Python-Scala-Java"
 This pipeline is trained with `w2v_cc_300d` portuguese embeddings and can be used to deidentify PHI information from medical texts in Spanish. The PHI information will be masked and obfuscated in the resulting text. The pipeline can mask, fake or obfuscate the following entities: `AGE`, `DATE`, `PROFESSION`, `EMAIL`, `ID`, `COUNTRY`, `STREET`, `DOCTOR`, `HOSPITAL`, `PATIENT`, `URL`, `IP`, `ORGANIZATION`, `PHONE`, `ZIP`, `ACCOUNT`, `SSN`, `PLATE`, `SEX` and `IPADDR`
 
 {:.btn-box}
-<button class="button button-orange" disabled>Live Demo</button>
-<button class="button button-orange" disabled>Open in Colab</button>
+[Live Demo](https://demo.johnsnowlabs.com/healthcare/DEID_PHI_TEXT_MULTI/){:.button.button-orange}
+[Open in Colab](https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/DEID_PHI_TEXT_MULTI.ipynb){:.button.button-orange.button-orange-trans.co.button-icon}
 [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/clinical_deidentification_pt_3.5.0_3.0_1655820388743.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
 
 ## How to use
@@ -32,7 +33,7 @@ This pipeline is trained with `w2v_cc_300d` portuguese embeddings and can be use
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
 ```python
-from sparknlp.pretrained import PretrainedPipeline
+from johnsnowlabs import *
 
 deid_pipeline = PretrainedPipeline("clinical_deidentification", "pt", "clinical/models")
 
@@ -225,7 +226,7 @@ Referido por: Carlos Melo - Avenida Dos Aliados, 56, 22 Espanha E-mail: maria.pr
 |---|---|
 |Model Name:|clinical_deidentification|
 |Type:|pipeline|
-|Compatibility:|Spark NLP for Healthcare 3.5.0+|
+|Compatibility:|Healthcare NLP 3.5.0+|
 |License:|Licensed|
 |Edition:|Official|
 |Language:|pt|
@@ -233,24 +234,24 @@ Referido por: Carlos Melo - Avenida Dos Aliados, 56, 22 Espanha E-mail: maria.pr
 
 ## Included Models
 
-- DocumentAssembler
-- SentenceDetectorDLModel
-- TokenizerModel
-- WordEmbeddingsModel
-- MedicalNerModel
-- NerConverter
+- nlp.DocumentAssembler
+- nlp.SentenceDetectorDLModel
+- nlp.TokenizerModel
+- nlp.WordEmbeddingsModel
+- medical.NerModel
+- nlp.NerConverter
 - ContextualParserModel
 - ContextualParserModel
 - ContextualParserModel
 - ContextualParserModel
-- TextMatcherModel
+- nlp.TextMatcherModel
 - ContextualParserModel
 - ContextualParserModel
-- RegexMatcherModel
-- RegexMatcherModel
+- nlp.RegexMatcherModel
+- nlp.RegexMatcherModel
 - ChunkMergeModel
-- DeIdentificationModel
-- DeIdentificationModel
-- DeIdentificationModel
-- DeIdentificationModel
+- medical.DeIdentificationModel
+- medical.DeIdentificationModel
+- medical.DeIdentificationModel
+- medical.DeIdentificationModel
 - Finisher

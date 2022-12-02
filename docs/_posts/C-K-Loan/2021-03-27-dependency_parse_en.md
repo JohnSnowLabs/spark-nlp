@@ -10,6 +10,7 @@ task: [Dependency Parser, Pipeline Public]
 language: en
 edition: Spark NLP 3.0.0
 spark_version: 3.0
+annotator: Pipeline
 article_header:
   type: cover
 use_language_switcher: "Python-Scala-Java"
@@ -34,7 +35,7 @@ Dependency parsing is the task of extracting a dependency parse of a sentence th
 {% include programmingLanguageSelectScalaPythonNLU.html %}
 ```python
 
-from sparknlp.pretrained import PretrainedPipelinein
+from sparknlp.pretrained import PretrainedPipeline
 pipeline = PretrainedPipeline('dependency_parse', lang = 'en')
 annotations =  pipeline.fullAnnotate("Dependencies represents relationships betweens words in a Sentence "")[0]
 annotations.keys()

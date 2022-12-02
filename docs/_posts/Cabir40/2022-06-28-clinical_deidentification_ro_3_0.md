@@ -7,11 +7,12 @@ date: 2022-06-28
 tags: [licensed, clinical, ro, deid, deidentification]
 task: Pipeline Healthcare
 language: ro
-edition: Spark NLP for Healthcare 4.0.0
+edition: Healthcare NLP 4.0.0
 spark_version: 3.0
 supported: true
+annotator: PipelineModel
 article_header:
-  type: cover
+type: cover
 use_language_switcher: "Python-Scala-Java"
 ---
 
@@ -57,6 +58,18 @@ Spitalul Pentru Ochi de Deal Drumul Oprea Nr. 972 Vaslui, 737405 """
 
 val result = deid_pipeline.annotate(sample)
 ```
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("ro.deid.clinical").predict("""Medic : Dr. Agota EVELYN, C.N.P : 2450502264401, Data setului de analize: 25 May 2022 
+Varsta : 77, Nume si Prenume : BUREAN MARIA 
+Tel: +40(235)413773, E-mail : hale@gmail.com,
+Licență : B004256985M, Înmatriculare : CD205113, Cont : FXHZ7170951927104999, 
+Spitalul Pentru Ochi de Deal Drumul Oprea Nr. 972 Vaslui, 737405 """)
+```
+
 </div>
 
 ## Results
@@ -102,7 +115,7 @@ Centrul Medical de Evaluare si Recuperare pentru Copii si Tineri Cristian Serban
 |---|---|
 |Model Name:|clinical_deidentification|
 |Type:|pipeline|
-|Compatibility:|Spark NLP for Healthcare 4.0.0+|
+|Compatibility:|Healthcare NLP 4.0.0+|
 |License:|Licensed|
 |Edition:|Official|
 |Language:|ro|

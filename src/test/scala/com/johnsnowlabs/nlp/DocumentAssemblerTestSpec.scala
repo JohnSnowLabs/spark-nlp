@@ -1,5 +1,5 @@
 /*
- * Copyright 2017-2021 John Snow Labs
+ * Copyright 2017-2022 John Snow Labs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -41,7 +41,8 @@ class DocumentAssemblerTestSpec extends AnyFlatSpec {
   }
 
   def nullFixture = new {
-    val corrupted = DataBuilder.loadParquetDataset("src/test/resources/doc-assembler/corrupted_data.parquet")
+    val corrupted =
+      DataBuilder.loadParquetDataset("src/test/resources/doc-assembler/corrupted_data.parquet")
 
     val preprocessed =
       corrupted
@@ -70,10 +71,20 @@ class DocumentAssemblerTestSpec extends AnyFlatSpec {
   "A DocumentAssembler" should "produce an empty annotation in a pipeline of null texts" taggedAs FastTest in {
     val f = nullFixture
 
-    Annotation(AnnotatorType.DOCUMENT, 0, "".length - 1, "", Map.empty[String, String], Array.emptyFloatArray)
-      .begin should equal(f.assembledDoc.head.begin)
+    Annotation(
+      AnnotatorType.DOCUMENT,
+      0,
+      "".length - 1,
+      "",
+      Map.empty[String, String],
+      Array.emptyFloatArray).begin should equal(f.assembledDoc.head.begin)
 
-    Annotation(AnnotatorType.DOCUMENT, 0, "".length - 1, "", Map.empty[String, String], Array.emptyFloatArray)
-      .end should equal(f.assembledDoc.head.end)
+    Annotation(
+      AnnotatorType.DOCUMENT,
+      0,
+      "".length - 1,
+      "",
+      Map.empty[String, String],
+      Array.emptyFloatArray).end should equal(f.assembledDoc.head.end)
   }
 }

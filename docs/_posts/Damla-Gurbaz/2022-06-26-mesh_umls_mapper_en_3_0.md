@@ -7,11 +7,12 @@ date: 2022-06-26
 tags: [mesh, umls, chunk_mapper, clinical, licensed, en]
 task: Chunk Mapping
 language: en
-edition: Spark NLP for Healthcare 3.5.3
+edition: Healthcare NLP 3.5.3
 spark_version: 3.0
 supported: true
+annotator: ChunkMapperModel
 article_header:
-  type: cover
+type: cover
 use_language_switcher: "Python-Scala-Java"
 ---
 
@@ -36,34 +37,34 @@ This pretrained model maps MESH codes to corresponding UMLS codes under the Unif
 {% include programmingLanguageSelectScalaPythonNLU.html %}
 ```python
 documentAssembler = DocumentAssembler()\
-      .setInputCol("text")\
-      .setOutputCol("ner_chunk")
+.setInputCol("text")\
+.setOutputCol("ner_chunk")
 
 sbert_embedder = BertSentenceEmbeddings\
-      .pretrained("sbiobert_base_cased_mli", "en", "clinical/models")\
-      .setInputCols(["ner_chunk"])\
-      .setOutputCol("sbert_embeddings")\
-      .setCaseSensitive(False)
-    
+.pretrained("sbiobert_base_cased_mli", "en", "clinical/models")\
+.setInputCols(["ner_chunk"])\
+.setOutputCol("sbert_embeddings")\
+.setCaseSensitive(False)
+
 mesh_resolver = SentenceEntityResolverModel\
-      .pretrained("sbiobertresolve_mesh", "en", "clinical/models") \
-      .setInputCols(["ner_chunk", "sbert_embeddings"]) \
-      .setOutputCol("mesh_code")\
-      .setDistanceFunction("EUCLIDEAN")
+.pretrained("sbiobertresolve_mesh", "en", "clinical/models") \
+.setInputCols(["ner_chunk", "sbert_embeddings"]) \
+.setOutputCol("mesh_code")\
+.setDistanceFunction("EUCLIDEAN")
 
 chunkerMapper = ChunkMapperModel\
-      .pretrained("mesh_umls_mapper", "en", "clinical/models")\
-      .setInputCols(["mesh_code"])\
-      .setOutputCol("umls_mappings")\
-      .setRels(["umls_code"])
+.pretrained("mesh_umls_mapper", "en", "clinical/models")\
+.setInputCols(["mesh_code"])\
+.setOutputCol("umls_mappings")\
+.setRels(["umls_code"])
 
 
 pipeline = Pipeline(stages = [
-        documentAssembler,
-        sbert_embedder,
-        mesh_resolver,
-        chunkerMapper
-        ])
+documentAssembler,
+sbert_embedder,
+mesh_resolver,
+chunkerMapper
+])
 
 model = pipeline.fit(spark.createDataFrame([[""]]).toDF("text"))
 
@@ -73,37 +74,45 @@ result = light_pipeline.fullAnnotate("N-acetyl-L-arginine")
 ```
 ```scala
 val documentAssembler = new DocumentAssembler()
-       .setInputCol("text")
-       .setOutputCol("ner_chunk")
+.setInputCol("text")
+.setOutputCol("ner_chunk")
 
- val sbert_embedder = BertSentenceEmbeddings
-       .pretrained("sbiobert_base_cased_mli", "en", "clinical/models")
-       .setInputCols("ner_chunk")
-       .setOutputCol("sbert_embeddings")
+val sbert_embedder = BertSentenceEmbeddings
+.pretrained("sbiobert_base_cased_mli", "en", "clinical/models")
+.setInputCols("ner_chunk")
+.setOutputCol("sbert_embeddings")
 
- val mesh_resolver = SentenceEntityResolverModel
-       .pretrained("sbiobertresolve_mesh", "en", "clinical/models")
-       .setInputCols(Array("ner_chunk", "sbert_embeddings"))
-       .setOutputCol("mesh_code")
-       .setDistanceFunction("EUCLIDEAN")
+val mesh_resolver = SentenceEntityResolverModel
+.pretrained("sbiobertresolve_mesh", "en", "clinical/models")
+.setInputCols(Array("ner_chunk", "sbert_embeddings"))
+.setOutputCol("mesh_code")
+.setDistanceFunction("EUCLIDEAN")
 
- val chunkerMapper = ChunkMapperModel
-       .pretrained("mesh_umls_mapper", "en", "clinical/models")
-       .setInputCols("mesh_code")
-       .setOutputCol("umls_mappings")
-       .setRels(Array("umls_code"))
+val chunkerMapper = ChunkMapperModel
+.pretrained("mesh_umls_mapper", "en", "clinical/models")
+.setInputCols("mesh_code")
+.setOutputCol("umls_mappings")
+.setRels(Array("umls_code"))
 
- val pipeline = new Pipeline(stages = Array(
-                                documentAssembler,
-                                sbert_embedder,
-                                mesh_resolver,
-                                chunkerMapper
-                                ))
- 
- val data = Seq("N-acetyl-L-arginine").toDS.toDF("text")
+val pipeline = new Pipeline(stages = Array(
+documentAssembler,
+sbert_embedder,
+mesh_resolver,
+chunkerMapper
+))
 
- val result= pipeline.fit(data).transform(data)
+val data = Seq("N-acetyl-L-arginine").toDS.toDF("text")
+
+val result= pipeline.fit(data).transform(data)
 ```
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("en.mesh_to_umls").predict("""Put your text here.""")
+```
+
 </div>
 
 ## Results
@@ -120,7 +129,7 @@ val documentAssembler = new DocumentAssembler()
 {:.table-model}
 |---|---|
 |Model Name:|mesh_umls_mapper|
-|Compatibility:|Spark NLP for Healthcare 3.5.3+|
+|Compatibility:|Healthcare NLP 3.5.3+|
 |License:|Licensed|
 |Edition:|Official|
 |Input Labels:|[mesh_code]|

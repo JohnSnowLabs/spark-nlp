@@ -1,5 +1,5 @@
 /*
- * Copyright 2017-2021 John Snow Labs
+ * Copyright 2017-2022 John Snow Labs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -23,6 +23,10 @@ package object base {
   type DocumentAssembler = com.johnsnowlabs.nlp.DocumentAssembler
 
   object DocumentAssembler extends DefaultParamsReadable[DocumentAssembler]
+
+  type MultiDocumentAssembler = com.johnsnowlabs.nlp.MultiDocumentAssembler
+
+  object MultiDocumentAssembler extends DefaultParamsReadable[MultiDocumentAssembler]
 
   type TokenAssembler = com.johnsnowlabs.nlp.TokenAssembler
 
@@ -48,4 +52,15 @@ package object base {
 
   type LightPipeline = com.johnsnowlabs.nlp.LightPipeline
 
+  type ImageAssembler = com.johnsnowlabs.nlp.ImageAssembler
+
+  object ImageAssembler extends DefaultParamsReadable[ImageAssembler]
+
+  type AudioAssembler = com.johnsnowlabs.nlp.AudioAssembler
+
+  object AudioAssembler extends DefaultParamsReadable[AudioAssembler]
+
+  type TableAssembler = com.johnsnowlabs.nlp.TableAssembler
+
+  object TableAssembler extends DefaultParamsReadable[TableAssembler]
 }
