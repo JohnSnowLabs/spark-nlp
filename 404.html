@@ -427,10 +427,10 @@
     j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
     })(window,document,'script','dataLayer','GTM-59JLR64');</script>
-<!-- End Google Tag Manager --><title>T5 for grammar error correction</title><meta property="og:title" content=""/>
+<!-- End Google Tag Manager --><title>Finance NER (10Q, lg, 139 entities)</title><meta property="og:title" content=""/>
 
-<meta name="description" content="DescriptionThis is a text-to-text model fine-tuned to correct grammatical errors when the task is set to “gec:”. It is based on Prithiviraj Damodaran’s Gramformer model.Predicted EntitiesLive DemoOpen in ColabDownloadHow to use         PythonScalaNLU  import sparknlpfrom sparknlp.base import *from sparknlp.annotator...">
-<link rel="canonical" href="/2022/11/28/t5_grammar_error_corrector_en.html"><link rel="alternate" type="application/rss+xml" title="Spark NLP" href="/feed.xml"><!-- start favicons snippet, use https://realfavicongenerator.net/ -->
+<meta name="description" content="DescriptionThis model is an NER model containing 139 numeric financial entities from different 10Q reports. The tokens being annotated are the amounts, not any other surrounding word, but the context will determine what kind of amount is from the list of the 139 available.This is a large (lg) model, trained with 200...">
+<link rel="canonical" href="/2022/12/02/finner_10q_xlbr_en.html"><link rel="alternate" type="application/rss+xml" title="Spark NLP" href="/feed.xml"><!-- start favicons snippet, use https://realfavicongenerator.net/ -->
 <!---->
 <!-- <link rel="apple-touch-icon" sizes="180x180" href="/fav.ico"> -->
 
@@ -826,24 +826,28 @@
 
 <!-- end custom main top snippet --><article><script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script><div class="article__header"><div class="header-author"><div class="article__info clearfix"><div class="left-col">
             <a class="edit-on-github-btn" target="_blank" rel="alternate"
-               href="https://github.com/johnsnowlabs/spark-nlp/tree/master/docs/_posts/maziyarpanahi/2022-11-28-t5_grammar_error_corrector_en.md">
+               href="https://github.com/johnsnowlabs/spark-nlp/tree/master/docs/_posts/josejuanmartinez/2022-12-02-finner_10q_xlbr_en.md">
               <span class="fab fa-github"></span>
               <span class="edit-on-github-label">Edit on GitHub</span>
             </a>
-        </div><ul class="right-col menu"><li><i class="far fa-user"></i> <span>John Snow Labs</span></li><li><i class="far fa-calendar-alt"></i> <span>Nov 28, 2022</span>
-            </li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2022-11-28T00:00:00+00:00"></div><header class="main-docs have_subtitle">
-          <h1>T5 for grammar error correction</h1><div class="top-subtitle mont"></div></header></div><meta itemprop="headline" content="T5 for grammar error correction"><div class="article__info tags_box clearfix"><ul class="left-col menu"><li>t5</li><li>grammar</li><li>open_source</li><li>en</li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2022-11-28T00:00:00+00:00">
-    <meta itemprop="keywords" content="t5,grammar,open_source,en"><div class="js-article-content"><div class="model-wrap"><div class="layout--article"><!-- start custom article top snippet -->
+        </div><ul class="right-col menu"><li><i class="far fa-user"></i> <span>John Snow Labs</span></li><li><i class="far fa-calendar-alt"></i> <span>Dec 02, 2022</span>
+            </li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2022-12-02T00:00:00+00:00"></div><header class="main-docs have_subtitle">
+          <h1>Finance NER (10Q, lg, 139 entities)</h1><div class="top-subtitle mont"></div></header></div><meta itemprop="headline" content="Finance NER (10Q, lg, 139 entities)"><div class="article__info tags_box clearfix"><ul class="left-col menu"><li>10q</li><li>xlbr</li><li>en</li><li>licensed</li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2022-12-02T00:00:00+00:00">
+    <meta itemprop="keywords" content="10q,xlbr,en,licensed"><div class="js-article-content"><div class="model-wrap"><div class="layout--article"><!-- start custom article top snippet -->
 
 <!-- end custom article top snippet --><div class="article__content" itemprop="articleBody"><h2 id="description">Description</h2>
 
-<p>This is a text-to-text model fine-tuned to correct grammatical errors when the task is set to “gec:”. It is based on Prithiviraj Damodaran’s Gramformer model.</p>
+<p>This model is an NER model containing 139 numeric financial entities from different 10Q reports. The tokens being annotated are the amounts, not any other surrounding word, but the context will determine what kind of amount is from the list of the 139 available.</p>
+
+<p>This is a large (<code class="language-plaintext highlighter-rouge">lg</code>) model, trained with 200K sentences.</p>
 
 <h2 id="predicted-entities">Predicted Entities</h2>
 
-<p class="btn-box"><a href="https://demo.johnsnowlabs.com/public/T5_LINGUISTIC/" class="button button-orange">Live Demo</a>
-<a href="https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/T5_LINGUISTIC.ipynb" class="button button-orange button-orange-trans co button-icon">Open in Colab</a>
-<a href="https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/t5_grammar_error_corrector_en_4.0.0_3.2_1669638224299.zip" class="button button-orange button-orange-trans arr button-icon">Download</a></p>
+<p><code class="language-plaintext highlighter-rouge">DeferredFinanceCostsNet</code>, <code class="language-plaintext highlighter-rouge">DisposalGroupIncludingDiscontinuedOperationConsideration</code>, <code class="language-plaintext highlighter-rouge">DebtInstrumentCarryingAmount</code>, <code class="language-plaintext highlighter-rouge">CommonStockSharesAuthorized</code>, <code class="language-plaintext highlighter-rouge">RestructuringCharges</code>, <code class="language-plaintext highlighter-rouge">DeferredFinanceCostsGross</code>, <code class="language-plaintext highlighter-rouge">OperatingLeasesRentExpenseNet</code>, <code class="language-plaintext highlighter-rouge">EquityMethodInvestmentOwnershipPercentage</code>, <code class="language-plaintext highlighter-rouge">ClassOfWarrantOrRightExercisePriceOfWarrantsOrRights1</code>, <code class="language-plaintext highlighter-rouge">DebtInstrumentTerm</code>, <code class="language-plaintext highlighter-rouge">DebtInstrumentRedemptionPricePercentage</code>, <code class="language-plaintext highlighter-rouge">CommonStockCapitalSharesReservedForFutureIssuance</code>, <code class="language-plaintext highlighter-rouge">LossContingencyAccrualAtCarryingValue</code>, <code class="language-plaintext highlighter-rouge">SaleOfStockPricePerShare</code>, <code class="language-plaintext highlighter-rouge">MinorityInterestOwnershipPercentageByParent</code>, <code class="language-plaintext highlighter-rouge">PropertyPlantAndEquipmentUsefulLife</code>, <code class="language-plaintext highlighter-rouge">TreasuryStockAcquiredAverageCostPerShare</code>, <code class="language-plaintext highlighter-rouge">Goodwill</code>, <code class="language-plaintext highlighter-rouge">SupplementalInformationForPropertyCasualtyInsuranceUnderwritersPriorYearClaimsAndClaimsAdjustmentExpense</code>, <code class="language-plaintext highlighter-rouge">CommonStockParOrStatedValuePerShare</code>, <code class="language-plaintext highlighter-rouge">OperatingLeaseWeightedAverageDiscountRatePercent</code>, <code class="language-plaintext highlighter-rouge">DebtInstrumentConvertibleConversionPrice1</code>, <code class="language-plaintext highlighter-rouge">AmortizationOfIntangibleAssets</code>, <code class="language-plaintext highlighter-rouge">PreferredStockSharesAuthorized</code>, <code class="language-plaintext highlighter-rouge">OperatingLeasePayments</code>, <code class="language-plaintext highlighter-rouge">DebtInstrumentMaturityDate</code>, <code class="language-plaintext highlighter-rouge">ShareBasedCompensationArrangementByShareBasedPaymentAwardOptionsGrantsInPeriodWeightedAverageGrantDateFairValue</code>, <code class="language-plaintext highlighter-rouge">EffectiveIncomeTaxRateReconciliationAtFederalStatutoryIncomeTaxRate</code>, <code class="language-plaintext highlighter-rouge">AllocatedShareBasedCompensationExpense</code>, <code class="language-plaintext highlighter-rouge">PreferredStockDividendRatePercentage</code>, <code class="language-plaintext highlighter-rouge">StockRepurchaseProgramRemainingAuthorizedRepurchaseAmount1</code>, <code class="language-plaintext highlighter-rouge">TreasuryStockValueAcquiredCostMethod</code>, <code class="language-plaintext highlighter-rouge">ShareBasedCompensationArrangementByShareBasedPaymentAwardEquityInstrumentsOtherThanOptionsVestedInPeriodTotalFairValue</code>, <code class="language-plaintext highlighter-rouge">IncomeTaxExpenseBenefit</code>, <code class="language-plaintext highlighter-rouge">DerivativeFixedInterestRate</code>, <code class="language-plaintext highlighter-rouge">RelatedPartyTransactionExpensesFromTransactionsWithRelatedParty</code>, <code class="language-plaintext highlighter-rouge">PublicUtilitiesRequestedRateIncreaseDecreaseAmount</code>, <code class="language-plaintext highlighter-rouge">RestructuringAndRelatedCostExpectedCost1</code>, <code class="language-plaintext highlighter-rouge">StockRepurchaseProgramAuthorizedAmount1</code>, <code class="language-plaintext highlighter-rouge">ShareBasedCompensation</code>, <code class="language-plaintext highlighter-rouge">ShareBasedCompensationArrangementByShareBasedPaymentAwardEquityInstrumentsOtherThanOptionsGrantsInPeriodWeightedAverageGrantDateFairValue</code>, <code class="language-plaintext highlighter-rouge">LongTermDebtFairValue</code>, <code class="language-plaintext highlighter-rouge">LineOfCreditFacilityUnusedCapacityCommitmentFeePercentage</code>, <code class="language-plaintext highlighter-rouge">LineOfCreditFacilityCurrentBorrowingCapacity</code>, <code class="language-plaintext highlighter-rouge">ShareBasedCompensationArrangementByShareBasedPaymentAwardAwardVestingPeriod1</code>, <code class="language-plaintext highlighter-rouge">SharebasedCompensationArrangementBySharebasedPaymentAwardAwardVestingRightsPercentage</code>, <code class="language-plaintext highlighter-rouge">PaymentsToAcquireBusinessesGross</code>, <code class="language-plaintext highlighter-rouge">MinorityInterestOwnershipPercentageByNoncontrollingOwners</code>, <code class="language-plaintext highlighter-rouge">AntidilutiveSecuritiesExcludedFromComputationOfEarningsPerShareAmount</code>, <code class="language-plaintext highlighter-rouge">NumberOfReportableSegments</code>, <code class="language-plaintext highlighter-rouge">BusinessCombinationRecognizedIdentifiableAssetsAcquiredAndLiabilitiesAssumedIntangibleAssetsOtherThanGoodwill</code>, <code class="language-plaintext highlighter-rouge">OperatingLeaseCost</code>, <code class="language-plaintext highlighter-rouge">BusinessCombinationConsiderationTransferred1</code>, <code class="language-plaintext highlighter-rouge">UnrecognizedTaxBenefitsThatWouldImpactEffectiveTaxRate</code>, <code class="language-plaintext highlighter-rouge">CommonStockDividendsPerShareDeclared</code>, <code class="language-plaintext highlighter-rouge">AreaOfRealEstateProperty</code>, <code class="language-plaintext highlighter-rouge">LesseeOperatingLeaseTermOfContract</code>, <code class="language-plaintext highlighter-rouge">RevenueRemainingPerformanceObligation</code>, <code class="language-plaintext highlighter-rouge">RelatedPartyTransactionAmountsOfTransaction</code>, <code class="language-plaintext highlighter-rouge">InterestExpense</code>, <code class="language-plaintext highlighter-rouge">OperatingLeaseExpense</code>, <code class="language-plaintext highlighter-rouge">StockIssuedDuringPeriodSharesNewIssues</code>, <code class="language-plaintext highlighter-rouge">DebtInstrumentFaceAmount</code>, <code class="language-plaintext highlighter-rouge">CapitalizedContractCostAmortization</code>, <code class="language-plaintext highlighter-rouge">DebtInstrumentBasisSpreadOnVariableRate1</code>, <code class="language-plaintext highlighter-rouge">ShareBasedCompensationArrangementByShareBasedPaymentAwardEquityInstrumentsOtherThanOptionsNonvestedNumber</code>, <code class="language-plaintext highlighter-rouge">GainsLossesOnExtinguishmentOfDebt</code>, <code class="language-plaintext highlighter-rouge">LineOfCreditFacilityRemainingBorrowingCapacity</code>, <code class="language-plaintext highlighter-rouge">OperatingLeaseRightOfUseAsset</code>, <code class="language-plaintext highlighter-rouge">OperatingLeaseWeightedAverageRemainingLeaseTerm1</code>, <code class="language-plaintext highlighter-rouge">OperatingLossCarryforwards</code>, <code class="language-plaintext highlighter-rouge">ConcentrationRiskPercentage1</code>, <code class="language-plaintext highlighter-rouge">GuaranteeObligationsMaximumExposure</code>, <code class="language-plaintext highlighter-rouge">StockRepurchasedAndRetiredDuringPeriodShares</code>, <code class="language-plaintext highlighter-rouge">LesseeOperatingLeaseRenewalTerm</code>, <code class="language-plaintext highlighter-rouge">ContractWithCustomerLiabilityRevenueRecognized</code>, <code class="language-plaintext highlighter-rouge">DefinedBenefitPlanContributionsByEmployer</code>, <code class="language-plaintext highlighter-rouge">ShareBasedCompensationArrangementByShareBasedPaymentAwardOptionsGrantsInPeriodGross</code>, <code class="language-plaintext highlighter-rouge">RepaymentsOfDebt</code>, <code class="language-plaintext highlighter-rouge">EmployeeServiceShareBasedCompensationNonvestedAwardsTotalCompensationCostNotYetRecognized</code>, <code class="language-plaintext highlighter-rouge">BusinessAcquisitionPercentageOfVotingInterestsAcquired</code>, <code class="language-plaintext highlighter-rouge">DebtInstrumentInterestRateEffectivePercentage</code>, <code class="language-plaintext highlighter-rouge">AcquiredFiniteLivedIntangibleAssetsWeightedAverageUsefulLife</code>, <code class="language-plaintext highlighter-rouge">DebtInstrumentUnamortizedDiscount</code>, <code class="language-plaintext highlighter-rouge">ShareBasedCompensationArrangementByShareBasedPaymentAwardNumberOfSharesAuthorized</code>, <code class="language-plaintext highlighter-rouge">BusinessCombinationContingentConsiderationLiability</code>, <code class="language-plaintext highlighter-rouge">DebtInstrumentInterestRateStatedPercentage</code>, <code class="language-plaintext highlighter-rouge">LeaseAndRentalExpense</code>, <code class="language-plaintext highlighter-rouge">RevenueFromContractWithCustomerExcludingAssessedTax</code>, <code class="language-plaintext highlighter-rouge">SharePrice</code>, <code class="language-plaintext highlighter-rouge">CommonStockSharesOutstanding</code>, <code class="language-plaintext highlighter-rouge">ContractWithCustomerLiability</code>, <code class="language-plaintext highlighter-rouge">DerivativeNotionalAmount</code>, <code class="language-plaintext highlighter-rouge">RevenueFromRelatedParties</code>, <code class="language-plaintext highlighter-rouge">ShareBasedCompensationArrangementByShareBasedPaymentAwardOptionsExercisesInPeriodTotalIntrinsicValue</code>, <code class="language-plaintext highlighter-rouge">Revenues</code>, <code class="language-plaintext highlighter-rouge">EmployeeServiceShareBasedCompensationNonvestedAwardsTotalCompensationCostNotYetRecognizedShareBasedAwardsOtherThanOptions</code>, <code class="language-plaintext highlighter-rouge">AccrualForEnvironmentalLossContingencies</code>, <code class="language-plaintext highlighter-rouge">ProceedsFromIssuanceOfCommonStock</code>, <code class="language-plaintext highlighter-rouge">EmployeeServiceShareBasedCompensationTaxBenefitFromCompensationExpense</code>, <code class="language-plaintext highlighter-rouge">IncomeLossFromEquityMethodInvestments</code>, <code class="language-plaintext highlighter-rouge">NumberOfOperatingSegments</code>, <code class="language-plaintext highlighter-rouge">UnrecognizedTaxBenefits</code>, <code class="language-plaintext highlighter-rouge">RevenueFromContractWithCustomerIncludingAssessedTax</code>, <code class="language-plaintext highlighter-rouge">LossContingencyDamagesSoughtValue</code>, <code class="language-plaintext highlighter-rouge">SharebasedCompensationArrangementBySharebasedPaymentAwardExpirationPeriod</code>, <code class="language-plaintext highlighter-rouge">TreasuryStockSharesAcquired</code>, <code class="language-plaintext highlighter-rouge">FiniteLivedIntangibleAssetUsefulLife</code>, <code class="language-plaintext highlighter-rouge">BusinessCombinationRecognizedIdentifiableAssetsAcquiredAndLiabilitiesAssumedIntangibles</code>, <code class="language-plaintext highlighter-rouge">EffectiveIncomeTaxRateContinuingOperations</code>, <code class="language-plaintext highlighter-rouge">LossContingencyEstimateOfPossibleLoss</code>, <code class="language-plaintext highlighter-rouge">ShareBasedCompensationArrangementByShareBasedPaymentAwardNumberOfSharesAvailableForGrant</code>, <code class="language-plaintext highlighter-rouge">BusinessCombinationAcquisitionRelatedCosts</code>, <code class="language-plaintext highlighter-rouge">StockRepurchasedDuringPeriodShares</code>, <code class="language-plaintext highlighter-rouge">CashAndCashEquivalentsFairValueDisclosure</code>, <code class="language-plaintext highlighter-rouge">LineOfCreditFacilityInterestRateAtPeriodEnd</code>, <code class="language-plaintext highlighter-rouge">ShareBasedCompensationArrangementByShareBasedPaymentAwardEquityInstrumentsOtherThanOptionsGrantsInPeriod</code>, <code class="language-plaintext highlighter-rouge">CumulativeEffectOfNewAccountingPrincipleInPeriodOfAdoption</code>, <code class="language-plaintext highlighter-rouge">LettersOfCreditOutstandingAmount</code>, <code class="language-plaintext highlighter-rouge">EmployeeServiceShareBasedCompensationNonvestedAwardsTotalCompensationCostNotYetRecognizedPeriodForRecognition1</code>, <code class="language-plaintext highlighter-rouge">NumberOfRealEstateProperties</code>, <code class="language-plaintext highlighter-rouge">DebtWeightedAverageInterestRate</code>, <code class="language-plaintext highlighter-rouge">SaleOfStockNumberOfSharesIssuedInTransaction</code>, <code class="language-plaintext highlighter-rouge">AssetImpairmentCharges</code>, <code class="language-plaintext highlighter-rouge">Depreciation</code>, <code class="language-plaintext highlighter-rouge">DebtInstrumentFairValue</code>, <code class="language-plaintext highlighter-rouge">DefinedContributionPlanCostRecognized</code>, <code class="language-plaintext highlighter-rouge">InterestExpenseDebt</code>, <code class="language-plaintext highlighter-rouge">LossContingencyPendingClaimsNumber</code>, <code class="language-plaintext highlighter-rouge">PaymentsToAcquireBusinessesNetOfCashAcquired</code>, <code class="language-plaintext highlighter-rouge">BusinessAcquisitionEquityInterestsIssuedOrIssuableNumberOfSharesIssued</code>, <code class="language-plaintext highlighter-rouge">GoodwillImpairmentLoss</code>, <code class="language-plaintext highlighter-rouge">LineOfCredit</code>, <code class="language-plaintext highlighter-rouge">AmortizationOfFinancingCosts</code>, <code class="language-plaintext highlighter-rouge">EquityMethodInvestments</code>, <code class="language-plaintext highlighter-rouge">LineOfCreditFacilityCommitmentFeePercentage</code>, <code class="language-plaintext highlighter-rouge">LongTermDebt</code>, <code class="language-plaintext highlighter-rouge">LineOfCreditFacilityMaximumBorrowingCapacity</code>, <code class="language-plaintext highlighter-rouge">OperatingLeaseLiability</code></p>
+
+<p class="btn-box"><a href="https://demo.johnsnowlabs.com/finance/FINNER_10Q_XLBR" class="button button-orange">Live Demo</a>
+<button class="button button-orange" disabled="">Open in Colab</button>
+<a href="https://s3.amazonaws.com/auxdata.johnsnowlabs.com/finance/models/finner_10q_xlbr_en_1.0.0_3.0_1669977147020.zip" class="button button-orange button-orange-trans arr button-icon">Download</a></p>
 
 <h2 id="how-to-use">How to use</h2>
 
@@ -851,63 +855,84 @@
   <div class="top_tab_li">   
     <p><button data-type="python" class="tab-li code-selector-active python-button">Python</button><button data-type="scala" class="tab-li code-selector-un-active scala-button">Scala</button><button data-type="nlu" class="tab-li code-selector-un-active nlu-button">NLU</button></p>
 </div>
-  <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">sparknlp</span>
-<span class="kn">from</span> <span class="nn">sparknlp.base</span> <span class="kn">import</span> <span class="o">*</span>
-<span class="kn">from</span> <span class="nn">sparknlp.annotator</span> <span class="kn">import</span> <span class="o">*</span>
+  <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+<span class="n">documentAssembler</span> <span class="o">=</span> <span class="n">nlp</span><span class="p">.</span><span class="n">DocumentAssembler</span><span class="p">()</span> \
+   <span class="p">.</span><span class="n">setInputCol</span><span class="p">(</span><span class="s">"text"</span><span class="p">)</span> \
+   <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"document"</span><span class="p">)</span>
 
-<span class="n">spark</span> <span class="o">=</span> <span class="n">sparknlp</span><span class="p">.</span><span class="n">start</span><span class="p">()</span>
+<span class="n">sentence</span> <span class="o">=</span> <span class="n">nlp</span><span class="p">.</span><span class="n">SentenceDetector</span><span class="p">()</span> \
+   <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"document"</span><span class="p">])</span> \
+   <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"sentence"</span><span class="p">)</span> 
 
-<span class="n">documentAssembler</span> <span class="o">=</span> <span class="n">DocumentAssembler</span><span class="p">()</span> \
-<span class="p">.</span><span class="n">setInputCol</span><span class="p">(</span><span class="s">"text"</span><span class="p">)</span> \
-<span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"documents"</span><span class="p">)</span>
+<span class="n">tokenizer</span> <span class="o">=</span> <span class="n">nlp</span><span class="p">.</span><span class="n">Tokenizer</span><span class="p">()</span>\
+    <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"sentence"</span><span class="p">])</span>\
+    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"token"</span><span class="p">)</span>\
+    <span class="p">.</span><span class="n">setContextChars</span><span class="p">([</span><span class="s">'.'</span><span class="p">,</span> <span class="s">','</span><span class="p">,</span> <span class="s">';'</span><span class="p">,</span> <span class="s">':'</span><span class="p">,</span> <span class="s">'!'</span><span class="p">,</span> <span class="s">'?'</span><span class="p">,</span> <span class="s">'*'</span><span class="p">,</span> <span class="s">'-'</span><span class="p">,</span> <span class="s">'('</span><span class="p">,</span> <span class="s">')'</span><span class="p">,</span> <span class="s">'”'</span><span class="p">,</span> <span class="s">'’'</span><span class="p">,</span> <span class="s">'$'</span><span class="p">,</span><span class="s">'€'</span><span class="p">])</span>
 
-<span class="n">t5</span> <span class="o">=</span> <span class="n">T5Transformer</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"t5_grammar_error_corrector"</span><span class="p">)</span> \
-<span class="p">.</span><span class="n">setTask</span><span class="p">(</span><span class="s">"gec:"</span><span class="p">)</span> \
-<span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"documents"</span><span class="p">])</span> \
-<span class="p">.</span><span class="n">setMaxOutputLength</span><span class="p">(</span><span class="mi">200</span><span class="p">)</span> \
-<span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"corrections"</span><span class="p">)</span>
+<span class="n">embeddings</span> <span class="o">=</span> <span class="n">nlp</span><span class="p">.</span><span class="n">BertEmbeddings</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"bert_embeddings_sec_bert_base"</span><span class="p">,</span><span class="s">"en"</span><span class="p">)</span> \
+  <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"document"</span><span class="p">,</span> <span class="s">"token"</span><span class="p">])</span> \
+  <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"embeddings"</span><span class="p">)</span>\
+  <span class="p">.</span><span class="n">setMaxSentenceLength</span><span class="p">(</span><span class="mi">512</span><span class="p">)</span>
 
-<span class="n">pipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">().</span><span class="n">setStages</span><span class="p">([</span><span class="n">documentAssembler</span><span class="p">,</span> <span class="n">t5</span><span class="p">])</span>
+<span class="n">nerTagger</span> <span class="o">=</span> <span class="n">finance</span><span class="p">.</span><span class="n">NerModel</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">'finner_10q_xlbr'</span><span class="p">,</span> <span class="s">'en'</span><span class="p">,</span> <span class="s">'finance/models'</span><span class="p">)</span>\
+   <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"sentence"</span><span class="p">,</span> <span class="s">"token"</span><span class="p">,</span> <span class="s">"embeddings"</span><span class="p">])</span>\
+   <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"ner"</span><span class="p">)</span>
+              
+<span class="n">pipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">(</span><span class="n">stages</span><span class="o">=</span><span class="p">[</span><span class="n">documentAssembler</span><span class="p">,</span>
+                            <span class="n">sentence</span><span class="p">,</span>
+                            <span class="n">tokenizer</span><span class="p">,</span>
+                            <span class="n">embeddings</span><span class="p">,</span>
+                            <span class="n">ner_model</span>
+                                <span class="p">])</span>
+<span class="n">text</span> <span class="o">=</span> <span class="s">"""Common Stock The authorized capital of the Company is 200,000,000 common shares , par value $ 0.001 , of which 12,481,724 are issued or outstanding ."""</span>
 
-<span class="n">data</span> <span class="o">=</span> <span class="n">spark</span><span class="p">.</span><span class="n">createDataFrame</span><span class="p">([[</span><span class="s">"He are moving here."</span><span class="p">]]).</span><span class="n">toDF</span><span class="p">(</span><span class="s">"text"</span><span class="p">)</span>
-<span class="n">result</span> <span class="o">=</span> <span class="n">pipeline</span><span class="p">.</span><span class="n">fit</span><span class="p">(</span><span class="n">data</span><span class="p">).</span><span class="n">transform</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
-<span class="n">result</span><span class="p">.</span><span class="n">select</span><span class="p">(</span><span class="s">"corrections.result"</span><span class="p">).</span><span class="n">show</span><span class="p">(</span><span class="n">truncate</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">spark</span><span class="p">.</span><span class="n">createDataFrame</span><span class="p">([[</span><span class="n">text</span><span class="p">]]).</span><span class="n">toDF</span><span class="p">(</span><span class="s">"text"</span><span class="p">)</span>
+<span class="n">fit</span> <span class="o">=</span> <span class="n">pipeline</span><span class="p">.</span><span class="n">fit</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
+
+<span class="n">result</span> <span class="o">=</span> <span class="n">fit</span><span class="p">.</span><span class="n">transform</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
+
+<span class="n">result_df</span> <span class="o">=</span> <span class="n">result</span><span class="p">.</span><span class="n">select</span><span class="p">(</span><span class="n">F</span><span class="p">.</span><span class="n">explode</span><span class="p">(</span><span class="n">F</span><span class="p">.</span><span class="n">arrays_zip</span><span class="p">(</span><span class="n">result</span><span class="p">.</span><span class="n">token</span><span class="p">.</span><span class="n">result</span><span class="p">,</span><span class="n">result</span><span class="p">.</span><span class="n">ner</span><span class="p">.</span><span class="n">result</span><span class="p">,</span> <span class="n">result</span><span class="p">.</span><span class="n">ner</span><span class="p">.</span><span class="n">metadata</span><span class="p">)).</span><span class="n">alias</span><span class="p">(</span><span class="s">"cols"</span><span class="p">))</span>\
+                  <span class="p">.</span><span class="n">select</span><span class="p">(</span><span class="n">F</span><span class="p">.</span><span class="n">expr</span><span class="p">(</span><span class="s">"cols['0']"</span><span class="p">).</span><span class="n">alias</span><span class="p">(</span><span class="s">"token"</span><span class="p">),</span>
+                          <span class="n">F</span><span class="p">.</span><span class="n">expr</span><span class="p">(</span><span class="s">"cols['1']"</span><span class="p">).</span><span class="n">alias</span><span class="p">(</span><span class="s">"ner_label"</span><span class="p">),</span>
+                          <span class="n">F</span><span class="p">.</span><span class="n">expr</span><span class="p">(</span><span class="s">"cols['2']['confidence']"</span><span class="p">).</span><span class="n">alias</span><span class="p">(</span><span class="s">"confidence"</span><span class="p">))</span>
+
+<span class="n">result_df</span><span class="p">.</span><span class="n">show</span><span class="p">(</span><span class="mi">50</span><span class="p">,</span> <span class="n">truncate</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
 </code></pre></div>  </div>
-  <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="nn">spark.implicits._</span>
-<span class="k">import</span> <span class="nn">com.johnsnowlabs.nlp.base.DocumentAssembler</span>
-<span class="k">import</span> <span class="nn">com.johnsnowlabs.nlp.annotators.seq2seq.T5Transformer</span>
-<span class="k">import</span> <span class="nn">org.apache.spark.ml.Pipeline</span>
 
-<span class="k">val</span> <span class="nv">documentAssembler</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">DocumentAssembler</span><span class="o">()</span>
-<span class="o">.</span><span class="py">setInputCol</span><span class="o">(</span><span class="s">"text"</span><span class="o">)</span>
-<span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"documents"</span><span class="o">)</span>
-
-<span class="k">val</span> <span class="nv">t5</span> <span class="k">=</span> <span class="nv">T5Transformer</span><span class="o">.</span><span class="py">pretrained</span><span class="o">(</span><span class="s">"t5_grammar_error_corrector"</span><span class="o">)</span>
-<span class="o">.</span><span class="py">setTask</span><span class="o">(</span><span class="s">"gec:"</span><span class="o">)</span>
-<span class="o">.</span><span class="py">setMaxOutputLength</span><span class="o">(</span><span class="mi">200</span><span class="o">)</span>
-<span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="s">"documents"</span><span class="o">)</span>
-<span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"corrections"</span><span class="o">)</span>
-
-<span class="k">val</span> <span class="nv">pipeline</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">Pipeline</span><span class="o">().</span><span class="py">setStages</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="n">documentAssembler</span><span class="o">,</span> <span class="n">t5</span><span class="o">))</span>
-
-<span class="k">val</span> <span class="nv">data</span> <span class="k">=</span> <span class="nc">Seq</span><span class="o">(</span><span class="s">"He are moving here."</span><span class="o">).</span><span class="py">toDF</span><span class="o">(</span><span class="s">"text"</span><span class="o">)</span>
-<span class="k">val</span> <span class="nv">result</span> <span class="k">=</span> <span class="nv">pipeline</span><span class="o">.</span><span class="py">fit</span><span class="o">(</span><span class="n">data</span><span class="o">).</span><span class="py">transform</span><span class="o">(</span><span class="n">data</span><span class="o">)</span>
-<span class="nv">result</span><span class="o">.</span><span class="py">select</span><span class="o">(</span><span class="s">"corrections.result"</span><span class="o">).</span><span class="py">show</span><span class="o">(</span><span class="kc">false</span><span class="o">)</span>
-</code></pre></div>  </div>
-
-  <div class="language-python nlu-block highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">nlu</span>
-<span class="n">nlu</span><span class="p">.</span><span class="n">load</span><span class="p">(</span><span class="s">"en.t5.grammar_error_corrector"</span><span class="p">).</span><span class="n">predict</span><span class="p">(</span><span class="s">"""He are moving here."""</span><span class="p">)</span>
-
-</code></pre></div>  </div>
 </div>
 
 <h2 id="results">Results</h2>
 
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>+--------------------+
-|result              |
-+--------------------+
-|[He is moving here.]|
-+--------------------+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>+-----------+-------------------------------------+----------+
+|      token|                            ner_label|confidence|
++-----------+-------------------------------------+----------+
+|     Common|                                    O|       1.0|
+|      Stock|                                    O|       1.0|
+|        The|                                    O|       1.0|
+| authorized|                                    O|       1.0|
+|    capital|                                    O|       1.0|
+|         of|                                    O|       1.0|
+|        the|                                    O|       1.0|
+|    Company|                                    O|       1.0|
+|         is|                                    O|       1.0|
+|200,000,000|        B-CommonStockSharesAuthorized|    0.9932|
+|     common|                                    O|       1.0|
+|     shares|                                    O|       1.0|
+|          ,|                                    O|       1.0|
+|        par|                                    O|       1.0|
+|      value|                                    O|       1.0|
+|          <span class="nv">$|</span>                                    O|       1.0|
+|      0.001|B-CommonStockParOrStatedValuePerShare|    0.9988|
+|          ,|                                    O|       1.0|
+|         of|                                    O|       1.0|
+|      which|                                    O|       1.0|
+| 12,481,724|       B-CommonStockSharesOutstanding|    0.9649|
+|        are|                                    O|       1.0|
+|     issued|                                    O|       1.0|
+|         or|                                    O|       1.0|
+|outstanding|                                    O|       1.0|
+|          .|                                    O|       1.0|
++-----------+-------------------------------------+----------+
 </code></pre></div></div>
 
 <h2 class="model-param" id="model-information">Model Information</h2>
@@ -916,15 +941,15 @@
   <tbody>
     <tr>
       <td>Model Name:</td>
-      <td>t5_grammar_error_corrector</td>
+      <td>finner_10q_xlbr</td>
     </tr>
     <tr>
       <td>Compatibility:</td>
-      <td>Spark NLP 4.0.0+</td>
+      <td>Finance NLP 1.0.0+</td>
     </tr>
     <tr>
       <td>License:</td>
-      <td>Open Source</td>
+      <td>Licensed</td>
     </tr>
     <tr>
       <td>Edition:</td>
@@ -932,11 +957,11 @@
     </tr>
     <tr>
       <td>Input Labels:</td>
-      <td>[documents]</td>
+      <td>[sentence, token, embeddings]</td>
     </tr>
     <tr>
       <td>Output Labels:</td>
-      <td>[t5]</td>
+      <td>[ner]</td>
     </tr>
     <tr>
       <td>Language:</td>
@@ -944,16 +969,22 @@
     </tr>
     <tr>
       <td>Size:</td>
-      <td>926.6 MB</td>
+      <td>17.0 MB</td>
     </tr>
   </tbody>
 </table>
 
 <h2 id="references">References</h2>
 
-<p>Model originally from the transformers library:
-https://huggingface.co/prithivida/grammar_error_correcter_v1</p>
-</div><div class="d-print-none"><footer class="article__footer"><meta itemprop="dateModified" content="2022-11-28T00:00:00+00:00"><!-- start custom article footer snippet -->
+<p>An in-house modified version of https://huggingface.co/datasets/nlpaueb/finer-139, re-splited and filtered to focus on sentences with bigger density of tags.</p>
+
+<h2 id="benchmarking">Benchmarking</h2>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>label         tp    fp     fn    prec       rec       f1
+Macro-average 53613 10309 10243 0.8324958  0.8049274 0.8184795
+Micro-average 53613 10309 10243 0.8387253  0.8395922 0.8391586
+</code></pre></div></div>
+</div><div class="d-print-none"><footer class="article__footer"><meta itemprop="dateModified" content="2022-12-02T00:00:00+00:00"><!-- start custom article footer snippet -->
 
 <!-- end custom article footer snippet --></footer>
 
@@ -1292,7 +1323,7 @@ hr.code-selector-underlie {
 
 }
 
-</style><div class="article__section-navigator clearfix"><div class="previous nav_link"><span>PREVIOUS</span><a href="/2022/11/26/longformer_legal_base_8192_es.html">Spanish Legal Longformer Embeddings (8192 tokens, from mrm8488)</a></div></div></div>
+</style><div class="article__section-navigator clearfix"><div class="previous nav_link"><span>PREVIOUS</span><a href="/2022/12/01/legner_whereas_md_en.html">Legal NER - Whereas Clauses (Md)</a></div></div></div>
 
 </div>
 </div>
