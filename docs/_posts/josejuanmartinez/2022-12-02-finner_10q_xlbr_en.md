@@ -46,9 +46,10 @@ sentence = nlp.SentenceDetector() \
    .setInputCols(["document"]) \
    .setOutputCol("sentence") 
 
-tokenizer = nlp.Tokenizer() \
-  .setInputCols("sentence") \
-  .setOutputCol("token")
+tokenizer = nlp.Tokenizer()\
+    .setInputCols(["sentence"])\
+    .setOutputCol("token")\
+    .setContextChars(['.', ',', ';', ':', '!', '?', '*', '-', '(', ')', '”', '’', '$','€'])
 
 embeddings = nlp.BertEmbeddings.pretrained("bert_embeddings_sec_bert_base","en") \
   .setInputCols(["document", "token"]) \
