@@ -63,7 +63,7 @@ nlpPipeline = nlp.Pipeline(stages=[
 
 df = spark.createDataFrame([["YOUR TEXT HERE"]]).toDF("clause_text")
 model = nlpPipeline.fit(df)
-    result = model.transform(df)
+result = model.transform(df)
 ```
 
 </div>
@@ -95,7 +95,7 @@ Legal documents, scrapped from the Internet, and classified in-house
                 other       0.97      1.00      0.99        34
 principal-underwriter       1.00      0.96      0.98        24
 
-             accuracy                           0.98        58
+             accuracy        -          -       0.98        58
             macro avg       0.99      0.98      0.98        58
          weighted avg       0.98      0.98      0.98        58
 
