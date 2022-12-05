@@ -2,6 +2,7 @@ import React from 'react';
 import Combobox from '../Combobox';
 import Radio from '../Radio/Radio';
 import RadioGroup from '../RadioGroup';
+import SidebarSelect from './SidebarSelect';
 import styles from './Sidebar.module.css';
 
 const Sidebar = ({ meta, params, onSubmit }) => {
@@ -54,12 +55,12 @@ const Sidebar = ({ meta, params, onSubmit }) => {
       </div>
 
       <div className={styles.control}>
-        <Combobox
+        <SidebarSelect
           label="Annotator class"
           items={annotators}
-          initialSelectedItems={params.annotators || []}
-          onChange={(values) => {
-            onSubmit({ annotator: values });
+          selectedItem={params.annotator}
+          onChange={(value) => {
+            onSubmit({ annotator: value });
           }}
         />
       </div>
