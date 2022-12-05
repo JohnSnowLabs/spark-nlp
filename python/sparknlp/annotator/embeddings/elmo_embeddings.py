@@ -141,6 +141,8 @@ class ElmoEmbeddings(AnnotatorModel,
 
     inputAnnotatorTypes = [AnnotatorType.DOCUMENT, AnnotatorType.TOKEN]
 
+    outputAnnotatorType = AnnotatorType.WORD_EMBEDDINGS
+
     batchSize = Param(Params._dummy(),
                       "batchSize",
                       "Batch size. Large values allows faster processing but requires more memory.",

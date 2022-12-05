@@ -99,6 +99,8 @@ class LanguageDetectorDL(AnnotatorModel, HasStorageRef, HasEngine):
 
     inputAnnotatorTypes = [AnnotatorType.DOCUMENT]
 
+    outputAnnotatorType = AnnotatorType.LANGUAGE
+
     def __init__(self, classname="com.johnsnowlabs.nlp.annotators.ld.dl.LanguageDetectorDL", java_model=None):
         super(LanguageDetectorDL, self).__init__(
             classname=classname,

@@ -80,6 +80,8 @@ class Normalizer(AnnotatorApproach):
     """
     inputAnnotatorTypes = [AnnotatorType.TOKEN]
 
+    outputAnnotatorType = AnnotatorType.TOKEN
+
     cleanupPatterns = Param(Params._dummy(),
                             "cleanupPatterns",
                             "normalization regex patterns which match will be removed from token",
@@ -203,6 +205,8 @@ class NormalizerModel(AnnotatorModel):
         whether to convert strings to lowercase
     """
     inputAnnotatorTypes = [AnnotatorType.TOKEN]
+
+    outputAnnotatorType = AnnotatorType.TOKEN
 
     cleanupPatterns = Param(Params._dummy(),
                             "cleanupPatterns",
