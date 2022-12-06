@@ -58,10 +58,12 @@ jobs:
       - name: Build Spark NLP on Apache Spark 3.3.0
         run: |
           brew install sbt
-          sbt -Dis_spark33=true -mem 4096 clean assemblyAndCopy
+          sbt -Dis_spark33=true clean
+          sbt -Dis_spark33=true compile
+          sbt -mem 4096 -Dis_spark33=true assemblyAndCopy
       - name: Test Spark NLP in Scala - Apache Spark 3.3.x
         run: |
-          sbt -mem 4096 test
+          sbt -mem 4096 -Dis_spark33=true test
       - name: Upload coverage data to Coveralls
         run: sbt coverageReport coveralls
         env:
@@ -99,7 +101,9 @@ jobs:
       - name: Build Spark NLP on Apache Spark 3.2.1
         run: |
           brew install sbt
-          sbt -mem 4096 clean assemblyAndCopy
+          sbt clean
+          sbt compile
+          sbt assemblyAndCopy
       - name: Test Spark NLP in Scala - Apache Spark 3.2.x
         run: |
           sbt -mem 4096 coverage test
@@ -135,10 +139,12 @@ jobs:
       - name: Build Spark NLP on Apache Spark 3.1.x
         run: |
           brew install sbt
-          sbt -Dis_spark31=true -mem 4096 clean assemblyAndCopy
+          sbt -Dis_spark31=true clean
+          sbt -Dis_spark31=true compile
+          sbt -mem 4096 -Dis_spark31=true assemblyAndCopy
       - name: Test Spark NLP in Scala - Apache Spark 3.1.x
         run: |
-          sbt -mem 4096 test
+          sbt -mem 4096 -Dis_spark31=true test
       - name: Test Spark NLP in Python - Apache Spark 3.1.x
         run: |
           cd python
@@ -171,10 +177,12 @@ jobs:
       - name: Build Spark NLP on Apache Spark 3.0.x
         run: |
           brew install sbt
-          sbt -Dis_spark30=true -mem 4096 clean assemblyAndCopy
+          sbt -Dis_spark30=true clean
+          sbt -Dis_spark30=true compile
+          sbt -mem 4096 -Dis_spark30=true assemblyAndCopy
       - name: Test Spark NLP in Scala - Apache Spark 3.0.x
         run: |
-          sbt -mem 4096 test
+          sbt -mem 4096 -Dis_spark30=true test
       - name: Test Spark NLP in Python - Apache Spark 3.0.x
         run: |
           cd python
