@@ -6,31 +6,32 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Index &#8212; Spark NLP 4.0.0 documentation</title>
-  <script>
+  
+  
+  
+  <script data-cfasync="false">
     document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
     document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
   </script>
   
   <!-- Loaded before other Sphinx assets -->
-  <link href="static/styles/theme.css?digest=1e1de1a1873e13ef5536" rel="stylesheet">
-<link href="static/styles/pydata-sphinx-theme.css?digest=1e1de1a1873e13ef5536" rel="stylesheet">
+  <link href="static/styles/theme.css?digest=796348d33e8b1d947c94" rel="stylesheet">
+<link href="static/styles/bootstrap.css?digest=796348d33e8b1d947c94" rel="stylesheet">
+<link href="static/styles/pydata-sphinx-theme.css?digest=796348d33e8b1d947c94" rel="stylesheet">
 
   
-  <link rel="stylesheet"
-    href="static/vendor/fontawesome/6.1.2/css/all.min.css">
-  <link rel="preload" as="font" type="font/woff2" crossorigin
-    href="static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2">
-  <link rel="preload" as="font" type="font/woff2" crossorigin
-    href="static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2">
-  <link rel="preload" as="font" type="font/woff2" crossorigin
-    href="static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2">
+  <link href="static/vendor/fontawesome/6.1.2/css/all.min.css?digest=796348d33e8b1d947c94" rel="stylesheet">
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2">
+<link rel="preload" as="font" type="font/woff2" crossorigin href="static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2">
+<link rel="preload" as="font" type="font/woff2" crossorigin href="static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2">
 
     <link rel="stylesheet" type="text/css" href="static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="static/graphviz.css" />
     <link rel="stylesheet" type="text/css" href="static/css/custom.css" />
   
   <!-- Pre-loaded scripts that we'll load fully later -->
-  <link rel="preload" as="script" href="static/scripts/pydata-sphinx-theme.js?digest=1e1de1a1873e13ef5536">
+  <link rel="preload" as="script" href="static/scripts/bootstrap.js?digest=796348d33e8b1d947c94">
+<link rel="preload" as="script" href="static/scripts/pydata-sphinx-theme.js?digest=796348d33e8b1d947c94">
 
     <script data-url_root="./" id="documentation_options" src="static/documentation_options.js"></script>
     <script src="static/jquery.js"></script>
@@ -49,6 +50,10 @@
   
   
   <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="180" data-default-mode="">
+
+  
+  
+  <a class="skip-link" href="#main-content">Skip to main content</a>
 
   
   <input type="checkbox" class="sidebar-toggle" name="__primary" id="__primary">
@@ -112,18 +117,18 @@
     </p>
     <ul id="navbar-main-elements" class="navbar-nav">
         
-                <li class="nav-item">
-                    <a class="nav-link" href="getting_started/index.html">
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="getting_started/index.html">
                         Getting Started
-                    </a>
-                </li>
+                      </a>
+                    </li>
                 
 
-                <li class="nav-item">
-                    <a class="nav-link" href="reference/index.html">
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="reference/index.html">
                         API Reference
-                    </a>
-                </li>
+                      </a>
+                    </li>
                 
     </ul>
 </nav>
@@ -132,19 +137,21 @@
     </div>
 
     <div id="navbar-end">
-      <div class="navbar-end-item navbar-end__search-button-container">
-        
-<button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" data-toggle="tooltip">
+      
+        <div class="navbar-end-item navbar-persistent--container">
+          
+<button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-toggle="tooltip">
   <i class="fa-solid fa-magnifying-glass"></i>
 </button>
-      </div>
+        </div>
+      
       
       <div class="navbar-end-item">
-        <span class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" data-toggle="tooltip">
-    <a class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></a>
-    <a class="theme-switch" data-mode="dark"><i class="fa-regular fa-moon"></i></a>
-    <a class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></a>
-</span>
+        <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-toggle="tooltip">
+    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
+    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
+    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
+</button>
       </div>
       
       <div class="navbar-end-item">
@@ -157,11 +164,13 @@
 
 
   
-  <div class="search-button-container--mobile">
-<button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" data-toggle="tooltip">
+  
+    <div class="navbar-persistent--mobile">
+<button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-toggle="tooltip">
   <i class="fa-solid fa-magnifying-glass"></i>
 </button>
-  </div>
+    </div>
+  
 
   
   <label class="sidebar-toggle secondary-toggle" for="__secondary">
@@ -191,18 +200,18 @@
     </p>
     <ul id="navbar-main-elements" class="navbar-nav">
         
-                <li class="nav-item">
-                    <a class="nav-link" href="getting_started/index.html">
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="getting_started/index.html">
                         Getting Started
-                    </a>
-                </li>
+                      </a>
+                    </li>
                 
 
-                <li class="nav-item">
-                    <a class="nav-link" href="reference/index.html">
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="reference/index.html">
                         API Reference
-                    </a>
-                </li>
+                      </a>
+                    </li>
                 
     </ul>
 </nav>
@@ -216,11 +225,11 @@
     <div class="sidebar-header-items__end">
       
       <div class="navbar-end-item">
-        <span class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" data-toggle="tooltip">
-    <a class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></a>
-    <a class="theme-switch" data-mode="dark"><i class="fa-regular fa-moon"></i></a>
-    <a class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></a>
-</span>
+        <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-toggle="tooltip">
+    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
+    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
+    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
+</button>
       </div>
       
       <div class="navbar-end-item">
@@ -240,8 +249,11 @@
     </div>
   </div>
 
+  
+  <div id="rtd-footer-container"></div>
+
       </div>
-      <main class="bd-main">
+      <main id="main-content" class="bd-main">
         
         
         <div class="bd-content">
@@ -343,21 +355,25 @@
         <li><a href="reference/autosummary/sparknlp_jsl/annotator/chunker/chunkmapper/index.html#sparknlp_jsl.annotator.chunker.chunkmapper.ChunkMapperModel.allowMultiTokenChunk">(ChunkMapperModel attribute)</a>
 </li>
       </ul></li>
+      <li><a href="reference/autosummary/sparknlp_jsl/annotator/source_tracking_metadata_params/index.html#sparknlp_jsl.annotator.source_tracking_metadata_params.SourceTrackingMetadataParams.allPossibleFieldsToStandardize">allPossibleFieldsToStandardize (SourceTrackingMetadataParams attribute)</a>
+</li>
       <li><a href="reference/autosummary/sparknlp_jsl/nlp_test/robustness/robustness_testing/index.html#sparknlp_jsl.nlp_test.robustness.robustness_testing.american_to_british">american_to_british() (in module sparknlp_jsl.nlp_test.robustness.robustness_testing)</a>
 </li>
       <li><a href="reference/autosummary/sparknlp_jsl/annotator/normalizer/date_normalizer/index.html#sparknlp_jsl.annotator.normalizer.date_normalizer.DateNormalizer.anchorDateDay">anchorDateDay (DateNormalizer attribute)</a>
 </li>
       <li><a href="reference/autosummary/sparknlp_jsl/annotator/normalizer/date_normalizer/index.html#sparknlp_jsl.annotator.normalizer.date_normalizer.DateNormalizer.anchorDateMonth">anchorDateMonth (DateNormalizer attribute)</a>
 </li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="reference/autosummary/sparknlp_jsl/annotator/normalizer/date_normalizer/index.html#sparknlp_jsl.annotator.normalizer.date_normalizer.DateNormalizer.anchorDateYear">anchorDateYear (DateNormalizer attribute)</a>
 </li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="reference/autosummary/sparknlp_jsl/alab/index.html#sparknlp_jsl.alab.AnnotationLab">AnnotationLab (class in sparknlp_jsl.alab)</a>
 </li>
       <li><a href="reference/autosummary/sparknlp_jsl/annotator/annotation_merger/index.html#sparknlp_jsl.annotator.annotation_merger.AnnotationMerger">AnnotationMerger (class in sparknlp_jsl.annotator.annotation_merger)</a>
 </li>
       <li><a href="reference/autosummary/sparknlp_jsl/training/index.html#sparknlp_jsl.training.AnnotationToolJsonReader">AnnotationToolJsonReader (class in sparknlp_jsl.training)</a>
+</li>
+      <li><a href="reference/autosummary/sparknlp_jsl/index.html#sparknlp_jsl.annotator">annotator (in module sparknlp_jsl)</a>
 </li>
       <li><a href="reference/autosummary/sparknlp_jsl/index.html#sparknlp_jsl.annotators">annotators (in module sparknlp_jsl)</a>
 </li>
@@ -366,6 +382,8 @@
       <li><a href="reference/autosummary/sparknlp_jsl/nlp_test/noisy_labels/noisy_label_fixing/index.html#sparknlp_jsl.nlp_test.noisy_labels.noisy_label_fixing.apply_label_fixes">apply_label_fixes() (in module sparknlp_jsl.nlp_test.noisy_labels.noisy_label_fixing)</a>
 </li>
       <li><a href="reference/autosummary/sparknlp_jsl/annotator/index.html#id2">assertion (in module sparknlp_jsl.annotator)</a>, <a href="reference/autosummary/sparknlp_jsl/annotator/index.html#sparknlp_jsl.annotator.assertion">[1]</a>
+</li>
+      <li><a href="reference/autosummary/sparknlp_jsl/utils/licensed_annotator_type/index.html#sparknlp_jsl.utils.licensed_annotator_type.InternalAnnotatorType.ASSERTION">ASSERTION (InternalAnnotatorType attribute)</a>
 </li>
       <li><a href="reference/autosummary/sparknlp_jsl/annotator/assertion/assertionDL/index.html#sparknlp_jsl.annotator.assertion.assertionDL.AssertionDLApproach">AssertionDLApproach (class in sparknlp_jsl.annotator.assertion.assertionDL)</a>
 
@@ -456,23 +474,17 @@
       <ul>
         <li><a href="reference/autosummary/sparknlp_jsl/annotator/chunker/chunker_filterer/index.html#sparknlp_jsl.annotator.chunker.chunker_filterer.ChunkFiltererApproach.blackList">(ChunkFiltererApproach attribute)</a>
 </li>
-        <li><a href="reference/autosummary/sparknlp_jsl/annotator/merge/chunker_merge/index.html#sparknlp_jsl.annotator.merge.chunker_merge.ChunkMergeApproach.blackList">(ChunkMergeApproach attribute)</a>
+        <li><a href="reference/autosummary/sparknlp_jsl/annotator/merge/chunk_merge/index.html#sparknlp_jsl.annotator.merge.chunk_merge.CommonChunkMergeParams.blackList">(CommonChunkMergeParams attribute)</a>
 </li>
-        <li><a href="reference/autosummary/sparknlp_jsl/annotator/merge/chunker_merge/index.html#sparknlp_jsl.annotator.merge.chunker_merge.ChunkMergeModel.blackList">(ChunkMergeModel attribute)</a>
+        <li><a href="reference/autosummary/sparknlp_jsl/annotator/ner/ner_converter_internal/index.html#sparknlp_jsl.annotator.ner.ner_converter_internal.CommonNerConverterInternalParams.blackList">(CommonNerConverterInternalParams attribute)</a>
 </li>
         <li><a href="reference/autosummary/sparknlp_jsl/annotator/deid/deIdentification/index.html#sparknlp_jsl.annotator.deid.deIdentification.DeIdentification.blackList">(DeIdentification attribute)</a>
 </li>
         <li><a href="reference/autosummary/sparknlp_jsl/annotator/deid/deIdentification/index.html#sparknlp_jsl.annotator.deid.deIdentification.DeIdentificationModel.blackList">(DeIdentificationModel attribute)</a>
 </li>
-        <li><a href="reference/autosummary/sparknlp_jsl/annotator/ner/ner_converter_internal/index.html#sparknlp_jsl.annotator.ner.ner_converter_internal.NerConverterInternal.blackList">(NerConverterInternal attribute)</a>
-</li>
-        <li><a href="reference/autosummary/sparknlp_jsl/annotator/ner/ner_converter_internal/index.html#sparknlp_jsl.annotator.ner.ner_converter_internal.NerConverterInternalModel.blackList">(NerConverterInternalModel attribute)</a>
-</li>
       </ul></li>
       <li><a href="reference/autosummary/sparknlp_jsl/nlp_test/robustness/robustness_testing/index.html#sparknlp_jsl.nlp_test.robustness.robustness_testing.british_to_american">british_to_american() (in module sparknlp_jsl.nlp_test.robustness.robustness_testing)</a>
 </li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="reference/autosummary/sparknlp_jsl/_tf_graph_builders/graph_builders/index.html#sparknlp_jsl._tf_graph_builders.graph_builders.AssertionTFGraphBuilder.build">build() (AssertionTFGraphBuilder method)</a>, <a href="reference/autosummary/sparknlp_jsl/_tf_graph_builders_1x/graph_builders/index.html#sparknlp_jsl._tf_graph_builders_1x.graph_builders.AssertionTFGraphBuilder.build">[1]</a>
 
       <ul>
@@ -511,6 +523,8 @@
         <li><a href="reference/autosummary/sparknlp_jsl/_tf_graph_builders/graph_builders/index.html#sparknlp_jsl._tf_graph_builders.graph_builders.TFGraphBuilderFactory.build">(TFGraphBuilderFactory static method)</a>, <a href="reference/autosummary/sparknlp_jsl/_tf_graph_builders_1x/graph_builders/index.html#sparknlp_jsl._tf_graph_builders_1x.graph_builders.TFGraphBuilderFactory.build">[1]</a>
 </li>
       </ul></li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="reference/autosummary/sparknlp_jsl/_tf_graph_builders/generic_classifier/build_model/index.html#sparknlp_jsl._tf_graph_builders.generic_classifier.build_model.build_params">build_params (in module sparknlp_jsl._tf_graph_builders.generic_classifier.build_model)</a>
 
       <ul>
@@ -629,16 +643,14 @@
         <li><a href="reference/autosummary/sparknlp_jsl/legal/chunk_classification/resolution/chunkmapper/index.html#sparknlp_jsl.legal.chunk_classification.resolution.chunkmapper.ChunkMapperModel">(class in sparknlp_jsl.legal.chunk_classification.resolution.chunkmapper)</a>
 </li>
       </ul></li>
-      <li><a href="reference/autosummary/sparknlp_jsl/annotator/merge/chunker_merge/index.html#sparknlp_jsl.annotator.merge.chunker_merge.ChunkMergeApproach">ChunkMergeApproach (class in sparknlp_jsl.annotator.merge.chunker_merge)</a>
+      <li><a href="reference/autosummary/sparknlp_jsl/annotator/merge/chunk_merge/index.html#sparknlp_jsl.annotator.merge.chunk_merge.ChunkMergeApproach">ChunkMergeApproach (class in sparknlp_jsl.annotator.merge.chunk_merge)</a>
 </li>
-      <li><a href="reference/autosummary/sparknlp_jsl/annotator/merge/chunker_merge/index.html#sparknlp_jsl.annotator.merge.chunker_merge.ChunkMergeModel">ChunkMergeModel (class in sparknlp_jsl.annotator.merge.chunker_merge)</a>
+      <li><a href="reference/autosummary/sparknlp_jsl/annotator/merge/chunk_merge/index.html#sparknlp_jsl.annotator.merge.chunk_merge.ChunkMergeModel">ChunkMergeModel (class in sparknlp_jsl.annotator.merge.chunk_merge)</a>
 </li>
-      <li><a href="reference/autosummary/sparknlp_jsl/annotator/merge/chunker_merge/index.html#sparknlp_jsl.annotator.merge.chunker_merge.ChunkMergeApproach.chunkPrecedence">chunkPrecedence (ChunkMergeApproach attribute)</a>
-
-      <ul>
-        <li><a href="reference/autosummary/sparknlp_jsl/annotator/merge/chunker_merge/index.html#sparknlp_jsl.annotator.merge.chunker_merge.ChunkMergeModel.chunkPrecedence">(ChunkMergeModel attribute)</a>
+      <li><a href="reference/autosummary/sparknlp_jsl/annotator/merge/chunk_merge/index.html#sparknlp_jsl.annotator.merge.chunk_merge.MergePriorizationParams.chunkPrecedence">chunkPrecedence (MergePriorizationParams attribute)</a>
 </li>
-      </ul></li>
+      <li><a href="reference/autosummary/sparknlp_jsl/annotator/merge/chunk_merge/index.html#sparknlp_jsl.annotator.merge.chunk_merge.MergePriorizationParams.chunkPrecedenceValuePrioritization">chunkPrecedenceValuePrioritization (MergePriorizationParams attribute)</a>
+</li>
       <li><a href="reference/autosummary/sparknlp_jsl/annotator/chunker/chunk_sentence_splitter/index.html#sparknlp_jsl.annotator.chunker.chunk_sentence_splitter.ChunkSentenceSplitter">ChunkSentenceSplitter (class in sparknlp_jsl.annotator.chunker.chunk_sentence_splitter)</a>
 </li>
       <li><a href="reference/autosummary/sparknlp_jsl/annotator/embeddings/bert_sentence_embeddings/index.html#sparknlp_jsl.annotator.embeddings.bert_sentence_embeddings.BertSentenceChunkEmbeddings.chunkWeight">chunkWeight (BertSentenceChunkEmbeddings attribute)</a>
@@ -655,14 +667,14 @@
         <li><a href="reference/autosummary/sparknlp_jsl/annotator/re/relation_extraction/index.html#sparknlp_jsl.annotator.re.relation_extraction.RelationExtractionModel.classes">(RelationExtractionModel attribute)</a>
 </li>
       </ul></li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="reference/autosummary/sparknlp_jsl/annotator/index.html#id6">classification (in module sparknlp_jsl.annotator)</a>, <a href="reference/autosummary/sparknlp_jsl/annotator/index.html#sparknlp_jsl.annotator.classification">[1]</a>
 </li>
       <li><a href="reference/autosummary/sparknlp_jsl/annotator/classification/document_log_classifier/index.html#sparknlp_jsl.annotator.classification.document_log_classifier.DocumentLogRegClassifierModel.classificationModel">classificationModel (DocumentLogRegClassifierModel attribute)</a>
 </li>
       <li><a href="reference/autosummary/sparknlp_jsl/annotator/classification/document_log_classifier/index.html#sparknlp_jsl.annotator.classification.document_log_classifier.DocumentLogRegClassifierApproach.classificationModelPath">classificationModelPath (DocumentLogRegClassifierApproach attribute)</a>
 </li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="reference/autosummary/sparknlp_jsl/_tf_graph_builders/ner_dl/ner_model/index.html#sparknlp_jsl._tf_graph_builders.ner_dl.ner_model.NerModel.close">close() (NerModel method)</a>, <a href="reference/autosummary/sparknlp_jsl/_tf_graph_builders_1x/ner_dl/ner_model/index.html#sparknlp_jsl._tf_graph_builders_1x.ner_dl.ner_model.NerModel.close">[1]</a>
 </li>
       <li><a href="reference/autosummary/sparknlp_jsl/annotator/classification/medical_bert_for_sequence_classification/index.html#sparknlp_jsl.annotator.classification.medical_bert_for_sequence_classification.MedicalBertForSequenceClassification.coalesceSentences">coalesceSentences (MedicalBertForSequenceClassification attribute)</a>
@@ -672,6 +684,18 @@
 </li>
       </ul></li>
       <li><a href="reference/autosummary/sparknlp_jsl/training/index.html#sparknlp_jsl.training.CodiEspReader">CodiEspReader (class in sparknlp_jsl.training)</a>
+</li>
+      <li><a href="reference/autosummary/sparknlp_jsl/utils/ocr_nlp_processor/index.html#sparknlp_jsl.utils.ocr_nlp_processor.colors">colors (in module sparknlp_jsl.utils.ocr_nlp_processor)</a>
+
+      <ul>
+        <li><a href="reference/autosummary/sparknlp_jsl/utils/ocr_utils/index.html#sparknlp_jsl.utils.ocr_utils.colors">(in module sparknlp_jsl.utils.ocr_utils)</a>
+</li>
+      </ul></li>
+      <li><a href="reference/autosummary/sparknlp_jsl/utils/ocr_utils/index.html#sparknlp_jsl.utils.ocr_utils.colors_rgb">colors_rgb (in module sparknlp_jsl.utils.ocr_utils)</a>
+</li>
+      <li><a href="reference/autosummary/sparknlp_jsl/annotator/merge/chunk_merge/index.html#sparknlp_jsl.annotator.merge.chunk_merge.CommonChunkMergeParams">CommonChunkMergeParams (class in sparknlp_jsl.annotator.merge.chunk_merge)</a>
+</li>
+      <li><a href="reference/autosummary/sparknlp_jsl/annotator/ner/ner_converter_internal/index.html#sparknlp_jsl.annotator.ner.ner_converter_internal.CommonNerConverterInternalParams">CommonNerConverterInternalParams (class in sparknlp_jsl.annotator.ner.ner_converter_internal)</a>
 </li>
       <li><a href="reference/autosummary/sparknlp_jsl/compatibility/index.html#sparknlp_jsl.compatibility.Compatibility">Compatibility (class in sparknlp_jsl.compatibility)</a>
 </li>
@@ -761,6 +785,8 @@
 </li>
       <li><a href="reference/autosummary/sparknlp_jsl/_tf_graph_builders/tf2contrib/rnn_cell/index.html#sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.CoupledInputForgetGateLSTMCell">CoupledInputForgetGateLSTMCell (class in sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell)</a>
 </li>
+      <li><a href="reference/autosummary/sparknlp_jsl/training/index.html#sparknlp_jsl.training.REDatasetHelper.create_annotation_column">create_annotation_column() (REDatasetHelper method)</a>
+</li>
       <li><a href="reference/autosummary/sparknlp_jsl/nlp_test/robustness/robustness_fixing/index.html#sparknlp_jsl.nlp_test.robustness.robustness_fixing.create_dataframe">create_dataframe() (in module sparknlp_jsl.nlp_test.robustness.robustness_fixing)</a>
 </li>
       <li><a href="reference/autosummary/sparknlp_jsl/_tf_graph_builders/ner_dl/create_graph/index.html#sparknlp_jsl._tf_graph_builders.ner_dl.create_graph.create_graph">create_graph() (in module sparknlp_jsl._tf_graph_builders.ner_dl.create_graph)</a>
@@ -841,6 +867,8 @@
       </ul></li>
       <li><a href="reference/autosummary/sparknlp_jsl/_tf_graph_builders/generic_classifier/settings/index.html#sparknlp_jsl._tf_graph_builders.generic_classifier.settings.Settings.DEFAULT_MODEL_NODE_NAMES">DEFAULT_MODEL_NODE_NAMES (Settings attribute)</a>, <a href="reference/autosummary/sparknlp_jsl/_tf_graph_builders_1x/generic_classifier/settings/index.html#sparknlp_jsl._tf_graph_builders_1x.generic_classifier.settings.Settings.DEFAULT_MODEL_NODE_NAMES">[1]</a>
 </li>
+      <li><a href="reference/autosummary/sparknlp_jsl/annotator/merge/chunk_merge/index.html#sparknlp_jsl.annotator.merge.chunk_merge.MergePriorizationParams.defaultConfidence">defaultConfidence (MergePriorizationParams attribute)</a>
+</li>
       <li><a href="reference/autosummary/sparknlp_jsl/annotator/chunker/chunk_sentence_splitter/index.html#sparknlp_jsl.annotator.chunker.chunk_sentence_splitter.ChunkSentenceSplitter.defaultEntity">defaultEntity (ChunkSentenceSplitter attribute)</a>
 </li>
       <li><a href="reference/autosummary/sparknlp_jsl/annotator/index.html#id7">deid (in module sparknlp_jsl.annotator)</a>, <a href="reference/autosummary/sparknlp_jsl/annotator/index.html#sparknlp_jsl.annotator.deid">[1]</a>
@@ -874,6 +902,8 @@
 </li>
       </ul></li>
       <li><a href="reference/autosummary/sparknlp_jsl/annotator/index.html#id8">disambiguation (in module sparknlp_jsl.annotator)</a>, <a href="reference/autosummary/sparknlp_jsl/annotator/index.html#sparknlp_jsl.annotator.disambiguation">[1]</a>
+</li>
+      <li><a href="reference/autosummary/sparknlp_jsl/utils/licensed_annotator_type/index.html#sparknlp_jsl.utils.licensed_annotator_type.InternalAnnotatorType.DISAMBIGUATION">DISAMBIGUATION (InternalAnnotatorType attribute)</a>
 </li>
       <li><a href="reference/autosummary/sparknlp_jsl/nlp_test/noisy_labels/noisy_label_fixing/index.html#sparknlp_jsl.nlp_test.noisy_labels.noisy_label_fixing.InteractiveFix.display">display() (InteractiveFix method)</a>
 </li>
@@ -949,10 +979,10 @@
       </ul></li>
       <li><a href="reference/autosummary/sparknlp_jsl/annotator/assertion/assertion_dl_reg/index.html#sparknlp_jsl.annotator.assertion.assertion_dl_reg.AssertionLogRegApproach.eNetParam">eNetParam (AssertionLogRegApproach attribute)</a>
 </li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="reference/autosummary/sparknlp_jsl/annotator/qa/qa_ner_generator/index.html#sparknlp_jsl.annotator.qa.qa_ner_generator.NerQuestionGenerator.entities1">entities1 (NerQuestionGenerator attribute)</a>
 </li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="reference/autosummary/sparknlp_jsl/annotator/qa/qa_ner_generator/index.html#sparknlp_jsl.annotator.qa.qa_ner_generator.NerQuestionGenerator.entities2">entities2 (NerQuestionGenerator attribute)</a>
 </li>
       <li><a href="reference/autosummary/sparknlp_jsl/annotator/chunker/assertion_filterer/index.html#sparknlp_jsl.annotator.chunker.assertion_filterer.AssertionFilterer.entitiesConfidence">entitiesConfidence (AssertionFilterer attribute)</a>
@@ -970,6 +1000,10 @@
       <li><a href="reference/autosummary/sparknlp_jsl/annotator/generic_classifier/generic_classifier/index.html#sparknlp_jsl.annotator.generic_classifier.generic_classifier.GenericClassifierApproach.epochsN">epochsN (GenericClassifierApproach attribute)</a>
 </li>
       <li><a href="reference/autosummary/sparknlp_jsl/_tf_graph_builders/generic_classifier/settings/index.html#sparknlp_jsl._tf_graph_builders.generic_classifier.settings.RUN_TYPES.EVALUATE">EVALUATE (RUN_TYPES attribute)</a>, <a href="reference/autosummary/sparknlp_jsl/_tf_graph_builders_1x/generic_classifier/settings/index.html#sparknlp_jsl._tf_graph_builders_1x.generic_classifier.settings.RUN_TYPES.EVALUATE">[1]</a>
+</li>
+      <li><a href="reference/autosummary/sparknlp_jsl/utils/ner_utils/index.html#sparknlp_jsl.utils.ner_utils.evaluate">evaluate() (in module sparknlp_jsl.utils.ner_utils)</a>
+</li>
+      <li><a href="reference/autosummary/sparknlp_jsl/utils/ner_utils/index.html#sparknlp_jsl.utils.ner_utils.evaluate_conll_file">evaluate_conll_file() (in module sparknlp_jsl.utils.ner_utils)</a>
 </li>
       <li><a href="reference/autosummary/sparknlp_jsl/annotator/assertion/assertionDL/index.html#sparknlp_jsl.annotator.assertion.assertionDL.AssertionDLApproach.evaluationLogExtended">evaluationLogExtended (AssertionDLApproach attribute)</a>
 </li>
@@ -991,9 +1025,11 @@
 </li>
       <li><a href="reference/autosummary/sparknlp_jsl/annotator/doc2_chunk_internal/index.html#sparknlp_jsl.annotator.doc2_chunk_internal.Doc2ChunkInternal.failOnMissing">failOnMissing (Doc2ChunkInternal attribute)</a>
 </li>
-      <li><a href="reference/autosummary/sparknlp_jsl/annotator/merge/chunker_merge/index.html#sparknlp_jsl.annotator.merge.chunker_merge.ChunkMergeModel.falsePositives">falsePositives (ChunkMergeModel attribute)</a>
+      <li><a href="reference/autosummary/sparknlp_jsl/annotator/merge/chunk_merge/index.html#sparknlp_jsl.annotator.merge.chunk_merge.ChunkMergeModel.falsePositives">falsePositives (ChunkMergeModel attribute)</a>
 </li>
-      <li><a href="reference/autosummary/sparknlp_jsl/annotator/merge/chunker_merge/index.html#sparknlp_jsl.annotator.merge.chunker_merge.ChunkMergeApproach.falsePositivesResource">falsePositivesResource (ChunkMergeApproach attribute)</a>
+      <li><a href="reference/autosummary/sparknlp_jsl/annotator/merge/chunk_merge/index.html#sparknlp_jsl.annotator.merge.chunk_merge.ChunkMergeApproach.falsePositivesResource">falsePositivesResource (ChunkMergeApproach attribute)</a>
+</li>
+      <li><a href="reference/autosummary/sparknlp_jsl/utils/licensed_annotator_type/index.html#sparknlp_jsl.utils.licensed_annotator_type.InternalAnnotatorType.FEATURE_VECTOR">FEATURE_VECTOR (InternalAnnotatorType attribute)</a>
 </li>
       <li><a href="reference/autosummary/sparknlp_jsl/base/index.html#sparknlp_jsl.base.FeaturesAssembler">FeaturesAssembler (class in sparknlp_jsl.base)</a>
 </li>
@@ -1027,10 +1063,10 @@
 </li>
       <li><a href="reference/autosummary/sparknlp_jsl/finance/sequence_classification/finance_classifier_dl/index.html#sparknlp_jsl.finance.sequence_classification.finance_classifier_dl.FinanceClassifierDLApproach">FinanceClassifierDLApproach (class in sparknlp_jsl.finance.sequence_classification.finance_classifier_dl)</a>
 </li>
-      <li><a href="reference/autosummary/sparknlp_jsl/finance/sequence_classification/finance_classifier_dl/index.html#sparknlp_jsl.finance.sequence_classification.finance_classifier_dl.FinanceClassifierDLModel">FinanceClassifierDLModel (class in sparknlp_jsl.finance.sequence_classification.finance_classifier_dl)</a>
-</li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="reference/autosummary/sparknlp_jsl/finance/sequence_classification/finance_classifier_dl/index.html#sparknlp_jsl.finance.sequence_classification.finance_classifier_dl.FinanceClassifierDLModel">FinanceClassifierDLModel (class in sparknlp_jsl.finance.sequence_classification.finance_classifier_dl)</a>
+</li>
       <li><a href="reference/autosummary/sparknlp_jsl/finance/chunk_classification/deid/document_hashcoder/index.html#sparknlp_jsl.finance.chunk_classification.deid.document_hashcoder.FinanceDocumentHashCoder">FinanceDocumentHashCoder (class in sparknlp_jsl.finance.chunk_classification.deid.document_hashcoder)</a>
 </li>
       <li><a href="reference/autosummary/sparknlp_jsl/finance/token_classification/ner/finance_ner/index.html#sparknlp_jsl.finance.token_classification.ner.finance_ner.FinanceNerApproach">FinanceNerApproach (class in sparknlp_jsl.finance.token_classification.ner.finance_ner)</a>
@@ -1131,6 +1167,8 @@
 </li>
       <li><a href="reference/autosummary/sparknlp_jsl/_tf_graph_builders/ner_dl/dataset_encoder/index.html#sparknlp_jsl._tf_graph_builders.ner_dl.dataset_encoder.DatasetEncoder.get_char_indexes">get_char_indexes() (DatasetEncoder method)</a>, <a href="reference/autosummary/sparknlp_jsl/_tf_graph_builders_1x/ner_dl/dataset_encoder/index.html#sparknlp_jsl._tf_graph_builders_1x.ner_dl.dataset_encoder.DatasetEncoder.get_char_indexes">[1]</a>
 </li>
+      <li><a href="reference/autosummary/sparknlp_jsl/utils/ner_utils/index.html#sparknlp_jsl.utils.ner_utils.get_charts">get_charts() (in module sparknlp_jsl.utils.ner_utils)</a>
+</li>
       <li><a href="reference/autosummary/sparknlp_jsl/nlp_test/noisy_labels/noisy_label_fixing/index.html#sparknlp_jsl.nlp_test.noisy_labels.noisy_label_fixing.InteractiveFix.get_classes">get_classes() (InteractiveFix method)</a>
 </li>
       <li><a href="reference/autosummary/sparknlp_jsl/alab/index.html#sparknlp_jsl.alab.AnnotationLab.get_classification_data">get_classification_data() (AnnotationLab method)</a>
@@ -1205,10 +1243,10 @@
 </li>
       <li><a href="reference/autosummary/sparknlp_jsl/utils/alab_utils/index.html#sparknlp_jsl.utils.alab_utils.get_ner_sentence_borders">get_ner_sentence_borders() (in module sparknlp_jsl.utils.alab_utils)</a>
 </li>
-      <li><a href="reference/autosummary/sparknlp_jsl/utils/alab_utils/index.html#sparknlp_jsl.utils.alab_utils.get_nlp_pos_pipeline">get_nlp_pos_pipeline() (in module sparknlp_jsl.utils.alab_utils)</a>
-</li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="reference/autosummary/sparknlp_jsl/utils/alab_utils/index.html#sparknlp_jsl.utils.alab_utils.get_nlp_pos_pipeline">get_nlp_pos_pipeline() (in module sparknlp_jsl.utils.alab_utils)</a>
+</li>
       <li><a href="reference/autosummary/sparknlp_jsl/utils/alab_utils/index.html#sparknlp_jsl.utils.alab_utils.get_nlp_regex_pos_pipeline">get_nlp_regex_pos_pipeline() (in module sparknlp_jsl.utils.alab_utils)</a>
 </li>
       <li><a href="reference/autosummary/sparknlp_jsl/utils/alab_utils/index.html#sparknlp_jsl.utils.alab_utils.get_nlp_regex_token_pipeline">get_nlp_regex_token_pipeline() (in module sparknlp_jsl.utils.alab_utils)</a>
@@ -1323,12 +1361,8 @@
         <li><a href="reference/autosummary/sparknlp_jsl/annotator/tf_graph_builder/index.html#sparknlp_jsl.annotator.tf_graph_builder.TFGraphBuilder.graphFolder">(TFGraphBuilder attribute)</a>
 </li>
       </ul></li>
-      <li><a href="reference/autosummary/sparknlp_jsl/annotator/ner/ner_converter_internal/index.html#sparknlp_jsl.annotator.ner.ner_converter_internal.NerConverterInternal.greedyMode">greedyMode (NerConverterInternal attribute)</a>
-
-      <ul>
-        <li><a href="reference/autosummary/sparknlp_jsl/annotator/ner/ner_converter_internal/index.html#sparknlp_jsl.annotator.ner.ner_converter_internal.NerConverterInternalModel.greedyMode">(NerConverterInternalModel attribute)</a>
+      <li><a href="reference/autosummary/sparknlp_jsl/annotator/ner/ner_converter_internal/index.html#sparknlp_jsl.annotator.ner.ner_converter_internal.CommonNerConverterInternalParams.greedyMode">greedyMode (CommonNerConverterInternalParams attribute)</a>
 </li>
-      </ul></li>
       <li><a href="reference/autosummary/sparknlp_jsl/_tf_graph_builders/tf2contrib/rnn_cell/index.html#sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.GridLSTMCell">GridLSTMCell (class in sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell)</a>
 </li>
       <li><a href="reference/autosummary/sparknlp_jsl/annotator/chunker/chunk_sentence_splitter/index.html#sparknlp_jsl.annotator.chunker.chunk_sentence_splitter.ChunkSentenceSplitter.groupBySentences">groupBySentences (ChunkSentenceSplitter attribute)</a>
@@ -1371,12 +1405,8 @@
         <li><a href="reference/autosummary/sparknlp_jsl/annotator/deid/deIdentification/index.html#sparknlp_jsl.annotator.deid.deIdentification.DeIdentificationModel.ignoreRegex">(DeIdentificationModel attribute)</a>
 </li>
       </ul></li>
-      <li><a href="reference/autosummary/sparknlp_jsl/annotator/ner/ner_converter_internal/index.html#sparknlp_jsl.annotator.ner.ner_converter_internal.NerConverterInternal.ignoreStopWords">ignoreStopWords (NerConverterInternal attribute)</a>
-
-      <ul>
-        <li><a href="reference/autosummary/sparknlp_jsl/annotator/ner/ner_converter_internal/index.html#sparknlp_jsl.annotator.ner.ner_converter_internal.NerConverterInternalModel.ignoreStopWords">(NerConverterInternalModel attribute)</a>
+      <li><a href="reference/autosummary/sparknlp_jsl/annotator/ner/ner_converter_internal/index.html#sparknlp_jsl.annotator.ner.ner_converter_internal.CommonNerConverterInternalParams.ignoreStopWords">ignoreStopWords (CommonNerConverterInternalParams attribute)</a>
 </li>
-      </ul></li>
       <li><a href="reference/autosummary/sparknlp_jsl/annotator/ner/medical_ner/index.html#sparknlp_jsl.annotator.ner.medical_ner.MedicalNerApproach.includeAllConfidenceScores">includeAllConfidenceScores (MedicalNerApproach attribute)</a>
 
       <ul>
@@ -1393,6 +1423,10 @@
         <li><a href="reference/autosummary/sparknlp_jsl/annotator/ner/medical_ner/index.html#sparknlp_jsl.annotator.ner.medical_ner.MedicalNerModel.includeConfidence">(MedicalNerModel attribute)</a>
 </li>
       </ul></li>
+      <li><a href="reference/autosummary/sparknlp_jsl/annotator/source_tracking_metadata_params/index.html#sparknlp_jsl.annotator.source_tracking_metadata_params.SourceTrackingMetadataParams.includeOutputColumn">includeOutputColumn (SourceTrackingMetadataParams attribute)</a>
+</li>
+      <li><a href="reference/autosummary/sparknlp_jsl/annotator/source_tracking_metadata_params/index.html#sparknlp_jsl.annotator.source_tracking_metadata_params.SourceTrackingMetadataParams.includeStandardField">includeStandardField (SourceTrackingMetadataParams attribute)</a>
+</li>
       <li><a href="reference/autosummary/sparknlp_jsl/_tf_graph_builders/tf2contrib/rnn_cell/index.html#sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.IndRNNCell">IndRNNCell (class in sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell)</a>
 </li>
       <li><a href="reference/autosummary/sparknlp_jsl/_tf_graph_builders/tf2contrib/rnn_cell/index.html#sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.IndyGRUCell">IndyGRUCell (class in sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell)</a>
@@ -1407,6 +1441,112 @@
 </li>
       <li><a href="reference/autosummary/sparknlp_jsl/_tf_graph_builders/ner_dl/ner_model/index.html#sparknlp_jsl._tf_graph_builders.ner_dl.ner_model.NerModel.init_variables">init_variables() (NerModel method)</a>, <a href="reference/autosummary/sparknlp_jsl/_tf_graph_builders_1x/ner_dl/ner_model/index.html#sparknlp_jsl._tf_graph_builders_1x.ner_dl.ner_model.NerModel.init_variables">[1]</a>
 </li>
+      <li><a href="reference/autosummary/sparknlp_jsl/annotator/assertion/assertionDL/index.html#sparknlp_jsl.annotator.assertion.assertionDL.AssertionDLApproach.inputAnnotatorTypes">inputAnnotatorTypes (AssertionDLApproach attribute)</a>
+
+      <ul>
+        <li><a href="reference/autosummary/sparknlp_jsl/annotator/assertion/assertionDL/index.html#sparknlp_jsl.annotator.assertion.assertionDL.AssertionDLModel.inputAnnotatorTypes">(AssertionDLModel attribute)</a>
+</li>
+        <li><a href="reference/autosummary/sparknlp_jsl/annotator/chunker/assertion_filterer/index.html#sparknlp_jsl.annotator.chunker.assertion_filterer.AssertionFilterer.inputAnnotatorTypes">(AssertionFilterer attribute)</a>
+</li>
+        <li><a href="reference/autosummary/sparknlp_jsl/annotator/assertion/assertion_dl_reg/index.html#sparknlp_jsl.annotator.assertion.assertion_dl_reg.AssertionLogRegApproach.inputAnnotatorTypes">(AssertionLogRegApproach attribute)</a>
+</li>
+        <li><a href="reference/autosummary/sparknlp_jsl/annotator/embeddings/average_embeddings/index.html#sparknlp_jsl.annotator.embeddings.average_embeddings.AverageEmbeddings.inputAnnotatorTypes">(AverageEmbeddings attribute)</a>
+</li>
+        <li><a href="reference/autosummary/sparknlp_jsl/annotator/embeddings/bert_sentence_embeddings/index.html#sparknlp_jsl.annotator.embeddings.bert_sentence_embeddings.BertSentenceChunkEmbeddings.inputAnnotatorTypes">(BertSentenceChunkEmbeddings attribute)</a>
+</li>
+        <li><a href="reference/autosummary/sparknlp_jsl/annotator/chunker/chunk_converter/index.html#sparknlp_jsl.annotator.chunker.chunk_converter.ChunkConverter.inputAnnotatorTypes">(ChunkConverter attribute)</a>
+</li>
+        <li><a href="reference/autosummary/sparknlp_jsl/annotator/chunker/chunker_filterer/index.html#sparknlp_jsl.annotator.chunker.chunker_filterer.ChunkFilterer.inputAnnotatorTypes">(ChunkFilterer attribute)</a>
+</li>
+        <li><a href="reference/autosummary/sparknlp_jsl/annotator/chunker/chunker_filterer/index.html#sparknlp_jsl.annotator.chunker.chunker_filterer.ChunkFiltererApproach.inputAnnotatorTypes">(ChunkFiltererApproach attribute)</a>
+</li>
+        <li><a href="reference/autosummary/sparknlp_jsl/annotator/chunker/chunk_key_phrase_extraction/index.html#sparknlp_jsl.annotator.chunker.chunk_key_phrase_extraction.ChunkKeyPhraseExtraction.inputAnnotatorTypes">(ChunkKeyPhraseExtraction attribute)</a>
+</li>
+        <li><a href="reference/autosummary/sparknlp_jsl/annotator/chunker/chunkmapper/index.html#sparknlp_jsl.annotator.chunker.chunkmapper.ChunkMapperApproach.inputAnnotatorTypes">(ChunkMapperApproach attribute)</a>
+</li>
+        <li><a href="reference/autosummary/sparknlp_jsl/annotator/chunker/chunkmapper_filterer/index.html#sparknlp_jsl.annotator.chunker.chunkmapper_filterer.ChunkMapperFilterer.inputAnnotatorTypes">(ChunkMapperFilterer attribute)</a>
+</li>
+        <li><a href="reference/autosummary/sparknlp_jsl/annotator/chunker/chunkmapper/index.html#sparknlp_jsl.annotator.chunker.chunkmapper.ChunkMapperModel.inputAnnotatorTypes">(ChunkMapperModel attribute)</a>
+</li>
+        <li><a href="reference/autosummary/sparknlp_jsl/annotator/chunker/chunk_sentence_splitter/index.html#sparknlp_jsl.annotator.chunker.chunk_sentence_splitter.ChunkSentenceSplitter.inputAnnotatorTypes">(ChunkSentenceSplitter attribute)</a>
+</li>
+        <li><a href="reference/autosummary/sparknlp_jsl/annotator/context/contextual_parser/index.html#sparknlp_jsl.annotator.context.contextual_parser.ContextualParserApproach.inputAnnotatorTypes">(ContextualParserApproach attribute)</a>
+</li>
+        <li><a href="reference/autosummary/sparknlp_jsl/annotator/context/contextual_parser/index.html#sparknlp_jsl.annotator.context.contextual_parser.ContextualParserModel.inputAnnotatorTypes">(ContextualParserModel attribute)</a>
+</li>
+        <li><a href="reference/autosummary/sparknlp_jsl/annotator/normalizer/date_normalizer/index.html#sparknlp_jsl.annotator.normalizer.date_normalizer.DateNormalizer.inputAnnotatorTypes">(DateNormalizer attribute)</a>
+</li>
+        <li><a href="reference/autosummary/sparknlp_jsl/annotator/deid/deIdentification/index.html#sparknlp_jsl.annotator.deid.deIdentification.DeIdentification.inputAnnotatorTypes">(DeIdentification attribute)</a>
+</li>
+        <li><a href="reference/autosummary/sparknlp_jsl/annotator/deid/deIdentification/index.html#sparknlp_jsl.annotator.deid.deIdentification.DeIdentificationModel.inputAnnotatorTypes">(DeIdentificationModel attribute)</a>
+</li>
+        <li><a href="reference/autosummary/sparknlp_jsl/annotator/doc2_chunk_internal/index.html#sparknlp_jsl.annotator.doc2_chunk_internal.Doc2ChunkInternal.inputAnnotatorTypes">(Doc2ChunkInternal attribute)</a>
+</li>
+        <li><a href="reference/autosummary/sparknlp_jsl/annotator/deid/doccument_hashcoder/index.html#sparknlp_jsl.annotator.deid.doccument_hashcoder.DocumentHashCoder.inputAnnotatorTypes">(DocumentHashCoder attribute)</a>
+</li>
+        <li><a href="reference/autosummary/sparknlp_jsl/annotator/classification/document_log_classifier/index.html#sparknlp_jsl.annotator.classification.document_log_classifier.DocumentLogRegClassifierApproach.inputAnnotatorTypes">(DocumentLogRegClassifierApproach attribute)</a>
+</li>
+        <li><a href="reference/autosummary/sparknlp_jsl/annotator/normalizer/drug_normalizer/index.html#sparknlp_jsl.annotator.normalizer.drug_normalizer.DrugNormalizer.inputAnnotatorTypes">(DrugNormalizer attribute)</a>
+</li>
+        <li><a href="reference/autosummary/sparknlp_jsl/annotator/embeddings/entity_chunk_embeddings/index.html#sparknlp_jsl.annotator.embeddings.entity_chunk_embeddings.EntityChunkEmbeddings.inputAnnotatorTypes">(EntityChunkEmbeddings attribute)</a>
+</li>
+        <li><a href="reference/autosummary/sparknlp_jsl/annotator/generic_classifier/generic_classifier/index.html#sparknlp_jsl.annotator.generic_classifier.generic_classifier.GenericClassifierApproach.inputAnnotatorTypes">(GenericClassifierApproach attribute)</a>
+</li>
+        <li><a href="reference/autosummary/sparknlp_jsl/annotator/generic_classifier/generic_classifier/index.html#sparknlp_jsl.annotator.generic_classifier.generic_classifier.GenericClassifierModel.inputAnnotatorTypes">(GenericClassifierModel attribute)</a>
+</li>
+        <li><a href="reference/autosummary/sparknlp_jsl/annotator/ner/iob_tagger/index.html#sparknlp_jsl.annotator.ner.iob_tagger.IOBTagger.inputAnnotatorTypes">(IOBTagger attribute)</a>
+</li>
+        <li><a href="reference/autosummary/sparknlp_jsl/annotator/classification/medical_bert_for_sequence_classification/index.html#sparknlp_jsl.annotator.classification.medical_bert_for_sequence_classification.MedicalBertForSequenceClassification.inputAnnotatorTypes">(MedicalBertForSequenceClassification attribute)</a>
+</li>
+        <li><a href="reference/autosummary/sparknlp_jsl/annotator/classification/medical_bert_for_token_classifier/index.html#sparknlp_jsl.annotator.classification.medical_bert_for_token_classifier.MedicalBertForTokenClassifier.inputAnnotatorTypes">(MedicalBertForTokenClassifier attribute)</a>
+</li>
+        <li><a href="reference/autosummary/sparknlp_jsl/annotator/classification/medical_distilbert_for_sequence_classification/index.html#sparknlp_jsl.annotator.classification.medical_distilbert_for_sequence_classification.MedicalDistilBertForSequenceClassification.inputAnnotatorTypes">(MedicalDistilBertForSequenceClassification attribute)</a>
+</li>
+        <li><a href="reference/autosummary/sparknlp_jsl/annotator/ner/medical_ner/index.html#sparknlp_jsl.annotator.ner.medical_ner.MedicalNerApproach.inputAnnotatorTypes">(MedicalNerApproach attribute)</a>
+</li>
+        <li><a href="reference/autosummary/sparknlp_jsl/annotator/ner/medical_ner/index.html#sparknlp_jsl.annotator.ner.medical_ner.MedicalNerModel.inputAnnotatorTypes">(MedicalNerModel attribute)</a>
+</li>
+        <li><a href="reference/autosummary/sparknlp_jsl/annotator/deid/name_obfuscator/index.html#sparknlp_jsl.annotator.deid.name_obfuscator.NameChunkObfuscator.inputAnnotatorTypes">(NameChunkObfuscator attribute)</a>
+</li>
+        <li><a href="reference/autosummary/sparknlp_jsl/annotator/deid/name_obfuscator/index.html#sparknlp_jsl.annotator.deid.name_obfuscator.NameChunkObfuscatorApproach.inputAnnotatorTypes">(NameChunkObfuscatorApproach attribute)</a>
+</li>
+        <li><a href="reference/autosummary/sparknlp_jsl/annotator/ner/ner_chunker/index.html#sparknlp_jsl.annotator.ner.ner_chunker.NerChunker.inputAnnotatorTypes">(NerChunker attribute)</a>
+</li>
+        <li><a href="reference/autosummary/sparknlp_jsl/annotator/ner/ner_converter_internal/index.html#sparknlp_jsl.annotator.ner.ner_converter_internal.NerConverterInternal.inputAnnotatorTypes">(NerConverterInternal attribute)</a>
+</li>
+        <li><a href="reference/autosummary/sparknlp_jsl/annotator/ner/ner_converter_internal/index.html#sparknlp_jsl.annotator.ner.ner_converter_internal.NerConverterInternalModel.inputAnnotatorTypes">(NerConverterInternalModel attribute)</a>
+</li>
+        <li><a href="reference/autosummary/sparknlp_jsl/annotator/disambiguation/ner_disambiguator/index.html#sparknlp_jsl.annotator.disambiguation.ner_disambiguator.NerDisambiguator.inputAnnotatorTypes">(NerDisambiguator attribute)</a>
+</li>
+        <li><a href="reference/autosummary/sparknlp_jsl/annotator/disambiguation/ner_disambiguator/index.html#sparknlp_jsl.annotator.disambiguation.ner_disambiguator.NerDisambiguatorModel.inputAnnotatorTypes">(NerDisambiguatorModel attribute)</a>
+</li>
+        <li><a href="reference/autosummary/sparknlp_jsl/annotator/qa/qa_ner_generator/index.html#sparknlp_jsl.annotator.qa.qa_ner_generator.NerQuestionGenerator.inputAnnotatorTypes">(NerQuestionGenerator attribute)</a>
+</li>
+        <li><a href="reference/autosummary/sparknlp_jsl/annotator/deid/reIdentification/index.html#sparknlp_jsl.annotator.deid.reIdentification.ReIdentification.inputAnnotatorTypes">(ReIdentification attribute)</a>
+</li>
+        <li><a href="reference/autosummary/sparknlp_jsl/annotator/re/relation_extraction/index.html#sparknlp_jsl.annotator.re.relation_extraction.RelationExtractionApproach.inputAnnotatorTypes">(RelationExtractionApproach attribute)</a>
+</li>
+        <li><a href="reference/autosummary/sparknlp_jsl/annotator/re/relation_extraction_dl/index.html#sparknlp_jsl.annotator.re.relation_extraction_dl.RelationExtractionDLModel.inputAnnotatorTypes">(RelationExtractionDLModel attribute)</a>
+</li>
+        <li><a href="reference/autosummary/sparknlp_jsl/annotator/re/relation_extraction/index.html#sparknlp_jsl.annotator.re.relation_extraction.RelationExtractionModel.inputAnnotatorTypes">(RelationExtractionModel attribute)</a>
+</li>
+        <li><a href="reference/autosummary/sparknlp_jsl/annotator/re/relation_ner_chunk_filter/index.html#sparknlp_jsl.annotator.re.relation_ner_chunk_filter.RENerChunksFilter.inputAnnotatorTypes">(RENerChunksFilter attribute)</a>
+</li>
+        <li><a href="reference/autosummary/sparknlp_jsl/annotator/deid/replacer/index.html#sparknlp_jsl.annotator.deid.replacer.Replacer.inputAnnotatorTypes">(Replacer attribute)</a>
+</li>
+        <li><a href="reference/autosummary/sparknlp_jsl/annotator/resolution/resolver_merger/index.html#sparknlp_jsl.annotator.resolution.resolver_merger.ResolverMerger.inputAnnotatorTypes">(ResolverMerger attribute)</a>
+</li>
+        <li><a href="reference/autosummary/sparknlp_jsl/annotator/resolution/sentence_entity_resolver/index.html#sparknlp_jsl.annotator.resolution.sentence_entity_resolver.SentenceEntityResolverApproach.inputAnnotatorTypes">(SentenceEntityResolverApproach attribute)</a>
+</li>
+        <li><a href="reference/autosummary/sparknlp_jsl/annotator/resolution/sentence_entity_resolver/index.html#sparknlp_jsl.annotator.resolution.sentence_entity_resolver.SentenceEntityResolverModel.inputAnnotatorTypes">(SentenceEntityResolverModel attribute)</a>
+</li>
+        <li><a href="reference/autosummary/sparknlp_jsl/annotator/resolution/sentence_entity_resolver/index.html#sparknlp_jsl.annotator.resolution.sentence_entity_resolver.SentenceResolverParams.inputAnnotatorTypes">(SentenceResolverParams attribute)</a>
+</li>
+        <li><a href="reference/autosummary/sparknlp_jsl/annotator/ner/zero_shot_ner/index.html#sparknlp_jsl.annotator.ner.zero_shot_ner.ZeroShotNerModel.inputAnnotatorTypes">(ZeroShotNerModel attribute)</a>
+</li>
+        <li><a href="reference/autosummary/sparknlp_jsl/annotator/re/zero_shot_relation_extraction/index.html#sparknlp_jsl.annotator.re.zero_shot_relation_extraction.ZeroShotRelationExtractionModel.inputAnnotatorTypes">(ZeroShotRelationExtractionModel attribute)</a>
+</li>
+      </ul></li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="reference/autosummary/sparknlp_jsl/base/index.html#sparknlp_jsl.base.FeaturesAssembler.inputCols">inputCols (FeaturesAssembler attribute)</a>
@@ -1428,6 +1568,8 @@
       <li><a href="reference/autosummary/sparknlp_jsl/annotator/chunker/chunk_sentence_splitter/index.html#sparknlp_jsl.annotator.chunker.chunk_sentence_splitter.ChunkSentenceSplitter.insertChunk">insertChunk (ChunkSentenceSplitter attribute)</a>
 </li>
       <li><a href="reference/autosummary/sparknlp_jsl/nlp_test/noisy_labels/noisy_label_fixing/index.html#sparknlp_jsl.nlp_test.noisy_labels.noisy_label_fixing.InteractiveFix">InteractiveFix (class in sparknlp_jsl.nlp_test.noisy_labels.noisy_label_fixing)</a>
+</li>
+      <li><a href="reference/autosummary/sparknlp_jsl/utils/licensed_annotator_type/index.html#sparknlp_jsl.utils.licensed_annotator_type.InternalAnnotatorType">InternalAnnotatorType (class in sparknlp_jsl.utils.licensed_annotator_type)</a>
 </li>
       <li><a href="reference/autosummary/sparknlp_jsl/pretrained/index.html#sparknlp_jsl.pretrained.InternalResourceDownloader">InternalResourceDownloader (class in sparknlp_jsl.pretrained)</a>
 </li>
@@ -1472,6 +1614,10 @@
       <li><a href="reference/autosummary/sparknlp_jsl/annotator/index.html#id9">keyword (in module sparknlp_jsl.annotator)</a>, <a href="reference/autosummary/sparknlp_jsl/annotator/index.html#sparknlp_jsl.annotator.keyword">[1]</a>
 </li>
   </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="reference/autosummary/sparknlp_jsl/utils/licensed_annotator_type/index.html#sparknlp_jsl.utils.licensed_annotator_type.InternalAnnotatorType.KEYWORD">KEYWORD (InternalAnnotatorType attribute)</a>
+</li>
+  </ul></td>
 </tr></table>
 
 <h2 id="L">L</h2>
@@ -1483,6 +1629,10 @@
         <li><a href="reference/autosummary/sparknlp_jsl/annotator/assertion/assertion_dl_reg/index.html#sparknlp_jsl.annotator.assertion.assertion_dl_reg.AssertionLogRegApproach.label">(AssertionLogRegApproach attribute)</a>
 </li>
       </ul></li>
+      <li><a href="reference/autosummary/sparknlp_jsl/utils/ocr_utils/index.html#sparknlp_jsl.utils.ocr_utils.label2color">label2color (in module sparknlp_jsl.utils.ocr_utils)</a>
+</li>
+      <li><a href="reference/autosummary/sparknlp_jsl/utils/ocr_utils/index.html#sparknlp_jsl.utils.ocr_utils.label2rgb">label2rgb (in module sparknlp_jsl.utils.ocr_utils)</a>
+</li>
       <li><a href="reference/autosummary/sparknlp_jsl/annotator/ner/medical_ner/index.html#sparknlp_jsl.annotator.ner.medical_ner.MedicalNerModel.labelCasing">labelCasing (MedicalNerModel attribute)</a>
 </li>
       <li><a href="reference/autosummary/sparknlp_jsl/annotator/classification/document_log_classifier/index.html#sparknlp_jsl.annotator.classification.document_log_classifier.DocumentLogRegClassifierApproach.labelCol">labelCol (DocumentLogRegClassifierApproach attribute)</a>
@@ -1559,14 +1709,14 @@
       </ul></li>
       <li><a href="reference/autosummary/sparknlp_jsl/index.html#sparknlp_jsl.library_settings">library_settings() (in module sparknlp_jsl)</a>
 </li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="reference/autosummary/sparknlp_jsl/annotator/embeddings/bert_sentence_embeddings/index.html#sparknlp_jsl.annotator.embeddings.bert_sentence_embeddings.BertSentenceChunkEmbeddings.load">load() (BertSentenceChunkEmbeddings static method)</a>
 
       <ul>
         <li><a href="reference/autosummary/sparknlp_jsl/annotator/ner/zero_shot_ner/index.html#sparknlp_jsl.annotator.ner.zero_shot_ner.ZeroShotNerModel.load">(ZeroShotNerModel static method)</a>, <a href="reference/autosummary/sparknlp_jsl/finance/token_classification/ner/zero_shot_ner/index.html#sparknlp_jsl.finance.token_classification.ner.zero_shot_ner.ZeroShotNerModel.load">[1]</a>, <a href="reference/autosummary/sparknlp_jsl/legal/token_classification/ner/zero_shot_ner/index.html#sparknlp_jsl.legal.token_classification.ner.zero_shot_ner.ZeroShotNerModel.load">[2]</a>
 </li>
       </ul></li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="reference/autosummary/sparknlp_jsl/_tf_graph_builders/generic_classifier/basetfmodel/index.html#sparknlp_jsl._tf_graph_builders.generic_classifier.basetfmodel.BaseTFModel.load_graph">load_graph() (BaseTFModel method)</a>, <a href="reference/autosummary/sparknlp_jsl/_tf_graph_builders_1x/generic_classifier/basetfmodel/index.html#sparknlp_jsl._tf_graph_builders_1x.generic_classifier.basetfmodel.BaseTFModel.load_graph">[1]</a>
 </li>
       <li><a href="reference/autosummary/sparknlp_jsl/finance/sequence_classification/finance_bert_for_sequence_classification/index.html#sparknlp_jsl.finance.sequence_classification.finance_bert_for_sequence_classification.FinanceBertForSequenceClassification.loadSavedModel">loadSavedModel() (FinanceBertForSequenceClassification static method)</a>
@@ -1618,6 +1768,8 @@
       <li><a href="reference/autosummary/sparknlp_jsl/_tf_graph_builders/generic_classifier/settings/index.html#sparknlp_jsl._tf_graph_builders.generic_classifier.settings.Settings.LOGS_DIR">LOGS_DIR (Settings attribute)</a>, <a href="reference/autosummary/sparknlp_jsl/_tf_graph_builders_1x/generic_classifier/settings/index.html#sparknlp_jsl._tf_graph_builders_1x.generic_classifier.settings.Settings.LOGS_DIR">[1]</a>
 </li>
       <li><a href="reference/autosummary/sparknlp_jsl/_tf_graph_builders/generic_classifier/settings/index.html#sparknlp_jsl._tf_graph_builders.generic_classifier.settings.MODEL_TENSORS.LOSS">LOSS (MODEL_TENSORS attribute)</a>, <a href="reference/autosummary/sparknlp_jsl/_tf_graph_builders_1x/generic_classifier/settings/index.html#sparknlp_jsl._tf_graph_builders_1x.generic_classifier.settings.MODEL_TENSORS.LOSS">[1]</a>
+</li>
+      <li><a href="reference/autosummary/sparknlp_jsl/utils/ner_utils/index.html#sparknlp_jsl.utils.ner_utils.loss_plot">loss_plot() (in module sparknlp_jsl.utils.ner_utils)</a>
 </li>
       <li><a href="reference/autosummary/sparknlp_jsl/annotator/chunker/chunkmapper/index.html#sparknlp_jsl.annotator.chunker.chunkmapper.ChunkMapperApproach.lowerCase">lowerCase (ChunkMapperApproach attribute)</a>
 
@@ -1701,12 +1853,10 @@
 </li>
       <li><a href="reference/autosummary/sparknlp_jsl/annotator/classification/document_log_classifier/index.html#sparknlp_jsl.annotator.classification.document_log_classifier.DocumentLogRegClassifierModel.mergeChunks">mergeChunks (DocumentLogRegClassifierModel attribute)</a>
 </li>
-      <li><a href="reference/autosummary/sparknlp_jsl/annotator/merge/chunker_merge/index.html#sparknlp_jsl.annotator.merge.chunker_merge.ChunkMergeApproach.mergeOverlapping">mergeOverlapping (ChunkMergeApproach attribute)</a>
-
-      <ul>
-        <li><a href="reference/autosummary/sparknlp_jsl/annotator/merge/chunker_merge/index.html#sparknlp_jsl.annotator.merge.chunker_merge.ChunkMergeModel.mergeOverlapping">(ChunkMergeModel attribute)</a>
+      <li><a href="reference/autosummary/sparknlp_jsl/annotator/merge/chunk_merge/index.html#sparknlp_jsl.annotator.merge.chunk_merge.CommonChunkMergeParams.mergeOverlapping">mergeOverlapping (CommonChunkMergeParams attribute)</a>
 </li>
-      </ul></li>
+      <li><a href="reference/autosummary/sparknlp_jsl/annotator/merge/chunk_merge/index.html#sparknlp_jsl.annotator.merge.chunk_merge.MergePriorizationParams">MergePriorizationParams (class in sparknlp_jsl.annotator.merge.chunk_merge)</a>
+</li>
       <li><a href="reference/autosummary/sparknlp_jsl/annotator/router/index.html#sparknlp_jsl.annotator.router.Router.metadataField">metadataField (Router attribute)</a>
 </li>
       <li><a href="reference/autosummary/sparknlp_jsl/_tf_graph_builders/tf2contrib/rnn_cell/index.html#sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.MinimalRNNCell">MinimalRNNCell (class in sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell)</a>
@@ -1917,7 +2067,7 @@
 </li>
         <li><a href="reference/autosummary/sparknlp_jsl/annotator/merge/index.html#module-sparknlp_jsl.annotator.merge">sparknlp_jsl.annotator.merge</a>
 </li>
-        <li><a href="reference/autosummary/sparknlp_jsl/annotator/merge/chunker_merge/index.html#module-sparknlp_jsl.annotator.merge.chunker_merge">sparknlp_jsl.annotator.merge.chunker_merge</a>
+        <li><a href="reference/autosummary/sparknlp_jsl/annotator/merge/chunk_merge/index.html#module-sparknlp_jsl.annotator.merge.chunk_merge">sparknlp_jsl.annotator.merge.chunk_merge</a>
 </li>
         <li><a href="reference/autosummary/sparknlp_jsl/annotator/ner/index.html#module-sparknlp_jsl.annotator.ner">sparknlp_jsl.annotator.ner</a>
 </li>
@@ -1958,6 +2108,8 @@
         <li><a href="reference/autosummary/sparknlp_jsl/annotator/resolution/sentence_entity_resolver/index.html#module-sparknlp_jsl.annotator.resolution.sentence_entity_resolver">sparknlp_jsl.annotator.resolution.sentence_entity_resolver</a>
 </li>
         <li><a href="reference/autosummary/sparknlp_jsl/annotator/router/index.html#module-sparknlp_jsl.annotator.router">sparknlp_jsl.annotator.router</a>
+</li>
+        <li><a href="reference/autosummary/sparknlp_jsl/annotator/source_tracking_metadata_params/index.html#module-sparknlp_jsl.annotator.source_tracking_metadata_params">sparknlp_jsl.annotator.source_tracking_metadata_params</a>
 </li>
         <li><a href="reference/autosummary/sparknlp_jsl/annotator/tf_graph_builder/index.html#module-sparknlp_jsl.annotator.tf_graph_builder">sparknlp_jsl.annotator.tf_graph_builder</a>
 </li>
@@ -2111,7 +2263,19 @@
 </li>
         <li><a href="reference/autosummary/sparknlp_jsl/utils/alab_utils/index.html#module-sparknlp_jsl.utils.alab_utils">sparknlp_jsl.utils.alab_utils</a>
 </li>
+        <li><a href="reference/autosummary/sparknlp_jsl/utils/conll_parse/index.html#module-sparknlp_jsl.utils.conll_parse">sparknlp_jsl.utils.conll_parse</a>
+</li>
         <li><a href="reference/autosummary/sparknlp_jsl/utils/imports/index.html#module-sparknlp_jsl.utils.imports">sparknlp_jsl.utils.imports</a>
+</li>
+        <li><a href="reference/autosummary/sparknlp_jsl/utils/licensed_annotator_type/index.html#module-sparknlp_jsl.utils.licensed_annotator_type">sparknlp_jsl.utils.licensed_annotator_type</a>
+</li>
+        <li><a href="reference/autosummary/sparknlp_jsl/utils/log_parse/index.html#module-sparknlp_jsl.utils.log_parse">sparknlp_jsl.utils.log_parse</a>
+</li>
+        <li><a href="reference/autosummary/sparknlp_jsl/utils/ner_utils/index.html#module-sparknlp_jsl.utils.ner_utils">sparknlp_jsl.utils.ner_utils</a>
+</li>
+        <li><a href="reference/autosummary/sparknlp_jsl/utils/ocr_nlp_processor/index.html#module-sparknlp_jsl.utils.ocr_nlp_processor">sparknlp_jsl.utils.ocr_nlp_processor</a>
+</li>
+        <li><a href="reference/autosummary/sparknlp_jsl/utils/ocr_utils/index.html#module-sparknlp_jsl.utils.ocr_utils">sparknlp_jsl.utils.ocr_utils</a>
 </li>
       </ul></li>
   </ul></td>
@@ -2157,9 +2321,9 @@
 </li>
         <li><a href="reference/autosummary/sparknlp_jsl/annotator/chunker/chunkmapper/index.html#sparknlp_jsl.annotator.chunker.chunkmapper.ChunkMapperModel.name">(ChunkMapperModel attribute)</a>, <a href="reference/autosummary/sparknlp_jsl/finance/chunk_classification/resolution/chunkmapper/index.html#sparknlp_jsl.finance.chunk_classification.resolution.chunkmapper.ChunkMapperModel.name">[1]</a>, <a href="reference/autosummary/sparknlp_jsl/legal/chunk_classification/resolution/chunkmapper/index.html#sparknlp_jsl.legal.chunk_classification.resolution.chunkmapper.ChunkMapperModel.name">[2]</a>
 </li>
-        <li><a href="reference/autosummary/sparknlp_jsl/annotator/merge/chunker_merge/index.html#sparknlp_jsl.annotator.merge.chunker_merge.ChunkMergeApproach.name">(ChunkMergeApproach attribute)</a>
+        <li><a href="reference/autosummary/sparknlp_jsl/annotator/merge/chunk_merge/index.html#sparknlp_jsl.annotator.merge.chunk_merge.ChunkMergeApproach.name">(ChunkMergeApproach attribute)</a>
 </li>
-        <li><a href="reference/autosummary/sparknlp_jsl/annotator/merge/chunker_merge/index.html#sparknlp_jsl.annotator.merge.chunker_merge.ChunkMergeModel.name">(ChunkMergeModel attribute)</a>
+        <li><a href="reference/autosummary/sparknlp_jsl/annotator/merge/chunk_merge/index.html#sparknlp_jsl.annotator.merge.chunk_merge.ChunkMergeModel.name">(ChunkMergeModel attribute)</a>
 </li>
         <li><a href="reference/autosummary/sparknlp_jsl/annotator/chunker/chunk_sentence_splitter/index.html#sparknlp_jsl.annotator.chunker.chunk_sentence_splitter.ChunkSentenceSplitter.name">(ChunkSentenceSplitter attribute)</a>
 </li>
@@ -2354,6 +2518,8 @@
         <li><a href="reference/autosummary/sparknlp_jsl/annotator/deid/deIdentification/index.html#sparknlp_jsl.annotator.deid.deIdentification.DeIdentificationModel.obfuscateRefSource">(DeIdentificationModel attribute)</a>
 </li>
       </ul></li>
+      <li><a href="reference/autosummary/sparknlp_jsl/utils/ocr_nlp_processor/index.html#sparknlp_jsl.utils.ocr_nlp_processor.ocr_entity_processor">ocr_entity_processor() (in module sparknlp_jsl.utils.ocr_nlp_processor)</a>
+</li>
       <li><a href="reference/autosummary/sparknlp_jsl/_tf_graph_builders/generic_classifier/progresstracker/index.html#sparknlp_jsl._tf_graph_builders.generic_classifier.progresstracker.ProgressTracker.on_batch">on_batch() (ProgressTracker method)</a>, <a href="reference/autosummary/sparknlp_jsl/_tf_graph_builders_1x/generic_classifier/progresstracker/index.html#sparknlp_jsl._tf_graph_builders_1x.generic_classifier.progresstracker.ProgressTracker.on_batch">[1]</a>
 </li>
       <li><a href="reference/autosummary/sparknlp_jsl/_tf_graph_builders/generic_classifier/progresstracker/index.html#sparknlp_jsl._tf_graph_builders.generic_classifier.progresstracker.ProgressTracker.on_epoch">on_epoch() (ProgressTracker method)</a>, <a href="reference/autosummary/sparknlp_jsl/_tf_graph_builders_1x/generic_classifier/progresstracker/index.html#sparknlp_jsl._tf_graph_builders_1x.generic_classifier.progresstracker.ProgressTracker.on_epoch">[1]</a>
@@ -2370,7 +2536,11 @@
         <li><a href="reference/autosummary/sparknlp_jsl/annotator/context/contextual_parser/index.html#sparknlp_jsl.annotator.context.contextual_parser.ContextualParserModel.optionalContextRules">(ContextualParserModel attribute)</a>
 </li>
       </ul></li>
+      <li><a href="reference/autosummary/sparknlp_jsl/annotator/merge/chunk_merge/index.html#sparknlp_jsl.annotator.merge.chunk_merge.MergePriorizationParams.orderingFeatures">orderingFeatures (MergePriorizationParams attribute)</a>
+</li>
       <li><a href="reference/autosummary/sparknlp_jsl/base/index.html#sparknlp_jsl.base.FeaturesAssembler.outputCol">outputCol (FeaturesAssembler attribute)</a>
+</li>
+      <li><a href="reference/autosummary/sparknlp_jsl/annotator/source_tracking_metadata_params/index.html#sparknlp_jsl.annotator.source_tracking_metadata_params.SourceTrackingMetadataParams.outputColumnKey">outputColumnKey (SourceTrackingMetadataParams attribute)</a>
 </li>
       <li><a href="reference/autosummary/sparknlp_jsl/annotator/normalizer/date_normalizer/index.html#sparknlp_jsl.annotator.normalizer.date_normalizer.DateNormalizer.outputDateFormat">outputDateFormat (DateNormalizer attribute)</a>
 </li>
@@ -2436,12 +2606,8 @@
         <li><a href="reference/autosummary/sparknlp_jsl/annotator/context/contextual_parser/index.html#sparknlp_jsl.annotator.context.contextual_parser.ContextualParserModel.prefixAndSuffixMatch">(ContextualParserModel attribute)</a>
 </li>
       </ul></li>
-      <li><a href="reference/autosummary/sparknlp_jsl/annotator/ner/ner_converter_internal/index.html#sparknlp_jsl.annotator.ner.ner_converter_internal.NerConverterInternal.preservePosition">preservePosition (NerConverterInternal attribute)</a>
-
-      <ul>
-        <li><a href="reference/autosummary/sparknlp_jsl/annotator/ner/ner_converter_internal/index.html#sparknlp_jsl.annotator.ner.ner_converter_internal.NerConverterInternalModel.preservePosition">(NerConverterInternalModel attribute)</a>
+      <li><a href="reference/autosummary/sparknlp_jsl/annotator/ner/ner_converter_internal/index.html#sparknlp_jsl.annotator.ner.ner_converter_internal.CommonNerConverterInternalParams.preservePosition">preservePosition (CommonNerConverterInternalParams attribute)</a>
 </li>
-      </ul></li>
       <li><a href="reference/autosummary/sparknlp_jsl/annotator/assertion/assertionDL/index.html#sparknlp_jsl.annotator.assertion.assertionDL.AssertionDLModel.pretrained">pretrained() (AssertionDLModel static method)</a>, <a href="reference/autosummary/sparknlp_jsl/finance/chunk_classification/assertion/assertionDL/index.html#sparknlp_jsl.finance.chunk_classification.assertion.assertionDL.AssertionDLModel.pretrained">[1]</a>, <a href="reference/autosummary/sparknlp_jsl/legal/chunk_classification/assertion/assertionDL/index.html#sparknlp_jsl.legal.chunk_classification.assertion.assertionDL.AssertionDLModel.pretrained">[2]</a>
 
       <ul>
@@ -2453,7 +2619,7 @@
 </li>
         <li><a href="reference/autosummary/sparknlp_jsl/annotator/chunker/chunkmapper/index.html#sparknlp_jsl.annotator.chunker.chunkmapper.ChunkMapperModel.pretrained">(ChunkMapperModel static method)</a>, <a href="reference/autosummary/sparknlp_jsl/finance/chunk_classification/resolution/chunkmapper/index.html#sparknlp_jsl.finance.chunk_classification.resolution.chunkmapper.ChunkMapperModel.pretrained">[1]</a>, <a href="reference/autosummary/sparknlp_jsl/legal/chunk_classification/resolution/chunkmapper/index.html#sparknlp_jsl.legal.chunk_classification.resolution.chunkmapper.ChunkMapperModel.pretrained">[2]</a>
 </li>
-        <li><a href="reference/autosummary/sparknlp_jsl/annotator/merge/chunker_merge/index.html#sparknlp_jsl.annotator.merge.chunker_merge.ChunkMergeModel.pretrained">(ChunkMergeModel static method)</a>
+        <li><a href="reference/autosummary/sparknlp_jsl/annotator/merge/chunk_merge/index.html#sparknlp_jsl.annotator.merge.chunk_merge.ChunkMergeModel.pretrained">(ChunkMergeModel static method)</a>
 </li>
         <li><a href="reference/autosummary/sparknlp_jsl/annotator/deid/deIdentification/index.html#sparknlp_jsl.annotator.deid.deIdentification.DeIdentificationModel.pretrained">(DeIdentificationModel static method)</a>, <a href="reference/autosummary/sparknlp_jsl/finance/chunk_classification/deid/deIdentification/index.html#sparknlp_jsl.finance.chunk_classification.deid.deIdentification.DeIdentificationModel.pretrained">[1]</a>, <a href="reference/autosummary/sparknlp_jsl/legal/chunk_classification/deid/deIdentification/index.html#sparknlp_jsl.legal.chunk_classification.deid.deIdentification.DeIdentificationModel.pretrained">[2]</a>
 </li>
@@ -2594,6 +2760,8 @@
 </li>
       <li><a href="reference/autosummary/sparknlp_jsl/training/index.html#sparknlp_jsl.training.CodiEspReader.readDatasetTaskX">readDatasetTaskX() (CodiEspReader method)</a>
 </li>
+      <li><a href="reference/autosummary/sparknlp_jsl/training/index.html#sparknlp_jsl.training.REDatasetHelper">REDatasetHelper (class in sparknlp_jsl.training)</a>
+</li>
       <li><a href="reference/autosummary/sparknlp_jsl/annotator/deid/deIdentification/index.html#sparknlp_jsl.annotator.deid.deIdentification.DeIdentification.refFileFormat">refFileFormat (DeIdentification attribute)</a>
 
       <ul>
@@ -2664,14 +2832,14 @@
         <li><a href="reference/autosummary/sparknlp_jsl/_tf_graph_builders_1x/graph_builders/index.html#sparknlp_jsl._tf_graph_builders_1x.graph_builders.RelationExtractionTFGraphBuilder">(class in sparknlp_jsl._tf_graph_builders_1x.graph_builders)</a>
 </li>
       </ul></li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="reference/autosummary/sparknlp_jsl/annotator/re/relation_extraction/index.html#sparknlp_jsl.annotator.re.relation_extraction.RelationExtractionModel.relationPairs">relationPairs (RelationExtractionModel attribute)</a>
 
       <ul>
         <li><a href="reference/autosummary/sparknlp_jsl/annotator/re/relation_ner_chunk_filter/index.html#sparknlp_jsl.annotator.re.relation_ner_chunk_filter.RENerChunksFilter.relationPairs">(RENerChunksFilter attribute)</a>
 </li>
       </ul></li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="reference/autosummary/sparknlp_jsl/annotator/re/relation_extraction/index.html#sparknlp_jsl.annotator.re.relation_extraction.RelationExtractionModel.relationPairsCaseSensitive">relationPairsCaseSensitive (RelationExtractionModel attribute)</a>
 
       <ul>
@@ -2692,13 +2860,9 @@
 </li>
       <li><a href="reference/autosummary/sparknlp_jsl/annotator/re/relation_ner_chunk_filter/index.html#sparknlp_jsl.annotator.re.relation_ner_chunk_filter.RENerChunksFilter">RENerChunksFilter (class in sparknlp_jsl.annotator.re.relation_ner_chunk_filter)</a>
 </li>
-      <li><a href="reference/autosummary/sparknlp_jsl/annotator/merge/chunker_merge/index.html#sparknlp_jsl.annotator.merge.chunker_merge.ChunkMergeModel.replaceDict">replaceDict (ChunkMergeModel attribute)</a>
-
-      <ul>
-        <li><a href="reference/autosummary/sparknlp_jsl/annotator/ner/ner_converter_internal/index.html#sparknlp_jsl.annotator.ner.ner_converter_internal.NerConverterInternalModel.replaceDict">(NerConverterInternalModel attribute)</a>
+      <li><a href="reference/autosummary/sparknlp_jsl/annotator/merge/chunk_merge/index.html#sparknlp_jsl.annotator.merge.chunk_merge.ChunkMergeModel.replaceDict">replaceDict (ChunkMergeModel attribute)</a>
 </li>
-      </ul></li>
-      <li><a href="reference/autosummary/sparknlp_jsl/annotator/merge/chunker_merge/index.html#sparknlp_jsl.annotator.merge.chunker_merge.ChunkMergeApproach.replaceDictResource">replaceDictResource (ChunkMergeApproach attribute)</a>
+      <li><a href="reference/autosummary/sparknlp_jsl/annotator/merge/chunk_merge/index.html#sparknlp_jsl.annotator.merge.chunk_merge.ChunkMergeApproach.replaceDictResource">replaceDictResource (ChunkMergeApproach attribute)</a>
 
       <ul>
         <li><a href="reference/autosummary/sparknlp_jsl/annotator/ner/ner_converter_internal/index.html#sparknlp_jsl.annotator.ner.ner_converter_internal.NerConverterInternal.replaceDictResource">(NerConverterInternal attribute)</a>
@@ -2794,7 +2958,11 @@
         <li><a href="reference/autosummary/sparknlp_jsl/annotator/deid/name_obfuscator/index.html#sparknlp_jsl.annotator.deid.name_obfuscator.NameChunkObfuscatorApproach.seed">(NameChunkObfuscatorApproach attribute)</a>
 </li>
       </ul></li>
+      <li><a href="reference/autosummary/sparknlp_jsl/annotator/merge/chunk_merge/index.html#sparknlp_jsl.annotator.merge.chunk_merge.MergePriorizationParams.selectionStrategy">selectionStrategy (MergePriorizationParams attribute)</a>
+</li>
       <li><a href="reference/autosummary/sparknlp_jsl/annotator/chunker/chunk_key_phrase_extraction/index.html#sparknlp_jsl.annotator.chunker.chunk_key_phrase_extraction.ChunkKeyPhraseExtraction.selectMostDifferent">selectMostDifferent (ChunkKeyPhraseExtraction attribute)</a>
+</li>
+      <li><a href="reference/autosummary/sparknlp_jsl/utils/licensed_annotator_type/index.html#sparknlp_jsl.utils.licensed_annotator_type.InternalAnnotatorType.SELECTOR">SELECTOR (InternalAnnotatorType attribute)</a>
 </li>
       <li><a href="reference/autosummary/sparknlp_jsl/annotator/resolution/sentence_entity_resolver/index.html#sparknlp_jsl.annotator.resolution.sentence_entity_resolver.SentenceEntityResolverApproach">SentenceEntityResolverApproach (class in sparknlp_jsl.annotator.resolution.sentence_entity_resolver)</a>
 
@@ -2832,6 +3000,8 @@
         <li><a href="reference/autosummary/sparknlp_jsl/annotator/chunker/chunkmapper/index.html#sparknlp_jsl.annotator.chunker.chunkmapper.ChunkMapperModel.setAllowMultiTokenChunk">(ChunkMapperModel method)</a>
 </li>
       </ul></li>
+      <li><a href="reference/autosummary/sparknlp_jsl/annotator/source_tracking_metadata_params/index.html#sparknlp_jsl.annotator.source_tracking_metadata_params.SourceTrackingMetadataParams.setAllPossibleFieldsToStandardize">setAllPossibleFieldsToStandardize() (SourceTrackingMetadataParams method)</a>
+</li>
       <li><a href="reference/autosummary/sparknlp_jsl/annotator/normalizer/date_normalizer/index.html#sparknlp_jsl.annotator.normalizer.date_normalizer.DateNormalizer.setAnchorDateDay">setAnchorDateDay() (DateNormalizer method)</a>
 </li>
       <li><a href="reference/autosummary/sparknlp_jsl/annotator/normalizer/date_normalizer/index.html#sparknlp_jsl.annotator.normalizer.date_normalizer.DateNormalizer.setAnchorDateMonth">setAnchorDateMonth() (DateNormalizer method)</a>
@@ -2863,15 +3033,13 @@
       <ul>
         <li><a href="reference/autosummary/sparknlp_jsl/annotator/chunker/chunker_filterer/index.html#sparknlp_jsl.annotator.chunker.chunker_filterer.ChunkFiltererApproach.setBlackList">(ChunkFiltererApproach method)</a>
 </li>
-        <li><a href="reference/autosummary/sparknlp_jsl/annotator/merge/chunker_merge/index.html#sparknlp_jsl.annotator.merge.chunker_merge.ChunkMergeApproach.setBlackList">(ChunkMergeApproach method)</a>
+        <li><a href="reference/autosummary/sparknlp_jsl/annotator/merge/chunk_merge/index.html#sparknlp_jsl.annotator.merge.chunk_merge.CommonChunkMergeParams.setBlackList">(CommonChunkMergeParams method)</a>
+</li>
+        <li><a href="reference/autosummary/sparknlp_jsl/annotator/ner/ner_converter_internal/index.html#sparknlp_jsl.annotator.ner.ner_converter_internal.CommonNerConverterInternalParams.setBlackList">(CommonNerConverterInternalParams method)</a>
 </li>
         <li><a href="reference/autosummary/sparknlp_jsl/annotator/deid/deIdentification/index.html#sparknlp_jsl.annotator.deid.deIdentification.DeIdentification.setBlackList">(DeIdentification method)</a>
 </li>
         <li><a href="reference/autosummary/sparknlp_jsl/annotator/deid/deIdentification/index.html#sparknlp_jsl.annotator.deid.deIdentification.DeIdentificationModel.setBlackList">(DeIdentificationModel method)</a>
-</li>
-        <li><a href="reference/autosummary/sparknlp_jsl/annotator/ner/ner_converter_internal/index.html#sparknlp_jsl.annotator.ner.ner_converter_internal.NerConverterInternal.setBlackList">(NerConverterInternal method)</a>
-</li>
-        <li><a href="reference/autosummary/sparknlp_jsl/annotator/ner/ner_converter_internal/index.html#sparknlp_jsl.annotator.ner.ner_converter_internal.NerConverterInternalModel.setBlackList">(NerConverterInternalModel method)</a>
 </li>
       </ul></li>
       <li><a href="reference/autosummary/sparknlp_jsl/annotator/context/contextual_parser/index.html#sparknlp_jsl.annotator.context.contextual_parser.ContextualParserApproach.setCaseSensitive">setCaseSensitive() (ContextualParserApproach method)</a>
@@ -2884,12 +3052,10 @@
       </ul></li>
       <li><a href="reference/autosummary/sparknlp_jsl/annotator/doc2_chunk_internal/index.html#sparknlp_jsl.annotator.doc2_chunk_internal.Doc2ChunkInternal.setChunkCol">setChunkCol() (Doc2ChunkInternal method)</a>
 </li>
-      <li><a href="reference/autosummary/sparknlp_jsl/annotator/merge/chunker_merge/index.html#sparknlp_jsl.annotator.merge.chunker_merge.ChunkMergeApproach.setChunkPrecedence">setChunkPrecedence() (ChunkMergeApproach method)</a>
-
-      <ul>
-        <li><a href="reference/autosummary/sparknlp_jsl/annotator/merge/chunker_merge/index.html#sparknlp_jsl.annotator.merge.chunker_merge.ChunkMergeModel.setChunkPrecedence">(ChunkMergeModel method)</a>
+      <li><a href="reference/autosummary/sparknlp_jsl/annotator/merge/chunk_merge/index.html#sparknlp_jsl.annotator.merge.chunk_merge.MergePriorizationParams.setChunkPrecedence">setChunkPrecedence() (MergePriorizationParams method)</a>
 </li>
-      </ul></li>
+      <li><a href="reference/autosummary/sparknlp_jsl/annotator/merge/chunk_merge/index.html#sparknlp_jsl.annotator.merge.chunk_merge.MergePriorizationParams.setChunkPrecedenceValuePrioritization">setChunkPrecedenceValuePrioritization() (MergePriorizationParams method)</a>
+</li>
       <li><a href="reference/autosummary/sparknlp_jsl/annotator/embeddings/bert_sentence_embeddings/index.html#sparknlp_jsl.annotator.embeddings.bert_sentence_embeddings.BertSentenceChunkEmbeddings.setChunkWeight">setChunkWeight() (BertSentenceChunkEmbeddings method)</a>
 </li>
       <li><a href="reference/autosummary/sparknlp_jsl/annotator/classification/document_log_classifier/index.html#sparknlp_jsl.annotator.classification.document_log_classifier.DocumentLogRegClassifierModel.setClassificationModel">setClassificationModel() (DocumentLogRegClassifierModel method)</a>
@@ -2972,6 +3138,8 @@
         <li><a href="reference/autosummary/sparknlp_jsl/annotator/deid/deIdentification/index.html#sparknlp_jsl.annotator.deid.deIdentification.DeIdentificationModel.setDays">(DeIdentificationModel method)</a>
 </li>
       </ul></li>
+      <li><a href="reference/autosummary/sparknlp_jsl/annotator/merge/chunk_merge/index.html#sparknlp_jsl.annotator.merge.chunk_merge.MergePriorizationParams.setDefaultConfidence">setDefaultConfidence() (MergePriorizationParams method)</a>
+</li>
       <li><a href="reference/autosummary/sparknlp_jsl/annotator/chunker/chunk_sentence_splitter/index.html#sparknlp_jsl.annotator.chunker.chunk_sentence_splitter.ChunkSentenceSplitter.setDefaultEntity">setDefaultEntity() (ChunkSentenceSplitter method)</a>
 </li>
       <li><a href="reference/autosummary/sparknlp_jsl/annotator/chunker/chunkmapper/index.html#sparknlp_jsl.annotator.chunker.chunkmapper.ChunkMapperApproach.setDictionary">setDictionary() (ChunkMapperApproach method)</a>
@@ -3042,7 +3210,7 @@
 </li>
       <li><a href="reference/autosummary/sparknlp_jsl/annotator/doc2_chunk_internal/index.html#sparknlp_jsl.annotator.doc2_chunk_internal.Doc2ChunkInternal.setFailOnMissing">setFailOnMissing() (Doc2ChunkInternal method)</a>
 </li>
-      <li><a href="reference/autosummary/sparknlp_jsl/annotator/merge/chunker_merge/index.html#sparknlp_jsl.annotator.merge.chunker_merge.ChunkMergeApproach.setFalsePositivesResource">setFalsePositivesResource() (ChunkMergeApproach method)</a>
+      <li><a href="reference/autosummary/sparknlp_jsl/annotator/merge/chunk_merge/index.html#sparknlp_jsl.annotator.merge.chunk_merge.ChunkMergeApproach.setFalsePositivesResource">setFalsePositivesResource() (ChunkMergeApproach method)</a>
 </li>
       <li><a href="reference/autosummary/sparknlp_jsl/annotator/generic_classifier/generic_classifier/index.html#sparknlp_jsl.annotator.generic_classifier.generic_classifier.GenericClassifierApproach.setFeatureScaling">setFeatureScaling() (GenericClassifierApproach method)</a>
 </li>
@@ -3082,12 +3250,8 @@
         <li><a href="reference/autosummary/sparknlp_jsl/annotator/tf_graph_builder/index.html#sparknlp_jsl.annotator.tf_graph_builder.TFGraphBuilder.setGraphFolder">(TFGraphBuilder method)</a>
 </li>
       </ul></li>
-      <li><a href="reference/autosummary/sparknlp_jsl/annotator/ner/ner_converter_internal/index.html#sparknlp_jsl.annotator.ner.ner_converter_internal.NerConverterInternal.setGreedyMode">setGreedyMode() (NerConverterInternal method)</a>
-
-      <ul>
-        <li><a href="reference/autosummary/sparknlp_jsl/annotator/ner/ner_converter_internal/index.html#sparknlp_jsl.annotator.ner.ner_converter_internal.NerConverterInternalModel.setGreedyMode">(NerConverterInternalModel method)</a>
+      <li><a href="reference/autosummary/sparknlp_jsl/annotator/ner/ner_converter_internal/index.html#sparknlp_jsl.annotator.ner.ner_converter_internal.CommonNerConverterInternalParams.setGreedyMode">setGreedyMode() (CommonNerConverterInternalParams method)</a>
 </li>
-      </ul></li>
       <li><a href="reference/autosummary/sparknlp_jsl/annotator/chunker/chunk_sentence_splitter/index.html#sparknlp_jsl.annotator.chunker.chunk_sentence_splitter.ChunkSentenceSplitter.setGroupBySentences">setGroupBySentences() (ChunkSentenceSplitter method)</a>
 </li>
       <li><a href="reference/autosummary/sparknlp_jsl/annotator/tf_graph_builder/index.html#sparknlp_jsl.annotator.tf_graph_builder.TFGraphBuilder.setHiddenAct">setHiddenAct() (TFGraphBuilder method)</a>
@@ -3106,12 +3270,8 @@
         <li><a href="reference/autosummary/sparknlp_jsl/annotator/deid/deIdentification/index.html#sparknlp_jsl.annotator.deid.deIdentification.DeIdentificationModel.setIgnoreRegex">(DeIdentificationModel method)</a>
 </li>
       </ul></li>
-      <li><a href="reference/autosummary/sparknlp_jsl/annotator/ner/ner_converter_internal/index.html#sparknlp_jsl.annotator.ner.ner_converter_internal.NerConverterInternal.setIgnoreStopWords">setIgnoreStopWords() (NerConverterInternal method)</a>
-
-      <ul>
-        <li><a href="reference/autosummary/sparknlp_jsl/annotator/ner/ner_converter_internal/index.html#sparknlp_jsl.annotator.ner.ner_converter_internal.NerConverterInternalModel.setIgnoreStopWords">(NerConverterInternalModel method)</a>
+      <li><a href="reference/autosummary/sparknlp_jsl/annotator/ner/ner_converter_internal/index.html#sparknlp_jsl.annotator.ner.ner_converter_internal.CommonNerConverterInternalParams.setIgnoreStopWords">setIgnoreStopWords() (CommonNerConverterInternalParams method)</a>
 </li>
-      </ul></li>
       <li><a href="reference/autosummary/sparknlp_jsl/annotator/ner/medical_ner/index.html#sparknlp_jsl.annotator.ner.medical_ner.MedicalNerApproach.setIncludeAllConfidenceScores">setIncludeAllConfidenceScores() (MedicalNerApproach method)</a>
 </li>
       <li><a href="reference/autosummary/sparknlp_jsl/annotator/assertion/assertionDL/index.html#sparknlp_jsl.annotator.assertion.assertionDL.AssertionDLApproach.setIncludeConfidence">setIncludeConfidence() (AssertionDLApproach method)</a>
@@ -3124,13 +3284,25 @@
         <li><a href="reference/autosummary/sparknlp_jsl/annotator/ner/medical_ner/index.html#id0">(MedicalNerModel method)</a>, <a href="reference/autosummary/sparknlp_jsl/annotator/ner/medical_ner/index.html#sparknlp_jsl.annotator.ner.medical_ner.MedicalNerModel.setIncludeConfidence">[1]</a>
 </li>
       </ul></li>
+      <li><a href="reference/autosummary/sparknlp_jsl/annotator/source_tracking_metadata_params/index.html#sparknlp_jsl.annotator.source_tracking_metadata_params.SourceTrackingMetadataParams.setIncludeOutputColumn">setIncludeOutputColumn() (SourceTrackingMetadataParams method)</a>
+</li>
+      <li><a href="reference/autosummary/sparknlp_jsl/annotator/source_tracking_metadata_params/index.html#sparknlp_jsl.annotator.source_tracking_metadata_params.SourceTrackingMetadataParams.setIncludeStandardField">setIncludeStandardField() (SourceTrackingMetadataParams method)</a>
+</li>
       <li><a href="reference/autosummary/sparknlp_jsl/annotator/ner/medical_ner/index.html#sparknlp_jsl.annotator.ner.medical_ner.MedicalNerModel.setInferenceBatchSize">setInferenceBatchSize() (MedicalNerModel method)</a>
 </li>
       <li><a href="reference/autosummary/sparknlp_jsl/custom_transformer/index.html#sparknlp_jsl.custom_transformer.CustomTransformer.setInputCol">setInputCol() (CustomTransformer method)</a>
 </li>
-      <li><a href="reference/autosummary/sparknlp_jsl/base/index.html#sparknlp_jsl.base.FeaturesAssembler.setInputCols">setInputCols() (FeaturesAssembler method)</a>
+      <li><a href="reference/autosummary/sparknlp_jsl/annotator/annotation_merger/index.html#sparknlp_jsl.annotator.annotation_merger.AnnotationMerger.setInputCols">setInputCols() (AnnotationMerger method)</a>
 
       <ul>
+        <li><a href="reference/autosummary/sparknlp_jsl/annotator/merge/chunk_merge/index.html#sparknlp_jsl.annotator.merge.chunk_merge.ChunkMergeApproach.setInputCols">(ChunkMergeApproach method)</a>
+</li>
+        <li><a href="reference/autosummary/sparknlp_jsl/annotator/merge/chunk_merge/index.html#sparknlp_jsl.annotator.merge.chunk_merge.ChunkMergeModel.setInputCols">(ChunkMergeModel method)</a>
+</li>
+        <li><a href="reference/autosummary/sparknlp_jsl/base/index.html#sparknlp_jsl.base.FeaturesAssembler.setInputCols">(FeaturesAssembler method)</a>
+</li>
+        <li><a href="reference/autosummary/sparknlp_jsl/annotator/router/index.html#sparknlp_jsl.annotator.router.Router.setInputCols">(Router method)</a>
+</li>
         <li><a href="reference/autosummary/sparknlp_jsl/annotator/tf_graph_builder/index.html#sparknlp_jsl.annotator.tf_graph_builder.TFGraphBuilder.setInputCols">(TFGraphBuilder method)</a>
 </li>
       </ul></li>
@@ -3250,12 +3422,8 @@
       </ul></li>
       <li><a href="reference/autosummary/sparknlp_jsl/annotator/classification/document_log_classifier/index.html#sparknlp_jsl.annotator.classification.document_log_classifier.DocumentLogRegClassifierModel.setMergeChunks">setMergeChunks() (DocumentLogRegClassifierModel method)</a>
 </li>
-      <li><a href="reference/autosummary/sparknlp_jsl/annotator/merge/chunker_merge/index.html#sparknlp_jsl.annotator.merge.chunker_merge.ChunkMergeApproach.setMergeOverlapping">setMergeOverlapping() (ChunkMergeApproach method)</a>
-
-      <ul>
-        <li><a href="reference/autosummary/sparknlp_jsl/annotator/merge/chunker_merge/index.html#sparknlp_jsl.annotator.merge.chunker_merge.ChunkMergeModel.setMergeOverlapping">(ChunkMergeModel method)</a>
+      <li><a href="reference/autosummary/sparknlp_jsl/annotator/merge/chunk_merge/index.html#sparknlp_jsl.annotator.merge.chunk_merge.CommonChunkMergeParams.setMergeOverlapping">setMergeOverlapping() (CommonChunkMergeParams method)</a>
 </li>
-      </ul></li>
       <li><a href="reference/autosummary/sparknlp_jsl/annotator/router/index.html#sparknlp_jsl.annotator.router.Router.setMetadataField">setMetadataField() (Router method)</a>
 </li>
       <li><a href="reference/autosummary/sparknlp_jsl/annotator/deid/deIdentification/index.html#sparknlp_jsl.annotator.deid.deIdentification.DeIdentification.setMinYear">setMinYear() (DeIdentification method)</a>
@@ -3332,12 +3500,16 @@
         <li><a href="reference/autosummary/sparknlp_jsl/annotator/context/contextual_parser/index.html#sparknlp_jsl.annotator.context.contextual_parser.ContextualParserModel.setOptionalContextRules">(ContextualParserModel method)</a>
 </li>
       </ul></li>
+      <li><a href="reference/autosummary/sparknlp_jsl/annotator/merge/chunk_merge/index.html#sparknlp_jsl.annotator.merge.chunk_merge.MergePriorizationParams.setOrderingFeatures">setOrderingFeatures() (MergePriorizationParams method)</a>
+</li>
       <li><a href="reference/autosummary/sparknlp_jsl/custom_transformer/index.html#sparknlp_jsl.custom_transformer.CustomTransformer.setOutputCol">setOutputCol() (CustomTransformer method)</a>
 
       <ul>
         <li><a href="reference/autosummary/sparknlp_jsl/base/index.html#sparknlp_jsl.base.FeaturesAssembler.setOutputCol">(FeaturesAssembler method)</a>
 </li>
       </ul></li>
+      <li><a href="reference/autosummary/sparknlp_jsl/annotator/source_tracking_metadata_params/index.html#sparknlp_jsl.annotator.source_tracking_metadata_params.SourceTrackingMetadataParams.setOutputColumnKey">setOutputColumnKey() (SourceTrackingMetadataParams method)</a>
+</li>
       <li><a href="reference/autosummary/sparknlp_jsl/annotator/normalizer/date_normalizer/index.html#sparknlp_jsl.annotator.normalizer.date_normalizer.DateNormalizer.setOutputDateformat">setOutputDateformat() (DateNormalizer method)</a>
 </li>
       <li><a href="reference/autosummary/sparknlp_jsl/annotator/assertion/assertionDL/index.html#sparknlp_jsl.annotator.assertion.assertionDL.AssertionDLApproach.setOutputLogsPath">setOutputLogsPath() (AssertionDLApproach method)</a>
@@ -3384,12 +3556,8 @@
         <li><a href="reference/autosummary/sparknlp_jsl/annotator/context/contextual_parser/index.html#sparknlp_jsl.annotator.context.contextual_parser.ContextualParserModel.setPrefixAndSuffixMatch">(ContextualParserModel method)</a>
 </li>
       </ul></li>
-      <li><a href="reference/autosummary/sparknlp_jsl/annotator/ner/ner_converter_internal/index.html#sparknlp_jsl.annotator.ner.ner_converter_internal.NerConverterInternal.setPreservePosition">setPreservePosition() (NerConverterInternal method)</a>
-
-      <ul>
-        <li><a href="reference/autosummary/sparknlp_jsl/annotator/ner/ner_converter_internal/index.html#sparknlp_jsl.annotator.ner.ner_converter_internal.NerConverterInternalModel.setPreservePosition">(NerConverterInternalModel method)</a>
+      <li><a href="reference/autosummary/sparknlp_jsl/annotator/ner/ner_converter_internal/index.html#sparknlp_jsl.annotator.ner.ner_converter_internal.CommonNerConverterInternalParams.setPreservePosition">setPreservePosition() (CommonNerConverterInternalParams method)</a>
 </li>
-      </ul></li>
       <li><a href="reference/autosummary/sparknlp_jsl/annotator/ner/medical_ner/index.html#sparknlp_jsl.annotator.ner.medical_ner.MedicalNerApproach.setPretrainedModelPath">setPretrainedModelPath() (MedicalNerApproach method)</a>
 
       <ul>
@@ -3470,7 +3638,7 @@
         <li><a href="reference/autosummary/sparknlp_jsl/annotator/chunker/chunkmapper/index.html#sparknlp_jsl.annotator.chunker.chunkmapper.ChunkMapperModel.setRels">(ChunkMapperModel method)</a>
 </li>
       </ul></li>
-      <li><a href="reference/autosummary/sparknlp_jsl/annotator/merge/chunker_merge/index.html#sparknlp_jsl.annotator.merge.chunker_merge.ChunkMergeApproach.setReplaceDictResource">setReplaceDictResource() (ChunkMergeApproach method)</a>
+      <li><a href="reference/autosummary/sparknlp_jsl/annotator/merge/chunk_merge/index.html#sparknlp_jsl.annotator.merge.chunk_merge.ChunkMergeApproach.setReplaceDictResource">setReplaceDictResource() (ChunkMergeApproach method)</a>
 
       <ul>
         <li><a href="reference/autosummary/sparknlp_jsl/annotator/ner/ner_converter_internal/index.html#sparknlp_jsl.annotator.ner.ner_converter_internal.NerConverterInternal.setReplaceDictResource">(NerConverterInternal method)</a>
@@ -3516,6 +3684,8 @@
         <li><a href="reference/autosummary/sparknlp_jsl/annotator/deid/name_obfuscator/index.html#sparknlp_jsl.annotator.deid.name_obfuscator.NameChunkObfuscatorApproach.setSeed">(NameChunkObfuscatorApproach method)</a>
 </li>
       </ul></li>
+      <li><a href="reference/autosummary/sparknlp_jsl/annotator/merge/chunk_merge/index.html#sparknlp_jsl.annotator.merge.chunk_merge.MergePriorizationParams.setSelectionStrategy">setSelectionStrategy() (MergePriorizationParams method)</a>
+</li>
       <li><a href="reference/autosummary/sparknlp_jsl/annotator/chunker/chunk_key_phrase_extraction/index.html#sparknlp_jsl.annotator.chunker.chunk_key_phrase_extraction.ChunkKeyPhraseExtraction.setSelectMostDifferent">setSelectMostDifferent() (ChunkKeyPhraseExtraction method)</a>
 </li>
       <li><a href="reference/autosummary/sparknlp_jsl/annotator/context/contextual_parser/index.html#sparknlp_jsl.annotator.context.contextual_parser.ContextualParserApproach.setShortestContextMatch">setShortestContextMatch() (ContextualParserApproach method)</a>
@@ -3524,6 +3694,8 @@
         <li><a href="reference/autosummary/sparknlp_jsl/annotator/context/contextual_parser/index.html#sparknlp_jsl.annotator.context.contextual_parser.ContextualParserModel.setShortestContextMatch">(ContextualParserModel method)</a>
 </li>
       </ul></li>
+      <li><a href="reference/autosummary/sparknlp_jsl/annotator/source_tracking_metadata_params/index.html#sparknlp_jsl.annotator.source_tracking_metadata_params.SourceTrackingMetadataParams.setStandardFieldKey">setStandardFieldKey() (SourceTrackingMetadataParams method)</a>
+</li>
       <li><a href="reference/autosummary/sparknlp_jsl/annotator/assertion/assertionDL/index.html#sparknlp_jsl.annotator.assertion.assertionDL.AssertionDLApproach.setStartCol">setStartCol() (AssertionDLApproach method)</a>
 
       <ul>
@@ -3544,11 +3716,9 @@
 </li>
       <li><a href="reference/autosummary/sparknlp_jsl/annotator/assertion/assertionDL/index.html#sparknlp_jsl.annotator.assertion.assertionDL.AssertionDLApproach.setTestDataset">setTestDataset() (AssertionDLApproach method)</a>
 </li>
-      <li><a href="reference/autosummary/sparknlp_jsl/annotator/ner/ner_converter_internal/index.html#sparknlp_jsl.annotator.ner.ner_converter_internal.NerConverterInternal.setThreshold">setThreshold() (NerConverterInternal method)</a>
+      <li><a href="reference/autosummary/sparknlp_jsl/annotator/ner/ner_converter_internal/index.html#sparknlp_jsl.annotator.ner.ner_converter_internal.CommonNerConverterInternalParams.setThreshold">setThreshold() (CommonNerConverterInternalParams method)</a>
 
       <ul>
-        <li><a href="reference/autosummary/sparknlp_jsl/annotator/ner/ner_converter_internal/index.html#sparknlp_jsl.annotator.ner.ner_converter_internal.NerConverterInternalModel.setThreshold">(NerConverterInternalModel method)</a>
-</li>
         <li><a href="reference/autosummary/sparknlp_jsl/annotator/resolution/sentence_entity_resolver/index.html#sparknlp_jsl.annotator.resolution.sentence_entity_resolver.SentenceResolverParams.setThreshold">(SentenceResolverParams method)</a>
 </li>
       </ul></li>
@@ -3588,6 +3758,8 @@
 </li>
       <li><a href="reference/autosummary/sparknlp_jsl/annotator/tf_graph_builder/index.html#sparknlp_jsl.annotator.tf_graph_builder.TFGraphBuilder.setUseRelationDirection">setUseRelationDirection() (TFGraphBuilder method)</a>
 </li>
+      <li><a href="reference/autosummary/sparknlp_jsl/annotator/deid/replacer/index.html#sparknlp_jsl.annotator.deid.replacer.Replacer.setUseReplacement">setUseReplacement() (Replacer method)</a>
+</li>
       <li><a href="reference/autosummary/sparknlp_jsl/annotator/deid/deIdentification/index.html#sparknlp_jsl.annotator.deid.deIdentification.DeIdentification.setUseShifDays">setUseShifDays() (DeIdentification method)</a>
 
       <ul>
@@ -3615,9 +3787,7 @@
 </li>
         <li><a href="reference/autosummary/sparknlp_jsl/annotator/chunker/chunker_filterer/index.html#sparknlp_jsl.annotator.chunker.chunker_filterer.ChunkFiltererApproach.setWhiteList">(ChunkFiltererApproach method)</a>
 </li>
-        <li><a href="reference/autosummary/sparknlp_jsl/annotator/ner/ner_converter_internal/index.html#sparknlp_jsl.annotator.ner.ner_converter_internal.NerConverterInternal.setWhiteList">(NerConverterInternal method)</a>
-</li>
-        <li><a href="reference/autosummary/sparknlp_jsl/annotator/ner/ner_converter_internal/index.html#sparknlp_jsl.annotator.ner.ner_converter_internal.NerConverterInternalModel.setWhiteList">(NerConverterInternalModel method)</a>
+        <li><a href="reference/autosummary/sparknlp_jsl/annotator/ner/ner_converter_internal/index.html#sparknlp_jsl.annotator.ner.ner_converter_internal.CommonNerConverterInternalParams.setWhiteList">(CommonNerConverterInternalParams method)</a>
 </li>
       </ul></li>
       <li><a href="reference/autosummary/sparknlp_jsl/annotator/re/relation_extraction/index.html#sparknlp_jsl.annotator.re.relation_extraction.RelationExtractionApproach.setverrideExistingLabels">setОverrideExistingLabels() (RelationExtractionApproach method)</a>
@@ -3648,6 +3818,8 @@
         <li><a href="reference/autosummary/sparknlp_jsl/_tf_graph_builders/ner_dl/sentence_grouper/index.html#sparknlp_jsl._tf_graph_builders.ner_dl.sentence_grouper.SentenceGrouper.slice">(SentenceGrouper method)</a>, <a href="reference/autosummary/sparknlp_jsl/_tf_graph_builders_1x/ner_dl/sentence_grouper/index.html#sparknlp_jsl._tf_graph_builders_1x.ner_dl.sentence_grouper.SentenceGrouper.slice">[1]</a>
 </li>
       </ul></li>
+      <li><a href="reference/autosummary/sparknlp_jsl/annotator/source_tracking_metadata_params/index.html#sparknlp_jsl.annotator.source_tracking_metadata_params.SourceTrackingMetadataParams">SourceTrackingMetadataParams (class in sparknlp_jsl.annotator.source_tracking_metadata_params)</a>
+</li>
       <li>
     sparknlp_jsl
 
@@ -3690,8 +3862,6 @@
         <li><a href="reference/autosummary/sparknlp_jsl/_tf_graph_builders/generic_classifier/basetfmodel/index.html#module-sparknlp_jsl._tf_graph_builders.generic_classifier.basetfmodel">module</a>
 </li>
       </ul></li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li>
     sparknlp_jsl._tf_graph_builders.generic_classifier.build_model
 
@@ -3706,6 +3876,8 @@
         <li><a href="reference/autosummary/sparknlp_jsl/_tf_graph_builders/generic_classifier/generic_classifier_model/index.html#module-sparknlp_jsl._tf_graph_builders.generic_classifier.generic_classifier_model">module</a>
 </li>
       </ul></li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li>
     sparknlp_jsl._tf_graph_builders.generic_classifier.progresstracker
 
@@ -4190,10 +4362,10 @@
 </li>
       </ul></li>
       <li>
-    sparknlp_jsl.annotator.merge.chunker_merge
+    sparknlp_jsl.annotator.merge.chunk_merge
 
       <ul>
-        <li><a href="reference/autosummary/sparknlp_jsl/annotator/merge/chunker_merge/index.html#module-sparknlp_jsl.annotator.merge.chunker_merge">module</a>
+        <li><a href="reference/autosummary/sparknlp_jsl/annotator/merge/chunk_merge/index.html#module-sparknlp_jsl.annotator.merge.chunk_merge">module</a>
 </li>
       </ul></li>
       <li>
@@ -4334,6 +4506,13 @@
 
       <ul>
         <li><a href="reference/autosummary/sparknlp_jsl/annotator/router/index.html#module-sparknlp_jsl.annotator.router">module</a>
+</li>
+      </ul></li>
+      <li>
+    sparknlp_jsl.annotator.source_tracking_metadata_params
+
+      <ul>
+        <li><a href="reference/autosummary/sparknlp_jsl/annotator/source_tracking_metadata_params/index.html#module-sparknlp_jsl.annotator.source_tracking_metadata_params">module</a>
 </li>
       </ul></li>
       <li>
@@ -4869,17 +5048,63 @@
 </li>
       </ul></li>
       <li>
+    sparknlp_jsl.utils.conll_parse
+
+      <ul>
+        <li><a href="reference/autosummary/sparknlp_jsl/utils/conll_parse/index.html#module-sparknlp_jsl.utils.conll_parse">module</a>
+</li>
+      </ul></li>
+      <li>
     sparknlp_jsl.utils.imports
 
       <ul>
         <li><a href="reference/autosummary/sparknlp_jsl/utils/imports/index.html#module-sparknlp_jsl.utils.imports">module</a>
 </li>
       </ul></li>
+      <li>
+    sparknlp_jsl.utils.licensed_annotator_type
+
+      <ul>
+        <li><a href="reference/autosummary/sparknlp_jsl/utils/licensed_annotator_type/index.html#module-sparknlp_jsl.utils.licensed_annotator_type">module</a>
+</li>
+      </ul></li>
+      <li>
+    sparknlp_jsl.utils.log_parse
+
+      <ul>
+        <li><a href="reference/autosummary/sparknlp_jsl/utils/log_parse/index.html#module-sparknlp_jsl.utils.log_parse">module</a>
+</li>
+      </ul></li>
+      <li>
+    sparknlp_jsl.utils.ner_utils
+
+      <ul>
+        <li><a href="reference/autosummary/sparknlp_jsl/utils/ner_utils/index.html#module-sparknlp_jsl.utils.ner_utils">module</a>
+</li>
+      </ul></li>
+      <li>
+    sparknlp_jsl.utils.ocr_nlp_processor
+
+      <ul>
+        <li><a href="reference/autosummary/sparknlp_jsl/utils/ocr_nlp_processor/index.html#module-sparknlp_jsl.utils.ocr_nlp_processor">module</a>
+</li>
+      </ul></li>
+      <li>
+    sparknlp_jsl.utils.ocr_utils
+
+      <ul>
+        <li><a href="reference/autosummary/sparknlp_jsl/utils/ocr_utils/index.html#module-sparknlp_jsl.utils.ocr_utils">module</a>
+</li>
+      </ul></li>
+      <li><a href="reference/autosummary/sparknlp_jsl/utils/licensed_annotator_type/index.html#sparknlp_jsl.utils.licensed_annotator_type.InternalAnnotatorType.SQL">SQL (InternalAnnotatorType attribute)</a>
+</li>
       <li><a href="reference/autosummary/sparknlp_jsl/_tf_graph_builders/tf2contrib/rnn_cell/index.html#sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.SRUCell">SRUCell (class in sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell)</a>
 </li>
       <li><a href="reference/autosummary/sparknlp_jsl/_tf_graph_builders/tf2contrib/rnn/index.html#sparknlp_jsl._tf_graph_builders.tf2contrib.rnn.stack_bidirectional_dynamic_rnn">stack_bidirectional_dynamic_rnn() (in module sparknlp_jsl._tf_graph_builders.tf2contrib.rnn)</a>
 </li>
       <li><a href="reference/autosummary/sparknlp_jsl/_tf_graph_builders/tf2contrib/rnn/index.html#sparknlp_jsl._tf_graph_builders.tf2contrib.rnn.stack_bidirectional_rnn">stack_bidirectional_rnn() (in module sparknlp_jsl._tf_graph_builders.tf2contrib.rnn)</a>
+</li>
+      <li><a href="reference/autosummary/sparknlp_jsl/annotator/source_tracking_metadata_params/index.html#sparknlp_jsl.annotator.source_tracking_metadata_params.SourceTrackingMetadataParams.standardFieldKey">standardFieldKey (SourceTrackingMetadataParams attribute)</a>
 </li>
       <li><a href="reference/autosummary/sparknlp_jsl/index.html#sparknlp_jsl.start">start() (in module sparknlp_jsl)</a>
 </li>
@@ -4991,11 +5216,9 @@
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="reference/autosummary/sparknlp_jsl/annotator/tf_graph_builder/index.html#sparknlp_jsl.annotator.tf_graph_builder.TFGraphBuilderModel">TFGraphBuilderModel (class in sparknlp_jsl.annotator.tf_graph_builder)</a>
 </li>
-      <li><a href="reference/autosummary/sparknlp_jsl/annotator/ner/ner_converter_internal/index.html#sparknlp_jsl.annotator.ner.ner_converter_internal.NerConverterInternal.threshold">threshold (NerConverterInternal attribute)</a>
+      <li><a href="reference/autosummary/sparknlp_jsl/annotator/ner/ner_converter_internal/index.html#sparknlp_jsl.annotator.ner.ner_converter_internal.CommonNerConverterInternalParams.threshold">threshold (CommonNerConverterInternalParams attribute)</a>
 
       <ul>
-        <li><a href="reference/autosummary/sparknlp_jsl/annotator/ner/ner_converter_internal/index.html#sparknlp_jsl.annotator.ner.ner_converter_internal.NerConverterInternalModel.threshold">(NerConverterInternalModel attribute)</a>
-</li>
         <li><a href="reference/autosummary/sparknlp_jsl/annotator/resolution/sentence_entity_resolver/index.html#sparknlp_jsl.annotator.resolution.sentence_entity_resolver.SentenceResolverParams.threshold">(SentenceResolverParams attribute)</a>
 </li>
       </ul></li>
@@ -5079,6 +5302,8 @@
 </li>
       <li><a href="reference/autosummary/sparknlp_jsl/annotator/tf_graph_builder/index.html#sparknlp_jsl.annotator.tf_graph_builder.TFGraphBuilder.useRelationDirection">useRelationDirection (TFGraphBuilder attribute)</a>
 </li>
+      <li><a href="reference/autosummary/sparknlp_jsl/annotator/deid/replacer/index.html#sparknlp_jsl.annotator.deid.replacer.Replacer.useReplacement">useReplacement (Replacer attribute)</a>
+</li>
       <li><a href="reference/autosummary/sparknlp_jsl/annotator/deid/deIdentification/index.html#sparknlp_jsl.annotator.deid.deIdentification.DeIdentification.useShifDays">useShifDays (DeIdentification attribute)</a>
 
       <ul>
@@ -5124,9 +5349,7 @@
 </li>
         <li><a href="reference/autosummary/sparknlp_jsl/annotator/chunker/chunker_filterer/index.html#sparknlp_jsl.annotator.chunker.chunker_filterer.ChunkFiltererApproach.whiteList">(ChunkFiltererApproach attribute)</a>
 </li>
-        <li><a href="reference/autosummary/sparknlp_jsl/annotator/ner/ner_converter_internal/index.html#sparknlp_jsl.annotator.ner.ner_converter_internal.NerConverterInternal.whiteList">(NerConverterInternal attribute)</a>
-</li>
-        <li><a href="reference/autosummary/sparknlp_jsl/annotator/ner/ner_converter_internal/index.html#sparknlp_jsl.annotator.ner.ner_converter_internal.NerConverterInternalModel.whiteList">(NerConverterInternalModel attribute)</a>
+        <li><a href="reference/autosummary/sparknlp_jsl/annotator/ner/ner_converter_internal/index.html#sparknlp_jsl.annotator.ner.ner_converter_internal.CommonNerConverterInternalParams.whiteList">(CommonNerConverterInternalParams attribute)</a>
 </li>
       </ul></li>
   </ul></td>
@@ -5222,7 +5445,8 @@
   
     
   <!-- Scripts loaded after <body> so the DOM is not blocked -->
-  <script src="static/scripts/pydata-sphinx-theme.js?digest=1e1de1a1873e13ef5536"></script>
+  <script src="static/scripts/bootstrap.js?digest=796348d33e8b1d947c94"></script>
+<script src="static/scripts/pydata-sphinx-theme.js?digest=796348d33e8b1d947c94"></script>
 
   <footer class="bd-footer"><div class="bd-footer__inner container">
   
@@ -5234,6 +5458,16 @@
 
 </p>
 
+  </div>
+  
+  <div class="footer-item">
+    <p class="theme-version">
+    Built with the
+    <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">
+        PyData Sphinx Theme
+    </a>
+    0.12.0.
+</p>
   </div>
   
   <div class="footer-item">
