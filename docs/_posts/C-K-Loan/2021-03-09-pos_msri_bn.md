@@ -68,19 +68,15 @@ document_assembler = DocumentAssembler() \
 .setInputCol("text") \
 .setOutputCol("document")
 
-sentence_detector = SentenceDetector() \
+tokenizer = Tokenizer()\
 .setInputCols(["document"]) \
-.setOutputCol("sentence")
+.setOutputCol("token")
 
-pos = PerceptronModel.pretrained("pos_msri", "bn") \
+posTagger = PerceptronModel.pretrained("pos_msri", "bn") \
 .setInputCols(["document", "token"]) \
 .setOutputCol("pos")
 
-pipeline = Pipeline(stages=[
-document_assembler,
-sentence_detector,
-posTagger
-])
+pipeline = Pipeline(stages=[document_assembler, tokenizer, posTagger])
 
 example = spark.createDataFrame([['জন স্নো ল্যাবস থেকে হ্যালো! ']], ["text"])
 
