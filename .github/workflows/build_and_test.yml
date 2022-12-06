@@ -36,7 +36,7 @@ jobs:
     runs-on: macos-latest
     env:
       TF_CPP_MIN_LOG_LEVEL: 3
-      JAVA_OPTS: "-XX:+UseG1GC"
+      JAVA_OPTS: "-Xmx4096m -XX:+UseG1GC"
     name: Build and Test on Apache Spark 3.3.x
 
     steps:
@@ -58,12 +58,10 @@ jobs:
       - name: Build Spark NLP on Apache Spark 3.3.0
         run: |
           brew install sbt
-          sbt -Dis_spark33=true clean
-          sbt -Dis_spark33=true compile
-          sbt -mem 4096 -Dis_spark33=true assemblyAndCopy
+          sbt -mem 4096 -Dis_spark33=true clean assemblyAndCopy
       - name: Test Spark NLP in Scala - Apache Spark 3.3.x
         run: |
-          sbt -mem 4096 -Dis_spark33=true test
+          sbt -mem 4096 test
       - name: Upload coverage data to Coveralls
         run: sbt coverageReport coveralls
         env:
@@ -79,7 +77,7 @@ jobs:
     runs-on: macos-latest
     env:
       TF_CPP_MIN_LOG_LEVEL: 3
-      JAVA_OPTS: "-XX:+UseG1GC"
+      JAVA_OPTS: "-Xmx4096m -XX:+UseG1GC"
     name: Build and Test on Apache Spark 3.2.x
 
     steps:
@@ -101,9 +99,7 @@ jobs:
       - name: Build Spark NLP on Apache Spark 3.2.1
         run: |
           brew install sbt
-          sbt clean
-          sbt compile
-          sbt assemblyAndCopy
+          sbt -mem 4096 clean assemblyAndCopy
       - name: Test Spark NLP in Scala - Apache Spark 3.2.x
         run: |
           sbt -mem 4096 coverage test
@@ -117,7 +113,7 @@ jobs:
     runs-on: macos-latest
     env:
       TF_CPP_MIN_LOG_LEVEL: 3
-      JAVA_OPTS: "-XX:+UseG1GC"
+      JAVA_OPTS: "-Xmx4096m -XX:+UseG1GC"
     name: Build and Test on Apache Spark 3.1.x
 
     steps:
@@ -139,12 +135,10 @@ jobs:
       - name: Build Spark NLP on Apache Spark 3.1.x
         run: |
           brew install sbt
-          sbt -Dis_spark31=true clean
-          sbt -Dis_spark31=true compile
-          sbt -mem 4096 -Dis_spark31=true assemblyAndCopy
+          sbt -mem 4096 -Dis_spark31=true clean assemblyAndCopy
       - name: Test Spark NLP in Scala - Apache Spark 3.1.x
         run: |
-          sbt -mem 4096 -Dis_spark31=true test
+          sbt -mem 4096 test
       - name: Test Spark NLP in Python - Apache Spark 3.1.x
         run: |
           cd python
@@ -155,7 +149,7 @@ jobs:
     runs-on: macos-latest
     env:
       TF_CPP_MIN_LOG_LEVEL: 3
-      JAVA_OPTS: "-XX:+UseG1GC"
+      JAVA_OPTS: "-Xmx4096m -XX:+UseG1GC"
     name: Build and Test on Apache Spark 3.0.x
 
     steps:
@@ -177,12 +171,10 @@ jobs:
       - name: Build Spark NLP on Apache Spark 3.0.x
         run: |
           brew install sbt
-          sbt -Dis_spark30=true clean
-          sbt -Dis_spark30=true compile
-          sbt -mem 4096 -Dis_spark30=true assemblyAndCopy
+          sbt -mem 4096 -Dis_spark30=true clean assemblyAndCopy
       - name: Test Spark NLP in Scala - Apache Spark 3.0.x
         run: |
-          sbt -mem 4096 -Dis_spark30=true test
+          sbt -mem 4096 test
       - name: Test Spark NLP in Python - Apache Spark 3.0.x
         run: |
           cd python
