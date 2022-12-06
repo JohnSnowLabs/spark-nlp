@@ -12,7 +12,7 @@ spark_version: 3.0
 supported: true
 engine: tensorflow
 article_header:
-  type: cover
+type: cover
 use_language_switcher: "Python-Scala-Java"
 ---
 
@@ -37,6 +37,7 @@ Unlike the Longformer model, this model is lighter in terms of inference time.
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
+
 ```python
 
 document_assembler = nlp.DocumentAssembler()\
@@ -108,7 +109,7 @@ indemnity-agreement       0.88      0.82      0.85        28
               other       0.86      0.91      0.89        35
 
            accuracy                           0.87        63
-          macro avg       0.87      0.87      0.87        63
-       weighted avg       0.87      0.87      0.87        63
+          macro-avg       0.87      0.87      0.87        63
+       weighted-avg       0.87      0.87      0.87        63
 
 ```
