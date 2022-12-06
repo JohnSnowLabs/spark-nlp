@@ -61,7 +61,7 @@ jobs:
           sbt -mem 4096 -Dis_spark33=true clean assemblyAndCopy
       - name: Test Spark NLP in Scala - Apache Spark 3.3.x
         run: |
-          sbt -mem 4096 test
+          sbt -mem 4096 coverage test
       - name: Upload coverage data to Coveralls
         run: sbt coverageReport coveralls
         env:
@@ -102,7 +102,7 @@ jobs:
           sbt -mem 4096 clean assemblyAndCopy
       - name: Test Spark NLP in Scala - Apache Spark 3.2.x
         run: |
-          sbt -mem 4096 coverage test
+          sbt -mem 4096 test
       - name: Test Spark NLP in Python - Apache Spark 3.2.x
         run: |
           cd python
