@@ -12,6 +12,8 @@ version := "4.2.4"
 
 (ThisBuild / scalacOptions) += "-target:jvm-1.8"
 
+(ThisBuild / javaOptions) += "-Xmx4096m -XX:+UseG1GC"
+
 scalacOptions ++= Seq("-unchecked", "-feature", "-deprecation", "-language:implicitConversions")
 
 (Compile / doc / scalacOptions) ++= Seq(
