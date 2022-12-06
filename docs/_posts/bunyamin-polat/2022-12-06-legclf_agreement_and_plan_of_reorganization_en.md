@@ -1,6 +1,6 @@
 ---
 layout: model
-title: Legal Agreement And Plan Of Reorganization Document Classifier (Longformer)
+title: Legal Agreement and Plan of Reorganization Document Classifier (Longformer)
 author: John Snow Labs
 name: legclf_agreement_and_plan_of_reorganization
 date: 2022-12-06
@@ -12,7 +12,7 @@ spark_version: 3.0
 supported: true
 engine: tensorflow
 article_header:
-  type: cover
+type: cover
 use_language_switcher: "Python-Scala-Java"
 ---
 
@@ -39,6 +39,7 @@ If not, let us know and we can carry out another approach for you: getting chunk
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
+
 ```python
 
 document_assembler = nlp.DocumentAssembler()\
@@ -121,7 +122,7 @@ agreement-and-plan-of-reorganization       1.00      0.92      0.96        52
                                other       0.97      1.00      0.98       111
 
                             accuracy                           0.98       163
-                           macro avg       0.98      0.96      0.97       163
-                        weighted avg       0.98      0.98      0.98       163
+                           macro-avg       0.98      0.96      0.97       163
+                        weighted-avg       0.98      0.98      0.98       163
 
 ```
