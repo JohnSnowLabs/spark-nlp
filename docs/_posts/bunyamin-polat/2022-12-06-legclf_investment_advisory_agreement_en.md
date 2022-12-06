@@ -12,7 +12,7 @@ spark_version: 3.0
 supported: true
 engine: tensorflow
 article_header:
-  type: cover
+type: cover
 use_language_switcher: "Python-Scala-Java"
 ---
 
@@ -39,6 +39,7 @@ If not, let us know and we can carry out another approach for you: getting chunk
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
+
 ```python
 
 document_assembler = nlp.DocumentAssembler()\
@@ -121,7 +122,7 @@ investment-advisory-agreement       0.97      0.98      0.98        60
                         other       0.99      0.98      0.99       111
 
                      accuracy                           0.98       171
-                    macro avg       0.98      0.98      0.98       171
-                 weighted avg       0.98      0.98      0.98       171
+                    macro-avg       0.98      0.98      0.98       171
+                 weighted-avg       0.98      0.98      0.98       171
 
 ```
