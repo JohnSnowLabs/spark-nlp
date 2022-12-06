@@ -1,6 +1,6 @@
 ---
 layout: model
-title: Legal Agreement And Plan Of Reorganization Document Classifier (Bert Sentence Embeddings)
+title: Legal Agreement and Plan of Reorganization Document Classifier (Bert Sentence Embeddings)
 author: John Snow Labs
 name: legclf_agreement_and_plan_of_reorganization_bert
 date: 2022-12-06
@@ -12,7 +12,7 @@ spark_version: 3.0
 supported: true
 engine: tensorflow
 article_header:
-  type: cover
+type: cover
 use_language_switcher: "Python-Scala-Java"
 ---
 
@@ -37,6 +37,7 @@ Unlike the Longformer model, this model is lighter in terms of inference time.
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
+
 ```python
 
 document_assembler = nlp.DocumentAssembler()\
@@ -108,7 +109,7 @@ agreement-and-plan-of-reorganization       1.00      1.00      1.00        31
                                other       1.00      1.00      1.00        35
 
                             accuracy                           1.00        66
-                           macro avg       1.00      1.00      1.00        66
-                        weighted avg       1.00      1.00      1.00        66
+                           macro-avg       1.00      1.00      1.00        66
+                        weighted-avg       1.00      1.00      1.00        66
 
 ```
