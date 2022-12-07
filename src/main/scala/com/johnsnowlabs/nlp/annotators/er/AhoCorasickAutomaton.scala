@@ -203,7 +203,7 @@ class AhoCorasickAutomaton(
     val alphabetExample =
       "blob/e3d3d942a75752d8040f73538c7f8ce5430e80d9/jupyter/training/english/entity-ruler/EntityRuler_Alphabet.ipynb"
     val errorMessage: String =
-      s""""Char $char not found in the alphabet. Your data could have unusual characters not found
+      s"""Char $char not found in the alphabet. Your data could have unusual characters not found
          |in your document's language, which requires setting up a custom alphabet.
          |
          |Please set alphabet using setAlphabetResource parameter and make sure it has all
