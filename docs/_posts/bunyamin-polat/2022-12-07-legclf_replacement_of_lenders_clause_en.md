@@ -1,6 +1,6 @@
 ---
 layout: model
-title: Legal Replacement Of Lenders Clause Binary Classifier
+title: Legal Replacement of Lenders Clause Binary Classifier
 author: John Snow Labs
 name: legclf_replacement_of_lenders_clause
 date: 2022-12-07
@@ -34,7 +34,7 @@ This model can be combined with any of the other 200+ Legal Clauses Classifiers 
 `replacement-of-lenders`, `other`
 
 {:.btn-box}
-<button class="button button-orange" disabled>Live Demo</button>
+[Live Demo](https://demo.johnsnowlabs.com/finance/CLASSIFY_LEGAL_CLAUSES/){:.button.button-orange}
 <button class="button button-orange" disabled>Open in Colab</button>
 [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/legal/models/legclf_replacement_of_lenders_clause_en_1.0.0_3.0_1670445171577.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
 
@@ -44,6 +44,7 @@ This model can be combined with any of the other 200+ Legal Clauses Classifiers 
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
+
 ```python
 
 document_assembler = nlp.DocumentAssembler()\
@@ -115,7 +116,7 @@ Legal documents, scrapped from the Internet, and classified in-house
 replacement-of-lenders       0.87      1.00      0.93        26
 
               accuracy                           0.96        99
-             macro avg       0.93      0.97      0.95        99
-          weighted avg       0.96      0.96      0.96        99
+             macro-avg       0.93      0.97      0.95        99
+          weighted-avg       0.96      0.96      0.96        99
 
 ```
