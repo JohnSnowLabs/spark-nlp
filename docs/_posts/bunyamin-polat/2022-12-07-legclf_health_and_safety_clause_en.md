@@ -1,6 +1,6 @@
 ---
 layout: model
-title: Legal Health And Safety Clause Binary Classifier
+title: Legal Health and Safety Clause Binary Classifier
 author: John Snow Labs
 name: legclf_health_and_safety_clause
 date: 2022-12-07
@@ -12,7 +12,7 @@ spark_version: 3.0
 supported: true
 engine: tensorflow
 article_header:
-  type: cover
+type: cover
 use_language_switcher: "Python-Scala-Java"
 ---
 
@@ -44,6 +44,7 @@ This model can be combined with any of the other 200+ Legal Clauses Classifiers 
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
+
 ```python
 
 document_assembler = nlp.DocumentAssembler()\
@@ -115,7 +116,7 @@ health-and-safety       1.00      0.97      0.98        30
             other       0.97      1.00      0.99        39
 
          accuracy                           0.99        69
-        macro avg       0.99      0.98      0.99        69
-     weighted avg       0.99      0.99      0.99        69
+        macro-avg       0.99      0.98      0.99        69
+     weighted-avg       0.99      0.99      0.99        69
 
 ```
