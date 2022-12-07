@@ -9,10 +9,10 @@
     j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
     })(window,document,'script','dataLayer','GTM-59JLR64');</script>
-<!-- End Google Tag Manager --><title>Spanish Named Entity Recognition, (RoBERTa base trained with data from the National Library of Spain (BNE) and CONLL 2003 data), by the TEMU Unit of the BSC-CNS</title><meta property="og:title" content=""/>
+<!-- End Google Tag Manager --><title>General Oncology Pipeline</title><meta property="og:title" content=""/>
 
-<meta name="description" content="DescriptionPretrained Named Entity Recognition model, uploaded to Hugging Face, adapted and imported into Spark NLP. roberta-base-bne-conll-ner_spark_nlp is a Spanish model orginally trained by TEMU-BSC for PlanTL-GOB-ES.Predicted EntitiesLive DemoOpen in ColabDownloadHow to usedocumentAssembler = DocumentAssembler(...">
-<link rel="canonical" href="/2022/11/21/roberta_base_bne_conll_ner_spark_nlp_es.html"><link rel="alternate" type="application/rss+xml" title="Spark NLP" href="/feed.xml"><!-- start favicons snippet, use https://realfavicongenerator.net/ -->
+<meta name="description" content="DescriptionThis pipeline includes Named-Entity Recognition, Assertion Status and Relation Extraction models to extract information from oncology texts. This pipeline extracts diagnoses, treatments, tests, anatomical references and demographic entities.Live DemoOpen in ColabDownloadHow to use         PythonScalaNLU  ...">
+<link rel="canonical" href="/2022/12/01/oncology_general_pipeline_en.html"><link rel="alternate" type="application/rss+xml" title="Spark NLP" href="/feed.xml"><!-- start favicons snippet, use https://realfavicongenerator.net/ -->
 <!---->
 <!-- <link rel="apple-touch-icon" sizes="180x180" href="/fav.ico"> -->
 
@@ -408,75 +408,129 @@
 
 <!-- end custom main top snippet --><article><script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script><div class="article__header"><div class="header-author"><div class="article__info clearfix"><div class="left-col">
             <a class="edit-on-github-btn" target="_blank" rel="alternate"
-               href="https://github.com/johnsnowlabs/spark-nlp/tree/master/docs/_posts/cayorodriguez/2022-11-21-roberta_base_bne_conll_ner_spark_nlp_es.md">
+               href="https://github.com/johnsnowlabs/spark-nlp/tree/master/docs/_posts/mauro-nievoff/2022-12-01-oncology_general_pipeline_en.md">
               <span class="fab fa-github"></span>
               <span class="edit-on-github-label">Edit on GitHub</span>
             </a>
-        </div><ul class="right-col menu"><li><i class="far fa-user"></i> <span>cayorodriguez</span></li><li><i class="far fa-calendar-alt"></i> <span>Nov 21, 2022</span>
-            </li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2022-11-21T00:00:00+00:00"></div><header class="main-docs have_subtitle">
-          <h1>Spanish Named Entity Recognition, (RoBERTa base trained with data from the National Library of Spain (BNE) and CONLL 2003 data), by the TEMU Unit of the BSC-CNS</h1><div class="top-subtitle mont"></div></header></div><meta itemprop="headline" content="Spanish Named Entity Recognition, (RoBERTa base trained with data from the National Library of Spain (BNE) and CONLL 2003 data), by the TEMU Unit of the BSC-CNS"><div class="article__info tags_box clearfix"><ul class="left-col menu"><li>es</li><li>open_source</li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2022-11-21T00:00:00+00:00">
-    <meta itemprop="keywords" content="es,open_source"><div class="js-article-content"><div class="model-wrap"><div class="layout--article"><!-- start custom article top snippet -->
+        </div><ul class="right-col menu"><li><i class="far fa-user"></i> <span>John Snow Labs</span></li><li><i class="far fa-calendar-alt"></i> <span>Dec 01, 2022</span>
+            </li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2022-12-01T00:00:00+00:00"></div><header class="main-docs have_subtitle">
+          <h1>General Oncology Pipeline</h1><div class="top-subtitle mont"></div></header></div><meta itemprop="headline" content="General Oncology Pipeline"><div class="article__info tags_box clearfix"><ul class="left-col menu"><li>licensed</li><li>pipeline</li><li>oncology</li><li>en</li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2022-12-01T00:00:00+00:00">
+    <meta itemprop="keywords" content="licensed,pipeline,oncology,en"><div class="js-article-content"><div class="model-wrap"><div class="layout--article"><!-- start custom article top snippet -->
 
 <!-- end custom article top snippet --><div class="article__content" itemprop="articleBody"><h2 id="description">Description</h2>
 
-<p>Pretrained Named Entity Recognition model, uploaded to Hugging Face, adapted and imported into Spark NLP. roberta-base-bne-conll-ner_spark_nlp is a Spanish model orginally trained by TEMU-BSC for PlanTL-GOB-ES.</p>
-
-<h2 id="predicted-entities">Predicted Entities</h2>
+<p>This pipeline includes Named-Entity Recognition, Assertion Status and Relation Extraction models to extract information from oncology texts. This pipeline extracts diagnoses, treatments, tests, anatomical references and demographic entities.</p>
 
 <p class="btn-box"><button class="button button-orange" disabled="">Live Demo</button>
-<button class="button button-orange" disabled="">Open in Colab</button>
-<a href="https://s3.amazonaws.com/community.johnsnowlabs.com/cayorodriguez/roberta_base_bne_conll_ner_spark_nlp_es_4.0.0_3.2_1669018824287.zip" class="button button-orange button-orange-trans arr button-icon">Download</a></p>
+<a href="https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/27.Oncology_Model.ipynb" class="button button-orange button-orange-trans co button-icon">Open in Colab</a>
+<a href="https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/oncology_general_pipeline_en_4.2.2_3.0_1669899456383.zip" class="button button-orange button-orange-trans arr button-icon">Download</a></p>
 
 <h2 id="how-to-use">How to use</h2>
-
-<p>documentAssembler = DocumentAssembler() <br />
-    .setInputCol(“text”) <br />
-    .setOutputCol(“document”)</p>
-
-<p>sentenceDetector = SentenceDetector()<br />
-.setInputCols([“document”])<br />
-.setOutputCol(“sentence”)</p>
-
-<p>tokenizer = Tokenizer() <br />
-    .setInputCols(“sentence”) <br />
-    .setOutputCol(“token”)</p>
-
-<p>ner = RoBertaForTokenClassification.pretrained(“roberta_base_bne_conll_ner_spark_nlp”,”es”) <br />
-    .setInputCols([“sentence”, “token”]) <br />
-    .setOutputCol(“ner”)</p>
-
-<p>pipeline = Pipeline(stages=[documentAssembler, tokenizer, ner])</p>
-
-<p>data = spark.createDataFrame([[“El Plan Nacional para el Impulso de las Tecnologías del Lenguage es una iniciativa del Gobierno de España”]]).toDF(“text”)</p>
-
-<p>result = pipeline.fit(data).transform(data)</p>
 
 <div class="tabs-box">
   <div class="top_tab_li">   
     <p><button data-type="python" class="tab-li code-selector-active python-button">Python</button><button data-type="scala" class="tab-li code-selector-un-active scala-button">Scala</button><button data-type="nlu" class="tab-li code-selector-un-active nlu-button">NLU</button></p>
 </div>
-  <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">documentAssembler</span> <span class="o">=</span> <span class="n">DocumentAssembler</span><span class="p">()</span> \
-    <span class="p">.</span><span class="n">setInputCol</span><span class="p">(</span><span class="s">"text"</span><span class="p">)</span> \
-    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"document"</span><span class="p">)</span>
+  <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">sparknlp.pretrained</span> <span class="kn">import</span> <span class="n">PretrainedPipeline</span>
 
-<span class="n">sentenceDetector</span> <span class="o">=</span> <span class="n">SentenceDetector</span><span class="p">()</span>\
-<span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"document"</span><span class="p">])</span>\
-<span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"sentence"</span><span class="p">)</span>
+<span class="n">pipeline</span> <span class="o">=</span> <span class="n">PretrainedPipeline</span><span class="p">(</span><span class="s">"oncology_general_pipeline"</span><span class="p">,</span> <span class="s">"en"</span><span class="p">,</span> <span class="s">"clinical/models"</span><span class="p">)</span>
 
-<span class="n">tokenizer</span> <span class="o">=</span> <span class="n">Tokenizer</span><span class="p">()</span> \
-    <span class="p">.</span><span class="n">setInputCols</span><span class="p">(</span><span class="s">"sentence"</span><span class="p">)</span> \
-    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"token"</span><span class="p">)</span>
-  
-<span class="n">ner</span> <span class="o">=</span> <span class="n">RoBertaForTokenClassification</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"roberta_base_bne_conll_ner_spark_nlp"</span><span class="p">,</span><span class="s">"es"</span><span class="p">)</span> \
-    <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"sentence"</span><span class="p">,</span> <span class="s">"token"</span><span class="p">])</span> \
-    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"ner"</span><span class="p">)</span>
-    
-<span class="n">pipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">(</span><span class="n">stages</span><span class="o">=</span><span class="p">[</span><span class="n">documentAssembler</span><span class="p">,</span> <span class="n">tokenizer</span><span class="p">,</span> <span class="n">ner</span><span class="p">])</span>
+<span class="n">pipeline</span><span class="p">.</span><span class="n">annotate</span><span class="p">(</span><span class="s">"The patient underwent a left mastectomy for a left breast cancer two months ago.
+The tumor is positive for ER and PR."</span><span class="p">)</span>
 
-<span class="n">data</span> <span class="o">=</span> <span class="n">spark</span><span class="p">.</span><span class="n">createDataFrame</span><span class="p">([[</span><span class="s">"El Plan Nacional para el Impulso de las Tecnologías del Lenguage es una iniciativa del Gobierno de España"</span><span class="p">]]).</span><span class="n">toDF</span><span class="p">(</span><span class="s">"text"</span><span class="p">)</span>
 </code></pre></div>  </div>
+  <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="nn">com.johnsnowlabs.nlp.pretrained.PretrainedPipeline</span>
 
+<span class="k">val</span> <span class="nv">pipeline</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">PretrainedPipeline</span><span class="o">(</span><span class="s">"oncology_general_pipeline"</span><span class="o">,</span> <span class="s">"en"</span><span class="o">,</span> <span class="s">"clinical/models"</span><span class="o">)</span>
+
+<span class="k">val</span> <span class="nv">result</span> <span class="k">=</span> <span class="nv">pipeline</span><span class="o">.</span><span class="py">fullAnnotate</span><span class="o">(</span><span class="s">"""The patient underwent a left mastectomy for a left breast cancer two months ago.
+The tumor is positive for ER and PR."""</span><span class="o">)(</span><span class="mi">0</span><span class="o">)</span>
+</code></pre></div>  </div>
 </div>
+
+<h2 id="results">Results</h2>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">********************</span> ner_oncology_wip results <span class="k">********************</span>
+
+| chunk          | ner_label        |
+|:---------------|:-----------------|
+| left           | Direction        |
+| mastectomy     | Cancer_Surgery   |
+| left           | Direction        |
+| breast cancer  | Cancer_Dx        |
+| two months ago | Relative_Date    |
+| tumor          | Tumor_Finding    |
+| positive       | Biomarker_Result |
+| ER             | Biomarker        |
+| PR             | Biomarker        |
+
+
+<span class="k">********************</span> ner_oncology_diagnosis_wip results <span class="k">********************</span>
+
+| chunk         | ner_label     |
+|:--------------|:--------------|
+| breast cancer | Cancer_Dx     |
+| tumor         | Tumor_Finding |
+
+
+<span class="k">********************</span> ner_oncology_tnm_wip results <span class="k">********************</span>
+
+| chunk         | ner_label   |
+|:--------------|:------------|
+| breast cancer | Cancer_Dx   |
+| tumor         | Tumor       |
+
+
+<span class="k">********************</span> ner_oncology_therapy_wip results <span class="k">********************</span>
+
+| chunk      | ner_label      |
+|:-----------|:---------------|
+| mastectomy | Cancer_Surgery |
+
+
+<span class="k">********************</span> ner_oncology_test_wip results <span class="k">********************</span>
+
+| chunk    | ner_label        |
+|:---------|:-----------------|
+| positive | Biomarker_Result |
+| ER       | Biomarker        |
+| PR       | Biomarker        |
+
+
+<span class="k">********************</span> assertion_oncology_wip results <span class="k">********************</span>
+
+| chunk         | ner_label      | assertion   |
+|:--------------|:---------------|:------------|
+| mastectomy    | Cancer_Surgery | Past        |
+| breast cancer | Cancer_Dx      | Present     |
+| tumor         | Tumor_Finding  | Present     |
+| ER            | Biomarker      | Present     |
+| PR            | Biomarker      | Present     |
+
+
+<span class="k">********************</span> re_oncology_wip results <span class="k">********************</span>
+
+| chunk1        | entity1          | chunk2         | entity2       | relation      |
+|:--------------|:-----------------|:---------------|:--------------|:--------------|
+| mastectomy    | Cancer_Surgery   | two months ago | Relative_Date | is_related_to |
+| breast cancer | Cancer_Dx        | two months ago | Relative_Date | is_related_to |
+| tumor         | Tumor_Finding    | ER             | Biomarker     | O             |
+| tumor         | Tumor_Finding    | PR             | Biomarker     | O             |
+| positive      | Biomarker_Result | ER             | Biomarker     | is_related_to |
+| positive      | Biomarker_Result | PR             | Biomarker     | is_related_to |
+
+
+<span class="k">********************</span> re_oncology_granular_wip results <span class="k">********************</span>
+
+| chunk1        | entity1          | chunk2         | entity2       | relation      |
+|:--------------|:-----------------|:---------------|:--------------|:--------------|
+| mastectomy    | Cancer_Surgery   | two months ago | Relative_Date | is_date_of    |
+| breast cancer | Cancer_Dx        | two months ago | Relative_Date | is_date_of    |
+| tumor         | Tumor_Finding    | ER             | Biomarker     | O             |
+| tumor         | Tumor_Finding    | PR             | Biomarker     | O             |
+| positive      | Biomarker_Result | ER             | Biomarker     | is_finding_of |
+| positive      | Biomarker_Result | PR             | Biomarker     | is_finding_of |
+</code></pre></div></div>
 
 <h2 class="model-param" id="model-information">Model Information</h2>
 
@@ -484,47 +538,61 @@
   <tbody>
     <tr>
       <td>Model Name:</td>
-      <td>roberta_base_bne_conll_ner_spark_nlp</td>
+      <td>oncology_general_pipeline</td>
+    </tr>
+    <tr>
+      <td>Type:</td>
+      <td>pipeline</td>
     </tr>
     <tr>
       <td>Compatibility:</td>
-      <td>Spark NLP 4.0.0+</td>
+      <td>Healthcare NLP 4.2.2+</td>
     </tr>
     <tr>
       <td>License:</td>
-      <td>Open Source</td>
+      <td>Licensed</td>
     </tr>
     <tr>
       <td>Edition:</td>
-      <td>Community</td>
-    </tr>
-    <tr>
-      <td>Input Labels:</td>
-      <td>[document, token]</td>
-    </tr>
-    <tr>
-      <td>Output Labels:</td>
-      <td>[ner]</td>
+      <td>Official</td>
     </tr>
     <tr>
       <td>Language:</td>
-      <td>es</td>
+      <td>en</td>
     </tr>
     <tr>
       <td>Size:</td>
-      <td>447.3 MB</td>
-    </tr>
-    <tr>
-      <td>Case sensitive:</td>
-      <td>true</td>
-    </tr>
-    <tr>
-      <td>Max sentence length:</td>
-      <td>128</td>
+      <td>1.7 GB</td>
     </tr>
   </tbody>
 </table>
-</div><div class="d-print-none"><footer class="article__footer"><meta itemprop="dateModified" content="2022-11-21T00:00:00+00:00"><!-- start custom article footer snippet -->
+
+<h2 id="included-models">Included Models</h2>
+
+<ul>
+  <li>DocumentAssembler</li>
+  <li>SentenceDetectorDLModel</li>
+  <li>TokenizerModel</li>
+  <li>WordEmbeddingsModel</li>
+  <li>MedicalNerModel</li>
+  <li>NerConverter</li>
+  <li>MedicalNerModel</li>
+  <li>NerConverter</li>
+  <li>MedicalNerModel</li>
+  <li>NerConverter</li>
+  <li>MedicalNerModel</li>
+  <li>NerConverter</li>
+  <li>MedicalNerModel</li>
+  <li>NerConverter</li>
+  <li>ChunkMergeModel</li>
+  <li>ChunkMergeModel</li>
+  <li>AssertionDLModel</li>
+  <li>PerceptronModel</li>
+  <li>DependencyParserModel</li>
+  <li>RelationExtractionModel</li>
+  <li>RelationExtractionModel</li>
+</ul>
+</div><div class="d-print-none"><footer class="article__footer"><meta itemprop="dateModified" content="2022-12-01T00:00:00+00:00"><!-- start custom article footer snippet -->
 
 <!-- end custom article footer snippet --></footer>
 
@@ -863,7 +931,7 @@ hr.code-selector-underlie {
 
 }
 
-</style><div class="article__section-navigator clearfix"><div class="previous nav_link"><span>PREVIOUS</span><a href="/2022/11/21/kegg_drug_mapper_en.html">Mapping Drugs from the KEGG Database to Their Efficacies, Molecular Weights and Corresponding Codes from Other Databases</a></div><div class="next nav_link"><span>NEXT</span><a href="/2022/11/21/legclf_dates_sm_en.html">Classify text about Effective, Renewal or Termination date</a></div></div></div>
+</style><div class="article__section-navigator clearfix"><div class="previous nav_link"><span>PREVIOUS</span><a href="/2022/12/01/oncology_diagnosis_pipeline_en.html">Oncology Pipeline for Diagnosis Entities</a></div><div class="next nav_link"><span>NEXT</span><a href="/2022/12/01/oncology_therapy_pipeline_en.html">Oncology Pipeline for Therapies</a></div></div></div>
 
 </div>
 </div>

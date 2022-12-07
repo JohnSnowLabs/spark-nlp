@@ -9,10 +9,10 @@
     j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
     })(window,document,'script','dataLayer','GTM-59JLR64');</script>
-<!-- End Google Tag Manager --><title>Spanish Named Entity Recognition, (RoBERTa base trained with data from the National Library of Spain (BNE) and CONLL 2003 data), by the TEMU Unit of the BSC-CNS</title><meta property="og:title" content=""/>
+<!-- End Google Tag Manager --><title>Mapping Drugs from the KEGG Database to Their Efficacies, Molecular Weights and Corresponding Codes from Other Databases</title><meta property="og:title" content=""/>
 
-<meta name="description" content="DescriptionPretrained Named Entity Recognition model, uploaded to Hugging Face, adapted and imported into Spark NLP. roberta-base-bne-conll-ner_spark_nlp is a Spanish model orginally trained by TEMU-BSC for PlanTL-GOB-ES.Predicted EntitiesLive DemoOpen in ColabDownloadHow to usedocumentAssembler = DocumentAssembler(...">
-<link rel="canonical" href="/2022/11/21/roberta_base_bne_conll_ner_spark_nlp_es.html"><link rel="alternate" type="application/rss+xml" title="Spark NLP" href="/feed.xml"><!-- start favicons snippet, use https://realfavicongenerator.net/ -->
+<meta name="description" content="DescriptionThis pretrained model maps drugs with their corresponding efficacy, molecular_weight as well as CAS, PubChem, ChEBI, LigandBox, NIKKAJI, PDB-CCD codes. This model was trained with the data from the KEGG database.Predicted Entitiesefficacy, molecular_weight, CAS, PubChem, ChEBI, LigandBox, NIKKAJI, PDB-CCD...">
+<link rel="canonical" href="/2022/11/21/kegg_drug_mapper_en.html"><link rel="alternate" type="application/rss+xml" title="Spark NLP" href="/feed.xml"><!-- start favicons snippet, use https://realfavicongenerator.net/ -->
 <!---->
 <!-- <link rel="apple-touch-icon" sizes="180x180" href="/fav.ico"> -->
 
@@ -408,75 +408,139 @@
 
 <!-- end custom main top snippet --><article><script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script><div class="article__header"><div class="header-author"><div class="article__info clearfix"><div class="left-col">
             <a class="edit-on-github-btn" target="_blank" rel="alternate"
-               href="https://github.com/johnsnowlabs/spark-nlp/tree/master/docs/_posts/cayorodriguez/2022-11-21-roberta_base_bne_conll_ner_spark_nlp_es.md">
+               href="https://github.com/johnsnowlabs/spark-nlp/tree/master/docs/_posts/Ahmetemintek/2022-11-21-kegg_drug_mapper_en.md">
               <span class="fab fa-github"></span>
               <span class="edit-on-github-label">Edit on GitHub</span>
             </a>
-        </div><ul class="right-col menu"><li><i class="far fa-user"></i> <span>cayorodriguez</span></li><li><i class="far fa-calendar-alt"></i> <span>Nov 21, 2022</span>
+        </div><ul class="right-col menu"><li><i class="far fa-user"></i> <span>John Snow Labs</span></li><li><i class="far fa-calendar-alt"></i> <span>Nov 21, 2022</span>
             </li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2022-11-21T00:00:00+00:00"></div><header class="main-docs have_subtitle">
-          <h1>Spanish Named Entity Recognition, (RoBERTa base trained with data from the National Library of Spain (BNE) and CONLL 2003 data), by the TEMU Unit of the BSC-CNS</h1><div class="top-subtitle mont"></div></header></div><meta itemprop="headline" content="Spanish Named Entity Recognition, (RoBERTa base trained with data from the National Library of Spain (BNE) and CONLL 2003 data), by the TEMU Unit of the BSC-CNS"><div class="article__info tags_box clearfix"><ul class="left-col menu"><li>es</li><li>open_source</li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2022-11-21T00:00:00+00:00">
-    <meta itemprop="keywords" content="es,open_source"><div class="js-article-content"><div class="model-wrap"><div class="layout--article"><!-- start custom article top snippet -->
+          <h1>Mapping Drugs from the KEGG Database to Their Efficacies, Molecular Weights and Corresponding Codes from Other Databases</h1><div class="top-subtitle mont"></div></header></div><meta itemprop="headline" content="Mapping Drugs from the KEGG Database to Their Efficacies, Molecular Weights and Corresponding Codes from Other Databases"><div class="article__info tags_box clearfix"><ul class="left-col menu"><li>drug</li><li>efficacy</li><li>molecular_weight</li><li>cas</li><li>pubchem</li><li>chebi</li><li>ligandbox</li><li>nikkaji</li><li>pdbcct</li><li>chunk_mapper</li><li>clinical</li><li>en</li><li>licensed</li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2022-11-21T00:00:00+00:00">
+    <meta itemprop="keywords" content="drug,efficacy,molecular_weight,cas,pubchem,chebi,ligandbox,nikkaji,pdbcct,chunk_mapper,clinical,en,licensed"><div class="js-article-content"><div class="model-wrap"><div class="layout--article"><!-- start custom article top snippet -->
 
 <!-- end custom article top snippet --><div class="article__content" itemprop="articleBody"><h2 id="description">Description</h2>
 
-<p>Pretrained Named Entity Recognition model, uploaded to Hugging Face, adapted and imported into Spark NLP. roberta-base-bne-conll-ner_spark_nlp is a Spanish model orginally trained by TEMU-BSC for PlanTL-GOB-ES.</p>
+<p>This pretrained model maps drugs with their corresponding <code class="language-plaintext highlighter-rouge">efficacy</code>, <code class="language-plaintext highlighter-rouge">molecular_weight</code> as well as <code class="language-plaintext highlighter-rouge">CAS</code>, <code class="language-plaintext highlighter-rouge">PubChem</code>, <code class="language-plaintext highlighter-rouge">ChEBI</code>, <code class="language-plaintext highlighter-rouge">LigandBox</code>, <code class="language-plaintext highlighter-rouge">NIKKAJI</code>, <code class="language-plaintext highlighter-rouge">PDB-CCD</code> codes. This model was trained with the data from the KEGG database.</p>
 
 <h2 id="predicted-entities">Predicted Entities</h2>
 
+<p><code class="language-plaintext highlighter-rouge">efficacy</code>, <code class="language-plaintext highlighter-rouge">molecular_weight</code>, <code class="language-plaintext highlighter-rouge">CAS</code>, <code class="language-plaintext highlighter-rouge">PubChem</code>, <code class="language-plaintext highlighter-rouge">ChEBI</code>, <code class="language-plaintext highlighter-rouge">LigandBox</code>, <code class="language-plaintext highlighter-rouge">NIKKAJI</code>, <code class="language-plaintext highlighter-rouge">PDB-CCD</code></p>
+
 <p class="btn-box"><button class="button button-orange" disabled="">Live Demo</button>
-<button class="button button-orange" disabled="">Open in Colab</button>
-<a href="https://s3.amazonaws.com/community.johnsnowlabs.com/cayorodriguez/roberta_base_bne_conll_ner_spark_nlp_es_4.0.0_3.2_1669018824287.zip" class="button button-orange button-orange-trans arr button-icon">Download</a></p>
+<a href="https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/26.Chunk_Mapping.ipynb" class="button button-orange button-orange-trans co button-icon">Open in Colab</a>
+<a href="https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/kegg_drug_mapper_en_4.2.2_3.0_1669069910375.zip" class="button button-orange button-orange-trans arr button-icon">Download</a></p>
 
 <h2 id="how-to-use">How to use</h2>
-
-<p>documentAssembler = DocumentAssembler() <br />
-    .setInputCol(“text”) <br />
-    .setOutputCol(“document”)</p>
-
-<p>sentenceDetector = SentenceDetector()<br />
-.setInputCols([“document”])<br />
-.setOutputCol(“sentence”)</p>
-
-<p>tokenizer = Tokenizer() <br />
-    .setInputCols(“sentence”) <br />
-    .setOutputCol(“token”)</p>
-
-<p>ner = RoBertaForTokenClassification.pretrained(“roberta_base_bne_conll_ner_spark_nlp”,”es”) <br />
-    .setInputCols([“sentence”, “token”]) <br />
-    .setOutputCol(“ner”)</p>
-
-<p>pipeline = Pipeline(stages=[documentAssembler, tokenizer, ner])</p>
-
-<p>data = spark.createDataFrame([[“El Plan Nacional para el Impulso de las Tecnologías del Lenguage es una iniciativa del Gobierno de España”]]).toDF(“text”)</p>
-
-<p>result = pipeline.fit(data).transform(data)</p>
 
 <div class="tabs-box">
   <div class="top_tab_li">   
     <p><button data-type="python" class="tab-li code-selector-active python-button">Python</button><button data-type="scala" class="tab-li code-selector-un-active scala-button">Scala</button><button data-type="nlu" class="tab-li code-selector-un-active nlu-button">NLU</button></p>
 </div>
-  <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">documentAssembler</span> <span class="o">=</span> <span class="n">DocumentAssembler</span><span class="p">()</span> \
-    <span class="p">.</span><span class="n">setInputCol</span><span class="p">(</span><span class="s">"text"</span><span class="p">)</span> \
+  <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">document_assembler</span> <span class="o">=</span> <span class="n">DocumentAssembler</span><span class="p">()</span>\
+    <span class="p">.</span><span class="n">setInputCol</span><span class="p">(</span><span class="s">"text"</span><span class="p">)</span>\
     <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"document"</span><span class="p">)</span>
 
-<span class="n">sentenceDetector</span> <span class="o">=</span> <span class="n">SentenceDetector</span><span class="p">()</span>\
-<span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"document"</span><span class="p">])</span>\
-<span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"sentence"</span><span class="p">)</span>
+<span class="n">sentence_detector</span> <span class="o">=</span> <span class="n">SentenceDetector</span><span class="p">()</span>\
+    <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"document"</span><span class="p">])</span>\
+    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"sentence"</span><span class="p">)</span>
 
-<span class="n">tokenizer</span> <span class="o">=</span> <span class="n">Tokenizer</span><span class="p">()</span> \
-    <span class="p">.</span><span class="n">setInputCols</span><span class="p">(</span><span class="s">"sentence"</span><span class="p">)</span> \
+<span class="n">tokenizer</span> <span class="o">=</span> <span class="n">Tokenizer</span><span class="p">()</span>\
+    <span class="p">.</span><span class="n">setInputCols</span><span class="p">(</span><span class="s">"sentence"</span><span class="p">)</span>\
     <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"token"</span><span class="p">)</span>
-  
-<span class="n">ner</span> <span class="o">=</span> <span class="n">RoBertaForTokenClassification</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"roberta_base_bne_conll_ner_spark_nlp"</span><span class="p">,</span><span class="s">"es"</span><span class="p">)</span> \
-    <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"sentence"</span><span class="p">,</span> <span class="s">"token"</span><span class="p">])</span> \
+
+<span class="n">word_embeddings</span> <span class="o">=</span> <span class="n">WordEmbeddingsModel</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"embeddings_clinical"</span><span class="p">,</span> <span class="s">"en"</span><span class="p">,</span> <span class="s">"clinical/models"</span><span class="p">)</span>\
+    <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"sentence"</span><span class="p">,</span> <span class="s">"token"</span><span class="p">])</span>\
+    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"embeddings"</span><span class="p">)</span>
+
+<span class="n">ner</span> <span class="o">=</span> <span class="n">MedicalNerModel</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"ner_posology"</span><span class="p">,</span> <span class="s">"en"</span><span class="p">,</span> <span class="s">"clinical/models"</span><span class="p">)</span> \
+    <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"sentence"</span><span class="p">,</span> <span class="s">"token"</span><span class="p">,</span> <span class="s">"embeddings"</span><span class="p">])</span> \
     <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"ner"</span><span class="p">)</span>
-    
-<span class="n">pipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">(</span><span class="n">stages</span><span class="o">=</span><span class="p">[</span><span class="n">documentAssembler</span><span class="p">,</span> <span class="n">tokenizer</span><span class="p">,</span> <span class="n">ner</span><span class="p">])</span>
 
-<span class="n">data</span> <span class="o">=</span> <span class="n">spark</span><span class="p">.</span><span class="n">createDataFrame</span><span class="p">([[</span><span class="s">"El Plan Nacional para el Impulso de las Tecnologías del Lenguage es una iniciativa del Gobierno de España"</span><span class="p">]]).</span><span class="n">toDF</span><span class="p">(</span><span class="s">"text"</span><span class="p">)</span>
+<span class="n">converter</span> <span class="o">=</span> <span class="n">NerConverter</span><span class="p">()</span> \
+    <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"sentence"</span><span class="p">,</span> <span class="s">"token"</span><span class="p">,</span> <span class="s">"ner"</span><span class="p">])</span> \
+    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"ner_chunk"</span><span class="p">)</span>\
+
+<span class="n">chunkerMapper</span> <span class="o">=</span> <span class="n">ChunkMapperModel</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"kegg_drug_mapper"</span><span class="p">,</span> <span class="s">"en"</span><span class="p">,</span> <span class="s">"clinical/models"</span><span class="p">)</span>\
+    <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"ner_chunk"</span><span class="p">])</span>\
+    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"mappings"</span><span class="p">)</span>\
+    <span class="p">.</span><span class="n">setRels</span><span class="p">([</span><span class="s">"efficacy"</span><span class="p">,</span> <span class="s">"molecular_weight"</span><span class="p">,</span> <span class="s">"CAS"</span><span class="p">,</span> <span class="s">"PubChem"</span><span class="p">,</span> <span class="s">"ChEBI"</span><span class="p">,</span> <span class="s">"LigandBox"</span><span class="p">,</span> <span class="s">"NIKKAJI"</span><span class="p">,</span> <span class="s">"PDB-CCD"</span><span class="p">])</span>\
+
+<span class="n">pipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">().</span><span class="n">setStages</span><span class="p">([</span>
+    <span class="n">document_assembler</span><span class="p">,</span>
+    <span class="n">sentence_detector</span><span class="p">,</span>
+    <span class="n">tokenizer</span><span class="p">,</span> 
+    <span class="n">word_embeddings</span><span class="p">,</span>
+    <span class="n">ner</span><span class="p">,</span> 
+    <span class="n">converter</span><span class="p">,</span> 
+    <span class="n">chunkerMapper</span><span class="p">])</span>
+
+
+<span class="n">text</span><span class="o">=</span> <span class="s">"She is given OxyContin, folic acid, levothyroxine, Norvasc, aspirin, Neurontin"</span>
+
+<span class="n">data</span> <span class="o">=</span> <span class="n">spark</span><span class="p">.</span><span class="n">createDataFrame</span><span class="p">([[</span><span class="n">text</span><span class="p">]]).</span><span class="n">toDF</span><span class="p">(</span><span class="s">"text"</span><span class="p">)</span>
+
+<span class="n">result</span> <span class="o">=</span> <span class="n">pipeline</span><span class="p">.</span><span class="n">fit</span><span class="p">(</span><span class="n">data</span><span class="p">).</span><span class="n">transform</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
 </code></pre></div>  </div>
+  <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">val</span> <span class="nv">document_assembler</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">DocumentAssembler</span><span class="o">()</span>
+    <span class="o">.</span><span class="py">setInputCol</span><span class="o">(</span><span class="s">"text"</span><span class="o">)</span>
+    <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"document"</span><span class="o">)</span>
 
+<span class="k">val</span> <span class="nv">sentence_detector</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">SentenceDetector</span><span class="o">()</span>
+    <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="s">"document"</span><span class="o">))</span>
+    <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"sentence"</span><span class="o">)</span>
+
+<span class="k">val</span> <span class="nv">tokenizer</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">Tokenizer</span><span class="o">()</span>
+    <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="s">"sentence"</span><span class="o">)</span>
+    <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"token"</span><span class="o">)</span>
+
+<span class="k">val</span> <span class="nv">word_embeddings</span> <span class="k">=</span> <span class="nv">WordEmbeddingsModel</span><span class="o">.</span><span class="py">pretrained</span><span class="o">(</span><span class="s">"embeddings_clinical"</span><span class="o">,</span> <span class="s">"en"</span><span class="o">,</span> <span class="s">"clinical/models"</span><span class="o">)</span>
+    <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="s">"sentence"</span><span class="o">,</span> <span class="s">"token"</span><span class="o">))</span>
+    <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"embeddings"</span><span class="o">)</span>
+
+<span class="k">val</span> <span class="nv">ner</span> <span class="k">=</span> <span class="nv">MedicalNerModel</span><span class="o">.</span><span class="py">pretrained</span><span class="o">(</span><span class="s">"ner_posology"</span><span class="o">,</span> <span class="s">"en"</span><span class="o">,</span> <span class="s">"clinical/models"</span><span class="o">)</span> 
+    <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="s">"sentence"</span><span class="o">,</span> <span class="s">"token"</span><span class="o">,</span> <span class="s">"embeddings"</span><span class="o">))</span> 
+    <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"ner"</span><span class="o">)</span>
+
+<span class="k">val</span> <span class="nv">converter</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">NerConverter</span><span class="o">()</span> 
+    <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="s">"sentence"</span><span class="o">,</span> <span class="s">"token"</span><span class="o">,</span> <span class="s">"ner"</span><span class="o">))</span> 
+    <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"ner_chunk"</span><span class="o">)</span>
+
+<span class="k">val</span> <span class="nv">chunkerMapper</span> <span class="k">=</span> <span class="nv">ChunkMapperModel</span><span class="o">.</span><span class="py">pretrained</span><span class="o">(</span><span class="s">"kegg_drug_mapper"</span><span class="o">,</span> <span class="s">"en"</span><span class="o">,</span> <span class="s">"clinical/models"</span><span class="o">)</span>
+    <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="s">"ner_chunk"</span><span class="o">)</span>
+    <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"mappings"</span><span class="o">)</span>
+    <span class="o">.</span><span class="py">setRels</span><span class="o">(</span><span class="nc">Array</span><span class="o">([</span><span class="err">"</span><span class="kt">efficacy</span><span class="err">"</span>, <span class="err">"</span><span class="kt">molecular_weight</span><span class="err">"</span>, <span class="err">"</span><span class="kt">CAS</span><span class="err">"</span>, <span class="err">"</span><span class="kt">PubChem</span><span class="err">"</span>, <span class="err">"</span><span class="kt">ChEBI</span><span class="err">"</span>, <span class="err">"</span><span class="kt">LigandBox</span><span class="err">"</span>, <span class="err">"</span><span class="kt">NIKKAJI</span><span class="err">"</span>, <span class="err">"</span><span class="kt">PDB-CCD</span><span class="err">"</span><span class="o">]))</span>
+
+
+<span class="k">val</span> <span class="nv">pipeline</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">Pipeline</span><span class="o">().</span><span class="py">setStages</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span>
+    <span class="n">document_assembler</span><span class="o">,</span>
+    <span class="n">sentence_detector</span><span class="o">,</span>
+    <span class="n">tokenizer</span><span class="o">,</span> 
+    <span class="n">word_embeddings</span><span class="o">,</span>
+    <span class="n">ner</span><span class="o">,</span> 
+    <span class="n">converter</span><span class="o">,</span> 
+    <span class="n">chunkerMapper</span><span class="o">))</span>
+
+
+<span class="k">val</span> <span class="nv">text</span><span class="k">=</span> <span class="s">"She is given OxyContin, folic acid, levothyroxine, Norvasc, aspirin, Neurontin"</span>
+
+<span class="k">val</span> <span class="nv">data</span> <span class="k">=</span> <span class="nc">Seq</span><span class="o">(</span><span class="n">text</span><span class="o">).</span><span class="py">toDS</span><span class="o">.</span><span class="py">toDF</span><span class="o">(</span><span class="s">"text"</span><span class="o">)</span>
+
+<span class="k">val</span> <span class="nv">result</span><span class="k">=</span> <span class="nv">pipeline</span><span class="o">.</span><span class="py">fit</span><span class="o">(</span><span class="n">data</span><span class="o">).</span><span class="py">transform</span><span class="o">(</span><span class="n">data</span><span class="o">)</span>
+</code></pre></div>  </div>
 </div>
+
+<h2 id="results">Results</h2>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>+-------------+--------------------------------------------------+----------------+----------+-----------+-------+---------+---------+-------+
+|    ner_chunk|                                          efficacy|molecular_weight|       CAS|    PubChem|  ChEBI|LigandBox|  NIKKAJI|PDB-CCD|
++-------------+--------------------------------------------------+----------------+----------+-----------+-------+---------+---------+-------+
+|    OxyContin|     Analgesic <span class="o">(</span>narcotic<span class="o">)</span>, Opioid receptor agonist|        351.8246|  124-90-3|  7847912.0| 7859.0|   D00847|J281.239H|   NONE|
+|   folic acid|Anti-anemic, Hematopoietic, Supplement <span class="o">(</span>folic a...|        441.3975|   59-30-3|  7847138.0|27470.0|   D00070|  J1.392G|    FOL|
+|levothyroxine|                     Replenisher <span class="o">(</span>thyroid hormone<span class="o">)</span>|          776.87|   51-48-9|9.6024815E7|18332.0|   D08125|  J4.118A|    T44|
+|      Norvasc|Antihypertensive, Vasodilator, Calcium channel ...|        408.8759|88150-42-9|5.1091781E7| 2668.0|   D07450| J33.383B|   NONE|
+|      aspirin|Analgesic, Anti-inflammatory, Antipyretic, Anti...|        180.1574|   50-78-2|  7847177.0|15365.0|   D00109|  J2.300K|    AIN|
+|    Neurontin|                     Anticonvulsant, Antiepileptic|        171.2368|60142-96-3|  7847398.0|42797.0|   D00332| J39.388F|    GBN|
++-------------+--------------------------------------------------+----------------+----------+-----------+-------+---------+---------+-------+
+</code></pre></div></div>
 
 <h2 class="model-param" id="model-information">Model Information</h2>
 
@@ -484,43 +548,35 @@
   <tbody>
     <tr>
       <td>Model Name:</td>
-      <td>roberta_base_bne_conll_ner_spark_nlp</td>
+      <td>kegg_drug_mapper</td>
     </tr>
     <tr>
       <td>Compatibility:</td>
-      <td>Spark NLP 4.0.0+</td>
+      <td>Healthcare NLP 4.2.2+</td>
     </tr>
     <tr>
       <td>License:</td>
-      <td>Open Source</td>
+      <td>Licensed</td>
     </tr>
     <tr>
       <td>Edition:</td>
-      <td>Community</td>
+      <td>Official</td>
     </tr>
     <tr>
       <td>Input Labels:</td>
-      <td>[document, token]</td>
+      <td>[ner_chunk]</td>
     </tr>
     <tr>
       <td>Output Labels:</td>
-      <td>[ner]</td>
+      <td>[mappings]</td>
     </tr>
     <tr>
       <td>Language:</td>
-      <td>es</td>
+      <td>en</td>
     </tr>
     <tr>
       <td>Size:</td>
-      <td>447.3 MB</td>
-    </tr>
-    <tr>
-      <td>Case sensitive:</td>
-      <td>true</td>
-    </tr>
-    <tr>
-      <td>Max sentence length:</td>
-      <td>128</td>
+      <td>1.0 MB</td>
     </tr>
   </tbody>
 </table>
@@ -863,7 +919,7 @@ hr.code-selector-underlie {
 
 }
 
-</style><div class="article__section-navigator clearfix"><div class="previous nav_link"><span>PREVIOUS</span><a href="/2022/11/21/kegg_drug_mapper_en.html">Mapping Drugs from the KEGG Database to Their Efficacies, Molecular Weights and Corresponding Codes from Other Databases</a></div><div class="next nav_link"><span>NEXT</span><a href="/2022/11/21/legclf_dates_sm_en.html">Classify text about Effective, Renewal or Termination date</a></div></div></div>
+</style><div class="article__section-navigator clearfix"><div class="previous nav_link"><span>PREVIOUS</span><a href="/2022/11/18/kegg_disease_mapper_en.html">Mapping Diseases from the KEGG Database to Their Corresponding Categories, Descriptions and Clinical Vocabularies</a></div><div class="next nav_link"><span>NEXT</span><a href="/2022/11/21/roberta_base_bne_conll_ner_spark_nlp_es.html">Spanish Named Entity Recognition, (RoBERTa base trained with data from the National Library of Spain (BNE) and CONLL 2003 data), by the TEMU Unit of the BSC-CNS</a></div></div></div>
 
 </div>
 </div>

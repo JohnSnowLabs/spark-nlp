@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.9.2">Jekyll</generator><link href="/feed.xml" rel="self" type="application/atom+xml" /><link href="/" rel="alternate" type="text/html" /><updated>2022-12-06T10:26:26+00:00</updated><id>/feed.xml</id><title type="html">Spark NLP</title><subtitle>High Performance NLP with Apache Spark
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.9.2">Jekyll</generator><link href="/feed.xml" rel="self" type="application/atom+xml" /><link href="/" rel="alternate" type="text/html" /><updated>2022-12-07T14:22:04+00:00</updated><id>/feed.xml</id><title type="html">Spark NLP</title><subtitle>High Performance NLP with Apache Spark
 </subtitle><author><name>{&quot;type&quot;=&gt;nil, &quot;name&quot;=&gt;nil, &quot;url&quot;=&gt;nil, &quot;avatar&quot;=&gt;nil, &quot;bio&quot;=&gt;nil, &quot;email&quot;=&gt;nil, &quot;facebook&quot;=&gt;nil, &quot;twitter&quot;=&gt;nil, &quot;weibo&quot;=&gt;nil, &quot;googleplus&quot;=&gt;nil, &quot;telegram&quot;=&gt;nil, &quot;medium&quot;=&gt;nil, &quot;zhihu&quot;=&gt;nil, &quot;douban&quot;=&gt;nil, &quot;linkedin&quot;=&gt;nil, &quot;github&quot;=&gt;nil, &quot;npm&quot;=&gt;nil}</name></author><entry><title type="html">Finance NER (10Q, lg, 139 entities)</title><link href="/2022/12/02/finner_10q_xlbr_en.html" rel="alternate" type="text/html" title="Finance NER (10Q, lg, 139 entities)" /><published>2022-12-02T00:00:00+00:00</published><updated>2022-12-02T00:00:00+00:00</updated><id>/2022/12/02/finner_10q_xlbr_en</id><content type="html" xml:base="/2022/12/02/finner_10q_xlbr_en.html">&lt;h2 id=&quot;description&quot;&gt;Description&lt;/h2&gt;
 
 &lt;p&gt;This model is an NER model containing 139 numeric financial entities from different 10Q reports. The tokens being annotated are the amounts, not any other surrounding word, but the context will determine what kind of amount is from the list of the 139 available.&lt;/p&gt;
@@ -1290,31 +1290,13 @@ B-WHEREAS_ACTION	 87	 12	 3	 0.8787879	 0.96666664	 0.9206349
 I-WHEREAS_OBJECT	 221	 108	 65	 0.67173254	 0.77272725	 0.71869916
 Macro-average	 605 207 122 0.77904505 0.8476922 0.81192017
 Micro-average	 605 207 122 0.7450739 0.83218706 0.78622484
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;</content><author><name>John Snow Labs</name></author><category term="whereas" /><category term="en" /><category term="licensed" /><summary type="html">Description IMPORTANT: Don’t run this model on the whole legal agreement. Instead: Split by paragraphs. You can use notebook 1 in Finance or Legal as inspiration; Use the legclf_cuad_whereas_clause Text Classifier to select only these paragraphs; This is a Legal NER Model, able to process WHEREAS clauses, to detect the SUBJECT (Who?), the ACTION, the OBJECT (what?) and, in some cases, the INDIRECT OBJECT (to whom?) of the clause. This is a md (medium version) of the classifier, trained with more data and being more resistent to false positives outside the specific section, which may help to run it at whole document level (although not recommended). Predicted Entities WHEREAS_SUBJECT, WHEREAS_OBJECT, WHEREAS_ACTION Live Demo Open in Colab Download How to use PythonScalaNLU documentAssembler = nlp.DocumentAssembler()\ .setInputCol(&quot;text&quot;)\ .setOutputCol(&quot;document&quot;) sentenceDetector = nlp.SentenceDetectorDLModel.pretrained(&quot;sentence_detector_dl&quot;,&quot;xx&quot;)\ .setInputCols([&quot;document&quot;])\ .setOutputCol(&quot;sentence&quot;) tokenizer = nlp.Tokenizer()\ .setInputCols([&quot;sentence&quot;])\ .setOutputCol(&quot;token&quot;) embeddings = nlp.RoBertaEmbeddings.pretrained(&quot;roberta_embeddings_legal_roberta_base&quot;,&quot;en&quot;) \ .setInputCols([&quot;sentence&quot;, &quot;token&quot;]) \ .setOutputCol(&quot;embeddings&quot;) ner_model = legal.NerModel.pretrained('legner_whereas_md', 'en', 'legal/models')\ .setInputCols([&quot;sentence&quot;, &quot;token&quot;, &quot;embeddings&quot;])\ .setOutputCol(&quot;ner&quot;) ner_converter = nlp.NerConverter()\ .setInputCols([&quot;sentence&quot;,&quot;token&quot;,&quot;ner&quot;])\ .setOutputCol(&quot;ner_chunk&quot;) nlpPipeline = nlp.Pipeline(stages=[ documentAssembler, sentenceDetector, tokenizer, embeddings, ner_model, ner_converter]) empty_data = spark.createDataFrame([[&quot;&quot;]]).toDF(&quot;text&quot;) model = nlpPipeline.fit(empty_data) text = [&quot;&quot;&quot;WHEREAS, Seller and Buyer have entered into that certain Stock Purchase Agreement, dated November 14, 2018 (the &quot;Stock Purchase Agreement&quot;); WHEREAS, pursuant to the Stock Purchase Agreement, Seller has agreed to sell and transfer, and Buyer has agreed to purchase and acquire, all of Seller's right, title and interest in and to Armstrong Wood Products, Inc., a Delaware corporation (&quot;AWP&quot;) and its Subsidiaries, the Company and HomerWood Hardwood Flooring Company, a Delaware corporation (&quot;HHFC,&quot; and together with the Company, the &quot;Company Subsidiaries&quot; and together with AWP, the &quot;Company Entities&quot; and each a &quot;Company Entity&quot;) by way of a purchase by Buyer and sale by Seller of the Shares, all upon the terms and condition set forth therein;&quot;&quot;&quot;] res = model.transform(spark.createDataFrame([text]).toDF(&quot;text&quot;)) Results +------------+-----------------+ | token| ner_label| +------------+-----------------+ | WHEREAS| O| | ,| O| | Seller|B-WHEREAS_SUBJECT| | and| O| | Buyer|B-WHEREAS_SUBJECT| | have| B-WHEREAS_ACTION| | entered| I-WHEREAS_ACTION| | into| I-WHEREAS_ACTION| | that| B-WHEREAS_OBJECT| | certain| I-WHEREAS_OBJECT| | Stock| I-WHEREAS_OBJECT| | Purchase| I-WHEREAS_OBJECT| | Agreement| I-WHEREAS_OBJECT| | ,| O| | dated| O| | November| O| | 14| O| | ,| O| | 2018| O| | (| O| | the| O| | &quot;| O| | Stock| O| | Purchase| O| | Agreement| O| | &quot;);| O| | WHEREAS| O| | ,| O| | pursuant| O| | to| O| | the| O| | Stock| O| | Purchase| O| | Agreement| O| | ,| O| | Seller|B-WHEREAS_SUBJECT| | has| B-WHEREAS_ACTION| | agreed| I-WHEREAS_ACTION| | to| I-WHEREAS_ACTION| | sell| I-WHEREAS_ACTION| | and| O| | transfer| O| | ,| O| | and| O| | Buyer|B-WHEREAS_SUBJECT| | has| B-WHEREAS_ACTION| | agreed| I-WHEREAS_ACTION| | to| I-WHEREAS_ACTION| | purchase| I-WHEREAS_ACTION| | and| O| | acquire| O| | ,| O| | all| O| | of| O| | Seller's| O| | right| O| | ,| O| | title| O| | and| O| | interest| O| | in| O| | and| O| | to| O| | Armstrong| O| | Wood| O| | Products| O| | ,| O| | Inc| O| | .,| O| | a| O| | Delaware| O| | corporation| O| | (&quot;| O| | AWP| O| | &quot;)| O| | and| O| | its| O| |Subsidiaries| O| | ,| O| | the| O| | Company| O| | and| O| | HomerWood| O| | Hardwood| O| | Flooring| O| | Company| O| | ,| O| | a| O| | Delaware| O| | corporation| O| | (&quot;| O| | HHFC| O| | ,&quot;| O| +------------+-----------------+ Model Information Model Name: legner_whereas_md Compatibility: Legal NLP 1.0.0+ License: Licensed Edition: Official Input Labels: [sentence, token, embeddings] Output Labels: [ner] Language: en Size: 16.1 MB References Manual annotations on CUAD dataset Benchmarking label tp fp fn prec rec f1 B-WHEREAS_SUBJECT 95 12 5 0.88785046 0.95 0.9178744 I-WHEREAS_ACTION 112 36 13 0.7567568 0.896 0.82051283 I-WHEREAS_SUBJECT 31 6 6 0.8378378 0.8378378 0.8378378 B-WHEREAS_OBJECT 59 33 30 0.6413044 0.66292137 0.6519337 B-WHEREAS_ACTION 87 12 3 0.8787879 0.96666664 0.9206349 I-WHEREAS_OBJECT 221 108 65 0.67173254 0.77272725 0.71869916 Macro-average 605 207 122 0.77904505 0.8476922 0.81192017 Micro-average 605 207 122 0.7450739 0.83218706 0.78622484</summary></entry><entry><title type="html">Legal Romanian NER (RONEC dataset)</title><link href="/2022/11/30/legner_ronec_ro.html" rel="alternate" type="text/html" title="Legal Romanian NER (RONEC dataset)" /><published>2022-11-30T00:00:00+00:00</published><updated>2022-11-30T00:00:00+00:00</updated><id>/2022/11/30/legner_ronec_ro</id><content type="html" xml:base="/2022/11/30/legner_ronec_ro.html">&lt;h2 id=&quot;description&quot;&gt;Description&lt;/h2&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;</content><author><name>John Snow Labs</name></author><category term="whereas" /><category term="en" /><category term="licensed" /><summary type="html">Description IMPORTANT: Don’t run this model on the whole legal agreement. Instead: Split by paragraphs. You can use notebook 1 in Finance or Legal as inspiration; Use the legclf_cuad_whereas_clause Text Classifier to select only these paragraphs; This is a Legal NER Model, able to process WHEREAS clauses, to detect the SUBJECT (Who?), the ACTION, the OBJECT (what?) and, in some cases, the INDIRECT OBJECT (to whom?) of the clause. This is a md (medium version) of the classifier, trained with more data and being more resistent to false positives outside the specific section, which may help to run it at whole document level (although not recommended). Predicted Entities WHEREAS_SUBJECT, WHEREAS_OBJECT, WHEREAS_ACTION Live Demo Open in Colab Download How to use PythonScalaNLU documentAssembler = nlp.DocumentAssembler()\ .setInputCol(&quot;text&quot;)\ .setOutputCol(&quot;document&quot;) sentenceDetector = nlp.SentenceDetectorDLModel.pretrained(&quot;sentence_detector_dl&quot;,&quot;xx&quot;)\ .setInputCols([&quot;document&quot;])\ .setOutputCol(&quot;sentence&quot;) tokenizer = nlp.Tokenizer()\ .setInputCols([&quot;sentence&quot;])\ .setOutputCol(&quot;token&quot;) embeddings = nlp.RoBertaEmbeddings.pretrained(&quot;roberta_embeddings_legal_roberta_base&quot;,&quot;en&quot;) \ .setInputCols([&quot;sentence&quot;, &quot;token&quot;]) \ .setOutputCol(&quot;embeddings&quot;) ner_model = legal.NerModel.pretrained('legner_whereas_md', 'en', 'legal/models')\ .setInputCols([&quot;sentence&quot;, &quot;token&quot;, &quot;embeddings&quot;])\ .setOutputCol(&quot;ner&quot;) ner_converter = nlp.NerConverter()\ .setInputCols([&quot;sentence&quot;,&quot;token&quot;,&quot;ner&quot;])\ .setOutputCol(&quot;ner_chunk&quot;) nlpPipeline = nlp.Pipeline(stages=[ documentAssembler, sentenceDetector, tokenizer, embeddings, ner_model, ner_converter]) empty_data = spark.createDataFrame([[&quot;&quot;]]).toDF(&quot;text&quot;) model = nlpPipeline.fit(empty_data) text = [&quot;&quot;&quot;WHEREAS, Seller and Buyer have entered into that certain Stock Purchase Agreement, dated November 14, 2018 (the &quot;Stock Purchase Agreement&quot;); WHEREAS, pursuant to the Stock Purchase Agreement, Seller has agreed to sell and transfer, and Buyer has agreed to purchase and acquire, all of Seller's right, title and interest in and to Armstrong Wood Products, Inc., a Delaware corporation (&quot;AWP&quot;) and its Subsidiaries, the Company and HomerWood Hardwood Flooring Company, a Delaware corporation (&quot;HHFC,&quot; and together with the Company, the &quot;Company Subsidiaries&quot; and together with AWP, the &quot;Company Entities&quot; and each a &quot;Company Entity&quot;) by way of a purchase by Buyer and sale by Seller of the Shares, all upon the terms and condition set forth therein;&quot;&quot;&quot;] res = model.transform(spark.createDataFrame([text]).toDF(&quot;text&quot;)) Results +------------+-----------------+ | token| ner_label| +------------+-----------------+ | WHEREAS| O| | ,| O| | Seller|B-WHEREAS_SUBJECT| | and| O| | Buyer|B-WHEREAS_SUBJECT| | have| B-WHEREAS_ACTION| | entered| I-WHEREAS_ACTION| | into| I-WHEREAS_ACTION| | that| B-WHEREAS_OBJECT| | certain| I-WHEREAS_OBJECT| | Stock| I-WHEREAS_OBJECT| | Purchase| I-WHEREAS_OBJECT| | Agreement| I-WHEREAS_OBJECT| | ,| O| | dated| O| | November| O| | 14| O| | ,| O| | 2018| O| | (| O| | the| O| | &quot;| O| | Stock| O| | Purchase| O| | Agreement| O| | &quot;);| O| | WHEREAS| O| | ,| O| | pursuant| O| | to| O| | the| O| | Stock| O| | Purchase| O| | Agreement| O| | ,| O| | Seller|B-WHEREAS_SUBJECT| | has| B-WHEREAS_ACTION| | agreed| I-WHEREAS_ACTION| | to| I-WHEREAS_ACTION| | sell| I-WHEREAS_ACTION| | and| O| | transfer| O| | ,| O| | and| O| | Buyer|B-WHEREAS_SUBJECT| | has| B-WHEREAS_ACTION| | agreed| I-WHEREAS_ACTION| | to| I-WHEREAS_ACTION| | purchase| I-WHEREAS_ACTION| | and| O| | acquire| O| | ,| O| | all| O| | of| O| | Seller's| O| | right| O| | ,| O| | title| O| | and| O| | interest| O| | in| O| | and| O| | to| O| | Armstrong| O| | Wood| O| | Products| O| | ,| O| | Inc| O| | .,| O| | a| O| | Delaware| O| | corporation| O| | (&quot;| O| | AWP| O| | &quot;)| O| | and| O| | its| O| |Subsidiaries| O| | ,| O| | the| O| | Company| O| | and| O| | HomerWood| O| | Hardwood| O| | Flooring| O| | Company| O| | ,| O| | a| O| | Delaware| O| | corporation| O| | (&quot;| O| | HHFC| O| | ,&quot;| O| +------------+-----------------+ Model Information Model Name: legner_whereas_md Compatibility: Legal NLP 1.0.0+ License: Licensed Edition: Official Input Labels: [sentence, token, embeddings] Output Labels: [ner] Language: en Size: 16.1 MB References Manual annotations on CUAD dataset Benchmarking label tp fp fn prec rec f1 B-WHEREAS_SUBJECT 95 12 5 0.88785046 0.95 0.9178744 I-WHEREAS_ACTION 112 36 13 0.7567568 0.896 0.82051283 I-WHEREAS_SUBJECT 31 6 6 0.8378378 0.8378378 0.8378378 B-WHEREAS_OBJECT 59 33 30 0.6413044 0.66292137 0.6519337 B-WHEREAS_ACTION 87 12 3 0.8787879 0.96666664 0.9206349 I-WHEREAS_OBJECT 221 108 65 0.67173254 0.77272725 0.71869916 Macro-average 605 207 122 0.77904505 0.8476922 0.81192017 Micro-average 605 207 122 0.7450739 0.83218706 0.78622484</summary></entry><entry><title type="html">Oncology Pipeline for Biomarkers</title><link href="/2022/12/01/oncology_biomarker_pipeline_en.html" rel="alternate" type="text/html" title="Oncology Pipeline for Biomarkers" /><published>2022-12-01T00:00:00+00:00</published><updated>2022-12-01T00:00:00+00:00</updated><id>/2022/12/01/oncology_biomarker_pipeline_en</id><content type="html" xml:base="/2022/12/01/oncology_biomarker_pipeline_en.html">&lt;h2 id=&quot;description&quot;&gt;Description&lt;/h2&gt;
 
-&lt;p&gt;The &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;legner_ronec&lt;/code&gt; is a Named Entity Recognition model trained on RONEC (ROmanian Named Entity Corpus). Unlike the original dataset, it has been trained with the following classes:&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;PERSON - proper nouns or pronouns if they refer to a person&lt;/li&gt;
-  &lt;li&gt;LOC - location or geo political entity&lt;/li&gt;
-  &lt;li&gt;ORG - organization&lt;/li&gt;
-  &lt;li&gt;LANGUAGE - language&lt;/li&gt;
-  &lt;li&gt;NAT_REL_POL - national, religious or political organizations&lt;/li&gt;
-  &lt;li&gt;DATETIME - a time and date in any format, including references to time (e.g. ‘yesterday’)&lt;/li&gt;
-  &lt;li&gt;MONEY - a monetary value, numeric or otherwise&lt;/li&gt;
-  &lt;li&gt;NUMERIC - a simple numeric value, represented as digits or words&lt;/li&gt;
-  &lt;li&gt;ORDINAL - an ordinal value like ‘first’, ‘third’, etc.&lt;/li&gt;
-  &lt;li&gt;WORK_OF_ART - a work of art like a named TV show, painting, etc.&lt;/li&gt;
-  &lt;li&gt;EVENT - a named recognizable or periodic major event&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h2 id=&quot;predicted-entities&quot;&gt;Predicted Entities&lt;/h2&gt;
-
-&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;DATETIME&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;EVENT&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;LANGUAGE&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;LOC&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;MONEY&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;NAT_REL_POL&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;NUMERIC&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;ORDINAL&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;ORG&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;PERSON&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;WORK_OF_ART&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;This pipeline includes Named-Entity Recognition, Assertion Status and Relation Extraction models to extract information from oncology texts. This pipeline focuses on entities related to biomarkers.&lt;/p&gt;
 
 &lt;p class=&quot;btn-box&quot;&gt;&lt;button class=&quot;button button-orange&quot; disabled=&quot;&quot;&gt;Live Demo&lt;/button&gt;
-&lt;button class=&quot;button button-orange&quot; disabled=&quot;&quot;&gt;Open in Colab&lt;/button&gt;
-&lt;a href=&quot;https://s3.amazonaws.com/auxdata.johnsnowlabs.com/legal/models/legner_ronec_ro_1.0.0_3.0_1669842840646.zip&quot; class=&quot;button button-orange button-orange-trans arr button-icon&quot;&gt;Download&lt;/a&gt;&lt;/p&gt;
+&lt;a href=&quot;https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/27.Oncology_Model.ipynb&quot; class=&quot;button button-orange button-orange-trans co button-icon&quot;&gt;Open in Colab&lt;/a&gt;
+&lt;a href=&quot;https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/oncology_biomarker_pipeline_en_4.2.2_3.0_1669902355525.zip&quot; class=&quot;button button-orange button-orange-trans arr button-icon&quot;&gt;Download&lt;/a&gt;&lt;/p&gt;
 
 &lt;h2 id=&quot;how-to-use&quot;&gt;How to use&lt;/h2&gt;
 
@@ -1322,65 +1304,147 @@ Micro-average	 605 207 122 0.7450739 0.83218706 0.78622484
   &lt;div class=&quot;top_tab_li&quot;&gt;   
     &lt;p&gt;&lt;button data-type=&quot;python&quot; class=&quot;tab-li code-selector-active python-button&quot;&gt;Python&lt;/button&gt;&lt;button data-type=&quot;scala&quot; class=&quot;tab-li code-selector-un-active scala-button&quot;&gt;Scala&lt;/button&gt;&lt;button data-type=&quot;nlu&quot; class=&quot;tab-li code-selector-un-active nlu-button&quot;&gt;NLU&lt;/button&gt;&lt;/p&gt;
 &lt;/div&gt;
+  &lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kn&quot;&gt;from&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;sparknlp.pretrained&lt;/span&gt; &lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;PretrainedPipeline&lt;/span&gt;
 
-  &lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;document_assembler&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;nlp&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;DocumentAssembler&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;\
-    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setInputCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;text&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;\
-    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;document&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;pipeline&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;PretrainedPipeline&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;oncology_biomarker_pipeline&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;en&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;clinical/models&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
 
-&lt;span class=&quot;n&quot;&gt;sentence_detector&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;nlp&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;SentenceDetectorDLModel&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;pretrained&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;sentence_detector_dl&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;xx&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;\
-    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setInputCols&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;([&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;document&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;])&lt;/span&gt;\
-    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;sentence&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-
-&lt;span class=&quot;n&quot;&gt;tokenizer&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;nlp&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Tokenizer&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;\
-    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setInputCols&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;([&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;sentence&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;])&lt;/span&gt;\
-    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;token&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-
-&lt;span class=&quot;n&quot;&gt;embeddings&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;nlp&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;BertEmbeddings&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;pretrained&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;bert_base_cased&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;ro&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;\
-    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setInputCols&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;sentence&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;token&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;\
-    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;embeddings&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;\
-    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setMaxSentenceLength&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;512&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;\
-    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setCaseSensitive&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;bp&quot;&gt;True&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-
-&lt;span class=&quot;n&quot;&gt;ner_model&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;legal&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;NerModel&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;pretrained&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;legner_ronec&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;ro&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;legal/models&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;\
-    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setInputCols&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;([&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;sentence&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;token&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;embeddings&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;])&lt;/span&gt;\
-    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;ner&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-
-&lt;span class=&quot;n&quot;&gt;ner_converter&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;nlp&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;NerConverter&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;\
-    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setInputCols&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;([&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;sentence&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;token&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;ner&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;])&lt;/span&gt;\
-    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;ner_chunk&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-
-&lt;span class=&quot;n&quot;&gt;pipeline&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Pipeline&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;stages&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;document_assembler&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;sentence_detector&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;tokenizer&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;embeddings&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;ner_model&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;ner_converter&lt;/span&gt;   
-    &lt;span class=&quot;p&quot;&gt;])&lt;/span&gt;
-
-&lt;span class=&quot;n&quot;&gt;model&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;pipeline&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;fit&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;spark&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;createDataFrame&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;([[&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]]).&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;toDF&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;text&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt;
-
-&lt;span class=&quot;n&quot;&gt;data&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;spark&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;createDataFrame&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;([[&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;&quot;&quot;Guvernul de stânga italian, condus de premierul Romano Prodi, a devenit după numirea a încă trei secretari de stat, cel mai numeros Executiv din istoria Republicii italiene, având 102 membri.&quot;&quot;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]]).&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;toDF&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;text&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-
-&lt;span class=&quot;n&quot;&gt;result&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;model&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;transform&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;data&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;pipeline&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;annotate&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;Immunohistochemistry was negative for thyroid transcription factor-1 and napsin A. The test was positive for ER and PR, and negative for HER2.&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;  &lt;/div&gt;
+  &lt;div class=&quot;language-scala highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;com.johnsnowlabs.nlp.pretrained.PretrainedPipeline&lt;/span&gt;
 
+&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;pipeline&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;PretrainedPipeline&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;oncology_biomarker_pipeline&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;en&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;clinical/models&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+
+&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;result&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;pipeline&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;fullAnnotate&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;&quot;&quot;Immunohistochemistry was negative for thyroid transcription factor-1 and napsin A. The test was positive for ER and PR, and negative for HER2.&quot;&quot;&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;  &lt;/div&gt;
 &lt;/div&gt;
 
 &lt;h2 id=&quot;results&quot;&gt;Results&lt;/h2&gt;
 
-&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;+----------------------+-----------+
-|ner_chunk             |label      |
-+----------------------+-----------+
-|Guvernul              |ORG        |
-|italian               |NAT_REL_POL|
-|premierul Romano Prodi|PERSON     |
-|trei                  |NUMERIC    |
-|secretari             |PERSON     |
-|Republicii italiene   |LOC        |
-|102                   |NUMERIC    |
-|membri                |PERSON     |
-+----------------------+-----------+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;********************&lt;/span&gt; ner_oncology_wip results &lt;span class=&quot;k&quot;&gt;********************&lt;/span&gt;
+
+| chunk                          | ner_label        |
+|:-------------------------------|:-----------------|
+| negative                       | Biomarker_Result |
+| thyroid transcription factor-1 | Biomarker        |
+| napsin                         | Biomarker        |
+| positive                       | Biomarker_Result |
+| ER                             | Biomarker        |
+| PR                             | Biomarker        |
+| negative                       | Biomarker_Result |
+| HER2                           | Oncogene         |
+
+
+&lt;span class=&quot;k&quot;&gt;********************&lt;/span&gt; ner_oncology_biomarker_wip results &lt;span class=&quot;k&quot;&gt;********************&lt;/span&gt;
+
+| chunk                          | ner_label        |
+|:-------------------------------|:-----------------|
+| negative                       | Biomarker_Result |
+| thyroid transcription factor-1 | Biomarker        |
+| napsin A                       | Biomarker        |
+| positive                       | Biomarker_Result |
+| ER                             | Biomarker        |
+| PR                             | Biomarker        |
+| negative                       | Biomarker_Result |
+| HER2                           | Biomarker        |
+
+
+&lt;span class=&quot;k&quot;&gt;********************&lt;/span&gt; ner_oncology_test_wip results &lt;span class=&quot;k&quot;&gt;********************&lt;/span&gt;
+
+| chunk                          | ner_label        |
+|:-------------------------------|:-----------------|
+| Immunohistochemistry           | Pathology_Test   |
+| negative                       | Biomarker_Result |
+| thyroid transcription factor-1 | Biomarker        |
+| napsin A                       | Biomarker        |
+| positive                       | Biomarker_Result |
+| ER                             | Biomarker        |
+| PR                             | Biomarker        |
+| negative                       | Biomarker_Result |
+| HER2                           | Oncogene         |
+
+
+&lt;span class=&quot;k&quot;&gt;********************&lt;/span&gt; ner_biomarker results &lt;span class=&quot;k&quot;&gt;********************&lt;/span&gt;
+
+| chunk                          | ner_label             |
+|:-------------------------------|:----------------------|
+| Immunohistochemistry           | Test                  |
+| negative                       | Biomarker_Measurement |
+| thyroid transcription factor-1 | Biomarker             |
+| napsin A                       | Biomarker             |
+| positive                       | Biomarker_Measurement |
+| ER                             | Biomarker             |
+| PR                             | Biomarker             |
+| negative                       | Biomarker_Measurement |
+| HER2                           | Biomarker             |
+
+
+&lt;span class=&quot;k&quot;&gt;********************&lt;/span&gt; assertion_oncology_wip results &lt;span class=&quot;k&quot;&gt;********************&lt;/span&gt;
+
+| chunk                          | ner_label      | assertion   |
+|:-------------------------------|:---------------|:------------|
+| Immunohistochemistry           | Pathology_Test | Past        |
+| thyroid transcription factor-1 | Biomarker      | Present     |
+| napsin A                       | Biomarker      | Present     |
+| ER                             | Biomarker      | Present     |
+| PR                             | Biomarker      | Present     |
+| HER2                           | Oncogene       | Present     |
+
+
+&lt;span class=&quot;k&quot;&gt;********************&lt;/span&gt; assertion_oncology_test_binary_wip results &lt;span class=&quot;k&quot;&gt;********************&lt;/span&gt;
+
+| chunk                          | ner_label      | assertion       |
+|:-------------------------------|:---------------|:----------------|
+| Immunohistochemistry           | Pathology_Test | Medical_History |
+| thyroid transcription factor-1 | Biomarker      | Medical_History |
+| napsin A                       | Biomarker      | Medical_History |
+| ER                             | Biomarker      | Medical_History |
+| PR                             | Biomarker      | Medical_History |
+| HER2                           | Oncogene       | Medical_History |
+
+
+&lt;span class=&quot;k&quot;&gt;********************&lt;/span&gt; re_oncology_wip results &lt;span class=&quot;k&quot;&gt;********************&lt;/span&gt;
+
+| chunk1               | entity1          | chunk2                         | entity2          | relation      |
+|:---------------------|:-----------------|:-------------------------------|:-----------------|:--------------|
+| Immunohistochemistry | Pathology_Test   | negative                       | Biomarker_Result | O             |
+| negative             | Biomarker_Result | thyroid transcription factor-1 | Biomarker        | is_related_to |
+| negative             | Biomarker_Result | napsin A                       | Biomarker        | is_related_to |
+| positive             | Biomarker_Result | ER                             | Biomarker        | is_related_to |
+| positive             | Biomarker_Result | PR                             | Biomarker        | is_related_to |
+| positive             | Biomarker_Result | HER2                           | Oncogene         | O             |
+| ER                   | Biomarker        | negative                       | Biomarker_Result | O             |
+| PR                   | Biomarker        | negative                       | Biomarker_Result | O             |
+| negative             | Biomarker_Result | HER2                           | Oncogene         | is_related_to |
+
+
+&lt;span class=&quot;k&quot;&gt;********************&lt;/span&gt; re_oncology_granular_wip results &lt;span class=&quot;k&quot;&gt;********************&lt;/span&gt;
+
+| chunk1               | entity1          | chunk2                         | entity2          | relation      |
+|:---------------------|:-----------------|:-------------------------------|:-----------------|:--------------|
+| Immunohistochemistry | Pathology_Test   | negative                       | Biomarker_Result | O             |
+| negative             | Biomarker_Result | thyroid transcription factor-1 | Biomarker        | is_finding_of |
+| negative             | Biomarker_Result | napsin A                       | Biomarker        | is_finding_of |
+| positive             | Biomarker_Result | ER                             | Biomarker        | is_finding_of |
+| positive             | Biomarker_Result | PR                             | Biomarker        | is_finding_of |
+| positive             | Biomarker_Result | HER2                           | Oncogene         | is_finding_of |
+| ER                   | Biomarker        | negative                       | Biomarker_Result | O             |
+| PR                   | Biomarker        | negative                       | Biomarker_Result | O             |
+| negative             | Biomarker_Result | HER2                           | Oncogene         | is_finding_of |
+
+
+&lt;span class=&quot;k&quot;&gt;********************&lt;/span&gt; re_oncology_biomarker_result_wip results &lt;span class=&quot;k&quot;&gt;********************&lt;/span&gt;
+
+| chunk1               | entity1          | chunk2                         | entity2          | relation      |
+|:---------------------|:-----------------|:-------------------------------|:-----------------|:--------------|
+| Immunohistochemistry | Pathology_Test   | negative                       | Biomarker_Result | is_finding_of |
+| negative             | Biomarker_Result | thyroid transcription factor-1 | Biomarker        | is_finding_of |
+| negative             | Biomarker_Result | napsin A                       | Biomarker        | is_finding_of |
+| positive             | Biomarker_Result | ER                             | Biomarker        | is_finding_of |
+| positive             | Biomarker_Result | PR                             | Biomarker        | is_finding_of |
+| positive             | Biomarker_Result | HER2                           | Oncogene         | O             |
+| ER                   | Biomarker        | negative                       | Biomarker_Result | O             |
+| PR                   | Biomarker        | negative                       | Biomarker_Result | O             |
+| negative             | Biomarker_Result | HER2                           | Oncogene         | is_finding_of |
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
 &lt;h2 class=&quot;model-param&quot; id=&quot;model-information&quot;&gt;Model Information&lt;/h2&gt;
@@ -1389,11 +1453,15 @@ Micro-average	 605 207 122 0.7450739 0.83218706 0.78622484
   &lt;tbody&gt;
     &lt;tr&gt;
       &lt;td&gt;Model Name:&lt;/td&gt;
-      &lt;td&gt;legner_ronec&lt;/td&gt;
+      &lt;td&gt;oncology_biomarker_pipeline&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Type:&lt;/td&gt;
+      &lt;td&gt;pipeline&lt;/td&gt;
     &lt;/tr&gt;
     &lt;tr&gt;
       &lt;td&gt;Compatibility:&lt;/td&gt;
-      &lt;td&gt;Legal NLP 1.0.0+&lt;/td&gt;
+      &lt;td&gt;Healthcare NLP 4.2.2+&lt;/td&gt;
     &lt;/tr&gt;
     &lt;tr&gt;
       &lt;td&gt;License:&lt;/td&gt;
@@ -1402,223 +1470,6 @@ Micro-average	 605 207 122 0.7450739 0.83218706 0.78622484
     &lt;tr&gt;
       &lt;td&gt;Edition:&lt;/td&gt;
       &lt;td&gt;Official&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Input Labels:&lt;/td&gt;
-      &lt;td&gt;[sentence, token, embeddings]&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Output Labels:&lt;/td&gt;
-      &lt;td&gt;[ner]&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Language:&lt;/td&gt;
-      &lt;td&gt;ro&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Size:&lt;/td&gt;
-      &lt;td&gt;16.2 MB&lt;/td&gt;
-    &lt;/tr&gt;
-  &lt;/tbody&gt;
-&lt;/table&gt;
-
-&lt;h2 id=&quot;references&quot;&gt;References&lt;/h2&gt;
-
-&lt;p&gt;Dataset is available &lt;a href=&quot;https://github.com/dumitrescustefan/ronec&quot;&gt;here&lt;/a&gt;.&lt;/p&gt;
-
-&lt;h2 id=&quot;benchmarking&quot;&gt;Benchmarking&lt;/h2&gt;
-
-&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;label         precision  recall  f1-score  support
-
-DATETIME      0.90       0.90    0.90      1070
-EVENT         0.53       0.68    0.59      116
-LANGUAGE      0.98       0.95    0.97      44
-LOC           0.91       0.90    0.91      1699
-MONEY         0.97       0.97    0.97      130
-NAT_REL_POL   0.92       0.94    0.93      510
-NUMERIC       0.95       0.95    0.95      970
-ORDINAL       0.88       0.93    0.90      183
-ORG           0.81       0.83    0.82      779
-PERSON        0.89       0.91    0.90      2635
-WORK_OF_ART   0.73       0.57    0.64      140
-
-micro-avg     0.89       0.90    0.89      8276
-macro-avg     0.86       0.87    0.86      8276
-weighted-avg  0.89       0.90    0.89      8276
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;</content><author><name>John Snow Labs</name></author><category term="ro" /><category term="ner" /><category term="legal" /><category term="ronec" /><category term="licensed" /><summary type="html">Description The legner_ronec is a Named Entity Recognition model trained on RONEC (ROmanian Named Entity Corpus). Unlike the original dataset, it has been trained with the following classes: PERSON - proper nouns or pronouns if they refer to a person LOC - location or geo political entity ORG - organization LANGUAGE - language NAT_REL_POL - national, religious or political organizations DATETIME - a time and date in any format, including references to time (e.g. ‘yesterday’) MONEY - a monetary value, numeric or otherwise NUMERIC - a simple numeric value, represented as digits or words ORDINAL - an ordinal value like ‘first’, ‘third’, etc. WORK_OF_ART - a work of art like a named TV show, painting, etc. EVENT - a named recognizable or periodic major event Predicted Entities DATETIME, EVENT, LANGUAGE, LOC, MONEY, NAT_REL_POL, NUMERIC, ORDINAL, ORG, PERSON, WORK_OF_ART Live Demo Open in Colab Download How to use PythonScalaNLU document_assembler = nlp.DocumentAssembler()\ .setInputCol(&quot;text&quot;)\ .setOutputCol(&quot;document&quot;) sentence_detector = nlp.SentenceDetectorDLModel.pretrained(&quot;sentence_detector_dl&quot;, &quot;xx&quot;)\ .setInputCols([&quot;document&quot;])\ .setOutputCol(&quot;sentence&quot;) tokenizer = nlp.Tokenizer()\ .setInputCols([&quot;sentence&quot;])\ .setOutputCol(&quot;token&quot;) embeddings = nlp.BertEmbeddings.pretrained(&quot;bert_base_cased&quot;, &quot;ro&quot;)\ .setInputCols(&quot;sentence&quot;, &quot;token&quot;)\ .setOutputCol(&quot;embeddings&quot;)\ .setMaxSentenceLength(512)\ .setCaseSensitive(True) ner_model = legal.NerModel.pretrained(&quot;legner_ronec&quot;, &quot;ro&quot;, &quot;legal/models&quot;)\ .setInputCols([&quot;sentence&quot;, &quot;token&quot;, &quot;embeddings&quot;])\ .setOutputCol(&quot;ner&quot;) ner_converter = nlp.NerConverter()\ .setInputCols([&quot;sentence&quot;, &quot;token&quot;, &quot;ner&quot;])\ .setOutputCol(&quot;ner_chunk&quot;) pipeline = Pipeline(stages=[ document_assembler, sentence_detector, tokenizer, embeddings, ner_model, ner_converter ]) model = pipeline.fit(spark.createDataFrame([[&quot;&quot;]]).toDF(&quot;text&quot;)) data = spark.createDataFrame([[&quot;&quot;&quot;Guvernul de stânga italian, condus de premierul Romano Prodi, a devenit după numirea a încă trei secretari de stat, cel mai numeros Executiv din istoria Republicii italiene, având 102 membri.&quot;&quot;&quot;]]).toDF(&quot;text&quot;) result = model.transform(data) Results +----------------------+-----------+ |ner_chunk |label | +----------------------+-----------+ |Guvernul |ORG | |italian |NAT_REL_POL| |premierul Romano Prodi|PERSON | |trei |NUMERIC | |secretari |PERSON | |Republicii italiene |LOC | |102 |NUMERIC | |membri |PERSON | +----------------------+-----------+ Model Information Model Name: legner_ronec Compatibility: Legal NLP 1.0.0+ License: Licensed Edition: Official Input Labels: [sentence, token, embeddings] Output Labels: [ner] Language: ro Size: 16.2 MB References Dataset is available here. Benchmarking label precision recall f1-score support DATETIME 0.90 0.90 0.90 1070 EVENT 0.53 0.68 0.59 116 LANGUAGE 0.98 0.95 0.97 44 LOC 0.91 0.90 0.91 1699 MONEY 0.97 0.97 0.97 130 NAT_REL_POL 0.92 0.94 0.93 510 NUMERIC 0.95 0.95 0.95 970 ORDINAL 0.88 0.93 0.90 183 ORG 0.81 0.83 0.82 779 PERSON 0.89 0.91 0.90 2635 WORK_OF_ART 0.73 0.57 0.64 140 micro-avg 0.89 0.90 0.89 8276 macro-avg 0.86 0.87 0.86 8276 weighted-avg 0.89 0.90 0.89 8276</summary></entry><entry><title type="html">Earning Calls Financial NER (Generic, sm)</title><link href="/2022/11/30/finner_earning_calls_generic_sm_en.html" rel="alternate" type="text/html" title="Earning Calls Financial NER (Generic, sm)" /><published>2022-11-30T00:00:00+00:00</published><updated>2022-11-30T00:00:00+00:00</updated><id>/2022/11/30/finner_earning_calls_generic_sm_en</id><content type="html" xml:base="/2022/11/30/finner_earning_calls_generic_sm_en.html">&lt;h2 id=&quot;description&quot;&gt;Description&lt;/h2&gt;
-
-&lt;p&gt;This is a &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;sm&lt;/code&gt; (small) version of a financial model trained on Earning Calls transcripts to detect financial entities (NER model). 
-This model is called &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Generic&lt;/code&gt; as it has fewer labels in comparison with the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Specific&lt;/code&gt; version.&lt;/p&gt;
-
-&lt;p&gt;Please note this model requires some tokenization configuration to extract the currency (see python snippet below).&lt;/p&gt;
-
-&lt;p&gt;The currently available entities are:&lt;/p&gt;
-&lt;ul&gt;
-  &lt;li&gt;AMOUNT: Numeric amounts, not percentages&lt;/li&gt;
-  &lt;li&gt;ASSET: Current or Fixed Asset&lt;/li&gt;
-  &lt;li&gt;ASSET_DECREASE: Decrease in the asset possession/exposure&lt;/li&gt;
-  &lt;li&gt;ASSET_INCREASE: Increase in the asset possession/exposure&lt;/li&gt;
-  &lt;li&gt;CF: Total cash flow &lt;/li&gt;
-  &lt;li&gt;CF_DECREASE: Relative decrease in cash flow&lt;/li&gt;
-  &lt;li&gt;CF_INCREASE: Relative increase in cash flow&lt;/li&gt;
-  &lt;li&gt;COUNT:  Number of items (not monetary, not percentages).&lt;/li&gt;
-  &lt;li&gt;CURRENCY: The currency of the amount&lt;/li&gt;
-  &lt;li&gt;DATE: Generic dates in context where either it’s not a fiscal year or it can’t be asserted as such given the context&lt;/li&gt;
-  &lt;li&gt;EXPENSE: An expense or loss&lt;/li&gt;
-  &lt;li&gt;EXPENSE_DECREASE: A piece of information saying there was an expense decrease in that fiscal year&lt;/li&gt;
-  &lt;li&gt;EXPENSE_INCREASE: A piece of information saying there was an expense increase in that fiscal year&lt;/li&gt;
-  &lt;li&gt;FCF: Free Cash Flow&lt;/li&gt;
-  &lt;li&gt;FISCAL_YEAR: A date which expresses which month the fiscal exercise was closed for a specific year&lt;/li&gt;
-  &lt;li&gt;KPI: Key Performance Indicator, a quantifiable measure of performance over time for a specific objective&lt;/li&gt;
-  &lt;li&gt;KPI_DECREASE: Relative decrease in a KPI&lt;/li&gt;
-  &lt;li&gt;KPI_INCREASE: Relative increase in a KPI&lt;/li&gt;
-  &lt;li&gt;LIABILITY:  Current or Long-Term Liability (not from stockholders)&lt;/li&gt;
-  &lt;li&gt;LIABILITY_DECREASE: Relative decrease in liability&lt;/li&gt;
-  &lt;li&gt;LIABILITY_INCREASE: Relative increase in liability&lt;/li&gt;
-  &lt;li&gt;ORG: Mention to a company/organization name&lt;/li&gt;
-  &lt;li&gt;PERCENTAGE: : Numeric amounts which are percentages&lt;/li&gt;
-  &lt;li&gt;PROFIT: Profit or also Revenue&lt;/li&gt;
-  &lt;li&gt;PROFIT_DECLINE: A piece of information saying there was a profit / revenue decrease in that fiscal year&lt;/li&gt;
-  &lt;li&gt;PROFIT_INCREASE: A piece of information saying there was a profit / revenue increase in that fiscal year&lt;/li&gt;
-  &lt;li&gt;TICKER: Trading symbol of the company&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;You can also check for the Relation Extraction model which connects these entities together.&lt;/p&gt;
-
-&lt;h2 id=&quot;predicted-entities&quot;&gt;Predicted Entities&lt;/h2&gt;
-
-&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;AMOUNT&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;ASSET&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;ASSET_DECREASE&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;ASSET_INCREASE&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;CF&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;CF_DECREASE&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;CF_INCREASE&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;COUNT&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;CURRENCY&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;DATE&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;EXPENSE&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;EXPENSE_DECREASE&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;EXPENSE_INCREASE&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;FCF&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;FISCAL_YEAR&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;KPI&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;KPI_DECREASE&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;KPI_INCREASE&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;LIABILITY&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;LIABILITY_DECREASE&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;LIABILITY_INCREASE&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;ORG&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;PERCENTAGE&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;PROFIT&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;PROFIT_DECLINE&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;PROFIT_INCREASE&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;TICKER&lt;/code&gt;&lt;/p&gt;
-
-&lt;p class=&quot;btn-box&quot;&gt;&lt;button class=&quot;button button-orange&quot; disabled=&quot;&quot;&gt;Live Demo&lt;/button&gt;
-&lt;button class=&quot;button button-orange&quot; disabled=&quot;&quot;&gt;Open in Colab&lt;/button&gt;
-&lt;a href=&quot;https://s3.amazonaws.com/auxdata.johnsnowlabs.com/finance/models/finner_earning_calls_generic_sm_en_1.0.0_3.0_1669839690938.zip&quot; class=&quot;button button-orange button-orange-trans arr button-icon&quot;&gt;Download&lt;/a&gt;&lt;/p&gt;
-
-&lt;h2 id=&quot;how-to-use&quot;&gt;How to use&lt;/h2&gt;
-
-&lt;div class=&quot;tabs-box&quot;&gt;
-  &lt;div class=&quot;top_tab_li&quot;&gt;   
-    &lt;p&gt;&lt;button data-type=&quot;python&quot; class=&quot;tab-li code-selector-active python-button&quot;&gt;Python&lt;/button&gt;&lt;button data-type=&quot;scala&quot; class=&quot;tab-li code-selector-un-active scala-button&quot;&gt;Scala&lt;/button&gt;&lt;button data-type=&quot;nlu&quot; class=&quot;tab-li code-selector-un-active nlu-button&quot;&gt;NLU&lt;/button&gt;&lt;/p&gt;
-&lt;/div&gt;
-  &lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;document_assembler&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;nlp&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;DocumentAssembler&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;\
-    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setInputCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;text&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;\
-    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;document&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-
-&lt;span class=&quot;n&quot;&gt;sentence_detector&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;nlp&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;SentenceDetectorDLModel&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;pretrained&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;sentence_detector_dl&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;xx&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;\
-    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setInputCols&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;([&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;document&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;])&lt;/span&gt;\
-    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;sentence&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-
-&lt;span class=&quot;n&quot;&gt;tokenizer&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;nlp&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Tokenizer&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;\
-    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setInputCols&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;([&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;sentence&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;])&lt;/span&gt;\
-    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;token&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;\
-    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setContextChars&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;([&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'.'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;','&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;';'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;':'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;'!'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;'?'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;'*'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;'-'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;'('&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;')'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;'”'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;'’'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;'$'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'€'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;])&lt;/span&gt;
-
-&lt;span class=&quot;n&quot;&gt;embeddings&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;nlp&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;BertEmbeddings&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;pretrained&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;bert_embeddings_sec_bert_base&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;en&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; \
-  &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setInputCols&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;sentence&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;token&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; \
-  &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;embeddings&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;\
-  &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setMaxSentenceLength&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;512&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-
-&lt;span class=&quot;n&quot;&gt;ner_model&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;finance&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;NerModel&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;pretrained&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;finner_earning_calls_generic_sm&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;en&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;finance/models&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;\
-    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setInputCols&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;([&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;sentence&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;token&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;embeddings&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;])&lt;/span&gt;\
-    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;ner&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-
-&lt;span class=&quot;n&quot;&gt;ner_converter&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;nlp&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;NerConverter&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;\
-    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setInputCols&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;([&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;sentence&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;token&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;ner&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;])&lt;/span&gt;\
-    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;ner_chunk&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-
-&lt;span class=&quot;n&quot;&gt;pipeline&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;nlp&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Pipeline&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;stages&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;document_assembler&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;sentence_detector&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;tokenizer&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;embeddings&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;ner_model&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;ner_converter&lt;/span&gt;   
-    &lt;span class=&quot;p&quot;&gt;])&lt;/span&gt;
-
-&lt;span class=&quot;n&quot;&gt;data&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;spark&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;createDataFrame&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;([[&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;&quot;&quot;Adjusted EPS was ahead of our expectations at $ 1.21 , and free cash flow is also ahead of our expectations despite a $ 1.5 billion additional tax payment we made related to the R&amp;amp;D amortization.&quot;&quot;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]]).&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;toDF&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;text&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-
-&lt;span class=&quot;n&quot;&gt;model&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;pipeline&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;fit&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;data&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-
-&lt;span class=&quot;n&quot;&gt;result&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;model&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;transform&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;data&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-
-&lt;span class=&quot;n&quot;&gt;result&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;select&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;F&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;explode&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;F&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;arrays_zip&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'ner_chunk.result'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;'ner_chunk.metadata'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)).&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;alias&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;cols&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt; \
-               &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;select&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;F&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;expr&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;cols['0']&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;).&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;alias&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;text&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;),&lt;/span&gt;
-                       &lt;span class=&quot;n&quot;&gt;F&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;expr&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;cols['1']['entity']&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;).&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;alias&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;label&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)).&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;show&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;200&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;truncate&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;bp&quot;&gt;False&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;  &lt;/div&gt;
-
-&lt;/div&gt;
-
-&lt;h2 id=&quot;results&quot;&gt;Results&lt;/h2&gt;
-
-&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;+------------+----------+----------+
-|       token| ner_label|confidence|
-+------------+----------+----------+
-|    Adjusted|  B-PROFIT|    0.9691|
-|         EPS|  I-PROFIT|    0.9954|
-|         was|         O|       1.0|
-|       ahead|         O|       1.0|
-|          of|         O|       1.0|
-|         our|         O|       1.0|
-|expectations|         O|       1.0|
-|          at|         O|       1.0|
-|           &lt;span class=&quot;nv&quot;&gt;$|&lt;/span&gt;B-CURRENCY|       1.0|
-|        1.21|  B-AMOUNT|       1.0|
-|           ,|         O|    0.9998|
-|         and|         O|       1.0|
-|        free|     B-FCF|    0.9981|
-|        cash|     I-FCF|    0.9998|
-|        flow|     I-FCF|    0.9998|
-|          is|         O|       1.0|
-|        also|         O|       1.0|
-|       ahead|         O|       1.0|
-|          of|         O|       1.0|
-|         our|         O|       1.0|
-|expectations|         O|       1.0|
-|     despite|         O|       1.0|
-|           a|         O|       1.0|
-|           &lt;span class=&quot;nv&quot;&gt;$|&lt;/span&gt;B-CURRENCY|       1.0|
-|         1.5|  B-AMOUNT|       1.0|
-|     billion|  I-AMOUNT|    0.9999|
-|  additional|         O|     0.998|
-|         tax|         O|    0.9532|
-|     payment|         O|     0.945|
-|          we|         O|    0.9999|
-|        made|         O|       1.0|
-|     related|         O|       1.0|
-|          to|         O|       1.0|
-|         the|         O|       1.0|
-|         R&amp;amp;D|         O|    0.9981|
-|amortization|         O|    0.9973|
-|           .|         O|       1.0|
-+------------+----------+----------+
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;h2 class=&quot;model-param&quot; id=&quot;model-information&quot;&gt;Model Information&lt;/h2&gt;
-
-&lt;table class=&quot;table-model&quot;&gt;
-  &lt;tbody&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Model Name:&lt;/td&gt;
-      &lt;td&gt;finner_earning_calls_generic_sm&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Compatibility:&lt;/td&gt;
-      &lt;td&gt;Finance NLP 1.0.0+&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;License:&lt;/td&gt;
-      &lt;td&gt;Licensed&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Edition:&lt;/td&gt;
-      &lt;td&gt;Official&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Input Labels:&lt;/td&gt;
-      &lt;td&gt;[sentence, token, embeddings]&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Output Labels:&lt;/td&gt;
-      &lt;td&gt;[ner]&lt;/td&gt;
     &lt;/tr&gt;
     &lt;tr&gt;
       &lt;td&gt;Language:&lt;/td&gt;
@@ -1626,53 +1477,225 @@ This model is called &lt;code class=&quot;language-plaintext highlighter-rouge&q
     &lt;/tr&gt;
     &lt;tr&gt;
       &lt;td&gt;Size:&lt;/td&gt;
-      &lt;td&gt;16.2 MB&lt;/td&gt;
+      &lt;td&gt;1.7 GB&lt;/td&gt;
     &lt;/tr&gt;
   &lt;/tbody&gt;
 &lt;/table&gt;
 
-&lt;h2 id=&quot;references&quot;&gt;References&lt;/h2&gt;
+&lt;h2 id=&quot;included-models&quot;&gt;Included Models&lt;/h2&gt;
 
-&lt;p&gt;In-house annotations on Earning Calls.&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;DocumentAssembler&lt;/li&gt;
+  &lt;li&gt;SentenceDetectorDLModel&lt;/li&gt;
+  &lt;li&gt;TokenizerModel&lt;/li&gt;
+  &lt;li&gt;WordEmbeddingsModel&lt;/li&gt;
+  &lt;li&gt;MedicalNerModel&lt;/li&gt;
+  &lt;li&gt;NerConverter&lt;/li&gt;
+  &lt;li&gt;MedicalNerModel&lt;/li&gt;
+  &lt;li&gt;NerConverter&lt;/li&gt;
+  &lt;li&gt;MedicalNerModel&lt;/li&gt;
+  &lt;li&gt;NerConverter&lt;/li&gt;
+  &lt;li&gt;MedicalNerModel&lt;/li&gt;
+  &lt;li&gt;NerConverter&lt;/li&gt;
+  &lt;li&gt;ChunkMergeModel&lt;/li&gt;
+  &lt;li&gt;ChunkMergeModel&lt;/li&gt;
+  &lt;li&gt;AssertionDLModel&lt;/li&gt;
+  &lt;li&gt;AssertionDLModel&lt;/li&gt;
+  &lt;li&gt;PerceptronModel&lt;/li&gt;
+  &lt;li&gt;DependencyParserModel&lt;/li&gt;
+  &lt;li&gt;RelationExtractionModel&lt;/li&gt;
+  &lt;li&gt;RelationExtractionModel&lt;/li&gt;
+  &lt;li&gt;RelationExtractionModel&lt;/li&gt;
+&lt;/ul&gt;</content><author><name>John Snow Labs</name></author><category term="licensed" /><category term="pipeline" /><category term="oncology" /><category term="biomarker" /><category term="en" /><summary type="html">Description This pipeline includes Named-Entity Recognition, Assertion Status and Relation Extraction models to extract information from oncology texts. This pipeline focuses on entities related to biomarkers. Live Demo Open in Colab Download How to use PythonScalaNLU from sparknlp.pretrained import PretrainedPipeline pipeline = PretrainedPipeline(&quot;oncology_biomarker_pipeline&quot;, &quot;en&quot;, &quot;clinical/models&quot;) pipeline.annotate(&quot;Immunohistochemistry was negative for thyroid transcription factor-1 and napsin A. The test was positive for ER and PR, and negative for HER2.&quot;) import com.johnsnowlabs.nlp.pretrained.PretrainedPipeline val pipeline = new PretrainedPipeline(&quot;oncology_biomarker_pipeline&quot;, &quot;en&quot;, &quot;clinical/models&quot;) val result = pipeline.fullAnnotate(&quot;&quot;&quot;Immunohistochemistry was negative for thyroid transcription factor-1 and napsin A. The test was positive for ER and PR, and negative for HER2.&quot;&quot;&quot;)(0) Results ******************** ner_oncology_wip results ******************** | chunk | ner_label | |:-------------------------------|:-----------------| | negative | Biomarker_Result | | thyroid transcription factor-1 | Biomarker | | napsin | Biomarker | | positive | Biomarker_Result | | ER | Biomarker | | PR | Biomarker | | negative | Biomarker_Result | | HER2 | Oncogene | ******************** ner_oncology_biomarker_wip results ******************** | chunk | ner_label | |:-------------------------------|:-----------------| | negative | Biomarker_Result | | thyroid transcription factor-1 | Biomarker | | napsin A | Biomarker | | positive | Biomarker_Result | | ER | Biomarker | | PR | Biomarker | | negative | Biomarker_Result | | HER2 | Biomarker | ******************** ner_oncology_test_wip results ******************** | chunk | ner_label | |:-------------------------------|:-----------------| | Immunohistochemistry | Pathology_Test | | negative | Biomarker_Result | | thyroid transcription factor-1 | Biomarker | | napsin A | Biomarker | | positive | Biomarker_Result | | ER | Biomarker | | PR | Biomarker | | negative | Biomarker_Result | | HER2 | Oncogene | ******************** ner_biomarker results ******************** | chunk | ner_label | |:-------------------------------|:----------------------| | Immunohistochemistry | Test | | negative | Biomarker_Measurement | | thyroid transcription factor-1 | Biomarker | | napsin A | Biomarker | | positive | Biomarker_Measurement | | ER | Biomarker | | PR | Biomarker | | negative | Biomarker_Measurement | | HER2 | Biomarker | ******************** assertion_oncology_wip results ******************** | chunk | ner_label | assertion | |:-------------------------------|:---------------|:------------| | Immunohistochemistry | Pathology_Test | Past | | thyroid transcription factor-1 | Biomarker | Present | | napsin A | Biomarker | Present | | ER | Biomarker | Present | | PR | Biomarker | Present | | HER2 | Oncogene | Present | ******************** assertion_oncology_test_binary_wip results ******************** | chunk | ner_label | assertion | |:-------------------------------|:---------------|:----------------| | Immunohistochemistry | Pathology_Test | Medical_History | | thyroid transcription factor-1 | Biomarker | Medical_History | | napsin A | Biomarker | Medical_History | | ER | Biomarker | Medical_History | | PR | Biomarker | Medical_History | | HER2 | Oncogene | Medical_History | ******************** re_oncology_wip results ******************** | chunk1 | entity1 | chunk2 | entity2 | relation | |:---------------------|:-----------------|:-------------------------------|:-----------------|:--------------| | Immunohistochemistry | Pathology_Test | negative | Biomarker_Result | O | | negative | Biomarker_Result | thyroid transcription factor-1 | Biomarker | is_related_to | | negative | Biomarker_Result | napsin A | Biomarker | is_related_to | | positive | Biomarker_Result | ER | Biomarker | is_related_to | | positive | Biomarker_Result | PR | Biomarker | is_related_to | | positive | Biomarker_Result | HER2 | Oncogene | O | | ER | Biomarker | negative | Biomarker_Result | O | | PR | Biomarker | negative | Biomarker_Result | O | | negative | Biomarker_Result | HER2 | Oncogene | is_related_to | ******************** re_oncology_granular_wip results ******************** | chunk1 | entity1 | chunk2 | entity2 | relation | |:---------------------|:-----------------|:-------------------------------|:-----------------|:--------------| | Immunohistochemistry | Pathology_Test | negative | Biomarker_Result | O | | negative | Biomarker_Result | thyroid transcription factor-1 | Biomarker | is_finding_of | | negative | Biomarker_Result | napsin A | Biomarker | is_finding_of | | positive | Biomarker_Result | ER | Biomarker | is_finding_of | | positive | Biomarker_Result | PR | Biomarker | is_finding_of | | positive | Biomarker_Result | HER2 | Oncogene | is_finding_of | | ER | Biomarker | negative | Biomarker_Result | O | | PR | Biomarker | negative | Biomarker_Result | O | | negative | Biomarker_Result | HER2 | Oncogene | is_finding_of | ******************** re_oncology_biomarker_result_wip results ******************** | chunk1 | entity1 | chunk2 | entity2 | relation | |:---------------------|:-----------------|:-------------------------------|:-----------------|:--------------| | Immunohistochemistry | Pathology_Test | negative | Biomarker_Result | is_finding_of | | negative | Biomarker_Result | thyroid transcription factor-1 | Biomarker | is_finding_of | | negative | Biomarker_Result | napsin A | Biomarker | is_finding_of | | positive | Biomarker_Result | ER | Biomarker | is_finding_of | | positive | Biomarker_Result | PR | Biomarker | is_finding_of | | positive | Biomarker_Result | HER2 | Oncogene | O | | ER | Biomarker | negative | Biomarker_Result | O | | PR | Biomarker | negative | Biomarker_Result | O | | negative | Biomarker_Result | HER2 | Oncogene | is_finding_of | Model Information Model Name: oncology_biomarker_pipeline Type: pipeline Compatibility: Healthcare NLP 4.2.2+ License: Licensed Edition: Official Language: en Size: 1.7 GB Included Models DocumentAssembler SentenceDetectorDLModel TokenizerModel WordEmbeddingsModel MedicalNerModel NerConverter MedicalNerModel NerConverter MedicalNerModel NerConverter MedicalNerModel NerConverter ChunkMergeModel ChunkMergeModel AssertionDLModel AssertionDLModel PerceptronModel DependencyParserModel RelationExtractionModel RelationExtractionModel RelationExtractionModel</summary></entry><entry><title type="html">Oncology Pipeline for Diagnosis Entities</title><link href="/2022/12/01/oncology_diagnosis_pipeline_en.html" rel="alternate" type="text/html" title="Oncology Pipeline for Diagnosis Entities" /><published>2022-12-01T00:00:00+00:00</published><updated>2022-12-01T00:00:00+00:00</updated><id>/2022/12/01/oncology_diagnosis_pipeline_en</id><content type="html" xml:base="/2022/12/01/oncology_diagnosis_pipeline_en.html">&lt;h2 id=&quot;description&quot;&gt;Description&lt;/h2&gt;
 
-&lt;h2 id=&quot;benchmarking&quot;&gt;Benchmarking&lt;/h2&gt;
+&lt;p&gt;This pipeline includes Named-Entity Recognition, Assertion Status, Relation Extraction and Entity Resolution models to extract information from oncology texts. This pipeline focuses on entities related to oncological diagnosis.&lt;/p&gt;
 
-&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;label	 tp	 fp	 fn	 prec	 rec	 f1
-I-AMOUNT	 383	 1	 3	 0.9973958	 0.992228	 0.9948052
-B-COUNT	 13	 5	 2	 0.7222222	 0.8666667	 0.78787875
-B-AMOUNT	 453	 0	 6	 1.0	 0.9869281	 0.9934211
-I-ORG	 16	 0	 0	 1.0	 1.0	 1.0
-B-DATE	 117	 11	 5	 0.9140625	 0.9590164	 0.93600005
-B-LIABILITY_DECREASE	 1	 1	 0	 0.5	 1.0	 0.6666667
-I-LIABILITY	 8	 6	 3	 0.5714286	 0.72727275	 0.64000005
-I-EXPENSE	 75	 13	 52	 0.85227275	 0.5905512	 0.69767445
-I-KPI_INCREASE	 6	 3	 8	 0.6666667	 0.42857143	 0.5217392
-B-LIABILITY	 9	 4	 5	 0.6923077	 0.64285713	 0.6666667
-I-CF	 18	 1	 18	 0.94736844	 0.5	 0.6545455
-I-COUNT	 12	 2	 1	 0.85714287	 0.9230769	 0.8888889
-B-FCF	 13	 5	 0	 0.7222222	 1.0	 0.83870965
-B-PROFIT_INCREASE	 79	 22	 31	 0.7821782	 0.7181818	 0.7488152
-B-KPI_INCREASE	 3	 4	 11	 0.42857143	 0.21428572	 0.2857143
-B-EXPENSE	 41	 19	 38	 0.68333334	 0.51898736	 0.5899281
-I-PROFIT_DECLINE	 5	 7	 22	 0.41666666	 0.18518518	 0.25641027
-I-LIABILITY_DECREASE	 1	 1	 0	 0.5	 1.0	 0.6666667
-I-PROFIT	 188	 47	 50	 0.8	 0.789916	 0.79492605
-B-CURRENCY	 440	 0	 1	 1.0	 0.9977324	 0.9988649
-I-PROFIT_INCREASE	 77	 23	 45	 0.77	 0.63114756	 0.69369364
-I-CURRENCY	 6	 0	 0	 1.0	 1.0	 1.0
-B-CF	 9	 1	 8	 0.9	 0.5294118	 0.6666667
-B-PROFIT	 147	 51	 40	 0.74242425	 0.7860963	 0.7636363
-B-PERCENTAGE	 417	 2	 4	 0.99522674	 0.99049884	 0.99285716
-B-TICKER	 13	 0	 0	 1.0	 1.0	 1.0
-I-FISCAL_YEAR	 3	 0	 0	 1.0	 1.0	 1.0
-B-ORG	 14	 0	 0	 1.0	 1.0	 1.0
-B-EXPENSE_INCREASE	 6	 0	 4	 1.0	 0.6	 0.75
-B-EXPENSE_DECREASE	 1	 0	 1	 1.0	 0.5	 0.6666667
-B-ASSET	 9	 2	 16	 0.8181818	 0.36	 0.5
-B-FISCAL_YEAR	 1	 0	 0	 1.0	 1.0	 1.0
-I-EXPENSE_DECREASE	 3	 2	 2	 0.6	 0.6	 0.6
-I-FCF	 26	 15	 0	 0.63414633	 1.0	 0.7761194
-I-EXPENSE_INCREASE	 8	 0	 3	 1.0	 0.72727275	 0.84210527
-Macro-average 2637 255 465 0.7494908 0.64362085 0.70253296
-Micro-average 2637 255 465 0.9118257 0.8500967 0.8798799
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;</content><author><name>John Snow Labs</name></author><category term="en" /><category term="financial" /><category term="ner" /><category term="earning" /><category term="calls" /><category term="licensed" /><summary type="html">Description This is a sm (small) version of a financial model trained on Earning Calls transcripts to detect financial entities (NER model). This model is called Generic as it has fewer labels in comparison with the Specific version. Please note this model requires some tokenization configuration to extract the currency (see python snippet below). The currently available entities are: AMOUNT: Numeric amounts, not percentages ASSET: Current or Fixed Asset ASSET_DECREASE: Decrease in the asset possession/exposure ASSET_INCREASE: Increase in the asset possession/exposure CF: Total cash flow  CF_DECREASE: Relative decrease in cash flow CF_INCREASE: Relative increase in cash flow COUNT: Number of items (not monetary, not percentages). CURRENCY: The currency of the amount DATE: Generic dates in context where either it’s not a fiscal year or it can’t be asserted as such given the context EXPENSE: An expense or loss EXPENSE_DECREASE: A piece of information saying there was an expense decrease in that fiscal year EXPENSE_INCREASE: A piece of information saying there was an expense increase in that fiscal year FCF: Free Cash Flow FISCAL_YEAR: A date which expresses which month the fiscal exercise was closed for a specific year KPI: Key Performance Indicator, a quantifiable measure of performance over time for a specific objective KPI_DECREASE: Relative decrease in a KPI KPI_INCREASE: Relative increase in a KPI LIABILITY: Current or Long-Term Liability (not from stockholders) LIABILITY_DECREASE: Relative decrease in liability LIABILITY_INCREASE: Relative increase in liability ORG: Mention to a company/organization name PERCENTAGE: : Numeric amounts which are percentages PROFIT: Profit or also Revenue PROFIT_DECLINE: A piece of information saying there was a profit / revenue decrease in that fiscal year PROFIT_INCREASE: A piece of information saying there was a profit / revenue increase in that fiscal year TICKER: Trading symbol of the company You can also check for the Relation Extraction model which connects these entities together. Predicted Entities AMOUNT, ASSET, ASSET_DECREASE, ASSET_INCREASE, CF, CF_DECREASE, CF_INCREASE, COUNT, CURRENCY, DATE, EXPENSE, EXPENSE_DECREASE, EXPENSE_INCREASE, FCF, FISCAL_YEAR, KPI, KPI_DECREASE, KPI_INCREASE, LIABILITY, LIABILITY_DECREASE, LIABILITY_INCREASE, ORG, PERCENTAGE, PROFIT, PROFIT_DECLINE, PROFIT_INCREASE, TICKER Live Demo Open in Colab Download How to use PythonScalaNLU document_assembler = nlp.DocumentAssembler()\ .setInputCol(&quot;text&quot;)\ .setOutputCol(&quot;document&quot;) sentence_detector = nlp.SentenceDetectorDLModel.pretrained(&quot;sentence_detector_dl&quot;,&quot;xx&quot;)\ .setInputCols([&quot;document&quot;])\ .setOutputCol(&quot;sentence&quot;) tokenizer = nlp.Tokenizer()\ .setInputCols([&quot;sentence&quot;])\ .setOutputCol(&quot;token&quot;)\ .setContextChars(['.', ',', ';', ':', '!', '?', '*', '-', '(', ')', '”', '’', '$','€']) embeddings = nlp.BertEmbeddings.pretrained(&quot;bert_embeddings_sec_bert_base&quot;, &quot;en&quot;) \ .setInputCols(&quot;sentence&quot;, &quot;token&quot;) \ .setOutputCol(&quot;embeddings&quot;)\ .setMaxSentenceLength(512) ner_model = finance.NerModel.pretrained(&quot;finner_earning_calls_generic_sm&quot;, &quot;en&quot;, &quot;finance/models&quot;)\ .setInputCols([&quot;sentence&quot;, &quot;token&quot;, &quot;embeddings&quot;])\ .setOutputCol(&quot;ner&quot;) ner_converter = nlp.NerConverter()\ .setInputCols([&quot;sentence&quot;, &quot;token&quot;, &quot;ner&quot;])\ .setOutputCol(&quot;ner_chunk&quot;) pipeline = nlp.Pipeline(stages=[ document_assembler, sentence_detector, tokenizer, embeddings, ner_model, ner_converter ]) data = spark.createDataFrame([[&quot;&quot;&quot;Adjusted EPS was ahead of our expectations at $ 1.21 , and free cash flow is also ahead of our expectations despite a $ 1.5 billion additional tax payment we made related to the R&amp;amp;D amortization.&quot;&quot;&quot;]]).toDF(&quot;text&quot;) model = pipeline.fit(data) result = model.transform(data) result.select(F.explode(F.arrays_zip('ner_chunk.result', 'ner_chunk.metadata')).alias(&quot;cols&quot;)) \ .select(F.expr(&quot;cols['0']&quot;).alias(&quot;text&quot;), F.expr(&quot;cols['1']['entity']&quot;).alias(&quot;label&quot;)).show(200, truncate = False) Results +------------+----------+----------+ | token| ner_label|confidence| +------------+----------+----------+ | Adjusted| B-PROFIT| 0.9691| | EPS| I-PROFIT| 0.9954| | was| O| 1.0| | ahead| O| 1.0| | of| O| 1.0| | our| O| 1.0| |expectations| O| 1.0| | at| O| 1.0| | $|B-CURRENCY| 1.0| | 1.21| B-AMOUNT| 1.0| | ,| O| 0.9998| | and| O| 1.0| | free| B-FCF| 0.9981| | cash| I-FCF| 0.9998| | flow| I-FCF| 0.9998| | is| O| 1.0| | also| O| 1.0| | ahead| O| 1.0| | of| O| 1.0| | our| O| 1.0| |expectations| O| 1.0| | despite| O| 1.0| | a| O| 1.0| | $|B-CURRENCY| 1.0| | 1.5| B-AMOUNT| 1.0| | billion| I-AMOUNT| 0.9999| | additional| O| 0.998| | tax| O| 0.9532| | payment| O| 0.945| | we| O| 0.9999| | made| O| 1.0| | related| O| 1.0| | to| O| 1.0| | the| O| 1.0| | R&amp;amp;D| O| 0.9981| |amortization| O| 0.9973| | .| O| 1.0| +------------+----------+----------+ Model Information Model Name: finner_earning_calls_generic_sm Compatibility: Finance NLP 1.0.0+ License: Licensed Edition: Official Input Labels: [sentence, token, embeddings] Output Labels: [ner] Language: en Size: 16.2 MB References In-house annotations on Earning Calls. Benchmarking label tp fp fn prec rec f1 I-AMOUNT 383 1 3 0.9973958 0.992228 0.9948052 B-COUNT 13 5 2 0.7222222 0.8666667 0.78787875 B-AMOUNT 453 0 6 1.0 0.9869281 0.9934211 I-ORG 16 0 0 1.0 1.0 1.0 B-DATE 117 11 5 0.9140625 0.9590164 0.93600005 B-LIABILITY_DECREASE 1 1 0 0.5 1.0 0.6666667 I-LIABILITY 8 6 3 0.5714286 0.72727275 0.64000005 I-EXPENSE 75 13 52 0.85227275 0.5905512 0.69767445 I-KPI_INCREASE 6 3 8 0.6666667 0.42857143 0.5217392 B-LIABILITY 9 4 5 0.6923077 0.64285713 0.6666667 I-CF 18 1 18 0.94736844 0.5 0.6545455 I-COUNT 12 2 1 0.85714287 0.9230769 0.8888889 B-FCF 13 5 0 0.7222222 1.0 0.83870965 B-PROFIT_INCREASE 79 22 31 0.7821782 0.7181818 0.7488152 B-KPI_INCREASE 3 4 11 0.42857143 0.21428572 0.2857143 B-EXPENSE 41 19 38 0.68333334 0.51898736 0.5899281 I-PROFIT_DECLINE 5 7 22 0.41666666 0.18518518 0.25641027 I-LIABILITY_DECREASE 1 1 0 0.5 1.0 0.6666667 I-PROFIT 188 47 50 0.8 0.789916 0.79492605 B-CURRENCY 440 0 1 1.0 0.9977324 0.9988649 I-PROFIT_INCREASE 77 23 45 0.77 0.63114756 0.69369364 I-CURRENCY 6 0 0 1.0 1.0 1.0 B-CF 9 1 8 0.9 0.5294118 0.6666667 B-PROFIT 147 51 40 0.74242425 0.7860963 0.7636363 B-PERCENTAGE 417 2 4 0.99522674 0.99049884 0.99285716 B-TICKER 13 0 0 1.0 1.0 1.0 I-FISCAL_YEAR 3 0 0 1.0 1.0 1.0 B-ORG 14 0 0 1.0 1.0 1.0 B-EXPENSE_INCREASE 6 0 4 1.0 0.6 0.75 B-EXPENSE_DECREASE 1 0 1 1.0 0.5 0.6666667 B-ASSET 9 2 16 0.8181818 0.36 0.5 B-FISCAL_YEAR 1 0 0 1.0 1.0 1.0 I-EXPENSE_DECREASE 3 2 2 0.6 0.6 0.6 I-FCF 26 15 0 0.63414633 1.0 0.7761194 I-EXPENSE_INCREASE 8 0 3 1.0 0.72727275 0.84210527 Macro-average 2637 255 465 0.7494908 0.64362085 0.70253296 Micro-average 2637 255 465 0.9118257 0.8500967 0.8798799</summary></entry></feed>
+&lt;p class=&quot;btn-box&quot;&gt;&lt;button class=&quot;button button-orange&quot; disabled=&quot;&quot;&gt;Live Demo&lt;/button&gt;
+&lt;a href=&quot;https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/27.Oncology_Model.ipynb&quot; class=&quot;button button-orange button-orange-trans co button-icon&quot;&gt;Open in Colab&lt;/a&gt;
+&lt;a href=&quot;https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/oncology_diagnosis_pipeline_en_4.2.2_3.0_1669901190921.zip&quot; class=&quot;button button-orange button-orange-trans arr button-icon&quot;&gt;Download&lt;/a&gt;&lt;/p&gt;
+
+&lt;h2 id=&quot;how-to-use&quot;&gt;How to use&lt;/h2&gt;
+
+&lt;div class=&quot;tabs-box&quot;&gt;
+  &lt;div class=&quot;top_tab_li&quot;&gt;   
+    &lt;p&gt;&lt;button data-type=&quot;python&quot; class=&quot;tab-li code-selector-active python-button&quot;&gt;Python&lt;/button&gt;&lt;button data-type=&quot;scala&quot; class=&quot;tab-li code-selector-un-active scala-button&quot;&gt;Scala&lt;/button&gt;&lt;button data-type=&quot;nlu&quot; class=&quot;tab-li code-selector-un-active nlu-button&quot;&gt;NLU&lt;/button&gt;&lt;/p&gt;
+&lt;/div&gt;
+  &lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kn&quot;&gt;from&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;sparknlp.pretrained&lt;/span&gt; &lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;PretrainedPipeline&lt;/span&gt;
+
+&lt;span class=&quot;n&quot;&gt;pipeline&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;PretrainedPipeline&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;oncology_diagnosis_pipeline&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;en&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;clinical/models&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+
+&lt;span class=&quot;n&quot;&gt;pipeline&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;fullAnnotate&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;Two years ago, the patient presented with a 4-cm tumor in her left breast. She was diagnosed with ductal carcinoma.
+According to her last CT, she has no lung metastases.&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;
+
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;  &lt;/div&gt;
+  &lt;div class=&quot;language-scala highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;com.johnsnowlabs.nlp.pretrained.PretrainedPipeline&lt;/span&gt;
+
+&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;pipeline&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;PretrainedPipeline&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;oncology_diagnosis_pipeline&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;en&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;clinical/models&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+
+&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;result&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;pipeline&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;fullAnnotate&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;&quot;&quot;Two years ago, the patient presented with a 4-cm tumor in her left breast. She was diagnosed with ductal carcinoma.
+According to her last CT, she has no lung metastases.&quot;&quot;&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;  &lt;/div&gt;
+&lt;/div&gt;
+
+&lt;h2 id=&quot;results&quot;&gt;Results&lt;/h2&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;********************&lt;/span&gt; ner_oncology_wip results &lt;span class=&quot;k&quot;&gt;********************&lt;/span&gt;
+
+| chunk      | ner_label         |
+|:-----------|:------------------|
+| 4-cm       | Tumor_Size        |
+| tumor      | Tumor_Finding     |
+| left       | Direction         |
+| breast     | Site_Breast       |
+| ductal     | Histological_Type |
+| carcinoma  | Cancer_Dx         |
+| lung       | Site_Lung         |
+| metastases | Metastasis        |
+
+
+&lt;span class=&quot;k&quot;&gt;********************&lt;/span&gt; ner_oncology_diagnosis_wip results &lt;span class=&quot;k&quot;&gt;********************&lt;/span&gt;
+
+| chunk      | ner_label         |
+|:-----------|:------------------|
+| 4-cm       | Tumor_Size        |
+| tumor      | Tumor_Finding     |
+| ductal     | Histological_Type |
+| carcinoma  | Cancer_Dx         |
+| metastases | Metastasis        |
+
+
+&lt;span class=&quot;k&quot;&gt;********************&lt;/span&gt; ner_oncology_tnm_wip results &lt;span class=&quot;k&quot;&gt;********************&lt;/span&gt;
+
+| chunk      | ner_label         |
+|:-----------|:------------------|
+| 4-cm       | Tumor_Description |
+| tumor      | Tumor             |
+| ductal     | Tumor_Description |
+| carcinoma  | Cancer_Dx         |
+| metastases | Metastasis        |
+
+
+&lt;span class=&quot;k&quot;&gt;********************&lt;/span&gt; assertion_oncology_wip results &lt;span class=&quot;k&quot;&gt;********************&lt;/span&gt;
+
+| chunk      | ner_label         | assertion   |
+|:-----------|:------------------|:------------|
+| tumor      | Tumor_Finding     | Present     |
+| ductal     | Histological_Type | Present     |
+| carcinoma  | Cancer_Dx         | Present     |
+| metastases | Metastasis        | Absent      |
+
+
+&lt;span class=&quot;k&quot;&gt;********************&lt;/span&gt; assertion_oncology_problem_wip results &lt;span class=&quot;k&quot;&gt;********************&lt;/span&gt;
+
+| chunk      | ner_label         | assertion              |
+|:-----------|:------------------|:-----------------------|
+| tumor      | Tumor_Finding     | Medical_History        |
+| ductal     | Histological_Type | Medical_History        |
+| carcinoma  | Cancer_Dx         | Medical_History        |
+| metastases | Metastasis        | Hypothetical_Or_Absent |
+
+
+&lt;span class=&quot;k&quot;&gt;********************&lt;/span&gt; re_oncology_wip results &lt;span class=&quot;k&quot;&gt;********************&lt;/span&gt;
+
+| chunk1   | entity1       | chunk2     | entity2       | relation      |
+|:---------|:--------------|:-----------|:--------------|:--------------|
+| 4-cm     | Tumor_Size    | tumor      | Tumor_Finding | is_related_to |
+| 4-cm     | Tumor_Size    | carcinoma  | Cancer_Dx     | O             |
+| tumor    | Tumor_Finding | breast     | Site_Breast   | is_related_to |
+| breast   | Site_Breast   | carcinoma  | Cancer_Dx     | O             |
+| lung     | Site_Lung     | metastases | Metastasis    | is_related_to |
+
+
+&lt;span class=&quot;k&quot;&gt;********************&lt;/span&gt; re_oncology_granular_wip results &lt;span class=&quot;k&quot;&gt;********************&lt;/span&gt;
+
+| chunk1   | entity1       | chunk2     | entity2       | relation       |
+|:---------|:--------------|:-----------|:--------------|:---------------|
+| 4-cm     | Tumor_Size    | tumor      | Tumor_Finding | is_size_of     |
+| 4-cm     | Tumor_Size    | carcinoma  | Cancer_Dx     | O              |
+| tumor    | Tumor_Finding | breast     | Site_Breast   | is_location_of |
+| breast   | Site_Breast   | carcinoma  | Cancer_Dx     | O              |
+| lung     | Site_Lung     | metastases | Metastasis    | is_location_of |
+
+
+&lt;span class=&quot;k&quot;&gt;********************&lt;/span&gt; re_oncology_size_wip results &lt;span class=&quot;k&quot;&gt;********************&lt;/span&gt;
+
+| chunk1   | entity1    | chunk2    | entity2       | relation   |
+|:---------|:-----------|:----------|:--------------|:-----------|
+| 4-cm     | Tumor_Size | tumor     | Tumor_Finding | is_size_of |
+| 4-cm     | Tumor_Size | carcinoma | Cancer_Dx     | O          |
+
+
+&lt;span class=&quot;k&quot;&gt;********************&lt;/span&gt; ICD-O resolver results &lt;span class=&quot;k&quot;&gt;********************&lt;/span&gt;
+
+| chunk      | ner_label         | code   | normalized_term   |
+|:-----------|:------------------|:-------|:------------------|
+| tumor      | Tumor_Finding     | 8000/1 | tumor             |
+| breast     | Site_Breast       | C50    | breast            |
+| ductal     | Histological_Type | 8500/2 | dcis              |
+| carcinoma  | Cancer_Dx         | 8010/3 | carcinoma         |
+| lung       | Site_Lung         | C34.9  | lung              |
+| metastases | Metastasis        | 8000/6 | tumor, metastatic |
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h2 class=&quot;model-param&quot; id=&quot;model-information&quot;&gt;Model Information&lt;/h2&gt;
+
+&lt;table class=&quot;table-model&quot;&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Model Name:&lt;/td&gt;
+      &lt;td&gt;oncology_diagnosis_pipeline&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Type:&lt;/td&gt;
+      &lt;td&gt;pipeline&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Compatibility:&lt;/td&gt;
+      &lt;td&gt;Healthcare NLP 4.2.2+&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;License:&lt;/td&gt;
+      &lt;td&gt;Licensed&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Edition:&lt;/td&gt;
+      &lt;td&gt;Official&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Language:&lt;/td&gt;
+      &lt;td&gt;en&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Size:&lt;/td&gt;
+      &lt;td&gt;2.3 GB&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;h2 id=&quot;included-models&quot;&gt;Included Models&lt;/h2&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;DocumentAssembler&lt;/li&gt;
+  &lt;li&gt;SentenceDetectorDLModel&lt;/li&gt;
+  &lt;li&gt;TokenizerModel&lt;/li&gt;
+  &lt;li&gt;WordEmbeddingsModel&lt;/li&gt;
+  &lt;li&gt;MedicalNerModel&lt;/li&gt;
+  &lt;li&gt;NerConverter&lt;/li&gt;
+  &lt;li&gt;MedicalNerModel&lt;/li&gt;
+  &lt;li&gt;NerConverter&lt;/li&gt;
+  &lt;li&gt;MedicalNerModel&lt;/li&gt;
+  &lt;li&gt;NerConverter&lt;/li&gt;
+  &lt;li&gt;ChunkMergeModel&lt;/li&gt;
+  &lt;li&gt;ChunkMergeModel&lt;/li&gt;
+  &lt;li&gt;AssertionDLModel&lt;/li&gt;
+  &lt;li&gt;AssertionDLModel&lt;/li&gt;
+  &lt;li&gt;PerceptronModel&lt;/li&gt;
+  &lt;li&gt;DependencyParserModel&lt;/li&gt;
+  &lt;li&gt;RelationExtractionModel&lt;/li&gt;
+  &lt;li&gt;RelationExtractionModel&lt;/li&gt;
+  &lt;li&gt;RelationExtractionModel&lt;/li&gt;
+  &lt;li&gt;ChunkMergeModel&lt;/li&gt;
+  &lt;li&gt;Chunk2Doc&lt;/li&gt;
+  &lt;li&gt;BertSentenceEmbeddings&lt;/li&gt;
+  &lt;li&gt;SentenceEntityResolverModel&lt;/li&gt;
+&lt;/ul&gt;</content><author><name>John Snow Labs</name></author><category term="licensed" /><category term="pipeline" /><category term="oncology" /><category term="en" /><summary type="html">Description This pipeline includes Named-Entity Recognition, Assertion Status, Relation Extraction and Entity Resolution models to extract information from oncology texts. This pipeline focuses on entities related to oncological diagnosis. Live Demo Open in Colab Download How to use PythonScalaNLU from sparknlp.pretrained import PretrainedPipeline pipeline = PretrainedPipeline(&quot;oncology_diagnosis_pipeline&quot;, &quot;en&quot;, &quot;clinical/models&quot;) pipeline.fullAnnotate(&quot;Two years ago, the patient presented with a 4-cm tumor in her left breast. She was diagnosed with ductal carcinoma. According to her last CT, she has no lung metastases.&quot;)[0] import com.johnsnowlabs.nlp.pretrained.PretrainedPipeline val pipeline = new PretrainedPipeline(&quot;oncology_diagnosis_pipeline&quot;, &quot;en&quot;, &quot;clinical/models&quot;) val result = pipeline.fullAnnotate(&quot;&quot;&quot;Two years ago, the patient presented with a 4-cm tumor in her left breast. She was diagnosed with ductal carcinoma. According to her last CT, she has no lung metastases.&quot;&quot;&quot;)(0) Results ******************** ner_oncology_wip results ******************** | chunk | ner_label | |:-----------|:------------------| | 4-cm | Tumor_Size | | tumor | Tumor_Finding | | left | Direction | | breast | Site_Breast | | ductal | Histological_Type | | carcinoma | Cancer_Dx | | lung | Site_Lung | | metastases | Metastasis | ******************** ner_oncology_diagnosis_wip results ******************** | chunk | ner_label | |:-----------|:------------------| | 4-cm | Tumor_Size | | tumor | Tumor_Finding | | ductal | Histological_Type | | carcinoma | Cancer_Dx | | metastases | Metastasis | ******************** ner_oncology_tnm_wip results ******************** | chunk | ner_label | |:-----------|:------------------| | 4-cm | Tumor_Description | | tumor | Tumor | | ductal | Tumor_Description | | carcinoma | Cancer_Dx | | metastases | Metastasis | ******************** assertion_oncology_wip results ******************** | chunk | ner_label | assertion | |:-----------|:------------------|:------------| | tumor | Tumor_Finding | Present | | ductal | Histological_Type | Present | | carcinoma | Cancer_Dx | Present | | metastases | Metastasis | Absent | ******************** assertion_oncology_problem_wip results ******************** | chunk | ner_label | assertion | |:-----------|:------------------|:-----------------------| | tumor | Tumor_Finding | Medical_History | | ductal | Histological_Type | Medical_History | | carcinoma | Cancer_Dx | Medical_History | | metastases | Metastasis | Hypothetical_Or_Absent | ******************** re_oncology_wip results ******************** | chunk1 | entity1 | chunk2 | entity2 | relation | |:---------|:--------------|:-----------|:--------------|:--------------| | 4-cm | Tumor_Size | tumor | Tumor_Finding | is_related_to | | 4-cm | Tumor_Size | carcinoma | Cancer_Dx | O | | tumor | Tumor_Finding | breast | Site_Breast | is_related_to | | breast | Site_Breast | carcinoma | Cancer_Dx | O | | lung | Site_Lung | metastases | Metastasis | is_related_to | ******************** re_oncology_granular_wip results ******************** | chunk1 | entity1 | chunk2 | entity2 | relation | |:---------|:--------------|:-----------|:--------------|:---------------| | 4-cm | Tumor_Size | tumor | Tumor_Finding | is_size_of | | 4-cm | Tumor_Size | carcinoma | Cancer_Dx | O | | tumor | Tumor_Finding | breast | Site_Breast | is_location_of | | breast | Site_Breast | carcinoma | Cancer_Dx | O | | lung | Site_Lung | metastases | Metastasis | is_location_of | ******************** re_oncology_size_wip results ******************** | chunk1 | entity1 | chunk2 | entity2 | relation | |:---------|:-----------|:----------|:--------------|:-----------| | 4-cm | Tumor_Size | tumor | Tumor_Finding | is_size_of | | 4-cm | Tumor_Size | carcinoma | Cancer_Dx | O | ******************** ICD-O resolver results ******************** | chunk | ner_label | code | normalized_term | |:-----------|:------------------|:-------|:------------------| | tumor | Tumor_Finding | 8000/1 | tumor | | breast | Site_Breast | C50 | breast | | ductal | Histological_Type | 8500/2 | dcis | | carcinoma | Cancer_Dx | 8010/3 | carcinoma | | lung | Site_Lung | C34.9 | lung | | metastases | Metastasis | 8000/6 | tumor, metastatic | Model Information Model Name: oncology_diagnosis_pipeline Type: pipeline Compatibility: Healthcare NLP 4.2.2+ License: Licensed Edition: Official Language: en Size: 2.3 GB Included Models DocumentAssembler SentenceDetectorDLModel TokenizerModel WordEmbeddingsModel MedicalNerModel NerConverter MedicalNerModel NerConverter MedicalNerModel NerConverter ChunkMergeModel ChunkMergeModel AssertionDLModel AssertionDLModel PerceptronModel DependencyParserModel RelationExtractionModel RelationExtractionModel RelationExtractionModel ChunkMergeModel Chunk2Doc BertSentenceEmbeddings SentenceEntityResolverModel</summary></entry></feed>

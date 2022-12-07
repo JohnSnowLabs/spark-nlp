@@ -9,10 +9,10 @@
     j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
     })(window,document,'script','dataLayer','GTM-59JLR64');</script>
-<!-- End Google Tag Manager --><title>Spanish Named Entity Recognition, (RoBERTa base trained with data from the National Library of Spain (BNE) and CONLL 2003 data), by the TEMU Unit of the BSC-CNS</title><meta property="og:title" content=""/>
+<!-- End Google Tag Manager --><title>Extract Cancer Therapies and Granular Posology Information</title><meta property="og:title" content=""/>
 
-<meta name="description" content="DescriptionPretrained Named Entity Recognition model, uploaded to Hugging Face, adapted and imported into Spark NLP. roberta-base-bne-conll-ner_spark_nlp is a Spanish model orginally trained by TEMU-BSC for PlanTL-GOB-ES.Predicted EntitiesLive DemoOpen in ColabDownloadHow to usedocumentAssembler = DocumentAssembler(...">
-<link rel="canonical" href="/2022/11/21/roberta_base_bne_conll_ner_spark_nlp_es.html"><link rel="alternate" type="application/rss+xml" title="Spark NLP" href="/feed.xml"><!-- start favicons snippet, use https://realfavicongenerator.net/ -->
+<meta name="description" content="DescriptionThis model extracts cancer therapies (Cancer_Surgery, Radiotherapy and Cancer_Therapy) and posology information at a granular level.Predicted EntitiesCycle_Number, Cycle_Count, Radiotherapy, Cancer_Surgery, Cycle_Day, Frequency, Route, Cancer_Therapy, Duration, Dosage, Radiation_DoseLive DemoOpen in Colab...">
+<link rel="canonical" href="/2022/11/24/ner_oncology_posology_en.html"><link rel="alternate" type="application/rss+xml" title="Spark NLP" href="/feed.xml"><!-- start favicons snippet, use https://realfavicongenerator.net/ -->
 <!---->
 <!-- <link rel="apple-touch-icon" sizes="180x180" href="/fav.ico"> -->
 
@@ -408,75 +408,118 @@
 
 <!-- end custom main top snippet --><article><script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script><div class="article__header"><div class="header-author"><div class="article__info clearfix"><div class="left-col">
             <a class="edit-on-github-btn" target="_blank" rel="alternate"
-               href="https://github.com/johnsnowlabs/spark-nlp/tree/master/docs/_posts/cayorodriguez/2022-11-21-roberta_base_bne_conll_ner_spark_nlp_es.md">
+               href="https://github.com/johnsnowlabs/spark-nlp/tree/master/docs/_posts/Ahmetemintek/2022-11-24-ner_oncology_posology_en.md">
               <span class="fab fa-github"></span>
               <span class="edit-on-github-label">Edit on GitHub</span>
             </a>
-        </div><ul class="right-col menu"><li><i class="far fa-user"></i> <span>cayorodriguez</span></li><li><i class="far fa-calendar-alt"></i> <span>Nov 21, 2022</span>
-            </li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2022-11-21T00:00:00+00:00"></div><header class="main-docs have_subtitle">
-          <h1>Spanish Named Entity Recognition, (RoBERTa base trained with data from the National Library of Spain (BNE) and CONLL 2003 data), by the TEMU Unit of the BSC-CNS</h1><div class="top-subtitle mont"></div></header></div><meta itemprop="headline" content="Spanish Named Entity Recognition, (RoBERTa base trained with data from the National Library of Spain (BNE) and CONLL 2003 data), by the TEMU Unit of the BSC-CNS"><div class="article__info tags_box clearfix"><ul class="left-col menu"><li>es</li><li>open_source</li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2022-11-21T00:00:00+00:00">
-    <meta itemprop="keywords" content="es,open_source"><div class="js-article-content"><div class="model-wrap"><div class="layout--article"><!-- start custom article top snippet -->
+        </div><ul class="right-col menu"><li><i class="far fa-user"></i> <span>John Snow Labs</span></li><li><i class="far fa-calendar-alt"></i> <span>Nov 24, 2022</span>
+            </li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2022-11-24T00:00:00+00:00"></div><header class="main-docs have_subtitle">
+          <h1>Extract Cancer Therapies and Granular Posology Information</h1><div class="top-subtitle mont"></div></header></div><meta itemprop="headline" content="Extract Cancer Therapies and Granular Posology Information"><div class="article__info tags_box clearfix"><ul class="left-col menu"><li>licensed</li><li>clinical</li><li>en</li><li>oncology</li><li>ner</li><li>treatment</li><li>posology</li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2022-11-24T00:00:00+00:00">
+    <meta itemprop="keywords" content="licensed,clinical,en,oncology,ner,treatment,posology"><div class="js-article-content"><div class="model-wrap"><div class="layout--article"><!-- start custom article top snippet -->
 
 <!-- end custom article top snippet --><div class="article__content" itemprop="articleBody"><h2 id="description">Description</h2>
 
-<p>Pretrained Named Entity Recognition model, uploaded to Hugging Face, adapted and imported into Spark NLP. roberta-base-bne-conll-ner_spark_nlp is a Spanish model orginally trained by TEMU-BSC for PlanTL-GOB-ES.</p>
+<p>This model extracts cancer therapies (Cancer_Surgery, Radiotherapy and Cancer_Therapy) and posology information at a granular level.</p>
 
 <h2 id="predicted-entities">Predicted Entities</h2>
 
+<p><code class="language-plaintext highlighter-rouge">Cycle_Number</code>, <code class="language-plaintext highlighter-rouge">Cycle_Count</code>, <code class="language-plaintext highlighter-rouge">Radiotherapy</code>, <code class="language-plaintext highlighter-rouge">Cancer_Surgery</code>, <code class="language-plaintext highlighter-rouge">Cycle_Day</code>, <code class="language-plaintext highlighter-rouge">Frequency</code>, <code class="language-plaintext highlighter-rouge">Route</code>, <code class="language-plaintext highlighter-rouge">Cancer_Therapy</code>, <code class="language-plaintext highlighter-rouge">Duration</code>, <code class="language-plaintext highlighter-rouge">Dosage</code>, <code class="language-plaintext highlighter-rouge">Radiation_Dose</code></p>
+
 <p class="btn-box"><button class="button button-orange" disabled="">Live Demo</button>
-<button class="button button-orange" disabled="">Open in Colab</button>
-<a href="https://s3.amazonaws.com/community.johnsnowlabs.com/cayorodriguez/roberta_base_bne_conll_ner_spark_nlp_es_4.0.0_3.2_1669018824287.zip" class="button button-orange button-orange-trans arr button-icon">Download</a></p>
+<a href="https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/27.Oncology_Model.ipynb" class="button button-orange button-orange-trans co button-icon">Open in Colab</a>
+<a href="https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/ner_oncology_posology_en_4.2.2_3.0_1669306988706.zip" class="button button-orange button-orange-trans arr button-icon">Download</a></p>
 
 <h2 id="how-to-use">How to use</h2>
-
-<p>documentAssembler = DocumentAssembler() <br />
-    .setInputCol(“text”) <br />
-    .setOutputCol(“document”)</p>
-
-<p>sentenceDetector = SentenceDetector()<br />
-.setInputCols([“document”])<br />
-.setOutputCol(“sentence”)</p>
-
-<p>tokenizer = Tokenizer() <br />
-    .setInputCols(“sentence”) <br />
-    .setOutputCol(“token”)</p>
-
-<p>ner = RoBertaForTokenClassification.pretrained(“roberta_base_bne_conll_ner_spark_nlp”,”es”) <br />
-    .setInputCols([“sentence”, “token”]) <br />
-    .setOutputCol(“ner”)</p>
-
-<p>pipeline = Pipeline(stages=[documentAssembler, tokenizer, ner])</p>
-
-<p>data = spark.createDataFrame([[“El Plan Nacional para el Impulso de las Tecnologías del Lenguage es una iniciativa del Gobierno de España”]]).toDF(“text”)</p>
-
-<p>result = pipeline.fit(data).transform(data)</p>
 
 <div class="tabs-box">
   <div class="top_tab_li">   
     <p><button data-type="python" class="tab-li code-selector-active python-button">Python</button><button data-type="scala" class="tab-li code-selector-un-active scala-button">Scala</button><button data-type="nlu" class="tab-li code-selector-un-active nlu-button">NLU</button></p>
 </div>
-  <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">documentAssembler</span> <span class="o">=</span> <span class="n">DocumentAssembler</span><span class="p">()</span> \
-    <span class="p">.</span><span class="n">setInputCol</span><span class="p">(</span><span class="s">"text"</span><span class="p">)</span> \
+  <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">document_assembler</span> <span class="o">=</span> <span class="n">DocumentAssembler</span><span class="p">()</span>\
+    <span class="p">.</span><span class="n">setInputCol</span><span class="p">(</span><span class="s">"text"</span><span class="p">)</span>\
     <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"document"</span><span class="p">)</span>
 
-<span class="n">sentenceDetector</span> <span class="o">=</span> <span class="n">SentenceDetector</span><span class="p">()</span>\
-<span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"document"</span><span class="p">])</span>\
-<span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"sentence"</span><span class="p">)</span>
+<span class="n">sentence_detector</span> <span class="o">=</span> <span class="n">SentenceDetectorDLModel</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"sentence_detector_dl_healthcare"</span><span class="p">,</span><span class="s">"en"</span><span class="p">,</span><span class="s">"clinical/models"</span><span class="p">)</span>\
+    <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"document"</span><span class="p">])</span>\
+    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"sentence"</span><span class="p">)</span>
 
 <span class="n">tokenizer</span> <span class="o">=</span> <span class="n">Tokenizer</span><span class="p">()</span> \
-    <span class="p">.</span><span class="n">setInputCols</span><span class="p">(</span><span class="s">"sentence"</span><span class="p">)</span> \
+    <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"sentence"</span><span class="p">])</span> \
     <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"token"</span><span class="p">)</span>
-  
-<span class="n">ner</span> <span class="o">=</span> <span class="n">RoBertaForTokenClassification</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"roberta_base_bne_conll_ner_spark_nlp"</span><span class="p">,</span><span class="s">"es"</span><span class="p">)</span> \
+
+<span class="n">word_embeddings</span> <span class="o">=</span> <span class="n">WordEmbeddingsModel</span><span class="p">().</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"embeddings_clinical"</span><span class="p">,</span> <span class="s">"en"</span><span class="p">,</span> <span class="s">"clinical/models"</span><span class="p">)</span>\
     <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"sentence"</span><span class="p">,</span> <span class="s">"token"</span><span class="p">])</span> \
+    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"embeddings"</span><span class="p">)</span>                
+
+<span class="n">ner</span> <span class="o">=</span> <span class="n">MedicalNerModel</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"ner_oncology_posology"</span><span class="p">,</span> <span class="s">"en"</span><span class="p">,</span> <span class="s">"clinical/models"</span><span class="p">)</span> \
+    <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"sentence"</span><span class="p">,</span> <span class="s">"token"</span><span class="p">,</span> <span class="s">"embeddings"</span><span class="p">])</span> \
     <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"ner"</span><span class="p">)</span>
-    
-<span class="n">pipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">(</span><span class="n">stages</span><span class="o">=</span><span class="p">[</span><span class="n">documentAssembler</span><span class="p">,</span> <span class="n">tokenizer</span><span class="p">,</span> <span class="n">ner</span><span class="p">])</span>
 
-<span class="n">data</span> <span class="o">=</span> <span class="n">spark</span><span class="p">.</span><span class="n">createDataFrame</span><span class="p">([[</span><span class="s">"El Plan Nacional para el Impulso de las Tecnologías del Lenguage es una iniciativa del Gobierno de España"</span><span class="p">]]).</span><span class="n">toDF</span><span class="p">(</span><span class="s">"text"</span><span class="p">)</span>
+<span class="n">ner_converter</span> <span class="o">=</span> <span class="n">NerConverter</span><span class="p">()</span> \
+    <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"sentence"</span><span class="p">,</span> <span class="s">"token"</span><span class="p">,</span> <span class="s">"ner"</span><span class="p">])</span> \
+    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"ner_chunk"</span><span class="p">)</span>
+
+<span class="n">pipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">(</span><span class="n">stages</span><span class="o">=</span><span class="p">[</span><span class="n">document_assembler</span><span class="p">,</span>
+                            <span class="n">sentence_detector</span><span class="p">,</span>
+                            <span class="n">tokenizer</span><span class="p">,</span>
+                            <span class="n">word_embeddings</span><span class="p">,</span>
+                            <span class="n">ner</span><span class="p">,</span>
+                            <span class="n">ner_converter</span><span class="p">])</span>
+
+<span class="n">data</span> <span class="o">=</span> <span class="n">spark</span><span class="p">.</span><span class="n">createDataFrame</span><span class="p">([[</span><span class="s">"The patient underwent a regimen consisting of adriamycin (60 mg/m2) and cyclophosphamide (600 mg/m2) over six courses. She is currently receiving his second cycle of chemotherapy and is in good overall condition."</span><span class="p">]]).</span><span class="n">toDF</span><span class="p">(</span><span class="s">"text"</span><span class="p">)</span>
+
+<span class="n">result</span> <span class="o">=</span> <span class="n">pipeline</span><span class="p">.</span><span class="n">fit</span><span class="p">(</span><span class="n">data</span><span class="p">).</span><span class="n">transform</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
 </code></pre></div>  </div>
+  <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">val</span> <span class="nv">document_assembler</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">DocumentAssembler</span><span class="o">()</span>
+    <span class="o">.</span><span class="py">setInputCol</span><span class="o">(</span><span class="s">"text"</span><span class="o">)</span>
+    <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"document"</span><span class="o">)</span>
+    
+<span class="k">val</span> <span class="nv">sentence_detector</span> <span class="k">=</span> <span class="nv">SentenceDetectorDLModel</span><span class="o">.</span><span class="py">pretrained</span><span class="o">(</span><span class="s">"sentence_detector_dl_healthcare"</span><span class="o">,</span><span class="s">"en"</span><span class="o">,</span><span class="s">"clinical/models"</span><span class="o">)</span>
+    <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="s">"document"</span><span class="o">)</span>
+    <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"sentence"</span><span class="o">)</span>
+    
+<span class="k">val</span> <span class="nv">tokenizer</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">Tokenizer</span><span class="o">()</span>
+    <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="s">"sentence"</span><span class="o">)</span>
+    <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"token"</span><span class="o">)</span>
+    
+<span class="k">val</span> <span class="nv">word_embeddings</span> <span class="k">=</span> <span class="nc">WordEmbeddingsModel</span><span class="o">().</span><span class="py">pretrained</span><span class="o">(</span><span class="s">"embeddings_clinical"</span><span class="o">,</span> <span class="s">"en"</span><span class="o">,</span> <span class="s">"clinical/models"</span><span class="o">)</span>
+    <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="s">"sentence"</span><span class="o">,</span> <span class="s">"token"</span><span class="o">))</span>
+    <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"embeddings"</span><span class="o">)</span>                
+    
+<span class="k">val</span> <span class="nv">ner</span> <span class="k">=</span> <span class="nv">MedicalNerModel</span><span class="o">.</span><span class="py">pretrained</span><span class="o">(</span><span class="s">"ner_oncology_posology"</span><span class="o">,</span> <span class="s">"en"</span><span class="o">,</span> <span class="s">"clinical/models"</span><span class="o">)</span>
+    <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="s">"sentence"</span><span class="o">,</span> <span class="s">"token"</span><span class="o">,</span> <span class="s">"embeddings"</span><span class="o">))</span>
+    <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"ner"</span><span class="o">)</span>
+    
+<span class="k">val</span> <span class="nv">ner_converter</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">NerConverter</span><span class="o">()</span>
+    <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="s">"sentence"</span><span class="o">,</span> <span class="s">"token"</span><span class="o">,</span> <span class="s">"ner"</span><span class="o">))</span>
+    <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"ner_chunk"</span><span class="o">)</span>
 
+        
+<span class="k">val</span> <span class="nv">pipeline</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">Pipeline</span><span class="o">().</span><span class="py">setStages</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="n">document_assembler</span><span class="o">,</span>
+                            <span class="n">sentence_detector</span><span class="o">,</span>
+                            <span class="n">tokenizer</span><span class="o">,</span>
+                            <span class="n">word_embeddings</span><span class="o">,</span>
+                            <span class="n">ner</span><span class="o">,</span>
+                            <span class="n">ner_converter</span><span class="o">))</span>    
+
+<span class="k">val</span> <span class="nv">data</span> <span class="k">=</span> <span class="nc">Seq</span><span class="o">(</span><span class="s">"The patient underwent a regimen consisting of adriamycin (60 mg/m2) and cyclophosphamide (600 mg/m2) over six courses. She is currently receiving his second cycle of chemotherapy and is in good overall condition."</span><span class="o">).</span><span class="py">toDS</span><span class="o">.</span><span class="py">toDF</span><span class="o">(</span><span class="s">"text"</span><span class="o">)</span>
+
+<span class="k">val</span> <span class="nv">result</span> <span class="k">=</span> <span class="nv">pipeline</span><span class="o">.</span><span class="py">fit</span><span class="o">(</span><span class="n">data</span><span class="o">).</span><span class="py">transform</span><span class="o">(</span><span class="n">data</span><span class="o">)</span>
+</code></pre></div>  </div>
 </div>
+
+<h2 id="results">Results</h2>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>| chunk            | ner_label      |
+|:-----------------|:---------------|
+| adriamycin       | Cancer_Therapy |
+| 60 mg/m2         | Dosage         |
+| cyclophosphamide | Cancer_Therapy |
+| 600 mg/m2        | Dosage         |
+| six courses      | Cycle_Count    |
+| second cycle     | Cycle_Number   |
+| chemotherapy     | Cancer_Therapy |
+</code></pre></div></div>
 
 <h2 class="model-param" id="model-information">Model Information</h2>
 
@@ -484,23 +527,23 @@
   <tbody>
     <tr>
       <td>Model Name:</td>
-      <td>roberta_base_bne_conll_ner_spark_nlp</td>
+      <td>ner_oncology_posology</td>
     </tr>
     <tr>
       <td>Compatibility:</td>
-      <td>Spark NLP 4.0.0+</td>
+      <td>Healthcare NLP 4.2.2+</td>
     </tr>
     <tr>
       <td>License:</td>
-      <td>Open Source</td>
+      <td>Licensed</td>
     </tr>
     <tr>
       <td>Edition:</td>
-      <td>Community</td>
+      <td>Official</td>
     </tr>
     <tr>
       <td>Input Labels:</td>
-      <td>[document, token]</td>
+      <td>[sentence, token, embeddings]</td>
     </tr>
     <tr>
       <td>Output Labels:</td>
@@ -508,23 +551,37 @@
     </tr>
     <tr>
       <td>Language:</td>
-      <td>es</td>
+      <td>en</td>
     </tr>
     <tr>
       <td>Size:</td>
-      <td>447.3 MB</td>
-    </tr>
-    <tr>
-      <td>Case sensitive:</td>
-      <td>true</td>
-    </tr>
-    <tr>
-      <td>Max sentence length:</td>
-      <td>128</td>
+      <td>34.3 MB</td>
     </tr>
   </tbody>
 </table>
-</div><div class="d-print-none"><footer class="article__footer"><meta itemprop="dateModified" content="2022-11-21T00:00:00+00:00"><!-- start custom article footer snippet -->
+
+<h2 id="references">References</h2>
+
+<p>In-house annotated oncology case reports.</p>
+
+<h2 id="benchmarking">Benchmarking</h2>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>         label   tp  fp   fn  total  precision  recall   f1
+  Cycle_Number   52   4   45     97       0.93    0.54 0.68
+   Cycle_Count  200  63   30    230       0.76    0.87 0.81
+  Radiotherapy  255  16   55    310       0.94    0.82 0.88
+Cancer_Surgery  592  66  227    819       0.90    0.72 0.80
+     Cycle_Day  175  22   73    248       0.89    0.71 0.79
+     Frequency  337  44   90    427       0.88    0.79 0.83
+         Route   53   1   60    113       0.98    0.47 0.63
+Cancer_Therapy 1448  81  250   1698       0.95    0.85 0.90
+      Duration  525 154  236    761       0.77    0.69 0.73
+        Dosage  858  79  202   1060       0.92    0.81 0.86
+Radiation_Dose   86   4   40    126       0.96    0.68 0.80
+     macro_avg 4581 534 1308   5889       0.90    0.72 0.79
+     micro_avg 4581 534 1308   5889       0.90    0.78 0.83
+</code></pre></div></div>
+</div><div class="d-print-none"><footer class="article__footer"><meta itemprop="dateModified" content="2022-11-24T00:00:00+00:00"><!-- start custom article footer snippet -->
 
 <!-- end custom article footer snippet --></footer>
 
@@ -863,7 +920,7 @@ hr.code-selector-underlie {
 
 }
 
-</style><div class="article__section-navigator clearfix"><div class="previous nav_link"><span>PREVIOUS</span><a href="/2022/11/21/kegg_drug_mapper_en.html">Mapping Drugs from the KEGG Database to Their Efficacies, Molecular Weights and Corresponding Codes from Other Databases</a></div><div class="next nav_link"><span>NEXT</span><a href="/2022/11/21/legclf_dates_sm_en.html">Classify text about Effective, Renewal or Termination date</a></div></div></div>
+</style><div class="article__section-navigator clearfix"><div class="previous nav_link"><span>PREVIOUS</span><a href="/2022/11/24/ner_oncology_en.html">Detect Oncology-Specific Entities</a></div><div class="next nav_link"><span>NEXT</span><a href="/2022/11/24/ner_oncology_response_to_treatment_en.html">Extract Mentions of Response to Cancer Treatment</a></div></div></div>
 
 </div>
 </div>
