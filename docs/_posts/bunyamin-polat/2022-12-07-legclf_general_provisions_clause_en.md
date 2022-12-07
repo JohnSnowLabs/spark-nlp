@@ -12,7 +12,7 @@ spark_version: 3.0
 supported: true
 engine: tensorflow
 article_header:
-  type: cover
+type: cover
 use_language_switcher: "Python-Scala-Java"
 ---
 
@@ -44,6 +44,7 @@ This model can be combined with any of the other 200+ Legal Clauses Classifiers 
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
+
 ```python
 
 document_assembler = nlp.DocumentAssembler()\
@@ -115,7 +116,7 @@ general-provisions       0.94      0.85      0.89        34
              other       0.92      0.97      0.94        60
 
           accuracy                           0.93        94
-         macro avg       0.93      0.91      0.92        94
-      weighted avg       0.93      0.93      0.92        94
+         macro-avg       0.93      0.91      0.92        94
+      weighted-avg       0.93      0.93      0.92        94
 
 ```
