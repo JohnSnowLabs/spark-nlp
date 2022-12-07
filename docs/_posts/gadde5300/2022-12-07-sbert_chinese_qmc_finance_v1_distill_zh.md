@@ -1,6 +1,6 @@
 ---
 layout: model
-title: Chinese Financial BERT Sentence Embeddings (from DMetaSoul, Distill)
+title: Chinese Financial BERT Sentence Embeddings (Distill)
 author: John Snow Labs
 name: sbert_chinese_qmc_finance_v1_distill
 date: 2022-12-07
