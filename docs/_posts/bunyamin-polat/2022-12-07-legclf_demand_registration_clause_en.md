@@ -12,7 +12,7 @@ spark_version: 3.0
 supported: true
 engine: tensorflow
 article_header:
-  type: cover
+type: cover
 use_language_switcher: "Python-Scala-Java"
 ---
 
@@ -34,7 +34,7 @@ This model can be combined with any of the other 200+ Legal Clauses Classifiers 
 `demand-registration`, `other`
 
 {:.btn-box}
-<button class="button button-orange" disabled>Live Demo</button>
+[Live Demo](https://demo.johnsnowlabs.com/finance/CLASSIFY_LEGAL_CLAUSES/){:.button.button-orange}
 <button class="button button-orange" disabled>Open in Colab</button>
 [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/legal/models/legclf_demand_registration_clause_en_1.0.0_3.0_1670444564459.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
 
@@ -44,6 +44,7 @@ This model can be combined with any of the other 200+ Legal Clauses Classifiers 
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
+
 ```python
 
 document_assembler = nlp.DocumentAssembler()\
@@ -115,7 +116,7 @@ demand-registration       1.00      0.96      0.98        28
               other       0.99      1.00      0.99        73
 
            accuracy                           0.99       101
-          macro avg       0.99      0.98      0.99       101
-       weighted avg       0.99      0.99      0.99       101
+          macro-avg       0.99      0.98      0.99       101
+       weighted-avg       0.99      0.99      0.99       101
 
 ```
