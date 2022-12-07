@@ -1,6 +1,6 @@
 ---
 layout: model
-title: Legal Rules And Regulations Clause Binary Classifier
+title: Legal Rules and Regulations Clause Binary Classifier
 author: John Snow Labs
 name: legclf_rules_and_regulations_clause
 date: 2022-12-07
