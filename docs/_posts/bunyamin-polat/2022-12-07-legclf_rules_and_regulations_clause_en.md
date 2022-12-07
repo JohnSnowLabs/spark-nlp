@@ -1,6 +1,6 @@
 ---
 layout: model
-title: Legal Rules And Regulations Clause Binary Classifier
+title: Legal Rules and Regulations Clause Binary Classifier
 author: John Snow Labs
 name: legclf_rules_and_regulations_clause
 date: 2022-12-07
@@ -12,7 +12,7 @@ spark_version: 3.0
 supported: true
 engine: tensorflow
 article_header:
-  type: cover
+type: cover
 use_language_switcher: "Python-Scala-Java"
 ---
 
@@ -44,6 +44,7 @@ This model can be combined with any of the other 200+ Legal Clauses Classifiers 
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
+
 ```python
 
 document_assembler = nlp.DocumentAssembler()\
@@ -115,7 +116,7 @@ Legal documents, scrapped from the Internet, and classified in-house
 rules-and-regulations       0.94      0.91      0.92        32
 
              accuracy                           0.93        71
-            macro avg       0.93      0.93      0.93        71
-         weighted avg       0.93      0.93      0.93        71
+            macro-avg       0.93      0.93      0.93        71
+         weighted-avg       0.93      0.93      0.93        71
 
 ```
