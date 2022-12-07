@@ -1,6 +1,6 @@
 ---
 layout: model
-title: Legal Ti Allowance Clause Binary Classifier
+title: Legal Tenant Improvement(TI) Allowance Clause Binary Classifier
 author: John Snow Labs
 name: legclf_ti_allowance_clause
 date: 2022-12-07
@@ -12,7 +12,7 @@ spark_version: 3.0
 supported: true
 engine: tensorflow
 article_header:
-  type: cover
+type: cover
 use_language_switcher: "Python-Scala-Java"
 ---
 
@@ -34,7 +34,7 @@ This model can be combined with any of the other 200+ Legal Clauses Classifiers 
 `ti-allowance`, `other`
 
 {:.btn-box}
-<button class="button button-orange" disabled>Live Demo</button>
+[Live Demo](https://demo.johnsnowlabs.com/finance/CLASSIFY_LEGAL_CLAUSES/){:.button.button-orange}
 <button class="button button-orange" disabled>Open in Colab</button>
 [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/legal/models/legclf_ti_allowance_clause_en_1.0.0_3.0_1670445457826.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
 
@@ -44,6 +44,7 @@ This model can be combined with any of the other 200+ Legal Clauses Classifiers 
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
+
 ```python
 
 document_assembler = nlp.DocumentAssembler()\
@@ -115,7 +116,7 @@ Legal documents, scrapped from the Internet, and classified in-house
 ti-allowance       1.00      0.98      0.99        99
 
     accuracy                           0.99       345
-   macro avg       1.00      0.99      0.99       345
-weighted avg       0.99      0.99      0.99       345
+   macro-avg       1.00      0.99      0.99       345
+weighted-avg       0.99      0.99      0.99       345
 
 ```
