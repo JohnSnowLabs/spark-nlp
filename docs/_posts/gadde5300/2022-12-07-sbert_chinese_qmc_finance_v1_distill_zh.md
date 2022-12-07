@@ -37,7 +37,7 @@ sentence_embeddings = BertSentenceEmbeddings.pretrained("sbert_chinese_qmc_finan
   .setOutputCol("sbert_embeddings")
 ```
 ```scala
-val sentence_embeddings = BertSentenceEmbeddings.pretrained("ssbert_chinese_qmc_finance_v1_distill", "zh")
+val sentence_embeddings = BertSentenceEmbeddings.pretrained("sbert_chinese_qmc_finance_v1_distill", "zh")
   .setInputCols("sentence")
   .setOutputCol("bert_sentence"))
 ```
@@ -60,4 +60,4 @@ val sentence_embeddings = BertSentenceEmbeddings.pretrained("ssbert_chinese_qmc_
 
 ## References
 
-https://huggingface.co/DMetaSoul/sbert-chinese-qmc-finance-v1
+https://huggingface.co/DMetaSoul/sbert-chinese-qmc-finance-v1-distill
