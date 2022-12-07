@@ -1,6 +1,6 @@
 ---
 layout: model
-title: Legal Health And Safety Clause Binary Classifier
+title: Legal Health and Safety Clause Binary Classifier
 author: John Snow Labs
 name: legclf_health_and_safety_clause
 date: 2022-12-07
