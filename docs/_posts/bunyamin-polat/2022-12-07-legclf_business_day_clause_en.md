@@ -12,7 +12,7 @@ spark_version: 3.0
 supported: true
 engine: tensorflow
 article_header:
-  type: cover
+type: cover
 use_language_switcher: "Python-Scala-Java"
 ---
 
@@ -34,7 +34,7 @@ This model can be combined with any of the other 200+ Legal Clauses Classifiers 
 `business-day`, `other`
 
 {:.btn-box}
-<button class="button button-orange" disabled>Live Demo</button>
+[Live Demo](https://demo.johnsnowlabs.com/finance/CLASSIFY_LEGAL_CLAUSES/){:.button.button-orange}
 <button class="button button-orange" disabled>Open in Colab</button>
 [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/legal/models/legclf_business_day_clause_en_1.0.0_3.0_1670445407280.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
 
@@ -44,6 +44,7 @@ This model can be combined with any of the other 200+ Legal Clauses Classifiers 
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
+
 ```python
 
 document_assembler = nlp.DocumentAssembler()\
@@ -115,7 +116,7 @@ business-day       0.90      1.00      0.95        28
        other       1.00      0.96      0.98        73
 
     accuracy                           0.97       101
-   macro avg       0.95      0.98      0.96       101
-weighted avg       0.97      0.97      0.97       101
+   macro-avg       0.95      0.98      0.96       101
+weighted-avg       0.97      0.97      0.97       101
 
 ```
