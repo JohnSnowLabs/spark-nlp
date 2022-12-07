@@ -1,6 +1,6 @@
 ---
 layout: model
-title: Legal Replacement Of Lenders Clause Binary Classifier
+title: Legal Replacement of Lenders Clause Binary Classifier
 author: John Snow Labs
 name: legclf_replacement_of_lenders_clause
 date: 2022-12-07
@@ -12,7 +12,7 @@ spark_version: 3.0
 supported: true
 engine: tensorflow
 article_header:
-  type: cover
+type: cover
 use_language_switcher: "Python-Scala-Java"
 ---
 
@@ -44,6 +44,7 @@ This model can be combined with any of the other 200+ Legal Clauses Classifiers 
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
+
 ```python
 
 document_assembler = nlp.DocumentAssembler()\
@@ -115,7 +116,7 @@ Legal documents, scrapped from the Internet, and classified in-house
 replacement-of-lenders       0.96      0.96      0.96        28
 
               accuracy                           0.97        67
-             macro avg       0.97      0.97      0.97        67
-          weighted avg       0.97      0.97      0.97        67
+             macro-avg       0.97      0.97      0.97        67
+          weighted-avg       0.97      0.97      0.97        67
 
 ```
