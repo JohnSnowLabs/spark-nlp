@@ -12,7 +12,7 @@ spark_version: 3.0
 supported: true
 engine: tensorflow
 article_header:
-  type: cover
+type: cover
 use_language_switcher: "Python-Scala-Java"
 ---
 
@@ -34,7 +34,7 @@ This model can be combined with any of the other 200+ Legal Clauses Classifiers 
 `entire-agreement`, `other`
 
 {:.btn-box}
-<button class="button button-orange" disabled>Live Demo</button>
+[Live Demo](https://demo.johnsnowlabs.com/finance/CLASSIFY_LEGAL_CLAUSES/){:.button.button-orange}
 <button class="button button-orange" disabled>Open in Colab</button>
 [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/legal/models/legclf_entire_agreement_clause_en_1.0.0_3.0_1670444342705.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
 
@@ -44,6 +44,7 @@ This model can be combined with any of the other 200+ Legal Clauses Classifiers 
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
+
 ```python
 
 document_assembler = nlp.DocumentAssembler()\
@@ -115,7 +116,7 @@ entire-agreement       1.00      1.00      1.00        24
            other       1.00      1.00      1.00        73
 
         accuracy                           1.00        97
-       macro avg       1.00      1.00      1.00        97
-    weighted avg       1.00      1.00      1.00        97
+       macro-avg       1.00      1.00      1.00        97
+    weighted-avg       1.00      1.00      1.00        97
 
 ```
