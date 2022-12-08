@@ -24,7 +24,7 @@ Here are the highlights of this release:
 ### Highlights
 
 - Users can now delete the relations using the backspace key (on windows) or delete key (on mac) or using the delete action icon on Relations widget.
-- Unsupported Legal and Finance models are now omitted on the Models Hub
+- Unsupported Legal and Finance models are now hidden on the Models Hub
 - Issue when deploying pre-annotation server for some assertion models have been fixed.
 - The "Only Assigned" checkbox state is preserved when user moves to the next task.
 
