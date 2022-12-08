@@ -29,11 +29,11 @@ import org.scalatest.flatspec.AnyFlatSpec
 class RegexTokenizerTestSpec extends AnyFlatSpec {
 
   private def assertIndexAlignment(
-      expectedTokens: Seq[Annotation],
+      tokens: Seq[Annotation],
       text: String,
       lowerCase: Boolean = false,
       removeWhitespace: Boolean = false): Unit = {
-    expectedTokens.foreach { case Annotation(_, start, end, result, _, _) =>
+    tokens.foreach { case Annotation(_, start, end, result, _, _) =>
       var expected = text.substring(start, end + 1)
       var annotatedText = result
 
@@ -507,5 +507,42 @@ class RegexTokenizerTestSpec extends AnyFlatSpec {
       regexTokenizer.tag(sentence).head.indexedTokens
 
     assert(expected == resultPosMask)
+  }
+
+  "RegexTokenizer" should "return correct indexes for sentences with posMask enabled" taggedAs FastTest in {
+    val documentAssembler = new DocumentAssembler()
+      .setInputCol("text")
+      .setOutputCol("document")
+
+    val sentenceDetectorDL = new SentenceDetector()
+      .setInputCols("document")
+      .setOutputCol("sentence")
+
+    // Explanation: Split at any whitespace OR
+    //              before special characters OR
+    //              after special characters
+    val regex_pattern =
+      """\s+|(?=[-.:;"*+,$&%\[\]\(\)\/])|(?<=[-.:;"*+,$&%\[\]\(\)\/])"""
+
+    val regexTokenizer = new RegexTokenizer()
+      .setInputCols("sentence")
+      .setOutputCol("token")
+      .setPattern(regex_pattern)
+      .setPositionalMask(true)
+
+    val sampleText = "First sentence. second sentence."
+
+    val data = ResourceHelper.spark
+      .createDataFrame(Seq((1, sampleText)))
+      .toDF("id", "text")
+
+    val pipeline =
+      new Pipeline().setStages(Array(documentAssembler, sentenceDetectorDL, regexTokenizer))
+
+    val fittedPipe = pipeline.fit(data).transform(data)
+
+    val tokenResult = Annotation.collect(fittedPipe, "token").flatten.toSeq
+
+    assertIndexAlignment(tokenResult, sampleText)
   }
 }
