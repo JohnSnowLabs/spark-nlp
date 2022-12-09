@@ -1,6 +1,6 @@
 ---
 layout: model
-title: Legal Custody Agreement Clause Binary Classifier
+title: Legal Custody Agreement Clause Binary Classifier (Bert)
 author: John Snow Labs
 name: legclf_custody_agreement_bert
 date: 2022-12-09
