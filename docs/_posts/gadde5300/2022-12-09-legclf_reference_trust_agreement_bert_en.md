@@ -1,6 +1,6 @@
 ---
 layout: model
-title: Legal Reference Trust Agreement Clause Binary Classifier
+title: Legal Reference Trust Agreement Clause Binary Classifier (Bert)
 author: John Snow Labs
 name: legclf_reference_trust_agreement_bert
 date: 2022-12-09
