@@ -1,6 +1,6 @@
 ---
 layout: model
-title: Legal Restricted Stock Agreement Clause Binary Classifier
+title: Legal Restricted Stock Agreement Clause Binary Classifier (Longformer)
 author: John Snow Labs
 name: legclf_restricted_stock_agreement
 date: 2022-12-09
