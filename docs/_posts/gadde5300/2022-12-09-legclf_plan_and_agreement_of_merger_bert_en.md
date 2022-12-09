@@ -1,6 +1,6 @@
 ---
 layout: model
-title: Legal Plan And Agreement Of Merger Clause Binary Classifier
+title: Legal Plan And Agreement Of Merger Clause Binary Classifier (Bert)
 author: John Snow Labs
 name: legclf_plan_and_agreement_of_merger_bert
 date: 2022-12-09
