@@ -1,6 +1,6 @@
 ---
 layout: model
-title: Legal Subadvisory Agreement Clause Binary Classifier
+title: Legal Subadvisory Agreement Clause Binary Classifier (Bert)
 author: John Snow Labs
 name: legclf_subadvisory_agreement_bert
 date: 2022-12-09
