@@ -682,7 +682,8 @@ object PythonResourceDownloader {
     "Wav2Vec2ForCTC" -> Wav2Vec2ForCTC,
     "CamemBertForTokenClassification" -> CamemBertForTokenClassification,
     "TableAssembler" -> TableAssembler,
-    "TapasForQuestionAnswering" -> TapasForQuestionAnswering)
+    "TapasForQuestionAnswering" -> TapasForQuestionAnswering,
+    "CamemBertForSequenceClassification" -> CamemBertForSequenceClassification)
 
   def downloadModel(
       readerStr: String,
