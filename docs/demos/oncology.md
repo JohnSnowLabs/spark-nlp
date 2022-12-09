@@ -31,7 +31,7 @@ data:
           - text: Colab
             type: blue_btn
             url: https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/27.Oncology_Model.ipynb
-        - title: Identify Anatomical and Oncology entities related to different treatments, and Oncology Entities Related to Diagnosis from Clinical Texts
+        - title: Identify Anatomical and Oncology entities related to different Treatments and Diagnosis from Clinical Texts
           id: identify_anatomical_entities_oncology_entities_related_treatments_different
           image: 
               src: /assets/images/Іdentify_Anatomical_Entities_from_Clinical_Text.svg
@@ -39,7 +39,7 @@ data:
           actions:
           - text: Live Demo
             type: normal
-            url: https://demo.johnsnowlabs.com/healthcare/NER_ONCOLOGY_CLINICAL
+            url: https://demo.johnsnowlabs.com/healthcare/NER_ONCOLOGY_CLINICAL/
           - text: Colab
             type: blue_btn
             url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings_JSL/Healthcare/27.Oncology_Model.ipynb
