@@ -104,4 +104,28 @@ data:
           - text: Colab
             type: blue_btn
             url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/finance/RECEIPT_BINARY_CLASSIFICATION.ipynb
+        - title: Classify Earning Calls, Broker Reports and 10K
+          id: classify_earning_calls_broker_reports_10k 
+          image: 
+              src: /assets/images/Classify_Earning_Calls_Broker_Reports_and_10K.svg
+          excerpt: This is a Text Classification model, which can help you identify if a model is an Earning Call, a Broker Report, a 10K filing or something else.
+          actions:
+          - text: Live Demo
+            type: normal
+            url: https://demo.johnsnowlabs.com/finance/FINCLF_EARNING_BROKER_10K/
+          - text: Colab
+            type: blue_btn
+            url: 
+        - title: Classify Different SEC Filings
+          id: classify_different_sec_filings 
+          image: 
+              src: /assets/images/Classify_Different_SEC_Filings.svg
+          excerpt: This demo showcases how to use pretrained Finance NLP models to classify SEC filings (10-K, 10-Q, 8-K, 3, 4 and S-8) documents.
+          actions:
+          - text: Live Demo
+            type: normal
+            url: https://demo.johnsnowlabs.com/finance/FINCLF_SEC_FILINGS/
+          - text: Colab
+            type: blue_btn
+            url: 
 ---
