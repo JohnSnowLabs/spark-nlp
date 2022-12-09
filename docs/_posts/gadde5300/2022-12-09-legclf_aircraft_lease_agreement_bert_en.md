@@ -1,6 +1,6 @@
 ---
 layout: model
-title: Legal Aircraft Lease Agreement Clause Binary Classifier
+title: Legal Aircraft Lease Agreement Clause Binary Classifier (Bert)
 author: John Snow Labs
 name: legclf_aircraft_lease_agreement_bert
 date: 2022-12-09
