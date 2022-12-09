@@ -1,6 +1,6 @@
 ---
 layout: model
-title: Legal Expense Limitation Agreement Clause Binary Classifier
+title: Legal Expense Limitation Agreement Clause Binary Classifier (Longformer)
 author: John Snow Labs
 name: legclf_expense_limitation_agreement
 date: 2022-12-09
