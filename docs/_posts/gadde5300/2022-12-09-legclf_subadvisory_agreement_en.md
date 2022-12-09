@@ -1,6 +1,6 @@
 ---
 layout: model
-title: Legal Subadvisory Agreement Clause Binary Classifier
+title: Legal Subadvisory Agreement Clause Binary Classifier (Longformer)
 author: John Snow Labs
 name: legclf_subadvisory_agreement
 date: 2022-12-09
