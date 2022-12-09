@@ -1,6 +1,6 @@
 ---
 layout: model
-title: Legal Administrative Services Agreement Clause Binary Classifier
+title: Legal Administrative Services Agreement Clause Binary Classifier (Bert)
 author: John Snow Labs
 name: legclf_administrative_services_agreement_bert
 date: 2022-12-09
