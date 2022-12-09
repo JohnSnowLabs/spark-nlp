@@ -1,6 +1,6 @@
 ---
 layout: model
-title: Legal Expense Limitation Agreement Clause Binary Classifier
+title: Legal Expense Limitation Agreement Clause Binary Classifier (Bert)
 author: John Snow Labs
 name: legclf_expense_limitation_agreement_bert
 date: 2022-12-09
