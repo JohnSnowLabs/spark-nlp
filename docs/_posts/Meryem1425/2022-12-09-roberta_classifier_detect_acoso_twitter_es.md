@@ -43,7 +43,7 @@ tokenizer = Tokenizer() \
     .setInputCols("document") \
     .setOutputCol("token")
 
-roberta_classifier = RobertaForSequenceClassification.pretrained("roberta_classifier_detect_acoso_twitter","es") \
+roberta_classifier = RoBertaForSequenceClassification.pretrained("roberta_classifier_detect_acoso_twitter","es") \
     .setInputCols(["document", "token"]) \
     .setOutputCol("class")
     
@@ -55,14 +55,14 @@ result = pipeline.fit(data).transform(data)
 ```
 ```scala
 val documentAssembler = new DocumentAssembler() 
-      .setInputCols("text")
-      .setOutputCols("document")
+    .setInputCols("text")
+    .setOutputCols("document")
       
 val tokenizer = new Tokenizer()
     .setInputCols("document")
     .setOutputCol("token")
  
-val roberta_classifier = RobertaForSequenceClassification.pretrained("roberta_classifier_detect_acoso_twitter","es") 
+val roberta_classifier = RoBertaForSequenceClassification.pretrained("roberta_classifier_detect_acoso_twitter","es") 
     .setInputCols(Array("document", "token"))
     .setOutputCol("class")
    
