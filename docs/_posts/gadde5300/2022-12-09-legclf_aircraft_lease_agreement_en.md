@@ -1,6 +1,6 @@
 ---
 layout: model
-title: Legal Aircraft Lease Agreement Clause Binary Classifier
+title: Legal Aircraft Lease Agreement Clause Binary Classifier (Longformer)
 author: John Snow Labs
 name: legclf_aircraft_lease_agreement
 date: 2022-12-09
