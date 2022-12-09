@@ -1,6 +1,6 @@
 ---
 layout: model
-title: Legal Share Purchase Agreement Clause Binary Classifier
+title: Legal Share Purchase Agreement Clause Binary Classifier (Bert)
 author: John Snow Labs
 name: legclf_share_purchase_agreement_bert
 date: 2022-12-09
