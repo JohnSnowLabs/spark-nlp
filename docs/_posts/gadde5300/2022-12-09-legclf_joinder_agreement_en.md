@@ -1,6 +1,6 @@
 ---
 layout: model
-title: Legal Joinder Agreement Clause Binary Classifier
+title: Legal Joinder Agreement Clause Binary Classifier (Longformer)
 author: John Snow Labs
 name: legclf_joinder_agreement
 date: 2022-12-09
