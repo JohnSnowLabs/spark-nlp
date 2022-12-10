@@ -31,19 +31,19 @@ Pretrained BERT Sentence Embedding model, adapted from Hugging Face and curated 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
 ```python
-documentAssembler = nlp.DocumentAssembler() \
+documentAssembler = DocumentAssembler() \
     .setInputCol("text") \
     .setOutputCol("document")
 
-tokenizer = nlp.Tokenizer() \
+tokenizer = Tokenizer() \
     .setInputCols("document") \
     .setOutputCol("token")
   
-embeddings = nlp.BertSentenceEmbeddings.pretrained("sbert_Legal_BERTimbau_sts_base_ma_v2","pt") \
+embeddings = BertSentenceEmbeddings.pretrained("sbert_Legal_BERTimbau_sts_base_ma_v2","pt") \
     .setInputCols(["document", "token"]) \
     .setOutputCol("embeddings")
     
-pipeline = nlp.Pipeline(stages=[documentAssembler, tokenizer, embeddings])
+pipeline = Pipeline(stages=[documentAssembler, tokenizer, embeddings])
 
 data = spark.createDataFrame([["Eu amo Spark NLP"]]).toDF("text")
 
