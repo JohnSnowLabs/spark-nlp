@@ -11,7 +11,7 @@
     })(window,document,'script','dataLayer','GTM-59JLR64');</script>
 <!-- End Google Tag Manager --><title>Detect Entities Related to Cancer Diagnosis</title><meta property="og:title" content=""/>
 
-<meta name="description" content="DescriptionThis model extracts entities related to cancer diagnosis, such as Metastasis, Histological_Type or Tumor_Size.Predicted EntitiesHistological_Type, Staging, Cancer_Score, Tumor_Finding, Invasion, Tumor_Size, Adenopathy, Performance_Status, Pathology_Result, Metastasis, Cancer_Dx, GradeLive DemoOpen in Cola...">
+<meta name="description" content="DescriptionThis model extracts entities related to cancer diagnosis, such as Metastasis, Histological_Type or Tumor_Size.Definitions of Predicted Entities:  Adenopathy: Mentions of pathological findings of the lymph nodes.  Cancer_Dx: Mentions of cancer diagnoses (such as “breast cancer”) or pathological types that ...">
 <link rel="canonical" href="/2022/09/30/ner_oncology_diagnosis_wip_en.html"><link rel="alternate" type="application/rss+xml" title="Spark NLP" href="/feed.xml"><!-- start favicons snippet, use https://realfavicongenerator.net/ -->
 <!---->
 <!-- <link rel="apple-touch-icon" sizes="180x180" href="/fav.ico"> -->
@@ -421,11 +421,28 @@
 
 <p>This model extracts entities related to cancer diagnosis, such as Metastasis, Histological_Type or Tumor_Size.</p>
 
+<p>Definitions of Predicted Entities:</p>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">Adenopathy</code>: Mentions of pathological findings of the lymph nodes.</li>
+  <li><code class="language-plaintext highlighter-rouge">Cancer_Dx</code>: Mentions of cancer diagnoses (such as “breast cancer”) or pathological types that are usually used as synonyms for “cancer” (e.g. “carcinoma”). When anatomical references are present, they are included in the Cancer_Dx extraction.</li>
+  <li><code class="language-plaintext highlighter-rouge">Cancer_Score</code>: Clinical or imaging scores that are specific for cancer settings (e.g. “BI-RADS” or “Allred score”).</li>
+  <li><code class="language-plaintext highlighter-rouge">Grade</code>: All pathological grading of tumors (e.g. “grade 1”) or degrees of cellular differentiation (e.g. “well-differentiated”)</li>
+  <li><code class="language-plaintext highlighter-rouge">Histological_Type</code>: Histological variants or cancer subtypes, such as “papillary”, “clear cell” or “medullary”.</li>
+  <li><code class="language-plaintext highlighter-rouge">Invasion</code>: Mentions that refer to tumor invasion, such as “invasion” or “involvement”. Metastases or lymph node involvement are excluded from this category.</li>
+  <li><code class="language-plaintext highlighter-rouge">Metastasis</code>: Terms that indicate a metastatic disease. Anatomical references are not included in these extractions.</li>
+  <li><code class="language-plaintext highlighter-rouge">Pathology_Result</code>: The findings of a biopsy from the pathology report that is not covered by another entity (e.g. “malignant ductal cells”).</li>
+  <li><code class="language-plaintext highlighter-rouge">Performance_Status</code>: Mentions of performance status scores, such as ECOG and Karnofsky. The name of the score is extracted together with the result (e.g. “ECOG performance status of 4”).</li>
+  <li><code class="language-plaintext highlighter-rouge">Staging</code>: Mentions of cancer stage such as “stage 2b” or “T2N1M0”. It also includes words such as “in situ”, “early-stage” or “advanced”.</li>
+  <li><code class="language-plaintext highlighter-rouge">Tumor_Finding</code>: All nonspecific terms that may be related to tumors, either malignant or benign (for example: “mass”, “tumor”, “lesion”, or “neoplasm”).</li>
+  <li><code class="language-plaintext highlighter-rouge">Tumor_Size</code>: Size of the tumor, including numerical value and unit of measurement (e.g. “3 cm”).</li>
+</ul>
+
 <h2 id="predicted-entities">Predicted Entities</h2>
 
-<p><code class="language-plaintext highlighter-rouge">Histological_Type</code>, <code class="language-plaintext highlighter-rouge">Staging</code>, <code class="language-plaintext highlighter-rouge">Cancer_Score</code>, <code class="language-plaintext highlighter-rouge">Tumor_Finding</code>, <code class="language-plaintext highlighter-rouge">Invasion</code>, <code class="language-plaintext highlighter-rouge">Tumor_Size</code>, <code class="language-plaintext highlighter-rouge">Adenopathy</code>, <code class="language-plaintext highlighter-rouge">Performance_Status</code>, <code class="language-plaintext highlighter-rouge">Pathology_Result</code>, <code class="language-plaintext highlighter-rouge">Metastasis</code>, <code class="language-plaintext highlighter-rouge">Cancer_Dx</code>, <code class="language-plaintext highlighter-rouge">Grade</code></p>
+<p><code class="language-plaintext highlighter-rouge">Adenopathy</code>, <code class="language-plaintext highlighter-rouge">Cancer_Dx</code>, <code class="language-plaintext highlighter-rouge">Cancer_Score</code>, <code class="language-plaintext highlighter-rouge">Grade</code>, <code class="language-plaintext highlighter-rouge">Histological_Type</code>, <code class="language-plaintext highlighter-rouge">Invasion</code>, <code class="language-plaintext highlighter-rouge">Metastasis</code>, <code class="language-plaintext highlighter-rouge">Pathology_Result</code>, <code class="language-plaintext highlighter-rouge">Performance_Status</code>, <code class="language-plaintext highlighter-rouge">Staging</code>, <code class="language-plaintext highlighter-rouge">Tumor_Finding</code>, <code class="language-plaintext highlighter-rouge">Tumor_Size</code></p>
 
-<p class="btn-box"><button class="button button-orange" disabled="">Live Demo</button>
+<p class="btn-box"><a href="https://demo.johnsnowlabs.com/healthcare/NER_ONCOLOGY_CLINICAL/" class="button button-orange">Live Demo</a>
 <a href="https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/27.Oncology_Model.ipynb" class="button button-orange button-orange-trans co button-icon">Open in Colab</a>
 <a href="https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/ner_oncology_diagnosis_wip_en_4.0.0_3.0_1664561418256.zip" class="button button-orange button-orange-trans arr button-icon">Download</a></p>
 

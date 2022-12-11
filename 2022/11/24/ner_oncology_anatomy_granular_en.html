@@ -11,7 +11,7 @@
     })(window,document,'script','dataLayer','GTM-59JLR64');</script>
 <!-- End Google Tag Manager --><title>Extract Granular Anatomical Entities from Oncology Texts</title><meta property="og:title" content=""/>
 
-<meta name="description" content="DescriptionThis model extracts mentions of anatomical entities using granular labels.Predicted EntitiesDirection, Site_Lymph_Node, Site_Breast, Site_Other_Body_Part, Site_Bone, Site_Liver, Site_Lung, Site_BrainLive DemoOpen in ColabDownloadHow to use         PythonScalaNLU  document_assembler = DocumentAssembler()\ ...">
+<meta name="description" content="DescriptionThis model extracts mentions of anatomical entities using granular labels.Definitions of Predicted Entities:  Direction: Directional and laterality terms, such as “left”, “right”, “bilateral”, “upper” and “lower”.  Site_Bone: Anatomical terms that refer to the human skeleton.  Site_Brain: Anatomical terms...">
 <link rel="canonical" href="/2022/11/24/ner_oncology_anatomy_granular_en.html"><link rel="alternate" type="application/rss+xml" title="Spark NLP" href="/feed.xml"><!-- start favicons snippet, use https://realfavicongenerator.net/ -->
 <!---->
 <!-- <link rel="apple-touch-icon" sizes="180x180" href="/fav.ico"> -->
@@ -421,11 +421,24 @@
 
 <p>This model extracts mentions of anatomical entities using granular labels.</p>
 
+<p>Definitions of Predicted Entities:</p>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">Direction</code>: Directional and laterality terms, such as “left”, “right”, “bilateral”, “upper” and “lower”.</li>
+  <li><code class="language-plaintext highlighter-rouge">Site_Bone</code>: Anatomical terms that refer to the human skeleton.</li>
+  <li><code class="language-plaintext highlighter-rouge">Site_Brain</code>: Anatomical terms that refer to the central nervous system (including the brain stem and the cerebellum).</li>
+  <li><code class="language-plaintext highlighter-rouge">Site_Breast</code>: Anatomical terms that refer to the breasts.</li>
+  <li><code class="language-plaintext highlighter-rouge">Site_Liver</code>: Anatomical terms that refer to the liver.</li>
+  <li><code class="language-plaintext highlighter-rouge">Site_Lung</code>: Anatomical terms that refer to the lungs.</li>
+  <li><code class="language-plaintext highlighter-rouge">Site_Lymph_Node</code>: Anatomical terms that refer to lymph nodes, excluding adenopathies.</li>
+  <li><code class="language-plaintext highlighter-rouge">Site_Other_Body_Part</code>: Relevant anatomical terms that are not included in the rest of the anatomical entities.</li>
+</ul>
+
 <h2 id="predicted-entities">Predicted Entities</h2>
 
-<p><code class="language-plaintext highlighter-rouge">Direction</code>, <code class="language-plaintext highlighter-rouge">Site_Lymph_Node</code>, <code class="language-plaintext highlighter-rouge">Site_Breast</code>, <code class="language-plaintext highlighter-rouge">Site_Other_Body_Part</code>, <code class="language-plaintext highlighter-rouge">Site_Bone</code>, <code class="language-plaintext highlighter-rouge">Site_Liver</code>, <code class="language-plaintext highlighter-rouge">Site_Lung</code>, <code class="language-plaintext highlighter-rouge">Site_Brain</code></p>
+<p><code class="language-plaintext highlighter-rouge">Direction</code>, <code class="language-plaintext highlighter-rouge">Site_Bone</code>, <code class="language-plaintext highlighter-rouge">Site_Brain</code>, <code class="language-plaintext highlighter-rouge">Site_Breast</code>, <code class="language-plaintext highlighter-rouge">Site_Liver</code>, <code class="language-plaintext highlighter-rouge">Site_Lung</code>, <code class="language-plaintext highlighter-rouge">Site_Lymph_Node</code>, <code class="language-plaintext highlighter-rouge">Site_Other_Body_Part</code></p>
 
-<p class="btn-box"><button class="button button-orange" disabled="">Live Demo</button>
+<p class="btn-box"><a href="https://demo.johnsnowlabs.com/healthcare/NER_ONCOLOGY_CLINICAL/" class="button button-orange">Live Demo</a>
 <a href="https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/27.Oncology_Model.ipynb" class="button button-orange button-orange-trans co button-icon">Open in Colab</a>
 <a href="https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/ner_oncology_anatomy_granular_en_4.2.2_3.0_1669299394344.zip" class="button button-orange button-orange-trans arr button-icon">Download</a></p>
 
@@ -435,6 +448,7 @@
   <div class="top_tab_li">   
     <p><button data-type="python" class="tab-li code-selector-active python-button">Python</button><button data-type="scala" class="tab-li code-selector-un-active scala-button">Scala</button><button data-type="nlu" class="tab-li code-selector-un-active nlu-button">NLU</button></p>
 </div>
+
   <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">document_assembler</span> <span class="o">=</span> <span class="n">DocumentAssembler</span><span class="p">()</span>\
     <span class="p">.</span><span class="n">setInputCol</span><span class="p">(</span><span class="s">"text"</span><span class="p">)</span>\
     <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"document"</span><span class="p">)</span>

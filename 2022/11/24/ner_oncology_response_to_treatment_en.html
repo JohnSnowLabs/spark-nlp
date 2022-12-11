@@ -11,7 +11,7 @@
     })(window,document,'script','dataLayer','GTM-59JLR64');</script>
 <!-- End Google Tag Manager --><title>Extract Mentions of Response to Cancer Treatment</title><meta property="og:title" content=""/>
 
-<meta name="description" content="DescriptionThis model extracts entities related to the patient”s response to the oncology treatment, including clinical response and changes in tumor size.Predicted EntitiesResponse_To_Treatment, Size_Trend, Line_Of_TherapyLive DemoOpen in ColabDownloadHow to use         PythonScalaNLU  document_assembler = Document...">
+<meta name="description" content="DescriptionThis model extracts entities related to the patient”s response to the oncology treatment, including clinical response and changes in tumor size.Definitions of Predicted Entities:  Line_Of_Therapy: Explicit references to the line of therapy of an oncological therapy (e.g. “first-line treatment”).  Response...">
 <link rel="canonical" href="/2022/11/24/ner_oncology_response_to_treatment_en.html"><link rel="alternate" type="application/rss+xml" title="Spark NLP" href="/feed.xml"><!-- start favicons snippet, use https://realfavicongenerator.net/ -->
 <!---->
 <!-- <link rel="apple-touch-icon" sizes="180x180" href="/fav.ico"> -->
@@ -421,11 +421,19 @@
 
 <p>This model extracts entities related to the patient”s response to the oncology treatment, including clinical response and changes in tumor size.</p>
 
+<p>Definitions of Predicted Entities:</p>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">Line_Of_Therapy</code>: Explicit references to the line of therapy of an oncological therapy (e.g. “first-line treatment”).</li>
+  <li><code class="language-plaintext highlighter-rouge">Response_To_Treatment</code>: Terms related to clinical progress of the patient related to cancer treatment, including “recurrence”, “bad response” or “improvement”.</li>
+  <li><code class="language-plaintext highlighter-rouge">Size_Trend</code>: Terms related to the changes in the size of the tumor (such as “growth” or “reduced in size”).</li>
+</ul>
+
 <h2 id="predicted-entities">Predicted Entities</h2>
 
-<p><code class="language-plaintext highlighter-rouge">Response_To_Treatment</code>, <code class="language-plaintext highlighter-rouge">Size_Trend</code>, <code class="language-plaintext highlighter-rouge">Line_Of_Therapy</code></p>
+<p><code class="language-plaintext highlighter-rouge">Line_Of_Therapy</code>, <code class="language-plaintext highlighter-rouge">Response_To_Treatment</code>, <code class="language-plaintext highlighter-rouge">Size_Trend</code></p>
 
-<p class="btn-box"><button class="button button-orange" disabled="">Live Demo</button>
+<p class="btn-box"><a href="https://demo.johnsnowlabs.com/healthcare/NER_ONCOLOGY_CLINICAL/" class="button button-orange">Live Demo</a>
 <a href="https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/27.Oncology_Model.ipynb" class="button button-orange button-orange-trans co button-icon">Open in Colab</a>
 <a href="https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/ner_oncology_response_to_treatment_en_4.2.2_3.0_1669307329775.zip" class="button button-orange button-orange-trans arr button-icon">Download</a></p>
 
@@ -435,6 +443,7 @@
   <div class="top_tab_li">   
     <p><button data-type="python" class="tab-li code-selector-active python-button">Python</button><button data-type="scala" class="tab-li code-selector-un-active scala-button">Scala</button><button data-type="nlu" class="tab-li code-selector-un-active nlu-button">NLU</button></p>
 </div>
+
   <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">document_assembler</span> <span class="o">=</span> <span class="n">DocumentAssembler</span><span class="p">()</span>\
     <span class="p">.</span><span class="n">setInputCol</span><span class="p">(</span><span class="s">"text"</span><span class="p">)</span>\
     <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"document"</span><span class="p">)</span>

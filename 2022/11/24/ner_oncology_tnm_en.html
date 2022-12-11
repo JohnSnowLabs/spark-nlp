@@ -11,7 +11,7 @@
     })(window,document,'script','dataLayer','GTM-59JLR64');</script>
 <!-- End Google Tag Manager --><title>Extract Entities Related to TNM Staging</title><meta property="og:title" content=""/>
 
-<meta name="description" content="DescriptionThis model extracts staging information and mentions related to tumors, lymph nodes and metastases.Predicted EntitiesLymph_Node, Staging, Lymph_Node_Modifier, Tumor_Description, Tumor, Metastasis, Cancer_DxLive DemoOpen in ColabDownloadHow to use         PythonScalaNLU  document_assembler = DocumentAssemb...">
+<meta name="description" content="DescriptionThis model extracts staging information and mentions related to tumors, lymph nodes and metastases.Definitions of Predicted Entities:  Cancer_Dx: Mentions of cancer diagnoses (such as “breast cancer”) or pathological types that are usually used as synonyms for “cancer” (e.g. “carcinoma”). When anatomical ...">
 <link rel="canonical" href="/2022/11/24/ner_oncology_tnm_en.html"><link rel="alternate" type="application/rss+xml" title="Spark NLP" href="/feed.xml"><!-- start favicons snippet, use https://realfavicongenerator.net/ -->
 <!---->
 <!-- <link rel="apple-touch-icon" sizes="180x180" href="/fav.ico"> -->
@@ -421,11 +421,23 @@
 
 <p>This model extracts staging information and mentions related to tumors, lymph nodes and metastases.</p>
 
+<p>Definitions of Predicted Entities:</p>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">Cancer_Dx</code>: Mentions of cancer diagnoses (such as “breast cancer”) or pathological types that are usually used as synonyms for “cancer” (e.g. “carcinoma”). When anatomical references are present, they are included in the Cancer_Dx extraction.</li>
+  <li><code class="language-plaintext highlighter-rouge">Lymph_Node</code>: Mentions of lymph nodes and pathological findings of the lymph nodes.</li>
+  <li><code class="language-plaintext highlighter-rouge">Lymph_Node_Modifier</code>: Words that refer to a lymph node being abnormal (such as “enlargement”).</li>
+  <li><code class="language-plaintext highlighter-rouge">Metastasis</code>: Terms that indicate a metastatic disease. Anatomical references are not included in these extractions.</li>
+  <li><code class="language-plaintext highlighter-rouge">Staging</code>: Mentions of cancer stage such as “stage 2b” or “T2N1M0”. It also includes words such as “in situ”, “early-stage” or “advanced”.</li>
+  <li><code class="language-plaintext highlighter-rouge">Tumor</code>: All nonspecific terms that may be related to tumors, either malignant or benign (for example: “mass”, “tumor”, “lesion”, or “neoplasm”).</li>
+  <li><code class="language-plaintext highlighter-rouge">Tumor_Description</code>: Information related to tumor characteristics, such as size, presence of invasion, grade and hystological type.</li>
+</ul>
+
 <h2 id="predicted-entities">Predicted Entities</h2>
 
-<p><code class="language-plaintext highlighter-rouge">Lymph_Node</code>, <code class="language-plaintext highlighter-rouge">Staging</code>, <code class="language-plaintext highlighter-rouge">Lymph_Node_Modifier</code>, <code class="language-plaintext highlighter-rouge">Tumor_Description</code>, <code class="language-plaintext highlighter-rouge">Tumor</code>, <code class="language-plaintext highlighter-rouge">Metastasis</code>, <code class="language-plaintext highlighter-rouge">Cancer_Dx</code></p>
+<p><code class="language-plaintext highlighter-rouge">Cancer_Dx</code>, <code class="language-plaintext highlighter-rouge">Lymph_Node</code>, <code class="language-plaintext highlighter-rouge">Lymph_Node_Modifier</code>, <code class="language-plaintext highlighter-rouge">Metastasis</code>, <code class="language-plaintext highlighter-rouge">Staging</code>, <code class="language-plaintext highlighter-rouge">Tumor</code>, <code class="language-plaintext highlighter-rouge">Tumor_Description</code></p>
 
-<p class="btn-box"><button class="button button-orange" disabled="">Live Demo</button>
+<p class="btn-box"><a href="https://demo.johnsnowlabs.com/healthcare/NER_ONCOLOGY_CLINICAL/" class="button button-orange">Live Demo</a>
 <a href="https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/27.Oncology_Model.ipynb" class="button button-orange button-orange-trans co button-icon">Open in Colab</a>
 <a href="https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/ner_oncology_tnm_en_4.2.2_3.0_1669308699155.zip" class="button button-orange button-orange-trans arr button-icon">Download</a></p>
 
@@ -435,6 +447,7 @@
   <div class="top_tab_li">   
     <p><button data-type="python" class="tab-li code-selector-active python-button">Python</button><button data-type="scala" class="tab-li code-selector-un-active scala-button">Scala</button><button data-type="nlu" class="tab-li code-selector-un-active nlu-button">NLU</button></p>
 </div>
+
   <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">document_assembler</span> <span class="o">=</span> <span class="n">DocumentAssembler</span><span class="p">()</span>\
     <span class="p">.</span><span class="n">setInputCol</span><span class="p">(</span><span class="s">"text"</span><span class="p">)</span>\
     <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"document"</span><span class="p">)</span>

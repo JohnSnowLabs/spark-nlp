@@ -11,7 +11,7 @@
     })(window,document,'script','dataLayer','GTM-59JLR64');</script>
 <!-- End Google Tag Manager --><title>Extract Oncology Tests</title><meta property="og:title" content=""/>
 
-<meta name="description" content="DescriptionThis model extracts mentions of tests from oncology texts, including pathology tests and imaging tests.Predicted EntitiesImaging_Test, Biomarker_Result, Pathology_Test, Biomarker, OncogeneLive DemoOpen in ColabDownloadHow to use         PythonScalaNLU  document_assembler = DocumentAssembler()\    .setInpu...">
+<meta name="description" content="DescriptionThis model extracts mentions of tests from oncology texts, including pathology tests and imaging tests.Definitions of Predicted Entities:  Biomarker: Biological molecules that indicate the presence or absence of cancer, or the type of cancer. Oncogenes are excluded from this category.  Biomarker_Result: T...">
 <link rel="canonical" href="/2022/09/30/ner_oncology_test_wip_en.html"><link rel="alternate" type="application/rss+xml" title="Spark NLP" href="/feed.xml"><!-- start favicons snippet, use https://realfavicongenerator.net/ -->
 <!---->
 <!-- <link rel="apple-touch-icon" sizes="180x180" href="/fav.ico"> -->
@@ -421,11 +421,21 @@
 
 <p>This model extracts mentions of tests from oncology texts, including pathology tests and imaging tests.</p>
 
+<p>Definitions of Predicted Entities:</p>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">Biomarker</code>: Biological molecules that indicate the presence or absence of cancer, or the type of cancer. Oncogenes are excluded from this category.</li>
+  <li><code class="language-plaintext highlighter-rouge">Biomarker_Result</code>: Terms or values that are identified as the result of a biomarkers.</li>
+  <li><code class="language-plaintext highlighter-rouge">Imaging_Test</code>: Imaging tests mentioned in texts, such as “chest CT scan”.</li>
+  <li><code class="language-plaintext highlighter-rouge">Oncogene</code>: Mentions of genes that are implicated in the etiology of cancer.</li>
+  <li><code class="language-plaintext highlighter-rouge">Pathology_Test</code>: Mentions of biopsies or tests that use tissue samples.</li>
+</ul>
+
 <h2 id="predicted-entities">Predicted Entities</h2>
 
-<p><code class="language-plaintext highlighter-rouge">Imaging_Test</code>, <code class="language-plaintext highlighter-rouge">Biomarker_Result</code>, <code class="language-plaintext highlighter-rouge">Pathology_Test</code>, <code class="language-plaintext highlighter-rouge">Biomarker</code>, <code class="language-plaintext highlighter-rouge">Oncogene</code></p>
+<p><code class="language-plaintext highlighter-rouge">Biomarker</code>, <code class="language-plaintext highlighter-rouge">Biomarker_Result</code>, <code class="language-plaintext highlighter-rouge">Imaging_Test</code>, <code class="language-plaintext highlighter-rouge">Oncogene</code>, <code class="language-plaintext highlighter-rouge">Pathology_Test</code></p>
 
-<p class="btn-box"><button class="button button-orange" disabled="">Live Demo</button>
+<p class="btn-box"><a href="https://demo.johnsnowlabs.com/healthcare/NER_ONCOLOGY_CLINICAL/" class="button button-orange">Live Demo</a>
 <a href="https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/27.Oncology_Model.ipynb" class="button button-orange button-orange-trans co button-icon">Open in Colab</a>
 <a href="https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/ner_oncology_test_wip_en_4.0.0_3.0_1664562782979.zip" class="button button-orange button-orange-trans arr button-icon">Download</a></p>
 
@@ -435,6 +445,7 @@
   <div class="top_tab_li">   
     <p><button data-type="python" class="tab-li code-selector-active python-button">Python</button><button data-type="scala" class="tab-li code-selector-un-active scala-button">Scala</button><button data-type="nlu" class="tab-li code-selector-un-active nlu-button">NLU</button></p>
 </div>
+
   <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">document_assembler</span> <span class="o">=</span> <span class="n">DocumentAssembler</span><span class="p">()</span>\
     <span class="p">.</span><span class="n">setInputCol</span><span class="p">(</span><span class="s">"text"</span><span class="p">)</span>\
     <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"document"</span><span class="p">)</span>

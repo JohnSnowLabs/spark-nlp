@@ -11,7 +11,7 @@
     })(window,document,'script','dataLayer','GTM-59JLR64');</script>
 <!-- End Google Tag Manager --><title>Extract Cancer Therapies and Granular Posology Information</title><meta property="og:title" content=""/>
 
-<meta name="description" content="DescriptionThis model extracts cancer therapies (Cancer_Surgery, Radiotherapy and Cancer_Therapy) and posology information at a granular level.Predicted EntitiesCycle_Number, Cycle_Count, Radiotherapy, Cancer_Surgery, Cycle_Day, Frequency, Route, Cancer_Therapy, Duration, Dosage, Radiation_DoseLive DemoOpen in Colab...">
+<meta name="description" content="DescriptionThis model extracts cancer therapies (Cancer_Surgery, Radiotherapy and Cancer_Therapy) and posology information at a granular level.Definitions of Predicted Entities:  Cancer_Surgery: Terms that indicate surgery as a form of cancer treatment.  Cancer_Therapy: Any cancer treatment mentioned in text, exclud...">
 <link rel="canonical" href="/2022/10/25/ner_oncology_posology_en.html"><link rel="alternate" type="application/rss+xml" title="Spark NLP" href="/feed.xml"><!-- start favicons snippet, use https://realfavicongenerator.net/ -->
 <!---->
 <!-- <link rel="apple-touch-icon" sizes="180x180" href="/fav.ico"> -->
@@ -421,11 +421,27 @@
 
 <p>This model extracts cancer therapies (Cancer_Surgery, Radiotherapy and Cancer_Therapy) and posology information at a granular level.</p>
 
+<p>Definitions of Predicted Entities:</p>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">Cancer_Surgery</code>: Terms that indicate surgery as a form of cancer treatment.</li>
+  <li><code class="language-plaintext highlighter-rouge">Cancer_Therapy</code>: Any cancer treatment mentioned in text, excluding surgeries and radiotherapy.</li>
+  <li><code class="language-plaintext highlighter-rouge">Cycle_Count</code>: The total number of cycles being administered of an oncological therapy (e.g. “5 cycles”).</li>
+  <li><code class="language-plaintext highlighter-rouge">Cycle_Day</code>: References to the day of the cycle of oncological therapy (e.g. “day 5”).</li>
+  <li><code class="language-plaintext highlighter-rouge">Cycle_Number</code>: The number of the cycle of an oncological therapy that is being applied (e.g. “third cycle”).</li>
+  <li><code class="language-plaintext highlighter-rouge">Dosage</code>: The quantity prescribed by the physician for an active ingredient.</li>
+  <li><code class="language-plaintext highlighter-rouge">Duration</code>: Words indicating the duration of a treatment (e.g. “for 2 weeks”).</li>
+  <li><code class="language-plaintext highlighter-rouge">Frequency</code>: Words indicating the frequency of treatment administration (e.g. “daily” or “bid”).</li>
+  <li><code class="language-plaintext highlighter-rouge">Radiotherapy</code>: Terms that indicate the use of Radiotherapy.</li>
+  <li><code class="language-plaintext highlighter-rouge">Radiation_Dose</code>: Dose used in radiotherapy.</li>
+  <li><code class="language-plaintext highlighter-rouge">Route</code>: Words indicating the type of administration route (such as “PO” or “transdermal”).</li>
+</ul>
+
 <h2 id="predicted-entities">Predicted Entities</h2>
 
-<p><code class="language-plaintext highlighter-rouge">Cycle_Number</code>, <code class="language-plaintext highlighter-rouge">Cycle_Count</code>, <code class="language-plaintext highlighter-rouge">Radiotherapy</code>, <code class="language-plaintext highlighter-rouge">Cancer_Surgery</code>, <code class="language-plaintext highlighter-rouge">Cycle_Day</code>, <code class="language-plaintext highlighter-rouge">Frequency</code>, <code class="language-plaintext highlighter-rouge">Route</code>, <code class="language-plaintext highlighter-rouge">Cancer_Therapy</code>, <code class="language-plaintext highlighter-rouge">Duration</code>, <code class="language-plaintext highlighter-rouge">Dosage</code>, <code class="language-plaintext highlighter-rouge">Radiation_Dose</code></p>
+<p><code class="language-plaintext highlighter-rouge">Cancer_Surgery</code>, <code class="language-plaintext highlighter-rouge">Cancer_Therapy</code>, <code class="language-plaintext highlighter-rouge">Cycle_Count</code>, <code class="language-plaintext highlighter-rouge">Cycle_Day</code>, <code class="language-plaintext highlighter-rouge">Cycle_Number</code>, <code class="language-plaintext highlighter-rouge">Dosage</code>, <code class="language-plaintext highlighter-rouge">Duration</code>, <code class="language-plaintext highlighter-rouge">Frequency</code>, <code class="language-plaintext highlighter-rouge">Radiotherapy</code>, <code class="language-plaintext highlighter-rouge">Radiation_Dose</code>, <code class="language-plaintext highlighter-rouge">Route</code></p>
 
-<p class="btn-box"><button class="button button-orange" disabled="">Live Demo</button>
+<p class="btn-box"><a href="https://demo.johnsnowlabs.com/healthcare/NER_ONCOLOGY_CLINICAL/" class="button button-orange">Live Demo</a>
 <a href="https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/27.Oncology_Model.ipynb" class="button button-orange button-orange-trans co button-icon">Open in Colab</a>
 <a href="https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/ner_oncology_posology_en_4.0.0_3.0_1666728701834.zip" class="button button-orange button-orange-trans arr button-icon">Download</a></p>
 
@@ -435,6 +451,7 @@
   <div class="top_tab_li">   
     <p><button data-type="python" class="tab-li code-selector-active python-button">Python</button><button data-type="scala" class="tab-li code-selector-un-active scala-button">Scala</button><button data-type="nlu" class="tab-li code-selector-un-active nlu-button">NLU</button></p>
 </div>
+
   <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">document_assembler</span> <span class="o">=</span> <span class="n">DocumentAssembler</span><span class="p">()</span>\
     <span class="p">.</span><span class="n">setInputCol</span><span class="p">(</span><span class="s">"text"</span><span class="p">)</span>\
     <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"document"</span><span class="p">)</span>

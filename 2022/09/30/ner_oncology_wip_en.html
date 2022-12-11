@@ -11,7 +11,7 @@
     })(window,document,'script','dataLayer','GTM-59JLR64');</script>
 <!-- End Google Tag Manager --><title>Detect Oncology-Specific Entities</title><meta property="og:title" content=""/>
 
-<meta name="description" content="DescriptionThis model extracts more than 40 oncology-related entities, including therapies, tests and staging.Predicted EntitiesHistological_Type, Direction, Staging, Cancer_Score, Imaging_Test, Cycle_Number, Tumor_Finding, Site_Lymph_Node, Invasion, Response_To_Treatment, Smoking_Status, Tumor_Size, Cycle_Count, Ad...">
+<meta name="description" content="DescriptionThis model extracts more than 40 oncology-related entities, including therapies, tests and staging.Definitions of Predicted Entities:  Adenopathy: Mentions of pathological findings of the lymph nodes.  Age: All mention of ages, past or present, related to the patient or with anybody else.  Biomarker: Biol...">
 <link rel="canonical" href="/2022/09/30/ner_oncology_wip_en.html"><link rel="alternate" type="application/rss+xml" title="Spark NLP" href="/feed.xml"><!-- start favicons snippet, use https://realfavicongenerator.net/ -->
 <!---->
 <!-- <link rel="apple-touch-icon" sizes="180x180" href="/fav.ico"> -->
@@ -421,11 +421,64 @@
 
 <p>This model extracts more than 40 oncology-related entities, including therapies, tests and staging.</p>
 
+<p>Definitions of Predicted Entities:</p>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">Adenopathy</code>: Mentions of pathological findings of the lymph nodes.</li>
+  <li><code class="language-plaintext highlighter-rouge">Age</code>: All mention of ages, past or present, related to the patient or with anybody else.</li>
+  <li><code class="language-plaintext highlighter-rouge">Biomarker</code>: Biological molecules that indicate the presence or absence of cancer, or the type of cancer. Oncogenes are excluded from this category.</li>
+  <li><code class="language-plaintext highlighter-rouge">Biomarker_Result</code>: Terms or values that are identified as the result of a biomarkers.</li>
+  <li><code class="language-plaintext highlighter-rouge">Cancer_Dx</code>: Mentions of cancer diagnoses (such as “breast cancer”) or pathological types that are usually used as synonyms for “cancer” (e.g. “carcinoma”). When anatomical references are present, they are included in the Cancer_Dx extraction.</li>
+  <li><code class="language-plaintext highlighter-rouge">Cancer_Score</code>: Clinical or imaging scores that are specific for cancer settings (e.g. “BI-RADS” or “Allred score”).</li>
+  <li><code class="language-plaintext highlighter-rouge">Cancer_Surgery</code>: Terms that indicate surgery as a form of cancer treatment.</li>
+  <li><code class="language-plaintext highlighter-rouge">Chemotherapy</code>: Mentions of chemotherapy drugs, or unspecific words such as “chemotherapy”.</li>
+  <li><code class="language-plaintext highlighter-rouge">Cycle_Coun</code>: The total number of cycles being administered of an oncological therapy (e.g. “5 cycles”).</li>
+  <li><code class="language-plaintext highlighter-rouge">Cycle_Day</code>: References to the day of the cycle of oncological therapy (e.g. “day 5”).</li>
+  <li><code class="language-plaintext highlighter-rouge">Cycle_Number</code>: The number of the cycle of an oncological therapy that is being applied (e.g. “third cycle”).</li>
+  <li><code class="language-plaintext highlighter-rouge">Date</code>: Mentions of exact dates, in any format, including day number, month and/or year.</li>
+  <li><code class="language-plaintext highlighter-rouge">Death_Entity</code>: Words that indicate the death of the patient or someone else (including family members), such as “died” or “passed away”.</li>
+  <li><code class="language-plaintext highlighter-rouge">Direction</code>: Directional and laterality terms, such as “left”, “right”, “bilateral”, “upper” and “lower”.</li>
+  <li><code class="language-plaintext highlighter-rouge">Dosage</code>: The quantity prescribed by the physician for an active ingredient.</li>
+  <li><code class="language-plaintext highlighter-rouge">Duration</code>: Words indicating the duration of a treatment (e.g. “for 2 weeks”).</li>
+  <li><code class="language-plaintext highlighter-rouge">Frequency</code>: Words indicating the frequency of treatment administration (e.g. “daily” or “bid”).</li>
+  <li><code class="language-plaintext highlighter-rouge">Gender</code>: Gender-specific nouns and pronouns (including words such as “him” or “she”, and family members such as “father”).</li>
+  <li><code class="language-plaintext highlighter-rouge">Grade</code>: All pathological grading of tumors (e.g. “grade 1”) or degrees of cellular differentiation (e.g. “well-differentiated”)</li>
+  <li><code class="language-plaintext highlighter-rouge">Histological_Type</code>: Histological variants or cancer subtypes, such as “papillary”, “clear cell” or “medullary”.</li>
+  <li><code class="language-plaintext highlighter-rouge">Hormonal_Therapy</code>: Mentions of hormonal drugs used to treat cancer, or unspecific words such as “hormonal therapy”.</li>
+  <li><code class="language-plaintext highlighter-rouge">Imaging_Test</code>: Imaging tests mentioned in texts, such as “chest CT scan”.</li>
+  <li><code class="language-plaintext highlighter-rouge">Immunotherapy</code>: Mentions of immunotherapy drugs, or unspecific words such as “immunotherapy”.</li>
+  <li><code class="language-plaintext highlighter-rouge">Invasion</code>: Mentions that refer to tumor invasion, such as “invasion” or “involvement”. Metastases or lymph node involvement are excluded from this category.</li>
+  <li><code class="language-plaintext highlighter-rouge">Line_Of_Therapy</code>: Explicit references to the line of therapy of an oncological therapy (e.g. “first-line treatment”).</li>
+  <li><code class="language-plaintext highlighter-rouge">Metastasis</code>: Terms that indicate a metastatic disease. Anatomical references are not included in these extractions.</li>
+  <li><code class="language-plaintext highlighter-rouge">Oncogene</code>: Mentions of genes that are implicated in the etiology of cancer.</li>
+  <li><code class="language-plaintext highlighter-rouge">Pathology_Result</code>: The findings of a biopsy from the pathology report that is not covered by another entity (e.g. “malignant ductal cells”).</li>
+  <li><code class="language-plaintext highlighter-rouge">Pathology_Test</code>: Mentions of biopsies or tests that use tissue samples.</li>
+  <li><code class="language-plaintext highlighter-rouge">Performance_Status</code>: Mentions of performance status scores, such as ECOG and Karnofsky. The name of the score is extracted together with the result (e.g. “ECOG performance status of 4”).</li>
+  <li><code class="language-plaintext highlighter-rouge">Race_Ethnicity</code>: The race and ethnicity categories include racial and national origin or sociocultural groups.</li>
+  <li><code class="language-plaintext highlighter-rouge">Radiotherapy</code>: Terms that indicate the use of Radiotherapy.</li>
+  <li><code class="language-plaintext highlighter-rouge">Response_To_Treatment</code>: Terms related to clinical progress of the patient related to cancer treatment, including “recurrence”, “bad response” or “improvement”.</li>
+  <li><code class="language-plaintext highlighter-rouge">Relative_Date</code>: Temporal references that are relative to the date of the text or to any other specific date (e.g. “yesterday” or “three years later”).</li>
+  <li><code class="language-plaintext highlighter-rouge">Route</code>: Words indicating the type of administration route (such as “PO” or “transdermal”).</li>
+  <li><code class="language-plaintext highlighter-rouge">Site_Bone</code>: Anatomical terms that refer to the human skeleton.</li>
+  <li><code class="language-plaintext highlighter-rouge">Site_Brain</code>: Anatomical terms that refer to the central nervous system (including the brain stem and the cerebellum).</li>
+  <li><code class="language-plaintext highlighter-rouge">Site_Breast</code>: Anatomical terms that refer to the breasts.</li>
+  <li><code class="language-plaintext highlighter-rouge">Site_Liver</code>: Anatomical terms that refer to the liver.</li>
+  <li><code class="language-plaintext highlighter-rouge">Site_Lung</code>: Anatomical terms that refer to the lungs.</li>
+  <li><code class="language-plaintext highlighter-rouge">Site_Lymph_Node</code>: Anatomical terms that refer to lymph nodes, excluding adenopathies.</li>
+  <li><code class="language-plaintext highlighter-rouge">Site_Other_Body_Part</code>: Relevant anatomical terms that are not included in the rest of the anatomical entities.</li>
+  <li><code class="language-plaintext highlighter-rouge">Smoking_Status</code>: All mentions of smoking related to the patient or to someone else.</li>
+  <li><code class="language-plaintext highlighter-rouge">Staging</code>: Mentions of cancer stage such as “stage 2b” or “T2N1M0”. It also includes words such as “in situ”, “early-stage” or “advanced”.</li>
+  <li><code class="language-plaintext highlighter-rouge">Targeted_Therapy</code>: Mentions of targeted therapy drugs, or unspecific words such as “targeted therapy”.</li>
+  <li><code class="language-plaintext highlighter-rouge">Tumor_Finding</code>: All nonspecific terms that may be related to tumors, either malignant or benign (for example: “mass”, “tumor”, “lesion”, or “neoplasm”).</li>
+  <li><code class="language-plaintext highlighter-rouge">Tumor_Size</code>: Size of the tumor, including numerical value and unit of measurement (e.g. “3 cm”).</li>
+  <li><code class="language-plaintext highlighter-rouge">Unspecific_Therapy</code>: Terms that indicate a known cancer therapy but that is not specific to any other therapy entity (e.g. “chemoradiotherapy” or “adjuvant therapy”).</li>
+</ul>
+
 <h2 id="predicted-entities">Predicted Entities</h2>
 
 <p><code class="language-plaintext highlighter-rouge">Histological_Type</code>, <code class="language-plaintext highlighter-rouge">Direction</code>, <code class="language-plaintext highlighter-rouge">Staging</code>, <code class="language-plaintext highlighter-rouge">Cancer_Score</code>, <code class="language-plaintext highlighter-rouge">Imaging_Test</code>, <code class="language-plaintext highlighter-rouge">Cycle_Number</code>, <code class="language-plaintext highlighter-rouge">Tumor_Finding</code>, <code class="language-plaintext highlighter-rouge">Site_Lymph_Node</code>, <code class="language-plaintext highlighter-rouge">Invasion</code>, <code class="language-plaintext highlighter-rouge">Response_To_Treatment</code>, <code class="language-plaintext highlighter-rouge">Smoking_Status</code>, <code class="language-plaintext highlighter-rouge">Tumor_Size</code>, <code class="language-plaintext highlighter-rouge">Cycle_Count</code>, <code class="language-plaintext highlighter-rouge">Adenopathy</code>, <code class="language-plaintext highlighter-rouge">Age</code>, <code class="language-plaintext highlighter-rouge">Biomarker_Result</code>, <code class="language-plaintext highlighter-rouge">Unspecific_Therapy</code>, <code class="language-plaintext highlighter-rouge">Site_Breast</code>, <code class="language-plaintext highlighter-rouge">Chemotherapy</code>, <code class="language-plaintext highlighter-rouge">Targeted_Therapy</code>, <code class="language-plaintext highlighter-rouge">Radiotherapy</code>, <code class="language-plaintext highlighter-rouge">Performance_Status</code>, <code class="language-plaintext highlighter-rouge">Pathology_Test</code>, <code class="language-plaintext highlighter-rouge">Site_Other_Body_Part</code>, <code class="language-plaintext highlighter-rouge">Cancer_Surgery</code>, <code class="language-plaintext highlighter-rouge">Line_Of_Therapy</code>, <code class="language-plaintext highlighter-rouge">Pathology_Result</code>, <code class="language-plaintext highlighter-rouge">Hormonal_Therapy</code>, <code class="language-plaintext highlighter-rouge">Site_Bone</code>, <code class="language-plaintext highlighter-rouge">Biomarker</code>, <code class="language-plaintext highlighter-rouge">Immunotherapy</code>, <code class="language-plaintext highlighter-rouge">Cycle_Day</code>, <code class="language-plaintext highlighter-rouge">Frequency</code>, <code class="language-plaintext highlighter-rouge">Route</code>, <code class="language-plaintext highlighter-rouge">Duration</code>, <code class="language-plaintext highlighter-rouge">Death_Entity</code>, <code class="language-plaintext highlighter-rouge">Metastasis</code>, <code class="language-plaintext highlighter-rouge">Site_Liver</code>, <code class="language-plaintext highlighter-rouge">Cancer_Dx</code>, <code class="language-plaintext highlighter-rouge">Grade</code>, <code class="language-plaintext highlighter-rouge">Date</code>, <code class="language-plaintext highlighter-rouge">Site_Lung</code>, <code class="language-plaintext highlighter-rouge">Site_Brain</code>, <code class="language-plaintext highlighter-rouge">Relative_Date</code>, <code class="language-plaintext highlighter-rouge">Race_Ethnicity</code>, <code class="language-plaintext highlighter-rouge">Gender</code>, <code class="language-plaintext highlighter-rouge">Oncogene</code>, <code class="language-plaintext highlighter-rouge">Dosage</code></p>
 
-<p class="btn-box"><button class="button button-orange" disabled="">Live Demo</button>
+<p class="btn-box"><a href="https://demo.johnsnowlabs.com/healthcare/NER_ONCOLOGY_CLINICAL/" class="button button-orange">Live Demo</a>
 <a href="https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/27.Oncology_Model.ipynb" class="button button-orange button-orange-trans co button-icon">Open in Colab</a>
 <a href="https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/ner_oncology_wip_en_4.0.0_3.0_1664556885893.zip" class="button button-orange button-orange-trans arr button-icon">Download</a></p>
 
@@ -435,6 +488,7 @@
   <div class="top_tab_li">   
     <p><button data-type="python" class="tab-li code-selector-active python-button">Python</button><button data-type="scala" class="tab-li code-selector-un-active scala-button">Scala</button><button data-type="nlu" class="tab-li code-selector-un-active nlu-button">NLU</button></p>
 </div>
+
   <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">document_assembler</span> <span class="o">=</span> <span class="n">DocumentAssembler</span><span class="p">()</span>\
     <span class="p">.</span><span class="n">setInputCol</span><span class="p">(</span><span class="s">"text"</span><span class="p">)</span>\
     <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"document"</span><span class="p">)</span>
