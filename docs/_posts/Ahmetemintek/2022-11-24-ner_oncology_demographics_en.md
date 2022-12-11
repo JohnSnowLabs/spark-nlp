@@ -19,12 +19,21 @@ use_language_switcher: "Python-Scala-Java"
 
 This model extracts demographic information from oncology texts, including age, gender, and smoking status.
 
+Definitions of Predicted Entities:
+
+- `Age`: All mention of ages, past or present, related to the patient or with anybody else.
+- `Gender`: Gender-specific nouns and pronouns (including words such as "him" or "she", and family members such as "father").
+- `Race_Ethnicity`: The race and ethnicity categories include racial and national origin or sociocultural groups.
+- `Smoking_Status`: All mentions of smoking related to the patient or to someone else.
+
+
 ## Predicted Entities
 
-`Smoking_Status`, `Age`, `Race_Ethnicity`, `Gender`
+ `Age`, `Gender`, `Race_Ethnicity`, `Smoking_Status`
+
 
 {:.btn-box}
-<button class="button button-orange" disabled>Live Demo</button>
+[Live Demo](https://demo.johnsnowlabs.com/healthcare/NER_ONCOLOGY_CLINICAL/){:.button.button-orange}
 [Open in Colab](https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/27.Oncology_Model.ipynb){:.button.button-orange.button-orange-trans.co.button-icon}
 [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/ner_oncology_demographics_en_4.2.2_3.0_1669300163954.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
 
@@ -34,6 +43,8 @@ This model extracts demographic information from oncology texts, including age, 
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
+
+
 ```python
 document_assembler = DocumentAssembler()\
     .setInputCol("text")\

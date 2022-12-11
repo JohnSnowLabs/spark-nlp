@@ -19,12 +19,28 @@ use_language_switcher: "Python-Scala-Java"
 
 This model extracts cancer therapies (Cancer_Surgery, Radiotherapy and Cancer_Therapy) and posology information at a granular level.
 
+Definitions of Predicted Entities:
+
+- `Cancer_Surgery`: Terms that indicate surgery as a form of cancer treatment.
+- `Cancer_Therapy`: Any cancer treatment mentioned in text, excluding surgeries and radiotherapy.
+- `Cycle_Count`: The total number of cycles being administered of an oncological therapy (e.g. "5 cycles"). 
+- `Cycle_Day`: References to the day of the cycle of oncological therapy (e.g. "day 5").
+- `Cycle_Number`: The number of the cycle of an oncological therapy that is being applied (e.g. "third cycle").
+- `Dosage`: The quantity prescribed by the physician for an active ingredient.
+- `Duration`: Words indicating the duration of a treatment (e.g. "for 2 weeks").
+- `Frequency`: Words indicating the frequency of treatment administration (e.g. "daily" or "bid").
+- `Radiotherapy`: Terms that indicate the use of Radiotherapy.
+- `Radiation_Dose`: Dose used in radiotherapy.
+- `Route`: Words indicating the type of administration route (such as "PO" or "transdermal").
+
+
 ## Predicted Entities
 
-`Cycle_Number`, `Cycle_Count`, `Radiotherapy`, `Cancer_Surgery`, `Cycle_Day`, `Frequency`, `Route`, `Cancer_Therapy`, `Duration`, `Dosage`, `Radiation_Dose`
+`Cancer_Surgery`, `Cancer_Therapy`, `Cycle_Count`, `Cycle_Day`, `Cycle_Number`, `Dosage`, `Duration`, `Frequency`, `Radiotherapy`, `Radiation_Dose`, `Route`
+
 
 {:.btn-box}
-<button class="button button-orange" disabled>Live Demo</button>
+[Live Demo](https://demo.johnsnowlabs.com/healthcare/NER_ONCOLOGY_CLINICAL/){:.button.button-orange}
 [Open in Colab](https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/27.Oncology_Model.ipynb){:.button.button-orange.button-orange-trans.co.button-icon}
 [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/ner_oncology_posology_en_4.2.2_3.0_1669306988706.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
 
@@ -34,6 +50,7 @@ This model extracts cancer therapies (Cancer_Surgery, Radiotherapy and Cancer_Th
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
+
 ```python
 document_assembler = DocumentAssembler()\
     .setInputCol("text")\

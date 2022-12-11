@@ -19,12 +19,65 @@ use_language_switcher: "Python-Scala-Java"
 
 This model extracts more than 40 oncology-related entities, including therapies, tests and staging.
 
+Definitions of Predicted Entities:
+
+- `Adenopathy`: Mentions of pathological findings of the lymph nodes.
+- `Age`: All mention of ages, past or present, related to the patient or with anybody else.
+- `Biomarker`: Biological molecules that indicate the presence or absence of cancer, or the type of cancer. Oncogenes are excluded from this category.
+- `Biomarker_Result`: Terms or values that are identified as the result of a biomarkers.
+- `Cancer_Dx`: Mentions of cancer diagnoses (such as "breast cancer") or pathological types that are usually used as synonyms for "cancer" (e.g. "carcinoma"). When anatomical references are present, they are included in the Cancer_Dx extraction.
+- `Cancer_Score`: Clinical or imaging scores that are specific for cancer settings (e.g. "BI-RADS" or "Allred score").
+- `Cancer_Surgery`: Terms that indicate surgery as a form of cancer treatment.
+- `Chemotherapy`: Mentions of chemotherapy drugs, or unspecific words such as "chemotherapy".
+- `Cycle_Coun`: The total number of cycles being administered of an oncological therapy (e.g. "5 cycles"). 
+- `Cycle_Day`: References to the day of the cycle of oncological therapy (e.g. "day 5").
+- `Cycle_Number`: The number of the cycle of an oncological therapy that is being applied (e.g. "third cycle").
+- `Date`: Mentions of exact dates, in any format, including day number, month and/or year.
+- `Death_Entity`: Words that indicate the death of the patient or someone else (including family members), such as "died" or "passed away".
+- `Direction`: Directional and laterality terms, such as "left", "right", "bilateral", "upper" and "lower".
+- `Dosage`: The quantity prescribed by the physician for an active ingredient.
+- `Duration`: Words indicating the duration of a treatment (e.g. "for 2 weeks").
+- `Frequency`: Words indicating the frequency of treatment administration (e.g. "daily" or "bid").
+- `Gender`: Gender-specific nouns and pronouns (including words such as "him" or "she", and family members such as "father").
+- `Grade`: All pathological grading of tumors (e.g. "grade 1") or degrees of cellular differentiation (e.g. "well-differentiated")
+- `Histological_Type`: Histological variants or cancer subtypes, such as "papillary", "clear cell" or "medullary". 
+- `Hormonal_Therapy`: Mentions of hormonal drugs used to treat cancer, or unspecific words such as "hormonal therapy".
+- `Imaging_Test`: Imaging tests mentioned in texts, such as "chest CT scan".
+- `Immunotherapy`: Mentions of immunotherapy drugs, or unspecific words such as "immunotherapy".
+- `Invasion`: Mentions that refer to tumor invasion, such as "invasion" or "involvement". Metastases or lymph node involvement are excluded from this category.
+- `Line_Of_Therapy`: Explicit references to the line of therapy of an oncological therapy (e.g. "first-line treatment").
+- `Metastasis`: Terms that indicate a metastatic disease. Anatomical references are not included in these extractions.
+- `Oncogene`: Mentions of genes that are implicated in the etiology of cancer.
+- `Pathology_Result`: The findings of a biopsy from the pathology report that is not covered by another entity (e.g. "malignant ductal cells").
+- `Pathology_Test`: Mentions of biopsies or tests that use tissue samples.
+- `Performance_Status`: Mentions of performance status scores, such as ECOG and Karnofsky. The name of the score is extracted together with the result (e.g. "ECOG performance status of 4").
+- `Race_Ethnicity`: The race and ethnicity categories include racial and national origin or sociocultural groups.
+- `Radiotherapy`: Terms that indicate the use of Radiotherapy.
+- `Response_To_Treatment`: Terms related to clinical progress of the patient related to cancer treatment, including "recurrence", "bad response" or "improvement".
+- `Relative_Date`: Temporal references that are relative to the date of the text or to any other specific date (e.g. "yesterday" or "three years later").
+- `Route`: Words indicating the type of administration route (such as "PO" or "transdermal").
+- `Site_Bone`: Anatomical terms that refer to the human skeleton.
+- `Site_Brain`: Anatomical terms that refer to the central nervous system (including the brain stem and the cerebellum).
+- `Site_Breast`: Anatomical terms that refer to the breasts.
+- `Site_Liver`: Anatomical terms that refer to the liver.
+- `Site_Lung`: Anatomical terms that refer to the lungs.
+- `Site_Lymph_Node`: Anatomical terms that refer to lymph nodes, excluding adenopathies.
+- `Site_Other_Body_Part`: Relevant anatomical terms that are not included in the rest of the anatomical entities.
+- `Smoking_Status`: All mentions of smoking related to the patient or to someone else.
+- `Staging`: Mentions of cancer stage such as "stage 2b" or "T2N1M0". It also includes words such as "in situ", "early-stage" or "advanced".
+- `Targeted_Therapy`: Mentions of targeted therapy drugs, or unspecific words such as "targeted therapy".
+- `Tumor_Finding`: All nonspecific terms that may be related to tumors, either malignant or benign (for example: "mass", "tumor", "lesion", or "neoplasm").
+- `Tumor_Size`: Size of the tumor, including numerical value and unit of measurement (e.g. "3 cm").
+- `Unspecific_Therapy`: Terms that indicate a known cancer therapy but that is not specific to any other therapy entity (e.g. "chemoradiotherapy" or "adjuvant therapy").
+
+
 ## Predicted Entities
 
 `Histological_Type`, `Direction`, `Staging`, `Cancer_Score`, `Imaging_Test`, `Cycle_Number`, `Tumor_Finding`, `Site_Lymph_Node`, `Invasion`, `Response_To_Treatment`, `Smoking_Status`, `Tumor_Size`, `Cycle_Count`, `Adenopathy`, `Age`, `Biomarker_Result`, `Unspecific_Therapy`, `Site_Breast`, `Chemotherapy`, `Targeted_Therapy`, `Radiotherapy`, `Performance_Status`, `Pathology_Test`, `Site_Other_Body_Part`, `Cancer_Surgery`, `Line_Of_Therapy`, `Pathology_Result`, `Hormonal_Therapy`, `Site_Bone`, `Biomarker`, `Immunotherapy`, `Cycle_Day`, `Frequency`, `Route`, `Duration`, `Death_Entity`, `Metastasis`, `Site_Liver`, `Cancer_Dx`, `Grade`, `Date`, `Site_Lung`, `Site_Brain`, `Relative_Date`, `Race_Ethnicity`, `Gender`, `Oncogene`, `Dosage`, `Radiation_Dose`
 
+
 {:.btn-box}
-<button class="button button-orange" disabled>Live Demo</button>
+[Live Demo](https://demo.johnsnowlabs.com/healthcare/NER_ONCOLOGY_CLINICAL/){:.button.button-orange}
 [Open in Colab](https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/27.Oncology_Model.ipynb){:.button.button-orange.button-orange-trans.co.button-icon}
 [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/ner_oncology_en_4.2.2_3.0_1669306355829.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
 
@@ -34,6 +87,7 @@ This model extracts more than 40 oncology-related entities, including therapies,
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
+
 ```python
 document_assembler = DocumentAssembler()\
     .setInputCol("text")\

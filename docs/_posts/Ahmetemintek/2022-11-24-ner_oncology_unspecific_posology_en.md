@@ -19,12 +19,18 @@ use_language_switcher: "Python-Scala-Java"
 
 This model extracts mentions of treatments and posology information using unspecific labels (low granularity).
 
+Definitions of Predicted Entities:
+
+- `Cancer_Therapy`: Mentions of cancer treatments, including chemotherapy, radiotherapy, surgery and other.
+- `Posology_Information`: Terms related to the posology of the treatment, including duration, frequencies and dosage.
+
+
 ## Predicted Entities
 
-`Posology_Information`, `Cancer_Therapy`
+`Cancer_Therapy`, `Posology_Information`
 
 {:.btn-box}
-<button class="button button-orange" disabled>Live Demo</button>
+[Live Demo](https://demo.johnsnowlabs.com/healthcare/NER_ONCOLOGY_CLINICAL/){:.button.button-orange}
 [Open in Colab](https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/27.Oncology_Model.ipynb){:.button.button-orange.button-orange-trans.co.button-icon}
 [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/ner_oncology_unspecific_posology_en_4.2.2_3.0_1669309081671.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
 
@@ -34,6 +40,7 @@ This model extracts mentions of treatments and posology information using unspec
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
+
 ```python
 document_assembler = DocumentAssembler()\
     .setInputCol("text")\
