@@ -83,192 +83,188 @@ Visit the [product page on Azure Marketplace](https://azuremarketplace.microsoft
 
 <div class="cell cell--12 cell--lg-6 cell--sm-12"><div class="video-item">{%- include extensions/youtube.html id='e6aB3z5tB0k' -%}<div class="video-descr">Deploy Annotation Lab via Azure Marketplace</div></div></div>
 
-
 ## EKS deployment
 
- 1) Create NodeGroup for a given cluster
+1. Create NodeGroup for a given cluster
 
+   ```console
+   eksctl create nodegroup --config-file eks-nodegroup.yaml
 
-```console
-eksctl create nodegroup --config-file eks-nodegroup.yaml
+   kind: ClusterConfig
+   apiVersion: eksctl.io/v1alpha5
+   metadata:
+     name: <cluster-name>
+     region: <region>
+     version: "1.21"
+   availabilityZones:
+     - <zone-1>
+     - <zone-2>
+   vpc:
+     id: "<vpc-id>"
+     subnets:
+       private:
+         us-east-1d:
+           id: "<subnet-id"
+         us-east-1f:
+           id: "<subent-id>"
+     securityGroup: "<security-group>"
+   iam:
+     withOIDC: true
+   managedNodeGroups:
+     - name: alab-workers
+       instanceType: m5.large
+       desiredCapacity: 3
+       VolumeSize: 50
+       VolumeType: gp2
+       privateNetworking: true
+       ssh:
+         publicKeyPath: <path/to/id_rsa_pub>
 
-kind: ClusterConfig
-apiVersion: eksctl.io/v1alpha5
-metadata:
-  name: <cluster-name>
-  region: <region>
-  version: "1.21"
-availabilityZones:
-  - <zone-1>
-  - <zone-2>
-vpc:
-  id: "<vpc-id>"
-  subnets:
-    private:
-      us-east-1d:
-        id: "<subnet-id"
-      us-east-1f:
-        id: "<subent-id>"
-  securityGroup: "<security-group>"
-iam:
-  withOIDC: true
-managedNodeGroups:
-  - name: alab-workers
-    instanceType: m5.large
-    desiredCapacity: 3
-    VolumeSize: 50
-    VolumeType: gp2
-    privateNetworking: true
-    ssh:
-      publicKeyPath: <path/to/id_rsa_pub>
+   ```
 
-```
-```console
-eksctl utils associate-iam-oidc-provider --region=us-east-1 --cluster=<cluster-name> --approve
-```
+   ```console
+   eksctl utils associate-iam-oidc-provider --region=us-east-1 --cluster=<cluster-name> --approve
+   ```
 
- 2) Create an EFS as shared storage. EFS stands for Elastic File System and is a scalable storage solution that can be used for general purpose workloads. 
+2. Create an EFS as shared storage. EFS stands for Elastic File System and is a scalable storage solution that can be used for general purpose workloads.
 
+   ```console
+   curl -S https://raw.githubusercontent.com/kubernetes-sigs/aws-efs-csi-driver/v1.2.0/docs/iam-policy-example.json -o iam-policy.json
+   aws iam create-policy \
+     --policy-name EFSCSIControllerIAMPolicy \
+     --policy-document file://iam-policy.json
+   ```
 
-```console
-curl -S https://raw.githubusercontent.com/kubernetes-sigs/aws-efs-csi-driver/v1.2.0/docs/iam-policy-example.json -o iam-policy.json
-aws iam create-policy \ 
-  --policy-name EFSCSIControllerIAMPolicy \ 
-  --policy-document file://iam-policy.json
-```
-```console
-eksctl create iamserviceaccount \ 
-  --cluster=<cluster> \ 
-  --region <AWS Region> \ 
-  --namespace=kube-system \ 
-  --name=efs-csi-controller-sa \ 
-  --override-existing-serviceaccounts \ 
-  --attach-policy-arn=arn:aws:iam::<AWS account ID>:policy/EFSCSIControllerIAMPolicy \ 
-  --approve
-```
-```console
-helm repo add aws-efs-csi-driver https://kubernetes-sigs.github.io/aws-efs-csi-driver
-```
-```console
-helm repo update
-```
-```console
-helm upgrade -i aws-efs-csi-driver aws-efs-csi-driver/aws-efs-csi-driver \ 
-  --namespace kube-system \ 
-  --set image.repository=602401143452.dkr.ecr.us-east-1.amazonaws.com/eks/aws-efs-csi-driver \ 
-  --set controller.serviceAccount.create=false \ 
-  --set controller.serviceAccount.name=efs-csi-controller-sa
+   ```console
+   eksctl create iamserviceaccount \
+     --cluster=<cluster> \
+     --region <AWS Region> \
+     --namespace=kube-system \
+     --name=efs-csi-controller-sa \
+     --override-existing-serviceaccounts \
+     --attach-policy-arn=arn:aws:iam::<AWS account ID>:policy/EFSCSIControllerIAMPolicy \
+     --approve
+   ```
 
-```
+   ```console
+   helm repo add aws-efs-csi-driver https://kubernetes-sigs.github.io/aws-efs-csi-driver
+   ```
 
- 3) Create storageClass.yaml
+   ```console
+   helm repo update
+   ```
 
+   ```console
+   helm upgrade -i aws-efs-csi-driver aws-efs-csi-driver/aws-efs-csi-driver \
+     --namespace kube-system \
+     --set image.repository=602401143452.dkr.ecr.us-east-1.amazonaws.com/eks/aws-efs-csi-driver \
+     --set controller.serviceAccount.create=false \
+     --set controller.serviceAccount.name=efs-csi-controller-sa
 
-```console
-cat <<EOF > storageClass.yaml
-kind: StorageClass
-apiVersion: storage.k8s.io/v1
-metadata:
-  name: efs-sc
-provisioner: efs.csi.aws.com
-parameters:
-  provisioningMode: efs-ap
-  fileSystemId: <EFS file system ID>
-  directoryPerms: "700"
-EOF
-```
-```console
-kubectl apply -f storageClass.yaml
-```
+   ```
 
-```console
-helm install annotationlab annotationlab-${ANNOTATIONLAB_VERSION}.tgz                                 \
-    --kubeconfig /etc/rancher/k3s/k3s.yaml                                                            \
-    --set image.tag=${ANNOTATIONLAB_VERSION}                                                          \
-    --set model_server.count=1                                                                        \
-    --set ingress.enabled=true                                                                        \
-    --set networkPolicy.enabled=true                                                                  \
-    --set networkPolicy.enabled=true --set extraNetworkPolicies='- namespaceSelector:
-    matchLabels:
-      kubernetes.io/metadata.name: kube-system
-  podSelector:
-    matchLabels:
-      app.kubernetes.io/name: traefik
-      app.kubernetes.io/instance: traefik'                                                            \
-    --set keycloak.postgresql.networkPolicy.enabled=true                                              \
-    --set persistence.storageClass=efs-sc                                                             \
-    --set sharedData.storageClass=efs-sc                                                              \
-    --set airflow.postgresql.networkPolicy.enabled=true                                               \
-    --set postgresql.networkPolicy.enabled=true                                                       \
-    --set airflow.networkPolicies.enabled=true                                                        \
-    --set ingress.defaultBackend=true                                                                 \
-    --set ingress.uploadLimitInMegabytes=16                                                           \
-    --set 'ingress.hosts[0].host=domain.tld'                                                          \
-    --set airflow.model_server.count=1                                                                \
-    --set airflow.redis.password=$(bash -c "echo ${password_gen_string}")                             \
-    --set configuration.FLASK_SECRET_KEY=$(bash -c "echo ${password_gen_string}")                     \
-    --set configuration.KEYCLOAK_CLIENT_SECRET_KEY=$(bash -c "echo ${uuid_gen_string}")               \
-    --set postgresql.postgresqlPassword=$(bash -c "echo ${password_gen_string}")                      \
-    --set keycloak.postgresql.postgresqlPassword=$(bash -c "echo ${password_gen_string}")             \
-    --set keycloak.secrets.admincreds.stringData.user=admin                                           \
-    --set keycloak.secrets.admincreds.stringData.password=$(bash -c "echo ${password_gen_string}")
+3. Create storageClass.yaml
 
-```
+   ```console
+   cat <<EOF > storageClass.yaml
+   kind: StorageClass
+   apiVersion: storage.k8s.io/v1
+   metadata:
+     name: efs-sc
+   provisioner: efs.csi.aws.com
+   parameters:
+     provisioningMode: efs-ap
+     fileSystemId: <EFS file system ID>
+     directoryPerms: "700"
+   EOF
+   ```
 
+   ```console
+   kubectl apply -f storageClass.yaml
+   ```
 
- 4) Install ingress Controller
+   ```console
+   helm install annotationlab annotationlab-${ANNOTATIONLAB_VERSION}.tgz                                 \
+       --set image.tag=${ANNOTATIONLAB_VERSION}                                                          \
+       --set model_server.count=1                                                                        \
+       --set ingress.enabled=true                                                                        \
+       --set networkPolicy.enabled=true                                                                  \
+       --set networkPolicy.enabled=true --set extraNetworkPolicies='- namespaceSelector:
+       matchLabels:
+         kubernetes.io/metadata.name: kube-system
+     podSelector:
+       matchLabels:
+         app.kubernetes.io/name: traefik
+         app.kubernetes.io/instance: traefik'                                                            \
+       --set keycloak.postgresql.networkPolicy.enabled=true                                              \
+       --set sharedData.storageClass=efs-sc                                                              \
+       --set airflow.postgresql.networkPolicy.enabled=true                                               \
+       --set postgresql.networkPolicy.enabled=true                                                       \
+       --set airflow.networkPolicies.enabled=true                                                        \
+       --set ingress.defaultBackend=true                                                                 \
+       --set ingress.uploadLimitInMegabytes=16                                                           \
+       --set 'ingress.hosts[0].host=domain.tld'                                                          \
+       --set airflow.model_server.count=1                                                                \
+       --set airflow.redis.password=$(bash -c "echo ${password_gen_string}")                             \
+       --set configuration.FLASK_SECRET_KEY=$(bash -c "echo ${password_gen_string}")                     \
+       --set configuration.KEYCLOAK_CLIENT_SECRET_KEY=$(bash -c "echo ${uuid_gen_string}")               \
+       --set postgresql.postgresqlPassword=$(bash -c "echo ${password_gen_string}")                      \
+       --set keycloak.postgresql.postgresqlPassword=$(bash -c "echo ${password_gen_string}")             \
+       --set keycloak.secrets.admincreds.stringData.user=admin                                           \
+       --set keycloak.secrets.admincreds.stringData.password=$(bash -c "echo ${password_gen_string}")
 
+   ```
 
-```
-helm repo add nginx-stable https://helm.nginx.com/stable
-helm repo update
-helm install my-release nginx-stable/nginx-ingress
-```
+4. Install ingress Controller
 
+   ```
+   helm repo add nginx-stable https://helm.nginx.com/stable
+   helm repo update
+   helm install my-release nginx-stable/nginx-ingress
+   ```
 
- 5) Apply ingress.yaml 
+5. Apply ingress.yaml
 
+   ```console
+   cat <<EOF > ingress.yaml
+   apiVersion: networking.k8s.io/v1
+   kind: Ingress
+   metadata:
+     annotations:
+       kubernetes.io/ingress.class: nginx
+       meta.helm.sh/release-name: annotationlab
+       meta.helm.sh/release-namespace: default
+     name: annotationlab
+   spec:
+     defaultBackend:
+       service:
+         name: annotationlab
+         port:
+           name: http
+     rules:
+     - host: domain.tld
+       http:
+         paths:
+         - backend:
+             service:
+                 name: annotationlab
+                 port:
+                   name: http
+           path: /
+           pathType: ImplementationSpecific
+         - backend:
+             service:
+                 name: annotationlab-keyclo-http
+                 port:
+                   name: http
+           path: /auth
+           pathType: ImplementationSpecific
+   EOF
+   ```
 
-```console
-cat <<EOF > ingress.yaml
-apiVersion: networking.k8s.io/v1
-kind: Ingress
-metadata:
-  annotations:
-    kubernetes.io/ingress.class: nginx
-    meta.helm.sh/release-name: annotationlab
-    meta.helm.sh/release-namespace: default
-  name: annotationlab
-spec:
-  defaultBackend:
-    service:
-      name: annotationlab
-      port:
-        name: http
-  rules:
-  - host: domain.tld
-    http:
-      paths:
-      - backend:
-          service:
-              name: annotationlab
-              port:
-                name: http
-        path: /
-        pathType: ImplementationSpecific
-      - backend:
-          service:
-              name: annotationlab-keyclo-http
-              port:
-                name: http
-        path: /auth
-        pathType: ImplementationSpecific
-EOF  
-```  
-```console
-kubectl apply -f ingress.yaml
-```
-
+   ```console
+   kubectl apply -f ingress.yaml
+   ```
 
 ## AirGap Environment
 
@@ -329,7 +325,7 @@ The <bl>OperatorHub</bl> has a large list of operators that can be installed int
 
 ### Install
 
-Some basic information about this operator is provided on the navigation panel that opens after selecting Annotation Lab on the previous step. 
+Some basic information about this operator is provided on the navigation panel that opens after selecting Annotation Lab on the previous step.
 
 > **NOTE:** Make sure you have defined shared storage such as `efs/nfs/cephfs` prior to installing the Annotation Lab Operator.
 
@@ -338,7 +334,6 @@ Click on the `Install` button located on the top-left corner of this panel to st
 <img class="image image__shadow" src="/assets/images/annotation_lab/Install-Operator.png" style="width:100%;"/>
 
 After successful installation of the Annotation Lab operator, you can access it by navigating to the <bl>Installed Operators</bl> page.
-
 
 <br />
 
