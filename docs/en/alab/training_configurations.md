@@ -43,7 +43,7 @@ Information on the overall training progress is shown in the page. User can get 
 
 <img class="image image__shadow" src="/assets/images/annotation_lab/4.2.0/visual_ner_train_4.png" style="width:100%;"/>
 
-Once the training is finished, it is possible to download the training logs by clicking on the download logs icon of the recently trained NER model which includes information like training parameters and TF graph used along with precision, recall, f1 score, etc.
+Once the training is finished, it is possible to download the training logs by clicking on the download logs icon of the recently trained NER model which includes information like training parameters and TF graph used along with precision, recall, f1 score, etc. This information is also accessible by clicking on the benchmarking icon available on the models on the Models page.
 
 <img class="image image__shadow" src="/assets/images/annotation_lab/4.2.0/training_logs.png" style="width:100%;"/>
 
@@ -171,6 +171,10 @@ The model to be trained can also be specified by setting the train="true" attrib
 The trained classification models are available to reuse in any project and can be added on step 3 of the [Project Configuration](/docs/en/alab/project_configuration#ner-labeling) wizard.
 
 <img class="image image__shadow" src="/assets/images/annotation_lab/4.1.0/classification_pipeline.png" style="width:80%;"/>
+
+The classification models trained using Annotation Lab also have attached benchmarking information. The training logs include the confusion matrix, helpful in understanding the performance of the model and in checking if the model is underfitting or overfitting. The confusion matrix is also available on the models tiles on the Models page, and  is accessible by clicking on the benchmarking icon.
+
+<img class="image image__shadow" src="https://user-images.githubusercontent.com/10126570/204807841-5202b1b8-60c0-4fd7-a504-46638c8e9611.gif" style="width:100%;"/>
 
 ## Visual NER Training
 

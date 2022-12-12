@@ -5,7 +5,7 @@ seotitle: Annotation Lab | John Snow Labs
 title: Annotation Lab Release Notes 4.4.0
 permalink: /docs/en/alab/annotation_labs_releases/release_notes_4_4_0
 key: docs-licensed-release-notes
-modify_date: 2022-12-05
+modify_date: 2022-12-12
 show_nav: true
 sidebar:
   nav: annotation-lab
@@ -28,7 +28,7 @@ Here are the highlights of this release:
 - **New Role available on the Team Page**. On the Team Setup page, the project creator is now clearly identified by the "Owner" role.
 - **Rules Available in the Finance and Legal Editions**. Rules can now be deployed and used for pre-annotation using the Legal and Finance licenses.
 - **UX Improvement for Completion**. The action icons are now available on the completions, and users can directly execute the appropriate action without having to select the completion first.
-- **IAA chart improvements**. Previously, IAA charts on the analytics page combined the NER and Assertion status entities, resulting in low agreement scores between the annotators. With version 4.4.0, those labels are treated separately. Now, filters for the NER label and Assertion status labels have been added on the respective charts.
+- **IAA chart improvements**. NER labels and Assertion Status labels are now handled separately in the IAA charts on the Analytics page. The filter for selecting the label type is added on the respective charts.
 - **Import tasks with title field**. Users can now import the tasks with title information pre-defined in the JSON/CSV. The title field was also added to the sample task file that can be downloaded from the Import page.
 - **Rename Models Hub page**. The name Models HUB on the left navigation panel has been changed to Hub.
 
