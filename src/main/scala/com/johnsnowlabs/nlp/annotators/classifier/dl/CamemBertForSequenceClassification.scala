@@ -83,16 +83,16 @@ import org.apache.spark.sql.SparkSession
   *   sequenceClassifier
   * ))
   *
-  * val data = Seq("John Lenon was born in London and lived in Paris. My name is Sarah and I live in London").toDF("text")
+  * val data = Seq("j'ai adoré ce film lorsque j'étais enfant.", "Je déteste ça.").toDF("text")
   * val result = pipeline.fit(data).transform(data)
   *
   * result.select("label.result").show(false)
-  * +--------------------+
-  * |result              |
-  * +--------------------+
-  * |[neg, neg]          |
-  * |[pos, pos, pos, pos]|
-  * +--------------------+
+  * +------+
+  * |result|
+  * +------+
+  * |[pos] |
+  * |[neg] |
+  * +------+
   * }}}
   *
   * @see
@@ -161,10 +161,11 @@ class CamemBertForSequenceClassification(override val uid: String)
   }
 
   /** Instead of 1 class per sentence (if inputCols is '''sentence''') output 1 class per document
-    * by averaging probabilities in all sentences. Due to max sequence length limit in almost all
-    * transformer models such as BERT (512 tokens), this parameter helps feeding all the sentences
-    * into the model and averaging all the probabilities for the entire document instead of
-    * probabilities per sentence. (Default: true)
+    * by averaging probabilities in all sentences (Default: false).
+    *
+    * Due to max sequence length limit in almost all transformer models such as BERT (512 tokens),
+    * this parameter helps feeding all the sentences into the model and averaging all the
+    * probabilities for the entire document instead of probabilities per sentence.
     *
     * @group param
     */
