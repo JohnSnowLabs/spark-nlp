@@ -25,7 +25,7 @@ This relation extraction model links extractions from anatomical entities (such 
 `is_location_of`, `O`
 
 {:.btn-box}
-<button class="button button-orange" disabled>Live Demo</button>
+[Live Demo](https://demo.johnsnowlabs.com/healthcare/RE_ONCOLOGY/){:.button.button-orange}
 [Open in Colab](https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/27.Oncology_Model.ipynb){:.button.button-orange.button-orange-trans.co.button-icon}
 [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/redl_oncology_location_biobert_wip_en_4.1.0_3.0_1664454650547.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
 
