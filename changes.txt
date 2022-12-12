@@ -1,14 +1,2 @@
-docs/en/alab/annotation.md
-docs/en/alab/annotation_configurations.md
-docs/en/alab/annotation_labs_releases/release_notes_4_4_0.md
-docs/en/alab/productivity.md
-docs/en/alab/rules.md
-docs/en/alab/tasks.md
-docs/en/alab/training_configurations.md
-docs/en/alab/annotation.md
-docs/en/alab/annotation_configurations.md
-docs/en/alab/annotation_labs_releases/release_notes_4_4_0.md
-docs/en/alab/productivity.md
-docs/en/alab/rules.md
-docs/en/alab/tasks.md
-docs/en/alab/training_configurations.md
+docs/en/alab/install.md
+docs/en/alab/install.md
