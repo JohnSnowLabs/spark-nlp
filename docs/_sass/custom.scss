@@ -1998,6 +1998,58 @@ code {
 	}
 }
 
+.button-copy-s3 {
+	&.copied span {
+		top: -70px;
+		opacity: 1;
+		z-index: 0;
+	}
+	span {
+		color: #1e77b7;
+		font-family: 'Montserrat', sans-serif;
+		border: 1px solid #1e77b7;
+		background: #fff;
+		display: inline-block;
+		padding: 9px;
+		position: absolute;
+		width: 100px;
+		text-align: center;
+		margin: auto;
+		left: 0;
+		right: 0;
+		opacity: 0;
+		z-index: -1;
+		transition: all 300ms ease;
+		font-weight: 600;
+		border-radius: 5px;
+		top: -2px;	
+		&:before {
+			content: "";
+			width: 0px;
+			height: 0px;
+			position: absolute;
+			border-left: 10px solid transparent;
+			border-right: 10px solid transparent;
+			border-top: 10px solid #1e77b7;
+			border-bottom: 10px solid transparent;
+			right: 38%;
+			bottom: -20px;
+		}
+		&:after {
+			content: "";
+			width: 0px;
+			height: 0px;
+			position: absolute;
+			border-left: 10px solid transparent;
+			border-right: 10px solid transparent;
+			border-top: 11px solid #fff;
+			border-bottom: 10px solid transparent;
+			right: 38%;
+			bottom: -19px;
+		}
+	}
+}
+
 .model-wrap {
 	.tabs-box {
 		.highlighter-rouge {
@@ -2088,10 +2140,6 @@ code {
 	.button-orange {
 		background: $color-orange;
 		color: #fff !important;
-		-webkit-transition: all 300ms ease;
-		-moz-transition: all 300ms ease;
-		-ms-transition: all 300ms ease;
-		-o-transition: all 300ms ease;
 		transition: all 300ms ease;
 		font-weight: bold;
 		font-family: 'Montserrat', sans-serif;
@@ -2106,6 +2154,9 @@ code {
 		&:disabled {
 			background: #aeaeae;
 			border-color: #aeaeae;
+		}
+		&.hidden {
+			display: none;
 		}
 		&.button-orange-trans {
 			background: #fff;
@@ -2135,6 +2186,20 @@ code {
 				width: 20px;
 				height: 20px;
 				background: url('../../assets/images/arr_d.svg') 0 0 no-repeat;
+			}
+		}
+		&.button-copy-s3 {
+			&:before {
+				width: 20px;
+				height: 20px;
+				background: url('../../assets/images/copy.svg') 0 0 no-repeat;
+			}
+		}
+		&.copied {
+			&:before {
+				width:  20px;
+				height:  20px;
+				background: url('../../assets/images/checkmark.svg') 0 0 no-repeat;
 			}
 		}
 		i {
