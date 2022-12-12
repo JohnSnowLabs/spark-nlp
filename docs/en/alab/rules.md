@@ -20,8 +20,8 @@ es {
 }
 </style>
 
-Rule based annotations is supported by Healthcare NLP, Finance NLP, and Legal NLP via the <es>ContextualParser</es> Annotator.
-Annotation Lab supports creating and using rules in the <es>NER</es> project using any one of these libraries with the presence of valid license scope.
+Rule based annotation is supported by Healthcare NLP, Finance NLP, and Legal NLP via the <es>ContextualParser</es> Annotator.
+Annotation Lab supports creating and using rules in a <es>NER</es> project using any one of these libraries with the presence of valid license.
 
 Users in the <es>Admins</es> group can see and edit the available rules on the Rules page under the Models Hub menu. Users can create new rules using the _+ Add Rules_ button. Users can also import and export the rules.
 

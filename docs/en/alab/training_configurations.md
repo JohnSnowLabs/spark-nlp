@@ -172,7 +172,7 @@ The trained classification models are available to reuse in any project and can 
 
 <img class="image image__shadow" src="/assets/images/annotation_lab/4.1.0/classification_pipeline.png" style="width:80%;"/>
 
-The classification models trained using Annotation Lab also contains the benchmarking information. It includes the confusion matrix in the training logs which is helpful in understanding the performance of the model and check if the model is underfitting or overfitting. The confusion matrix is also available on the models on the Models page, which is accessible by clicking on the benchmarking icon.
+The classification models trained using Annotation Lab also have attached benchmarking information. The training logs include the confusion matrix, helpful in understanding the performance of the model and in checking if the model is underfitting or overfitting. The confusion matrix is also available on the models tiles on the Models page, and  is accessible by clicking on the benchmarking icon.
 
 <img class="image image__shadow" src="https://user-images.githubusercontent.com/10126570/204807841-5202b1b8-60c0-4fd7-a504-46638c8e9611.gif" style="width:100%;"/>
 

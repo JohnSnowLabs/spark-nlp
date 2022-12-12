@@ -46,7 +46,7 @@ A submitted completion is no longer editable, and the user cannot delete it. Cre
 
 <img class="image image__shadow" src="/assets/images/annotation_lab/4.1.0/completion_submit.png" style="width:100%;"/>
 
-The action icons are also available on the completions to allow users to quickly run the appropriate actions like delete, copy, set ground-truth.
+Dedicated action icons are available on the completions widgets to allow users to quickly run actions like delete, copy, set ground-truth.
 
 <img class="image image__shadow" src="https://user-images.githubusercontent.com/45035063/204707502-acaba8b8-43d0-4354-8c14-4f66132131ad.png" style="width:100%;"/>
 

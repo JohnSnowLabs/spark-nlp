@@ -55,7 +55,7 @@ When predictions are available for a task, Annotator can accept the predictions 
 
 <img class="image image__shadow" src="/assets/images/annotation_lab/4.1.0/accept_prediction.gif" style="width:100%;"/>
 
-> **NOTE:** Press backspace key (on windows) or delete key (on mac) or use the delete action icon on the Relations widget to delete the relations directly from the labeling editor.
+> **NOTE:** Press backspace key (on windows) or delete key (on mac) to delete the selected relation from the labeling editor or use the delete action icon on the Relations widget.
 
 ## Labeling editor Settings
 
