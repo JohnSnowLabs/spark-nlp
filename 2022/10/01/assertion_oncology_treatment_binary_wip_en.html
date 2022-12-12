@@ -425,7 +425,7 @@
 
 <p><code class="language-plaintext highlighter-rouge">Hypothetical_Or_Absent</code>, <code class="language-plaintext highlighter-rouge">Present_Or_Past</code></p>
 
-<p class="btn-box"><button class="button button-orange" disabled="">Live Demo</button>
+<p class="btn-box"><a href="https://demo.johnsnowlabs.com/healthcare/ASSERTION_ONCOLOGY/" class="button button-orange">Live Demo</a>
 <a href="https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/27.Oncology_Model.ipynb" class="button button-orange button-orange-trans co button-icon">Open in Colab</a>
 <a href="https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/assertion_oncology_treatment_binary_wip_en_4.1.0_3.0_1664641549969.zip" class="button button-orange button-orange-trans arr button-icon">Download</a></p>
 
@@ -458,7 +458,8 @@
 
 <span class="n">ner_converter</span> <span class="o">=</span> <span class="n">NerConverter</span><span class="p">()</span> \
     <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"sentence"</span><span class="p">,</span> <span class="s">"token"</span><span class="p">,</span> <span class="s">"ner"</span><span class="p">])</span> \
-    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"ner_chunk"</span><span class="p">)</span>    <span class="p">.</span><span class="n">setWhiteList</span><span class="p">([</span><span class="s">"Cancer_Surgery"</span><span class="p">,</span> <span class="s">"Chemotherapy"</span><span class="p">])</span>
+    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"ner_chunk"</span><span class="p">)</span>\    
+    <span class="p">.</span><span class="n">setWhiteList</span><span class="p">([</span><span class="s">"Cancer_Surgery"</span><span class="p">,</span> <span class="s">"Chemotherapy"</span><span class="p">])</span>
     
 <span class="n">assertion</span> <span class="o">=</span> <span class="n">AssertionDLModel</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"assertion_oncology_treatment_binary_wip"</span><span class="p">,</span> <span class="s">"en"</span><span class="p">,</span> <span class="s">"clinical/models"</span><span class="p">)</span> \
     <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"sentence"</span><span class="p">,</span> <span class="s">"ner_chunk"</span><span class="p">,</span> <span class="s">"embeddings"</span><span class="p">])</span> \
