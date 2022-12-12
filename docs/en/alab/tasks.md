@@ -6,7 +6,7 @@ seotitle: Annotation Lab | John Snow Labs
 title: Tasks
 permalink: /docs/en/alab/tasks
 key: docs-training
-modify_date: "2022-12-01"
+modify_date: "2022-12-11"
 use_language_switcher: "Python-Scala"
 show_nav: true
 sidebar:
@@ -27,7 +27,11 @@ For assigning a task to an annotator, from the task page select one or more task
 
 <img class="image image__shadow" src="/assets/images/annotation_lab/4.1.0/task_assignment.gif" style="width:100%;"/>
 
-You can only assign a task to annotators that have already been added to the project team. For adding an annotator to the project team, select your project and navigate to the `Setup>Team` menu item. On the `Add Team Member` page, search for the user you want to add, select the role you want to assign to him/her and click on `Add To Team` button.
+You can only assign a task to annotators that have already been added to the project team. For adding an annotator to the project team, select your project and navigate to the `Setup > Team` menu item. On the `Add Team Member` page, search for the user you want to add, select the role you want to assign to him/her and click on `Add To Team` button.
+
+Project Owners can also be explicitly assigned as annotators and/or reviewers for tasks. It is useful when working in a small team and when the Project Owners are also involved in the annotation process. A new option `Only Assigned` checkbox is now available on the labeling page that allows Project Owners to filter the tasks explicitly assigned to them when clicking the `Next` button.
+
+<img class="image image__shadow" src="https://user-images.githubusercontent.com/17021686/204805373-4e5a5a7b-a520-4e9f-ad08-452bec165ef8.gif" style="width:100%;"/>
 
 > **NOTE:** When upgrading from an older version of the Annotation Lab, the annotators will no longer have access to the tasks they worked on unless they are assigned to those explicitely by the admin user who created the project. Once they are assigned, they can resume work and no information is lost.
 
