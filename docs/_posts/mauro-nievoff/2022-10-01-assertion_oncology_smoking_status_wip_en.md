@@ -59,7 +59,8 @@ ner = MedicalNerModel.pretrained("ner_oncology_wip", "en", "clinical/models") \
 
 ner_converter = NerConverter() \
     .setInputCols(["sentence", "token", "ner"]) \
-    .setOutputCol("ner_chunk")    .setWhiteList(["Smoking_Status"])
+    .setOutputCol("ner_chunk")\    
+    .setWhiteList(["Smoking_Status"])
     
 assertion = AssertionDLModel.pretrained("assertion_oncology_smoking_status_wip", "en", "clinical/models") \
     .setInputCols(["sentence", "ner_chunk", "embeddings"]) \

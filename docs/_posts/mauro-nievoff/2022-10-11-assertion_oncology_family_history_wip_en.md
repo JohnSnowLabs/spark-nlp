@@ -59,7 +59,8 @@ ner = MedicalNerModel.pretrained("ner_oncology_wip", "en", "clinical/models") \
 
 ner_converter = NerConverter() \
     .setInputCols(["sentence", "token", "ner"]) \
-    .setOutputCol("ner_chunk")    .setWhiteList(["Cancer_Dx"])
+    .setOutputCol("ner_chunk")\    
+    .setWhiteList(["Cancer_Dx"])
     
 assertion = AssertionDLModel.pretrained("assertion_oncology_family_history_wip", "en", "clinical/models") \
     .setInputCols(["sentence", "ner_chunk", "embeddings"]) \
