@@ -28,6 +28,10 @@ CATEGORY
 [GenericClassifierModel](https://nlp.johnsnowlabs.com/licensed/api/com/johnsnowlabs/nlp/annotators/generic_classifier/GenericClassifierModel)
 {%- endcapture -%}
 
+{%- capture model_python_api_link -%}
+[GenericClassifierModel](https://nlp.johnsnowlabs.com/licensed/api/python/reference/autosummary/sparknlp_jsl/annotator/generic_classifier/generic_classifier/index.html#sparknlp_jsl.annotator.generic_classifier.generic_classifier.GenericClassifierModel)
+{%- endcapture -%}
+
 {%- capture approach_description -%}
 Trains a TensorFlow model for generic classification of feature vectors. It takes FEATURE_VECTOR annotations from
 `FeaturesAssembler` as input, classifies them and outputs CATEGORY annotations.
@@ -216,12 +220,13 @@ val clf_model = pipeline.fit(data)
 
 {%- endcapture -%}
 
-
-
 {%- capture approach_api_link -%}
 [GenericClassifierApproach](https://nlp.johnsnowlabs.com/licensed/api/com/johnsnowlabs/nlp/annotators/generic_classifier/GenericClassifierApproach)
 {%- endcapture -%}
 
+{%- capture approach_python_api_link -%}
+[GenericClassifierApproach](https://nlp.johnsnowlabs.com/licensed/api/python/reference/autosummary/sparknlp_jsl/annotator/generic_classifier/generic_classifier/index.html#sparknlp_jsl.annotator.generic_classifier.generic_classifier.GenericClassifierApproach)
+{%- endcapture -%}
 
 {% include templates/licensed_approach_model_medical_fin_leg_template.md
 title=title
@@ -231,6 +236,7 @@ model_description=model_description
 model_input_anno=model_input_anno
 model_output_anno=model_output_anno
 model_api_link=model_api_link
+model_python_api_link=model_python_api_link
 approach_description=approach_description
 approach_input_anno=approach_input_anno
 approach_output_anno=approach_output_anno
@@ -241,4 +247,5 @@ approach_scala_medical=approach_scala_medical
 approach_scala_legal=approach_scala_legal
 approach_scala_finance=approach_scala_finance
 approach_api_link=approach_api_link
+approach_python_api_link=approach_python_api_link
 %}

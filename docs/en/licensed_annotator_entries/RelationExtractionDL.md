@@ -378,7 +378,9 @@ val result = pipeline.fit(data).transform(data)
 [RelationExtractionDLModel](https://nlp.johnsnowlabs.com/licensed/api/com/johnsnowlabs/nlp/annotators/re/RelationExtractionDLModel)
 {%- endcapture -%}
 
-
+{%- capture model_python_api_link -%}
+[RelationExtractionDLModel](https://nlp.johnsnowlabs.com/licensed/api/python/reference/autosummary/sparknlp_jsl/annotator/re/relation_extraction_dl/index.html#sparknlp_jsl.annotator.re.relation_extraction_dl.RelationExtractionDLModel)
+{%- endcapture -%}
 
 {% include templates/licensed_approach_model_medical_fin_leg_template.md
 title=title
@@ -392,4 +394,5 @@ model_python_legal=model_python_legal
 model_scala_legal=model_scala_legal
 model_python_finance=model_python_finance
 model_scala_finance=model_scala_finance
-model_api_link=model_api_link%}
+model_api_link=model_api_link
+model_python_api_link=model_python_api_link%}
