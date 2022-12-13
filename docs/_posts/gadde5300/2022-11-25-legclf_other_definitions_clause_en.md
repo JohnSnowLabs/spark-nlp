@@ -36,7 +36,8 @@ This model is a Binary Classifier (True, False) for the `other-definitions` clau
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>
 <button class="button button-orange" disabled>Open in Colab</button>
-[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/legal/models/legclf_other_definitions_clause_en_1.0.0_3.0_1669377373724.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
+[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/legal/models/legclf_other_definitions_clause_en_1.0.0_3.0_1669377373724.zip){:.button.button-orange.button-orange-trans.arr.button-icon.hidden}
+[Copy S3 URI](s3://auxdata.johnsnowlabs.com/legal/models/legclf_other_definitions_clause_en_1.0.0_3.0_1669377373724.zip){:.button.button-orange.button-orange-trans.button-icon.button-copy-s3}
 
 ## How to use
 

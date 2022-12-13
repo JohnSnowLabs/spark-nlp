@@ -27,7 +27,8 @@ The T5 transformer model described in the seminal paper “Exploring the Limits 
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>
 <button class="button button-orange" disabled>Open in Colab</button>
-[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/t5_base_pubmedqa_en_4.1.0_3.2_1666670271455.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
+[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/t5_base_pubmedqa_en_4.1.0_3.2_1666670271455.zip){:.button.button-orange.button-orange-trans.arr.button-icon.hidden}
+[Copy S3 URI](s3://auxdata.johnsnowlabs.com/clinical/models/t5_base_pubmedqa_en_4.1.0_3.2_1666670271455.zip){:.button.button-orange.button-orange-trans.button-icon.button-copy-s3}
 
 ## How to use
 

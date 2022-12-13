@@ -27,7 +27,8 @@ This is a Text Cassification model, which can help you identify if a model is an
 {:.btn-box}
 [Live Demo](https://demo.johnsnowlabs.com/finance/FINCLF_EARNING_BROKER_10K/){:.button.button-orange}
 <button class="button button-orange" disabled>Open in Colab</button>
-[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/finance/models/finclf_earning_broker_10k_en_1.0.0_3.0_1669296495349.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
+[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/finance/models/finclf_earning_broker_10k_en_1.0.0_3.0_1669296495349.zip){:.button.button-orange.button-orange-trans.arr.button-icon.hidden}
+[Copy S3 URI](s3://auxdata.johnsnowlabs.com/finance/models/finclf_earning_broker_10k_en_1.0.0_3.0_1669296495349.zip){:.button.button-orange.button-orange-trans.button-icon.button-copy-s3}
 
 ## How to use
 

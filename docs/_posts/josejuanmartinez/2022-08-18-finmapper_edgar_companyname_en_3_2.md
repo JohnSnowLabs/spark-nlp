@@ -34,7 +34,8 @@ IMPORTANT: Chunk Mappers work with exact matches, so before using Chunk Mapping,
 {:.btn-box}
 [Live Demo](https://demo.johnsnowlabs.com/finance/FIN_LEG_COMPANY_AUGMENTATION/){:.button.button-orange}
 <button class="button button-orange" disabled>Open in Colab</button>
-[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/finance/models/finmapper_edgar_companyname_en_1.0.0_3.2_1660817326595.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
+[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/finance/models/finmapper_edgar_companyname_en_1.0.0_3.2_1660817326595.zip){:.button.button-orange.button-orange-trans.arr.button-icon.hidden}
+[Copy S3 URI](s3://auxdata.johnsnowlabs.com/finance/models/finmapper_edgar_companyname_en_1.0.0_3.2_1660817326595.zip){:.button.button-orange.button-orange-trans.button-icon.button-copy-s3}
 
 ## How to use
 

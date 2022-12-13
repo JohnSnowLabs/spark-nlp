@@ -24,6 +24,7 @@ Pretrained RoBERTa Embeddings model, uploaded to Hugging Face, adapted and impor
 <button class="button button-orange" disabled>Live Demo</button>
 <button class="button button-orange" disabled>Open in Colab</button>
 [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/roberta_embeddings_indonesian_roberta_large_id_3.4.2_3.0_1649948688324.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
+[Copy S3 URI](s3://auxdata.johnsnowlabs.com/public/models/roberta_embeddings_indonesian_roberta_large_id_3.4.2_3.0_1649948688324.zip){:.button.button-orange.button-orange-trans.button-icon.button-copy-s3}
 
 ## How to use
 

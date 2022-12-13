@@ -23,6 +23,7 @@ This model contains a pre-trained weights of BioBERT, a language representation 
 <button class="button button-orange" disabled>Live Demo</button>
 <button class="button button-orange" disabled>Open in Colab</button>
 [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/sent_biobert_pmc_base_cased_en_2.6.0_2.4_1598348966950.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
+[Copy S3 URI](s3://auxdata.johnsnowlabs.com/public/models/sent_biobert_pmc_base_cased_en_2.6.0_2.4_1598348966950.zip){:.button.button-orange.button-orange-trans.button-icon.button-copy-s3}
 
 ## How to use
 

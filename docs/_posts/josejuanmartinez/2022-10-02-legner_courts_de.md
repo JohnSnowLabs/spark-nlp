@@ -52,7 +52,8 @@ German Named Entity Recognition model, trained using a Deep Learning architectur
 {:.btn-box}
 [Live Demo](https://demo.johnsnowlabs.com/healthcare/NER_LEGAL_DE/){:.button.button-orange}
 <button class="button button-orange" disabled>Open in Colab</button>
-[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/legal/models/legner_courts_de_1.0.0_3.0_1664706079878.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
+[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/legal/models/legner_courts_de_1.0.0_3.0_1664706079878.zip){:.button.button-orange.button-orange-trans.arr.button-icon.hidden}
+[Copy S3 URI](s3://auxdata.johnsnowlabs.com/legal/models/legner_courts_de_1.0.0_3.0_1664706079878.zip){:.button.button-orange.button-orange-trans.button-icon.button-copy-s3}
 
 ## How to use
 

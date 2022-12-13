@@ -32,7 +32,8 @@ Extract potential improvements or harmful effects of Drug-Drug interactions (DDI
 {:.btn-box}
 [Live Demo](https://demo.johnsnowlabs.com/healthcare/RE_DRUG_DRUG_INT/){:.button.button-orange}
 [Open in Colab](https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/10.Clinical_Relation_Extraction.ipynb){:.button.button-orange.button-orange-trans.co.button-icon}
-[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/redl_drug_drug_interaction_biobert_en_3.0.3_2.4_1627119817997.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
+[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/redl_drug_drug_interaction_biobert_en_3.0.3_2.4_1627119817997.zip){:.button.button-orange.button-orange-trans.arr.button-icon.hidden}
+[Copy S3 URI](s3://auxdata.johnsnowlabs.com/clinical/models/redl_drug_drug_interaction_biobert_en_3.0.3_2.4_1627119817997.zip){:.button.button-orange.button-orange-trans.button-icon.button-copy-s3}
 
 
 ## How to use
