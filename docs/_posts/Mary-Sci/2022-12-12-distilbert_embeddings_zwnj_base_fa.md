@@ -1,10 +1,10 @@
 ---
 layout: model
-title: Persian RobertaForMaskedLM Base Cased model (from HooshvareLab)
+title: Persian DistilBertForMaskedLM Base Cased model (from HooshvareLab)
 author: John Snow Labs
-name: roberta_embeddings_fa_zwnj_base
+name: distilbert_embeddings_zwnj_base
 date: 2022-12-12
-tags: [fa, open_source, roberta_embeddings, robertaformaskedlm]
+tags: [fa, open_source, distilbert_embeddings, distilbertformaskedlm]
 task: Embeddings
 language: fa
 edition: Spark NLP 4.2.4
@@ -17,12 +17,12 @@ use_language_switcher: "Python-Scala-Java"
 
 ## Description
 
-Pretrained RobertaForMaskedLM model, adapted from Hugging Face and curated to provide scalability and production-readiness using Spark NLP. `roberta-fa-zwnj-base` is a Persian model originally trained by `HooshvareLab`.
+Pretrained DistilBertForMaskedLM model, adapted from Hugging Face and curated to provide scalability and production-readiness using Spark NLP. `distilbert-zwnj-base` is a Persian model originally trained by `HooshvareLab`.
 
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>
 <button class="button button-orange" disabled>Open in Colab</button>
-[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/roberta_embeddings_fa_zwnj_base_fa_4.2.4_3.0_1670859322662.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
+[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/distilbert_embeddings_zwnj_base_fa_4.2.4_3.0_1670864832075.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
 
 ## How to use
 
@@ -39,12 +39,12 @@ tokenizer = Tokenizer() \
     .setInputCols("document") \
     .setOutputCol("token")
 
-roberta_loaded = RoBertaEmbeddings.pretrained("roberta_embeddings_fa_zwnj_base","fa") \
+distilbert_loaded = DistilBertEmbeddings.pretrained("distilbert_embeddings_zwnj_base","fa") \
     .setInputCols(["document", "token"]) \
     .setOutputCol("embeddings") \
-    .setCaseSensitive(True)
+    .setCaseSensitive(False)
     
-pipeline = Pipeline(stages=[documentAssembler, tokenizer, roberta_loaded])
+pipeline = Pipeline(stages=[documentAssembler, tokenizer, distilbert_loaded])
 
 data = spark.createDataFrame([["I love Spark NLP"]]).toDF("text")
 
@@ -59,12 +59,12 @@ val tokenizer = new Tokenizer()
     .setInputCols("document")
     .setOutputCol("token")
  
-val roberta_loaded = RoBertaEmbeddings.pretrained("roberta_embeddings_fa_zwnj_base","fa") 
+val distilbert_loaded = DistilBertEmbeddings.pretrained("distilbert_embeddings_zwnj_base","fa") 
     .setInputCols(Array("document", "token"))
     .setOutputCol("embeddings")
-    .setCaseSensitive(true)    
+    .setCaseSensitive(false)    
    
-val pipeline = new Pipeline().setStages(Array(documentAssembler, tokenizer, roberta_loaded))
+val pipeline = new Pipeline().setStages(Array(documentAssembler, tokenizer, distilbert_loaded))
 
 val data = Seq("I love Spark NLP").toDS.toDF("text")
 
@@ -77,17 +77,17 @@ val result = pipeline.fit(data).transform(data)
 
 {:.table-model}
 |---|---|
-|Model Name:|roberta_embeddings_fa_zwnj_base|
+|Model Name:|distilbert_embeddings_zwnj_base|
 |Compatibility:|Spark NLP 4.2.4+|
 |License:|Open Source|
 |Edition:|Official|
 |Input Labels:|[sentence, token]|
 |Output Labels:|[embeddings]|
 |Language:|fa|
-|Size:|444.8 MB|
-|Case sensitive:|true|
+|Size:|282.5 MB|
+|Case sensitive:|false|
 
 ## References
 
-- https://huggingface.co/HooshvareLab/roberta-fa-zwnj-base
-- https://github.com/hooshvare/roberta/issues
+- https://huggingface.co/HooshvareLab/distilbert-fa-zwnj-base
+- https://github.com/hooshvare/parsbert/issues
