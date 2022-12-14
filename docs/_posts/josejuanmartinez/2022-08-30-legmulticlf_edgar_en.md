@@ -108,7 +108,6 @@ Ledgar dataset, available at https://metatext.io/datasets/ledgar, with in-house 
 ## Benchmarking
 
 ```bash
-Classification report: 
 label              precision    recall    f1-score  support
 amendments         0.89         0.66      0.76      2126
 expenses           0.74         0.45      0.56       783
