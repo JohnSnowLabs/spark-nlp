@@ -135,26 +135,25 @@ An in-house modified version of https://huggingface.co/datasets/nlpaueb/finer-13
 ## Benchmarking
 
 ```bash
-                                                                          precision    recall  f1-score   support
+label                                                                     precision    recall  f1-score   support
 
-                              B-AccrualForEnvironmentalLossContingencies     1.0000    0.9386    0.9683       228
-          B-AcquiredFiniteLivedIntangibleAssetsWeightedAverageUsefulLife     0.9968    0.9778    0.9872       316
-                                B-AllocatedShareBasedCompensationExpense     0.9931    0.9885    0.9908      1735
-                                          B-AmortizationOfFinancingCosts     0.9806    0.9268    0.9530       164
-                                        B-AmortizationOfIntangibleAssets     0.9910    0.9821    0.9865      1227
- B-AntidilutiveSecuritiesExcludedFromComputationOfEarningsPerShareAmount     0.9949    1.0000    0.9975      1570
-                                              B-AreaOfRealEstateProperty     0.9421    1.0000    0.9702       114
-                                                B-AssetImpairmentCharges     0.9298    0.9815    0.9550       270
-B-BusinessAcquisitionEquityInterestsIssuedOrIssuableNumberOfSharesIssued     0.9760    0.9606    0.9683       127
-                B-BusinessAcquisitionPercentageOfVotingInterestsAcquired     0.9572    0.9968    0.9766       314
-                            B-BusinessCombinationAcquisitionRelatedCosts     0.9597    0.9375    0.9485       432
-                          B-BusinessCombinationConsiderationTransferred1     0.9706    0.9354    0.9527       495
-          I-AcquiredFiniteLivedIntangibleAssetsWeightedAverageUsefulLife     0.9804    0.8929    0.9346        56
- I-AntidilutiveSecuritiesExcludedFromComputationOfEarningsPerShareAmount     1.0000    1.0000    1.0000         2
-                                              I-AreaOfRealEstateProperty     1.0000    1.0000    1.0000         1
-                                                                       O     0.9992    0.9995    0.9993    164664
-
-                                                                accuracy                         0.9986    171715
-                                                               macro avg     0.9795    0.9699    0.9743    171715
-                                                            weighted avg     0.9986    0.9986    0.9986    171715
+B-AccrualForEnvironmentalLossContingencies                                  1.0000    0.9386    0.9683       228
+B-AcquiredFiniteLivedIntangibleAssetsWeightedAverageUsefulLife              0.9968    0.9778    0.9872       316
+B-AllocatedShareBasedCompensationExpense                                    0.9931    0.9885    0.9908      1735
+B-AmortizationOfFinancingCosts                                              0.9806    0.9268    0.9530       164
+B-AmortizationOfIntangibleAssets                                            0.9910    0.9821    0.9865      1227
+B-AntidilutiveSecuritiesExcludedFromComputationOfEarningsPerShareAmount     0.9949    1.0000    0.9975      1570
+B-AreaOfRealEstateProperty                                                  0.9421    1.0000    0.9702       114
+B-AssetImpairmentCharges                                                    0.9298    0.9815    0.9550       270
+B-BusinessAcquisitionEquityInterestsIssuedOrIssuableNumberOfSharesIssued    0.9760    0.9606    0.9683       127
+B-BusinessAcquisitionPercentageOfVotingInterestsAcquired                    0.9572    0.9968    0.9766       314
+B-BusinessCombinationAcquisitionRelatedCosts                                0.9597    0.9375    0.9485       432
+B-BusinessCombinationConsiderationTransferred1                              0.9706    0.9354    0.9527       495
+I-AcquiredFiniteLivedIntangibleAssetsWeightedAverageUsefulLife              0.9804    0.8929    0.9346        56
+I-AntidilutiveSecuritiesExcludedFromComputationOfEarningsPerShareAmount     1.0000    1.0000    1.0000         2
+I-AreaOfRealEstateProperty                                                  1.0000    1.0000    1.0000         1
+O                                                                           0.9992    0.9995    0.9993    164664
+accuracy                                                                    -         -         0.9986    171715
+macro-avg                                                                   0.9795    0.9699    0.9743    171715
+weighted-avg                                                                0.9986    0.9986    0.9986    171715
 ```
