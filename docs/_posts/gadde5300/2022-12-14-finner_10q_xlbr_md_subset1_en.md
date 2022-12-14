@@ -28,7 +28,7 @@ This is a large (`md`) model, trained with 200K sentences.
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>
 <button class="button button-orange" disabled>Open in Colab</button>
-[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/finance/models/finner_10q_xlbr_md_subset1_en_1.0.0_3.0_1671033651073.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
+[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/finance/models/finner_10q_xlbr_md_subset1_en_1.0.0_3.0_1671033764991.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
 
 ## How to use
 
@@ -82,6 +82,37 @@ result_df.show(50, truncate=100)
 ```
 
 </div>
+
+## Results
+
+```bash
+
++-----------+------------------------------------------------------------------------+----------+
+|token      |ner_label                                                               |confidence|
++-----------+------------------------------------------------------------------------+----------+
+|Common     |O                                                                       |1.0       |
+|Stock      |O                                                                       |1.0       |
+|The        |O                                                                       |1.0       |
+|authorized |O                                                                       |1.0       |
+|capital    |O                                                                       |1.0       |
+|of         |O                                                                       |1.0       |
+|the        |O                                                                       |1.0       |
+|Company    |O                                                                       |1.0       |
+|is         |O                                                                       |1.0       |
+|200,000,000|B-BusinessAcquisitionEquityInterestsIssuedOrIssuableNumberOfSharesIssued|0.9905    |
+|common     |O                                                                       |1.0       |
+|shares     |O                                                                       |1.0       |
+|,          |O                                                                       |1.0       |
+|par        |O                                                                       |1.0       |
+|value      |O                                                                       |1.0       |
+|$          |O                                                                       |1.0       |
+|0.001      |O                                                                       |0.995     |
+|,          |O                                                                       |1.0       |
+|of         |O                                                                       |1.0       |
+|which      |O                                                                       |1.0       |
++-----------+------------------------------------------------------------------------+----------+
+
+```
 
 {:.model-param}
 ## Model Information
