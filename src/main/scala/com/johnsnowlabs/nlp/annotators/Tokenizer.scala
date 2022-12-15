@@ -134,6 +134,17 @@ class Tokenizer(override val uid: String) extends AnnotatorApproach[TokenizerMod
     * "!", "?", "*", "-", "(", ")", "\"", "'")`)
     * @group param
     */
+
+  val indexOffSet: BooleanParam = new BooleanParam(
+    this,
+    "indexOffSet",
+    "Whether to remove the offset from indexes")
+
+  /** Used to decide if returned Start and End positions offset is removed
+    *
+    * @group param
+    */
+
   val contextChars: StringArrayParam = new StringArrayParam(
     this,
     "contextChars",
@@ -377,6 +388,18 @@ class Tokenizer(override val uid: String) extends AnnotatorApproach[TokenizerMod
     */
   def getCaseSensitiveExceptions(value: Boolean): Boolean = $(caseSensitiveExceptions)
 
+  /** Whether to remove offset from index
+    *
+    * @group getParam
+    */
+  def setIndexOffSet(value: Boolean): this.type = set(indexOffSet, value)
+
+  /** Whether Whether to remove offset from index
+    *
+    * @group getParam
+    */
+  def getIndexOffSet(value: Boolean): Boolean = $(indexOffSet)
+
   /** Add an extension pattern regex with groups to the top of the rules (will target first, from
     * more specific to the more general).
     *
@@ -482,6 +505,7 @@ class Tokenizer(override val uid: String) extends AnnotatorApproach[TokenizerMod
     targetPattern -> "\\S+",
     contextChars -> Array(".", ",", ";", ":", "!", "?", "*", "-", "(", ")", "\"", "'"),
     caseSensitiveExceptions -> true,
+    indexOffSet -> false,
     minLength -> 0)
 
   /** Build rule factory which combines all defined parameters to build regex that is applied to
@@ -538,6 +562,7 @@ class Tokenizer(override val uid: String) extends AnnotatorApproach[TokenizerMod
 
     val raw = new TokenizerModel()
       .setCaseSensitiveExceptions($(caseSensitiveExceptions))
+      .setIndexOffSet($(indexOffSet))
       .setTargetPattern($(targetPattern))
       .setRules(ruleFactory)
       .setMinLength($(minLength))

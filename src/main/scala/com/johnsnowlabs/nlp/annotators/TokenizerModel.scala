@@ -84,6 +84,17 @@ class TokenizerModel(override val uid: String)
     *
     * @group param
     */
+
+  val indexOffSet: BooleanParam = new BooleanParam(
+    this,
+    "indexOffSet",
+    "Whether to remove the offset from indexes")
+
+  /** Used to decide if returned Start and End positions offset is removed
+    *
+    * @group param
+    */
+
   val targetPattern: Param[String] = new Param(
     this,
     "targetPattern",
@@ -119,7 +130,7 @@ class TokenizerModel(override val uid: String)
     "splitPattern",
     "pattern to separate from the inside of tokens. takes priority over splitChars.")
 
-  setDefault(targetPattern -> "\\S+", caseSensitiveExceptions -> true)
+  setDefault(targetPattern -> "\\S+", caseSensitiveExceptions -> true,indexOffSet->false)
 
   /** Output annotator type : TOKEN
     *
@@ -197,6 +208,21 @@ class TokenizerModel(override val uid: String)
     *
     * @group setParam
     */
+
+  def setIndexOffSet(value: Boolean): this.type = set(indexOffSet, value)
+
+  /** Whether Whether to remove offset from index
+    *
+    * @group getParam
+    */
+  def getIndexOffSet(value: Boolean): Boolean = $(indexOffSet)
+
+  /** Add an extension pattern regex with groups to the top of the rules (will target first, from
+    * more specific to the more general).
+    *
+    * @group getParam
+    */
+
   def setMinLength(value: Int): this.type = set(minLength, value)
 
   /** Set the minimum allowed length for each token
@@ -287,6 +313,8 @@ class TokenizerModel(override val uid: String)
     lazy val splitCharsExists = $(splitChars).map(_.last.toString)
     sentences.map { text =>
       /** Step 1, define breaks from non breaks */
+
+      val offset = if ($(indexOffSet)) 0 else 1
       val exceptionsDefined = get(exceptions).isDefined
 
       var exceptionsWithoutBreak: Option[mutable.HashSet[String]] = None
@@ -331,7 +359,7 @@ class TokenizerModel(override val uid: String)
               IndexedToken(
                 text.content.slice(candidate.start, candidate.end),
                 text.start + candidate.start,
-                text.start + candidate.end - 1))
+                text.start + candidate.end - offset))
           } else {
 
             /** Step 3, If no exception found, find candidates through the possible general rule
@@ -358,7 +386,7 @@ class TokenizerModel(override val uid: String)
                             IndexedToken(
                               str,
                               text.start + candidate.start + curPos,
-                              text.start + candidate.start + curPos + str.length - 1)
+                              text.start + candidate.start + curPos + str.length - offset)
                           } finally {
                             curPos += str.length + 1
                           })
@@ -369,7 +397,7 @@ class TokenizerModel(override val uid: String)
                       val it = IndexedToken(
                         target,
                         text.start + candidate.start + curPos,
-                        text.start + candidate.start + curPos + target.length - 1)
+                        text.start + candidate.start + curPos + target.length - offset)
                       curPos += target.length
                       Seq(it)
                     }
@@ -382,7 +410,7 @@ class TokenizerModel(override val uid: String)
               .getOrElse(Seq(IndexedToken(
                 candidate.matched,
                 text.start + candidate.start,
-                text.start + candidate.end - 1)))
+                text.start + candidate.end - offset)))
             rr
           }
         }

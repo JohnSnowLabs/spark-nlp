@@ -19,6 +19,6 @@ package com.johnsnowlabs.nlp.annotators.common
 /** Internal structure for a sentence that is split into tokens */
 case class TokenizedSentence(indexedTokens: Array[IndexedToken], sentenceIndex: Int) {
   lazy val tokens: Array[String] = indexedTokens.map(t => t.token)
-
+  //print(indexedTokens(0))
   def condense: String = tokens.mkString(" ")
 }
