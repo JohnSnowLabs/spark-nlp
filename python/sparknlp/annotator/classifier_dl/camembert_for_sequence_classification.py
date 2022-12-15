@@ -102,6 +102,8 @@ class CamemBertForSequenceClassification(AnnotatorModel,
 
     inputAnnotatorTypes = [AnnotatorType.DOCUMENT, AnnotatorType.TOKEN]
 
+    outputAnnotatorType = AnnotatorType.CATEGORY
+
     maxSentenceLength = Param(Params._dummy(),
                               "maxSentenceLength",
                               "Max sentence length to process",
