@@ -88,6 +88,8 @@ class Wav2Vec2ForCTC(AnnotatorModel,
 
     inputAnnotatorTypes = [AnnotatorType.AUDIO]
 
+    outputAnnotatorType = AnnotatorType.DOCUMENT
+
     configProtoBytes = Param(Params._dummy(),
                              "configProtoBytes",
                              "ConfigProto from tensorflow, serialized into byte array. Get with "

@@ -83,6 +83,8 @@ class RegexTokenizer(AnnotatorModel):
 
     inputAnnotatorTypes = [AnnotatorType.DOCUMENT]
 
+    outputAnnotatorType = AnnotatorType.TOKEN
+
     @keyword_only
     def __init__(self):
         super(RegexTokenizer, self).__init__(classname="com.johnsnowlabs.nlp.annotators.RegexTokenizer")

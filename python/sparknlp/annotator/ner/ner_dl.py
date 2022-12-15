@@ -191,6 +191,8 @@ class NerDLApproach(AnnotatorApproach, NerApproach, EvaluationDLParams):
 
     inputAnnotatorTypes = [AnnotatorType.DOCUMENT, AnnotatorType.TOKEN, AnnotatorType.WORD_EMBEDDINGS]
 
+    outputAnnotatorType = AnnotatorType.NAMED_ENTITY
+
     lr = Param(Params._dummy(), "lr", "Learning Rate", TypeConverters.toFloat)
 
     po = Param(Params._dummy(), "po", "Learning rate decay coefficient. Real Learning Rage = lr / (1 + po * epoch)",
@@ -501,6 +503,8 @@ class NerDLModel(AnnotatorModel, HasStorageRef, HasBatchedAnnotate, HasEngine):
     name = "NerDLModel"
 
     inputAnnotatorTypes = [AnnotatorType.DOCUMENT, AnnotatorType.TOKEN, AnnotatorType.WORD_EMBEDDINGS]
+
+    outputAnnotatorType = AnnotatorType.NAMED_ENTITY
 
     def __init__(self, classname="com.johnsnowlabs.nlp.annotators.ner.dl.NerDLModel", java_model=None):
         super(NerDLModel, self).__init__(
