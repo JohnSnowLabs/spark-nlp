@@ -3,14 +3,26 @@ import sbt._
 object Dependencies {
 
   /** ------- Spark version start ------- */
+  /* default spark version to base the APIS */
   val spark32Ver = "3.2.1"
+  /* only used in unit tests */
+  val spark30Ver = "3.0.3"
+  val spark31Ver = "3.1.3"
+  val spark33Ver = "3.3.1"
 
+  /* required for different hardware */
   val is_gpu: String = System.getProperty("is_gpu", "false")
   val is_opt: String = System.getProperty("is_opt", "false")
   val is_m1: String = System.getProperty("is_m1", "false")
   val is_aarch64: String = System.getProperty("is_aarch64", "false")
 
-  val sparkVer: String = getSparkVersion
+  /* only used for unit tests */
+  val is_spark30: String = System.getProperty("is_spark30", "false")
+  val is_spark31: String = System.getProperty("is_spark31", "false")
+  val is_spark32: String = System.getProperty("is_spark32", "true")
+  val is_spark33: String = System.getProperty("is_spark33", "false")
+
+  val sparkVer: String = getSparkVersion(is_spark30, is_spark31, is_spark32, is_spark33)
 
   /** ------- Spark version end ------- */
 
@@ -27,8 +39,21 @@ object Dependencies {
     }
   }
 
-  def getSparkVersion: String = {
-    spark32Ver
+  def getSparkVersion(
+      is_spark30: String,
+      is_spark31: String,
+      is_spark32: String,
+      is_spark33: String): String = {
+    if (is_spark30.equals("true")) {
+      spark30Ver
+    } else if (is_spark31.equals("true")) {
+      spark31Ver
+    } else if (is_spark33.equals("true")) {
+      spark33Ver
+    } else {
+      /* default spark version */
+      spark32Ver
+    }
   }
 
   def getJavaTarget(is_spark32: String): String = {
