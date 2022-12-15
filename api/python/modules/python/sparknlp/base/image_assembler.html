@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>python.sparknlp.base.image_assembler &#8212; Spark NLP 4.2.4 documentation</title>
+    <title>python.sparknlp.base.image_assembler &#8212; Spark NLP 4.2.5 documentation</title>
   
   
   
@@ -312,6 +312,8 @@
 
 <span class="kn">from</span> <span class="nn">pyspark</span> <span class="kn">import</span> <span class="n">keyword_only</span>
 <span class="kn">from</span> <span class="nn">pyspark.ml.param</span> <span class="kn">import</span> <span class="n">TypeConverters</span><span class="p">,</span> <span class="n">Params</span><span class="p">,</span> <span class="n">Param</span>
+
+<span class="kn">from</span> <span class="nn">sparknlp.common</span> <span class="kn">import</span> <span class="n">AnnotatorType</span>
 <span class="kn">from</span> <span class="nn">sparknlp.internal</span> <span class="kn">import</span> <span class="n">AnnotatorTransformer</span>
 
 
@@ -357,6 +359,8 @@
 <span class="sd">     |    |    |    |-- value: string (valueContainsNull = true)</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
+    <span class="n">outputAnnotatorType</span> <span class="o">=</span> <span class="n">AnnotatorType</span><span class="o">.</span><span class="n">IMAGE</span>
+
     <span class="n">inputCol</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;inputCol&quot;</span><span class="p">,</span> <span class="s2">&quot;input column name&quot;</span><span class="p">,</span> <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toString</span><span class="p">)</span>
     <span class="n">outputCol</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;outputCol&quot;</span><span class="p">,</span> <span class="s2">&quot;output column name&quot;</span><span class="p">,</span> <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toString</span><span class="p">)</span>
     <span class="n">name</span> <span class="o">=</span> <span class="s1">&#39;ImageAssembler&#39;</span>
@@ -389,9 +393,11 @@
 <span class="sd">        value : str</span>
 <span class="sd">            Name of the Output Column</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">outputCol</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div></div>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">outputCol</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
 
-
+<div class="viewcode-block" id="ImageAssembler.getOutputCol"><a class="viewcode-back" href="../../../../reference/autosummary/python/sparknlp/base/image_assembler/index.html#python.sparknlp.base.image_assembler.ImageAssembler.getOutputCol">[docs]</a>    <span class="k">def</span> <span class="nf">getOutputCol</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Gets output column name of annotations.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">getOrDefault</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">outputCol</span><span class="p">)</span></div></div>
 </pre></div>
 
             </article>

@@ -1175,17 +1175,16 @@ and the <a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/
     <span class="n">sequenceClassifier</span>
 <span class="p">])</span>
 
-<span class="n">data</span> <span class="o">=</span> <span class="n">spark</span><span class="p">.</span><span class="n">createDataFrame</span><span class="p">([[</span>\<span class="s">"</span><span class="se">\"\"</span><span class="s">John Lenon was born in London and lived
-in Paris. My name is Sarah and I live in London</span><span class="se">\"\"\"</span><span class="s">]]).toDF("</span><span class="n">text</span><span class="s">")
-result = pipeline.fit(data).transform(data)
-result.select("</span><span class="n">label</span><span class="p">.</span><span class="n">result</span><span class="s">").show(truncate=False)
-+--------------------+
-|result              |
-+--------------------+
-|[neg, neg]          |
-|[pos, pos, pos, pos]|
-+--------------------+
-</span></code></pre></div>      </div>
+<span class="n">data</span> <span class="o">=</span> <span class="n">spark</span><span class="p">.</span><span class="n">createDataFrame</span><span class="p">([[</span><span class="s">"I loved this movie when I was a child."</span><span class="p">,</span> <span class="s">"It was pretty boring."</span><span class="p">]]).</span><span class="n">toDF</span><span class="p">(</span><span class="s">"text"</span><span class="p">)</span>
+<span class="n">result</span> <span class="o">=</span> <span class="n">pipeline</span><span class="p">.</span><span class="n">fit</span><span class="p">(</span><span class="n">data</span><span class="p">).</span><span class="n">transform</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+<span class="n">result</span><span class="p">.</span><span class="n">select</span><span class="p">(</span><span class="s">"label.result"</span><span class="p">).</span><span class="n">show</span><span class="p">(</span><span class="n">truncate</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+<span class="o">+------+</span>
+<span class="o">|</span><span class="n">result</span><span class="o">|</span>
+<span class="o">+------+</span>
+<span class="o">|</span><span class="p">[</span><span class="n">pos</span><span class="p">]</span> <span class="o">|</span>
+<span class="o">|</span><span class="p">[</span><span class="n">neg</span><span class="p">]</span> <span class="o">|</span>
+<span class="o">+------+</span>
+</code></pre></div>      </div>
 
       <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="nn">spark.implicits._</span>
 <span class="k">import</span> <span class="nn">com.johnsnowlabs.nlp.base._</span>
@@ -1211,16 +1210,16 @@ result.select("</span><span class="n">label</span><span class="p">.</span><span 
   <span class="n">sequenceClassifier</span>
 <span class="o">))</span>
 
-<span class="k">val</span> <span class="nv">data</span> <span class="k">=</span> <span class="nc">Seq</span><span class="o">(</span><span class="s">"John Lenon was born in London and lived in Paris. My name is Sarah and I live in London"</span><span class="o">).</span><span class="py">toDF</span><span class="o">(</span><span class="s">"text"</span><span class="o">)</span>
+<span class="k">val</span> <span class="nv">data</span> <span class="k">=</span> <span class="nc">Seq</span><span class="o">(</span><span class="s">"I loved this movie when I was a child."</span><span class="o">,</span> <span class="s">"It was pretty boring."</span><span class="o">).</span><span class="py">toDF</span><span class="o">(</span><span class="s">"text"</span><span class="o">)</span>
 <span class="k">val</span> <span class="nv">result</span> <span class="k">=</span> <span class="nv">pipeline</span><span class="o">.</span><span class="py">fit</span><span class="o">(</span><span class="n">data</span><span class="o">).</span><span class="py">transform</span><span class="o">(</span><span class="n">data</span><span class="o">)</span>
 
 <span class="nv">result</span><span class="o">.</span><span class="py">select</span><span class="o">(</span><span class="s">"label.result"</span><span class="o">).</span><span class="py">show</span><span class="o">(</span><span class="kc">false</span><span class="o">)</span>
-<span class="o">+--------------------+</span>
-<span class="o">|</span><span class="n">result</span>              <span class="o">|</span>
-<span class="o">+--------------------+</span>
-<span class="o">|[</span><span class="kt">neg</span>, <span class="kt">neg</span><span class="o">]</span>          <span class="o">|</span>
-<span class="o">|[</span><span class="kt">pos</span>, <span class="kt">pos</span>, <span class="kt">pos</span>, <span class="kt">pos</span><span class="o">]|</span>
-<span class="o">+--------------------+</span>
+<span class="o">+------+</span>
+<span class="o">|</span><span class="n">result</span><span class="o">|</span>
+<span class="o">+------+</span>
+<span class="o">|[</span><span class="kt">pos</span><span class="o">]</span> <span class="o">|</span>
+<span class="o">|[</span><span class="kt">neg</span><span class="o">]</span> <span class="o">|</span>
+<span class="o">+------+</span>
 </code></pre></div>      </div>
 
     </div>
@@ -1964,17 +1963,16 @@ and the <a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/
     <span class="n">sequenceClassifier</span>
 <span class="p">])</span>
 
-<span class="n">data</span> <span class="o">=</span> <span class="n">spark</span><span class="p">.</span><span class="n">createDataFrame</span><span class="p">([[</span><span class="s">"""John Lenon was born in London and lived
-    in Paris. My name is Sarah and I live in London"""</span><span class="p">]]).</span><span class="n">toDF</span><span class="p">(</span><span class="s">"text"</span><span class="p">)</span>
+<span class="n">data</span> <span class="o">=</span> <span class="n">spark</span><span class="p">.</span><span class="n">createDataFrame</span><span class="p">([[</span><span class="s">"I loved this movie when I was a child."</span><span class="p">,</span> <span class="s">"It was pretty boring."</span><span class="p">]]).</span><span class="n">toDF</span><span class="p">(</span><span class="s">"text"</span><span class="p">)</span>
 
 <span class="n">result</span> <span class="o">=</span> <span class="n">pipeline</span><span class="p">.</span><span class="n">fit</span><span class="p">(</span><span class="n">data</span><span class="p">).</span><span class="n">transform</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
 <span class="n">result</span><span class="p">.</span><span class="n">select</span><span class="p">(</span><span class="s">"label.result"</span><span class="p">).</span><span class="n">show</span><span class="p">(</span><span class="n">truncate</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
-<span class="o">+--------------------+</span>
-<span class="o">|</span><span class="n">result</span>              <span class="o">|</span>
-<span class="o">+--------------------+</span>
-<span class="o">|</span><span class="p">[</span><span class="n">neg</span><span class="p">,</span> <span class="n">neg</span><span class="p">]</span>          <span class="o">|</span>
-<span class="o">|</span><span class="p">[</span><span class="n">pos</span><span class="p">,</span> <span class="n">pos</span><span class="p">,</span> <span class="n">pos</span><span class="p">,</span> <span class="n">pos</span><span class="p">]</span><span class="o">|</span>
-<span class="o">+--------------------+</span>
+<span class="o">+------+</span>
+<span class="o">|</span><span class="n">result</span><span class="o">|</span>
+<span class="o">+------+</span>
+<span class="o">|</span><span class="p">[</span><span class="n">pos</span><span class="p">]</span> <span class="o">|</span>
+<span class="o">|</span><span class="p">[</span><span class="n">neg</span><span class="p">]</span> <span class="o">|</span>
+<span class="o">+------+</span>
 </code></pre></div>      </div>
 
       <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="nn">spark.implicits._</span>
@@ -2001,16 +1999,16 @@ and the <a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/
   <span class="n">sequenceClassifier</span>
 <span class="o">))</span>
 
-<span class="k">val</span> <span class="nv">data</span> <span class="k">=</span> <span class="nc">Seq</span><span class="o">(</span><span class="s">"John Lenon was born in London and lived in Paris. My name is Sarah and I live in London"</span><span class="o">).</span><span class="py">toDF</span><span class="o">(</span><span class="s">"text"</span><span class="o">)</span>
+<span class="k">val</span> <span class="nv">data</span> <span class="k">=</span> <span class="nc">Seq</span><span class="o">(</span><span class="s">"I loved this movie when I was a child."</span><span class="o">,</span> <span class="s">"It was pretty boring."</span><span class="o">).</span><span class="py">toDF</span><span class="o">(</span><span class="s">"text"</span><span class="o">)</span>
 <span class="k">val</span> <span class="nv">result</span> <span class="k">=</span> <span class="nv">pipeline</span><span class="o">.</span><span class="py">fit</span><span class="o">(</span><span class="n">data</span><span class="o">).</span><span class="py">transform</span><span class="o">(</span><span class="n">data</span><span class="o">)</span>
 
 <span class="nv">result</span><span class="o">.</span><span class="py">select</span><span class="o">(</span><span class="s">"label.result"</span><span class="o">).</span><span class="py">show</span><span class="o">(</span><span class="kc">false</span><span class="o">)</span>
-<span class="o">+--------------------+</span>
-<span class="o">|</span><span class="n">result</span>              <span class="o">|</span>
-<span class="o">+--------------------+</span>
-<span class="o">|[</span><span class="kt">neg</span>, <span class="kt">neg</span><span class="o">]</span>          <span class="o">|</span>
-<span class="o">|[</span><span class="kt">pos</span>, <span class="kt">pos</span>, <span class="kt">pos</span>, <span class="kt">pos</span><span class="o">]|</span>
-<span class="o">+--------------------+</span>
+<span class="o">+------+</span>
+<span class="o">|</span><span class="n">result</span><span class="o">|</span>
+<span class="o">+------+</span>
+<span class="o">|[</span><span class="kt">pos</span><span class="o">]</span> <span class="o">|</span>
+<span class="o">|[</span><span class="kt">neg</span><span class="o">]</span> <span class="o">|</span>
+<span class="o">+------+</span>
 </code></pre></div>      </div>
 
     </div>
@@ -2801,6 +2799,127 @@ generated by the Transformer.</p>
 </code></pre></div>        </div>
 
       </div>
+
+    </div>
+
+</details>
+
+</div>
+
+<div class="h3-box model-content">
+
+  <h2 id="camembertforsequenceclassification">CamemBertForSequenceClassification</h2>
+
+  <p>CamemBertForSequenceClassification can load CamemBERT Models with sequence
+classification/regression head on top (a linear layer on top of the pooled output) e.g. for
+multi-class document classification tasks.</p>
+
+  <p>Pretrained models can be loaded with <code class="language-plaintext highlighter-rouge">pretrained</code> of the companion object:</p>
+
+  <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>val sequenceClassifier = CamemBertForSequenceClassification.pretrained()
+  .setInputCols("token", "document")
+  .setOutputCol("label")
+</code></pre></div>  </div>
+
+  <p>The default model is <code class="language-plaintext highlighter-rouge">camembert_base_sequence_classifier_allocine"</code>, if no name is provided.</p>
+
+  <p>For available pretrained models please see the
+<a href="https://nlp.johnsnowlabs.com/models?task=Text+Classification">Models Hub</a>.</p>
+
+  <p>To see which models are compatible and how to import them see
+https://github.com/JohnSnowLabs/spark-nlp/discussions/5669 and to see more extended
+examples, see
+<a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/classifier/dl/CamemBertForSequenceClassificationTestSpec.scala">CamemBertForSequenceClassification</a>.</p>
+
+  <p><strong>Input Annotator Types:</strong> <code class="language-plaintext highlighter-rouge">DOCUMENT, TOKEN</code></p>
+
+  <p><strong>Output Annotator Type:</strong> <code class="language-plaintext highlighter-rouge">CATEGORY</code></p>
+
+  <table>
+    <tbody>
+      <tr>
+        <td><strong>Python API:</strong> <a href="/api/python/reference/autosummary/python/sparknlp/annotator/classifier_dl/camembert_for_token_classification/index.html#sparknlp.annotator.classifier_dl.camembert_for_sequence_classification.CamemBertForSequenceClassification">CamemBertForSequenceClassification</a></td>
+        <td><strong>Scala API:</strong> <a href="/api/com/johnsnowlabs/nlp/annotators/classifier/dl/CamemBertForSequenceClassification">CamemBertForSequenceClassification</a></td>
+        <td><strong>Source:</strong> <a href="https://github.com/JohnSnowLabs/spark-nlp/tree/master/src/main/scala/com/johnsnowlabs/nlp/annotators/classifier/dl/CamemBertForSequenceClassification.scala">CamemBertForSequenceClassification</a></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <details>
+
+<summary class="button"><b>Show Example</b></summary>
+
+<div class="tabs-box tabs-new">
+
+      <div class="top_tab_li">   
+    <p><button data-type="python" class="tab-li tab-li-second active">Python</button><button data-type="scala" class="tab-li tab-li-second">Scala</button></p>
+</div>
+
+      <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">sparknlp</span>
+<span class="kn">from</span> <span class="nn">sparknlp.base</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">sparknlp.annotator</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">pyspark.ml</span> <span class="kn">import</span> <span class="n">Pipeline</span>
+<span class="n">documentAssembler</span> <span class="o">=</span> <span class="n">DocumentAssembler</span><span class="p">()</span> \
+    <span class="p">.</span><span class="n">setInputCol</span><span class="p">(</span><span class="s">"text"</span><span class="p">)</span> \
+    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"document"</span><span class="p">)</span>
+<span class="n">tokenizer</span> <span class="o">=</span> <span class="n">Tokenizer</span><span class="p">()</span> \
+    <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"document"</span><span class="p">])</span> \
+    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"token"</span><span class="p">)</span>
+<span class="n">sequenceClassifier</span> <span class="o">=</span> <span class="n">CamemBertForSequenceClassification</span><span class="p">.</span><span class="n">pretrained</span><span class="p">()</span> \
+    <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"token"</span><span class="p">,</span> <span class="s">"document"</span><span class="p">])</span> \
+    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"label"</span><span class="p">)</span> \
+    <span class="p">.</span><span class="n">setCaseSensitive</span><span class="p">(</span><span class="bp">True</span><span class="p">)</span>
+<span class="n">pipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">().</span><span class="n">setStages</span><span class="p">([</span>
+    <span class="n">documentAssembler</span><span class="p">,</span>
+    <span class="n">tokenizer</span><span class="p">,</span>
+    <span class="n">sequenceClassifier</span>
+<span class="p">])</span>
+<span class="n">data</span> <span class="o">=</span> <span class="n">spark</span><span class="p">.</span><span class="n">createDataFrame</span><span class="p">([[</span><span class="s">"j'ai adoré ce film lorsque j'étais enfant."</span><span class="p">,</span> <span class="s">"Je déteste ça."</span><span class="p">]]).</span><span class="n">toDF</span><span class="p">(</span><span class="s">"text"</span><span class="p">)</span>
+<span class="n">result</span> <span class="o">=</span> <span class="n">pipeline</span><span class="p">.</span><span class="n">fit</span><span class="p">(</span><span class="n">data</span><span class="p">).</span><span class="n">transform</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+<span class="n">result</span><span class="p">.</span><span class="n">select</span><span class="p">(</span><span class="s">"class.result"</span><span class="p">).</span><span class="n">show</span><span class="p">(</span><span class="n">truncate</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+<span class="o">+------+</span>
+<span class="o">|</span><span class="n">result</span><span class="o">|</span>
+<span class="o">+------+</span>
+<span class="o">|</span><span class="p">[</span><span class="n">pos</span><span class="p">]</span> <span class="o">|</span>
+<span class="o">|</span><span class="p">[</span><span class="n">neg</span><span class="p">]</span> <span class="o">|</span>
+<span class="o">+------+</span>
+</code></pre></div>      </div>
+
+      <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="nn">spark.implicits._</span>
+<span class="k">import</span> <span class="nn">com.johnsnowlabs.nlp.base._</span>
+<span class="k">import</span> <span class="nn">com.johnsnowlabs.nlp.annotator._</span>
+<span class="k">import</span> <span class="nn">org.apache.spark.ml.Pipeline</span>
+
+<span class="k">val</span> <span class="nv">documentAssembler</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">DocumentAssembler</span><span class="o">()</span>
+  <span class="o">.</span><span class="py">setInputCol</span><span class="o">(</span><span class="s">"text"</span><span class="o">)</span>
+  <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"document"</span><span class="o">)</span>
+
+<span class="k">val</span> <span class="nv">tokenizer</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">Tokenizer</span><span class="o">()</span>
+  <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="s">"document"</span><span class="o">)</span>
+  <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"token"</span><span class="o">)</span>
+
+<span class="k">val</span> <span class="nv">sequenceClassifier</span> <span class="k">=</span> <span class="nv">CamemBertForSequenceClassification</span><span class="o">.</span><span class="py">pretrained</span><span class="o">()</span>
+  <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="s">"token"</span><span class="o">,</span> <span class="s">"document"</span><span class="o">)</span>
+  <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"label"</span><span class="o">)</span>
+  <span class="o">.</span><span class="py">setCaseSensitive</span><span class="o">(</span><span class="kc">true</span><span class="o">)</span>
+
+<span class="k">val</span> <span class="nv">pipeline</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">Pipeline</span><span class="o">().</span><span class="py">setStages</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span>
+  <span class="n">documentAssembler</span><span class="o">,</span>
+  <span class="n">tokenizer</span><span class="o">,</span>
+  <span class="n">sequenceClassifier</span>
+<span class="o">))</span>
+
+<span class="k">val</span> <span class="nv">data</span> <span class="k">=</span> <span class="nc">Seq</span><span class="o">(</span><span class="s">"j'ai adoré ce film lorsque j'étais enfant."</span><span class="o">,</span> <span class="s">"Je déteste ça."</span><span class="o">).</span><span class="py">toDF</span><span class="o">(</span><span class="s">"text"</span><span class="o">)</span>
+<span class="k">val</span> <span class="nv">result</span> <span class="k">=</span> <span class="nv">pipeline</span><span class="o">.</span><span class="py">fit</span><span class="o">(</span><span class="n">data</span><span class="o">).</span><span class="py">transform</span><span class="o">(</span><span class="n">data</span><span class="o">)</span>
+
+<span class="nv">result</span><span class="o">.</span><span class="py">select</span><span class="o">(</span><span class="s">"label.result"</span><span class="o">).</span><span class="py">show</span><span class="o">(</span><span class="kc">false</span><span class="o">)</span>
+<span class="o">+------+</span>
+<span class="o">|</span><span class="n">result</span><span class="o">|</span>
+<span class="o">+------+</span>
+<span class="o">|[</span><span class="kt">pos</span><span class="o">]</span> <span class="o">|</span>
+<span class="o">|[</span><span class="kt">neg</span><span class="o">]</span> <span class="o">|</span>
+<span class="o">+------+</span>
+</code></pre></div>      </div>
 
     </div>
 
@@ -3907,12 +4026,12 @@ and the <a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/
 in Paris. My name is Sarah and I live in London"""</span><span class="p">]]).</span><span class="n">toDF</span><span class="p">(</span><span class="s">"text"</span><span class="p">)</span>
 <span class="n">result</span> <span class="o">=</span> <span class="n">pipeline</span><span class="p">.</span><span class="n">fit</span><span class="p">(</span><span class="n">data</span><span class="p">).</span><span class="n">transform</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
 <span class="n">result</span><span class="p">.</span><span class="n">select</span><span class="p">(</span><span class="s">"label.result"</span><span class="p">).</span><span class="n">show</span><span class="p">(</span><span class="n">truncate</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
-<span class="o">+--------------------+</span>
-<span class="o">|</span><span class="n">result</span>              <span class="o">|</span>
-<span class="o">+--------------------+</span>
-<span class="o">|</span><span class="p">[</span><span class="n">neg</span><span class="p">,</span> <span class="n">neg</span><span class="p">]</span>          <span class="o">|</span>
-<span class="o">|</span><span class="p">[</span><span class="n">pos</span><span class="p">,</span> <span class="n">pos</span><span class="p">,</span> <span class="n">pos</span><span class="p">,</span> <span class="n">pos</span><span class="p">]</span><span class="o">|</span>
-<span class="o">+--------------------+</span>
+<span class="o">+------+</span>
+<span class="o">|</span><span class="n">result</span><span class="o">|</span>
+<span class="o">+------+</span>
+<span class="o">|</span><span class="p">[</span><span class="n">pos</span><span class="p">]</span> <span class="o">|</span>
+<span class="o">|</span><span class="p">[</span><span class="n">neg</span><span class="p">]</span> <span class="o">|</span>
+<span class="o">+------+</span>
 </code></pre></div>      </div>
 
       <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="nn">spark.implicits._</span>
@@ -3939,16 +4058,16 @@ in Paris. My name is Sarah and I live in London"""</span><span class="p">]]).</s
   <span class="n">sequenceClassifier</span>
 <span class="o">))</span>
 
-<span class="k">val</span> <span class="nv">data</span> <span class="k">=</span> <span class="nc">Seq</span><span class="o">(</span><span class="s">"John Lenon was born in London and lived in Paris. My name is Sarah and I live in London"</span><span class="o">).</span><span class="py">toDF</span><span class="o">(</span><span class="s">"text"</span><span class="o">)</span>
+<span class="k">val</span> <span class="nv">data</span> <span class="k">=</span> <span class="nc">Seq</span><span class="o">(</span><span class="s">"I loved this movie when I was a child."</span><span class="o">,</span> <span class="s">"It was pretty boring."</span><span class="o">).</span><span class="py">toDF</span><span class="o">(</span><span class="s">"text"</span><span class="o">)</span>
 <span class="k">val</span> <span class="nv">result</span> <span class="k">=</span> <span class="nv">pipeline</span><span class="o">.</span><span class="py">fit</span><span class="o">(</span><span class="n">data</span><span class="o">).</span><span class="py">transform</span><span class="o">(</span><span class="n">data</span><span class="o">)</span>
 
 <span class="nv">result</span><span class="o">.</span><span class="py">select</span><span class="o">(</span><span class="s">"label.result"</span><span class="o">).</span><span class="py">show</span><span class="o">(</span><span class="kc">false</span><span class="o">)</span>
-<span class="o">+--------------------+</span>
-<span class="o">|</span><span class="n">result</span>              <span class="o">|</span>
-<span class="o">+--------------------+</span>
-<span class="o">|[</span><span class="kt">neg</span>, <span class="kt">neg</span><span class="o">]</span>          <span class="o">|</span>
-<span class="o">|[</span><span class="kt">pos</span>, <span class="kt">pos</span>, <span class="kt">pos</span>, <span class="kt">pos</span><span class="o">]|</span>
-<span class="o">+--------------------+</span>
+<span class="o">+------+</span>
+<span class="o">|</span><span class="n">result</span><span class="o">|</span>
+<span class="o">+------+</span>
+<span class="o">|[</span><span class="kt">pos</span><span class="o">]</span> <span class="o">|</span>
+<span class="o">|[</span><span class="kt">neg</span><span class="o">]</span> <span class="o">|</span>
+<span class="o">+------+</span>
 </code></pre></div>      </div>
 
     </div>
@@ -5243,17 +5362,16 @@ and the <a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/
     <span class="n">sequenceClassifier</span>
 <span class="p">])</span>
 
-<span class="n">data</span> <span class="o">=</span> <span class="n">spark</span><span class="p">.</span><span class="n">createDataFrame</span><span class="p">([[</span>\<span class="s">"</span><span class="se">\"\"</span><span class="s">John Lenon was born in London and lived
-in Paris. My name is Sarah and I live in London</span><span class="se">\"\"\"</span><span class="s">]]).toDF("</span><span class="n">text</span><span class="s">")
-result = pipeline.fit(data).transform(data)
-result.select("</span><span class="n">label</span><span class="p">.</span><span class="n">result</span><span class="s">").show(truncate=False)
-+--------------------+
-|result              |
-+--------------------+
-|[neg, neg]          |
-|[pos, pos, pos, pos]|
-+--------------------+
-</span></code></pre></div>      </div>
+<span class="n">data</span> <span class="o">=</span> <span class="n">spark</span><span class="p">.</span><span class="n">createDataFrame</span><span class="p">([[</span><span class="s">"I loved this movie when I was a child."</span><span class="p">,</span> <span class="s">"It was pretty boring."</span><span class="p">]]).</span><span class="n">toDF</span><span class="p">(</span><span class="s">"text"</span><span class="p">)</span>
+<span class="n">result</span> <span class="o">=</span> <span class="n">pipeline</span><span class="p">.</span><span class="n">fit</span><span class="p">(</span><span class="n">data</span><span class="p">).</span><span class="n">transform</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+<span class="n">result</span><span class="p">.</span><span class="n">select</span><span class="p">(</span><span class="s">"label.result"</span><span class="p">).</span><span class="n">show</span><span class="p">(</span><span class="n">truncate</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+<span class="o">+------+</span>
+<span class="o">|</span><span class="n">result</span><span class="o">|</span>
+<span class="o">+------+</span>
+<span class="o">|</span><span class="p">[</span><span class="n">pos</span><span class="p">]</span> <span class="o">|</span>
+<span class="o">|</span><span class="p">[</span><span class="n">neg</span><span class="p">]</span> <span class="o">|</span>
+<span class="o">+------+</span>
+</code></pre></div>      </div>
 
       <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="nn">spark.implicits._</span>
 <span class="k">import</span> <span class="nn">com.johnsnowlabs.nlp.base._</span>
@@ -5279,16 +5397,16 @@ result.select("</span><span class="n">label</span><span class="p">.</span><span 
   <span class="n">sequenceClassifier</span>
 <span class="o">))</span>
 
-<span class="k">val</span> <span class="nv">data</span> <span class="k">=</span> <span class="nc">Seq</span><span class="o">(</span><span class="s">"John Lenon was born in London and lived in Paris. My name is Sarah and I live in London"</span><span class="o">).</span><span class="py">toDF</span><span class="o">(</span><span class="s">"text"</span><span class="o">)</span>
+<span class="k">val</span> <span class="nv">data</span> <span class="k">=</span> <span class="nc">Seq</span><span class="o">(</span><span class="s">"I loved this movie when I was a child."</span><span class="o">,</span> <span class="s">"It was pretty boring."</span><span class="o">).</span><span class="py">toDF</span><span class="o">(</span><span class="s">"text"</span><span class="o">)</span>
 <span class="k">val</span> <span class="nv">result</span> <span class="k">=</span> <span class="nv">pipeline</span><span class="o">.</span><span class="py">fit</span><span class="o">(</span><span class="n">data</span><span class="o">).</span><span class="py">transform</span><span class="o">(</span><span class="n">data</span><span class="o">)</span>
 
 <span class="nv">result</span><span class="o">.</span><span class="py">select</span><span class="o">(</span><span class="s">"label.result"</span><span class="o">).</span><span class="py">show</span><span class="o">(</span><span class="kc">false</span><span class="o">)</span>
-<span class="o">+--------------------+</span>
-<span class="o">|</span><span class="n">result</span>              <span class="o">|</span>
-<span class="o">+--------------------+</span>
-<span class="o">|[</span><span class="kt">neg</span>, <span class="kt">neg</span><span class="o">]</span>          <span class="o">|</span>
-<span class="o">|[</span><span class="kt">pos</span>, <span class="kt">pos</span>, <span class="kt">pos</span>, <span class="kt">pos</span><span class="o">]|</span>
-<span class="o">+--------------------+</span>
+<span class="o">+------+</span>
+<span class="o">|</span><span class="n">result</span><span class="o">|</span>
+<span class="o">+------+</span>
+<span class="o">|[</span><span class="kt">pos</span><span class="o">]</span> <span class="o">|</span>
+<span class="o">|[</span><span class="kt">neg</span><span class="o">]</span> <span class="o">|</span>
+<span class="o">+------+</span>
 </code></pre></div>      </div>
 
     </div>
@@ -6187,17 +6305,16 @@ and the <a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/
     <span class="n">tokenizer</span><span class="p">,</span>
     <span class="n">sequenceClassifier</span>
 <span class="p">])</span>
-<span class="n">data</span> <span class="o">=</span> <span class="n">spark</span><span class="p">.</span><span class="n">createDataFrame</span><span class="p">([[</span>\<span class="s">"</span><span class="se">\"\"</span><span class="s">John Lenon was born in London and lived
-in Paris. My name is Sarah and I live in London</span><span class="se">\"\"\"</span><span class="s">]]).toDF("</span><span class="n">text</span><span class="s">")
-result = pipeline.fit(data).transform(data)
-result.select("</span><span class="n">label</span><span class="p">.</span><span class="n">result</span><span class="s">").show(truncate=False)
-+--------------------+
-|result              |
-+--------------------+
-|[neg, neg]          |
-|[pos, pos, pos, pos]|
-+--------------------+
-</span></code></pre></div>      </div>
+<span class="n">data</span> <span class="o">=</span> <span class="n">spark</span><span class="p">.</span><span class="n">createDataFrame</span><span class="p">([[</span><span class="s">"I loved this movie when I was a child."</span><span class="p">,</span> <span class="s">"It was pretty boring."</span><span class="p">]]).</span><span class="n">toDF</span><span class="p">(</span><span class="s">"text"</span><span class="p">)</span>
+<span class="n">result</span> <span class="o">=</span> <span class="n">pipeline</span><span class="p">.</span><span class="n">fit</span><span class="p">(</span><span class="n">data</span><span class="p">).</span><span class="n">transform</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+<span class="n">result</span><span class="p">.</span><span class="n">select</span><span class="p">(</span><span class="s">"label.result"</span><span class="p">).</span><span class="n">show</span><span class="p">(</span><span class="n">truncate</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+<span class="o">+------+</span>
+<span class="o">|</span><span class="n">result</span><span class="o">|</span>
+<span class="o">+------+</span>
+<span class="o">|</span><span class="p">[</span><span class="n">pos</span><span class="p">]</span> <span class="o">|</span>
+<span class="o">|</span><span class="p">[</span><span class="n">neg</span><span class="p">]</span> <span class="o">|</span>
+<span class="o">+------+</span>
+</code></pre></div>      </div>
 
       <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="nn">spark.implicits._</span>
 <span class="k">import</span> <span class="nn">com.johnsnowlabs.nlp.base._</span>
@@ -6223,16 +6340,16 @@ result.select("</span><span class="n">label</span><span class="p">.</span><span 
   <span class="n">sequenceClassifier</span>
 <span class="o">))</span>
 
-<span class="k">val</span> <span class="nv">data</span> <span class="k">=</span> <span class="nc">Seq</span><span class="o">(</span><span class="s">"John Lenon was born in London and lived in Paris. My name is Sarah and I live in London"</span><span class="o">).</span><span class="py">toDF</span><span class="o">(</span><span class="s">"text"</span><span class="o">)</span>
+<span class="k">val</span> <span class="nv">data</span> <span class="k">=</span> <span class="nc">Seq</span><span class="o">(</span><span class="s">"I loved this movie when I was a child."</span><span class="o">,</span> <span class="s">"It was pretty boring."</span><span class="o">).</span><span class="py">toDF</span><span class="o">(</span><span class="s">"text"</span><span class="o">)</span>
 <span class="k">val</span> <span class="nv">result</span> <span class="k">=</span> <span class="nv">pipeline</span><span class="o">.</span><span class="py">fit</span><span class="o">(</span><span class="n">data</span><span class="o">).</span><span class="py">transform</span><span class="o">(</span><span class="n">data</span><span class="o">)</span>
 
 <span class="nv">result</span><span class="o">.</span><span class="py">select</span><span class="o">(</span><span class="s">"label.result"</span><span class="o">).</span><span class="py">show</span><span class="o">(</span><span class="kc">false</span><span class="o">)</span>
-<span class="o">+--------------------+</span>
-<span class="o">|</span><span class="n">result</span>              <span class="o">|</span>
-<span class="o">+--------------------+</span>
-<span class="o">|[</span><span class="kt">neg</span>, <span class="kt">neg</span><span class="o">]</span>          <span class="o">|</span>
-<span class="o">|[</span><span class="kt">pos</span>, <span class="kt">pos</span>, <span class="kt">pos</span>, <span class="kt">pos</span><span class="o">]|</span>
-<span class="o">+--------------------+</span>
+<span class="o">+------+</span>
+<span class="o">|</span><span class="n">result</span><span class="o">|</span>
+<span class="o">+------+</span>
+<span class="o">|[</span><span class="kt">pos</span><span class="o">]</span> <span class="o">|</span>
+<span class="o">|[</span><span class="kt">neg</span><span class="o">]</span> <span class="o">|</span>
+<span class="o">+------+</span>
 </code></pre></div>      </div>
 
     </div>
@@ -8313,17 +8430,16 @@ and the <a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/
     <span class="n">sequenceClassifier</span>
 <span class="p">])</span>
 
-<span class="n">data</span> <span class="o">=</span> <span class="n">spark</span><span class="p">.</span><span class="n">createDataFrame</span><span class="p">([[</span>\<span class="s">"</span><span class="se">\"\"</span><span class="s">John Lenon was born in London and lived
-in Paris. My name is Sarah and I live in London</span><span class="se">\"\"\"</span><span class="s">]]).toDF("</span><span class="n">text</span><span class="s">")
-result = pipeline.fit(data).transform(data)
-result.select("</span><span class="n">label</span><span class="p">.</span><span class="n">result</span><span class="s">").show(truncate=False)
-+--------------------+
-|result              |
-+--------------------+
-|[neg, neg]          |
-|[pos, pos, pos, pos]|
-+--------------------+
-</span></code></pre></div>      </div>
+<span class="n">data</span> <span class="o">=</span> <span class="n">spark</span><span class="p">.</span><span class="n">createDataFrame</span><span class="p">([[</span><span class="s">"I loved this movie when I was a child."</span><span class="p">,</span> <span class="s">"It was pretty boring."</span><span class="p">]]).</span><span class="n">toDF</span><span class="p">(</span><span class="s">"text"</span><span class="p">)</span>
+<span class="n">result</span> <span class="o">=</span> <span class="n">pipeline</span><span class="p">.</span><span class="n">fit</span><span class="p">(</span><span class="n">data</span><span class="p">).</span><span class="n">transform</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+<span class="n">result</span><span class="p">.</span><span class="n">select</span><span class="p">(</span><span class="s">"label.result"</span><span class="p">).</span><span class="n">show</span><span class="p">(</span><span class="n">truncate</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+<span class="o">+------+</span>
+<span class="o">|</span><span class="n">result</span><span class="o">|</span>
+<span class="o">+------+</span>
+<span class="o">|</span><span class="p">[</span><span class="n">pos</span><span class="p">]</span> <span class="o">|</span>
+<span class="o">|</span><span class="p">[</span><span class="n">neg</span><span class="p">]</span> <span class="o">|</span>
+<span class="o">+------+</span>
+</code></pre></div>      </div>
 
       <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="nn">spark.implicits._</span>
 <span class="k">import</span> <span class="nn">com.johnsnowlabs.nlp.base._</span>
@@ -8349,16 +8465,16 @@ result.select("</span><span class="n">label</span><span class="p">.</span><span 
   <span class="n">sequenceClassifier</span>
 <span class="o">))</span>
 
-<span class="k">val</span> <span class="nv">data</span> <span class="k">=</span> <span class="nc">Seq</span><span class="o">(</span><span class="s">"John Lenon was born in London and lived in Paris. My name is Sarah and I live in London"</span><span class="o">).</span><span class="py">toDF</span><span class="o">(</span><span class="s">"text"</span><span class="o">)</span>
+<span class="k">val</span> <span class="nv">data</span> <span class="k">=</span> <span class="nc">Seq</span><span class="o">(</span><span class="s">"I loved this movie when I was a child."</span><span class="o">,</span> <span class="s">"It was pretty boring."</span><span class="o">).</span><span class="py">toDF</span><span class="o">(</span><span class="s">"text"</span><span class="o">)</span>
 <span class="k">val</span> <span class="nv">result</span> <span class="k">=</span> <span class="nv">pipeline</span><span class="o">.</span><span class="py">fit</span><span class="o">(</span><span class="n">data</span><span class="o">).</span><span class="py">transform</span><span class="o">(</span><span class="n">data</span><span class="o">)</span>
 
 <span class="nv">result</span><span class="o">.</span><span class="py">select</span><span class="o">(</span><span class="s">"label.result"</span><span class="o">).</span><span class="py">show</span><span class="o">(</span><span class="kc">false</span><span class="o">)</span>
-<span class="o">+--------------------+</span>
-<span class="o">|</span><span class="n">result</span>              <span class="o">|</span>
-<span class="o">+--------------------+</span>
-<span class="o">|[</span><span class="kt">neg</span>, <span class="kt">neg</span><span class="o">]</span>          <span class="o">|</span>
-<span class="o">|[</span><span class="kt">pos</span>, <span class="kt">pos</span>, <span class="kt">pos</span>, <span class="kt">pos</span><span class="o">]|</span>
-<span class="o">+--------------------+</span>
+<span class="o">+------+</span>
+<span class="o">|</span><span class="n">result</span><span class="o">|</span>
+<span class="o">+------+</span>
+<span class="o">|[</span><span class="kt">pos</span><span class="o">]</span> <span class="o">|</span>
+<span class="o">|[</span><span class="kt">neg</span><span class="o">]</span> <span class="o">|</span>
+<span class="o">+------+</span>
 </code></pre></div>      </div>
 
     </div>
@@ -9300,17 +9416,16 @@ and the <a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/
     <span class="n">sequenceClassifier</span>
 <span class="p">])</span>
 
-<span class="n">data</span> <span class="o">=</span> <span class="n">spark</span><span class="p">.</span><span class="n">createDataFrame</span><span class="p">([[</span>\<span class="s">"</span><span class="se">\"\"</span><span class="s">John Lenon was born in London and lived
-in Paris. My name is Sarah and I live in London</span><span class="se">\"\"\"</span><span class="s">]]).toDF("</span><span class="n">text</span><span class="s">")
-result = pipeline.fit(data).transform(data)
-result.select("</span><span class="n">label</span><span class="p">.</span><span class="n">result</span><span class="s">").show(truncate=False)
-+--------------------+
-|result              |
-+--------------------+
-|[neg, neg]          |
-|[pos, pos, pos, pos]|
-+--------------------+
-</span></code></pre></div>      </div>
+<span class="n">data</span> <span class="o">=</span> <span class="n">spark</span><span class="p">.</span><span class="n">createDataFrame</span><span class="p">([[</span><span class="s">"I loved this movie when I was a child."</span><span class="p">,</span> <span class="s">"It was pretty boring."</span><span class="p">]]).</span><span class="n">toDF</span><span class="p">(</span><span class="s">"text"</span><span class="p">)</span>
+<span class="n">result</span> <span class="o">=</span> <span class="n">pipeline</span><span class="p">.</span><span class="n">fit</span><span class="p">(</span><span class="n">data</span><span class="p">).</span><span class="n">transform</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+<span class="n">result</span><span class="p">.</span><span class="n">select</span><span class="p">(</span><span class="s">"label.result"</span><span class="p">).</span><span class="n">show</span><span class="p">(</span><span class="n">truncate</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+<span class="o">+------+</span>
+<span class="o">|</span><span class="n">result</span><span class="o">|</span>
+<span class="o">+------+</span>
+<span class="o">|</span><span class="p">[</span><span class="n">pos</span><span class="p">]</span> <span class="o">|</span>
+<span class="o">|</span><span class="p">[</span><span class="n">neg</span><span class="p">]</span> <span class="o">|</span>
+<span class="o">+------+</span>
+</code></pre></div>      </div>
 
       <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="nn">spark.implicits._</span>
 <span class="k">import</span> <span class="nn">com.johnsnowlabs.nlp.base._</span>
@@ -9336,16 +9451,16 @@ result.select("</span><span class="n">label</span><span class="p">.</span><span 
   <span class="n">sequenceClassifier</span>
 <span class="o">))</span>
 
-<span class="k">val</span> <span class="nv">data</span> <span class="k">=</span> <span class="nc">Seq</span><span class="o">(</span><span class="s">"John Lenon was born in London and lived in Paris. My name is Sarah and I live in London"</span><span class="o">).</span><span class="py">toDF</span><span class="o">(</span><span class="s">"text"</span><span class="o">)</span>
+<span class="k">val</span> <span class="nv">data</span> <span class="k">=</span> <span class="nc">Seq</span><span class="o">(</span><span class="s">"I loved this movie when I was a child."</span><span class="o">,</span> <span class="s">"It was pretty boring."</span><span class="o">).</span><span class="py">toDF</span><span class="o">(</span><span class="s">"text"</span><span class="o">)</span>
 <span class="k">val</span> <span class="nv">result</span> <span class="k">=</span> <span class="nv">pipeline</span><span class="o">.</span><span class="py">fit</span><span class="o">(</span><span class="n">data</span><span class="o">).</span><span class="py">transform</span><span class="o">(</span><span class="n">data</span><span class="o">)</span>
 
 <span class="nv">result</span><span class="o">.</span><span class="py">select</span><span class="o">(</span><span class="s">"label.result"</span><span class="o">).</span><span class="py">show</span><span class="o">(</span><span class="kc">false</span><span class="o">)</span>
-<span class="o">+--------------------+</span>
-<span class="o">|</span><span class="n">result</span>              <span class="o">|</span>
-<span class="o">+--------------------+</span>
-<span class="o">|[</span><span class="kt">neg</span>, <span class="kt">neg</span><span class="o">]</span>          <span class="o">|</span>
-<span class="o">|[</span><span class="kt">pos</span>, <span class="kt">pos</span>, <span class="kt">pos</span>, <span class="kt">pos</span><span class="o">]|</span>
-<span class="o">+--------------------+</span>
+<span class="o">+------+</span>
+<span class="o">|</span><span class="n">result</span><span class="o">|</span>
+<span class="o">+------+</span>
+<span class="o">|[</span><span class="kt">pos</span><span class="o">]</span> <span class="o">|</span>
+<span class="o">|[</span><span class="kt">neg</span><span class="o">]</span> <span class="o">|</span>
+<span class="o">+------+</span>
 </code></pre></div>      </div>
 
     </div>

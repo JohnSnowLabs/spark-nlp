@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>python.sparknlp.base.doc2_chunk &#8212; Spark NLP 4.2.4 documentation</title>
+    <title>python.sparknlp.base.doc2_chunk &#8212; Spark NLP 4.2.5 documentation</title>
   
   
   
@@ -383,6 +383,8 @@
 <span class="sd">    Chunk2Doc : for converting `CHUNK` annotations to `DOCUMENT`</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">inputAnnotatorTypes</span> <span class="o">=</span> <span class="p">[</span><span class="n">AnnotatorType</span><span class="o">.</span><span class="n">DOCUMENT</span><span class="p">]</span>
+
+    <span class="n">outputAnnotatorType</span> <span class="o">=</span> <span class="n">AnnotatorType</span><span class="o">.</span><span class="n">CHUNK</span>
 
     <span class="n">chunkCol</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;chunkCol&quot;</span><span class="p">,</span> <span class="s2">&quot;column that contains string. Must be part of DOCUMENT&quot;</span><span class="p">,</span> <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toString</span><span class="p">)</span>
     <span class="n">startCol</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;startCol&quot;</span><span class="p">,</span> <span class="s2">&quot;column that has a reference of where chunk begins&quot;</span><span class="p">,</span> <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toString</span><span class="p">)</span>
