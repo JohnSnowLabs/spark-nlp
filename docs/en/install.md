@@ -181,6 +181,36 @@ Make sure the following prerequisites are met:
     can check this by running `echo $JAVA_HOME` in your terminal. If it is not set,
     you can set it by adding `export JAVA_HOME=$(/usr/libexec/java_home)` to your
     `~/.zshrc` file.
+2. If you are planning to use Annotators or Pipelines that use the RocksDB library (for
+    example `WordEmbeddings`, `TextMatcher` or `explain_document_dl_en` Pipeline
+    respectively) with `spark-submit`, then a workaround is required to get it working.
+    See [M1 RocksDB workaround for spark-submit with Spark version >= 3.2.0](#m1-rocksdb-workaround-for-spark-submit-with-spark-version--320).
+
+### M1 RocksDB workaround for spark-submit with Spark version >= 3.2.0
+
+Starting from Spark version 3.2.0, Spark includes their own version of the RocksDB
+dependency. Unfortunately, this is an older version of RocksDB does not include the
+necessary binaries of M1. To work around this issue, the default packaged RocksDB jar
+has to be removed from the Spark distribution.
+
+For example, if you downloaded Spark version 3.2.0 from the official archives, you will
+find the following folders in the directory of Spark:
+
+```bash
+$ ls
+bin  conf  data  examples  jars  kubernetes  LICENSE  licenses
+NOTICE  python  R  README.md  RELEASE  sbin  yarn
+```
+
+To check for the RocksDB jar, you can run
+
+```bash
+$ ls jars | grep rocksdb
+rocksdbjni-6.20.3.jar
+```
+
+to find the jar you have to remove. After removing the jar, the pipelines should work
+as expected.
 
 ### Scala and Java for M1
 
