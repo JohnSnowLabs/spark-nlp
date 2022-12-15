@@ -271,6 +271,8 @@ Spark NLP 4.2.5 has been tested and is compatible with the following runtimes:
 - 11.1 ML
 - 11.2
 - 11.2 ML
+- 11.3
+- 11.3 ML
 
 **GPU:**
 
@@ -283,6 +285,7 @@ Spark NLP 4.2.5 has been tested and is compatible with the following runtimes:
 - 11.0 ML & GPU
 - 11.1 ML & GPU
 - 11.2 ML & GPU
+- 11.3 ML & GPU
 
 NOTE: Spark NLP 4.0.x is based on TensorFlow 2.7.x which is compatible with CUDA11 and cuDNN 8.0.2. The only Databricks runtimes supporting CUDA 11 are 9.x and above as listed under GPU.
 
