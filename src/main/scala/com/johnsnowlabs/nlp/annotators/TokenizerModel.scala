@@ -34,10 +34,10 @@ import scala.util.matching.Regex
   * See the main class [[Tokenizer]] for more examples of usage.
   *
   * @param uid
-  *   required uid for storing annotator to disk
+  * required uid for storing annotator to disk
   * @groupname anno Annotator types
   * @groupdesc anno
-  *   Required input and expected output annotator types
+  *            Required input and expected output annotator types
   * @groupname Ungrouped Members
   * @groupname param Parameters
   * @groupname setParam Parameter setters
@@ -49,11 +49,11 @@ import scala.util.matching.Regex
   * @groupprio setParam  4
   * @groupprio getParam  5
   * @groupdesc param
-  *   A list of (hyper-)parameter keys this annotator can take. Users can set and get the
-  *   parameter values through setters and getters, respectively.
+  *            A list of (hyper-)parameter keys this annotator can take. Users can set and get the
+  *            parameter values through setters and getters, respectively.
   */
 class TokenizerModel(override val uid: String)
-    extends AnnotatorModel[TokenizerModel]
+  extends AnnotatorModel[TokenizerModel]
     with HasSimpleAnnotate[TokenizerModel] {
 
   import com.johnsnowlabs.nlp.AnnotatorType._
@@ -84,6 +84,17 @@ class TokenizerModel(override val uid: String)
     *
     * @group param
     */
+
+  val indexOffSet: BooleanParam = new BooleanParam(
+    this,
+    "indexOffSet",
+    "Whether to remove the offset from indexes")
+
+  /** Used to decide if returned Start and End positions offset is removed
+    *
+    * @group param
+    */
+
   val targetPattern: Param[String] = new Param(
     this,
     "targetPattern",
@@ -119,7 +130,7 @@ class TokenizerModel(override val uid: String)
     "splitPattern",
     "pattern to separate from the inside of tokens. takes priority over splitChars.")
 
-  setDefault(targetPattern -> "\\S+", caseSensitiveExceptions -> true)
+  setDefault(targetPattern -> "\\S+", caseSensitiveExceptions -> true, indexOffSet -> false)
 
   /** Output annotator type : TOKEN
     *
@@ -197,6 +208,21 @@ class TokenizerModel(override val uid: String)
     *
     * @group setParam
     */
+
+  def setIndexOffSet(value: Boolean): this.type = set(indexOffSet, value)
+
+  /** Whether Whether to remove offset from index
+    *
+    * @group getParam
+    */
+  def getIndexOffSet(value: Boolean): Boolean = $(indexOffSet)
+
+  /** Add an extension pattern regex with groups to the top of the rules (will target first, from
+    * more specific to the more general).
+    *
+    * @group getParam
+    */
+
   def setMinLength(value: Int): this.type = set(minLength, value)
 
   /** Set the minimum allowed length for each token
@@ -245,7 +271,7 @@ class TokenizerModel(override val uid: String)
     * prefix or suffix patterns
     *
     * @group getParam
-    * .
+    *        .
     */
   def getSplitChars: Array[String] = {
     $(splitChars)
@@ -279,14 +305,17 @@ class TokenizerModel(override val uid: String)
   /** This func generates a Seq of TokenizedSentences from a Seq of Sentences.
     *
     * @param sentences
-    *   to tag
+    * to tag
     * @return
-    *   Seq of TokenizedSentence objects
+    * Seq of TokenizedSentence objects
     */
   def tag(sentences: Seq[Sentence]): Seq[TokenizedSentence] = {
     lazy val splitCharsExists = $(splitChars).map(_.last.toString)
     sentences.map { text =>
+
       /** Step 1, define breaks from non breaks */
+
+      val offset = if ($(indexOffSet)) 0 else 1
       val exceptionsDefined = get(exceptions).isDefined
 
       var exceptionsWithoutBreak: Option[mutable.HashSet[String]] = None
@@ -297,16 +326,15 @@ class TokenizerModel(override val uid: String)
           */
         getOrCompileExceptionPattern().replaceAllIn(
           text.content,
-          { m: Regex.Match =>
-            {
-              val breakReplaced = BREAK_PATTERN.replaceAllIn(m.matched, PROTECT_CHAR)
-              if (breakReplaced == m.matched)
-                exceptionsWithoutBreak.getOrElse({
-                  exceptionsWithoutBreak = Some(new mutable.HashSet[String])
-                  exceptionsWithoutBreak.get
-                }) += m.matched
-              breakReplaced
-            }
+          { m: Regex.Match => {
+            val breakReplaced = BREAK_PATTERN.replaceAllIn(m.matched, PROTECT_CHAR)
+            if (breakReplaced == m.matched)
+              exceptionsWithoutBreak.getOrElse({
+                exceptionsWithoutBreak = Some(new mutable.HashSet[String])
+                exceptionsWithoutBreak.get
+              }) += m.matched
+            breakReplaced
+          }
           })
       } else {
         text.content
@@ -318,6 +346,7 @@ class TokenizerModel(override val uid: String)
       val tokens = SPLIT_PATTERN
         .findAllMatchIn(protectedText)
         .flatMap { candidate =>
+
           /** If exceptions are defined, check for candidate whether PROTECT_CHAR present or in
             * exception list.
             */
@@ -331,7 +360,7 @@ class TokenizerModel(override val uid: String)
               IndexedToken(
                 text.content.slice(candidate.start, candidate.end),
                 text.start + candidate.start,
-                text.start + candidate.end - 1))
+                text.start + candidate.end - offset))
           } else {
 
             /** Step 3, If no exception found, find candidates through the possible general rule
@@ -358,7 +387,7 @@ class TokenizerModel(override val uid: String)
                             IndexedToken(
                               str,
                               text.start + candidate.start + curPos,
-                              text.start + candidate.start + curPos + str.length - 1)
+                              text.start + candidate.start + curPos + str.length - offset)
                           } finally {
                             curPos += str.length + 1
                           })
@@ -369,20 +398,20 @@ class TokenizerModel(override val uid: String)
                       val it = IndexedToken(
                         target,
                         text.start + candidate.start + curPos,
-                        text.start + candidate.start + curPos + target.length - 1)
+                        text.start + candidate.start + curPos + target.length - offset)
                       curPos += target.length
                       Seq(it)
                     }
                   })
 
-              /** Step 4, If rules didn't match, return whatever candidate we have and leave it as
-                * is
-                */
+                /** Step 4, If rules didn't match, return whatever candidate we have and leave it as
+                  * is
+                  */
               }
               .getOrElse(Seq(IndexedToken(
                 candidate.matched,
                 text.start + candidate.start,
-                text.start + candidate.end - 1)))
+                text.start + candidate.end - offset)))
             rr
           }
         }
@@ -403,7 +432,7 @@ class TokenizerModel(override val uid: String)
 }
 
 trait ReadablePretrainedTokenizer
-    extends ParamsAndFeaturesReadable[TokenizerModel]
+  extends ParamsAndFeaturesReadable[TokenizerModel]
     with HasPretrained[TokenizerModel] {
   override val defaultModelName: Option[String] = Some("token_rules")
 

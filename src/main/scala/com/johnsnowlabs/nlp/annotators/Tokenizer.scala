@@ -65,10 +65,10 @@ import scala.collection.mutable.ArrayBuffer
   * }}}
   *
   * @param uid
-  *   required uid for storing annotator to disk
+  * required uid for storing annotator to disk
   * @groupname anno Annotator types
   * @groupdesc anno
-  *   Required input and expected output annotator types
+  *            Required input and expected output annotator types
   * @groupname Ungrouped Members
   * @groupname param Parameters.
   * @groupname setParam Parameter setters
@@ -80,8 +80,8 @@ import scala.collection.mutable.ArrayBuffer
   * @groupprio setParam  4
   * @groupprio getParam  5
   * @groupdesc param
-  *   A list of (hyper-)parameter keys this annotator can take. Users can set and get the
-  *   parameter values through setters and getters, respectively.
+  *            A list of (hyper-)parameter keys this annotator can take. Users can set and get the
+  *            parameter values through setters and getters, respectively.
   */
 class Tokenizer(override val uid: String) extends AnnotatorApproach[TokenizerModel] {
 
@@ -134,6 +134,17 @@ class Tokenizer(override val uid: String) extends AnnotatorApproach[TokenizerMod
     * "!", "?", "*", "-", "(", ")", "\"", "'")`)
     * @group param
     */
+
+  val indexOffSet: BooleanParam = new BooleanParam(
+    this,
+    "indexOffSet",
+    "Whether to remove the offset from indexes")
+
+  /** Used to decide if returned Start and End positions offset is removed
+    *
+    * @group param
+    */
+
   val contextChars: StringArrayParam = new StringArrayParam(
     this,
     "contextChars",
@@ -172,6 +183,7 @@ class Tokenizer(override val uid: String) extends AnnotatorApproach[TokenizerMod
     * }}}
     *
     * This will yield: `Tokens, in, this, text, will, be, split, on, hashtags, and, dashes`
+    *
     * @group param
     */
   val splitPattern: Param[String] = new Param(
@@ -228,6 +240,7 @@ class Tokenizer(override val uid: String) extends AnnotatorApproach[TokenizerMod
     * }}}
     *
     * This will yield: `l', une, d', un, l', un, , , des, l', extrême, des, l', extreme`
+    *
     * @group param
     */
   val infixPatterns: StringArrayParam = new StringArrayParam(
@@ -262,6 +275,7 @@ class Tokenizer(override val uid: String) extends AnnotatorApproach[TokenizerMod
   val minLength = new IntParam(this, "minLength", "Set the minimum allowed length for each token")
 
   /** Set the minimum allowed length for each token
+    *
     * @group setParam
     */
   def setMinLength(value: Int): this.type = {
@@ -271,6 +285,7 @@ class Tokenizer(override val uid: String) extends AnnotatorApproach[TokenizerMod
   }
 
   /** Get the minimum allowed length for each token
+    *
     * @group getParam
     */
   def getMinLength(value: Int): Int = $(minLength)
@@ -282,6 +297,7 @@ class Tokenizer(override val uid: String) extends AnnotatorApproach[TokenizerMod
   val maxLength = new IntParam(this, "maxLength", "Set the maximum allowed length for each token")
 
   /** Get the maximum allowed length for each token
+    *
     * @group setParam
     */
   def setMaxLength(value: Int): this.type = {
@@ -295,22 +311,26 @@ class Tokenizer(override val uid: String) extends AnnotatorApproach[TokenizerMod
   }
 
   /** Get the maximum allowed length for each token
+    *
     * @group getParam
     */
   def getMaxLength(value: Int): Int = $(maxLength)
 
   /** Set a basic regex rule to identify token candidates in text.
+    *
     * @group setParam
     */
   def setTargetPattern(value: String): this.type = set(targetPattern, value)
 
   /** Regex pattern to separate from the inside of tokens. Takes priority over splitChars.
+    *
     * @group setParam
     */
   def setSplitPattern(value: String): this.type = set(splitPattern, value)
 
   /** Set a list of Regex patterns that match tokens within a single target. Groups identify
     * different sub-tokens. multiple defaults
+    *
     * @group setParam
     */
   def setInfixPatterns(value: Array[String]): this.type = set(infixPatterns, value)
@@ -360,9 +380,9 @@ class Tokenizer(override val uid: String) extends AnnotatorApproach[TokenizerMod
     * @group getParam
     */
   def setExceptionsPath(
-      path: String,
-      readAs: ReadAs.Format = ReadAs.TEXT,
-      options: Map[String, String] = Map("format" -> "text")): this.type =
+                         path: String,
+                         readAs: ReadAs.Format = ReadAs.TEXT,
+                         options: Map[String, String] = Map("format" -> "text")): this.type =
     set(exceptionsPath, ExternalResource(path, readAs, options))
 
   /** Whether to follow case sensitiveness for matching exceptions in text
@@ -376,6 +396,18 @@ class Tokenizer(override val uid: String) extends AnnotatorApproach[TokenizerMod
     * @group getParam
     */
   def getCaseSensitiveExceptions(value: Boolean): Boolean = $(caseSensitiveExceptions)
+
+  /** Whether to remove offset from index
+    *
+    * @group getParam
+    */
+  def setIndexOffSet(value: Boolean): this.type = set(indexOffSet, value)
+
+  /** Whether Whether to remove offset from index
+    *
+    * @group getParam
+    */
+  def getIndexOffSet(value: Boolean): Boolean = $(indexOffSet)
 
   /** Add an extension pattern regex with groups to the top of the rules (will target first, from
     * more specific to the more general).
@@ -482,6 +514,7 @@ class Tokenizer(override val uid: String) extends AnnotatorApproach[TokenizerMod
     targetPattern -> "\\S+",
     contextChars -> Array(".", ",", ";", ":", "!", "?", "*", "-", "(", ")", "\"", "'"),
     caseSensitiveExceptions -> true,
+    indexOffSet -> false,
     minLength -> 0)
 
   /** Build rule factory which combines all defined parameters to build regex that is applied to
@@ -524,8 +557,8 @@ class Tokenizer(override val uid: String) extends AnnotatorApproach[TokenizerMod
     * to be tokenized separately from the rest
     */
   override def train(
-      dataset: Dataset[_],
-      recursivePipeline: Option[PipelineModel]): TokenizerModel = {
+                      dataset: Dataset[_],
+                      recursivePipeline: Option[PipelineModel]): TokenizerModel = {
 
     /** Clears out rules and constructs a new rule for every combination of rules provided */
     /** The strategy is to catch one token per regex group */
@@ -538,6 +571,7 @@ class Tokenizer(override val uid: String) extends AnnotatorApproach[TokenizerMod
 
     val raw = new TokenizerModel()
       .setCaseSensitiveExceptions($(caseSensitiveExceptions))
+      .setIndexOffSet($(indexOffSet))
       .setTargetPattern($(targetPattern))
       .setRules(ruleFactory)
       .setMinLength($(minLength))
