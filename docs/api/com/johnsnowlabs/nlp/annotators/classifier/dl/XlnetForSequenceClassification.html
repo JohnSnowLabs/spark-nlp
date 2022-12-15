@@ -3,9 +3,9 @@
         <head>
           <meta http-equiv="X-UA-Compatible" content="IE=edge" />
           <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-          <title>Spark NLP 4.2.4 ScalaDoc  - com.johnsnowlabs.nlp.annotators.classifier.dl.XlnetForSequenceClassification</title>
-          <meta name="description" content="Spark NLP 4.2.4 ScalaDoc - com.johnsnowlabs.nlp.annotators.classifier.dl.XlnetForSequenceClassification" />
-          <meta name="keywords" content="Spark NLP 4.2.4 ScalaDoc com.johnsnowlabs.nlp.annotators.classifier.dl.XlnetForSequenceClassification" />
+          <title>Spark NLP 4.2.5 ScalaDoc  - com.johnsnowlabs.nlp.annotators.classifier.dl.XlnetForSequenceClassification</title>
+          <meta name="description" content="Spark NLP 4.2.5 ScalaDoc - com.johnsnowlabs.nlp.annotators.classifier.dl.XlnetForSequenceClassification" />
+          <meta name="keywords" content="Spark NLP 4.2.5 ScalaDoc com.johnsnowlabs.nlp.annotators.classifier.dl.XlnetForSequenceClassification" />
           <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
           
       
@@ -28,7 +28,7 @@
         </head>
         <body>
       <div id="search">
-        <span id="doc-title">Spark NLP 4.2.4 ScalaDoc<span id="doc-version"></span></span>
+        <span id="doc-title">Spark NLP 4.2.5 ScalaDoc<span id="doc-version"></span></span>
         <span class="close-results"><span class="left">&lt;</span> Back</span>
         <div id="textfilter">
           <span class="input">
@@ -190,6 +190,10 @@
                         <a class="class" href="BertForTokenClassification.html" title="BertForTokenClassification can load Bert Models with a token classification head on top (a linear layer on top of the hidden-states output) e.g."></a>
                         <a href="BertForTokenClassification.html" title="BertForTokenClassification can load Bert Models with a token classification head on top (a linear layer on top of the hidden-states output) e.g.">BertForTokenClassification</a>
                       </li><li class="current-entities indented6">
+                        <a class="object" href="CamemBertForSequenceClassification$.html" title="This is the companion object of CamemBertForSequenceClassification."></a>
+                        <a class="class" href="CamemBertForSequenceClassification.html" title="CamemBertForSequenceClassification can load CamemBERT Models with sequence classification/regression head on top (a linear layer on top of the pooled output) e.g."></a>
+                        <a href="CamemBertForSequenceClassification.html" title="CamemBertForSequenceClassification can load CamemBERT Models with sequence classification/regression head on top (a linear layer on top of the pooled output) e.g.">CamemBertForSequenceClassification</a>
+                      </li><li class="current-entities indented6">
                         <a class="object" href="CamemBertForTokenClassification$.html" title="This is the companion object of CamemBertForTokenClassification."></a>
                         <a class="class" href="CamemBertForTokenClassification.html" title="CamemBertForTokenClassification can load CamemBERT Models with a token classification head on top (a linear layer on top of the hidden-states output) e.g."></a>
                         <a href="CamemBertForTokenClassification.html" title="CamemBertForTokenClassification can load CamemBERT Models with a token classification head on top (a linear layer on top of the hidden-states output) e.g.">CamemBertForTokenClassification</a>
@@ -277,6 +281,10 @@
                         <span class="separator"></span>
                         <a class="trait" href="ReadBertForTokenTensorflowModel.html" title=""></a>
                         <a href="ReadBertForTokenTensorflowModel.html" title="">ReadBertForTokenTensorflowModel</a>
+                      </li><li class="current-entities indented6">
+                        <span class="separator"></span>
+                        <a class="trait" href="ReadCamemBertForSequenceTensorflowModel.html" title=""></a>
+                        <a href="ReadCamemBertForSequenceTensorflowModel.html" title="">ReadCamemBertForSequenceTensorflowModel</a>
                       </li><li class="current-entities indented6">
                         <span class="separator"></span>
                         <a class="trait" href="ReadCamemBertForTokenTensorflowModel.html" title=""></a>
@@ -389,6 +397,10 @@
                         <span class="separator"></span>
                         <a class="trait" href="ReadablePretrainedBertForTokenModel.html" title=""></a>
                         <a href="ReadablePretrainedBertForTokenModel.html" title="">ReadablePretrainedBertForTokenModel</a>
+                      </li><li class="current-entities indented6">
+                        <span class="separator"></span>
+                        <a class="trait" href="ReadablePretrainedCamemBertForSequenceModel.html" title=""></a>
+                        <a href="ReadablePretrainedCamemBertForSequenceModel.html" title="">ReadablePretrainedCamemBertForSequenceModel</a>
                       </li><li class="current-entities indented6">
                         <span class="separator"></span>
                         <a class="trait" href="ReadablePretrainedCamemBertForTokenModel.html" title=""></a>
@@ -587,16 +599,16 @@ examples, see
   sequenceClassifier
 ))
 
-<span class="kw">val</span> data = <span class="std">Seq</span>(<span class="lit">"John Lenon was born in London and lived in Paris. My name is Sarah and I live in London"</span>).toDF(<span class="lit">"text"</span>)
+<span class="kw">val</span> data = <span class="std">Seq</span>(<span class="lit">"I loved this movie when I was a child."</span>, <span class="lit">"It was pretty boring."</span>).toDF(<span class="lit">"text"</span>)
 <span class="kw">val</span> result = pipeline.fit(data).transform(data)
 
 result.select(<span class="lit">"label.result"</span>).show(<span class="kw">false</span>)
-+--------------------+
-|result              |
-+--------------------+
-|[neg, neg]          |
-|[pos, pos, pos, pos]|
-+--------------------+</pre></div><dl class="attributes block"> <dt>See also</dt><dd><span class="cmt"><p>
++------+
+|result|
++------+
+|[pos] |
+|[neg] |
++------+</pre></div><dl class="attributes block"> <dt>See also</dt><dd><span class="cmt"><p>
   <a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.classifier.dl.XlnetForSequenceClassification">XlnetForSequenceClassification</a> for sequence-level classification</p></span><span class="cmt"><p>
   <a href="https://nlp.johnsnowlabs.com/docs/en/annotators" target="_blank">Annotators Main Page</a> for a list of
   transformer based classifiers</p></span></dd></dl><div class="toggleContainer block">

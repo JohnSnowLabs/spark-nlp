@@ -91,6 +91,8 @@ class Tokenizer(AnnotatorApproach):
 
     inputAnnotatorTypes = [AnnotatorType.DOCUMENT]
 
+    outputAnnotatorType = AnnotatorType.TOKEN
+
     targetPattern = Param(Params._dummy(),
                           "targetPattern",
                           "pattern to grab from text as token candidates. Defaults \S+",
@@ -457,6 +459,8 @@ class TokenizerModel(AnnotatorModel):
     name = "TokenizerModel"
 
     inputAnnotatorTypes = [AnnotatorType.DOCUMENT]
+
+    outputAnnotatorType = AnnotatorType.TOKEN
 
     exceptions = Param(Params._dummy(),
                        "exceptions",

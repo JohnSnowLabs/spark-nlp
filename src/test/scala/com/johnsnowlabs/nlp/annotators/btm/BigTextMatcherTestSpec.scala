@@ -102,19 +102,109 @@ class BigTextMatcherTestSpec extends AnyFlatSpec with BigTextMatcherBehaviors {
 
     val m = recursivePipeline.fit(data)
     m.write.overwrite().save("./tmp_bigtm")
-    m.transform(data).show(1, false)
+    m.transform(data).show(1, truncate = false)
     assert(recursivePipeline.fit(data).transform(data).filter("finished_entity == ''").count > 0)
   }
 
   "A big text matcher pipeline" should "work fine" taggedAs FastTest in {
     val m = PipelineModel.load("./tmp_bigtm")
     val dataset = DataBuilder.basicDataBuild("Hello dolore magna. Aliqua")
-    m.transform(dataset).show(1, false)
+    m.transform(dataset).show(1, truncate = false)
   }
 
   val latinBodyData: Dataset[Row] = DataBuilder.basicDataBuild(ContentProvider.latinBody)
 
   "A full Normalizer pipeline with latin content" should behave like fullBigTextMatcher(
     latinBodyData)
+
+  "A BigTextMatcher" should "also match substrings of entities" taggedAs FastTest in {
+
+    val data =
+      DataBuilder.basicDataBuild("patient has Lung Cancer", "patient Lung and Kidney Cancer")
+
+    val tokenizedData = AnnotatorBuilder.withTokenizer(data, sbd = false)
+
+    val entityExtractor = new BigTextMatcher()
+      .setInputCols("document", "token")
+      .setStoragePath("src/test/resources/entity-extractor/test-overlapping.txt", ReadAs.TEXT)
+      .setOutputCol("entity")
+      .setCaseSensitive(false)
+
+    val results = entityExtractor.fit(tokenizedData).transform(tokenizedData)
+
+    val collected = Annotation.collect(results, "entity").flatten
+
+    val expected = Seq(
+      Annotation(
+        CHUNK,
+        begin = 12,
+        end = 15,
+        result = "Lung",
+        Map("sentence" -> "0", "chunk" -> "0")),
+      Annotation(
+        CHUNK,
+        begin = 12,
+        end = 22,
+        result = "Lung Cancer",
+        Map("sentence" -> "0", "chunk" -> "1")),
+      Annotation(
+        CHUNK,
+        begin = 8,
+        end = 11,
+        result = "Lung",
+        Map("sentence" -> "0", "chunk" -> "0")),
+      Annotation(
+        CHUNK,
+        begin = 17,
+        end = 22,
+        result = "Kidney",
+        Map("sentence" -> "0", "chunk" -> "1")),
+      Annotation(
+        CHUNK,
+        begin = 17,
+        end = 29,
+        result = "Kidney Cancer",
+        Map("sentence" -> "0", "chunk" -> "2")))
+
+    assert(expected.length == collected.length)
+
+    expected.zip(collected).map { case (expAnno: Annotation, anno: Annotation) =>
+      assert(expAnno == anno)
+    }
+
+    // Test for merged chunks
+    entityExtractor.setMergeOverlapping(true)
+
+    val resultsMerged = entityExtractor.fit(tokenizedData).transform(tokenizedData)
+
+    val collectedMerged = Annotation.collect(resultsMerged, "entity").flatten
+
+    val expectedMerged = Seq(
+      Annotation(
+        CHUNK,
+        begin = 12,
+        end = 22,
+        result = "Lung Cancer",
+        Map("sentence" -> "0", "chunk" -> "0")),
+      Annotation(
+        CHUNK,
+        begin = 8,
+        end = 11,
+        result = "Lung",
+        Map("sentence" -> "0", "chunk" -> "0")),
+      Annotation(
+        CHUNK,
+        begin = 17,
+        end = 29,
+        result = "Kidney Cancer",
+        Map("sentence" -> "0", "chunk" -> "1")))
+
+    assert(expectedMerged.length == collectedMerged.length)
+
+    expectedMerged.zip(collectedMerged).map { case (expAnno: Annotation, anno: Annotation) =>
+      assert(expAnno == anno)
+    }
+
+  }
 
 }

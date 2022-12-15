@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>python.sparknlp.annotator.classifier_dl.roberta_for_sequence_classification &#8212; Spark NLP 4.2.4 documentation</title>
+    <title>python.sparknlp.annotator.classifier_dl.roberta_for_sequence_classification &#8212; Spark NLP 4.2.5 documentation</title>
   
   
   
@@ -385,20 +385,21 @@
 <span class="sd">    ...     tokenizer,</span>
 <span class="sd">    ...     sequenceClassifier</span>
 <span class="sd">    ... ])</span>
-<span class="sd">    &gt;&gt;&gt; data = spark.createDataFrame([[\&quot;\&quot;\&quot;John Lenon was born in London and lived</span>
-<span class="sd">    ... in Paris. My name is Sarah and I live in London\&quot;\&quot;\&quot;]]).toDF(&quot;text&quot;)</span>
+<span class="sd">    &gt;&gt;&gt; data = spark.createDataFrame([[&quot;I loved this movie when I was a child.&quot;, &quot;It was pretty boring.&quot;]]).toDF(&quot;text&quot;)</span>
 <span class="sd">    &gt;&gt;&gt; result = pipeline.fit(data).transform(data)</span>
 <span class="sd">    &gt;&gt;&gt; result.select(&quot;label.result&quot;).show(truncate=False)</span>
-<span class="sd">    +--------------------+</span>
-<span class="sd">    |result              |</span>
-<span class="sd">    +--------------------+</span>
-<span class="sd">    |[neg, neg]          |</span>
-<span class="sd">    |[pos, pos, pos, pos]|</span>
-<span class="sd">    +--------------------+</span>
+<span class="sd">    +------+</span>
+<span class="sd">    |result|</span>
+<span class="sd">    +------+</span>
+<span class="sd">    |[pos] |</span>
+<span class="sd">    |[neg] |</span>
+<span class="sd">    +------+</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;RoBertaForSequenceClassification&quot;</span>
 
     <span class="n">inputAnnotatorTypes</span> <span class="o">=</span> <span class="p">[</span><span class="n">AnnotatorType</span><span class="o">.</span><span class="n">DOCUMENT</span><span class="p">,</span> <span class="n">AnnotatorType</span><span class="o">.</span><span class="n">TOKEN</span><span class="p">]</span>
+
+    <span class="n">outputAnnotatorType</span> <span class="o">=</span> <span class="n">AnnotatorType</span><span class="o">.</span><span class="n">CATEGORY</span>
 
     <span class="n">maxSentenceLength</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
                               <span class="s2">&quot;maxSentenceLength&quot;</span><span class="p">,</span>

@@ -99,6 +99,8 @@ class TokenAssembler(AnnotatorTransformer, AnnotatorProperties):
 
     inputAnnotatorTypes = [AnnotatorType.DOCUMENT, AnnotatorType.TOKEN]
 
+    outputAnnotatorType = AnnotatorType.DOCUMENT
+
     preservePosition = Param(Params._dummy(), "preservePosition", "whether to preserve the actual position of the tokens or reduce them to one space", typeConverter=TypeConverters.toBoolean)
 
     @keyword_only

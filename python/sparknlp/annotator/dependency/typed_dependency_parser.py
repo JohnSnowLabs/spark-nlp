@@ -101,6 +101,8 @@ class TypedDependencyParserApproach(AnnotatorApproach):
 
     inputAnnotatorTypes = [AnnotatorType.DOCUMENT, AnnotatorType.POS, AnnotatorType.DEPENDENCY]
 
+    outputAnnotatorType = AnnotatorType.LABELED_DEPENDENCY
+
     conll2009 = Param(Params._dummy(),
                       "conll2009",
                       "Path to file with CoNLL 2009 format",
@@ -263,6 +265,8 @@ class TypedDependencyParserModel(AnnotatorModel):
     name = "TypedDependencyParserModel"
 
     inputAnnotatorTypes = [AnnotatorType.DOCUMENT, AnnotatorType.POS, AnnotatorType.DEPENDENCY]
+
+    outputAnnotatorType = AnnotatorType.LABELED_DEPENDENCY
 
     trainOptions = Param(Params._dummy(),
                          "trainOptions",
