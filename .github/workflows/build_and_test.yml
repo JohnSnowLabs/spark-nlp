@@ -34,6 +34,9 @@ jobs:
   spark33:
     if: "! contains(toJSON(github.event.commits.*.message), '[skip test]')"
     runs-on: macos-latest
+    env:
+      TF_CPP_MIN_LOG_LEVEL: 3
+      JAVA_OPTS: "-Xmx4096m -XX:+UseG1GC"
     name: Build and Test on Apache Spark 3.3.x
 
     steps:
@@ -55,7 +58,7 @@ jobs:
       - name: Build Spark NLP on Apache Spark 3.3.0
         run: |
           brew install sbt
-          sbt -mem 4096 clean assemblyAndCopy
+          sbt -mem 4096 -Dis_spark33=true clean assemblyAndCopy
       - name: Test Spark NLP in Scala - Apache Spark 3.3.x
         run: |
           sbt -mem 4096 coverage test
@@ -72,6 +75,9 @@ jobs:
   spark32:
     if: "! contains(toJSON(github.event.commits.*.message), '[skip test]')"
     runs-on: macos-latest
+    env:
+      TF_CPP_MIN_LOG_LEVEL: 3
+      JAVA_OPTS: "-Xmx4096m -XX:+UseG1GC"
     name: Build and Test on Apache Spark 3.2.x
 
     steps:
@@ -105,6 +111,9 @@ jobs:
   spark31:
     if: "! contains(toJSON(github.event.commits.*.message), '[skip test]')"
     runs-on: macos-latest
+    env:
+      TF_CPP_MIN_LOG_LEVEL: 3
+      JAVA_OPTS: "-Xmx4096m -XX:+UseG1GC"
     name: Build and Test on Apache Spark 3.1.x
 
     steps:
@@ -126,7 +135,7 @@ jobs:
       - name: Build Spark NLP on Apache Spark 3.1.x
         run: |
           brew install sbt
-          sbt -mem 4096 clean assemblyAndCopy
+          sbt -mem 4096 -Dis_spark31=true clean assemblyAndCopy
       - name: Test Spark NLP in Scala - Apache Spark 3.1.x
         run: |
           sbt -mem 4096 test
@@ -138,6 +147,9 @@ jobs:
   spark30:
     if: "! contains(toJSON(github.event.commits.*.message), '[skip test]')"
     runs-on: macos-latest
+    env:
+      TF_CPP_MIN_LOG_LEVEL: 3
+      JAVA_OPTS: "-Xmx4096m -XX:+UseG1GC"
     name: Build and Test on Apache Spark 3.0.x
 
     steps:
@@ -159,7 +171,7 @@ jobs:
       - name: Build Spark NLP on Apache Spark 3.0.x
         run: |
           brew install sbt
-          sbt -mem 4096 clean assemblyAndCopy
+          sbt -mem 4096 -Dis_spark30=true clean assemblyAndCopy
       - name: Test Spark NLP in Scala - Apache Spark 3.0.x
         run: |
           sbt -mem 4096 test
