@@ -22,8 +22,8 @@ class CamemBertForSequenceClassification(AnnotatorModel,
                                          HasClassifierActivationProperties,
                                          HasEngine):
     """CamemBertForSequenceClassification can load CamemBERT Models with a sequence
-    classification/regression head on top (a linear layer on top of the pooled output) e.g. for
-    multi-class document classification tasks.
+    classification/regression head on top (a linear layer on top of the pooled output)
+    e.g. for multi-class document classification tasks.
 
     Pretrained models can be loaded with :meth:`.pretrained` of the companion
     object:
@@ -88,14 +88,15 @@ class CamemBertForSequenceClassification(AnnotatorModel,
     ...     tokenizer,
     ...     sequenceClassifier
     ... ])
-    >>> data = spark.createDataFrame([["george washington est allé à washington"]]).toDF("text")
+    >>> data = spark.createDataFrame([["j'ai adoré ce film lorsque j'étais enfant.", "Je déteste ça."]]).toDF("text")
     >>> result = pipeline.fit(data).transform(data)
     >>> result.select("class.result").show(truncate=False)
-    +------------------------------+
-    |result                        |
-    +------------------------------+
-    |[I-PER, I-PER, O, O, O, I-LOC]|
-    +------------------------------+
+    +------+
+    |result|
+    +------+
+    |[pos] |
+    |[neg] |
+    +------+
     """
     name = "CamemBertForSequenceClassification"
 
@@ -142,9 +143,13 @@ class CamemBertForSequenceClassification(AnnotatorModel,
         return self._set(maxSentenceLength=value)
 
     def setCoalesceSentences(self, value):
-        """Instead of 1 class per sentence (if inputCols is '''sentence''') output 1 class per document by averaging probabilities in all sentences.
-        Due to max sequence length limit in almost all transformer models such as BERT (512 tokens), this parameter helps feeding all the sentences
-        into the model and averaging all the probabilities for the entire document instead of probabilities per sentence. (Default: true)
+        """Instead of 1 class per sentence (if inputCols is '''sentence''') output 1
+        class per document by averaging probabilities in all sentences, by default True.
+
+        Due to max sequence length limit in almost all transformer models such as BERT
+        (512 tokens), this parameter helps feeding all the sentences into the model and
+        averaging all the probabilities for the entire document instead of probabilities
+        per sentence.
 
         Parameters
         ----------
