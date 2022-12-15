@@ -1,24 +1,29 @@
 {%- capture title -%}
-XlmRoBertaForSequenceClassification
+CamemBertForSequenceClassification
 {%- endcapture -%}
 
 {%- capture description -%}
-XlmRoBertaForSequenceClassification can load XLM-RoBERTa Models with sequence classification/regression head on top
-(a linear layer on top of the pooled output) e.g. for multi-class document classification tasks.
+CamemBertForSequenceClassification can load CamemBERT Models with sequence
+classification/regression head on top (a linear layer on top of the pooled output) e.g. for
+multi-class document classification tasks.
 
 Pretrained models can be loaded with `pretrained` of the companion object:
+
 ```
-val sequenceClassifier = XlmRoBertaForSequenceClassification.pretrained()
+val sequenceClassifier = CamemBertForSequenceClassification.pretrained()
   .setInputCols("token", "document")
   .setOutputCol("label")
 ```
-The default model is `"xlm_roberta_base_sequence_classifier_imdb"`, if no name is provided.
 
-For available pretrained models please see the [Models Hub](https://nlp.johnsnowlabs.com/models?task=Text+Classification).
+The default model is `camembert_base_sequence_classifier_allocine"`, if no name is provided.
 
-Models from the HuggingFace 🤗 Transformers library are also compatible with Spark NLP 🚀. The Spark NLP Workshop
-example shows how to import them https://github.com/JohnSnowLabs/spark-nlp/discussions/5669.
-and the [XlmRoBertaForSequenceClassification](https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/classifier/dl/XlmRoBertaForSequenceClassificationTestSpec.scala).
+For available pretrained models please see the
+[Models Hub](https://nlp.johnsnowlabs.com/models?task=Text+Classification).
+
+To see which models are compatible and how to import them see
+https://github.com/JohnSnowLabs/spark-nlp/discussions/5669 and to see more extended
+examples, see
+[CamemBertForSequenceClassification](https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/classifier/dl/CamemBertForSequenceClassificationTestSpec.scala).
 {%- endcapture -%}
 
 {%- capture input_anno -%}
@@ -37,31 +42,28 @@ from pyspark.ml import Pipeline
 documentAssembler = DocumentAssembler() \
     .setInputCol("text") \
     .setOutputCol("document")
-
 tokenizer = Tokenizer() \
     .setInputCols(["document"]) \
     .setOutputCol("token")
-
-sequenceClassifier = XlmRoBertaForSequenceClassification.pretrained() \
+sequenceClassifier = CamemBertForSequenceClassification.pretrained() \
     .setInputCols(["token", "document"]) \
     .setOutputCol("label") \
     .setCaseSensitive(True)
-
 pipeline = Pipeline().setStages([
     documentAssembler,
     tokenizer,
     sequenceClassifier
 ])
-
-data = spark.createDataFrame([["I loved this movie when I was a child.", "It was pretty boring."]]).toDF("text")
+data = spark.createDataFrame([["j'ai adoré ce film lorsque j'étais enfant.", "Je déteste ça."]]).toDF("text")
 result = pipeline.fit(data).transform(data)
-result.select("label.result").show(truncate=False)
+result.select("class.result").show(truncate=False)
 +------+
 |result|
 +------+
 |[pos] |
 |[neg] |
 +------+
+
 {%- endcapture -%}
 
 {%- capture scala_example -%}
@@ -78,7 +80,7 @@ val tokenizer = new Tokenizer()
   .setInputCols("document")
   .setOutputCol("token")
 
-val sequenceClassifier = XlmRoBertaForSequenceClassification.pretrained()
+val sequenceClassifier = CamemBertForSequenceClassification.pretrained()
   .setInputCols("token", "document")
   .setOutputCol("label")
   .setCaseSensitive(true)
@@ -89,7 +91,7 @@ val pipeline = new Pipeline().setStages(Array(
   sequenceClassifier
 ))
 
-val data = Seq("I loved this movie when I was a child.", "It was pretty boring.").toDF("text")
+val data = Seq("j'ai adoré ce film lorsque j'étais enfant.", "Je déteste ça.").toDF("text")
 val result = pipeline.fit(data).transform(data)
 
 result.select("label.result").show(false)
@@ -103,15 +105,15 @@ result.select("label.result").show(false)
 {%- endcapture -%}
 
 {%- capture api_link -%}
-[XlmRoBertaForSequenceClassification](https://nlp.johnsnowlabs.com/api/com/johnsnowlabs/nlp/annotators/classifier/dl/XlmRoBertaForSequenceClassification)
+[CamemBertForSequenceClassification](/api/com/johnsnowlabs/nlp/annotators/classifier/dl/CamemBertForSequenceClassification)
 {%- endcapture -%}
 
 {%- capture python_api_link -%}
-[XlmRoBertaForSequenceClassification](/api/python/reference/autosummary/python/sparknlp/annotator/classifier_dl/xlm_roberta_for_sequence_classification/index.html#sparknlp.annotator.classifier_dl.xlm_roberta_for_sequence_classification.XlmRoBertaForSequenceClassification)
+[CamemBertForSequenceClassification](/api/python/reference/autosummary/python/sparknlp/annotator/classifier_dl/camembert_for_token_classification/index.html#sparknlp.annotator.classifier_dl.camembert_for_sequence_classification.CamemBertForSequenceClassification)
 {%- endcapture -%}
 
 {%- capture source_link -%}
-[XlmRoBertaForSequenceClassification](https://github.com/JohnSnowLabs/spark-nlp/tree/master/src/main/scala/com/johnsnowlabs/nlp/annotators/classifier/dl/XlmRoBertaForSequenceClassification.scala)
+[CamemBertForSequenceClassification](https://github.com/JohnSnowLabs/spark-nlp/tree/master/src/main/scala/com/johnsnowlabs/nlp/annotators/classifier/dl/CamemBertForSequenceClassification.scala)
 {%- endcapture -%}
 
 {% include templates/anno_template.md
