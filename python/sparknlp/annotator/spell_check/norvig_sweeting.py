@@ -116,6 +116,8 @@ class NorvigSweetingApproach(AnnotatorApproach):
     """
     inputAnnotatorTypes = [AnnotatorType.TOKEN]
 
+    outputAnnotatorType = AnnotatorType.TOKEN
+
     dictionary = Param(Params._dummy(),
                        "dictionary",
                        "dictionary needs 'tokenPattern' regex in dictionary for separating words",
@@ -326,6 +328,8 @@ class NorvigSweetingModel(AnnotatorModel):
     name = "NorvigSweetingModel"
 
     inputAnnotatorTypes = [AnnotatorType.TOKEN]
+
+    outputAnnotatorType = AnnotatorType.TOKEN
 
     def __init__(self, classname="com.johnsnowlabs.nlp.annotators.spell.norvig.NorvigSweetingModel", java_model=None):
         super(NorvigSweetingModel, self).__init__(

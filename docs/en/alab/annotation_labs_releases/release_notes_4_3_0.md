@@ -5,7 +5,7 @@ seotitle: Annotation Lab | John Snow Labs
 title: Annotation Lab Release Notes 4.3.0
 permalink: /docs/en/alab/annotation_labs_releases/release_notes_4_3_0
 key: docs-licensed-release-notes
-modify_date: 2022-11-28
+modify_date: "2022-12-07"
 show_nav: true
 sidebar:
   nav: annotation-lab
@@ -49,6 +49,7 @@ Here are the highlights of this release:
 </div>
 
 <ul class="pagination owl-carousel pagination_big">
+    <li><a href="release_notes_4_4_0">4.4.0</a></li>
     <li class="active"><a href="release_notes_4_3_0">4.3.0</a></li>
     <li><a href="release_notes_4_2_0">4.2.0</a></li>
 	  <li><a href="release_notes_4_1_0">4.1.0</a></li>

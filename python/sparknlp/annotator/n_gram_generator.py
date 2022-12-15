@@ -86,6 +86,8 @@ class NGramGenerator(AnnotatorModel):
 
     inputAnnotatorTypes = [AnnotatorType.TOKEN]
 
+    outputAnnotatorType = AnnotatorType.CHUNK
+
     @keyword_only
     def __init__(self):
         super(NGramGenerator, self).__init__(classname="com.johnsnowlabs.nlp.annotators.NGramGenerator")

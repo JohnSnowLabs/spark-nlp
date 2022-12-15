@@ -102,6 +102,8 @@ class Chunker(AnnotatorModel):
     """
     inputAnnotatorTypes = [AnnotatorType.DOCUMENT, AnnotatorType.POS]
 
+    outputAnnotatorType = AnnotatorType.CHUNK
+
     regexParsers = Param(Params._dummy(),
                          "regexParsers",
                          "an array of grammar based chunk parsers",

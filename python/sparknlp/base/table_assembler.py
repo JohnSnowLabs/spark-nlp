@@ -82,6 +82,8 @@ class TableAssembler(AnnotatorModel):
 
     inputAnnotatorTypes = [AnnotatorType.DOCUMENT]
 
+    outputAnnotatorType = AnnotatorType.TABLE
+
     inputFormat = Param(
         Params._dummy(),
         "inputFormat",

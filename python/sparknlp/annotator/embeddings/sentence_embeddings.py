@@ -96,6 +96,8 @@ class SentenceEmbeddings(AnnotatorModel, HasEmbeddingsProperties, HasStorageRef)
 
     inputAnnotatorTypes = [AnnotatorType.DOCUMENT, AnnotatorType.WORD_EMBEDDINGS]
 
+    outputAnnotatorType = AnnotatorType.SENTENCE_EMBEDDINGS
+
     @keyword_only
     def __init__(self):
         super(SentenceEmbeddings, self).__init__(classname="com.johnsnowlabs.nlp.embeddings.SentenceEmbeddings")
