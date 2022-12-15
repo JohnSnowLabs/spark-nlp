@@ -268,7 +268,7 @@ Visit the [product page on Azure Marketplace](https://azuremarketplace.microsoft
 
 ## AKS deployment
 
-To deploy Annotation Lab on Azure Kubernetes Service (AKS) we will first need to create a Kubernetes cluster in Microsoft Azure.
+To deploy Annotation Lab on Azure Kubernetes Service (AKS) a Kubernetes cluster needs to be created in Microsoft Azure.
 
 1. Login to your [Azure Portal](https://portal.azure.com/) and search for Kubernetes services.
 
@@ -302,7 +302,7 @@ To deploy Annotation Lab on Azure Kubernetes Service (AKS) we will first need to
    az aks get-credentials --resource-group <resource-group-name> --name <cluster-name>
    ```
 
-   > **NOTE:** Replace <resource-group-name> and <cluster-name> with what you selected from Step 3.
+   > **NOTE:** Replace <resource-group-name> and <cluster-name> with what you selected in Step 3.
 
 9. Check to see if `azurefile` or `azuredisk` storage class is present by running the following command:
 
