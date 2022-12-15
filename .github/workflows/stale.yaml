@@ -11,8 +11,8 @@ jobs:
       - uses: actions/stale@main
         id: stale
         with:
-          stale-issue-message: 'This issue is stale because it has been open 120 days with no activity. Remove stale label or comment or this will be closed in 5 days'
-          days-before-stale: 120
+          stale-issue-message: 'This issue is stale because it has been open 180 days with no activity. Remove stale label or comment or this will be closed in 5 days'
+          days-before-stale: 180
           days-before-close: 14
           exempt-issue-labels: 'backlog,bug,ob-hold,keep'
       - name: Print outputs

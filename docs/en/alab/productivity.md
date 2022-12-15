@@ -3,14 +3,14 @@ layout: docs
 comment: no
 header: true
 seotitle: Annotation Lab | John Snow Labs
-title: Productivity  
+title: Productivity
 permalink: /docs/en/alab/productivity
 key: docs-training
-modify_date: "2022-10-30"
+modify_date: "2022-12-11"
 use_language_switcher: "Python-Scala"
 show_nav: true
 sidebar:
-    nav: annotation-lab
+  nav: annotation-lab
 ---
 
 <style>
@@ -36,7 +36,7 @@ A refresh button is present on the top-right corner of the Analytics page. The A
 
 ### Task Analytics
 
-To access Task Analytics, navigate on the first tab of the <es>Analytics</es> Dashboard, called <bl>Tasks</bl>. The following blog post explains how to [Improve Annotation Quality using Task Analytics in the Annotation Lab](https://www.johnsnowlabs.com/improving-annotation-quality-using-analytics-in-the-annotation-lab/). 
+To access Task Analytics, navigate on the first tab of the <es>Analytics</es> Dashboard, called <bl>Tasks</bl>. The following blog post explains how to [Improve Annotation Quality using Task Analytics in the Annotation Lab](https://www.johnsnowlabs.com/improving-annotation-quality-using-analytics-in-the-annotation-lab/).
 
 Below are the charts included in the Tasks section.
 
@@ -88,10 +88,9 @@ Below are the charts included in the Tasks section.
 
 ### Team Productivity
 
-To access Team Productivity charts, navigate on the second tab of the <es>Analytics</es> Dashboard, called <bl>Team Productivity</bl>. The following blog post explains how to [Keep Track of Your Team Productivity in the Annotation Lab](https://www.johnsnowlabs.com/keep-track-of-your-team-productivity-in-the-annotation-lab/). 
+To access Team Productivity charts, navigate on the second tab of the <es>Analytics</es> Dashboard, called <bl>Team Productivity</bl>. The following blog post explains how to [Keep Track of Your Team Productivity in the Annotation Lab](https://www.johnsnowlabs.com/keep-track-of-your-team-productivity-in-the-annotation-lab/).
 
 Below are the charts included in the Team Productivity section.
-
 
 **Total number of completions in the Project**
 
@@ -127,10 +126,9 @@ Starting from version 2.8.0, Inter Annotator Agreement(IAA) charts allow the com
 
 Inter Annotator Agreement charts can be used by <es>Annotators</es>, <es>Reviewers</es>, and <es>Managers</es> for identifying contradictions or disagreements within the starred completions (Ground Truth). When multiple annotators work on same tasks, IAA charts are handy to measure how well the annotations created by different annotators align. IAA chart can also be used to identify outliers in the labeled data, or to compare manual annotations with model predictions.
 
-To access IAA charts, navigate on the third tab of the <es>Analytics</es> Dashboard of NER projects, called <bl>Inter-Annotator Agreement</bl>. Several charts should appear on the screen with a default selection of annotators to compare. The dropdown selections on top-left corner of each chart allow you to change annotators for comparison purposes. It is also possible to download the data generated for some chart in CSV format by clicking the download button just below the dropdown selectors.
+To access IAA charts, navigate on the third tab of the <es>Analytics</es> Dashboard of NER projects, called <bl>Inter-Annotator Agreement</bl>. Several charts should appear on the screen with a default selection of annotators to compare. The dropdown selections on top-left corner of each chart allow you to change annotators for comparison purposes. There is another dropdown to select the label type for filtering between NER labels and Assertion Status labels for projects containing both NER and Assertion Status entities. It is also possible to download the data generated for some chart in CSV format by clicking the download button just below the dropdown selectors.
 
 > **Note:** Only the <es>Submitted</es> and <es>starred (Ground Truth)</es> completions are used to render these charts.
-
 
 The following blog post explains how your team can [Reach Consensus Faster by Using IAA Charts in the Annotation Lab](https://www.johnsnowlabs.com/reach-consensus-faster-by-using-iaa-charts-in-the-annotation-lab/).
 
@@ -167,5 +165,5 @@ Below are the charts included in the Inter-Annotator Agreement section.
 ## Download data used for charts
 
 CSV file for specific charts can be downloaded using the new download button which will call specific API endpoints: /api/projects/{project_name}/charts/{chart_type}/download_csv
- 
+
 ![Screen Recording 2022-03-08 at 3 47 49 PM](https://user-images.githubusercontent.com/17021686/158564836-691a2b79-f3ca-4317-ad31-51cfbc9d71df.gif)

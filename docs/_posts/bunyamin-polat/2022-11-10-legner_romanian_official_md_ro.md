@@ -10,7 +10,7 @@ language: ro
 edition: Legal NLP 1.0.0
 spark_version: 3.0
 supported: true
-annotator: FinanceNerModel
+annotator: LegalNerModel
 article_header:
   type: cover
 use_language_switcher: "Python-Scala-Java"

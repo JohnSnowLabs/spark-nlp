@@ -52,7 +52,8 @@ object ConfigLoader {
       getConfigInfo(ConfigHelper.awsExternalSessionToken, "") ++
       getConfigInfo(ConfigHelper.awsExternalProfileName, "") ++
       getConfigInfo(ConfigHelper.awsExternalS3BucketKey, "") ++
-      getConfigInfo(ConfigHelper.awsExternalRegion, "")
+      getConfigInfo(ConfigHelper.awsExternalRegion, "") ++
+      getConfigInfo(ConfigHelper.gcpProjectId, "")
   }
 
   private def getConfigInfo(property: String, defaultValue: String): Map[String, String] = {

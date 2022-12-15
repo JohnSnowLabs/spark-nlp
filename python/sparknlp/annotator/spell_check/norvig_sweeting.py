@@ -14,7 +14,6 @@
 """Contains classes for the NorvigSweeting spell checker."""
 
 from sparknlp.common import *
-from sparknlp.common.annotator_type import AnnotatorType
 
 
 class NorvigSweetingApproach(AnnotatorApproach):

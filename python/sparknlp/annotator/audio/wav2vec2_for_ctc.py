@@ -15,7 +15,6 @@
 """Contains classes concerning Wav2Vec2ForCTC."""
 
 from sparknlp.common import *
-from sparknlp.common.annotator_type import AnnotatorType
 
 
 class Wav2Vec2ForCTC(AnnotatorModel,

@@ -165,6 +165,43 @@ Excluding the label, this can be done with for example
   - a [WordEmbeddingsModel](/docs/en/annotators#wordembeddings)
   (any word embeddings can be chosen, e.g. [BertEmbeddings](/docs/en/transformers#bertembeddings) for BERT based embeddings).
 
+Setting a test dataset to monitor model metrics can be done with `.setTestDataset`. The method
+expects a path to a parquet file containing a dataframe that has the same required columns as
+the training dataframe. The pre-processing steps for the training dataframe should also be
+applied to the test dataframe. The following example will show how to create the test dataset
+with a CoNLL dataset:
+
+```
+val documentAssembler = new DocumentAssembler()
+  .setInputCol("text")
+  .setOutputCol("document")
+
+val embeddings = WordEmbeddingsModel
+  .pretrained()
+  .setInputCols("document", "token")
+  .setOutputCol("embeddings")
+
+val preProcessingPipeline = new Pipeline().setStages(Array(documentAssembler, embeddings))
+
+val conll = CoNLL()
+val Array(train, test) = conll
+  .readDataset(spark, "src/test/resources/conll2003/eng.train")
+  .randomSplit(Array(0.8, 0.2))
+
+preProcessingPipeline
+  .fit(test)
+  .transform(test)
+  .write
+  .mode("overwrite")
+  .parquet("test_data")
+
+val nerTagger = new NerDLApproach()
+  .setInputCols("document", "token", "embeddings")
+  .setLabelColumn("label")
+  .setOutputCol("ner")
+  .setTestDataset("test_data")
+```
+
 For extended examples of usage, see the [Spark NLP Workshop](https://github.com/JohnSnowLabs/spark-nlp-workshop/tree/master/jupyter/training/english/dl-ner)
 and the [NerDLSpec](https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/ner/dl/NerDLSpec.scala).
 {%- endcapture -%}

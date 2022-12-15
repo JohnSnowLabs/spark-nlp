@@ -6,7 +6,7 @@ seotitle: Annotation Lab | John Snow Labs
 title: Train New Model
 permalink: /docs/en/alab/training_configurations
 key: docs-training
-modify_date: "2022-11-07"
+modify_date: "2022-12-01"
 use_language_switcher: "Python-Scala"
 show_nav: true
 sidebar:
@@ -28,7 +28,7 @@ The running servers can be seen by visiting the [Clusters](docs/en/alab/cluster_
 
 For training a good Named Entity Recognition (NER) model, a relevant number of annotations must exist for all labels included in the project configuration. The recommendation is to have minimum 40-50 examples for each entity. Once this requirement is met, for training a new model users need to navigate to the Train page for the current project and follow some very simple steps:
 
-1. Select the type of model to train - Open source/Healthcare - and the embeddings to use;
+1. Select the type of model to train - Open source/Healthcare/Finance/Legal - and the embeddings to use;
 2. Define the training parameters and the train/test data split;
 3. Optionally turn on the Active Learning feature;
 4. Click the `Train Model` button.
@@ -43,9 +43,13 @@ Information on the overall training progress is shown in the page. User can get 
 
 <img class="image image__shadow" src="/assets/images/annotation_lab/4.2.0/visual_ner_train_4.png" style="width:100%;"/>
 
-Once the training is finished, it is possible to download the training logs by clicking on the download logs icon of the recently trained NER model which includes information like training parameters and TF graph used along with precision, recall, f1 score, etc.
+Once the training is finished, it is possible to download the training logs by clicking on the download logs icon of the recently trained NER model which includes information like training parameters and TF graph used along with precision, recall, f1 score, etc. This information is also accessible by clicking on the benchmarking icon available on the models on the Models page.
 
 <img class="image image__shadow" src="/assets/images/annotation_lab/4.2.0/training_logs.png" style="width:100%;"/>
+
+Starting from version 4.3.0, it is possible to keep track of all previous training activities executed for a project. When pressing the `History` button from the Train page, users are presented with a list of all trainings triggered for the current project. Each training event is characterized by the source (_manual_, _active learning_), data used for training, date of event, and status. Training logs can also be downloaded for each training event.
+
+<img class="image image__shadow" src="https://user-images.githubusercontent.com/10126570/203515966-52c37515-ee27-4e94-93f3-79071f15a0cf.gif" style="width:100%;"/>
 
 ### Training parameters
 
@@ -106,6 +110,8 @@ Annotation Lab supports two types of classification training: **Single Choice Cl
 
 The attribute name allows the naming of the different choices present in the project configuration, and thus the training of separate models based on the same project annotations. For example, in the sample configuration illustrated below, the name="age" attribute, tells the system to only consider age-related classification information when training an Age Classifier. The value specified by the name attribute is also used to name the resulting Classification model (classification_age_annotation_manual).
 
+<br />
+
 ### Attribute choice
 
 The choice attribute specifies the type of model that will be trained: multiple or single. For example, in the Labeling Config below, Age and Gender are Single Choice Classification categories while the Smoking Status is Multi-Choice Classification. Depending upon the value of this attribute, the respective model will be trained as a Single Choice Classifier or Multi-Choice Classifier.
@@ -135,6 +141,8 @@ The choice attribute specifies the type of model that will be trained: multiple 
 </View>
 ```
 
+<br />
+
 ### Attribute train
 
 Annotation Lab restricts the training of two or more Classification Models at the same time. If there are multiple Classification categories in a project (like the one above), only the category whose name comes first in alphabetical order will be trained by default. In the above example, based on the value of the name attribute, we conclude that the Age classifier model is trained.
@@ -163,6 +171,10 @@ The model to be trained can also be specified by setting the train="true" attrib
 The trained classification models are available to reuse in any project and can be added on step 3 of the [Project Configuration](/docs/en/alab/project_configuration#ner-labeling) wizard.
 
 <img class="image image__shadow" src="/assets/images/annotation_lab/4.1.0/classification_pipeline.png" style="width:80%;"/>
+
+The classification models trained using Annotation Lab also have attached benchmarking information. The training logs include the confusion matrix, helpful in understanding the performance of the model and in checking if the model is underfitting or overfitting. The confusion matrix is also available on the models tiles on the Models page, and  is accessible by clicking on the benchmarking icon.
+
+<img class="image image__shadow" src="https://user-images.githubusercontent.com/10126570/204807841-5202b1b8-60c0-4fd7-a504-46638c8e9611.gif" style="width:100%;"/>
 
 ## Visual NER Training
 

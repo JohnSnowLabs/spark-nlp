@@ -13,7 +13,6 @@
 #  limitations under the License.
 """Contains classes for the DocumentNormalizer"""
 from sparknlp.common import *
-from sparknlp.common.annotator_type import AnnotatorType
 
 
 class DocumentNormalizer(AnnotatorModel):
