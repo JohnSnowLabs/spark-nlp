@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>python.sparknlp.annotator.classifier_dl.classifier_dl &#8212; Spark NLP 4.2.4 documentation</title>
+    <title>python.sparknlp.annotator.classifier_dl.classifier_dl &#8212; Spark NLP 4.2.5 documentation</title>
   
   
   
@@ -444,6 +444,8 @@
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">inputAnnotatorTypes</span> <span class="o">=</span> <span class="p">[</span><span class="n">AnnotatorType</span><span class="o">.</span><span class="n">SENTENCE_EMBEDDINGS</span><span class="p">]</span>
 
+    <span class="n">outputAnnotatorType</span> <span class="o">=</span> <span class="n">AnnotatorType</span><span class="o">.</span><span class="n">CATEGORY</span>
+
     <span class="n">dropout</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;dropout&quot;</span><span class="p">,</span> <span class="s2">&quot;Dropout coefficient&quot;</span><span class="p">,</span> <span class="n">TypeConverters</span><span class="o">.</span><span class="n">toFloat</span><span class="p">)</span>
 
 <div class="viewcode-block" id="ClassifierDLApproach.setDropout"><a class="viewcode-back" href="../../../../../reference/autosummary/python/sparknlp/annotator/classifier_dl/classifier_dl/index.html#python.sparknlp.annotator.classifier_dl.classifier_dl.ClassifierDLApproach.setDropout">[docs]</a>    <span class="k">def</span> <span class="nf">setDropout</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">v</span><span class="p">):</span>
@@ -565,6 +567,8 @@
     <span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;ClassifierDLModel&quot;</span>
 
     <span class="n">inputAnnotatorTypes</span> <span class="o">=</span> <span class="p">[</span><span class="n">AnnotatorType</span><span class="o">.</span><span class="n">SENTENCE_EMBEDDINGS</span><span class="p">]</span>
+
+    <span class="n">outputAnnotatorType</span> <span class="o">=</span> <span class="n">AnnotatorType</span><span class="o">.</span><span class="n">CATEGORY</span>
 
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">classname</span><span class="o">=</span><span class="s2">&quot;com.johnsnowlabs.nlp.annotators.classifier.dl.ClassifierDLModel&quot;</span><span class="p">,</span> <span class="n">java_model</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="nb">super</span><span class="p">(</span><span class="n">ClassifierDLModel</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
