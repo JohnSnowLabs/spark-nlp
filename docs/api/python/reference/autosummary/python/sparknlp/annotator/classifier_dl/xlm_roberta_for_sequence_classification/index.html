@@ -6,7 +6,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
 
-    <title>python.sparknlp.annotator.classifier_dl.xlm_roberta_for_sequence_classification &#8212; Spark NLP 4.2.4 documentation</title>
+    <title>python.sparknlp.annotator.classifier_dl.xlm_roberta_for_sequence_classification &#8212; Spark NLP 4.2.5 documentation</title>
   
   
   
@@ -283,6 +283,7 @@
 <li class="toctree-l2"><a class="reference internal" href="../albert_for_token_classification/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">python.sparknlp.annotator.classifier_dl.albert_for_token_classification</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../bert_for_sequence_classification/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">python.sparknlp.annotator.classifier_dl.bert_for_sequence_classification</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../bert_for_token_classification/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">python.sparknlp.annotator.classifier_dl.bert_for_token_classification</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../camembert_for_sequence_classification/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">python.sparknlp.annotator.classifier_dl.camembert_for_sequence_classification</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../camembert_for_token_classification/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">python.sparknlp.annotator.classifier_dl.camembert_for_token_classification</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../classifier_dl/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">python.sparknlp.annotator.classifier_dl.classifier_dl</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../deberta_for_sequence_classification/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">python.sparknlp.annotator.classifier_dl.deberta_for_sequence_classification</span></code></a></li>
@@ -522,16 +523,15 @@ default False.</p>
 <span class="gp">... </span>    <span class="n">tokenizer</span><span class="p">,</span>
 <span class="gp">... </span>    <span class="n">sequenceClassifier</span>
 <span class="gp">... </span><span class="p">])</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">data</span> <span class="o">=</span> <span class="n">spark</span><span class="o">.</span><span class="n">createDataFrame</span><span class="p">([[</span><span class="s2">&quot;&quot;&quot;John Lenon was born in London and lived</span>
-<span class="gp">... </span><span class="s2">in Paris. My name is Sarah and I live in London&quot;&quot;&quot;</span><span class="p">]])</span><span class="o">.</span><span class="n">toDF</span><span class="p">(</span><span class="s2">&quot;text&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">data</span> <span class="o">=</span> <span class="n">spark</span><span class="o">.</span><span class="n">createDataFrame</span><span class="p">([[</span><span class="s2">&quot;I loved this movie when I was a child.&quot;</span><span class="p">,</span> <span class="s2">&quot;It was pretty boring.&quot;</span><span class="p">]])</span><span class="o">.</span><span class="n">toDF</span><span class="p">(</span><span class="s2">&quot;text&quot;</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">result</span> <span class="o">=</span> <span class="n">pipeline</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">data</span><span class="p">)</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">result</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="s2">&quot;label.result&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="n">truncate</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
-<span class="go">+--------------------+</span>
-<span class="go">|result              |</span>
-<span class="go">+--------------------+</span>
-<span class="go">|[neg, neg]          |</span>
-<span class="go">|[pos, pos, pos, pos]|</span>
-<span class="go">+--------------------+</span>
+<span class="go">+------+</span>
+<span class="go">|result|</span>
+<span class="go">+------+</span>
+<span class="go">|[pos] |</span>
+<span class="go">|[neg] |</span>
+<span class="go">+------+</span>
 </pre></div>
 </div>
 <dl class="py method">

@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>python.sparknlp.annotator.classifier_dl.multi_classifier_dl &#8212; Spark NLP 4.2.4 documentation</title>
+    <title>python.sparknlp.annotator.classifier_dl.multi_classifier_dl &#8212; Spark NLP 4.2.5 documentation</title>
   
   
   
@@ -474,6 +474,8 @@
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">inputAnnotatorTypes</span> <span class="o">=</span> <span class="p">[</span><span class="n">AnnotatorType</span><span class="o">.</span><span class="n">SENTENCE_EMBEDDINGS</span><span class="p">]</span>
 
+    <span class="n">outputAnnotatorType</span> <span class="o">=</span> <span class="n">AnnotatorType</span><span class="o">.</span><span class="n">CATEGORY</span>
+
     <span class="n">shufflePerEpoch</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;shufflePerEpoch&quot;</span><span class="p">,</span> <span class="s2">&quot;whether to shuffle the training data on each Epoch&quot;</span><span class="p">,</span>
                             <span class="n">TypeConverters</span><span class="o">.</span><span class="n">toBoolean</span><span class="p">)</span>
     <span class="n">threshold</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;threshold&quot;</span><span class="p">,</span>
@@ -621,6 +623,8 @@
     <span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;MultiClassifierDLModel&quot;</span>
 
     <span class="n">inputAnnotatorTypes</span> <span class="o">=</span> <span class="p">[</span><span class="n">AnnotatorType</span><span class="o">.</span><span class="n">SENTENCE_EMBEDDINGS</span><span class="p">]</span>
+
+    <span class="n">outputAnnotatorType</span> <span class="o">=</span> <span class="n">AnnotatorType</span><span class="o">.</span><span class="n">CATEGORY</span>
 
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">classname</span><span class="o">=</span><span class="s2">&quot;com.johnsnowlabs.nlp.annotators.classifier.dl.MultiClassifierDLModel&quot;</span><span class="p">,</span>
                  <span class="n">java_model</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
