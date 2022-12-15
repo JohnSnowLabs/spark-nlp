@@ -16,8 +16,8 @@
 
 package com.johnsnowlabs.nlp.annotators.classifier.dl
 
-import com.johnsnowlabs.nlp.annotators.Tokenizer
-import com.johnsnowlabs.nlp.base.DocumentAssembler
+import com.johnsnowlabs.nlp.annotator._
+import com.johnsnowlabs.nlp.base._
 import com.johnsnowlabs.nlp.training.CoNLL
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
 import com.johnsnowlabs.tags.SlowTest
@@ -26,19 +26,17 @@ import org.apache.spark.ml.{Pipeline, PipelineModel}
 import org.apache.spark.sql.functions.{col, explode, size}
 import org.scalatest.flatspec.AnyFlatSpec
 
-class XlmRoBertaForSequenceClassificationTestSpec extends AnyFlatSpec {
+class CamemBertForSequenceClassificationTestSpec extends AnyFlatSpec {
 
   import ResourceHelper.spark.implicits._
 
-  "XlmRoBertaForSequenceClassification" should "correctly load custom model with extracted signatures" taggedAs SlowTest in {
+  "CamemBertForSequenceClassification" should "correctly load custom model with extracted signatures" taggedAs SlowTest in {
 
     val ddd = Seq(
-      "John Lenon was born in London and lived in Paris. My name is Sarah and I live in London.",
-      "Rare Hendrix song draft sells for almost $17,000.",
-      "EU rejects German call to boycott British lamb .",
-      "TORONTO 1996-08-21",
-      " carbon emissions have come down without impinging on our growth. .  . .",
-      "\\u2009.carbon emissions have come down without impinging on our growth .\\u2009.\\u2009.")
+      "Je t'apprécie beaucoup. Je t'aime.",
+      "Cette banque est très bien, mais elle n'offre pas les services de paiements sans contact.",
+      "J'aime me promener en forêt même si ça me donne mal aux pieds.",
+      "Je pensais lire un livre nul, mais finalement je l'ai trouvé super !")
       .toDF("text")
 
     val document = new DocumentAssembler()
@@ -49,7 +47,7 @@ class XlmRoBertaForSequenceClassificationTestSpec extends AnyFlatSpec {
       .setInputCols(Array("document"))
       .setOutputCol("token")
 
-    val classifier = XlmRoBertaForSequenceClassification
+    val classifier = CamemBertForSequenceClassification
       .pretrained()
       .setInputCols(Array("token", "document"))
       .setOutputCol("label")
@@ -79,7 +77,7 @@ class XlmRoBertaForSequenceClassificationTestSpec extends AnyFlatSpec {
     assert(totalDocs == totalLabels)
   }
 
-  "XlmRoBertaForSequenceClassification" should "be saved and loaded correctly" taggedAs SlowTest in {
+  "CamemBertForSequenceClassification" should "be saved and loaded correctly" taggedAs SlowTest in {
 
     import ResourceHelper.spark.implicits._
 
@@ -97,7 +95,7 @@ class XlmRoBertaForSequenceClassificationTestSpec extends AnyFlatSpec {
       .setInputCols(Array("document"))
       .setOutputCol("token")
 
-    val classifier = XlmRoBertaForSequenceClassification
+    val classifier = CamemBertForSequenceClassification
       .pretrained()
       .setInputCols(Array("token", "document"))
       .setOutputCol("label")
@@ -110,13 +108,13 @@ class XlmRoBertaForSequenceClassificationTestSpec extends AnyFlatSpec {
 
     pipelineDF.select("label.result").show(false)
 
-    Benchmark.time("Time to save XlmRoBertaForSequenceClassification pipeline model") {
+    Benchmark.time("Time to save CamemBertForSequenceClassification pipeline model") {
       pipelineModel.write.overwrite().save("./tmp_forsequence_pipeline")
     }
 
-    Benchmark.time("Time to save XlmRoBertaForSequenceClassification model") {
+    Benchmark.time("Time to save CamemBertForSequenceClassification model") {
       pipelineModel.stages.last
-        .asInstanceOf[XlmRoBertaForSequenceClassification]
+        .asInstanceOf[CamemBertForSequenceClassification]
         .write
         .overwrite()
         .save("./tmp_forsequence_model")
@@ -125,18 +123,18 @@ class XlmRoBertaForSequenceClassificationTestSpec extends AnyFlatSpec {
     val loadedPipelineModel = PipelineModel.load("./tmp_forsequence_pipeline")
     loadedPipelineModel.transform(ddd).select("label.result").show(false)
 
-    val loadedSequenceModel = XlmRoBertaForSequenceClassification.load("./tmp_forsequence_model")
+    val loadedSequenceModel = CamemBertForSequenceClassification.load("./tmp_forsequence_model")
     println(loadedSequenceModel.getClasses.mkString("Array(", ", ", ")"))
 
   }
 
-  "XlmRoBertaForSequenceClassification" should "benchmark test" taggedAs SlowTest in {
+  "CamemBertForSequenceClassification" should "benchmark test" taggedAs SlowTest in {
 
     val conll = CoNLL()
     val training_data =
       conll.readDataset(ResourceHelper.spark, "src/test/resources/conll2003/eng.train")
 
-    val classifier = XlmRoBertaForSequenceClassification
+    val classifier = CamemBertForSequenceClassification
       .pretrained()
       .setInputCols(Array("token", "document"))
       .setOutputCol("class")

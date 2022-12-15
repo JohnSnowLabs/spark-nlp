@@ -629,4 +629,11 @@ package object annotator {
       extends ReadablePretrainedTapasForQAModel
       with ReadTapasForQATensorflowModel
 
+  type CamemBertForSequenceClassification =
+    com.johnsnowlabs.nlp.annotators.classifier.dl.CamemBertForSequenceClassification
+
+  object CamemBertForSequenceClassification
+      extends ReadablePretrainedCamemBertForSequenceModel
+      with ReadCamemBertForSequenceTensorflowModel
+
 }
