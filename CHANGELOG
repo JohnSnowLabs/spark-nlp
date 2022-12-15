@@ -1,4 +1,28 @@
 ========
+4.2.4
+========
+----------------
+New Features & Enhancements
+----------------
+* Introduce support for GCP storage to be allowed as `cache_pretrained` directory for keeping all downloaded models and pipelines
+* Update to TensorFlow 2.7.4 with bug and CVEs fixes
+* Update documentation on how to use `testDataset` param in NerDLApproach, ClassifierDLApproach, MultiClassifierDLApproach, and SentimentDLApproach
+* Update installation instructions for Apple M1 chip
+* Improve error handling while importing external TensorFlow models into Spark NLP
+* Improve error messages when importing external models from remote storages like DBFS, S3, and HDFS
+* Add support for future decoder-encoder models (2 separate models)
+
+----------------
+Bug Fixes
+----------------
+* Add missing setPreservePosition in NerConverter
+* Add missing inputAnnotatorTypes to BigTextMatcher, ViveknSentimentModel, and NerConverter annotators
+* Fix all wrong example codes provided for LemmatizerModel in Models Hub
+* Fix provided notebook to import Longformer models from HF: https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/jupyter/transformers/HuggingFace%20in%20Spark%20NLP%20-%20Longformer.ipynb
+* Fix the t5_grammar_error_corrector model to be compatible with Spark NLP 4.0+
+
+
+========
 4.2.3
 ========
 ----------------
@@ -17,7 +41,6 @@ regexMatcher = RegexMatcher() \
       .setOutputCol("regex") \
       .setStrategy("MATCH_ALL")
 ```
-*
 
 ----------------
 Bug Fixes

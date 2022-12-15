@@ -83,6 +83,9 @@
           <li {% if _section.secheader %} {% for child in _section.secheader %} {% if child.activemenu == "public_health" %} class="active"  {% endif %} {% endfor %} {% endif %} >
             <a href="/public_health">Vaccines &amp; Public Health</a>
           </li>
+          <li {% if _section.secheader %} {% for child in _section.secheader %} {% if child.activemenu == "mental_health" %} class="active"  {% endif %} {% endfor %} {% endif %} >
+            <a href="/mental_health">Mental Health</a>
+          </li>
         </ul> 
         <ul class="acc-top"><li class="acc-top-item">Biomedical NLP<i class="fas fa-chevron-down"></i></li></ul>
         <ul class="acc-body">          
@@ -135,6 +138,9 @@
           </li>
           <li {% if _section.secheader %} {% for child in _section.secheader %} {% if child.activemenu == "financial_document_splitting" %} class="active"  {% endif %} {% endfor %} {% endif %} >
             <a href="/financial_document_splitting">Financial Document Splitting</a>
+          </li>
+          <li {% if _section.secheader %} {% for child in _section.secheader %} {% if child.activemenu == "text_summarization" %} class="active"  {% endif %} {% endfor %} {% endif %} >
+            <a href="/text_summarization">Text Summarization</a>
           </li>
         </ul>
         <ul class="acc-top"><li class="acc-top-item">Legal NLP<i class="fas fa-chevron-down"></i></li></ul>

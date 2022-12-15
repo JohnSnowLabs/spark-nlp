@@ -31,7 +31,7 @@ data:
             url: https://demo.johnsnowlabs.com/healthcare/ASSERTION/
           - text: Colab
             type: blue_btn
-            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/2.Clinical_Assertion_Model.ipynb
+            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/ASSERTION.ipynb
         - title: Calculate Medicare HCC Risk Score
           id: calculate_medicare_risk_score 
           image: 

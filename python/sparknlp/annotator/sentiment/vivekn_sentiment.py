@@ -158,6 +158,7 @@ class ViveknSentimentApproach(AnnotatorApproach):
     def _create_model(self, java_model):
         return ViveknSentimentModel(java_model=java_model)
 
+
 class ViveknSentimentModel(AnnotatorModel):
     """Sentiment analyser inspired by the algorithm by Vivek Narayanan.
 
@@ -190,6 +191,8 @@ class ViveknSentimentModel(AnnotatorModel):
     https://github.com/vivekn/sentiment/
     """
     name = "ViveknSentimentModel"
+
+    inputAnnotatorTypes = [AnnotatorType.TOKEN, AnnotatorType.DOCUMENT]
 
     importantFeatureRatio = Param(Params._dummy(),
                                   "importantFeatureRatio",
