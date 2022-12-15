@@ -294,6 +294,7 @@ Jekyll::Hooks.register :posts, :pre_render do |post|
     download_link: extractor.download_link,
     predicted_entities: extractor.predicted_entities || [],
     type: doc_type,
+    annotator: post.data['annotator'] || ""
   }
 
   benchmarking_info = extractor.benchmarking_results(post.url)
