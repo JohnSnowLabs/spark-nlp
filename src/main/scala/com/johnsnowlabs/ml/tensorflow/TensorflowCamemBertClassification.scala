@@ -20,7 +20,7 @@ import com.johnsnowlabs.ml.tensorflow.sentencepiece.{SentencePieceWrapper, Sente
 import com.johnsnowlabs.ml.tensorflow.sign.{ModelSignatureConstants, ModelSignatureManager}
 import com.johnsnowlabs.nlp.annotators.common._
 import com.johnsnowlabs.nlp.{ActivationFunction, Annotation}
-import org.tensorflow.ndarray.buffer.IntDataBuffer
+import org.tensorflow.ndarray.buffer.{IntDataBuffer, LongDataBuffer}
 
 import scala.collection.JavaConverters._
 
@@ -163,27 +163,28 @@ class TensorflowCamemBertClassification(
     val maxSentenceLength = batch.map(encodedSentence => encodedSentence.length).max
     val batchLength = batch.length
 
-    val tokenBuffers: IntDataBuffer = tensors.createIntBuffer(batchLength * maxSentenceLength)
-    val maskBuffers: IntDataBuffer = tensors.createIntBuffer(batchLength * maxSentenceLength)
+    val tokenBuffers: LongDataBuffer = tensors.createLongBuffer(batchLength * maxSentenceLength)
+    val maskBuffers: LongDataBuffer = tensors.createLongBuffer(batchLength * maxSentenceLength)
 
     // [nb of encoded sentences , maxSentenceLength]
     val shape = Array(batch.length.toLong, maxSentenceLength)
 
     batch.zipWithIndex
       .foreach { case (sentence, idx) =>
+        val sentenceLong = sentence.map(x => x.toLong)
         val offset = idx * maxSentenceLength
-        tokenBuffers.offset(offset).write(sentence)
+        tokenBuffers.offset(offset).write(sentenceLong)
         maskBuffers
           .offset(offset)
-          .write(sentence.map(x => if (x == sentencePadTokenId) 0 else 1))
+          .write(sentence.map(x => if (x == sentencePadTokenId) 0L else 1L))
       }
 
     val runner = tensorflowWrapper
       .getTFSessionWithSignature(configProtoBytes = configProtoBytes, initAllTables = false)
       .runner
 
-    val tokenTensors = tensors.createIntBufferTensor(shape, tokenBuffers)
-    val maskTensors = tensors.createIntBufferTensor(shape, maskBuffers)
+    val tokenTensors = tensors.createLongBufferTensor(shape, tokenBuffers)
+    val maskTensors = tensors.createLongBufferTensor(shape, maskBuffers)
 
     runner
       .feed(
