@@ -147,6 +147,8 @@ class SentimentDLApproach(AnnotatorApproach, EvaluationDLParams, ClassifierEncod
 
     inputAnnotatorTypes = [AnnotatorType.SENTENCE_EMBEDDINGS]
 
+    outputAnnotatorType = AnnotatorType.CATEGORY
+
     dropout = Param(Params._dummy(), "dropout", "Dropout coefficient", TypeConverters.toFloat)
 
     threshold = Param(Params._dummy(), "threshold",
@@ -292,6 +294,8 @@ class SentimentDLModel(AnnotatorModel, HasStorageRef, HasEngine):
     name = "SentimentDLModel"
 
     inputAnnotatorTypes = [AnnotatorType.SENTENCE_EMBEDDINGS]
+
+    outputAnnotatorType = AnnotatorType.CATEGORY
 
     def __init__(self, classname="com.johnsnowlabs.nlp.annotators.classifier.dl.SentimentDLModel", java_model=None):
         super(SentimentDLModel, self).__init__(

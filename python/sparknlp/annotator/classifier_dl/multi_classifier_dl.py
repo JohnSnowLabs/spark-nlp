@@ -177,6 +177,8 @@ class MultiClassifierDLApproach(AnnotatorApproach, EvaluationDLParams, Classifie
     """
     inputAnnotatorTypes = [AnnotatorType.SENTENCE_EMBEDDINGS]
 
+    outputAnnotatorType = AnnotatorType.CATEGORY
+
     shufflePerEpoch = Param(Params._dummy(), "shufflePerEpoch", "whether to shuffle the training data on each Epoch",
                             TypeConverters.toBoolean)
     threshold = Param(Params._dummy(), "threshold",
@@ -324,6 +326,8 @@ class MultiClassifierDLModel(AnnotatorModel, HasStorageRef, HasEngine):
     name = "MultiClassifierDLModel"
 
     inputAnnotatorTypes = [AnnotatorType.SENTENCE_EMBEDDINGS]
+
+    outputAnnotatorType = AnnotatorType.CATEGORY
 
     def __init__(self, classname="com.johnsnowlabs.nlp.annotators.classifier.dl.MultiClassifierDLModel",
                  java_model=None):

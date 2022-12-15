@@ -102,6 +102,8 @@ class PerceptronApproach(AnnotatorApproach):
 
     inputAnnotatorTypes = [AnnotatorType.TOKEN, AnnotatorType.DOCUMENT]
 
+    outputAnnotatorType = AnnotatorType.POS
+
     posCol = Param(Params._dummy(),
                    "posCol",
                    "column of Array of POS tags that match tokens",
@@ -229,6 +231,8 @@ class PerceptronModel(AnnotatorModel):
     name = "PerceptronModel"
 
     inputAnnotatorTypes = [AnnotatorType.TOKEN, AnnotatorType.DOCUMENT]
+
+    outputAnnotatorType = AnnotatorType.POS
 
     def __init__(self, classname="com.johnsnowlabs.nlp.annotators.pos.perceptron.PerceptronModel", java_model=None):
         super(PerceptronModel, self).__init__(

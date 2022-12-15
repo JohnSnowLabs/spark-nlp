@@ -254,6 +254,8 @@ class DateMatcher(AnnotatorModel, DateMatcherUtils):
 
     inputAnnotatorTypes = [AnnotatorType.DOCUMENT]
 
+    outputAnnotatorType = AnnotatorType.DATE
+
     @keyword_only
     def __init__(self):
         super(DateMatcher, self).__init__(classname="com.johnsnowlabs.nlp.annotators.DateMatcher")

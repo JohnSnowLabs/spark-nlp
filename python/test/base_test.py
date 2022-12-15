@@ -64,6 +64,9 @@ class SomeModelTest(override val uid: String) extends AnnotatorModel[SomeModelTe
 
 class SomeAnnotatorTest(AnnotatorApproach, HasRecursiveFit):
 
+    inputAnnotatorTypes = [AnnotatorType.TOKEN]
+    outputAnnotatorType = AnnotatorType.DOCUMENT
+
     def __init__(self):
         super(SomeAnnotatorTest, self).__init__(classname="com.johnsnowlabs.nlp.SomeApproachTest")
 
@@ -72,6 +75,9 @@ class SomeAnnotatorTest(AnnotatorApproach, HasRecursiveFit):
 
 
 class SomeModelTest(AnnotatorModel, HasRecursiveTransform):
+
+    inputAnnotatorTypes = [AnnotatorType.TOKEN]
+    outputAnnotatorType = AnnotatorType.DOCUMENT
 
     def __init__(self, classname="com.johnsnowlabs.nlp.SomeModelTest", java_model=None):
         super(SomeModelTest, self).__init__(

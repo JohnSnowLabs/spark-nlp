@@ -69,6 +69,8 @@ class Token2Chunk(AnnotatorModel):
 
     inputAnnotatorTypes = [AnnotatorType.TOKEN]
 
+    outputAnnotatorType = AnnotatorType.CHUNK
+
     def __init__(self):
         super(Token2Chunk, self).__init__(classname="com.johnsnowlabs.nlp.annotators.Token2Chunk")
 

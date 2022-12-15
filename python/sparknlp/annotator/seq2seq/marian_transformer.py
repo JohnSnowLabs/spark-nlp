@@ -122,6 +122,8 @@ class MarianTransformer(AnnotatorModel, HasBatchedAnnotate, HasEngine):
 
     inputAnnotatorTypes = [AnnotatorType.DOCUMENT]
 
+    outputAnnotatorType = AnnotatorType.DOCUMENT
+
     configProtoBytes = Param(Params._dummy(),
                              "configProtoBytes",
                              "ConfigProto from tensorflow, serialized into byte array. Get with config_proto.SerializeToString()",

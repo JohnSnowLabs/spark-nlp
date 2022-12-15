@@ -96,6 +96,8 @@ class MultiDateMatcher(AnnotatorModel, DateMatcherUtils):
 
     inputAnnotatorTypes = [AnnotatorType.DOCUMENT]
 
+    outputAnnotatorType = AnnotatorType.DATE
+
     @keyword_only
     def __init__(self):
         super(MultiDateMatcher, self).__init__(classname="com.johnsnowlabs.nlp.annotators.MultiDateMatcher")

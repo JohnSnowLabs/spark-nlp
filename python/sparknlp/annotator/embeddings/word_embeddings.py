@@ -116,6 +116,8 @@ class WordEmbeddings(AnnotatorApproach, HasEmbeddingsProperties, HasStorage):
 
     inputAnnotatorTypes = [AnnotatorType.DOCUMENT, AnnotatorType.TOKEN]
 
+    outputAnnotatorType = AnnotatorType.WORD_EMBEDDINGS
+
     writeBufferSize = Param(Params._dummy(),
                             "writeBufferSize",
                             "buffer size limit before dumping to disk storage while writing",
@@ -255,6 +257,8 @@ class WordEmbeddingsModel(AnnotatorModel, HasEmbeddingsProperties, HasStorageMod
     databases = ['EMBEDDINGS']
 
     inputAnnotatorTypes = [AnnotatorType.DOCUMENT, AnnotatorType.TOKEN]
+
+    outputAnnotatorType = AnnotatorType.WORD_EMBEDDINGS
 
     readCacheSize = Param(Params._dummy(),
                           "readCacheSize",
