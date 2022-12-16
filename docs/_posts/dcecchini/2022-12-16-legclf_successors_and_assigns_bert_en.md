@@ -20,7 +20,7 @@ use_language_switcher: "Python-Scala-Java"
 
 The `legclf_successors_and_assigns_bert` model is a Bert Sentence Embeddings Document Classifier used to classify if the document belongs to the class `successors-and-assigns` (check [Lawinsider](https://www.lawinsider.com/tags) for similar document type classification) or not (Binary Classification).
 
-    Unlike the Longformer model, this model is lighter in terms of inference time.
+Unlike the Longformer model, this model is lighter in terms of inference time.
 
 ## Predicted Entities
 
@@ -38,30 +38,28 @@ The `legclf_successors_and_assigns_bert` model is a Bert Sentence Embeddings Doc
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
 ```python
+document_assembler = nlp.DocumentAssembler()\
+    .setInputCol("text")\
+    .setOutputCol("document")
 
-        document_assembler = nlp.DocumentAssembler()\
-            .setInputCol("text")\
-            .setOutputCol("document")
+embeddings = nlp.BertSentenceEmbeddings.pretrained("sent_bert_base_cased", "en")\
+    .setInputCols("document")\
+    .setOutputCol("sentence_embeddings")
 
-        embeddings = nlp.BertSentenceEmbeddings.pretrained("sent_bert_base_cased", "en")\
-            .setInputCols("document")\
-            .setOutputCol("sentence_embeddings")
+doc_classifier = legal.ClassifierDLModel.pretrained("legclf_successors_and_assigns_bert", "en", "legal/models")\
+    .setInputCols(["sentence_embeddings"])\
+    .setOutputCol("category")
 
-        doc_classifier = legal.ClassifierDLModel.pretrained("legclf_successors_and_assigns_bert", "en", "legal/models")\
-            .setInputCols(["sentence_embeddings"])\
-            .setOutputCol("category")
+nlpPipeline = nlp.Pipeline(stages=[
+    document_assembler, 
+    embeddings,
+    doc_classifier])
 
-        nlpPipeline = nlp.Pipeline(stages=[
-            document_assembler, 
-            embeddings,
-            doc_classifier])
+df = spark.createDataFrame([["YOUR TEXT HERE"]]).toDF("text")
 
-        df = spark.createDataFrame([["YOUR TEXT HERE"]]).toDF("text")
+model = nlpPipeline.fit(df)
 
-        model = nlpPipeline.fit(df)
-
-        result = model.transform(df)
-        
+result = model.transform(df)    
 ```
 
 </div>
@@ -69,15 +67,13 @@ The `legclf_successors_and_assigns_bert` model is a Bert Sentence Embeddings Doc
 ## Results
 
 ```bash
-
-    +-------+
-    |result|
-    +-------+
-    |[successors-and-assigns]|
-    |[other]|
-    |[other]|
-    |[successors-and-assigns]|
-    
++-------+
+|result|
++-------+
+|[successors-and-assigns]|
+|[other]|
+|[other]|
+|[successors-and-assigns]|  
 ```
 
 {:.model-param}
@@ -101,7 +97,6 @@ Legal documents, scrapped from the Internet, and classified in-house + SEC docum
 ## Benchmarking
 
 ```bash
-
                         precision    recall  f1-score   support
 
                  other       1.00      0.95      0.97        39
@@ -110,5 +105,4 @@ successors-and-assigns       0.94      1.00      0.97        33
               accuracy                           0.97        72
              macro avg       0.97      0.97      0.97        72
           weighted avg       0.97      0.97      0.97        72
-
 ```

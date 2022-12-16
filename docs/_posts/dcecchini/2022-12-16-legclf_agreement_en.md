@@ -20,7 +20,9 @@ use_language_switcher: "Python-Scala-Java"
 
 The `legclf_agreement` model is a Longformer Document Classifier used to classify if the document belongs to the class `agreement` (check [Lawinsider](https://www.lawinsider.com/tags) for similar document type classification) or not (Binary Classification).
 
-    Unlike the Longformer model, this model is lighter in terms of inference time.
+Longformers have a restriction on 4096 tokens, so only the first 4096 tokens will be taken into account. We have realised that for the big majority of the documents in legal corpora, if they are clean and only contain the legal document without any extra information before, 4096 is enough to perform Document Classification.
+
+If your document needs to process more than 4096 tokens, you can try the following: getting chunks of 4096 tokens and average the embeddings, training with the averaged version, what means all document will be taken into account.
 
 ## Predicted Entities
 
@@ -38,33 +40,39 @@ The `legclf_agreement` model is a Longformer Document Classifier used to classif
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
 ```python
+document_assembler = nlp.DocumentAssembler()\
+    .setInputCol("text")\
+    .setOutputCol("document")
+    
+tokenizer = nlp.Tokenizer()\
+    .setInputCols(["document"])
+    .setOutputCol("token")
 
-        document_assembler = nlp.DocumentAssembler()\
-            .setInputCol("text")\
-            .setOutputCol("document")
-            
-        tokenizer = nlp.Tokenizer()             .setInputCols(["document"])             .setOutputCol("token")            
-        embeddings = nlp.LongformerEmbeddings.pretrained("legal_longformer_base", language)               .setInputCols("document", "token")               .setOutputCol("embeddings")
-        
-        sentence_embeddings = nlp.SentenceEmbeddings()            .setInputCols(["document", "embeddings"])             .setOutputCol("sentence_embeddings")             .setPoolingStrategy("AVERAGE")
+embeddings = nlp.LongformerEmbeddings.pretrained("legal_longformer_base", "en")\
+    .setInputCols("document", "token")\
+    .setOutputCol("embeddings")
 
-        doc_classifier = legal.ClassifierDLModel.pretrained("legclf_agreement", "en", "legal/models")\
-            .setInputCols(["sentence_embeddings"])\
-            .setOutputCol("category")
+sentence_embeddings = nlp.SentenceEmbeddings()\
+    .setInputCols(["document", "embeddings"])
+    .setOutputCol("sentence_embeddings")\
+    .setPoolingStrategy("AVERAGE")
 
-        nlpPipeline = nlp.Pipeline(stages=[
-            document_assembler,
-            tokenizer,
-            embeddings,
-            sentence_embeddings,
-            doc_classifier])
+doc_classifier = legal.ClassifierDLModel.pretrained("legclf_agreement", "en", "legal/models")\
+    .setInputCols(["sentence_embeddings"])\
+    .setOutputCol("category")
 
-        df = spark.createDataFrame([["YOUR TEXT HERE"]]).toDF("text")
+nlpPipeline = nlp.Pipeline(stages=[
+    document_assembler,
+    tokenizer,
+    embeddings,
+    sentence_embeddings,
+    doc_classifier])
 
-        model = nlpPipeline.fit(df)
+df = spark.createDataFrame([["YOUR TEXT HERE"]]).toDF("text")
 
-        result = model.transform(df)
-        
+model = nlpPipeline.fit(df)
+
+result = model.transform(df)
 ```
 
 </div>
@@ -72,15 +80,13 @@ The `legclf_agreement` model is a Longformer Document Classifier used to classif
 ## Results
 
 ```bash
-
-    +-------+
-    |result|
-    +-------+
-    |[agreement]|
-    |[other]|
-    |[other]|
-    |[agreement]|
-    
++-------+
+|result|
++-------+
+|[agreement]|
+|[other]|
+|[other]|
+|[agreement]|
 ```
 
 {:.model-param}
@@ -104,7 +110,6 @@ Legal documents, scrapped from the Internet, and classified in-house + SEC docum
 ## Benchmarking
 
 ```bash
-
               precision    recall  f1-score   support
 
    agreement       0.88      0.85      0.86        99
@@ -113,5 +118,4 @@ Legal documents, scrapped from the Internet, and classified in-house + SEC docum
     accuracy                           0.91       306
    macro avg       0.90      0.90      0.90       306
 weighted avg       0.91      0.91      0.91       306
-
 ```

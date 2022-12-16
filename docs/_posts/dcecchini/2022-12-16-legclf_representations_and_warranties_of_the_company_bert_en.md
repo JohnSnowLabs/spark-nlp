@@ -20,7 +20,7 @@ use_language_switcher: "Python-Scala-Java"
 
 The `legclf_representations_and_warranties_of_the_company_bert` model is a Bert Sentence Embeddings Document Classifier used to classify if the document belongs to the class `representations-and-warranties-of-the-company` (check [Lawinsider](https://www.lawinsider.com/tags) for similar document type classification) or not (Binary Classification).
 
-    Unlike the Longformer model, this model is lighter in terms of inference time.
+Unlike the Longformer model, this model is lighter in terms of inference time.
 
 ## Predicted Entities
 
@@ -38,30 +38,28 @@ The `legclf_representations_and_warranties_of_the_company_bert` model is a Bert 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
 ```python
+document_assembler = nlp.DocumentAssembler()\
+    .setInputCol("text")\
+    .setOutputCol("document")
 
-        document_assembler = nlp.DocumentAssembler()\
-            .setInputCol("text")\
-            .setOutputCol("document")
+embeddings = nlp.BertSentenceEmbeddings.pretrained("sent_bert_base_cased", "en")\
+    .setInputCols("document")\
+    .setOutputCol("sentence_embeddings")
 
-        embeddings = nlp.BertSentenceEmbeddings.pretrained("sent_bert_base_cased", "en")\
-            .setInputCols("document")\
-            .setOutputCol("sentence_embeddings")
+doc_classifier = legal.ClassifierDLModel.pretrained("legclf_representations_and_warranties_of_the_company_bert", "en", "legal/models")\
+    .setInputCols(["sentence_embeddings"])\
+    .setOutputCol("category")
 
-        doc_classifier = legal.ClassifierDLModel.pretrained("legclf_representations_and_warranties_of_the_company_bert", "en", "legal/models")\
-            .setInputCols(["sentence_embeddings"])\
-            .setOutputCol("category")
+nlpPipeline = nlp.Pipeline(stages=[
+    document_assembler, 
+    embeddings,
+    doc_classifier])
 
-        nlpPipeline = nlp.Pipeline(stages=[
-            document_assembler, 
-            embeddings,
-            doc_classifier])
+df = spark.createDataFrame([["YOUR TEXT HERE"]]).toDF("text")
 
-        df = spark.createDataFrame([["YOUR TEXT HERE"]]).toDF("text")
+model = nlpPipeline.fit(df)
 
-        model = nlpPipeline.fit(df)
-
-        result = model.transform(df)
-        
+result = model.transform(df)
 ```
 
 </div>
@@ -69,15 +67,13 @@ The `legclf_representations_and_warranties_of_the_company_bert` model is a Bert 
 ## Results
 
 ```bash
-
-    +-------+
-    |result|
-    +-------+
-    |[representations-and-warranties-of-the-company]|
-    |[other]|
-    |[other]|
-    |[representations-and-warranties-of-the-company]|
-    
++-------+
+|result|
++-------+
+|[representations-and-warranties-of-the-company]|
+|[other]|
+|[other]|
+|[representations-and-warranties-of-the-company]| 
 ```
 
 {:.model-param}
@@ -101,7 +97,6 @@ Legal documents, scrapped from the Internet, and classified in-house + SEC docum
 ## Benchmarking
 
 ```bash
-
                                                precision    recall  f1-score   support
 
                                         other       0.97      1.00      0.99        39
@@ -110,5 +105,4 @@ representations-and-warranties-of-the-company       1.00      0.96      0.98    
                                      accuracy                           0.99        67
                                     macro avg       0.99      0.98      0.98        67
                                  weighted avg       0.99      0.99      0.99        67
-
 ```
