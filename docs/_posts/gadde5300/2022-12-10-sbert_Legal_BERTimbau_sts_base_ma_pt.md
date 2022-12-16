@@ -1,6 +1,6 @@
 ---
 layout: model
-title: Portugese BERT Sentence Embedding Base Cased model (sts-base-ma)
+title: Portuguese BERT Sentence Embedding Base Cased model (sts-base-ma)
 author: John Snow Labs
 name: sbert_Legal_BERTimbau_sts_base_ma
 date: 2022-12-10
