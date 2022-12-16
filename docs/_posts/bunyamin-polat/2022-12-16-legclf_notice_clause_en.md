@@ -47,7 +47,7 @@ This model can be combined with any of the other 200+ Legal Clauses Classifiers 
 
 ```python
 documentAssembler = nlp.DocumentAssembler()\
-      .setInputCol("clause_text")\
+      .setInputCol("text")\
       .setOutputCol("document")
 
 embeddings = nlp.BertSentenceEmbeddings.pretrained("sent_bert_base_cased", "en") \
