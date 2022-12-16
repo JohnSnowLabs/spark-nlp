@@ -4,7 +4,7 @@ title: Notice Clause Binary Classifier
 author: John Snow Labs
 name: legclf_notice_clause
 date: 2022-12-16
-tags: [en, legal, notice, licansed, classification, licensed, tensorflow]
+tags: [en, legal, notice, classification, licensed, tensorflow]
 task: Text Classification
 language: en
 edition: Legal NLP 1.0.0
@@ -12,7 +12,7 @@ spark_version: 3.0
 supported: true
 engine: tensorflow
 article_header:
-  type: cover
+type: cover
 use_language_switcher: "Python-Scala-Java"
 ---
 
@@ -44,6 +44,7 @@ This model can be combined with any of the other 200+ Legal Clauses Classifiers 
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
+
 ```python
 documentAssembler = nlp.DocumentAssembler()\
       .setInputCol("clause_text")\
@@ -62,7 +63,7 @@ nlpPipeline = nlp.Pipeline(stages=[
       embeddings,
       docClassifier
 ])
-df = spark.createDataFrame([["YOUR TEXT HERE"]]).toDF("clause_text")
+df = spark.createDataFrame([["YOUR TEXT HERE"]]).toDF("text")
 
 model = nlpPipeline.fit(df)
 
