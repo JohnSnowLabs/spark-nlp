@@ -182,6 +182,7 @@ Visit the [product page on Azure Marketplace](https://azuremarketplace.microsoft
    ```console
    kubectl apply -f storageClass.yaml
    ```
+Edit annotationlab-installer.sh inside artifact folder as follows:
 
    ```console
    helm install annotationlab annotationlab-${ANNOTATIONLAB_VERSION}.tgz                                 \
@@ -215,7 +216,15 @@ Visit the [product page on Azure Marketplace](https://azuremarketplace.microsoft
 
    ```
 
-4. Install ingress Controller
+4. Run annotationlab-installer.sh script
+  
+
+   ```console
+        ./artifacts/annotationlab-installer.sh
+   ```
+
+5. Install ingress Controller
+
 
    ```
    helm repo add nginx-stable https://helm.nginx.com/stable
@@ -223,7 +232,8 @@ Visit the [product page on Azure Marketplace](https://azuremarketplace.microsoft
    helm install my-release nginx-stable/nginx-ingress
    ```
 
-5. Apply ingress.yaml
+6. Apply ingress.yaml
+
 
    ```console
    cat <<EOF > ingress.yaml
