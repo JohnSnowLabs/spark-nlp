@@ -1,6 +1,6 @@
 ---
 layout: model
-title: Liability and Contra-Liability NER
+title: Liability and Contra-Liability NER (Small)
 author: John Snow Labs
 name: finner_contraliability
 date: 2022-12-15
