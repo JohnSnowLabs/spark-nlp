@@ -1,6 +1,6 @@
 ---
 layout: model
-title: English BERT Embeddings (from law-ai)
+title: Legal English BERT Embeddings (from law-ai)
 author: John Snow Labs
 name: bert_embeddings_InLegalBERT
 date: 2022-09-20
