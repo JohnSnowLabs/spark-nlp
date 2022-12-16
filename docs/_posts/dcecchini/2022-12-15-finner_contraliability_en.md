@@ -154,12 +154,12 @@ In-house annotations on Earning Calls and 10-K Filings combined.
 ```bash
 | label              | precision | recall | f1-score | support |
 |--------------------|-----------|--------|----------|---------|
-| B-CONTRA_LIABILITY | 0.7027    | 0.8125 | 0.7536   | 32      |
-| B-LIABILITY        | 0.8182    | 0.6000 | 0.6923   | 15      |
-| I-CONTRA_LIABILITY | 0.7143    | 0.6818 | 0.6977   | 22      |
-| I-LIABILITY        | 0.5000    | 0.6667 | 0.5714   | 12      |
+| B-CONTRA_LIABILITY | 0.7660    | 0.7200 | 0.7423   | 50      |
+| B-LIABILITY        | 0.8947    | 0.8990 | 0.8969   | 208     |
+| I-CONTRA_LIABILITY | 0.7838    | 0.6304 | 0.6988   | 46      |
+| I-LIABILITY        | 0.8780    | 0.8929 | 0.8854   | 411     |
 |                    |           |        |          |         |
-| accuracy           |           |        | 0.9683   | 1261    |
-| macro avg          | 0.7448    | 0.7493 | 0.7405   | 1261    |
-| weighted avg       | 0.9702    | 0.9683 | 0.9688   | 1261    |
+| accuracy           |           |        | 0.9805   | 8299    |
+| macro avg          | 0.8626    | 0.8267 | 0.8429   | 8299    |
+| weighted avg       | 0.9803    | 0.9805 | 0.9803   | 8299    |
 ```
