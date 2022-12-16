@@ -17,7 +17,7 @@ use_language_switcher: "Python-Scala-Java"
 
 ## Description
 
-This is a `sm` (small) version of a financial model trained on Earning Calls transcripts to detect financial entities (NER model). 
+This is a `md` (medium) version of a financial model trained on Earning Calls transcripts to detect financial entities (NER model). 
 This model is called `Generic` as it has fewer labels in comparison with the `Specific` version.
 
 Please note this model requires some tokenization configuration to extract the currency (see python snippet below).
