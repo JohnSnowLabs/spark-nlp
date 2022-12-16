@@ -48,7 +48,7 @@ embeddings = nlp.RoBertaEmbeddings.pretrained("roberta_embeddings_legal_roberta_
     .setInputCols(["document", "token"]) \
     .setOutputCol("embeddings")
 
-ner_model = legal.NerModel.load("legner_notice_clause", "en", "legal/models") \
+ner_model = legal.NerModel.pretrained("legner_notice_clause", "en", "legal/models") \
     .setInputCols(["document", "token", "embeddings"]) \
     .setOutputCol("ner")
 
