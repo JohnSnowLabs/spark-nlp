@@ -11,7 +11,7 @@ edition: Legal NLP 1.0.0
 spark_version: 3.0
 supported: true
 article_header:
-  type: cover
+type: cover
 use_language_switcher: "Python-Scala-Java"
 ---
 
@@ -34,34 +34,30 @@ This is an NER model aimed to be used in notice clauses, to retrieve entities as
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
+
 ```python
 document_assembler = nlp.DocumentAssembler()\
     .setInputCol("text")\
     .setOutputCol("document")
 
-sentence_detector = nlp.SentenceDetectorDLModel.pretrained("sentence_detector_dl", "xx")\
-    .setInputCols(["document"])\
-    .setOutputCol("sentence")\
-
 tokenizer = nlp.Tokenizer()\
-    .setInputCols("sentence")\
+    .setInputCols("document")\
     .setOutputCol("token")
 
 embeddings = nlp.RoBertaEmbeddings.pretrained("roberta_embeddings_legal_roberta_base","en") \
-    .setInputCols(["sentence", "token"]) \
+    .setInputCols(["document", "token"]) \
     .setOutputCol("embeddings")
 
 ner_model = legal.NerModel.load("legner_notice_clause", "en", "legal/models") \
-    .setInputCols(["sentence", "token", "embeddings"]) \
+    .setInputCols(["document", "token", "embeddings"]) \
     .setOutputCol("ner")
 
 ner_converter = nlp.NerConverter() \
-    .setInputCols(["sentence","token","ner"]) \
+    .setInputCols(["document","token","ner"]) \
     .setOutputCol("ner_chunk")
 
 pipeline = nlp.Pipeline(stages=[
     document_assembler, 
-    sentence_detector,
     tokenizer,
     embeddings,
     ner_model,
