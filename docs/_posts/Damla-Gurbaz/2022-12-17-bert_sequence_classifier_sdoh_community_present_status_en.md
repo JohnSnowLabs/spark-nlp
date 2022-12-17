@@ -10,6 +10,7 @@ language: en
 edition: Healthcare NLP 4.2.3
 spark_version: 3.0
 supported: true
+annotator: MedicalBertForSequenceClassification
 engine: tensorflow
 article_header:
   type: cover
@@ -115,7 +116,6 @@ val result = pipeline.fit(data).transform(data)
 
 ```bash
        label  precision    recall  f1-score   support
-
        False       0.95      0.68      0.80       203
         True       0.85      0.98      0.91       359
     accuracy         -         -       0.87       562
