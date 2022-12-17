@@ -100,6 +100,8 @@ class SentimentDetector(AnnotatorApproach):
 
     inputAnnotatorTypes = [AnnotatorType.TOKEN, AnnotatorType.DOCUMENT]
 
+    outputAnnotatorType = AnnotatorType.SENTIMENT
+
     dictionary = Param(Params._dummy(),
                        "dictionary",
                        "path for dictionary to sentiment analysis",
@@ -190,6 +192,8 @@ class SentimentDetectorModel(AnnotatorModel):
     name = "SentimentDetectorModel"
 
     inputAnnotatorTypes = [AnnotatorType.TOKEN, AnnotatorType.DOCUMENT]
+
+    outputAnnotatorType = AnnotatorType.SENTIMENT
 
     positiveMultiplier = Param(Params._dummy(),
                                "positiveMultiplier",

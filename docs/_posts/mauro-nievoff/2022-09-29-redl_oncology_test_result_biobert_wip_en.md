@@ -25,7 +25,7 @@ This relation extraction model links test extractions to their corresponding res
 `is_finding_of`, `O`
 
 {:.btn-box}
-<button class="button button-orange" disabled>Live Demo</button>
+[Live Demo](https://demo.johnsnowlabs.com/healthcare/RE_ONCOLOGY/){:.button.button-orange}
 [Open in Colab](https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/27.Oncology_Model.ipynb){:.button.button-orange.button-orange-trans.co.button-icon}
 [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/redl_oncology_test_result_biobert_wip_en_4.1.0_3.0_1664460623630.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
 

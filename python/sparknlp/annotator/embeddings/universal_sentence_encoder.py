@@ -122,6 +122,8 @@ class UniversalSentenceEncoder(AnnotatorModel,
 
     inputAnnotatorTypes = [AnnotatorType.DOCUMENT]
 
+    outputAnnotatorType = AnnotatorType.SENTENCE_EMBEDDINGS
+
     loadSP = Param(Params._dummy(), "loadSP",
                    "Whether to load SentencePiece ops file which is required only by multi-lingual models. "
                    "This is not changeable after it's set with a pretrained model nor it is compatible with Windows.",

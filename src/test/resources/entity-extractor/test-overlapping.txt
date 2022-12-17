@@ -1,0 +1,4 @@
+lung
+lung cancer
+kidney
+kidney cancer

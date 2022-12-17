@@ -1,6 +1,6 @@
 ---
 layout: model
-title: English BERT Embeddings (from zlucia)
+title: Legal English BERT Embeddings (from zlucia)
 author: John Snow Labs
 name: bert_embeddings_custom_legalbert
 date: 2022-08-31

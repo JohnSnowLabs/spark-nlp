@@ -25,7 +25,7 @@ This model detects the assertion status of entities related to oncology (includi
 `Absent`, `Family`, `Hypothetical`, `Past`, `Possible`, `Present`
 
 {:.btn-box}
-<button class="button button-orange" disabled>Live Demo</button>
+[Live Demo](https://demo.johnsnowlabs.com/healthcare/ASSERTION_ONCOLOGY/){:.button.button-orange}
 [Open in Colab](https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/27.Oncology_Model.ipynb){:.button.button-orange.button-orange-trans.co.button-icon}
 [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/assertion_oncology_wip_en_4.1.0_3.0_1664641275549.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
 
@@ -59,7 +59,8 @@ ner = MedicalNerModel.pretrained("ner_oncology_wip", "en", "clinical/models") \
 
 ner_converter = NerConverter() \
     .setInputCols(["sentence", "token", "ner"]) \
-    .setOutputCol("ner_chunk")    .setWhiteList(["Cancer_Dx", "Tumor_Finding", "Cancer_Surgery", "Chemotherapy", "Pathology_Test", "Imaging_Test"])
+    .setOutputCol("ner_chunk")\   
+    .setWhiteList(["Cancer_Dx", "Tumor_Finding", "Cancer_Surgery", "Chemotherapy", "Pathology_Test", "Imaging_Test"])
     
 assertion = AssertionDLModel.pretrained("assertion_oncology_wip", "en", "clinical/models") \
     .setInputCols(["sentence", "ner_chunk", "embeddings"]) \

@@ -6,7 +6,7 @@ seotitle: Annotation Lab | John Snow Labs
 title: Manual Annotation
 permalink: /docs/en/alab/annotation
 key: docs-training
-modify_date: "2022-11-27"
+modify_date: "2022-12-11"
 use_language_switcher: "Python-Scala"
 show_nav: true
 sidebar:
@@ -45,6 +45,10 @@ A completion is a list of annotations manually defined by a user for a given tas
 A submitted completion is no longer editable, and the user cannot delete it. Creating a new copy of the submitted completion is the only option to edit it. An annotator can modify or delete their completions only if completions are not submitted yet.
 
 <img class="image image__shadow" src="/assets/images/annotation_lab/4.1.0/completion_submit.png" style="width:100%;"/>
+
+Dedicated action icons are available on the completions widgets to allow users to quickly run actions like delete, copy, set ground-truth.
+
+<img class="image image__shadow" src="https://user-images.githubusercontent.com/45035063/204707502-acaba8b8-43d0-4354-8c14-4f66132131ad.png" style="width:100%;"/>
 
 It is an important to ensure a complete audit trail of all user actions. Annotation Lab tracks the history and details of any deleted completions. It means it is possible to see the name of the completion creator, date of creation, and deletion.
 

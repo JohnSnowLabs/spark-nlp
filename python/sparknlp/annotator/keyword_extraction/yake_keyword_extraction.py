@@ -154,6 +154,8 @@ class YakeKeywordExtraction(AnnotatorModel):
 
     inputAnnotatorTypes = [AnnotatorType.TOKEN]
 
+    outputAnnotatorType = AnnotatorType.CHUNK
+
     @keyword_only
     def __init__(self):
         super(YakeKeywordExtraction, self).__init__(
