@@ -119,9 +119,9 @@ val result = pipeline.fit(data).transform(data)
 
 ```bash
        label  precision    recall  f1-score   support
-           0       0.89      0.78      0.83       277
-           1       0.86      0.93      0.90       419
-           2       0.67      1.00      0.80         6
+        None       0.89      0.78      0.83       277
+       False       0.86      0.93      0.90       419
+        True       0.67      1.00      0.80         6
     accuracy        -         -        0.87       702
    macro-avg       0.81      0.90      0.84       702
 weighted-avg       0.87      0.87      0.87       702
