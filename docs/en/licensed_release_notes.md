@@ -5,7 +5,7 @@ seotitle: Spark NLP for Healthcare | John Snow Labs
 title: Spark NLP for Healthcare Release Notes
 permalink: /docs/en/licensed_release_notes
 key: docs-licensed-release-notes
-modify_date: 2021-07-14
+modify_date: 2022-12-02
 show_nav: true
 sidebar:
     nav: sparknlp-healthcare
@@ -13,351 +13,393 @@ sidebar:
 
 <div class="h3-box" markdown="1">
 
-## 4.2.2
+## 4.2.3
 
 #### Highlights
 
-+ Fine-tuning Relation Extraction models with your data
-+ Added Romanian support in deidentification annotator for data obfuscation
-+ New SDOH (Social Determinants of Health) ner model
-+ Improved oncology models and 4 pretrained pipelines
-+ New chunk mapper models to map entities (phrases) to their corresponding ICD-10-CM codes as well as clinical abbreviations to their definitions
-+ New ICD-10-PCS sentence entity resolver model and ICD-10-CM resolver pipeline
-+ New utility & helper modules documentation page
++ 3 new chunk mapper models to mapping Drugs and Diseases from the KEGG Database as well as mapping abbreviations to their categories
++ New utility & helper Relation Extraction modules to handle preprocess
++ New utility & helper OCR modules to handle annotate
++ New utility & helper NER log parser
++ Adding flexibility chunk merger prioritization
++ Core improvements and bug fixes
 + New and updated notebooks
-+ 22 new clinical models and pipelines added & updated in total
++ 3 new clinical models and pipelines added & updated in total
 
 
 </div><div class="prev_ver h3-box" markdown="1">
 
 
-#### Fine-Tuning Relation Extraction Models With Your Data
+#### 3 New Hhunk Mapper Models to Mapping Drugs and Diseases from the KEGG Database as well as Mapping Abbreviations to Their Categories
 
-Instead of starting from scratch when training a new Relation Extraction model, you can train a new model by adding your new data to the pretrained model.
-
-There are two new params in `RelationExtractionApproach` which allows you to initialize your model with the data from the pretrained model:
-
-+ `setPretrainedModelPath`: This parameter allows you to point the training process to an existing model.
-+ `setОverrideExistingLabels`: This parameter overrides the existing labels in the original model that are assigned the same output nodes in the new model. Default is True, when it is set to False the `RelationExtractionApproach` uses the existing labels and if it finds new ones it tries to assign them to unused output nodes.
-
-
-*Example:*
-```python
-reApproach_finetune = RelationExtractionApproach()\
-    .setInputCols(["embeddings", "pos_tags", "train_ner_chunks", "dependencies"])\
-    .setOutputCol("relations")\
-    .setLabelColumn("rel")\
-    ...
-    .setFromEntity("begin1i", "end1i", "label1")\
-    .setToEntity("begin2i", "end2i", "label2")\
-    .setPretrainedModelPath("existing_RE_MODEL_path")\
-    .setOverrideExistingLabels(False)
-```
-You can check [Resume RelationExtractionApproach Training Notebook](https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/10.4.Resume_RelationExtractionApproach_Training.ipynb) for more examples.
-
-</div><div class="prev_ver h3-box" markdown="1">
-
-
-#### Added Romanian Support in Deidentification Annotator For Data Obfuscation
-
-Deidentification annotator is now able to obfuscate entities (coming from a deid NER model) with fake data in Romanian language.
++ `kegg_disease_mapper`: This pretrained model maps diseases with their corresponding `category`, `description`, `icd10_code`, `icd11_code`, `mesh_code`, and hierarchical `brite_code`. This model was trained with the data from the KEGG database.
 
 *Example:*
 
 ```python
-deid_obfuscated_faker = DeIdentification()\
-    .setInputCols(["sentence", "token", "ner_chunk"]) \
-    .setOutputCol("obfuscated") \
-    .setMode("obfuscate")\
-    .setLanguage('ro')\
-    .setObfuscateDate(True)\
-    .setObfuscateRefSource('faker')
-
-text = """Nume si Prenume : BUREAN MARIA, Varsta: 77 ,Spitalul Pentru Ochi de Deal, Drumul Oprea Nr. 972 Vaslui"""
-```
-
-*Result:*
-
-|Sentence|Masked with entity|Masked with Chars|Masked with Fixed Chars|Obfuscated|
-|-|-|-|-|-|
-|Nume si Prenume : BUREAN MARIA, Varsta: 77 ,Spitalul Pentru Ochi de Deal, Drumul Oprea Nr. 972 Vaslui| Nume si Prenume : <\PATIENT>, Varsta: <\AGE> ,<\HOSPITAL>, <\STREET> <\CITY> | Nume si Prenume : **********, Varsta: ** ,**************************, ****************** **** |Nume si Prenume : ****, Varsta: **** , ****, **** **** | Nume si Prenume : Claudia Crumble, Varsta: 18 ,LOS ANGELES AMBULATORY CARE CENTER, 706 north parrish avenue Piscataway|
-
-
-</div><div class="prev_ver h3-box" markdown="1">
-
-
-#### New SDOH (Social Determinants of Health) NER Model
- + Social Determinants of Health(SDOH) are the socioeconomic factors under which people live, learn, work, worship, and play that determine their health outcomes.The World Health Organization also provides a definition of social determinants of health. Social determinants of health as the conditions in which people are born, grow, live, work and age. These circumstances are shaped by the distribution of money, power, and resources at global, national, and local levels.  Social determinants of health (SDOH) have a major impact on people’s health, well-being, and quality of life.
-  +  SDOH include lots of factors, also contribute to wide health disparities and inequities. In this project We have tried to define well these factors. The goal of this project is to train models for natural language processing focused on extracting terminology related to social determinants of health from various kinds of biomedical documents. This first model is Named Entity Recognition (NER) task.
-  +  The project is still ongoing and will mature over time and the number of sdoh factors (entities) will also be enriched. It will include other tasks as well.
-    
-*Example:*
-
-```python
-ner_model = MedicalNerModel.pretrained("sdoh_slim_wip", "en", "clinical/models")\
-        .setInputCols(["sentence", "token", "embeddings"])\
-        .setOutputCol("ner")
-
-text = """ Mother states that he does smoke, there is a family hx of alcohol on both maternal and paternal sides of the family, maternal grandfather who died of alcohol related complications and paternal grandmother with severe alcoholism. Pts own drinking began at age 16, living in LA, had a DUI at age 17 after totaling a new car that his mother bought for him, he was married. """
-```
-
-*Result:*
-
-```bash
-+-------------+-------------------+
-|        token|          ner_label|
-+-------------+-------------------+
-|       Mother|    B-Family_Member|
-|           he|           B-Gender|
-|        smoke|          B-Smoking|
-|      alcohol|          B-Alcohol|
-|     maternal|    B-Family_Member|
-|     paternal|    B-Family_Member|
-|     maternal|    B-Family_Member|
-|  grandfather|    B-Family_Member|
-|      alcohol|          B-Alcohol|
-|     paternal|    B-Family_Member|
-|  grandmother|    B-Family_Member|
-|       severe|          B-Alcohol|
-|   alcoholism|          I-Alcohol|
-|     drinking|          B-Alcohol|
-|          age|              B-Age|
-|           16|              I-Age|
-|           LA|B-Geographic_Entity|
-|          age|              B-Age|
-|           17|              I-Age|
-|          his|           B-Gender|
-|       mother|    B-Family_Member|
-|          him|           B-Gender|
-|           he|           B-Gender|
-|      married|   B-Marital_Status|
-+-------------+-------------------+
-```
-
-
-</div><div class="prev_ver h3-box" markdown="1">
-
-
-
-#### Improved Oncology NER Models And 4 New Pretrained Pipelines
-
-We are releasing the improved version of Oncological NER models (_wip) and 4 new pretrained oncological pipelines which are able to detect assertion status and relations between the extracted oncological entities.
-
-|NER model name (`MedicalNerModel`)| description|predicted entities|
-|-|-|-|
-| [ner_oncology_anatomy_general](https://nlp.johnsnowlabs.com/2022/10/25/ner_oncology_anatomy_general_en.html)  | Extracting anatomical entities.  |  `Anatomical_Site`, `Direction` |
-| [ner_oncology_anatomy_granular](https://nlp.johnsnowlabs.com/2022/10/25/ner_oncology_anatomy_granular_en.html)  | Extracting anatomical entities using granular labels.  | `Direction`, `Site_Lymph_Node`, `Site_Breast`, `Site_Other_Body_Part`, `Site_Bone`, `Site_Liver`, `Site_Lung`, `Site_Brain`  |
-| [ner_oncology_biomarker](https://nlp.johnsnowlabs.com/2022/10/25/ner_oncology_biomarker_en.html)  | Extracting biomarkers and their results.  | `Biomarker`, `Biomarker_Result`  |
-| [ner_oncology_demographics](https://nlp.johnsnowlabs.com/2022/10/25/ner_oncology_demographics_en.html) | Extracting demographic information, including smoking status.  | `Age`, `Gender`, `Smoking_Status`, `Race_Ethnicity`  |
-| [ner_oncology_diagnosis](https://nlp.johnsnowlabs.com/2022/10/25/ner_oncology_diagnosis_en.html)  | Extracting entities related to cancer diagnosis, including the presence of metastasis.  | `Grade`, `Staging`, `Tumor_Size`, `Adenopathy`, `Pathology_Result`, `Histological_Type`, `Metastasis`, `Cancer_Score`, `Cancer_Dx`, `Invasion`, `Tumor_Finding`, `Performance_Status`  |
-| [ner_oncology](https://nlp.johnsnowlabs.com/2022/10/25/ner_oncology_en.html)  | Extracting more than 40 oncology-related entities.  | `Histological_Type`, `Direction`, `Staging`, `Cancer_Score`, `Imaging_Test`, `Cycle_Number`, `Tumor_Finding`, `Site_Lymph_Node`, `Invasion`, `Response_To_Treatment`, `Smoking_Status`, `Tumor_Size`, `Cycle_Count`, `Adenopathy`, `Age`, `Biomarker_Result`, `Unspecific_Therapy`, `Site_Breast`, `Chemotherapy`, `Targeted_Therapy`, `Radiotherapy`, `Performance_Status`, `Pathology_Test`, `Site_Other_Body_Part`, `Cancer_Surgery`, `Line_Of_Therapy`, `Pathology_Result`, `Hormonal_Therapy`, `Site_Bone`, `Biomarker`, `Immunotherapy`, `Cycle_Day`, `Frequency`, `Route`, `Duration`, `Death_Entity`, `Metastasis`, `Site_Liver`, `Cancer_Dx`, `Grade`, `Date`, `Site_Lung`, `Site_Brain`, `Relative_Date`, `Race_Ethnicity`, `Gender`, `Oncogene`, `Dosage`, `Radiation_Dose`  |
-| [ner_oncology_posology](https://nlp.johnsnowlabs.com/2022/10/25/ner_oncology_posology_en.html)  | This model extracts oncology specific posology information and cancer therapies.  | `Cycle_Number`, `Cycle_Count`, `Radiotherapy`, `Cancer_Surgery`, `Cycle_Day`, `Frequency`, `Route`, `Cancer_Therapy`, `Duration`, `Dosage`, `Radiation_Dose`  |
-| [ner_oncology_unspecific_posology](https://nlp.johnsnowlabs.com/2022/10/25/ner_oncology_unspecific_posology_en.html)  | Extracting any mention of cancer therapies and posology information using general labels  | `Cancer_Therapy`, `Posology_Information`  |
-| [ner_oncology_response_to_treatment_wip](https://nlp.johnsnowlabs.com/2022/10/25/ner_oncology_response_to_treatment_en.html)  | Extracting entities related to the patient's response to cancer treatment.  | `Response_To_Treatment`, `Size_Trend`, `Line_Of_Therapy`  |
-| [ner_oncology_therapy](https://nlp.johnsnowlabs.com/2022/10/25/ner_oncology_therapy_en.html)   |Extracting entities related to cancer therapies, including posology entities and response to treatment, using granular labels.  | `Response_To_Treatment`, `Line_Of_Therapy`, `Cancer_Surgery`, `Radiotherapy`, `Immunotherapy`, `Targeted_Therapy`, `Hormonal_Therapy`, `Chemotherapy`, `Unspecific_Therapy`, `Route`, `Duration`, `Cycle_Count`, `Dosage`, `Frequency`, `Cycle_Number`, `Cycle_Day`, `Radiation_Dose`  |
-| [ner_oncology_test](https://nlp.johnsnowlabs.com/2022/10/25/ner_oncology_test_en.html)  | Extracting mentions of oncology-related tests.  | `Oncogene`, `Biomarker`, `Biomarker_Result`, `Imaging_Test`, `Pathology_Test`  |
-| [ner_oncology_tnm](https://nlp.johnsnowlabs.com/2022/10/25/ner_oncology_tnm_en.html)   |  Extracting mentions related to TNM staging. |  `Lymph_Node`, `Staging`, `Lymph_Node_Modifier`, `Tumor_Description`, `Tumor`, `Metastasis`, `Cancer_Dx` |
-
-
-|Oncological Pipeline (`PretrainedPipeline`)| Description|
-|-|-|
-| [oncology_general_pipeline](https://nlp.johnsnowlabs.com/2022/11/03/oncology_general_pipeline_en.html)  | Includes Named-Entity Recognition, Assertion Status and Relation Extraction models to extract information from oncology texts. This pipeline extracts diagnoses, treatments, tests, anatomical references and demographic entities. |  
-| [oncology_biomarker_pipeline](https://nlp.johnsnowlabs.com/2022/11/04/oncology_biomarker_pipeline_en.html)  | Includes Named-Entity Recognition, Assertion Status and Relation Extraction models to extract information from oncology texts. This pipeline focuses on entities related to biomarkers  |
-| [oncology_diagnosis_pipeline](https://nlp.johnsnowlabs.com/2022/11/04/oncology_diagnosis_pipeline_en.html)  | Includes Named-Entity Recognition, Assertion Status, Relation Extraction and Entity Resolution models to extract information from oncology texts. This pipeline focuses on entities related to oncological diagnosis.  |
-| [oncology_therapy_pipeline](https://nlp.johnsnowlabs.com/2022/11/04/oncology_therapy_pipeline_en.html)  | Includes Named-Entity Recognition and Assertion Status models to extract information from oncology texts. This pipeline focuses on entities related to therapies.  |  
-
-
-*Example:*
-```python
-from sparknlp.pretrained import PretrainedPipeline
-
-pipeline = PretrainedPipeline("oncology_general_pipeline", "en", "clinical/models")
-
-text = "The patient underwent a left mastectomy for a left breast cancer two months ago. The tumor is positive for ER and PR."
-```
-*Result:*
-```bash
-**** ner_oncology_wip results ****
-| chunk          | ner_label        |
-|:---------------|:-----------------|
-| left           | Direction        |
-| mastectomy     | Cancer_Surgery   |
-| left           | Direction        |
-| breast cancer  | Cancer_Dx        |
-| two months ago | Relative_Date    |
-| tumor          | Tumor_Finding    |
-| positive       | Biomarker_Result |
-| ER             | Biomarker        |
-| PR             | Biomarker        |
-
-**** assertion_oncology_wip results  ****
-| chunk         | ner_label      | assertion   |
-|:--------------|:---------------|:------------|
-| mastectomy    | Cancer_Surgery | Past        |
-| breast cancer | Cancer_Dx      | Present     |
-| tumor         | Tumor_Finding  | Present     |
-| ER            | Biomarker      | Present     |
-| PR            | Biomarker      | Present     |
-
-**** re_oncology_wip results ****
-| chunk1        | entity1          | chunk2         | entity2       | relation      |
-|:--------------|:-----------------|:---------------|:--------------|:--------------|
-| mastectomy    | Cancer_Surgery   | two months ago | Relative_Date | is_related_to |
-| breast cancer | Cancer_Dx        | two months ago | Relative_Date | is_related_to |
-| tumor         | Tumor_Finding    | ER             | Biomarker     | O             |
-| tumor         | Tumor_Finding    | PR             | Biomarker     | O             |
-| positive      | Biomarker_Result | ER             | Biomarker     | is_related_to |
-| positive      | Biomarker_Result | PR             | Biomarker     | is_related_to |
-```
-
-</div><div class="prev_ver h3-box" markdown="1">
-
-
-
-#### New Chunk Mapper Models to Map Entities (phrases) to Their Corresponding ICD-10-CM Codes As Well As Clinical Abbreviations to Their Definitions
-
-We have 2 new chunk mapper models:
-
-+ `abbreviation_mapper_augmented` is an augmented version of the existing `abbreviation_mapper` model. It maps abbreviations and acronyms of medical regulatory activities to their definitions.
-
-+ `icd10cm_mapper` maps entities to corresponding ICD-10-CM codes.
-
-*Example:*
-
-```python
-chunkerMapper = ChunkMapperModel\
-    .pretrained("icd10cm_mapper", "en", "clinical/models")\
+chunkerMapper = ChunkMapperModel.pretrained("kegg_disease_mapper", "en", "clinical/models")\
     .setInputCols(["ner_chunk"])\
     .setOutputCol("mappings")\
-    .setRels(["icd10cm_code"])
+    .setRels(["description", "category", "icd10_code", "icd11_code", "mesh_code", "brite_code"])
 
-text = """A 35-year-old male with a history of primary leiomyosarcoma of neck, gestational diabetes mellitus diagnosed eight years prior to presentation and presented with a one-week history of polydipsia, poor appetite, and vomiting."""
+text= "A 55-year-old female with a history of myopia, kniest dysplasia and prostate cancer. She was on glipizide , and dapagliflozin for congenital nephrogenic diabetes insipidus."
 ```
 
 *Result:*
 
 ```bash
-+------------------------------+-------+------------+
-|ner_chunk                     |entity |icd10cm_code|
-+------------------------------+-------+------------+
-|primary leiomyosarcoma of neck|PROBLEM|C49.0       |
-|gestational diabetes mellitus |PROBLEM|O24.919     |
-|polydipsia                    |PROBLEM|R63.1       |
-|poor appetite                 |PROBLEM|R63.0       |
-|vomiting                      |PROBLEM|R11.10      |
-+------------------------------+-------+------------+
++-----------------------------------------+--------------------------------------------------+-----------------------+----------+----------+---------+-----------------------+
+|                                ner_chunk|                                       description|               category|icd10_code|icd11_code|mesh_code|             brite_code|
++-----------------------------------------+--------------------------------------------------+-----------------------+----------+----------+---------+-----------------------+
+|                                   myopia|Myopia is the most common ocular disorder world...| Nervous system disease|     H52.1|    9D00.0|  D009216|            08402,08403|
+|                         kniest dysplasia|Kniest dysplasia is an autosomal dominant chond...|Congenital malformation|     Q77.7|    LD24.3|  C537207|            08402,08403|
+|                          prostate cancer|Prostate cancer constitutes a major health prob...|                 Cancer|       C61|      2C82|     NONE|08402,08403,08442,08441|
+|congenital nephrogenic diabetes insipidus|Nephrogenic diabetes insipidus (NDI) is charact...| Urinary system disease|     N25.1|   GB90.4A|  D018500|            08402,08403|
++-----------------------------------------+--------------------------------------------------+-----------------------+----------+----------+---------+-----------------------+
+```
+
+
++ `kegg_drug_mapper`: This pretrained model maps drugs with their corresponding `efficacy`, `molecular_weight` as well as `CAS`, `PubChem`, `ChEBI`, `LigandBox`, `NIKKAJI`, `PDB-CCD` codes. This model was trained with the data from the KEGG database.
+
+*Example*:
+
+```python
+chunkerMapper = ChunkMapperModel.pretrained("kegg_drug_mapper", "en", "clinical/models")\
+    .setInputCols(["ner_chunk"])\
+    .setOutputCol("mappings")\
+    .setRels(["efficacy", "molecular_weight", "CAS", "PubChem", "ChEBI", "LigandBox", "NIKKAJI", "PDB-CCD"])
+
+text= "She is given OxyContin, folic acid, levothyroxine, Norvasc, aspirin, Neurontin"
+```
+
+*Result*:
+
+```bash
++-------------+--------------------------------------------------+----------------+----------+-----------+-------+---------+---------+-------+
+|    ner_chunk|                                          efficacy|molecular_weight|       CAS|    PubChem|  ChEBI|LigandBox|  NIKKAJI|PDB-CCD|
++-------------+--------------------------------------------------+----------------+----------+-----------+-------+---------+---------+-------+
+|    OxyContin|     Analgesic (narcotic), Opioid receptor agonist|        351.8246|  124-90-3|  7847912.0| 7859.0|   D00847|J281.239H|   NONE|
+|   folic acid|Anti-anemic, Hematopoietic, Supplement (folic a...|        441.3975|   59-30-3|  7847138.0|27470.0|   D00070|  J1.392G|    FOL|
+|levothyroxine|                     Replenisher (thyroid hormone)|          776.87|   51-48-9|9.6024815E7|18332.0|   D08125|  J4.118A|    T44|
+|      Norvasc|Antihypertensive, Vasodilator, Calcium channel ...|        408.8759|88150-42-9|5.1091781E7| 2668.0|   D07450| J33.383B|   NONE|
+|      aspirin|Analgesic, Anti-inflammatory, Antipyretic, Anti...|        180.1574|   50-78-2|  7847177.0|15365.0|   D00109|  J2.300K|    AIN|
+|    Neurontin|                     Anticonvulsant, Antiepileptic|        171.2368|60142-96-3|  7847398.0|42797.0|   D00332| J39.388F|    GBN|
++-------------+--------------------------------------------------+----------------+----------+-----------+-------+---------+---------+-------+
+```
+
++ `abbreviation_category_mapper`: This pretrained model maps abbreviations and acronyms of medical regulatory activities with their definitions and categories.
+Predicted categories: `general`, `problem`, `test`, `treatment`, `medical_condition`, `clinical_dept`, `drug`, `nursing`, `internal_organ_or_component`, `hospital_unit`, `drug_frequency`, `employment`, `procedure`.
+
+*Example*:
+```python
+chunkerMapper = ChunkMapperModel.pretrained("abbreviation_category_mapper", "en", "clinical/models")\
+     .setInputCols(["abbr_ner_chunk"])\
+     .setOutputCol("mappings")\
+     .setRels(["definition", "category"])\
+
+text = ["""Gravid with estimated fetal weight of 6-6/12 pounds.
+         LABORATORY DATA: Laboratory tests include a CBC which is normal.
+         VDRL: Nonreactive
+         HIV: Negative. One-Hour Glucose: 117. Group B strep has not been done as yet."""]
+
+```
+
+*Result*:
+
+```bash
+| chunk   | category          | definition                             |
+|:--------|:------------------|:---------------------------------------|
+| CBC     | general           | complete blood count                   |
+| VDRL    | clinical_dept     | Venereal Disease Research Laboratories |
+| HIV     | medical_condition | Human immunodeficiency virus           |
 ```
 
 </div><div class="prev_ver h3-box" markdown="1">
 
+####  New Utility & Helper Relation Extraction Modules to Handle Preprocess
 
-#### New ICD-10-PCS Sentence Entity Resolver Model and ICD-10-CM Resolver Pipeline
+This process is standard and training column should be same in all RE trainings. We can simplify this process with helper class. With proposed changes it can be done as follows:
 
-We are releasing new ICD-10-PCS resolver model and ICD-10-CM resolver pipeline:
-
-+ `sbiobertresolve_icd10pcs_augmented` model maps extracted medical entities to ICD-10-PCS codes using `sbiobert_base_cased_mli` sentence bert embeddings. It trained on the augmented version of the dataset which is used in previous ICD-10-PCS resolver model.
-
-*Example:*
+*Example*:
 
 ```python
-icd10pcs_resolver = SentenceEntityResolverModel\
-  .pretrained("sbiobertresolve_icd10pcs_augmented","en", "clinical/models") \
-  .setInputCols(["ner_chunk", "sbert_embeddings"]) \
-  .setOutputCol("resolution")\
-  .setDistanceFunction("EUCLIDEAN")
+from sparknlp_jsl.training import REDatasetHelper
 
-text = "Given the severity of her abdominal examination and her persistence of her symptoms, it is detected that need for laparoscopic appendectomy and possible open appendectomy as well as pyeloplasty. We recommend performing a mediastinoscopy"
+# map entity columns to dataset columns
+column_map = {
+    "begin1": "firstCharEnt1",
+    "end1": "lastCharEnt1",
+    "begin2": "firstCharEnt2",
+    "end2": "lastCharEnt2",
+    "chunk1": "chunk1",
+    "chunk2": "chunk2",
+    "label1": "label1",
+    "label2": "label2"
+}
 
-```
-
-*Result:*
-
-```bash
-+-------------------------+---------+-------------+------------------------------------+--------------------+
-|                ner_chunk|   entity|icd10pcs_code|                         resolutions|           all_codes|
-+-------------------------+---------+-------------+------------------------------------+--------------------+
-|    abdominal examination|     Test|      2W63XZZ|[traction of abdominal wall [trac...|[2W63XZZ, BW40ZZZ...|
-|laparoscopic appendectomy|Procedure|      0DTJ8ZZ|[resection of appendix, endo [res...|[0DTJ8ZZ, 0DT84ZZ...|
-|        open appendectomy|Procedure|      0DBJ0ZZ|[excision of appendix, open appro...|[0DBJ0ZZ, 0DTJ0ZZ...|
-|              pyeloplasty|Procedure|      0TS84ZZ|[reposition bilateral ureters, pe...|[0TS84ZZ, 0TS74ZZ...|
-|          mediastinoscopy|Procedure|      BB1CZZZ|[fluoroscopy of mediastinum [fluo...|[BB1CZZZ, 0WJC4ZZ...|
-+-------------------------+---------+-------------+------------------------------------+--------------------+
-```
-
-+ `icd10cm_resolver_pipeline` pretrained pipeline maps entities with their corresponding ICD-10-CM codes. You’ll just feed your text and it will return the corresponding ICD-10-CM codes.
-
-*Example:*
-
-```python
-from sparknlp.pretrained import PretrainedPipeline
-
-resolver_pipeline = PretrainedPipeline("icd10cm_resolver_pipeline", "en", "clinical/models")
-
-text = "A 28-year-old female with a history of gestational diabetes mellitus diagnosed eight years and anisakiasis. Also, it was reported that fetal and neonatal hemorrhage"
-```
-
-*Result:*
-
-```bash
-+-----------------------------+---------+------------+
-|chunk                        |ner_chunk|icd10cm_code|
-+-----------------------------+---------+------------+
-|gestational diabetes mellitus|PROBLEM  |O24.919     |
-|anisakiasis                  |PROBLEM  |B81.0       |
-|fetal and neonatal hemorrhage|PROBLEM  |P545        |
-+-----------------------------+---------+------------+
+# apply preprocess function to dataframe
+data = REDatasetHelper(data).create_annotation_column(
+    column_map,
+    ner_column_name="train_ner_chunks" # optional, default train_ner_chunks
+)
 ```
 
 
 </div><div class="prev_ver h3-box" markdown="1">
 
+####  New Utility & Helper OCR Modules to Handle Annotations
 
-#### New Utility & Helper Modules Documentation Page
+This modeule can generates an annotated PDF file using input PDF files. `style`:  PDF file proccess style that has 3 options;
+- `black_band`: Black bands over the chunks detected by NER pipeline.
+- `bounding_box`: Colorful bounding boxes around the chunks detected by NER pipeline. Each color represents a different NER label.
+- `highlight`: Colorful highlights over the chunks detected by NER pipeline. Each color represents a different NER label.
+- 
+You can check [Spark OCR Utility Module](https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/5.3.Spark_OCR_Utility_Module.ipynb) notebook for more examples.
 
-We have a new [utility & helper modules documentation page](https://nlp.johnsnowlabs.com/docs/en/utility_helper_modules) that you can find the documentations of Spark NLP for Healthcare modules with examples.
+*Example*:
 
+```python
+from sparknlp_jsl.utils.ocr_nlp_processor import  ocr_entity_processor
+
+path='/*.pdf'
+        
+box = "bounding_box"
+ocr_entity_processor(spark=spark,file_path=path,ner_pipeline = nlp_model,chunk_col = "merged_chunk", black_list = ["AGE", "DATA", "PATIENT"],
+                    style = box, save_dir = "colored_box",label= True, label_color = "red",color_chart_path = "label_colors.png", display_result=True)
+
+box = "highlight"
+ocr_entity_processor(spark=spark,file_path=path, ner_pipeline = nlp_model, chunk_col = "merged_chunk", black_list = ["AGE", "DATE", "PATIENT"],
+                    style = box, save_dir = "colored_box", label= True, label_color = "red", color_chart_path = "label_colors.png", display_result=True)
+
+box = "black_band"
+ocr_entity_processor(spark=spark,file_path=path, ner_pipeline = nlp_modelchunk_col = "merged_chunk", 
+                     style = box, save_dir = "black_band",label= True, label_color = "red", display_result = True)
+```
+
+*Results*:
+
+- **Bounding box with labels and black list**
+
+![image](https://user-images.githubusercontent.com/64752006/205349180-8222ec38-8b43-44a2-abf2-def72fd82d68.png)
+
+
+- **Highlight with labels and black_list**
+
+![image](https://user-images.githubusercontent.com/64752006/205343977-7f54eb4e-4a3c-4be2-8acf-2f0f3b7dd0f5.png)
+
+- **black_band with labels**
+
+![image](https://user-images.githubusercontent.com/64752006/205343389-9563a9ce-f971-4865-b94f-4b0cc92e2bcc.png)
+
+
+
+
+
+</div><div class="prev_ver h3-box" markdown="1">
+
+
+#### New Utility & Helper NER Log Parser
+
+`ner_utils`: This new module is used after NER training to calculate mertic chunkbase and plot training logs.
+
+*Example*:
+```python
+nerTagger = NerDLApproach()\
+              .setInputCols(["sentence", "token", "embeddings"])\
+              .setLabelColumn("label")\
+              .setOutputCol("ner")\
+              ...  
+              .setOutputLogsPath('ner_logs')
+    
+ner_pipeline = Pipeline(stages=[glove_embeddings,
+                                graph_builder,
+                                nerTagger])
+
+ner_model = ner_pipeline.fit(training_data)
+
+```
+
+- `evaluate`: if verbose, returns overall performance, as well as performance per chunk type; otherwise, simply returns overall precision, recall, f1 scores
+
+*Example*:
+
+```python
+from sparknlp_jsl.utils.ner_utils import evaluate
+
+metrics = evaluate(preds_df['ground_truth'].values, preds_df['prediction'].values)
+
+```
+
+*Result:*
+
+```bash
+processed 14133 tokens with 1758 phrases; found: 1779 phrases; correct: 1475.
+accuracy:  83.45%; (non-O)
+accuracy:  96.67%; precision:  82.91%; recall:  83.90%; FB1:  83.40
+              LOC: precision:  91.41%; recall:  85.69%; FB1:  88.46  524
+             MISC: precision:  78.15%; recall:  62.11%; FB1:  69.21  151
+              ORG: precision:  61.86%; recall:  74.93%; FB1:  67.77  430
+              PER: precision:  90.80%; recall:  93.58%; FB1:  92.17  674
+```
+
+
+- `loss_plot`: Plots the figure of loss vs epochs
+
+*Example*:
+
+```python
+from sparknlp_jsl.utils.ner_utils import loss_plot
+
+loss_plot('./ner_logs/'+log_files[0])
+```
+
+*Results*:
+
+![image](https://user-images.githubusercontent.com/64752006/205368367-f70bb792-b1ff-41cd-8ed5-8dee94f10aa8.png)
+
+
+- `get_charts` : Plots the figures of metrics ( precision, recall, f1) vs epochs
+
+*Example*:
+
+```python
+from sparknlp_jsl.utils.ner_utils import get_charts
+
+get_charts('./ner_logs/'+log_files[0])
+```
+
+*Results*:
+
+![image](https://user-images.githubusercontent.com/64752006/205368210-f5ffb64c-8a22-4758-8423-ade6ac3ee8cd.png)
+
+![image](https://user-images.githubusercontent.com/64752006/205368132-c86e7c2b-555e-4653-a799-c55cc5e9e9a0.png)
+
+
+
+</div><div class="prev_ver h3-box" markdown="1">
+
+#### Adding Flexibility Chunk Merger Prioritization
+
+`orderingFeatures`: Array of strings specifying the ordering features to use for overlapping entities. Possible values are ChunkBegin, ChunkLength, ChunkPrecedence, ChunkConfidence
+
+`selectionStrategy`: Whether to select annotations sequentially based on annotation order `Sequential` or using any other available strategy, currently only `DiverseLonger` are available.
+
+`defaultConfidence`: When ChunkConfidence ordering feature is included and a given annotation does not have any confidence the value of this param will be used.
+
+`chunkPrecedence`: When ChunkPrecedence ordering feature is used this param contains the comma separated fields in metadata that drive prioritization of overlapping annotations. When used by itself (empty chunkPrecedenceValuePrioritization) annotations will be prioritized based on number of metadata fields present. When used together with chunkPrecedenceValuePrioritization param it will prioritize based on the order of its values.
+
+`chunkPrecedenceValuePrioritization`: When ChunkPrecedence ordering feature is used this param contains an Array of comma separated values representing the desired order of prioritization for the VALUES in the metadata fields included from chunkPrecedence.
+
+*Example*:
+
+```python
+text = """A 63 years old man presents to the hospital with a history of recurrent infections 
+that include cellulitis, pneumonias, and upper respiratory tract infections..."""
+
++-------------------------------------------------------------------------------------+
+|ner_deid_chunk                                                                       |
++-------------------------------------------------------------------------------------+
+|[{chunk, 2, 3, 63, {entity -> AGE, sentence -> 0, chunk -> 0, confidence -> 0.9997}}]|
++-------------------------------------------------------------------------------------+
+
++----------------------------------------------------------------------------------------------------+
+|jsl_ner_chunk                                                                                       |     
++----------------------------------------------------------------------------------------------------+
+|[{chunk, 2, 13, 63 years old, {entity -> Age, sentence -> 0, chunk -> 0, confidence -> 0.85873336}}]|
++----------------------------------------------------------------------------------------------------+
+
+```
+
+- **Merging overlapped chunks by considering their lenght** <br/>
+If we set `setOrderingFeatures(["ChunkLength"])` and `setSelectionStrategy("DiverseLonger")` parameters, the longest chunk will be prioritized in case of overlapping. 
+
+*Example*:
+
+```python
+chunk_merger = ChunkMergeApproach()\
+    .setInputCols('ner_deid_chunk', "jsl_ner_chunk")\
+    .setOutputCol('merged_ner_chunk')\
+    .setOrderingFeatures(["ChunkLength"])\
+    .setSelectionStrategy("DiverseLonger")
+```
+
+*Results*:
+
+```bash
+|begin|end|        chunk|         entity|
++-----+---+-------------+---------------+
+|    2| 13| 63 years old|            Age|
+|   15| 17|          man|         Gender|
+|   35| 42|     hospital|  Clinical_Dept|
+
+```
+
+- **Merging overlapped chunks by considering custom values that we set** <br/>
+`setChunkPrecedence()` parameter contains an Array of comma separated values representing the desired order of prioritization for the VALUES in the metadata fields included from `setOrderingFeatures(["chunkPrecedence"])`.
+
+*Example*:
+
+```python
+chunk_merger = ChunkMergeApproach()\
+    .setInputCols('ner_deid_chunk', "jsl_ner_chunk")\
+    .setOutputCol('merged_ner_chunk')\
+    .setMergeOverlapping(True) \
+    .setOrderingFeatures(["ChunkPrecedence"]) \
+    .setChunkPrecedence('ner_deid_chunk,AGE') \
+#    .setChunkPrecedenceValuePrioritization(["ner_deid_chunk,AGE", "jsl_ner_chunk,Age"]) 
+```
+
+*Results*:
+
+```bash
+|begin|end|        chunk|         entity|
++-----+---+-------------+---------------+
+|    2|  3|           63|            AGE|
+|   15| 17|          man|         Gender|
+|   35| 42|     hospital|  Clinical_Dept|
+
+```
+
+You can check [NER Chunk Merger](https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/7.Clinical_NER_Chunk_Merger.ipynb) notebook for more examples.
+
+
+
+
+</div><div class="prev_ver h3-box" markdown="1">
+
+#### Core improvements and bug fixes
+
+- AssertionDL IncludeConfidence() parameters default value set by True
+- Fixed NaN outputs in RelationExtraction
+- Fixed loadSavedModel method that we use for importing transformers into Spark NLP
+- Fixed replacer with setUseReplacement(True) parameter
+- Added overall confidence score to MedicalNerModel when setIncludeAllConfidenceScore is True
+- Fixed in InternalResourceDownloader showAvailableAnnotators
 
 </div><div class="prev_ver h3-box" markdown="1">
 
 
 #### New and Updated Notebooks
 
-+ New [Resume RelationExtractionApproach Training](https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/10.4.Resume_RelationExtractionApproach_Training.ipynb) notebook train a model already trained on a different dataset.
++ New [Spark OCR Utility Module](https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/5.3.Spark_OCR_Utility_Module.ipynb) notebook to help handle OCR process.
 
-+ Updated [Clinical Deidentification](https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/4.Clinical_DeIdentification.ipynb) notebook with day shifting feature in `DeIdentification`.
++ Updated [Clinical Entity Resolvers](https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/3.Clinical_Entity_Resolvers.ipynb) notebook with `Assertion Filterer` example.
 
-+ Updated [Clinical Multi Language Deidentification](https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/4.1.Clinical_Multi_Language_Deidentification.ipynb) notebook with new Romanian obfuscation and faker improvement.
++ Updated [NER Chunk Merger](https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/7.Clinical_NER_Chunk_Merger.ipynb) notebook with flexibility chunk merger prioritization example.
 
-+ Updated [Adverse Drug Event ADE NER and Classifier](https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/16.Adverse_Drug_Event_ADE_NER_and_Classifier.ipynb) notebook with the new models and improvement.
++ Updated [Clinical Relation Extraction](https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/10.Clinical_Relation_Extraction.ipynb) notebook with new `REDatasetHelper` module.
+
++ Updated [ALab Module SparkNLP JSL](https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Annotation_Lab/Complete_ALab_Module_SparkNLP_JSL.ipynb) notebook with new updates.
 
 
 </div><div class="prev_ver h3-box" markdown="1">
 
-#### 22 New Clinical Models and Pipelines Added & Updated in Total
+#### 3 New Clinical Models and Pipelines Added & Updated in Total
 
++ `kegg_disease_mapper`
++ `kegg_drug_mapper`
++ `abbreviation_category_mapper`
 
-+ `abbreviation_mapper_augmented`
-+ `icd10cm_mapper`
-+ `sbiobertresolve_icd10pcs_augmented`
-+ `icd10cm_resolver_pipeline`
-+ `oncology_biomarker_pipeline`
-+ `oncology_diagnosis_pipeline`
-+ `oncology_therapy_pipeline`
-+ `oncology_general_pipeline`
-+ `ner_oncology_anatomy_general`
-+ `ner_oncology_anatomy_granular`
-+ `ner_oncology_biomarker`
-+ `ner_oncology_demographics`
-+ `ner_oncology_diagnosis`
-+ `ner_oncology`
-+ `ner_oncology_posology`
-+ `ner_oncology_response_to_treatment`
-+ `ner_oncology_test`
-+ `ner_oncology_therapy`
-+ `ner_oncology_tnm`
-+ `ner_oncology_unspecific_posology`
-+ `sdoh_slim_wip`
-+ `t5_base_pubmedqa`
 
 For all Spark NLP for healthcare models, please check: [Models Hub Page](https://nlp.johnsnowlabs.com/models?edition=Healthcare+NLP)
 
@@ -369,14 +411,15 @@ For all Spark NLP for healthcare models, please check: [Models Hub Page](https:/
 </div>
 <ul class="pagination">
     <li>
-        <a href="spark_nlp_healthcare_versions/release_notes_4_2_0">Versions 4.2.1</a>
+        <a href="spark_nlp_healthcare_versions/release_notes_4_2_2">Versions 4.2.2</a>
     </li>
     <li>
-        <strong>Versions 4.2.2</strong>
+        <strong>Versions 4.2.3</strong>
     </li>
 </ul>
 <ul class="pagination owl-carousel pagination_big">
-    <li class="active"><a href="spark_nlp_healthcare_versions/release_notes_4_2_2">4.2.2</a></li>
+    <li class="active"><a href="spark_nlp_healthcare_versions/release_notes_4_2_3">4.2.3</a></li>
+    <li><a href="spark_nlp_healthcare_versions/release_notes_4_2_1">4.2.2</a></li>
     <li><a href="spark_nlp_healthcare_versions/release_notes_4_2_1">4.2.1</a></li>
     <li><a href="spark_nlp_healthcare_versions/release_notes_4_2_0">4.2.0</a></li>
     <li><a href="spark_nlp_healthcare_versions/release_notes_4_1_0">4.1.0</a></li>

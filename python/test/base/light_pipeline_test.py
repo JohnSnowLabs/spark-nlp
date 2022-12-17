@@ -24,7 +24,6 @@ from sparknlp.base import *
 
 
 class LightPipelineTextSetUp(unittest.TestCase):
-
     def setUp(self):
         self.spark = SparkSessionForTest.spark
         self.text = "This is a text input"
@@ -349,3 +348,42 @@ class LightPipelineWrongInputTest(LightPipelineTextSetUp, unittest.TestCase):
 
         with self.assertRaises(TypeError):
             light_pipeline.fullAnnotate({"key": "value"})
+
+
+@pytest.mark.fast
+class LightPipelineWrongInputColsTest(unittest.TestCase):
+
+    def setUp(self):
+        self.sample_text = "I was born in 1990 ."
+        self.data = SparkSessionForTest.spark.createDataFrame([[self.sample_text]]).toDF("text")
+
+        document_assembler = DocumentAssembler() \
+            .setInputCol("text") \
+            .setOutputCol("document")
+
+        sentence_detector = SentenceDetector() \
+            .setInputCols(["document"]) \
+            .setOutputCol("sentence")
+
+        tokenizer = Tokenizer() \
+            .setInputCols(["sentence"]) \
+            .setOutputCol("my_token")
+
+        regex_matcher = RegexMatcher() \
+            .setExternalRules(os.getcwd() + "/../src/test/resources/regex-matcher/rules.txt",  ",") \
+            .setInputCols(["my_token"]) \
+            .setOutputCol("regex") \
+            .setStrategy("MATCH_ALL")
+
+        self.pipeline = Pipeline().setStages([document_assembler, sentence_detector, tokenizer, regex_matcher])
+
+    def runTest(self):
+        model = self.pipeline.fit(self.data)
+
+        light_model = LightPipeline(model)
+
+        with self.assertRaises(TypeError):
+            light_model.fullAnnotate(self.sample_text)
+
+        with self.assertRaises(TypeError):
+            light_model.annotate(self.sample_text)

@@ -82,6 +82,8 @@ class NerConverter(AnnotatorModel):
 
     inputAnnotatorTypes = [AnnotatorType.DOCUMENT, AnnotatorType.TOKEN, AnnotatorType.NAMED_ENTITY]
 
+    outputAnnotatorType = AnnotatorType.CHUNK
+
     whiteList = Param(
         Params._dummy(),
         "whiteList",

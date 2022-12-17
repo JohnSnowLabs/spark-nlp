@@ -21,6 +21,8 @@ class AnnotatorProperties(Params):
     inputAnnotatorTypes = []
     optionalInputAnnotatorTypes = []
 
+    outputAnnotatorType = None
+
     inputCols = Param(Params._dummy(),
                       "inputCols",
                       "previous annotations columns, if renamed",

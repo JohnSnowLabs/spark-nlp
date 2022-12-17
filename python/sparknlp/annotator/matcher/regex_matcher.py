@@ -92,6 +92,8 @@ class RegexMatcher(AnnotatorApproach):
 
     inputAnnotatorTypes = [AnnotatorType.DOCUMENT]
 
+    outputAnnotatorType = AnnotatorType.CHUNK
+
     strategy = Param(Params._dummy(),
                      "strategy",
                      "MATCH_FIRST|MATCH_ALL|MATCH_COMPLETE",
@@ -207,6 +209,8 @@ class RegexMatcherModel(AnnotatorModel):
     """
 
     inputAnnotatorTypes = [AnnotatorType.DOCUMENT]
+
+    outputAnnotatorType = AnnotatorType.CHUNK
 
     def __init__(self, classname="com.johnsnowlabs.nlp.annotators.RegexMatcherModel", java_model=None):
         super(RegexMatcherModel, self).__init__(

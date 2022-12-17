@@ -153,7 +153,7 @@ class XlmRoBertaForSequenceClassificationTestSpec extends AnyFlatSpec {
     pipelineDF.select("label").show(2, false)
     pipelineDF.select("document.result", "label.result").show(2, false)
 
-    // only works if it's softmax - one lable per row
+    // only works if it's softmax - one label per row
     pipelineDF
       .withColumn("doc_size", size(col("document")))
       .withColumn("label_size", size(col("class")))

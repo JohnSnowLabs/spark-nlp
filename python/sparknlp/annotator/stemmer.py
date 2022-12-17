@@ -65,6 +65,8 @@ class Stemmer(AnnotatorModel):
 
     inputAnnotatorTypes = [AnnotatorType.TOKEN]
 
+    outputAnnotatorType = AnnotatorType.TOKEN
+
     language = Param(Params._dummy(), "language", "stemmer algorithm", typeConverter=TypeConverters.toString)
 
     name = "Stemmer"

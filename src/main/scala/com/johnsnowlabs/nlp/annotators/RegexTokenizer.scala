@@ -227,17 +227,23 @@ class RegexTokenizer(override val uid: String)
     */
   def tagWithPositionalMask(sentences: Seq[Sentence]): Seq[TokenizedSentence] = {
 
-    def calculateIndex(indexType: String, mask: Array[Int], text: String, token: String) = {
+    def calculateIndex(
+        indexType: String,
+        mask: Array[Int],
+        text: String,
+        token: String,
+        sentenceOffset: Int) = {
       val tokenBeginIndex: Int = text
         .substring(mask.indexOf(0), text.length)
         .indexOf(token) + mask.indexOf(0)
-      indexType match {
+      val index = indexType match {
         case "begin" => tokenBeginIndex
         case "end" =>
           val endIndex = tokenBeginIndex + token.length
           for (i <- Range(0, endIndex)) mask(i) = 1
           if (endIndex == 0) endIndex else endIndex - 1
       }
+      index + sentenceOffset
     }
 
     sentences.map { text =>
@@ -250,8 +256,8 @@ class RegexTokenizer(override val uid: String)
         .map { token =>
           IndexedToken(
             token,
-            calculateIndex("begin", _mask, _content, token),
-            calculateIndex("end", _mask, _content, token))
+            calculateIndex("begin", _mask, _content, token, text.start),
+            calculateIndex("end", _mask, _content, token, text.start))
         }
         .filter(t =>
           t.token.nonEmpty && t.token.length >= $(minLength) && get(maxLength).forall(m =>
@@ -335,10 +341,10 @@ class RegexTokenizer(override val uid: String)
       TokenizedSentence(newIndexedTokens, inputTokSentence.sentenceIndex)
     }
 
-    !trimWhitespace match {
-      case true => inputTokSentences
-      case false => inputTokSentences.map(ts => policiesImpl(ts))
-    }
+    if (!trimWhitespace)
+      inputTokSentences
+    else
+      inputTokSentences.map(ts => policiesImpl(ts))
   }
 
   override def annotate(annotations: Seq[Annotation]): Seq[Annotation] = {

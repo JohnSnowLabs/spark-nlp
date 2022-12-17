@@ -15,6 +15,8 @@
 
 from pyspark import keyword_only
 from pyspark.ml.param import TypeConverters, Params, Param
+
+from sparknlp.common import AnnotatorType
 from sparknlp.internal import AnnotatorTransformer
 
 
@@ -79,6 +81,8 @@ class DocumentAssembler(AnnotatorTransformer):
     |    |    |-- embeddings: array (nullable = True)
     |    |    |    |-- element: float (containsNull = False)
     """
+
+    outputAnnotatorType = AnnotatorType.DOCUMENT
 
     inputCol = Param(Params._dummy(), "inputCol", "input column name", typeConverter=TypeConverters.toString)
     outputCol = Param(Params._dummy(), "outputCol", "output column name", typeConverter=TypeConverters.toString)
@@ -151,3 +155,10 @@ class DocumentAssembler(AnnotatorTransformer):
             raise Exception("Cleanup mode possible values: disabled, inplace, inplace_full, shrink, shrink_full, each, each_full, delete_full")
         return self._set(cleanupMode=value)
 
+    def getOutputCol(self):
+        """Gets output column name of annotations."""
+        return self.getOrDefault(self.outputCol)
+
+    # def getInputCol(self):
+    #     """Gets current column names of input annotations."""
+    #     return self.getOrDefault(self.inputCol)

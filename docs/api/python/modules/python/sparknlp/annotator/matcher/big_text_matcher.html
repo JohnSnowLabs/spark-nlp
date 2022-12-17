@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>python.sparknlp.annotator.matcher.big_text_matcher &#8212; Spark NLP 4.2.4 documentation</title>
+    <title>python.sparknlp.annotator.matcher.big_text_matcher &#8212; Spark NLP 4.2.5 documentation</title>
   
   
   
@@ -381,6 +381,8 @@
 
     <span class="n">inputAnnotatorTypes</span> <span class="o">=</span> <span class="p">[</span><span class="n">AnnotatorType</span><span class="o">.</span><span class="n">DOCUMENT</span><span class="p">,</span> <span class="n">AnnotatorType</span><span class="o">.</span><span class="n">TOKEN</span><span class="p">]</span>
 
+    <span class="n">outputAnnotatorType</span> <span class="o">=</span> <span class="n">AnnotatorType</span><span class="o">.</span><span class="n">CHUNK</span>
+
     <span class="n">entities</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
                      <span class="s2">&quot;entities&quot;</span><span class="p">,</span>
                      <span class="s2">&quot;ExternalResource for entities&quot;</span><span class="p">,</span>
@@ -482,7 +484,10 @@
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;BigTextMatcherModel&quot;</span>
     <span class="n">databases</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;TMVOCAB&#39;</span><span class="p">,</span> <span class="s1">&#39;TMEDGES&#39;</span><span class="p">,</span> <span class="s1">&#39;TMNODES&#39;</span><span class="p">]</span>
+
     <span class="n">inputAnnotatorTypes</span> <span class="o">=</span> <span class="p">[</span><span class="n">AnnotatorType</span><span class="o">.</span><span class="n">DOCUMENT</span><span class="p">,</span> <span class="n">AnnotatorType</span><span class="o">.</span><span class="n">TOKEN</span><span class="p">]</span>
+
+    <span class="n">outputAnnotatorType</span> <span class="o">=</span> <span class="n">AnnotatorType</span><span class="o">.</span><span class="n">CHUNK</span>
 
     <span class="n">caseSensitive</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
                           <span class="s2">&quot;caseSensitive&quot;</span><span class="p">,</span>

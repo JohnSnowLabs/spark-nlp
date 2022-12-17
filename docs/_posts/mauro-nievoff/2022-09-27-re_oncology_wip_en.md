@@ -25,7 +25,7 @@ This relation extraction model identifies relations between dates and other clin
 `is_related_to`, `O`
 
 {:.btn-box}
-<button class="button button-orange" disabled>Live Demo</button>
+[Live Demo](https://demo.johnsnowlabs.com/healthcare/RE_ONCOLOGY/){:.button.button-orange}
 [Open in Colab](https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/27.Oncology_Model.ipynb){:.button.button-orange.button-orange-trans.co.button-icon}
 [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/re_oncology_wip_en_4.0.0_3.0_1664302122205.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
 

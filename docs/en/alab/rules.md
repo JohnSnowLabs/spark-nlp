@@ -6,7 +6,7 @@ seotitle: Annotation Lab | John Snow Labs
 title: Rules
 permalink: /docs/en/alab/rules
 key: docs-training
-modify_date: "2022-10-18"
+modify_date: "2022-12-10"
 use_language_switcher: "Python-Scala"
 show_nav: true
 sidebar:
@@ -20,7 +20,8 @@ es {
 }
 </style>
 
-Spark NLP for Healthcare supports rule-based annotations via the <es>ContextualParser</es> Annotator. Starting from version 2.5.0, Annotation Lab adds support for creating and using rules in the <es>NER</es> project.
+Rule based annotation is supported by Healthcare NLP, Finance NLP, and Legal NLP via the <es>ContextualParser</es> Annotator.
+Annotation Lab supports creating and using rules in a <es>NER</es> project using any one of these libraries with the presence of valid license.
 
 Users in the <es>Admins</es> group can see and edit the available rules on the Rules page under the Models Hub menu. Users can create new rules using the _+ Add Rules_ button. Users can also import and export the rules.
 

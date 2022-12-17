@@ -75,6 +75,8 @@ class Chunk2Doc(AnnotatorTransformer, AnnotatorProperties):
 
     inputAnnotatorTypes = [AnnotatorType.CHUNK]
 
+    outputAnnotatorType = AnnotatorType.DOCUMENT
+
     @keyword_only
     def __init__(self):
         super(Chunk2Doc, self).__init__(classname="com.johnsnowlabs.nlp.Chunk2Doc")
