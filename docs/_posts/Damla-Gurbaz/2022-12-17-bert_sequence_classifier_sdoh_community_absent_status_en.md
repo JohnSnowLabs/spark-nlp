@@ -10,6 +10,7 @@ language: en
 edition: Healthcare NLP 4.2.3
 spark_version: 3.0
 supported: true
+annotator: MedicalBertForSequenceClassification
 engine: tensorflow
 article_header:
   type: cover
