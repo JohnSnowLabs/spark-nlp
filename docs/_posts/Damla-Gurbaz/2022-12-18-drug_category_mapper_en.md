@@ -10,6 +10,7 @@ language: en
 edition: Healthcare NLP 4.2.2
 spark_version: 3.0
 supported: true
+annotator: ChunkMapperModel
 article_header:
   type: cover
 use_language_switcher: "Python-Scala-Java"
@@ -34,6 +35,7 @@ This pretrained model maps drugs to their categories and other brands and names.
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
+
 ```python
 document_assembler = DocumentAssembler()\
     .setInputCol("text")\
