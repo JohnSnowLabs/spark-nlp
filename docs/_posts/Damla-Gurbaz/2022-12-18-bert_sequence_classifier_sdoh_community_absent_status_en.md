@@ -4,7 +4,7 @@ title: SDOH Community Absent Binary Classification
 author: John Snow Labs
 name: bert_sequence_classifier_sdoh_community_absent_status
 date: 2022-12-18
-tags: [en, licensed, clinical, sequence_classification, classifier, community_absent, sdoh, tensorflow]
+tags: [en, licensed, clinical, sequence_classification, classifier, community_absent, sdoh]
 task: Text Classification
 language: en
 edition: Healthcare NLP 4.2.2
