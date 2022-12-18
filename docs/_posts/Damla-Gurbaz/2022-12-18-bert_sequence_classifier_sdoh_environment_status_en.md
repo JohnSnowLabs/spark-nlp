@@ -4,7 +4,7 @@ title: SDOH Environment Status Classification
 author: John Snow Labs
 name: bert_sequence_classifier_sdoh_environment_status
 date: 2022-12-18
-tags: [en, clinical, sdoh, licensed, sequence_classification, environment_status, classifier, tensorflow]
+tags: [en, clinical, sdoh, licensed, sequence_classification, environment_status, classifier]
 task: Text Classification
 language: en
 edition: Healthcare NLP 4.2.2
