@@ -9,10 +9,10 @@
     j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
     })(window,document,'script','dataLayer','GTM-59JLR64');</script>
-<!-- End Google Tag Manager --><title>Notice Clause NER Model</title><meta property="og:title" content=""/>
+<!-- End Google Tag Manager --><title>Legal General Provisions Document Classifier (Bert Sentence Embeddings)</title><meta property="og:title" content=""/>
 
-<meta name="description" content="DescriptionThis is an NER model aimed to be used in notice clauses, to retrieve entities as NOTICE_METHOD, NOTICE_PARTY, ADDRESS, EMAIL, etc. Make sure you run this model only on notice clauses, after you filter them using legclf_notice_clausePredicted EntitiesADDRESS, DEPARTMENT, EMAIL, FAX, NAME, NOTICE_METHOD, NO...">
-<link rel="canonical" href="/2022/12/16/legner_notice_clause_en.html"><link rel="alternate" type="application/rss+xml" title="Spark NLP" href="/feed.xml"><!-- start favicons snippet, use https://realfavicongenerator.net/ -->
+<meta name="description" content="DescriptionThe legclf_general_provisions_bert model is a Bert Sentence Embeddings Document Classifier used to classify if the document belongs to the class general-provisions (check Lawinsider for similar document type classification) or not (Binary Classification).Unlike the Longformer model, this model is lighter ...">
+<link rel="canonical" href="/2022/12/16/legclf_general_provisions_bert_en.html"><link rel="alternate" type="application/rss+xml" title="Spark NLP" href="/feed.xml"><!-- start favicons snippet, use https://realfavicongenerator.net/ -->
 <!---->
 <!-- <link rel="apple-touch-icon" sizes="180x180" href="/fav.ico"> -->
 
@@ -408,26 +408,28 @@
 
 <!-- end custom main top snippet --><article><script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script><div class="article__header"><div class="header-author"><div class="article__info clearfix"><div class="left-col">
             <a class="edit-on-github-btn" target="_blank" rel="alternate"
-               href="https://github.com/johnsnowlabs/spark-nlp/tree/master/docs/_posts/bunyamin-polat/2022-12-16-legner_notice_clause_en.md">
+               href="https://github.com/johnsnowlabs/spark-nlp/tree/master/docs/_posts/dcecchini/2022-12-16-legclf_general_provisions_bert_en.md">
               <span class="fab fa-github"></span>
               <span class="edit-on-github-label">Edit on GitHub</span>
             </a>
         </div><ul class="right-col menu"><li><i class="far fa-user"></i> <span>John Snow Labs</span></li><li><i class="far fa-calendar-alt"></i> <span>Dec 16, 2022</span>
             </li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2022-12-16T00:00:00+00:00"></div><header class="main-docs have_subtitle">
-          <h1>Notice Clause NER Model</h1><div class="top-subtitle mont"></div></header></div><meta itemprop="headline" content="Notice Clause NER Model"><div class="article__info tags_box clearfix"><ul class="left-col menu"><li>en</li><li>legal</li><li>ner</li><li>licensed</li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2022-12-16T00:00:00+00:00">
-    <meta itemprop="keywords" content="en,legal,ner,licensed"><div class="js-article-content"><div class="model-wrap"><div class="layout--article"><!-- start custom article top snippet -->
+          <h1>Legal General Provisions Document Classifier (Bert Sentence Embeddings)</h1><div class="top-subtitle mont"></div></header></div><meta itemprop="headline" content="Legal General Provisions Document Classifier (Bert Sentence Embeddings)"><div class="article__info tags_box clearfix"><ul class="left-col menu"><li>en</li><li>legal</li><li>classification</li><li>licensed</li><li>bert</li><li>general</li><li>provisions</li><li>tensorflow</li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2022-12-16T00:00:00+00:00">
+    <meta itemprop="keywords" content="en,legal,classification,licensed,bert,general,provisions,tensorflow"><div class="js-article-content"><div class="model-wrap"><div class="layout--article"><!-- start custom article top snippet -->
 
 <!-- end custom article top snippet --><div class="article__content" itemprop="articleBody"><h2 id="description">Description</h2>
 
-<p>This is an NER model aimed to be used in notice clauses, to retrieve entities as NOTICE_METHOD, NOTICE_PARTY, ADDRESS, EMAIL, etc. Make sure you run this model only on notice clauses, after you filter them using <code class="language-plaintext highlighter-rouge">legclf_notice_clause</code></p>
+<p>The <code class="language-plaintext highlighter-rouge">legclf_general_provisions_bert</code> model is a Bert Sentence Embeddings Document Classifier used to classify if the document belongs to the class <code class="language-plaintext highlighter-rouge">general-provisions</code> (check <a href="https://www.lawinsider.com/tags">Lawinsider</a> for similar document type classification) or not (Binary Classification).</p>
+
+<p>Unlike the Longformer model, this model is lighter in terms of inference time.</p>
 
 <h2 id="predicted-entities">Predicted Entities</h2>
 
-<p><code class="language-plaintext highlighter-rouge">ADDRESS</code>, <code class="language-plaintext highlighter-rouge">DEPARTMENT</code>, <code class="language-plaintext highlighter-rouge">EMAIL</code>, <code class="language-plaintext highlighter-rouge">FAX</code>, <code class="language-plaintext highlighter-rouge">NAME</code>, <code class="language-plaintext highlighter-rouge">NOTICE_METHOD</code>, <code class="language-plaintext highlighter-rouge">NOTICE_PARTY</code>, <code class="language-plaintext highlighter-rouge">PERSON</code>, <code class="language-plaintext highlighter-rouge">PHONE</code>, <code class="language-plaintext highlighter-rouge">TITLE</code></p>
+<p><code class="language-plaintext highlighter-rouge">general-provisions</code>, <code class="language-plaintext highlighter-rouge">other</code></p>
 
 <p class="btn-box"><button class="button button-orange" disabled="">Live Demo</button>
 <button class="button button-orange" disabled="">Open in Colab</button>
-<a href="https://s3.amazonaws.com/auxdata.johnsnowlabs.com/legal/models/legner_notice_clause_en_1.0.0_3.0_1671211179919.zip" class="button button-orange button-orange-trans arr button-icon">Download</a></p>
+<a href="https://s3.amazonaws.com/auxdata.johnsnowlabs.com/legal/models/legclf_general_provisions_bert_en_1.0.0_3.0_1671227646589.zip" class="button button-orange button-orange-trans arr button-icon">Download</a></p>
 
 <h2 id="how-to-use">How to use</h2>
 
@@ -440,54 +442,37 @@
     <span class="p">.</span><span class="n">setInputCol</span><span class="p">(</span><span class="s">"text"</span><span class="p">)</span>\
     <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"document"</span><span class="p">)</span>
 
-<span class="n">tokenizer</span> <span class="o">=</span> <span class="n">nlp</span><span class="p">.</span><span class="n">Tokenizer</span><span class="p">()</span>\
+<span class="n">embeddings</span> <span class="o">=</span> <span class="n">nlp</span><span class="p">.</span><span class="n">BertSentenceEmbeddings</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"sent_bert_base_cased"</span><span class="p">,</span> <span class="s">"en"</span><span class="p">)</span>\
     <span class="p">.</span><span class="n">setInputCols</span><span class="p">(</span><span class="s">"document"</span><span class="p">)</span>\
-    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"token"</span><span class="p">)</span>
+    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"sentence_embeddings"</span><span class="p">)</span>
 
-<span class="n">embeddings</span> <span class="o">=</span> <span class="n">nlp</span><span class="p">.</span><span class="n">RoBertaEmbeddings</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"roberta_embeddings_legal_roberta_base"</span><span class="p">,</span><span class="s">"en"</span><span class="p">)</span> \
-    <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"document"</span><span class="p">,</span> <span class="s">"token"</span><span class="p">])</span> \
-    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"embeddings"</span><span class="p">)</span>
+<span class="n">doc_classifier</span> <span class="o">=</span> <span class="n">legal</span><span class="p">.</span><span class="n">ClassifierDLModel</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"legclf_general_provisions_bert"</span><span class="p">,</span> <span class="s">"en"</span><span class="p">,</span> <span class="s">"legal/models"</span><span class="p">)</span>\
+    <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"sentence_embeddings"</span><span class="p">])</span>\
+    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"category"</span><span class="p">)</span>
 
-<span class="n">ner_model</span> <span class="o">=</span> <span class="n">legal</span><span class="p">.</span><span class="n">NerModel</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"legner_notice_clause"</span><span class="p">,</span> <span class="s">"en"</span><span class="p">,</span> <span class="s">"legal/models"</span><span class="p">)</span> \
-    <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"document"</span><span class="p">,</span> <span class="s">"token"</span><span class="p">,</span> <span class="s">"embeddings"</span><span class="p">])</span> \
-    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"ner"</span><span class="p">)</span>
-
-<span class="n">ner_converter</span> <span class="o">=</span> <span class="n">nlp</span><span class="p">.</span><span class="n">NerConverter</span><span class="p">()</span> \
-    <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"document"</span><span class="p">,</span><span class="s">"token"</span><span class="p">,</span><span class="s">"ner"</span><span class="p">])</span> \
-    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"ner_chunk"</span><span class="p">)</span>
-
-<span class="n">pipeline</span> <span class="o">=</span> <span class="n">nlp</span><span class="p">.</span><span class="n">Pipeline</span><span class="p">(</span><span class="n">stages</span><span class="o">=</span><span class="p">[</span>
+<span class="n">nlpPipeline</span> <span class="o">=</span> <span class="n">nlp</span><span class="p">.</span><span class="n">Pipeline</span><span class="p">(</span><span class="n">stages</span><span class="o">=</span><span class="p">[</span>
     <span class="n">document_assembler</span><span class="p">,</span> 
-    <span class="n">tokenizer</span><span class="p">,</span>
     <span class="n">embeddings</span><span class="p">,</span>
-    <span class="n">ner_model</span><span class="p">,</span>
-    <span class="n">ner_converter</span>   
-    <span class="p">])</span>
+    <span class="n">doc_classifier</span><span class="p">])</span>
 
-<span class="n">empty_df</span> <span class="o">=</span> <span class="n">spark</span><span class="p">.</span><span class="n">createDataFrame</span><span class="p">([[</span><span class="s">''</span><span class="p">]]).</span><span class="n">toDF</span><span class="p">(</span><span class="s">"text"</span><span class="p">)</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">spark</span><span class="p">.</span><span class="n">createDataFrame</span><span class="p">([[</span><span class="s">"YOUR TEXT HERE"</span><span class="p">]]).</span><span class="n">toDF</span><span class="p">(</span><span class="s">"text"</span><span class="p">)</span>
 
-<span class="n">ner_model</span> <span class="o">=</span> <span class="n">pipeline</span><span class="p">.</span><span class="n">fit</span><span class="p">(</span><span class="n">empty_df</span><span class="p">)</span>
+<span class="n">model</span> <span class="o">=</span> <span class="n">nlpPipeline</span><span class="p">.</span><span class="n">fit</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
 
-<span class="n">data</span> <span class="o">=</span> <span class="n">spark</span><span class="p">.</span><span class="n">createDataFrame</span><span class="p">([[</span><span class="s">"""Source: FUELCELL ENERGY INC, 8-K, 11/6/2019
-ExxonMobil: ExxonMobil Research and Engineering Company 1545 Route 22 East Annandale, NJ 08801-0900 Attention: Timothy Barckholtz, Senior Scientific Advisor Email: tim.barckholtz@exxonmobil.com FCE: FuelCell Energy, Inc. 782"""</span><span class="p">]]).</span><span class="n">toDF</span><span class="p">(</span><span class="s">"text"</span><span class="p">)</span>
-
-<span class="n">result</span> <span class="o">=</span> <span class="n">ner_model</span><span class="p">.</span><span class="n">transform</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+<span class="n">result</span> <span class="o">=</span> <span class="n">model</span><span class="p">.</span><span class="n">transform</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
 </code></pre></div>  </div>
 
 </div>
 
 <h2 id="results">Results</h2>
 
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>+---------------------------------------------------------------------+------------+
-|ner_chunk                                                            |label       |
-+---------------------------------------------------------------------+------------+
-|ExxonMobil                                                           |NOTICE_PARTY|
-|ExxonMobil Research and Engineering Company                          |NAME        |
-|1545 Route 22 East Annandale, NJ 08801-0900                          |ADDRESS     |
-|Timothy Barckholtz                                                   |PERSON      |
-|Senior Scientific Advisor                                            |TITLE       |
-|tim.barckholtz@exxonmobil.com                                        |EMAIL       |
-+---------------------------------------------------------------------+------------+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>+-------+
+|result|
++-------+
+|[general-provisions]|
+|[other]|
+|[other]|
+|[general-provisions]|
 </code></pre></div></div>
 
 <h2 class="model-param" id="model-information">Model Information</h2>
@@ -496,7 +481,7 @@ ExxonMobil: ExxonMobil Research and Engineering Company 1545 Route 22 East Annan
   <tbody>
     <tr>
       <td>Model Name:</td>
-      <td>legner_notice_clause</td>
+      <td>legclf_general_provisions_bert</td>
     </tr>
     <tr>
       <td>Compatibility:</td>
@@ -512,11 +497,11 @@ ExxonMobil: ExxonMobil Research and Engineering Company 1545 Route 22 East Annan
     </tr>
     <tr>
       <td>Input Labels:</td>
-      <td>[sentence, token, embeddings]</td>
+      <td>[sentence_embeddings]</td>
     </tr>
     <tr>
       <td>Output Labels:</td>
-      <td>[ner]</td>
+      <td>[class]</td>
     </tr>
     <tr>
       <td>Language:</td>
@@ -524,32 +509,25 @@ ExxonMobil: ExxonMobil Research and Engineering Company 1545 Route 22 East Annan
     </tr>
     <tr>
       <td>Size:</td>
-      <td>1.1 MB</td>
+      <td>22.8 MB</td>
     </tr>
   </tbody>
 </table>
 
 <h2 id="references">References</h2>
 
-<p>In-house dataset</p>
+<p>Legal documents, scrapped from the Internet, and classified in-house + SEC documents + Lawinsider categorization</p>
 
 <h2 id="benchmarking">Benchmarking</h2>
 
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>      label     precision    recall  f1-score   support
-      ADDRESS       0.86      0.94      0.90       141
-   DEPARTMENT       0.75      0.27      0.40        11
-        EMAIL       0.92      1.00      0.96        48
-          FAX       0.65      0.88      0.75        51
-         NAME       0.78      0.79      0.79       140
-NOTICE_METHOD       0.74      0.80      0.77       353
- NOTICE_PARTY       0.77      0.85      0.81       103
-       PERSON       0.91      0.94      0.92       114
-        PHONE       0.60      0.47      0.53        19
-        TITLE       0.76      0.90      0.82        80
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>                    precision    recall  f1-score   support
 
-    micro-avg       0.78      0.85      0.81      1060
-    macro-avg       0.77      0.79      0.77      1060
- weighted-avg       0.79      0.85      0.81      1060
+general-provisions       1.00      0.81      0.90        27
+             other       0.89      1.00      0.94        39
+
+          accuracy                           0.92        66
+         macro avg       0.94      0.91      0.92        66
+      weighted avg       0.93      0.92      0.92        66
 </code></pre></div></div>
 </div><div class="d-print-none"><footer class="article__footer"><meta itemprop="dateModified" content="2022-12-16T00:00:00+00:00"><!-- start custom article footer snippet -->
 
@@ -890,7 +868,7 @@ hr.code-selector-underlie {
 
 }
 
-</style><div class="article__section-navigator clearfix"><div class="previous nav_link"><span>PREVIOUS</span><a href="/2022/12/16/legclf_notice_clause_en.html">Notice Clause Binary Classifier</a></div><div class="next nav_link"><span>NEXT</span><a href="/2022/12/16/legclf_agreement_bert_en.html">Legal Agreement Document Classifier (Bert Sentence Embeddings)</a></div></div></div>
+</style><div class="article__section-navigator clearfix"><div class="previous nav_link"><span>PREVIOUS</span><a href="/2022/12/16/legclf_events_of_default_bert_en.html">Legal Events Of Default Document Classifier (Bert Sentence Embeddings)</a></div><div class="next nav_link"><span>NEXT</span><a href="/2022/12/16/legclf_indenture_bert_en.html">Legal Indenture Document Classifier (Bert Sentence Embeddings)</a></div></div></div>
 
 </div>
 </div>

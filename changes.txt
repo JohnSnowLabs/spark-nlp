@@ -1,0 +1,6 @@
+docs/_posts/dcecchini/2022-12-15-finner_contraliability_en.md
+docs/_posts/dcecchini/2022-12-15-finner_earning_calls_generic_md_en.md
+docs/_posts/dcecchini/2022-12-15-finner_earning_calls_specific_md_en.md
+docs/_posts/dcecchini/2022-12-15-finner_contraliability_en.md
+docs/_posts/dcecchini/2022-12-15-finner_earning_calls_generic_md_en.md
+docs/_posts/dcecchini/2022-12-15-finner_earning_calls_specific_md_en.md
