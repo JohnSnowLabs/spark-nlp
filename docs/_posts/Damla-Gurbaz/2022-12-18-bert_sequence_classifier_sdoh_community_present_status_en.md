@@ -4,7 +4,7 @@ title: SDOH Community Present Binary Classification
 author: John Snow Labs
 name: bert_sequence_classifier_sdoh_community_present_status
 date: 2022-12-18
-tags: [en, licensed, clinical, sequence_classification, classifier, community_present, sdoh, tensorflow]
+tags: [en, licensed, clinical, sequence_classification, classifier, community_present, sdoh]
 task: Text Classification
 language: en
 edition: Healthcare NLP 4.2.2
