@@ -10,6 +10,7 @@ language: en
 edition: Healthcare NLP 4.2.2
 spark_version: 3.0
 supported: true
+annotator: MedicalBertForSequenceClassification
 engine: tensorflow
 article_header:
   type: cover
@@ -35,6 +36,7 @@ This model classifies related to the loss of social support such as a family mem
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
+
 ```python
 document_assembler = DocumentAssembler()\
      .setInputCol("text")\
