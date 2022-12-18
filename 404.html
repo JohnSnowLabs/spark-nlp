@@ -427,10 +427,10 @@
     j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
     })(window,document,'script','dataLayer','GTM-59JLR64');</script>
-<!-- End Google Tag Manager --><title>Notice Clause Relation Extraction Model</title><meta property="og:title" content=""/>
+<!-- End Google Tag Manager --><title>Legal Warrant Agreement Document Binary Classifier (Longformer)</title><meta property="og:title" content=""/>
 
-<meta name="description" content="DescriptionThis is a Relation Extraction model aimed to be used in notice clauses, to retrieve relations between entities as NOTICE_PARTY, ADDRESS, EMAIL, TITLE etc. Make sure you run this model only on the NER entities in notice clauses, after you filter them using legclf_notice_clausePredicted Entitieshas_notice_p...">
-<link rel="canonical" href="/2022/12/17/legre_notice_clause_xs_en.html"><link rel="alternate" type="application/rss+xml" title="Spark NLP" href="/feed.xml"><!-- start favicons snippet, use https://realfavicongenerator.net/ -->
+<meta name="description" content="DescriptionThe legclf_warrant_agreement model is a Longformer Document Classifier used to classify if the document belongs to the class warrant-agreement (check Lawinsider for similar document type classification) or not (Binary Classification).Longformers have a restriction on 4096 tokens, so only the first 4096 to...">
+<link rel="canonical" href="/2022/12/18/legclf_warrant_agreement_en.html"><link rel="alternate" type="application/rss+xml" title="Spark NLP" href="/feed.xml"><!-- start favicons snippet, use https://realfavicongenerator.net/ -->
 <!---->
 <!-- <link rel="apple-touch-icon" sizes="180x180" href="/fav.ico"> -->
 
@@ -826,26 +826,30 @@
 
 <!-- end custom main top snippet --><article><script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script><div class="article__header"><div class="header-author"><div class="article__info clearfix"><div class="left-col">
             <a class="edit-on-github-btn" target="_blank" rel="alternate"
-               href="https://github.com/johnsnowlabs/spark-nlp/tree/master/docs/_posts/bunyamin-polat/2022-12-17-legre_notice_clause_xs_en.md">
+               href="https://github.com/johnsnowlabs/spark-nlp/tree/master/docs/_posts/dcecchini/2022-12-18-legclf_warrant_agreement_en.md">
               <span class="fab fa-github"></span>
               <span class="edit-on-github-label">Edit on GitHub</span>
             </a>
-        </div><ul class="right-col menu"><li><i class="far fa-user"></i> <span>John Snow Labs</span></li><li><i class="far fa-calendar-alt"></i> <span>Dec 17, 2022</span>
-            </li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2022-12-17T00:00:00+00:00"></div><header class="main-docs have_subtitle">
-          <h1>Notice Clause Relation Extraction Model</h1><div class="top-subtitle mont"></div></header></div><meta itemprop="headline" content="Notice Clause Relation Extraction Model"><div class="article__info tags_box clearfix"><ul class="left-col menu"><li>en</li><li>legal</li><li>relations</li><li>redl</li><li>licensed</li><li>tensorflow</li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2022-12-17T00:00:00+00:00">
-    <meta itemprop="keywords" content="en,legal,relations,redl,licensed,tensorflow"><div class="js-article-content"><div class="model-wrap"><div class="layout--article"><!-- start custom article top snippet -->
+        </div><ul class="right-col menu"><li><i class="far fa-user"></i> <span>John Snow Labs</span></li><li><i class="far fa-calendar-alt"></i> <span>Dec 18, 2022</span>
+            </li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2022-12-18T00:00:00+00:00"></div><header class="main-docs have_subtitle">
+          <h1>Legal Warrant Agreement Document Binary Classifier (Longformer)</h1><div class="top-subtitle mont"></div></header></div><meta itemprop="headline" content="Legal Warrant Agreement Document Binary Classifier (Longformer)"><div class="article__info tags_box clearfix"><ul class="left-col menu"><li>en</li><li>legal</li><li>classification</li><li>licensed</li><li>document</li><li>longformer</li><li>warrant</li><li>agreement</li><li>tensorflow</li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2022-12-18T00:00:00+00:00">
+    <meta itemprop="keywords" content="en,legal,classification,licensed,document,longformer,warrant,agreement,tensorflow"><div class="js-article-content"><div class="model-wrap"><div class="layout--article"><!-- start custom article top snippet -->
 
 <!-- end custom article top snippet --><div class="article__content" itemprop="articleBody"><h2 id="description">Description</h2>
 
-<p>This is a Relation Extraction model aimed to be used in notice clauses, to retrieve relations between entities as NOTICE_PARTY, ADDRESS, EMAIL, TITLE etc. Make sure you run this model only on the NER entities in notice clauses, after you filter them using <code class="language-plaintext highlighter-rouge">legclf_notice_clause</code></p>
+<p>The <code class="language-plaintext highlighter-rouge">legclf_warrant_agreement</code> model is a Longformer Document Classifier used to classify if the document belongs to the class <code class="language-plaintext highlighter-rouge">warrant-agreement</code> (check <a href="https://www.lawinsider.com/tags">Lawinsider</a> for similar document type classification) or not (Binary Classification).</p>
+
+<p>Longformers have a restriction on 4096 tokens, so only the first 4096 tokens will be taken into account. We have realised that for the big majority of the documents in legal corpora, if they are clean and only contain the legal document without any extra information before, 4096 is enough to perform Document Classification.</p>
+
+<p>If your document needs to process more than 4096 tokens, you can try the following: getting chunks of 4096 tokens and average the embeddings, training with the averaged version, what means all document will be taken into account.</p>
 
 <h2 id="predicted-entities">Predicted Entities</h2>
 
-<p><code class="language-plaintext highlighter-rouge">has_notice_party</code>, <code class="language-plaintext highlighter-rouge">has_address</code>, <code class="language-plaintext highlighter-rouge">has_person</code>, <code class="language-plaintext highlighter-rouge">has_phone</code>, <code class="language-plaintext highlighter-rouge">has_fax</code>, <code class="language-plaintext highlighter-rouge">has_title</code>, <code class="language-plaintext highlighter-rouge">has_email</code>, <code class="language-plaintext highlighter-rouge">has_department</code></p>
+<p><code class="language-plaintext highlighter-rouge">warrant-agreement</code>, <code class="language-plaintext highlighter-rouge">other</code></p>
 
 <p class="btn-box"><button class="button button-orange" disabled="">Live Demo</button>
 <button class="button button-orange" disabled="">Open in Colab</button>
-<a href="https://s3.amazonaws.com/auxdata.johnsnowlabs.com/legal/models/legre_notice_clause_xs_en_1.0.0_3.0_1671280929569.zip" class="button button-orange button-orange-trans arr button-icon">Download</a></p>
+<a href="https://s3.amazonaws.com/auxdata.johnsnowlabs.com/legal/models/legclf_warrant_agreement_en_1.0.0_3.0_1671393665185.zip" class="button button-orange button-orange-trans arr button-icon">Download</a></p>
 
 <h2 id="how-to-use">How to use</h2>
 
@@ -853,73 +857,40 @@
   <div class="top_tab_li">   
     <p><button data-type="python" class="tab-li code-selector-active python-button">Python</button><button data-type="scala" class="tab-li code-selector-un-active scala-button">Scala</button><button data-type="nlu" class="tab-li code-selector-un-active nlu-button">NLU</button></p>
 </div>
-
-  <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">document_assembler</span> <span class="o">=</span> <span class="n">nlp</span><span class="p">.</span><span class="n">DocumentAssembler</span><span class="p">()</span>\
+  <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+<span class="n">document_assembler</span> <span class="o">=</span> <span class="n">nlp</span><span class="p">.</span><span class="n">DocumentAssembler</span><span class="p">()</span>\
     <span class="p">.</span><span class="n">setInputCol</span><span class="p">(</span><span class="s">"text"</span><span class="p">)</span>\
-    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"document"</span><span class="p">)</span>\
-
-<span class="n">sentence_detector</span> <span class="o">=</span> <span class="n">nlp</span><span class="p">.</span><span class="n">SentenceDetectorDLModel</span><span class="p">.</span><span class="n">pretrained</span><span class="p">()</span>\
-    <span class="p">.</span><span class="n">setInputCols</span><span class="p">(</span><span class="s">"document"</span><span class="p">)</span>\
-    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"sentence"</span><span class="p">)</span>\
-    <span class="p">.</span><span class="n">setCustomBounds</span><span class="p">([</span><span class="s">"</span><span class="se">\n\n</span><span class="s">"</span><span class="p">])</span>\
-    <span class="p">.</span><span class="n">setUseCustomBoundsOnly</span><span class="p">(</span><span class="bp">True</span><span class="p">)</span>
+    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"document"</span><span class="p">)</span>
 
 <span class="n">tokenizer</span> <span class="o">=</span> <span class="n">nlp</span><span class="p">.</span><span class="n">Tokenizer</span><span class="p">()</span>\
-    <span class="p">.</span><span class="n">setInputCols</span><span class="p">(</span><span class="s">"sentence"</span><span class="p">)</span>\
-    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"token"</span><span class="p">)</span>
+     <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"document"</span><span class="p">])</span>\
+     <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"token"</span><span class="p">)</span>
 
-<span class="n">pos_tagger</span> <span class="o">=</span> <span class="n">nlp</span><span class="p">.</span><span class="n">PerceptronModel</span><span class="p">.</span><span class="n">pretrained</span><span class="p">()</span>\
-    <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"sentence"</span><span class="p">,</span> <span class="s">"token"</span><span class="p">])</span>\
-    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"pos_tags"</span><span class="p">)</span>
+<span class="n">embeddings</span> <span class="o">=</span> <span class="n">nlp</span><span class="p">.</span><span class="n">LongformerEmbeddings</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"legal_longformer_base"</span><span class="p">,</span> <span class="s">"en"</span><span class="p">)</span>\
+      <span class="p">.</span><span class="n">setInputCols</span><span class="p">(</span><span class="s">"document"</span><span class="p">,</span> <span class="s">"token"</span><span class="p">)</span>\
+      <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"embeddings"</span><span class="p">)</span>
 
-<span class="n">dependency_parser</span> <span class="o">=</span> <span class="n">nlp</span><span class="p">.</span><span class="n">DependencyParserModel</span><span class="p">()</span> \
-    <span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"dependency_conllu"</span><span class="p">,</span> <span class="s">"en"</span><span class="p">)</span> \
-    <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"sentence"</span><span class="p">,</span> <span class="s">"pos_tags"</span><span class="p">,</span> <span class="s">"token"</span><span class="p">])</span> \
-    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"dependencies"</span><span class="p">)</span>
+<span class="n">sentence_embeddings</span> <span class="o">=</span> <span class="n">nlp</span><span class="p">.</span><span class="n">SentenceEmbeddings</span><span class="p">()</span>\
+    <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"document"</span><span class="p">,</span> <span class="s">"embeddings"</span><span class="p">])</span>\
+    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"sentence_embeddings"</span><span class="p">)</span>\
+    <span class="p">.</span><span class="n">setPoolingStrategy</span><span class="p">(</span><span class="s">"AVERAGE"</span><span class="p">)</span>
 
-<span class="n">embeddings</span> <span class="o">=</span> <span class="n">nlp</span><span class="p">.</span><span class="n">RoBertaEmbeddings</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"roberta_embeddings_legal_roberta_base"</span><span class="p">,</span><span class="s">"en"</span><span class="p">)</span> \
-    <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"sentence"</span><span class="p">,</span> <span class="s">"token"</span><span class="p">])</span> \
-    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"embeddings"</span><span class="p">)</span>
+<span class="n">doc_classifier</span> <span class="o">=</span> <span class="n">legal</span><span class="p">.</span><span class="n">ClassifierDLModel</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"legclf_warrant_agreement"</span><span class="p">,</span> <span class="s">"en"</span><span class="p">,</span> <span class="s">"legal/models"</span><span class="p">)</span>\
+    <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"sentence_embeddings"</span><span class="p">])</span>\
+    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"category"</span><span class="p">)</span>
 
-<span class="n">ner_model</span> <span class="o">=</span> <span class="n">legal</span><span class="p">.</span><span class="n">NerModel</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">'legner_notice_clause'</span><span class="p">,</span> <span class="s">'en'</span><span class="p">,</span> <span class="s">'legal/models'</span><span class="p">)</span> \
-    <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"sentence"</span><span class="p">,</span> <span class="s">"token"</span><span class="p">,</span> <span class="s">"embeddings"</span><span class="p">])</span> \
-    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"ner"</span><span class="p">)</span>
+<span class="n">nlpPipeline</span> <span class="o">=</span> <span class="n">nlp</span><span class="p">.</span><span class="n">Pipeline</span><span class="p">(</span><span class="n">stages</span><span class="o">=</span><span class="p">[</span>
+    <span class="n">document_assembler</span><span class="p">,</span>
+    <span class="n">tokenizer</span><span class="p">,</span>
+    <span class="n">embeddings</span><span class="p">,</span>
+    <span class="n">sentence_embeddings</span><span class="p">,</span>
+    <span class="n">doc_classifier</span><span class="p">])</span>
 
-<span class="n">ner_converter</span> <span class="o">=</span> <span class="n">nlp</span><span class="p">.</span><span class="n">NerConverter</span><span class="p">()</span> \
-    <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"sentence"</span><span class="p">,</span><span class="s">"token"</span><span class="p">,</span><span class="s">"ner"</span><span class="p">])</span> \
-    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"ner_chunk"</span><span class="p">)</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">spark</span><span class="p">.</span><span class="n">createDataFrame</span><span class="p">([[</span><span class="s">"YOUR TEXT HERE"</span><span class="p">]]).</span><span class="n">toDF</span><span class="p">(</span><span class="s">"text"</span><span class="p">)</span>
 
-<span class="n">re_filter</span> <span class="o">=</span> <span class="n">legal</span><span class="p">.</span><span class="n">RENerChunksFilter</span><span class="p">()</span>\
-    <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"ner_chunk"</span><span class="p">,</span> <span class="s">"dependencies"</span><span class="p">])</span>\
-    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"re_ner_chunks"</span><span class="p">)</span>\
-    <span class="p">.</span><span class="n">setMaxSyntacticDistance</span><span class="p">(</span><span class="mi">12</span><span class="p">)</span>\
-    <span class="p">.</span><span class="n">setRelationPairs</span><span class="p">([</span><span class="s">'NAME-NOTICE_PARTY'</span><span class="p">,</span><span class="s">'NAME-ADDRESS'</span><span class="p">,</span><span class="s">'NAME-PERSON'</span><span class="p">,</span> <span class="s">'NAME-TITLE'</span><span class="p">,</span><span class="s">'NAME-EMAIL'</span><span class="p">,</span><span class="s">'NAME-PHONE'</span><span class="p">,</span> <span class="s">'NAME-FAX'</span><span class="p">,</span> <span class="s">'NAME-DEPARTMENT'</span><span class="p">])</span>
+<span class="n">model</span> <span class="o">=</span> <span class="n">nlpPipeline</span><span class="p">.</span><span class="n">fit</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
 
-<span class="n">reDL</span> <span class="o">=</span> <span class="n">legal</span><span class="p">.</span><span class="n">RelationExtractionDLModel</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"legre_notice_clause_xs"</span><span class="p">,</span> <span class="s">"en"</span><span class="p">,</span> <span class="s">"legal/models"</span><span class="p">)</span> \
-    <span class="p">.</span><span class="n">setPredictionThreshold</span><span class="p">(</span><span class="mf">0.1</span><span class="p">)</span> \
-    <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"re_ner_chunks"</span><span class="p">,</span> <span class="s">"sentence"</span><span class="p">])</span> \
-    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"relations"</span><span class="p">)</span>
-
-<span class="n">pipeline</span> <span class="o">=</span> <span class="n">nlp</span><span class="p">.</span><span class="n">Pipeline</span><span class="p">(</span><span class="n">stages</span><span class="o">=</span><span class="p">[</span><span class="n">document_assembler</span><span class="p">,</span>
-                                <span class="n">sentence_detector</span><span class="p">,</span> 
-                                <span class="n">tokenizer</span><span class="p">,</span>
-                                <span class="n">pos_tagger</span><span class="p">,</span>
-                                <span class="n">dependency_parser</span><span class="p">,</span> 
-                                <span class="n">embeddings</span><span class="p">,</span> 
-                                <span class="n">ner_model</span><span class="p">,</span> 
-                                <span class="n">ner_converter</span><span class="p">,</span>
-                                <span class="n">re_filter</span><span class="p">,</span> 
-                                <span class="n">reDL</span><span class="p">])</span>
-
-<span class="n">empty_df</span> <span class="o">=</span> <span class="n">spark</span><span class="p">.</span><span class="n">createDataFrame</span><span class="p">([[</span><span class="s">''</span><span class="p">]]).</span><span class="n">toDF</span><span class="p">(</span><span class="s">"text"</span><span class="p">)</span>
-
-<span class="n">re_model</span> <span class="o">=</span> <span class="n">pipeline</span><span class="p">.</span><span class="n">fit</span><span class="p">(</span><span class="n">empty_df</span><span class="p">)</span>
-
-<span class="n">light_model</span> <span class="o">=</span> <span class="n">nlp</span><span class="p">.</span><span class="n">LightPipeline</span><span class="p">(</span><span class="n">re_model</span><span class="p">)</span>
-
-<span class="n">text</span> <span class="o">=</span> <span class="s">"""The addresses for notices shall be: IBM MSL 8501 IBM Drive 200 Baker Avenue Charlotte, NC 28262 Concord, MA 01742 Attn: MSL Project Office Attn: General Counsel  Telephone: 704-594-1964 Telephone: 978-287-5630 Facsimile: 704-594-4108 Facsimile: 978-287-5635  Either Party may change its address for this section by giving written notice to the other Party."""</span>
-
-<span class="n">result</span> <span class="o">=</span> <span class="n">light_model</span><span class="p">.</span><span class="n">fullAnnotate</span><span class="p">(</span><span class="n">text</span><span class="p">)</span>
+<span class="n">result</span> <span class="o">=</span> <span class="n">model</span><span class="p">.</span><span class="n">transform</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
 
 </code></pre></div>  </div>
 
@@ -927,15 +898,15 @@
 
 <h2 id="results">Results</h2>
 
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>|   relation          |   entity1  |   entity1_begin  |   entity1_end  |   chunk1   |   entity2     |   entity2_begin  |   entity2_end  |   chunk2                                             |   confidence  |
-|---------------------|------------|------------------|----------------|------------|---------------|------------------|----------------|------------------------------------------------------|---------------|
-|   has_address       |   NAME     |   36             |   42           |   IBM MSL  |   ADDRESS     |   44             |   112          |   8501 IBM Drive 200 Baker Avenue Charlotte, NC ...  |   0.9997987   |
-|   has_notice_party  |   NAME     |   36             |   42           |   IBM MSL  |   DEPARTMENT  |   120            |   137          |   MSL Project Office                                 |   0.34552842  |
-|   has_title         |   NAME     |   36             |   42           |   IBM MSL  |   TITLE       |   145            |   159          |   General Counsel                                    |   0.48349348  |
-|   has_phone         |   NAME     |   36             |   42           |   IBM MSL  |   PHONE       |   173            |   184          |   704-594-1964                                       |   0.99517375  |
-|   has_phone         |   NAME     |   36             |   42           |   IBM MSL  |   PHONE       |   197            |   208          |   978-287-5630                                       |   0.9961247   |
-|   has_fax           |   NAME     |   36             |   42           |   IBM MSL  |   FAX         |   221            |   232          |   704-594-4108                                       |   0.99340916  |
-|   has_fax           |   NAME     |   36             |   42           |   IBM MSL  |   FAX         |   245            |   256          |   978-287-5635                                       |   0.97187006  |
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
++-------+
+|result|
++-------+
+|[warrant-agreement]|
+|[other]|
+|[other]|
+|[warrant-agreement]|
+
 </code></pre></div></div>
 
 <h2 class="model-param" id="model-information">Model Information</h2>
@@ -944,7 +915,7 @@
   <tbody>
     <tr>
       <td>Model Name:</td>
-      <td>legre_notice_clause_xs</td>
+      <td>legclf_warrant_agreement</td>
     </tr>
     <tr>
       <td>Compatibility:</td>
@@ -959,36 +930,41 @@
       <td>Official</td>
     </tr>
     <tr>
+      <td>Input Labels:</td>
+      <td>[sentence_embeddings]</td>
+    </tr>
+    <tr>
+      <td>Output Labels:</td>
+      <td>[class]</td>
+    </tr>
+    <tr>
       <td>Language:</td>
       <td>en</td>
     </tr>
     <tr>
       <td>Size:</td>
-      <td>402.6 MB</td>
+      <td>21.5 MB</td>
     </tr>
   </tbody>
 </table>
 
 <h2 id="references">References</h2>
 
-<p>In-house dataset</p>
+<p>Legal documents, scrapped from the Internet, and classified in-house + SEC documents + Lawinsider categorization</p>
 
 <h2 id="benchmarking">Benchmarking</h2>
 
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>| Relation         | Recall  | Precision | F1    | Support |
-|------------------|---------|-----------|-------|---------|
-| has_address      | 0.976   | 1.000     | 0.988 | 41      |
-| has_department   | 0.667   | 1.000     | 0.800 | 3       |
-| has_email        | 1.000   | 1.000     | 1.000 | 7       |
-| has_fax_phone    | 1.000   | 1.000     | 1.000 | 8       |
-| has_notice_party | 1.000   | 0.955     | 0.977 | 42      |
-| has_person       | 1.000   | 0.938     | 0.968 | 15      |
-| has_title        | 0.875   | 0.933     | 0.903 | 16      |
-| other            | 1.000   | 1.000     | 1.000 | 68      |
-| Avg.             | 0.940   | 0.978     | 0.954 |         |
-| Weighted-Avg.    | 0.980   | 0.980     | 0.979 |         |
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+|             label |   precision |   recall |   f1-score |   support |
+|------------------:|------------:|---------:|-----------:|----------:|
+|             other |        1.00 |     0.98 |       0.99 |       230 |
+| warrant-agreement |        0.96 |     1.00 |       0.98 |        99 |
+|          accuracy |           - |        - |       0.99 |       329 |
+|         macro-avg |        0.98 |     0.99 |       0.99 |       329 |
+|      weighted-avg |        0.99 |     0.99 |       0.99 |       329 |
+
 </code></pre></div></div>
-</div><div class="d-print-none"><footer class="article__footer"><meta itemprop="dateModified" content="2022-12-17T00:00:00+00:00"><!-- start custom article footer snippet -->
+</div><div class="d-print-none"><footer class="article__footer"><meta itemprop="dateModified" content="2022-12-18T00:00:00+00:00"><!-- start custom article footer snippet -->
 
 <!-- end custom article footer snippet --></footer>
 
@@ -1327,7 +1303,7 @@ hr.code-selector-underlie {
 
 }
 
-</style><div class="article__section-navigator clearfix"><div class="previous nav_link"><span>PREVIOUS</span><a href="/2022/12/16/legner_sigma_absa_people_en.html">Legal NER from Sigma Absa Dataset (PER+Pronouns)</a></div></div></div>
+</style><div class="article__section-navigator clearfix"><div class="previous nav_link"><span>PREVIOUS</span><a href="/2022/12/18/legclf_warrant_agreement_bert_en.html">Legal Warrant Agreement Document Binary Classifier (Bert Sentence Embeddings)</a></div></div></div>
 
 </div>
 </div>
