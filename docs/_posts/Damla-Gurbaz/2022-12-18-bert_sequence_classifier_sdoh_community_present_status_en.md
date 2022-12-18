@@ -10,6 +10,7 @@ language: en
 edition: Healthcare NLP 4.2.2
 spark_version: 3.0
 supported: true
+annotator: MedicalBertForSequenceClassification
 engine: tensorflow
 article_header:
   type: cover
@@ -35,6 +36,7 @@ This model classifies related to social support such as a family member or frien
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
+
 ```python
 document_assembler = DocumentAssembler()\
     .setInputCol("text")\
@@ -114,7 +116,7 @@ val result = pipeline.fit(data).transform(data)
 ## Benchmarking
 
 ```bash
-label  precision    recall  f1-score   support
+        label  precision    recall  f1-score   support
         False       0.95      0.68      0.80       203
          True       0.85      0.98      0.91       359
      accuracy         -         -       0.87       562
