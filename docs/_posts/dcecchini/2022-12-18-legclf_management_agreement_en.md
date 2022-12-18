@@ -1,10 +1,10 @@
 ---
 layout: model
-title: Legal Registration Rights Agreement Document Classifier (Longformer)
+title: Legal Management Agreement Document Binary Classifier (Longformer)
 author: John Snow Labs
-name: legclf_registration_rights_agreement
-date: 2022-12-16
-tags: [en, legal, classification, licensed, longformer, registration, rights, agreement, tensorflow]
+name: legclf_management_agreement
+date: 2022-12-18
+tags: [en, legal, classification, licensed, document, longformer, management, agreement, tensorflow]
 task: Text Classification
 language: en
 edition: Legal NLP 1.0.0
@@ -18,7 +18,7 @@ use_language_switcher: "Python-Scala-Java"
 
 ## Description
 
-The `legclf_registration_rights_agreement` model is a Longformer Document Classifier used to classify if the document belongs to the class `registration-rights-agreement` (check [Lawinsider](https://www.lawinsider.com/tags) for similar document type classification) or not (Binary Classification).
+The `legclf_management_agreement` model is a Longformer Document Classifier used to classify if the document belongs to the class `management-agreement` (check [Lawinsider](https://www.lawinsider.com/tags) for similar document type classification) or not (Binary Classification).
 
 Longformers have a restriction on 4096 tokens, so only the first 4096 tokens will be taken into account. We have realised that for the big majority of the documents in legal corpora, if they are clean and only contain the legal document without any extra information before, 4096 is enough to perform Document Classification.
 
@@ -26,12 +26,12 @@ If your document needs to process more than 4096 tokens, you can try the followi
 
 ## Predicted Entities
 
-`registration-rights-agreement`, `other`
+`management-agreement`, `other`
 
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>
 <button class="button button-orange" disabled>Open in Colab</button>
-[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/legal/models/legclf_registration_rights_agreement_en_1.0.0_3.0_1671227680703.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
+[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/legal/models/legclf_management_agreement_en_1.0.0_3.0_1671393667813.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
 
 ## How to use
 
@@ -39,26 +39,26 @@ If your document needs to process more than 4096 tokens, you can try the followi
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
-
 ```python
+
 document_assembler = nlp.DocumentAssembler()\
     .setInputCol("text")\
     .setOutputCol("document")
-    
+
 tokenizer = nlp.Tokenizer()\
-    .setInputCols(["document"])\
-    .setOutputCol("token")
+     .setInputCols(["document"])\
+     .setOutputCol("token")
 
 embeddings = nlp.LongformerEmbeddings.pretrained("legal_longformer_base", "en")\
-    .setInputCols("document", "token")\
-    .setOutputCol("embeddings")
+      .setInputCols("document", "token")\
+      .setOutputCol("embeddings")
 
 sentence_embeddings = nlp.SentenceEmbeddings()\
     .setInputCols(["document", "embeddings"])\
     .setOutputCol("sentence_embeddings")\
     .setPoolingStrategy("AVERAGE")
 
-doc_classifier = legal.ClassifierDLModel.pretrained("legclf_registration_rights_agreement", "en", "legal/models")\
+doc_classifier = legal.ClassifierDLModel.pretrained("legclf_management_agreement", "en", "legal/models")\
     .setInputCols(["sentence_embeddings"])\
     .setOutputCol("category")
 
@@ -74,6 +74,7 @@ df = spark.createDataFrame([["YOUR TEXT HERE"]]).toDF("text")
 model = nlpPipeline.fit(df)
 
 result = model.transform(df)
+
 ```
 
 </div>
@@ -81,13 +82,15 @@ result = model.transform(df)
 ## Results
 
 ```bash
+
 +-------+
 |result|
 +-------+
-|[registration-rights-agreement]|
+|[management-agreement]|
 |[other]|
 |[other]|
-|[registration-rights-agreement]| 
+|[management-agreement]|
+
 ```
 
 {:.model-param}
@@ -95,14 +98,14 @@ result = model.transform(df)
 
 {:.table-model}
 |---|---|
-|Model Name:|legclf_registration_rights_agreement|
+|Model Name:|legclf_management_agreement|
 |Compatibility:|Legal NLP 1.0.0+|
 |License:|Licensed|
 |Edition:|Official|
 |Input Labels:|[sentence_embeddings]|
 |Output Labels:|[class]|
 |Language:|en|
-|Size:|22.7 MB|
+|Size:|21.6 MB|
 
 ## References
 
@@ -111,12 +114,13 @@ Legal documents, scrapped from the Internet, and classified in-house + SEC docum
 ## Benchmarking
 
 ```bash
-                               precision    recall  f1-score   support
 
-                        other       0.98      0.99      0.98       205
-registration-rights-agreement       0.98      0.95      0.97       108
+|                label |   precision |   recall |   f1-score |   support |
+|---------------------:|------------:|---------:|-----------:|----------:|
+| management-agreement |        0.95 |     0.93 |       0.94 |       115 |
+|                other |        0.96 |     0.97 |       0.96 |       184 |
+|             accuracy |           - |        - |       0.95 |       299 |
+|            macro-avg |        0.95 |     0.95 |       0.95 |       299 |
+|         weighted-avg |        0.95 |     0.95 |       0.95 |       299 |
 
-                     accuracy                           0.98       313
-                    macro avg       0.98      0.97      0.98       313
-                 weighted avg       0.98      0.98      0.98       313
 ```

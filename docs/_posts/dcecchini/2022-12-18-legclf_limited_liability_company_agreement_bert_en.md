@@ -1,10 +1,10 @@
 ---
 layout: model
-title: Legal Limited Liability Company Agreement Document Classifier (Bert Sentence Embeddings)
+title: Legal Limited Liability Company Agreement Document Binary Classifier (Bert Sentence Embeddings)
 author: John Snow Labs
 name: legclf_limited_liability_company_agreement_bert
-date: 2022-12-16
-tags: [en, legal, classification, licensed, bert, limited, liability, company, agreement, tensorflow]
+date: 2022-12-18
+tags: [en, legal, classification, licensed, document, bert, limited, liability, company, agreement, tensorflow]
 task: Text Classification
 language: en
 edition: Legal NLP 1.0.0
@@ -29,7 +29,7 @@ Unlike the Longformer model, this model is lighter in terms of inference time.
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>
 <button class="button button-orange" disabled>Open in Colab</button>
-[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/legal/models/legclf_limited_liability_company_agreement_bert_en_1.0.0_3.0_1671227690275.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
+[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/legal/models/legclf_limited_liability_company_agreement_bert_en_1.0.0_3.0_1671393854665.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
 
 ## How to use
 
@@ -37,8 +37,8 @@ Unlike the Longformer model, this model is lighter in terms of inference time.
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
-
 ```python
+
 document_assembler = nlp.DocumentAssembler()\
     .setInputCol("text")\
     .setOutputCol("document")
@@ -61,6 +61,7 @@ df = spark.createDataFrame([["YOUR TEXT HERE"]]).toDF("text")
 model = nlpPipeline.fit(df)
 
 result = model.transform(df)
+
 ```
 
 </div>
@@ -68,13 +69,15 @@ result = model.transform(df)
 ## Results
 
 ```bash
+
 +-------+
 |result|
 +-------+
 |[limited-liability-company-agreement]|
 |[other]|
 |[other]|
-|[limited-liability-company-agreement]| 
+|[limited-liability-company-agreement]|
+
 ```
 
 {:.model-param}
@@ -98,12 +101,12 @@ Legal documents, scrapped from the Internet, and classified in-house + SEC docum
 ## Benchmarking
 
 ```bash
-                                     precision    recall  f1-score   support
 
-limited-liability-company-agreement       0.98      0.98      0.98       121
-                              other       0.99      0.99      0.99       204
-
-                           accuracy                           0.98       325
-                          macro avg       0.98      0.98      0.98       325
-                       weighted avg       0.98      0.98      0.98       325
+|                               label |   precision |   recall |   f1-score |   support |
+|------------------------------------:|------------:|---------:|-----------:|----------:|
+| limited-liability-company-agreement |        0.98 |     0.98 |       0.98 |       121 |
+|                               other |        0.99 |     0.99 |       0.99 |       204 |
+|                            accuracy |           - |        - |       0.98 |       325 |
+|                           macro-avg |        0.98 |     0.98 |       0.98 |       325 |
+|                        weighted-avg |        0.98 |     0.98 |       0.98 |       325 |
 ```

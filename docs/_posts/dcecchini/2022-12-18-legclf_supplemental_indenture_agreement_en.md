@@ -1,10 +1,10 @@
 ---
 layout: model
-title: Legal Warrant Agreement Document Classifier (Longformer)
+title: Legal Supplemental Indenture Document Binary Classifier (Longformer)
 author: John Snow Labs
-name: legclf_warrant_agreement
-date: 2022-12-16
-tags: [en, legal, classification, licensed, longformer, warrant, agreement, tensorflow]
+name: legclf_supplemental_indenture_agreement
+date: 2022-12-18
+tags: [en, legal, classification, licensed, document, longformer, supplemental, indenture, tensorflow]
 task: Text Classification
 language: en
 edition: Legal NLP 1.0.0
@@ -18,7 +18,7 @@ use_language_switcher: "Python-Scala-Java"
 
 ## Description
 
-The `legclf_warrant_agreement` model is a Longformer Document Classifier used to classify if the document belongs to the class `warrant-agreement` (check [Lawinsider](https://www.lawinsider.com/tags) for similar document type classification) or not (Binary Classification).
+The `legclf_supplemental_indenture_agreement` model is a Longformer Document Classifier used to classify if the document belongs to the class `supplemental-indenture` (check [Lawinsider](https://www.lawinsider.com/tags) for similar document type classification) or not (Binary Classification).
 
 Longformers have a restriction on 4096 tokens, so only the first 4096 tokens will be taken into account. We have realised that for the big majority of the documents in legal corpora, if they are clean and only contain the legal document without any extra information before, 4096 is enough to perform Document Classification.
 
@@ -26,12 +26,12 @@ If your document needs to process more than 4096 tokens, you can try the followi
 
 ## Predicted Entities
 
-`warrant-agreement`, `other`
+`supplemental-indenture`, `other`
 
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>
 <button class="button button-orange" disabled>Open in Colab</button>
-[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/legal/models/legclf_warrant_agreement_en_1.0.0_3.0_1671227668458.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
+[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/legal/models/legclf_supplemental_indenture_agreement_en_1.0.0_3.0_1671393678095.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
 
 ## How to use
 
@@ -39,26 +39,26 @@ If your document needs to process more than 4096 tokens, you can try the followi
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
-
 ```python
+
 document_assembler = nlp.DocumentAssembler()\
     .setInputCol("text")\
     .setOutputCol("document")
-    
+
 tokenizer = nlp.Tokenizer()\
-	.InputCols(["document"])\
-	.OutputCol("token")          
+     .setInputCols(["document"])\
+     .setOutputCol("token")
 
 embeddings = nlp.LongformerEmbeddings.pretrained("legal_longformer_base", "en")\
-	.InputCols("document", "token")\
-	.OutputCol("embeddings")
+      .setInputCols("document", "token")\
+      .setOutputCol("embeddings")
 
 sentence_embeddings = nlp.SentenceEmbeddings()\
-	.InputCols(["document", "embeddings"])\
-	.OutputCol("sentence_embeddings")\
-	.PoolingStrategy("AVERAGE")
+    .setInputCols(["document", "embeddings"])\
+    .setOutputCol("sentence_embeddings")\
+    .setPoolingStrategy("AVERAGE")
 
-doc_classifier = legal.ClassifierDLModel.pretrained("legclf_warrant_agreement", "en", "legal/models")\
+doc_classifier = legal.ClassifierDLModel.pretrained("legclf_supplemental_indenture_agreement", "en", "legal/models")\
     .setInputCols(["sentence_embeddings"])\
     .setOutputCol("category")
 
@@ -74,6 +74,7 @@ df = spark.createDataFrame([["YOUR TEXT HERE"]]).toDF("text")
 model = nlpPipeline.fit(df)
 
 result = model.transform(df)
+
 ```
 
 </div>
@@ -81,13 +82,15 @@ result = model.transform(df)
 ## Results
 
 ```bash
+
 +-------+
 |result|
 +-------+
-|[warrant-agreement]|
+|[supplemental-indenture]|
 |[other]|
 |[other]|
-|[warrant-agreement]|
+|[supplemental-indenture]|
+
 ```
 
 {:.model-param}
@@ -95,14 +98,14 @@ result = model.transform(df)
 
 {:.table-model}
 |---|---|
-|Model Name:|legclf_warrant_agreement|
+|Model Name:|legclf_supplemental_indenture_agreement|
 |Compatibility:|Legal NLP 1.0.0+|
 |License:|Licensed|
 |Edition:|Official|
 |Input Labels:|[sentence_embeddings]|
 |Output Labels:|[class]|
 |Language:|en|
-|Size:|22.8 MB|
+|Size:|21.6 MB|
 
 ## References
 
@@ -111,12 +114,13 @@ Legal documents, scrapped from the Internet, and classified in-house + SEC docum
 ## Benchmarking
 
 ```bash
-                   precision    recall  f1-score   support
 
-            other       1.00      0.98      0.99       230
-warrant-agreement       0.96      1.00      0.98        99
+|                  label |   precision |   recall |   f1-score |   support |
+|-----------------------:|------------:|---------:|-----------:|----------:|
+|                  other |        0.97 |     0.95 |       0.96 |       221 |
+| supplemental-indenture |        0.90 |     0.94 |       0.92 |       107 |
+|               accuracy |           - |        - |       0.95 |       328 |
+|              macro-avg |        0.94 |     0.95 |       0.94 |       328 |
+|           weighted-avg |        0.95 |     0.95 |       0.95 |       328 |
 
-         accuracy                           0.99       329
-        macro avg       0.98      0.99      0.99       329
-     weighted avg       0.99      0.99      0.99       329
 ```

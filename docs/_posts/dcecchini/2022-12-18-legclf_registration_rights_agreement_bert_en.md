@@ -1,10 +1,10 @@
 ---
 layout: model
-title: Legal Registration Rights Agreement Document Classifier (Bert Sentence Embeddings)
+title: Legal Registration Rights Agreement Document Binary Classifier (Bert Sentence Embeddings)
 author: John Snow Labs
 name: legclf_registration_rights_agreement_bert
-date: 2022-12-16
-tags: [en, legal, classification, licensed, bert, registration, rights, agreement, tensorflow]
+date: 2022-12-18
+tags: [en, legal, classification, licensed, document, bert, registration, rights, agreement, tensorflow]
 task: Text Classification
 language: en
 edition: Legal NLP 1.0.0
@@ -29,7 +29,7 @@ Unlike the Longformer model, this model is lighter in terms of inference time.
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>
 <button class="button button-orange" disabled>Open in Colab</button>
-[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/legal/models/legclf_registration_rights_agreement_bert_en_1.0.0_3.0_1671227677727.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
+[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/legal/models/legclf_registration_rights_agreement_bert_en_1.0.0_3.0_1671393849485.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
 
 ## How to use
 
@@ -37,8 +37,8 @@ Unlike the Longformer model, this model is lighter in terms of inference time.
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
-
 ```python
+
 document_assembler = nlp.DocumentAssembler()\
     .setInputCol("text")\
     .setOutputCol("document")
@@ -60,7 +60,8 @@ df = spark.createDataFrame([["YOUR TEXT HERE"]]).toDF("text")
 
 model = nlpPipeline.fit(df)
 
-result = model.transform(df)   
+result = model.transform(df)
+
 ```
 
 </div>
@@ -68,6 +69,7 @@ result = model.transform(df)
 ## Results
 
 ```bash
+
 +-------+
 |result|
 +-------+
@@ -75,6 +77,7 @@ result = model.transform(df)
 |[other]|
 |[other]|
 |[registration-rights-agreement]|
+
 ```
 
 {:.model-param}
@@ -98,12 +101,12 @@ Legal documents, scrapped from the Internet, and classified in-house + SEC docum
 ## Benchmarking
 
 ```bash
-                               precision    recall  f1-score   support
 
-                        other       0.95      0.98      0.96       204
-registration-rights-agreement       0.96      0.90      0.93       113
-
-                     accuracy                           0.95       317
-                    macro avg       0.96      0.94      0.95       317
-                 weighted avg       0.95      0.95      0.95       317
+|                         label |   precision |   recall |   f1-score |   support |
+|------------------------------:|------------:|---------:|-----------:|----------:|
+|                         other |        0.95 |     0.98 |       0.96 |       204 |
+| registration-rights-agreement |        0.96 |     0.90 |       0.93 |       113 |
+|                      accuracy |           - |        - |       0.95 |       317 |
+|                     macro-avg |        0.96 |     0.94 |       0.95 |       317 |
+|                  weighted-avg |        0.95 |     0.95 |       0.95 |       317 |
 ```

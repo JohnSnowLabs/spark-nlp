@@ -1,10 +1,10 @@
 ---
 layout: model
-title: Legal Sub Advisory Agreement Document Classifier (Longformer)
+title: Legal Sub Advisory Agreement Document Binary Classifier (Longformer)
 author: John Snow Labs
 name: legclf_sub_advisory_agreement
-date: 2022-12-16
-tags: [en, legal, classification, licensed, longformer, sub, advisory, agreement, tensorflow]
+date: 2022-12-18
+tags: [en, legal, classification, licensed, document, longformer, sub, advisory, agreement, tensorflow]
 task: Text Classification
 language: en
 edition: Legal NLP 1.0.0
@@ -31,7 +31,7 @@ If your document needs to process more than 4096 tokens, you can try the followi
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>
 <button class="button button-orange" disabled>Open in Colab</button>
-[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/legal/models/legclf_sub_advisory_agreement_en_1.0.0_3.0_1671227705868.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
+[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/legal/models/legclf_sub_advisory_agreement_en_1.0.0_3.0_1671393680636.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
 
 ## How to use
 
@@ -39,24 +39,24 @@ If your document needs to process more than 4096 tokens, you can try the followi
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
-
 ```python
+
 document_assembler = nlp.DocumentAssembler()\
     .setInputCol("text")\
     .setOutputCol("document")
-    
-tokenizer = nlp.Tokenizer()\
-	.setInputCols(["document"])\
-	.setOutputCol("token")            
 
-embeddings = nlp.LongformerEmbeddings.pretrained("legal_longformer_base", "en")  \
-	.setInputCols("document", "token")  \
-	.setOutputCol("embeddings")
+tokenizer = nlp.Tokenizer()\
+     .setInputCols(["document"])\
+     .setOutputCol("token")
+
+embeddings = nlp.LongformerEmbeddings.pretrained("legal_longformer_base", "en")\
+      .setInputCols("document", "token")\
+      .setOutputCol("embeddings")
 
 sentence_embeddings = nlp.SentenceEmbeddings()\
     .setInputCols(["document", "embeddings"])\
-	.setOutputCol("sentence_embeddings")\
-	.setPoolingStrategy("AVERAGE")
+    .setOutputCol("sentence_embeddings")\
+    .setPoolingStrategy("AVERAGE")
 
 doc_classifier = legal.ClassifierDLModel.pretrained("legclf_sub_advisory_agreement", "en", "legal/models")\
     .setInputCols(["sentence_embeddings"])\
@@ -74,6 +74,7 @@ df = spark.createDataFrame([["YOUR TEXT HERE"]]).toDF("text")
 model = nlpPipeline.fit(df)
 
 result = model.transform(df)
+
 ```
 
 </div>
@@ -81,6 +82,7 @@ result = model.transform(df)
 ## Results
 
 ```bash
+
 +-------+
 |result|
 +-------+
@@ -88,6 +90,7 @@ result = model.transform(df)
 |[other]|
 |[other]|
 |[sub-advisory-agreement]|
+
 ```
 
 {:.model-param}
@@ -102,7 +105,7 @@ result = model.transform(df)
 |Input Labels:|[sentence_embeddings]|
 |Output Labels:|[class]|
 |Language:|en|
-|Size:|22.7 MB|
+|Size:|21.4 MB|
 
 ## References
 
@@ -111,12 +114,13 @@ Legal documents, scrapped from the Internet, and classified in-house + SEC docum
 ## Benchmarking
 
 ```bash
-                        precision    recall  f1-score   support
 
-                 other       0.99      1.00      0.99       202
-sub-advisory-agreement       1.00      0.97      0.99       104
+|                  label |   precision |   recall |   f1-score |   support |
+|-----------------------:|------------:|---------:|-----------:|----------:|
+|                  other |        0.99 |     1.00 |       0.99 |       202 |
+| sub-advisory-agreement |        1.00 |     0.97 |       0.99 |       104 |
+|               accuracy |           - |        - |       0.99 |       306 |
+|              macro-avg |        0.99 |     0.99 |       0.99 |       306 |
+|           weighted-avg |        0.99 |     0.99 |       0.99 |       306 |
 
-              accuracy                           0.99       306
-             macro avg       0.99      0.99      0.99       306
-          weighted avg       0.99      0.99      0.99       306
 ```

@@ -1,10 +1,10 @@
 ---
 layout: model
-title: Legal License Agreement Document Classifier (Longformer)
+title: Legal Warrant Agreement Document Binary Classifier (Longformer)
 author: John Snow Labs
-name: legclf_license_agreement
-date: 2022-12-16
-tags: [en, legal, classification, licensed, longformer, license, agreement, tensorflow]
+name: legclf_warrant_agreement
+date: 2022-12-18
+tags: [en, legal, classification, licensed, document, longformer, warrant, agreement, tensorflow]
 task: Text Classification
 language: en
 edition: Legal NLP 1.0.0
@@ -18,7 +18,7 @@ use_language_switcher: "Python-Scala-Java"
 
 ## Description
 
-The `legclf_license_agreement` model is a Longformer Document Classifier used to classify if the document belongs to the class `license-agreement` (check [Lawinsider](https://www.lawinsider.com/tags) for similar document type classification) or not (Binary Classification).
+The `legclf_warrant_agreement` model is a Longformer Document Classifier used to classify if the document belongs to the class `warrant-agreement` (check [Lawinsider](https://www.lawinsider.com/tags) for similar document type classification) or not (Binary Classification).
 
 Longformers have a restriction on 4096 tokens, so only the first 4096 tokens will be taken into account. We have realised that for the big majority of the documents in legal corpora, if they are clean and only contain the legal document without any extra information before, 4096 is enough to perform Document Classification.
 
@@ -26,12 +26,12 @@ If your document needs to process more than 4096 tokens, you can try the followi
 
 ## Predicted Entities
 
-`license-agreement`, `other`
+`warrant-agreement`, `other`
 
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>
 <button class="button button-orange" disabled>Open in Colab</button>
-[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/legal/models/legclf_license_agreement_en_1.0.0_3.0_1671227662161.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
+[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/legal/models/legclf_warrant_agreement_en_1.0.0_3.0_1671393665185.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
 
 ## How to use
 
@@ -39,26 +39,26 @@ If your document needs to process more than 4096 tokens, you can try the followi
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
-
 ```python
+
 document_assembler = nlp.DocumentAssembler()\
     .setInputCol("text")\
     .setOutputCol("document")
-    
+
 tokenizer = nlp.Tokenizer()\
-    .setInputCols(["document"])\
-    .setOutputCol("token")
+     .setInputCols(["document"])\
+     .setOutputCol("token")
 
 embeddings = nlp.LongformerEmbeddings.pretrained("legal_longformer_base", "en")\
-    .setInputCols("document", "token")\
-    .setOutputCol("embeddings")
+      .setInputCols("document", "token")\
+      .setOutputCol("embeddings")
 
 sentence_embeddings = nlp.SentenceEmbeddings()\
     .setInputCols(["document", "embeddings"])\
     .setOutputCol("sentence_embeddings")\
     .setPoolingStrategy("AVERAGE")
 
-doc_classifier = legal.ClassifierDLModel.pretrained("legclf_license_agreement", "en", "legal/models")\
+doc_classifier = legal.ClassifierDLModel.pretrained("legclf_warrant_agreement", "en", "legal/models")\
     .setInputCols(["sentence_embeddings"])\
     .setOutputCol("category")
 
@@ -74,6 +74,7 @@ df = spark.createDataFrame([["YOUR TEXT HERE"]]).toDF("text")
 model = nlpPipeline.fit(df)
 
 result = model.transform(df)
+
 ```
 
 </div>
@@ -81,13 +82,15 @@ result = model.transform(df)
 ## Results
 
 ```bash
+
 +-------+
 |result|
 +-------+
-|[license-agreement]|
+|[warrant-agreement]|
 |[other]|
 |[other]|
-|[license-agreement]|
+|[warrant-agreement]|
+
 ```
 
 {:.model-param}
@@ -95,14 +98,14 @@ result = model.transform(df)
 
 {:.table-model}
 |---|---|
-|Model Name:|legclf_license_agreement|
+|Model Name:|legclf_warrant_agreement|
 |Compatibility:|Legal NLP 1.0.0+|
 |License:|Licensed|
 |Edition:|Official|
 |Input Labels:|[sentence_embeddings]|
 |Output Labels:|[class]|
 |Language:|en|
-|Size:|22.5 MB|
+|Size:|21.5 MB|
 
 ## References
 
@@ -111,12 +114,13 @@ Legal documents, scrapped from the Internet, and classified in-house + SEC docum
 ## Benchmarking
 
 ```bash
-                   precision    recall  f1-score   support
 
-license-agreement       0.97      0.96      0.96        98
-            other       0.98      0.99      0.98       223
+|             label |   precision |   recall |   f1-score |   support |
+|------------------:|------------:|---------:|-----------:|----------:|
+|             other |        1.00 |     0.98 |       0.99 |       230 |
+| warrant-agreement |        0.96 |     1.00 |       0.98 |        99 |
+|          accuracy |           - |        - |       0.99 |       329 |
+|         macro-avg |        0.98 |     0.99 |       0.99 |       329 |
+|      weighted-avg |        0.99 |     0.99 |       0.99 |       329 |
 
-         accuracy                           0.98       321
-        macro avg       0.98      0.97      0.97       321
-     weighted avg       0.98      0.98      0.98       321
 ```

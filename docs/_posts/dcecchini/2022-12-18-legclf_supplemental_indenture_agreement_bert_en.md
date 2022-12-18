@@ -1,10 +1,10 @@
 ---
 layout: model
-title: Legal License Agreement Document Classifier (Bert Sentence Embeddings)
+title: Legal Supplemental Indenture Document Binary Classifier (Bert Sentence Embeddings)
 author: John Snow Labs
-name: legclf_license_agreement_bert
-date: 2022-12-16
-tags: [en, legal, classification, licensed, bert, license, agreement, tensorflow]
+name: legclf_supplemental_indenture_agreement_bert
+date: 2022-12-18
+tags: [en, legal, classification, licensed, document, bert, supplemental, indenture, tensorflow]
 task: Text Classification
 language: en
 edition: Legal NLP 1.0.0
@@ -18,18 +18,18 @@ use_language_switcher: "Python-Scala-Java"
 
 ## Description
 
-The `legclf_license_agreement_bert` model is a Bert Sentence Embeddings Document Classifier used to classify if the document belongs to the class `license-agreement` (check [Lawinsider](https://www.lawinsider.com/tags) for similar document type classification) or not (Binary Classification).
+The `legclf_supplemental_indenture_agreement_bert` model is a Bert Sentence Embeddings Document Classifier used to classify if the document belongs to the class `supplemental-indenture` (check [Lawinsider](https://www.lawinsider.com/tags) for similar document type classification) or not (Binary Classification).
 
 Unlike the Longformer model, this model is lighter in terms of inference time.
 
 ## Predicted Entities
 
-`license-agreement`, `other`
+`supplemental-indenture`, `other`
 
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>
 <button class="button button-orange" disabled>Open in Colab</button>
-[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/legal/models/legclf_license_agreement_bert_en_1.0.0_3.0_1671227659010.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
+[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/legal/models/legclf_supplemental_indenture_agreement_bert_en_1.0.0_3.0_1671393857190.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
 
 ## How to use
 
@@ -37,8 +37,8 @@ Unlike the Longformer model, this model is lighter in terms of inference time.
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
-
 ```python
+
 document_assembler = nlp.DocumentAssembler()\
     .setInputCol("text")\
     .setOutputCol("document")
@@ -47,7 +47,7 @@ embeddings = nlp.BertSentenceEmbeddings.pretrained("sent_bert_base_cased", "en")
     .setInputCols("document")\
     .setOutputCol("sentence_embeddings")
 
-doc_classifier = legal.ClassifierDLModel.pretrained("legclf_license_agreement_bert", "en", "legal/models")\
+doc_classifier = legal.ClassifierDLModel.pretrained("legclf_supplemental_indenture_agreement_bert", "en", "legal/models")\
     .setInputCols(["sentence_embeddings"])\
     .setOutputCol("category")
 
@@ -61,6 +61,7 @@ df = spark.createDataFrame([["YOUR TEXT HERE"]]).toDF("text")
 model = nlpPipeline.fit(df)
 
 result = model.transform(df)
+
 ```
 
 </div>
@@ -68,13 +69,15 @@ result = model.transform(df)
 ## Results
 
 ```bash
+
 +-------+
 |result|
 +-------+
-|[license-agreement]|
+|[supplemental-indenture]|
 |[other]|
 |[other]|
-|[license-agreement]|
+|[supplemental-indenture]|
+
 ```
 
 {:.model-param}
@@ -82,14 +85,14 @@ result = model.transform(df)
 
 {:.table-model}
 |---|---|
-|Model Name:|legclf_license_agreement_bert|
+|Model Name:|legclf_supplemental_indenture_agreement_bert|
 |Compatibility:|Legal NLP 1.0.0+|
 |License:|Licensed|
 |Edition:|Official|
 |Input Labels:|[sentence_embeddings]|
 |Output Labels:|[class]|
 |Language:|en|
-|Size:|22.5 MB|
+|Size:|22.6 MB|
 
 ## References
 
@@ -98,12 +101,12 @@ Legal documents, scrapped from the Internet, and classified in-house + SEC docum
 ## Benchmarking
 
 ```bash
-                   precision    recall  f1-score   support
 
-license-agreement       0.95      0.97      0.96       103
-            other       0.99      0.98      0.98       204
-
-         accuracy                           0.97       307
-        macro avg       0.97      0.97      0.97       307
-     weighted avg       0.97      0.97      0.97       307
+|                  label |   precision |   recall |   f1-score |   support |
+|-----------------------:|------------:|---------:|-----------:|----------:|
+|                  other |        0.97 |     0.95 |       0.96 |       204 |
+| supplemental-indenture |        0.91 |     0.95 |       0.93 |       111 |
+|               accuracy |           - |        - |       0.95 |       315 |
+|              macro-avg |        0.94 |     0.95 |       0.95 |       315 |
+|           weighted-avg |        0.95 |     0.95 |       0.95 |       315 |
 ```

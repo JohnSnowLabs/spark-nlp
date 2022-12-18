@@ -1,10 +1,10 @@
 ---
 layout: model
-title: Legal Survival Document Classifier (Bert Sentence Embeddings)
+title: Legal Indenture Document Binary Classifier (Bert Sentence Embeddings)
 author: John Snow Labs
-name: legclf_survival_bert
-date: 2022-12-16
-tags: [en, legal, classification, licensed, bert, survival, tensorflow]
+name: legclf_indenture_agreement_bert
+date: 2022-12-18
+tags: [en, legal, classification, licensed, document, bert, indenture, tensorflow]
 task: Text Classification
 language: en
 edition: Legal NLP 1.0.0
@@ -18,18 +18,18 @@ use_language_switcher: "Python-Scala-Java"
 
 ## Description
 
-The `legclf_survival_bert` model is a Bert Sentence Embeddings Document Classifier used to classify if the document belongs to the class `survival` (check [Lawinsider](https://www.lawinsider.com/tags) for similar document type classification) or not (Binary Classification).
+The `legclf_indenture_agreement_bert` model is a Bert Sentence Embeddings Document Classifier used to classify if the document belongs to the class `indenture` (check [Lawinsider](https://www.lawinsider.com/tags) for similar document type classification) or not (Binary Classification).
 
 Unlike the Longformer model, this model is lighter in terms of inference time.
 
 ## Predicted Entities
 
-`survival`, `other`
+`indenture`, `other`
 
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>
 <button class="button button-orange" disabled>Open in Colab</button>
-[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/legal/models/legclf_survival_bert_en_1.0.0_3.0_1671227586008.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
+[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/legal/models/legclf_indenture_agreement_bert_en_1.0.0_3.0_1671393852026.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
 
 ## How to use
 
@@ -37,8 +37,8 @@ Unlike the Longformer model, this model is lighter in terms of inference time.
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
-
 ```python
+
 document_assembler = nlp.DocumentAssembler()\
     .setInputCol("text")\
     .setOutputCol("document")
@@ -47,7 +47,7 @@ embeddings = nlp.BertSentenceEmbeddings.pretrained("sent_bert_base_cased", "en")
     .setInputCols("document")\
     .setOutputCol("sentence_embeddings")
 
-doc_classifier = legal.ClassifierDLModel.pretrained("legclf_survival_bert", "en", "legal/models")\
+doc_classifier = legal.ClassifierDLModel.pretrained("legclf_indenture_agreement_bert", "en", "legal/models")\
     .setInputCols(["sentence_embeddings"])\
     .setOutputCol("category")
 
@@ -61,6 +61,7 @@ df = spark.createDataFrame([["YOUR TEXT HERE"]]).toDF("text")
 model = nlpPipeline.fit(df)
 
 result = model.transform(df)
+
 ```
 
 </div>
@@ -68,13 +69,15 @@ result = model.transform(df)
 ## Results
 
 ```bash
+
 +-------+
 |result|
 +-------+
-|[survival]|
+|[indenture]|
 |[other]|
 |[other]|
-|[survival]| 
+|[indenture]|
+
 ```
 
 {:.model-param}
@@ -82,14 +85,14 @@ result = model.transform(df)
 
 {:.table-model}
 |---|---|
-|Model Name:|legclf_survival_bert|
+|Model Name:|legclf_indenture_agreement_bert|
 |Compatibility:|Legal NLP 1.0.0+|
 |License:|Licensed|
 |Edition:|Official|
 |Input Labels:|[sentence_embeddings]|
 |Output Labels:|[class]|
 |Language:|en|
-|Size:|22.7 MB|
+|Size:|22.9 MB|
 
 ## References
 
@@ -98,12 +101,12 @@ Legal documents, scrapped from the Internet, and classified in-house + SEC docum
 ## Benchmarking
 
 ```bash
-              precision    recall  f1-score   support
 
-       other       0.97      1.00      0.99        39
-    survival       1.00      0.97      0.99        35
-
-    accuracy                           0.99        74
-   macro avg       0.99      0.99      0.99        74
-weighted avg       0.99      0.99      0.99        74
+|        label |   precision |   recall |   f1-score |   support |
+|-------------:|------------:|---------:|-----------:|----------:|
+|    indenture |        0.96 |     0.93 |       0.94 |        97 |
+|        other |        0.97 |     0.98 |       0.97 |       204 |
+|     accuracy |           - |        - |       0.96 |       301 |
+|    macro-avg |        0.96 |     0.95 |       0.96 |       301 |
+| weighted-avg |        0.96 |     0.96 |       0.96 |       301 |
 ```
