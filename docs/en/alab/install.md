@@ -14,9 +14,6 @@ sidebar:
 ---
 
 <style>
-bl {
-  font-weight: 400;
-}
 th {
   width: 200px;
   text-align: left;
@@ -24,6 +21,17 @@ th {
   vertical-align: "top";
 }
 </style>
+
+## Type of installation
+
+{:.btn-box-install}
+[Dedicated Server](#dedicated-server){:.button.button-blue}
+[AWS Marketplace](#aws-marketplace){:.button.button-blue}
+[Azure Marketplace](#azure-marketplace){:.button.button-blue}
+[EKS deployment](#eks-deployment){:.button.button-blue}
+[AKS deployment](#aks-deployment){:.button.button-blue}
+[AirGap Environment](#airgap-environment){:.button.button-blue}
+[OpenShift](#openshift){:.button.button-blue}
 
 ## Dedicated Server
 
