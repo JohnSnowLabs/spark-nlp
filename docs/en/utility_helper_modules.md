@@ -543,5 +543,73 @@ medical.InternalResourceDownloader.showPrivateModels("MedicalNerModel")
 
 ## ModelTracer
 
+This module adds information on the data to help track uids and timestamps of each stage of the pipeline. 
+
+
+Given the following pipeline for Medical NER:
+
+```python
+# Annotator that transforms a text column from dataframe into an Annotation ready for NLP
+documentAssembler = DocumentAssembler()\
+    .setInputCol("text")\
+    .setOutputCol("document")
+        
+sentenceDetector = SentenceDetectorDLModel.pretrained("sentence_detector_dl_healthcare","en","clinical/models")\
+    .setInputCols(["document"])\
+    .setOutputCol("sentence")
+ 
+# Tokenizer splits words in a relevant format for NLP
+tokenizer = Tokenizer()\
+    .setInputCols(["sentence"])\
+    .setOutputCol("token")
+
+# Clinical word embeddings trained on PubMED dataset
+word_embeddings = WordEmbeddingsModel.pretrained("embeddings_clinical","en","clinical/models")\
+    .setInputCols(["sentence","token"])\
+    .setOutputCol("embeddings")
+
+# NER model trained on i2b2 (sampled from MIMIC) dataset
+clinical_ner = MedicalNerModel.pretrained("ner_clinical_large","en","clinical/models")\
+    .setInputCols(["sentence","token","embeddings"])\
+    .setOutputCol("ner")\
+    .setLabelCasing("upper") #decide if we want to return the tags in upper or lower case 
+
+ner_converter = NerConverter()\
+    .setInputCols(["sentence","token","ner"])\
+    .setOutputCol("ner_chunk")
+
+nlpPipeline = Pipeline(
+    stages=[
+        documentAssembler,
+        sentenceDetector,
+        tokenizer,
+        word_embeddings,
+        clinical_ner,
+        ner_converter
+        ])
+
+
+empty_data = spark.createDataFrame([[""]]).toDF("text")
+
+model = nlpPipeline.fit(empty_data)
+```
+
+To add the UID and timestamp of each pipeline step, simply use
+
+```python
+from sparknlp_jsl.modelTracer import ModelTracer
+
+df = model.transform(empty_data)
+tracer_result = ModelTracer().addUidCols(pipeline = nlpPipeline, df = df)
+tracer_result.show(truncate=False)
+```
+
+```
++----+------------------------------------------+--------+-----+----------+---+---------+----------------------------------------------------------------------+----------------------------------------------------------------------------+--------------------------------------------------------------+--------------------------------------------------------------------------+--------------------------------------------------------------------+-----------------------------------------------------------------+
+|text|document                                  |sentence|token|embeddings|ner|ner_chunk|documentassembler_model_uid                                           |sentencedetectordlmodel_model_uid                                           |tokenizer_model_uid                                           |word_embeddings_model_model_uid                                           |medicalnermodel_model_uid                                           |nerconverter_model_uid                                           |
++----+------------------------------------------+--------+-----+----------+---+---------+----------------------------------------------------------------------+----------------------------------------------------------------------------+--------------------------------------------------------------+--------------------------------------------------------------------------+--------------------------------------------------------------------+-----------------------------------------------------------------+
+|    |[{document, 0, -1, , {sentence -> 0}, []}]|[]      |[]   |[]        |[] |[]       |{uid -> DocumentAssembler_3e110f5ce3dc, timestamp -> 2022-10-21_22:58}|{uid -> SentenceDetectorDLModel_6bafc4746ea5, timestamp -> 2022-10-21_22:58}|{uid -> Tokenizer_bd74fe5f5860, timestamp -> 2022-10-21_22:58}|{uid -> WORD_EMBEDDINGS_MODEL_9004b1d00302, timestamp -> 2022-10-21_22:58}|{uid -> MedicalNerModel_1a8637089929, timestamp -> 2022-10-21_22:58}|{uid -> NerConverter_643c903e9161, timestamp -> 2022-10-21_22:58}|
++----+------------------------------------------+--------+-----+----------+---+---------+----------------------------------------------------------------------+----------------------------------------------------------------------------+--------------------------------------------------------------+--------------------------------------------------------------------------+--------------------------------------------------------------------+-----------------------------------------------------------------+
+```
 
 </div>
