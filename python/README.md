@@ -168,7 +168,7 @@ $ java -version
 $ conda create -n sparknlp python=3.7 -y
 $ conda activate sparknlp
 # spark-nlp by default is based on pyspark 3.x
-$ pip install spark-nlp==4.2.5 pyspark==3.2.1
+$ pip install spark-nlp==4.2.5 pyspark==3.2.3
 ```
 
 In Python console or Jupyter `Python3` kernel:
@@ -614,7 +614,7 @@ The easiest way to get this done on Linux and macOS is to simply install `spark-
 $ conda create -n sparknlp python=3.8 -y
 $ conda activate sparknlp
 # spark-nlp by default is based on pyspark 3.x
-$ pip install spark-nlp==4.2.5 pyspark==3.2.1 jupyter
+$ pip install spark-nlp==4.2.5 pyspark==3.2.3 jupyter
 $ jupyter notebook
 ```
 
@@ -655,7 +655,7 @@ This script comes with the two options to define `pyspark` and `spark-nlp` versi
 # -s is for spark-nlp
 # -g will enable upgrading libcudnn8 to 8.1.0 on Google Colab for GPU usage
 # by default they are set to the latest
-!wget https://setup.johnsnowlabs.com/colab.sh -O - | bash /dev/stdin -p 3.2.1 -s 4.2.5
+!wget https://setup.johnsnowlabs.com/colab.sh -O - | bash /dev/stdin -p 3.2.3 -s 4.2.5
 ```
 
 [Spark NLP quick start on Google Colab](https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/jupyter/quick_start_google_colab.ipynb) is a live demo on Google Colab that performs named entity recognitions and sentiment analysis by using Spark NLP pretrained pipelines.
@@ -676,7 +676,7 @@ This script comes with the two options to define `pyspark` and `spark-nlp` versi
 # -s is for spark-nlp
 # -g will enable upgrading libcudnn8 to 8.1.0 on Kaggle for GPU usage
 # by default they are set to the latest
-!wget https://setup.johnsnowlabs.com/colab.sh -O - | bash /dev/stdin -p 3.2.1 -s 4.2.5
+!wget https://setup.johnsnowlabs.com/colab.sh -O - | bash /dev/stdin -p 3.2.3 -s 4.2.5
 ```
 
 [Spark NLP quick start on Kaggle Kernel](https://www.kaggle.com/mozzie/spark-nlp-named-entity-recognition) is a live demo on Kaggle Kernel that performs named entity recognitions by using Spark NLP pretrained pipeline.
@@ -1198,7 +1198,7 @@ We have published a [paper](https://www.sciencedirect.com/science/article/pii/S2
     year = {2021},
     issn = {2665-9638},
     doi = {https://doi.org/10.1016/j.simpa.2021.100058},
-    url = {https://www.sciencedirect.com/science/article/pii/S2665963.2.100063},
+    url = {https://www.sciencedirect.com/science/article/pii/S2665963.2.300063},
     author = {Veysel Kocaman and David Talby},
     keywords = {Spark, Natural language processing, Deep learning, Tensorflow, Cluster},
     abstract = {Spark NLP is a Natural Language Processing (NLP) library built on top of Apache Spark ML. It provides simple, performant & accurate NLP annotations for machine learning pipelines that can scale easily in a distributed environment. Spark NLP comes with 1100+ pretrained pipelines and models in more than 192+ languages. It supports nearly all the NLP tasks and modules that can be used seamlessly in a cluster. Downloaded more than 2.7 million times and experiencing 9x growth since January 2020, Spark NLP is used by 54% of healthcare organizations as the world’s most widely used NLP library in the enterprise.}
