@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>sparknlp_jsl.annotator.context.contextual_parser &#8212; Spark NLP 4.0.0 documentation</title>
+    <title>sparknlp_jsl.annotator.context.contextual_parser &#8212; Spark NLP  documentation</title>
   
   
   
@@ -271,10 +271,13 @@
 
 
 <div class="viewcode-block" id="ContextualParserApproach"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/context/contextual_parser/index.html#sparknlp_jsl.annotator.context.contextual_parser.ContextualParserApproach">[docs]</a><span class="k">class</span> <span class="nc">ContextualParserApproach</span><span class="p">(</span><span class="n">AnnotatorApproach</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot; Creates a model, that extracts entity from a document based on user defined rules.</span>
-<span class="sd">    Rule matching is based on a RegexMatcher defined in a JSON file. It is set through the parameter setJsonPath()</span>
+    <span class="sd">&quot;&quot;&quot;Creates a model that extracts entity from a document based on user defined rules.</span>
+
+<span class="sd">    Rule matching is based on a RegexMatcher defined in a JSON file that can be set through the method setJsonPath().</span>
 <span class="sd">    In this JSON file, regex is defined that you want to match along with the information that will output on metadata</span>
-<span class="sd">    field. Additionally, a dictionary can be provided with ``setDictionary`` to map extracted entities</span>
+<span class="sd">    field. </span>
+<span class="sd">    </span>
+<span class="sd">    Additionally, a dictionary can be provided with the setDictionary() method to map extracted entities</span>
 <span class="sd">    to a unified representation. The first column of the dictionary file should be the representation with following</span>
 <span class="sd">    columns the possible matches.</span>
 
@@ -294,6 +297,12 @@
 <span class="sd">        Whether to match both prefix and suffix to annotate the hit</span>
 <span class="sd">    dictionary</span>
 <span class="sd">        Path to dictionary file in tsv or csv format</span>
+<span class="sd">    optionalContextRules</span>
+<span class="sd">        When set to true, it will output regex match regardless of context matches</span>
+<span class="sd">    shortestContextMatch</span>
+<span class="sd">        When set to true, it will stop finding for matches when prefix/suffix data is found in the text.</span>
+<span class="sd">    completeContextMatch</span>
+<span class="sd">        Whether to do an exact match of prefix and suffix.</span>
 
 <span class="sd">    Examples</span>
 <span class="sd">    --------</span>
@@ -477,9 +486,10 @@
 
 
 <div class="viewcode-block" id="ContextualParserModel"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/context/contextual_parser/index.html#sparknlp_jsl.annotator.context.contextual_parser.ContextualParserModel">[docs]</a><span class="k">class</span> <span class="nc">ContextualParserModel</span><span class="p">(</span><span class="n">AnnotatorModel</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Extracts entity from a document based on user defined rules. Rule matching is based on a RegexMatcher defined in a</span>
-<span class="sd">    JSON file. In this file, regex is defined that you want to match along with the information that will output on</span>
-<span class="sd">    metadata field..</span>
+    <span class="sd">&quot;&quot;&quot;Extracts entity from a document based on user defined rules based on a RegexMatcher.</span>
+<span class="sd">    </span>
+<span class="sd">    To train a custom model, check the documentation of ContextualParserApproach. </span>
+<span class="sd">    </span>
 
 <span class="sd">    ========================================= ======================</span>
 <span class="sd">    Input Annotation types                    Output Annotation type</span>
@@ -489,12 +499,14 @@
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
-<span class="sd">    jsonPath</span>
-<span class="sd">        Path to json file with rules</span>
 <span class="sd">    caseSensitive</span>
 <span class="sd">        Whether to use case sensitive when matching values</span>
 <span class="sd">    prefixAndSuffixMatch</span>
 <span class="sd">        Whether to match both prefix and suffix to annotate the hit</span>
+<span class="sd">    optionalContextRules</span>
+<span class="sd">        When set to true, it will output regex match regardless of context matches</span>
+<span class="sd">    shortestContextMatch</span>
+<span class="sd">        When set to true, it will stop finding for matches when prefix/suffix data is found in the text.</span>
 
 <span class="sd">    Examples</span>
 <span class="sd">    --------</span>
@@ -621,7 +633,6 @@
 <span class="sd">            When set to true, it will stop finding for matches when prefix/suffix data is found in the text.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">shortestContextMatch</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div></div>
-
 </pre></div>
 
             </article>

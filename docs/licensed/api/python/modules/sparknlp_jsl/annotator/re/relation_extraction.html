@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>sparknlp_jsl.annotator.re.relation_extraction &#8212; Spark NLP 4.0.0 documentation</title>
+    <title>sparknlp_jsl.annotator.re.relation_extraction &#8212; Spark NLP  documentation</title>
   
   
   
@@ -399,6 +399,21 @@
                                  <span class="s2">&quot;Whether to override already learned labels when using a pretrained model to initialize the new model. Default is &#39;true&#39;.&quot;</span><span class="p">,</span>
                                  <span class="n">TypeConverters</span><span class="o">.</span><span class="n">toBoolean</span><span class="p">)</span></div>
 
+<div class="viewcode-block" id="RelationExtractionApproach.maxSyntacticDistance"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/re/relation_extraction/index.html#sparknlp_jsl.annotator.re.relation_extraction.RelationExtractionApproach.maxSyntacticDistance">[docs]</a>    <span class="n">maxSyntacticDistance</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;maxSyntacticDistance&quot;</span><span class="p">,</span>
+                                 <span class="s2">&quot;Maximal syntactic distance, as threshold (Default: 0)&quot;</span><span class="p">,</span>
+                                 <span class="n">TypeConverters</span><span class="o">.</span><span class="n">toInt</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="RelationExtractionApproach.setMaxSyntacticDistance"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/re/relation_extraction/index.html#sparknlp_jsl.annotator.re.relation_extraction.RelationExtractionApproach.setMaxSyntacticDistance">[docs]</a>    <span class="k">def</span> <span class="nf">setMaxSyntacticDistance</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">distance</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Sets maximal syntactic distance, as threshold (Default: 0)</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        b : int</span>
+<span class="sd">            Maximal syntactic distance, as threshold (Default: 0)</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">maxSyntacticDistance</span><span class="o">=</span><span class="n">distance</span><span class="p">)</span></div>
+
 <div class="viewcode-block" id="RelationExtractionApproach.setFromEntity"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/re/relation_extraction/index.html#sparknlp_jsl.annotator.re.relation_extraction.RelationExtractionApproach.setFromEntity">[docs]</a>    <span class="k">def</span> <span class="nf">setFromEntity</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">begin_col</span><span class="p">,</span> <span class="n">end_col</span><span class="p">,</span> <span class="n">label_col</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Sets from entity</span>
 
@@ -478,7 +493,8 @@
         <span class="nb">super</span><span class="p">(</span><span class="n">RelationExtractionApproach</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">classname</span><span class="o">=</span><span class="n">classname</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_setDefault</span><span class="p">(</span>
             <span class="n">pretrainedModelPath</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span>
-            <span class="n">overrideExistingLabels</span><span class="o">=</span><span class="kc">True</span></div>
+            <span class="n">overrideExistingLabels</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+            <span class="n">maxSyntacticDistance</span><span class="o">=</span><span class="mi">0</span></div>
         <span class="p">)</span>
 
 <div class="viewcode-block" id="RelationExtractionModel"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/re/relation_extraction/index.html#sparknlp_jsl.annotator.re.relation_extraction.RelationExtractionModel">[docs]</a><span class="k">class</span> <span class="nc">RelationExtractionModel</span><span class="p">(</span><span class="n">AnnotatorModel</span><span class="p">):</span>
@@ -708,12 +724,22 @@
         <span class="kn">from</span> <span class="nn">sparknlp.pretrained</span> <span class="kn">import</span> <span class="n">ResourceDownloader</span>
         <span class="k">if</span> <span class="n">name</span> <span class="o">==</span> <span class="s2">&quot;posology_re&quot;</span><span class="p">:</span>
             <span class="k">return</span> <span class="n">PosologyREModel</span><span class="p">()</span>
+        <span class="k">elif</span> <span class="n">name</span> <span class="o">==</span> <span class="s2">&quot;generic_re&quot;</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">GenericREModel</span><span class="p">()</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="k">return</span> <span class="n">ResourceDownloader</span><span class="o">.</span><span class="n">downloadModel</span><span class="p">(</span><span class="n">RelationExtractionModel</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">lang</span><span class="p">,</span> <span class="n">remote_loc</span><span class="p">,</span>
                                                     <span class="n">j_dwn</span><span class="o">=</span><span class="s1">&#39;InternalsPythonResourceDownloader&#39;</span><span class="p">)</span></div></div>
 
 <div class="viewcode-block" id="PosologyREModel"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/re/relation_extraction/index.html#sparknlp_jsl.annotator.re.relation_extraction.PosologyREModel">[docs]</a><span class="k">class</span> <span class="nc">PosologyREModel</span><span class="p">(</span><span class="n">RelationExtractionModel</span><span class="p">):</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">classname</span><span class="o">=</span><span class="s2">&quot;com.johnsnowlabs.nlp.annotators.re.PosologyREModel&quot;</span><span class="p">,</span>
+                 <span class="n">java_model</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">RelationExtractionModel</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
+            <span class="n">classname</span><span class="o">=</span><span class="n">classname</span><span class="p">,</span>
+            <span class="n">java_model</span><span class="o">=</span><span class="n">java_model</span></div>
+        <span class="p">)</span>
+
+<div class="viewcode-block" id="GenericREModel"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/re/relation_extraction/index.html#sparknlp_jsl.annotator.re.relation_extraction.GenericREModel">[docs]</a><span class="k">class</span> <span class="nc">GenericREModel</span><span class="p">(</span><span class="n">RelationExtractionModel</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">classname</span><span class="o">=</span><span class="s2">&quot;com.johnsnowlabs.nlp.annotators.re.GenericREModel&quot;</span><span class="p">,</span>
                  <span class="n">java_model</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="nb">super</span><span class="p">(</span><span class="n">RelationExtractionModel</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
             <span class="n">classname</span><span class="o">=</span><span class="n">classname</span><span class="p">,</span>
