@@ -10,6 +10,7 @@ language: en
 edition: Healthcare NLP 4.2.2
 spark_version: 3.0
 supported: true
+annotator: MedicalNerModel
 article_header:
   type: cover
 use_language_switcher: "Python-Scala-Java"
@@ -19,21 +20,33 @@ use_language_switcher: "Python-Scala-Java"
 
 This model extracts staging information and mentions related to tumors, lymph nodes and metastases.
 
+Definitions of Predicted Entities:
+
+- `Cancer_Dx`: Mentions of cancer diagnoses (such as "breast cancer") or pathological types that are usually used as synonyms for "cancer" (e.g. "carcinoma"). When anatomical references are present, they are included in the Cancer_Dx extraction.
+- `Lymph_Node`: Mentions of lymph nodes and pathological findings of the lymph nodes.
+- `Lymph_Node_Modifier`: Words that refer to a lymph node being abnormal (such as "enlargement").
+- `Metastasis`: Terms that indicate a metastatic disease. Anatomical references are not included in these extractions.
+- `Staging`: Mentions of cancer stage such as "stage 2b" or "T2N1M0". It also includes words such as "in situ", "early-stage" or "advanced".
+- `Tumor`: All nonspecific terms that may be related to tumors, either malignant or benign (for example: "mass", "tumor", "lesion", or "neoplasm").
+- `Tumor_Description`: Information related to tumor characteristics, such as size, presence of invasion, grade and hystological type.
+
+
 ## Predicted Entities
 
-`Lymph_Node`, `Staging`, `Lymph_Node_Modifier`, `Tumor_Description`, `Tumor`, `Metastasis`, `Cancer_Dx`
+`Cancer_Dx`, `Lymph_Node`, `Lymph_Node_Modifier`, `Metastasis`, `Staging`, `Tumor`, `Tumor_Description`
+
 
 {:.btn-box}
-<button class="button button-orange" disabled>Live Demo</button>
+[Live Demo](https://demo.johnsnowlabs.com/healthcare/NER_ONCOLOGY_CLINICAL/){:.button.button-orange}
 [Open in Colab](https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/27.Oncology_Model.ipynb){:.button.button-orange.button-orange-trans.co.button-icon}
 [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/ner_oncology_tnm_en_4.2.2_3.0_1669308699155.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
 
 ## How to use
 
 
-
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
+
 ```python
 document_assembler = DocumentAssembler()\
     .setInputCol("text")\

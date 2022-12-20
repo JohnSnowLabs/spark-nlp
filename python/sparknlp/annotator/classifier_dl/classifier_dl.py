@@ -147,6 +147,8 @@ class ClassifierDLApproach(AnnotatorApproach, EvaluationDLParams, ClassifierEnco
     """
     inputAnnotatorTypes = [AnnotatorType.SENTENCE_EMBEDDINGS]
 
+    outputAnnotatorType = AnnotatorType.CATEGORY
+
     dropout = Param(Params._dummy(), "dropout", "Dropout coefficient", TypeConverters.toFloat)
 
     def setDropout(self, v):
@@ -268,6 +270,8 @@ class ClassifierDLModel(AnnotatorModel, HasStorageRef, HasEngine):
     name = "ClassifierDLModel"
 
     inputAnnotatorTypes = [AnnotatorType.SENTENCE_EMBEDDINGS]
+
+    outputAnnotatorType = AnnotatorType.CATEGORY
 
     def __init__(self, classname="com.johnsnowlabs.nlp.annotators.classifier.dl.ClassifierDLModel", java_model=None):
         super(ClassifierDLModel, self).__init__(

@@ -10,6 +10,7 @@ language: en
 edition: Healthcare NLP 4.2.2
 spark_version: 3.0
 supported: true
+annotator: MedicalNerModel
 article_header:
   type: cover
 use_language_switcher: "Python-Scala-Java"
@@ -19,12 +20,30 @@ use_language_switcher: "Python-Scala-Java"
 
 This model extracts mentions of anatomical entities using granular labels.
 
+
 ## Predicted Entities
 
 `Direction`, `Site_Lymph_Node`, `Site_Breast`, `Site_Other_Body_Part`, `Site_Bone`, `Site_Liver`, `Site_Lung`, `Site_Brain`
 
+Definitions of Predicted Entities:
+
+- `Direction`: Directional and laterality terms, such as "left", "right", "bilateral", "upper" and "lower".
+- `Site_Bone`: Anatomical terms that refer to the human skeleton.
+- `Site_Brain`: Anatomical terms that refer to the central nervous system (including the brain stem and the cerebellum).
+- `Site_Breast`: Anatomical terms that refer to the breasts.
+- `Site_Liver`: Anatomical terms that refer to the liver.
+- `Site_Lung`: Anatomical terms that refer to the lungs.
+- `Site_Lymph_Node`: Anatomical terms that refer to lymph nodes, excluding adenopathies.
+- `Site_Other_Body_Part`: Relevant anatomical terms that are not included in the rest of the anatomical entities.
+
+
+## Predicted Entities
+
+`Direction`, `Site_Bone`, `Site_Brain`, `Site_Breast`, `Site_Liver`, `Site_Lung`, `Site_Lymph_Node`, `Site_Other_Body_Part`
+
+
 {:.btn-box}
-<button class="button button-orange" disabled>Live Demo</button>
+[Live Demo](https://demo.johnsnowlabs.com/healthcare/NER_ONCOLOGY_CLINICAL/){:.button.button-orange}
 [Open in Colab](https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/27.Oncology_Model.ipynb){:.button.button-orange.button-orange-trans.co.button-icon}
 [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/ner_oncology_anatomy_granular_en_4.2.2_3.0_1669299394344.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
 
@@ -34,6 +53,7 @@ This model extracts mentions of anatomical entities using granular labels.
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
+
 ```python
 document_assembler = DocumentAssembler()\
     .setInputCol("text")\

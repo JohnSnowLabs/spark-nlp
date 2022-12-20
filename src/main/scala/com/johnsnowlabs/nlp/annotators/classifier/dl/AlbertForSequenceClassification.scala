@@ -83,16 +83,16 @@ import org.apache.spark.sql.SparkSession
   *   sequenceClassifier
   * ))
   *
-  * val data = Seq("John Lenon was born in London and lived in Paris. My name is Sarah and I live in London").toDF("text")
+  * val data = Seq("I loved this movie when I was a child.", "It was pretty boring.").toDF("text")
   * val result = pipeline.fit(data).transform(data)
   *
   * result.select("label.result").show(false)
-  * +--------------------+
-  * |result              |
-  * +--------------------+
-  * |[neg, neg]          |
-  * |[pos, pos, pos, pos]|
-  * +--------------------+
+  * +------+
+  * |result|
+  * +------+
+  * |[pos] |
+  * |[neg] |
+  * +------+
   * }}}
   *
   * @see

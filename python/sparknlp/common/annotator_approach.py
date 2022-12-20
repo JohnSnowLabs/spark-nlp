@@ -34,3 +34,8 @@ class AnnotatorApproach(JavaEstimator, JavaMLWritable, _internal.AnnotatorJavaML
     def _create_model(self, java_model):
         raise NotImplementedError('Please implement _create_model in %s' % self)
 
+    def __init_subclass__(cls, **kwargs):
+        for required in ('inputAnnotatorTypes', 'outputAnnotatorType'):
+            if not getattr(cls, required):
+                raise TypeError(f"Can't instantiate class {cls.__name__} without {required} attribute defined")
+        return super().__init_subclass__(**kwargs)

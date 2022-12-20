@@ -68,7 +68,7 @@ Make sure you have a valid license for Enterprise Spark NLP libraries (in case y
 
 - Run the following commands to download the `docker-compose.yml` and the `sparknlp_keys.txt` files on your local machine:
 ```bash
-curl -o docker-compose.yaml https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/513a4d682f11abc33b2e26ef8a9d72ad52a7b4f0/jupyter/docker_image_nlp_hc/docker-compose.yaml
+curl -o docker-compose.yaml https://raw.githubusercontent.com/JohnSnowLabs/spark-nlp-workshop/blob/513a4d682f11abc33b2e26ef8a9d72ad52a7b4f0/jupyter/docker_image_nlp_hc/docker-compose.yaml
 curl -o sparknlp_keys.txt https://raw.githubusercontent.com/JohnSnowLabs/spark-nlp-workshop/master/jupyter/docker_image_nlp_hc/sparknlp_keys.txt
 ```
 

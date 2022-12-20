@@ -117,6 +117,8 @@ class NerOverwriter(AnnotatorModel):
 
     inputAnnotatorTypes = [AnnotatorType.NAMED_ENTITY]
 
+    outputAnnotatorType = AnnotatorType.NAMED_ENTITY
+
     @keyword_only
     def __init__(self):
         super(NerOverwriter, self).__init__(classname="com.johnsnowlabs.nlp.annotators.ner.NerOverwriter")

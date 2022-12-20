@@ -10,6 +10,7 @@ language: en
 edition: Healthcare NLP 4.2.2
 spark_version: 3.0
 supported: true
+annotator: MedicalNerModel
 article_header:
   type: cover
 use_language_switcher: "Python-Scala-Java"
@@ -19,21 +20,30 @@ use_language_switcher: "Python-Scala-Java"
 
 This model extracts anatomical entities using an unspecific label.
 
+Definitions of Predicted Entities:
+
+- `Anatomical_Site`: Relevant anatomical terms mentioned in text.
+- `Direction`: Directional and laterality terms, such as "left", "right", "bilateral", "upper" and "lower".
+
+
 ## Predicted Entities
 
 `Anatomical_Site`, `Direction`
 
+
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>
+{:.btn-box}
+[Live Demo](https://demo.johnsnowlabs.com/healthcare/NER_ONCOLOGY_CLINICAL/){:.button.button-orange}
 [Open in Colab](https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/27.Oncology_Model.ipynb){:.button.button-orange.button-orange-trans.co.button-icon}
 [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/ner_oncology_anatomy_general_en_4.2.2_3.0_1669298930681.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
 
 ## How to use
 
 
-
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
+
 ```python
 document_assembler = DocumentAssembler()\
     .setInputCol("text")\

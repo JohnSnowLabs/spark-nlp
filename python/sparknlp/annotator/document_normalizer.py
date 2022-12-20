@@ -89,6 +89,8 @@ class DocumentNormalizer(AnnotatorModel):
     """
     inputAnnotatorTypes = [AnnotatorType.DOCUMENT]
 
+    outputAnnotatorType = AnnotatorType.DOCUMENT
+
     action = Param(Params._dummy(),
                    "action",
                    "action to perform applying regex patterns on text",

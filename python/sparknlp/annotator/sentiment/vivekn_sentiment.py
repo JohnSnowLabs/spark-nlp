@@ -100,6 +100,8 @@ class ViveknSentimentApproach(AnnotatorApproach):
 
     inputAnnotatorTypes = [AnnotatorType.TOKEN, AnnotatorType.DOCUMENT]
 
+    outputAnnotatorType = AnnotatorType.SENTIMENT
+
     sentimentCol = Param(Params._dummy(),
                          "sentimentCol",
                          "column with the sentiment result of every row. Must be 'positive' or 'negative'",
@@ -193,6 +195,8 @@ class ViveknSentimentModel(AnnotatorModel):
     name = "ViveknSentimentModel"
 
     inputAnnotatorTypes = [AnnotatorType.TOKEN, AnnotatorType.DOCUMENT]
+
+    outputAnnotatorType = AnnotatorType.SENTIMENT
 
     importantFeatureRatio = Param(Params._dummy(),
                                   "importantFeatureRatio",

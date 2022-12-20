@@ -147,6 +147,8 @@ class DistilBertEmbeddings(AnnotatorModel,
 
     inputAnnotatorTypes = [AnnotatorType.DOCUMENT, AnnotatorType.TOKEN]
 
+    outputAnnotatorType = AnnotatorType.WORD_EMBEDDINGS
+
     maxSentenceLength = Param(Params._dummy(),
                               "maxSentenceLength",
                               "Max sentence length to process",

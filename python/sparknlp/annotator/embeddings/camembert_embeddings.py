@@ -134,6 +134,8 @@ class CamemBertEmbeddings(AnnotatorModel,
 
     inputAnnotatorTypes = [AnnotatorType.DOCUMENT, AnnotatorType.TOKEN]
 
+    outputAnnotatorType = AnnotatorType.WORD_EMBEDDINGS
+
     configProtoBytes = Param(
         Params._dummy(),
         "configProtoBytes",

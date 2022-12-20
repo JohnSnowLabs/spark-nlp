@@ -10,6 +10,7 @@ language: en
 edition: Healthcare NLP 4.2.2
 spark_version: 3.0
 supported: true
+annotator: MedicalNerModel
 article_header:
   type: cover
 use_language_switcher: "Python-Scala-Java"
@@ -19,12 +20,19 @@ use_language_switcher: "Python-Scala-Java"
 
 This model extracts mentions of biomarkers and biomarker results from oncology texts.
 
+Definitions of Predicted Entities:
+
+- `Biomarker`: Biological molecules that indicate the presence or absence of cancer, or the type of cancer (including oncogenes).
+- `Biomarker_Result`: Terms or values that are identified as the result of a biomarkers.
+
+
 ## Predicted Entities
 
-`Biomarker_Result`, `Biomarker`
+`Biomarker`, `Biomarker_Result`
+
 
 {:.btn-box}
-<button class="button button-orange" disabled>Live Demo</button>
+[Live Demo](https://demo.johnsnowlabs.com/healthcare/NER_ONCOLOGY_CLINICAL/){:.button.button-orange}
 [Open in Colab](https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/27.Oncology_Model.ipynb){:.button.button-orange.button-orange-trans.co.button-icon}
 [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/ner_oncology_biomarker_en_4.2.2_3.0_1669299787628.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
 

@@ -10,6 +10,7 @@ language: en
 edition: Healthcare NLP 4.2.2
 spark_version: 3.0
 supported: true
+annotator: MedicalNerModel
 article_header:
   type: cover
 use_language_switcher: "Python-Scala-Java"
@@ -19,12 +20,35 @@ use_language_switcher: "Python-Scala-Java"
 
 This model extracts entities related to oncology therapies using granular labels, including mentions of treatments, posology information and line of therapy.
 
+Definitions of Predicted Entities:
+
+- `Cancer_Surgery`: Terms that indicate surgery as a form of cancer treatment.
+- `Chemotherapy`: Mentions of chemotherapy drugs, or unspecific words such as "chemotherapy".
+- `Cycle_Count`: The total number of cycles being administered of an oncological therapy (e.g. "5 cycles"). 
+- `Cycle_Day`: References to the day of the cycle of oncological therapy (e.g. "day 5").
+- `Cycle_Number`: The number of the cycle of an oncological therapy that is being applied (e.g. "third cycle").
+- `Dosage`: The quantity prescribed by the physician for an active ingredient.
+- `Duration`: Words indicating the duration of a treatment (e.g. "for 2 weeks").
+- `Frequency`: Words indicating the frequency of treatment administration (e.g. "daily" or "bid").
+- `Hormonal_Therapy`: Mentions of hormonal drugs used to treat cancer, or unspecific words such as "hormonal therapy".
+- `Immunotherapy`: Mentions of immunotherapy drugs, or unspecific words such as "immunotherapy".
+- `Line_Of_Therapy`: Explicit references to the line of therapy of an oncological therapy (e.g. "first-line treatment").
+- `Radiotherapy`: Terms that indicate the use of Radiotherapy.
+- `Radiation_Dose`: Dose used in radiotherapy.
+- `Response_To_Treatment`: Terms related to clinical progress of the patient related to cancer treatment, including "recurrence", "bad response" or "improvement".
+- `Route`: Words indicating the type of administration route (such as "PO" or "transdermal").
+- `Targeted_Therapy`: Mentions of targeted therapy drugs, or unspecific words such as "targeted therapy".
+- `Unspecific_Therapy`: Terms that indicate a known cancer therapy but that is not specific to any other therapy entity (e.g. "chemoradiotherapy" or "adjuvant therapy").
+
+
+
 ## Predicted Entities
 
-`Cycle_Number`, `Response_To_Treatment`, `Cycle_Count`, `Unspecific_Therapy`, `Chemotherapy`, `Targeted_Therapy`, `Radiotherapy`, `Cancer_Surgery`, `Line_Of_Therapy`, `Hormonal_Therapy`, `Immunotherapy`, `Cycle_Day`, `Frequency`, `Route`, `Duration`, `Dosage`, `Radiation_Dose`
+`Cancer_Surgery`, `Chemotherapy`, `Cycle_Count`, `Cycle_Day`, `Cycle_Number`, `Dosage`, `Duration`, `Frequency`, `Hormonal_Therapy`, `Immunotherapy`, `Line_Of_Therapy`, `Radiotherapy`, `Radiation_Dose`, `Response_To_Treatment`, `Route`, `Targeted_Therapy`, `Unspecific_Therapy`
+
 
 {:.btn-box}
-<button class="button button-orange" disabled>Live Demo</button>
+[Live Demo](https://demo.johnsnowlabs.com/healthcare/NER_ONCOLOGY_CLINICAL/){:.button.button-orange}
 [Open in Colab](https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/27.Oncology_Model.ipynb){:.button.button-orange.button-orange-trans.co.button-icon}
 [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/ner_oncology_therapy_en_4.2.2_3.0_1669308088671.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
 
@@ -34,6 +58,7 @@ This model extracts entities related to oncology therapies using granular labels
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
+
 ```python
 document_assembler = DocumentAssembler()\
     .setInputCol("text")\

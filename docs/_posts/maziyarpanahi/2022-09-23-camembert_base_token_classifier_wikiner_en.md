@@ -4,7 +4,7 @@ title: CamemBERT Token Classification Base - French WikiNER (camembert_base_toke
 author: John Snow Labs
 name: camembert_base_token_classifier_wikiner
 date: 2022-09-23
-tags: [open_source, camembert, token_classification, en, english, wikiner, ner]
+tags: [open_source, camembert, token_classification, wikiner, ner, fr, french]
 task: Named Entity Recognition
 language: en
 edition: Spark NLP 4.2.0

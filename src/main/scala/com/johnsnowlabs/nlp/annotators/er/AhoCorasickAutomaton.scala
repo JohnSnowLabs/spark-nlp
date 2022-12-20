@@ -85,9 +85,10 @@ class AhoCorasickAutomaton(
     var state = 0
     pattern.keyword.toCharArray.foreach { char =>
       val edgeIndex = edges.getOrElse(
-        char,
-        throw new UnsupportedOperationException(
-          s"Char $char not found on alphabet. Please check alphabet"))
+        char, {
+          val errorMessage = getAlphabetErrorMessage(char)
+          throw new UnsupportedOperationException(errorMessage)
+        })
 
       if (nodes(state).get.children(edgeIndex) == -1) {
         nodes(nodeCount) = Some(new Node())
@@ -149,8 +150,8 @@ class AhoCorasickAutomaton(
 
     val edgeIndex: Int = edges.getOrElse(char, -1)
     if (edgeIndex == -1) {
-      throw new UnsupportedOperationException(
-        s"Char $char not found on alphabet. Please check alphabet")
+      val errorMessage = getAlphabetErrorMessage(char)
+      throw new UnsupportedOperationException(errorMessage)
     }
 
     val node = nodes(state)
@@ -195,6 +196,22 @@ class AhoCorasickAutomaton(
       Annotation(CHUNK, begin, end, result, metadata ++ Map("id" -> id))
     }
 
+  }
+
+  private def getAlphabetErrorMessage(char: Char): String = {
+    val workshopURL = "https://github.com/JohnSnowLabs/spark-nlp-workshop/"
+    val alphabetExample =
+      "blob/e3d3d942a75752d8040f73538c7f8ce5430e80d9/jupyter/training/english/entity-ruler/EntityRuler_Alphabet.ipynb"
+    val errorMessage: String =
+      s"""Char $char not found in the alphabet. Your data could have unusual characters not found
+         |in your document's language, which requires setting up a custom alphabet.
+         |
+         |Please set alphabet using setAlphabetResource parameter and make sure it has all
+         |characters that can be found in your documents.
+         |
+         |You can check an example in Spark NLP Workshop: $workshopURL$alphabetExample""".stripMargin
+
+    errorMessage
   }
 
 }

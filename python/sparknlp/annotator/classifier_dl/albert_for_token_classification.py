@@ -98,6 +98,8 @@ class AlbertForTokenClassification(AnnotatorModel,
 
     inputAnnotatorTypes = [AnnotatorType.DOCUMENT, AnnotatorType.TOKEN]
 
+    outputAnnotatorType = AnnotatorType.NAMED_ENTITY
+
     maxSentenceLength = Param(Params._dummy(),
                               "maxSentenceLength",
                               "Max sentence length to process",

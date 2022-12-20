@@ -19,6 +19,7 @@ sidebar:
 - [Finance NLP 1.1.0 on Medium](https://medium.com/spark-nlp/finance-nlp-1-1-0-for-spark-nlp-has-been-released-9adf8339fe0a)
 - [Finance NLP 1.2.0 on Medium](https://gaddesaishailesh.medium.com/finance-nlp-1-2-0-for-spark-nlp-has-been-released-6250a52eb704) 
 - [Finance NLP 1.3.0 on Medium](https://medium.com/@muhendisbp/finance-nlp-1-3-0-for-spark-nlp-has-been-released-7b4ed8a10f9c)
+- [Finance NLP 1.4.0 on Medium](https://medium.com/@gaddesaishailesh/finance-nlp-1-4-0-for-spark-nlp-has-been-released-c18966c6c1a6)
 - [Slack](https://www.johnsnowlabs.com/slack-redirect/) - Join `#finance` channel
 
 </div>

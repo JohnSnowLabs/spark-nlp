@@ -13,6 +13,8 @@
 #  limitations under the License.
 from pyspark import keyword_only
 from pyspark.ml.param import TypeConverters, Params, Param
+
+from sparknlp.common import AnnotatorType
 from sparknlp.internal import AnnotatorTransformer
 
 
@@ -80,6 +82,8 @@ class MultiDocumentAssembler(AnnotatorTransformer):
     |    |    |-- embeddings: array (nullable = True)
     |    |    |    |-- element: float (containsNull = False)
     """
+
+    outputAnnotatorType = AnnotatorType.DOCUMENT
 
     inputCols = Param(Params._dummy(), "inputCols", "input annotations", typeConverter=TypeConverters.toListString)
     outputCols = Param(Params._dummy(), "outputCols", "output finished annotation cols", typeConverter=TypeConverters.toListString)
@@ -159,3 +163,6 @@ class MultiDocumentAssembler(AnnotatorTransformer):
             raise Exception("Cleanup mode possible values: disabled, inplace, inplace_full, shrink, shrink_full, each, each_full, delete_full")
         return self._set(cleanupMode=value)
 
+    def getOutputCols(self):
+        """Gets output columns name of annotations."""
+        return self.getOrDefault(self.outputCols)

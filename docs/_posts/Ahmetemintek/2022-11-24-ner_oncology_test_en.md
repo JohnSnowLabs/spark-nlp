@@ -10,6 +10,7 @@ language: en
 edition: Healthcare NLP 4.2.2
 spark_version: 3.0
 supported: true
+annotator: MedicalNerModel
 article_header:
   type: cover
 use_language_switcher: "Python-Scala-Java"
@@ -19,21 +20,31 @@ use_language_switcher: "Python-Scala-Java"
 
 This model extracts mentions of tests from oncology texts, including pathology tests and imaging tests.
 
+Definitions of Predicted Entities:
+
+- `Biomarker`: Biological molecules that indicate the presence or absence of cancer, or the type of cancer. Oncogenes are excluded from this category.
+- `Biomarker_Result`: Terms or values that are identified as the result of a biomarkers.
+- `Imaging_Test`: Imaging tests mentioned in texts, such as "chest CT scan".
+- `Oncogene`: Mentions of genes that are implicated in the etiology of cancer.
+- `Pathology_Test`: Mentions of biopsies or tests that use tissue samples.
+
 ## Predicted Entities
 
-`Imaging_Test`, `Biomarker_Result`, `Pathology_Test`, `Biomarker`, `Oncogene`
+`Biomarker`, `Biomarker_Result`, `Imaging_Test`, `Oncogene`, `Pathology_Test`
+
+
 
 {:.btn-box}
-<button class="button button-orange" disabled>Live Demo</button>
+[Live Demo](https://demo.johnsnowlabs.com/healthcare/NER_ONCOLOGY_CLINICAL/){:.button.button-orange}
 [Open in Colab](https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/27.Oncology_Model.ipynb){:.button.button-orange.button-orange-trans.co.button-icon}
 [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/ner_oncology_test_en_4.2.2_3.0_1669307746859.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
 
 ## How to use
 
 
-
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
+
 ```python
 document_assembler = DocumentAssembler()\
     .setInputCol("text")\

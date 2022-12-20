@@ -106,6 +106,8 @@ class ViTForImageClassification(AnnotatorModel,
 
     inputAnnotatorTypes = [AnnotatorType.IMAGE]
 
+    outputAnnotatorType = AnnotatorType.CATEGORY
+
     configProtoBytes = Param(Params._dummy(),
                              "configProtoBytes",
                              "ConfigProto from tensorflow, serialized into byte array. Get with "

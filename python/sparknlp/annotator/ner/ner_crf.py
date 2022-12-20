@@ -132,6 +132,8 @@ class NerCrfApproach(AnnotatorApproach, NerApproach):
 
     inputAnnotatorTypes = [AnnotatorType.DOCUMENT, AnnotatorType.TOKEN, AnnotatorType.POS, AnnotatorType.WORD_EMBEDDINGS]
 
+    outputAnnotatorType = AnnotatorType.NAMED_ENTITY
+
     l2 = Param(Params._dummy(), "l2", "L2 regularization coefficient", TypeConverters.toFloat)
 
     c0 = Param(Params._dummy(), "c0", "c0 params defining decay speed for gradient", TypeConverters.toInt)
@@ -348,6 +350,8 @@ class NerCrfModel(AnnotatorModel):
     name = "NerCrfModel"
 
     inputAnnotatorTypes = [AnnotatorType.DOCUMENT, AnnotatorType.TOKEN, AnnotatorType.POS, AnnotatorType.WORD_EMBEDDINGS]
+
+    outputAnnotatorType = AnnotatorType.NAMED_ENTITY
 
     includeConfidence = Param(Params._dummy(), "includeConfidence",
                               "external features is a delimited text. needs 'delimiter' in options",

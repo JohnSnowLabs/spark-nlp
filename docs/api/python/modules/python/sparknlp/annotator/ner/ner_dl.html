@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>python.sparknlp.annotator.ner.ner_dl &#8212; Spark NLP 4.2.4 documentation</title>
+    <title>python.sparknlp.annotator.ner.ner_dl &#8212; Spark NLP 4.2.5 documentation</title>
   
   
   
@@ -488,6 +488,8 @@
 
     <span class="n">inputAnnotatorTypes</span> <span class="o">=</span> <span class="p">[</span><span class="n">AnnotatorType</span><span class="o">.</span><span class="n">DOCUMENT</span><span class="p">,</span> <span class="n">AnnotatorType</span><span class="o">.</span><span class="n">TOKEN</span><span class="p">,</span> <span class="n">AnnotatorType</span><span class="o">.</span><span class="n">WORD_EMBEDDINGS</span><span class="p">]</span>
 
+    <span class="n">outputAnnotatorType</span> <span class="o">=</span> <span class="n">AnnotatorType</span><span class="o">.</span><span class="n">NAMED_ENTITY</span>
+
     <span class="n">lr</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;lr&quot;</span><span class="p">,</span> <span class="s2">&quot;Learning Rate&quot;</span><span class="p">,</span> <span class="n">TypeConverters</span><span class="o">.</span><span class="n">toFloat</span><span class="p">)</span>
 
     <span class="n">po</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;po&quot;</span><span class="p">,</span> <span class="s2">&quot;Learning rate decay coefficient. Real Learning Rage = lr / (1 + po * epoch)&quot;</span><span class="p">,</span>
@@ -798,6 +800,8 @@
     <span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;NerDLModel&quot;</span>
 
     <span class="n">inputAnnotatorTypes</span> <span class="o">=</span> <span class="p">[</span><span class="n">AnnotatorType</span><span class="o">.</span><span class="n">DOCUMENT</span><span class="p">,</span> <span class="n">AnnotatorType</span><span class="o">.</span><span class="n">TOKEN</span><span class="p">,</span> <span class="n">AnnotatorType</span><span class="o">.</span><span class="n">WORD_EMBEDDINGS</span><span class="p">]</span>
+
+    <span class="n">outputAnnotatorType</span> <span class="o">=</span> <span class="n">AnnotatorType</span><span class="o">.</span><span class="n">NAMED_ENTITY</span>
 
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">classname</span><span class="o">=</span><span class="s2">&quot;com.johnsnowlabs.nlp.annotators.ner.dl.NerDLModel&quot;</span><span class="p">,</span> <span class="n">java_model</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="nb">super</span><span class="p">(</span><span class="n">NerDLModel</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>

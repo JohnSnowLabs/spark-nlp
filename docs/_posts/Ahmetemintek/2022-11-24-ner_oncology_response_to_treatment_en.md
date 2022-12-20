@@ -10,6 +10,7 @@ language: en
 edition: Healthcare NLP 4.2.2
 spark_version: 3.0
 supported: true
+annotator: MedicalNerModel
 article_header:
   type: cover
 use_language_switcher: "Python-Scala-Java"
@@ -19,12 +20,19 @@ use_language_switcher: "Python-Scala-Java"
 
 This model extracts entities related to the patient”s response to the oncology treatment, including clinical response and changes in tumor size.
 
+Definitions of Predicted Entities:
+
+- `Line_Of_Therapy`: Explicit references to the line of therapy of an oncological therapy (e.g. "first-line treatment").
+- `Response_To_Treatment`: Terms related to clinical progress of the patient related to cancer treatment, including "recurrence", "bad response" or "improvement".
+- `Size_Trend`: Terms related to the changes in the size of the tumor (such as "growth" or "reduced in size").
+
+
 ## Predicted Entities
 
-`Response_To_Treatment`, `Size_Trend`, `Line_Of_Therapy`
+`Line_Of_Therapy`, `Response_To_Treatment`, `Size_Trend`
 
 {:.btn-box}
-<button class="button button-orange" disabled>Live Demo</button>
+[Live Demo](https://demo.johnsnowlabs.com/healthcare/NER_ONCOLOGY_CLINICAL/){:.button.button-orange}
 [Open in Colab](https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/27.Oncology_Model.ipynb){:.button.button-orange.button-orange-trans.co.button-icon}
 [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/ner_oncology_response_to_treatment_en_4.2.2_3.0_1669307329775.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
 
@@ -34,6 +42,7 @@ This model extracts entities related to the patient”s response to the oncology
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
+
 ```python
 document_assembler = DocumentAssembler()\
     .setInputCol("text")\

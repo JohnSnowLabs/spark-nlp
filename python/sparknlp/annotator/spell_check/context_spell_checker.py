@@ -140,6 +140,8 @@ class ContextSpellCheckerApproach(AnnotatorApproach):
 
     inputAnnotatorTypes = [AnnotatorType.TOKEN]
 
+    outputAnnotatorType = AnnotatorType.TOKEN
+
     languageModelClasses = Param(Params._dummy(),
                                  "languageModelClasses",
                                  "Number of classes to use during factorization of the softmax output in the LM.",
@@ -573,6 +575,8 @@ class ContextSpellCheckerModel(AnnotatorModel, HasEngine):
     name = "ContextSpellCheckerModel"
 
     inputAnnotatorTypes = [AnnotatorType.TOKEN]
+
+    outputAnnotatorType = AnnotatorType.TOKEN
 
     wordMaxDistance = Param(Params._dummy(),
                             "wordMaxDistance",

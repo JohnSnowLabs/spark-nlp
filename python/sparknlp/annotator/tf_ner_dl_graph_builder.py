@@ -9,6 +9,9 @@ class TFNerDLGraphBuilderModel(Model, DefaultParamsWritable, DefaultParamsReadab
 
 
 class TFNerDLGraphBuilder(Estimator, DefaultParamsWritable, DefaultParamsReadable):
+
+    inputAnnotatorTypes = [AnnotatorType.DOCUMENT, AnnotatorType.TOKEN, AnnotatorType.WORD_EMBEDDINGS]
+
     labelColumn = Param(Params._dummy(),
                         "labelColumn",
                         "Labels",
@@ -66,10 +69,27 @@ class TFNerDLGraphBuilder(Estimator, DefaultParamsWritable, DefaultParamsReadabl
         *value : str
             Input columns for the annotator
         """
-        if len(value) == 1 and type(value[0]) == list:
-            return self._set(inputCols=value[0])
+        if type(value[0]) == str or type(value[0]) == list:
+            self.inputColsValidation(value)
+            if len(value) == 1 and type(value[0]) == list:
+                return self._set(inputCols=value[0])
+            else:
+                return self._set(inputCols=list(value))
         else:
-            return self._set(inputCols=list(value))
+            raise TypeError("InputCols datatype not supported. It must be either str or list")
+
+    def inputColsValidation(self, value):
+        actual_columns = len(value)
+        if type(value[0]) == list:
+            actual_columns = len(value[0])
+
+        expected_columns = len(self.inputAnnotatorTypes)
+
+        if actual_columns != expected_columns:
+            raise TypeError(
+                f"setInputCols in {self.uid} expecting {expected_columns} columns. "
+                f"Provided column amount: {actual_columns}. "
+                f"Which should be columns from the following annotators: {self.inputAnnotatorTypes}")
 
     def getInputCols(self):
         """Gets current column names of input annotations."""

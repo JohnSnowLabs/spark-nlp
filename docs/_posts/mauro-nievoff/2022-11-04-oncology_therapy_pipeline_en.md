@@ -21,7 +21,7 @@ use_language_switcher: "Python-Scala-Java"
 This pipeline includes Named-Entity Recognition and Assertion Status models to extract information from oncology texts. This pipeline focuses on entities related to therapies.
 
 {:.btn-box}
-<button class="button button-orange" disabled>Live Demo</button>
+[Live Demo](https://demo.johnsnowlabs.com/healthcare/ONCOLOGY/){:.button.button-orange}
 [Open in Colab](https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/27.Oncology_Model.ipynb){:.button.button-orange.button-orange-trans.co.button-icon}
 [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/oncology_therapy_pipeline_en_4.2.2_3.0_1667593592479.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
 

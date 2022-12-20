@@ -89,6 +89,8 @@ class AlbertForQuestionAnswering(AnnotatorModel,
 
     inputAnnotatorTypes = [AnnotatorType.DOCUMENT, AnnotatorType.DOCUMENT]
 
+    outputAnnotatorType = AnnotatorType.CHUNK
+
     maxSentenceLength = Param(Params._dummy(),
                               "maxSentenceLength",
                               "Max sentence length to process",
