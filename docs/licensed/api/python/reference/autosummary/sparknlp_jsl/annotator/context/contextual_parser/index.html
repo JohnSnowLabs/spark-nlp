@@ -6,7 +6,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
 
-    <title>sparknlp_jsl.annotator.context.contextual_parser &#8212; Spark NLP 4.0.0 documentation</title>
+    <title>sparknlp_jsl.annotator.context.contextual_parser &#8212; Spark NLP  documentation</title>
   
   
   
@@ -252,6 +252,7 @@
     <ul class="current nav bd-sidenav">
 <li class="toctree-l1 has-children"><a class="reference internal" href="../../assertion/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp_jsl.annotator.assertion</span></code></a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-1"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="../../assertion/assertionDL/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp_jsl.annotator.assertion.assertionDL</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../assertion/assertion_chunk_converter/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp_jsl.annotator.assertion.assertion_chunk_converter</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../assertion/assertion_dl_reg/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp_jsl.annotator.assertion.assertion_dl_reg</span></code></a></li>
 </ul>
 </li>
@@ -378,20 +379,21 @@
 <table class="autosummary longtable table autosummary">
 <tbody>
 <tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp_jsl.annotator.context.contextual_parser.ContextualParserApproach" title="sparknlp_jsl.annotator.context.contextual_parser.ContextualParserApproach"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ContextualParserApproach</span></code></a></p></td>
-<td><p>Creates a model, that extracts entity from a document based on user defined rules.</p></td>
+<td><p>Creates a model that extracts entity from a document based on user defined rules.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#sparknlp_jsl.annotator.context.contextual_parser.ContextualParserModel" title="sparknlp_jsl.annotator.context.contextual_parser.ContextualParserModel"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ContextualParserModel</span></code></a></p></td>
-<td><p>Extracts entity from a document based on user defined rules. Rule matching is based on a RegexMatcher defined in a</p></td>
+<td><p>Extracts entity from a document based on user defined rules based on a RegexMatcher.</p></td>
 </tr>
 </tbody>
 </table>
 <dl class="py class">
 <dt class="sig sig-object py" id="sparknlp_jsl.annotator.context.contextual_parser.ContextualParserApproach">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">ContextualParserApproach</span></span><a class="reference internal" href="../../../../../../modules/sparknlp_jsl/annotator/context/contextual_parser.html#ContextualParserApproach"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.context.contextual_parser.ContextualParserApproach" title="Permalink to this definition">#</a></dt>
-<dd><p>Creates a model, that extracts entity from a document based on user defined rules.
-Rule matching is based on a RegexMatcher defined in a JSON file. It is set through the parameter setJsonPath()
+<dd><p>Creates a model that extracts entity from a document based on user defined rules.</p>
+<p>Rule matching is based on a RegexMatcher defined in a JSON file that can be set through the method setJsonPath().
 In this JSON file, regex is defined that you want to match along with the information that will output on metadata
-field. Additionally, a dictionary can be provided with <code class="docutils literal notranslate"><span class="pre">setDictionary</span></code> to map extracted entities
+field.</p>
+<p>Additionally, a dictionary can be provided with the setDictionary() method to map extracted entities
 to a unified representation. The first column of the dictionary file should be the representation with following
 columns the possible matches.</p>
 <table class="table">
@@ -416,6 +418,12 @@ columns the possible matches.</p>
 <dt><strong>prefixAndSuffixMatch</strong></dt><dd><p>Whether to match both prefix and suffix to annotate the hit</p>
 </dd>
 <dt><strong>dictionary</strong></dt><dd><p>Path to dictionary file in tsv or csv format</p>
+</dd>
+<dt><strong>optionalContextRules</strong></dt><dd><p>When set to true, it will output regex match regardless of context matches</p>
+</dd>
+<dt><strong>shortestContextMatch</strong></dt><dd><p>When set to true, it will stop finding for matches when prefix/suffix data is found in the text.</p>
+</dd>
+<dt><strong>completeContextMatch</strong></dt><dd><p>Whether to do an exact match of prefix and suffix.</p>
 </dd>
 </dl>
 </dd>
@@ -614,9 +622,8 @@ columns the possible matches.</p>
 <dl class="py class">
 <dt class="sig sig-object py" id="sparknlp_jsl.annotator.context.contextual_parser.ContextualParserModel">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">ContextualParserModel</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">classname</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'com.johnsnowlabs.nlp.annotators.context.ContextualParserModel'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">java_model</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../modules/sparknlp_jsl/annotator/context/contextual_parser.html#ContextualParserModel"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.context.contextual_parser.ContextualParserModel" title="Permalink to this definition">#</a></dt>
-<dd><p>Extracts entity from a document based on user defined rules. Rule matching is based on a RegexMatcher defined in a
-JSON file. In this file, regex is defined that you want to match along with the information that will output on
-metadata field..</p>
+<dd><p>Extracts entity from a document based on user defined rules based on a RegexMatcher.</p>
+<p>To train a custom model, check the documentation of ContextualParserApproach.</p>
 <table class="table">
 <thead>
 <tr class="row-odd"><th class="head"><p>Input Annotation types</p></th>
@@ -632,11 +639,13 @@ metadata field..</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><dl class="simple">
-<dt><strong>jsonPath</strong></dt><dd><p>Path to json file with rules</p>
-</dd>
 <dt><strong>caseSensitive</strong></dt><dd><p>Whether to use case sensitive when matching values</p>
 </dd>
 <dt><strong>prefixAndSuffixMatch</strong></dt><dd><p>Whether to match both prefix and suffix to annotate the hit</p>
+</dd>
+<dt><strong>optionalContextRules</strong></dt><dd><p>When set to true, it will output regex match regardless of context matches</p>
+</dd>
+<dt><strong>shortestContextMatch</strong></dt><dd><p>When set to true, it will stop finding for matches when prefix/suffix data is found in the text.</p>
 </dd>
 </dl>
 </dd>

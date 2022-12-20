@@ -6,7 +6,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
 
-    <title>sparknlp_jsl.annotator.deid.replacer &#8212; Spark NLP 4.0.0 documentation</title>
+    <title>sparknlp_jsl.annotator.deid.replacer &#8212; Spark NLP  documentation</title>
   
   
   
@@ -252,6 +252,7 @@
     <ul class="current nav bd-sidenav">
 <li class="toctree-l1 has-children"><a class="reference internal" href="../../assertion/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp_jsl.annotator.assertion</span></code></a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-1"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="../../assertion/assertionDL/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp_jsl.annotator.assertion.assertionDL</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../assertion/assertion_chunk_converter/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp_jsl.annotator.assertion.assertion_chunk_converter</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../assertion/assertion_dl_reg/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp_jsl.annotator.assertion.assertion_dl_reg</span></code></a></li>
 </ul>
 </li>
@@ -389,6 +390,11 @@
 implementations. Subclasses should inherit this class before
 param mix-ins, because this sets the UID from the Java model.</p>
 <dl class="py attribute">
+<dt class="sig sig-object py" id="sparknlp_jsl.annotator.deid.replacer.Replacer.name">
+<span class="sig-name descname"><span class="pre">name</span></span><em class="property"><span class="w"> </span><span class="pre">=</span> <span class="pre">Replacer</span></em><a class="reference internal" href="../../../../../../modules/sparknlp_jsl/annotator/deid/replacer.html#Replacer.name"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.deid.replacer.Replacer.name" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
 <dt class="sig sig-object py" id="sparknlp_jsl.annotator.deid.replacer.Replacer.inputAnnotatorTypes">
 <span class="sig-name descname"><span class="pre">inputAnnotatorTypes</span></span><a class="reference internal" href="../../../../../../modules/sparknlp_jsl/annotator/deid/replacer.html#Replacer.inputAnnotatorTypes"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.deid.replacer.Replacer.inputAnnotatorTypes" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
@@ -401,6 +407,20 @@ param mix-ins, because this sets the UID from the Java model.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp_jsl.annotator.deid.replacer.Replacer.setUseReplacement">
 <span class="sig-name descname"><span class="pre">setUseReplacement</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../modules/sparknlp_jsl/annotator/deid/replacer.html#Replacer.setUseReplacement"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.deid.replacer.Replacer.setUseReplacement" title="Permalink to this definition">#</a></dt>
+<dd><p>Enable or disable Replacement of entities</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>value</strong><span class="classifier">bool</span></dt><dd><p>True for Replacing, False otherwise.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp_jsl.annotator.deid.replacer.Replacer.getUseReplacement">
+<span class="sig-name descname"><span class="pre">getUseReplacement</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../modules/sparknlp_jsl/annotator/deid/replacer.html#Replacer.getUseReplacement"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.deid.replacer.Replacer.getUseReplacement" title="Permalink to this definition">#</a></dt>
 <dd><p>Enable or disable Replacement of entities</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -462,6 +482,15 @@ param mix-ins, because this sets the UID from the Java model.</p>
       </a>
       <ul class="nav section-nav flex-column">
        <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.deid.replacer.Replacer.name">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           Replacer.name
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
         <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.deid.replacer.Replacer.inputAnnotatorTypes">
          <code class="docutils literal notranslate">
           <span class="pre">
@@ -488,6 +517,15 @@ param mix-ins, because this sets the UID from the Java model.</p>
          </code>
         </a>
        </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.deid.replacer.Replacer.getUseReplacement">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           Replacer.getUseReplacement()
+          </span>
+         </code>
+        </a>
+       </li>
       </ul>
      </li>
      <li class="toc-h4 nav-item toc-entry">
@@ -495,6 +533,11 @@ param mix-ins, because this sets the UID from the Java model.</p>
        Replacer
       </a>
       <ul class="nav section-nav flex-column">
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.deid.replacer.Replacer.name">
+         name
+        </a>
+       </li>
        <li class="toc-h5 nav-item toc-entry">
         <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.deid.replacer.Replacer.inputAnnotatorTypes">
          inputAnnotatorTypes
@@ -508,6 +551,11 @@ param mix-ins, because this sets the UID from the Java model.</p>
        <li class="toc-h5 nav-item toc-entry">
         <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.deid.replacer.Replacer.setUseReplacement">
          setUseReplacement
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.deid.replacer.Replacer.getUseReplacement">
+         getUseReplacement
         </a>
        </li>
       </ul>
