@@ -1,16 +1,20 @@
-import Dependencies._
-import Resolvers.m2Resolvers
 import sbtassembly.MergeStrategy
+import M2Resolvers.m2Resolvers
+import Dependencies._
 
 name := getPackageName(is_m1, is_gpu, is_aarch64)
 
 organization := "com.johnsnowlabs.nlp"
 
-version := "4.2.4"
+version := "4.2.5"
 
 (ThisBuild / scalaVersion) := scalaVer
 
 (ThisBuild / scalacOptions) += "-target:jvm-1.8"
+
+(ThisBuild / javaOptions) += "-Xmx4096m"
+
+(ThisBuild / javaOptions) += "-XX:+UseG1GC"
 
 scalacOptions ++= Seq("-unchecked", "-feature", "-deprecation", "-language:implicitConversions")
 
@@ -147,8 +151,7 @@ lazy val utilDependencies = Seq(
     exclude ("com.google.code.findbugs", "annotations")
     exclude ("org.slf4j", "slf4j-api"),
   gcpStorage,
-  greex
-)
+  greex)
 
 lazy val typedDependencyParserDependencies = Seq(junit)
 
@@ -182,7 +185,8 @@ lazy val root = (project in file("."))
   ShadeRule.rename("org.apache.http.**" -> "org.apache.httpShaded@1").inAll,
   ShadeRule.rename("com.amazonaws.**" -> "com.amazonaws.ShadedByJSL@1").inAll)
 
-(assembly / assemblyOption) := (assembly / assemblyOption).value.copy(includeScala = false)
+(assembly / assemblyOption) := (assembly / assemblyOption).value.withIncludeScala(includeScala =
+  false)
 
 (assembly / assemblyMergeStrategy) := {
   case PathList("META-INF", "versions", "9", "module-info.class") => MergeStrategy.discard

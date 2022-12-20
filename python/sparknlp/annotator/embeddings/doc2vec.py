@@ -101,6 +101,8 @@ class Doc2VecApproach(AnnotatorApproach, HasStorageRef, HasEnableCachingProperti
     """
     inputAnnotatorTypes = [AnnotatorType.TOKEN]
 
+    outputAnnotatorType = AnnotatorType.SENTENCE_EMBEDDINGS
+
     vectorSize = Param(Params._dummy(),
                        "vectorSize",
                        "the dimension of codes after transforming from words (> 0)",
@@ -297,6 +299,8 @@ class Doc2VecModel(AnnotatorModel, HasStorageRef, HasEmbeddingsProperties):
     name = "Doc2VecModel"
 
     inputAnnotatorTypes = [AnnotatorType.TOKEN]
+
+    outputAnnotatorType = AnnotatorType.SENTENCE_EMBEDDINGS
 
     vectorSize = Param(Params._dummy(),
                        "vectorSize",

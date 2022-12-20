@@ -22,6 +22,10 @@ body {
 	}
 }
 
+html {
+	scroll-behavior: smooth;
+  }
+
 .article__content p {
 	margin-top: 0;
 	text-align: justify;
@@ -632,6 +636,11 @@ b {
 	}
 }
 
+.header-author {
+	padding-bottom: 50px;
+}
+
+.article__content ul,
 ul.list1 {
 	list-style-type: none;
 	margin: 0 0 0 47px;
@@ -649,7 +658,7 @@ ul.list1 {
 			background: $color-blue;
 			border-radius: 9px;
 			left: 0;
-			top: 10px;
+			top: 9px;
 		}
 	}
 }
@@ -844,7 +853,7 @@ ol.list1 {
 
 .page__sidebar {
 	position: fixed;
-	left: 0;
+	left: -15px;
 	max-width: 280px;
 	top: 70px;
 	background: none;
@@ -1818,65 +1827,9 @@ a.btn1.small {
 	margin: 0;
 }
 
-/* .tab-header {
-	display: flex;
-	flex-wrap: wrap;
-	justify-content: center;
-	button {
-		margin: 10px 5px;
-		min-width: 182px;
-		position: relative;
-		text-align: center;
-		display: inline-block;
-		background: #ECF9FF;
-		box-shadow: 0px 10px 15px rgba(0, 152, 218, 0.2);
-		transition: all 300ms ease;
-		font-weight: 500;
-		border: 1px solid #fff;
-		font-size: 16px;
-		font-family: 'Montserrat',sans-serif;
-		line-height: 55px;
-		color:$color-lightblue;
-		&.active,
-		&:hover {
-			color: #ffffff;
-			font-weight: 800;
-			background:$color-lightblue;
-			border-color:$color-lightblue;
-		}
-		strong {
-			position: absolute;
-			display: inline-block;
-			padding: 3px 13px;
-			color: #fff;
-			text-transform: uppercase;
-			font-weight: bold;
-			font-size: 12px;
-			line-height: 15px;
-			background: #5E31DF;
-			right: 4px;
-			top: -6px;
-			&:after {
-				content: '';
-				position: absolute;
-				left: 0;
-				top: 50%;
-				width: 0;
-				height: 0;
-				border: 6px solid transparent;
-				border-right-color: #5334AE;
-				border-left: 0;
-				border-bottom: 0;
-				margin-top: -11px;
-				margin-left: -6px;
-			}
-		}
-	}
+.article__info .right-col {
+	font-family: 'Montserrat',sans-serif;
 }
-
-.tab-header-inner {
-	margin: 0 -15px;
-} */
 
 .main-big {
 	width: 100%;
@@ -2187,6 +2140,28 @@ code {
 		i {
 			font-size: 23px;
 			margin-right: 10px;
+		}
+	}
+}
+
+.btn-box-install {
+	margin: 0 -10px !important;
+	text-align: left !important;
+	a {
+		margin: 0 10px 10px;
+	}
+}
+
+.button {
+	&.button-blue {
+		border-radius: 5px;
+		background: #fff;
+		border-color: $color-blue;
+		min-width: 180px;
+		color:  $color-blue !important;
+		&:hover {
+			border-color: $color-orange;
+			color: $color-orange !important;
 		}
 	}
 }
@@ -2990,11 +2965,7 @@ code {
 			display: inline-block;
 		}
 		.has-aside .col-aside {
-			right: -250px;
-			-webkit-transition: all 300ms ease;
-			-moz-transition: all 300ms ease;
-			-ms-transition: all 300ms ease;
-			-o-transition: all 300ms ease;
+			right: -265px;
 			transition: all 300ms ease;
 			z-index: 9;
 			background: #ffffff;
@@ -3480,6 +3451,15 @@ code {
 	.epd .tab-wrapper-inner {
 		padding-bottom: 60px;
 	}
+	.btn-box-install {
+		margin: 0 -6px !important;
+		a {
+			margin: 0 6px 10px;
+		}
+		.button.button-blue {
+			min-width: 158px;
+		}
+	}
 	.block-box.with_i {
 		flex-direction: column !important;
 	}
@@ -3682,6 +3662,9 @@ code {
 		font-size: 17px;
 		line-height: 19px;
 	}
+	.btn-box-install .button.button-blue {
+		min-width: 47%;
+	}
 	.layout--page--sidebar.layout--page--aside,
 	.layout--page--sidebar.layout--page--aside {
 		.main .col-aside,
@@ -3810,6 +3793,12 @@ code {
 	}
 	.breadcrambs {
 		flex-wrap: wrap;
+	}	
+	.btn-box-install {
+		text-align: justify !important;
+		.button.button-blue {
+			min-width: 45%;
+		}
 	}
 	.notebook_wrapper .start-item {
 		width: 100%;
@@ -3847,6 +3836,15 @@ code {
 	.docs-wrapper .table-model-big tbody tr td {
 		padding: 15px 5px;
 	}
+	.btn-box-install {
+		text-align: justify !important;
+		.button.button-blue {
+			min-width: 100%;			
+		}
+	}
+	.btn-box-install a {
+		margin: 0 0 10px;
+	}
 	.tabs-box .top_tab_li .tab-jsl {
 		min-width: 132px;
 		margin-right: 9px;
@@ -3877,13 +3875,6 @@ code {
 		font-size: 16px;
 		line-height: 24px;
 	}
-	/* .tab-header button strong {
-		font-size: 10px;
-		line-height: 12px;
-		&:after {
-			margin-top: -9px;
-		}
-	} */
 }
 
 

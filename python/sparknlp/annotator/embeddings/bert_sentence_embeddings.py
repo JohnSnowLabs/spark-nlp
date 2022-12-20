@@ -131,6 +131,8 @@ class BertSentenceEmbeddings(AnnotatorModel,
 
     inputAnnotatorTypes = [AnnotatorType.DOCUMENT]
 
+    outputAnnotatorType = AnnotatorType.SENTENCE_EMBEDDINGS
+
     maxSentenceLength = Param(Params._dummy(),
                               "maxSentenceLength",
                               "Max sentence length to process",

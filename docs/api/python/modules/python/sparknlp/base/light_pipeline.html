@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>python.sparknlp.base.light_pipeline &#8212; Spark NLP 4.2.4 documentation</title>
+    <title>python.sparknlp.base.light_pipeline &#8212; Spark NLP 4.2.5 documentation</title>
   
   
   
@@ -309,11 +309,14 @@
 <span class="c1">#  See the License for the specific language governing permissions and</span>
 <span class="c1">#  limitations under the License.</span>
 <span class="sd">&quot;&quot;&quot;Contains classes for the LightPipeline.&quot;&quot;&quot;</span>
+<span class="kn">from</span> <span class="nn">sparknlp.base.multi_document_assembler</span> <span class="kn">import</span> <span class="n">MultiDocumentAssembler</span>
 
 <span class="kn">import</span> <span class="nn">sparknlp.internal</span> <span class="k">as</span> <span class="nn">_internal</span>
+
 <span class="kn">from</span> <span class="nn">sparknlp.annotation</span> <span class="kn">import</span> <span class="n">Annotation</span>
 <span class="kn">from</span> <span class="nn">sparknlp.annotation_audio</span> <span class="kn">import</span> <span class="n">AnnotationAudio</span>
 <span class="kn">from</span> <span class="nn">sparknlp.annotation_image</span> <span class="kn">import</span> <span class="n">AnnotationImage</span>
+<span class="kn">from</span> <span class="nn">sparknlp.common</span> <span class="kn">import</span> <span class="n">AnnotatorApproach</span><span class="p">,</span> <span class="n">AnnotatorModel</span>
 
 
 <div class="viewcode-block" id="LightPipeline"><a class="viewcode-back" href="../../../../reference/autosummary/python/sparknlp/base/light_pipeline/index.html#python.sparknlp.base.light_pipeline.LightPipeline">[docs]</a><span class="k">class</span> <span class="nc">LightPipeline</span><span class="p">:</span>
@@ -362,7 +365,35 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">pipeline_model</span> <span class="o">=</span> <span class="n">pipelineModel</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_lightPipeline</span> <span class="o">=</span> <span class="n">_internal</span><span class="o">.</span><span class="n">_LightPipeline</span><span class="p">(</span><span class="n">pipelineModel</span><span class="p">,</span> <span class="n">parse_embeddings</span><span class="p">)</span><span class="o">.</span><span class="n">apply</span><span class="p">()</span>
 
-    <span class="k">def</span> <span class="nf">_annotation_from_java</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">java_annotations</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">_validateStagesInputCols</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">stages</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">pipeline_model</span><span class="o">.</span><span class="n">stages</span>
+        <span class="n">annotator_types</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_getAnnotatorTypes</span><span class="p">(</span><span class="n">stages</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">stage</span> <span class="ow">in</span> <span class="n">stages</span><span class="p">:</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">stage</span><span class="p">,</span> <span class="n">AnnotatorApproach</span><span class="p">)</span> <span class="ow">or</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">stage</span><span class="p">,</span> <span class="n">AnnotatorModel</span><span class="p">):</span>
+                <span class="n">input_cols</span> <span class="o">=</span> <span class="n">stage</span><span class="o">.</span><span class="n">getInputCols</span><span class="p">()</span>
+                <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">input_cols</span><span class="p">)</span> <span class="o">==</span> <span class="nb">str</span><span class="p">:</span>
+                    <span class="n">input_cols</span> <span class="o">=</span> <span class="p">[</span><span class="n">input_cols</span><span class="p">]</span>
+                <span class="n">input_annotator_types</span> <span class="o">=</span> <span class="n">stage</span><span class="o">.</span><span class="n">inputAnnotatorTypes</span>
+                <span class="k">for</span> <span class="n">input_col</span> <span class="ow">in</span> <span class="n">input_cols</span><span class="p">:</span>
+                    <span class="n">annotator_type</span> <span class="o">=</span> <span class="n">annotator_types</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">input_col</span><span class="p">)</span>
+                    <span class="k">if</span> <span class="n">annotator_type</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="n">annotator_type</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">input_annotator_types</span><span class="p">:</span>
+                        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Wrong or missing inputCols annotators in </span><span class="si">{</span><span class="n">stage</span><span class="o">.</span><span class="n">uid</span><span class="si">}</span><span class="s2">&quot;</span>
+                                        <span class="sa">f</span><span class="s2">&quot; Make sure such annotator exist in your pipeline,&quot;</span>
+                                        <span class="sa">f</span><span class="s2">&quot; with the right output names and that they have following annotator types:&quot;</span>
+                                        <span class="sa">f</span><span class="s2">&quot; </span><span class="si">{</span><span class="n">input_annotator_types</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_getAnnotatorTypes</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">stages</span><span class="p">):</span>
+        <span class="n">annotator_types</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">for</span> <span class="n">stage</span> <span class="ow">in</span> <span class="n">stages</span><span class="p">:</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">stage</span><span class="p">,</span> <span class="n">MultiDocumentAssembler</span><span class="p">):</span>
+                <span class="n">output_cols</span> <span class="o">=</span> <span class="n">stage</span><span class="o">.</span><span class="n">getOutputCols</span><span class="p">()</span>
+                <span class="k">for</span> <span class="n">output_col</span> <span class="ow">in</span> <span class="n">output_cols</span><span class="p">:</span>
+                    <span class="n">annotator_types</span><span class="p">[</span><span class="n">output_col</span><span class="p">]</span> <span class="o">=</span> <span class="n">stage</span><span class="o">.</span><span class="n">outputAnnotatorType</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">annotator_types</span><span class="p">[</span><span class="n">stage</span><span class="o">.</span><span class="n">getOutputCol</span><span class="p">()]</span> <span class="o">=</span> <span class="n">stage</span><span class="o">.</span><span class="n">outputAnnotatorType</span>
+        <span class="k">return</span> <span class="n">annotator_types</span>
+
+    <span class="k">def</span> <span class="nf">_annotationFromJava</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">java_annotations</span><span class="p">):</span>
         <span class="n">annotations</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="k">for</span> <span class="n">annotation</span> <span class="ow">in</span> <span class="n">java_annotations</span><span class="p">:</span>
 
@@ -442,6 +473,7 @@
 <span class="sd">        Annotation(named_entity, 30, 36, B-LOC, {&#39;word&#39;: &#39;Baghdad&#39;}),</span>
 <span class="sd">        Annotation(named_entity, 37, 37, O, {&#39;word&#39;: &#39;.&#39;})]</span>
 <span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_validateStagesInputCols</span><span class="p">()</span>
 
         <span class="k">if</span> <span class="n">optional_target</span> <span class="o">==</span> <span class="s2">&quot;&quot;</span><span class="p">:</span>
             <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">__isTextInput</span><span class="p">(</span><span class="n">target</span><span class="p">):</span>
@@ -449,7 +481,8 @@
             <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">__isAudioInput</span><span class="p">(</span><span class="n">target</span><span class="p">):</span>
                 <span class="n">result</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__fullAnnotateAudio</span><span class="p">(</span><span class="n">target</span><span class="p">)</span>
             <span class="k">else</span><span class="p">:</span>
-                <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;argument for annotation must be &#39;str&#39; or list[str] or list[float] or list[list[float]]&quot;</span><span class="p">)</span>
+                <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span>
+                    <span class="s2">&quot;argument for annotation must be &#39;str&#39; or list[str] or list[float] or list[list[float]]&quot;</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">__isTextInput</span><span class="p">(</span><span class="n">target</span><span class="p">)</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">__isTextInput</span><span class="p">(</span><span class="n">optional_target</span><span class="p">):</span>
                 <span class="n">result</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__fullAnnotateQuestionAnswering</span><span class="p">(</span><span class="n">target</span><span class="p">,</span> <span class="n">optional_target</span><span class="p">)</span>
@@ -539,6 +572,8 @@
 <span class="sd">        List[AnnotationImage]</span>
 <span class="sd">            The result of the annotation</span>
 <span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_validateStagesInputCols</span><span class="p">()</span>
+
         <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">path_to_image</span><span class="p">)</span> <span class="ow">is</span> <span class="nb">str</span><span class="p">:</span>
             <span class="n">path_to_image</span> <span class="o">=</span> <span class="p">[</span><span class="n">path_to_image</span><span class="p">]</span>
 
@@ -555,7 +590,7 @@
     <span class="k">def</span> <span class="nf">__buildStages</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">annotations_result</span><span class="p">):</span>
         <span class="n">stages</span> <span class="o">=</span> <span class="p">{}</span>
         <span class="k">for</span> <span class="n">annotator_type</span><span class="p">,</span> <span class="n">annotations</span> <span class="ow">in</span> <span class="n">annotations_result</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
-            <span class="n">stages</span><span class="p">[</span><span class="n">annotator_type</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_annotation_from_java</span><span class="p">(</span><span class="n">annotations</span><span class="p">)</span>
+            <span class="n">stages</span><span class="p">[</span><span class="n">annotator_type</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_annotationFromJava</span><span class="p">(</span><span class="n">annotations</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">stages</span>
 
 <div class="viewcode-block" id="LightPipeline.annotate"><a class="viewcode-back" href="../../../../reference/autosummary/python/sparknlp/base/light_pipeline/index.html#python.sparknlp.base.light_pipeline.LightPipeline.annotate">[docs]</a>    <span class="k">def</span> <span class="nf">annotate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">target</span><span class="p">,</span> <span class="n">optional_target</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">):</span>
@@ -588,6 +623,8 @@
 
         <span class="k">def</span> <span class="nf">reformat</span><span class="p">(</span><span class="n">annotations</span><span class="p">):</span>
             <span class="k">return</span> <span class="p">{</span><span class="n">k</span><span class="p">:</span> <span class="nb">list</span><span class="p">(</span><span class="n">v</span><span class="p">)</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">annotations</span><span class="o">.</span><span class="n">items</span><span class="p">()}</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_validateStagesInputCols</span><span class="p">()</span>
 
         <span class="k">if</span> <span class="n">optional_target</span> <span class="o">==</span> <span class="s2">&quot;&quot;</span><span class="p">:</span>
             <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">target</span><span class="p">)</span> <span class="ow">is</span> <span class="nb">str</span><span class="p">:</span>

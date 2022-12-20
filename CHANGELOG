@@ -1,4 +1,35 @@
 ========
+4.2.5
+========
+----------------
+New Features & Enhancements
+----------------
+* **NEW:** Introducing **CamemBertForSequenceClassification** annotator in Spark NLP 🚀. `CamemBertForSequenceClassification` can load CamemBERT Models with sequence classification/regression head on top (a linear layer on top of the pooled output) e.g. for multi-class document classification tasks. This annotator is compatible with all the models trained/fine-tuned by using `CamembertForSequenceClassification` for PyTorch or `TFCamembertForSequenceClassification` for TensorFlow in HuggingFace 🤗
+* **NEW:** Add `AnnotatorType` validation in Spark NLP `LightPipeline`. Currently, a misconfiguration of `inputCols` in an annotator in a pipeline raises an exception when using `transform` method, but in `LightPipeline` it only outputs empty values. This behavior can confuse users, this change introduces a validation that will raise an exception now in `LightPipeline` too.
+  * Add outputAnnotatorType for all annotators in Python
+  * Add inputAnnotatorTypes and outputAnnotatorType requirement validation for all subclasses derived from `AnnotatorApproach` and `AnnotatorModel`
+  * Adding AnnotatorType validation in `LightPipeline`
+* Add validation for the number and type of columns set in `TFNerDLGraphBuilder` annotator. In efforts to avoid wrong definition of columns when using Spark NLP annotators in Python
+* Add more details to Alphabet error message in `EntityRuler` annotator to better guide users
+* Add instructions on how to resolve RocksDB incompatibilities when using Spark NLP with an M1 machine
+* Refactor and implement a better error handling in ResourceDownloader. This change removes `getObjectFromS3` allowing AWS SDK to rise the correspondent error. In addition, this change also refactors ResourceDownloader to reflect the intention of each credential type on the downloader
+* Implement full build and test of all unit tests base on Apache Spark 3.0.x, 3.1.x, 3.2.x, and 3.3.x major releases
+* UpdateUpgrade `sbt-assembly` to `1.2.0` that comes with lots of performance improvements. This benefits those who are trying to package Spark NLP as a Fat JAR
+* Update `sbt` to `1.8.0` with improvements and bug fixes, but mostly for CVEs fixes:
+  *   Updates to Coursier 2.1.0-RC1 to address [https://github.com/advisories/GHSA-wv7w-rj2x-556x](https://github.com/advisories/GHSA-wv7w-rj2x-556x "https://github.com/advisories/GHSA-wv7w-rj2x-556x")
+  *   Updates to Ivy 2.3.0-sbt-a8f9eb5bf09d0539ea3658a2c2d4e09755b5133e to address [https://github.com/advisories/GHSA-wv7w-rj2x-556x](https://github.com/advisories/GHSA-wv7w-rj2x-556x "https://github.com/advisories/GHSA-wv7w-rj2x-556x")
+* Use the new withIncludeScala in assemblyOption instead of value
+
+
+----------------
+Bug Fixes
+----------------
+* Fix an issue with the `BigTextMatcher` Annotator, where it would not match entities with overlapping definitions. For Example, if both `lung` and `lung cancer` are defined, `lung` would not be matched in a given text. This was due to an abstraction error of one of the subclasses of the `BigTextMatcher` during construction of the underlying data structure
+* Fix indexing issue for `RegexTokenizer` annotator. If the document was split into sentences, the index of the sentence inside the document was not taken into consideration for the indexes of the tokens. This would lead to further issues down the pipeline, where tokens would be filtered while unpacking them for other Annotators
+* Refactor the `Resolvers` object in Spark NLP's dependency to avoid the conflict with the Resolvers inside the new `sbt`
+
+
+========
 4.2.4
 ========
 ----------------

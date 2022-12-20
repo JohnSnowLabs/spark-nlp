@@ -1,3 +1,4 @@
+
 #  Copyright 2017-2022 John Snow Labs
 #
 #  Licensed under the Apache License, Version 2.0 (the "License");
@@ -88,20 +89,21 @@ class BertForSequenceClassification(AnnotatorModel,
     ...     tokenizer,
     ...     sequenceClassifier
     ... ])
-    >>> data = spark.createDataFrame([[\"\"\"John Lenon was born in London and lived
-    ... in Paris. My name is Sarah and I live in London\"\"\"]]).toDF("text")
+    >>> data = spark.createDataFrame([["I loved this movie when I was a child.", "It was pretty boring."]]).toDF("text")
     >>> result = pipeline.fit(data).transform(data)
     >>> result.select("label.result").show(truncate=False)
-    +--------------------+
-    |result              |
-    +--------------------+
-    |[neg, neg]          |
-    |[pos, pos, pos, pos]|
-    +--------------------+
+    +------+
+    |result|
+    +------+
+    |[pos] |
+    |[neg] |
+    +------+
     """
     name = "BertForSequenceClassification"
 
     inputAnnotatorTypes = [AnnotatorType.DOCUMENT, AnnotatorType.TOKEN]
+
+    outputAnnotatorType = AnnotatorType.CATEGORY
 
     maxSentenceLength = Param(Params._dummy(),
                               "maxSentenceLength",

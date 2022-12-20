@@ -79,19 +79,7 @@ data:
             url: https://demo.johnsnowlabs.com/healthcare/PUBLIC_HEALTH_NER_DISEASE_ES/
           - text: Colab
             type: blue_btn
-            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/PUBLIC_HEALTH_NER_DISEASE_ES.ipynb
-        - title: Classify Stress - Tweet 
-          id: classify_stress_tweet        
-          image: 
-              src: /assets/images/Classify_Stress_Tweet.svg
-          excerpt: This model can identify stress in social media (Twitter) posts in the self-disclosure category. The model finds whether a person claims he/she is stressed or not. 
-          actions:
-          - text: Live Demo
-            type: normal
-            url: https://demo.johnsnowlabs.com/healthcare/PUBLIC_HEALTH_STRESS/
-          - text: Colab
-            type: blue_btn
-            url: 
+            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/PUBLIC_HEALTH_NER_DISEASE_ES.ipynb         
         - title: Self-Treatment and Drug Changes Classifier in Social Media
           id: selftreatment_drug_changes_classifier_social_media         
           image: 
@@ -115,19 +103,7 @@ data:
             url: https://demo.johnsnowlabs.com/healthcare/PUBLIC_HEALTH_VACCINE_STATUS/
           - text: Colab
             type: blue_btn
-            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/PUBLIC_HEALTH_MB4SC.ipynb
-        - title: Classify Intimate Partner Violence - Tweet
-          id: classify_intimate_partner_violence_tweet          
-          image: 
-              src: /assets/images/Classify_Intimate_Partner_Violence_Tweet.svg
-          excerpt: This model involves the detection the potential IPV victims on social media platforms (in English tweets).
-          actions:
-          - text: Live Demo
-            type: normal
-            url: https://demo.johnsnowlabs.com/healthcare/PUBLIC_HEALTH_PARTNER_VIOLENCE/
-          - text: Colab
-            type: blue_btn
-            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/PUBLIC_HEALTH_MB4SC.ipynb
+            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/PUBLIC_HEALTH_MB4SC.ipynb        
         - title: Classify Public Health Mentions
           id: classify_public_health_mentions           
           image: 

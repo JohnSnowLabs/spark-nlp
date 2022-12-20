@@ -32,6 +32,18 @@ data:
           - text: Colab
             type: blue_btn
             url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/1.Clinical_Named_Entity_Recognition_Model.ipynb
+        - title: Extract 139 financial entities from 10-Q
+          id: extract_139_financial_entities_10q        
+          image: 
+              src: /assets/images/Extract_139_financial_entities_from_10q.svg
+          excerpt: This demo shows how to extract 139 financial entities on US Security Exchange Commission 10-Q filings.
+          actions:
+          - text: Live Demo
+            type: normal
+            url: https://demo.johnsnowlabs.com/finance/FINNER_10Q_XLBR
+          - text: Colab
+            type: blue_btn
+            url: 
         - title: Extract public companies key data from 10-K filings
           id: extract_public_companies_key_data_10k_filings        
           image: 

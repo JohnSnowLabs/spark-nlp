@@ -94,6 +94,8 @@ class SymmetricDeleteApproach(AnnotatorApproach):
     """
     inputAnnotatorTypes = [AnnotatorType.TOKEN]
 
+    outputAnnotatorType = AnnotatorType.TOKEN
+
     corpus = Param(Params._dummy(),
                    "corpus",
                    "folder or file with text that teaches about the language",
@@ -263,6 +265,8 @@ class SymmetricDeleteModel(AnnotatorModel):
     name = "SymmetricDeleteModel"
 
     inputAnnotatorTypes = [AnnotatorType.TOKEN]
+
+    outputAnnotatorType = AnnotatorType.TOKEN
 
     def __init__(self, classname="com.johnsnowlabs.nlp.annotators.spell.symmetric.SymmetricDeleteModel",
                  java_model=None):

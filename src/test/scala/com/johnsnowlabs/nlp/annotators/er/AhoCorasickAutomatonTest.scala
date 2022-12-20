@@ -8,7 +8,7 @@ import org.scalatest.flatspec.AnyFlatSpec
 
 class AhoCorasickAutomatonTest extends AnyFlatSpec {
 
-  "AhoCorasickAutomatonV2Test" should "build a matching machine for english" taggedAs FastTest in {
+  "AhoCorasickAutomaton" should "build a matching machine for english" taggedAs FastTest in {
 
     val keywords = Seq("he", "she", "his", "hers", "my babe", "her", "love")
     val entityPatterns = Array(EntityPattern("TEST", keywords))
@@ -84,7 +84,7 @@ class AhoCorasickAutomatonTest extends AnyFlatSpec {
     var errorMessage = intercept[UnsupportedOperationException] {
       automaton.searchPatternsInText(sentence)
     }
-    assert(errorMessage.getMessage == "Char H not found on alphabet. Please check alphabet")
+    assert(errorMessage.getMessage.startsWith("Char H not found in the alphabet"))
 
     englishAlphabet = englishAlphabet + englishAlphabet.toUpperCase()
     entityPatterns = Array(EntityPattern("LOC", Seq("Gondor")))
@@ -94,7 +94,7 @@ class AhoCorasickAutomatonTest extends AnyFlatSpec {
     errorMessage = intercept[UnsupportedOperationException] {
       automaton.searchPatternsInText(sentence)
     }
-    assert(errorMessage.getMessage == "Char ú not found on alphabet. Please check alphabet")
+    assert(errorMessage.getMessage.startsWith("Char ú not found in the alphabet"))
   }
 
   it should "build a case sensitive matching machine" taggedAs FastTest in {
