@@ -20,7 +20,7 @@ use_language_switcher: "Python-Scala-Java"
 
 This model allows you to classify documents among a list of specific US Security Exchange Commission filings, as : `10-K`, `10-Q`, `8-K`, `S-8`, `3`, `4`, `Other`
 
-**IMPORTANT** : This model works with the first page or first 5K characters of a document, you don't need to run it in the whole document.
+**IMPORTANT** : This model works with the first 512 tokens of a document, you don't need to run it in the whole document.
 
 ## Predicted Entities
 
