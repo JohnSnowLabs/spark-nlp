@@ -17,7 +17,7 @@ use_language_switcher: "Python-Scala-Java"
 
 ## Description
 
-Legal Word Embeddings lookup annotator that maps tokens to vectors. In the Skip-gram model, the distributed representation of the input word is used to predict the context.
+Legal Word Embeddings lookup annotator that maps tokens to vectors. Trained on legal text after lemmatization.
 
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>
