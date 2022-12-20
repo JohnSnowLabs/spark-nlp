@@ -17,7 +17,7 @@ use_language_switcher: "Python-Scala-Java"
 
 ## Description
 
-Legal Word Embeddings lookup annotator that maps tokens to vectors. Trined on raw-text after replacing the text with NNP.
+Legal Word Embeddings lookup annotator that maps tokens to vectors. Trained on raw-text after replacing the text with NNP.
 
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>
