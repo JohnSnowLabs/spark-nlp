@@ -9,10 +9,10 @@
     j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
     })(window,document,'script','dataLayer','GTM-59JLR64');</script>
-<!-- End Google Tag Manager --><title>Legal Agreement Document Binary Classifier (Bert Sentence Embeddings)</title><meta property="og:title" content=""/>
+<!-- End Google Tag Manager --><title>SDOH Community Present Binary Classification</title><meta property="og:title" content=""/>
 
-<meta name="description" content="DescriptionThe legclf_agreement_bert model is a Bert Sentence Embeddings Document Classifier used to classify if the document belongs to the class agreement (check Lawinsider for similar document type classification) or not (Binary Classification).Unlike the Longformer model, this model is lighter in terms of infere...">
-<link rel="canonical" href="/2022/12/18/legclf_agreement_bert_en.html"><link rel="alternate" type="application/rss+xml" title="Spark NLP" href="/feed.xml"><!-- start favicons snippet, use https://realfavicongenerator.net/ -->
+<meta name="description" content="DescriptionThis model classifies related to social support such as a family member or friend in the clinical documents. A discharge summary was classified True for Community-Present if the discharge summary had passages related to active social support and False if such passages were not found in the discharge summa...">
+<link rel="canonical" href="/2022/12/18/bert_sequence_classifier_sdoh_community_present_status_en.html"><link rel="alternate" type="application/rss+xml" title="Spark NLP" href="/feed.xml"><!-- start favicons snippet, use https://realfavicongenerator.net/ -->
 <!---->
 <!-- <link rel="apple-touch-icon" sizes="180x180" href="/fav.ico"> -->
 
@@ -408,28 +408,26 @@
 
 <!-- end custom main top snippet --><article><script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script><div class="article__header"><div class="header-author"><div class="article__info clearfix"><div class="left-col">
             <a class="edit-on-github-btn" target="_blank" rel="alternate"
-               href="https://github.com/johnsnowlabs/spark-nlp/tree/master/docs/_posts/dcecchini/2022-12-18-legclf_agreement_bert_en.md">
+               href="https://github.com/johnsnowlabs/spark-nlp/tree/master/docs/_posts/Damla-Gurbaz/2022-12-18-bert_sequence_classifier_sdoh_community_present_status_en.md">
               <span class="fab fa-github"></span>
               <span class="edit-on-github-label">Edit on GitHub</span>
             </a>
         </div><ul class="right-col menu"><li><i class="far fa-user"></i> <span>John Snow Labs</span></li><li><i class="far fa-calendar-alt"></i> <span>Dec 18, 2022</span>
             </li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2022-12-18T00:00:00+00:00"></div><header class="main-docs have_subtitle">
-          <h1>Legal Agreement Document Binary Classifier (Bert Sentence Embeddings)</h1><div class="top-subtitle mont"></div></header></div><meta itemprop="headline" content="Legal Agreement Document Binary Classifier (Bert Sentence Embeddings)"><div class="article__info tags_box clearfix"><ul class="left-col menu"><li>en</li><li>legal</li><li>classification</li><li>licensed</li><li>document</li><li>bert</li><li>agreement</li><li>tensorflow</li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2022-12-18T00:00:00+00:00">
-    <meta itemprop="keywords" content="en,legal,classification,licensed,document,bert,agreement,tensorflow"><div class="js-article-content"><div class="model-wrap"><div class="layout--article"><!-- start custom article top snippet -->
+          <h1>SDOH Community Present Binary Classification</h1><div class="top-subtitle mont"></div></header></div><meta itemprop="headline" content="SDOH Community Present Binary Classification"><div class="article__info tags_box clearfix"><ul class="left-col menu"><li>en</li><li>licensed</li><li>clinical</li><li>sequence_classification</li><li>classifier</li><li>community_present</li><li>sdoh</li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2022-12-18T00:00:00+00:00">
+    <meta itemprop="keywords" content="en,licensed,clinical,sequence_classification,classifier,community_present,sdoh"><div class="js-article-content"><div class="model-wrap"><div class="layout--article"><!-- start custom article top snippet -->
 
 <!-- end custom article top snippet --><div class="article__content" itemprop="articleBody"><h2 id="description">Description</h2>
 
-<p>The <code class="language-plaintext highlighter-rouge">legclf_agreement_bert</code> model is a Bert Sentence Embeddings Document Classifier used to classify if the document belongs to the class <code class="language-plaintext highlighter-rouge">agreement</code> (check <a href="https://www.lawinsider.com/tags">Lawinsider</a> for similar document type classification) or not (Binary Classification).</p>
-
-<p>Unlike the Longformer model, this model is lighter in terms of inference time.</p>
+<p>This model classifies related to social support such as a family member or friend in the clinical documents. A discharge summary was classified True for Community-Present if the discharge summary had passages related to active social support and False if such passages were not found in the discharge summary.</p>
 
 <h2 id="predicted-entities">Predicted Entities</h2>
 
-<p><code class="language-plaintext highlighter-rouge">agreement</code>, <code class="language-plaintext highlighter-rouge">other</code></p>
+<p><code class="language-plaintext highlighter-rouge">True</code>, <code class="language-plaintext highlighter-rouge">False</code></p>
 
 <p class="btn-box"><button class="button button-orange" disabled="">Live Demo</button>
 <button class="button button-orange" disabled="">Open in Colab</button>
-<a href="https://s3.amazonaws.com/auxdata.johnsnowlabs.com/legal/models/legclf_agreement_bert_en_1.0.0_3.0_1671393839002.zip" class="button button-orange button-orange-trans arr button-icon">Download</a></p>
+<a href="https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/bert_sequence_classifier_sdoh_community_present_status_en_4.2.2_3.0_1671371389301.zip" class="button button-orange button-orange-trans arr button-icon">Download</a></p>
 
 <h2 id="how-to-use">How to use</h2>
 
@@ -437,45 +435,62 @@
   <div class="top_tab_li">   
     <p><button data-type="python" class="tab-li code-selector-active python-button">Python</button><button data-type="scala" class="tab-li code-selector-un-active scala-button">Scala</button><button data-type="nlu" class="tab-li code-selector-un-active nlu-button">NLU</button></p>
 </div>
-  <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
-<span class="n">document_assembler</span> <span class="o">=</span> <span class="n">nlp</span><span class="p">.</span><span class="n">DocumentAssembler</span><span class="p">()</span>\
+
+  <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">document_assembler</span> <span class="o">=</span> <span class="n">DocumentAssembler</span><span class="p">()</span>\
     <span class="p">.</span><span class="n">setInputCol</span><span class="p">(</span><span class="s">"text"</span><span class="p">)</span>\
     <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"document"</span><span class="p">)</span>
-
-<span class="n">embeddings</span> <span class="o">=</span> <span class="n">nlp</span><span class="p">.</span><span class="n">BertSentenceEmbeddings</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"sent_bert_base_cased"</span><span class="p">,</span> <span class="s">"en"</span><span class="p">)</span>\
+    
+<span class="n">tokenizer</span> <span class="o">=</span> <span class="n">Tokenizer</span><span class="p">()</span>\
     <span class="p">.</span><span class="n">setInputCols</span><span class="p">(</span><span class="s">"document"</span><span class="p">)</span>\
-    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"sentence_embeddings"</span><span class="p">)</span>
-
-<span class="n">doc_classifier</span> <span class="o">=</span> <span class="n">legal</span><span class="p">.</span><span class="n">ClassifierDLModel</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"legclf_agreement_bert"</span><span class="p">,</span> <span class="s">"en"</span><span class="p">,</span> <span class="s">"legal/models"</span><span class="p">)</span>\
-    <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"sentence_embeddings"</span><span class="p">])</span>\
-    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"category"</span><span class="p">)</span>
-
-<span class="n">nlpPipeline</span> <span class="o">=</span> <span class="n">nlp</span><span class="p">.</span><span class="n">Pipeline</span><span class="p">(</span><span class="n">stages</span><span class="o">=</span><span class="p">[</span>
+    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"token"</span><span class="p">)</span>
+    
+<span class="n">sequenceClassifier</span> <span class="o">=</span> <span class="n">MedicalBertForSequenceClassification</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"bert_sequence_classifier_sdoh_community_present_status"</span><span class="p">,</span> <span class="s">"en"</span><span class="p">,</span> <span class="s">"clinical/models"</span><span class="p">)</span>\
+    <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"document"</span><span class="p">,</span><span class="s">"token"</span><span class="p">])</span>\
+    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"class"</span><span class="p">)</span>
+    
+<span class="n">pipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">(</span><span class="n">stages</span><span class="o">=</span><span class="p">[</span>
     <span class="n">document_assembler</span><span class="p">,</span> 
-    <span class="n">embeddings</span><span class="p">,</span>
-    <span class="n">doc_classifier</span><span class="p">])</span>
+    <span class="n">tokenizer</span><span class="p">,</span>
+    <span class="n">sequenceClassifier</span>    
+<span class="p">])</span>
 
-<span class="n">df</span> <span class="o">=</span> <span class="n">spark</span><span class="p">.</span><span class="n">createDataFrame</span><span class="p">([[</span><span class="s">"YOUR TEXT HERE"</span><span class="p">]]).</span><span class="n">toDF</span><span class="p">(</span><span class="s">"text"</span><span class="p">)</span>
+<span class="n">sample_texts</span> <span class="o">=</span> <span class="p">[</span><span class="s">"Right inguinal hernia repair in childhood Cervical discectomy 3 years ago Umbilical hernia repair 2137. Retired schoolteacher, now substitutes. Lives with wife in location 1439. Has a 27 yo son and a 25 yo daughter. Name (NI) past or present smoking hx, no EtOH."</span><span class="p">,</span>
+                <span class="s">"Atrial Septal Defect with Right Atrial Thrombus Pulmonary Hypertension Obesity, Obstructive Sleep Apnea. Denies tobacco and ETOH. Works as cafeteria worker."</span><span class="p">]</span>
 
-<span class="n">model</span> <span class="o">=</span> <span class="n">nlpPipeline</span><span class="p">.</span><span class="n">fit</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
+<span class="n">data</span> <span class="o">=</span> <span class="n">spark</span><span class="p">.</span><span class="n">createDataFrame</span><span class="p">(</span><span class="n">sample_texts</span><span class="p">,</span> <span class="n">StringType</span><span class="p">()).</span><span class="n">toDF</span><span class="p">(</span><span class="s">"text"</span><span class="p">)</span>
 
-<span class="n">result</span> <span class="o">=</span> <span class="n">model</span><span class="p">.</span><span class="n">transform</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
-
+<span class="n">result</span> <span class="o">=</span> <span class="n">pipeline</span><span class="p">.</span><span class="n">fit</span><span class="p">(</span><span class="n">data</span><span class="p">).</span><span class="n">transform</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
 </code></pre></div>  </div>
+  <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">val</span> <span class="nv">document_assembler</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">DocumentAssembler</span><span class="o">()</span> 
+    <span class="o">.</span><span class="py">setInputCol</span><span class="o">(</span><span class="s">"text"</span><span class="o">)</span> 
+    <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"document"</span><span class="o">)</span>
+    
+<span class="k">val</span> <span class="nv">tokenizer</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">Tokenizer</span><span class="o">()</span>
+    <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="s">"document"</span><span class="o">)</span>
+    <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"token"</span><span class="o">)</span>
+    
+<span class="k">val</span> <span class="nv">sequenceClassifier</span> <span class="k">=</span> <span class="nv">MedicalBertForSequenceClassification</span><span class="o">.</span><span class="py">pretrained</span><span class="o">(</span><span class="s">"bert_sequence_classifier_sdoh_community_present_status"</span><span class="o">,</span> <span class="s">"en"</span><span class="o">,</span> <span class="s">"clinical/models"</span><span class="o">)</span>
+    <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="s">"document"</span><span class="o">,</span><span class="s">"token"</span><span class="o">))</span>
+    <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"class"</span><span class="o">)</span>
+    
+<span class="k">val</span> <span class="nv">pipeline</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">Pipeline</span><span class="o">().</span><span class="py">setStages</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="n">document_assembler</span><span class="o">,</span> 
+                                            <span class="n">tokenizer</span><span class="o">,</span> 
+                                            <span class="n">sequenceClassifier</span><span class="o">))</span>
 
+<span class="k">val</span> <span class="nv">data</span> <span class="k">=</span> <span class="nc">Seq</span><span class="o">(</span><span class="s">"Atrial Septal Defect with Right Atrial Thrombus Pulmonary Hypertension Obesity, Obstructive Sleep Apnea. Denies tobacco and ETOH. Works as cafeteria worker."</span><span class="o">)</span>
+
+<span class="k">val</span> <span class="nv">result</span> <span class="k">=</span> <span class="nv">pipeline</span><span class="o">.</span><span class="py">fit</span><span class="o">(</span><span class="n">data</span><span class="o">).</span><span class="py">transform</span><span class="o">(</span><span class="n">data</span><span class="o">)</span>
+</code></pre></div>  </div>
 </div>
 
 <h2 id="results">Results</h2>
 
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
-+-------+
-|result|
-+-------+
-|[agreement]|
-|[other]|
-|[other]|
-|[agreement]|
-
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>+----------------------------------------------------------------------------------------------------+-------+
+|                                                                                                text| result|
++----------------------------------------------------------------------------------------------------+-------+
+|Right inguinal hernia repair <span class="k">in </span>childhood Cervical discectomy 3 years ago Umbilical hernia repair...| <span class="o">[</span>True]|
+|Atrial Septal Defect with Right Atrial Thrombus Pulmonary Hypertension Obesity, Obstructive Sleep...|[False]|
++----------------------------------------------------------------------------------------------------+-------+
 </code></pre></div></div>
 
 <h2 class="model-param" id="model-information">Model Information</h2>
@@ -484,11 +499,11 @@
   <tbody>
     <tr>
       <td>Model Name:</td>
-      <td>legclf_agreement_bert</td>
+      <td>bert_sequence_classifier_sdoh_community_present_status</td>
     </tr>
     <tr>
       <td>Compatibility:</td>
-      <td>Legal NLP 1.0.0+</td>
+      <td>Healthcare NLP 4.2.2+</td>
     </tr>
     <tr>
       <td>License:</td>
@@ -500,7 +515,7 @@
     </tr>
     <tr>
       <td>Input Labels:</td>
-      <td>[sentence_embeddings]</td>
+      <td>[document, token]</td>
     </tr>
     <tr>
       <td>Output Labels:</td>
@@ -512,25 +527,27 @@
     </tr>
     <tr>
       <td>Size:</td>
-      <td>22.9 MB</td>
+      <td>410.9 MB</td>
+    </tr>
+    <tr>
+      <td>Case sensitive:</td>
+      <td>true</td>
+    </tr>
+    <tr>
+      <td>Max sentence length:</td>
+      <td>512</td>
     </tr>
   </tbody>
 </table>
 
-<h2 id="references">References</h2>
-
-<p>Legal documents, scrapped from the Internet, and classified in-house + SEC documents + Lawinsider categorization</p>
-
 <h2 id="benchmarking">Benchmarking</h2>
 
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
-|        label |   precision |   recall |   f1-score |   support |
-|-------------:|------------:|---------:|-----------:|----------:|
-|    agreement |        0.75 |     0.71 |       0.73 |        90 |
-|        other |        0.88 |     0.90 |       0.89 |       204 |
-|     accuracy |           - |        - |       0.84 |       294 |
-|    macro-avg |        0.81 |     0.80 |       0.81 |       294 |
-| weighted-avg |        0.84 |     0.84 |       0.84 |       294 |
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>        label  precision    recall  f1-score   support
+        False       0.95      0.68      0.80       203
+         True       0.85      0.98      0.91       359
+     accuracy         -         -       0.87       562
+    macro-avg       0.90      0.83      0.85       562
+ weighted-avg       0.88      0.87      0.87       562
 </code></pre></div></div>
 </div><div class="d-print-none"><footer class="article__footer"><meta itemprop="dateModified" content="2022-12-18T00:00:00+00:00"><!-- start custom article footer snippet -->
 
@@ -871,7 +888,7 @@ hr.code-selector-underlie {
 
 }
 
-</style><div class="article__section-navigator clearfix"><div class="previous nav_link"><span>PREVIOUS</span><a href="/2022/12/18/ner_sdoh_mentions_en.html">Detect Social Determinants of Health Mentions</a></div><div class="next nav_link"><span>NEXT</span><a href="/2022/12/18/legclf_agreement_en.html">Legal Agreement Document Binary Classifier (Longformer)</a></div></div></div>
+</style><div class="article__section-navigator clearfix"><div class="previous nav_link"><span>PREVIOUS</span><a href="/2022/12/18/bert_sequence_classifier_sdoh_community_absent_status_en.html">SDOH Community Absent Binary Classification</a></div><div class="next nav_link"><span>NEXT</span><a href="/2022/12/18/bert_sequence_classifier_sdoh_environment_status_en.html">SDOH Environment Status Classification</a></div></div></div>
 
 </div>
 </div>
