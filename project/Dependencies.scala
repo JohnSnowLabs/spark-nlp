@@ -4,7 +4,7 @@ object Dependencies {
 
   /** ------- Spark version start ------- */
   /* default spark version to base the APIS */
-  val spark32Ver = "3.2.1"
+  val spark32Ver = "3.2.3"
   /* only used in unit tests */
   val spark30Ver = "3.0.3"
   val spark31Ver = "3.1.3"
