@@ -7,8 +7,8 @@ date: 2022-12-20
 task: Relation Extraction
 language: en
 edition: Healthcare NLP 4.2.3
-spark_version: 2.4
-tags: [re, en, clinical, licensed, relation extraction]
+spark_version: 3.0
+tags: [re, en, clinical, licensed, relation extraction, generic]
 supported: true
 annotator: RelationExtractionModel
 article_header:
