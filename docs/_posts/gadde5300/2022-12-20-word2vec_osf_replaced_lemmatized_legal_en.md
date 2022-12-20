@@ -1,6 +1,6 @@
 ---
 layout: model
-title: English Legal Word2Vec Embeddings (Lemmatized)
+title: English Legal Word2Vec Embeddings (Lemmatized , NNP)
 author: John Snow Labs
 name: word2vec_osf_replaced_lemmatized_legal
 date: 2022-12-20
@@ -17,7 +17,7 @@ use_language_switcher: "Python-Scala-Java"
 
 ## Description
 
-Legal Word Embeddings lookup annotator that maps tokens to vectors. Trained on legal text after lemmatization.
+Legal Word Embeddings lookup annotator that maps tokens to vectors. Trained on legal text after lemmatization, also replacing the text with NNP.
 
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>
