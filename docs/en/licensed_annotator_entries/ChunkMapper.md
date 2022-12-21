@@ -167,16 +167,20 @@ ner_converter = NerConverter()\
 chunkerMapper = ChunkMapperApproach()\
       .setInputCols(["ner_chunk"])\
       .setOutputCol("mappings")\
-      .setDictionary("file:/dbfs/sample_drug.json")\
+      .setDictionary("sample_drug.json")\
       .setRels(["action"]) #or treatment
 
-pipeline = Pipeline(stages=[document_assembler,
-                                 sentence_detector,
-                                 tokenizer, 
-                                 word_embeddings,
-                                 clinical_ner, 
-                                 ner_converter, 
-                                 chunkerMapper])
+pipeline = Pipeline(
+    stages=[
+        document_assembler,
+        sentence_detector,
+        tokenizer,
+        word_embeddings,
+        clinical_ner,
+        ner_converter,
+        chunkerMapper,
+    ]
+)
 
 
 # Train the model
