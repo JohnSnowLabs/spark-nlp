@@ -67,5 +67,17 @@ data:
             url: https://demo.johnsnowlabs.com/legal/LEGALRE_INDEMNIFICATION/
           - text: Colab
             type: blue_btn
-            url:             
+            url:
+        - title: Relation Extraction from Notice Clause
+          id: relation_extraction_notice_clause    
+          image: 
+              src: /assets/images/Relation_Extraction_from_Notice_Clause.svg
+          excerpt: This demo shows how to extract relations between entities as NOTICE_PARTY, NAME, TITLE, ADDRESS, EMAIL, etc. from notice clauses.
+          actions:
+          - text: Live Demo
+            type: normal
+            url: https://demo.johnsnowlabs.com/legal/LEGRE_NOTICE_CLAUSE/
+          - text: Colab
+            type: blue_btn
+            url:    
 ---

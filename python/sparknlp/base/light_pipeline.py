@@ -12,11 +12,14 @@
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
 """Contains classes for the LightPipeline."""
+from sparknlp.base.multi_document_assembler import MultiDocumentAssembler
 
 import sparknlp.internal as _internal
+
 from sparknlp.annotation import Annotation
 from sparknlp.annotation_audio import AnnotationAudio
 from sparknlp.annotation_image import AnnotationImage
+from sparknlp.common import AnnotatorApproach, AnnotatorModel
 
 
 class LightPipeline:
@@ -65,7 +68,35 @@ class LightPipeline:
         self.pipeline_model = pipelineModel
         self._lightPipeline = _internal._LightPipeline(pipelineModel, parse_embeddings).apply()
 
-    def _annotation_from_java(self, java_annotations):
+    def _validateStagesInputCols(self):
+        stages = self.pipeline_model.stages
+        annotator_types = self._getAnnotatorTypes(stages)
+        for stage in stages:
+            if isinstance(stage, AnnotatorApproach) or isinstance(stage, AnnotatorModel):
+                input_cols = stage.getInputCols()
+                if type(input_cols) == str:
+                    input_cols = [input_cols]
+                input_annotator_types = stage.inputAnnotatorTypes
+                for input_col in input_cols:
+                    annotator_type = annotator_types.get(input_col)
+                    if annotator_type is None or annotator_type not in input_annotator_types:
+                        raise TypeError(f"Wrong or missing inputCols annotators in {stage.uid}"
+                                        f" Make sure such annotator exist in your pipeline,"
+                                        f" with the right output names and that they have following annotator types:"
+                                        f" {input_annotator_types}")
+
+    def _getAnnotatorTypes(self, stages):
+        annotator_types = {}
+        for stage in stages:
+            if isinstance(stage, MultiDocumentAssembler):
+                output_cols = stage.getOutputCols()
+                for output_col in output_cols:
+                    annotator_types[output_col] = stage.outputAnnotatorType
+            else:
+                annotator_types[stage.getOutputCol()] = stage.outputAnnotatorType
+        return annotator_types
+
+    def _annotationFromJava(self, java_annotations):
         annotations = []
         for annotation in java_annotations:
 
@@ -145,6 +176,7 @@ class LightPipeline:
         Annotation(named_entity, 30, 36, B-LOC, {'word': 'Baghdad'}),
         Annotation(named_entity, 37, 37, O, {'word': '.'})]
         """
+        self._validateStagesInputCols()
 
         if optional_target == "":
             if self.__isTextInput(target):
@@ -152,7 +184,8 @@ class LightPipeline:
             elif self.__isAudioInput(target):
                 result = self.__fullAnnotateAudio(target)
             else:
-                raise TypeError("argument for annotation must be 'str' or list[str] or list[float] or list[list[float]]")
+                raise TypeError(
+                    "argument for annotation must be 'str' or list[str] or list[float] or list[list[float]]")
         else:
             if self.__isTextInput(target) and self.__isTextInput(optional_target):
                 result = self.__fullAnnotateQuestionAnswering(target, optional_target)
@@ -242,6 +275,8 @@ class LightPipeline:
         List[AnnotationImage]
             The result of the annotation
         """
+        self._validateStagesInputCols()
+
         if type(path_to_image) is str:
             path_to_image = [path_to_image]
 
@@ -258,7 +293,7 @@ class LightPipeline:
     def __buildStages(self, annotations_result):
         stages = {}
         for annotator_type, annotations in annotations_result.items():
-            stages[annotator_type] = self._annotation_from_java(annotations)
+            stages[annotator_type] = self._annotationFromJava(annotations)
         return stages
 
     def annotate(self, target, optional_target=""):
@@ -291,6 +326,8 @@ class LightPipeline:
 
         def reformat(annotations):
             return {k: list(v) for k, v in annotations.items()}
+
+        self._validateStagesInputCols()
 
         if optional_target == "":
             if type(target) is str:

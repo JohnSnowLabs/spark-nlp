@@ -40,7 +40,7 @@ class S3ResourceDownloader(
     region: String = "us-east-1")
     extends ResourceDownloader {
 
-  val repoFolder2Metadata: mutable.Map[String, RepositoryMetadata] =
+  private val repoFolder2Metadata: mutable.Map[String, RepositoryMetadata] =
     mutable.Map[String, RepositoryMetadata]()
   val cachePath = new Path(cacheFolder)
 
@@ -50,7 +50,7 @@ class S3ResourceDownloader(
 
   lazy val awsGateway = new AWSGateway(region = region, credentialsType = credentialsType)
 
-  def doesCacheFolderInCloud(): Boolean = {
+  private def doesCacheFolderInCloud(): Boolean = {
     cacheFolder.startsWith("s3") || cacheFolder.startsWith("gs")
   }
 
@@ -272,8 +272,8 @@ class S3ResourceDownloader(
       val tmpFileName = Files.createTempFile(s3File, "").toString
       val tmpFile = new File(tmpFileName)
 
-      val newStrfilePath: String = s3FilePath.toString
-      val mybucket: String = bucket.toString
+      val newStrfilePath: String = s3FilePath
+      val mybucket: String = bucket
       // 2. Download content to tmp file
       awsGateway.getS3Object(mybucket, newStrfilePath, tmpFile)
 

@@ -97,6 +97,8 @@ class DependencyParserApproach(AnnotatorApproach):
 
     inputAnnotatorTypes = [AnnotatorType.DOCUMENT, AnnotatorType.POS, AnnotatorType.TOKEN]
 
+    outputAnnotatorType = AnnotatorType.DEPENDENCY
+
     dependencyTreeBank = Param(Params._dummy(),
                                "dependencyTreeBank",
                                "Dependency treebank source files",
@@ -255,6 +257,8 @@ class DependencyParserModel(AnnotatorModel):
     name = "DependencyParserModel"
 
     inputAnnotatorTypes = [AnnotatorType.DOCUMENT, AnnotatorType.POS, AnnotatorType.TOKEN]
+
+    outputAnnotatorType = AnnotatorType.DEPENDENCY
 
     perceptron = Param(Params._dummy(),
                        "perceptron",

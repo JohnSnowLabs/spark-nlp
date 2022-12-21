@@ -26,18 +26,18 @@ class ResourceDownloaderMetaSpec extends AnyFlatSpec with BeforeAndAfter {
   val resourcePath = "src/test/resources/resource-downloader/test_metadata.json"
   val mockResourceDownloader: MockResourceDownloader = new MockResourceDownloader(resourcePath)
 
-  val realDefaultDownloader: ResourceDownloader = ResourceDownloader.defaultDownloader
+  val realPrivateDownloader: ResourceDownloader = ResourceDownloader.privateDownloader
   val realPublicDownloader: ResourceDownloader = ResourceDownloader.publicDownloader
   val realCommunityDownloader: ResourceDownloader = ResourceDownloader.communityDownloader
 
   before {
-    ResourceDownloader.defaultDownloader = mockResourceDownloader
+    ResourceDownloader.privateDownloader = mockResourceDownloader
     ResourceDownloader.publicDownloader = mockResourceDownloader
     ResourceDownloader.communityDownloader = mockResourceDownloader
   }
 
   after {
-    ResourceDownloader.defaultDownloader = realDefaultDownloader
+    ResourceDownloader.privateDownloader = realPrivateDownloader
     ResourceDownloader.publicDownloader = realPublicDownloader
     ResourceDownloader.communityDownloader = realCommunityDownloader
   }
@@ -184,7 +184,7 @@ class ResourceDownloaderMetaSpec extends AnyFlatSpec with BeforeAndAfter {
 
   }
   it should "should download a model and unzip file" taggedAs SlowTest in {
-    ResourceDownloader.defaultDownloader = realDefaultDownloader
+    ResourceDownloader.privateDownloader = realPrivateDownloader
     ResourceDownloader.publicDownloader = realPublicDownloader
     ResourceDownloader.communityDownloader = realCommunityDownloader
     ResourceDownloader.downloadModelDirectly(
@@ -192,7 +192,7 @@ class ResourceDownloaderMetaSpec extends AnyFlatSpec with BeforeAndAfter {
   }
 
   it should "be able to list from online metadata" in {
-    ResourceDownloader.defaultDownloader = realDefaultDownloader
+    ResourceDownloader.privateDownloader = realPrivateDownloader
     ResourceDownloader.publicDownloader = realPublicDownloader
     ResourceDownloader.communityDownloader = realCommunityDownloader
 

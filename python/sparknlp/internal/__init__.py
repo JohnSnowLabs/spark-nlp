@@ -291,24 +291,28 @@ class _CoNLLGeneratorExportFromTargetAndPipeline(ExtendedJavaWrapper):
         elif type(pipeline) == str:
             pipeline = PipelineModel.load(pipeline)._to_java()
         if type(target) == DataFrame:
-            super(_CoNLLGeneratorExportFromTargetAndPipeline, self).__init__("com.johnsnowlabs.util.CoNLLGenerator.exportConllFiles",
-                                                        target._jdf, pipeline, output_path)
+            super(_CoNLLGeneratorExportFromTargetAndPipeline, self).__init__(
+                "com.johnsnowlabs.util.CoNLLGenerator.exportConllFiles",
+                target._jdf, pipeline, output_path)
         else:
-            super(_CoNLLGeneratorExportFromTargetAndPipeline, self).__init__("com.johnsnowlabs.util.CoNLLGenerator.exportConllFiles",
-                                                        spark._jsparkSession, target, pipeline, output_path)
+            super(_CoNLLGeneratorExportFromTargetAndPipeline, self).__init__(
+                "com.johnsnowlabs.util.CoNLLGenerator.exportConllFiles",
+                spark._jsparkSession, target, pipeline, output_path)
 
 
 class _CoNLLGeneratorExportFromDataFrameAndField(ExtendedJavaWrapper):
 
     def __init__(self, dataframe, output_path, metadata_sentence_key):
         super(_CoNLLGeneratorExportFromDataFrameAndField, self).__init__(
-            "com.johnsnowlabs.util.CoNLLGenerator.exportConllFilesFromField", dataframe, output_path, metadata_sentence_key)
+            "com.johnsnowlabs.util.CoNLLGenerator.exportConllFilesFromField", dataframe, output_path,
+            metadata_sentence_key)
 
 
 class _CoNLLGeneratorExportFromDataFrame(ExtendedJavaWrapper):
     def __init__(self, dataframe, output_path):
-        super(_CoNLLGeneratorExportFromDataFrame, self).__init__("com.johnsnowlabs.util.CoNLLGenerator.exportConllFiles",
-                                                                 dataframe, output_path)
+        super(_CoNLLGeneratorExportFromDataFrame, self).__init__(
+            "com.johnsnowlabs.util.CoNLLGenerator.exportConllFiles",
+            dataframe, output_path)
 
 
 class _CoverageResult(ExtendedJavaWrapper):
@@ -435,6 +439,7 @@ class _ResourceHelper_validFile(ExtendedJavaWrapper):
         super(_ResourceHelper_validFile, self).__init__(
             "com.johnsnowlabs.nlp.util.io.ResourceHelper.validFile", path)
 
+
 class _ViTForImageClassification(ExtendedJavaWrapper):
     def __init__(self, path, jspark):
         super(_ViTForImageClassification, self).__init__(
@@ -459,4 +464,11 @@ class _TapasForQuestionAnsweringLoader(ExtendedJavaWrapper):
         super(_TapasForQuestionAnsweringLoader, self).__init__(
             "com.johnsnowlabs.nlp.annotators.classifier.dl.TapasForQuestionAnswering.loadSavedModel",
             path,
+            jspark)
+
+
+class _CamemBertForSequenceClassification(ExtendedJavaWrapper):
+    def __init__(self, path, jspark):
+        super(_CamemBertForSequenceClassification, self).__init__(
+            "com.johnsnowlabs.nlp.annotators.classifier.dl.CamemBertForSequenceClassification.loadSavedModel", path,
             jspark)
