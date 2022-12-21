@@ -4,7 +4,7 @@ header: true
 title: Examples
 key: docs-examples
 permalink: /docs/en/examples
-modify_date: "2021-11-21"
+modify_date: "2022-12-21"
 ---
 
 Showcasing notebooks and codes of how to use Spark NLP in Python and Scala.

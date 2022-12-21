@@ -3,7 +3,7 @@ layout: docs
 title: Spark NLP
 permalink: /docs/en/spark-nlp
 key: docs-spark_nlp
-modify_date: "2022-06-17"
+modify_date: "2022-12-21"
 header: true
 seotitle:
 show_nav: true

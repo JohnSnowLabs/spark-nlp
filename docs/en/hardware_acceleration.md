@@ -4,7 +4,7 @@ header: true
 title: Hardware Acceleration
 permalink: /docs/en/hardware_acceleration
 key: docs-concepts
-modify_date: "2022-07-17"
+modify_date: "2022-12-21"
 use_language_switcher: "Python-Scala"
 show_nav: true
 sidebar:

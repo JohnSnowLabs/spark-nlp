@@ -4,7 +4,7 @@ header: true
 title: General Concepts
 permalink: /docs/en/concepts
 key: docs-concepts
-modify_date: "2021-11-21"
+modify_date: "2022-12-21"
 use_language_switcher: "Python-Scala"
 show_nav: true
 sidebar:
