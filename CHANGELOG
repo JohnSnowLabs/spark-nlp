@@ -1,4 +1,19 @@
 ========
+4.2.6
+========
+----------------
+Enhancements
+----------------
+* Updating Spark & PySpark dependencies from 3.2.1 to 3.2.3 in provided scripts and in all the documentation
+
+----------------
+Bug Fixes
+----------------
+* Fix the broken TypedDependencyParserApproach and TypedDependencyParserModel annotators used in Python (this bug was introduced in 4.2.5 release)
+* Fix the broken Python API documentation
+
+
+========
 4.2.5
 ========
 ----------------
