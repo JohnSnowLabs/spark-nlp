@@ -11,15 +11,9 @@ const toAutoCompleteSearchString = (input, field, params) => {
 };
 
 const Sidebar = ({ meta, params, onSubmit }) => {
-  let tags = [];
-  let predictedEntities = [];
   let annotators = [];
-  if (
-    Array.isArray(meta?.aggregations?.tags) &&
-    Array.isArray(meta?.aggregations?.predictedEntities) &&
-    Array.isArray(meta?.aggregations?.annotators)
-  ) {
-    ({ annotators, tags, predictedEntities } = meta.aggregations);
+  if (Array.isArray(meta?.aggregations?.annotators)) {
+    ({ annotators } = meta.aggregations);
   }
   const searchTags = (input) => {
     return fetch(
