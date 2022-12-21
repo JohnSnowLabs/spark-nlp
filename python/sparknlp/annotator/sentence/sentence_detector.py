@@ -164,6 +164,8 @@ class SentenceDetector(AnnotatorModel, SentenceDetectorParams):
 
     inputAnnotatorTypes = [AnnotatorType.DOCUMENT]
 
+    outputAnnotatorType = AnnotatorType.DOCUMENT
+
     # this one is exclusive to this detector
     detectLists = Param(Params._dummy(),
                         "detectLists",

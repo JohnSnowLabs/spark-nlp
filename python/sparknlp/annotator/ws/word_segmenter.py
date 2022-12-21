@@ -101,6 +101,8 @@ class WordSegmenterApproach(AnnotatorApproach):
 
     inputAnnotatorTypes = [AnnotatorType.DOCUMENT]
 
+    outputAnnotatorType = AnnotatorType.TOKEN
+
     posCol = Param(Params._dummy(),
                    "posCol",
                    "column of Array of POS tags that match tokens",
@@ -323,6 +325,8 @@ class WordSegmenterModel(AnnotatorModel):
     name = "WordSegmenterModel"
 
     inputAnnotatorTypes = [AnnotatorType.DOCUMENT]
+
+    outputAnnotatorType = AnnotatorType.TOKEN
 
     enableRegexTokenizer = Param(Params._dummy(),
                                  "enableRegexTokenizer",

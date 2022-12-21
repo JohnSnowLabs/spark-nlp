@@ -100,6 +100,8 @@ class ChunkEmbeddings(AnnotatorModel):
 
     inputAnnotatorTypes = [AnnotatorType.CHUNK, AnnotatorType.WORD_EMBEDDINGS]
 
+    outputAnnotatorType = AnnotatorType.WORD_EMBEDDINGS
+
     @keyword_only
     def __init__(self):
         super(ChunkEmbeddings, self).__init__(classname="com.johnsnowlabs.nlp.embeddings.ChunkEmbeddings")

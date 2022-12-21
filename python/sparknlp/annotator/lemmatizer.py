@@ -88,6 +88,8 @@ class Lemmatizer(AnnotatorApproach):
     """
     inputAnnotatorTypes = [AnnotatorType.TOKEN]
 
+    outputAnnotatorType = AnnotatorType.TOKEN
+
     dictionary = Param(Params._dummy(),
                        "dictionary",
                        "lemmatizer external dictionary." +
@@ -216,6 +218,8 @@ class LemmatizerModel(AnnotatorModel):
     name = "LemmatizerModel"
 
     inputAnnotatorTypes = [AnnotatorType.TOKEN]
+
+    outputAnnotatorType = AnnotatorType.TOKEN
 
     def __init__(self, classname="com.johnsnowlabs.nlp.annotators.LemmatizerModel", java_model=None):
         super(LemmatizerModel, self).__init__(

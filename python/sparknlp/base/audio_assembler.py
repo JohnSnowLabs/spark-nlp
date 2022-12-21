@@ -16,6 +16,7 @@
 from pyspark import keyword_only
 from pyspark.ml.param import TypeConverters, Params, Param
 
+from sparknlp.common import AnnotatorType
 from sparknlp.internal import AnnotatorTransformer
 
 
@@ -57,6 +58,8 @@ class AudioAssembler(AnnotatorTransformer):
     outputCol = Param(Params._dummy(), "outputCol", "output column name", typeConverter=TypeConverters.toString)
     name = 'AudioAssembler'
 
+    outputAnnotatorType = AnnotatorType.AUDIO
+
     @keyword_only
     def __init__(self):
         super(AudioAssembler, self).__init__(classname="com.johnsnowlabs.nlp.AudioAssembler")
@@ -87,4 +90,6 @@ class AudioAssembler(AnnotatorTransformer):
         """
         return self._set(outputCol=value)
 
-
+    def getOutputCol(self):
+        """Gets output column name of annotations."""
+        return self.getOrDefault(self.outputCol)

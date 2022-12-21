@@ -15,6 +15,8 @@
 
 from pyspark import keyword_only
 from pyspark.ml.param import TypeConverters, Params, Param
+
+from sparknlp.common import AnnotatorType
 from sparknlp.internal import AnnotatorTransformer
 
 
@@ -60,6 +62,8 @@ class ImageAssembler(AnnotatorTransformer):
      |    |    |    |-- value: string (valueContainsNull = true)
     """
 
+    outputAnnotatorType = AnnotatorType.IMAGE
+
     inputCol = Param(Params._dummy(), "inputCol", "input column name", typeConverter=TypeConverters.toString)
     outputCol = Param(Params._dummy(), "outputCol", "output column name", typeConverter=TypeConverters.toString)
     name = 'ImageAssembler'
@@ -94,4 +98,6 @@ class ImageAssembler(AnnotatorTransformer):
         """
         return self._set(outputCol=value)
 
-
+    def getOutputCol(self):
+        """Gets output column name of annotations."""
+        return self.getOrDefault(self.outputCol)

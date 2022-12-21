@@ -44,7 +44,7 @@ class AWSGateway(
       ConfigLoader.getConfigStringValue(ConfigHelper.awsExternalSessionToken),
     awsProfile: String = ConfigLoader.getConfigStringValue(ConfigHelper.awsExternalProfileName),
     region: String = ConfigLoader.getConfigStringValue(ConfigHelper.awsExternalRegion),
-    credentialsType: String = "default")
+    credentialsType: String = "private")
     extends AutoCloseable {
 
   protected val logger: Logger = LoggerFactory.getLogger(this.getClass.toString)
@@ -92,23 +92,9 @@ class AWSGateway(
 
   def getMetadata(s3Path: String, folder: String, bucket: String): List[ResourceMetadata] = {
     val metaFile = getS3File(s3Path, folder, "metadata.json")
-    val obj = getObjectFromS3(bucket, metaFile)
+    val obj = this.client.getObject(bucket, metaFile)
     val metadata = ResourceMetadata.readResources(obj.getObjectContent)
     metadata
-  }
-
-  private def getObjectFromS3(bucket: String, key: String): S3Object = {
-    try {
-      this.client.getObject(bucket, key)
-    } catch {
-      case _: AmazonClientException =>
-        val anonymousCredentialParams = CredentialParams("anonymous", "", "", "", region)
-        val awsCredentials = new AWSAnonymousCredentials
-        val credentials: Option[AWSCredentials] =
-          awsCredentials.buildCredentials(anonymousCredentialParams)
-        val client = getAmazonS3Client(credentials)
-        client.getObject(bucket, key)
-    }
   }
 
   def getS3File(parts: String*): String = {

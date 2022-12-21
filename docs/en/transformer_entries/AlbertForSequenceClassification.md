@@ -53,16 +53,15 @@ pipeline = Pipeline().setStages([
     sequenceClassifier
 ])
 
-data = spark.createDataFrame([[\"\"\"John Lenon was born in London and lived
-in Paris. My name is Sarah and I live in London\"\"\"]]).toDF("text")
+data = spark.createDataFrame([["I loved this movie when I was a child.", "It was pretty boring."]]).toDF("text")
 result = pipeline.fit(data).transform(data)
 result.select("label.result").show(truncate=False)
-+--------------------+
-|result              |
-+--------------------+
-|[neg, neg]          |
-|[pos, pos, pos, pos]|
-+--------------------+
++------+
+|result|
++------+
+|[pos] |
+|[neg] |
++------+
 
 {%- endcapture -%}
 
@@ -91,16 +90,16 @@ val pipeline = new Pipeline().setStages(Array(
   sequenceClassifier
 ))
 
-val data = Seq("John Lenon was born in London and lived in Paris. My name is Sarah and I live in London").toDF("text")
+val data = Seq("I loved this movie when I was a child.", "It was pretty boring.").toDF("text")
 val result = pipeline.fit(data).transform(data)
 
 result.select("label.result").show(false)
-+--------------------+
-|result              |
-+--------------------+
-|[neg, neg]          |
-|[pos, pos, pos, pos]|
-+--------------------+
++------+
+|result|
++------+
+|[pos] |
+|[neg] |
++------+
 
 {%- endcapture -%}
 

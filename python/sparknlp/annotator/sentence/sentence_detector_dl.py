@@ -96,6 +96,8 @@ class SentenceDetectorDLApproach(AnnotatorApproach):
 
     inputAnnotatorTypes = [AnnotatorType.DOCUMENT]
 
+    outputAnnotatorType = AnnotatorType.DOCUMENT
+
     modelArchitecture = Param(Params._dummy(),
                               "modelArchitecture",
                               "Model architecture (CNN)",
@@ -301,6 +303,8 @@ class SentenceDetectorDLModel(AnnotatorModel, HasEngine):
     name = "SentenceDetectorDLModel"
 
     inputAnnotatorTypes = [AnnotatorType.DOCUMENT]
+
+    outputAnnotatorType = AnnotatorType.DOCUMENT
 
     modelArchitecture = Param(Params._dummy(), "modelArchitecture", "Model architecture (CNN)",
                               typeConverter=TypeConverters.toString)

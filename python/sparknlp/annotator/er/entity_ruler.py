@@ -126,8 +126,9 @@ class EntityRulerApproach(AnnotatorApproach, HasStorage):
     name = "EntityRulerApproach"
 
     inputAnnotatorTypes = [AnnotatorType.DOCUMENT]
-
     optionalInputAnnotatorTypes = [AnnotatorType.TOKEN]
+
+    outputAnnotatorType = AnnotatorType.CHUNK
 
     patternsResource = Param(Params._dummy(),
                              "patternsResource",
@@ -229,8 +230,11 @@ class EntityRulerModel(AnnotatorModel, HasStorageModel):
     """
     name = "EntityRulerModel"
     database = ['ENTITY_PATTERNS']
+
     inputAnnotatorTypes = [AnnotatorType.DOCUMENT]
     optionalInputAnnotatorTypes = [AnnotatorType.TOKEN]
+
+    outputAnnotatorType = AnnotatorType.CHUNK
 
     def __init__(self, classname="com.johnsnowlabs.nlp.annotators.er.EntityRulerModel", java_model=None):
         super(EntityRulerModel, self).__init__(

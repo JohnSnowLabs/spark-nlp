@@ -98,6 +98,8 @@ class StopWordsCleaner(AnnotatorModel):
 
     inputAnnotatorTypes = [AnnotatorType.TOKEN]
 
+    outputAnnotatorType = AnnotatorType.TOKEN
+
     @keyword_only
     def __init__(self, classname="com.johnsnowlabs.nlp.annotators.StopWordsCleaner", java_model=None):
         super(StopWordsCleaner, self).__init__(

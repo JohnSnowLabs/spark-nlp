@@ -84,6 +84,8 @@ class RecursiveTokenizer(AnnotatorApproach):
 
     inputAnnotatorTypes = [AnnotatorType.DOCUMENT]
 
+    outputAnnotatorType = AnnotatorType.TOKEN
+
     prefixes = Param(Params._dummy(),
                      "prefixes",
                      "strings to be considered independent tokens when found at the beginning of a word",
@@ -193,6 +195,8 @@ class RecursiveTokenizerModel(AnnotatorModel):
     name = 'RecursiveTokenizerModel'
 
     inputAnnotatorTypes = [AnnotatorType.DOCUMENT]
+
+    outputAnnotatorType = AnnotatorType.TOKEN
 
     def __init__(self, classname="com.johnsnowlabs.nlp.annotators.RecursiveTokenizerModel", java_model=None):
         super(RecursiveTokenizerModel, self).__init__(
