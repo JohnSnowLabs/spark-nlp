@@ -28,11 +28,11 @@ CHUNK
 {%- endcapture -%}
 
 {%- capture model_api_link -%}
-[ChunkMapperModel](https://nlp.johnsnowlabs.com/licensed/api/com/johnsnowlabs/nlp/annotators/chunker/ChunkMapperFilterer.html)
+[ChunkMapperFilterer](https://nlp.johnsnowlabs.com/licensed/api/com/johnsnowlabs/nlp/annotators/chunker/ChunkMapperFilterer.html)
 {%- endcapture -%}
 
 {%- capture model_python_api_link -%}
-[ChunkMapperModel](https://nlp.johnsnowlabs.com/licensed/api/python/reference/autosummary/sparknlp_jsl/annotator/chunker/chunkmapper_filterer/index.html#sparknlp_jsl.annotator.chunker.chunkmapper_filterer.ChunkMapperFilterer)
+[ChunkMapperFilterer](https://nlp.johnsnowlabs.com/licensed/api/python/reference/autosummary/sparknlp_jsl/annotator/chunker/chunkmapper_filterer/index.html#sparknlp_jsl.annotator.chunker.chunkmapper_filterer.ChunkMapperFilterer)
 {%- endcapture -%}
 
 
