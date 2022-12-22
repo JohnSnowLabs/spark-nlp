@@ -33,6 +33,9 @@ sidebar:
 + Core improvements and bug fixes
 + New and updated notebooks
 + New and updated demos
+    + [MEDICAL QUESTION ANSWERING](https://demo.johnsnowlabs.com/healthcare/MEDICAL_QUESTION_ANSWERING/) 
+    + [SMOKING STATUS](https://demo.johnsnowlabs.com/healthcare/SMOKING_STATUS/)
+    + [MENTAL HEALTH DEPRESSION](https://demo.johnsnowlabs.com/healthcare/MENTAL_HEALTH_DEPRESSION/)
 + 5 new clinical models and pipelines added & updated in total
 
 
@@ -307,7 +310,6 @@ You can check [Clinical DeIdentification](https://github.com/JohnSnowLabs/spark-
 
 In some cases, there may be issues while creating the chunk column by using token indices and losing some data while training and testing the assertion status model if there are issues in these token indices. So we developed a new `AssertionChunkConverter` annotator that takes **begin and end indices of the chunks** as input and creates an extended chunk column with metadata that can be used for assertion status detection model training.
 
-*NOTE*: Chunk begin and end indices in the assertion status model training dataframe can be populated using the new version of ALAB module.
 
 *Example*:
 
@@ -628,8 +630,7 @@ text = """Pathology showed tumor cells, which were positive for estrogen and pro
 
 + [MEDICAL QUESTION ANSWERING](https://demo.johnsnowlabs.com/healthcare/MEDICAL_QUESTION_ANSWERING/) 
 + [SMOKING STATUS](https://demo.johnsnowlabs.com/healthcare/SMOKING_STATUS/)
-+ [MEDICAL TEXT SUMMARIZATION](https://demo.johnsnowlabs.com/healthcare/MEDICAL_TEXT_SUMMARIZATION/)
-
++ [MENTAL HEALTH DEPRESSION](https://demo.johnsnowlabs.com/healthcare/MENTAL_HEALTH_DEPRESSION/)
 
 
 #### 5 New Clinical Models and Pipelines Added & Updated in Total
@@ -652,7 +653,7 @@ For all Spark NLP for Healthcare models, please check: [Models Hub Page](https:/
 </div>
 <ul class="pagination">
     <li>
-        <a href="spark_nlp_healthcare_versions/release_notes_4_2_2">Versions 4.2.3</a>
+        <a href="spark_nlp_healthcare_versions/release_notes_4_2_3">Versions 4.2.3</a>
     </li>
     <li>
         <strong>Versions 4.2.4</strong>
