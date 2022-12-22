@@ -553,7 +553,13 @@
     <li>Generic Relation Extraction Model (<code class="language-plaintext highlighter-rouge">generic_re</code>) to extract relations between any named entities using syntactic distances</li>
     <li>Core improvements and bug fixes</li>
     <li>New and updated notebooks</li>
-    <li>New and updated demos</li>
+    <li>New and updated demos
+      <ul>
+        <li><a href="https://demo.johnsnowlabs.com/healthcare/MEDICAL_QUESTION_ANSWERING/">MEDICAL QUESTION ANSWERING</a></li>
+        <li><a href="https://demo.johnsnowlabs.com/healthcare/SMOKING_STATUS/">SMOKING STATUS</a></li>
+        <li><a href="https://demo.johnsnowlabs.com/healthcare/MENTAL_HEALTH_DEPRESSION/">MENTAL HEALTH DEPRESSION</a></li>
+      </ul>
+    </li>
     <li>5 new clinical models and pipelines added &amp; updated in total</li>
   </ul>
 
@@ -828,8 +834,6 @@ Obfuscated text :  Fitzpatrick is a &lt;AGE&gt; y.o. patient admitted. Mr. Bowma
   <h4 id="new-assertionchunkconverter-annotator-to-prepare-assertion-model-training-dataset-from-chunk-indices">New <code class="language-plaintext highlighter-rouge">AssertionChunkConverter</code> Annotator to Prepare Assertion Model Training Dataset From Chunk Indices</h4>
 
   <p>In some cases, there may be issues while creating the chunk column by using token indices and losing some data while training and testing the assertion status model if there are issues in these token indices. So we developed a new <code class="language-plaintext highlighter-rouge">AssertionChunkConverter</code> annotator that takes <strong>begin and end indices of the chunks</strong> as input and creates an extended chunk column with metadata that can be used for assertion status detection model training.</p>
-
-  <p><em>NOTE</em>: Chunk begin and end indices in the assertion status model training dataframe can be populated using the new version of ALAB module.</p>
 
   <p><em>Example</em>:</p>
 
@@ -1176,7 +1180,7 @@ Obfuscated text :  Fitzpatrick is a &lt;AGE&gt; y.o. patient admitted. Mr. Bowma
   <ul>
     <li><a href="https://demo.johnsnowlabs.com/healthcare/MEDICAL_QUESTION_ANSWERING/">MEDICAL QUESTION ANSWERING</a></li>
     <li><a href="https://demo.johnsnowlabs.com/healthcare/SMOKING_STATUS/">SMOKING STATUS</a></li>
-    <li><a href="https://demo.johnsnowlabs.com/healthcare/MEDICAL_TEXT_SUMMARIZATION/">MEDICAL TEXT SUMMARIZATION</a></li>
+    <li><a href="https://demo.johnsnowlabs.com/healthcare/MENTAL_HEALTH_DEPRESSION/">MENTAL HEALTH DEPRESSION</a></li>
   </ul>
 
   <h4 id="new-clinical-models-and-pipelines-added--updated-in-total">5 New Clinical Models and Pipelines Added &amp; Updated in Total</h4>
@@ -1199,7 +1203,7 @@ Obfuscated text :  Fitzpatrick is a &lt;AGE&gt; y.o. patient admitted. Mr. Bowma
 </div>
 <ul class="pagination">
     <li>
-        <a href="spark_nlp_healthcare_versions/release_notes_4_2_2">Versions 4.2.3</a>
+        <a href="spark_nlp_healthcare_versions/release_notes_4_2_3">Versions 4.2.3</a>
     </li>
     <li>
         <strong>Versions 4.2.4</strong>
