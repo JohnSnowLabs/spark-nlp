@@ -1,6 +1,2 @@
-docs/en/licensed_release_notes.md
-docs/en/spark_nlp_healthcare_versions/release_notes_4_2_2.md
-docs/en/spark_nlp_healthcare_versions/release_notes_4_2_4.md
-docs/en/licensed_release_notes.md
-docs/en/spark_nlp_healthcare_versions/release_notes_4_2_2.md
-docs/en/spark_nlp_healthcare_versions/release_notes_4_2_4.md
+docs/_includes/templates/licensed_approach_model_medical_fin_leg_template.md
+docs/_includes/templates/licensed_approach_model_medical_fin_leg_template.md
