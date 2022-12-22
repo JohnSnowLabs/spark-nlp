@@ -78,12 +78,14 @@ sentences = [
 df = spark.createDataFrame(sentences).toDF("text")
 
 paragraphs = pipeline_model.transform(df)
-paragraphs.show()
-+--------------------+--------------------+--------------------+--------------------+--------------------+--------------------+
-                text|            document|               token|                 ner|           ner_chunk|          paragraphs|
-+--------------------+--------------------+--------------------+--------------------+--------------------+--------------------+
-ADMISSION DIAGNOS...|[{document, 0, 30...|[{token, 0, 8, AD...|[{named_entity, 0...|[{chunk, 0, 18, A...|[{document, 0, 89...|
-+--------------------+--------------------+--------------------+--------------------+--------------------+--------------------+
+ paragraphs.selectExpr("explode(paragraphs) as result").selectExpr("result.result","result.metadata.entity", "result.metadata.splitter_chunk").show(truncate=80)
++--------------------------------------------------------------------------------+------+-------------------+
+|                                                                          result|entity|     splitter_chunk|
++--------------------------------------------------------------------------------+------+-------------------+
+|ADMISSION DIAGNOSIS Right pleural effusion and suspected malignant mesothelio...|Header|ADMISSION DIAGNOSIS|
+|PRINCIPAL DIAGNOSIS Right pleural effusion, suspected malignant mesothelioma....|Header|PRINCIPAL DIAGNOSIS|
+|REVIEW OF SYSTEMS Right pleural effusion, firm nodules, diffuse scattered thr...|Header|  REVIEW OF SYSTEMS|
++--------------------------------------------------------------------------------+------+-------------------+
 
 {%- endcapture -%}
 
