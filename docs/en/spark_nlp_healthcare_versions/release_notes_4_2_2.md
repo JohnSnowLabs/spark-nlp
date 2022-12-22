@@ -368,7 +368,7 @@ For all Spark NLP for healthcare models, please check: [Models Hub Page](https:/
         <a href="release_notes_4_2_2">Version 4.2.2</a>
     </li>
     <li>
-        <strong>Version 4.2.2</strong>
+        <strong>Version 4.2.1</strong>
     </li>
 </ul>
 <ul class="pagination owl-carousel pagination_big">
