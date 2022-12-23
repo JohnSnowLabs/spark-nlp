@@ -3,7 +3,7 @@ layout: docs
 header: true
 seotitle: NLP Server | John Snow Labs
 title: Release Notes
-permalink: /docs/en/nlp_server/release_notes
+permalink: /docs/en/nlp_server/nlp_server_versions/release_notes
 key: docs-nlp-server
 modify_date: "2022-06-17"
 show_nav: true
@@ -11,7 +11,9 @@ sidebar:
   nav: nlp-server
 ---
 
-## NLP Server 0.7.1
+<div class="h3-box" markdown="1">
+
+## 0.7.1
 
 | Fields       | Details    |
 | ------------ | ---------- |
@@ -46,26 +48,9 @@ This release focuses on solving a few bugs and improving the stability of the NL
 5. Upon cancelation of custom model uploading job exception was seen in the logs.
 6. Some few UI related issues and abnormalities during operation.
 
-<div class="prev_ver h3-box" markdown="1">
+</div><div class="prev_ver h3-box" markdown="1">
 
 ## Versions
 
 </div>
-
-<ul class="pagination">
-    <li>
-        <a href="release_notes_0_7_0">Version 0.7.0</a>
-    </li>
-    <li>
-        <strong>Version 0.7.1</strong>
-    </li>
-</ul>
-
-<ul class="pagination owl-carousel pagination_big">
-  <li class="active"><a href="nlp_server_versions/release_notes_0_7_1">0.7.1</a></li>
-  <li><a href="nlp_server_versions/release_notes_0_7_0">0.7.0</a></li>
-  <li><a href="nlp_server_versions/release_notes_0_6_1">0.6.1</a></li>
-  <li><a href="nlp_server_versions/release_notes_0_6_0">0.6.0</a></li>
-  <li><a href="nlp_server_versions/release_notes_0_5_0">0.5.0</a></li>
-  <li><a href="nlp_server_versions/release_notes_0_4_0">0.4.0</a></li>
-</ul>
+{%- include docs-nlpserver-pagination.html -%}
