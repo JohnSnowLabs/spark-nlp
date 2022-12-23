@@ -183,7 +183,7 @@ sparknlp-healthcare:
   - title: Healthcare NLP
     children:
       - title: Release Notes
-        url: /docs/en/licensed_release_notes
+        url: /docs/en/spark_nlp_healthcare_versions/licensed_release_notes
       - title: Healthcare Models
         url: /models?edition=Spark+NLP+for+Healthcare
       - title: Version Compatibility
@@ -225,7 +225,7 @@ spark-ocr:
       - title: Structures and helpers
         url: /docs/en/ocr_structures
       - title: Release notes
-        url: /docs/en/ocr_release_notes
+        url: /docs/en/spark_ocr_versions/ocr_release_notes
 
 nlp-server:
   - title: NLP Server
@@ -237,4 +237,4 @@ nlp-server:
       - title: Video Tutorials
         url: /docs/en/nlp_server/video_tutorials
       - title: Release Notes
-        url: /docs/en/nlp_server/release_notes
+        url: /docs/en/nlp_server/nlp_server_versions/release_notes
