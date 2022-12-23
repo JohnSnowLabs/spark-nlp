@@ -5835,7 +5835,7 @@ ol.list1 {
 
 .page__sidebar {
   position: fixed;
-  left: -15px;
+  left: 0;
   max-width: 280px;
   top: 70px;
   background: none;
@@ -7014,6 +7014,10 @@ code {
     margin: 0 !important;
     position: relative; }
     .pagination.pagination_big .owl-stage-outer {
+      text-align: center; }
+      .pagination.pagination_big .owl-stage-outer .owl-stage {
+        display: inline-block; }
+    .pagination.pagination_big .owl-stage-outer {
       position: relative;
       z-index: 5; }
     .pagination.pagination_big li {
@@ -7161,6 +7165,8 @@ code {
       position: relative;
       padding-left: 18px;
       margin-top: 10px; }
+      .docs-wrapper ul li.hide {
+        display: none; }
       .docs-wrapper ul li :first-child {
         margin: 0; }
       .docs-wrapper ul li ul {

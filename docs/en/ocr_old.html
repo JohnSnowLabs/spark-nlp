@@ -390,7 +390,7 @@
 <path d="M20.2658 26.412H8.38867V26.5781H20.2658V26.412Z" fill="#9EDEFA"/>
 </svg>
 -->
-</a><div class="sidebar-toc"><ul class="toc toc--navigator"><li class="toc-h1">Spark OCR</li><li class="toc-h2"><a href="/docs/en/ocr">Getting Started</a></li><li class="toc-h2"><a href="/docs/en/ocr_install">Installation</a></li><li class="toc-h2"><a href="/docs/en/version_compatibility">Version Compatibility</a></li><li class="toc-h2"><a href="/docs/en/ocr_pipeline_components">Pipeline components</a></li><li class="toc-h2"><a href="/docs/en/ocr_table_recognition">Table recognition</a></li><li class="toc-h2"><a href="/docs/en/ocr_visual_document_understanding">Visual document understanding</a></li><li class="toc-h2"><a href="/docs/en/ocr_object_detection">Object detection</a></li><li class="toc-h2"><a href="/docs/en/ocr_structures">Structures and helpers</a></li><li class="toc-h2"><a href="/docs/en/ocr_release_notes">Release notes</a></li></ul></div></div><div class="page__main js-page-main has-aside cell cell--auto">
+</a><div class="sidebar-toc"><ul class="toc toc--navigator"><li class="toc-h1">Spark OCR</li><li class="toc-h2"><a href="/docs/en/ocr">Getting Started</a></li><li class="toc-h2"><a href="/docs/en/ocr_install">Installation</a></li><li class="toc-h2"><a href="/docs/en/version_compatibility">Version Compatibility</a></li><li class="toc-h2"><a href="/docs/en/ocr_pipeline_components">Pipeline components</a></li><li class="toc-h2"><a href="/docs/en/ocr_table_recognition">Table recognition</a></li><li class="toc-h2"><a href="/docs/en/ocr_visual_document_understanding">Visual document understanding</a></li><li class="toc-h2"><a href="/docs/en/ocr_object_detection">Object detection</a></li><li class="toc-h2"><a href="/docs/en/ocr_structures">Structures and helpers</a></li><li class="toc-h2"><a href="/docs/en/spark_ocr_versions/ocr_release_notes">Release notes</a></li></ul></div></div><div class="page__main js-page-main has-aside cell cell--auto">
 
       <div class="page__main-inner"><div class="page__header d-print-none"><!-- Google Tag Manager (noscript) -->
 <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-59JLR64"
@@ -1038,7 +1038,7 @@ hr.code-selector-underlie {
 
 }
 
-</style><div class="article__section-navigator clearfix"><div class="previous nav_link"><span>PREVIOUS</span><a href="/docs/en/ocr_release_notes">Release notes</a></div></div></div>
+</style><div class="article__section-navigator clearfix"><div class="previous nav_link"><span>PREVIOUS</span><a href="/docs/en/spark_ocr_versions/ocr_release_notes">Release notes</a></div></div></div>
 
 </div>
 </div>
@@ -1147,32 +1147,6 @@ jQuery(document).ready(function($) {
   });
 });
 
-/*TABS*/
-/* function openTabCall(cityName){
-  // Declare all variables
-  var i, tabcontent, tablinks;
-
-  // Get all elements with class="tabcontent" and hide them
-  tabcontent = document.getElementsByClassName("tabcontent");
-  for (i = 0; i < tabcontent.length; i++) {
-    tabcontent[i].style.display = "none";
-  }
-
-  // Get all elements with class="tablinks" and remove the class "active"
-  tablinks = document.getElementsByClassName("tablinks");
-  for (i = 0; i < tablinks.length; i++) {
-    tablinks[i].className = tablinks[i].className.replace(" active", "");
-  }
-
-  // Show the current tab, and add an "active" class to the button that opened the tab
-  document.getElementById(cityName).style.display = "block";
-}
-
-function openTab(evt, cityName) {
-  openTabCall(cityName);
-  evt.currentTarget.className += " active";
-} */
-
 /*OPen by URL*/
 jQuery(document).ready(function () {  
   const tabName = (window.location.hash || '').replace('#', '');
@@ -1268,6 +1242,39 @@ anchors.forEach(function(item) {
         }, animationTime / framesCount);
   });
 }); 
+
+
+//Pagination active
+if(document.querySelector('.pagination_big')) {
+  let paginationItems = document.querySelectorAll('.pagination_big li'),
+      nextVersionContainer = document.querySelector('#nextver'),
+      previosVersionContainer = document.querySelector('#previosver'),
+      currentVersionContainer = document.querySelector('#currversion'),
+      currentPageTitle = document.querySelector('#section').innerText;
+
+  // Set active page and update version containers
+  for (let i = 0; i < paginationItems.length; i++) {
+    const item = paginationItems[i];
+    const itemTitle = item.firstElementChild.innerHTML;
+    if (itemTitle === currentPageTitle) {
+      item.classList.add('active');
+      currentVersionContainer.textContent = itemTitle;       
+      if(item.previousElementSibling) {
+        previosVersionContainer.textContent = item.previousElementSibling.innerText; 
+        previosVersionContainer.parentElement.href += item.previousElementSibling.innerText.replaceAll('.', '_');
+      } else {
+        previosVersionContainer.parentElement.parentElement.classList.add('hide');
+      }
+      if(item.nextElementSibling) {
+        nextVersionContainer.textContent = item.nextElementSibling.innerText;
+        nextVersionContainer.parentElement.href += item.nextElementSibling.innerText.replaceAll('.', '_');
+      } else {
+        nextVersionContainer.parentElement.parentElement.classList.add('hide');
+      }         
+      break;
+    }
+  }
+}
 
 </script></div></div>
     </div></div></div><script>(function() {

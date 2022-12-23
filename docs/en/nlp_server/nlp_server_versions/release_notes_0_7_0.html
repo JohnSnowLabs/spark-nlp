@@ -531,99 +531,100 @@
             <i class="far fa-edit"></i></a></div><meta itemprop="headline" content="NLP Server release notes 0.7.0"><meta itemprop="author" content=""/><div class="js-article-content"><div class="docs-wrapper">
 <div class="layout--article"><!-- start custom article top snippet -->
 
-<!-- end custom article top snippet --><div class="article__content" itemprop="articleBody"><h2 id="nlp-server-070">NLP Server 0.7.0</h2>
+<!-- end custom article top snippet --><div class="article__content" itemprop="articleBody"><div class="h3-box">
 
-<table>
-  <thead>
-    <tr>
-      <th>Fields</th>
-      <th>Details</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>Name</td>
-      <td>NLP Server</td>
-    </tr>
-    <tr>
-      <td>Version</td>
-      <td><code class="language-plaintext highlighter-rouge">0.7.0</code></td>
-    </tr>
-    <tr>
-      <td>Type</td>
-      <td>Minor</td>
-    </tr>
-    <tr>
-      <td>Release Date</td>
-      <td>2022-06-07</td>
-    </tr>
-  </tbody>
-</table>
+  <h2 id="section">0.7.0</h2>
 
-<p><br /></p>
+  <table>
+    <thead>
+      <tr>
+        <th>Fields</th>
+        <th>Details</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Name</td>
+        <td>NLP Server</td>
+      </tr>
+      <tr>
+        <td>Version</td>
+        <td><code class="language-plaintext highlighter-rouge">0.7.0</code></td>
+      </tr>
+      <tr>
+        <td>Type</td>
+        <td>Minor</td>
+      </tr>
+      <tr>
+        <td>Release Date</td>
+        <td>2022-06-07</td>
+      </tr>
+    </tbody>
+  </table>
 
-<h3 id="overview">Overview</h3>
+  <p><br /></p>
 
-<p>We are excited to release NLP Server v0.7.0! This new release comes with an exciting new feature of table extraction from various file formats.</p>
+  <h3 id="overview">Overview</h3>
 
-<p>Table extraction feature enables extracting tabular content from the document. This extracted content is available as JSON and hence can again be processed with different spells for further predictions. The various supported files formats are documents (pdf, doc, docx), slides (ppt, pptx), and zipped content containing the mentioned formats.</p>
+  <p>We are excited to release NLP Server v0.7.0! This new release comes with an exciting new feature of table extraction from various file formats.</p>
 
-<p>The improvements are mentioned in their respective sections below.</p>
+  <p>Table extraction feature enables extracting tabular content from the document. This extracted content is available as JSON and hence can again be processed with different spells for further predictions. The various supported files formats are documents (pdf, doc, docx), slides (ppt, pptx), and zipped content containing the mentioned formats.</p>
 
-<p><br /></p>
+  <p>The improvements are mentioned in their respective sections below.</p>
 
-<h3 id="key-information">Key Information</h3>
+  <p><br /></p>
 
-<ol>
-  <li>For smooth and optimal performance, it is recommended to use an instance with 8 core CPU, and 32GB RAM specifications.</li>
-  <li>NLP Server is available on both <a href="https://aws.amazon.com/marketplace/pp/prodview-4ohxjejvg7vwm">AWS</a> and <a href="https://azuremarketplace.microsoft.com/en-us/marketplace/apps/johnsnowlabsinc1646051154808.nlp_server">Azure</a> marketplace.</li>
-</ol>
+  <h3 id="key-information">Key Information</h3>
 
-<p><br /></p>
+  <ol>
+    <li>For smooth and optimal performance, it is recommended to use an instance with 8 core CPU, and 32GB RAM specifications.</li>
+    <li>NLP Server is available on both <a href="https://aws.amazon.com/marketplace/pp/prodview-4ohxjejvg7vwm">AWS</a> and <a href="https://azuremarketplace.microsoft.com/en-us/marketplace/apps/johnsnowlabsinc1646051154808.nlp_server">Azure</a> marketplace.</li>
+  </ol>
 
-<h3 id="major-features-and-improvements">Major Features and Improvements</h3>
+  <p><br /></p>
 
-<h4 id="support-for-table-extraction">Support for Table extraction</h4>
+  <h3 id="major-features-and-improvements">Major Features and Improvements</h3>
 
-<p>NLP Server now supports extracting tabular content from various file types. The currently supported file types are documents (pdf, doc, docx), slides (ppt, pptx), and zipped content containing any of the mentioned formats. These extracted contents are available as JSON output from both UI and API that can easily be converted to suitable Data Frames (e.g., pandas DF) for further processing. The output of the table extraction process can also be viewed in the NLP Server UI as a flat table. Currently, if multiple tables are extracted from the document, then only one of the tables selected randomly will be shown as a preview in the UI. However, upon downloading all the extracted tables are exported in separate JSON dumps combined in a single zipped file. For this version, the table extraction on PDF files is successful only if the PDF contains necessary metadata about the table content.</p>
+  <h4 id="support-for-table-extraction">Support for Table extraction</h4>
 
-<p><br /></p>
+  <p>NLP Server now supports extracting tabular content from various file types. The currently supported file types are documents (pdf, doc, docx), slides (ppt, pptx), and zipped content containing any of the mentioned formats. These extracted contents are available as JSON output from both UI and API that can easily be converted to suitable Data Frames (e.g., pandas DF) for further processing. The output of the table extraction process can also be viewed in the NLP Server UI as a flat table. Currently, if multiple tables are extracted from the document, then only one of the tables selected randomly will be shown as a preview in the UI. However, upon downloading all the extracted tables are exported in separate JSON dumps combined in a single zipped file. For this version, the table extraction on PDF files is successful only if the PDF contains necessary metadata about the table content.</p>
 
-<h3 id="other-improvements">Other Improvements</h3>
+  <p><br /></p>
 
-<ol>
-  <li>Support for over 600 new models, and over 75 new languages including ancient, dead, and extinct languages.</li>
-  <li>Transformer-based embeddings and token classifiers are powered by state-of-the-art <a href="https://camembert-model.fr/">CamemBertEmbeddings</a> and <a href="https://arxiv.org/abs/2006.03654">DeBertaForTokenClassification</a> based architectures.</li>
-  <li>Added Portuguese De-identification models, NER models for Gene detection, and RxNorm Sentence resolution model for mapping and extracting pharmaceutical actions as well as treatments.</li>
-  <li>JSON payload is now supported in the request body when using create result API.</li>
-</ol>
+  <h3 id="other-improvements">Other Improvements</h3>
 
+  <ol>
+    <li>Support for over 600 new models, and over 75 new languages including ancient, dead, and extinct languages.</li>
+    <li>Transformer-based embeddings and token classifiers are powered by state-of-the-art <a href="https://camembert-model.fr/">CamemBertEmbeddings</a> and <a href="https://arxiv.org/abs/2006.03654">DeBertaForTokenClassification</a> based architectures.</li>
+    <li>Added Portuguese De-identification models, NER models for Gene detection, and RxNorm Sentence resolution model for mapping and extracting pharmaceutical actions as well as treatments.</li>
+    <li>JSON payload is now supported in the request body when using create result API.</li>
+  </ol>
+
+</div>
 <div class="prev_ver h3-box">
 
   <h2 id="versions">Versions</h2>
 
 </div>
-
 <ul class="pagination">
-    <li>
-        <a href="release_notes_0_6_1">Version 0.6.1</a>
-    </li>
-    <li>
-        <strong>Version 0.7.0</strong>
-    </li>
-    <li>
-        <a href="release_notes_0_7_1">Version 0.7.1</a>
-    </li>
+  <li>
+      <a href="release_notes_">Version <strong id="previosver"></strong></a>
+  </li>
+  <li>
+      <strong>Version <strong id="currversion"></strong></strong>
+  </li>
+  <li>
+      <a href="release_notes_">Version <strong id="nextver"></strong></a>
+  </li>
 </ul>
-
 <ul class="pagination owl-carousel pagination_big">
-  <li><a href="release_notes_0_7_1">0.7.1</a></li>
-  <li class="active"><a href="release_notes_0_7_0">0.7.0</a></li>
-  <li><a href="release_notes_0_6_1">0.6.1</a></li>
-  <li><a href="release_notes_0_6_0">0.6.0</a></li>
-  <li><a href="release_notes_0_5_0">0.5.0</a></li>
-  <li><a href="release_notes_0_4_0">0.4.0</a></li>
-</ul>
+    <li><a href="../nlp_server_versions/release_notes_0_7_1">0.7.1</a></li>
+    <li><a href="../nlp_server_versions/release_notes_0_7_0">0.7.0</a></li>
+    <li><a href="../nlp_server_versions/release_notes_0_6_1">0.6.1</a></li>
+    <li><a href="../nlp_server_versions/release_notes_0_6_0">0.6.0</a></li>
+    <li><a href="../nlp_server_versions/release_notes_0_5_0">0.5.0</a></li>
+    <li><a href="../nlp_server_versions/release_notes_0_4_0">0.4.0</a></li>
+  </ul>
 </div><div class="d-print-none"><footer class="article__footer"><span class="footer_date">Last updated
       <time itemprop="dateModified" datetime="2022-02-09T00:00:00+00:00">Feb 09, 2022</time>
     </span><!-- start custom article footer snippet -->
@@ -1074,32 +1075,6 @@ jQuery(document).ready(function($) {
   });
 });
 
-/*TABS*/
-/* function openTabCall(cityName){
-  // Declare all variables
-  var i, tabcontent, tablinks;
-
-  // Get all elements with class="tabcontent" and hide them
-  tabcontent = document.getElementsByClassName("tabcontent");
-  for (i = 0; i < tabcontent.length; i++) {
-    tabcontent[i].style.display = "none";
-  }
-
-  // Get all elements with class="tablinks" and remove the class "active"
-  tablinks = document.getElementsByClassName("tablinks");
-  for (i = 0; i < tablinks.length; i++) {
-    tablinks[i].className = tablinks[i].className.replace(" active", "");
-  }
-
-  // Show the current tab, and add an "active" class to the button that opened the tab
-  document.getElementById(cityName).style.display = "block";
-}
-
-function openTab(evt, cityName) {
-  openTabCall(cityName);
-  evt.currentTarget.className += " active";
-} */
-
 /*OPen by URL*/
 jQuery(document).ready(function () {  
   const tabName = (window.location.hash || '').replace('#', '');
@@ -1195,6 +1170,39 @@ anchors.forEach(function(item) {
         }, animationTime / framesCount);
   });
 }); 
+
+
+//Pagination active
+if(document.querySelector('.pagination_big')) {
+  let paginationItems = document.querySelectorAll('.pagination_big li'),
+      nextVersionContainer = document.querySelector('#nextver'),
+      previosVersionContainer = document.querySelector('#previosver'),
+      currentVersionContainer = document.querySelector('#currversion'),
+      currentPageTitle = document.querySelector('#section').innerText;
+
+  // Set active page and update version containers
+  for (let i = 0; i < paginationItems.length; i++) {
+    const item = paginationItems[i];
+    const itemTitle = item.firstElementChild.innerHTML;
+    if (itemTitle === currentPageTitle) {
+      item.classList.add('active');
+      currentVersionContainer.textContent = itemTitle;       
+      if(item.previousElementSibling) {
+        previosVersionContainer.textContent = item.previousElementSibling.innerText; 
+        previosVersionContainer.parentElement.href += item.previousElementSibling.innerText.replaceAll('.', '_');
+      } else {
+        previosVersionContainer.parentElement.parentElement.classList.add('hide');
+      }
+      if(item.nextElementSibling) {
+        nextVersionContainer.textContent = item.nextElementSibling.innerText;
+        nextVersionContainer.parentElement.href += item.nextElementSibling.innerText.replaceAll('.', '_');
+      } else {
+        nextVersionContainer.parentElement.parentElement.classList.add('hide');
+      }         
+      break;
+    }
+  }
+}
 
 </script></div></div>
     </div></div></div><script>(function() {

@@ -531,116 +531,117 @@
             <i class="far fa-edit"></i></a></div><meta itemprop="headline" content="NLP Server release notes 0.6.0"><meta itemprop="author" content=""/><div class="js-article-content"><div class="docs-wrapper">
 <div class="layout--article"><!-- start custom article top snippet -->
 
-<!-- end custom article top snippet --><div class="article__content" itemprop="articleBody"><h2 id="nlp-server-060">NLP Server 0.6.0</h2>
+<!-- end custom article top snippet --><div class="article__content" itemprop="articleBody"><div class="h3-box">
 
-<table>
-  <thead>
-    <tr>
-      <th>Fields</th>
-      <th>Details</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>Name</td>
-      <td>NLP Server</td>
-    </tr>
-    <tr>
-      <td>Version</td>
-      <td><code class="language-plaintext highlighter-rouge">0.6.0</code></td>
-    </tr>
-    <tr>
-      <td>Type</td>
-      <td>Minor</td>
-    </tr>
-    <tr>
-      <td>Release Date</td>
-      <td>2022-04-06</td>
-    </tr>
-  </tbody>
-</table>
+  <h2 id="section">0.6.0</h2>
 
-<p><br /></p>
+  <table>
+    <thead>
+      <tr>
+        <th>Fields</th>
+        <th>Details</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Name</td>
+        <td>NLP Server</td>
+      </tr>
+      <tr>
+        <td>Version</td>
+        <td><code class="language-plaintext highlighter-rouge">0.6.0</code></td>
+      </tr>
+      <tr>
+        <td>Type</td>
+        <td>Minor</td>
+      </tr>
+      <tr>
+        <td>Release Date</td>
+        <td>2022-04-06</td>
+      </tr>
+    </tbody>
+  </table>
 
-<h3 id="overview">Overview</h3>
+  <p><br /></p>
 
-<p>We are excited to release NLP Server v0.6.0! This new release comes with exciting new features and improvements that extend and enhance the capabilities of the NLP Server.</p>
+  <h3 id="overview">Overview</h3>
 
-<p>This release comes with the ability to share the models with the Annotation Lab. This will enable easy access to custom models uploaded to or trained with the Annotation Lab or to pre-trained models downloaded to Annotation Lab from the NLP Models Hub.
+  <p>We are excited to release NLP Server v0.6.0! This new release comes with exciting new features and improvements that extend and enhance the capabilities of the NLP Server.</p>
+
+  <p>This release comes with the ability to share the models with the Annotation Lab. This will enable easy access to custom models uploaded to or trained with the Annotation Lab or to pre-trained models downloaded to Annotation Lab from the NLP Models Hub.
 As such the NLP Server becomes an easy and quick tool for testing our trained models locally on your own infrastructure with zero data sharing.</p>
 
-<p>Another important feature we have introduced is the support for Spark OCR spells. Now we can upload images, PDFs, or other documents to the NLP Server and run OCR spells on top of it. The results of the processed documents are also available for export.</p>
+  <p>Another important feature we have introduced is the support for Spark OCR spells. Now we can upload images, PDFs, or other documents to the NLP Server and run OCR spells on top of it. The results of the processed documents are also available for export.</p>
 
-<p>The release also includes a few improvements to the existing features and some bug fixes.</p>
+  <p>The release also includes a few improvements to the existing features and some bug fixes.</p>
 
-<p><br /></p>
+  <p><br /></p>
 
-<h3 id="key-information">Key Information</h3>
+  <h3 id="key-information">Key Information</h3>
 
-<ol>
-  <li>For a smooth and optimal performance, it is recommended to use an instance with 8 core CPU, and 32GB RAM specifications</li>
-  <li>NLP Server is now available on <a href="https://azuremarketplace.microsoft.com/en-us/marketplace/apps/johnsnowlabsinc1646051154808.nlp_server">Azure Marketplace</a> as well as on <a href="https://aws.amazon.com/marketplace/pp/prodview-4ohxjejvg7vwm">AWS marketplace</a>.</li>
-</ol>
+  <ol>
+    <li>For a smooth and optimal performance, it is recommended to use an instance with 8 core CPU, and 32GB RAM specifications</li>
+    <li>NLP Server is now available on <a href="https://azuremarketplace.microsoft.com/en-us/marketplace/apps/johnsnowlabsinc1646051154808.nlp_server">Azure Marketplace</a> as well as on <a href="https://aws.amazon.com/marketplace/pp/prodview-4ohxjejvg7vwm">AWS marketplace</a>.</li>
+  </ol>
 
-<p><br /></p>
+  <p><br /></p>
 
-<h3 id="major-features-and-improvements">Major Features and Improvements</h3>
+  <h3 id="major-features-and-improvements">Major Features and Improvements</h3>
 
-<h4 id="support-for-custom-models-trained-with-the-annotation-lab">Support for custom models trained with the Annotation Lab</h4>
+  <h4 id="support-for-custom-models-trained-with-the-annotation-lab">Support for custom models trained with the Annotation Lab</h4>
 
-<p>Models trained with the Annotation Lab are now available as “custom” spells in the NLP Server. Similarly, models manually uploaded to the Annotation Lab, or downloaded from the NLP Models Hub are also made available for use in the NLP Server. This is only supported in a docker setup at present when both tools are deployed in the same machine.</p>
+  <p>Models trained with the Annotation Lab are now available as “custom” spells in the NLP Server. Similarly, models manually uploaded to the Annotation Lab, or downloaded from the NLP Models Hub are also made available for use in the NLP Server. This is only supported in a docker setup at present when both tools are deployed in the same machine.</p>
 
-<h4 id="support-for-spark-ocr-spells">Support for Spark OCR spells</h4>
+  <h4 id="support-for-spark-ocr-spells">Support for Spark OCR spells</h4>
 
-<p>OCR spells are now supported by NLP Server in the presence of a valid OCR license. Users can upload an image, PDF, or other supported document format and run the OCR spells on it. The processed results are also available for download as a text document. It is also possible to upload multiple files at once for OCR operation. These files can be images, PDFs, word documents, or a zipped file.</p>
+  <p>OCR spells are now supported by NLP Server in the presence of a valid OCR license. Users can upload an image, PDF, or other supported document format and run the OCR spells on it. The processed results are also available for download as a text document. It is also possible to upload multiple files at once for OCR operation. These files can be images, PDFs, word documents, or a zipped file.</p>
 
-<p><br /></p>
+  <p><br /></p>
 
-<h3 id="other-improvements">Other Improvements</h3>
+  <h3 id="other-improvements">Other Improvements</h3>
 
-<ol>
-  <li>Now users can chain multiple spells together to analyze the input data. The order of operation on the input data will be in the sequence of the spell chain from left to right.</li>
-  <li>NLP Server now supports more than 5000+ models in 250+ languages powered by NLU.</li>
-</ol>
+  <ol>
+    <li>Now users can chain multiple spells together to analyze the input data. The order of operation on the input data will be in the sequence of the spell chain from left to right.</li>
+    <li>NLP Server now supports more than 5000+ models in 250+ languages powered by NLU.</li>
+  </ol>
 
-<p><br /></p>
+  <p><br /></p>
 
-<h3 id="bug-fixes">Bug Fixes</h3>
+  <h3 id="bug-fixes">Bug Fixes</h3>
 
-<ol>
-  <li>Not found error seen when running predictions using certain spells.</li>
-  <li>The prediction job runs in an infinite loop when using certain spells.</li>
-  <li>For input data having new line characters JSON exception was seen when processing the output from NLU.</li>
-  <li>Incorrect license information was seen in the license popup.</li>
-  <li>Spell field cleared abruptly when typing the spells.</li>
-</ol>
+  <ol>
+    <li>Not found error seen when running predictions using certain spells.</li>
+    <li>The prediction job runs in an infinite loop when using certain spells.</li>
+    <li>For input data having new line characters JSON exception was seen when processing the output from NLU.</li>
+    <li>Incorrect license information was seen in the license popup.</li>
+    <li>Spell field cleared abruptly when typing the spells.</li>
+  </ol>
 
+</div>
 <div class="prev_ver h3-box">
 
   <h2 id="versions">Versions</h2>
 
 </div>
-
 <ul class="pagination">
-    <li>
-        <a href="release_notes_0_6_1">Version 0.6.1</a>
-    </li>
-    <li>
-        <strong>Version 0.6.0</strong>
-    </li>
-    <li>
-        <a href="release_notes_0_5_0">Version 0.5.0</a>
-    </li>
+  <li>
+      <a href="release_notes_">Version <strong id="previosver"></strong></a>
+  </li>
+  <li>
+      <strong>Version <strong id="currversion"></strong></strong>
+  </li>
+  <li>
+      <a href="release_notes_">Version <strong id="nextver"></strong></a>
+  </li>
 </ul>
-
 <ul class="pagination owl-carousel pagination_big">
-  <li><a href="release_notes_0_7_1">0.7.1</a></li>
-  <li><a href="release_notes_0_7_0">0.7.0</a></li>
-  <li><a href="release_notes_0_6_1">0.6.1</a></li>
-  <li class="active"><a href="release_notes_0_6_0">0.6.0</a></li>
-  <li><a href="release_notes_0_5_0">0.5.0</a></li>
-  <li><a href="release_notes_0_4_0">0.4.0</a></li>
-</ul>
+    <li><a href="../nlp_server_versions/release_notes_0_7_1">0.7.1</a></li>
+    <li><a href="../nlp_server_versions/release_notes_0_7_0">0.7.0</a></li>
+    <li><a href="../nlp_server_versions/release_notes_0_6_1">0.6.1</a></li>
+    <li><a href="../nlp_server_versions/release_notes_0_6_0">0.6.0</a></li>
+    <li><a href="../nlp_server_versions/release_notes_0_5_0">0.5.0</a></li>
+    <li><a href="../nlp_server_versions/release_notes_0_4_0">0.4.0</a></li>
+  </ul>
 </div><div class="d-print-none"><footer class="article__footer"><span class="footer_date">Last updated
       <time itemprop="dateModified" datetime="2022-02-09T00:00:00+00:00">Feb 09, 2022</time>
     </span><!-- start custom article footer snippet -->
@@ -1091,32 +1092,6 @@ jQuery(document).ready(function($) {
   });
 });
 
-/*TABS*/
-/* function openTabCall(cityName){
-  // Declare all variables
-  var i, tabcontent, tablinks;
-
-  // Get all elements with class="tabcontent" and hide them
-  tabcontent = document.getElementsByClassName("tabcontent");
-  for (i = 0; i < tabcontent.length; i++) {
-    tabcontent[i].style.display = "none";
-  }
-
-  // Get all elements with class="tablinks" and remove the class "active"
-  tablinks = document.getElementsByClassName("tablinks");
-  for (i = 0; i < tablinks.length; i++) {
-    tablinks[i].className = tablinks[i].className.replace(" active", "");
-  }
-
-  // Show the current tab, and add an "active" class to the button that opened the tab
-  document.getElementById(cityName).style.display = "block";
-}
-
-function openTab(evt, cityName) {
-  openTabCall(cityName);
-  evt.currentTarget.className += " active";
-} */
-
 /*OPen by URL*/
 jQuery(document).ready(function () {  
   const tabName = (window.location.hash || '').replace('#', '');
@@ -1212,6 +1187,39 @@ anchors.forEach(function(item) {
         }, animationTime / framesCount);
   });
 }); 
+
+
+//Pagination active
+if(document.querySelector('.pagination_big')) {
+  let paginationItems = document.querySelectorAll('.pagination_big li'),
+      nextVersionContainer = document.querySelector('#nextver'),
+      previosVersionContainer = document.querySelector('#previosver'),
+      currentVersionContainer = document.querySelector('#currversion'),
+      currentPageTitle = document.querySelector('#section').innerText;
+
+  // Set active page and update version containers
+  for (let i = 0; i < paginationItems.length; i++) {
+    const item = paginationItems[i];
+    const itemTitle = item.firstElementChild.innerHTML;
+    if (itemTitle === currentPageTitle) {
+      item.classList.add('active');
+      currentVersionContainer.textContent = itemTitle;       
+      if(item.previousElementSibling) {
+        previosVersionContainer.textContent = item.previousElementSibling.innerText; 
+        previosVersionContainer.parentElement.href += item.previousElementSibling.innerText.replaceAll('.', '_');
+      } else {
+        previosVersionContainer.parentElement.parentElement.classList.add('hide');
+      }
+      if(item.nextElementSibling) {
+        nextVersionContainer.textContent = item.nextElementSibling.innerText;
+        nextVersionContainer.parentElement.href += item.nextElementSibling.innerText.replaceAll('.', '_');
+      } else {
+        nextVersionContainer.parentElement.parentElement.classList.add('hide');
+      }         
+      break;
+    }
+  }
+}
 
 </script></div></div>
     </div></div></div><script>(function() {

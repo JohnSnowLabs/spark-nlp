@@ -531,39 +531,43 @@
             <i class="far fa-edit"></i></a></div><meta itemprop="headline" content="NLP Server release notes 0.4.0"><meta itemprop="author" content=""/><div class="js-article-content"><div class="docs-wrapper">
 <div class="layout--article"><!-- start custom article top snippet -->
 
-<!-- end custom article top snippet --><div class="article__content" itemprop="articleBody"><h2 id="nlp-server-040">NLP Server 0.4.0</h2>
+<!-- end custom article top snippet --><div class="article__content" itemprop="articleBody"><div class="h3-box">
 
-<h3 id="highlights">Highlights</h3>
+  <h2 id="section">0.4.0</h2>
 
-<ul>
-  <li>This version of NLP Server offers support for licensed models and annotators. Users can now upload a Spark NLP for Healthcare license file and get access to a wide range of additional <a href="https://nlp.johnsnowlabs.com/docs/en/licensed_annotators">annotators and transformers</a>. A valid license key also gives access to more than <a href="https://nlp.johnsnowlabs.com/models?edition=Spark+NLP+for+Healthcare">400 state-of-the-art healthcare models</a>. Those can be used via easy to learn NLU spells or via API calls.</li>
-  <li>NLP Server now supports better handling of large amounts of data to quickly analyze via UI by offering support for uploading CSV files.</li>
-  <li>Support for floating licenses. Users can now take advantage of the floating license flexibility and use those inside of the NLP Server.</li>
-</ul>
+  <h3 id="highlights">Highlights</h3>
 
+  <ul>
+    <li>This version of NLP Server offers support for licensed models and annotators. Users can now upload a Spark NLP for Healthcare license file and get access to a wide range of additional <a href="https://nlp.johnsnowlabs.com/docs/en/licensed_annotators">annotators and transformers</a>. A valid license key also gives access to more than <a href="https://nlp.johnsnowlabs.com/models?edition=Spark+NLP+for+Healthcare">400 state-of-the-art healthcare models</a>. Those can be used via easy to learn NLU spells or via API calls.</li>
+    <li>NLP Server now supports better handling of large amounts of data to quickly analyze via UI by offering support for uploading CSV files.</li>
+    <li>Support for floating licenses. Users can now take advantage of the floating license flexibility and use those inside of the NLP Server.</li>
+  </ul>
+
+</div>
 <div class="prev_ver h3-box">
 
   <h2 id="versions">Versions</h2>
 
 </div>
-
 <ul class="pagination">
-    <li>
-        <a href="release_notes_0_5_0">Version 0.5.0</a>
-    </li>
-    <li>
-        <strong>Version 0.4.0</strong>
-    </li>
+  <li>
+      <a href="release_notes_">Version <strong id="previosver"></strong></a>
+  </li>
+  <li>
+      <strong>Version <strong id="currversion"></strong></strong>
+  </li>
+  <li>
+      <a href="release_notes_">Version <strong id="nextver"></strong></a>
+  </li>
 </ul>
-
 <ul class="pagination owl-carousel pagination_big">
-  <li><a href="release_notes_0_7_1">0.7.1</a></li>
-  <li><a href="release_notes_0_7_0">0.7.0</a></li>
-  <li><a href="release_notes_0_6_1">0.6.1</a></li>
-  <li><a href="release_notes_0_6_0">0.6.0</a></li>
-  <li><a href="release_notes_0_5_0">0.5.0</a></li>
-  <li class="active"><a href="release_notes_0_4_0">0.4.0</a></li>
-</ul>
+    <li><a href="../nlp_server_versions/release_notes_0_7_1">0.7.1</a></li>
+    <li><a href="../nlp_server_versions/release_notes_0_7_0">0.7.0</a></li>
+    <li><a href="../nlp_server_versions/release_notes_0_6_1">0.6.1</a></li>
+    <li><a href="../nlp_server_versions/release_notes_0_6_0">0.6.0</a></li>
+    <li><a href="../nlp_server_versions/release_notes_0_5_0">0.5.0</a></li>
+    <li><a href="../nlp_server_versions/release_notes_0_4_0">0.4.0</a></li>
+  </ul>
 </div><div class="d-print-none"><footer class="article__footer"><span class="footer_date">Last updated
       <time itemprop="dateModified" datetime="2022-02-09T00:00:00+00:00">Feb 09, 2022</time>
     </span><!-- start custom article footer snippet -->
@@ -1014,32 +1018,6 @@ jQuery(document).ready(function($) {
   });
 });
 
-/*TABS*/
-/* function openTabCall(cityName){
-  // Declare all variables
-  var i, tabcontent, tablinks;
-
-  // Get all elements with class="tabcontent" and hide them
-  tabcontent = document.getElementsByClassName("tabcontent");
-  for (i = 0; i < tabcontent.length; i++) {
-    tabcontent[i].style.display = "none";
-  }
-
-  // Get all elements with class="tablinks" and remove the class "active"
-  tablinks = document.getElementsByClassName("tablinks");
-  for (i = 0; i < tablinks.length; i++) {
-    tablinks[i].className = tablinks[i].className.replace(" active", "");
-  }
-
-  // Show the current tab, and add an "active" class to the button that opened the tab
-  document.getElementById(cityName).style.display = "block";
-}
-
-function openTab(evt, cityName) {
-  openTabCall(cityName);
-  evt.currentTarget.className += " active";
-} */
-
 /*OPen by URL*/
 jQuery(document).ready(function () {  
   const tabName = (window.location.hash || '').replace('#', '');
@@ -1135,6 +1113,39 @@ anchors.forEach(function(item) {
         }, animationTime / framesCount);
   });
 }); 
+
+
+//Pagination active
+if(document.querySelector('.pagination_big')) {
+  let paginationItems = document.querySelectorAll('.pagination_big li'),
+      nextVersionContainer = document.querySelector('#nextver'),
+      previosVersionContainer = document.querySelector('#previosver'),
+      currentVersionContainer = document.querySelector('#currversion'),
+      currentPageTitle = document.querySelector('#section').innerText;
+
+  // Set active page and update version containers
+  for (let i = 0; i < paginationItems.length; i++) {
+    const item = paginationItems[i];
+    const itemTitle = item.firstElementChild.innerHTML;
+    if (itemTitle === currentPageTitle) {
+      item.classList.add('active');
+      currentVersionContainer.textContent = itemTitle;       
+      if(item.previousElementSibling) {
+        previosVersionContainer.textContent = item.previousElementSibling.innerText; 
+        previosVersionContainer.parentElement.href += item.previousElementSibling.innerText.replaceAll('.', '_');
+      } else {
+        previosVersionContainer.parentElement.parentElement.classList.add('hide');
+      }
+      if(item.nextElementSibling) {
+        nextVersionContainer.textContent = item.nextElementSibling.innerText;
+        nextVersionContainer.parentElement.href += item.nextElementSibling.innerText.replaceAll('.', '_');
+      } else {
+        nextVersionContainer.parentElement.parentElement.classList.add('hide');
+      }         
+      break;
+    }
+  }
+}
 
 </script></div></div>
     </div></div></div><script>(function() {
