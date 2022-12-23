@@ -853,7 +853,7 @@ ol.list1 {
 
 .page__sidebar {
 	position: fixed;
-	left: -15px;
+	left: 0;
 	max-width: 280px;
 	top: 70px;
 	background: none;
@@ -2336,6 +2336,12 @@ code {
 		margin: 0 !important;
 		position: relative;
 		.owl-stage-outer {
+			text-align: center;
+			.owl-stage {
+				display: inline-block;
+			}
+		}
+		.owl-stage-outer {
 			position: relative;
 			z-index: 5;
 		}
@@ -2534,6 +2540,9 @@ code {
 			position: relative;
 			padding-left: 18px;
 			margin-top: 10px;
+			&.hide {
+				display: none;
+			}
 			:first-child {
 				margin: 0;
 			}
@@ -3141,7 +3150,6 @@ code {
 	.learn-hub.container {
 		width: 768px;
 	}
-	
 	.learn-hub-inner {
 		background: #FFFFFF;
 		box-shadow: 0px 5px 15px rgba(158, 222, 250, 0.25);
