@@ -632,6 +632,6 @@ package object annotator {
 
   object CamemBertForSequenceClassification
       extends ReadablePretrainedCamemBertForSequenceModel
-      with ReadCamemBertForSequenceDLModel
+      with ReadCamemBertForSequenceTensorflowModel
 
 }
