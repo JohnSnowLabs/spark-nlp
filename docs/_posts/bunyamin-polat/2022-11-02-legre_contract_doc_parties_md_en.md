@@ -157,12 +157,11 @@ Manual annotations on CUAD dataset
 ## Benchmarking
 
 ```bash
-| Relation             | Recall | Precision | F1    | Support |
-|----------------------|--------|-----------|-------|---------|
-| dated_as             | 1.000  | 0.957     | 0.978 | 44      |
-| has_alias            | 0.950  | 0.974     | 0.962 | 40      |
-| has_collective_alias | 0.667  | 1.000     | 0.800 | 3       |
-| signed_by            | 0.957  | 0.989     | 0.972 | 92      |
-| Avg.                 | 0.913  | 0.977     | 0.938 | -       |
-| Weighted-Avg.        | 0.973  | 0.974     | 0.973 | -       |
+Relation              Recall  Precision  F1     Support 
+dated_as              1.000   0.957      0.978  44      
+has_alias             0.950   0.974      0.962  40      
+has_collective_alias  0.667   1.000      0.800  3       
+signed_by             0.957   0.989      0.972  92      
+Avg.                  0.913   0.977      0.938  -       
+Weighted-Avg.         0.973   0.974      0.973  -  
 ```

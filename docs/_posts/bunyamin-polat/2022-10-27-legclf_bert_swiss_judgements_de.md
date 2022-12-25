@@ -97,15 +97,14 @@ Training data is available [here](https://zenodo.org/record/7109926#.Y1gJwexBw8E
 ## Benchmarking
 
 ```bash
-| label         | precision | recall | f1-score | support |
-|---------------|-----------|--------|----------|---------|
-| civil-law     | 0.93      | 0.96   | 0.94     | 809     |
-| insurance-law | 0.92      | 0.94   | 0.93     | 357     |
-| other         | 0.76      | 0.70   | 0.73     | 23      |
-| penal-law     | 0.97      | 0.95   | 0.96     | 913     |
-| public-law    | 0.94      | 0.94   | 0.94     | 1048    |
-| social-law    | 0.97      | 0.95   | 0.96     | 719     |
-| accuracy      |   -       |   -    | 0.95     | 3869    |
-| macro-avg     | 0.92      | 0.91   | 0.91     | 3869    |
-| weighted-avg  | 0.95      | 0.95   | 0.95     | 3869    | 
+label          precision  recall  f1-score  support 
+civil-law      0.93       0.96    0.94      809     
+insurance-law  0.92       0.94    0.93      357     
+other          0.76       0.70    0.73      23      
+penal-law      0.97       0.95    0.96      913     
+public-law     0.94       0.94    0.94      1048    
+social-law     0.97       0.95    0.96      719     
+accuracy         -          -     0.95      3869    
+macro-avg      0.92       0.91    0.91      3869    
+weighted-avg   0.95       0.95    0.95      3869 
 ```

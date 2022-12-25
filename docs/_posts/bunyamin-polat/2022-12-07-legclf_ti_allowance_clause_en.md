@@ -110,12 +110,10 @@ Legal documents, scrapped from the Internet, and classified in-house
 
 ```bash
 
-              precision    recall  f1-score   support
-
+       label   precision    recall  f1-score   support
        other       0.99      1.00      1.00       246
 ti-allowance       1.00      0.98      0.99        99
-
-    accuracy                           0.99       345
+    accuracy         -         -       0.99       345
    macro-avg       1.00      0.99      0.99       345
 weighted-avg       0.99      0.99      0.99       345
 

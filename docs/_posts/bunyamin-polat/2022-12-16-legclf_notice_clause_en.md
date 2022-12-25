@@ -105,12 +105,10 @@ Legal documents, scrapped from the Internet, and classified in-house + SEC docum
 ## Benchmarking
 
 ```bash
-      label    precision    recall  f1-score   support
-
-      notice       1.00      0.98      0.99        64
-       other       0.99      1.00      0.99        92
-
-    accuracy                           0.99       156
-   macro-avg       0.99      0.99      0.99       156
-weighted-avg       0.99      0.99      0.99       156
+       label precision recall  f1-score  support
+      notice      1.00   0.98      0.99       64
+       other      0.99   1.00      0.99       92
+    accuracy         -      -      0.99      156
+   macro-avg      0.99   0.99      0.99      156
+weighted-avg      0.99   0.99      0.99      156
 ```

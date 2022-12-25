@@ -116,14 +116,11 @@ Legal documents, scrapped from the Internet, and classified in-house + SEC docum
 
 ```bash
 
-                                  precision    recall  f1-score   support
-
-investment-subadvisory-agreement       1.00      0.98      0.99        42
-                           other       0.99      1.00      0.99        66
-
-                        accuracy                           0.99       108
-                       macro avg       0.99      0.99      0.99       108
-                    weighted avg       0.99      0.99      0.99       108
-
+                           label precision recall  f1-score  support
+investment-subadvisory-agreement      1.00   0.98      0.99       42
+                           other      0.99   1.00      0.99       66
+                        accuracy         -      -      0.99      108
+                       macro-avg      0.99   0.99      0.99      108
+                    weighted-avg      0.99   0.99      0.99      108
 
 ```
