@@ -16,9 +16,9 @@ from sparknlp.common import *
 
 
 class CamemBertForQuestionAnswering(AnnotatorModel,
-                                     HasCaseSensitiveProperties,
-                                     HasBatchedAnnotate,
-                                     HasEngine):
+                                    HasCaseSensitiveProperties,
+                                    HasBatchedAnnotate,
+                                    HasEngine):
     """CamemBertForQuestionAnswering can load CamemBERT Models with a span classification head on top for extractive
     question-answering tasks like SQuAD (a linear layer on top of the hidden-states output to compute span start
     logits and span end logits).
