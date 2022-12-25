@@ -452,9 +452,9 @@ class _Wav2Vec2ForCTC(ExtendedJavaWrapper):
             "com.johnsnowlabs.nlp.annotators.audio.Wav2Vec2ForCTC.loadSavedModel", path, jspark)
 
 
-class _CamemBertForTokenClassification(ExtendedJavaWrapper):
+class _CamemBertForTokenClassificationLoader(ExtendedJavaWrapper):
     def __init__(self, path, jspark):
-        super(_CamemBertForTokenClassification, self).__init__(
+        super(_CamemBertForTokenClassificationLoader, self).__init__(
             "com.johnsnowlabs.nlp.annotators.classifier.dl.CamemBertForTokenClassification.loadSavedModel", path,
             jspark)
 
@@ -467,8 +467,15 @@ class _TapasForQuestionAnsweringLoader(ExtendedJavaWrapper):
             jspark)
 
 
-class _CamemBertForSequenceClassification(ExtendedJavaWrapper):
+class _CamemBertForSequenceClassificationLoader(ExtendedJavaWrapper):
     def __init__(self, path, jspark):
-        super(_CamemBertForSequenceClassification, self).__init__(
+        super(_CamemBertForSequenceClassificationLoader, self).__init__(
             "com.johnsnowlabs.nlp.annotators.classifier.dl.CamemBertForSequenceClassification.loadSavedModel", path,
+            jspark)
+
+
+class _CamemBertQuestionAnsweringLoader(ExtendedJavaWrapper):
+    def __init__(self, path, jspark):
+        super(_CamemBertQuestionAnsweringLoader, self).__init__(
+            "com.johnsnowlabs.nlp.annotators.classifier.dl.CamemBertForQuestionAnswering.loadSavedModel", path,
             jspark)
