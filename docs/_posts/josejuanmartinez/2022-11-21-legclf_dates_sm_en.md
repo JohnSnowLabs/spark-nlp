@@ -35,6 +35,7 @@ This is a Text Classification model can help you classify if a paragraph talks a
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
+
 ```python
 documentAssembler = DocumentAssembler() \
   .setInputCol("text") \
@@ -95,12 +96,12 @@ In-house annotations.
 ## Benchmarking
 
 ```bash
-label                  precision    recall  f1-score   support
+           label  precision    recall  f1-score   support
   EFFECTIVE_DATE       1.00      0.80      0.89         5
     RENEWAL_DATE       1.00      1.00      1.00         6
 TERMINATION_DATE       0.86      0.75      0.80         8
            other       0.91      1.00      0.95        21
-        accuracy           -        -        0.93        40
-       macro avg       0.94      0.89      0.91        40
-    weighted avg       0.93      0.93      0.92        40
+        accuracy          -         -      0.93        40
+       macro-avg       0.94      0.89      0.91        40
+    weighted-avg       0.93      0.93      0.92        40
 ```

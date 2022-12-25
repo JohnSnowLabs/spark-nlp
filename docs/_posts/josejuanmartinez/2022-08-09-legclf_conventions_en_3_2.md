@@ -107,7 +107,7 @@ This model was originally trained with 3799 legal texts (see the original work [
 
 ```bash
 label            precision  recall   f1-score  support
-accuracy           -          -      0.90      120
+accuracy            -          -     0.90      120
 macro-avg        0.90       0.91     0.90      120
 weighted-avg     0.90       0.90     0.90      120
 ```     

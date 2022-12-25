@@ -106,7 +106,7 @@ Legal documents, scrapped from the Internet, and classified in-house
             label  precision    recall  f1-score   support
 bereavement-leave       1.00      1.00      1.00        30
             other       1.00      1.00      1.00        76
-         accuracy        -         -        1.00       106
+         accuracy          -         -      1.00       106
         macro-avg       1.00      1.00      1.00       106
      weighted-avg       1.00      1.00      1.00       106
 ```

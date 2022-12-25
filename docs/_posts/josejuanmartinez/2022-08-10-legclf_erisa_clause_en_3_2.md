@@ -106,7 +106,7 @@ Legal documents, scrapped from the Internet, and classified in-house
        label  precision    recall  f1-score   support
        erisa       0.95      1.00      0.98        21
        other       1.00      0.98      0.99        64
-    accuracy        -         -        0.99        85
+    accuracy          -         -      0.99        85
    macro-avg       0.98      0.99      0.98        85
 weighted-avg       0.99      0.99      0.99        85
 ```

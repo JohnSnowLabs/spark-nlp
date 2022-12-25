@@ -112,7 +112,7 @@ Legal documents, scrapped from the Internet, and classified in-house + SEC docum
              label  precision    recall  f1-score   support
              other       0.97      1.00      0.98        62
 purchase-agreement       1.00      0.93      0.97        30
-          accuracy        -         -        0.98        92
+          accuracy          -         -      0.98        92
          macro-avg       0.98      0.97      0.97        92
       weighted-avg       0.98      0.98      0.98        92
 ```
