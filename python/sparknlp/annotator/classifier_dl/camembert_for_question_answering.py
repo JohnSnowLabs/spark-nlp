@@ -11,30 +11,31 @@
 #  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
-"""Contains classes for CamemBertForTokenClassification."""
+
 from sparknlp.common import *
 
 
-class CamemBertForTokenClassification(AnnotatorModel,
-                                      HasCaseSensitiveProperties,
-                                      HasBatchedAnnotate,
-                                      HasEngine):
-    """CamemBertForTokenClassification can load CamemBERT Models with a token
-    classification head on top (a linear layer on top of the hidden-states
-    output) e.g. for Named-Entity-Recognition (NER) tasks.
+class CamemBertForQuestionAnswering(AnnotatorModel,
+                                     HasCaseSensitiveProperties,
+                                     HasBatchedAnnotate,
+                                     HasEngine):
+    """CamemBertForQuestionAnswering can load CamemBERT Models with a span classification head on top for extractive
+    question-answering tasks like SQuAD (a linear layer on top of the hidden-states output to compute span start
+    logits and span end logits).
 
     Pretrained models can be loaded with :meth:`.pretrained` of the companion
     object:
 
-    >>> token_classifier = CamemBertForTokenClassification.pretrained() \\
-    ...     .setInputCols(["token", "document"]) \\
-    ...     .setOutputCol("label")
+    >>> spanClassifier = CamemBertForQuestionAnswering.pretrained() \\
+    ...     .setInputCols(["document_question", "document_context"]) \\
+    ...     .setOutputCol("answer")
 
-    The default model is ``"camembert_base_token_classifier_wikiner"``, if no
-    name is provided.
+    The default model is ``"camembert_base_qa_fquad"``, if no name is
+    provided.
 
     For available pretrained models please see the `Models Hub
-    <https://nlp.johnsnowlabs.com/models?task=Named+Entity+Recognition>`__.
+    <https://nlp.johnsnowlabs.com/models?task=Question+Answering>`__.
+
     To see which models are compatible and how to import them see
     `Import Transformers into Spark NLP 🚀
     <https://github.com/JohnSnowLabs/spark-nlp/discussions/5669>`_.
@@ -42,7 +43,7 @@ class CamemBertForTokenClassification(AnnotatorModel,
     ====================== ======================
     Input Annotation types Output Annotation type
     ====================== ======================
-    ``DOCUMENT, TOKEN``    ``NAMED_ENTITY``
+    ``DOCUMENT, DOCUMENT``    ``CHUNK``
     ====================== ======================
 
     Parameters
@@ -52,7 +53,7 @@ class CamemBertForTokenClassification(AnnotatorModel,
         memory, by default 8
     caseSensitive
         Whether to ignore case in tokens for embeddings matching, by default
-        True
+        False
     configProtoBytes
         ConfigProto from tensorflow, serialized into byte array.
     maxSentenceLength
@@ -64,35 +65,31 @@ class CamemBertForTokenClassification(AnnotatorModel,
     >>> from sparknlp.base import *
     >>> from sparknlp.annotator import *
     >>> from pyspark.ml import Pipeline
-    >>> documentAssembler = DocumentAssembler() \\
-    ...     .setInputCol("text") \\
-    ...     .setOutputCol("document")
-    >>> tokenizer = Tokenizer() \\
-    ...     .setInputCols(["document"]) \\
-    ...     .setOutputCol("token")
-    >>> tokenClassifier = CamemBertForTokenClassification.pretrained() \\
-    ...     .setInputCols(["token", "document"]) \\
-    ...     .setOutputCol("label") \\
-    ...     .setCaseSensitive(True)
+    >>> documentAssembler = MultiDocumentAssembler() \\
+    ...     .setInputCols(["question", "context"]) \\
+    ...     .setOutputCol(["document_question", "document_context"])
+    >>> spanClassifier = CamemBertForQuestionAnswering.pretrained() \\
+    ...     .setInputCols(["document_question", "document_context"]) \\
+    ...     .setOutputCol("answer") \\
+    ...     .setCaseSensitive(False)
     >>> pipeline = Pipeline().setStages([
     ...     documentAssembler,
-    ...     tokenizer,
-    ...     tokenClassifier
+    ...     spanClassifier
     ... ])
-    >>> data = spark.createDataFrame([["george washington est allé à washington"]]).toDF("text")
+    >>> data = spark.createDataFrame([["What's my name?", "My name is Clara and I live in Berkeley."]]).toDF("question", "context")
     >>> result = pipeline.fit(data).transform(data)
-    >>> result.select("label.result").show(truncate=False)
-    +------------------------------+
-    |result                        |
-    +------------------------------+
-    |[I-PER, I-PER, O, O, O, I-LOC]|
-    +------------------------------+
+    >>> result.select("answer.result").show(truncate=False)
+    +--------------------+
+    |result              |
+    +--------------------+
+    |[Clara]             |
+    +--------------------+
     """
-    name = "CamemBertForTokenClassification"
+    name = "CamemBertForQuestionAnswering"
 
-    inputAnnotatorTypes = [AnnotatorType.DOCUMENT, AnnotatorType.TOKEN]
+    inputAnnotatorTypes = [AnnotatorType.DOCUMENT, AnnotatorType.DOCUMENT]
 
-    outputAnnotatorType = AnnotatorType.NAMED_ENTITY
+    outputAnnotatorType = AnnotatorType.CHUNK
 
     maxSentenceLength = Param(Params._dummy(),
                               "maxSentenceLength",
@@ -104,11 +101,9 @@ class CamemBertForTokenClassification(AnnotatorModel,
                              "ConfigProto from tensorflow, serialized into byte array. Get with config_proto.SerializeToString()",
                              TypeConverters.toListInt)
 
-    def getClasses(self):
-        """
-        Returns labels used to train this model
-        """
-        return self._call_java("getClasses")
+    coalesceSentences = Param(Params._dummy(), "coalesceSentences",
+                              "Instead of 1 class per sentence (if inputCols is '''sentence''') output 1 class per document by averaging probabilities in all sentences.",
+                              TypeConverters.toBoolean)
 
     def setConfigProtoBytes(self, b):
         """Sets configProto from tensorflow, serialized into byte array.
@@ -131,16 +126,16 @@ class CamemBertForTokenClassification(AnnotatorModel,
         return self._set(maxSentenceLength=value)
 
     @keyword_only
-    def __init__(self, classname="com.johnsnowlabs.nlp.annotators.classifier.dl.CamemBertForTokenClassification",
+    def __init__(self, classname="com.johnsnowlabs.nlp.annotators.classifier.dl.CamemBertForQuestionAnswering",
                  java_model=None):
-        super(CamemBertForTokenClassification, self).__init__(
+        super(CamemBertForQuestionAnswering, self).__init__(
             classname=classname,
             java_model=java_model
         )
         self._setDefault(
             batchSize=8,
             maxSentenceLength=128,
-            caseSensitive=True
+            caseSensitive=False
         )
 
     @staticmethod
@@ -156,22 +151,22 @@ class CamemBertForTokenClassification(AnnotatorModel,
 
         Returns
         -------
-        CamemBertForTokenClassification
+        CamemBertForQuestionAnswering
             The restored model
         """
-        from sparknlp.internal import _CamemBertForTokenClassificationLoader
-        jModel = _CamemBertForTokenClassificationLoader(folder, spark_session._jsparkSession)._java_obj
-        return CamemBertForTokenClassification(java_model=jModel)
+        from sparknlp.internal import _CamemBertQuestionAnsweringLoader
+        jModel = _CamemBertQuestionAnsweringLoader(folder, spark_session._jsparkSession)._java_obj
+        return CamemBertForQuestionAnswering(java_model=jModel)
 
     @staticmethod
-    def pretrained(name="camembert_base_token_classifier_wikiner", lang="en", remote_loc=None):
+    def pretrained(name="camembert_base_qa_fquad", lang="fr", remote_loc=None):
         """Downloads and loads a pretrained model.
 
         Parameters
         ----------
         name : str, optional
             Name of the pretrained model, by default
-            "camembert_base_token_classifier_wikiner"
+            "camembert_base_qa_fquad"
         lang : str, optional
             Language of the pretrained model, by default "en"
         remote_loc : str, optional
@@ -180,8 +175,8 @@ class CamemBertForTokenClassification(AnnotatorModel,
 
         Returns
         -------
-        CamemBertForTokenClassification
+        CamemBertForQuestionAnswering
             The restored model
         """
         from sparknlp.pretrained import ResourceDownloader
-        return ResourceDownloader.downloadModel(CamemBertForTokenClassification, name, lang, remote_loc)
+        return ResourceDownloader.downloadModel(CamemBertForQuestionAnswering, name, lang, remote_loc)
