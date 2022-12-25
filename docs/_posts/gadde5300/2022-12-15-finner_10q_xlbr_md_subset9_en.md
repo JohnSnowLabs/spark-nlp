@@ -168,7 +168,7 @@ An in-house modified version of https://huggingface.co/datasets/nlpaueb/finer-13
 
 ```bash
 
-label                                                        precision    recall  f1-score   support                                                
+label                                                              precision    recall  f1-score   support                                                
 B-PaymentsToAcquireBusinessesNetOfCashAcquired                        0.9801    0.9610    0.9705       154
 B-PreferredStockDividendRatePercentage                                0.9822    1.0000    0.9910       166
 B-PreferredStockSharesAuthorized                                      1.0000    1.0000    1.0000       113
