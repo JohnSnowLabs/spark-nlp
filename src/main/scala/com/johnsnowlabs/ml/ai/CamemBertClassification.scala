@@ -56,7 +56,9 @@ class CamemBertClassification(
   protected val sentenceStartTokenId: Int = spp.getSppModel.pieceToId("<s>") + pieceIdOffset
   protected val sentenceEndTokenId: Int = spp.getSppModel.pieceToId("</s>") + pieceIdOffset
   protected val sentencePadTokenId: Int = spp.getSppModel.pieceToId("<pad>") + pieceIdOffset
-  protected val sentencePieceDelimiterId: Int = spp.getSppModel.pieceToId("▁") + pieceIdOffset
+  // unlike other models the delimiter id is correct and does not need pieceIdOffset
+  // subtracting pieceIdOffset here to make up for adding it later in SP class
+  protected val sentencePieceDelimiterId: Int = spp.getSppModel.pieceToId("▁") - pieceIdOffset
 
   def tokenizeWithAlignment(
       sentences: Seq[TokenizedSentence],
@@ -88,8 +90,8 @@ class CamemBertClassification(
       new SentencepieceEncoder(
         spp,
         caseSensitive,
-        sentencePieceDelimiterId - 1,
-        pieceIdOffset = 1)
+        sentencePieceDelimiterId,
+        pieceIdOffset = pieceIdOffset)
 
     val sentences = docs.map { s => Sentence(s.result, s.begin, s.end, 0) }
 
@@ -227,27 +229,29 @@ class CamemBertClassification(
     val maxSentenceLength = batch.map(encodedSentence => encodedSentence.length).max
     val batchLength = batch.length
 
-    val tokenBuffers: IntDataBuffer = tensors.createIntBuffer(batchLength * maxSentenceLength)
-    val maskBuffers: IntDataBuffer = tensors.createIntBuffer(batchLength * maxSentenceLength)
+    val tokenBuffers: LongDataBuffer = tensors.createLongBuffer(batchLength * maxSentenceLength)
+    val maskBuffers: LongDataBuffer = tensors.createLongBuffer(batchLength * maxSentenceLength)
 
     // [nb of encoded sentences , maxSentenceLength]
     val shape = Array(batch.length.toLong, maxSentenceLength)
 
+    // [nb of encoded sentences , maxSentenceLength]
     batch.zipWithIndex
       .foreach { case (sentence, idx) =>
+        val sentenceLong = sentence.map(x => x.toLong)
         val offset = idx * maxSentenceLength
-        tokenBuffers.offset(offset).write(sentence)
+        tokenBuffers.offset(offset).write(sentenceLong)
         maskBuffers
           .offset(offset)
-          .write(sentence.map(x => if (x == sentencePadTokenId) 0 else 1))
+          .write(sentence.map(x => if (x == sentencePadTokenId) 0L else 1L))
       }
 
     val runner = tensorflowWrapper
       .getTFSessionWithSignature(configProtoBytes = configProtoBytes, initAllTables = false)
       .runner
 
-    val tokenTensors = tensors.createIntBufferTensor(shape, tokenBuffers)
-    val maskTensors = tensors.createIntBufferTensor(shape, maskBuffers)
+    val tokenTensors = tensors.createLongBufferTensor(shape, tokenBuffers)
+    val maskTensors = tensors.createLongBufferTensor(shape, maskBuffers)
 
     runner
       .feed(
