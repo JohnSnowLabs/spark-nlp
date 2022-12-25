@@ -642,7 +642,7 @@ package object annotator {
 
   object CamemBertForSequenceClassification
       extends ReadablePretrainedCamemBertForSequenceModel
-      with ReadCamemBertForSequenceDLModel
+      with ReadCamemBertForSequenceTensorflowModel
 
   type SwinForImageClassification =
     com.johnsnowlabs.nlp.annotators.cv.SwinForImageClassification
