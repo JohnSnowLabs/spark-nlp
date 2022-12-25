@@ -111,28 +111,28 @@ result = light_model.fullAnnotate(text)
 ## Results
 
 ```bash
-   relation             entity1     entity1_begin     entity1_end     chunk1      entity2        entity2_begin     entity2_end     chunk2                                                confidence  
------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-   has_address          NAME        36                42              IBM MSL     ADDRESS        44                112             8501 IBM Drive 200 Baker Avenue Charlotte, NC ...     0.9997987   
-   has_notice_party     NAME        36                42              IBM MSL     DEPARTMENT     120               137             MSL Project Office                                    0.34552842  
-   has_title            NAME        36                42              IBM MSL     TITLE          145               159             General Counsel                                       0.48349348  
-   has_phone            NAME        36                42              IBM MSL     PHONE          173               184             704-594-1964                                          0.99517375  
-   has_phone            NAME        36                42              IBM MSL     PHONE          197               208             978-287-5630                                          0.9961247   
-   has_fax              NAME        36                42              IBM MSL     FAX            221               232             704-594-4108                                          0.99340916  
-   has_fax              NAME        36                42              IBM MSL     FAX            245               256             978-287-5635                                          0.97187006  
+|   relation          |   entity1  |   entity1_begin  |   entity1_end  |   chunk1   |   entity2     |   entity2_begin  |   entity2_end  |   chunk2                                             |   confidence  |
+|---------------------|------------|------------------|----------------|------------|---------------|------------------|----------------|------------------------------------------------------|---------------|
+|   has_address       |   NAME     |   36             |   42           |   IBM MSL  |   ADDRESS     |   44             |   112          |   8501 IBM Drive 200 Baker Avenue Charlotte, NC ...  |   0.9997987   |
+|   has_notice_party  |   NAME     |   36             |   42           |   IBM MSL  |   DEPARTMENT  |   120            |   137          |   MSL Project Office                                 |   0.34552842  |
+|   has_title         |   NAME     |   36             |   42           |   IBM MSL  |   TITLE       |   145            |   159          |   General Counsel                                    |   0.48349348  |
+|   has_phone         |   NAME     |   36             |   42           |   IBM MSL  |   PHONE       |   173            |   184          |   704-594-1964                                       |   0.99517375  |
+|   has_phone         |   NAME     |   36             |   42           |   IBM MSL  |   PHONE       |   197            |   208          |   978-287-5630                                       |   0.9961247   |
+|   has_fax           |   NAME     |   36             |   42           |   IBM MSL  |   FAX         |   221            |   232          |   704-594-4108                                       |   0.99340916  |
+|   has_fax           |   NAME     |   36             |   42           |   IBM MSL  |   FAX         |   245            |   256          |   978-287-5635                                       |   0.97187006  |
 ```
 
 {:.model-param}
 ## Model Information
 
 {:.table-model}
-------
-Model Name:legre_notice_clause_xs
-Compatibility:Legal NLP 1.0.0+
-License:Licensed
-Edition:Official
-Language:en
-Size:402.6 MB
+|---|---|
+|Model Name:|legre_notice_clause_xs|
+|Compatibility:|Legal NLP 1.0.0+|
+|License:|Licensed|
+|Edition:|Official|
+|Language:|en|
+|Size:|402.6 MB|
 
 ## References
 
@@ -141,15 +141,17 @@ In-house dataset
 ## Benchmarking
 
 ```bash
- Relation          Recall   Precision  F1     Support 
- has_address       0.976    1.000      0.988  41      
- has_department    0.667    1.000      0.800  3       
- has_email         1.000    1.000      1.000  7       
- has_fax_phone     1.000    1.000      1.000  8       
- has_notice_party  1.000    0.955      0.977  42      
- has_person        1.000    0.938      0.968  15      
- has_title         0.875    0.933      0.903  16      
- other             1.000    1.000      1.000  68      
- Avg.              0.940    0.978      0.954  -       
- Weighted-Avg.     0.980    0.980      0.979  -        
+
+Relation          Recall  Precision  F1     Support 
+has_address       0.976   1.000      0.988  41      
+has_department    0.667   1.000      0.800  3       
+has_email         1.000   1.000      1.000  7       
+has_fax_phone     1.000   1.000      1.000  8       
+has_notice_party  1.000   0.955      0.977  42      
+has_person        1.000   0.938      0.968  15      
+has_title         0.875   0.933      0.903  16      
+other             1.000   1.000      1.000  68      
+Avg.              0.940   0.978      0.954  -       
+Weighted-Avg.     0.980   0.980      0.979  -  
+
 ```
