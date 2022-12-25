@@ -272,6 +272,7 @@ trait ReadablePretrainedCamemBertForQAModel
     extends ParamsAndFeaturesReadable[CamemBertForQuestionAnswering]
     with HasPretrained[CamemBertForQuestionAnswering] {
   override val defaultModelName: Some[String] = Some("camembert_base_qa_fquad")
+  override val defaultLang: String = "fr"
 
   /** Java compliant-overrides */
   override def pretrained(): CamemBertForQuestionAnswering =
