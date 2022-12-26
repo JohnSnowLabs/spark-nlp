@@ -426,13 +426,13 @@ trait ReadRobertaDLModel extends ReadTensorflowModel {
 
   override val tfFile: String = "roberta_tensorflow"
 
-  def readTensorflow(instance: RoBertaEmbeddings, path: String, spark: SparkSession): Unit = {
+  def readModel(instance: RoBertaEmbeddings, path: String, spark: SparkSession): Unit = {
 
     val tf = readTensorflowModel(path, spark, "_roberta_tf", initAllTables = false)
     instance.setModelIfNotSet(spark, tf)
   }
 
-  addReader(readTensorflow)
+  addReader(readModel)
 
   def loadSavedModel(modelPath: String, spark: SparkSession): RoBertaEmbeddings = {
 

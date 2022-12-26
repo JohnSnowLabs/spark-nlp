@@ -412,13 +412,13 @@ trait ReadablePretrainedMarianMTModel
     super.pretrained(name, lang, remoteLoc)
 }
 
-trait ReadMarianMTTensorflowModel extends ReadTensorflowModel with ReadSentencePieceModel {
+trait ReadMarianMTDLModel extends ReadTensorflowModel with ReadSentencePieceModel {
   this: ParamsAndFeaturesReadable[MarianTransformer] =>
 
   override val tfFile: String = "marian_tensorflow"
   override val sppFile: String = "marian_spp"
 
-  def readTensorflow(instance: MarianTransformer, path: String, spark: SparkSession): Unit = {
+  def readModel(instance: MarianTransformer, path: String, spark: SparkSession): Unit = {
     val tf = readTensorflowModel(
       path,
       spark,
@@ -430,7 +430,7 @@ trait ReadMarianMTTensorflowModel extends ReadTensorflowModel with ReadSentenceP
     instance.setModelIfNotSet(spark, tf, sppSrc, sppTrg)
   }
 
-  addReader(readTensorflow)
+  addReader(readModel)
 
   def loadSavedModel(modelPath: String, spark: SparkSession): MarianTransformer = {
 
@@ -483,5 +483,5 @@ trait ReadMarianMTTensorflowModel extends ReadTensorflowModel with ReadSentenceP
   */
 object MarianTransformer
     extends ReadablePretrainedMarianMTModel
-    with ReadMarianMTTensorflowModel
+    with ReadMarianMTDLModel
     with ReadSentencePieceModel

@@ -342,7 +342,7 @@ trait ReadablePretrainedDeBertaForSequenceModel
     super.pretrained(name, lang, remoteLoc)
 }
 
-trait ReadDeBertaForSequenceTensorflowModel
+trait ReadDeBertaForSequenceDLModel
     extends ReadTensorflowModel
     with ReadSentencePieceModel {
   this: ParamsAndFeaturesReadable[DeBertaForSequenceClassification] =>
@@ -350,7 +350,7 @@ trait ReadDeBertaForSequenceTensorflowModel
   override val tfFile: String = "deberta_classification_tensorflow"
   override val sppFile: String = "deberta_spp"
 
-  def readTensorflow(
+  def readModel(
       instance: DeBertaForSequenceClassification,
       path: String,
       spark: SparkSession): Unit = {
@@ -361,7 +361,7 @@ trait ReadDeBertaForSequenceTensorflowModel
     instance.setModelIfNotSet(spark, tf, spp)
   }
 
-  addReader(readTensorflow)
+  addReader(readModel)
 
   def loadSavedModel(modelPath: String, spark: SparkSession): DeBertaForSequenceClassification = {
 
@@ -405,4 +405,4 @@ trait ReadDeBertaForSequenceTensorflowModel
   */
 object DeBertaForSequenceClassification
     extends ReadablePretrainedDeBertaForSequenceModel
-    with ReadDeBertaForSequenceTensorflowModel
+    with ReadDeBertaForSequenceDLModel

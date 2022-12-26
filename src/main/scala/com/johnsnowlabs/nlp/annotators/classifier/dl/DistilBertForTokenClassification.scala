@@ -321,12 +321,12 @@ trait ReadablePretrainedDistilBertForTokenModel
     super.pretrained(name, lang, remoteLoc)
 }
 
-trait ReadDistilBertForTokenTensorflowModel extends ReadTensorflowModel {
+trait ReadDistilBertForTokenDLModel extends ReadTensorflowModel {
   this: ParamsAndFeaturesReadable[DistilBertForTokenClassification] =>
 
   override val tfFile: String = "distilbert_classification_tensorflow"
 
-  def readTensorflow(
+  def readModel(
       instance: DistilBertForTokenClassification,
       path: String,
       spark: SparkSession): Unit = {
@@ -336,7 +336,7 @@ trait ReadDistilBertForTokenTensorflowModel extends ReadTensorflowModel {
     instance.setModelIfNotSet(spark, tf)
   }
 
-  addReader(readTensorflow)
+  addReader(readModel)
 
   def loadSavedModel(modelPath: String, spark: SparkSession): DistilBertForTokenClassification = {
 
@@ -381,4 +381,4 @@ trait ReadDistilBertForTokenTensorflowModel extends ReadTensorflowModel {
   */
 object DistilBertForTokenClassification
     extends ReadablePretrainedDistilBertForTokenModel
-    with ReadDistilBertForTokenTensorflowModel
+    with ReadDistilBertForTokenDLModel

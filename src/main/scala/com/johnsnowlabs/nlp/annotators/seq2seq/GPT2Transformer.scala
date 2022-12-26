@@ -511,17 +511,17 @@ trait ReadablePretrainedGPT2TransformerModel
     super.pretrained(name, lang, remoteLoc)
 }
 
-trait ReadGPT2TransformerTensorflowModel extends ReadTensorflowModel {
+trait ReadGPT2TransformerDLModel extends ReadTensorflowModel {
   this: ParamsAndFeaturesReadable[GPT2Transformer] =>
 
   override val tfFile: String = "gpt2_tensorflow"
 
-  def readTensorflow(instance: GPT2Transformer, path: String, spark: SparkSession): Unit = {
+  def readModel(instance: GPT2Transformer, path: String, spark: SparkSession): Unit = {
     val tf = readTensorflowModel(path, spark, "_gpt2_tf")
     instance.setModelIfNotSet(spark, tf)
   }
 
-  addReader(readTensorflow)
+  addReader(readModel)
 
   def loadSavedModel(modelPath: String, spark: SparkSession): GPT2Transformer = {
 
@@ -569,4 +569,4 @@ trait ReadGPT2TransformerTensorflowModel extends ReadTensorflowModel {
 
 object GPT2Transformer
     extends ReadablePretrainedGPT2TransformerModel
-    with ReadGPT2TransformerTensorflowModel
+    with ReadGPT2TransformerDLModel

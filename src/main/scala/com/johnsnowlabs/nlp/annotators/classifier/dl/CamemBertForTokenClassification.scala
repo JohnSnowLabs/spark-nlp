@@ -314,7 +314,7 @@ trait ReadablePretrainedCamemBertForTokenModel
     super.pretrained(name, lang, remoteLoc)
 }
 
-trait ReadCamemBertForTokenTensorflowModel
+trait ReadCamemBertForTokenDLModel
     extends ReadTensorflowModel
     with ReadSentencePieceModel {
   this: ParamsAndFeaturesReadable[CamemBertForTokenClassification] =>
@@ -322,7 +322,7 @@ trait ReadCamemBertForTokenTensorflowModel
   override val tfFile: String = "camembert_classification_tensorflow"
   override val sppFile: String = "camembert_spp"
 
-  def readTensorflow(
+  def readModel(
       instance: CamemBertForTokenClassification,
       path: String,
       spark: SparkSession): Unit = {
@@ -333,7 +333,7 @@ trait ReadCamemBertForTokenTensorflowModel
     instance.setModelIfNotSet(spark, tf, spp)
   }
 
-  addReader(readTensorflow)
+  addReader(readModel)
 
   def loadSavedModel(modelPath: String, spark: SparkSession): CamemBertForTokenClassification = {
 
@@ -377,4 +377,4 @@ trait ReadCamemBertForTokenTensorflowModel
   */
 object CamemBertForTokenClassification
     extends ReadablePretrainedCamemBertForTokenModel
-    with ReadCamemBertForTokenTensorflowModel
+    with ReadCamemBertForTokenDLModel

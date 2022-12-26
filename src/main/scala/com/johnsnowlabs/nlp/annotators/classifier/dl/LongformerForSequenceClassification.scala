@@ -363,12 +363,12 @@ trait ReadablePretrainedLongformerForSequenceModel
     super.pretrained(name, lang, remoteLoc)
 }
 
-trait ReadLongformerForSequenceTensorflowModel extends ReadTensorflowModel {
+trait ReadLongformerForSequenceDLModel extends ReadTensorflowModel {
   this: ParamsAndFeaturesReadable[LongformerForSequenceClassification] =>
 
   override val tfFile: String = "longformer_classification_tensorflow"
 
-  def readTensorflow(
+  def readModel(
       instance: LongformerForSequenceClassification,
       path: String,
       spark: SparkSession): Unit = {
@@ -378,7 +378,7 @@ trait ReadLongformerForSequenceTensorflowModel extends ReadTensorflowModel {
     instance.setModelIfNotSet(spark, tf)
   }
 
-  addReader(readTensorflow)
+  addReader(readModel)
 
   def loadSavedModel(
       modelPath: String,
@@ -432,4 +432,4 @@ trait ReadLongformerForSequenceTensorflowModel extends ReadTensorflowModel {
   */
 object LongformerForSequenceClassification
     extends ReadablePretrainedLongformerForSequenceModel
-    with ReadLongformerForSequenceTensorflowModel
+    with ReadLongformerForSequenceDLModel

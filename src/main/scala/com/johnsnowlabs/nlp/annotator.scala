@@ -24,7 +24,7 @@ import com.johnsnowlabs.nlp.annotators.coref.{
   ReadablePretrainedSpanBertCorefModel
 }
 import com.johnsnowlabs.nlp.annotators.cv.{
-  ReadViTForImageTensorflowModel,
+  ReadViTForImageDLModel,
   ReadablePretrainedViTForImageModel
 }
 import com.johnsnowlabs.nlp.annotators.er.ReadablePretrainedEntityRuler
@@ -365,14 +365,14 @@ package object annotator {
 
   object MarianTransformer
       extends ReadablePretrainedMarianMTModel
-      with ReadMarianMTTensorflowModel
+      with ReadMarianMTDLModel
       with ReadSentencePieceModel
 
   type T5Transformer = com.johnsnowlabs.nlp.annotators.seq2seq.T5Transformer
 
   object T5Transformer
       extends ReadablePretrainedT5TransformerModel
-      with ReadT5TransformerTensorflowModel
+      with ReadT5TransformerDLModel
       with ReadSentencePieceModel
 
   type DistilBertEmbeddings = com.johnsnowlabs.nlp.embeddings.DistilBertEmbeddings
@@ -392,20 +392,20 @@ package object annotator {
 
   object BertForTokenClassification
       extends ReadablePretrainedBertForTokenModel
-      with ReadBertForTokenTensorflowModel
+      with ReadBertForTokenDLModel
 
   type DistilBertForTokenClassification =
     com.johnsnowlabs.nlp.annotators.classifier.dl.DistilBertForTokenClassification
 
   object DistilBertForTokenClassification
       extends ReadablePretrainedDistilBertForTokenModel
-      with ReadDistilBertForTokenTensorflowModel
+      with ReadDistilBertForTokenDLModel
 
   type LongformerEmbeddings = com.johnsnowlabs.nlp.embeddings.LongformerEmbeddings
 
   object LongformerEmbeddings
       extends ReadablePretrainedLongformerModel
-      with ReadLongformerTensorflowModel
+      with ReadLongformerDLModel
 
   type RoBertaSentenceEmbeddings = com.johnsnowlabs.nlp.embeddings.RoBertaSentenceEmbeddings
 
@@ -424,35 +424,35 @@ package object annotator {
 
   object RoBertaForTokenClassification
       extends ReadablePretrainedRoBertaForTokenModel
-      with ReadRoBertaForTokenTensorflowModel
+      with ReadRoBertaForTokenDLModel
 
   type XlmRoBertaForTokenClassification =
     com.johnsnowlabs.nlp.annotators.classifier.dl.XlmRoBertaForTokenClassification
 
   object XlmRoBertaForTokenClassification
       extends ReadablePretrainedXlmRoBertaForTokenModel
-      with ReadXlmRoBertaForTokenTensorflowModel
+      with ReadXlmRoBertaForTokenDLModel
 
   type AlbertForTokenClassification =
     com.johnsnowlabs.nlp.annotators.classifier.dl.AlbertForTokenClassification
 
   object AlbertForTokenClassification
       extends ReadablePretrainedAlbertForTokenModel
-      with ReadAlbertForTokenTensorflowModel
+      with ReadAlbertForTokenDLModel
 
   type XlnetForTokenClassification =
     com.johnsnowlabs.nlp.annotators.classifier.dl.XlnetForTokenClassification
 
   object XlnetForTokenClassification
       extends ReadablePretrainedXlnetForTokenModel
-      with ReadXlnetForTokenTensorflowModel
+      with ReadXlnetForTokenDLModel
 
   type LongformerForTokenClassification =
     com.johnsnowlabs.nlp.annotators.classifier.dl.LongformerForTokenClassification
 
   object LongformerForTokenClassification
       extends ReadablePretrainedLongformerForTokenModel
-      with ReadLongformerForTokenTensorflowModel
+      with ReadLongformerForTokenDLModel
 
   type EntityRulerApproach = com.johnsnowlabs.nlp.annotators.er.EntityRulerApproach
 
@@ -465,7 +465,7 @@ package object annotator {
 
   object BertForSequenceClassification
       extends ReadablePretrainedBertForSequenceModel
-      with ReadBertForSequenceTensorflowModel
+      with ReadBertForSequenceDLModel
 
   type Doc2VecApproach = com.johnsnowlabs.nlp.embeddings.Doc2VecApproach
 
@@ -480,48 +480,48 @@ package object annotator {
 
   object DistilBertForSequenceClassification
       extends ReadablePretrainedDistilBertForSequenceModel
-      with ReadDistilBertForSequenceTensorflowModel
+      with ReadDistilBertForSequenceDLModel
 
   type RoBertaForSequenceClassification =
     com.johnsnowlabs.nlp.annotators.classifier.dl.RoBertaForSequenceClassification
 
   object RoBertaForSequenceClassification
       extends ReadablePretrainedRoBertaForSequenceModel
-      with ReadRoBertaForSequenceTensorflowModel
+      with ReadRoBertaForSequenceDLModel
 
   type XlmRoBertaForSequenceClassification =
     com.johnsnowlabs.nlp.annotators.classifier.dl.XlmRoBertaForSequenceClassification
 
   object XlmRoBertaForSequenceClassification
       extends ReadablePretrainedXlmRoBertaForSequenceModel
-      with ReadXlmRoBertaForSequenceTensorflowModel
+      with ReadXlmRoBertaForSequenceDLModel
 
   type LongformerForSequenceClassification =
     com.johnsnowlabs.nlp.annotators.classifier.dl.LongformerForSequenceClassification
 
   object LongformerForSequenceClassification
       extends ReadablePretrainedLongformerForSequenceModel
-      with ReadLongformerForSequenceTensorflowModel
+      with ReadLongformerForSequenceDLModel
 
   type AlbertForSequenceClassification =
     com.johnsnowlabs.nlp.annotators.classifier.dl.AlbertForSequenceClassification
 
   object AlbertForSequenceClassification
       extends ReadablePretrainedAlbertForSequenceModel
-      with ReadAlbertForSequenceTensorflowModel
+      with ReadAlbertForSequenceDLModel
 
   type XlnetForSequenceClassification =
     com.johnsnowlabs.nlp.annotators.classifier.dl.XlnetForSequenceClassification
 
   object XlnetForSequenceClassification
       extends ReadablePretrainedXlnetForSequenceModel
-      with ReadXlnetForSequenceTensorflowModel
+      with ReadXlnetForSequenceDLModel
 
   type GPT2Transformer = com.johnsnowlabs.nlp.annotators.seq2seq.GPT2Transformer
 
   object GPT2Transformer
       extends ReadablePretrainedGPT2TransformerModel
-      with ReadGPT2TransformerTensorflowModel
+      with ReadGPT2TransformerDLModel
 
   type Word2VecApproach = com.johnsnowlabs.nlp.embeddings.Word2VecApproach
 
@@ -540,14 +540,14 @@ package object annotator {
 
   object DeBertaForSequenceClassification
       extends ReadablePretrainedDeBertaForSequenceModel
-      with ReadDeBertaForSequenceTensorflowModel
+      with ReadDeBertaForSequenceDLModel
 
   type DeBertaForTokenClassification =
     com.johnsnowlabs.nlp.annotators.classifier.dl.DeBertaForTokenClassification
 
   object DeBertaForTokenClassification
       extends ReadablePretrainedDeBertaForTokenModel
-      with ReadDeBertaForTokenTensorflowModel
+      with ReadDeBertaForTokenDLModel
 
   type CamemBertEmbeddings = com.johnsnowlabs.nlp.embeddings.CamemBertEmbeddings
 
@@ -564,76 +564,76 @@ package object annotator {
 
   object BertForQuestionAnswering
       extends ReadablePretrainedBertForQAModel
-      with ReadBertForQATensorflowModel
+      with ReadBertForQuestionAnsweringDLModel
 
   type DistilBertForQuestionAnswering =
     com.johnsnowlabs.nlp.annotators.classifier.dl.DistilBertForQuestionAnswering
 
   object DistilBertForQuestionAnswering
       extends ReadablePretrainedDistilBertForQAModel
-      with ReadDistilBertForQATensorflowModel
+      with ReadDistilBertForQuestionAnsweringDLModel
 
   type RoBertaForQuestionAnswering =
     com.johnsnowlabs.nlp.annotators.classifier.dl.RoBertaForQuestionAnswering
 
   object RoBertaForQuestionAnswering
       extends ReadablePretrainedRoBertaForQAModel
-      with ReadRoBertaForQATensorflowModel
+      with ReadRoBertaForQuestionAnsweringDLModel
 
   type XlmRoBertaForQuestionAnswering =
     com.johnsnowlabs.nlp.annotators.classifier.dl.XlmRoBertaForQuestionAnswering
 
   object XlmRoBertaForQuestionAnswering
       extends ReadablePretrainedXlmRoBertaForQAModel
-      with ReadXlmRoBertaForQATensorflowModel
+      with ReadXlmRoBertaForQuestionAnsweringDLModel
 
   type DeBertaForQuestionAnswering =
     com.johnsnowlabs.nlp.annotators.classifier.dl.DeBertaForQuestionAnswering
 
   object DeBertaForQuestionAnswering
       extends ReadablePretrainedDeBertaForQAModel
-      with ReadDeBertaForQATensorflowModel
+      with ReadDeBertaForQuestionAnsweringDLModel
 
   type AlbertForQuestionAnswering =
     com.johnsnowlabs.nlp.annotators.classifier.dl.AlbertForQuestionAnswering
 
   object AlbertForQuestionAnswering
       extends ReadablePretrainedAlbertForQAModel
-      with ReadAlbertForQATensorflowModel
+      with ReadAlbertForQuestionAnsweringDLModel
 
   type LongformerForQuestionAnswering =
     com.johnsnowlabs.nlp.annotators.classifier.dl.LongformerForQuestionAnswering
 
   object LongformerForQuestionAnswering
       extends ReadablePretrainedLongformerForQAModel
-      with ReadLongformerForQATensorflowModel
+      with ReadLongformerForQuestionAnsweringDLModel
 
   type ViTForImageClassification =
     com.johnsnowlabs.nlp.annotators.cv.ViTForImageClassification
 
   object ViTForImageClassification
       extends ReadablePretrainedViTForImageModel
-      with ReadViTForImageTensorflowModel
+      with ReadViTForImageDLModel
 
   type CamemBertForTokenClassification =
     com.johnsnowlabs.nlp.annotators.classifier.dl.CamemBertForTokenClassification
 
   object CamemBertForTokenClassification
       extends ReadablePretrainedCamemBertForTokenModel
-      with ReadCamemBertForTokenTensorflowModel
+      with ReadCamemBertForTokenDLModel
 
   type TapasForQuestionAnswering =
     com.johnsnowlabs.nlp.annotators.classifier.dl.TapasForQuestionAnswering
 
   object TapasForQuestionAnswering
       extends ReadablePretrainedTapasForQAModel
-      with ReadTapasForQATensorflowModel
+      with ReadTapasForQuestionAnsweringDLModel
 
   type CamemBertForSequenceClassification =
     com.johnsnowlabs.nlp.annotators.classifier.dl.CamemBertForSequenceClassification
 
   object CamemBertForSequenceClassification
       extends ReadablePretrainedCamemBertForSequenceModel
-      with ReadCamemBertForSequenceTensorflowModel
+      with ReadCamemBertForSequenceDLModel
 
 }

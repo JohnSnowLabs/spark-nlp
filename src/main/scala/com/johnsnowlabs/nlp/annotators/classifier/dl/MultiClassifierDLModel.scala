@@ -313,7 +313,7 @@ trait ReadMultiClassifierDLTensorflowModel extends ReadTensorflowModel {
 
   override val tfFile: String = "multiclassifierdl_tensorflow"
 
-  def readTensorflow(
+  def readModel(
       instance: MultiClassifierDLModel,
       path: String,
       spark: SparkSession): Unit = {
@@ -325,7 +325,7 @@ trait ReadMultiClassifierDLTensorflowModel extends ReadTensorflowModel {
     instance.set(instance.classes, encoder.tags)
   }
 
-  addReader(readTensorflow)
+  addReader(readModel)
 }
 
 /** This is the companion object of [[MultiClassifierDLModel]]. Please refer to that class for the

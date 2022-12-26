@@ -333,12 +333,12 @@ trait ReadablePretrainedRoBertaForTokenModel
       remoteLoc: String): RoBertaForTokenClassification = super.pretrained(name, lang, remoteLoc)
 }
 
-trait ReadRoBertaForTokenTensorflowModel extends ReadTensorflowModel {
+trait ReadRoBertaForTokenDLModel extends ReadTensorflowModel {
   this: ParamsAndFeaturesReadable[RoBertaForTokenClassification] =>
 
   override val tfFile: String = "roberta_classification_tensorflow"
 
-  def readTensorflow(
+  def readModel(
       instance: RoBertaForTokenClassification,
       path: String,
       spark: SparkSession): Unit = {
@@ -347,7 +347,7 @@ trait ReadRoBertaForTokenTensorflowModel extends ReadTensorflowModel {
     instance.setModelIfNotSet(spark, tf)
   }
 
-  addReader(readTensorflow)
+  addReader(readModel)
 
   def loadSavedModel(modelPath: String, spark: SparkSession): RoBertaForTokenClassification = {
 
@@ -399,4 +399,4 @@ trait ReadRoBertaForTokenTensorflowModel extends ReadTensorflowModel {
   */
 object RoBertaForTokenClassification
     extends ReadablePretrainedRoBertaForTokenModel
-    with ReadRoBertaForTokenTensorflowModel
+    with ReadRoBertaForTokenDLModel

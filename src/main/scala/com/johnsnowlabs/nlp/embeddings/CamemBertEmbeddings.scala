@@ -340,14 +340,14 @@ trait ReadCamemBertDLModel extends ReadTensorflowModel with ReadSentencePieceMod
   override val tfFile: String = "camembert_tensorflow"
   override val sppFile: String = "camembert_spp"
 
-  def readTensorflow(instance: CamemBertEmbeddings, path: String, spark: SparkSession): Unit = {
+  def readModel(instance: CamemBertEmbeddings, path: String, spark: SparkSession): Unit = {
 
     val tf = readTensorflowModel(path, spark, "_camembert_tf", initAllTables = false)
     val spp = readSentencePieceModel(path, spark, "_camembert_spp", sppFile)
     instance.setModelIfNotSet(spark, tf, spp)
   }
 
-  addReader(readTensorflow)
+  addReader(readModel)
 
   def loadSavedModel(modelPath: String, spark: SparkSession): CamemBertEmbeddings = {
 

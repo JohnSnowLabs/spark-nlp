@@ -313,13 +313,13 @@ trait ReadablePretrainedXlnetForTokenModel
       remoteLoc: String): XlnetForTokenClassification = super.pretrained(name, lang, remoteLoc)
 }
 
-trait ReadXlnetForTokenTensorflowModel extends ReadTensorflowModel with ReadSentencePieceModel {
+trait ReadXlnetForTokenDLModel extends ReadTensorflowModel with ReadSentencePieceModel {
   this: ParamsAndFeaturesReadable[XlnetForTokenClassification] =>
 
   override val tfFile: String = "xlnet_classification_tensorflow"
   override val sppFile: String = "xlnet_spp"
 
-  def readTensorflow(
+  def readModel(
       instance: XlnetForTokenClassification,
       path: String,
       spark: SparkSession): Unit = {
@@ -329,7 +329,7 @@ trait ReadXlnetForTokenTensorflowModel extends ReadTensorflowModel with ReadSent
     instance.setModelIfNotSet(spark, tf, spp)
   }
 
-  addReader(readTensorflow)
+  addReader(readModel)
 
   def loadSavedModel(modelPath: String, spark: SparkSession): XlnetForTokenClassification = {
 
@@ -373,4 +373,4 @@ trait ReadXlnetForTokenTensorflowModel extends ReadTensorflowModel with ReadSent
   */
 object XlnetForTokenClassification
     extends ReadablePretrainedXlnetForTokenModel
-    with ReadXlnetForTokenTensorflowModel
+    with ReadXlnetForTokenDLModel

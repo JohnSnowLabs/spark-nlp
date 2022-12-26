@@ -314,13 +314,13 @@ trait ReadablePretrainedDeBertaForTokenModel
       remoteLoc: String): DeBertaForTokenClassification = super.pretrained(name, lang, remoteLoc)
 }
 
-trait ReadDeBertaForTokenTensorflowModel extends ReadTensorflowModel with ReadSentencePieceModel {
+trait ReadDeBertaForTokenDLModel extends ReadTensorflowModel with ReadSentencePieceModel {
   this: ParamsAndFeaturesReadable[DeBertaForTokenClassification] =>
 
   override val tfFile: String = "deberta_classification_tensorflow"
   override val sppFile: String = "deberta_spp"
 
-  def readTensorflow(
+  def readModel(
       instance: DeBertaForTokenClassification,
       path: String,
       spark: SparkSession): Unit = {
@@ -330,7 +330,7 @@ trait ReadDeBertaForTokenTensorflowModel extends ReadTensorflowModel with ReadSe
     instance.setModelIfNotSet(spark, tf, spp)
   }
 
-  addReader(readTensorflow)
+  addReader(readModel)
 
   def loadSavedModel(modelPath: String, spark: SparkSession): DeBertaForTokenClassification = {
     val (localModelPath, detectedEngine) = modelSanityCheck(modelPath)
@@ -373,4 +373,4 @@ trait ReadDeBertaForTokenTensorflowModel extends ReadTensorflowModel with ReadSe
   */
 object DeBertaForTokenClassification
     extends ReadablePretrainedDeBertaForTokenModel
-    with ReadDeBertaForTokenTensorflowModel
+    with ReadDeBertaForTokenDLModel

@@ -371,14 +371,14 @@ trait ReadXlmRobertaDLModel extends ReadTensorflowModel with ReadSentencePieceMo
   override val tfFile: String = "xlmroberta_tensorflow"
   override val sppFile: String = "xlmroberta_spp"
 
-  def readTensorflow(instance: XlmRoBertaEmbeddings, path: String, spark: SparkSession): Unit = {
+  def readModel(instance: XlmRoBertaEmbeddings, path: String, spark: SparkSession): Unit = {
 
     val tf = readTensorflowModel(path, spark, "_xlmroberta_tf", initAllTables = false)
     val spp = readSentencePieceModel(path, spark, "_xlmroberta_spp", sppFile)
     instance.setModelIfNotSet(spark, tf, spp)
   }
 
-  addReader(readTensorflow)
+  addReader(readModel)
 
   def loadSavedModel(modelPath: String, spark: SparkSession): XlmRoBertaEmbeddings = {
 

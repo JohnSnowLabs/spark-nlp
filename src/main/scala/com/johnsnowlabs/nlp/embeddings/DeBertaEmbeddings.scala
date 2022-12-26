@@ -354,13 +354,13 @@ trait ReadDeBertaDLModel extends ReadTensorflowModel with ReadSentencePieceModel
   override val tfFile: String = "deberta_tensorflow"
   override val sppFile: String = "deberta_spp"
 
-  def readTensorflow(instance: DeBertaEmbeddings, path: String, spark: SparkSession): Unit = {
+  def readModel(instance: DeBertaEmbeddings, path: String, spark: SparkSession): Unit = {
     val tf = readTensorflowModel(path, spark, "_deberta_tf", initAllTables = false)
     val spp = readSentencePieceModel(path, spark, "_deberta_spp", sppFile)
     instance.setModelIfNotSet(spark, tf, spp)
   }
 
-  addReader(readTensorflow)
+  addReader(readModel)
 
   def loadSavedModel(modelPath: String, spark: SparkSession): DeBertaEmbeddings = {
 

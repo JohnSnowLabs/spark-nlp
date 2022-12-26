@@ -362,12 +362,12 @@ trait ReadablePretrainedRoBertaForSequenceModel
     super.pretrained(name, lang, remoteLoc)
 }
 
-trait ReadRoBertaForSequenceTensorflowModel extends ReadTensorflowModel {
+trait ReadRoBertaForSequenceDLModel extends ReadTensorflowModel {
   this: ParamsAndFeaturesReadable[RoBertaForSequenceClassification] =>
 
   override val tfFile: String = "roberta_classification_tensorflow"
 
-  def readTensorflow(
+  def readModel(
       instance: RoBertaForSequenceClassification,
       path: String,
       spark: SparkSession): Unit = {
@@ -376,7 +376,7 @@ trait ReadRoBertaForSequenceTensorflowModel extends ReadTensorflowModel {
     instance.setModelIfNotSet(spark, tf)
   }
 
-  addReader(readTensorflow)
+  addReader(readModel)
 
   def loadSavedModel(modelPath: String, spark: SparkSession): RoBertaForSequenceClassification = {
     val (localModelPath, detectedEngine) = modelSanityCheck(modelPath)
@@ -427,4 +427,4 @@ trait ReadRoBertaForSequenceTensorflowModel extends ReadTensorflowModel {
   */
 object RoBertaForSequenceClassification
     extends ReadablePretrainedRoBertaForSequenceModel
-    with ReadRoBertaForSequenceTensorflowModel
+    with ReadRoBertaForSequenceDLModel

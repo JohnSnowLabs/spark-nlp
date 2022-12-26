@@ -506,13 +506,13 @@ trait ReadablePretrainedT5TransformerModel
     super.pretrained(name, lang, remoteLoc)
 }
 
-trait ReadT5TransformerTensorflowModel extends ReadTensorflowModel with ReadSentencePieceModel {
+trait ReadT5TransformerDLModel extends ReadTensorflowModel with ReadSentencePieceModel {
   this: ParamsAndFeaturesReadable[T5Transformer] =>
 
   override val tfFile: String = "t5_tensorflow"
   override val sppFile: String = "t5_spp"
 
-  def readTensorflow(instance: T5Transformer, path: String, spark: SparkSession): Unit = {
+  def readModel(instance: T5Transformer, path: String, spark: SparkSession): Unit = {
     val tf = readTensorflowModel(
       path,
       spark,
@@ -523,7 +523,7 @@ trait ReadT5TransformerTensorflowModel extends ReadTensorflowModel with ReadSent
     instance.setModelIfNotSet(spark, tf, spp)
   }
 
-  addReader(readTensorflow)
+  addReader(readModel)
 
   def loadSavedModel(modelPath: String, spark: SparkSession): T5Transformer = {
 
@@ -570,5 +570,5 @@ trait ReadT5TransformerTensorflowModel extends ReadTensorflowModel with ReadSent
   */
 object T5Transformer
     extends ReadablePretrainedT5TransformerModel
-    with ReadT5TransformerTensorflowModel
+    with ReadT5TransformerDLModel
     with ReadSentencePieceModel

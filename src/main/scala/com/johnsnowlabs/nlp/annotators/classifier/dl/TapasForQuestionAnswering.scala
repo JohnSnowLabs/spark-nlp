@@ -238,12 +238,12 @@ trait ReadablePretrainedTapasForQAModel
       remoteLoc: String): TapasForQuestionAnswering = super.pretrained(name, lang, remoteLoc)
 }
 
-trait ReadTapasForQATensorflowModel extends ReadTensorflowModel {
+trait ReadTapasForQuestionAnsweringDLModel extends ReadTensorflowModel {
   this: ParamsAndFeaturesReadable[TapasForQuestionAnswering] =>
 
   override val tfFile: String = "bert_classification_tensorflow"
 
-  def readTensorflow(
+  def readModel(
       instance: TapasForQuestionAnswering,
       path: String,
       spark: SparkSession): Unit = {
@@ -252,7 +252,7 @@ trait ReadTapasForQATensorflowModel extends ReadTensorflowModel {
     instance.setModelIfNotSet(spark, tf)
   }
 
-  addReader(readTensorflow)
+  addReader(readModel)
 
   def loadSavedModel(modelPath: String, spark: SparkSession): TapasForQuestionAnswering = {
 
@@ -296,4 +296,4 @@ trait ReadTapasForQATensorflowModel extends ReadTensorflowModel {
   */
 object TapasForQuestionAnswering
     extends ReadablePretrainedTapasForQAModel
-    with ReadTapasForQATensorflowModel
+    with ReadTapasForQuestionAnsweringDLModel

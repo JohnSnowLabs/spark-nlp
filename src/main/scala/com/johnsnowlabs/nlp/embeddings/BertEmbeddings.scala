@@ -398,13 +398,13 @@ trait ReadBertDLModel extends ReadTensorflowModel {
 
   override val tfFile: String = "bert_tensorflow"
 
-  def readTensorflow(instance: BertEmbeddings, path: String, spark: SparkSession): Unit = {
+  def readModel(instance: BertEmbeddings, path: String, spark: SparkSession): Unit = {
 
     val tf = readTensorflowModel(path, spark, "_bert_tf", initAllTables = false)
     instance.setModelIfNotSet(spark, tf)
   }
 
-  addReader(readTensorflow)
+  addReader(readModel)
 
   def loadSavedModel(modelPath: String, spark: SparkSession): BertEmbeddings = {
 

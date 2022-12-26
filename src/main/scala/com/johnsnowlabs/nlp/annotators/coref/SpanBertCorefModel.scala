@@ -428,13 +428,13 @@ trait ReadSpanBertCorefTensorflowModel extends ReadTensorflowModel {
 
   override val tfFile: String = "spanbert_tensorflow"
 
-  def readTensorflow(instance: SpanBertCorefModel, path: String, spark: SparkSession): Unit = {
+  def readModel(instance: SpanBertCorefModel, path: String, spark: SparkSession): Unit = {
 
     val tf = readTensorflowModel(path, spark, "_bert_tf", initAllTables = false)
     instance.setModelIfNotSet(spark, tf)
   }
 
-  addReader(readTensorflow)
+  addReader(readModel)
 
   def loadSavedModel(modelPath: String, spark: SparkSession): SpanBertCorefModel = {
 

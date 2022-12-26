@@ -344,7 +344,7 @@ trait ReadablePretrainedCamemBertForSequenceModel
     super.pretrained(name, lang, remoteLoc)
 }
 
-trait ReadCamemBertForSequenceTensorflowModel
+trait ReadCamemBertForSequenceDLModel
     extends ReadTensorflowModel
     with ReadSentencePieceModel {
   this: ParamsAndFeaturesReadable[CamemBertForSequenceClassification] =>
@@ -352,7 +352,7 @@ trait ReadCamemBertForSequenceTensorflowModel
   override val tfFile: String = "camembert_classification_tensorflow"
   override val sppFile: String = "camembert_spp"
 
-  def readTensorflow(
+  def readModel(
       instance: CamemBertForSequenceClassification,
       path: String,
       spark: SparkSession): Unit = {
@@ -363,7 +363,7 @@ trait ReadCamemBertForSequenceTensorflowModel
     instance.setModelIfNotSet(spark, tf, spp)
   }
 
-  addReader(readTensorflow)
+  addReader(readModel)
 
   def loadSavedModel(
       modelPath: String,
@@ -409,4 +409,4 @@ trait ReadCamemBertForSequenceTensorflowModel
   */
 object CamemBertForSequenceClassification
     extends ReadablePretrainedCamemBertForSequenceModel
-    with ReadCamemBertForSequenceTensorflowModel
+    with ReadCamemBertForSequenceDLModel

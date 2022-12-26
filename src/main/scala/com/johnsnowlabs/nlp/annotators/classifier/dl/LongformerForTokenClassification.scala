@@ -334,12 +334,12 @@ trait ReadablePretrainedLongformerForTokenModel
     super.pretrained(name, lang, remoteLoc)
 }
 
-trait ReadLongformerForTokenTensorflowModel extends ReadTensorflowModel {
+trait ReadLongformerForTokenDLModel extends ReadTensorflowModel {
   this: ParamsAndFeaturesReadable[LongformerForTokenClassification] =>
 
   override val tfFile: String = "longformer_classification_tensorflow"
 
-  def readTensorflow(
+  def readModel(
       instance: LongformerForTokenClassification,
       path: String,
       spark: SparkSession): Unit = {
@@ -349,7 +349,7 @@ trait ReadLongformerForTokenTensorflowModel extends ReadTensorflowModel {
     instance.setModelIfNotSet(spark, tf)
   }
 
-  addReader(readTensorflow)
+  addReader(readModel)
 
   def loadSavedModel(modelPath: String, spark: SparkSession): LongformerForTokenClassification = {
 
@@ -401,4 +401,4 @@ trait ReadLongformerForTokenTensorflowModel extends ReadTensorflowModel {
   */
 object LongformerForTokenClassification
     extends ReadablePretrainedLongformerForTokenModel
-    with ReadLongformerForTokenTensorflowModel
+    with ReadLongformerForTokenDLModel
