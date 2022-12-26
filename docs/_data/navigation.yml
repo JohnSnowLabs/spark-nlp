@@ -160,6 +160,8 @@ sparknlp-healthcare:
         url: /docs/en/licensed_training
       - title: Evaluation
         url: /docs/en/evaluation
+      - title: Risk Adjustments Score Calculation
+        url: /docs/en/healthcare_risk_adjustments_score_calculation
       - title: Utility & Helper Modules
         url: /docs/en/utility_helper_modules
       - title: Serving Spark NLP&#58 SynapseML
