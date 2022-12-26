@@ -373,13 +373,13 @@ trait ReadAlbertDLModel extends ReadTensorflowModel with ReadSentencePieceModel 
   override val tfFile: String = "albert_tensorflow"
   override val sppFile: String = "albert_spp"
 
-  def readTensorflow(instance: AlbertEmbeddings, path: String, spark: SparkSession): Unit = {
+  def readModel(instance: AlbertEmbeddings, path: String, spark: SparkSession): Unit = {
     val tf = readTensorflowModel(path, spark, "_albert_tf", initAllTables = false)
     val spp = readSentencePieceModel(path, spark, "_albert_spp", sppFile)
     instance.setModelIfNotSet(spark, tf, spp)
   }
 
-  addReader(readTensorflow)
+  addReader(readModel)
 
   def loadSavedModel(modelPath: String, spark: SparkSession): AlbertEmbeddings = {
 

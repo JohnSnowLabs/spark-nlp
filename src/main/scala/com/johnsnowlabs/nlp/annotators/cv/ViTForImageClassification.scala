@@ -320,12 +320,12 @@ trait ReadablePretrainedViTForImageModel
       remoteLoc: String): ViTForImageClassification = super.pretrained(name, lang, remoteLoc)
 }
 
-trait ReadViTForImageTensorflowModel extends ReadTensorflowModel {
+trait ReadViTForImageDLModel extends ReadTensorflowModel {
   this: ParamsAndFeaturesReadable[ViTForImageClassification] =>
 
   override val tfFile: String = "image_classification_tensorflow"
 
-  def readTensorflow(
+  def readModel(
       instance: ViTForImageClassification,
       path: String,
       spark: SparkSession): Unit = {
@@ -340,7 +340,7 @@ trait ReadViTForImageTensorflowModel extends ReadTensorflowModel {
       instance.getSize)
   }
 
-  addReader(readTensorflow)
+  addReader(readModel)
 
   def loadSavedModel(modelPath: String, spark: SparkSession): ViTForImageClassification = {
 
@@ -406,4 +406,4 @@ trait ReadViTForImageTensorflowModel extends ReadTensorflowModel {
   */
 object ViTForImageClassification
     extends ReadablePretrainedViTForImageModel
-    with ReadViTForImageTensorflowModel
+    with ReadViTForImageDLModel

@@ -353,12 +353,12 @@ trait ReadElmoDLModel extends ReadTensorflowModel {
 
   override val tfFile: String = "elmo_tensorflow"
 
-  def readTensorflow(instance: ElmoEmbeddings, path: String, spark: SparkSession): Unit = {
+  def readModel(instance: ElmoEmbeddings, path: String, spark: SparkSession): Unit = {
     val tf = readTensorflowModel(path, spark, "_elmo_tf", initAllTables = true)
     instance.setModelIfNotSet(spark, tf)
   }
 
-  addReader(readTensorflow)
+  addReader(readModel)
 
   def loadSavedModel(modelPath: String, spark: SparkSession): ElmoEmbeddings = {
 

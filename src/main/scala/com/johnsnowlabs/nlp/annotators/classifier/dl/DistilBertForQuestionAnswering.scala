@@ -297,12 +297,12 @@ trait ReadablePretrainedDistilBertForQAModel
     super.pretrained(name, lang, remoteLoc)
 }
 
-trait ReadDistilBertForQATensorflowModel extends ReadTensorflowModel {
+trait ReadDistilBertForQuestionAnsweringDLModel extends ReadTensorflowModel {
   this: ParamsAndFeaturesReadable[DistilBertForQuestionAnswering] =>
 
   override val tfFile: String = "distilbert_classification_tensorflow"
 
-  def readTensorflow(
+  def readModel(
       instance: DistilBertForQuestionAnswering,
       path: String,
       spark: SparkSession): Unit = {
@@ -312,7 +312,7 @@ trait ReadDistilBertForQATensorflowModel extends ReadTensorflowModel {
     instance.setModelIfNotSet(spark, tf)
   }
 
-  addReader(readTensorflow)
+  addReader(readModel)
 
   def loadSavedModel(modelPath: String, spark: SparkSession): DistilBertForQuestionAnswering = {
 
@@ -356,4 +356,4 @@ trait ReadDistilBertForQATensorflowModel extends ReadTensorflowModel {
   */
 object DistilBertForQuestionAnswering
     extends ReadablePretrainedDistilBertForQAModel
-    with ReadDistilBertForQATensorflowModel
+    with ReadDistilBertForQuestionAnsweringDLModel

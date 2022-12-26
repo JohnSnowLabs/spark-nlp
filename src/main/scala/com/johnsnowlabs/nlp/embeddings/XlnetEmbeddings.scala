@@ -370,13 +370,13 @@ trait ReadXlnetDLModel extends ReadTensorflowModel with ReadSentencePieceModel {
   override val tfFile: String = "xlnet_tensorflow"
   override val sppFile: String = "xlnet_spp"
 
-  def readTensorflow(instance: XlnetEmbeddings, path: String, spark: SparkSession): Unit = {
+  def readModel(instance: XlnetEmbeddings, path: String, spark: SparkSession): Unit = {
     val tf = readTensorflowModel(path, spark, "_xlnet_tf", initAllTables = false)
     val spp = readSentencePieceModel(path, spark, "_xlnet_spp", sppFile)
     instance.setModelIfNotSet(spark, tf, spp)
   }
 
-  addReader(readTensorflow)
+  addReader(readModel)
 
   def loadSavedModel(modelPath: String, spark: SparkSession): XlnetEmbeddings = {
 

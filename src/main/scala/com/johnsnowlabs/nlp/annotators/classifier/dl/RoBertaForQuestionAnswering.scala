@@ -309,12 +309,12 @@ trait ReadablePretrainedRoBertaForQAModel
     super.pretrained(name, lang, remoteLoc)
 }
 
-trait ReadRoBertaForQATensorflowModel extends ReadTensorflowModel {
+trait ReadRoBertaForQuestionAnsweringDLModel extends ReadTensorflowModel {
   this: ParamsAndFeaturesReadable[RoBertaForQuestionAnswering] =>
 
   override val tfFile: String = "roberta_classification_tensorflow"
 
-  def readTensorflow(
+  def readModel(
       instance: RoBertaForQuestionAnswering,
       path: String,
       spark: SparkSession): Unit = {
@@ -323,7 +323,7 @@ trait ReadRoBertaForQATensorflowModel extends ReadTensorflowModel {
     instance.setModelIfNotSet(spark, tf)
   }
 
-  addReader(readTensorflow)
+  addReader(readModel)
 
   def loadSavedModel(modelPath: String, spark: SparkSession): RoBertaForQuestionAnswering = {
 
@@ -375,4 +375,4 @@ trait ReadRoBertaForQATensorflowModel extends ReadTensorflowModel {
   */
 object RoBertaForQuestionAnswering
     extends ReadablePretrainedRoBertaForQAModel
-    with ReadRoBertaForQATensorflowModel
+    with ReadRoBertaForQuestionAnsweringDLModel

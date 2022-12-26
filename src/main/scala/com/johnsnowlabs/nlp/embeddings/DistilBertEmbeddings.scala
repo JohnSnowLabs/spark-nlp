@@ -408,13 +408,13 @@ trait ReadDistilBertDLModel extends ReadTensorflowModel {
 
   override val tfFile: String = "distilbert_tensorflow"
 
-  def readTensorflow(instance: DistilBertEmbeddings, path: String, spark: SparkSession): Unit = {
+  def readModel(instance: DistilBertEmbeddings, path: String, spark: SparkSession): Unit = {
 
     val tf = readTensorflowModel(path, spark, "_distilbert_tf", initAllTables = false)
     instance.setModelIfNotSet(spark, tf)
   }
 
-  addReader(readTensorflow)
+  addReader(readModel)
 
   def loadSavedModel(modelPath: String, spark: SparkSession): DistilBertEmbeddings = {
 

@@ -288,13 +288,13 @@ trait ReadablePretrainedAlbertForQAModel
     super.pretrained(name, lang, remoteLoc)
 }
 
-trait ReadAlbertForQATensorflowModel extends ReadTensorflowModel with ReadSentencePieceModel {
+trait ReadAlbertForQuestionAnsweringDLModel extends ReadTensorflowModel with ReadSentencePieceModel {
   this: ParamsAndFeaturesReadable[AlbertForQuestionAnswering] =>
 
   override val tfFile: String = "albert_classification_tensorflow"
   override val sppFile: String = "albert_spp"
 
-  def readTensorflow(
+  def readModel(
       instance: AlbertForQuestionAnswering,
       path: String,
       spark: SparkSession): Unit = {
@@ -304,7 +304,7 @@ trait ReadAlbertForQATensorflowModel extends ReadTensorflowModel with ReadSenten
     instance.setModelIfNotSet(spark, tf, spp)
   }
 
-  addReader(readTensorflow)
+  addReader(readModel)
 
   def loadSavedModel(modelPath: String, spark: SparkSession): AlbertForQuestionAnswering = {
     val (localModelPath, detectedEngine) = modelSanityCheck(modelPath)
@@ -346,4 +346,4 @@ trait ReadAlbertForQATensorflowModel extends ReadTensorflowModel with ReadSenten
   */
 object AlbertForQuestionAnswering
     extends ReadablePretrainedAlbertForQAModel
-    with ReadAlbertForQATensorflowModel
+    with ReadAlbertForQuestionAnsweringDLModel

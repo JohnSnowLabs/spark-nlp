@@ -314,7 +314,7 @@ trait ReadablePretrainedXlmRoBertaForTokenModel
     super.pretrained(name, lang, remoteLoc)
 }
 
-trait ReadXlmRoBertaForTokenTensorflowModel
+trait ReadXlmRoBertaForTokenDLModel
     extends ReadTensorflowModel
     with ReadSentencePieceModel {
   this: ParamsAndFeaturesReadable[XlmRoBertaForTokenClassification] =>
@@ -322,7 +322,7 @@ trait ReadXlmRoBertaForTokenTensorflowModel
   override val tfFile: String = "xlm_roberta_classification_tensorflow"
   override val sppFile: String = "xlmroberta_spp"
 
-  def readTensorflow(
+  def readModel(
       instance: XlmRoBertaForTokenClassification,
       path: String,
       spark: SparkSession): Unit = {
@@ -333,7 +333,7 @@ trait ReadXlmRoBertaForTokenTensorflowModel
     instance.setModelIfNotSet(spark, tf, spp)
   }
 
-  addReader(readTensorflow)
+  addReader(readModel)
 
   def loadSavedModel(modelPath: String, spark: SparkSession): XlmRoBertaForTokenClassification = {
 
@@ -377,4 +377,4 @@ trait ReadXlmRoBertaForTokenTensorflowModel
   */
 object XlmRoBertaForTokenClassification
     extends ReadablePretrainedXlmRoBertaForTokenModel
-    with ReadXlmRoBertaForTokenTensorflowModel
+    with ReadXlmRoBertaForTokenDLModel

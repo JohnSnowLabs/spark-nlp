@@ -341,7 +341,7 @@ trait ReadablePretrainedAlbertForSequenceModel
     super.pretrained(name, lang, remoteLoc)
 }
 
-trait ReadAlbertForSequenceTensorflowModel
+trait ReadAlbertForSequenceDLModel
     extends ReadTensorflowModel
     with ReadSentencePieceModel {
   this: ParamsAndFeaturesReadable[AlbertForSequenceClassification] =>
@@ -349,7 +349,7 @@ trait ReadAlbertForSequenceTensorflowModel
   override val tfFile: String = "albert_classification_tensorflow"
   override val sppFile: String = "albert_spp"
 
-  def readTensorflow(
+  def readModel(
       instance: AlbertForSequenceClassification,
       path: String,
       spark: SparkSession): Unit = {
@@ -359,7 +359,7 @@ trait ReadAlbertForSequenceTensorflowModel
     instance.setModelIfNotSet(spark, tf, spp)
   }
 
-  addReader(readTensorflow)
+  addReader(readModel)
 
   def loadSavedModel(modelPath: String, spark: SparkSession): AlbertForSequenceClassification = {
 
@@ -403,4 +403,4 @@ trait ReadAlbertForSequenceTensorflowModel
   */
 object AlbertForSequenceClassification
     extends ReadablePretrainedAlbertForSequenceModel
-    with ReadAlbertForSequenceTensorflowModel
+    with ReadAlbertForSequenceDLModel

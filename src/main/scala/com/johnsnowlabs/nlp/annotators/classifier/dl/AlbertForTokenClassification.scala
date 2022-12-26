@@ -313,13 +313,13 @@ trait ReadablePretrainedAlbertForTokenModel
       remoteLoc: String): AlbertForTokenClassification = super.pretrained(name, lang, remoteLoc)
 }
 
-trait ReadAlbertForTokenTensorflowModel extends ReadTensorflowModel with ReadSentencePieceModel {
+trait ReadAlbertForTokenDLModel extends ReadTensorflowModel with ReadSentencePieceModel {
   this: ParamsAndFeaturesReadable[AlbertForTokenClassification] =>
 
   override val tfFile: String = "albert_classification_tensorflow"
   override val sppFile: String = "albert_spp"
 
-  def readTensorflow(
+  def readModel(
       instance: AlbertForTokenClassification,
       path: String,
       spark: SparkSession): Unit = {
@@ -329,7 +329,7 @@ trait ReadAlbertForTokenTensorflowModel extends ReadTensorflowModel with ReadSen
     instance.setModelIfNotSet(spark, tf, spp)
   }
 
-  addReader(readTensorflow)
+  addReader(readModel)
 
   def loadSavedModel(modelPath: String, spark: SparkSession): AlbertForTokenClassification = {
 
@@ -373,4 +373,4 @@ trait ReadAlbertForTokenTensorflowModel extends ReadTensorflowModel with ReadSen
   */
 object AlbertForTokenClassification
     extends ReadablePretrainedAlbertForTokenModel
-    with ReadAlbertForTokenTensorflowModel
+    with ReadAlbertForTokenDLModel
