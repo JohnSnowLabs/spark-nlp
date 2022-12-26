@@ -320,12 +320,12 @@ trait ReadablePretrainedBertForTokenModel
       remoteLoc: String): BertForTokenClassification = super.pretrained(name, lang, remoteLoc)
 }
 
-trait ReadBertForTokenTensorflowModel extends ReadTensorflowModel {
+trait ReadBertForTokenDLModel extends ReadTensorflowModel {
   this: ParamsAndFeaturesReadable[BertForTokenClassification] =>
 
   override val tfFile: String = "bert_classification_tensorflow"
 
-  def readTensorflow(
+  def readModel(
       instance: BertForTokenClassification,
       path: String,
       spark: SparkSession): Unit = {
@@ -334,7 +334,7 @@ trait ReadBertForTokenTensorflowModel extends ReadTensorflowModel {
     instance.setModelIfNotSet(spark, tf)
   }
 
-  addReader(readTensorflow)
+  addReader(readModel)
 
   def loadSavedModel(modelPath: String, spark: SparkSession): BertForTokenClassification = {
 
@@ -379,4 +379,4 @@ trait ReadBertForTokenTensorflowModel extends ReadTensorflowModel {
   */
 object BertForTokenClassification
     extends ReadablePretrainedBertForTokenModel
-    with ReadBertForTokenTensorflowModel
+    with ReadBertForTokenDLModel

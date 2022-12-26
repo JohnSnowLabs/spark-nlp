@@ -340,7 +340,7 @@ trait ReadablePretrainedXlnetForSequenceModel
       remoteLoc: String): XlnetForSequenceClassification = super.pretrained(name, lang, remoteLoc)
 }
 
-trait ReadXlnetForSequenceTensorflowModel
+trait ReadXlnetForSequenceDLModel
     extends ReadTensorflowModel
     with ReadSentencePieceModel {
   this: ParamsAndFeaturesReadable[XlnetForSequenceClassification] =>
@@ -348,7 +348,7 @@ trait ReadXlnetForSequenceTensorflowModel
   override val tfFile: String = "xlnet_classification_tensorflow"
   override val sppFile: String = "xlnet_spp"
 
-  def readTensorflow(
+  def readModel(
       instance: XlnetForSequenceClassification,
       path: String,
       spark: SparkSession): Unit = {
@@ -358,7 +358,7 @@ trait ReadXlnetForSequenceTensorflowModel
     instance.setModelIfNotSet(spark, tf, spp)
   }
 
-  addReader(readTensorflow)
+  addReader(readModel)
 
   def loadSavedModel(modelPath: String, spark: SparkSession): XlnetForSequenceClassification = {
 
@@ -402,4 +402,4 @@ trait ReadXlnetForSequenceTensorflowModel
   */
 object XlnetForSequenceClassification
     extends ReadablePretrainedXlnetForSequenceModel
-    with ReadXlnetForSequenceTensorflowModel
+    with ReadXlnetForSequenceDLModel

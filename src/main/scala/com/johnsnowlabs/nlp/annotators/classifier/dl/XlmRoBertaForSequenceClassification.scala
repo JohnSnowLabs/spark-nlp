@@ -341,7 +341,7 @@ trait ReadablePretrainedXlmRoBertaForSequenceModel
     super.pretrained(name, lang, remoteLoc)
 }
 
-trait ReadXlmRoBertaForSequenceTensorflowModel
+trait ReadXlmRoBertaForSequenceDLModel
     extends ReadTensorflowModel
     with ReadSentencePieceModel {
   this: ParamsAndFeaturesReadable[XlmRoBertaForSequenceClassification] =>
@@ -349,7 +349,7 @@ trait ReadXlmRoBertaForSequenceTensorflowModel
   override val tfFile: String = "xlm_roberta_classification_tensorflow"
   override val sppFile: String = "xlmroberta_spp"
 
-  def readTensorflow(
+  def readModel(
       instance: XlmRoBertaForSequenceClassification,
       path: String,
       spark: SparkSession): Unit = {
@@ -360,7 +360,7 @@ trait ReadXlmRoBertaForSequenceTensorflowModel
     instance.setModelIfNotSet(spark, tf, spp)
   }
 
-  addReader(readTensorflow)
+  addReader(readModel)
 
   def loadSavedModel(
       modelPath: String,
@@ -406,4 +406,4 @@ trait ReadXlmRoBertaForSequenceTensorflowModel
   */
 object XlmRoBertaForSequenceClassification
     extends ReadablePretrainedXlmRoBertaForSequenceModel
-    with ReadXlmRoBertaForSequenceTensorflowModel
+    with ReadXlmRoBertaForSequenceDLModel

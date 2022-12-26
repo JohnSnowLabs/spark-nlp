@@ -428,7 +428,7 @@ trait ReadBertSentenceDLModel extends ReadTensorflowModel {
 
   override val tfFile: String = "bert_sentence_tensorflow"
 
-  def readTensorflow(
+  def readModel(
       instance: BertSentenceEmbeddings,
       path: String,
       spark: SparkSession): Unit = {
@@ -437,7 +437,7 @@ trait ReadBertSentenceDLModel extends ReadTensorflowModel {
     instance.setModelIfNotSet(spark, tf)
   }
 
-  addReader(readTensorflow)
+  addReader(readModel)
 
   def loadSavedModel(modelPath: String, spark: SparkSession): BertSentenceEmbeddings = {
 

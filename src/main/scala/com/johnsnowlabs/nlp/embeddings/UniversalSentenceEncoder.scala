@@ -330,7 +330,7 @@ trait ReadUSEDLModel extends ReadTensorflowModel {
   /*Needs to point to an actual folder rather than a .pb file*/
   override val tfFile: String = "use_tensorflow"
 
-  def readTensorflow(
+  def readModel(
       instance: UniversalSentenceEncoder,
       path: String,
       spark: SparkSession): Unit = {
@@ -340,7 +340,7 @@ trait ReadUSEDLModel extends ReadTensorflowModel {
     instance.setModelIfNotSet(spark, tf)
   }
 
-  addReader(readTensorflow)
+  addReader(readModel)
 
   def loadSavedModel(
       modelPath: String,

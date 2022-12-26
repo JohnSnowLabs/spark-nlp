@@ -301,18 +301,18 @@ trait ReadablePretrainedWav2Vec2ForAudioModel
     super.pretrained(name, lang, remoteLoc)
 }
 
-trait ReadWav2Vec2ForAudioTensorflowModel extends ReadTensorflowModel {
+trait ReadWav2Vec2ForAudioDLModel extends ReadTensorflowModel {
   this: ParamsAndFeaturesReadable[Wav2Vec2ForCTC] =>
 
   override val tfFile: String = "wav_ctc_tensorflow"
 
-  def readTensorflow(instance: Wav2Vec2ForCTC, path: String, spark: SparkSession): Unit = {
+  def readModel(instance: Wav2Vec2ForCTC, path: String, spark: SparkSession): Unit = {
 
     val tf = readTensorflowModel(path, spark, "_wav_ctc_tf", initAllTables = false)
     instance.setModelIfNotSet(spark, tf)
   }
 
-  addReader(readTensorflow)
+  addReader(readModel)
 
   def loadSavedModel(modelPath: String, spark: SparkSession): Wav2Vec2ForCTC = {
 
@@ -370,4 +370,4 @@ trait ReadWav2Vec2ForAudioTensorflowModel extends ReadTensorflowModel {
   */
 object Wav2Vec2ForCTC
     extends ReadablePretrainedWav2Vec2ForAudioModel
-    with ReadWav2Vec2ForAudioTensorflowModel
+    with ReadWav2Vec2ForAudioDLModel
